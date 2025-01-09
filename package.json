@@ -13,7 +13,8 @@
     "semantic-release": "24.2.3"
   },
   "engines": {
-    "node": "22"
+    "node": "22",
+    "@internationalized/date": "3.0.0-nightly.2967"
   },
   "packageManager": "pnpm@10.6.4",
   "pnpm": {
