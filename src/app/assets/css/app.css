@@ -119,6 +119,8 @@
 
     /* figma */
     --accent-line: #dcf9ea;
+    --accent-fancy: #4743b1;
+    --accent-mid: #cecceb;
     --accent-strong: #36db83;
     --accent-weak: #dcf9ea;
     --critic-string: #e00000;
@@ -127,6 +129,7 @@
     --semantic-accent-accent-icon: #12683a;
     --semantic-accent-accent-text: #12683a;
     --semantic-base-background: #fff;
+    --semantic-base-surface-background: #edecf8;
     --semantic-base-input-field-fill: #fff;
     --semantic-base-light-text-on-dark: #fafafc;
     --semantic-base-line: #f2f2f2;
@@ -187,7 +190,7 @@
 
   a,
   button {
-    @apply focus:ring-3 focus:ring-blue-500/50 focus:outline-none;
+    @apply focus:ring-3 focus:outline-none focus:ring-blue-500/50;
   }
 
   a[target='_blank']:not([is-external-icon-disabled])::after {
@@ -234,11 +237,11 @@
   }
 
   td {
-    @apply px-4 py-6 whitespace-nowrap;
+    @apply whitespace-nowrap px-4 py-6;
   }
 
   th {
-    @apply px-3 py-6 text-left text-xs font-medium tracking-wider uppercase;
+    @apply px-3 py-6 text-left text-xs font-medium uppercase tracking-wider;
   }
 }
 
@@ -287,7 +290,7 @@
 }
 
 @utility heading {
-  @apply max-w-full overflow-hidden font-bold text-ellipsis;
+  @apply max-w-full overflow-hidden text-ellipsis font-bold;
 }
 
 @utility truncate-overflow {
