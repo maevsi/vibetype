@@ -1,7 +1,7 @@
 <template>
   <li
     v-if="event && event.accountByCreatedBy?.username"
-    :class="'relative isolate rounded-xl border border-(--semantic-base-line) bg-(--semantic-base-surface-1) shadow-xs ring-blue-500/50 has-focus:ring-3'"
+    :class="'border-(--semantic-base-line) bg-(--semantic-base-surface-1) shadow-xs has-focus:ring-3 relative isolate rounded-xl border ring-blue-500/50'"
   >
     <EventHeroImage :event="event" />
     <div class="flex flex-col gap-1 rounded-t-none p-2 pb-4">
@@ -35,10 +35,28 @@
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
 export interface Props {
-  event: Pick<
-    EventItemFragment,
-    'accountByCreatedBy' | 'name' | 'start' | 'slug'
-  >
+  event:
+    | Pick<
+        EventItemFragment,
+        | 'name'
+        | 'accountByAuthorAccountId'
+        | 'start'
+        | 'visibility'
+        | 'slug'
+        | 'end'
+        | 'description'
+      >
+    | {
+        name: string
+        accountByAuthorAccountId: EventItemFragment['accountByAuthorAccountId']
+        start: string
+        visibility: EventItemFragment['visibility']
+        slug: string
+        end: string
+        description: string
+        isDraft: boolean
+        savedAt: Date
+      }
 }
 const props = withDefaults(defineProps<Props>(), {})
 
