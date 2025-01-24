@@ -131,9 +131,17 @@ const documents: Documents = {
     types.AllAchievementsDocument,
   '\n      query allContacts($after: Cursor, $createdBy: UUID, $first: Int!) {\n        allContacts(\n          after: $after\n          condition: { createdBy: $createdBy }\n          first: $first\n          orderBy: [FIRST_NAME_ASC, LAST_NAME_ASC]\n        ) {\n          nodes {\n            ...ContactItem\n          }\n          pageInfo {\n            hasNextPage\n            endCursor\n          }\n          totalCount\n        }\n      }\n    ':
     types.AllContactsDocument,
+<<<<<<< HEAD
   '\n  query eventByCreatedByAndSlug(\n    $createdBy: UUID!\n    $guestId: UUID\n    $slug: String!\n  ) {\n    eventByCreatedByAndSlug(createdBy: $createdBy, slug: $slug) {\n      ...EventItem\n      guestsByEventId(condition: { id: $guestId }) {\n        nodes {\n          ...GuestItem\n          contactByContactId {\n            ...ContactItem\n          }\n        }\n      }\n    }\n  }\n':
     types.EventByCreatedByAndSlugDocument,
   '\n  query eventIsExisting($createdBy: UUID!, $slug: String!) {\n    eventIsExisting(createdBy: $createdBy, slug: $slug)\n  }\n':
+=======
+  '\n  query eventByAuthorAccountIdAndSlug(\n    $authorAccountId: UUID!\n    $slug: String!\n    $invitationId: UUID\n  ) {\n    eventByAuthorAccountIdAndSlug(\n      authorAccountId: $authorAccountId\n      slug: $slug\n    ) {\n      ...EventItem\n      invitationsByEventId(condition: { id: $invitationId }) {\n        nodes {\n          ...InvitationItem\n          contactByContactId {\n            ...ContactItem\n          }\n        }\n      }\n    }\n  }\n':
+    types.EventByAuthorAccountIdAndSlugDocument,
+  '\n  query EventCategories {\n    allEventCategories {\n      edges {\n        node {\n          category\n        }\n      }\n    }\n  }\n':
+    types.EventCategoriesDocument,
+  '\n  query eventIsExisting($authorAccountId: UUID!, $slug: String!) {\n    eventIsExisting(authorAccountId: $authorAccountId, slug: $slug)\n  }\n':
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
     types.EventIsExistingDocument,
   '\n  query eventSearch(\n    $after: Cursor\n    $first: Int!\n    $language: Language\n    $query: String\n  ) {\n    eventSearch(\n      after: $after\n      first: $first\n      language: $language\n      query: $query\n    ) {\n      nodes {\n        ...EventItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n':
     types.EventSearchDocument,
@@ -387,8 +395,19 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+<<<<<<< HEAD
   source: '\n  query eventIsExisting($createdBy: UUID!, $slug: String!) {\n    eventIsExisting(createdBy: $createdBy, slug: $slug)\n  }\n',
 ): (typeof documents)['\n  query eventIsExisting($createdBy: UUID!, $slug: String!) {\n    eventIsExisting(createdBy: $createdBy, slug: $slug)\n  }\n']
+=======
+  source: '\n  query EventCategories {\n    allEventCategories {\n      edges {\n        node {\n          category\n        }\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query EventCategories {\n    allEventCategories {\n      edges {\n        node {\n          category\n        }\n      }\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query eventIsExisting($authorAccountId: UUID!, $slug: String!) {\n    eventIsExisting(authorAccountId: $authorAccountId, slug: $slug)\n  }\n',
+): (typeof documents)['\n  query eventIsExisting($authorAccountId: UUID!, $slug: String!) {\n    eventIsExisting(authorAccountId: $authorAccountId, slug: $slug)\n  }\n']
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

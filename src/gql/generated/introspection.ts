@@ -1,4 +1,4 @@
-import type { IntrospectionQuery } from 'graphql'
+import { IntrospectionQuery } from 'graphql'
 export default {
   __schema: {
     queryType: {
@@ -16,6 +16,77 @@ export default {
         name: 'Account',
         fields: [
           {
+<<<<<<< HEAD
+=======
+            name: 'accountBlocksByAuthorAccountId',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'OBJECT',
+                name: 'AccountBlocksConnection',
+                ofType: null,
+              },
+            },
+            args: [
+              {
+                name: 'after',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'before',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'condition',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'first',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'last',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'offset',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'LIST',
+                  ofType: {
+                    kind: 'NON_NULL',
+                    ofType: {
+                      kind: 'SCALAR',
+                      name: 'Any',
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
             name: 'accountBlocksByBlockedAccountId',
             type: {
               kind: 'NON_NULL',
@@ -84,6 +155,7 @@ export default {
             ],
           },
           {
+<<<<<<< HEAD
             name: 'accountBlocksByCreatedBy',
             type: {
               kind: 'NON_NULL',
@@ -152,6 +224,8 @@ export default {
             ],
           },
           {
+=======
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
             name: 'accountInterestsByAccountId',
             type: {
               kind: 'NON_NULL',
@@ -696,12 +770,20 @@ export default {
             ],
           },
           {
+<<<<<<< HEAD
             name: 'devicesByCreatedBy',
+=======
+            name: 'eventFavouritesByAccountId',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
             type: {
               kind: 'NON_NULL',
               ofType: {
                 kind: 'OBJECT',
+<<<<<<< HEAD
                 name: 'DevicesConnection',
+=======
+                name: 'EventFavouritesConnection',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
                 ofType: null,
               },
             },
@@ -764,6 +846,7 @@ export default {
             ],
           },
           {
+<<<<<<< HEAD
             name: 'devicesByUpdatedBy',
             type: {
               kind: 'NON_NULL',
@@ -901,6 +984,9 @@ export default {
           },
           {
             name: 'eventGroupsByCreatedBy',
+=======
+            name: 'eventGroupsByAuthorAccountId',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
             type: {
               kind: 'NON_NULL',
               ofType: {
@@ -1838,6 +1924,18 @@ export default {
         name: 'AccountBlock',
         fields: [
           {
+<<<<<<< HEAD
+=======
+            name: 'accountByAuthorAccountId',
+            type: {
+              kind: 'OBJECT',
+              name: 'Account',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
             name: 'accountByBlockedAccountId',
             type: {
               kind: 'OBJECT',
@@ -1847,11 +1945,21 @@ export default {
             args: [],
           },
           {
+<<<<<<< HEAD
             name: 'accountByCreatedBy',
             type: {
               kind: 'OBJECT',
               name: 'Account',
               ofType: null,
+=======
+            name: 'authorAccountId',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
             },
             args: [],
           },
@@ -1878,6 +1986,7 @@ export default {
             args: [],
           },
           {
+<<<<<<< HEAD
             name: 'createdBy',
             type: {
               kind: 'NON_NULL',
@@ -1889,6 +1998,8 @@ export default {
             args: [],
           },
           {
+=======
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
             name: 'id',
             type: {
               kind: 'NON_NULL',
@@ -3749,7 +3860,11 @@ export default {
             ],
           },
           {
+<<<<<<< HEAD
             name: 'accountByBlockedAccountId',
+=======
+            name: 'accountByAuthorAccountId',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
             type: {
               kind: 'OBJECT',
               name: 'Account',
@@ -3758,7 +3873,11 @@ export default {
             args: [],
           },
           {
+<<<<<<< HEAD
             name: 'accountByCreatedBy',
+=======
+            name: 'accountByBlockedAccountId',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
             type: {
               kind: 'OBJECT',
               name: 'Account',
@@ -4474,10 +4593,17 @@ export default {
       },
       {
         kind: 'OBJECT',
+<<<<<<< HEAD
         name: 'CreateEventFavoritePayload',
         fields: [
           {
             name: 'accountByCreatedBy',
+=======
+        name: 'CreateEventFavouritePayload',
+        fields: [
+          {
+            name: 'accountByAccountId',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
             type: {
               kind: 'OBJECT',
               name: 'Account',
@@ -4503,19 +4629,33 @@ export default {
             args: [],
           },
           {
+<<<<<<< HEAD
             name: 'eventFavorite',
             type: {
               kind: 'OBJECT',
               name: 'EventFavorite',
+=======
+            name: 'eventFavourite',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventFavourite',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
               ofType: null,
             },
             args: [],
           },
           {
+<<<<<<< HEAD
             name: 'eventFavoriteEdge',
             type: {
               kind: 'OBJECT',
               name: 'EventFavoritesEdge',
+=======
+            name: 'eventFavouriteEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventFavouritesEdge',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
               ofType: null,
             },
             args: [
@@ -6276,10 +6416,17 @@ export default {
       },
       {
         kind: 'OBJECT',
+<<<<<<< HEAD
         name: 'DeleteEventFavoritePayload',
         fields: [
           {
             name: 'accountByCreatedBy',
+=======
+        name: 'DeleteEventFavouritePayload',
+        fields: [
+          {
+            name: 'accountByAccountId',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
             type: {
               kind: 'OBJECT',
               name: 'Account',
@@ -6296,7 +6443,11 @@ export default {
             args: [],
           },
           {
+<<<<<<< HEAD
             name: 'deletedEventFavoriteId',
+=======
+            name: 'deletedEventFavouriteId',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
             type: {
               kind: 'SCALAR',
               name: 'Any',
@@ -6313,19 +6464,33 @@ export default {
             args: [],
           },
           {
+<<<<<<< HEAD
             name: 'eventFavorite',
             type: {
               kind: 'OBJECT',
               name: 'EventFavorite',
+=======
+            name: 'eventFavourite',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventFavourite',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
               ofType: null,
             },
             args: [],
           },
           {
+<<<<<<< HEAD
             name: 'eventFavoriteEdge',
             type: {
               kind: 'OBJECT',
               name: 'EventFavoritesEdge',
+=======
+            name: 'eventFavouriteEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventFavouritesEdge',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
               ofType: null,
             },
             args: [
@@ -7513,12 +7678,20 @@ export default {
             ],
           },
           {
+<<<<<<< HEAD
             name: 'eventFavoritesByEventId',
+=======
+            name: 'eventFavouritesByEventId',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
             type: {
               kind: 'NON_NULL',
               ofType: {
                 kind: 'OBJECT',
+<<<<<<< HEAD
                 name: 'EventFavoritesConnection',
+=======
+                name: 'EventFavouritesConnection',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
                 ofType: null,
               },
             },
@@ -8540,7 +8713,167 @@ export default {
       },
       {
         kind: 'OBJECT',
+<<<<<<< HEAD
         name: 'EventFavorite',
+=======
+        name: 'EventFavourite',
+        fields: [
+          {
+            name: 'accountByAccountId',
+            type: {
+              kind: 'OBJECT',
+              name: 'Account',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'accountId',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'eventByEventId',
+            type: {
+              kind: 'OBJECT',
+              name: 'Event',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'eventId',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'nodeId',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [
+          {
+            kind: 'INTERFACE',
+            name: 'Node',
+          },
+        ],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'EventFavouritesConnection',
+        fields: [
+          {
+            name: 'edges',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'LIST',
+                ofType: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'OBJECT',
+                    name: 'EventFavouritesEdge',
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'nodes',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'LIST',
+                ofType: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'OBJECT',
+                    name: 'EventFavourite',
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'pageInfo',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'OBJECT',
+                name: 'PageInfo',
+                ofType: null,
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'totalCount',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'EventFavouritesEdge',
+        fields: [
+          {
+            name: 'cursor',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'node',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'OBJECT',
+                name: 'EventFavourite',
+                ofType: null,
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'EventGroup',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
         fields: [
           {
             name: 'accountByCreatedBy',
@@ -11601,10 +11934,17 @@ export default {
             ],
           },
           {
+<<<<<<< HEAD
             name: 'createEventFavorite',
             type: {
               kind: 'OBJECT',
               name: 'CreateEventFavoritePayload',
+=======
+            name: 'createEventFavourite',
+            type: {
+              kind: 'OBJECT',
+              name: 'CreateEventFavouritePayload',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
               ofType: null,
             },
             args: [
@@ -12441,10 +12781,17 @@ export default {
             ],
           },
           {
+<<<<<<< HEAD
             name: 'deleteEventFavorite',
             type: {
               kind: 'OBJECT',
               name: 'DeleteEventFavoritePayload',
+=======
+            name: 'deleteEventFavourite',
+            type: {
+              kind: 'OBJECT',
+              name: 'DeleteEventFavouritePayload',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
               ofType: null,
             },
             args: [
@@ -12461,6 +12808,7 @@ export default {
             ],
           },
           {
+<<<<<<< HEAD
             name: 'deleteEventFavoriteByCreatedByAndEventId',
             type: {
               kind: 'OBJECT',
@@ -12485,6 +12833,12 @@ export default {
             type: {
               kind: 'OBJECT',
               name: 'DeleteEventFavoritePayload',
+=======
+            name: 'deleteEventFavouriteByAccountIdAndEventId',
+            type: {
+              kind: 'OBJECT',
+              name: 'DeleteEventFavouritePayload',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
               ofType: null,
             },
             args: [
@@ -13661,10 +14015,17 @@ export default {
             ],
           },
           {
+<<<<<<< HEAD
             name: 'updateEventFavorite',
             type: {
               kind: 'OBJECT',
               name: 'UpdateEventFavoritePayload',
+=======
+            name: 'updateEventFavourite',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdateEventFavouritePayload',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
               ofType: null,
             },
             args: [
@@ -13681,6 +14042,7 @@ export default {
             ],
           },
           {
+<<<<<<< HEAD
             name: 'updateEventFavoriteByCreatedByAndEventId',
             type: {
               kind: 'OBJECT',
@@ -13705,6 +14067,12 @@ export default {
             type: {
               kind: 'OBJECT',
               name: 'UpdateEventFavoritePayload',
+=======
+            name: 'updateEventFavouriteByAccountIdAndEventId',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdateEventFavouritePayload',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
               ofType: null,
             },
             args: [
@@ -14271,7 +14639,11 @@ export default {
           },
           {
             kind: 'OBJECT',
+<<<<<<< HEAD
             name: 'EventFavorite',
+=======
+            name: 'EventFavourite',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
           },
           {
             kind: 'OBJECT',
@@ -14628,7 +15000,11 @@ export default {
             ],
           },
           {
+<<<<<<< HEAD
             name: 'accountBlockByCreatedByAndBlockedAccountId',
+=======
+            name: 'accountBlockByAuthorAccountIdAndBlockedAccountId',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
             type: {
               kind: 'OBJECT',
               name: 'AccountBlock',
@@ -14636,7 +15012,11 @@ export default {
             },
             args: [
               {
+<<<<<<< HEAD
                 name: 'blockedAccountId',
+=======
+                name: 'authorAccountId',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
                 type: {
                   kind: 'NON_NULL',
                   ofType: {
@@ -14646,7 +15026,11 @@ export default {
                 },
               },
               {
+<<<<<<< HEAD
                 name: 'createdBy',
+=======
+                name: 'blockedAccountId',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
                 type: {
                   kind: 'NON_NULL',
                   ofType: {
@@ -14946,6 +15330,7 @@ export default {
             ],
           },
           {
+<<<<<<< HEAD
             name: 'address',
             type: {
               kind: 'OBJECT',
@@ -14986,6 +15371,8 @@ export default {
             ],
           },
           {
+=======
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
             name: 'allAccountBlocks',
             type: {
               kind: 'OBJECT',
@@ -15701,10 +16088,17 @@ export default {
             ],
           },
           {
+<<<<<<< HEAD
             name: 'allEventFavorites',
             type: {
               kind: 'OBJECT',
               name: 'EventFavoritesConnection',
+=======
+            name: 'allEventFavourites',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventFavouritesConnection',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
               ofType: null,
             },
             args: [
@@ -16911,10 +17305,17 @@ export default {
             ],
           },
           {
+<<<<<<< HEAD
             name: 'eventFavorite',
             type: {
               kind: 'OBJECT',
               name: 'EventFavorite',
+=======
+            name: 'eventFavourite',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventFavourite',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
               ofType: null,
             },
             args: [
@@ -16931,15 +17332,26 @@ export default {
             ],
           },
           {
+<<<<<<< HEAD
             name: 'eventFavoriteByCreatedByAndEventId',
             type: {
               kind: 'OBJECT',
               name: 'EventFavorite',
+=======
+            name: 'eventFavouriteByAccountIdAndEventId',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventFavourite',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
               ofType: null,
             },
             args: [
               {
+<<<<<<< HEAD
                 name: 'createdBy',
+=======
+                name: 'accountId',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
                 type: {
                   kind: 'NON_NULL',
                   ofType: {
@@ -16961,6 +17373,7 @@ export default {
             ],
           },
           {
+<<<<<<< HEAD
             name: 'eventFavoriteById',
             type: {
               kind: 'OBJECT',
@@ -16981,6 +17394,8 @@ export default {
             ],
           },
           {
+=======
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
             name: 'eventGroup',
             type: {
               kind: 'OBJECT',
@@ -18910,10 +19325,17 @@ export default {
       },
       {
         kind: 'OBJECT',
+<<<<<<< HEAD
         name: 'UpdateEventFavoritePayload',
         fields: [
           {
             name: 'accountByCreatedBy',
+=======
+        name: 'UpdateEventFavouritePayload',
+        fields: [
+          {
+            name: 'accountByAccountId',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
             type: {
               kind: 'OBJECT',
               name: 'Account',
@@ -18939,19 +19361,33 @@ export default {
             args: [],
           },
           {
+<<<<<<< HEAD
             name: 'eventFavorite',
             type: {
               kind: 'OBJECT',
               name: 'EventFavorite',
+=======
+            name: 'eventFavourite',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventFavourite',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
               ofType: null,
             },
             args: [],
           },
           {
+<<<<<<< HEAD
             name: 'eventFavoriteEdge',
             type: {
               kind: 'OBJECT',
               name: 'EventFavoritesEdge',
+=======
+            name: 'eventFavouriteEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventFavouritesEdge',
+>>>>>>> b5532415d (chore: add synced package.json files and gql files)
               ofType: null,
             },
             args: [
