@@ -1,7 +1,7 @@
 <template>
   <Loader :api="api">
     <div
-      v-if="event && event.accountByCreatedBy?.username"
+      v-if="subjectEvent && subjectEvent.accountByCreatedBy?.username"
       class="flex flex-col gap-4"
     >
       <CardStateInfo v-if="routeQueryIc && contact" class="flex flex-col gap-2">
@@ -45,44 +45,50 @@
           </ButtonColored>
         </div>
       </div>
-      <ButtonList
-        v-if="!routeQueryIc && event.createdBy === store.signedInAccountId"
-        class="justify-center"
-      >
-        <ButtonColored
-          :aria-label="t('guests')"
-          :to="
-            localePath({
-              name: 'event-view-username-event_name-guest',
-              params: {
-                event_name: route.params.event_name,
-                username: route.params.username,
-              },
-            })
+      <ButtonList v-if="!routeQueryIc" class="justify-center">
+        <template
+          v-if="
+            subjectEvent &&
+            !isDraftEvent &&
+            isEventItemFragment(subjectEvent) &&
+            subjectEvent.accountByCreatedBy.id === store.signedInAccountId
           "
         >
-          {{ t('guests') }}
-          <template #prefix>
-            <IHeroiconsUsers />
-          </template>
-        </ButtonColored>
-        <ButtonColored
-          :aria-label="t('attendances')"
-          :to="
-            localePath({
-              name: 'event-view-username-event_name-attendance',
-              params: {
-                event_name: route.params.event_name,
-                username: route.params.username,
-              },
-            })
-          "
-        >
-          {{ t('attendances') }}
-          <template #prefix>
-            <ISolarUserCheckBroken />
-          </template>
-        </ButtonColored>
+          <ButtonColored
+            :aria-label="t('guests')"
+            :to="
+              localePath({
+                name: 'event-view-username-event_name-guest',
+                params: {
+                  event_name: route.params.event_name,
+                  username: route.params.username,
+                },
+              })
+            "
+          >
+            {{ t('guests') }}
+            <template #prefix>
+              <IHeroiconsUsers />
+            </template>
+          </ButtonColored>
+          <ButtonColored
+            :aria-label="t('attendances')"
+            :to="
+              localePath({
+                name: 'event-view-username-event_name-attendance',
+                params: {
+                  event_name: route.params.event_name,
+                  username: route.params.username,
+                },
+              })
+            "
+          >
+            {{ t('attendances') }}
+            <template #prefix>
+              <ISolarUserCheckBroken />
+            </template>
+          </ButtonColored>
+        </template>
         <ButtonColored
           :aria-label="t('settings')"
           :to="
@@ -104,7 +110,7 @@
       <div class="flex flex-col gap-4">
         <div>
           <div class="relative">
-            <EventHeroImage :event="event" />
+            <EventHeroImage :event="subjectEvent" />
             <div
               class="absolute bottom-4 left-4 flex flex-col justify-between gap-4 md:flex-row"
             >
@@ -112,28 +118,34 @@
                 class="text-text-bright flex min-w-0 flex-col items-baseline md:flex-row md:gap-2"
               >
                 <h1 class="m-0">
-                  {{ event.name }}
+                  {{ subjectEvent.name }}
                 </h1>
-                <Owner link :username="event.accountByCreatedBy.username" />
+                <Owner
+                  link
+                  :username="subjectEvent.accountByCreatedBy.username"
+                />
               </div>
             </div>
           </div>
           <Card
-            v-if="event"
+            v-if="subjectEvent"
             class="flex flex-col items-stretch gap-8 rounded-t-none"
           >
             <div class="flex flex-row flex-wrap justify-center self-stretch">
               <EventDashletStart
                 :contact="contact"
-                :event="event"
+                :event="subjectEvent as EventItemFragment"
                 :invitation="invitation"
               />
-              <EventDashletDuration :event="event" />
-              <EventDashletVisibility :event="event" with-text />
-              <EventDashletAttendanceType :event="event" />
-              <!-- TODO: reenable to address usage -->
-              <!-- <EventDashletLocation :event="event" /> -->
-              <EventDashletLink :event="event" />
+              <EventDashletDuration :event="subjectEvent" />
+              <EventDashletVisibility :event="subjectEvent" with-text />
+              <EventDashletAttendanceType
+                :event="subjectEvent as EventItemFragment"
+              />
+              <EventDashletLocation
+                :event="subjectEvent as EventItemFragment"
+              />
+              <EventDashletLink :event="subjectEvent as EventItemFragment" />
             </div>
             <template v-if="invitation">
               <Hr />
@@ -171,7 +183,7 @@
                       invitation.feedback === 'CANCELED'
                     "
                     :aria-label="
-                      event.accountByCreatedBy.username !==
+                      subjectEvent.accountByCreatedBy.username !==
                       store.signedInUsername
                         ? t('invitationAccept')
                         : t('invitationAcceptAdmin', {
@@ -182,7 +194,7 @@
                   >
                     <span>
                       {{
-                        event.accountByCreatedBy.username !==
+                        subjectEvent.accountByCreatedBy.username !==
                         store.signedInUsername
                           ? t('invitationAccept')
                           : t('invitationAcceptAdmin', {
@@ -204,7 +216,7 @@
                     />
                     <span>
                       {{
-                        event.accountByCreatedBy.username !==
+                        subjectEvent.accountByCreatedBy.username !==
                         store.signedInUsername
                           ? t('invitationAccepted')
                           : t('invitationAcceptedAdmin', {
@@ -219,7 +231,7 @@
                       invitation.feedback === 'ACCEPTED'
                     "
                     :aria-label="
-                      event.accountByCreatedBy.username !==
+                      subjectEvent.accountByCreatedBy.username !==
                       store.signedInUsername
                         ? t('invitationCancel')
                         : t('invitationCancelAdmin', {
@@ -230,7 +242,7 @@
                   >
                     <span>
                       {{
-                        event.accountByCreatedBy.username !==
+                        subjectEvent.accountByCreatedBy.username !==
                         store.signedInUsername
                           ? t('invitationCancel')
                           : t('invitationCancelAdmin', {
@@ -252,7 +264,7 @@
                     />
                     <span>
                       {{
-                        event.accountByCreatedBy.username !==
+                        subjectEvent.accountByCreatedBy.username !==
                         store.signedInUsername
                           ? t('invitationCanceled')
                           : t('invitationCanceledAdmin', {
@@ -351,7 +363,7 @@
         </template>
       </Modal>
     </div>
-    <Error v-else :status-code="403" />
+    <Error v-else :status-code="404" />
   </Loader>
 </template>
 
@@ -366,6 +378,7 @@ import type { RouteNamedMap } from 'vue-router/auto-routes'
 import { useUpdateGuestByIdMutation } from '~~/gql/documents/mutations/guest/guestUpdateById'
 import {
   InvitationFeedback,
+  type EventItemFragment,
   type GuestItemFragment,
   type GuestPatch,
 } from '~~/gql/generated/graphql'
@@ -375,13 +388,19 @@ import { getEventItem } from '~~/gql/documents/fragments/eventItem'
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 import { getContactItem } from '~~/gql/documents/fragments/contactItem'
 import { useEventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
+import {
+  LocalStorageStrategy,
+  type EventOrDraft,
+} from '~/composables/storage/LocalStorageStrategy'
 
 const ROUTE_NAME: keyof RouteNamedMap = 'event-view-username-event_name___en'
 
 definePageMeta({
   async validate(route) {
-    return await validateEventExistence(
-      route as RouteLocationNormalized<typeof ROUTE_NAME>,
+    return (
+      (await validateEventExistence(
+        route as RouteLocationNormalized<typeof ROUTE_NAME>,
+      )) ?? false
     )
   },
 })
@@ -391,9 +410,23 @@ const fireAlert = useFireAlert()
 const store = useStore()
 const route = useRoute(ROUTE_NAME)
 const localePath = useLocalePath()
-const updateGuestByIdMutation = useUpdateGuestByIdMutation()
 
-// api data
+const props = defineProps<{ event: EventOrDraft }>()
+
+const isDraftEvent = computed(() =>
+  props.event && typeof props.event === 'object' && 'isDraft' in props.event
+    ? props.event.isDraft
+    : false,
+)
+
+const isEventItemFragment = (
+  event: EventOrDraft,
+): event is EventItemFragment => {
+  return (
+    event !== null && typeof event === 'object' && 'authorAccountId' in event
+  )
+}
+
 const accountByUsernameQuery = await zalgo(
   useAccountByUsernameQuery({
     username: route.params.username,
@@ -403,6 +436,7 @@ const accountId = computed(
   () =>
     getAccountItem(accountByUsernameQuery.data.value?.accountByUsername)?.id,
 )
+
 const eventQuery = await zalgo(
   useEventByCreatedByAndSlugQuery({
     createdBy: accountId,
@@ -410,9 +444,25 @@ const eventQuery = await zalgo(
     guestId: route.query.ic,
   }),
 )
-const event = computed(() =>
-  getEventItem(eventQuery.data.value?.eventByCreatedByAndSlug),
-)
+
+const loadDraftEvent = () => {
+  if (import.meta.client && accountId.value) {
+    const storageStrategy = LocalStorageStrategy.getInstance()
+    return storageStrategy.getEventByAuthorAndSlug(
+      accountId.value,
+      route.params.event_name as string,
+    )
+  }
+  return null
+}
+
+const subjectEvent = computed<EventOrDraft>(() => {
+  const dbEvent = getEventItem(eventQuery.data.value?.eventByCreatedByAndSlug)
+  if (dbEvent) return dbEvent
+
+  return loadDraftEvent()
+})
+
 const api = getApiData([accountByUsernameQuery, eventQuery])
 
 // methods
@@ -432,13 +482,6 @@ const cancel = () => {
     feedback: InvitationFeedback.Canceled,
   })
 }
-// const paperInvitationFeedback = () => {
-//   if (!invitation.value) return
-
-//   update(invitation.value.id, {
-//     feedbackPaper: invitation.value.feedbackPaper,
-//   })
-// }
 const print = () => {
   prntr({
     printable: 'qrCode',
@@ -449,13 +492,7 @@ const qrCodeShow = () => {
   store.modals.push({ id: 'ModalGuestQrCode' })
 }
 const update = async (id: string, guestPatch: GuestPatch) => {
-  const result = await updateGuestByIdMutation.executeMutation({
-    id,
-    guestPatch,
-  })
-
-  if (result.error || !result.data) return
-
+  ////here
   await showToast({ title: t('success') })
 }
 
@@ -469,12 +506,12 @@ const contactName = computed(() => {
     : undefined
 })
 const eventDescriptionTemplate = computed(() => {
-  if (!event.value?.description) return
+  if (!subjectEvent.value?.description) return
 
   return DOMPurify.sanitize(
-    mustache.render(event.value.description, {
+    mustache.render(subjectEvent.value.description, {
       contact: contact.value,
-      event,
+      event: subjectEvent.value,
       invitation: invitation.value,
     }),
     { ADD_ATTR: ['target'] },
@@ -520,7 +557,7 @@ const descriptionSeo = computed(() =>
     : undefined,
 )
 const title = computed(() =>
-  api.value.isFetching ? t('globalLoading') : event.value?.name || '403',
+  api.value.isFetching ? t('globalLoading') : subjectEvent.value?.name || '403',
 )
 
 // initialization
