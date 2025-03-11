@@ -1,3 +1,9 @@
+## [8.6.1](https://github.com/maevsi/vibetype/compare/8.6.0...8.6.1) (2025-03-11)
+
+### Bug Fixes
+
+* **style:** correct layout width ([87a6532](https://github.com/maevsi/vibetype/commit/87a65320d9d3dca26e32a5f7b65e44155363d706))
+
 ## [8.6.0](https://github.com/maevsi/vibetype/compare/8.5.0...8.6.0) (2025-03-10)
 
 ### Features
