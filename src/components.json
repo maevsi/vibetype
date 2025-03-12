@@ -10,7 +10,7 @@
   "tailwind": {
     "baseColor": "slate",
     "config": "tailwind.config.js",
-    "css": "./app/assets/css/maevsi.css",
+    "css": "./app/assets/css/app.css",
     "cssVariables": true,
     "prefix": ""
   },
