@@ -1,12 +1,12 @@
-# maevsi Disclosure Policy
+# Vibetype Disclosure Policy
 
 ## 1 Introduction
 
-The security of maevsi is a top priority for our team. We believe in transparency and collaboration with the community to identify and address potential security vulnerabilities. This disclosure policy outlines the procedures for reporting security issues in maevsi and how we handle such reports.
+The security of Vibetype is a top priority for our team. We believe in transparency and collaboration with the community to identify and address potential security vulnerabilities. This disclosure policy outlines the procedures for reporting security issues in Vibetype and how we handle such reports.
 
 ## 2 Reporting a Security Issue
 
-If you discover a security vulnerability in maevsi, we encourage you to report it to us promptly. To report a security issue, please follow these steps:
+If you discover a security vulnerability in Vibetype, we encourage you to report it to us promptly. To report a security issue, please follow these steps:
 
 
 Send an email to contact+security@maev.si with the subject line "Security Issue: [Brief Description]." Please provide a detailed description of the vulnerability, including the following:
@@ -18,7 +18,7 @@ Any additional information that can help us understand and address the issue.
 
 ## 3. Handling of Reports
 
-Upon receiving a security report, the maevsi team will follow these steps:
+Upon receiving a security report, the Vibetype team will follow these steps:
 
 ### 3.1 Acknowledgment
 
@@ -38,7 +38,7 @@ We will keep you informed of our progress throughout the process and notify you 
 
 ## 4 Disclosure
 
-We believe in responsible disclosure to protect our users. 
+We believe in responsible disclosure to protect our users.
 
 If the issue is resolved, we will coordinate with you to establish a mutually agreed-upon release date for the fix.
 We will issue a security advisory and update the project's documentation once the fix is publicly available.
@@ -49,11 +49,11 @@ We highly value the contributions of the security community and will provide cre
 
 ## 6 Legal Protection
 
-maevsi will not pursue legal action against security researchers who follow this disclosure policy and act in good faith. We appreciate your efforts to help us maintain the security of our project.
+Vibetype will not pursue legal action against security researchers who follow this disclosure policy and act in good faith. We appreciate your efforts to help us maintain the security of our project.
 
 
 ## 7 Changes to this Policy
 
 This security disclosure policy may be updated or revised from time to time.
 
-Last Updated: 2024-09-12
+Last Updated: 2025-03-11

@@ -1,0 +1,4 @@
+- import icons with a viewbox of 24x24 px
+- place monocolor icons in this directory and colored icons into the respective subdirectory
+- for monocolor icons, set the `path`'s fill color to `currentColor`
+- run `pnpx svgo --multipass <name>.svg` for each added icon to optimize it
