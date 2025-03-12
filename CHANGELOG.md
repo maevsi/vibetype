@@ -1,3 +1,9 @@
+## [9.0.1](https://github.com/maevsi/vibetype/compare/9.0.0...9.0.1) (2025-03-12)
+
+### Bug Fixes
+
+* **shadcn:** correct components configuration ([9ba58a4](https://github.com/maevsi/vibetype/commit/9ba58a425c2779c0a881bbb18cb1de38b4ec418a))
+
 ## [9.0.0](https://github.com/maevsi/vibetype/compare/8.6.1...9.0.0) (2025-03-12)
 
 ### ⚠ BREAKING CHANGES
