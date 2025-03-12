@@ -1,3 +1,13 @@
+## [9.0.0-beta.1](https://github.com/maevsi/vibetype/compare/8.5.0...9.0.0-beta.1) (2025-03-12)
+
+### ⚠ BREAKING CHANGES
+
+* rename maevsi to vibetype (#1814)
+
+### Features
+
+* rename maevsi to vibetype ([#1814](https://github.com/maevsi/vibetype/issues/1814)) ([cf909d6](https://github.com/maevsi/vibetype/commit/cf909d60e0ce117381af2e2b93b5d7ffdc300f20))
+
 ## [8.6.1](https://github.com/maevsi/vibetype/compare/8.6.0...8.6.1) (2025-03-11)
 
 ### Bug Fixes
