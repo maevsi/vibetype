@@ -1,3 +1,13 @@
+## [9.1.0](https://github.com/maevsi/vibetype/compare/9.0.1...9.1.0) (2025-03-12)
+
+### Features
+
+* **legal:** update address ([#1817](https://github.com/maevsi/vibetype/issues/1817)) ([5446b97](https://github.com/maevsi/vibetype/commit/5446b97cfe0af2928c924daf69d6968061dba42b))
+
+### Bug Fixes
+
+* **component:** correct tailwind discord internationalization and style ([#1818](https://github.com/maevsi/vibetype/issues/1818)) ([fddbd2b](https://github.com/maevsi/vibetype/commit/fddbd2b6d4ab035027b21666783bcb8c7396225c))
+
 ## [9.0.1](https://github.com/maevsi/vibetype/compare/9.0.0...9.0.1) (2025-03-12)
 
 ### Bug Fixes
