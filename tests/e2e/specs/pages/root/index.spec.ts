@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test'
 
 import { appTest } from '#tests/e2e/fixtures/appTest'
-import { PAGE_READY } from '#tests/e2e/utils/constants'
+import { PAGE_READY, TIMEOUT } from '#tests/e2e/utils/constants'
 import {
   testA11y,
   testMetadata,
@@ -70,6 +70,6 @@ appTest.describe('visual regression', () => {
   appTest('displays the cookie banner', async ({ page }) => {
     await page.goto('/')
     await PAGE_READY({ page, options: { cookieControl: false } })
-    await expect(page).toHaveScreenshot({ fullPage: true, timeout: 10000 })
+    await expect(page).toHaveScreenshot({ fullPage: true, timeout: TIMEOUT })
   })
 })

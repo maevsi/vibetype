@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { joinURL, withoutTrailingSlash } from 'ufo'
 
 import { appTest } from '#tests/e2e/fixtures/appTest'
-import { SITE_URL } from '#tests/e2e/utils/constants'
+import { SITE_URL, TIMEOUT } from '#tests/e2e/utils/constants'
 
 export const testA11y = (url: string) =>
   appTest.describe('a11y', () => {
@@ -542,7 +542,7 @@ export const testVisualRegression = (url: string) =>
 
       await expect(defaultPage.page).toHaveScreenshot({
         fullPage: true,
-        timeout: 10000,
+        timeout: TIMEOUT,
       })
     })
   })
