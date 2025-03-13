@@ -12,10 +12,13 @@
       :submit-name="t('logIn')"
       @submit.prevent="submit"
     >
-      <FormInputUsername
-        :form-input="v$.username"
+      <FormInput
+        :title="t('emailAddress')"
+        :value="v$.username"
+        type="text"
         @input="form.username = $event"
-      />
+      >
+      </FormInput>
       <FormInputPassword
         :form-input="v$.password"
         @input="form.password = $event"
@@ -69,6 +72,7 @@
 
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core'
+import { VALIDATION_USERNAME_OR_EMAIL } from '~/utils/validation'
 import { useAuthenticateMutation } from '~~/gql/documents/mutations/account/accountAuthenticate'
 import { useAccountRegistrationRefreshMutation } from '~~/gql/documents/mutations/account/accountRegistrationRefresh'
 
@@ -123,16 +127,13 @@ const submit = async () => {
     })
     return
   }
-
   emit('signed-in')
 }
 
 // vuelidate
 const rules = {
   captcha: VALIDATION_CAPTCHA(),
-  username: VALIDATION_USERNAME({
-    isRequired: true,
-  }),
+  username: VALIDATION_USERNAME_OR_EMAIL({ isRequired: true }),
   password: VALIDATION_PASSWORD(),
 }
 const v$ = useVuelidate(rules, form)
@@ -141,6 +142,7 @@ const v$ = useVuelidate(rules, form)
 <i18n lang="yaml">
 de:
   contactSupport: Support kontaktieren
+  emailAddress: E-Mail-Adresse
   jwtStoreFail: Fehler beim Speichern der Authentifizierungsdaten!
   passwordReset: Passwort zurücksetzen
   postgres55000: Deine E-Mail-Adresse ist noch nicht verifiziert! Schau in dein E-Mail-Postfach, ggf. auch in den Spam-Ordner, oder kontaktiere den Support.
@@ -149,6 +151,7 @@ de:
   logIn: Einloggen
 en:
   contactSupport: Contact support
+  emailAddress: Email Address
   jwtStoreFail: Failed to store the authentication data!
   passwordReset: I forgot my password
   postgres55000: Your email address has not been verified yet! Check your email inbox, including the spam folder if necessary, or contact support.

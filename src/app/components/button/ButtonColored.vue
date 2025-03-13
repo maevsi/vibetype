@@ -47,7 +47,7 @@ const variantClasses = computed(() => {
     case 'primary':
       return 'bg-(--accent-strong) font-bold text-(--semantic-base-primary-button-text) hover:bg-(--accent-strong-hover)'
     case 'secondary':
-      return 'bg-(--accent-weak) font-bold text-(--semantic-base-secondary-button-text) hover:bg-(--accent-weak-hover)'
+      return 'bg-(--accent-weak) font-bold text-(--semantic-base-secondary-button-text) hover:bg-(--accent-weak-hover) dark:bg-(--accent-strong) font-bold text-(--semantic-base-primary-button-text)'
     default:
       return 'bg-(--accent-strong) text-(--semantic-base-primary-button-text) hover:bg-(--accent-strong-hover)'
   }

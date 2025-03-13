@@ -66,6 +66,7 @@ import { required } from '@vuelidate/validators'
 import { useCreateLegalTermAcceptanceMutation } from '~~/gql/documents/mutations/account/accountLegalTermAcceptance'
 import { useAccountRegistrationMutation } from '~~/gql/documents/mutations/account/accountRegistration'
 import FormInputConfirmPassword from '../input/FormInputConfirmPassword.vue'
+import FormInputCaptcha from '../input/FormInputCaptcha.vue'
 
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
@@ -87,7 +88,6 @@ const isFormSent = ref(false)
 // Methods
 const submit = async (termId: string) => {
   store.turnstileToken = form.captcha
-
   const accountResult = await accountRegistrationMutation.executeMutation({
     emailAddress: form.emailAddress || '',
     language: locale.value,
@@ -111,10 +111,7 @@ const submit = async (termId: string) => {
       },
     },
   })
-  if (acceptanceResult.error) {
-    console.error('Legal term acceptance error:', acceptanceResult.error)
-    return
-  }
+  if (acceptanceResult.error) return
   await fireAlert({
     level: 'success',
     title: t('registrationSuccessTitle'),
