@@ -1,39 +1,60 @@
 import { defu } from 'defu'
 
 export const useAppLayout = () => {
-  const appConfig = useAppConfig()
+  const colorMode = useColorMode()
   const siteConfig = useSiteConfig()
 
-  useServerHeadSafe({
-    ...useLocaleHead().value,
-    bodyAttrs: {
-      class:
-        'bg-(--semantic-base-background) text-(--semantic-base-text-primary)',
-    },
-  })
+  if (import.meta.server) {
+    // style
+    useHeadSafe({
+      bodyAttrs: {
+        class:
+          'bg-(--semantic-base-background) text-(--semantic-base-text-primary)',
+      },
+    })
 
-  // https://vite-pwa-org.netlify.app/assets-generator/
-  useServerHeadSafe({
-    link: [
-      {
-        href: `/favicon.ico?v=${CACHE_VERSION}`,
-        rel: 'icon',
-        sizes: '48x48',
-      },
-      {
-        href: `/assets/static/favicon/favicon.svg?v=${CACHE_VERSION}`,
-        rel: 'icon',
-        sizes: 'any',
-        type: 'image/svg+xml',
-      },
-      {
-        href: `/assets/static/favicon/apple-touch-icon-180x180.png?v=${CACHE_VERSION}`,
-        rel: 'apple-touch-icon',
-      },
-    ],
-  })
+    // favicon (https://vite-pwa-org.netlify.app/assets-generator/)
+    useServerHeadSafe({
+      link: [
+        {
+          href: `/favicon.ico?v=${CACHE_VERSION}`,
+          rel: 'icon',
+          sizes: '48x48',
+        },
+        {
+          href: `/assets/static/favicon/favicon.svg?v=${CACHE_VERSION}`,
+          rel: 'icon',
+          sizes: 'any',
+          type: 'image/svg+xml',
+        },
+        {
+          href: `/assets/static/favicon/apple-touch-icon-180x180.png?v=${CACHE_VERSION}`,
+          rel: 'apple-touch-icon',
+        },
+      ],
+    })
 
-  // adding `Server` leads incorrect title template on hydration
+    // i18n
+    useHeadSafe(useLocaleHead().value)
+
+    // seo
+    useSeoMeta({
+      twitterSite: SEO_META_TWITTER_SITE,
+    })
+  }
+
+  if (import.meta.client) {
+    // theme
+    const updateThemeColor = () => {
+      useSeoMeta({
+        themeColor: colorMode.value === 'dark' ? THEME_COLOR_DARK : THEME_COLOR,
+      })
+    }
+    updateThemeColor()
+    watch(() => colorMode.value, updateThemeColor)
+  }
+
+  // seo
   useSeoMeta({
     titleTemplate: (title) =>
       TITLE_TEMPLATE({
@@ -41,17 +62,6 @@ export const useAppLayout = () => {
         title,
       }),
   })
-
-  if (appConfig.vio.seoMeta) {
-    useServerSeoMeta(appConfig.vio.seoMeta)
-  }
-
-  if (appConfig.vio.themeColor) {
-    useServerSeoMeta({
-      msapplicationTileColor: appConfig.vio.themeColor,
-      themeColor: appConfig.vio.themeColor,
-    })
-  }
 }
 
 export const useHeadDefault = ({

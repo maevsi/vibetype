@@ -412,7 +412,7 @@ export const testMetadata = async ({
           key: 'name',
           value: 'theme-color',
         },
-        { key: 'content', value: '#191911' },
+        { key: 'content', value: '#ffffff' },
       ],
     },
     {
