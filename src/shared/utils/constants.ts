@@ -2,7 +2,7 @@ import { DEFAULTS } from '@dargmuesli/nuxt-cookie-control/runtime/types'
 
 export const SITE_NAME = 'vibetype'
 
-export const CACHE_VERSION = 'qfu1GSvnRF'
+export const CACHE_VERSION = '9Th9y78ype'
 export const COOKIE_CONTROL_CONSENT_COOKIE_NAME =
   DEFAULTS.cookieNameIsConsentGiven
 export const GTAG_COOKIE_ID = 'ga'

@@ -41,16 +41,29 @@ export const pwaConfig: ReturnType<DefineNuxtConfig> = {
       ],
       handle_links: 'preferred',
       iarc_rating_id: '4bc30419-7452-4496-b02b-5feac10842dc',
+      // https://vite-pwa-org.netlify.app/assets-generator/
       icons: [
         {
-          src: `/assets/static/favicon/web-app-manifest-192x192.png?v=${CACHE_VERSION}`,
+          sizes: '64x64',
+          src: `/assets/static/favicon/pwa-64x64.png?v=${CACHE_VERSION}`,
           type: 'image/png',
-          sizes: '192x192',
         },
         {
-          src: `/assets/static/favicon/web-app-manifest-512x512.png?v=${CACHE_VERSION}`,
+          sizes: '192x192',
+          src: `/assets/static/favicon/pwa-192x192.png?v=${CACHE_VERSION}`,
           type: 'image/png',
+        },
+        {
+          purpose: 'any',
           sizes: '512x512',
+          src: `/assets/static/favicon/pwa-512x512.png?v=${CACHE_VERSION}`,
+          type: 'image/png',
+        },
+        {
+          purpose: 'maskable',
+          sizes: '512x512',
+          src: `/assets/static/favicon/maskable-icon-512x512.png?v=${CACHE_VERSION}`,
+          type: 'image/png',
         },
       ],
       id: '/?source=pwa',
