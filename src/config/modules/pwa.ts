@@ -65,6 +65,12 @@ export const pwaConfig: ReturnType<DefineNuxtConfig> = {
           src: `/assets/static/favicon/maskable-icon-512x512.png?v=${CACHE_VERSION}`,
           type: 'image/png',
         },
+        {
+          purpose: 'monochrome',
+          sizes: '512x512',
+          src: `/assets/static/favicon/monochrome-icon-512x512.png?v=${CACHE_VERSION}`,
+          type: 'image/png',
+        },
       ],
       id: '/?source=pwa',
       lang: 'en',
