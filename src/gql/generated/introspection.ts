@@ -5084,6 +5084,45 @@ export default {
       },
       {
         kind: 'OBJECT',
+        name: 'CreateGuestsPayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'guests',
+            type: {
+              kind: 'LIST',
+              ofType: {
+                kind: 'NON_NULL',
+                ofType: {
+                  kind: 'OBJECT',
+                  name: 'Guest',
+                  ofType: null,
+                },
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
         name: 'CreateLegalTermAcceptancePayload',
         fields: [
           {
@@ -11686,6 +11725,26 @@ export default {
             type: {
               kind: 'OBJECT',
               name: 'CreateGuestPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'createGuests',
+            type: {
+              kind: 'OBJECT',
+              name: 'CreateGuestsPayload',
               ofType: null,
             },
             args: [

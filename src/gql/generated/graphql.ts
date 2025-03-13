@@ -2161,6 +2161,30 @@ export type CreateGuestPayloadGuestEdgeArgs = {
   orderBy?: InputMaybe<Array<GuestsOrderBy>>
 }
 
+/** All input for the `createGuests` mutation. */
+export type CreateGuestsInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  contactIds: Array<InputMaybe<Scalars['UUID']['input']>>
+  eventId: Scalars['UUID']['input']
+}
+
+/** The output of our `createGuests` mutation. */
+export type CreateGuestsPayload = {
+  __typename?: 'CreateGuestsPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  guests?: Maybe<Array<Guest>>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
 /** All input for the create `LegalTermAcceptance` mutation. */
 export type CreateLegalTermAcceptanceInput = {
   /**
@@ -5416,6 +5440,8 @@ export type Mutation = {
   createFriendship?: Maybe<CreateFriendshipPayload>
   /** Creates a single `Guest`. */
   createGuest?: Maybe<CreateGuestPayload>
+  /** Function for inserting multiple guest records. */
+  createGuests?: Maybe<CreateGuestsPayload>
   /** Creates a single `LegalTermAcceptance`. */
   createLegalTermAcceptance?: Maybe<CreateLegalTermAcceptancePayload>
   /** Creates a single `ProfilePicture`. */
@@ -5800,6 +5826,11 @@ export type MutationCreateFriendshipArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateGuestArgs = {
   input: CreateGuestInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateGuestsArgs = {
+  input: CreateGuestsInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */

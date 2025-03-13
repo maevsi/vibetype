@@ -211,7 +211,7 @@ de:
   tier1FeatureStorage: 1 GB Cloud-Speicher
   tier1FeatureSupport: 48 Stunden Reaktionszeit beim Support
   tier1FeatureTicketing: Ticketverkauf
-  tier1Name: Gast
+  tier1Name: Standard
   tier2Cta: Abonnieren
   tier2Description: Alles in Gast, plus unverzichtbare Werkzeuge für professionelle Organisatoren.
   tier2FeatureCalendarApi: Kalendar-API
@@ -220,7 +220,7 @@ de:
   tier2FeatureStorage: 10 GB Cloud-Speicher
   tier2FeatureSupport: 24 Stunden Reaktionszeit beim Support
   tier2FeatureTargetGroup: KI-Zielgruppenkalibrierung
-  tier2Name: Organisation
+  tier2Name: Profi
   tier3Cta: Vertrieb kontaktieren
   tier3Description: Alles in Organisation, plus tiefe Einblicke und Data Warehousing.
   tier3FeatureAnalytics: Analysen und Prognosen
@@ -251,7 +251,7 @@ en:
   tier1FeatureStorage: 1 GB cloud storage
   tier1FeatureSupport: 48-hour support response time
   tier1FeatureTicketing: Ticketing
-  tier1Name: Guest
+  tier1Name: Standard
   tier2Cta: Subscribe
   tier2Description: Everything in Guest, plus essential tools for professional organizers.
   tier2FeatureCalendarApi: Calendar API
@@ -260,7 +260,7 @@ en:
   tier2FeatureStorage: 10 GB cloud storage
   tier2FeatureSupport: 24-hour support response time
   tier2FeatureTargetGroup: AI target group calibration
-  tier2Name: Organization
+  tier2Name: Professional
   tier3Cta: Contact sales
   tier3Description: Everything in Organizer, plus deep insights and data warehousing.
   tier3FeatureAnalytics: Analytics and forecasts

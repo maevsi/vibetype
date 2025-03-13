@@ -1,43 +1,58 @@
 export const useAppLayout = () => {
-  const appConfig = useAppConfig()
+  const colorMode = useColorMode()
   const siteConfig = useSiteConfig()
 
   if (import.meta.server) {
+    // style
     useHeadSafe({
       bodyAttrs: {
         class:
           'bg-(--semantic-base-background) text-(--semantic-base-text-primary)',
       },
+    })
+
+    // favicon (https://vite-pwa-org.netlify.app/assets-generator/)
+    useServerHeadSafe({
       link: [
         {
-          color: appConfig.vio.themeColor,
-          href: `/assets/static/favicon/safari-pinned-tab.svg?v=${CACHE_VERSION}`,
-          rel: 'mask-icon',
+          href: `/favicon.ico?v=${CACHE_VERSION}`,
+          rel: 'icon',
+          sizes: '48x48',
         },
         {
-          href: `/favicon.ico?v=${CACHE_VERSION}`,
-          rel: 'shortcut icon',
+          href: `/assets/static/favicon/favicon.svg?v=${CACHE_VERSION}`,
+          rel: 'icon',
+          sizes: 'any',
+          type: 'image/svg+xml',
+        },
+        {
+          href: `/assets/static/favicon/apple-touch-icon-180x180.png?v=${CACHE_VERSION}`,
+          rel: 'apple-touch-icon',
         },
       ],
     })
+
+    // i18n
+    useHeadSafe(useLocaleHead().value)
+
+    // seo
     useSeoMeta({
-      msapplicationConfig: `/assets/static/favicon/browserconfig.xml?v=${CACHE_VERSION}`,
-      ...(appConfig.vio.themeColor
-        ? {
-            msapplicationTileColor: appConfig.vio.themeColor,
-            themeColor: appConfig.vio.themeColor,
-          }
-        : {}),
-      ...(appConfig.vio.seoMeta || {}),
+      twitterSite: SEO_META_TWITTER_SITE,
     })
   }
 
-  // TODO: replace with import.meta.server wrapper
-  useServerHeadSafe({
-    ...useLocaleHead().value,
-  })
+  if (import.meta.client) {
+    // theme
+    const updateThemeColor = () => {
+      useSeoMeta({
+        themeColor: colorMode.value === 'dark' ? THEME_COLOR_DARK : THEME_COLOR,
+      })
+    }
+    updateThemeColor()
+    watch(() => colorMode.value, updateThemeColor)
+  }
 
-  // running server-side only leads to incorrect title template on hydration
+  // seo
   useSeoMeta({
     titleTemplate: (title) =>
       TITLE_TEMPLATE({
@@ -50,10 +65,11 @@ export const useAppLayout = () => {
 export const useHeadDefault = (input: Parameters<typeof useSeoMeta>[0]) => {
   const siteConfig = useSiteConfig()
 
-  const description = input.description || siteConfig.description
+  const description =
+    toValue(input.description) || (siteConfig.description as string)
   const title = TITLE_TEMPLATE({
     siteName: siteConfig.name,
-    title: input.title?.toString(),
+    title: toValue(input.title)?.toString() || undefined,
   })
 
   useSeoMeta({
@@ -77,7 +93,7 @@ export const usePolyfills = () => {
   if (!POLYFILLS.length) return
 
   if (import.meta.server) {
-    useHead({
+    useServerHead({
       link: [
         {
           rel: 'preload',
