@@ -8,11 +8,11 @@
 
 # Vibetype
 
-Find events, guests and friends: [maev.si](https://maev.si/).
+Find events, guests and friends: [vibetype.app](https://vibetype.app/).
 
 This project is deployed within the [maevsi/stack](https://github.com/maevsi/stack/) in accordance with the [dargstack template](https://github.com/dargstack/dargstack_template/) to make deployment a breeze.
 
-![Welcome](https://maev.si/__og-image__/image/og.png "Vibetype")
+![Welcome](https://vibetype.app/__og-image__/image/og.png "Vibetype")
 
 ## Table of Contents
 1. **[Contributing](#contributing)**

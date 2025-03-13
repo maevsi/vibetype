@@ -21,6 +21,7 @@ import {
   NUXT_PUBLIC_SENTRY_PROJECT_ID,
   NUXT_PUBLIC_SENTRY_PROJECT_PUBLIC_KEY,
   NUXT_PUBLIC_VIO_IS_TESTING,
+  PRODUCTION_HOST,
   SITE_NAME,
 } from '../shared/utils/constants'
 import { GET_CSP } from '../server/utils/constants'
@@ -189,7 +190,7 @@ export default defineNuxtConfig({
         stagingHost:
           process.env.NODE_ENV !== 'production' &&
           !process.env.NUXT_PUBLIC_SITE_URL
-            ? 'maev.si'
+            ? PRODUCTION_HOST
             : undefined,
       },
     },
