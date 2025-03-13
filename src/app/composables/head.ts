@@ -1,39 +1,58 @@
-import { defu } from 'defu'
-
 export const useAppLayout = () => {
-  const appConfig = useAppConfig()
+  const colorMode = useColorMode()
   const siteConfig = useSiteConfig()
 
-  useServerHeadSafe({
-    ...useLocaleHead().value,
-    bodyAttrs: {
-      class:
-        'bg-(--semantic-base-background) text-(--semantic-base-text-primary)',
-    },
-  })
+  if (import.meta.server) {
+    // style
+    useHeadSafe({
+      bodyAttrs: {
+        class:
+          'bg-(--semantic-base-background) text-(--semantic-base-text-primary)',
+      },
+    })
 
-  // https://vite-pwa-org.netlify.app/assets-generator/
-  useServerHeadSafe({
-    link: [
-      {
-        href: `/favicon.ico?v=${CACHE_VERSION}`,
-        rel: 'icon',
-        sizes: '48x48',
-      },
-      {
-        href: `/assets/static/favicon/favicon.svg?v=${CACHE_VERSION}`,
-        rel: 'icon',
-        sizes: 'any',
-        type: 'image/svg+xml',
-      },
-      {
-        href: `/assets/static/favicon/apple-touch-icon-180x180.png?v=${CACHE_VERSION}`,
-        rel: 'apple-touch-icon',
-      },
-    ],
-  })
+    // favicon (https://vite-pwa-org.netlify.app/assets-generator/)
+    useServerHeadSafe({
+      link: [
+        {
+          href: `/favicon.ico?v=${CACHE_VERSION}`,
+          rel: 'icon',
+          sizes: '48x48',
+        },
+        {
+          href: `/assets/static/favicon/favicon.svg?v=${CACHE_VERSION}`,
+          rel: 'icon',
+          sizes: 'any',
+          type: 'image/svg+xml',
+        },
+        {
+          href: `/assets/static/favicon/apple-touch-icon-180x180.png?v=${CACHE_VERSION}`,
+          rel: 'apple-touch-icon',
+        },
+      ],
+    })
 
-  // adding `Server` leads incorrect title template on hydration
+    // i18n
+    useHeadSafe(useLocaleHead().value)
+
+    // seo
+    useSeoMeta({
+      twitterSite: SEO_META_TWITTER_SITE,
+    })
+  }
+
+  if (import.meta.client) {
+    // theme
+    const updateThemeColor = () => {
+      useSeoMeta({
+        themeColor: colorMode.value === 'dark' ? THEME_COLOR_DARK : THEME_COLOR,
+      })
+    }
+    updateThemeColor()
+    watch(() => colorMode.value, updateThemeColor)
+  }
+
+  // seo
   useSeoMeta({
     titleTemplate: (title) =>
       TITLE_TEMPLATE({
@@ -41,67 +60,56 @@ export const useAppLayout = () => {
         title,
       }),
   })
-
-  if (appConfig.vio.seoMeta) {
-    useServerSeoMeta(appConfig.vio.seoMeta)
-  }
-
-  if (appConfig.vio.themeColor) {
-    useServerSeoMeta({
-      msapplicationTileColor: appConfig.vio.themeColor,
-      themeColor: appConfig.vio.themeColor,
-    })
-  }
 }
 
-export const useHeadDefault = ({
-  extension,
-  title,
-}: {
-  extension?: Parameters<typeof useServerSeoMeta>[0]
-  title: string | ComputedRef<string>
-}) => {
+export const useHeadDefault = (input: Parameters<typeof useSeoMeta>[0]) => {
   const siteConfig = useSiteConfig()
-  const { t } = useI18n()
 
-  const defaults: Parameters<typeof useServerSeoMeta>[0] = {
-    description: t('globalSeoSiteDescription'), // TODO: remove (https://github.com/harlan-zw/nuxt-site-config/issues/11)
-    title,
-    twitterDescription: t('globalSeoSiteDescription'),
-    twitterTitle: ref(
-      TITLE_TEMPLATE({
-        siteName: siteConfig.name,
-        title: toValue(title),
-      }),
-    ), // TODO: remove `ref`
-  }
+  const description =
+    toValue(input.description) || (siteConfig.description as string)
+  const title = TITLE_TEMPLATE({
+    siteName: siteConfig.name,
+    title: toValue(input.title)?.toString() || undefined,
+  })
 
-  useSeoMeta(defu(extension, defaults)) // TODO: use `useServerSeoMeta`
+  useSeoMeta({
+    ...(description
+      ? {
+          description,
+          ogDescription: description,
+          twitterDescription: description,
+        }
+      : {}),
+    ...(title ? { title, ogTitle: title, twitterTitle: title } : {}),
+    ...input,
+  })
 }
+
+const POLYFILLS_URL = `https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=${POLYFILLS.join(
+  '%2C',
+)}&flags=gated`
 
 export const usePolyfills = () => {
   if (!POLYFILLS.length) return
 
-  const polyfillsUrl = `https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=${POLYFILLS.join(
-    '%2C',
-  )}&flags=gated`
-
-  useServerHead({
-    link: [
-      {
-        rel: 'preload',
-        href: polyfillsUrl,
-        crossorigin: 'anonymous',
-        as: 'script',
-        'data-testid': 'polyfill-preload',
-      },
-    ],
-    script: [
-      {
-        src: polyfillsUrl,
-        crossorigin: 'anonymous',
-        'data-testid': 'polyfill-script',
-      },
-    ],
-  })
+  if (import.meta.server) {
+    useServerHead({
+      link: [
+        {
+          rel: 'preload',
+          href: POLYFILLS_URL,
+          crossorigin: 'anonymous',
+          as: 'script',
+          'data-testid': 'polyfill-preload',
+        },
+      ],
+      script: [
+        {
+          src: POLYFILLS_URL,
+          crossorigin: 'anonymous',
+          'data-testid': 'polyfill-script',
+        },
+      ],
+    })
+  }
 }
