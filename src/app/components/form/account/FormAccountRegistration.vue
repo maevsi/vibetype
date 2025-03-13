@@ -71,7 +71,7 @@ import FormInputCaptcha from '../input/FormInputCaptcha.vue'
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
 const fireAlert = useFireAlert()
-const store = useMaevsiStore()
+const store = useStore()
 const privacyModalOpen = ref(false)
 const generalTermsModalOpen = ref(false)
 const accountRegistrationMutation = useAccountRegistrationMutation()

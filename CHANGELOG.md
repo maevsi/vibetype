@@ -1,3 +1,61 @@
+## [9.1.0](https://github.com/maevsi/vibetype/compare/9.0.1...9.1.0) (2025-03-12)
+
+### Features
+
+* **legal:** update address ([#1817](https://github.com/maevsi/vibetype/issues/1817)) ([5446b97](https://github.com/maevsi/vibetype/commit/5446b97cfe0af2928c924daf69d6968061dba42b))
+
+### Bug Fixes
+
+* **component:** correct tailwind discord internationalization and style ([#1818](https://github.com/maevsi/vibetype/issues/1818)) ([fddbd2b](https://github.com/maevsi/vibetype/commit/fddbd2b6d4ab035027b21666783bcb8c7396225c))
+
+## [9.0.1](https://github.com/maevsi/vibetype/compare/9.0.0...9.0.1) (2025-03-12)
+
+### Bug Fixes
+
+* **shadcn:** correct components configuration ([9ba58a4](https://github.com/maevsi/vibetype/commit/9ba58a425c2779c0a881bbb18cb1de38b4ec418a))
+
+## [9.0.0](https://github.com/maevsi/vibetype/compare/8.6.1...9.0.0) (2025-03-12)
+
+### ⚠ BREAKING CHANGES
+
+* rename maevsi to vibetype (#1814)
+
+### Features
+
+* rename maevsi to vibetype ([#1814](https://github.com/maevsi/vibetype/issues/1814)) ([cf909d6](https://github.com/maevsi/vibetype/commit/cf909d60e0ce117381af2e2b93b5d7ffdc300f20))
+
+## [9.0.0-beta.2](https://github.com/maevsi/vibetype/compare/9.0.0-beta.1...9.0.0-beta.2) (2025-03-12)
+
+### Features
+
+* **components:** restyle menu ([#1808](https://github.com/maevsi/vibetype/issues/1808)) ([edabfd5](https://github.com/maevsi/vibetype/commit/edabfd5a2cc1b35e03a28517d36d66cb4918f057))
+
+### Bug Fixes
+
+* **style:** correct layout width ([87a6532](https://github.com/maevsi/vibetype/commit/87a65320d9d3dca26e32a5f7b65e44155363d706))
+
+## [9.0.0-beta.1](https://github.com/maevsi/vibetype/compare/8.5.0...9.0.0-beta.1) (2025-03-12)
+
+### ⚠ BREAKING CHANGES
+
+* rename maevsi to vibetype (#1814)
+
+### Features
+
+* rename maevsi to vibetype ([#1814](https://github.com/maevsi/vibetype/issues/1814)) ([cf909d6](https://github.com/maevsi/vibetype/commit/cf909d60e0ce117381af2e2b93b5d7ffdc300f20))
+
+## [8.6.1](https://github.com/maevsi/vibetype/compare/8.6.0...8.6.1) (2025-03-11)
+
+### Bug Fixes
+
+* **style:** correct layout width ([87a6532](https://github.com/maevsi/vibetype/commit/87a65320d9d3dca26e32a5f7b65e44155363d706))
+
+## [8.6.0](https://github.com/maevsi/vibetype/compare/8.5.0...8.6.0) (2025-03-10)
+
+### Features
+
+* **components:** restyle menu ([#1808](https://github.com/maevsi/vibetype/issues/1808)) ([edabfd5](https://github.com/maevsi/vibetype/commit/edabfd5a2cc1b35e03a28517d36d66cb4918f057))
+
 ## [8.5.0](https://github.com/maevsi/vibetype/compare/8.4.0...8.5.0) (2025-03-07)
 
 ### Features
