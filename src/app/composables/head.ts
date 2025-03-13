@@ -12,20 +12,22 @@ export const useAppLayout = () => {
     },
   })
 
+  // https://vite-pwa-org.netlify.app/assets-generator/
   useServerHeadSafe({
     link: [
       {
         href: `/favicon.ico?v=${CACHE_VERSION}`,
         rel: 'icon',
-        sizes: '32x32',
+        sizes: '48x48',
       },
       {
         href: `/assets/static/favicon/favicon.svg?v=${CACHE_VERSION}`,
         rel: 'icon',
+        sizes: 'any',
         type: 'image/svg+xml',
       },
       {
-        href: `/assets/static/favicon/apple-touch-icon.png?v=${CACHE_VERSION}`,
+        href: `/assets/static/favicon/apple-touch-icon-180x180.png?v=${CACHE_VERSION}`,
         rel: 'apple-touch-icon',
       },
     ],
