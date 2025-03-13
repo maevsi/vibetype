@@ -1,3 +1,9 @@
+## [9.2.0](https://github.com/maevsi/vibetype/compare/9.1.0...9.2.0) (2025-03-13)
+
+### Features
+
+* **infrastructure:** migrate from maev.si to vibetype.app ([#1820](https://github.com/maevsi/vibetype/issues/1820)) ([4dc0c0f](https://github.com/maevsi/vibetype/commit/4dc0c0faaf93096fcf214580d8bbe8a04da92231))
+
 ## [9.1.0](https://github.com/maevsi/vibetype/compare/9.0.1...9.1.0) (2025-03-12)
 
 ### Features
