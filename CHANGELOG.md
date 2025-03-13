@@ -1,3 +1,9 @@
+## [9.5.0](https://github.com/maevsi/vibetype/compare/9.4.0...9.5.0) (2025-03-13)
+
+### Features
+
+* **style:** dynamic theme color ([#1822](https://github.com/maevsi/vibetype/issues/1822)) ([1b7aba3](https://github.com/maevsi/vibetype/commit/1b7aba372ae170c195b3569b28d2ddb1817b15ad))
+
 ## [9.4.0](https://github.com/maevsi/vibetype/compare/9.3.0...9.4.0) (2025-03-13)
 
 ### Features
