@@ -1,5 +1,3 @@
-import { defu } from 'defu'
-
 export const useAppLayout = () => {
   const colorMode = useColorMode()
   const siteConfig = useSiteConfig()
@@ -64,54 +62,54 @@ export const useAppLayout = () => {
   })
 }
 
-export const useHeadDefault = ({
-  extension,
-  title,
-}: {
-  extension?: Parameters<typeof useServerSeoMeta>[0]
-  title: string | ComputedRef<string>
-}) => {
+export const useHeadDefault = (input: Parameters<typeof useSeoMeta>[0]) => {
   const siteConfig = useSiteConfig()
-  const { t } = useI18n()
 
-  const defaults: Parameters<typeof useServerSeoMeta>[0] = {
-    description: t('globalSeoSiteDescription'), // TODO: remove (https://github.com/harlan-zw/nuxt-site-config/issues/11)
-    title,
-    twitterDescription: t('globalSeoSiteDescription'),
-    twitterTitle: ref(
-      TITLE_TEMPLATE({
-        siteName: siteConfig.name,
-        title: toValue(title),
-      }),
-    ), // TODO: remove `ref`
-  }
+  const description =
+    toValue(input.description) || (siteConfig.description as string)
+  const title = TITLE_TEMPLATE({
+    siteName: siteConfig.name,
+    title: toValue(input.title)?.toString() || undefined,
+  })
 
-  useSeoMeta(defu(extension, defaults)) // TODO: use `useServerSeoMeta`
+  useSeoMeta({
+    ...(description
+      ? {
+          description,
+          ogDescription: description,
+          twitterDescription: description,
+        }
+      : {}),
+    ...(title ? { title, ogTitle: title, twitterTitle: title } : {}),
+    ...input,
+  })
 }
+
+const POLYFILLS_URL = `https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=${POLYFILLS.join(
+  '%2C',
+)}&flags=gated`
 
 export const usePolyfills = () => {
   if (!POLYFILLS.length) return
 
-  const polyfillsUrl = `https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=${POLYFILLS.join(
-    '%2C',
-  )}&flags=gated`
-
-  useServerHead({
-    link: [
-      {
-        rel: 'preload',
-        href: polyfillsUrl,
-        crossorigin: 'anonymous',
-        as: 'script',
-        'data-testid': 'polyfill-preload',
-      },
-    ],
-    script: [
-      {
-        src: polyfillsUrl,
-        crossorigin: 'anonymous',
-        'data-testid': 'polyfill-script',
-      },
-    ],
-  })
+  if (import.meta.server) {
+    useServerHead({
+      link: [
+        {
+          rel: 'preload',
+          href: POLYFILLS_URL,
+          crossorigin: 'anonymous',
+          as: 'script',
+          'data-testid': 'polyfill-preload',
+        },
+      ],
+      script: [
+        {
+          src: POLYFILLS_URL,
+          crossorigin: 'anonymous',
+          'data-testid': 'polyfill-script',
+        },
+      ],
+    })
+  }
 }
