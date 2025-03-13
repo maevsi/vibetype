@@ -1,3 +1,9 @@
+## [9.4.0](https://github.com/maevsi/vibetype/compare/9.3.0...9.4.0) (2025-03-13)
+
+### Features
+
+* **style:** add monochrome icon to pwa ([036eed1](https://github.com/maevsi/vibetype/commit/036eed17f0cc812e85484a644a59dfaf8881bd3e))
+
 ## [9.3.0](https://github.com/maevsi/vibetype/compare/9.2.0...9.3.0) (2025-03-13)
 
 ### Features
