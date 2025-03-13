@@ -1,3 +1,9 @@
+## [9.3.0](https://github.com/maevsi/vibetype/compare/9.2.0...9.3.0) (2025-03-13)
+
+### Features
+
+* **style:** use transparent icons ([#1821](https://github.com/maevsi/vibetype/issues/1821)) ([598738d](https://github.com/maevsi/vibetype/commit/598738dadf184db3b0779037c219b75ff82cc813))
+
 ## [9.2.0](https://github.com/maevsi/vibetype/compare/9.1.0...9.2.0) (2025-03-13)
 
 ### Features
