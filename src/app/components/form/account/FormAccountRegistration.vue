@@ -71,7 +71,6 @@ import FormInputCaptcha from '../input/FormInputCaptcha.vue'
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
 const fireAlert = useFireAlert()
-const store = useStore()
 const privacyModalOpen = ref(false)
 const generalTermsModalOpen = ref(false)
 const accountRegistrationMutation = useAccountRegistrationMutation()
@@ -87,13 +86,21 @@ const isFormSent = ref(false)
 
 // Methods
 const submit = async (termId: string) => {
-  store.turnstileToken = form.captcha
-  const accountResult = await accountRegistrationMutation.executeMutation({
-    emailAddress: form.emailAddress || '',
-    language: locale.value,
-    password: form.password || '',
-    username: form.username || '',
-  })
+  const accountResult = await accountRegistrationMutation.executeMutation(
+    {
+      emailAddress: form.emailAddress || '',
+      language: locale.value,
+      password: form.password || '',
+      username: form.username || '',
+    },
+    {
+      fetchOptions: {
+        headers: {
+          ...(form.captcha && { [TURNSTILE_HEADER_KEY]: form.captcha }),
+        },
+      },
+    },
+  )
   if (accountResult.error) {
     return
   }
