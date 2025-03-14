@@ -335,3 +335,32 @@ export const validateUsername = (invert?: boolean) => async (value: string) => {
     ? !result.data?.accountByUsername
     : !!result.data?.accountByUsername
 }
+
+export const VALIDATION_USERNAME_OR_EMAIL = ({
+  isRequired,
+  validateExistence,
+  validateExistenceNone,
+}: {
+  isRequired?: boolean
+  validateExistence?: boolean
+  validateExistenceNone?: boolean
+}) => ({
+  custom: async (value: string) => {
+    if (!helpers.req(value)) return true
+    if (value.includes('@')) {
+      return value.length <= VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM ? true : {}
+    }
+    if (!VALIDATION_FORMAT_SLUG(value)) return 'Username format is invalid'
+    if (value.length > VALIDATION_USERNAME_LENGTH_MAXIMUM) return {}
+    if (validateExistence) {
+      const result = await helpers.withAsync(validateUsername())(value)
+      if (result !== true) return result
+    }
+    if (validateExistenceNone) {
+      const result = await helpers.withAsync(validateUsername(true))(value)
+      if (result !== true) return result
+    }
+    return true
+  },
+  ...(isRequired ? { required } : {}),
+})

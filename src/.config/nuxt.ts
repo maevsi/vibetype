@@ -232,6 +232,7 @@ export default defineNuxtConfig({
         'pretty-bytes',
         'prntr',
         'qrcode.vue',
+        'reka-ui',
         'seedrandom',
         'slugify',
         'tailwind-merge',
