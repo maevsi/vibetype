@@ -2,7 +2,7 @@ import { DEFAULTS } from '@dargmuesli/nuxt-cookie-control/runtime/types'
 
 export const SITE_NAME = 'vibetype'
 
-export const CACHE_VERSION = 'qfu1GSvnRF'
+export const CACHE_VERSION = '9Th9y78ype'
 export const COOKIE_CONTROL_CONSENT_COOKIE_NAME =
   DEFAULTS.cookieNameIsConsentGiven
 export const GTAG_COOKIE_ID = 'ga'
@@ -35,16 +35,18 @@ export const NUXT_PUBLIC_SENTRY_PROJECT_PUBLIC_KEY =
 export const NUXT_PUBLIC_VIO_IS_TESTING = false
 export const POLYFILLS = ['Promise', 'requestAnimationFrame']
 export const POSTGRES_INTEGER_MAXIMUM = Math.pow(2, 31) - 1
-export const PRODUCTION_HOST = 'maev.si'
+export const PRODUCTION_HOST = 'vibetype.app'
 export const REGEX_PHONE_NUMBER = /^\+(?:[0-9] ?){6,14}[0-9]$/
 export const REGEX_SLUG = /^[-A-Za-z0-9]+$/
 export const REGEX_UPPERCASE_NONE = /^[^A-Z]+$/
 export const REGEX_URL_HTTPS = /^https:\/\//
 export const REGEX_UUID =
   /^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/
+export const SEO_META_TWITTER_SITE = '@maev_si'
 export const STATE_LOADING_IDS_NAME = 'loadingIds'
 export const TESTING_COOKIE_NAME = `${SITE_NAME}_is-testing`
-export const THEME_COLOR = '#191911'
+export const THEME_COLOR = '#ffffff'
+export const THEME_COLOR_DARK = '#191911'
 export const TIMEZONE_COOKIE_NAME = 'm_tz'
 export const TITLE_TEMPLATE = ({
   siteName,

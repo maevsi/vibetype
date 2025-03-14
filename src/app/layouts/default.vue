@@ -36,7 +36,7 @@
             <AppLink
               is-external
               :title="t('status')"
-              to="https://status.maev.si/"
+              to="https://status.vibetype.app/"
             >
               {{ t('status') }}
             </AppLink>

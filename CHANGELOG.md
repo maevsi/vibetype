@@ -1,3 +1,27 @@
+## [9.5.0](https://github.com/maevsi/vibetype/compare/9.4.0...9.5.0) (2025-03-13)
+
+### Features
+
+* **style:** dynamic theme color ([#1822](https://github.com/maevsi/vibetype/issues/1822)) ([1b7aba3](https://github.com/maevsi/vibetype/commit/1b7aba372ae170c195b3569b28d2ddb1817b15ad))
+
+## [9.4.0](https://github.com/maevsi/vibetype/compare/9.3.0...9.4.0) (2025-03-13)
+
+### Features
+
+* **style:** add monochrome icon to pwa ([036eed1](https://github.com/maevsi/vibetype/commit/036eed17f0cc812e85484a644a59dfaf8881bd3e))
+
+## [9.3.0](https://github.com/maevsi/vibetype/compare/9.2.0...9.3.0) (2025-03-13)
+
+### Features
+
+* **style:** use transparent icons ([#1821](https://github.com/maevsi/vibetype/issues/1821)) ([598738d](https://github.com/maevsi/vibetype/commit/598738dadf184db3b0779037c219b75ff82cc813))
+
+## [9.2.0](https://github.com/maevsi/vibetype/compare/9.1.0...9.2.0) (2025-03-13)
+
+### Features
+
+* **infrastructure:** migrate from maev.si to vibetype.app ([#1820](https://github.com/maevsi/vibetype/issues/1820)) ([4dc0c0f](https://github.com/maevsi/vibetype/commit/4dc0c0faaf93096fcf214580d8bbe8a04da92231))
+
 ## [9.1.0](https://github.com/maevsi/vibetype/compare/9.0.1...9.1.0) (2025-03-12)
 
 ### Features

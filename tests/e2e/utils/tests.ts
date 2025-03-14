@@ -239,11 +239,11 @@ export const testMetadata = async ({
         },
         {
           key: 'href',
-          value: '/favicon.ico?v=qfu1GSvnRF',
+          value: '/favicon.ico?v=9Th9y78ype',
         },
         {
           key: 'sizes',
-          value: '32x32',
+          value: '48x48',
         },
       ],
     },
@@ -256,7 +256,11 @@ export const testMetadata = async ({
         },
         {
           key: 'href',
-          value: '/assets/static/favicon/favicon.svg?v=qfu1GSvnRF',
+          value: '/assets/static/favicon/favicon.svg?v=9Th9y78ype',
+        },
+        {
+          key: 'sizes',
+          value: 'any',
         },
         {
           key: 'type',
@@ -273,7 +277,8 @@ export const testMetadata = async ({
         },
         {
           key: 'href',
-          value: '/assets/static/favicon/apple-touch-icon.png?v=qfu1GSvnRF',
+          value:
+            '/assets/static/favicon/apple-touch-icon-180x180.png?v=9Th9y78ype',
         },
       ],
     },
@@ -407,7 +412,7 @@ export const testMetadata = async ({
           key: 'name',
           value: 'theme-color',
         },
-        { key: 'content', value: '#191911' },
+        { key: 'content', value: '#ffffff' },
       ],
     },
     {
