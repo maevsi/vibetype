@@ -44,11 +44,7 @@
         </FormInputStateInfo>
       </template>
     </Form>
-    <AppLink
-      :to="localePath('session-create')"
-      :is-underlined="true"
-      :is-colored="true"
-    >
+    <AppLink :to="localePath('session-create')" is-underlined, is-colored,>
       {{ t('alreadyHaveAnAccount') }}
     </AppLink>
     <!-- Modals -->
