@@ -30,7 +30,7 @@
     "@nuxt/scripts": "0.10.5",
     "@nuxtjs/html-validator": "2.1.0",
     "@nuxtjs/i18n": "9.2.1",
-    "@nuxtjs/seo": "2.2.0",
+    "@nuxtjs/seo": "3.0.1",
     "@nuxtjs/turnstile": "0.9.12",
     "@pinia/nuxt": "0.10.1",
     "@sentry/nuxt": "9.5.0",
