@@ -133,6 +133,10 @@ const route = useRoute(ROUTE_NAME)
 const localePath = useLocalePath()
 const store = useStore()
 
+// data
+const routeParamUsername = route.params.username
+const title = route.params.username
+
 // api data
 const accountByUsernameQuery = await zalgo(
   useAccountByUsernameQuery({
@@ -150,10 +154,6 @@ const achievements =
     .map((x) => getAchievementItem(x))
     .filter(isNeitherNullNorUndefined) || []
 const api = getApiData([accountByUsernameQuery, achievementsQuery])
-
-// data
-const routeParamUsername = route.params.username
-const title = route.params.username
 
 // initialization
 useHeadDefault({

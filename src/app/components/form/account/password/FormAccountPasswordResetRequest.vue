@@ -33,15 +33,15 @@ const emit = defineEmits<{
 const fireAlert = useFireAlert()
 const { locale, t } = useI18n()
 
-// api data
-const passwordResetRequestMutation = useAccountPasswordResetRequestMutation()
-const api = getApiData([passwordResetRequestMutation])
-
 // data
 const form = reactive({
   emailAddress: ref<string>(),
 })
 const isFormSent = ref(false)
+
+// api data
+const passwordResetRequestMutation = useAccountPasswordResetRequestMutation()
+const api = getApiData([passwordResetRequestMutation])
 
 // methods
 const submit = async () => {

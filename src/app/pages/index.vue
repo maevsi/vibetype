@@ -37,7 +37,7 @@
         width="750"
       />
     </section>
-    <section class="grid gap-32 2xl:grid-cols-2 2xl:gap-64">
+    <section ref="features" class="grid gap-32 2xl:grid-cols-2 2xl:gap-64">
       <TailwindFeature
         :keyword="t('featureRecommendationsKeyword')"
         :title="t('featureRecommendationsTitle')"
@@ -98,7 +98,7 @@
     <!-- Team (https://tailwindui.com/components/marketing/sections/team-sections) -->
     <!-- Organizer Page (https://github.com/maevsi/vibetype/blob/3900d49c7c2025bb75a741ed96fff03fbe204300/src/pages/index.vue) -->
     <canvas
-      ref="canvasRef"
+      ref="canvas"
       class="pointer-events-none fixed inset-0 h-full w-full"
     />
   </div>
@@ -115,13 +115,11 @@ const siteConfig = useSiteConfig()
 const { isApp } = usePlatform()
 const store = useStore()
 const fireAlert = useFireAlert()
-let confetti: JSConfetti
-
-// refs
-const sectionStepsRef = ref<HTMLElement>()
-const canvasRef = ref<HTMLCanvasElement>()
+const templateCanvas = useTemplateRef('canvas')
+const templateFeatures = useTemplateRef('features')
 
 // data
+let confetti: JSConfetti
 const isScrollHintShown = ref(false)
 const loadingId = Math.random()
 const loadingIds = useState(STATE_LOADING_IDS_NAME, () => [loadingId])
@@ -135,7 +133,7 @@ const hideScrollHint = () => {
   isScrollHintShown.value = false
 }
 const scrollToSteps = () => {
-  sectionStepsRef.value?.scrollIntoView({ behavior: 'smooth' })
+  templateFeatures.value?.scrollIntoView({ behavior: 'smooth' })
 }
 
 // lifecycle
@@ -148,7 +146,9 @@ onMounted(async () => {
 
   loadingIds.value.splice(loadingIds.value.indexOf(loadingId), 1)
 
-  confetti = new JSConfetti({ canvas: canvasRef.value })
+  if (!templateCanvas.value) return
+
+  confetti = new JSConfetti({ canvas: templateCanvas.value })
 
   if (store.jwtDecoded?.role === `${SITE_NAME}_account`) {
     const result = await achievementUnlockMutation.executeMutation({

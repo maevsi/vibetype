@@ -58,7 +58,7 @@
       </div>
     </div>
     <input
-      ref="fileInputRef"
+      ref="fileInput"
       accept="image/png,image/jpeg,image/gif"
       class="hidden"
       type="file"
@@ -71,9 +71,7 @@
 const { t } = useI18n()
 const store = useStore()
 const fireAlert = useFireAlert()
-
-// refs
-const fileInputRef = ref<HTMLInputElement>()
+const templateFileInput = useTemplateRef('fileInput')
 
 // data
 const previewUrl = ref<string>()
@@ -107,15 +105,15 @@ const removeFile = () => {
     URL.revokeObjectURL(previewUrl.value)
   }
 
-  if (fileInputRef.value) {
-    fileInputRef.value.value = ''
+  if (templateFileInput.value) {
+    templateFileInput.value.value = ''
   }
 }
 const triggerFileInput = () => {
-  if (!fileInputRef.value) return
+  if (!templateFileInput.value) return
 
-  fileInputRef.value.value = ''
-  fileInputRef.value.click()
+  templateFileInput.value.value = ''
+  templateFileInput.value.click()
 }
 const uploadFile = async () => {
   if (!selectedFile.value) return

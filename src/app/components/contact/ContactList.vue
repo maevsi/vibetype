@@ -72,25 +72,8 @@ import { getContactItem } from '~~/gql/documents/fragments/contactItem'
 const { t } = useI18n()
 const store = useStore()
 
-// refs
-const after = ref<string>()
-
-// api data
-const contactsQuery = await useAllContactsQuery({
-  after,
-  createdBy: store.signedInAccountId,
-  first: ITEMS_PER_PAGE_LARGE,
-})
-const deleteContactByIdMutation = useDeleteContactByIdMutation()
-const api = getApiData([contactsQuery, deleteContactByIdMutation])
-const contacts = computed(
-  () =>
-    contactsQuery.data.value?.allContacts?.nodes
-      .map((x) => getContactItem(x))
-      .filter(isNeitherNullNorUndefined) || [],
-)
-
 // data
+const after = ref<string>()
 const formContactHeading = ref<string>()
 const pending = reactive({
   deletions: ref<string[]>([]),
@@ -110,6 +93,21 @@ const selectedContact = ref<
     | 'url'
   >
 >()
+
+// api data
+const contactsQuery = await useAllContactsQuery({
+  after,
+  createdBy: store.signedInAccountId,
+  first: ITEMS_PER_PAGE_LARGE,
+})
+const deleteContactByIdMutation = useDeleteContactByIdMutation()
+const api = getApiData([contactsQuery, deleteContactByIdMutation])
+const contacts = computed(
+  () =>
+    contactsQuery.data.value?.allContacts?.nodes
+      .map((x) => getContactItem(x))
+      .filter(isNeitherNullNorUndefined) || [],
+)
 
 // methods
 const add = () => {

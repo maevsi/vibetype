@@ -158,11 +158,6 @@ const store = useStore()
 const localePath = useLocalePath()
 const { t } = useI18n()
 
-// api data
-const createContactMutation = useCreateContactMutation()
-const updateContactByIdMutation = useUpdateContactByIdMutation()
-const api = getApiData([createContactMutation, updateContactByIdMutation])
-
 // data
 const form = reactive({
   id: ref<string>(),
@@ -175,6 +170,11 @@ const form = reactive({
   url: ref<string>(),
 })
 const isFormSent = ref(false)
+
+// api data
+const createContactMutation = useCreateContactMutation()
+const updateContactByIdMutation = useUpdateContactByIdMutation()
+const api = getApiData([createContactMutation, updateContactByIdMutation])
 
 // methods
 const submit = async () => {
