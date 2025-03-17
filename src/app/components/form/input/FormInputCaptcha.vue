@@ -7,7 +7,7 @@
     :value="formInput"
   >
     <NuxtTurnstile
-      ref="turnstileRef"
+      ref="turnstile"
       :key="themeColor"
       :class="{ 'flex justify-center': isCentered, 'h-[65px]': isVisible }"
       :options="{
@@ -66,9 +66,7 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const colorMode = useColorMode()
 const runtimeConfig = useRuntimeConfig()
-
-// refs
-const turnstileRef = ref()
+const templateTurnstile = useTemplateRef('turnstile')
 
 // data
 const isLoading = ref(true)
@@ -102,8 +100,10 @@ const initialize = () => {
   themeColor.value = getThemeColor()
 }
 const reset = () => {
+  if (!templateTurnstile.value) return
+
   isLoading.value = true
-  turnstileRef.value.reset()
+  templateTurnstile.value.reset()
 }
 const update = (e: string) => {
   isLoading.value = false

@@ -125,17 +125,17 @@ const props = withDefaults(defineProps<Props>(), {})
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
 
-// api data
-const deleteGuestByIdMutation = useDeleteGuestByIdMutation()
-const inviteMutation = useInviteMutation()
-// const api = getApiData([deleteGuestByIdMutation, inviteMutation])
-
 // data
 const pending = reactive({
   deletions: ref<string[]>([]),
   edits: ref<string[]>([]),
   sends: ref<string[]>([]),
 })
+
+// api data
+const deleteGuestByIdMutation = useDeleteGuestByIdMutation()
+const inviteMutation = useInviteMutation()
+// const api = getApiData([deleteGuestByIdMutation, inviteMutation])
 
 // methods
 const copyLink = async (guest: Pick<GuestItemFragment, 'id'>) => {

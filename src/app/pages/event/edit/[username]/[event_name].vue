@@ -20,7 +20,7 @@
           id="deleteEvent"
           :item-name-deletion="t('formDeleteItemNameDeletion')"
           :item-name-success="t('formDeleteItemNameSuccess')"
-          :mutation="mutation"
+          :mutation="eventDeleteMutation"
           :variables="{
             id: event.id,
           }"
@@ -82,9 +82,6 @@ const api = getApiData([
   eventQuery,
   eventDeleteMutation,
 ])
-
-// data
-const mutation = eventDeleteMutation
 
 // computations
 const title = computed(() => {

@@ -1,6 +1,6 @@
 <template>
   <Form
-    ref="formRef"
+    ref="form"
     :errors="api.errors"
     :errors-pg-ids="{
       postgres22023: t('postgres22023'),
@@ -29,17 +29,10 @@
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core'
 
-import type FormType from '~/components/form/Form.vue'
 import { useAccountPasswordChangeMutation } from '~~/gql/documents/mutations/account/accountPasswordChange'
 
 const { t } = useI18n()
-
-// refs
-const formRef = ref<typeof FormType>()
-
-// api data
-const accountPasswordChangeMutation = useAccountPasswordChangeMutation()
-const api = getApiData([accountPasswordChangeMutation])
+const templateForm = useTemplateRef('form')
 
 // data
 const form = reactive({
@@ -48,9 +41,13 @@ const form = reactive({
 })
 const isFormSent = ref(false)
 
+// api data
+const accountPasswordChangeMutation = useAccountPasswordChangeMutation()
+const api = getApiData([accountPasswordChangeMutation])
+
 // methods
 const resetForm = () => {
-  formRef.value?.resetForm()
+  templateForm.value?.resetForm()
 }
 const submit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return

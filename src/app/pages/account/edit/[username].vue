@@ -67,6 +67,11 @@ const { t } = useI18n()
 const route = useRoute(ROUTE_NAME)
 const accountDeleteMutation = useAccountDeleteMutation()
 
+// data
+const mutation = accountDeleteMutation
+const routeParamUsername = route.params.username
+const title = t('settings')
+
 // api data
 const accountByUsernameQuery = await zalgo(
   useAccountByUsernameQuery({
@@ -78,11 +83,6 @@ const account = getAccountItem(
 )
 const profilePictureSetMutation = useProfilePictureSetMutation()
 const api = getApiData([accountByUsernameQuery, profilePictureSetMutation])
-
-// data
-const mutation = accountDeleteMutation
-const routeParamUsername = route.params.username
-const title = t('settings')
 
 // methods
 const onUploadSelect = async (uploadId?: string | null | undefined) =>

@@ -74,7 +74,7 @@
             />
           </Button>
           <input
-            ref="inputProfilePictureRef"
+            ref="inputProfilePicture"
             accept="image/*"
             hidden
             name="input-profile-picture"
@@ -101,7 +101,7 @@
       :submit-task-provider="getUploadBlobPromise"
     >
       <Cropper
-        ref="cropperRef"
+        ref="cropper"
         :init-stretcher="initStretcher"
         :src="fileSelectedUrl"
         :stencil-props="{
@@ -147,11 +147,20 @@ const runtimeConfig = useRuntimeConfig()
 const TUSD_FILES_URL = useTusdFilesUrl()
 const localePath = useLocalePath()
 const fireAlert = useFireAlert()
+const templateCropper = useTemplateRef('cropper')
+const templateInputProfilePicture = useTemplateRef('inputProfilePicture')
 
-// refs
+// data
 const after = ref<string>()
-const cropperRef = ref()
-const inputProfilePictureRef = ref()
+const fileSelectedUrl = ref<string>()
+const fileSelectedMimeType = ref<string>()
+const pending = reactive({
+  deletions: ref<string[]>([]),
+})
+const selectedItem = ref<{
+  id?: string | null
+}>()
+const uppy = ref<Uppy<{ maevsiUploadUuid: string }>>()
 
 // api data
 const accountUploadQuotaBytesQuery = await useAccountUploadQuotaBytesQuery({})
@@ -175,17 +184,6 @@ const uploads = computed(
 const accountUploadQuotaBytes = computed(
   () => accountUploadQuotaBytesQuery.data.value?.accountUploadQuotaBytes,
 )
-
-// data
-const fileSelectedUrl = ref<string>()
-const fileSelectedMimeType = ref<string>()
-const pending = reactive({
-  deletions: ref<string[]>([]),
-})
-const selectedItem = ref<{
-  id?: string | null
-}>()
-const uppy = ref<Uppy<{ maevsiUploadUuid: string }>>()
 
 // computations
 const sizeByteTotal = computed(
@@ -214,7 +212,7 @@ const selectProfilePicture = async () => {
   const pathUpload = localePath('upload')
 
   if (route.path === pathUpload.toString()) {
-    inputProfilePictureRef.value.click()
+    templateInputProfilePicture.value?.click()
   } else {
     await navigateTo(pathUpload)
   }
@@ -312,9 +310,9 @@ const toggleSelect = (upload: UnwrapRef<typeof selectedItem>) => {
 }
 const getUploadBlobPromise = () =>
   new Promise<void>((resolve, reject) => {
-    ;(cropperRef.value?.getResult() as CropperResult).canvas?.toBlob(
+    ;(templateCropper.value?.getResult() as CropperResult).canvas?.toBlob(
       async (blob) => {
-        if (!blob) return
+        if (!blob || !templateInputProfilePicture.value?.files?.[0]) return
 
         const result = await uploadCreateMutation.executeMutation({
           uploadCreateInput: {
@@ -361,7 +359,7 @@ const getUploadBlobPromise = () =>
 
         uppy.value.addFile({
           source: 'cropper',
-          name: inputProfilePictureRef.value.files![0]!.name,
+          name: templateInputProfilePicture.value.files[0].name,
           type: blob.type,
           data: blob,
         })

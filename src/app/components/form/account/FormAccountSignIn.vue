@@ -85,6 +85,14 @@ const { t } = useI18n()
 const { jwtStore } = await useJwtStore()
 const localePath = useLocalePath()
 
+// data
+const form = reactive({
+  captcha: ref<string>(),
+  password: ref<string>(),
+  username: ref<string>(),
+})
+const isFormSent = ref(false)
+
 // api data
 const accountRegistrationRefreshMutation =
   useAccountRegistrationRefreshMutation()
@@ -93,14 +101,6 @@ const api = getApiData([
   accountRegistrationRefreshMutation,
   authenticateMutation,
 ])
-
-// data
-const form = reactive({
-  captcha: ref<string>(),
-  password: ref<string>(),
-  username: ref<string>(),
-})
-const isFormSent = ref(false)
 
 // methods
 const submit = async () => {

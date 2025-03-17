@@ -40,14 +40,14 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 
-// api data
-const api = getApiData([props.mutation])
-
 // data
 const form = reactive({
   password: ref<string>(),
 })
 const isFormSent = ref(false)
+
+// api data
+const api = getApiData([props.mutation])
 
 // methods
 const submit = async () => {
