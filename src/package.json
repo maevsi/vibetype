@@ -115,7 +115,7 @@
     "prosemirror-transform": "1.10.3",
     "prosemirror-view": "1.38.1",
     "qrcode.vue": "3.6.0",
-    "radix-vue": "1.9.17",
+    "reka-ui": "2.0.2",
     "seedrandom": "3.0.5",
     "shadcn-nuxt": "1.0.3",
     "sharp": "0.33.5",
@@ -146,7 +146,7 @@
   "engines": {
     "node": "22"
   },
-  "name": "maevsi",
+  "name": "vibetype",
   "prettier": "./.config/prettier.js",
   "private": true,
   "scripts": {
@@ -170,5 +170,5 @@
     "supportedBrowsers": "echo \"export default $(browserslist-useragent-regexp --allowHigherVersions);\" > supportedBrowsers.js"
   },
   "type": "module",
-  "version": "8.5.0"
+  "version": "9.5.0"
 }

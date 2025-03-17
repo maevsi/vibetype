@@ -5,7 +5,6 @@
       <h2>{{ t('tmg') }}</h2>
       <p>
         {{ t('addressName') }}<br />
-        {{ t('addressOrganization') }}<br />
         {{ t('addressStreet') }}<br />
         {{ t('addressCity') }}
       </p>
@@ -16,7 +15,6 @@
       <h2>{{ t('responsibility') }}</h2>
       <p>
         {{ t('addressName') }}<br />
-        {{ t('addressOrganization') }}<br />
         {{ t('addressStreet') }}<br />
         {{ t('addressCity') }}
       </p>
@@ -125,10 +123,9 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  addressCity: 34127 Kassel
-  addressName: Jonas Thelemann
-  addressOrganization: SciencePark, CoCreation-Lab
-  addressStreet: Universitätsplatz 12
+  addressCity: 34121 Kassel
+  addressName: maevsi UG (haftungsbeschränkt)
+  addressStreet: Virchowstraße 4
   attributionDescription: '{title} von {author}, {license}'
   attributionTitle: Zuschreibungen
   contact: Kontakt
@@ -158,10 +155,9 @@ de:
   title: Impressum
   tmg: Angaben gemäß § 5 TMG
 en:
-  addressCity: 34127 Kassel
-  addressName: Jonas Thelemann
-  addressOrganization: SciencePark, CoCreation-Lab
-  addressStreet: Universitätsplatz 12
+  addressCity: 34121 Kassel
+  addressName: maevsi UG (haftungsbeschränkt)
+  addressStreet: Virchowstraße 4
   attributionDescription: '{title} by {author}, {license}'
   attributionTitle: Attributions
   contact: Contact

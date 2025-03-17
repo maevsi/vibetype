@@ -21,6 +21,7 @@ import {
   NUXT_PUBLIC_SENTRY_PROJECT_ID,
   NUXT_PUBLIC_SENTRY_PROJECT_PUBLIC_KEY,
   NUXT_PUBLIC_VIO_IS_TESTING,
+  PRODUCTION_HOST,
   SITE_NAME,
 } from '../shared/utils/constants'
 import { GET_CSP } from '../server/utils/constants'
@@ -29,16 +30,8 @@ import { GET_CSP } from '../server/utils/constants'
 // setImmediate(() => {})
 
 export default defineNuxtConfig({
-  app: {
-    head: {
-      htmlAttrs: {
-        lang: 'en', // fallback data to prevent invalid html at generation
-      },
-      title: SITE_NAME,
-    },
-  },
   compatibilityDate: '2024-04-03',
-  css: ['~/assets/css/maevsi.css'],
+  css: ['~/assets/css/app.css'],
   experimental: {
     typedPages: true,
   },
@@ -121,12 +114,12 @@ export default defineNuxtConfig({
     },
     '/api/auth-proxy': {
       security: {
-        xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection on forward authentication (https://github.com/maevsi/maevsi/issues/1603)
+        xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection on forward authentication (https://github.com/maevsi/vibetype/issues/1603)
       },
     },
     '/api/ical': {
       security: {
-        xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection here (https://github.com/maevsi/maevsi/issues/1603)
+        xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection here (https://github.com/maevsi/vibetype/issues/1603)
       },
     },
     '/event/view/**': {
@@ -151,13 +144,13 @@ export default defineNuxtConfig({
       },
     },
     public: {
-      i18n: {
-        baseUrl: SITE_URL,
-      },
-      maevsi: {
+      [SITE_NAME]: {
         email: {
           limit24h: '150',
         },
+      },
+      i18n: {
+        baseUrl: SITE_URL,
       },
       sentry: {
         host: NUXT_PUBLIC_SENTRY_HOST,
@@ -178,7 +171,7 @@ export default defineNuxtConfig({
         },
       },
       security: {
-        isRateLimiterDisabled: true, // TODO: disable once api requests are optimized (https://github.com/maevsi/maevsi/issues/1654)
+        isRateLimiterDisabled: true, // TODO: disable once api requests are optimized (https://github.com/maevsi/vibetype/issues/1654)
       },
       site: {
         url: SITE_URL,
@@ -197,7 +190,7 @@ export default defineNuxtConfig({
         stagingHost:
           process.env.NODE_ENV !== 'production' &&
           !process.env.NUXT_PUBLIC_SITE_URL
-            ? 'maev.si'
+            ? PRODUCTION_HOST
             : undefined,
       },
     },
@@ -253,13 +246,15 @@ export default defineNuxtConfig({
       Components({
         dts: '../.nuxt/components-icons.d.ts',
         resolvers: [
-          IconsResolver({ customCollections: ['maevsi', 'maevsi-colored'] }),
+          IconsResolver({
+            customCollections: [SITE_NAME, `${SITE_NAME}-colored`],
+          }),
         ],
       }),
       Icons({
         customCollections: {
-          maevsi: iconCollectionOptimization({}),
-          'maevsi-colored': iconCollectionOptimization({
+          [SITE_NAME]: iconCollectionOptimization({}),
+          [`${SITE_NAME}-colored`]: iconCollectionOptimization({
             isColored: true,
           }),
         },

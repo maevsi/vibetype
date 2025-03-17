@@ -2,12 +2,12 @@ import { expect, type Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import { joinURL, withoutTrailingSlash } from 'ufo'
 
-import { maevsiTest } from '#tests/e2e/fixtures/maevsiTest'
-import { SITE_URL } from '#tests/e2e/utils/constants'
+import { appTest } from '#tests/e2e/fixtures/appTest'
+import { SITE_URL, TIMEOUT } from '#tests/e2e/utils/constants'
 
 export const testA11y = (url: string) =>
-  maevsiTest.describe('a11y', () => {
-    maevsiTest(
+  appTest.describe('a11y', () => {
+    appTest(
       'should not have any automatically detectable accessibility issues',
       async ({ defaultPage }) => {
         await defaultPage.goto(url)
@@ -217,7 +217,7 @@ export const testMetadata = async ({
           key: 'property',
           value: 'og:image:alt',
         },
-        { key: 'content', value: "maevsi's logo." },
+        { key: 'content', value: "Vibetype's logo." },
       ],
     },
     {
@@ -227,64 +227,61 @@ export const testMetadata = async ({
           key: 'name',
           value: 'twitter:image:alt',
         },
-        { key: 'content', value: "maevsi's logo." },
+        { key: 'content', value: "Vibetype's logo." },
       ],
     },
-    // {
-    //   tag: 'link',
-    //   attributes: [
-    //     {
-    //       key: 'rel',
-    //       value: 'icon',
-    //     },
-    //     {
-    //       key: 'href',
-    //       value: '/favicon-16x16.png',
-    //     },
-    //     {
-    //       key: 'type',
-    //       value: 'image/png',
-    //     },
-    //   ],
-    // },
-    // {
-    //   tag: 'link',
-    //   attributes: [
-    //     {
-    //       key: 'rel',
-    //       value: 'icon',
-    //     },
-    //     {
-    //       key: 'href',
-    //       value: '/favicon-32x32.png',
-    //     },
-    //     {
-    //       key: 'type',
-    //       value: 'image/png',
-    //     },
-    //   ],
-    // },
-    // {
-    //   tag: 'link',
-    //   attributes: [
-    //     {
-    //       key: 'rel',
-    //       value: 'apple-touch-icon',
-    //     },
-    //     {
-    //       key: 'href',
-    //       value: '/apple-touch-icon.png',
-    //     },
-    //     {
-    //       key: 'type',
-    //       value: 'image/png',
-    //     },
-    //     {
-    //       key: 'sizes',
-    //       value: '180x180',
-    //     },
-    //   ],
-    // },
+    {
+      tag: 'link',
+      attributes: [
+        {
+          key: 'rel',
+          value: 'icon',
+        },
+        {
+          key: 'href',
+          value: '/favicon.ico?v=9Th9y78ype',
+        },
+        {
+          key: 'sizes',
+          value: '48x48',
+        },
+      ],
+    },
+    {
+      tag: 'link',
+      attributes: [
+        {
+          key: 'rel',
+          value: 'icon',
+        },
+        {
+          key: 'href',
+          value: '/assets/static/favicon/favicon.svg?v=9Th9y78ype',
+        },
+        {
+          key: 'sizes',
+          value: 'any',
+        },
+        {
+          key: 'type',
+          value: 'image/svg+xml',
+        },
+      ],
+    },
+    {
+      tag: 'link',
+      attributes: [
+        {
+          key: 'rel',
+          value: 'apple-touch-icon',
+        },
+        {
+          key: 'href',
+          value:
+            '/assets/static/favicon/apple-touch-icon-180x180.png?v=9Th9y78ype',
+        },
+      ],
+    },
     {
       tag: 'meta',
       attributes: [
@@ -413,62 +410,9 @@ export const testMetadata = async ({
       attributes: [
         {
           key: 'name',
-          value: 'msapplication-TileColor',
-        },
-        { key: 'content', value: '#27272a' },
-      ],
-    },
-    {
-      tag: 'meta',
-      attributes: [
-        {
-          key: 'name',
           value: 'theme-color',
         },
-        { key: 'content', value: '#27272a' },
-      ],
-    },
-    // {
-    //   tag: 'link',
-    //   attributes: [
-    //     {
-    //       key: 'href',
-    //       value: '/site.webmanifest?v=2EvuFKRRxT',
-    //     },
-    //     {
-    //       key: 'rel',
-    //       value: 'manifest',
-    //     },
-    //   ],
-    // },
-    {
-      tag: 'link',
-      attributes: [
-        {
-          key: 'color',
-          value: '#27272a',
-        },
-        {
-          key: 'href',
-          value: '/assets/static/favicon/safari-pinned-tab.svg?v=2EvuFKRRxT',
-        },
-        {
-          key: 'rel',
-          value: 'mask-icon',
-        },
-      ],
-    },
-    {
-      tag: 'link',
-      attributes: [
-        {
-          key: 'href',
-          value: '/favicon.ico?v=2EvuFKRRxT',
-        },
-        {
-          key: 'rel',
-          value: 'shortcut icon',
-        },
+        { key: 'content', value: '#ffffff' },
       ],
     },
     {
@@ -505,19 +449,6 @@ export const testMetadata = async ({
       tag: 'meta',
       attributes: [
         {
-          key: 'name',
-          value: 'msapplication-Config',
-        },
-        {
-          key: 'content',
-          value: '/assets/static/favicon/browserconfig.xml?v=2EvuFKRRxT',
-        },
-      ],
-    },
-    {
-      tag: 'meta',
-      attributes: [
-        {
           key: 'property',
           value: 'og:title',
         },
@@ -541,7 +472,7 @@ export const testMetadata = async ({
           key: 'property',
           value: 'og:site_name',
         },
-        { key: 'content', value: 'maevsi' },
+        { key: 'content', value: 'Vibetype' },
       ],
     },
     {
@@ -559,7 +490,7 @@ export const testMetadata = async ({
       attributes: [
         {
           key: 'data-hid',
-          value: '3437552',
+          value: 'schema-org-graph',
         },
         { key: 'type', value: 'application/ld+json' },
       ],
@@ -578,7 +509,7 @@ export const testMetadata = async ({
   }
 
   expect(
-    await page.locator('script[data-hid="3437552"]').innerText(),
+    await page.locator('script[data-hid="schema-org-graph"]').innerText(),
   ).toMatchSnapshot(`schema-org-graph-${process.env.VIO_SERVER || 'dev'}.json`)
 
   // if (process.env.VIO_SERVER === 'static') {
@@ -591,8 +522,8 @@ export const testMetadata = async ({
 }
 
 export const testOgImage = (url: string) =>
-  maevsiTest.describe('visual regression', () => {
-    maevsiTest('generates the open graph image', async ({ page }) => {
+  appTest.describe('visual regression', () => {
+    appTest('generates the open graph image', async ({ page }) => {
       await page.goto(joinURL('/__og-image__/image', url, '/og.png'))
       await expect(page).toHaveScreenshot({ fullPage: true })
 
@@ -602,21 +533,21 @@ export const testOgImage = (url: string) =>
   })
 
 export const testPageLoad = (url: string, statusCode: number = 200) =>
-  maevsiTest.describe('page load', () => {
-    maevsiTest('loads the page successfully', async ({ request }) => {
+  appTest.describe('page load', () => {
+    appTest('loads the page successfully', async ({ request }) => {
       const resp = await request.get(url)
       expect(resp.status()).toBe(statusCode)
     })
   })
 
 export const testVisualRegression = (url: string) =>
-  maevsiTest.describe('visual regression', () => {
-    maevsiTest('looks as before', async ({ defaultPage }) => {
+  appTest.describe('visual regression', () => {
+    appTest('looks as before', async ({ defaultPage }) => {
       await defaultPage.goto(url)
 
       await expect(defaultPage.page).toHaveScreenshot({
         fullPage: true,
-        timeout: 10000,
+        timeout: TIMEOUT,
       })
     })
   })
