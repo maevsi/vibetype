@@ -14,7 +14,7 @@
     />
     <div
       v-if="isOpen"
-      ref="dropdownRef"
+      ref="dropdown"
       class="bg-background-brighten dark:bg-background-darken fixed z-20 mt-2 flex -translate-x-full flex-col items-stretch gap-4 rounded-md p-4 shadow-lg"
     >
       <slot name="content" />
@@ -23,8 +23,7 @@
 </template>
 
 <script setup lang="ts">
-// refs
-const dropdownRef = ref<HTMLElement>()
+const templateDropdown = useTemplateRef('dropdown')
 
 // data
 const isOpen = ref(false)
@@ -38,9 +37,9 @@ const toggleIsOpen = async (e: MouseEvent) => {
 
     await nextTick()
 
-    if (dropdownRef.value) {
-      dropdownRef.value.style.top = e.clientY + 'px'
-      dropdownRef.value.style.left = e.clientX + 'px'
+    if (templateDropdown.value) {
+      templateDropdown.value.style.top = e.clientY + 'px'
+      templateDropdown.value.style.left = e.clientX + 'px'
     }
   } else {
     document.body.classList.remove('overflow-hidden')

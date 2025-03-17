@@ -109,6 +109,11 @@ const store = useStore()
 const route = useRoute(ROUTE_NAME)
 const fireAlert = useFireAlert()
 
+// data
+const guestId = ref<string>()
+const isNfcWritableErrorMessage = ref<string>()
+const loading = ref(true)
+
 // api data
 const accountByUsernameQuery = await zalgo(
   useAccountByUsernameQuery({
@@ -129,11 +134,6 @@ const event = computed(() =>
   getEventItem(eventQuery.data.value?.eventByCreatedByAndSlug),
 )
 const api = getApiData([accountByUsernameQuery, eventQuery])
-
-// data
-const guestId = ref<string>()
-const isNfcWritableErrorMessage = ref<string>()
-const loading = ref(true)
 
 // computations
 const isNfcError = computed(() => {

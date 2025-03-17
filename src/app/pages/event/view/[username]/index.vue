@@ -38,6 +38,10 @@ const { t } = useI18n()
 const route = useRoute(ROUTE_NAME)
 const localePath = useLocalePath()
 
+// data
+const routeParamUsername = route.params.username
+const title = t('title', { name: route.params.username })
+
 // api data
 const accountByUsernameQuery = await zalgo(
   useAccountByUsernameQuery({
@@ -69,10 +73,6 @@ const events = computed(
       .filter(isNeitherNullNorUndefined) || [],
 )
 const api = getApiData([allEventsQuery])
-
-// data
-const routeParamUsername = route.params.username
-const title = t('title', { name: route.params.username })
 
 // initialization
 useHeadDefault({

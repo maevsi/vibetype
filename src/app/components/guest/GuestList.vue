@@ -65,7 +65,7 @@
         <div class="m-auto w-3/4 sm:w-1/2 xl:w-1/3 2xl:w-1/4">
           <Doughnut
             v-if="!runtimeConfig.public.vio.isTesting"
-            ref="doughnutRef"
+            ref="doughnut"
             :data="dataComputed"
             :options="options"
           />
@@ -115,20 +115,10 @@ const colorMode = useColorMode()
 const { t } = useI18n()
 const store = useStore()
 const runtimeConfig = useRuntimeConfig()
-
-// refs
-const after = ref<string>()
-const doughnutRef = ref<DoughnutController>()
-
-// api data
-const guestsQuery = await useAllGuestsQuery({
-  after,
-  eventId: props.event.id,
-  first: ITEMS_PER_PAGE_LARGE,
-})
-const api = getApiData([guestsQuery])
+const templateDoughnut = useTemplateRef<DoughnutController>('doughnut')
 
 // data
+const after = ref<string>()
 const options = {
   plugins: {
     legend: {
@@ -144,6 +134,14 @@ const options = {
   },
 }
 
+// api data
+const guestsQuery = await useAllGuestsQuery({
+  after,
+  eventId: props.event.id,
+  first: ITEMS_PER_PAGE_LARGE,
+})
+const api = getApiData([guestsQuery])
+
 // methods
 const add = () => {
   guestsQuery.pause()
@@ -157,8 +155,8 @@ const onGuestSubmitSuccess = () => {
 const updateChart = () => {
   Chart.defaults.color = colorMode.value === 'dark' ? '#fff' : '#000'
 
-  if (doughnutRef.value?.chart) {
-    doughnutRef.value?.chart.update()
+  if (templateDoughnut.value?.chart) {
+    templateDoughnut.value?.chart.update()
   }
 }
 
@@ -211,7 +209,7 @@ watch(
   (_currentValue, _oldValue) => updateChart(),
 )
 watch(
-  () => doughnutRef.value?.chart,
+  () => templateDoughnut.value?.chart,
   (_currentValue, _oldValue) => updateChart(),
 )
 

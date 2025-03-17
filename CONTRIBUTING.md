@@ -28,9 +28,8 @@ Such structure should be migrated to use [`composable`s](https://nuxt.com/docs/g
     1. `use`: like `const { x } = useNuxtApp()`
 
 1. below, elements that define the data structure of a component **require separation by comments**
-    1. `// refs`: like `const x = ref<HTMLElement>()`
-    1. `// api data`: like `const x = useXMutation()`
     1. `// data`: like `const x = ref(...)`
+    1. `// api data`: like `const x = useXMutation()`
     1. `// computations`: like `const x = computed(() => y)`
     1. `// vuelidate`: rules and `const v$ = useVuelidate(rules, form)`
     1. `// methods`: use `const x = () => ...` instead of `function x() {...}`

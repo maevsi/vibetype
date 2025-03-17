@@ -1,7 +1,7 @@
 <template>
   <form
     v-if="form"
-    ref="formRef"
+    ref="form"
     :class="[
       { 'animate-shake rounded-lg border border-red-500': errors?.length },
       formClass,
@@ -68,13 +68,11 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-
-// refs
-const formRef = ref<HTMLFormElement>()
+const templateForm = useTemplateRef('form')
 
 // methods
 const resetForm = () => {
-  formRef.value?.reset()
+  templateForm.value?.reset()
 }
 
 // computations

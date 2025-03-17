@@ -162,16 +162,16 @@ const { t } = useI18n()
 const route = useRoute()
 const fireAlert = useFireAlert()
 
-// api data
-const eventUnlockMutation = useEventUnlockMutation()
-const api = getApiData([eventUnlockMutation])
-
 // data
 const form = reactive({
   guestId: ref(route.query.ic),
 })
 const isFormSent = ref(false)
 const title = t('title')
+
+// api data
+const eventUnlockMutation = useEventUnlockMutation()
+const api = getApiData([eventUnlockMutation])
 
 // methods
 const submit = async () => {

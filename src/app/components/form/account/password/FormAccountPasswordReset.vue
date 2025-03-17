@@ -35,15 +35,15 @@ const { t } = useI18n()
 const route = useRoute()
 const localePath = useLocalePath()
 
-// api data
-const passwordResetMutation = useAccountPasswordResetMutation()
-const api = getApiData([passwordResetMutation])
-
 // data
 const form = reactive({
   password: ref<string>(),
 })
 const isFormSent = ref(false)
+
+// api data
+const passwordResetMutation = useAccountPasswordResetMutation()
+const api = getApiData([passwordResetMutation])
 
 // methods
 const submit = async () => {

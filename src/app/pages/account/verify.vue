@@ -21,13 +21,13 @@ const { t } = useI18n()
 const route = useRoute()
 const fireAlert = useFireAlert()
 
+// data
+const title = t('title')
+
 // api data
 const accountEmailAddressVerificationMutation =
   useAccountEmailAddressVerificationMutation()
 const api = getApiData([accountEmailAddressVerificationMutation])
-
-// data
-const title = t('title')
 
 // computations
 const isCodeValid = computed(

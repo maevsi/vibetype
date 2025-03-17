@@ -109,8 +109,13 @@ const store = useStore()
 const localePath = useLocalePath()
 const { t } = useI18n()
 
-// refs
+// data
 const after = ref<string>()
+const form = reactive({
+  contactIds: ref<string[]>([]),
+  searchString: ref<string>(),
+})
+const isFormSent = ref(false)
 
 // api data
 const allContactsQuery = await useAllContactsQuery({
@@ -126,13 +131,6 @@ const contacts = computed(
       .map((x) => getContactItem(x))
       .filter(isNeitherNullNorUndefined) || [],
 )
-
-// data
-const form = reactive({
-  contactIds: ref<string[]>([]),
-  searchString: ref<string>(),
-})
-const isFormSent = ref(false)
 
 // methods
 const selectToggle = (contactId: string) => {

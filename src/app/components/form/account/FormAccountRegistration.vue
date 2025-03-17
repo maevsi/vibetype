@@ -59,10 +59,6 @@ const localePath = useLocalePath()
 const fireAlert = useFireAlert()
 const store = useStore()
 
-// api data
-const accountRegistrationMutation = useAccountRegistrationMutation()
-const api = getApiData([accountRegistrationMutation])
-
 // data
 const form = reactive({
   captcha: ref<string>(),
@@ -71,6 +67,10 @@ const form = reactive({
   username: ref<string>(),
 })
 const isFormSent = ref(false)
+
+// api data
+const accountRegistrationMutation = useAccountRegistrationMutation()
+const api = getApiData([accountRegistrationMutation])
 
 // methods
 const submit = async () => {
