@@ -1,3 +1,9 @@
+## [9.5.1](https://github.com/maevsi/vibetype/compare/9.5.0...9.5.1) (2025-03-18)
+
+### Bug Fixes
+
+* **browserslist:** correct file path ([#1827](https://github.com/maevsi/vibetype/issues/1827)) ([5e1cef5](https://github.com/maevsi/vibetype/commit/5e1cef57bb1dfc79514481769ec06d45b3a072da))
+
 ## [9.5.0](https://github.com/maevsi/vibetype/compare/9.4.0...9.5.0) (2025-03-13)
 
 ### Features
