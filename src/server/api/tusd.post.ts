@@ -1,3 +1,4 @@
+import { consola } from 'consola'
 import { MIMES } from 'h3'
 import { z } from 'zod'
 
@@ -18,7 +19,7 @@ export default defineEventHandler(async (event) => {
 
   switch (body.Type) {
     case 'pre-create': {
-      console.log('tusd/pre-create')
+      consola.log('tusd/pre-create')
 
       const queryResult = await executeQuery(
         uploadExists({ id: body.Event.Upload.MetaData.maevsiUploadUuid }),
@@ -36,7 +37,7 @@ export default defineEventHandler(async (event) => {
       break
     }
     case 'pre-finish': {
-      console.log('tusd/pre-finish: ' + body.Event.Upload.ID)
+      consola.log('tusd/pre-finish: ' + body.Event.Upload.ID)
 
       await executeQuery(
         uploadUpdate({
@@ -50,7 +51,7 @@ export default defineEventHandler(async (event) => {
       break
     }
     case 'post-terminate': {
-      console.log('tusd/post-terminate: ' + body.Event.Upload.ID)
+      consola.log('tusd/post-terminate: ' + body.Event.Upload.ID)
       await deleteUpload(event, body.Event.Upload.MetaData.maevsiUploadUuid)
 
       break

@@ -1,3 +1,5 @@
+import { consola } from 'consola'
+
 import { IS_IN_STACK } from '~~/node'
 
 const TOPIC_NOTIFICATION = `${SITE_NAME}.${SITE_NAME}_private.notification`
@@ -53,11 +55,11 @@ export default defineNitroPlugin(async (nitroApp) => {
               tusdFilesUrl,
             })
           } catch (error) {
-            console.error(`Failed to process notification: ${error}`)
+            consola.error(`Failed to process notification: ${error}`)
           }
           break
         default:
-          console.error(`Unexpected topic: ${topic}`)
+          consola.error(`Unexpected topic: ${topic}`)
       }
     },
   })
