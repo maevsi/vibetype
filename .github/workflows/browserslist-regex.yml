@@ -13,5 +13,6 @@ jobs:
     with:
       DIRECTORY: src/
       NODE_VERSION: 22
+      OUTPUT_PATH: app/supportedBrowsers.js
       UBUNTU_DEPENDENCIES: mkcert
       UBUNTU_REPOSITORIES: universe
