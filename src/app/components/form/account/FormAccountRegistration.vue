@@ -52,7 +52,11 @@
       v-model="privacyModalOpen"
       @open-general-terms="openGeneralTerms"
     />
-    <ModalGeneralTerms v-model="generalTermsModalOpen" @accepted="submit" />
+    <ModalGeneralTerms
+      v-model="generalTermsModalOpen"
+      @handle-back="openPrivacyModal"
+      @accepted="submit"
+    />
   </div>
 </template>
 
@@ -129,6 +133,10 @@ const handleSubmit = async () => {
 
 const openGeneralTerms = () => {
   generalTermsModalOpen.value = true
+}
+
+const openPrivacyModal = () => {
+  privacyModalOpen.value = true
 }
 
 // vuelidate

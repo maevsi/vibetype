@@ -6,11 +6,16 @@
       <DialogHeader
         class="border-b border-[hsl(var(--border))] bg-[hsl(var(--card))] px-6 py-4"
       >
-        <DialogTitle
-          class="text-lg font-semibold text-[hsl(var(--card-foreground))]"
-        >
-          {{ t('title') }}
-        </DialogTitle>
+        <div class="flex items-center">
+          <DialogClose as-child>
+            <IVibetypeColoredBack class="h-6 w-6" :alt="t('iconAltBack')" />
+          </DialogClose>
+          <DialogTitle
+            class="mx-auto text-center text-lg font-semibold text-[hsl(var(--card-foreground))]"
+          >
+            {{ t('title') }}
+          </DialogTitle>
+        </div>
       </DialogHeader>
       <div
         class="max-h-[60vh] overflow-auto bg-[hsl(var(--card))] p-6 text-[hsl(var(--card-foreground))]"
@@ -274,6 +279,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogClose,
 } from '@/components/scn/dialog'
 
 const model = defineModel<boolean>()
@@ -290,6 +296,8 @@ const handleAccept = () => {
 
 <i18n lang="yaml">
 de:
+  acceptPrivacy: Ich akzeptiere die Datenschutzerklärung
+  confirmButtonText: Weiter
   dataAcquisition: 4. Datenerfassung auf dieser Website
   dataAcquisitionCommentsDescription: Für die Kommentarfunktion auf dieser Seite werden neben Ihrem Kommentar auch Angaben zum Zeitpunkt der Erstellung des Kommentars, Ihre E-Mail-Adresse und, wenn Sie nicht anonym posten, der von Ihnen gewählte Nutzername gespeichert.
   dataAcquisitionCommentsIpDescription: Unsere Kommentarfunktion speichert die IP-Adressen der Nutzer, die Kommentare verfassen. Da wir Kommentare auf dieser Website nicht vor der Freischaltung prüfen, benötigen wir diese Daten, um im Falle von Rechtsverletzungen wie Beleidigungen oder Propaganda gegen den Verfasser vorgehen zu können.
@@ -353,6 +361,7 @@ de:
   hostingCdnExternalProcessingContractDescription: Um die datenschutzkonforme Verarbeitung zu gewährleisten, haben wir einen Vertrag über Auftragsverarbeitung mit unserem Hoster geschlossen.
   hostingCdnExternalProcessingContractTitle: Abschluss eines Vertrages über Auftragsverarbeitung
   hostingCdnExternalTitle: Externes Hosting
+  iconAltBack: Zurück-Icon
   mandatoryInfo: 3. Allgemeine Hinweise und Pflichtinformationen
   mandatoryInfoComplaintDescription: Im Falle von Verstößen gegen die DSGVO steht den Betroffenen ein Beschwerderecht bei einer Aufsichtsbehörde, insbesondere in dem Mitgliedstaat ihres gewöhnlichen Aufenthalts, ihres Arbeitsplatzes oder des Orts des mutmaßlichen Verstoßes zu. Das Beschwerderecht besteht unbeschadet anderweitiger verwaltungsrechtlicher oder gerichtlicher Rechtsbehelfe.
   mandatoryInfoComplaintTitle: Beschwerderecht bei der zuständigen Aufsichtsbehörde
@@ -439,9 +448,9 @@ de:
   source: Quelle
   summary: 1. Datenschutz auf einen Blick
   title: Datenschutzerklärung
-  confirmButtonText: Weiter
-  acceptPrivacy: Ich akzeptiere die Datenschutzerklärung
 en:
+  acceptPrivacy: I agree to the Privacy Policy
+  confirmButtonText: Next
   dataAcquisition: 4. Data collection on this website
   dataAcquisitionCommentsDescription: For the comment function on this page, in addition to your comment, information on the time of creation of the comment, your e-mail address and, if you do not post anonymously, the username you have chosen will be stored.
   dataAcquisitionCommentsIpDescription: Our comment function stores the IP addresses of users who post comments. Since we do not check comments on this website before they are activated, we need this data to be able to take action against the author in the event of legal violations such as insults or propaganda.
@@ -505,6 +514,7 @@ en:
   hostingCdnExternalProcessingContractDescription: To ensure data protection-compliant processing, we have concluded an order processing contract with our hoster.
   hostingCdnExternalProcessingContractTitle: Conclusion of a contract for order processing
   hostingCdnExternalTitle: External hosting
+  iconAltBack: Back Icon
   mandatoryInfo: 3. General notes and mandatory information
   mandatoryInfoComplaintDescription: In the event of breaches of the GDPR, data subjects shall have a right of appeal to a supervisory authority, in particular in the Member State of their habitual residence, their place of work or the place of the alleged breach. The right of appeal is without prejudice to other administrative or judicial remedies.
   mandatoryInfoComplaintTitle: Right of appeal to the competent supervisory authority
@@ -591,6 +601,4 @@ en:
   source: Source
   summary: 1. Data protection at a glance
   title: Privacy policy
-  confirmButtonText: Next
-  acceptPrivacy: I agree to the Privacy Policy
 </i18n>

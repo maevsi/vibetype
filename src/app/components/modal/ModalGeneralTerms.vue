@@ -3,10 +3,23 @@
     <DialogContent
       class="max-h-[90vh] max-w-4xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] p-0 text-[hsl(var(--card-foreground))] shadow-lg"
     >
-      <DialogHeader class="border-b border-[hsl(var(--border))] px-6 py-4">
-        <DialogTitle class="text-lg font-semibold">
-          {{ t('title') }}
-        </DialogTitle>
+      <DialogHeader
+        class="border-b border-[hsl(var(--border))] bg-[hsl(var(--card))] px-6 py-4"
+      >
+        <div class="flex items-center">
+          <DialogClose as-child>
+            <IVibetypeColoredBack
+              class="h-6 w-6"
+              :alt="t('iconAltBack')"
+              @click="handleBack"
+            />
+          </DialogClose>
+          <DialogTitle
+            class="mx-auto text-lg font-semibold text-[hsl(var(--card-foreground))]"
+          >
+            {{ t('title') }}
+          </DialogTitle>
+        </div>
       </DialogHeader>
       <div class="max-h-[60vh] overflow-auto p-6">
         <div class="vio-prose-scheme">
@@ -67,7 +80,7 @@ const legalTerms = computed(() => {
 })
 
 const model = defineModel<boolean>()
-const emit = defineEmits(['accepted', 'update:modelValue'])
+const emit = defineEmits(['accepted', 'update:modelValue', 'handle-back'])
 const accepted = ref(false)
 
 // methods
@@ -78,15 +91,18 @@ const handleAccept = () => {
     model.value = false
   }
 }
+const handleBack = () => emit('handle-back')
 </script>
 
 <i18n lang="yaml">
 de:
-  title: Impressum
-  confirmButtonText: Weiter
   acceptTerms: 'Ich akzeptiere die AGB'
+  confirmButtonText: Weiter
+  iconAltBack: Zurück-Icon
+  title: Allgemeine Geschäftsbedingungen
 en:
-  title: Legal notice
-  confirmButtonText: Next
   acceptTerms: 'I accept the GTC'
+  confirmButtonText: Next
+  iconAltBack: Back Icon
+  title: General Terms and Conditions
 </i18n>
