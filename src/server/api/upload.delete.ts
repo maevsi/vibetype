@@ -1,3 +1,4 @@
+import { consola } from 'consola'
 import { z } from 'zod'
 
 const uploadDeleteQuerySchema = z.object({
@@ -17,7 +18,7 @@ export default defineEventHandler(async (event) => {
   const query = await getQuerySafe({ event, schema: uploadDeleteQuerySchema })
   const uploadId = query.uploadId
 
-  console.log('tusdDelete: ' + uploadId)
+  consola.log('tusdDelete: ' + uploadId)
 
   const queryResult = await executeQuery(uploadSelect({ id: uploadId }))
 

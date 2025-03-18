@@ -1,3 +1,4 @@
+import { consola } from 'consola'
 import camelcaseKeys from 'camelcase-keys'
 
 import { sendEmail } from './email'
@@ -144,7 +145,7 @@ export const processNotification = async ({
     : +runtimeConfig.public[SITE_NAME].email.limit24h
 
   if (!limit24h) {
-    console.warn(
+    consola.warn(
       `24h email limit is not a number, using default: ${MAEVSI_EMAIL_LIMIT_24H}`,
     )
   }
@@ -234,7 +235,7 @@ const ack = async ({ id }: { id: string }) => {
   })
 
   if (!response.ok)
-    console.error(`Could not ack due to error: "${response.statusText}"`)
+    consola.error(`Could not ack due to error: "${response.statusText}"`)
 }
 
 export const sendEventInvitationMail = async ({
@@ -281,17 +282,17 @@ export const sendEventInvitationMail = async ({
   ).text()
 
   if (!guestId) {
-    console.error(`Could not get guest id ${guestId}!`)
+    consola.error(`Could not get guest id ${guestId}!`)
     return
   }
 
   if (!emailAddress) {
-    console.error(`Could not get email address ${emailAddress}!`)
+    consola.error(`Could not get email address ${emailAddress}!`)
     return
   }
 
   if (!event) {
-    console.error(`Could not get contact ${event}!`)
+    consola.error(`Could not get contact ${event}!`)
     return
   }
 
