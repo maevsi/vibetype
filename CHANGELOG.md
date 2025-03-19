@@ -1,3 +1,15 @@
+## [9.6.0](https://github.com/maevsi/vibetype/compare/9.5.1...9.6.0) (2025-03-19)
+
+### Features
+
+* **platform:** allow to specify by cookie ([72923b2](https://github.com/maevsi/vibetype/commit/72923b202f7f1a3dd1c620c3512abf0f13747f02))
+* **platform:** allow to specify by cookie ([#1828](https://github.com/maevsi/vibetype/issues/1828)) ([30c1e55](https://github.com/maevsi/vibetype/commit/30c1e558235698e4dfc3910a163ff9cd68d44233))
+* **session:** add app developer information ([8f686fa](https://github.com/maevsi/vibetype/commit/8f686fa1c375113c24a25ec0b094c4314917ffd9))
+
+### Bug Fixes
+
+* **pricing:** hide for apps ([2b8beda](https://github.com/maevsi/vibetype/commit/2b8beda56ca13858377dbb1f7bc8c91bde7b8f54))
+
 ## [9.5.1](https://github.com/maevsi/vibetype/compare/9.5.0...9.5.1) (2025-03-18)
 
 ### Bug Fixes
