@@ -56,7 +56,6 @@ import supportedBrowsers from '~/supportedBrowsers'
 const i18n = useI18n()
 const { $pwa } = useNuxtApp()
 const runtimeConfig = useRuntimeConfig()
-const siteConfig = useSiteConfig()
 const locale = i18n.locale as WritableComputedRef<Locale>
 const { t } = i18n
 const timezone = useTimezone()
@@ -105,16 +104,9 @@ watch(
 )
 
 // initialization
-if (import.meta.server) {
-  updateSiteConfig({
-    description: t('globalSeoSiteDescription'),
-  })
-}
 defineOgImageComponent(
   'Default',
-  {
-    description: t('globalSeoSiteDescription'),
-  },
+  {},
   {
     alt: t('globalSeoOgImageAlt', { siteName: t('globalSiteName') }),
   },
@@ -122,14 +114,7 @@ defineOgImageComponent(
 useAppLayout()
 await useAuth()
 usePolyfills()
-useSchemaOrg([
-  defineWebSite({
-    description: t('globalSeoSiteDescription'),
-    inLanguage: locale,
-    name: siteConfig.name,
-  }),
-  defineWebPage(),
-])
+useSchemaOrg([defineWebSite(), defineWebPage()])
 useAppGtag()
 initialize()
 </script>

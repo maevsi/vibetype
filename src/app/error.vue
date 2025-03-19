@@ -23,16 +23,13 @@ const { t } = useI18n()
 // initialization
 useAppLayout()
 
-// TODO: replace with `useServerHeadSafe`
-useHeadSafe({
+useHeadDefault({
   title: `${errorProp.value.statusCode} - ${errorProp.value.message}`,
 })
 
 defineOgImageComponent(
   'Default',
-  {
-    description: t('globalSeoSiteDescription'),
-  },
+  {},
   {
     alt: t('globalSeoOgImageAlt', { siteName: t('globalSiteName') }),
   },

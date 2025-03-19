@@ -9,7 +9,6 @@
   "globalPlaceholderUrl": "https://websei.te",
   "globalPlaceholderUsername": "nutzer-name",
   "globalSeoOgImageAlt": "{siteName}s Logo.",
-  "globalSeoSiteDescription": "Finde Veranstaltungen, Gäste und Freunde 💙❤️💚",
   "globalShowMore": "Mehr anzeigen",
   "globalSiteName": "Vibetype",
   "globalStatusError": "Fehler",
@@ -32,6 +31,7 @@
   "globalValidationSameAs": "Ist nicht identisch",
   "globalValidationShortness": "Zu kurz",
   "nuxtSiteConfig": {
+    "description": "Finde Veranstaltungen, Gäste und Freunde 💙❤️💚",
     "name": "Vibetype"
   }
 }
