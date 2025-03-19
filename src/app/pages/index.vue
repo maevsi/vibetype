@@ -76,7 +76,7 @@
     <section>
       <TailwindDiscord />
     </section>
-    <section>
+    <section v-if="!isApp">
       <TailwindPricing />
     </section>
     <div
