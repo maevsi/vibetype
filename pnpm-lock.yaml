@@ -117,8 +117,8 @@ importers:
         specifier: 2.3.0
         version: 2.3.0(vite@6.2.1(@types/node@22.13.10)(jiti@2.4.2)(lightningcss@1.29.3)(terser@5.39.0)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.2))
       '@nuxt/image':
-        specifier: 1.9.0
-        version: 1.9.0(db0@0.3.1)(ioredis@5.6.0)(magicast@0.3.5)
+        specifier: 1.10.0
+        version: 1.10.0(db0@0.3.1)(ioredis@5.6.0)(magicast@0.3.5)
       '@nuxt/schema':
         specifier: 3.16.0
         version: 3.16.0
@@ -333,8 +333,8 @@ importers:
         specifier: 2.2.0
         version: 2.2.0(magicast@0.3.5)(rollup@4.35.0)
       openai:
-        specifier: 4.87.3
-        version: 4.87.3(ws@8.18.1)(zod@3.24.2)
+        specifier: 4.87.4
+        version: 4.87.4(ws@8.18.1)(zod@3.24.2)
       pinia:
         specifier: 3.0.1
         version: 3.0.1(typescript@5.8.2)(vue@3.5.13(typescript@5.8.2))
@@ -447,8 +447,8 @@ importers:
         specifier: 5.3.2
         version: 5.3.2(chart.js@4.4.8)(vue@3.5.13(typescript@5.8.2))
       vue-gtag:
-        specifier: 2.1.1
-        version: 2.1.1(vue@3.5.13(typescript@5.8.2))
+        specifier: 2.1.2
+        version: 2.1.2(vue@3.5.13(typescript@5.8.2))
       vue-i18n-routing:
         specifier: 1.2.0
         version: 1.2.0(vue-i18n@10.0.6(vue@3.5.13(typescript@5.8.2)))(vue-router@4.5.0(vue@3.5.13(typescript@5.8.2)))(vue@3.5.13(typescript@5.8.2))
@@ -2762,6 +2762,10 @@ packages:
         optional: true
       vite-plugin-eslint2:
         optional: true
+
+  '@nuxt/image@1.10.0':
+    resolution: {integrity: sha512-/B58GeEmme7bkmQUrXzEw8P9sJb9BkMaYZqLDtq8ZdDLEddE3P4nVya8RQPB+p4b7EdqWajpPqdy1A2ZPLev/A==}
+    engines: {node: '>=18.20.6'}
 
   '@nuxt/image@1.9.0':
     resolution: {integrity: sha512-kuuePx/jtlmsuG/G8mTMELntw4p8MLD4tu9f4A064xor/ks29oEoBmFRzvfFwxqZ7cqfG2M4LZfTZFjQz5St+Q==}
@@ -9200,8 +9204,8 @@ packages:
     resolution: {integrity: sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ==}
     engines: {node: '>=12'}
 
-  openai@4.87.3:
-    resolution: {integrity: sha512-d2D54fzMuBYTxMW8wcNmhT1rYKcTfMJ8t+4KjH2KtvYenygITiGBgHoIrzHwnDQWW+C5oCA+ikIR2jgPCFqcKQ==}
+  openai@4.87.4:
+    resolution: {integrity: sha512-lsfM20jZY4A0lNexfoUAkfmrEXxaTXvv8OKYicpeAJUNHObpRgkvC7pxPgMnB6gc9ID8OCwzzhEhBpNy69UR7w==}
     hasBin: true
     peerDependencies:
       ws: ^8.18.0
@@ -11706,8 +11710,8 @@ packages:
     peerDependencies:
       eslint: '>=6.0.0'
 
-  vue-gtag@2.1.1:
-    resolution: {integrity: sha512-FKtxgM8/95R2tDwUsArmmyI+MUnyRBUnDrVv1gqOb9famGZMLNo09PgxSL1iEcsFHtWWJokuEdpgb9VCEr/2Ig==}
+  vue-gtag@2.1.2:
+    resolution: {integrity: sha512-9eTGfIApQ3XpsxJjLNiRP51x0v3c93YJxVO8rKWSLJwbUuICwTMGGfB7x0RLEijFoK3lakgFvR5pR+JF5la2KA==}
     peerDependencies:
       vue: ^3.0.0
 
@@ -15400,6 +15404,42 @@ snapshots:
       - typescript
       - utf-8-validate
       - vite
+
+  '@nuxt/image@1.10.0(db0@0.3.1)(ioredis@5.6.0)(magicast@0.3.5)':
+    dependencies:
+      '@nuxt/kit': 3.16.0(magicast@0.3.5)
+      consola: 3.4.2
+      defu: 6.1.4
+      h3: 1.15.1
+      image-meta: 0.2.1
+      knitwork: 1.2.0
+      ohash: 2.0.11
+      pathe: 2.0.3
+      std-env: 3.8.1
+      ufo: 1.5.4
+    optionalDependencies:
+      ipx: 2.1.0(db0@0.3.1)(ioredis@5.6.0)
+    transitivePeerDependencies:
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@capacitor/preferences'
+      - '@deno/kv'
+      - '@netlify/blobs'
+      - '@planetscale/database'
+      - '@upstash/redis'
+      - '@vercel/blob'
+      - '@vercel/kv'
+      - aws4fetch
+      - bare-buffer
+      - db0
+      - idb-keyval
+      - ioredis
+      - magicast
+      - uploadthing
 
   '@nuxt/image@1.9.0(db0@0.3.1)(ioredis@5.6.0)(magicast@0.3.5)':
     dependencies:
@@ -23209,7 +23249,7 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@4.87.3(ws@8.18.1)(zod@3.24.2):
+  openai@4.87.4(ws@8.18.1)(zod@3.24.2):
     dependencies:
       '@types/node': 18.19.80
       '@types/node-fetch': 2.6.12
@@ -25999,7 +26039,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vue-gtag@2.1.1(vue@3.5.13(typescript@5.8.2)):
+  vue-gtag@2.1.2(vue@3.5.13(typescript@5.8.2)):
     dependencies:
       vue: 3.5.13(typescript@5.8.2)
 
