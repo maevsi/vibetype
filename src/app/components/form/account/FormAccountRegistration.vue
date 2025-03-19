@@ -44,7 +44,7 @@
         </FormInputStateInfo>
       </template>
     </Form>
-    <AppLink :to="localePath('session-create')" is-underlined, is-colored,>
+    <AppLink :to="localePath('session-create')" is-underlined is-colored>
       {{ t('alreadyHaveAnAccount') }}
     </AppLink>
     <!-- Modals -->
@@ -63,7 +63,6 @@
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
-import { useCreateLegalTermAcceptanceMutation } from '~~/gql/documents/mutations/account/accountLegalTermAcceptance'
 import { useAccountRegistrationMutation } from '~~/gql/documents/mutations/account/accountRegistration'
 import FormInputConfirmPassword from '../input/FormInputConfirmPassword.vue'
 import FormInputCaptcha from '../input/FormInputCaptcha.vue'
@@ -92,6 +91,7 @@ const submit = async (termId: string) => {
       language: locale.value,
       password: form.password || '',
       username: form.username || '',
+      legalTermId: termId,
     },
     {
       fetchOptions: {
@@ -101,29 +101,18 @@ const submit = async (termId: string) => {
       },
     },
   )
-  if (accountResult.error) {
-    return
-  }
+  if (accountResult.error) return
   const accountUuid = accountResult.data?.accountRegistration?.uuid
   if (!accountUuid) {
     console.error('No account UUID received')
     return
   }
-  const legalTermAcceptanceMutation = useCreateLegalTermAcceptanceMutation()
-  const acceptanceResult = await legalTermAcceptanceMutation.executeMutation({
-    input: {
-      legalTermAcceptance: {
-        accountId: accountUuid,
-        legalTermId: termId,
-      },
-    },
-  })
-  if (acceptanceResult.error) return
   await fireAlert({
     level: 'success',
     title: t('registrationSuccessTitle'),
     text: t('registrationSuccessBody'),
   })
+  await navigateTo('/account/pending-verify')
 }
 
 const handleSubmit = async () => {
