@@ -112,7 +112,7 @@ const submit = async (termId: string) => {
     title: t('registrationSuccessTitle'),
     text: t('registrationSuccessBody'),
   })
-  await navigateTo('/account/pending-verify')
+  await navigateTo('/account/verify/pending')
 }
 
 const handleSubmit = async () => {
