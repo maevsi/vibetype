@@ -786,6 +786,7 @@ export type AccountRegistrationInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>
   emailAddress: Scalars['String']['input']
   language: Scalars['String']['input']
+  legalTermId: Scalars['UUID']['input']
   password: Scalars['String']['input']
   username: Scalars['String']['input']
 }
@@ -9112,6 +9113,24 @@ export type JwtRefreshMutation = {
   } | null
 }
 
+export type CreateLegalTermAcceptanceMutationVariables = Exact<{
+  input: CreateLegalTermAcceptanceInput
+}>
+
+export type CreateLegalTermAcceptanceMutation = {
+  __typename?: 'Mutation'
+  createLegalTermAcceptance?: {
+    __typename?: 'CreateLegalTermAcceptancePayload'
+    legalTermAcceptance?: {
+      __typename?: 'LegalTermAcceptance'
+      id: any
+      accountId: any
+      createdAt: any
+      legalTermId: any
+    } | null
+  } | null
+}
+
 export type AccountPasswordChangeMutationVariables = Exact<{
   passwordCurrent: Scalars['String']['input']
   passwordNew: Scalars['String']['input']
@@ -9156,6 +9175,7 @@ export type AccountRegistrationMutationVariables = Exact<{
   password: Scalars['String']['input']
   username: Scalars['String']['input']
   language: Scalars['String']['input']
+  legalTermId: Scalars['UUID']['input']
 }>
 
 export type AccountRegistrationMutation = {
@@ -9163,6 +9183,7 @@ export type AccountRegistrationMutation = {
   accountRegistration?: {
     __typename?: 'AccountRegistrationPayload'
     clientMutationId?: string | null
+    uuid?: any | null
   } | null
 }
 
@@ -9588,6 +9609,16 @@ export type AllGuestsQuery = {
       hasNextPage: boolean
       endCursor?: any | null
     }
+  } | null
+}
+
+export type AllLegalTermsQueryVariables = Exact<{ [key: string]: never }>
+
+export type AllLegalTermsQuery = {
+  __typename?: 'Query'
+  allLegalTerms?: {
+    __typename?: 'LegalTermsConnection'
+    nodes: Array<{ __typename?: 'LegalTerm'; id: any; term: string }>
   } | null
 }
 
@@ -10325,6 +10356,81 @@ export const JwtRefreshDocument = {
     },
   ],
 } as unknown as DocumentNode<JwtRefreshMutation, JwtRefreshMutationVariables>
+export const CreateLegalTermAcceptanceDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateLegalTermAcceptance' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateLegalTermAcceptanceInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createLegalTermAcceptance' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'legalTermAcceptance' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'legalTermId' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateLegalTermAcceptanceMutation,
+  CreateLegalTermAcceptanceMutationVariables
+>
 export const AccountPasswordChangeDocument = {
   kind: 'Document',
   definitions: [
@@ -10647,6 +10753,17 @@ export const AccountRegistrationDocument = {
             },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'legalTermId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -10693,6 +10810,14 @@ export const AccountRegistrationDocument = {
                         name: { kind: 'Name', value: 'language' },
                       },
                     },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'legalTermId' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'legalTermId' },
+                      },
+                    },
                   ],
                 },
               },
@@ -10704,6 +10829,7 @@ export const AccountRegistrationDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'clientMutationId' },
                 },
+                { kind: 'Field', name: { kind: 'Name', value: 'uuid' } },
               ],
             },
           },
@@ -13995,6 +14121,41 @@ export const AllGuestsDocument = {
     },
   ],
 } as unknown as DocumentNode<AllGuestsQuery, AllGuestsQueryVariables>
+export const AllLegalTermsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'allLegalTerms' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allLegalTerms' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'term' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AllLegalTermsQuery, AllLegalTermsQueryVariables>
 export const ProfilePictureByAccountIdDocument = {
   kind: 'Document',
   definitions: [

@@ -140,12 +140,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         consola.trace('GraphQL request without authentication.')
       }
 
-      if (store.turnstileToken) {
-        consola.debug(`Turnstile token: ${store.turnstileToken}`)
-        headers[TURNSTILE_HEADER_KEY] = store.turnstileToken
-        store.turnstileToken = undefined
-      }
-
       return { headers }
     },
     url: getServiceHref({ name: 'postgraphile', port: 5000 }) + '/graphql',

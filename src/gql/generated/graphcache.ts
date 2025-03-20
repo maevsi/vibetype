@@ -775,6 +775,7 @@ export type AccountRegistrationInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>
   emailAddress: Scalars['String']['input']
   language: Scalars['String']['input']
+  legalTermId: Scalars['UUID']['input']
   password: Scalars['String']['input']
   username: Scalars['String']['input']
 }
