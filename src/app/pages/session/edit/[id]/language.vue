@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import type { I18N_LOCALE_CODE } from '@dargmuesli/nuxt-vio/types/i18n'
+import type { I18N_LOCALE_CODE } from '@dargmuesli/nuxt-vio/shared/types/i18n'
 
 const { locale, t, locales } = useI18n()
 const switchLocalePath = useSwitchLocalePath()
