@@ -16,8 +16,6 @@ RUN apk update \
       git \
     && apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
       mkcert \
-    && npm install -g corepack@latest \
-    # TODO: remove (https://github.com/nodejs/corepack/issues/612)
     && corepack enable
 
 COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
@@ -110,9 +108,7 @@ ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 
 WORKDIR /srv/app/
 
-RUN npm install -g corepack@latest \
-    # TODO: remove (https://github.com/nodejs/corepack/issues/612)
-    && corepack enable \
+RUN corepack enable \
     && apt update && apt install mkcert
 
 
