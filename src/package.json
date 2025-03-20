@@ -4,7 +4,7 @@
     "@aws-sdk/client-ses": "3.758.0",
     "@aws-sdk/credential-providers": "3.768.0",
     "@dargmuesli/nuxt-cookie-control": "8.5.4",
-    "@dargmuesli/nuxt-vio": "17.0.4",
+    "@dargmuesli/nuxt-vio": "18.1.0",
     "@fontsource-variable/raleway": "5.2.5",
     "@graphql-codegen/add": "5.0.3",
     "@graphql-codegen/cli": "5.0.5",
