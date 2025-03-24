@@ -2,108 +2,86 @@
   <div>
     <LayoutPageTitle :title="title" />
     <LayoutProse>
-      <h2>{{ t('tmg') }}</h2>
+      <h2>{{ t('provider') }}</h2>
       <p>
-        {{ t('addressName') }}<br />
-        {{ t('addressStreet') }}<br />
-        {{ t('addressCity') }}
+        {{ t('providerAddressName') }}<br />
+        {{ t('providerAddressStreet') }}<br />
+        {{ t('providerAddressCity') }}
+      </p>
+      <p>
+        {{ t('providerRepresentation') }}<br />
+        {{ t('providerRepresentationManagement') }}
       </p>
 
       <h2>{{ t('contact') }}</h2>
-      <p>{{ t('email') }}</p>
-
-      <h2>{{ t('responsibility') }}</h2>
+      <p>{{ t('contactEmail') }}</p>
       <p>
-        {{ t('addressName') }}<br />
-        {{ t('addressStreet') }}<br />
-        {{ t('addressCity') }}
+        <i18n-t keypath="contactForm">
+          <template #link>
+            <AppLink is-external :to="t('contactFormLink')">
+              {{ t('contactFormLink') }}
+            </AppLink>
+          </template>
+        </i18n-t>
       </p>
 
-      <h3>{{ t('liabilityContentTitle') }}</h3>
+      <h2>{{ t('register') }}</h2>
+      <p>{{ t('registerCommercial') }}</p>
+      <p>{{ t('registerCourt') }}</p>
+
+      <h2>{{ t('liabilityContentTitle') }}</h2>
       <p>{{ t('liabilityContentDescription1') }}</p>
       <p>{{ t('liabilityContentDescription2') }}</p>
 
-      <h3>{{ t('liabilityLinksTitle') }}</h3>
-      <p>{{ t('liabilityLinksDescription1') }}</p>
-      <p>{{ t('liabilityLinksDescription2') }}</p>
-
-      <h3>{{ t('copyrightTitle') }}</h3>
-      <p>{{ t('copyrightDescription1') }}</p>
-      <p>{{ t('copyrightDescription2') }}</p>
-
+      <h2>{{ t('dataProtection') }}</h2>
       <p>
-        <AppLink is-external to="https://www.e-recht24.de">
-          {{ t('source') }}
-        </AppLink>
+        <i18n-t keypath="dataProtectionDescription">
+          <template #link>
+            <AppLink is-external :to="t('dataProtectionDescriptionLink')">
+              {{ t('dataProtectionDescriptionLink') }}
+            </AppLink>
+          </template>
+        </i18n-t>
       </p>
 
-      <h2>{{ t('attributionTitle') }}</h2>
+      <h2>{{ t('copyrightTitle') }}</h2>
+      <p>{{ t('copyrightDescription1') }}</p>
+
+      <h2>{{ t('socialMediaTitle') }}</h2>
+      <p>{{ t('socialMediaDescription') }}</p>
       <p>
-        <i18n-t keypath="attributionDescription">
-          <template #author>
-            {{ t('fontAwesomeAuthor') }}
-          </template>
-          <template #license>
-            <AppLink
-              is-external
-              to="https://creativecommons.org/licenses/by/4.0/"
-            >
-              {{ t('licenseCCBY40') }}
+        <i18n-t keypath="socialMediaInstagram">
+          <template #link>
+            <AppLink is-external :to="t('socialMediaInstagramLink')">
+              {{ t('socialMediaInstagramLink') }}
             </AppLink>
-          </template>
-          <template #title>
-            {{ t('fontAwesome') }}
           </template>
         </i18n-t>
-        <br />
-        <i18n-t keypath="attributionDescription">
-          <template #author>
-            {{ t('heroiconsAuthor') }}
-          </template>
-          <template #license>
-            <AppLink
-              is-external
-              to="https://github.com/tailwindlabs/heroicons/blob/master/LICENSE"
-            >
-              {{ t('licenseMIT') }}
+      </p>
+      <p>
+        <i18n-t keypath="socialMediaFacebook">
+          <template #link>
+            <AppLink is-external :to="t('socialMediaFacebookLink')">
+              {{ t('socialMediaFacebookLink') }}
             </AppLink>
-          </template>
-          <template #title>
-            {{ t('heroicons') }}
           </template>
         </i18n-t>
-        <br />
-        <i18n-t keypath="attributionDescription">
-          <template #author>
-            {{ t('materialSymbolsAuthor') }}
-          </template>
-          <template #license>
-            <AppLink
-              is-external
-              to="https://github.com/google/material-design-icons/blob/master/LICENSE"
-            >
-              {{ t('licenseApache20') }}
+      </p>
+      <p>
+        <i18n-t keypath="socialMediaTikTok">
+          <template #link>
+            <AppLink is-external :to="t('socialMediaTikTokLink')">
+              {{ t('socialMediaTikTokLink') }}
             </AppLink>
-          </template>
-          <template #title>
-            {{ t('materialSymbols') }}
           </template>
         </i18n-t>
-        <br />
-        <i18n-t keypath="attributionDescription">
-          <template #author>
-            {{ t('solarAuthor') }}
-          </template>
-          <template #license>
-            <AppLink
-              is-external
-              to="https://creativecommons.org/licenses/by/4.0/"
-            >
-              {{ t('licenseCCBY40') }}
+      </p>
+      <p>
+        <i18n-t keypath="socialMediaLinkedIn">
+          <template #link>
+            <AppLink is-external :to="t('socialMediaLinkedInLink')">
+              {{ t('socialMediaLinkedInLink') }}
             </AppLink>
-          </template>
-          <template #title>
-            {{ t('solar') }}
           </template>
         </i18n-t>
       </p>
@@ -123,67 +101,69 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  addressCity: 34121 Kassel
-  addressName: maevsi UG (haftungsbeschränkt)
-  addressStreet: Virchowstraße 4
-  attributionDescription: '{title} von {author}, {license}'
-  attributionTitle: Zuschreibungen
   contact: Kontakt
-  copyrightDescription1: Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.
-  copyrightDescription2: Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
-  copyrightTitle: Urheberrecht
-  email: "E-Mail: contact+legal-notice{'@'}maev.si"
-  fontAwesome: Font Awesome
-  fontAwesomeAuthor: Dave Gandy
-  heroicons: HeroIcons
-  heroiconsAuthor: Refactoring UI Inc
-  liabilityContentDescription1: Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
-  liabilityContentDescription2: Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
-  liabilityContentTitle: Haftung für Inhalte
-  liabilityLinksDescription1: Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar.
-  liabilityLinksDescription2: Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.
-  liabilityLinksTitle: Haftung für Links
-  licenseApache20: Apache 2.0
-  licenseCCBY40: CC BY 4.0
-  licenseMIT: MIT
-  materialSymbols: Material Symbols
-  materialSymbolsAuthor: Google
-  responsibility: Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV
-  solar: Solar
-  solarAuthor: 480 Design
-  source: Quelle
+  contactEmail: "E-Mail: contact+legal-notice{'@'}maev.si"
+  contactForm: 'Formular: {link}'
+  contactFormLink: https://forms.monday.com/forms/74204ae8168ecb1dd44c15b502854a5a?r=euc1
+  copyrightDescription1: Die auf unserer Internetseite vorhandenen Texte, Bilder, Fotos, Videos oder Grafiken unterliegen in der Regel dem Schutz des Urheberrechts. Jede unberechtigte Verwendung (insbesondere die Vervielfältigung, Bearbeitung oder Verbreitung) dieser urheberrechtsgeschützten Inhalte ist daher untersagt. Wenn Sie beabsichtigen, diese Inhalte oder Teile davon zu verwenden, kontaktieren Sie uns bitte im Voraus unter den oben stehenden Angaben. Soweit wir nicht selbst Inhaber der benötigten urheberrechtlichen Nutzungsrechte sein sollten, bemühen wir uns, einen Kontakt zum Berechtigten zu vermitteln.
+  copyrightTitle: Urheberrechtshinweis
+  dataProtection: Datenschutzhinweis
+  dataProtectionDescription: 'Unsere Datenschutzerklärung finden Sie unter: {link}'
+  dataProtectionDescriptionLink: https://vibetype.app/de/privacy-policy
+  liabilityContentDescription1: Wir sind für die Inhalte unserer Internetseiten nach den Maßgaben der allgemeinen Gesetzen verantwortlich. Alle Inhalte werden mit der gebotenen Sorgfalt und nach bestem Wissen erstellt. Soweit wir auf unseren Internetseiten mittels Hyperlink auf Internetseiten Dritter verweisen, können wir keine Gewähr für die fortwährende Aktualität, Richtigkeit und Vollständigkeit der verlinkten Inhalte übernehmen, da diese Inhalte außerhalb unseres Verantwortungsbereichs liegen und wir auf die zukünftige Gestaltung keinen Einfluss haben. Sollten aus Ihrer Sicht Inhalte gegen geltendes Recht verstoßen oder unangemessen sein, teilen Sie uns dies bitte mit.
+  liabilityContentDescription2: Die rechtlichen Hinweise auf dieser Seite sowie alle Fragen und Streitigkeiten im Zusammenhang mit der Gestaltung dieser Internetseite unterliegen dem Recht der Bundesrepublik Deutschland.
+  liabilityContentTitle: Haftungsausschluss
+  provider: Anbieter
+  providerAddressCity: 34121 Kassel
+  providerAddressName: maevsi UG (haftungsbeschränkt)
+  providerAddressStreet: Virchowstraße 4
+  providerRepresentation: 'Vertreten durch:'
+  providerRepresentationManagement: 'Geschäftsführung: Jonas Thelemann, Tony Krieger, Alexander Gensicke'
+  register: Registereintrag
+  registerCommercial: 'Handelsregister: HRB 20135'
+  registerCourt: 'Registergericht: Amtsgericht Kassel'
+  socialMediaDescription: 'Dieses Impressum gilt auch für folgende Social-Media-Profile:'
+  socialMediaFacebook: 'Facebook: {link}'
+  socialMediaFacebookLink: https://www.facebook.com/profile.php?id=61573494951867
+  socialMediaInstagram: 'Instagram: {link}'
+  socialMediaInstagramLink: https://www.instagram.com/vibetype.app/
+  socialMediaLinkedIn: 'LinkedIn: {link}'
+  socialMediaLinkedInLink: https://www.linkedin.com/company/92700414/
+  socialMediaTikTok: 'TikTok: {link}'
+  socialMediaTikTokLink: https://www.tiktok.com/{'@'}vibetype
+  socialMediaTitle: Social-Media-Profile
   title: Impressum
-  tmg: Angaben gemäß § 5 TMG
 en:
-  addressCity: 34121 Kassel
-  addressName: maevsi UG (haftungsbeschränkt)
-  addressStreet: Virchowstraße 4
-  attributionDescription: '{title} by {author}, {license}'
-  attributionTitle: Attributions
   contact: Contact
-  copyrightDescription1: The content and works created by the site operators on these pages are subject to German copyright law. The reproduction, editing, distribution and any kind of exploitation outside the limits of copyright require the written consent of the respective author or creator. Downloads and copies of this site are only permitted for private, non-commercial use.
-  copyrightDescription2: Insofar as the content on this page was not created by the operator, the copyrights of third parties are respected. In particular, third-party content is identified as such. Should you nevertheless become aware of a copyright infringement, we request that you notify us accordingly. If we become aware of any infringements, we will remove such content immediately.
-  copyrightTitle: Copyright
-  email: "Email: contact+legal-notice{'@'}maev.si"
-  fontAwesome: Font Awesome
-  fontAwesomeAuthor: Dave Gandy
-  heroicons: HeroIcons
-  heroiconsAuthor: Refactoring UI Inc
-  liabilityContentDescription1: As a service provider, we are responsible for our own content on these pages in accordance with general legislation pursuant to Section 7 (1) of the German Telemedia Act (TMG). According to §§ 8 to 10 TMG, however, we are not obligated as a service provider to monitor transmitted or stored third-party information or to investigate circumstances that indicate illegal activity.
-  liabilityContentDescription2: Obligations to remove or block the use of information according to general laws remain unaffected. However, liability in this regard is only possible from the time of knowledge of a concrete infringement. If we become aware of such infringements, we will remove this content immediately.
-  liabilityContentTitle: Liability for content
-  liabilityLinksDescription1: Our offer contains links to external websites of third parties, on whose contents we have no influence. Therefore, we cannot assume any liability for these external contents. The respective provider or operator of the pages is always responsible for the content of the linked pages. The linked pages were checked for possible legal violations at the time of linking. Illegal contents were not recognizable at the time of linking.
-  liabilityLinksDescription2: However, a permanent control of the contents of the linked pages is not reasonable without concrete evidence of a violation of the law. If we become aware of any infringements, we will remove such links immediately.
-  liabilityLinksTitle: Liability for links
-  licenseApache20: Apache 2.0
-  licenseCCBY40: CC BY 4.0
-  licenseMIT: MIT
-  materialSymbols: Material Symbols
-  materialSymbolsAuthor: Google
-  responsibility: Responsible for the content according to § 55 para. 2 RStV
-  solar: Solar
-  solarAuthor: 480 Design
-  source: Source
+  contactEmail: "Email: contact+legal-notice{'@'}maev.si"
+  contactForm: 'Form: {link}'
+  contactFormLink: https://forms.monday.com/forms/74204ae8168ecb1dd44c15b502854a5a?r=euc1
+  copyrightDescription1: The texts, images, photos, videos or graphics on our website are generally protected by copyright. Any unauthorized use (in particular the reproduction, editing or distribution) of this copyright-protected content is therefore prohibited. If you intend to use this content or parts thereof, please contact us in advance using the details above. If we are not ourselves the owner of the required copyright usage rights, we will endeavor to arrange contact with the entitled party.
+  copyrightTitle: Copyright notice
+  dataProtection: Data protection notice
+  dataProtectionDescription: 'You can find our privacy policy at: {link}'
+  dataProtectionDescriptionLink: https://vibetype.app/privacy-policy
+  liabilityContentDescription1: We are responsible for the content of our website in accordance with the provisions of general law. All content is created with due care and to the best of our knowledge. Insofar as we refer to third-party websites on our Internet pages by means of hyperlinks, we cannot assume any liability for the continued topicality, correctness and completeness of the linked content, as this content is outside our area of responsibility and we have no influence on its future design. Should you consider any content to be in breach of applicable law or inappropriate, please let us know.
+  liabilityContentDescription2: The legal information on this page as well as all questions and disputes in connection with the design of this website are subject to the law of the Federal Republic of Germany.
+  liabilityContentTitle: Disclaimer
+  provider: Provider
+  providerAddressCity: 34121 Kassel
+  providerAddressName: maevsi UG (with limited liability)
+  providerAddressStreet: Virchowstraße 4
+  providerRepresentation: 'Represented by:'
+  providerRepresentationManagement: 'Management: Jonas Thelemann, Tony Krieger, Alexander Gensicke'
+  register: Register entry
+  registerCommercial: 'Commercial register: HRB 20135'
+  registerCourt: 'Register court: Amtsgericht Kassel'
+  socialMediaDescription: 'This legal notice also applies to the following social media profiles'
+  socialMediaFacebook: 'Facebook: {link}'
+  socialMediaFacebookLink: https://www.facebook.com/profile.php?id=61573494951867
+  socialMediaInstagram: 'Instagram: {link}'
+  socialMediaInstagramLink: https://www.instagram.com/vibetype.app/
+  socialMediaLinkedIn: 'LinkedIn: {link}'
+  socialMediaLinkedInLink: https://www.linkedin.com/company/92700414/
+  socialMediaTikTok: 'TikTok: {link}'
+  socialMediaTikTokLink: https://www.tiktok.com/{'@'}vibetype
+  socialMediaTitle: Social media profiles
   title: Legal notice
-  tmg: Information according to § 5 TMG
 </i18n>
