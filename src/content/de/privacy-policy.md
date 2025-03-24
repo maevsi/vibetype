@@ -1,6 +1,6 @@
 # Datenschutz­erklärung
 
-## 1\. Einleitung
+## 1. Einleitung
 
 Diese Website wird betrieben von: maevsi UG (haftungsbeschränkt).
 
@@ -8,7 +8,7 @@ Es ist uns sehr wichtig, mit den Daten unserer Website-Besucher\*innen vertrauen
 
 Im Folgenden erläutern wir Dir, wie wir Deine Daten auf unserer Webseite verarbeiten. Dazu verwenden wmir eine möglichst klare und transparente Sprache, damit Du wirklich verstehst, was mit Deinen Daten passiert.
 
-## 2\. Allgemeine Informationen
+## 2. Allgemeine Informationen
 
 ### 2.1 Verarbeitung von personenbezogenen Daten und andere Begriffe
 
@@ -100,7 +100,7 @@ f) die Verarbeitung ist zur Wahrung der berechtigten Interessen des/der Verantwo
 
 In den folgenden Abschnitten werden wir Dir die konkrete Rechtsgrundlage zu der jeweiligen Verarbeitung nennen.
 
-## 3\. Das passiert auf unserer Website
+## 3. Das passiert auf unserer Website
 
 Durch den Besuch auf unserer Website verarbeiten wir personenbezogene Daten von Dir.
 
@@ -112,29 +112,29 @@ Im Folgenden erfährst Du, welche Daten beim Besuch unserer Website erhoben werd
 
 Durch das Aufrufen der Website werden automatisch Informationen in sogenannten Server-Log-Dateien gespeichert. Es handelt sich um folgende Informationen:
 
-• Browsertyp und Browserversion
+- Browsertyp und Browserversion
 
-• verwendetes Betriebssystem
+- verwendetes Betriebssystem
 
-• Referrer URL
+- Referrer URL
 
-• Hostname des zugreifenden Rechners
+- Hostname des zugreifenden Rechners
 
-• Uhrzeit der Serveranfrage
+- Uhrzeit der Serveranfrage
 
-• IP-Adresse
+- IP-Adresse
 
 Diese Daten werden vorübergehend benötigt, um Dir unsere Website dauerhaft und problemlos anzeigen zu können. Insbesondere dienen diese Daten damit folgenden Zwecken:
 
-• Systemsicherheit der Website
+- Systemsicherheit der Website
 
-• Systemstabilität der Website
+- Systemstabilität der Website
 
-• Fehlerbehebung auf der Website
+- Fehlerbehebung auf der Website
 
-• Verbindungsaufbau zur Website
+- Verbindungsaufbau zur Website
 
-• Darstellung der Website
+- Darstellung der Website
 
 Die Datenverarbeitung erfolgt gemäß Art. 6 Abs. 1 lit. f DSGVO und erfolgt aus unserem berechtigten Interesse an der Verarbeitung dieser Daten, insbesondere aus dem Interesse an der Funktionalität der Website sowie deren Sicherheit.
 
@@ -448,11 +448,11 @@ Wie in der Meta-Datenschutzrichtlinie unter „Wie verwenden wir deine Informati
 
 Bei den Insights handelt es sich um zusammengefasste Statistiken, die anhand bestimmter Interaktionen der Besuchenden mit Seiten und den mit ihnen verbundenen Inhalten erstellt und von den Meta Servern protokolliert werden. Hierzu zählen unter anderem folgende Informationen
 
-• Wie viele Menschen sehen unsere Produkte, Dienste oder Inhalte, wie u. a. Beiträge, Videos, Instagram-Seiten, Inserate, Shops und Werbeanzeigen (wenn die Werbung auf Meta-Produkten gezeigt wird) und interagieren mit ihnen;
+- Wie viele Menschen sehen unsere Produkte, Dienste oder Inhalte, wie u. a. Beiträge, Videos, Instagram-Seiten, Inserate, Shops und Werbeanzeigen (wenn die Werbung auf Meta-Produkten gezeigt wird) und interagieren mit ihnen;
 
-• Wie interagieren Personen mit unseren Inhalten, Websites, Apps und Diensten;
+- Wie interagieren Personen mit unseren Inhalten, Websites, Apps und Diensten;
 
-• Welche Personengruppe interagiert mit unseren Inhalten bzw. welche Personengruppe nutzt unsere Dienste.
+- Welche Personengruppe interagiert mit unseren Inhalten bzw. welche Personengruppe nutzt unsere Dienste.
 
 Meta stellt uns zusammengefasste Berichte und Einblicke zur Verfügung, die uns darüber Aufschluss geben, wie gut unsere Inhalte, Features, Produkte und Dienste abschneiden.
 
@@ -516,23 +516,23 @@ Beim Aufruf und der Nutzung unseres TikTok-Kanals werden zusätzlich Daten zur T
 
 Diese Daten umfassen, sind aber nicht beschränkt auf:
 
-• • Follower-Wachstum
+- Follower-Wachstum
 
-• • Videoaufrufe
+- Videoaufrufe
 
-• • Profilaufrufe
+- Profilaufrufe
 
-• • Likes, Kommentare und Shares
+- Likes, Kommentare und Shares
 
-• • Durchschnittliche Wiedergabezeit
+- Durchschnittliche Wiedergabezeit
 
-• • Prozentsatz der Zuschauer, die das gesamte Video ansehen
+- Prozentsatz der Zuschauer, die das gesamte Video ansehen
 
-• • Quellen des Traffics (z.B. Profil, For You-Feed)
+- Quellen des Traffics (z.B. Profil, For You-Feed)
 
-• • Geografische Verteilung des Publikums
+- Geografische Verteilung des Publikums
 
-• • Aktivitätszeiten der Follower.
+- Aktivitätszeiten der Follower.
 
 Die Daten werden uns in aggregierter Form als Statistiken bereitgestellt. Wir erhalten keinen Zugriff auf personenbezogene Daten, sondern nur auf die zusammengefassten Statistiken.
 
@@ -690,7 +690,7 @@ Scaleway Object Storage
 
 [https://www.scaleway.com/en/object-storage/](https://www.scaleway.com/en/object-storage/)
 
-## 4\. Das ist sonst noch wichtig
+## 4. Das ist sonst noch wichtig
 
 Zum Abschluss möchten wir Dich ausführlich und detailliert über Deine Rechte informieren und Dir mitteilen, wie Du über Veränderungen der datenschutzrechtlichen Anforderungen informiert werden wirst.
 
@@ -736,6 +736,6 @@ Außerdem möchten wir Dich auch noch auf Deine Rechte nach §§ 32 ff. BDSG hin
 
 Du hast auch das Recht, dich bei einer Datenschutzaufsichtsbehörde zu beschweren, wenn Du der Ansicht bist, dass eine Verarbeitung der dich betreffenden personenbezogenen Daten gegen diese Verordnung verstößt.
 
-## 5\. Was ist, wenn morgen die DSGVO abgeschafft wird oder andere Veränderungen stattfinden?
+## 5. Was ist, wenn morgen die DSGVO abgeschafft wird oder andere Veränderungen stattfinden?
 
 Der aktuelle Stand dieser Datenschutzerklärung ist 23.03.2025. Von Zeit zu Zeit ist es erforderlich, den Inhalt der Datenschutzerklärung anzupassen, um auf tatsächliche und rechtliche Veränderungen zu reagieren. Wir behalten uns daher vor, diese Datenschutzerklärung jederzeit zu ändern. Wir werden die geänderte Version an gleicher Stelle veröffentlichen und empfehlen Dir, die Datenschutzerklärung regelmäßig zu lesen.
