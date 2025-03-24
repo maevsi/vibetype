@@ -47,6 +47,7 @@ export default defineNuxtConfig({
     '@nuxtjs/html-validator',
     '@nuxtjs/i18n',
     '@nuxtjs/seo',
+    '@nuxt/content', // most come after `@nuxtjs/seo`
     '@nuxtjs/turnstile',
     '@pinia/nuxt',
     '@vite-pwa/nuxt',

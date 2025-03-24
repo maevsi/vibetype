@@ -18,6 +18,11 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   colorMode: {
     classSuffix: '',
   },
+  content: {
+    experimental: {
+      nativeSqlite: true,
+    },
+  },
   ...cookieControlConfig,
   eslint: {
     config: {
