@@ -13,6 +13,7 @@
       :validation-property="v$.slug"
       :value="v$.name"
       :value-formatter="(val) => val || ''"
+      input-class="w-full rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-4 py-2 text-[hsl(var(--card-foreground))]"
       @input="onInputName($event)"
     >
       <template #stateWarning>
@@ -22,9 +23,8 @@
       </template>
       <template #stateError>
         <FormInputStateError
-          :form-input="v$.slug"
-          is-validation-live
-          validation-property="existenceNone"
+          :form-input="props.validation.slug"
+          validation-property="lengthMax"
         >
           {{ t('validationExistenceNone', { slug: v$.slug?.$model }) }}
         </FormInputStateError>
@@ -35,38 +35,81 @@
           {{ t('globalValidationLength') }}
         </FormInputStateError>
         <FormInputStateError
-          :form-input="v$.name"
-          validation-property="required"
+          :form-input="props.validation.slug"
+          validation-property="lengthMax"
         >
           {{ t('globalValidationRequired') }}
         </FormInputStateError>
       </template>
     </FormInput>
-
     <FormInput :title="t('attendanceType')" type="checkbox">
-      <FormCheckbox
-        form-key="is-in-person"
-        :value="form.isInPerson"
-        @change="onAttendanceTypeChange('isInPerson', $event)"
-      >
-        {{ t('faceToFace') }}
-      </FormCheckbox>
-      <FormCheckbox
-        form-key="is-remote"
-        :value="form.isRemote"
-        @change="onAttendanceTypeChange('isRemote', $event)"
-      >
-        {{ t('online') }}
-      </FormCheckbox>
+      <div class="flex w-3/4 flex-row justify-between">
+        <FormCheckbox
+          form-key="is-in-person"
+          :value="form.isInPerson"
+          @change="onAttendanceTypeChange('isInPerson', $event)"
+        >
+          {{ t('inPerson') }}
+        </FormCheckbox>
+        <FormCheckbox
+          form-key="is-remote"
+          :value="form.isRemote"
+          @change="onAttendanceTypeChange('isRemote', $event)"
+        >
+          {{ t('remote') }}
+        </FormCheckbox>
+      </div>
     </FormInput>
-
+    <FormInput :title="t('format')" type="dropdown">
+      <DropdownMenu v-model:open="formatOpen">
+        <DropdownMenuTrigger
+          class="w-full rounded-lg border border-gray-200 bg-white px-4 py-2 text-left text-gray-900 dark:border-gray-200"
+        >
+          <div class="flex items-center justify-between">
+            <span
+              :class="{
+                'text-gray-500': !props.form.format,
+              }"
+            >
+              {{ props.form.format || t('choose') }}
+            </span>
+            <ChevronDown
+              :class="{ 'rotate-180': formatOpen }"
+              class="h-4 w-4 transition-transform"
+            />
+          </div>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          class="top-full left-0 mt-1 w-full rounded-lg border border-gray-200 bg-white shadow-lg"
+          align="start"
+        >
+          <div
+            class="border-b border-gray-100 px-4 py-3 text-lg font-medium text-gray-900"
+          >
+            {{ t('choose') }}
+          </div>
+          <DropdownMenuItem
+            v-for="format in formats"
+            :key="format.id"
+            class="block w-full px-4 py-2.5 text-gray-600 hover:bg-gray-50"
+            @click="selectFormat(format)"
+          >
+            {{ format.name }}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </FormInput>
     <FormInput :title="t('eventCategory')" type="dropdown">
       <DropdownMenu v-model:open="categoryOpen">
         <DropdownMenuTrigger
-          class="w-full rounded-lg border border-gray-200 bg-white px-4 py-2 text-left"
+          class="w-full rounded-lg border border-gray-200 bg-white px-4 py-2 text-left text-gray-900 dark:border-gray-200"
         >
           <div class="flex items-center justify-between">
-            <span :class="{ 'text-gray-500': !props.form.category }">
+            <span
+              :class="{
+                'text-gray-500': !props.form.category,
+              }"
+            >
               {{ props.form.category || t('choose') }}
             </span>
             <ChevronDown
@@ -76,12 +119,18 @@
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          class="w-[--radix-dropdown-menu-trigger-width] rounded-lg border border-gray-200 bg-white p-1 shadow-lg"
+          class="top-full left-0 mt-1 w-full rounded-lg border border-gray-200 bg-white shadow-lg"
+          align="start"
         >
+          <div
+            class="border-b border-gray-100 px-4 py-3 text-lg font-medium text-gray-900"
+          >
+            {{ t('choose') }}
+          </div>
           <DropdownMenuItem
             v-for="category in eventCategory"
             :key="category.id"
-            class="cursor-pointer rounded-md px-3 py-2 hover:bg-gray-50"
+            class="block w-full px-4 py-2.5 text-gray-600 hover:bg-gray-50"
             @click="selectCategory(category)"
           >
             {{ category.name }}
@@ -89,7 +138,6 @@
         </DropdownMenuContent>
       </DropdownMenu>
     </FormInput>
-
     <FormInput
       class="hidden"
       id-label="input-slug"
@@ -126,7 +174,7 @@ import { ChevronDown } from 'lucide-vue-next'
 import slugify from 'slugify'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 import { useEventForm } from '~/composables/useEventForm'
-import { useEventCategoriesQuery } from '~~/gql/documents/queries/event/eventCategories'
+// import { useEventCategoriesQuery } from '~~/gql/documents/queries/event/eventCategories'
 
 const { form: eventForm, v$, updateFormName } = useEventForm()
 
@@ -137,6 +185,7 @@ const props = defineProps<{
     isInPerson: boolean
     isRemote: boolean
     category: string
+    format: string
   }
   validation: BaseValidation
   event?: Pick<EventItemFragment, 'name' | 'slug'>
@@ -148,30 +197,55 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 
+// const { data } = useEventCategoriesQuery()
+
+// const eventCategory = computed(() => {
+//   if (!data.value?.allEventCategories?.edges) return []
+//   return data.value.allEventCategories.edges.map(
+//     (edge: { node: { category: any } }, index: number) => ({
+//       id: index + 1,
+//       name: edge.node.category,
+//     }),
+//   )
+// })
+
+const eventCategory = computed(() => [
+  { id: 1, name: 'Music' },
+  { id: 2, name: 'Arts' },
+  { id: 3, name: 'Tech' },
+  { id: 4, name: 'Sports' },
+  { id: 5, name: 'Education' },
+])
+
+const formats = computed(() => [
+  { id: 1, name: 'In-person' },
+  { id: 2, name: 'remote' },
+  { id: 3, name: 'Hybrid' },
+])
+
 const categoryOpen = ref(false)
+const formatOpen = ref(false)
 
-const { data } = useEventCategoriesQuery()
+const selectCategory = (category: { id: number; name: string }) => {
+  eventForm.value.category = category.name
+  emit('updateForm', { ...props.form, category: category.name })
+  categoryOpen.value = false
+}
 
-const eventCategory = computed(
-  () =>
-    data.value?.allEventCategories?.edges?.map((edge, index) => ({
-      id: index + 1,
-      name: edge.node.category,
-    })) ?? [],
-)
+const selectFormat = (format: { id: number; name: string }) => {
+  eventForm.value.format = format.name
+  emit('updateForm', { ...props.form, format: format.name })
+  formatOpen.value = false
+}
 
 const onInputName = ($event: string) => {
   v$.value.name.$model = $event
-
   eventForm.value.name = $event
-
   eventForm.value.slug = slugify($event, {
     lower: true,
     strict: true,
   })
-
   v$.value.name.$touch()
-
   emit('updateForm', {
     name: eventForm.value.name,
     slug: eventForm.value.slug,
@@ -198,13 +272,6 @@ const onAttendanceTypeChange = (
     isRemote: eventForm.value.isRemote,
   })
 }
-
-const selectCategory = (category: { id: number; name: string }) => {
-  eventForm.value.category = category.name
-
-  emit('updateForm', { ...props.form, category: category.name })
-  categoryOpen.value = false
-}
 </script>
 
 <i18n lang="yaml">
@@ -214,21 +281,23 @@ de:
   choose: Wählen
   eventCategory: Veranstaltungskategorie
   eventTitle: Veranstaltungstitel
-  faceToFace: Face to face
+  format: Format
+  inPerson: In person
   namePlaceholder: Willkommensfeier
-  online: Online
+  remote: Remote
   validationExistenceNone: Du hast bereits eine Veranstaltung mit der ID "{slug}"
   validationWarningNameChangeSlug: Wenn du den Namen änderst, funktionieren bestehende Links zur Veranstaltung möglicherweise nicht mehr
   # eventTitlePlaceholder: Gib deiner Veranstaltung einen Namen
 en:
   allFieldsRequired: All fields are required
-  attendanceType: Attendance type
-  choose: Choose
-  eventCategory: Event category
-  eventTitle: Event title
-  faceToFace: Face to face
+  attendanceType: Type
+  choose: Choose option
+  eventCategory: Genre
+  eventTitle: Title
+  format: Format
+  inPerson: In person
   namePlaceholder: Welcome Party
-  online: Online
+  remote: Remote
   validationExistenceNone: You have already created an event with id "{slug}"
   validationWarningNameChangeSlug: If you change the name, existing links to the event may no longer work
   # eventTitlePlaceholder: Give your event a name
