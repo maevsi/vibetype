@@ -24,7 +24,7 @@
           </CarouselContent>
         </Carousel>
 
-        <div class="absolute right-4 top-4 z-10 flex space-x-3">
+        <div class="absolute top-4 right-4 z-10 flex space-x-3">
           <button
             class="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow hover:bg-gray-100"
             :aria-label="t('share')"
@@ -46,7 +46,7 @@
         </div>
 
         <div
-          class="absolute bottom-4 right-4 z-10 rounded-full bg-black/70 px-3 py-1 text-sm text-white"
+          class="absolute right-4 bottom-4 z-10 rounded-full bg-black/70 px-3 py-1 text-sm text-white"
         >
           {{ currentSlide + 1 }}{{ t('slash') }}{{ form.previewUrls.length }}
         </div>
@@ -68,26 +68,27 @@
 
     <div class="p-4 sm:p-6">
       <div class="flex items-start gap-6">
-        <div class="flex flex-col items-center text-center">
-          <span class="text-primary text-lg font-medium">{{
-            formatDate(form.startDate, { weekday: 'long' })
-          }}</span>
-          <span class="text-primary text-[2.5rem] font-bold leading-tight">{{
-            formatDate(form.startDate, { day: 'numeric' })
-          }}</span>
-          <span class="text-primary text-lg font-medium">{{
-            formatDate(form.startDate, { month: 'short' })
-          }}</span>
-          <span class="text-primary mt-2 text-xl font-semibold">{{
-            form.startTime
-          }}</span>
+        <div
+          class="flex flex-col items-center text-center text-lg text-(--semantic-base-text-primary) dark:text-(--semantic-base-text-primary)"
+        >
+          <span
+            class="text-xl font-semibold text-(--semantic-accent-accent-text)"
+            >{{ formatDate(form.startDate, { weekday: 'long' }) }}</span
+          ><span
+            class="text-(--semantic-base-text-primary text-4xl font-semibold"
+            >{{ formatDate(form.startDate, { day: 'numeric' }) }}</span
+          ><span>{{ formatDate(form.startDate, { month: 'short' }) }}</span
+          ><span
+            class="text-xl font-semibold text-(--semantic-accent-accent-text)"
+            >{{ form.startTime }}</span
+          >
         </div>
 
         <div class="h-auto w-px self-stretch bg-gray-200"></div>
 
-        <div class="-ml-4 -mt-1 flex-1 overflow-hidden">
+        <div class="-mt-1 -ml-4 flex-1 overflow-hidden">
           <h1
-            class="whitespace-pre-wrap break-words text-[2rem] font-bold leading-tight text-gray-900"
+            class="break-words whitespace-pre-wrap text-(--semantic-base-text-primary) dark:text-(--semantic-base-text-primary)"
             :class="{
               'text-2xl': form.name.length > 50,
               'text-xl': form.name.length > 100,
@@ -100,7 +101,9 @@
 
       <div class="mt-6">
         <h2 class="mb-3 text-xl font-semibold">{{ t('description') }}</h2>
-        <p class="whitespace-pre-wrap text-gray-700">
+        <p
+          class="text-(--semantic-base-text-primary) dark:text-(--semantic-base-text-primary)"
+        >
           {{ props.form.description }}
         </p>
       </div>
@@ -197,7 +200,7 @@ import {
 
 const { t } = useI18n()
 const currentSlide = ref(0)
-const store = useMaevsiStore()
+const store = useStore()
 
 const handleSlideChange = (index: number) => {
   currentSlide.value = index
