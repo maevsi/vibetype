@@ -4,6 +4,9 @@ import type { DefineNuxtConfig } from 'nuxt/config'
 import { LOCALES } from '../../shared/utils/constants'
 
 export const MODULE_CONFIG = {
+  bundle: {
+    optimizeTranslationDirective: false,
+  },
   defaultLocale: 'en', // Must be set for the default prefix_except_default prefix strategy.
   detectBrowserLanguage: false,
   lazy: true,
