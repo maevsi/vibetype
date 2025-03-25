@@ -28,7 +28,7 @@
         />
       </section>
     </div>
-    <Error v-else :status-code="403" />
+    <AppError v-else :status-code="403" />
   </Loader>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout>
-    <VioError
+    <AppError
       :status-code="error.statusCode"
       :status-message="error.statusMessage"
       :description="error.message"
