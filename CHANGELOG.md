@@ -1,3 +1,9 @@
+## [9.7.0](https://github.com/maevsi/vibetype/compare/9.6.0...9.7.0) (2025-03-25)
+
+### Features
+
+* **error:** merge components ([#1834](https://github.com/maevsi/vibetype/issues/1834)) ([79a61ce](https://github.com/maevsi/vibetype/commit/79a61ce1f4db8e92a85f2c7f44f54186c76afda8))
+
 ## [9.6.0](https://github.com/maevsi/vibetype/compare/9.5.1...9.6.0) (2025-03-19)
 
 ### Features
