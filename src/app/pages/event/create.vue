@@ -1,33 +1,38 @@
 <template>
   <div>
-    <div v-if="jwtDecoded?.role === 'maevsi_account'">
+    <LayoutPageTitle :title="t('createEvent')" :is-centered="true" />
+    <div v-if="store.jwtDecoded?.role === `${SITE_NAME}_account`">
       <Stepper
         v-model="stepIndex"
-        :total-steps="5"
+        :total-steps="6"
         class="flex min-h-screen flex-col"
       >
         <div class="flex w-full justify-center gap-2 py-4">
           <StepperItem
-            v-for="step in 5"
+            v-for="step in 6"
             :key="step"
             v-slot="{ state }"
             class="relative flex items-center"
             :step="step"
           >
             <div
-              class="h-2.5 w-2.5 rounded-full border transition-colors duration-200"
-              :class="[
-                state === 'active'
-                  ? 'h-4 w-4 border-accent-weak bg-accent-strong'
-                  : '',
-                state === 'completed'
-                  ? 'h-3 w-3 border-transparent bg-accent-strong'
-                  : '',
-                state !== 'active' && state !== 'completed'
-                  ? 'border-transparent bg-gray-300'
-                  : '',
-              ]"
-            />
+              class="flex h-6 w-6 items-center justify-center rounded-full"
+              :class="{
+                'bg-(--accent-weak)': state === 'active',
+                'bg-(--faint-weak)':
+                  state !== 'active' && state !== 'completed',
+              }"
+            >
+              <div
+                class="h-3 w-3 rounded-full transition-colors duration-200"
+                :class="{
+                  'bg-(--accent-strong)':
+                    state === 'active' || state === 'completed',
+                  'bg-(--faint-weak)':
+                    state !== 'active' && state !== 'completed',
+                }"
+              />
+            </div>
           </StepperItem>
         </div>
 
@@ -41,53 +46,46 @@
               v-if="stepIndex === 1"
               :form="form"
               :validation="v$"
-              @update-form="
-                (updatedForm: any) => Object.assign(form, updatedForm)
-              "
+              @update-form="updateForm"
             />
+
             <EventStepsDateLocation
               v-else-if="stepIndex === 2"
               :form="form"
               :validation="v$"
-              @update-form="
-                (updatedForm: any) => Object.assign(form, updatedForm)
-              "
+              @update-form="updateForm"
             />
             <EventStepsDetails
               v-else-if="stepIndex === 3"
               :form="form"
               :validation="v$"
-              @update-form="
-                (updatedForm: any) => Object.assign(form, updatedForm)
-              "
+              @update-form="updateForm"
             />
             <EventStepsCover
               v-else-if="stepIndex === 4"
               :form="form"
               :validation="v$"
-              @update-form="(updatedForm) => Object.assign(form, updatedForm)"
+              @update-form="updateForm"
             />
-
             <EventStepsVisibility
               v-else-if="stepIndex === 5"
               :form="form"
               :validation="v$"
-              @update-form="(updatedForm) => Object.assign(form, updatedForm)"
+              @update-form="updateForm"
             />
             <EventStepsPreview
               v-else-if="stepIndex === 6"
               :form="form"
               :validation="v$"
-              @update-form="(updatedForm) => Object.assign(form, updatedForm)"
+              @update-form="updateForm"
             />
           </div>
-
-          <div class="mt-6">
-            <ShadButton
-              variant="default"
-              class="w-full bg-accent-fancy text-white hover:bg-accent-strong/90"
+          <div class="flex flex-col gap-4 py-4">
+            <ButtonColored
+              variant="primary"
+              :disabled="disableButton"
+              class="w-full"
               :aria-label="stepIndex === 5 ? t('preview') : t('next')"
-              :disabled="!isStepValid"
               :type="stepIndex === 6 ? 'submit' : 'button'"
               @click="handleNext"
             >
@@ -98,62 +96,49 @@
                     ? t('saveAndPublishing')
                     : t('next')
               }}
-            </ShadButton>
-          </div>
-          <div class="mt-4">
-            <ShadButton
+            </ButtonColored>
+
+            <ButtonColored
               v-if="stepIndex === 4"
-              variant="outline"
+              :is-disabled="isStepValid"
+              variant="secondary"
               class="w-full"
+              :aria-label="t('skip')"
               @click="handleNext"
             >
-              {{ t('skipThisStep') }}
-            </ShadButton>
-          </div>
-          <div class="mt-4">
-            <ShadButton
+              {{ t('skip') }}
+            </ButtonColored>
+
+            <ButtonColored
               v-if="stepIndex === 6"
-              variant="outline"
+              variant="secondary"
               class="w-full"
+              :aria-label="t('saveDraft')"
               @click="handleDraftSave"
             >
               {{ t('saveDraft') }}
-            </ShadButton>
+            </ButtonColored>
           </div>
         </div>
       </Stepper>
     </div>
     <LayoutCallToAction
       v-else
-      :call-to-action="t('anonymousCta', { siteName: t('globalSiteName') })"
+      :call-to-action="t('anonymousCta')"
       :call-to-action-description="t('anonymousCtaDescription')"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { useEventForm } from '~/composables/useEventForm'
-import { useCreateEventMutation } from '~~/gql/documents/mutations/event/eventCreate'
-import { useUploadCreateMutation } from '~~/gql/documents/mutations/upload/uploadCreate'
-import { Uppy } from '@uppy/core'
-
-import { EventVisibility } from '~~/gql/generated/graphql'
-import Tus from '@uppy/tus'
-import type { EventStorageStrategy } from '~/composables/storage/EventStorageStrategy'
-import { LocalStorageStrategy } from '~/composables/storage/LocalStorageStrategy'
+import type { EventFormType } from '~/types/eventForm'
 
 const { t } = useI18n()
-const store = useMaevsiStore()
-const { jwtDecoded } = storeToRefs(store)
-
+const store = useStore()
 const stepIndex = ref(1)
-const isFormSent = ref(false)
-
-const runtimeConfig = useRuntimeConfig()
-const TUSD_FILES_URL = useTusdFilesUrl()
+const disableButton = ref(true)
 
 const {
   form,
@@ -169,219 +154,49 @@ const stepTitles = [
   t('dateAndLocation'),
   t('eventDetails'),
   t('coverImage'),
-
   t('visibility'),
   t('previewHeading'),
 ]
 
-const isStepValid = computed(() => {
+const isStepValid = async () => {
   switch (stepIndex.value) {
     case 1:
-      return (
-        form.value.name.trim() !== '' &&
-        form.value.category !== '' &&
-        (form.value.isInPerson || form.value.isRemote)
-      )
+      return await isStepOneValid()
     case 2:
-      return (
-        form.value.startDate !== '' &&
-        form.value.endDate !== '' &&
-        form.value.address !== ''
-      )
+      return await isStepTwoValid()
     case 3:
-      return form.value.description !== '' && form.value.website !== ''
-
-    case 4:
-      return form.value.description !== ''
+      return await isStepThreeValid()
     case 5:
-      return form.value.visibility !== null
+      return await isStepFiveValid()
     default:
       return true
   }
-})
-const handleNext = async () => {
-  try {
-    let isValid = false
-
-    switch (stepIndex.value) {
-      case 1:
-        isValid = await isStepOneValid()
-        break
-      case 2:
-        isValid = await isStepTwoValid()
-        break
-      case 3:
-        isValid = await isStepThreeValid()
-        break
-      case 4:
-        // Cover images are optional
-        isValid = true
-        break
-      case 5:
-        isValid = await isStepFiveValid()
-        break
-      case 6:
-        await handleSubmit()
-
-        break
-
-      default:
-        isValid = true
-    }
-
-    if (isValid && stepIndex.value < 6) {
-      stepIndex.value++
-    } else if (!isValid) {
-      v$.value.$touch()
-    }
-  } catch (error) {
-    console.error('Error in handleNext:', error)
-  }
 }
 
-const handlePrevious = () => {
-  if (stepIndex.value > 1) {
-    stepIndex.value--
-  }
-}
-
-const createEventMutation = useCreateEventMutation()
-const uploadCreateMutation = useUploadCreateMutation()
-const storageStrategy = ref<EventStorageStrategy>(
-  LocalStorageStrategy.getInstance(),
+watch(
+  [stepIndex, form],
+  async () => {
+    disableButton.value = !(await isStepValid())
+  },
+  { immediate: true, deep: true },
 )
 
-const localePath = useLocalePath()
-
-const handleSubmit = async () => {
-  try {
-    const isValid = await v$.value.$validate()
-
-    if (!isValid) {
-      v$.value.$touch()
-      return
-    }
-
-    if (!store.signedInAccountId) throw new Error('Account id is missing!')
-
-    isFormSent.value = true
-
-    const result = await createEventMutation.executeMutation({
-      createEventInput: {
-        event: {
-          authorAccountId: store.signedInAccountId,
-          name: form.value.name,
-          slug: form.value.slug,
-          description: form.value.description || null,
-          isInPerson: form.value.isInPerson,
-          isRemote: form.value.isRemote,
-          start: form.value.startDate || null,
-          end: form.value.endDate || null,
-          location: form.value.address || null,
-          visibility: form.value.visibility || EventVisibility.Private,
-          inviteeCountMaximum: form.value.inviteeCountMaximum
-            ? +form.value.inviteeCountMaximum
-            : null,
-          url: form.value.website,
-        },
-      },
-    })
-
-    if (result.error || !result.data) {
-      throw new Error('Event creation failed')
-    }
-
-    if (form.value.images?.length) {
-      try {
-        for (const file of form.value.images) {
-          const uploadResult = await uploadCreateMutation.executeMutation({
-            uploadCreateInput: {
-              sizeByte: file.size,
-            },
-          })
-
-          if (!uploadResult.data?.uploadCreate?.upload?.id) {
-            throw new Error('Upload creation failed')
-          }
-
-          const uppy = new Uppy({
-            id: 'event-images',
-            debug: !runtimeConfig.public.vio.isInProduction,
-            restrictions: {
-              maxFileSize: 1048576,
-              maxNumberOfFiles: 1,
-              minNumberOfFiles: 1,
-              allowedFileTypes: ['image/*'],
-            },
-            meta: {
-              maevsiUploadUuid: uploadResult.data.uploadCreate.upload.id,
-            },
-          })
-
-          uppy.use(Tus, {
-            endpoint: TUSD_FILES_URL,
-            limit: 1,
-            removeFingerprintOnSuccess: true,
-          })
-
-          uppy.addFile({
-            source: 'event-images',
-            name: `/event-images/${file.name}`,
-            type: file.type,
-            data: file,
-          })
-
-          const result = await uppy.upload()
-          if (result && result.failed && result.failed.length > 0) {
-            console.error()
-          }
-        }
-      } catch (uploadError) {
-        console.error('Image upload failed:', uploadError)
-      }
-    }
-
-    showToast({ title: t('eventCreateSuccess') })
-
-    if (!store.signedInUsername || !form.value.slug) {
-      throw new Error(
-        'Aborting navigation: required data for path templating is missing!',
-      )
-    }
-
-    await navigateTo(
-      localePath({
-        name: 'event-view-username-event_name',
-        params: {
-          username: store.signedInUsername,
-          event_name: form.value.slug,
-        },
-      }),
-    )
-  } catch (error) {
-    console.error('Form submission error:', error)
-    isFormSent.value = false
+const handleNext = async () => {
+  console.log('click')
+  if ((await isStepValid()) && stepIndex.value < 6) {
+    stepIndex.value++
+  } else {
+    v$.value.$touch()
   }
 }
 
 const handleDraftSave = async () => {
-  await storageStrategy.value.saveEvent(form.value)
-  await navigateTo(
-    localePath({
-      name: 'event-view-username',
-      params: { username: store.signedInUsername },
-    }),
-  )
   showToast({ title: t('draftSaved') })
 }
 
-defineExpose({
-  handleNext,
-  handlePrevious,
-  handleSubmit,
-  stepIndex,
-  isStepValid,
-})
+const updateForm = (updatedForm: Partial<EventFormType>) => {
+  form.value = { ...form.value, ...updatedForm }
+}
 </script>
 
 <i18n lang="yaml">
@@ -389,33 +204,32 @@ de:
   anonymousCta: Finde ihn auf {siteName}
   anonymousCtaDescription: Du suchst einen liebevollen Ort für deine Veranstaltung?
   coverImage: Titelbild
+  createEvent: Veranstaltung erstellen
   dateAndLocation: Datum und Ort
-  eventCreateSuccess: Veranstaltung erfolgreich erstellt.
+  draftSaved: Entwurf erfolgreich gespeichert
   eventDetails: Veranstaltungsdetails
   next: Weiter
+  preview: Vorschau der Veranstaltung
+  previewHeading: Veranstaltungsvorschau
   primarySettings: Grundeinstellungen
-  skipThisStep: Diesen Schritt überspringen
-  visibility: Sichtbarkeit
-  preview: Vorschau des Ereignisses
-  previewHeading: Ereignisvorschau
   saveAndPublishing: Speichern und zur Veröffentlichung
   saveDraft: Als Entwurf speichern
-  draftSaved: Entwurf erfolgreich gespeichert
-
+  skip: Überspringen
+  visibility: Sichtbarkeit
 en:
   anonymousCta: Find it on {siteName}
   anonymousCtaDescription: Are you looking for a loving place for your event?
-  coverImage: Cover and Highlights
-  dateAndLocation: Date and location
-  eventCreateSuccess: Event created successfully.
-  eventDetails: Details
-  next: Next
-  primarySettings: Primary settings
-  skipThisStep: Skip this step
-  visibility: Visibility
-  preview: Preview the Event
-  previewHeading: Event Preview
-  saveAndPublishing: Save and go to publishing
-  saveDraft: Save as draft
+  coverImage: Images and Highlights
+  createEvent: Create Event
+  dateAndLocation: Date and Location
   draftSaved: Draft saved successfully
+  eventDetails: More Details
+  next: Next
+  preview: Preview
+  previewHeading: Event Preview
+  primarySettings: Primary Event Details
+  saveAndPublishing: Publish
+  saveDraft: Save as Draft
+  skip: Skip
+  visibility: Visibility
 </i18n>
