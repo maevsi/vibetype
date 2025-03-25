@@ -167,7 +167,7 @@
     /* figma */
     --accent-weak: #c1dcc6;
     --faint-line: #2d2d2c;
-    --faint-weak: #2d2d2c;
+    --faint-weak: #f2f2f2;
     --semantic-accent-accent-icon: #0a841e;
     --semantic-accent-accent-text: #129f2a;
     --semantic-base-background: #191911;
@@ -190,7 +190,7 @@
 
   a,
   button {
-    @apply focus:ring-3 focus:outline-none focus:ring-blue-500/50;
+    @apply focus:ring-3 focus:ring-blue-500/50 focus:outline-none;
   }
 
   a[target='_blank']:not([is-external-icon-disabled])::after {
@@ -237,11 +237,11 @@
   }
 
   td {
-    @apply whitespace-nowrap px-4 py-6;
+    @apply px-4 py-6 whitespace-nowrap;
   }
 
   th {
-    @apply px-3 py-6 text-left text-xs font-medium uppercase tracking-wider;
+    @apply px-3 py-6 text-left text-xs font-medium tracking-wider uppercase;
   }
 }
 
@@ -290,7 +290,7 @@
 }
 
 @utility heading {
-  @apply max-w-full overflow-hidden text-ellipsis font-bold;
+  @apply max-w-full overflow-hidden font-bold text-ellipsis;
 }
 
 @utility truncate-overflow {
