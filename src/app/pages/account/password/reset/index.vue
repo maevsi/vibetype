@@ -2,7 +2,7 @@
   <div>
     <h1>{{ title }}</h1>
     <FormAccountPasswordReset v-if="isCodeValid" />
-    <Error v-else :status-code="422" />
+    <AppError v-else :status-code="422" />
   </div>
 </template>
 
