@@ -24,6 +24,7 @@
       "@parcel/watcher",
       "@sentry-internal/node-cpu-profiler",
       "@sentry/cli",
+      "better-sqlite3",
       "esbuild",
       "protobufjs",
       "sharp",
