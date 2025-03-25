@@ -129,8 +129,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0(magicast@0.3.5)(vitest@3.0.9(@types/node@22.13.13)(jiti@2.4.2)(jsdom@26.0.0)(lightningcss@1.29.2)(terser@5.39.0)(yaml@2.7.0))
       '@nuxtjs/i18n':
-        specifier: 9.3.4
-        version: 9.3.4(@vue/compiler-dom@3.5.13)(eslint@9.23.0(jiti@2.4.2))(magicast@0.3.5)(rollup@4.37.0)(typescript@5.8.2)(vue@3.5.13(typescript@5.8.2))
+        specifier: 9.4.0
+        version: 9.4.0(@vue/compiler-dom@3.5.13)(eslint@9.23.0(jiti@2.4.2))(magicast@0.3.5)(rollup@4.37.0)(vue@3.5.13(typescript@5.8.2))
       '@nuxtjs/seo':
         specifier: 3.0.1
         version: 3.0.1(@unhead/vue@2.0.0(vue@3.5.13(typescript@5.8.2)))(h3@1.15.1)(magicast@0.3.5)(rollup@4.37.0)(unstorage@1.15.0(db0@0.3.1)(ioredis@5.6.0))(vite@6.2.2(@types/node@22.13.13)(jiti@2.4.2)(lightningcss@1.29.2)(terser@5.39.0)(yaml@2.7.0))(vue@3.5.13(typescript@5.8.2))
@@ -2575,9 +2575,9 @@ packages:
     resolution: {integrity: sha512-Rsdv3u4QdhA2ysD5Argu3RkEUgYKyeqfrrUY6tbm7DZSnMafOE2RsmPwbF/eKNEC9uHHUdcLZblBEJ8z7r01sw==}
     engines: {node: ^14.16.0 || >=16.11.0}
 
-  '@nuxtjs/i18n@9.3.4':
-    resolution: {integrity: sha512-vdCKRWXdzUR4gHAbX2ymvlw49gTb6pQm1BHUT7bNFVPBSMnGjDNXXNikoP0aBKRggD8REB2CnoEu4DzZVjaS+g==}
-    engines: {node: ^14.16.0 || >=16.11.0}
+  '@nuxtjs/i18n@9.4.0':
+    resolution: {integrity: sha512-WREUig3PIdlcd3WbfRtmPx9HoLTUB7vUnbUvPS48O/qebntvAtlJKWjxaaBKpFof1RfbGmvPwtmEt+sYdJ6N3w==}
+    engines: {node: '>=18.12.0'}
 
   '@nuxtjs/robots@5.2.8':
     resolution: {integrity: sha512-GFk2VVjP6jpQvMhxq0P9VqYaZOi4NWkHYUglVPxbCIOykHHLRAqAFXi3Pt4AaiHuxaQBeHD+ZEFlKEYx9HZxxg==}
@@ -14384,8 +14384,8 @@ snapshots:
       '@intlify/shared': 11.1.2
       '@intlify/vue-i18n-extensions': 8.0.0(@intlify/shared@11.1.2)(@vue/compiler-dom@3.5.13)(vue-i18n@10.0.6(vue@3.5.13(typescript@5.8.2)))(vue@3.5.13(typescript@5.8.2))
       '@rollup/pluginutils': 5.1.4(rollup@4.37.0)
-      '@typescript-eslint/scope-manager': 8.27.0
-      '@typescript-eslint/typescript-estree': 8.27.0(typescript@5.8.2)
+      '@typescript-eslint/scope-manager': 8.28.0
+      '@typescript-eslint/typescript-estree': 8.28.0(typescript@5.8.2)
       debug: 4.4.0(supports-color@9.4.0)
       fast-glob: 3.3.3
       js-yaml: 4.1.0
@@ -14411,8 +14411,8 @@ snapshots:
       '@intlify/shared': 11.1.2
       '@intlify/vue-i18n-extensions': 8.0.0(@intlify/shared@11.1.2)(@vue/compiler-dom@3.5.13)(vue-i18n@10.0.6(vue@3.5.13(typescript@5.8.2)))(vue@3.5.13(typescript@5.8.2))
       '@rollup/pluginutils': 5.1.4(rollup@4.37.0)
-      '@typescript-eslint/scope-manager': 8.27.0
-      '@typescript-eslint/typescript-estree': 8.27.0(typescript@5.8.2)
+      '@typescript-eslint/scope-manager': 8.28.0
+      '@typescript-eslint/typescript-estree': 8.28.0(typescript@5.8.2)
       debug: 4.4.0(supports-color@9.4.0)
       fast-glob: 3.3.3
       js-yaml: 4.1.0
@@ -14973,7 +14973,7 @@ snapshots:
       - typescript
       - vue
 
-  '@nuxtjs/i18n@9.3.4(@vue/compiler-dom@3.5.13)(eslint@9.23.0(jiti@2.4.2))(magicast@0.3.5)(rollup@4.37.0)(typescript@5.8.2)(vue@3.5.13(typescript@5.8.2))':
+  '@nuxtjs/i18n@9.4.0(@vue/compiler-dom@3.5.13)(eslint@9.23.0(jiti@2.4.2))(magicast@0.3.5)(rollup@4.37.0)(vue@3.5.13(typescript@5.8.2))':
     dependencies:
       '@intlify/h3': 0.6.1
       '@intlify/shared': 10.0.6
@@ -14981,7 +14981,7 @@ snapshots:
       '@intlify/utils': 0.13.0
       '@miyaneee/rollup-plugin-json5': 1.2.0(rollup@4.37.0)
       '@nuxt/kit': 3.16.1(magicast@0.3.5)
-      '@oxc-parser/wasm': 0.53.0
+      '@oxc-parser/wasm': 0.60.0
       '@rollup/plugin-yaml': 4.1.2(rollup@4.37.0)
       '@vue/compiler-sfc': 3.5.13
       debug: 4.4.0(supports-color@9.4.0)
@@ -14994,6 +14994,7 @@ snapshots:
       mlly: 1.7.4
       oxc-parser: 0.61.2
       pathe: 2.0.3
+      typescript: 5.8.2
       ufo: 1.5.4
       unplugin: 2.2.2
       unplugin-vue-router: 0.12.0(vue-router@4.5.0(vue@3.5.13(typescript@5.8.2)))(vue@3.5.13(typescript@5.8.2))
@@ -15006,7 +15007,6 @@ snapshots:
       - petite-vue-i18n
       - rollup
       - supports-color
-      - typescript
       - vue
 
   '@nuxtjs/robots@5.2.8(magicast@0.3.5)(vue@3.5.13(typescript@5.8.2))':
