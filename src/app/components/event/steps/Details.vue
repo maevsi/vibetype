@@ -1,17 +1,17 @@
 <template>
-  <div>
+  <div class="mt-8">
     <h2 class="mb-4 text-xl">{{ t('eventDescription') }}</h2>
     <div class="rounded-3xl border border-gray-100 bg-white p-4 shadow-sm">
       <textarea
         v-model="eventForm.description"
-        class="min-h-[400px] w-full resize-none border-0 text-lg text-gray-600 placeholder:text-gray-400 focus:outline-none"
+        class="min-h-[400px] w-full resize-none border-0 text-lg text-gray-600 placeholder:text-gray-400 focus:border-transparent focus:ring-0 focus:outline-none"
         :placeholder="t('eventDescriptionPlaceholder')"
         maxlength="2500"
         @input="onDetailsInput"
       />
     </div>
     <div class="mt-2 text-right text-lg text-gray-600">
-      {{ eventForm.description.length }}{{ t('maxCharacters') }}
+      {{ t('maxCharacters', { count: eventForm.description.length }) }}
     </div>
     <div>
       <h2 class="mb-4 text-sm">{{ t('websiteUrl') }}</h2>
@@ -22,7 +22,7 @@
         <input
           v-model="eventForm.website"
           type="url"
-          class="flex-1 border-0 text-lg text-gray-600 placeholder:text-gray-400 focus:outline-none"
+          class="flex-1 border-0 text-lg text-gray-600 placeholder:text-gray-400 focus:border-transparent focus:ring-0 focus:outline-none"
           :placeholder="t('urlPlaceholder')"
           @input="onDetailsInput"
         />
@@ -100,15 +100,15 @@ const onDetailsInput = () => {
 de:
   eventDescription: Veranstaltungsbeschreibung
   eventDescriptionPlaceholder: Beschreibe deine Veranstaltung...
-  maxCharacters: '/2500'
+  maxCharacters: '{count}/2500 Zeichen'
   pleaseEnterValidUrl: Bitte gib eine gültige URL ein
   urlPlaceholder: Gib die URL deiner Website ein
   websiteUrl: Website URL
 
 en:
-  eventDescription: Event description
+  eventDescription: Description
   eventDescriptionPlaceholder: Describe your event...
-  maxCharacters: '/2500'
+  maxCharacters: '{count}/2500 characters'
   pleaseEnterValidUrl: Please enter a valid URL
   urlPlaceholder: Enter the URL of your website
   websiteUrl: Website URL
