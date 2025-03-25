@@ -53,7 +53,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
             <CalendarHeadCell
               v-for="day in weekDays"
               :key="day"
-              class="text-center"
+              class="text-center text-gray-800"
             >
               {{ day }}
             </CalendarHeadCell>
@@ -75,7 +75,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
               <CalendarCellTrigger
                 :day="weekDate"
                 :month="month.value"
-                class="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-gray-100"
+                class="flex h-10 w-10 items-center justify-center rounded-lg text-gray-800 hover:bg-gray-100 data-[selected=true]:bg-blue-500 data-[selected=true]:text-white"
               />
             </CalendarCell>
           </CalendarGridRow>
