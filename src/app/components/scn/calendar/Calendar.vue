@@ -5,7 +5,7 @@ import {
   type CalendarRootEmits,
   type CalendarRootProps,
   useForwardPropsEmits,
-} from 'radix-vue'
+} from 'reka-ui'
 import { computed, type HTMLAttributes } from 'vue'
 import {
   CalendarCell,

@@ -4,7 +4,7 @@ import {
   DropdownMenuItem,
   type DropdownMenuItemProps,
   useForwardProps,
-} from 'radix-vue'
+} from 'reka-ui'
 import { computed, type HTMLAttributes } from 'vue'
 
 const props = defineProps<
@@ -25,7 +25,7 @@ const forwardedProps = useForwardProps(delegatedProps)
     v-bind="forwardedProps"
     :class="
       cn(
-        'focus:bg-accent focus:text-accent-foreground relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0',
+        'focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm transition-colors outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0',
         inset && 'pl-8',
         props.class,
       )

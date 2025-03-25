@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { StepperTitleProps } from 'radix-vue'
+import type { StepperTitleProps } from 'reka-ui'
 import { cn } from '@/utils/shadcn'
-import { StepperTitle, useForwardProps } from 'radix-vue'
+import { StepperTitle, useForwardProps } from 'reka-ui'
 
 import { computed, type HTMLAttributes } from 'vue'
 
@@ -21,7 +21,7 @@ const forwarded = useForwardProps(delegatedProps)
 <template>
   <StepperTitle
     v-bind="forwarded"
-    :class="cn('text-md whitespace-nowrap font-semibold', props.class)"
+    :class="cn('text-md font-semibold whitespace-nowrap', props.class)"
   >
     <slot />
   </StepperTitle>

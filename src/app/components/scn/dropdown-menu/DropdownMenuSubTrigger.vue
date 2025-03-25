@@ -5,7 +5,7 @@ import {
   DropdownMenuSubTrigger,
   type DropdownMenuSubTriggerProps,
   useForwardProps,
-} from 'radix-vue'
+} from 'reka-ui'
 import { computed, type HTMLAttributes } from 'vue'
 
 const props = defineProps<
@@ -26,7 +26,7 @@ const forwardedProps = useForwardProps(delegatedProps)
     v-bind="forwardedProps"
     :class="
       cn(
-        'focus:bg-accent data-[state=open]:bg-accent flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none',
+        'focus:bg-accent data-[state=open]:bg-accent flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-none select-none',
         props.class,
       )
     "

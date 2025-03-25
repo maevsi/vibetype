@@ -1,10 +1,6 @@
 <script lang="ts" setup>
 import { cn } from '@/utils/shadcn'
-import {
-  CalendarCell,
-  type CalendarCellProps,
-  useForwardProps,
-} from 'radix-vue'
+import { CalendarCell, type CalendarCellProps, useForwardProps } from 'reka-ui'
 import { computed, type HTMLAttributes } from 'vue'
 
 const props = defineProps<

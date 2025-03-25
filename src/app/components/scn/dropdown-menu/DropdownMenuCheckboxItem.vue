@@ -7,7 +7,7 @@ import {
   type DropdownMenuCheckboxItemProps,
   DropdownMenuItemIndicator,
   useForwardPropsEmits,
-} from 'radix-vue'
+} from 'reka-ui'
 import { computed, type HTMLAttributes } from 'vue'
 
 const props = defineProps<
@@ -29,7 +29,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
     v-bind="forwarded"
     :class="
       cn(
-        'focus:bg-accent focus:text-accent-foreground relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+        'focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center rounded-sm py-1.5 pr-2 pl-8 text-sm transition-colors outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
         props.class,
       )
     "

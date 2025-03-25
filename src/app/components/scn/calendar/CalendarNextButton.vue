@@ -2,11 +2,7 @@
 import { buttonVariants } from '~/components/scn/button'
 import { cn } from '@/utils/shadcn'
 import { ChevronRight } from 'lucide-vue-next'
-import {
-  CalendarNext,
-  type CalendarNextProps,
-  useForwardProps,
-} from 'radix-vue'
+import { CalendarNext, type CalendarNextProps, useForwardProps } from 'reka-ui'
 import { computed, type HTMLAttributes } from 'vue'
 
 const props = defineProps<
