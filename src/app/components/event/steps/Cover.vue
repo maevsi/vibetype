@@ -1,16 +1,20 @@
 <template>
   <div class="space-y-6">
     <div class="space-y-4">
-      <h2 class="text-lg font-semibold">
+      <h2
+        class="text-lg font-semibold dark:text-[--semantic-base-text-primary]"
+      >
         {{ selectedFiles.length ? t('selectCover') : t('addImages') }}
       </h2>
 
       <div v-if="!selectedFiles.length" class="space-y-4">
-        <div class="rounded-xl border-2 border-dashed border-gray-300 p-12">
+        <div
+          class="dark:border-(semantic-base-line) rounded-xl border-2 border-dashed border-gray-300 p-12"
+        >
           <div class="flex flex-col items-center justify-center text-center">
             <div class="mb-4">
               <svg
-                class="h-12 w-12 text-gray-400"
+                class="h-12 w-12 text-gray-400 dark:text-[--semantic-base-text-secondary]"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -21,38 +25,47 @@
               </svg>
             </div>
             <div class="space-y-2">
-              <h3 class="text-xl font-medium">{{ t('uploadFiles') }}</h3>
-              <p class="text-sm text-gray-500">{{ t('fileTypes') }}</p>
+              <h3
+                class="text-xl font-medium dark:text-[--semantic-base-text-primary]"
+              >
+                {{ t('uploadFiles') }}
+              </h3>
+              <p
+                class="text-sm text-gray-500 dark:text-[--semantic-base-text-secondary]"
+              >
+                {{ t('fileTypes') }}
+              </p>
             </div>
           </div>
         </div>
         <div class="flex w-full">
-          <ShadButton
+          <ButtonColored
+            :aria-label="t('selectFromDevice')"
             variant="secondary"
             class="ml-auto"
             @click="triggerFileInput"
           >
             {{ t('selectFromDevice') }}
-          </ShadButton>
+          </ButtonColored>
         </div>
       </div>
 
       <div v-else>
-        <div class="grid grid-cols-3 gap-2 sm:gap-4">
+        <div class="grid grid-cols-3 gap-4">
           <div
             v-for="(file, index) in selectedFiles"
             :key="index"
             class="relative"
           >
             <div
-              class="rounded-lg bg-background-surface p-2 pb-4 sm:p-4 sm:pb-6 md:rounded-2xl"
+              class="rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-surface) p-2 pb-4 sm:p-4 sm:pb-6 md:rounded-2xl"
             >
               <div
-                class="relative aspect-[4/3] w-full overflow-hidden rounded-md border"
+                class="relative aspect-[4/3] w-full overflow-hidden rounded-md"
                 :class="[
                   selectedCover === index
-                    ? 'border-4 border-accent-strong'
-                    : 'border border-[#27114F]',
+                    ? 'border-2 border-(--accent-strong)'
+                    : 'border-2 border-(--semantic-base-line)',
                 ]"
               >
                 <img
@@ -94,14 +107,14 @@
             <span>{{ t('clearAll') }}</span>
           </button>
 
-          <ShadButton
+          <ButtonColored
+            :aria-label="t('addNewImage')"
             variant="secondary"
-            class="bg-gray-100 hover:bg-gray-200"
             @click="triggerFileInput"
           >
             {{ t('addNewImage') }}
             <span class="ml-2">{{ t('plus') }}</span>
-          </ShadButton>
+          </ButtonColored>
         </div>
       </div>
     </div>
@@ -119,7 +132,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ShadButton } from '@/components/scn/button'
 import { X } from 'lucide-vue-next'
 
 import type { BaseValidation } from '@vuelidate/core'
