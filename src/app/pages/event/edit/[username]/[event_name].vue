@@ -33,29 +33,23 @@
 </template>
 
 <script setup lang="ts">
-import type { RouteLocationNormalized } from 'vue-router'
-import type { RouteNamedMap } from 'vue-router/auto-routes'
-
 import { getEventItem } from '~~/gql/documents/fragments/eventItem'
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 import { useEventDeleteMutation } from '~~/gql/documents/mutations/event/eventDelete'
 import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { useEventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
 
-const ROUTE_NAME: keyof RouteNamedMap = 'event-edit-username-event_name___en'
-
-definePageMeta({
-  async validate(route) {
-    return await validateEventExistence(
-      route as RouteLocationNormalized<typeof ROUTE_NAME>,
-    )
-  },
-})
-
 const localePath = useLocalePath()
 const { t } = useI18n()
-const route = useRoute(ROUTE_NAME)
+const route = useRoute('event-edit-username-event_name___en')
 const store = useStore()
+
+// validation
+if (route.params.username !== store.signedInUsername) {
+  throw createError({
+    statusCode: 403,
+  })
+}
 
 // api data
 const accountByUsernameQuery = await zalgo(
@@ -67,6 +61,11 @@ const accountId = computed(
   () =>
     getAccountItem(accountByUsernameQuery.data.value?.accountByUsername)?.id,
 )
+if (!accountId.value) {
+  throw createError({
+    statusCode: 404,
+  })
+}
 const eventQuery = await zalgo(
   useEventByCreatedByAndSlugQuery({
     createdBy: accountId,
@@ -76,6 +75,11 @@ const eventQuery = await zalgo(
 const event = computed(() =>
   getEventItem(eventQuery.data.value?.eventByCreatedByAndSlug),
 )
+if (!event.value) {
+  throw createError({
+    statusCode: 404,
+  })
+}
 const eventDeleteMutation = useEventDeleteMutation()
 const api = getApiData([
   accountByUsernameQuery,
@@ -83,7 +87,7 @@ const api = getApiData([
   eventDeleteMutation,
 ])
 
-// computations
+// page
 const title = computed(() => {
   if (api.value.isFetching) return t('globalLoading')
 
@@ -92,8 +96,6 @@ const title = computed(() => {
 
   return `${t('title')} · ${event.value.name}`
 })
-
-// initialization
 useHeadDefault({ title })
 </script>
 

@@ -7,11 +7,11 @@
             :to="
               localePath({
                 name: 'account-view-username',
-                params: { username: routeParamUsername },
+                params: { username: route.params.username },
               })
             "
           >
-            {{ routeParamUsername }}
+            {{ route.params.username }}
           </AppLink>
         </template>
       </i18n-t>
@@ -25,24 +25,24 @@
 </template>
 
 <script setup lang="ts">
-import type { RouteNamedMap } from 'vue-router/auto-routes'
-
 import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 import { getEventItem } from '~~/gql/documents/fragments/eventItem'
 import { useAllEventsQuery } from '~~/gql/documents/queries/event/eventsAll'
 
-const ROUTE_NAME: keyof RouteNamedMap = 'event-view-username-event_name___en'
-
 const { t } = useI18n()
-const route = useRoute(ROUTE_NAME)
 const localePath = useLocalePath()
 
-// data
-const routeParamUsername = route.params.username
+// page
+const route = useRoute('event-view-username-event_name___en')
 const title = t('title', { name: route.params.username })
+useHeadDefault({
+  ogType: 'profile',
+  profileUsername: route.params.username,
+  title,
+})
 
-// api data
+// validation
 const accountByUsernameQuery = await zalgo(
   useAccountByUsernameQuery({
     username: route.params.username,
@@ -51,13 +51,13 @@ const accountByUsernameQuery = await zalgo(
 const account = getAccountItem(
   accountByUsernameQuery.data.value?.accountByUsername,
 )
-
 if (!account) {
   throw createError({
     statusCode: 404,
   })
 }
 
+// api data
 const allEventsQueryAfter = ref<string>()
 const allEventsQuery = await zalgo(
   useAllEventsQuery({
@@ -73,13 +73,6 @@ const events = computed(
       .filter(isNeitherNullNorUndefined) || [],
 )
 const api = getApiData([allEventsQuery])
-
-// initialization
-useHeadDefault({
-  ogType: 'profile',
-  profileUsername: route.params.username,
-  title,
-})
 </script>
 
 <i18n lang="yaml">

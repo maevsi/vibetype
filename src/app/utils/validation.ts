@@ -11,7 +11,7 @@ import {
 import type { Client } from '@urql/core'
 import { consola } from 'consola'
 import type { Ref } from 'vue'
-import type { LocationQueryValue, RouteLocationNormalized } from 'vue-router'
+import type { LocationQueryValue } from 'vue-router'
 
 import { eventIsExistingQuery } from '~~/gql/documents/queries/event/eventIsExisting'
 import { accountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
@@ -139,53 +139,6 @@ export const isQueryIcFormatValid = (
   ic?: LocationQueryValue | LocationQueryValue[],
 ) => ic && !Array.isArray(ic) && REGEX_UUID.test(ic)
 
-export const validateAccountExistence = async ({
-  isAuthorizationRequired = false,
-  route,
-}: {
-  isAuthorizationRequired?: boolean
-  route: RouteLocationNormalized<
-    | 'account-edit-username___en'
-    | 'account-edit-username___en'
-    | 'account-view-username___en'
-    | 'event-edit-username-event_name___en'
-    | 'event-view-username___en'
-    | 'event-view-username-event_name___en'
-    | 'event-view-username-event_name-attendance___en'
-    | 'event-view-username-event_name-guest___en'
-  >
-}) => {
-  const { $urql } = useNuxtApp()
-  const store = useStore()
-
-  const accountIsExisting = await $urql.value
-    .query(accountByUsernameQuery, {
-      username: route.params.username,
-    })
-    .toPromise()
-
-  if (accountIsExisting.error) {
-    throw createError(accountIsExisting.error)
-  }
-
-  if (!accountIsExisting.data?.accountByUsername) {
-    throw createError({
-      statusCode: 404,
-    })
-  }
-
-  if (
-    isAuthorizationRequired &&
-    route.params.username !== store.signedInUsername
-  ) {
-    throw createError({
-      statusCode: 403,
-    })
-  }
-
-  return true
-}
-
 export const getAccountByUsername = async ({
   $urql,
   username,
@@ -229,56 +182,6 @@ export const getEventByCreatedByAndSlug = async ({
   }
 
   return getEventItem(eventByCreatedByAndSlug.data?.eventByCreatedByAndSlug)
-}
-
-export const validateEventExistence = async (
-  route: RouteLocationNormalized<
-    | 'event-edit-username-event_name___en'
-    | 'event-view-username-event_name___en'
-    | 'event-view-username-event_name-attendance___en'
-    | 'event-view-username-event_name-guest___en'
-  >,
-) => {
-  const { $urql } = useNuxtApp()
-
-  const account = await getAccountByUsername({
-    $urql,
-    username: route.params.username,
-  })
-
-  if (!account) {
-    throw createError({
-      statusCode: 404,
-    })
-  }
-
-  if (
-    typeof route.params.event_name !== 'string' ||
-    typeof account.id !== 'string'
-  ) {
-    throw createError({
-      statusCode: 500,
-    })
-  }
-
-  const eventIsExisting = await $urql.value
-    .query(eventIsExistingQuery, {
-      createdBy: account.id,
-      slug: route.params.event_name,
-    })
-    .toPromise()
-
-  if (eventIsExisting.error) {
-    throw createError(eventIsExisting.error)
-  }
-
-  if (!eventIsExisting.data?.eventIsExisting) {
-    throw createError({
-      statusCode: 404,
-    })
-  }
-
-  return true
 }
 
 export const validateEventSlug =

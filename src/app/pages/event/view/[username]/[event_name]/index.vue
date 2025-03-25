@@ -360,8 +360,6 @@ import DOMPurify from 'isomorphic-dompurify'
 import mustache from 'mustache'
 import prntr from 'prntr'
 import QrcodeVue from 'qrcode.vue'
-import type { RouteLocationNormalized } from 'vue-router'
-import type { RouteNamedMap } from 'vue-router/auto-routes'
 
 import { useUpdateGuestByIdMutation } from '~~/gql/documents/mutations/guest/guestUpdateById'
 import {
@@ -376,20 +374,10 @@ import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 import { getContactItem } from '~~/gql/documents/fragments/contactItem'
 import { useEventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
 
-const ROUTE_NAME: keyof RouteNamedMap = 'event-view-username-event_name___en'
-
-definePageMeta({
-  async validate(route) {
-    return await validateEventExistence(
-      route as RouteLocationNormalized<typeof ROUTE_NAME>,
-    )
-  },
-})
-
 const { t } = useI18n()
 const fireAlert = useFireAlert()
 const store = useStore()
-const route = useRoute(ROUTE_NAME)
+const route = useRoute('event-view-username-event_name___en')
 const localePath = useLocalePath()
 const updateGuestByIdMutation = useUpdateGuestByIdMutation()
 
@@ -403,6 +391,11 @@ const accountId = computed(
   () =>
     getAccountItem(accountByUsernameQuery.data.value?.accountByUsername)?.id,
 )
+if (!accountId.value) {
+  throw createError({
+    statusCode: 404,
+  })
+}
 const eventQuery = await zalgo(
   useEventByCreatedByAndSlugQuery({
     createdBy: accountId,
@@ -413,6 +406,11 @@ const eventQuery = await zalgo(
 const event = computed(() =>
   getEventItem(eventQuery.data.value?.eventByCreatedByAndSlug),
 )
+if (!event.value) {
+  throw createError({
+    statusCode: 404,
+  })
+}
 const api = getApiData([accountByUsernameQuery, eventQuery])
 
 // methods
@@ -510,6 +508,8 @@ const invitation = computed(() => {
 })
 const routeQuery = computed(() => route.query)
 const routeQueryIc = computed(() => route.query.ic)
+
+// page
 const descriptionSeo = computed(() =>
   eventDescriptionTemplate.value
     ? getStringTruncated({
@@ -522,8 +522,6 @@ const descriptionSeo = computed(() =>
 const title = computed(() =>
   api.value.isFetching ? t('globalLoading') : event.value?.name || '403',
 )
-
-// initialization
 useHeadDefault({
   description: descriptionSeo,
   title,
