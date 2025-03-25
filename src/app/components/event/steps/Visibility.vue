@@ -13,13 +13,12 @@
                 <input
                   v-model="inviteeCountMaximum"
                   type="number"
-                  class="w-full rounded-lg border border-gray-200 p-3"
+                  class="w-full rounded-lg border border-(--semantic-base-line) px-4 py-2"
                 />
               </div>
             </div>
           </div>
         </div>
-
         <div class="w-full">
           <div class="flex items-start space-x-3">
             <RadioGroupItem value="PRIVATE" />
@@ -31,13 +30,12 @@
                 <input
                   v-model="inviteeCountMaximum"
                   type="number"
-                  class="w-full rounded-lg border border-gray-200 p-3"
+                  class="w-full rounded-lg border border-(--semantic-base-line) px-4 py-2"
                 />
               </div>
             </div>
           </div>
         </div>
-
         <div class="w-full">
           <div class="flex items-start space-x-3">
             <RadioGroupItem value="UNLISTED" />
@@ -49,7 +47,7 @@
                 <input
                   v-model="inviteeCountMaximum"
                   type="number"
-                  class="w-full rounded-lg border border-gray-200 p-3"
+                  class="w-full rounded-lg border border-(--semantic-base-line) px-4 py-2"
                 />
               </div>
             </div>
@@ -61,7 +59,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
 import { RadioGroup, RadioGroupItem } from '@/components/scn/radio-group'
 import type { EventVisibility } from '~~/gql/generated/graphql'
 import type { BaseValidation } from '@vuelidate/core'

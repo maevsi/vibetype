@@ -13,7 +13,7 @@
       :validation-property="v$.slug"
       :value="v$.name"
       :value-formatter="(val) => val || ''"
-      input-class="w-full rounded-lg border border-[hsl(var(--border))] bg-[hsl(var(--card))] px-4 py-2 text-[hsl(var(--card-foreground))]"
+      input-class="w-full rounded-lg px-4 py-2 "
       @input="onInputName($event)"
     >
       <template #stateWarning>
