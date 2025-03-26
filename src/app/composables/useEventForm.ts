@@ -2,10 +2,10 @@ import useVuelidate from '@vuelidate/core'
 import slugify from 'slugify'
 import type { EventVisibility } from '~~/gql/generated/graphql'
 import { required, maxLength } from '@vuelidate/validators'
+import type { EventFormType } from '~/types/events/eventForm'
 
 export function useEventForm(eventSlug?: string) {
-  const form = ref({
-    additionalStreet: '',
+  const form = ref<EventFormType>({
     address: '',
     authorAccountId: '',
     category: '',
@@ -16,8 +16,8 @@ export function useEventForm(eventSlug?: string) {
     end: '',
     endDate: '',
     endTime: '',
+    format: '',
     frequency: '',
-    houseNumber: '',
     id: '',
     images: [] as File[],
     inviteeCountMaximum: '',
@@ -51,7 +51,8 @@ export function useEventForm(eventSlug?: string) {
         exclude: eventSlug,
       }),
     }),
-    category: { required: true },
+    category: { required },
+    format: { required },
   }
 
   const stepTwoRules = {
@@ -60,6 +61,8 @@ export function useEventForm(eventSlug?: string) {
     endTime: {},
     startDate: { required },
     startTime: { required },
+    postcode: { required },
+    city: { required },
   }
 
   const stepThreeRules = {
@@ -102,16 +105,22 @@ export function useEventForm(eventSlug?: string) {
 
   const isStepOneValid = async () => {
     await v$.value.$validate()
-    return !v$.value.name.$invalid && !v$.value.category.$invalid
+    return (
+      !v$.value.name.$invalid &&
+      !v$.value.category.$invalid &&
+      !v$.value.format.$invalid &&
+      (form.value.isInPerson || form.value.isRemote)
+    )
   }
 
   const isStepTwoValid = async () => {
     await v$.value.$validate()
-
     return (
       !v$.value.startDate.$invalid &&
       !v$.value.endDate.$invalid &&
-      !v$.value.address.$invalid
+      !v$.value.address.$invalid &&
+      !v$.value.postcode.$invalid &&
+      !v$.value.city.$invalid
     )
   }
 

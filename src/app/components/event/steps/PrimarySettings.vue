@@ -250,7 +250,6 @@ const onInputName = ($event: string) => {
     name: eventForm.value.name,
     slug: eventForm.value.slug,
   })
-
   updateFormName($event)
 }
 

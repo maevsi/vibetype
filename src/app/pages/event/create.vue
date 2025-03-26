@@ -35,12 +35,10 @@
             </div>
           </StepperItem>
         </div>
-
         <div class="flex-1 md:px-12">
           <h2 class="mb-2 text-2xl font-bold">
             {{ stepTitles[stepIndex - 1] }}
           </h2>
-
           <div class="space-y-6">
             <EventStepsPrimarySettings
               v-if="stepIndex === 1"
@@ -48,7 +46,6 @@
               :validation="v$"
               @update-form="updateForm"
             />
-
             <EventStepsDateLocation
               v-else-if="stepIndex === 2"
               :form="form"
@@ -97,7 +94,6 @@
                     : t('next')
               }}
             </ButtonColored>
-
             <ButtonColored
               v-if="stepIndex === 4"
               :is-disabled="isStepValid"
@@ -108,7 +104,6 @@
             >
               {{ t('skip') }}
             </ButtonColored>
-
             <ButtonColored
               v-if="stepIndex === 6"
               variant="secondary"
@@ -131,9 +126,25 @@
 </template>
 
 <script setup lang="ts">
+import Uppy from '@uppy/core'
+import Tus from '@uppy/tus'
 import { useI18n } from 'vue-i18n'
+import type { EventStorageStrategy } from '~/composables/storage/EventStorageStrategy'
+import { LocalStorageStrategy } from '~/utils/storage/LocalStorageStrategy'
 import { useEventForm } from '~/composables/useEventForm'
-import type { EventFormType } from '~/types/eventForm'
+import type { EventFormType } from '~/types/events/eventForm'
+import { useCreateEventMutation } from '~~/gql/documents/mutations/event/eventCreate'
+import { useUploadCreateMutation } from '~~/gql/documents/mutations/upload/uploadCreate'
+import { EventVisibility } from '~~/gql/generated/graphql'
+
+const localePath = useLocalePath()
+const TUSD_FILES_URL = useTusdFilesUrl()
+const createEventMutation = useCreateEventMutation()
+const uploadCreateMutation = useUploadCreateMutation()
+const storageStrategy = ref<EventStorageStrategy>(
+  LocalStorageStrategy.getInstance(),
+)
+const runtimeConfig = useRuntimeConfig()
 
 const { t } = useI18n()
 const store = useStore()
@@ -182,20 +193,126 @@ watch(
 )
 
 const handleNext = async () => {
-  console.log('click')
   if ((await isStepValid()) && stepIndex.value < 6) {
     stepIndex.value++
+  } else if (stepIndex.value === 6) {
+    await handleSubmit()
   } else {
     v$.value.$touch()
   }
 }
 
 const handleDraftSave = async () => {
+  await storageStrategy.value.saveEvent(form.value)
+  await navigateTo(
+    localePath({
+      name: 'event-view-username',
+      params: { username: store.signedInUsername },
+    }),
+  )
   showToast({ title: t('draftSaved') })
 }
 
 const updateForm = (updatedForm: Partial<EventFormType>) => {
   form.value = { ...form.value, ...updatedForm }
+}
+
+const handleSubmit = async () => {
+  try {
+    const isValid = await v$.value.$validate()
+
+    if (!isValid) {
+      v$.value.$touch()
+      return
+    }
+
+    if (!store.signedInAccountId) throw new Error('Account id is missing!')
+
+    const result = await createEventMutation.executeMutation({
+      createEventInput: {
+        event: {
+          createdBy: store.signedInAccountId,
+          name: form.value.name,
+          slug: form.value.slug,
+          description: form.value.description || null,
+          isInPerson: form.value.isInPerson,
+          isRemote: form.value.isRemote,
+          start: form.value.startDate || null,
+          end: form.value.endDate || null,
+          visibility: form.value.visibility || EventVisibility.Private,
+          guestCountMaximum: form.value.inviteeCountMaximum
+            ? +form.value.inviteeCountMaximum
+            : null,
+          url: form.value.website,
+        },
+      },
+    })
+
+    if (result.error || !result.data) {
+      throw new Error('Event creation failed')
+    }
+    if (form.value.images?.length) {
+      try {
+        for (const file of form.value.images) {
+          const uploadResult = await uploadCreateMutation.executeMutation({
+            uploadCreateInput: {
+              sizeByte: file.size,
+            },
+          })
+          if (!uploadResult.data?.uploadCreate?.upload?.id) {
+            throw new Error('Upload creation failed')
+          }
+          const uppy = new Uppy({
+            id: 'event-images',
+            debug: !runtimeConfig.public.vio.isInProduction,
+            restrictions: {
+              maxFileSize: 1048576,
+              maxNumberOfFiles: 6,
+              minNumberOfFiles: 0,
+              allowedFileTypes: ['image/*'],
+            },
+            meta: {
+              maevsiUploadUuid: uploadResult.data.uploadCreate.upload.id,
+            },
+          })
+          uppy.use(Tus, {
+            endpoint: TUSD_FILES_URL,
+            limit: 6,
+            removeFingerprintOnSuccess: true,
+          })
+          uppy.addFile({
+            source: 'event-images',
+            name: `/event-images/${file.name}`,
+            type: file.type,
+            data: file,
+          })
+          const result = await uppy.upload()
+          if (result && result.failed && result.failed.length > 0) {
+            console.error()
+          }
+        }
+      } catch (uploadError) {
+        console.error('Image upload failed:', uploadError)
+      }
+    }
+    showToast({ title: t('eventCreateSuccess') })
+    if (!store.signedInUsername || !form.value.slug) {
+      throw new Error(
+        'Aborting navigation: required data for path templating is missing!',
+      )
+    }
+    await navigateTo(
+      localePath({
+        name: 'event-view-username-event_name',
+        params: {
+          username: store.signedInUsername,
+          event_name: form.value.slug,
+        },
+      }),
+    )
+  } catch (error) {
+    console.error('Form submission error:', error)
+  }
 }
 </script>
 
@@ -207,6 +324,7 @@ de:
   createEvent: Veranstaltung erstellen
   dateAndLocation: Datum und Ort
   draftSaved: Entwurf erfolgreich gespeichert
+  eventCreateSuccess: Veranstaltung erfolgreich erstellt.
   eventDetails: Veranstaltungsdetails
   next: Weiter
   preview: Vorschau der Veranstaltung
@@ -223,6 +341,7 @@ en:
   createEvent: Create Event
   dateAndLocation: Date and Location
   draftSaved: Draft saved successfully
+  eventCreateSuccess: Event created successfully.
   eventDetails: More Details
   next: Next
   preview: Preview
