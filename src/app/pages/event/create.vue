@@ -129,13 +129,13 @@
 import Uppy from '@uppy/core'
 import Tus from '@uppy/tus'
 import { useI18n } from 'vue-i18n'
-import type { EventStorageStrategy } from '~/composables/storage/EventStorageStrategy'
 import { LocalStorageStrategy } from '~/utils/storage/LocalStorageStrategy'
 import { useEventForm } from '~/composables/useEventForm'
 import type { EventFormType } from '~/types/events/eventForm'
 import { useCreateEventMutation } from '~~/gql/documents/mutations/event/eventCreate'
 import { useUploadCreateMutation } from '~~/gql/documents/mutations/upload/uploadCreate'
 import { EventVisibility } from '~~/gql/generated/graphql'
+import type { EventStorageStrategy } from '~/types/events/EventStorageStrategy'
 
 const localePath = useLocalePath()
 const TUSD_FILES_URL = useTusdFilesUrl()
