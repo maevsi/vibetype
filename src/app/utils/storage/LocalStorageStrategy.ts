@@ -2,8 +2,8 @@ import type {
   EventItemFragment,
   EventVisibility,
 } from '~~/gql/generated/graphql'
-import type { EventFormData } from './EventStorageStrategy'
 import dayjs from 'dayjs'
+import type { EventFormType } from '~/types/events/eventForm'
 
 export type EventOrDraft = EventItemFragment | DraftEvent | null
 interface StoredDraft {
@@ -18,22 +18,21 @@ interface StoredDraft {
   isDraft: boolean
   savedAt: string
   isArchived: boolean
+  createdBy: string
 }
 
 export type DraftEvent = Pick<
   EventItemFragment,
-  | 'name'
-  | 'accountByCreatedBy'
-  | 'start'
-  | 'visibility'
-  | 'slug'
-  | 'end'
-  | 'description'
-  | 'id'
+  'id' | 'name' | 'start' | 'end' | 'visibility' | 'slug' | 'description'
 > & {
+  accountByCreatedBy: {
+    id: string
+    username: string
+  }
   isDraft: boolean
   savedAt: Date
   isArchived: boolean
+  createdBy: string
 }
 
 export class LocalStorageStrategy {
@@ -51,7 +50,7 @@ export class LocalStorageStrategy {
     return this.instance
   }
 
-  async saveEvent(form: EventFormData): Promise<void> {
+  async saveEvent(form: EventFormType): Promise<void> {
     if (!this.store.signedInAccountId) throw new Error('Account id is missing!')
     if (!this.store.signedInUsername) throw new Error('Username is missing!')
 
@@ -88,6 +87,7 @@ export class LocalStorageStrategy {
       isDraft: true,
       savedAt: new Date().toISOString(),
       isArchived: false,
+      createdBy: form.authorAccountId,
     }
 
     const currentDrafts = this.getDrafts()
@@ -126,6 +126,7 @@ export class LocalStorageStrategy {
         id: stored.authorId,
         username: this.store.signedInUsername!,
       },
+      createdBy: stored.createdBy,
     }
   }
   async getEvent(id: string): Promise<DraftEvent | null> {
@@ -156,10 +157,11 @@ export class LocalStorageStrategy {
         isDraft: true,
         savedAt: new Date(draft.savedAt),
         isArchived: draft.isArchived,
-        accountByAuthorAccountId: {
+        accountByCreatedBy: {
           id: draft.authorId,
           username: this.store.signedInUsername!,
         },
+        createdBy: draft.createdBy,
       }))
   }
 
@@ -174,21 +176,17 @@ export class LocalStorageStrategy {
       (draft) =>
         draft.accountByCreatedBy?.id === authorAccountId && draft.slug === slug,
     )
-
     return draft ?? null
   }
 
   deleteEventByAuthorAndSlug(authorAccountId: string, slug: string): boolean {
     const drafts = this.getDrafts()
-
     const index = drafts.findIndex(
       (draft) =>
         draft.accountByCreatedBy?.id === authorAccountId && draft.slug === slug,
     )
-
     if (index !== -1) {
       drafts.splice(index, 1)
-
       localStorage.setItem(
         this.STORAGE_KEY,
         JSON.stringify(

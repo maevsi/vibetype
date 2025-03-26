@@ -19,7 +19,7 @@ import { eventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eve
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 import { EventVisibility } from '~~/gql/generated/graphql'
 import { getEventItem } from '~~/gql/documents/fragments/eventItem'
-import { LocalStorageStrategy } from '~/composables/storage/LocalStorageStrategy'
+import { LocalStorageStrategy } from '~/utils/storage/LocalStorageStrategy'
 
 export const VALIDATION_ADDRESS_LENGTH_MAXIMUM = 300
 export const VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM = 254 // source: https://www.dominicsayers.com/isemail/
@@ -272,11 +272,8 @@ export const validateEventExistence = async (
     })
     .toPromise()
 
-    if (eventIsExisting.data?.eventIsExisting) {
-      return true
-    }
-  } catch (error) {
-    console.error(error)
+  if (eventIsExisting.data?.eventIsExisting) {
+    return true
   }
 
   if (!nuxtApp.isHydrating) {
@@ -289,12 +286,10 @@ export const validateEventExistence = async (
       account.id,
       route.params.event_name,
     )
-
     if (draftEvent) {
       return true
     }
   }
-
   throw createError({
     statusCode: 404,
     message: 'Event not found',
@@ -322,18 +317,23 @@ export const validateEventSlug =
       return true
     }
 
-    const result = await $urql.value
-      .query(eventIsExistingQuery, {
-        createdBy: signedInAccountId,
-        slug: value,
-      })
-      .toPromise()
+    try {
+      const result = await $urql.value
+        .query(eventIsExistingQuery, {
+          createdBy: signedInAccountId,
+          slug: value,
+        })
+        .toPromise()
 
-    if (result.error) return false
+      if (result.error) return false
 
-    return invert
-      ? !result.data?.eventIsExisting
-      : !!result.data?.eventIsExisting
+      return invert
+        ? !result.data?.eventIsExisting
+        : !!result.data?.eventIsExisting
+    } catch (error) {
+      console.error(error)
+      return false
+    }
   }
 
 export const validateUsername = (invert?: boolean) => async (value: string) => {
@@ -343,15 +343,20 @@ export const validateUsername = (invert?: boolean) => async (value: string) => {
     return true
   }
 
-  const result = await $urql.value
-    .query(accountByUsernameQuery, {
-      username: value,
-    })
-    .toPromise()
+  try {
+    const result = await $urql.value
+      .query(accountByUsernameQuery, {
+        username: value,
+      })
+      .toPromise()
 
-  if (result.error) return false
+    if (result.error) return false
 
-  return invert
-    ? !result.data?.accountByUsername
-    : !!result.data?.accountByUsername
+    return invert
+      ? !result.data?.accountByUsername
+      : !!result.data?.accountByUsername
+  } catch (error) {
+    console.error(error)
+    return false
+  }
 }

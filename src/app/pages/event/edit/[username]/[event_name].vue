@@ -13,7 +13,9 @@
       <section>
         <LayoutPageTitle :title="t('title')" />
 
-        <FormEvent :event="event" />
+        <FormEvent
+          :event="isDraftEvent ? event : (event as EventItemFragment)"
+        />
       </section>
       <section>
         <h2>{{ t('titleDelete') }}</h2>
@@ -45,7 +47,8 @@ import { useEventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/
 import {
   LocalStorageStrategy,
   type EventOrDraft,
-} from '~/composables/storage/LocalStorageStrategy'
+} from '~/utils/storage/LocalStorageStrategy'
+import type { EventItemFragment } from '~~/gql/generated/graphql'
 
 const ROUTE_NAME: keyof RouteNamedMap = 'event-edit-username-event_name___en'
 
@@ -90,11 +93,8 @@ const loadDraftEvent = () => {
 }
 
 const event = computed<EventOrDraft>(() => {
-  const dbEvent = getEventItem(
-    eventQuery.data.value?.eventByAuthorAccountIdAndSlug,
-  )
+  const dbEvent = getEventItem(eventQuery.data.value?.eventByCreatedByAndSlug)
   if (dbEvent) return dbEvent
-
   return loadDraftEvent()
 })
 const eventDeleteMutation = useEventDeleteMutation()
@@ -114,6 +114,13 @@ const title = computed(() => {
   return `${t('title')} · ${event.value.name}`
 })
 
+const isDraftEvent = computed(() => {
+  return event.value &&
+    typeof event.value === 'object' &&
+    'isDraft' in event.value
+    ? event.value.isDraft
+    : false
+})
 // initialization
 useHeadDefault({ title })
 </script>

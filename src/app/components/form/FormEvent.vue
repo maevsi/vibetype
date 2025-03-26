@@ -196,28 +196,28 @@
         </FormCheckbox>
       </FormInput>
       <!-- <FormInput
-        v-if="v$.isInPerson.$model"
-        id-label="input-location"
-        :placeholder="t('globalPlaceholderAddress').replace('\n', ' ')"
-        :title="t('location')"
-        type="text"
-        :value="v$.location"
-        @input="form.location = $event"
-      >
-        <template #stateError>
-          <FormInputStateError
-            :form-input="v$.location"
-            validation-property="lengthMax"
-          >
-            {{ t('globalValidationLength') }}
-          </FormInputStateError>
-        </template>
-        <template #stateInfo>
-          <FormInputStateInfo>
-            {{ t('stateInfoLocation') }}
-          </FormInputStateInfo>
-        </template>
-      </FormInput> -->
+          v-if="v$.isInPerson.$model"
+          id-label="input-location"
+          :placeholder="t('globalPlaceholderAddress').replace('\n', ' ')"
+          :title="t('location')"
+          type="text"
+          :value="v$.location"
+          @input="form.location = $event"
+        >
+          <template #stateError>
+            <FormInputStateError
+              :form-input="v$.location"
+              validation-property="lengthMax"
+            >
+              {{ t('globalValidationLength') }}
+            </FormInputStateError>
+          </template>
+          <template #stateInfo>
+            <FormInputStateInfo>
+              {{ t('stateInfoLocation') }}
+            </FormInputStateInfo>
+          </template>
+        </FormInput> -->
       <FormInputUrl
         v-if="v$.isRemote.$model"
         :form-input="v$.url"
@@ -279,14 +279,13 @@
 import { useVuelidate } from '@vuelidate/core'
 import slugify from 'slugify'
 import { DatePicker } from 'v-calendar'
-
+import { LocalStorageStrategy } from '~/utils/storage/LocalStorageStrategy'
 import { useCreateEventMutation } from '~~/gql/documents/mutations/event/eventCreate'
 import { useUpdateEventByIdMutation } from '~~/gql/documents/mutations/event/eventUpdateById'
 import {
   type EventItemFragment,
   EventVisibility,
 } from '~~/gql/generated/graphql'
-import { LocalStorageStrategy } from '~/composables/storage/LocalStorageStrategy'
 
 export interface Props {
   event?: Pick<EventItemFragment, 'name' | 'slug'>
@@ -345,33 +344,14 @@ const submit = async () => {
 
   if (!store.signedInAccountId) throw new Error('Account id is missing!')
 
-  if (form.id) {
-    // Edit
-    const result = await updateEventMutation.executeMutation({
-      id: form.id,
-      eventPatch: {
-        createdBy: store.signedInAccountId,
-        description: form.description || null,
-        end: form.end || null,
-        guestCountMaximum: form.guestCountMaximum
-          ? +form.guestCountMaximum
-          : null,
-        isInPerson: form.isInPerson,
-        isRemote: form.isRemote,
-        // location: form.location || null,
-        name: form.name || null,
-        slug: form.slug || null,
-        start: form.start || null,
-        url: form.url || null,
-        visibility: form.visibility || null,
-      },
-    })
+  const isDraft = form.slug
+    ? !!LocalStorageStrategy.getInstance().getEventByAuthorAndSlug(
+        store.signedInAccountId,
+        form.slug,
+      )
+    : false
 
-    if (result.error || !result.data) return
-
-    await showToast({ title: t('updated') })
-  } else {
-    // Add
+  if (isDraft || !form.id) {
     const result = await createEventMutation.executeMutation({
       createEventInput: {
         event: {
@@ -383,7 +363,6 @@ const submit = async () => {
             : null,
           isInPerson: form.isInPerson,
           isRemote: form.isRemote,
-          // location: form.location || null,
           name: form.name || '',
           slug: form.slug || '',
           start: form.start || null,
@@ -393,31 +372,48 @@ const submit = async () => {
       },
     })
 
-  if (result.error || !result.data) return
+    if (result.error || !result.data) return
 
-  showToast({ title: t('eventCreateSuccess') })
     await showToast({ title: t('eventCreateSuccess') })
 
-  if (!store.signedInUsername || !form.slug)
-    throw new Error(
-      'Aborting navigation: required data for path templating is missing!',
-    )
-
-  if (store.signedInAccountId && form.slug) {
-    LocalStorageStrategy.getInstance().deleteEventByAuthorAndSlug(
-      store.signedInAccountId,
-      form.slug,
+    if (isDraft && store.signedInAccountId && form.slug) {
+      LocalStorageStrategy.getInstance().deleteEventByAuthorAndSlug(
+        store.signedInAccountId,
+        form.slug,
+      )
+    }
+    if (!store.signedInUsername || !form.slug)
+      throw new Error(
+        'Aborting navigation: required data for path templating is missing!',
+      )
+    await navigateTo(
+      localePath({
+        name: 'event-view-username-event_name',
+        params: { username: store.signedInUsername, event_name: form.slug },
+      }),
     )
   } else {
-    console.error('Author Account ID or Slug is missing.')
+    const result = await updateEventMutation.executeMutation({
+      id: form.id,
+      eventPatch: {
+        createdBy: store.signedInAccountId,
+        description: form.description || null,
+        end: form.end || null,
+        guestCountMaximum: form.guestCountMaximum
+          ? +form.guestCountMaximum
+          : null,
+        isInPerson: form.isInPerson,
+        isRemote: form.isRemote,
+        name: form.name || null,
+        slug: form.slug || null,
+        start: form.start || null,
+        url: form.url || null,
+        visibility: form.visibility || null,
+      },
+    })
+    if (result.error || !result.data) return
+    await showToast({ title: t('updated') })
   }
-
-  await navigateTo(
-    localePath({
-      name: 'event-view-username-event_name',
-      params: { username: store.signedInUsername, event_name: form.slug },
-    }),
-  )
 }
 
 const updateForm = (data?: Pick<EventItemFragment, 'name' | 'slug'>) => {
@@ -501,6 +497,7 @@ de:
   slug: Slug
   slugPlaceholder: willkommensfeier
   start: Beginn
+  updated: Aktualisiert
   validationExistenceNone: Du hast bereits eine Veranstaltung mit der ID "{slug}" angelegt
   validationWarningNameChangeSlug: Wenn du den Namen änderst, funktionieren bestehende Links zur Veranstaltung möglicherweise nicht mehr
   visibility: Sichtbarkeit
@@ -524,6 +521,7 @@ en:
   slug: Slug
   slugPlaceholder: welcome-party
   start: Start
+  updated: Updated
   validationExistenceNone: You have already created an event with id "{slug}"
   validationWarningNameChangeSlug: If you change the name, existing links to the event may no longer work
   visibility: Visibility
