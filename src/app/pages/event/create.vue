@@ -1,6 +1,5 @@
 <template>
   <div>
-    <LayoutPageTitle :title="t('createEvent')" :is-centered="true" />
     <div v-if="store.jwtDecoded?.role === `${SITE_NAME}_account`">
       <Stepper
         v-model="stepIndex"
@@ -136,11 +135,13 @@ import { useCreateEventMutation } from '~~/gql/documents/mutations/event/eventCr
 import { useUploadCreateMutation } from '~~/gql/documents/mutations/upload/uploadCreate'
 import { EventVisibility } from '~~/gql/generated/graphql'
 import type { EventStorageStrategy } from '~/types/events/EventStorageStrategy'
+import { useHeaderTitle } from '~/composables/useHeaderTitle'
 
 const localePath = useLocalePath()
 const TUSD_FILES_URL = useTusdFilesUrl()
 const createEventMutation = useCreateEventMutation()
 const uploadCreateMutation = useUploadCreateMutation()
+const { setTitle } = useHeaderTitle()
 const storageStrategy = ref<EventStorageStrategy>(
   LocalStorageStrategy.getInstance(),
 )
@@ -201,6 +202,14 @@ const handleNext = async () => {
     v$.value.$touch()
   }
 }
+
+onMounted(() => {
+  setTitle(t('createEvent'))
+})
+
+onBeforeUnmount(() => {
+  setTitle('')
+})
 
 const handleDraftSave = async () => {
   await storageStrategy.value.saveEvent(form.value)
@@ -303,7 +312,7 @@ const handleSubmit = async () => {
     }
     await navigateTo(
       localePath({
-        name: 'event-view-username-event_name',
+        name: 'event-view-username-event_name-published',
         params: {
           username: store.signedInUsername,
           event_name: form.value.slug,

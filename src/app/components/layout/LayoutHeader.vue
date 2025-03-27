@@ -1,28 +1,35 @@
 <template>
   <!-- <Loader :api="api" indicator="ping"> -->
   <header class="2xl:mb-8">
-    <div class="flex items-center justify-between gap-4">
-      <ButtonIcon
-        v-if="
-          store.routeHistory.length ||
-          !isEqual(route.path, localePath('index').toString())
-        "
-        :aria-label="t('back')"
-        @click="store.navigateBack()"
+    <div class="grid grid-cols-3 items-center">
+      <div class="flex items-center">
+        <ButtonIcon
+          v-if="
+            store.routeHistory.length ||
+            !isEqual(route.path, localePath('index').toString())
+          "
+          :aria-label="t('back')"
+          @click="store.navigateBack()"
+        >
+          <IHeroiconsChevronLeft />
+        </ButtonIcon>
+        <Button
+          :aria-label="t('home')"
+          class="hidden 2xl:block"
+          :to="localePath('index')"
+        >
+          <IconLogoWithText class="h-10" />
+        </Button>
+      </div>
+      <h2
+        v-if="headerTitle.title"
+        class="text-center text-xl font-bold text-(--semantic-base-primary)"
       >
-        <IHeroiconsChevronLeft />
-      </ButtonIcon>
-      <Button
-        :aria-label="t('home')"
-        class="hidden 2xl:block"
-        :to="localePath('index')"
+        {{ headerTitle.title }}
+      </h2>
+      <div
+        class="flex items-center justify-end gap-2 whitespace-nowrap lg:gap-4"
       >
-        <IconLogoWithText class="h-10" />
-      </Button>
-      <div class="hidden grow lg:block" />
-
-      <div class="grow" />
-      <div class="flex items-center gap-2 whitespace-nowrap lg:gap-4">
         <ButtonEventNew />
         <div
           class="my-1 hidden w-px flex-none self-stretch bg-gray-300 2xl:flex dark:bg-gray-600"
@@ -68,7 +75,9 @@
 
 <script setup lang="ts">
 import { isEqual } from 'ufo'
+import { useHeaderTitle } from '~/composables/useHeaderTitle'
 
+const headerTitle = useHeaderTitle()
 const store = useStore()
 const localePath = useLocalePath()
 const { t } = useI18n()
