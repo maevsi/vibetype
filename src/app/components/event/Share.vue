@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center">
-    <div class="mb-12 flex justify-center space-x-8">
+    <div class="mb-8 flex justify-center space-x-4">
       <UnderConstruction>
         <div class="flex flex-col items-center">
           <button
@@ -8,11 +8,11 @@
             class="flex flex-col items-center"
             @click="shareToInstagram"
           >
-            <IVibetypeColoredInstagram
+            <img
+              src="~/assets/icons/social-instagram.svg"
               class="h-12 w-12 cursor-pointer"
               :alt="t('iconAltInstagram')"
             />
-
             <span class="mt-2 text-sm">{{ t('instagram') }}</span>
           </button>
         </div>
@@ -23,7 +23,8 @@
           class="flex flex-col items-center"
           @click="shareToFacebook"
         >
-          <IVibetypeColoredFacebook
+          <img
+            src="~/assets/icons/social-facebook.svg"
             class="h-12 w-12 cursor-pointer"
             :alt="t('iconAltFacebook')"
           />
@@ -36,7 +37,8 @@
           class="flex flex-col items-center"
           @click="shareToTelegram"
         >
-          <IVibetypeColoredTelegram
+          <img
+            src="~/assets/icons/social-telegram.svg"
             class="h-12 w-12 cursor-pointer"
             :alt="t('iconAltTelegram')"
           />
@@ -49,7 +51,8 @@
           class="flex flex-col items-center"
           @click="shareToWhatsapp"
         >
-          <IVibetypeColoredWhatsapp
+          <img
+            src="~/assets/icons/social-whatsapp.svg"
             class="h-12 w-12 cursor-pointer"
             :alt="t('iconAltWhatsapp')"
           />
@@ -57,15 +60,16 @@
         </button>
       </div>
     </div>
-    <div class="flex justify-center space-x-16">
+    <div class="flex justify-center space-x-8">
       <div class="flex flex-col items-center">
         <button
           :aria-label="t('iconAltCopyLink')"
           class="flex flex-col items-center"
           @click="copyToClipboard"
         >
-          <IVibetypeColoredCopy
-            class="h-12 w-12 cursor-pointer p-2"
+          <img
+            src="~/assets/icons/social-copy.svg"
+            class="h-14 w-14 cursor-pointer p-2"
             :alt="t('iconAltCopyLink')"
           />
           <span class="mt-2 text-sm">{{ copyButtonText }}</span>

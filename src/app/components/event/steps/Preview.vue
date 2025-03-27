@@ -72,7 +72,7 @@
           class="flex flex-col items-center text-center text-lg text-(--semantic-base-text-primary) dark:text-(--semantic-base-text-primary)"
         >
           <span
-            class="text-xl font-semibold text-(--semantic-accent-accent-text)"
+            class="mt-3 text-xl font-semibold text-(--semantic-accent-accent-text)"
             >{{ formatDate(form.startDate, { weekday: 'long' }) }}</span
           ><span
             class="text-(--semantic-base-text-primary text-4xl font-semibold"
