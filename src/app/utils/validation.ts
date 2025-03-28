@@ -238,6 +238,7 @@ export const validateEventExistence = async (
     | 'event-view-username-event_name___en'
     | 'event-view-username-event_name-attendance___en'
     | 'event-view-username-event_name-guest___en'
+    | 'event-view-username-event_name-published___en'
   >,
 ) => {
   const { $urql } = useNuxtApp()
