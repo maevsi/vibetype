@@ -125,6 +125,7 @@
     --accent-weak: #dcf9ea;
     --critic-string: #e00000;
     --faint-line: #f2f2f2;
+    --faint-mid: #e6e6e6;
     --faint-weak: #f2f2f2;
     --semantic-accent-accent-icon: #12683a;
     --semantic-accent-accent-text: #12683a;
@@ -138,6 +139,7 @@
     --semantic-base-text-primary: #191911;
     --semantic-base-text-secondary: #868679;
     --surface: #fafafc;
+    --source-color-green: #c0e6d2;
     --warning-strong: #f9ae25;
     --warning-text: #9c5407;
     --warning-weak: #fdebd8;
