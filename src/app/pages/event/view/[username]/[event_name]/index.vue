@@ -49,8 +49,8 @@
         <template
           v-if="
             subjectEvent &&
-            !isDraftEvent &&
             isEventItemFragment(subjectEvent) &&
+            !isDraftEvent &&
             subjectEvent.accountByCreatedBy.id === store.signedInAccountId
           "
         >
@@ -150,21 +150,21 @@
             <template v-if="invitation">
               <Hr />
               <!-- <div
-            class="grid grid-cols-6 border-t-2 bg-background-brighten dark:bg-background-darken"
-            :class="
-              invitation.feedback === 'ACCEPTED'
-                ? 'border-green-600 dark:border-green-500'
-                : invitation.feedback === 'CANCELED'
-                ? 'border-red-600 dark:border-red-500'
-                : 'border-text-dark dark:border-text-bright'
-            "
-          > -->
+              class="grid grid-cols-6 border-t-2 bg-background-brighten dark:bg-background-darken"
+              :class="
+                invitation.feedback === 'ACCEPTED'
+                  ? 'border-green-600 dark:border-green-500'
+                  : invitation.feedback === 'CANCELED'
+                  ? 'border-red-600 dark:border-red-500'
+                  : 'border-text-dark dark:border-text-bright'
+              "
+            > -->
               <!-- <div
-              v-if="invitation.feedback === 'ACCEPTED'"
-              class="col-start-2 m-auto rounded-full bg-gray-500 px-2 text-text-bright"
-            >
-              {{ t('step1Of2') }}
-            </div> -->
+                v-if="invitation.feedback === 'ACCEPTED'"
+                class="col-start-2 m-auto rounded-full bg-gray-500 px-2 text-text-bright"
+              >
+                {{ t('step1Of2') }}
+              </div> -->
               <div
                 class="flex flex-col items-center gap-2"
                 :class="
@@ -174,8 +174,8 @@
                 "
               >
                 <!-- <span v-if="event.authorUsername !== signedInUsername">
-                {{ t('feedbackRequest') }}
-              </span> -->
+                  {{ t('feedbackRequest') }}
+                </span> -->
                 <div class="flex items-center justify-center gap-4">
                   <ButtonColored
                     v-if="
@@ -276,47 +276,47 @@
                 </div>
               </div>
               <!-- <div
-              v-if="
-                invitation.feedback !== null &&
-                invitation.feedback === 'ACCEPTED'
-              "
-              class="row-start-2 col-span-1 col-start-2 m-auto rounded-full bg-gray-500 px-2 text-text-bright"
-            >
-              {{ t('step2Of2') }}
-            </div>
-            <div
-              v-if="
-                invitation.feedback !== null &&
-                invitation.feedback === 'ACCEPTED'
-              "
-              class="col-span-3"
-            >
-              <FormInput
-                id-label="input-paper-invitation-feedback"
-                :title="t('invitationCardKind')"
-                type="select"
+                v-if="
+                  invitation.feedback !== null &&
+                  invitation.feedback === 'ACCEPTED'
+                "
+                class="row-start-2 col-span-1 col-start-2 m-auto rounded-full bg-gray-500 px-2 text-text-bright"
               >
-                <select
-                  id="input-paper-invitation-feedback"
-                  v-model="invitation.feedbackPaper"
-                  class="form-input"
-                  @change="paperInvitationFeedback"
+                {{ t('step2Of2') }}
+              </div>
+              <div
+                v-if="
+                  invitation.feedback !== null &&
+                  invitation.feedback === 'ACCEPTED'
+                "
+                class="col-span-3"
+              >
+                <FormInput
+                  id-label="input-paper-invitation-feedback"
+                  :title="t('invitationCardKind')"
+                  type="select"
                 >
-                  <option disabled :value="null">
-                    {{ t('requestSelection') }}
-                  </option>
-                  <option value="NONE">
-                    {{ t('invitationCardKindNone') }}
-                  </option>
-                  <option value="PAPER">
-                    {{ t('invitationCardKindPaper') }}
-                  </option>
-                  <option value="DIGITAL">
-                    {{ t('invitationCardKindDigital') }}
-                  </option>
-                </select>
-              </FormInput>
-            </div> -->
+                  <select
+                    id="input-paper-invitation-feedback"
+                    v-model="invitation.feedbackPaper"
+                    class="form-input"
+                    @change="paperInvitationFeedback"
+                  >
+                    <option disabled :value="null">
+                      {{ t('requestSelection') }}
+                    </option>
+                    <option value="NONE">
+                      {{ t('invitationCardKindNone') }}
+                    </option>
+                    <option value="PAPER">
+                      {{ t('invitationCardKindPaper') }}
+                    </option>
+                    <option value="DIGITAL">
+                      {{ t('invitationCardKindDigital') }}
+                    </option>
+                  </select>
+                </FormInput>
+              </div> -->
             </template>
           </Card>
         </div>
@@ -391,7 +391,7 @@ import { useEventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/
 import {
   LocalStorageStrategy,
   type EventOrDraft,
-} from '~/composables/storage/LocalStorageStrategy'
+} from '~/utils/storage/LocalStorageStrategy'
 
 const ROUTE_NAME: keyof RouteNamedMap = 'event-view-username-event_name___en'
 
@@ -410,6 +410,7 @@ const fireAlert = useFireAlert()
 const store = useStore()
 const route = useRoute(ROUTE_NAME)
 const localePath = useLocalePath()
+const updateGuestByIdMutation = useUpdateGuestByIdMutation()
 
 const props = defineProps<{ event: EventOrDraft }>()
 
@@ -422,9 +423,7 @@ const isDraftEvent = computed(() =>
 const isEventItemFragment = (
   event: EventOrDraft,
 ): event is EventItemFragment => {
-  return (
-    event !== null && typeof event === 'object' && 'authorAccountId' in event
-  )
+  return event !== null && typeof event === 'object' && !('isDraft' in event)
 }
 
 const accountByUsernameQuery = await zalgo(
@@ -492,7 +491,11 @@ const qrCodeShow = () => {
   store.modals.push({ id: 'ModalGuestQrCode' })
 }
 const update = async (id: string, guestPatch: GuestPatch) => {
-  ////here
+  const result = await updateGuestByIdMutation.executeMutation({
+    id,
+    guestPatch,
+  })
+  if (result.error || !result.data) return
   await showToast({ title: t('success') })
 }
 
