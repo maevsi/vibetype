@@ -3,6 +3,7 @@ import { decodeJwt, type JWTPayload } from 'jose'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { RouteNamedMapI18n } from 'vue-router/auto-routes'
+import type { EventFormType } from '~/types/events/eventForm'
 
 import type { Modal } from '~/types/modal'
 
@@ -17,6 +18,7 @@ export const useStore = defineStore(SITE_NAME, () => {
   const signedInAccountId = ref<string>()
   const signedInUsername = ref<string>()
   const turnstileToken = ref<string>()
+  const previewForm = ref<EventFormType>()
 
   const jwtRemove = () => {
     jwtSet(undefined)
@@ -67,10 +69,15 @@ export const useStore = defineStore(SITE_NAME, () => {
     routeHistoryDisabled.value = false
   }
 
+  const setPreviewForm = (form: EventFormType) => {
+    previewForm.value = form
+  }
+
   return {
     jwt,
     jwtDecoded,
     modals,
+    previewForm,
     routeHistory,
     routeHistoryDisabled,
     signedInAccountId,
@@ -80,5 +87,6 @@ export const useStore = defineStore(SITE_NAME, () => {
     jwtSet,
     modalRemove,
     navigateBack,
+    setPreviewForm,
   }
 })
