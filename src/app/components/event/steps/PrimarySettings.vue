@@ -5,7 +5,6 @@
     </p>
     <FormInput
       id-label="event-name"
-      is-required
       is-validatable
       :placeholder="t('namePlaceholder')"
       :title="t('eventTitle')"

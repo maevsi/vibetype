@@ -23,14 +23,14 @@
       </div>
       <h2
         v-if="headerTitle.title"
-        class="text-center text-xl font-bold text-(--semantic-base-primary)"
+        class="text-center text-lg font-bold text-(--semantic-base-primary)"
       >
         {{ headerTitle.title }}
       </h2>
       <div
         class="flex items-center justify-end gap-2 whitespace-nowrap lg:gap-4"
       >
-        <ButtonEventNew />
+        <ButtonEventNew v-if="!headerTitle.title.value" />
         <div
           class="my-1 hidden w-px flex-none self-stretch bg-gray-300 2xl:flex dark:bg-gray-600"
         />
@@ -57,6 +57,7 @@
           {{ t('signIn') }}
         </ButtonText>
         <ButtonIcon
+          v-if="!headerTitle.title.value"
           :aria-label="t('settings')"
           :to="
             localePath({
