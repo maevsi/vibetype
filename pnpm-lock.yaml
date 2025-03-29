@@ -446,9 +446,6 @@ importers:
       vue-chartjs:
         specifier: 5.3.2
         version: 5.3.2(chart.js@4.4.8)(vue@3.5.13(typescript@5.8.2))
-      vue-gtag:
-        specifier: 2.1.2
-        version: 2.1.2(vue@3.5.13(typescript@5.8.2))
       vue-i18n-routing:
         specifier: 1.2.0
         version: 1.2.0(vue-i18n@10.0.6(vue@3.5.13(typescript@5.8.2)))(vue-router@4.5.0(vue@3.5.13(typescript@5.8.2)))(vue@3.5.13(typescript@5.8.2))
@@ -10984,11 +10981,6 @@ packages:
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
-
-  vue-gtag@2.1.2:
-    resolution: {integrity: sha512-9eTGfIApQ3XpsxJjLNiRP51x0v3c93YJxVO8rKWSLJwbUuICwTMGGfB7x0RLEijFoK3lakgFvR5pR+JF5la2KA==}
-    peerDependencies:
-      vue: ^3.0.0
 
   vue-i18n-routing@1.2.0:
     resolution: {integrity: sha512-pn+bIFRMX5BN1BVQJ5rn05dYVnBhU/QnkxhjEJAe9HnYtJhDubetvoY+yfgDNWwesNWfHbbvsilsgSGL6DJyeA==}
@@ -24345,10 +24337,6 @@ snapshots:
       semver: 7.7.1
     transitivePeerDependencies:
       - supports-color
-
-  vue-gtag@2.1.2(vue@3.5.13(typescript@5.8.2)):
-    dependencies:
-      vue: 3.5.13(typescript@5.8.2)
 
   vue-i18n-routing@1.2.0(vue-i18n@10.0.6(vue@3.5.13(typescript@5.8.2)))(vue-router@4.5.0(vue@3.5.13(typescript@5.8.2)))(vue@3.5.13(typescript@5.8.2)):
     dependencies:
