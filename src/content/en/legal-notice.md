@@ -1,26 +1,55 @@
-# Imprint
+# Imprint of VIBETYPE
 
-## Provider
+(Mandatory information according to § 5 <abbr>DDG</abbr>)
 
+## Service Provider (Operator of the ‚VIBETYPE‘ Platform)
+
+<address>
 maevsi UG (limited liability)
+<br/>
+Virchowstrasse 4
+<br/>
+34121 Kassel
+</address>
 
-Virchowstrasse 4 34121 Kassel
+**Contact**: contact+legal-notice@maev.si
 
-Represented by:
+**Legally Authorized Representatives**: Jonas Thelemann, Tony Krieger, Alexander Gensicke
+<br />
+(Managing Directors)
 
-Management: Jonas Thelemann, Tony Krieger, Alexander Gensicke
+**Commercial Register Number**: HRB 20135
 
-## Contact us
+**Register Court**: Local court Kassel
 
-e-mail: contact+legal-notice@maev.si
+<!-- **VAT Identification Number according to § 27a <abbr>UStG</abbr>**:  -->
 
-Formular: [https://forms.monday.com/forms/74204ae8168ecb1dd44c15b502854a5a?r=euc1](https://forms.monday.com/forms/74204ae8168ecb1dd44c15b502854a5a?r=euc1)
+**Registered Office of the Company**: Kassel
 
-## Register entry
+## Notice on the EU Platform for Online Dispute Resolution (ODR Platform)
+<!-- TODO: remove on 2025-07-20 -->
+We would like to draw your attention to the EU platform for out-of-court online dispute resolution (according to the Regulation on Online Dispute Resolution in Consumer Matters, Regulation [EU] No. 524/2013, also known as the ODR Regulation), which is accessible at the following link: https://ec.europa.eu/consumers/odr/
 
-Commercial register: HRB 20135
+## Dispute Resolution Procedure before a Consumer Arbitration Board
 
-Register court: Local court Kassel
+We are neither obligated nor willing to participate in a dispute resolution procedure before a consumer arbitration board (§ 36 para.1 no. 1 VSBG).
+
+<!-- TODO: include once 50 employees or an annual turnover or an annual balance sheet total of more than 10 million euros reached
+## Information on Monthly Active Users of the VIBETYPE Platform pursuant to Art. 24 para.2 of Regulation [EU] 2022/2065 (Digital Services Act)
+
+The number of average monthly active users is:  -->
+
+## Contact Point for Authorities pursuant to Art. 11 of Regulation \[EU\] 2022/2065 (Digital Services Act)
+
+contact+legal-notice@maev.si
+
+- Communication is possible in both German and English.
+- This contact point is for official inquiries only. Please note that inquiries from *users* sent to this contact point may not be processed or may be subject to significant delays. As a user, please refer to the user contact point.
+
+## Contact Points for Users pursuant to Art. 12 of Regulation \[EU\] 2022/2065 (Digital Services Act)
+
+- Users have the option to initiate a so-called reporting procedure to report illegal content, i.e., content that they believe violates laws, our terms of use, and/or our code of conduct. For this purpose, they can use the reporting form provided: https://forms.monday.com/forms/74204ae8168ecb1dd44c15b502854a5a?r=euc1
+- For all other concerns, users can contact our designated contact point: contact+legal-notice@maev.si
 
 ## Disclaimer
 
@@ -30,7 +59,7 @@ The legal information on this page as well as all questions and disputes in conn
 
 ## Data protection notice
 
-You can find our Privacy Policy at: [https://vibetype.app/privacy-policy](https://vibetype.app/privacy-policy)
+You can find our Privacy Policy at: https://vibetype.app/privacy-policy
 
 ## Copyright notice
 
@@ -40,10 +69,10 @@ The texts, images, photos, videos or graphics available on our website are gener
 
 This legal notice also applies to the following social media profiles:
 
-Instagram: [https://www.instagram.com/vibetype.app/](https://www.instagram.com/vibetype.app/)
+Instagram: https://www.instagram.com/vibetype.app/
 
-Facebook: [https://www.facebook.com/profile.php?id=61573494951867](https://www.facebook.com/profile.php?id=61573494951867)
+Facebook: https://www.facebook.com/profile.php?id=61573494951867
 
-TikTok: [https://www.tiktok.com/@vibetype](https://www.tiktok.com/@vibetype)
+TikTok: https://www.tiktok.com/@vibetype
 
-LinkedIn: [https://www.linkedin.com/company/92700414/](https://www.linkedin.com/company/92700414/)
+LinkedIn: https://www.linkedin.com/company/92700414/

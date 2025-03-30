@@ -1,26 +1,55 @@
-# Impressum
+# Impressum von VIBETYPE
 
-## Anbieter
+(Pflichtangaben nach § 5 <abbr>DDG</abbr>)
 
+## Diensteanbieter (Betreiberin der Plattform ‚VIBETYPE‘)
+
+<address>
 maevsi UG (haftungsbeschränkt)
+<br/>
+Virchowstraße 4
+<br/>
+34121 Kassel
+</address>
 
-Virchowstraße 4 34121 Kassel
+**Kontakt**: contact+legal-notice@maev.si
 
-Vertreten durch:
+**Gesetzliche Vertretungsberechtigte**: Jonas Thelemann, Tony Krieger, Alexander Gensicke
+<br />
+(Geschäftsführer)
 
-Geschäftsführung: Jonas Thelemann, Tony Krieger, Alexander Gensicke
+**Handelsregisternummer**: HRB 20135
 
-## Kontakt
+**Registergericht**: Amtsgericht Kassel
 
-E-Mail: contact+legal-notice@maev.si
+<!-- **Umsatzsteuer-Identifikationsnummer nach § 27a <abbr>UstG</abbr>**:  -->
 
-Formular: [https://forms.monday.com/forms/74204ae8168ecb1dd44c15b502854a5a?r=euc1](https://forms.monday.com/forms/74204ae8168ecb1dd44c15b502854a5a?r=euc1)
+**Sitz der Gesellschaft**: Kassel
 
-## Registereintrag
+## Hinweis zur Plattform der EU zur Online-Streitbeilegung (ODR-Plattform)
+<!-- TODO: remove on 2025-07-20 -->
+Wir weisen Sie auf die Plattform der EU zur außergerichtlichen Online-Streitbeilegung (gemäß Verordnung über die Online-Streitbeilegung in Verbraucherangelegenheiten, Verordnung [EU] Nr. 524/2013, sog. ODR-Verordnung), die unter folgendem Link erreichbar ist, hin: https://ec.europa.eu/consumers/odr/
 
-Handelsregister: HRB 20135
+## Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
 
-Registergericht: Amtsgericht Kassel
+Wir sind weder verpflichtet, noch bereit, an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen (§ 36 Abs.1 Nr. 1 VSBG).
+
+<!-- TODO: include once 50 employees or an annual turnover or an annual balance sheet total of more than 10 million euros reached
+## Angaben zu monatlich aktiven Nutzern der VIBETYPE-Plattform gemäß Art. 24 Abs.2 der VO [EU] 2022/2065 (Digital Service Act)
+
+Die Zahl der durchschnittlichen, monatlichen aktiven Nutzer beträgt:  -->
+
+## Kontaktstelle für Behörden gemäß Art. 11 der VO \[EU\] 2022/2065 (Digital Service Act)
+
+contact+legal-notice@maev.si
+
+- Die Kontaktaufnahme ist in deutscher sowie in englischer Sprache möglich.
+- Diese Kontaktstelle dient nur für behördlich Anfragen. Bitte beachten Sie, dass Anfragen von *Nutzern* über diese Kontaktstelle nicht oder nur mit starker Verzögerung bearbeitet werden. Als Nutzer wenden Sie sich bitte an die Kontaktstelle für Nutzer.
+
+## Kontaktstellen für Nutzer gemäß Art. 12 der VO \[EU\] 2022/2065 (Digital Service Act)
+
+- Nutzer haben die Möglichkeit, ein sog. Meldeverfahren einzuleiten, um rechtswidrige Inhalte d.h. solche, bei denen der Nutzer der Ansicht ist, dass diese gegen Gesetze, unsere Nutzungsbedingungen und/oder unsere Verhaltensrichtlinie verstoßen, zu melden und hierfür das  für diesen Zweck eingerichtete Meldeformular zu nutzen: https://forms.monday.com/forms/74204ae8168ecb1dd44c15b502854a5a?r=euc1
+- Um alle weiteren Anliegen zu klären, können Sie sich als an unsere hierfür eingerichtete Kontaktstelle wenden: contact+legal-notice@maev.si
 
 ## Haftungsausschluss
 
@@ -30,7 +59,7 @@ Die rechtlichen Hinweise auf dieser Seite sowie alle Fragen und Streitigkeiten i
 
 ## Datenschutzhinweis
 
-Unsere Datenschutzerklärung finden Sie unter: [https://vibetype.app/privacy-policy](https://vibetype.app/privacy-policy)
+Unsere Datenschutzerklärung finden Sie unter: https://vibetype.app/de/privacy-policy
 
 ## Urheberrechtshinweis
 
@@ -40,10 +69,10 @@ Die auf unserer Internetseite vorhandenen Texte, Bilder, Fotos, Videos oder Graf
 
 Dieses Impressum gilt auch für folgende Social-Media-Profile:
 
-Instagram: [https://www.instagram.com/vibetype.app/](https://www.instagram.com/vibetype.app/)
+Instagram: https://www.instagram.com/vibetype.app/
 
-Facebook: [https://www.facebook.com/profile.php?id=61573494951867](https://www.facebook.com/profile.php?id=61573494951867)
+Facebook: https://www.facebook.com/profile.php?id=61573494951867
 
-TikTok: [https://www.tiktok.com/@vibetype](https://www.tiktok.com/@vibetype)
+TikTok: https://www.tiktok.com/@vibetype
 
-LinkedIn: [https://www.linkedin.com/company/92700414/](https://www.linkedin.com/company/92700414/)
+LinkedIn: https://www.linkedin.com/company/92700414/
