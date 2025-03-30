@@ -1,741 +1,760 @@
 # Datenschutz­erklärung
 
-## 1. Einleitung
+1. **Einleitung**
 
-Diese Website wird betrieben von: maevsi UG (haftungsbeschränkt).
+    Diese Website wird betrieben von: maevsi UG (haftungsbeschränkt).
 
-Es ist uns sehr wichtig, mit den Daten unserer Website-Besucher\*innen vertrauensvoll umzugehen und sie bestmöglich zu schützen. Aus diesem Grund leisten wir alle Anstrengungen, um die Anforderungen der DSGVO zu erfüllen.
+    Es ist uns sehr wichtig, mit den Daten unserer Website-Besucher\*innen vertrauensvoll umzugehen und sie bestmöglich zu schützen. Aus diesem Grund leisten wir alle Anstrengungen, um die Anforderungen der DSGVO zu erfüllen.
 
-Im Folgenden erläutern wir Dir, wie wir Deine Daten auf unserer Webseite verarbeiten. Dazu verwenden wmir eine möglichst klare und transparente Sprache, damit Du wirklich verstehst, was mit Deinen Daten passiert.
+    Im Folgenden erläutern wir Dir, wie wir Deine Daten auf unserer Webseite verarbeiten. Dazu verwenden wmir eine möglichst klare und transparente Sprache, damit Du wirklich verstehst, was mit Deinen Daten passiert.
 
-## 2. Allgemeine Informationen
+1. **Allgemeine Informationen**
 
-### 2.1 Verarbeitung von personenbezogenen Daten und andere Begriffe
+    1. **Verarbeitung von personenbezogenen Daten und andere Begriffe**
 
-Datenschutz gilt bei der Verarbeitung von personenbezogenen Daten. Personenbezogen meint alle Daten, mit denen Du persönlich identifiziert werden kannst. Das ist z.B. die IP-Adresse des Geräts (PC, Laptop, Smartphone, etc.) vor dem Du gerade sitzt. Verarbeitet werden solche Daten dann, wenn ‚irgendetwas damit passiert‘. Hier wird z.B. die IP vom Browser an unseren Provider übermittelt und dort automatisch gespeichert. Das ist dann eine Verarbeitung (gemäß Art. 4 Nr. 2 DSGVO) von personenbezogenen Daten (nach Art. 4 Nr. 1 DSGVO).
+        Datenschutz gilt bei der Verarbeitung von personenbezogenen Daten. Personenbezogen meint alle Daten, mit denen Du persönlich identifiziert werden kannst. Das ist z.B. die IP-Adresse des Geräts (PC, Laptop, Smartphone, etc.) vor dem Du gerade sitzt. Verarbeitet werden solche Daten dann, wenn ‚irgendetwas damit passiert‘. Hier wird z.B. die IP vom Browser an unseren Provider übermittelt und dort automatisch gespeichert. Das ist dann eine Verarbeitung (gemäß Art. 4 Nr. 2 DSGVO) von personenbezogenen Daten (nach Art. 4 Nr. 1 DSGVO).
 
-Diese und weitere gesetzlichen Definitionen sind in Art. 4 DSGVO zu finden.
+        Diese und weitere gesetzlichen Definitionen sind in Art. 4 DSGVO zu finden.
 
-### 2.2 Anzuwendende Vorschriften/ Gesetze – DSGVO, BDSG und TDDDG
+    1. **Anzuwendende Vorschriften/ Gesetze – DSGVO, BDSG und TDDDG**
 
-Der Umfang des Datenschutzes wird durch Gesetze geregelt. Das sind in diesem Fall die DSGVO (Datenschutzgrundverordnung) als europäische Verordnung und das BDSG (Bundesdatenschutzgesetz) als nationales Gesetz.
+        Der Umfang des Datenschutzes wird durch Gesetze geregelt. Das sind in diesem Fall die DSGVO (Datenschutzgrundverordnung) als europäische Verordnung und das BDSG (Bundesdatenschutzgesetz) als nationales Gesetz.
 
-Außerdem ergänzt das TDDDG die Vorschriften aus der DSGVO, soweit es sich um den Einsatz von Cookies handelt.
+        Außerdem ergänzt das TDDDG die Vorschriften aus der DSGVO, soweit es sich um den Einsatz von Cookies handelt.
 
-### 2.3 Der/Die Verantwortliche
+    1. **Die Verantwortliche**
 
-Verantwortlich für die Datenverarbeitung auf dieser Website ist der/die Verantwortliche im Sinne der DSGVO. Das ist diejenige natürliche oder juristische Person, die allein oder gemeinsam mit anderen über die Zwecke und Mittel der Verarbeitung von personenbezogenen Daten entscheidet.
+        Verantwortlich für die Datenverarbeitung auf dieser Website ist die Verantwortliche im Sinne der DSGVO. Das ist diejenige juristische Person, die allein oder gemeinsam mit anderen über die Zwecke und Mittel der Verarbeitung von personenbezogenen Daten entscheidet.
 
-Den Verantwortlichen erreichst Du unter:
+        Die Verantwortliche erreichst Du unter:
 
-maevsi UG (haftungsbeschränkt)
+        <address>
+        maevsi UG (haftungsbeschränkt)
+        <br />
+        Virchowstraße 4
+        <br />
+        34121 Kassel
+        </address>
 
-Virchowstraße 4 34121 Kassel
+        contact+privacy-policy@maev.si
 
-contact+privacy-policy@maev.si
+    1. **So werden Daten auf dieser Website grundsätzlich verarbeitet**
 
-### 2.4 So werden Daten auf dieser Website grundsätzlich verarbeitet
+        Wie wir bereits festgestellt haben, gibt es Daten (z.B. IP-Adresse), die automatisch erhoben werden. Diese Daten werden überwiegend für die technische Bereitstellung der Homepage benötigt. Soweit wir darüber hinaus personenbezogene Daten verwenden oder andere Daten erheben, klären wir Dich darüber auf bzw. fragen nach einer Einwilligung.
 
-Wie wir bereits festgestellt haben, gibt es Daten (z.B. IP-Adresse), die automatisch erhoben werden. Diese Daten werden überwiegend für die technische Bereitstellung der Homepage benötigt. Soweit wir darüber hinaus personenbezogene Daten verwenden oder andere Daten erheben, klären wir Dich darüber auf bzw. fragen nach einer Einwilligung.
+        Andere personenbezogene Daten teilst Du uns bewusst mit.
 
-Andere personenbezogene Daten teilst Du uns bewusst mit.
+        Detaillierte Informationen hierzu erhältst Du weiter unten.
 
-Detaillierte Informationen hierzu erhältst Du weiter unten.
+    1. **Deine Rechte**
 
-### 2.5 Deine Rechte
+        Die DSGVO stattet Dich mit umfassenden Rechten aus. Diese sind z.B. die unentgeltliche Auskunft über Herkunft, Empfänger und Zweck Deiner gespeicherten personenbezogenen Daten. Außerdem kannst Du die Berichtigung, Sperrung oder Löschung dieser Daten verlangen oder Dich bei der zuständigen Datenschutzaufsichtsbehörde beschweren. Eine erteilte Einwilligung kannst Du jederzeit widerrufen.
 
-Die DSGVO stattet Dich mit umfassenden Rechten aus. Diese sind z.B. die unentgeltliche Auskunft über Herkunft, Empfänger und Zweck Deiner gespeicherten personenbezogenen Daten. Außerdem kannst Du die Berichtigung, Sperrung oder Löschung dieser Daten verlangen oder Dich bei der zuständigen Datenschutzaufsichtsbehörde beschweren. Eine erteilte Einwilligung kannst Du jederzeit widerrufen.
+        Wie diese Rechte im Detail aussehen und wie sie wahrzunehmen sind, findest Du im letzten Abschnitt dieser Datenschutzerklärung.
 
-Wie diese Rechte im Detail aussehen und wie sie wahrzunehmen sind, findest Du im letzten Abschnitt dieser Datenschutzerklärung.
+    1. **Datenschutz – Unsere Sicht**
 
-### 2.6 Datenschutz – Unsere Sicht
+        Datenschutz ist für uns mehr als nur eine lästige Pflicht! Personenbezogene Daten haben einen großen Wert und ein achtsamer Umgang mit diesen Daten sollte in unserer digitalisierten Welt selbstverständlich sein. Außerdem sollst Du als Website-Besucher\*in in der Lage sein, selbst zu entscheiden, was, wann und durch wen mit Deinen Daten „passiert“. Deswegen verpflichten wir uns, alle gesetzlichen Bestimmungen einzuhalten, erheben nur die für uns notwendigen Daten und behandeln diese selbstverständlich vertraulich.
 
-Datenschutz ist für uns mehr als nur eine lästige Pflicht! Personenbezogene Daten haben einen großen Wert und ein achtsamer Umgang mit diesen Daten sollte in unserer digitalisierten Welt selbstverständlich sein. Außerdem sollst Du als Website-Besucher\*in in der Lage sein, selbst zu entscheiden, was, wann und durch wen mit Deinen Daten „passiert“. Deswegen verpflichten wir uns, alle gesetzlichen Bestimmungen einzuhalten, erheben nur die für uns notwendigen Daten und behandeln diese selbstverständlich vertraulich.
+    1. **Weitergabe und Löschung**
 
-### 2.7 Weitergabe und Löschung
+        Die Weitergabe und Löschung von Daten sind ebenfalls wichtige und sensible Themen. Deswegen möchten wir Dich vorab kurz über unsere generelle Herangehensweise hierzu informieren.
 
-Die Weitergabe und Löschung von Daten sind ebenfalls wichtige und sensible Themen. Deswegen möchten wir Dich vorab kurz über unsere generelle Herangehensweise hierzu informieren.
+        Eine Weitergabe der Daten findet nur aufgrund einer Rechtsgrundlage und nur dann statt, wenn dies unumgänglich ist. Dies kann insbesondere dann der Fall sein, wenn es sich um einen sogenannten Auftragsverarbeiter handelt und ein Auftragsverarbeitungsvertrag nach Art. 28 DSGVO geschlossen wurde.
 
-Eine Weitergabe der Daten findet nur aufgrund einer Rechtsgrundlage und nur dann statt, wenn dies unumgänglich ist. Dies kann insbesondere dann der Fall sein, wenn es sich um einen sogenannten Auftragsverarbeiter handelt und ein Auftragsverarbeitungsvertrag nach Art. 28 DSGVO geschlossen wurde.
+        Wir löschen Deine Daten dann, wenn der Zweck und die Rechtsgrundlage zur Verarbeitung wegfallen und der Löschung zudem keine anderen gesetzlichen Verpflichtungen entgegenstehen. Einen ‚guten‘ Überblick darüber gibt auch Art. 17 DSGVO.
 
-Wir löschen Deine Daten dann, wenn der Zweck und die Rechtsgrundlage zur Verarbeitung wegfallen und der Löschung zudem keine anderen gesetzlichen Verpflichtungen entgegenstehen. Einen ‚guten‘ Überblick darüber gibt auch Art. 17 DSGVO.
+        Alle weiterführenden Informationen entnimmst Du bitte dieser Datenschutzerklärung und wendest Dich bei konkreten Fragen an den Verantwortlichen.
 
-Alle weiterführenden Informationen entnimmst Du bitte dieser Datenschutzerklärung und wendest Dich bei konkreten Fragen an den Verantwortlichen.
+    1. **Hosting**
 
-### 2.8 Hosting
+        Diese Website wird extern gehostet. Die personenbezogenen Daten, die auf dieser Website erfasst werden, werden auf den Servern des Hosters gespeichert. Hierbei handelt es sich zum einen um die automatisch erhobenen und gespeicherten Logfiles (näheres dazu siehe unten), wie auch um alle sonstigen Daten, die die Website-Besucher\*innen angeben.
 
-Diese Website wird extern gehostet. Die personenbezogenen Daten, die auf dieser Website erfasst werden, werden auf den Servern des Hosters gespeichert. Hierbei handelt es sich zum einen um die automatisch erhobenen und gespeicherten Logfiles (näheres dazu siehe unten), wie auch um alle sonstigen Daten, die die Website-Besucher\*innen angeben.
+        Das externe Hosting erfolgt zum Zwecke einer sicheren, schnelle und zuverlässigen Bereitstellung unserer Website und dient in diesem Zusammenhang der Vertragserfüllung gegenüber unseren potenziellen und bestehenden Kund\*innen.
 
-Das externe Hosting erfolgt zum Zwecke einer sicheren, schnelle und zuverlässigen Bereitstellung unserer Website und dient in diesem Zusammenhang der Vertragserfüllung gegenüber unseren potenziellen und bestehenden Kund\*innen.
+        Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a, b und f DSGVO, sowie § 25 Abs. 1 TDDDG, soweit eine Einwilligung die Speicherung von Cookies oder den Zugriff auf Informationen im Endgerät des Website-Besuchers oder Users im Sinne des TDDDG umfasst.
 
-Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a, b und f DSGVO, sowie § 25 Abs. 1 TDDDG, soweit eine Einwilligung die Speicherung von Cookies oder den Zugriff auf Informationen im Endgerät des Website-Besuchers oder Users im Sinne des TDDDG umfasst.
+        Unser Hoster verarbeitet nur solche Daten, die zur Erfüllung seiner Leistungspflicht erforderlich sind und agiert als unser Auftragsverarbeiter, das heißt, er unterliegt unseren Weisungen. Wir haben einen entsprechenden Vertrag über die Auftragsverarbeitung mit unserem Hoster geschlossen.
 
-Unser Hoster verarbeitet nur solche Daten, die zur Erfüllung seiner Leistungspflicht erforderlich sind und agiert als unser Auftragsverarbeiter, das heißt, er unterliegt unseren Weisungen. Wir haben einen entsprechenden Vertrag über die Auftragsverarbeitung mit unserem Hoster geschlossen.
+        Folgenden Hoster setzen wir ein:
 
-Folgenden Hoster setzen wir ein:
+        Hetzner
 
-Hetzner
+        <address>
+        Hetzner Online GmbH
+        <br />
+        Industriestr. 25
+        <br />
+        91710 Gunzenhausen
+        <br />
+        Deutschland
+        </address>
 
-Hetzner Online GmbH, Industriestr. 25, 91710 Gunzenhausen, Deutschland.
+        info@hetzner.com
 
-[info@hetzner.com](mailto:info@hetzner.com)
+        https://www.hetzner.com/de/rechtliches/datenschutz.
 
-[](https://www.hetzner.com/de/rechtliches/datenschutz)[https://www.hetzner.com/de/rechtliches/datenschutz](https://www.hetzner.com/de/rechtliches/datenschutz).
+    1. **Rechtsgrundlagen**
 
-### 2.9 Rechtsgrundlagen
+        Die Verarbeitung von personenbezogenen Daten benötigt immer eine Rechtsgrundlage. Die DSGVO sieht in Art. 6 Abs. 1 Satz 1 folgende Möglichkeiten vor:
 
-Die Verarbeitung von personenbezogenen Daten benötigt immer eine Rechtsgrundlage. Die DSGVO sieht in Art. 6 Abs. 1 Satz 1 folgende Möglichkeiten vor:
+        <ol type="a">
+        <li>Die betroffene Person hat ihre Einwilligung zu der Verarbeitung der sie betreffenden personenbezogenen Daten für einen oder mehrere bestimmte Zwecke gegeben;</li>
 
-a) Die betroffene Person hat ihre Einwilligung zu der Verarbeitung der sie betreffenden personenbezogenen Daten für einen oder mehrere bestimmte Zwecke gegeben;
+        <li>die Verarbeitung ist für die Erfüllung eines Vertrags, dessen Vertragspartei die betroffene Person ist, oder zur Durchführung vorvertraglicher Maßnahmen erforderlich, die auf Anfrage der betroffenen Person erfolgen;</li>
 
-b) die Verarbeitung ist für die Erfüllung eines Vertrags, dessen Vertragspartei die betroffene Person ist, oder zur Durchführung vorvertraglicher Maßnahmen erforderlich, die auf Anfrage der betroffenen Person erfolgen;
+        <li>die Verarbeitung ist zur Erfüllung einer rechtlichen Verpflichtung erforderlich, der der/die Verantwortliche unterliegt;</li>
 
-c) die Verarbeitung ist zur Erfüllung einer rechtlichen Verpflichtung erforderlich, der der/die Verantwortliche unterliegt;
+        <li>die Verarbeitung ist erforderlich, um lebenswichtige Interessen der betroffenen Person oder einer anderen natürlichen Person zu schützen;</li>
 
-d) die Verarbeitung ist erforderlich, um lebenswichtige Interessen der betroffenen Person oder einer anderen natürlichen Person zu schützen;
+        <li>die Verarbeitung ist für die Wahrnehmung einer Aufgabe erforderlich, die im öffentlichen Interesse liegt oder in Ausübung öffentlicher Gewalt erfolgt, die dem/der Verantwortlichen übertragen wurde;</li>
 
-e) die Verarbeitung ist für die Wahrnehmung einer Aufgabe erforderlich, die im öffentlichen Interesse liegt oder in Ausübung öffentlicher Gewalt erfolgt, die dem/der Verantwortlichen übertragen wurde;
+        <li>die Verarbeitung ist zur Wahrung der berechtigten Interessen des/der Verantwortlichen oder eines/einer Dritten erforderlich, sofern nicht die Interessen oder Grundrechte und Grundfreiheiten der betroffenen Person, die den Schutz personenbezogener Daten erfordern, überwiegen, insbesondere dann, wenn es sich bei der betroffenen Person um ein Kind handelt.</li>
+        </ol>
 
-f) die Verarbeitung ist zur Wahrung der berechtigten Interessen des/der Verantwortlichen oder eines/einer Dritten erforderlich, sofern nicht die Interessen oder Grundrechte und Grundfreiheiten der betroffenen Person, die den Schutz personenbezogener Daten erfordern, überwiegen, insbesondere dann, wenn es sich bei der betroffenen Person um ein Kind handelt.
+        In den folgenden Abschnitten werden wir Dir die konkrete Rechtsgrundlage zu der jeweiligen Verarbeitung nennen.
 
-In den folgenden Abschnitten werden wir Dir die konkrete Rechtsgrundlage zu der jeweiligen Verarbeitung nennen.
+1. **Das passiert auf unserer Website**
 
-## 3. Das passiert auf unserer Website
+    Durch den Besuch auf unserer Website verarbeiten wir personenbezogene Daten von Dir.
 
-Durch den Besuch auf unserer Website verarbeiten wir personenbezogene Daten von Dir.
+    Um diese Daten bestmöglich gegen einen unbefugten Eingriff durch Dritte zu schützen, benutzen wir eine SSL- bzw. TLS-Verschlüsselung. Diese verschlüsselte Verbindung erkennst Du daran, dass in der Adresszeile Deines Browsers ein https:// oder ein Schloss-Symbol abgebildet ist.
 
-Um diese Daten bestmöglich gegen einen unbefugten Eingriff durch Dritte zu schützen, benutzen wir eine SSL- bzw. TLS-Verschlüsselung. Diese verschlüsselte Verbindung erkennst Du daran, dass in der Adresszeile Deines Browsers ein https:// oder ein Schloss-Symbol abgebildet ist.
+    Im Folgenden erfährst Du, welche Daten beim Besuch unserer Website erhoben werden, zu welchem Zweck dies geschieht und aufgrund welcher Rechtsgrundlage.
 
-Im Folgenden erfährst Du, welche Daten beim Besuch unserer Website erhoben werden, zu welchem Zweck dies geschieht und aufgrund welcher Rechtsgrundlage.
+    1. **Datenerhebung beim Aufruf der Website**
 
-### 3.1 Datenerhebung beim Aufruf der Website
+        Durch das Aufrufen der Website werden automatisch Informationen in sogenannten Server-Log-Dateien gespeichert. Es handelt sich um folgende Informationen:
 
-Durch das Aufrufen der Website werden automatisch Informationen in sogenannten Server-Log-Dateien gespeichert. Es handelt sich um folgende Informationen:
+        - Browsertyp und Browserversion
+        - verwendetes Betriebssystem
+        - Referrer URL
+        - Hostname des zugreifenden Rechners
+        - Uhrzeit der Serveranfrage
+        - IP-Adresse
 
-- Browsertyp und Browserversion
+        Diese Daten werden vorübergehend benötigt, um Dir unsere Website dauerhaft und problemlos anzeigen zu können. Insbesondere dienen diese Daten damit folgenden Zwecken:
 
-- verwendetes Betriebssystem
+        - Systemsicherheit der Website
+        - Systemstabilität der Website
+        - Fehlerbehebung auf der Website
+        - Verbindungsaufbau zur Website
+        - Darstellung der Website
 
-- Referrer URL
+        Die Datenverarbeitung erfolgt gemäß Art. 6 Abs. 1 lit. f DSGVO und erfolgt aus unserem berechtigten Interesse an der Verarbeitung dieser Daten, insbesondere aus dem Interesse an der Funktionalität der Website sowie deren Sicherheit.
 
-- Hostname des zugreifenden Rechners
+        Diese Daten werden nach Möglichkeit pseudonymisiert gespeichert und nach Erreichen des jeweiligen Zwecks gelöscht.
 
-- Uhrzeit der Serveranfrage
+        Soweit die Server-Log-Dateien die Identifizierung der betroffenen Person ermöglicht, werden die Daten maximal für einen Zeitraum von 14 Tagen gespeichert. Eine Ausnahme besteht dann, wenn ein sicherheitsrelevantes Ereignis auftritt. In diesem Fall werden die Server-Log-Dateien bis zur Beseitigung und abschließenden Aufklärung des sicherheitsrelevanten Ereignisses gespeichert.
 
-- IP-Adresse
+        Im Übrigen findet eine Zusammenführung mit anderen Daten findet nicht statt.
 
-Diese Daten werden vorübergehend benötigt, um Dir unsere Website dauerhaft und problemlos anzeigen zu können. Insbesondere dienen diese Daten damit folgenden Zwecken:
+    1. **Cookies**
 
-- Systemsicherheit der Website
+        1. **Allgemeines**
 
-- Systemstabilität der Website
+            Diese Website nutzt sogenannte Cookies. Dabei handelt es sich um einen Datensatz, eine Information, die im Browser Deines Endgeräts gespeichert wird und in einer Relation zu unserer Website steht.
 
-- Fehlerbehebung auf der Website
+            Durch das Setzen von Cookies kann dem Besucher insbesondere die Navigation der Website erleichtert werden.
 
-- Verbindungsaufbau zur Website
+        1. **Ablehnen von Cookies**
 
-- Darstellung der Website
+            Das Setzen von Cookies kann verhindert werden, indem Du die Einstellungen Deines Browsers anpasst.
 
-Die Datenverarbeitung erfolgt gemäß Art. 6 Abs. 1 lit. f DSGVO und erfolgt aus unserem berechtigten Interesse an der Verarbeitung dieser Daten, insbesondere aus dem Interesse an der Funktionalität der Website sowie deren Sicherheit.
+            Hier findest Du die entsprechenden Verlinkungen zu häufig benutzten Browsern:
 
-Diese Daten werden nach Möglichkeit pseudonymisiert gespeichert und nach Erreichen des jeweiligen Zwecks gelöscht.
+            Mozilla Firefox: https://support.mozilla.org/de/kb/cookies-und-website-daten-in-firefox-loschen?redirectslug=Cookies+l%C3%B6schen&redirectlocale=de
 
-Soweit die Server-Log-Dateien die Identifizierung der betroffenen Person ermöglicht, werden die Daten maximal für einen Zeitraum von 14 Tagen gespeichert. Eine Ausnahme besteht dann, wenn ein sicherheitsrelevantes Ereignis auftritt. In diesem Fall werden die Server-Log-Dateien bis zur Beseitigung und abschließenden Aufklärung des sicherheitsrelevanten Ereignisses gespeichert.
+            Google Chrome: https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=de
 
-Im Übrigen findet eine Zusammenführung mit anderen Daten findet nicht statt.
+            Microsoft Edge: https://support.microsoft.com/de-de/windows/l%C3%B6schen-und-verwalten-von-cookies-168dab11-0753-043d-7c16-ede5947fc64d
 
-### 3.2 Cookies
+            Safari: https://support.apple.com/de-de/guide/mdm/mdmf7d5714d4/web und https://support.apple.com/de-de/guide/safari/sfri11471/mac. Soweit Du einen anderen Browser nutzt, empfiehlt es sich den Namen Deines Browsers und ‚Cookies löschen und verwalten‘ in eine Suchmaschine einzugeben und dem offiziellen Link zu Deinem Browser zu folgen.
 
-#### 3.2.1 Allgemeines
+            Alternativ kannst Du Deine Cookie-Einstellungen auch unter http://www.aboutads.info/choices/ oder http://www.youronlinechoices.com verwalten.
 
-Diese Website nutzt sogenannte Cookies. Dabei handelt es sich um einen Datensatz, eine Information, die im Browser Deines Endgeräts gespeichert wird und in einer Relation zu unserer Website steht.
+            Wir müssen Dich allerdings darauf hinweisen, dass eine umfassende Blockierung/Löschung von Cookies zu Beeinträchtigungen bei der Nutzung der Website führen kann.
 
-Durch das Setzen von Cookies kann dem Besucher insbesondere die Navigation der Website erleichtert werden.
+        1. **Technisch notwendige Cookies**
 
-#### 3.2.2 Ablehnen von Cookies
+            Wir setzen auf dieser Website technisch notwendige Cookies ein, damit unsere Website fehlerfrei und gemäß den geltenden Gesetzen funktioniert. Sie helfen dabei, die Website nutzerfreundlich zu gestalten. Einige Funktionen unserer Website können ohne den Einsatz von Cookies nicht dargestellt werden.
 
-Das Setzen von Cookies kann verhindert werden, indem Du die Einstellungen Deines Browsers anpasst.
+            Rechtsgrundlage hierfür ist je nach Einzelfall Art. 6 Abs. 1 lit. b, c und/oder f DSGVO.
 
-Hier findest Du die entsprechenden Verlinkungen zu häufig benutzten Browsern:
+        1. **Technisch nicht notwendige Cookies**
 
-Mozilla Firefox: [](https://support.mozilla.org/de/kb/cookies-und-website-daten-in-firefox-loschen?redirectslug=Cookies+l%C3%B6schen&redirectlocale=de)[https://support.mozilla.org/de/kb/cookies-und-website-daten-in-firefox-loschen?redirectslug=Cookies+l%C3%B6schen&redirectlocale=de](https://support.mozilla.org/de/kb/cookies-und-website-daten-in-firefox-loschen?redirectslug=Cookies+l%C3%B6schen&redirectlocale=de)
+            Außerdem verwenden wir auf unserer Website auch solche Cookies, die technisch nicht notwendig sind. Diese Cookies dienen unter anderem dazu, das Surfverhalten des Website-Besuchers zu analysieren oder Funktionen der Website anzubieten, die jedoch technisch nicht zwingend notwendig sind.
 
-Google Chrome: [](https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=de)[https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=de](https://support.google.com/chrome/answer/95647?co=GENIE.Platform%3DDesktop&hl=de)
+            Rechtsgrundlage hierfür ist Deine Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO.
 
-Microsoft Edge: [](https://support.microsoft.com/de-de/windows/l%C3%B6schen-und-verwalten-von-cookies-168dab11-0753-043d-7c16-ede5947fc64d)[https://support.microsoft.com/de-de/windows/l%C3%B6schen-und-verwalten-von-cookies-168dab11-0753-043d-7c16-ede5947fc64d](https://support.microsoft.com/de-de/windows/l%C3%B6schen-und-verwalten-von-cookies-168dab11-0753-043d-7c16-ede5947fc64d)
+            Technisch nicht notwendige Cookies werden nur mit Deiner Einwilligung gesetzt, die Du jederzeit im Cookie-Consent-Tool widerrufen kannst.
 
-Safari: [](https://support.apple.com/de-de/guide/mdm/mdmf7d5714d4/web)[https://support.apple.com/de-de/guide/mdm/mdmf7d5714d4/web](https://support.apple.com/de-de/guide/mdm/mdmf7d5714d4/web) und [](https://support.apple.com/de-de/guide/safari/sfri11471/mac)[https://support.apple.com/de-de/guide/safari/sfri11471/mac](https://support.apple.com/de-de/guide/safari/sfri11471/mac). Soweit Du einen anderen Browser nutzt, empfiehlt es sich den Namen Deines Browsers und ‚Cookies löschen und verwalten‘ in eine Suchmaschine einzugeben und dem offiziellen Link zu Deinem Browser zu folgen.
+    1. **Datenverarbeitung durch Nutzereingabe**
 
-Alternativ kannst Du Deine Cookie-Einstellungen auch unter [](http://www.aboutads.info/choices/)[www.aboutads.info/choices/](https://www.aboutads.info/choices/) oder [](http://www.youronlinechoices.com)[www.youronlinechoices.com](https://www.youronlinechoices.com)verwalten.
+        1. **Eigene Datenerhebung**
 
-Wir müssen Dich allerdings darauf hinweisen, dass eine umfassende Blockierung/Löschung von Cookies zu Beeinträchtigungen bei der Nutzung der Website führen kann.
+            Wir bieten folgende (Dienst-)Leistung auf unserer Website an: Personalisierte Veranstaltungsempfehlungen.
 
-#### 3.2.3 Technisch notwendige Cookies
+            Dazu erheben wir folgende Daten:
 
-Wir setzen auf dieser Website technisch notwendige Cookies ein, damit unsere Website fehlerfrei und gemäß den geltenden Gesetzen funktioniert. Sie helfen dabei, die Website nutzerfreundlich zu gestalten. Einige Funktionen unserer Website können ohne den Einsatz von Cookies nicht dargestellt werden.
+            E-Mail-Adresse
 
-Rechtsgrundlage hierfür ist je nach Einzelfall Art. 6 Abs. 1 lit. b, c und/oder f DSGVO.
+            Rechtsgrundlage für diese Datenverarbeitung ist Art. 6 Abs. 1 lit. b DSGVO.
 
-#### 3.2.4 Technisch nicht notwendige Cookies
+            Die Daten werden gelöscht, sobald der jeweilige Zweck entfällt und es gemäß den gesetzlichen Vorgaben möglich ist.
 
-Außerdem verwenden wir auf unserer Website auch solche Cookies, die technisch nicht notwendig sind. Diese Cookies dienen unter anderem dazu, das Surfverhalten des Website-Besuchers zu analysieren oder Funktionen der Website anzubieten, die jedoch technisch nicht zwingend notwendig sind.
+        1. **Kontaktaufnahme**
 
-Rechtsgrundlage hierfür ist Deine Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO.
+            <ol type="a">
+            <li>
 
-Technisch nicht notwendige Cookies werden nur mit Deiner Einwilligung gesetzt, die Du jederzeit im Cookie-Consent-Tool widerrufen kannst.
+            E-Mail
 
-### 3.3 Datenverarbeitung durch Nutzereingabe
+            Wenn Du per E-Mail mit uns in Kontakt trittst, verarbeiten wir Deine E-Mail-Adresse und ggf. weitere in der Mail enthaltene Daten. Diese werden auf dem Mail-Server und teilweise auf den jeweiligen Endgeräten gespeichert. Je nach Anliegen ist die Rechtsgrundlage hierfür regelmäßig Art. 6 Abs. 1 lit. f DSGVO oder Art. 6 Abs. 1 lit. b DSGVO. Die Daten werden gelöscht, sobald der jeweilige Zweck entfällt und es gemäß den gesetzlichen Vorgaben möglich ist.</li>
 
-#### 3.3.1 Eigene Datenerhebung
+            <li>
 
-Wir bieten folgende (Dienst-)Leistung auf unserer Website an: Personalisierte Veranstaltungsempfehlungen.
+            Kontaktformular
 
-Dazu erheben wir folgende Daten:
+            Wir bieten ein Kontaktformular an. Dieses dient der Kontaktaufnahme zu unserem Unternehmen. 
 
-E-Mail-Adresse
+            In diesem Formular verarbeiten wir in der Regel Deinen Vor- und Nachnamen, Deine Telefonnummer, Deine E-Mail-Adresse, eine postalische Adresse sowie den Inhalt der Nachricht. Die Daten werden auf unserem Webserver gespeichert und an die jeweils zuständigen E-Mail-Adressen intern weitergeleitet. 
 
-Rechtsgrundlage für diese Datenverarbeitung ist Art. 6 Abs. 1 lit. b DSGVO.
+            Die Rechtsgrundlage für die Datenverarbeitung ist Art. 6 Abs. 1 lit. f DSGVO, da wir ein berechtigtes Interesse an der Beantwortung Deines Anliegens und an einer unkomplizierten Kontaktaufnahme-Möglichkeit haben. Zielt die Kontaktaufnahme auf den Abschluss eines Vertrages ab, so ist zusätzliche Rechtsgrundlage für die Verarbeitung Art. 6 Abs. 1 lit. b DSGVO.
 
-Die Daten werden gelöscht, sobald der jeweilige Zweck entfällt und es gemäß den gesetzlichen Vorgaben möglich ist.
+            Wir löschen diese Daten spätestens 3 Monate nach Erhalt, es sei denn, sie werden für eine entstandene Vertragsbeziehung benötigt.
 
-#### 3.3.2 Kontaktaufnahme
+            Wir binden das Kontaktformular von
 
-a) E-Mail
+            Monday
 
-Wenn Du per E-Mail mit uns in Kontakt trittst, verarbeiten wir Deine E-Mail-Adresse und ggf. weitere in der Mail enthaltene Daten. Diese werden auf dem Mail-Server und teilweise auf den jeweiligen Endgeräten gespeichert. Je nach Anliegen ist die Rechtsgrundlage hierfür regelmäßig Art. 6 Abs. 1 lit. f DSGVO oder Art. 6 Abs. 1 lit. b DSGVO. Die Daten werden gelöscht, sobald der jeweilige Zweck entfällt und es gemäß den gesetzlichen Vorgaben möglich ist. 
+            Monday.com Labs Ltd., 52 Menachem Begin Road, Tel Aviv 6713701, Israel. https://monday.com/l/de/privatsphaere/datenschutzerklarung/.
 
-b) Kontaktformular
+            auf unserer Website ein.</li>
+            </ol>
 
-Wir bieten ein Kontaktformular an. Dieses dient der Kontaktaufnahme zu unserem Unternehmen. 
+        1. Fragebögen/Formulare
 
-In diesem Formular verarbeiten wir in der Regel Deinen Vor- und Nachnamen, Deine Telefonnummer, Deine E-Mail-Adresse, eine postalische Adresse sowie den Inhalt der Nachricht. Die Daten werden auf unserem Webserver gespeichert und an die jeweils zuständigen E-Mail-Adressen intern weitergeleitet. 
+            <ol type="a">
+            <li>
 
-Die Rechtsgrundlage für die Datenverarbeitung ist Art. 6 Abs. 1 lit. f DSGVO, da wir ein berechtigtes Interesse an der Beantwortung Deines Anliegens und an einer unkomplizierten Kontaktaufnahme-Möglichkeit haben. Zielt die Kontaktaufnahme auf den Abschluss eines Vertrages ab, so ist zusätzliche Rechtsgrundlage für die Verarbeitung Art. 6 Abs. 1 lit. b DSGVO.
+            Eigenentwicklung
 
-Wir löschen diese Daten spätestens 3 Monate nach Erhalt, es sei denn, sie werden für eine entstandene Vertragsbeziehung benötigt.
+            Wir integrieren selbst entwickelte Formulare auf unserer Website.
 
-Wir binden das Kontaktformular von
+            Die eingegebenen Daten werden auf unseren Servern gespeichert.   
 
-Monday
+            Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG. Die Einwilligung ist jederzeit widerrufbar. Die Rechtmäßigkeit der bereits erfolgten Verarbeitungen bleibt von einem ggf. erfolgten Widerruf unberührt.  
 
-Monday.com Labs Ltd., 52 Menachem Begin Road, Tel Aviv 6713701, Israel. [](https://monday.com/l/de/privatsphaere/datenschutzerklarung/)[https://monday.com/l/de/privatsphaere/datenschutzerklarung/](https://monday.com/l/de/privatsphaere/datenschutzerklarung/).
+            Die gespeicherten Daten können jederzeit per E-Mail zur Verfügung gestellt werden oder es kann eine Aufforderung zur Löschung der Daten abgegeben werden.</li>
+            </ol>
 
-auf unserer Website ein.
+    1. **Mailingdienst**
 
-#### 3.3.3 Fragebögen/Formulare
+        1. **Amazon SES**
 
-a) Eigenentwicklung
+            Wir verwenden Amazon Simple Email Service (SES) als Mailingdienst. Dieser Dienst wird angeboten von Amazon Web Services, Inc., 410 Terry Avenue North, Seattle WA 98109, United States.
 
-Wir integrieren selbst entwickelte Formulare auf unserer Website.
+            Es handelt sich um einen cloudbasierten E-Mail-Dienst, der sich in jede Anwendung zur Automatisierung großer E-Mail-Volumen integrieren lässt. Mit Amazon SES können Unternehmen eine Vielzahl von E-Mails versenden, darunter Transaktions-E-Mails, Marketing-E-Mails und Newsletter-E-Mails.
 
-Die eingegebenen Daten werden auf unseren Servern gespeichert.   
+            Die Verarbeitung beruht entweder auf einer Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO, soweit wir den Mailingdienst zur Kontaktaufnahme mit unseren Leads einsetzen. Die Einwilligung ist jederzeit widerrufbar.
 
-Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG. Die Einwilligung ist jederzeit widerrufbar. Die Rechtmäßigkeit der bereits erfolgten Verarbeitungen bleibt von einem ggf. erfolgten Widerruf unberührt.  
+            Bei dem Versand von E-Mails zur konkreten Vertragsanbahnung oder im bestehenden Vertragsverhältnis, ist Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. b DSGVO, da die in Anspruch genommenen Dienste der Kundenverwaltung und der Erfüllung unserer vertragsmäßigen Leistung dienen.
 
-Die gespeicherten Daten können jederzeit per E-Mail zur Verfügung gestellt werden oder es kann eine Aufforderung zur Löschung der Daten abgegeben werden.
+            Die Daten werden bei Vertragsende zwischen uns und Amazon Web Services gelöscht.
 
-### 3.4 Mailingdienst
+            Bei der Datenübertragung in die USA greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
 
-#### 3.4.1 Amazon SES
+            Weitere Details:
 
-Wir verwenden Amazon Simple Email Service (SES) als Mailingdienst. Dieser Dienst wird angeboten von Amazon Web Services, Inc., 410 Terry Avenue North, Seattle WA 98109, United States.
+            https://d1.awsstatic.com/legal/privacypolicy/AWS_Privacy_Notice_German_2023-08-11.pdf.
 
-Es handelt sich um einen cloudbasierten E-Mail-Dienst, der sich in jede Anwendung zur Automatisierung großer E-Mail-Volumen integrieren lässt. Mit Amazon SES können Unternehmen eine Vielzahl von E-Mails versenden, darunter Transaktions-E-Mails, Marketing-E-Mails und Newsletter-E-Mails.
+    1. **Analyse- und Trackingtools**
 
-Die Verarbeitung beruht entweder auf einer Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO, soweit wir den Mailingdienst zur Kontaktaufnahme mit unseren Leads einsetzen. Die Einwilligung ist jederzeit widerrufbar.
+        1. **Google Analytics**
 
-Bei dem Versand von E-Mails zur konkreten Vertragsanbahnung oder im bestehenden Vertragsverhältnis, ist Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. b DSGVO, da die in Anspruch genommenen Dienste der Kundenverwaltung und der Erfüllung unserer vertragsmäßigen Leistung dienen.
+            Wir nutzen auf dieser Website Google Analytics. Google Analytics ist ein Webanalysedienst. Dieser Dienst wird angeboten von der Google Irland Limited („Google“), Gordon House, Barrow Street, Dublin 4, Irland.
 
-Die Daten werden bei Vertragsende zwischen uns und Amazon Web Services gelöscht.
+            Google Analytics verwendet Cookies, um den/die Nutzer\*in wiederzuerkennen und somit das Nutzungsverhalten zu analysieren. Diese Cookies werden nur mit Einwilligung gesetzt. Die Einwilligung kann jederzeit widerrufen und in unserem Cookie-Consent-Tool verwaltet werden.
 
-Bei der Datenübertragung in die USA greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
+            Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG.
 
-Weitere Details:
+            Die hier gesammelten Informationen werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert. Am 10. Juli 2023 hat die Europäische Kommission einen Angemessenheitsbeschluss für die USA angenommen. Google LLC ist nach dem EU-US-Privacy Framework zertifiziert. Da die Google Server jedoch weltweit stationiert sind und eine Datenübertragung in Drittländer (z.B. Singapur) nicht ausgeschlossen werden kann, greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
 
-[](https://d1.awsstatic.com/legal/privacypolicy/AWS_Privacy_Notice_German_2023-08-11.pdf)[https://d1.awsstatic.com/legal/privacypolicy/AWS\_Privacy\_Notice\_German\_2023-08-11.pdf](https://d1.awsstatic.com/legal/privacypolicy/AWS_Privacy_Notice_German_2023-08-11.pdf).
+            Durch die Nutzung von Google Analytics greift eine IP-Anonymisierung. Die IP-Adresse des jeweiligen Nutzers wird innerhalb der Mitgliedstaaten der EU (bzw. des Europäischen Wirtschaftsraums) so auf Servern innerhalb der EU gekürzt, dass eine Rückverfolgung zu einer natürlichen Person nicht mehr möglich ist. Darüber hinaus verpflichtet sich Google über die Google Ads-Datenverarbeitungsbedingungen zu einem angemessenen Datenschutz und erstellt eine Auswertung der Websitenutzung und der Websiteaktivität und erbringt die mit der Nutzung verbundenen Dienstleistungen. Die Google Ads-Datenverarbeitungsbedingungen gelten für Unternehmen, die der EU-Datenschutz-Grundverordnung (DSGVO) des Europäischen Wirtschaftsraums (EWR), dem kalifornischen Gesetz zum Schutz der Privatsphäre von Verbrauchern (California Consumer Privacy Act, CCPA) oder ähnlichen Regelungen unterliegen. 
 
-### 3.5 Analyse- und Trackingtools
+            Durch ein zusätzliches Browser-Plugin kann verhindert werden, dass die gesammelten Informationen (wie z.B. die IP-Adresse) an Google versendet und durch Google genutzt werden. Das Plugin und weitere Informationen dazu findest du unter https://tools.google.com/dlpage/gaoptout?hl=de.
 
-#### 3.5.1 Google Analytics
+            Ansonsten hängt die Speicherdauer von der Art der verarbeiteten Daten ab. Jeder Kunde kann wählen, wie lange Google Analytics Daten speichert, bevor sie automatisch gelöscht werden. Die maximale Lebensdauer eines Google Analytics Cookies sind zwei Jahre.
 
-Wir nutzen auf dieser Website Google Analytics. Google Analytics ist ein Webanalysedienst. Dieser Dienst wird angeboten von der Google Irland Limited („Google“), Gordon House, Barrow Street, Dublin 4, Irland.
+            Weitere Informationen zur Datennutzung durch Google findest duauch unter https://support.google.com/analytics/answer/6004245?hl=de. Für alle weiteren Rückfragen kannst du dich auch direkt an support-deutschland@google.com wenden.
 
-Google Analytics verwendet Cookies, um den/die Nutzer\*in wiederzuerkennen und somit das Nutzungsverhalten zu analysieren. Diese Cookies werden nur mit Einwilligung gesetzt. Die Einwilligung kann jederzeit widerrufen und in unserem Cookie-Consent-Tool verwaltet werden.
+        1. **Google Consent Mode**
 
-Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG.
+            Wir verwenden auf unserer Website den Google Consent Mode, um die Nutzung von Google-Diensten basierend auf deiner Einwilligung anzupassen. Dies bedeutet, dass wir je nach Zustimmung entweder die vollen Funktionalitäten dieser Dienste nutzen oder nur eine eingeschränkte Datenerhebung vornehmen.
 
-Die hier gesammelten Informationen werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert. Am 10. Juli 2023 hat die Europäische Kommission einen Angemessenheitsbeschluss für die USA angenommen. Google LLC ist nach dem EU-US-Privacy Framework zertifiziert. Da die Google Server jedoch weltweit stationiert sind und eine Datenübertragung in Drittländer (z.B. Singapur) nicht ausgeschlossen werden kann, greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
+            Der Google Consent Mode erlaubt eine gewisse Datenverarbeitung, selbst bei verweigerter Einwilligung, jedoch in anonymisierter Form.
 
-Durch die Nutzung von Google Analytics greift eine IP-Anonymisierung. Die IP-Adresse des jeweiligen Nutzers wird innerhalb der Mitgliedstaaten der EU (bzw. des Europäischen Wirtschaftsraums) so auf Servern innerhalb der EU gekürzt, dass eine Rückverfolgung zu einer natürlichen Person nicht mehr möglich ist. Darüber hinaus verpflichtet sich Google über die Google Ads-Datenverarbeitungsbedingungen zu einem angemessenen Datenschutz und erstellt eine Auswertung der Websitenutzung und der Websiteaktivität und erbringt die mit der Nutzung verbundenen Dienstleistungen. Die Google Ads-Datenverarbeitungsbedingungen gelten für Unternehmen, die der EU-Datenschutz-Grundverordnung (DSGVO) des Europäischen Wirtschaftsraums (EWR), dem kalifornischen Gesetz zum Schutz der Privatsphäre von Verbrauchern (California Consumer Privacy Act, CCPA) oder ähnlichen Regelungen unterliegen. 
+            Wir nutzen den Basic Consent Mode. Dieser ermöglicht es uns, weiterhin aggregierte Daten zu sammeln, selbst wenn du bestimmten Cookies nicht zugestimmt hast. Dabei können IP-Adressen an Google übertragen werden. Die Verarbeitung dient der Verbesserung unserer Website sowie der Analyse von Conversion-Ereignissen in anonymisierter Form. So können wir die Performance unserer Marketing-Maßnahmen besser einschätzen.
 
-Durch ein zusätzliches Browser-Plugin kann verhindert werden, dass die gesammelten Informationen (wie z.B. die IP-Adresse) an Google versendet und durch Google genutzt werden. Das Plugin und weitere Informationen dazu findest du unter [](https://tools.google.com/dlpage/gaoptout?hl=de)[https://tools.google.com/dlpage/gaoptout?hl=de](https://tools.google.com/dlpage/gaoptout?hl=de). 
+            Die Verarbeitung erfolgt in unserem berechtigten Interesse, bestimmte Funktionen der auf der Webseite eingesetzten einwilligungsbedürftigen Google-Dienste besser steuern und verwenden zu können. Rechtsgrundlage der Verarbeitung ist Art. 6 Abs. 1 S. 1 lit. f DSGVO.
 
-Ansonsten hängt die Speicherdauer von der Art der verarbeiteten Daten ab. Jeder Kunde kann wählen, wie lange Google Analytics Daten speichert, bevor sie automatisch gelöscht werden. Die maximale Lebensdauer eines Google Analytics Cookies sind zwei Jahre.
+            Weitere Informationen zum Google Consent Mode finden Sie unter: https://support.google.com/analytics/answer/9976101.
 
-Weitere Informationen zur Datennutzung durch Google findest duauch unter [](https://support.google.com/analytics/answer/6004245?hl=de)[https://support.google.com/analytics/answer/6004245?hl=de](https://support.google.com/analytics/answer/6004245?hl=de). Für alle weiteren Rückfragen kannst du dich auch direkt an [support-deutschland@google.com](mailto:support-deutschland@google.com) wenden.
+        1. **Sentry**
 
-#### 3.5.2 Google Consent Mode
+            Wir binden auf unserer Website den Dienst Sentry ein. Dies ist ein Dienste der Functional Software, Inc., Hawthorne St, San Francisco, CA 94107, USA.
 
-Wir verwenden auf unserer Website den Google Consent Mode, um die Nutzung von Google-Diensten basierend auf deiner Einwilligung anzupassen. Dies bedeutet, dass wir je nach Zustimmung entweder die vollen Funktionalitäten dieser Dienste nutzen oder nur eine eingeschränkte Datenerhebung vornehmen.
+            Sentry erhebt und speichert Daten, die aus anonymisierten Nutzungsprofilen erstellt werden, um die technische Stabilität unserer Website durch Überwachung der Systemstabilität und Ermittlung von Codefehlern zu verbessern. Nach Angaben des Dienstes werden die Daten der Nutzer, wie z.B. Angaben zum Gerät oder Fehlerzeitpunkt, anonym erhoben und nicht personenbezogen genutzt sowie anschließend gelöscht.
 
-Der Google Consent Mode erlaubt eine gewisse Datenverarbeitung, selbst bei verweigerter Einwilligung, jedoch in anonymisierter Form.
+            Sentry kann Cookies setzen, um die Aktivität auf unserer Website zu verfolgen und bestimmte Informationen zu speichern. Diese Cookies helfen uns, den Service zu betreiben, Ihre Präferenzen zu speichern und unsere Website sicher zu halten.
 
-Wir nutzen den Basic Consent Mode. Dieser ermöglicht es uns, weiterhin aggregierte Daten zu sammeln, selbst wenn du bestimmten Cookies nicht zugestimmt hast. Dabei können IP-Adressen an Google übertragen werden. Die Verarbeitung dient der Verbesserung unserer Website sowie der Analyse von Conversion-Ereignissen in anonymisierter Form. So können wir die Performance unserer Marketing-Maßnahmen besser einschätzen.
+            Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG, soweit diese Einwilligung den Zugriff auf Informationen im Endgerät des/der Nutzer\*in oder die Speicherung von Cookies im Sinne des TDDDG umfasst.
 
-Die Verarbeitung erfolgt in unserem berechtigten Interesse, bestimmte Funktionen der auf der Webseite eingesetzten einwilligungsbedürftigen Google-Dienste besser steuern und verwenden zu können. Rechtsgrundlage der Verarbeitung ist Art. 6 Abs. 1 S. 1 lit. f DSGVO.
+            Im Übrigen ist die Rechtsgrundlage für die Verarbeitung Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der anonymisierten Analyse zur Sicherstellung der technischen Stabilität unseres Internetauftritts.
 
-Weitere Informationen zum Google Consent Mode finden Sie unter: [https://support.google.com/analytics/answer/9976101.](https://support.google.com/analytics/answer/9976101.)
+            Weitere Informationen:
 
-#### 3.5.3 Sentry
+            https://sentry.io/privacy/.
 
-Wir binden auf unserer Website den Dienst Sentry ein. Dies ist ein Dienste der Functional Software, Inc., Hawthorne St, San Francisco, CA 94107, USA.
+        1. **Cloudflare Web Analytics**
 
-Sentry erhebt und speichert Daten, die aus anonymisierten Nutzungsprofilen erstellt werden, um die technische Stabilität unserer Website durch Überwachung der Systemstabilität und Ermittlung von Codefehlern zu verbessern. Nach Angaben des Dienstes werden die Daten der Nutzer, wie z.B. Angaben zum Gerät oder Fehlerzeitpunkt, anonym erhoben und nicht personenbezogen genutzt sowie anschließend gelöscht.
+            Wir binden auf unserer Website den Dienst Cloudflare Web Analytics ein. Dies ist ein Dienst der Cloudflare Germany GmbH, Rosental 7, c/o Mindspace, 80331 München.
 
-Sentry kann Cookies setzen, um die Aktivität auf unserer Website zu verfolgen und bestimmte Informationen zu speichern. Diese Cookies helfen uns, den Service zu betreiben, Ihre Präferenzen zu speichern und unsere Website sicher zu halten.
+            Durch Cloudflare Web Analytics können wir wichtige Statistiken über die Nutzung der Website erhalten. Es ermöglicht uns, die wichtigsten Hostnamen, URLs, Länder und andere wichtige Kennzahlen wie Statuscodes abzurufen. Außerdem können Traffic-Spitzen analystiert werden.
 
-Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG, soweit diese Einwilligung den Zugriff auf Informationen im Endgerät des/der Nutzer\*in oder die Speicherung von Cookies im Sinne des TDDDG umfasst.
+            Es werden keine clientseitigen Informationen, die etwa mithilfe von Cookies oder localStorage erfasst werden, durch Cloudflare verwendet. Cloudflare Web Analytics setzt keine Cookies, sammelt keine personenbezogenen Informationen und verfolgen die Besucher nicht über verschiedene Websites hinweg. Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der anonymisierten Analyse zur Sicherstellung der technischen Stabilität unseres Internetauftritts. Sollte es zu einer Datenübertragung in die USA kommen, greifen die Standardvertragsklauseln (SCC) der EU-Kommission um ein geeignetes Datenschutzniveau zu gewährleisten. 
 
-Im Übrigen ist die Rechtsgrundlage für die Verarbeitung Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der anonymisierten Analyse zur Sicherstellung der technischen Stabilität unseres Internetauftritts.
+            Weitere Informationen:
 
-Weitere Informationen:
+            https://www.cloudflare.com/de-de/trust-hub/gdpr/.
 
-[](https://sentry.io/privacy/)[https://sentry.io/privacy/](https://sentry.io/privacy/).
+        1. **Google Search Console**
 
-#### 3.5.4 Cloudflare Web Analytics
+            Wir binden auf unserer Website den Dienst Google Search Console ein, der von der Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland, betrieben wird. Google Search Console ist ein Dienst, der uns ermöglicht, den Indexierungsstatus unserer Website zu überwachen und die Sichtbarkeit in den Google-Suchergebnissen zu optimieren.
 
-Wir binden auf unserer Website den Dienst Cloudflare Web Analytics ein. Dies ist ein Dienst der Cloudflare Germany GmbH, Rosental 7, c/o Mindspace, 80331 München.
+            Es werden verschiedene Daten verarbeitet, darunter Informationen zur Website-Performance, Klicks, Zugriffe und technische Fehler, die auf der Website auftreten. Zweck der Datenverarbeitung ist es, die Suchmaschinenoptimierung (SEO) zu verbessern, die technische Performance der Website zu analysieren und Fehler zu beheben.
 
-Durch Cloudflare Web Analytics können wir wichtige Statistiken über die Nutzung der Website erhalten. Es ermöglicht uns, die wichtigsten Hostnamen, URLs, Länder und andere wichtige Kennzahlen wie Statuscodes abzurufen. Außerdem können Traffic-Spitzen analystiert werden.
+            Rechtsgrundlage für die Datenverarbeitung ist Art. 6 Abs. 1 lit. f DSGVO, da wir ein berechtigtes Interesse daran haben, unsere Website in den Suchergebnissen zu optimieren und deren Funktionalität sicherzustellen.
 
-Es werden keine clientseitigen Informationen, die etwa mithilfe von Cookies oder localStorage erfasst werden, durch Cloudflare verwendet. Cloudflare Web Analytics setzt keine Cookies, sammelt keine personenbezogenen Informationen und verfolgen die Besucher nicht über verschiedene Websites hinweg. Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der anonymisierten Analyse zur Sicherstellung der technischen Stabilität unseres Internetauftritts. Sollte es zu einer Datenübertragung in die USA kommen, greifen die Standardvertragsklauseln (SCC) der EU-Kommission um ein geeignetes Datenschutzniveau zu gewährleisten. 
+            Google Search Console setzt keine Cookies auf unserer Website. Es kann jedoch eine Datenübermittlung in Drittländer, insbesondere in die USA, stattfinden, da Google Server weltweit betreibt. Dabei werden die Standardvertragsklauseln (SCCs) der EU-Kommission verwendet, um ein angemessenes Datenschutzniveau sicherzustellen.
 
-Weitere Informationen:
+            Die Daten werden so lange gespeichert, wie sie für den jeweiligen Verarbeitungszweck notwendig sind oder bis der/die Nutzer\*in eine Löschung beantragt.
 
-[](https://www.cloudflare.com/de-de/trust-hub/gdpr/)[https://www.cloudflare.com/de-de/trust-hub/gdpr/](https://www.cloudflare.com/de-de/trust-hub/gdpr/).
+            Weitere Informationen zur Datenverarbeitung finden sich unter: https://policies.google.com/privacy.
 
-#### 3.5.5 Google Search Console
+    1. **Social Media Profile**
 
-Wir binden auf unserer Website den Dienst Google Search Console ein, der von der Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland, betrieben wird. Google Search Console ist ein Dienst, der uns ermöglicht, den Indexierungsstatus unserer Website zu überwachen und die Sichtbarkeit in den Google-Suchergebnissen zu optimieren.
+        Neben unserer Website sind wir mit unserem Unternehmen auch auf sozialen Netzwerken präsent. Hierbei wollen wir unser Unternehmen präsentieren und die Möglichkeit schaffen, mit uns in Kontakt zu treten.
 
-Es werden verschiedene Daten verarbeitet, darunter Informationen zur Website-Performance, Klicks, Zugriffe und technische Fehler, die auf der Website auftreten. Zweck der Datenverarbeitung ist es, die Suchmaschinenoptimierung (SEO) zu verbessern, die technische Performance der Website zu analysieren und Fehler zu beheben.
+        Außerdem nutzen wir auch die Möglichkeit, Werbeanzeigen und Stellengesuche in sozialen Medien zu schalten.
 
-Rechtsgrundlage für die Datenverarbeitung ist Art. 6 Abs. 1 lit. f DSGVO, da wir ein berechtigtes Interesse daran haben, unsere Website in den Suchergebnissen zu optimieren und deren Funktionalität sicherzustellen.
+        Im Folgenden informieren wir darüber, welche Daten wir und das jeweilige soziale Netzwerk bei Besuch und der Interaktion mit unserem Profil verarbeiten.
 
-Google Search Console setzt keine Cookies auf unserer Website. Es kann jedoch eine Datenübermittlung in Drittländer, insbesondere in die USA, stattfinden, da Google Server weltweit betreibt. Dabei werden die Standardvertragsklauseln (SCCs) der EU-Kommission verwendet, um ein angemessenes Datenschutzniveau sicherzustellen.
+        1. **LinkedIn**
 
-Die Daten werden so lange gespeichert, wie sie für den jeweiligen Verarbeitungszweck notwendig sind oder bis der/die Nutzer\*in eine Löschung beantragt.
+            Wir betreiben ein LinkedIn Profil auf https://www.linkedin.com/. Dieses soziale Netzwerk wird von der LinkedIn Corporation, 2029 Stierlin Court, Mountain View, CA 94043, USA, betrieben.
 
-Weitere Informationen zur Datenverarbeitung finden sich unter: [](null)[https://policies.google.com/privacy](https://policies.google.com/privacy).
+            <ol type="a">
+            <li>
 
-### 3.6 Social Media Profile
+            Interaktion mit unserem Unternehmensprofil
 
-Neben unserer Website sind wir mit unserem Unternehmen auch auf sozialen Netzwerken präsent. Hierbei wollen wir unser Unternehmen präsentieren und die Möglichkeit schaffen, mit uns in Kontakt zu treten.
+            Bei dem Besuch unseres LinkedIn Profil und der Interaktion darüber mit uns verarbeiten wir personenbezogene Daten. Einerseits die öffentlich zur Verfügung gestellten Daten auf dem Profil. Andererseits auch die personenbezogenen Daten, die in Posts, Kommentaren oder direkten Nachrichten an uns enthalten sind. Durch Interaktionen wie Liken oder Teilen können wir das Nutzerprofil mit den öffentlichen Informationen sehen.
 
-Außerdem nutzen wir auch die Möglichkeit, Werbeanzeigen und Stellengesuche in sozialen Medien zu schalten.
+            Rechtsgrundlage für diese Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Es liegt in unserem berechtigten Interesse, relevante und interessante Inhalte zur Verfügung zu stellen und die Nutzung und Funktionalität unseres LinkedIn Profils zu ermöglichen
 
-Im Folgenden informieren wir darüber, welche Daten wir und das jeweilige soziale Netzwerk bei Besuch und der Interaktion mit unserem Profil verarbeiten.
+            Soweit eine Anfrage mit der Erfüllung eines Vertrags zusammenhängt oder zur Durchführung vorvertraglicher Maßnahmen erforderlich ist, basiert unsere Verarbeitung auf Art. 6 Abs. 1 lit. b DSGVO.</li>
 
-#### 3.6.1 LinkedIn
+            <li>
 
-Wir betreiben ein LinkedIn Profil auf [](https://www.linkedin.com/)[https://www.linkedin.com/](https://www.linkedin.com/). Dieses soziale Netzwerk wird von der LinkedIn Corporation, 2029 Stierlin Court, Mountain View, CA 94043, USA, betrieben.
+            Seiten-Insights
 
-a) Interaktion mit unserem Unternehmensprofil
+            LinkedIn stellt uns zusammengefasste Statistiken und Einblicke (sogenannte Page-Insights) zur Verfügung, die uns darüber Aufschluss geben, wie Personen mit unserer Unternehmensseite interagieren. Wir erhalten unter anderem Informationen über die Anzahl der Profile, die unsere Beiträge aufrufen, kommentieren oder anderweitig damit interagieren, sowie zusammengefasste demografische und andere Informationen, die uns helfen, etwas über die Interaktion mit unserer Seite bzw. unserem LinkedIn Profil zu erfahren. Pages Insights, die uns von LinkedIn zur Verfügung gestellt werden, bestehen aus aggregierten Daten, wobei uns LinkedIn keine personenbezogenen Daten von Mitgliedern in Bezug auf Page Insights zur Verfügung stellt. Wir haben auch keine Möglichkeit, die Page Insights mit einzelnen Mitgliedern zu verknüpfen.
 
-Bei dem Besuch unseres LinkedIn Profil und der Interaktion darüber mit uns verarbeiten wir personenbezogene Daten. Einerseits die öffentlich zur Verfügung gestellten Daten auf dem Profil. Andererseits auch die personenbezogenen Daten, die in Posts, Kommentaren oder direkten Nachrichten an uns enthalten sind. Durch Interaktionen wie Liken oder Teilen können wir das Nutzerprofil mit den öffentlichen Informationen sehen.
+            Beim Schalten von Werbeanzeigen übermittelt LinkedIn uns Informationen über die Arten von Personen, die unsere Anzeigen sehen und über den Erfolg unserer Anzeigen. Personenbezogene Daten werden dabei nur dann an uns weitergegeben, wenn diese Person in eine derartige Verarbeitung eingewilligt hat. Wir erhalten von LinkedIn auch Informationen, mit denen wir nachvollziehen können, welche unserer Anzeigen dazu geführt hat, dass ein Kauf getätigt oder eine Handlung durchgeführt wurde.
 
-Rechtsgrundlage für diese Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Es liegt in unserem berechtigten Interesse, relevante und interessante Inhalte zur Verfügung zu stellen und die Nutzung und Funktionalität unseres LinkedIn Profils zu ermöglichen
+            Die Verarbeitung dieser Daten dient dem Zweck der Analyse unserer Reichweite und der Anpassung unserer Inhalte und Anzeigen an die Nutzerinteressen. Anhand der Auswertungen dieser Daten können wir erkennen, wie unser Content, unser Profil und unsere Werbung konsumiert werden. Damit können wir zielgruppengerechten Content schaffen und Werbung schalten, um unser Unternehmen und unsere Leistungen besser zu vermarkten.
 
-Soweit eine Anfrage mit der Erfüllung eines Vertrags zusammenhängt oder zur Durchführung vorvertraglicher Maßnahmen erforderlich ist, basiert unsere Verarbeitung auf Art. 6 Abs. 1 lit. b DSGVO.
+            Die Verarbeitung basiert auf unserem berechtigten Interesse nach Art. 6 Abs. 1 S. 1 lit. f DSGVO.
 
-b) Seiten-Insights
+            Bei der Verarbeitung personenbezogener Daten im Zuge der sogenannten Page-Insights erfolgt die Verarbeitung in gemeinsamer Verantwortlichkeit mit LinkedIn gem. Art. 26 Abs. 1 DSGVO.
 
-LinkedIn stellt uns zusammengefasste Statistiken und Einblicke (sogenannte Page-Insights) zur Verfügung, die uns darüber Aufschluss geben, wie Personen mit unserer Unternehmensseite interagieren. Wir erhalten unter anderem Informationen über die Anzahl der Profile, die unsere Beiträge aufrufen, kommentieren oder anderweitig damit interagieren, sowie zusammengefasste demografische und andere Informationen, die uns helfen, etwas über die Interaktion mit unserer Seite bzw. unserem LinkedIn Profil zu erfahren. Pages Insights, die uns von LinkedIn zur Verfügung gestellt werden, bestehen aus aggregierten Daten, wobei uns LinkedIn keine personenbezogenen Daten von Mitgliedern in Bezug auf Page Insights zur Verfügung stellt. Wir haben auch keine Möglichkeit, die Page Insights mit einzelnen Mitgliedern zu verknüpfen.
+            Hierzu haben wir eine entsprechende Vereinbarung mit LinkedIn getroffen, die hier (https://legal.linkedin.com/pages-joint-controller-addendum) eingesehen werden kann.</li>
+            </ol>
 
-Beim Schalten von Werbeanzeigen übermittelt LinkedIn uns Informationen über die Arten von Personen, die unsere Anzeigen sehen und über den Erfolg unserer Anzeigen. Personenbezogene Daten werden dabei nur dann an uns weitergegeben, wenn diese Person in eine derartige Verarbeitung eingewilligt hat. Wir erhalten von LinkedIn auch Informationen, mit denen wir nachvollziehen können, welche unserer Anzeigen dazu geführt hat, dass ein Kauf getätigt oder eine Handlung durchgeführt wurde.
+            Die Kontaktdaten von LinkedIn lauten:
 
-Die Verarbeitung dieser Daten dient dem Zweck der Analyse unserer Reichweite und der Anpassung unserer Inhalte und Anzeigen an die Nutzerinteressen. Anhand der Auswertungen dieser Daten können wir erkennen, wie unser Content, unser Profil und unsere Werbung konsumiert werden. Damit können wir zielgruppengerechten Content schaffen und Werbung schalten, um unser Unternehmen und unsere Leistungen besser zu vermarkten.
+            <address>
+            LinkedIn Ireland Unlimited Company
+            <br />
+            Wilton Place
+            <br />
+            Dublin 2
+            <br />
+            Ireland
+            </address>
 
-Die Verarbeitung basiert auf unserem berechtigten Interesse nach Art. 6 Abs. 1 S. 1 lit. f DSGVO.
+            Für LinkedIn kannst du unter folgendem Link mit dem Datenschutzbeauftragten Kontakt aufnehmen:
 
-Bei der Verarbeitung personenbezogener Daten im Zuge der sogenannten Page-Insights erfolgt die Verarbeitung in gemeinsamer Verantwortlichkeit mit LinkedIn gem. Art. 26 Abs. 1 DSGVO.
+            https://www.linkedin.com/help/linkedin/ask/TSO-DPO.
 
-Hierzu haben wir eine entsprechende Vereinbarung mit LinkedIn getroffen, die hier ([](https://legal.linkedin.com/pages-joint-controller-addendum)[https://legal.linkedin.com/pages-joint-controller-addendum](https://legal.linkedin.com/pages-joint-controller-addendum)) eingesehen werden kann.
+        1. **Verarbeitung durch LinkedIn**
 
-Die Kontaktdaten von LinkedIn lauten:
+            Im Zusammenhang mit Ihrem Besuch unseres Unternehmensprofils verarbeitet LinkedIn möglicherweise auch darüber hinaus personenbezogene Daten. In diesem Fall erfolgt die Verarbeitung in alleiniger Verantwortung von LinkedIn und ohne unsere Kenntnis. Nähere Informationen von LinkedIn hierzu findest du unter:
 
-LinkedIn Ireland Unlimited Company, Wilton Place, Dublin 2, Ireland.
+            https://de.linkedin.com/legal/privacy-policy.
 
-Für LinkedIn kannst du unter folgendem Link mit dem Datenschutzbeauftragten Kontakt aufnehmen:
+    1. **Facebook**
 
-[](https://www.linkedin.com/help/linkedin/ask/TSO-DPO)[https://www.linkedin.com/help/linkedin/ask/TSO-DPO](https://www.linkedin.com/help/linkedin/ask/TSO-DPO).
+        Wir betreiben eine Facebook Fanpage auf https://www.facebook.com/. Dieses soziale Netzwerk wir von der Meta Platforms Ireland Limited, 4 Grand Canal Square, Grand Canal Harbour, Dublin 2, Irland, betrieben.
 
-#### 3.6.2 Verarbeitung durch LinkedIn
+        1. **Interaktion mit unserem Unternehmensprofil**
 
-Im Zusammenhang mit Ihrem Besuch unseres Unternehmensprofils verarbeitet LinkedIn möglicherweise auch darüber hinaus personenbezogene Daten. In diesem Fall erfolgt die Verarbeitung in alleiniger Verantwortung von LinkedIn und ohne unsere Kenntnis. Nähere Informationen von LinkedIn hierzu findest du unter:
+            Bei dem Besuch unseres Facebook-Profil und der Interaktion darüber mit uns verarbeiten wir personenbezogene Daten. Einerseits die öffentlich zur Verfügung gestellten Daten auf dem Profil. Andererseits auch die personenbezogenen Daten, die in Posts, Kommentaren oder direkten Nachrichten an uns enthalten sind. Durch Interaktionen wie Liken oder Teilen können wir das Nutzerprofil mit den öffentlichen Informationen sehen.
 
-[](https://de.linkedin.com/legal/privacy-policy)[https://de.linkedin.com/legal/privacy-policy](https://de.linkedin.com/legal/privacy-policy).
+            Rechtsgrundlage für diese Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Es liegt in unserem berechtigten Interesse, relevante und interessante Inhalte zur Verfügung zu stellen und die Nutzung und Funktionalität unseres Facebook-Profils zu ermöglichen.
 
-### 3.7 Facebook
+            Soweit eine Anfrage mit der Erfüllung eines Vertrags zusammenhängt oder zur Durchführung vorvertraglicher Maßnahmen erforderlich ist, basiert unsere Verarbeitung auf Art. 6 Abs. 1 lit. b DSGVO.
 
-Wir betreiben eine Facebook Fanpage auf [https://www.facebook.com/.](https://www.facebook.com/.) Dieses soziale Netzwerk wir von der Meta Platforms Ireland Limited, 4 Grand Canal Square, Grand Canal Harbour, Dublin 2, Irland, betrieben.
+        1. **Seiten Insights**
 
-#### 3.7.1 Interaktion mit unserem Unternehmensprofil
+            Wie in der Meta-Datenschutzrichtlinie unter „Wie verwenden wir deine Informationen?“ erläutert, erhebt und verwendet Meta Informationen auch, um Analysedienste, sogenannte Seiten-Insights, für Seitenbetreiber bereitzustellen. Dies gilt auch für unsere Facebook Seite.
 
-Bei dem Besuch unseres Facebook-Profil und der Interaktion darüber mit uns verarbeiten wir personenbezogene Daten. Einerseits die öffentlich zur Verfügung gestellten Daten auf dem Profil. Andererseits auch die personenbezogenen Daten, die in Posts, Kommentaren oder direkten Nachrichten an uns enthalten sind. Durch Interaktionen wie Liken oder Teilen können wir das Nutzerprofil mit den öffentlichen Informationen sehen.
+            Bei Seiten-Insights handelt es sich um zusammengefasste Statistiken, die anhand bestimmter Interaktionen der Besuchenden mit Seiten und den mit ihnen verbundenen Inhalten (z. B. dem Ansehen einer Seite oder eines Videos, dem Abonnieren einer Seite, eine Seite mit „Gefällt mir“ oder „Gefällt mir nicht mehr“ markieren etc.) erstellt und von den Meta Servern protokolliert werden.
 
-Rechtsgrundlage für diese Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Es liegt in unserem berechtigten Interesse, relevante und interessante Inhalte zur Verfügung zu stellen und die Nutzung und Funktionalität unseres Facebook-Profils zu ermöglichen.
+            Meta stellt uns im Zusammenhang mit den Seiten-Insights zusammengefasste Statistiken und Einblicke zur Verfügung, die uns darüber Aufschluss geben, wie Personen mit unserer Unternehmensseite interagieren. Dabei erhalten wir keinen Zugriff auf personenbezogene Daten, sondern nur auf die zusammengefassten Seiten-Insights. Mithilfe der Seiten-Insights können wir anonyme Statistiken z. B. der Reichweite unseres Accounts, der Seitenaufrufe, der Likes etc. einsehen. Diese enthalten auch Auswertungen nach Alter, Geschlecht und Standort der Nutzenden (wie von diesen in ihren jeweiligen Facebook-Profilen angegeben). Für die Auswertung der Reichweite können wir Einstellungen vornehmen bzw. entsprechende Filter hinsichtlich der Auswahl eines Zeitraums, der Betrachtung eines bestimmten Beitrags sowie der demografischen Gruppierungen setzen. Diese Daten sind anonymisiert. Rückschlüsse auf bestimmte Personen sind uns dabei nicht möglich.
 
-Soweit eine Anfrage mit der Erfüllung eines Vertrags zusammenhängt oder zur Durchführung vorvertraglicher Maßnahmen erforderlich ist, basiert unsere Verarbeitung auf Art. 6 Abs. 1 lit. b DSGVO.
+            Die Verarbeitung dieser Daten dient dem Zweck der Analyse unserer Reichweite und der Anpassung unserer Inhalte und Anzeigen an die Nutzerinteressen, damit Besuchende einen größtmöglichen Nutzen daraus ziehen können. Anhand der Auswertungen dieser Daten können wir erkennen, wie unser Content, unser Profil und unsere Werbung konsumiert werden. Damit können wir zielgruppengerechten Content schaffen und Werbung schalten, um unser Unternehmen und unsere Leistungen besser zu vermarkten.
 
-#### 3.7.2 Seiten Insights
+            Die Verarbeitung basiert auf unserem berechtigten Interesse nach Art. 6 Abs. 1 S. 1 lit. f DSGVO.
 
-Wie in der Meta-Datenschutzrichtlinie unter „Wie verwenden wir deine Informationen?“ (erläutert, erhebt und verwendet Meta Informationen auch, um Analysedienste, sogenannte Seiten-Insights, für Seitenbetreiber bereitzustellen. Dies gilt auch für unsere Facebook Seite.
+            Bei der Verarbeitung personenbezogener Daten im Zuge der sogenannten Seiten-Insights erfolgt in gemeinsamer Verantwortlichkeit mit Facebook gem. Art. 26 Abs. 1 DSGVO.
 
-Bei Seiten-Insights handelt es sich um zusammengefasste Statistiken, die anhand bestimmter Interaktionen der Besuchenden mit Seiten und den mit ihnen verbundenen Inhalten (z. B. dem Ansehen einer Seite oder eines Videos, dem Abonnieren einer Seite, eine Seite mit „Gefällt mir“ oder „Gefällt mir nicht mehr“ markieren etc.) erstellt und von den Meta Servern protokolliert werden.
+            Hierzu haben wir eine entsprechende Vereinbarung mit Facebook getroffen, die hier (https://www.facebook.com/legal/terms/page\_controller\_addendum) eingesehen werden kann.
 
-Meta stellt uns im Zusammenhang mit den Seiten-Insights zusammengefasste Statistiken und Einblicke zur Verfügung, die uns darüber Aufschluss geben, wie Personen mit unserer Unternehmensseite interagieren. Dabei erhalten wir keinen Zugriff auf personenbezogene Daten, sondern nur auf die zusammengefassten Seiten-Insights. Mithilfe der Seiten-Insights können wir anonyme Statistiken z. B. der Reichweite unseres Accounts, der Seitenaufrufe, der Likes etc. einsehen. Diese enthalten auch Auswertungen nach Alter, Geschlecht und Standort der Nutzenden (wie von diesen in ihren jeweiligen Facebook-Profilen angegeben). Für die Auswertung der Reichweite können wir Einstellungen vornehmen bzw. entsprechende Filter hinsichtlich der Auswahl eines Zeitraums, der Betrachtung eines bestimmten Beitrags sowie der demografischen Gruppierungen setzen. Diese Daten sind anonymisiert. Rückschlüsse auf bestimmte Personen sind uns dabei nicht möglich.
+            Die Kontaktdaten von Facebook lauten:
 
-Die Verarbeitung dieser Daten dient dem Zweck der Analyse unserer Reichweite und der Anpassung unserer Inhalte und Anzeigen an die Nutzerinteressen, damit Besuchende einen größtmöglichen Nutzen daraus ziehen können. Anhand der Auswertungen dieser Daten können wir erkennen, wie unser Content, unser Profil und unsere Werbung konsumiert werden. Damit können wir zielgruppengerechten Content schaffen und Werbung schalten, um unser Unternehmen und unsere Leistungen besser zu vermarkten.
+            Online-Kontakt: https://www.facebook.com/help/contact/1650115808681298
 
-Die Verarbeitung basiert auf unserem berechtigten Interesse nach Art. 6 Abs. 1 S. 1 lit. f DSGVO.
+            Postalisch: Meta Platforms Ireland Limited, ATTN: Privacy Operations, Merrion Road, Dublin 4, D04 X2K5, Irland.
 
-Bei der Verarbeitung personenbezogener Daten im Zuge der sogenannten Seiten-Insights erfolgt in gemeinsamer Verantwortlichkeit mit Facebook gem. Art. 26 Abs. 1 DSGVO.
+            Für Facebook kannst du unter folgendem Link mit dem Datenschutzbeauftragten Kontakt aufnehmen:
 
-Hierzu haben wir eine entsprechende Vereinbarung mit Facebook getroffen, die hier ([https://www.facebook.com/legal/terms/page\_controller\_addendum)](https://www.facebook.com/legal/terms/page_controller_addendum)) eingesehen werden kann.
+            https://www.facebook.com/help/contact/540977946302970
 
-Die Kontaktdaten von Facebook lauten:
+            Weitere Informationen über die Seiten-Insights:
 
-Online-Kontakt: [https://www.facebook.com/help/contact/1650115808681298](https://www.facebook.com/help/contact/1650115808681298)
+            https://de-de.facebook.com/legal/terms/page_controller_addendum
 
-Postalisch: Meta Platforms Ireland Limited, ATTN: Privacy Operations, Merrion Road, Dublin 4, D04 X2K5, Irland.
+        1. **Verarbeitung personenbezogener Daten und Cookies durch Meta**
 
-Für Facebook kannst du unter folgendem Link mit dem Datenschutzbeauftragten Kontakt aufnehmen:
+            Beim Zugriff auf eine Facebook-Seite wird die deinem Endgeräte zugeteilte IP-Adresse an Facebook übermittelt. Nach Auskunft von Facebook wird diese IP-Adresse anonymisiert (bei "deutschen" IP-Adressen). Facebook speichert darüber hinaus Informationen über die Endgeräte seiner Nutzer (z.B. im Rahmen der Funktion „Anmeldebenachrichtigung“); gegebenenfalls ist Facebook damit eine Zuordnung von IP-Adressen zu einzelnen Nutzern möglich. Wenn du als Nutzer\*in aktuell bei Facebook angemeldet bist, befindet sich auf deinem Endgerät ein Cookie mit deiner Facebook-Kennung. Dadurch ist Facebook in der Lage, nachzuvollziehen, dass du diese Seite aufgesucht und wie du sie genutzt hast. Über in Websites eingebundene Facebook-Buttons ist es Facebook möglich, deine Besuche auf diesen Websites zu erfassen und deinem Facebook-Profil zuzuordnen. Anhand dieser Daten können Inhalte oder Werbung auf dich zugeschnitten angeboten werden.
 
-[https://www.facebook.com/help/contact/540977946302970.](https://www.facebook.com/help/contact/540977946302970.)
+            Informationen dazu, wie personenbezogene Daten verwaltet oder gelöscht werden können, sind im Privacy Center von Facebook zu finden:
 
-Weitere Informationen über die Seiten-Insights:
+            https://www.facebook.com/privacy/center/
 
-[](https://de-de.facebook.com/legal/terms/page_controller_addendum)[https://de-de.facebook.com/legal/terms/page\_cntroller\_addendum](https://de-de.facebook.com/legal/terms/page_cntroller_addendum)
+            Nähere Informationen zu dem Umgang mit Daten von Facebook sind hier zu finden:
 
-#### 3.7.3 Verarbeitung personenbezogener Daten und Cookies durch Meta
+            http://de-de.facebook.com/about/privacy
 
-Beim Zugriff auf eine Facebook-Seite wird die deinem Endgeräte zugeteilte IP-Adresse an Facebook übermittelt. Nach Auskunft von Facebook wird diese IP-Adresse anonymisiert (bei "deutschen" IP-Adressen). Facebook speichert darüber hinaus Informationen über die Endgeräte seiner Nutzer (z.B. im Rahmen der Funktion „Anmeldebenachrichtigung“); gegebenenfalls ist Facebook damit eine Zuordnung von IP-Adressen zu einzelnen Nutzern möglich. Wenn du als Nutzer\*in aktuell bei Facebook angemeldet bist, befindet sich auf deinem Endgerät ein Cookie mit deiner Facebook-Kennung. Dadurch ist Facebook in der Lage, nachzuvollziehen, dass du diese Seite aufgesucht und wie du sie genutzt hast. Über in Websites eingebundene Facebook-Buttons ist es Facebook möglich, deine Besuche auf diesen Websites zu erfassen und deinem Facebook-Profil zuzuordnen. Anhand dieser Daten können Inhalte oder Werbung auf dich zugeschnitten angeboten werden.
+    1. **Instagram**
 
-Informationen dazu, wie personenbezogene Daten verwaltet oder gelöscht werden können, sind im Privacy Center von Facebook zu finden:
+        Wir betreiben ein Instagram Profil. Diese Social-Media-Plattform wird angeboten von der Meta Platforms Ireland Limited, 4 Grand Canal Square, Grand Canal Harbour, Dublin 2, Irland.
 
-[https://www.facebook.com/privacy/center/.](https://www.facebook.com/privacy/center/.)
+        1. **Interaktion mit unserem Unternehmensprofil**
 
-Nähere Informationen zu dem Umgang mit Daten von Facebook sind hier zu finden:
+            Bei dem Besuch unseres Instagram Profils und der Interaktion darüber mit uns verarbeiten wir personenbezogene Daten. Einerseits die öffentlich zur Verfügung gestellten Daten auf dem Profil. Andererseits auch die personenbezogenen Daten, die in Posts, Kommentaren oder direkten Nachrichten an uns enthalten sind. Durch Interaktionen wie Liken oder Teilen können wir das Nutzerprofil mit den öffentlichen Informationen sehen.
 
-[http://de-de.facebook.com/about/privacy.](http://de-de.facebook.com/about/privacy.)
+            Rechtsgrundlage für diese Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Es liegt in unserem berechtigten Interesse, relevante und interessante Inhalte zur Verfügung zu stellen und die Nutzung und Funktionalität unseres Instagram Profils zu ermöglichen.
 
-### 3.8 Instagram
+            Soweit eine Anfrage mit der Erfüllung eines Vertrags zusammenhängt oder zur Durchführung vorvertraglicher Maßnahmen erforderlich ist, basiert unsere Verarbeitung auf Art. 6 Abs. 1 lit. b DSGVO.
 
-Wir betreiben ein Instagram Profil. Diese Social-Media-Plattform wird angeboten von der Meta Platforms Ireland Limited, 4 Grand Canal Square, Grand Canal Harbour, Dublin 2, Irland.
+        1. **Insights**
 
-#### 3.8.1 Interaktion mit unserem Unternehmensprofil
+            Wie in der Meta-Datenschutzrichtlinie unter „Wie verwenden wir deine Informationen?“ (https://privacycenter.instagram.com/policy/?entry\_point=ig\_help\_center\_data\_policy\_redirect) erläutert, erhebt und verwendet Meta Informationen auch, um Analysedienste, sogenannte Insights, für Seitenbetreiber bereitzustellen. Dies gilt auch für unser Instagram Profil.
 
-Bei dem Besuch unseres Instagram Profils und der Interaktion darüber mit uns verarbeiten wir personenbezogene Daten. Einerseits die öffentlich zur Verfügung gestellten Daten auf dem Profil. Andererseits auch die personenbezogenen Daten, die in Posts, Kommentaren oder direkten Nachrichten an uns enthalten sind. Durch Interaktionen wie Liken oder Teilen können wir das Nutzerprofil mit den öffentlichen Informationen sehen.
+            Bei den Insights handelt es sich um zusammengefasste Statistiken, die anhand bestimmter Interaktionen der Besuchenden mit Seiten und den mit ihnen verbundenen Inhalten erstellt und von den Meta Servern protokolliert werden. Hierzu zählen unter anderem folgende Informationen
 
-Rechtsgrundlage für diese Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Es liegt in unserem berechtigten Interesse, relevante und interessante Inhalte zur Verfügung zu stellen und die Nutzung und Funktionalität unseres Instagram Profils zu ermöglichen.
+            - Wie viele Menschen sehen unsere Produkte, Dienste oder Inhalte, wie u. a. Beiträge, Videos, Instagram-Seiten, Inserate, Shops und Werbeanzeigen (wenn die Werbung auf Meta-Produkten gezeigt wird) und interagieren mit ihnen;
+            - Wie interagieren Personen mit unseren Inhalten, Websites, Apps und Diensten;
+            - Welche Personengruppe interagiert mit unseren Inhalten bzw. welche Personengruppe nutzt unsere Dienste.
 
-Soweit eine Anfrage mit der Erfüllung eines Vertrags zusammenhängt oder zur Durchführung vorvertraglicher Maßnahmen erforderlich ist, basiert unsere Verarbeitung auf Art. 6 Abs. 1 lit. b DSGVO.
+            Meta stellt uns zusammengefasste Berichte und Einblicke zur Verfügung, die uns darüber Aufschluss geben, wie gut unsere Inhalte, Features, Produkte und Dienste abschneiden.
 
-#### 3.8.2 Insights
+            Dabei erhalten wir keinen Zugriff auf personenbezogene Daten, sondern nur auf die zusammengefassten Berichte.
 
-Wie in der Meta-Datenschutzrichtlinie unter „Wie verwenden wir deine Informationen?“ ([https://privacycenter.instagram.com/policy/?entry\_point=ig\_help\_center\_data\_policy\_redirect)](https://privacycenter.instagram.com/policy/?entry_point=ig_help_center_data_policy_redirect)) erläutert, erhebt und verwendet Meta Informationen auch, um Analysedienste, sogenannte Insights, für Seitenbetreiber bereitzustellen. Dies gilt auch für unser Instagram Profil.
+            Für die Auswertung der Reichweite können wir Einstellungen vornehmen bzw. entsprechende Filter hinsichtlich der Auswahl eines Zeitraums, der Betrachtung eines bestimmten Beitrags sowie der demografischen Gruppierungen setzen. Diese Daten sind anonymisiert. Rückschlüsse auf bestimmte Personen sind uns dabei nicht möglich.
 
-Bei den Insights handelt es sich um zusammengefasste Statistiken, die anhand bestimmter Interaktionen der Besuchenden mit Seiten und den mit ihnen verbundenen Inhalten erstellt und von den Meta Servern protokolliert werden. Hierzu zählen unter anderem folgende Informationen
+            Die Verarbeitung dieser Daten dient dem Zweck der Analyse unserer Reichweite und der Anpassung unserer Inhalte und Anzeigen an die Nutzerinteressen, damit Besuchende einen größtmöglichen Nutzen daraus ziehen können. Anhand der Auswertungen dieser Daten können wir erkennen, wie unser Content, unser Profil und unsere Werbung konsumiert werden. Damit können wir zielgruppengerechten Content schaffen und Werbung schalten, um unser Unternehmen und unsere Leistungen besser zu vermarkten.
 
-- Wie viele Menschen sehen unsere Produkte, Dienste oder Inhalte, wie u. a. Beiträge, Videos, Instagram-Seiten, Inserate, Shops und Werbeanzeigen (wenn die Werbung auf Meta-Produkten gezeigt wird) und interagieren mit ihnen;
+            Die Verarbeitung basiert auf unserem berechtigten Interesse nach Art. 6 Abs. 1 S. 1 lit. f DSGVO.
 
-- Wie interagieren Personen mit unseren Inhalten, Websites, Apps und Diensten;
+            Bei der Verarbeitung personenbezogener Daten im Zuge der sogenannten Insights erfolgt die Verarbeitung in gemeinsamer Verantwortlichkeit mit Meta gem. Art. 26 Abs. 1 DSGVO.
 
-- Welche Personengruppe interagiert mit unseren Inhalten bzw. welche Personengruppe nutzt unsere Dienste.
+            Hierzu haben wir eine entsprechende Vereinbarung mit Meta getroffen, die hier (https://www.facebook.com/legal/terms/page\_controller\_addendum) eingesehen werden kann.
 
-Meta stellt uns zusammengefasste Berichte und Einblicke zur Verfügung, die uns darüber Aufschluss geben, wie gut unsere Inhalte, Features, Produkte und Dienste abschneiden.
+            Die Kontaktdaten von Meta lauten:
 
-Dabei erhalten wir keinen Zugriff auf personenbezogene Daten, sondern nur auf die zusammengefassten Berichte.
+            Online-Kontakt: https://www.facebook.com/help/contact/1650115808681298
 
-Für die Auswertung der Reichweite können wir Einstellungen vornehmen bzw. entsprechende Filter hinsichtlich der Auswahl eines Zeitraums, der Betrachtung eines bestimmten Beitrags sowie der demografischen Gruppierungen setzen. Diese Daten sind anonymisiert. Rückschlüsse auf bestimmte Personen sind uns dabei nicht möglich.
+            Postalisch: Meta Platforms Ireland Limited, ATTN: Privacy Operations, Merrion Road, Dublin 4, D04 X2K5, Irland.
 
-Die Verarbeitung dieser Daten dient dem Zweck der Analyse unserer Reichweite und der Anpassung unserer Inhalte und Anzeigen an die Nutzerinteressen, damit Besuchende einen größtmöglichen Nutzen daraus ziehen können. Anhand der Auswertungen dieser Daten können wir erkennen, wie unser Content, unser Profil und unsere Werbung konsumiert werden. Damit können wir zielgruppengerechten Content schaffen und Werbung schalten, um unser Unternehmen und unsere Leistungen besser zu vermarkten.
+            Für Instagram kannst du unter folgendem Link mit dem Datenschutzbeauftragten Kontakt aufnehmen:
 
-Die Verarbeitung basiert auf unserem berechtigten Interesse nach Art. 6 Abs. 1 S. 1 lit. f DSGVO.
+            https://www.facebook.com/help/contact/540977946302970
 
-Bei der Verarbeitung personenbezogener Daten im Zuge der sogenannten Insights erfolgt die Verarbeitung in gemeinsamer Verantwortlichkeit mit Meta gem. Art. 26 Abs. 1 DSGVO.
+            Weitere Informationen über die Insights:
 
-Hierzu haben wir eine entsprechende Vereinbarung mit Meta getroffen, die hier ([https://www.facebook.com/legal/terms/page\_controller\_addendum.)](https://www.facebook.com/legal/terms/page_controller_addendum.)) eingesehen werden kann.
+            https://de-de.facebook.com/help/pages/insights
 
-Die Kontaktdaten von Meta lauten:
+            Die vollständige Datenschutzrichtlinie von Instagram findest du hier:
 
-Online-Kontakt: [https://www.facebook.com/help/contact/1650115808681298](https://www.facebook.com/help/contact/1650115808681298)
+            https://privacycenter.instagram.com/policy/?entry\_point=ig\_help\_center\_data\_policy\_redirect
 
-Postalisch: Meta Platforms Ireland Limited, ATTN: Privacy Operations, Merrion Road, Dublin 4, D04 X2K5, Irland.
+            Verarbeitung personenbezogener Daten und Cookies durch Meta
 
-Für Instagram kannst du unter folgendem Link mit dem Datenschutzbeauftragten Kontakt aufnehmen:
+            Beim Zugriff auf eine Instagram-Seite wird die deinem Endgerät zugeteilte IP-Adresse an Meta übermittelt. Nach Auskunft von Meta wird diese IP-Adresse anonymisiert (bei "deutschen" IP-Adressen). Meta speichert darüber hinaus Informationen über die Endgeräte seiner Nutzer (z.B. im Rahmen der Funktion „Anmeldebenachrichtigung“); gegebenenfalls ist Meta damit eine Zuordnung von IP-Adressen zu einzelnen Nutzern möglich. Wenn du als Nutzer\*in aktuell bei Instagram angemeldet bist, befindet sich auf deinem Endgerät ein Cookie mit deiner Instagram-Kennung. Dadurch ist Meta in der Lage nachzuvollziehen, dass du diese Seite aufgesucht und wie du sie genutzt hast. Über in Websites eingebundene Meta-Buttons ist es Meta möglich, deine Besuche auf diesen Websites zu erfassen und deinem Instagram-Profil zuzuordnen. Anhand dieser Daten können Inhalte oder Werbung auf dich zugeschnitten angeboten werden.
 
-[https://www.facebook.com/help/contact/540977946302970.](https://www.facebook.com/help/contact/540977946302970.)
+            Nähere Informationen:
 
-Weitere Informationen über die Insights:
+            https://privacycenter.instagram.com/policy/?entry_point=ig_help_center_data_policy_redirect
 
-[https://de-de.facebook.com/help/pages/insights.](https://de-de.facebook.com/help/pages/insights.)
+    1. **TikTok**
 
-Die vollständige Datenschutzrichtlinie von Instagram findest du hier:
+        Wir betreiben einen TikTok-Kanal. TikTok wird von der TikTok Technology Limited, 10 Earlsfort Terrace, Dublin, D02 T380, Ireland (nachfolgend „TikTok Ireland“) zur Verfügung gestellt. Über unseren TikTok-Kanal erhalten wir die Möglichkeit, uns den Nutzern von TikTok zu präsentieren und mit Ihnen in Kontakt zu treten.
 
-[https://privacycenter.instagram.com/policy/?entry\_point=ig\_help\_center\_data\_policy\_redirect](https://privacycenter.instagram.com/policy/?entry_point=ig_help_center_data_policy_redirect)
+        1. **Interaktionen mit unserem TikTok-Kanal**
 
-Verarbeitung personenbezogener Daten und Cookies durch Meta
+            Nutzer\*innen können über ihren TikTok-Account mit unserem TikTok-Kanal interagieren, indem Sie zum Beispiel unsere Post liken oder kommentieren. Dabei verarbeiten wir die dazugehörigen Daten wie zum Beispiel den Benutzernamen und das Profilbild.
 
-Beim Zugriff auf eine Instagram-Seite wird die deinem Endgerät zugeteilte IP-Adresse an Meta übermittelt. Nach Auskunft von Meta wird diese IP-Adresse anonymisiert (bei "deutschen" IP-Adressen). Meta speichert darüber hinaus Informationen über die Endgeräte seiner Nutzer (z.B. im Rahmen der Funktion „Anmeldebenachrichtigung“); gegebenenfalls ist Meta damit eine Zuordnung von IP-Adressen zu einzelnen Nutzern möglich. Wenn du als Nutzer\*in aktuell bei Instagram angemeldet bist, befindet sich auf deinem Endgerät ein Cookie mit deiner Instagram-Kennung. Dadurch ist Meta in der Lage nachzuvollziehen, dass du diese Seite aufgesucht und wie du sie genutzt hast. Über in Websites eingebundene Meta-Buttons ist es Meta möglich, deine Besuche auf diesen Websites zu erfassen und deinem Instagram-Profil zuzuordnen. Anhand dieser Daten können Inhalte oder Werbung auf dich zugeschnitten angeboten werden.
+            Wir nutzen diese Daten, um unsere Inhalte und deren Präsentation zu optimieren und auf die jeweiligen Nutzerinteressen anzupassen.
 
-Nähere Informationen:
+            Außerdem ist es möglich, uns Direktnachrichten auf unserem TikTok-Kanal zukommen zu lassen. Auch hier wird uns der Benutzername und das Profilbild angezeigt.
 
-[](https://privacycenter.instagram.com/policy/?entry_point=ig_help_center_data_policy_redirect)[https://privacycenter.instagram.com/policy/?entry\_point=ig\_help\_center\_data\_policy\_redirect](https://privacycenter.instagram.com/policy/?entry_point=ig_help_center_data_policy_redirect).
+            Rechtsgrundlage der Datenverarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der Optimierung unseres TikTok-Kanals und der dort veröffentlichten Inhalte. Außerdem haben wir ein berechtigtes Interesse an der Kommunikation mit den Nutzer\*innen, um Fragen zu beantworten, auf Kritik einzugehen, eine Beziehung aufzubauen und Informationen auszutauschen. So können wir unsere Leistungen verbessern und auf die Bedürfnisse möglicher Kund\*innen eingehen. Mit der Kommunikation über TikTok erreichen wir insbesondere jüngere Kund\*innen.
 
-### 3.9 TikTok
+            Kommentare werden zeitlich unbegrenzt auf dem Kanal gespeichert und können von anderen Nutzer\*innen eingesehen werden. Das Gleiche gilt für die Nutzung der Like-Funktion und Direktnachrichten.
 
-Wir betreiben einen TikTok-Kanal. TikTok wird von der TikTok Technology Limited, 10 Earlsfort Terrace, Dublin, D02 T380, Ireland (nachfolgend „TikTok Ireland“) zur Verfügung gestellt. Über unseren TikTok-Kanal erhalten wir die Möglichkeit, uns den Nutzern von TikTok zu präsentieren und mit Ihnen in Kontakt zu treten.
+        1. **TikTok Analyse**
 
-#### 3.9.1 Interaktionen mit unserem TikTok-Kanal
+            Beim Aufruf und der Nutzung unseres TikTok-Kanals werden zusätzlich Daten zur TikTok Analyse verarbeitet. Dabei handelt es sich um zusammengefasste Statistiken, die anhand bestimmter Interaktionen der Besuchenden mit unserem TikTok-Kanal durch TikTok erstellt und protokolliert werden und Aufschluss darüber geben, wie mit unserem Kanal interagiert wird.
 
-Nutzer\*innen können über ihren TikTok-Account mit unserem TikTok-Kanal interagieren, indem Sie zum Beispiel unsere Post liken oder kommentieren. Dabei verarbeiten wir die dazugehörigen Daten wie zum Beispiel den Benutzernamen und das Profilbild.
+            Diese Daten umfassen, sind aber nicht beschränkt auf:
 
-Wir nutzen diese Daten, um unsere Inhalte und deren Präsentation zu optimieren und auf die jeweiligen Nutzerinteressen anzupassen.
+            - Follower-Wachstum
+            - Videoaufrufe
+            - Profilaufrufe
+            - Likes, Kommentare und Shares
+            - Durchschnittliche Wiedergabezeit
+            - Prozentsatz der Zuschauer, die das gesamte Video ansehen
+            - Quellen des Traffics (z.B. Profil, For You-Feed)
+            - Geografische Verteilung des Publikums
+            - Aktivitätszeiten der Follower.
 
-Außerdem ist es möglich, uns Direktnachrichten auf unserem TikTok-Kanal zukommen zu lassen. Auch hier wird uns der Benutzername und das Profilbild angezeigt.
+            Die Daten werden uns in aggregierter Form als Statistiken bereitgestellt. Wir erhalten keinen Zugriff auf personenbezogene Daten, sondern nur auf die zusammengefassten Statistiken.
 
-Rechtsgrundlage der Datenverarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der Optimierung unseres TikTok-Kanals und der dort veröffentlichten Inhalte. Außerdem haben wir ein berechtigtes Interesse an der Kommunikation mit den Nutzer\*innen, um Fragen zu beantworten, auf Kritik einzugehen, eine Beziehung aufzubauen und Informationen auszutauschen. So können wir unsere Leistungen verbessern und auf die Bedürfnisse möglicher Kund\*innen eingehen. Mit der Kommunikation über TikTok erreichen wir insbesondere jüngere Kund\*innen.
+            Weitere Informationen zu den TikTok Analysen finden sich hier:
 
-Kommentare werden zeitlich unbegrenzt auf dem Kanal gespeichert und können von anderen Nutzer\*innen eingesehen werden. Das Gleiche gilt für die Nutzung der Like-Funktion und Direktnachrichten.
+            https://www.tiktok.com/creators/creator-portal/en-us/tiktok-content-strategy/understanding-your-analytics/.
 
-#### 3.9.2 TikTok Analyse
+            Die Verarbeitung dieser Daten dient ausschließlich der Analyse und Verbesserung der Inhalte auf unserem TikTok-Kanal. Anhand der Auswertungen dieser Daten können wir erkennen, wie unser Content und unser TikTok-Kanal konsumiert werden. Damit können wir zielgruppengerechten Content schaffen und ggf. Werbung schalten, um unser Unternehmen und unsere Leistungen besser zu vermarkten.
 
-Beim Aufruf und der Nutzung unseres TikTok-Kanals werden zusätzlich Daten zur TikTok Analyse verarbeitet. Dabei handelt es sich um zusammengefasste Statistiken, die anhand bestimmter Interaktionen der Besuchenden mit unserem TikTok-Kanal durch TikTok erstellt und protokolliert werden und Aufschluss darüber geben, wie mit unserem Kanal interagiert wird.
+            Die Verarbeitung basiert auf unserem berechtigten Interesse nach Art. 6 Abs. 1 S. 1 lit. f DSGVO.
 
-Diese Daten umfassen, sind aber nicht beschränkt auf:
+            Bei der Verarbeitung personenbezogener Daten im Zuge der TikTok Analysen erfolgt die Verarbeitung in gemeinsamer Verantwortlichkeit mit TikTok gem. Art. 26 Abs. 1 DSGVO.
 
-- Follower-Wachstum
+            Hierzu haben wir eine entsprechende Vereinbarung mit TikTok getroffen, die hier
 
-- Videoaufrufe
+            eingesehen werden kann.
 
-- Profilaufrufe
+            Die Kontaktdaten von TikTok lauten:
 
-- Likes, Kommentare und Shares
+            Online-Kontakt: https://privacytiktok.zendesk.com/hc/en-us/requests/new.
 
-- Durchschnittliche Wiedergabezeit
+            Postalisch: TikTok Technology Limited, 10 Earlsfort Terrace, Dublin, D02 T380, Ireland.
 
-- Prozentsatz der Zuschauer, die das gesamte Video ansehen
+            Über dieses Formular kann man mit dem Datenschutzbeauftragten von TikTok Kontakt aufnehmen:
 
-- Quellen des Traffics (z.B. Profil, For You-Feed)
+            https://www.tiktok.com/legal/report/DPO.
 
-- Geografische Verteilung des Publikums
+        1. **Verarbeitung personenbezogener Daten durch TikTok**
 
-- Aktivitätszeiten der Follower.
+            Bei Nutzung der Angebote von TikTok verarbeitet TikTok personenbezogene Daten den Nutzer\*innen. Dazu gehören Daten wie Ihre IP-Adresse, Standortdaten, Zeitzoneneinstellungen, Werbe-IDs, App- und Browser-Versionen sowie Daten zu dem Gerät (System, Netzwerktyp, Geräte-ID, Bildschirmauflösung, Betriebssystem, Audioeinstellungen und angeschlossene Audiogeräte). Auch die aufgerufenen TikTok-Profile und Kanäle, Likes, Nachrichten und weitere Nutzungsdaten werden verarbeitet. Sofern du mit einem eigenen TikTok-Account angemeldet bist, werden diese Daten deinem Account zugeordnet.
 
-Die Daten werden uns in aggregierter Form als Statistiken bereitgestellt. Wir erhalten keinen Zugriff auf personenbezogene Daten, sondern nur auf die zusammengefassten Statistiken.
+            Weitere Informationen zur Verarbeitung der Daten durch TikTok finden sich hier: https://www.tiktok.com/legal/page/eea/privacy-policy/de.
 
-Weitere Informationen zu den TikTok Analysen finden sich hier:
+    1. **Google Unternehmensprofil**
 
-[https://www.tiktok.com/creators/creator-portal/en-us/tiktok-content-strategy/understanding-your-analytics/.](https://www.tiktok.com/creators/creator-portal/en-us/tiktok-content-strategy/understanding-your-analytics/.)
+        Wir verfügen über ein sogenanntes Google Unternehmensprofil. Dabei greifen wir auf den von Google angebotenen Informationsdienst und die Dienste der Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland („Google“) zurück.
 
-Die Verarbeitung dieser Daten dient ausschließlich der Analyse und Verbesserung der Inhalte auf unserem TikTok-Kanal. Anhand der Auswertungen dieser Daten können wir erkennen, wie unser Content und unser TikTok-Kanal konsumiert werden. Damit können wir zielgruppengerechten Content schaffen und ggf. Werbung schalten, um unser Unternehmen und unsere Leistungen besser zu vermarkten.
+        1. **Datenverarbeitung durch Google**
 
-Die Verarbeitung basiert auf unserem berechtigten Interesse nach Art. 6 Abs. 1 S. 1 lit. f DSGVO.
+            Die Google-Seite und ihre Funktionen werden in eigener Verantwortung genutzt. Dies gilt insbesondere für die Nutzung der sozialen und interaktiven Funktionen (z. B. Kommentieren, Teilen, Bewerten, Direktnachrichten). Beim Besuch und der Interaktion mit unserem Google Unternehmensprofil Eintrag erfasst Google auch deine IP-Adresse sowie weitere Informationen, die in Form von sog. Cookies auf dem Endgerät vorhanden sind. Gegebenenfalls ist Google damit eine Zuordnung von IP- Adressen zu einzelnen Nutzern oder Nutzerkonten möglich. Diese Informationen werden verwendet, um uns als Betreiber des Google Unternehmensprofil Eintrags statistische Informationen über die Inanspruchnahme der Google-Dienste zur Verfügung zu stellen. Die in diesem Zusammenhang erhobenen Daten werden von Google verarbeitet und dabei gegebenenfalls in Länder außerhalb der Europäischen Union übertragen. Welche Informationen Google erhält und wie diese verwendet werden, beschreibt Google allgemein in der Datenschutzerklärung.
 
-Bei der Verarbeitung personenbezogener Daten im Zuge der TikTok Analysen erfolgt die Verarbeitung in gemeinsamer Verantwortlichkeit mit TikTok gem. Art. 26 Abs. 1 DSGVO.
+            Sollten Sie uns über unseren Google Unternehmensprofil Eintrag oder andere Google-Dienste per Direktnachricht kontaktieren, können wir nicht ausschließen, dass diese Nachrichten auch von Google (sowohl von Mitarbeiterinnen und Mitarbeitern als auch automatisiert) mitgelesen und ausgewertet werden können. Wir raten daher davon ab, uns dort personenbezogene Daten mitzuteilen. Stattdessen sollte so früh wie möglich eine andere Form der Kommunikation gewählt werden.
 
-Hierzu haben wir eine entsprechende Vereinbarung mit TikTok getroffen, die hier
+            Die Nutzung dieses Dienstes unterliegt der Google Datenschutzerklärung, der Sie – mit Nutzung – bereits zugestimmt haben.
 
-eingesehen werden kann.
+            Nähere Informationen finden sich in der Datenschutzerklärung unter folgendem Link: https://policies.google.com/privacy?hl=de.
 
-Die Kontaktdaten von TikTok lauten:
+        1. **Datenverarbeitung durch uns**
 
-Online-Kontakt: [https://privacytiktok.zendesk.com/hc/en-us/requests/new.](https://privacytiktok.zendesk.com/hc/en-us/requests/new.)
+            Wir als Anbieter unseres Google Unternehmensprofil Eintrags erheben und verarbeiten keine weiteren Daten aus der Nutzung dieses Google-Angebotes.
 
-Postalisch: TikTok Technology Limited, 10 Earlsfort Terrace, Dublin, D02 T380, Ireland.
+            Wenn du mit uns in Kontakt trittst, oder eine Bewertung über uns veröffentlichst, verarbeiten wir deine veröffentlichten Profildaten, sowie den Inhalt der Bewertung/des Kommentars.
 
-Über dieses Formular kann man mit dem Datenschutzbeauftragten von TikTok Kontakt aufnehmen:
+            Rechtsgrundlage ist Art. 6 Abs.1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der Darstellung unseres Unternehmens und Ermöglichung der Bewertung unserer Leistungen, um unser Unternehmen uns unsere Leistungen zu präsentieren und nach außen gut zu präsentieren.
 
-[https://www.tiktok.com/legal/report/DPO.](https://www.tiktok.com/legal/report/DPO.)
+    1. **Drittinhalte**
 
-#### 3.9.3 Verarbeitung personenbezogener Daten durch TikTok
+        1. **Google Fonts**
 
-Bei Nutzung der Angebote von TikTok verarbeitet TikTok personenbezogene Daten den Nutzer\*innen. Dazu gehören Daten wie Ihre IP-Adresse, Standortdaten, Zeitzoneneinstellungen, Werbe-IDs, App- und Browser-Versionen sowie Daten zu dem Gerät (System, Netzwerktyp, Geräte-ID, Bildschirmauflösung, Betriebssystem, Audioeinstellungen und angeschlossene Audiogeräte). Auch die aufgerufenen TikTok-Profile und Kanäle, Likes, Nachrichten und weitere Nutzungsdaten werden verarbeitet. Sofern du mit einem eigenen TikTok-Account angemeldet bist, werden diese Daten deinem Account zugeordnet.
+            Wir haben Google Fonts lokal auf unserem Server eingebunden. Damit werden, trotz der Nutzung, keine Daten an Google übertragen.
 
-Weitere Informationen zur Verarbeitung der Daten durch TikTok finden sich hier: [https://www.tiktok.com/legal/page/eea/privacy-policy/de.](https://www.tiktok.com/legal/page/eea/privacy-policy/de.)
+        1. **Cloudflare DNS**
 
-### 3.10 Google Unternehmensprofil
+            Wir verwenden den Dienst Cloudflare DNS. Dieser Dienst wird angeboten von der Cloudflare Germany GmbH, Rosental 7, c/o Mindspace, 80331 München.
 
-Wir verfügen über ein sogenanntes Google Unternehmensprofil. Dabei greifen wir auf den von Google angebotenen Informationsdienst und die Dienste der Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland („Google“) zurück.
+            Cloudflare DNS bietet Schutz vor DDos-Angriffen und Bot-Attacken und hilft bei der Verbesserung der Sicherheit und Leistung von Websites durch globales Caching und eine Reihe von Optimierungsfunktionen. Hierzu erhält Cloudflare Daten zu der abgerufenen Website, dem verwendeten Browsertyp, dem Betriebssystem, der Referrer URL, der IP-Adresse und dem anfragenden Provider.
 
-#### 3.10.1 Datenverarbeitung durch Google
+            Um diese Daten zu erheben, holen wir eine Einwilligung ein. Rechtsgrundlage ist dann Art. 6 Abs. 1 lit. a DSGVO. Diese Einwilligung kann jederzeit widerrufen werden.
 
-Die Google-Seite und ihre Funktionen werden in eigener Verantwortung genutzt. Dies gilt insbesondere für die Nutzung der sozialen und interaktiven Funktionen (z. B. Kommentieren, Teilen, Bewerten, Direktnachrichten). Beim Besuch und der Interaktion mit unserem Google Unternehmensprofil Eintrag erfasst Google auch deine IP-Adresse sowie weitere Informationen, die in Form von sog. Cookies auf dem Endgerät vorhanden sind. Gegebenenfalls ist Google damit eine Zuordnung von IP- Adressen zu einzelnen Nutzern oder Nutzerkonten möglich. Diese Informationen werden verwendet, um uns als Betreiber des Google Unternehmensprofil Eintrags statistische Informationen über die Inanspruchnahme der Google-Dienste zur Verfügung zu stellen. Die in diesem Zusammenhang erhobenen Daten werden von Google verarbeitet und dabei gegebenenfalls in Länder außerhalb der Europäischen Union übertragen. Welche Informationen Google erhält und wie diese verwendet werden, beschreibt Google allgemein in der Datenschutzerklärung.
+            Ansonsten ist Rechtsgrundlage für die Verarbeitung der personenbezogenen Daten Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der Optimierung und Sicherstellung der Inhalte auf unserer Website, um uns so effektiv gegen DDos-Angriffe und Bot-Attacken zu schützen.
 
-Sollten Sie uns über unseren Google Unternehmensprofil Eintrag oder andere Google-Dienste per Direktnachricht kontaktieren, können wir nicht ausschließen, dass diese Nachrichten auch von Google (sowohl von Mitarbeiterinnen und Mitarbeitern als auch automatisiert) mitgelesen und ausgewertet werden können. Wir raten daher davon ab, uns dort personenbezogene Daten mitzuteilen. Stattdessen sollte so früh wie möglich eine andere Form der Kommunikation gewählt werden.
+            Weitere Informationen:
 
-Die Nutzung dieses Dienstes unterliegt der Google Datenschutzerklärung, der Sie – mit Nutzung – bereits zugestimmt haben.
+            https://www.cloudflare.com/de-de/trust-hub/gdpr/.
 
-Nähere Informationen finden sich in der Datenschutzerklärung unter folgendem Link: [](https://policies.google.com/privacy?hl=de.)[https://policies.google.com/privacy?hl=de.](https://policies.google.com/privacy?hl=de.)
+            https://www.cloudflare.com/de-de/privacypolicy/.
 
-#### 3.10.2 Datenverarbeitung durch uns
+        1. **Cloudflare Turnstile**
 
-Wir als Anbieter unseres Google Unternehmensprofil Eintrags erheben und verarbeiten keine weiteren Daten aus der Nutzung dieses Google-Angebotes.
+            Wir verwenden den Dienst Cloudflare Turnstile. Dieser Dienst wird angeboten von der Cloudflare Germany GmbH, Rosental 7, c/o Mindspace, 80331 München.
 
-Wenn du mit uns in Kontakt trittst, oder eine Bewertung über uns veröffentlichst, verarbeiten wir deine veröffentlichten Profildaten, sowie den Inhalt der Bewertung/des Kommentars.
+            Cloudflare Turnstile ermöglicht ein CAPTCHA-freies Erlebnis auf der Website. Darüber hinaus verhindert Turnstile missbräuchliche Verwendung und bestätigt, dass die Aufrufe der Website echt sind. Hierbei werden keine Daten für das Retargeting von Werbeanzeigen gesammelt. Bei Apple-Geräten mit neuesten macOS- oder iOS-Versionen wird über private Access Tokens validiert, ohne persönliche Daten außer User-Agent und Browser-Eigenschaften zu erfassen oder zu speichern, wodurch keine Daten an Cloudflare oder Dritte weitergegeben werden. Bei Nutzern anderer Endgeräte sammelt Cloudflare Turnstile jedoch persönliche Daten wie die IP-Adresse und teilt diese mit dem Anbieter in den USA.
 
-Rechtsgrundlage ist Art. 6 Abs.1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der Darstellung unseres Unternehmens und Ermöglichung der Bewertung unserer Leistungen, um unser Unternehmen uns unsere Leistungen zu präsentieren und nach außen gut zu präsentieren.
+            Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG. Die Einwilligung ist jederzeit widerrufbar.
 
-### 3.11 Drittinhalte
+            Bei der Datenübertragung in die USA greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
 
-#### 3.11.1 Google Fonts
+            Weitere Details:
 
-Wir haben Google Fonts lokal auf unserem Server eingebunden. Damit werden, trotz der Nutzung, keine Daten an Google übertragen.
+            https://www.cloudflare.com/de-de/trust-hub/gdpr/.
 
-#### 3.11.2 Cloudflare DNS
+            https://www.cloudflare.com/de-de/privacypolicy/.
 
-Wir verwenden den Dienst Cloudflare DNS. Dieser Dienst wird angeboten von der Cloudflare Germany GmbH, Rosental 7, c/o Mindspace, 80331 München.
+        1. **Polyfill.io**
 
-Cloudflare DNS bietet Schutz vor DDos-Angriffen und Bot-Attacken und hilft bei der Verbesserung der Sicherheit und Leistung von Websites durch globales Caching und eine Reihe von Optimierungsfunktionen. Hierzu erhält Cloudflare Daten zu der abgerufenen Website, dem verwendeten Browsertyp, dem Betriebssystem, der Referrer URL, der IP-Adresse und dem anfragenden Provider.
+            Wir nutzen die Funktionen von Polyfill. Dies ist ein Open Source Community Service.
 
-Um diese Daten zu erheben, holen wir eine Einwilligung ein. Rechtsgrundlage ist dann Art. 6 Abs. 1 lit. a DSGVO. Diese Einwilligung kann jederzeit widerrufen werden.
+            Der Polyfill Service stellt Code-Snippets, sogenannte "Polyfills", zur Verfügung. Ein Polyfill dient dazu, in älteren Webbrowsern moderne Funktionen, die sie ursprünglich nicht unterstützen, durch alternative Lösungen zu implementieren. Dadurch wird ein einheitliches Erlebnis bei dem Besuch der Website über verschiedene Browser hinweg geboten.
 
-Ansonsten ist Rechtsgrundlage für die Verarbeitung der personenbezogenen Daten Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der Optimierung und Sicherstellung der Inhalte auf unserer Website, um uns so effektiv gegen DDos-Angriffe und Bot-Attacken zu schützen.
+            Wenn unsere Website aufgerufen wird, lädt der Browser alle Polyfills herunter, die erforderlich sind, um die Webseite erfolgreich in dem entsprechenden Browser darzustellen.
 
-Weitere Informationen:
+            Hierzu werden technische Informationen über den benutzten Browser erfasst. Außerdem werden Verbindungsinformationen erfasst (IP-Adresse) und die URL der Website, welche den Service beansprucht hat. Diese Informationen werden nicht aufbewahrt. Aufbewahrt werden aber eine anonymisierte Version ihrer IP-Adresse, die Domain der Seite, welche den Service angefragt hat, der User-Agent-String des benutzen Browsers, die angefragten Polyfills und die URL/http Methode, welche verwendet wird, um den Service zu beanspruchen. Rechtsgrundlage ist Art. 6 Abs.1 lit. f DSGVO. Wir haben ein berechtigtes Interesse daran die Seite auch für ältere Webbrowser aufrufbar zu gestalten. Weitere Informationen: https://polyfill.io/v3/privacy-policy.
 
-[](https://www.cloudflare.com/de-de/trust-hub/gdpr/)[https://www.cloudflare.com/de-de/trust-hub/gdpr/](https://www.cloudflare.com/de-de/trust-hub/gdpr/).
+        1. **Gravatar**
 
-[](https://www.cloudflare.com/de-de/privacypolicy/)[https://www.cloudflare.com/de-de/privacypolicy/](https://www.cloudflare.com/de-de/privacypolicy/).
+            Wir binden die Funktionen von Gravatar auf unserer Website ein. Dieser Dienst wird angeboten von der Automattic Inc., 60 29th Street #343, San Francisco, CA 94110, USA.
 
-#### 3.11.3 Cloudflare Turnstile
+            Gravatar ist ein Dienst, der es Nutzer\*innen ermöglicht, ein einziges Avatar-Bild zu erstellen und dieses mit ihrer E Mail-Adresse zu verknüpfen. Dieses Avatar-Bild wird dann automatisch neben dem Namen angezeigt, wenn auf gravatar-fähigen Websites, Foren und Blogs Kommentare gepostet oder Artikel geschrieben werden. Die Hauptfunktionen von Gravatar umfassen die einfache Erstellung und Verwaltung eines universellen Avatars, der auf verschiedenen Webplattformen konsistent verwendet wird, wodurch Nutzer\*innen leichter identifizierbar sind und eine einheitliche Online-Identität über mehrere Seiten hinweg pflegen können. 
 
-Wir verwenden den Dienst Cloudflare Turnstile. Dieser Dienst wird angeboten von der Cloudflare Germany GmbH, Rosental 7, c/o Mindspace, 80331 München.
+            Hierzu wird die E-Mail Adresse und die IP-Adresse an die Server von Automattic in den USA übertragen. Gravatar setzt sowohl technisch notwendige Cookies, als auch solche zur Analyse, Leistungsmessung und Werbung. Letztere werden nur mit Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO gesetzt. Die Einwilligung ist jederzeit widerrufbar.
 
-Cloudflare Turnstile ermöglicht ein CAPTCHA-freies Erlebnis auf der Website. Darüber hinaus verhindert Turnstile missbräuchliche Verwendung und bestätigt, dass die Aufrufe der Website echt sind. Hierbei werden keine Daten für das Retargeting von Werbeanzeigen gesammelt. Bei Apple-Geräten mit neuesten macOS- oder iOS-Versionen wird über private Access Tokens validiert, ohne persönliche Daten außer User-Agent und Browser-Eigenschaften zu erfassen oder zu speichern, wodurch keine Daten an Cloudflare oder Dritte weitergegeben werden. Bei Nutzern anderer Endgeräte sammelt Cloudflare Turnstile jedoch persönliche Daten wie die IP-Adresse und teilt diese mit dem Anbieter in den USA.
+            Im Übrigen beruht die Datenverarbeitung auf Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse daran den Nutzer\*innen die Möglichkeit zu geben, die Funktionen von Gravatar auf unserer Website zu verwenden, um so ein uneingeschränktes Nutzungserlebnis zu gewährleisten.
 
-Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG. Die Einwilligung ist jederzeit widerrufbar.
+            Bei der Datenübertragung in die USA greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
 
-Bei der Datenübertragung in die USA greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
+            Nähere Informationen:
 
-Weitere Details:
+            https://automattic.com/privacy/
 
-[](https://www.cloudflare.com/de-de/trust-hub/gdpr/)[https://www.cloudflare.com/de-de/trust-hub/gdpr/](https://www.cloudflare.com/de-de/trust-hub/gdpr/).
+            https://automattic.com/cookies/.
 
-[](https://www.cloudflare.com/de-de/privacypolicy/)[https://www.cloudflare.com/de-de/privacypolicy/](https://www.cloudflare.com/de-de/privacypolicy/).
+        1. **OpenAI API**
 
-#### 3.11.4 Polyfill.io
+            Wir binden auf unserer Website die Funktionen der OpenAI API ein. Dieser Dienst wird angeboten von der OpenAI Inc., 3180 18th Street, San Francisco, California 94110, USA.
 
-Wir nutzen die Funktionen von Polyfill. Dies ist ein Open Source Community Service.
+            OpenAI hat sich auf die Entwicklung von Künstlicher Intelligenz und maschinellen Lernen fokussiert. Mit Hilfe der OpenAI API ist es uns möglich, eigene KI-Tools zu entwickeln, welche auf den Datenbanken und Fähigkeiten von ChatGPT/OpenAI basieren.
 
-Der Polyfill Service stellt Code-Snippets, sogenannte "Polyfills", zur Verfügung. Ein Polyfill dient dazu, in älteren Webbrowsern moderne Funktionen, die sie ursprünglich nicht unterstützen, durch alternative Lösungen zu implementieren. Dadurch wird ein einheitliches Erlebnis bei dem Besuch der Website über verschiedene Browser hinweg geboten.
+            Alle Eingaben in unserem Tool werden verarbeitet. Grundsätzlich werden diese Eingaben, z.B. natürliche Sprache, Bilder oder andere Datenformate, durch OpenAI verarbeitet, um Machine-Learning-Modelle entwickeln zu können. Diese Daten werden dann dafür verwendet, um das jeweilige Tool zu verbessern bzw. zu trainieren.
 
-Wenn unsere Website aufgerufen wird, lädt der Browser alle Polyfills herunter, die erforderlich sind, um die Webseite erfolgreich in dem entsprechenden Browser darzustellen.
+            OpenAI erfasst bei der Nutzung eines Tools die IP-Adresse. Sofern das jeweilige Tool nicht mit personenbezogenen Daten gefüllt wird, werden auch keine personenbezogenen Daten, neben der IP-Adresse, erfasst.
 
-Hierzu werden technische Informationen über den benutzten Browser erfasst. Außerdem werden Verbindungsinformationen erfasst (IP-Adresse) und die URL der Website, welche den Service beansprucht hat. Diese Informationen werden nicht aufbewahrt. Aufbewahrt werden aber eine anonymisierte Version ihrer IP-Adresse, die Domain der Seite, welche den Service angefragt hat, der User-Agent-String des benutzen Browsers, die angefragten Polyfills und die URL/http Methode, welche verwendet wird, um den Service zu beanspruchen. Rechtsgrundlage ist Art. 6 Abs.1 lit. f DSGVO. Wir haben ein berechtigtes Interesse daran die Seite auch für ältere Webbrowser aufrufbar zu gestalten. Weitere Informationen: [](https://polyfill.io/v3/privacy-policy)[https://polyfill.io/v3/privacy-policy](https://polyfill.io/v3/privacy-policy).
+            OpenAI kann Cookies setzen. Dies geschieht nur nach vorheriger Einwilligung. Rechtsgrundlage hierfür ist Art. 6 Abs. 1 lit. a DSGVO.
 
-#### 3.11.5 Gravatar
+            Im Übrigen ist Rechtsgrundlage für die Verarbeitung von Daten Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse daran, die Möglichkeiten von KI und ML-Modellen in unseren Tools zu verwenden und diese auf unserer Website einzubinden, um so unseren Service technisch und wirtschaftlich zu optimieren.
 
-Wir binden die Funktionen von Gravatar auf unserer Website ein. Dieser Dienst wird angeboten von der Automattic Inc., 60 29th Street #343, San Francisco, CA 94110, USA.
+            Sofern die Funktion, den Chatverlauf automatisch zu löschen, nicht aktiviert ist, verbleiben die eingegebenen Daten 30 Tage bei OpenAI, um die Modelle zu trainieren.
 
-Gravatar ist ein Dienst, der es Nutzer\*innen ermöglicht, ein einziges Avatar-Bild zu erstellen und dieses mit ihrer E Mail-Adresse zu verknüpfen. Dieses Avatar-Bild wird dann automatisch neben dem Namen angezeigt, wenn auf gravatar-fähigen Websites, Foren und Blogs Kommentare gepostet oder Artikel geschrieben werden. Die Hauptfunktionen von Gravatar umfassen die einfache Erstellung und Verwaltung eines universellen Avatars, der auf verschiedenen Webplattformen konsistent verwendet wird, wodurch Nutzer\*innen leichter identifizierbar sind und eine einheitliche Online-Identität über mehrere Seiten hinweg pflegen können. 
+            Bei der Datenübertragung in die USA greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
 
-Hierzu wird die E-Mail Adresse und die IP-Adresse an die Server von Automattic in den USA übertragen. Gravatar setzt sowohl technisch notwendige Cookies, als auch solche zur Analyse, Leistungsmessung und Werbung. Letztere werden nur mit Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO gesetzt. Die Einwilligung ist jederzeit widerrufbar.
+            Nähere Informationen:
 
-Im Übrigen beruht die Datenverarbeitung auf Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse daran den Nutzer\*innen die Möglichkeit zu geben, die Funktionen von Gravatar auf unserer Website zu verwenden, um so ein uneingeschränktes Nutzungserlebnis zu gewährleisten.
+            https://openai.com/de-DE/policies/privacy-policy/.
 
-Bei der Datenübertragung in die USA greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
+        <!-- 1. **\[…\]** -->
 
-Nähere Informationen:
+    1. **Cloud-Backups**
 
-[](https://automattic.com/privacy/)[https://automattic.com/privacy/](https://automattic.com/privacy/)
+        Wir nutzen auf unserer Website Cloud-Backup Funktionen, um die Daten und die Inhalte der Website vor Datenverlust, Korruption oder Sicherheitsvorfällen zu schützen. Dies gewährleistet, dass im Falle eines Serverausfalls, eines Hackerangriffs oder anderer unvorhergesehener Ereignisse die Website schnell und vollständig wiederhergestellt werden kann.
 
-[](https://automattic.com/cookies/)[https://automattic.com/cookies/](https://automattic.com/cookies/).
+        Sofern auf unserer Website personenbezogene Daten hinterlegt sind, werden diese bei den Backups auf die Server des jeweiligen Anbieters übertragen. Die Rechtsgrundlage für die Datenverarbeitung ist Art. 6 Abs. 1 lit. f DSGVO, da wir ein berechtigtes Interesse an der Sicherung unserer Daten haben.
 
-#### 3.11.6 OpenAI API
+        Folgenden Cloud-Backup-Service verwenden wir:
 
-Wir binden auf unserer Website die Funktionen der OpenAI API ein. Dieser Dienst wird angeboten von der OpenAI Inc., 3180 18th Street, San Francisco, California 94110, USA.
+        Scaleway Object Storage
 
-OpenAI hat sich auf die Entwicklung von Künstlicher Intelligenz und maschinellen Lernen fokussiert. Mit Hilfe der OpenAI API ist es uns möglich, eigene KI-Tools zu entwickeln, welche auf den Datenbanken und Fähigkeiten von ChatGPT/OpenAI basieren.
+        https://www.scaleway.com/en/object-storage/
 
-Alle Eingaben in unserem Tool werden verarbeitet. Grundsätzlich werden diese Eingaben, z.B. natürliche Sprache, Bilder oder andere Datenformate, durch OpenAI verarbeitet, um Machine-Learning-Modelle entwickeln zu können. Diese Daten werden dann dafür verwendet, um das jeweilige Tool zu verbessern bzw. zu trainieren.
+1. **Das ist sonst noch wichtig**
 
-OpenAI erfasst bei der Nutzung eines Tools die IP-Adresse. Sofern das jeweilige Tool nicht mit personenbezogenen Daten gefüllt wird, werden auch keine personenbezogenen Daten, neben der IP-Adresse, erfasst.
+    Zum Abschluss möchten wir Dich ausführlich und detailliert über Deine Rechte informieren und Dir mitteilen, wie Du über Veränderungen der datenschutzrechtlichen Anforderungen informiert werden wirst.
 
-OpenAI kann Cookies setzen. Dies geschieht nur nach vorheriger Einwilligung. Rechtsgrundlage hierfür ist Art. 6 Abs. 1 lit. a DSGVO.
+    1. **Deine Rechte im Detail**
 
-Im Übrigen ist Rechtsgrundlage für die Verarbeitung von Daten Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse daran, die Möglichkeiten von KI und ML-Modellen in unseren Tools zu verwenden und diese auf unserer Website einzubinden, um so unseren Service technisch und wirtschaftlich zu optimieren.
+        1. **Auskunftsrecht nach Art. 15 DSGVO**
 
-Sofern die Funktion, den Chatverlauf automatisch zu löschen, nicht aktiviert ist, verbleiben die eingegebenen Daten 30 Tage bei OpenAI, um die Modelle zu trainieren.
+            Du kannst Auskunft darüber verlangen, ob personenbezogenen Daten von Dir verarbeitet werden. Ist das der Fall, kannst Du weitere Auskünfte zur Art und Weise der Verarbeitung einfordern. Eine detaillierte Aufzählung findest Du in Art. 15 Abs. 1 lit. a bis h DSGVO.
 
-Bei der Datenübertragung in die USA greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
+        1. **Recht auf Berichtigung nach Art. 16 DSGVO**
 
-Nähere Informationen:
+            Dieses Recht umfasst die Berichtigung unrichtiger Daten und die Ergänzung unvollständiger personenbezogener Daten.
 
-[](https://openai.com/de-DE/policies/privacy-policy/)[https://openai.com/de-DE/policies/privacy-policy/](https://openai.com/de-DE/policies/privacy-policy/).
+        1. **Recht auf Löschung nach Art. 17 DSGVO**
 
-#### 3.11.7 \[…\]
+            Dieses sogenannte ‚Recht auf Vergessenwerden‘ gibt Dir das Recht, unter bestimmten Voraussetzungen, die Löschung der personenbezogenen Daten durch den Verantwortlichen zu verlangen. Dies ist grundsätzlich dann der Fall, wenn der Zweck der Datenverarbeitung entfallen ist, wenn eine Einwilligung widerrufen wurde oder die Ausgangsverarbeitung ohne Rechtsgrundlage stattfand. Eine detaillierte Aufzählung von Gründen findest Du in Art. 17 Abs. 1 lit. a bis f DSGVO. Dieses „Recht auf Vergessenwerden“ korrespondiert darüber hinaus mit der Pflicht des Verantwortlichen aus Art. 17 Abs. 2 DSGVO angemessene Maßnahmen zu ergreifen, um eine allgemeine Löschung der Daten herbeizuführen.
 
-### 3.12 Cloud-Backups
+        1. **Recht auf Einschränkung der Verarbeitung nach Art. 18 DSGVO**
 
-Wir nutzen auf unserer Website Cloud-Backup Funktionen, um die Daten und die Inhalte der Website vor Datenverlust, Korruption oder Sicherheitsvorfällen zu schützen. Dies gewährleistet, dass im Falle eines Serverausfalls, eines Hackerangriffs oder anderer unvorhergesehener Ereignisse die Website schnell und vollständig wiederhergestellt werden kann.
+            Dieses Recht ist an die Voraussetzungen gemäß Art. 18 Abs. 1 lit. a bis d geknüpft.
 
-Sofern auf unserer Website personenbezogene Daten hinterlegt sind, werden diese bei den Backups auf die Server des jeweiligen Anbieters übertragen. Die Rechtsgrundlage für die Datenverarbeitung ist Art. 6 Abs. 1 lit. f DSGVO, da wir ein berechtigtes Interesse an der Sicherung unserer Daten haben.
+        1. **Recht auf Datenübertragbarkeit nach Art. 20 DSGVO**
 
-Folgenden Cloud-Backup-Service verwenden wir:
+            Hier wird das grundsätzliche Recht zum Erhalt der eigenen Daten in einer gängigen Form und der Übermittlung an einen anderen Verantwortlichen geregelt. Dies gilt allerdings nur für die Daten einer Verarbeitung aufgrund von Einwilligung oder Vertrag nach Art. 20 Abs. 1 lit. a und b und soweit dies technisch machbar ist.
 
-Scaleway Object Storage
+        1. **Recht auf Widerspruch nach Art. 21 DSGVO**
 
-[https://www.scaleway.com/en/object-storage/](https://www.scaleway.com/en/object-storage/)
+            Du kannst grundsätzlich der Verarbeitung Deiner personenbezogenen Daten widersprechen. Dies gilt insbesondere dann, wenn Dein Interesse am Widerspruch das berechtigte Interesse des Verantwortlichen an der Verarbeitung überwiegt und wenn sich die Verarbeitung auf Direktwerbung und oder Profiling bezieht.
 
-## 4. Das ist sonst noch wichtig
+        1. **Recht auf „Entscheidung im Einzelfall“ nach Art. 22 DSGVO**
 
-Zum Abschluss möchten wir Dich ausführlich und detailliert über Deine Rechte informieren und Dir mitteilen, wie Du über Veränderungen der datenschutzrechtlichen Anforderungen informiert werden wirst.
+            Du hast grundsätzlich das Recht, nicht einer ausschließlich auf einer automatisierten Verarbeitung (einschließlich Profiling) beruhenden Entscheidung unterworfen zu werden, die Dir gegenüber rechtliche Wirkung entfaltet oder Dich in ähnlicher Weise erheblich beeinträchtigt. Auch dieses Recht findet allerdings Einschränkungen und Ergänzungen in Art. 22 Abs. 2 und 4 DSGVO.
 
-### 4.1 Deine Rechte im Detail
+        1. **Weitere Rechte**
 
-#### 4.1.1 Auskunftsrecht nach Art. 15 DSGVO
+            Die DSGVO beinhaltet umfassende Rechte der Unterrichtung von Dritten darüber, ob oder wie Du Rechte nach Art. 16, 17, 18 DSGVO geltend gemacht haben. Dies allerdings nur, insoweit dies auch möglich bzw. mit einem angemessenen Aufwand durchführbar ist.
 
-Du kannst Auskunft darüber verlangen, ob personenbezogenen Daten von Dir verarbeitet werden. Ist das der Fall, kannst Du weitere Auskünfte zur Art und Weise der Verarbeitung einfordern. Eine detaillierte Aufzählung findest Du in Art. 15 Abs. 1 lit. a bis h DSGVO.
+            Wir möchten Dich an dieser Stelle erneut auf Dein Recht des Widerrufs einer erteilten Einwilligung nach Art. 7 Abs. 3 DSGVO hinweisen. Die Rechtmäßigkeit der bis dahin durchgeführten Verarbeitung wird dadurch allerdings nicht berührt.
 
-#### 4.1.2 Recht auf Berichtigung nach Art. 16 DSGVO
+            Außerdem möchten wir Dich auch noch auf Deine Rechte nach §§ 32 ff. BDSG hinweisen, die allerdings inhaltlich größtenteils deckungsgleich mit den soeben beschrieben Rechten sind.
 
-Dieses Recht umfasst die Berichtigung unrichtiger Daten und die Ergänzung unvollständiger personenbezogener Daten.
+        1. **Beschwerderecht nach Art. 77 DSGVO**
 
-#### 4.1.3 Recht auf Löschung nach Art. 17 DSGVO
+            Du hast auch das Recht, dich bei einer Datenschutzaufsichtsbehörde zu beschweren, wenn Du der Ansicht bist, dass eine Verarbeitung der dich betreffenden personenbezogenen Daten gegen diese Verordnung verstößt.
 
-Dieses sogenannte ‚Recht auf Vergessenwerden‘ gibt Dir das Recht, unter bestimmten Voraussetzungen, die Löschung der personenbezogenen Daten durch den Verantwortlichen zu verlangen. Dies ist grundsätzlich dann der Fall, wenn der Zweck der Datenverarbeitung entfallen ist, wenn eine Einwilligung widerrufen wurde oder die Ausgangsverarbeitung ohne Rechtsgrundlage stattfand. Eine detaillierte Aufzählung von Gründen findest Du in Art. 17 Abs. 1 lit. a bis f DSGVO. Dieses „Recht auf Vergessenwerden“ korrespondiert darüber hinaus mit der Pflicht des Verantwortlichen aus Art. 17 Abs. 2 DSGVO angemessene Maßnahmen zu ergreifen, um eine allgemeine Löschung der Daten herbeizuführen.
+1. **Was ist, wenn morgen die DSGVO abgeschafft wird oder andere Veränderungen stattfinden?**
 
-#### 4.1.4 Recht auf Einschränkung der Verarbeitung nach Art. 18 DSGVO
-
-Dieses Recht ist an die Voraussetzungen gemäß Art. 18 Abs. 1 lit. a bis d geknüpft.
-
-#### 4.1.5 Recht auf Datenübertragbarkeit nach Art. 20 DSGVO
-
-Hier wird das grundsätzliche Recht zum Erhalt der eigenen Daten in einer gängigen Form und der Übermittlung an einen anderen Verantwortlichen geregelt. Dies gilt allerdings nur für die Daten einer Verarbeitung aufgrund von Einwilligung oder Vertrag nach Art. 20 Abs. 1 lit. a und b und soweit dies technisch machbar ist.
-
-#### 4.1.6 Recht auf Widerspruch nach Art. 21 DSGVO
-
-Du kannst grundsätzlich der Verarbeitung Deiner personenbezogenen Daten widersprechen. Dies gilt insbesondere dann, wenn Dein Interesse am Widerspruch das berechtigte Interesse des Verantwortlichen an der Verarbeitung überwiegt und wenn sich die Verarbeitung auf Direktwerbung und oder Profiling bezieht.
-
-#### 4.1.7 Recht auf „Entscheidung im Einzelfall“ nach Art. 22 DSGVO
-
-Du hast grundsätzlich das Recht, nicht einer ausschließlich auf einer automatisierten Verarbeitung (einschließlich Profiling) beruhenden Entscheidung unterworfen zu werden, die Dir gegenüber rechtliche Wirkung entfaltet oder Dich in ähnlicher Weise erheblich beeinträchtigt. Auch dieses Recht findet allerdings Einschränkungen und Ergänzungen in Art. 22 Abs. 2 und 4 DSGVO.
-
-#### 4.1.8 Weitere Rechte
-
-Die DSGVO beinhaltet umfassende Rechte der Unterrichtung von Dritten darüber, ob oder wie Du Rechte nach Art. 16, 17, 18 DSGVO geltend gemacht haben. Dies allerdings nur, insoweit dies auch möglich bzw. mit einem angemessenen Aufwand durchführbar ist.
-
-Wir möchten Dich an dieser Stelle erneut auf Dein Recht des Widerrufs einer erteilten Einwilligung nach Art. 7 Abs. 3 DSGVO hinweisen. Die Rechtmäßigkeit der bis dahin durchgeführten Verarbeitung wird dadurch allerdings nicht berührt.
-
-Außerdem möchten wir Dich auch noch auf Deine Rechte nach §§ 32 ff. BDSG hinweisen, die allerdings inhaltlich größtenteils deckungsgleich mit den soeben beschrieben Rechten sind.
-
-#### 4.1.9 Beschwerderecht nach Art. 77 DSGVO
-
-Du hast auch das Recht, dich bei einer Datenschutzaufsichtsbehörde zu beschweren, wenn Du der Ansicht bist, dass eine Verarbeitung der dich betreffenden personenbezogenen Daten gegen diese Verordnung verstößt.
-
-## 5. Was ist, wenn morgen die DSGVO abgeschafft wird oder andere Veränderungen stattfinden?
-
-Der aktuelle Stand dieser Datenschutzerklärung ist 23.03.2025. Von Zeit zu Zeit ist es erforderlich, den Inhalt der Datenschutzerklärung anzupassen, um auf tatsächliche und rechtliche Veränderungen zu reagieren. Wir behalten uns daher vor, diese Datenschutzerklärung jederzeit zu ändern. Wir werden die geänderte Version an gleicher Stelle veröffentlichen und empfehlen Dir, die Datenschutzerklärung regelmäßig zu lesen.
+    Der aktuelle Stand dieser Datenschutzerklärung ist 23.03.2025. Von Zeit zu Zeit ist es erforderlich, den Inhalt der Datenschutzerklärung anzupassen, um auf tatsächliche und rechtliche Veränderungen zu reagieren. Wir behalten uns daher vor, diese Datenschutzerklärung jederzeit zu ändern. Wir werden die geänderte Version an gleicher Stelle veröffentlichen und empfehlen Dir, die Datenschutzerklärung regelmäßig zu lesen.
