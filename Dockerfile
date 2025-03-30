@@ -1,6 +1,10 @@
 # syntax=docker/dockerfile:1
 # check=skip=SecretsUsedInArgOrEnv
 
+# <DEPENDENCIES>
+FROM ghcr.io/maevsi/sqitch:6
+# </DEPENDENCIES>
+
 #############
 # Create base image.
 
