@@ -1,3 +1,9 @@
+## [9.7.1](https://github.com/maevsi/vibetype/compare/9.7.0...9.7.1) (2025-03-30)
+
+### Performance Improvements
+
+* **validation:** inline existence checks ([#1835](https://github.com/maevsi/vibetype/issues/1835)) ([62531da](https://github.com/maevsi/vibetype/commit/62531daaf2096ac9105166e18b41466621f734ae))
+
 ## [9.7.0](https://github.com/maevsi/vibetype/compare/9.6.0...9.7.0) (2025-03-25)
 
 ### Features
