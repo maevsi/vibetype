@@ -51,13 +51,10 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 
-export interface Props {
+const { isCentered } = defineProps<{
   formInput: BaseValidation
   isCentered?: boolean
-}
-withDefaults(defineProps<Props>(), {
-  isCentered: false,
-})
+}>()
 
 const emit = defineEmits<{
   input: [event?: string]

@@ -7,7 +7,7 @@
       >
         <AccountProfilePicture
           :account-id="account?.id"
-          classes="h-48 rounded-sm w-48"
+          class="h-48 w-48 rounded-sm"
           height="192"
           width="192"
         />
@@ -48,19 +48,19 @@
             <div class="isolate flex -space-x-2 overflow-hidden p-1">
               <AccountProfilePicture
                 account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                classes="rounded-full ring-3 ring-background-brighten dark:ring-background-darken"
+                class="ring-background-brighten dark:ring-background-darken rounded-full ring-3"
                 height="64"
                 width="64"
               />
               <AccountProfilePicture
                 account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                classes="rounded-full ring-3 ring-background-brighten dark:ring-background-darken"
+                class="ring-background-brighten dark:ring-background-darken rounded-full ring-3"
                 height="64"
                 width="64"
               />
               <AccountProfilePicture
                 account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                classes="rounded-full ring-3 ring-background-brighten dark:ring-background-darken"
+                class="ring-background-brighten dark:ring-background-darken rounded-full ring-3"
                 height="64"
                 width="64"
               />

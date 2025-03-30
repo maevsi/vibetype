@@ -4,7 +4,7 @@
     :class="
       cn(
         'overflow-x-hidden rounded-xl border border-(--faint-line) bg-(--surface) p-2 shadow-xs',
-        props.class,
+        classProps,
       )
     "
   >
@@ -17,12 +17,9 @@ import type { HtmlHTMLAttributes } from 'vue'
 
 import { cn } from '@/utils/shadcn'
 
-const props = withDefaults(
-  defineProps<{ class?: HtmlHTMLAttributes['class'] }>(),
-  {
-    class: undefined,
-  },
-)
+const { class: classProps } = defineProps<{
+  class?: HtmlHTMLAttributes['class']
+}>()
 </script>
 
 <script lang="ts">

@@ -1,12 +1,12 @@
 <template>
   <AppLink
-    v-if="props.to"
+    v-if="to"
     v-bind="delegatedProps"
     :aria-label="ariaLabel"
-    :class="cn(classes, props.class)"
+    :class="cn(classComputed, classProps)"
     :is-disabled="disabled"
     :is-colored="false"
-    :to="props.to"
+    :to="to"
     @click="emit('click')"
   >
     <slot name="prefix" />
@@ -18,7 +18,7 @@
   <button
     v-else
     :aria-label="ariaLabel"
-    :class="cn(['rounded-sm', classes], props.class)"
+    :class="cn(['rounded-sm', classComputed], classProps)"
     :disabled="disabled"
     :type="type"
     @click="emit('click')"
@@ -33,56 +33,46 @@
 
 <script setup lang="ts">
 import { cn } from '@/utils/shadcn'
-import type { HtmlHTMLAttributes } from 'vue'
+import type { ButtonHTMLAttributes, HtmlHTMLAttributes } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
-export interface Props {
-  ariaLabel: string
-  disabled?: boolean
-  isBlock?: boolean
-  isExternal?: boolean
-  isLinkColored?: boolean
-  to?: RouteLocationRaw
-  type?: 'button' | 'submit' | 'reset'
-}
-const props = withDefaults(
-  defineProps<Props & { class?: HtmlHTMLAttributes['class'] }>(),
+const {
+  ariaLabel,
+  class: classProps,
+  disabled,
+  isBlock,
+  isExternal,
+  isLinkColored,
+  to,
+  type = 'button',
+} = defineProps<
   {
-    disabled: false,
-    class: undefined,
-    isBlock: false,
-    isExternal: undefined,
-    isLinkColored: false,
-    to: undefined,
-    type: 'button',
-  },
-)
-const delegatedProps = computed(() => {
-  const {
-    class: _class,
-    disabled: _disabled,
-    isBlock: _isBlock,
-    isLinkColored: _isLinkColored,
-    type: _type,
-    to: _to,
-    ...delegated
-  } = props
-
-  return delegated
-})
+    ariaLabel: string
+    disabled?: boolean
+    isBlock?: boolean
+    isExternal?: boolean
+    isLinkColored?: boolean
+    to?: RouteLocationRaw
+    type?: ButtonHTMLAttributes['type']
+  } & { class?: HtmlHTMLAttributes['class'] }
+>()
+const delegatedProps = computed(() => ({
+  ariaLabel,
+  isExternal,
+}))
 
 const emit = defineEmits<{
   click: []
 }>()
 
 // computations
-const classes = computed(() => {
-  return [
+const classComputed = computed(() =>
+  [
     'overflow-hidden',
-    ...(props.isBlock ? ['block'] : ['inline-flex items-center gap-2']),
-    ...(props.isLinkColored ? ['text-link-dark dark:text-link-bright'] : []),
-  ].join(' ')
-})
+    ...(isBlock ? ['block'] : ['inline-flex items-center gap-2']),
+    ...(isLinkColored ? ['text-link-dark dark:text-link-bright'] : []),
+  ].join(' '),
+)
 </script>
 
 <script lang="ts">

@@ -46,21 +46,13 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 
-export interface Props {
+const { errors, errorsPgIds, form, formClass, submitName } = defineProps<{
   errors?: BackendError[]
   errorsPgIds?: Record<string, string>
   form: BaseValidation
   formClass?: string
-  isFormSent?: boolean
   submitName?: string
-}
-const props = withDefaults(defineProps<Props>(), {
-  errors: undefined,
-  errorsPgIds: undefined,
-  formClass: undefined,
-  isFormSent: false,
-  submitName: undefined,
-})
+}>()
 
 const emit = defineEmits<{
   click: []
@@ -78,12 +70,10 @@ const resetForm = () => {
 // computations
 const $error = computed(
   // this is not equivalent to Vuelidate's `$error` as docs claim (https://github.com/vuelidate/vuelidate/pull/1188)
-  () => props.form.$dirty && props.form.$invalid && !props.form.$pending,
+  () => form.$dirty && form.$invalid && !form.$pending,
 )
 const errorMessages = computed(() =>
-  props.errors
-    ? getCombinedErrorMessages(props.errors, props.errorsPgIds)
-    : undefined,
+  errors ? getCombinedErrorMessages(errors, errorsPgIds) : undefined,
 )
 
 defineExpose({

@@ -18,13 +18,10 @@
 <script setup lang="ts">
 import { EventVisibility } from '~~/gql/generated/graphql'
 
-export interface Props {
+const { isArchived, visibility } = defineProps<{
   isArchived?: boolean
   visibility: string
-}
-withDefaults(defineProps<Props>(), {
-  isArchived: false,
-})
+}>()
 
 const { t } = useI18n()
 </script>

@@ -17,14 +17,10 @@
 <script setup lang="ts">
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
-export interface Props {
+const { events, hasNextPage } = defineProps<{
   events?: EventItemFragment[]
   hasNextPage?: boolean
-}
-withDefaults(defineProps<Props>(), {
-  events: undefined,
-  hasNextPage: undefined,
-})
+}>()
 
 const emit = defineEmits<{
   loadMore: []

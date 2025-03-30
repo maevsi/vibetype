@@ -121,7 +121,22 @@
 import type { BaseValidation } from '@vuelidate/core'
 import { consola } from 'consola'
 
-export interface Props {
+const {
+  isDisabled,
+  isOptional,
+  isReadonly,
+  isRequired,
+  isValidatable,
+  idLabel,
+  placeholder,
+  success,
+  title,
+  type,
+  validationProperty,
+  value,
+  valueFormatter = (x?: string) => x,
+  warning,
+} = defineProps<{
   isDisabled?: boolean
   isOptional?: boolean
   isReadonly?: boolean
@@ -136,22 +151,7 @@ export interface Props {
   value?: BaseValidation
   valueFormatter?: (x?: string) => typeof x | undefined
   warning?: boolean
-}
-const props = withDefaults(defineProps<Props>(), {
-  isDisabled: false,
-  isOptional: false,
-  isReadonly: false,
-  isRequired: false,
-  isValidatable: false,
-  idLabel: undefined,
-  placeholder: undefined,
-  success: false,
-  type: undefined,
-  validationProperty: undefined,
-  value: undefined,
-  valueFormatter: (x?: string) => x,
-  warning: false,
-})
+}>()
 
 const emit = defineEmits<{
   icon: []
@@ -163,16 +163,16 @@ const { t } = useI18n()
 const runtimeConfig = useRuntimeConfig()
 
 // data
-const idLabelFull = props.idLabel
+const idLabelFull = idLabel
   ? `${SITE_NAME}-${runtimeConfig.public.vio.isInProduction ? 'prod' : 'dev'}-${
-      props.idLabel
+      idLabel
     }`
   : undefined
 
 // initialization
 if (
-  !props.placeholder &&
-  props.type &&
+  !placeholder &&
+  type &&
   ![
     'checkbox',
     'datetime-local',
@@ -181,17 +181,13 @@ if (
     'textarea',
     'tiptap',
     'radio',
-  ].includes(props.type)
+  ].includes(type)
 ) {
-  consola.warn(`placeholder is missing for ${props.idLabel}!`)
+  consola.warn(`placeholder is missing for ${idLabel}!`)
 }
 
-if (
-  !props.value &&
-  props.type &&
-  !['checkbox', 'select'].includes(props.type)
-) {
-  consola.warn(`value is missing for ${props.idLabel}!`)
+if (!value && type && !['checkbox', 'select'].includes(type)) {
+  consola.warn(`value is missing for ${idLabel}!`)
 }
 </script>
 

@@ -22,17 +22,14 @@
 import type { AnyVariables, UseMutationResponse } from '@urql/vue'
 import { useVuelidate } from '@vuelidate/core'
 
-export interface Props {
-  errorsPgIds?: Record<string, string>
-  itemNameDeletion: string
-  itemNameSuccess: string
-  mutation: UseMutationResponse<unknown, AnyVariables>
-  variables?: Record<string, unknown>
-}
-const props = withDefaults(defineProps<Props>(), {
-  errorsPgIds: undefined,
-  variables: undefined,
-})
+const { errorsPgIds, itemNameDeletion, itemNameSuccess, mutation, variables } =
+  defineProps<{
+    errorsPgIds?: Record<string, string>
+    itemNameDeletion: string
+    itemNameSuccess: string
+    mutation: UseMutationResponse<unknown, AnyVariables>
+    variables?: Record<string, unknown>
+  }>()
 
 const emit = defineEmits<{
   success: []
@@ -47,22 +44,22 @@ const form = reactive({
 const isFormSent = ref(false)
 
 // api data
-const api = getApiData([props.mutation])
+const api = getApiData([mutation])
 
 // methods
 const submit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
 
-  const result = await props.mutation.executeMutation({
+  const result = await mutation.executeMutation({
     password: form.password,
-    ...props.variables,
+    ...variables,
   })
 
   if (result.error) return
 
   await showToast({
     title: t('success', {
-      item: props.itemNameSuccess,
+      item: itemNameSuccess,
     }),
   })
   emit('success')

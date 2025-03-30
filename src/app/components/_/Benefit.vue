@@ -16,12 +16,11 @@
 </template>
 
 <script setup lang="ts">
-export interface Props {
+const { description, iconPath, title } = defineProps<{
   description: string
   iconPath: string
   title: string
-}
-withDefaults(defineProps<Props>(), {})
+}>()
 </script>
 
 <script lang="ts">

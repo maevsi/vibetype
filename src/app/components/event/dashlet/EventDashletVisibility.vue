@@ -32,10 +32,9 @@ import {
   type EventItemFragment,
 } from '~~/gql/generated/graphql'
 
-export interface Props {
+const { event } = defineProps<{
   event: Pick<EventItemFragment, 'isArchived' | 'visibility'>
-}
-withDefaults(defineProps<Props>(), {})
+}>()
 
 const { t } = useI18n()
 </script>

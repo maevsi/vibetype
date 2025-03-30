@@ -1,5 +1,5 @@
 <template>
-  <CardState :class="cn('bg-yellow-600', props.class)">
+  <CardState :class="cn('bg-yellow-600', classProps)">
     <slot />
   </CardState>
 </template>
@@ -9,10 +9,7 @@ import type { HtmlHTMLAttributes } from 'vue'
 
 import { cn } from '@/utils/shadcn'
 
-const props = withDefaults(
-  defineProps<{ class?: HtmlHTMLAttributes['class'] }>(),
-  {
-    class: undefined,
-  },
-)
+const { class: classProps } = defineProps<{
+  class?: HtmlHTMLAttributes['class']
+}>()
 </script>

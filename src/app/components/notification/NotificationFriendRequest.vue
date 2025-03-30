@@ -4,7 +4,7 @@
       <div class="px-2">
         <AccountProfilePicture
           :account-id="accountId"
-          classes="rounded-full h-12 w-12"
+          class="h-12 w-12 rounded-full"
           height="48"
           width="48"
         />
@@ -35,11 +35,10 @@
 </template>
 
 <script setup lang="ts">
-export interface Props {
+const { accountId, username } = defineProps<{
   accountId: string
   username: string
-}
-withDefaults(defineProps<Props>(), {})
+}>()
 
 useI18n()
 </script>

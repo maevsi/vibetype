@@ -10,8 +10,7 @@
 </template>
 
 <script setup lang="ts">
-export interface Props {
+const { heading } = defineProps<{
   heading: string
-}
-withDefaults(defineProps<Props>(), {})
+}>()
 </script>

@@ -34,15 +34,14 @@
 <script setup lang="ts">
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
-export interface Props {
+const { event } = defineProps<{
   event: Pick<
     EventItemFragment,
     'accountByCreatedBy' | 'name' | 'start' | 'slug'
   >
-}
-const props = withDefaults(defineProps<Props>(), {})
+}>()
 
 const localePath = useLocalePath()
 const dateTime = useDateTime()
-const eventStart = computed(() => dateTime(props.event.start))
+const eventStart = computed(() => dateTime(event.start))
 </script>

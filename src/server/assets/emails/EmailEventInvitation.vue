@@ -7,7 +7,21 @@ import AppText from './components/base/AppText.vue'
 import AppFooter from './components/AppFooter.vue'
 import Email from './Email.vue'
 
-export interface Props {
+const {
+  emailAddress,
+  eventAttendanceType,
+  eventAuthorProfileHref,
+  eventAuthorProfilePictureSrc,
+  eventAuthorUsername,
+  eventLink,
+  eventName,
+  eventDescription,
+  eventDuration,
+  eventStart,
+  eventVisibility,
+  locale,
+  logoSource,
+} = defineProps<{
   emailAddress: string
   eventAttendanceType: string
   eventAuthorProfileHref: string
@@ -21,12 +35,7 @@ export interface Props {
   eventVisibility: string
   locale: Locale
   logoSource?: string
-}
-const props = withDefaults(defineProps<Props>(), {
-  eventDescription: undefined,
-  eventDuration: undefined,
-  logoSource: undefined,
-})
+}>()
 
 const locales = {
   de: {
@@ -62,7 +71,7 @@ const locales = {
     title: (eventName: string) => `Invitation: ${eventName}`,
   },
 }
-const t = locales[props.locale]
+const t = locales[locale]
 </script>
 
 <template>

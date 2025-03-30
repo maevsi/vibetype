@@ -22,10 +22,9 @@
 </template>
 
 <script setup lang="ts">
-export interface Props {
+const { description, keyword, title } = defineProps<{
   description: string
   keyword: string
   title: string
-}
-withDefaults(defineProps<Props>(), {})
+}>()
 </script>

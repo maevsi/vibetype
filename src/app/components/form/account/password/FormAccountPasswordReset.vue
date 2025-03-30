@@ -24,12 +24,9 @@
 import { useVuelidate } from '@vuelidate/core'
 import { useAccountPasswordResetMutation } from '~~/gql/documents/mutations/account/accountPasswordReset'
 
-export interface Props {
+const { formClass } = defineProps<{
   formClass?: string
-}
-withDefaults(defineProps<Props>(), {
-  formClass: undefined,
-})
+}>()
 
 const { t } = useI18n()
 const route = useRoute()
