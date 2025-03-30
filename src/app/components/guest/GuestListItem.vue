@@ -116,11 +116,10 @@ import type {
   GuestItemFragment,
 } from '~~/gql/generated/graphql'
 
-export interface Props {
+const { event, guest } = defineProps<{
   event: Pick<EventItemFragment, 'accountByCreatedBy' | 'slug'>
   guest: Pick<GuestItemFragment, 'contactByContactId' | 'feedback' | 'id'>
-}
-const props = withDefaults(defineProps<Props>(), {})
+}>()
 
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
@@ -168,7 +167,7 @@ const send = async (guest: Pick<GuestItemFragment, 'id'>) => {
 }
 
 // computations
-const contact = computed(() => getContactItem(props.guest.contactByContactId))
+const contact = computed(() => getContactItem(guest.contactByContactId))
 </script>
 
 <i18n lang="yaml">

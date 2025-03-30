@@ -11,8 +11,7 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 
-export interface Props {
+const { formInput } = defineProps<{
   formInput: BaseValidation
-}
-withDefaults(defineProps<Props>(), {})
+}>()
 </script>

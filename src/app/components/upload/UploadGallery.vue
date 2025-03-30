@@ -127,14 +127,10 @@ import { useAccountUploadQuotaBytesQuery } from '~~/gql/documents/queries/accoun
 import { useAllUploadsQuery } from '~~/gql/documents/queries/upload/uploadsAll'
 import { getUploadItem } from '~~/gql/documents/fragments/uploadItem'
 
-export interface Props {
+const { isReadonly, isSelectable } = defineProps<{
   isReadonly?: boolean
   isSelectable?: boolean
-}
-withDefaults(defineProps<Props>(), {
-  isReadonly: false,
-  isSelectable: false,
-})
+}>()
 
 const emit = defineEmits<{
   selection: [uploadId?: string | null]

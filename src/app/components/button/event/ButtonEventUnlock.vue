@@ -16,12 +16,9 @@
 const localePath = useLocalePath()
 const { t } = useI18n()
 
-export interface Props {
+const { isPrimary } = defineProps<{
   isPrimary?: boolean
-}
-withDefaults(defineProps<Props>(), {
-  isPrimary: false,
-})
+}>()
 
 const emit = defineEmits<{
   click: []

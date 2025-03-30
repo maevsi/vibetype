@@ -18,10 +18,9 @@
 </template>
 
 <script setup lang="ts">
-export interface Props {
+const { feedback } = defineProps<{
   feedback: string
-}
-withDefaults(defineProps<Props>(), {})
+}>()
 
 const { t } = useI18n()
 </script>

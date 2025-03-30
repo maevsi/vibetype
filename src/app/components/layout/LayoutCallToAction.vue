@@ -18,11 +18,10 @@
 </template>
 
 <script setup lang="ts">
-export interface Props {
+const { callToAction, callToActionDescription } = defineProps<{
   callToAction: string
   callToActionDescription: string
-}
-withDefaults(defineProps<Props>(), {})
+}>()
 
 const localePath = useLocalePath()
 const route = useRoute()

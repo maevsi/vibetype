@@ -47,8 +47,10 @@
           <Button
             :aria-describedby="tier.id"
             :aria-label="tier.cta.name"
-            class="mt-10 flex w-full justify-center px-3 py-2 text-sm leading-6 font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-            :class="tier.cta.class"
+            :class="[
+              'mt-10 flex w-full justify-center px-3 py-2 text-sm leading-6 font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
+              tier.cta.class,
+            ]"
             :to="tier.to"
             @click="tier.onClick"
           >

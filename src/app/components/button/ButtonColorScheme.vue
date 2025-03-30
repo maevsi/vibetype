@@ -18,12 +18,9 @@
 </template>
 
 <script setup lang="ts">
-export interface Props {
+const { isFallback } = defineProps<{
   isFallback?: boolean
-}
-withDefaults(defineProps<Props>(), {
-  isFallback: false,
-})
+}>()
 
 const colorMode = useColorMode()
 const { t } = useI18n()

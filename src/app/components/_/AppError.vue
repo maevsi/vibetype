@@ -29,17 +29,17 @@
 </template>
 
 <script setup lang="ts">
-export interface Props {
-  statusCode: number
-  statusMessage?: string
+const {
+  description,
+  stack,
+  statusCode,
+  //statusMessage
+} = defineProps<{
   description?: string
   stack?: string
-}
-const props = withDefaults(defineProps<Props>(), {
-  description: undefined,
-  statusMessage: undefined,
-  stack: undefined,
-})
+  statusCode: number
+  // statusMessage?: string
+}>()
 
 const { locale, t } = useI18n()
 
@@ -47,14 +47,14 @@ const isInDevelopment = import.meta.dev
 
 // page
 const { ssrContext } = useNuxtApp()
-if (ssrContext && props.statusCode) {
-  ssrContext.event.node.res.statusCode = props.statusCode
+if (ssrContext && statusCode) {
+  ssrContext.event.node.res.statusCode = statusCode
 }
 
 // status code
 const { status } = await import('@http-util/status-i18n')
 const statusReason = computed(() => {
-  return status(props.statusCode, locale.value) || t('error')
+  return status(statusCode, locale.value) || t('error')
 })
 </script>
 

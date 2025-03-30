@@ -22,14 +22,10 @@
 </template>
 
 <script setup lang="ts">
-export interface Props {
+const { active, steps } = defineProps<{
   active?: string
   steps?: Array<string>
-}
-withDefaults(defineProps<Props>(), {
-  active: undefined,
-  steps: undefined,
-})
+}>()
 </script>
 
 <script lang="ts">
