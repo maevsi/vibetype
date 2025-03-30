@@ -1,7 +1,7 @@
 <template>
   <Loader :api="api" indicator="ping">
     <div class="flex flex-col gap-4">
-      <LayoutPageTitle :title="routeParamUsername" />
+      <LayoutPageTitle :title="title" />
       <div
         class="flex min-w-0 flex-col items-center justify-center sm:flex-row"
       >
@@ -15,7 +15,7 @@
       <div class="flex justify-center">
         <UnderConstruction>
           <ButtonColored
-            v-if="store.signedInUsername !== routeParamUsername"
+            v-if="store.signedInUsername !== route.params.username"
             :aria-label="t('friendAdd')"
             disabled
           >
@@ -24,11 +24,11 @@
         </UnderConstruction>
       </div>
       <CardButton
-        :title="t('eventsTheir', { name: routeParamUsername })"
+        :title="t('eventsTheir', { name: route.params.username })"
         :to="
           localePath({
             name: 'event-view-username',
-            params: { username: routeParamUsername },
+            params: { username: route.params.username },
           })
         "
       >
@@ -109,33 +109,24 @@
 </template>
 
 <script setup lang="ts">
-import type { RouteLocationNormalized } from 'vue-router'
-import type { RouteNamedMap } from 'vue-router/auto-routes'
-
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 import { getAchievementItem } from '~~/gql/documents/fragments/achievementItem'
 import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { useAllAchievementsQuery } from '~~/gql/documents/queries/achievement/achievementsAll'
 import { AchievementType } from '~~/gql/generated/graphql'
 
-const ROUTE_NAME: keyof RouteNamedMap = 'account-view-username___en'
-
-definePageMeta({
-  async validate(route) {
-    return await validateAccountExistence({
-      route: route as RouteLocationNormalized<typeof ROUTE_NAME>,
-    })
-  },
-})
-
 const { t } = useI18n()
-const route = useRoute(ROUTE_NAME)
+const route = useRoute('account-view-username___en')
 const localePath = useLocalePath()
 const store = useStore()
 
-// data
-const routeParamUsername = route.params.username
+// page
 const title = route.params.username
+useHeadDefault({
+  ogType: 'profile',
+  profileUsername: route.params.username,
+  title,
+})
 
 // api data
 const accountByUsernameQuery = await zalgo(
@@ -146,21 +137,19 @@ const accountByUsernameQuery = await zalgo(
 const account = getAccountItem(
   accountByUsernameQuery.data.value?.accountByUsername,
 )
+if (!account) {
+  throw createError({
+    statusCode: 404,
+  })
+}
 const achievementsQuery = await useAllAchievementsQuery({
-  accountId: account?.id,
+  accountId: account.id,
 })
 const achievements =
   achievementsQuery.data.value?.allAchievements?.nodes
     .map((x) => getAchievementItem(x))
     .filter(isNeitherNullNorUndefined) || []
 const api = getApiData([accountByUsernameQuery, achievementsQuery])
-
-// initialization
-useHeadDefault({
-  ogType: 'profile',
-  profileUsername: route.params.username,
-  title,
-})
 </script>
 
 <i18n lang="yaml">
