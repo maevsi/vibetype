@@ -97,6 +97,12 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/guest/unlock" />
     </url>
     <url>
+        <loc>http://localhost:3001/legal/attributions</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/legal/attributions" />
+        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/legal/attributions" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/legal/attributions" />
+    </url>
+    <url>
         <loc>http://localhost:3001/session/create</loc>
         <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/session/create" />
         <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/session/create" />

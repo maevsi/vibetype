@@ -47,6 +47,7 @@ export default defineNuxtConfig({
     '@nuxtjs/html-validator',
     '@nuxtjs/i18n',
     '@nuxtjs/seo',
+    '@nuxt/content', // most come after `@nuxtjs/seo`
     '@nuxtjs/turnstile',
     '@pinia/nuxt',
     '@vite-pwa/nuxt',
@@ -99,6 +100,9 @@ export default defineNuxtConfig({
     experimental: {
       asyncContext: true,
       openAPI: IS_NITRO_OPENAPI_ENABLED,
+    },
+    prerender: {
+      ignore: ['/__nuxt_content/content/sql_dump'], // TODO: remove once nuxt content support is fixed (https://github.com/nuxt/content/issues/3291)
     },
     rollupConfig: {
       output: {
