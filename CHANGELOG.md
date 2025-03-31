@@ -1,3 +1,16 @@
+## [9.8.0](https://github.com/maevsi/vibetype/compare/9.7.1...9.8.0) (2025-03-31)
+
+### Features
+
+* **legal-notice:** extend to european law ([953dd77](https://github.com/maevsi/vibetype/commit/953dd779e3ebcc85b1d05d91b0e554b737d0bc2e))
+* **legal-notice:** update ([cafdede](https://github.com/maevsi/vibetype/commit/cafdedeb9bcc823b7e6a27c692a4568048a6efcf))
+* **legal:** improve semantic accuracy and formatting ([b9cc876](https://github.com/maevsi/vibetype/commit/b9cc876dd26ab19fdb46a85b833d05d1af90ffa6))
+* **legal:** update content ([#1832](https://github.com/maevsi/vibetype/issues/1832)) ([cd9f561](https://github.com/maevsi/vibetype/commit/cd9f561d252b6e7685f35ba137096e313e296a6f))
+* **legal:** update translations ([ef4ac14](https://github.com/maevsi/vibetype/commit/ef4ac1480167e074c06d03a23f23c5de8d7c8946))
+* **privacy-policy:** reformat ([f8126ee](https://github.com/maevsi/vibetype/commit/f8126ee2b1e9a61307e6cfb23859cc5bdb9c18dc))
+* **privacy-policy:** remove outdated content ([f6c6faa](https://github.com/maevsi/vibetype/commit/f6c6faa5ac2f15b16705a44332bf36f3f65117b5))
+* **privacy-policy:** update ([17858a3](https://github.com/maevsi/vibetype/commit/17858a39cbbeedad1a92abba98446f084787385c))
+
 ## [9.7.1](https://github.com/maevsi/vibetype/compare/9.7.0...9.7.1) (2025-03-30)
 
 ### Performance Improvements
