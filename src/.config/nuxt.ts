@@ -101,6 +101,9 @@ export default defineNuxtConfig({
       asyncContext: true,
       openAPI: IS_NITRO_OPENAPI_ENABLED,
     },
+    prerender: {
+      ignore: ['/__nuxt_content/content/sql_dump'], // TODO: remove once nuxt content support is fixed (https://github.com/nuxt/content/issues/3291)
+    },
     rollupConfig: {
       output: {
         sourcemap: true, // TODO: remove? (https://github.com/getsentry/sentry-javascript/discussions/15028)
