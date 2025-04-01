@@ -36,7 +36,7 @@
       >
         <slot />
         <div v-if="isSubmitting" class="absolute inset-0">
-          <LoaderIndicatorSpinner class="m-auto h-8 w-8" />
+          <LoaderIndicatorSpinner class="m-auto size-8" />
         </div>
       </div>
       <div v-if="!isFooterHidden" class="flex justify-center gap-8">

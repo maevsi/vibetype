@@ -4,7 +4,7 @@
       <div class="flex items-center">
         <Hr />
         <IconLogo
-          class="mx-12 h-12 w-12 opacity-50 brightness-0 dark:opacity-60 dark:invert"
+          class="mx-12 size-12 opacity-50 brightness-0 dark:opacity-60 dark:invert"
         />
         <Hr />
       </div>

@@ -4,13 +4,13 @@
       <AccountProfilePicture
         v-if="contact.accountId"
         :account-id="contact.accountId"
-        class="h-12 w-12 rounded-full"
+        class="size-12 rounded-full"
         height="48"
         width="48"
       />
       <ContactAvatar
         v-else
-        classes="rounded-full h-12 w-12"
+        classes="rounded-full size-12"
         :email-address="contact.emailAddress"
         :email-address-hash="contact.emailAddressHash"
         size="48"

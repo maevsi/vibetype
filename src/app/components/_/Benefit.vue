@@ -5,7 +5,7 @@
     <LoaderImage
       :alt="title"
       aspect="aspect-square"
-      class="h-8 w-8"
+      class="size-8"
       height="32"
       :src="iconPath"
       width="32"
