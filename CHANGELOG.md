@@ -1,3 +1,9 @@
+## [9.8.1](https://github.com/maevsi/vibetype/compare/9.8.0...9.8.1) (2025-04-01)
+
+### Bug Fixes
+
+* **legal:** correct typos ([#1841](https://github.com/maevsi/vibetype/issues/1841)) ([d14e649](https://github.com/maevsi/vibetype/commit/d14e649c09b174eaf5a04814e7f9da9e186d35ee))
+
 ## [9.8.0](https://github.com/maevsi/vibetype/compare/9.7.1...9.8.0) (2025-03-31)
 
 ### Features
