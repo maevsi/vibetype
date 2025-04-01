@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/shadcn'
+import { X } from 'lucide-vue-next'
 import {
+  DialogClose,
   DialogContent,
   type DialogContentEmits,
   type DialogContentProps,
@@ -22,6 +24,8 @@ const delegatedProps = computed(() => {
 })
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -51,7 +55,21 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
         "
       >
         <slot />
+
+        <DialogClose
+          class="hover:bg-secondary absolute top-4 right-4 rounded-md p-0.5 transition-colors"
+        >
+          <X class="h-4 w-4" />
+          <span class="sr-only">{{ t('close') }}</span>
+        </DialogClose>
       </DialogContent>
     </DialogOverlay>
   </DialogPortal>
 </template>
+
+<i18n lang="yaml">
+de:
+  close: Schließen
+en:
+  close: Close
+</i18n>

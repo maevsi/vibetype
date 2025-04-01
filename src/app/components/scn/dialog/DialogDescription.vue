@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/shadcn'
 import {
   DialogDescription,
   type DialogDescriptionProps,
@@ -22,6 +22,7 @@ const forwardedProps = useForwardProps(delegatedProps)
 
 <template>
   <DialogDescription
+    data-slot="dialog-description"
     v-bind="forwardedProps"
     :class="cn('text-muted-foreground text-sm', props.class)"
   >
