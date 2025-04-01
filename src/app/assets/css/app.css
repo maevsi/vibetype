@@ -309,15 +309,6 @@
   );
 }
 
-@utility vio-line-clamp-2 {
-  @apply max-w-full overflow-hidden text-ellipsis;
-
-  display: -webkit-box;
-  overflow-wrap: break-word;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
 .dark {
   @apply scheme-dark;
 }
