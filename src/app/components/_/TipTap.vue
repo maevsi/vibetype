@@ -285,7 +285,8 @@ const editor = useEditor({
   content: value.$model,
   editorProps: {
     attributes: {
-      class: 'form-input min-h-[100px]',
+      class:
+        'rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) flex-grow px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-0 min-h-[100px]',
     },
   },
   extensions: [

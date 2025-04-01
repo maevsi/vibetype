@@ -84,7 +84,7 @@
                 />
                 <IHeroiconsXCircle
                   v-else
-                  class="text-red-600 dark:text-red-500"
+                  class="text-(--semantic-critic-text) dark:text-red-500"
                 />
                 <span>
                   {{ t('appIs') }}
@@ -114,7 +114,7 @@
                 />
                 <IHeroiconsXCircle
                   v-else
-                  class="text-red-600 dark:text-red-500"
+                  class="text-(--semantic-critic-text) dark:text-red-500"
                 />
                 <span>
                   {{ t('hasNavigatorPermissions') }}
@@ -130,7 +130,7 @@
                 />
                 <IHeroiconsXCircle
                   v-else
-                  class="text-red-600 dark:text-red-500"
+                  class="text-(--semantic-critic-text) dark:text-red-500"
                 />
                 <span>
                   {{ t('hasNavigatorServiceWorkers') }}
@@ -146,7 +146,7 @@
                 />
                 <IHeroiconsXCircle
                   v-else
-                  class="text-red-600 dark:text-red-500"
+                  class="text-(--semantic-critic-text) dark:text-red-500"
                 />
                 <span>
                   {{ t('hasWindowNotification') }}
@@ -162,7 +162,7 @@
                 />
                 <IHeroiconsXCircle
                   v-else
-                  class="text-red-600 dark:text-red-500"
+                  class="text-(--semantic-critic-text) dark:text-red-500"
                 />
                 <span>
                   {{ t('hasIosPushCapability') }}
@@ -182,7 +182,7 @@
                 />
                 <IHeroiconsXCircle
                   v-else-if="permissionState === 'denied'"
-                  class="text-red-600 dark:text-red-500"
+                  class="text-(--semantic-critic-text) dark:text-red-500"
                 />
                 <IHeroiconsBugAnt v-else class="text-red-500" />
                 <span>

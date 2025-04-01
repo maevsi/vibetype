@@ -19,7 +19,7 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  title: Registrieren
+  title: Erstelle ein Konto
 en:
   title: Create an account
 </i18n>

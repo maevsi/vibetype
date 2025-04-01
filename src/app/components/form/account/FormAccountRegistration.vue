@@ -57,6 +57,7 @@
       @handle-back="openPrivacyModal"
       @accepted="submit"
     />
+    <Footer />
   </div>
 </template>
 
@@ -112,7 +113,7 @@ const submit = async (termId: string) => {
     title: t('registrationSuccessTitle'),
     text: t('registrationSuccessBody'),
   })
-  await navigateTo('/account/verify/pending')
+  await navigateTo('/account/verify/create')
 }
 
 const handleSubmit = async () => {
@@ -157,7 +158,6 @@ de:
   registrationSuccessBody: Verifiziere deinen Account über den Link in der E-Mail, die du in Kürze erhalten wirst.
   registrationSuccessTitle: Verifizierungs-E-Mail gesendet.
   username: Benutzername
-
 en:
   accountDeletionNotice: "You'll be able to delete your account at any time."
   alreadyHaveAnAccount: Already have an account? Log in

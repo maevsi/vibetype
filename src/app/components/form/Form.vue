@@ -10,13 +10,11 @@
     @submit="emit('submit', $event)"
   >
     <div class="flex flex-col">
-      <div class="flex min-h-0 flex-col gap-6">
+      <div class="flex min-h-0 flex-col gap-4">
         <slot />
         <div class="flex flex-col justify-between">
           <ButtonColored
             :aria-label="submitName || t('submit')"
-            variant="primary"
-            class="rounded-lg"
             :class="{
               'animate-shake': $error,
             }"

@@ -3,11 +3,14 @@
     v-bind="delegatedProps"
     :class="
       cn(
-        'justify-center rounded-md px-4 py-2 font-medium',
-        variantClasses,
+        'justify-center gap-2 rounded-xl px-6 py-3 font-bold',
+        'data-[type=primary]:bg-(--accent-strong) data-[type=primary]:text-(--semantic-base-primary-button-text) data-[type=primary]:hover:bg-(--accent-strong-hover)',
+        'data-[type=secondary]:bg-(--accent-weak) data-[type=secondary]:text-(--semantic-base-secondary-button-text) data-[type=secondary]:hover:bg-(--accent-weak-hover)',
+        'data-[type=tertiary]:text-(--semantic-base-text-tertiary) data-[type=tertiary]:underline data-[type=tertiary]:hover:bg-(--semantic-base-surface-1) data-[type=tertiary]:hover:text-(--semantic-base-primary-button-text) dark:data-[type=tertiary]:text-(--semantic-base-surface-1) dark:data-[type=tertiary]:hover:text-(--semantic-base-text-tertiary)',
         classProps,
       )
     "
+    :data-type="variant"
     @click="emit('click')"
   >
     <slot />
@@ -41,24 +44,13 @@ const {
     isExternal?: boolean
     to?: RouteLocationRaw
     type?: ButtonHTMLAttributes['type']
-    variant?: 'primary' | 'secondary'
+    variant?: 'primary' | 'secondary' | 'tertiary'
   } & { class?: HtmlHTMLAttributes['class'] }
 >()
 
 const emit = defineEmits<{
   click: []
 }>()
-
-const variantClasses = computed(() => {
-  switch (variant) {
-    case 'primary':
-      return 'bg-(--accent-strong) font-bold text-(--semantic-base-primary-button-text) hover:bg-(--accent-strong-hover)'
-    case 'secondary':
-      return 'bg-(--accent-weak) font-bold text-(--semantic-base-secondary-button-text) hover:bg-(--accent-weak-hover) dark:bg-(--accent-strong) font-bold text-(--semantic-base-primary-button-text)'
-    default:
-      return 'bg-(--accent-strong) text-(--semantic-base-primary-button-text) hover:bg-(--accent-strong-hover)'
-  }
-})
 
 const delegatedProps = computed(() => ({
   ariaLabel,

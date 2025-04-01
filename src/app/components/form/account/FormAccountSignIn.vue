@@ -14,16 +14,16 @@
     >
       <FormInput
         :title="t('emailAddress')"
+        :placeholder="t('globalPlaceholderEmailAddress')"
         :value="v$.username"
         type="text"
         @input="form.username = $event"
-      >
-      </FormInput>
+      />
+      <!-- TODO: implement checks for email address and username -->
       <FormInputPassword
         :form-input="v$.password"
         @input="form.password = $event"
-      >
-      </FormInputPassword>
+      />
       <FormInputCaptcha
         :form-input="v$.captcha"
         is-centered
@@ -49,24 +49,23 @@
         </ButtonColored>
       </template>
     </Form>
-    <div class="flex w-full flex-col justify-between">
-      <ButtonColored
-        variant="secondary"
-        :aria-label="t('register')"
-        :to="localePath('account-create')"
-        class="w-full rounded-lg"
-      >
-        {{ t('register') }}
-      </ButtonColored>
-    </div>
-    <AppLink
+    <ButtonColored
+      :aria-label="t('register')"
+      class="w-full"
+      :to="localePath('account-create')"
+      variant="secondary"
+    >
+      {{ t('register') }}
+    </ButtonColored>
+    <ButtonColored
+      :aria-label="t('passwordReset')"
+      class="w-full dark:data-[type=tertiary]:text-[#fafafc]"
       :to="localePath('account-password-reset-request')"
-      :is-underlined="true"
-      :is-colored="true"
-      class="font-bold text-(--semantic-base-text-tertiary)"
+      variant="tertiary"
     >
       {{ t('passwordReset') }}
-    </AppLink>
+    </ButtonColored>
+    <Footer />
   </div>
 </template>
 
@@ -133,6 +132,7 @@ const submit = async () => {
     })
     return
   }
+
   emit('signed-in')
 }
 
@@ -157,7 +157,7 @@ de:
   logIn: Einloggen
 en:
   contactSupport: Contact support
-  emailAddress: Email Address
+  emailAddress: Email address
   jwtStoreFail: Failed to store the authentication data!
   passwordReset: I forgot my password
   postgres55000: Your email address has not been verified yet! Check your email inbox, including the spam folder if necessary, or contact support.

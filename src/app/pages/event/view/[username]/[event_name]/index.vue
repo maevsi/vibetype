@@ -244,7 +244,7 @@
                   </ButtonColored>
                   <div
                     v-if="invitation.feedback === 'CANCELED'"
-                    class="flex items-center font-semibold text-red-600 dark:text-red-500"
+                    class="flex items-center font-semibold text-(--semantic-critic-text)"
                   >
                     <IHeroiconsXCircleSolid
                       class="mr-2 shrink-0"
@@ -287,7 +287,6 @@
                 <select
                   id="input-paper-invitation-feedback"
                   v-model="invitation.feedbackPaper"
-                  class="form-input"
                   @change="paperInvitationFeedback"
                 >
                   <option disabled :value="null">
