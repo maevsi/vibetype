@@ -7,7 +7,7 @@
       >
         <AccountProfilePicture
           :account-id="account?.id"
-          class="h-48 w-48 rounded-sm"
+          class="size-48 rounded-sm"
           height="192"
           width="192"
         />

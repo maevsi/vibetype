@@ -4,7 +4,7 @@
       <div class="px-2">
         <AccountProfilePicture
           :account-id="accountId"
-          class="h-12 w-12 rounded-full"
+          class="size-12 rounded-full"
           height="48"
           width="48"
         />

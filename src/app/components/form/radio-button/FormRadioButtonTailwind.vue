@@ -32,13 +32,11 @@
                 active
                   ? 'ring-2 ring-indigo-600 ring-offset-2 dark:ring-blue-400 dark:ring-offset-zinc-600'
                   : '',
-                'flex h-4 w-4 items-center justify-center rounded-full border',
+                'flex size-4 items-center justify-center rounded-full border',
               ]"
               aria-hidden="true"
             >
-              <span
-                class="h-1.5 w-1.5 rounded-full bg-white dark:bg-zinc-600"
-              />
+              <span class="size-1.5 rounded-full bg-white dark:bg-zinc-600" />
             </span>
             <RadioGroupLabel
               as="span"

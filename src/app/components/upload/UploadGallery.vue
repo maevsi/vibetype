@@ -27,7 +27,7 @@
             <LoaderImage
               :alt="upload.storageKey ? t('uploadAlt') : t('uploadAltFailed')"
               aspect="aspect-square"
-              class="h-32 w-32"
+              class="size-32"
               height="128"
               :src="getUploadImageSrc(upload.storageKey || '')"
               :title="t('uploadSize', { size: bytesToString(upload.sizeByte) })"
@@ -58,7 +58,7 @@
                 sizeTotal: bytesToString(accountUploadQuotaBytes),
               })
             "
-            class="flex h-32 w-32 justify-center bg-gray-300 dark:bg-gray-200"
+            class="flex size-32 justify-center bg-gray-300 dark:bg-gray-200"
             :title="
               t('iconAdd', {
                 sizeUsed: bytesToString(sizeByteTotal),

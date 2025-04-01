@@ -396,8 +396,8 @@ importers:
         specifier: 3.0.5
         version: 3.0.5
       shadcn-nuxt:
-        specifier: 1.0.3
-        version: 1.0.3(magicast@0.3.5)
+        specifier: 2.0.0
+        version: 2.0.0(magicast@0.3.5)
       sharp:
         specifier: 0.33.5
         version: 0.33.5
@@ -10152,8 +10152,8 @@ packages:
   setprototypeof@1.2.0:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
 
-  shadcn-nuxt@1.0.3:
-    resolution: {integrity: sha512-Jf2yK5P7dtQHKUVWlMPByKvHBjgld76P1yCmYgx3XpmOK0mRpePxasHNWoau3wR1ReTWRNQzYVO9+A3sg5aNEA==}
+  shadcn-nuxt@2.0.0:
+    resolution: {integrity: sha512-pYPG9fIw4eG3Eh3Ii7Z/rm1o/Nljoeg03uwBDWq+6DjerbpW3lOnLwOGvZGoCDjjZOzRDdY9bKLe8ofQra6HYg==}
 
   sharp@0.32.6:
     resolution: {integrity: sha512-KyLTWwgcR9Oe4d9HwCwNM2l7+J0dUQwn/yf7S0EnTtb0eVS4RxO0eUSvxPtzT4F3SY+C4K6fqdv/DO27sJ/v/w==}
@@ -24296,7 +24296,7 @@ snapshots:
 
   setprototypeof@1.2.0: {}
 
-  shadcn-nuxt@1.0.3(magicast@0.3.5):
+  shadcn-nuxt@2.0.0(magicast@0.3.5):
     dependencies:
       '@nuxt/kit': 3.16.1(magicast@0.3.5)
       '@oxc-parser/wasm': 0.50.0

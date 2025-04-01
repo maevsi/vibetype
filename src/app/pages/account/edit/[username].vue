@@ -10,7 +10,7 @@
           <div class="flex items-center gap-4">
             <AccountProfilePicture
               :account-id="account?.id"
-              class="h-24 w-24 rounded-sm"
+              class="size-24 rounded-sm"
               height="96"
               width="96"
             />
