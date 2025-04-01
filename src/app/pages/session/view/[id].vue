@@ -72,6 +72,34 @@
         </div>
       </section>
       <section class="flex flex-col gap-4">
+        <h2>{{ t('app') }}</h2>
+        <div class="grid gap-4 lg:grid-cols-2">
+          <div class="flex flex-1 flex-col gap-2">
+            <Card class="flex flex-col gap-1">
+              <div class="flex gap-2">
+                <IHeroiconsQuestionMarkCircle v-if="isApp === undefined" />
+                <IHeroiconsCheckCircle
+                  v-else-if="isApp"
+                  class="text-green-600 dark:text-green-500"
+                />
+                <IHeroiconsXCircle
+                  v-else
+                  class="text-red-600 dark:text-red-500"
+                />
+                <span>
+                  {{ t('appIs') }}
+                </span>
+              </div>
+            </Card>
+            <Card v-if="isApp" class="flex flex-col gap-1">
+              <span>
+                {{ t('appPlatform', { platform }) }}
+              </span>
+            </Card>
+          </div>
+        </div>
+      </section>
+      <section class="flex flex-col gap-4">
         <h2>{{ t('notification') }}</h2>
         <div class="flex flex-col gap-4 lg:flex-row">
           <section class="flex-1">
@@ -215,6 +243,7 @@ const notificationStore = useNotificationStore()
 const dateTime = useDateTime()
 const { signOut } = await useSignOut()
 const fireAlert = useFireAlert()
+const { isApp, platform } = usePlatform()
 
 // data
 const isNavigatorHavingPermissions = ref<boolean>()
@@ -308,6 +337,9 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
+  app: App
+  appIs: Umgebung is eine app
+  appPlatform: 'App-Plattform: {platform}'
   codes: Einladungscodes
   codesEntered: 'Du hast die folgenden Codes eingegeben:'
   codesEnteredNone: Dieser Sitzung sind keine Einladungscodes zugeordnet.
@@ -327,6 +359,9 @@ de:
   title: Sitzung
   userAgentString: User agent string
 en:
+  app: App
+  appIs: Environment is an app
+  appPlatform: 'App platform: {platform}'
   codes: Invitation codes
   codesEntered: 'You entered the following codes:'
   codesEnteredNone: There are no invitation codes assigned to this session.

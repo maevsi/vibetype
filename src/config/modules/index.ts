@@ -1,7 +1,6 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
 import { RELEASE_NAME, SITE_URL } from '../../node'
-import { SITE_NAME } from '../../shared/utils/constants'
 import { cookieControlConfig } from './cookieControl'
 import { i18nConfig } from './i18n'
 import { pwaConfig } from './pwa'
@@ -18,6 +17,11 @@ const ROBOTS_DISALLOW = [
 export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   colorMode: {
     classSuffix: '',
+  },
+  content: {
+    experimental: {
+      nativeSqlite: true,
+    },
   },
   ...cookieControlConfig,
   eslint: {
@@ -51,11 +55,6 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   },
   ...i18nConfig,
   ...pwaConfig,
-  turnstile: {
-    secretKeyPath: process.env.NUXT_PUBLIC_SITE_URL
-      ? `/run/secrets/${SITE_NAME}_turnstile-key`
-      : undefined,
-  },
   linkChecker: {
     failOnError: true,
   },

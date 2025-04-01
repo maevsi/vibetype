@@ -15,7 +15,7 @@
   "engines": {
     "node": "22"
   },
-  "packageManager": "pnpm@10.6.1",
+  "packageManager": "pnpm@10.7.0",
   "pnpm": {
     "ignoredBuiltDependencies": [
       "@firebase/util",
@@ -24,6 +24,7 @@
       "@parcel/watcher",
       "@sentry-internal/node-cpu-profiler",
       "@sentry/cli",
+      "better-sqlite3",
       "esbuild",
       "protobufjs",
       "sharp",

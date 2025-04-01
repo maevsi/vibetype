@@ -1,26 +1,14 @@
 <template>
   <div>
-    <Error :status-code="418" />
+    <AppError :status-code="418" />
   </div>
 </template>
 
 <script setup lang="ts">
 const { t } = useI18n()
-const { ssrContext } = useNuxtApp() // cannot use `useRequestEvent` instead
 
-// data
-const title = t('title')
-
-// methods
-const init = () => {
-  if (ssrContext) {
-    ssrContext.event.node.res.statusCode = 418
-  }
-}
-
-// initialization
-useHeadDefault({ title })
-init()
+// page
+useHeadDefault({ title: t('title') })
 </script>
 
 <i18n lang="yaml">

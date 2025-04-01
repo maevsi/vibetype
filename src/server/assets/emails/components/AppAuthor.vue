@@ -5,10 +5,9 @@ import type { Locale } from '../../../utils/i18n'
 import { PROFILE_PICTURE_JONAS_CID } from '../../../utils/assets'
 import AppText from './base/AppText.vue'
 
-export interface Props {
+const { locale } = defineProps<{
   locale: Locale
-}
-const props = withDefaults(defineProps<Props>(), {})
+}>()
 
 // data
 const authorName = 'Jonas Thelemann'
@@ -25,7 +24,7 @@ const locales = {
     siteName: 'Vibetype',
   },
 }
-const t = locales[props.locale]
+const t = locales[locale]
 </script>
 
 <template>

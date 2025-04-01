@@ -7,6 +7,7 @@ import {
   IS_NITRO_OPENAPI_ENABLED,
 } from '../../node'
 
+export const DARGSTACK_SECRET_UNUSED_THIRD_PARTY = 'UNSET THIRD PARTY SECRET'
 export const GET_CSP = ({
   siteUrl,
   runtimeConfig,

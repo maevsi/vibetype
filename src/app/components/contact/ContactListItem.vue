@@ -27,7 +27,7 @@
           :aria-label="
             contact.createdBy !== store.signedInAccountId
               ? t('disabledReasonCreatorNot', {
-                  creatorUsername: props.contact.accountByCreatedBy?.username,
+                  creatorUsername: contact.accountByCreatedBy?.username,
                 })
               : t('contactEdit')
           "
@@ -53,7 +53,7 @@
 <script setup lang="ts">
 import type { ContactItemFragment } from '~~/gql/generated/graphql'
 
-export interface Props {
+const { contact, isDeleting, isEditing } = defineProps<{
   contact: Pick<
     ContactItemFragment,
     | 'nodeId'
@@ -71,11 +71,7 @@ export interface Props {
   >
   isDeleting?: boolean
   isEditing?: boolean
-}
-const props = withDefaults(defineProps<Props>(), {
-  isDeleting: false,
-  isEditing: false,
-})
+}>()
 
 const emit = defineEmits<{
   edit: []

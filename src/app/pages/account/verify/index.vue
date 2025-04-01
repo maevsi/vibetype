@@ -9,7 +9,7 @@
         postgresP0002: t('postgresP0002'),
       }"
     />
-    <Error v-else :status-code="422" />
+    <AppError v-else :status-code="422" />
   </div>
 </template>
 

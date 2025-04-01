@@ -8,17 +8,21 @@ import AppAuthor from './components/AppAuthor.vue'
 import AppFooter from './components/AppFooter.vue'
 import Email from './Email.vue'
 
-export interface Props {
+const {
+  emailAddress,
+  locale,
+  logoSource,
+  passwordResetVerificationLink,
+  username,
+  validUntil,
+} = defineProps<{
   emailAddress: string
   locale: Locale
   logoSource?: string
   passwordResetVerificationLink: string
   username: string
   validUntil: string
-}
-const props = withDefaults(defineProps<Props>(), {
-  logoSource: undefined,
-})
+}>()
 
 const locales = {
   de: {
@@ -50,7 +54,7 @@ const locales = {
       `This request is valid until ${validUntil} UTC.`,
   },
 }
-const t = locales[props.locale]
+const t = locales[locale]
 </script>
 
 <template>

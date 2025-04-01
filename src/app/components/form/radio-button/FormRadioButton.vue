@@ -17,16 +17,12 @@
 <script setup lang="ts">
 import slugify from 'slugify'
 
-export interface Props {
+const { checked, groupName, title, value } = defineProps<{
   checked?: boolean
   groupName?: string
   title: string
   value: string
-}
-const props = withDefaults(defineProps<Props>(), {
-  checked: false,
-  groupName: undefined,
-})
+}>()
 
 const emit = defineEmits<{
   change: [change: string]
@@ -34,6 +30,6 @@ const emit = defineEmits<{
 
 // computations
 const titleSlug = computed(() => {
-  return slugify(props.title, { lower: true, strict: true })
+  return slugify(title, { lower: true, strict: true })
 })
 </script>

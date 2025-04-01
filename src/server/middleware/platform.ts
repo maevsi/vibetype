@@ -1,8 +1,9 @@
 export default defineEventHandler(async (event) => {
   const appPlatformHeader = getHeader(event, `${SITE_NAME}-platform`)
+  const appPlatformCookie = getCookie(event, 'app-platform')
 
-  if (appPlatformHeader) {
-    event.context.$platform = appPlatformHeader
+  if (appPlatformHeader || appPlatformCookie) {
+    event.context.$platform = appPlatformHeader || appPlatformCookie
     return
   }
 })

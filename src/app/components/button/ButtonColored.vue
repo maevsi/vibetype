@@ -1,11 +1,13 @@
 <template>
   <Button
-    :aria-label="ariaLabel"
-    class="justify-center rounded-md px-4 py-2 font-medium"
-    :class="variantClasses"
-    :disabled="disabled"
-    :to="props.to"
-    :type="type"
+    v-bind="delegatedProps"
+    :class="
+      cn(
+        'justify-center rounded-md px-4 py-2 font-medium',
+        variantClasses,
+        classProps,
+      )
+    "
     @click="emit('click')"
   >
     <slot />
@@ -19,31 +21,36 @@
 </template>
 
 <script setup lang="ts">
+import type { ButtonHTMLAttributes, HtmlHTMLAttributes } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
-export interface Props {
-  ariaLabel: string
-  disabled?: boolean
-  isExternal?: boolean
-  variant?: 'primary' | 'secondary'
-  to?: RouteLocationRaw
-  type?: 'button' | 'reset' | 'submit'
-}
+import { cn } from '@/utils/shadcn'
 
-const props = withDefaults(defineProps<Props>(), {
-  disabled: false,
-  isExternal: undefined,
-  variant: 'primary',
-  to: undefined,
-  type: 'button',
-})
+const {
+  ariaLabel,
+  class: classProps,
+  disabled,
+  isExternal,
+  to,
+  type = 'button',
+  variant = 'primary',
+} = defineProps<
+  {
+    ariaLabel: string
+    disabled?: boolean
+    isExternal?: boolean
+    to?: RouteLocationRaw
+    type?: ButtonHTMLAttributes['type']
+    variant?: 'primary' | 'secondary'
+  } & { class?: HtmlHTMLAttributes['class'] }
+>()
 
 const emit = defineEmits<{
   click: []
 }>()
 
 const variantClasses = computed(() => {
-  switch (props.variant) {
+  switch (variant) {
     case 'primary':
       return 'bg-(--accent-strong) font-bold text-(--semantic-base-primary-button-text) hover:bg-(--accent-strong-hover)'
     case 'secondary':
@@ -52,4 +59,12 @@ const variantClasses = computed(() => {
       return 'bg-(--accent-strong) text-(--semantic-base-primary-button-text) hover:bg-(--accent-strong-hover)'
   }
 })
+
+const delegatedProps = computed(() => ({
+  ariaLabel,
+  disabled,
+  isExternal,
+  to,
+  type,
+}))
 </script>

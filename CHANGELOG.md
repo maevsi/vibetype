@@ -1,3 +1,46 @@
+## [9.8.0](https://github.com/maevsi/vibetype/compare/9.7.1...9.8.0) (2025-03-31)
+
+### Features
+
+* **legal-notice:** extend to european law ([953dd77](https://github.com/maevsi/vibetype/commit/953dd779e3ebcc85b1d05d91b0e554b737d0bc2e))
+* **legal-notice:** update ([cafdede](https://github.com/maevsi/vibetype/commit/cafdedeb9bcc823b7e6a27c692a4568048a6efcf))
+* **legal:** improve semantic accuracy and formatting ([b9cc876](https://github.com/maevsi/vibetype/commit/b9cc876dd26ab19fdb46a85b833d05d1af90ffa6))
+* **legal:** update content ([#1832](https://github.com/maevsi/vibetype/issues/1832)) ([cd9f561](https://github.com/maevsi/vibetype/commit/cd9f561d252b6e7685f35ba137096e313e296a6f))
+* **legal:** update translations ([ef4ac14](https://github.com/maevsi/vibetype/commit/ef4ac1480167e074c06d03a23f23c5de8d7c8946))
+* **privacy-policy:** reformat ([f8126ee](https://github.com/maevsi/vibetype/commit/f8126ee2b1e9a61307e6cfb23859cc5bdb9c18dc))
+* **privacy-policy:** remove outdated content ([f6c6faa](https://github.com/maevsi/vibetype/commit/f6c6faa5ac2f15b16705a44332bf36f3f65117b5))
+* **privacy-policy:** update ([17858a3](https://github.com/maevsi/vibetype/commit/17858a39cbbeedad1a92abba98446f084787385c))
+
+## [9.7.1](https://github.com/maevsi/vibetype/compare/9.7.0...9.7.1) (2025-03-30)
+
+### Performance Improvements
+
+* **validation:** inline existence checks ([#1835](https://github.com/maevsi/vibetype/issues/1835)) ([62531da](https://github.com/maevsi/vibetype/commit/62531daaf2096ac9105166e18b41466621f734ae))
+
+## [9.7.0](https://github.com/maevsi/vibetype/compare/9.6.0...9.7.0) (2025-03-25)
+
+### Features
+
+* **error:** merge components ([#1834](https://github.com/maevsi/vibetype/issues/1834)) ([79a61ce](https://github.com/maevsi/vibetype/commit/79a61ce1f4db8e92a85f2c7f44f54186c76afda8))
+
+## [9.6.0](https://github.com/maevsi/vibetype/compare/9.5.1...9.6.0) (2025-03-19)
+
+### Features
+
+* **platform:** allow to specify by cookie ([72923b2](https://github.com/maevsi/vibetype/commit/72923b202f7f1a3dd1c620c3512abf0f13747f02))
+* **platform:** allow to specify by cookie ([#1828](https://github.com/maevsi/vibetype/issues/1828)) ([30c1e55](https://github.com/maevsi/vibetype/commit/30c1e558235698e4dfc3910a163ff9cd68d44233))
+* **session:** add app developer information ([8f686fa](https://github.com/maevsi/vibetype/commit/8f686fa1c375113c24a25ec0b094c4314917ffd9))
+
+### Bug Fixes
+
+* **pricing:** hide for apps ([2b8beda](https://github.com/maevsi/vibetype/commit/2b8beda56ca13858377dbb1f7bc8c91bde7b8f54))
+
+## [9.5.1](https://github.com/maevsi/vibetype/compare/9.5.0...9.5.1) (2025-03-18)
+
+### Bug Fixes
+
+* **browserslist:** correct file path ([#1827](https://github.com/maevsi/vibetype/issues/1827)) ([5e1cef5](https://github.com/maevsi/vibetype/commit/5e1cef57bb1dfc79514481769ec06d45b3a072da))
+
 ## [9.5.0](https://github.com/maevsi/vibetype/compare/9.4.0...9.5.0) (2025-03-13)
 
 ### Features

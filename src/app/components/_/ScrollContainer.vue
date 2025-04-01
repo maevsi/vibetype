@@ -12,10 +12,9 @@
 import { ResizeSensor } from 'css-element-queries'
 import { debounce } from 'lodash-es'
 
-export interface Props {
+const { hasNextPage } = defineProps<{
   hasNextPage: boolean
-}
-const props = withDefaults(defineProps<Props>(), {})
+}>()
 
 const emit = defineEmits<{
   loadMore: []
@@ -37,7 +36,7 @@ const onScroll = (e: Event) => {
     scrollBar &&
     scrollBar.scrollTop + scrollBar.clientHeight >=
       scrollBar.scrollHeight - 500 &&
-    props.hasNextPage
+    hasNextPage
   ) {
     emitLoadMore()
   }
@@ -52,7 +51,7 @@ onMounted(() => {
   resizeSensor.value = new ResizeSensor(scrollContainerLocal, () => {
     if (
       scrollContainerLocal.scrollHeight === scrollContainerLocal.clientHeight &&
-      props.hasNextPage
+      hasNextPage
     ) {
       emitLoadMore()
     }

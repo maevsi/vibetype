@@ -1,3 +1,4 @@
+import { consola } from 'consola'
 import type { H3Event } from 'h3'
 import { z } from 'zod'
 
@@ -14,14 +15,14 @@ const authProxyBodySchema = z.object({
 
 export default defineEventHandler(async (event) => {
   if (event.method !== 'POST') {
-    console.debug("Skipping auth proxy as request wasn't POSTed.")
+    consola.debug("Skipping auth proxy as request wasn't POSTed.")
     return
   }
 
   const body = await getBodySafe({ event, schema: authProxyBodySchema })
 
   if (!body.operationName) {
-    console.debug("Request's body is missing the operation name.")
+    consola.debug("Request's body is missing the operation name.")
     return
   }
 
@@ -70,5 +71,5 @@ const turnstileVerify = async (event: H3Event) => {
     })
   }
 
-  console.debug('Turnstile verification succeeded')
+  consola.debug('Turnstile verification succeeded')
 }

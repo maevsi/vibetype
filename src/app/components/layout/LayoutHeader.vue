@@ -36,7 +36,7 @@
         >
           <AccountProfilePicture
             :account-id="store.signedInAccountId"
-            classes="h-10 w-10"
+            class="h-10 w-10"
             height="40"
             width="40"
           />

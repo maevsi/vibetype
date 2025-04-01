@@ -20,13 +20,10 @@
 </template>
 
 <script setup lang="ts">
-export interface Props {
+const { link, username } = defineProps<{
   link?: boolean
   username: string
-}
-withDefaults(defineProps<Props>(), {
-  link: false,
-})
+}>()
 
 useI18n() // TODO: use i18n-t without useI18n (https://github.com/intlify/vue-i18n-next/issues/1274)
 const localePath = useLocalePath()

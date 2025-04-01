@@ -19,12 +19,9 @@
 import { useVuelidate } from '@vuelidate/core'
 import { useAccountPasswordResetRequestMutation } from '~~/gql/documents/mutations/account/accountPasswordResetRequest'
 
-export interface Props {
+const { formClass } = defineProps<{
   formClass?: string
-}
-withDefaults(defineProps<Props>(), {
-  formClass: undefined,
-})
+}>()
 
 const emit = defineEmits<{
   'account-password-reset-request': []

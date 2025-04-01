@@ -29,10 +29,12 @@
         </ButtonIcon /> -->
         <ButtonIcon
           :aria-label="t('heading1')"
-          class="rounded-sm p-1"
-          :class="{
-            'bg-background-bright dark:bg-background-dark': isActive.heading1,
-          }"
+          :class="[
+            'rounded-sm p-1',
+            ...(isActive.heading1
+              ? ['bg-background-bright dark:bg-background-dark']
+              : []),
+          ]"
           :title="t('heading1')"
           @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
         >
@@ -43,10 +45,12 @@
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('heading2')"
-          class="rounded-sm p-1"
-          :class="{
-            'bg-background-bright dark:bg-background-dark': isActive.heading2,
-          }"
+          :class="[
+            'rounded-sm p-1',
+            ...(isActive.heading2
+              ? ['bg-background-bright dark:bg-background-dark']
+              : []),
+          ]"
           :title="t('heading2')"
           @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
         >
@@ -57,10 +61,12 @@
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('heading3')"
-          class="rounded-sm p-1"
-          :class="{
-            'bg-background-bright dark:bg-background-dark': isActive.heading3,
-          }"
+          :class="[
+            'rounded-sm p-1',
+            ...(isActive.heading3
+              ? ['bg-background-bright dark:bg-background-dark']
+              : []),
+          ]"
           :title="t('heading3')"
           @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
         >
@@ -73,10 +79,12 @@
       <div class="flex gap-1">
         <ButtonIcon
           :aria-label="t('bold')"
-          class="rounded-sm p-1"
-          :class="{
-            'bg-background-bright dark:bg-background-dark': isActive.bold,
-          }"
+          :class="[
+            'rounded-sm p-1',
+            ...(isActive.bold
+              ? ['bg-background-bright dark:bg-background-dark']
+              : []),
+          ]"
           :title="t('bold')"
           @click="editor.chain().focus().toggleBold().run()"
         >
@@ -84,10 +92,12 @@
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('italic')"
-          class="rounded-sm p-1"
-          :class="{
-            'bg-background-bright dark:bg-background-dark': isActive.italic,
-          }"
+          :class="[
+            'rounded-sm p-1',
+            ...(isActive.italic
+              ? ['bg-background-bright dark:bg-background-dark']
+              : []),
+          ]"
           :title="t('italic')"
           @click="editor.chain().focus().toggleItalic().run()"
         >
@@ -95,10 +105,12 @@
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('strike')"
-          class="rounded-sm p-1"
-          :class="{
-            'bg-background-bright dark:bg-background-dark': isActive.strike,
-          }"
+          :class="[
+            'rounded-sm p-1',
+            ...(isActive.strike
+              ? ['bg-background-bright dark:bg-background-dark']
+              : []),
+          ]"
           :title="t('strike')"
           @click="editor.chain().focus().toggleStrike().run()"
         >
@@ -108,11 +120,12 @@
       <div class="flex gap-1">
         <ButtonIcon
           :aria-label="t('formatAlignLeft')"
-          class="rounded-sm p-1"
-          :class="{
-            'bg-background-bright dark:bg-background-dark':
-              isActive.textAlignLeft,
-          }"
+          :class="[
+            'rounded-sm p-1',
+            ...(isActive.textAlignLeft
+              ? ['bg-background-bright dark:bg-background-dark']
+              : []),
+          ]"
           :title="t('formatAlignLeft')"
           @click="editor.chain().focus().setTextAlign('left').run()"
         >
@@ -120,11 +133,12 @@
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('formatAlignCenter')"
-          class="rounded-sm p-1"
-          :class="{
-            'bg-background-bright dark:bg-background-dark':
-              isActive.textAlignCenter,
-          }"
+          :class="[
+            'rounded-sm p-1',
+            ...(isActive.textAlignCenter
+              ? ['bg-background-bright dark:bg-background-dark']
+              : []),
+          ]"
           :title="t('formatAlignCenter')"
           @click="editor.chain().focus().setTextAlign('center').run()"
         >
@@ -132,11 +146,12 @@
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('formatAlignRight')"
-          class="rounded-sm p-1"
-          :class="{
-            'bg-background-bright dark:bg-background-dark':
-              isActive.textAlignRight,
-          }"
+          :class="[
+            'rounded-sm p-1',
+            ...(isActive.textAlignRight
+              ? ['bg-background-bright dark:bg-background-dark']
+              : []),
+          ]"
           :title="t('formatAlignRight')"
           @click="editor.chain().focus().setTextAlign('right').run()"
         >
@@ -146,10 +161,12 @@
       <div class="flex gap-1">
         <ButtonIcon
           :aria-label="t('listUl')"
-          class="rounded-sm p-1"
-          :class="{
-            'bg-background-bright dark:bg-background-dark': isActive.bulletList,
-          }"
+          :class="[
+            'rounded-sm p-1',
+            ...(isActive.bulletList
+              ? ['bg-background-bright dark:bg-background-dark']
+              : []),
+          ]"
           :title="t('listUl')"
           @click="editor.chain().focus().toggleBulletList().run()"
         >
@@ -157,11 +174,12 @@
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('listOl')"
-          class="rounded-sm p-1"
-          :class="{
-            'bg-background-bright dark:bg-background-dark':
-              isActive.orderedList,
-          }"
+          :class="[
+            'rounded-sm p-1',
+            ...(isActive.orderedList
+              ? ['bg-background-bright dark:bg-background-dark']
+              : []),
+          ]"
           :title="t('listOl')"
           @click="editor.chain().focus().toggleOrderedList().run()"
         >
@@ -171,10 +189,12 @@
       <div class="flex gap-1">
         <ButtonIcon
           :aria-label="t('link')"
-          class="rounded-sm p-1"
-          :class="{
-            'bg-background-bright dark:bg-background-dark': isActive.link,
-          }"
+          :class="[
+            'rounded-sm p-1',
+            ...(isActive.link
+              ? ['bg-background-bright dark:bg-background-dark']
+              : []),
+          ]"
           :title="t('link')"
           @click="setLink"
         >
@@ -191,10 +211,12 @@
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('blockquote')"
-          class="rounded-sm p-1"
-          :class="{
-            'bg-background-bright dark:bg-background-dark': isActive.blockquote,
-          }"
+          :class="[
+            'rounded-sm p-1',
+            ...(isActive.blockquote
+              ? ['bg-background-bright dark:bg-background-dark']
+              : []),
+          ]"
           :title="t('blockquote')"
           @click="editor.chain().focus().toggleBlockquote().run()"
         >
@@ -202,10 +224,12 @@
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('code')"
-          class="rounded-sm p-1"
-          :class="{
-            'bg-background-bright dark:bg-background-dark': isActive.code,
-          }"
+          :class="[
+            'rounded-sm p-1',
+            ...(isActive.code
+              ? ['bg-background-bright dark:bg-background-dark']
+              : []),
+          ]"
           :title="t('code')"
           @click="editor.chain().focus().toggleCode().run()"
         >
@@ -215,11 +239,12 @@
       <div class="flex gap-1">
         <ButtonIcon
           :aria-label="t('horizontalRule')"
-          class="rounded-sm p-1"
-          :class="{
-            'bg-background-bright dark:bg-background-dark':
-              isActive.horizontalRule,
-          }"
+          :class="[
+            'rounded-sm p-1',
+            ...(isActive.horizontalRule
+              ? ['bg-background-bright dark:bg-background-dark']
+              : []),
+          ]"
           :title="t('horizontalRule')"
           @click="editor.chain().focus().setHorizontalRule().run()"
         >
@@ -246,10 +271,9 @@ import { StarterKit } from '@tiptap/starter-kit'
 import type { BaseValidation } from '@vuelidate/core'
 import { debounce } from 'lodash-es'
 
-export interface Props {
+const { value } = defineProps<{
   value: BaseValidation<string | undefined>
-}
-const props = withDefaults(defineProps<Props>(), {})
+}>()
 
 const emit = defineEmits<{
   input: [input: string]
@@ -258,7 +282,7 @@ const emit = defineEmits<{
 const host = useHost()
 const { t } = useI18n()
 const editor = useEditor({
-  content: props.value.$model,
+  content: value.$model,
   editorProps: {
     attributes: {
       class: 'form-input min-h-[100px]',

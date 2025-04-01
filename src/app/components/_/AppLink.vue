@@ -1,11 +1,11 @@
 <template>
   <NuxtLink
     :aria-label="ariaLabel"
-    :class="cn(classes, props.class)"
+    :class="cn(classComputed, classProps)"
     :disabled="isDisabled"
     :external="isExternal"
     :target="targetComputed"
-    :to="props.to"
+    :to="to"
     @click="emit('click')"
   >
     <slot />
@@ -19,47 +19,44 @@ import type { RouteLocationRaw } from 'vue-router'
 import type { NuxtLinkProps } from '#app'
 import { cn } from '@/utils/shadcn'
 
-export interface Props {
-  ariaLabel?: string
-  isDisabled?: boolean
-  isColored?: boolean
-  isExternal?: boolean
-  isUnderlined?: boolean
-  target?: NuxtLinkProps['target']
-  to: RouteLocationRaw
-}
-const props = withDefaults(
-  defineProps<Props & { class?: HtmlHTMLAttributes['class'] }>(),
+const {
+  ariaLabel,
+  class: classProps,
+  isDisabled,
+  isColored = true,
+  isExternal,
+  isUnderlined,
+  target,
+  to,
+} = defineProps<
   {
-    ariaLabel: undefined,
-    class: undefined,
-    isDisabled: undefined,
-    isColored: true,
-    isExternal: undefined,
-    isUnderlined: false,
-    target: undefined,
-  },
-)
+    ariaLabel?: string
+    isDisabled?: boolean
+    isColored?: boolean
+    isExternal?: boolean
+    isUnderlined?: boolean
+    target?: NuxtLinkProps['target']
+    to: RouteLocationRaw
+  } & { class?: HtmlHTMLAttributes['class'] }
+>()
 
 const emit = defineEmits<{
   click: []
 }>()
 
 // computations
-const classes = computed(() => {
-  return [
+const classComputed = computed(() =>
+  [
     'rounded',
-    ...(props.isColored
-      ? ['text-(--accent-strong= dark:text-link-bright']
-      : []),
-    ...(props.isDisabled ? ['disabled'] : []),
-    ...(props.isUnderlined ? ['underline'] : []),
-  ].join(' ')
-})
+    ...(isColored ? ['text-(--accent-strong= dark:text-link-bright'] : []),
+    ...(isDisabled ? ['disabled'] : []),
+    ...(isUnderlined ? ['underline'] : []),
+  ].join(' '),
+)
 const targetComputed = computed(
   () =>
-    props.target ||
-    (props.to.toString().match(/^((ftp|http(s)?):\/\/|(mailto):)/)
+    target ||
+    (to.toString().match(/^((ftp|http(s)?):\/\/|(mailto):)/)
       ? '_blank'
       : undefined),
 )

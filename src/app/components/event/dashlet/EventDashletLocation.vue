@@ -17,10 +17,9 @@
 <script setup lang="ts">
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
-export interface Props {
+const { event } = defineProps<{
   event: Pick<EventItemFragment, 'isInPerson'> //  | 'location'
-}
-withDefaults(defineProps<Props>(), {})
+}>()
 
 const { t } = useI18n()
 </script>

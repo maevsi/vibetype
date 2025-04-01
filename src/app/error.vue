@@ -1,38 +1,31 @@
 <template>
   <NuxtLayout>
-    <VioError
+    <AppError
       :status-code="error.statusCode"
-      :status-message="error.statusMessage"
       :description="error.message"
       :stack="error.stack"
     />
+    <!-- :status-message="error.statusMessage" -->
   </NuxtLayout>
 </template>
 
 <script setup lang="ts">
 import type { NuxtError } from 'nuxt/app'
 
-export interface Props {
-  error: NuxtError
-}
-const props = withDefaults(defineProps<Props>(), {})
-const errorProp = toRef(() => props.error)
+const { error } = defineProps<{ error: NuxtError }>()
 
 const { t } = useI18n()
 
 // initialization
 useAppLayout()
 
-// TODO: replace with `useServerHeadSafe`
-useHeadSafe({
-  title: `${errorProp.value.statusCode} - ${errorProp.value.message}`,
+useHeadDefault({
+  title: `${error.statusCode} - ${error.message}`,
 })
 
 defineOgImageComponent(
   'Default',
-  {
-    description: t('globalSeoSiteDescription'),
-  },
+  {},
   {
     alt: t('globalSeoOgImageAlt', { siteName: t('globalSiteName') }),
   },

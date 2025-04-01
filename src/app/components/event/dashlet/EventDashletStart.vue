@@ -26,15 +26,11 @@ import type {
   GuestItemFragment,
 } from '~~/gql/generated/graphql'
 
-export interface Props {
+const { contact, event, invitation } = defineProps<{
   contact?: ContactItemFragment
   event: EventItemFragment
   invitation?: GuestItemFragment
-}
-const props = withDefaults(defineProps<Props>(), {
-  contact: undefined,
-  invitation: undefined,
-})
+}>()
 
 const ROUTE_NAME: keyof RouteNamedMap = 'event-view-username-event_name___en'
 
@@ -47,9 +43,9 @@ const fireAlert = useFireAlert()
 const downloadIcal = async () => {
   const response = await useFetch<string>('/api/ical', {
     body: {
-      contact: props.contact,
-      event: props.event,
-      invitation: props.invitation,
+      contact: contact,
+      event: event,
+      invitation: invitation,
     },
     method: 'POST',
   })
@@ -71,7 +67,7 @@ const downloadIcal = async () => {
 }
 
 // computations
-const eventStart = computed(() => dateTime(props.event.start))
+const eventStart = computed(() => dateTime(event.start))
 </script>
 
 <i18n lang="yaml">
