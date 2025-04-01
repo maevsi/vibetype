@@ -16,7 +16,7 @@
             <template v-if="activityItem.type === 'comment'">
               <div class="relative">
                 <img
-                  class="ring-background-bright dark:ring-background-dark flex h-10 w-10 items-center justify-center rounded-full bg-gray-400 ring-8"
+                  class="ring-background-bright dark:ring-background-dark flex size-10 items-center justify-center rounded-full bg-gray-400 ring-8"
                   :src="activityItem.imageUrl"
                   alt=""
                 />
@@ -25,7 +25,7 @@
                   class="bg-background-bright dark:bg-background-dark absolute -right-1 -bottom-0.5 rounded-tl-sm px-0.5 py-px"
                 >
                   <IHeroiconsChatBubbleLeftEllipsis
-                    class="h-5 w-5 text-gray-400"
+                    class="size-5 text-gray-400"
                     aria-hidden="true"
                   />
                 </span>
@@ -52,10 +52,10 @@
               <div>
                 <div class="relative px-1">
                   <div
-                    class="ring-background-bright dark:ring-background-dark flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 ring-8 dark:bg-zinc-800"
+                    class="ring-background-bright dark:ring-background-dark flex size-8 items-center justify-center rounded-full bg-gray-100 ring-8 dark:bg-zinc-800"
                   >
                     <IHeroiconsUserCircle
-                      class="h-5 w-5 text-gray-500 dark:text-gray-400"
+                      class="size-5 text-gray-500 dark:text-gray-400"
                       aria-hidden="true"
                     />
                   </div>
@@ -88,10 +88,10 @@
               <div>
                 <div class="relative px-1">
                   <div
-                    class="ring-background-bright dark:ring-background-dark flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 ring-8 dark:bg-zinc-800"
+                    class="ring-background-bright dark:ring-background-dark flex size-8 items-center justify-center rounded-full bg-gray-100 ring-8 dark:bg-zinc-800"
                   >
                     <IHeroiconsTag
-                      class="h-5 w-5 text-gray-500 dark:text-gray-400"
+                      class="size-5 text-gray-500 dark:text-gray-400"
                       aria-hidden="true"
                     />
                   </div>
@@ -116,7 +116,7 @@
                         class="dark:text-text-bright inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium text-gray-900 ring-1 ring-gray-200 ring-inset dark:ring-gray-600"
                       >
                         <svg
-                          :class="[tag.color, 'h-1.5 w-1.5']"
+                          :class="[tag.color, 'size-1.5']"
                           viewBox="0 0 6 6"
                           aria-hidden="true"
                         >
