@@ -8,7 +8,7 @@
       >
         <div class="flex items-center">
           <DialogClose as-child>
-            <IVibetypeColoredBack class="h-6 w-6" :alt="t('iconAltBack')" />
+            <IVibetypeBack class="h-6 w-6" :alt="t('iconAltBack')" />
           </DialogClose>
           <DialogTitle
             class="mx-auto text-center text-lg font-semibold text-[hsl(var(--card-foreground))]"

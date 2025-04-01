@@ -8,7 +8,7 @@
       >
         <div class="flex items-center">
           <DialogClose as-child>
-            <IVibetypeColoredBack
+            <IVibetypeBack
               class="h-6 w-6"
               :alt="t('iconAltBack')"
               @click="handleBack"
