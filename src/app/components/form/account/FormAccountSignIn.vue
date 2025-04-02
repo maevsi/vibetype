@@ -9,7 +9,7 @@
       :form="v$"
       form-class="w-full"
       :is-form-sent="isFormSent"
-      :submit-name="t('logIn')"
+      :submit-name="t('signIn')"
       @submit.prevent="submit"
     >
       <FormInputEmailAddress
@@ -150,7 +150,7 @@ de:
   postgres55000: Deine E-Mail-Adresse ist noch nicht verifiziert! Schau in dein E-Mail-Postfach, ggf. auch in den Spam-Ordner, oder kontaktiere den Support.
   postgresP0002: Anmeldung fehlgeschlagen! Hast du dich schon registriert? Überprüfe deine Eingaben auf Schreibfehler oder kontaktiere den Support.
   register: Konto erstellen
-  logIn: Einloggen
+  signIn: Einloggen
 en:
   contactSupport: Contact support
   jwtStoreFail: Failed to store the authentication data!
@@ -158,5 +158,5 @@ en:
   postgres55000: Your email address has not been verified yet! Check your email inbox, including the spam folder if necessary, or contact support.
   postgresP0002: Login failed! Have you registered yet? Check your input for spelling mistakes or contact support.
   register: Create an account
-  logIn: Log in
+  signIn: Log in
 </i18n>

@@ -284,12 +284,12 @@ import {
 
 const model = defineModel<boolean>()
 const { t } = useI18n()
-const emit = defineEmits(['update:modelValue', 'open-general-terms'])
+const emit = defineEmits(['update:modelValue', 'agreement'])
 const accepted = ref(false)
 const handleAccept = () => {
   if (accepted.value) {
     model.value = false
-    emit('open-general-terms')
+    emit('agreement')
   }
 }
 </script>

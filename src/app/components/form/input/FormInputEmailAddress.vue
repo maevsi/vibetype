@@ -2,7 +2,6 @@
   <FormInput
     v-if="formInput"
     :is-optional="isOptional"
-    :is-required="isRequired"
     :id-label="`input-${id}`"
     :placeholder="t('globalPlaceholderEmailAddress')"
     :title="title || t('emailAddress')"
@@ -18,7 +17,6 @@
         {{ t('globalValidationLength') }}
       </FormInputStateError>
       <FormInputStateError
-        v-if="isRequired"
         :form-input="formInput"
         validation-property="required"
       >
@@ -46,13 +44,11 @@ const {
   formInput,
   id = 'email-address',
   isOptional,
-  isRequired,
   title,
 } = defineProps<{
   formInput: BaseValidation
   id?: string
   isOptional?: boolean
-  isRequired?: boolean
   title?: string
 }>()
 

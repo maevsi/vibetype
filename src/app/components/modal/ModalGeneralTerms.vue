@@ -70,28 +70,27 @@ import { useAllLegalTermsQuery } from '~~/gql/documents/queries/legalTerms/allLe
 const { t } = useI18n()
 const { data: legalTermsQuery } = useAllLegalTermsQuery({})
 
-const legalTerms = computed(() => {
-  return (
+const legalTerms = computed(
+  () =>
     legalTermsQuery.value?.allLegalTerms?.nodes
       ?.map((node) => node.term)
       .filter(isNeitherNullNorUndefined)
-      .join(' ') || ''
-  )
-})
+      .join(' ') || '',
+)
 
 const model = defineModel<boolean>()
-const emit = defineEmits(['accepted', 'update:modelValue', 'handle-back'])
+const emit = defineEmits(['agreement', 'update:modelValue', 'back'])
 const accepted = ref(false)
 
 // methods
 const handleAccept = () => {
   const termId = legalTermsQuery.value?.allLegalTerms?.nodes[0]?.id
   if (accepted.value && termId) {
-    emit('accepted', termId)
+    emit('agreement', termId)
     model.value = false
   }
 }
-const handleBack = () => emit('handle-back')
+const handleBack = () => emit('back')
 </script>
 
 <i18n lang="yaml">
