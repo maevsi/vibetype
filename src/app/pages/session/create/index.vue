@@ -1,11 +1,13 @@
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="flex flex-1 flex-col gap-2">
     <CardStateInfo v-if="to">
       {{ t('accountRequired') }}
     </CardStateInfo>
-    <div>
-      <LayoutPageTitle is-centered :title="title" />
-      <div class="flex justify-center">
+    <div class="flex flex-col gap-10">
+      <LayoutTopBar>
+        {{ t('title') }}
+      </LayoutTopBar>
+      <div class="flex justify-center px-6">
         <FormAccountSignIn class="max-w-sm grow" @signed-in="onSignIn" />
       </div>
     </div>
@@ -13,6 +15,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: 'plain',
+})
+
 const { t } = useI18n()
 const localePath = useLocalePath()
 const route = useRoute()
