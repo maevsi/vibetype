@@ -60,7 +60,6 @@
       @back="openPrivacyModal"
       @agreement="submit"
     />
-    <LayoutFooter />
   </div>
 </template>
 

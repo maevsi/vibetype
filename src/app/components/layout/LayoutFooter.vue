@@ -1,5 +1,6 @@
 <template>
-  <footer class="flex gap-1">
+  <footer class="flex justify-center gap-1">
+    <!-- TODO: add terms link -->
     <ButtonColored
       :aria-label="t('terms')"
       size="small"
@@ -11,7 +12,7 @@
     <ButtonColored
       :aria-label="t('imprint')"
       size="small"
-      :to="localePath('index')"
+      :to="localePath('legal-notice')"
       variant="tertiary"
     >
       {{ t('imprint') }}

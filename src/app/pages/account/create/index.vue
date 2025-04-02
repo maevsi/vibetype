@@ -1,13 +1,20 @@
 <template>
-  <div>
-    <LayoutPageTitle is-centered :title="title" />
-    <div class="flex justify-center">
+  <div class="flex grow flex-col gap-10 pb-5">
+    <LayoutTopBar>
+      {{ t('title') }}
+    </LayoutTopBar>
+    <div class="flex justify-center px-6">
       <FormAccountRegistration class="max-w-sm grow" />
     </div>
+    <LayoutFooter />
   </div>
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: 'plain',
+})
+
 const { t } = useI18n()
 
 // data

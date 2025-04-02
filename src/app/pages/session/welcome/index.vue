@@ -19,11 +19,13 @@
         >
           {{ t('signIn') }}
         </ButtonColored>
-        <ButtonColored :aria-label="t('join')" variant="tertiary">
+        <ButtonColored
+          :aria-label="t('register')"
+          :to="$localePath('account-create')"
+          variant="tertiary"
+        >
           <TypographySubtitleMedium class="text-center">
-            <span>{{ t('new') }}</span>
-            <br />
-            <span>{{ t('join') }}</span>
+            {{ t('register') }}
           </TypographySubtitleMedium>
         </ButtonColored>
       </div>
@@ -42,13 +44,11 @@ const siteConfig = useSiteConfig()
 
 <i18n lang="yaml">
 de:
-  join: Trete VIBETYPE noch heute bei
-  new: Neu hier?
+  register: Neu hier? Tritt VIBETYPE noch heute bei
   signIn: Einloggen
   welcome: Willkommen bei
 en:
-  join: Join VIBETYPE today
-  new: New here?
+  register: New here? Join VIBETYPE today
   signIn: Log in
   welcome: Welcome to
 </i18n>

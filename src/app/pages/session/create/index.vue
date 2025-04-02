@@ -1,15 +1,16 @@
 <template>
-  <div class="flex flex-1 flex-col gap-2">
+  <div class="flex grow flex-col gap-2">
     <CardStateInfo v-if="to">
       {{ t('accountRequired') }}
     </CardStateInfo>
-    <div class="flex flex-col gap-10">
+    <div class="flex flex-col gap-10 pb-5">
       <LayoutTopBar>
         {{ t('title') }}
       </LayoutTopBar>
       <div class="flex justify-center px-6">
         <FormAccountSignIn class="max-w-sm grow" @signed-in="onSignIn" />
       </div>
+      <LayoutFooter />
     </div>
   </div>
 </template>
