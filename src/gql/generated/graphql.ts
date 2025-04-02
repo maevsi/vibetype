@@ -10027,6 +10027,12 @@ export type GuestItemFragment = {
     | null
 } & { ' $fragmentName'?: 'GuestItemFragment' }
 
+export type LegalTermItemFragment = {
+  __typename?: 'LegalTerm'
+  id: any
+  term: string
+} & { ' $fragmentName'?: 'LegalTermItemFragment' }
+
 export type ProfilePictureItemFragment = {
   __typename?: 'ProfilePicture'
   id: any
@@ -10604,7 +10610,11 @@ export type AllLegalTermsQuery = {
   __typename?: 'Query'
   allLegalTerms?: {
     __typename?: 'LegalTermsConnection'
-    nodes: Array<{ __typename?: 'LegalTerm'; id: any; term: string }>
+    nodes: Array<
+      { __typename?: 'LegalTerm' } & {
+        ' $fragmentRefs'?: { LegalTermItemFragment: LegalTermItemFragment }
+      }
+    >
   } | null
 }
 
@@ -10994,6 +11004,26 @@ export const GuestItemFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<GuestItemFragment, unknown>
+export const LegalTermItemFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'LegalTermItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'LegalTerm' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'term' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<LegalTermItemFragment, unknown>
 export const UploadItemFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -15129,14 +15159,31 @@ export const AllLegalTermsDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'term' } },
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'LegalTermItem' },
+                      },
                     ],
                   },
                 },
               ],
             },
           },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'LegalTermItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'LegalTerm' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'term' } },
         ],
       },
     },

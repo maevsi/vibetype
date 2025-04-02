@@ -12,8 +12,7 @@ export const allLegalTermsQuery = graphql(`
   query allLegalTerms {
     allLegalTerms {
       nodes {
-        id
-        term
+        ...LegalTermItem
       }
     }
   }

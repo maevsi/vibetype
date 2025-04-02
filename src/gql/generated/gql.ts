@@ -20,6 +20,7 @@ type Documents = {
   '\n  fragment ContactItem on Contact {\n    nodeId\n    id\n    accountId\n    accountByAccountId {\n      id\n      username\n    }\n    accountByCreatedBy {\n      id\n      username\n    }\n    addressByAddressId {\n      ...AddressItem\n    }\n    createdBy\n    emailAddress\n    emailAddressHash\n    firstName\n    lastName\n    phoneNumber\n    url\n  }\n': typeof types.ContactItemFragmentDoc
   '\n  fragment EventItem on Event {\n    id\n    nodeId\n    accountByCreatedBy {\n      id\n      username\n    }\n    addressByAddressId {\n      ...AddressItem\n    }\n    createdBy\n    description\n    end\n    guestCountMaximum\n    isArchived\n    isInPerson\n    isRemote\n    name\n    slug\n    start\n    url\n    visibility\n  }\n': typeof types.EventItemFragmentDoc
   '\n  fragment GuestItem on Guest {\n    id\n    nodeId\n    contactId\n    eventId\n    feedback\n    feedbackPaper\n    contactByContactId {\n      ...ContactItem\n    }\n  }\n': typeof types.GuestItemFragmentDoc
+  '\n  fragment LegalTermItem on LegalTerm {\n    id\n    term\n  }\n': typeof types.LegalTermItemFragmentDoc
   '\n  fragment ProfilePictureItem on ProfilePicture {\n    id\n    nodeId\n    accountId\n    uploadByUploadId {\n      ...UploadItem\n    }\n  }\n': typeof types.ProfilePictureItemFragmentDoc
   '\n  fragment UploadItem on Upload {\n    id\n    nodeId\n    accountId\n    sizeByte\n    storageKey\n  }\n': typeof types.UploadItemFragmentDoc
   '\n  mutation authenticate($password: String!, $username: String!) {\n    authenticate(input: { password: $password, username: $username }) {\n      clientMutationId\n      jwt\n    }\n  }\n': typeof types.AuthenticateDocument
@@ -56,7 +57,7 @@ type Documents = {
   '\n  query eventSearch(\n    $after: Cursor\n    $first: Int!\n    $language: Language\n    $query: String\n  ) {\n    eventSearch(\n      after: $after\n      first: $first\n      language: $language\n      query: $query\n    ) {\n      nodes {\n        ...EventItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.EventSearchDocument
   '\n      query allEvents($after: Cursor, $createdBy: UUID, $first: Int!) {\n        allEvents(\n          after: $after\n          condition: { createdBy: $createdBy }\n          first: $first\n          orderBy: START_DESC\n        ) {\n          nodes {\n            ...EventItem\n          }\n          pageInfo {\n            hasNextPage\n            endCursor\n          }\n          totalCount\n        }\n      }\n    ': typeof types.AllEventsDocument
   '\n  query allGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n    allGuests(after: $after, condition: { eventId: $eventId }, first: $first) {\n      nodes {\n        ...GuestItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.AllGuestsDocument
-  '\n  query allLegalTerms {\n    allLegalTerms {\n      nodes {\n        id\n        term\n      }\n    }\n  }\n': typeof types.AllLegalTermsDocument
+  '\n  query allLegalTerms {\n    allLegalTerms {\n      nodes {\n        ...LegalTermItem\n      }\n    }\n  }\n': typeof types.AllLegalTermsDocument
   '\n      query profilePictureByAccountId($accountId: UUID!) {\n        profilePictureByAccountId(accountId: $accountId) {\n          ...ProfilePictureItem\n        }\n      }\n    ': typeof types.ProfilePictureByAccountIdDocument
   '\n      query allUploads($after: Cursor, $first: Int!, $accountId: UUID) {\n        allUploads(\n          after: $after\n          condition: { accountId: $accountId }\n          first: $first\n        ) {\n          nodes {\n            ...UploadItem\n          }\n          pageInfo {\n            hasNextPage\n            endCursor\n          }\n          totalCount\n        }\n      }\n    ': typeof types.AllUploadsDocument
 }
@@ -73,6 +74,8 @@ const documents: Documents = {
     types.EventItemFragmentDoc,
   '\n  fragment GuestItem on Guest {\n    id\n    nodeId\n    contactId\n    eventId\n    feedback\n    feedbackPaper\n    contactByContactId {\n      ...ContactItem\n    }\n  }\n':
     types.GuestItemFragmentDoc,
+  '\n  fragment LegalTermItem on LegalTerm {\n    id\n    term\n  }\n':
+    types.LegalTermItemFragmentDoc,
   '\n  fragment ProfilePictureItem on ProfilePicture {\n    id\n    nodeId\n    accountId\n    uploadByUploadId {\n      ...UploadItem\n    }\n  }\n':
     types.ProfilePictureItemFragmentDoc,
   '\n  fragment UploadItem on Upload {\n    id\n    nodeId\n    accountId\n    sizeByte\n    storageKey\n  }\n':
@@ -145,7 +148,7 @@ const documents: Documents = {
     types.AllEventsDocument,
   '\n  query allGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n    allGuests(after: $after, condition: { eventId: $eventId }, first: $first) {\n      nodes {\n        ...GuestItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n':
     types.AllGuestsDocument,
-  '\n  query allLegalTerms {\n    allLegalTerms {\n      nodes {\n        id\n        term\n      }\n    }\n  }\n':
+  '\n  query allLegalTerms {\n    allLegalTerms {\n      nodes {\n        ...LegalTermItem\n      }\n    }\n  }\n':
     types.AllLegalTermsDocument,
   '\n      query profilePictureByAccountId($accountId: UUID!) {\n        profilePictureByAccountId(accountId: $accountId) {\n          ...ProfilePictureItem\n        }\n      }\n    ':
     types.ProfilePictureByAccountIdDocument,
@@ -203,6 +206,12 @@ export function graphql(
 export function graphql(
   source: '\n  fragment GuestItem on Guest {\n    id\n    nodeId\n    contactId\n    eventId\n    feedback\n    feedbackPaper\n    contactByContactId {\n      ...ContactItem\n    }\n  }\n',
 ): (typeof documents)['\n  fragment GuestItem on Guest {\n    id\n    nodeId\n    contactId\n    eventId\n    feedback\n    feedbackPaper\n    contactByContactId {\n      ...ContactItem\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  fragment LegalTermItem on LegalTerm {\n    id\n    term\n  }\n',
+): (typeof documents)['\n  fragment LegalTermItem on LegalTerm {\n    id\n    term\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -423,8 +432,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query allLegalTerms {\n    allLegalTerms {\n      nodes {\n        id\n        term\n      }\n    }\n  }\n',
-): (typeof documents)['\n  query allLegalTerms {\n    allLegalTerms {\n      nodes {\n        id\n        term\n      }\n    }\n  }\n']
+  source: '\n  query allLegalTerms {\n    allLegalTerms {\n      nodes {\n        ...LegalTermItem\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query allLegalTerms {\n    allLegalTerms {\n      nodes {\n        ...LegalTermItem\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
