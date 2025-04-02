@@ -49,25 +49,41 @@
 <script setup lang="ts">
 import type { Locale } from '@dargmuesli/nuxt-cookie-control/runtime/types'
 import '@fontsource-variable/raleway'
+import { isEqual } from 'ufo'
 import type { WritableComputedRef } from 'vue'
 
 import supportedBrowsers from '~/supportedBrowsers'
 
 const i18n = useI18n()
 const { $pwa } = useNuxtApp()
+const { isApp } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
 const locale = i18n.locale as WritableComputedRef<Locale>
 const { t } = i18n
 const timezone = useTimezone()
 const localePath = useLocalePath()
+const store = useStore()
+const route = useRoute()
 
 // data
 const isBrowserSupported = ref(true)
 
 // methods
-const initialize = () => {
+const initialize = async () => {
   if (import.meta.client) {
     saveTimezoneAsCookie()
+  }
+
+  if (
+    isApp.value &&
+    !store.signedInAccountId &&
+    !isEqual(route.path, localePath('session-welcome').toString())
+  ) {
+    return await navigateTo(
+      localePath({
+        name: 'session-welcome',
+      }),
+    )
   }
 }
 const saveTimezoneAsCookie = () =>
@@ -116,7 +132,7 @@ await useAuth()
 usePolyfills()
 useSchemaOrg([defineWebSite(), defineWebPage()])
 useAppGtag()
-initialize()
+await initialize()
 </script>
 
 <style scoped>

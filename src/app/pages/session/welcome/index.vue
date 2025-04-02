@@ -1,0 +1,54 @@
+<template>
+  <div class="flex flex-1 justify-center p-6">
+    <div
+      class="flex max-w-sm flex-1 flex-col items-center justify-center gap-10"
+    >
+      <div class="flex flex-col items-center gap-2">
+        <TypographyH3>{{ t('welcome') }}</TypographyH3>
+        <div class="flex items-center gap-1">
+          <IconLogo class="h-10" />
+          <TypographyH4 class="uppercase">
+            {{ siteConfig.name }}
+          </TypographyH4>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4 self-stretch">
+        <ButtonColored
+          :aria-label="t('signIn')"
+          :to="$localePath('session-create')"
+        >
+          {{ t('signIn') }}
+        </ButtonColored>
+        <ButtonColored :aria-label="t('join')" variant="tertiary">
+          <TypographySubtitleMedium class="text-center">
+            <span>{{ t('new') }}</span>
+            <br />
+            <span>{{ t('join') }}</span>
+          </TypographySubtitleMedium>
+        </ButtonColored>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+definePageMeta({
+  layout: 'plain',
+})
+
+const { t } = useI18n()
+const siteConfig = useSiteConfig()
+</script>
+
+<i18n lang="yaml">
+de:
+  join: Trete VIBETYPE noch heute bei
+  new: Neu hier?
+  signIn: Einloggen
+  welcome: Willkommen bei
+en:
+  join: Join VIBETYPE today
+  new: New here?
+  signIn: Log in
+  welcome: Welcome to
+</i18n>
