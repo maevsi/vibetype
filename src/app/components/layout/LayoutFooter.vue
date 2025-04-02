@@ -1,20 +1,29 @@
 <template>
   <footer class="flex gap-1">
-    <LayoutFooterButton
+    <ButtonColored
       :aria-label="t('terms')"
+      size="small"
       :to="localePath('legal-notice')"
+      variant="tertiary"
     >
       {{ t('terms') }}
-    </LayoutFooterButton>
-    <LayoutFooterButton :aria-label="t('imprint')" :to="localePath('index')">
+    </ButtonColored>
+    <ButtonColored
+      :aria-label="t('imprint')"
+      size="small"
+      :to="localePath('index')"
+      variant="tertiary"
+    >
       {{ t('imprint') }}
-    </LayoutFooterButton>
-    <LayoutFooterButton
+    </ButtonColored>
+    <ButtonColored
       :aria-label="t('policy')"
+      size="small"
       :to="localePath('privacy-policy')"
+      variant="tertiary"
     >
       {{ t('policy') }}
-    </LayoutFooterButton>
+    </ButtonColored>
   </footer>
 </template>
 
