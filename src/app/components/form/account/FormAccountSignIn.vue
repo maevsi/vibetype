@@ -12,14 +12,11 @@
       :submit-name="t('logIn')"
       @submit.prevent="submit"
     >
-      <FormInput
-        :title="t('emailAddress')"
-        :placeholder="t('globalPlaceholderEmailAddress')"
-        :value="v$.username"
-        type="text"
+      <FormInputEmailAddress
+        :form-input="v$.username"
         @input="form.username = $event"
       />
-      <!-- TODO: implement checks for email address and username -->
+      <!-- TODO: allow for username too -->
       <FormInputPassword
         :form-input="v$.password"
         @input="form.password = $event"
@@ -71,7 +68,7 @@
 
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core'
-import { VALIDATION_USERNAME_OR_EMAIL } from '~/utils/validation'
+
 import { useAuthenticateMutation } from '~~/gql/documents/mutations/account/accountAuthenticate'
 import { useAccountRegistrationRefreshMutation } from '~~/gql/documents/mutations/account/accountRegistrationRefresh'
 
@@ -139,7 +136,7 @@ const submit = async () => {
 // vuelidate
 const rules = {
   captcha: VALIDATION_CAPTCHA(),
-  username: VALIDATION_USERNAME_OR_EMAIL({ isRequired: true }),
+  username: VALIDATION_EMAIL_ADDRESS({ isRequired: true }),
   password: VALIDATION_PASSWORD(),
 }
 const v$ = useVuelidate(rules, form)
@@ -148,7 +145,6 @@ const v$ = useVuelidate(rules, form)
 <i18n lang="yaml">
 de:
   contactSupport: Support kontaktieren
-  emailAddress: E-Mail-Adresse
   jwtStoreFail: Fehler beim Speichern der Authentifizierungsdaten!
   passwordReset: Passwort zurücksetzen
   postgres55000: Deine E-Mail-Adresse ist noch nicht verifiziert! Schau in dein E-Mail-Postfach, ggf. auch in den Spam-Ordner, oder kontaktiere den Support.
@@ -157,7 +153,6 @@ de:
   logIn: Einloggen
 en:
   contactSupport: Contact support
-  emailAddress: Email address
   jwtStoreFail: Failed to store the authentication data!
   passwordReset: I forgot my password
   postgres55000: Your email address has not been verified yet! Check your email inbox, including the spam folder if necessary, or contact support.
