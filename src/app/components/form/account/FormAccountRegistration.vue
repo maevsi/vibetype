@@ -57,7 +57,7 @@
       @handle-back="openPrivacyModal"
       @accepted="submit"
     />
-    <Footer />
+    <LayoutFooter />
   </div>
 </template>
 

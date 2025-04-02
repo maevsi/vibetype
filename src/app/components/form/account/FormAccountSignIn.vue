@@ -62,7 +62,7 @@
     >
       {{ t('passwordReset') }}
     </ButtonColored>
-    <Footer />
+    <LayoutFooter />
   </div>
 </template>
 
