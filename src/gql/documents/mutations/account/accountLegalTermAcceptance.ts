@@ -8,12 +8,7 @@ export const useCreateLegalTermAcceptanceMutation = () =>
         $input: CreateLegalTermAcceptanceInput!
       ) {
         createLegalTermAcceptance(input: $input) {
-          legalTermAcceptance {
-            id
-            accountId
-            createdAt
-            legalTermId
-          }
+          clientMutationId
         }
       }
     `),

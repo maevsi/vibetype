@@ -10113,13 +10113,7 @@ export type CreateLegalTermAcceptanceMutation = {
   __typename?: 'Mutation'
   createLegalTermAcceptance?: {
     __typename?: 'CreateLegalTermAcceptancePayload'
-    legalTermAcceptance?: {
-      __typename?: 'LegalTermAcceptance'
-      id: any
-      accountId: any
-      createdAt: any
-      legalTermId: any
-    } | null
+    clientMutationId?: string | null
   } | null
 }
 
@@ -11416,25 +11410,7 @@ export const CreateLegalTermAcceptanceDocument = {
               selections: [
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'legalTermAcceptance' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'accountId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'createdAt' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'legalTermId' },
-                      },
-                    ],
-                  },
+                  name: { kind: 'Name', value: 'clientMutationId' },
                 },
               ],
             },
