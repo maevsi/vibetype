@@ -1,17 +1,78 @@
 <template>
   <Loader :api="api" indicator="ping">
     <div class="flex flex-col gap-4">
-      <LayoutPageTitle :title="title" />
+      <!-- <LayoutPageTitle :title="title" /> -->
       <div
         class="flex min-w-0 flex-col items-center justify-center sm:flex-row"
       >
-        <AccountProfilePicture
-          :account-id="account?.id"
-          class="size-48 rounded-sm"
-          height="192"
-          width="192"
-        />
+        <div class="w-full rounded-lg bg-white">
+          <div class="flex flex-row items-center px-4 py-4">
+            <AccountProfilePicture
+              :account-id="account.id"
+              class="h-10 w-10 rounded-full"
+              height="40"
+              width="40"
+            />
+            <span
+              class="ml-2 font-semibold text-(--semantic-base-text-primary)"
+            >
+              {{ route.params.username }}
+            </span>
+          </div>
+        </div>
       </div>
+      <ButtonColored
+        :aria-label="t('contactBook')"
+        variant="secondary"
+        class="rounded-lg py-2"
+        :to="
+          localePath({
+            name: 'contact',
+          })
+        "
+      >
+        <div class="flex flex-row gap-4">
+          <IVibetypeContacts class="h-6 w-6" :alt="t('iconAltContactBook')" />
+          {{ t('contactBook') }}
+        </div>
+      </ButtonColored>
+
+      <div class="flex flex-col gap-2">
+        <span class="text-(semantic-base-text-primary) text-2xl font-semibold">
+          {{ t('about') }}
+        </span>
+        <span class="text-(semantic-base-text-primary)">
+          <!-- Tech enthusiast, avid reader, and coffee lover ☕. Passionate about
+          AI, innovation, and lifelong learning. Sharing insights on technology,
+          books, and creative ideas. Let’s connect and explore together! -->
+        </span>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <div class="flex flex-row justify-between">
+          <span
+            class="text-(semantic-base-text-primary) text-2xl font-semibold"
+          >
+            {{ t('events') }}
+          </span>
+          <ButtonColored
+            :aria-label="t('contactBook')"
+            variant="primary"
+            class="rounded-xl py-2 text-sm font-semibold"
+            :to="
+              localePath({
+                name: 'contact',
+              })
+            "
+          >
+            <div class="flex flex-row gap-1">
+              {{ t('newEvent') }}
+              <IVibetypeColoredAdd class="h-5 w-5" :alt="t('iconAdd')" />
+            </div>
+          </ButtonColored>
+        </div>
+      </div>
+
       <div class="flex justify-center">
         <UnderConstruction>
           <ButtonColored
@@ -157,14 +218,26 @@ de:
   achievements: Errungenschaften
   achievementsNone: Noch keine freigeschaltet
   achievementMeetTheTeam: Triff das Team
+  about: Über
+  contactBook: Kontaktbuch
+  events: Veranstaltungen
   eventsTheir: Veranstaltungen von {name}
-  friendAdd: Freundschaftsanfrage senden
   friends: Freunde
+  friendAdd: Freundschaftsanfrage senden
+  newEvent: Neue Veranstaltung
+  iconAltContactBook: Kontaktbuch-Symbol
+  iconAdd: Hinzufügen
 en:
   achievements: Achievements
   achievementsNone: None unlocked yet
   achievementMeetTheTeam: Meet the team
+  about: About
+  contactBook: Contact Book
+  events: Events
   eventsTheir: Events by {name}
   friends: Friends
   friendAdd: Send friend request
+  newEvent: New event
+  iconAltContactBook: Contact Book Icon
+  iconAdd: Add
 </i18n>
