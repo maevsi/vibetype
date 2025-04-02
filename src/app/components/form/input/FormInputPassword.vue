@@ -2,9 +2,6 @@
   <FormInput
     v-if="formInput"
     :id-label="`input-${id}`"
-    :placeholder="
-      isVisible ? t('placeholderVisible') : t('placeholderInvisible')
-    "
     :title="title || t('password')"
     :type="isVisible ? 'text' : 'password'"
     :value="formInput"
@@ -75,12 +72,12 @@ const isVisible = ref(false)
 <i18n lang="yaml">
 de:
   password: Passwort
-  placeholderInvisible: '**********'
-  placeholderVisible: 'Pa$$w0rt'
+  # placeholderInvisible: '**********'
+  # placeholderVisible: 'Pa$$w0rt'
   validationFormat: Muss {length} Zeichen lang sein
 en:
   password: Password
-  placeholderInvisible: '**********'
-  placeholderVisible: 'Pa$$w0rd'
+  # placeholderInvisible: '**********'
+  # placeholderVisible: 'Pa$$w0rd'
   validationFormat: Must be {length} characters long
 </i18n>
