@@ -37,6 +37,23 @@ export const VALIDATION_PASSWORD_LENGTH_MINIMUM = 8
 export const VALIDATION_URL_LENGTH_MAXIMUM = 300
 export const VALIDATION_USERNAME_LENGTH_MAXIMUM = 100
 
+export const VALIDATION_CAPTCHA = () => ({
+  required,
+})
+export const VALIDATION_EMAIL_ADDRESS = ({
+  isRequired,
+}: {
+  isRequired?: boolean
+}) => ({
+  format: email,
+  lengthMax: maxLength(VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM),
+  ...(isRequired ? { required } : {}),
+})
+export const VALIDATION_EVENT_VISIBILITY = () => ({
+  formatEnum: (value: string) =>
+    Object.values(EventVisibility).includes(value as EventVisibility),
+  // `required` is implicitly covered by `formatEnum`
+})
 export const VALIDATION_PRIMITIVE = ({
   isRequired,
   lengthMax,
@@ -55,28 +72,6 @@ export const VALIDATION_PRIMITIVE = ({
   ...(lengthMin ? { lengthMin: minLength(lengthMin) } : {}),
   ...(valueMax ? { valueMax: maxValue(valueMax) } : {}),
   ...(valueMin ? { valueMin: minValue(valueMin) } : {}),
-})
-
-export const VALIDATION_CAPTCHA = () => ({
-  required,
-})
-export const VALIDATION_EMAIL_ADDRESS = ({
-  isRequired,
-}: {
-  isRequired?: boolean
-}) => ({
-  email,
-  lengthMax: maxLength(VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM),
-  ...(isRequired ? { required } : {}),
-})
-export const VALIDATION_EVENT_VISIBILITY = () => ({
-  formatEnum: (value: string) =>
-    Object.values(EventVisibility).includes(value as EventVisibility),
-  // `required` is implicitly covered by `formatEnum`
-})
-export const VALIDATION_UUID = () => ({
-  required,
-  formatUuid: VALIDATION_FORMAT_UUID,
 })
 export const VALIDATION_PASSWORD = () => ({
   lengthMin: minLength(VALIDATION_PASSWORD_LENGTH_MINIMUM),
@@ -114,6 +109,10 @@ export const VALIDATION_USERNAME = ({
   formatSlug: VALIDATION_FORMAT_SLUG,
   lengthMax: maxLength(VALIDATION_USERNAME_LENGTH_MAXIMUM),
   ...(isRequired ? { required } : {}),
+})
+export const VALIDATION_UUID = () => ({
+  required,
+  formatUuid: VALIDATION_FORMAT_UUID,
 })
 
 export const isFormValid = async ({
@@ -238,32 +237,3 @@ export const validateUsername = (invert?: boolean) => async (value: string) => {
     ? !result.data?.accountByUsername
     : !!result.data?.accountByUsername
 }
-
-export const VALIDATION_USERNAME_OR_EMAIL = ({
-  isRequired,
-  validateExistence,
-  validateExistenceNone,
-}: {
-  isRequired?: boolean
-  validateExistence?: boolean
-  validateExistenceNone?: boolean
-}) => ({
-  custom: async (value: string) => {
-    if (!helpers.req(value)) return true
-    if (value.includes('@')) {
-      return value.length <= VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM ? true : {}
-    }
-    if (!VALIDATION_FORMAT_SLUG(value)) return 'Username format is invalid'
-    if (value.length > VALIDATION_USERNAME_LENGTH_MAXIMUM) return {}
-    if (validateExistence) {
-      const result = await helpers.withAsync(validateUsername())(value)
-      if (result !== true) return result
-    }
-    if (validateExistenceNone) {
-      const result = await helpers.withAsync(validateUsername(true))(value)
-      if (result !== true) return result
-    }
-    return true
-  },
-  ...(isRequired ? { required } : {}),
-})
