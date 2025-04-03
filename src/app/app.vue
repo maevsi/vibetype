@@ -1,5 +1,6 @@
 <template>
   <div class="relative isolate">
+    <NuxtLoadingIndicator />
     <LazyClientOnly>
       <CardStateInfo
         v-if="!isBrowserSupported && !runtimeConfig.public.vio.isTesting"
@@ -29,7 +30,6 @@
       <!-- `NuxtLayout` can't have mulitple child nodes (https://github.com/nuxt/nuxt/issues/21759) -->
       <NuxtPage />
     </NuxtLayout>
-    <NuxtLoadingIndicator color="#fff" />
     <VitePwaManifest />
     <ClientOnly>
       <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->
