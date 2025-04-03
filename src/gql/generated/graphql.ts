@@ -906,7 +906,6 @@ export type AccountRegistrationPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>
-  uuid?: Maybe<Scalars['UUID']['output']>
 }
 
 /** All input for the `accountRegistrationRefresh` mutation. */
@@ -10169,7 +10168,6 @@ export type AccountRegistrationMutation = {
   accountRegistration?: {
     __typename?: 'AccountRegistrationPayload'
     clientMutationId?: string | null
-    uuid?: any | null
   } | null
 }
 
@@ -11823,7 +11821,6 @@ export const AccountRegistrationDocument = {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'clientMutationId' },
                 },
-                { kind: 'Field', name: { kind: 'Name', value: 'uuid' } },
               ],
             },
           },

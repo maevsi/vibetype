@@ -895,7 +895,6 @@ export type AccountRegistrationPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>
-  uuid?: Maybe<Scalars['UUID']['output']>
 }
 
 /** All input for the `accountRegistrationRefresh` mutation. */
@@ -11439,11 +11438,6 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       WithTypename<Query> | string
     >
-    uuid?: GraphCacheResolver<
-      WithTypename<AccountRegistrationPayload>,
-      Record<string, never>,
-      Scalars['UUID'] | string
-    >
   }
   AccountRegistrationRefreshPayload?: {
     clientMutationId?: GraphCacheResolver<
@@ -18856,10 +18850,6 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
     query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<AccountRegistrationPayload>>,
-      Record<string, never>
-    >
-    uuid?: GraphCacheUpdateResolver<
       Maybe<WithTypename<AccountRegistrationPayload>>,
       Record<string, never>
     >

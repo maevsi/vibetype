@@ -2,7 +2,7 @@
 # check=skip=SecretsUsedInArgOrEnv
 
 # <DEPENDENCIES>
-FROM ghcr.io/maevsi/sqitch:7.0.0-beta.9
+FROM ghcr.io/maevsi/sqitch:7.0.0-beta.10
 # </DEPENDENCIES>
 
 #############
