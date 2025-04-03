@@ -46,6 +46,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxtjs/html-validator',
     '@nuxtjs/i18n',
+    '@nuxtjs/mdc',
     '@nuxtjs/seo',
     '@nuxt/content', // most come after `@nuxtjs/seo`
     '@nuxtjs/turnstile',

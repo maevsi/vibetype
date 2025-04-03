@@ -10598,7 +10598,9 @@ export type AllGuestsQuery = {
   } | null
 }
 
-export type AllLegalTermsQueryVariables = Exact<{ [key: string]: never }>
+export type AllLegalTermsQueryVariables = Exact<{
+  language?: InputMaybe<Scalars['String']['input']>
+}>
 
 export type AllLegalTermsQuery = {
   __typename?: 'Query'
@@ -15120,12 +15122,41 @@ export const AllLegalTermsDocument = {
       kind: 'OperationDefinition',
       operation: 'query',
       name: { kind: 'Name', value: 'allLegalTerms' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'language' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'allLegalTerms' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'language' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'language' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [

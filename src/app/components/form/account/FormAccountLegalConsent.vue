@@ -10,18 +10,20 @@
       class="rounded-xl border border-(--semantic-base-line) bg-(--faint-weak) px-3 py-4"
     >
       <div class="flex items-center gap-3 p-1">
+        <!-- TODO: extract checkbox-label combination to form input component -->
         <Checkbox
-          id="terms"
+          :id="`form-account-legal-consent-${id}`"
           class="bg-(--semantic-base-surface-1)"
-          form-key="is-in-person"
+          :disabled
+          form-key="agreement"
           :model-value="v$.agreement.$model"
           @update:model-value="
             form.agreement = typeof $event === 'string' ? false : $event
           "
         />
         <label
-          for="terms"
-          class="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          :for="`form-account-legal-consent-${id}`"
+          class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
           <TypographySubtitleMedium>
             {{ label }}
@@ -39,9 +41,11 @@
 </template>
 
 <script setup lang="ts">
-import { required } from '@vuelidate/validators'
+import { and, required } from '@vuelidate/validators'
 
-const { label } = defineProps<{
+const { disabled, id, label } = defineProps<{
+  disabled?: boolean
+  id: string
   label: string
 }>()
 const emit = defineEmits<{
@@ -55,7 +59,7 @@ const { form, isFormSent, formSubmit, v$ } = useForm({
   },
   rules: {
     agreement: {
-      required,
+      required: and(required, (value: unknown) => !!value),
     },
   },
   onSubmit: () => emit('agreement'),

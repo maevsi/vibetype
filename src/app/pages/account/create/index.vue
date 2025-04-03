@@ -26,23 +26,26 @@
           @submit="index++"
         />
       </div>
-      <LayoutFooter />
+      <ContentLegalFooter />
     </div>
     <AccountLegalConsent
+      id="general-terms-and-conditions"
       :class="{
         hidden: index !== 1,
       }"
+      :disabled="!legalTermId"
       :label="t('agreeGeneralTermsAndConditions')"
       @agreement="index++"
     >
-      {{ legalTermFirst?.term }}
+      <ContentLegalGeneralTermsAndConditions @id="legalTermId = $event" />
     </AccountLegalConsent>
     <AccountLegalConsent
+      id="privacy-policy"
       :class="{
         hidden: index !== 2,
       }"
       :label="t('agreePrivacyPolicy')"
-      @agreement="templateForm?.submit(legalTermFirst?.id)"
+      @agreement="templateForm?.submit(legalTermId || '')"
     >
       <Content class="px-6" path="privacy-policy" />
     </AccountLegalConsent>
@@ -52,31 +55,14 @@
 <script setup lang="ts">
 import { consola } from 'consola'
 
-import { getLegalTermItem } from '~~/gql/documents/fragments/legalTermItem'
-import { useAllLegalTermsQuery } from '~~/gql/documents/queries/legalTerms/allLegalTerms'
-
 definePageMeta({
   layout: 'plain',
 })
 
 const { t } = useI18n()
 
-// legal terms
-const legalTermsQuery = await zalgo(useAllLegalTermsQuery({}))
-
-const legalTermFirst = computed(
-  () =>
-    legalTermsQuery.data.value?.allLegalTerms?.nodes
-      ?.map(getLegalTermItem)
-      .filter(isNeitherNullNorUndefined)[0],
-)
-
-if (!legalTermFirst.value) {
-  throw createError({
-    message: 'No legal terms available',
-    statusCode: 500,
-  })
-}
+// legal term
+const legalTermId = ref<string>()
 
 // form
 const templateForm = useTemplateRef('form')

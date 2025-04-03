@@ -11,7 +11,7 @@
     <div class="flex justify-center px-6">
       <FormAccountSignIn class="max-w-sm grow" @signed-in="onSignIn" />
     </div>
-    <LayoutFooter />
+    <ContentLegalFooter />
   </div>
 </template>
 

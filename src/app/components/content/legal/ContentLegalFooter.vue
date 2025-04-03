@@ -1,13 +1,12 @@
 <template>
   <footer class="flex justify-center gap-1">
-    <!-- TODO: add terms link -->
     <ButtonColored
-      :aria-label="t('terms')"
+      :aria-label="t('generalTermsAndConditions')"
       size="small"
-      :to="localePath('legal-notice')"
+      :to="localePath('docs-legal-general-terms-and-conditions')"
       variant="tertiary"
     >
-      {{ t('terms') }}
+      {{ t('generalTermsAndConditions') }}
     </ButtonColored>
     <ButtonColored
       :aria-label="t('imprint')"
@@ -18,12 +17,12 @@
       {{ t('imprint') }}
     </ButtonColored>
     <ButtonColored
-      :aria-label="t('policy')"
+      :aria-label="t('privacyPolicy')"
       size="small"
       :to="localePath('privacy-policy')"
       variant="tertiary"
     >
-      {{ t('policy') }}
+      {{ t('privacyPolicy') }}
     </ButtonColored>
   </footer>
 </template>
@@ -35,11 +34,11 @@ const localePath = useLocalePath()
 
 <i18n lang="yaml">
 de:
-  terms: Nutzungsbedingungen
+  generalTermsAndConditions: Nutzungsbedingungen
   imprint: Impressum
-  policy: Datenschutzrichtlinie
+  privacyPolicy: Datenschutzrichtlinie
 en:
-  terms: Terms
+  generalTermsAndConditions: Terms
   imprint: Imprint
-  policy: Policy
+  privacyPolicy: Policy
 </i18n>

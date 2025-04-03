@@ -3,12 +3,19 @@
     <div class="grow overflow-x-auto">
       <slot />
     </div>
-    <FormAccountLegalConsent :label @agreement="emit('agreement')" />
+    <FormAccountLegalConsent
+      :id
+      :disabled
+      :label
+      @agreement="emit('agreement')"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-const { label } = defineProps<{
+const { disabled, id, label } = defineProps<{
+  disabled?: boolean
+  id: string
   label: string
 }>()
 const emit = defineEmits<{
