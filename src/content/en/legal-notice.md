@@ -59,7 +59,7 @@ The number of average monthly active users is:  -->
 
 ## Contact Points for Users pursuant to Art. 12 of Regulation \[EU\] 2022/2065 (Digital Services Act)
 
-- Users have the option to initiate a so-called reporting procedure to report illegal content, i.e., content that they believe violates laws, our terms of use, and/or our code of conduct. For this purpose, they can use the reporting form provided: https://forms.monday.com/forms/74204ae8168ecb1dd44c15b502854a5a?r=euc1
+- Users have the option to initiate a so-called reporting procedure to report illegal content, i.e., content that they believe violates laws, our terms of use, and/or our code of conduct. For this purpose, they can use the reporting form provided: https://forms.monday.com/forms/bbd28ad5602122eb2644443b1f809348?r=euc1
 
 - For all other concerns, users can contact our designated contact point: contact+legal-notice@maev.si
 
