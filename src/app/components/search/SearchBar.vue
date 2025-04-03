@@ -3,7 +3,7 @@
     class="flex items-center gap-4 rounded-lg border-1 border-(--faint-line) bg-(--semantic-base-input-field-fill) px-4 py-3 shadow hover:bg-(--faint-weak) has-focus:border-(--accent-line) has-focus:bg-(--semantic-base-input-field-fill) dark:border-(--semantic-base-line) dark:has-focus:border-(--semantic-base-line)"
   >
     <div class="flex-shrink-0 text-(--semantic-accent-accent-icon)">
-      <IHeroiconsMagnifyingGlass :alt="t('iconSearch')" class="size-6" />
+      <IHeroiconsMagnifyingGlass :aria-label="t('iconSearch')" class="size-6" />
     </div>
     <!-- TODO: extract input component, e.g. to set placeholder color in one place only -->
     <input
@@ -18,7 +18,7 @@
       class="hidden flex-shrink-0 text-(--semantic-accent-accent-icon) peer-not-placeholder-shown:block"
       @click="model = ''"
     >
-      <IVibetypeClose :alt="t('iconClose')" class="size-6" />
+      <IVibetypeClose :aria-label="t('iconClose')" class="size-6" />
     </ButtonIcon>
   </div>
 </template>

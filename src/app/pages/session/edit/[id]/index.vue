@@ -16,7 +16,7 @@
               })
             "
           >
-            <IVibetypePerson class="size-6" :alt="t('iconAltPerson')" />
+            <IVibetypePerson class="size-6" :aria-label="t('iconAltPerson')" />
           </CardButton>
           <CardButton
             :title="t('contactBook')"
@@ -26,7 +26,10 @@
               })
             "
           >
-            <IVibetypeContacts class="size-6" :alt="t('iconAltContactBook')" />
+            <IVibetypeContacts
+              class="size-6"
+              :aria-label="t('iconAltContactBook')"
+            />
           </CardButton>
           <UnderConstruction>
             <CardButton
@@ -43,11 +46,14 @@
             >
               <IVibetypeNetworkIntelligence
                 class="size-6"
-                :alt="t('iconAltAI')"
+                :aria-label="t('iconAltAI')"
               />
 
               <template #iconSecondary>
-                <IVibetypeRestartAlt class="size-6" :alt="t('iconAltReset')" />
+                <IVibetypeRestartAlt
+                  class="size-6"
+                  :aria-label="t('iconAltReset')"
+                />
               </template>
             </CardButton>
           </UnderConstruction>
@@ -66,10 +72,13 @@
             >
               <IVibetypeColoredEarlyBird
                 class="size-6"
-                :alt="t('iconAltEarlyBird')"
+                :aria-label="t('iconAltEarlyBird')"
               />
               <template #iconSecondary>
-                <IVibetypeClose class="size-6" :alt="t('iconAltClose')" />
+                <IVibetypeClose
+                  class="size-6"
+                  :aria-label="t('iconAltClose')"
+                />
               </template>
             </CardButton>
           </UnderConstruction>
@@ -89,7 +98,10 @@
               })
             "
           >
-            <IVibetypeSun class="size-6" :alt="t('iconAltColorScheme')" />
+            <IVibetypeSun
+              class="size-6"
+              :aria-label="t('iconAltColorScheme')"
+            />
           </CardButton>
           <CardButton
             :title="t('language')"
@@ -102,7 +114,10 @@
               })
             "
           >
-            <IVibetypeLanguage class="size-6" :alt="t('iconAltLanguage')" />
+            <IVibetypeLanguage
+              class="size-6"
+              :aria-label="t('iconAltLanguage')"
+            />
           </CardButton>
         </div>
       </section>
@@ -114,21 +129,21 @@
             :title="t('featureSuggestion')"
             to="https://forms.monday.com/forms/f3ef56d13c8383e6ececb2875d7fb4b2?r=euc1"
           >
-            <IVibetypeIdea class="size-6" :alt="t('iconAltIdea')" />
+            <IVibetypeIdea class="size-6" :aria-label="t('iconAltIdea')" />
           </CardButton>
           <CardButton
             is-external
             :title="t('bugReport')"
             to="https://forms.monday.com/forms/55b8fc2281c2be1647a69e6a4ffe156e?r=euc1"
           >
-            <IVibetypeBug class="size-6" :alt="t('iconAltBug')" />
+            <IVibetypeBug class="size-6" :aria-label="t('iconAltBug')" />
           </CardButton>
           <CardButton
             is-external
             :title="t('contact')"
             to="https://forms.monday.com/forms/74204ae8168ecb1dd44c15b502854a5a?r=euc1"
           >
-            <IVibetypeMail class="size-6" :alt="t('iconAltContact')" />
+            <IVibetypeMail class="size-6" :aria-label="t('iconAltContact')" />
           </CardButton>
           <CardButton
             :title="t('developerInformation')"
@@ -141,7 +156,10 @@
               })
             "
           >
-            <IHeroiconsWrench class="size-6" :alt="t('iconAltDeveloper')" />
+            <IHeroiconsWrench
+              class="size-6"
+              :aria-label="t('iconAltDeveloper')"
+            />
           </CardButton>
         </div>
       </section>
@@ -155,7 +173,10 @@
               :title="t('generalTermsAndConditions')"
               :to="localePath('privacy-policy')"
             >
-              <IVibetypeContract class="size-6" :alt="t('iconAltTerms')" />
+              <IVibetypeContract
+                class="size-6"
+                :aria-label="t('iconAltTerms')"
+              />
             </CardButton>
           </UnderConstruction>
           <CardButton
@@ -164,20 +185,23 @@
           >
             <IMaterialSymbolsCookieOutline
               class="size-6"
-              :alt="t('iconAltCookies')"
+              :aria-label="t('iconAltCookies')"
             />
           </CardButton>
           <CardButton
             :title="t('legalNotice')"
             :to="localePath('legal-notice')"
           >
-            <IVibetypeLegal class="size-6" :alt="t('iconAltLegal')" />
+            <IVibetypeLegal class="size-6" :aria-label="t('iconAltLegal')" />
           </CardButton>
           <CardButton
             :title="t('privacyPolicy')"
             :to="localePath('privacy-policy')"
           >
-            <IVibetypeVerifiedUser class="size-6" :alt="t('iconAltPrivacy')" />
+            <IVibetypeVerifiedUser
+              class="size-6"
+              :aria-label="t('iconAltPrivacy')"
+            />
           </CardButton>
         </div>
       </section>
@@ -189,7 +213,7 @@
           @click="signOut"
         >
           <template #iconSecondary />
-          <IVibetypeLogout class="size-6" :alt="t('iconAltLogout')" />
+          <IVibetypeLogout class="size-6" :aria-label="t('iconAltLogout')" />
         </CardButton>
       </section>
     </div>
