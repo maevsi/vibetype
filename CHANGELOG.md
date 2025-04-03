@@ -1,3 +1,15 @@
+## [9.9.0](https://github.com/maevsi/vibetype/compare/9.8.1...9.9.0) (2025-04-03)
+
+### Features
+
+* **flow:** add welcome screen ([1a48de7](https://github.com/maevsi/vibetype/commit/1a48de793948c215eec8e66d72d824a0a8ede8ca))
+* **legal:** update report form link ([e7e577d](https://github.com/maevsi/vibetype/commit/e7e577d8ed291647a1fb98be8101dd31f82775b0))
+
+### Bug Fixes
+
+* **app:** correct backdrop height ([4c6f646](https://github.com/maevsi/vibetype/commit/4c6f6464cc6645f473e3290b72eb5f34b439b56a))
+* **components:** correct icon labels ([a76d0cf](https://github.com/maevsi/vibetype/commit/a76d0cfb776a53cff3e4b1af82438a44d0f295f2))
+
 ## [9.8.1](https://github.com/maevsi/vibetype/compare/9.8.0...9.8.1) (2025-04-01)
 
 ### Bug Fixes
