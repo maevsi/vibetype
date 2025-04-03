@@ -146,6 +146,17 @@ export const GET_CSP = ({
       'worker-src': ['blob:'],
     },
     {
+      // @nuxt/content
+      ...(process.env.NODE_ENV === 'development'
+        ? {
+            'connect-src': [
+              `ws://${domainTldPort}:4000/ws`, // hot reload
+              `wss://${domainTldPort}:4000/ws`, // hot reload
+            ],
+          }
+        : {}),
+    },
+    {
       // nuxt
       ...(process.env.NODE_ENV === 'development'
         ? {
