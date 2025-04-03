@@ -10,7 +10,7 @@
       form-class="w-full"
       :is-form-sent="isFormSent"
       :submit-name="t('register')"
-      @submit.prevent="openPrivacyModal"
+      @submit.prevent="submitEmit"
     >
       <FormInputUsername
         :form-input="v$.username"
@@ -28,7 +28,7 @@
       />
       <FormInputPassword
         :form-input="v$.passwordRepetition"
-        :label="t('passwordRepetition')"
+        :title="t('passwordRepetition')"
         @input="form.passwordRepetition = $event"
       />
       <FormInputCaptcha
@@ -50,16 +50,6 @@
     >
       {{ t('alreadyHaveAnAccount') }}
     </ButtonColored>
-    <!-- Modals -->
-    <ModalPrivacyPolicy
-      v-model="privacyModalOpen"
-      @agreement="openGeneralTerms"
-    />
-    <ModalGeneralTerms
-      v-model="generalTermsModalOpen"
-      @back="openPrivacyModal"
-      @agreement="submit"
-    />
   </div>
 </template>
 
@@ -69,11 +59,13 @@ import { sameAs, required } from '@vuelidate/validators'
 
 import { useAccountRegistrationMutation } from '~~/gql/documents/mutations/account/accountRegistration'
 
+const emit = defineEmits<{
+  submit: []
+}>()
+
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
 const fireAlert = useFireAlert()
-const privacyModalOpen = ref(false)
-const generalTermsModalOpen = ref(false)
 const accountRegistrationMutation = useAccountRegistrationMutation()
 const api = getApiData([accountRegistrationMutation])
 const form = reactive({
@@ -116,13 +108,9 @@ const submit = async (termId: string) => {
   })
   await navigateTo('/account/verify/create')
 }
-
-const openPrivacyModal = async () => {
+const submitEmit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
-  openPrivacyModal()
-}
-const openGeneralTerms = () => {
-  generalTermsModalOpen.value = true
+  emit('submit')
 }
 
 // vuelidate
@@ -140,6 +128,10 @@ const rules = {
   },
 }
 const v$ = useVuelidate(rules, form)
+
+defineExpose({
+  submit,
+})
 </script>
 
 <i18n lang="yaml">

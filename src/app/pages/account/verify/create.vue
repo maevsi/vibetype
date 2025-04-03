@@ -1,8 +1,10 @@
 <template>
-  <div class="flex flex-col gap-8">
-    <h2>{{ title }}</h2>
-    <div class="flex flex-col items-center gap-8">
-      <p class="font-bold text-(---semantic-base-text-primary)">
+  <div class="flex grow flex-col">
+    <LayoutTopBar>
+      {{ title }}
+    </LayoutTopBar>
+    <div class="flex grow flex-col justify-center gap-8 p-8">
+      <p class="font-bold">
         {{ t('checkEmail') }}
       </p>
       <ButtonColored
@@ -22,6 +24,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: 'plain',
+})
+
 const localePath = useLocalePath()
 const { t } = useI18n()
 const title = t('title')

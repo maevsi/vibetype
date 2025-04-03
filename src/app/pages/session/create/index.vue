@@ -1,17 +1,17 @@
 <template>
-  <div class="flex grow flex-col gap-2">
-    <CardStateInfo v-if="to">
-      {{ t('accountRequired') }}
-    </CardStateInfo>
-    <div class="flex flex-col gap-10 pb-5">
+  <div class="flex grow flex-col gap-10 pb-5">
+    <div class="flex flex-col">
       <LayoutTopBar>
         {{ t('title') }}
       </LayoutTopBar>
-      <div class="flex justify-center px-6">
-        <FormAccountSignIn class="max-w-sm grow" @signed-in="onSignIn" />
-      </div>
-      <LayoutFooter />
+      <CardStateInfo v-if="to" class="rounded-none">
+        {{ t('accountRequired') }}
+      </CardStateInfo>
     </div>
+    <div class="flex justify-center px-6">
+      <FormAccountSignIn class="max-w-sm grow" @signed-in="onSignIn" />
+    </div>
+    <LayoutFooter />
   </div>
 </template>
 
@@ -60,6 +60,6 @@ de:
   accountRequired: Melde dich an, um fortzufahren.
   title: Einloggen
 en:
-  accountRequired: Sign in to continue.
+  accountRequired: Log in to continue.
   title: Log in
 </i18n>
