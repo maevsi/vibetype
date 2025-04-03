@@ -31,7 +31,10 @@
     <div class="p-2">
       <slot v-if="$slots.iconSecondary" name="iconSecondary" />
       <div v-else-if="to">
-        <IVibetypeArrowForward :alt="t('iconArrowForward')" class="size-6" />
+        <IVibetypeArrowForward
+          :aria-label="t('iconArrowForward')"
+          class="size-6"
+        />
       </div>
     </div>
   </Card>
