@@ -425,6 +425,9 @@ importers:
       tailwindcss:
         specifier: 4.0.17
         version: 4.0.17
+      tw-animate-css:
+        specifier: 1.2.5
+        version: 1.2.5
       unplugin-icons:
         specifier: 22.1.0
         version: 22.1.0(@vue/compiler-sfc@3.5.13)
@@ -10811,6 +10814,9 @@ packages:
   tus-js-client@4.3.1:
     resolution: {integrity: sha512-ZLeYmjrkaU1fUsKbIi8JML52uAocjEZtBx4DKjRrqzrZa0O4MYwT6db+oqePlspV+FxXJAyFBc/L5gwUi2OFsg==}
     engines: {node: '>=18'}
+
+  tw-animate-css@1.2.5:
+    resolution: {integrity: sha512-ABzjfgVo+fDbhRREGL4KQZUqqdPgvc5zVrLyeW9/6mVqvaDepXc7EvedA+pYmMnIOsUAQMwcWzNvom26J2qYvQ==}
 
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
@@ -25097,6 +25103,8 @@ snapshots:
       lodash.throttle: 4.1.1
       proper-lockfile: 4.1.2
       url-parse: 1.5.10
+
+  tw-animate-css@1.2.5: {}
 
   type-check@0.4.0:
     dependencies:
