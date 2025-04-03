@@ -78,7 +78,7 @@
             </FormInputIconWrapper>
           </div>
           <div v-if="$slots.icon" class="flex pr-4">
-            <button @click="emit('icon')">
+            <button type="button" @click="emit('icon')">
               <slot name="icon" />
             </button>
           </div>

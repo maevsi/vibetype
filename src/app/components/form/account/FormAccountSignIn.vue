@@ -56,7 +56,7 @@
     </ButtonColored>
     <ButtonColored
       :aria-label="t('passwordReset')"
-      class="w-full dark:data-[type=tertiary]:text-[#fafafc]"
+      class="w-full"
       :to="localePath('account-password-reset-request')"
       variant="tertiary"
     >

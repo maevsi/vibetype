@@ -13,7 +13,6 @@
   --faint-line: #f2f2f2;
   --faint-weak: #f2f2f2;
   --semantic-accent-accent-icon: #12683a;
-  --semantic-accent-accent-line: #dcf9ea;
   --semantic-accent-accent-text: #12683a;
   --semantic-base-background: #fff;
   --semantic-base-input-field-fill: #fff;
@@ -25,10 +24,7 @@
   --semantic-base-text-primary: #191911;
   --semantic-base-text-secondary: #868679;
   --semantic-base-text-tertiary: #505047;
-  --semantic-critic-strong: #e00000;
-  --semantic-critic-strong-hover: #8c1818;
   --semantic-critic-text: #8c1818;
-  --semantic-critic-weak: #ffebeb;
   --surface: #fafafc;
   --warning-strong: #f9ae25;
   --warning-text: #9c5407;
@@ -47,6 +43,7 @@
   --semantic-base-surface-1: #3e3e38;
   --semantic-base-text-primary: #e4e4eb;
   --semantic-base-text-secondary: #868679;
+  --semantic-base-text-tertiary: #e4e4eb;
   --surface: #3e3e38;
 
   @apply scheme-dark;
