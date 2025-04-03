@@ -330,7 +330,7 @@
         <template #footer>
           <ButtonColored
             :aria-label="t('print')"
-            :is-primary="false"
+            variant="secondary"
             @click="print"
           >
             {{ t('print') }}

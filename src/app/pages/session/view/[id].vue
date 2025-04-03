@@ -19,7 +19,7 @@
               <ButtonColored
                 :aria-label="t('endNow')"
                 :disabled="!store.jwtDecoded"
-                :is-primary="false"
+                variant="secondary"
                 @click="signOut"
               >
                 {{ t('endNow') }}
@@ -196,7 +196,7 @@
               <ButtonColored
                 :aria-label="t('notificationPermit')"
                 :disabled="!isNotificationPermissionRequestPossible"
-                :is-primary="false"
+                variant="secondary"
                 @click="requestNotificationPermission(notificationStore)"
               >
                 {{ t('notificationPermit') }}
@@ -207,7 +207,7 @@
               <ButtonColored
                 :aria-label="t('notificationSend')"
                 :disabled="permissionState !== 'granted'"
-                :is-primary="false"
+                variant="secondary"
                 @click="sendNotification"
               >
                 {{ t('notificationSend') }}
@@ -217,7 +217,7 @@
               </ButtonColored>
               <ButtonColored
                 :aria-label="t('showFcmToken')"
-                :is-primary="false"
+                variant="secondary"
                 @click="showFcmToken"
               >
                 {{ t('showFcmToken') }}
