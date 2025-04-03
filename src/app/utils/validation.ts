@@ -37,6 +37,23 @@ export const VALIDATION_PASSWORD_LENGTH_MINIMUM = 8
 export const VALIDATION_URL_LENGTH_MAXIMUM = 300
 export const VALIDATION_USERNAME_LENGTH_MAXIMUM = 100
 
+export const VALIDATION_CAPTCHA = () => ({
+  required,
+})
+export const VALIDATION_EMAIL_ADDRESS = ({
+  isRequired,
+}: {
+  isRequired?: boolean
+}) => ({
+  format: email,
+  lengthMax: maxLength(VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM),
+  ...(isRequired ? { required } : {}),
+})
+export const VALIDATION_EVENT_VISIBILITY = () => ({
+  formatEnum: (value: string) =>
+    Object.values(EventVisibility).includes(value as EventVisibility),
+  // `required` is implicitly covered by `formatEnum`
+})
 export const VALIDATION_PRIMITIVE = ({
   isRequired,
   lengthMax,
@@ -55,28 +72,6 @@ export const VALIDATION_PRIMITIVE = ({
   ...(lengthMin ? { lengthMin: minLength(lengthMin) } : {}),
   ...(valueMax ? { valueMax: maxValue(valueMax) } : {}),
   ...(valueMin ? { valueMin: minValue(valueMin) } : {}),
-})
-
-export const VALIDATION_CAPTCHA = () => ({
-  required,
-})
-export const VALIDATION_EMAIL_ADDRESS = ({
-  isRequired,
-}: {
-  isRequired?: boolean
-}) => ({
-  email,
-  lengthMax: maxLength(VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM),
-  ...(isRequired ? { required } : {}),
-})
-export const VALIDATION_EVENT_VISIBILITY = () => ({
-  formatEnum: (value: string) =>
-    Object.values(EventVisibility).includes(value as EventVisibility),
-  // `required` is implicitly covered by `formatEnum`
-})
-export const VALIDATION_UUID = () => ({
-  required,
-  formatUuid: VALIDATION_FORMAT_UUID,
 })
 export const VALIDATION_PASSWORD = () => ({
   lengthMin: minLength(VALIDATION_PASSWORD_LENGTH_MINIMUM),
@@ -114,6 +109,10 @@ export const VALIDATION_USERNAME = ({
   formatSlug: VALIDATION_FORMAT_SLUG,
   lengthMax: maxLength(VALIDATION_USERNAME_LENGTH_MAXIMUM),
   ...(isRequired ? { required } : {}),
+})
+export const VALIDATION_UUID = () => ({
+  required,
+  formatUuid: VALIDATION_FORMAT_UUID,
 })
 
 export const isFormValid = async ({

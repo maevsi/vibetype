@@ -1,5 +1,6 @@
 <template>
   <div class="relative isolate">
+    <NuxtLoadingIndicator />
     <LazyClientOnly>
       <CardStateInfo
         v-if="!isBrowserSupported && !runtimeConfig.public.vio.isTesting"
@@ -26,17 +27,15 @@
       </CardStateInfo>
     </LazyClientOnly>
     <NuxtLayout>
-      <!-- `NuxtLayout` can't have mulitple child nodes (https://github.com/nuxt/nuxt/issues/21759) -->
       <NuxtPage />
     </NuxtLayout>
-    <NuxtLoadingIndicator color="#fff" />
     <VitePwaManifest />
     <ClientOnly>
       <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->
       <CookieControl :locale="locale" />
     </ClientOnly>
     <div
-      class="absolute inset-x-0 -top-16 -z-10 flex transform-gpu justify-center overflow-hidden blur-3xl"
+      class="absolute inset-x-0 -top-16 -z-10 flex max-h-screen transform-gpu items-start justify-center overflow-hidden blur-3xl"
       aria-hidden="true"
     >
       <div
@@ -49,25 +48,41 @@
 <script setup lang="ts">
 import type { Locale } from '@dargmuesli/nuxt-cookie-control/runtime/types'
 import '@fontsource-variable/raleway'
+import { isEqual } from 'ufo'
 import type { WritableComputedRef } from 'vue'
 
 import supportedBrowsers from '~/supportedBrowsers'
 
 const i18n = useI18n()
 const { $pwa } = useNuxtApp()
+const { isApp } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
 const locale = i18n.locale as WritableComputedRef<Locale>
 const { t } = i18n
 const timezone = useTimezone()
 const localePath = useLocalePath()
+const store = useStore()
+const route = useRoute()
 
 // data
 const isBrowserSupported = ref(true)
 
 // methods
-const initialize = () => {
+const initialize = async () => {
   if (import.meta.client) {
     saveTimezoneAsCookie()
+  }
+
+  if (
+    isApp.value &&
+    !store.signedInAccountId &&
+    !isEqual(route.path, localePath('flow-welcome').toString())
+  ) {
+    return await navigateTo(
+      localePath({
+        name: 'flow-welcome',
+      }),
+    )
   }
 }
 const saveTimezoneAsCookie = () =>
@@ -116,7 +131,7 @@ await useAuth()
 usePolyfills()
 useSchemaOrg([defineWebSite(), defineWebPage()])
 useAppGtag()
-initialize()
+await initialize()
 </script>
 
 <style scoped>
