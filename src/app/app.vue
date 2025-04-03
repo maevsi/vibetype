@@ -38,7 +38,7 @@
     </NuxtLayout>
     <AppSonner />
     <VitePwaManifest />
-    <ClientOnly>
+    <ClientOnly v-if="!isIos">
       <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->
       <CookieControl :locale />
     </ClientOnly>
@@ -58,7 +58,7 @@ import '@fontsource-variable/raleway/wght.css'
 import { isEqual } from 'ufo'
 
 const { $pwa } = useNuxtApp()
-const { isApp } = usePlatform()
+const { isApp, isIos } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
 const timeZone = useTimeZone()
 const localePath = useLocalePath()
