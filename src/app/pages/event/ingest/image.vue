@@ -39,14 +39,14 @@
         <div class="flex gap-4">
           <ButtonColored
             :aria-label="t('replaceImage')"
-            :is-primary="false"
+            variant="secondary"
             @click="triggerFileInput"
           >
             {{ t('replaceImage') }}
           </ButtonColored>
           <ButtonColored
             :aria-label="t('clearAll')"
-            :is-primary="false"
+            variant="secondary"
             @click="removeFile"
           >
             {{ t('clearAll') }}
