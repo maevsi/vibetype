@@ -526,10 +526,10 @@ export const testOgImage = (url: string) =>
   appTest.describe('visual regression', () => {
     appTest('generates the open graph image', async ({ page }) => {
       await page.goto(joinURL('/__og-image__/image', url, '/og.png'))
-      await expect(page).toHaveScreenshot({ fullPage: true })
+      await expect(page).toHaveScreenshot()
 
       await page.goto(joinURL('/__og-image__/image/de', url, '/og.png'))
-      await expect(page).toHaveScreenshot({ fullPage: true })
+      await expect(page).toHaveScreenshot()
     })
   })
 
@@ -551,7 +551,6 @@ export const testVisualRegression = (url: string) =>
       await defaultPage.goto(url)
 
       await expect(defaultPage.page).toHaveScreenshot({
-        fullPage: true,
         timeout: TIMEOUT,
       })
     })
