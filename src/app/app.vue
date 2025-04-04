@@ -30,7 +30,7 @@
       <NuxtPage />
     </NuxtLayout>
     <VitePwaManifest />
-    <ClientOnly>
+    <ClientOnly v-if="!isAppIos">
       <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->
       <CookieControl :locale="locale" />
     </ClientOnly>
@@ -55,7 +55,7 @@ import supportedBrowsers from '~/supportedBrowsers'
 
 const i18n = useI18n()
 const { $pwa } = useNuxtApp()
-const { isApp } = usePlatform()
+const { isApp, isAppIos } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
 const locale = i18n.locale as WritableComputedRef<Locale>
 const { t } = i18n
