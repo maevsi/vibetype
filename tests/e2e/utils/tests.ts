@@ -2,6 +2,7 @@ import { expect, type Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import { joinURL, withoutTrailingSlash } from 'ufo'
 
+import { TESTING_COOKIE_NAME } from '#src/shared/utils/constants'
 import { appTest } from '#tests/e2e/fixtures/appTest'
 import { SITE_URL, TIMEOUT } from '#tests/e2e/utils/constants'
 
@@ -535,7 +536,11 @@ export const testOgImage = (url: string) =>
 export const testPageLoad = (url: string, statusCode: number = 200) =>
   appTest.describe('page load', () => {
     appTest('loads the page successfully', async ({ request }) => {
-      const resp = await request.get(url)
+      const resp = await request.get(url, {
+        headers: {
+          Cookie: `${TESTING_COOKIE_NAME}=true`,
+        },
+      })
       expect(resp.status()).toBe(statusCode)
     })
   })
