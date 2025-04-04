@@ -1,3 +1,9 @@
+## [9.10.0](https://github.com/maevsi/vibetype/compare/9.9.1...9.10.0) (2025-04-04)
+
+### Features
+
+* **platform:** allow for header and cookie key unification ([#1849](https://github.com/maevsi/vibetype/issues/1849)) ([71bf1f4](https://github.com/maevsi/vibetype/commit/71bf1f4a7c2e5ef402324ce1a6d1917723269874))
+
 ## [9.9.1](https://github.com/maevsi/vibetype/compare/9.9.0...9.9.1) (2025-04-04)
 
 ### Bug Fixes
