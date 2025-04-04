@@ -170,25 +170,25 @@ const idLabelFull = idLabel
   : undefined
 
 // initialization
-if (
-  !placeholder &&
-  type &&
-  ![
-    'checkbox',
-    'datetime-local',
-    'number',
-    'select',
-    'textarea',
-    'tiptap',
-    'radio',
-  ].includes(type)
-) {
-  consola.warn(`placeholder is missing for ${idLabel}!`)
-}
-
 if (!value && type && !['checkbox', 'select'].includes(type)) {
   consola.warn(`value is missing for ${idLabel}!`)
 }
+
+// if (
+//   !placeholder &&
+//   type &&
+//   ![
+//     'checkbox',
+//     'datetime-local',
+//     'number',
+//     'select',
+//     'textarea',
+//     'tiptap',
+//     'radio',
+//   ].includes(type)
+// ) {
+//   consola.warn(`placeholder is missing for ${idLabel}!`)
+// }
 </script>
 
 <i18n lang="yaml">
