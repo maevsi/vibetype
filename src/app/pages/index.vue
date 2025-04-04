@@ -18,8 +18,8 @@
           <Button
             v-if="!isApp"
             :aria-label="t('appInstall')"
-            :is-primary="false"
             :to="localePath('docs-app')"
+            variant="secondary"
           >
             {{ t('appInstall') }}
             <template #suffix>

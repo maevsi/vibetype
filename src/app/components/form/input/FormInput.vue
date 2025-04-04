@@ -6,7 +6,7 @@
       'form-input-error': value?.$error,
     }"
   >
-    <div class="flex flex-col gap-1">
+    <div class="flex flex-col gap-2">
       <div>
         <label
           class="inline-flex items-baseline gap-2 font-semibold"
@@ -33,17 +33,17 @@
       <div class="relative">
         <slot v-if="$slots.default" />
         <!-- TODO: support textarea, checkboxes and radio buttons natively -->
-        <div v-else class="flex grow">
+        <div
+          v-else
+          class="flex items-center gap-2 rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill)"
+        >
           <input
             :id="idLabelFull"
-            class="form-input"
-            :class="{
-              'rounded-r-none': $slots.icon,
-            }"
+            class="flex-grow border-none px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-0"
             :disabled="isDisabled"
             :placeholder="placeholder"
             :readonly="isReadonly"
-            :type="type"
+            :type
             :value="valueFormatter(value?.$model as string)"
             @click="emit('click')"
             @focusout="value?.$touch()"
@@ -72,18 +72,16 @@
               "
             >
               <IHeroiconsExclamationCircleSolid
-                class="text-red-600"
+                class="text-(--semantic-critic-text)"
                 :title="t('validNot')"
               />
             </FormInputIconWrapper>
           </div>
-          <span
-            v-if="$slots.icon"
-            class="inline-flex cursor-pointer items-center rounded-r-md border border-l-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-600"
-            @click="emit('icon')"
-          >
-            <slot name="icon" />
-          </span>
+          <div v-if="$slots.icon" class="flex pr-4">
+            <button type="button" @click="emit('icon')">
+              <slot name="icon" />
+            </button>
+          </div>
         </div>
       </div>
     </div>

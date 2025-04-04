@@ -19,7 +19,7 @@
               <ButtonColored
                 :aria-label="t('endNow')"
                 :disabled="!store.jwtDecoded"
-                :is-primary="false"
+                variant="secondary"
                 @click="signOut"
               >
                 {{ t('endNow') }}
@@ -84,7 +84,7 @@
                 />
                 <IHeroiconsXCircle
                   v-else
-                  class="text-red-600 dark:text-red-500"
+                  class="text-(--semantic-critic-text) dark:text-red-500"
                 />
                 <span>
                   {{ t('appIs') }}
@@ -114,7 +114,7 @@
                 />
                 <IHeroiconsXCircle
                   v-else
-                  class="text-red-600 dark:text-red-500"
+                  class="text-(--semantic-critic-text) dark:text-red-500"
                 />
                 <span>
                   {{ t('hasNavigatorPermissions') }}
@@ -130,7 +130,7 @@
                 />
                 <IHeroiconsXCircle
                   v-else
-                  class="text-red-600 dark:text-red-500"
+                  class="text-(--semantic-critic-text) dark:text-red-500"
                 />
                 <span>
                   {{ t('hasNavigatorServiceWorkers') }}
@@ -146,7 +146,7 @@
                 />
                 <IHeroiconsXCircle
                   v-else
-                  class="text-red-600 dark:text-red-500"
+                  class="text-(--semantic-critic-text) dark:text-red-500"
                 />
                 <span>
                   {{ t('hasWindowNotification') }}
@@ -162,7 +162,7 @@
                 />
                 <IHeroiconsXCircle
                   v-else
-                  class="text-red-600 dark:text-red-500"
+                  class="text-(--semantic-critic-text) dark:text-red-500"
                 />
                 <span>
                   {{ t('hasIosPushCapability') }}
@@ -182,7 +182,7 @@
                 />
                 <IHeroiconsXCircle
                   v-else-if="permissionState === 'denied'"
-                  class="text-red-600 dark:text-red-500"
+                  class="text-(--semantic-critic-text) dark:text-red-500"
                 />
                 <IHeroiconsBugAnt v-else class="text-red-500" />
                 <span>
@@ -196,7 +196,7 @@
               <ButtonColored
                 :aria-label="t('notificationPermit')"
                 :disabled="!isNotificationPermissionRequestPossible"
-                :is-primary="false"
+                variant="secondary"
                 @click="requestNotificationPermission(notificationStore)"
               >
                 {{ t('notificationPermit') }}
@@ -207,7 +207,7 @@
               <ButtonColored
                 :aria-label="t('notificationSend')"
                 :disabled="permissionState !== 'granted'"
-                :is-primary="false"
+                variant="secondary"
                 @click="sendNotification"
               >
                 {{ t('notificationSend') }}
@@ -217,7 +217,7 @@
               </ButtonColored>
               <ButtonColored
                 :aria-label="t('showFcmToken')"
-                :is-primary="false"
+                variant="secondary"
                 @click="showFcmToken"
               >
                 {{ t('showFcmToken') }}

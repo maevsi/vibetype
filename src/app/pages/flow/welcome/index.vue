@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-1 justify-center p-6">
+  <div class="flex grow flex-col items-center p-6">
     <div
       class="flex max-w-sm flex-1 flex-col items-center justify-center gap-10"
     >
@@ -30,6 +30,7 @@
         </ButtonColored>
       </div>
     </div>
+    <ContentLegalFooter />
   </div>
 </template>
 

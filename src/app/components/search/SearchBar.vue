@@ -9,7 +9,7 @@
     <input
       id="search"
       v-model="model"
-      class="peer flex-grow border-none bg-transparent placeholder-(--semantic-base-text-secondary) ring-0"
+      class="peer flex-grow border-none bg-transparent placeholder-(--semantic-base-text-secondary) outline-0"
       :placeholder="t('search')"
       type="text"
     />

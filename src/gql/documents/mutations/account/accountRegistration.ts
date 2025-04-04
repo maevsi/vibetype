@@ -9,6 +9,7 @@ export const useAccountRegistrationMutation = () =>
         $password: String!
         $username: String!
         $language: String!
+        $legalTermId: UUID!
       ) {
         accountRegistration(
           input: {
@@ -16,6 +17,7 @@ export const useAccountRegistrationMutation = () =>
             password: $password
             username: $username
             language: $language
+            legalTermId: $legalTermId
           }
         ) {
           clientMutationId

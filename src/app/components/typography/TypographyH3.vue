@@ -1,7 +1,7 @@
 <template>
-  <div :class="cn('text-2xl font-semibold', classProps)">
+  <span :class="cn('text-2xl font-semibold', classProps)">
     <slot />
-  </div>
+  </span>
 </template>
 
 <script setup lang="ts">

@@ -2,7 +2,7 @@
   <main
     :data-is-loading="isLoading"
     data-testid="is-loading"
-    class="flex h-screen"
+    class="flex min-h-screen flex-col"
   >
     <slot />
   </main>

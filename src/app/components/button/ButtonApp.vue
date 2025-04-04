@@ -2,8 +2,8 @@
   <Button
     v-if="!isApp"
     :aria-label="t('appInstall', { siteName: t('globalSiteName') })"
-    :is-primary="false"
     :to="localePath('docs-app')"
+    variant="secondary"
   >
     {{ t('appInstall', { siteName: t('globalSiteName') }) }}
     <template #suffix>

@@ -1,7 +1,6 @@
 <template>
   <ButtonColored
     :aria-label="t('eventUnlock')"
-    :is-primary="isPrimary"
     :to="localePath('guest-unlock')"
     @click="emit('click')"
   >
@@ -15,10 +14,6 @@
 <script setup lang="ts">
 const localePath = useLocalePath()
 const { t } = useI18n()
-
-const { isPrimary } = defineProps<{
-  isPrimary?: boolean
-}>()
 
 const emit = defineEmits<{
   click: []

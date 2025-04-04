@@ -9,7 +9,7 @@
         validationProperty in formInput &&
         formInput[validationProperty].$invalid)
     "
-    class="text-red-600"
+    class="text-(--semantic-critic-text)"
   >
     <IHeroiconsExclamationCircleSolid v-if="formInput && validationProperty" />
     <slot />

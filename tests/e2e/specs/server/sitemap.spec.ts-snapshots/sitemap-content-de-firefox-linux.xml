@@ -115,6 +115,12 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/session/create" />
     </url>
     <url>
+        <loc>http://localhost:3001/de/docs/legal/general-terms-and-conditions</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/docs/legal/general-terms-and-conditions" />
+        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/docs/legal/general-terms-and-conditions" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/docs/legal/general-terms-and-conditions" />
+    </url>
+    <url>
         <loc>http://localhost:3001/de/event/ingest/image</loc>
         <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/event/ingest/image" />
         <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/event/ingest/image" />
