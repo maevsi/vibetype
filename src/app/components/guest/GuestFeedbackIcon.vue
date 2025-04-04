@@ -6,7 +6,7 @@
   />
   <IHeroiconsXCircleSolid
     v-else-if="feedback === 'CANCELED'"
-    class="text-red-600"
+    class="text-(--semantic-critic-text)"
     :title="t('feedbackCanceled')"
   />
   <IHeroiconsQuestionMarkCircleSolid

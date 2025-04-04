@@ -1,18 +1,25 @@
 <template>
-  <div class="flex flex-col gap-2">
-    <CardStateInfo v-if="to">
-      {{ t('accountRequired') }}
-    </CardStateInfo>
-    <div>
-      <LayoutPageTitle is-centered :title="title" />
-      <div class="flex justify-center">
-        <FormAccountSignIn class="max-w-sm grow" @signed-in="onSignIn" />
-      </div>
+  <div class="flex grow flex-col gap-10 pb-5">
+    <div class="flex flex-col">
+      <LayoutTopBar>
+        {{ t('title') }}
+      </LayoutTopBar>
+      <CardStateInfo v-if="to" class="rounded-none">
+        {{ t('accountRequired') }}
+      </CardStateInfo>
     </div>
+    <div class="flex justify-center px-6">
+      <FormAccountSignIn class="max-w-sm grow" @signed-in="onSignIn" />
+    </div>
+    <ContentLegalFooter />
   </div>
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: 'plain',
+})
+
 const { t } = useI18n()
 const localePath = useLocalePath()
 const route = useRoute()
@@ -51,8 +58,8 @@ useHeadDefault({ title })
 <i18n lang="yaml">
 de:
   accountRequired: Melde dich an, um fortzufahren.
-  title: Anmelden
+  title: Einloggen
 en:
-  accountRequired: Sign in to continue.
-  title: Sign in
+  accountRequired: Log in to continue.
+  title: Log in
 </i18n>
