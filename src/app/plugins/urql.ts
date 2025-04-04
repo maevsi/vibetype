@@ -37,8 +37,10 @@ const invalidateCache = (
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   const runtimeConfig = useRuntimeConfig()
+  const isTesting = useIsTesting()
   const getServiceHref = useGetServiceHref()
   const store = useStore()
+  const { siteUrl } = useSiteUrl()
 
   const ssrExchange = getSsrExchange({
     isClient: import.meta.client,
@@ -142,7 +144,9 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
       return { headers }
     },
-    url: getServiceHref({ name: 'postgraphile', port: 5000 }) + '/graphql',
+    url: isTesting
+      ? `${siteUrl}/api/test/graphql`
+      : getServiceHref({ name: 'postgraphile', port: 5000 }) + '/graphql',
     exchanges: [
       ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
       ...(cacheExchange ? [cacheExchange] : []),

@@ -1,8 +1,8 @@
 {
   "description": "Find events, guests and friends 💙❤️💚",
   "devDependencies": {
-    "@aws-sdk/client-ses": "3.777.0",
-    "@aws-sdk/credential-providers": "3.778.0",
+    "@aws-sdk/client-ses": "3.782.0",
+    "@aws-sdk/credential-providers": "3.782.0",
     "@dargmuesli/nuxt-cookie-control": "8.6.1",
     "@dargmuesli/nuxt-vio": "18.2.1",
     "@fontsource-variable/raleway": "5.2.5",
@@ -39,7 +39,7 @@
     "@sentry/profiling-node": "9.11.0",
     "@tailwindcss/forms": "0.5.10",
     "@tailwindcss/typography": "0.5.16",
-    "@tailwindcss/vite": "4.1.1",
+    "@tailwindcss/vite": "4.1.2",
     "@tiptap/core": "2.11.7",
     "@tiptap/extension-link": "2.11.7",
     "@tiptap/extension-text-align": "2.11.7",
@@ -128,7 +128,7 @@
     "stylelint-no-unsupported-browser-features": "8.0.4",
     "sweetalert2": "11.17.2",
     "tailwind-merge": "3.1.0",
-    "tailwindcss": "4.1.1",
+    "tailwindcss": "4.1.2",
     "tw-animate-css": "1.2.5",
     "unplugin-icons": "22.1.0",
     "unplugin-vue-components": "28.4.1",
