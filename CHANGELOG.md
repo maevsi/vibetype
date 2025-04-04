@@ -1,3 +1,14 @@
+## [10.0.0-beta.1](https://github.com/maevsi/vibetype/compare/9.9.1...10.0.0-beta.1) (2025-04-04)
+
+### ⚠ BREAKING CHANGES
+
+* **account:** update authentication flow (#1687)
+
+### Features
+
+* **account:** update authentication flow ([#1687](https://github.com/maevsi/vibetype/issues/1687)) ([cb1ed21](https://github.com/maevsi/vibetype/commit/cb1ed21190eda5849dbe16cb716127aadbc6b66c))
+* **platform:** allow for header and cookie key unification ([#1849](https://github.com/maevsi/vibetype/issues/1849)) ([71bf1f4](https://github.com/maevsi/vibetype/commit/71bf1f4a7c2e5ef402324ce1a6d1917723269874))
+
 ## [9.9.1](https://github.com/maevsi/vibetype/compare/9.9.0...9.9.1) (2025-04-04)
 
 ### Bug Fixes
