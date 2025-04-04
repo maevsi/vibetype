@@ -1,7 +1,6 @@
 <template>
   <Loader :api="api" indicator="ping">
     <div class="flex flex-col gap-4">
-      <!-- <LayoutPageTitle :title="title" /> -->
       <div
         class="flex min-w-0 flex-col items-center justify-center sm:flex-row"
       >
@@ -36,7 +35,6 @@
           {{ t('contactBook') }}
         </div>
       </ButtonColored>
-
       <div class="flex flex-col gap-2">
         <span class="text-(semantic-base-text-primary) text-2xl font-semibold">
           {{ t('about') }}
@@ -47,7 +45,6 @@
           books, and creative ideas. Let’s connect and explore together! -->
         </span>
       </div>
-
       <div class="flex flex-col gap-2">
         <div class="flex flex-row justify-between">
           <span
@@ -59,11 +56,7 @@
             :aria-label="t('contactBook')"
             variant="primary"
             class="rounded-xl py-2 text-sm font-semibold"
-            :to="
-              localePath({
-                name: 'contact',
-              })
-            "
+            :to="localePath('event-create')"
           >
             <div class="flex flex-row gap-1">
               {{ t('newEvent') }}
@@ -72,7 +65,6 @@
           </ButtonColored>
         </div>
       </div>
-
       <div class="flex justify-center">
         <UnderConstruction>
           <ButtonColored
@@ -84,50 +76,15 @@
           </ButtonColored>
         </UnderConstruction>
       </div>
-      <CardButton
-        :title="t('eventsTheir', { name: route.params.username })"
-        :to="
-          localePath({
-            name: 'event-view-username',
-            params: { username: route.params.username },
-          })
-        "
-      >
-        <IHeroiconsCalendar />
-      </CardButton>
-      <div class="flex flex-col gap-2">
-        <UnderConstruction>
-          <span class="text-xl font-bold">
-            {{ t('friends') }}
-          </span>
-          <!-- @vue-ignore -->
-          <CardButton
-            class="relative"
-            is-disabled
-            :to="`/friend/view/$username`"
-          >
-            <div class="isolate flex -space-x-2 overflow-hidden p-1">
-              <AccountProfilePicture
-                account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                class="ring-background-brighten dark:ring-background-darken rounded-full ring-3"
-                height="64"
-                width="64"
-              />
-              <AccountProfilePicture
-                account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                class="ring-background-brighten dark:ring-background-darken rounded-full ring-3"
-                height="64"
-                width="64"
-              />
-              <AccountProfilePicture
-                account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                class="ring-background-brighten dark:ring-background-darken rounded-full ring-3"
-                height="64"
-                width="64"
-              />
-            </div>
-          </CardButton>
-        </UnderConstruction>
+      <div>
+        <div v-if="mixedEvents.length > 0" class="flex flex-col space-y-4">
+          <EventProfile
+            v-for="event in mixedEvents"
+            :key="event.id"
+            :event="event"
+            :is-organizing="event.isOrganizing"
+          />
+        </div>
       </div>
       <div class="flex flex-col gap-2">
         <span class="text-xl font-bold">
@@ -175,7 +132,10 @@ import { getAchievementItem } from '~~/gql/documents/fragments/achievementItem'
 import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { useAllAchievementsQuery } from '~~/gql/documents/queries/achievement/achievementsAll'
 import { AchievementType } from '~~/gql/generated/graphql'
-
+import { getEventItem } from '~~/gql/documents/fragments/eventItem'
+import { useAccountEventsAttendingQuery } from '~~/gql/documents/queries/event/eventsAttending'
+import EventProfile from '~/components/event/list/EventProfile.vue'
+import { useAllEventsQuery } from '~~/gql/documents/queries/event/eventsAll'
 const { t } = useI18n()
 const route = useRoute('account-view-username___en')
 const localePath = useLocalePath()
@@ -210,7 +170,59 @@ const achievements =
   achievementsQuery.data.value?.allAchievements?.nodes
     .map((x) => getAchievementItem(x))
     .filter(isNeitherNullNorUndefined) || []
-const api = getApiData([accountByUsernameQuery, achievementsQuery])
+
+const accountEventsAttendingQuery = await zalgo(
+  useAccountEventsAttendingQuery({
+    accountId: account.id,
+  }),
+)
+
+const eventsAttending = computed(() => {
+  const contact =
+    accountEventsAttendingQuery.data.value?.allContacts?.nodes?.[0]
+  if (!contact) return []
+
+  return (
+    contact.guestsByContactId?.nodes
+      ?.map((guest) => getEventItem(guest.eventByEventId))
+      .filter(isNeitherNullNorUndefined) || []
+  )
+})
+
+const allEventsQueryAfter = ref<string>()
+const allEventsQuery = await zalgo(
+  useAllEventsQuery({
+    after: allEventsQueryAfter,
+    createdBy: account.id,
+    first: ITEMS_PER_PAGE,
+  }),
+)
+const events = computed(
+  () =>
+    allEventsQuery.data.value?.allEvents?.nodes
+      ?.map(getEventItem)
+      .filter(isNeitherNullNorUndefined) || [],
+)
+
+const api = getApiData([
+  accountByUsernameQuery,
+  achievementsQuery,
+  accountEventsAttendingQuery,
+  allEventsQuery,
+])
+const mixedEvents = computed(() => {
+  const attendingWithFlag = eventsAttending.value.map((event) => ({
+    ...event,
+    isOrganizing: false,
+  }))
+  const organizingWithFlag = events.value.map((event) => ({
+    ...event,
+    isOrganizing: true,
+  }))
+  return [...attendingWithFlag, ...organizingWithFlag].sort(
+    (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime(),
+  )
+})
 </script>
 
 <i18n lang="yaml">
@@ -221,8 +233,6 @@ de:
   about: Über
   contactBook: Kontaktbuch
   events: Veranstaltungen
-  eventsTheir: Veranstaltungen von {name}
-  friends: Freunde
   friendAdd: Freundschaftsanfrage senden
   newEvent: Neue Veranstaltung
   iconAltContactBook: Kontaktbuch-Symbol
@@ -234,8 +244,6 @@ en:
   about: About
   contactBook: Contact Book
   events: Events
-  eventsTheir: Events by {name}
-  friends: Friends
   friendAdd: Send friend request
   newEvent: New event
   iconAltContactBook: Contact Book Icon
