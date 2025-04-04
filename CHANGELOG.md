@@ -1,3 +1,9 @@
+## [9.9.1](https://github.com/maevsi/vibetype/compare/9.9.0...9.9.1) (2025-04-04)
+
+### Bug Fixes
+
+* **components:** wrap bottom navigation in landmark ([#1848](https://github.com/maevsi/vibetype/issues/1848)) ([46c2f11](https://github.com/maevsi/vibetype/commit/46c2f11ae217b8d322f3d91f9dfedc99dbec9eac))
+
 ## [9.9.0](https://github.com/maevsi/vibetype/compare/9.8.1...9.9.0) (2025-04-03)
 
 ### Features
