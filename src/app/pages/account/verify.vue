@@ -45,14 +45,18 @@ onMounted(async () => {
     code: route.query.code,
   })
 
-  if (!result.error) {
-    await fireAlert({
-      level: 'success',
-      text: t('verifiedBody'),
-      title: t('verified'),
-    })
-    navigateTo(localePath('session-create'))
-  }
+  if (
+    result.error ||
+    !result.data?.accountEmailAddressVerification?.clientMutationId
+  )
+    return
+
+  await fireAlert({
+    level: 'success',
+    text: t('verifiedBody'),
+    title: t('verified'),
+  })
+  navigateTo(localePath('session-create'))
 })
 
 // initialization
