@@ -16,7 +16,6 @@ export const useStore = defineStore(SITE_NAME, () => {
   const routeHistoryDisabled = ref<boolean>(false)
   const signedInAccountId = ref<string>()
   const signedInUsername = ref<string>()
-  const turnstileToken = ref<string>()
 
   const jwtRemove = () => {
     jwtSet(undefined)
@@ -75,7 +74,6 @@ export const useStore = defineStore(SITE_NAME, () => {
     routeHistoryDisabled,
     signedInAccountId,
     signedInUsername,
-    turnstileToken,
     jwtRemove,
     jwtSet,
     modalRemove,

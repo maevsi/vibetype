@@ -100,7 +100,6 @@
         v-if="v$.address"
         id="input-address"
         v-model.trim="v$.address.$model"
-        class="form-input"
         :placeholder="t('globalPlaceholderAddress')"
         rows="2"
       />
