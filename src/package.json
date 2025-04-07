@@ -32,7 +32,7 @@
     "@nuxtjs/html-validator": "2.1.0",
     "@nuxtjs/i18n": "9.5.2",
     "@nuxtjs/seo": "3.0.2",
-    "@nuxtjs/turnstile": "0.9.16",
+    "@nuxtjs/turnstile": "1.0.0",
     "@pinia/nuxt": "0.10.1",
     "@sentry/nuxt": "9.11.0",
     "@sentry/profiling-node": "9.11.0",
