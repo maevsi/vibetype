@@ -1,4 +1,4 @@
-import { DEFAULTS } from '@dargmuesli/nuxt-cookie-control/runtime/types'
+import { DEFAULTS } from '@dargmuesli/nuxt-cookie-control/runtime/types.js'
 
 export const SITE_NAME = 'vibetype'
 

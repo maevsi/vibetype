@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Locale } from '@dargmuesli/nuxt-cookie-control/runtime/types'
+import type { Locale } from '@dargmuesli/nuxt-cookie-control/runtime/types.js'
 import '@fontsource-variable/raleway'
 import { isEqual } from 'ufo'
 import type { WritableComputedRef } from 'vue'
