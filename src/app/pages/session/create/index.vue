@@ -1,9 +1,7 @@
 <template>
-  <div class="flex grow flex-col gap-10 pb-5">
+  <div class="flex grow flex-col">
+    <LayoutHeader />
     <div class="flex flex-col">
-      <LayoutTopBar>
-        {{ t('title') }}
-      </LayoutTopBar>
       <CardStateInfo v-if="to" class="rounded-none">
         {{ t('accountRequired') }}
       </CardStateInfo>
@@ -50,6 +48,15 @@ const onSignIn = async () => {
 
   return await navigateTo(localePath(`dashboard`))
 }
+
+const { setTitle } = useHeaderTitle()
+
+onMounted(() => {
+  setTitle(title)
+})
+onBeforeUnmount(() => {
+  setTitle('')
+})
 
 // initialization
 useHeadDefault({ title })

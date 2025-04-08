@@ -1,18 +1,6 @@
 <template>
   <div class="isolate flex grow flex-col gap-10">
-    <LayoutTopBar>
-      {{ title }}
-      <template #back>
-        <ButtonIcon v-if="index" :aria-label="t('back')" @click="index--">
-          <!-- TODO: extract icon wrapper component -->
-          <IVibetypeBack
-            :aria-label="t('iconAltBack')"
-            class="size-6"
-            role="graphics-symbol img"
-          />
-        </ButtonIcon>
-      </template>
-    </LayoutTopBar>
+    <LayoutHeader />
     <div
       class="flex flex-col gap-10 pb-5"
       :class="{
@@ -67,6 +55,8 @@ const legalTermId = ref<string>()
 // form
 const templateForm = useTemplateRef('form')
 
+const { setTitle } = useHeaderTitle()
+
 // stepper
 const index = ref(0)
 const title = computed(() => {
@@ -83,6 +73,17 @@ const title = computed(() => {
   }
 })
 
+watch(title, (newTitle) => {
+  setTitle(newTitle)
+})
+
+onMounted(() => {
+  setTitle(title.value)
+})
+onBeforeUnmount(() => {
+  setTitle('')
+})
+
 // page
 useHeadDefault({ title: t('titleForm') })
 </script>
@@ -91,16 +92,12 @@ useHeadDefault({ title: t('titleForm') })
 de:
   agreeGeneralTermsAndConditions: Ich stimme den Allgemeinen Geschäftsbedingungen zu
   agreePrivacyPolicy: Ich stimme der Datenschutzerklärung zu
-  back: zurück
-  iconAltBack: Pfeil nach links
   titleForm: Erstelle ein Konto
   titlePrivacyPolicy: Datenschutzbestimmungen
   titleGeneralTermsAndConditions: Geschäftsbedingungen
 en:
   agreeGeneralTermsAndConditions: I agree to the Terms and Conditions
   agreePrivacyPolicy: I agree to the Privacy Policy
-  back: back
-  iconAltBack: Arrow to the left
   titleForm: Create an account
   titlePrivacyPolicy: Privacy Policy
   titleGeneralTermsAndConditions: General Terms and Conditions
