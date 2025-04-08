@@ -1,3 +1,10 @@
+## [10.0.0-beta.2](https://github.com/maevsi/vibetype/compare/10.0.0-beta.1...10.0.0-beta.2) (2025-04-08)
+
+### Features
+
+* **components:** disable placeholder validation ([#1851](https://github.com/maevsi/vibetype/issues/1851)) ([ebd0da3](https://github.com/maevsi/vibetype/commit/ebd0da36097a66d8bb5bfb9273c5429fd7860d78))
+* **components:** rework error page ([#1857](https://github.com/maevsi/vibetype/issues/1857)) ([c03a13c](https://github.com/maevsi/vibetype/commit/c03a13c88bde53847fd39930a11cd3efb61254a5))
+
 ## [10.0.0-beta.1](https://github.com/maevsi/vibetype/compare/9.9.1...10.0.0-beta.1) (2025-04-04)
 
 ### ⚠ BREAKING CHANGES
