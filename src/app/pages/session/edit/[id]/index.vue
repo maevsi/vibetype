@@ -217,6 +217,10 @@ import type { RouteNamedMap } from 'vue-router/auto-routes'
 
 const ROUTE_NAME: keyof RouteNamedMap = 'session-edit-id___en'
 
+defineRouteRules({
+  robots: false,
+})
+
 const { t } = useI18n()
 const cookieControl = useCookieControl()
 const localePath = useLocalePath()

@@ -16,6 +16,10 @@
 <script setup lang="ts">
 import { useAccountEmailAddressVerificationMutation } from '~~/gql/documents/mutations/account/accountEmailAddressVerification'
 
+defineRouteRules({
+  robots: false,
+})
+
 // page
 const { t } = useI18n()
 const title = t('title')
