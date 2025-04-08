@@ -18,7 +18,7 @@
         >
           <IHeroiconsCalendar />
         </CardButton>
-        <UnderConstruction>
+        <AppUnderConstruction>
           <CardButton
             :description="t('guestsDescription')"
             :title="t('guests')"
@@ -26,7 +26,7 @@
           >
             <ISolarLetterLinear />
           </CardButton>
-        </UnderConstruction>
+        </AppUnderConstruction>
         <CardButton
           :description="t('contactsDescription')"
           :title="t('contacts')"
@@ -57,12 +57,12 @@
         </CardButton>
       </section>
       <ButtonApp />
-      <UnderConstruction>
+      <AppUnderConstruction>
         <section class="flex flex-col gap-4">
           <h2>{{ t('news') }}</h2>
           <LayoutFeed />
         </section>
-      </UnderConstruction>
+      </AppUnderConstruction>
     </div>
     <LayoutCallToAction
       v-else

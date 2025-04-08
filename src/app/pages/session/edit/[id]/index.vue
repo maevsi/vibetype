@@ -31,7 +31,7 @@
               :aria-label="t('iconAltContactBook')"
             />
           </CardButton>
-          <UnderConstruction>
+          <AppUnderConstruction>
             <CardButton
               class="bg-(--accent-strong) text-(--semantic-base-primary-button-text)"
               :title="t('resetAISetup')"
@@ -56,8 +56,8 @@
                 />
               </template>
             </CardButton>
-          </UnderConstruction>
-          <UnderConstruction>
+          </AppUnderConstruction>
+          <AppUnderConstruction>
             <CardButton
               class="border-(--warning-strong) bg-(--warning-weak) text-(--warning-text)"
               :title="t('stopEarlyBird')"
@@ -81,7 +81,7 @@
                 />
               </template>
             </CardButton>
-          </UnderConstruction>
+          </AppUnderConstruction>
         </div>
       </section>
       <section class="flex flex-col gap-4">

@@ -114,7 +114,10 @@
                 <h1 class="m-0">
                   {{ event.name }}
                 </h1>
-                <Owner link :username="event.accountByCreatedBy.username" />
+                <EventOwner
+                  link
+                  :username="event.accountByCreatedBy.username"
+                />
               </div>
             </div>
           </div>
@@ -136,7 +139,7 @@
               <EventDashletLink :event="event" />
             </div>
             <template v-if="invitation">
-              <Hr />
+              <AppHr />
               <!-- <div
             class="grid grid-cols-6 border-t-2 bg-background-brighten dark:bg-background-darken"
             :class="
