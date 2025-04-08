@@ -1,28 +1,28 @@
 <template>
   <footer class="flex justify-center gap-1">
     <ButtonColored
-      :aria-label="t('generalTermsAndConditions')"
+      :aria-label="t('terms')"
       size="small"
-      :to="localePath('docs-legal-general-terms-and-conditions')"
+      :to="localePath('docs-legal-terms')"
       variant="tertiary"
     >
-      {{ t('generalTermsAndConditions') }}
+      {{ t('terms') }}
     </ButtonColored>
     <ButtonColored
       :aria-label="t('imprint')"
       size="small"
-      :to="localePath('legal-notice')"
+      :to="localePath('docs-legal-imprint')"
       variant="tertiary"
     >
       {{ t('imprint') }}
     </ButtonColored>
     <ButtonColored
-      :aria-label="t('privacyPolicy')"
+      :aria-label="t('privacy')"
       size="small"
-      :to="localePath('privacy-policy')"
+      :to="localePath('docs-legal-privacy')"
       variant="tertiary"
     >
-      {{ t('privacyPolicy') }}
+      {{ t('privacy') }}
     </ButtonColored>
   </footer>
 </template>
@@ -34,11 +34,11 @@ const localePath = useLocalePath()
 
 <i18n lang="yaml">
 de:
-  generalTermsAndConditions: Nutzungsbedingungen
   imprint: Impressum
-  privacyPolicy: Datenschutzrichtlinie
+  privacy: Datenschutz
+  terms: Nutzungsbedingungen
 en:
-  generalTermsAndConditions: Terms
   imprint: Imprint
-  privacyPolicy: Policy
+  privacy: Privacy
+  terms: Terms
 </i18n>

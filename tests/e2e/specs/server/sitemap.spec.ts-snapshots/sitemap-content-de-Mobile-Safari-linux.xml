@@ -43,22 +43,10 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/guest" />
     </url>
     <url>
-        <loc>http://localhost:3001/de/legal-notice</loc>
-        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/legal-notice" />
-        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/legal-notice" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/legal-notice" />
-    </url>
-    <url>
         <loc>http://localhost:3001/de/notification</loc>
         <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/notification" />
         <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/notification" />
         <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/notification" />
-    </url>
-    <url>
-        <loc>http://localhost:3001/de/privacy-policy</loc>
-        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/privacy-policy" />
-        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/privacy-policy" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/privacy-policy" />
     </url>
     <url>
         <loc>http://localhost:3001/de/upload</loc>
@@ -103,22 +91,34 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/guest/unlock" />
     </url>
     <url>
-        <loc>http://localhost:3001/de/legal/attributions</loc>
-        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/legal/attributions" />
-        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/legal/attributions" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/legal/attributions" />
-    </url>
-    <url>
         <loc>http://localhost:3001/de/session/create</loc>
         <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/session/create" />
         <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/session/create" />
         <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/session/create" />
     </url>
     <url>
-        <loc>http://localhost:3001/de/docs/legal/general-terms-and-conditions</loc>
-        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/docs/legal/general-terms-and-conditions" />
-        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/docs/legal/general-terms-and-conditions" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/docs/legal/general-terms-and-conditions" />
+        <loc>http://localhost:3001/de/docs/legal/attributions</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/docs/legal/attributions" />
+        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/docs/legal/attributions" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/docs/legal/attributions" />
+    </url>
+    <url>
+        <loc>http://localhost:3001/de/docs/legal/imprint</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/docs/legal/imprint" />
+        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/docs/legal/imprint" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/docs/legal/imprint" />
+    </url>
+    <url>
+        <loc>http://localhost:3001/de/docs/legal/privacy</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/docs/legal/privacy" />
+        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/docs/legal/privacy" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/docs/legal/privacy" />
+    </url>
+    <url>
+        <loc>http://localhost:3001/de/docs/legal/terms</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/docs/legal/terms" />
+        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/docs/legal/terms" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/docs/legal/terms" />
     </url>
     <url>
         <loc>http://localhost:3001/de/event/ingest/image</loc>
