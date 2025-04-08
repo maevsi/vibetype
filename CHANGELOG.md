@@ -9,6 +9,12 @@
 * **account:** update authentication flow ([#1687](https://github.com/maevsi/vibetype/issues/1687)) ([cb1ed21](https://github.com/maevsi/vibetype/commit/cb1ed21190eda5849dbe16cb716127aadbc6b66c))
 * **platform:** allow for header and cookie key unification ([#1849](https://github.com/maevsi/vibetype/issues/1849)) ([71bf1f4](https://github.com/maevsi/vibetype/commit/71bf1f4a7c2e5ef402324ce1a6d1917723269874))
 
+## [9.11.0](https://github.com/maevsi/vibetype/compare/9.10.0...9.11.0) (2025-04-08)
+
+### Features
+
+* **components:** rework error page ([#1857](https://github.com/maevsi/vibetype/issues/1857)) ([c03a13c](https://github.com/maevsi/vibetype/commit/c03a13c88bde53847fd39930a11cd3efb61254a5))
+
 ## [9.10.0](https://github.com/maevsi/vibetype/compare/9.9.1...9.10.0) (2025-04-04)
 
 ### Features
