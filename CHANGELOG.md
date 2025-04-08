@@ -1,3 +1,9 @@
+## [10.0.0-beta.3](https://github.com/maevsi/vibetype/compare/10.0.0-beta.2...10.0.0-beta.3) (2025-04-08)
+
+### Features
+
+* **pages:** restructure legal ([#1859](https://github.com/maevsi/vibetype/issues/1859)) ([412cf55](https://github.com/maevsi/vibetype/commit/412cf557453b8c5f635a22af7d311ddde950fffe))
+
 ## [10.0.0-beta.2](https://github.com/maevsi/vibetype/compare/10.0.0-beta.1...10.0.0-beta.2) (2025-04-08)
 
 ### Features
