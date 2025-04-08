@@ -65,7 +65,7 @@ The number of average monthly active users is:  -->
 
 ## Data Protection Notice
 
-You can find our Privacy Policy at: https://vibetype.app/privacy-policy
+You can find our Privacy Policy at: https://vibetype.app/docs/legal/privacy
 
 ## Disclaimer
 

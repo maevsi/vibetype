@@ -4,7 +4,7 @@ import {
   testVisualRegression,
 } from '#tests/e2e/utils/tests'
 
-const PAGE_PATH = '/privacy-policy'
+const PAGE_PATH = '/docs/legal/privacy'
 
 testPageLoad(PAGE_PATH)
 testOgImage(PAGE_PATH)
