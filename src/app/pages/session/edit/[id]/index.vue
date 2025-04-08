@@ -168,17 +168,9 @@
           {{ t('legal') }}
         </span>
         <div class="flex flex-col gap-3">
-          <UnderConstruction>
-            <CardButton
-              :title="t('generalTermsAndConditions')"
-              :to="localePath('privacy-policy')"
-            >
-              <IVibetypeContract
-                class="size-6"
-                :aria-label="t('iconAltTerms')"
-              />
-            </CardButton>
-          </UnderConstruction>
+          <CardButton :title="t('terms')" :to="localePath('docs-legal-terms')">
+            <IVibetypeContract class="size-6" :aria-label="t('iconAltTerms')" />
+          </CardButton>
           <CardButton
             :title="t('cookies')"
             @click="cookieControl.isModalActive.value = true"
@@ -190,13 +182,13 @@
           </CardButton>
           <CardButton
             :title="t('legalNotice')"
-            :to="localePath('legal-notice')"
+            :to="localePath('docs-legal-imprint')"
           >
             <IVibetypeLegal class="size-6" :aria-label="t('iconAltLegal')" />
           </CardButton>
           <CardButton
-            :title="t('privacyPolicy')"
-            :to="localePath('privacy-policy')"
+            :title="t('privacy')"
+            :to="localePath('docs-legal-privacy')"
           >
             <IVibetypeVerifiedUser
               class="size-6"
@@ -249,7 +241,6 @@ de:
   developerInformation: Entwicklerinformationen
   display: Anzeige
   featureSuggestion: Idee
-  generalTermsAndConditions: Allgemeine Geschäftsbedingungen
   iconAltAI: KI
   iconAltBug: Fehler-Symbol
   iconAltClose: Schließen-Symbol
@@ -273,11 +264,12 @@ de:
   logout: Abmelden
   personalInformation: Persönliche Informationen
   preferences: Einstellungen
-  privacyPolicy: Datenschutzerklärung
+  privacy: Datenschutzerklärung
   profile: Profil
   resetAISetup: KI-Einrichtung zurücksetzen
   stopEarlyBird: Early Bird beenden
   support: Hilfe
+  terms: Allgemeine Geschäftsbedingungen
 en:
   bugReport: Issue
   colorScheme: Color scheme
@@ -287,7 +279,6 @@ en:
   developerInformation: Developer information
   display: Display
   featureSuggestion: Idea
-  generalTermsAndConditions: General Terms and Conditions
   iconAltAI: AI icon
   iconAltBug: Bug icon
   iconAltClose: Close icon
@@ -311,9 +302,10 @@ en:
   logout: Log Out
   personalInformation: Personal Information
   preferences: Settings
-  privacyPolicy: Privacy Policy
+  privacy: Privacy Policy
   profile: Profile
   resetAISetup: Reset AI Setup
   stopEarlyBird: Stop Early Bird
   support: Support
+  terms: General Terms and Conditions
 </i18n>
