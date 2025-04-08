@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-screen lg:h-screen 2xl:h-auto">
+  <div class="flex min-h-screen lg:h-screen 2xl:h-auto" :class="pageBackground">
     <LayoutMenuSidebar class="hidden lg:block 2xl:hidden" />
     <div class="flex min-w-0 flex-1 flex-col">
       <div
@@ -22,9 +22,14 @@
 <script setup lang="ts">
 const { $dayjs } = useNuxtApp()
 const { locale } = useI18n()
+const route = useRoute()
 
 const loadingId = Math.random()
 const loadingIds = useState(STATE_LOADING_IDS_NAME, () => [loadingId])
+
+const pageBackground = computed(() =>
+  route.path.includes('/event') ? 'bg-[var(--semantic-base-background)]' : '',
+)
 
 // computations
 const isLoading = computed(() => !!loadingIds.value.length)
