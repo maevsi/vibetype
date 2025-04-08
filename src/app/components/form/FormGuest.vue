@@ -51,7 +51,7 @@
         </FormInputStateError>
       </template>
     </FormInput>
-    <ScrollContainer
+    <AppScrollContainer
       v-if="contacts"
       class="flex flex-col gap-2"
       :has-next-page="!!api.data.allContacts?.pageInfo.hasNextPage"
@@ -77,7 +77,7 @@
         />
       </Button>
       <!-- </div> -->
-    </ScrollContainer>
+    </AppScrollContainer>
   </Form>
 </template>
 

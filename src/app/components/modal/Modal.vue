@@ -57,7 +57,7 @@
         </slot>
       </div>
       <CardStateAlert v-if="errors" class="mb-4">
-        <SpanList :span="errors" />
+        <AppSpanList :span="errors" />
       </CardStateAlert>
     </Card>
   </div>

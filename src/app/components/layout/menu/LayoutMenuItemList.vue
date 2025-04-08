@@ -37,7 +37,7 @@
   >
     <IVibetypeAccount :aria-label="t('iconAccounts')" class="size-6" />
   </LayoutMenuItem>
-  <UnderConstruction>
+  <AppUnderConstruction>
     <LayoutMenuItem
       :title="t('notifications')"
       :to="localePath('notification')"
@@ -49,7 +49,7 @@
         </div>
       </div>
     </LayoutMenuItem>
-  </UnderConstruction>
+  </AppUnderConstruction>
 </template>
 
 <script setup lang="ts">

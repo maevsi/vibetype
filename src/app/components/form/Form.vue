@@ -33,7 +33,7 @@
         </div>
         <div v-if="errorMessages?.length" class="flex flex-col gap-4">
           <CardStateAlert>
-            <SpanList :span="errorMessages" />
+            <AppSpanList :span="errorMessages" />
           </CardStateAlert>
           <div v-if="$slots.assistance" class="flex justify-center">
             <slot name="assistance" />

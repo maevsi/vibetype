@@ -1,7 +1,7 @@
 <template>
   <Loader :api="api">
     <div class="flex flex-col gap-4">
-      <ScrollContainer
+      <AppScrollContainer
         v-if="contacts"
         class="max-h-[70vh]"
         :has-next-page="!!api.data.allContacts?.pageInfo.hasNextPage"
@@ -41,7 +41,7 @@
             />
           </LayoutTbody>
         </table>
-      </ScrollContainer>
+      </AppScrollContainer>
       <div class="flex justify-center">
         <ButtonColored :aria-label="t('contactAdd')" @click="add()">
           {{ t('contactAdd') }}

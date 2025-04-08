@@ -35,7 +35,7 @@
         >
           <IHeroiconsLink />
         </ButtonIcon>
-        <DropDown>
+        <AppDropDown>
           <ButtonIcon :aria-label="t('globalShowMore')">
             <IHeroiconsEllipsisVertical />
           </ButtonIcon>
@@ -100,7 +100,7 @@
               </template>
             </Button>
           </template>
-        </DropDown>
+        </AppDropDown>
       </div>
     </td>
   </tr>

@@ -1,7 +1,7 @@
 <template>
   <Loader :api="api">
     <div class="flex flex-col gap-4">
-      <ScrollContainer
+      <AppScrollContainer
         v-if="event && guests.length"
         class="max-h-[70vh]"
         :has-next-page="!!api.data.allGuests?.pageInfo.hasNextPage"
@@ -27,7 +27,7 @@
             />
           </LayoutTbody>
         </table>
-      </ScrollContainer>
+      </AppScrollContainer>
       <div v-else class="flex flex-col items-center gap-2">
         {{ t('guestNone') }}
         <FormInputStateInfo>
