@@ -1,43 +1,47 @@
 <template>
-  <div>
-    <h1>{{ title }}</h1>
+  <section :aria-labelledby="templateIdTitle">
+    <h1 :id="templateIdTitle">
+      {{ title }}
+    </h1>
     <Loader
-      v-if="isCodeValid"
       :api="api"
       :error-pg-ids="{
         postgres55000: t('postgres55000'),
         postgresP0002: t('postgresP0002'),
       }"
     />
-    <AppError v-else :status-code="422" />
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
 import { useAccountEmailAddressVerificationMutation } from '~~/gql/documents/mutations/account/accountEmailAddressVerification'
 
-const localePath = useLocalePath()
+// page
 const { t } = useI18n()
-const route = useRoute()
-const fireAlert = useFireAlert()
-
-// data
 const title = t('title')
+useHeadDefault({ title })
+
+// validation
+const route = useRoute()
+if (
+  !route.query.code ||
+  Array.isArray(route.query.code) ||
+  !REGEX_UUID.test(route.query.code)
+) {
+  throw createError({ statusCode: 400 })
+}
+
+// accessibility
+const templateIdTitle = useId()
 
 // api data
 const accountEmailAddressVerificationMutation =
   useAccountEmailAddressVerificationMutation()
 const api = getApiData([accountEmailAddressVerificationMutation])
 
-// computations
-const isCodeValid = computed(
-  () =>
-    route.query.code &&
-    !Array.isArray(route.query.code) &&
-    REGEX_UUID.test(route.query.code),
-)
-
 // lifecycle
+const fireAlert = useFireAlert()
+const localePath = useLocalePath()
 onMounted(async () => {
   // run on client side only
   // verifying on server side first leads to an error on client side: "code already used"
@@ -58,9 +62,6 @@ onMounted(async () => {
   })
   navigateTo(localePath('session-create'))
 })
-
-// initialization
-useHeadDefault({ title })
 </script>
 
 <i18n lang="yaml">

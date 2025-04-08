@@ -1,28 +1,31 @@
 <template>
-  <div>
-    <h1>{{ title }}</h1>
-    <FormAccountPasswordReset v-if="isCodeValid" />
-    <AppError v-else :status-code="422" />
-  </div>
+  <section :aria-labelledby="templateIdTitle">
+    <h1 :id="templateIdTitle">{{ title }}</h1>
+    <FormAccountPasswordReset
+      v-if="route.query.code && !Array.isArray(route.query.code)"
+      :code="route.query.code"
+    />
+  </section>
 </template>
 
 <script setup lang="ts">
+// page
 const { t } = useI18n()
-const route = useRoute()
-
-// data
 const title = t('title')
-
-// computations
-const isCodeValid = computed(
-  () =>
-    route.query.code &&
-    !Array.isArray(route.query.code) &&
-    REGEX_UUID.test(route.query.code),
-)
-
-// initialization
 useHeadDefault({ title })
+
+// validation
+const route = useRoute()
+if (
+  !route.query.code ||
+  Array.isArray(route.query.code) ||
+  !REGEX_UUID.test(route.query.code)
+) {
+  throw createError({ statusCode: 400 })
+}
+
+// accessibility
+const templateIdTitle = useId()
 </script>
 
 <i18n lang="yaml">
