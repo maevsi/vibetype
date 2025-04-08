@@ -29,12 +29,6 @@ useI18n() // TODO: use i18n-t without useI18n (https://github.com/intlify/vue-i1
 const localePath = useLocalePath()
 </script>
 
-<script lang="ts">
-export default {
-  name: 'AppOwner',
-}
-</script>
-
 <i18n lang="yaml">
 de:
   eventAuthor: von {username}

@@ -230,7 +230,10 @@
         @input="form.description = $event"
       >
         <client-only v-if="v$.description">
-          <TipTap :value="v$.description" @input="form.description = $event" />
+          <AppTipTap
+            :value="v$.description"
+            @input="form.description = $event"
+          />
         </client-only>
         <template #stateError>
           <FormInputStateError

@@ -13,7 +13,7 @@
         />
       </div>
       <div class="flex justify-center">
-        <UnderConstruction>
+        <AppUnderConstruction>
           <ButtonColored
             v-if="store.signedInUsername !== route.params.username"
             :aria-label="t('friendAdd')"
@@ -21,7 +21,7 @@
           >
             {{ t('friendAdd') }}
           </ButtonColored>
-        </UnderConstruction>
+        </AppUnderConstruction>
       </div>
       <CardButton
         :title="t('eventsTheir', { name: route.params.username })"
@@ -35,7 +35,7 @@
         <IHeroiconsCalendar />
       </CardButton>
       <div class="flex flex-col gap-2">
-        <UnderConstruction>
+        <AppUnderConstruction>
           <span class="text-xl font-bold">
             {{ t('friends') }}
           </span>
@@ -66,7 +66,7 @@
               />
             </div>
           </CardButton>
-        </UnderConstruction>
+        </AppUnderConstruction>
       </div>
       <div class="flex flex-col gap-2">
         <span class="text-xl font-bold">
