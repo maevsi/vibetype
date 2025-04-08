@@ -1,7 +1,7 @@
 <template>
   <Loader :api="api">
     <div class="flex flex-col gap-4">
-      <SearchBar v-model="searchQuery" />
+      <FormInputSearch v-model="searchQuery" />
       <EventList
         :events="events"
         :has-next-page="pageInfo?.hasNextPage"
