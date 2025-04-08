@@ -27,9 +27,3 @@ const { active, steps } = defineProps<{
   steps?: Array<string>
 }>()
 </script>
-
-<script lang="ts">
-export default {
-  name: 'AppStep',
-}
-</script>
