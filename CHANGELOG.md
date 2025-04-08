@@ -1,3 +1,9 @@
+## [9.11.0](https://github.com/maevsi/vibetype/compare/9.10.0...9.11.0) (2025-04-08)
+
+### Features
+
+* **components:** rework error page ([#1857](https://github.com/maevsi/vibetype/issues/1857)) ([c03a13c](https://github.com/maevsi/vibetype/commit/c03a13c88bde53847fd39930a11cd3efb61254a5))
+
 ## [9.10.0](https://github.com/maevsi/vibetype/compare/9.9.1...9.10.0) (2025-04-04)
 
 ### Features
