@@ -29,25 +29,25 @@
       <ContentLegalFooter />
     </div>
     <AccountLegalConsent
-      id="general-terms-and-conditions"
+      id="terms"
       :class="{
         hidden: index !== 1,
       }"
       :disabled="!legalTermId"
-      :label="t('agreeGeneralTermsAndConditions')"
+      :label="t('agreeTerms')"
       @agreement="index++"
     >
-      <ContentLegalGeneralTermsAndConditions @id="legalTermId = $event" />
+      <ContentLegalTerms @id="legalTermId = $event" />
     </AccountLegalConsent>
     <AccountLegalConsent
-      id="privacy-policy"
+      id="privacy"
       :class="{
         hidden: index !== 2,
       }"
-      :label="t('agreePrivacyPolicy')"
+      :label="t('agreePrivacy')"
       @agreement="templateForm?.submit(legalTermId || '')"
     >
-      <Content class="px-6" path="privacy-policy" />
+      <Content class="px-6" path="privacy" />
     </AccountLegalConsent>
   </div>
 </template>
@@ -74,9 +74,9 @@ const title = computed(() => {
     case 0:
       return t('titleForm')
     case 1:
-      return t('titleGeneralTermsAndConditions')
+      return t('titleTerms')
     case 2:
-      return t('titlePrivacyPolicy')
+      return t('titlePrivacy')
     default:
       consola.error('Unexpected account flow state')
       return ''
@@ -89,19 +89,19 @@ useHeadDefault({ title: t('titleForm') })
 
 <i18n lang="yaml">
 de:
-  agreeGeneralTermsAndConditions: Ich stimme den Allgemeinen Geschäftsbedingungen zu
-  agreePrivacyPolicy: Ich stimme der Datenschutzerklärung zu
+  agreeTerms: Ich stimme den Allgemeinen Geschäftsbedingungen zu
+  agreePrivacy: Ich stimme der Datenschutzerklärung zu
   back: zurück
   iconAltBack: Pfeil nach links
   titleForm: Erstelle ein Konto
-  titlePrivacyPolicy: Datenschutzbestimmungen
-  titleGeneralTermsAndConditions: Geschäftsbedingungen
+  titlePrivacy: Datenschutzbestimmungen
+  titleTerms: Geschäftsbedingungen
 en:
-  agreeGeneralTermsAndConditions: I agree to the Terms and Conditions
-  agreePrivacyPolicy: I agree to the Privacy Policy
+  agreeTerms: I agree to the Terms and Conditions
+  agreePrivacy: I agree to the Privacy Policy
   back: back
   iconAltBack: Arrow to the left
   titleForm: Create an account
-  titlePrivacyPolicy: Privacy Policy
-  titleGeneralTermsAndConditions: General Terms and Conditions
+  titlePrivacy: Privacy Policy
+  titleTerms: General Terms and Conditions
 </i18n>

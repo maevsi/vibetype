@@ -62,7 +62,7 @@ Die Zahl der durchschnittlichen, monatlich aktiven Nutzer beträgt:  -->
 
 ## Datenschutzhinweis
 
-Unsere Datenschutzerklärung finden Sie unter: https://vibetype.app/de/privacy-policy
+Unsere Datenschutzerklärung finden Sie unter: https://vibetype.app/de/docs/legal/privacy
 
 ## Haftungsausschluss
 
