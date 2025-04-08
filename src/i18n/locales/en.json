@@ -1,5 +1,6 @@
 {
   "globalAvailabilityNotYet": "Not yet available.",
+  "globalError": "Error",
   "globalLoading": "Loading...",
   "globalPlaceholderAddress": "Eventstreet 1,\n12345 Guestcity",
   "globalPlaceholderEmailAddress": "email{'@'}addre.ss",

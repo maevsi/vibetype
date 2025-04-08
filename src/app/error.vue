@@ -5,24 +5,22 @@
       :description="error.message"
       :stack="error.stack"
     />
-    <!-- :status-message="error.statusMessage" -->
   </NuxtLayout>
 </template>
 
 <script setup lang="ts">
-import type { NuxtError } from 'nuxt/app'
+import type { NuxtError } from '#app'
 
 const { error } = defineProps<{ error: NuxtError }>()
 
 const { t } = useI18n()
 
-// initialization
+// app
 useAppLayout()
 
-useHeadDefault({
-  title: `${error.statusCode} - ${error.message}`,
-})
-
+// page
+const { statusName } = await useHttpStatusCode({ statusCode: error.statusCode })
+useHeadDefault({ title: statusName })
 defineOgImageComponent(
   'Default',
   {},

@@ -24,12 +24,12 @@
 import { useVuelidate } from '@vuelidate/core'
 import { useAccountPasswordResetMutation } from '~~/gql/documents/mutations/account/accountPasswordReset'
 
-const { formClass } = defineProps<{
+const { code, formClass } = defineProps<{
+  code: string
   formClass?: string
 }>()
 
 const { t } = useI18n()
-const route = useRoute()
 const localePath = useLocalePath()
 
 // data
@@ -47,7 +47,7 @@ const submit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
 
   const result = await passwordResetMutation.executeMutation({
-    code: route.query.code,
+    code,
     password: form.password || '',
   })
 
