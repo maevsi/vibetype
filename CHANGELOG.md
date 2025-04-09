@@ -1,3 +1,9 @@
+## [10.0.0-beta.5](https://github.com/maevsi/vibetype/compare/10.0.0-beta.4...10.0.0-beta.5) (2025-04-09)
+
+### Features
+
+* **pages:** add code of conduct ([4a15e6a](https://github.com/maevsi/vibetype/commit/4a15e6ad04f8f2362f05ed909a54dd3cd96ded20))
+
 ## [10.0.0-beta.4](https://github.com/maevsi/vibetype/compare/10.0.0-beta.3...10.0.0-beta.4) (2025-04-09)
 
 ### Features
