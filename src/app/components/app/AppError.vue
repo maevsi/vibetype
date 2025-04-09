@@ -26,7 +26,7 @@
         </span>
         <br />
         <span v-if="statusCode === 400">
-          {{ t('error400Hint') }}
+          {{ t('error400Hint', { siteName: t('globalSiteName') }) }}
         </span>
         <span v-else-if="statusCode === 403">
           {{ t('error403Hint') }}
@@ -35,7 +35,7 @@
           {{ t('error404Hint') }}
         </span>
         <span v-else-if="statusCode === 429">
-          {{ t('error429Hint') }}
+          {{ t('error429Hint', { siteName: t('globalSiteName') }) }}
         </span>
         <span v-else-if="statusCode === 500">
           {{ t('error500Hint') }}
@@ -92,14 +92,14 @@ const { statusName } = await useHttpStatusCode({ statusCode })
 de:
   details: Technische Details
   error400Description: '{siteName} hat andere Daten empfangen als erwartet.'
-  error400Hint: Bitte versuche es noch einmal und melde diesen Fehler, wenn er weiterhin auftritt.
+  error400Hint: Bitte versuche es noch einmal und melde {siteName} diesen Fehler, wenn er weiterhin auftritt.
   error403Description: Du bist aktuell nicht berechtigt, auf diese Seite zuzugreifen.
   error403Hint: Bist du richtig angemeldet und hast du auf diesem Gerät einen Einladungscode eingegeben?
   error404Description: '{siteName} kann nicht finden, wonach du suchst. Vielleicht wurde der Inhalt gelöscht oder dir fehlen Zugriffsberechtigungen.'
   error404Hint: Du kannst überprüfen, ob du richtig angemeldet bist, und versuchen, über die Startseite an dein Ziel zu gelangen.
   error418Description: Ich werd' keinen Kaffee machen.
   error429Description: Es scheint so als wärst du schneller unterwegs, als {siteName} erlaubt! 👮
-  error429Hint: Lehn dich einen Moment zurück und versuch es erneut – oder melde den Fehler, wenn du glaubst, dass er unbegründet ist.
+  error429Hint: Lehn dich einen Moment zurück und versuch es erneut – oder melde {siteName} den Fehler, wenn du glaubst, dass er unbegründet ist.
   error500Description: Sieht so aus als wäre etwas bei {siteName} nicht so wie es sein sollte.
   error500Hint: Bitte melde diesen Fehler.
 en:
