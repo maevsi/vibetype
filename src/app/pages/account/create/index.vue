@@ -3,7 +3,11 @@
     <LayoutTopBar>
       {{ title }}
       <template #back>
-        <ButtonIcon v-if="index" :aria-label="t('back')" @click="index--">
+        <ButtonIcon
+          v-if="[1, 2].includes(index)"
+          :aria-label="t('back')"
+          @click="index--"
+        >
           <!-- TODO: extract icon wrapper component -->
           <IVibetypeBack
             :aria-label="t('iconAltBack')"
