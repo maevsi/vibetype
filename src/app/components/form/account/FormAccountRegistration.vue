@@ -61,11 +61,11 @@ import { useAccountRegistrationMutation } from '~~/gql/documents/mutations/accou
 
 const emit = defineEmits<{
   submit: []
+  success: []
 }>()
 
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
-const fireAlert = useFireAlert()
 const accountRegistrationMutation = useAccountRegistrationMutation()
 const api = getApiData([accountRegistrationMutation])
 const form = reactive({
@@ -96,12 +96,7 @@ const submit = async (termId: string) => {
     },
   )
   if (result.error || !result.data) return
-  await fireAlert({
-    level: 'success',
-    title: t('registrationSuccessTitle'),
-    text: t('registrationSuccessBody'),
-  })
-  await navigateTo('/account/verify/create')
+  emit('success')
 }
 const submitEmit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
@@ -136,8 +131,6 @@ de:
   postgres22023: Das Passwort ist zu kurz! Überlege dir ein längeres.
   postgres23505: Es gibt bereits einen Account mit diesem Nutzernamen! Überlege dir einen neuen Namen oder versuche dich anzumelden.
   register: Registrieren
-  registrationSuccessBody: Verifiziere deinen Account über den Link in der E-Mail, die du in Kürze erhalten wirst.
-  registrationSuccessTitle: Verifizierungs-E-Mail gesendet.
   signIn: 'Du hast bereits ein Konto? Anmelden'
 en:
   accountDeletionNotice: "You'll be able to delete your account at any time."
@@ -145,7 +138,5 @@ en:
   postgres22023: Your password is too short! Think of a longer one.
   postgres23505: This username is already in use! Think of a new name or try signing in instead.
   register: Sign Up
-  registrationSuccessBody: Verify your account using the verification link sent to you by email.
-  registrationSuccessTitle: Verification email sent.
   signIn: Already have an account? Log in
 </i18n>
