@@ -1,3 +1,9 @@
+## [10.0.0-beta.6](https://github.com/maevsi/vibetype/compare/10.0.0-beta.5...10.0.0-beta.6) (2025-04-09)
+
+### Bug Fixes
+
+* **pages:** correct attributions title ([21b6793](https://github.com/maevsi/vibetype/commit/21b6793986f2840f209e8101e09dec910c2b0cec))
+
 ## [10.0.0-beta.5](https://github.com/maevsi/vibetype/compare/10.0.0-beta.4...10.0.0-beta.5) (2025-04-09)
 
 ### Features
