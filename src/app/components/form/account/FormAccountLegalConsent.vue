@@ -12,7 +12,7 @@
       <div class="flex items-center gap-3 p-1">
         <!-- TODO: extract checkbox-label combination to form input component -->
         <Checkbox
-          :id="`form-account-legal-consent-${id}`"
+          :id="templateIdCheckbox"
           class="bg-(--semantic-base-surface-1)"
           :disabled
           form-key="agreement"
@@ -22,7 +22,7 @@
           "
         />
         <label
-          :for="`form-account-legal-consent-${id}`"
+          :for="templateIdCheckbox"
           class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
           <TypographySubtitleMedium>
@@ -43,9 +43,8 @@
 <script setup lang="ts">
 import { and, required } from '@vuelidate/validators'
 
-const { disabled, id, label } = defineProps<{
+const { disabled, label } = defineProps<{
   disabled?: boolean
-  id: string
   label: string
 }>()
 const emit = defineEmits<{
@@ -64,6 +63,9 @@ const { form, isFormSent, formSubmit, v$ } = useForm({
   },
   onSubmit: () => emit('agreement'),
 })
+
+// accessibility
+const templateIdCheckbox = useId()
 </script>
 
 <i18n lang="yaml">
