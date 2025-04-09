@@ -1,3 +1,10 @@
+## [10.0.0-beta.8](https://github.com/maevsi/vibetype/compare/10.0.0-beta.7...10.0.0-beta.8) (2025-04-09)
+
+### Features
+
+* **content:** add terms of use ([96eb049](https://github.com/maevsi/vibetype/commit/96eb049cbae547a8f40fd9f56ac7954aa4e3c3f0))
+* **content:** use narrow no-break space ([1d584d4](https://github.com/maevsi/vibetype/commit/1d584d436f2d40f58b762e097e291fb90ab49755))
+
 ## [10.0.0-beta.7](https://github.com/maevsi/vibetype/compare/10.0.0-beta.6...10.0.0-beta.7) (2025-04-09)
 
 ### Bug Fixes
