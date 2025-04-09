@@ -3,7 +3,9 @@
     v-if="form"
     ref="form"
     :class="[
-      { 'animate-shake rounded-lg border border-red-500': errors?.length },
+      {
+        'animate-shake': errors?.length,
+      },
       formClass,
     ]"
     novalidate
@@ -18,6 +20,7 @@
             class="w-full"
             :class="{
               'animate-shake': $error,
+              hidden: isButtonHidden,
             }"
             type="submit"
             @click="emit('click')"
@@ -47,13 +50,15 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 
-const { errors, errorsPgIds, form, formClass, submitName } = defineProps<{
-  errors?: BackendError[]
-  errorsPgIds?: Record<string, string>
-  form: BaseValidation
-  formClass?: string
-  submitName?: string
-}>()
+const { errors, errorsPgIds, form, formClass, isButtonHidden, submitName } =
+  defineProps<{
+    errors?: BackendError[]
+    errorsPgIds?: Record<string, string>
+    form: BaseValidation
+    formClass?: string
+    isButtonHidden?: boolean
+    submitName?: string
+  }>()
 
 const emit = defineEmits<{
   click: []

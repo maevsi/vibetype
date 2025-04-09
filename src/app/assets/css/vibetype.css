@@ -5,10 +5,10 @@
 
 :root {
   --accent-line: #dcf9ea;
-  --accent-strong: #36db83;
   --accent-strong-hover: #2bb86d;
-  --accent-weak: #dcf9ea;
+  --accent-strong: #36db83;
   --accent-weak-hover: #c0e6d2;
+  --accent-weak: #dcf9ea;
   --critic-string: #e00000;
   --faint-line: #f2f2f2;
   --faint-weak: #f2f2f2;
@@ -25,6 +25,9 @@
   --semantic-base-text-secondary: #868679;
   --semantic-base-text-tertiary: #505047;
   --semantic-critic-text: #8c1818;
+  --semantic-error-strong: #e00000;
+  --semantic-success-strong: #1ae4aa;
+  --semantic-warning-strong: #f9ae25;
   --surface: #fafafc;
   --warning-strong: #f9ae25;
   --warning-text: #9c5407;
@@ -38,12 +41,13 @@
   --semantic-accent-accent-icon: #0a841e;
   --semantic-accent-accent-text: #129f2a;
   --semantic-base-background: #191911;
-  --semantic-base-line: #3e3e38;
   --semantic-base-input-field-fill: #505047;
+  --semantic-base-line: #3e3e38;
   --semantic-base-surface-1: #3e3e38;
   --semantic-base-text-primary: #e4e4eb;
   --semantic-base-text-secondary: #868679;
   --semantic-base-text-tertiary: #e4e4eb;
+  --semantic-critic-text: #e67070;
   --surface: #3e3e38;
 
   @apply scheme-dark;
