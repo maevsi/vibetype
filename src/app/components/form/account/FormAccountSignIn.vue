@@ -12,11 +12,10 @@
       :submit-name="t('signIn')"
       @submit.prevent="submit"
     >
-      <FormInputEmailAddress
-        :form-input="v$.username"
-        @input="form.username = $event"
+      <FormInputEmailUsername
+        :form-input="v$.usernameOrEmail"
+        @input="form.usernameOrEmail = $event"
       />
-      <!-- TODO: allow for username too -->
       <FormInputPassword
         :form-input="v$.password"
         @input="form.password = $event"
@@ -82,9 +81,9 @@ const localePath = useLocalePath()
 
 // data
 const form = reactive({
-  captcha: ref<string>(),
-  password: ref<string>(),
-  username: ref<string>(),
+  captcha: '',
+  password: '',
+  usernameOrEmail: '',
 })
 const isFormSent = ref(false)
 
@@ -103,7 +102,7 @@ const submit = async () => {
 
   const result = await authenticateMutation.executeMutation(
     {
-      username: form.username || '',
+      username: form.usernameOrEmail || '',
       password: form.password || '',
     },
     {
@@ -135,7 +134,7 @@ const submit = async () => {
 // vuelidate
 const rules = {
   captcha: VALIDATION_CAPTCHA(),
-  username: VALIDATION_EMAIL_ADDRESS({ isRequired: true }),
+  usernameOrEmail: VALIDATION_USERNAME_OR_EMAIL({ isRequired: true }),
   password: VALIDATION_PASSWORD(),
 }
 const v$ = useVuelidate(rules, form)

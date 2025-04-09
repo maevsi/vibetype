@@ -237,3 +237,25 @@ export const validateUsername = (invert?: boolean) => async (value: string) => {
     ? !result.data?.accountByUsername
     : !!result.data?.accountByUsername
 }
+
+export const VALIDATION_USERNAME_OR_EMAIL = ({
+  isRequired,
+}: {
+  isRequired?: boolean
+}) => ({
+  format: (value) => {
+    if (!value) return true
+    if (value.includes('@')) {
+      return email.$validator(value, undefined, undefined)
+    } else {
+      return VALIDATION_FORMAT_SLUG(value)
+    }
+  },
+  lengthMax: maxLength(
+    Math.min(
+      VALIDATION_USERNAME_LENGTH_MAXIMUM,
+      VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM,
+    ),
+  ),
+  ...(isRequired ? { required } : {}),
+})
