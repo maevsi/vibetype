@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <LayoutPageTitle :title="title" />
-    <LayoutProse>
-      <h2>{{ t('attributionTitle') }}</h2>
+  <LayoutProse>
+    <section :aria-labelledby="templateIdTitle">
+      <h1 :id="templateIdTitle">{{ title }}</h1>
       <p>
         <i18n-t keypath="attributionDescription">
           <template #author>
@@ -55,24 +54,23 @@
           </template>
         </i18n-t>
       </p>
-    </LayoutProse>
-  </div>
+    </section>
+  </LayoutProse>
 </template>
 
 <script setup lang="ts">
+// page
 const { t } = useI18n()
-
-// data
 const title = t('title')
-
-// initialization
 useHeadDefault({ title })
+
+// accessibility
+const templateIdTitle = useId()
 </script>
 
 <i18n lang="yaml">
 de:
   attributionDescription: '{title} von {author}, {license}'
-  attributionTitle: Zuschreibungen
   heroicons: HeroIcons
   heroiconsAuthor: Refactoring UI Inc
   licenseApache20: Apache 2.0
@@ -82,10 +80,9 @@ de:
   materialSymbolsAuthor: Google
   solar: Solar
   solarAuthor: 480 Design
-  title: Impressum
+  title: Zuschreibungen
 en:
   attributionDescription: '{title} by {author}, {license}'
-  attributionTitle: Attributions
   heroicons: HeroIcons
   heroiconsAuthor: Refactoring UI Inc
   licenseApache20: Apache 2.0
@@ -95,5 +92,5 @@ en:
   materialSymbolsAuthor: Google
   solar: Solar
   solarAuthor: 480 Design
-  title: Legal notice
+  title: Attributions
 </i18n>
