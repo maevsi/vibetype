@@ -30,7 +30,6 @@
       <ContentLegalFooter />
     </div>
     <AccountLegalConsent
-      id="terms"
       :class="{
         hidden: index !== 1,
       }"
@@ -41,7 +40,6 @@
       <ContentLegalTerms @id="legalTermId = $event" />
     </AccountLegalConsent>
     <AccountLegalConsent
-      id="privacy"
       :class="{
         hidden: index !== 2,
       }"
