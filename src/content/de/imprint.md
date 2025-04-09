@@ -57,7 +57,7 @@ Die Zahl der durchschnittlichen, monatlich aktiven Nutzer beträgt:  -->
 
 ## Kontaktstellen für Nutzer gemäß Art. 12 der VO \[EU\] 2022/2065 (Digital Services Act)
 
-- Nutzer haben die Möglichkeit, ein sog. Meldeverfahren einzuleiten, um rechtswidrige Inhalte d.h. solche, bei denen der Nutzer der Ansicht ist, dass diese gegen Gesetze, unsere Nutzungsbedingungen und/oder unsere Verhaltensrichtlinie verstoßen, zu melden und hierfür das für diesen Zweck eingerichtete Meldeformular zu nutzen: https://forms.monday.com/forms/bbd28ad5602122eb2644443b1f809348?r=euc1
+- Nutzer haben die Möglichkeit, ein sog. Meldeverfahren einzuleiten, um rechtswidrige Inhalte d. h. solche, bei denen der Nutzer der Ansicht ist, dass diese gegen Gesetze, unsere Nutzungsbedingungen und/oder unsere Verhaltensrichtlinie verstoßen, zu melden und hierfür das für diesen Zweck eingerichtete Meldeformular zu nutzen: https://forms.monday.com/forms/bbd28ad5602122eb2644443b1f809348?r=euc1
 - Um alle weiteren Anliegen zu klären, können Sie sich an unsere hierfür eingerichtete Kontaktstelle wenden: contact+legal-notice@maev.si
 
 ## Datenschutzhinweis
