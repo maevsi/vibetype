@@ -12,7 +12,7 @@
 
     1. **Verarbeitung von personenbezogenen Daten und andere Begriffe**
 
-        Datenschutz gilt bei der Verarbeitung von personenbezogenen Daten. Personenbezogen meint alle Daten, mit denen Du persönlich identifiziert werden kannst. Das ist z.B. die IP-Adresse des Geräts (PC, Laptop, Smartphone, etc.) vor dem Du gerade sitzt. Verarbeitet werden solche Daten dann, wenn ‚irgendetwas damit passiert‘. Hier wird z.B. die IP vom Browser an unseren Provider übermittelt und dort automatisch gespeichert. Das ist dann eine Verarbeitung (gemäß Art. 4 Nr. 2 DSGVO) von personenbezogenen Daten (nach Art. 4 Nr. 1 DSGVO).
+        Datenschutz gilt bei der Verarbeitung von personenbezogenen Daten. Personenbezogen meint alle Daten, mit denen Du persönlich identifiziert werden kannst. Das ist z. B. die IP-Adresse des Geräts (PC, Laptop, Smartphone, etc.) vor dem Du gerade sitzt. Verarbeitet werden solche Daten dann, wenn ‚irgendetwas damit passiert‘. Hier wird z. B. die IP vom Browser an unseren Provider übermittelt und dort automatisch gespeichert. Das ist dann eine Verarbeitung (gemäß Art. 4 Nr. 2 DSGVO) von personenbezogenen Daten (nach Art. 4 Nr. 1 DSGVO).
 
         Diese und weitere gesetzliche Definitionen sind in Art. 4 DSGVO zu finden.
 
@@ -40,7 +40,7 @@
 
     1. **So werden Daten auf dieser Website grundsätzlich verarbeitet**
 
-        Wie wir bereits festgestellt haben, gibt es Daten (z.B. IP-Adresse), die automatisch erhoben werden. Diese Daten werden überwiegend für die technische Bereitstellung der Homepage benötigt. Soweit wir darüber hinaus personenbezogene Daten verwenden oder andere Daten erheben, klären wir Dich darüber auf bzw. fragen nach einer Einwilligung.
+        Wie wir bereits festgestellt haben, gibt es Daten (z. B. IP-Adresse), die automatisch erhoben werden. Diese Daten werden überwiegend für die technische Bereitstellung der Homepage benötigt. Soweit wir darüber hinaus personenbezogene Daten verwenden oder andere Daten erheben, klären wir Dich darüber auf bzw. fragen nach einer Einwilligung.
 
         Andere personenbezogene Daten teilst Du uns bewusst mit.
 
@@ -48,7 +48,7 @@
 
     1. **Deine Rechte**
 
-        Die DSGVO stattet Dich mit umfassenden Rechten aus. Diese sind z.B. die unentgeltliche Auskunft über Herkunft, Empfänger und Zweck Deiner gespeicherten personenbezogenen Daten. Außerdem kannst Du die Berichtigung, Sperrung oder Löschung dieser Daten verlangen oder Dich bei der zuständigen Datenschutzaufsichtsbehörde beschweren. Eine erteilte Einwilligung kannst Du jederzeit widerrufen.
+        Die DSGVO stattet Dich mit umfassenden Rechten aus. Diese sind z. B. die unentgeltliche Auskunft über Herkunft, Empfänger und Zweck Deiner gespeicherten personenbezogenen Daten. Außerdem kannst Du die Berichtigung, Sperrung oder Löschung dieser Daten verlangen oder Dich bei der zuständigen Datenschutzaufsichtsbehörde beschweren. Eine erteilte Einwilligung kannst Du jederzeit widerrufen.
 
         Wie diese Rechte im Detail aussehen und wie sie wahrzunehmen sind, findest Du im letzten Abschnitt dieser Datenschutzerklärung.
 
@@ -315,11 +315,11 @@
 
             Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG.
 
-            Die hier gesammelten Informationen werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert. Am 10. Juli 2023 hat die Europäische Kommission einen Angemessenheitsbeschluss für die USA angenommen. Google LLC ist nach dem EU-US-Privacy Framework zertifiziert. Da die Google Server jedoch weltweit stationiert sind und eine Datenübertragung in Drittländer (z.B. Singapur) nicht ausgeschlossen werden kann, greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
+            Die hier gesammelten Informationen werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert. Am 10. Juli 2023 hat die Europäische Kommission einen Angemessenheitsbeschluss für die USA angenommen. Google LLC ist nach dem EU-US-Privacy Framework zertifiziert. Da die Google Server jedoch weltweit stationiert sind und eine Datenübertragung in Drittländer (z. B. Singapur) nicht ausgeschlossen werden kann, greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
 
             Durch die Nutzung von Google Analytics greift eine IP-Anonymisierung. Die IP-Adresse des jeweiligen Nutzers wird innerhalb der Mitgliedstaaten der EU (bzw. des Europäischen Wirtschaftsraums) so auf Servern innerhalb der EU gekürzt, dass eine Rückverfolgung zu einer natürlichen Person nicht mehr möglich ist. Darüber hinaus verpflichtet sich Google über die Google Ads-Datenverarbeitungsbedingungen zu einem angemessenen Datenschutz, erstellt eine Auswertung der Websitenutzung und der Websiteaktivität und erbringt die mit der Nutzung verbundenen Dienstleistungen. Die Google Ads-Datenverarbeitungsbedingungen gelten für Unternehmen, die der EU-Datenschutz-Grundverordnung (DSGVO) des Europäischen Wirtschaftsraums (EWR), dem kalifornischen Gesetz zum Schutz der Privatsphäre von Verbrauchern (California Consumer Privacy Act, CCPA) oder ähnlichen Regelungen unterliegen. 
 
-            Durch ein zusätzliches Browser-Plugin kann verhindert werden, dass die gesammelten Informationen (wie z.B. die IP-Adresse) an Google versendet und durch Google genutzt werden. Das Plugin und weitere Informationen dazu findest Du unter https://tools.google.com/dlpage/gaoptout?hl=de.
+            Durch ein zusätzliches Browser-Plugin kann verhindert werden, dass die gesammelten Informationen (wie z. B. die IP-Adresse) an Google versendet und durch Google genutzt werden. Das Plugin und weitere Informationen dazu findest Du unter https://tools.google.com/dlpage/gaoptout?hl=de.
 
             Ansonsten hängt die Speicherdauer von der Art der verarbeiteten Daten ab. Jeder Kunde kann wählen, wie lange Google Analytics Daten speichert, bevor sie automatisch gelöscht werden. Die maximale Lebensdauer eines Google Analytics Cookies sind zwei Jahre.
 
@@ -355,7 +355,7 @@
               USA
             </address>
 
-            Sentry erhebt und speichert Daten, die aus anonymisierten Nutzungsprofilen erstellt werden, um die technische Stabilität unserer Website durch Überwachung der Systemstabilität und Ermittlung von Codefehlern zu verbessern. Nach Angaben des Dienstes werden die Daten der Nutzer, wie z.B. Angaben zum Gerät oder Fehlerzeitpunkt, anonym erhoben und nicht personenbezogen genutzt sowie anschließend gelöscht.
+            Sentry erhebt und speichert Daten, die aus anonymisierten Nutzungsprofilen erstellt werden, um die technische Stabilität unserer Website durch Überwachung der Systemstabilität und Ermittlung von Codefehlern zu verbessern. Nach Angaben des Dienstes werden die Daten der Nutzer, wie z. B. Angaben zum Gerät oder Fehlerzeitpunkt, anonym erhoben und nicht personenbezogen genutzt sowie anschließend gelöscht.
 
             Sentry kann Cookies setzen, um die Aktivität auf unserer Website zu verfolgen und bestimmte Informationen zu speichern. Diese Cookies helfen uns, den Service zu betreiben, deine Präferenzen zu speichern und unsere Website sicher zu halten.
 
@@ -553,7 +553,7 @@
 
         1. **Verarbeitung personenbezogener Daten und Cookies durch Meta**
 
-            Beim Zugriff auf eine Facebook-Seite wird die deinem Endgerät zugeteilte IP-Adresse an Facebook übermittelt. Nach Auskunft von Facebook wird diese IP-Adresse anonymisiert (bei "deutschen" IP-Adressen). Facebook speichert darüber hinaus Informationen über die Endgeräte seiner Nutzer (z.B. im Rahmen der Funktion „Anmeldebenachrichtigung“); gegebenenfalls ist Facebook damit eine Zuordnung von IP-Adressen zu einzelnen Nutzern möglich. Wenn Du als Nutzer\*in aktuell bei Facebook angemeldet bist, befindet sich auf deinem Endgerät ein Cookie mit deiner Facebook-Kennung. Dadurch ist Facebook in der Lage, nachzuvollziehen, dass Du diese Seite aufgesucht und wie Du sie genutzt hast. Über in Websites eingebundene Facebook-Buttons ist es Facebook möglich, deine Besuche auf diesen Websites zu erfassen und deinem Facebook-Profil zuzuordnen. Anhand dieser Daten können Inhalte oder Werbung auf Dich zugeschnitten angeboten werden.
+            Beim Zugriff auf eine Facebook-Seite wird die deinem Endgerät zugeteilte IP-Adresse an Facebook übermittelt. Nach Auskunft von Facebook wird diese IP-Adresse anonymisiert (bei "deutschen" IP-Adressen). Facebook speichert darüber hinaus Informationen über die Endgeräte seiner Nutzer (z. B. im Rahmen der Funktion „Anmeldebenachrichtigung“); gegebenenfalls ist Facebook damit eine Zuordnung von IP-Adressen zu einzelnen Nutzern möglich. Wenn Du als Nutzer\*in aktuell bei Facebook angemeldet bist, befindet sich auf deinem Endgerät ein Cookie mit deiner Facebook-Kennung. Dadurch ist Facebook in der Lage, nachzuvollziehen, dass Du diese Seite aufgesucht und wie Du sie genutzt hast. Über in Websites eingebundene Facebook-Buttons ist es Facebook möglich, deine Besuche auf diesen Websites zu erfassen und deinem Facebook-Profil zuzuordnen. Anhand dieser Daten können Inhalte oder Werbung auf Dich zugeschnitten angeboten werden.
 
             Informationen dazu, wie personenbezogene Daten verwaltet oder gelöscht werden können, sind im Privacy Center von Facebook zu finden: https://www.facebook.com/privacy/center/.
 
@@ -635,7 +635,7 @@
 
             **Verarbeitung personenbezogener Daten und Cookies durch Meta**
 
-            Beim Zugriff auf eine Instagram-Seite wird die deinem Endgerät zugeteilte IP-Adresse an Meta übermittelt. Nach Auskunft von Meta wird diese IP-Adresse anonymisiert (bei "deutschen" IP-Adressen). Meta speichert darüber hinaus Informationen über die Endgeräte seiner Nutzer (z.B. im Rahmen der Funktion „Anmeldebenachrichtigung“); gegebenenfalls ist Meta damit eine Zuordnung von IP-Adressen zu einzelnen Nutzern möglich. Wenn Du als Nutzer\*in aktuell bei Instagram angemeldet bist, befindet sich auf deinem Endgerät ein Cookie mit deiner Instagram-Kennung. Dadurch ist Meta in der Lage nachzuvollziehen, dass Du diese Seite aufgesucht und wie Du sie genutzt hast. Über in Websites eingebundene Meta-Buttons ist es Meta möglich, deine Besuche auf diesen Websites zu erfassen und deinem Instagram-Profil zuzuordnen. Anhand dieser Daten können Inhalte oder Werbung auf Dich zugeschnitten angeboten werden.
+            Beim Zugriff auf eine Instagram-Seite wird die deinem Endgerät zugeteilte IP-Adresse an Meta übermittelt. Nach Auskunft von Meta wird diese IP-Adresse anonymisiert (bei "deutschen" IP-Adressen). Meta speichert darüber hinaus Informationen über die Endgeräte seiner Nutzer (z. B. im Rahmen der Funktion „Anmeldebenachrichtigung“); gegebenenfalls ist Meta damit eine Zuordnung von IP-Adressen zu einzelnen Nutzern möglich. Wenn Du als Nutzer\*in aktuell bei Instagram angemeldet bist, befindet sich auf deinem Endgerät ein Cookie mit deiner Instagram-Kennung. Dadurch ist Meta in der Lage nachzuvollziehen, dass Du diese Seite aufgesucht und wie Du sie genutzt hast. Über in Websites eingebundene Meta-Buttons ist es Meta möglich, deine Besuche auf diesen Websites zu erfassen und deinem Instagram-Profil zuzuordnen. Anhand dieser Daten können Inhalte oder Werbung auf Dich zugeschnitten angeboten werden.
 
             Nähere Informationen:
 
@@ -683,7 +683,7 @@
             - Likes, Kommentare und Shares
             - Durchschnittliche Wiedergabezeit
             - Prozentsatz der Zuschauer, die das gesamte Video ansehen
-            - Quellen des Traffics (z.B. Profil, For You-Feed)
+            - Quellen des Traffics (z. B. Profil, For You-Feed)
             - Geografische Verteilung des Publikums
             - Aktivitätszeiten der Follower.
 
@@ -745,7 +745,7 @@
 
         1. **Datenverarbeitung durch Google**
 
-            Die Google-Seite und ihre Funktionen werden in eigener Verantwortung genutzt. Dies gilt insbesondere für die Nutzung der sozialen und interaktiven Funktionen (z.B. Kommentieren, Teilen, Bewerten, Direktnachrichten). Beim Besuch und der Interaktion mit unserem Google Unternehmensprofil Eintrag erfasst Google auch deine IP-Adresse sowie weitere Informationen, die in Form von sog. Cookies auf dem Endgerät vorhanden sind. Gegebenenfalls ist Google damit eine Zuordnung von IP-Adressen zu einzelnen Nutzern oder Nutzerkonten möglich. Diese Informationen werden verwendet, um uns als Betreiber des Google Unternehmensprofil Eintrags statistische Informationen über die Inanspruchnahme der Google-Dienste zur Verfügung zu stellen. Die in diesem Zusammenhang erhobenen Daten werden von Google verarbeitet und dabei gegebenenfalls in Länder außerhalb der Europäischen Union übertragen. Welche Informationen Google erhält und wie diese verwendet werden, beschreibt Google allgemein in der Datenschutzerklärung.
+            Die Google-Seite und ihre Funktionen werden in eigener Verantwortung genutzt. Dies gilt insbesondere für die Nutzung der sozialen und interaktiven Funktionen (z. B. Kommentieren, Teilen, Bewerten, Direktnachrichten). Beim Besuch und der Interaktion mit unserem Google Unternehmensprofil Eintrag erfasst Google auch deine IP-Adresse sowie weitere Informationen, die in Form von sog. Cookies auf dem Endgerät vorhanden sind. Gegebenenfalls ist Google damit eine Zuordnung von IP-Adressen zu einzelnen Nutzern oder Nutzerkonten möglich. Diese Informationen werden verwendet, um uns als Betreiber des Google Unternehmensprofil Eintrags statistische Informationen über die Inanspruchnahme der Google-Dienste zur Verfügung zu stellen. Die in diesem Zusammenhang erhobenen Daten werden von Google verarbeitet und dabei gegebenenfalls in Länder außerhalb der Europäischen Union übertragen. Welche Informationen Google erhält und wie diese verwendet werden, beschreibt Google allgemein in der Datenschutzerklärung.
 
             Solltest Du uns über unseren Google Unternehmensprofil Eintrag oder andere Google-Dienste per Direktnachricht kontaktieren, können wir nicht ausschließen, dass diese Nachrichten auch von Google (sowohl von Mitarbeiterinnen und Mitarbeitern als auch automatisiert) mitgelesen und ausgewertet werden können. Wir raten daher davon ab, uns dort personenbezogene Daten mitzuteilen. Stattdessen sollte so früh wie möglich eine andere Form der Kommunikation gewählt werden.
 
@@ -877,7 +877,7 @@
 
             OpenAI hat sich auf die Entwicklung von Künstlicher Intelligenz und Maschinellem Lernen fokussiert. Mit Hilfe der OpenAI API ist es uns möglich, eigene KI-Tools zu entwickeln, welche auf den Datenbanken und Fähigkeiten von ChatGPT/OpenAI basieren.
 
-            Alle Eingaben in unserem Tool werden verarbeitet. Grundsätzlich werden diese Eingaben, z.B. natürliche Sprache, Bilder oder andere Datenformate, durch OpenAI verarbeitet, um Machine-Learning-Modelle entwickeln zu können. Diese Daten werden dann dafür verwendet, um das jeweilige Tool zu verbessern bzw. zu trainieren.
+            Alle Eingaben in unserem Tool werden verarbeitet. Grundsätzlich werden diese Eingaben, z. B. natürliche Sprache, Bilder oder andere Datenformate, durch OpenAI verarbeitet, um Machine-Learning-Modelle entwickeln zu können. Diese Daten werden dann dafür verwendet, um das jeweilige Tool zu verbessern bzw. zu trainieren.
 
             OpenAI erfasst bei der Nutzung eines Tools die IP-Adresse. Sofern das jeweilige Tool nicht mit personenbezogenen Daten gefüllt wird, werden auch keine personenbezogenen Daten, neben der IP-Adresse, erfasst.
 

@@ -10,7 +10,7 @@ Die nachfolgenden Nutzungsbedingungen haben ausschließliche Geltung.
 Nutzungs- und Geschäftsbedingungen von Nutzern wird ausdrücklich widersprochen.
 Diese haben keine Geltung.
 
-Aus Gründen der besseren Lesbarkeit wird in den folgenden Nutzungsbedingungen die männliche Sprachform verwendet (z.B. „Nutzer“).
+Aus Gründen der besseren Lesbarkeit wird in den folgenden Nutzungsbedingungen die männliche Sprachform verwendet (z. B. „Nutzer“).
 Dies umfasst jedoch stets alle Geschlechter gleichermaßen.
 Alle Bezeichnungen gelten gleichermaßen für männliche, weibliche und nicht-binäre Personen.
 
@@ -27,7 +27,7 @@ Verträge über Veranstaltungen oder die Teilnahme daran werden ausschließlich 
 Die Plattform stellt im Rahmen dessen ausschließlich den Zugang zu der Plattform auf der Webseite und via der mobilen App sowie die dortigen Funktionen zur Verfügung, ohne selbst Vertragspartner von Verträgen in Bezug auf die Organisation und Durchführung von Veranstaltungen oder die Teilnahme daran zu sein bzw. zu werden.
 
 (2) Das Zurverfügungstellen der App, der Webseite und der dortigen Funktionen beinhaltet ausdrücklich auch, dass die Plattform dem Nutzer aufgrund seines Nutzerverhaltens für ihn passende Veranstaltungen vorschlägt.
-Der von der Plattform angebotene Leistungsumfang dient dem Anbieten von Veranstaltungen und dem Zusammenführen von Veranstaltern und Interessenten, d.h. potentiellen Gästen.
+Der von der Plattform angebotene Leistungsumfang dient dem Anbieten von Veranstaltungen und dem Zusammenführen von Veranstaltern und Interessenten, d. h. potentiellen Gästen.
 Zudem ermöglicht die Plattform das Anbieten und den Verkauf von Tickets durch veranstaltende Nutzer an Gäste sowie die Kaufabwicklung und die Kommunikation zwischen den Nutzern und stellt hierzu eine entsprechende Funktion zur Verfügung.
 
 (3) Veranstalter von auf „VIBETYPE“ angebotenen Veranstaltungen können nur registrierte Nutzer mit einem entsprechenden Nutzerkonto sein.
@@ -37,7 +37,7 @@ Die Plattform selbst ist insbesondere niemals Veranstalterin von den auf der Pla
 Sämtliche auf der Plattform angebotenen Produkte oder Dienstleistungen werden vom jeweiligen Nutzer, der diese dort eingestellt hat oder diese dort anbietet, im eigenen Namen bereitgestellt.
 Der das Produkt oder die Dienstleistung anbietende Nutzer ist allein für das angebotene Produkt und die angebotene Dienstleistung verantwortlich und alleiniger Ansprechpartner für sämtliche im Zusammenhang mit dem angebotenen Produkt und der angebotenen Dienstleistung stehenden Fragen.
 
-(5) Sofern Nutzer mit anderen Nutzern auf der Plattform Verträge schließen (beispielsweise in Bezug auf die Durchführung von Veranstaltungen oder in Bezug auf den Erwerb von Tickets bzw. die Teilnahme an einer Veranstaltung), so bestehen die Vertragsbeziehungen ausschließlich zwischen den jeweiligen Nutzern (d.h. den Veranstaltern und Gästen).
+(5) Sofern Nutzer mit anderen Nutzern auf der Plattform Verträge schließen (beispielsweise in Bezug auf die Durchführung von Veranstaltungen oder in Bezug auf den Erwerb von Tickets bzw. die Teilnahme an einer Veranstaltung), so bestehen die Vertragsbeziehungen ausschließlich zwischen den jeweiligen Nutzern (d. h. den Veranstaltern und Gästen).
 Die Plattform ist hierbei weder Stellvertreterin des Nutzers, noch wird sie selbst Vertragspartnerin.
 Sie ist auch nicht als Vermittlerin gegen Provision tätig.
 
@@ -123,7 +123,7 @@ Insbesondere verpflichtet sich der Nutzer, beim Hochladen, Einstellen, Teilen od
 - Aufrufe und Anstiftung zu Straftaten und Gesetzesverstößen, Drohungen gegen Leib, Leben oder Eigentum,
 - Hetze gegen Personen oder Unternehmen (sog. Hatespeech),
 - persönlichkeitsverletzende Äußerungen, Verleumdung, Ehrverletzung und üble Nachrede,
-- falsche d.h. unwahre Behauptungen über Personen und Unternehmen,
+- falsche d. h. unwahre Behauptungen über Personen und Unternehmen,
 - Verstöße gegen das Lauterkeitsrecht,
 - urheberrechtsverletzende Inhalte oder andere Immaterialgüterrechte verletzende Inhalte,
 - sexuelle Belästigung von Nutzer*innen und Dritten,
@@ -133,7 +133,7 @@ Das Verbot solcher Inhalte gilt auch dann, wenn im Einzelfall durch die jeweilig
 (4) Unsere Verhaltensrichtlinien haben wir in einem Verhaltenskodex zusammengefasst.
 Der Verhaltenskodex ist unter https://vibetype.app/de/docs/legal/conduct einsehbar.
 
-(5) Urheberrechtlich geschützte Inhalte dürfen ohne Zustimmung des jeweiligen Rechteinhabers nur im Rahmen der gesetzlich zulässigen Ausnahmen (z.B. als Karikatur, Pastiche oder bei Anwendbarkeit des sog. Zitatrechts) zulässig.
+(5) Urheberrechtlich geschützte Inhalte dürfen ohne Zustimmung des jeweiligen Rechteinhabers nur im Rahmen der gesetzlich zulässigen Ausnahmen (z. B. als Karikatur, Pastiche oder bei Anwendbarkeit des sog. Zitatrechts) zulässig.
 Im Falle des Zitats ist das Zitat wörtlich in den jeweiligen Beitrag aufzunehmen.
 Zitate sind ferner durch Hervorheben als Zitat zu kennzeichnen und mit einer Quellenangabe zu versehen.
 
@@ -183,7 +183,7 @@ Gleichzeitig muss die Meldung eine Erklärung des meldenden Nutzers über die Ri
 
 **§ 7 Nutzungsrechte und geistiges Eigentum**
 
-(1) Der Nutzer räumt der Plattform ein räumlich, zeitlich und inhaltlich unbeschränktes, unwiderrufliches, auf Dritte übertragbares, einfaches (d.h. nicht exklusives), unentgeltliches Nutzungsrecht an den von ihm eingestellten Inhalten in Bezug auf Urheberrechte, geistige Eigentumsrechte, gewerbliche Schutzrechte, Persönlichkeitsrechtliche Befugnisse und sonstige Rechte ein.
+(1) Der Nutzer räumt der Plattform ein räumlich, zeitlich und inhaltlich unbeschränktes, unwiderrufliches, auf Dritte übertragbares, einfaches (d. h. nicht exklusives), unentgeltliches Nutzungsrecht an den von ihm eingestellten Inhalten in Bezug auf Urheberrechte, geistige Eigentumsrechte, gewerbliche Schutzrechte, Persönlichkeitsrechtliche Befugnisse und sonstige Rechte ein.
 Die Plattform ist jederzeit berechtigt, die Inhalte unbeschränkt im Rahmen der Plattform, der zugehörigen App und im Rahmen von Werbemaßnahmen zu verwenden, zu bearbeiten und zu verwerten.
 Das schließt insbesondere das digitale Vervielfältigungsrecht, das Online-Verbreitungsrecht und das Recht der öffentlichen Wiedergabe sowie das Recht der öffentlichen Zugänglichmachung mit ein.
 
@@ -195,7 +195,7 @@ Jegliche Vervielfältigung, Verbreitung, öffentliche Wiedergabe, öffentliche Z
 
 **§ 8 Garantie und Freistellungsanspruch**
 
-(1) Der Nutzer garantiert, dass er alleiniger Inhaber aller erforderlichen Rechte an den von ihm auf der Plattform hochgeladenen, eingestellten oder abrufbar gemachten Inhalten (z.B. Texte, Fotos, Videos etc.) ist und, dass er über die für die Nutzung dieser Inhalte auf der Plattform und durch die Plattformbetreiberin verfügt und diese Inhalte und deren Nutzung auf und durch die Plattform nicht gegen Rechte Dritter (z.B. Urheberrechte, Markenrechte, Persönlichkeitsrechte etc.) verstoßen.
+(1) Der Nutzer garantiert, dass er alleiniger Inhaber aller erforderlichen Rechte an den von ihm auf der Plattform hochgeladenen, eingestellten oder abrufbar gemachten Inhalten (z. B. Texte, Fotos, Videos etc.) ist und, dass er über die für die Nutzung dieser Inhalte auf der Plattform und durch die Plattformbetreiberin verfügt und diese Inhalte und deren Nutzung auf und durch die Plattform nicht gegen Rechte Dritter (z. B. Urheberrechte, Markenrechte, Persönlichkeitsrechte etc.) verstoßen.
 Sofern es sich um Inhalte handelt, die der Nutzer nicht selbst geschaffen hat, garantiert er, dass er bei den betreffenden Rechteinhabern alle für die Nutzung erforderlichen Rechte erworben hat.
 
 (2) Der Nutzer stellt die Plattform und ihre Mitarbeiter bzw. Beauftragten für den Fall der Inanspruchnahme wegen einer vermeintlichen oder tatsächlichen Rechtsverletzung und/oder Verletzung von Rechten Dritter von sämtlichen Ansprüchen Dritter frei, die sich aus Handlungen des Nutzers im Zusammenhang mit der Nutzung der Plattform ergeben, die der Nutzer zu vertreten hat.
@@ -208,7 +208,7 @@ Zu den erstattungsfähigen Kosten zählen auch die Kosten einer angemessenen Rec
 
 (1) Die in der App oder auf der Webseite veröffentlichten Inhalte von Nutzern sind nicht Ausdruck der Meinung der Plattform und werden von der Plattform ohne Anlass auch grundsätzlich nicht auf ihre Rechtmäßigkeit, Richtigkeit und Vollständigkeit überprüft.
 
-(2) Die Plattform übernimmt in Bezug auf Angaben, die Nutzer bezogen auf erstellte bzw. geteilte Veranstaltungen machen (z.B. Ort, Datum, Uhrzeit, Kosten, Line-Up, Teilnahmebedingungen, Ticketpreise etc.) keinerlei Haftung, insbesondere übernimmt die Plattform keine Gewähr für die Richtigkeit und Vollständigkeit der Angaben sowie für die Durchführung der Veranstaltung.
+(2) Die Plattform übernimmt in Bezug auf Angaben, die Nutzer bezogen auf erstellte bzw. geteilte Veranstaltungen machen (z. B. Ort, Datum, Uhrzeit, Kosten, Line-Up, Teilnahmebedingungen, Ticketpreise etc.) keinerlei Haftung, insbesondere übernimmt die Plattform keine Gewähr für die Richtigkeit und Vollständigkeit der Angaben sowie für die Durchführung der Veranstaltung.
 Insbesondere übernimmt die Plattform auch keine Haftung für kurzfristige Änderungen und/oder Absagen von Veranstaltungen sowie für die Teilnahmeberechtigung des Nutzers.
 
 (3) Sämtliche eine Veranstaltung sowie die Teilnahme daran betreffenden Rechte und Pflichten bestehen ausschließlich im Verhältnis zwischen veranstaltendem Nutzer und den sonstigen Nutzern.
@@ -247,7 +247,7 @@ Reaktiviert der Nutzer sein Konto nicht binnen dieses Zeitraums, erfolgt eine un
 (4) Die Plattform behält sich das Recht vor, Nutzerkonten, die über einen Zeitraum von mindestens 24 Monaten inaktiv waren, zu deaktivieren und anschließend einschließlich aller Daten, Inhalte und Einstellungen unwiderruflich zu löschen.
 Die Plattform wird den Nutzer über die Deaktivierung und über die geplante Löschung rechtzeitig informieren.
 Der Nutzer hat dann bis zur Löschung die Möglichkeit, die Löschung zu verhindern, indem er sein Konto reaktiviert.
-Anschließend, d.h. nach rechtzeitiger und erfolgreicher Reaktivierung, kann der Nutzer die Nutzung uneingeschränkt fortführen.
+Anschließend, d. h. nach rechtzeitiger und erfolgreicher Reaktivierung, kann der Nutzer die Nutzung uneingeschränkt fortführen.
 
 **§ 12 Widerrufsrecht**
 
