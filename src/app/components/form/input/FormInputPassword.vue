@@ -8,8 +8,8 @@
     @input="emit('input', $event)"
     @icon="isVisible = !isVisible"
   >
-    <template #inputSuffix>
-      <slot />
+    <template v-if="isStrengthShown" #inputSuffix>
+      <Progress :model-value="strength" class="my-2" />
     </template>
     <template #icon>
       <IHeroiconsEye v-if="!isVisible" />
@@ -52,10 +52,12 @@ import type { BaseValidation } from '@vuelidate/core'
 const {
   id = 'password',
   formInput,
+  isStrengthShown,
   title,
 } = defineProps<{
   id?: string
   formInput: BaseValidation
+  isStrengthShown?: boolean
   title?: string
 }>()
 
@@ -67,6 +69,10 @@ const { t } = useI18n()
 
 // data
 const isVisible = ref(false)
+
+const strength = computed(() =>
+  calculatePasswordStrength(formInput.$model as string),
+)
 </script>
 
 <i18n lang="yaml">

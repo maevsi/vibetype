@@ -17,8 +17,9 @@
           }"
           :for="idLabelFull"
         >
-          <span>{{ title }}</span>
+          <TypographySubtitleMedium>{{ title }}</TypographySubtitleMedium>
           <span
+            v-if="isRequired || isOptional"
             class="text-xs font-medium text-gray-500 md:text-right dark:text-gray-400"
           >
             <span v-if="isRequired">
