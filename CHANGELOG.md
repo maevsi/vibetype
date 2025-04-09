@@ -1,3 +1,9 @@
+## [10.0.0-beta.7](https://github.com/maevsi/vibetype/compare/10.0.0-beta.6...10.0.0-beta.7) (2025-04-09)
+
+### Bug Fixes
+
+* **account:** rework account registration flow success page ([57ae83b](https://github.com/maevsi/vibetype/commit/57ae83b4d9ae3d920e6db94d110e7912b0702e00))
+
 ## [10.0.0-beta.6](https://github.com/maevsi/vibetype/compare/10.0.0-beta.5...10.0.0-beta.6) (2025-04-09)
 
 ### Bug Fixes
