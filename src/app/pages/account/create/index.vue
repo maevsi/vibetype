@@ -24,6 +24,7 @@
           ref="form"
           class="max-w-sm grow"
           @submit="index++"
+          @success="index++"
         />
       </div>
       <ContentLegalFooter />
@@ -49,6 +50,24 @@
     >
       <Content class="px-6" path="privacy" />
     </AccountLegalConsent>
+    <div
+      class="flex grow flex-col items-center justify-center gap-8 p-8"
+      :class="{
+        hidden: index !== 3,
+      }"
+    >
+      <TypographySubtitleLarge class="font-bold">
+        {{ t('verificationInstructions') }}
+      </TypographySubtitleLarge>
+      <ButtonColored
+        :aria-label="t('verificationButton')"
+        class="w-full"
+        disabled
+        variant="secondary"
+      >
+        {{ t('verificationButton') }}
+      </ButtonColored>
+    </div>
   </div>
 </template>
 
@@ -77,6 +96,8 @@ const title = computed(() => {
       return t('titleTerms')
     case 2:
       return t('titlePrivacy')
+    case 3:
+      return t('titleVerification')
     default:
       consola.error('Unexpected account flow state')
       return ''
@@ -96,6 +117,9 @@ de:
   titleForm: Erstelle ein Konto
   titlePrivacy: Datenschutzbestimmungen
   titleTerms: Geschäftsbedingungen
+  titleVerification: E-Mail-Bestätigung erforderlich
+  verificationButton: Warte auf dich…
+  verificationInstructions: Überprüfe deine E-Mails auf einen Bestätigungslink.
 en:
   agreeTerms: I agree to the Terms and Conditions
   agreePrivacy: I agree to the Privacy Policy
@@ -104,4 +128,7 @@ en:
   titleForm: Create an account
   titlePrivacy: Privacy Policy
   titleTerms: General Terms and Conditions
+  titleVerification: Email Verification Required
+  verificationButton: Waiting for you…
+  verificationInstructions: Check your emails for a verification link.
 </i18n>
