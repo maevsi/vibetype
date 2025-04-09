@@ -1,15 +1,14 @@
 <template>
   <Form
+    :class="classProps"
     :errors="api.errors"
     :form="v$"
-    :form-class="formClass"
     :is-form-sent="isFormSent"
-    :submit-name="t('accountPasswordResetRequest')"
+    is-button-hidden
     @submit.prevent="submit"
   >
     <FormInputEmailAddress
       :form-input="v$.emailAddress"
-      :title="t('emailAddressYours')"
       @input="form.emailAddress = $event"
     />
   </Form>
@@ -17,18 +16,19 @@
 
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core'
+import type { HtmlHTMLAttributes } from 'vue'
+
 import { useAccountPasswordResetRequestMutation } from '~~/gql/documents/mutations/account/accountPasswordResetRequest'
 
-const { formClass } = defineProps<{
-  formClass?: string
+const { class: classProps } = defineProps<{
+  class?: HtmlHTMLAttributes['class']
 }>()
 
 const emit = defineEmits<{
-  'account-password-reset-request': []
+  success: []
 }>()
 
-const fireAlert = useFireAlert()
-const { locale, t } = useI18n()
+const { locale } = useI18n()
 
 // data
 const form = reactive({
@@ -51,11 +51,7 @@ const submit = async () => {
 
   if (result.error || !result.data) return
 
-  emit('account-password-reset-request')
-  await fireAlert({
-    level: 'success',
-    text: t('accountPasswordResetRequestSuccess'),
-  })
+  emit('success')
 }
 
 // vuelidate
@@ -63,15 +59,8 @@ const rules = {
   emailAddress: VALIDATION_EMAIL_ADDRESS({ isRequired: true }),
 }
 const v$ = useVuelidate(rules, form)
-</script>
 
-<i18n lang="yaml">
-de:
-  accountPasswordResetRequest: E-Mail senden
-  accountPasswordResetRequestSuccess: Wenn es ein Konto zu der eingegebenen E-Mail-Adresse gibt, erhältst du in Kürze eine E-Mail. Über den Link in dieser E-Mail kannst du ein neues Password vergeben.
-  emailAddressYours: Deine E-Mail-Adresse
-en:
-  accountPasswordResetRequest: Send email
-  accountPasswordResetRequestSuccess: If there is an account for the given email address, you will receive an email shortly. You can use the link in that email to set a new password.
-  emailAddressYours: Your email address
-</i18n>
+defineExpose({
+  submit,
+})
+</script>

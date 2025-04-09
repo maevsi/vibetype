@@ -1,11 +1,17 @@
 <template>
-  <div :data-is-loading="isLoading" data-testid="is-loading">
+  <div
+    class="flex h-screen flex-col"
+    :data-is-loading="isLoading"
+    data-testid="is-loading"
+  >
     <NuxtLayout>
-      <AppError
-        :status-code="error.statusCode"
-        :description="error.message"
-        :stack="error.stack"
-      />
+      <div class="p-3">
+        <AppError
+          :status-code="error.statusCode"
+          :description="error.message"
+          :stack="error.stack"
+        />
+      </div>
     </NuxtLayout>
   </div>
 </template>
