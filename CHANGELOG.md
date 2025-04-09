@@ -1,3 +1,9 @@
+## [10.0.0-beta.4](https://github.com/maevsi/vibetype/compare/10.0.0-beta.3...10.0.0-beta.4) (2025-04-09)
+
+### Features
+
+* **pages:** disable robots for placeholder ([2122b0d](https://github.com/maevsi/vibetype/commit/2122b0dcda79838922776b88a5479a069f649137))
+
 ## [10.0.0-beta.3](https://github.com/maevsi/vibetype/compare/10.0.0-beta.2...10.0.0-beta.3) (2025-04-08)
 
 ### Features
