@@ -81,9 +81,9 @@ const localePath = useLocalePath()
 
 // data
 const form = reactive({
-  captcha: '',
-  password: '',
-  usernameOrEmail: '',
+  captcha: ref<string>(),
+  password: ref<string>(),
+  usernameOrEmail: ref<string>(),
 })
 const isFormSent = ref(false)
 

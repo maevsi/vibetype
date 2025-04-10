@@ -46,7 +46,6 @@
 import type { BaseValidation } from '@vuelidate/core'
 import { email } from '@vuelidate/validators'
 import { VALIDATION_FORMAT_SLUG } from '~/utils/validation'
-import { computed } from 'vue'
 
 const {
   formInput,
