@@ -5,9 +5,11 @@
     :is-colored="false"
   >
     <div class="mx-4.5 my-3 flex items-center gap-1.5">
-      <slot />
+      <div class="shrink-0">
+        <slot />
+      </div>
       <TypographySubtitleSmall
-        class="line-clamp-1 hidden group-aria-[current=page]:block lg:block"
+        class="truncate group-aria-[current=page]:block max-lg:hidden"
       >
         {{ title }}
       </TypographySubtitleSmall>
