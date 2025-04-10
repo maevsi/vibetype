@@ -70,6 +70,6 @@ appTest.describe('visual regression', () => {
   appTest('displays the cookie banner', async ({ page }) => {
     await page.goto('/')
     await PAGE_READY({ page, options: { cookieControl: false } })
-    await expect(page).toHaveScreenshot({ fullPage: true, timeout: TIMEOUT })
+    await expect(page).toHaveScreenshot({ timeout: TIMEOUT })
   })
 })
