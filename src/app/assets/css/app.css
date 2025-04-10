@@ -5,7 +5,7 @@
 /* stylelint-disable plugin/no-unsupported-browser-features */
 
 @import 'tailwindcss';
-@import "tw-animate-css";
+@import 'tw-animate-css';
 @import './vibetype.css';
 @import './shadcn.css';
 
@@ -25,7 +25,7 @@
 
   a,
   button {
-    @apply focus:ring-3 focus:ring-blue-500/50 focus:outline-none;
+    @apply focus:outline-none pointer-fine:focus:ring-3 pointer-fine:focus:ring-blue-500/50;
   }
 
   a[target='_blank']:not([is-external-icon-disabled])::after {
