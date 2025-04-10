@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative isolate"
+    class="flex h-screen flex-col"
     :data-is-loading="isLoading"
     data-testid="is-loading"
   >

@@ -1,6 +1,6 @@
 <template>
   <!-- <Loader :api="api" indicator="ping"> -->
-  <header class="2xl:mb-8">
+  <header>
     <div class="flex items-center justify-between gap-4">
       <ButtonIcon
         v-if="
