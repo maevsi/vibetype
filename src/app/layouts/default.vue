@@ -4,8 +4,6 @@
     <div class="flex min-w-0 flex-1 flex-col">
       <div
         class="container mx-auto flex flex-1 shrink flex-col p-4 md:px-8 lg:block lg:overflow-y-auto"
-        :data-is-loading="isLoading"
-        data-testid="is-loading"
       >
         <div class="flex-1 2xl:pb-32">
           <LayoutHeader />
@@ -18,20 +16,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-const { $dayjs } = useNuxtApp()
-const { locale } = useI18n()
-
-const loadingId = Math.random()
-const loadingIds = useState(STATE_LOADING_IDS_NAME, () => [loadingId])
-
-// computations
-const isLoading = computed(() => !!loadingIds.value.length)
-
-// lifecycle
-onMounted(() => loadingIds.value.splice(loadingIds.value.indexOf(loadingId), 1))
-
-// initialization
-$dayjs.locale(locale.value)
-</script>

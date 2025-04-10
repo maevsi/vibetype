@@ -1,11 +1,13 @@
 <template>
-  <NuxtLayout>
-    <AppError
-      :status-code="error.statusCode"
-      :description="error.message"
-      :stack="error.stack"
-    />
-  </NuxtLayout>
+  <div :data-is-loading="isLoading" data-testid="is-loading">
+    <NuxtLayout>
+      <AppError
+        :status-code="error.statusCode"
+        :description="error.message"
+        :stack="error.stack"
+      />
+    </NuxtLayout>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -13,7 +15,16 @@ import type { NuxtError } from '#app'
 
 const { error } = defineProps<{ error: NuxtError }>()
 
-const { t } = useI18n()
+// i18n
+const { t, locale } = useI18n()
+const { $dayjs } = useNuxtApp()
+$dayjs.locale(locale.value)
+
+// loading
+const loadingId = Math.random()
+const loadingIds = useState(STATE_LOADING_IDS_NAME, () => [loadingId])
+const isLoading = computed(() => !!loadingIds.value.length)
+onMounted(() => loadingIds.value.splice(loadingIds.value.indexOf(loadingId), 1))
 
 // app
 useAppLayout()
