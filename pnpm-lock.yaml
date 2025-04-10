@@ -51,8 +51,8 @@ importers:
         specifier: 3.782.0
         version: 3.782.0
       '@dargmuesli/nuxt-cookie-control':
-        specifier: 9.0.0
-        version: 9.0.0(magicast@0.3.5)(webpack@5.98.0(esbuild@0.25.2))
+        specifier: 9.0.1
+        version: 9.0.1(magicast@0.3.5)(webpack@5.98.0(esbuild@0.25.2))
       '@dargmuesli/nuxt-vio':
         specifier: 18.2.1
         version: 18.2.1(7d7cb5f1a365d946429122c4af0a32c4)
@@ -1291,8 +1291,8 @@ packages:
     resolution: {integrity: sha512-Im31iLTbHPv2ZTYtWhI4y7qaz1lByBowT0jQG8svpmB8p2vrvkVqAMxMyz1rri10wR/mXDEkAwfChhWWzdlWvA==}
     engines: {node: '>=16'}
 
-  '@dargmuesli/nuxt-cookie-control@9.0.0':
-    resolution: {integrity: sha512-HPFZ2QSVjiU7T+mhjhpdHtC0AFVmNZYVgEXa8caPHHKOsuvyDD6/sunyWM6749G5xeqQ6qO7VpcoYLF8WLyMkA==}
+  '@dargmuesli/nuxt-cookie-control@9.0.1':
+    resolution: {integrity: sha512-fA4nuhm8rIMys0AtSU7e4jzjdPga4AJ+WSWljFavWVBadfPCrn7UR7pkdU0cUXDPSaoQriV/gU+kYV6O/wDxSA==}
     engines: {node: '>=16'}
 
   '@dargmuesli/nuxt-vio@18.2.1':
@@ -13234,7 +13234,7 @@ snapshots:
       - magicast
       - webpack
 
-  '@dargmuesli/nuxt-cookie-control@9.0.0(magicast@0.3.5)(webpack@5.98.0(esbuild@0.25.2))':
+  '@dargmuesli/nuxt-cookie-control@9.0.1(magicast@0.3.5)(webpack@5.98.0(esbuild@0.25.2))':
     dependencies:
       '@nuxt/kit': 3.16.2(magicast@0.3.5)
       css-vars-ponyfill: 2.4.9
@@ -13272,7 +13272,7 @@ snapshots:
       eslint: 9.23.0(jiti@2.4.2)
       eslint-config-prettier: 10.1.1(eslint@9.23.0(jiti@2.4.2))
       eslint-plugin-compat: 6.0.2(eslint@9.23.0(jiti@2.4.2))
-      eslint-plugin-prettier: 5.2.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.1(eslint@9.23.0(jiti@2.4.2)))(eslint@9.23.0(jiti@2.4.2))(prettier@3.5.3)
+      eslint-plugin-prettier: 5.2.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.1(eslint@9.24.0(jiti@2.4.2)))(eslint@9.23.0(jiti@2.4.2))(prettier@3.5.3)
       eslint-plugin-yml: 1.17.0(eslint@9.23.0(jiti@2.4.2))
       globals: 16.0.0
       jiti: 2.4.2
@@ -19936,7 +19936,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-prettier@5.2.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.1(eslint@9.23.0(jiti@2.4.2)))(eslint@9.23.0(jiti@2.4.2))(prettier@3.5.3):
+  eslint-plugin-prettier@5.2.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.1(eslint@9.24.0(jiti@2.4.2)))(eslint@9.23.0(jiti@2.4.2))(prettier@3.5.3):
     dependencies:
       eslint: 9.23.0(jiti@2.4.2)
       prettier: 3.5.3
