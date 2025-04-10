@@ -1,3 +1,9 @@
+## [10.1.0](https://github.com/maevsi/vibetype/compare/10.0.2...10.1.0) (2025-04-10)
+
+### Features
+
+* **content:** add privacy consent ([#1874](https://github.com/maevsi/vibetype/issues/1874)) ([c50d90a](https://github.com/maevsi/vibetype/commit/c50d90a8477eaa1137df7c2e2fd592d2b3e2f2cf))
+
 ## [10.0.2](https://github.com/maevsi/vibetype/compare/10.0.1...10.0.2) (2025-04-10)
 
 ### Bug Fixes
