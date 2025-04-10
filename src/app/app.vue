@@ -1,5 +1,9 @@
 <template>
-  <div class="relative isolate">
+  <div
+    class="relative isolate"
+    :data-is-loading="isLoading"
+    data-testid="is-loading"
+  >
     <NuxtLoadingIndicator />
     <LazyClientOnly>
       <CardStateInfo
@@ -46,26 +50,34 @@
 </template>
 
 <script setup lang="ts">
-import type { Locale } from '@dargmuesli/nuxt-cookie-control/runtime/types.js'
 import '@fontsource-variable/raleway'
 import { isEqual } from 'ufo'
-import type { WritableComputedRef } from 'vue'
 
-import supportedBrowsers from '~/supportedBrowsers'
-
-const i18n = useI18n()
 const { $pwa } = useNuxtApp()
 const { isApp } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
-const locale = i18n.locale as WritableComputedRef<Locale>
-const { t } = i18n
 const timezone = useTimezone()
 const localePath = useLocalePath()
 const store = useStore()
 const route = useRoute()
 
-// data
+// i18n
+const { t, locale } = useI18n()
+const { $dayjs } = useNuxtApp()
+$dayjs.locale(locale.value)
+
+// loading
+const loadingId = Math.random()
+const loadingIds = useState(STATE_LOADING_IDS_NAME, () => [loadingId])
+const isLoading = computed(() => !!loadingIds.value.length)
+onMounted(() => loadingIds.value.splice(loadingIds.value.indexOf(loadingId), 1))
+
+// browserslist
 const isBrowserSupported = ref(true)
+onBeforeMount(async () => {
+  const supportedBrowsers = (await import('~/supportedBrowsers')).default
+  isBrowserSupported.value = supportedBrowsers.test(navigator.userAgent)
+})
 
 // methods
 const initialize = async () => {
@@ -94,9 +106,6 @@ const saveTimezoneAsCookie = () =>
   }).value = timezone)
 
 // lifecycle
-onBeforeMount(() => {
-  isBrowserSupported.value = supportedBrowsers.test(navigator.userAgent)
-})
 watch(
   () => $pwa,
   async (current, _previous) => {
