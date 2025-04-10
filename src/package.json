@@ -172,5 +172,5 @@
     "supportedBrowsers": "echo \"export default $(browserslist-useragent-regexp --allowHigherVersions);\" > supportedBrowsers.js"
   },
   "type": "module",
-  "version": "10.0.0-beta.10"
+  "version": "10.0.0-beta.11"
 }
