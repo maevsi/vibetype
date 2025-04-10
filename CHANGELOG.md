@@ -53,6 +53,13 @@
 * **account:** update authentication flow ([#1687](https://github.com/maevsi/vibetype/issues/1687)) ([cb1ed21](https://github.com/maevsi/vibetype/commit/cb1ed21190eda5849dbe16cb716127aadbc6b66c))
 * **platform:** allow for header and cookie key unification ([#1849](https://github.com/maevsi/vibetype/issues/1849)) ([71bf1f4](https://github.com/maevsi/vibetype/commit/71bf1f4a7c2e5ef402324ce1a6d1917723269874))
 
+## [9.11.1](https://github.com/maevsi/vibetype/compare/9.11.0...9.11.1) (2025-04-10)
+
+### Bug Fixes
+
+* **content:** correct websocket hostname ([#1871](https://github.com/maevsi/vibetype/issues/1871)) ([8506c85](https://github.com/maevsi/vibetype/commit/8506c852de40e3dcc41f281b8f0978162c86dbc3))
+* **deps:** update @dargmuesli/nuxt-cookie-control to v9.0.1 ([#1870](https://github.com/maevsi/vibetype/issues/1870)) ([62185ab](https://github.com/maevsi/vibetype/commit/62185ab777b4882f39b382fdc0c15c3c5bda8d1b))
+
 ## [9.11.0](https://github.com/maevsi/vibetype/compare/9.10.0...9.11.0) (2025-04-08)
 
 ### Features

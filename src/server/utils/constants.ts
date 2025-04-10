@@ -150,8 +150,8 @@ export const GET_CSP = ({
       ...(process.env.NODE_ENV === 'development'
         ? {
             'connect-src': [
-              `ws://${domainTldPort}:4000/ws`, // hot reload
-              `wss://${domainTldPort}:4000/ws`, // hot reload
+              `ws://${siteUrl.hostname}:4000/ws`, // hot reload
+              `wss://${siteUrl.hostname}:4000/ws`, // hot reload
             ],
           }
         : {}),
