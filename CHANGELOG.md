@@ -1,3 +1,9 @@
+## [10.0.1](https://github.com/maevsi/vibetype/compare/10.0.0...10.0.1) (2025-04-10)
+
+### Bug Fixes
+
+* **layout:** grow plain's `main` ([3fe010f](https://github.com/maevsi/vibetype/commit/3fe010fd1db7dab831e2fc914751841b8a9112a7))
+
 ## [10.0.0](https://github.com/maevsi/vibetype/compare/9.11.1...10.0.0) (2025-04-10)
 
 ### ⚠ BREAKING CHANGES
