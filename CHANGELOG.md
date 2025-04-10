@@ -1,3 +1,34 @@
+## [10.0.0](https://github.com/maevsi/vibetype/compare/9.11.1...10.0.0) (2025-04-10)
+
+### ⚠ BREAKING CHANGES
+
+* **account:** update authentication flow (#1687)
+
+### Features
+
+* **account:** rework password reset flow ([bb9eb74](https://github.com/maevsi/vibetype/commit/bb9eb74ed02c2126b3b235ba88fdca2fa6d6d1ec))
+* **account:** update authentication flow ([#1687](https://github.com/maevsi/vibetype/issues/1687)) ([0c30f09](https://github.com/maevsi/vibetype/commit/0c30f09b3fe6b809fcc9067539230d83dca4ad2f))
+* **assets:** add state icons ([c222de5](https://github.com/maevsi/vibetype/commit/c222de5624ec0a932964bead952d7c026a7112b1))
+* **components:** disable placeholder validation ([#1851](https://github.com/maevsi/vibetype/issues/1851)) ([019a5a8](https://github.com/maevsi/vibetype/commit/019a5a81b318a28a2fb436c7e1578e9663b44f8a))
+* **content:** add terms of use ([bada46e](https://github.com/maevsi/vibetype/commit/bada46e6942a5db35471903fc14ff658d3a9e682))
+* **content:** use narrow no-break space ([abfeeac](https://github.com/maevsi/vibetype/commit/abfeeac2b34ab6eb97211e34147659e00364f838))
+* **layout:** move global initialization to app ([595eb97](https://github.com/maevsi/vibetype/commit/595eb977e42784f5939ac3123f54cfc1d224e3ab))
+* **pages:** add code of conduct ([e73f9b6](https://github.com/maevsi/vibetype/commit/e73f9b6250bc080cdfd360a77cb5947343a04825))
+* **pages:** disable robots for placeholder ([399b7e7](https://github.com/maevsi/vibetype/commit/399b7e74575f4f1c0401bf5414f5c0670d79c676))
+* **pages:** restructure legal ([#1859](https://github.com/maevsi/vibetype/issues/1859)) ([09ad806](https://github.com/maevsi/vibetype/commit/09ad8063ca5fe7454f2851d324fe8e2cbd9015fb))
+* **style:** simplify for layout ([4bbbbbd](https://github.com/maevsi/vibetype/commit/4bbbbbd2a4e3550f6139ff37a9452193cd92d22c))
+
+### Bug Fixes
+
+* **account:** don't show back button on registration completion ([c6e769d](https://github.com/maevsi/vibetype/commit/c6e769d69f612adf544a6f44fba6e86af8f2e947))
+* **account:** rework account registration flow success page ([04579f4](https://github.com/maevsi/vibetype/commit/04579f41b09e2e0d08229d844ad0d14038dc4a2e))
+* **components:** make navigations accessible ([f47e9da](https://github.com/maevsi/vibetype/commit/f47e9dada97ac1b1cc52c8683227ca723dd4a7e5))
+* **pages:** correct attributions title ([b258443](https://github.com/maevsi/vibetype/commit/b25844364246cc41620131f6467426b83dc3aca5))
+
+### Performance Improvements
+
+* **utils:** dynamically import `clipboardy` ([00f7b86](https://github.com/maevsi/vibetype/commit/00f7b86205363c472fe1032291f2325c17cda08e))
+
 ## [10.0.0-beta.11](https://github.com/maevsi/vibetype/compare/10.0.0-beta.10...10.0.0-beta.11) (2025-04-10)
 
 ### Features
