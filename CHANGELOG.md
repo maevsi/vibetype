@@ -1,3 +1,13 @@
+## [10.0.0-beta.11](https://github.com/maevsi/vibetype/compare/10.0.0-beta.10...10.0.0-beta.11) (2025-04-10)
+
+### Features
+
+* **account:** rework password reset flow ([899c5d4](https://github.com/maevsi/vibetype/commit/899c5d4a10681232d4497f51c0f7ff3e06eae879))
+
+### Performance Improvements
+
+* **utils:** dynamically import `clipboardy` ([ef605fd](https://github.com/maevsi/vibetype/commit/ef605fd63f71839e2a063e155f31deaccff50714))
+
 ## [10.0.0-beta.10](https://github.com/maevsi/vibetype/compare/10.0.0-beta.9...10.0.0-beta.10) (2025-04-10)
 
 ### Features
