@@ -9,9 +9,8 @@
         validationProperty in formInput &&
         formInput[validationProperty].$invalid)
     "
-    class="text-(--semantic-critic-text)"
+    class="py-1 font-semibold text-(--semantic-critic-text)"
   >
-    <IHeroiconsExclamationCircleSolid v-if="formInput && validationProperty" />
     <slot />
   </FormInputState>
 </template>

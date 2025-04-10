@@ -27,7 +27,7 @@
   "globalValidationMinValue": "Under minimum value",
   "globalValidationNowOrFuture": "Point in time lies in the past",
   "globalValidationRequired": "Required",
-  "globalValidationSameAs": "Is not identical",
+  "globalValidationSameAs": "The passwords do not match",
   "globalValidationShortness": "Too short",
   "nuxtSiteConfig": {
     "description": "Find events, guests and friends 💙❤️💚",

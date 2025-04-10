@@ -15,6 +15,7 @@
             'form-input-success': success,
             'form-input-warning': warning,
             'form-input-error': value?.$error,
+            'text-(--semantic-critic-text)': value?.$error,
           }"
           :for="idLabelFull"
         >
@@ -37,7 +38,11 @@
         <!-- TODO: support textarea, checkboxes and radio buttons natively -->
         <div
           v-else
-          class="flex items-center gap-2 rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill)"
+          class="flex items-center gap-2 rounded-lg border bg-(--semantic-base-input-field-fill)"
+          :class="{
+            'border-(--critic-weak)': value?.$error,
+            'border-(--semantic-base-line)': !value?.$error,
+          }"
         >
           <input
             :id="idLabelFull"
@@ -73,8 +78,9 @@
                 !!validationProperty.$model && validationProperty.$invalid
               "
             >
-              <IHeroiconsExclamationCircleSolid
-                class="text-(--semantic-critic-text)"
+              <IVibetypeClose
+                :aria-label="t('iconAltClose')"
+                class="h-6 w-6 text-(--semantic-critic-text)"
                 :title="t('validNot')"
               />
             </FormInputIconWrapper>
@@ -175,11 +181,13 @@ if (!value && type && !['checkbox', 'select'].includes(type)) {
 
 <i18n lang="yaml">
 de:
+  iconAltClose: X-Icon
   optional: optional
   required: Pflichtfeld
   valid: Gültig
   validNot: Ungültig
 en:
+  iconAltClose: X icon
   optional: optional
   required: required
   valid: valid

@@ -12,25 +12,47 @@
       <Progress :model-value="strength" class="my-2" />
     </template>
     <template #icon>
-      <IHeroiconsEye v-if="!isVisible" />
-      <IHeroiconsEyeSlash v-else />
+      <IVibetypeClose
+        v-if="
+          (formInput.sameAs && formInput.sameAs.$invalid && formInput.$dirty) ||
+          (formInput.lengthMin &&
+            formInput.lengthMin.$invalid &&
+            formInput.$dirty)
+        "
+        :aria-label="t('iconAltClose')"
+        class="h-6 w-6 text-(--semantic-critic-text)"
+        :title="t('validNot')"
+      />
+      <template v-else>
+        <IHeroiconsEye v-if="!isVisible" />
+        <IHeroiconsEyeSlash v-else />
+      </template>
     </template>
     <template #stateError>
-      <FormInputStateError
-        :form-input="formInput"
-        validation-property="lengthMin"
-      >
-        {{ t('globalValidationShortness') }}
-      </FormInputStateError>
-      <FormInputStateError
-        :form-input="formInput"
-        validation-property="required"
-      >
-        {{ t('globalValidationRequired') }}
-      </FormInputStateError>
-      <FormInputStateError :form-input="formInput" validation-property="sameAs">
-        {{ t('globalValidationSameAs') }}
-      </FormInputStateError>
+      <template v-if="formInput.required && formInput.required.$invalid">
+        <FormInputStateError
+          :form-input="formInput"
+          validation-property="required"
+        >
+          {{ t('globalValidationRequired') }}
+        </FormInputStateError>
+      </template>
+      <template v-else-if="formInput.lengthMin && formInput.lengthMin.$invalid">
+        <FormInputStateError
+          :form-input="formInput"
+          validation-property="lengthMin"
+        >
+          {{ t('globalValidationShortness') }}
+        </FormInputStateError>
+      </template>
+      <template v-else-if="formInput.sameAs && formInput.sameAs.$invalid">
+        <FormInputStateError
+          :form-input="formInput"
+          validation-property="sameAs"
+        >
+          {{ t('globalValidationSameAs') }}
+        </FormInputStateError>
+      </template>
     </template>
     <template #stateInfo>
       <FormInputStateInfo
@@ -38,7 +60,9 @@
         validation-property="lengthMin"
       >
         {{
-          t('validationFormat', { length: VALIDATION_PASSWORD_LENGTH_MINIMUM })
+          t('validationFormat', {
+            length: VALIDATION_PASSWORD_LENGTH_MINIMUM,
+          })
         }}
       </FormInputStateInfo>
       <slot name="stateInfo" />
@@ -77,9 +101,13 @@ const strength = computed(() =>
 
 <i18n lang="yaml">
 de:
+  iconAltClose: X-Icon
   password: Passwort
   validationFormat: Muss {length} Zeichen lang sein
+  validNot: Ungültig
 en:
+  iconAltClose: X icon
   password: Password
   validationFormat: Must be {length} characters long
+  validNot: invalid
 </i18n>
