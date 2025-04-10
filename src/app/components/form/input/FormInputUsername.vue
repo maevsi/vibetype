@@ -5,7 +5,6 @@
     :is-optional="isOptional"
     :is-validatable="isValidatable"
     :id-label="`input-username`"
-    :placeholder="t('globalPlaceholderUsername')"
     :success="!!formInput.$model && isValidatable && !formInput.$invalid"
     :title="t('username')"
     type="text"
