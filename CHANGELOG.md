@@ -1,3 +1,16 @@
+## [10.0.0-beta.10](https://github.com/maevsi/vibetype/compare/10.0.0-beta.9...10.0.0-beta.10) (2025-04-10)
+
+### Features
+
+* **assets:** add state icons ([f93c49a](https://github.com/maevsi/vibetype/commit/f93c49a22f47f7521a5b262f426fd14d5c11afa1))
+* **layout:** move global initialization to app ([4f88e47](https://github.com/maevsi/vibetype/commit/4f88e474b7bad3e49ffcbabdd09c6d37df69755f))
+* **style:** simplify for layout ([66d26a1](https://github.com/maevsi/vibetype/commit/66d26a115f9ba627eebf2221d832c49e9506f1ea))
+
+### Bug Fixes
+
+* **account:** don't show back button on registration completion ([88ba9b5](https://github.com/maevsi/vibetype/commit/88ba9b5934d51272f3eabf47b50e2297dfaf8a6d))
+* **components:** make navigations accessible ([cf2f81b](https://github.com/maevsi/vibetype/commit/cf2f81b8184c7a5f455aa7d582763a5d65145ee2))
+
 ## [10.0.0-beta.9](https://github.com/maevsi/vibetype/compare/10.0.0-beta.8...10.0.0-beta.9) (2025-04-10)
 
 ### Bug Fixes
