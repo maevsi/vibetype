@@ -1,6 +1,7 @@
-import clipboard from 'clipboardy'
-
-export const copyText = async (text: string) => await clipboard.write(text)
+export const copyText = async (text: string) => {
+  const clipboard = (await import('clipboardy')).default
+  await clipboard.write(text)
+}
 
 export const calculatePasswordStrength = (password: string) => {
   if (!password) return 0
