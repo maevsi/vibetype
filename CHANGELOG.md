@@ -1,3 +1,10 @@
+## [10.0.0-beta.9](https://github.com/maevsi/vibetype/compare/10.0.0-beta.8...10.0.0-beta.9) (2025-04-10)
+
+### Bug Fixes
+
+* **content:** correct websocket hostname ([#1871](https://github.com/maevsi/vibetype/issues/1871)) ([8506c85](https://github.com/maevsi/vibetype/commit/8506c852de40e3dcc41f281b8f0978162c86dbc3))
+* **deps:** update @dargmuesli/nuxt-cookie-control to v9.0.1 ([#1870](https://github.com/maevsi/vibetype/issues/1870)) ([62185ab](https://github.com/maevsi/vibetype/commit/62185ab777b4882f39b382fdc0c15c3c5bda8d1b))
+
 ## [10.0.0-beta.8](https://github.com/maevsi/vibetype/compare/10.0.0-beta.7...10.0.0-beta.8) (2025-04-09)
 
 ### Features
