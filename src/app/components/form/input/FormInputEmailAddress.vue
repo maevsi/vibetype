@@ -6,6 +6,8 @@
     :title="title || t('emailAddress')"
     type="email"
     :value="formInput"
+    :validation-property="formInput.email || formInput"
+    :is-validatable="true"
     @input="emit('input', $event)"
   >
     <template #stateError>
@@ -23,14 +25,14 @@
       </FormInputStateError>
     </template>
     <template #stateWarning>
-      <FormInputStateWarning
+      <FormInputStateError
         v-if="
           formInput.$dirty &&
           !email.$validator(formInput.$model, undefined, undefined)
         "
       >
-        {{ t('globalValidationCheck') }}
-      </FormInputStateWarning>
+        {{ t('validationEmail') }}
+      </FormInputStateError>
     </template>
   </FormInput>
 </template>
@@ -61,6 +63,8 @@ const { t } = useI18n()
 <i18n lang="yaml">
 de:
   emailAddress: E-Mail-Adresse
+  validationEmail: Überprüfen Sie Ihre E-Mail.
 en:
   emailAddress: Email address
+  validationEmail: Check your Email.
 </i18n>
