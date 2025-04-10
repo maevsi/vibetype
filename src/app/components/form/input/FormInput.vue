@@ -1,5 +1,6 @@
 <template>
   <div
+    class="flex flex-col gap-1"
     :class="{
       'form-input-success': success,
       'form-input-warning': warning,
@@ -86,33 +87,15 @@
         </div>
       </div>
     </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="inputSuffix" />
-    </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="stateSuccess" />
-    </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="stateInfo" />
-      <FormInputStateInfo v-if="value?.$pending">
-        {{ t('globalLoading') }}
-      </FormInputStateInfo>
-    </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="stateWarning" />
-    </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="stateError" />
-    </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="assistance" />
-    </div>
+    <slot name="inputSuffix" />
+    <slot name="stateSuccess" />
+    <slot name="stateInfo" />
+    <FormInputStateInfo v-if="value?.$pending">
+      {{ t('globalLoading') }}
+    </FormInputStateInfo>
+    <slot name="stateWarning" />
+    <slot name="stateError" />
+    <slot name="assistance" />
   </div>
 </template>
 
