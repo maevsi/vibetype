@@ -1,3 +1,11 @@
+## [10.0.2](https://github.com/maevsi/vibetype/compare/10.0.1...10.0.2) (2025-04-10)
+
+### Bug Fixes
+
+* **components:** format form input helpers ([b643243](https://github.com/maevsi/vibetype/commit/b6432438b4e70fad1141313ea4ab28d98d566fdd))
+* **components:** remove username form input's placeholder ([76ee5f0](https://github.com/maevsi/vibetype/commit/76ee5f08958fd7fdd4c6fd4bf0d1cf8f4d11d5f6))
+* **style:** show focus ring only on devices with fine pointer ([a647d8c](https://github.com/maevsi/vibetype/commit/a647d8c26468cb17b09dcfacc3607f87d35dba7f))
+
 ## [10.0.1](https://github.com/maevsi/vibetype/compare/10.0.0...10.0.1) (2025-04-10)
 
 ### Bug Fixes
