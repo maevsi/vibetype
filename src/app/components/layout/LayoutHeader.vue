@@ -50,6 +50,7 @@
           {{ t('signIn') }}
         </ButtonText>
         <ButtonIcon
+          v-if="!headerTitle.title.value"
           :aria-label="t('settings')"
           :to="
             localePath({
@@ -68,7 +69,9 @@
 
 <script setup lang="ts">
 import { isEqual } from 'ufo'
+import { useHeaderTitle } from '~/composables/useHeaderTitle'
 
+const headerTitle = useHeaderTitle()
 const store = useStore()
 const localePath = useLocalePath()
 const { t } = useI18n()
