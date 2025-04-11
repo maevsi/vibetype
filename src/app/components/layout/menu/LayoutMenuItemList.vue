@@ -3,10 +3,10 @@
     :title="t('home')"
     :to="store.signedInUsername ? localePath('dashboard') : localePath('index')"
   >
-    <IVibetypeHome :aria-label="t('iconHome')" class="h-6 w-6" />
+    <IVibetypeHome :aria-label="t('iconHome')" class="size-6" />
   </LayoutMenuItem>
   <LayoutMenuItem :title="t('discover')" :to="localePath('event')">
-    <IVibetypeSearch :aria-label="t('iconDiscover')" class="h-6 w-6" />
+    <IVibetypeSearch :aria-label="t('iconDiscover')" class="size-6" />
   </LayoutMenuItem>
   <LayoutMenuItem
     v-if="store.signedInUsername"
@@ -20,7 +20,7 @@
       })
     "
   >
-    <IVibetypeToday :aria-label="t('iconEvents')" class="h-6 w-6" />
+    <IVibetypeToday :aria-label="t('iconEvents')" class="size-6" />
   </LayoutMenuItem>
   <LayoutMenuItem
     :title="t('account')"
@@ -35,9 +35,9 @@
         : localePath('session-create')
     "
   >
-    <IVibetypeAccount :aria-label="t('iconAccounts')" class="h-6 w-6" />
+    <IVibetypeAccount :aria-label="t('iconAccounts')" class="size-6" />
   </LayoutMenuItem>
-  <UnderConstruction>
+  <AppUnderConstruction>
     <LayoutMenuItem
       :title="t('notifications')"
       :to="localePath('notification')"
@@ -49,7 +49,7 @@
         </div>
       </div>
     </LayoutMenuItem>
-  </UnderConstruction>
+  </AppUnderConstruction>
 </template>
 
 <script setup lang="ts">

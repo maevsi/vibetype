@@ -7,34 +7,26 @@
       <LayoutPageTitle :title="t('title')" />
       <GuestList :event="event" />
     </div>
-    <Error v-else :status-code="403" />
+    <AppError v-else :status-code="403" />
   </Loader>
 </template>
 
 <script setup lang="ts">
-import type { RouteLocationNormalized } from 'vue-router'
-import type { RouteNamedMap } from 'vue-router/auto-routes'
-
 import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { useEventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 import { getEventItem } from '~~/gql/documents/fragments/eventItem'
 
-const ROUTE_NAME: keyof RouteNamedMap =
-  'event-view-username-event_name-guest___en'
-
-definePageMeta({
-  alias: '/event/view/:username/:event_name/invitation',
-  async validate(route) {
-    return await validateEventExistence(
-      route as RouteLocationNormalized<typeof ROUTE_NAME>,
-    )
-  },
-})
-
-const route = useRoute(ROUTE_NAME)
+const route = useRoute('event-view-username-event_name-guest___en')
 const { t } = useI18n()
 const store = useStore()
+
+// validation
+if (route.params.username !== store.signedInUsername) {
+  throw createError({
+    statusCode: 403,
+  })
+}
 
 // api data
 const accountByUsernameQuery = await zalgo(
@@ -46,6 +38,11 @@ const accountId = computed(
   () =>
     getAccountItem(accountByUsernameQuery.data.value?.accountByUsername)?.id,
 )
+if (!accountId.value) {
+  throw createError({
+    statusCode: 404,
+  })
+}
 const eventQuery = await zalgo(
   useEventByCreatedByAndSlugQuery({
     createdBy: accountId,
@@ -55,6 +52,11 @@ const eventQuery = await zalgo(
 const event = computed(() =>
   getEventItem(eventQuery.data.value?.eventByCreatedByAndSlug),
 )
+if (!event.value) {
+  throw createError({
+    statusCode: 404,
+  })
+}
 const api = getApiData([accountByUsernameQuery, eventQuery])
 
 // computations

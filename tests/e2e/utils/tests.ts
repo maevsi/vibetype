@@ -2,6 +2,7 @@ import { expect, type Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import { joinURL, withoutTrailingSlash } from 'ufo'
 
+import { TESTING_COOKIE_NAME } from '#src/shared/utils/constants'
 import { appTest } from '#tests/e2e/fixtures/appTest'
 import { SITE_URL, TIMEOUT } from '#tests/e2e/utils/constants'
 
@@ -525,17 +526,21 @@ export const testOgImage = (url: string) =>
   appTest.describe('visual regression', () => {
     appTest('generates the open graph image', async ({ page }) => {
       await page.goto(joinURL('/__og-image__/image', url, '/og.png'))
-      await expect(page).toHaveScreenshot({ fullPage: true })
+      await expect(page).toHaveScreenshot()
 
       await page.goto(joinURL('/__og-image__/image/de', url, '/og.png'))
-      await expect(page).toHaveScreenshot({ fullPage: true })
+      await expect(page).toHaveScreenshot()
     })
   })
 
 export const testPageLoad = (url: string, statusCode: number = 200) =>
   appTest.describe('page load', () => {
     appTest('loads the page successfully', async ({ request }) => {
-      const resp = await request.get(url)
+      const resp = await request.get(url, {
+        headers: {
+          Cookie: `${TESTING_COOKIE_NAME}=true`,
+        },
+      })
       expect(resp.status()).toBe(statusCode)
     })
   })
@@ -546,7 +551,6 @@ export const testVisualRegression = (url: string) =>
       await defaultPage.goto(url)
 
       await expect(defaultPage.page).toHaveScreenshot({
-        fullPage: true,
         timeout: TIMEOUT,
       })
     })

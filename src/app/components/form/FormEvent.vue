@@ -230,7 +230,10 @@
         @input="form.description = $event"
       >
         <client-only v-if="v$.description">
-          <TipTap :value="v$.description" @input="form.description = $event" />
+          <AppTipTap
+            :value="v$.description"
+            @input="form.description = $event"
+          />
         </client-only>
         <template #stateError>
           <FormInputStateError
@@ -287,12 +290,9 @@ import {
   EventVisibility,
 } from '~~/gql/generated/graphql'
 
-export interface Props {
+const { event } = defineProps<{
   event?: Pick<EventItemFragment, 'name' | 'slug'>
-}
-const props = withDefaults(defineProps<Props>(), {
-  event: undefined,
-})
+}>()
 
 const localePath = useLocalePath()
 const { locale, t } = useI18n()
@@ -461,7 +461,7 @@ const rules = {
     existenceNone: validateEventSlug({
       signedInAccountId: store.signedInAccountId || '',
       invert: true,
-      exclude: props.event?.slug,
+      exclude: event?.slug,
     }),
   }),
   start: VALIDATION_PRIMITIVE({ isRequired: true }),
@@ -472,7 +472,7 @@ const rules = {
 const v$ = useVuelidate(rules, form)
 
 // initialization
-updateForm(props.event)
+updateForm(event)
 </script>
 
 <style>

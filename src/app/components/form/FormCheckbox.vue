@@ -13,16 +13,11 @@
 </template>
 
 <script setup lang="ts">
-export interface Props {
+const { formKey, isDisabled, value } = defineProps<{
   formKey?: string
   isDisabled?: boolean
   value?: boolean
-}
-withDefaults(defineProps<Props>(), {
-  formKey: undefined,
-  isDisabled: undefined,
-  value: undefined,
-})
+}>()
 
 const emit = defineEmits<{
   change: [change: boolean]

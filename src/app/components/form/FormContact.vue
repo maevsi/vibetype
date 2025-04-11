@@ -21,17 +21,13 @@
     />
     <FormInputUsername
       :form-input="v$.accountUsername"
-      :is-disabled="
-        props.contact?.accountByAccountId?.id === store.signedInAccountId
-      "
+      :is-disabled="contact?.accountByAccountId?.id === store.signedInAccountId"
       is-validatable
       @input="form.accountUsername = $event"
     >
       <template #stateInfo>
         <FormInputStateInfo
-          v-if="
-            props.contact?.accountByAccountId?.id === store.signedInAccountId
-          "
+          v-if="contact?.accountByAccountId?.id === store.signedInAccountId"
         >
           <i18n-t keypath="stateInfoUsernameDisabled" tag="span">
             <template #accountSettings>
@@ -104,7 +100,6 @@
         v-if="v$.address"
         id="input-address"
         v-model.trim="v$.address.$model"
-        class="form-input"
         :placeholder="t('globalPlaceholderAddress')"
         rows="2"
       />
@@ -132,7 +127,7 @@ import { useCreateContactMutation } from '~~/gql/documents/mutations/contact/con
 import { useUpdateContactByIdMutation } from '~~/gql/documents/mutations/contact/contactUpdateById'
 import type { ContactItemFragment } from '~~/gql/generated/graphql'
 
-export interface Props {
+const { contact } = defineProps<{
   contact?: Pick<
     ContactItemFragment,
     | 'accountByAccountId'
@@ -144,10 +139,7 @@ export interface Props {
     | 'phoneNumber'
     | 'url'
   >
-}
-const props = withDefaults(defineProps<Props>(), {
-  contact: undefined,
-})
+}>()
 
 const emit = defineEmits<{
   submitSuccess: []
@@ -273,7 +265,7 @@ const rules = {
 const v$ = useVuelidate(rules, form)
 
 // initialization
-updateForm(props.contact)
+updateForm(contact)
 </script>
 
 <i18n lang="yaml">

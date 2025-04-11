@@ -1,12 +1,13 @@
 <template>
   <div
+    class="flex flex-col gap-1"
     :class="{
       'form-input-success': success,
       'form-input-warning': warning,
       'form-input-error': value?.$error,
     }"
   >
-    <div class="flex flex-col gap-1">
+    <div class="flex flex-col gap-2">
       <div>
         <label
           class="inline-flex items-baseline gap-2 font-semibold"
@@ -17,8 +18,9 @@
           }"
           :for="idLabelFull"
         >
-          <span>{{ title }}</span>
+          <TypographySubtitleMedium>{{ title }}</TypographySubtitleMedium>
           <span
+            v-if="isRequired || isOptional"
             class="text-xs font-medium text-gray-500 md:text-right dark:text-gray-400"
           >
             <span v-if="isRequired">
@@ -33,17 +35,17 @@
       <div class="relative">
         <slot v-if="$slots.default" />
         <!-- TODO: support textarea, checkboxes and radio buttons natively -->
-        <div v-else class="flex grow">
+        <div
+          v-else
+          class="flex items-center gap-2 rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill)"
+        >
           <input
             :id="idLabelFull"
-            class="form-input"
-            :class="{
-              'rounded-r-none': $slots.icon,
-            }"
+            class="flex-grow border-none px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-0"
             :disabled="isDisabled"
             :placeholder="placeholder"
             :readonly="isReadonly"
-            :type="type"
+            :type
             :value="valueFormatter(value?.$model as string)"
             @click="emit('click')"
             @focusout="value?.$touch()"
@@ -72,48 +74,28 @@
               "
             >
               <IHeroiconsExclamationCircleSolid
-                class="text-red-600"
+                class="text-(--semantic-critic-text)"
                 :title="t('validNot')"
               />
             </FormInputIconWrapper>
           </div>
-          <span
-            v-if="$slots.icon"
-            class="inline-flex cursor-pointer items-center rounded-r-md border border-l-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-600"
-            @click="emit('icon')"
-          >
-            <slot name="icon" />
-          </span>
+          <div v-if="$slots.icon" class="flex pr-4">
+            <button type="button" @click="emit('icon')">
+              <slot name="icon" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="inputSuffix" />
-    </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="stateSuccess" />
-    </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="stateInfo" />
-      <FormInputStateInfo v-if="value?.$pending">
-        {{ t('globalLoading') }}
-      </FormInputStateInfo>
-    </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="stateWarning" />
-    </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="stateError" />
-    </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="assistance" />
-    </div>
+    <slot name="inputSuffix" />
+    <slot name="stateSuccess" />
+    <slot name="stateInfo" />
+    <FormInputStateInfo v-if="value?.$pending">
+      {{ t('globalLoading') }}
+    </FormInputStateInfo>
+    <slot name="stateWarning" />
+    <slot name="stateError" />
+    <slot name="assistance" />
   </div>
 </template>
 
@@ -121,7 +103,22 @@
 import type { BaseValidation } from '@vuelidate/core'
 import { consola } from 'consola'
 
-export interface Props {
+const {
+  isDisabled,
+  isOptional,
+  isReadonly,
+  isRequired,
+  isValidatable,
+  idLabel,
+  placeholder,
+  success,
+  title,
+  type,
+  validationProperty,
+  value,
+  valueFormatter = (x?: string) => x,
+  warning,
+} = defineProps<{
   isDisabled?: boolean
   isOptional?: boolean
   isReadonly?: boolean
@@ -136,22 +133,7 @@ export interface Props {
   value?: BaseValidation
   valueFormatter?: (x?: string) => typeof x | undefined
   warning?: boolean
-}
-const props = withDefaults(defineProps<Props>(), {
-  isDisabled: false,
-  isOptional: false,
-  isReadonly: false,
-  isRequired: false,
-  isValidatable: false,
-  idLabel: undefined,
-  placeholder: undefined,
-  success: false,
-  type: undefined,
-  validationProperty: undefined,
-  value: undefined,
-  valueFormatter: (x?: string) => x,
-  warning: false,
-})
+}>()
 
 const emit = defineEmits<{
   icon: []
@@ -163,36 +145,32 @@ const { t } = useI18n()
 const runtimeConfig = useRuntimeConfig()
 
 // data
-const idLabelFull = props.idLabel
+const idLabelFull = idLabel
   ? `${SITE_NAME}-${runtimeConfig.public.vio.isInProduction ? 'prod' : 'dev'}-${
-      props.idLabel
+      idLabel
     }`
   : undefined
 
 // initialization
-if (
-  !props.placeholder &&
-  props.type &&
-  ![
-    'checkbox',
-    'datetime-local',
-    'number',
-    'select',
-    'textarea',
-    'tiptap',
-    'radio',
-  ].includes(props.type)
-) {
-  consola.warn(`placeholder is missing for ${props.idLabel}!`)
+if (!value && type && !['checkbox', 'select'].includes(type)) {
+  consola.warn(`value is missing for ${idLabel}!`)
 }
 
-if (
-  !props.value &&
-  props.type &&
-  !['checkbox', 'select'].includes(props.type)
-) {
-  consola.warn(`value is missing for ${props.idLabel}!`)
-}
+// if (
+//   !placeholder &&
+//   type &&
+//   ![
+//     'checkbox',
+//     'datetime-local',
+//     'number',
+//     'select',
+//     'textarea',
+//     'tiptap',
+//     'radio',
+//   ].includes(type)
+// ) {
+//   consola.warn(`placeholder is missing for ${idLabel}!`)
+// }
 </script>
 
 <i18n lang="yaml">

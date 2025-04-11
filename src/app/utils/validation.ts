@@ -11,7 +11,7 @@ import {
 import type { Client } from '@urql/core'
 import { consola } from 'consola'
 import type { Ref } from 'vue'
-import type { LocationQueryValue, RouteLocationNormalized } from 'vue-router'
+import type { LocationQueryValue } from 'vue-router'
 
 import { eventIsExistingQuery } from '~~/gql/documents/queries/event/eventIsExisting'
 import { accountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
@@ -38,6 +38,23 @@ export const VALIDATION_PASSWORD_LENGTH_MINIMUM = 8
 export const VALIDATION_URL_LENGTH_MAXIMUM = 300
 export const VALIDATION_USERNAME_LENGTH_MAXIMUM = 100
 
+export const VALIDATION_CAPTCHA = () => ({
+  required,
+})
+export const VALIDATION_EMAIL_ADDRESS = ({
+  isRequired,
+}: {
+  isRequired?: boolean
+}) => ({
+  format: email,
+  lengthMax: maxLength(VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM),
+  ...(isRequired ? { required } : {}),
+})
+export const VALIDATION_EVENT_VISIBILITY = () => ({
+  formatEnum: (value: string) =>
+    Object.values(EventVisibility).includes(value as EventVisibility),
+  // `required` is implicitly covered by `formatEnum`
+})
 export const VALIDATION_PRIMITIVE = ({
   isRequired,
   lengthMax,
@@ -56,28 +73,6 @@ export const VALIDATION_PRIMITIVE = ({
   ...(lengthMin ? { lengthMin: minLength(lengthMin) } : {}),
   ...(valueMax ? { valueMax: maxValue(valueMax) } : {}),
   ...(valueMin ? { valueMin: minValue(valueMin) } : {}),
-})
-
-export const VALIDATION_CAPTCHA = () => ({
-  required,
-})
-export const VALIDATION_EMAIL_ADDRESS = ({
-  isRequired,
-}: {
-  isRequired?: boolean
-}) => ({
-  email,
-  lengthMax: maxLength(VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM),
-  ...(isRequired ? { required } : {}),
-})
-export const VALIDATION_EVENT_VISIBILITY = () => ({
-  formatEnum: (value: string) =>
-    Object.values(EventVisibility).includes(value as EventVisibility),
-  // `required` is implicitly covered by `formatEnum`
-})
-export const VALIDATION_UUID = () => ({
-  required,
-  formatUuid: VALIDATION_FORMAT_UUID,
 })
 export const VALIDATION_PASSWORD = () => ({
   lengthMin: minLength(VALIDATION_PASSWORD_LENGTH_MINIMUM),
@@ -116,6 +111,10 @@ export const VALIDATION_USERNAME = ({
   lengthMax: maxLength(VALIDATION_USERNAME_LENGTH_MAXIMUM),
   ...(isRequired ? { required } : {}),
 })
+export const VALIDATION_UUID = () => ({
+  required,
+  formatUuid: VALIDATION_FORMAT_UUID,
+})
 
 export const isFormValid = async ({
   v$,
@@ -139,53 +138,6 @@ export const isFormValid = async ({
 export const isQueryIcFormatValid = (
   ic?: LocationQueryValue | LocationQueryValue[],
 ) => ic && !Array.isArray(ic) && REGEX_UUID.test(ic)
-
-export const validateAccountExistence = async ({
-  isAuthorizationRequired = false,
-  route,
-}: {
-  isAuthorizationRequired?: boolean
-  route: RouteLocationNormalized<
-    | 'account-edit-username___en'
-    | 'account-edit-username___en'
-    | 'account-view-username___en'
-    | 'event-edit-username-event_name___en'
-    | 'event-view-username___en'
-    | 'event-view-username-event_name___en'
-    | 'event-view-username-event_name-attendance___en'
-    | 'event-view-username-event_name-guest___en'
-  >
-}) => {
-  const { $urql } = useNuxtApp()
-  const store = useStore()
-
-  const accountIsExisting = await $urql.value
-    .query(accountByUsernameQuery, {
-      username: route.params.username,
-    })
-    .toPromise()
-
-  if (accountIsExisting.error) {
-    throw createError(accountIsExisting.error)
-  }
-
-  if (!accountIsExisting.data?.accountByUsername) {
-    throw createError({
-      statusCode: 404,
-    })
-  }
-
-  if (
-    isAuthorizationRequired &&
-    route.params.username !== store.signedInUsername
-  ) {
-    throw createError({
-      statusCode: 403,
-    })
-  }
-
-  return true
-}
 
 export const getAccountByUsername = async ({
   $urql,

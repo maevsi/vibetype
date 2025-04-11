@@ -1,5 +1,5 @@
 import { useQuery } from '@urql/vue'
-import { graphql } from '~~/gql/generated'
+import { graphql } from '~~/gql/generated/gql'
 import type { EventByCreatedByAndSlugQueryVariables } from '~~/gql/generated/graphql'
 
 export const useEventByCreatedByAndSlugQuery = (

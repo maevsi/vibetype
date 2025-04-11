@@ -4,13 +4,13 @@
       <AccountProfilePicture
         v-if="contact.accountId"
         :account-id="contact.accountId"
-        classes="rounded-full h-12 w-12"
+        class="size-12 rounded-full"
         height="48"
         width="48"
       />
       <ContactAvatar
         v-else
-        classes="rounded-full h-12 w-12"
+        classes="rounded-full size-12"
         :email-address="contact.emailAddress"
         :email-address-hash="contact.emailAddressHash"
         size="48"
@@ -54,7 +54,11 @@
 <script setup lang="ts">
 import type { ContactItemFragment } from '~~/gql/generated/graphql'
 
-export interface Props {
+const {
+  contact,
+  feedback,
+  isUsernameLinked = true,
+} = defineProps<{
   contact: Pick<
     ContactItemFragment,
     | 'accountId'
@@ -67,11 +71,7 @@ export interface Props {
   >
   feedback?: string | null
   isUsernameLinked?: boolean
-}
-withDefaults(defineProps<Props>(), {
-  feedback: undefined,
-  isUsernameLinked: true,
-})
+}>()
 
 const localePath = useLocalePath()
 </script>

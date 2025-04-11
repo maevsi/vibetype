@@ -5,13 +5,10 @@ import type { Locale } from '../../../utils/i18n'
 import AppText from './base/AppText.vue'
 import { LOGO_CID } from '../../../utils/assets'
 
-export interface Props {
+const { logoSource, locale } = defineProps<{
   logoSource?: string
   locale: Locale
-}
-const props = withDefaults(defineProps<Props>(), {
-  logoSource: undefined,
-})
+}>()
 
 const { siteUrl } = useSiteUrl()
 
@@ -28,7 +25,7 @@ const locales = {
     subtitle: 'Find events, guests and friends 💙❤️💚',
   },
 }
-const t = locales[props.locale]
+const t = locales[locale]
 </script>
 
 <template>

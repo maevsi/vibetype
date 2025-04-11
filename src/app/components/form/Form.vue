@@ -3,20 +3,24 @@
     v-if="form"
     ref="form"
     :class="[
-      { 'animate-shake rounded-lg border border-red-500': errors?.length },
+      {
+        'animate-shake': errors?.length,
+      },
       formClass,
     ]"
     novalidate
     @submit="emit('submit', $event)"
   >
     <div class="flex flex-col">
-      <div class="flex min-h-0 flex-col gap-6">
+      <div class="flex min-h-0 flex-col gap-4">
         <slot />
         <div class="flex flex-col items-center justify-between">
           <ButtonColored
             :aria-label="submitName || t('submit')"
+            class="w-full"
             :class="{
               'animate-shake': $error,
+              hidden: isButtonHidden,
             }"
             type="submit"
             @click="emit('click')"
@@ -32,7 +36,7 @@
         </div>
         <div v-if="errorMessages?.length" class="flex flex-col gap-4">
           <CardStateAlert>
-            <SpanList :span="errorMessages" />
+            <AppSpanList :span="errorMessages" />
           </CardStateAlert>
           <div v-if="$slots.assistance" class="flex justify-center">
             <slot name="assistance" />
@@ -46,21 +50,15 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 
-export interface Props {
-  errors?: BackendError[]
-  errorsPgIds?: Record<string, string>
-  form: BaseValidation
-  formClass?: string
-  isFormSent?: boolean
-  submitName?: string
-}
-const props = withDefaults(defineProps<Props>(), {
-  errors: undefined,
-  errorsPgIds: undefined,
-  formClass: undefined,
-  isFormSent: false,
-  submitName: undefined,
-})
+const { errors, errorsPgIds, form, formClass, isButtonHidden, submitName } =
+  defineProps<{
+    errors?: BackendError[]
+    errorsPgIds?: Record<string, string>
+    form: BaseValidation
+    formClass?: string
+    isButtonHidden?: boolean
+    submitName?: string
+  }>()
 
 const emit = defineEmits<{
   click: []
@@ -78,12 +76,10 @@ const resetForm = () => {
 // computations
 const $error = computed(
   // this is not equivalent to Vuelidate's `$error` as docs claim (https://github.com/vuelidate/vuelidate/pull/1188)
-  () => props.form.$dirty && props.form.$invalid && !props.form.$pending,
+  () => form.$dirty && form.$invalid && !form.$pending,
 )
 const errorMessages = computed(() =>
-  props.errors
-    ? getCombinedErrorMessages(props.errors, props.errorsPgIds)
-    : undefined,
+  errors ? getCombinedErrorMessages(errors, errorsPgIds) : undefined,
 )
 
 defineExpose({

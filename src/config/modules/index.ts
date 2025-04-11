@@ -6,17 +6,14 @@ import { i18nConfig } from './i18n'
 import { pwaConfig } from './pwa'
 import { securityConfig } from './security'
 
-const ROBOTS_DISALLOW = [
-  '/%F0%9F%AB%96',
-  '/account/password/reset',
-  '/account/verify',
-  '/session/edit',
-  '/session/view',
-]
-
 export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   colorMode: {
     classSuffix: '',
+  },
+  content: {
+    experimental: {
+      nativeSqlite: true,
+    },
   },
   ...cookieControlConfig,
   eslint: {
@@ -53,9 +50,6 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   linkChecker: {
     failOnError: true,
   },
-  robots: {
-    disallow: ROBOTS_DISALLOW,
-  },
   ...securityConfig,
   sentry: {
     sourceMapsUploadOptions: {
@@ -75,6 +69,5 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   },
   sitemap: {
     credits: false,
-    exclude: ROBOTS_DISALLOW,
   },
 }

@@ -146,6 +146,17 @@ export const GET_CSP = ({
       'worker-src': ['blob:'],
     },
     {
+      // @nuxt/content
+      ...(process.env.NODE_ENV === 'development'
+        ? {
+            'connect-src': [
+              `ws://${siteUrl.hostname}:4000/ws`, // hot reload
+              `wss://${siteUrl.hostname}:4000/ws`, // hot reload
+            ],
+          }
+        : {}),
+    },
+    {
       // nuxt
       ...(process.env.NODE_ENV === 'development'
         ? {
@@ -153,7 +164,7 @@ export const GET_CSP = ({
           }
         : {}),
       'connect-src': [
-        "'self'", // e.g. `/_nuxt/builds/meta/`, `/_payload.json`, `/privacy-policy/_payload.json`
+        "'self'", // e.g. `/_nuxt/builds/meta/`, `/_payload.json`, `/docs/legal/privacy/_payload.json`
         // ...(process.env.NODE_ENV === 'development'
         //   ? [
         //       `http://${domainTldPort}/_nuxt/`, // hot reload

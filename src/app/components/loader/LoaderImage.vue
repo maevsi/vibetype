@@ -27,7 +27,7 @@
 <script setup lang="ts">
 import { debounce } from 'lodash-es'
 
-export interface Props {
+const { alt, aspect, classes, crossOrigin, height, src, width } = defineProps<{
   alt: string
   aspect: string
   classes?: string
@@ -35,11 +35,7 @@ export interface Props {
   height: string
   src: string
   width: string
-}
-const props = withDefaults(defineProps<Props>(), {
-  classes: undefined,
-  crossOrigin: undefined,
-})
+}>()
 
 const { t } = useI18n()
 
@@ -49,7 +45,7 @@ const isError = ref(false)
 const isLoading = ref(false)
 const loadingId = Math.random()
 const loadingIds = useState(STATE_LOADING_IDS_NAME, () => [] as number[])
-const srcWhenLoaded = ref<string | undefined>(props.src)
+const srcWhenLoaded = ref<string | undefined>(src)
 
 // methods
 const loadOnClient = () => {
@@ -64,8 +60,8 @@ const loadOnClient = () => {
     loadingStop()
     isError.value = true
   }
-  img.value.crossOrigin = props.crossOrigin || null
-  img.value.src = props.src
+  img.value.crossOrigin = crossOrigin || null
+  img.value.src = src
 }
 const loadingStart = () => {
   srcWhenLoaded.value = undefined
@@ -82,7 +78,7 @@ const loadingStop = () => {
 // lifecycle
 onMounted(loadOnClient)
 watch(
-  () => props.src,
+  () => src,
   () => loadOnClient(),
 )
 </script>

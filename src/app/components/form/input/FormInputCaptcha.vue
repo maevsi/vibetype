@@ -38,7 +38,12 @@
       </FormInputStateInfo>
     </template>
     <template v-if="formInput.$error" #assistance>
-      <ButtonColored :aria-label="t('reset')" @click="reset">
+      <ButtonColored
+        :aria-label="t('reset')"
+        class="w-full"
+        variant="secondary"
+        @click="reset"
+      >
         {{ t('reset') }}
         <template #prefix>
           <IHeroiconsArrowPath />
@@ -51,13 +56,10 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 
-export interface Props {
+const { isCentered } = defineProps<{
   formInput: BaseValidation
   isCentered?: boolean
-}
-withDefaults(defineProps<Props>(), {
-  isCentered: false,
-})
+}>()
 
 const emit = defineEmits<{
   input: [event?: string]

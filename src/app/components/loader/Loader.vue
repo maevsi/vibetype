@@ -1,36 +1,37 @@
 <template>
   <div>
-    <div v-if="api.isFetching" :class="classes">
+    <div v-if="api.isFetching" :class="classProps">
       <LoaderIndicatorPing v-if="indicator === 'ping'" />
       <LoaderIndicatorSpinner v-else-if="indicator === 'spinner'" />
       <LoaderIndicatorText v-else-if="indicator === 'text'" />
       <LoaderIndicatorText v-else />
     </div>
     <CardStateAlert v-if="errorMessages.length">
-      <SpanList :span="errorMessages" />
+      <AppSpanList :span="errorMessages" />
     </CardStateAlert>
     <slot v-if="api.data" /><!--  && Object.keys(api.data).length -->
   </div>
 </template>
 
 <script setup lang="ts">
-import type { UnwrapRef } from 'vue'
+import type { HtmlHTMLAttributes, UnwrapRef } from 'vue'
 
-export interface Props {
-  api: UnwrapRef<ReturnType<typeof getApiData>>
-  errorPgIds?: Record<string, string>
-  classes?: string
-  indicator?: string
-}
-const props = withDefaults(defineProps<Props>(), {
-  errorPgIds: undefined,
-  classes: undefined,
-  indicator: undefined,
-})
+const {
+  api,
+  class: classProps,
+  errorPgIds,
+  indicator,
+} = defineProps<
+  {
+    api: UnwrapRef<ReturnType<typeof getApiData>>
+    errorPgIds?: Record<string, string>
+    indicator?: string
+  } & { class?: HtmlHTMLAttributes['class'] }
+>()
 
 // computations
 const errorMessages = computed(() =>
-  getCombinedErrorMessages(props.api.errors, props.errorPgIds),
+  getCombinedErrorMessages(api.errors, errorPgIds),
 )
 </script>
 

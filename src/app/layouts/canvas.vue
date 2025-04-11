@@ -3,10 +3,8 @@
 </template>
 
 <script setup lang="ts">
-const { $dayjs } = useNuxtApp()
 const router = useRouter()
 const route = useRoute()
-const { locale } = useI18n()
 const templateCanvas = useTemplateRef('canvas')
 
 // data
@@ -67,7 +65,4 @@ onMounted(() => {
     setTimeout(() => router.replace(redirect), 1000)
   }
 })
-
-// initialization
-$dayjs.locale(locale.value)
 </script>

@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import type {
-  CarouselEmits,
-  CarouselProps,
-  WithClassAsProps,
-} from './interface'
+import type { CarouselEmits, CarouselProps, WithClassAsProps } from './interface'
 import { cn } from '@/utils/shadcn'
 import { useProvideCarousel } from './useCarousel'
 
@@ -13,15 +9,7 @@ const props = withDefaults(defineProps<CarouselProps & WithClassAsProps>(), {
 
 const emits = defineEmits<CarouselEmits>()
 
-const {
-  canScrollNext,
-  canScrollPrev,
-  carouselApi,
-  carouselRef,
-  orientation,
-  scrollNext,
-  scrollPrev,
-} = useProvideCarousel(props, emits)
+const { canScrollNext, canScrollPrev, carouselApi, carouselRef, orientation, scrollNext, scrollPrev } = useProvideCarousel(props, emits)
 
 defineExpose({
   canScrollNext,
@@ -53,20 +41,13 @@ function onKeyDown(event: KeyboardEvent) {
 
 <template>
   <div
+    data-slot="carousel"
     :class="cn('relative', props.class)"
     role="region"
     aria-roledescription="carousel"
     tabindex="0"
     @keydown="onKeyDown"
   >
-    <slot
-      :can-scroll-next
-      :can-scroll-prev
-      :carousel-api
-      :carousel-ref
-      :orientation
-      :scroll-next
-      :scroll-prev
-    />
+    <slot :can-scroll-next :can-scroll-prev :carousel-api :carousel-ref :orientation :scroll-next :scroll-prev />
   </div>
 </template>

@@ -10,7 +10,7 @@
       >
         <div class="flex flex-col items-center gap-4">
           <svg
-            class="h-12 w-12 text-gray-400"
+            class="size-12 text-gray-400"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -39,14 +39,14 @@
         <div class="flex gap-4">
           <ButtonColored
             :aria-label="t('replaceImage')"
-            :is-primary="false"
+            variant="secondary"
             @click="triggerFileInput"
           >
             {{ t('replaceImage') }}
           </ButtonColored>
           <ButtonColored
             :aria-label="t('clearAll')"
-            :is-primary="false"
+            variant="secondary"
             @click="removeFile"
           >
             {{ t('clearAll') }}

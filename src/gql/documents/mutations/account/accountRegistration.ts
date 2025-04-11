@@ -1,5 +1,5 @@
 import { useMutation } from '@urql/vue'
-import { graphql } from '~~/gql/generated'
+import { graphql } from '~~/gql/generated/gql'
 
 export const useAccountRegistrationMutation = () =>
   useMutation(
@@ -9,6 +9,7 @@ export const useAccountRegistrationMutation = () =>
         $password: String!
         $username: String!
         $language: String!
+        $legalTermId: UUID!
       ) {
         accountRegistration(
           input: {
@@ -16,6 +17,7 @@ export const useAccountRegistrationMutation = () =>
             password: $password
             username: $username
             language: $language
+            legalTermId: $legalTermId
           }
         ) {
           clientMutationId

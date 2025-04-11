@@ -1,11 +1,10 @@
 <template>
   <Button
-    :aria-label="ariaLabel"
-    class="p-4"
-    :class="{
-      'bg-white dark:bg-gray-800': route.fullPath === to,
-    }"
-    :to="props.to"
+    v-bind="delegatedProps"
+    :class="[
+      'p-4',
+      ...(route.fullPath === to ? ['bg-white dark:bg-gray-800'] : []),
+    ]"
     @click="emit('onMenuHide')"
   >
     <slot />
@@ -15,17 +14,19 @@
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
 
-export interface Props {
+const { ariaLabel, to } = defineProps<{
   ariaLabel: string
   to?: RouteLocationRaw
-}
-const props = withDefaults(defineProps<Props>(), {
-  to: undefined,
-})
+}>()
 
 const emit = defineEmits<{
   onMenuHide: []
 }>()
 
 const route = useRoute()
+
+const delegatedProps = computed(() => ({
+  ariaLabel,
+  to,
+}))
 </script>

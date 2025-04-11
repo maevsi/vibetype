@@ -9,7 +9,7 @@
         validationProperty in formInput &&
         formInput[validationProperty].$invalid)
     "
-    class="text-red-600"
+    class="text-(--semantic-critic-text)"
   >
     <IHeroiconsExclamationCircleSolid v-if="formInput && validationProperty" />
     <slot />
@@ -19,14 +19,9 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 
-export interface Props {
+const { formInput, isValidationLive, validationProperty } = defineProps<{
   formInput?: BaseValidation
   isValidationLive?: boolean
   validationProperty?: string
-}
-withDefaults(defineProps<Props>(), {
-  formInput: undefined,
-  isValidationLive: false,
-  validationProperty: undefined,
-})
+}>()
 </script>

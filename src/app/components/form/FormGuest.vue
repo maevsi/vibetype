@@ -51,7 +51,7 @@
         </FormInputStateError>
       </template>
     </FormInput>
-    <ScrollContainer
+    <AppScrollContainer
       v-if="contacts"
       class="flex flex-col gap-2"
       :has-next-page="!!api.data.allContacts?.pageInfo.hasNextPage"
@@ -77,7 +77,7 @@
         />
       </Button>
       <!-- </div> -->
-    </ScrollContainer>
+    </AppScrollContainer>
   </Form>
 </template>
 
@@ -92,13 +92,10 @@ import { getContactItem } from '~~/gql/documents/fragments/contactItem'
 // import { accountByIdQuery } from '~~/gql/documents/queries/account/accountById'
 // import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 
-export interface Props {
+const { event, guestContactIdsExisting } = defineProps<{
   event: Pick<EventItemFragment, 'id'>
   guestContactIdsExisting?: number[]
-}
-const props = withDefaults(defineProps<Props>(), {
-  guestContactIdsExisting: undefined,
-})
+}>()
 
 const emit = defineEmits<{
   submitSuccess: []
@@ -152,7 +149,7 @@ const submit = async () => {
       const result = await createGuestMutation.executeMutation({
         guestInput: {
           contactId: contactId || null,
-          eventId: props.event.id,
+          eventId: event.id,
         },
       })
 

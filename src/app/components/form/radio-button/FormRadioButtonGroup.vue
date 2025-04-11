@@ -13,18 +13,14 @@
 </template>
 
 <script setup lang="ts">
-export interface Props {
+const { name, options, modelValue } = defineProps<{
   name?: string
   options: {
     title: string
     value: string
   }[]
   modelValue?: string
-}
-withDefaults(defineProps<Props>(), {
-  name: undefined,
-  modelValue: undefined,
-})
+}>()
 
 const emit = defineEmits<{
   'update:modelValue': [change: string]

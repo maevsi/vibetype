@@ -33,6 +33,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   css: ['~/assets/css/app.css'],
   experimental: {
+    inlineRouteRules: true,
     typedPages: true,
   },
   future: {
@@ -46,7 +47,9 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxtjs/html-validator',
     '@nuxtjs/i18n',
+    '@nuxtjs/mdc',
     '@nuxtjs/seo',
+    '@nuxt/content', // most come after `@nuxtjs/seo`
     '@nuxtjs/turnstile',
     '@pinia/nuxt',
     '@vite-pwa/nuxt',
@@ -99,6 +102,9 @@ export default defineNuxtConfig({
     experimental: {
       asyncContext: true,
       openAPI: IS_NITRO_OPENAPI_ENABLED,
+    },
+    prerender: {
+      ignore: ['/__nuxt_content/content/sql_dump'], // TODO: remove once nuxt content support is fixed (https://github.com/nuxt/content/issues/3291)
     },
     rollupConfig: {
       output: {
@@ -232,6 +238,7 @@ export default defineNuxtConfig({
         'pretty-bytes',
         'prntr',
         'qrcode.vue',
+        'reka-ui',
         'seedrandom',
         'slugify',
         'tailwind-merge',

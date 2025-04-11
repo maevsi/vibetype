@@ -1,7 +1,7 @@
 <template>
   <Loader :api="api">
     <div class="flex flex-col gap-4">
-      <ScrollContainer
+      <AppScrollContainer
         v-if="event && guests.length"
         class="max-h-[70vh]"
         :has-next-page="!!api.data.allGuests?.pageInfo.hasNextPage"
@@ -27,7 +27,7 @@
             />
           </LayoutTbody>
         </table>
-      </ScrollContainer>
+      </AppScrollContainer>
       <div v-else class="flex flex-col items-center gap-2">
         {{ t('guestNone') }}
         <FormInputStateInfo>
@@ -103,13 +103,12 @@ import { useAllGuestsQuery } from '~~/gql/documents/queries/guest/guestsAll'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 import { getGuestItem } from '~~/gql/documents/fragments/guestItem'
 
-export interface Props {
+const { event } = defineProps<{
   event: Pick<
     EventItemFragment,
     'createdBy' | 'slug' | 'guestCountMaximum' | 'id'
   >
-}
-const props = withDefaults(defineProps<Props>(), {})
+}>()
 
 const colorMode = useColorMode()
 const { t } = useI18n()
@@ -137,7 +136,7 @@ const options = {
 // api data
 const guestsQuery = await useAllGuestsQuery({
   after,
-  eventId: props.event.id,
+  eventId: event.id,
   first: ITEMS_PER_PAGE_LARGE,
 })
 const api = getApiData([guestsQuery])

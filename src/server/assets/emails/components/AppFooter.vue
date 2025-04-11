@@ -4,11 +4,10 @@ import { Column, Link, Row, Section } from '@vue-email/components'
 import type { Locale } from '../../../utils/i18n'
 import AppText from './base/AppText.vue'
 
-export interface Props {
+const { emailAddress, locale } = defineProps<{
   emailAddress: string
   locale: Locale
-}
-const props = withDefaults(defineProps<Props>(), {})
+}>()
 
 // data
 const locales = {
@@ -19,7 +18,7 @@ const locales = {
     unsubscribe: 'Unsubscribe from emails',
   },
 }
-const t = locales[props.locale]
+const t = locales[locale]
 </script>
 
 <template>

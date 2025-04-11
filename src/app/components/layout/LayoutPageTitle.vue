@@ -17,11 +17,8 @@
 </template>
 
 <script setup lang="ts">
-export interface Props {
+const { isCentered, title } = defineProps<{
   isCentered?: boolean
   title: string
-}
-withDefaults(defineProps<Props>(), {
-  isCentered: false,
-})
+}>()
 </script>

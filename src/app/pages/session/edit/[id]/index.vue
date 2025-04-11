@@ -16,7 +16,7 @@
               })
             "
           >
-            <IVibetypePerson class="h-6 w-6" :alt="t('iconAltPerson')" />
+            <IVibetypePerson class="size-6" :aria-label="t('iconAltPerson')" />
           </CardButton>
           <CardButton
             :title="t('contactBook')"
@@ -26,9 +26,12 @@
               })
             "
           >
-            <IVibetypeContacts class="h-6 w-6" :alt="t('iconAltContactBook')" />
+            <IVibetypeContacts
+              class="size-6"
+              :aria-label="t('iconAltContactBook')"
+            />
           </CardButton>
-          <UnderConstruction>
+          <AppUnderConstruction>
             <CardButton
               class="bg-(--accent-strong) text-(--semantic-base-primary-button-text)"
               :title="t('resetAISetup')"
@@ -42,16 +45,19 @@
               "
             >
               <IVibetypeNetworkIntelligence
-                class="h-6 w-6"
-                :alt="t('iconAltAI')"
+                class="size-6"
+                :aria-label="t('iconAltAI')"
               />
 
               <template #iconSecondary>
-                <IVibetypeRestartAlt class="h-6 w-6" :alt="t('iconAltReset')" />
+                <IVibetypeRestartAlt
+                  class="size-6"
+                  :aria-label="t('iconAltReset')"
+                />
               </template>
             </CardButton>
-          </UnderConstruction>
-          <UnderConstruction>
+          </AppUnderConstruction>
+          <AppUnderConstruction>
             <CardButton
               class="border-(--warning-strong) bg-(--warning-weak) text-(--warning-text)"
               :title="t('stopEarlyBird')"
@@ -65,14 +71,17 @@
               "
             >
               <IVibetypeColoredEarlyBird
-                class="h-6 w-6"
-                :alt="t('iconAltEarlyBird')"
+                class="size-6"
+                :aria-label="t('iconAltEarlyBird')"
               />
               <template #iconSecondary>
-                <IVibetypeClose class="h-6 w-6" :alt="t('iconAltClose')" />
+                <IVibetypeClose
+                  class="size-6"
+                  :aria-label="t('iconAltClose')"
+                />
               </template>
             </CardButton>
-          </UnderConstruction>
+          </AppUnderConstruction>
         </div>
       </section>
       <section class="flex flex-col gap-4">
@@ -89,7 +98,10 @@
               })
             "
           >
-            <IVibetypeSun class="h-6 w-6" :alt="t('iconAltColorScheme')" />
+            <IVibetypeSun
+              class="size-6"
+              :aria-label="t('iconAltColorScheme')"
+            />
           </CardButton>
           <CardButton
             :title="t('language')"
@@ -102,7 +114,10 @@
               })
             "
           >
-            <IVibetypeLanguage class="h-6 w-6" :alt="t('iconAltLanguage')" />
+            <IVibetypeLanguage
+              class="size-6"
+              :aria-label="t('iconAltLanguage')"
+            />
           </CardButton>
         </div>
       </section>
@@ -114,21 +129,21 @@
             :title="t('featureSuggestion')"
             to="https://forms.monday.com/forms/f3ef56d13c8383e6ececb2875d7fb4b2?r=euc1"
           >
-            <IVibetypeIdea class="h-6 w-6" :alt="t('iconAltIdea')" />
+            <IVibetypeIdea class="size-6" :aria-label="t('iconAltIdea')" />
           </CardButton>
           <CardButton
             is-external
             :title="t('bugReport')"
             to="https://forms.monday.com/forms/55b8fc2281c2be1647a69e6a4ffe156e?r=euc1"
           >
-            <IVibetypeBug class="h-6 w-6" :alt="t('iconAltBug')" />
+            <IVibetypeBug class="size-6" :aria-label="t('iconAltBug')" />
           </CardButton>
           <CardButton
             is-external
             :title="t('contact')"
             to="https://forms.monday.com/forms/74204ae8168ecb1dd44c15b502854a5a?r=euc1"
           >
-            <IVibetypeMail class="h-6 w-6" :alt="t('iconAltContact')" />
+            <IVibetypeMail class="size-6" :aria-label="t('iconAltContact')" />
           </CardButton>
           <CardButton
             :title="t('developerInformation')"
@@ -141,7 +156,10 @@
               })
             "
           >
-            <IHeroiconsWrench class="h-6 w-6" :alt="t('iconAltDeveloper')" />
+            <IHeroiconsWrench
+              class="size-6"
+              :aria-label="t('iconAltDeveloper')"
+            />
           </CardButton>
         </div>
       </section>
@@ -150,34 +168,32 @@
           {{ t('legal') }}
         </span>
         <div class="flex flex-col gap-3">
-          <UnderConstruction>
-            <CardButton
-              :title="t('generalTermsAndConditions')"
-              :to="localePath('privacy-policy')"
-            >
-              <IVibetypeContract class="h-6 w-6" :alt="t('iconAltTerms')" />
-            </CardButton>
-          </UnderConstruction>
+          <CardButton :title="t('terms')" :to="localePath('docs-legal-terms')">
+            <IVibetypeContract class="size-6" :aria-label="t('iconAltTerms')" />
+          </CardButton>
           <CardButton
             :title="t('cookies')"
             @click="cookieControl.isModalActive.value = true"
           >
             <IMaterialSymbolsCookieOutline
-              class="h-6 w-6"
-              :alt="t('iconAltCookies')"
+              class="size-6"
+              :aria-label="t('iconAltCookies')"
             />
           </CardButton>
           <CardButton
             :title="t('legalNotice')"
-            :to="localePath('legal-notice')"
+            :to="localePath('docs-legal-imprint')"
           >
-            <IVibetypeLegal class="h-6 w-6" :alt="t('iconAltLegal')" />
+            <IVibetypeLegal class="size-6" :aria-label="t('iconAltLegal')" />
           </CardButton>
           <CardButton
-            :title="t('privacyPolicy')"
-            :to="localePath('privacy-policy')"
+            :title="t('privacy')"
+            :to="localePath('docs-legal-privacy')"
           >
-            <IVibetypeVerifiedUser class="h-6 w-6" :alt="t('iconAltPrivacy')" />
+            <IVibetypeVerifiedUser
+              class="size-6"
+              :aria-label="t('iconAltPrivacy')"
+            />
           </CardButton>
         </div>
       </section>
@@ -189,7 +205,7 @@
           @click="signOut"
         >
           <template #iconSecondary />
-          <IVibetypeLogout class="h-6 w-6" :alt="t('iconAltLogout')" />
+          <IVibetypeLogout class="size-6" :aria-label="t('iconAltLogout')" />
         </CardButton>
       </section>
     </div>
@@ -200,6 +216,10 @@
 import type { RouteNamedMap } from 'vue-router/auto-routes'
 
 const ROUTE_NAME: keyof RouteNamedMap = 'session-edit-id___en'
+
+defineRouteRules({
+  robots: false,
+})
 
 const { t } = useI18n()
 const cookieControl = useCookieControl()
@@ -225,7 +245,6 @@ de:
   developerInformation: Entwicklerinformationen
   display: Anzeige
   featureSuggestion: Idee
-  generalTermsAndConditions: Allgemeine Geschäftsbedingungen
   iconAltAI: KI
   iconAltBug: Fehler-Symbol
   iconAltClose: Schließen-Symbol
@@ -249,11 +268,12 @@ de:
   logout: Abmelden
   personalInformation: Persönliche Informationen
   preferences: Einstellungen
-  privacyPolicy: Datenschutzerklärung
+  privacy: Datenschutzerklärung
   profile: Profil
   resetAISetup: KI-Einrichtung zurücksetzen
   stopEarlyBird: Early Bird beenden
   support: Hilfe
+  terms: Allgemeine Geschäftsbedingungen
 en:
   bugReport: Issue
   colorScheme: Color scheme
@@ -263,7 +283,6 @@ en:
   developerInformation: Developer information
   display: Display
   featureSuggestion: Idea
-  generalTermsAndConditions: General Terms and Conditions
   iconAltAI: AI icon
   iconAltBug: Bug icon
   iconAltClose: Close icon
@@ -287,9 +306,10 @@ en:
   logout: Log Out
   personalInformation: Personal Information
   preferences: Settings
-  privacyPolicy: Privacy Policy
+  privacy: Privacy Policy
   profile: Profile
   resetAISetup: Reset AI Setup
   stopEarlyBird: Stop Early Bird
   support: Support
+  terms: General Terms and Conditions
 </i18n>

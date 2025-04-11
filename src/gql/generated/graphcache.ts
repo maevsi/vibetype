@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import { cacheExchange } from '@urql/exchange-graphcache'
-import {
+import type {
   Resolver as GraphCacheResolver,
   UpdateResolver as GraphCacheUpdateResolver,
   OptimisticMutationResolver as GraphCacheOptimisticMutationResolver,
@@ -46,17 +46,13 @@ export type Scalars = {
 export type Account = Node & {
   __typename?: 'Account'
   /** Reads and enables pagination through a set of `AccountBlock`. */
-<<<<<<< HEAD
   accountBlocksByBlockedAccountId: AccountBlocksConnection
   /** Reads and enables pagination through a set of `AccountBlock`. */
   accountBlocksByCreatedBy: AccountBlocksConnection
-=======
-  accountBlocksByAuthorAccountId: AccountBlocksConnection
-  /** Reads and enables pagination through a set of `AccountBlock`. */
-  accountBlocksByBlockedAccountId: AccountBlocksConnection
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
-  /** Reads and enables pagination through a set of `AccountInterest`. */
-  accountInterestsByAccountId: AccountInterestsConnection
+  /** Reads and enables pagination through a set of `AccountPreferenceEventCategory`. */
+  accountPreferenceEventCategoriesByAccountId: AccountPreferenceEventCategoriesConnection
+  /** Reads and enables pagination through a set of `AccountPreferenceEventFormat`. */
+  accountPreferenceEventFormatsByAccountId: AccountPreferenceEventFormatsConnection
   /** Reads and enables pagination through a set of `AccountPreferenceEventSize`. */
   accountPreferenceEventSizesByAccountId: AccountPreferenceEventSizesConnection
   /** Reads and enables pagination through a set of `AccountSocialNetwork`. */
@@ -70,7 +66,6 @@ export type Account = Node & {
   /** Reads and enables pagination through a set of `Contact`. */
   contactsByAccountId: ContactsConnection
   /** Reads and enables pagination through a set of `Contact`. */
-<<<<<<< HEAD
   contactsByCreatedBy: ContactsConnection
   /** Reads and enables pagination through a set of `Device`. */
   devicesByCreatedBy: DevicesConnection
@@ -78,11 +73,6 @@ export type Account = Node & {
   devicesByUpdatedBy: DevicesConnection
   /** Reads and enables pagination through a set of `EventFavorite`. */
   eventFavoritesByCreatedBy: EventFavoritesConnection
-=======
-  contactsByAuthorAccountId: ContactsConnection
-  /** Reads and enables pagination through a set of `EventFavourite`. */
-  eventFavouritesByAccountId: EventFavouritesConnection
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   /** Reads and enables pagination through a set of `EventGroup`. */
   eventGroupsByCreatedBy: EventGroupsConnection
   /** Reads and enables pagination through a set of `EventRecommendation`. */
@@ -123,20 +113,6 @@ export type Account = Node & {
 }
 
 /** Public account data. */
-<<<<<<< HEAD
-=======
-export type AccountAccountBlocksByAuthorAccountIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<AccountBlockCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountBlocksOrderBy>>
-}
-
-/** Public account data. */
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
 export type AccountAccountBlocksByBlockedAccountIdArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
@@ -148,7 +124,6 @@ export type AccountAccountBlocksByBlockedAccountIdArgs = {
 }
 
 /** Public account data. */
-<<<<<<< HEAD
 export type AccountAccountBlocksByCreatedByArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
@@ -160,16 +135,25 @@ export type AccountAccountBlocksByCreatedByArgs = {
 }
 
 /** Public account data. */
-=======
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
-export type AccountAccountInterestsByAccountIdArgs = {
+export type AccountAccountPreferenceEventCategoriesByAccountIdArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<AccountInterestCondition>
+  condition?: InputMaybe<AccountPreferenceEventCategoryCondition>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountInterestsOrderBy>>
+  orderBy?: InputMaybe<Array<AccountPreferenceEventCategoriesOrderBy>>
+}
+
+/** Public account data. */
+export type AccountAccountPreferenceEventFormatsByAccountIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<AccountPreferenceEventFormatCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<AccountPreferenceEventFormatsOrderBy>>
 }
 
 /** Public account data. */
@@ -250,7 +234,6 @@ export type AccountContactsByCreatedByArgs = {
 }
 
 /** Public account data. */
-<<<<<<< HEAD
 export type AccountDevicesByCreatedByArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
@@ -285,20 +268,6 @@ export type AccountEventFavoritesByCreatedByArgs = {
 
 /** Public account data. */
 export type AccountEventGroupsByCreatedByArgs = {
-=======
-export type AccountEventFavouritesByAccountIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<EventFavouriteCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventFavouritesOrderBy>>
-}
-
-/** Public account data. */
-export type AccountEventGroupsByAuthorAccountIdArgs = {
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
   condition?: InputMaybe<EventGroupCondition>
@@ -444,7 +413,6 @@ export type AccountUploadsByAccountIdArgs = {
 export type AccountBlock = Node & {
   __typename?: 'AccountBlock'
   /** Reads a single `Account` that is related to this `AccountBlock`. */
-<<<<<<< HEAD
   accountByBlockedAccountId?: Maybe<Account>
   /** Reads a single `Account` that is related to this `AccountBlock`. */
   accountByCreatedBy?: Maybe<Account>
@@ -454,17 +422,6 @@ export type AccountBlock = Node & {
   createdAt: Scalars['Datetime']['output']
   /** The account id of the user who created the account block. */
   createdBy: Scalars['UUID']['output']
-=======
-  accountByAuthorAccountId?: Maybe<Account>
-  /** Reads a single `Account` that is related to this `AccountBlock`. */
-  accountByBlockedAccountId?: Maybe<Account>
-  /** The account id of the user who created the blocking. */
-  authorAccountId: Scalars['UUID']['output']
-  /** The account id of the user who is blocked. */
-  blockedAccountId: Scalars['UUID']['output']
-  /** Timestamp of when the blocking was created. */
-  createdAt: Scalars['Datetime']['output']
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   id: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID']['output']
@@ -475,37 +432,22 @@ export type AccountBlock = Node & {
  * tested for equality and combined with a logical ‘and.’
  */
 export type AccountBlockCondition = {
-<<<<<<< HEAD
-=======
-  /** Checks for equality with the object’s `authorAccountId` field. */
-  authorAccountId?: InputMaybe<Scalars['UUID']['input']>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   /** Checks for equality with the object’s `blockedAccountId` field. */
   blockedAccountId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `createdAt` field. */
   createdAt?: InputMaybe<Scalars['Datetime']['input']>
-<<<<<<< HEAD
   /** Checks for equality with the object’s `createdBy` field. */
   createdBy?: InputMaybe<Scalars['UUID']['input']>
-=======
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** An input for mutations affecting `AccountBlock` */
 export type AccountBlockInput = {
-<<<<<<< HEAD
   /** The account id of the user who is blocked. */
   blockedAccountId: Scalars['UUID']['input']
   /** The account id of the user who created the account block. */
   createdBy: Scalars['UUID']['input']
-=======
-  /** The account id of the user who created the blocking. */
-  authorAccountId: Scalars['UUID']['input']
-  /** The account id of the user who is blocked. */
-  blockedAccountId: Scalars['UUID']['input']
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   id?: InputMaybe<Scalars['UUID']['input']>
 }
 
@@ -533,20 +475,12 @@ export type AccountBlocksEdge = {
 
 /** Methods to use when ordering `AccountBlock`. */
 export enum AccountBlocksOrderBy {
-<<<<<<< HEAD
-=======
-  AuthorAccountIdAsc = 'AUTHOR_ACCOUNT_ID_ASC',
-  AuthorAccountIdDesc = 'AUTHOR_ACCOUNT_ID_DESC',
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   BlockedAccountIdAsc = 'BLOCKED_ACCOUNT_ID_ASC',
   BlockedAccountIdDesc = 'BLOCKED_ACCOUNT_ID_DESC',
   CreatedAtAsc = 'CREATED_AT_ASC',
   CreatedAtDesc = 'CREATED_AT_DESC',
-<<<<<<< HEAD
   CreatedByAsc = 'CREATED_BY_ASC',
   CreatedByDesc = 'CREATED_BY_DESC',
-=======
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
   Natural = 'NATURAL',
@@ -612,81 +546,6 @@ export type AccountInput = {
   id: Scalars['UUID']['input']
   /** The account's username. */
   username: Scalars['String']['input']
-}
-
-/** Event categories a user account is interested in (M:N relationship). */
-export type AccountInterest = Node & {
-  __typename?: 'AccountInterest'
-  /** Reads a single `Account` that is related to this `AccountInterest`. */
-  accountByAccountId?: Maybe<Account>
-  /** A user account id. */
-  accountId: Scalars['UUID']['output']
-  /** An event category. */
-  category: Scalars['String']['output']
-  /** Reads a single `EventCategory` that is related to this `AccountInterest`. */
-  eventCategoryByCategory?: Maybe<EventCategory>
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID']['output']
-}
-
-/**
- * A condition to be used against `AccountInterest` object types. All fields are
- * tested for equality and combined with a logical ‘and.’
- */
-export type AccountInterestCondition = {
-  /** Checks for equality with the object’s `accountId` field. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `category` field. */
-  category?: InputMaybe<Scalars['String']['input']>
-}
-
-/** An input for mutations affecting `AccountInterest` */
-export type AccountInterestInput = {
-  /** A user account id. */
-  accountId: Scalars['UUID']['input']
-  /** An event category. */
-  category: Scalars['String']['input']
-}
-
-/** Represents an update to a `AccountInterest`. Fields that are set will be updated. */
-export type AccountInterestPatch = {
-  /** A user account id. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
-  /** An event category. */
-  category?: InputMaybe<Scalars['String']['input']>
-}
-
-/** A connection to a list of `AccountInterest` values. */
-export type AccountInterestsConnection = {
-  __typename?: 'AccountInterestsConnection'
-  /** A list of edges which contains the `AccountInterest` and cursor to aid in pagination. */
-  edges: Array<AccountInterestsEdge>
-  /** A list of `AccountInterest` objects. */
-  nodes: Array<AccountInterest>
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo
-  /** The count of *all* `AccountInterest` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
-}
-
-/** A `AccountInterest` edge in the connection. */
-export type AccountInterestsEdge = {
-  __typename?: 'AccountInterestsEdge'
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
-  /** The `AccountInterest` at the end of the edge. */
-  node: AccountInterest
-}
-
-/** Methods to use when ordering `AccountInterest`. */
-export enum AccountInterestsOrderBy {
-  AccountIdAsc = 'ACCOUNT_ID_ASC',
-  AccountIdDesc = 'ACCOUNT_ID_DESC',
-  CategoryAsc = 'CATEGORY_ASC',
-  CategoryDesc = 'CATEGORY_DESC',
-  Natural = 'NATURAL',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
 }
 
 /** All input for the `accountPasswordChange` mutation. */
@@ -764,6 +623,173 @@ export type AccountPatch = {
   id?: InputMaybe<Scalars['UUID']['input']>
   /** The account's username. */
   username?: InputMaybe<Scalars['String']['input']>
+}
+
+/** A connection to a list of `AccountPreferenceEventCategory` values. */
+export type AccountPreferenceEventCategoriesConnection = {
+  __typename?: 'AccountPreferenceEventCategoriesConnection'
+  /** A list of edges which contains the `AccountPreferenceEventCategory` and cursor to aid in pagination. */
+  edges: Array<AccountPreferenceEventCategoriesEdge>
+  /** A list of `AccountPreferenceEventCategory` objects. */
+  nodes: Array<AccountPreferenceEventCategory>
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo
+  /** The count of *all* `AccountPreferenceEventCategory` you could get from the connection. */
+  totalCount: Scalars['Int']['output']
+}
+
+/** A `AccountPreferenceEventCategory` edge in the connection. */
+export type AccountPreferenceEventCategoriesEdge = {
+  __typename?: 'AccountPreferenceEventCategoriesEdge'
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `AccountPreferenceEventCategory` at the end of the edge. */
+  node: AccountPreferenceEventCategory
+}
+
+/** Methods to use when ordering `AccountPreferenceEventCategory`. */
+export enum AccountPreferenceEventCategoriesOrderBy {
+  AccountIdAsc = 'ACCOUNT_ID_ASC',
+  AccountIdDesc = 'ACCOUNT_ID_DESC',
+  CategoryIdAsc = 'CATEGORY_ID_ASC',
+  CategoryIdDesc = 'CATEGORY_ID_DESC',
+  CreatedAtAsc = 'CREATED_AT_ASC',
+  CreatedAtDesc = 'CREATED_AT_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+}
+
+/** Event categories a user account is interested in (M:N relationship). */
+export type AccountPreferenceEventCategory = Node & {
+  __typename?: 'AccountPreferenceEventCategory'
+  /** Reads a single `Account` that is related to this `AccountPreferenceEventCategory`. */
+  accountByAccountId?: Maybe<Account>
+  /** A user account id. */
+  accountId: Scalars['UUID']['output']
+  /** An event category id. */
+  categoryId: Scalars['UUID']['output']
+  createdAt: Scalars['Datetime']['output']
+  /** Reads a single `EventCategory` that is related to this `AccountPreferenceEventCategory`. */
+  eventCategoryByCategoryId?: Maybe<EventCategory>
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID']['output']
+}
+
+/**
+ * A condition to be used against `AccountPreferenceEventCategory` object types.
+ * All fields are tested for equality and combined with a logical ‘and.’
+ */
+export type AccountPreferenceEventCategoryCondition = {
+  /** Checks for equality with the object’s `accountId` field. */
+  accountId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `categoryId` field. */
+  categoryId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `createdAt` field. */
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+}
+
+/** An input for mutations affecting `AccountPreferenceEventCategory` */
+export type AccountPreferenceEventCategoryInput = {
+  /** A user account id. */
+  accountId: Scalars['UUID']['input']
+  /** An event category id. */
+  categoryId: Scalars['UUID']['input']
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+}
+
+/** Represents an update to a `AccountPreferenceEventCategory`. Fields that are set will be updated. */
+export type AccountPreferenceEventCategoryPatch = {
+  /** A user account id. */
+  accountId?: InputMaybe<Scalars['UUID']['input']>
+  /** An event category id. */
+  categoryId?: InputMaybe<Scalars['UUID']['input']>
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+}
+
+/** Event formats a user account is interested in (M:N relationship). */
+export type AccountPreferenceEventFormat = Node & {
+  __typename?: 'AccountPreferenceEventFormat'
+  /** Reads a single `Account` that is related to this `AccountPreferenceEventFormat`. */
+  accountByAccountId?: Maybe<Account>
+  /** A user account id. */
+  accountId: Scalars['UUID']['output']
+  /** The timestammp when the record was created.. */
+  createdAt: Scalars['Datetime']['output']
+  /** Reads a single `EventFormat` that is related to this `AccountPreferenceEventFormat`. */
+  eventFormatByFormatId?: Maybe<EventFormat>
+  /** The id of an event format. */
+  formatId: Scalars['UUID']['output']
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID']['output']
+}
+
+/**
+ * A condition to be used against `AccountPreferenceEventFormat` object types. All
+ * fields are tested for equality and combined with a logical ‘and.’
+ */
+export type AccountPreferenceEventFormatCondition = {
+  /** Checks for equality with the object’s `accountId` field. */
+  accountId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `createdAt` field. */
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  /** Checks for equality with the object’s `formatId` field. */
+  formatId?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** An input for mutations affecting `AccountPreferenceEventFormat` */
+export type AccountPreferenceEventFormatInput = {
+  /** A user account id. */
+  accountId: Scalars['UUID']['input']
+  /** The timestammp when the record was created.. */
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  /** The id of an event format. */
+  formatId: Scalars['UUID']['input']
+}
+
+/** Represents an update to a `AccountPreferenceEventFormat`. Fields that are set will be updated. */
+export type AccountPreferenceEventFormatPatch = {
+  /** A user account id. */
+  accountId?: InputMaybe<Scalars['UUID']['input']>
+  /** The timestammp when the record was created.. */
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  /** The id of an event format. */
+  formatId?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** A connection to a list of `AccountPreferenceEventFormat` values. */
+export type AccountPreferenceEventFormatsConnection = {
+  __typename?: 'AccountPreferenceEventFormatsConnection'
+  /** A list of edges which contains the `AccountPreferenceEventFormat` and cursor to aid in pagination. */
+  edges: Array<AccountPreferenceEventFormatsEdge>
+  /** A list of `AccountPreferenceEventFormat` objects. */
+  nodes: Array<AccountPreferenceEventFormat>
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo
+  /** The count of *all* `AccountPreferenceEventFormat` you could get from the connection. */
+  totalCount: Scalars['Int']['output']
+}
+
+/** A `AccountPreferenceEventFormat` edge in the connection. */
+export type AccountPreferenceEventFormatsEdge = {
+  __typename?: 'AccountPreferenceEventFormatsEdge'
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `AccountPreferenceEventFormat` at the end of the edge. */
+  node: AccountPreferenceEventFormat
+}
+
+/** Methods to use when ordering `AccountPreferenceEventFormat`. */
+export enum AccountPreferenceEventFormatsOrderBy {
+  AccountIdAsc = 'ACCOUNT_ID_ASC',
+  AccountIdDesc = 'ACCOUNT_ID_DESC',
+  CreatedAtAsc = 'CREATED_AT_ASC',
+  CreatedAtDesc = 'CREATED_AT_DESC',
+  FormatIdAsc = 'FORMAT_ID_ASC',
+  FormatIdDesc = 'FORMAT_ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
 }
 
 /** Table for the user accounts' preferred event sizes (M:N relationship). */
@@ -854,6 +880,7 @@ export type AccountRegistrationInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>
   emailAddress: Scalars['String']['input']
   language: Scalars['String']['input']
+  legalTermId: Scalars['UUID']['input']
   password: Scalars['String']['input']
   username: Scalars['String']['input']
 }
@@ -868,7 +895,6 @@ export type AccountRegistrationPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>
-  uuid?: Maybe<Scalars['UUID']['output']>
 }
 
 /** All input for the `accountRegistrationRefresh` mutation. */
@@ -1571,15 +1597,9 @@ export type CreateAccountBlockPayload = {
   /** An edge for our `AccountBlock`. May be used by Relay 1. */
   accountBlockEdge?: Maybe<AccountBlocksEdge>
   /** Reads a single `Account` that is related to this `AccountBlock`. */
-<<<<<<< HEAD
   accountByBlockedAccountId?: Maybe<Account>
   /** Reads a single `Account` that is related to this `AccountBlock`. */
   accountByCreatedBy?: Maybe<Account>
-=======
-  accountByAuthorAccountId?: Maybe<Account>
-  /** Reads a single `Account` that is related to this `AccountBlock`. */
-  accountByBlockedAccountId?: Maybe<Account>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -1605,42 +1625,6 @@ export type CreateAccountInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>
 }
 
-/** All input for the create `AccountInterest` mutation. */
-export type CreateAccountInterestInput = {
-  /** The `AccountInterest` to be created by this mutation. */
-  accountInterest: AccountInterestInput
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-}
-
-/** The output of our create `AccountInterest` mutation. */
-export type CreateAccountInterestPayload = {
-  __typename?: 'CreateAccountInterestPayload'
-  /** Reads a single `Account` that is related to this `AccountInterest`. */
-  accountByAccountId?: Maybe<Account>
-  /** The `AccountInterest` that was created by this mutation. */
-  accountInterest?: Maybe<AccountInterest>
-  /** An edge for our `AccountInterest`. May be used by Relay 1. */
-  accountInterestEdge?: Maybe<AccountInterestsEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Reads a single `EventCategory` that is related to this `AccountInterest`. */
-  eventCategoryByCategory?: Maybe<EventCategory>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our create `AccountInterest` mutation. */
-export type CreateAccountInterestPayloadAccountInterestEdgeArgs = {
-  orderBy?: InputMaybe<Array<AccountInterestsOrderBy>>
-}
-
 /** The output of our create `Account` mutation. */
 export type CreateAccountPayload = {
   __typename?: 'CreateAccountPayload'
@@ -1661,6 +1645,80 @@ export type CreateAccountPayload = {
 export type CreateAccountPayloadAccountEdgeArgs = {
   orderBy?: InputMaybe<Array<AccountsOrderBy>>
 }
+
+/** All input for the create `AccountPreferenceEventCategory` mutation. */
+export type CreateAccountPreferenceEventCategoryInput = {
+  /** The `AccountPreferenceEventCategory` to be created by this mutation. */
+  accountPreferenceEventCategory: AccountPreferenceEventCategoryInput
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The output of our create `AccountPreferenceEventCategory` mutation. */
+export type CreateAccountPreferenceEventCategoryPayload = {
+  __typename?: 'CreateAccountPreferenceEventCategoryPayload'
+  /** Reads a single `Account` that is related to this `AccountPreferenceEventCategory`. */
+  accountByAccountId?: Maybe<Account>
+  /** The `AccountPreferenceEventCategory` that was created by this mutation. */
+  accountPreferenceEventCategory?: Maybe<AccountPreferenceEventCategory>
+  /** An edge for our `AccountPreferenceEventCategory`. May be used by Relay 1. */
+  accountPreferenceEventCategoryEdge?: Maybe<AccountPreferenceEventCategoriesEdge>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Reads a single `EventCategory` that is related to this `AccountPreferenceEventCategory`. */
+  eventCategoryByCategoryId?: Maybe<EventCategory>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our create `AccountPreferenceEventCategory` mutation. */
+export type CreateAccountPreferenceEventCategoryPayloadAccountPreferenceEventCategoryEdgeArgs =
+  {
+    orderBy?: InputMaybe<Array<AccountPreferenceEventCategoriesOrderBy>>
+  }
+
+/** All input for the create `AccountPreferenceEventFormat` mutation. */
+export type CreateAccountPreferenceEventFormatInput = {
+  /** The `AccountPreferenceEventFormat` to be created by this mutation. */
+  accountPreferenceEventFormat: AccountPreferenceEventFormatInput
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The output of our create `AccountPreferenceEventFormat` mutation. */
+export type CreateAccountPreferenceEventFormatPayload = {
+  __typename?: 'CreateAccountPreferenceEventFormatPayload'
+  /** Reads a single `Account` that is related to this `AccountPreferenceEventFormat`. */
+  accountByAccountId?: Maybe<Account>
+  /** The `AccountPreferenceEventFormat` that was created by this mutation. */
+  accountPreferenceEventFormat?: Maybe<AccountPreferenceEventFormat>
+  /** An edge for our `AccountPreferenceEventFormat`. May be used by Relay 1. */
+  accountPreferenceEventFormatEdge?: Maybe<AccountPreferenceEventFormatsEdge>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Reads a single `EventFormat` that is related to this `AccountPreferenceEventFormat`. */
+  eventFormatByFormatId?: Maybe<EventFormat>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our create `AccountPreferenceEventFormat` mutation. */
+export type CreateAccountPreferenceEventFormatPayloadAccountPreferenceEventFormatEdgeArgs =
+  {
+    orderBy?: InputMaybe<Array<AccountPreferenceEventFormatsOrderBy>>
+  }
 
 /** All input for the create `AccountPreferenceEventSize` mutation. */
 export type CreateAccountPreferenceEventSizeInput = {
@@ -1908,7 +1966,7 @@ export type CreateEventCategoryMappingPayload = {
   /** Reads a single `Event` that is related to this `EventCategoryMapping`. */
   eventByEventId?: Maybe<Event>
   /** Reads a single `EventCategory` that is related to this `EventCategoryMapping`. */
-  eventCategoryByCategory?: Maybe<EventCategory>
+  eventCategoryByCategoryId?: Maybe<EventCategory>
   /** The `EventCategoryMapping` that was created by this mutation. */
   eventCategoryMapping?: Maybe<EventCategoryMapping>
   /** An edge for our `EventCategoryMapping`. May be used by Relay 1. */
@@ -1943,19 +2001,13 @@ export type CreateEventCategoryPayloadEventCategoryEdgeArgs = {
   orderBy?: InputMaybe<Array<EventCategoriesOrderBy>>
 }
 
-<<<<<<< HEAD
 /** All input for the create `EventFavorite` mutation. */
 export type CreateEventFavoriteInput = {
-=======
-/** All input for the create `EventFavourite` mutation. */
-export type CreateEventFavouriteInput = {
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>
-<<<<<<< HEAD
   /** The `EventFavorite` to be created by this mutation. */
   eventFavorite: EventFavoriteInput
 }
@@ -1965,50 +2017,92 @@ export type CreateEventFavoritePayload = {
   __typename?: 'CreateEventFavoritePayload'
   /** Reads a single `Account` that is related to this `EventFavorite`. */
   accountByCreatedBy?: Maybe<Account>
-=======
-  /** The `EventFavourite` to be created by this mutation. */
-  eventFavourite: EventFavouriteInput
-}
-
-/** The output of our create `EventFavourite` mutation. */
-export type CreateEventFavouritePayload = {
-  __typename?: 'CreateEventFavouritePayload'
-  /** Reads a single `Account` that is related to this `EventFavourite`. */
-  accountByAccountId?: Maybe<Account>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>
-<<<<<<< HEAD
   /** Reads a single `Event` that is related to this `EventFavorite`. */
   eventByEventId?: Maybe<Event>
   /** The `EventFavorite` that was created by this mutation. */
   eventFavorite?: Maybe<EventFavorite>
   /** An edge for our `EventFavorite`. May be used by Relay 1. */
   eventFavoriteEdge?: Maybe<EventFavoritesEdge>
-=======
-  /** Reads a single `Event` that is related to this `EventFavourite`. */
-  eventByEventId?: Maybe<Event>
-  /** The `EventFavourite` that was created by this mutation. */
-  eventFavourite?: Maybe<EventFavourite>
-  /** An edge for our `EventFavourite`. May be used by Relay 1. */
-  eventFavouriteEdge?: Maybe<EventFavouritesEdge>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>
 }
 
-<<<<<<< HEAD
 /** The output of our create `EventFavorite` mutation. */
 export type CreateEventFavoritePayloadEventFavoriteEdgeArgs = {
   orderBy?: InputMaybe<Array<EventFavoritesOrderBy>>
-=======
-/** The output of our create `EventFavourite` mutation. */
-export type CreateEventFavouritePayloadEventFavouriteEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventFavouritesOrderBy>>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+}
+
+/** All input for the create `EventFormat` mutation. */
+export type CreateEventFormatInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The `EventFormat` to be created by this mutation. */
+  eventFormat: EventFormatInput
+}
+
+/** All input for the create `EventFormatMapping` mutation. */
+export type CreateEventFormatMappingInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The `EventFormatMapping` to be created by this mutation. */
+  eventFormatMapping: EventFormatMappingInput
+}
+
+/** The output of our create `EventFormatMapping` mutation. */
+export type CreateEventFormatMappingPayload = {
+  __typename?: 'CreateEventFormatMappingPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Reads a single `Event` that is related to this `EventFormatMapping`. */
+  eventByEventId?: Maybe<Event>
+  /** Reads a single `EventFormat` that is related to this `EventFormatMapping`. */
+  eventFormatByFormatId?: Maybe<EventFormat>
+  /** The `EventFormatMapping` that was created by this mutation. */
+  eventFormatMapping?: Maybe<EventFormatMapping>
+  /** An edge for our `EventFormatMapping`. May be used by Relay 1. */
+  eventFormatMappingEdge?: Maybe<EventFormatMappingsEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our create `EventFormatMapping` mutation. */
+export type CreateEventFormatMappingPayloadEventFormatMappingEdgeArgs = {
+  orderBy?: InputMaybe<Array<EventFormatMappingsOrderBy>>
+}
+
+/** The output of our create `EventFormat` mutation. */
+export type CreateEventFormatPayload = {
+  __typename?: 'CreateEventFormatPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `EventFormat` that was created by this mutation. */
+  eventFormat?: Maybe<EventFormat>
+  /** An edge for our `EventFormat`. May be used by Relay 1. */
+  eventFormatEdge?: Maybe<EventFormatsEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our create `EventFormat` mutation. */
+export type CreateEventFormatPayloadEventFormatEdgeArgs = {
+  orderBy?: InputMaybe<Array<EventFormatsOrderBy>>
 }
 
 /** All input for the create `EventGroup` mutation. */
@@ -2530,56 +2624,6 @@ export type DeleteAccountInput = {
   nodeId: Scalars['ID']['input']
 }
 
-/** All input for the `deleteAccountInterestByAccountIdAndCategory` mutation. */
-export type DeleteAccountInterestByAccountIdAndCategoryInput = {
-  /** A user account id. */
-  accountId: Scalars['UUID']['input']
-  /** An event category. */
-  category: Scalars['String']['input']
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-}
-
-/** All input for the `deleteAccountInterest` mutation. */
-export type DeleteAccountInterestInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `AccountInterest` to be deleted. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our delete `AccountInterest` mutation. */
-export type DeleteAccountInterestPayload = {
-  __typename?: 'DeleteAccountInterestPayload'
-  /** Reads a single `Account` that is related to this `AccountInterest`. */
-  accountByAccountId?: Maybe<Account>
-  /** The `AccountInterest` that was deleted by this mutation. */
-  accountInterest?: Maybe<AccountInterest>
-  /** An edge for our `AccountInterest`. May be used by Relay 1. */
-  accountInterestEdge?: Maybe<AccountInterestsEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedAccountInterestId?: Maybe<Scalars['ID']['output']>
-  /** Reads a single `EventCategory` that is related to this `AccountInterest`. */
-  eventCategoryByCategory?: Maybe<EventCategory>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our delete `AccountInterest` mutation. */
-export type DeleteAccountInterestPayloadAccountInterestEdgeArgs = {
-  orderBy?: InputMaybe<Array<AccountInterestsOrderBy>>
-}
-
 /** The output of our delete `Account` mutation. */
 export type DeleteAccountPayload = {
   __typename?: 'DeleteAccountPayload'
@@ -2601,6 +2645,109 @@ export type DeleteAccountPayload = {
 export type DeleteAccountPayloadAccountEdgeArgs = {
   orderBy?: InputMaybe<Array<AccountsOrderBy>>
 }
+
+/** All input for the `deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId` mutation. */
+export type DeleteAccountPreferenceEventCategoryByAccountIdAndCategoryIdInput =
+  {
+    /** A user account id. */
+    accountId: Scalars['UUID']['input']
+    /** An event category id. */
+    categoryId: Scalars['UUID']['input']
+    /**
+     * An arbitrary string value with no semantic meaning. Will be included in the
+     * payload verbatim. May be used to track mutations by the client.
+     */
+    clientMutationId?: InputMaybe<Scalars['String']['input']>
+  }
+
+/** All input for the `deleteAccountPreferenceEventCategory` mutation. */
+export type DeleteAccountPreferenceEventCategoryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `AccountPreferenceEventCategory` to be deleted. */
+  nodeId: Scalars['ID']['input']
+}
+
+/** The output of our delete `AccountPreferenceEventCategory` mutation. */
+export type DeleteAccountPreferenceEventCategoryPayload = {
+  __typename?: 'DeleteAccountPreferenceEventCategoryPayload'
+  /** Reads a single `Account` that is related to this `AccountPreferenceEventCategory`. */
+  accountByAccountId?: Maybe<Account>
+  /** The `AccountPreferenceEventCategory` that was deleted by this mutation. */
+  accountPreferenceEventCategory?: Maybe<AccountPreferenceEventCategory>
+  /** An edge for our `AccountPreferenceEventCategory`. May be used by Relay 1. */
+  accountPreferenceEventCategoryEdge?: Maybe<AccountPreferenceEventCategoriesEdge>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  deletedAccountPreferenceEventCategoryId?: Maybe<Scalars['ID']['output']>
+  /** Reads a single `EventCategory` that is related to this `AccountPreferenceEventCategory`. */
+  eventCategoryByCategoryId?: Maybe<EventCategory>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our delete `AccountPreferenceEventCategory` mutation. */
+export type DeleteAccountPreferenceEventCategoryPayloadAccountPreferenceEventCategoryEdgeArgs =
+  {
+    orderBy?: InputMaybe<Array<AccountPreferenceEventCategoriesOrderBy>>
+  }
+
+/** All input for the `deleteAccountPreferenceEventFormatByAccountIdAndFormatId` mutation. */
+export type DeleteAccountPreferenceEventFormatByAccountIdAndFormatIdInput = {
+  /** A user account id. */
+  accountId: Scalars['UUID']['input']
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The id of an event format. */
+  formatId: Scalars['UUID']['input']
+}
+
+/** All input for the `deleteAccountPreferenceEventFormat` mutation. */
+export type DeleteAccountPreferenceEventFormatInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `AccountPreferenceEventFormat` to be deleted. */
+  nodeId: Scalars['ID']['input']
+}
+
+/** The output of our delete `AccountPreferenceEventFormat` mutation. */
+export type DeleteAccountPreferenceEventFormatPayload = {
+  __typename?: 'DeleteAccountPreferenceEventFormatPayload'
+  /** Reads a single `Account` that is related to this `AccountPreferenceEventFormat`. */
+  accountByAccountId?: Maybe<Account>
+  /** The `AccountPreferenceEventFormat` that was deleted by this mutation. */
+  accountPreferenceEventFormat?: Maybe<AccountPreferenceEventFormat>
+  /** An edge for our `AccountPreferenceEventFormat`. May be used by Relay 1. */
+  accountPreferenceEventFormatEdge?: Maybe<AccountPreferenceEventFormatsEdge>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  deletedAccountPreferenceEventFormatId?: Maybe<Scalars['ID']['output']>
+  /** Reads a single `EventFormat` that is related to this `AccountPreferenceEventFormat`. */
+  eventFormatByFormatId?: Maybe<EventFormat>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our delete `AccountPreferenceEventFormat` mutation. */
+export type DeleteAccountPreferenceEventFormatPayloadAccountPreferenceEventFormatEdgeArgs =
+  {
+    orderBy?: InputMaybe<Array<AccountPreferenceEventFormatsOrderBy>>
+  }
 
 /** All input for the `deleteAccountPreferenceEventSizeByAccountIdAndEventSize` mutation. */
 export type DeleteAccountPreferenceEventSizeByAccountIdAndEventSizeInput = {
@@ -2954,15 +3101,26 @@ export type DeleteEventByIdInput = {
   id: Scalars['UUID']['input']
 }
 
-/** All input for the `deleteEventCategoryByCategory` mutation. */
-export type DeleteEventCategoryByCategoryInput = {
-  /** A category name. */
-  category: Scalars['String']['input']
+/** All input for the `deleteEventCategoryById` mutation. */
+export type DeleteEventCategoryByIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The id of the event category. */
+  id: Scalars['UUID']['input']
+}
+
+/** All input for the `deleteEventCategoryByName` mutation. */
+export type DeleteEventCategoryByNameInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** A category name. */
+  name: Scalars['String']['input']
 }
 
 /** All input for the `deleteEventCategory` mutation. */
@@ -2976,10 +3134,10 @@ export type DeleteEventCategoryInput = {
   nodeId: Scalars['ID']['input']
 }
 
-/** All input for the `deleteEventCategoryMappingByEventIdAndCategory` mutation. */
-export type DeleteEventCategoryMappingByEventIdAndCategoryInput = {
-  /** A category name. */
-  category: Scalars['String']['input']
+/** All input for the `deleteEventCategoryMappingByEventIdAndCategoryId` mutation. */
+export type DeleteEventCategoryMappingByEventIdAndCategoryIdInput = {
+  /** A category id. */
+  categoryId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -3012,7 +3170,7 @@ export type DeleteEventCategoryMappingPayload = {
   /** Reads a single `Event` that is related to this `EventCategoryMapping`. */
   eventByEventId?: Maybe<Event>
   /** Reads a single `EventCategory` that is related to this `EventCategoryMapping`. */
-  eventCategoryByCategory?: Maybe<EventCategory>
+  eventCategoryByCategoryId?: Maybe<EventCategory>
   /** The `EventCategoryMapping` that was deleted by this mutation. */
   eventCategoryMapping?: Maybe<EventCategoryMapping>
   /** An edge for our `EventCategoryMapping`. May be used by Relay 1. */
@@ -3048,65 +3206,8 @@ export type DeleteEventCategoryPayloadEventCategoryEdgeArgs = {
   orderBy?: InputMaybe<Array<EventCategoriesOrderBy>>
 }
 
-<<<<<<< HEAD
 /** All input for the `deleteEventFavoriteByCreatedByAndEventId` mutation. */
 export type DeleteEventFavoriteByCreatedByAndEventIdInput = {
-=======
-/** All input for the `deleteEventFavouriteByAccountIdAndEventId` mutation. */
-export type DeleteEventFavouriteByAccountIdAndEventIdInput = {
-  /** A user account id. */
-  accountId: Scalars['UUID']['input']
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The ID of an event which the user marked as a favourite. */
-  eventId: Scalars['UUID']['input']
-}
-
-/** All input for the `deleteEventFavourite` mutation. */
-export type DeleteEventFavouriteInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `EventFavourite` to be deleted. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our delete `EventFavourite` mutation. */
-export type DeleteEventFavouritePayload = {
-  __typename?: 'DeleteEventFavouritePayload'
-  /** Reads a single `Account` that is related to this `EventFavourite`. */
-  accountByAccountId?: Maybe<Account>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedEventFavouriteId?: Maybe<Scalars['ID']['output']>
-  /** Reads a single `Event` that is related to this `EventFavourite`. */
-  eventByEventId?: Maybe<Event>
-  /** The `EventFavourite` that was deleted by this mutation. */
-  eventFavourite?: Maybe<EventFavourite>
-  /** An edge for our `EventFavourite`. May be used by Relay 1. */
-  eventFavouriteEdge?: Maybe<EventFavouritesEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our delete `EventFavourite` mutation. */
-export type DeleteEventFavouritePayloadEventFavouriteEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventFavouritesOrderBy>>
-}
-
-/** All input for the `deleteEventGroupByAuthorAccountIdAndSlug` mutation. */
-export type DeleteEventGroupByAuthorAccountIdAndSlugInput = {
-  /** The event group author's id. */
-  authorAccountId: Scalars['UUID']['input']
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -3164,6 +3265,111 @@ export type DeleteEventFavoritePayload = {
 /** The output of our delete `EventFavorite` mutation. */
 export type DeleteEventFavoritePayloadEventFavoriteEdgeArgs = {
   orderBy?: InputMaybe<Array<EventFavoritesOrderBy>>
+}
+
+/** All input for the `deleteEventFormatById` mutation. */
+export type DeleteEventFormatByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The id of the event format. */
+  id: Scalars['UUID']['input']
+}
+
+/** All input for the `deleteEventFormatByName` mutation. */
+export type DeleteEventFormatByNameInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The name of the event format. */
+  name: Scalars['String']['input']
+}
+
+/** All input for the `deleteEventFormat` mutation. */
+export type DeleteEventFormatInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `EventFormat` to be deleted. */
+  nodeId: Scalars['ID']['input']
+}
+
+/** All input for the `deleteEventFormatMappingByEventIdAndFormatId` mutation. */
+export type DeleteEventFormatMappingByEventIdAndFormatIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An event id. */
+  eventId: Scalars['UUID']['input']
+  /** A format id. */
+  formatId: Scalars['UUID']['input']
+}
+
+/** All input for the `deleteEventFormatMapping` mutation. */
+export type DeleteEventFormatMappingInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `EventFormatMapping` to be deleted. */
+  nodeId: Scalars['ID']['input']
+}
+
+/** The output of our delete `EventFormatMapping` mutation. */
+export type DeleteEventFormatMappingPayload = {
+  __typename?: 'DeleteEventFormatMappingPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  deletedEventFormatMappingId?: Maybe<Scalars['ID']['output']>
+  /** Reads a single `Event` that is related to this `EventFormatMapping`. */
+  eventByEventId?: Maybe<Event>
+  /** Reads a single `EventFormat` that is related to this `EventFormatMapping`. */
+  eventFormatByFormatId?: Maybe<EventFormat>
+  /** The `EventFormatMapping` that was deleted by this mutation. */
+  eventFormatMapping?: Maybe<EventFormatMapping>
+  /** An edge for our `EventFormatMapping`. May be used by Relay 1. */
+  eventFormatMappingEdge?: Maybe<EventFormatMappingsEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our delete `EventFormatMapping` mutation. */
+export type DeleteEventFormatMappingPayloadEventFormatMappingEdgeArgs = {
+  orderBy?: InputMaybe<Array<EventFormatMappingsOrderBy>>
+}
+
+/** The output of our delete `EventFormat` mutation. */
+export type DeleteEventFormatPayload = {
+  __typename?: 'DeleteEventFormatPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  deletedEventFormatId?: Maybe<Scalars['ID']['output']>
+  /** The `EventFormat` that was deleted by this mutation. */
+  eventFormat?: Maybe<EventFormat>
+  /** An edge for our `EventFormat`. May be used by Relay 1. */
+  eventFormatEdge?: Maybe<EventFormatsEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our delete `EventFormat` mutation. */
+export type DeleteEventFormatPayloadEventFormatEdgeArgs = {
+  orderBy?: InputMaybe<Array<EventFormatsOrderBy>>
 }
 
 /** All input for the `deleteEventGroupByCreatedByAndSlug` mutation. */
@@ -3839,13 +4045,10 @@ export type Event = Node & {
   end?: Maybe<Scalars['Datetime']['output']>
   /** Reads and enables pagination through a set of `EventCategoryMapping`. */
   eventCategoryMappingsByEventId: EventCategoryMappingsConnection
-<<<<<<< HEAD
   /** Reads and enables pagination through a set of `EventFavorite`. */
   eventFavoritesByEventId: EventFavoritesConnection
-=======
-  /** Reads and enables pagination through a set of `EventFavourite`. */
-  eventFavouritesByEventId: EventFavouritesConnection
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+  /** Reads and enables pagination through a set of `EventFormatMapping`. */
+  eventFormatMappingsByEventId: EventFormatMappingsConnection
   /** Reads and enables pagination through a set of `EventGrouping`. */
   eventGroupingsByEventId: EventGroupingsConnection
   /** Reads and enables pagination through a set of `EventRecommendation`. */
@@ -3893,7 +4096,6 @@ export type EventEventCategoryMappingsByEventIdArgs = {
 }
 
 /** An event. */
-<<<<<<< HEAD
 export type EventEventFavoritesByEventIdArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
@@ -3902,16 +4104,17 @@ export type EventEventFavoritesByEventIdArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<EventFavoritesOrderBy>>
-=======
-export type EventEventFavouritesByEventIdArgs = {
+}
+
+/** An event. */
+export type EventEventFormatMappingsByEventIdArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<EventFavouriteCondition>
+  condition?: InputMaybe<EventFormatMappingCondition>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventFavouritesOrderBy>>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+  orderBy?: InputMaybe<Array<EventFormatMappingsOrderBy>>
 }
 
 /** An event. */
@@ -3993,8 +4196,10 @@ export type EventCategoriesEdge = {
 
 /** Methods to use when ordering `EventCategory`. */
 export enum EventCategoriesOrderBy {
-  CategoryAsc = 'CATEGORY_ASC',
-  CategoryDesc = 'CATEGORY_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  NameAsc = 'NAME_ASC',
+  NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
@@ -4003,29 +4208,31 @@ export enum EventCategoriesOrderBy {
 /** Event categories. */
 export type EventCategory = Node & {
   __typename?: 'EventCategory'
-  /** Reads and enables pagination through a set of `AccountInterest`. */
-  accountInterestsByCategory: AccountInterestsConnection
-  /** A category name. */
-  category: Scalars['String']['output']
+  /** Reads and enables pagination through a set of `AccountPreferenceEventCategory`. */
+  accountPreferenceEventCategoriesByCategoryId: AccountPreferenceEventCategoriesConnection
   /** Reads and enables pagination through a set of `EventCategoryMapping`. */
-  eventCategoryMappingsByCategory: EventCategoryMappingsConnection
+  eventCategoryMappingsByCategoryId: EventCategoryMappingsConnection
+  /** The id of the event category. */
+  id: Scalars['UUID']['output']
+  /** A category name. */
+  name: Scalars['String']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID']['output']
 }
 
 /** Event categories. */
-export type EventCategoryAccountInterestsByCategoryArgs = {
+export type EventCategoryAccountPreferenceEventCategoriesByCategoryIdArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<AccountInterestCondition>
+  condition?: InputMaybe<AccountPreferenceEventCategoryCondition>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountInterestsOrderBy>>
+  orderBy?: InputMaybe<Array<AccountPreferenceEventCategoriesOrderBy>>
 }
 
 /** Event categories. */
-export type EventCategoryEventCategoryMappingsByCategoryArgs = {
+export type EventCategoryEventCategoryMappingsByCategoryIdArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
   condition?: InputMaybe<EventCategoryMappingCondition>
@@ -4040,25 +4247,29 @@ export type EventCategoryEventCategoryMappingsByCategoryArgs = {
  * tested for equality and combined with a logical ‘and.’
  */
 export type EventCategoryCondition = {
-  /** Checks for equality with the object’s `category` field. */
-  category?: InputMaybe<Scalars['String']['input']>
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `name` field. */
+  name?: InputMaybe<Scalars['String']['input']>
 }
 
 /** An input for mutations affecting `EventCategory` */
 export type EventCategoryInput = {
+  /** The id of the event category. */
+  id?: InputMaybe<Scalars['UUID']['input']>
   /** A category name. */
-  category: Scalars['String']['input']
+  name: Scalars['String']['input']
 }
 
 /** Mapping events to categories (M:N relationship). */
 export type EventCategoryMapping = Node & {
   __typename?: 'EventCategoryMapping'
-  /** A category name. */
-  category: Scalars['String']['output']
+  /** A category id. */
+  categoryId: Scalars['UUID']['output']
   /** Reads a single `Event` that is related to this `EventCategoryMapping`. */
   eventByEventId?: Maybe<Event>
   /** Reads a single `EventCategory` that is related to this `EventCategoryMapping`. */
-  eventCategoryByCategory?: Maybe<EventCategory>
+  eventCategoryByCategoryId?: Maybe<EventCategory>
   /** An event id. */
   eventId: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -4070,24 +4281,24 @@ export type EventCategoryMapping = Node & {
  * are tested for equality and combined with a logical ‘and.’
  */
 export type EventCategoryMappingCondition = {
-  /** Checks for equality with the object’s `category` field. */
-  category?: InputMaybe<Scalars['String']['input']>
+  /** Checks for equality with the object’s `categoryId` field. */
+  categoryId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `eventId` field. */
   eventId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** An input for mutations affecting `EventCategoryMapping` */
 export type EventCategoryMappingInput = {
-  /** A category name. */
-  category: Scalars['String']['input']
+  /** A category id. */
+  categoryId: Scalars['UUID']['input']
   /** An event id. */
   eventId: Scalars['UUID']['input']
 }
 
 /** Represents an update to a `EventCategoryMapping`. Fields that are set will be updated. */
 export type EventCategoryMappingPatch = {
-  /** A category name. */
-  category?: InputMaybe<Scalars['String']['input']>
+  /** A category id. */
+  categoryId?: InputMaybe<Scalars['UUID']['input']>
   /** An event id. */
   eventId?: InputMaybe<Scalars['UUID']['input']>
 }
@@ -4116,8 +4327,8 @@ export type EventCategoryMappingsEdge = {
 
 /** Methods to use when ordering `EventCategoryMapping`. */
 export enum EventCategoryMappingsOrderBy {
-  CategoryAsc = 'CATEGORY_ASC',
-  CategoryDesc = 'CATEGORY_DESC',
+  CategoryIdAsc = 'CATEGORY_ID_ASC',
+  CategoryIdDesc = 'CATEGORY_ID_DESC',
   EventIdAsc = 'EVENT_ID_ASC',
   EventIdDesc = 'EVENT_ID_DESC',
   Natural = 'NATURAL',
@@ -4127,8 +4338,10 @@ export enum EventCategoryMappingsOrderBy {
 
 /** Represents an update to a `EventCategory`. Fields that are set will be updated. */
 export type EventCategoryPatch = {
+  /** The id of the event category. */
+  id?: InputMaybe<Scalars['UUID']['input']>
   /** A category name. */
-  category?: InputMaybe<Scalars['String']['input']>
+  name?: InputMaybe<Scalars['String']['input']>
 }
 
 /** A condition to be used against `Event` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -4202,7 +4415,6 @@ export type EventDeletePayloadEventEdgeArgs = {
   orderBy?: InputMaybe<Array<EventsOrderBy>>
 }
 
-<<<<<<< HEAD
 /** Stores user-specific event favorites, linking an event to the account that marked it as a favorite. */
 export type EventFavorite = Node & {
   __typename?: 'EventFavorite'
@@ -4218,25 +4430,11 @@ export type EventFavorite = Node & {
   eventId?: Maybe<Scalars['UUID']['output']>
   /** Primary key, uniquely identifies each favorite entry. */
   id: Scalars['UUID']['output']
-=======
-/** The user accounts' favourite events. */
-export type EventFavourite = Node & {
-  __typename?: 'EventFavourite'
-  /** Reads a single `Account` that is related to this `EventFavourite`. */
-  accountByAccountId?: Maybe<Account>
-  /** A user account id. */
-  accountId: Scalars['UUID']['output']
-  /** Reads a single `Event` that is related to this `EventFavourite`. */
-  eventByEventId?: Maybe<Event>
-  /** The ID of an event which the user marked as a favourite. */
-  eventId: Scalars['UUID']['output']
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID']['output']
 }
 
 /**
-<<<<<<< HEAD
  * A condition to be used against `EventFavorite` object types. All fields are
  * tested for equality and combined with a logical ‘and.’
  */
@@ -4295,62 +4493,178 @@ export enum EventFavoritesOrderBy {
   EventIdDesc = 'EVENT_ID_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
-=======
- * A condition to be used against `EventFavourite` object types. All fields are
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+}
+
+/** Event formats. */
+export type EventFormat = Node & {
+  __typename?: 'EventFormat'
+  /** Reads and enables pagination through a set of `AccountPreferenceEventFormat`. */
+  accountPreferenceEventFormatsByFormatId: AccountPreferenceEventFormatsConnection
+  /** Reads and enables pagination through a set of `EventFormatMapping`. */
+  eventFormatMappingsByFormatId: EventFormatMappingsConnection
+  /** The id of the event format. */
+  id: Scalars['UUID']['output']
+  /** The name of the event format. */
+  name: Scalars['String']['output']
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID']['output']
+}
+
+/** Event formats. */
+export type EventFormatAccountPreferenceEventFormatsByFormatIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<AccountPreferenceEventFormatCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<AccountPreferenceEventFormatsOrderBy>>
+}
+
+/** Event formats. */
+export type EventFormatEventFormatMappingsByFormatIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<EventFormatMappingCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<EventFormatMappingsOrderBy>>
+}
+
+/**
+ * A condition to be used against `EventFormat` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type EventFormatCondition = {
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `name` field. */
+  name?: InputMaybe<Scalars['String']['input']>
+}
+
+/** An input for mutations affecting `EventFormat` */
+export type EventFormatInput = {
+  /** The id of the event format. */
+  id?: InputMaybe<Scalars['UUID']['input']>
+  /** The name of the event format. */
+  name: Scalars['String']['input']
+}
+
+/** Mapping events to formats (M:N relationship). */
+export type EventFormatMapping = Node & {
+  __typename?: 'EventFormatMapping'
+  /** Reads a single `Event` that is related to this `EventFormatMapping`. */
+  eventByEventId?: Maybe<Event>
+  /** Reads a single `EventFormat` that is related to this `EventFormatMapping`. */
+  eventFormatByFormatId?: Maybe<EventFormat>
+  /** An event id. */
+  eventId: Scalars['UUID']['output']
+  /** A format id. */
+  formatId: Scalars['UUID']['output']
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID']['output']
+}
+
+/**
+ * A condition to be used against `EventFormatMapping` object types. All fields are
  * tested for equality and combined with a logical ‘and.’
  */
-export type EventFavouriteCondition = {
-  /** Checks for equality with the object’s `accountId` field. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
+export type EventFormatMappingCondition = {
   /** Checks for equality with the object’s `eventId` field. */
   eventId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `formatId` field. */
+  formatId?: InputMaybe<Scalars['UUID']['input']>
 }
 
-/** An input for mutations affecting `EventFavourite` */
-export type EventFavouriteInput = {
-  /** A user account id. */
-  accountId: Scalars['UUID']['input']
-  /** The ID of an event which the user marked as a favourite. */
+/** An input for mutations affecting `EventFormatMapping` */
+export type EventFormatMappingInput = {
+  /** An event id. */
   eventId: Scalars['UUID']['input']
+  /** A format id. */
+  formatId: Scalars['UUID']['input']
 }
 
-/** Represents an update to a `EventFavourite`. Fields that are set will be updated. */
-export type EventFavouritePatch = {
-  /** A user account id. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
-  /** The ID of an event which the user marked as a favourite. */
+/** Represents an update to a `EventFormatMapping`. Fields that are set will be updated. */
+export type EventFormatMappingPatch = {
+  /** An event id. */
   eventId?: InputMaybe<Scalars['UUID']['input']>
+  /** A format id. */
+  formatId?: InputMaybe<Scalars['UUID']['input']>
 }
 
-/** A connection to a list of `EventFavourite` values. */
-export type EventFavouritesConnection = {
-  __typename?: 'EventFavouritesConnection'
-  /** A list of edges which contains the `EventFavourite` and cursor to aid in pagination. */
-  edges: Array<EventFavouritesEdge>
-  /** A list of `EventFavourite` objects. */
-  nodes: Array<EventFavourite>
+/** A connection to a list of `EventFormatMapping` values. */
+export type EventFormatMappingsConnection = {
+  __typename?: 'EventFormatMappingsConnection'
+  /** A list of edges which contains the `EventFormatMapping` and cursor to aid in pagination. */
+  edges: Array<EventFormatMappingsEdge>
+  /** A list of `EventFormatMapping` objects. */
+  nodes: Array<EventFormatMapping>
   /** Information to aid in pagination. */
   pageInfo: PageInfo
-  /** The count of *all* `EventFavourite` you could get from the connection. */
+  /** The count of *all* `EventFormatMapping` you could get from the connection. */
   totalCount: Scalars['Int']['output']
 }
 
-/** A `EventFavourite` edge in the connection. */
-export type EventFavouritesEdge = {
-  __typename?: 'EventFavouritesEdge'
+/** A `EventFormatMapping` edge in the connection. */
+export type EventFormatMappingsEdge = {
+  __typename?: 'EventFormatMappingsEdge'
   /** A cursor for use in pagination. */
   cursor?: Maybe<Scalars['Cursor']['output']>
-  /** The `EventFavourite` at the end of the edge. */
-  node: EventFavourite
+  /** The `EventFormatMapping` at the end of the edge. */
+  node: EventFormatMapping
 }
 
-/** Methods to use when ordering `EventFavourite`. */
-export enum EventFavouritesOrderBy {
-  AccountIdAsc = 'ACCOUNT_ID_ASC',
-  AccountIdDesc = 'ACCOUNT_ID_DESC',
+/** Methods to use when ordering `EventFormatMapping`. */
+export enum EventFormatMappingsOrderBy {
   EventIdAsc = 'EVENT_ID_ASC',
   EventIdDesc = 'EVENT_ID_DESC',
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+  FormatIdAsc = 'FORMAT_ID_ASC',
+  FormatIdDesc = 'FORMAT_ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+}
+
+/** Represents an update to a `EventFormat`. Fields that are set will be updated. */
+export type EventFormatPatch = {
+  /** The id of the event format. */
+  id?: InputMaybe<Scalars['UUID']['input']>
+  /** The name of the event format. */
+  name?: InputMaybe<Scalars['String']['input']>
+}
+
+/** A connection to a list of `EventFormat` values. */
+export type EventFormatsConnection = {
+  __typename?: 'EventFormatsConnection'
+  /** A list of edges which contains the `EventFormat` and cursor to aid in pagination. */
+  edges: Array<EventFormatsEdge>
+  /** A list of `EventFormat` objects. */
+  nodes: Array<EventFormat>
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo
+  /** The count of *all* `EventFormat` you could get from the connection. */
+  totalCount: Scalars['Int']['output']
+}
+
+/** A `EventFormat` edge in the connection. */
+export type EventFormatsEdge = {
+  __typename?: 'EventFormatsEdge'
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `EventFormat` at the end of the edge. */
+  node: EventFormat
+}
+
+/** Methods to use when ordering `EventFormat`. */
+export enum EventFormatsOrderBy {
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  NameAsc = 'NAME_ASC',
+  NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
@@ -5656,8 +5970,10 @@ export type Mutation = {
   createAccount?: Maybe<CreateAccountPayload>
   /** Creates a single `AccountBlock`. */
   createAccountBlock?: Maybe<CreateAccountBlockPayload>
-  /** Creates a single `AccountInterest`. */
-  createAccountInterest?: Maybe<CreateAccountInterestPayload>
+  /** Creates a single `AccountPreferenceEventCategory`. */
+  createAccountPreferenceEventCategory?: Maybe<CreateAccountPreferenceEventCategoryPayload>
+  /** Creates a single `AccountPreferenceEventFormat`. */
+  createAccountPreferenceEventFormat?: Maybe<CreateAccountPreferenceEventFormatPayload>
   /** Creates a single `AccountPreferenceEventSize`. */
   createAccountPreferenceEventSize?: Maybe<CreateAccountPreferenceEventSizePayload>
   /** Creates a single `AccountSocialNetwork`. */
@@ -5676,13 +5992,12 @@ export type Mutation = {
   createEventCategory?: Maybe<CreateEventCategoryPayload>
   /** Creates a single `EventCategoryMapping`. */
   createEventCategoryMapping?: Maybe<CreateEventCategoryMappingPayload>
-<<<<<<< HEAD
   /** Creates a single `EventFavorite`. */
   createEventFavorite?: Maybe<CreateEventFavoritePayload>
-=======
-  /** Creates a single `EventFavourite`. */
-  createEventFavourite?: Maybe<CreateEventFavouritePayload>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+  /** Creates a single `EventFormat`. */
+  createEventFormat?: Maybe<CreateEventFormatPayload>
+  /** Creates a single `EventFormatMapping`. */
+  createEventFormatMapping?: Maybe<CreateEventFormatMappingPayload>
   /** Creates a single `EventGroup`. */
   createEventGroup?: Maybe<CreateEventGroupPayload>
   /** Creates a single `EventGrouping`. */
@@ -5717,10 +6032,14 @@ export type Mutation = {
   deleteAccountById?: Maybe<DeleteAccountPayload>
   /** Deletes a single `Account` using a unique key. */
   deleteAccountByUsername?: Maybe<DeleteAccountPayload>
-  /** Deletes a single `AccountInterest` using its globally unique id. */
-  deleteAccountInterest?: Maybe<DeleteAccountInterestPayload>
-  /** Deletes a single `AccountInterest` using a unique key. */
-  deleteAccountInterestByAccountIdAndCategory?: Maybe<DeleteAccountInterestPayload>
+  /** Deletes a single `AccountPreferenceEventCategory` using its globally unique id. */
+  deleteAccountPreferenceEventCategory?: Maybe<DeleteAccountPreferenceEventCategoryPayload>
+  /** Deletes a single `AccountPreferenceEventCategory` using a unique key. */
+  deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId?: Maybe<DeleteAccountPreferenceEventCategoryPayload>
+  /** Deletes a single `AccountPreferenceEventFormat` using its globally unique id. */
+  deleteAccountPreferenceEventFormat?: Maybe<DeleteAccountPreferenceEventFormatPayload>
+  /** Deletes a single `AccountPreferenceEventFormat` using a unique key. */
+  deleteAccountPreferenceEventFormatByAccountIdAndFormatId?: Maybe<DeleteAccountPreferenceEventFormatPayload>
   /** Deletes a single `AccountPreferenceEventSize` using its globally unique id. */
   deleteAccountPreferenceEventSize?: Maybe<DeleteAccountPreferenceEventSizePayload>
   /** Deletes a single `AccountPreferenceEventSize` using a unique key. */
@@ -5760,24 +6079,29 @@ export type Mutation = {
   /** Deletes a single `EventCategory` using its globally unique id. */
   deleteEventCategory?: Maybe<DeleteEventCategoryPayload>
   /** Deletes a single `EventCategory` using a unique key. */
-  deleteEventCategoryByCategory?: Maybe<DeleteEventCategoryPayload>
+  deleteEventCategoryById?: Maybe<DeleteEventCategoryPayload>
+  /** Deletes a single `EventCategory` using a unique key. */
+  deleteEventCategoryByName?: Maybe<DeleteEventCategoryPayload>
   /** Deletes a single `EventCategoryMapping` using its globally unique id. */
   deleteEventCategoryMapping?: Maybe<DeleteEventCategoryMappingPayload>
   /** Deletes a single `EventCategoryMapping` using a unique key. */
-  deleteEventCategoryMappingByEventIdAndCategory?: Maybe<DeleteEventCategoryMappingPayload>
-<<<<<<< HEAD
+  deleteEventCategoryMappingByEventIdAndCategoryId?: Maybe<DeleteEventCategoryMappingPayload>
   /** Deletes a single `EventFavorite` using its globally unique id. */
   deleteEventFavorite?: Maybe<DeleteEventFavoritePayload>
   /** Deletes a single `EventFavorite` using a unique key. */
   deleteEventFavoriteByCreatedByAndEventId?: Maybe<DeleteEventFavoritePayload>
   /** Deletes a single `EventFavorite` using a unique key. */
   deleteEventFavoriteById?: Maybe<DeleteEventFavoritePayload>
-=======
-  /** Deletes a single `EventFavourite` using its globally unique id. */
-  deleteEventFavourite?: Maybe<DeleteEventFavouritePayload>
-  /** Deletes a single `EventFavourite` using a unique key. */
-  deleteEventFavouriteByAccountIdAndEventId?: Maybe<DeleteEventFavouritePayload>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+  /** Deletes a single `EventFormat` using its globally unique id. */
+  deleteEventFormat?: Maybe<DeleteEventFormatPayload>
+  /** Deletes a single `EventFormat` using a unique key. */
+  deleteEventFormatById?: Maybe<DeleteEventFormatPayload>
+  /** Deletes a single `EventFormat` using a unique key. */
+  deleteEventFormatByName?: Maybe<DeleteEventFormatPayload>
+  /** Deletes a single `EventFormatMapping` using its globally unique id. */
+  deleteEventFormatMapping?: Maybe<DeleteEventFormatMappingPayload>
+  /** Deletes a single `EventFormatMapping` using a unique key. */
+  deleteEventFormatMappingByEventIdAndFormatId?: Maybe<DeleteEventFormatMappingPayload>
   /** Deletes a single `EventGroup` using its globally unique id. */
   deleteEventGroup?: Maybe<DeleteEventGroupPayload>
   /** Deletes a single `EventGroup` using a unique key. */
@@ -5846,10 +6170,14 @@ export type Mutation = {
   updateAccountById?: Maybe<UpdateAccountPayload>
   /** Updates a single `Account` using a unique key and a patch. */
   updateAccountByUsername?: Maybe<UpdateAccountPayload>
-  /** Updates a single `AccountInterest` using its globally unique id and a patch. */
-  updateAccountInterest?: Maybe<UpdateAccountInterestPayload>
-  /** Updates a single `AccountInterest` using a unique key and a patch. */
-  updateAccountInterestByAccountIdAndCategory?: Maybe<UpdateAccountInterestPayload>
+  /** Updates a single `AccountPreferenceEventCategory` using its globally unique id and a patch. */
+  updateAccountPreferenceEventCategory?: Maybe<UpdateAccountPreferenceEventCategoryPayload>
+  /** Updates a single `AccountPreferenceEventCategory` using a unique key and a patch. */
+  updateAccountPreferenceEventCategoryByAccountIdAndCategoryId?: Maybe<UpdateAccountPreferenceEventCategoryPayload>
+  /** Updates a single `AccountPreferenceEventFormat` using its globally unique id and a patch. */
+  updateAccountPreferenceEventFormat?: Maybe<UpdateAccountPreferenceEventFormatPayload>
+  /** Updates a single `AccountPreferenceEventFormat` using a unique key and a patch. */
+  updateAccountPreferenceEventFormatByAccountIdAndFormatId?: Maybe<UpdateAccountPreferenceEventFormatPayload>
   /** Updates a single `AccountPreferenceEventSize` using its globally unique id and a patch. */
   updateAccountPreferenceEventSize?: Maybe<UpdateAccountPreferenceEventSizePayload>
   /** Updates a single `AccountPreferenceEventSize` using a unique key and a patch. */
@@ -5889,24 +6217,29 @@ export type Mutation = {
   /** Updates a single `EventCategory` using its globally unique id and a patch. */
   updateEventCategory?: Maybe<UpdateEventCategoryPayload>
   /** Updates a single `EventCategory` using a unique key and a patch. */
-  updateEventCategoryByCategory?: Maybe<UpdateEventCategoryPayload>
+  updateEventCategoryById?: Maybe<UpdateEventCategoryPayload>
+  /** Updates a single `EventCategory` using a unique key and a patch. */
+  updateEventCategoryByName?: Maybe<UpdateEventCategoryPayload>
   /** Updates a single `EventCategoryMapping` using its globally unique id and a patch. */
   updateEventCategoryMapping?: Maybe<UpdateEventCategoryMappingPayload>
   /** Updates a single `EventCategoryMapping` using a unique key and a patch. */
-  updateEventCategoryMappingByEventIdAndCategory?: Maybe<UpdateEventCategoryMappingPayload>
-<<<<<<< HEAD
+  updateEventCategoryMappingByEventIdAndCategoryId?: Maybe<UpdateEventCategoryMappingPayload>
   /** Updates a single `EventFavorite` using its globally unique id and a patch. */
   updateEventFavorite?: Maybe<UpdateEventFavoritePayload>
   /** Updates a single `EventFavorite` using a unique key and a patch. */
   updateEventFavoriteByCreatedByAndEventId?: Maybe<UpdateEventFavoritePayload>
   /** Updates a single `EventFavorite` using a unique key and a patch. */
   updateEventFavoriteById?: Maybe<UpdateEventFavoritePayload>
-=======
-  /** Updates a single `EventFavourite` using its globally unique id and a patch. */
-  updateEventFavourite?: Maybe<UpdateEventFavouritePayload>
-  /** Updates a single `EventFavourite` using a unique key and a patch. */
-  updateEventFavouriteByAccountIdAndEventId?: Maybe<UpdateEventFavouritePayload>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+  /** Updates a single `EventFormat` using its globally unique id and a patch. */
+  updateEventFormat?: Maybe<UpdateEventFormatPayload>
+  /** Updates a single `EventFormat` using a unique key and a patch. */
+  updateEventFormatById?: Maybe<UpdateEventFormatPayload>
+  /** Updates a single `EventFormat` using a unique key and a patch. */
+  updateEventFormatByName?: Maybe<UpdateEventFormatPayload>
+  /** Updates a single `EventFormatMapping` using its globally unique id and a patch. */
+  updateEventFormatMapping?: Maybe<UpdateEventFormatMappingPayload>
+  /** Updates a single `EventFormatMapping` using a unique key and a patch. */
+  updateEventFormatMappingByEventIdAndFormatId?: Maybe<UpdateEventFormatMappingPayload>
   /** Updates a single `EventGroup` using its globally unique id and a patch. */
   updateEventGroup?: Maybe<UpdateEventGroupPayload>
   /** Updates a single `EventGroup` using a unique key and a patch. */
@@ -6013,8 +6346,13 @@ export type MutationCreateAccountBlockArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateAccountInterestArgs = {
-  input: CreateAccountInterestInput
+export type MutationCreateAccountPreferenceEventCategoryArgs = {
+  input: CreateAccountPreferenceEventCategoryInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateAccountPreferenceEventFormatArgs = {
+  input: CreateAccountPreferenceEventFormatInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6063,13 +6401,18 @@ export type MutationCreateEventCategoryMappingArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-<<<<<<< HEAD
 export type MutationCreateEventFavoriteArgs = {
   input: CreateEventFavoriteInput
-=======
-export type MutationCreateEventFavouriteArgs = {
-  input: CreateEventFavouriteInput
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateEventFormatArgs = {
+  input: CreateEventFormatInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateEventFormatMappingArgs = {
+  input: CreateEventFormatMappingInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6158,14 +6501,26 @@ export type MutationDeleteAccountByUsernameArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAccountInterestArgs = {
-  input: DeleteAccountInterestInput
+export type MutationDeleteAccountPreferenceEventCategoryArgs = {
+  input: DeleteAccountPreferenceEventCategoryInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAccountInterestByAccountIdAndCategoryArgs = {
-  input: DeleteAccountInterestByAccountIdAndCategoryInput
+export type MutationDeleteAccountPreferenceEventCategoryByAccountIdAndCategoryIdArgs =
+  {
+    input: DeleteAccountPreferenceEventCategoryByAccountIdAndCategoryIdInput
+  }
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteAccountPreferenceEventFormatArgs = {
+  input: DeleteAccountPreferenceEventFormatInput
 }
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteAccountPreferenceEventFormatByAccountIdAndFormatIdArgs =
+  {
+    input: DeleteAccountPreferenceEventFormatByAccountIdAndFormatIdInput
+  }
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteAccountPreferenceEventSizeArgs = {
@@ -6265,8 +6620,13 @@ export type MutationDeleteEventCategoryArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventCategoryByCategoryArgs = {
-  input: DeleteEventCategoryByCategoryInput
+export type MutationDeleteEventCategoryByIdArgs = {
+  input: DeleteEventCategoryByIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventCategoryByNameArgs = {
+  input: DeleteEventCategoryByNameInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6275,12 +6635,11 @@ export type MutationDeleteEventCategoryMappingArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventCategoryMappingByEventIdAndCategoryArgs = {
-  input: DeleteEventCategoryMappingByEventIdAndCategoryInput
+export type MutationDeleteEventCategoryMappingByEventIdAndCategoryIdArgs = {
+  input: DeleteEventCategoryMappingByEventIdAndCategoryIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-<<<<<<< HEAD
 export type MutationDeleteEventFavoriteArgs = {
   input: DeleteEventFavoriteInput
 }
@@ -6293,15 +6652,31 @@ export type MutationDeleteEventFavoriteByCreatedByAndEventIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteEventFavoriteByIdArgs = {
   input: DeleteEventFavoriteByIdInput
-=======
-export type MutationDeleteEventFavouriteArgs = {
-  input: DeleteEventFavouriteInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventFavouriteByAccountIdAndEventIdArgs = {
-  input: DeleteEventFavouriteByAccountIdAndEventIdInput
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+export type MutationDeleteEventFormatArgs = {
+  input: DeleteEventFormatInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventFormatByIdArgs = {
+  input: DeleteEventFormatByIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventFormatByNameArgs = {
+  input: DeleteEventFormatByNameInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventFormatMappingArgs = {
+  input: DeleteEventFormatMappingInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventFormatMappingByEventIdAndFormatIdArgs = {
+  input: DeleteEventFormatMappingByEventIdAndFormatIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6475,14 +6850,26 @@ export type MutationUpdateAccountByUsernameArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateAccountInterestArgs = {
-  input: UpdateAccountInterestInput
+export type MutationUpdateAccountPreferenceEventCategoryArgs = {
+  input: UpdateAccountPreferenceEventCategoryInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateAccountInterestByAccountIdAndCategoryArgs = {
-  input: UpdateAccountInterestByAccountIdAndCategoryInput
+export type MutationUpdateAccountPreferenceEventCategoryByAccountIdAndCategoryIdArgs =
+  {
+    input: UpdateAccountPreferenceEventCategoryByAccountIdAndCategoryIdInput
+  }
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateAccountPreferenceEventFormatArgs = {
+  input: UpdateAccountPreferenceEventFormatInput
 }
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateAccountPreferenceEventFormatByAccountIdAndFormatIdArgs =
+  {
+    input: UpdateAccountPreferenceEventFormatByAccountIdAndFormatIdInput
+  }
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateAccountPreferenceEventSizeArgs = {
@@ -6582,8 +6969,13 @@ export type MutationUpdateEventCategoryArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventCategoryByCategoryArgs = {
-  input: UpdateEventCategoryByCategoryInput
+export type MutationUpdateEventCategoryByIdArgs = {
+  input: UpdateEventCategoryByIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventCategoryByNameArgs = {
+  input: UpdateEventCategoryByNameInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6592,12 +6984,11 @@ export type MutationUpdateEventCategoryMappingArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventCategoryMappingByEventIdAndCategoryArgs = {
-  input: UpdateEventCategoryMappingByEventIdAndCategoryInput
+export type MutationUpdateEventCategoryMappingByEventIdAndCategoryIdArgs = {
+  input: UpdateEventCategoryMappingByEventIdAndCategoryIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-<<<<<<< HEAD
 export type MutationUpdateEventFavoriteArgs = {
   input: UpdateEventFavoriteInput
 }
@@ -6610,15 +7001,31 @@ export type MutationUpdateEventFavoriteByCreatedByAndEventIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateEventFavoriteByIdArgs = {
   input: UpdateEventFavoriteByIdInput
-=======
-export type MutationUpdateEventFavouriteArgs = {
-  input: UpdateEventFavouriteInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventFavouriteByAccountIdAndEventIdArgs = {
-  input: UpdateEventFavouriteByAccountIdAndEventIdInput
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+export type MutationUpdateEventFormatArgs = {
+  input: UpdateEventFormatInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventFormatByIdArgs = {
+  input: UpdateEventFormatByIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventFormatByNameArgs = {
+  input: UpdateEventFormatByNameInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventFormatMappingArgs = {
+  input: UpdateEventFormatMappingInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventFormatMappingByEventIdAndFormatIdArgs = {
+  input: UpdateEventFormatMappingByEventIdAndFormatIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6893,17 +7300,16 @@ export type Query = Node & {
   account?: Maybe<Account>
   /** Reads a single `AccountBlock` using its globally unique `ID`. */
   accountBlock?: Maybe<AccountBlock>
-<<<<<<< HEAD
   accountBlockByCreatedByAndBlockedAccountId?: Maybe<AccountBlock>
-=======
-  accountBlockByAuthorAccountIdAndBlockedAccountId?: Maybe<AccountBlock>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   accountBlockById?: Maybe<AccountBlock>
   accountById?: Maybe<Account>
   accountByUsername?: Maybe<Account>
-  /** Reads a single `AccountInterest` using its globally unique `ID`. */
-  accountInterest?: Maybe<AccountInterest>
-  accountInterestByAccountIdAndCategory?: Maybe<AccountInterest>
+  /** Reads a single `AccountPreferenceEventCategory` using its globally unique `ID`. */
+  accountPreferenceEventCategory?: Maybe<AccountPreferenceEventCategory>
+  accountPreferenceEventCategoryByAccountIdAndCategoryId?: Maybe<AccountPreferenceEventCategory>
+  /** Reads a single `AccountPreferenceEventFormat` using its globally unique `ID`. */
+  accountPreferenceEventFormat?: Maybe<AccountPreferenceEventFormat>
+  accountPreferenceEventFormatByAccountIdAndFormatId?: Maybe<AccountPreferenceEventFormat>
   /** Reads a single `AccountPreferenceEventSize` using its globally unique `ID`. */
   accountPreferenceEventSize?: Maybe<AccountPreferenceEventSize>
   accountPreferenceEventSizeByAccountIdAndEventSize?: Maybe<AccountPreferenceEventSize>
@@ -6916,16 +7322,15 @@ export type Query = Node & {
   achievement?: Maybe<Achievement>
   achievementByAccountIdAndAchievement?: Maybe<Achievement>
   achievementById?: Maybe<Achievement>
-<<<<<<< HEAD
   /** Reads a single `Address` using its globally unique `ID`. */
   address?: Maybe<Address>
   addressById?: Maybe<Address>
-=======
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   /** Reads and enables pagination through a set of `AccountBlock`. */
   allAccountBlocks?: Maybe<AccountBlocksConnection>
-  /** Reads and enables pagination through a set of `AccountInterest`. */
-  allAccountInterests?: Maybe<AccountInterestsConnection>
+  /** Reads and enables pagination through a set of `AccountPreferenceEventCategory`. */
+  allAccountPreferenceEventCategories?: Maybe<AccountPreferenceEventCategoriesConnection>
+  /** Reads and enables pagination through a set of `AccountPreferenceEventFormat`. */
+  allAccountPreferenceEventFormats?: Maybe<AccountPreferenceEventFormatsConnection>
   /** Reads and enables pagination through a set of `AccountPreferenceEventSize`. */
   allAccountPreferenceEventSizes?: Maybe<AccountPreferenceEventSizesConnection>
   /** Reads and enables pagination through a set of `AccountSocialNetwork`. */
@@ -6944,13 +7349,12 @@ export type Query = Node & {
   allEventCategories?: Maybe<EventCategoriesConnection>
   /** Reads and enables pagination through a set of `EventCategoryMapping`. */
   allEventCategoryMappings?: Maybe<EventCategoryMappingsConnection>
-<<<<<<< HEAD
   /** Reads and enables pagination through a set of `EventFavorite`. */
   allEventFavorites?: Maybe<EventFavoritesConnection>
-=======
-  /** Reads and enables pagination through a set of `EventFavourite`. */
-  allEventFavourites?: Maybe<EventFavouritesConnection>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+  /** Reads and enables pagination through a set of `EventFormatMapping`. */
+  allEventFormatMappings?: Maybe<EventFormatMappingsConnection>
+  /** Reads and enables pagination through a set of `EventFormat`. */
+  allEventFormats?: Maybe<EventFormatsConnection>
   /** Reads and enables pagination through a set of `EventGrouping`. */
   allEventGroupings?: Maybe<EventGroupingsConnection>
   /** Reads and enables pagination through a set of `EventGroup`. */
@@ -6991,20 +7395,22 @@ export type Query = Node & {
   eventById?: Maybe<Event>
   /** Reads a single `EventCategory` using its globally unique `ID`. */
   eventCategory?: Maybe<EventCategory>
-  eventCategoryByCategory?: Maybe<EventCategory>
+  eventCategoryById?: Maybe<EventCategory>
+  eventCategoryByName?: Maybe<EventCategory>
   /** Reads a single `EventCategoryMapping` using its globally unique `ID`. */
   eventCategoryMapping?: Maybe<EventCategoryMapping>
-  eventCategoryMappingByEventIdAndCategory?: Maybe<EventCategoryMapping>
-<<<<<<< HEAD
+  eventCategoryMappingByEventIdAndCategoryId?: Maybe<EventCategoryMapping>
   /** Reads a single `EventFavorite` using its globally unique `ID`. */
   eventFavorite?: Maybe<EventFavorite>
   eventFavoriteByCreatedByAndEventId?: Maybe<EventFavorite>
   eventFavoriteById?: Maybe<EventFavorite>
-=======
-  /** Reads a single `EventFavourite` using its globally unique `ID`. */
-  eventFavourite?: Maybe<EventFavourite>
-  eventFavouriteByAccountIdAndEventId?: Maybe<EventFavourite>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+  /** Reads a single `EventFormat` using its globally unique `ID`. */
+  eventFormat?: Maybe<EventFormat>
+  eventFormatById?: Maybe<EventFormat>
+  eventFormatByName?: Maybe<EventFormat>
+  /** Reads a single `EventFormatMapping` using its globally unique `ID`. */
+  eventFormatMapping?: Maybe<EventFormatMapping>
+  eventFormatMappingByEventIdAndFormatId?: Maybe<EventFormatMapping>
   /** Reads a single `EventGroup` using its globally unique `ID`. */
   eventGroup?: Maybe<EventGroup>
   eventGroupByCreatedByAndSlug?: Maybe<EventGroup>
@@ -7087,15 +7493,9 @@ export type QueryAccountBlockArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
-<<<<<<< HEAD
 export type QueryAccountBlockByCreatedByAndBlockedAccountIdArgs = {
   blockedAccountId: Scalars['UUID']['input']
   createdBy: Scalars['UUID']['input']
-=======
-export type QueryAccountBlockByAuthorAccountIdAndBlockedAccountIdArgs = {
-  authorAccountId: Scalars['UUID']['input']
-  blockedAccountId: Scalars['UUID']['input']
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -7114,14 +7514,25 @@ export type QueryAccountByUsernameArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
-export type QueryAccountInterestArgs = {
+export type QueryAccountPreferenceEventCategoryArgs = {
   nodeId: Scalars['ID']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
-export type QueryAccountInterestByAccountIdAndCategoryArgs = {
+export type QueryAccountPreferenceEventCategoryByAccountIdAndCategoryIdArgs = {
   accountId: Scalars['UUID']['input']
-  category: Scalars['String']['input']
+  categoryId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAccountPreferenceEventFormatArgs = {
+  nodeId: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAccountPreferenceEventFormatByAccountIdAndFormatIdArgs = {
+  accountId: Scalars['UUID']['input']
+  formatId: Scalars['UUID']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -7163,7 +7574,6 @@ export type QueryAchievementByIdArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
-<<<<<<< HEAD
 export type QueryAddressArgs = {
   nodeId: Scalars['ID']['input']
 }
@@ -7174,8 +7584,6 @@ export type QueryAddressByIdArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
-=======
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
 export type QueryAllAccountBlocksArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
@@ -7187,14 +7595,25 @@ export type QueryAllAccountBlocksArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
-export type QueryAllAccountInterestsArgs = {
+export type QueryAllAccountPreferenceEventCategoriesArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<AccountInterestCondition>
+  condition?: InputMaybe<AccountPreferenceEventCategoryCondition>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountInterestsOrderBy>>
+  orderBy?: InputMaybe<Array<AccountPreferenceEventCategoriesOrderBy>>
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAllAccountPreferenceEventFormatsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<AccountPreferenceEventFormatCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<AccountPreferenceEventFormatsOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -7297,7 +7716,6 @@ export type QueryAllEventCategoryMappingsArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
-<<<<<<< HEAD
 export type QueryAllEventFavoritesArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
@@ -7306,16 +7724,28 @@ export type QueryAllEventFavoritesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<EventFavoritesOrderBy>>
-=======
-export type QueryAllEventFavouritesArgs = {
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAllEventFormatMappingsArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<EventFavouriteCondition>
+  condition?: InputMaybe<EventFormatMappingCondition>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventFavouritesOrderBy>>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+  orderBy?: InputMaybe<Array<EventFormatMappingsOrderBy>>
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAllEventFormatsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<EventFormatCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<EventFormatsOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -7515,8 +7945,13 @@ export type QueryEventCategoryArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
-export type QueryEventCategoryByCategoryArgs = {
-  category: Scalars['String']['input']
+export type QueryEventCategoryByIdArgs = {
+  id: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventCategoryByNameArgs = {
+  name: Scalars['String']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -7525,40 +7960,54 @@ export type QueryEventCategoryMappingArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
-export type QueryEventCategoryMappingByEventIdAndCategoryArgs = {
-  category: Scalars['String']['input']
+export type QueryEventCategoryMappingByEventIdAndCategoryIdArgs = {
+  categoryId: Scalars['UUID']['input']
   eventId: Scalars['UUID']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
-<<<<<<< HEAD
 export type QueryEventFavoriteArgs = {
-=======
-export type QueryEventFavouriteArgs = {
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   nodeId: Scalars['ID']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
-<<<<<<< HEAD
 export type QueryEventFavoriteByCreatedByAndEventIdArgs = {
   createdBy: Scalars['UUID']['input']
-=======
-export type QueryEventFavouriteByAccountIdAndEventIdArgs = {
-  accountId: Scalars['UUID']['input']
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   eventId: Scalars['UUID']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
-<<<<<<< HEAD
 export type QueryEventFavoriteByIdArgs = {
   id: Scalars['UUID']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
-=======
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+export type QueryEventFormatArgs = {
+  nodeId: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventFormatByIdArgs = {
+  id: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventFormatByNameArgs = {
+  name: Scalars['String']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventFormatMappingArgs = {
+  nodeId: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventFormatMappingByEventIdAndFormatIdArgs = {
+  eventId: Scalars['UUID']['input']
+  formatId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
 export type QueryEventGroupArgs = {
   nodeId: Scalars['ID']['input']
 }
@@ -7930,59 +8379,6 @@ export type UpdateAccountInput = {
   nodeId: Scalars['ID']['input']
 }
 
-/** All input for the `updateAccountInterestByAccountIdAndCategory` mutation. */
-export type UpdateAccountInterestByAccountIdAndCategoryInput = {
-  /** A user account id. */
-  accountId: Scalars['UUID']['input']
-  /** An object where the defined keys will be set on the `AccountInterest` being updated. */
-  accountInterestPatch: AccountInterestPatch
-  /** An event category. */
-  category: Scalars['String']['input']
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-}
-
-/** All input for the `updateAccountInterest` mutation. */
-export type UpdateAccountInterestInput = {
-  /** An object where the defined keys will be set on the `AccountInterest` being updated. */
-  accountInterestPatch: AccountInterestPatch
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `AccountInterest` to be updated. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our update `AccountInterest` mutation. */
-export type UpdateAccountInterestPayload = {
-  __typename?: 'UpdateAccountInterestPayload'
-  /** Reads a single `Account` that is related to this `AccountInterest`. */
-  accountByAccountId?: Maybe<Account>
-  /** The `AccountInterest` that was updated by this mutation. */
-  accountInterest?: Maybe<AccountInterest>
-  /** An edge for our `AccountInterest`. May be used by Relay 1. */
-  accountInterestEdge?: Maybe<AccountInterestsEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Reads a single `EventCategory` that is related to this `AccountInterest`. */
-  eventCategoryByCategory?: Maybe<EventCategory>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our update `AccountInterest` mutation. */
-export type UpdateAccountInterestPayloadAccountInterestEdgeArgs = {
-  orderBy?: InputMaybe<Array<AccountInterestsOrderBy>>
-}
-
 /** The output of our update `Account` mutation. */
 export type UpdateAccountPayload = {
   __typename?: 'UpdateAccountPayload'
@@ -8003,6 +8399,115 @@ export type UpdateAccountPayload = {
 export type UpdateAccountPayloadAccountEdgeArgs = {
   orderBy?: InputMaybe<Array<AccountsOrderBy>>
 }
+
+/** All input for the `updateAccountPreferenceEventCategoryByAccountIdAndCategoryId` mutation. */
+export type UpdateAccountPreferenceEventCategoryByAccountIdAndCategoryIdInput =
+  {
+    /** A user account id. */
+    accountId: Scalars['UUID']['input']
+    /** An object where the defined keys will be set on the `AccountPreferenceEventCategory` being updated. */
+    accountPreferenceEventCategoryPatch: AccountPreferenceEventCategoryPatch
+    /** An event category id. */
+    categoryId: Scalars['UUID']['input']
+    /**
+     * An arbitrary string value with no semantic meaning. Will be included in the
+     * payload verbatim. May be used to track mutations by the client.
+     */
+    clientMutationId?: InputMaybe<Scalars['String']['input']>
+  }
+
+/** All input for the `updateAccountPreferenceEventCategory` mutation. */
+export type UpdateAccountPreferenceEventCategoryInput = {
+  /** An object where the defined keys will be set on the `AccountPreferenceEventCategory` being updated. */
+  accountPreferenceEventCategoryPatch: AccountPreferenceEventCategoryPatch
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `AccountPreferenceEventCategory` to be updated. */
+  nodeId: Scalars['ID']['input']
+}
+
+/** The output of our update `AccountPreferenceEventCategory` mutation. */
+export type UpdateAccountPreferenceEventCategoryPayload = {
+  __typename?: 'UpdateAccountPreferenceEventCategoryPayload'
+  /** Reads a single `Account` that is related to this `AccountPreferenceEventCategory`. */
+  accountByAccountId?: Maybe<Account>
+  /** The `AccountPreferenceEventCategory` that was updated by this mutation. */
+  accountPreferenceEventCategory?: Maybe<AccountPreferenceEventCategory>
+  /** An edge for our `AccountPreferenceEventCategory`. May be used by Relay 1. */
+  accountPreferenceEventCategoryEdge?: Maybe<AccountPreferenceEventCategoriesEdge>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Reads a single `EventCategory` that is related to this `AccountPreferenceEventCategory`. */
+  eventCategoryByCategoryId?: Maybe<EventCategory>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `AccountPreferenceEventCategory` mutation. */
+export type UpdateAccountPreferenceEventCategoryPayloadAccountPreferenceEventCategoryEdgeArgs =
+  {
+    orderBy?: InputMaybe<Array<AccountPreferenceEventCategoriesOrderBy>>
+  }
+
+/** All input for the `updateAccountPreferenceEventFormatByAccountIdAndFormatId` mutation. */
+export type UpdateAccountPreferenceEventFormatByAccountIdAndFormatIdInput = {
+  /** A user account id. */
+  accountId: Scalars['UUID']['input']
+  /** An object where the defined keys will be set on the `AccountPreferenceEventFormat` being updated. */
+  accountPreferenceEventFormatPatch: AccountPreferenceEventFormatPatch
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The id of an event format. */
+  formatId: Scalars['UUID']['input']
+}
+
+/** All input for the `updateAccountPreferenceEventFormat` mutation. */
+export type UpdateAccountPreferenceEventFormatInput = {
+  /** An object where the defined keys will be set on the `AccountPreferenceEventFormat` being updated. */
+  accountPreferenceEventFormatPatch: AccountPreferenceEventFormatPatch
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `AccountPreferenceEventFormat` to be updated. */
+  nodeId: Scalars['ID']['input']
+}
+
+/** The output of our update `AccountPreferenceEventFormat` mutation. */
+export type UpdateAccountPreferenceEventFormatPayload = {
+  __typename?: 'UpdateAccountPreferenceEventFormatPayload'
+  /** Reads a single `Account` that is related to this `AccountPreferenceEventFormat`. */
+  accountByAccountId?: Maybe<Account>
+  /** The `AccountPreferenceEventFormat` that was updated by this mutation. */
+  accountPreferenceEventFormat?: Maybe<AccountPreferenceEventFormat>
+  /** An edge for our `AccountPreferenceEventFormat`. May be used by Relay 1. */
+  accountPreferenceEventFormatEdge?: Maybe<AccountPreferenceEventFormatsEdge>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Reads a single `EventFormat` that is related to this `AccountPreferenceEventFormat`. */
+  eventFormatByFormatId?: Maybe<EventFormat>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `AccountPreferenceEventFormat` mutation. */
+export type UpdateAccountPreferenceEventFormatPayloadAccountPreferenceEventFormatEdgeArgs =
+  {
+    orderBy?: InputMaybe<Array<AccountPreferenceEventFormatsOrderBy>>
+  }
 
 /** All input for the `updateAccountPreferenceEventSizeByAccountIdAndEventSize` mutation. */
 export type UpdateAccountPreferenceEventSizeByAccountIdAndEventSizeInput = {
@@ -8384,10 +8889,8 @@ export type UpdateEventByIdInput = {
   id: Scalars['UUID']['input']
 }
 
-/** All input for the `updateEventCategoryByCategory` mutation. */
-export type UpdateEventCategoryByCategoryInput = {
-  /** A category name. */
-  category: Scalars['String']['input']
+/** All input for the `updateEventCategoryById` mutation. */
+export type UpdateEventCategoryByIdInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -8395,6 +8898,21 @@ export type UpdateEventCategoryByCategoryInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** An object where the defined keys will be set on the `EventCategory` being updated. */
   eventCategoryPatch: EventCategoryPatch
+  /** The id of the event category. */
+  id: Scalars['UUID']['input']
+}
+
+/** All input for the `updateEventCategoryByName` mutation. */
+export type UpdateEventCategoryByNameInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `EventCategory` being updated. */
+  eventCategoryPatch: EventCategoryPatch
+  /** A category name. */
+  name: Scalars['String']['input']
 }
 
 /** All input for the `updateEventCategory` mutation. */
@@ -8410,10 +8928,10 @@ export type UpdateEventCategoryInput = {
   nodeId: Scalars['ID']['input']
 }
 
-/** All input for the `updateEventCategoryMappingByEventIdAndCategory` mutation. */
-export type UpdateEventCategoryMappingByEventIdAndCategoryInput = {
-  /** A category name. */
-  category: Scalars['String']['input']
+/** All input for the `updateEventCategoryMappingByEventIdAndCategoryId` mutation. */
+export type UpdateEventCategoryMappingByEventIdAndCategoryIdInput = {
+  /** A category id. */
+  categoryId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -8449,7 +8967,7 @@ export type UpdateEventCategoryMappingPayload = {
   /** Reads a single `Event` that is related to this `EventCategoryMapping`. */
   eventByEventId?: Maybe<Event>
   /** Reads a single `EventCategory` that is related to this `EventCategoryMapping`. */
-  eventCategoryByCategory?: Maybe<EventCategory>
+  eventCategoryByCategoryId?: Maybe<EventCategory>
   /** The `EventCategoryMapping` that was updated by this mutation. */
   eventCategoryMapping?: Maybe<EventCategoryMapping>
   /** An edge for our `EventCategoryMapping`. May be used by Relay 1. */
@@ -8484,68 +9002,8 @@ export type UpdateEventCategoryPayloadEventCategoryEdgeArgs = {
   orderBy?: InputMaybe<Array<EventCategoriesOrderBy>>
 }
 
-<<<<<<< HEAD
 /** All input for the `updateEventFavoriteByCreatedByAndEventId` mutation. */
 export type UpdateEventFavoriteByCreatedByAndEventIdInput = {
-=======
-/** All input for the `updateEventFavouriteByAccountIdAndEventId` mutation. */
-export type UpdateEventFavouriteByAccountIdAndEventIdInput = {
-  /** A user account id. */
-  accountId: Scalars['UUID']['input']
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventFavourite` being updated. */
-  eventFavouritePatch: EventFavouritePatch
-  /** The ID of an event which the user marked as a favourite. */
-  eventId: Scalars['UUID']['input']
-}
-
-/** All input for the `updateEventFavourite` mutation. */
-export type UpdateEventFavouriteInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventFavourite` being updated. */
-  eventFavouritePatch: EventFavouritePatch
-  /** The globally unique `ID` which will identify a single `EventFavourite` to be updated. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our update `EventFavourite` mutation. */
-export type UpdateEventFavouritePayload = {
-  __typename?: 'UpdateEventFavouritePayload'
-  /** Reads a single `Account` that is related to this `EventFavourite`. */
-  accountByAccountId?: Maybe<Account>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Reads a single `Event` that is related to this `EventFavourite`. */
-  eventByEventId?: Maybe<Event>
-  /** The `EventFavourite` that was updated by this mutation. */
-  eventFavourite?: Maybe<EventFavourite>
-  /** An edge for our `EventFavourite`. May be used by Relay 1. */
-  eventFavouriteEdge?: Maybe<EventFavouritesEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our update `EventFavourite` mutation. */
-export type UpdateEventFavouritePayloadEventFavouriteEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventFavouritesOrderBy>>
-}
-
-/** All input for the `updateEventGroupByAuthorAccountIdAndSlug` mutation. */
-export type UpdateEventGroupByAuthorAccountIdAndSlugInput = {
-  /** The event group author's id. */
-  authorAccountId: Scalars['UUID']['input']
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -8608,6 +9066,119 @@ export type UpdateEventFavoritePayload = {
 /** The output of our update `EventFavorite` mutation. */
 export type UpdateEventFavoritePayloadEventFavoriteEdgeArgs = {
   orderBy?: InputMaybe<Array<EventFavoritesOrderBy>>
+}
+
+/** All input for the `updateEventFormatById` mutation. */
+export type UpdateEventFormatByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `EventFormat` being updated. */
+  eventFormatPatch: EventFormatPatch
+  /** The id of the event format. */
+  id: Scalars['UUID']['input']
+}
+
+/** All input for the `updateEventFormatByName` mutation. */
+export type UpdateEventFormatByNameInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `EventFormat` being updated. */
+  eventFormatPatch: EventFormatPatch
+  /** The name of the event format. */
+  name: Scalars['String']['input']
+}
+
+/** All input for the `updateEventFormat` mutation. */
+export type UpdateEventFormatInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `EventFormat` being updated. */
+  eventFormatPatch: EventFormatPatch
+  /** The globally unique `ID` which will identify a single `EventFormat` to be updated. */
+  nodeId: Scalars['ID']['input']
+}
+
+/** All input for the `updateEventFormatMappingByEventIdAndFormatId` mutation. */
+export type UpdateEventFormatMappingByEventIdAndFormatIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `EventFormatMapping` being updated. */
+  eventFormatMappingPatch: EventFormatMappingPatch
+  /** An event id. */
+  eventId: Scalars['UUID']['input']
+  /** A format id. */
+  formatId: Scalars['UUID']['input']
+}
+
+/** All input for the `updateEventFormatMapping` mutation. */
+export type UpdateEventFormatMappingInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `EventFormatMapping` being updated. */
+  eventFormatMappingPatch: EventFormatMappingPatch
+  /** The globally unique `ID` which will identify a single `EventFormatMapping` to be updated. */
+  nodeId: Scalars['ID']['input']
+}
+
+/** The output of our update `EventFormatMapping` mutation. */
+export type UpdateEventFormatMappingPayload = {
+  __typename?: 'UpdateEventFormatMappingPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Reads a single `Event` that is related to this `EventFormatMapping`. */
+  eventByEventId?: Maybe<Event>
+  /** Reads a single `EventFormat` that is related to this `EventFormatMapping`. */
+  eventFormatByFormatId?: Maybe<EventFormat>
+  /** The `EventFormatMapping` that was updated by this mutation. */
+  eventFormatMapping?: Maybe<EventFormatMapping>
+  /** An edge for our `EventFormatMapping`. May be used by Relay 1. */
+  eventFormatMappingEdge?: Maybe<EventFormatMappingsEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `EventFormatMapping` mutation. */
+export type UpdateEventFormatMappingPayloadEventFormatMappingEdgeArgs = {
+  orderBy?: InputMaybe<Array<EventFormatMappingsOrderBy>>
+}
+
+/** The output of our update `EventFormat` mutation. */
+export type UpdateEventFormatPayload = {
+  __typename?: 'UpdateEventFormatPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `EventFormat` that was updated by this mutation. */
+  eventFormat?: Maybe<EventFormat>
+  /** An edge for our `EventFormat`. May be used by Relay 1. */
+  eventFormatEdge?: Maybe<EventFormatsEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `EventFormat` mutation. */
+export type UpdateEventFormatPayloadEventFormatEdgeArgs = {
+  orderBy?: InputMaybe<Array<EventFormatsOrderBy>>
 }
 
 /** All input for the `updateEventGroupByCreatedByAndSlug` mutation. */
@@ -9361,13 +9932,6 @@ export type GraphCacheKeysConfig = {
   AccountEmailAddressVerificationPayload?: (
     data: WithTypename<AccountEmailAddressVerificationPayload>,
   ) => null | string
-  AccountInterest?: (data: WithTypename<AccountInterest>) => null | string
-  AccountInterestsConnection?: (
-    data: WithTypename<AccountInterestsConnection>,
-  ) => null | string
-  AccountInterestsEdge?: (
-    data: WithTypename<AccountInterestsEdge>,
-  ) => null | string
   AccountPasswordChangePayload?: (
     data: WithTypename<AccountPasswordChangePayload>,
   ) => null | string
@@ -9376,6 +9940,24 @@ export type GraphCacheKeysConfig = {
   ) => null | string
   AccountPasswordResetRequestPayload?: (
     data: WithTypename<AccountPasswordResetRequestPayload>,
+  ) => null | string
+  AccountPreferenceEventCategoriesConnection?: (
+    data: WithTypename<AccountPreferenceEventCategoriesConnection>,
+  ) => null | string
+  AccountPreferenceEventCategoriesEdge?: (
+    data: WithTypename<AccountPreferenceEventCategoriesEdge>,
+  ) => null | string
+  AccountPreferenceEventCategory?: (
+    data: WithTypename<AccountPreferenceEventCategory>,
+  ) => null | string
+  AccountPreferenceEventFormat?: (
+    data: WithTypename<AccountPreferenceEventFormat>,
+  ) => null | string
+  AccountPreferenceEventFormatsConnection?: (
+    data: WithTypename<AccountPreferenceEventFormatsConnection>,
+  ) => null | string
+  AccountPreferenceEventFormatsEdge?: (
+    data: WithTypename<AccountPreferenceEventFormatsEdge>,
   ) => null | string
   AccountPreferenceEventSize?: (
     data: WithTypename<AccountPreferenceEventSize>,
@@ -9425,11 +10007,14 @@ export type GraphCacheKeysConfig = {
   CreateAccountBlockPayload?: (
     data: WithTypename<CreateAccountBlockPayload>,
   ) => null | string
-  CreateAccountInterestPayload?: (
-    data: WithTypename<CreateAccountInterestPayload>,
-  ) => null | string
   CreateAccountPayload?: (
     data: WithTypename<CreateAccountPayload>,
+  ) => null | string
+  CreateAccountPreferenceEventCategoryPayload?: (
+    data: WithTypename<CreateAccountPreferenceEventCategoryPayload>,
+  ) => null | string
+  CreateAccountPreferenceEventFormatPayload?: (
+    data: WithTypename<CreateAccountPreferenceEventFormatPayload>,
   ) => null | string
   CreateAccountPreferenceEventSizePayload?: (
     data: WithTypename<CreateAccountPreferenceEventSizePayload>,
@@ -9455,13 +10040,14 @@ export type GraphCacheKeysConfig = {
   CreateEventCategoryPayload?: (
     data: WithTypename<CreateEventCategoryPayload>,
   ) => null | string
-<<<<<<< HEAD
   CreateEventFavoritePayload?: (
     data: WithTypename<CreateEventFavoritePayload>,
-=======
-  CreateEventFavouritePayload?: (
-    data: WithTypename<CreateEventFavouritePayload>,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+  ) => null | string
+  CreateEventFormatMappingPayload?: (
+    data: WithTypename<CreateEventFormatMappingPayload>,
+  ) => null | string
+  CreateEventFormatPayload?: (
+    data: WithTypename<CreateEventFormatPayload>,
   ) => null | string
   CreateEventGroupPayload?: (
     data: WithTypename<CreateEventGroupPayload>,
@@ -9498,11 +10084,14 @@ export type GraphCacheKeysConfig = {
   DeleteAccountBlockPayload?: (
     data: WithTypename<DeleteAccountBlockPayload>,
   ) => null | string
-  DeleteAccountInterestPayload?: (
-    data: WithTypename<DeleteAccountInterestPayload>,
-  ) => null | string
   DeleteAccountPayload?: (
     data: WithTypename<DeleteAccountPayload>,
+  ) => null | string
+  DeleteAccountPreferenceEventCategoryPayload?: (
+    data: WithTypename<DeleteAccountPreferenceEventCategoryPayload>,
+  ) => null | string
+  DeleteAccountPreferenceEventFormatPayload?: (
+    data: WithTypename<DeleteAccountPreferenceEventFormatPayload>,
   ) => null | string
   DeleteAccountPreferenceEventSizePayload?: (
     data: WithTypename<DeleteAccountPreferenceEventSizePayload>,
@@ -9528,13 +10117,14 @@ export type GraphCacheKeysConfig = {
   DeleteEventCategoryPayload?: (
     data: WithTypename<DeleteEventCategoryPayload>,
   ) => null | string
-<<<<<<< HEAD
   DeleteEventFavoritePayload?: (
     data: WithTypename<DeleteEventFavoritePayload>,
-=======
-  DeleteEventFavouritePayload?: (
-    data: WithTypename<DeleteEventFavouritePayload>,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+  ) => null | string
+  DeleteEventFormatMappingPayload?: (
+    data: WithTypename<DeleteEventFormatMappingPayload>,
+  ) => null | string
+  DeleteEventFormatPayload?: (
+    data: WithTypename<DeleteEventFormatPayload>,
   ) => null | string
   DeleteEventGroupPayload?: (
     data: WithTypename<DeleteEventGroupPayload>,
@@ -9583,21 +10173,23 @@ export type GraphCacheKeysConfig = {
     data: WithTypename<EventCategoryMappingsEdge>,
   ) => null | string
   EventDeletePayload?: (data: WithTypename<EventDeletePayload>) => null | string
-<<<<<<< HEAD
   EventFavorite?: (data: WithTypename<EventFavorite>) => null | string
   EventFavoritesConnection?: (
     data: WithTypename<EventFavoritesConnection>,
   ) => null | string
   EventFavoritesEdge?: (data: WithTypename<EventFavoritesEdge>) => null | string
-=======
-  EventFavourite?: (data: WithTypename<EventFavourite>) => null | string
-  EventFavouritesConnection?: (
-    data: WithTypename<EventFavouritesConnection>,
+  EventFormat?: (data: WithTypename<EventFormat>) => null | string
+  EventFormatMapping?: (data: WithTypename<EventFormatMapping>) => null | string
+  EventFormatMappingsConnection?: (
+    data: WithTypename<EventFormatMappingsConnection>,
   ) => null | string
-  EventFavouritesEdge?: (
-    data: WithTypename<EventFavouritesEdge>,
+  EventFormatMappingsEdge?: (
+    data: WithTypename<EventFormatMappingsEdge>,
   ) => null | string
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+  EventFormatsConnection?: (
+    data: WithTypename<EventFormatsConnection>,
+  ) => null | string
+  EventFormatsEdge?: (data: WithTypename<EventFormatsEdge>) => null | string
   EventGroup?: (data: WithTypename<EventGroup>) => null | string
   EventGrouping?: (data: WithTypename<EventGrouping>) => null | string
   EventGroupingsConnection?: (
@@ -9685,11 +10277,14 @@ export type GraphCacheKeysConfig = {
   Report?: (data: WithTypename<Report>) => null | string
   ReportsConnection?: (data: WithTypename<ReportsConnection>) => null | string
   ReportsEdge?: (data: WithTypename<ReportsEdge>) => null | string
-  UpdateAccountInterestPayload?: (
-    data: WithTypename<UpdateAccountInterestPayload>,
-  ) => null | string
   UpdateAccountPayload?: (
     data: WithTypename<UpdateAccountPayload>,
+  ) => null | string
+  UpdateAccountPreferenceEventCategoryPayload?: (
+    data: WithTypename<UpdateAccountPreferenceEventCategoryPayload>,
+  ) => null | string
+  UpdateAccountPreferenceEventFormatPayload?: (
+    data: WithTypename<UpdateAccountPreferenceEventFormatPayload>,
   ) => null | string
   UpdateAccountPreferenceEventSizePayload?: (
     data: WithTypename<UpdateAccountPreferenceEventSizePayload>,
@@ -9715,13 +10310,14 @@ export type GraphCacheKeysConfig = {
   UpdateEventCategoryPayload?: (
     data: WithTypename<UpdateEventCategoryPayload>,
   ) => null | string
-<<<<<<< HEAD
   UpdateEventFavoritePayload?: (
     data: WithTypename<UpdateEventFavoritePayload>,
-=======
-  UpdateEventFavouritePayload?: (
-    data: WithTypename<UpdateEventFavouritePayload>,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+  ) => null | string
+  UpdateEventFormatMappingPayload?: (
+    data: WithTypename<UpdateEventFormatMappingPayload>,
+  ) => null | string
+  UpdateEventFormatPayload?: (
+    data: WithTypename<UpdateEventFormatPayload>,
   ) => null | string
   UpdateEventGroupPayload?: (
     data: WithTypename<UpdateEventGroupPayload>,
@@ -9766,15 +10362,9 @@ export type GraphCacheResolvers = {
       QueryAccountBlockArgs,
       WithTypename<AccountBlock> | string
     >
-<<<<<<< HEAD
     accountBlockByCreatedByAndBlockedAccountId?: GraphCacheResolver<
       WithTypename<Query>,
       QueryAccountBlockByCreatedByAndBlockedAccountIdArgs,
-=======
-    accountBlockByAuthorAccountIdAndBlockedAccountId?: GraphCacheResolver<
-      WithTypename<Query>,
-      QueryAccountBlockByAuthorAccountIdAndBlockedAccountIdArgs,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
       WithTypename<AccountBlock> | string
     >
     accountBlockById?: GraphCacheResolver<
@@ -9792,15 +10382,25 @@ export type GraphCacheResolvers = {
       QueryAccountByUsernameArgs,
       WithTypename<Account> | string
     >
-    accountInterest?: GraphCacheResolver<
+    accountPreferenceEventCategory?: GraphCacheResolver<
       WithTypename<Query>,
-      QueryAccountInterestArgs,
-      WithTypename<AccountInterest> | string
+      QueryAccountPreferenceEventCategoryArgs,
+      WithTypename<AccountPreferenceEventCategory> | string
     >
-    accountInterestByAccountIdAndCategory?: GraphCacheResolver<
+    accountPreferenceEventCategoryByAccountIdAndCategoryId?: GraphCacheResolver<
       WithTypename<Query>,
-      QueryAccountInterestByAccountIdAndCategoryArgs,
-      WithTypename<AccountInterest> | string
+      QueryAccountPreferenceEventCategoryByAccountIdAndCategoryIdArgs,
+      WithTypename<AccountPreferenceEventCategory> | string
+    >
+    accountPreferenceEventFormat?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryAccountPreferenceEventFormatArgs,
+      WithTypename<AccountPreferenceEventFormat> | string
+    >
+    accountPreferenceEventFormatByAccountIdAndFormatId?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryAccountPreferenceEventFormatByAccountIdAndFormatIdArgs,
+      WithTypename<AccountPreferenceEventFormat> | string
     >
     accountPreferenceEventSize?: GraphCacheResolver<
       WithTypename<Query>,
@@ -9842,7 +10442,6 @@ export type GraphCacheResolvers = {
       QueryAchievementByIdArgs,
       WithTypename<Achievement> | string
     >
-<<<<<<< HEAD
     address?: GraphCacheResolver<
       WithTypename<Query>,
       QueryAddressArgs,
@@ -9853,17 +10452,20 @@ export type GraphCacheResolvers = {
       QueryAddressByIdArgs,
       WithTypename<Address> | string
     >
-=======
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
     allAccountBlocks?: GraphCacheResolver<
       WithTypename<Query>,
       QueryAllAccountBlocksArgs,
       WithTypename<AccountBlocksConnection> | string
     >
-    allAccountInterests?: GraphCacheResolver<
+    allAccountPreferenceEventCategories?: GraphCacheResolver<
       WithTypename<Query>,
-      QueryAllAccountInterestsArgs,
-      WithTypename<AccountInterestsConnection> | string
+      QueryAllAccountPreferenceEventCategoriesArgs,
+      WithTypename<AccountPreferenceEventCategoriesConnection> | string
+    >
+    allAccountPreferenceEventFormats?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryAllAccountPreferenceEventFormatsArgs,
+      WithTypename<AccountPreferenceEventFormatsConnection> | string
     >
     allAccountPreferenceEventSizes?: GraphCacheResolver<
       WithTypename<Query>,
@@ -9910,17 +10512,20 @@ export type GraphCacheResolvers = {
       QueryAllEventCategoryMappingsArgs,
       WithTypename<EventCategoryMappingsConnection> | string
     >
-<<<<<<< HEAD
     allEventFavorites?: GraphCacheResolver<
       WithTypename<Query>,
       QueryAllEventFavoritesArgs,
       WithTypename<EventFavoritesConnection> | string
-=======
-    allEventFavourites?: GraphCacheResolver<
+    >
+    allEventFormatMappings?: GraphCacheResolver<
       WithTypename<Query>,
-      QueryAllEventFavouritesArgs,
-      WithTypename<EventFavouritesConnection> | string
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+      QueryAllEventFormatMappingsArgs,
+      WithTypename<EventFormatMappingsConnection> | string
+    >
+    allEventFormats?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryAllEventFormatsArgs,
+      WithTypename<EventFormatsConnection> | string
     >
     allEventGroupings?: GraphCacheResolver<
       WithTypename<Query>,
@@ -10037,9 +10642,14 @@ export type GraphCacheResolvers = {
       QueryEventCategoryArgs,
       WithTypename<EventCategory> | string
     >
-    eventCategoryByCategory?: GraphCacheResolver<
+    eventCategoryById?: GraphCacheResolver<
       WithTypename<Query>,
-      QueryEventCategoryByCategoryArgs,
+      QueryEventCategoryByIdArgs,
+      WithTypename<EventCategory> | string
+    >
+    eventCategoryByName?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventCategoryByNameArgs,
       WithTypename<EventCategory> | string
     >
     eventCategoryMapping?: GraphCacheResolver<
@@ -10047,12 +10657,11 @@ export type GraphCacheResolvers = {
       QueryEventCategoryMappingArgs,
       WithTypename<EventCategoryMapping> | string
     >
-    eventCategoryMappingByEventIdAndCategory?: GraphCacheResolver<
+    eventCategoryMappingByEventIdAndCategoryId?: GraphCacheResolver<
       WithTypename<Query>,
-      QueryEventCategoryMappingByEventIdAndCategoryArgs,
+      QueryEventCategoryMappingByEventIdAndCategoryIdArgs,
       WithTypename<EventCategoryMapping> | string
     >
-<<<<<<< HEAD
     eventFavorite?: GraphCacheResolver<
       WithTypename<Query>,
       QueryEventFavoriteArgs,
@@ -10067,17 +10676,31 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       QueryEventFavoriteByIdArgs,
       WithTypename<EventFavorite> | string
-=======
-    eventFavourite?: GraphCacheResolver<
-      WithTypename<Query>,
-      QueryEventFavouriteArgs,
-      WithTypename<EventFavourite> | string
     >
-    eventFavouriteByAccountIdAndEventId?: GraphCacheResolver<
+    eventFormat?: GraphCacheResolver<
       WithTypename<Query>,
-      QueryEventFavouriteByAccountIdAndEventIdArgs,
-      WithTypename<EventFavourite> | string
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+      QueryEventFormatArgs,
+      WithTypename<EventFormat> | string
+    >
+    eventFormatById?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventFormatByIdArgs,
+      WithTypename<EventFormat> | string
+    >
+    eventFormatByName?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventFormatByNameArgs,
+      WithTypename<EventFormat> | string
+    >
+    eventFormatMapping?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventFormatMappingArgs,
+      WithTypename<EventFormatMapping> | string
+    >
+    eventFormatMappingByEventIdAndFormatId?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventFormatMappingByEventIdAndFormatIdArgs,
+      WithTypename<EventFormatMapping> | string
     >
     eventGroup?: GraphCacheResolver<
       WithTypename<Query>,
@@ -10239,7 +10862,8 @@ export type GraphCacheResolvers = {
       QueryNodeArgs,
       | WithTypename<Account>
       | WithTypename<AccountBlock>
-      | WithTypename<AccountInterest>
+      | WithTypename<AccountPreferenceEventCategory>
+      | WithTypename<AccountPreferenceEventFormat>
       | WithTypename<AccountPreferenceEventSize>
       | WithTypename<AccountSocialNetwork>
       | WithTypename<Achievement>
@@ -10249,11 +10873,9 @@ export type GraphCacheResolvers = {
       | WithTypename<Event>
       | WithTypename<EventCategory>
       | WithTypename<EventCategoryMapping>
-<<<<<<< HEAD
       | WithTypename<EventFavorite>
-=======
-      | WithTypename<EventFavourite>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+      | WithTypename<EventFormat>
+      | WithTypename<EventFormatMapping>
       | WithTypename<EventGroup>
       | WithTypename<EventGrouping>
       | WithTypename<EventRecommendation>
@@ -10325,31 +10947,25 @@ export type GraphCacheResolvers = {
     >
   }
   Account?: {
-<<<<<<< HEAD
-=======
-    accountBlocksByAuthorAccountId?: GraphCacheResolver<
-      WithTypename<Account>,
-      AccountAccountBlocksByAuthorAccountIdArgs,
-      WithTypename<AccountBlocksConnection> | string
-    >
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
     accountBlocksByBlockedAccountId?: GraphCacheResolver<
       WithTypename<Account>,
       AccountAccountBlocksByBlockedAccountIdArgs,
       WithTypename<AccountBlocksConnection> | string
     >
-<<<<<<< HEAD
     accountBlocksByCreatedBy?: GraphCacheResolver<
       WithTypename<Account>,
       AccountAccountBlocksByCreatedByArgs,
       WithTypename<AccountBlocksConnection> | string
     >
-=======
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
-    accountInterestsByAccountId?: GraphCacheResolver<
+    accountPreferenceEventCategoriesByAccountId?: GraphCacheResolver<
       WithTypename<Account>,
-      AccountAccountInterestsByAccountIdArgs,
-      WithTypename<AccountInterestsConnection> | string
+      AccountAccountPreferenceEventCategoriesByAccountIdArgs,
+      WithTypename<AccountPreferenceEventCategoriesConnection> | string
+    >
+    accountPreferenceEventFormatsByAccountId?: GraphCacheResolver<
+      WithTypename<Account>,
+      AccountAccountPreferenceEventFormatsByAccountIdArgs,
+      WithTypename<AccountPreferenceEventFormatsConnection> | string
     >
     accountPreferenceEventSizesByAccountId?: GraphCacheResolver<
       WithTypename<Account>,
@@ -10386,16 +11002,7 @@ export type GraphCacheResolvers = {
       AccountContactsByCreatedByArgs,
       WithTypename<ContactsConnection> | string
     >
-<<<<<<< HEAD
     devicesByCreatedBy?: GraphCacheResolver<
-=======
-    eventFavouritesByAccountId?: GraphCacheResolver<
-      WithTypename<Account>,
-      AccountEventFavouritesByAccountIdArgs,
-      WithTypename<EventFavouritesConnection> | string
-    >
-    eventGroupsByAuthorAccountId?: GraphCacheResolver<
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
       WithTypename<Account>,
       AccountDevicesByCreatedByArgs,
       WithTypename<DevicesConnection> | string
@@ -10497,30 +11104,15 @@ export type GraphCacheResolvers = {
     >
   }
   AccountBlock?: {
-<<<<<<< HEAD
-=======
-    accountByAuthorAccountId?: GraphCacheResolver<
-      WithTypename<AccountBlock>,
-      Record<string, never>,
-      WithTypename<Account> | string
-    >
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
     accountByBlockedAccountId?: GraphCacheResolver<
       WithTypename<AccountBlock>,
       Record<string, never>,
       WithTypename<Account> | string
     >
-<<<<<<< HEAD
     accountByCreatedBy?: GraphCacheResolver<
       WithTypename<AccountBlock>,
       Record<string, never>,
       WithTypename<Account> | string
-=======
-    authorAccountId?: GraphCacheResolver<
-      WithTypename<AccountBlock>,
-      Record<string, never>,
-      Scalars['UUID'] | string
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
     >
     blockedAccountId?: GraphCacheResolver<
       WithTypename<AccountBlock>,
@@ -10532,14 +11124,11 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       Scalars['Datetime'] | string
     >
-<<<<<<< HEAD
     createdBy?: GraphCacheResolver<
       WithTypename<AccountBlock>,
       Record<string, never>,
       Scalars['UUID'] | string
     >
-=======
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
     id?: GraphCacheResolver<
       WithTypename<AccountBlock>,
       Record<string, never>,
@@ -10609,67 +11198,6 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
-  AccountInterest?: {
-    accountByAccountId?: GraphCacheResolver<
-      WithTypename<AccountInterest>,
-      Record<string, never>,
-      WithTypename<Account> | string
-    >
-    accountId?: GraphCacheResolver<
-      WithTypename<AccountInterest>,
-      Record<string, never>,
-      Scalars['UUID'] | string
-    >
-    category?: GraphCacheResolver<
-      WithTypename<AccountInterest>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    eventCategoryByCategory?: GraphCacheResolver<
-      WithTypename<AccountInterest>,
-      Record<string, never>,
-      WithTypename<EventCategory> | string
-    >
-    nodeId?: GraphCacheResolver<
-      WithTypename<AccountInterest>,
-      Record<string, never>,
-      Scalars['ID'] | string
-    >
-  }
-  AccountInterestsConnection?: {
-    edges?: GraphCacheResolver<
-      WithTypename<AccountInterestsConnection>,
-      Record<string, never>,
-      Array<WithTypename<AccountInterestsEdge> | string>
-    >
-    nodes?: GraphCacheResolver<
-      WithTypename<AccountInterestsConnection>,
-      Record<string, never>,
-      Array<WithTypename<AccountInterest> | string>
-    >
-    pageInfo?: GraphCacheResolver<
-      WithTypename<AccountInterestsConnection>,
-      Record<string, never>,
-      WithTypename<PageInfo> | string
-    >
-    totalCount?: GraphCacheResolver<
-      WithTypename<AccountInterestsConnection>,
-      Record<string, never>,
-      Scalars['Int'] | string
-    >
-  }
-  AccountInterestsEdge?: {
-    cursor?: GraphCacheResolver<
-      WithTypename<AccountInterestsEdge>,
-      Record<string, never>,
-      Scalars['Cursor'] | string
-    >
-    node?: GraphCacheResolver<
-      WithTypename<AccountInterestsEdge>,
-      Record<string, never>,
-      WithTypename<AccountInterest> | string
-    >
-  }
   AccountPasswordChangePayload?: {
     clientMutationId?: GraphCacheResolver<
       WithTypename<AccountPasswordChangePayload>,
@@ -10704,6 +11232,138 @@ export type GraphCacheResolvers = {
       WithTypename<AccountPasswordResetRequestPayload>,
       Record<string, never>,
       WithTypename<Query> | string
+    >
+  }
+  AccountPreferenceEventCategoriesConnection?: {
+    edges?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventCategoriesConnection>,
+      Record<string, never>,
+      Array<WithTypename<AccountPreferenceEventCategoriesEdge> | string>
+    >
+    nodes?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventCategoriesConnection>,
+      Record<string, never>,
+      Array<WithTypename<AccountPreferenceEventCategory> | string>
+    >
+    pageInfo?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventCategoriesConnection>,
+      Record<string, never>,
+      WithTypename<PageInfo> | string
+    >
+    totalCount?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventCategoriesConnection>,
+      Record<string, never>,
+      Scalars['Int'] | string
+    >
+  }
+  AccountPreferenceEventCategoriesEdge?: {
+    cursor?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventCategoriesEdge>,
+      Record<string, never>,
+      Scalars['Cursor'] | string
+    >
+    node?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventCategoriesEdge>,
+      Record<string, never>,
+      WithTypename<AccountPreferenceEventCategory> | string
+    >
+  }
+  AccountPreferenceEventCategory?: {
+    accountByAccountId?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventCategory>,
+      Record<string, never>,
+      WithTypename<Account> | string
+    >
+    accountId?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventCategory>,
+      Record<string, never>,
+      Scalars['UUID'] | string
+    >
+    categoryId?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventCategory>,
+      Record<string, never>,
+      Scalars['UUID'] | string
+    >
+    createdAt?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventCategory>,
+      Record<string, never>,
+      Scalars['Datetime'] | string
+    >
+    eventCategoryByCategoryId?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventCategory>,
+      Record<string, never>,
+      WithTypename<EventCategory> | string
+    >
+    nodeId?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventCategory>,
+      Record<string, never>,
+      Scalars['ID'] | string
+    >
+  }
+  AccountPreferenceEventFormat?: {
+    accountByAccountId?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventFormat>,
+      Record<string, never>,
+      WithTypename<Account> | string
+    >
+    accountId?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventFormat>,
+      Record<string, never>,
+      Scalars['UUID'] | string
+    >
+    createdAt?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventFormat>,
+      Record<string, never>,
+      Scalars['Datetime'] | string
+    >
+    eventFormatByFormatId?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventFormat>,
+      Record<string, never>,
+      WithTypename<EventFormat> | string
+    >
+    formatId?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventFormat>,
+      Record<string, never>,
+      Scalars['UUID'] | string
+    >
+    nodeId?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventFormat>,
+      Record<string, never>,
+      Scalars['ID'] | string
+    >
+  }
+  AccountPreferenceEventFormatsConnection?: {
+    edges?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventFormatsConnection>,
+      Record<string, never>,
+      Array<WithTypename<AccountPreferenceEventFormatsEdge> | string>
+    >
+    nodes?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventFormatsConnection>,
+      Record<string, never>,
+      Array<WithTypename<AccountPreferenceEventFormat> | string>
+    >
+    pageInfo?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventFormatsConnection>,
+      Record<string, never>,
+      WithTypename<PageInfo> | string
+    >
+    totalCount?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventFormatsConnection>,
+      Record<string, never>,
+      Scalars['Int'] | string
+    >
+  }
+  AccountPreferenceEventFormatsEdge?: {
+    cursor?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventFormatsEdge>,
+      Record<string, never>,
+      Scalars['Cursor'] | string
+    >
+    node?: GraphCacheResolver<
+      WithTypename<AccountPreferenceEventFormatsEdge>,
+      Record<string, never>,
+      WithTypename<AccountPreferenceEventFormat> | string
     >
   }
   AccountPreferenceEventSize?: {
@@ -10777,11 +11437,6 @@ export type GraphCacheResolvers = {
       WithTypename<AccountRegistrationPayload>,
       Record<string, never>,
       WithTypename<Query> | string
-    >
-    uuid?: GraphCacheResolver<
-      WithTypename<AccountRegistrationPayload>,
-      Record<string, never>,
-      Scalars['UUID'] | string
     >
   }
   AccountRegistrationRefreshPayload?: {
@@ -11264,20 +11919,12 @@ export type GraphCacheResolvers = {
       CreateAccountBlockPayloadAccountBlockEdgeArgs,
       WithTypename<AccountBlocksEdge> | string
     >
-<<<<<<< HEAD
     accountByBlockedAccountId?: GraphCacheResolver<
-=======
-    accountByAuthorAccountId?: GraphCacheResolver<
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
       WithTypename<CreateAccountBlockPayload>,
       Record<string, never>,
       WithTypename<Account> | string
     >
-<<<<<<< HEAD
     accountByCreatedBy?: GraphCacheResolver<
-=======
-    accountByBlockedAccountId?: GraphCacheResolver<
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
       WithTypename<CreateAccountBlockPayload>,
       Record<string, never>,
       WithTypename<Account> | string
@@ -11289,38 +11936,6 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<CreateAccountBlockPayload>,
-      Record<string, never>,
-      WithTypename<Query> | string
-    >
-  }
-  CreateAccountInterestPayload?: {
-    accountByAccountId?: GraphCacheResolver<
-      WithTypename<CreateAccountInterestPayload>,
-      Record<string, never>,
-      WithTypename<Account> | string
-    >
-    accountInterest?: GraphCacheResolver<
-      WithTypename<CreateAccountInterestPayload>,
-      Record<string, never>,
-      WithTypename<AccountInterest> | string
-    >
-    accountInterestEdge?: GraphCacheResolver<
-      WithTypename<CreateAccountInterestPayload>,
-      CreateAccountInterestPayloadAccountInterestEdgeArgs,
-      WithTypename<AccountInterestsEdge> | string
-    >
-    clientMutationId?: GraphCacheResolver<
-      WithTypename<CreateAccountInterestPayload>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    eventCategoryByCategory?: GraphCacheResolver<
-      WithTypename<CreateAccountInterestPayload>,
-      Record<string, never>,
-      WithTypename<EventCategory> | string
-    >
-    query?: GraphCacheResolver<
-      WithTypename<CreateAccountInterestPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -11343,6 +11958,70 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<CreateAccountPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  CreateAccountPreferenceEventCategoryPayload?: {
+    accountByAccountId?: GraphCacheResolver<
+      WithTypename<CreateAccountPreferenceEventCategoryPayload>,
+      Record<string, never>,
+      WithTypename<Account> | string
+    >
+    accountPreferenceEventCategory?: GraphCacheResolver<
+      WithTypename<CreateAccountPreferenceEventCategoryPayload>,
+      Record<string, never>,
+      WithTypename<AccountPreferenceEventCategory> | string
+    >
+    accountPreferenceEventCategoryEdge?: GraphCacheResolver<
+      WithTypename<CreateAccountPreferenceEventCategoryPayload>,
+      CreateAccountPreferenceEventCategoryPayloadAccountPreferenceEventCategoryEdgeArgs,
+      WithTypename<AccountPreferenceEventCategoriesEdge> | string
+    >
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<CreateAccountPreferenceEventCategoryPayload>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    eventCategoryByCategoryId?: GraphCacheResolver<
+      WithTypename<CreateAccountPreferenceEventCategoryPayload>,
+      Record<string, never>,
+      WithTypename<EventCategory> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<CreateAccountPreferenceEventCategoryPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  CreateAccountPreferenceEventFormatPayload?: {
+    accountByAccountId?: GraphCacheResolver<
+      WithTypename<CreateAccountPreferenceEventFormatPayload>,
+      Record<string, never>,
+      WithTypename<Account> | string
+    >
+    accountPreferenceEventFormat?: GraphCacheResolver<
+      WithTypename<CreateAccountPreferenceEventFormatPayload>,
+      Record<string, never>,
+      WithTypename<AccountPreferenceEventFormat> | string
+    >
+    accountPreferenceEventFormatEdge?: GraphCacheResolver<
+      WithTypename<CreateAccountPreferenceEventFormatPayload>,
+      CreateAccountPreferenceEventFormatPayloadAccountPreferenceEventFormatEdgeArgs,
+      WithTypename<AccountPreferenceEventFormatsEdge> | string
+    >
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<CreateAccountPreferenceEventFormatPayload>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    eventFormatByFormatId?: GraphCacheResolver<
+      WithTypename<CreateAccountPreferenceEventFormatPayload>,
+      Record<string, never>,
+      WithTypename<EventFormat> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<CreateAccountPreferenceEventFormatPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -11540,7 +12219,7 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       WithTypename<Event> | string
     >
-    eventCategoryByCategory?: GraphCacheResolver<
+    eventCategoryByCategoryId?: GraphCacheResolver<
       WithTypename<CreateEventCategoryMappingPayload>,
       Record<string, never>,
       WithTypename<EventCategory> | string
@@ -11583,29 +12262,18 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
-<<<<<<< HEAD
   CreateEventFavoritePayload?: {
     accountByCreatedBy?: GraphCacheResolver<
       WithTypename<CreateEventFavoritePayload>,
-=======
-  CreateEventFavouritePayload?: {
-    accountByAccountId?: GraphCacheResolver<
-      WithTypename<CreateEventFavouritePayload>,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
       Record<string, never>,
       WithTypename<Account> | string
     >
     clientMutationId?: GraphCacheResolver<
-<<<<<<< HEAD
       WithTypename<CreateEventFavoritePayload>,
-=======
-      WithTypename<CreateEventFavouritePayload>,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
       Record<string, never>,
       Scalars['String'] | string
     >
     eventByEventId?: GraphCacheResolver<
-<<<<<<< HEAD
       WithTypename<CreateEventFavoritePayload>,
       Record<string, never>,
       WithTypename<Event> | string
@@ -11622,24 +12290,60 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<CreateEventFavoritePayload>,
-=======
-      WithTypename<CreateEventFavouritePayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  CreateEventFormatMappingPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<CreateEventFormatMappingPayload>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    eventByEventId?: GraphCacheResolver<
+      WithTypename<CreateEventFormatMappingPayload>,
       Record<string, never>,
       WithTypename<Event> | string
     >
-    eventFavourite?: GraphCacheResolver<
-      WithTypename<CreateEventFavouritePayload>,
+    eventFormatByFormatId?: GraphCacheResolver<
+      WithTypename<CreateEventFormatMappingPayload>,
       Record<string, never>,
-      WithTypename<EventFavourite> | string
+      WithTypename<EventFormat> | string
     >
-    eventFavouriteEdge?: GraphCacheResolver<
-      WithTypename<CreateEventFavouritePayload>,
-      CreateEventFavouritePayloadEventFavouriteEdgeArgs,
-      WithTypename<EventFavouritesEdge> | string
+    eventFormatMapping?: GraphCacheResolver<
+      WithTypename<CreateEventFormatMappingPayload>,
+      Record<string, never>,
+      WithTypename<EventFormatMapping> | string
+    >
+    eventFormatMappingEdge?: GraphCacheResolver<
+      WithTypename<CreateEventFormatMappingPayload>,
+      CreateEventFormatMappingPayloadEventFormatMappingEdgeArgs,
+      WithTypename<EventFormatMappingsEdge> | string
     >
     query?: GraphCacheResolver<
-      WithTypename<CreateEventFavouritePayload>,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+      WithTypename<CreateEventFormatMappingPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  CreateEventFormatPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<CreateEventFormatPayload>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    eventFormat?: GraphCacheResolver<
+      WithTypename<CreateEventFormatPayload>,
+      Record<string, never>,
+      WithTypename<EventFormat> | string
+    >
+    eventFormatEdge?: GraphCacheResolver<
+      WithTypename<CreateEventFormatPayload>,
+      CreateEventFormatPayloadEventFormatEdgeArgs,
+      WithTypename<EventFormatsEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<CreateEventFormatPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -12065,43 +12769,6 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
-  DeleteAccountInterestPayload?: {
-    accountByAccountId?: GraphCacheResolver<
-      WithTypename<DeleteAccountInterestPayload>,
-      Record<string, never>,
-      WithTypename<Account> | string
-    >
-    accountInterest?: GraphCacheResolver<
-      WithTypename<DeleteAccountInterestPayload>,
-      Record<string, never>,
-      WithTypename<AccountInterest> | string
-    >
-    accountInterestEdge?: GraphCacheResolver<
-      WithTypename<DeleteAccountInterestPayload>,
-      DeleteAccountInterestPayloadAccountInterestEdgeArgs,
-      WithTypename<AccountInterestsEdge> | string
-    >
-    clientMutationId?: GraphCacheResolver<
-      WithTypename<DeleteAccountInterestPayload>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    deletedAccountInterestId?: GraphCacheResolver<
-      WithTypename<DeleteAccountInterestPayload>,
-      Record<string, never>,
-      Scalars['ID'] | string
-    >
-    eventCategoryByCategory?: GraphCacheResolver<
-      WithTypename<DeleteAccountInterestPayload>,
-      Record<string, never>,
-      WithTypename<EventCategory> | string
-    >
-    query?: GraphCacheResolver<
-      WithTypename<DeleteAccountInterestPayload>,
-      Record<string, never>,
-      WithTypename<Query> | string
-    >
-  }
   DeleteAccountPayload?: {
     account?: GraphCacheResolver<
       WithTypename<DeleteAccountPayload>,
@@ -12125,6 +12792,80 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<DeleteAccountPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  DeleteAccountPreferenceEventCategoryPayload?: {
+    accountByAccountId?: GraphCacheResolver<
+      WithTypename<DeleteAccountPreferenceEventCategoryPayload>,
+      Record<string, never>,
+      WithTypename<Account> | string
+    >
+    accountPreferenceEventCategory?: GraphCacheResolver<
+      WithTypename<DeleteAccountPreferenceEventCategoryPayload>,
+      Record<string, never>,
+      WithTypename<AccountPreferenceEventCategory> | string
+    >
+    accountPreferenceEventCategoryEdge?: GraphCacheResolver<
+      WithTypename<DeleteAccountPreferenceEventCategoryPayload>,
+      DeleteAccountPreferenceEventCategoryPayloadAccountPreferenceEventCategoryEdgeArgs,
+      WithTypename<AccountPreferenceEventCategoriesEdge> | string
+    >
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<DeleteAccountPreferenceEventCategoryPayload>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    deletedAccountPreferenceEventCategoryId?: GraphCacheResolver<
+      WithTypename<DeleteAccountPreferenceEventCategoryPayload>,
+      Record<string, never>,
+      Scalars['ID'] | string
+    >
+    eventCategoryByCategoryId?: GraphCacheResolver<
+      WithTypename<DeleteAccountPreferenceEventCategoryPayload>,
+      Record<string, never>,
+      WithTypename<EventCategory> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<DeleteAccountPreferenceEventCategoryPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  DeleteAccountPreferenceEventFormatPayload?: {
+    accountByAccountId?: GraphCacheResolver<
+      WithTypename<DeleteAccountPreferenceEventFormatPayload>,
+      Record<string, never>,
+      WithTypename<Account> | string
+    >
+    accountPreferenceEventFormat?: GraphCacheResolver<
+      WithTypename<DeleteAccountPreferenceEventFormatPayload>,
+      Record<string, never>,
+      WithTypename<AccountPreferenceEventFormat> | string
+    >
+    accountPreferenceEventFormatEdge?: GraphCacheResolver<
+      WithTypename<DeleteAccountPreferenceEventFormatPayload>,
+      DeleteAccountPreferenceEventFormatPayloadAccountPreferenceEventFormatEdgeArgs,
+      WithTypename<AccountPreferenceEventFormatsEdge> | string
+    >
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<DeleteAccountPreferenceEventFormatPayload>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    deletedAccountPreferenceEventFormatId?: GraphCacheResolver<
+      WithTypename<DeleteAccountPreferenceEventFormatPayload>,
+      Record<string, never>,
+      Scalars['ID'] | string
+    >
+    eventFormatByFormatId?: GraphCacheResolver<
+      WithTypename<DeleteAccountPreferenceEventFormatPayload>,
+      Record<string, never>,
+      WithTypename<EventFormat> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<DeleteAccountPreferenceEventFormatPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -12357,7 +13098,7 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       WithTypename<Event> | string
     >
-    eventCategoryByCategory?: GraphCacheResolver<
+    eventCategoryByCategoryId?: GraphCacheResolver<
       WithTypename<DeleteEventCategoryMappingPayload>,
       Record<string, never>,
       WithTypename<EventCategory> | string
@@ -12405,39 +13146,23 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
-<<<<<<< HEAD
   DeleteEventFavoritePayload?: {
     accountByCreatedBy?: GraphCacheResolver<
       WithTypename<DeleteEventFavoritePayload>,
-=======
-  DeleteEventFavouritePayload?: {
-    accountByAccountId?: GraphCacheResolver<
-      WithTypename<DeleteEventFavouritePayload>,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
       Record<string, never>,
       WithTypename<Account> | string
     >
     clientMutationId?: GraphCacheResolver<
-<<<<<<< HEAD
       WithTypename<DeleteEventFavoritePayload>,
       Record<string, never>,
       Scalars['String'] | string
     >
     deletedEventFavoriteId?: GraphCacheResolver<
       WithTypename<DeleteEventFavoritePayload>,
-=======
-      WithTypename<DeleteEventFavouritePayload>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    deletedEventFavouriteId?: GraphCacheResolver<
-      WithTypename<DeleteEventFavouritePayload>,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
       Record<string, never>,
       Scalars['ID'] | string
     >
     eventByEventId?: GraphCacheResolver<
-<<<<<<< HEAD
       WithTypename<DeleteEventFavoritePayload>,
       Record<string, never>,
       WithTypename<Event> | string
@@ -12454,24 +13179,70 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<DeleteEventFavoritePayload>,
-=======
-      WithTypename<DeleteEventFavouritePayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  DeleteEventFormatMappingPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<DeleteEventFormatMappingPayload>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    deletedEventFormatMappingId?: GraphCacheResolver<
+      WithTypename<DeleteEventFormatMappingPayload>,
+      Record<string, never>,
+      Scalars['ID'] | string
+    >
+    eventByEventId?: GraphCacheResolver<
+      WithTypename<DeleteEventFormatMappingPayload>,
       Record<string, never>,
       WithTypename<Event> | string
     >
-    eventFavourite?: GraphCacheResolver<
-      WithTypename<DeleteEventFavouritePayload>,
+    eventFormatByFormatId?: GraphCacheResolver<
+      WithTypename<DeleteEventFormatMappingPayload>,
       Record<string, never>,
-      WithTypename<EventFavourite> | string
+      WithTypename<EventFormat> | string
     >
-    eventFavouriteEdge?: GraphCacheResolver<
-      WithTypename<DeleteEventFavouritePayload>,
-      DeleteEventFavouritePayloadEventFavouriteEdgeArgs,
-      WithTypename<EventFavouritesEdge> | string
+    eventFormatMapping?: GraphCacheResolver<
+      WithTypename<DeleteEventFormatMappingPayload>,
+      Record<string, never>,
+      WithTypename<EventFormatMapping> | string
+    >
+    eventFormatMappingEdge?: GraphCacheResolver<
+      WithTypename<DeleteEventFormatMappingPayload>,
+      DeleteEventFormatMappingPayloadEventFormatMappingEdgeArgs,
+      WithTypename<EventFormatMappingsEdge> | string
     >
     query?: GraphCacheResolver<
-      WithTypename<DeleteEventFavouritePayload>,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+      WithTypename<DeleteEventFormatMappingPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  DeleteEventFormatPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<DeleteEventFormatPayload>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    deletedEventFormatId?: GraphCacheResolver<
+      WithTypename<DeleteEventFormatPayload>,
+      Record<string, never>,
+      Scalars['ID'] | string
+    >
+    eventFormat?: GraphCacheResolver<
+      WithTypename<DeleteEventFormatPayload>,
+      Record<string, never>,
+      WithTypename<EventFormat> | string
+    >
+    eventFormatEdge?: GraphCacheResolver<
+      WithTypename<DeleteEventFormatPayload>,
+      DeleteEventFormatPayloadEventFormatEdgeArgs,
+      WithTypename<EventFormatsEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<DeleteEventFormatPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -12973,17 +13744,15 @@ export type GraphCacheResolvers = {
       EventEventCategoryMappingsByEventIdArgs,
       WithTypename<EventCategoryMappingsConnection> | string
     >
-<<<<<<< HEAD
     eventFavoritesByEventId?: GraphCacheResolver<
       WithTypename<Event>,
       EventEventFavoritesByEventIdArgs,
       WithTypename<EventFavoritesConnection> | string
-=======
-    eventFavouritesByEventId?: GraphCacheResolver<
+    >
+    eventFormatMappingsByEventId?: GraphCacheResolver<
       WithTypename<Event>,
-      EventEventFavouritesByEventIdArgs,
-      WithTypename<EventFavouritesConnection> | string
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+      EventEventFormatMappingsByEventIdArgs,
+      WithTypename<EventFormatMappingsConnection> | string
     >
     eventGroupingsByEventId?: GraphCacheResolver<
       WithTypename<Event>,
@@ -13106,20 +13875,25 @@ export type GraphCacheResolvers = {
     >
   }
   EventCategory?: {
-    accountInterestsByCategory?: GraphCacheResolver<
+    accountPreferenceEventCategoriesByCategoryId?: GraphCacheResolver<
       WithTypename<EventCategory>,
-      EventCategoryAccountInterestsByCategoryArgs,
-      WithTypename<AccountInterestsConnection> | string
+      EventCategoryAccountPreferenceEventCategoriesByCategoryIdArgs,
+      WithTypename<AccountPreferenceEventCategoriesConnection> | string
     >
-    category?: GraphCacheResolver<
+    eventCategoryMappingsByCategoryId?: GraphCacheResolver<
+      WithTypename<EventCategory>,
+      EventCategoryEventCategoryMappingsByCategoryIdArgs,
+      WithTypename<EventCategoryMappingsConnection> | string
+    >
+    id?: GraphCacheResolver<
+      WithTypename<EventCategory>,
+      Record<string, never>,
+      Scalars['UUID'] | string
+    >
+    name?: GraphCacheResolver<
       WithTypename<EventCategory>,
       Record<string, never>,
       Scalars['String'] | string
-    >
-    eventCategoryMappingsByCategory?: GraphCacheResolver<
-      WithTypename<EventCategory>,
-      EventCategoryEventCategoryMappingsByCategoryArgs,
-      WithTypename<EventCategoryMappingsConnection> | string
     >
     nodeId?: GraphCacheResolver<
       WithTypename<EventCategory>,
@@ -13128,17 +13902,17 @@ export type GraphCacheResolvers = {
     >
   }
   EventCategoryMapping?: {
-    category?: GraphCacheResolver<
+    categoryId?: GraphCacheResolver<
       WithTypename<EventCategoryMapping>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['UUID'] | string
     >
     eventByEventId?: GraphCacheResolver<
       WithTypename<EventCategoryMapping>,
       Record<string, never>,
       WithTypename<Event> | string
     >
-    eventCategoryByCategory?: GraphCacheResolver<
+    eventCategoryByCategoryId?: GraphCacheResolver<
       WithTypename<EventCategoryMapping>,
       Record<string, never>,
       WithTypename<EventCategory> | string
@@ -13220,76 +13994,9 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
-<<<<<<< HEAD
   EventFavorite?: {
     accountByCreatedBy?: GraphCacheResolver<
       WithTypename<EventFavorite>,
-=======
-  EventFavourite?: {
-    accountByAccountId?: GraphCacheResolver<
-      WithTypename<EventFavourite>,
-      Record<string, never>,
-      WithTypename<Account> | string
-    >
-    accountId?: GraphCacheResolver<
-      WithTypename<EventFavourite>,
-      Record<string, never>,
-      Scalars['UUID'] | string
-    >
-    eventByEventId?: GraphCacheResolver<
-      WithTypename<EventFavourite>,
-      Record<string, never>,
-      WithTypename<Event> | string
-    >
-    eventId?: GraphCacheResolver<
-      WithTypename<EventFavourite>,
-      Record<string, never>,
-      Scalars['UUID'] | string
-    >
-    nodeId?: GraphCacheResolver<
-      WithTypename<EventFavourite>,
-      Record<string, never>,
-      Scalars['ID'] | string
-    >
-  }
-  EventFavouritesConnection?: {
-    edges?: GraphCacheResolver<
-      WithTypename<EventFavouritesConnection>,
-      Record<string, never>,
-      Array<WithTypename<EventFavouritesEdge> | string>
-    >
-    nodes?: GraphCacheResolver<
-      WithTypename<EventFavouritesConnection>,
-      Record<string, never>,
-      Array<WithTypename<EventFavourite> | string>
-    >
-    pageInfo?: GraphCacheResolver<
-      WithTypename<EventFavouritesConnection>,
-      Record<string, never>,
-      WithTypename<PageInfo> | string
-    >
-    totalCount?: GraphCacheResolver<
-      WithTypename<EventFavouritesConnection>,
-      Record<string, never>,
-      Scalars['Int'] | string
-    >
-  }
-  EventFavouritesEdge?: {
-    cursor?: GraphCacheResolver<
-      WithTypename<EventFavouritesEdge>,
-      Record<string, never>,
-      Scalars['Cursor'] | string
-    >
-    node?: GraphCacheResolver<
-      WithTypename<EventFavouritesEdge>,
-      Record<string, never>,
-      WithTypename<EventFavourite> | string
-    >
-  }
-  EventGroup?: {
-    accountByAuthorAccountId?: GraphCacheResolver<
-      WithTypename<EventGroup>,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
       Record<string, never>,
       WithTypename<Account> | string
     >
@@ -13356,6 +14063,128 @@ export type GraphCacheResolvers = {
       WithTypename<EventFavoritesEdge>,
       Record<string, never>,
       WithTypename<EventFavorite> | string
+    >
+  }
+  EventFormat?: {
+    accountPreferenceEventFormatsByFormatId?: GraphCacheResolver<
+      WithTypename<EventFormat>,
+      EventFormatAccountPreferenceEventFormatsByFormatIdArgs,
+      WithTypename<AccountPreferenceEventFormatsConnection> | string
+    >
+    eventFormatMappingsByFormatId?: GraphCacheResolver<
+      WithTypename<EventFormat>,
+      EventFormatEventFormatMappingsByFormatIdArgs,
+      WithTypename<EventFormatMappingsConnection> | string
+    >
+    id?: GraphCacheResolver<
+      WithTypename<EventFormat>,
+      Record<string, never>,
+      Scalars['UUID'] | string
+    >
+    name?: GraphCacheResolver<
+      WithTypename<EventFormat>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    nodeId?: GraphCacheResolver<
+      WithTypename<EventFormat>,
+      Record<string, never>,
+      Scalars['ID'] | string
+    >
+  }
+  EventFormatMapping?: {
+    eventByEventId?: GraphCacheResolver<
+      WithTypename<EventFormatMapping>,
+      Record<string, never>,
+      WithTypename<Event> | string
+    >
+    eventFormatByFormatId?: GraphCacheResolver<
+      WithTypename<EventFormatMapping>,
+      Record<string, never>,
+      WithTypename<EventFormat> | string
+    >
+    eventId?: GraphCacheResolver<
+      WithTypename<EventFormatMapping>,
+      Record<string, never>,
+      Scalars['UUID'] | string
+    >
+    formatId?: GraphCacheResolver<
+      WithTypename<EventFormatMapping>,
+      Record<string, never>,
+      Scalars['UUID'] | string
+    >
+    nodeId?: GraphCacheResolver<
+      WithTypename<EventFormatMapping>,
+      Record<string, never>,
+      Scalars['ID'] | string
+    >
+  }
+  EventFormatMappingsConnection?: {
+    edges?: GraphCacheResolver<
+      WithTypename<EventFormatMappingsConnection>,
+      Record<string, never>,
+      Array<WithTypename<EventFormatMappingsEdge> | string>
+    >
+    nodes?: GraphCacheResolver<
+      WithTypename<EventFormatMappingsConnection>,
+      Record<string, never>,
+      Array<WithTypename<EventFormatMapping> | string>
+    >
+    pageInfo?: GraphCacheResolver<
+      WithTypename<EventFormatMappingsConnection>,
+      Record<string, never>,
+      WithTypename<PageInfo> | string
+    >
+    totalCount?: GraphCacheResolver<
+      WithTypename<EventFormatMappingsConnection>,
+      Record<string, never>,
+      Scalars['Int'] | string
+    >
+  }
+  EventFormatMappingsEdge?: {
+    cursor?: GraphCacheResolver<
+      WithTypename<EventFormatMappingsEdge>,
+      Record<string, never>,
+      Scalars['Cursor'] | string
+    >
+    node?: GraphCacheResolver<
+      WithTypename<EventFormatMappingsEdge>,
+      Record<string, never>,
+      WithTypename<EventFormatMapping> | string
+    >
+  }
+  EventFormatsConnection?: {
+    edges?: GraphCacheResolver<
+      WithTypename<EventFormatsConnection>,
+      Record<string, never>,
+      Array<WithTypename<EventFormatsEdge> | string>
+    >
+    nodes?: GraphCacheResolver<
+      WithTypename<EventFormatsConnection>,
+      Record<string, never>,
+      Array<WithTypename<EventFormat> | string>
+    >
+    pageInfo?: GraphCacheResolver<
+      WithTypename<EventFormatsConnection>,
+      Record<string, never>,
+      WithTypename<PageInfo> | string
+    >
+    totalCount?: GraphCacheResolver<
+      WithTypename<EventFormatsConnection>,
+      Record<string, never>,
+      Scalars['Int'] | string
+    >
+  }
+  EventFormatsEdge?: {
+    cursor?: GraphCacheResolver<
+      WithTypename<EventFormatsEdge>,
+      Record<string, never>,
+      Scalars['Cursor'] | string
+    >
+    node?: GraphCacheResolver<
+      WithTypename<EventFormatsEdge>,
+      Record<string, never>,
+      WithTypename<EventFormat> | string
     >
   }
   EventGroup?: {
@@ -14557,38 +15386,6 @@ export type GraphCacheResolvers = {
       WithTypename<Report> | string
     >
   }
-  UpdateAccountInterestPayload?: {
-    accountByAccountId?: GraphCacheResolver<
-      WithTypename<UpdateAccountInterestPayload>,
-      Record<string, never>,
-      WithTypename<Account> | string
-    >
-    accountInterest?: GraphCacheResolver<
-      WithTypename<UpdateAccountInterestPayload>,
-      Record<string, never>,
-      WithTypename<AccountInterest> | string
-    >
-    accountInterestEdge?: GraphCacheResolver<
-      WithTypename<UpdateAccountInterestPayload>,
-      UpdateAccountInterestPayloadAccountInterestEdgeArgs,
-      WithTypename<AccountInterestsEdge> | string
-    >
-    clientMutationId?: GraphCacheResolver<
-      WithTypename<UpdateAccountInterestPayload>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    eventCategoryByCategory?: GraphCacheResolver<
-      WithTypename<UpdateAccountInterestPayload>,
-      Record<string, never>,
-      WithTypename<EventCategory> | string
-    >
-    query?: GraphCacheResolver<
-      WithTypename<UpdateAccountInterestPayload>,
-      Record<string, never>,
-      WithTypename<Query> | string
-    >
-  }
   UpdateAccountPayload?: {
     account?: GraphCacheResolver<
       WithTypename<UpdateAccountPayload>,
@@ -14607,6 +15404,70 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<UpdateAccountPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  UpdateAccountPreferenceEventCategoryPayload?: {
+    accountByAccountId?: GraphCacheResolver<
+      WithTypename<UpdateAccountPreferenceEventCategoryPayload>,
+      Record<string, never>,
+      WithTypename<Account> | string
+    >
+    accountPreferenceEventCategory?: GraphCacheResolver<
+      WithTypename<UpdateAccountPreferenceEventCategoryPayload>,
+      Record<string, never>,
+      WithTypename<AccountPreferenceEventCategory> | string
+    >
+    accountPreferenceEventCategoryEdge?: GraphCacheResolver<
+      WithTypename<UpdateAccountPreferenceEventCategoryPayload>,
+      UpdateAccountPreferenceEventCategoryPayloadAccountPreferenceEventCategoryEdgeArgs,
+      WithTypename<AccountPreferenceEventCategoriesEdge> | string
+    >
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdateAccountPreferenceEventCategoryPayload>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    eventCategoryByCategoryId?: GraphCacheResolver<
+      WithTypename<UpdateAccountPreferenceEventCategoryPayload>,
+      Record<string, never>,
+      WithTypename<EventCategory> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<UpdateAccountPreferenceEventCategoryPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  UpdateAccountPreferenceEventFormatPayload?: {
+    accountByAccountId?: GraphCacheResolver<
+      WithTypename<UpdateAccountPreferenceEventFormatPayload>,
+      Record<string, never>,
+      WithTypename<Account> | string
+    >
+    accountPreferenceEventFormat?: GraphCacheResolver<
+      WithTypename<UpdateAccountPreferenceEventFormatPayload>,
+      Record<string, never>,
+      WithTypename<AccountPreferenceEventFormat> | string
+    >
+    accountPreferenceEventFormatEdge?: GraphCacheResolver<
+      WithTypename<UpdateAccountPreferenceEventFormatPayload>,
+      UpdateAccountPreferenceEventFormatPayloadAccountPreferenceEventFormatEdgeArgs,
+      WithTypename<AccountPreferenceEventFormatsEdge> | string
+    >
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdateAccountPreferenceEventFormatPayload>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    eventFormatByFormatId?: GraphCacheResolver<
+      WithTypename<UpdateAccountPreferenceEventFormatPayload>,
+      Record<string, never>,
+      WithTypename<EventFormat> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<UpdateAccountPreferenceEventFormatPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -14804,7 +15665,7 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       WithTypename<Event> | string
     >
-    eventCategoryByCategory?: GraphCacheResolver<
+    eventCategoryByCategoryId?: GraphCacheResolver<
       WithTypename<UpdateEventCategoryMappingPayload>,
       Record<string, never>,
       WithTypename<EventCategory> | string
@@ -14847,29 +15708,18 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
-<<<<<<< HEAD
   UpdateEventFavoritePayload?: {
     accountByCreatedBy?: GraphCacheResolver<
       WithTypename<UpdateEventFavoritePayload>,
-=======
-  UpdateEventFavouritePayload?: {
-    accountByAccountId?: GraphCacheResolver<
-      WithTypename<UpdateEventFavouritePayload>,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
       Record<string, never>,
       WithTypename<Account> | string
     >
     clientMutationId?: GraphCacheResolver<
-<<<<<<< HEAD
       WithTypename<UpdateEventFavoritePayload>,
-=======
-      WithTypename<UpdateEventFavouritePayload>,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
       Record<string, never>,
       Scalars['String'] | string
     >
     eventByEventId?: GraphCacheResolver<
-<<<<<<< HEAD
       WithTypename<UpdateEventFavoritePayload>,
       Record<string, never>,
       WithTypename<Event> | string
@@ -14886,24 +15736,60 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<UpdateEventFavoritePayload>,
-=======
-      WithTypename<UpdateEventFavouritePayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  UpdateEventFormatMappingPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdateEventFormatMappingPayload>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    eventByEventId?: GraphCacheResolver<
+      WithTypename<UpdateEventFormatMappingPayload>,
       Record<string, never>,
       WithTypename<Event> | string
     >
-    eventFavourite?: GraphCacheResolver<
-      WithTypename<UpdateEventFavouritePayload>,
+    eventFormatByFormatId?: GraphCacheResolver<
+      WithTypename<UpdateEventFormatMappingPayload>,
       Record<string, never>,
-      WithTypename<EventFavourite> | string
+      WithTypename<EventFormat> | string
     >
-    eventFavouriteEdge?: GraphCacheResolver<
-      WithTypename<UpdateEventFavouritePayload>,
-      UpdateEventFavouritePayloadEventFavouriteEdgeArgs,
-      WithTypename<EventFavouritesEdge> | string
+    eventFormatMapping?: GraphCacheResolver<
+      WithTypename<UpdateEventFormatMappingPayload>,
+      Record<string, never>,
+      WithTypename<EventFormatMapping> | string
+    >
+    eventFormatMappingEdge?: GraphCacheResolver<
+      WithTypename<UpdateEventFormatMappingPayload>,
+      UpdateEventFormatMappingPayloadEventFormatMappingEdgeArgs,
+      WithTypename<EventFormatMappingsEdge> | string
     >
     query?: GraphCacheResolver<
-      WithTypename<UpdateEventFavouritePayload>,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+      WithTypename<UpdateEventFormatMappingPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  UpdateEventFormatPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdateEventFormatPayload>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    eventFormat?: GraphCacheResolver<
+      WithTypename<UpdateEventFormatPayload>,
+      Record<string, never>,
+      WithTypename<EventFormat> | string
+    >
+    eventFormatEdge?: GraphCacheResolver<
+      WithTypename<UpdateEventFormatPayload>,
+      UpdateEventFormatPayloadEventFormatEdgeArgs,
+      WithTypename<EventFormatsEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<UpdateEventFormatPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -15371,9 +16257,13 @@ export type GraphCacheOptimisticUpdaters = {
     MutationCreateAccountBlockArgs,
     Maybe<WithTypename<CreateAccountBlockPayload>>
   >
-  createAccountInterest?: GraphCacheOptimisticMutationResolver<
-    MutationCreateAccountInterestArgs,
-    Maybe<WithTypename<CreateAccountInterestPayload>>
+  createAccountPreferenceEventCategory?: GraphCacheOptimisticMutationResolver<
+    MutationCreateAccountPreferenceEventCategoryArgs,
+    Maybe<WithTypename<CreateAccountPreferenceEventCategoryPayload>>
+  >
+  createAccountPreferenceEventFormat?: GraphCacheOptimisticMutationResolver<
+    MutationCreateAccountPreferenceEventFormatArgs,
+    Maybe<WithTypename<CreateAccountPreferenceEventFormatPayload>>
   >
   createAccountPreferenceEventSize?: GraphCacheOptimisticMutationResolver<
     MutationCreateAccountPreferenceEventSizeArgs,
@@ -15411,15 +16301,17 @@ export type GraphCacheOptimisticUpdaters = {
     MutationCreateEventCategoryMappingArgs,
     Maybe<WithTypename<CreateEventCategoryMappingPayload>>
   >
-<<<<<<< HEAD
   createEventFavorite?: GraphCacheOptimisticMutationResolver<
     MutationCreateEventFavoriteArgs,
     Maybe<WithTypename<CreateEventFavoritePayload>>
-=======
-  createEventFavourite?: GraphCacheOptimisticMutationResolver<
-    MutationCreateEventFavouriteArgs,
-    Maybe<WithTypename<CreateEventFavouritePayload>>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+  >
+  createEventFormat?: GraphCacheOptimisticMutationResolver<
+    MutationCreateEventFormatArgs,
+    Maybe<WithTypename<CreateEventFormatPayload>>
+  >
+  createEventFormatMapping?: GraphCacheOptimisticMutationResolver<
+    MutationCreateEventFormatMappingArgs,
+    Maybe<WithTypename<CreateEventFormatMappingPayload>>
   >
   createEventGroup?: GraphCacheOptimisticMutationResolver<
     MutationCreateEventGroupArgs,
@@ -15489,13 +16381,21 @@ export type GraphCacheOptimisticUpdaters = {
     MutationDeleteAccountByUsernameArgs,
     Maybe<WithTypename<DeleteAccountPayload>>
   >
-  deleteAccountInterest?: GraphCacheOptimisticMutationResolver<
-    MutationDeleteAccountInterestArgs,
-    Maybe<WithTypename<DeleteAccountInterestPayload>>
+  deleteAccountPreferenceEventCategory?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteAccountPreferenceEventCategoryArgs,
+    Maybe<WithTypename<DeleteAccountPreferenceEventCategoryPayload>>
   >
-  deleteAccountInterestByAccountIdAndCategory?: GraphCacheOptimisticMutationResolver<
-    MutationDeleteAccountInterestByAccountIdAndCategoryArgs,
-    Maybe<WithTypename<DeleteAccountInterestPayload>>
+  deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteAccountPreferenceEventCategoryByAccountIdAndCategoryIdArgs,
+    Maybe<WithTypename<DeleteAccountPreferenceEventCategoryPayload>>
+  >
+  deleteAccountPreferenceEventFormat?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteAccountPreferenceEventFormatArgs,
+    Maybe<WithTypename<DeleteAccountPreferenceEventFormatPayload>>
+  >
+  deleteAccountPreferenceEventFormatByAccountIdAndFormatId?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteAccountPreferenceEventFormatByAccountIdAndFormatIdArgs,
+    Maybe<WithTypename<DeleteAccountPreferenceEventFormatPayload>>
   >
   deleteAccountPreferenceEventSize?: GraphCacheOptimisticMutationResolver<
     MutationDeleteAccountPreferenceEventSizeArgs,
@@ -15573,19 +16473,22 @@ export type GraphCacheOptimisticUpdaters = {
     MutationDeleteEventCategoryArgs,
     Maybe<WithTypename<DeleteEventCategoryPayload>>
   >
-  deleteEventCategoryByCategory?: GraphCacheOptimisticMutationResolver<
-    MutationDeleteEventCategoryByCategoryArgs,
+  deleteEventCategoryById?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteEventCategoryByIdArgs,
+    Maybe<WithTypename<DeleteEventCategoryPayload>>
+  >
+  deleteEventCategoryByName?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteEventCategoryByNameArgs,
     Maybe<WithTypename<DeleteEventCategoryPayload>>
   >
   deleteEventCategoryMapping?: GraphCacheOptimisticMutationResolver<
     MutationDeleteEventCategoryMappingArgs,
     Maybe<WithTypename<DeleteEventCategoryMappingPayload>>
   >
-  deleteEventCategoryMappingByEventIdAndCategory?: GraphCacheOptimisticMutationResolver<
-    MutationDeleteEventCategoryMappingByEventIdAndCategoryArgs,
+  deleteEventCategoryMappingByEventIdAndCategoryId?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteEventCategoryMappingByEventIdAndCategoryIdArgs,
     Maybe<WithTypename<DeleteEventCategoryMappingPayload>>
   >
-<<<<<<< HEAD
   deleteEventFavorite?: GraphCacheOptimisticMutationResolver<
     MutationDeleteEventFavoriteArgs,
     Maybe<WithTypename<DeleteEventFavoritePayload>>
@@ -15597,15 +16500,26 @@ export type GraphCacheOptimisticUpdaters = {
   deleteEventFavoriteById?: GraphCacheOptimisticMutationResolver<
     MutationDeleteEventFavoriteByIdArgs,
     Maybe<WithTypename<DeleteEventFavoritePayload>>
-=======
-  deleteEventFavourite?: GraphCacheOptimisticMutationResolver<
-    MutationDeleteEventFavouriteArgs,
-    Maybe<WithTypename<DeleteEventFavouritePayload>>
   >
-  deleteEventFavouriteByAccountIdAndEventId?: GraphCacheOptimisticMutationResolver<
-    MutationDeleteEventFavouriteByAccountIdAndEventIdArgs,
-    Maybe<WithTypename<DeleteEventFavouritePayload>>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+  deleteEventFormat?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteEventFormatArgs,
+    Maybe<WithTypename<DeleteEventFormatPayload>>
+  >
+  deleteEventFormatById?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteEventFormatByIdArgs,
+    Maybe<WithTypename<DeleteEventFormatPayload>>
+  >
+  deleteEventFormatByName?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteEventFormatByNameArgs,
+    Maybe<WithTypename<DeleteEventFormatPayload>>
+  >
+  deleteEventFormatMapping?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteEventFormatMappingArgs,
+    Maybe<WithTypename<DeleteEventFormatMappingPayload>>
+  >
+  deleteEventFormatMappingByEventIdAndFormatId?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteEventFormatMappingByEventIdAndFormatIdArgs,
+    Maybe<WithTypename<DeleteEventFormatMappingPayload>>
   >
   deleteEventGroup?: GraphCacheOptimisticMutationResolver<
     MutationDeleteEventGroupArgs,
@@ -15743,13 +16657,21 @@ export type GraphCacheOptimisticUpdaters = {
     MutationUpdateAccountByUsernameArgs,
     Maybe<WithTypename<UpdateAccountPayload>>
   >
-  updateAccountInterest?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateAccountInterestArgs,
-    Maybe<WithTypename<UpdateAccountInterestPayload>>
+  updateAccountPreferenceEventCategory?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateAccountPreferenceEventCategoryArgs,
+    Maybe<WithTypename<UpdateAccountPreferenceEventCategoryPayload>>
   >
-  updateAccountInterestByAccountIdAndCategory?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateAccountInterestByAccountIdAndCategoryArgs,
-    Maybe<WithTypename<UpdateAccountInterestPayload>>
+  updateAccountPreferenceEventCategoryByAccountIdAndCategoryId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateAccountPreferenceEventCategoryByAccountIdAndCategoryIdArgs,
+    Maybe<WithTypename<UpdateAccountPreferenceEventCategoryPayload>>
+  >
+  updateAccountPreferenceEventFormat?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateAccountPreferenceEventFormatArgs,
+    Maybe<WithTypename<UpdateAccountPreferenceEventFormatPayload>>
+  >
+  updateAccountPreferenceEventFormatByAccountIdAndFormatId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateAccountPreferenceEventFormatByAccountIdAndFormatIdArgs,
+    Maybe<WithTypename<UpdateAccountPreferenceEventFormatPayload>>
   >
   updateAccountPreferenceEventSize?: GraphCacheOptimisticMutationResolver<
     MutationUpdateAccountPreferenceEventSizeArgs,
@@ -15827,19 +16749,22 @@ export type GraphCacheOptimisticUpdaters = {
     MutationUpdateEventCategoryArgs,
     Maybe<WithTypename<UpdateEventCategoryPayload>>
   >
-  updateEventCategoryByCategory?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateEventCategoryByCategoryArgs,
+  updateEventCategoryById?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateEventCategoryByIdArgs,
+    Maybe<WithTypename<UpdateEventCategoryPayload>>
+  >
+  updateEventCategoryByName?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateEventCategoryByNameArgs,
     Maybe<WithTypename<UpdateEventCategoryPayload>>
   >
   updateEventCategoryMapping?: GraphCacheOptimisticMutationResolver<
     MutationUpdateEventCategoryMappingArgs,
     Maybe<WithTypename<UpdateEventCategoryMappingPayload>>
   >
-  updateEventCategoryMappingByEventIdAndCategory?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateEventCategoryMappingByEventIdAndCategoryArgs,
+  updateEventCategoryMappingByEventIdAndCategoryId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateEventCategoryMappingByEventIdAndCategoryIdArgs,
     Maybe<WithTypename<UpdateEventCategoryMappingPayload>>
   >
-<<<<<<< HEAD
   updateEventFavorite?: GraphCacheOptimisticMutationResolver<
     MutationUpdateEventFavoriteArgs,
     Maybe<WithTypename<UpdateEventFavoritePayload>>
@@ -15851,15 +16776,26 @@ export type GraphCacheOptimisticUpdaters = {
   updateEventFavoriteById?: GraphCacheOptimisticMutationResolver<
     MutationUpdateEventFavoriteByIdArgs,
     Maybe<WithTypename<UpdateEventFavoritePayload>>
-=======
-  updateEventFavourite?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateEventFavouriteArgs,
-    Maybe<WithTypename<UpdateEventFavouritePayload>>
   >
-  updateEventFavouriteByAccountIdAndEventId?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateEventFavouriteByAccountIdAndEventIdArgs,
-    Maybe<WithTypename<UpdateEventFavouritePayload>>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+  updateEventFormat?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateEventFormatArgs,
+    Maybe<WithTypename<UpdateEventFormatPayload>>
+  >
+  updateEventFormatById?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateEventFormatByIdArgs,
+    Maybe<WithTypename<UpdateEventFormatPayload>>
+  >
+  updateEventFormatByName?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateEventFormatByNameArgs,
+    Maybe<WithTypename<UpdateEventFormatPayload>>
+  >
+  updateEventFormatMapping?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateEventFormatMappingArgs,
+    Maybe<WithTypename<UpdateEventFormatMappingPayload>>
+  >
+  updateEventFormatMappingByEventIdAndFormatId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateEventFormatMappingByEventIdAndFormatIdArgs,
+    Maybe<WithTypename<UpdateEventFormatMappingPayload>>
   >
   updateEventGroup?: GraphCacheOptimisticMutationResolver<
     MutationUpdateEventGroupArgs,
@@ -15969,7 +16905,6 @@ export type GraphCacheUpdaters = {
       { accountBlock: Maybe<WithTypename<AccountBlock>> },
       QueryAccountBlockArgs
     >
-<<<<<<< HEAD
     accountBlockByCreatedByAndBlockedAccountId?: GraphCacheUpdateResolver<
       {
         accountBlockByCreatedByAndBlockedAccountId: Maybe<
@@ -15977,15 +16912,6 @@ export type GraphCacheUpdaters = {
         >
       },
       QueryAccountBlockByCreatedByAndBlockedAccountIdArgs
-=======
-    accountBlockByAuthorAccountIdAndBlockedAccountId?: GraphCacheUpdateResolver<
-      {
-        accountBlockByAuthorAccountIdAndBlockedAccountId: Maybe<
-          WithTypename<AccountBlock>
-        >
-      },
-      QueryAccountBlockByAuthorAccountIdAndBlockedAccountIdArgs
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
     >
     accountBlockById?: GraphCacheUpdateResolver<
       { accountBlockById: Maybe<WithTypename<AccountBlock>> },
@@ -15999,17 +16925,37 @@ export type GraphCacheUpdaters = {
       { accountByUsername: Maybe<WithTypename<Account>> },
       QueryAccountByUsernameArgs
     >
-    accountInterest?: GraphCacheUpdateResolver<
-      { accountInterest: Maybe<WithTypename<AccountInterest>> },
-      QueryAccountInterestArgs
-    >
-    accountInterestByAccountIdAndCategory?: GraphCacheUpdateResolver<
+    accountPreferenceEventCategory?: GraphCacheUpdateResolver<
       {
-        accountInterestByAccountIdAndCategory: Maybe<
-          WithTypename<AccountInterest>
+        accountPreferenceEventCategory: Maybe<
+          WithTypename<AccountPreferenceEventCategory>
         >
       },
-      QueryAccountInterestByAccountIdAndCategoryArgs
+      QueryAccountPreferenceEventCategoryArgs
+    >
+    accountPreferenceEventCategoryByAccountIdAndCategoryId?: GraphCacheUpdateResolver<
+      {
+        accountPreferenceEventCategoryByAccountIdAndCategoryId: Maybe<
+          WithTypename<AccountPreferenceEventCategory>
+        >
+      },
+      QueryAccountPreferenceEventCategoryByAccountIdAndCategoryIdArgs
+    >
+    accountPreferenceEventFormat?: GraphCacheUpdateResolver<
+      {
+        accountPreferenceEventFormat: Maybe<
+          WithTypename<AccountPreferenceEventFormat>
+        >
+      },
+      QueryAccountPreferenceEventFormatArgs
+    >
+    accountPreferenceEventFormatByAccountIdAndFormatId?: GraphCacheUpdateResolver<
+      {
+        accountPreferenceEventFormatByAccountIdAndFormatId: Maybe<
+          WithTypename<AccountPreferenceEventFormat>
+        >
+      },
+      QueryAccountPreferenceEventFormatByAccountIdAndFormatIdArgs
     >
     accountPreferenceEventSize?: GraphCacheUpdateResolver<
       {
@@ -16057,7 +17003,6 @@ export type GraphCacheUpdaters = {
       { achievementById: Maybe<WithTypename<Achievement>> },
       QueryAchievementByIdArgs
     >
-<<<<<<< HEAD
     address?: GraphCacheUpdateResolver<
       { address: Maybe<WithTypename<Address>> },
       QueryAddressArgs
@@ -16066,15 +17011,25 @@ export type GraphCacheUpdaters = {
       { addressById: Maybe<WithTypename<Address>> },
       QueryAddressByIdArgs
     >
-=======
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
     allAccountBlocks?: GraphCacheUpdateResolver<
       { allAccountBlocks: Maybe<WithTypename<AccountBlocksConnection>> },
       QueryAllAccountBlocksArgs
     >
-    allAccountInterests?: GraphCacheUpdateResolver<
-      { allAccountInterests: Maybe<WithTypename<AccountInterestsConnection>> },
-      QueryAllAccountInterestsArgs
+    allAccountPreferenceEventCategories?: GraphCacheUpdateResolver<
+      {
+        allAccountPreferenceEventCategories: Maybe<
+          WithTypename<AccountPreferenceEventCategoriesConnection>
+        >
+      },
+      QueryAllAccountPreferenceEventCategoriesArgs
+    >
+    allAccountPreferenceEventFormats?: GraphCacheUpdateResolver<
+      {
+        allAccountPreferenceEventFormats: Maybe<
+          WithTypename<AccountPreferenceEventFormatsConnection>
+        >
+      },
+      QueryAllAccountPreferenceEventFormatsArgs
     >
     allAccountPreferenceEventSizes?: GraphCacheUpdateResolver<
       {
@@ -16124,15 +17079,21 @@ export type GraphCacheUpdaters = {
       },
       QueryAllEventCategoryMappingsArgs
     >
-<<<<<<< HEAD
     allEventFavorites?: GraphCacheUpdateResolver<
       { allEventFavorites: Maybe<WithTypename<EventFavoritesConnection>> },
       QueryAllEventFavoritesArgs
-=======
-    allEventFavourites?: GraphCacheUpdateResolver<
-      { allEventFavourites: Maybe<WithTypename<EventFavouritesConnection>> },
-      QueryAllEventFavouritesArgs
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+    >
+    allEventFormatMappings?: GraphCacheUpdateResolver<
+      {
+        allEventFormatMappings: Maybe<
+          WithTypename<EventFormatMappingsConnection>
+        >
+      },
+      QueryAllEventFormatMappingsArgs
+    >
+    allEventFormats?: GraphCacheUpdateResolver<
+      { allEventFormats: Maybe<WithTypename<EventFormatsConnection>> },
+      QueryAllEventFormatsArgs
     >
     allEventGroupings?: GraphCacheUpdateResolver<
       { allEventGroupings: Maybe<WithTypename<EventGroupingsConnection>> },
@@ -16234,23 +17195,26 @@ export type GraphCacheUpdaters = {
       { eventCategory: Maybe<WithTypename<EventCategory>> },
       QueryEventCategoryArgs
     >
-    eventCategoryByCategory?: GraphCacheUpdateResolver<
-      { eventCategoryByCategory: Maybe<WithTypename<EventCategory>> },
-      QueryEventCategoryByCategoryArgs
+    eventCategoryById?: GraphCacheUpdateResolver<
+      { eventCategoryById: Maybe<WithTypename<EventCategory>> },
+      QueryEventCategoryByIdArgs
+    >
+    eventCategoryByName?: GraphCacheUpdateResolver<
+      { eventCategoryByName: Maybe<WithTypename<EventCategory>> },
+      QueryEventCategoryByNameArgs
     >
     eventCategoryMapping?: GraphCacheUpdateResolver<
       { eventCategoryMapping: Maybe<WithTypename<EventCategoryMapping>> },
       QueryEventCategoryMappingArgs
     >
-    eventCategoryMappingByEventIdAndCategory?: GraphCacheUpdateResolver<
+    eventCategoryMappingByEventIdAndCategoryId?: GraphCacheUpdateResolver<
       {
-        eventCategoryMappingByEventIdAndCategory: Maybe<
+        eventCategoryMappingByEventIdAndCategoryId: Maybe<
           WithTypename<EventCategoryMapping>
         >
       },
-      QueryEventCategoryMappingByEventIdAndCategoryArgs
+      QueryEventCategoryMappingByEventIdAndCategoryIdArgs
     >
-<<<<<<< HEAD
     eventFavorite?: GraphCacheUpdateResolver<
       { eventFavorite: Maybe<WithTypename<EventFavorite>> },
       QueryEventFavoriteArgs
@@ -16264,17 +17228,30 @@ export type GraphCacheUpdaters = {
     eventFavoriteById?: GraphCacheUpdateResolver<
       { eventFavoriteById: Maybe<WithTypename<EventFavorite>> },
       QueryEventFavoriteByIdArgs
-=======
-    eventFavourite?: GraphCacheUpdateResolver<
-      { eventFavourite: Maybe<WithTypename<EventFavourite>> },
-      QueryEventFavouriteArgs
     >
-    eventFavouriteByAccountIdAndEventId?: GraphCacheUpdateResolver<
+    eventFormat?: GraphCacheUpdateResolver<
+      { eventFormat: Maybe<WithTypename<EventFormat>> },
+      QueryEventFormatArgs
+    >
+    eventFormatById?: GraphCacheUpdateResolver<
+      { eventFormatById: Maybe<WithTypename<EventFormat>> },
+      QueryEventFormatByIdArgs
+    >
+    eventFormatByName?: GraphCacheUpdateResolver<
+      { eventFormatByName: Maybe<WithTypename<EventFormat>> },
+      QueryEventFormatByNameArgs
+    >
+    eventFormatMapping?: GraphCacheUpdateResolver<
+      { eventFormatMapping: Maybe<WithTypename<EventFormatMapping>> },
+      QueryEventFormatMappingArgs
+    >
+    eventFormatMappingByEventIdAndFormatId?: GraphCacheUpdateResolver<
       {
-        eventFavouriteByAccountIdAndEventId: Maybe<WithTypename<EventFavourite>>
+        eventFormatMappingByEventIdAndFormatId: Maybe<
+          WithTypename<EventFormatMapping>
+        >
       },
-      QueryEventFavouriteByAccountIdAndEventIdArgs
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+      QueryEventFormatMappingByEventIdAndFormatIdArgs
     >
     eventGroup?: GraphCacheUpdateResolver<
       { eventGroup: Maybe<WithTypename<EventGroup>> },
@@ -16413,7 +17390,8 @@ export type GraphCacheUpdaters = {
         node: Maybe<
           | WithTypename<Account>
           | WithTypename<AccountBlock>
-          | WithTypename<AccountInterest>
+          | WithTypename<AccountPreferenceEventCategory>
+          | WithTypename<AccountPreferenceEventFormat>
           | WithTypename<AccountPreferenceEventSize>
           | WithTypename<AccountSocialNetwork>
           | WithTypename<Achievement>
@@ -16423,11 +17401,9 @@ export type GraphCacheUpdaters = {
           | WithTypename<Event>
           | WithTypename<EventCategory>
           | WithTypename<EventCategoryMapping>
-<<<<<<< HEAD
           | WithTypename<EventFavorite>
-=======
-          | WithTypename<EventFavourite>
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+          | WithTypename<EventFormat>
+          | WithTypename<EventFormatMapping>
           | WithTypename<EventGroup>
           | WithTypename<EventGrouping>
           | WithTypename<EventRecommendation>
@@ -16554,11 +17530,21 @@ export type GraphCacheUpdaters = {
       { createAccountBlock: Maybe<WithTypename<CreateAccountBlockPayload>> },
       MutationCreateAccountBlockArgs
     >
-    createAccountInterest?: GraphCacheUpdateResolver<
+    createAccountPreferenceEventCategory?: GraphCacheUpdateResolver<
       {
-        createAccountInterest: Maybe<WithTypename<CreateAccountInterestPayload>>
+        createAccountPreferenceEventCategory: Maybe<
+          WithTypename<CreateAccountPreferenceEventCategoryPayload>
+        >
       },
-      MutationCreateAccountInterestArgs
+      MutationCreateAccountPreferenceEventCategoryArgs
+    >
+    createAccountPreferenceEventFormat?: GraphCacheUpdateResolver<
+      {
+        createAccountPreferenceEventFormat: Maybe<
+          WithTypename<CreateAccountPreferenceEventFormatPayload>
+        >
+      },
+      MutationCreateAccountPreferenceEventFormatArgs
     >
     createAccountPreferenceEventSize?: GraphCacheUpdateResolver<
       {
@@ -16608,17 +17594,21 @@ export type GraphCacheUpdaters = {
       },
       MutationCreateEventCategoryMappingArgs
     >
-<<<<<<< HEAD
     createEventFavorite?: GraphCacheUpdateResolver<
       { createEventFavorite: Maybe<WithTypename<CreateEventFavoritePayload>> },
       MutationCreateEventFavoriteArgs
-=======
-    createEventFavourite?: GraphCacheUpdateResolver<
+    >
+    createEventFormat?: GraphCacheUpdateResolver<
+      { createEventFormat: Maybe<WithTypename<CreateEventFormatPayload>> },
+      MutationCreateEventFormatArgs
+    >
+    createEventFormatMapping?: GraphCacheUpdateResolver<
       {
-        createEventFavourite: Maybe<WithTypename<CreateEventFavouritePayload>>
+        createEventFormatMapping: Maybe<
+          WithTypename<CreateEventFormatMappingPayload>
+        >
       },
-      MutationCreateEventFavouriteArgs
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+      MutationCreateEventFormatMappingArgs
     >
     createEventGroup?: GraphCacheUpdateResolver<
       { createEventGroup: Maybe<WithTypename<CreateEventGroupPayload>> },
@@ -16704,19 +17694,37 @@ export type GraphCacheUpdaters = {
       { deleteAccountByUsername: Maybe<WithTypename<DeleteAccountPayload>> },
       MutationDeleteAccountByUsernameArgs
     >
-    deleteAccountInterest?: GraphCacheUpdateResolver<
+    deleteAccountPreferenceEventCategory?: GraphCacheUpdateResolver<
       {
-        deleteAccountInterest: Maybe<WithTypename<DeleteAccountInterestPayload>>
-      },
-      MutationDeleteAccountInterestArgs
-    >
-    deleteAccountInterestByAccountIdAndCategory?: GraphCacheUpdateResolver<
-      {
-        deleteAccountInterestByAccountIdAndCategory: Maybe<
-          WithTypename<DeleteAccountInterestPayload>
+        deleteAccountPreferenceEventCategory: Maybe<
+          WithTypename<DeleteAccountPreferenceEventCategoryPayload>
         >
       },
-      MutationDeleteAccountInterestByAccountIdAndCategoryArgs
+      MutationDeleteAccountPreferenceEventCategoryArgs
+    >
+    deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId?: GraphCacheUpdateResolver<
+      {
+        deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId: Maybe<
+          WithTypename<DeleteAccountPreferenceEventCategoryPayload>
+        >
+      },
+      MutationDeleteAccountPreferenceEventCategoryByAccountIdAndCategoryIdArgs
+    >
+    deleteAccountPreferenceEventFormat?: GraphCacheUpdateResolver<
+      {
+        deleteAccountPreferenceEventFormat: Maybe<
+          WithTypename<DeleteAccountPreferenceEventFormatPayload>
+        >
+      },
+      MutationDeleteAccountPreferenceEventFormatArgs
+    >
+    deleteAccountPreferenceEventFormatByAccountIdAndFormatId?: GraphCacheUpdateResolver<
+      {
+        deleteAccountPreferenceEventFormatByAccountIdAndFormatId: Maybe<
+          WithTypename<DeleteAccountPreferenceEventFormatPayload>
+        >
+      },
+      MutationDeleteAccountPreferenceEventFormatByAccountIdAndFormatIdArgs
     >
     deleteAccountPreferenceEventSize?: GraphCacheUpdateResolver<
       {
@@ -16824,13 +17832,19 @@ export type GraphCacheUpdaters = {
       { deleteEventCategory: Maybe<WithTypename<DeleteEventCategoryPayload>> },
       MutationDeleteEventCategoryArgs
     >
-    deleteEventCategoryByCategory?: GraphCacheUpdateResolver<
+    deleteEventCategoryById?: GraphCacheUpdateResolver<
       {
-        deleteEventCategoryByCategory: Maybe<
+        deleteEventCategoryById: Maybe<WithTypename<DeleteEventCategoryPayload>>
+      },
+      MutationDeleteEventCategoryByIdArgs
+    >
+    deleteEventCategoryByName?: GraphCacheUpdateResolver<
+      {
+        deleteEventCategoryByName: Maybe<
           WithTypename<DeleteEventCategoryPayload>
         >
       },
-      MutationDeleteEventCategoryByCategoryArgs
+      MutationDeleteEventCategoryByNameArgs
     >
     deleteEventCategoryMapping?: GraphCacheUpdateResolver<
       {
@@ -16840,15 +17854,14 @@ export type GraphCacheUpdaters = {
       },
       MutationDeleteEventCategoryMappingArgs
     >
-    deleteEventCategoryMappingByEventIdAndCategory?: GraphCacheUpdateResolver<
+    deleteEventCategoryMappingByEventIdAndCategoryId?: GraphCacheUpdateResolver<
       {
-        deleteEventCategoryMappingByEventIdAndCategory: Maybe<
+        deleteEventCategoryMappingByEventIdAndCategoryId: Maybe<
           WithTypename<DeleteEventCategoryMappingPayload>
         >
       },
-      MutationDeleteEventCategoryMappingByEventIdAndCategoryArgs
+      MutationDeleteEventCategoryMappingByEventIdAndCategoryIdArgs
     >
-<<<<<<< HEAD
     deleteEventFavorite?: GraphCacheUpdateResolver<
       { deleteEventFavorite: Maybe<WithTypename<DeleteEventFavoritePayload>> },
       MutationDeleteEventFavoriteArgs
@@ -16866,21 +17879,36 @@ export type GraphCacheUpdaters = {
         deleteEventFavoriteById: Maybe<WithTypename<DeleteEventFavoritePayload>>
       },
       MutationDeleteEventFavoriteByIdArgs
-=======
-    deleteEventFavourite?: GraphCacheUpdateResolver<
-      {
-        deleteEventFavourite: Maybe<WithTypename<DeleteEventFavouritePayload>>
-      },
-      MutationDeleteEventFavouriteArgs
     >
-    deleteEventFavouriteByAccountIdAndEventId?: GraphCacheUpdateResolver<
+    deleteEventFormat?: GraphCacheUpdateResolver<
+      { deleteEventFormat: Maybe<WithTypename<DeleteEventFormatPayload>> },
+      MutationDeleteEventFormatArgs
+    >
+    deleteEventFormatById?: GraphCacheUpdateResolver<
+      { deleteEventFormatById: Maybe<WithTypename<DeleteEventFormatPayload>> },
+      MutationDeleteEventFormatByIdArgs
+    >
+    deleteEventFormatByName?: GraphCacheUpdateResolver<
       {
-        deleteEventFavouriteByAccountIdAndEventId: Maybe<
-          WithTypename<DeleteEventFavouritePayload>
+        deleteEventFormatByName: Maybe<WithTypename<DeleteEventFormatPayload>>
+      },
+      MutationDeleteEventFormatByNameArgs
+    >
+    deleteEventFormatMapping?: GraphCacheUpdateResolver<
+      {
+        deleteEventFormatMapping: Maybe<
+          WithTypename<DeleteEventFormatMappingPayload>
         >
       },
-      MutationDeleteEventFavouriteByAccountIdAndEventIdArgs
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+      MutationDeleteEventFormatMappingArgs
+    >
+    deleteEventFormatMappingByEventIdAndFormatId?: GraphCacheUpdateResolver<
+      {
+        deleteEventFormatMappingByEventIdAndFormatId: Maybe<
+          WithTypename<DeleteEventFormatMappingPayload>
+        >
+      },
+      MutationDeleteEventFormatMappingByEventIdAndFormatIdArgs
     >
     deleteEventGroup?: GraphCacheUpdateResolver<
       { deleteEventGroup: Maybe<WithTypename<DeleteEventGroupPayload>> },
@@ -17070,19 +18098,37 @@ export type GraphCacheUpdaters = {
       { updateAccountByUsername: Maybe<WithTypename<UpdateAccountPayload>> },
       MutationUpdateAccountByUsernameArgs
     >
-    updateAccountInterest?: GraphCacheUpdateResolver<
+    updateAccountPreferenceEventCategory?: GraphCacheUpdateResolver<
       {
-        updateAccountInterest: Maybe<WithTypename<UpdateAccountInterestPayload>>
-      },
-      MutationUpdateAccountInterestArgs
-    >
-    updateAccountInterestByAccountIdAndCategory?: GraphCacheUpdateResolver<
-      {
-        updateAccountInterestByAccountIdAndCategory: Maybe<
-          WithTypename<UpdateAccountInterestPayload>
+        updateAccountPreferenceEventCategory: Maybe<
+          WithTypename<UpdateAccountPreferenceEventCategoryPayload>
         >
       },
-      MutationUpdateAccountInterestByAccountIdAndCategoryArgs
+      MutationUpdateAccountPreferenceEventCategoryArgs
+    >
+    updateAccountPreferenceEventCategoryByAccountIdAndCategoryId?: GraphCacheUpdateResolver<
+      {
+        updateAccountPreferenceEventCategoryByAccountIdAndCategoryId: Maybe<
+          WithTypename<UpdateAccountPreferenceEventCategoryPayload>
+        >
+      },
+      MutationUpdateAccountPreferenceEventCategoryByAccountIdAndCategoryIdArgs
+    >
+    updateAccountPreferenceEventFormat?: GraphCacheUpdateResolver<
+      {
+        updateAccountPreferenceEventFormat: Maybe<
+          WithTypename<UpdateAccountPreferenceEventFormatPayload>
+        >
+      },
+      MutationUpdateAccountPreferenceEventFormatArgs
+    >
+    updateAccountPreferenceEventFormatByAccountIdAndFormatId?: GraphCacheUpdateResolver<
+      {
+        updateAccountPreferenceEventFormatByAccountIdAndFormatId: Maybe<
+          WithTypename<UpdateAccountPreferenceEventFormatPayload>
+        >
+      },
+      MutationUpdateAccountPreferenceEventFormatByAccountIdAndFormatIdArgs
     >
     updateAccountPreferenceEventSize?: GraphCacheUpdateResolver<
       {
@@ -17190,13 +18236,19 @@ export type GraphCacheUpdaters = {
       { updateEventCategory: Maybe<WithTypename<UpdateEventCategoryPayload>> },
       MutationUpdateEventCategoryArgs
     >
-    updateEventCategoryByCategory?: GraphCacheUpdateResolver<
+    updateEventCategoryById?: GraphCacheUpdateResolver<
       {
-        updateEventCategoryByCategory: Maybe<
+        updateEventCategoryById: Maybe<WithTypename<UpdateEventCategoryPayload>>
+      },
+      MutationUpdateEventCategoryByIdArgs
+    >
+    updateEventCategoryByName?: GraphCacheUpdateResolver<
+      {
+        updateEventCategoryByName: Maybe<
           WithTypename<UpdateEventCategoryPayload>
         >
       },
-      MutationUpdateEventCategoryByCategoryArgs
+      MutationUpdateEventCategoryByNameArgs
     >
     updateEventCategoryMapping?: GraphCacheUpdateResolver<
       {
@@ -17206,15 +18258,14 @@ export type GraphCacheUpdaters = {
       },
       MutationUpdateEventCategoryMappingArgs
     >
-    updateEventCategoryMappingByEventIdAndCategory?: GraphCacheUpdateResolver<
+    updateEventCategoryMappingByEventIdAndCategoryId?: GraphCacheUpdateResolver<
       {
-        updateEventCategoryMappingByEventIdAndCategory: Maybe<
+        updateEventCategoryMappingByEventIdAndCategoryId: Maybe<
           WithTypename<UpdateEventCategoryMappingPayload>
         >
       },
-      MutationUpdateEventCategoryMappingByEventIdAndCategoryArgs
+      MutationUpdateEventCategoryMappingByEventIdAndCategoryIdArgs
     >
-<<<<<<< HEAD
     updateEventFavorite?: GraphCacheUpdateResolver<
       { updateEventFavorite: Maybe<WithTypename<UpdateEventFavoritePayload>> },
       MutationUpdateEventFavoriteArgs
@@ -17232,21 +18283,36 @@ export type GraphCacheUpdaters = {
         updateEventFavoriteById: Maybe<WithTypename<UpdateEventFavoritePayload>>
       },
       MutationUpdateEventFavoriteByIdArgs
-=======
-    updateEventFavourite?: GraphCacheUpdateResolver<
-      {
-        updateEventFavourite: Maybe<WithTypename<UpdateEventFavouritePayload>>
-      },
-      MutationUpdateEventFavouriteArgs
     >
-    updateEventFavouriteByAccountIdAndEventId?: GraphCacheUpdateResolver<
+    updateEventFormat?: GraphCacheUpdateResolver<
+      { updateEventFormat: Maybe<WithTypename<UpdateEventFormatPayload>> },
+      MutationUpdateEventFormatArgs
+    >
+    updateEventFormatById?: GraphCacheUpdateResolver<
+      { updateEventFormatById: Maybe<WithTypename<UpdateEventFormatPayload>> },
+      MutationUpdateEventFormatByIdArgs
+    >
+    updateEventFormatByName?: GraphCacheUpdateResolver<
       {
-        updateEventFavouriteByAccountIdAndEventId: Maybe<
-          WithTypename<UpdateEventFavouritePayload>
+        updateEventFormatByName: Maybe<WithTypename<UpdateEventFormatPayload>>
+      },
+      MutationUpdateEventFormatByNameArgs
+    >
+    updateEventFormatMapping?: GraphCacheUpdateResolver<
+      {
+        updateEventFormatMapping: Maybe<
+          WithTypename<UpdateEventFormatMappingPayload>
         >
       },
-      MutationUpdateEventFavouriteByAccountIdAndEventIdArgs
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+      MutationUpdateEventFormatMappingArgs
+    >
+    updateEventFormatMappingByEventIdAndFormatId?: GraphCacheUpdateResolver<
+      {
+        updateEventFormatMappingByEventIdAndFormatId: Maybe<
+          WithTypename<UpdateEventFormatMappingPayload>
+        >
+      },
+      MutationUpdateEventFormatMappingByEventIdAndFormatIdArgs
     >
     updateEventGroup?: GraphCacheUpdateResolver<
       { updateEventGroup: Maybe<WithTypename<UpdateEventGroupPayload>> },
@@ -17387,27 +18453,21 @@ export type GraphCacheUpdaters = {
   }
   Subscription?: {}
   Account?: {
-<<<<<<< HEAD
-=======
-    accountBlocksByAuthorAccountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<Account>>,
-      AccountAccountBlocksByAuthorAccountIdArgs
-    >
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
     accountBlocksByBlockedAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
       AccountAccountBlocksByBlockedAccountIdArgs
     >
-<<<<<<< HEAD
     accountBlocksByCreatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
       AccountAccountBlocksByCreatedByArgs
     >
-=======
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
-    accountInterestsByAccountId?: GraphCacheUpdateResolver<
+    accountPreferenceEventCategoriesByAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
-      AccountAccountInterestsByAccountIdArgs
+      AccountAccountPreferenceEventCategoriesByAccountIdArgs
+    >
+    accountPreferenceEventFormatsByAccountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Account>>,
+      AccountAccountPreferenceEventFormatsByAccountIdArgs
     >
     accountPreferenceEventSizesByAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
@@ -17437,15 +18497,7 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Account>>,
       AccountContactsByCreatedByArgs
     >
-<<<<<<< HEAD
     devicesByCreatedBy?: GraphCacheUpdateResolver<
-=======
-    eventFavouritesByAccountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<Account>>,
-      AccountEventFavouritesByAccountIdArgs
-    >
-    eventGroupsByAuthorAccountId?: GraphCacheUpdateResolver<
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
       Maybe<WithTypename<Account>>,
       AccountDevicesByCreatedByArgs
     >
@@ -17527,22 +18579,11 @@ export type GraphCacheUpdaters = {
     >
   }
   AccountBlock?: {
-<<<<<<< HEAD
-=======
-    accountByAuthorAccountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<AccountBlock>>,
-      Record<string, never>
-    >
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
     accountByBlockedAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<AccountBlock>>,
       Record<string, never>
     >
-<<<<<<< HEAD
     accountByCreatedBy?: GraphCacheUpdateResolver<
-=======
-    authorAccountId?: GraphCacheUpdateResolver<
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
       Maybe<WithTypename<AccountBlock>>,
       Record<string, never>
     >
@@ -17554,13 +18595,10 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<AccountBlock>>,
       Record<string, never>
     >
-<<<<<<< HEAD
     createdBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<AccountBlock>>,
       Record<string, never>
     >
-=======
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
     id?: GraphCacheUpdateResolver<
       Maybe<WithTypename<AccountBlock>>,
       Record<string, never>
@@ -17618,56 +18656,6 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
-  AccountInterest?: {
-    accountByAccountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<AccountInterest>>,
-      Record<string, never>
-    >
-    accountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<AccountInterest>>,
-      Record<string, never>
-    >
-    category?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<AccountInterest>>,
-      Record<string, never>
-    >
-    eventCategoryByCategory?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<AccountInterest>>,
-      Record<string, never>
-    >
-    nodeId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<AccountInterest>>,
-      Record<string, never>
-    >
-  }
-  AccountInterestsConnection?: {
-    edges?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<AccountInterestsConnection>>,
-      Record<string, never>
-    >
-    nodes?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<AccountInterestsConnection>>,
-      Record<string, never>
-    >
-    pageInfo?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<AccountInterestsConnection>>,
-      Record<string, never>
-    >
-    totalCount?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<AccountInterestsConnection>>,
-      Record<string, never>
-    >
-  }
-  AccountInterestsEdge?: {
-    cursor?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<AccountInterestsEdge>>,
-      Record<string, never>
-    >
-    node?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<AccountInterestsEdge>>,
-      Record<string, never>
-    >
-  }
   AccountPasswordChangePayload?: {
     clientMutationId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<AccountPasswordChangePayload>>,
@@ -17695,6 +18683,114 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<AccountPasswordResetRequestPayload>>,
+      Record<string, never>
+    >
+  }
+  AccountPreferenceEventCategoriesConnection?: {
+    edges?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventCategoriesConnection>>,
+      Record<string, never>
+    >
+    nodes?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventCategoriesConnection>>,
+      Record<string, never>
+    >
+    pageInfo?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventCategoriesConnection>>,
+      Record<string, never>
+    >
+    totalCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventCategoriesConnection>>,
+      Record<string, never>
+    >
+  }
+  AccountPreferenceEventCategoriesEdge?: {
+    cursor?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventCategoriesEdge>>,
+      Record<string, never>
+    >
+    node?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventCategoriesEdge>>,
+      Record<string, never>
+    >
+  }
+  AccountPreferenceEventCategory?: {
+    accountByAccountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventCategory>>,
+      Record<string, never>
+    >
+    accountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventCategory>>,
+      Record<string, never>
+    >
+    categoryId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventCategory>>,
+      Record<string, never>
+    >
+    createdAt?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventCategory>>,
+      Record<string, never>
+    >
+    eventCategoryByCategoryId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventCategory>>,
+      Record<string, never>
+    >
+    nodeId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventCategory>>,
+      Record<string, never>
+    >
+  }
+  AccountPreferenceEventFormat?: {
+    accountByAccountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventFormat>>,
+      Record<string, never>
+    >
+    accountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventFormat>>,
+      Record<string, never>
+    >
+    createdAt?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventFormat>>,
+      Record<string, never>
+    >
+    eventFormatByFormatId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventFormat>>,
+      Record<string, never>
+    >
+    formatId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventFormat>>,
+      Record<string, never>
+    >
+    nodeId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventFormat>>,
+      Record<string, never>
+    >
+  }
+  AccountPreferenceEventFormatsConnection?: {
+    edges?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventFormatsConnection>>,
+      Record<string, never>
+    >
+    nodes?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventFormatsConnection>>,
+      Record<string, never>
+    >
+    pageInfo?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventFormatsConnection>>,
+      Record<string, never>
+    >
+    totalCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventFormatsConnection>>,
+      Record<string, never>
+    >
+  }
+  AccountPreferenceEventFormatsEdge?: {
+    cursor?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventFormatsEdge>>,
+      Record<string, never>
+    >
+    node?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountPreferenceEventFormatsEdge>>,
       Record<string, never>
     >
   }
@@ -17754,10 +18850,6 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
     query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<AccountRegistrationPayload>>,
-      Record<string, never>
-    >
-    uuid?: GraphCacheUpdateResolver<
       Maybe<WithTypename<AccountRegistrationPayload>>,
       Record<string, never>
     >
@@ -18153,19 +19245,11 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<CreateAccountBlockPayload>>,
       CreateAccountBlockPayloadAccountBlockEdgeArgs
     >
-<<<<<<< HEAD
     accountByBlockedAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<CreateAccountBlockPayload>>,
       Record<string, never>
     >
     accountByCreatedBy?: GraphCacheUpdateResolver<
-=======
-    accountByAuthorAccountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateAccountBlockPayload>>,
-      Record<string, never>
-    >
-    accountByBlockedAccountId?: GraphCacheUpdateResolver<
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
       Maybe<WithTypename<CreateAccountBlockPayload>>,
       Record<string, never>
     >
@@ -18175,32 +19259,6 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<CreateAccountBlockPayload>>,
-      Record<string, never>
-    >
-  }
-  CreateAccountInterestPayload?: {
-    accountByAccountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateAccountInterestPayload>>,
-      Record<string, never>
-    >
-    accountInterest?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateAccountInterestPayload>>,
-      Record<string, never>
-    >
-    accountInterestEdge?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateAccountInterestPayload>>,
-      CreateAccountInterestPayloadAccountInterestEdgeArgs
-    >
-    clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateAccountInterestPayload>>,
-      Record<string, never>
-    >
-    eventCategoryByCategory?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateAccountInterestPayload>>,
-      Record<string, never>
-    >
-    query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateAccountInterestPayload>>,
       Record<string, never>
     >
   }
@@ -18219,6 +19277,58 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<CreateAccountPayload>>,
+      Record<string, never>
+    >
+  }
+  CreateAccountPreferenceEventCategoryPayload?: {
+    accountByAccountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateAccountPreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+    accountPreferenceEventCategory?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateAccountPreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+    accountPreferenceEventCategoryEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateAccountPreferenceEventCategoryPayload>>,
+      CreateAccountPreferenceEventCategoryPayloadAccountPreferenceEventCategoryEdgeArgs
+    >
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateAccountPreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+    eventCategoryByCategoryId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateAccountPreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateAccountPreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+  }
+  CreateAccountPreferenceEventFormatPayload?: {
+    accountByAccountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateAccountPreferenceEventFormatPayload>>,
+      Record<string, never>
+    >
+    accountPreferenceEventFormat?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateAccountPreferenceEventFormatPayload>>,
+      Record<string, never>
+    >
+    accountPreferenceEventFormatEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateAccountPreferenceEventFormatPayload>>,
+      CreateAccountPreferenceEventFormatPayloadAccountPreferenceEventFormatEdgeArgs
+    >
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateAccountPreferenceEventFormatPayload>>,
+      Record<string, never>
+    >
+    eventFormatByFormatId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateAccountPreferenceEventFormatPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateAccountPreferenceEventFormatPayload>>,
       Record<string, never>
     >
   }
@@ -18379,7 +19489,7 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<CreateEventCategoryMappingPayload>>,
       Record<string, never>
     >
-    eventCategoryByCategory?: GraphCacheUpdateResolver<
+    eventCategoryByCategoryId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<CreateEventCategoryMappingPayload>>,
       Record<string, never>
     >
@@ -18414,7 +19524,6 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
-<<<<<<< HEAD
   CreateEventFavoritePayload?: {
     accountByCreatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<CreateEventFavoritePayload>>,
@@ -18438,31 +19547,50 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<CreateEventFavoritePayload>>,
-=======
-  CreateEventFavouritePayload?: {
-    accountByAccountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateEventFavouritePayload>>,
       Record<string, never>
     >
+  }
+  CreateEventFormatMappingPayload?: {
     clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateEventFavouritePayload>>,
+      Maybe<WithTypename<CreateEventFormatMappingPayload>>,
       Record<string, never>
     >
     eventByEventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateEventFavouritePayload>>,
+      Maybe<WithTypename<CreateEventFormatMappingPayload>>,
       Record<string, never>
     >
-    eventFavourite?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateEventFavouritePayload>>,
+    eventFormatByFormatId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventFormatMappingPayload>>,
       Record<string, never>
     >
-    eventFavouriteEdge?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateEventFavouritePayload>>,
-      CreateEventFavouritePayloadEventFavouriteEdgeArgs
+    eventFormatMapping?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventFormatMappingPayload>>,
+      Record<string, never>
+    >
+    eventFormatMappingEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventFormatMappingPayload>>,
+      CreateEventFormatMappingPayloadEventFormatMappingEdgeArgs
     >
     query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateEventFavouritePayload>>,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+      Maybe<WithTypename<CreateEventFormatMappingPayload>>,
+      Record<string, never>
+    >
+  }
+  CreateEventFormatPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventFormatPayload>>,
+      Record<string, never>
+    >
+    eventFormat?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventFormatPayload>>,
+      Record<string, never>
+    >
+    eventFormatEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventFormatPayload>>,
+      CreateEventFormatPayloadEventFormatEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventFormatPayload>>,
       Record<string, never>
     >
   }
@@ -18808,36 +19936,6 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
-  DeleteAccountInterestPayload?: {
-    accountByAccountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteAccountInterestPayload>>,
-      Record<string, never>
-    >
-    accountInterest?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteAccountInterestPayload>>,
-      Record<string, never>
-    >
-    accountInterestEdge?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteAccountInterestPayload>>,
-      DeleteAccountInterestPayloadAccountInterestEdgeArgs
-    >
-    clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteAccountInterestPayload>>,
-      Record<string, never>
-    >
-    deletedAccountInterestId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteAccountInterestPayload>>,
-      Record<string, never>
-    >
-    eventCategoryByCategory?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteAccountInterestPayload>>,
-      Record<string, never>
-    >
-    query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteAccountInterestPayload>>,
-      Record<string, never>
-    >
-  }
   DeleteAccountPayload?: {
     account?: GraphCacheUpdateResolver<
       Maybe<WithTypename<DeleteAccountPayload>>,
@@ -18857,6 +19955,66 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<DeleteAccountPayload>>,
+      Record<string, never>
+    >
+  }
+  DeleteAccountPreferenceEventCategoryPayload?: {
+    accountByAccountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountPreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+    accountPreferenceEventCategory?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountPreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+    accountPreferenceEventCategoryEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountPreferenceEventCategoryPayload>>,
+      DeleteAccountPreferenceEventCategoryPayloadAccountPreferenceEventCategoryEdgeArgs
+    >
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountPreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+    deletedAccountPreferenceEventCategoryId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountPreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+    eventCategoryByCategoryId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountPreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountPreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+  }
+  DeleteAccountPreferenceEventFormatPayload?: {
+    accountByAccountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountPreferenceEventFormatPayload>>,
+      Record<string, never>
+    >
+    accountPreferenceEventFormat?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountPreferenceEventFormatPayload>>,
+      Record<string, never>
+    >
+    accountPreferenceEventFormatEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountPreferenceEventFormatPayload>>,
+      DeleteAccountPreferenceEventFormatPayloadAccountPreferenceEventFormatEdgeArgs
+    >
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountPreferenceEventFormatPayload>>,
+      Record<string, never>
+    >
+    deletedAccountPreferenceEventFormatId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountPreferenceEventFormatPayload>>,
+      Record<string, never>
+    >
+    eventFormatByFormatId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountPreferenceEventFormatPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountPreferenceEventFormatPayload>>,
       Record<string, never>
     >
   }
@@ -19045,7 +20203,7 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<DeleteEventCategoryMappingPayload>>,
       Record<string, never>
     >
-    eventCategoryByCategory?: GraphCacheUpdateResolver<
+    eventCategoryByCategoryId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<DeleteEventCategoryMappingPayload>>,
       Record<string, never>
     >
@@ -19084,7 +20242,6 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
-<<<<<<< HEAD
   DeleteEventFavoritePayload?: {
     accountByCreatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<DeleteEventFavoritePayload>>,
@@ -19112,35 +20269,58 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<DeleteEventFavoritePayload>>,
-=======
-  DeleteEventFavouritePayload?: {
-    accountByAccountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventFavouritePayload>>,
       Record<string, never>
     >
+  }
+  DeleteEventFormatMappingPayload?: {
     clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventFavouritePayload>>,
+      Maybe<WithTypename<DeleteEventFormatMappingPayload>>,
       Record<string, never>
     >
-    deletedEventFavouriteId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventFavouritePayload>>,
+    deletedEventFormatMappingId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventFormatMappingPayload>>,
       Record<string, never>
     >
     eventByEventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventFavouritePayload>>,
+      Maybe<WithTypename<DeleteEventFormatMappingPayload>>,
       Record<string, never>
     >
-    eventFavourite?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventFavouritePayload>>,
+    eventFormatByFormatId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventFormatMappingPayload>>,
       Record<string, never>
     >
-    eventFavouriteEdge?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventFavouritePayload>>,
-      DeleteEventFavouritePayloadEventFavouriteEdgeArgs
+    eventFormatMapping?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventFormatMappingPayload>>,
+      Record<string, never>
+    >
+    eventFormatMappingEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventFormatMappingPayload>>,
+      DeleteEventFormatMappingPayloadEventFormatMappingEdgeArgs
     >
     query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventFavouritePayload>>,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+      Maybe<WithTypename<DeleteEventFormatMappingPayload>>,
+      Record<string, never>
+    >
+  }
+  DeleteEventFormatPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventFormatPayload>>,
+      Record<string, never>
+    >
+    deletedEventFormatId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventFormatPayload>>,
+      Record<string, never>
+    >
+    eventFormat?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventFormatPayload>>,
+      Record<string, never>
+    >
+    eventFormatEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventFormatPayload>>,
+      DeleteEventFormatPayloadEventFormatEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventFormatPayload>>,
       Record<string, never>
     >
   }
@@ -19547,15 +20727,13 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Event>>,
       EventEventCategoryMappingsByEventIdArgs
     >
-<<<<<<< HEAD
     eventFavoritesByEventId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
       EventEventFavoritesByEventIdArgs
-=======
-    eventFavouritesByEventId?: GraphCacheUpdateResolver<
+    >
+    eventFormatMappingsByEventId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
-      EventEventFavouritesByEventIdArgs
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+      EventEventFormatMappingsByEventIdArgs
     >
     eventGroupingsByEventId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
@@ -19655,17 +20833,21 @@ export type GraphCacheUpdaters = {
     >
   }
   EventCategory?: {
-    accountInterestsByCategory?: GraphCacheUpdateResolver<
+    accountPreferenceEventCategoriesByCategoryId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<EventCategory>>,
-      EventCategoryAccountInterestsByCategoryArgs
+      EventCategoryAccountPreferenceEventCategoriesByCategoryIdArgs
     >
-    category?: GraphCacheUpdateResolver<
+    eventCategoryMappingsByCategoryId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventCategory>>,
+      EventCategoryEventCategoryMappingsByCategoryIdArgs
+    >
+    id?: GraphCacheUpdateResolver<
       Maybe<WithTypename<EventCategory>>,
       Record<string, never>
     >
-    eventCategoryMappingsByCategory?: GraphCacheUpdateResolver<
+    name?: GraphCacheUpdateResolver<
       Maybe<WithTypename<EventCategory>>,
-      EventCategoryEventCategoryMappingsByCategoryArgs
+      Record<string, never>
     >
     nodeId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<EventCategory>>,
@@ -19673,7 +20855,7 @@ export type GraphCacheUpdaters = {
     >
   }
   EventCategoryMapping?: {
-    category?: GraphCacheUpdateResolver<
+    categoryId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<EventCategoryMapping>>,
       Record<string, never>
     >
@@ -19681,7 +20863,7 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<EventCategoryMapping>>,
       Record<string, never>
     >
-    eventCategoryByCategory?: GraphCacheUpdateResolver<
+    eventCategoryByCategoryId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<EventCategoryMapping>>,
       Record<string, never>
     >
@@ -19748,65 +20930,9 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
-<<<<<<< HEAD
   EventFavorite?: {
     accountByCreatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<EventFavorite>>,
-=======
-  EventFavourite?: {
-    accountByAccountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventFavourite>>,
-      Record<string, never>
-    >
-    accountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventFavourite>>,
-      Record<string, never>
-    >
-    eventByEventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventFavourite>>,
-      Record<string, never>
-    >
-    eventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventFavourite>>,
-      Record<string, never>
-    >
-    nodeId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventFavourite>>,
-      Record<string, never>
-    >
-  }
-  EventFavouritesConnection?: {
-    edges?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventFavouritesConnection>>,
-      Record<string, never>
-    >
-    nodes?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventFavouritesConnection>>,
-      Record<string, never>
-    >
-    pageInfo?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventFavouritesConnection>>,
-      Record<string, never>
-    >
-    totalCount?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventFavouritesConnection>>,
-      Record<string, never>
-    >
-  }
-  EventFavouritesEdge?: {
-    cursor?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventFavouritesEdge>>,
-      Record<string, never>
-    >
-    node?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventFavouritesEdge>>,
-      Record<string, never>
-    >
-  }
-  EventGroup?: {
-    accountByAuthorAccountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroup>>,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
       Record<string, never>
     >
     createdAt?: GraphCacheUpdateResolver<
@@ -19859,6 +20985,106 @@ export type GraphCacheUpdaters = {
     >
     node?: GraphCacheUpdateResolver<
       Maybe<WithTypename<EventFavoritesEdge>>,
+      Record<string, never>
+    >
+  }
+  EventFormat?: {
+    accountPreferenceEventFormatsByFormatId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormat>>,
+      EventFormatAccountPreferenceEventFormatsByFormatIdArgs
+    >
+    eventFormatMappingsByFormatId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormat>>,
+      EventFormatEventFormatMappingsByFormatIdArgs
+    >
+    id?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormat>>,
+      Record<string, never>
+    >
+    name?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormat>>,
+      Record<string, never>
+    >
+    nodeId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormat>>,
+      Record<string, never>
+    >
+  }
+  EventFormatMapping?: {
+    eventByEventId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormatMapping>>,
+      Record<string, never>
+    >
+    eventFormatByFormatId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormatMapping>>,
+      Record<string, never>
+    >
+    eventId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormatMapping>>,
+      Record<string, never>
+    >
+    formatId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormatMapping>>,
+      Record<string, never>
+    >
+    nodeId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormatMapping>>,
+      Record<string, never>
+    >
+  }
+  EventFormatMappingsConnection?: {
+    edges?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormatMappingsConnection>>,
+      Record<string, never>
+    >
+    nodes?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormatMappingsConnection>>,
+      Record<string, never>
+    >
+    pageInfo?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormatMappingsConnection>>,
+      Record<string, never>
+    >
+    totalCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormatMappingsConnection>>,
+      Record<string, never>
+    >
+  }
+  EventFormatMappingsEdge?: {
+    cursor?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormatMappingsEdge>>,
+      Record<string, never>
+    >
+    node?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormatMappingsEdge>>,
+      Record<string, never>
+    >
+  }
+  EventFormatsConnection?: {
+    edges?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormatsConnection>>,
+      Record<string, never>
+    >
+    nodes?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormatsConnection>>,
+      Record<string, never>
+    >
+    pageInfo?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormatsConnection>>,
+      Record<string, never>
+    >
+    totalCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormatsConnection>>,
+      Record<string, never>
+    >
+  }
+  EventFormatsEdge?: {
+    cursor?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormatsEdge>>,
+      Record<string, never>
+    >
+    node?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventFormatsEdge>>,
       Record<string, never>
     >
   }
@@ -20840,32 +22066,6 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
-  UpdateAccountInterestPayload?: {
-    accountByAccountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateAccountInterestPayload>>,
-      Record<string, never>
-    >
-    accountInterest?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateAccountInterestPayload>>,
-      Record<string, never>
-    >
-    accountInterestEdge?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateAccountInterestPayload>>,
-      UpdateAccountInterestPayloadAccountInterestEdgeArgs
-    >
-    clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateAccountInterestPayload>>,
-      Record<string, never>
-    >
-    eventCategoryByCategory?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateAccountInterestPayload>>,
-      Record<string, never>
-    >
-    query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateAccountInterestPayload>>,
-      Record<string, never>
-    >
-  }
   UpdateAccountPayload?: {
     account?: GraphCacheUpdateResolver<
       Maybe<WithTypename<UpdateAccountPayload>>,
@@ -20881,6 +22081,58 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<UpdateAccountPayload>>,
+      Record<string, never>
+    >
+  }
+  UpdateAccountPreferenceEventCategoryPayload?: {
+    accountByAccountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountPreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+    accountPreferenceEventCategory?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountPreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+    accountPreferenceEventCategoryEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountPreferenceEventCategoryPayload>>,
+      UpdateAccountPreferenceEventCategoryPayloadAccountPreferenceEventCategoryEdgeArgs
+    >
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountPreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+    eventCategoryByCategoryId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountPreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountPreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+  }
+  UpdateAccountPreferenceEventFormatPayload?: {
+    accountByAccountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountPreferenceEventFormatPayload>>,
+      Record<string, never>
+    >
+    accountPreferenceEventFormat?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountPreferenceEventFormatPayload>>,
+      Record<string, never>
+    >
+    accountPreferenceEventFormatEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountPreferenceEventFormatPayload>>,
+      UpdateAccountPreferenceEventFormatPayloadAccountPreferenceEventFormatEdgeArgs
+    >
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountPreferenceEventFormatPayload>>,
+      Record<string, never>
+    >
+    eventFormatByFormatId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountPreferenceEventFormatPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountPreferenceEventFormatPayload>>,
       Record<string, never>
     >
   }
@@ -21041,7 +22293,7 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<UpdateEventCategoryMappingPayload>>,
       Record<string, never>
     >
-    eventCategoryByCategory?: GraphCacheUpdateResolver<
+    eventCategoryByCategoryId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<UpdateEventCategoryMappingPayload>>,
       Record<string, never>
     >
@@ -21076,7 +22328,6 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
-<<<<<<< HEAD
   UpdateEventFavoritePayload?: {
     accountByCreatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<UpdateEventFavoritePayload>>,
@@ -21100,31 +22351,50 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<UpdateEventFavoritePayload>>,
-=======
-  UpdateEventFavouritePayload?: {
-    accountByAccountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavouritePayload>>,
       Record<string, never>
     >
+  }
+  UpdateEventFormatMappingPayload?: {
     clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavouritePayload>>,
+      Maybe<WithTypename<UpdateEventFormatMappingPayload>>,
       Record<string, never>
     >
     eventByEventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavouritePayload>>,
+      Maybe<WithTypename<UpdateEventFormatMappingPayload>>,
       Record<string, never>
     >
-    eventFavourite?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavouritePayload>>,
+    eventFormatByFormatId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventFormatMappingPayload>>,
       Record<string, never>
     >
-    eventFavouriteEdge?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavouritePayload>>,
-      UpdateEventFavouritePayloadEventFavouriteEdgeArgs
+    eventFormatMapping?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventFormatMappingPayload>>,
+      Record<string, never>
+    >
+    eventFormatMappingEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventFormatMappingPayload>>,
+      UpdateEventFormatMappingPayloadEventFormatMappingEdgeArgs
     >
     query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavouritePayload>>,
->>>>>>> b5532415d (chore: add synced package.json files and gql files)
+      Maybe<WithTypename<UpdateEventFormatMappingPayload>>,
+      Record<string, never>
+    >
+  }
+  UpdateEventFormatPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventFormatPayload>>,
+      Record<string, never>
+    >
+    eventFormat?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventFormatPayload>>,
+      Record<string, never>
+    >
+    eventFormatEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventFormatPayload>>,
+      UpdateEventFormatPayloadEventFormatEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventFormatPayload>>,
       Record<string, never>
     >
   }

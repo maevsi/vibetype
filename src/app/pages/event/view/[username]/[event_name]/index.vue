@@ -148,7 +148,7 @@
               <EventDashletLink :event="subjectEvent as EventItemFragment" />
             </div>
             <template v-if="invitation">
-              <Hr />
+              <AppHr />
               <!-- <div
               class="grid grid-cols-6 border-t-2 bg-background-brighten dark:bg-background-darken"
               :class="
@@ -256,7 +256,7 @@
                   </ButtonColored>
                   <div
                     v-if="invitation.feedback === 'CANCELED'"
-                    class="flex items-center font-semibold text-red-600 dark:text-red-500"
+                    class="flex items-center font-semibold text-(--semantic-critic-text)"
                   >
                     <IHeroiconsXCircleSolid
                       class="mr-2 shrink-0"
@@ -343,7 +343,7 @@
         <template #footer>
           <ButtonColored
             :aria-label="t('print')"
-            :is-primary="false"
+            variant="secondary"
             @click="print"
           >
             {{ t('print') }}
@@ -372,8 +372,6 @@ import DOMPurify from 'isomorphic-dompurify'
 import mustache from 'mustache'
 import prntr from 'prntr'
 import QrcodeVue from 'qrcode.vue'
-import type { RouteLocationNormalized } from 'vue-router'
-import type { RouteNamedMap } from 'vue-router/auto-routes'
 
 import { useUpdateGuestByIdMutation } from '~~/gql/documents/mutations/guest/guestUpdateById'
 import {
@@ -408,7 +406,7 @@ definePageMeta({
 const { t } = useI18n()
 const fireAlert = useFireAlert()
 const store = useStore()
-const route = useRoute(ROUTE_NAME)
+const route = useRoute('event-view-username-event_name___en')
 const localePath = useLocalePath()
 const updateGuestByIdMutation = useUpdateGuestByIdMutation()
 
@@ -550,6 +548,8 @@ const invitation = computed(() => {
 })
 const routeQuery = computed(() => route.query)
 const routeQueryIc = computed(() => route.query.ic)
+
+// page
 const descriptionSeo = computed(() =>
   eventDescriptionTemplate.value
     ? getStringTruncated({
@@ -562,8 +562,6 @@ const descriptionSeo = computed(() =>
 const title = computed(() =>
   api.value.isFetching ? t('globalLoading') : subjectEvent.value?.name || '403',
 )
-
-// initialization
 useHeadDefault({
   description: descriptionSeo,
   title,
