@@ -1,3 +1,9 @@
+## [10.1.1](https://github.com/maevsi/vibetype/compare/10.1.0...10.1.1) (2025-04-11)
+
+### Bug Fixes
+
+* **account:** remove button for email confirmation ([43e6e49](https://github.com/maevsi/vibetype/commit/43e6e4994671225233ac521e8d8029660084cffa))
+
 ## [10.1.0](https://github.com/maevsi/vibetype/compare/10.0.2...10.1.0) (2025-04-10)
 
 ### Features
