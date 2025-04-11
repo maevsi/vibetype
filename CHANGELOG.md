@@ -1,3 +1,9 @@
+## [10.2.0](https://github.com/maevsi/vibetype/compare/10.1.1...10.2.0) (2025-04-11)
+
+### Features
+
+* **account:** indicate password strength at registation ([ba2d0ce](https://github.com/maevsi/vibetype/commit/ba2d0ce8fb8d75f8ad7a46d97c8d9a82fb4d1de4))
+
 ## [10.1.1](https://github.com/maevsi/vibetype/compare/10.1.0...10.1.1) (2025-04-11)
 
 ### Bug Fixes
