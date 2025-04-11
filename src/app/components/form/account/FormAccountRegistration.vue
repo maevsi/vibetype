@@ -24,6 +24,7 @@
       />
       <FormInputPassword
         :form-input="v$.password"
+        is-strength-shown
         @input="form.password = $event"
       />
       <FormInputPassword
