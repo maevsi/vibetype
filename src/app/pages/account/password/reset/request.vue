@@ -57,18 +57,6 @@
           {{ t('instructionsInboxHeading') }}
         </template>
       </LayoutPageResult>
-      <TypographyH3 class="text-center">
-        {{ t('instructionsInboxHeading') }}
-      </TypographyH3>
-      <template #bottom-navigation-extension>
-        <ButtonColored
-          :aria-label="t('ok')"
-          class="w-full max-w-sm"
-          @click="navigateTo(localePath('index'))"
-        >
-          {{ t('ok') }}
-        </ButtonColored>
-      </template>
     </LayoutPageContent>
   </section>
 </template>
@@ -99,7 +87,6 @@ de:
   instructionsInboxDescription: Überprüfe dein Postfach
   instructionsInboxHeading: Befolge die Anweisungen in der E-Mail, um das Passwort zurückzusetzen.
   instructionsRequest: Gib deine E-Mail-Adresse ein, um dein Passwort zurückzusetzen.
-  ok: OK
   send: Link zum Zurücksetzen senden
   title: Passwort zurücksetzen
 en:
@@ -107,7 +94,6 @@ en:
   instructionsInboxDescription: Follow the instructions in the email to reset your password.
   instructionsInboxHeading: Check your inbox
   instructionsRequest: Enter your email address to reset your password.
-  ok: OK
   send: Send reset link
   title: Reset password
 </i18n>
