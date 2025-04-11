@@ -50,7 +50,7 @@
           :form-input="formInput"
           validation-property="sameAs"
         >
-          {{ t('passwordsDoNotMatch') }}
+          {{ t('validationSameAs') }}
         </FormInputStateError>
       </template>
     </template>
@@ -103,13 +103,13 @@ const strength = computed(() =>
 de:
   iconAltClose: X-Icon
   password: Passwort
-  passwordsDoNotMatch: Die Passwörter stimmen nicht überein
   validationFormat: Muss {length} Zeichen lang sein
+  validationSameAs: Die Passwörter stimmen nicht überein
   validNot: Ungültig
 en:
   iconAltClose: X icon
   password: Password
-  passwordsDoNotMatch: The passwords do not match
   validationFormat: Must be {length} characters long
+  validationSameAs: The passwords do not match
   validNot: invalid
 </i18n>
