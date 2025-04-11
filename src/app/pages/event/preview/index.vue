@@ -1,24 +1,6 @@
 <template>
   <div v-if="form" class="mt-4 flex min-h-screen w-full flex-col">
     <div class="flex-1">
-      <div class="flex flex-col gap-4 bg-(--semantic-faint-line) py-4">
-        <ButtonColored
-          variant="primary"
-          class="w-full rounded-lg"
-          :aria-label="t('publish')"
-          @click="createEvent"
-        >
-          {{ t('publish') }}
-        </ButtonColored>
-        <ButtonColored
-          variant="secondary"
-          class="w-full rounded-xl"
-          :aria-label="t('saveDraft')"
-          @click="handleDraftSave"
-        >
-          {{ t('saveDraft') }}
-        </ButtonColored>
-      </div>
       <div class="relative w-full">
         <template v-if="form.previewUrls.length > 0">
           <Carousel
@@ -70,7 +52,7 @@
         </template>
         <template v-else>
           <div
-            class="aspect-[16/9] w-full rounded-2xl border-2 border-dashed border-gray-300 p-12"
+            class="aspect-[16/9] w-full rounded-2xl border-2 border-dashed border-gray-300 p-12 md:aspect-[21/9] lg:aspect-[3/1]"
           >
             <div
               class="flex h-full flex-col items-center justify-center text-center"
