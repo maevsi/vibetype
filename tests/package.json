@@ -3,7 +3,7 @@
     "@axe-core/playwright": "4.10.1",
     "@eslint/js": "9.24.0",
     "@playwright/test": "1.51.1",
-    "@types/node": "22.14.0",
+    "@types/node": "22.14.1",
     "cross-env": "7.0.3",
     "del-cli": "6.0.0",
     "eslint": "9.24.0",
