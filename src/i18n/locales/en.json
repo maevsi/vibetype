@@ -1,5 +1,4 @@
 {
-  "globalAvailabilityNotYet": "Not yet available.",
   "globalError": "Error",
   "globalLoading": "Loading...",
   "globalPlaceholderAddress": "Eventstreet 1,\n12345 Guestcity",
@@ -14,7 +13,6 @@
   "globalStatusWarning": "Warning",
   "globalValidationAvailability": "Available",
   "globalValidationAvailabilityNone": "Unavailable",
-  "globalValidationCheck": "Make sure this is correct",
   "globalValidationExistence": "Exists",
   "globalValidationExistenceNone": "Does not exist",
   "globalValidationFailed": "Please check your input 🙈",
@@ -27,7 +25,6 @@
   "globalValidationMinValue": "Under minimum value",
   "globalValidationNowOrFuture": "Point in time lies in the past",
   "globalValidationRequired": "Required",
-  "globalValidationSameAs": "Is not identical",
   "globalValidationShortness": "Too short",
   "nuxtSiteConfig": {
     "description": "Find events, guests and friends 💙❤️💚",
