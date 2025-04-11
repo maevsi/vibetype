@@ -47,15 +47,15 @@ import {
 } from '~/utils/storage/LocalStorageStrategy'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
-const ROUTE_NAME: keyof RouteNamedMap = 'event-edit-username-event_name___en'
+// const ROUTE_NAME: keyof RouteNamedMap = 'event-edit-username-event_name___en'
 
-definePageMeta({
-  async validate(route) {
-    return await validateEventExistence(
-      route as RouteLocationNormalized<typeof ROUTE_NAME>,
-    )
-  },
-})
+// definePageMeta({
+//   async validate(route) {
+//     return await validateEventExistence(
+//       route as RouteLocationNormalized<typeof ROUTE_NAME>,
+//     )
+//   },
+// })
 
 const localePath = useLocalePath()
 const { t } = useI18n()
@@ -79,6 +79,11 @@ const accountId = computed(
   () =>
     getAccountItem(accountByUsernameQuery.data.value?.accountByUsername)?.id,
 )
+if (!accountId.value) {
+  throw createError({
+    statusCode: 404,
+  })
+}
 if (!accountId.value) {
   throw createError({
     statusCode: 404,
@@ -113,6 +118,7 @@ const api = getApiData([
   eventDeleteMutation,
 ])
 
+// page
 // page
 const title = computed(() => {
   if (api.value.isFetching) return t('globalLoading')

@@ -1,4 +1,4 @@
-import { graphql } from '~~/gql/generated/gql'
+import { graphql } from '~~/gql/generated'
 import { useMutation } from '@urql/vue'
 
 export const useCreateLegalTermAcceptanceMutation = () =>

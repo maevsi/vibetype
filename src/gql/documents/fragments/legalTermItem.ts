@@ -1,8 +1,4 @@
-import {
-  useFragment,
-  type FragmentType,
-} from '~~/gql/generated/fragment-masking'
-import { graphql } from '~~/gql/generated/gql'
+import { type FragmentType, graphql, useFragment } from '~~/gql/generated'
 
 export const LegalTermItem = graphql(`
   fragment LegalTermItem on LegalTerm {

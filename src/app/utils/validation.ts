@@ -11,7 +11,7 @@ import {
 import type { Client } from '@urql/core'
 import { consola } from 'consola'
 import type { Ref } from 'vue'
-import type { LocationQueryValue } from 'vue-router'
+import type { LocationQueryValue, RouteLocationNormalized } from 'vue-router'
 
 import { eventIsExistingQuery } from '~~/gql/documents/queries/event/eventIsExisting'
 import { accountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'

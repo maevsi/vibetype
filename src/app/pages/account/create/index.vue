@@ -50,7 +50,7 @@
       :label="t('agreePrivacy')"
       @agreement="templateForm?.submit(legalTermId || '')"
     >
-      <Content class="px-6" path="privacy" />
+      <Content class="px-6" path="privacy-consent" />
     </AccountLegalConsent>
     <div
       class="flex grow flex-col items-center justify-center gap-8 p-8"

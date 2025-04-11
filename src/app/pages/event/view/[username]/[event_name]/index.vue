@@ -390,14 +390,15 @@ import {
   LocalStorageStrategy,
   type EventOrDraft,
 } from '~/utils/storage/LocalStorageStrategy'
+import type { RouteLocationNormalized } from 'vue-router'
 
-const ROUTE_NAME: keyof RouteNamedMap = 'event-view-username-event_name___en'
+const _ROUTE_NAME = 'event-view-username-event_name___en' as const
 
 definePageMeta({
   async validate(route) {
     return (
       (await validateEventExistence(
-        route as RouteLocationNormalized<typeof ROUTE_NAME>,
+        route as RouteLocationNormalized<typeof _ROUTE_NAME>,
       )) ?? false
     )
   },
