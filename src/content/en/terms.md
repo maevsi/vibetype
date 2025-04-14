@@ -278,5 +278,3 @@ The written form requirement can only be waived in writing.
 (5) The exclusive place of jurisdiction for all disputes arising from or in connection with the contract is – unless agreed otherwise between the parties – the location of the platform, unless another jurisdiction is mandatorily required by law.
 
 Date: 2025-04-03
-
-## --- End of Terms of Use ---
