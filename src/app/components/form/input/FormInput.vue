@@ -38,15 +38,13 @@
         <!-- TODO: support textarea, checkboxes and radio buttons natively -->
         <div
           v-else
-          class="flex items-center gap-2 rounded-lg border bg-(--semantic-base-input-field-fill)"
-          :class="{
-            'border-(--critic-weak)': value?.$error,
-            'border-(--semantic-base-line)': !value?.$error,
-          }"
+          class="flex items-center gap-2 rounded-lg border bg-(--semantic-base-input-field-fill) aria-[invalid=true]:border-(--critic-weak)"
+          :aria-invalid="value?.$error ? 'true' : 'false'"
         >
           <input
             :id="idLabelFull"
-            class="flex-grow border-none px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-0"
+            class="flex-grow border-none px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-0 focus:outline-none"
+            :aria-invalid="value?.$error ? 'true' : 'false'"
             :disabled="isDisabled"
             :placeholder="placeholder"
             :readonly="isReadonly"
