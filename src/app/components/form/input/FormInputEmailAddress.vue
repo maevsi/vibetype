@@ -23,16 +23,27 @@
       >
         {{ t('globalValidationRequired') }}
       </FormInputStateError>
-    </template>
-    <template #stateWarning>
       <FormInputStateError
         v-if="
           formInput.$dirty &&
+          formInput.$model &&
           !email.$validator(formInput.$model, undefined, undefined)
         "
       >
         {{ t('validationEmail') }}
       </FormInputStateError>
+    </template>
+    <template #stateWarning>
+      <FormInputStateWarning
+        v-if="
+          formInput.$dirty &&
+          formInput.$model &&
+          !formInput.email?.$invalid &&
+          !email.$validator(formInput.$model, undefined, undefined)
+        "
+      >
+        {{ t('globalValidationCheck') }}
+      </FormInputStateWarning>
     </template>
   </FormInput>
 </template>

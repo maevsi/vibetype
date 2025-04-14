@@ -9,9 +9,10 @@
         validationProperty in formInput &&
         formInput[validationProperty].$invalid)
     "
-    class="py-1 font-semibold text-(--semantic-critic-text)"
   >
-    <slot />
+    <TypographyLabel class="text-(--semantic-critic-text)">
+      <slot />
+    </TypographyLabel>
   </FormInputState>
 </template>
 

@@ -78,8 +78,9 @@
             >
               <IVibetypeClose
                 :aria-label="t('iconAltClose')"
-                class="h-6 w-6 text-(--semantic-critic-text)"
+                class="size-6 cursor-pointer text-(--semantic-critic-text)"
                 :title="t('validNot')"
+                @click="emit('input', '')"
               />
             </FormInputIconWrapper>
           </div>

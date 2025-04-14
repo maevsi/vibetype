@@ -20,8 +20,9 @@
             formInput.$dirty)
         "
         :aria-label="t('iconAltClose')"
-        class="h-6 w-6 text-(--semantic-critic-text)"
+        class="size-6 cursor-pointer text-(--semantic-critic-text)"
         :title="t('validNot')"
+        @click="emit('input', '')"
       />
       <template v-else>
         <IHeroiconsEye v-if="!isVisible" />
@@ -29,30 +30,21 @@
       </template>
     </template>
     <template #stateError>
-      <template v-if="formInput.required && formInput.required.$invalid">
-        <FormInputStateError
-          :form-input="formInput"
-          validation-property="required"
-        >
-          {{ t('globalValidationRequired') }}
-        </FormInputStateError>
-      </template>
-      <template v-else-if="formInput.lengthMin && formInput.lengthMin.$invalid">
-        <FormInputStateError
-          :form-input="formInput"
-          validation-property="lengthMin"
-        >
-          {{ t('globalValidationShortness') }}
-        </FormInputStateError>
-      </template>
-      <template v-else-if="formInput.sameAs && formInput.sameAs.$invalid">
-        <FormInputStateError
-          :form-input="formInput"
-          validation-property="sameAs"
-        >
-          {{ t('validationSameAs') }}
-        </FormInputStateError>
-      </template>
+      <FormInputStateError
+        :form-input="formInput"
+        validation-property="required"
+      >
+        {{ t('globalValidationRequired') }}
+      </FormInputStateError>
+      <FormInputStateError
+        :form-input="formInput"
+        validation-property="lengthMin"
+      >
+        {{ t('globalValidationShortness') }}
+      </FormInputStateError>
+      <FormInputStateError :form-input="formInput" validation-property="sameAs">
+        {{ t('validationSameAs') }}
+      </FormInputStateError>
     </template>
     <template #stateInfo>
       <FormInputStateInfo
