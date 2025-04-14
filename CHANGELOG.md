@@ -1,3 +1,9 @@
+## [10.3.0](https://github.com/maevsi/vibetype/compare/10.2.0...10.3.0) (2025-04-14)
+
+### Features
+
+* **content:** update code of conduct ([#1879](https://github.com/maevsi/vibetype/issues/1879)) ([7bb9a72](https://github.com/maevsi/vibetype/commit/7bb9a7285e7d690cdbe54db41474bc10153e7a9e))
+
 ## [10.2.0](https://github.com/maevsi/vibetype/compare/10.1.1...10.2.0) (2025-04-11)
 
 ### Features
