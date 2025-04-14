@@ -1,4 +1,4 @@
-# Datenschutzhinweise nach Art. DSGVO
+# Datenschutzhinweise gemäß der DSGVO
 
 ## Einleitung
 
@@ -156,9 +156,9 @@ http://www.datenschutz.hessen.de
 
 ---
 
-# Einwilligung für Besucher, Veranstaltungsteilnehmende
+## Einwilligung für Besucher, Veranstaltungsteilnehmende
 
-## 1. Name und Kontaktdaten des für die Verarbeitung Verantwortlichen
+### 1. Name und Kontaktdaten des für die Verarbeitung Verantwortlichen
 
 <address>
   maevsi UG (haftungsbeschränkt)
@@ -170,7 +170,7 @@ http://www.datenschutz.hessen.de
 
 E-Mail: contact@maev.si
 
-## 2. Einwilligungen
+### 2. Einwilligungen
 
 Ich bin ausdrücklich damit einverstanden, dass zu folgendem Zweck die aufgelisteten Daten von mir verarbeitet werden dürfen:
 
@@ -183,6 +183,6 @@ Mir ist bewusst, dass ich die Einwilligung jederzeit mit Wirkung für die Zukunf
 Hierfür genügt die Übersendung der Widerrufserklärung in Textform an die oben genannten Kontaktdaten des Verantwortlichen.
 Mir ist klar, dass durch den Widerruf der Einwilligung die Rechtmäßigkeit der aufgrund der Einwilligung bis zum Widerruf erfolgten Verarbeitung nicht berührt wird.
 
-## 3. Ihre Rechte
+### 3. Ihre Rechte
 
 Sie haben, bei Vorliegen der gesetzlichen Voraussetzungen, ein Recht auf Auskunft, Berichtigung, Löschung, Einschränkung, Übertragbarkeit der Sie betreffenden personenbezogenen Daten sowie auf Widerspruch gegen die Verarbeitung nach Art. 15, 16, 17, 18, 20 und 21 DSGVO.

@@ -158,9 +158,9 @@ http://www.datenschutz.hessen.de
 
 ---
 
-# Consent for Visitors and Event Participants
+## Consent for Visitors and Event Participants
 
-## 1. Name and Contact Details of the Data Controller
+### 1. Name and Contact Details of the Data Controller
 
 <address>
   maevsi UG (limited liability)
@@ -174,7 +174,7 @@ http://www.datenschutz.hessen.de
 
 Email: contact@maev.si
 
-## 2. Consent
+### 2. Consent
 
 I explicitly consent to the processing of the listed data for the following purposes:
 
@@ -187,6 +187,6 @@ I am aware that I can withdraw my consent at any time with future effect.
 A written declaration sent to the contact details of the controller above is sufficient.
 I understand that the withdrawal of consent does not affect the lawfulness of processing carried out based on the consent before its withdrawal.
 
-## 3. Your Rights
+### 3. Your Rights
 
 If the legal requirements are met, you have the right to access, rectify, delete, restrict, and transfer your personal data, as well as the right to object to processing in accordance with Art. 15, 16, 17, 18, 20, and 21 GDPR.
