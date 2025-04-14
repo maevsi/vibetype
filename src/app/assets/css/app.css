@@ -72,7 +72,7 @@
   }
 
   td {
-    @apply px-4 py-6 whitespace-nowrap;
+    @apply px-4 py-6;
   }
 
   th {
