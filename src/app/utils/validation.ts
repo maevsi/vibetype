@@ -194,7 +194,6 @@ export const validateEventExistence = async (
   >,
 ) => {
   const { $urql } = useNuxtApp()
-  const nuxtApp = useNuxtApp()
 
   const account = await getAccountByUsername({
     $urql,
@@ -218,22 +217,16 @@ export const validateEventExistence = async (
     })
   }
 
-  const eventIsExisting = await $urql.value
+  const eventResponse = await $urql.value
     .query(eventIsExistingQuery, {
       createdBy: account.id,
       slug: route.params.event_name,
     })
     .toPromise()
-
-  if (eventIsExisting.data?.eventIsExisting) {
+  if (eventResponse.data?.eventIsExisting) {
     return true
   }
-
-  if (!nuxtApp.isHydrating) {
-    return true
-  }
-
-  if (nuxtApp.isHydrating) {
+  if (import.meta) {
     const storageStrategy = LocalStorageStrategy.getInstance()
     const draftEvent = storageStrategy.getEventByAuthorAndSlug(
       account.id,
