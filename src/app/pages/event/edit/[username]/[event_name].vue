@@ -12,7 +12,6 @@
     >
       <section>
         <LayoutPageTitle :title="t('title')" />
-
         <FormEvent
           :event="isDraftEvent ? event : (event as EventItemFragment)"
         />
