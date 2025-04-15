@@ -126,7 +126,7 @@
     "stylelint-config-recommended-vue": "1.6.0",
     "stylelint-config-standard": "38.0.0",
     "stylelint-no-unsupported-browser-features": "8.0.4",
-    "sweetalert2": "11.18.0",
+    "sweetalert2": "11.19.1",
     "tailwind-merge": "3.2.0",
     "tailwindcss": "4.1.4",
     "tw-animate-css": "1.2.5",
