@@ -212,7 +212,6 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: [
-        '@headlessui/vue',
         '@sentry/nuxt',
         '@tiptap/extension-link',
         '@tiptap/extension-text-align',
@@ -234,6 +233,7 @@ export default defineNuxtConfig({
         'isomorphic-dompurify',
         'js-confetti',
         'lodash-es',
+        'lucide-vue-next',
         'mustache',
         'pretty-bytes',
         'prntr',
@@ -243,6 +243,7 @@ export default defineNuxtConfig({
         'slugify',
         'tailwind-merge',
         'v-calendar',
+        'vaul-vue',
         'vue-advanced-cropper',
         'vue-chartjs',
         'vue-qrcode-reader',

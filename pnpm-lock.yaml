@@ -80,9 +80,6 @@ importers:
       '@graphql-typed-document-node/core':
         specifier: 3.2.0
         version: 3.2.0(graphql@16.10.0)
-      '@headlessui/vue':
-        specifier: 1.7.23
-        version: 1.7.23(vue@3.5.13(typescript@5.8.3))
       '@http-util/status-i18n':
         specifier: 0.9.0
         version: 0.9.0
@@ -2082,12 +2079,6 @@ packages:
     resolution: {integrity: sha512-AiXO/bfe9bmxBjxxtYxFAXGZvMaN5s8kO+jBHAJCON8rJoB5YS/D6X7ZNc6XQkuHNmyl4CYaMI1fJ/Gn27RGGw==}
     engines: {node: '>=6'}
     hasBin: true
-
-  '@headlessui/vue@1.7.23':
-    resolution: {integrity: sha512-JzdCNqurrtuu0YW6QaDtR2PIYCKPUWq28csDyMvN4zmGccmE7lz40Is6hc3LA4HFeCI7sekZ/PQMTNmn9I/4Wg==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      vue: ^3.2.0
 
   '@heroicons/vue@2.2.0':
     resolution: {integrity: sha512-G3dbSxoeEKqbi/DFalhRxJU4mTXJn7GwZ7ae8NuEQzd1bqdd0jAbdaBZlHPcvPD2xI1iGzNVB4k20Un2AguYPw==}
@@ -14447,11 +14438,6 @@ snapshots:
       long: 5.3.1
       protobufjs: 7.4.0
       yargs: 17.7.2
-
-  '@headlessui/vue@1.7.23(vue@3.5.13(typescript@5.8.3))':
-    dependencies:
-      '@tanstack/vue-virtual': 3.13.6(vue@3.5.13(typescript@5.8.3))
-      vue: 3.5.13(typescript@5.8.3)
 
   '@heroicons/vue@2.2.0(vue@3.5.13(typescript@5.8.3))':
     dependencies:
