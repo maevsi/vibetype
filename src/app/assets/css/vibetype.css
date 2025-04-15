@@ -93,22 +93,6 @@
   --font-raleway:
     'Raleway Variable', ui-sans-serif, system-ui, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --color-background-bright: var(
-    --color-white
-  ); /* TODO: replace with new design variables */
-
-  --color-background-brighten: var(
-    --color-zinc-200
-  ); /* TODO: replace with new design variables */
-
-  --color-background-dark: var(
-    --color-zinc-800
-  ); /* TODO: replace with new design variables */
-
-  --color-background-darken: var(
-    --color-zinc-700
-  ); /* TODO: replace with new design variables */
-
   --color-link-bright: var(
     --color-blue-400
   ); /* TODO: replace with new design variables */
