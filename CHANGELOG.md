@@ -1,3 +1,13 @@
+## [10.8.0](https://github.com/maevsi/vibetype/compare/10.7.0...10.8.0) (2025-04-15)
+
+### Features
+
+* **components:** use shadcn-nuxt's downdown ([ac456c5](https://github.com/maevsi/vibetype/commit/ac456c5348830d8b24d2551c78c0ca296d4aac38))
+
+### Bug Fixes
+
+* revert "chore(assets): remove unused css variables" ([b217ad3](https://github.com/maevsi/vibetype/commit/b217ad37aa510c8228308ff7208563804aef0fea))
+
 ## [10.7.0](https://github.com/maevsi/vibetype/compare/10.6.0...10.7.0) (2025-04-15)
 
 ### Features
