@@ -1,3 +1,10 @@
+## [10.6.0](https://github.com/maevsi/vibetype/compare/10.5.0...10.6.0) (2025-04-15)
+
+### Features
+
+* **components:** add label to search input ([f353f13](https://github.com/maevsi/vibetype/commit/f353f131d443b62b62024ed250403ab680082099))
+* **components:** correct search input icon ([542a168](https://github.com/maevsi/vibetype/commit/542a16811f0ba1c9b9010bfed9449bcc2a07e806))
+
 ## [10.5.0](https://github.com/maevsi/vibetype/compare/10.4.0...10.5.0) (2025-04-15)
 
 ### Features
