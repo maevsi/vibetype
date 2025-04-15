@@ -1,3 +1,20 @@
+## [10.5.0](https://github.com/maevsi/vibetype/compare/10.4.0...10.5.0) (2025-04-15)
+
+### Features
+
+* **assets:** remove italic font style from placeholder ([6c3397e](https://github.com/maevsi/vibetype/commit/6c3397e53d48a8062e1930b3688199b5075bdfba))
+* **assets:** set ring on visible focus only ([0bdaec4](https://github.com/maevsi/vibetype/commit/0bdaec4b0382c349fe9c6626f9a02685e7d54289))
+* **components:** add `secondary-critical` variant to colored button ([0e0b5be](https://github.com/maevsi/vibetype/commit/0e0b5be7665806b6c202d72309b7059d3562511d))
+* **components:** set theme color for focus ring ([fe1ef00](https://github.com/maevsi/vibetype/commit/fe1ef00d325bb68b71ed4e64415f530a049945c3))
+* **components:** set theme color for tailwind ([6cdee4a](https://github.com/maevsi/vibetype/commit/6cdee4a4727b36b0ec38811c3d2ba67efee9e2a7))
+* **pages:** use tertiary button for app installation ([e07e424](https://github.com/maevsi/vibetype/commit/e07e4246109f25d305b9e8cdb8eb3e8bf9bd6a87))
+
+### Bug Fixes
+
+* **app:** don't shrink compatibility banner ([d51c45c](https://github.com/maevsi/vibetype/commit/d51c45cdb6a865ac32658875f7cff20f62a46507))
+* **components:** correct search input styling ([213d676](https://github.com/maevsi/vibetype/commit/213d67656498f584e5e0b662004fd9dfca869e6a))
+* **event:** move name out of header image ([7eb3b84](https://github.com/maevsi/vibetype/commit/7eb3b84caa74cd7461905e82ed678a2969c34f78))
+
 ## [10.4.0](https://github.com/maevsi/vibetype/compare/10.3.0...10.4.0) (2025-04-15)
 
 ### Features
