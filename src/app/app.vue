@@ -8,7 +8,7 @@
     <LazyClientOnly>
       <CardStateInfo
         v-if="!isBrowserSupported && !runtimeConfig.public.vio.isTesting"
-        class="rounded-none"
+        class="shrink-0 rounded-none"
       >
         <i18n-t keypath="browserUnsupported">
           <template #link>
