@@ -1,3 +1,16 @@
+## [10.4.0](https://github.com/maevsi/vibetype/compare/10.3.0...10.4.0) (2025-04-15)
+
+### Features
+
+* **content:** remove end note for terms of use ([0b8a617](https://github.com/maevsi/vibetype/commit/0b8a6177867fdb8b78ee754244e380e7d722828a))
+
+### Bug Fixes
+
+* **account:** correct padding for legal consent ([2b754af](https://github.com/maevsi/vibetype/commit/2b754af5dfb822088812e08a2d41d0e7a01771e8))
+* **account:** correct text wrapping in table ([125fac5](https://github.com/maevsi/vibetype/commit/125fac5856ce59325b565a14380b1d16c3437aad))
+* **components:** deduplciate password input id for registration ([746e510](https://github.com/maevsi/vibetype/commit/746e5107e94fed9482d85798a49eea1a6bbc5543))
+* **content:** correct title hierarchy for privacy consent ([229e8aa](https://github.com/maevsi/vibetype/commit/229e8aa58dc63c634e45ce8ecf8e06220edf85b2))
+
 ## [10.3.0](https://github.com/maevsi/vibetype/compare/10.2.0...10.3.0) (2025-04-14)
 
 ### Features
