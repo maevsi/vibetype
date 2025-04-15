@@ -14,10 +14,6 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
-  ::placeholder {
-    @apply italic;
-  }
-
   :disabled {
     /* cursor-not-allowed */
     @apply pointer-events-none opacity-75;
