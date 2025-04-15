@@ -3,15 +3,15 @@
     <slot name="title" />
   </TypographyH3>
   <div class="flex justify-center">
-    <IVibetypeStateError
+    <AppIconStateError
       v-if="type === 'error'"
       class="size-12 text-(--semantic-error-strong)"
     />
-    <IVibetypeStateSuccess
+    <AppIconStateSuccess
       v-else-if="type === 'success'"
       class="size-12 text-(--semantic-success-strong)"
     />
-    <IVibetypeStateWarning
+    <AppIconStateWarning
       v-else-if="type === 'warning'"
       class="size-12 text-(--semantic-warning-strong)"
     />

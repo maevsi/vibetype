@@ -1,6 +1,6 @@
 <template>
   <AppIcon v-slot="attributes">
-    <IVibetypeBack v-bind="attributes" :aria-label="t('ariaLabel')" />
+    <IVibetypeStateSuccess v-bind="attributes" :aria-label="t('ariaLabel')" />
   </AppIcon>
 </template>
 
@@ -10,7 +10,7 @@ const { t } = useI18n()
 
 <i18n lang="yaml">
 de:
-  ariaLabel: Pfeil nach links
+  ariaLabel: Haken in einem Kreis
 en:
-  ariaLabel: Arrow to the left
+  ariaLabel: Checkmark inside a circle
 </i18n>

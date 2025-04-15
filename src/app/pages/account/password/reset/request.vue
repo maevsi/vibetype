@@ -10,12 +10,7 @@
           :aria-label="t('iconAltClose')"
           @click="navigateTo(localePath('session-create'))"
         >
-          <!-- TODO: extract icon wrapper component -->
-          <IVibetypeClose
-            :aria-label="t('iconAltClose')"
-            class="size-6"
-            role="graphics-symbol img"
-          />
+          <AppIconClose />
         </ButtonIcon>
       </template>
     </LayoutTopBar>

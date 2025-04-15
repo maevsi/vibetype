@@ -31,10 +31,7 @@
     <div class="p-2">
       <slot v-if="$slots.iconSecondary" name="iconSecondary" />
       <div v-else-if="to">
-        <IVibetypeArrowForward
-          :aria-label="t('iconArrowForward')"
-          class="size-6"
-        />
+        <AppIconArrowForward />
       </div>
     </div>
   </Card>
@@ -61,13 +58,4 @@ const {
     to?: RouteLocationRaw
   } & { class?: HtmlHTMLAttributes['class'] }
 >()
-
-const { t } = useI18n()
 </script>
-
-<i18n lang="yaml">
-de:
-  iconArrowForward: Pfeil nach vorn
-en:
-  iconArrowForward: Arrow forward
-</i18n>
