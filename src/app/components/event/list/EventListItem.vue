@@ -1,13 +1,13 @@
 <template>
   <li
     v-if="event && event.accountByCreatedBy?.username"
-    :class="'has-focus:focus-ring relative isolate rounded-xl border border-(--semantic-base-line) bg-(--semantic-base-surface-1) shadow-xs'"
+    :class="'has-focus-visible:focus-ring relative isolate rounded-xl border border-(--semantic-base-line) bg-(--semantic-base-surface-1) shadow-xs'"
   >
     <EventHeroImage :event="event" />
     <div class="flex flex-col gap-1 rounded-t-none p-2 pb-4">
       <Button
         :aria-label="event.name"
-        class="focus:ring-0"
+        class="focus-visible:ring-0"
         is-block
         :to="
           localePath({
