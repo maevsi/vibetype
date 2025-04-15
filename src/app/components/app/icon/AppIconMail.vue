@@ -1,6 +1,6 @@
 <template>
   <AppIcon v-slot="attributes">
-    <IVibetypeBack v-bind="attributes" :aria-label="t('ariaLabel')" />
+    <IVibetypeMail v-bind="attributes" :aria-label="t('ariaLabel')" />
   </AppIcon>
 </template>
 
@@ -10,7 +10,7 @@ const { t } = useI18n()
 
 <i18n lang="yaml">
 de:
-  ariaLabel: Pfeil nach links
+  ariaLabel: Brief
 en:
-  ariaLabel: Arrow to the left
+  ariaLabel: Letter
 </i18n>

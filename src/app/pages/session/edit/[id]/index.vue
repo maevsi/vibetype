@@ -16,7 +16,7 @@
               })
             "
           >
-            <IVibetypePerson class="size-6" :aria-label="t('iconAltPerson')" />
+            <AppIconPerson />
           </CardButton>
           <CardButton
             :title="t('contactBook')"
@@ -26,10 +26,7 @@
               })
             "
           >
-            <IVibetypeContacts
-              class="size-6"
-              :aria-label="t('iconAltContactBook')"
-            />
+            <AppIconContacts />
           </CardButton>
           <AppUnderConstruction>
             <CardButton
@@ -44,16 +41,10 @@
                 })
               "
             >
-              <IVibetypeNetworkIntelligence
-                class="size-6"
-                :aria-label="t('iconAltAI')"
-              />
+              <AppIconNetworkIntelligence />
 
               <template #iconSecondary>
-                <IVibetypeRestartAlt
-                  class="size-6"
-                  :aria-label="t('iconAltReset')"
-                />
+                <AppIconRestartAlt />
               </template>
             </CardButton>
           </AppUnderConstruction>
@@ -70,15 +61,9 @@
                 })
               "
             >
-              <IVibetypeColoredEarlyBird
-                class="size-6"
-                :aria-label="t('iconAltEarlyBird')"
-              />
+              <AppIconEarlyBird />
               <template #iconSecondary>
-                <IVibetypeClose
-                  class="size-6"
-                  :aria-label="t('iconAltClose')"
-                />
+                <AppIconClose />
               </template>
             </CardButton>
           </AppUnderConstruction>
@@ -98,10 +83,7 @@
               })
             "
           >
-            <IVibetypeSun
-              class="size-6"
-              :aria-label="t('iconAltColorScheme')"
-            />
+            <AppIconSun />
           </CardButton>
           <CardButton
             :title="t('language')"
@@ -114,10 +96,7 @@
               })
             "
           >
-            <IVibetypeLanguage
-              class="size-6"
-              :aria-label="t('iconAltLanguage')"
-            />
+            <AppIconLanguage />
           </CardButton>
         </div>
       </section>
@@ -129,21 +108,21 @@
             :title="t('featureSuggestion')"
             to="https://forms.monday.com/forms/f3ef56d13c8383e6ececb2875d7fb4b2?r=euc1"
           >
-            <IVibetypeIdea class="size-6" :aria-label="t('iconAltIdea')" />
+            <AppIconIdea />
           </CardButton>
           <CardButton
             is-external
             :title="t('bugReport')"
             to="https://forms.monday.com/forms/55b8fc2281c2be1647a69e6a4ffe156e?r=euc1"
           >
-            <IVibetypeBug class="size-6" :aria-label="t('iconAltBug')" />
+            <AppIconBug />
           </CardButton>
           <CardButton
             is-external
             :title="t('contact')"
             to="https://forms.monday.com/forms/74204ae8168ecb1dd44c15b502854a5a?r=euc1"
           >
-            <IVibetypeMail class="size-6" :aria-label="t('iconAltContact')" />
+            <AppIconMail />
           </CardButton>
           <CardButton
             :title="t('developerInformation')"
@@ -156,10 +135,7 @@
               })
             "
           >
-            <IHeroiconsWrench
-              class="size-6"
-              :aria-label="t('iconAltDeveloper')"
-            />
+            <AppIconWrench />
           </CardButton>
         </div>
       </section>
@@ -169,31 +145,25 @@
         </span>
         <div class="flex flex-col gap-3">
           <CardButton :title="t('terms')" :to="localePath('docs-legal-terms')">
-            <IVibetypeContract class="size-6" :aria-label="t('iconAltTerms')" />
+            <AppIconContract />
           </CardButton>
           <CardButton
             :title="t('cookies')"
             @click="cookieControl.isModalActive.value = true"
           >
-            <IMaterialSymbolsCookieOutline
-              class="size-6"
-              :aria-label="t('iconAltCookies')"
-            />
+            <AppIconCookieOutline />
           </CardButton>
           <CardButton
             :title="t('legalNotice')"
             :to="localePath('docs-legal-imprint')"
           >
-            <IVibetypeLegal class="size-6" :aria-label="t('iconAltLegal')" />
+            <AppIconLegal />
           </CardButton>
           <CardButton
             :title="t('privacy')"
             :to="localePath('docs-legal-privacy')"
           >
-            <IVibetypeVerifiedUser
-              class="size-6"
-              :aria-label="t('iconAltPrivacy')"
-            />
+            <AppIconVerifiedUser />
           </CardButton>
         </div>
       </section>
@@ -205,7 +175,7 @@
           @click="signOut"
         >
           <template #iconSecondary />
-          <IVibetypeLogout class="size-6" :aria-label="t('iconAltLogout')" />
+          <AppIconLogout />
         </CardButton>
       </section>
     </div>
@@ -245,23 +215,6 @@ de:
   developerInformation: Entwicklerinformationen
   display: Anzeige
   featureSuggestion: Idee
-  iconAltAI: KI
-  iconAltBug: Fehler-Symbol
-  iconAltClose: Schließen-Symbol
-  iconAltColorScheme: Farbschema-Symbol
-  iconAltContact: Kontakt-Symbol
-  iconAltContactBook: Kontaktbuch-Symbol
-  iconAltCookies: Cookies-Symbol
-  iconAltDeveloper: Entwickler-Symbol
-  iconAltEarlyBird: Early-Bird-Symbol
-  iconAltIdea: Ideen-Symbol
-  iconAltLanguage: Sprach-Symbol
-  iconAltLegal: Rechtliches-Symbol
-  iconAltLogout: Abmelden-Symbol
-  iconAltPerson: Personen-Symbol
-  iconAltPrivacy: Datenschutz-Symbol
-  iconAltReset: Zurücksetzen-Symbol
-  iconAltTerms: AGB-Symbol
   language: Sprache
   legal: Rechtliches
   legalNotice: Impressum
@@ -283,23 +236,6 @@ en:
   developerInformation: Developer information
   display: Display
   featureSuggestion: Idea
-  iconAltAI: AI icon
-  iconAltBug: Bug icon
-  iconAltClose: Close icon
-  iconAltColorScheme: Color scheme icon
-  iconAltContact: Contact icon
-  iconAltContactBook: Contact book icon
-  iconAltCookies: Cookies icon
-  iconAltDeveloper: Developer icon
-  iconAltEarlyBird: Early bird icon
-  iconAltIdea: Idea icon
-  iconAltLanguage: Language icon
-  iconAltLegal: Legal icon
-  iconAltLogout: Logout icon
-  iconAltPerson: Person icon
-  iconAltPrivacy: Privacy icon
-  iconAltReset: Reset icon
-  iconAltTerms: Terms icon
   language: Language
   legal: Legal
   legalNotice: Legal Notice

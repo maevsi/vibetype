@@ -18,7 +18,7 @@
       class="hidden flex-shrink-0 text-(--semantic-accent-accent-icon) peer-not-placeholder-shown:block"
       @click="model = ''"
     >
-      <IVibetypeClose :aria-label="t('iconClose')" class="size-6" />
+      <AppIconClose />
     </ButtonIcon>
   </div>
 </template>
@@ -31,12 +31,10 @@ const model = defineModel<string | undefined>({ required: true })
 <i18n lang="yaml">
 de:
   close: Eingabe zurücksetzen
-  iconClose: Schließen-Symbol
   iconSearch: Such-Icon
   search: Suche
 en:
   close: Reset input
-  iconClose: Close icon
   iconSearch: Search icon
   search: Search
 </i18n>
