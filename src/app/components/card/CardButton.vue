@@ -2,7 +2,7 @@
   <Card
     :class="
       cn(
-        'relative isolate flex items-center gap-3 p-2 ring-blue-500/50 has-focus:ring-3',
+        'has-focus:focus-ring relative isolate flex items-center gap-3 p-2',
         classProps,
       )
     "
