@@ -289,5 +289,3 @@ Das Schriftformerfordernis kann nur schriftlich aufgehoben werden.
 (5) Ausschließlicher Gerichtsstand für alle sich aus dem oder im Zusammenhang mit dem Vertrag ergebenden Streitigkeiten ist – sofern zwischen den Parteien vereinbar – der Sitz der Plattform, sofern nicht ein anderer Gerichtsstand gesetzlich zwingend vorgeschrieben ist.
 
 Stand: 03.04.2025
-
-## --- Ende der Nutzungsbedingungen ---

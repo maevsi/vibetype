@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center gap-4 rounded-lg border-1 border-(--faint-line) bg-(--semantic-base-input-field-fill) px-4 py-3 shadow hover:bg-(--faint-weak) has-focus:border-(--accent-line) has-focus:bg-(--semantic-base-input-field-fill) dark:border-(--semantic-base-line) dark:has-focus:border-(--semantic-base-line)"
+    class="flex items-center gap-4 rounded-lg border-1 border-(--faint-line) bg-(--semantic-base-input-field-fill) px-4 py-3 shadow hover:bg-(--faint-weak) has-focus:border-(--semantic-accent-accent-line)"
   >
     <div class="flex-shrink-0 text-(--semantic-accent-accent-icon)">
       <IHeroiconsMagnifyingGlass :aria-label="t('iconSearch')" class="size-6" />
@@ -9,7 +9,7 @@
     <input
       id="search"
       v-model="model"
-      class="peer flex-grow border-none bg-transparent placeholder-(--semantic-base-text-secondary) outline-0"
+      class="peer flex-grow border-none bg-transparent text-sm font-semibold placeholder-(--semantic-base-text-secondary) outline-0"
       :placeholder="t('search')"
       type="text"
     />

@@ -14,10 +14,6 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
-  ::placeholder {
-    @apply italic;
-  }
-
   :disabled {
     /* cursor-not-allowed */
     @apply pointer-events-none opacity-75;
@@ -25,7 +21,7 @@
 
   a,
   button {
-    @apply focus:outline-none pointer-fine:focus:ring-3 pointer-fine:focus:ring-blue-500/50;
+    @apply focus-visible:focus-ring;
   }
 
   a[target='_blank']:not([is-external-icon-disabled])::after {
@@ -72,7 +68,7 @@
   }
 
   td {
-    @apply px-4 py-6 whitespace-nowrap;
+    @apply px-4 py-6;
   }
 
   th {
@@ -83,6 +79,10 @@
 @utility disabled {
   /* cursor-not-allowed */
   @apply pointer-events-none opacity-75;
+}
+
+@utility focus-ring {
+  @apply ring-3 ring-current/50 outline-none;
 }
 
 @utility heading {

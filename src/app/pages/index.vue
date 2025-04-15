@@ -15,17 +15,17 @@
           >
             {{ t('testNowFree') }}
           </ButtonColored>
-          <Button
+          <ButtonColored
             v-if="!isApp"
             :aria-label="t('appInstall')"
             :to="localePath('docs-app')"
-            variant="secondary"
+            variant="tertiary"
           >
             {{ t('appInstall') }}
             <template #suffix>
               <IHeroiconsArrowRight />
             </template>
-          </Button>
+          </ButtonColored>
         </div>
       </div>
       <LoaderImage

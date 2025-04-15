@@ -23,10 +23,13 @@
         @input="form.emailAddress = $event"
       />
       <FormInputPassword
+        id="password"
         :form-input="v$.password"
+        is-strength-shown
         @input="form.password = $event"
       />
       <FormInputPassword
+        id="password-repetition"
         :form-input="v$.passwordRepetition"
         :title="t('passwordRepetition')"
         @input="form.passwordRepetition = $event"
