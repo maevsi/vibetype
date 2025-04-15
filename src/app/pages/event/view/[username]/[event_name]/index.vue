@@ -103,28 +103,18 @@
       </ButtonList>
       <div class="flex flex-col gap-4">
         <div>
-          <div class="relative">
-            <EventHeroImage :event="event" />
-            <div
-              class="absolute bottom-4 left-4 flex flex-col justify-between gap-4 md:flex-row"
-            >
-              <div
-                class="text-text-bright flex min-w-0 flex-col items-baseline md:flex-row md:gap-2"
-              >
-                <h1 class="m-0">
-                  {{ event.name }}
-                </h1>
-                <EventOwner
-                  link
-                  :username="event.accountByCreatedBy.username"
-                />
-              </div>
-            </div>
-          </div>
+          <EventHeroImage :event="event" />
           <Card
             v-if="event"
-            class="flex flex-col items-stretch gap-8 rounded-t-none"
+            class="flex flex-col items-stretch gap-4 rounded-t-none"
           >
+            <div class="flex flex-col items-baseline md:flex-row md:gap-2">
+              <h1 class="m-0">
+                {{ event.name }}
+              </h1>
+              <EventOwner link :username="event.accountByCreatedBy.username" />
+            </div>
+            <AppHr />
             <div class="flex flex-row flex-wrap justify-center self-stretch">
               <EventDashletStart
                 :contact="contact"
