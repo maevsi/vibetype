@@ -5,9 +5,10 @@
     <div class="flex-shrink-0 text-(--semantic-accent-accent-icon)">
       <AppIconSearch />
     </div>
+    <label :for="templateIdInput" class="sr-only">{{ t('search') }}</label>
     <!-- TODO: extract input component, e.g. to set placeholder color in one place only -->
     <input
-      id="search"
+      :id="templateIdInput"
       v-model="model"
       class="peer flex-grow border-none bg-transparent text-sm font-semibold placeholder-(--semantic-base-text-secondary) outline-0"
       :placeholder="t('search')"
@@ -26,6 +27,8 @@
 <script setup lang="ts">
 const { t } = useI18n()
 const model = defineModel<string | undefined>({ required: true })
+
+const templateIdInput = useId()
 </script>
 
 <i18n lang="yaml">
