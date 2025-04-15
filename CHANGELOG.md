@@ -1,3 +1,9 @@
+## [10.7.0](https://github.com/maevsi/vibetype/compare/10.6.0...10.7.0) (2025-04-15)
+
+### Features
+
+* **components:** replace headless ui with shadcn-nuxt for radio input ([776cfa0](https://github.com/maevsi/vibetype/commit/776cfa07c4e1bbe9b19d52bbbff6862c882fd2c4))
+
 ## [10.6.0](https://github.com/maevsi/vibetype/compare/10.5.0...10.6.0) (2025-04-15)
 
 ### Features
