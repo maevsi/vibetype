@@ -8,12 +8,7 @@
           :aria-label="t('back')"
           @click="index--"
         >
-          <!-- TODO: extract icon wrapper component -->
-          <IVibetypeBack
-            :aria-label="t('iconAltBack')"
-            class="size-6"
-            role="graphics-symbol img"
-          />
+          <AppIconBack />
         </ButtonIcon>
       </template>
     </LayoutTopBar>
@@ -115,7 +110,6 @@ de:
   agreeTerms: Ich stimme den Allgemeinen Geschäftsbedingungen zu
   agreePrivacy: Ich stimme der Datenschutzerklärung zu
   back: zurück
-  iconAltBack: Pfeil nach links
   titleForm: Erstelle ein Konto
   titlePrivacy: Datenschutzbestimmungen
   titleTerms: Geschäftsbedingungen
@@ -126,7 +120,6 @@ en:
   agreeTerms: I agree to the Terms and Conditions
   agreePrivacy: I agree to the Privacy Policy
   back: back
-  iconAltBack: Arrow to the left
   titleForm: Create an account
   titlePrivacy: Privacy Policy
   titleTerms: General Terms and Conditions
