@@ -3,7 +3,7 @@
     class="flex items-center gap-4 rounded-lg border-1 border-(--faint-line) bg-(--semantic-base-input-field-fill) px-4 py-3 shadow hover:bg-(--faint-weak) has-focus:border-(--semantic-accent-accent-line)"
   >
     <div class="flex-shrink-0 text-(--semantic-accent-accent-icon)">
-      <IHeroiconsMagnifyingGlass :aria-label="t('iconSearch')" class="size-6" />
+      <AppIconSearch />
     </div>
     <!-- TODO: extract input component, e.g. to set placeholder color in one place only -->
     <input
@@ -31,10 +31,8 @@ const model = defineModel<string | undefined>({ required: true })
 <i18n lang="yaml">
 de:
   close: Eingabe zurücksetzen
-  iconSearch: Such-Icon
   search: Suche
 en:
   close: Reset input
-  iconSearch: Search icon
   search: Search
 </i18n>
