@@ -8,9 +8,7 @@
         @load-more="after = api.data.allGuests?.pageInfo.endCursor"
       >
         <table class="border border-neutral-300 dark:border-neutral-600">
-          <LayoutThead
-            class="bg-background-bright dark:bg-background-dark sticky top-0 z-10"
-          >
+          <LayoutThead>
             <tr>
               <th scope="col">
                 {{ t('contact') }}

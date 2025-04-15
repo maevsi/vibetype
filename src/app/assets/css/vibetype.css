@@ -9,6 +9,7 @@
   --accent-strong: #36db83;
   --accent-weak-hover: #c0e6d2;
   --accent-weak: #dcf9ea;
+  --base-white: #fafafc;
   --critic-string: #e00000;
   --faint-line: #f2f2f2;
   --faint-weak: #f2f2f2;
@@ -16,6 +17,7 @@
   --semantic-accent-accent-line: #dcf9ea;
   --semantic-accent-accent-text: #12683a;
   --semantic-base-background: #fff;
+  --semantic-base-icon-primary: #5d665f;
   --semantic-base-input-field-fill: #fff;
   --semantic-base-light-text-on-dark: #fafafc;
   --semantic-base-line: #f2f2f2;
@@ -26,6 +28,8 @@
   --semantic-base-text-secondary: #868679;
   --semantic-base-text-tertiary: #505047;
   --semantic-critic-text: #8c1818;
+  --semantic-critic-strong: #8c1818;
+  --semantic-critic-strong-hover: #8c1818;
   --semantic-error-strong: #e00000;
   --semantic-success-strong: #1ae4aa;
   --semantic-warning-strong: #f9ae25;
@@ -50,6 +54,8 @@
   --semantic-base-text-secondary: #868679;
   --semantic-base-text-tertiary: #e4e4eb;
   --semantic-critic-text: #e67070;
+  --semantic-critic-strong: #ca3737;
+  --semantic-critic-strong-hover: #e67070;
   --surface: #3e3e38;
 
   @apply scheme-dark;
@@ -93,6 +99,22 @@
   --font-raleway:
     'Raleway Variable', ui-sans-serif, system-ui, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --color-background-bright: var(
+    --color-white
+  ); /* TODO: replace with new design variables */
+
+  --color-background-brighten: var(
+    --color-zinc-200
+  ); /* TODO: replace with new design variables */
+
+  --color-background-dark: var(
+    --color-zinc-800
+  ); /* TODO: replace with new design variables */
+
+  --color-background-darken: var(
+    --color-zinc-700
+  ); /* TODO: replace with new design variables */
+
   --color-link-bright: var(
     --color-blue-400
   ); /* TODO: replace with new design variables */
