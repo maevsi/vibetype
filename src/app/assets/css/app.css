@@ -21,7 +21,7 @@
 
   a,
   button {
-    @apply focus:focus-ring;
+    @apply focus-visible:focus-ring;
   }
 
   a[target='_blank']:not([is-external-icon-disabled])::after {
@@ -82,7 +82,7 @@
 }
 
 @utility focus-ring {
-  @apply outline-none pointer-fine:ring-3 pointer-fine:ring-(--accent-strong)/50;
+  @apply ring-3 ring-current/50 outline-none;
 }
 
 @utility heading {

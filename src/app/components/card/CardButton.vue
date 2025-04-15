@@ -2,7 +2,7 @@
   <Card
     :class="
       cn(
-        'has-focus:focus-ring relative isolate flex items-center gap-3 p-2',
+        'has-focus-visible:focus-ring relative isolate flex items-center gap-3 p-2',
         classProps,
       )
     "
@@ -13,7 +13,7 @@
     <div class="flex flex-1 flex-col">
       <Button
         :aria-label="title"
-        class="focus:ring-0"
+        class="focus-visible:ring-0"
         :disabled="isDisabled"
         :is-external="isExternal"
         is-external-icon-disabled
