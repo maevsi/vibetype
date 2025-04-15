@@ -1,10 +1,10 @@
 <template>
   <div>
-    <LayoutPageTitle :title="title" />
-    <FormRadioButtonTailwind
-      :model="locale"
-      :options="options"
-      @change="onI18nChange"
+    <LayoutPageTitle :title />
+    <FormRadioGroup
+      :default-value="locale"
+      :items="languages"
+      @update:model-value="onI18nChange"
     />
   </div>
 </template>
@@ -12,23 +12,26 @@
 <script setup lang="ts">
 import type { I18N_LOCALE_CODE } from '@dargmuesli/nuxt-vio/shared/types/i18n'
 
-const { locale, t, locales } = useI18n()
-const switchLocalePath = useSwitchLocalePath()
-const router = useRouter()
-
-// data
-const options = locales.value
-  .map((locale) => {
-    if (!locale.name) return
-    return {
-      id: locale.code,
-      name: locale.name,
-    }
-  })
-  .filter(isNeitherNullNorUndefined)
+// page
+const { t } = useI18n()
 const title = t('title')
 
-// methods
+// i18n – get
+const { locale, locales } = useI18n()
+const languages = locales.value
+  .map((locale) =>
+    locale.name
+      ? {
+          label: locale.name,
+          value: locale.code,
+        }
+      : undefined,
+  )
+  .filter(isNeitherNullNorUndefined)
+
+// i18n – set
+const switchLocalePath = useSwitchLocalePath()
+const router = useRouter()
 const onI18nChange = async (value: string) =>
   await router.push({
     path: switchLocalePath(value as I18N_LOCALE_CODE),
