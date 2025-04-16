@@ -1,3 +1,9 @@
+## [10.8.1](https://github.com/maevsi/vibetype/compare/10.8.0...10.8.1) (2025-04-16)
+
+### Bug Fixes
+
+* **guest:** correct preview navigation ([#1887](https://github.com/maevsi/vibetype/issues/1887)) ([6c58e66](https://github.com/maevsi/vibetype/commit/6c58e66feed30af5474e615f16bd2ee289a8c13d))
+
 ## [10.8.0](https://github.com/maevsi/vibetype/compare/10.7.0...10.8.0) (2025-04-15)
 
 ### Features
