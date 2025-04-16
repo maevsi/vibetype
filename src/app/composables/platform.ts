@@ -11,9 +11,15 @@ export const usePlatform = () => {
       ? ['android', 'ios', 'iOS App Store'].includes(platform.value)
       : undefined,
   )
+  const isAppIos = ref<boolean | undefined>(
+    platform.value
+      ? ['ios', 'iOS App Store'].includes(platform.value)
+      : undefined,
+  )
 
   return {
     isApp,
+    isAppIos,
     platform,
   }
 }
