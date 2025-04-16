@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center gap-4">
-    <Form
+    <AppForm
       :errors="api.errors"
       :errors-pg-ids="{
         postgres55000: t('postgres55000'),
@@ -45,7 +45,7 @@
           {{ t('contactSupport') }}
         </ButtonColored>
       </template>
-    </Form>
+    </AppForm>
     <ButtonColored
       :aria-label="t('register')"
       class="w-full"

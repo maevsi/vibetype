@@ -87,12 +87,6 @@ defineExpose({
 })
 </script>
 
-<script lang="ts">
-export default {
-  name: 'AppForm',
-}
-</script>
-
 <i18n lang="yaml">
 de:
   submit: Absenden

@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <AppForm
     class="flex min-h-0 flex-col"
     :errors="api.errors"
     :errors-pg-ids="{
@@ -117,7 +117,7 @@
       @input="form.phoneNumber = $event"
     />
     <FormInputUrl :form-input="v$.url" @input="form.url = $event" />
-  </Form>
+  </AppForm>
 </template>
 
 <script setup lang="ts">
