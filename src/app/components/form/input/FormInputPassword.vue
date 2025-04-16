@@ -32,15 +32,15 @@
     <template #stateError>
       <FormInputStateError
         :form-input="formInput"
-        validation-property="required"
-      >
-        {{ t('globalValidationRequired') }}
-      </FormInputStateError>
-      <FormInputStateError
-        :form-input="formInput"
         validation-property="lengthMin"
       >
         {{ t('globalValidationShortness') }}
+      </FormInputStateError>
+      <FormInputStateError
+        :form-input="formInput"
+        validation-property="required"
+      >
+        {{ t('globalValidationRequired') }}
       </FormInputStateError>
       <FormInputStateError :form-input="formInput" validation-property="sameAs">
         {{ t('validationSameAs') }}
@@ -52,9 +52,7 @@
         validation-property="lengthMin"
       >
         {{
-          t('validationFormat', {
-            length: VALIDATION_PASSWORD_LENGTH_MINIMUM,
-          })
+          t('validationFormat', { length: VALIDATION_PASSWORD_LENGTH_MINIMUM })
         }}
       </FormInputStateInfo>
       <slot name="stateInfo" />

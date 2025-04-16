@@ -3,9 +3,7 @@
     v-if="formInput && !formInput.$invalid"
     class="text-(--semantic-success-strong)"
   >
-    <TypographyLabel>
-      <slot />
-    </TypographyLabel>
+    <slot />
   </FormInputState>
 </template>
 

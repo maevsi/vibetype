@@ -234,6 +234,7 @@ export default defineNuxtConfig({
         'isomorphic-dompurify',
         'js-confetti',
         'lodash-es',
+        'lucide-vue-next',
         'mustache',
         'pretty-bytes',
         'prntr',

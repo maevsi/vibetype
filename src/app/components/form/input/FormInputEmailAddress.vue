@@ -6,8 +6,6 @@
     :title="title || t('emailAddress')"
     type="email"
     :value="formInput"
-    :validation-property="formInput.email || formInput"
-    :is-validatable="true"
     @input="emit('input', $event)"
   >
     <template #stateError>
@@ -23,23 +21,12 @@
       >
         {{ t('globalValidationRequired') }}
       </FormInputStateError>
-      <FormInputStateError
-        v-if="
-          formInput.$dirty &&
-          formInput.$model &&
-          !email.$validator(formInput.$model, undefined, undefined)
-        "
-      >
-        {{ t('validationEmail') }}
-      </FormInputStateError>
     </template>
     <template #stateWarning>
       <!-- this is intentionally a warning rather than an error, as we aim to be "liberal in what we accept from others" (https://www.dominicsayers.com/isemail/) -->
       <FormInputStateWarning
         v-if="
           formInput.$dirty &&
-          formInput.$model &&
-          !formInput.email?.$invalid &&
           !email.$validator(formInput.$model, undefined, undefined)
         "
       >
@@ -75,8 +62,6 @@ const { t } = useI18n()
 <i18n lang="yaml">
 de:
   emailAddress: E-Mail-Adresse
-  validationEmail: Überprüfen Sie Ihre E-Mail.
 en:
   emailAddress: Email address
-  validationEmail: Check your Email.
 </i18n>

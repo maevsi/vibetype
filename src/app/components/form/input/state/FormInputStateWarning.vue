@@ -1,7 +1,5 @@
 <template>
   <FormInputState class="text-(--semantic-warning-strong)">
-    <TypographyLabel>
-      <slot />
-    </TypographyLabel>
+    <slot />
   </FormInputState>
 </template>
