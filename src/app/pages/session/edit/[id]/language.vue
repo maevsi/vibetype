@@ -1,7 +1,7 @@
 <template>
   <div>
     <LayoutPageTitle :title />
-    <FormRadioGroup
+    <AppRadioGroup
       :default-value="locale"
       :items="languages"
       @update:model-value="onI18nChange"

@@ -2,13 +2,13 @@
   <div>
     <LayoutPageTitle :title />
     <ColorScheme>
-      <FormRadioGroup
+      <AppRadioGroup
         :default-value="colorMode.preference"
         :items="colorSchemes"
         @update:model-value="(value) => (colorMode.preference = value)"
       />
       <template #placeholder>
-        <FormRadioGroup :items="colorSchemes" />
+        <AppRadioGroup :items="colorSchemes" />
       </template>
     </ColorScheme>
   </div>
