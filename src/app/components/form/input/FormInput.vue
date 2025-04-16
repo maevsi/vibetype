@@ -1,47 +1,37 @@
 <template>
-  <div
-    class="flex flex-col gap-1"
-    :class="{
-      'form-input-success': success,
-      'form-input-warning': warning,
-      'form-input-error': value?.$error,
-    }"
-  >
+  <div class="flex flex-col gap-1">
     <div class="flex flex-col gap-2">
-      <div>
-        <label
-          class="inline-flex items-baseline gap-2 font-semibold"
-          :class="{
-            'form-input-success': success,
-            'form-input-warning': warning,
-            'form-input-error': value?.$error,
-          }"
-          :for="idLabelFull"
+      <label
+        class="inline-flex items-baseline gap-2"
+        :class="{
+          'text-(--semantic-critic-text)': value?.$error,
+        }"
+        :for="idLabelFull"
+      >
+        <TypographySubtitleMedium>{{ title }}</TypographySubtitleMedium>
+        <span
+          v-if="isRequired || isOptional"
+          class="text-xs font-medium text-gray-500 dark:text-gray-400"
         >
-          <TypographySubtitleMedium>{{ title }}</TypographySubtitleMedium>
-          <span
-            v-if="isRequired || isOptional"
-            class="text-xs font-medium text-gray-500 md:text-right dark:text-gray-400"
-          >
-            <span v-if="isRequired">
-              {{ t('required') }}
-            </span>
-            <span v-if="isOptional">
-              {{ t('optional') }}
-            </span>
+          <span v-if="isRequired">
+            {{ t('required') }}
           </span>
-        </label>
-      </div>
+          <span v-if="isOptional">
+            {{ t('optional') }}
+          </span>
+        </span>
+      </label>
       <div class="relative">
         <slot v-if="$slots.default" />
         <!-- TODO: support textarea, checkboxes and radio buttons natively -->
         <div
           v-else
-          class="flex items-center gap-2 rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill)"
+          class="flex items-center gap-2 rounded-lg border bg-(--semantic-base-input-field-fill) has-[input[aria-invalid=true]]:border-(--critic-weak)"
         >
           <input
             :id="idLabelFull"
-            class="flex-grow border-none px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-0"
+            class="flex-grow border-none px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-0 focus:outline-none"
+            :aria-invalid="value?.$error"
             :disabled="isDisabled"
             :placeholder="placeholder"
             :readonly="isReadonly"
@@ -64,7 +54,7 @@
               "
             >
               <IHeroiconsCheckCircleSolid
-                class="text-green-600"
+                class="text-(--semantic-success-strong)"
                 :title="t('valid')"
               />
             </FormInputIconWrapper>
@@ -73,9 +63,11 @@
                 !!validationProperty.$model && validationProperty.$invalid
               "
             >
-              <IHeroiconsExclamationCircleSolid
-                class="text-(--semantic-critic-text)"
+              <IVibetypeClose
+                :aria-label="t('iconAltClose')"
+                class="size-6 cursor-pointer text-(--semantic-critic-text)"
                 :title="t('validNot')"
+                @click="emit('input', '')"
               />
             </FormInputIconWrapper>
           </div>
@@ -111,13 +103,13 @@ const {
   isValidatable,
   idLabel,
   placeholder,
-  success,
+  // success,
   title,
   type,
   validationProperty,
   value,
   valueFormatter = (x?: string) => x,
-  warning,
+  // warning,
 } = defineProps<{
   isDisabled?: boolean
   isOptional?: boolean
@@ -126,13 +118,13 @@ const {
   isValidatable?: boolean
   idLabel?: string
   placeholder?: string
-  success?: boolean
+  // success?: boolean
   title: string
   type?: string
   validationProperty?: BaseValidation
   value?: BaseValidation
   valueFormatter?: (x?: string) => typeof x | undefined
-  warning?: boolean
+  // warning?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -175,11 +167,13 @@ if (!value && type && !['checkbox', 'select'].includes(type)) {
 
 <i18n lang="yaml">
 de:
+  iconAltClose: X-Icon
   optional: optional
   required: Pflichtfeld
   valid: Gültig
   validNot: Ungültig
 en:
+  iconAltClose: X icon
   optional: optional
   required: required
   valid: valid

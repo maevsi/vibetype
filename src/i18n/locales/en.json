@@ -1,5 +1,4 @@
 {
-  "globalAvailabilityNotYet": "Not yet available.",
   "globalError": "Error",
   "globalLoading": "Loading...",
   "globalPlaceholderAddress": "Eventstreet 1,\n12345 Guestcity",
@@ -27,7 +26,6 @@
   "globalValidationMinValue": "Under minimum value",
   "globalValidationNowOrFuture": "Point in time lies in the past",
   "globalValidationRequired": "Required",
-  "globalValidationSameAs": "Is not identical",
   "globalValidationShortness": "Too short",
   "nuxtSiteConfig": {
     "description": "Find events, guests and friends 💙❤️💚",

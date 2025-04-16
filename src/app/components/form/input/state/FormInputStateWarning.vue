@@ -1,6 +1,5 @@
 <template>
-  <FormInputState class="text-yellow-600">
-    <IHeroiconsExclamationTriangleSolid />
+  <FormInputState class="text-(--semantic-warning-strong)">
     <slot />
   </FormInputState>
 </template>

@@ -1,5 +1,4 @@
 {
-  "globalAvailabilityNotYet": "Noch nicht verfügbar.",
   "globalError": "Fehler",
   "globalLoading": "Lade...",
   "globalPlaceholderAddress": "Veranstaltungsstraße 1,\n12345 Gaststadt",
@@ -27,7 +26,6 @@
   "globalValidationMinValue": "Wert zu gering",
   "globalValidationNowOrFuture": "Zeitpunkt liegt in der Vergangenheit",
   "globalValidationRequired": "Pflichtfeld",
-  "globalValidationSameAs": "Ist nicht identisch",
   "globalValidationShortness": "Zu kurz",
   "nuxtSiteConfig": {
     "description": "Finde Veranstaltungen, Gäste und Freunde 💙❤️💚",

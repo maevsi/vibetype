@@ -12,8 +12,22 @@
       <Progress :model-value="strength" class="my-2" />
     </template>
     <template #icon>
-      <IHeroiconsEye v-if="!isVisible" />
-      <IHeroiconsEyeSlash v-else />
+      <IVibetypeClose
+        v-if="
+          (formInput.sameAs && formInput.sameAs.$invalid && formInput.$dirty) ||
+          (formInput.lengthMin &&
+            formInput.lengthMin.$invalid &&
+            formInput.$dirty)
+        "
+        :aria-label="t('iconAltClose')"
+        class="size-6 cursor-pointer text-(--semantic-critic-text)"
+        :title="t('validNot')"
+        @click="emit('input', '')"
+      />
+      <template v-else>
+        <IHeroiconsEye v-if="!isVisible" />
+        <IHeroiconsEyeSlash v-else />
+      </template>
     </template>
     <template #stateError>
       <FormInputStateError
@@ -29,7 +43,7 @@
         {{ t('globalValidationRequired') }}
       </FormInputStateError>
       <FormInputStateError :form-input="formInput" validation-property="sameAs">
-        {{ t('globalValidationSameAs') }}
+        {{ t('validationSameAs') }}
       </FormInputStateError>
     </template>
     <template #stateInfo>
@@ -77,9 +91,15 @@ const strength = computed(() =>
 
 <i18n lang="yaml">
 de:
+  iconAltClose: X-Icon
   password: Passwort
   validationFormat: Muss {length} Zeichen lang sein
+  validationSameAs: Die Passwörter stimmen nicht überein
+  validNot: Ungültig
 en:
+  iconAltClose: X icon
   password: Password
   validationFormat: Must be {length} characters long
+  validationSameAs: The passwords do not match
+  validNot: invalid
 </i18n>

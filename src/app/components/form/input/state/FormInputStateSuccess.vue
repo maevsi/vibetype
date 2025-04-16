@@ -1,9 +1,8 @@
 <template>
   <FormInputState
     v-if="formInput && !formInput.$invalid"
-    class="text-green-600"
+    class="text-(--semantic-success-strong)"
   >
-    <IHeroiconsCheckCircleSolid />
     <slot />
   </FormInputState>
 </template>
