@@ -1,18 +1,18 @@
 <template>
-  <FormItem>
-    <FormControl>
-      <RadioGroupItem :value />
-    </FormControl>
-    <FormLabel>
+  <div>
+    <RadioGroupItem :id="templateIdLabel" :value />
+    <Label :for="templateIdLabel">
       <TypographySubtitleSmall>
         <slot />
       </TypographySubtitleSmall>
-    </FormLabel>
-  </FormItem>
+    </Label>
+  </div>
 </template>
 
 <script setup lang="ts">
 const { value } = defineProps<{
   value: string
 }>()
+
+const templateIdLabel = useId()
 </script>

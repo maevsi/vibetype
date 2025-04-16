@@ -1,16 +1,19 @@
 <template>
   <RadioGroup :class="props.class" v-bind="forwarded">
-    <FormRadioGroupItem
+    <component
+      :is="props.isForm ? FormRadioGroupItem : AppRadioGroupItem"
       v-for="item in props.items"
       :key="item.value"
+      class="flex items-center gap-3 p-1"
       :value="item.value"
     >
       {{ item.label }}
-    </FormRadioGroupItem>
+    </component>
   </RadioGroup>
 </template>
 
 <script setup lang="ts">
+import { FormRadioGroupItem, AppRadioGroupItem } from '#components'
 import {
   useForwardPropsEmits,
   type RadioGroupRootEmits,
@@ -20,6 +23,7 @@ import type { HTMLAttributes } from 'vue'
 
 const props = defineProps<
   {
+    isForm?: boolean
     items: {
       value: string
       label: string
@@ -29,7 +33,7 @@ const props = defineProps<
 const emits = defineEmits<RadioGroupRootEmits>()
 
 const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
+  const { class: _, isForm: _isForm, items: _items, ...delegated } = props
 
   return delegated
 })

@@ -94,7 +94,7 @@
         :value="v$.visibility"
         @input="form.visibility = $event as EventVisibility"
       >
-        <FormRadioGroup
+        <AppRadioGroup
           :default-value="v$.visibility.$model"
           :items="[
             { label: t('visibilityPublic'), value: EventVisibility.Public },
