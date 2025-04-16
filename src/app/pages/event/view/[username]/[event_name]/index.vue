@@ -10,7 +10,11 @@
           :aria-label="t('invitationSelectionClear')"
           :to="
             localePath({
-              path: `/event/view/${route.params.username}/${route.params.event_name}/invitation`,
+              name: 'event-view-username-event_name-guest',
+              params: {
+                event_name: route.params.event_name,
+                username: route.params.username,
+              },
               query: { ...routeQuery, ic: undefined },
             })
           "
