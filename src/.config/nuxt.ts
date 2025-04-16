@@ -46,6 +46,7 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxtjs/color-mode',
     '@nuxtjs/html-validator',
+    'nuxt-zod-i18n', // most come before `@nuxtjs/i18n`
     '@nuxtjs/i18n',
     '@nuxtjs/mdc',
     '@nuxtjs/seo',
@@ -219,6 +220,7 @@ export default defineNuxtConfig({
         '@tiptap/vue-3',
         '@uppy/core',
         '@uppy/tus',
+        '@vee-validate/zod',
         '@vuelidate/core',
         '@vueuse/core',
         'chart.js',
@@ -244,10 +246,12 @@ export default defineNuxtConfig({
         'tailwind-merge',
         'v-calendar',
         'vaul-vue',
+        'vee-validate',
         'vue-advanced-cropper',
         'vue-chartjs',
         'vue-qrcode-reader',
         'workbox-precaching',
+        'zod',
       ],
     },
     plugins: [

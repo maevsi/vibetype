@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <AppForm
     :class="classProps"
     :errors="api.errors"
     :form="v$"
@@ -11,7 +11,7 @@
       :form-input="v$.emailAddress"
       @input="form.emailAddress = $event"
     />
-  </Form>
+  </AppForm>
 </template>
 
 <script setup lang="ts">

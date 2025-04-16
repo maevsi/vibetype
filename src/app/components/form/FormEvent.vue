@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Form
+    <AppForm
       :errors="api.errors"
       :form="v$"
       :is-form-sent="isFormSent"
@@ -241,7 +241,7 @@
           </FormInputStateError>
         </template>
       </FormInput>
-    </Form>
+    </AppForm>
     <Modal id="ModalDateTimeStart">
       <div class="flex justify-center">
         <DatePicker

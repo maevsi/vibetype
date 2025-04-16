@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center gap-4">
-    <Form
+    <AppForm
       :errors="api.errors"
       :errors-pg-ids="{
         postgres22023: t('postgres22023'),
@@ -44,7 +44,7 @@
           {{ t('accountDeletionNotice') }}
         </FormInputStateInfo>
       </template>
-    </Form>
+    </AppForm>
     <ButtonColored
       :aria-label="t('signIn')"
       class="w-full"

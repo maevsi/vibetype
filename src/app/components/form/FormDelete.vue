@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <AppForm
     :errors="api.errors"
     :errors-pg-ids="errorsPgIds"
     :form="v$"
@@ -15,7 +15,7 @@
     <template #submit-icon>
       <IHeroiconsTrash />
     </template>
-  </Form>
+  </AppForm>
 </template>
 
 <script setup lang="ts">

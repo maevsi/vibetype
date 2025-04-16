@@ -1,7 +1,7 @@
 <template>
   <div class="m-auto max-w-xl">
     <h1>{{ title }}</h1>
-    <Form
+    <AppForm
       :errors="api.errors"
       :errors-pg-ids="{
         postgresP0002: t('postgresP0002'),
@@ -47,7 +47,7 @@
           </FormInputStateError>
         </template>
       </FormInput>
-    </Form>
+    </AppForm>
     <p class="mt-2">
       {{ t('greetingExplanation') }}
     </p>
