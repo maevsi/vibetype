@@ -193,28 +193,28 @@
         </FormCheckbox>
       </FormInput>
       <!-- <FormInput
-        v-if="v$.isInPerson.$model"
-        id-label="input-location"
-        :placeholder="t('globalPlaceholderAddress').replace('\n', ' ')"
-        :title="t('location')"
-        type="text"
-        :value="v$.location"
-        @input="form.location = $event"
-      >
-        <template #stateError>
-          <FormInputStateError
-            :form-input="v$.location"
-            validation-property="lengthMax"
-          >
-            {{ t('globalValidationLength') }}
-          </FormInputStateError>
-        </template>
-        <template #stateInfo>
-          <FormInputStateInfo>
-            {{ t('stateInfoLocation') }}
-          </FormInputStateInfo>
-        </template>
-      </FormInput> -->
+          v-if="v$.isInPerson.$model"
+          id-label="input-location"
+          :placeholder="t('globalPlaceholderAddress').replace('\n', ' ')"
+          :title="t('location')"
+          type="text"
+          :value="v$.location"
+          @input="form.location = $event"
+        >
+          <template #stateError>
+            <FormInputStateError
+              :form-input="v$.location"
+              validation-property="lengthMax"
+            >
+              {{ t('globalValidationLength') }}
+            </FormInputStateError>
+          </template>
+          <template #stateInfo>
+            <FormInputStateInfo>
+              {{ t('stateInfoLocation') }}
+            </FormInputStateInfo>
+          </template>
+        </FormInput> -->
       <FormInputUrl
         v-if="v$.isRemote.$model"
         :form-input="v$.url"
@@ -278,7 +278,7 @@
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core'
 import { DatePicker } from 'v-calendar'
-
+import { LocalStorageStrategy } from '~/utils/storage/LocalStorageStrategy'
 import { useCreateEventMutation } from '~~/gql/documents/mutations/event/eventCreate'
 import { useUpdateEventByIdMutation } from '~~/gql/documents/mutations/event/eventUpdateById'
 import {
@@ -339,33 +339,14 @@ const submit = async () => {
 
   if (!store.signedInAccountId) throw new Error('Account id is missing!')
 
-  if (form.id) {
-    // Edit
-    const result = await updateEventMutation.executeMutation({
-      id: form.id,
-      eventPatch: {
-        createdBy: store.signedInAccountId,
-        description: form.description || null,
-        end: form.end || null,
-        guestCountMaximum: form.guestCountMaximum
-          ? +form.guestCountMaximum
-          : null,
-        isInPerson: form.isInPerson,
-        isRemote: form.isRemote,
-        // location: form.location || null,
-        name: form.name || null,
-        slug: form.slug || null,
-        start: form.start || null,
-        url: form.url || null,
-        visibility: form.visibility || null,
-      },
-    })
+  const isDraft = form.slug
+    ? !!LocalStorageStrategy.getInstance().getEventByAuthorAndSlug(
+        store.signedInAccountId,
+        form.slug,
+      )
+    : false
 
-    if (result.error || !result.data) return
-
-    await showToast({ title: t('updated') })
-  } else {
-    // Add
+  if (isDraft || !form.id) {
     const result = await createEventMutation.executeMutation({
       createEventInput: {
         event: {
@@ -377,7 +358,6 @@ const submit = async () => {
             : null,
           isInPerson: form.isInPerson,
           isRemote: form.isRemote,
-          // location: form.location || null,
           name: form.name || '',
           slug: form.slug || '',
           start: form.start || null,
@@ -391,20 +371,43 @@ const submit = async () => {
 
     await showToast({ title: t('eventCreateSuccess') })
 
+    if (isDraft && store.signedInAccountId && form.slug) {
+      LocalStorageStrategy.getInstance().deleteEventByAuthorAndSlug(
+        store.signedInAccountId,
+        form.slug,
+      )
+    }
     if (!store.signedInUsername || !form.slug)
       throw new Error(
         'Aborting navigation: required data for path templating is missing!',
       )
-
     await navigateTo(
       localePath({
         name: 'event-view-username-event_name',
-        params: {
-          username: store.signedInUsername,
-          event_name: form.slug,
-        },
+        params: { username: store.signedInUsername, event_name: form.slug },
       }),
     )
+  } else {
+    const result = await updateEventMutation.executeMutation({
+      id: form.id,
+      eventPatch: {
+        createdBy: store.signedInAccountId,
+        description: form.description || null,
+        end: form.end || null,
+        guestCountMaximum: form.guestCountMaximum
+          ? +form.guestCountMaximum
+          : null,
+        isInPerson: form.isInPerson,
+        isRemote: form.isRemote,
+        name: form.name || null,
+        slug: form.slug || null,
+        start: form.start || null,
+        url: form.url || null,
+        visibility: form.visibility || null,
+      },
+    })
+    if (result.error || !result.data) return
+    await showToast({ title: t('updated') })
   }
 }
 
