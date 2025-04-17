@@ -1,3 +1,9 @@
+## [10.9.0](https://github.com/maevsi/vibetype/compare/10.8.1...10.9.0) (2025-04-17)
+
+### Features
+
+* **event:** add report ([e609447](https://github.com/maevsi/vibetype/commit/e60944782ae7063afbb56b66083c300c98e09d95))
+
 ## [10.8.1](https://github.com/maevsi/vibetype/compare/10.8.0...10.8.1) (2025-04-16)
 
 ### Bug Fixes
