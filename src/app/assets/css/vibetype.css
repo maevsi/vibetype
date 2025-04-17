@@ -28,7 +28,7 @@
   --semantic-base-text-secondary: #868679;
   --semantic-base-text-tertiary: #505047;
   --semantic-critic-text: #8c1818;
-  --semantic-critic-strong: #8c1818;
+  --semantic-critic-strong: #e00000;
   --semantic-critic-strong-hover: #8c1818;
   --semantic-error-strong: #e00000;
   --semantic-success-strong: #1ae4aa;
@@ -41,6 +41,7 @@
 
 .dark {
   --accent-weak: #c1dcc6;
+  --base-white: #e4e4eb;
   --faint-line: #2d2d2c;
   --faint-weak: #3e3e38;
   --semantic-accent-accent-icon: #0a841e;

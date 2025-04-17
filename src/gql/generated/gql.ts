@@ -33,6 +33,7 @@ type Documents = {
   '\n      mutation accountPasswordResetRequest(\n        $emailAddress: String!\n        $language: String!\n      ) {\n        accountPasswordResetRequest(\n          input: { emailAddress: $emailAddress, language: $language }\n        ) {\n          clientMutationId\n        }\n      }\n    ': typeof types.AccountPasswordResetRequestDocument
   '\n      mutation accountRegistration(\n        $emailAddress: String!\n        $password: String!\n        $username: String!\n        $language: String!\n        $legalTermId: UUID!\n      ) {\n        accountRegistration(\n          input: {\n            emailAddress: $emailAddress\n            password: $password\n            username: $username\n            language: $language\n            legalTermId: $legalTermId\n          }\n        ) {\n          clientMutationId\n        }\n      }\n    ': typeof types.AccountRegistrationDocument
   '\n      mutation accountRegistrationRefresh(\n        $accountId: UUID!\n        $language: String!\n      ) {\n        accountRegistrationRefresh(\n          input: { language: $language, accountId: $accountId }\n        ) {\n          clientMutationId\n        }\n      }\n    ': typeof types.AccountRegistrationRefreshDocument
+  '\n      mutation createAccountBlock($accountBlockInput: AccountBlockInput!) {\n        createAccountBlock(input: { accountBlock: $accountBlockInput }) {\n          clientMutationId\n        }\n      }\n    ': typeof types.CreateAccountBlockDocument
   '\n      mutation achievementUnlock($code: UUID!, $alias: String!) {\n        achievementUnlock(input: { code: $code, alias: $alias }) {\n          clientMutationId\n          uuid\n        }\n      }\n    ': typeof types.AchievementUnlockDocument
   '\n      mutation createContact($contactInput: ContactInput!) {\n        createContact(input: { contact: $contactInput }) {\n          contact {\n            ...ContactItem\n          }\n        }\n      }\n    ': typeof types.CreateContactDocument
   '\n      mutation deleteContactById($id: UUID!) {\n        deleteContactById(input: { id: $id }) {\n          clientMutationId\n          contact {\n            ...ContactItem\n          }\n        }\n      }\n    ': typeof types.DeleteContactByIdDocument
@@ -46,6 +47,7 @@ type Documents = {
   '\n      mutation updateGuestById($id: UUID!, $guestPatch: GuestPatch!) {\n        updateGuestById(input: { id: $id, guestPatch: $guestPatch }) {\n          guest {\n            ...GuestItem\n            contactByContactId {\n              ...ContactItem\n            }\n          }\n        }\n      }\n    ': typeof types.UpdateGuestByIdDocument
   '\n      mutation invite($guestId: UUID!, $language: String!) {\n        invite(input: { guestId: $guestId, language: $language }) {\n          clientMutationId\n        }\n      }\n    ': typeof types.InviteDocument
   '\n      mutation profilePictureSet($uploadId: UUID!) {\n        profilePictureSet(input: { uploadId: $uploadId }) {\n          clientMutationId\n        }\n      }\n    ': typeof types.ProfilePictureSetDocument
+  '\n      mutation createReport($reportInput: ReportInput!) {\n        createReport(input: { report: $reportInput }) {\n          clientMutationId\n        }\n      }\n    ': typeof types.CreateReportDocument
   '\n      mutation uploadCreate($uploadCreateInput: UploadCreateInput!) {\n        uploadCreate(input: $uploadCreateInput) {\n          clientMutationId\n          upload {\n            id\n          }\n        }\n      }\n    ': typeof types.UploadCreateDocument
   '\n  query accountById($id: UUID!) {\n    accountById(id: $id) {\n      ...AccountItem\n    }\n  }\n': typeof types.AccountByIdDocument
   '\n  query accountByUsername($username: String!) {\n    accountByUsername(username: $username) {\n      ...AccountItem\n    }\n  }\n': typeof types.AccountByUsernameDocument
@@ -100,6 +102,8 @@ const documents: Documents = {
     types.AccountRegistrationDocument,
   '\n      mutation accountRegistrationRefresh(\n        $accountId: UUID!\n        $language: String!\n      ) {\n        accountRegistrationRefresh(\n          input: { language: $language, accountId: $accountId }\n        ) {\n          clientMutationId\n        }\n      }\n    ':
     types.AccountRegistrationRefreshDocument,
+  '\n      mutation createAccountBlock($accountBlockInput: AccountBlockInput!) {\n        createAccountBlock(input: { accountBlock: $accountBlockInput }) {\n          clientMutationId\n        }\n      }\n    ':
+    types.CreateAccountBlockDocument,
   '\n      mutation achievementUnlock($code: UUID!, $alias: String!) {\n        achievementUnlock(input: { code: $code, alias: $alias }) {\n          clientMutationId\n          uuid\n        }\n      }\n    ':
     types.AchievementUnlockDocument,
   '\n      mutation createContact($contactInput: ContactInput!) {\n        createContact(input: { contact: $contactInput }) {\n          contact {\n            ...ContactItem\n          }\n        }\n      }\n    ':
@@ -126,6 +130,8 @@ const documents: Documents = {
     types.InviteDocument,
   '\n      mutation profilePictureSet($uploadId: UUID!) {\n        profilePictureSet(input: { uploadId: $uploadId }) {\n          clientMutationId\n        }\n      }\n    ':
     types.ProfilePictureSetDocument,
+  '\n      mutation createReport($reportInput: ReportInput!) {\n        createReport(input: { report: $reportInput }) {\n          clientMutationId\n        }\n      }\n    ':
+    types.CreateReportDocument,
   '\n      mutation uploadCreate($uploadCreateInput: UploadCreateInput!) {\n        uploadCreate(input: $uploadCreateInput) {\n          clientMutationId\n          upload {\n            id\n          }\n        }\n      }\n    ':
     types.UploadCreateDocument,
   '\n  query accountById($id: UUID!) {\n    accountById(id: $id) {\n      ...AccountItem\n    }\n  }\n':
@@ -288,6 +294,12 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+  source: '\n      mutation createAccountBlock($accountBlockInput: AccountBlockInput!) {\n        createAccountBlock(input: { accountBlock: $accountBlockInput }) {\n          clientMutationId\n        }\n      }\n    ',
+): (typeof documents)['\n      mutation createAccountBlock($accountBlockInput: AccountBlockInput!) {\n        createAccountBlock(input: { accountBlock: $accountBlockInput }) {\n          clientMutationId\n        }\n      }\n    ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
   source: '\n      mutation achievementUnlock($code: UUID!, $alias: String!) {\n        achievementUnlock(input: { code: $code, alias: $alias }) {\n          clientMutationId\n          uuid\n        }\n      }\n    ',
 ): (typeof documents)['\n      mutation achievementUnlock($code: UUID!, $alias: String!) {\n        achievementUnlock(input: { code: $code, alias: $alias }) {\n          clientMutationId\n          uuid\n        }\n      }\n    ']
 /**
@@ -362,6 +374,12 @@ export function graphql(
 export function graphql(
   source: '\n      mutation profilePictureSet($uploadId: UUID!) {\n        profilePictureSet(input: { uploadId: $uploadId }) {\n          clientMutationId\n        }\n      }\n    ',
 ): (typeof documents)['\n      mutation profilePictureSet($uploadId: UUID!) {\n        profilePictureSet(input: { uploadId: $uploadId }) {\n          clientMutationId\n        }\n      }\n    ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation createReport($reportInput: ReportInput!) {\n        createReport(input: { report: $reportInput }) {\n          clientMutationId\n        }\n      }\n    ',
+): (typeof documents)['\n      mutation createReport($reportInput: ReportInput!) {\n        createReport(input: { report: $reportInput }) {\n          clientMutationId\n        }\n      }\n    ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

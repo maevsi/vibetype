@@ -3,6 +3,7 @@
     class="flex h-screen flex-col"
     :data-is-loading="isLoading"
     data-testid="is-loading"
+    vaul-drawer-wrapper
   >
     <NuxtLoadingIndicator />
     <LazyClientOnly>

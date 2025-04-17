@@ -1,6 +1,7 @@
 {
   "globalAvailabilityNotYet": "Noch nicht verfügbar.",
   "globalError": "Fehler",
+  "globalErrorNoData": "Antwort ohne Daten",
   "globalLoading": "Lade...",
   "globalPlaceholderAddress": "Veranstaltungsstraße 1,\n12345 Gaststadt",
   "globalPlaceholderFirstName": "Vorname",
