@@ -3,12 +3,13 @@
     class="flex h-screen flex-col"
     :data-is-loading="isLoading"
     data-testid="is-loading"
+    vaul-drawer-wrapper
   >
     <NuxtLoadingIndicator />
     <LazyClientOnly>
       <CardStateInfo
         v-if="!isBrowserSupported && !runtimeConfig.public.vio.isTesting"
-        class="rounded-none"
+        class="shrink-0 rounded-none"
       >
         <i18n-t keypath="browserUnsupported">
           <template #link>

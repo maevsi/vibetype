@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center gap-4">
-    <Form
+    <AppForm
       :errors="api.errors"
       :errors-pg-ids="{
         postgres22023: t('postgres22023'),
@@ -23,10 +23,13 @@
         @input="form.emailAddress = $event"
       />
       <FormInputPassword
+        id="password"
         :form-input="v$.password"
+        is-strength-shown
         @input="form.password = $event"
       />
       <FormInputPassword
+        id="password-repetition"
         :form-input="v$.passwordRepetition"
         :title="t('passwordRepetition')"
         @input="form.passwordRepetition = $event"
@@ -41,7 +44,7 @@
           {{ t('accountDeletionNotice') }}
         </FormInputStateInfo>
       </template>
-    </Form>
+    </AppForm>
     <ButtonColored
       :aria-label="t('signIn')"
       class="w-full"

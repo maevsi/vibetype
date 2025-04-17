@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Form
+    <AppForm
       :errors="api.errors"
       :form="v$"
       :is-form-sent="isFormSent"
@@ -94,17 +94,14 @@
         :value="v$.visibility"
         @input="form.visibility = $event as EventVisibility"
       >
-        <FormRadioButtonGroup
-          :id="`${SITE_NAME}-${
-            runtimeConfig.public.vio.isInProduction ? 'prod' : 'dev'
-          }-input-visibility`"
-          v-model="v$.visibility.$model"
-          name="visibility"
-          :options="[
-            { title: t('visibilityPublic'), value: EventVisibility.Public },
-            { title: t('visibilityPrivate'), value: EventVisibility.Private },
-            { title: t('visibilityUnlisted'), value: EventVisibility.Unlisted },
+        <AppRadioGroup
+          :default-value="v$.visibility.$model"
+          :items="[
+            { label: t('visibilityPublic'), value: EventVisibility.Public },
+            { label: t('visibilityPrivate'), value: EventVisibility.Private },
+            { label: t('visibilityUnlisted'), value: EventVisibility.Unlisted },
           ]"
+          name="visibility"
         />
         <template #stateError>
           <FormInputStateError
@@ -244,7 +241,7 @@
           </FormInputStateError>
         </template>
       </FormInput>
-    </Form>
+    </AppForm>
     <Modal id="ModalDateTimeStart">
       <div class="flex justify-center">
         <DatePicker
@@ -280,7 +277,6 @@
 
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core'
-import slugify from 'slugify'
 import { DatePicker } from 'v-calendar'
 import { LocalStorageStrategy } from '~/utils/storage/LocalStorageStrategy'
 import { useCreateEventMutation } from '~~/gql/documents/mutations/event/eventCreate'
@@ -297,7 +293,6 @@ const { event } = defineProps<{
 const localePath = useLocalePath()
 const { locale, t } = useI18n()
 const store = useStore()
-const runtimeConfig = useRuntimeConfig()
 const colorMode = useColorMode()
 const dateTime = useDateTime()
 const timezone = useTimezone()
@@ -335,9 +330,9 @@ const dateTimeFormatter = (x?: string) =>
         timeZone: timezone,
       })
     : undefined
-const onInputName = ($event: string) => {
+const onInputName = async ($event: string) => {
   v$.value.name.$model = $event
-  updateSlug()
+  await updateSlug()
 }
 const submit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
@@ -424,7 +419,9 @@ const updateForm = (data?: Pick<EventItemFragment, 'name' | 'slug'>) => {
   }
 }
 
-const updateSlug = () => {
+const updateSlug = async () => {
+  const slugify = (await import('slugify')).default
+
   form.slug = slugify(form.name ?? '', {
     lower: true,
     strict: true,

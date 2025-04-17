@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <AppForm
     v-if="event"
     class="flex min-h-0 flex-col"
     :errors="api.errors"
@@ -78,7 +78,7 @@
       </Button>
       <!-- </div> -->
     </AppScrollContainer>
-  </Form>
+  </AppForm>
 </template>
 
 <script setup lang="ts">

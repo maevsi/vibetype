@@ -46,6 +46,7 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxtjs/color-mode',
     '@nuxtjs/html-validator',
+    'nuxt-zod-i18n', // most come before `@nuxtjs/i18n`
     '@nuxtjs/i18n',
     '@nuxtjs/mdc',
     '@nuxtjs/seo',
@@ -212,7 +213,6 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: [
-        '@headlessui/vue',
         '@sentry/nuxt',
         '@tiptap/extension-link',
         '@tiptap/extension-text-align',
@@ -220,6 +220,7 @@ export default defineNuxtConfig({
         '@tiptap/vue-3',
         '@uppy/core',
         '@uppy/tus',
+        '@vee-validate/zod',
         '@vuelidate/core',
         '@vueuse/core',
         'chart.js',
@@ -234,6 +235,7 @@ export default defineNuxtConfig({
         'isomorphic-dompurify',
         'js-confetti',
         'lodash-es',
+        'lucide-vue-next',
         'mustache',
         'pretty-bytes',
         'prntr',
@@ -243,10 +245,13 @@ export default defineNuxtConfig({
         'slugify',
         'tailwind-merge',
         'v-calendar',
+        'vaul-vue',
+        'vee-validate',
         'vue-advanced-cropper',
         'vue-chartjs',
         'vue-qrcode-reader',
         'workbox-precaching',
+        'zod',
       ],
     },
     plugins: [

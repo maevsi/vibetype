@@ -1,3 +1,86 @@
+## [10.9.0](https://github.com/maevsi/vibetype/compare/10.8.1...10.9.0) (2025-04-17)
+
+### Features
+
+* **event:** add report ([e609447](https://github.com/maevsi/vibetype/commit/e60944782ae7063afbb56b66083c300c98e09d95))
+
+## [10.8.1](https://github.com/maevsi/vibetype/compare/10.8.0...10.8.1) (2025-04-16)
+
+### Bug Fixes
+
+* **guest:** correct preview navigation ([#1887](https://github.com/maevsi/vibetype/issues/1887)) ([6c58e66](https://github.com/maevsi/vibetype/commit/6c58e66feed30af5474e615f16bd2ee289a8c13d))
+
+## [10.8.0](https://github.com/maevsi/vibetype/compare/10.7.0...10.8.0) (2025-04-15)
+
+### Features
+
+* **components:** use shadcn-nuxt's downdown ([ac456c5](https://github.com/maevsi/vibetype/commit/ac456c5348830d8b24d2551c78c0ca296d4aac38))
+
+### Bug Fixes
+
+* revert "chore(assets): remove unused css variables" ([b217ad3](https://github.com/maevsi/vibetype/commit/b217ad37aa510c8228308ff7208563804aef0fea))
+
+## [10.7.0](https://github.com/maevsi/vibetype/compare/10.6.0...10.7.0) (2025-04-15)
+
+### Features
+
+* **components:** replace headless ui with shadcn-nuxt for radio input ([776cfa0](https://github.com/maevsi/vibetype/commit/776cfa07c4e1bbe9b19d52bbbff6862c882fd2c4))
+
+## [10.6.0](https://github.com/maevsi/vibetype/compare/10.5.0...10.6.0) (2025-04-15)
+
+### Features
+
+* **components:** add label to search input ([f353f13](https://github.com/maevsi/vibetype/commit/f353f131d443b62b62024ed250403ab680082099))
+* **components:** correct search input icon ([542a168](https://github.com/maevsi/vibetype/commit/542a16811f0ba1c9b9010bfed9449bcc2a07e806))
+
+## [10.5.0](https://github.com/maevsi/vibetype/compare/10.4.0...10.5.0) (2025-04-15)
+
+### Features
+
+* **assets:** remove italic font style from placeholder ([6c3397e](https://github.com/maevsi/vibetype/commit/6c3397e53d48a8062e1930b3688199b5075bdfba))
+* **assets:** set ring on visible focus only ([0bdaec4](https://github.com/maevsi/vibetype/commit/0bdaec4b0382c349fe9c6626f9a02685e7d54289))
+* **components:** add `secondary-critical` variant to colored button ([0e0b5be](https://github.com/maevsi/vibetype/commit/0e0b5be7665806b6c202d72309b7059d3562511d))
+* **components:** set theme color for focus ring ([fe1ef00](https://github.com/maevsi/vibetype/commit/fe1ef00d325bb68b71ed4e64415f530a049945c3))
+* **components:** set theme color for tailwind ([6cdee4a](https://github.com/maevsi/vibetype/commit/6cdee4a4727b36b0ec38811c3d2ba67efee9e2a7))
+* **pages:** use tertiary button for app installation ([e07e424](https://github.com/maevsi/vibetype/commit/e07e4246109f25d305b9e8cdb8eb3e8bf9bd6a87))
+
+### Bug Fixes
+
+* **app:** don't shrink compatibility banner ([d51c45c](https://github.com/maevsi/vibetype/commit/d51c45cdb6a865ac32658875f7cff20f62a46507))
+* **components:** correct search input styling ([213d676](https://github.com/maevsi/vibetype/commit/213d67656498f584e5e0b662004fd9dfca869e6a))
+* **event:** move name out of header image ([7eb3b84](https://github.com/maevsi/vibetype/commit/7eb3b84caa74cd7461905e82ed678a2969c34f78))
+
+## [10.4.0](https://github.com/maevsi/vibetype/compare/10.3.0...10.4.0) (2025-04-15)
+
+### Features
+
+* **content:** remove end note for terms of use ([0b8a617](https://github.com/maevsi/vibetype/commit/0b8a6177867fdb8b78ee754244e380e7d722828a))
+
+### Bug Fixes
+
+* **account:** correct padding for legal consent ([2b754af](https://github.com/maevsi/vibetype/commit/2b754af5dfb822088812e08a2d41d0e7a01771e8))
+* **account:** correct text wrapping in table ([125fac5](https://github.com/maevsi/vibetype/commit/125fac5856ce59325b565a14380b1d16c3437aad))
+* **components:** deduplciate password input id for registration ([746e510](https://github.com/maevsi/vibetype/commit/746e5107e94fed9482d85798a49eea1a6bbc5543))
+* **content:** correct title hierarchy for privacy consent ([229e8aa](https://github.com/maevsi/vibetype/commit/229e8aa58dc63c634e45ce8ecf8e06220edf85b2))
+
+## [10.3.0](https://github.com/maevsi/vibetype/compare/10.2.0...10.3.0) (2025-04-14)
+
+### Features
+
+* **content:** update code of conduct ([#1879](https://github.com/maevsi/vibetype/issues/1879)) ([7bb9a72](https://github.com/maevsi/vibetype/commit/7bb9a7285e7d690cdbe54db41474bc10153e7a9e))
+
+## [10.2.0](https://github.com/maevsi/vibetype/compare/10.1.1...10.2.0) (2025-04-11)
+
+### Features
+
+* **account:** indicate password strength at registation ([ba2d0ce](https://github.com/maevsi/vibetype/commit/ba2d0ce8fb8d75f8ad7a46d97c8d9a82fb4d1de4))
+
+## [10.1.1](https://github.com/maevsi/vibetype/compare/10.1.0...10.1.1) (2025-04-11)
+
+### Bug Fixes
+
+* **account:** remove button for email confirmation ([43e6e49](https://github.com/maevsi/vibetype/commit/43e6e4994671225233ac521e8d8029660084cffa))
+
 ## [10.1.0](https://github.com/maevsi/vibetype/compare/10.0.2...10.1.0) (2025-04-10)
 
 ### Features
