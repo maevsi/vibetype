@@ -8,6 +8,15 @@
     :value="formInput"
     @input="emit('input', $event)"
   >
+    <template #clearButton>
+      <ButtonIcon
+        :aria-label="t('iconAltClose')"
+        class="hidden flex-shrink-0 px-2 text-(--semantic-critic-text) peer-[:not([data-empty='true'])]:block"
+        @click="emit('input', '')"
+      >
+        <IVibetypeClose :aria-label="t('iconAltClose')" class="size-6" />
+      </ButtonIcon>
+    </template>
     <template #stateError>
       <FormInputStateError
         :form-input="formInput"
@@ -62,6 +71,8 @@ const { t } = useI18n()
 <i18n lang="yaml">
 de:
   emailAddress: E-Mail-Adresse
+  iconAltClose: X-Icon
 en:
   emailAddress: Email address
+  iconAltClose: X icon
 </i18n>

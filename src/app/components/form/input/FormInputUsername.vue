@@ -12,8 +12,22 @@
     :value="formInput"
     @input="emit('input', $event)"
   >
-    <template v-if="$slots.icon" #icon>
-      <slot name="icon" />
+    <template #clearButton>
+      <ButtonIcon
+        :aria-label="t('iconAltClose')"
+        class="hidden flex-shrink-0 px-2 text-(--semantic-critic-text) peer-[:not([data-empty='true'])]:block"
+        @click="emit('input', '')"
+      >
+        <IVibetypeClose
+          :aria-label="t('iconAltClose')"
+          class="size-6 text-(--semantic-critic-text)"
+        />
+      </ButtonIcon>
+    </template>
+    <template #icon>
+      <div class="flex flex-row gap-1">
+        <slot v-if="$slots.icon" name="icon" />
+      </div>
     </template>
     <template #stateError>
       <FormInputStateError
@@ -100,10 +114,12 @@ const { t } = useI18n()
 
 <i18n lang="yaml">
 de:
+  iconAltClose: X-Icon
   username: Nutzername
   validationExistenceHint: Hast du Groß- und Kleinbuchstaben richtig verwendet?
   validationFormat: Darf nur Buchstaben, Ziffern und Bindestriche enthalten.
 en:
+  iconAltClose: X icon
   username: Username
   validationExistenceHint: Have you used upper and lower case letters correctly?
   validationFormat: May only contain letter, digits and dashes.

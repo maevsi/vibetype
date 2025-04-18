@@ -11,23 +11,23 @@
     <template v-if="isStrengthShown" #inputSuffix>
       <Progress :model-value="strength" class="my-2" />
     </template>
-    <template #icon>
-      <IVibetypeClose
-        v-if="
-          (formInput.sameAs && formInput.sameAs.$invalid && formInput.$dirty) ||
-          (formInput.lengthMin &&
-            formInput.lengthMin.$invalid &&
-            formInput.$dirty)
-        "
+    <template #clearButton>
+      <ButtonIcon
         :aria-label="t('iconAltClose')"
-        class="size-6 cursor-pointer text-(--semantic-critic-text)"
-        :title="t('validNot')"
+        class="hidden flex-shrink-0 text-(--semantic-critic-text) peer-[:not([data-empty='true'])]:block"
         @click="emit('input', '')"
-      />
-      <template v-else>
+      >
+        <IVibetypeClose
+          :aria-label="t('iconAltClose')"
+          class="size-6 text-(--semantic-critic-text)"
+        />
+      </ButtonIcon>
+    </template>
+    <template #icon>
+      <div class="flex flex-row gap-1">
         <IHeroiconsEye v-if="!isVisible" />
         <IHeroiconsEyeSlash v-else />
-      </template>
+      </div>
     </template>
     <template #stateError>
       <FormInputStateError
@@ -95,11 +95,9 @@ de:
   password: Passwort
   validationFormat: Muss {length} Zeichen lang sein
   validationSameAs: Die Passwörter stimmen nicht überein
-  validNot: Ungültig
 en:
   iconAltClose: X icon
   password: Password
   validationFormat: Must be {length} characters long
   validationSameAs: The passwords do not match
-  validNot: invalid
 </i18n>

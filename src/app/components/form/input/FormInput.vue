@@ -30,8 +30,9 @@
         >
           <input
             :id="idLabelFull"
-            class="flex-grow border-none px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-0 focus:outline-none"
+            class="peer flex-grow border-none px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-0 focus:outline-none"
             :aria-invalid="value?.$error"
+            :data-empty="!value?.$model"
             :disabled="isDisabled"
             :placeholder="placeholder"
             :readonly="isReadonly"
@@ -41,6 +42,15 @@
             @focusout="value?.$touch()"
             @input="emit('input', ($event.target as HTMLInputElement)?.value)"
           />
+          <slot name="clearButton">
+            <ButtonIcon
+              :aria-label="t('iconAltClose')"
+              class="hidden flex-shrink-0 text-(--semantic-accent-accent-icon) peer-[:not([data-empty='true'])]:block"
+              @click="emit('input', '')"
+            >
+              <IVibetypeClose :aria-label="t('iconAltClose')" class="size-6" />
+            </ButtonIcon>
+          </slot>
           <div v-if="validationProperty && isValidatable">
             <FormInputIconWrapper v-if="validationProperty.$pending">
               <ISolarHourglassBold
@@ -63,11 +73,9 @@
                 !!validationProperty.$model && validationProperty.$invalid
               "
             >
-              <IVibetypeClose
-                :aria-label="t('iconAltClose')"
-                class="size-6 cursor-pointer text-(--semantic-critic-text)"
+              <IHeroiconsExclamationCircleSolid
+                class="text-(--semantic-critic-text)"
                 :title="t('validNot')"
-                @click="emit('input', '')"
               />
             </FormInputIconWrapper>
           </div>
