@@ -1,11 +1,6 @@
 <template>
   <div class="flex flex-col items-center gap-4">
     <AppForm
-      :errors="api.errors"
-      :errors-pg-ids="{
-        postgres22023: t('postgres22023'),
-        postgres23505: t('postgres23505'),
-      }"
       :form="v$"
       form-class="w-full"
       :is-form-sent="isFormSent"
@@ -70,7 +65,6 @@ const emit = defineEmits<{
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
 const accountRegistrationMutation = useAccountRegistrationMutation()
-const api = getApiData([accountRegistrationMutation])
 const form = reactive({
   captcha: ref<string>(),
   emailAddress: ref<string>(),
@@ -98,7 +92,13 @@ const submit = async (termId: string) => {
       },
     },
   )
-  if (result.error || !result.data) return
+  if (result.error || !result.data) {
+    return navigateTo(
+      localePath({
+        name: 'account-error',
+      }),
+    )
+  }
   emit('success')
 }
 const submitEmit = async () => {
@@ -131,15 +131,11 @@ defineExpose({
 de:
   accountDeletionNotice: Du wirst deinen Account jederzeit löschen können.
   passwordRepetition: Passwort bestätigen
-  postgres22023: Das Passwort ist zu kurz! Überlege dir ein längeres.
-  postgres23505: Es gibt bereits einen Account mit diesem Nutzernamen! Überlege dir einen neuen Namen oder versuche dich anzumelden.
   register: Registrieren
   signIn: 'Du hast bereits ein Konto? Anmelden'
 en:
   accountDeletionNotice: "You'll be able to delete your account at any time."
   passwordRepetition: Confirm password
-  postgres22023: Your password is too short! Think of a longer one.
-  postgres23505: This username is already in use! Think of a new name or try signing in instead.
   register: Sign Up
   signIn: Already have an account? Log in
 </i18n>
