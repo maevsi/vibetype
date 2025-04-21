@@ -2,16 +2,20 @@
   <div class="flex grow flex-col gap-10 pb-5">
     <div class="flex flex-col">
       <LayoutTopBar>
-        {{ t('title') }}
+        {{ title }}
       </LayoutTopBar>
       <CardStateInfo v-if="to" class="rounded-none">
         {{ t('accountRequired') }}
       </CardStateInfo>
     </div>
     <div class="flex justify-center px-6">
-      <FormAccountSignIn class="max-w-sm grow" @signed-in="onSignIn" />
+      <FormAccountSignIn
+        class="max-w-sm grow"
+        @signed-in="onSignIn"
+        @error-visible="errorVisible = $event"
+      />
     </div>
-    <ContentLegalFooter />
+    <ContentLegalFooter v-show="!errorVisible" />
   </div>
 </template>
 
@@ -24,9 +28,10 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 const route = useRoute()
 const store = useStore()
+const errorVisible = ref(false)
 
 // data
-const title = t('title')
+const title = computed(() => (errorVisible.value ? t('error') : t('title')))
 
 // computations
 const to = computed(() =>
@@ -58,8 +63,10 @@ useHeadDefault({ title })
 <i18n lang="yaml">
 de:
   accountRequired: Melde dich an, um fortzufahren.
+  error: Fehler
   title: Einloggen
 en:
   accountRequired: Log in to continue.
+  error: Error
   title: Log in
 </i18n>

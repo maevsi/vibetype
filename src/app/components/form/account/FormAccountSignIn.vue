@@ -1,43 +1,46 @@
 <template>
-  <div class="flex flex-col items-center gap-4">
-    <AppForm
-      :form="v$"
-      form-class="w-full"
-      :is-form-sent="isFormSent"
-      :submit-name="t('signIn')"
-      @submit.prevent="submit"
-    >
-      <FormInputEmailAddress
-        :form-input="v$.username"
-        @input="form.username = $event"
-      />
-      <!-- TODO: allow for username too -->
-      <FormInputPassword
-        :form-input="v$.password"
-        @input="form.password = $event"
-      />
-      <FormInputCaptcha
-        :form-input="v$.captcha"
-        is-centered
-        @input="form.captcha = $event"
-      />
-    </AppForm>
-    <ButtonColored
-      :aria-label="t('register')"
-      class="w-full"
-      :to="localePath('account-create')"
-      variant="secondary"
-    >
-      {{ t('register') }}
-    </ButtonColored>
-    <ButtonColored
-      :aria-label="t('passwordReset')"
-      class="w-full"
-      :to="localePath('account-password-reset-request')"
-      variant="tertiary"
-    >
-      {{ t('passwordReset') }}
-    </ButtonColored>
+  <div>
+    <div v-if="!errorVisible" class="flex flex-col items-center gap-4">
+      <AppForm
+        :form="v$"
+        form-class="w-full"
+        :is-form-sent="isFormSent"
+        :submit-name="t('signIn')"
+        @submit.prevent="submit"
+      >
+        <FormInputEmailAddress
+          :form-input="v$.username"
+          @input="form.username = $event"
+        />
+        <!-- TODO: allow for username too -->
+        <FormInputPassword
+          :form-input="v$.password"
+          @input="form.password = $event"
+        />
+        <FormInputCaptcha
+          :form-input="v$.captcha"
+          is-centered
+          @input="form.captcha = $event"
+        />
+      </AppForm>
+      <ButtonColored
+        :aria-label="t('register')"
+        class="w-full"
+        :to="localePath('account-create')"
+        variant="secondary"
+      >
+        {{ t('register') }}
+      </ButtonColored>
+      <ButtonColored
+        :aria-label="t('passwordReset')"
+        class="w-full"
+        :to="localePath('account-password-reset-request')"
+        variant="tertiary"
+      >
+        {{ t('passwordReset') }}
+      </ButtonColored>
+    </div>
+    <ErrorView v-else :is-visible="errorVisible" @close="onClose" />
   </div>
 </template>
 
@@ -47,6 +50,7 @@ import { useAuthenticateMutation } from '~~/gql/documents/mutations/account/acco
 
 const emit = defineEmits<{
   'signed-in': []
+  'error-visible': [boolean]
 }>()
 
 const fireAlert = useFireAlert()
@@ -61,6 +65,8 @@ const form = reactive({
   username: ref<string>(),
 })
 const isFormSent = ref(false)
+
+const errorVisible = ref(false)
 
 // api data
 const authenticateMutation = useAuthenticateMutation()
@@ -83,11 +89,9 @@ const submit = async () => {
     },
   )
   if (result.error) {
-    return navigateTo(
-      localePath({
-        name: 'account-error',
-      }),
-    )
+    errorVisible.value = true
+    emit('error-visible', true)
+    return
   }
   try {
     await jwtStore(result.data?.authenticate?.jwt)
@@ -101,6 +105,11 @@ const submit = async () => {
     return
   }
   emit('signed-in')
+}
+
+const onClose = () => {
+  errorVisible.value = false
+  emit('error-visible', false)
 }
 
 // vuelidate

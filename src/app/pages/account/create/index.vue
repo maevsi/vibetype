@@ -24,6 +24,7 @@
           class="max-w-sm grow"
           @submit="index++"
           @success="index++"
+          @error="index = -1"
         />
       </div>
       <ContentLegalFooter />
@@ -65,6 +66,11 @@
         {{ t('verificationButton') }}
       </ButtonColored>
     </div>
+    <ErrorView
+      :class="{
+        hidden: index !== -1,
+      }"
+    />
   </div>
 </template>
 
@@ -95,6 +101,8 @@ const title = computed(() => {
       return t('titlePrivacy')
     case 3:
       return t('titleVerification')
+    case -1:
+      return t('error')
     default:
       consola.error('Unexpected account flow state')
       return ''
@@ -110,6 +118,7 @@ de:
   agreeTerms: Ich stimme den Allgemeinen Geschäftsbedingungen zu
   agreePrivacy: Ich stimme der Datenschutzerklärung zu
   back: zurück
+  error: Fehler
   titleForm: Erstelle ein Konto
   titlePrivacy: Datenschutzbestimmungen
   titleTerms: Geschäftsbedingungen
@@ -120,6 +129,7 @@ en:
   agreeTerms: I agree to the Terms and Conditions
   agreePrivacy: I agree to the Privacy Policy
   back: back
+  error: Error
   titleForm: Create an account
   titlePrivacy: Privacy Policy
   titleTerms: General Terms and Conditions

@@ -60,6 +60,7 @@ import { useAccountRegistrationMutation } from '~~/gql/documents/mutations/accou
 const emit = defineEmits<{
   submit: []
   success: []
+  error: [boolean]
 }>()
 
 const { locale, t } = useI18n()
@@ -93,11 +94,8 @@ const submit = async (termId: string) => {
     },
   )
   if (result.error || !result.data) {
-    return navigateTo(
-      localePath({
-        name: 'account-error',
-      }),
-    )
+    emit('error', true)
+    return
   }
   emit('success')
 }
