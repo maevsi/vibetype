@@ -8,11 +8,7 @@
             class="flex flex-col items-center"
             @click="shareToInstagram"
           >
-            <img
-              src="~/assets/icons/social-instagram.svg"
-              class="h-12 w-12 cursor-pointer"
-              :alt="t('iconAltInstagram')"
-            />
+            <IVibetypeColoredInstagram class="size-12" />
             <span class="mt-2 text-sm">{{ t('instagram') }}</span>
           </button>
         </div>
@@ -23,11 +19,7 @@
           class="flex flex-col items-center"
           @click="shareToFacebook"
         >
-          <img
-            src="~/assets/icons/social-facebook.svg"
-            class="h-12 w-12 cursor-pointer"
-            :alt="t('iconAltFacebook')"
-          />
+          <IVibetypeColoredFacebook class="size-12" />
           <span class="mt-2 text-sm">{{ t('facebook') }}</span>
         </button>
       </div>
@@ -37,11 +29,7 @@
           class="flex flex-col items-center"
           @click="shareToTelegram"
         >
-          <img
-            src="~/assets/icons/social-telegram.svg"
-            class="h-12 w-12 cursor-pointer"
-            :alt="t('iconAltTelegram')"
-          />
+          <IVibetypeColoredTelegram class="size-12" />
           <span class="mt-2 text-sm">{{ t('telegram') }}</span>
         </button>
       </div>
@@ -51,11 +39,7 @@
           class="flex flex-col items-center"
           @click="shareToWhatsapp"
         >
-          <img
-            src="~/assets/icons/social-whatsapp.svg"
-            class="h-12 w-12 cursor-pointer"
-            :alt="t('iconAltWhatsapp')"
-          />
+          <IVibetypeColoredWhatsapp class="size-12" />
           <span class="mt-2 text-sm">{{ t('whatsapp') }}</span>
         </button>
       </div>
@@ -67,11 +51,7 @@
           class="flex flex-col items-center"
           @click="copyToClipboard"
         >
-          <img
-            src="~/assets/icons/social-copy.svg"
-            class="h-14 w-14 cursor-pointer p-2"
-            :alt="t('iconAltCopyLink')"
-          />
+          <IVibetypeColoredCopyLink class="size-12" />
           <span class="mt-2 text-sm">{{ copyButtonText }}</span>
         </button>
       </div>
