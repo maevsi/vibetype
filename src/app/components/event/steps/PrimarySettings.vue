@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-6">
+  <div class="flex flex-col gap-6">
     <p class="mb-4 text-sm text-gray-500">
       {{ t('allFieldsRequired') }}
     </p>

@@ -37,7 +37,7 @@
           <h2 class="mb-2 text-2xl font-bold">
             {{ stepTitles[stepIndex - 1] }}
           </h2>
-          <div class="space-y-6">
+          <div class="flex flex-col gap-6">
             <EventStepsPrimarySettings
               v-if="stepIndex === 1"
               :form="form"

@@ -1,6 +1,6 @@
 <template>
-  <div class="mt-8 space-y-4">
-    <div class="w-full space-y-2">
+  <div class="mt-8 flex flex-col gap-4">
+    <div class="flex w-full flex-col gap-2">
       <h2 class="mb-4 text-xl dark:text-[--semantic-base-text-primary]">
         {{ t('startDateTime') }}
       </h2>
@@ -118,7 +118,7 @@
     <div
       class="rounded-3xl border border-gray-100 bg-white p-4 shadow-sm dark:border-[--semantic-base-line] dark:bg-[--semantic-base-background]"
     >
-      <div class="space-y-6">
+      <div class="flex flex-col gap-6">
         <div
           class="border-b border-gray-100 pb-4 dark:border-[--semantic-base-line]"
         >

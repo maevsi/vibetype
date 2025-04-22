@@ -1,11 +1,11 @@
 <template>
-  <div class="mt-16 space-y-6">
-    <div class="space-y-4">
-      <RadioGroup v-model="selectedVisibility" class="space-y-4">
+  <div class="mt-16 flex flex-col gap-6">
+    <div class="flex flex-col gap-4">
+      <RadioGroup v-model="selectedVisibility" class="flex flex-col gap-6">
         <div class="w-full">
           <div class="flex items-start space-x-3">
             <RadioGroupItem value="PUBLIC" />
-            <div class="w-full space-y-1">
+            <div class="flex w-full flex-col gap-1">
               <p class="text-lg font-medium">{{ t('public') }}</p>
               <p class="text-sm text-gray-500">{{ t('visibleByAnyone') }}</p>
               <div v-if="selectedVisibility === 'PUBLIC'" class="mt-4">
@@ -22,7 +22,7 @@
         <div class="w-full">
           <div class="flex items-start space-x-3">
             <RadioGroupItem value="PRIVATE" />
-            <div class="w-full space-y-1">
+            <div class="flex w-full flex-col gap-1">
               <p class="text-lg font-medium">{{ t('private') }}</p>
               <p class="text-sm text-gray-500">{{ t('visibleByInvited') }}</p>
               <div v-if="selectedVisibility === 'PRIVATE'" class="mt-4">
@@ -39,7 +39,7 @@
         <div class="w-full">
           <div class="flex items-start space-x-3">
             <RadioGroupItem value="UNLISTED" />
-            <div class="w-full space-y-1">
+            <div class="flex w-full flex-col gap-1">
               <p class="text-lg font-medium">{{ t('unlisted') }}</p>
               <p class="text-sm text-gray-500">{{ t('visibleByLink') }}</p>
               <div v-if="selectedVisibility === 'UNLISTED'" class="mt-4">
