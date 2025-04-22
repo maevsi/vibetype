@@ -3,7 +3,7 @@
     class="sticky top-0 z-10 mb-8 flex h-15 items-center justify-between border-b border-(--semantic-base-line) bg-(--semantic-base-background) px-3 py-1.5 shadow-xs"
   >
     <div class="relative flex w-full items-center justify-between">
-      <div class="z-10 w-24 flex-shrink-0">
+      <div class="z-10 w-24 flex-shrink-0 lg:w-auto">
         <slot name="left">
           <ButtonIcon
             v-if="
@@ -36,7 +36,7 @@
         </slot>
       </div>
       <div
-        class="z-10 flex w-24 flex-shrink-0 items-center justify-end gap-2 whitespace-nowrap lg:gap-4"
+        class="z-10 flex w-24 flex-shrink-0 items-center justify-end gap-2 whitespace-nowrap lg:w-auto lg:gap-4"
       >
         <slot name="right">
           <template v-if="!showButtons">
