@@ -44,7 +44,7 @@
         <input
           v-model="time"
           type="time"
-          class="w-full border-0 px-0 py-2 text-xl text-gray-600 placeholder:text-gray-400 focus:border-transparent focus:ring-0 focus:outline-none dark:bg-[--semantic-base-background] dark:text-[--semantic-base-text-primary] dark:placeholder:text-[--semantic-base-text-secondary]"
+          class="w-full border-0 px-0 py-2 text-xl text-gray-600 placeholder:text-gray-400 focus:border-transparent focus:ring-0 focus:outline-none dark:bg-(--semantic-base-background) dark:text-(--semantic-base-text-primary) dark:placeholder:text-(--semantic-base-text-secondary)"
           placeholder="10:00"
         />
       </div>
