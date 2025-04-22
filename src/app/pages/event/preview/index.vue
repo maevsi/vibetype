@@ -203,20 +203,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import Tus from '@uppy/tus'
+import Uppy from '@uppy/core'
 import { Share, Heart, MoreHorizontal, Grid, Image } from 'lucide-vue-next'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from '@/components/scn/carousel'
 import type { EventStorageStrategy } from '~/types/events/EventStorageStrategy'
-import { LocalStorageStrategy } from '~/utils/storage/LocalStorageStrategy'
 import { useCreateEventMutation } from '~~/gql/documents/mutations/event/eventCreate'
 import { useUploadCreateMutation } from '~~/gql/documents/mutations/upload/uploadCreate'
 import { EventVisibility } from '~~/gql/generated/graphql'
-import Tus from '@uppy/tus'
-import Uppy from '@uppy/core'
 
 const { locale, t } = useI18n()
 const currentSlide = ref(0)
