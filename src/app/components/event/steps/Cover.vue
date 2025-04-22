@@ -12,9 +12,9 @@
       />
       <template v-else>
         <EventFilePreviewGrid
+          v-model="selectedCover"
           :files="selectedFiles"
           :preview-urls="previewUrls"
-          v-model="selectedCover"
           @remove="removeFile"
         />
         <div class="mt-4 flex items-center justify-between">
