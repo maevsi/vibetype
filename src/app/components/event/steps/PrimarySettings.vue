@@ -167,11 +167,9 @@
 
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
-import { ref } from 'vue'
 import { ChevronDown } from 'lucide-vue-next'
 import slugify from 'slugify'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
-import { useEventForm } from '~/composables/useEventForm'
 // import { useEventCategoriesQuery } from '~~/gql/documents/queries/event/eventCategories'
 
 const { form: eventForm, v$, updateFormName } = useEventForm()

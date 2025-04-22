@@ -1,5 +1,3 @@
-import { ref, readonly } from 'vue'
-
 const headerTitle = ref('')
 
 export function useHeaderTitle() {

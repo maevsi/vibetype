@@ -163,20 +163,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Calendar } from '~/components/scn/calendar'
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from '~/components/scn/popover'
-import { CalendarIcon, ChevronDown } from 'lucide-vue-next'
 import type { CalendarDate } from '@internationalized/date'
 import { DateFormatter } from '@internationalized/date'
-import { toDate } from 'reka-ui/date'
 import type { BaseValidation } from '@vuelidate/core'
-
-import { useEventForm } from '~/composables/useEventForm'
+import { CalendarIcon, ChevronDown } from 'lucide-vue-next'
+import { toDate } from 'reka-ui/date'
 const { form: eventForm } = useEventForm()
 const { t } = useI18n()
 
