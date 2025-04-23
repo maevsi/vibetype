@@ -2,7 +2,9 @@
   <section class="flex flex-1 flex-col gap-10">
     <LayoutPageContent>
       <LayoutPageResult type="error">
-        <template #description>{{ t('description') }}</template>
+        <template #description>
+          {{ props.description ?? t('description') }}</template
+        >
       </LayoutPageResult>
       <template #bottom-navigation-extension>
         <ButtonColored
@@ -23,13 +25,24 @@
 definePageMeta({
   layout: 'default-no-header',
 })
+
 const emit = defineEmits<{
   close: []
 }>()
 const localePath = useLocalePath()
 const { t } = useI18n()
-</script>
 
+const props = withDefaults(
+  defineProps<{
+    isVisible?: boolean
+    description?: string
+  }>(),
+  {
+    isVisible: false,
+    description: '',
+  },
+)
+</script>
 <i18n lang="yaml">
 de:
   description: Bitte versuche es erneut
