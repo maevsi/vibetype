@@ -17,7 +17,7 @@
   --muted-foreground: var(--semantic-base-text-primary);
   --accent: oklch(97% 0 0deg);
   --accent-foreground: oklch(20.5% 0 0deg);
-  --destructive: oklch(57.7% 0.245 27.325deg);
+  --destructive: var(--semantic-critic-weak);
   --destructive-foreground: var(--semantic-critic-text);
   --border: oklch(92.2% 0 0deg);
   --input: var(--semantic-base-line);
@@ -45,6 +45,7 @@
     --primary: oklch(20.5% 0 0deg);
     --muted: oklch(97% 0 0deg);
     --muted-foreground: oklch(55.6% 0 0deg);
+    --destructive: oklch(57.7% 0.245 27.325deg);
     --destructive-foreground: oklch(57.7% 0.245 27.325deg);
     --input: oklch(92.2% 0 0deg);
   */
@@ -60,7 +61,6 @@
   --muted: oklch(26.9% 0 0deg);
   --accent: oklch(26.9% 0 0deg);
   --accent-foreground: oklch(98.5% 0 0deg);
-  --destructive: oklch(39.6% 0.141 25.723deg);
   --border: oklch(26.9% 0 0deg);
   --ring: oklch(43.9% 0 0deg);
   --chart-1: oklch(48.8% 0.243 264.376deg);
@@ -84,6 +84,7 @@
     --popover-foreground: oklch(98.5% 0 0deg);
     --primary: oklch(98.5% 0 0deg);
     --muted-foreground: oklch(70.8% 0 0deg);
+    --destructive: oklch(39.6% 0.141 25.723deg);
     --destructive-foreground: oklch(63.7% 0.237 25.331deg);
     --input: oklch(26.9% 0 0deg);
   */

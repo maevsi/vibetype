@@ -5,7 +5,7 @@
       :aria-label="callToAction"
       :to="
         localePath({
-          path: '/session/create',
+          name: 'session-create',
           query: {
             to: route.fullPath,
           },

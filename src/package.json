@@ -23,6 +23,7 @@
     "@iconify-json/solar": "1.2.2",
     "@iconify/tools": "4.1.2",
     "@iconify/utils": "2.3.0",
+    "@mondaydotcomorg/api": "10.0.5",
     "@nuxt/content": "3.4.0",
     "@nuxt/devtools": "2.4.0",
     "@nuxt/image": "1.10.0",

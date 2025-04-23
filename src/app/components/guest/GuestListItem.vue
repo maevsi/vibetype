@@ -64,7 +64,11 @@
             @select="
               navigateTo(
                 localePath({
-                  path: `/event/view/${event.accountByCreatedBy.username}/${event.slug}`,
+                  name: 'event-view-username-event_name',
+                  params: {
+                    event_name: event.slug,
+                    username: event.accountByCreatedBy.username,
+                  },
                   query: { ic: guest.id },
                 }),
               )
