@@ -110,9 +110,12 @@
             <AppIconBug />
           </CardButton>
           <CardButton
-            is-external
             :title="t('contact')"
-            to="https://forms.monday.com/forms/74204ae8168ecb1dd44c15b502854a5a?r=euc1"
+            :to="
+              localePath({
+                name: 'support-contact',
+              })
+            "
           >
             <AppIconMail />
           </CardButton>
