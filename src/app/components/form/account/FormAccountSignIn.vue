@@ -98,12 +98,15 @@ const submit = async () => {
   if (result.error) {
     api.value.errors = [result.error]
     const pgError = result.error.graphQLErrors?.find(
-      (g) => g.errcode === '55000' || g.errcode === 'P0002',
+      (g) =>
+        (g as { errcode?: string }).errcode === '55000' ||
+        (g as { errcode?: string }).errcode === 'P0002',
     )
     if (pgError) {
-      if (pgError.errcode === '55000') {
+      const errcode = (pgError as { errcode?: string }).errcode
+      if (errcode === '55000') {
         errorDescription.value = t('postgres55000')
-      } else if (pgError.errcode === 'P0002') {
+      } else if (errcode === 'P0002') {
         errorDescription.value = t('postgresP0002')
       }
     } else {
