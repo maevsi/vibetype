@@ -1,5 +1,5 @@
 <template>
-  <Button
+  <AppButton
     v-for="colorScheme in [
       { name: 'system', title: t('colorSchemeSystem') },
       { name: 'light', title: t('colorSchemeLight') },
@@ -14,7 +14,7 @@
     @click="colorMode.preference = colorScheme.name"
   >
     {{ colorScheme.title }}
-  </Button>
+  </AppButton>
 </template>
 
 <script setup lang="ts">

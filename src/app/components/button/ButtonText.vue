@@ -1,5 +1,5 @@
 <template>
-  <Button
+  <AppButton
     v-bind="delegatedProps"
     :class="cn('px-4 py-2 font-medium whitespace-nowrap', classProps)"
     @click="emit('click')"
@@ -11,7 +11,7 @@
     <template #suffix>
       <slot name="suffix" />
     </template>
-  </Button>
+  </AppButton>
 </template>
 
 <script setup lang="ts">

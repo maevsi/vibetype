@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { WithClassAsProps } from './interface'
 import { cn } from '@/utils/shadcn'
-import { ShadButton, type ButtonVariants } from '@/components/scn/button'
+import { Button, type ButtonVariants } from '@/components/scn/button'
 import { ArrowLeft } from 'lucide-vue-next'
 import { useCarousel } from './useCarousel'
+
+const { t } = useI18n()
 
 const props = withDefaults(
   defineProps<
@@ -22,7 +24,7 @@ const { orientation, canScrollPrev, scrollPrev } = useCarousel()
 </script>
 
 <template>
-  <ShadButton
+  <Button
     data-slot="carousel-previous"
     :disabled="!canScrollPrev"
     :class="
@@ -40,6 +42,14 @@ const { orientation, canScrollPrev, scrollPrev } = useCarousel()
   >
     <slot>
       <ArrowLeft />
+      <span class="sr-only">{{ t('previous') }}</span>
     </slot>
-  </ShadButton>
+  </Button>
 </template>
+
+<i18n lang="yaml">
+de:
+  previous: Vorherige Folie
+en:
+  previous: Previous Slide
+</i18n>

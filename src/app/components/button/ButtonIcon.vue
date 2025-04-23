@@ -1,12 +1,12 @@
 <template>
-  <Button
+  <AppButton
     v-bind="delegatedProps"
     :class="cn('justify-center', classProps)"
     :title="ariaLabel"
     @click="emit('click')"
   >
     <slot />
-  </Button>
+  </AppButton>
 </template>
 
 <script setup lang="ts">

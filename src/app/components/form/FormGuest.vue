@@ -58,7 +58,7 @@
       @load-more="after = api.data.allContacts?.pageInfo.endCursor"
     >
       <!-- <div class="flex flex-col gap-2"> -->
-      <Button
+      <AppButton
         v-for="contact in contactsFiltered"
         :key="contact.id"
         :aria-label="t('buttonContact')"
@@ -75,7 +75,7 @@
             contactIdsComputed.includes(contact.id)
           "
         />
-      </Button>
+      </AppButton>
       <!-- </div> -->
     </AppScrollContainer>
   </AppForm>

@@ -252,12 +252,12 @@
         </ButtonIcon>
       </div>
       <!--
-      <Button
+      <AppButton
         :class="{ 'bg-background-bright dark:bg-background-dark': isActive.codeBlock }"
         @click="editor.chain().focus().toggleCodeBlock().run()"
       >
         code block
-      </Button> -->
+      </AppButton> -->
     </div>
     <EditorContent :editor="editor" />
   </div>
