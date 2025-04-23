@@ -1,10 +1,6 @@
 <template>
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
-    <LayoutTopBar>
-      <span :id="templateIdTitle">
-        {{ t('title') }}
-      </span>
-    </LayoutTopBar>
+    <LayoutHeader />
     <CardStateInfo v-if="to" class="rounded-none">
       {{ t('accountRequired') }}
     </CardStateInfo>
@@ -24,6 +20,7 @@ definePageMeta({
 const { t } = useI18n()
 const title = t('title')
 useHeadDefault({ title })
+useHeaderTitle(title)
 
 // template
 const templateIdTitle = useId()
@@ -32,6 +29,7 @@ const templateIdTitle = useId()
 const localePath = useLocalePath()
 const route = useRoute()
 const store = useStore()
+
 const to = computed(() =>
   route.query.to && !Array.isArray(route.query.to) ? route.query.to : undefined,
 )

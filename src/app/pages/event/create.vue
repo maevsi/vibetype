@@ -1,6 +1,5 @@
 <template>
   <div>
-    <LayoutPageTitle :is-button-event-create-shown="false" :title="title" />
     <FormEvent v-if="store.jwtDecoded?.role === `${SITE_NAME}_account`" />
     <LayoutCallToAction
       v-else
@@ -19,6 +18,7 @@ const title = t('title')
 
 // initialization
 useHeadDefault({ title })
+useHeaderTitle(title)
 </script>
 
 <i18n lang="yaml">

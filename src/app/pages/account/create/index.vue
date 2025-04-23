@@ -1,15 +1,6 @@
 <template>
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
-    <LayoutTopBar>
-      <span :id="templateIdTitle">
-        {{ title }}
-      </span>
-      <template v-if="[1, 2].includes(index)" #back>
-        <ButtonIcon :aria-label="t('back')" @click="index--">
-          <AppIconBack />
-        </ButtonIcon>
-      </template>
-    </LayoutTopBar>
+    <LayoutHeader />
     <AppStep v-slot="attributes" :is-active="index === 0">
       <LayoutPage v-bind="attributes">
         <FormAccountRegistration
@@ -63,6 +54,7 @@
 
 <script setup lang="ts">
 import { consola } from 'consola'
+import LayoutHeader from '~/components/layout/LayoutHeader.vue'
 
 definePageMeta({
   layout: 'plain',
@@ -94,6 +86,7 @@ const title = computed(() => {
 
 // page
 useHeadDefault({ title: title.value })
+useHeaderTitle(title.value)
 
 // legal term
 const legalTermId = ref<string>()
@@ -103,7 +96,6 @@ const legalTermId = ref<string>()
 de:
   agreeTerms: Ich stimme den Allgemeinen Geschäftsbedingungen zu
   agreePrivacy: Ich stimme der Datenschutzerklärung zu
-  back: zurück
   titleForm: Erstelle ein Konto
   titlePrivacy: Datenschutzbestimmungen
   titleTerms: Geschäftsbedingungen
@@ -113,7 +105,6 @@ de:
 en:
   agreeTerms: I agree to the Terms and Conditions
   agreePrivacy: I agree to the Privacy Policy
-  back: back
   titleForm: Create an account
   titlePrivacy: Privacy Policy
   titleTerms: General Terms and Conditions

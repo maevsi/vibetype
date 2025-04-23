@@ -1,6 +1,5 @@
 <template>
   <div>
-    <LayoutPageTitle :title="title" />
     <div class="flex flex-col gap-6">
       <section v-if="store.signedInUsername" class="flex flex-col gap-4">
         <span class="text-lg font-bold">{{ t('profile') }}</span>
@@ -195,6 +194,7 @@ const title = t('preferences')
 
 // initialization
 useHeadDefault({ title })
+useHeaderTitle(title)
 </script>
 
 <i18n lang="yaml">
