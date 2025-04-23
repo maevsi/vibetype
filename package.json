@@ -28,6 +28,7 @@
       "esbuild",
       "protobufjs",
       "sharp",
+      "unrs-resolver",
       "vue-demi"
     ]
   },

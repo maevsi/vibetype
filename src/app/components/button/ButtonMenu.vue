@@ -1,5 +1,5 @@
 <template>
-  <Button
+  <AppButton
     v-bind="delegatedProps"
     :class="[
       'p-4',
@@ -8,7 +8,7 @@
     @click="emit('onMenuHide')"
   >
     <slot />
-  </Button>
+  </AppButton>
 </template>
 
 <script setup lang="ts">

@@ -11,7 +11,7 @@
       <slot />
     </div>
     <div class="flex flex-1 flex-col">
-      <Button
+      <AppButton
         :aria-label="title"
         class="focus-visible:ring-0"
         :disabled="isDisabled"
@@ -23,7 +23,7 @@
         <span class="font-bold">
           {{ title }}
         </span>
-      </Button>
+      </AppButton>
       <span v-if="description" class="opacity-60">
         {{ description }}
       </span>

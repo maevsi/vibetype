@@ -1,5 +1,5 @@
 <template>
-  <Button
+  <AppButton
     v-bind="delegatedProps"
     :class="
       cn(
@@ -26,7 +26,7 @@
     <template #suffix>
       <slot name="suffix" />
     </template>
-  </Button>
+  </AppButton>
 </template>
 
 <script setup lang="ts">

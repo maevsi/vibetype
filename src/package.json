@@ -81,6 +81,7 @@
     "dayjs": "2.0.0-alpha.4",
     "defu": "6.1.4",
     "downloadjs": "1.4.7",
+    "embla-carousel-vue": "8.6.0",
     "eslint": "9.25.1",
     "firebase": "11.6.0",
     "firebase-admin": "13.3.0",
