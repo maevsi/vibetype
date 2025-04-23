@@ -1,7 +1,7 @@
 <template>
   <div class="flex grow flex-col items-center p-6">
     <div
-      class="flex max-w-sm flex-1 flex-col items-center justify-center gap-10"
+      class="flex max-w-md flex-1 flex-col items-center justify-center gap-10"
     >
       <div class="flex flex-col items-center gap-2">
         <TypographyH3>{{ t('welcome') }}</TypographyH3>

@@ -3,7 +3,7 @@
     <div class="flex flex-col gap-4">
       <LayoutPageTitle v-if="store.jwtDecoded" :title="route.params.username" />
       <section class="flex justify-center">
-        <Button
+        <AppButton
           :aria-label="t('profilePictureChange')"
           @click="showModalUploadSelection"
         >
@@ -16,7 +16,7 @@
             />
             <IHeroiconsPencil />
           </div>
-        </Button>
+        </AppButton>
         <ModalUploadSelection @select="onUploadSelect" />
       </section>
       <section>

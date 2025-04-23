@@ -12,13 +12,13 @@
       >
         <IHeroiconsChevronLeft />
       </ButtonIcon>
-      <Button
+      <AppButton
         :aria-label="t('home')"
         class="hidden 2xl:block"
         :to="localePath('index')"
       >
         <IconLogoWithText class="h-10" />
-      </Button>
+      </AppButton>
       <div class="hidden grow lg:block" />
 
       <div class="grow" />

@@ -48,25 +48,17 @@
               </template>
             </CardButton>
           </AppUnderConstruction>
-          <AppUnderConstruction>
-            <CardButton
-              class="border-(--warning-strong) bg-(--warning-weak) text-(--warning-text)"
-              :title="t('stopEarlyBird')"
-              :to="
-                localePath({
-                  name: 'account-edit-username',
-                  params: {
-                    username: store.signedInUsername,
-                  },
-                })
-              "
-            >
-              <AppIconEarlyBird />
-              <template #iconSecondary>
-                <AppIconClose />
-              </template>
-            </CardButton>
-          </AppUnderConstruction>
+          <CardButton
+            class="border-(--warning-strong) bg-(--warning-weak) text-(--warning-text)"
+            :title="t('earlyBirdStart')"
+            :to="localePath({ name: 'early-bird-create' })"
+          >
+            <AppIconEarlyBird />
+            <!-- TODO: implement early bird cancellation -->
+            <template v-if="false" #iconSecondary>
+              <AppIconClose />
+            </template>
+          </CardButton>
         </div>
       </section>
       <section class="flex flex-col gap-4">
@@ -224,7 +216,8 @@ de:
   privacy: Datenschutzerklärung
   profile: Profil
   resetAISetup: KI-Einrichtung zurücksetzen
-  stopEarlyBird: Early Bird beenden
+  earlyBirdStart: Early Bird beitreten
+  # earlyBirdStop: Early Bird beenden
   support: Hilfe
   terms: Allgemeine Geschäftsbedingungen
 en:
@@ -245,7 +238,8 @@ en:
   privacy: Privacy Policy
   profile: Profile
   resetAISetup: Reset AI Setup
-  stopEarlyBird: Stop Early Bird
+  earlyBirdStart: Join Early Bird
+  # earlyBirdStop: Stop Early Bird
   support: Support
   terms: General Terms and Conditions
 </i18n>

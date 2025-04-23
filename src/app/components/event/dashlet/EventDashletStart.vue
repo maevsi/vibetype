@@ -2,13 +2,13 @@
   <EventDashlet v-if="event.start">
     <IHeroiconsCalendar :title="t('start')" />
     <div class="flex flex-col">
-      <Button
+      <AppButton
         :aria-label="t('iCalDownload')"
         is-link-colored
         @click="downloadIcal"
       >
         {{ eventStart.format('lll') }}
-      </Button>
+      </AppButton>
       <span>
         {{ t('fromNow', { content: eventStart.fromNow() }) }}
       </span>

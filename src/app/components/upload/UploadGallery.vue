@@ -38,7 +38,7 @@
               class="absolute top-0 right-0 flex rounded-bl-lg bg-red-600/75"
               @click="deleteUpload(upload.id)"
             >
-              <Button
+              <AppButton
                 :aria-label="t('iconTrashLabel')"
                 class="flex h-full justify-center"
               >
@@ -46,12 +46,12 @@
                   class="text-text-bright m-1"
                   :title="t('iconTrash')"
                 />
-              </Button>
+              </AppButton>
             </div>
           </li>
         </template>
         <li class="relative box-border border-4 border-transparent">
-          <Button
+          <AppButton
             :aria-label="
               t('iconAdd', {
                 sizeUsed: bytesToString(sizeByteTotal),
@@ -72,7 +72,7 @@
               width="3em"
               height="3em"
             />
-          </Button>
+          </AppButton>
           <input
             ref="inputProfilePicture"
             accept="image/*"

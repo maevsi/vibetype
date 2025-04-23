@@ -1,8 +1,5 @@
 <template>
-  <section
-    :aria-labelledby="templateIdTitle"
-    class="relative flex flex-1 flex-col gap-10"
-  >
+  <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
     <LayoutTopBar>
       <span :id="templateIdTitle">{{ title }}</span>
       <template v-if="[0].includes(index)" #close>
@@ -14,45 +11,41 @@
         </ButtonIcon>
       </template>
     </LayoutTopBar>
-    <LayoutPageContent
-      :class="{
-        hidden: index !== 0,
-      }"
-    >
-      <TypographyH3 class="text-center">
-        {{ t('instructionsRequest') }}
-      </TypographyH3>
-      <div class="flex justify-center">
-        <FormAccountPasswordResetRequest
-          ref="form"
-          class="w-full max-w-sm"
-          @success="index++"
-        />
-      </div>
-      <template #bottom-navigation-extension>
-        <ButtonColored
-          :aria-label="t('send')"
-          class="w-full max-w-sm"
-          @click="templateForm?.submit"
-        >
-          {{ t('send') }}
-        </ButtonColored>
-      </template>
-    </LayoutPageContent>
-    <LayoutPageContent
-      :class="{
-        hidden: index !== 1,
-      }"
-    >
-      <LayoutPageResult type="success">
-        <template #description>
-          {{ t('instructionsInboxDescription') }}
+    <AppStep v-slot="attributes" :is-active="index === 0">
+      <LayoutPage v-bind="attributes">
+        <TypographyH3 class="text-center">
+          {{ t('instructionsRequest') }}
+        </TypographyH3>
+        <div class="flex justify-center">
+          <FormAccountPasswordResetRequest
+            ref="form"
+            class="w-full max-w-md"
+            @success="index++"
+          />
+        </div>
+        <template #bottom>
+          <ButtonColored
+            :aria-label="t('send')"
+            class="w-full max-w-md"
+            @click="templateForm?.submit"
+          >
+            {{ t('send') }}
+          </ButtonColored>
         </template>
-        <template #title>
-          {{ t('instructionsInboxHeading') }}
-        </template>
-      </LayoutPageResult>
-    </LayoutPageContent>
+      </LayoutPage>
+    </AppStep>
+    <AppStep v-slot="attributes" :is-active="index === 1">
+      <LayoutPage v-bind="attributes">
+        <LayoutPageResult type="success">
+          <template #description>
+            {{ t('instructionsInboxDescription') }}
+          </template>
+          <template #title>
+            {{ t('instructionsInboxHeading') }}
+          </template>
+        </LayoutPageResult>
+      </LayoutPage>
+    </AppStep>
   </section>
 </template>
 

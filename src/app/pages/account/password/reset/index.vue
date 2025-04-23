@@ -1,62 +1,55 @@
 <template>
-  <section
-    :aria-labelledby="templateIdTitle"
-    class="relative flex flex-1 flex-col gap-10"
-  >
+  <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
     <LayoutTopBar>
       <!-- TODO: replace with h1 once unstyled -->
       <span :id="templateIdTitle">{{ title }}</span>
     </LayoutTopBar>
-    <LayoutPageContent
-      :class="{
-        hidden: index !== 0,
-      }"
-    >
-      <TypographyH3 class="text-center">
-        {{ t('instructionsNew') }}
-      </TypographyH3>
-      <div class="flex justify-center">
-        <FormAccountPasswordReset
-          v-if="route.query.code && !Array.isArray(route.query.code)"
-          ref="form"
-          class="w-full max-w-sm"
-          :code="route.query.code"
-          @success="index++"
-        />
-      </div>
-      <template #bottom-navigation-extension>
-        <ButtonColored
-          :aria-label="t('reset')"
-          class="w-full max-w-sm"
-          @click="templateForm?.submit"
-        >
-          {{ t('reset') }}
-        </ButtonColored>
-      </template>
-    </LayoutPageContent>
-    <LayoutPageContent
-      :class="{
-        hidden: index !== 1,
-      }"
-    >
-      <LayoutPageResult type="success">
-        <template #description>
-          {{ t('instructionsSuccessDescription') }}
+    <AppStep v-slot="attributes" :is-active="index === 0">
+      <LayoutPage v-bind="attributes">
+        <TypographyH3 class="text-center">
+          {{ t('instructionsNew') }}
+        </TypographyH3>
+        <div class="flex justify-center">
+          <FormAccountPasswordReset
+            v-if="route.query.code && !Array.isArray(route.query.code)"
+            ref="form"
+            class="w-full max-w-md"
+            :code="route.query.code"
+            @success="index++"
+          />
+        </div>
+        <template #bottom>
+          <ButtonColored
+            :aria-label="t('reset')"
+            class="w-full max-w-md"
+            @click="templateForm?.submit"
+          >
+            {{ t('reset') }}
+          </ButtonColored>
         </template>
-        <template #title>
-          {{ t('instructionsSuccessHeading') }}
+      </LayoutPage>
+    </AppStep>
+    <AppStep v-slot="attributes" :is-active="index === 1">
+      <LayoutPage v-bind="attributes">
+        <LayoutPageResult type="success">
+          <template #description>
+            {{ t('instructionsSuccessDescription') }}
+          </template>
+          <template #title>
+            {{ t('instructionsSuccessHeading') }}
+          </template>
+        </LayoutPageResult>
+        <template #bottom>
+          <ButtonColored
+            :aria-label="t('signIn')"
+            class="w-full max-w-md"
+            @click="navigateTo(localePath('session-create'))"
+          >
+            {{ t('signIn') }}
+          </ButtonColored>
         </template>
-      </LayoutPageResult>
-      <template #bottom-navigation-extension>
-        <ButtonColored
-          :aria-label="t('signIn')"
-          class="w-full max-w-sm"
-          @click="navigateTo(localePath('session-create'))"
-        >
-          {{ t('signIn') }}
-        </ButtonColored>
-      </template>
-    </LayoutPageContent>
+      </LayoutPage>
+    </AppStep>
   </section>
 </template>
 

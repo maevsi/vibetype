@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { WithClassAsProps } from './interface'
 import { cn } from '@/utils/shadcn'
-import { ShadButton, type ButtonVariants } from '@/components/scn/button'
+import { Button, type ButtonVariants } from '@/components/scn/button'
 import { ArrowRight } from 'lucide-vue-next'
 import { useCarousel } from './useCarousel'
+
+const { t } = useI18n()
 
 const props = withDefaults(
   defineProps<
@@ -22,7 +24,7 @@ const { orientation, canScrollNext, scrollNext } = useCarousel()
 </script>
 
 <template>
-  <ShadButton
+  <Button
     data-slot="carousel-next"
     :disabled="!canScrollNext"
     :class="
@@ -40,7 +42,14 @@ const { orientation, canScrollNext, scrollNext } = useCarousel()
   >
     <slot>
       <ArrowRight />
-      <span class="sr-only">Next Slide</span>
+      <span class="sr-only">{{ t('next') }}</span>
     </slot>
-  </ShadButton>
+  </Button>
 </template>
+
+<i18n lang="yaml">
+de:
+  next: Nächste Folie
+en:
+  next: Next Slide
+</i18n>
