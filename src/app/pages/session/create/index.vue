@@ -1,18 +1,18 @@
 <template>
-  <div class="flex grow flex-col gap-10 pb-5">
-    <div class="flex flex-col">
-      <LayoutTopBar>
+  <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
+    <LayoutTopBar>
+      <span :id="templateIdTitle">
         {{ t('title') }}
-      </LayoutTopBar>
-      <CardStateInfo v-if="to" class="rounded-none">
-        {{ t('accountRequired') }}
-      </CardStateInfo>
-    </div>
-    <div class="flex justify-center px-6">
-      <FormAccountSignIn class="max-w-sm grow" @signed-in="onSignIn" />
-    </div>
-    <ContentLegalFooter />
-  </div>
+      </span>
+    </LayoutTopBar>
+    <CardStateInfo v-if="to" class="rounded-none">
+      {{ t('accountRequired') }}
+    </CardStateInfo>
+    <LayoutPage>
+      <FormAccountSignIn @signed-in="onSignIn" />
+      <ContentLegalFooter />
+    </LayoutPage>
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -20,20 +20,21 @@ definePageMeta({
   layout: 'plain',
 })
 
+// page
 const { t } = useI18n()
+const title = t('title')
+useHeadDefault({ title })
+
+// template
+const templateIdTitle = useId()
+
+// sign in
 const localePath = useLocalePath()
 const route = useRoute()
 const store = useStore()
-
-// data
-const title = t('title')
-
-// computations
 const to = computed(() =>
   route.query.to && !Array.isArray(route.query.to) ? route.query.to : undefined,
 )
-
-// methods
 const onSignIn = async () => {
   // A link that allows users to delete their account is required by the Google Play Store (https://support.google.com/googleplay/android-developer/answer/13316080#account_deletion)
   // TODO: generalize, potentially whitelist valid redirection targets
@@ -50,9 +51,6 @@ const onSignIn = async () => {
 
   return await navigateTo(localePath(`dashboard`))
 }
-
-// initialization
-useHeadDefault({ title })
 </script>
 
 <i18n lang="yaml">
