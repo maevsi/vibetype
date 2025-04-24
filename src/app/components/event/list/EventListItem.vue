@@ -20,9 +20,17 @@
         "
       >
         <span class="absolute inset-0 z-10" />
-        <TypographyH6 class="truncate text-3xl font-semibold">
-          {{ event.name }}
-        </TypographyH6>
+        <div class="flex items-center justify-between gap-2">
+          <TypographyH6 class="truncate text-3xl font-semibold">
+            {{ event.name }}
+          </TypographyH6>
+          <Tag
+            v-if="isDraft"
+            class="bg-warning-strong self-start text-sm font-medium"
+          >
+            {{ t('draft') }}
+          </Tag>
+        </div>
       </AppButton>
       <TypographySubtitleSmall class="truncate">
         {{ eventStart.format('lll') }}
@@ -34,14 +42,34 @@
 <script setup lang="ts">
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
-const { event } = defineProps<{
+export interface Props {
   event: Pick<
     EventItemFragment,
-    'accountByCreatedBy' | 'name' | 'start' | 'slug'
+    | 'accountByCreatedBy'
+    | 'name'
+    | 'start'
+    | 'visibility'
+    | 'slug'
+    | 'end'
+    | 'description'
+    | 'id'
   >
-}>()
+  isDraft?: boolean
+}
 
+const props = withDefaults(defineProps<Props>(), {
+  isDraft: false,
+})
+
+const { t } = useI18n()
 const localePath = useLocalePath()
 const dateTime = useDateTime()
-const eventStart = computed(() => dateTime(event.start))
+const eventStart = computed(() => dateTime(props.event.start))
 </script>
+
+<i18n lang="yaml">
+de:
+  draft: Entwurf
+en:
+  draft: Draft
+</i18n>

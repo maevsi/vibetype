@@ -12,7 +12,9 @@
     >
       <section>
         <LayoutPageTitle :title="t('title')" />
-        <FormEvent :event="event" />
+        <FormEvent
+          :event="isDraftEvent ? event : (event as EventItemFragment)"
+        />
       </section>
       <section>
         <h2>{{ t('titleDelete') }}</h2>
@@ -38,6 +40,21 @@ import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 import { useEventDeleteMutation } from '~~/gql/documents/mutations/event/eventDelete'
 import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { useEventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
+import {
+  LocalStorageStrategy,
+  type EventOrDraft,
+} from '~/utils/storage/LocalStorageStrategy'
+import type { EventItemFragment } from '~~/gql/generated/graphql'
+
+// const ROUTE_NAME: keyof RouteNamedMap = 'event-edit-username-event_name___en'
+
+// definePageMeta({
+//   async validate(route) {
+//     return await validateEventExistence(
+//       route as RouteLocationNormalized<typeof ROUTE_NAME>,
+//     )
+//   },
+// })
 
 const localePath = useLocalePath()
 const { t } = useI18n()
@@ -66,20 +83,33 @@ if (!accountId.value) {
     statusCode: 404,
   })
 }
+if (!accountId.value) {
+  throw createError({
+    statusCode: 404,
+  })
+}
 const eventQuery = await zalgo(
   useEventByCreatedByAndSlugQuery({
     createdBy: accountId,
     slug: route.params.event_name,
   }),
 )
-const event = computed(() =>
-  getEventItem(eventQuery.data.value?.eventByCreatedByAndSlug),
-)
-if (!event.value) {
-  throw createError({
-    statusCode: 404,
-  })
+const loadDraftEvent = () => {
+  if (import.meta.client && accountId.value) {
+    const storageStrategy = LocalStorageStrategy.getInstance()
+    return storageStrategy.getEventByAuthorAndSlug(
+      accountId.value,
+      route.params.event_name as string,
+    )
+  }
+  return null
 }
+
+const event = computed<EventOrDraft>(() => {
+  const dbEvent = getEventItem(eventQuery.data.value?.eventByCreatedByAndSlug)
+  if (dbEvent) return dbEvent
+  return loadDraftEvent()
+})
 const eventDeleteMutation = useEventDeleteMutation()
 const api = getApiData([
   accountByUsernameQuery,
@@ -87,6 +117,7 @@ const api = getApiData([
   eventDeleteMutation,
 ])
 
+// page
 // page
 const title = computed(() => {
   if (api.value.isFetching) return t('globalLoading')
@@ -96,6 +127,15 @@ const title = computed(() => {
 
   return `${t('title')} · ${event.value.name}`
 })
+
+const isDraftEvent = computed(() => {
+  return event.value &&
+    typeof event.value === 'object' &&
+    'isDraft' in event.value
+    ? event.value.isDraft
+    : false
+})
+// initialization
 useHeadDefault({ title })
 </script>
 
