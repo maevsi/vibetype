@@ -53,7 +53,7 @@
     "@types/mustache": "4.2.5",
     "@types/node": "22.14.1",
     "@types/nodemailer": "6.4.17",
-    "@types/pg": "8.11.13",
+    "@types/pg": "8.11.14",
     "@types/seedrandom": "3.0.8",
     "@uppy/core": "4.4.4",
     "@uppy/tus": "4.2.2",
