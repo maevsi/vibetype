@@ -1,16 +1,14 @@
 <template>
   <Loader :api="api">
     <div class="flex flex-col gap-4">
-      <ScrollContainer
+      <AppScrollContainer
         v-if="event && guests.length"
         class="max-h-[70vh]"
         :has-next-page="!!api.data.allGuests?.pageInfo.hasNextPage"
         @load-more="after = api.data.allGuests?.pageInfo.endCursor"
       >
         <table class="border border-neutral-300 dark:border-neutral-600">
-          <LayoutThead
-            class="bg-background-bright dark:bg-background-dark sticky top-0 z-10"
-          >
+          <LayoutThead>
             <tr>
               <th scope="col">
                 {{ t('contact') }}
@@ -27,7 +25,7 @@
             />
           </LayoutTbody>
         </table>
-      </ScrollContainer>
+      </AppScrollContainer>
       <div v-else class="flex flex-col items-center gap-2">
         {{ t('guestNone') }}
         <FormInputStateInfo>

@@ -1,15 +1,15 @@
 <template>
-  <Button
+  <AppButton
     v-if="!isApp"
     :aria-label="t('appInstall', { siteName: t('globalSiteName') })"
-    :is-primary="false"
     :to="localePath('docs-app')"
+    variant="secondary"
   >
     {{ t('appInstall', { siteName: t('globalSiteName') }) }}
     <template #suffix>
       <IHeroiconsArrowRight />
     </template>
-  </Button>
+  </AppButton>
 </template>
 
 <script setup lang="ts">

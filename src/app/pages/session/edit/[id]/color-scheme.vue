@@ -1,35 +1,32 @@
 <template>
   <div>
-    <LayoutPageTitle :title="title" />
-    <ClientOnly>
-      <!-- <IHeroiconsComputerDesktop v-if="colorScheme.id === 'system'" />
-      <IHeroiconsSun v-else-if="colorScheme.id === 'light'" />
-      <IHeroiconsMoon v-else-if="colorScheme.id === 'dark'" />
-      <IHeroiconsBugAnt v-else /> -->
-      <FormRadioButtonTailwind
-        :model="colorMode.preference"
-        :options="colorSchemes"
-        @change="(value) => (colorMode.preference = value)"
+    <LayoutPageTitle :title />
+    <ColorScheme>
+      <AppRadioGroup
+        :default-value="colorMode.preference"
+        :items="colorSchemes"
+        @update:model-value="(value) => (colorMode.preference = value)"
       />
       <template #placeholder>
-        <FormRadioButtonTailwind :options="colorSchemes" />
+        <AppRadioGroup :items="colorSchemes" />
       </template>
-    </ClientOnly>
+    </ColorScheme>
   </div>
 </template>
 
 <script setup lang="ts">
-const colorMode = useColorMode()
+// page
 const { t } = useI18n()
-
-// data
 const title = t('title')
+
+// color mode
+const colorMode = useColorMode()
 const colorSchemes = [
-  { id: 'system', name: t('colorSchemeSystem') },
-  { id: 'light', name: t('colorSchemeLight') },
+  { label: t('colorSchemeSystem'), value: 'system' },
+  { label: t('colorSchemeLight'), value: 'light' },
   {
-    id: 'dark',
-    name: t('colorSchemeDark'),
+    label: t('colorSchemeDark'),
+    value: 'dark',
   },
 ]
 </script>

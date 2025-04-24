@@ -1,9 +1,15 @@
 <template>
-  <div class="relative isolate">
+  <div
+    class="flex h-screen flex-col"
+    :data-is-loading="isLoading"
+    data-testid="is-loading"
+    vaul-drawer-wrapper
+  >
+    <NuxtLoadingIndicator />
     <LazyClientOnly>
       <CardStateInfo
         v-if="!isBrowserSupported && !runtimeConfig.public.vio.isTesting"
-        class="rounded-none"
+        class="shrink-0 rounded-none"
       >
         <i18n-t keypath="browserUnsupported">
           <template #link>
@@ -26,17 +32,15 @@
       </CardStateInfo>
     </LazyClientOnly>
     <NuxtLayout>
-      <!-- `NuxtLayout` can't have mulitple child nodes (https://github.com/nuxt/nuxt/issues/21759) -->
       <NuxtPage />
     </NuxtLayout>
-    <NuxtLoadingIndicator color="#fff" />
     <VitePwaManifest />
     <ClientOnly>
       <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->
       <CookieControl :locale="locale" />
     </ClientOnly>
     <div
-      class="absolute inset-x-0 -top-16 -z-10 flex transform-gpu justify-center overflow-hidden blur-3xl"
+      class="absolute inset-x-0 -top-16 -z-10 flex max-h-screen transform-gpu items-start justify-center overflow-hidden blur-3xl"
       aria-hidden="true"
     >
       <div
@@ -47,27 +51,51 @@
 </template>
 
 <script setup lang="ts">
-import type { Locale } from '@dargmuesli/nuxt-cookie-control/runtime/types'
 import '@fontsource-variable/raleway'
-import type { WritableComputedRef } from 'vue'
+import { isEqual } from 'ufo'
 
-import supportedBrowsers from '~/supportedBrowsers'
-
-const i18n = useI18n()
 const { $pwa } = useNuxtApp()
+const { isApp } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
-const locale = i18n.locale as WritableComputedRef<Locale>
-const { t } = i18n
 const timezone = useTimezone()
 const localePath = useLocalePath()
+const store = useStore()
+const route = useRoute()
 
-// data
+// i18n
+const { t, locale } = useI18n()
+const { $dayjs } = useNuxtApp()
+$dayjs.locale(locale.value)
+
+// loading
+const loadingId = Math.random()
+const loadingIds = useState(STATE_LOADING_IDS_NAME, () => [loadingId])
+const isLoading = computed(() => !!loadingIds.value.length)
+onMounted(() => loadingIds.value.splice(loadingIds.value.indexOf(loadingId), 1))
+
+// browserslist
 const isBrowserSupported = ref(true)
+onBeforeMount(async () => {
+  const supportedBrowsers = (await import('~/supportedBrowsers')).default
+  isBrowserSupported.value = supportedBrowsers.test(navigator.userAgent)
+})
 
 // methods
-const initialize = () => {
+const initialize = async () => {
   if (import.meta.client) {
     saveTimezoneAsCookie()
+  }
+
+  if (
+    isApp.value &&
+    !store.signedInAccountId &&
+    !isEqual(route.path, localePath('flow-welcome').toString())
+  ) {
+    return await navigateTo(
+      localePath({
+        name: 'flow-welcome',
+      }),
+    )
   }
 }
 const saveTimezoneAsCookie = () =>
@@ -79,9 +107,6 @@ const saveTimezoneAsCookie = () =>
   }).value = timezone)
 
 // lifecycle
-onBeforeMount(() => {
-  isBrowserSupported.value = supportedBrowsers.test(navigator.userAgent)
-})
 watch(
   () => $pwa,
   async (current, _previous) => {
@@ -116,7 +141,7 @@ await useAuth()
 usePolyfills()
 useSchemaOrg([defineWebSite(), defineWebPage()])
 useAppGtag()
-initialize()
+await initialize()
 </script>
 
 <style scoped>

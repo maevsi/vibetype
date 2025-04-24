@@ -2,7 +2,7 @@
 # check=skip=SecretsUsedInArgOrEnv
 
 # <DEPENDENCIES>
-FROM ghcr.io/maevsi/sqitch:6
+FROM ghcr.io/maevsi/sqitch:7
 # </DEPENDENCIES>
 
 #############
@@ -104,7 +104,7 @@ RUN pnpm -r run test
 ########################
 # Nuxt: test (e2e, base-image)
 
-FROM mcr.microsoft.com/playwright:v1.51.1 AS test-e2e-base-image
+FROM mcr.microsoft.com/playwright:v1.52.0 AS test-e2e-base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true

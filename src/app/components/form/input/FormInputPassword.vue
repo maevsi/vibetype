@@ -2,17 +2,14 @@
   <FormInput
     v-if="formInput"
     :id-label="`input-${id}`"
-    :placeholder="
-      isVisible ? t('placeholderVisible') : t('placeholderInvisible')
-    "
     :title="title || t('password')"
     :type="isVisible ? 'text' : 'password'"
     :value="formInput"
     @input="emit('input', $event)"
     @icon="isVisible = !isVisible"
   >
-    <template #inputSuffix>
-      <slot />
+    <template v-if="isStrengthShown" #inputSuffix>
+      <Progress :model-value="strength" class="my-2" />
     </template>
     <template #icon>
       <IHeroiconsEye v-if="!isVisible" />
@@ -55,10 +52,12 @@ import type { BaseValidation } from '@vuelidate/core'
 const {
   id = 'password',
   formInput,
+  isStrengthShown,
   title,
 } = defineProps<{
   id?: string
   formInput: BaseValidation
+  isStrengthShown?: boolean
   title?: string
 }>()
 
@@ -70,17 +69,17 @@ const { t } = useI18n()
 
 // data
 const isVisible = ref(false)
+
+const strength = computed(() =>
+  calculatePasswordStrength(formInput.$model as string),
+)
 </script>
 
 <i18n lang="yaml">
 de:
   password: Passwort
-  placeholderInvisible: '**********'
-  placeholderVisible: 'Pa$$w0rt'
   validationFormat: Muss {length} Zeichen lang sein
 en:
   password: Password
-  placeholderInvisible: '**********'
-  placeholderVisible: 'Pa$$w0rd'
   validationFormat: Must be {length} characters long
 </i18n>

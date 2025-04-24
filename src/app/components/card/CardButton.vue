@@ -2,7 +2,7 @@
   <Card
     :class="
       cn(
-        'relative isolate flex items-center gap-3 p-2 ring-blue-500/50 has-focus:ring-3',
+        'has-focus-visible:focus-ring relative isolate flex items-center gap-3 p-2',
         classProps,
       )
     "
@@ -11,9 +11,9 @@
       <slot />
     </div>
     <div class="flex flex-1 flex-col">
-      <Button
+      <AppButton
         :aria-label="title"
-        class="focus:ring-0"
+        class="focus-visible:ring-0"
         :disabled="isDisabled"
         :is-external="isExternal"
         is-external-icon-disabled
@@ -23,7 +23,7 @@
         <span class="font-bold">
           {{ title }}
         </span>
-      </Button>
+      </AppButton>
       <span v-if="description" class="opacity-60">
         {{ description }}
       </span>
@@ -31,7 +31,7 @@
     <div class="p-2">
       <slot v-if="$slots.iconSecondary" name="iconSecondary" />
       <div v-else-if="to">
-        <IVibetypeArrowForward :alt="t('iconArrowForward')" class="size-6" />
+        <AppIconArrowForward />
       </div>
     </div>
   </Card>
@@ -58,13 +58,4 @@ const {
     to?: RouteLocationRaw
   } & { class?: HtmlHTMLAttributes['class'] }
 >()
-
-const { t } = useI18n()
 </script>
-
-<i18n lang="yaml">
-de:
-  iconArrowForward: Pfeil nach vorn
-en:
-  iconArrowForward: Arrow forward
-</i18n>

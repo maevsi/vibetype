@@ -35,72 +35,64 @@
         >
           <IHeroiconsLink />
         </ButtonIcon>
-        <DropDown>
-          <ButtonIcon :aria-label="t('globalShowMore')">
-            <IHeroiconsEllipsisVertical />
-          </ButtonIcon>
-          <template #content>
-            <Button
-              :aria-label="
-                contact.accountId || contact.emailAddress
-                  ? t('guestSend')
-                  : t('disabledReasonEmailAddressNone')
-              "
-              class="block md:hidden"
-              :disabled="
-                (!contact.accountId && !contact.emailAddress) ||
-                pending.sends.includes(guest.id)
-              "
-              @click="send(guest)"
-            >
+        <AppDropdown>
+          <AppDropdownItem
+            class="md:hidden"
+            :disabled="
+              (!contact.accountId && !contact.emailAddress) ||
+              pending.sends.includes(guest.id)
+            "
+            @select="send(guest)"
+          >
+            <IHeroiconsPaperAirplane />
+            <span>
               {{
                 contact.accountId || contact.emailAddress
                   ? t('guestSend')
                   : t('disabledReasonEmailAddressNone')
               }}
-              <template #prefix>
-                <IHeroiconsPaperAirplane />
-              </template>
-            </Button>
-            <Button
-              :aria-label="t('guestLink')"
-              class="block md:hidden"
-              @click="copyLink(guest)"
-            >
+            </span>
+          </AppDropdownItem>
+          <AppDropdownItem class="md:hidden" @select="copyLink(guest)">
+            <IHeroiconsLink />
+            <span>
               {{ t('guestLink') }}
-              <template #prefix>
-                <IHeroiconsLink />
-              </template>
-            </Button>
-            <Button
-              v-if="event.accountByCreatedBy?.username"
-              :aria-label="t('guestView')"
-              @click="
-                navigateTo(
-                  localePath({
-                    path: `/event/view/${event.accountByCreatedBy.username}/${event.slug}`,
-                    query: { ic: guest.id },
-                  }),
-                )
-              "
-            >
+            </span>
+          </AppDropdownItem>
+          <AppDropdownItem
+            v-if="event.accountByCreatedBy?.username"
+            @select="
+              navigateTo(
+                localePath({
+                  name: 'event-view-username-event_name',
+                  params: {
+                    event_name: event.slug,
+                    username: event.accountByCreatedBy.username,
+                  },
+                  query: { ic: guest.id },
+                }),
+              )
+            "
+          >
+            <IHeroiconsEye />
+            <span>
               {{ t('guestView') }}
-              <template #prefix>
-                <IHeroiconsEye />
-              </template>
-            </Button>
-            <Button
-              :aria-label="t('guestDelete')"
-              :disabled="pending.deletions.includes(guest.id)"
-              @click="delete_(guest.id)"
-            >
+            </span>
+          </AppDropdownItem>
+          <AppDropdownItem
+            :disabled="pending.deletions.includes(guest.id)"
+            variant="destructive"
+            @select="delete_(guest.id)"
+          >
+            <IHeroiconsTrash />
+            <span>
               {{ t('guestDelete') }}
-              <template #prefix>
-                <IHeroiconsTrash />
-              </template>
-            </Button>
+            </span>
+          </AppDropdownItem>
+          <template #trigger>
+            <IHeroiconsEllipsisVertical />
           </template>
-        </DropDown>
+        </AppDropdown>
       </div>
     </td>
   </tr>

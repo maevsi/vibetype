@@ -3,10 +3,10 @@
     :title="t('home')"
     :to="store.signedInUsername ? localePath('dashboard') : localePath('index')"
   >
-    <IVibetypeHome :aria-label="t('iconHome')" class="size-6" />
+    <AppIconHome />
   </LayoutMenuItem>
   <LayoutMenuItem :title="t('discover')" :to="localePath('event')">
-    <IVibetypeSearch :aria-label="t('iconDiscover')" class="size-6" />
+    <AppIconSearch />
   </LayoutMenuItem>
   <LayoutMenuItem
     v-if="store.signedInUsername"
@@ -20,7 +20,7 @@
       })
     "
   >
-    <IVibetypeToday :aria-label="t('iconEvents')" class="size-6" />
+    <AppIconToday />
   </LayoutMenuItem>
   <LayoutMenuItem
     :title="t('account')"
@@ -35,9 +35,9 @@
         : localePath('session-create')
     "
   >
-    <IVibetypeAccount :aria-label="t('iconAccounts')" class="size-6" />
+    <AppIconAccount />
   </LayoutMenuItem>
-  <UnderConstruction>
+  <AppUnderConstruction>
     <LayoutMenuItem
       :title="t('notifications')"
       :to="localePath('notification')"
@@ -49,7 +49,7 @@
         </div>
       </div>
     </LayoutMenuItem>
-  </UnderConstruction>
+  </AppUnderConstruction>
 </template>
 
 <script setup lang="ts">
@@ -64,10 +64,6 @@ de:
   discover: Entdecken
   events: Veranstaltungen
   home: Dashboard
-  iconAccounts: Icon einer Person in einem Kreis
-  iconDiscover: Icon einer Lupe
-  iconEvents: Icon eines Kalenders, auf dem ein Tag markiert ist
-  iconHome: Icon eines Hauses
   iconNotifications: Icon einer Glocke
   notifications: Benachrichtigungen
 en:
@@ -75,10 +71,6 @@ en:
   discover: Discover
   events: Events
   home: Home
-  iconAccounts: Icon of a person in a circle
-  iconDiscover: Icon of a magnifying glass
-  iconEvents: Icon of a calender on which a date is marked
-  iconHome: Icon of a house
   iconNotifications: Bell icon
   notifications: Notifications
 </i18n>

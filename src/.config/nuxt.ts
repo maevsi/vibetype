@@ -33,6 +33,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   css: ['~/assets/css/app.css'],
   experimental: {
+    inlineRouteRules: true,
     typedPages: true,
   },
   future: {
@@ -45,7 +46,9 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxtjs/color-mode',
     '@nuxtjs/html-validator',
+    'nuxt-zod-i18n', // most come before `@nuxtjs/i18n`
     '@nuxtjs/i18n',
+    '@nuxtjs/mdc',
     '@nuxtjs/seo',
     '@nuxt/content', // most come after `@nuxtjs/seo`
     '@nuxtjs/turnstile',
@@ -143,6 +146,30 @@ export default defineNuxtConfig({
           secret: '',
         },
       },
+      monday: {
+        apiToken: undefined,
+        board: {
+          contact: {
+            column: {
+              consentId: undefined,
+              emailAddressId: undefined,
+              nameId: undefined,
+              messageId: undefined,
+            },
+            id: undefined,
+            groupId: undefined,
+          },
+          earlyBird: {
+            column: {
+              agreementId: undefined,
+              emailAddressId: undefined,
+              nameId: undefined,
+            },
+            id: undefined,
+            groupId: undefined,
+          },
+        },
+      },
       openai: {
         apiKey: '',
       },
@@ -210,7 +237,6 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: [
-        '@headlessui/vue',
         '@sentry/nuxt',
         '@tiptap/extension-link',
         '@tiptap/extension-text-align',
@@ -218,6 +244,7 @@ export default defineNuxtConfig({
         '@tiptap/vue-3',
         '@uppy/core',
         '@uppy/tus',
+        '@vee-validate/zod',
         '@vuelidate/core',
         '@vueuse/core',
         'chart.js',
@@ -232,18 +259,23 @@ export default defineNuxtConfig({
         'isomorphic-dompurify',
         'js-confetti',
         'lodash-es',
+        'lucide-vue-next',
         'mustache',
         'pretty-bytes',
         'prntr',
         'qrcode.vue',
+        'reka-ui',
         'seedrandom',
         'slugify',
         'tailwind-merge',
         'v-calendar',
+        'vaul-vue',
+        'vee-validate',
         'vue-advanced-cropper',
         'vue-chartjs',
         'vue-qrcode-reader',
         'workbox-precaching',
+        'zod',
       ],
     },
     plugins: [

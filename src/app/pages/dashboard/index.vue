@@ -18,7 +18,7 @@
         >
           <IHeroiconsCalendar />
         </CardButton>
-        <UnderConstruction>
+        <AppUnderConstruction>
           <CardButton
             :description="t('guestsDescription')"
             :title="t('guests')"
@@ -26,7 +26,7 @@
           >
             <ISolarLetterLinear />
           </CardButton>
-        </UnderConstruction>
+        </AppUnderConstruction>
         <CardButton
           :description="t('contactsDescription')"
           :title="t('contacts')"
@@ -57,12 +57,6 @@
         </CardButton>
       </section>
       <ButtonApp />
-      <UnderConstruction>
-        <section class="flex flex-col gap-4">
-          <h2>{{ t('news') }}</h2>
-          <LayoutFeed />
-        </section>
-      </UnderConstruction>
     </div>
     <LayoutCallToAction
       v-else
@@ -96,7 +90,6 @@ de:
   eventsDescription: Organisiere deine eigenen Veranstaltungen
   guests: Einladungen
   guestsDescription: Sieh nach, wo du eingeladen bist
-  news: Ereignisverlauf
   title: Dashboard
   uploads: Uploads
   uploadsDescription: Teile deine Dateien
@@ -111,7 +104,6 @@ en:
   eventsDescription: Organize your own events
   guests: Invitations
   guestsDescription: See where you're invited
-  news: Recent changes
   title: Dashboard
   uploads: Uploads
   uploadsDescription: Share your files

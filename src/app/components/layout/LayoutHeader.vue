@@ -1,6 +1,6 @@
 <template>
   <!-- <Loader :api="api" indicator="ping"> -->
-  <header class="2xl:mb-8">
+  <header>
     <div class="flex items-center justify-between gap-4">
       <ButtonIcon
         v-if="
@@ -12,13 +12,13 @@
       >
         <IHeroiconsChevronLeft />
       </ButtonIcon>
-      <Button
+      <AppButton
         :aria-label="t('home')"
         class="hidden 2xl:block"
         :to="localePath('index')"
       >
         <IconLogoWithText class="h-10" />
-      </Button>
+      </AppButton>
       <div class="hidden grow lg:block" />
 
       <div class="grow" />

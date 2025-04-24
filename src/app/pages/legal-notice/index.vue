@@ -1,22 +1,12 @@
 <template>
-  <LayoutProse>
-    <ContentRenderer v-if="page" :value="page" />
-  </LayoutProse>
+  <!-- TODO: remove this redirect placeholder after all links to the new page path are likely updated -->
+  <div />
 </template>
 
 <script setup lang="ts">
-const { locale } = useI18n()
+defineRouteRules({
+  robots: false,
+})
 
-const { data: page } = await useAsyncData(() =>
-  queryCollection('content').path(`/${locale.value}/legal-notice`).first(),
-)
-
-if (!page) {
-  throw createError({
-    statusCode: 404,
-  })
-}
-
-// initialization
-useHeadDefault({ title: page.value?.title })
+usePageDeprecation({ name: 'docs-legal-imprint' })
 </script>

@@ -1,19 +1,13 @@
 <template>
-  <div>
-    <AppError :status-code="418" />
-  </div>
+  <div />
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n()
+defineRouteRules({
+  robots: false,
+})
 
-// page
-useHeadDefault({ title: t('title') })
+throw createError({
+  statusCode: 418,
+})
 </script>
-
-<i18n lang="yaml">
-de:
-  title: Ich werd' keinen Kaffe machen
-en:
-  title: I won't make coffee
-</i18n>
