@@ -1,3 +1,14 @@
+## [10.11.0](https://github.com/maevsi/vibetype/compare/10.10.0...10.11.0) (2025-04-24)
+
+### Features
+
+* **components:** update secondary critical button's design ([a5bc798](https://github.com/maevsi/vibetype/commit/a5bc7988611072e2ef4cd01663996883bb6fccad))
+* **pages:** link more information for welcoming new users ([02fd972](https://github.com/maevsi/vibetype/commit/02fd972988012b2e08755d1fa743e870195243cc))
+
+### Bug Fixes
+
+* **layout:** show sidebar on all large screens ([b2818f5](https://github.com/maevsi/vibetype/commit/b2818f5f7fde5357687f2ee5d73beb6007b7ce4d))
+
 ## [10.10.0](https://github.com/maevsi/vibetype/compare/10.9.0...10.10.0) (2025-04-23)
 
 ### Features
