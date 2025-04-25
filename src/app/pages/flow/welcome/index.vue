@@ -30,7 +30,17 @@
         </ButtonColored>
       </div>
     </div>
-    <ContentLegalFooter />
+    <div class="flex w-full max-w-md flex-col gap-4">
+      <ButtonColored
+        v-if="!isApp"
+        :aria-label="t('more')"
+        to="https://vibetype.de"
+        variant="tertiary"
+      >
+        {{ t('more') }}
+      </ButtonColored>
+      <ContentLegalFooter />
+    </div>
   </div>
 </template>
 
@@ -39,16 +49,19 @@ definePageMeta({
   layout: 'plain',
 })
 
+const { isApp } = usePlatform()
 const { t } = useI18n()
 const siteConfig = useSiteConfig()
 </script>
 
 <i18n lang="yaml">
 de:
+  more: Webseite besuchen, um mehr zu erfahren
   register: Neu hier? Tritt VIBETYPE noch heute bei
   signIn: Einloggen
   welcome: Willkommen bei
 en:
+  more: Visit website to find out more
   register: New here? Join VIBETYPE today
   signIn: Log in
   welcome: Welcome to

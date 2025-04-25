@@ -92,7 +92,6 @@
         :title="t('visibility')"
         type="radio"
         :value="v$.visibility"
-        @input="form.visibility = $event as EventVisibility"
       >
         <AppRadioGroup
           :default-value="v$.visibility.$model"
@@ -102,6 +101,9 @@
             { label: t('visibilityUnlisted'), value: EventVisibility.Unlisted },
           ]"
           name="visibility"
+          @update:model-value="
+            (value) => (form.visibility = value as EventVisibility)
+          "
         />
         <template #stateError>
           <FormInputStateError
