@@ -1,3 +1,9 @@
+## [10.11.2](https://github.com/maevsi/vibetype/compare/10.11.1...10.11.2) (2025-04-25)
+
+### Bug Fixes
+
+* **components:** correct radio buttons for event ([4634f3f](https://github.com/maevsi/vibetype/commit/4634f3f55eda611abb0f9dfad547b552733ffec8))
+
 ## [10.11.1](https://github.com/maevsi/vibetype/compare/10.11.0...10.11.1) (2025-04-25)
 
 ### Bug Fixes
