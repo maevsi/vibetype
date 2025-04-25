@@ -1,5 +1,6 @@
 <template>
   <Loader :api="api" indicator="ping">
+    <LayoutPageTitle :title="title" />
     <div class="flex flex-col gap-4">
       <div
         class="flex min-w-0 flex-col items-center justify-center sm:flex-row"
@@ -15,7 +16,7 @@
             <span
               class="ml-2 font-semibold text-(--semantic-base-text-primary)"
             >
-              {{ route.params.username }}
+              {{ '@' + route.params.username }}
             </span>
           </div>
         </div>
@@ -127,8 +128,9 @@ const { t } = useI18n()
 const route = useRoute('account-view-username___en')
 const localePath = useLocalePath()
 
-// page
-const title = route.params.username
+// data
+const title = t('myProfile')
+
 useHeadDefault({
   ogType: 'profile',
   profileUsername: route.params.username,
@@ -219,6 +221,7 @@ de:
   about: Über
   contactBook: Kontaktbuch
   events: Veranstaltungen
+  myProfile: Mein Profil
   newEvent: Neue Veranstaltung
   iconAltContactBook: Kontaktbuch-Symbol
   iconAdd: Hinzufügen
@@ -229,6 +232,7 @@ en:
   about: About
   contactBook: Contact Book
   events: Events
+  myProfile: My Profile
   newEvent: New event
   iconAltContactBook: Contact Book Icon
   iconAdd: Add
