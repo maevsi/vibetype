@@ -60,7 +60,7 @@ import { useAccountRegistrationMutation } from '~~/gql/documents/mutations/accou
 const emit = defineEmits<{
   submit: []
   success: []
-  error: [boolean]
+  error: [boolean, string]
 }>()
 
 const { locale, t } = useI18n()
@@ -74,6 +74,8 @@ const form = reactive({
   username: ref<string>(),
 })
 const isFormSent = ref(false)
+const errorDescription = ref('')
+const api = getApiData([accountRegistrationMutation])
 
 // Methods
 const submit = async (termId: string) => {
@@ -93,8 +95,22 @@ const submit = async (termId: string) => {
       },
     },
   )
-  if (result.error || !result.data) {
-    emit('error', true)
+  if (result.error) {
+    api.value.errors = [result.error]
+    const pgError = result.error.graphQLErrors?.find(
+      (g) =>
+        (g as { errcode?: string }).errcode === '22023' ||
+        (g as { errcode?: string }).errcode === '23505',
+    )
+    if (pgError) {
+      const errcode = (pgError as { errcode?: string }).errcode
+      if (errcode === '22023') {
+        errorDescription.value = t('postgres22023')
+      } else if (errcode === '23505') {
+        errorDescription.value = t('postgres23505')
+      }
+    }
+    emit('error', true, errorDescription.value)
     return
   }
   emit('success')
@@ -129,11 +145,15 @@ defineExpose({
 de:
   accountDeletionNotice: Du wirst deinen Account jederzeit löschen können.
   passwordRepetition: Passwort bestätigen
+  postgres22023: Das Passwort ist zu kurz! Überlege dir ein längeres.
+  postgres23505: Es gibt bereits einen Account mit diesem Nutzernamen! Überlege dir einen neuen Namen oder versuche dich anzumelden.
   register: Registrieren
   signIn: 'Du hast bereits ein Konto? Anmelden'
 en:
   accountDeletionNotice: "You'll be able to delete your account at any time."
   passwordRepetition: Confirm password
+  postgres22023: Your password is too short! Think of a longer one.
+  postgres23505: This username is already in use! Think of a new name or try signing in instead.
   register: Sign Up
   signIn: Already have an account? Log in
 </i18n>

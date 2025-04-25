@@ -24,7 +24,7 @@
           class="max-w-sm grow"
           @submit="index++"
           @success="index++"
-          @error="index = -1"
+          @error="handleError"
         />
       </div>
       <ContentLegalFooter />
@@ -67,6 +67,7 @@
       </ButtonColored>
     </div>
     <ErrorView
+      :description="errorDescription"
       :class="{
         hidden: index !== -1,
       }"
@@ -88,6 +89,7 @@ const legalTermId = ref<string>()
 
 // form
 const templateForm = useTemplateRef('form')
+const errorDescription = ref('')
 
 // stepper
 const index = ref(0)
@@ -108,6 +110,11 @@ const title = computed(() => {
       return ''
   }
 })
+
+const handleError = (_: boolean, errorString: string) => {
+  index.value = -1
+  errorDescription.value = errorString
+}
 
 // page
 useHeadDefault({ title: t('titleForm') })
