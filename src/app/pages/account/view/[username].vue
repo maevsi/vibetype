@@ -4,7 +4,7 @@
       <div
         class="flex min-w-0 flex-col items-center justify-center sm:flex-row"
       >
-        <div class="w-full rounded-lg bg-white">
+        <div class="w-full rounded-xl bg-(--semantic-base-surface-1)">
           <div class="flex flex-row items-center px-4 py-4">
             <AccountProfilePicture
               :account-id="account.id"
@@ -36,22 +36,20 @@
         </div>
       </ButtonColored>
       <div class="flex flex-col gap-2">
-        <span class="text-(semantic-base-text-primary) text-2xl font-semibold">
+        <TypographyH3>
           {{ t('about') }}
-        </span>
-        <span class="text-(semantic-base-text-primary)">
+        </TypographyH3>
+        <TypographyBodyMedium>
           <!-- Tech enthusiast, avid reader, and coffee lover ☕. Passionate about
           AI, innovation, and lifelong learning. Sharing insights on technology,
           books, and creative ideas. Let’s connect and explore together! -->
-        </span>
+        </TypographyBodyMedium>
       </div>
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col">
         <div class="flex flex-row justify-between">
-          <span
-            class="text-(semantic-base-text-primary) text-2xl font-semibold"
-          >
+          <TypographyH3>
             {{ t('events') }}
-          </span>
+          </TypographyH3>
           <ButtonColored
             :aria-label="t('contactBook')"
             variant="primary"
@@ -65,17 +63,6 @@
           </ButtonColored>
         </div>
       </div>
-      <div class="flex justify-center">
-        <AppUnderConstruction>
-          <ButtonColored
-            v-if="store.signedInUsername !== route.params.username"
-            :aria-label="t('friendAdd')"
-            disabled
-          >
-            {{ t('friendAdd') }}
-          </ButtonColored>
-        </AppUnderConstruction>
-      </div>
       <div>
         <div v-if="mixedEvents.length > 0" class="flex flex-col space-y-4">
           <EventProfile
@@ -87,9 +74,9 @@
         </div>
       </div>
       <div class="flex flex-col gap-2">
-        <span class="text-xl font-bold">
+        <TypographyH3>
           {{ t('achievements') }}
-        </span>
+        </TypographyH3>
         <!-- @vue-ignore -->
         <CardButton
           class="relative"
@@ -139,7 +126,6 @@ import { useAllEventsQuery } from '~~/gql/documents/queries/event/eventsAll'
 const { t } = useI18n()
 const route = useRoute('account-view-username___en')
 const localePath = useLocalePath()
-const store = useStore()
 
 // page
 const title = route.params.username
@@ -219,9 +205,9 @@ const mixedEvents = computed(() => {
     ...event,
     isOrganizing: true,
   }))
-  return [...attendingWithFlag, ...organizingWithFlag].sort(
-    (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime(),
-  )
+  return [...attendingWithFlag, ...organizingWithFlag]
+    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
+    .slice(0, 3)
 })
 </script>
 
@@ -233,7 +219,6 @@ de:
   about: Über
   contactBook: Kontaktbuch
   events: Veranstaltungen
-  friendAdd: Freundschaftsanfrage senden
   newEvent: Neue Veranstaltung
   iconAltContactBook: Kontaktbuch-Symbol
   iconAdd: Hinzufügen
@@ -244,7 +229,6 @@ en:
   about: About
   contactBook: Contact Book
   events: Events
-  friendAdd: Send friend request
   newEvent: New event
   iconAltContactBook: Contact Book Icon
   iconAdd: Add

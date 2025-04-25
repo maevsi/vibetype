@@ -1,41 +1,31 @@
 <template>
   <div
-    v-if="event && event.accountByCreatedBy?.username"
-    :class="[
-      'relative flex items-start gap-6 rounded-xl bg-white p-5 shadow-sm',
-      isOrganizing ? 'border border-1 border-(--accent-strong)' : '',
-    ]"
+    class="relative flex items-center rounded-lg border border-solid bg-white px-4 py-4"
+    :class="isOrganizing ? 'border-(--accent-strong)' : 'border-transparent'"
   >
-    <div class="absolute top-2 right-2">
-      <div
-        :class="[
-          'rounded-lg px-2 py-1 text-sm font-medium',
-          isOrganizing
-            ? 'bg-(--accent-strong) text-(--semantic-base-primary-button-text)'
-            : 'bg-(--complement-strong) text-white',
-        ]"
-      >
-        {{ isOrganizing ? t('organizing') : t('attending') }}
-      </div>
-    </div>
-    <div class="w-1/3 flex-shrink-0 overflow-hidden rounded-lg">
-      <EventCardHeroImage :event="event" class="h-full w-full object-cover" />
+    <div class="rounded-md">
+      <EventCardHeroImage :event="event" />
     </div>
     <div
-      class="mt-4 text-base font-semibold text-(--semantic-base-text-primary)"
+      class="ml-4 flex flex-1 flex-col justify-center gap-2 pr-12 text-(--semantic-base-text-primary)"
     >
-      <h3
-        class="break-words whitespace-pre-wrap text-(--semantic-base-text-primary) dark:text-(--semantic-base-text-primary)"
-        :class="{
-          'text-lg': event.name.length < 20,
-          'text-base': event.name.length > 40,
-        }"
-      >
+      <TypographyTitleMedium class="line-clamp-2">
         {{ event.name }}
-      </h3>
-      <p>
-        {{ eventStart.format('MMMM D, YYYY h:mm A') }}
-      </p>
+      </TypographyTitleMedium>
+      <TypographySubtitleSmall class="">
+        {{ eventStart.format('ddd, D MMMM •') }}
+        {{ eventStart.format('h:mm a') }}
+      </TypographySubtitleSmall>
+    </div>
+    <div
+      class="absolute top-2 right-2 rounded-sm px-2 py-1 leading-4 tracking-[0.005em]"
+      :class="
+        isOrganizing ? 'bg-(--accent-strong)' : 'bg-(--complement-strong)'
+      "
+    >
+      <TypographyLabel>
+        {{ isOrganizing ? t('organizing') : t('attending') }}
+      </TypographyLabel>
     </div>
   </div>
 </template>
