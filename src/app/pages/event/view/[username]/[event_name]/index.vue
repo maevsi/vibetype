@@ -114,12 +114,12 @@
             >
               <div>
                 <!-- TODO: back button -->
-                <!-- <Button
+                <!-- <AppButton
                   :aria-label="t('more')"
                   class="flex size-10 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
                 >
                   <AppIconBack />
-                </Button> -->
+                </AppButton> -->
               </div>
               <div>
                 <!-- TODO: share & favorite button -->

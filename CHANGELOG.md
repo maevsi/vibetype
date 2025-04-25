@@ -1,3 +1,14 @@
+## [10.10.0](https://github.com/maevsi/vibetype/compare/10.9.0...10.10.0) (2025-04-23)
+
+### Features
+
+* **early-bird:** add application ([d65598c](https://github.com/maevsi/vibetype/commit/d65598ca4ce59d66895f4893fa33449f9a377492))
+
+### Bug Fixes
+
+* **components:** add active button styling ([4db7dde](https://github.com/maevsi/vibetype/commit/4db7ddef8a9ef6a49b95c6a1397b32dcd38f4e82))
+* **components:** correct attribute casing for dialog step ([7ad658a](https://github.com/maevsi/vibetype/commit/7ad658ad859450418fdb391c0eff949e9c0d9b8a))
+
 ## [10.9.0](https://github.com/maevsi/vibetype/compare/10.8.1...10.9.0) (2025-04-17)
 
 ### Features

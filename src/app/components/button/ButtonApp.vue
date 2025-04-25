@@ -1,5 +1,5 @@
 <template>
-  <Button
+  <AppButton
     v-if="!isApp"
     :aria-label="t('appInstall', { siteName: t('globalSiteName') })"
     :to="localePath('docs-app')"
@@ -9,7 +9,7 @@
     <template #suffix>
       <IHeroiconsArrowRight />
     </template>
-  </Button>
+  </AppButton>
 </template>
 
 <script setup lang="ts">

@@ -5,7 +5,7 @@
   >
     <EventHeroImage :event="event" />
     <div class="flex flex-col gap-1 rounded-t-none p-2 pb-4">
-      <Button
+      <AppButton
         :aria-label="event.name"
         class="focus-visible:ring-0"
         is-block
@@ -23,7 +23,7 @@
         <TypographyH6 class="truncate text-3xl font-semibold">
           {{ event.name }}
         </TypographyH6>
-      </Button>
+      </AppButton>
       <TypographySubtitleSmall class="truncate">
         {{ eventStart.format('lll') }}
       </TypographySubtitleSmall>

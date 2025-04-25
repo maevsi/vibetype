@@ -1,78 +1,84 @@
 <template>
-  <div class="isolate flex grow flex-col gap-10">
+  <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
     <LayoutTopBar>
-      {{ title }}
-      <template #back>
-        <ButtonIcon
-          v-if="[1, 2].includes(index)"
-          :aria-label="t('back')"
-          @click="index--"
-        >
+      <span :id="templateIdTitle">
+        {{ title }}
+      </span>
+      <template v-if="[1, 2].includes(index)" #back>
+        <ButtonIcon :aria-label="t('back')" @click="index--">
           <AppIconBack />
         </ButtonIcon>
       </template>
     </LayoutTopBar>
-    <div
-      class="flex flex-col gap-10 pb-5"
-      :class="{
-        hidden: index !== 0,
-      }"
-    >
-      <div class="flex justify-center px-6">
+    <AppStep v-slot="attributes" :is-active="index === 0">
+      <LayoutPage v-bind="attributes">
         <FormAccountRegistration
           ref="form"
-          class="max-w-sm grow"
           @submit="index++"
           @success="index++"
           @error="handleError"
         />
-      </div>
-      <ContentLegalFooter />
-    </div>
-    <AccountLegalConsent
-      :class="{
-        hidden: index !== 1,
-      }"
-      :disabled="!legalTermId"
-      :label="t('agreeTerms')"
-      @agreement="index++"
-    >
-      <ContentLegalTerms @id="legalTermId = $event" />
-    </AccountLegalConsent>
-    <AccountLegalConsent
-      :class="{
-        hidden: index !== 2,
-      }"
-      :label="t('agreePrivacy')"
-      @agreement="templateForm?.submit(legalTermId || '')"
-    >
-      <Content path="privacy-consent" />
-    </AccountLegalConsent>
-    <div
-      class="flex grow flex-col items-center justify-center gap-8 p-8"
-      :class="{
-        hidden: index !== 3,
-      }"
-    >
-      <TypographySubtitleLarge class="font-bold">
-        {{ t('verificationInstructions') }}
-      </TypographySubtitleLarge>
-      <ButtonColored
-        :aria-label="t('verificationButton')"
-        class="w-full"
-        disabled
-        variant="secondary"
+        <ContentLegalFooter />
+      </LayoutPage>
+    </AppStep>
+    <AppStep v-slot="attributes" :is-active="index === 1">
+      <AccountLegalConsent
+        v-bind="attributes"
+        :disabled="!legalTermId"
+        :label="t('agreeTerms')"
+        @agreement="index++"
       >
-        {{ t('verificationButton') }}
-      </ButtonColored>
-    </div>
-    <ErrorView
-      :description="errorDescription"
-      :class="{
-        hidden: index !== -1,
-      }"
-    />
-  </div>
+        <ContentLegalTerms @id="legalTermId = $event" />
+      </AccountLegalConsent>
+    </AppStep>
+    <AppStep v-slot="attributes" :is-active="index === 2">
+      <AccountLegalConsent
+        v-bind="attributes"
+        :label="t('agreePrivacy')"
+        @agreement="templateForm?.submit(legalTermId || '')"
+      >
+        <Content path="privacy-consent" />
+      </AccountLegalConsent>
+    </AppStep>
+    <AppStep v-slot="attributes" :is-active="index === 3">
+      <LayoutPage v-bind="attributes">
+        <LayoutPageResult type="success">
+          <template #description>
+            {{ t('verificationInstructions') }}
+          </template>
+        </LayoutPageResult>
+        <template #bottom>
+          <ButtonColored
+            :aria-label="t('verificationButton')"
+            class="w-full max-w-md"
+            disabled
+            variant="secondary"
+          >
+            {{ t('verificationButton') }}
+          </ButtonColored>
+        </template>
+      </LayoutPage>
+    </AppStep>
+    <AppStep v-slot="attributes" :is-active="index === -1">
+      <LayoutPage v-bind="attributes">
+        <LayoutPageResult type="error">
+          <template #description>
+            {{ errorDescription }}
+          </template>
+        </LayoutPageResult>
+        <template #bottom>
+          <ButtonColored
+            :aria-label="t('backToRegistration')"
+            class="w-full max-w-sm"
+            variant="primary-critical"
+            @click="index = 0"
+          >
+            {{ t('backToRegistration') }}
+          </ButtonColored>
+        </template>
+      </LayoutPage>
+    </AppStep>
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -84,10 +90,8 @@ definePageMeta({
 
 const { t } = useI18n()
 
-// legal term
-const legalTermId = ref<string>()
-
-// form
+// template
+const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
 const errorDescription = ref('')
 
@@ -117,7 +121,10 @@ const handleError = (_: boolean, errorString: string) => {
 }
 
 // page
-useHeadDefault({ title: t('titleForm') })
+useHeadDefault({ title: title.value })
+
+// legal term
+const legalTermId = ref<string>()
 </script>
 
 <i18n lang="yaml">
@@ -125,6 +132,7 @@ de:
   agreeTerms: Ich stimme den Allgemeinen Geschäftsbedingungen zu
   agreePrivacy: Ich stimme der Datenschutzerklärung zu
   back: zurück
+  backToRegistration: Zurück zur Registrierung
   error: Fehler
   titleForm: Erstelle ein Konto
   titlePrivacy: Datenschutzbestimmungen
@@ -136,6 +144,7 @@ en:
   agreeTerms: I agree to the Terms and Conditions
   agreePrivacy: I agree to the Privacy Policy
   back: back
+  backToRegistration: Back to Registration
   error: Error
   titleForm: Create an account
   titlePrivacy: Privacy Policy
