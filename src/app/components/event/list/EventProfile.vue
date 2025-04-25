@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative flex items-center rounded-lg border border-solid bg-white px-4 py-4"
+    class="relative flex items-center rounded-lg border border-solid bg-(--semantic-base-surface-1) px-4 py-4"
     :class="isOrganizing ? 'border-(--accent-strong)' : 'border-transparent'"
   >
     <div class="rounded-md">
@@ -18,7 +18,7 @@
       </TypographySubtitleSmall>
     </div>
     <div
-      class="absolute top-2 right-2 rounded-sm px-2 py-1 leading-4 tracking-[0.005em]"
+      class="text-(semantic-base-primary-button-text) absolute top-2 right-2 rounded-sm px-2 py-1 leading-4 tracking-[0.005em]"
       :class="
         isOrganizing ? 'bg-(--accent-strong)' : 'bg-(--complement-strong)'
       "
