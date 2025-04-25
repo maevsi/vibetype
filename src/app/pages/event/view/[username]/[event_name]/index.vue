@@ -10,7 +10,11 @@
           :aria-label="t('invitationSelectionClear')"
           :to="
             localePath({
-              path: `/event/view/${route.params.username}/${route.params.event_name}/invitation`,
+              name: 'event-view-username-event_name-guest',
+              params: {
+                event_name: route.params.event_name,
+                username: route.params.username,
+              },
               query: { ...routeQuery, ic: undefined },
             })
           "
@@ -103,12 +107,59 @@
       </ButtonList>
       <div class="flex flex-col gap-4">
         <div>
-          <EventHeroImage :event="event" />
+          <div class="relative">
+            <EventHeroImage :event="event" />
+            <div
+              class="absolute inset-x-0 top-0 flex items-center justify-between px-4 py-2"
+            >
+              <div>
+                <!-- TODO: back button -->
+                <!-- <AppButton
+                  :aria-label="t('more')"
+                  class="flex size-10 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                >
+                  <AppIconBack />
+                </AppButton> -->
+              </div>
+              <div>
+                <!-- TODO: share & favorite button -->
+                <template
+                  v-if="
+                    store.signedInAccountId &&
+                    event.createdBy !== store.signedInAccountId
+                  "
+                >
+                  <AppDropdown>
+                    <AppDropdownItem
+                      variant="destructive"
+                      @select="templateReport?.open"
+                    >
+                      {{ t('report') }}
+                    </AppDropdownItem>
+                    <template #trigger>
+                      <span
+                        class="flex size-10 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                      >
+                        <AppIconMoreVertical />
+                      </span>
+                    </template>
+                  </AppDropdown>
+                  <EventReportDrawer
+                    ref="report"
+                    :account-id="store.signedInAccountId"
+                    :event
+                  />
+                </template>
+              </div>
+            </div>
+          </div>
           <Card
             v-if="event"
             class="flex flex-col items-stretch gap-4 rounded-t-none"
           >
-            <div class="flex flex-col items-baseline md:flex-row md:gap-2">
+            <div
+              class="flex flex-col items-baseline justify-center md:flex-row md:gap-2"
+            >
               <h1 class="m-0">
                 {{ event.name }}
               </h1>
@@ -373,6 +424,8 @@ const route = useRoute('event-view-username-event_name___en')
 const localePath = useLocalePath()
 const updateGuestByIdMutation = useUpdateGuestByIdMutation()
 
+const templateReport = useTemplateRef('report')
+
 // api data
 const accountByUsernameQuery = await zalgo(
   useAccountByUsernameQuery({
@@ -556,6 +609,7 @@ de:
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
   print: Drucken
   qrCodeShow: Check-in-Code anzeigen
+  report: Veranstaltung melden
   # requestSelection: Bitte auswählen
   settings: Bearbeiten
   # step1Of2: 1/2
@@ -587,6 +641,7 @@ en:
   ogImageAlt: The event's preview image.
   print: Print
   qrCodeShow: Show check in code
+  report: Report event
   # requestSelection: Please select
   settings: Edit
   # step1Of2: 1/2

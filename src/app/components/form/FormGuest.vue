@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <AppForm
     v-if="event"
     class="flex min-h-0 flex-col"
     :errors="api.errors"
@@ -58,7 +58,7 @@
       @load-more="after = api.data.allContacts?.pageInfo.endCursor"
     >
       <!-- <div class="flex flex-col gap-2"> -->
-      <Button
+      <AppButton
         v-for="contact in contactsFiltered"
         :key="contact.id"
         :aria-label="t('buttonContact')"
@@ -75,10 +75,10 @@
             contactIdsComputed.includes(contact.id)
           "
         />
-      </Button>
+      </AppButton>
       <!-- </div> -->
     </AppScrollContainer>
-  </Form>
+  </AppForm>
 </template>
 
 <script setup lang="ts">

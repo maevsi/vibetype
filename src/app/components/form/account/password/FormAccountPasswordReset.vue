@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <AppForm
     :errors="api.errors"
     :errors-pg-ids="{
       postgres22023: t('postgres22023'),
@@ -17,7 +17,7 @@
       :title="t('passwordNew')"
       @input="form.password = $event"
     />
-  </Form>
+  </AppForm>
 </template>
 
 <script setup lang="ts">

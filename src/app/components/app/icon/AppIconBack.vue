@@ -1,5 +1,5 @@
 <template>
-  <AppIcon v-slot="{ attributes }">
+  <AppIcon v-slot="attributes">
     <IVibetypeBack v-bind="attributes" :aria-label="t('ariaLabel')" />
   </AppIcon>
 </template>

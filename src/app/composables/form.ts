@@ -1,6 +1,6 @@
 import useVuelidate from '@vuelidate/core'
 
-export const useForm = <T extends Record<string, Ref>>({
+export const useAppForm = <T extends Record<string, Ref>>({
   fields,
   rules,
   onSubmit,

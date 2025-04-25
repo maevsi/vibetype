@@ -44,7 +44,7 @@
           >
             {{ t('perMonthAnnually', { price: tier.price?.annually }) }}
           </p>
-          <Button
+          <AppButton
             :aria-describedby="tier.id"
             :aria-label="tier.cta.name"
             :class="[
@@ -55,7 +55,7 @@
             @click="tier.onClick"
           >
             {{ tier.cta.name }}
-          </Button>
+          </AppButton>
           <p class="mt-10 text-sm leading-6 font-semibold">
             {{ tier.description }}
           </p>

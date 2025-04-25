@@ -1,3 +1,60 @@
+## [10.11.0](https://github.com/maevsi/vibetype/compare/10.10.0...10.11.0) (2025-04-24)
+
+### Features
+
+* **components:** update secondary critical button's design ([a5bc798](https://github.com/maevsi/vibetype/commit/a5bc7988611072e2ef4cd01663996883bb6fccad))
+* **pages:** link more information for welcoming new users ([02fd972](https://github.com/maevsi/vibetype/commit/02fd972988012b2e08755d1fa743e870195243cc))
+
+### Bug Fixes
+
+* **layout:** show sidebar on all large screens ([b2818f5](https://github.com/maevsi/vibetype/commit/b2818f5f7fde5357687f2ee5d73beb6007b7ce4d))
+
+## [10.10.0](https://github.com/maevsi/vibetype/compare/10.9.0...10.10.0) (2025-04-23)
+
+### Features
+
+* **early-bird:** add application ([d65598c](https://github.com/maevsi/vibetype/commit/d65598ca4ce59d66895f4893fa33449f9a377492))
+
+### Bug Fixes
+
+* **components:** add active button styling ([4db7dde](https://github.com/maevsi/vibetype/commit/4db7ddef8a9ef6a49b95c6a1397b32dcd38f4e82))
+* **components:** correct attribute casing for dialog step ([7ad658a](https://github.com/maevsi/vibetype/commit/7ad658ad859450418fdb391c0eff949e9c0d9b8a))
+
+## [10.9.0](https://github.com/maevsi/vibetype/compare/10.8.1...10.9.0) (2025-04-17)
+
+### Features
+
+* **event:** add report ([e609447](https://github.com/maevsi/vibetype/commit/e60944782ae7063afbb56b66083c300c98e09d95))
+
+## [10.8.1](https://github.com/maevsi/vibetype/compare/10.8.0...10.8.1) (2025-04-16)
+
+### Bug Fixes
+
+* **guest:** correct preview navigation ([#1887](https://github.com/maevsi/vibetype/issues/1887)) ([6c58e66](https://github.com/maevsi/vibetype/commit/6c58e66feed30af5474e615f16bd2ee289a8c13d))
+
+## [10.8.0](https://github.com/maevsi/vibetype/compare/10.7.0...10.8.0) (2025-04-15)
+
+### Features
+
+* **components:** use shadcn-nuxt's downdown ([ac456c5](https://github.com/maevsi/vibetype/commit/ac456c5348830d8b24d2551c78c0ca296d4aac38))
+
+### Bug Fixes
+
+* revert "chore(assets): remove unused css variables" ([b217ad3](https://github.com/maevsi/vibetype/commit/b217ad37aa510c8228308ff7208563804aef0fea))
+
+## [10.7.0](https://github.com/maevsi/vibetype/compare/10.6.0...10.7.0) (2025-04-15)
+
+### Features
+
+* **components:** replace headless ui with shadcn-nuxt for radio input ([776cfa0](https://github.com/maevsi/vibetype/commit/776cfa07c4e1bbe9b19d52bbbff6862c882fd2c4))
+
+## [10.6.0](https://github.com/maevsi/vibetype/compare/10.5.0...10.6.0) (2025-04-15)
+
+### Features
+
+* **components:** add label to search input ([f353f13](https://github.com/maevsi/vibetype/commit/f353f131d443b62b62024ed250403ab680082099))
+* **components:** correct search input icon ([542a168](https://github.com/maevsi/vibetype/commit/542a16811f0ba1c9b9010bfed9449bcc2a07e806))
+
 ## [10.5.0](https://github.com/maevsi/vibetype/compare/10.4.0...10.5.0) (2025-04-15)
 
 ### Features

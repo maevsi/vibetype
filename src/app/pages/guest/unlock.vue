@@ -1,7 +1,7 @@
 <template>
   <div class="m-auto max-w-xl">
     <h1>{{ title }}</h1>
-    <Form
+    <AppForm
       :errors="api.errors"
       :errors-pg-ids="{
         postgresP0002: t('postgresP0002'),
@@ -47,7 +47,7 @@
           </FormInputStateError>
         </template>
       </FormInput>
-    </Form>
+    </AppForm>
     <p class="mt-2">
       {{ t('greetingExplanation') }}
     </p>
@@ -99,7 +99,7 @@ definePageMeta({
       if (!result.data?.eventUnlock?.eventUnlockResponse?.jwt) {
         return await navigateTo(
           localePath({
-            path: `/guest/unlock`,
+            name: 'guest-unlock',
             query: {
               ...to.query,
               error: null,
@@ -136,7 +136,7 @@ definePageMeta({
       } else {
         return await navigateTo(
           localePath({
-            path: `/guest/unlock`,
+            name: 'guest-unlock',
             query: {
               ...to.query,
               redirect: localePath({

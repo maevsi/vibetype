@@ -10184,6 +10184,18 @@ export type AccountRegistrationRefreshMutation = {
   } | null
 }
 
+export type CreateAccountBlockMutationVariables = Exact<{
+  accountBlockInput: AccountBlockInput
+}>
+
+export type CreateAccountBlockMutation = {
+  __typename?: 'Mutation'
+  createAccountBlock?: {
+    __typename?: 'CreateAccountBlockPayload'
+    clientMutationId?: string | null
+  } | null
+}
+
 export type AchievementUnlockMutationVariables = Exact<{
   code: Scalars['UUID']['input']
   alias: Scalars['String']['input']
@@ -10391,6 +10403,18 @@ export type ProfilePictureSetMutation = {
   __typename?: 'Mutation'
   profilePictureSet?: {
     __typename?: 'ProfilePictureSetPayload'
+    clientMutationId?: string | null
+  } | null
+}
+
+export type CreateReportMutationVariables = Exact<{
+  reportInput: ReportInput
+}>
+
+export type CreateReportMutation = {
+  __typename?: 'Mutation'
+  createReport?: {
+    __typename?: 'CreateReportPayload'
     clientMutationId?: string | null
   } | null
 }
@@ -11916,6 +11940,72 @@ export const AccountRegistrationRefreshDocument = {
 } as unknown as DocumentNode<
   AccountRegistrationRefreshMutation,
   AccountRegistrationRefreshMutationVariables
+>
+export const CreateAccountBlockDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'createAccountBlock' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'accountBlockInput' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'AccountBlockInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createAccountBlock' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'accountBlock' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'accountBlockInput' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateAccountBlockMutation,
+  CreateAccountBlockMutationVariables
 >
 export const AchievementUnlockDocument = {
   kind: 'Document',
@@ -13592,6 +13682,72 @@ export const ProfilePictureSetDocument = {
 } as unknown as DocumentNode<
   ProfilePictureSetMutation,
   ProfilePictureSetMutationVariables
+>
+export const CreateReportDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'createReport' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'reportInput' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'ReportInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createReport' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'report' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'reportInput' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateReportMutation,
+  CreateReportMutationVariables
 >
 export const UploadCreateDocument = {
   kind: 'Document',

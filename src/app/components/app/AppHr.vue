@@ -1,3 +1,3 @@
 <template>
-  <div class="h-px grow bg-gray-300 dark:bg-gray-600" />
+  <div class="h-0.5 grow rounded-xl bg-(--semantic-base-line)" />
 </template>

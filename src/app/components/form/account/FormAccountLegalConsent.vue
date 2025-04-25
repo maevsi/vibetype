@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <AppForm
     :form="v$"
     form-class="sticky bottom-0 z-10 flex flex-col gap-3 border-t border-(--semantic-base-line) bg-(--semantic-base-background) p-3"
     :is-form-sent="isFormSent"
@@ -37,7 +37,7 @@
         {{ t('globalValidationRequired') }}
       </FormInputStateError>
     </div>
-  </Form>
+  </AppForm>
 </template>
 
 <script setup lang="ts">
@@ -52,7 +52,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const { form, isFormSent, formSubmit, v$ } = useForm({
+const { form, isFormSent, formSubmit, v$ } = useAppForm({
   fields: {
     agreement: ref<boolean>(),
   },
