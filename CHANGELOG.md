@@ -1,3 +1,9 @@
+## [10.11.1](https://github.com/maevsi/vibetype/compare/10.11.0...10.11.1) (2025-04-25)
+
+### Bug Fixes
+
+* **server:** correct postgres query variables ([1f396f4](https://github.com/maevsi/vibetype/commit/1f396f47da2a577e4669e30f8b4cfd499664262c))
+
 ## [10.11.0](https://github.com/maevsi/vibetype/compare/10.10.0...10.11.0) (2025-04-24)
 
 ### Features
