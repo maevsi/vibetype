@@ -1,10 +1,10 @@
 {
   "description": "Find events, guests and friends 💙❤️💚",
   "devDependencies": {
-    "@aws-sdk/client-ses": "3.796.0",
-    "@aws-sdk/credential-providers": "3.796.0",
+    "@aws-sdk/client-ses": "3.797.0",
+    "@aws-sdk/credential-providers": "3.797.0",
     "@dargmuesli/nuxt-cookie-control": "9.0.2",
-    "@dargmuesli/nuxt-vio": "18.2.2",
+    "@dargmuesli/nuxt-vio": "18.2.3",
     "@fontsource-variable/raleway": "5.2.5",
     "@graphql-codegen/add": "5.0.3",
     "@graphql-codegen/cli": "5.0.5",
