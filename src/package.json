@@ -85,7 +85,7 @@
     "eslint": "9.25.1",
     "firebase": "11.6.1",
     "firebase-admin": "13.3.0",
-    "graphql": "16.10.0",
+    "graphql": "16.11.0",
     "h3": "1.15.1",
     "html-to-text": "9.0.5",
     "ical-generator": "8.1.1",
