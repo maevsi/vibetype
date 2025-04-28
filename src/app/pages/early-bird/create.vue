@@ -4,24 +4,24 @@
       <span :id="templateIdTitle">
         {{ title }}
       </span>
-      <template v-if="[1].includes(index)" #back>
-        <ButtonIcon :aria-label="t('back')" @click="index--">
+      <template v-if="previous" #back>
+        <ButtonIcon :aria-label="t('back')" @click="step = previous">
           <AppIconBack />
         </ButtonIcon>
       </template>
-      <template v-if="[0, 1].includes(index)" #close>
+      <template v-if="['default', 'form'].includes(step)" #close>
         <ButtonIcon :aria-label="t('iconAltClose')" @click="store.navigateBack">
           <AppIconClose />
         </ButtonIcon>
       </template>
     </LayoutTopBar>
-    <AppStep v-slot="attributes" :is-active="index === 0">
-      <EarlyBirdWelcome v-bind="attributes" @next="index++" />
+    <AppStep v-slot="attributes" :is-active="step === 'default'">
+      <EarlyBirdWelcome v-bind="attributes" @next="step = 'form'" />
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="index === 1">
-      <EarlyBirdForm v-bind="attributes" @next="index++" />
+    <AppStep v-slot="attributes" :is-active="step === 'form'">
+      <EarlyBirdForm v-bind="attributes" @next="step = 'submission'" />
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="index === 2">
+    <AppStep v-slot="attributes" :is-active="step === 'submission'">
       <EarlyBirdSubmission v-bind="attributes" />
     </AppStep>
   </section>
@@ -34,10 +34,6 @@ definePageMeta({
 
 const { t } = useI18n()
 const templateIdTitle = useId()
-
-// page
-const title = t('title')
-useHeadDefault({ title })
 
 // validation
 const store = useStore()
@@ -55,7 +51,22 @@ if (!store.signedInUsername) {
 }
 
 // stepper
-const index = ref(0)
+const { step, previous, title } = useStepperPage<
+  'default' | 'form' | 'submission'
+>({
+  steps: {
+    default: {
+      title: t('title'),
+    },
+    form: {
+      previous: 'default',
+    },
+    submission: {},
+  },
+})
+
+// page
+useHeadDefault({ title })
 </script>
 
 <i18n lang="yaml">
