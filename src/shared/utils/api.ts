@@ -1,5 +1,5 @@
 export const getCombinedErrorMessages = (
-  errors: BackendError[],
+  errors: Readonly<BackendError[]>,
   pgIds?: Record<string, string>,
 ) => {
   const errorMessages: string[] = []
