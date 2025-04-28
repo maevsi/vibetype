@@ -286,7 +286,7 @@ const editor = useEditor({
   editorProps: {
     attributes: {
       class:
-        'rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) flex-grow px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-0 min-h-[100px]',
+        'rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) flex-1 px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-0 min-h-[100px]',
     },
   },
   extensions: [

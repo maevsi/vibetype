@@ -2,17 +2,16 @@
   <!-- <Loader :api="api" indicator="ping"> -->
   <header>
     <div class="flex items-center justify-between gap-4">
-      <ButtonIconBackRoute />
-      <AppButton
-        :aria-label="t('home')"
-        class="hidden 2xl:block"
-        :to="localePath('index')"
-      >
-        <IconLogoWithText class="h-10" />
-      </AppButton>
-      <div class="hidden grow lg:block" />
-
-      <div class="grow" />
+      <div class="flex items-center gap-4">
+        <ButtonIconBackRoute />
+        <AppButton
+          :aria-label="t('home')"
+          class="hidden 2xl:block"
+          :to="localePath('index')"
+        >
+          <IconLogoWithText class="h-10" />
+        </AppButton>
+      </div>
       <div class="flex items-center gap-2 whitespace-nowrap lg:gap-4">
         <ButtonEventNew />
         <div
