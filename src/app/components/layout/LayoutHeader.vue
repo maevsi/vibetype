@@ -2,16 +2,7 @@
   <!-- <Loader :api="api" indicator="ping"> -->
   <header>
     <div class="flex items-center justify-between gap-4">
-      <ButtonIcon
-        v-if="
-          store.routeHistory.length ||
-          !isEqual(route.path, localePath('index').toString())
-        "
-        :aria-label="t('back')"
-        @click="store.navigateBack()"
-      >
-        <IHeroiconsChevronLeft />
-      </ButtonIcon>
+      <ButtonIconBackRoute />
       <AppButton
         :aria-label="t('home')"
         class="hidden 2xl:block"
@@ -67,23 +58,18 @@
 </template>
 
 <script setup lang="ts">
-import { isEqual } from 'ufo'
-
 const store = useStore()
 const localePath = useLocalePath()
 const { t } = useI18n()
-const route = useRoute()
 </script>
 
 <i18n lang="yaml">
 de:
-  back: zurück
   dashboard: Dashboard
   home: Nach Hause
   settings: Einstellungen
   signIn: Anmelden
 en:
-  back: back
   dashboard: Dashboard
   home: Head home
   settings: Settings
