@@ -11,22 +11,19 @@ export const getApiData = <
 >(
   queries?: Array<T | undefined>,
 ) => {
+  const queriesSafe = queries ?? []
   const apiData = computed(() =>
     readonly({
-      data: (queries || []).reduce(
+      data: queriesSafe.reduce(
         (p, c) => ({ ...p, ...c?.data.value }),
         {} as NonNullable<
           UnionToIntersection<NonNullable<ArrayElement<T[]>['data']['value']>>
         >,
       ),
-      errors: (queries || []).reduce(
-        (p, c) => (c?.error.value ? [...p, c.error.value as BackendError] : p),
-        [] as BackendError[],
+      errors: queriesSafe.flatMap((query) =>
+        query?.error.value ? [query.error.value as BackendError] : [],
       ),
-      isFetching: (queries || []).reduce(
-        (p, c) => p || c?.fetching.value || false,
-        false,
-      ),
+      isFetching: queriesSafe.some((query) => query?.fetching.value),
     }),
   )
 
