@@ -1,3 +1,26 @@
+## [10.11.2](https://github.com/maevsi/vibetype/compare/10.11.1...10.11.2) (2025-04-25)
+
+### Bug Fixes
+
+* **components:** correct radio buttons for event ([4634f3f](https://github.com/maevsi/vibetype/commit/4634f3f55eda611abb0f9dfad547b552733ffec8))
+
+## [10.11.1](https://github.com/maevsi/vibetype/compare/10.11.0...10.11.1) (2025-04-25)
+
+### Bug Fixes
+
+* **server:** correct postgres query variables ([1f396f4](https://github.com/maevsi/vibetype/commit/1f396f47da2a577e4669e30f8b4cfd499664262c))
+
+## [10.11.0](https://github.com/maevsi/vibetype/compare/10.10.0...10.11.0) (2025-04-24)
+
+### Features
+
+* **components:** update secondary critical button's design ([a5bc798](https://github.com/maevsi/vibetype/commit/a5bc7988611072e2ef4cd01663996883bb6fccad))
+* **pages:** link more information for welcoming new users ([02fd972](https://github.com/maevsi/vibetype/commit/02fd972988012b2e08755d1fa743e870195243cc))
+
+### Bug Fixes
+
+* **layout:** show sidebar on all large screens ([b2818f5](https://github.com/maevsi/vibetype/commit/b2818f5f7fde5357687f2ee5d73beb6007b7ce4d))
+
 ## [10.10.0](https://github.com/maevsi/vibetype/compare/10.9.0...10.10.0) (2025-04-23)
 
 ### Features

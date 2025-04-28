@@ -52,7 +52,7 @@ import type { BaseValidation } from '@vuelidate/core'
 
 const { errors, errorsPgIds, form, formClass, isButtonHidden, submitName } =
   defineProps<{
-    errors?: BackendError[]
+    errors?: Readonly<BackendError[]>
     errorsPgIds?: Record<string, string>
     form: BaseValidation
     formClass?: string
