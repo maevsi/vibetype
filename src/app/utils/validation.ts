@@ -13,7 +13,6 @@ import { consola } from 'consola'
 import type { Ref } from 'vue'
 import type { LocationQueryValue } from 'vue-router'
 
-import { eventIsExistingQuery } from '~~/gql/documents/queries/event/eventIsExisting'
 import { accountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { eventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
@@ -77,12 +76,7 @@ export const VALIDATION_PASSWORD = () => ({
   lengthMin: minLength(VALIDATION_PASSWORD_LENGTH_MINIMUM),
   required,
 })
-export const VALIDATION_SLUG = ({
-  existenceNone,
-}: {
-  existenceNone: (value: string) => Promise<boolean>
-}) => ({
-  existenceNone: helpers.withAsync(existenceNone),
+export const VALIDATION_SLUG = () => ({
   formatSlug: VALIDATION_FORMAT_SLUG,
   lengthMax: maxLength(VALIDATION_EVENT_SLUG_LENGTH_MAXIMUM),
   required,
@@ -182,41 +176,6 @@ export const getEventByCreatedByAndSlug = async ({
 
   return getEventItem(eventByCreatedByAndSlug.data?.eventByCreatedByAndSlug)
 }
-
-export const validateEventSlug =
-  ({
-    signedInAccountId,
-    invert,
-    exclude,
-  }: {
-    signedInAccountId: string
-    invert: boolean
-    exclude?: string
-  }) =>
-  async (value: string) => {
-    const { $urql } = useNuxtApp()
-
-    if (!helpers.req(value)) {
-      return true
-    }
-
-    if (value === exclude) {
-      return true
-    }
-
-    const result = await $urql.value
-      .query(eventIsExistingQuery, {
-        createdBy: signedInAccountId,
-        slug: value,
-      })
-      .toPromise()
-
-    if (result.error) return false
-
-    return invert
-      ? !result.data?.eventIsExisting
-      : !!result.data?.eventIsExisting
-  }
 
 export const validateUsername = (invert?: boolean) => async (value: string) => {
   const { $urql } = useNuxtApp()
