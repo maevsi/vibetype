@@ -10,7 +10,7 @@
     <input
       :id="templateIdInput"
       v-model="model"
-      class="peer flex-grow border-none bg-transparent text-sm font-semibold placeholder-(--semantic-base-text-secondary) outline-0"
+      class="peer flex-1 border-none bg-transparent text-sm font-semibold placeholder-(--semantic-base-text-secondary) outline-0"
       :placeholder="t('search')"
       type="text"
     />

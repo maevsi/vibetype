@@ -4,33 +4,33 @@
       <span :id="templateIdTitle">
         {{ title }}
       </span>
-      <template v-if="[1, 2].includes(index)" #back>
-        <ButtonIcon :aria-label="t('back')" @click="index--">
+      <template v-if="previous" #back>
+        <ButtonIcon :aria-label="t('back')" @click="step = previous">
           <AppIconBack />
         </ButtonIcon>
       </template>
     </LayoutTopBar>
-    <AppStep v-slot="attributes" :is-active="index === 0">
+    <AppStep v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <FormAccountRegistration
           ref="form"
-          @submit="index++"
-          @success="index++"
+          @submit="step = 'terms'"
+          @success="step = 'success'"
         />
         <ContentLegalFooter />
       </LayoutPage>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="index === 1">
+    <AppStep v-slot="attributes" :is-active="step === 'terms'">
       <AccountLegalConsent
         v-bind="attributes"
         :disabled="!legalTermId"
         :label="t('agreeTerms')"
-        @agreement="index++"
+        @agreement="step = 'privacy'"
       >
         <ContentLegalTerms @id="legalTermId = $event" />
       </AccountLegalConsent>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="index === 2">
+    <AppStep v-slot="attributes" :is-active="step === 'privacy'">
       <AccountLegalConsent
         v-bind="attributes"
         :label="t('agreePrivacy')"
@@ -39,7 +39,7 @@
         <Content path="privacy-consent" />
       </AccountLegalConsent>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="index === 3">
+    <AppStep v-slot="attributes" :is-active="step === 'success'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="success">
           <template #description>
@@ -62,8 +62,6 @@
 </template>
 
 <script setup lang="ts">
-import { consola } from 'consola'
-
 definePageMeta({
   layout: 'plain',
 })
@@ -75,21 +73,25 @@ const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
 
 // stepper
-const index = ref(0)
-const title = computed(() => {
-  switch (index.value) {
-    case 0:
-      return t('titleForm')
-    case 1:
-      return t('titleTerms')
-    case 2:
-      return t('titlePrivacy')
-    case 3:
-      return t('titleVerification')
-    default:
-      consola.error('Unexpected account flow state')
-      return ''
-  }
+const { step, title, previous } = useStepperPage<
+  'default' | 'terms' | 'privacy' | 'success'
+>({
+  steps: {
+    default: {
+      title: t('titleForm'),
+    },
+    privacy: {
+      title: t('titlePrivacy'),
+      previous: 'terms',
+    },
+    success: {
+      title: t('titleVerification'),
+    },
+    terms: {
+      title: t('titleTerms'),
+      previous: 'default',
+    },
+  },
 })
 
 // page
