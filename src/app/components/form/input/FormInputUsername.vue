@@ -15,7 +15,7 @@
     <template #clearButton>
       <ButtonIcon
         :aria-label="t('iconAltClose')"
-        class="flex-shrink-0 px-2 peer-aria-invalid:text-(--semantic-critic-text)"
+        class="hidden flex-shrink-0 px-2 peer-[:not([data-empty='true'])]:block peer-[&[aria-invalid=true]]:text-(--semantic-critic-text)"
         @click="emit('input', '')"
       >
         <IVibetypeClose :aria-label="t('iconAltClose')" class="size-6" />

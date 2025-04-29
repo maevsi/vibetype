@@ -32,6 +32,7 @@
             :id="idLabelFull"
             class="peer flex-grow border-none px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-0 focus:outline-none"
             :aria-invalid="value?.$error"
+            :data-empty="!value?.$model"
             :disabled="isDisabled"
             :placeholder="placeholder"
             :readonly="isReadonly"
@@ -44,7 +45,7 @@
           <slot name="clearButton">
             <ButtonIcon
               :aria-label="t('iconAltClose')"
-              class="flex-shrink-0"
+              class="hidden flex-shrink-0 text-(--semantic-accent-accent-icon) peer-[:not([data-empty='true'])]:block"
               @click="emit('input', '')"
             >
               <IVibetypeClose :aria-label="t('iconAltClose')" class="size-6" />
