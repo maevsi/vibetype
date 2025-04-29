@@ -2,20 +2,18 @@
   <Loader :api="api" indicator="ping">
     <LayoutPageTitle :title="title" />
     <div class="flex flex-col gap-4">
-      <div
-        class="flex min-w-0 flex-col items-center justify-center sm:flex-row"
-      >
+      <div class="flex flex-col items-center justify-center sm:flex-row">
         <div
           class="flex w-full flex-row gap-4 rounded-xl bg-(--semantic-base-surface-1)"
         >
-          <div class="flex flex-row items-center gap-4 px-4 py-4">
+          <div class="flex flex-row items-center gap-4 px-4 py-4 md:py-5">
             <AccountProfilePicture
               :account-id="account.id"
-              class="h-10 w-10 rounded-full"
-              height="40"
-              width="40"
+              class="size-12 rounded-full md:size-14"
+              height="50"
+              width="50"
             />
-            <TypographyH3>
+            <TypographyH3 class="my-auto">
               {{ '@' + route.params.username }}
             </TypographyH3>
           </div>
@@ -32,7 +30,7 @@
         "
       >
         <div class="flex flex-row gap-4">
-          <IVibetypeContacts class="h-6 w-6" :alt="t('iconAltContactBook')" />
+          <IVibetypeContacts class="size-6" :alt="t('iconAltContactBook')" />
           {{ t('contactBook') }}
         </div>
       </ButtonColored>
@@ -57,7 +55,7 @@
           >
             <div class="flex flex-row gap-1">
               {{ t('newEvent') }}
-              <IVibetypeColoredAdd class="h-5 w-5" :alt="t('iconAdd')" />
+              <IVibetypeColoredAdd class="size-5" :alt="t('iconAdd')" />
             </div>
           </ButtonColored>
         </div>
