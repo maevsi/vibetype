@@ -2,7 +2,7 @@
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
     <LayoutTopBar>
       <span :id="templateIdTitle">{{ title }}</span>
-      <template v-if="[0].includes(index)" #close>
+      <template v-if="['default'].includes(step)" #close>
         <ButtonIcon
           :aria-label="t('iconAltClose')"
           @click="navigateTo(localePath('session-create'))"
@@ -11,7 +11,7 @@
         </ButtonIcon>
       </template>
     </LayoutTopBar>
-    <AppStep v-slot="attributes" :is-active="index === 0">
+    <AppStep v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <TypographyH3 class="text-center">
           {{ t('instructionsRequest') }}
@@ -20,7 +20,7 @@
           <FormAccountPasswordResetRequest
             ref="form"
             class="w-full max-w-md"
-            @success="index++"
+            @success="step = 'success'"
           />
         </div>
         <template #bottom>
@@ -34,7 +34,7 @@
         </template>
       </LayoutPage>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="index === 1">
+    <AppStep v-slot="attributes" :is-active="step === 'success'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="success">
           <template #description>
@@ -66,7 +66,7 @@ const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
 
 // stepper
-const index = ref(0)
+const { step } = useStepper<'default' | 'success'>()
 </script>
 
 <i18n lang="yaml">
