@@ -6,7 +6,7 @@
         v-bind="attributes"
         :account-id
         :event
-        @submit-success="step === 'reportConfirmation'"
+        @submit-success="step = 'reportConfirmation'"
       />
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'reportConfirmation'">
