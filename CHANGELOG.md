@@ -1,3 +1,14 @@
+## [10.12.0](https://github.com/maevsi/vibetype/compare/10.11.2...10.12.0) (2025-04-29)
+
+### Features
+
+* **components:** extract icon back button for route navigation ([2714539](https://github.com/maevsi/vibetype/commit/271453951b43ad5cf89b07047e5e43b78ffc6e77))
+* **components:** use title on all buttons instead of icon buttons only ([59309dd](https://github.com/maevsi/vibetype/commit/59309ddfae02bcf2ea25b0752d8cd01454abe728))
+
+### Bug Fixes
+
+* **components:** drop `grow` in favor of `flex-1` styling ([fccb262](https://github.com/maevsi/vibetype/commit/fccb262989f556d01c47d614720fa06016e138df))
+
 ## [10.11.2](https://github.com/maevsi/vibetype/compare/10.11.1...10.11.2) (2025-04-25)
 
 ### Bug Fixes
