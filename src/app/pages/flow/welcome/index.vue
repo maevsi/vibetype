@@ -1,8 +1,6 @@
 <template>
-  <div class="flex grow flex-col items-center p-6">
-    <div
-      class="flex max-w-md flex-1 flex-col items-center justify-center gap-10"
-    >
+  <LayoutPage>
+    <div class="flex flex-1 flex-col justify-center gap-10">
       <div class="flex flex-col items-center gap-2">
         <TypographyH3>{{ t('welcome') }}</TypographyH3>
         <div class="flex items-center gap-1">
@@ -30,7 +28,7 @@
         </ButtonColored>
       </div>
     </div>
-    <div class="flex w-full max-w-md flex-col gap-4">
+    <div class="flex flex-col gap-4">
       <ButtonColored
         v-if="!isApp"
         :aria-label="t('more')"
@@ -41,7 +39,7 @@
       </ButtonColored>
       <ContentLegalFooter />
     </div>
-  </div>
+  </LayoutPage>
 </template>
 
 <script setup lang="ts">

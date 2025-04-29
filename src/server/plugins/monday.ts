@@ -18,6 +18,12 @@ export default defineNitroPlugin((nitroApp) => {
 
   const board = runtimeConfigMonday?.board
   const missingFields = Object.entries({
+    'board.contact.column.emailAddressId':
+      board?.contact?.column?.emailAddressId,
+    'board.contact.column.messageId': board?.contact?.column?.messageId,
+    'board.contact.column.nameId': board?.contact?.column?.nameId,
+    'board.contact.id': board?.contact?.id,
+    'board.contact.groupId': board?.contact?.groupId,
     'board.earlyBird.column.agreementId': board?.earlyBird?.column?.agreementId,
     'board.earlyBird.column.emailAddressId':
       board?.earlyBird?.column?.emailAddressId,

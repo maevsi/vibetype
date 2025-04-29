@@ -41,7 +41,7 @@
         >
           <input
             :id="idLabelFull"
-            class="flex-grow border-none px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-0"
+            class="flex-1 border-none px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-0"
             :disabled="isDisabled"
             :placeholder="placeholder"
             :readonly="isReadonly"
