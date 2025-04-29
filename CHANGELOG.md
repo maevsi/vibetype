@@ -1,3 +1,13 @@
+## [10.13.0](https://github.com/maevsi/vibetype/compare/10.12.0...10.13.0) (2025-04-29)
+
+### Features
+
+* **pages:** add contact form ([205c216](https://github.com/maevsi/vibetype/commit/205c216f524038b92542b13a777e64798c58dbe5))
+
+### Bug Fixes
+
+* **event:** correct report step ([c6f7bb3](https://github.com/maevsi/vibetype/commit/c6f7bb3f2e59eacc26057d5a34a3b1179c151294))
+
 ## [10.12.0](https://github.com/maevsi/vibetype/compare/10.11.2...10.12.0) (2025-04-29)
 
 ### Features
