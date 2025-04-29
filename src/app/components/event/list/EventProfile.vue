@@ -3,8 +3,18 @@
     class="relative flex items-center rounded-lg border border-solid bg-(--semantic-base-surface-1) px-4 py-4"
     :class="isOrganizing ? 'border-(--accent-strong)' : 'border-transparent'"
   >
-    <div class="rounded-md">
+    <div class="relative rounded-md">
       <EventCardHeroImage :event="event" />
+      <button
+        class="absolute top-2 left-2 flex size-6 items-center justify-center rounded-full bg-white transition-all hover:scale-110"
+        @click.stop="toggleFavorite"
+      >
+        <IVibetypeFavorite
+          v-if="!isFavorite"
+          class="text-(--complement-strong)"
+        />
+        <IVibetypeFavoriteFilled v-else class="text-(--complement-strong)" />
+      </button>
     </div>
     <div
       class="ml-4 flex flex-1 flex-col justify-center gap-2 pr-12 text-(--semantic-base-text-primary)"
@@ -32,13 +42,14 @@
 
 <script setup lang="ts">
 import type { EventItemFragment } from '~~/gql/generated/graphql'
+import { useEventFavoriteMutation } from '~~/gql/documents/mutations/event/eventFavorite'
 
 const { t } = useI18n()
 
 interface Props {
   event: Pick<
     EventItemFragment,
-    'accountByCreatedBy' | 'name' | 'start' | 'slug'
+    'id' | 'accountByCreatedBy' | 'name' | 'start' | 'slug'
   >
   isOrganizing?: boolean
 }
@@ -49,6 +60,24 @@ const props = withDefaults(defineProps<Props>(), {
 
 const dateTime = useDateTime()
 const eventStart = computed(() => dateTime(props.event.start))
+
+const isFavorite = ref(false)
+const favoriteMutation = useEventFavoriteMutation()
+
+// TODO : fix mutation
+const markFavorite = async (eventId: string) => {
+  const result = await favoriteMutation.executeMutation({ eventId })
+  if (result.error) {
+    console.log(result.error)
+  }
+}
+
+const toggleFavorite = () => {
+  if (!isFavorite.value) {
+    markFavorite(props.event.id)
+  }
+  isFavorite.value = !isFavorite.value
+}
 </script>
 
 <i18n lang="yaml">

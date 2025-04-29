@@ -10307,6 +10307,24 @@ export type EventDeleteMutation = {
   } | null
 }
 
+export type CreateEventFavoriteMutationVariables = Exact<{
+  eventId: Scalars['UUID']['input']
+}>
+
+export type CreateEventFavoriteMutation = {
+  __typename?: 'Mutation'
+  createEventFavorite?: {
+    __typename?: 'CreateEventFavoritePayload'
+    clientMutationId?: string | null
+    eventFavorite?: {
+      __typename?: 'EventFavorite'
+      id: any
+      nodeId: string
+      eventId?: any | null
+    } | null
+  } | null
+}
+
 export type EventUnlockMutationVariables = Exact<{
   guestId: Scalars['UUID']['input']
 }>
@@ -12895,6 +12913,96 @@ export const EventDeleteDocument = {
     },
   ],
 } as unknown as DocumentNode<EventDeleteMutation, EventDeleteMutationVariables>
+export const CreateEventFavoriteDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'createEventFavorite' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'eventId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createEventFavorite' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'eventFavorite' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'eventId' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'eventId' },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventFavorite' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodeId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventId' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateEventFavoriteMutation,
+  CreateEventFavoriteMutationVariables
+>
 export const EventUnlockDocument = {
   kind: 'Document',
   definitions: [

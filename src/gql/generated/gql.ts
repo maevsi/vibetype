@@ -40,6 +40,7 @@ type Documents = {
   '\n      mutation updateContactById($id: UUID!, $contactPatch: ContactPatch!) {\n        updateContactById(input: { id: $id, contactPatch: $contactPatch }) {\n          contact {\n            ...ContactItem\n          }\n        }\n      }\n    ': typeof types.UpdateContactByIdDocument
   '\n      mutation createEvent($createEventInput: CreateEventInput!) {\n        createEvent(input: $createEventInput) {\n          event {\n            ...EventItem\n          }\n        }\n      }\n    ': typeof types.CreateEventDocument
   '\n      mutation eventDelete($id: UUID!, $password: String!) {\n        eventDelete(input: { id: $id, password: $password }) {\n          clientMutationId\n          event {\n            ...EventItem\n          }\n        }\n      }\n    ': typeof types.EventDeleteDocument
+  '\n      mutation createEventFavorite($eventId: UUID!) {\n        createEventFavorite(input: { eventFavorite: { eventId: $eventId } }) {\n          clientMutationId\n          eventFavorite {\n            id\n            nodeId\n            eventId\n          }\n        }\n      }\n    ': typeof types.CreateEventFavoriteDocument
   '\n  mutation eventUnlock($guestId: UUID!) {\n    eventUnlock(input: { guestId: $guestId }) {\n      eventUnlockResponse {\n        creatorUsername\n        eventSlug\n        jwt\n      }\n    }\n  }\n': typeof types.EventUnlockDocument
   '\n      mutation updateEventById($id: UUID!, $eventPatch: EventPatch!) {\n        updateEventById(input: { id: $id, eventPatch: $eventPatch }) {\n          event {\n            ...EventItem\n          }\n        }\n      }\n    ': typeof types.UpdateEventByIdDocument
   '\n      mutation createGuest($guestInput: GuestInput!) {\n        createGuest(input: { guest: $guestInput }) {\n          guest {\n            contactByContactId {\n              ...ContactItem\n            }\n            id\n          }\n        }\n      }\n    ': typeof types.CreateGuestDocument
@@ -116,6 +117,8 @@ const documents: Documents = {
     types.CreateEventDocument,
   '\n      mutation eventDelete($id: UUID!, $password: String!) {\n        eventDelete(input: { id: $id, password: $password }) {\n          clientMutationId\n          event {\n            ...EventItem\n          }\n        }\n      }\n    ':
     types.EventDeleteDocument,
+  '\n      mutation createEventFavorite($eventId: UUID!) {\n        createEventFavorite(input: { eventFavorite: { eventId: $eventId } }) {\n          clientMutationId\n          eventFavorite {\n            id\n            nodeId\n            eventId\n          }\n        }\n      }\n    ':
+    types.CreateEventFavoriteDocument,
   '\n  mutation eventUnlock($guestId: UUID!) {\n    eventUnlock(input: { guestId: $guestId }) {\n      eventUnlockResponse {\n        creatorUsername\n        eventSlug\n        jwt\n      }\n    }\n  }\n':
     types.EventUnlockDocument,
   '\n      mutation updateEventById($id: UUID!, $eventPatch: EventPatch!) {\n        updateEventById(input: { id: $id, eventPatch: $eventPatch }) {\n          event {\n            ...EventItem\n          }\n        }\n      }\n    ':
@@ -332,6 +335,12 @@ export function graphql(
 export function graphql(
   source: '\n      mutation eventDelete($id: UUID!, $password: String!) {\n        eventDelete(input: { id: $id, password: $password }) {\n          clientMutationId\n          event {\n            ...EventItem\n          }\n        }\n      }\n    ',
 ): (typeof documents)['\n      mutation eventDelete($id: UUID!, $password: String!) {\n        eventDelete(input: { id: $id, password: $password }) {\n          clientMutationId\n          event {\n            ...EventItem\n          }\n        }\n      }\n    ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation createEventFavorite($eventId: UUID!) {\n        createEventFavorite(input: { eventFavorite: { eventId: $eventId } }) {\n          clientMutationId\n          eventFavorite {\n            id\n            nodeId\n            eventId\n          }\n        }\n      }\n    ',
+): (typeof documents)['\n      mutation createEventFavorite($eventId: UUID!) {\n        createEventFavorite(input: { eventFavorite: { eventId: $eventId } }) {\n          clientMutationId\n          eventFavorite {\n            id\n            nodeId\n            eventId\n          }\n        }\n      }\n    ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
