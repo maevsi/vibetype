@@ -20,6 +20,7 @@
     :aria-label="ariaLabel"
     :class="cn(['rounded-sm', classComputed], classProps)"
     :disabled="disabled"
+    :title="ariaLabel"
     :type="type"
     @click="emit('click')"
   >

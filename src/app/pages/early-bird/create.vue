@@ -10,9 +10,9 @@
         </ButtonIcon>
       </template>
       <template v-if="['default', 'form'].includes(step)" #close>
-        <ButtonIcon :aria-label="t('iconAltClose')" @click="store.navigateBack">
+        <ButtonIconBackRoute :aria-label="t('iconAltClose')">
           <AppIconClose />
-        </ButtonIcon>
+        </ButtonIconBackRoute>
       </template>
     </LayoutTopBar>
     <AppStep v-slot="attributes" :is-active="step === 'default'">

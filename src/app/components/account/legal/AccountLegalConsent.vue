@@ -1,6 +1,6 @@
 <template>
-  <div class="flex grow flex-col">
-    <div class="grow overflow-x-auto px-3">
+  <div class="flex flex-1 flex-col">
+    <div class="flex-1 overflow-x-auto px-3">
       <slot />
     </div>
     <FormAccountLegalConsent :disabled :label @agreement="emit('agreement')" />
