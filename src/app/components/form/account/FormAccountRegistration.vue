@@ -75,7 +75,6 @@ const form = reactive({
 })
 const isFormSent = ref(false)
 const errorDescription = ref('')
-const api = getApiData([accountRegistrationMutation])
 
 // Methods
 const submit = async (termId: string) => {
@@ -96,7 +95,6 @@ const submit = async (termId: string) => {
     },
   )
   if (result.error) {
-    api.value.errors = [result.error]
     const pgError = result.error.graphQLErrors?.find(
       (g) =>
         (g as { errcode?: string }).errcode === '22023' ||
