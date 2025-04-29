@@ -63,7 +63,7 @@
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="error">
           <template #description>
-            {{ errorDescription }}
+            {{ errorDescription ?? t('tryAgain') }}
           </template>
         </LayoutPageResult>
         <template #bottom>
@@ -138,6 +138,7 @@ de:
   titlePrivacy: Datenschutzbestimmungen
   titleTerms: Geschäftsbedingungen
   titleVerification: E-Mail-Bestätigung erforderlich
+  tryAgain: Bitte versuchen Sie es erneut
   verificationButton: Warte auf dich…
   verificationInstructions: Überprüfe deine E-Mails auf einen Bestätigungslink.
 en:
@@ -150,6 +151,7 @@ en:
   titlePrivacy: Privacy Policy
   titleTerms: General Terms and Conditions
   titleVerification: Email Verification Required
+  tryAgain: Please try again
   verificationButton: Waiting for you…
   verificationInstructions: Check your emails for a verification link.
 </i18n>
