@@ -8,31 +8,40 @@
     <CardStateInfo v-if="to" class="rounded-none">
       {{ t('accountRequired') }}
     </CardStateInfo>
-    <template v-if="!errorVisible">
-      <LayoutPage>
-        <FormAccountSignIn @signed-in="onSignIn" @error="handleError" />
-        <ContentLegalFooter />
-      </LayoutPage>
-    </template>
-    <template v-else>
-      <LayoutPage>
-        <LayoutPageResult type="error">
-          <template #description>
-            {{ errorDescription }}
-          </template>
-        </LayoutPageResult>
-        <template #bottom>
-          <ButtonColored
-            :aria-label="t('backToLogin')"
-            class="w-full max-w-md"
-            variant="primary-critical"
-            @click="resetError"
-          >
-            {{ t('backToLogin') }}
-          </ButtonColored>
-        </template>
-      </LayoutPage>
-    </template>
+    <LayoutPage>
+      <AppStep v-slot="formAttrs" :is-active="!errorVisible">
+        <div v-bind="formAttrs">
+          <FormAccountSignIn
+            @signed-in="onSignIn"
+            @error="errorVisible = true"
+          />
+          <ContentLegalFooter />
+        </div>
+      </AppStep>
+      <AppStep v-slot="errorAttrs" :is-active="errorVisible">
+        <div v-bind="errorAttrs">
+          <LayoutPageResult type="error">
+            <template #description>
+              {{ t('loginError') }}
+            </template>
+          </LayoutPageResult>
+        </div>
+      </AppStep>
+      <template #bottom>
+        <AppStep v-slot="buttonAttrs" :is-active="errorVisible">
+          <div v-bind="buttonAttrs" class="flex w-full justify-center">
+            <ButtonColored
+              :aria-label="t('backToLogin')"
+              class="w-full max-w-md"
+              variant="primary-critical"
+              @click="resetError"
+            >
+              {{ t('backToLogin') }}
+            </ButtonColored>
+          </div>
+        </AppStep>
+      </template>
+    </LayoutPage>
   </section>
 </template>
 
@@ -43,13 +52,6 @@ definePageMeta({
 
 // page
 const { t } = useI18n()
-
-const errorDescription = ref('')
-
-const handleError = (isError: boolean, message: string) => {
-  errorVisible.value = isError
-  errorDescription.value = message
-}
 
 const resetError = () => {
   errorVisible.value = false
@@ -95,9 +97,11 @@ de:
   backToLogin: Zurück zur Anmeldung
   error: Fehler
   title: Einloggen
+  loginError: Anmeldefehler
 en:
   accountRequired: Log in to continue.
   backToLogin: Back to Login
   error: Error
   title: Log in
+  loginError: Login Error
 </i18n>
