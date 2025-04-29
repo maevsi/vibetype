@@ -30,7 +30,7 @@
     "@nuxt/schema": "3.17.0",
     "@nuxt/scripts": "0.11.6",
     "@nuxtjs/html-validator": "2.1.0",
-    "@nuxtjs/i18n": "9.5.3",
+    "@nuxtjs/i18n": "10.0.0-beta.3",
     "@nuxtjs/mdc": "0.17.0",
     "@nuxtjs/seo": "3.0.3",
     "@nuxtjs/turnstile": "1.0.0",
