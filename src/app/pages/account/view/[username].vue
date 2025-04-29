@@ -5,19 +5,19 @@
       <div
         class="flex min-w-0 flex-col items-center justify-center sm:flex-row"
       >
-        <div class="w-full rounded-xl bg-(--semantic-base-surface-1)">
-          <div class="flex flex-row items-center px-4 py-4">
+        <div
+          class="flex w-full flex-row gap-4 rounded-xl bg-(--semantic-base-surface-1)"
+        >
+          <div class="flex flex-row items-center gap-4 px-4 py-4">
             <AccountProfilePicture
               :account-id="account.id"
               class="h-10 w-10 rounded-full"
               height="40"
               width="40"
             />
-            <span
-              class="ml-2 font-semibold text-(--semantic-base-text-primary)"
-            >
+            <TypographyH3>
               {{ '@' + route.params.username }}
-            </span>
+            </TypographyH3>
           </div>
         </div>
       </div>
@@ -41,9 +41,7 @@
           {{ t('about') }}
         </TypographyH3>
         <TypographyBodyMedium>
-          <!-- Tech enthusiast, avid reader, and coffee lover ☕. Passionate about
-          AI, innovation, and lifelong learning. Sharing insights on technology,
-          books, and creative ideas. Let’s connect and explore together! -->
+          {{ account.description }}
         </TypographyBodyMedium>
       </div>
       <div class="flex flex-col">
@@ -65,7 +63,7 @@
         </div>
       </div>
       <div>
-        <div v-if="mixedEvents.length > 0" class="flex flex-col space-y-4">
+        <div v-if="mixedEvents.length > 0" class="flex flex-col gap-4">
           <EventProfile
             v-for="event in mixedEvents"
             :key="event.id"
@@ -192,12 +190,6 @@ const events = computed(
       .filter(isNeitherNullNorUndefined) || [],
 )
 
-const api = getApiData([
-  accountByUsernameQuery,
-  achievementsQuery,
-  accountEventsAttendingQuery,
-  allEventsQuery,
-])
 const mixedEvents = computed(() => {
   const attendingWithFlag = eventsAttending.value.map((event) => ({
     ...event,
@@ -211,6 +203,13 @@ const mixedEvents = computed(() => {
     .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
     .slice(0, 3)
 })
+
+const api = getApiData([
+  accountByUsernameQuery,
+  achievementsQuery,
+  accountEventsAttendingQuery,
+  allEventsQuery,
+])
 </script>
 
 <i18n lang="yaml">
