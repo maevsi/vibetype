@@ -148,6 +148,7 @@
         :value-formatter="dateTimeFormatter"
         :warning="isWarningStartPastShown"
         @click="store.modals.push({ id: 'ModalDateTimeStart' })"
+        @clear="v$.start.$model = undefined"
       >
         <template #stateError>
           <FormInputStateError
@@ -172,11 +173,8 @@
         :value="v$.end"
         :value-formatter="dateTimeFormatter"
         @click="store.modals.push({ id: 'ModalDateTimeEnd' })"
-        @icon="v$.end.$model = undefined"
+        @clear="v$.end.$model = undefined"
       >
-        <template v-if="v$.end.$model" #icon>
-          <IHeroiconsXMark />
-        </template>
       </FormInput>
       <FormInput :title="t('attendanceType')" type="checkbox">
         <FormCheckbox
