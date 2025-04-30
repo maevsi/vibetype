@@ -47,7 +47,6 @@ import { useAuthenticateMutation } from '~~/gql/documents/mutations/account/acco
 
 const emit = defineEmits<{
   'signed-in': []
-  error: [boolean]
 }>()
 
 const fireAlert = useFireAlert()
@@ -62,9 +61,11 @@ const form = reactive({
   username: ref<string>(),
 })
 const isFormSent = ref(false)
+const modelError = defineModel<Error>('error')
 
 // api data
 const authenticateMutation = useAuthenticateMutation()
+const api = getApiData([authenticateMutation])
 
 // methods
 const submit = async () => {
@@ -83,10 +84,9 @@ const submit = async () => {
       },
     },
   )
-  if (result.error) {
-    emit('error', true)
-    return
-  }
+
+  if (result.error) return
+
   try {
     await jwtStore(result.data?.authenticate?.jwt)
   } catch (error) {
@@ -98,6 +98,7 @@ const submit = async () => {
     })
     return
   }
+
   emit('signed-in')
 }
 
@@ -108,17 +109,35 @@ const rules = {
   password: VALIDATION_PASSWORD(),
 }
 const v$ = useVuelidate(rules, form)
+
+watch(
+  () => api.value.errors,
+  (current) => {
+    modelError.value = current
+      ? new Error(
+          getCombinedErrorMessages(current, {
+            postgres55000: t('postgres55000'),
+            postgresP0002: t('postgresP0002'),
+          })[0],
+        )
+      : undefined
+  },
+)
 </script>
 
 <i18n lang="yaml">
 de:
   jwtStoreFail: Fehler beim Speichern der Authentifizierungsdaten!
   passwordReset: Passwort zurücksetzen
+  postgres55000: Deine E-Mail-Adresse ist noch nicht verifiziert! Schau in dein E-Mail-Postfach, ggf. auch in den Spam-Ordner, oder kontaktiere den Support.
+  postgresP0002: Anmeldung fehlgeschlagen! Hast du dich schon registriert? Überprüfe deine Eingaben auf Schreibfehler oder kontaktiere den Support.
   register: Konto erstellen
   signIn: Einloggen
 en:
   jwtStoreFail: Failed to store the authentication data!
   passwordReset: I forgot my password
+  postgres55000: Your email address has not been verified yet! Check your email inbox, including the spam folder if necessary, or contact support.
+  postgresP0002: Login failed! Have you registered yet? Check your input for spelling mistakes or contact support.
   register: Create an account
   signIn: Log in
 </i18n>

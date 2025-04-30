@@ -4,34 +4,34 @@
       <span :id="templateIdTitle">
         {{ title }}
       </span>
-      <template v-if="[1, 2].includes(index)" #back>
-        <ButtonIcon :aria-label="t('back')" @click="index--">
+      <template v-if="!error && previous" #back>
+        <ButtonIcon :aria-label="t('back')" @click="step = previous">
           <AppIconBack />
         </ButtonIcon>
       </template>
     </LayoutTopBar>
-    <AppStep v-slot="attributes" :is-active="index === 0">
+    <AppStep v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <FormAccountRegistration
           ref="form"
-          @submit="index++"
-          @success="index++"
-          @error="handleError"
+          v-model:error="error"
+          @submit="step = 'terms'"
+          @success="step = 'success'"
         />
         <ContentLegalFooter />
       </LayoutPage>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="index === 1">
+    <AppStep v-slot="attributes" :is-active="step === 'terms'">
       <AccountLegalConsent
         v-bind="attributes"
         :disabled="!legalTermId"
         :label="t('agreeTerms')"
-        @agreement="index++"
+        @agreement="step = 'privacy'"
       >
         <ContentLegalTerms @id="legalTermId = $event" />
       </AccountLegalConsent>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="index === 2">
+    <AppStep v-slot="attributes" :is-active="step === 'privacy'">
       <AccountLegalConsent
         v-bind="attributes"
         :label="t('agreePrivacy')"
@@ -40,7 +40,7 @@
         <Content path="privacy-consent" />
       </AccountLegalConsent>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="index === 3">
+    <AppStep v-slot="attributes" :is-active="step === 'success'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="success">
           <template #description>
@@ -59,11 +59,12 @@
         </template>
       </LayoutPage>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="index === -1">
+    <AppStep v-if="error" v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="error">
+          {{ error }}
           <template #description>
-            {{ errorDescription ?? t('tryAgain') }}
+            {{ t('tryAgain') }}
           </template>
         </LayoutPageResult>
         <template #bottom>
@@ -71,7 +72,7 @@
             :aria-label="t('backToRegistration')"
             class="w-full max-w-sm"
             variant="primary-critical"
-            @click="index = 0"
+            @click="error = undefined"
           >
             {{ t('backToRegistration') }}
           </ButtonColored>
@@ -82,8 +83,6 @@
 </template>
 
 <script setup lang="ts">
-import { consola } from 'consola'
-
 definePageMeta({
   layout: 'plain',
 })
@@ -93,32 +92,28 @@ const { t } = useI18n()
 // template
 const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
-const errorDescription = ref('')
 
 // stepper
-const index = ref(0)
-const title = computed(() => {
-  switch (index.value) {
-    case 0:
-      return t('titleForm')
-    case 1:
-      return t('titleTerms')
-    case 2:
-      return t('titlePrivacy')
-    case 3:
-      return t('titleVerification')
-    case -1:
-      return t('error')
-    default:
-      consola.error('Unexpected account flow state')
-      return ''
-  }
+const { error, step, title, previous } = useStepperPage<
+  'default' | 'terms' | 'privacy' | 'success'
+>({
+  steps: {
+    default: {
+      title: t('titleForm'),
+    },
+    privacy: {
+      title: t('titlePrivacy'),
+      previous: 'terms',
+    },
+    success: {
+      title: t('titleVerification'),
+    },
+    terms: {
+      title: t('titleTerms'),
+      previous: 'default',
+    },
+  },
 })
-
-const handleError = (_: boolean, errorString: string) => {
-  index.value = -1
-  errorDescription.value = errorString
-}
 
 // page
 useHeadDefault({ title: title.value })
@@ -133,7 +128,6 @@ de:
   agreePrivacy: Ich stimme der Datenschutzerklärung zu
   back: zurück
   backToRegistration: Zurück zur Registrierung
-  error: Fehler
   titleForm: Erstelle ein Konto
   titlePrivacy: Datenschutzbestimmungen
   titleTerms: Geschäftsbedingungen
@@ -146,7 +140,6 @@ en:
   agreePrivacy: I agree to the Privacy Policy
   back: back
   backToRegistration: Back to Registration
-  error: Error
   titleForm: Create an account
   titlePrivacy: Privacy Policy
   titleTerms: General Terms and Conditions

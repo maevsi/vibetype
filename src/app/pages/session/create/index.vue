@@ -2,39 +2,37 @@
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
     <LayoutTopBar>
       <span :id="templateIdTitle">
-        {{ t('title') }}
+        {{ title }}
       </span>
     </LayoutTopBar>
     <CardStateInfo v-if="to" class="rounded-none">
       {{ t('accountRequired') }}
     </CardStateInfo>
     <LayoutPage>
-      <AppStep v-slot="formAttrs" :is-active="!errorVisible">
+      <AppStep v-slot="formAttrs" :is-active="step === 'default'">
         <div v-bind="formAttrs">
-          <FormAccountSignIn
-            @signed-in="onSignIn"
-            @error="errorVisible = true"
-          />
+          <FormAccountSignIn v-model:error="error" @signed-in="onSignIn" />
           <ContentLegalFooter />
         </div>
       </AppStep>
-      <AppStep v-slot="errorAttrs" :is-active="errorVisible">
+      <AppStep v-slot="errorAttrs" :is-active="step === 'error'">
         <div v-bind="errorAttrs">
           <LayoutPageResult type="error">
+            {{ error }}
             <template #description>
-              {{ t('loginError') }}
+              {{ t('errorDescription') }}
             </template>
           </LayoutPageResult>
         </div>
       </AppStep>
       <template #bottom>
-        <AppStep v-slot="buttonAttrs" :is-active="errorVisible">
+        <AppStep v-slot="buttonAttrs" :is-active="step === 'error'">
           <div v-bind="buttonAttrs" class="flex w-full justify-center">
             <ButtonColored
               :aria-label="t('backToLogin')"
               class="w-full max-w-md"
               variant="primary-critical"
-              @click="resetError"
+              @click="error = undefined"
             >
               {{ t('backToLogin') }}
             </ButtonColored>
@@ -53,10 +51,6 @@ definePageMeta({
 // page
 const { t } = useI18n()
 
-const resetError = () => {
-  errorVisible.value = false
-}
-
 // template
 const templateIdTitle = useId()
 
@@ -64,9 +58,18 @@ const templateIdTitle = useId()
 const localePath = useLocalePath()
 const route = useRoute()
 const store = useStore()
-const errorVisible = ref(false)
 
-const title = computed(() => (errorVisible.value ? t('error') : t('title')))
+// stepper
+const { error, step, title } = useStepperPage<'default'>({
+  steps: {
+    default: {
+      title: t('title'),
+    },
+    error: {
+      title: t('errorTitle'),
+    },
+  },
+})
 useHeadDefault({ title })
 
 // computations
@@ -95,13 +98,13 @@ const onSignIn = async () => {
 de:
   accountRequired: Melde dich an, um fortzufahren.
   backToLogin: Zurück zur Anmeldung
-  error: Fehler
   title: Einloggen
-  loginError: Anmeldefehler
+  errorTitle: Anmeldefehler
+  errorDescription: Bitte versuche es erneut
 en:
   accountRequired: Log in to continue.
   backToLogin: Back to Login
-  error: Error
   title: Log in
-  loginError: Login Error
+  errorTitle: Login Error
+  errorDescription: Please try again
 </i18n>

@@ -2,7 +2,6 @@
   <AppButton
     v-bind="delegatedProps"
     :class="cn('justify-center', classProps)"
-    :title="ariaLabel"
     @click="emit('click')"
   >
     <slot />

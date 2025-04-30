@@ -60,12 +60,12 @@ import { useAccountRegistrationMutation } from '~~/gql/documents/mutations/accou
 const emit = defineEmits<{
   submit: []
   success: []
-  error: [boolean, string]
 }>()
 
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
 const accountRegistrationMutation = useAccountRegistrationMutation()
+const api = getApiData([accountRegistrationMutation])
 const form = reactive({
   captcha: ref<string>(),
   emailAddress: ref<string>(),
@@ -74,7 +74,7 @@ const form = reactive({
   username: ref<string>(),
 })
 const isFormSent = ref(false)
-const errorDescription = ref('')
+const modelError = defineModel<Error>('error')
 
 // Methods
 const submit = async (termId: string) => {
@@ -94,29 +94,27 @@ const submit = async (termId: string) => {
       },
     },
   )
-  if (result.error) {
-    const pgError = result.error.graphQLErrors?.find(
-      (g) =>
-        (g as { errcode?: string }).errcode === '22023' ||
-        (g as { errcode?: string }).errcode === '23505',
-    )
-    if (pgError) {
-      const errcode = (pgError as { errcode?: string }).errcode
-      if (errcode === '22023') {
-        errorDescription.value = t('postgres22023')
-      } else if (errcode === '23505') {
-        errorDescription.value = t('postgres23505')
-      }
-    }
-    emit('error', true, errorDescription.value)
-    return
-  }
+  if (result.error || !result.data) return
   emit('success')
 }
 const submitEmit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
   emit('submit')
 }
+
+watch(
+  () => api.value.errors,
+  (current) => {
+    modelError.value = current
+      ? new Error(
+          getCombinedErrorMessages(current, {
+            postgres22023: t('postgres22023'),
+            postgres23505: t('postgres23505'),
+          })[0],
+        )
+      : undefined
+  },
+)
 
 // vuelidate
 const rules = {
