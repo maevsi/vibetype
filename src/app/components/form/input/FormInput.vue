@@ -48,7 +48,7 @@
               class="hidden flex-shrink-0 text-(--semantic-accent-accent-icon) peer-[:not([data-empty='true'])]:block"
               @click="emit('input', '')"
             >
-              <IVibetypeClose :aria-label="t('iconAltClose')" class="size-6" />
+              <AppIconClose />
             </ButtonIcon>
           </slot>
           <div v-if="validationProperty && isValidatable">
