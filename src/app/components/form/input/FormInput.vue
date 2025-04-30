@@ -34,7 +34,7 @@
             :aria-invalid="value?.$error"
             :data-empty="!value?.$model"
             :disabled="isDisabled"
-            :placeholder="placeholder"
+            :placeholder
             :readonly="isReadonly"
             :type
             :value="valueFormatter(value?.$model as string)"
