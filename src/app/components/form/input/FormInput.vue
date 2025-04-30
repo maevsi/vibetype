@@ -30,7 +30,7 @@
         >
           <input
             :id="idLabelFull"
-            class="peer flex-grow border-none px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-0 focus:outline-none"
+            class="peer flex-1 border-none px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-none"
             :aria-invalid="value?.$error"
             :data-empty="!value?.$model"
             :disabled="isDisabled"
