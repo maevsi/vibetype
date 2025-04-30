@@ -11,20 +11,9 @@
     <template v-if="isStrengthShown" #inputSuffix>
       <Progress :model-value="strength" class="my-2" />
     </template>
-    <template #clearButton>
-      <ButtonIcon
-        :aria-label="t('iconAltClose')"
-        class="hidden flex-shrink-0 px-2 peer-[:not([data-empty='true'])]:block peer-[&[aria-invalid=true]]:text-(--semantic-critic-text)"
-        @click="emit('input', '')"
-      >
-        <IVibetypeClose :aria-label="t('iconAltClose')" class="size-6" />
-      </ButtonIcon>
-    </template>
     <template #icon>
-      <div class="flex flex-row gap-1">
-        <IHeroiconsEye v-if="!isVisible" />
-        <IHeroiconsEyeSlash v-else />
-      </div>
+      <IHeroiconsEye v-if="!isVisible" />
+      <IHeroiconsEyeSlash v-else />
     </template>
     <template #stateError>
       <FormInputStateError
@@ -88,12 +77,10 @@ const strength = computed(() =>
 
 <i18n lang="yaml">
 de:
-  iconAltClose: X-Icon
   password: Passwort
   validationFormat: Muss {length} Zeichen lang sein
   validationSameAs: Die Passwörter stimmen nicht überein
 en:
-  iconAltClose: X icon
   password: Password
   validationFormat: Must be {length} characters long
   validationSameAs: The passwords do not match

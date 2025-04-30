@@ -26,7 +26,7 @@
         <!-- TODO: support textarea, checkboxes and radio buttons natively -->
         <div
           v-else
-          class="flex items-center gap-2 rounded-lg border bg-(--semantic-base-input-field-fill) has-[input[aria-invalid=true]]:border-(--critic-weak)"
+          class="flex items-center gap-2 rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) has-aria-invalid:border-(--critic-weak)"
         >
           <input
             :id="idLabelFull"
@@ -45,8 +45,8 @@
           <slot name="clearButton">
             <ButtonIcon
               :aria-label="t('iconAltClose')"
-              class="hidden flex-shrink-0 text-(--semantic-accent-accent-icon) peer-[:not([data-empty='true'])]:block"
-              @click="emit('input', '')"
+              class="shrink-0 px-2 peer-data-[empty='true']:hidden peer-[&[aria-invalid=true]]:text-(--semantic-critic-text)"
+              @click="handleClear"
             >
               <AppIconClose />
             </ButtonIcon>
@@ -102,7 +102,6 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 import { consola } from 'consola'
-
 const {
   isDisabled,
   isOptional,
@@ -126,19 +125,18 @@ const {
   isValidatable?: boolean
   idLabel?: string
   placeholder?: string
-  // success?: boolean
   title: string
   type?: string
   validationProperty?: BaseValidation
   value?: BaseValidation
   valueFormatter?: (x?: string) => typeof x | undefined
-  // warning?: boolean
 }>()
 
 const emit = defineEmits<{
   icon: []
   input: [input: string]
   click: []
+  clear: []
 }>()
 
 const { t } = useI18n()
@@ -154,6 +152,11 @@ const idLabelFull = idLabel
 // initialization
 if (!value && type && !['checkbox', 'select'].includes(type)) {
   consola.warn(`value is missing for ${idLabel}!`)
+}
+
+const handleClear = () => {
+  emit('clear')
+  emit('input', '')
 }
 
 // if (
