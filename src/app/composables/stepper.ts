@@ -7,9 +7,14 @@ export const useStepper = <T extends string>(options?: { initial?: T }) => {
     get: () => (error.value ? 'error' : _step.value),
     set: (value) => (_step.value = value),
   })
+  const restart = () => {
+    error.value = undefined
+    _step.value = 'default'
+  }
 
   return {
     error,
+    restart,
     step,
   }
 }
@@ -33,14 +38,14 @@ export const useStepperPage = <T extends string>({
     }
   }
 }) => {
-  const { step, error } = useStepper({
+  const { error, step, restart } = useStepper({
     initial,
   })
   const { t } = useI18n()
 
   const title = computed(
     () =>
-      steps[step.value].title ??
+      steps[step.value]?.title ??
       (step.value === 'error' ? t('globalError') : steps[initial].title),
   )
   const previous = computed(() => steps[step.value].previous)
@@ -48,6 +53,7 @@ export const useStepperPage = <T extends string>({
   return {
     error,
     previous,
+    restart,
     step,
     title,
   }

@@ -1,11 +1,6 @@
 <template>
   <div class="flex flex-col items-center gap-4">
     <AppForm
-      :errors="api.errors"
-      :errors-pg-ids="{
-        postgres22023: t('postgres22023'),
-        postgres23505: t('postgres23505'),
-      }"
       :form="v$"
       form-class="w-full"
       :is-form-sent="isFormSent"
@@ -79,6 +74,7 @@ const form = reactive({
   username: ref<string>(),
 })
 const isFormSent = ref(false)
+const modelError = defineModel<Error>('error')
 
 // Methods
 const submit = async (termId: string) => {
@@ -105,6 +101,21 @@ const submitEmit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
   emit('submit')
 }
+
+// TODO: move into api utility as `errorsTranslated`
+watch(
+  () => api.value.errors,
+  (current) => {
+    modelError.value = current
+      ? new Error(
+          getCombinedErrorMessages(current, {
+            postgres22023: t('postgres22023'),
+            postgres23505: t('postgres23505'),
+          })[0],
+        )
+      : undefined
+  },
+)
 
 // vuelidate
 const rules = {
