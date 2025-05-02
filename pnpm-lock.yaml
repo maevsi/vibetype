@@ -324,8 +324,8 @@ importers:
         specifier: 4.17.21
         version: 4.17.21
       lucide-vue-next:
-        specifier: 0.503.0
-        version: 0.503.0(vue@3.5.13(typescript@5.8.3))
+        specifier: 0.506.0
+        version: 0.506.0(vue@3.5.13(typescript@5.8.3))
       moment-timezone:
         specifier: 0.5.48
         version: 0.5.48
@@ -8792,8 +8792,8 @@ packages:
   lru-memoizer@2.3.0:
     resolution: {integrity: sha512-GXn7gyHAMhO13WSKrIiNfztwxodVsP8IoZ3XfrJV4yH2x0/OeTO/FIaAHTY5YekdGgW94njfuKmyyt1E0mR6Ug==}
 
-  lucide-vue-next@0.503.0:
-    resolution: {integrity: sha512-3MrtHIBdh4dPCUZDLxQnvmQ17UzUnBYgezUSIo87Laais8hOz6qIPllp0iG/uS/UIzk7bJxyZRzoZTW/gLSr4A==}
+  lucide-vue-next@0.506.0:
+    resolution: {integrity: sha512-+zCt7CaH3Os4q5yUdVGCQMe9vUAddslGC+PnoYT2UXnCMMkvrxtL1b63812l6zQzy5W8CxPmsMgVfMBaJiK7qA==}
     peerDependencies:
       vue: '>=3.0.1'
 
@@ -23180,7 +23180,7 @@ snapshots:
       lodash.clonedeep: 4.5.0
       lru-cache: 6.0.0
 
-  lucide-vue-next@0.503.0(vue@3.5.13(typescript@5.8.3)):
+  lucide-vue-next@0.506.0(vue@3.5.13(typescript@5.8.3)):
     dependencies:
       vue: 3.5.13(typescript@5.8.3)
 
