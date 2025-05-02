@@ -72,7 +72,7 @@
             :aria-label="t('backToRegistration')"
             class="w-full max-w-sm"
             variant="primary-critical"
-            @click="error = undefined"
+            @click="restart"
           >
             {{ t('backToRegistration') }}
           </ButtonColored>
@@ -94,7 +94,7 @@ const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
 
 // stepper
-const { error, step, title, previous } = useStepperPage<
+const { error, previous, restart, step, title } = useStepperPage<
   'default' | 'terms' | 'privacy' | 'success'
 >({
   steps: {
@@ -132,7 +132,7 @@ de:
   titlePrivacy: Datenschutzbestimmungen
   titleTerms: Geschäftsbedingungen
   titleVerification: E-Mail-Bestätigung erforderlich
-  tryAgain: Bitte versuchen Sie es erneut
+  tryAgain: Bitte versuche es erneut
   verificationButton: Warte auf dich…
   verificationInstructions: Überprüfe deine E-Mails auf einen Bestätigungslink.
 en:

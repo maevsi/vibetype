@@ -8,38 +8,44 @@
     <CardStateInfo v-if="to" class="rounded-none">
       {{ t('accountRequired') }}
     </CardStateInfo>
-    <LayoutPage>
-      <AppStep v-slot="formAttrs" :is-active="step === 'default'">
-        <div v-bind="formAttrs">
-          <FormAccountSignIn v-model:error="error" @signed-in="onSignIn" />
-          <ContentLegalFooter />
-        </div>
-      </AppStep>
-      <AppStep v-slot="errorAttrs" :is-active="step === 'error'">
-        <div v-bind="errorAttrs">
-          <LayoutPageResult type="error">
-            {{ error }}
-            <template #description>
-              {{ t('errorDescription') }}
-            </template>
-          </LayoutPageResult>
-        </div>
-      </AppStep>
-      <template #bottom>
-        <AppStep v-slot="buttonAttrs" :is-active="step === 'error'">
-          <div v-bind="buttonAttrs" class="flex w-full justify-center">
-            <ButtonColored
-              :aria-label="t('backToLogin')"
-              class="w-full max-w-md"
-              variant="primary-critical"
-              @click="error = undefined"
-            >
-              {{ t('backToLogin') }}
-            </ButtonColored>
-          </div>
-        </AppStep>
-      </template>
-    </LayoutPage>
+    <AppStep v-slot="formAttrs" :is-active="step === 'default'">
+      <LayoutPage v-bind="formAttrs">
+        <FormAccountSignIn v-model:error="error" @signed-in="onSignIn" />
+        <ContentLegalFooter />
+      </LayoutPage>
+    </AppStep>
+    <AppStep v-slot="errorAttrs" :is-active="step === 'error'">
+      <LayoutPage v-bind="errorAttrs">
+        <LayoutPageResult type="error">
+          {{ error }}
+          <template #description>
+            {{ t('errorDescription') }}
+          </template>
+        </LayoutPageResult>
+        <template #bottom>
+          <ButtonColored
+            :aria-label="t('contactSupport')"
+            class="w-full max-w-md"
+            :to="
+              localePath({
+                name: 'support-contact',
+              })
+            "
+            variant="secondary-critical"
+          >
+            {{ t('contactSupport') }}
+          </ButtonColored>
+          <ButtonColored
+            :aria-label="t('backToLogin')"
+            class="w-full max-w-md"
+            variant="primary-critical"
+            @click="restart"
+          >
+            {{ t('backToLogin') }}
+          </ButtonColored>
+        </template>
+      </LayoutPage>
+    </AppStep>
   </section>
 </template>
 
@@ -60,7 +66,7 @@ const route = useRoute()
 const store = useStore()
 
 // stepper
-const { error, step, title } = useStepperPage<'default'>({
+const { error, restart, step, title } = useStepperPage<'default'>({
   steps: {
     default: {
       title: t('title'),
@@ -98,12 +104,14 @@ const onSignIn = async () => {
 de:
   accountRequired: Melde dich an, um fortzufahren.
   backToLogin: Zurück zur Anmeldung
+  contactSupport: Support kontaktieren
   title: Einloggen
   errorTitle: Anmeldefehler
   errorDescription: Bitte versuche es erneut
 en:
   accountRequired: Log in to continue.
   backToLogin: Back to Login
+  contactSupport: Contact support
   title: Log in
   errorTitle: Login Error
   errorDescription: Please try again
