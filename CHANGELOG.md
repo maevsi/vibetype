@@ -1,3 +1,9 @@
+## [10.14.0](https://github.com/maevsi/vibetype/compare/10.13.0...10.14.0) (2025-05-02)
+
+### Features
+
+* **account:** handle api errors gracefully ([#1889](https://github.com/maevsi/vibetype/issues/1889)) ([0cc3d27](https://github.com/maevsi/vibetype/commit/0cc3d2755573c412138a55a578f32e8d6547a0f2))
+
 ## [10.13.0](https://github.com/maevsi/vibetype/compare/10.12.0...10.13.0) (2025-04-29)
 
 ### Features
