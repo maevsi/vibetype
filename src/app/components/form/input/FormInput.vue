@@ -45,7 +45,7 @@
           <slot name="clearButton">
             <ButtonIcon
               :aria-label="t('iconAltClose')"
-              class="shrink-0 px-2 peer-data-[empty='true']:hidden peer-[&[aria-invalid=true]]:text-(--semantic-critic-text)"
+              class="mr-1 shrink-0 peer-aria-invalid:text-(--semantic-critic-text) peer-data-[empty='true']:hidden"
               @click="handleClear"
             >
               <AppIconClose />

@@ -13,8 +13,8 @@
     @input="emit('input', $event)"
   >
     <template #icon>
-      <div class="flex flex-row gap-1">
-        <slot v-if="$slots.icon" name="icon" />
+      <div class="mr-2">
+        <slot name="icon" />
       </div>
     </template>
     <template #stateError>
