@@ -53,9 +53,9 @@
             class="rounded-xl py-2 text-sm font-semibold"
             :to="localePath('event-create')"
           >
-            <div class="flex flex-row gap-1">
+            <div class="flex flex-row gap-2">
               {{ t('newEvent') }}
-              <IVibetypeColoredAdd class="size-5" :alt="t('iconAdd')" />
+              <IVibetypeAdd class="size-5" :alt="t('iconAdd')" />
             </div>
           </ButtonColored>
         </div>
