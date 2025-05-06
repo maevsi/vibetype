@@ -1,3 +1,9 @@
+## [10.15.0](https://github.com/maevsi/vibetype/compare/10.14.1...10.15.0) (2025-05-06)
+
+### Features
+
+* **utils:** upgrade to ses api v2 ([cbb006d](https://github.com/maevsi/vibetype/commit/cbb006dc665bfd37b1255b3c28a3c1fa2368e05f))
+
 ## [10.14.1](https://github.com/maevsi/vibetype/compare/10.14.0...10.14.1) (2025-05-06)
 
 ### Bug Fixes
