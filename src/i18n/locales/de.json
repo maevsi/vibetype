@@ -1,5 +1,4 @@
 {
-  "globalAvailabilityNotYet": "Noch nicht verfügbar.",
   "globalError": "Fehler",
   "globalErrorNoData": "Antwort ohne Daten",
   "globalLoading": "Lade...",
@@ -28,7 +27,6 @@
   "globalValidationMinValue": "Wert zu gering",
   "globalValidationNowOrFuture": "Zeitpunkt liegt in der Vergangenheit",
   "globalValidationRequired": "Pflichtfeld",
-  "globalValidationSameAs": "Ist nicht identisch",
   "globalValidationShortness": "Zu kurz",
   "nuxtSiteConfig": {
     "description": "Finde Veranstaltungen, Gäste und Freunde 💙❤️💚",

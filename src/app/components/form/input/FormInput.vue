@@ -1,49 +1,40 @@
 <template>
-  <div
-    class="flex flex-col gap-1"
-    :class="{
-      'form-input-success': success,
-      'form-input-warning': warning,
-      'form-input-error': value?.$error,
-    }"
-  >
+  <div class="flex flex-col gap-1">
     <div class="flex flex-col gap-2">
-      <div>
-        <label
-          class="inline-flex items-baseline gap-2 font-semibold"
-          :class="{
-            'form-input-success': success,
-            'form-input-warning': warning,
-            'form-input-error': value?.$error,
-          }"
-          :for="idLabelFull"
+      <label
+        class="inline-flex items-baseline gap-2"
+        :class="{
+          'text-(--semantic-critic-text)': value?.$error,
+        }"
+        :for="idLabelFull"
+      >
+        <TypographySubtitleMedium>{{ title }}</TypographySubtitleMedium>
+        <span
+          v-if="isRequired || isOptional"
+          class="text-xs font-medium text-gray-500 dark:text-gray-400"
         >
-          <TypographySubtitleMedium>{{ title }}</TypographySubtitleMedium>
-          <span
-            v-if="isRequired || isOptional"
-            class="text-xs font-medium text-gray-500 md:text-right dark:text-gray-400"
-          >
-            <span v-if="isRequired">
-              {{ t('required') }}
-            </span>
-            <span v-if="isOptional">
-              {{ t('optional') }}
-            </span>
+          <span v-if="isRequired">
+            {{ t('required') }}
           </span>
-        </label>
-      </div>
+          <span v-if="isOptional">
+            {{ t('optional') }}
+          </span>
+        </span>
+      </label>
       <div class="relative">
         <slot v-if="$slots.default" />
         <!-- TODO: support textarea, checkboxes and radio buttons natively -->
         <div
           v-else
-          class="flex items-center gap-2 rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill)"
+          class="flex items-center gap-2 rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) pr-4 has-aria-invalid:border-(--critic-weak)"
         >
           <input
             :id="idLabelFull"
-            class="flex-1 border-none px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-0"
+            class="peer flex-1 border-none py-3 pl-4 placeholder-(--semantic-base-text-secondary) outline-none"
+            :aria-invalid="value?.$error"
+            :data-empty="!value?.$model"
             :disabled="isDisabled"
-            :placeholder="placeholder"
+            :placeholder
             :readonly="isReadonly"
             :type
             :value="valueFormatter(value?.$model as string)"
@@ -51,39 +42,40 @@
             @focusout="value?.$touch()"
             @input="emit('input', ($event.target as HTMLInputElement)?.value)"
           />
-          <div v-if="validationProperty && isValidatable">
-            <FormInputIconWrapper v-if="validationProperty.$pending">
+          <template v-if="validationProperty && isValidatable">
+            <AppIcon v-slot="attributes">
               <ISolarHourglassBold
+                v-if="validationProperty.$pending"
+                v-bind="attributes"
                 class="text-blue-600"
                 :title="t('globalLoading')"
               />
-            </FormInputIconWrapper>
-            <FormInputIconWrapper
-              v-else-if="
-                !!validationProperty.$model && !validationProperty.$invalid
-              "
-            >
               <IHeroiconsCheckCircleSolid
-                class="text-green-600"
+                v-else-if="
+                  !!validationProperty.$model && !validationProperty.$invalid
+                "
+                v-bind="attributes"
+                class="text-(--semantic-success-strong)"
                 :title="t('valid')"
               />
-            </FormInputIconWrapper>
-            <FormInputIconWrapper
-              v-else-if="
-                !!validationProperty.$model && validationProperty.$invalid
-              "
-            >
               <IHeroiconsExclamationCircleSolid
+                v-else-if="
+                  !!validationProperty.$model && validationProperty.$invalid
+                "
+                v-bind="attributes"
                 class="text-(--semantic-critic-text)"
                 :title="t('validNot')"
               />
-            </FormInputIconWrapper>
-          </div>
-          <div v-if="$slots.icon" class="flex pr-4">
-            <button type="button" @click="emit('icon')">
-              <slot name="icon" />
-            </button>
-          </div>
+            </AppIcon>
+          </template>
+          <ButtonIcon
+            :aria-label="t('iconAltClose')"
+            class="shrink-0 peer-aria-invalid:text-(--semantic-critic-text) peer-data-[empty='true']:hidden"
+            @click="emit('input', '')"
+          >
+            <AppIconClose />
+          </ButtonIcon>
+          <slot v-if="$slots.icon" name="icon" />
         </div>
       </div>
     </div>
@@ -111,13 +103,11 @@ const {
   isValidatable,
   idLabel,
   placeholder,
-  success,
   title,
   type,
   validationProperty,
   value,
   valueFormatter = (x?: string) => x,
-  warning,
 } = defineProps<{
   isDisabled?: boolean
   isOptional?: boolean
@@ -126,19 +116,16 @@ const {
   isValidatable?: boolean
   idLabel?: string
   placeholder?: string
-  success?: boolean
   title: string
   type?: string
   validationProperty?: BaseValidation
   value?: BaseValidation
   valueFormatter?: (x?: string) => typeof x | undefined
-  warning?: boolean
 }>()
 
 const emit = defineEmits<{
-  icon: []
-  input: [input: string]
   click: []
+  input: [input: string]
 }>()
 
 const { t } = useI18n()
@@ -175,11 +162,13 @@ if (!value && type && !['checkbox', 'select'].includes(type)) {
 
 <i18n lang="yaml">
 de:
+  iconAltClose: X-Icon
   optional: optional
   required: Pflichtfeld
   valid: Gültig
   validNot: Ungültig
 en:
+  iconAltClose: X icon
   optional: optional
   required: required
   valid: valid
