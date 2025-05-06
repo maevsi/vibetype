@@ -106,7 +106,7 @@ const submitEmit = async () => {
 watch(
   () => api.value.errors,
   (current) => {
-    modelError.value = current
+    modelError.value = current?.length
       ? new Error(
           getCombinedErrorMessages(current, {
             postgres22023: t('postgres22023'),
