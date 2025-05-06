@@ -172,7 +172,6 @@ export const processNotification = async ({
           }/account/password/reset?code=${
             payload.account.password_reset_verification
           }`,
-          username: payload.account.username,
           validUntil: momentFormatDate({
             input: payload.account.password_reset_verification_valid_until,
             format: MOMENT_FORMAT,
