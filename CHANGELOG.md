@@ -1,3 +1,9 @@
+## [10.14.1](https://github.com/maevsi/vibetype/compare/10.14.0...10.14.1) (2025-05-06)
+
+### Bug Fixes
+
+* **components:** correct authentication form success computation ([6af28af](https://github.com/maevsi/vibetype/commit/6af28af4befab6b99204c5e68a14c0309e489132))
+
 ## [10.14.0](https://github.com/maevsi/vibetype/compare/10.13.0...10.14.0) (2025-05-02)
 
 ### Features
