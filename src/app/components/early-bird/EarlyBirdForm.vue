@@ -4,10 +4,8 @@
       <TypographyH6 class="text-center">
         {{ t('title') }}
       </TypographyH6>
-      <TypographyBodyMedium v-slot="attributes">
-        <span v-bind="attributes">
-          {{ t('description') }}
-        </span>
+      <TypographyBodyMedium>
+        {{ t('description') }}
       </TypographyBodyMedium>
     </div>
     <FormEarlyBird ref="form" @success="emit('next')" />
