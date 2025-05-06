@@ -5,18 +5,12 @@
     :is-optional="isOptional"
     :is-validatable="isValidatable"
     :id-label="`input-username`"
-    :success="!!formInput.$model && isValidatable && !formInput.$invalid"
     :title="t('username')"
     type="text"
     :validation-property="formInput"
     :value="formInput"
     @input="emit('input', $event)"
   >
-    <template #icon>
-      <div class="mr-2">
-        <slot name="icon" />
-      </div>
-    </template>
     <template #stateError>
       <FormInputStateError
         :form-input="formInput"

@@ -26,11 +26,11 @@
         <!-- TODO: support textarea, checkboxes and radio buttons natively -->
         <div
           v-else
-          class="flex items-center gap-2 rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) has-aria-invalid:border-(--critic-weak)"
+          class="flex items-center gap-2 rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) pr-4 has-aria-invalid:border-(--critic-weak)"
         >
           <input
             :id="idLabelFull"
-            class="peer flex-1 border-none px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-none"
+            class="peer flex-1 border-none py-3 pl-4 placeholder-(--semantic-base-text-secondary) outline-none"
             :aria-invalid="value?.$error"
             :data-empty="!value?.$model"
             :disabled="isDisabled"
@@ -42,48 +42,40 @@
             @focusout="value?.$touch()"
             @input="emit('input', ($event.target as HTMLInputElement)?.value)"
           />
-          <slot name="clearButton">
-            <ButtonIcon
-              :aria-label="t('iconAltClose')"
-              class="mr-1 shrink-0 peer-aria-invalid:text-(--semantic-critic-text) peer-data-[empty='true']:hidden"
-              @click="handleClear"
-            >
-              <AppIconClose />
-            </ButtonIcon>
-          </slot>
-          <div v-if="validationProperty && isValidatable">
-            <FormInputIconWrapper v-if="validationProperty.$pending">
+          <template v-if="validationProperty && isValidatable">
+            <AppIcon v-slot="attributes">
               <ISolarHourglassBold
+                v-if="validationProperty.$pending"
+                v-bind="attributes"
                 class="text-blue-600"
                 :title="t('globalLoading')"
               />
-            </FormInputIconWrapper>
-            <FormInputIconWrapper
-              v-else-if="
-                !!validationProperty.$model && !validationProperty.$invalid
-              "
-            >
               <IHeroiconsCheckCircleSolid
+                v-else-if="
+                  !!validationProperty.$model && !validationProperty.$invalid
+                "
+                v-bind="attributes"
                 class="text-(--semantic-success-strong)"
                 :title="t('valid')"
               />
-            </FormInputIconWrapper>
-            <FormInputIconWrapper
-              v-else-if="
-                !!validationProperty.$model && validationProperty.$invalid
-              "
-            >
               <IHeroiconsExclamationCircleSolid
+                v-else-if="
+                  !!validationProperty.$model && validationProperty.$invalid
+                "
+                v-bind="attributes"
                 class="text-(--semantic-critic-text)"
                 :title="t('validNot')"
               />
-            </FormInputIconWrapper>
-          </div>
-          <div v-if="$slots.icon" class="flex pr-4">
-            <button type="button" @click="emit('icon')">
-              <slot name="icon" />
-            </button>
-          </div>
+            </AppIcon>
+          </template>
+          <ButtonIcon
+            :aria-label="t('iconAltClose')"
+            class="shrink-0 peer-aria-invalid:text-(--semantic-critic-text) peer-data-[empty='true']:hidden"
+            @click="emit('input', '')"
+          >
+            <AppIconClose />
+          </ButtonIcon>
+          <slot v-if="$slots.icon" name="icon" />
         </div>
       </div>
     </div>
@@ -102,6 +94,7 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 import { consola } from 'consola'
+
 const {
   isDisabled,
   isOptional,
@@ -110,13 +103,11 @@ const {
   isValidatable,
   idLabel,
   placeholder,
-  // success,
   title,
   type,
   validationProperty,
   value,
   valueFormatter = (x?: string) => x,
-  // warning,
 } = defineProps<{
   isDisabled?: boolean
   isOptional?: boolean
@@ -133,10 +124,8 @@ const {
 }>()
 
 const emit = defineEmits<{
-  icon: []
-  input: [input: string]
   click: []
-  clear: []
+  input: [input: string]
 }>()
 
 const { t } = useI18n()
@@ -152,11 +141,6 @@ const idLabelFull = idLabel
 // initialization
 if (!value && type && !['checkbox', 'select'].includes(type)) {
   consola.warn(`value is missing for ${idLabel}!`)
-}
-
-const handleClear = () => {
-  emit('clear')
-  emit('input', '')
 }
 
 // if (
