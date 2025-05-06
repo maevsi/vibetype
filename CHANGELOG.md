@@ -1,3 +1,9 @@
+## [10.16.1](https://github.com/maevsi/vibetype/compare/10.16.0...10.16.1) (2025-05-06)
+
+### Bug Fixes
+
+* **server:** use proper unsubscribe list header ([39a3e28](https://github.com/maevsi/vibetype/commit/39a3e284bd97d70886811be62cd0dd8e686cb0a8))
+
 ## [10.16.0](https://github.com/maevsi/vibetype/compare/10.15.0...10.16.0) (2025-05-06)
 
 ### Features
