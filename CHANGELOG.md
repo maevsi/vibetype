@@ -1,3 +1,13 @@
+## [10.16.0](https://github.com/maevsi/vibetype/compare/10.15.0...10.16.0) (2025-05-06)
+
+### Features
+
+* **server:** update logo in emails ([9b9ef23](https://github.com/maevsi/vibetype/commit/9b9ef23379855520478ee39e7094ecf27b8771df))
+
+### Bug Fixes
+
+* **server:** remove username from password reset emails ([1d5864e](https://github.com/maevsi/vibetype/commit/1d5864e188a22adc1af92da57020f756faae1b26))
+
 ## [10.15.0](https://github.com/maevsi/vibetype/compare/10.14.1...10.15.0) (2025-05-06)
 
 ### Features
