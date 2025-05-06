@@ -34,7 +34,7 @@ const t = locales[locale]
       <Column>
         <Img
           :alt="t.logo(t.siteName)"
-          height="100"
+          height="75"
           :href="siteUrl"
           :src="logoSource || `cid:${LOGO_CID}`"
           style="margin: auto"
