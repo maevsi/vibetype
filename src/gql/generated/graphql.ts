@@ -78,6 +78,8 @@ export type Account = Node & {
   contactsByAccountId: ContactsConnection
   /** Reads and enables pagination through a set of `Contact`. */
   contactsByCreatedBy: ContactsConnection
+  /** The account's description. */
+  description?: Maybe<Scalars['String']['output']>
   /** Reads and enables pagination through a set of `Device`. */
   devicesByCreatedBy: DevicesConnection
   /** Reads and enables pagination through a set of `Device`. */
@@ -102,6 +104,8 @@ export type Account = Node & {
   guestsByUpdatedBy: GuestsConnection
   /** The account's internal id. */
   id: Scalars['UUID']['output']
+  /** The account's imprint. */
+  imprint?: Maybe<Scalars['String']['output']>
   /** Reads and enables pagination through a set of `LegalTermAcceptance`. */
   legalTermAcceptancesByAccountId: LegalTermAcceptancesConnection
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -501,8 +505,12 @@ export enum AccountBlocksOrderBy {
 
 /** A condition to be used against `Account` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type AccountCondition = {
+  /** Checks for equality with the object’s `description` field. */
+  description?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `imprint` field. */
+  imprint?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `username` field. */
   username?: InputMaybe<Scalars['String']['input']>
 }
@@ -553,8 +561,12 @@ export type AccountEmailAddressVerificationPayload = {
 
 /** An input for mutations affecting `Account` */
 export type AccountInput = {
+  /** The account's description. */
+  description?: InputMaybe<Scalars['String']['input']>
   /** The account's internal id. */
   id: Scalars['UUID']['input']
+  /** The account's imprint. */
+  imprint?: InputMaybe<Scalars['String']['input']>
   /** The account's username. */
   username: Scalars['String']['input']
 }
@@ -630,8 +642,12 @@ export type AccountPasswordResetRequestPayload = {
 
 /** Represents an update to a `Account`. Fields that are set will be updated. */
 export type AccountPatch = {
+  /** The account's description. */
+  description?: InputMaybe<Scalars['String']['input']>
   /** The account's internal id. */
   id?: InputMaybe<Scalars['UUID']['input']>
+  /** The account's imprint. */
+  imprint?: InputMaybe<Scalars['String']['input']>
   /** The account's username. */
   username?: InputMaybe<Scalars['String']['input']>
 }
@@ -1038,8 +1054,12 @@ export type AccountsEdge = {
 
 /** Methods to use when ordering `Account`. */
 export enum AccountsOrderBy {
+  DescriptionAsc = 'DESCRIPTION_ASC',
+  DescriptionDesc = 'DESCRIPTION_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
+  ImprintAsc = 'IMPRINT_ASC',
+  ImprintDesc = 'IMPRINT_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
@@ -7432,8 +7452,6 @@ export type Query = Node & {
   eventGroupingById?: Maybe<EventGrouping>
   /** Add a function that returns the maximum guest count of an accessible event. */
   eventGuestCountMaximum?: Maybe<Scalars['Int']['output']>
-  /** Shows if an event exists. */
-  eventIsExisting?: Maybe<Scalars['Boolean']['output']>
   /** Reads a single `EventRecommendation` using its globally unique `ID`. */
   eventRecommendation?: Maybe<EventRecommendation>
   eventRecommendationByAccountIdAndEventId?: Maybe<EventRecommendation>
@@ -8053,12 +8071,6 @@ export type QueryEventGroupingByIdArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryEventGuestCountMaximumArgs = {
   eventId: Scalars['UUID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryEventIsExistingArgs = {
-  createdBy: Scalars['UUID']['input']
-  slug: Scalars['String']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -9931,6 +9943,7 @@ export type AccountItemFragment = {
   nodeId: string
   id: any
   username: string
+  description?: string | null
 } & { ' $fragmentName'?: 'AccountItemFragment' }
 
 export type AchievementItemFragment = {
@@ -10294,6 +10307,24 @@ export type EventDeleteMutation = {
   } | null
 }
 
+export type CreateEventFavoriteMutationVariables = Exact<{
+  eventId: Scalars['UUID']['input']
+}>
+
+export type CreateEventFavoriteMutation = {
+  __typename?: 'Mutation'
+  createEventFavorite?: {
+    __typename?: 'CreateEventFavoritePayload'
+    clientMutationId?: string | null
+    eventFavorite?: {
+      __typename?: 'EventFavorite'
+      id: any
+      nodeId: string
+      eventId?: any | null
+    } | null
+  } | null
+}
+
 export type EventUnlockMutationVariables = Exact<{
   guestId: Scalars['UUID']['input']
 }>
@@ -10537,16 +10568,6 @@ export type EventByCreatedByAndSlugQuery = {
     | null
 }
 
-export type EventIsExistingQueryVariables = Exact<{
-  createdBy: Scalars['UUID']['input']
-  slug: Scalars['String']['input']
-}>
-
-export type EventIsExistingQuery = {
-  __typename?: 'Query'
-  eventIsExisting?: boolean | null
-}
-
 export type EventSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>
   first: Scalars['Int']['input']
@@ -10593,6 +10614,32 @@ export type AllEventsQuery = {
       hasNextPage: boolean
       endCursor?: any | null
     }
+  } | null
+}
+
+export type AccountEventsAttendingQueryVariables = Exact<{
+  accountId: Scalars['UUID']['input']
+}>
+
+export type AccountEventsAttendingQuery = {
+  __typename?: 'Query'
+  allContacts?: {
+    __typename?: 'ContactsConnection'
+    nodes: Array<{
+      __typename?: 'Contact'
+      id: any
+      guestsByContactId: {
+        __typename?: 'GuestsConnection'
+        nodes: Array<{
+          __typename?: 'Guest'
+          eventByEventId?:
+            | ({ __typename?: 'Event' } & {
+                ' $fragmentRefs'?: { EventItemFragment: EventItemFragment }
+              })
+            | null
+        }>
+      }
+    }>
   } | null
 }
 
@@ -10691,6 +10738,7 @@ export const AccountItemFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
         ],
       },
     },
@@ -12865,6 +12913,96 @@ export const EventDeleteDocument = {
     },
   ],
 } as unknown as DocumentNode<EventDeleteMutation, EventDeleteMutationVariables>
+export const CreateEventFavoriteDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'createEventFavorite' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'eventId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createEventFavorite' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'eventFavorite' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'eventId' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'eventId' },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventFavorite' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodeId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventId' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateEventFavoriteMutation,
+  CreateEventFavoriteMutationVariables
+>
 export const EventUnlockDocument = {
   kind: 'Document',
   definitions: [
@@ -13875,6 +14013,7 @@ export const AccountByIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
         ],
       },
     },
@@ -13945,6 +14084,7 @@ export const AccountByUsernameDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
         ],
       },
     },
@@ -14574,70 +14714,6 @@ export const EventByCreatedByAndSlugDocument = {
   EventByCreatedByAndSlugQuery,
   EventByCreatedByAndSlugQueryVariables
 >
-export const EventIsExistingDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'eventIsExisting' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'createdBy' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'slug' } },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'eventIsExisting' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'createdBy' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'createdBy' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'slug' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'slug' },
-                },
-              },
-            ],
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  EventIsExistingQuery,
-  EventIsExistingQueryVariables
->
 export const EventSearchDocument = {
   kind: 'Document',
   definitions: [
@@ -15035,6 +15111,189 @@ export const AllEventsDocument = {
     },
   ],
 } as unknown as DocumentNode<AllEventsQuery, AllEventsQueryVariables>
+export const AccountEventsAttendingDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AccountEventsAttending' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'accountId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allContacts' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'accountId' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'IntValue', value: '1' },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'guestsByContactId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'eventByEventId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'FragmentSpread',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'EventItem',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AddressItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Address' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'region' } },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'EventItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Event' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByCreatedBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'addressByAddressId' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AddressItem' },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'end' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'guestCountMaximum' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isArchived' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isInPerson' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isRemote' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'start' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'visibility' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AccountEventsAttendingQuery,
+  AccountEventsAttendingQueryVariables
+>
 export const AllGuestsDocument = {
   kind: 'Document',
   definitions: [
