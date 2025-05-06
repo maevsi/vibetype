@@ -1,3 +1,9 @@
+## [10.17.0](https://github.com/maevsi/vibetype/compare/10.16.1...10.17.0) (2025-05-06)
+
+### Features
+
+* **components:** update form validation design ([#1875](https://github.com/maevsi/vibetype/issues/1875)) ([d6c53ca](https://github.com/maevsi/vibetype/commit/d6c53ca49d6ea139c0dbacdd1dd0e9ee65785367))
+
 ## [10.16.1](https://github.com/maevsi/vibetype/compare/10.16.0...10.16.1) (2025-05-06)
 
 ### Bug Fixes
