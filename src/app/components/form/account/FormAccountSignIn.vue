@@ -114,7 +114,7 @@ const v$ = useVuelidate(rules, form)
 watch(
   () => api.value.errors,
   (current) => {
-    modelError.value = current
+    modelError.value = current?.length
       ? new Error(
           getCombinedErrorMessages(current, {
             postgres55000: t('postgres55000'),
