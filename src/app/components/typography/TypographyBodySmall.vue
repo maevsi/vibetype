@@ -1,5 +1,7 @@
 <template>
-  <slot :class="cn('text-sm font-normal', classProps)" />
+  <span :class="cn('text-sm font-normal', classProps)">
+    <slot />
+  </span>
 </template>
 
 <script setup lang="ts">
