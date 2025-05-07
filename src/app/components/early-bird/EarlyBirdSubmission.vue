@@ -1,10 +1,8 @@
 <template>
   <LayoutPage>
     <LayoutPageResult type="success">
-      <TypographyBodySmall v-slot="attributes">
-        <span v-bind="attributes">
-          {{ t('description2') }}
-        </span>
+      <TypographyBodySmall>
+        {{ t('description2') }}
       </TypographyBodySmall>
       <template #description>
         {{ t('description1') }}

@@ -23,6 +23,7 @@
       </FormInputStateError>
     </template>
     <template #stateWarning>
+      <!-- this is intentionally a warning rather than an error, as we aim to be "liberal in what we accept from others" (https://www.dominicsayers.com/isemail/) -->
       <FormInputStateWarning
         v-if="
           formInput.$dirty &&

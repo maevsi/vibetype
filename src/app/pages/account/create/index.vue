@@ -4,7 +4,7 @@
       <span :id="templateIdTitle">
         {{ title }}
       </span>
-      <template v-if="previous" #back>
+      <template v-if="!error && previous" #back>
         <ButtonIcon :aria-label="t('back')" @click="step = previous">
           <AppIconBack />
         </ButtonIcon>
@@ -14,6 +14,7 @@
       <LayoutPage v-bind="attributes">
         <FormAccountRegistration
           ref="form"
+          v-model:error="error"
           @submit="step = 'terms'"
           @success="step = 'success'"
         />
@@ -58,6 +59,26 @@
         </template>
       </LayoutPage>
     </AppStep>
+    <AppStep v-if="error" v-slot="attributes" :is-active="step === 'error'">
+      <LayoutPage v-bind="attributes">
+        <LayoutPageResult type="error">
+          {{ error }}
+          <template #description>
+            {{ t('tryAgain') }}
+          </template>
+        </LayoutPageResult>
+        <template #bottom>
+          <ButtonColored
+            :aria-label="t('backToRegistration')"
+            class="w-full max-w-sm"
+            variant="primary-critical"
+            @click="restart"
+          >
+            {{ t('backToRegistration') }}
+          </ButtonColored>
+        </template>
+      </LayoutPage>
+    </AppStep>
   </section>
 </template>
 
@@ -73,7 +94,7 @@ const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
 
 // stepper
-const { step, title, previous } = useStepperPage<
+const { error, previous, restart, step, title } = useStepperPage<
   'default' | 'terms' | 'privacy' | 'success'
 >({
   steps: {
@@ -106,20 +127,24 @@ de:
   agreeTerms: Ich stimme den Allgemeinen Geschäftsbedingungen zu
   agreePrivacy: Ich stimme der Datenschutzerklärung zu
   back: zurück
+  backToRegistration: Zurück zur Registrierung
   titleForm: Erstelle ein Konto
   titlePrivacy: Datenschutzbestimmungen
   titleTerms: Geschäftsbedingungen
   titleVerification: E-Mail-Bestätigung erforderlich
+  tryAgain: Bitte versuche es erneut
   verificationButton: Warte auf dich…
   verificationInstructions: Überprüfe deine E-Mails auf einen Bestätigungslink.
 en:
   agreeTerms: I agree to the Terms and Conditions
   agreePrivacy: I agree to the Privacy Policy
   back: back
+  backToRegistration: Back to Registration
   titleForm: Create an account
   titlePrivacy: Privacy Policy
   titleTerms: General Terms and Conditions
   titleVerification: Email Verification Required
+  tryAgain: Please try again
   verificationButton: Waiting for you…
   verificationInstructions: Check your emails for a verification link.
 </i18n>
