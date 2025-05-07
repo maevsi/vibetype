@@ -53,7 +53,7 @@ const {
   isOptional,
   title,
 } = defineProps<{
-  formInput: BaseValidation
+  formInput: BaseValidation<string | undefined>
   id?: string
   isOptional?: boolean
   title?: string
