@@ -126,6 +126,7 @@ const localePath = useLocalePath()
 
 // data
 const title = t('myProfile')
+const store = useStore()
 
 useHeadDefault({
   ogType: 'profile',
@@ -157,20 +158,21 @@ const achievements =
 
 const accountEventsAttendingQuery = await zalgo(
   useAccountEventsAttendingQuery({
-    accountId: account.id,
+    accountId: store.signedInAccountId,
   }),
 )
 
 const eventsAttending = computed(() => {
-  const contact =
-    accountEventsAttendingQuery.data.value?.allContacts?.nodes?.[0]
-  if (!contact) return []
-
-  return (
-    contact.guestsByContactId?.nodes
-      ?.map((guest) => getEventItem(guest.eventByEventId))
-      .filter(isNeitherNullNorUndefined) || []
+  const contacts =
+    accountEventsAttendingQuery.data.value?.allContacts?.nodes || []
+  if (contacts.length === 0) return []
+  const events = contacts.flatMap(
+    (contact) =>
+      contact.guestsByContactId?.nodes
+        ?.map((guest) => getEventItem(guest.eventByEventId))
+        .filter(isNeitherNullNorUndefined) || [],
   )
+  return [...new Map(events.map((event) => [event.id, event])).values()]
 })
 
 const allEventsQueryAfter = ref<string>()

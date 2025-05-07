@@ -8,7 +8,7 @@ export const useAccountEventsAttendingQuery = (
   useQuery({
     query: graphql(`
       query AccountEventsAttending($accountId: UUID!) {
-        allContacts(condition: { accountId: $accountId }, first: 1) {
+        allContacts(condition: { accountId: $accountId }) {
           nodes {
             id
             guestsByContactId {
