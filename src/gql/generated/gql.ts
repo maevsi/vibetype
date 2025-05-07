@@ -40,7 +40,8 @@ type Documents = {
   '\n      mutation updateContactById($id: UUID!, $contactPatch: ContactPatch!) {\n        updateContactById(input: { id: $id, contactPatch: $contactPatch }) {\n          contact {\n            ...ContactItem\n          }\n        }\n      }\n    ': typeof types.UpdateContactByIdDocument
   '\n      mutation createEvent($createEventInput: CreateEventInput!) {\n        createEvent(input: $createEventInput) {\n          event {\n            ...EventItem\n          }\n        }\n      }\n    ': typeof types.CreateEventDocument
   '\n      mutation eventDelete($id: UUID!, $password: String!) {\n        eventDelete(input: { id: $id, password: $password }) {\n          clientMutationId\n          event {\n            ...EventItem\n          }\n        }\n      }\n    ': typeof types.EventDeleteDocument
-  '\n      mutation createEventFavorite($eventId: UUID!) {\n        createEventFavorite(input: { eventFavorite: { eventId: $eventId } }) {\n          clientMutationId\n          eventFavorite {\n            id\n            nodeId\n            eventId\n          }\n        }\n      }\n    ': typeof types.CreateEventFavoriteDocument
+  '\n      mutation deleteEventFavorite($nodeId: ID!) {\n        deleteEventFavorite(input: { nodeId: $nodeId }) {\n          clientMutationId\n          eventFavorite {\n            id\n            eventId\n          }\n        }\n      }\n    ': typeof types.DeleteEventFavoriteDocument
+  '\n      mutation createEventFavorite($eventId: UUID!, $createdBy: UUID!) {\n        createEventFavorite(\n          input: { eventFavorite: { eventId: $eventId, createdBy: $createdBy } }\n        ) {\n          clientMutationId\n          eventFavorite {\n            id\n            nodeId\n            eventId\n          }\n        }\n      }\n    ': typeof types.CreateEventFavoriteDocument
   '\n  mutation eventUnlock($guestId: UUID!) {\n    eventUnlock(input: { guestId: $guestId }) {\n      eventUnlockResponse {\n        creatorUsername\n        eventSlug\n        jwt\n      }\n    }\n  }\n': typeof types.EventUnlockDocument
   '\n      mutation updateEventById($id: UUID!, $eventPatch: EventPatch!) {\n        updateEventById(input: { id: $id, eventPatch: $eventPatch }) {\n          event {\n            ...EventItem\n          }\n        }\n      }\n    ': typeof types.UpdateEventByIdDocument
   '\n      mutation createGuest($guestInput: GuestInput!) {\n        createGuest(input: { guest: $guestInput }) {\n          guest {\n            contactByContactId {\n              ...ContactItem\n            }\n            id\n          }\n        }\n      }\n    ': typeof types.CreateGuestDocument
@@ -56,9 +57,10 @@ type Documents = {
   '\n      query allAchievements($accountId: UUID) {\n        allAchievements(condition: { accountId: $accountId }) {\n          nodes {\n            ...AchievementItem\n          }\n        }\n      }\n    ': typeof types.AllAchievementsDocument
   '\n      query allContacts($after: Cursor, $createdBy: UUID, $first: Int!) {\n        allContacts(\n          after: $after\n          condition: { createdBy: $createdBy }\n          first: $first\n          orderBy: [FIRST_NAME_ASC, LAST_NAME_ASC]\n        ) {\n          nodes {\n            ...ContactItem\n          }\n          pageInfo {\n            hasNextPage\n            endCursor\n          }\n          totalCount\n        }\n      }\n    ': typeof types.AllContactsDocument
   '\n  query eventByCreatedByAndSlug(\n    $createdBy: UUID!\n    $guestId: UUID\n    $slug: String!\n  ) {\n    eventByCreatedByAndSlug(createdBy: $createdBy, slug: $slug) {\n      ...EventItem\n      guestsByEventId(condition: { id: $guestId }) {\n        nodes {\n          ...GuestItem\n          contactByContactId {\n            ...ContactItem\n          }\n        }\n      }\n    }\n  }\n': typeof types.EventByCreatedByAndSlugDocument
+  '\n      query eventFavoriteByCreatedByAndEventId(\n        $createdBy: UUID!\n        $eventId: UUID!\n      ) {\n        eventFavoriteByCreatedByAndEventId(\n          createdBy: $createdBy\n          eventId: $eventId\n        ) {\n          id\n          nodeId\n          eventId\n        }\n      }\n    ': typeof types.EventFavoriteByCreatedByAndEventIdDocument
   '\n  query eventSearch(\n    $after: Cursor\n    $first: Int!\n    $language: Language\n    $query: String\n  ) {\n    eventSearch(\n      after: $after\n      first: $first\n      language: $language\n      query: $query\n    ) {\n      nodes {\n        ...EventItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.EventSearchDocument
   '\n      query allEvents($after: Cursor, $createdBy: UUID, $first: Int!) {\n        allEvents(\n          after: $after\n          condition: { createdBy: $createdBy }\n          first: $first\n          orderBy: START_DESC\n        ) {\n          nodes {\n            ...EventItem\n          }\n          pageInfo {\n            hasNextPage\n            endCursor\n          }\n          totalCount\n        }\n      }\n    ': typeof types.AllEventsDocument
-  '\n      query AccountEventsAttending($accountId: UUID!) {\n        allContacts(condition: { accountId: $accountId }, first: 1) {\n          nodes {\n            id\n            guestsByContactId {\n              nodes {\n                eventByEventId {\n                  ...EventItem\n                }\n              }\n            }\n          }\n        }\n      }\n    ': typeof types.AccountEventsAttendingDocument
+  '\n      query AccountEventsAttending($accountId: UUID!) {\n        allContacts(condition: { accountId: $accountId }) {\n          nodes {\n            id\n            guestsByContactId {\n              nodes {\n                eventByEventId {\n                  ...EventItem\n                }\n              }\n            }\n          }\n        }\n      }\n    ': typeof types.AccountEventsAttendingDocument
   '\n  query allGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n    allGuests(after: $after, condition: { eventId: $eventId }, first: $first) {\n      nodes {\n        ...GuestItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.AllGuestsDocument
   '\n  query allLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        ...LegalTermItem\n      }\n    }\n  }\n': typeof types.AllLegalTermsDocument
   '\n      query profilePictureByAccountId($accountId: UUID!) {\n        profilePictureByAccountId(accountId: $accountId) {\n          ...ProfilePictureItem\n        }\n      }\n    ': typeof types.ProfilePictureByAccountIdDocument
@@ -117,7 +119,9 @@ const documents: Documents = {
     types.CreateEventDocument,
   '\n      mutation eventDelete($id: UUID!, $password: String!) {\n        eventDelete(input: { id: $id, password: $password }) {\n          clientMutationId\n          event {\n            ...EventItem\n          }\n        }\n      }\n    ':
     types.EventDeleteDocument,
-  '\n      mutation createEventFavorite($eventId: UUID!) {\n        createEventFavorite(input: { eventFavorite: { eventId: $eventId } }) {\n          clientMutationId\n          eventFavorite {\n            id\n            nodeId\n            eventId\n          }\n        }\n      }\n    ':
+  '\n      mutation deleteEventFavorite($nodeId: ID!) {\n        deleteEventFavorite(input: { nodeId: $nodeId }) {\n          clientMutationId\n          eventFavorite {\n            id\n            eventId\n          }\n        }\n      }\n    ':
+    types.DeleteEventFavoriteDocument,
+  '\n      mutation createEventFavorite($eventId: UUID!, $createdBy: UUID!) {\n        createEventFavorite(\n          input: { eventFavorite: { eventId: $eventId, createdBy: $createdBy } }\n        ) {\n          clientMutationId\n          eventFavorite {\n            id\n            nodeId\n            eventId\n          }\n        }\n      }\n    ':
     types.CreateEventFavoriteDocument,
   '\n  mutation eventUnlock($guestId: UUID!) {\n    eventUnlock(input: { guestId: $guestId }) {\n      eventUnlockResponse {\n        creatorUsername\n        eventSlug\n        jwt\n      }\n    }\n  }\n':
     types.EventUnlockDocument,
@@ -149,11 +153,13 @@ const documents: Documents = {
     types.AllContactsDocument,
   '\n  query eventByCreatedByAndSlug(\n    $createdBy: UUID!\n    $guestId: UUID\n    $slug: String!\n  ) {\n    eventByCreatedByAndSlug(createdBy: $createdBy, slug: $slug) {\n      ...EventItem\n      guestsByEventId(condition: { id: $guestId }) {\n        nodes {\n          ...GuestItem\n          contactByContactId {\n            ...ContactItem\n          }\n        }\n      }\n    }\n  }\n':
     types.EventByCreatedByAndSlugDocument,
+  '\n      query eventFavoriteByCreatedByAndEventId(\n        $createdBy: UUID!\n        $eventId: UUID!\n      ) {\n        eventFavoriteByCreatedByAndEventId(\n          createdBy: $createdBy\n          eventId: $eventId\n        ) {\n          id\n          nodeId\n          eventId\n        }\n      }\n    ':
+    types.EventFavoriteByCreatedByAndEventIdDocument,
   '\n  query eventSearch(\n    $after: Cursor\n    $first: Int!\n    $language: Language\n    $query: String\n  ) {\n    eventSearch(\n      after: $after\n      first: $first\n      language: $language\n      query: $query\n    ) {\n      nodes {\n        ...EventItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n':
     types.EventSearchDocument,
   '\n      query allEvents($after: Cursor, $createdBy: UUID, $first: Int!) {\n        allEvents(\n          after: $after\n          condition: { createdBy: $createdBy }\n          first: $first\n          orderBy: START_DESC\n        ) {\n          nodes {\n            ...EventItem\n          }\n          pageInfo {\n            hasNextPage\n            endCursor\n          }\n          totalCount\n        }\n      }\n    ':
     types.AllEventsDocument,
-  '\n      query AccountEventsAttending($accountId: UUID!) {\n        allContacts(condition: { accountId: $accountId }, first: 1) {\n          nodes {\n            id\n            guestsByContactId {\n              nodes {\n                eventByEventId {\n                  ...EventItem\n                }\n              }\n            }\n          }\n        }\n      }\n    ':
+  '\n      query AccountEventsAttending($accountId: UUID!) {\n        allContacts(condition: { accountId: $accountId }) {\n          nodes {\n            id\n            guestsByContactId {\n              nodes {\n                eventByEventId {\n                  ...EventItem\n                }\n              }\n            }\n          }\n        }\n      }\n    ':
     types.AccountEventsAttendingDocument,
   '\n  query allGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n    allGuests(after: $after, condition: { eventId: $eventId }, first: $first) {\n      nodes {\n        ...GuestItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n':
     types.AllGuestsDocument,
@@ -339,8 +345,14 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n      mutation createEventFavorite($eventId: UUID!) {\n        createEventFavorite(input: { eventFavorite: { eventId: $eventId } }) {\n          clientMutationId\n          eventFavorite {\n            id\n            nodeId\n            eventId\n          }\n        }\n      }\n    ',
-): (typeof documents)['\n      mutation createEventFavorite($eventId: UUID!) {\n        createEventFavorite(input: { eventFavorite: { eventId: $eventId } }) {\n          clientMutationId\n          eventFavorite {\n            id\n            nodeId\n            eventId\n          }\n        }\n      }\n    ']
+  source: '\n      mutation deleteEventFavorite($nodeId: ID!) {\n        deleteEventFavorite(input: { nodeId: $nodeId }) {\n          clientMutationId\n          eventFavorite {\n            id\n            eventId\n          }\n        }\n      }\n    ',
+): (typeof documents)['\n      mutation deleteEventFavorite($nodeId: ID!) {\n        deleteEventFavorite(input: { nodeId: $nodeId }) {\n          clientMutationId\n          eventFavorite {\n            id\n            eventId\n          }\n        }\n      }\n    ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation createEventFavorite($eventId: UUID!, $createdBy: UUID!) {\n        createEventFavorite(\n          input: { eventFavorite: { eventId: $eventId, createdBy: $createdBy } }\n        ) {\n          clientMutationId\n          eventFavorite {\n            id\n            nodeId\n            eventId\n          }\n        }\n      }\n    ',
+): (typeof documents)['\n      mutation createEventFavorite($eventId: UUID!, $createdBy: UUID!) {\n        createEventFavorite(\n          input: { eventFavorite: { eventId: $eventId, createdBy: $createdBy } }\n        ) {\n          clientMutationId\n          eventFavorite {\n            id\n            nodeId\n            eventId\n          }\n        }\n      }\n    ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -435,6 +447,12 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+  source: '\n      query eventFavoriteByCreatedByAndEventId(\n        $createdBy: UUID!\n        $eventId: UUID!\n      ) {\n        eventFavoriteByCreatedByAndEventId(\n          createdBy: $createdBy\n          eventId: $eventId\n        ) {\n          id\n          nodeId\n          eventId\n        }\n      }\n    ',
+): (typeof documents)['\n      query eventFavoriteByCreatedByAndEventId(\n        $createdBy: UUID!\n        $eventId: UUID!\n      ) {\n        eventFavoriteByCreatedByAndEventId(\n          createdBy: $createdBy\n          eventId: $eventId\n        ) {\n          id\n          nodeId\n          eventId\n        }\n      }\n    ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
   source: '\n  query eventSearch(\n    $after: Cursor\n    $first: Int!\n    $language: Language\n    $query: String\n  ) {\n    eventSearch(\n      after: $after\n      first: $first\n      language: $language\n      query: $query\n    ) {\n      nodes {\n        ...EventItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n',
 ): (typeof documents)['\n  query eventSearch(\n    $after: Cursor\n    $first: Int!\n    $language: Language\n    $query: String\n  ) {\n    eventSearch(\n      after: $after\n      first: $first\n      language: $language\n      query: $query\n    ) {\n      nodes {\n        ...EventItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n']
 /**
@@ -447,8 +465,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n      query AccountEventsAttending($accountId: UUID!) {\n        allContacts(condition: { accountId: $accountId }, first: 1) {\n          nodes {\n            id\n            guestsByContactId {\n              nodes {\n                eventByEventId {\n                  ...EventItem\n                }\n              }\n            }\n          }\n        }\n      }\n    ',
-): (typeof documents)['\n      query AccountEventsAttending($accountId: UUID!) {\n        allContacts(condition: { accountId: $accountId }, first: 1) {\n          nodes {\n            id\n            guestsByContactId {\n              nodes {\n                eventByEventId {\n                  ...EventItem\n                }\n              }\n            }\n          }\n        }\n      }\n    ']
+  source: '\n      query AccountEventsAttending($accountId: UUID!) {\n        allContacts(condition: { accountId: $accountId }) {\n          nodes {\n            id\n            guestsByContactId {\n              nodes {\n                eventByEventId {\n                  ...EventItem\n                }\n              }\n            }\n          }\n        }\n      }\n    ',
+): (typeof documents)['\n      query AccountEventsAttending($accountId: UUID!) {\n        allContacts(condition: { accountId: $accountId }) {\n          nodes {\n            id\n            guestsByContactId {\n              nodes {\n                eventByEventId {\n                  ...EventItem\n                }\n              }\n            }\n          }\n        }\n      }\n    ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -4482,12 +4482,8 @@ export type EventFavoriteCondition = {
 
 /** An input for mutations affecting `EventFavorite` */
 export type EventFavoriteInput = {
-  /** Reference to the event that is marked as a favorite. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
-}
-
-/** Represents an update to a `EventFavorite`. Fields that are set will be updated. */
-export type EventFavoritePatch = {
+  /** Reference to the account that created the event favorite. */
+  createdBy: Scalars['UUID']['input']
   /** Reference to the event that is marked as a favorite. */
   eventId?: InputMaybe<Scalars['UUID']['input']>
 }
@@ -6255,12 +6251,6 @@ export type Mutation = {
   updateEventCategoryMapping?: Maybe<UpdateEventCategoryMappingPayload>
   /** Updates a single `EventCategoryMapping` using a unique key and a patch. */
   updateEventCategoryMappingByEventIdAndCategoryId?: Maybe<UpdateEventCategoryMappingPayload>
-  /** Updates a single `EventFavorite` using its globally unique id and a patch. */
-  updateEventFavorite?: Maybe<UpdateEventFavoritePayload>
-  /** Updates a single `EventFavorite` using a unique key and a patch. */
-  updateEventFavoriteByCreatedByAndEventId?: Maybe<UpdateEventFavoritePayload>
-  /** Updates a single `EventFavorite` using a unique key and a patch. */
-  updateEventFavoriteById?: Maybe<UpdateEventFavoritePayload>
   /** Updates a single `EventFormat` using its globally unique id and a patch. */
   updateEventFormat?: Maybe<UpdateEventFormatPayload>
   /** Updates a single `EventFormat` using a unique key and a patch. */
@@ -7017,21 +7007,6 @@ export type MutationUpdateEventCategoryMappingArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateEventCategoryMappingByEventIdAndCategoryIdArgs = {
   input: UpdateEventCategoryMappingByEventIdAndCategoryIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventFavoriteArgs = {
-  input: UpdateEventFavoriteInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventFavoriteByCreatedByAndEventIdArgs = {
-  input: UpdateEventFavoriteByCreatedByAndEventIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventFavoriteByIdArgs = {
-  input: UpdateEventFavoriteByIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -9025,72 +9000,6 @@ export type UpdateEventCategoryPayloadEventCategoryEdgeArgs = {
   orderBy?: InputMaybe<Array<EventCategoriesOrderBy>>
 }
 
-/** All input for the `updateEventFavoriteByCreatedByAndEventId` mutation. */
-export type UpdateEventFavoriteByCreatedByAndEventIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** Reference to the account that created the event favorite. */
-  createdBy: Scalars['UUID']['input']
-  /** An object where the defined keys will be set on the `EventFavorite` being updated. */
-  eventFavoritePatch: EventFavoritePatch
-  /** Reference to the event that is marked as a favorite. */
-  eventId: Scalars['UUID']['input']
-}
-
-/** All input for the `updateEventFavoriteById` mutation. */
-export type UpdateEventFavoriteByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventFavorite` being updated. */
-  eventFavoritePatch: EventFavoritePatch
-  /** Primary key, uniquely identifies each favorite entry. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `updateEventFavorite` mutation. */
-export type UpdateEventFavoriteInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventFavorite` being updated. */
-  eventFavoritePatch: EventFavoritePatch
-  /** The globally unique `ID` which will identify a single `EventFavorite` to be updated. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our update `EventFavorite` mutation. */
-export type UpdateEventFavoritePayload = {
-  __typename?: 'UpdateEventFavoritePayload'
-  /** Reads a single `Account` that is related to this `EventFavorite`. */
-  accountByCreatedBy?: Maybe<Account>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Reads a single `Event` that is related to this `EventFavorite`. */
-  eventByEventId?: Maybe<Event>
-  /** The `EventFavorite` that was updated by this mutation. */
-  eventFavorite?: Maybe<EventFavorite>
-  /** An edge for our `EventFavorite`. May be used by Relay 1. */
-  eventFavoriteEdge?: Maybe<EventFavoritesEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our update `EventFavorite` mutation. */
-export type UpdateEventFavoritePayloadEventFavoriteEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventFavoritesOrderBy>>
-}
-
 /** All input for the `updateEventFormatById` mutation. */
 export type UpdateEventFormatByIdInput = {
   /**
@@ -10307,8 +10216,26 @@ export type EventDeleteMutation = {
   } | null
 }
 
+export type DeleteEventFavoriteMutationVariables = Exact<{
+  nodeId: Scalars['ID']['input']
+}>
+
+export type DeleteEventFavoriteMutation = {
+  __typename?: 'Mutation'
+  deleteEventFavorite?: {
+    __typename?: 'DeleteEventFavoritePayload'
+    clientMutationId?: string | null
+    eventFavorite?: {
+      __typename?: 'EventFavorite'
+      id: any
+      eventId?: any | null
+    } | null
+  } | null
+}
+
 export type CreateEventFavoriteMutationVariables = Exact<{
   eventId: Scalars['UUID']['input']
+  createdBy: Scalars['UUID']['input']
 }>
 
 export type CreateEventFavoriteMutation = {
@@ -10566,6 +10493,21 @@ export type EventByCreatedByAndSlugQuery = {
         }
       } & { ' $fragmentRefs'?: { EventItemFragment: EventItemFragment } })
     | null
+}
+
+export type EventFavoriteByCreatedByAndEventIdQueryVariables = Exact<{
+  createdBy: Scalars['UUID']['input']
+  eventId: Scalars['UUID']['input']
+}>
+
+export type EventFavoriteByCreatedByAndEventIdQuery = {
+  __typename?: 'Query'
+  eventFavoriteByCreatedByAndEventId?: {
+    __typename?: 'EventFavorite'
+    id: any
+    nodeId: string
+    eventId?: any | null
+  } | null
 }
 
 export type EventSearchQueryVariables = Exact<{
@@ -12913,6 +12855,83 @@ export const EventDeleteDocument = {
     },
   ],
 } as unknown as DocumentNode<EventDeleteMutation, EventDeleteMutationVariables>
+export const DeleteEventFavoriteDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'deleteEventFavorite' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'nodeId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteEventFavorite' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'nodeId' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'nodeId' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventFavorite' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventId' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteEventFavoriteMutation,
+  DeleteEventFavoriteMutationVariables
+>
 export const CreateEventFavoriteDocument = {
   kind: 'Document',
   definitions: [
@@ -12926,6 +12945,17 @@ export const CreateEventFavoriteDocument = {
           variable: {
             kind: 'Variable',
             name: { kind: 'Name', value: 'eventId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'createdBy' },
           },
           type: {
             kind: 'NonNullType',
@@ -12958,6 +12988,14 @@ export const CreateEventFavoriteDocument = {
                             value: {
                               kind: 'Variable',
                               name: { kind: 'Name', value: 'eventId' },
+                            },
+                          },
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'createdBy' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'createdBy' },
                             },
                           },
                         ],
@@ -14714,6 +14752,78 @@ export const EventByCreatedByAndSlugDocument = {
   EventByCreatedByAndSlugQuery,
   EventByCreatedByAndSlugQueryVariables
 >
+export const EventFavoriteByCreatedByAndEventIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'eventFavoriteByCreatedByAndEventId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'createdBy' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'eventId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'eventFavoriteByCreatedByAndEventId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'createdBy' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'createdBy' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'eventId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'eventId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'eventId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  EventFavoriteByCreatedByAndEventIdQuery,
+  EventFavoriteByCreatedByAndEventIdQueryVariables
+>
 export const EventSearchDocument = {
   kind: 'Document',
   definitions: [
@@ -15154,11 +15264,6 @@ export const AccountEventsAttendingDocument = {
                     },
                   ],
                 },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'first' },
-                value: { kind: 'IntValue', value: '1' },
               },
             ],
             selectionSet: {

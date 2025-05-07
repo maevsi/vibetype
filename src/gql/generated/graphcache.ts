@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import { cacheExchange } from '@urql/exchange-graphcache'
-import {
+import type {
   Resolver as GraphCacheResolver,
   UpdateResolver as GraphCacheUpdateResolver,
   OptimisticMutationResolver as GraphCacheOptimisticMutationResolver,
@@ -4471,12 +4471,8 @@ export type EventFavoriteCondition = {
 
 /** An input for mutations affecting `EventFavorite` */
 export type EventFavoriteInput = {
-  /** Reference to the event that is marked as a favorite. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
-}
-
-/** Represents an update to a `EventFavorite`. Fields that are set will be updated. */
-export type EventFavoritePatch = {
+  /** Reference to the account that created the event favorite. */
+  createdBy: Scalars['UUID']['input']
   /** Reference to the event that is marked as a favorite. */
   eventId?: InputMaybe<Scalars['UUID']['input']>
 }
@@ -6244,12 +6240,6 @@ export type Mutation = {
   updateEventCategoryMapping?: Maybe<UpdateEventCategoryMappingPayload>
   /** Updates a single `EventCategoryMapping` using a unique key and a patch. */
   updateEventCategoryMappingByEventIdAndCategoryId?: Maybe<UpdateEventCategoryMappingPayload>
-  /** Updates a single `EventFavorite` using its globally unique id and a patch. */
-  updateEventFavorite?: Maybe<UpdateEventFavoritePayload>
-  /** Updates a single `EventFavorite` using a unique key and a patch. */
-  updateEventFavoriteByCreatedByAndEventId?: Maybe<UpdateEventFavoritePayload>
-  /** Updates a single `EventFavorite` using a unique key and a patch. */
-  updateEventFavoriteById?: Maybe<UpdateEventFavoritePayload>
   /** Updates a single `EventFormat` using its globally unique id and a patch. */
   updateEventFormat?: Maybe<UpdateEventFormatPayload>
   /** Updates a single `EventFormat` using a unique key and a patch. */
@@ -7006,21 +6996,6 @@ export type MutationUpdateEventCategoryMappingArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateEventCategoryMappingByEventIdAndCategoryIdArgs = {
   input: UpdateEventCategoryMappingByEventIdAndCategoryIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventFavoriteArgs = {
-  input: UpdateEventFavoriteInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventFavoriteByCreatedByAndEventIdArgs = {
-  input: UpdateEventFavoriteByCreatedByAndEventIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventFavoriteByIdArgs = {
-  input: UpdateEventFavoriteByIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -9014,72 +8989,6 @@ export type UpdateEventCategoryPayloadEventCategoryEdgeArgs = {
   orderBy?: InputMaybe<Array<EventCategoriesOrderBy>>
 }
 
-/** All input for the `updateEventFavoriteByCreatedByAndEventId` mutation. */
-export type UpdateEventFavoriteByCreatedByAndEventIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** Reference to the account that created the event favorite. */
-  createdBy: Scalars['UUID']['input']
-  /** An object where the defined keys will be set on the `EventFavorite` being updated. */
-  eventFavoritePatch: EventFavoritePatch
-  /** Reference to the event that is marked as a favorite. */
-  eventId: Scalars['UUID']['input']
-}
-
-/** All input for the `updateEventFavoriteById` mutation. */
-export type UpdateEventFavoriteByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventFavorite` being updated. */
-  eventFavoritePatch: EventFavoritePatch
-  /** Primary key, uniquely identifies each favorite entry. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `updateEventFavorite` mutation. */
-export type UpdateEventFavoriteInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventFavorite` being updated. */
-  eventFavoritePatch: EventFavoritePatch
-  /** The globally unique `ID` which will identify a single `EventFavorite` to be updated. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our update `EventFavorite` mutation. */
-export type UpdateEventFavoritePayload = {
-  __typename?: 'UpdateEventFavoritePayload'
-  /** Reads a single `Account` that is related to this `EventFavorite`. */
-  accountByCreatedBy?: Maybe<Account>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Reads a single `Event` that is related to this `EventFavorite`. */
-  eventByEventId?: Maybe<Event>
-  /** The `EventFavorite` that was updated by this mutation. */
-  eventFavorite?: Maybe<EventFavorite>
-  /** An edge for our `EventFavorite`. May be used by Relay 1. */
-  eventFavoriteEdge?: Maybe<EventFavoritesEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our update `EventFavorite` mutation. */
-export type UpdateEventFavoritePayloadEventFavoriteEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventFavoritesOrderBy>>
-}
-
 /** All input for the `updateEventFormatById` mutation. */
 export type UpdateEventFormatByIdInput = {
   /**
@@ -10321,9 +10230,6 @@ export type GraphCacheKeysConfig = {
   ) => null | string
   UpdateEventCategoryPayload?: (
     data: WithTypename<UpdateEventCategoryPayload>,
-  ) => null | string
-  UpdateEventFavoritePayload?: (
-    data: WithTypename<UpdateEventFavoritePayload>,
   ) => null | string
   UpdateEventFormatMappingPayload?: (
     data: WithTypename<UpdateEventFormatMappingPayload>,
@@ -15725,38 +15631,6 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
-  UpdateEventFavoritePayload?: {
-    accountByCreatedBy?: GraphCacheResolver<
-      WithTypename<UpdateEventFavoritePayload>,
-      Record<string, never>,
-      WithTypename<Account> | string
-    >
-    clientMutationId?: GraphCacheResolver<
-      WithTypename<UpdateEventFavoritePayload>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    eventByEventId?: GraphCacheResolver<
-      WithTypename<UpdateEventFavoritePayload>,
-      Record<string, never>,
-      WithTypename<Event> | string
-    >
-    eventFavorite?: GraphCacheResolver<
-      WithTypename<UpdateEventFavoritePayload>,
-      Record<string, never>,
-      WithTypename<EventFavorite> | string
-    >
-    eventFavoriteEdge?: GraphCacheResolver<
-      WithTypename<UpdateEventFavoritePayload>,
-      UpdateEventFavoritePayloadEventFavoriteEdgeArgs,
-      WithTypename<EventFavoritesEdge> | string
-    >
-    query?: GraphCacheResolver<
-      WithTypename<UpdateEventFavoritePayload>,
-      Record<string, never>,
-      WithTypename<Query> | string
-    >
-  }
   UpdateEventFormatMappingPayload?: {
     clientMutationId?: GraphCacheResolver<
       WithTypename<UpdateEventFormatMappingPayload>,
@@ -16781,18 +16655,6 @@ export type GraphCacheOptimisticUpdaters = {
   updateEventCategoryMappingByEventIdAndCategoryId?: GraphCacheOptimisticMutationResolver<
     MutationUpdateEventCategoryMappingByEventIdAndCategoryIdArgs,
     Maybe<WithTypename<UpdateEventCategoryMappingPayload>>
-  >
-  updateEventFavorite?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateEventFavoriteArgs,
-    Maybe<WithTypename<UpdateEventFavoritePayload>>
-  >
-  updateEventFavoriteByCreatedByAndEventId?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateEventFavoriteByCreatedByAndEventIdArgs,
-    Maybe<WithTypename<UpdateEventFavoritePayload>>
-  >
-  updateEventFavoriteById?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateEventFavoriteByIdArgs,
-    Maybe<WithTypename<UpdateEventFavoritePayload>>
   >
   updateEventFormat?: GraphCacheOptimisticMutationResolver<
     MutationUpdateEventFormatArgs,
@@ -18278,24 +18140,6 @@ export type GraphCacheUpdaters = {
         >
       },
       MutationUpdateEventCategoryMappingByEventIdAndCategoryIdArgs
-    >
-    updateEventFavorite?: GraphCacheUpdateResolver<
-      { updateEventFavorite: Maybe<WithTypename<UpdateEventFavoritePayload>> },
-      MutationUpdateEventFavoriteArgs
-    >
-    updateEventFavoriteByCreatedByAndEventId?: GraphCacheUpdateResolver<
-      {
-        updateEventFavoriteByCreatedByAndEventId: Maybe<
-          WithTypename<UpdateEventFavoritePayload>
-        >
-      },
-      MutationUpdateEventFavoriteByCreatedByAndEventIdArgs
-    >
-    updateEventFavoriteById?: GraphCacheUpdateResolver<
-      {
-        updateEventFavoriteById: Maybe<WithTypename<UpdateEventFavoritePayload>>
-      },
-      MutationUpdateEventFavoriteByIdArgs
     >
     updateEventFormat?: GraphCacheUpdateResolver<
       { updateEventFormat: Maybe<WithTypename<UpdateEventFormatPayload>> },
@@ -22346,32 +22190,6 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<UpdateEventCategoryPayload>>,
-      Record<string, never>
-    >
-  }
-  UpdateEventFavoritePayload?: {
-    accountByCreatedBy?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavoritePayload>>,
-      Record<string, never>
-    >
-    clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavoritePayload>>,
-      Record<string, never>
-    >
-    eventByEventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavoritePayload>>,
-      Record<string, never>
-    >
-    eventFavorite?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavoritePayload>>,
-      Record<string, never>
-    >
-    eventFavoriteEdge?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavoritePayload>>,
-      UpdateEventFavoritePayloadEventFavoriteEdgeArgs
-    >
-    query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavoritePayload>>,
       Record<string, never>
     >
   }
