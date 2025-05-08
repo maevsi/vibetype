@@ -41,7 +41,7 @@ const fireAlert = useFireAlert()
 
 // methods
 const downloadIcal = async () => {
-  const response = await useFetch<string>('/api/ical', {
+  const response = await useFetch<string>('/api/model/event/ical', {
     body: {
       contact: contact,
       event: event,

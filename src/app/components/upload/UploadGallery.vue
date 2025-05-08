@@ -220,13 +220,16 @@ const deleteUpload = async (uploadId: string) => {
     ? `https://${runtimeConfig.public.vio.stagingHost}`
     : ''
 
-  const response = await $fetch.raw(`${host}/api/upload?uploadId=${uploadId}`, {
-    headers: {
-      Authorization: `Bearer ${store.jwt}`,
+  const response = await $fetch.raw(
+    `${host}/api/model/upload?uploadId=${uploadId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${store.jwt}`,
+      },
+      ignoreResponseError: true, // handle response status below
+      method: 'DELETE',
     },
-    ignoreResponseError: true, // handle response status below
-    method: 'DELETE',
-  })
+  )
 
   pending.deletions.splice(pending.deletions.indexOf(uploadId), 1)
 
