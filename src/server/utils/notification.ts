@@ -260,7 +260,7 @@ export const sendEventInvitationMail = async ({
   } = payloadCamelCased.data
 
   const res = await (
-    await fetch(`http://${SITE_NAME}:3000/api/ical`, {
+    await fetch(`http://${SITE_NAME}:3000/api/model/event/ical`, {
       body: JSON.stringify({
         contact: { emailAddress },
         event: {

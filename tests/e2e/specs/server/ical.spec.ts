@@ -8,7 +8,7 @@ test.describe('api load', () => {
   //   for (const disallowedMethod of disallowedMethods) {
   //     const resp = await (
   //       request[disallowedMethod] as (url: string) => Promise<APIResponse>
-  //     )('/api/ical')
+  //     )('/api/model/event/ical')
   //     expect(resp.status()).toEqual(405)
   //     expect(resp.statusText()).toEqual('Only POST requests are allowed!')
   //   }
@@ -24,7 +24,7 @@ test.describe('api load', () => {
     ]
 
     for (const inputDataElement of inputData) {
-      const resp = await request.post('/api/ical', {
+      const resp = await request.post('/api/model/event/ical', {
         data: inputDataElement.data,
       })
 

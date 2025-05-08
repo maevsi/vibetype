@@ -1,9 +1,9 @@
-import { LOGO_BASE64 } from '../utils/assets'
-import type { EmailName } from '../utils/email'
-import { EMAIL_NAMES, getEmail } from '../utils/email'
-import { Locale } from '../utils/i18n'
-import { getQuerySafe } from '../utils/validation'
 import { z } from 'zod'
+
+import { LOGO_BASE64 } from '~~/server/utils/assets'
+import { EMAIL_NAMES, getEmail, type EmailName } from '~~/server/utils/email'
+import { Locale } from '~~/server/utils/i18n'
+import { getQuerySafe } from '~~/server/utils/validation'
 
 const emailGetQuerySchema = z.object({
   locale: z.nativeEnum(Locale).default(Locale.EN),
