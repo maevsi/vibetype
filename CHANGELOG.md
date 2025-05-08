@@ -1,3 +1,9 @@
+## [10.18.0](https://github.com/maevsi/vibetype/compare/10.17.0...10.18.0) (2025-05-08)
+
+### Features
+
+* **server:** structure api directories ([8a4ed1f](https://github.com/maevsi/vibetype/commit/8a4ed1f20e3731628029ca96209cc01ac33e1e84))
+
 ## [10.17.0](https://github.com/maevsi/vibetype/compare/10.16.1...10.17.0) (2025-05-06)
 
 ### Features
