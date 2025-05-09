@@ -1,3 +1,19 @@
+## [11.0.0-beta.1](https://github.com/maevsi/vibetype/compare/10.18.0-beta.1...11.0.0-beta.1) (2025-05-08)
+
+### ⚠ BREAKING CHANGES
+
+* **server:** structure service api directories
+
+### Features
+
+* **server:** structure service api directories ([e1c5a23](https://github.com/maevsi/vibetype/commit/e1c5a233b52342e248cd7bc8ff9a4a29475c982f))
+
+## [10.18.0-beta.1](https://github.com/maevsi/vibetype/compare/10.17.0...10.18.0-beta.1) (2025-05-08)
+
+### Features
+
+* **server:** structure api directories ([8a4ed1f](https://github.com/maevsi/vibetype/commit/8a4ed1f20e3731628029ca96209cc01ac33e1e84))
+
 ## [10.19.0](https://github.com/maevsi/vibetype/compare/10.18.1...10.19.0) (2025-05-09)
 
 ### Features

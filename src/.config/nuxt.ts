@@ -116,14 +116,14 @@ export default defineNuxtConfig({
     '/**': {
       headers: { 'Document-Policy': 'js-profiling' }, // Sentry's browser profiling (currently supported for Chromium-based browsers)
     },
-    '/api/auth-proxy': {
-      security: {
-        xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection on forward authentication (https://github.com/maevsi/vibetype/issues/1603)
-      },
-    },
     '/api/model/event/ical': {
       security: {
         xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection here (https://github.com/maevsi/vibetype/issues/1603)
+      },
+    },
+    '/api/service/traefik/authentication': {
+      security: {
+        xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection on forward authentication (https://github.com/maevsi/vibetype/issues/1603)
       },
     },
     '/event/view/**': {
