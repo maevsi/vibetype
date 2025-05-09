@@ -1,3 +1,9 @@
+## [10.19.1](https://github.com/maevsi/vibetype/compare/10.19.0...10.19.1) (2025-05-09)
+
+### Bug Fixes
+
+* **early-bird:** correct title alignment ([014325a](https://github.com/maevsi/vibetype/commit/014325a961b651ed6a4743f4ab0acdf574372ebf))
+
 ## [10.19.0](https://github.com/maevsi/vibetype/compare/10.18.1...10.19.0) (2025-05-09)
 
 ### Features
