@@ -1,3 +1,9 @@
+## [10.19.0](https://github.com/maevsi/vibetype/compare/10.18.1...10.19.0) (2025-05-09)
+
+### Features
+
+* **content:** update backup service in privacy policy ([b5b2d7f](https://github.com/maevsi/vibetype/commit/b5b2d7f314f3c598ab43a88876ff0fc9667c405e))
+
 ## [10.18.1](https://github.com/maevsi/vibetype/compare/10.18.0...10.18.1) (2025-05-09)
 
 ### Bug Fixes
