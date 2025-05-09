@@ -1,3 +1,9 @@
+## [10.18.1](https://github.com/maevsi/vibetype/compare/10.18.0...10.18.1) (2025-05-09)
+
+### Bug Fixes
+
+* **server:** correct postgres schema ([058d45d](https://github.com/maevsi/vibetype/commit/058d45de8776b910bc0d406bfed9267ed4389652))
+
 ## [10.18.0](https://github.com/maevsi/vibetype/compare/10.17.0...10.18.0) (2025-05-08)
 
 ### Features
