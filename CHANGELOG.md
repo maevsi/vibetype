@@ -14,6 +14,24 @@
 
 * **server:** structure api directories ([8a4ed1f](https://github.com/maevsi/vibetype/commit/8a4ed1f20e3731628029ca96209cc01ac33e1e84))
 
+## [10.19.0](https://github.com/maevsi/vibetype/compare/10.18.1...10.19.0) (2025-05-09)
+
+### Features
+
+* **content:** update backup service in privacy policy ([b5b2d7f](https://github.com/maevsi/vibetype/commit/b5b2d7f314f3c598ab43a88876ff0fc9667c405e))
+
+## [10.18.1](https://github.com/maevsi/vibetype/compare/10.18.0...10.18.1) (2025-05-09)
+
+### Bug Fixes
+
+* **server:** correct postgres schema ([058d45d](https://github.com/maevsi/vibetype/commit/058d45de8776b910bc0d406bfed9267ed4389652))
+
+## [10.18.0](https://github.com/maevsi/vibetype/compare/10.17.0...10.18.0) (2025-05-08)
+
+### Features
+
+* **server:** structure api directories ([8a4ed1f](https://github.com/maevsi/vibetype/commit/8a4ed1f20e3731628029ca96209cc01ac33e1e84))
+
 ## [10.17.0](https://github.com/maevsi/vibetype/compare/10.16.1...10.17.0) (2025-05-06)
 
 ### Features

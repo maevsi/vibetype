@@ -17,13 +17,5 @@ export const productionConfig: ReturnType<DefineNuxtConfig> = {
         cookie_flags: 'samesite=strict;secure',
       },
     },
-    security: {
-      headers: {
-        strictTransportSecurity: {
-          maxAge: 31536000,
-          preload: true,
-        },
-      },
-    },
   },
 }
