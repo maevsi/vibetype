@@ -91,6 +91,12 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/support/contact" />
     </url>
     <url>
+        <loc>http://localhost:3001/de/account/verify/create</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/account/verify/create" />
+        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/account/verify/create" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/account/verify/create" />
+    </url>
+    <url>
         <loc>http://localhost:3001/de/docs/legal/attributions</loc>
         <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/docs/legal/attributions" />
         <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/docs/legal/attributions" />
