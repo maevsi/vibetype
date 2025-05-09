@@ -883,19 +883,21 @@
 
         If personal data is stored on our website, it is transferred to the servers of the respective provider during backups. The legal basis for data processing is Art. 6 para. 1 lit. f GDPR, as we have a legitimate interest in backing up our data.
 
-        We use the following cloud backup service: Scaleway Object Storage, provided by:
+        We use the following cloud backup service: Cloudflare R2, provided by:
 
         <address>
-          Scaleway
+          Cloudflare Germany GmbH
           <br />
-          8 Rue de la Ville-l'Évêque
+          Rosental 7
           <br />
-          75008 Paris
+          c/o Mindspace
           <br />
-          France
+          80331 Munich
+          <br />
+          Germany
         </address>
 
-        More information: https://www.scaleway.com/en/object-storage/.
+        More information: https://www.cloudflare.com/developer-platform/products/r2/.
 
 1. **This is also important**
 
