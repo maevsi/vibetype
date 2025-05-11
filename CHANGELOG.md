@@ -1,3 +1,9 @@
+## [10.19.2](https://github.com/maevsi/vibetype/compare/10.19.1...10.19.2) (2025-05-11)
+
+### Bug Fixes
+
+* **content:** allow websocket connections in stack deployment ([92c85cd](https://github.com/maevsi/vibetype/commit/92c85cd9bcd8b6db7fbf93f3036c4ab02b6bc8c1))
+
 ## [10.19.1](https://github.com/maevsi/vibetype/compare/10.19.0...10.19.1) (2025-05-09)
 
 ### Bug Fixes
