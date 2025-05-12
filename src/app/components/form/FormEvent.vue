@@ -453,7 +453,13 @@ const rules = {
     isRequired: true,
     lengthMax: VALIDATION_EVENT_NAME_LENGTH_MAXIMUM,
   }),
-  slug: VALIDATION_SLUG(),
+  slug: VALIDATION_SLUG({
+    existenceNone: validateEventSlug({
+      signedInAccountId: store.signedInAccountId || '',
+      invert: true,
+      exclude: event?.slug,
+    }),
+  }),
   start: VALIDATION_PRIMITIVE({ isRequired: true }),
   url: VALIDATION_URL(),
   visibility: VALIDATION_EVENT_VISIBILITY(),

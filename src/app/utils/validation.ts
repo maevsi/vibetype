@@ -76,7 +76,12 @@ export const VALIDATION_PASSWORD = () => ({
   lengthMin: minLength(VALIDATION_PASSWORD_LENGTH_MINIMUM),
   required,
 })
-export const VALIDATION_SLUG = () => ({
+export const VALIDATION_SLUG = ({
+  existenceNone,
+}: {
+  existenceNone: (value: string) => Promise<boolean>
+}) => ({
+  existenceNone: helpers.withAsync(existenceNone),
   formatSlug: VALIDATION_FORMAT_SLUG,
   lengthMax: maxLength(VALIDATION_EVENT_SLUG_LENGTH_MAXIMUM),
   required,
@@ -176,6 +181,40 @@ export const getEventByCreatedByAndSlug = async ({
 
   return getEventItem(eventByCreatedByAndSlug.data?.eventByCreatedByAndSlug)
 }
+
+export const validateEventSlug =
+  ({
+    signedInAccountId,
+    invert,
+    exclude,
+  }: {
+    signedInAccountId: string
+    invert: boolean
+    exclude?: string
+  }) =>
+  async (value: string) => {
+    const { $urql } = useNuxtApp()
+
+    if (!helpers.req(value)) {
+      return true
+    }
+
+    if (value === exclude) {
+      return true
+    }
+
+    try {
+      const result = await getEventByCreatedByAndSlug({
+        $urql,
+        createdBy: signedInAccountId,
+        slug: value,
+      })
+
+      return invert ? !result : !!result
+    } catch {
+      return false
+    }
+  }
 
 export const validateUsername = (invert?: boolean) => async (value: string) => {
   const { $urql } = useNuxtApp()
