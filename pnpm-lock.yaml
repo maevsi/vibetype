@@ -312,8 +312,8 @@ importers:
         specifier: 9.0.5
         version: 9.0.5
       ical-generator:
-        specifier: 8.1.1
-        version: 8.1.1(@types/node@22.15.17)(dayjs@2.0.0-alpha.4)(luxon@3.6.1)(moment-timezone@0.5.48)(moment@2.30.1)
+        specifier: 9.0.0
+        version: 9.0.0(@types/node@22.15.17)(dayjs@2.0.0-alpha.4)(luxon@3.6.1)(moment-timezone@0.5.48)(moment@2.30.1)
       isomorphic-dompurify:
         specifier: 2.24.0
         version: 2.24.0
@@ -7589,9 +7589,9 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  ical-generator@8.1.1:
-    resolution: {integrity: sha512-vorfUDZk4NaVLB7f1pm9AeRGy0jTYn7QUHZCFCMx3EGOz9+yykdAjA1i4ez+ZLAEK55lmutCXvVovEdTj9s1XA==}
-    engines: {node: 18 || 20 || >=22.0.0}
+  ical-generator@9.0.0:
+    resolution: {integrity: sha512-Ohpcw5fN8LhrnKyEQwISP7/EYfoafy0Nb1ISIMET0GWdsHrWpiqIdLocSi5vrYAdjF8QKy1GkaSk/n+GfzR/8A==}
+    engines: {node: 20 || >=22.0.0}
     peerDependencies:
       '@touch4it/ical-timezones': '>=1.6.0'
       '@types/luxon': '>= 1.26.0'
@@ -11700,9 +11700,6 @@ packages:
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
-
-  uuid-random@1.3.2:
-    resolution: {integrity: sha512-UOzej0Le/UgkbWEO8flm+0y+G+ljUon1QWTEZOq1rnMAsxo2+SckbiZdKzAHHlVh6gJqI1TjC/xwgR50MuCrBQ==}
 
   uuid@11.1.0:
     resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
@@ -21858,9 +21855,7 @@ snapshots:
 
   husky@9.1.7: {}
 
-  ical-generator@8.1.1(@types/node@22.15.17)(dayjs@2.0.0-alpha.4)(luxon@3.6.1)(moment-timezone@0.5.48)(moment@2.30.1):
-    dependencies:
-      uuid-random: 1.3.2
+  ical-generator@9.0.0(@types/node@22.15.17)(dayjs@2.0.0-alpha.4)(luxon@3.6.1)(moment-timezone@0.5.48)(moment@2.30.1):
     optionalDependencies:
       '@types/node': 22.15.17
       dayjs: 2.0.0-alpha.4
@@ -26734,8 +26729,6 @@ snapshots:
   urlpattern-polyfill@8.0.2: {}
 
   util-deprecate@1.0.2: {}
-
-  uuid-random@1.3.2: {}
 
   uuid@11.1.0: {}
 
