@@ -30,7 +30,10 @@
       "sharp",
       "unrs-resolver",
       "vue-demi"
-    ]
+    ],
+    "overrides": {
+      "@nuxtjs/i18n": "10.0.0-beta.3"
+    }
   },
   "private": true,
   "scripts": {
