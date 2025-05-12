@@ -1763,7 +1763,7 @@ export default {
             ],
           },
           {
-            name: 'uploadsByAccountId',
+            name: 'uploadsByCreatedBy',
             type: {
               kind: 'NON_NULL',
               ofType: {
@@ -5617,7 +5617,7 @@ export default {
         name: 'CreateUploadPayload',
         fields: [
           {
-            name: 'accountByAccountId',
+            name: 'accountByCreatedBy',
             type: {
               kind: 'OBJECT',
               name: 'Account',
@@ -7441,7 +7441,7 @@ export default {
         name: 'DeleteUploadPayload',
         fields: [
           {
-            name: 'accountByAccountId',
+            name: 'accountByCreatedBy',
             type: {
               kind: 'OBJECT',
               name: 'Account',
@@ -14492,66 +14492,6 @@ export default {
             ],
           },
           {
-            name: 'updateUpload',
-            type: {
-              kind: 'OBJECT',
-              name: 'UpdateUploadPayload',
-              ofType: null,
-            },
-            args: [
-              {
-                name: 'input',
-                type: {
-                  kind: 'NON_NULL',
-                  ofType: {
-                    kind: 'SCALAR',
-                    name: 'Any',
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: 'updateUploadById',
-            type: {
-              kind: 'OBJECT',
-              name: 'UpdateUploadPayload',
-              ofType: null,
-            },
-            args: [
-              {
-                name: 'input',
-                type: {
-                  kind: 'NON_NULL',
-                  ofType: {
-                    kind: 'SCALAR',
-                    name: 'Any',
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: 'updateUploadByStorageKey',
-            type: {
-              kind: 'OBJECT',
-              name: 'UpdateUploadPayload',
-              ofType: null,
-            },
-            args: [
-              {
-                name: 'input',
-                type: {
-                  kind: 'NON_NULL',
-                  ofType: {
-                    kind: 'SCALAR',
-                    name: 'Any',
-                  },
-                },
-              },
-            ],
-          },
-          {
             name: 'uploadCreate',
             type: {
               kind: 'OBJECT',
@@ -20036,75 +19976,10 @@ export default {
       },
       {
         kind: 'OBJECT',
-        name: 'UpdateUploadPayload',
-        fields: [
-          {
-            name: 'accountByAccountId',
-            type: {
-              kind: 'OBJECT',
-              name: 'Account',
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: 'clientMutationId',
-            type: {
-              kind: 'SCALAR',
-              name: 'Any',
-            },
-            args: [],
-          },
-          {
-            name: 'query',
-            type: {
-              kind: 'OBJECT',
-              name: 'Query',
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: 'upload',
-            type: {
-              kind: 'OBJECT',
-              name: 'Upload',
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: 'uploadEdge',
-            type: {
-              kind: 'OBJECT',
-              name: 'UploadsEdge',
-              ofType: null,
-            },
-            args: [
-              {
-                name: 'orderBy',
-                type: {
-                  kind: 'LIST',
-                  ofType: {
-                    kind: 'NON_NULL',
-                    ofType: {
-                      kind: 'SCALAR',
-                      name: 'Any',
-                    },
-                  },
-                },
-              },
-            ],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: 'OBJECT',
         name: 'Upload',
         fields: [
           {
-            name: 'accountByAccountId',
+            name: 'accountByCreatedBy',
             type: {
               kind: 'OBJECT',
               name: 'Account',
@@ -20113,7 +19988,7 @@ export default {
             args: [],
           },
           {
-            name: 'accountId',
+            name: 'createdAt',
             type: {
               kind: 'NON_NULL',
               ofType: {
@@ -20124,7 +19999,7 @@ export default {
             args: [],
           },
           {
-            name: 'createdAt',
+            name: 'createdBy',
             type: {
               kind: 'NON_NULL',
               ofType: {
@@ -20411,7 +20286,7 @@ export default {
         name: 'UploadCreatePayload',
         fields: [
           {
-            name: 'accountByAccountId',
+            name: 'accountByCreatedBy',
             type: {
               kind: 'OBJECT',
               name: 'Account',

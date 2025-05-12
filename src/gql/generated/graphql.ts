@@ -120,7 +120,7 @@ export type Account = Node & {
   /** Reads and enables pagination through a set of `Report`. */
   reportsByTargetAccountId: ReportsConnection
   /** Reads and enables pagination through a set of `Upload`. */
-  uploadsByAccountId: UploadsConnection
+  uploadsByCreatedBy: UploadsConnection
   /** The account's username. */
   username: Scalars['String']['output']
 }
@@ -401,7 +401,7 @@ export type AccountReportsByTargetAccountIdArgs = {
 }
 
 /** Public account data. */
-export type AccountUploadsByAccountIdArgs = {
+export type AccountUploadsByCreatedByArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
   condition?: InputMaybe<UploadCondition>
@@ -2460,7 +2460,7 @@ export type CreateUploadInput = {
 export type CreateUploadPayload = {
   __typename?: 'CreateUploadPayload'
   /** Reads a single `Account` that is related to this `Upload`. */
-  accountByAccountId?: Maybe<Account>
+  accountByCreatedBy?: Maybe<Account>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -3740,7 +3740,7 @@ export type DeleteUploadInput = {
 export type DeleteUploadPayload = {
   __typename?: 'DeleteUploadPayload'
   /** Reads a single `Account` that is related to this `Upload`. */
-  accountByAccountId?: Maybe<Account>
+  accountByCreatedBy?: Maybe<Account>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -5852,12 +5852,6 @@ export type Mutation = {
   updateProfilePictureByAccountId?: Maybe<UpdateProfilePicturePayload>
   /** Updates a single `ProfilePicture` using a unique key and a patch. */
   updateProfilePictureById?: Maybe<UpdateProfilePicturePayload>
-  /** Updates a single `Upload` using its globally unique id and a patch. */
-  updateUpload?: Maybe<UpdateUploadPayload>
-  /** Updates a single `Upload` using a unique key and a patch. */
-  updateUploadById?: Maybe<UpdateUploadPayload>
-  /** Updates a single `Upload` using a unique key and a patch. */
-  updateUploadByStorageKey?: Maybe<UpdateUploadPayload>
   /** Creates an upload with the given size if quota is available. */
   uploadCreate?: Maybe<UploadCreatePayload>
 }
@@ -6613,21 +6607,6 @@ export type MutationUpdateProfilePictureByAccountIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateProfilePictureByIdArgs = {
   input: UpdateProfilePictureByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateUploadArgs = {
-  input: UpdateUploadInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateUploadByIdArgs = {
-  input: UpdateUploadByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateUploadByStorageKeyArgs = {
-  input: UpdateUploadByStorageKeyInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -8887,77 +8866,15 @@ export type UpdateProfilePicturePayloadProfilePictureEdgeArgs = {
   orderBy?: InputMaybe<Array<ProfilePicturesOrderBy>>
 }
 
-/** All input for the `updateUploadById` mutation. */
-export type UpdateUploadByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The upload's internal id. */
-  id: Scalars['UUID']['input']
-  /** An object where the defined keys will be set on the `Upload` being updated. */
-  uploadPatch: UploadPatch
-}
-
-/** All input for the `updateUploadByStorageKey` mutation. */
-export type UpdateUploadByStorageKeyInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The upload's storage key. */
-  storageKey: Scalars['String']['input']
-  /** An object where the defined keys will be set on the `Upload` being updated. */
-  uploadPatch: UploadPatch
-}
-
-/** All input for the `updateUpload` mutation. */
-export type UpdateUploadInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `Upload` to be updated. */
-  nodeId: Scalars['ID']['input']
-  /** An object where the defined keys will be set on the `Upload` being updated. */
-  uploadPatch: UploadPatch
-}
-
-/** The output of our update `Upload` mutation. */
-export type UpdateUploadPayload = {
-  __typename?: 'UpdateUploadPayload'
-  /** Reads a single `Account` that is related to this `Upload`. */
-  accountByAccountId?: Maybe<Account>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-  /** The `Upload` that was updated by this mutation. */
-  upload?: Maybe<Upload>
-  /** An edge for our `Upload`. May be used by Relay 1. */
-  uploadEdge?: Maybe<UploadsEdge>
-}
-
-/** The output of our update `Upload` mutation. */
-export type UpdateUploadPayloadUploadEdgeArgs = {
-  orderBy?: InputMaybe<Array<UploadsOrderBy>>
-}
-
 /** An upload. */
 export type Upload = Node & {
   __typename?: 'Upload'
   /** Reads a single `Account` that is related to this `Upload`. */
-  accountByAccountId?: Maybe<Account>
-  /** The uploader's account id. */
-  accountId: Scalars['UUID']['output']
+  accountByCreatedBy?: Maybe<Account>
   /** Timestamp of when the upload was created, defaults to the current timestamp. */
   createdAt: Scalars['Datetime']['output']
+  /** The uploader's account id. */
+  createdBy: Scalars['UUID']['output']
   /** Reads and enables pagination through a set of `EventUpload`. */
   eventUploadsByUploadId: EventUploadsConnection
   /** The upload's internal id. */
@@ -9013,10 +8930,10 @@ export type UploadReportsByTargetUploadIdArgs = {
 
 /** A condition to be used against `Upload` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type UploadCondition = {
-  /** Checks for equality with the object’s `accountId` field. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `createdAt` field. */
   createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  /** Checks for equality with the object’s `createdBy` field. */
+  createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `name` field. */
@@ -9043,7 +8960,7 @@ export type UploadCreateInput = {
 export type UploadCreatePayload = {
   __typename?: 'UploadCreatePayload'
   /** Reads a single `Account` that is related to this `Upload`. */
-  accountByAccountId?: Maybe<Account>
+  accountByCreatedBy?: Maybe<Account>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -9064,25 +8981,11 @@ export type UploadCreatePayloadUploadEdgeArgs = {
 /** An input for mutations affecting `Upload` */
 export type UploadInput = {
   /** The uploader's account id. */
-  accountId: Scalars['UUID']['input']
+  createdBy: Scalars['UUID']['input']
   /** The name of the uploaded file. */
   name?: InputMaybe<Scalars['String']['input']>
   /** The upload's size in bytes. */
   sizeByte: Scalars['BigInt']['input']
-  /** The upload's storage key. */
-  storageKey?: InputMaybe<Scalars['String']['input']>
-  /** The type of the uploaded file, default is 'image'. */
-  type?: InputMaybe<Scalars['String']['input']>
-}
-
-/** Represents an update to a `Upload`. Fields that are set will be updated. */
-export type UploadPatch = {
-  /** The uploader's account id. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
-  /** The name of the uploaded file. */
-  name?: InputMaybe<Scalars['String']['input']>
-  /** The upload's size in bytes. */
-  sizeByte?: InputMaybe<Scalars['BigInt']['input']>
   /** The upload's storage key. */
   storageKey?: InputMaybe<Scalars['String']['input']>
   /** The type of the uploaded file, default is 'image'. */
@@ -9113,10 +9016,10 @@ export type UploadsEdge = {
 
 /** Methods to use when ordering `Upload`. */
 export enum UploadsOrderBy {
-  AccountIdAsc = 'ACCOUNT_ID_ASC',
-  AccountIdDesc = 'ACCOUNT_ID_DESC',
   CreatedAtAsc = 'CREATED_AT_ASC',
   CreatedAtDesc = 'CREATED_AT_DESC',
+  CreatedByAsc = 'CREATED_BY_ASC',
+  CreatedByDesc = 'CREATED_BY_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
   NameAsc = 'NAME_ASC',
@@ -9254,9 +9157,9 @@ export type UploadItemFragment = {
   __typename?: 'Upload'
   id: any
   nodeId: string
-  accountId: any
   sizeByte: any
   storageKey?: string | null
+  createdBy: any
 } & { ' $fragmentName'?: 'UploadItemFragment' }
 
 export type AuthenticateMutationVariables = Exact<{
@@ -9625,16 +9528,33 @@ export type CreateReportMutation = {
   } | null
 }
 
-export type UploadCreateMutationVariables = Exact<{
-  uploadCreateInput: UploadCreateInput
+export type CreateUploadMutationVariables = Exact<{
+  createUploadInput: CreateUploadInput
 }>
 
-export type UploadCreateMutation = {
+export type CreateUploadMutation = {
   __typename?: 'Mutation'
-  uploadCreate?: {
-    __typename?: 'UploadCreatePayload'
+  createUpload?: {
+    __typename?: 'CreateUploadPayload'
     clientMutationId?: string | null
     upload?: { __typename?: 'Upload'; id: any } | null
+  } | null
+}
+
+export type DeleteUploadByIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type DeleteUploadByIdMutation = {
+  __typename?: 'Mutation'
+  deleteUploadById?: {
+    __typename?: 'DeleteUploadPayload'
+    clientMutationId?: string | null
+    upload?:
+      | ({ __typename?: 'Upload' } & {
+          ' $fragmentRefs'?: { UploadItemFragment: UploadItemFragment }
+        })
+      | null
   } | null
 }
 
@@ -9850,7 +9770,7 @@ export type ProfilePictureByAccountIdQuery = {
 export type AllUploadsQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>
   first: Scalars['Int']['input']
-  accountId?: InputMaybe<Scalars['UUID']['input']>
+  createdBy?: InputMaybe<Scalars['UUID']['input']>
 }>
 
 export type AllUploadsQuery = {
@@ -10253,9 +10173,9 @@ export const UploadItemFragmentDoc = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'sizeByte' } },
           { kind: 'Field', name: { kind: 'Name', value: 'storageKey' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
         ],
       },
     },
@@ -10305,9 +10225,9 @@ export const ProfilePictureItemFragmentDoc = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'sizeByte' } },
           { kind: 'Field', name: { kind: 'Name', value: 'storageKey' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
         ],
       },
     },
@@ -12945,25 +12865,25 @@ export const CreateReportDocument = {
   CreateReportMutation,
   CreateReportMutationVariables
 >
-export const UploadCreateDocument = {
+export const CreateUploadDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'uploadCreate' },
+      name: { kind: 'Name', value: 'createUpload' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'uploadCreateInput' },
+            name: { kind: 'Name', value: 'createUploadInput' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'UploadCreateInput' },
+              name: { kind: 'Name', value: 'CreateUploadInput' },
             },
           },
         },
@@ -12973,14 +12893,14 @@ export const UploadCreateDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'uploadCreate' },
+            name: { kind: 'Name', value: 'createUpload' },
             arguments: [
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
                   kind: 'Variable',
-                  name: { kind: 'Name', value: 'uploadCreateInput' },
+                  name: { kind: 'Name', value: 'createUploadInput' },
                 },
               },
             ],
@@ -13009,8 +12929,99 @@ export const UploadCreateDocument = {
     },
   ],
 } as unknown as DocumentNode<
-  UploadCreateMutation,
-  UploadCreateMutationVariables
+  CreateUploadMutation,
+  CreateUploadMutationVariables
+>
+export const DeleteUploadByIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'deleteUploadById' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteUploadById' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'id' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'upload' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'UploadItem' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UploadItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Upload' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'sizeByte' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'storageKey' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteUploadByIdMutation,
+  DeleteUploadByIdMutationVariables
 >
 export const AccountByIdDocument = {
   kind: 'Document',
@@ -14542,9 +14553,9 @@ export const ProfilePictureByAccountIdDocument = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'sizeByte' } },
           { kind: 'Field', name: { kind: 'Name', value: 'storageKey' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
         ],
       },
     },
@@ -14613,7 +14624,7 @@ export const AllUploadsDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'accountId' },
+            name: { kind: 'Name', value: 'createdBy' },
           },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
         },
@@ -14641,10 +14652,10 @@ export const AllUploadsDocument = {
                   fields: [
                     {
                       kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'accountId' },
+                      name: { kind: 'Name', value: 'createdBy' },
                       value: {
                         kind: 'Variable',
-                        name: { kind: 'Name', value: 'accountId' },
+                        name: { kind: 'Name', value: 'createdBy' },
                       },
                     },
                   ],
@@ -14711,9 +14722,9 @@ export const AllUploadsDocument = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'sizeByte' } },
           { kind: 'Field', name: { kind: 'Name', value: 'storageKey' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
         ],
       },
     },
