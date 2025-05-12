@@ -1,3 +1,13 @@
+## [11.0.0-beta.3](https://github.com/maevsi/vibetype/compare/11.0.0-beta.2...11.0.0-beta.3) (2025-05-12)
+
+### Features
+
+* **event:** remove existence validation function ([a5ca776](https://github.com/maevsi/vibetype/commit/a5ca776a89fc685988c48d9c58667314a9c56dd3))
+
+### Bug Fixes
+
+* **content:** allow websocket connections in stack deployment ([92c85cd](https://github.com/maevsi/vibetype/commit/92c85cd9bcd8b6db7fbf93f3036c4ab02b6bc8c1))
+
 ## [11.0.0-beta.2](https://github.com/maevsi/vibetype/compare/11.0.0-beta.1...11.0.0-beta.2) (2025-05-09)
 
 ### Features
