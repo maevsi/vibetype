@@ -67,14 +67,14 @@ export type Account = Node & {
   contactsByAccountId: ContactsConnection
   /** Reads and enables pagination through a set of `Contact`. */
   contactsByCreatedBy: ContactsConnection
+  /** The account's description. */
+  description?: Maybe<Scalars['String']['output']>
   /** Reads and enables pagination through a set of `Device`. */
   devicesByCreatedBy: DevicesConnection
   /** Reads and enables pagination through a set of `Device`. */
   devicesByUpdatedBy: DevicesConnection
   /** Reads and enables pagination through a set of `EventFavorite`. */
   eventFavoritesByCreatedBy: EventFavoritesConnection
-  /** Reads and enables pagination through a set of `EventGroup`. */
-  eventGroupsByCreatedBy: EventGroupsConnection
   /** Reads and enables pagination through a set of `EventRecommendation`. */
   eventRecommendationsByAccountId: EventRecommendationsConnection
   /** Reads and enables pagination through a set of `Event`. */
@@ -91,6 +91,8 @@ export type Account = Node & {
   guestsByUpdatedBy: GuestsConnection
   /** The account's internal id. */
   id: Scalars['UUID']['output']
+  /** The account's imprint. */
+  imprint?: Maybe<Scalars['String']['output']>
   /** Reads and enables pagination through a set of `LegalTermAcceptance`. */
   legalTermAcceptancesByAccountId: LegalTermAcceptancesConnection
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -264,17 +266,6 @@ export type AccountEventFavoritesByCreatedByArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<EventFavoritesOrderBy>>
-}
-
-/** Public account data. */
-export type AccountEventGroupsByCreatedByArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<EventGroupCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventGroupsOrderBy>>
 }
 
 /** Public account data. */
@@ -490,8 +481,12 @@ export enum AccountBlocksOrderBy {
 
 /** A condition to be used against `Account` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type AccountCondition = {
+  /** Checks for equality with the object’s `description` field. */
+  description?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `imprint` field. */
+  imprint?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `username` field. */
   username?: InputMaybe<Scalars['String']['input']>
 }
@@ -542,8 +537,12 @@ export type AccountEmailAddressVerificationPayload = {
 
 /** An input for mutations affecting `Account` */
 export type AccountInput = {
+  /** The account's description. */
+  description?: InputMaybe<Scalars['String']['input']>
   /** The account's internal id. */
   id: Scalars['UUID']['input']
+  /** The account's imprint. */
+  imprint?: InputMaybe<Scalars['String']['input']>
   /** The account's username. */
   username: Scalars['String']['input']
 }
@@ -619,8 +618,12 @@ export type AccountPasswordResetRequestPayload = {
 
 /** Represents an update to a `Account`. Fields that are set will be updated. */
 export type AccountPatch = {
+  /** The account's description. */
+  description?: InputMaybe<Scalars['String']['input']>
   /** The account's internal id. */
   id?: InputMaybe<Scalars['UUID']['input']>
+  /** The account's imprint. */
+  imprint?: InputMaybe<Scalars['String']['input']>
   /** The account's username. */
   username?: InputMaybe<Scalars['String']['input']>
 }
@@ -1027,8 +1030,12 @@ export type AccountsEdge = {
 
 /** Methods to use when ordering `Account`. */
 export enum AccountsOrderBy {
+  DescriptionAsc = 'DESCRIPTION_ASC',
+  DescriptionDesc = 'DESCRIPTION_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
+  ImprintAsc = 'IMPRINT_ASC',
+  ImprintDesc = 'IMPRINT_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
@@ -2103,76 +2110,6 @@ export type CreateEventFormatPayload = {
 /** The output of our create `EventFormat` mutation. */
 export type CreateEventFormatPayloadEventFormatEdgeArgs = {
   orderBy?: InputMaybe<Array<EventFormatsOrderBy>>
-}
-
-/** All input for the create `EventGroup` mutation. */
-export type CreateEventGroupInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The `EventGroup` to be created by this mutation. */
-  eventGroup: EventGroupInput
-}
-
-/** The output of our create `EventGroup` mutation. */
-export type CreateEventGroupPayload = {
-  __typename?: 'CreateEventGroupPayload'
-  /** Reads a single `Account` that is related to this `EventGroup`. */
-  accountByCreatedBy?: Maybe<Account>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** The `EventGroup` that was created by this mutation. */
-  eventGroup?: Maybe<EventGroup>
-  /** An edge for our `EventGroup`. May be used by Relay 1. */
-  eventGroupEdge?: Maybe<EventGroupsEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our create `EventGroup` mutation. */
-export type CreateEventGroupPayloadEventGroupEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventGroupsOrderBy>>
-}
-
-/** All input for the create `EventGrouping` mutation. */
-export type CreateEventGroupingInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The `EventGrouping` to be created by this mutation. */
-  eventGrouping: EventGroupingInput
-}
-
-/** The output of our create `EventGrouping` mutation. */
-export type CreateEventGroupingPayload = {
-  __typename?: 'CreateEventGroupingPayload'
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Reads a single `Event` that is related to this `EventGrouping`. */
-  eventByEventId?: Maybe<Event>
-  /** Reads a single `EventGroup` that is related to this `EventGrouping`. */
-  eventGroupByEventGroupId?: Maybe<EventGroup>
-  /** The `EventGrouping` that was created by this mutation. */
-  eventGrouping?: Maybe<EventGrouping>
-  /** An edge for our `EventGrouping`. May be used by Relay 1. */
-  eventGroupingEdge?: Maybe<EventGroupingsEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our create `EventGrouping` mutation. */
-export type CreateEventGroupingPayloadEventGroupingEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventGroupingsOrderBy>>
 }
 
 /** All input for the create `Event` mutation. */
@@ -3372,126 +3309,6 @@ export type DeleteEventFormatPayloadEventFormatEdgeArgs = {
   orderBy?: InputMaybe<Array<EventFormatsOrderBy>>
 }
 
-/** All input for the `deleteEventGroupByCreatedByAndSlug` mutation. */
-export type DeleteEventGroupByCreatedByAndSlugInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The event group creator's id. */
-  createdBy: Scalars['UUID']['input']
-  /** The event group's name, slugified. */
-  slug: Scalars['String']['input']
-}
-
-/** All input for the `deleteEventGroupById` mutation. */
-export type DeleteEventGroupByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The event group's internal id. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `deleteEventGroup` mutation. */
-export type DeleteEventGroupInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `EventGroup` to be deleted. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our delete `EventGroup` mutation. */
-export type DeleteEventGroupPayload = {
-  __typename?: 'DeleteEventGroupPayload'
-  /** Reads a single `Account` that is related to this `EventGroup`. */
-  accountByCreatedBy?: Maybe<Account>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedEventGroupId?: Maybe<Scalars['ID']['output']>
-  /** The `EventGroup` that was deleted by this mutation. */
-  eventGroup?: Maybe<EventGroup>
-  /** An edge for our `EventGroup`. May be used by Relay 1. */
-  eventGroupEdge?: Maybe<EventGroupsEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our delete `EventGroup` mutation. */
-export type DeleteEventGroupPayloadEventGroupEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventGroupsOrderBy>>
-}
-
-/** All input for the `deleteEventGroupingByEventIdAndEventGroupId` mutation. */
-export type DeleteEventGroupingByEventIdAndEventGroupIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The event grouping's internal event group id. */
-  eventGroupId: Scalars['UUID']['input']
-  /** The event grouping's internal event id. */
-  eventId: Scalars['UUID']['input']
-}
-
-/** All input for the `deleteEventGroupingById` mutation. */
-export type DeleteEventGroupingByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The event grouping's internal id. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `deleteEventGrouping` mutation. */
-export type DeleteEventGroupingInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `EventGrouping` to be deleted. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our delete `EventGrouping` mutation. */
-export type DeleteEventGroupingPayload = {
-  __typename?: 'DeleteEventGroupingPayload'
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedEventGroupingId?: Maybe<Scalars['ID']['output']>
-  /** Reads a single `Event` that is related to this `EventGrouping`. */
-  eventByEventId?: Maybe<Event>
-  /** Reads a single `EventGroup` that is related to this `EventGrouping`. */
-  eventGroupByEventGroupId?: Maybe<EventGroup>
-  /** The `EventGrouping` that was deleted by this mutation. */
-  eventGrouping?: Maybe<EventGrouping>
-  /** An edge for our `EventGrouping`. May be used by Relay 1. */
-  eventGroupingEdge?: Maybe<EventGroupingsEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our delete `EventGrouping` mutation. */
-export type DeleteEventGroupingPayloadEventGroupingEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventGroupingsOrderBy>>
-}
-
 /** All input for the `deleteEvent` mutation. */
 export type DeleteEventInput = {
   /**
@@ -4049,8 +3866,6 @@ export type Event = Node & {
   eventFavoritesByEventId: EventFavoritesConnection
   /** Reads and enables pagination through a set of `EventFormatMapping`. */
   eventFormatMappingsByEventId: EventFormatMappingsConnection
-  /** Reads and enables pagination through a set of `EventGrouping`. */
-  eventGroupingsByEventId: EventGroupingsConnection
   /** Reads and enables pagination through a set of `EventRecommendation`. */
   eventRecommendationsByEventId: EventRecommendationsConnection
   /** Reads and enables pagination through a set of `EventUpload`. */
@@ -4115,17 +3930,6 @@ export type EventEventFormatMappingsByEventIdArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<EventFormatMappingsOrderBy>>
-}
-
-/** An event. */
-export type EventEventGroupingsByEventIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<EventGroupingCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventGroupingsOrderBy>>
 }
 
 /** An event. */
@@ -4451,12 +4255,8 @@ export type EventFavoriteCondition = {
 
 /** An input for mutations affecting `EventFavorite` */
 export type EventFavoriteInput = {
-  /** Reference to the event that is marked as a favorite. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
-}
-
-/** Represents an update to a `EventFavorite`. Fields that are set will be updated. */
-export type EventFavoritePatch = {
+  /** Reference to the account that created the event favorite. */
+  createdBy: Scalars['UUID']['input']
   /** Reference to the event that is marked as a favorite. */
   eventId?: InputMaybe<Scalars['UUID']['input']>
 }
@@ -4668,211 +4468,6 @@ export enum EventFormatsOrderBy {
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-}
-
-/** A group of events. */
-export type EventGroup = Node & {
-  __typename?: 'EventGroup'
-  /** Reads a single `Account` that is related to this `EventGroup`. */
-  accountByCreatedBy?: Maybe<Account>
-  /** Timestamp of when the event group was created, defaults to the current timestamp. */
-  createdAt: Scalars['Datetime']['output']
-  /** The event group creator's id. */
-  createdBy: Scalars['UUID']['output']
-  /** The event group's description. */
-  description?: Maybe<Scalars['String']['output']>
-  /** Reads and enables pagination through a set of `EventGrouping`. */
-  eventGroupingsByEventGroupId: EventGroupingsConnection
-  /** The event group's internal id. */
-  id: Scalars['UUID']['output']
-  /** Indicates whether the event group is archived. */
-  isArchived: Scalars['Boolean']['output']
-  /** The event group's name. */
-  name: Scalars['String']['output']
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID']['output']
-  /** The event group's name, slugified. */
-  slug: Scalars['String']['output']
-}
-
-/** A group of events. */
-export type EventGroupEventGroupingsByEventGroupIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<EventGroupingCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventGroupingsOrderBy>>
-}
-
-/**
- * A condition to be used against `EventGroup` object types. All fields are tested
- * for equality and combined with a logical ‘and.’
- */
-export type EventGroupCondition = {
-  /** Checks for equality with the object’s `createdAt` field. */
-  createdAt?: InputMaybe<Scalars['Datetime']['input']>
-  /** Checks for equality with the object’s `createdBy` field. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `description` field. */
-  description?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `id` field. */
-  id?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `isArchived` field. */
-  isArchived?: InputMaybe<Scalars['Boolean']['input']>
-  /** Checks for equality with the object’s `name` field. */
-  name?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `slug` field. */
-  slug?: InputMaybe<Scalars['String']['input']>
-}
-
-/** An input for mutations affecting `EventGroup` */
-export type EventGroupInput = {
-  /** The event group creator's id. */
-  createdBy: Scalars['UUID']['input']
-  /** The event group's description. */
-  description?: InputMaybe<Scalars['String']['input']>
-  /** Indicates whether the event group is archived. */
-  isArchived?: InputMaybe<Scalars['Boolean']['input']>
-  /** The event group's name. */
-  name: Scalars['String']['input']
-}
-
-/** Represents an update to a `EventGroup`. Fields that are set will be updated. */
-export type EventGroupPatch = {
-  /** The event group creator's id. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
-  /** The event group's description. */
-  description?: InputMaybe<Scalars['String']['input']>
-  /** Indicates whether the event group is archived. */
-  isArchived?: InputMaybe<Scalars['Boolean']['input']>
-  /** The event group's name. */
-  name?: InputMaybe<Scalars['String']['input']>
-}
-
-/** A bidirectional mapping between an event and an event group. */
-export type EventGrouping = Node & {
-  __typename?: 'EventGrouping'
-  /** Reads a single `Event` that is related to this `EventGrouping`. */
-  eventByEventId?: Maybe<Event>
-  /** Reads a single `EventGroup` that is related to this `EventGrouping`. */
-  eventGroupByEventGroupId?: Maybe<EventGroup>
-  /** The event grouping's internal event group id. */
-  eventGroupId: Scalars['UUID']['output']
-  /** The event grouping's internal event id. */
-  eventId: Scalars['UUID']['output']
-  /** The event grouping's internal id. */
-  id: Scalars['UUID']['output']
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID']['output']
-}
-
-/**
- * A condition to be used against `EventGrouping` object types. All fields are
- * tested for equality and combined with a logical ‘and.’
- */
-export type EventGroupingCondition = {
-  /** Checks for equality with the object’s `eventGroupId` field. */
-  eventGroupId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `eventId` field. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `id` field. */
-  id?: InputMaybe<Scalars['UUID']['input']>
-}
-
-/** An input for mutations affecting `EventGrouping` */
-export type EventGroupingInput = {
-  /** The event grouping's internal event group id. */
-  eventGroupId: Scalars['UUID']['input']
-  /** The event grouping's internal event id. */
-  eventId: Scalars['UUID']['input']
-}
-
-/** Represents an update to a `EventGrouping`. Fields that are set will be updated. */
-export type EventGroupingPatch = {
-  /** The event grouping's internal event group id. */
-  eventGroupId?: InputMaybe<Scalars['UUID']['input']>
-  /** The event grouping's internal event id. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
-}
-
-/** A connection to a list of `EventGrouping` values. */
-export type EventGroupingsConnection = {
-  __typename?: 'EventGroupingsConnection'
-  /** A list of edges which contains the `EventGrouping` and cursor to aid in pagination. */
-  edges: Array<EventGroupingsEdge>
-  /** A list of `EventGrouping` objects. */
-  nodes: Array<EventGrouping>
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo
-  /** The count of *all* `EventGrouping` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
-}
-
-/** A `EventGrouping` edge in the connection. */
-export type EventGroupingsEdge = {
-  __typename?: 'EventGroupingsEdge'
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
-  /** The `EventGrouping` at the end of the edge. */
-  node: EventGrouping
-}
-
-/** Methods to use when ordering `EventGrouping`. */
-export enum EventGroupingsOrderBy {
-  EventGroupIdAsc = 'EVENT_GROUP_ID_ASC',
-  EventGroupIdDesc = 'EVENT_GROUP_ID_DESC',
-  EventIdAsc = 'EVENT_ID_ASC',
-  EventIdDesc = 'EVENT_ID_DESC',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  Natural = 'NATURAL',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-}
-
-/** A connection to a list of `EventGroup` values. */
-export type EventGroupsConnection = {
-  __typename?: 'EventGroupsConnection'
-  /** A list of edges which contains the `EventGroup` and cursor to aid in pagination. */
-  edges: Array<EventGroupsEdge>
-  /** A list of `EventGroup` objects. */
-  nodes: Array<EventGroup>
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo
-  /** The count of *all* `EventGroup` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
-}
-
-/** A `EventGroup` edge in the connection. */
-export type EventGroupsEdge = {
-  __typename?: 'EventGroupsEdge'
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
-  /** The `EventGroup` at the end of the edge. */
-  node: EventGroup
-}
-
-/** Methods to use when ordering `EventGroup`. */
-export enum EventGroupsOrderBy {
-  CreatedAtAsc = 'CREATED_AT_ASC',
-  CreatedAtDesc = 'CREATED_AT_DESC',
-  CreatedByAsc = 'CREATED_BY_ASC',
-  CreatedByDesc = 'CREATED_BY_DESC',
-  DescriptionAsc = 'DESCRIPTION_ASC',
-  DescriptionDesc = 'DESCRIPTION_DESC',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  IsArchivedAsc = 'IS_ARCHIVED_ASC',
-  IsArchivedDesc = 'IS_ARCHIVED_DESC',
-  NameAsc = 'NAME_ASC',
-  NameDesc = 'NAME_DESC',
-  Natural = 'NATURAL',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  SlugAsc = 'SLUG_ASC',
-  SlugDesc = 'SLUG_DESC',
 }
 
 /** An input for mutations affecting `Event` */
@@ -5998,10 +5593,6 @@ export type Mutation = {
   createEventFormat?: Maybe<CreateEventFormatPayload>
   /** Creates a single `EventFormatMapping`. */
   createEventFormatMapping?: Maybe<CreateEventFormatMappingPayload>
-  /** Creates a single `EventGroup`. */
-  createEventGroup?: Maybe<CreateEventGroupPayload>
-  /** Creates a single `EventGrouping`. */
-  createEventGrouping?: Maybe<CreateEventGroupingPayload>
   /** Creates a single `EventRecommendation`. */
   createEventRecommendation?: Maybe<CreateEventRecommendationPayload>
   /** Creates a single `EventUpload`. */
@@ -6102,18 +5693,6 @@ export type Mutation = {
   deleteEventFormatMapping?: Maybe<DeleteEventFormatMappingPayload>
   /** Deletes a single `EventFormatMapping` using a unique key. */
   deleteEventFormatMappingByEventIdAndFormatId?: Maybe<DeleteEventFormatMappingPayload>
-  /** Deletes a single `EventGroup` using its globally unique id. */
-  deleteEventGroup?: Maybe<DeleteEventGroupPayload>
-  /** Deletes a single `EventGroup` using a unique key. */
-  deleteEventGroupByCreatedByAndSlug?: Maybe<DeleteEventGroupPayload>
-  /** Deletes a single `EventGroup` using a unique key. */
-  deleteEventGroupById?: Maybe<DeleteEventGroupPayload>
-  /** Deletes a single `EventGrouping` using its globally unique id. */
-  deleteEventGrouping?: Maybe<DeleteEventGroupingPayload>
-  /** Deletes a single `EventGrouping` using a unique key. */
-  deleteEventGroupingByEventIdAndEventGroupId?: Maybe<DeleteEventGroupingPayload>
-  /** Deletes a single `EventGrouping` using a unique key. */
-  deleteEventGroupingById?: Maybe<DeleteEventGroupingPayload>
   /** Deletes a single `EventRecommendation` using its globally unique id. */
   deleteEventRecommendation?: Maybe<DeleteEventRecommendationPayload>
   /** Deletes a single `EventRecommendation` using a unique key. */
@@ -6224,12 +5803,6 @@ export type Mutation = {
   updateEventCategoryMapping?: Maybe<UpdateEventCategoryMappingPayload>
   /** Updates a single `EventCategoryMapping` using a unique key and a patch. */
   updateEventCategoryMappingByEventIdAndCategoryId?: Maybe<UpdateEventCategoryMappingPayload>
-  /** Updates a single `EventFavorite` using its globally unique id and a patch. */
-  updateEventFavorite?: Maybe<UpdateEventFavoritePayload>
-  /** Updates a single `EventFavorite` using a unique key and a patch. */
-  updateEventFavoriteByCreatedByAndEventId?: Maybe<UpdateEventFavoritePayload>
-  /** Updates a single `EventFavorite` using a unique key and a patch. */
-  updateEventFavoriteById?: Maybe<UpdateEventFavoritePayload>
   /** Updates a single `EventFormat` using its globally unique id and a patch. */
   updateEventFormat?: Maybe<UpdateEventFormatPayload>
   /** Updates a single `EventFormat` using a unique key and a patch. */
@@ -6240,18 +5813,6 @@ export type Mutation = {
   updateEventFormatMapping?: Maybe<UpdateEventFormatMappingPayload>
   /** Updates a single `EventFormatMapping` using a unique key and a patch. */
   updateEventFormatMappingByEventIdAndFormatId?: Maybe<UpdateEventFormatMappingPayload>
-  /** Updates a single `EventGroup` using its globally unique id and a patch. */
-  updateEventGroup?: Maybe<UpdateEventGroupPayload>
-  /** Updates a single `EventGroup` using a unique key and a patch. */
-  updateEventGroupByCreatedByAndSlug?: Maybe<UpdateEventGroupPayload>
-  /** Updates a single `EventGroup` using a unique key and a patch. */
-  updateEventGroupById?: Maybe<UpdateEventGroupPayload>
-  /** Updates a single `EventGrouping` using its globally unique id and a patch. */
-  updateEventGrouping?: Maybe<UpdateEventGroupingPayload>
-  /** Updates a single `EventGrouping` using a unique key and a patch. */
-  updateEventGroupingByEventIdAndEventGroupId?: Maybe<UpdateEventGroupingPayload>
-  /** Updates a single `EventGrouping` using a unique key and a patch. */
-  updateEventGroupingById?: Maybe<UpdateEventGroupingPayload>
   /** Updates a single `EventRecommendation` using its globally unique id and a patch. */
   updateEventRecommendation?: Maybe<UpdateEventRecommendationPayload>
   /** Updates a single `EventRecommendation` using a unique key and a patch. */
@@ -6413,16 +5974,6 @@ export type MutationCreateEventFormatArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateEventFormatMappingArgs = {
   input: CreateEventFormatMappingInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateEventGroupArgs = {
-  input: CreateEventGroupInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateEventGroupingArgs = {
-  input: CreateEventGroupingInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6677,36 +6228,6 @@ export type MutationDeleteEventFormatMappingArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteEventFormatMappingByEventIdAndFormatIdArgs = {
   input: DeleteEventFormatMappingByEventIdAndFormatIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventGroupArgs = {
-  input: DeleteEventGroupInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventGroupByCreatedByAndSlugArgs = {
-  input: DeleteEventGroupByCreatedByAndSlugInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventGroupByIdArgs = {
-  input: DeleteEventGroupByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventGroupingArgs = {
-  input: DeleteEventGroupingInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventGroupingByEventIdAndEventGroupIdArgs = {
-  input: DeleteEventGroupingByEventIdAndEventGroupIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventGroupingByIdArgs = {
-  input: DeleteEventGroupingByIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6989,21 +6510,6 @@ export type MutationUpdateEventCategoryMappingByEventIdAndCategoryIdArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventFavoriteArgs = {
-  input: UpdateEventFavoriteInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventFavoriteByCreatedByAndEventIdArgs = {
-  input: UpdateEventFavoriteByCreatedByAndEventIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventFavoriteByIdArgs = {
-  input: UpdateEventFavoriteByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateEventFormatArgs = {
   input: UpdateEventFormatInput
 }
@@ -7026,36 +6532,6 @@ export type MutationUpdateEventFormatMappingArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateEventFormatMappingByEventIdAndFormatIdArgs = {
   input: UpdateEventFormatMappingByEventIdAndFormatIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventGroupArgs = {
-  input: UpdateEventGroupInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventGroupByCreatedByAndSlugArgs = {
-  input: UpdateEventGroupByCreatedByAndSlugInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventGroupByIdArgs = {
-  input: UpdateEventGroupByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventGroupingArgs = {
-  input: UpdateEventGroupingInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventGroupingByEventIdAndEventGroupIdArgs = {
-  input: UpdateEventGroupingByEventIdAndEventGroupIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventGroupingByIdArgs = {
-  input: UpdateEventGroupingByIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -7355,10 +6831,6 @@ export type Query = Node & {
   allEventFormatMappings?: Maybe<EventFormatMappingsConnection>
   /** Reads and enables pagination through a set of `EventFormat`. */
   allEventFormats?: Maybe<EventFormatsConnection>
-  /** Reads and enables pagination through a set of `EventGrouping`. */
-  allEventGroupings?: Maybe<EventGroupingsConnection>
-  /** Reads and enables pagination through a set of `EventGroup`. */
-  allEventGroups?: Maybe<EventGroupsConnection>
   /** Reads and enables pagination through a set of `EventRecommendation`. */
   allEventRecommendations?: Maybe<EventRecommendationsConnection>
   /** Reads and enables pagination through a set of `EventUpload`. */
@@ -7411,18 +6883,8 @@ export type Query = Node & {
   /** Reads a single `EventFormatMapping` using its globally unique `ID`. */
   eventFormatMapping?: Maybe<EventFormatMapping>
   eventFormatMappingByEventIdAndFormatId?: Maybe<EventFormatMapping>
-  /** Reads a single `EventGroup` using its globally unique `ID`. */
-  eventGroup?: Maybe<EventGroup>
-  eventGroupByCreatedByAndSlug?: Maybe<EventGroup>
-  eventGroupById?: Maybe<EventGroup>
-  /** Reads a single `EventGrouping` using its globally unique `ID`. */
-  eventGrouping?: Maybe<EventGrouping>
-  eventGroupingByEventIdAndEventGroupId?: Maybe<EventGrouping>
-  eventGroupingById?: Maybe<EventGrouping>
   /** Add a function that returns the maximum guest count of an accessible event. */
   eventGuestCountMaximum?: Maybe<Scalars['Int']['output']>
-  /** Shows if an event exists. */
-  eventIsExisting?: Maybe<Scalars['Boolean']['output']>
   /** Reads a single `EventRecommendation` using its globally unique `ID`. */
   eventRecommendation?: Maybe<EventRecommendation>
   eventRecommendationByAccountIdAndEventId?: Maybe<EventRecommendation>
@@ -7749,28 +7211,6 @@ export type QueryAllEventFormatsArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
-export type QueryAllEventGroupingsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<EventGroupingCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventGroupingsOrderBy>>
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllEventGroupsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<EventGroupCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventGroupsOrderBy>>
-}
-
-/** The root query type which gives access points into the data universe. */
 export type QueryAllEventRecommendationsArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
@@ -8008,46 +7448,8 @@ export type QueryEventFormatMappingByEventIdAndFormatIdArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
-export type QueryEventGroupArgs = {
-  nodeId: Scalars['ID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryEventGroupByCreatedByAndSlugArgs = {
-  createdBy: Scalars['UUID']['input']
-  slug: Scalars['String']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryEventGroupByIdArgs = {
-  id: Scalars['UUID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryEventGroupingArgs = {
-  nodeId: Scalars['ID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryEventGroupingByEventIdAndEventGroupIdArgs = {
-  eventGroupId: Scalars['UUID']['input']
-  eventId: Scalars['UUID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryEventGroupingByIdArgs = {
-  id: Scalars['UUID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
 export type QueryEventGuestCountMaximumArgs = {
   eventId: Scalars['UUID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryEventIsExistingArgs = {
-  createdBy: Scalars['UUID']['input']
-  slug: Scalars['String']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -9002,72 +8404,6 @@ export type UpdateEventCategoryPayloadEventCategoryEdgeArgs = {
   orderBy?: InputMaybe<Array<EventCategoriesOrderBy>>
 }
 
-/** All input for the `updateEventFavoriteByCreatedByAndEventId` mutation. */
-export type UpdateEventFavoriteByCreatedByAndEventIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** Reference to the account that created the event favorite. */
-  createdBy: Scalars['UUID']['input']
-  /** An object where the defined keys will be set on the `EventFavorite` being updated. */
-  eventFavoritePatch: EventFavoritePatch
-  /** Reference to the event that is marked as a favorite. */
-  eventId: Scalars['UUID']['input']
-}
-
-/** All input for the `updateEventFavoriteById` mutation. */
-export type UpdateEventFavoriteByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventFavorite` being updated. */
-  eventFavoritePatch: EventFavoritePatch
-  /** Primary key, uniquely identifies each favorite entry. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `updateEventFavorite` mutation. */
-export type UpdateEventFavoriteInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventFavorite` being updated. */
-  eventFavoritePatch: EventFavoritePatch
-  /** The globally unique `ID` which will identify a single `EventFavorite` to be updated. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our update `EventFavorite` mutation. */
-export type UpdateEventFavoritePayload = {
-  __typename?: 'UpdateEventFavoritePayload'
-  /** Reads a single `Account` that is related to this `EventFavorite`. */
-  accountByCreatedBy?: Maybe<Account>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Reads a single `Event` that is related to this `EventFavorite`. */
-  eventByEventId?: Maybe<Event>
-  /** The `EventFavorite` that was updated by this mutation. */
-  eventFavorite?: Maybe<EventFavorite>
-  /** An edge for our `EventFavorite`. May be used by Relay 1. */
-  eventFavoriteEdge?: Maybe<EventFavoritesEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our update `EventFavorite` mutation. */
-export type UpdateEventFavoritePayloadEventFavoriteEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventFavoritesOrderBy>>
-}
-
 /** All input for the `updateEventFormatById` mutation. */
 export type UpdateEventFormatByIdInput = {
   /**
@@ -9179,136 +8515,6 @@ export type UpdateEventFormatPayload = {
 /** The output of our update `EventFormat` mutation. */
 export type UpdateEventFormatPayloadEventFormatEdgeArgs = {
   orderBy?: InputMaybe<Array<EventFormatsOrderBy>>
-}
-
-/** All input for the `updateEventGroupByCreatedByAndSlug` mutation. */
-export type UpdateEventGroupByCreatedByAndSlugInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The event group creator's id. */
-  createdBy: Scalars['UUID']['input']
-  /** An object where the defined keys will be set on the `EventGroup` being updated. */
-  eventGroupPatch: EventGroupPatch
-  /** The event group's name, slugified. */
-  slug: Scalars['String']['input']
-}
-
-/** All input for the `updateEventGroupById` mutation. */
-export type UpdateEventGroupByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventGroup` being updated. */
-  eventGroupPatch: EventGroupPatch
-  /** The event group's internal id. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `updateEventGroup` mutation. */
-export type UpdateEventGroupInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventGroup` being updated. */
-  eventGroupPatch: EventGroupPatch
-  /** The globally unique `ID` which will identify a single `EventGroup` to be updated. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our update `EventGroup` mutation. */
-export type UpdateEventGroupPayload = {
-  __typename?: 'UpdateEventGroupPayload'
-  /** Reads a single `Account` that is related to this `EventGroup`. */
-  accountByCreatedBy?: Maybe<Account>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** The `EventGroup` that was updated by this mutation. */
-  eventGroup?: Maybe<EventGroup>
-  /** An edge for our `EventGroup`. May be used by Relay 1. */
-  eventGroupEdge?: Maybe<EventGroupsEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our update `EventGroup` mutation. */
-export type UpdateEventGroupPayloadEventGroupEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventGroupsOrderBy>>
-}
-
-/** All input for the `updateEventGroupingByEventIdAndEventGroupId` mutation. */
-export type UpdateEventGroupingByEventIdAndEventGroupIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The event grouping's internal event group id. */
-  eventGroupId: Scalars['UUID']['input']
-  /** An object where the defined keys will be set on the `EventGrouping` being updated. */
-  eventGroupingPatch: EventGroupingPatch
-  /** The event grouping's internal event id. */
-  eventId: Scalars['UUID']['input']
-}
-
-/** All input for the `updateEventGroupingById` mutation. */
-export type UpdateEventGroupingByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventGrouping` being updated. */
-  eventGroupingPatch: EventGroupingPatch
-  /** The event grouping's internal id. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `updateEventGrouping` mutation. */
-export type UpdateEventGroupingInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventGrouping` being updated. */
-  eventGroupingPatch: EventGroupingPatch
-  /** The globally unique `ID` which will identify a single `EventGrouping` to be updated. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our update `EventGrouping` mutation. */
-export type UpdateEventGroupingPayload = {
-  __typename?: 'UpdateEventGroupingPayload'
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Reads a single `Event` that is related to this `EventGrouping`. */
-  eventByEventId?: Maybe<Event>
-  /** Reads a single `EventGroup` that is related to this `EventGrouping`. */
-  eventGroupByEventGroupId?: Maybe<EventGroup>
-  /** The `EventGrouping` that was updated by this mutation. */
-  eventGrouping?: Maybe<EventGrouping>
-  /** An edge for our `EventGrouping`. May be used by Relay 1. */
-  eventGroupingEdge?: Maybe<EventGroupingsEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our update `EventGrouping` mutation. */
-export type UpdateEventGroupingPayloadEventGroupingEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventGroupingsOrderBy>>
 }
 
 /** All input for the `updateEvent` mutation. */
@@ -10049,12 +9255,6 @@ export type GraphCacheKeysConfig = {
   CreateEventFormatPayload?: (
     data: WithTypename<CreateEventFormatPayload>,
   ) => null | string
-  CreateEventGroupPayload?: (
-    data: WithTypename<CreateEventGroupPayload>,
-  ) => null | string
-  CreateEventGroupingPayload?: (
-    data: WithTypename<CreateEventGroupingPayload>,
-  ) => null | string
   CreateEventPayload?: (data: WithTypename<CreateEventPayload>) => null | string
   CreateEventRecommendationPayload?: (
     data: WithTypename<CreateEventRecommendationPayload>,
@@ -10126,12 +9326,6 @@ export type GraphCacheKeysConfig = {
   DeleteEventFormatPayload?: (
     data: WithTypename<DeleteEventFormatPayload>,
   ) => null | string
-  DeleteEventGroupPayload?: (
-    data: WithTypename<DeleteEventGroupPayload>,
-  ) => null | string
-  DeleteEventGroupingPayload?: (
-    data: WithTypename<DeleteEventGroupingPayload>,
-  ) => null | string
   DeleteEventPayload?: (data: WithTypename<DeleteEventPayload>) => null | string
   DeleteEventRecommendationPayload?: (
     data: WithTypename<DeleteEventRecommendationPayload>,
@@ -10190,16 +9384,6 @@ export type GraphCacheKeysConfig = {
     data: WithTypename<EventFormatsConnection>,
   ) => null | string
   EventFormatsEdge?: (data: WithTypename<EventFormatsEdge>) => null | string
-  EventGroup?: (data: WithTypename<EventGroup>) => null | string
-  EventGrouping?: (data: WithTypename<EventGrouping>) => null | string
-  EventGroupingsConnection?: (
-    data: WithTypename<EventGroupingsConnection>,
-  ) => null | string
-  EventGroupingsEdge?: (data: WithTypename<EventGroupingsEdge>) => null | string
-  EventGroupsConnection?: (
-    data: WithTypename<EventGroupsConnection>,
-  ) => null | string
-  EventGroupsEdge?: (data: WithTypename<EventGroupsEdge>) => null | string
   EventRecommendation?: (
     data: WithTypename<EventRecommendation>,
   ) => null | string
@@ -10310,20 +9494,11 @@ export type GraphCacheKeysConfig = {
   UpdateEventCategoryPayload?: (
     data: WithTypename<UpdateEventCategoryPayload>,
   ) => null | string
-  UpdateEventFavoritePayload?: (
-    data: WithTypename<UpdateEventFavoritePayload>,
-  ) => null | string
   UpdateEventFormatMappingPayload?: (
     data: WithTypename<UpdateEventFormatMappingPayload>,
   ) => null | string
   UpdateEventFormatPayload?: (
     data: WithTypename<UpdateEventFormatPayload>,
-  ) => null | string
-  UpdateEventGroupPayload?: (
-    data: WithTypename<UpdateEventGroupPayload>,
-  ) => null | string
-  UpdateEventGroupingPayload?: (
-    data: WithTypename<UpdateEventGroupingPayload>,
   ) => null | string
   UpdateEventPayload?: (data: WithTypename<UpdateEventPayload>) => null | string
   UpdateEventRecommendationPayload?: (
@@ -10527,16 +9702,6 @@ export type GraphCacheResolvers = {
       QueryAllEventFormatsArgs,
       WithTypename<EventFormatsConnection> | string
     >
-    allEventGroupings?: GraphCacheResolver<
-      WithTypename<Query>,
-      QueryAllEventGroupingsArgs,
-      WithTypename<EventGroupingsConnection> | string
-    >
-    allEventGroups?: GraphCacheResolver<
-      WithTypename<Query>,
-      QueryAllEventGroupsArgs,
-      WithTypename<EventGroupsConnection> | string
-    >
     allEventRecommendations?: GraphCacheResolver<
       WithTypename<Query>,
       QueryAllEventRecommendationsArgs,
@@ -10702,45 +9867,10 @@ export type GraphCacheResolvers = {
       QueryEventFormatMappingByEventIdAndFormatIdArgs,
       WithTypename<EventFormatMapping> | string
     >
-    eventGroup?: GraphCacheResolver<
-      WithTypename<Query>,
-      QueryEventGroupArgs,
-      WithTypename<EventGroup> | string
-    >
-    eventGroupByCreatedByAndSlug?: GraphCacheResolver<
-      WithTypename<Query>,
-      QueryEventGroupByCreatedByAndSlugArgs,
-      WithTypename<EventGroup> | string
-    >
-    eventGroupById?: GraphCacheResolver<
-      WithTypename<Query>,
-      QueryEventGroupByIdArgs,
-      WithTypename<EventGroup> | string
-    >
-    eventGrouping?: GraphCacheResolver<
-      WithTypename<Query>,
-      QueryEventGroupingArgs,
-      WithTypename<EventGrouping> | string
-    >
-    eventGroupingByEventIdAndEventGroupId?: GraphCacheResolver<
-      WithTypename<Query>,
-      QueryEventGroupingByEventIdAndEventGroupIdArgs,
-      WithTypename<EventGrouping> | string
-    >
-    eventGroupingById?: GraphCacheResolver<
-      WithTypename<Query>,
-      QueryEventGroupingByIdArgs,
-      WithTypename<EventGrouping> | string
-    >
     eventGuestCountMaximum?: GraphCacheResolver<
       WithTypename<Query>,
       QueryEventGuestCountMaximumArgs,
       Scalars['Int'] | string
-    >
-    eventIsExisting?: GraphCacheResolver<
-      WithTypename<Query>,
-      QueryEventIsExistingArgs,
-      Scalars['Boolean'] | string
     >
     eventRecommendation?: GraphCacheResolver<
       WithTypename<Query>,
@@ -10876,8 +10006,6 @@ export type GraphCacheResolvers = {
       | WithTypename<EventFavorite>
       | WithTypename<EventFormat>
       | WithTypename<EventFormatMapping>
-      | WithTypename<EventGroup>
-      | WithTypename<EventGrouping>
       | WithTypename<EventRecommendation>
       | WithTypename<EventUpload>
       | WithTypename<Friendship>
@@ -11002,6 +10130,11 @@ export type GraphCacheResolvers = {
       AccountContactsByCreatedByArgs,
       WithTypename<ContactsConnection> | string
     >
+    description?: GraphCacheResolver<
+      WithTypename<Account>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
     devicesByCreatedBy?: GraphCacheResolver<
       WithTypename<Account>,
       AccountDevicesByCreatedByArgs,
@@ -11016,11 +10149,6 @@ export type GraphCacheResolvers = {
       WithTypename<Account>,
       AccountEventFavoritesByCreatedByArgs,
       WithTypename<EventFavoritesConnection> | string
-    >
-    eventGroupsByCreatedBy?: GraphCacheResolver<
-      WithTypename<Account>,
-      AccountEventGroupsByCreatedByArgs,
-      WithTypename<EventGroupsConnection> | string
     >
     eventRecommendationsByAccountId?: GraphCacheResolver<
       WithTypename<Account>,
@@ -11061,6 +10189,11 @@ export type GraphCacheResolvers = {
       WithTypename<Account>,
       Record<string, never>,
       Scalars['UUID'] | string
+    >
+    imprint?: GraphCacheResolver<
+      WithTypename<Account>,
+      Record<string, never>,
+      Scalars['String'] | string
     >
     legalTermAcceptancesByAccountId?: GraphCacheResolver<
       WithTypename<Account>,
@@ -12348,65 +11481,6 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
-  CreateEventGroupPayload?: {
-    accountByCreatedBy?: GraphCacheResolver<
-      WithTypename<CreateEventGroupPayload>,
-      Record<string, never>,
-      WithTypename<Account> | string
-    >
-    clientMutationId?: GraphCacheResolver<
-      WithTypename<CreateEventGroupPayload>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    eventGroup?: GraphCacheResolver<
-      WithTypename<CreateEventGroupPayload>,
-      Record<string, never>,
-      WithTypename<EventGroup> | string
-    >
-    eventGroupEdge?: GraphCacheResolver<
-      WithTypename<CreateEventGroupPayload>,
-      CreateEventGroupPayloadEventGroupEdgeArgs,
-      WithTypename<EventGroupsEdge> | string
-    >
-    query?: GraphCacheResolver<
-      WithTypename<CreateEventGroupPayload>,
-      Record<string, never>,
-      WithTypename<Query> | string
-    >
-  }
-  CreateEventGroupingPayload?: {
-    clientMutationId?: GraphCacheResolver<
-      WithTypename<CreateEventGroupingPayload>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    eventByEventId?: GraphCacheResolver<
-      WithTypename<CreateEventGroupingPayload>,
-      Record<string, never>,
-      WithTypename<Event> | string
-    >
-    eventGroupByEventGroupId?: GraphCacheResolver<
-      WithTypename<CreateEventGroupingPayload>,
-      Record<string, never>,
-      WithTypename<EventGroup> | string
-    >
-    eventGrouping?: GraphCacheResolver<
-      WithTypename<CreateEventGroupingPayload>,
-      Record<string, never>,
-      WithTypename<EventGrouping> | string
-    >
-    eventGroupingEdge?: GraphCacheResolver<
-      WithTypename<CreateEventGroupingPayload>,
-      CreateEventGroupingPayloadEventGroupingEdgeArgs,
-      WithTypename<EventGroupingsEdge> | string
-    >
-    query?: GraphCacheResolver<
-      WithTypename<CreateEventGroupingPayload>,
-      Record<string, never>,
-      WithTypename<Query> | string
-    >
-  }
   CreateEventPayload?: {
     accountByCreatedBy?: GraphCacheResolver<
       WithTypename<CreateEventPayload>,
@@ -13247,75 +12321,6 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
-  DeleteEventGroupPayload?: {
-    accountByCreatedBy?: GraphCacheResolver<
-      WithTypename<DeleteEventGroupPayload>,
-      Record<string, never>,
-      WithTypename<Account> | string
-    >
-    clientMutationId?: GraphCacheResolver<
-      WithTypename<DeleteEventGroupPayload>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    deletedEventGroupId?: GraphCacheResolver<
-      WithTypename<DeleteEventGroupPayload>,
-      Record<string, never>,
-      Scalars['ID'] | string
-    >
-    eventGroup?: GraphCacheResolver<
-      WithTypename<DeleteEventGroupPayload>,
-      Record<string, never>,
-      WithTypename<EventGroup> | string
-    >
-    eventGroupEdge?: GraphCacheResolver<
-      WithTypename<DeleteEventGroupPayload>,
-      DeleteEventGroupPayloadEventGroupEdgeArgs,
-      WithTypename<EventGroupsEdge> | string
-    >
-    query?: GraphCacheResolver<
-      WithTypename<DeleteEventGroupPayload>,
-      Record<string, never>,
-      WithTypename<Query> | string
-    >
-  }
-  DeleteEventGroupingPayload?: {
-    clientMutationId?: GraphCacheResolver<
-      WithTypename<DeleteEventGroupingPayload>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    deletedEventGroupingId?: GraphCacheResolver<
-      WithTypename<DeleteEventGroupingPayload>,
-      Record<string, never>,
-      Scalars['ID'] | string
-    >
-    eventByEventId?: GraphCacheResolver<
-      WithTypename<DeleteEventGroupingPayload>,
-      Record<string, never>,
-      WithTypename<Event> | string
-    >
-    eventGroupByEventGroupId?: GraphCacheResolver<
-      WithTypename<DeleteEventGroupingPayload>,
-      Record<string, never>,
-      WithTypename<EventGroup> | string
-    >
-    eventGrouping?: GraphCacheResolver<
-      WithTypename<DeleteEventGroupingPayload>,
-      Record<string, never>,
-      WithTypename<EventGrouping> | string
-    >
-    eventGroupingEdge?: GraphCacheResolver<
-      WithTypename<DeleteEventGroupingPayload>,
-      DeleteEventGroupingPayloadEventGroupingEdgeArgs,
-      WithTypename<EventGroupingsEdge> | string
-    >
-    query?: GraphCacheResolver<
-      WithTypename<DeleteEventGroupingPayload>,
-      Record<string, never>,
-      WithTypename<Query> | string
-    >
-  }
   DeleteEventPayload?: {
     accountByCreatedBy?: GraphCacheResolver<
       WithTypename<DeleteEventPayload>,
@@ -13754,11 +12759,6 @@ export type GraphCacheResolvers = {
       EventEventFormatMappingsByEventIdArgs,
       WithTypename<EventFormatMappingsConnection> | string
     >
-    eventGroupingsByEventId?: GraphCacheResolver<
-      WithTypename<Event>,
-      EventEventGroupingsByEventIdArgs,
-      WithTypename<EventGroupingsConnection> | string
-    >
     eventRecommendationsByEventId?: GraphCacheResolver<
       WithTypename<Event>,
       EventEventRecommendationsByEventIdArgs,
@@ -14185,158 +13185,6 @@ export type GraphCacheResolvers = {
       WithTypename<EventFormatsEdge>,
       Record<string, never>,
       WithTypename<EventFormat> | string
-    >
-  }
-  EventGroup?: {
-    accountByCreatedBy?: GraphCacheResolver<
-      WithTypename<EventGroup>,
-      Record<string, never>,
-      WithTypename<Account> | string
-    >
-    createdAt?: GraphCacheResolver<
-      WithTypename<EventGroup>,
-      Record<string, never>,
-      Scalars['Datetime'] | string
-    >
-    createdBy?: GraphCacheResolver<
-      WithTypename<EventGroup>,
-      Record<string, never>,
-      Scalars['UUID'] | string
-    >
-    description?: GraphCacheResolver<
-      WithTypename<EventGroup>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    eventGroupingsByEventGroupId?: GraphCacheResolver<
-      WithTypename<EventGroup>,
-      EventGroupEventGroupingsByEventGroupIdArgs,
-      WithTypename<EventGroupingsConnection> | string
-    >
-    id?: GraphCacheResolver<
-      WithTypename<EventGroup>,
-      Record<string, never>,
-      Scalars['UUID'] | string
-    >
-    isArchived?: GraphCacheResolver<
-      WithTypename<EventGroup>,
-      Record<string, never>,
-      Scalars['Boolean'] | string
-    >
-    name?: GraphCacheResolver<
-      WithTypename<EventGroup>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    nodeId?: GraphCacheResolver<
-      WithTypename<EventGroup>,
-      Record<string, never>,
-      Scalars['ID'] | string
-    >
-    slug?: GraphCacheResolver<
-      WithTypename<EventGroup>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-  }
-  EventGrouping?: {
-    eventByEventId?: GraphCacheResolver<
-      WithTypename<EventGrouping>,
-      Record<string, never>,
-      WithTypename<Event> | string
-    >
-    eventGroupByEventGroupId?: GraphCacheResolver<
-      WithTypename<EventGrouping>,
-      Record<string, never>,
-      WithTypename<EventGroup> | string
-    >
-    eventGroupId?: GraphCacheResolver<
-      WithTypename<EventGrouping>,
-      Record<string, never>,
-      Scalars['UUID'] | string
-    >
-    eventId?: GraphCacheResolver<
-      WithTypename<EventGrouping>,
-      Record<string, never>,
-      Scalars['UUID'] | string
-    >
-    id?: GraphCacheResolver<
-      WithTypename<EventGrouping>,
-      Record<string, never>,
-      Scalars['UUID'] | string
-    >
-    nodeId?: GraphCacheResolver<
-      WithTypename<EventGrouping>,
-      Record<string, never>,
-      Scalars['ID'] | string
-    >
-  }
-  EventGroupingsConnection?: {
-    edges?: GraphCacheResolver<
-      WithTypename<EventGroupingsConnection>,
-      Record<string, never>,
-      Array<WithTypename<EventGroupingsEdge> | string>
-    >
-    nodes?: GraphCacheResolver<
-      WithTypename<EventGroupingsConnection>,
-      Record<string, never>,
-      Array<WithTypename<EventGrouping> | string>
-    >
-    pageInfo?: GraphCacheResolver<
-      WithTypename<EventGroupingsConnection>,
-      Record<string, never>,
-      WithTypename<PageInfo> | string
-    >
-    totalCount?: GraphCacheResolver<
-      WithTypename<EventGroupingsConnection>,
-      Record<string, never>,
-      Scalars['Int'] | string
-    >
-  }
-  EventGroupingsEdge?: {
-    cursor?: GraphCacheResolver<
-      WithTypename<EventGroupingsEdge>,
-      Record<string, never>,
-      Scalars['Cursor'] | string
-    >
-    node?: GraphCacheResolver<
-      WithTypename<EventGroupingsEdge>,
-      Record<string, never>,
-      WithTypename<EventGrouping> | string
-    >
-  }
-  EventGroupsConnection?: {
-    edges?: GraphCacheResolver<
-      WithTypename<EventGroupsConnection>,
-      Record<string, never>,
-      Array<WithTypename<EventGroupsEdge> | string>
-    >
-    nodes?: GraphCacheResolver<
-      WithTypename<EventGroupsConnection>,
-      Record<string, never>,
-      Array<WithTypename<EventGroup> | string>
-    >
-    pageInfo?: GraphCacheResolver<
-      WithTypename<EventGroupsConnection>,
-      Record<string, never>,
-      WithTypename<PageInfo> | string
-    >
-    totalCount?: GraphCacheResolver<
-      WithTypename<EventGroupsConnection>,
-      Record<string, never>,
-      Scalars['Int'] | string
-    >
-  }
-  EventGroupsEdge?: {
-    cursor?: GraphCacheResolver<
-      WithTypename<EventGroupsEdge>,
-      Record<string, never>,
-      Scalars['Cursor'] | string
-    >
-    node?: GraphCacheResolver<
-      WithTypename<EventGroupsEdge>,
-      Record<string, never>,
-      WithTypename<EventGroup> | string
     >
   }
   EventRecommendation?: {
@@ -15708,38 +14556,6 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
-  UpdateEventFavoritePayload?: {
-    accountByCreatedBy?: GraphCacheResolver<
-      WithTypename<UpdateEventFavoritePayload>,
-      Record<string, never>,
-      WithTypename<Account> | string
-    >
-    clientMutationId?: GraphCacheResolver<
-      WithTypename<UpdateEventFavoritePayload>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    eventByEventId?: GraphCacheResolver<
-      WithTypename<UpdateEventFavoritePayload>,
-      Record<string, never>,
-      WithTypename<Event> | string
-    >
-    eventFavorite?: GraphCacheResolver<
-      WithTypename<UpdateEventFavoritePayload>,
-      Record<string, never>,
-      WithTypename<EventFavorite> | string
-    >
-    eventFavoriteEdge?: GraphCacheResolver<
-      WithTypename<UpdateEventFavoritePayload>,
-      UpdateEventFavoritePayloadEventFavoriteEdgeArgs,
-      WithTypename<EventFavoritesEdge> | string
-    >
-    query?: GraphCacheResolver<
-      WithTypename<UpdateEventFavoritePayload>,
-      Record<string, never>,
-      WithTypename<Query> | string
-    >
-  }
   UpdateEventFormatMappingPayload?: {
     clientMutationId?: GraphCacheResolver<
       WithTypename<UpdateEventFormatMappingPayload>,
@@ -15790,65 +14606,6 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<UpdateEventFormatPayload>,
-      Record<string, never>,
-      WithTypename<Query> | string
-    >
-  }
-  UpdateEventGroupPayload?: {
-    accountByCreatedBy?: GraphCacheResolver<
-      WithTypename<UpdateEventGroupPayload>,
-      Record<string, never>,
-      WithTypename<Account> | string
-    >
-    clientMutationId?: GraphCacheResolver<
-      WithTypename<UpdateEventGroupPayload>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    eventGroup?: GraphCacheResolver<
-      WithTypename<UpdateEventGroupPayload>,
-      Record<string, never>,
-      WithTypename<EventGroup> | string
-    >
-    eventGroupEdge?: GraphCacheResolver<
-      WithTypename<UpdateEventGroupPayload>,
-      UpdateEventGroupPayloadEventGroupEdgeArgs,
-      WithTypename<EventGroupsEdge> | string
-    >
-    query?: GraphCacheResolver<
-      WithTypename<UpdateEventGroupPayload>,
-      Record<string, never>,
-      WithTypename<Query> | string
-    >
-  }
-  UpdateEventGroupingPayload?: {
-    clientMutationId?: GraphCacheResolver<
-      WithTypename<UpdateEventGroupingPayload>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    eventByEventId?: GraphCacheResolver<
-      WithTypename<UpdateEventGroupingPayload>,
-      Record<string, never>,
-      WithTypename<Event> | string
-    >
-    eventGroupByEventGroupId?: GraphCacheResolver<
-      WithTypename<UpdateEventGroupingPayload>,
-      Record<string, never>,
-      WithTypename<EventGroup> | string
-    >
-    eventGrouping?: GraphCacheResolver<
-      WithTypename<UpdateEventGroupingPayload>,
-      Record<string, never>,
-      WithTypename<EventGrouping> | string
-    >
-    eventGroupingEdge?: GraphCacheResolver<
-      WithTypename<UpdateEventGroupingPayload>,
-      UpdateEventGroupingPayloadEventGroupingEdgeArgs,
-      WithTypename<EventGroupingsEdge> | string
-    >
-    query?: GraphCacheResolver<
-      WithTypename<UpdateEventGroupingPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -16313,14 +15070,6 @@ export type GraphCacheOptimisticUpdaters = {
     MutationCreateEventFormatMappingArgs,
     Maybe<WithTypename<CreateEventFormatMappingPayload>>
   >
-  createEventGroup?: GraphCacheOptimisticMutationResolver<
-    MutationCreateEventGroupArgs,
-    Maybe<WithTypename<CreateEventGroupPayload>>
-  >
-  createEventGrouping?: GraphCacheOptimisticMutationResolver<
-    MutationCreateEventGroupingArgs,
-    Maybe<WithTypename<CreateEventGroupingPayload>>
-  >
   createEventRecommendation?: GraphCacheOptimisticMutationResolver<
     MutationCreateEventRecommendationArgs,
     Maybe<WithTypename<CreateEventRecommendationPayload>>
@@ -16520,30 +15269,6 @@ export type GraphCacheOptimisticUpdaters = {
   deleteEventFormatMappingByEventIdAndFormatId?: GraphCacheOptimisticMutationResolver<
     MutationDeleteEventFormatMappingByEventIdAndFormatIdArgs,
     Maybe<WithTypename<DeleteEventFormatMappingPayload>>
-  >
-  deleteEventGroup?: GraphCacheOptimisticMutationResolver<
-    MutationDeleteEventGroupArgs,
-    Maybe<WithTypename<DeleteEventGroupPayload>>
-  >
-  deleteEventGroupByCreatedByAndSlug?: GraphCacheOptimisticMutationResolver<
-    MutationDeleteEventGroupByCreatedByAndSlugArgs,
-    Maybe<WithTypename<DeleteEventGroupPayload>>
-  >
-  deleteEventGroupById?: GraphCacheOptimisticMutationResolver<
-    MutationDeleteEventGroupByIdArgs,
-    Maybe<WithTypename<DeleteEventGroupPayload>>
-  >
-  deleteEventGrouping?: GraphCacheOptimisticMutationResolver<
-    MutationDeleteEventGroupingArgs,
-    Maybe<WithTypename<DeleteEventGroupingPayload>>
-  >
-  deleteEventGroupingByEventIdAndEventGroupId?: GraphCacheOptimisticMutationResolver<
-    MutationDeleteEventGroupingByEventIdAndEventGroupIdArgs,
-    Maybe<WithTypename<DeleteEventGroupingPayload>>
-  >
-  deleteEventGroupingById?: GraphCacheOptimisticMutationResolver<
-    MutationDeleteEventGroupingByIdArgs,
-    Maybe<WithTypename<DeleteEventGroupingPayload>>
   >
   deleteEventRecommendation?: GraphCacheOptimisticMutationResolver<
     MutationDeleteEventRecommendationArgs,
@@ -16765,18 +15490,6 @@ export type GraphCacheOptimisticUpdaters = {
     MutationUpdateEventCategoryMappingByEventIdAndCategoryIdArgs,
     Maybe<WithTypename<UpdateEventCategoryMappingPayload>>
   >
-  updateEventFavorite?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateEventFavoriteArgs,
-    Maybe<WithTypename<UpdateEventFavoritePayload>>
-  >
-  updateEventFavoriteByCreatedByAndEventId?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateEventFavoriteByCreatedByAndEventIdArgs,
-    Maybe<WithTypename<UpdateEventFavoritePayload>>
-  >
-  updateEventFavoriteById?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateEventFavoriteByIdArgs,
-    Maybe<WithTypename<UpdateEventFavoritePayload>>
-  >
   updateEventFormat?: GraphCacheOptimisticMutationResolver<
     MutationUpdateEventFormatArgs,
     Maybe<WithTypename<UpdateEventFormatPayload>>
@@ -16796,30 +15509,6 @@ export type GraphCacheOptimisticUpdaters = {
   updateEventFormatMappingByEventIdAndFormatId?: GraphCacheOptimisticMutationResolver<
     MutationUpdateEventFormatMappingByEventIdAndFormatIdArgs,
     Maybe<WithTypename<UpdateEventFormatMappingPayload>>
-  >
-  updateEventGroup?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateEventGroupArgs,
-    Maybe<WithTypename<UpdateEventGroupPayload>>
-  >
-  updateEventGroupByCreatedByAndSlug?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateEventGroupByCreatedByAndSlugArgs,
-    Maybe<WithTypename<UpdateEventGroupPayload>>
-  >
-  updateEventGroupById?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateEventGroupByIdArgs,
-    Maybe<WithTypename<UpdateEventGroupPayload>>
-  >
-  updateEventGrouping?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateEventGroupingArgs,
-    Maybe<WithTypename<UpdateEventGroupingPayload>>
-  >
-  updateEventGroupingByEventIdAndEventGroupId?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateEventGroupingByEventIdAndEventGroupIdArgs,
-    Maybe<WithTypename<UpdateEventGroupingPayload>>
-  >
-  updateEventGroupingById?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateEventGroupingByIdArgs,
-    Maybe<WithTypename<UpdateEventGroupingPayload>>
   >
   updateEventRecommendation?: GraphCacheOptimisticMutationResolver<
     MutationUpdateEventRecommendationArgs,
@@ -17095,14 +15784,6 @@ export type GraphCacheUpdaters = {
       { allEventFormats: Maybe<WithTypename<EventFormatsConnection>> },
       QueryAllEventFormatsArgs
     >
-    allEventGroupings?: GraphCacheUpdateResolver<
-      { allEventGroupings: Maybe<WithTypename<EventGroupingsConnection>> },
-      QueryAllEventGroupingsArgs
-    >
-    allEventGroups?: GraphCacheUpdateResolver<
-      { allEventGroups: Maybe<WithTypename<EventGroupsConnection>> },
-      QueryAllEventGroupsArgs
-    >
     allEventRecommendations?: GraphCacheUpdateResolver<
       {
         allEventRecommendations: Maybe<
@@ -17253,41 +15934,9 @@ export type GraphCacheUpdaters = {
       },
       QueryEventFormatMappingByEventIdAndFormatIdArgs
     >
-    eventGroup?: GraphCacheUpdateResolver<
-      { eventGroup: Maybe<WithTypename<EventGroup>> },
-      QueryEventGroupArgs
-    >
-    eventGroupByCreatedByAndSlug?: GraphCacheUpdateResolver<
-      { eventGroupByCreatedByAndSlug: Maybe<WithTypename<EventGroup>> },
-      QueryEventGroupByCreatedByAndSlugArgs
-    >
-    eventGroupById?: GraphCacheUpdateResolver<
-      { eventGroupById: Maybe<WithTypename<EventGroup>> },
-      QueryEventGroupByIdArgs
-    >
-    eventGrouping?: GraphCacheUpdateResolver<
-      { eventGrouping: Maybe<WithTypename<EventGrouping>> },
-      QueryEventGroupingArgs
-    >
-    eventGroupingByEventIdAndEventGroupId?: GraphCacheUpdateResolver<
-      {
-        eventGroupingByEventIdAndEventGroupId: Maybe<
-          WithTypename<EventGrouping>
-        >
-      },
-      QueryEventGroupingByEventIdAndEventGroupIdArgs
-    >
-    eventGroupingById?: GraphCacheUpdateResolver<
-      { eventGroupingById: Maybe<WithTypename<EventGrouping>> },
-      QueryEventGroupingByIdArgs
-    >
     eventGuestCountMaximum?: GraphCacheUpdateResolver<
       { eventGuestCountMaximum: Maybe<Scalars['Int']> },
       QueryEventGuestCountMaximumArgs
-    >
-    eventIsExisting?: GraphCacheUpdateResolver<
-      { eventIsExisting: Maybe<Scalars['Boolean']> },
-      QueryEventIsExistingArgs
     >
     eventRecommendation?: GraphCacheUpdateResolver<
       { eventRecommendation: Maybe<WithTypename<EventRecommendation>> },
@@ -17404,8 +16053,6 @@ export type GraphCacheUpdaters = {
           | WithTypename<EventFavorite>
           | WithTypename<EventFormat>
           | WithTypename<EventFormatMapping>
-          | WithTypename<EventGroup>
-          | WithTypename<EventGrouping>
           | WithTypename<EventRecommendation>
           | WithTypename<EventUpload>
           | WithTypename<Friendship>
@@ -17609,14 +16256,6 @@ export type GraphCacheUpdaters = {
         >
       },
       MutationCreateEventFormatMappingArgs
-    >
-    createEventGroup?: GraphCacheUpdateResolver<
-      { createEventGroup: Maybe<WithTypename<CreateEventGroupPayload>> },
-      MutationCreateEventGroupArgs
-    >
-    createEventGrouping?: GraphCacheUpdateResolver<
-      { createEventGrouping: Maybe<WithTypename<CreateEventGroupingPayload>> },
-      MutationCreateEventGroupingArgs
     >
     createEventRecommendation?: GraphCacheUpdateResolver<
       {
@@ -17909,40 +16548,6 @@ export type GraphCacheUpdaters = {
         >
       },
       MutationDeleteEventFormatMappingByEventIdAndFormatIdArgs
-    >
-    deleteEventGroup?: GraphCacheUpdateResolver<
-      { deleteEventGroup: Maybe<WithTypename<DeleteEventGroupPayload>> },
-      MutationDeleteEventGroupArgs
-    >
-    deleteEventGroupByCreatedByAndSlug?: GraphCacheUpdateResolver<
-      {
-        deleteEventGroupByCreatedByAndSlug: Maybe<
-          WithTypename<DeleteEventGroupPayload>
-        >
-      },
-      MutationDeleteEventGroupByCreatedByAndSlugArgs
-    >
-    deleteEventGroupById?: GraphCacheUpdateResolver<
-      { deleteEventGroupById: Maybe<WithTypename<DeleteEventGroupPayload>> },
-      MutationDeleteEventGroupByIdArgs
-    >
-    deleteEventGrouping?: GraphCacheUpdateResolver<
-      { deleteEventGrouping: Maybe<WithTypename<DeleteEventGroupingPayload>> },
-      MutationDeleteEventGroupingArgs
-    >
-    deleteEventGroupingByEventIdAndEventGroupId?: GraphCacheUpdateResolver<
-      {
-        deleteEventGroupingByEventIdAndEventGroupId: Maybe<
-          WithTypename<DeleteEventGroupingPayload>
-        >
-      },
-      MutationDeleteEventGroupingByEventIdAndEventGroupIdArgs
-    >
-    deleteEventGroupingById?: GraphCacheUpdateResolver<
-      {
-        deleteEventGroupingById: Maybe<WithTypename<DeleteEventGroupingPayload>>
-      },
-      MutationDeleteEventGroupingByIdArgs
     >
     deleteEventRecommendation?: GraphCacheUpdateResolver<
       {
@@ -18266,24 +16871,6 @@ export type GraphCacheUpdaters = {
       },
       MutationUpdateEventCategoryMappingByEventIdAndCategoryIdArgs
     >
-    updateEventFavorite?: GraphCacheUpdateResolver<
-      { updateEventFavorite: Maybe<WithTypename<UpdateEventFavoritePayload>> },
-      MutationUpdateEventFavoriteArgs
-    >
-    updateEventFavoriteByCreatedByAndEventId?: GraphCacheUpdateResolver<
-      {
-        updateEventFavoriteByCreatedByAndEventId: Maybe<
-          WithTypename<UpdateEventFavoritePayload>
-        >
-      },
-      MutationUpdateEventFavoriteByCreatedByAndEventIdArgs
-    >
-    updateEventFavoriteById?: GraphCacheUpdateResolver<
-      {
-        updateEventFavoriteById: Maybe<WithTypename<UpdateEventFavoritePayload>>
-      },
-      MutationUpdateEventFavoriteByIdArgs
-    >
     updateEventFormat?: GraphCacheUpdateResolver<
       { updateEventFormat: Maybe<WithTypename<UpdateEventFormatPayload>> },
       MutationUpdateEventFormatArgs
@@ -18313,40 +16900,6 @@ export type GraphCacheUpdaters = {
         >
       },
       MutationUpdateEventFormatMappingByEventIdAndFormatIdArgs
-    >
-    updateEventGroup?: GraphCacheUpdateResolver<
-      { updateEventGroup: Maybe<WithTypename<UpdateEventGroupPayload>> },
-      MutationUpdateEventGroupArgs
-    >
-    updateEventGroupByCreatedByAndSlug?: GraphCacheUpdateResolver<
-      {
-        updateEventGroupByCreatedByAndSlug: Maybe<
-          WithTypename<UpdateEventGroupPayload>
-        >
-      },
-      MutationUpdateEventGroupByCreatedByAndSlugArgs
-    >
-    updateEventGroupById?: GraphCacheUpdateResolver<
-      { updateEventGroupById: Maybe<WithTypename<UpdateEventGroupPayload>> },
-      MutationUpdateEventGroupByIdArgs
-    >
-    updateEventGrouping?: GraphCacheUpdateResolver<
-      { updateEventGrouping: Maybe<WithTypename<UpdateEventGroupingPayload>> },
-      MutationUpdateEventGroupingArgs
-    >
-    updateEventGroupingByEventIdAndEventGroupId?: GraphCacheUpdateResolver<
-      {
-        updateEventGroupingByEventIdAndEventGroupId: Maybe<
-          WithTypename<UpdateEventGroupingPayload>
-        >
-      },
-      MutationUpdateEventGroupingByEventIdAndEventGroupIdArgs
-    >
-    updateEventGroupingById?: GraphCacheUpdateResolver<
-      {
-        updateEventGroupingById: Maybe<WithTypename<UpdateEventGroupingPayload>>
-      },
-      MutationUpdateEventGroupingByIdArgs
     >
     updateEventRecommendation?: GraphCacheUpdateResolver<
       {
@@ -18497,6 +17050,10 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Account>>,
       AccountContactsByCreatedByArgs
     >
+    description?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Account>>,
+      Record<string, never>
+    >
     devicesByCreatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
       AccountDevicesByCreatedByArgs
@@ -18508,10 +17065,6 @@ export type GraphCacheUpdaters = {
     eventFavoritesByCreatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
       AccountEventFavoritesByCreatedByArgs
-    >
-    eventGroupsByCreatedBy?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<Account>>,
-      AccountEventGroupsByCreatedByArgs
     >
     eventRecommendationsByAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
@@ -18542,6 +17095,10 @@ export type GraphCacheUpdaters = {
       AccountGuestsByUpdatedByArgs
     >
     id?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Account>>,
+      Record<string, never>
+    >
+    imprint?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
       Record<string, never>
     >
@@ -19594,54 +18151,6 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
-  CreateEventGroupPayload?: {
-    accountByCreatedBy?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateEventGroupPayload>>,
-      Record<string, never>
-    >
-    clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateEventGroupPayload>>,
-      Record<string, never>
-    >
-    eventGroup?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateEventGroupPayload>>,
-      Record<string, never>
-    >
-    eventGroupEdge?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateEventGroupPayload>>,
-      CreateEventGroupPayloadEventGroupEdgeArgs
-    >
-    query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateEventGroupPayload>>,
-      Record<string, never>
-    >
-  }
-  CreateEventGroupingPayload?: {
-    clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateEventGroupingPayload>>,
-      Record<string, never>
-    >
-    eventByEventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateEventGroupingPayload>>,
-      Record<string, never>
-    >
-    eventGroupByEventGroupId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateEventGroupingPayload>>,
-      Record<string, never>
-    >
-    eventGrouping?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateEventGroupingPayload>>,
-      Record<string, never>
-    >
-    eventGroupingEdge?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateEventGroupingPayload>>,
-      CreateEventGroupingPayloadEventGroupingEdgeArgs
-    >
-    query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateEventGroupingPayload>>,
-      Record<string, never>
-    >
-  }
   CreateEventPayload?: {
     accountByCreatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<CreateEventPayload>>,
@@ -20324,62 +18833,6 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
-  DeleteEventGroupPayload?: {
-    accountByCreatedBy?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventGroupPayload>>,
-      Record<string, never>
-    >
-    clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventGroupPayload>>,
-      Record<string, never>
-    >
-    deletedEventGroupId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventGroupPayload>>,
-      Record<string, never>
-    >
-    eventGroup?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventGroupPayload>>,
-      Record<string, never>
-    >
-    eventGroupEdge?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventGroupPayload>>,
-      DeleteEventGroupPayloadEventGroupEdgeArgs
-    >
-    query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventGroupPayload>>,
-      Record<string, never>
-    >
-  }
-  DeleteEventGroupingPayload?: {
-    clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventGroupingPayload>>,
-      Record<string, never>
-    >
-    deletedEventGroupingId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventGroupingPayload>>,
-      Record<string, never>
-    >
-    eventByEventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventGroupingPayload>>,
-      Record<string, never>
-    >
-    eventGroupByEventGroupId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventGroupingPayload>>,
-      Record<string, never>
-    >
-    eventGrouping?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventGroupingPayload>>,
-      Record<string, never>
-    >
-    eventGroupingEdge?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventGroupingPayload>>,
-      DeleteEventGroupingPayloadEventGroupingEdgeArgs
-    >
-    query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteEventGroupingPayload>>,
-      Record<string, never>
-    >
-  }
   DeleteEventPayload?: {
     accountByCreatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<DeleteEventPayload>>,
@@ -20735,10 +19188,6 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Event>>,
       EventEventFormatMappingsByEventIdArgs
     >
-    eventGroupingsByEventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<Event>>,
-      EventEventGroupingsByEventIdArgs
-    >
     eventRecommendationsByEventId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
       EventEventRecommendationsByEventIdArgs
@@ -21085,130 +19534,6 @@ export type GraphCacheUpdaters = {
     >
     node?: GraphCacheUpdateResolver<
       Maybe<WithTypename<EventFormatsEdge>>,
-      Record<string, never>
-    >
-  }
-  EventGroup?: {
-    accountByCreatedBy?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroup>>,
-      Record<string, never>
-    >
-    createdAt?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroup>>,
-      Record<string, never>
-    >
-    createdBy?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroup>>,
-      Record<string, never>
-    >
-    description?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroup>>,
-      Record<string, never>
-    >
-    eventGroupingsByEventGroupId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroup>>,
-      EventGroupEventGroupingsByEventGroupIdArgs
-    >
-    id?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroup>>,
-      Record<string, never>
-    >
-    isArchived?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroup>>,
-      Record<string, never>
-    >
-    name?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroup>>,
-      Record<string, never>
-    >
-    nodeId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroup>>,
-      Record<string, never>
-    >
-    slug?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroup>>,
-      Record<string, never>
-    >
-  }
-  EventGrouping?: {
-    eventByEventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGrouping>>,
-      Record<string, never>
-    >
-    eventGroupByEventGroupId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGrouping>>,
-      Record<string, never>
-    >
-    eventGroupId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGrouping>>,
-      Record<string, never>
-    >
-    eventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGrouping>>,
-      Record<string, never>
-    >
-    id?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGrouping>>,
-      Record<string, never>
-    >
-    nodeId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGrouping>>,
-      Record<string, never>
-    >
-  }
-  EventGroupingsConnection?: {
-    edges?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroupingsConnection>>,
-      Record<string, never>
-    >
-    nodes?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroupingsConnection>>,
-      Record<string, never>
-    >
-    pageInfo?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroupingsConnection>>,
-      Record<string, never>
-    >
-    totalCount?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroupingsConnection>>,
-      Record<string, never>
-    >
-  }
-  EventGroupingsEdge?: {
-    cursor?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroupingsEdge>>,
-      Record<string, never>
-    >
-    node?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroupingsEdge>>,
-      Record<string, never>
-    >
-  }
-  EventGroupsConnection?: {
-    edges?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroupsConnection>>,
-      Record<string, never>
-    >
-    nodes?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroupsConnection>>,
-      Record<string, never>
-    >
-    pageInfo?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroupsConnection>>,
-      Record<string, never>
-    >
-    totalCount?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroupsConnection>>,
-      Record<string, never>
-    >
-  }
-  EventGroupsEdge?: {
-    cursor?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroupsEdge>>,
-      Record<string, never>
-    >
-    node?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventGroupsEdge>>,
       Record<string, never>
     >
   }
@@ -22328,32 +20653,6 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
-  UpdateEventFavoritePayload?: {
-    accountByCreatedBy?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavoritePayload>>,
-      Record<string, never>
-    >
-    clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavoritePayload>>,
-      Record<string, never>
-    >
-    eventByEventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavoritePayload>>,
-      Record<string, never>
-    >
-    eventFavorite?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavoritePayload>>,
-      Record<string, never>
-    >
-    eventFavoriteEdge?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavoritePayload>>,
-      UpdateEventFavoritePayloadEventFavoriteEdgeArgs
-    >
-    query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventFavoritePayload>>,
-      Record<string, never>
-    >
-  }
   UpdateEventFormatMappingPayload?: {
     clientMutationId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<UpdateEventFormatMappingPayload>>,
@@ -22395,54 +20694,6 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<UpdateEventFormatPayload>>,
-      Record<string, never>
-    >
-  }
-  UpdateEventGroupPayload?: {
-    accountByCreatedBy?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventGroupPayload>>,
-      Record<string, never>
-    >
-    clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventGroupPayload>>,
-      Record<string, never>
-    >
-    eventGroup?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventGroupPayload>>,
-      Record<string, never>
-    >
-    eventGroupEdge?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventGroupPayload>>,
-      UpdateEventGroupPayloadEventGroupEdgeArgs
-    >
-    query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventGroupPayload>>,
-      Record<string, never>
-    >
-  }
-  UpdateEventGroupingPayload?: {
-    clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventGroupingPayload>>,
-      Record<string, never>
-    >
-    eventByEventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventGroupingPayload>>,
-      Record<string, never>
-    >
-    eventGroupByEventGroupId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventGroupingPayload>>,
-      Record<string, never>
-    >
-    eventGrouping?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventGroupingPayload>>,
-      Record<string, never>
-    >
-    eventGroupingEdge?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventGroupingPayload>>,
-      UpdateEventGroupingPayloadEventGroupingEdgeArgs
-    >
-    query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateEventGroupingPayload>>,
       Record<string, never>
     >
   }
