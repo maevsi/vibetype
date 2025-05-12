@@ -1,3 +1,13 @@
+## [11.0.0-beta.4](https://github.com/maevsi/vibetype/compare/11.0.0-beta.3...11.0.0-beta.4) (2025-05-12)
+
+### ⚠ BREAKING CHANGES
+
+* **upload:** rework
+
+### Features
+
+* **upload:** rework ([4d62232](https://github.com/maevsi/vibetype/commit/4d622327261df9b7956186c2f386c7961f8cec7a))
+
 ## [11.0.0-beta.3](https://github.com/maevsi/vibetype/compare/11.0.0-beta.2...11.0.0-beta.3) (2025-05-12)
 
 ### Features
