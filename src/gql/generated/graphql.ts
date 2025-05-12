@@ -10537,16 +10537,6 @@ export type EventByCreatedByAndSlugQuery = {
     | null
 }
 
-export type EventIsExistingQueryVariables = Exact<{
-  createdBy: Scalars['UUID']['input']
-  slug: Scalars['String']['input']
-}>
-
-export type EventIsExistingQuery = {
-  __typename?: 'Query'
-  eventIsExisting?: boolean | null
-}
-
 export type EventSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>
   first: Scalars['Int']['input']
@@ -14573,70 +14563,6 @@ export const EventByCreatedByAndSlugDocument = {
 } as unknown as DocumentNode<
   EventByCreatedByAndSlugQuery,
   EventByCreatedByAndSlugQueryVariables
->
-export const EventIsExistingDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'eventIsExisting' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'createdBy' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'slug' } },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'eventIsExisting' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'createdBy' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'createdBy' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'slug' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'slug' },
-                },
-              },
-            ],
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  EventIsExistingQuery,
-  EventIsExistingQueryVariables
 >
 export const EventSearchDocument = {
   kind: 'Document',
