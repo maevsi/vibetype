@@ -236,6 +236,10 @@
 <script setup lang="ts">
 import { consola } from 'consola'
 
+defineRouteRules({
+  robots: false,
+})
+
 const { t } = useI18n()
 const requestEvent = useRequestEvent()
 const store = useStore()
