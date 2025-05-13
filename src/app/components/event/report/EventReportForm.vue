@@ -46,13 +46,11 @@ const reasons = [
   { label: t('drawerRadioOther'), value: 'other' },
 ]
 const templateForm = useTemplateRef('form')
+const modelError = defineModel<Error>('error')
 
 // report
 const createReportMutation = useCreateReportMutation()
 const api = getApiData([createReportMutation])
-const apiErrorMessages = computed(() =>
-  getCombinedErrorMessages(api.value.errors),
-)
 
 // form
 const submit = () =>
@@ -75,25 +73,7 @@ const onSubmit = handleSubmit(async (values) => {
     },
   })
 
-  if (result.error) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: apiErrorMessages.value.join('\n'),
-      title: t('globalError'),
-    })
-    return
-  }
-
-  if (!result.data) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: t('globalErrorNoData'),
-      title: t('globalError'),
-    })
-    return
-  }
+  if (result.error || !result.data) return
 
   emit('submitSuccess')
 })
@@ -101,6 +81,21 @@ const onSubmit = handleSubmit(async (values) => {
 defineExpose({
   submit,
 })
+
+watch(
+  () => api.value.errors,
+  (current) => {
+    modelError.value = current?.length
+      ? // TODO: Use appropriate error codes here
+        new Error(
+          getCombinedErrorMessages(current, {
+            // postgres55000: t('postgres55000'),
+            // postgresP0002: t('postgresP0002'),
+          })[0],
+        )
+      : undefined
+  },
+)
 </script>
 
 <i18n lang="yaml">
