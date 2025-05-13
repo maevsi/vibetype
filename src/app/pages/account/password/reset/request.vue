@@ -84,9 +84,14 @@ const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
 
 // stepper
-const { error, restart, step, title } = useStepperPage<'default'>({
+const { error, restart, step, title } = useStepperPage<
+  'default' | 'success' | 'error'
+>({
   steps: {
     default: {
+      title: t('title'),
+    },
+    success: {
       title: t('title'),
     },
     error: {

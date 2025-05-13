@@ -50,6 +50,26 @@
         </template>
       </LayoutPage>
     </AppStep>
+    <AppStep v-slot="attributes" :is-active="step === 'error'">
+      <LayoutPage v-bind="attributes">
+        <LayoutPageResult type="error">
+          {{ error }}
+          <template #description>
+            {{ t('tryAgain') }}
+          </template>
+        </LayoutPageResult>
+        <template #bottom>
+          <ButtonColored
+            :aria-label="t('backToReset')"
+            class="w-full max-w-sm"
+            variant="primary-critical"
+            @click="restart"
+          >
+            {{ t('backToReset') }}
+          </ButtonColored>
+        </template>
+      </LayoutPage>
+    </AppStep>
   </section>
 </template>
 
@@ -66,7 +86,23 @@ const localePath = useLocalePath()
 
 // page
 const { t } = useI18n()
-const title = t('title')
+
+// stepper
+const { error, restart, step, title } = useStepperPage<
+  'default' | 'success' | 'error'
+>({
+  steps: {
+    default: {
+      title: t('title'),
+    },
+    success: {
+      title: t('title'),
+    },
+    error: {
+      title: t('errorTitle'),
+    },
+  },
+})
 useHeadDefault({ title })
 
 // validation
@@ -82,24 +118,27 @@ if (
 // template
 const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
-
-// stepper
-const { step } = useStepper<'default' | 'success'>()
 </script>
 
 <i18n lang="yaml">
 de:
+  backToReset: Zurück zur Passwortzurücksetzung
+  errorTitle: Fehler
   instructionsNew: Neues Passwort
   instructionsSuccessHeading: Passwort erfolgreich zurückgesetzt
   instructionsSuccessDescription: Du kannst dich jetzt mit deinem neuen Passwort anmelden
   reset: Passwort zurücksetzen
   signIn: Einloggen
   title: Passwort zurücksetzen
+  tryAgain: Bitte versuche es erneut
 en:
+  backToReset: Back to Reset Password
+  errorTitle: Error
   instructionsNew: Set a new password
   instructionsSuccessHeading: Password reset successful
   instructionsSuccessDescription: You can now log in using your new password.
   reset: Reset password
   signIn: Log in
   title: Reset password
+  tryAgain: Please try again
 </i18n>
