@@ -1,7 +1,6 @@
 <template>
   <AppForm
     :class="classProps"
-    :errors="api.errors"
     :form="v$"
     :is-form-sent="isFormSent"
     is-button-hidden
@@ -35,6 +34,7 @@ const form = reactive({
   emailAddress: ref<string>(),
 })
 const isFormSent = ref(false)
+const modelError = defineModel<Error>('error')
 
 // api data
 const passwordResetRequestMutation = useAccountPasswordResetRequestMutation()
@@ -63,4 +63,19 @@ const v$ = useVuelidate(rules, form)
 defineExpose({
   submit,
 })
+
+watch(
+  () => api.value.errors,
+  (current) => {
+    modelError.value = current?.length
+      ? new Error(
+          // TODO: Use appropriate error codes here
+          getCombinedErrorMessages(current, {
+            // postgres55000: t('postgres12345'),
+            // postgresP0002: t('postgresP6789'),
+          })[0],
+        )
+      : undefined
+  },
+)
 </script>

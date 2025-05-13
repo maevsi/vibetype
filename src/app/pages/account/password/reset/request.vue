@@ -19,6 +19,7 @@
         <div class="flex justify-center">
           <FormAccountPasswordResetRequest
             ref="form"
+            v-model:error="error"
             class="w-full max-w-md"
             @success="step = 'success'"
           />
@@ -46,42 +47,76 @@
         </LayoutPageResult>
       </LayoutPage>
     </AppStep>
+    <AppStep v-slot="attributes" :is-active="step === 'error'">
+      <LayoutPage v-bind="attributes">
+        <LayoutPageResult type="error">
+          {{ error }}
+          <template #description>
+            {{ t('tryAgain') }}
+          </template>
+        </LayoutPageResult>
+        <template #bottom>
+          <ButtonColored
+            :aria-label="t('backToReset')"
+            class="w-full max-w-sm"
+            variant="primary-critical"
+            @click="restart"
+          >
+            {{ t('backToReset') }}
+          </ButtonColored>
+        </template>
+      </LayoutPage>
+    </AppStep>
   </section>
 </template>
 
 <script setup lang="ts">
+// page
 definePageMeta({
   layout: 'default-no-header',
 })
 
-const localePath = useLocalePath()
-
-// page
 const { t } = useI18n()
-const title = t('title')
-useHeadDefault({ title })
+const localePath = useLocalePath()
 
 // template
 const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
 
 // stepper
-const { step } = useStepper<'default' | 'success'>()
+const { error, restart, step, title } = useStepperPage<'default'>({
+  steps: {
+    default: {
+      title: t('title'),
+    },
+    error: {
+      title: t('errorTitle'),
+    },
+  },
+})
+
+useHeadDefault({ title })
 </script>
 
 <i18n lang="yaml">
 de:
+  backToReset: Zurück zur Passwortzurücksetzung
+  errorTitle: Fehler
   iconAltClose: X-Icon
   instructionsInboxDescription: Überprüfe dein Postfach
   instructionsInboxHeading: Befolge die Anweisungen in der E-Mail, um das Passwort zurückzusetzen.
   instructionsRequest: Gib deine E-Mail-Adresse ein, um dein Passwort zurückzusetzen.
   send: Link zum Zurücksetzen senden
   title: Passwort zurücksetzen
+  tryAgain: Bitte versuche es erneut
 en:
+  backToReset: Back to Reset Password
+  errorTitle: Error
   iconAltClose: X icon
   instructionsInboxDescription: Follow the instructions in the email to reset your password.
   instructionsInboxHeading: Check your inbox
   instructionsRequest: Enter your email address to reset your password.
   send: Send reset link
   title: Reset password
+  tryAgain: Please try again
 </i18n>
