@@ -8,7 +8,7 @@
         {{ t('description') }}
       </TypographyBodyMedium>
     </div>
-    <FormEarlyBird ref="form" @success="emit('next')" />
+    <FormEarlyBird v-model:error="error" ref="form" @success="emit('next')" />
     <template #bottom>
       <ButtonColored
         :aria-label="t('button')"
@@ -28,6 +28,7 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const templateForm = useTemplateRef('form')
+const error = defineModel<Error>('error')
 </script>
 
 <i18n lang="yaml">

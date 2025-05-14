@@ -63,9 +63,10 @@ const emit = defineEmits<{
   success: []
 }>()
 
-const fireAlert = useFireAlert()
 const { t } = useI18n()
 const templateForm = useTemplateRef('form')
+const fetchError = ref(null)
+const modelError = defineModel<Error>('error')
 
 // form
 const submit = () => {
@@ -78,21 +79,25 @@ const { handleSubmit } = useForm({
 })
 const onSubmit = handleSubmit(async (values) => {
   try {
+    fetchError.value = null
+
     await $fetch('/api/service/monday/early-bird', {
       method: 'POST',
       body: values,
     })
+
     emit('success')
   } catch (error) {
-    // TODO: implement form error page
-    await fireAlert({
-      error,
-      level: 'error',
-      text: t('error'),
-      title: t('globalError'),
-    })
+    fetchError.value = error
   }
 })
+
+watch(
+  () => fetchError.value,
+  (error) => {
+    modelError.value = error ? new Error() : undefined
+  },
+)
 
 defineExpose({
   submit,
@@ -102,12 +107,10 @@ defineExpose({
 <i18n lang="yaml">
 de:
   agreement: Mit deiner Teilnahme stimmst du zu, dass wir deine Kontaktdaten speichern und dich im Rahmen des Programms kontaktieren dürfen.
-  error: Die Anmeldung für das Early Bird-Programm scheint nicht geklappt zu haben. Bitte versuche es noch einmal oder wende dich an den Support, wenn das Problem weiterhin besteht.
   emailAddress: E-Mail-Adresse
   name: Name
 en:
   agreement: By participating, you agree that we may save your contact details and contact you as part of the program.
-  error: The registration for the Early Bird program does not seem to have worked. Please try again or contact support if the problem persists.
   emailAddress: Email address
   name: Name
 </i18n>
