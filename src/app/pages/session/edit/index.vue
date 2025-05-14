@@ -169,10 +169,6 @@
 </template>
 
 <script setup lang="ts">
-defineRouteRules({
-  robots: false,
-})
-
 const { t } = useI18n()
 const cookieControl = useCookieControl()
 const localePath = useLocalePath()
