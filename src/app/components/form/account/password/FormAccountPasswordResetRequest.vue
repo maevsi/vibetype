@@ -38,7 +38,6 @@ const modelError = defineModel<Error>('error')
 
 // api data
 const passwordResetRequestMutation = useAccountPasswordResetRequestMutation()
-const api = getApiData([passwordResetRequestMutation])
 
 // methods
 const submit = async () => {
@@ -49,8 +48,11 @@ const submit = async () => {
     language: locale.value,
   })
 
-  if (result.error || !result.data) return
-
+  if (result.error || !result.data) {
+    modelError.value = new Error()
+    return
+  }
+  modelError.value = undefined
   emit('success')
 }
 
@@ -63,19 +65,4 @@ const v$ = useVuelidate(rules, form)
 defineExpose({
   submit,
 })
-
-watch(
-  () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(
-          // TODO: Use appropriate error codes here
-          getCombinedErrorMessages(current, {
-            // postgres55000: t('postgres12345'),
-            // postgresP0002: t('postgresP6789'),
-          })[0],
-        )
-      : undefined
-  },
-)
 </script>
