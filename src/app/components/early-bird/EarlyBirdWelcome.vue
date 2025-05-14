@@ -1,13 +1,11 @@
 <template>
   <LayoutPage>
     <div class="flex flex-col gap-2">
-      <TypographyH6>
+      <TypographyH6 class="text-center">
         {{ t('title1', { username: store.signedInUsername }) }}
       </TypographyH6>
-      <TypographyBodyMedium v-slot="attributes">
-        <span v-bind="attributes">
-          {{ t('description1') }}
-        </span>
+      <TypographyBodyMedium>
+        {{ t('description1') }}
       </TypographyBodyMedium>
     </div>
     <div class="flex flex-col gap-5">
@@ -15,35 +13,29 @@
         <TypographySubtitleMedium>
           {{ t('title2') }}
         </TypographySubtitleMedium>
-        <TypographyBodySmall v-slot="attributes">
-          <span v-bind="attributes">
-            {{ t('description2') }}
-          </span>
+        <TypographyBodySmall>
+          {{ t('description2') }}
         </TypographyBodySmall>
       </div>
       <div class="flex flex-col gap-2">
         <TypographySubtitleMedium>
           {{ t('title3') }}
         </TypographySubtitleMedium>
-        <TypographyBodySmall v-slot="attributes">
-          <i18n-t keypath="description3">
-            <span v-bind="attributes">
-              {{ t('description3') }}
-            </span>
-            <template #br>
-              <br />
-            </template>
-          </i18n-t>
-        </TypographyBodySmall>
+        <i18n-t keypath="description3">
+          <TypographyBodySmall>
+            {{ t('description3') }}
+          </TypographyBodySmall>
+          <template #br>
+            <br />
+          </template>
+        </i18n-t>
       </div>
       <div class="flex flex-col gap-2">
         <TypographySubtitleMedium>
           {{ t('title4') }}
         </TypographySubtitleMedium>
-        <TypographyBodySmall v-slot="attributes">
-          <span v-bind="attributes">
-            {{ t('description4') }}
-          </span>
+        <TypographyBodySmall>
+          {{ t('description4') }}
         </TypographyBodySmall>
       </div>
     </div>

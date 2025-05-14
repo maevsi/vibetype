@@ -11,7 +11,6 @@
     "
     class="text-(--semantic-critic-text)"
   >
-    <IHeroiconsExclamationCircleSolid v-if="formInput && validationProperty" />
     <slot />
   </FormInputState>
 </template>

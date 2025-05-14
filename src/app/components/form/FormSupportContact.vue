@@ -89,7 +89,7 @@ const { handleSubmit } = useForm({
 })
 const onSubmit = handleSubmit(async (values) => {
   try {
-    await $fetch('/api/monday/contact', {
+    await $fetch('/api/service/monday/contact', {
       method: 'POST',
       body: values,
     })

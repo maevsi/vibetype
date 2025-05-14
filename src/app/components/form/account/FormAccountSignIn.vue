@@ -1,11 +1,6 @@
 <template>
   <div class="flex flex-col items-center gap-4">
     <AppForm
-      :errors="api.errors"
-      :errors-pg-ids="{
-        postgres55000: t('postgres55000'),
-        postgresP0002: t('postgresP0002'),
-      }"
       :form="v$"
       form-class="w-full"
       :is-form-sent="isFormSent"
@@ -26,25 +21,6 @@
         is-centered
         @input="form.captcha = $event"
       />
-      <template
-        v-if="
-          api.errors.filter(
-            (e) =>
-              e.graphQLErrors.filter(
-                (g) => g.errcode === '55000' || g.errcode === 'P0002',
-              ).length,
-          ).length
-        "
-        #assistance
-      >
-        <ButtonColored
-          :aria-label="t('contactSupport')"
-          is-external
-          to="mailto:contact+sign-in@maev.si"
-        >
-          {{ t('contactSupport') }}
-        </ButtonColored>
-      </template>
     </AppForm>
     <ButtonColored
       :aria-label="t('register')"
@@ -67,9 +43,7 @@
 
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core'
-
 import { useAuthenticateMutation } from '~~/gql/documents/mutations/account/accountAuthenticate'
-import { useAccountRegistrationRefreshMutation } from '~~/gql/documents/mutations/account/accountRegistrationRefresh'
 
 const emit = defineEmits<{
   'signed-in': []
@@ -87,15 +61,11 @@ const form = reactive({
   username: ref<string>(),
 })
 const isFormSent = ref(false)
+const modelError = defineModel<Error>('error')
 
 // api data
-const accountRegistrationRefreshMutation =
-  useAccountRegistrationRefreshMutation()
 const authenticateMutation = useAuthenticateMutation()
-const api = getApiData([
-  accountRegistrationRefreshMutation,
-  authenticateMutation,
-])
+const api = getApiData([authenticateMutation])
 
 // methods
 const submit = async () => {
@@ -139,11 +109,25 @@ const rules = {
   password: VALIDATION_PASSWORD(),
 }
 const v$ = useVuelidate(rules, form)
+
+// TODO: move into api utility as `errorsTranslated`
+watch(
+  () => api.value.errors,
+  (current) => {
+    modelError.value = current?.length
+      ? new Error(
+          getCombinedErrorMessages(current, {
+            postgres55000: t('postgres55000'),
+            postgresP0002: t('postgresP0002'),
+          })[0],
+        )
+      : undefined
+  },
+)
 </script>
 
 <i18n lang="yaml">
 de:
-  contactSupport: Support kontaktieren
   jwtStoreFail: Fehler beim Speichern der Authentifizierungsdaten!
   passwordReset: Passwort zurücksetzen
   postgres55000: Deine E-Mail-Adresse ist noch nicht verifiziert! Schau in dein E-Mail-Postfach, ggf. auch in den Spam-Ordner, oder kontaktiere den Support.
@@ -151,7 +135,6 @@ de:
   register: Konto erstellen
   signIn: Einloggen
 en:
-  contactSupport: Contact support
   jwtStoreFail: Failed to store the authentication data!
   passwordReset: I forgot my password
   postgres55000: Your email address has not been verified yet! Check your email inbox, including the spam folder if necessary, or contact support.

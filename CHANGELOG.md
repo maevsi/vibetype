@@ -1,3 +1,85 @@
+## [10.20.1](https://github.com/maevsi/vibetype/compare/10.20.0...10.20.1) (2025-05-13)
+
+### Bug Fixes
+
+* **pages:** disallow robots for session view ([bcc0696](https://github.com/maevsi/vibetype/commit/bcc06964d5cd66e08bf190bbfe5e80bd99509afa))
+
+## [10.20.0](https://github.com/maevsi/vibetype/compare/10.19.2...10.20.0) (2025-05-12)
+
+### Features
+
+* **event:** remove existence validation function ([a5ca776](https://github.com/maevsi/vibetype/commit/a5ca776a89fc685988c48d9c58667314a9c56dd3))
+
+## [10.19.2](https://github.com/maevsi/vibetype/compare/10.19.1...10.19.2) (2025-05-11)
+
+### Bug Fixes
+
+* **content:** allow websocket connections in stack deployment ([92c85cd](https://github.com/maevsi/vibetype/commit/92c85cd9bcd8b6db7fbf93f3036c4ab02b6bc8c1))
+
+## [10.19.1](https://github.com/maevsi/vibetype/compare/10.19.0...10.19.1) (2025-05-09)
+
+### Bug Fixes
+
+* **early-bird:** correct title alignment ([014325a](https://github.com/maevsi/vibetype/commit/014325a961b651ed6a4743f4ab0acdf574372ebf))
+
+## [10.19.0](https://github.com/maevsi/vibetype/compare/10.18.1...10.19.0) (2025-05-09)
+
+### Features
+
+* **content:** update backup service in privacy policy ([b5b2d7f](https://github.com/maevsi/vibetype/commit/b5b2d7f314f3c598ab43a88876ff0fc9667c405e))
+
+## [10.18.1](https://github.com/maevsi/vibetype/compare/10.18.0...10.18.1) (2025-05-09)
+
+### Bug Fixes
+
+* **server:** correct postgres schema ([058d45d](https://github.com/maevsi/vibetype/commit/058d45de8776b910bc0d406bfed9267ed4389652))
+
+## [10.18.0](https://github.com/maevsi/vibetype/compare/10.17.0...10.18.0) (2025-05-08)
+
+### Features
+
+* **server:** structure api directories ([8a4ed1f](https://github.com/maevsi/vibetype/commit/8a4ed1f20e3731628029ca96209cc01ac33e1e84))
+
+## [10.17.0](https://github.com/maevsi/vibetype/compare/10.16.1...10.17.0) (2025-05-06)
+
+### Features
+
+* **components:** update form validation design ([#1875](https://github.com/maevsi/vibetype/issues/1875)) ([d6c53ca](https://github.com/maevsi/vibetype/commit/d6c53ca49d6ea139c0dbacdd1dd0e9ee65785367))
+
+## [10.16.1](https://github.com/maevsi/vibetype/compare/10.16.0...10.16.1) (2025-05-06)
+
+### Bug Fixes
+
+* **server:** use proper unsubscribe list header ([39a3e28](https://github.com/maevsi/vibetype/commit/39a3e284bd97d70886811be62cd0dd8e686cb0a8))
+
+## [10.16.0](https://github.com/maevsi/vibetype/compare/10.15.0...10.16.0) (2025-05-06)
+
+### Features
+
+* **server:** update logo in emails ([9b9ef23](https://github.com/maevsi/vibetype/commit/9b9ef23379855520478ee39e7094ecf27b8771df))
+
+### Bug Fixes
+
+* **server:** remove username from password reset emails ([1d5864e](https://github.com/maevsi/vibetype/commit/1d5864e188a22adc1af92da57020f756faae1b26))
+
+## [10.15.0](https://github.com/maevsi/vibetype/compare/10.14.1...10.15.0) (2025-05-06)
+
+### Features
+
+* **utils:** upgrade to ses api v2 ([cbb006d](https://github.com/maevsi/vibetype/commit/cbb006dc665bfd37b1255b3c28a3c1fa2368e05f))
+
+## [10.14.1](https://github.com/maevsi/vibetype/compare/10.14.0...10.14.1) (2025-05-06)
+
+### Bug Fixes
+
+* **components:** correct authentication form success computation ([6af28af](https://github.com/maevsi/vibetype/commit/6af28af4befab6b99204c5e68a14c0309e489132))
+
+## [10.14.0](https://github.com/maevsi/vibetype/compare/10.13.0...10.14.0) (2025-05-02)
+
+### Features
+
+* **account:** handle api errors gracefully ([#1889](https://github.com/maevsi/vibetype/issues/1889)) ([0cc3d27](https://github.com/maevsi/vibetype/commit/0cc3d2755573c412138a55a578f32e8d6547a0f2))
+
 ## [10.13.0](https://github.com/maevsi/vibetype/compare/10.12.0...10.13.0) (2025-04-29)
 
 ### Features

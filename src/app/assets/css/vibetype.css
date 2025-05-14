@@ -11,6 +11,7 @@
   --accent-weak: #dcf9ea;
   --base-white: #fafafc;
   --critic-string: #e00000;
+  --critic-weak: #ffebeb;
   --complement-strong: #f52d62;
   --faint-line: #f2f2f2;
   --faint-weak: #f2f2f2;
@@ -45,6 +46,7 @@
   --accent-weak-hover: #9cd0a6;
   --accent-weak: #c1dcc6;
   --base-white: #e4e4eb;
+  --critic-weak: #e67070;
   --complement-strong: #d7456b;
   --faint-line: #2d2d2c;
   --faint-weak: #3e3e38;

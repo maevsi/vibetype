@@ -899,19 +899,19 @@
 
         Sofern auf unserer Website personenbezogene Daten hinterlegt sind, werden diese bei den Backups auf die Server des jeweiligen Anbieters übertragen. Die Rechtsgrundlage für die Datenverarbeitung ist Art. 6 Abs. 1 lit. f DSGVO, da wir ein berechtigtes Interesse an der Sicherung unserer Daten haben.
 
-        Folgenden Cloud-Backup-Service verwenden wir: Scaleway Object Storage, bereitgestellt durch:
+        Folgenden Cloud-Backup-Service verwenden wir: Cloudflare R2, bereitgestellt durch:
 
         <address>
-          Scaleway
+          Cloudflare Germany GmbH
           <br />
-          8 Rue de la Ville-l'Évêque
+          Rosental 7
           <br />
-          75008 Paris
+          c/o Mindspace
           <br />
-          France
+          80331 München
         </address>
 
-        Nähere Informationen: https://www.scaleway.com/en/object-storage/.
+        Nähere Informationen: https://www.cloudflare.com/de-de/developer-platform/products/r2/.
 
 1. **Das ist sonst noch wichtig**
 
