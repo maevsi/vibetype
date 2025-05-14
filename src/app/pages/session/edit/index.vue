@@ -68,10 +68,7 @@
             :title="t('colorScheme')"
             :to="
               localePath({
-                name: 'session-edit-id-color-scheme',
-                params: {
-                  id: route.params.id,
-                },
+                name: 'session-edit-color-scheme',
               })
             "
           >
@@ -81,10 +78,7 @@
             :title="t('language')"
             :to="
               localePath({
-                name: 'session-edit-id-language',
-                params: {
-                  id: route.params.id,
-                },
+                name: 'session-edit-language',
               })
             "
           >
@@ -123,10 +117,7 @@
             :title="t('developerInformation')"
             :to="
               localePath({
-                name: 'session-view-id',
-                params: {
-                  id: route.params.id,
-                },
+                name: 'session-view',
               })
             "
           >
@@ -178,10 +169,6 @@
 </template>
 
 <script setup lang="ts">
-import type { RouteNamedMap } from 'vue-router/auto-routes'
-
-const ROUTE_NAME: keyof RouteNamedMap = 'session-edit-id___en'
-
 defineRouteRules({
   robots: false,
 })
@@ -189,7 +176,6 @@ defineRouteRules({
 const { t } = useI18n()
 const cookieControl = useCookieControl()
 const localePath = useLocalePath()
-const route = useRoute(ROUTE_NAME)
 const store = useStore()
 const { signOut } = await useSignOut()
 
