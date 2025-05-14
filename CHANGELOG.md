@@ -1,3 +1,14 @@
+## [10.21.0](https://github.com/maevsi/vibetype/compare/10.20.2...10.21.0) (2025-05-14)
+
+### Features
+
+* **pages:** allow session edit indexing ([bb65dbc](https://github.com/maevsi/vibetype/commit/bb65dbc596229f85373a1d0d4cadf92ae78479c2))
+* **pages:** remove session id ([323dd9d](https://github.com/maevsi/vibetype/commit/323dd9de547024748511c8521d368b5fcdc68cb9))
+
+### Bug Fixes
+
+* **pages:** correct translation on session view ([656cf79](https://github.com/maevsi/vibetype/commit/656cf796751096130faa9c31166c00215f1035bd))
+
 ## [10.20.2](https://github.com/maevsi/vibetype/compare/10.20.1...10.20.2) (2025-05-14)
 
 ### Bug Fixes
