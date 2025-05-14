@@ -65,7 +65,6 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const templateForm = useTemplateRef('form')
-const fetchError = ref(null)
 const modelError = defineModel<Error>('error')
 
 // form
@@ -77,27 +76,18 @@ const submit = () => {
 const { handleSubmit } = useForm({
   validationSchema: toTypedSchema(schemaFormEarlyBird),
 })
+
 const onSubmit = handleSubmit(async (values) => {
   try {
-    fetchError.value = null
-
     await $fetch('/api/service/monday/early-bird', {
       method: 'POST',
       body: values,
     })
-
     emit('success')
-  } catch (error) {
-    fetchError.value = error
+  } catch {
+    modelError.value = new Error()
   }
 })
-
-watch(
-  () => fetchError.value,
-  (error) => {
-    modelError.value = error ? new Error() : undefined
-  },
-)
 
 defineExpose({
   submit,
