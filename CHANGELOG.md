@@ -1,3 +1,9 @@
+## [10.20.2](https://github.com/maevsi/vibetype/compare/10.20.1...10.20.2) (2025-05-14)
+
+### Bug Fixes
+
+* **pages:** fully disable robots for session edit ([6441163](https://github.com/maevsi/vibetype/commit/6441163dde492618702c5ea30e47f996aa7b6fcd))
+
 ## [10.20.1](https://github.com/maevsi/vibetype/compare/10.20.0...10.20.1) (2025-05-13)
 
 ### Bug Fixes
