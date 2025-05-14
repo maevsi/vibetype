@@ -12,6 +12,10 @@
 <script setup lang="ts">
 import type { I18N_LOCALE_CODE } from '@dargmuesli/nuxt-vio/shared/types/i18n'
 
+defineRouteRules({
+  robots: false,
+})
+
 // page
 const { t } = useI18n()
 const title = t('title')
