@@ -52,7 +52,6 @@ export const developmentConfig: ReturnType<DefineNuxtConfig> = {
     },
     security: {
       headers: {
-        crossOriginEmbedderPolicy: 'unsafe-none', // TODO: remove (https://github.com/Baroshem/nuxt-security/pull/531)
         strictTransportSecurity: false, // prevent endless reload in Chrome
       },
     },
