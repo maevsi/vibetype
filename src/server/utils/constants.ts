@@ -36,6 +36,7 @@ export const GET_CSP = ({
       'form-action': ["'self'"], // forms
       'img-src': [
         'blob:',
+        'https://tile.openstreetmap.org/', // map
         `https://tusd.${domainTldPort}`, // users' image uploads
         'https://www.gravatar.com/avatar/', // profile picture fallback
       ],

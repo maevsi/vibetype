@@ -1,6 +1,6 @@
 export const useDevelopmentModeTrigger = (
   triggerCount = 5,
-  timeoutMs = 1500,
+  timeoutMilliseconds = 1500,
 ) => {
   const isDevelopmentModeActive = useState<boolean>('dev-mode', () => false)
   const tapCount = ref(0)
@@ -13,7 +13,7 @@ export const useDevelopmentModeTrigger = (
 
     timeoutId.value = setTimeout(() => {
       tapCount.value = 0
-    }, timeoutMs)
+    }, timeoutMilliseconds)
 
     if (tapCount.value >= triggerCount) {
       isDevelopmentModeActive.value = !isDevelopmentModeActive.value
