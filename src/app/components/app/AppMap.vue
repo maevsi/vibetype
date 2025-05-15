@@ -5,6 +5,7 @@
 <script setup lang="ts">
 import { getAddressItem } from '~~/gql/documents/fragments/addressItem'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
+import markerIcon from '~/assets/icons/location-on.svg?raw'
 
 const { events } = defineProps<{
   events: Pick<EventItemFragment, 'addressByAddressId'>[]
@@ -28,10 +29,18 @@ onMounted(async () => {
   //     'Maps © <a href="https://www.thunderforest.com/">Thunderforest</a>, Data © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
   // }).addTo(map)
 
+  const icon = L.divIcon({
+    className: 'text-(--semantic-critic-strong)',
+    html: markerIcon,
+    iconAnchor: [15, 25],
+    iconSize: [30, 30],
+    popupAnchor: [15, 2],
+  })
+
   for (const event of events) {
     const location = getAddressItem(event.addressByAddressId)?.location
     if (!location) continue
-    L.marker([location.latitude, location.longitude]).addTo(map)
+    L.marker([location.latitude, location.longitude], { icon }).addTo(map)
   }
 })
 </script>
