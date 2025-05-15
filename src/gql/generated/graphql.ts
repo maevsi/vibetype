@@ -78,14 +78,14 @@ export type Account = Node & {
   contactsByAccountId: ContactsConnection
   /** Reads and enables pagination through a set of `Contact`. */
   contactsByCreatedBy: ContactsConnection
+  /** The account's description. */
+  description?: Maybe<Scalars['String']['output']>
   /** Reads and enables pagination through a set of `Device`. */
   devicesByCreatedBy: DevicesConnection
   /** Reads and enables pagination through a set of `Device`. */
   devicesByUpdatedBy: DevicesConnection
   /** Reads and enables pagination through a set of `EventFavorite`. */
   eventFavoritesByCreatedBy: EventFavoritesConnection
-  /** Reads and enables pagination through a set of `EventGroup`. */
-  eventGroupsByCreatedBy: EventGroupsConnection
   /** Reads and enables pagination through a set of `EventRecommendation`. */
   eventRecommendationsByAccountId: EventRecommendationsConnection
   /** Reads and enables pagination through a set of `Event`. */
@@ -102,6 +102,8 @@ export type Account = Node & {
   guestsByUpdatedBy: GuestsConnection
   /** The account's internal id. */
   id: Scalars['UUID']['output']
+  /** The account's imprint. */
+  imprint?: Maybe<Scalars['String']['output']>
   /** Reads and enables pagination through a set of `LegalTermAcceptance`. */
   legalTermAcceptancesByAccountId: LegalTermAcceptancesConnection
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -118,7 +120,7 @@ export type Account = Node & {
   /** Reads and enables pagination through a set of `Report`. */
   reportsByTargetAccountId: ReportsConnection
   /** Reads and enables pagination through a set of `Upload`. */
-  uploadsByAccountId: UploadsConnection
+  uploadsByCreatedBy: UploadsConnection
   /** The account's username. */
   username: Scalars['String']['output']
 }
@@ -278,17 +280,6 @@ export type AccountEventFavoritesByCreatedByArgs = {
 }
 
 /** Public account data. */
-export type AccountEventGroupsByCreatedByArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<EventGroupCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventGroupsOrderBy>>
-}
-
-/** Public account data. */
 export type AccountEventRecommendationsByAccountIdArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
@@ -410,7 +401,7 @@ export type AccountReportsByTargetAccountIdArgs = {
 }
 
 /** Public account data. */
-export type AccountUploadsByAccountIdArgs = {
+export type AccountUploadsByCreatedByArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
   condition?: InputMaybe<UploadCondition>
@@ -501,8 +492,12 @@ export enum AccountBlocksOrderBy {
 
 /** A condition to be used against `Account` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type AccountCondition = {
+  /** Checks for equality with the object’s `description` field. */
+  description?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `imprint` field. */
+  imprint?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `username` field. */
   username?: InputMaybe<Scalars['String']['input']>
 }
@@ -553,8 +548,12 @@ export type AccountEmailAddressVerificationPayload = {
 
 /** An input for mutations affecting `Account` */
 export type AccountInput = {
+  /** The account's description. */
+  description?: InputMaybe<Scalars['String']['input']>
   /** The account's internal id. */
   id: Scalars['UUID']['input']
+  /** The account's imprint. */
+  imprint?: InputMaybe<Scalars['String']['input']>
   /** The account's username. */
   username: Scalars['String']['input']
 }
@@ -630,8 +629,12 @@ export type AccountPasswordResetRequestPayload = {
 
 /** Represents an update to a `Account`. Fields that are set will be updated. */
 export type AccountPatch = {
+  /** The account's description. */
+  description?: InputMaybe<Scalars['String']['input']>
   /** The account's internal id. */
   id?: InputMaybe<Scalars['UUID']['input']>
+  /** The account's imprint. */
+  imprint?: InputMaybe<Scalars['String']['input']>
   /** The account's username. */
   username?: InputMaybe<Scalars['String']['input']>
 }
@@ -1038,8 +1041,12 @@ export type AccountsEdge = {
 
 /** Methods to use when ordering `Account`. */
 export enum AccountsOrderBy {
+  DescriptionAsc = 'DESCRIPTION_ASC',
+  DescriptionDesc = 'DESCRIPTION_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
+  ImprintAsc = 'IMPRINT_ASC',
+  ImprintDesc = 'IMPRINT_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
@@ -2116,76 +2123,6 @@ export type CreateEventFormatPayloadEventFormatEdgeArgs = {
   orderBy?: InputMaybe<Array<EventFormatsOrderBy>>
 }
 
-/** All input for the create `EventGroup` mutation. */
-export type CreateEventGroupInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The `EventGroup` to be created by this mutation. */
-  eventGroup: EventGroupInput
-}
-
-/** The output of our create `EventGroup` mutation. */
-export type CreateEventGroupPayload = {
-  __typename?: 'CreateEventGroupPayload'
-  /** Reads a single `Account` that is related to this `EventGroup`. */
-  accountByCreatedBy?: Maybe<Account>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** The `EventGroup` that was created by this mutation. */
-  eventGroup?: Maybe<EventGroup>
-  /** An edge for our `EventGroup`. May be used by Relay 1. */
-  eventGroupEdge?: Maybe<EventGroupsEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our create `EventGroup` mutation. */
-export type CreateEventGroupPayloadEventGroupEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventGroupsOrderBy>>
-}
-
-/** All input for the create `EventGrouping` mutation. */
-export type CreateEventGroupingInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The `EventGrouping` to be created by this mutation. */
-  eventGrouping: EventGroupingInput
-}
-
-/** The output of our create `EventGrouping` mutation. */
-export type CreateEventGroupingPayload = {
-  __typename?: 'CreateEventGroupingPayload'
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Reads a single `Event` that is related to this `EventGrouping`. */
-  eventByEventId?: Maybe<Event>
-  /** Reads a single `EventGroup` that is related to this `EventGrouping`. */
-  eventGroupByEventGroupId?: Maybe<EventGroup>
-  /** The `EventGrouping` that was created by this mutation. */
-  eventGrouping?: Maybe<EventGrouping>
-  /** An edge for our `EventGrouping`. May be used by Relay 1. */
-  eventGroupingEdge?: Maybe<EventGroupingsEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our create `EventGrouping` mutation. */
-export type CreateEventGroupingPayloadEventGroupingEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventGroupingsOrderBy>>
-}
-
 /** All input for the create `Event` mutation. */
 export type CreateEventInput = {
   /**
@@ -2523,7 +2460,7 @@ export type CreateUploadInput = {
 export type CreateUploadPayload = {
   __typename?: 'CreateUploadPayload'
   /** Reads a single `Account` that is related to this `Upload`. */
-  accountByAccountId?: Maybe<Account>
+  accountByCreatedBy?: Maybe<Account>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -3383,126 +3320,6 @@ export type DeleteEventFormatPayloadEventFormatEdgeArgs = {
   orderBy?: InputMaybe<Array<EventFormatsOrderBy>>
 }
 
-/** All input for the `deleteEventGroupByCreatedByAndSlug` mutation. */
-export type DeleteEventGroupByCreatedByAndSlugInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The event group creator's id. */
-  createdBy: Scalars['UUID']['input']
-  /** The event group's name, slugified. */
-  slug: Scalars['String']['input']
-}
-
-/** All input for the `deleteEventGroupById` mutation. */
-export type DeleteEventGroupByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The event group's internal id. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `deleteEventGroup` mutation. */
-export type DeleteEventGroupInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `EventGroup` to be deleted. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our delete `EventGroup` mutation. */
-export type DeleteEventGroupPayload = {
-  __typename?: 'DeleteEventGroupPayload'
-  /** Reads a single `Account` that is related to this `EventGroup`. */
-  accountByCreatedBy?: Maybe<Account>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedEventGroupId?: Maybe<Scalars['ID']['output']>
-  /** The `EventGroup` that was deleted by this mutation. */
-  eventGroup?: Maybe<EventGroup>
-  /** An edge for our `EventGroup`. May be used by Relay 1. */
-  eventGroupEdge?: Maybe<EventGroupsEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our delete `EventGroup` mutation. */
-export type DeleteEventGroupPayloadEventGroupEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventGroupsOrderBy>>
-}
-
-/** All input for the `deleteEventGroupingByEventIdAndEventGroupId` mutation. */
-export type DeleteEventGroupingByEventIdAndEventGroupIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The event grouping's internal event group id. */
-  eventGroupId: Scalars['UUID']['input']
-  /** The event grouping's internal event id. */
-  eventId: Scalars['UUID']['input']
-}
-
-/** All input for the `deleteEventGroupingById` mutation. */
-export type DeleteEventGroupingByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The event grouping's internal id. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `deleteEventGrouping` mutation. */
-export type DeleteEventGroupingInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `EventGrouping` to be deleted. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our delete `EventGrouping` mutation. */
-export type DeleteEventGroupingPayload = {
-  __typename?: 'DeleteEventGroupingPayload'
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedEventGroupingId?: Maybe<Scalars['ID']['output']>
-  /** Reads a single `Event` that is related to this `EventGrouping`. */
-  eventByEventId?: Maybe<Event>
-  /** Reads a single `EventGroup` that is related to this `EventGrouping`. */
-  eventGroupByEventGroupId?: Maybe<EventGroup>
-  /** The `EventGrouping` that was deleted by this mutation. */
-  eventGrouping?: Maybe<EventGrouping>
-  /** An edge for our `EventGrouping`. May be used by Relay 1. */
-  eventGroupingEdge?: Maybe<EventGroupingsEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our delete `EventGrouping` mutation. */
-export type DeleteEventGroupingPayloadEventGroupingEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventGroupingsOrderBy>>
-}
-
 /** All input for the `deleteEvent` mutation. */
 export type DeleteEventInput = {
   /**
@@ -3923,7 +3740,7 @@ export type DeleteUploadInput = {
 export type DeleteUploadPayload = {
   __typename?: 'DeleteUploadPayload'
   /** Reads a single `Account` that is related to this `Upload`. */
-  accountByAccountId?: Maybe<Account>
+  accountByCreatedBy?: Maybe<Account>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -4060,8 +3877,6 @@ export type Event = Node & {
   eventFavoritesByEventId: EventFavoritesConnection
   /** Reads and enables pagination through a set of `EventFormatMapping`. */
   eventFormatMappingsByEventId: EventFormatMappingsConnection
-  /** Reads and enables pagination through a set of `EventGrouping`. */
-  eventGroupingsByEventId: EventGroupingsConnection
   /** Reads and enables pagination through a set of `EventRecommendation`. */
   eventRecommendationsByEventId: EventRecommendationsConnection
   /** Reads and enables pagination through a set of `EventUpload`. */
@@ -4126,17 +3941,6 @@ export type EventEventFormatMappingsByEventIdArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<EventFormatMappingsOrderBy>>
-}
-
-/** An event. */
-export type EventEventGroupingsByEventIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<EventGroupingCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventGroupingsOrderBy>>
 }
 
 /** An event. */
@@ -4675,211 +4479,6 @@ export enum EventFormatsOrderBy {
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-}
-
-/** A group of events. */
-export type EventGroup = Node & {
-  __typename?: 'EventGroup'
-  /** Reads a single `Account` that is related to this `EventGroup`. */
-  accountByCreatedBy?: Maybe<Account>
-  /** Timestamp of when the event group was created, defaults to the current timestamp. */
-  createdAt: Scalars['Datetime']['output']
-  /** The event group creator's id. */
-  createdBy: Scalars['UUID']['output']
-  /** The event group's description. */
-  description?: Maybe<Scalars['String']['output']>
-  /** Reads and enables pagination through a set of `EventGrouping`. */
-  eventGroupingsByEventGroupId: EventGroupingsConnection
-  /** The event group's internal id. */
-  id: Scalars['UUID']['output']
-  /** Indicates whether the event group is archived. */
-  isArchived: Scalars['Boolean']['output']
-  /** The event group's name. */
-  name: Scalars['String']['output']
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID']['output']
-  /** The event group's name, slugified. */
-  slug: Scalars['String']['output']
-}
-
-/** A group of events. */
-export type EventGroupEventGroupingsByEventGroupIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<EventGroupingCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventGroupingsOrderBy>>
-}
-
-/**
- * A condition to be used against `EventGroup` object types. All fields are tested
- * for equality and combined with a logical ‘and.’
- */
-export type EventGroupCondition = {
-  /** Checks for equality with the object’s `createdAt` field. */
-  createdAt?: InputMaybe<Scalars['Datetime']['input']>
-  /** Checks for equality with the object’s `createdBy` field. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `description` field. */
-  description?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `id` field. */
-  id?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `isArchived` field. */
-  isArchived?: InputMaybe<Scalars['Boolean']['input']>
-  /** Checks for equality with the object’s `name` field. */
-  name?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `slug` field. */
-  slug?: InputMaybe<Scalars['String']['input']>
-}
-
-/** An input for mutations affecting `EventGroup` */
-export type EventGroupInput = {
-  /** The event group creator's id. */
-  createdBy: Scalars['UUID']['input']
-  /** The event group's description. */
-  description?: InputMaybe<Scalars['String']['input']>
-  /** Indicates whether the event group is archived. */
-  isArchived?: InputMaybe<Scalars['Boolean']['input']>
-  /** The event group's name. */
-  name: Scalars['String']['input']
-}
-
-/** Represents an update to a `EventGroup`. Fields that are set will be updated. */
-export type EventGroupPatch = {
-  /** The event group creator's id. */
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
-  /** The event group's description. */
-  description?: InputMaybe<Scalars['String']['input']>
-  /** Indicates whether the event group is archived. */
-  isArchived?: InputMaybe<Scalars['Boolean']['input']>
-  /** The event group's name. */
-  name?: InputMaybe<Scalars['String']['input']>
-}
-
-/** A bidirectional mapping between an event and an event group. */
-export type EventGrouping = Node & {
-  __typename?: 'EventGrouping'
-  /** Reads a single `Event` that is related to this `EventGrouping`. */
-  eventByEventId?: Maybe<Event>
-  /** Reads a single `EventGroup` that is related to this `EventGrouping`. */
-  eventGroupByEventGroupId?: Maybe<EventGroup>
-  /** The event grouping's internal event group id. */
-  eventGroupId: Scalars['UUID']['output']
-  /** The event grouping's internal event id. */
-  eventId: Scalars['UUID']['output']
-  /** The event grouping's internal id. */
-  id: Scalars['UUID']['output']
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID']['output']
-}
-
-/**
- * A condition to be used against `EventGrouping` object types. All fields are
- * tested for equality and combined with a logical ‘and.’
- */
-export type EventGroupingCondition = {
-  /** Checks for equality with the object’s `eventGroupId` field. */
-  eventGroupId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `eventId` field. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `id` field. */
-  id?: InputMaybe<Scalars['UUID']['input']>
-}
-
-/** An input for mutations affecting `EventGrouping` */
-export type EventGroupingInput = {
-  /** The event grouping's internal event group id. */
-  eventGroupId: Scalars['UUID']['input']
-  /** The event grouping's internal event id. */
-  eventId: Scalars['UUID']['input']
-}
-
-/** Represents an update to a `EventGrouping`. Fields that are set will be updated. */
-export type EventGroupingPatch = {
-  /** The event grouping's internal event group id. */
-  eventGroupId?: InputMaybe<Scalars['UUID']['input']>
-  /** The event grouping's internal event id. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
-}
-
-/** A connection to a list of `EventGrouping` values. */
-export type EventGroupingsConnection = {
-  __typename?: 'EventGroupingsConnection'
-  /** A list of edges which contains the `EventGrouping` and cursor to aid in pagination. */
-  edges: Array<EventGroupingsEdge>
-  /** A list of `EventGrouping` objects. */
-  nodes: Array<EventGrouping>
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo
-  /** The count of *all* `EventGrouping` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
-}
-
-/** A `EventGrouping` edge in the connection. */
-export type EventGroupingsEdge = {
-  __typename?: 'EventGroupingsEdge'
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
-  /** The `EventGrouping` at the end of the edge. */
-  node: EventGrouping
-}
-
-/** Methods to use when ordering `EventGrouping`. */
-export enum EventGroupingsOrderBy {
-  EventGroupIdAsc = 'EVENT_GROUP_ID_ASC',
-  EventGroupIdDesc = 'EVENT_GROUP_ID_DESC',
-  EventIdAsc = 'EVENT_ID_ASC',
-  EventIdDesc = 'EVENT_ID_DESC',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  Natural = 'NATURAL',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-}
-
-/** A connection to a list of `EventGroup` values. */
-export type EventGroupsConnection = {
-  __typename?: 'EventGroupsConnection'
-  /** A list of edges which contains the `EventGroup` and cursor to aid in pagination. */
-  edges: Array<EventGroupsEdge>
-  /** A list of `EventGroup` objects. */
-  nodes: Array<EventGroup>
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo
-  /** The count of *all* `EventGroup` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
-}
-
-/** A `EventGroup` edge in the connection. */
-export type EventGroupsEdge = {
-  __typename?: 'EventGroupsEdge'
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
-  /** The `EventGroup` at the end of the edge. */
-  node: EventGroup
-}
-
-/** Methods to use when ordering `EventGroup`. */
-export enum EventGroupsOrderBy {
-  CreatedAtAsc = 'CREATED_AT_ASC',
-  CreatedAtDesc = 'CREATED_AT_DESC',
-  CreatedByAsc = 'CREATED_BY_ASC',
-  CreatedByDesc = 'CREATED_BY_DESC',
-  DescriptionAsc = 'DESCRIPTION_ASC',
-  DescriptionDesc = 'DESCRIPTION_DESC',
-  IdAsc = 'ID_ASC',
-  IdDesc = 'ID_DESC',
-  IsArchivedAsc = 'IS_ARCHIVED_ASC',
-  IsArchivedDesc = 'IS_ARCHIVED_DESC',
-  NameAsc = 'NAME_ASC',
-  NameDesc = 'NAME_DESC',
-  Natural = 'NATURAL',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-  SlugAsc = 'SLUG_ASC',
-  SlugDesc = 'SLUG_DESC',
 }
 
 /** An input for mutations affecting `Event` */
@@ -6005,10 +5604,6 @@ export type Mutation = {
   createEventFormat?: Maybe<CreateEventFormatPayload>
   /** Creates a single `EventFormatMapping`. */
   createEventFormatMapping?: Maybe<CreateEventFormatMappingPayload>
-  /** Creates a single `EventGroup`. */
-  createEventGroup?: Maybe<CreateEventGroupPayload>
-  /** Creates a single `EventGrouping`. */
-  createEventGrouping?: Maybe<CreateEventGroupingPayload>
   /** Creates a single `EventRecommendation`. */
   createEventRecommendation?: Maybe<CreateEventRecommendationPayload>
   /** Creates a single `EventUpload`. */
@@ -6109,18 +5704,6 @@ export type Mutation = {
   deleteEventFormatMapping?: Maybe<DeleteEventFormatMappingPayload>
   /** Deletes a single `EventFormatMapping` using a unique key. */
   deleteEventFormatMappingByEventIdAndFormatId?: Maybe<DeleteEventFormatMappingPayload>
-  /** Deletes a single `EventGroup` using its globally unique id. */
-  deleteEventGroup?: Maybe<DeleteEventGroupPayload>
-  /** Deletes a single `EventGroup` using a unique key. */
-  deleteEventGroupByCreatedByAndSlug?: Maybe<DeleteEventGroupPayload>
-  /** Deletes a single `EventGroup` using a unique key. */
-  deleteEventGroupById?: Maybe<DeleteEventGroupPayload>
-  /** Deletes a single `EventGrouping` using its globally unique id. */
-  deleteEventGrouping?: Maybe<DeleteEventGroupingPayload>
-  /** Deletes a single `EventGrouping` using a unique key. */
-  deleteEventGroupingByEventIdAndEventGroupId?: Maybe<DeleteEventGroupingPayload>
-  /** Deletes a single `EventGrouping` using a unique key. */
-  deleteEventGroupingById?: Maybe<DeleteEventGroupingPayload>
   /** Deletes a single `EventRecommendation` using its globally unique id. */
   deleteEventRecommendation?: Maybe<DeleteEventRecommendationPayload>
   /** Deletes a single `EventRecommendation` using a unique key. */
@@ -6241,18 +5824,6 @@ export type Mutation = {
   updateEventFormatMapping?: Maybe<UpdateEventFormatMappingPayload>
   /** Updates a single `EventFormatMapping` using a unique key and a patch. */
   updateEventFormatMappingByEventIdAndFormatId?: Maybe<UpdateEventFormatMappingPayload>
-  /** Updates a single `EventGroup` using its globally unique id and a patch. */
-  updateEventGroup?: Maybe<UpdateEventGroupPayload>
-  /** Updates a single `EventGroup` using a unique key and a patch. */
-  updateEventGroupByCreatedByAndSlug?: Maybe<UpdateEventGroupPayload>
-  /** Updates a single `EventGroup` using a unique key and a patch. */
-  updateEventGroupById?: Maybe<UpdateEventGroupPayload>
-  /** Updates a single `EventGrouping` using its globally unique id and a patch. */
-  updateEventGrouping?: Maybe<UpdateEventGroupingPayload>
-  /** Updates a single `EventGrouping` using a unique key and a patch. */
-  updateEventGroupingByEventIdAndEventGroupId?: Maybe<UpdateEventGroupingPayload>
-  /** Updates a single `EventGrouping` using a unique key and a patch. */
-  updateEventGroupingById?: Maybe<UpdateEventGroupingPayload>
   /** Updates a single `EventRecommendation` using its globally unique id and a patch. */
   updateEventRecommendation?: Maybe<UpdateEventRecommendationPayload>
   /** Updates a single `EventRecommendation` using a unique key and a patch. */
@@ -6281,12 +5852,6 @@ export type Mutation = {
   updateProfilePictureByAccountId?: Maybe<UpdateProfilePicturePayload>
   /** Updates a single `ProfilePicture` using a unique key and a patch. */
   updateProfilePictureById?: Maybe<UpdateProfilePicturePayload>
-  /** Updates a single `Upload` using its globally unique id and a patch. */
-  updateUpload?: Maybe<UpdateUploadPayload>
-  /** Updates a single `Upload` using a unique key and a patch. */
-  updateUploadById?: Maybe<UpdateUploadPayload>
-  /** Updates a single `Upload` using a unique key and a patch. */
-  updateUploadByStorageKey?: Maybe<UpdateUploadPayload>
   /** Creates an upload with the given size if quota is available. */
   uploadCreate?: Maybe<UploadCreatePayload>
 }
@@ -6414,16 +5979,6 @@ export type MutationCreateEventFormatArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateEventFormatMappingArgs = {
   input: CreateEventFormatMappingInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateEventGroupArgs = {
-  input: CreateEventGroupInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateEventGroupingArgs = {
-  input: CreateEventGroupingInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6678,36 +6233,6 @@ export type MutationDeleteEventFormatMappingArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteEventFormatMappingByEventIdAndFormatIdArgs = {
   input: DeleteEventFormatMappingByEventIdAndFormatIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventGroupArgs = {
-  input: DeleteEventGroupInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventGroupByCreatedByAndSlugArgs = {
-  input: DeleteEventGroupByCreatedByAndSlugInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventGroupByIdArgs = {
-  input: DeleteEventGroupByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventGroupingArgs = {
-  input: DeleteEventGroupingInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventGroupingByEventIdAndEventGroupIdArgs = {
-  input: DeleteEventGroupingByEventIdAndEventGroupIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventGroupingByIdArgs = {
-  input: DeleteEventGroupingByIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -7015,36 +6540,6 @@ export type MutationUpdateEventFormatMappingByEventIdAndFormatIdArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventGroupArgs = {
-  input: UpdateEventGroupInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventGroupByCreatedByAndSlugArgs = {
-  input: UpdateEventGroupByCreatedByAndSlugInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventGroupByIdArgs = {
-  input: UpdateEventGroupByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventGroupingArgs = {
-  input: UpdateEventGroupingInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventGroupingByEventIdAndEventGroupIdArgs = {
-  input: UpdateEventGroupingByEventIdAndEventGroupIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventGroupingByIdArgs = {
-  input: UpdateEventGroupingByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateEventRecommendationArgs = {
   input: UpdateEventRecommendationInput
 }
@@ -7112,21 +6607,6 @@ export type MutationUpdateProfilePictureByAccountIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateProfilePictureByIdArgs = {
   input: UpdateProfilePictureByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateUploadArgs = {
-  input: UpdateUploadInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateUploadByIdArgs = {
-  input: UpdateUploadByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateUploadByStorageKeyArgs = {
-  input: UpdateUploadByStorageKeyInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -7341,10 +6821,6 @@ export type Query = Node & {
   allEventFormatMappings?: Maybe<EventFormatMappingsConnection>
   /** Reads and enables pagination through a set of `EventFormat`. */
   allEventFormats?: Maybe<EventFormatsConnection>
-  /** Reads and enables pagination through a set of `EventGrouping`. */
-  allEventGroupings?: Maybe<EventGroupingsConnection>
-  /** Reads and enables pagination through a set of `EventGroup`. */
-  allEventGroups?: Maybe<EventGroupsConnection>
   /** Reads and enables pagination through a set of `EventRecommendation`. */
   allEventRecommendations?: Maybe<EventRecommendationsConnection>
   /** Reads and enables pagination through a set of `EventUpload`. */
@@ -7397,18 +6873,8 @@ export type Query = Node & {
   /** Reads a single `EventFormatMapping` using its globally unique `ID`. */
   eventFormatMapping?: Maybe<EventFormatMapping>
   eventFormatMappingByEventIdAndFormatId?: Maybe<EventFormatMapping>
-  /** Reads a single `EventGroup` using its globally unique `ID`. */
-  eventGroup?: Maybe<EventGroup>
-  eventGroupByCreatedByAndSlug?: Maybe<EventGroup>
-  eventGroupById?: Maybe<EventGroup>
-  /** Reads a single `EventGrouping` using its globally unique `ID`. */
-  eventGrouping?: Maybe<EventGrouping>
-  eventGroupingByEventIdAndEventGroupId?: Maybe<EventGrouping>
-  eventGroupingById?: Maybe<EventGrouping>
   /** Add a function that returns the maximum guest count of an accessible event. */
   eventGuestCountMaximum?: Maybe<Scalars['Int']['output']>
-  /** Shows if an event exists. */
-  eventIsExisting?: Maybe<Scalars['Boolean']['output']>
   /** Reads a single `EventRecommendation` using its globally unique `ID`. */
   eventRecommendation?: Maybe<EventRecommendation>
   eventRecommendationByAccountIdAndEventId?: Maybe<EventRecommendation>
@@ -7735,28 +7201,6 @@ export type QueryAllEventFormatsArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
-export type QueryAllEventGroupingsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<EventGroupingCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventGroupingsOrderBy>>
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllEventGroupsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<EventGroupCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<EventGroupsOrderBy>>
-}
-
-/** The root query type which gives access points into the data universe. */
 export type QueryAllEventRecommendationsArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
@@ -7994,46 +7438,8 @@ export type QueryEventFormatMappingByEventIdAndFormatIdArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
-export type QueryEventGroupArgs = {
-  nodeId: Scalars['ID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryEventGroupByCreatedByAndSlugArgs = {
-  createdBy: Scalars['UUID']['input']
-  slug: Scalars['String']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryEventGroupByIdArgs = {
-  id: Scalars['UUID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryEventGroupingArgs = {
-  nodeId: Scalars['ID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryEventGroupingByEventIdAndEventGroupIdArgs = {
-  eventGroupId: Scalars['UUID']['input']
-  eventId: Scalars['UUID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryEventGroupingByIdArgs = {
-  id: Scalars['UUID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
 export type QueryEventGuestCountMaximumArgs = {
   eventId: Scalars['UUID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryEventIsExistingArgs = {
-  createdBy: Scalars['UUID']['input']
-  slug: Scalars['String']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -9101,136 +8507,6 @@ export type UpdateEventFormatPayloadEventFormatEdgeArgs = {
   orderBy?: InputMaybe<Array<EventFormatsOrderBy>>
 }
 
-/** All input for the `updateEventGroupByCreatedByAndSlug` mutation. */
-export type UpdateEventGroupByCreatedByAndSlugInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The event group creator's id. */
-  createdBy: Scalars['UUID']['input']
-  /** An object where the defined keys will be set on the `EventGroup` being updated. */
-  eventGroupPatch: EventGroupPatch
-  /** The event group's name, slugified. */
-  slug: Scalars['String']['input']
-}
-
-/** All input for the `updateEventGroupById` mutation. */
-export type UpdateEventGroupByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventGroup` being updated. */
-  eventGroupPatch: EventGroupPatch
-  /** The event group's internal id. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `updateEventGroup` mutation. */
-export type UpdateEventGroupInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventGroup` being updated. */
-  eventGroupPatch: EventGroupPatch
-  /** The globally unique `ID` which will identify a single `EventGroup` to be updated. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our update `EventGroup` mutation. */
-export type UpdateEventGroupPayload = {
-  __typename?: 'UpdateEventGroupPayload'
-  /** Reads a single `Account` that is related to this `EventGroup`. */
-  accountByCreatedBy?: Maybe<Account>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** The `EventGroup` that was updated by this mutation. */
-  eventGroup?: Maybe<EventGroup>
-  /** An edge for our `EventGroup`. May be used by Relay 1. */
-  eventGroupEdge?: Maybe<EventGroupsEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our update `EventGroup` mutation. */
-export type UpdateEventGroupPayloadEventGroupEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventGroupsOrderBy>>
-}
-
-/** All input for the `updateEventGroupingByEventIdAndEventGroupId` mutation. */
-export type UpdateEventGroupingByEventIdAndEventGroupIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The event grouping's internal event group id. */
-  eventGroupId: Scalars['UUID']['input']
-  /** An object where the defined keys will be set on the `EventGrouping` being updated. */
-  eventGroupingPatch: EventGroupingPatch
-  /** The event grouping's internal event id. */
-  eventId: Scalars['UUID']['input']
-}
-
-/** All input for the `updateEventGroupingById` mutation. */
-export type UpdateEventGroupingByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventGrouping` being updated. */
-  eventGroupingPatch: EventGroupingPatch
-  /** The event grouping's internal id. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `updateEventGrouping` mutation. */
-export type UpdateEventGroupingInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventGrouping` being updated. */
-  eventGroupingPatch: EventGroupingPatch
-  /** The globally unique `ID` which will identify a single `EventGrouping` to be updated. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our update `EventGrouping` mutation. */
-export type UpdateEventGroupingPayload = {
-  __typename?: 'UpdateEventGroupingPayload'
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Reads a single `Event` that is related to this `EventGrouping`. */
-  eventByEventId?: Maybe<Event>
-  /** Reads a single `EventGroup` that is related to this `EventGrouping`. */
-  eventGroupByEventGroupId?: Maybe<EventGroup>
-  /** The `EventGrouping` that was updated by this mutation. */
-  eventGrouping?: Maybe<EventGrouping>
-  /** An edge for our `EventGrouping`. May be used by Relay 1. */
-  eventGroupingEdge?: Maybe<EventGroupingsEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our update `EventGrouping` mutation. */
-export type UpdateEventGroupingPayloadEventGroupingEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventGroupingsOrderBy>>
-}
-
 /** All input for the `updateEvent` mutation. */
 export type UpdateEventInput = {
   /**
@@ -9590,77 +8866,15 @@ export type UpdateProfilePicturePayloadProfilePictureEdgeArgs = {
   orderBy?: InputMaybe<Array<ProfilePicturesOrderBy>>
 }
 
-/** All input for the `updateUploadById` mutation. */
-export type UpdateUploadByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The upload's internal id. */
-  id: Scalars['UUID']['input']
-  /** An object where the defined keys will be set on the `Upload` being updated. */
-  uploadPatch: UploadPatch
-}
-
-/** All input for the `updateUploadByStorageKey` mutation. */
-export type UpdateUploadByStorageKeyInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The upload's storage key. */
-  storageKey: Scalars['String']['input']
-  /** An object where the defined keys will be set on the `Upload` being updated. */
-  uploadPatch: UploadPatch
-}
-
-/** All input for the `updateUpload` mutation. */
-export type UpdateUploadInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `Upload` to be updated. */
-  nodeId: Scalars['ID']['input']
-  /** An object where the defined keys will be set on the `Upload` being updated. */
-  uploadPatch: UploadPatch
-}
-
-/** The output of our update `Upload` mutation. */
-export type UpdateUploadPayload = {
-  __typename?: 'UpdateUploadPayload'
-  /** Reads a single `Account` that is related to this `Upload`. */
-  accountByAccountId?: Maybe<Account>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-  /** The `Upload` that was updated by this mutation. */
-  upload?: Maybe<Upload>
-  /** An edge for our `Upload`. May be used by Relay 1. */
-  uploadEdge?: Maybe<UploadsEdge>
-}
-
-/** The output of our update `Upload` mutation. */
-export type UpdateUploadPayloadUploadEdgeArgs = {
-  orderBy?: InputMaybe<Array<UploadsOrderBy>>
-}
-
 /** An upload. */
 export type Upload = Node & {
   __typename?: 'Upload'
   /** Reads a single `Account` that is related to this `Upload`. */
-  accountByAccountId?: Maybe<Account>
-  /** The uploader's account id. */
-  accountId: Scalars['UUID']['output']
+  accountByCreatedBy?: Maybe<Account>
   /** Timestamp of when the upload was created, defaults to the current timestamp. */
   createdAt: Scalars['Datetime']['output']
+  /** The uploader's account id. */
+  createdBy: Scalars['UUID']['output']
   /** Reads and enables pagination through a set of `EventUpload`. */
   eventUploadsByUploadId: EventUploadsConnection
   /** The upload's internal id. */
@@ -9716,10 +8930,10 @@ export type UploadReportsByTargetUploadIdArgs = {
 
 /** A condition to be used against `Upload` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type UploadCondition = {
-  /** Checks for equality with the object’s `accountId` field. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `createdAt` field. */
   createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  /** Checks for equality with the object’s `createdBy` field. */
+  createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `id` field. */
   id?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `name` field. */
@@ -9746,7 +8960,7 @@ export type UploadCreateInput = {
 export type UploadCreatePayload = {
   __typename?: 'UploadCreatePayload'
   /** Reads a single `Account` that is related to this `Upload`. */
-  accountByAccountId?: Maybe<Account>
+  accountByCreatedBy?: Maybe<Account>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -9767,25 +8981,11 @@ export type UploadCreatePayloadUploadEdgeArgs = {
 /** An input for mutations affecting `Upload` */
 export type UploadInput = {
   /** The uploader's account id. */
-  accountId: Scalars['UUID']['input']
+  createdBy: Scalars['UUID']['input']
   /** The name of the uploaded file. */
   name?: InputMaybe<Scalars['String']['input']>
   /** The upload's size in bytes. */
   sizeByte: Scalars['BigInt']['input']
-  /** The upload's storage key. */
-  storageKey?: InputMaybe<Scalars['String']['input']>
-  /** The type of the uploaded file, default is 'image'. */
-  type?: InputMaybe<Scalars['String']['input']>
-}
-
-/** Represents an update to a `Upload`. Fields that are set will be updated. */
-export type UploadPatch = {
-  /** The uploader's account id. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
-  /** The name of the uploaded file. */
-  name?: InputMaybe<Scalars['String']['input']>
-  /** The upload's size in bytes. */
-  sizeByte?: InputMaybe<Scalars['BigInt']['input']>
   /** The upload's storage key. */
   storageKey?: InputMaybe<Scalars['String']['input']>
   /** The type of the uploaded file, default is 'image'. */
@@ -9816,10 +9016,10 @@ export type UploadsEdge = {
 
 /** Methods to use when ordering `Upload`. */
 export enum UploadsOrderBy {
-  AccountIdAsc = 'ACCOUNT_ID_ASC',
-  AccountIdDesc = 'ACCOUNT_ID_DESC',
   CreatedAtAsc = 'CREATED_AT_ASC',
   CreatedAtDesc = 'CREATED_AT_DESC',
+  CreatedByAsc = 'CREATED_BY_ASC',
+  CreatedByDesc = 'CREATED_BY_DESC',
   IdAsc = 'ID_ASC',
   IdDesc = 'ID_DESC',
   NameAsc = 'NAME_ASC',
@@ -9958,9 +9158,9 @@ export type UploadItemFragment = {
   __typename?: 'Upload'
   id: any
   nodeId: string
-  accountId: any
   sizeByte: any
   storageKey?: string | null
+  createdBy: any
 } & { ' $fragmentName'?: 'UploadItemFragment' }
 
 export type AuthenticateMutationVariables = Exact<{
@@ -10365,16 +9565,33 @@ export type CreateReportMutation = {
   } | null
 }
 
-export type UploadCreateMutationVariables = Exact<{
-  uploadCreateInput: UploadCreateInput
+export type CreateUploadMutationVariables = Exact<{
+  createUploadInput: CreateUploadInput
 }>
 
-export type UploadCreateMutation = {
+export type CreateUploadMutation = {
   __typename?: 'Mutation'
-  uploadCreate?: {
-    __typename?: 'UploadCreatePayload'
+  createUpload?: {
+    __typename?: 'CreateUploadPayload'
     clientMutationId?: string | null
     upload?: { __typename?: 'Upload'; id: any } | null
+  } | null
+}
+
+export type DeleteUploadByIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type DeleteUploadByIdMutation = {
+  __typename?: 'Mutation'
+  deleteUploadById?: {
+    __typename?: 'DeleteUploadPayload'
+    clientMutationId?: string | null
+    upload?:
+      | ({ __typename?: 'Upload' } & {
+          ' $fragmentRefs'?: { UploadItemFragment: UploadItemFragment }
+        })
+      | null
   } | null
 }
 
@@ -10631,7 +9848,7 @@ export type ProfilePictureByAccountIdQuery = {
 export type AllUploadsQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>
   first: Scalars['Int']['input']
-  accountId?: InputMaybe<Scalars['UUID']['input']>
+  createdBy?: InputMaybe<Scalars['UUID']['input']>
 }>
 
 export type AllUploadsQuery = {
@@ -11035,9 +10252,9 @@ export const UploadItemFragmentDoc = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'sizeByte' } },
           { kind: 'Field', name: { kind: 'Name', value: 'storageKey' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
         ],
       },
     },
@@ -11087,9 +10304,9 @@ export const ProfilePictureItemFragmentDoc = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'sizeByte' } },
           { kind: 'Field', name: { kind: 'Name', value: 'storageKey' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
         ],
       },
     },
@@ -13913,25 +13130,25 @@ export const CreateReportDocument = {
   CreateReportMutation,
   CreateReportMutationVariables
 >
-export const UploadCreateDocument = {
+export const CreateUploadDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'uploadCreate' },
+      name: { kind: 'Name', value: 'createUpload' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'uploadCreateInput' },
+            name: { kind: 'Name', value: 'createUploadInput' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'UploadCreateInput' },
+              name: { kind: 'Name', value: 'CreateUploadInput' },
             },
           },
         },
@@ -13941,14 +13158,14 @@ export const UploadCreateDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'uploadCreate' },
+            name: { kind: 'Name', value: 'createUpload' },
             arguments: [
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
                   kind: 'Variable',
-                  name: { kind: 'Name', value: 'uploadCreateInput' },
+                  name: { kind: 'Name', value: 'createUploadInput' },
                 },
               },
             ],
@@ -13977,8 +13194,99 @@ export const UploadCreateDocument = {
     },
   ],
 } as unknown as DocumentNode<
-  UploadCreateMutation,
-  UploadCreateMutationVariables
+  CreateUploadMutation,
+  CreateUploadMutationVariables
+>
+export const DeleteUploadByIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'deleteUploadById' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteUploadById' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'id' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'upload' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'UploadItem' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UploadItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Upload' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'sizeByte' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'storageKey' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteUploadByIdMutation,
+  DeleteUploadByIdMutationVariables
 >
 export const AccountByIdDocument = {
   kind: 'Document',
@@ -15762,9 +15070,9 @@ export const ProfilePictureByAccountIdDocument = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'sizeByte' } },
           { kind: 'Field', name: { kind: 'Name', value: 'storageKey' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
         ],
       },
     },
@@ -15833,7 +15141,7 @@ export const AllUploadsDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'accountId' },
+            name: { kind: 'Name', value: 'createdBy' },
           },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
         },
@@ -15861,10 +15169,10 @@ export const AllUploadsDocument = {
                   fields: [
                     {
                       kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'accountId' },
+                      name: { kind: 'Name', value: 'createdBy' },
                       value: {
                         kind: 'Variable',
-                        name: { kind: 'Name', value: 'accountId' },
+                        name: { kind: 'Name', value: 'createdBy' },
                       },
                     },
                   ],
@@ -15931,9 +15239,9 @@ export const AllUploadsDocument = {
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'sizeByte' } },
           { kind: 'Field', name: { kind: 'Name', value: 'storageKey' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
         ],
       },
     },
