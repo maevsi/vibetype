@@ -73,8 +73,12 @@ const onSubmit = handleSubmit(async (values) => {
     },
   })
 
-  if (result.error || !result.data) return
+  if (result.error) return
 
+  if (!result.data) {
+    modelError.value = new Error(t('globalErrorNoData'))
+    return
+  }
   emit('submitSuccess')
 })
 

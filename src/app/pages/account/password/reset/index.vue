@@ -55,7 +55,7 @@
         <LayoutPageResult type="error">
           {{ error }}
           <template #description>
-            {{ t('tryAgain') }}
+            {{ t('globalTryAgain') }}
           </template>
         </LayoutPageResult>
         <template #bottom>
@@ -86,24 +86,21 @@ const localePath = useLocalePath()
 
 // page
 const { t } = useI18n()
+const title = t('title')
+useHeadDefault({ title })
 
 // stepper
-const { error, restart, step, title } = useStepperPage<
+const { error, restart, step } = useStepperPage<
   'default' | 'success' | 'error'
 >({
   steps: {
-    default: {
-      title: t('title'),
-    },
-    success: {
-      title: t('title'),
-    },
+    default: {},
+    success: {},
     error: {
-      title: t('errorTitle'),
+      title: t('globalError'),
     },
   },
 })
-useHeadDefault({ title })
 
 // validation
 const route = useRoute()
@@ -123,22 +120,18 @@ const templateForm = useTemplateRef('form')
 <i18n lang="yaml">
 de:
   backToReset: Zurück zur Passwortzurücksetzung
-  errorTitle: Fehler
   instructionsNew: Neues Passwort
   instructionsSuccessHeading: Passwort erfolgreich zurückgesetzt
   instructionsSuccessDescription: Du kannst dich jetzt mit deinem neuen Passwort anmelden
   reset: Passwort zurücksetzen
   signIn: Einloggen
   title: Passwort zurücksetzen
-  tryAgain: Bitte versuche es erneut
 en:
   backToReset: Back to Reset Password
-  errorTitle: Error
   instructionsNew: Set a new password
   instructionsSuccessHeading: Password reset successful
   instructionsSuccessDescription: You can now log in using your new password.
   reset: Reset password
   signIn: Log in
   title: Reset password
-  tryAgain: Please try again
 </i18n>

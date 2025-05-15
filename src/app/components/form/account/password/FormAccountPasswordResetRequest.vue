@@ -47,7 +47,7 @@ const submit = async () => {
     emailAddress: form.emailAddress || '',
     language: locale.value,
   })
-
+  // Backend returns success even for invalid emails (security); only handle network errors
   if (result.error || !result.data) {
     modelError.value = new Error()
     return

@@ -51,7 +51,7 @@
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="error">
           <template #description>
-            {{ t('tryAgain') }}
+            {{ t('globalTryAgain') }}
           </template>
         </LayoutPageResult>
         <template #bottom>
@@ -77,50 +77,42 @@ definePageMeta({
 
 const { t } = useI18n()
 const localePath = useLocalePath()
+const title = t('title')
+useHeadDefault({ title })
 
 // template
 const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
 
 // stepper
-const { error, restart, step, title } = useStepperPage<
+const { error, restart, step } = useStepperPage<
   'default' | 'success' | 'error'
 >({
   steps: {
-    default: {
-      title: t('title'),
-    },
-    success: {
-      title: t('title'),
-    },
+    default: {},
+    success: {},
     error: {
-      title: t('errorTitle'),
+      title: t('globalError'),
     },
   },
 })
-
-useHeadDefault({ title })
 </script>
 
 <i18n lang="yaml">
 de:
   backToReset: Zurück zur Passwortzurücksetzung
-  errorTitle: Fehler
   iconAltClose: X-Icon
   instructionsInboxDescription: Überprüfe dein Postfach
   instructionsInboxHeading: Befolge die Anweisungen in der E-Mail, um das Passwort zurückzusetzen.
   instructionsRequest: Gib deine E-Mail-Adresse ein, um dein Passwort zurückzusetzen.
   send: Link zum Zurücksetzen senden
   title: Passwort zurücksetzen
-  tryAgain: Bitte versuche es erneut
 en:
   backToReset: Back to Reset Password
-  errorTitle: Error
   iconAltClose: X icon
   instructionsInboxDescription: Follow the instructions in the email to reset your password.
   instructionsInboxHeading: Check your inbox
   instructionsRequest: Enter your email address to reset your password.
   send: Send reset link
   title: Reset password
-  tryAgain: Please try again
 </i18n>

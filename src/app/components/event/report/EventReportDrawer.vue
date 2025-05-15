@@ -31,7 +31,7 @@
     <AppStep v-slot="attributes" :is-active="step === 'error'">
       <div v-bind="attributes" class="flex flex-col gap-4 text-center">
         <span>
-          {{ t('tryAgain') }}
+          {{ t('globalTryAgain') }}
         </span>
         <span v-if="error && error.message">
           {{ error.message }}
@@ -56,7 +56,7 @@
       </AppStep>
       <AppStep v-slot="attributes" :is-active="step === 'error'">
         <span v-bind="attributes">
-          {{ t('errorTitle') }}
+          {{ t('globalError') }}
         </span>
       </AppStep>
     </template>
@@ -145,15 +145,15 @@ const templateForm = useTemplateRef('form')
 // drawer
 const isOpen = defineModel<boolean>()
 const open = () => (isOpen.value = true)
-
-const { error, restart, step } = useStepper<
-  'default' | 'reportConfirmation' | 'blockConfirmation' | 'error'
->()
-
 const onAnimationEnd = (isOpen: boolean) => {
   if (isOpen) return
   step.value = 'default'
 }
+
+// stepper
+const { error, restart, step } = useStepper<
+  'default' | 'reportConfirmation' | 'blockConfirmation' | 'error'
+>()
 
 // block
 const createAccountBlockMutation = useCreateAccountBlockMutation()
@@ -168,9 +168,16 @@ const blockOrganizer = async () => {
       createdBy: accountId,
     },
   })
-
-  if (result.error || !result.data) {
-    error.value = new Error(apiErrorMessages.value.join('\n'))
+  if (result.error) {
+    error.value = new Error(
+      apiErrorMessages.value.length > 0
+        ? apiErrorMessages.value.join('\n')
+        : t('globalError'),
+    )
+    return
+  }
+  if (!result.data) {
+    error.value = new Error(t('globalError'))
     return
   }
 
@@ -198,11 +205,9 @@ de:
   buttonReportSubmit: Meldung einreichen
   contentBlockConfirmation: Der Benutzer {username} wurde blockiert.
   contentReportConfirmation: Vielen Dank für die Meldung. Wir werden sie prüfen und dich über unsere Entscheidung benachrichtigen. Du kannst nun den Organisator {username} blockieren oder zur Event-Seite zurückkehren.
-  errorTitle: Fehler
   titleBlockConfirmation: Benutzer blockiert
   titleReport: Event melden
   titleReportConfirmation: Meldung erhalten
-  tryAgain: Bitte versuche es erneut
 en:
   backToReport: Back to Report
   buttonBlockConfirmation: Back to Dashboard
@@ -212,9 +217,7 @@ en:
   buttonReportSubmit: Report
   contentBlockConfirmation: The user {username} has been blocked.
   contentReportConfirmation: Thank you for your report. We will review it and notify you about our decision. You can block the organizer {username} now or return to the event.
-  errorTitle: Error
   titleBlockConfirmation: User blocked
   titleReport: Report event
   titleReportConfirmation: Report received
-  tryAgain: Please try again
 </i18n>

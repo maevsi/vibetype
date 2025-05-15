@@ -76,7 +76,6 @@ const submit = () => {
 const { handleSubmit } = useForm({
   validationSchema: toTypedSchema(schemaFormEarlyBird),
 })
-
 const onSubmit = handleSubmit(async (values) => {
   try {
     await $fetch('/api/service/monday/early-bird', {
@@ -85,7 +84,7 @@ const onSubmit = handleSubmit(async (values) => {
     })
     emit('success')
   } catch {
-    modelError.value = new Error()
+    modelError.value = new Error(t('globalError'))
   }
 })
 
