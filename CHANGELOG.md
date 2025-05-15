@@ -52,6 +52,35 @@
 
 * **server:** structure api directories ([8a4ed1f](https://github.com/maevsi/vibetype/commit/8a4ed1f20e3731628029ca96209cc01ac33e1e84))
 
+## [10.21.0](https://github.com/maevsi/vibetype/compare/10.20.2...10.21.0) (2025-05-14)
+
+### Features
+
+* **pages:** allow session edit indexing ([bb65dbc](https://github.com/maevsi/vibetype/commit/bb65dbc596229f85373a1d0d4cadf92ae78479c2))
+* **pages:** remove session id ([323dd9d](https://github.com/maevsi/vibetype/commit/323dd9de547024748511c8521d368b5fcdc68cb9))
+
+### Bug Fixes
+
+* **pages:** correct translation on session view ([656cf79](https://github.com/maevsi/vibetype/commit/656cf796751096130faa9c31166c00215f1035bd))
+
+## [10.20.2](https://github.com/maevsi/vibetype/compare/10.20.1...10.20.2) (2025-05-14)
+
+### Bug Fixes
+
+* **pages:** fully disable robots for session edit ([6441163](https://github.com/maevsi/vibetype/commit/6441163dde492618702c5ea30e47f996aa7b6fcd))
+
+## [10.20.1](https://github.com/maevsi/vibetype/compare/10.20.0...10.20.1) (2025-05-13)
+
+### Bug Fixes
+
+* **pages:** disallow robots for session view ([bcc0696](https://github.com/maevsi/vibetype/commit/bcc06964d5cd66e08bf190bbfe5e80bd99509afa))
+
+## [10.20.0](https://github.com/maevsi/vibetype/compare/10.19.2...10.20.0) (2025-05-12)
+
+### Features
+
+* **event:** remove existence validation function ([a5ca776](https://github.com/maevsi/vibetype/commit/a5ca776a89fc685988c48d9c58667314a9c56dd3))
+
 ## [10.19.2](https://github.com/maevsi/vibetype/compare/10.19.1...10.19.2) (2025-05-11)
 
 ### Bug Fixes

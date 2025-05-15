@@ -43,8 +43,7 @@
           :aria-label="t('settings')"
           :to="
             localePath({
-              name: 'session-edit-id',
-              params: { id: store.jwtDecoded?.id || 'anonymous' },
+              name: 'session-edit',
             })
           "
         >
