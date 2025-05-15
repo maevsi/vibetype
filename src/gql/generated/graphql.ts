@@ -5852,8 +5852,12 @@ export type Mutation = {
   updateProfilePictureByAccountId?: Maybe<UpdateProfilePicturePayload>
   /** Updates a single `ProfilePicture` using a unique key and a patch. */
   updateProfilePictureById?: Maybe<UpdateProfilePicturePayload>
-  /** Creates an upload with the given size if quota is available. */
-  uploadCreate?: Maybe<UploadCreatePayload>
+  /** Updates a single `Upload` using its globally unique id and a patch. */
+  updateUpload?: Maybe<UpdateUploadPayload>
+  /** Updates a single `Upload` using a unique key and a patch. */
+  updateUploadById?: Maybe<UpdateUploadPayload>
+  /** Updates a single `Upload` using a unique key and a patch. */
+  updateUploadByStorageKey?: Maybe<UpdateUploadPayload>
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6610,8 +6614,18 @@ export type MutationUpdateProfilePictureByIdArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUploadCreateArgs = {
-  input: UploadCreateInput
+export type MutationUpdateUploadArgs = {
+  input: UpdateUploadInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateUploadByIdArgs = {
+  input: UpdateUploadByIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateUploadByStorageKeyArgs = {
+  input: UpdateUploadByStorageKeyInput
 }
 
 /** An object with a globally unique `ID`. */
@@ -8866,6 +8880,68 @@ export type UpdateProfilePicturePayloadProfilePictureEdgeArgs = {
   orderBy?: InputMaybe<Array<ProfilePicturesOrderBy>>
 }
 
+/** All input for the `updateUploadById` mutation. */
+export type UpdateUploadByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The upload's internal id. */
+  id: Scalars['UUID']['input']
+  /** An object where the defined keys will be set on the `Upload` being updated. */
+  uploadPatch: UploadPatch
+}
+
+/** All input for the `updateUploadByStorageKey` mutation. */
+export type UpdateUploadByStorageKeyInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The upload's storage key. */
+  storageKey: Scalars['String']['input']
+  /** An object where the defined keys will be set on the `Upload` being updated. */
+  uploadPatch: UploadPatch
+}
+
+/** All input for the `updateUpload` mutation. */
+export type UpdateUploadInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `Upload` to be updated. */
+  nodeId: Scalars['ID']['input']
+  /** An object where the defined keys will be set on the `Upload` being updated. */
+  uploadPatch: UploadPatch
+}
+
+/** The output of our update `Upload` mutation. */
+export type UpdateUploadPayload = {
+  __typename?: 'UpdateUploadPayload'
+  /** Reads a single `Account` that is related to this `Upload`. */
+  accountByCreatedBy?: Maybe<Account>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+  /** The `Upload` that was updated by this mutation. */
+  upload?: Maybe<Upload>
+  /** An edge for our `Upload`. May be used by Relay 1. */
+  uploadEdge?: Maybe<UploadsEdge>
+}
+
+/** The output of our update `Upload` mutation. */
+export type UpdateUploadPayloadUploadEdgeArgs = {
+  orderBy?: InputMaybe<Array<UploadsOrderBy>>
+}
+
 /** An upload. */
 export type Upload = Node & {
   __typename?: 'Upload'
@@ -8946,38 +9022,6 @@ export type UploadCondition = {
   type?: InputMaybe<Scalars['String']['input']>
 }
 
-/** All input for the `uploadCreate` mutation. */
-export type UploadCreateInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  sizeByte: Scalars['BigInt']['input']
-}
-
-/** The output of our `uploadCreate` mutation. */
-export type UploadCreatePayload = {
-  __typename?: 'UploadCreatePayload'
-  /** Reads a single `Account` that is related to this `Upload`. */
-  accountByCreatedBy?: Maybe<Account>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-  upload?: Maybe<Upload>
-  /** An edge for our `Upload`. May be used by Relay 1. */
-  uploadEdge?: Maybe<UploadsEdge>
-}
-
-/** The output of our `uploadCreate` mutation. */
-export type UploadCreatePayloadUploadEdgeArgs = {
-  orderBy?: InputMaybe<Array<UploadsOrderBy>>
-}
-
 /** An input for mutations affecting `Upload` */
 export type UploadInput = {
   /** The uploader's account id. */
@@ -8986,10 +9030,14 @@ export type UploadInput = {
   name?: InputMaybe<Scalars['String']['input']>
   /** The upload's size in bytes. */
   sizeByte: Scalars['BigInt']['input']
-  /** The upload's storage key. */
-  storageKey?: InputMaybe<Scalars['String']['input']>
-  /** The type of the uploaded file, default is 'image'. */
-  type?: InputMaybe<Scalars['String']['input']>
+}
+
+/** Represents an update to a `Upload`. Fields that are set will be updated. */
+export type UploadPatch = {
+  /** The uploader's account id. */
+  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  /** The name of the uploaded file. */
+  name?: InputMaybe<Scalars['String']['input']>
 }
 
 /** A connection to a list of `Upload` values. */
