@@ -1,3 +1,9 @@
+## [11.0.1](https://github.com/maevsi/vibetype/compare/11.0.0...11.0.1) (2025-05-15)
+
+### Bug Fixes
+
+* **security:** downgrade cross-origin embedder policy for openstreetmap ([a76dfd8](https://github.com/maevsi/vibetype/commit/a76dfd8c800fb640f06496932f6e3ebfa5dbc0f4))
+
 ## [11.0.0](https://github.com/maevsi/vibetype/compare/10.21.0...11.0.0) (2025-05-15)
 
 ### ⚠ BREAKING CHANGES
