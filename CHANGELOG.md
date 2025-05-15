@@ -1,3 +1,10 @@
+## [11.0.0-beta.5](https://github.com/maevsi/vibetype/compare/11.0.0-beta.4...11.0.0-beta.5) (2025-05-15)
+
+### Features
+
+* **composables:** add development mode trigger ([b295bd6](https://github.com/maevsi/vibetype/commit/b295bd68da3526ae4d8aada7e69876e6ee284994))
+* **event:** add map ([e927a55](https://github.com/maevsi/vibetype/commit/e927a55d91f6334cc55d918df35b56266f3c1261))
+
 ## [11.0.0-beta.4](https://github.com/maevsi/vibetype/compare/11.0.0-beta.3...11.0.0-beta.4) (2025-05-12)
 
 ### ⚠ BREAKING CHANGES
