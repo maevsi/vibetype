@@ -87,7 +87,9 @@
         </div>
       </section>
       <section class="flex flex-col gap-4">
-        <span class="text-lg font-bold">{{ t('support') }}</span>
+        <span class="text-lg font-bold" @click="onDevelopmentModeTrigger">
+          {{ t('support') }}
+        </span>
         <div class="flex flex-col gap-3">
           <CardButton
             is-external
@@ -114,6 +116,7 @@
             <AppIconMail />
           </CardButton>
           <CardButton
+            v-if="isDevelopmentModeActive"
             :title="t('developerInformation')"
             :to="
               localePath({
@@ -174,6 +177,8 @@ const cookieControl = useCookieControl()
 const localePath = useLocalePath()
 const store = useStore()
 const { signOut } = await useSignOut()
+const { isDevelopmentModeActive, onDevelopmentModeTrigger } =
+  useDevelopmentModeTrigger()
 
 // data
 const title = t('preferences')

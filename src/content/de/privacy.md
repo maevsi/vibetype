@@ -765,7 +765,31 @@
 
         1. **Google Fonts**
 
-            Wir haben Google Fonts lokal auf unserem Server eingebunden. Damit werden, trotz der Nutzung, keine Daten an Google übertragen.
+            Wir haben Google Fonts lokal auf unserem Server eingebunden. Damit werden trotz der Nutzung keine Daten an Google übertragen.
+
+        1. **OpenStreetMap**
+
+            Wir nutzen auf dieser Website OpenStreetMap. OpenStreetMap ist ein Plugin, welches die Einbindung von Kartenmaterial auf dieser Website ermöglicht. Dieser Dienst wird angeboten von der:
+
+            <address>
+              OpenStreetMap Foundation
+              <br />
+              St John's Innovation Centre
+              <br />
+              Cowley Road
+              <br />
+              Cambridge, CB4 0WS
+              <br />
+              Großbritannien
+            </address>
+
+            Dabei handelt es sich um ein kollaboratives Projekt, das darauf abzielt, frei nutzbare geografische Daten wie Straßenkarten zu erstellen und anzubieten. Da es sich um ein Open-Source-Projekt handelt, werden die Daten von einer Community von Kartographen aus der ganzen Welt beigetragen und aktualisiert. Diese Daten können für verschiedene Zwecke verwendet werden, von der Anzeige von Karten auf Websites bis hin zur Nutzung in GIS-Anwendungen, mobilen Apps und mehr.
+
+            Bei der Nutzung der Karten wird eine Verbindung zu den Servern der OpenStreetMap Foundation hergestellt. Dabei sind keine Cookies beteiligt, die für das Tracking der Website-Besucher verwendet werden, sondern allenfalls solche, die auf die Funktionalität der Website beschränkt sind.
+
+            Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse daran, Standorte zu zeigen oder geografische Informationen bereitzustellen.
+
+            Nähere Informationen: https://wiki.osmfoundation.org/wiki/Privacy_Policy.
 
         1. **Cloudflare DNS**
 

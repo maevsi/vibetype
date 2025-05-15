@@ -1,3 +1,57 @@
+## [11.0.0-beta.5](https://github.com/maevsi/vibetype/compare/11.0.0-beta.4...11.0.0-beta.5) (2025-05-15)
+
+### Features
+
+* **composables:** add development mode trigger ([b295bd6](https://github.com/maevsi/vibetype/commit/b295bd68da3526ae4d8aada7e69876e6ee284994))
+* **event:** add map ([e927a55](https://github.com/maevsi/vibetype/commit/e927a55d91f6334cc55d918df35b56266f3c1261))
+
+## [11.0.0-beta.4](https://github.com/maevsi/vibetype/compare/11.0.0-beta.3...11.0.0-beta.4) (2025-05-12)
+
+### ⚠ BREAKING CHANGES
+
+* **upload:** rework
+
+### Features
+
+* **upload:** rework ([4d62232](https://github.com/maevsi/vibetype/commit/4d622327261df9b7956186c2f386c7961f8cec7a))
+
+## [11.0.0-beta.3](https://github.com/maevsi/vibetype/compare/11.0.0-beta.2...11.0.0-beta.3) (2025-05-12)
+
+### Features
+
+* **event:** remove existence validation function ([a5ca776](https://github.com/maevsi/vibetype/commit/a5ca776a89fc685988c48d9c58667314a9c56dd3))
+
+### Bug Fixes
+
+* **content:** allow websocket connections in stack deployment ([92c85cd](https://github.com/maevsi/vibetype/commit/92c85cd9bcd8b6db7fbf93f3036c4ab02b6bc8c1))
+
+## [11.0.0-beta.2](https://github.com/maevsi/vibetype/compare/11.0.0-beta.1...11.0.0-beta.2) (2025-05-09)
+
+### Features
+
+* **content:** update backup service in privacy policy ([b5b2d7f](https://github.com/maevsi/vibetype/commit/b5b2d7f314f3c598ab43a88876ff0fc9667c405e))
+
+### Bug Fixes
+
+* **early-bird:** correct title alignment ([014325a](https://github.com/maevsi/vibetype/commit/014325a961b651ed6a4743f4ab0acdf574372ebf))
+* **server:** correct postgres schema ([058d45d](https://github.com/maevsi/vibetype/commit/058d45de8776b910bc0d406bfed9267ed4389652))
+
+## [11.0.0-beta.1](https://github.com/maevsi/vibetype/compare/10.18.0-beta.1...11.0.0-beta.1) (2025-05-08)
+
+### ⚠ BREAKING CHANGES
+
+* **server:** structure service api directories
+
+### Features
+
+* **server:** structure service api directories ([e1c5a23](https://github.com/maevsi/vibetype/commit/e1c5a233b52342e248cd7bc8ff9a4a29475c982f))
+
+## [10.18.0-beta.1](https://github.com/maevsi/vibetype/compare/10.17.0...10.18.0-beta.1) (2025-05-08)
+
+### Features
+
+* **server:** structure api directories ([8a4ed1f](https://github.com/maevsi/vibetype/commit/8a4ed1f20e3731628029ca96209cc01ac33e1e84))
+
 ## [10.21.0](https://github.com/maevsi/vibetype/compare/10.20.2...10.21.0) (2025-05-14)
 
 ### Features

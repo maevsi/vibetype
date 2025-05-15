@@ -1,5 +1,6 @@
 <template>
   <div v-if="events?.length" class="flex flex-col items-center gap-4">
+    <AppMap v-if="isDevelopmentModeActive" :events />
     <ul class="flex w-full flex-col gap-4">
       <EventListItem v-for="event in events" :key="event.id" :event="event" />
     </ul>
@@ -27,6 +28,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const { isDevelopmentModeActive } = useDevelopmentModeTrigger()
 </script>
 
 <i18n lang="yaml">
