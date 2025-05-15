@@ -1,3 +1,17 @@
+## [11.0.0](https://github.com/maevsi/vibetype/compare/10.21.0...11.0.0) (2025-05-15)
+
+### ⚠ BREAKING CHANGES
+
+* **upload:** rework
+* **server:** structure service api directories
+
+### Features
+
+* **composables:** add development mode trigger ([b295bd6](https://github.com/maevsi/vibetype/commit/b295bd68da3526ae4d8aada7e69876e6ee284994))
+* **event:** add map ([e927a55](https://github.com/maevsi/vibetype/commit/e927a55d91f6334cc55d918df35b56266f3c1261))
+* **server:** structure service api directories ([e1c5a23](https://github.com/maevsi/vibetype/commit/e1c5a233b52342e248cd7bc8ff9a4a29475c982f))
+* **upload:** rework ([4d62232](https://github.com/maevsi/vibetype/commit/4d622327261df9b7956186c2f386c7961f8cec7a))
+
 ## [11.0.0-beta.5](https://github.com/maevsi/vibetype/compare/11.0.0-beta.4...11.0.0-beta.5) (2025-05-15)
 
 ### Features
