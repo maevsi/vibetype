@@ -285,7 +285,7 @@ import {
   EventVisibility,
 } from '~~/gql/generated/graphql'
 
-const { event } = defineProps<{
+const { event = undefined } = defineProps<{
   event?: Pick<EventItemFragment, 'name' | 'slug'>
 }>()
 

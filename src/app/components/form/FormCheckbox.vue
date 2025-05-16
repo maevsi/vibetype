@@ -13,7 +13,11 @@
 </template>
 
 <script setup lang="ts">
-const { formKey, isDisabled, value } = defineProps<{
+const {
+  formKey = undefined,
+  isDisabled,
+  value,
+} = defineProps<{
   formKey?: string
   isDisabled?: boolean
   value?: boolean

@@ -44,11 +44,11 @@ import type { HtmlHTMLAttributes } from 'vue'
 import { cn } from '@/utils/shadcn'
 
 const {
-  class: classProps,
-  description,
+  class: classProps = undefined,
+  description = undefined,
   isDisabled,
   isExternal,
-  to,
+  to = undefined,
 } = defineProps<
   {
     description?: string

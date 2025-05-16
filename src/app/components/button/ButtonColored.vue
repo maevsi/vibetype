@@ -37,11 +37,11 @@ import { cn } from '@/utils/shadcn'
 
 const {
   ariaLabel,
-  class: classProps,
+  class: classProps = undefined,
   disabled,
   isExternal,
   size = 'large',
-  to,
+  to = undefined,
   type = 'button',
   variant = 'primary',
 } = defineProps<

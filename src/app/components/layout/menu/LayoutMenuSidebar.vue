@@ -21,7 +21,7 @@ import { cn } from '@/utils/shadcn'
 
 const { t } = useI18n()
 
-const { class: classProps } = defineProps<{
+const { class: classProps = undefined } = defineProps<{
   class?: HtmlHTMLAttributes['class']
 }>()
 </script>

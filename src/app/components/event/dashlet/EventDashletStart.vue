@@ -26,7 +26,11 @@ import type {
   GuestItemFragment,
 } from '~~/gql/generated/graphql'
 
-const { contact, event, invitation } = defineProps<{
+const {
+  contact = undefined,
+  event,
+  invitation = undefined,
+} = defineProps<{
   contact?: ContactItemFragment
   event: EventItemFragment
   invitation?: GuestItemFragment

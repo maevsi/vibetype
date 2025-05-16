@@ -5,7 +5,7 @@ import type { Locale } from '../../../utils/i18n'
 import AppText from './base/AppText.vue'
 import { LOGO_CID } from '../../../utils/assets'
 
-const { logoSource, locale } = defineProps<{
+const { logoSource = undefined, locale } = defineProps<{
   logoSource?: string
   locale: Locale
 }>()
