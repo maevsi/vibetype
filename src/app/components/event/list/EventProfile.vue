@@ -28,14 +28,17 @@
         <EventCardHeroImage :event="event" />
         <button
           v-if="store.signedInUsername"
-          class="absolute top-2 left-2 flex size-6 items-center justify-center rounded-full bg-white transition-all hover:scale-110"
+          class="absolute top-2 left-2 flex size-5 items-center justify-center rounded-full bg-white transition-all hover:scale-110"
           @click.stop="toggleFavorite"
         >
-          <IVibetypeFavorite
+          <AppIconFavorite
             v-if="!isFavorite"
-            class="text-(--complement-strong)"
+            class="size-4 text-(--complement-strong)"
           />
-          <IVibetypeFavoriteFilled v-else class="text-(--complement-strong)" />
+          <AppIconFavoriteFilled
+            v-else
+            class="size-4 text-(--complement-strong)"
+          />
         </button>
       </div>
       <div
