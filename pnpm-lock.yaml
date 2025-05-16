@@ -299,6 +299,9 @@ importers:
       eslint:
         specifier: 9.26.0
         version: 9.26.0(jiti@2.4.2)
+      eslint-plugin-only-error:
+        specifier: 1.0.2
+        version: 1.0.2
       firebase:
         specifier: 11.7.3
         version: 11.7.3
@@ -6848,6 +6851,10 @@ packages:
     engines: {node: '>=18'}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
+
+  eslint-plugin-only-error@1.0.2:
+    resolution: {integrity: sha512-tdz/EU/LeQLPNMBIQOSl39by+/NGKdhjfba6qDvMWjcbY0GmiMk0bXrIXRGAwW9fksH30Y+KKlK1Jc32bbql9w==}
+    engines: {node: '>=6'}
 
   eslint-plugin-prettier@5.4.0:
     resolution: {integrity: sha512-BvQOvUhkVQM1i63iMETK9Hjud9QhqBnbtT1Zc642p9ynzBuCe5pybkOnvqZIBypXmMlsGcnU4HZ8sCTPfpAexA==}
@@ -21165,6 +21172,8 @@ snapshots:
       spdx-expression-parse: 4.0.0
     transitivePeerDependencies:
       - supports-color
+
+  eslint-plugin-only-error@1.0.2: {}
 
   eslint-plugin-prettier@5.4.0(@types/eslint@9.6.1)(eslint-config-prettier@10.1.5(eslint@9.26.0(jiti@2.4.2)))(eslint@9.26.0(jiti@2.4.2))(prettier@3.5.3):
     dependencies:
