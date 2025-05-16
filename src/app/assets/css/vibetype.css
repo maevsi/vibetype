@@ -43,6 +43,7 @@
 }
 
 .dark {
+  --accent-strong: #4dc762;
   --accent-weak-hover: #9cd0a6;
   --accent-weak: #c1dcc6;
   --base-white: #e4e4eb;
