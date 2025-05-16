@@ -20,13 +20,13 @@ import type { NuxtLinkProps } from '#app'
 import { cn } from '@/utils/shadcn'
 
 const {
-  ariaLabel,
-  class: classProps,
+  ariaLabel = undefined,
+  class: classProps = undefined,
   isDisabled,
   isColored = true,
   isExternal,
   isUnderlined,
-  target,
+  target = undefined,
   to,
 } = defineProps<
   {

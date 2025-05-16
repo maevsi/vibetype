@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
 
-const { ariaLabel, to } = defineProps<{
+const { ariaLabel, to = undefined } = defineProps<{
   ariaLabel: string
   to?: RouteLocationRaw
 }>()

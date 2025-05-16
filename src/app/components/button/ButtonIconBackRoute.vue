@@ -15,7 +15,7 @@ import { isEqual } from 'ufo'
 
 const { t } = useI18n()
 
-const { ariaLabel } = defineProps<{
+const { ariaLabel = undefined } = defineProps<{
   ariaLabel?: string
 }>()
 const delegatedProps = computed(() => ({

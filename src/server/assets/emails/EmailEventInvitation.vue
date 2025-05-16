@@ -15,12 +15,12 @@ const {
   eventAuthorUsername,
   eventLink,
   eventName,
-  eventDescription,
-  eventDuration,
+  eventDescription = undefined,
+  eventDuration = undefined,
   eventStart,
   eventVisibility,
   locale,
-  logoSource,
+  logoSource = undefined,
 } = defineProps<{
   emailAddress: string
   eventAttendanceType: string

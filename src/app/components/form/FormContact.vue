@@ -127,7 +127,7 @@ import { useCreateContactMutation } from '~~/gql/documents/mutations/contact/con
 import { useUpdateContactByIdMutation } from '~~/gql/documents/mutations/contact/contactUpdateById'
 import type { ContactItemFragment } from '~~/gql/generated/graphql'
 
-const { contact } = defineProps<{
+const { contact = undefined } = defineProps<{
   contact?: Pick<
     ContactItemFragment,
     | 'accountByAccountId'

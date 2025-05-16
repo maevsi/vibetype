@@ -101,12 +101,12 @@ const {
   isReadonly,
   isRequired,
   isValidatable,
-  idLabel,
-  placeholder,
+  idLabel = undefined,
+  placeholder = undefined,
   title,
-  type,
-  validationProperty,
-  value,
+  type = undefined,
+  validationProperty = undefined,
+  value = undefined,
   valueFormatter = (x?: string) => x,
 } = defineProps<{
   isDisabled?: boolean
