@@ -34,7 +34,7 @@
           {{ t('contactBook') }}
         </div>
       </ButtonColored>
-      <div class="flex flex-col gap-2">
+      <div v-if="account.description?.trim()" class="flex flex-col gap-2">
         <TypographyH3>
           {{ t('about') }}
         </TypographyH3>
@@ -42,12 +42,13 @@
           {{ account.description }}
         </TypographyBodyMedium>
       </div>
-      <div class="flex flex-col">
+      <div v-if="mixedEvents.length > 0" class="flex flex-col">
         <div class="flex flex-row justify-between">
           <TypographyH3>
             {{ t('events') }}
           </TypographyH3>
           <ButtonColored
+            v-if="isOwnProfile"
             :aria-label="t('contactBook')"
             variant="primary"
             class="rounded-xl py-2 text-sm font-semibold"
@@ -67,6 +68,8 @@
             :key="event.id"
             :event="event"
             :is-organizing="event.isOrganizing"
+            :is-attending="event.isAttending"
+            :is-own-profile="isOwnProfile"
           />
         </div>
       </div>
@@ -115,7 +118,10 @@ import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 import { getAchievementItem } from '~~/gql/documents/fragments/achievementItem'
 import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { useAllAchievementsQuery } from '~~/gql/documents/queries/achievement/achievementsAll'
-import { AchievementType } from '~~/gql/generated/graphql'
+import {
+  AchievementType,
+  type EventItemFragment,
+} from '~~/gql/generated/graphql'
 import { getEventItem } from '~~/gql/documents/fragments/eventItem'
 import { useAccountEventsAttendingQuery } from '~~/gql/documents/queries/event/eventsAttending'
 import EventProfile from '~/components/event/list/EventProfile.vue'
@@ -123,10 +129,17 @@ import { useAllEventsQuery } from '~~/gql/documents/queries/event/eventsAll'
 const { t } = useI18n()
 const route = useRoute('account-view-username___en')
 const localePath = useLocalePath()
+type EventWithFlags = EventItemFragment & {
+  isOrganizing: boolean
+  isAttending: boolean
+}
 
 // data
 const title = t('myProfile')
 const store = useStore()
+const isOwnProfile = computed(
+  () => store.signedInUsername === route.params.username,
+)
 
 useHeadDefault({
   ogType: 'profile',
@@ -156,13 +169,13 @@ const achievements =
     .map((x) => getAchievementItem(x))
     .filter(isNeitherNullNorUndefined) || []
 
-const accountEventsAttendingQuery = await zalgo(
-  useAccountEventsAttendingQuery({
-    accountId: store.signedInAccountId,
-  }),
-)
+const accountId = store.signedInAccountId
+const accountEventsAttendingQuery = accountId
+  ? await zalgo(useAccountEventsAttendingQuery({ accountId }))
+  : undefined
 
 const eventsAttending = computed(() => {
+  if (!accountEventsAttendingQuery) return []
   const contacts =
     accountEventsAttendingQuery.data.value?.allContacts?.nodes || []
   if (contacts.length === 0) return []
@@ -190,16 +203,57 @@ const events = computed(
       .filter(isNeitherNullNorUndefined) || [],
 )
 
+/**
+ * Computes mixed events to display on the profile.
+ *
+ * Returns events with isOrganizing and isAttending flags set appropriately:
+ *
+ * On own profile:
+ * - Events you're attending: isAttending = true
+ * - Events you're organizing: isOrganizing = true
+ *
+ * On another user's profile:
+ * - Events they organize that you're attending: isAttending = true
+ *
+ * Filters out duplicate events, sorts by start date, and returns max 3 events.
+ */
 const mixedEvents = computed(() => {
-  const attendingWithFlag = eventsAttending.value.map((event) => ({
-    ...event,
-    isOrganizing: false,
-  }))
-  const organizingWithFlag = events.value.map((event) => ({
-    ...event,
-    isOrganizing: true,
-  }))
-  return [...attendingWithFlag, ...organizingWithFlag]
+  const attendingEventIds = new Set(
+    eventsAttending.value.map((event) => event.id),
+  )
+
+  let result: EventWithFlags[] = []
+
+  if (isOwnProfile.value) {
+    result = eventsAttending.value.map((event) => ({
+      ...event,
+      isOrganizing: false,
+      isAttending: true,
+    }))
+  }
+
+  const organizingEvents = events.value.map((event) => {
+    const isCurrentUserAttending =
+      !isOwnProfile.value && attendingEventIds.has(event.id)
+
+    return {
+      ...event,
+      isOrganizing: isOwnProfile.value,
+      isAttending: isCurrentUserAttending,
+    }
+  })
+
+  result.push(...organizingEvents)
+  const seen = new Set()
+  result = result.filter((event) => {
+    if (seen.has(event.id)) {
+      return false
+    }
+    seen.add(event.id)
+    return true
+  })
+
+  return result
     .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
     .slice(0, 3)
 })
