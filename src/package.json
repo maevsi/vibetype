@@ -85,6 +85,7 @@
     "downloadjs": "1.4.7",
     "embla-carousel-vue": "8.6.0",
     "eslint": "9.26.0",
+    "eslint-plugin-only-error": "1.0.2",
     "firebase": "11.7.3",
     "firebase-admin": "13.4.0",
     "graphql": "16.11.0",
