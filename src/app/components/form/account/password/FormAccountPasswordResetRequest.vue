@@ -1,7 +1,6 @@
 <template>
   <AppForm
     :class="classProps"
-    :errors="api.errors"
     :form="v$"
     :is-form-sent="isFormSent"
     is-button-hidden
@@ -35,10 +34,10 @@ const form = reactive({
   emailAddress: ref<string>(),
 })
 const isFormSent = ref(false)
+const modelError = defineModel<Error>('error')
 
 // api data
 const passwordResetRequestMutation = useAccountPasswordResetRequestMutation()
-const api = getApiData([passwordResetRequestMutation])
 
 // methods
 const submit = async () => {
@@ -48,9 +47,12 @@ const submit = async () => {
     emailAddress: form.emailAddress || '',
     language: locale.value,
   })
-
-  if (result.error || !result.data) return
-
+  // Backend returns success even for invalid emails (security); only handle network errors
+  if (result.error || !result.data) {
+    modelError.value = new Error()
+    return
+  }
+  modelError.value = undefined
   emit('success')
 }
 

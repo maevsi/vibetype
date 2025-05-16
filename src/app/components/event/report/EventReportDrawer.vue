@@ -3,6 +3,7 @@
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <EventReportForm
         ref="form"
+        v-model:error="error"
         v-bind="attributes"
         :account-id
         :event
@@ -27,6 +28,16 @@
         }}
       </div>
     </AppStep>
+    <AppStep v-slot="attributes" :is-active="step === 'error'">
+      <div v-bind="attributes" class="flex flex-col gap-4 text-center">
+        <span>
+          {{ t('globalTryAgain') }}
+        </span>
+        <span v-if="error && error.message">
+          {{ error.message }}
+        </span>
+      </div>
+    </AppStep>
     <template #title>
       <AppStep v-slot="attributes" :is-active="step === 'default'">
         <span v-bind="attributes">
@@ -41,6 +52,11 @@
       <AppStep v-slot="attributes" :is-active="step === 'blockConfirmation'">
         <span v-bind="attributes">
           {{ t('titleBlockConfirmation') }}
+        </span>
+      </AppStep>
+      <AppStep v-slot="attributes" :is-active="step === 'error'">
+        <span v-bind="attributes">
+          {{ t('globalError') }}
         </span>
       </AppStep>
     </template>
@@ -89,6 +105,24 @@
           </ButtonColored>
         </DrawerClose>
       </AppStep>
+      <AppStep v-slot="attributes" :is-active="step === 'error'">
+        <ButtonColored
+          v-bind="attributes"
+          :aria-label="t('backToReport')"
+          variant="primary-critical"
+          @click="restart"
+        >
+          {{ t('backToReport') }}
+        </ButtonColored>
+        <DrawerClose v-bind="attributes" as-child>
+          <ButtonColored
+            :aria-label="t('buttonReportCancel')"
+            variant="secondary-critical"
+          >
+            {{ t('buttonReportCancel') }}
+          </ButtonColored>
+        </DrawerClose>
+      </AppStep>
     </template>
   </AppDrawer>
 </template>
@@ -111,15 +145,15 @@ const templateForm = useTemplateRef('form')
 // drawer
 const isOpen = defineModel<boolean>()
 const open = () => (isOpen.value = true)
-
-// stepper
-const { step } = useStepper<
-  'default' | 'reportConfirmation' | 'blockConfirmation'
->()
 const onAnimationEnd = (isOpen: boolean) => {
   if (isOpen) return
   step.value = 'default'
 }
+
+// stepper
+const { error, restart, step } = useStepper<
+  'default' | 'reportConfirmation' | 'blockConfirmation' | 'error'
+>()
 
 // block
 const createAccountBlockMutation = useCreateAccountBlockMutation()
@@ -134,24 +168,16 @@ const blockOrganizer = async () => {
       createdBy: accountId,
     },
   })
-
   if (result.error) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: apiErrorMessages.value.join('\n'),
-      title: t('globalError'),
-    })
+    error.value = new Error(
+      apiErrorMessages.value.length > 0
+        ? apiErrorMessages.value.join('\n')
+        : t('globalError'),
+    )
     return
   }
-
   if (!result.data) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: t('globalErrorNoData'),
-      title: t('globalError'),
-    })
+    error.value = new Error(t('globalError'))
     return
   }
 
@@ -171,6 +197,7 @@ defineExpose({
 
 <i18n lang="yaml">
 de:
+  backToReport: Zurück zur Meldung
   buttonBlockConfirmation: Zurück zum Dashboard
   buttonReportCancel: Abbrechen
   buttonReportConfirmationClose: Schließen
@@ -182,6 +209,7 @@ de:
   titleReport: Event melden
   titleReportConfirmation: Meldung erhalten
 en:
+  backToReport: Back to Report
   buttonBlockConfirmation: Back to Dashboard
   buttonReportCancel: Cancel
   buttonReportConfirmationClose: Close

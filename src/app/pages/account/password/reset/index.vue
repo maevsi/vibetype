@@ -50,6 +50,26 @@
         </template>
       </LayoutPage>
     </AppStep>
+    <AppStep v-slot="attributes" :is-active="step === 'error'">
+      <LayoutPage v-bind="attributes">
+        <LayoutPageResult type="error">
+          {{ error }}
+          <template #description>
+            {{ t('globalTryAgain') }}
+          </template>
+        </LayoutPageResult>
+        <template #bottom>
+          <ButtonColored
+            :aria-label="t('backToReset')"
+            class="w-full max-w-sm"
+            variant="primary-critical"
+            @click="restart"
+          >
+            {{ t('backToReset') }}
+          </ButtonColored>
+        </template>
+      </LayoutPage>
+    </AppStep>
   </section>
 </template>
 
@@ -69,6 +89,19 @@ const { t } = useI18n()
 const title = t('title')
 useHeadDefault({ title })
 
+// stepper
+const { error, restart, step } = useStepperPage<
+  'default' | 'success' | 'error'
+>({
+  steps: {
+    default: {},
+    success: {},
+    error: {
+      title: t('globalError'),
+    },
+  },
+})
+
 // validation
 const route = useRoute()
 if (
@@ -82,13 +115,11 @@ if (
 // template
 const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
-
-// stepper
-const { step } = useStepper<'default' | 'success'>()
 </script>
 
 <i18n lang="yaml">
 de:
+  backToReset: Zurück zur Passwortzurücksetzung
   instructionsNew: Neues Passwort
   instructionsSuccessHeading: Passwort erfolgreich zurückgesetzt
   instructionsSuccessDescription: Du kannst dich jetzt mit deinem neuen Passwort anmelden
@@ -96,6 +127,7 @@ de:
   signIn: Einloggen
   title: Passwort zurücksetzen
 en:
+  backToReset: Back to Reset Password
   instructionsNew: Set a new password
   instructionsSuccessHeading: Password reset successful
   instructionsSuccessDescription: You can now log in using your new password.

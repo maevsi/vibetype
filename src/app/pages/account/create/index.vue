@@ -64,7 +64,7 @@
         <LayoutPageResult type="error">
           {{ error }}
           <template #description>
-            {{ t('tryAgain') }}
+            {{ t('globalTryAgain') }}
           </template>
         </LayoutPageResult>
         <template #bottom>
@@ -132,7 +132,6 @@ de:
   titlePrivacy: Datenschutzbestimmungen
   titleTerms: Geschäftsbedingungen
   titleVerification: E-Mail-Bestätigung erforderlich
-  tryAgain: Bitte versuche es erneut
   verificationButton: Warte auf dich…
   verificationInstructions: Überprüfe deine E-Mails auf einen Bestätigungslink.
 en:
@@ -144,7 +143,6 @@ en:
   titlePrivacy: Privacy Policy
   titleTerms: General Terms and Conditions
   titleVerification: Email Verification Required
-  tryAgain: Please try again
   verificationButton: Waiting for you…
   verificationInstructions: Check your emails for a verification link.
 </i18n>
