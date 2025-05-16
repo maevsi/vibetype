@@ -9110,6 +9110,11 @@ export type AddressItemFragment = {
   name: string
   postalCode?: string | null
   region?: string | null
+  location?: {
+    __typename?: 'GeographyPoint'
+    latitude: number
+    longitude: number
+  } | null
 } & { ' $fragmentName'?: 'AddressItemFragment' }
 
 export type ContactItemFragment = {
@@ -9980,6 +9985,17 @@ export const AddressItemFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
           { kind: 'Field', name: { kind: 'Name', value: 'region' } },
@@ -10057,6 +10073,17 @@ export const EventItemFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
           { kind: 'Field', name: { kind: 'Name', value: 'region' } },
@@ -10141,6 +10168,17 @@ export const ContactItemFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
           { kind: 'Field', name: { kind: 'Name', value: 'region' } },
@@ -10199,6 +10237,17 @@ export const GuestItemFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
           { kind: 'Field', name: { kind: 'Name', value: 'region' } },
@@ -11418,6 +11467,17 @@ export const CreateContactDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
           { kind: 'Field', name: { kind: 'Name', value: 'region' } },
@@ -11570,6 +11630,17 @@ export const DeleteContactByIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
           { kind: 'Field', name: { kind: 'Name', value: 'region' } },
@@ -11740,6 +11811,17 @@ export const UpdateContactByIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
           { kind: 'Field', name: { kind: 'Name', value: 'region' } },
@@ -11885,6 +11967,17 @@ export const CreateEventDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
           { kind: 'Field', name: { kind: 'Name', value: 'region' } },
@@ -12049,6 +12142,17 @@ export const EventDeleteDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
           { kind: 'Field', name: { kind: 'Name', value: 'region' } },
@@ -12469,6 +12573,17 @@ export const UpdateEventByIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
           { kind: 'Field', name: { kind: 'Name', value: 'region' } },
@@ -12626,6 +12741,17 @@ export const CreateGuestDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
           { kind: 'Field', name: { kind: 'Name', value: 'region' } },
@@ -12866,6 +12992,17 @@ export const UpdateGuestByIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
           { kind: 'Field', name: { kind: 'Name', value: 'region' } },
@@ -13727,6 +13864,17 @@ export const AllContactsDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
           { kind: 'Field', name: { kind: 'Name', value: 'region' } },
@@ -13944,6 +14092,17 @@ export const EventByCreatedByAndSlugDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
           { kind: 'Field', name: { kind: 'Name', value: 'region' } },
@@ -14310,6 +14469,17 @@ export const EventSearchDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
           { kind: 'Field', name: { kind: 'Name', value: 'region' } },
@@ -14506,6 +14676,17 @@ export const AllEventsDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
           { kind: 'Field', name: { kind: 'Name', value: 'region' } },
@@ -14878,6 +15059,17 @@ export const AllGuestsDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'country' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
           { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
           { kind: 'Field', name: { kind: 'Name', value: 'region' } },

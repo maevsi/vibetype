@@ -342,7 +342,7 @@ useHeadDefault({ title })
 <i18n lang="yaml">
 de:
   app: App
-  appIs: Umgebung is eine app
+  appIs: Umgebung is eine App
   appPlatform: 'App-Plattform: {platform}'
   codes: Einladungscodes
   codesEntered: 'Du hast die folgenden Codes eingegeben:'

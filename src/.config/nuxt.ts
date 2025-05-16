@@ -255,6 +255,7 @@ export default defineNuxtConfig({
         'html-to-text',
         'isomorphic-dompurify',
         'js-confetti',
+        'leaflet',
         'lodash-es',
         'lucide-vue-next',
         'mustache',

@@ -16,7 +16,7 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
 type Documents = {
   '\n  fragment AccountItem on Account {\n    nodeId\n    id\n    username\n    description\n  }\n': typeof types.AccountItemFragmentDoc
   '\n  fragment AchievementItem on Achievement {\n    nodeId\n    id\n    accountId\n    achievement\n    level\n  }\n': typeof types.AchievementItemFragmentDoc
-  '\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    name\n    postalCode\n    region\n  }\n': typeof types.AddressItemFragmentDoc
+  '\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    location {\n      latitude\n      longitude\n    }\n    name\n    postalCode\n    region\n  }\n': typeof types.AddressItemFragmentDoc
   '\n  fragment ContactItem on Contact {\n    nodeId\n    id\n    accountId\n    accountByAccountId {\n      id\n      username\n    }\n    accountByCreatedBy {\n      id\n      username\n    }\n    addressByAddressId {\n      ...AddressItem\n    }\n    createdBy\n    emailAddress\n    emailAddressHash\n    firstName\n    lastName\n    phoneNumber\n    url\n  }\n': typeof types.ContactItemFragmentDoc
   '\n  fragment EventItem on Event {\n    id\n    nodeId\n    accountByCreatedBy {\n      id\n      username\n    }\n    addressByAddressId {\n      ...AddressItem\n    }\n    createdBy\n    description\n    end\n    guestCountMaximum\n    isArchived\n    isInPerson\n    isRemote\n    name\n    slug\n    start\n    url\n    visibility\n  }\n': typeof types.EventItemFragmentDoc
   '\n  fragment GuestItem on Guest {\n    id\n    nodeId\n    contactId\n    eventId\n    feedback\n    feedbackPaper\n    contactByContactId {\n      ...ContactItem\n    }\n  }\n': typeof types.GuestItemFragmentDoc
@@ -72,7 +72,7 @@ const documents: Documents = {
     types.AccountItemFragmentDoc,
   '\n  fragment AchievementItem on Achievement {\n    nodeId\n    id\n    accountId\n    achievement\n    level\n  }\n':
     types.AchievementItemFragmentDoc,
-  '\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    name\n    postalCode\n    region\n  }\n':
+  '\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    location {\n      latitude\n      longitude\n    }\n    name\n    postalCode\n    region\n  }\n':
     types.AddressItemFragmentDoc,
   '\n  fragment ContactItem on Contact {\n    nodeId\n    id\n    accountId\n    accountByAccountId {\n      id\n      username\n    }\n    accountByCreatedBy {\n      id\n      username\n    }\n    addressByAddressId {\n      ...AddressItem\n    }\n    createdBy\n    emailAddress\n    emailAddressHash\n    firstName\n    lastName\n    phoneNumber\n    url\n  }\n':
     types.ContactItemFragmentDoc,
@@ -204,8 +204,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    name\n    postalCode\n    region\n  }\n',
-): (typeof documents)['\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    name\n    postalCode\n    region\n  }\n']
+  source: '\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    location {\n      latitude\n      longitude\n    }\n    name\n    postalCode\n    region\n  }\n',
+): (typeof documents)['\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    location {\n      latitude\n      longitude\n    }\n    name\n    postalCode\n    region\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
