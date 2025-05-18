@@ -1,3 +1,9 @@
+## [11.1.0](https://github.com/maevsi/vibetype/compare/11.0.2...11.1.0) (2025-05-18)
+
+### Features
+
+* **components:** wrap headings balanced ([7df90bd](https://github.com/maevsi/vibetype/commit/7df90bd657509e588eca8708f2079bb5a5dc0c65))
+
 ## [11.0.2](https://github.com/maevsi/vibetype/compare/11.0.1...11.0.2) (2025-05-15)
 
 ### Bug Fixes
