@@ -219,11 +219,11 @@ importers:
         specifier: 3.0.8
         version: 3.0.8
       '@uppy/core':
-        specifier: 4.4.4
-        version: 4.4.4
+        specifier: 4.4.5
+        version: 4.4.5
       '@uppy/tus':
         specifier: 4.2.2
-        version: 4.2.2(@uppy/core@4.4.4)
+        version: 4.2.2(@uppy/core@4.4.5)
       '@urql/core':
         specifier: 5.1.1
         version: 5.1.1(graphql@16.11.0)
@@ -447,8 +447,8 @@ importers:
         specifier: 8.0.4
         version: 8.0.4(stylelint@16.19.1(typescript@5.8.3))
       sweetalert2:
-        specifier: 11.21.1
-        version: 11.21.1
+        specifier: 11.21.2
+        version: 11.21.2
       tailwind-merge:
         specifier: 3.3.0
         version: 3.3.0
@@ -4857,8 +4857,8 @@ packages:
     peerDependencies:
       '@uppy/core': ^4.4.1
 
-  '@uppy/core@4.4.4':
-    resolution: {integrity: sha512-etaG6uSrShnS8x/CGI9ME/XP23jw8FTkujzKbaag4lDTtdlvcs6PxcObtH3I5MxxJXUEWwcfVGTdAUvd/tGCaA==}
+  '@uppy/core@4.4.5':
+    resolution: {integrity: sha512-4/VyKeFY5KDHp3LT66UCATfCqoWmxSaZsN0YvHehbejjrN3UZWCGjQTZFmQMQtKUKa31hpTKIoPeMXcd+6D3OA==}
 
   '@uppy/store-default@4.2.0':
     resolution: {integrity: sha512-PieFVa8yTvRHIqsNKfpO/yaJw5Ae/hT7uT58ryw7gvCBY5bHrNWxH5N0XFe8PFHMpLpLn8v3UXGx9ib9QkB6+Q==}
@@ -4870,6 +4870,9 @@ packages:
 
   '@uppy/utils@6.1.3':
     resolution: {integrity: sha512-7WuTtMf0k1g962sE76mKy8aDV/kLeDrF8Wv1oTxaXQzUpmHBAoKd3FXLrQXu7TgM0XNHHRZXAckBttbVOWkKCw==}
+
+  '@uppy/utils@6.1.4':
+    resolution: {integrity: sha512-VMad3BA8QwYu9GYwkOa7MkmgnUET0Q582/htjLAAcH2QXCFZsX7l59qRs/wW6nyR1tUJYU1XSAFlCTjjwTPecA==}
 
   '@urql/core@5.1.1':
     resolution: {integrity: sha512-aGh024z5v2oINGD/In6rAtVKTm4VmQ2TxKQBAtk2ZSME5dunZFcjltw4p5ENQg+5CBhZ3FHMzl0Oa+rwqiWqlg==}
@@ -11371,8 +11374,8 @@ packages:
   sweetalert2@11.21.0:
     resolution: {integrity: sha512-fiEK7SqRY/QD/wC2uqEHlfYGZ7qe2UcyQbJpbpj4YRVqplBgcI+euPZLZL+evLINcvbtXmL1SFUdZHKqBHGAAQ==}
 
-  sweetalert2@11.21.1:
-    resolution: {integrity: sha512-V34x1q5xdwJr64p24AQQ5EzTMJa2ru3xsIUznhYuZf3vumw2xM9BPHvv2Nx9ya25SSUFe2JAnLtaGfgcLLNfCw==}
+  sweetalert2@11.21.2:
+    resolution: {integrity: sha512-DNNFzx16LBQDZh7r5WOfeAfWZBdEdLHl3+tpO9Z1WWKMzdsgBgpLPBduJWVNMB283HYcm8ex99clLYXki21hdA==}
 
   symbol-tree@3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
@@ -18898,18 +18901,18 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.7.2':
     optional: true
 
-  '@uppy/companion-client@4.4.1(@uppy/core@4.4.4)':
+  '@uppy/companion-client@4.4.1(@uppy/core@4.4.5)':
     dependencies:
-      '@uppy/core': 4.4.4
+      '@uppy/core': 4.4.5
       '@uppy/utils': 6.1.3
       namespace-emitter: 2.0.1
       p-retry: 6.2.1
 
-  '@uppy/core@4.4.4':
+  '@uppy/core@4.4.5':
     dependencies:
       '@transloadit/prettier-bytes': 0.3.5
       '@uppy/store-default': 4.2.0
-      '@uppy/utils': 6.1.3
+      '@uppy/utils': 6.1.4
       lodash: 4.17.21
       mime-match: 1.0.2
       namespace-emitter: 2.0.1
@@ -18918,14 +18921,19 @@ snapshots:
 
   '@uppy/store-default@4.2.0': {}
 
-  '@uppy/tus@4.2.2(@uppy/core@4.4.4)':
+  '@uppy/tus@4.2.2(@uppy/core@4.4.5)':
     dependencies:
-      '@uppy/companion-client': 4.4.1(@uppy/core@4.4.4)
-      '@uppy/core': 4.4.4
+      '@uppy/companion-client': 4.4.1(@uppy/core@4.4.5)
+      '@uppy/core': 4.4.5
       '@uppy/utils': 6.1.3
       tus-js-client: 4.3.1
 
   '@uppy/utils@6.1.3':
+    dependencies:
+      lodash: 4.17.21
+      preact: 10.26.6
+
+  '@uppy/utils@6.1.4':
     dependencies:
       lodash: 4.17.21
       preact: 10.26.6
@@ -26848,7 +26856,7 @@ snapshots:
 
   sweetalert2@11.21.0: {}
 
-  sweetalert2@11.21.1: {}
+  sweetalert2@11.21.2: {}
 
   symbol-tree@3.2.4: {}
 
