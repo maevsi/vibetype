@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import { cacheExchange } from '@urql/exchange-graphcache'
-import type {
+import {
   Resolver as GraphCacheResolver,
   UpdateResolver as GraphCacheUpdateResolver,
   OptimisticMutationResolver as GraphCacheOptimisticMutationResolver,

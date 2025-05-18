@@ -1,3 +1,6 @@
+import { useCreateDeviceMutation } from '~~/gql/documents/mutations/device/deviceCreate'
+import { useDeleteDeviceMutation } from '~~/gql/documents/mutations/device/deviceDelete'
+
 export const useNotificationStore = defineStore('notification', () => {
   const fcmToken = ref<string>()
   const permissionState = ref<PermissionState>()
@@ -19,15 +22,26 @@ export const useNotificationStore = defineStore('notification', () => {
   ) => {
     if (permissionState.value !== 'granted' || !store.signedInAccountId) return
 
-    //const token = fcmToken.value
+    const token = fcmToken.value
 
     if (options?.remove) {
-      // TODO: Remove token from database.
-      // Functionality not implemented in the backend yet.
+      // TODO: Remove token in FCM.
+      const deleteDeviceMutation = useDeleteDeviceMutation()
+      deleteDeviceMutation.executeMutation({
+        createdBy: store.signedInAccountId ?? '',
+        fcmToken: token,
+      })
       return
     }
 
-    // update/add Token
+    // Check if exist if not create otherwise update
+    const createDeviceMutation = useCreateDeviceMutation()
+    createDeviceMutation.executeMutation({
+      deviceInput: {
+        createdBy: store.signedInAccountId ?? '',
+        fcmToken: token,
+      },
+    })
   }
 
   return {
