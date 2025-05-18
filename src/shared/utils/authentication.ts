@@ -7,7 +7,6 @@ import type { CookieRef } from '#app'
 
 import { authenticateMutation } from '~~/gql/documents/mutations/account/accountAuthenticate'
 import { jwtRefreshMutation } from '~~/gql/documents/mutations/account/accountJwtRefresh'
-import { updateRemoteFcmToken } from './dependencies'
 import { setJwtCookie } from '~~/server/utils/jwt'
 
 export const authenticationAnonymous = async ({
