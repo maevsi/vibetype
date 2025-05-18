@@ -60,6 +60,7 @@ const runtimeConfig = useRuntimeConfig()
 const timezone = useTimezone()
 const localePath = useLocalePath()
 const store = useStore()
+const notificationStore = useNotificationStore()
 const route = useRoute()
 
 // i18n
@@ -73,13 +74,14 @@ const loadingIds = useState(STATE_LOADING_IDS_NAME, () => [loadingId])
 const isLoading = computed(() => !!loadingIds.value.length)
 
 const handleVisibilityChange = async () => {
-  if (document.visibilityState == 'visible') updateRemoteFcmToken(store)
+  if (document.visibilityState == 'visible')
+    notificationStore.updateRemoteFcmToken(store)
 }
 
 onMounted(() => {
   loadingIds.value.splice(loadingIds.value.indexOf(loadingId), 1)
   document.addEventListener('visibilitychange', handleVisibilityChange)
-  updateRemoteFcmToken(store)
+  notificationStore.updateRemoteFcmToken(store)
 })
 
 // browserslist

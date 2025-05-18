@@ -64,6 +64,7 @@ const templateIdTitle = useId()
 const localePath = useLocalePath()
 const route = useRoute()
 const store = useStore()
+const notificationStore = useNotificationStore()
 
 // stepper
 const { error, restart, step, title } = useStepperPage<'default'>({
@@ -83,7 +84,7 @@ const to = computed(() =>
   route.query.to && !Array.isArray(route.query.to) ? route.query.to : undefined,
 )
 const onSignIn = async () => {
-  updateRemoteFcmToken(store)
+  notificationStore.updateRemoteFcmToken(store)
   // A link that allows users to delete their account is required by the Google Play Store (https://support.google.com/googleplay/android-developer/answer/13316080#account_deletion)
   // TODO: generalize, potentially whitelist valid redirection targets
   if (to.value === 'account-deletion') {
