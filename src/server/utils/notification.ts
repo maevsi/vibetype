@@ -1,3 +1,4 @@
+import { consola } from 'consola'
 import camelcaseKeys from 'camelcase-keys'
 
 import { sendEmail } from './email'
@@ -32,7 +33,7 @@ type Template = {
   variables: Record<string, unknown>
 }
 
-type MaevsiEvent = {
+type Event = {
   id: number
   authorUsername: string
   description: string | null
@@ -69,7 +70,7 @@ type EventInvitationEvent = {
   payload: {
     data: {
       emailAddress: string
-      event: MaevsiEvent
+      event: Event
       eventCreatorProfilePictureUploadStorageKey: string
       eventCreatorUsername: string
       guestId: string
@@ -139,12 +140,12 @@ export const processNotification = async ({
 }) => {
   if (isAcknowledged) return
 
-  const limit24h = isNaN(+runtimeConfig.public.maevsi.email.limit24h)
+  const limit24h = isNaN(+runtimeConfig.public[SITE_NAME].email.limit24h)
     ? undefined
-    : +runtimeConfig.public.maevsi.email.limit24h
+    : +runtimeConfig.public[SITE_NAME].email.limit24h
 
   if (!limit24h) {
-    console.warn(
+    consola.warn(
       `24h email limit is not a number, using default: ${MAEVSI_EMAIL_LIMIT_24H}`,
     )
   }
@@ -171,7 +172,6 @@ export const processNotification = async ({
           }/account/password/reset?code=${
             payload.account.password_reset_verification
           }`,
-          username: payload.account.username,
           validUntil: momentFormatDate({
             input: payload.account.password_reset_verification_valid_until,
             format: MOMENT_FORMAT,
@@ -234,7 +234,7 @@ const ack = async ({ id }: { id: string }) => {
   })
 
   if (!response.ok)
-    console.error(`Could not ack due to error: "${response.statusText}"`)
+    consola.error(`Could not ack due to error: "${response.statusText}"`)
 }
 
 export const sendEventInvitationMail = async ({
@@ -260,7 +260,7 @@ export const sendEventInvitationMail = async ({
   } = payloadCamelCased.data
 
   const res = await (
-    await fetch('http://maevsi:3000/api/ical', {
+    await fetch(`http://${SITE_NAME}:3000/api/model/event/ical`, {
       body: JSON.stringify({
         contact: { emailAddress },
         event: {
@@ -281,17 +281,17 @@ export const sendEventInvitationMail = async ({
   ).text()
 
   if (!guestId) {
-    console.error(`Could not get guest id ${guestId}!`)
+    consola.error(`Could not get guest id ${guestId}!`)
     return
   }
 
   if (!emailAddress) {
-    console.error(`Could not get email address ${emailAddress}!`)
+    consola.error(`Could not get email address ${emailAddress}!`)
     return
   }
 
   if (!event) {
-    console.error(`Could not get contact ${event}!`)
+    consola.error(`Could not get contact ${event}!`)
     return
   }
 
@@ -369,7 +369,7 @@ export const sendEventInvitationMail = async ({
             locale: payloadCamelCased.template.language,
           })
         : undefined,
-      // TODO: add event group (https://github.com/maevsi/maevsi/issues/92)
+      // TODO: add event group (https://github.com/maevsi/vibetype/issues/92)
       eventLink: `${siteUrl}${
         payloadCamelCased.template.language !== LOCALE_DEFAULT
           ? '/' + payloadCamelCased.template.language

@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test'
 
+import { TESTING_COOKIE_NAME } from '#src/shared/utils/constants'
 import { testPageLoad } from '#tests/e2e/utils/tests'
 
 const PAGE_PATH = '/sitemap.xml'
@@ -10,7 +11,11 @@ test.describe('sitemap', () => {
   const languages = ['en', 'de']
 
   test('index', async ({ request }) => {
-    const resp = await request.get('/sitemap_index.xml')
+    const resp = await request.get('/sitemap_index.xml', {
+      headers: {
+        Cookie: `${TESTING_COOKIE_NAME}=true`,
+      },
+    })
     const text = await resp.text()
 
     for (const language of languages) {
@@ -22,7 +27,11 @@ test.describe('sitemap', () => {
 
   test('content', async ({ request }) => {
     for (const language of languages) {
-      const resp = await request.get(`/__sitemap__/${language}.xml`)
+      const resp = await request.get(`/__sitemap__/${language}.xml`, {
+        headers: {
+          Cookie: `${TESTING_COOKIE_NAME}=true`,
+        },
+      })
       const text = await resp.text()
       expect(text.replace(/\n.+<\/lastmod>/g, '')).toMatchSnapshot(
         `sitemap-content-${language}.xml`,

@@ -5,7 +5,7 @@
       <IHeroiconsMapPinSolid :title="t('location')" />
     </span>
     <!-- <AppLink
-      class="vio-line-clamp-2"
+      class="line-clamp-2"
       is-external
       :to="`https://maps.google.de/?q=${encodeURIComponent(event.location)}`"
     >
@@ -17,10 +17,9 @@
 <script setup lang="ts">
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
-export interface Props {
+const { event } = defineProps<{
   event: Pick<EventItemFragment, 'isInPerson'> //  | 'location'
-}
-withDefaults(defineProps<Props>(), {})
+}>()
 
 const { t } = useI18n()
 </script>

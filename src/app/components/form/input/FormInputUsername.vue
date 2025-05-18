@@ -5,17 +5,12 @@
     :is-optional="isOptional"
     :is-validatable="isValidatable"
     :id-label="`input-username`"
-    :placeholder="t('globalPlaceholderUsername')"
-    :success="!!formInput.$model && isValidatable && !formInput.$invalid"
     :title="t('username')"
     type="text"
     :validation-property="formInput"
     :value="formInput"
     @input="emit('input', $event)"
   >
-    <template v-if="$slots.icon" #icon>
-      <slot name="icon" />
-    </template>
     <template #stateError>
       <FormInputStateError
         :form-input="formInput"
@@ -78,20 +73,19 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 
-export interface Props {
+const {
+  formInput = undefined,
+  isDisabled,
+  isOptional,
+  isValidatable,
+  isValidationInverted,
+} = defineProps<{
   formInput?: BaseValidation
   isDisabled?: boolean
   isOptional?: boolean
   isValidatable?: boolean
   isValidationInverted?: boolean
-}
-withDefaults(defineProps<Props>(), {
-  formInput: undefined,
-  isDisabled: false,
-  isOptional: false,
-  isValidatable: false,
-  isValidationInverted: false,
-})
+}>()
 
 const emit = defineEmits<{
   input: [event: string]

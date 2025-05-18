@@ -36,7 +36,7 @@
       >
         <slot />
         <div v-if="isSubmitting" class="absolute inset-0">
-          <LoaderIndicatorSpinner class="m-auto h-8 w-8" />
+          <LoaderIndicatorSpinner class="m-auto size-8" />
         </div>
       </div>
       <div v-if="!isFooterHidden" class="flex justify-center gap-8">
@@ -57,7 +57,7 @@
         </slot>
       </div>
       <CardStateAlert v-if="errors" class="mb-4">
-        <SpanList :span="errors" />
+        <AppSpanList :span="errors" />
       </CardStateAlert>
     </Card>
   </div>
@@ -66,26 +66,26 @@
 <script setup lang="ts">
 import { consola } from 'consola'
 
-export interface Props {
+const {
+  id,
+  isFooterHidden,
+  isSubmitDisabled,
+  submitName = undefined,
+  submitTaskProvider = () => Promise.resolve(),
+} = defineProps<{
   id: string
   isFooterHidden?: boolean
   isSubmitDisabled?: boolean
   submitName?: string
   submitTaskProvider?: () => Promise<unknown>
-}
-const props = withDefaults(defineProps<Props>(), {
-  isFooterHidden: false,
-  isSubmitDisabled: false,
-  submitName: undefined,
-  submitTaskProvider: () => Promise.resolve(),
-})
+}>()
 
 const emit = defineEmits<{
   close: []
   submitSuccess: [submitSuccess: unknown]
 }>()
 
-const store = useMaevsiStore()
+const store = useStore()
 const { t } = useI18n()
 
 // data
@@ -94,14 +94,14 @@ const isSubmitting = ref(false)
 
 // computations
 const isVisible = computed(
-  () => store.modals.filter((modal) => modal.id === props.id).length > 0,
+  () => store.modals.filter((modal) => modal.id === id).length > 0,
 )
 
 // methods
 const close = () => {
   // NOT = "cancel"! Used by `submit` too.
 
-  store.modalRemove(props.id)
+  store.modalRemove(id)
 }
 const modalKeydowns = (e: KeyboardEvent) => {
   if (!isVisible.value) {
@@ -109,9 +109,9 @@ const modalKeydowns = (e: KeyboardEvent) => {
   }
 
   switch (e.key) {
-    // // Temporarily disabled until https://github.com/maevsi/maevsi/issues/765
+    // // Temporarily disabled until https://github.com/maevsi/vibetype/issues/765
     // case 'Enter': // Enter
-    //   if (!data.isSubmitting && !props.isSubmitDisabled) {
+    //   if (!data.isSubmitting && !isSubmitDisabled) {
     //     methods.submit()
     //   }
     //   break
@@ -124,7 +124,7 @@ const submit = async () => {
   isSubmitting.value = true
 
   try {
-    const value = await props.submitTaskProvider()
+    const value = await submitTaskProvider()
     emit('submitSuccess', value)
     close()
   } catch (errorsLocal) {
@@ -150,7 +150,7 @@ watch(isVisible, (newValue: boolean, _oldvalue) => {
 
 <script lang="ts">
 export default {
-  name: 'MaevsiModal',
+  name: 'AppModal',
 }
 </script>
 

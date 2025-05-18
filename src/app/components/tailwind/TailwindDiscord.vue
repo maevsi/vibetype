@@ -9,14 +9,14 @@
         {{ t('headline') }}
       </h2>
       <div class="flex">
-        <Button
-          :aria-label="t('callToAction')"
-          class="flex-none rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-xs hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        <AppButton
+          :aria-label="t('callToAction', { siteName: t('globalSiteName') })"
+          class="flex-none rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-xs hover:bg-gray-100 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-white"
           is-external
           to="https://discord.gg/E3hD3wEUQ4"
         >
-          {{ t('callToAction') }}
-        </Button>
+          {{ t('callToAction', { siteName: t('globalSiteName') }) }}
+        </AppButton>
       </div>
       <svg
         viewBox="0 0 1024 1024"
@@ -54,9 +54,9 @@ const { t } = useI18n()
 
 <i18n lang="yaml">
 de:
-  callToAction: maevsis Discord öffnen
+  callToAction: '{siteName}s Discord öffnen'
   headline: Updates gibt's direkt an der Quelle.
 en:
-  callToAction: Join maevsi's Discord
+  callToAction: Join {siteName}'s Discord
   headline: Get updates directly from the source.
 </i18n>

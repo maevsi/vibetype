@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <AppForm
     :errors="api.errors"
     :errors-pg-ids="errorsPgIds"
     :form="v$"
@@ -15,24 +15,26 @@
     <template #submit-icon>
       <IHeroiconsTrash />
     </template>
-  </Form>
+  </AppForm>
 </template>
 
 <script setup lang="ts">
 import type { AnyVariables, UseMutationResponse } from '@urql/vue'
 import { useVuelidate } from '@vuelidate/core'
 
-export interface Props {
+const {
+  errorsPgIds = undefined,
+  itemNameDeletion,
+  itemNameSuccess,
+  mutation,
+  variables = undefined,
+} = defineProps<{
   errorsPgIds?: Record<string, string>
   itemNameDeletion: string
   itemNameSuccess: string
   mutation: UseMutationResponse<unknown, AnyVariables>
   variables?: Record<string, unknown>
-}
-const props = withDefaults(defineProps<Props>(), {
-  errorsPgIds: undefined,
-  variables: undefined,
-})
+}>()
 
 const emit = defineEmits<{
   success: []
@@ -40,29 +42,29 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 
-// api data
-const api = getApiData([props.mutation])
-
 // data
 const form = reactive({
   password: ref<string>(),
 })
 const isFormSent = ref(false)
 
+// api data
+const api = getApiData([mutation])
+
 // methods
 const submit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
 
-  const result = await props.mutation.executeMutation({
+  const result = await mutation.executeMutation({
     password: form.password,
-    ...props.variables,
+    ...variables,
   })
 
   if (result.error) return
 
-  showToast({
+  await showToast({
     title: t('success', {
-      item: props.itemNameSuccess,
+      item: itemNameSuccess,
     }),
   })
   emit('success')

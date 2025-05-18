@@ -1,8 +1,8 @@
 <template>
   <ButtonColored
     :aria-label="t('eventAll')"
-    :is-primary="false"
     :to="localePath('event')"
+    variant="secondary"
     @click="emit('click')"
   >
     {{ t('eventAll') }}

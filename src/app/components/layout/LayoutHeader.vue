@@ -1,29 +1,17 @@
 <template>
   <!-- <Loader :api="api" indicator="ping"> -->
-  <header class="2xl:mb-8">
+  <header>
     <div class="flex items-center justify-between gap-4">
-      <ButtonIcon
-        v-if="
-          store.routeHistory.length ||
-          !isEqual(route.path, localePath('index').toString())
-        "
-        :aria-label="t('back')"
-        @click="store.navigateBack()"
-      >
-        <IHeroiconsChevronLeft />
-      </ButtonIcon>
-      <Button
-        :aria-label="t('home')"
-        class="hidden 2xl:block"
-        :to="localePath('index')"
-      >
-        <IconLogoWithText class="h-10 w-32" />
-      </Button>
-      <div class="hidden grow lg:block" />
-      <div class="hidden 2xl:flex">
-        <SearchBar />
+      <div class="flex items-center gap-4">
+        <ButtonIconBackRoute />
+        <AppButton
+          :aria-label="t('home')"
+          class="hidden 2xl:block"
+          :to="localePath('index')"
+        >
+          <IconLogoWithText class="h-10" />
+        </AppButton>
       </div>
-      <div class="grow" />
       <div class="flex items-center gap-2 whitespace-nowrap lg:gap-4">
         <ButtonEventNew />
         <div
@@ -38,7 +26,7 @@
         >
           <AccountProfilePicture
             :account-id="store.signedInAccountId"
-            classes="h-10 w-10"
+            class="size-10"
             height="40"
             width="40"
           />
@@ -55,8 +43,7 @@
           :aria-label="t('settings')"
           :to="
             localePath({
-              name: 'session-edit-id',
-              params: { id: store.jwtDecoded?.id || 'anonymous' },
+              name: 'session-edit',
             })
           "
         >
@@ -69,23 +56,18 @@
 </template>
 
 <script setup lang="ts">
-import { isEqual } from 'ufo'
-
-const store = useMaevsiStore()
+const store = useStore()
 const localePath = useLocalePath()
 const { t } = useI18n()
-const route = useRoute()
 </script>
 
 <i18n lang="yaml">
 de:
-  back: zurück
   dashboard: Dashboard
   home: Nach Hause
   settings: Einstellungen
   signIn: Anmelden
 en:
-  back: back
   dashboard: Dashboard
   home: Head home
   settings: Settings

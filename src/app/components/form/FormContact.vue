@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <AppForm
     class="flex min-h-0 flex-col"
     :errors="api.errors"
     :errors-pg-ids="{
@@ -21,17 +21,13 @@
     />
     <FormInputUsername
       :form-input="v$.accountUsername"
-      :is-disabled="
-        props.contact?.accountByAccountId?.id === store.signedInAccountId
-      "
+      :is-disabled="contact?.accountByAccountId?.id === store.signedInAccountId"
       is-validatable
       @input="form.accountUsername = $event"
     >
       <template #stateInfo>
         <FormInputStateInfo
-          v-if="
-            props.contact?.accountByAccountId?.id === store.signedInAccountId
-          "
+          v-if="contact?.accountByAccountId?.id === store.signedInAccountId"
         >
           <i18n-t keypath="stateInfoUsernameDisabled" tag="span">
             <template #accountSettings>
@@ -53,7 +49,7 @@
     </FormInputUsername>
     <!-- TODO: replace with override checkbox -->
     <FormInputStateInfo v-if="v$.accountUsername.$model">
-      {{ t('accountOverride') }}
+      {{ t('accountOverride', { siteName: t('globalSiteName') }) }}
     </FormInputStateInfo>
     <FormInput
       id-label="input-first-name"
@@ -104,7 +100,6 @@
         v-if="v$.address"
         id="input-address"
         v-model.trim="v$.address.$model"
-        class="form-input"
         :placeholder="t('globalPlaceholderAddress')"
         rows="2"
       />
@@ -122,7 +117,7 @@
       @input="form.phoneNumber = $event"
     />
     <FormInputUrl :form-input="v$.url" @input="form.url = $event" />
-  </Form>
+  </AppForm>
 </template>
 
 <script setup lang="ts">
@@ -132,7 +127,7 @@ import { useCreateContactMutation } from '~~/gql/documents/mutations/contact/con
 import { useUpdateContactByIdMutation } from '~~/gql/documents/mutations/contact/contactUpdateById'
 import type { ContactItemFragment } from '~~/gql/generated/graphql'
 
-export interface Props {
+const { contact = undefined } = defineProps<{
   contact?: Pick<
     ContactItemFragment,
     | 'accountByAccountId'
@@ -144,24 +139,16 @@ export interface Props {
     | 'phoneNumber'
     | 'url'
   >
-}
-const props = withDefaults(defineProps<Props>(), {
-  contact: undefined,
-})
+}>()
 
 const emit = defineEmits<{
   submitSuccess: []
 }>()
 
 const { $urql } = useNuxtApp()
-const store = useMaevsiStore()
+const store = useStore()
 const localePath = useLocalePath()
 const { t } = useI18n()
-
-// api data
-const createContactMutation = useCreateContactMutation()
-const updateContactByIdMutation = useUpdateContactByIdMutation()
-const api = getApiData([createContactMutation, updateContactByIdMutation])
 
 // data
 const form = reactive({
@@ -175,6 +162,11 @@ const form = reactive({
   url: ref<string>(),
 })
 const isFormSent = ref(false)
+
+// api data
+const createContactMutation = useCreateContactMutation()
+const updateContactByIdMutation = useUpdateContactByIdMutation()
+const api = getApiData([createContactMutation, updateContactByIdMutation])
 
 // methods
 const submit = async () => {
@@ -273,12 +265,12 @@ const rules = {
 const v$ = useVuelidate(rules, form)
 
 // initialization
-updateForm(props.contact)
+updateForm(contact)
 </script>
 
 <i18n lang="yaml">
 de:
-  accountOverride: Falls angegeben, nutzt maevsi die folgenden Daten anstelle der Daten des oben genannten Kontos.
+  accountOverride: Falls angegeben, nutzt {siteName} die folgenden Daten anstelle der Daten des oben genannten Kontos.
   # address: Adresse
   firstName: Vorname
   lastName: Nachname
@@ -287,7 +279,7 @@ de:
   stateInfoUsernameDisabled: Du kannst deinen Nutzernamen in den {accountSettings} ändern.
   stateInfoUsernameDisabledLink: Einstellungen deines Kontos
 en:
-  accountOverride: If given, maevsi will prefer to use the following data instead of the data given by the account above.
+  accountOverride: If given, {siteName} will prefer to use the following data instead of the data given by the account above.
   # address: Address
   firstName: First name
   lastName: Last name

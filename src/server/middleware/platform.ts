@@ -1,8 +1,13 @@
 export default defineEventHandler(async (event) => {
-  const maevsiPlatformHeader = getHeader(event, 'maevsi-platform')
+  const appPlatformHeader =
+    getHeader(event, `${SITE_NAME}_platform`) ||
+    getHeader(event, `${SITE_NAME}-platform`)
+  const appPlatformCookie =
+    getCookie(event, `${SITE_NAME}_platform`) ||
+    getCookie(event, 'app-platform')
 
-  if (maevsiPlatformHeader) {
-    event.context.$platform = maevsiPlatformHeader
+  if (appPlatformHeader || appPlatformCookie) {
+    event.context.$platform = appPlatformHeader || appPlatformCookie
     return
   }
 })

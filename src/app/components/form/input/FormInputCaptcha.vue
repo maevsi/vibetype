@@ -7,7 +7,7 @@
     :value="formInput"
   >
     <NuxtTurnstile
-      ref="turnstileRef"
+      ref="turnstile"
       :key="themeColor"
       :class="{ 'flex justify-center': isCentered, 'h-[65px]': isVisible }"
       :options="{
@@ -38,7 +38,12 @@
       </FormInputStateInfo>
     </template>
     <template v-if="formInput.$error" #assistance>
-      <ButtonColored :aria-label="t('reset')" @click="reset">
+      <ButtonColored
+        :aria-label="t('reset')"
+        class="w-full"
+        variant="secondary"
+        @click="reset"
+      >
         {{ t('reset') }}
         <template #prefix>
           <IHeroiconsArrowPath />
@@ -51,13 +56,10 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 
-export interface Props {
+const { isCentered } = defineProps<{
   formInput: BaseValidation
   isCentered?: boolean
-}
-withDefaults(defineProps<Props>(), {
-  isCentered: false,
-})
+}>()
 
 const emit = defineEmits<{
   input: [event?: string]
@@ -66,9 +68,7 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const colorMode = useColorMode()
 const runtimeConfig = useRuntimeConfig()
-
-// refs
-const turnstileRef = ref()
+const templateTurnstile = useTemplateRef('turnstile')
 
 // data
 const isLoading = ref(true)
@@ -77,7 +77,7 @@ const themeColor = ref<'auto' | 'light' | 'dark'>()
 // computations
 const isVisible = computed(
   () => !runtimeConfig.public.vio.isTesting,
-  // TODO: implement invisible widget type with fallback in case of required user interaction (https://github.com/maevsi/maevsi/issues/1239)
+  // TODO: implement invisible widget type with fallback in case of required user interaction (https://github.com/maevsi/vibetype/issues/1239)
   // !['1x00000000000000000000BB', '2x00000000000000000000BB'].includes(
   //   config.public.turnstile.siteKey
   // )
@@ -102,8 +102,10 @@ const initialize = () => {
   themeColor.value = getThemeColor()
 }
 const reset = () => {
+  if (!templateTurnstile.value) return
+
   isLoading.value = true
-  turnstileRef.value.reset()
+  templateTurnstile.value.reset()
 }
 const update = (e: string) => {
   isLoading.value = false

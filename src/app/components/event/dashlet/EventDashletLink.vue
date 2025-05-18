@@ -3,7 +3,7 @@
     <span>
       <IHeroiconsLink :title="t('url')" />
     </span>
-    <AppLink class="vio-line-clamp-2" is-external :to="event.url">
+    <AppLink class="line-clamp-2" is-external :to="event.url">
       {{ event.url }}
     </AppLink>
   </EventDashlet>
@@ -12,10 +12,9 @@
 <script setup lang="ts">
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
-export interface Props {
+const { event } = defineProps<{
   event: Pick<EventItemFragment, 'url' | 'isRemote'>
-}
-withDefaults(defineProps<Props>(), {})
+}>()
 
 const { t } = useI18n()
 </script>

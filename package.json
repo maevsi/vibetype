@@ -3,31 +3,38 @@
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/commit-analyzer": "13.0.1",
     "@semantic-release/git": "10.0.1",
-    "@semantic-release/github": "11.0.1",
+    "@semantic-release/github": "11.0.2",
     "@semantic-release/npm": "12.0.1",
     "@semantic-release/release-notes-generator": "14.0.3",
     "conventional-changelog-conventionalcommits": "8.0.0",
     "husky": "9.1.7",
     "jiti": "2.4.2",
-    "lint-staged": "15.4.3",
-    "semantic-release": "24.2.3"
+    "lint-staged": "16.0.0",
+    "semantic-release": "24.2.4"
   },
   "engines": {
     "node": "22"
   },
-  "packageManager": "pnpm@10.5.2",
+  "packageManager": "pnpm@10.11.0",
   "pnpm": {
     "ignoredBuiltDependencies": [
+      "@firebase/util",
       "@intlify/vue-i18n-bridge",
       "@intlify/vue-router-bridge",
       "@parcel/watcher",
       "@sentry-internal/node-cpu-profiler",
       "@sentry/cli",
+      "@tailwindcss/oxide",
+      "better-sqlite3",
       "esbuild",
       "protobufjs",
       "sharp",
+      "unrs-resolver",
       "vue-demi"
-    ]
+    ],
+    "overrides": {
+      "@nuxtjs/i18n": "10.0.0-beta.3"
+    }
   },
   "private": true,
   "scripts": {

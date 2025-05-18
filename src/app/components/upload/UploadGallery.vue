@@ -27,7 +27,7 @@
             <LoaderImage
               :alt="upload.storageKey ? t('uploadAlt') : t('uploadAltFailed')"
               aspect="aspect-square"
-              class="h-32 w-32"
+              class="size-32"
               height="128"
               :src="getUploadImageSrc(upload.storageKey || '')"
               :title="t('uploadSize', { size: bytesToString(upload.sizeByte) })"
@@ -36,29 +36,29 @@
             <div
               v-if="!isReadonly"
               class="absolute top-0 right-0 flex rounded-bl-lg bg-red-600/75"
-              @click="deleteUpload(upload.id)"
             >
-              <Button
+              <AppButton
                 :aria-label="t('iconTrashLabel')"
                 class="flex h-full justify-center"
+                @click="deleteUpload(upload.id)"
               >
                 <IHeroiconsTrash
                   class="text-text-bright m-1"
                   :title="t('iconTrash')"
                 />
-              </Button>
+              </AppButton>
             </div>
           </li>
         </template>
         <li class="relative box-border border-4 border-transparent">
-          <Button
+          <AppButton
             :aria-label="
               t('iconAdd', {
                 sizeUsed: bytesToString(sizeByteTotal),
                 sizeTotal: bytesToString(accountUploadQuotaBytes),
               })
             "
-            class="flex h-32 w-32 justify-center bg-gray-300 dark:bg-gray-200"
+            class="flex size-32 justify-center bg-gray-300 dark:bg-gray-200"
             :title="
               t('iconAdd', {
                 sizeUsed: bytesToString(sizeByteTotal),
@@ -72,9 +72,9 @@
               width="3em"
               height="3em"
             />
-          </Button>
+          </AppButton>
           <input
-            ref="inputProfilePictureRef"
+            ref="inputProfilePicture"
             accept="image/*"
             hidden
             name="input-profile-picture"
@@ -101,7 +101,7 @@
       :submit-task-provider="getUploadBlobPromise"
     >
       <Cropper
-        ref="cropperRef"
+        ref="cropper"
         :init-stretcher="initStretcher"
         :src="fileSelectedUrl"
         :stencil-props="{
@@ -122,19 +122,16 @@ import prettyBytes from 'pretty-bytes'
 import type { UnwrapRef } from 'vue'
 import { Cropper, type CropperResult, type Size } from 'vue-advanced-cropper'
 
-import { useUploadCreateMutation } from '~~/gql/documents/mutations/upload/uploadCreate'
+import { useCreateUploadMutation } from '~~/gql/documents/mutations/upload/uploadCreate'
 import { useAccountUploadQuotaBytesQuery } from '~~/gql/documents/queries/account/accountUploadQuotaBytes'
 import { useAllUploadsQuery } from '~~/gql/documents/queries/upload/uploadsAll'
 import { getUploadItem } from '~~/gql/documents/fragments/uploadItem'
+import { useDeleteUploadByIdMutation } from '~~/gql/documents/mutations/upload/uploadDeleteById'
 
-export interface Props {
+const { isReadonly, isSelectable } = defineProps<{
   isReadonly?: boolean
   isSelectable?: boolean
-}
-withDefaults(defineProps<Props>(), {
-  isReadonly: false,
-  isSelectable: false,
-})
+}>()
 
 const emit = defineEmits<{
   selection: [uploadId?: string | null]
@@ -142,28 +139,39 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const route = useRoute()
-const store = useMaevsiStore()
+const store = useStore()
 const runtimeConfig = useRuntimeConfig()
 const TUSD_FILES_URL = useTusdFilesUrl()
 const localePath = useLocalePath()
 const fireAlert = useFireAlert()
+const templateCropper = useTemplateRef('cropper')
+const templateInputProfilePicture = useTemplateRef('inputProfilePicture')
 
-// refs
+// data
 const after = ref<string>()
-const cropperRef = ref()
-const inputProfilePictureRef = ref()
+const fileSelectedUrl = ref<string>()
+const fileSelectedMimeType = ref<string>()
+const pending = reactive({
+  deletions: ref<string[]>([]),
+})
+const selectedItem = ref<{
+  id?: string | null
+}>()
+const uppy = ref<Uppy<{ id: string }>>()
 
 // api data
 const accountUploadQuotaBytesQuery = await useAccountUploadQuotaBytesQuery({})
 const allUploadsQuery = await useAllUploadsQuery({
   after,
   first: ITEMS_PER_PAGE,
-  accountId: store.signedInAccountId,
+  createdBy: store.signedInAccountId,
 })
-const uploadCreateMutation = useUploadCreateMutation()
+const deleteUploadByIdMutation = useDeleteUploadByIdMutation()
+const uploadCreateMutation = useCreateUploadMutation()
 const api = getApiData([
   accountUploadQuotaBytesQuery,
   allUploadsQuery,
+  deleteUploadByIdMutation,
   uploadCreateMutation,
 ])
 const uploads = computed(
@@ -175,17 +183,6 @@ const uploads = computed(
 const accountUploadQuotaBytes = computed(
   () => accountUploadQuotaBytesQuery.data.value?.accountUploadQuotaBytes,
 )
-
-// data
-const fileSelectedUrl = ref<string>()
-const fileSelectedMimeType = ref<string>()
-const pending = reactive({
-  deletions: ref<string[]>([]),
-})
-const selectedItem = ref<{
-  id?: string | null
-}>()
-const uppy = ref<Uppy<{ maevsiUploadUuid: string }>>()
 
 // computations
 const sizeByteTotal = computed(
@@ -214,40 +211,23 @@ const selectProfilePicture = async () => {
   const pathUpload = localePath('upload')
 
   if (route.path === pathUpload.toString()) {
-    inputProfilePictureRef.value.click()
+    templateInputProfilePicture.value?.click()
   } else {
     await navigateTo(pathUpload)
   }
 }
 const deleteUpload = async (uploadId: string) => {
   pending.deletions.push(uploadId)
-
-  const host = runtimeConfig.public.vio.stagingHost
-    ? `https://${runtimeConfig.public.vio.stagingHost}`
-    : ''
-
-  const response = await $fetch.raw(`${host}/api/upload?uploadId=${uploadId}`, {
-    headers: {
-      Authorization: `Bearer ${store.jwt}`,
-    },
-    ignoreResponseError: true, // handle response status below
-    method: 'DELETE',
+  const result = await deleteUploadByIdMutation.executeMutation({
+    id: uploadId,
   })
-
   pending.deletions.splice(pending.deletions.indexOf(uploadId), 1)
 
-  switch (response.status) {
-    case 204:
-      allUploadsQuery.executeQuery()
-      break
-    case 500:
-      await fireAlert({ level: 'error', text: t('uploadDeleteFailed') })
-      break
-    default:
-      await fireAlert({
-        level: 'warning',
-        text: t('uploadDeleteUnexpectedStatusCode'),
-      })
+  allUploadsQuery.executeQuery()
+
+  if (result.error || !result.data) {
+    await fireAlert({ level: 'error', text: t('uploadDeleteFailed') })
+    return
   }
 }
 const getMimeType = (file: ArrayBuffer, fallback?: string) => {
@@ -312,13 +292,16 @@ const toggleSelect = (upload: UnwrapRef<typeof selectedItem>) => {
 }
 const getUploadBlobPromise = () =>
   new Promise<void>((resolve, reject) => {
-    ;(cropperRef.value?.getResult() as CropperResult).canvas?.toBlob(
+    ;(templateCropper.value?.getResult() as CropperResult).canvas?.toBlob(
       async (blob) => {
-        if (!blob) return
+        if (!blob || !templateInputProfilePicture.value?.files?.[0]) return
 
         const result = await uploadCreateMutation.executeMutation({
-          uploadCreateInput: {
-            sizeByte: blob.size,
+          createUploadInput: {
+            upload: {
+              createdBy: store.signedInAccountId,
+              sizeByte: blob.size,
+            },
           },
         })
 
@@ -335,7 +318,7 @@ const getUploadBlobPromise = () =>
             allowedFileTypes: ['image/*'],
           },
           meta: {
-            maevsiUploadUuid: result.data.uploadCreate?.upload?.id, // TODO: rename
+            id: result.data.createUpload?.upload?.id,
           },
           onBeforeUpload: (files) =>
             Object.fromEntries(
@@ -361,7 +344,7 @@ const getUploadBlobPromise = () =>
 
         uppy.value.addFile({
           source: 'cropper',
-          name: inputProfilePictureRef.value.files![0]!.name,
+          name: templateInputProfilePicture.value.files[0].name,
           type: blob.type,
           data: blob,
         })
@@ -398,7 +381,6 @@ de:
   uploadAlt: Ein hochgeladenes Bild.
   uploadAltFailed: Ein Bild, das nicht vollständig hochgeladen wurde.
   uploadDeleteFailed: Das Löschen des Elements ist fehlgeschlagen!
-  uploadDeleteUnexpectedStatusCode: Beim Löschen des Elements trat ein unerwarteter Statuscode auf.
   uploadError: 'Fehler: Dateien wurden nicht erfolgreich hochgeladen!'
   uploadNew: Lade ein neues Bild hoch
   uploadSize: 'Größe: {size}'
@@ -411,7 +393,6 @@ en:
   uploadAlt: An uploaded image.
   uploadAltFailed: "An image which hasn't been fully uploaded."
   uploadDeleteFailed: Deleting upload failed!
-  uploadDeleteUnexpectedStatusCode: Deleting upload returned an unexpected status code.
   uploadError: 'Error: Upload failed!'
   uploadNew: Upload a new image
   uploadSize: 'Size: {size}'

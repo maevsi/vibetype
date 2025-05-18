@@ -1,15 +1,15 @@
 <template>
-  <Button
+  <AppButton
     v-if="!isApp"
-    :aria-label="t('appInstall')"
-    :is-primary="false"
+    :aria-label="t('appInstall', { siteName: t('globalSiteName') })"
     :to="localePath('docs-app')"
+    variant="secondary"
   >
-    {{ t('appInstall') }}
+    {{ t('appInstall', { siteName: t('globalSiteName') }) }}
     <template #suffix>
       <IHeroiconsArrowRight />
     </template>
-  </Button>
+  </AppButton>
 </template>
 
 <script setup lang="ts">
@@ -20,7 +20,7 @@ const { isApp } = usePlatform()
 
 <i18n lang="yaml">
 de:
-  appInstall: maevsi-App installieren, um nichts zu verpassen
+  appInstall: '{siteName}-App installieren, um nichts zu verpassen'
 en:
-  appInstall: Install the maevsi app, don't miss any news
+  appInstall: Install the {siteName} app, don't miss any news
 </i18n>

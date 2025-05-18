@@ -2,7 +2,7 @@
   <div>
     <LayoutPageTitle :title="title" />
     <div class="flex flex-col gap-8">
-      <UnderConstruction>
+      <AppUnderConstruction>
         <div class="flex flex-col gap-8">
           <section
             v-if="store.signedInAccountId && store.signedInUsername"
@@ -33,7 +33,7 @@
             </div>
           </section>
         </div>
-      </UnderConstruction>
+      </AppUnderConstruction>
       <ButtonApp />
     </div>
   </div>
@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 const { t } = useI18n()
-const store = useMaevsiStore()
+const store = useStore()
 
 // data
 const title = t('notifications')

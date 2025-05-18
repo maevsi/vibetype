@@ -2,7 +2,7 @@
   <div>
     <LayoutPageTitle :title="title" />
     <div
-      v-if="store.jwtDecoded?.role === 'maevsi_account'"
+      v-if="store.jwtDecoded?.role === `${SITE_NAME}_account`"
       class="flex flex-col gap-8"
     >
       <section class="flex flex-col gap-4">
@@ -18,7 +18,7 @@
         >
           <IHeroiconsCalendar />
         </CardButton>
-        <UnderConstruction>
+        <AppUnderConstruction>
           <CardButton
             :description="t('guestsDescription')"
             :title="t('guests')"
@@ -26,7 +26,7 @@
           >
             <ISolarLetterLinear />
           </CardButton>
-        </UnderConstruction>
+        </AppUnderConstruction>
         <CardButton
           :description="t('contactsDescription')"
           :title="t('contacts')"
@@ -57,16 +57,10 @@
         </CardButton>
       </section>
       <ButtonApp />
-      <UnderConstruction>
-        <section class="flex flex-col gap-4">
-          <h2>{{ t('news') }}</h2>
-          <LayoutFeed />
-        </section>
-      </UnderConstruction>
     </div>
     <LayoutCallToAction
       v-else
-      :call-to-action="t('anonymousCta')"
+      :call-to-action="t('anonymousCta', { siteName: t('globalSiteName') })"
       :call-to-action-description="t('anonymousCtaDescription')"
     />
   </div>
@@ -74,7 +68,7 @@
 
 <script setup lang="ts">
 const { t } = useI18n()
-const store = useMaevsiStore()
+const store = useStore()
 const localePath = useLocalePath()
 
 // data
@@ -88,7 +82,7 @@ useHeadDefault({ title })
 de:
   account: Konto
   accountDescription: Präsentiere deine Errungenschaften
-  anonymousCta: Finde ihn auf maevsi
+  anonymousCta: Finde ihn auf {siteName}
   anonymousCtaDescription: Dir fehlt der Überblick über Veranstaltungen?
   contacts: Kontake
   contactsDescription: Informationen zu all deinen Gästen
@@ -96,14 +90,13 @@ de:
   eventsDescription: Organisiere deine eigenen Veranstaltungen
   guests: Einladungen
   guestsDescription: Sieh nach, wo du eingeladen bist
-  news: Ereignisverlauf
   title: Dashboard
   uploads: Uploads
   uploadsDescription: Teile deine Dateien
 en:
   account: Account
   accountDescription: Showcase your achievements
-  anonymousCta: Find it on maevsi
+  anonymousCta: Find it on {siteName}
   anonymousCtaDescription: Are you missing an overview of events?
   contacts: Contacts
   contactsDescription: Information on all your guests
@@ -111,7 +104,6 @@ en:
   eventsDescription: Organize your own events
   guests: Invitations
   guestsDescription: See where you're invited
-  news: Recent changes
   title: Dashboard
   uploads: Uploads
   uploadsDescription: Share your files

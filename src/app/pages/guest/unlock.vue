@@ -1,7 +1,7 @@
 <template>
   <div class="m-auto max-w-xl">
     <h1>{{ title }}</h1>
-    <Form
+    <AppForm
       :errors="api.errors"
       :errors-pg-ids="{
         postgresP0002: t('postgresP0002'),
@@ -11,10 +11,10 @@
       :submit-name="t('submit')"
       @submit.prevent="submit"
     >
-      <!-- TODO: move id-label suffix to FormInput (https://github.com/maevsi/maevsi/issues/955) -->
-      <!-- The id's suffix `-maevsi` makes browser suggest inputs just for this service. -->
+      <!-- TODO: move id-label suffix to FormInput (https://github.com/maevsi/vibetype/issues/955) -->
+      <!-- The id's suffix `-${SITE_NAME}` makes browser suggest inputs just for this service. -->
       <FormInput
-        id-label="input-invitation-id-maevsi"
+        :id-label="`input-invitation-id-${SITE_NAME}`"
         :is-disabled="!!routeQueryIc"
         placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
         :title="t('guestId')"
@@ -47,7 +47,7 @@
           </FormInputStateError>
         </template>
       </FormInput>
-    </Form>
+    </AppForm>
     <p class="mt-2">
       {{ t('greetingExplanation') }}
     </p>
@@ -70,7 +70,7 @@ definePageMeta({
     return 'redirect' in route.query ? 'canvas' : 'default'
   }),
   middleware: [
-    // TODO: implement invitation pages, removing this middleware (https://github.com/maevsi/maevsi/issues/1266)
+    // TODO: implement invitation pages, removing this middleware (https://github.com/maevsi/vibetype/issues/1266)
 
     // middlewares with multiple awaits that rely on the nuxt context
     // must be wrapped with `defineNuxtRouteMiddleware` (https://github.com/nuxt/nuxt/issues/14473)
@@ -99,7 +99,7 @@ definePageMeta({
       if (!result.data?.eventUnlock?.eventUnlockResponse?.jwt) {
         return await navigateTo(
           localePath({
-            path: `/guest/unlock`,
+            name: 'guest-unlock',
             query: {
               ...to.query,
               error: null,
@@ -136,7 +136,7 @@ definePageMeta({
       } else {
         return await navigateTo(
           localePath({
-            path: `/guest/unlock`,
+            name: 'guest-unlock',
             query: {
               ...to.query,
               redirect: localePath({
@@ -162,16 +162,16 @@ const { t } = useI18n()
 const route = useRoute()
 const fireAlert = useFireAlert()
 
-// api data
-const eventUnlockMutation = useEventUnlockMutation()
-const api = getApiData([eventUnlockMutation])
-
 // data
 const form = reactive({
   guestId: ref(route.query.ic),
 })
 const isFormSent = ref(false)
 const title = t('title')
+
+// api data
+const eventUnlockMutation = useEventUnlockMutation()
+const api = getApiData([eventUnlockMutation])
 
 // methods
 const submit = async () => {

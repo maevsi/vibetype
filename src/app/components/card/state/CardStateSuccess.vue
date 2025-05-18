@@ -1,14 +1,15 @@
 <template>
-  <CardState background-color="bg-green-600" :is-edgy="isEdgy" role="alert">
+  <CardState :class="cn('bg-green-600', classProps)" role="alert">
     <slot />
   </CardState>
 </template>
 
 <script setup lang="ts">
-export interface Props {
-  isEdgy?: boolean
-}
-withDefaults(defineProps<Props>(), {
-  isEdgy: false,
-})
+import type { HtmlHTMLAttributes } from 'vue'
+
+import { cn } from '@/utils/shadcn'
+
+const { class: classProps = undefined } = defineProps<{
+  class?: HtmlHTMLAttributes['class']
+}>()
 </script>

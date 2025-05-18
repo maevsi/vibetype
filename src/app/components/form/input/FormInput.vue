@@ -1,119 +1,93 @@
 <template>
-  <div
-    :class="{
-      'form-input-success': success,
-      'form-input-warning': warning,
-      'form-input-error': value?.$error,
-    }"
-  >
-    <div class="flex flex-col gap-1">
-      <div>
-        <label
-          class="inline-flex items-baseline gap-2 font-semibold"
-          :class="{
-            'form-input-success': success,
-            'form-input-warning': warning,
-            'form-input-error': value?.$error,
-          }"
-          :for="idLabelFull"
+  <div class="flex flex-col gap-1">
+    <div class="flex flex-col gap-2">
+      <label
+        class="inline-flex items-baseline gap-2"
+        :class="{
+          'text-(--semantic-critic-text)': value?.$error,
+        }"
+        :for="idLabelFull"
+      >
+        <TypographySubtitleMedium>{{ title }}</TypographySubtitleMedium>
+        <span
+          v-if="isRequired || isOptional"
+          class="text-xs font-medium text-gray-500 dark:text-gray-400"
         >
-          <span>{{ title }}</span>
-          <span
-            class="text-xs font-medium text-gray-500 md:text-right dark:text-gray-400"
-          >
-            <span v-if="isRequired">
-              {{ t('required') }}
-            </span>
-            <span v-if="isOptional">
-              {{ t('optional') }}
-            </span>
+          <span v-if="isRequired">
+            {{ t('required') }}
           </span>
-        </label>
-      </div>
+          <span v-if="isOptional">
+            {{ t('optional') }}
+          </span>
+        </span>
+      </label>
       <div class="relative">
         <slot v-if="$slots.default" />
         <!-- TODO: support textarea, checkboxes and radio buttons natively -->
-        <div v-else class="flex grow">
+        <div
+          v-else
+          class="flex items-center gap-2 rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) pr-4 has-aria-invalid:border-(--critic-weak)"
+        >
           <input
             :id="idLabelFull"
-            class="form-input"
-            :class="{
-              'rounded-r-none': $slots.icon,
-            }"
+            class="peer flex-1 border-none py-3 pl-4 placeholder-(--semantic-base-text-secondary) outline-none"
+            :aria-invalid="value?.$error"
+            :data-empty="!value?.$model"
             :disabled="isDisabled"
-            :placeholder="placeholder"
+            :placeholder
             :readonly="isReadonly"
-            :type="type"
+            :type
             :value="valueFormatter(value?.$model as string)"
             @click="emit('click')"
             @focusout="value?.$touch()"
             @input="emit('input', ($event.target as HTMLInputElement)?.value)"
           />
-          <div v-if="validationProperty && isValidatable">
-            <FormInputIconWrapper v-if="validationProperty.$pending">
+          <template v-if="validationProperty && isValidatable">
+            <AppIcon v-slot="attributes">
               <ISolarHourglassBold
+                v-if="validationProperty.$pending"
+                v-bind="attributes"
                 class="text-blue-600"
                 :title="t('globalLoading')"
               />
-            </FormInputIconWrapper>
-            <FormInputIconWrapper
-              v-else-if="
-                !!validationProperty.$model && !validationProperty.$invalid
-              "
-            >
               <IHeroiconsCheckCircleSolid
-                class="text-green-600"
+                v-else-if="
+                  !!validationProperty.$model && !validationProperty.$invalid
+                "
+                v-bind="attributes"
+                class="text-(--semantic-success-strong)"
                 :title="t('valid')"
               />
-            </FormInputIconWrapper>
-            <FormInputIconWrapper
-              v-else-if="
-                !!validationProperty.$model && validationProperty.$invalid
-              "
-            >
               <IHeroiconsExclamationCircleSolid
-                class="text-red-600"
+                v-else-if="
+                  !!validationProperty.$model && validationProperty.$invalid
+                "
+                v-bind="attributes"
+                class="text-(--semantic-critic-text)"
                 :title="t('validNot')"
               />
-            </FormInputIconWrapper>
-          </div>
-          <span
-            v-if="$slots.icon"
-            class="inline-flex cursor-pointer items-center rounded-r-md border border-l-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-600"
-            @click="emit('icon')"
+            </AppIcon>
+          </template>
+          <ButtonIcon
+            :aria-label="t('iconAltClose')"
+            class="shrink-0 peer-aria-invalid:text-(--semantic-critic-text) peer-data-[empty='true']:hidden"
+            @click="emit('input', '')"
           >
-            <slot name="icon" />
-          </span>
+            <AppIconClose />
+          </ButtonIcon>
+          <slot v-if="$slots.icon" name="icon" />
         </div>
       </div>
     </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="inputSuffix" />
-    </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="stateSuccess" />
-    </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="stateInfo" />
-      <FormInputStateInfo v-if="value?.$pending">
-        {{ t('globalLoading') }}
-      </FormInputStateInfo>
-    </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="stateWarning" />
-    </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="stateError" />
-    </div>
-    <div class="md:w-1/3" />
-    <div class="md:w-2/3">
-      <slot name="assistance" />
-    </div>
+    <slot name="inputSuffix" />
+    <slot name="stateSuccess" />
+    <slot name="stateInfo" />
+    <FormInputStateInfo v-if="value?.$pending">
+      {{ t('globalLoading') }}
+    </FormInputStateInfo>
+    <slot name="stateWarning" />
+    <slot name="stateError" />
+    <slot name="assistance" />
   </div>
 </template>
 
@@ -121,7 +95,20 @@
 import type { BaseValidation } from '@vuelidate/core'
 import { consola } from 'consola'
 
-export interface Props {
+const {
+  isDisabled,
+  isOptional,
+  isReadonly,
+  isRequired,
+  isValidatable,
+  idLabel = undefined,
+  placeholder = undefined,
+  title,
+  type = undefined,
+  validationProperty = undefined,
+  value = undefined,
+  valueFormatter = (x?: string) => x,
+} = defineProps<{
   isDisabled?: boolean
   isOptional?: boolean
   isReadonly?: boolean
@@ -129,79 +116,59 @@ export interface Props {
   isValidatable?: boolean
   idLabel?: string
   placeholder?: string
-  success?: boolean
   title: string
   type?: string
   validationProperty?: BaseValidation
   value?: BaseValidation
   valueFormatter?: (x?: string) => typeof x | undefined
-  warning?: boolean
-}
-const props = withDefaults(defineProps<Props>(), {
-  isDisabled: false,
-  isOptional: false,
-  isReadonly: false,
-  isRequired: false,
-  isValidatable: false,
-  idLabel: undefined,
-  placeholder: undefined,
-  success: false,
-  type: undefined,
-  validationProperty: undefined,
-  value: undefined,
-  valueFormatter: (x?: string) => x,
-  warning: false,
-})
+}>()
 
 const emit = defineEmits<{
-  icon: []
-  input: [input: string]
   click: []
+  input: [input: string]
 }>()
 
 const { t } = useI18n()
 const runtimeConfig = useRuntimeConfig()
 
 // data
-const idLabelFull = props.idLabel
-  ? `maevsi-${runtimeConfig.public.vio.isInProduction ? 'prod' : 'dev'}-${
-      props.idLabel
+const idLabelFull = idLabel
+  ? `${SITE_NAME}-${runtimeConfig.public.vio.isInProduction ? 'prod' : 'dev'}-${
+      idLabel
     }`
   : undefined
 
 // initialization
-if (
-  !props.placeholder &&
-  props.type &&
-  ![
-    'checkbox',
-    'datetime-local',
-    'number',
-    'select',
-    'textarea',
-    'tiptap',
-    'radio',
-  ].includes(props.type)
-) {
-  consola.warn(`placeholder is missing for ${props.idLabel}!`)
+if (!value && type && !['checkbox', 'select'].includes(type)) {
+  consola.warn(`value is missing for ${idLabel}!`)
 }
 
-if (
-  !props.value &&
-  props.type &&
-  !['checkbox', 'select'].includes(props.type)
-) {
-  consola.warn(`value is missing for ${props.idLabel}!`)
-}
+// if (
+//   !placeholder &&
+//   type &&
+//   ![
+//     'checkbox',
+//     'datetime-local',
+//     'number',
+//     'select',
+//     'textarea',
+//     'tiptap',
+//     'radio',
+//   ].includes(type)
+// ) {
+//   consola.warn(`placeholder is missing for ${idLabel}!`)
+// }
 </script>
 
 <i18n lang="yaml">
 de:
+  iconAltClose: X-Icon
   optional: optional
   required: Pflichtfeld
   valid: Gültig
   validNot: Ungültig
 en:
+  iconAltClose: X icon
   optional: optional
   required: required
   valid: valid

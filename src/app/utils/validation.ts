@@ -11,9 +11,8 @@ import {
 import type { Client } from '@urql/core'
 import { consola } from 'consola'
 import type { Ref } from 'vue'
-import type { LocationQueryValue, RouteLocationNormalized } from 'vue-router'
+import type { LocationQueryValue } from 'vue-router'
 
-import { eventIsExistingQuery } from '~~/gql/documents/queries/event/eventIsExisting'
 import { accountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { eventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
@@ -37,6 +36,23 @@ export const VALIDATION_PASSWORD_LENGTH_MINIMUM = 8
 export const VALIDATION_URL_LENGTH_MAXIMUM = 300
 export const VALIDATION_USERNAME_LENGTH_MAXIMUM = 100
 
+export const VALIDATION_CAPTCHA = () => ({
+  required,
+})
+export const VALIDATION_EMAIL_ADDRESS = ({
+  isRequired,
+}: {
+  isRequired?: boolean
+}) => ({
+  format: email,
+  lengthMax: maxLength(VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM),
+  ...(isRequired ? { required } : {}),
+})
+export const VALIDATION_EVENT_VISIBILITY = () => ({
+  formatEnum: (value: string) =>
+    Object.values(EventVisibility).includes(value as EventVisibility),
+  // `required` is implicitly covered by `formatEnum`
+})
 export const VALIDATION_PRIMITIVE = ({
   isRequired,
   lengthMax,
@@ -55,28 +71,6 @@ export const VALIDATION_PRIMITIVE = ({
   ...(lengthMin ? { lengthMin: minLength(lengthMin) } : {}),
   ...(valueMax ? { valueMax: maxValue(valueMax) } : {}),
   ...(valueMin ? { valueMin: minValue(valueMin) } : {}),
-})
-
-export const VALIDATION_CAPTCHA = () => ({
-  required,
-})
-export const VALIDATION_EMAIL_ADDRESS = ({
-  isRequired,
-}: {
-  isRequired?: boolean
-}) => ({
-  email,
-  lengthMax: maxLength(VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM),
-  ...(isRequired ? { required } : {}),
-})
-export const VALIDATION_EVENT_VISIBILITY = () => ({
-  formatEnum: (value: string) =>
-    Object.values(EventVisibility).includes(value as EventVisibility),
-  // `required` is implicitly covered by `formatEnum`
-})
-export const VALIDATION_UUID = () => ({
-  required,
-  formatUuid: VALIDATION_FORMAT_UUID,
 })
 export const VALIDATION_PASSWORD = () => ({
   lengthMin: minLength(VALIDATION_PASSWORD_LENGTH_MINIMUM),
@@ -106,14 +100,18 @@ export const VALIDATION_USERNAME = ({
   validateExistenceNone?: boolean
 }) => ({
   ...(validateExistence
-    ? { existence: helpers.withAsync(validateUsername()) } // TODO: debounce (https://github.com/maevsi/maevsi/issues/1672)
+    ? { existence: helpers.withAsync(validateUsername()) } // TODO: debounce (https://github.com/maevsi/vibetype/issues/1672)
     : {}),
   ...(validateExistenceNone
-    ? { existenceNone: helpers.withAsync(validateUsername(true)) } // TODO: debounce (https://github.com/maevsi/maevsi/issues/1672)
+    ? { existenceNone: helpers.withAsync(validateUsername(true)) } // TODO: debounce (https://github.com/maevsi/vibetype/issues/1672)
     : {}),
   formatSlug: VALIDATION_FORMAT_SLUG,
   lengthMax: maxLength(VALIDATION_USERNAME_LENGTH_MAXIMUM),
   ...(isRequired ? { required } : {}),
+})
+export const VALIDATION_UUID = () => ({
+  required,
+  formatUuid: VALIDATION_FORMAT_UUID,
 })
 
 export const isFormValid = async ({
@@ -138,55 +136,6 @@ export const isFormValid = async ({
 export const isQueryIcFormatValid = (
   ic?: LocationQueryValue | LocationQueryValue[],
 ) => ic && !Array.isArray(ic) && REGEX_UUID.test(ic)
-
-export const validateAccountExistence = async ({
-  isAuthorizationRequired = false,
-  route,
-}: {
-  isAuthorizationRequired?: boolean
-  route: RouteLocationNormalized<
-    | 'account-edit-username___en'
-    | 'account-edit-username___en'
-    | 'account-view-username___en'
-    | 'event-edit-username-event_name___en'
-    | 'event-view-username___en'
-    | 'event-view-username-event_name___en'
-    | 'event-view-username-event_name-attendance___en'
-    | 'event-view-username-event_name-guest___en'
-  >
-}) => {
-  const { $urql } = useNuxtApp()
-  const store = useMaevsiStore()
-
-  const accountIsExisting = await $urql.value
-    .query(accountByUsernameQuery, {
-      username: route.params.username,
-    })
-    .toPromise()
-
-  if (accountIsExisting.error) {
-    throw createError(accountIsExisting.error)
-  }
-
-  if (!accountIsExisting.data?.accountByUsername) {
-    throw createError({
-      statusCode: 404,
-    })
-    // return abortNavigation({ statusCode: 404 })
-  }
-
-  if (
-    isAuthorizationRequired &&
-    route.params.username !== store.signedInUsername
-  ) {
-    throw createError({
-      statusCode: 403,
-    })
-    // return abortNavigation({ statusCode: 403 })
-  }
-
-  return true
-}
 
 export const getAccountByUsername = async ({
   $urql,
@@ -233,59 +182,6 @@ export const getEventByCreatedByAndSlug = async ({
   return getEventItem(eventByCreatedByAndSlug.data?.eventByCreatedByAndSlug)
 }
 
-export const validateEventExistence = async (
-  route: RouteLocationNormalized<
-    | 'event-edit-username-event_name___en'
-    | 'event-view-username-event_name___en'
-    | 'event-view-username-event_name-attendance___en'
-    | 'event-view-username-event_name-guest___en'
-  >,
-) => {
-  const { $urql } = useNuxtApp()
-
-  const account = await getAccountByUsername({
-    $urql,
-    username: route.params.username,
-  })
-
-  if (!account) {
-    throw createError({
-      statusCode: 404,
-    })
-    // return abortNavigation({ statusCode: 404 })
-  }
-
-  if (
-    typeof route.params.event_name !== 'string' ||
-    typeof account.id !== 'string'
-  ) {
-    throw createError({
-      statusCode: 500,
-    })
-    // return abortNavigation({ statusCode: 500 })
-  }
-
-  const eventIsExisting = await $urql.value
-    .query(eventIsExistingQuery, {
-      createdBy: account.id,
-      slug: route.params.event_name,
-    })
-    .toPromise()
-
-  if (eventIsExisting.error) {
-    throw createError(eventIsExisting.error)
-  }
-
-  if (!eventIsExisting.data?.eventIsExisting) {
-    throw createError({
-      statusCode: 404,
-    })
-    // return abortNavigation({ statusCode: 404 })
-  }
-
-  return true
-}
-
 export const validateEventSlug =
   ({
     signedInAccountId,
@@ -307,18 +203,17 @@ export const validateEventSlug =
       return true
     }
 
-    const result = await $urql.value
-      .query(eventIsExistingQuery, {
+    try {
+      const result = await getEventByCreatedByAndSlug({
+        $urql,
         createdBy: signedInAccountId,
         slug: value,
       })
-      .toPromise()
 
-    if (result.error) return false
-
-    return invert
-      ? !result.data?.eventIsExisting
-      : !!result.data?.eventIsExisting
+      return invert ? !result : !!result
+    } catch {
+      return false
+    }
   }
 
 export const validateUsername = (invert?: boolean) => async (value: string) => {

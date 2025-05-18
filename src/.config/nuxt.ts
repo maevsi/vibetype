@@ -9,6 +9,7 @@ import Components from 'unplugin-vue-components/vite'
 import { modulesConfig } from '../config/modules'
 import { environmentsConfig } from '../config/environments'
 import {
+  iconCollectionOptimization,
   IS_NITRO_OPENAPI_ENABLED,
   NUXT_PUBLIC_VIO_ENVIRONMENT,
   RELEASE_NAME,
@@ -20,6 +21,7 @@ import {
   NUXT_PUBLIC_SENTRY_PROJECT_ID,
   NUXT_PUBLIC_SENTRY_PROJECT_PUBLIC_KEY,
   NUXT_PUBLIC_VIO_IS_TESTING,
+  PRODUCTION_HOST,
   SITE_NAME,
 } from '../shared/utils/constants'
 import { GET_CSP } from '../server/utils/constants'
@@ -28,18 +30,10 @@ import { GET_CSP } from '../server/utils/constants'
 // setImmediate(() => {})
 
 export default defineNuxtConfig({
-  app: {
-    head: {
-      htmlAttrs: {
-        lang: 'en', // fallback data to prevent invalid html at generation
-      },
-      title: SITE_NAME,
-      titleTemplate: '%s', // fully set in `composables/useAppLayout.ts`
-    },
-  },
   compatibilityDate: '2024-04-03',
-  css: ['~/assets/css/maevsi.css'],
+  css: ['~/assets/css/app.css'],
   experimental: {
+    inlineRouteRules: true,
     typedPages: true,
   },
   future: {
@@ -52,8 +46,11 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxtjs/color-mode',
     '@nuxtjs/html-validator',
+    'nuxt-zod-i18n', // most come before `@nuxtjs/i18n`
     '@nuxtjs/i18n',
+    '@nuxtjs/mdc',
     '@nuxtjs/seo',
+    '@nuxt/content', // most come after `@nuxtjs/seo`
     '@nuxtjs/turnstile',
     '@pinia/nuxt',
     '@vite-pwa/nuxt',
@@ -119,14 +116,14 @@ export default defineNuxtConfig({
     '/**': {
       headers: { 'Document-Policy': 'js-profiling' }, // Sentry's browser profiling (currently supported for Chromium-based browsers)
     },
-    '/api/auth-proxy': {
+    '/api/model/event/ical': {
       security: {
-        xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection on forward authentication (https://github.com/maevsi/maevsi/issues/1603)
+        xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection here (https://github.com/maevsi/vibetype/issues/1603)
       },
     },
-    '/api/ical': {
+    '/api/service/traefik/authentication': {
       security: {
-        xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection here (https://github.com/maevsi/maevsi/issues/1603)
+        xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection on forward authentication (https://github.com/maevsi/vibetype/issues/1603)
       },
     },
     '/event/view/**': {
@@ -146,18 +143,42 @@ export default defineNuxtConfig({
           secret: '',
         },
       },
+      monday: {
+        apiToken: undefined,
+        board: {
+          contact: {
+            column: {
+              consentId: undefined,
+              emailAddressId: undefined,
+              nameId: undefined,
+              messageId: undefined,
+            },
+            id: undefined,
+            groupId: undefined,
+          },
+          earlyBird: {
+            column: {
+              agreementId: undefined,
+              emailAddressId: undefined,
+              nameId: undefined,
+            },
+            id: undefined,
+            groupId: undefined,
+          },
+        },
+      },
       openai: {
         apiKey: '',
       },
     },
     public: {
-      i18n: {
-        baseUrl: SITE_URL,
-      },
-      maevsi: {
+      [SITE_NAME]: {
         email: {
           limit24h: '150',
         },
+      },
+      i18n: {
+        baseUrl: SITE_URL,
       },
       sentry: {
         host: NUXT_PUBLIC_SENTRY_HOST,
@@ -178,7 +199,7 @@ export default defineNuxtConfig({
         },
       },
       security: {
-        isRateLimiterDisabled: true, // TODO: disable once api requests are optimized (https://github.com/maevsi/maevsi/issues/1654)
+        isRateLimiterDisabled: true, // TODO: disable once api requests are optimized (https://github.com/maevsi/vibetype/issues/1654)
       },
       site: {
         url: SITE_URL,
@@ -197,7 +218,7 @@ export default defineNuxtConfig({
         stagingHost:
           process.env.NODE_ENV !== 'production' &&
           !process.env.NUXT_PUBLIC_SITE_URL
-            ? 'maev.si'
+            ? PRODUCTION_HOST
             : undefined,
       },
     },
@@ -213,7 +234,6 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: [
-        '@headlessui/vue',
         '@sentry/nuxt',
         '@tiptap/extension-link',
         '@tiptap/extension-text-align',
@@ -221,7 +241,9 @@ export default defineNuxtConfig({
         '@tiptap/vue-3',
         '@uppy/core',
         '@uppy/tus',
+        '@vee-validate/zod',
         '@vuelidate/core',
+        '@vueuse/core',
         'chart.js',
         'clipboardy',
         'clsx',
@@ -233,27 +255,43 @@ export default defineNuxtConfig({
         'html-to-text',
         'isomorphic-dompurify',
         'js-confetti',
+        'leaflet',
         'lodash-es',
+        'lucide-vue-next',
         'mustache',
         'pretty-bytes',
         'prntr',
         'qrcode.vue',
+        'reka-ui',
         'seedrandom',
         'slugify',
         'tailwind-merge',
         'v-calendar',
+        'vaul-vue',
+        'vee-validate',
         'vue-advanced-cropper',
         'vue-chartjs',
         'vue-qrcode-reader',
         'workbox-precaching',
+        'zod',
       ],
     },
     plugins: [
       Components({
-        dts: '.nuxt/components-icons.d.ts',
-        resolvers: [IconsResolver()],
+        dts: '../.nuxt/components-icons.d.ts',
+        resolvers: [
+          IconsResolver({
+            customCollections: [SITE_NAME, `${SITE_NAME}-colored`],
+          }),
+        ],
       }),
       Icons({
+        customCollections: {
+          [SITE_NAME]: iconCollectionOptimization({}),
+          [`${SITE_NAME}-colored`]: iconCollectionOptimization({
+            isColored: true,
+          }),
+        },
         scale: 1.5,
       }),
       tailwindcss(),

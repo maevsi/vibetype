@@ -1,5 +1,5 @@
 <template>
-  <Button
+  <AppButton
     v-for="colorScheme in [
       { name: 'system', title: t('colorSchemeSystem') },
       { name: 'light', title: t('colorSchemeLight') },
@@ -14,16 +14,13 @@
     @click="colorMode.preference = colorScheme.name"
   >
     {{ colorScheme.title }}
-  </Button>
+  </AppButton>
 </template>
 
 <script setup lang="ts">
-export interface Props {
+const { isFallback } = defineProps<{
   isFallback?: boolean
-}
-withDefaults(defineProps<Props>(), {
-  isFallback: false,
-})
+}>()
 
 const colorMode = useColorMode()
 const { t } = useI18n()

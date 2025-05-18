@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <AppForm
     v-if="event"
     class="flex min-h-0 flex-col"
     :errors="api.errors"
@@ -51,14 +51,14 @@
         </FormInputStateError>
       </template>
     </FormInput>
-    <ScrollContainer
+    <AppScrollContainer
       v-if="contacts"
       class="flex flex-col gap-2"
       :has-next-page="!!api.data.allContacts?.pageInfo.hasNextPage"
       @load-more="after = api.data.allContacts?.pageInfo.endCursor"
     >
       <!-- <div class="flex flex-col gap-2"> -->
-      <Button
+      <AppButton
         v-for="contact in contactsFiltered"
         :key="contact.id"
         :aria-label="t('buttonContact')"
@@ -75,10 +75,10 @@
             contactIdsComputed.includes(contact.id)
           "
         />
-      </Button>
+      </AppButton>
       <!-- </div> -->
-    </ScrollContainer>
-  </Form>
+    </AppScrollContainer>
+  </AppForm>
 </template>
 
 <script setup lang="ts">
@@ -92,25 +92,27 @@ import { getContactItem } from '~~/gql/documents/fragments/contactItem'
 // import { accountByIdQuery } from '~~/gql/documents/queries/account/accountById'
 // import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 
-export interface Props {
+const { event, guestContactIdsExisting = undefined } = defineProps<{
   event: Pick<EventItemFragment, 'id'>
   guestContactIdsExisting?: number[]
-}
-const props = withDefaults(defineProps<Props>(), {
-  guestContactIdsExisting: undefined,
-})
+}>()
 
 const emit = defineEmits<{
   submitSuccess: []
 }>()
 
 // const { $urql } = useNuxtApp()
-const store = useMaevsiStore()
+const store = useStore()
 const localePath = useLocalePath()
 const { t } = useI18n()
 
-// refs
+// data
 const after = ref<string>()
+const form = reactive({
+  contactIds: ref<string[]>([]),
+  searchString: ref<string>(),
+})
+const isFormSent = ref(false)
 
 // api data
 const allContactsQuery = await useAllContactsQuery({
@@ -126,13 +128,6 @@ const contacts = computed(
       .map((x) => getContactItem(x))
       .filter(isNeitherNullNorUndefined) || [],
 )
-
-// data
-const form = reactive({
-  contactIds: ref<string[]>([]),
-  searchString: ref<string>(),
-})
-const isFormSent = ref(false)
 
 // methods
 const selectToggle = (contactId: string) => {
@@ -154,7 +149,7 @@ const submit = async () => {
       const result = await createGuestMutation.executeMutation({
         guestInput: {
           contactId: contactId || null,
-          eventId: props.event.id,
+          eventId: event.id,
         },
       })
 

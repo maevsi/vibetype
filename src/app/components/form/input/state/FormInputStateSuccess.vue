@@ -1,9 +1,8 @@
 <template>
   <FormInputState
     v-if="formInput && !formInput.$invalid"
-    class="text-green-600"
+    class="text-(--semantic-success-strong)"
   >
-    <IHeroiconsCheckCircleSolid />
     <slot />
   </FormInputState>
 </template>
@@ -11,8 +10,7 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 
-export interface Props {
+const { formInput } = defineProps<{
   formInput: BaseValidation
-}
-withDefaults(defineProps<Props>(), {})
+}>()
 </script>

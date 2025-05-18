@@ -11,7 +11,6 @@
     "
     class="text-gray-500 dark:text-gray-400"
   >
-    <IHeroiconsInformationCircleSolid :title="title" />
     <slot />
   </FormInputState>
 </template>
@@ -19,16 +18,13 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 
-export interface Props {
+const {
+  formInput = undefined,
+  isValidationLive,
+  validationProperty = undefined,
+} = defineProps<{
   formInput?: BaseValidation
   isValidationLive?: boolean
-  title?: string
   validationProperty?: string
-}
-withDefaults(defineProps<Props>(), {
-  formInput: undefined,
-  isValidationLive: false,
-  title: undefined,
-  validationProperty: undefined,
-})
+}>()
 </script>

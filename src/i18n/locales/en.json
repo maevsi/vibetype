@@ -1,16 +1,15 @@
 {
-  "globalAvailabilityNotYet": "Not yet available.",
+  "globalError": "Error",
+  "globalErrorNoData": "Response without data",
   "globalLoading": "Loading...",
   "globalPlaceholderAddress": "Eventstreet 1,\n12345 Guestcity",
-  "globalPlaceholderEmailAddress": "email{'@'}addre.ss",
   "globalPlaceholderFirstName": "Firstname",
   "globalPlaceholderLastName": "Lastname",
   "globalPlaceholderPhoneNumber": "+1234567890",
   "globalPlaceholderUrl": "https://websi.te",
-  "globalPlaceholderUsername": "user-name",
-  "globalSeoOgImageAlt": "maevsi's logo.",
-  "globalSeoSiteDescription": "Find events, guests and friends 💙❤️💚",
+  "globalSeoOgImageAlt": "{siteName}'s logo.",
   "globalShowMore": "Show more",
+  "globalSiteName": "Vibetype",
   "globalStatusError": "Error",
   "globalStatusWarning": "Warning",
   "globalValidationAvailability": "Available",
@@ -28,6 +27,9 @@
   "globalValidationMinValue": "Under minimum value",
   "globalValidationNowOrFuture": "Point in time lies in the past",
   "globalValidationRequired": "Required",
-  "globalValidationSameAs": "Is not identical",
-  "globalValidationShortness": "Too short"
+  "globalValidationShortness": "Too short",
+  "nuxtSiteConfig": {
+    "description": "Find events, guests and friends 💙❤️💚",
+    "name": "Vibetype"
+  }
 }

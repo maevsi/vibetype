@@ -1,11 +1,32 @@
 <template>
-  <div
-    class="pointer-events-none sticky bottom-4 flex justify-center pt-8 lg:hidden"
+  <nav
+    :aria-label="t('nav')"
+    :class="
+      cn(
+        'sticky bottom-0 flex items-center justify-center gap-1 border-t-1 border-(--semantic-base-line) bg-(--semantic-base-background) px-2 py-2 shadow-xs',
+        classProps,
+      )
+    "
   >
-    <div
-      class="dark:bg-background-darken pointer-events-auto flex gap-1 rounded-xl bg-blue-200 px-4 py-2 shadow-lg sm:gap-4 dark:ring-1 dark:ring-zinc-600"
-    >
-      <LayoutMenu />
-    </div>
-  </div>
+    <LayoutMenuItemList />
+  </nav>
 </template>
+
+<script setup lang="ts">
+import type { HtmlHTMLAttributes } from 'vue'
+
+import { cn } from '@/utils/shadcn'
+
+const { class: classProps = undefined } = defineProps<{
+  class?: HtmlHTMLAttributes['class']
+}>()
+
+const { t } = useI18n()
+</script>
+
+<i18n lang="yaml">
+de:
+  nav: Untere
+en:
+  nav: Bottom
+</i18n>

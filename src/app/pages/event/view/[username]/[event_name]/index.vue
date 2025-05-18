@@ -10,7 +10,11 @@
           :aria-label="t('invitationSelectionClear')"
           :to="
             localePath({
-              path: `/event/view/${route.params.username}/${route.params.event_name}/invitation`,
+              name: 'event-view-username-event_name-guest',
+              params: {
+                event_name: route.params.event_name,
+                username: route.params.username,
+              },
               query: { ...routeQuery, ic: undefined },
             })
           "
@@ -106,22 +110,62 @@
           <div class="relative">
             <EventHeroImage :event="event" />
             <div
-              class="absolute bottom-4 left-4 flex flex-col justify-between gap-4 md:flex-row"
+              class="absolute inset-x-0 top-0 flex items-center justify-between px-4 py-2"
             >
-              <div
-                class="text-text-bright flex min-w-0 flex-col items-baseline md:flex-row md:gap-2"
-              >
-                <h1 class="m-0">
-                  {{ event.name }}
-                </h1>
-                <Owner link :username="event.accountByCreatedBy.username" />
+              <div>
+                <!-- TODO: back button -->
+                <!-- <AppButton
+                  :aria-label="t('more')"
+                  class="flex size-10 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                >
+                  <AppIconBack />
+                </AppButton> -->
+              </div>
+              <div>
+                <!-- TODO: share & favorite button -->
+                <template
+                  v-if="
+                    store.signedInAccountId &&
+                    event.createdBy !== store.signedInAccountId
+                  "
+                >
+                  <AppDropdown>
+                    <AppDropdownItem
+                      variant="destructive"
+                      @select="templateReport?.open"
+                    >
+                      {{ t('report') }}
+                    </AppDropdownItem>
+                    <template #trigger>
+                      <span
+                        class="flex size-10 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                      >
+                        <AppIconMoreVertical />
+                      </span>
+                    </template>
+                  </AppDropdown>
+                  <EventReportDrawer
+                    ref="report"
+                    :account-id="store.signedInAccountId"
+                    :event
+                  />
+                </template>
               </div>
             </div>
           </div>
           <Card
             v-if="event"
-            class="flex flex-col items-stretch gap-8 rounded-t-none"
+            class="flex flex-col items-stretch gap-4 rounded-t-none"
           >
+            <div
+              class="flex flex-col items-baseline justify-center md:flex-row md:gap-2"
+            >
+              <h1 class="m-0">
+                {{ event.name }}
+              </h1>
+              <EventOwner link :username="event.accountByCreatedBy.username" />
+            </div>
+            <AppHr />
             <div class="flex flex-row flex-wrap justify-center self-stretch">
               <EventDashletStart
                 :contact="contact"
@@ -136,7 +180,7 @@
               <EventDashletLink :event="event" />
             </div>
             <template v-if="invitation">
-              <Hr />
+              <AppHr />
               <!-- <div
             class="grid grid-cols-6 border-t-2 bg-background-brighten dark:bg-background-darken"
             :class="
@@ -244,7 +288,7 @@
                   </ButtonColored>
                   <div
                     v-if="invitation.feedback === 'CANCELED'"
-                    class="flex items-center font-semibold text-red-600 dark:text-red-500"
+                    class="flex items-center font-semibold text-(--semantic-critic-text)"
                   >
                     <IHeroiconsXCircleSolid
                       class="mr-2 shrink-0"
@@ -287,7 +331,6 @@
                 <select
                   id="input-paper-invitation-feedback"
                   v-model="invitation.feedbackPaper"
-                  class="form-input"
                   @change="paperInvitationFeedback"
                 >
                   <option disabled :value="null">
@@ -331,7 +374,7 @@
         <template #footer>
           <ButtonColored
             :aria-label="t('print')"
-            :is-primary="false"
+            variant="secondary"
             @click="print"
           >
             {{ t('print') }}
@@ -351,7 +394,7 @@
         </template>
       </Modal>
     </div>
-    <Error v-else :status-code="403" />
+    <AppError v-else :status-code="403" />
   </Loader>
 </template>
 
@@ -360,8 +403,6 @@ import DOMPurify from 'isomorphic-dompurify'
 import mustache from 'mustache'
 import prntr from 'prntr'
 import QrcodeVue from 'qrcode.vue'
-import type { RouteLocationNormalized } from 'vue-router'
-import type { RouteNamedMap } from 'vue-router/auto-routes'
 
 import { useUpdateGuestByIdMutation } from '~~/gql/documents/mutations/guest/guestUpdateById'
 import {
@@ -376,22 +417,14 @@ import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 import { getContactItem } from '~~/gql/documents/fragments/contactItem'
 import { useEventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
 
-const ROUTE_NAME: keyof RouteNamedMap = 'event-view-username-event_name___en'
-
-definePageMeta({
-  async validate(route) {
-    return await validateEventExistence(
-      route as RouteLocationNormalized<typeof ROUTE_NAME>,
-    )
-  },
-})
-
 const { t } = useI18n()
 const fireAlert = useFireAlert()
-const store = useMaevsiStore()
-const route = useRoute(ROUTE_NAME)
+const store = useStore()
+const route = useRoute('event-view-username-event_name___en')
 const localePath = useLocalePath()
 const updateGuestByIdMutation = useUpdateGuestByIdMutation()
+
+const templateReport = useTemplateRef('report')
 
 // api data
 const accountByUsernameQuery = await zalgo(
@@ -403,6 +436,11 @@ const accountId = computed(
   () =>
     getAccountItem(accountByUsernameQuery.data.value?.accountByUsername)?.id,
 )
+if (!accountId.value) {
+  throw createError({
+    statusCode: 404,
+  })
+}
 const eventQuery = await zalgo(
   useEventByCreatedByAndSlugQuery({
     createdBy: accountId,
@@ -413,6 +451,11 @@ const eventQuery = await zalgo(
 const event = computed(() =>
   getEventItem(eventQuery.data.value?.eventByCreatedByAndSlug),
 )
+if (!event.value) {
+  throw createError({
+    statusCode: 404,
+  })
+}
 const api = getApiData([accountByUsernameQuery, eventQuery])
 
 // methods
@@ -456,7 +499,7 @@ const update = async (id: string, guestPatch: GuestPatch) => {
 
   if (result.error || !result.data) return
 
-  showToast({ title: t('success') })
+  await showToast({ title: t('success') })
 }
 
 // computations
@@ -496,7 +539,7 @@ const invitation = computed(() => {
 
   if (invitationsMatchingUuid?.length) {
     if (invitationsMatchingUuid.length > 1) {
-      // TODO: use await (https://github.com/maevsi/maevsi/issues/61)
+      // TODO: use await (https://github.com/maevsi/vibetype/issues/61)
       fireAlert({
         level: 'warning',
         text: t('guestIdMultipleWarning'),
@@ -510,6 +553,8 @@ const invitation = computed(() => {
 })
 const routeQuery = computed(() => route.query)
 const routeQueryIc = computed(() => route.query.ic)
+
+// page
 const descriptionSeo = computed(() =>
   eventDescriptionTemplate.value
     ? getStringTruncated({
@@ -522,13 +567,9 @@ const descriptionSeo = computed(() =>
 const title = computed(() =>
   api.value.isFetching ? t('globalLoading') : event.value?.name || '403',
 )
-
-// initialization
 useHeadDefault({
+  description: descriptionSeo,
   title,
-  extension: {
-    description: descriptionSeo,
-  },
 })
 defineOgImageComponent(
   'Event',
@@ -568,6 +609,7 @@ de:
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
   print: Drucken
   qrCodeShow: Check-in-Code anzeigen
+  report: Veranstaltung melden
   # requestSelection: Bitte auswählen
   settings: Bearbeiten
   # step1Of2: 1/2
@@ -599,6 +641,7 @@ en:
   ogImageAlt: The event's preview image.
   print: Print
   qrCodeShow: Show check in code
+  report: Report event
   # requestSelection: Please select
   settings: Edit
   # step1Of2: 1/2

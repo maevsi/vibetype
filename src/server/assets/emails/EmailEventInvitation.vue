@@ -2,12 +2,26 @@
 import { Column, Row, Section, Link, Img } from '@vue-email/components'
 
 import type { Locale } from '../../utils/i18n'
-import MaevsiButton from './components/base/MaevsiButton.vue'
-import MaevsiText from './components/base/MaevsiText.vue'
-import MaevsiFooter from './components/MaevsiFooter.vue'
+import AppButton from './components/base/AppButton.vue'
+import AppText from './components/base/AppText.vue'
+import AppFooter from './components/AppFooter.vue'
 import Email from './Email.vue'
 
-export interface Props {
+const {
+  emailAddress,
+  eventAttendanceType,
+  eventAuthorProfileHref,
+  eventAuthorProfilePictureSrc,
+  eventAuthorUsername,
+  eventLink,
+  eventName,
+  eventDescription = undefined,
+  eventDuration = undefined,
+  eventStart,
+  eventVisibility,
+  locale,
+  logoSource = undefined,
+} = defineProps<{
   emailAddress: string
   eventAttendanceType: string
   eventAuthorProfileHref: string
@@ -21,12 +35,7 @@ export interface Props {
   eventVisibility: string
   locale: Locale
   logoSource?: string
-}
-const props = withDefaults(defineProps<Props>(), {
-  eventDescription: undefined,
-  eventDuration: undefined,
-  logoSource: undefined,
-})
+}>()
 
 const locales = {
   de: {
@@ -62,7 +71,7 @@ const locales = {
     title: (eventName: string) => `Invitation: ${eventName}`,
   },
 }
-const t = locales[props.locale]
+const t = locales[locale]
 </script>
 
 <template>
@@ -70,7 +79,7 @@ const t = locales[props.locale]
     <Section style="padding-top: 30px">
       <Row style="width: 45%">
         <Column>
-          <MaevsiText
+          <AppText
             style="
               font-weight: 700;
               line-height: 54px;
@@ -79,14 +88,14 @@ const t = locales[props.locale]
             "
           >
             {{ t.header(eventAuthorUsername) }}
-          </MaevsiText>
+          </AppText>
         </Column>
       </Row>
     </Section>
     <Section>
       <Row>
         <Column>
-          <MaevsiText
+          <AppText
             style="
               line-height: 30px;
               padding-bottom: 0;
@@ -95,8 +104,8 @@ const t = locales[props.locale]
             "
           >
             {{ eventName }}
-          </MaevsiText>
-          <MaevsiText>
+          </AppText>
+          <AppText>
             {{ t.eventStart(eventStart) }}
             <template v-if="eventDuration">
               <br />
@@ -108,8 +117,8 @@ const t = locales[props.locale]
             </template>
             <br />
             {{ t.eventVisibility(eventVisibility) }}
-          </MaevsiText>
-          <MaevsiText
+          </AppText>
+          <AppText
             style="
               margin: 0;
               margin-top: 32px;
@@ -117,21 +126,21 @@ const t = locales[props.locale]
               text-align: center;
             "
           >
-            <MaevsiButton :href="eventLink">
+            <AppButton :href="eventLink">
               {{ t.button }}
-            </MaevsiButton>
-          </MaevsiText>
+            </AppButton>
+          </AppText>
           <template v-if="eventDescription">
-            <MaevsiText font-weight="700">
+            <AppText font-weight="700">
               {{ t.eventDescriptionTitle }}
-            </MaevsiText>
-            <MaevsiText>
+            </AppText>
+            <AppText>
               {{ eventDescription }}
               <br />
               <Link :href="eventLink" style="text-decoration: underline">
                 {{ t.eventShow }}
               </Link>
-            </MaevsiText>
+            </AppText>
           </template>
         </Column>
       </Row>
@@ -148,15 +157,15 @@ const t = locales[props.locale]
           />
         </Column>
         <Column width="88%">
-          <MaevsiText style="font-style: italic; line-height: 9px">
+          <AppText style="font-style: italic; line-height: 9px">
             {{ t.createdBy }}
-          </MaevsiText>
-          <MaevsiText style="line-height: 9px">
+          </AppText>
+          <AppText style="line-height: 9px">
             {{ eventAuthorUsername }}
-          </MaevsiText>
+          </AppText>
         </Column>
       </Row>
     </Section>
-    <MaevsiFooter :email-address="emailAddress" :locale="locale" />
+    <AppFooter :email-address="emailAddress" :locale="locale" />
   </Email>
 </template>

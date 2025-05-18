@@ -1,17 +1,18 @@
 <template>
   <AppLink
-    active-class="bg-blue-600 dark:bg-blue-400 text-text-bright dark:text-text-dark"
-    class="min-w-0 basis-full rounded-xl"
+    v-bind="delegatedProps"
+    class="group rounded-xl text-(--semantic-base-text-secondary) aria-[current=page]:bg-(--accent-weak) aria-[current=page]:text-(--semantic-accent-accent-text) lg:text-(--semantic-base-text-primary)"
     :is-colored="false"
-    :to="props.to"
   >
-    <div class="mx-4 my-2 flex flex-col items-center lg:flex-row lg:gap-2">
-      <div>
+    <div class="mx-4.5 my-3 flex items-center gap-1.5">
+      <div class="shrink-0">
         <slot />
       </div>
-      <span class="hidden text-xs whitespace-nowrap sm:block lg:text-lg">
+      <TypographySubtitleSmall
+        class="truncate group-aria-[current=page]:block max-lg:hidden"
+      >
         {{ title }}
-      </span>
+      </TypographySubtitleSmall>
     </div>
   </AppLink>
 </template>
@@ -19,9 +20,12 @@
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
 
-export interface Props {
+const { title, to } = defineProps<{
   title: string
   to: RouteLocationRaw
-}
-const props = withDefaults(defineProps<Props>(), {})
+}>()
+
+const delegatedProps = computed(() => ({
+  to,
+}))
 </script>

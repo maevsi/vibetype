@@ -37,8 +37,10 @@ const invalidateCache = (
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   const runtimeConfig = useRuntimeConfig()
+  const isTesting = useIsTesting()
   const getServiceHref = useGetServiceHref()
-  const store = useMaevsiStore()
+  const store = useStore()
+  const { siteUrl } = useSiteUrl()
 
   const ssrExchange = getSsrExchange({
     isClient: import.meta.client,
@@ -73,7 +75,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           invalidateCache(cache, 'allContacts'),
         createGuest: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allGuests'),
-        // TODO: create manual updates that do not require invalidation (https://github.com/maevsi/maevsi/issues/720)
+        // TODO: create manual updates that do not require invalidation (https://github.com/maevsi/vibetype/issues/720)
         // createGuest: (result, args, cache, info) => {
         //   cache.updateQuery(
         //     {
@@ -140,15 +142,11 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         consola.trace('GraphQL request without authentication.')
       }
 
-      if (store.turnstileToken) {
-        consola.debug(`Turnstile token: ${store.turnstileToken}`)
-        headers[TURNSTILE_HEADER_KEY] = store.turnstileToken
-        store.turnstileToken = undefined
-      }
-
       return { headers }
     },
-    url: getServiceHref({ name: 'postgraphile', port: 5000 }) + '/graphql',
+    url: isTesting
+      ? `${siteUrl}/api/test/graphql`
+      : getServiceHref({ name: 'postgraphile', port: 5000 }) + '/graphql',
     exchanges: [
       ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
       ...(cacheExchange ? [cacheExchange] : []),

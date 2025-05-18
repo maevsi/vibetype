@@ -1,10 +1,7 @@
 <template>
-  <Button
-    :aria-label="ariaLabel"
-    class="px-4 py-2 font-medium whitespace-nowrap"
-    :disabled="disabled"
-    :to="props.to"
-    :type="type"
+  <AppButton
+    v-bind="delegatedProps"
+    :class="cn('px-4 py-2 font-medium whitespace-nowrap', classProps)"
     @click="emit('click')"
   >
     <slot />
@@ -14,25 +11,38 @@
     <template #suffix>
       <slot name="suffix" />
     </template>
-  </Button>
+  </AppButton>
 </template>
 
 <script setup lang="ts">
+import type { ButtonHTMLAttributes, HtmlHTMLAttributes } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
-export interface Props {
-  ariaLabel: string
-  disabled?: boolean
-  to?: RouteLocationRaw
-  type?: 'button' | 'reset' | 'submit'
-}
-const props = withDefaults(defineProps<Props>(), {
-  disabled: false,
-  to: undefined,
-  type: 'button',
-})
+import { cn } from '@/utils/shadcn'
+
+const {
+  ariaLabel,
+  class: classProps = undefined,
+  disabled,
+  to = undefined,
+  type = 'button',
+} = defineProps<
+  {
+    ariaLabel: string
+    disabled?: boolean
+    to?: RouteLocationRaw
+    type?: ButtonHTMLAttributes['type']
+  } & { class?: HtmlHTMLAttributes['class'] }
+>()
 
 const emit = defineEmits<{
   click: []
 }>()
+
+const delegatedProps = computed(() => ({
+  ariaLabel,
+  disabled,
+  to,
+  type,
+}))
 </script>

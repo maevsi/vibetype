@@ -1,9 +1,6 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
-import colors from 'tailwindcss/colors'
 
-import { CACHE_VERSION, STYLE_DEFAULT_GRAY } from '../../shared/utils/constants'
-
-const gray = colors[STYLE_DEFAULT_GRAY] // or gray, neutral, slate, stone
+import { CACHE_VERSION, THEME_COLOR } from '../../shared/utils/constants'
 
 export const pwaConfig: ReturnType<DefineNuxtConfig> = {
   pwa: {
@@ -17,7 +14,7 @@ export const pwaConfig: ReturnType<DefineNuxtConfig> = {
     },
     filename: 'sw.ts',
     manifest: {
-      background_color: gray['800'],
+      background_color: THEME_COLOR,
       categories: ['events'],
       description: 'Find events, guests and friends 💙❤️💚',
       dir: 'ltr',
@@ -44,90 +41,35 @@ export const pwaConfig: ReturnType<DefineNuxtConfig> = {
       ],
       handle_links: 'preferred',
       iarc_rating_id: '4bc30419-7452-4496-b02b-5feac10842dc',
+      // https://vite-pwa-org.netlify.app/assets-generator/
       icons: [
         {
-          src: `/assets/static/favicon/android-chrome-64x64.png?v=${CACHE_VERSION}`,
-          type: 'image/png',
           sizes: '64x64',
-          purpose: 'any',
+          src: `/assets/static/favicon/pwa-64x64.png?v=${CACHE_VERSION}`,
+          type: 'image/png',
         },
         {
-          src: `/assets/static/favicon/android-chrome-64x64.maskable.png?v=${CACHE_VERSION}`,
-          type: 'image/png',
-          sizes: '64x64',
-          purpose: 'maskable',
-        },
-        {
-          src: `/assets/static/favicon/android-chrome-120x120.png?v=${CACHE_VERSION}`,
-          type: 'image/png',
-          sizes: '120x120',
-          purpose: 'any',
-        },
-        {
-          src: `/assets/static/favicon/android-chrome-120x120.maskable.png?v=${CACHE_VERSION}`,
-          type: 'image/png',
-          sizes: '120x120',
-          purpose: 'maskable',
-        },
-        {
-          src: `/assets/static/favicon/android-chrome-144x144.png?v=${CACHE_VERSION}`,
-          type: 'image/png',
-          sizes: '144x144',
-          purpose: 'any',
-        },
-        {
-          src: `/assets/static/favicon/android-chrome-144x144.maskable.png?v=${CACHE_VERSION}`,
-          type: 'image/png',
-          sizes: '144x144',
-          purpose: 'maskable',
-        },
-        {
-          src: `/assets/static/favicon/android-chrome-152x152.png?v=${CACHE_VERSION}`,
-          type: 'image/png',
-          sizes: '152x152',
-          purpose: 'any',
-        },
-        {
-          src: `/assets/static/favicon/android-chrome-152x152.maskable.png?v=${CACHE_VERSION}`,
-          type: 'image/png',
-          sizes: '152x152',
-          purpose: 'maskable',
-        },
-        {
-          src: `/assets/static/favicon/android-chrome-192x192.png?v=${CACHE_VERSION}`,
-          type: 'image/png',
           sizes: '192x192',
+          src: `/assets/static/favicon/pwa-192x192.png?v=${CACHE_VERSION}`,
+          type: 'image/png',
+        },
+        {
           purpose: 'any',
-        },
-        {
-          src: `/assets/static/favicon/android-chrome-192x192.maskable.png?v=${CACHE_VERSION}`,
-          type: 'image/png',
-          sizes: '192x192',
-          purpose: 'maskable',
-        },
-        {
-          src: `/assets/static/favicon/android-chrome-384x384.png?v=${CACHE_VERSION}`,
-          type: 'image/png',
-          sizes: '384x384',
-          purpose: 'any',
-        },
-        {
-          src: `/assets/static/favicon/android-chrome-384x384.maskable.png?v=${CACHE_VERSION}`,
-          type: 'image/png',
-          sizes: '384x384',
-          purpose: 'maskable',
-        },
-        {
-          src: `/assets/static/favicon/android-chrome-512x512.png?v=${CACHE_VERSION}`,
-          type: 'image/png',
           sizes: '512x512',
-          purpose: 'any',
+          src: `/assets/static/favicon/pwa-512x512.png?v=${CACHE_VERSION}`,
+          type: 'image/png',
         },
         {
-          src: `/assets/static/favicon/android-chrome-512x512.maskable.png?v=${CACHE_VERSION}`,
-          type: 'image/png',
-          sizes: '512x512',
           purpose: 'maskable',
+          sizes: '512x512',
+          src: `/assets/static/favicon/maskable-icon-512x512.png?v=${CACHE_VERSION}`,
+          type: 'image/png',
+        },
+        {
+          purpose: 'monochrome',
+          sizes: '512x512',
+          src: `/assets/static/favicon/monochrome-icon-512x512.png?v=${CACHE_VERSION}`,
+          type: 'image/png',
         },
       ],
       id: '/?source=pwa',
@@ -135,8 +77,8 @@ export const pwaConfig: ReturnType<DefineNuxtConfig> = {
       launch_handler: {
         client_mode: ['auto'],
       },
-      name: 'maevsi',
-      short_name: 'maevsi',
+      name: 'Vibetype',
+      short_name: 'Vibetype',
       // orientation: ..., // Disabled to respect system's rotation setting
       scope: '/',
       screenshots: [
@@ -173,7 +115,7 @@ export const pwaConfig: ReturnType<DefineNuxtConfig> = {
       prefer_related_applications: false,
       protocol_handlers: [
         // {
-        //   protocol: 'web+maevsi',
+        //   protocol: `web+${SITE_NAME}`,
         //   url: '/events/%s',
         // },
       ],
@@ -184,7 +126,7 @@ export const pwaConfig: ReturnType<DefineNuxtConfig> = {
           id: 'si.maev.twa',
         },
       ],
-      scope_extensions: [{ origin: 'maev.si' }, { origin: 'maevsi.com' }],
+      scope_extensions: [{ origin: 'maev.si' }, { origin: 'vibetype.app' }],
       // share_target: {
       //   action: '/collect-files',
       //   method: 'POST',
@@ -206,10 +148,10 @@ export const pwaConfig: ReturnType<DefineNuxtConfig> = {
           description: 'See a list of events.',
           short_name: 'Events',
           name: 'Explore events',
-          url: '/events',
+          url: '/event',
         },
       ],
-      theme_color: gray['800'],
+      theme_color: THEME_COLOR,
       // widgets: [
       //   {
       //     name: 'PWAmp mini player',

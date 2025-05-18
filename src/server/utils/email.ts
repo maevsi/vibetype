@@ -1,5 +1,6 @@
 import type { ExtractComponentProps } from '@vue-email/render'
 import { render } from '@vue-email/render'
+import { consola } from 'consola'
 import { z } from 'zod'
 
 import EmailAccountPasswordResetRequest from '../assets/emails/EmailAccountPasswordResetRequest.vue'
@@ -86,24 +87,15 @@ export const sendEmail = async <T extends EmailName>({
   }
 
   const mailOptionsWithDefaults = {
-    from: `"${mailOptions.fromName || 'maevsi'}" <noreply@maev.si>`,
+    from: `"${mailOptions.fromName || SITE_NAME}" <noreply@maev.si>`,
     to: developerMail ? `Developer <${developerMail}>` : mailOptions.to,
     subject: mailOptions.subject,
     text,
     html,
-    headers: {
-      // // TODO: add https link (https://github.com/maevsi/maevsi/issues/326)
-      // 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
-      'List-Unsubscribe': {
-        prepared: true,
-        value: `mailto:contact+unsubscribe@maev.si?subject=Unsubscribe%20${mailOptions.to}`,
-      },
+    list: {
+      // TODO: add https link (https://github.com/maevsi/vibetype/issues/326)
+      unsubscribe: `mailto:contact+unsubscribe@maev.si?subject=Unsubscribe%20${mailOptions.to}`,
     },
-    // // TODO: wait for long line fix (https://github.com/nodemailer/nodemailer/issues/1694)
-    // list: {
-    //   // TODO: add https link (https://github.com/maevsi/maevsi/issues/326)
-    //   unsubscribe: `mailto:contact+unsubscribe@maev.si?subject=Unsubscribe%20${mailOptions.to}`,
-    // },
     attachments: [
       {
         filename: `${LOGO_CID}.png`,
@@ -129,7 +121,7 @@ export const sendEmail = async <T extends EmailName>({
     process.env.NODE_ENV !== 'production' &&
     mailOptions.to.startsWith('mail+sqitch-')
   ) {
-    console.debug(
+    consola.debug(
       'Skipping mail sending for test data email accounts ("mail+sqitch-...").',
     )
     return
@@ -146,9 +138,9 @@ export const sendEmail = async <T extends EmailName>({
 
   transporter.sendMail(mailOptionsWithDefaults, (err, info) => {
     if (err) {
-      console.error('Error sending email:', err)
+      consola.error('Error sending email:', err)
     } else {
-      console.log('Email sent:', info.response)
+      consola.log('Email sent:', info.response)
     }
   })
 }

@@ -1,7 +1,7 @@
 <template>
   <Loader :api="api">
     <div class="flex flex-col gap-4">
-      <ScrollContainer
+      <AppScrollContainer
         v-if="contacts"
         class="max-h-[70vh]"
         :has-next-page="!!api.data.allContacts?.pageInfo.hasNextPage"
@@ -41,7 +41,7 @@
             />
           </LayoutTbody>
         </table>
-      </ScrollContainer>
+      </AppScrollContainer>
       <div class="flex justify-center">
         <ButtonColored :aria-label="t('contactAdd')" @click="add()">
           {{ t('contactAdd') }}
@@ -70,27 +70,10 @@ import type { ContactItemFragment } from '~~/gql/generated/graphql'
 import { getContactItem } from '~~/gql/documents/fragments/contactItem'
 
 const { t } = useI18n()
-const store = useMaevsiStore()
-
-// refs
-const after = ref<string>()
-
-// api data
-const contactsQuery = await useAllContactsQuery({
-  after,
-  createdBy: store.signedInAccountId,
-  first: ITEMS_PER_PAGE_LARGE,
-})
-const deleteContactByIdMutation = useDeleteContactByIdMutation()
-const api = getApiData([contactsQuery, deleteContactByIdMutation])
-const contacts = computed(
-  () =>
-    contactsQuery.data.value?.allContacts?.nodes
-      .map((x) => getContactItem(x))
-      .filter(isNeitherNullNorUndefined) || [],
-)
+const store = useStore()
 
 // data
+const after = ref<string>()
 const formContactHeading = ref<string>()
 const pending = reactive({
   deletions: ref<string[]>([]),
@@ -111,6 +94,21 @@ const selectedContact = ref<
   >
 >()
 
+// api data
+const contactsQuery = await useAllContactsQuery({
+  after,
+  createdBy: store.signedInAccountId,
+  first: ITEMS_PER_PAGE_LARGE,
+})
+const deleteContactByIdMutation = useDeleteContactByIdMutation()
+const api = getApiData([contactsQuery, deleteContactByIdMutation])
+const contacts = computed(
+  () =>
+    contactsQuery.data.value?.allContacts?.nodes
+      .map((x) => getContactItem(x))
+      .filter(isNeitherNullNorUndefined) || [],
+)
+
 // methods
 const add = () => {
   contactsQuery.pause()
@@ -122,7 +120,7 @@ const delete_ = async (nodeId: string, id: string) => {
   pending.deletions.push(nodeId)
   await deleteContactByIdMutation.executeMutation({ id })
   pending.deletions.splice(pending.deletions.indexOf(nodeId), 1)
-  // TODO: update cache, especially pagination, or reset query (https://github.com/maevsi/maevsi/issues/720)
+  // TODO: update cache, especially pagination, or reset query (https://github.com/maevsi/vibetype/issues/720)
 }
 const edit = (
   contact: Pick<

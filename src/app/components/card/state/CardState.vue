@@ -1,20 +1,15 @@
 <template>
-  <Card
-    :background-color="backgroundColor"
-    class="border-0 text-center font-medium text-white"
-    :class="{ 'rounded-none': isEdgy }"
-  >
+  <Card :class="cn('border-0 text-center font-medium text-white', classProps)">
     <slot />
   </Card>
 </template>
 
 <script setup lang="ts">
-export interface Props {
-  backgroundColor?: string
-  isEdgy?: boolean
-}
-withDefaults(defineProps<Props>(), {
-  backgroundColor: undefined,
-  isEdgy: false,
-})
+import type { HtmlHTMLAttributes } from 'vue'
+
+import { cn } from '@/utils/shadcn'
+
+const { class: classProps = undefined } = defineProps<{
+  class?: HtmlHTMLAttributes['class']
+}>()
 </script>

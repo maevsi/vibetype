@@ -1,16 +1,14 @@
 <template>
   <Loader :api="api">
     <div class="flex flex-col gap-4">
-      <ScrollContainer
+      <AppScrollContainer
         v-if="event && guests.length"
         class="max-h-[70vh]"
         :has-next-page="!!api.data.allGuests?.pageInfo.hasNextPage"
         @load-more="after = api.data.allGuests?.pageInfo.endCursor"
       >
         <table class="border border-neutral-300 dark:border-neutral-600">
-          <LayoutThead
-            class="bg-background-bright dark:bg-background-dark sticky top-0 z-10"
-          >
+          <LayoutThead>
             <tr>
               <th scope="col">
                 {{ t('contact') }}
@@ -27,7 +25,7 @@
             />
           </LayoutTbody>
         </table>
-      </ScrollContainer>
+      </AppScrollContainer>
       <div v-else class="flex flex-col items-center gap-2">
         {{ t('guestNone') }}
         <FormInputStateInfo>
@@ -65,7 +63,7 @@
         <div class="m-auto w-3/4 sm:w-1/2 xl:w-1/3 2xl:w-1/4">
           <Doughnut
             v-if="!runtimeConfig.public.vio.isTesting"
-            ref="doughnutRef"
+            ref="doughnut"
             :data="dataComputed"
             :options="options"
           />
@@ -103,39 +101,28 @@ import { useAllGuestsQuery } from '~~/gql/documents/queries/guest/guestsAll'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 import { getGuestItem } from '~~/gql/documents/fragments/guestItem'
 
-export interface Props {
+const { event } = defineProps<{
   event: Pick<
     EventItemFragment,
     'createdBy' | 'slug' | 'guestCountMaximum' | 'id'
   >
-}
-const props = withDefaults(defineProps<Props>(), {})
+}>()
 
 const colorMode = useColorMode()
 const { t } = useI18n()
-const store = useMaevsiStore()
+const store = useStore()
 const runtimeConfig = useRuntimeConfig()
-
-// refs
-const after = ref<string>()
-const doughnutRef = ref<DoughnutController>()
-
-// api data
-const guestsQuery = await useAllGuestsQuery({
-  after,
-  eventId: props.event.id,
-  first: ITEMS_PER_PAGE_LARGE,
-})
-const api = getApiData([guestsQuery])
+const templateDoughnut = useTemplateRef<DoughnutController>('doughnut')
 
 // data
+const after = ref<string>()
 const options = {
   plugins: {
     legend: {
       labels: {
         font: {
           fontFamily:
-            'Manrope Variable, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+            'Raleway Variable, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
           size: 16,
         },
       },
@@ -143,6 +130,14 @@ const options = {
     },
   },
 }
+
+// api data
+const guestsQuery = await useAllGuestsQuery({
+  after,
+  eventId: event.id,
+  first: ITEMS_PER_PAGE_LARGE,
+})
+const api = getApiData([guestsQuery])
 
 // methods
 const add = () => {
@@ -157,8 +152,8 @@ const onGuestSubmitSuccess = () => {
 const updateChart = () => {
   Chart.defaults.color = colorMode.value === 'dark' ? '#fff' : '#000'
 
-  if (doughnutRef.value?.chart) {
-    doughnutRef.value?.chart.update()
+  if (templateDoughnut.value?.chart) {
+    templateDoughnut.value?.chart.update()
   }
 }
 
@@ -211,7 +206,7 @@ watch(
   (_currentValue, _oldValue) => updateChart(),
 )
 watch(
-  () => doughnutRef.value?.chart,
+  () => templateDoughnut.value?.chart,
   (_currentValue, _oldValue) => updateChart(),
 )
 

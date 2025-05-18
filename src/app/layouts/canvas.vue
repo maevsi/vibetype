@@ -1,15 +1,11 @@
 <template>
-  <canvas ref="canvasRef" />
+  <canvas ref="canvas" />
 </template>
 
 <script setup lang="ts">
-const { $dayjs } = useNuxtApp()
 const router = useRouter()
 const route = useRoute()
-const { locale } = useI18n()
-
-// refs
-const canvasRef = ref<HTMLCanvasElement>()
+const templateCanvas = useTemplateRef('canvas')
 
 // data
 const ctx = ref<CanvasRenderingContext2D | null>()
@@ -50,9 +46,9 @@ const clear = () => {
 // lifecycle
 onMounted(() => {
   image.value = new Image()
-  image.value.src = '/assets/static/logos/maevsi_icon.svg'
+  image.value.src = '/assets/static/logos/app_icon.svg'
 
-  const canvasLocal = canvasRef.value
+  const canvasLocal = templateCanvas.value
   if (!canvasLocal) return
 
   ctx.value = canvasLocal.getContext('2d')
@@ -69,7 +65,4 @@ onMounted(() => {
     setTimeout(() => router.replace(redirect), 1000)
   }
 })
-
-// initialization
-$dayjs.locale(locale.value)
 </script>

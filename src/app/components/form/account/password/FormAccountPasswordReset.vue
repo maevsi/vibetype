@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <AppForm
     :errors="api.errors"
     :errors-pg-ids="{
       postgres22023: t('postgres22023'),
@@ -7,37 +7,32 @@
       postgres55000: t('postgres55000'),
     }"
     :form="v$"
-    :form-class="formClass"
     :is-form-sent="isFormSent"
-    :submit-name="t('accountPasswordReset')"
+    is-button-hidden
     @submit.prevent="submit"
   >
     <FormInputPassword
       :form-input="v$.password"
+      is-strength-shown
       :title="t('passwordNew')"
       @input="form.password = $event"
     />
-  </Form>
+  </AppForm>
 </template>
 
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core'
 import { useAccountPasswordResetMutation } from '~~/gql/documents/mutations/account/accountPasswordReset'
 
-export interface Props {
-  formClass?: string
-}
-withDefaults(defineProps<Props>(), {
-  formClass: undefined,
-})
+const { code } = defineProps<{
+  code: string
+}>()
+
+const emit = defineEmits<{
+  success: []
+}>()
 
 const { t } = useI18n()
-const route = useRoute()
-const localePath = useLocalePath()
-
-// api data
-const passwordResetMutation = useAccountPasswordResetMutation()
-const api = getApiData([passwordResetMutation])
 
 // data
 const form = reactive({
@@ -45,19 +40,22 @@ const form = reactive({
 })
 const isFormSent = ref(false)
 
+// api data
+const passwordResetMutation = useAccountPasswordResetMutation()
+const api = getApiData([passwordResetMutation])
+
 // methods
 const submit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
 
   const result = await passwordResetMutation.executeMutation({
-    code: route.query.code,
+    code,
     password: form.password || '',
   })
 
   if (result.error || !result.data) return
 
-  showToast({ title: t('accountPasswordResetSuccess') })
-  await navigateTo(localePath(`session-create`))
+  emit('success')
 }
 
 // vuelidate
@@ -65,20 +63,20 @@ const rules = {
   password: VALIDATION_PASSWORD(),
 }
 const v$ = useVuelidate(rules, form)
+
+defineExpose({
+  submit,
+})
 </script>
 
 <i18n lang="yaml">
 de:
-  accountPasswordReset: Passwort zurücksetzen
-  accountPasswordResetSuccess: Passwort erfolgreich zurückgesetzt.
-  passwordNew: Neues Passwort
+  passwordNew: Gib dein neues Passwort ein
   postgres22023: Das Passwort ist zu kurz! Überlege dir ein längeres.
   postgresP0002: Unbekannter Zurücksetzungslink! Hast du dein Passwort vielleicht schon zurückgesetzt?
   postgres55000: Der Zurücksetzungslink ist abgelaufen!
 en:
-  accountPasswordReset: Reset password
-  accountPasswordResetSuccess: Password reset successfully.
-  passwordNew: New Password
+  passwordNew: Enter new password
   postgres22023: This password is too short! Think of a longer one.
   postgresP0002: Invalid reset link! Have you perhaps already reset your password?
   postgres55000: Your reset link has expired!

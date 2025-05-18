@@ -1,10 +1,14 @@
 # syntax=docker/dockerfile:1
 # check=skip=SecretsUsedInArgOrEnv
 
+# <DEPENDENCIES>
+FROM ghcr.io/maevsi/sqitch:8
+# </DEPENDENCIES>
+
 #############
 # Create base image.
 
-FROM node:22.14.0-alpine AS base-image
+FROM node:22.15.1-alpine AS base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -16,8 +20,6 @@ RUN apk update \
       git \
     && apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
       mkcert \
-    && npm install -g corepack@latest \
-    # TODO: remove (https://github.com/nodejs/corepack/issues/612)
     && corepack enable
 
 COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
@@ -37,7 +39,7 @@ CMD ["pnpm", "run", "--dir", "src", "dev", "--host"]
 EXPOSE 3000
 
 # TODO: support healthcheck while starting (https://github.com/nuxt/framework/issues/6915)
-# HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/healthcheck || exit 1
+# HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/service/vibetype/healthcheck || exit 1
 
 
 ########################
@@ -102,7 +104,7 @@ RUN pnpm -r run test
 ########################
 # Nuxt: test (e2e, base-image)
 
-FROM mcr.microsoft.com/playwright:v1.50.1 AS test-e2e-base-image
+FROM mcr.microsoft.com/playwright:v1.52.0 AS test-e2e-base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -110,9 +112,7 @@ ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 
 WORKDIR /srv/app/
 
-RUN npm install -g corepack@latest \
-    # TODO: remove (https://github.com/nodejs/corepack/issues/612)
-    && corepack enable \
+RUN corepack enable \
     && apt update && apt install mkcert
 
 
@@ -206,7 +206,7 @@ COPY --from=test-e2e-node /srv/app/package.json /dev/null
 
 # COPY --from=collect /srv/app/.output/public/ ./
 
-# HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/healthcheck || exit 1
+# HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/service/vibetype/healthcheck || exit 1
 # EXPOSE 3000
 
 
@@ -226,7 +226,7 @@ USER node
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["pnpm", "run", "start:node"]
-HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/healthcheck || exit 1
+HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/service/vibetype/healthcheck || exit 1
 EXPOSE 3000
-LABEL org.opencontainers.image.source="https://github.com/maevsi/maevsi"
+LABEL org.opencontainers.image.source="https://github.com/maevsi/vibetype"
 LABEL org.opencontainers.image.description="Find events, guests and friends 💙❤️💚"

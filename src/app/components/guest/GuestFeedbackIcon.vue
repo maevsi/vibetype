@@ -6,7 +6,7 @@
   />
   <IHeroiconsXCircleSolid
     v-else-if="feedback === 'CANCELED'"
-    class="text-red-600"
+    class="text-(--semantic-critic-text)"
     :title="t('feedbackCanceled')"
   />
   <IHeroiconsQuestionMarkCircleSolid
@@ -18,10 +18,9 @@
 </template>
 
 <script setup lang="ts">
-export interface Props {
+const { feedback } = defineProps<{
   feedback: string
-}
-withDefaults(defineProps<Props>(), {})
+}>()
 
 const { t } = useI18n()
 </script>

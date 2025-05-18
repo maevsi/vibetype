@@ -1,95 +1,55 @@
 <template>
   <div>
     <div class="absolute flex h-full w-full bg-white" />
-    <div v-bind="containerAttrs">
+    <div
+      class="relative flex h-full w-full items-center justify-center text-gray-900"
+      :style="`padding: ${padding}`"
+    >
       <div
         class="flex flex-row items-center justify-between"
         style="margin-bottom: 100px"
       >
         <div class="flex w-full flex-col">
-          <div v-bind="titleAttrs">
+          <div
+            :style="`fontWeight: bold; marginBottom: 50px; fontSize: ${titleFontSize};`"
+          >
             {{ title || 'No Title' }}
           </div>
           <span
             v-if="description"
             class="items-center"
-            v-bind="descriptionAttrs"
+            :style="`fontSize: ${descriptionFontSize}; lineHeight: ${+descriptionFontSize.replace('px', '') * 1.5}px; opacity: 0.8;`"
           >
             {{ description }}
           </span>
         </div>
       </div>
       <div class="absolute bottom-10 flex flex-row items-start text-left">
-        <img src="/assets/static/logos/maevsi_logo.svg" height="60" />
+        <img src="/assets/static/logos/app_logo.svg" height="60" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-
 // inherited attrs can mess up the satori parser
 defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps({
-  title: {
-    type: String,
-    default: 'Og Image Template',
-  },
-  description: {
-    type: String,
-    default: 'Set a description to change me.',
-  },
-  padding: {
-    type: String,
-    default: '0 100px',
-  },
-  titleFontSize: {
-    type: String,
-    default: '75px',
-  },
-  descriptionFontSize: {
-    type: String,
-    default: '35px',
-  },
-})
-
-const containerAttrs = computed(() => {
-  const classes = [
-    'w-full',
-    'h-full',
-    'flex',
-    'text-gray-900', // TODO: define design tokens (e.g. https://github.com/elk-zone/elk/blob/319f9c4ece5e6b217bb4f99488208a0e3e6c233a/docs/tokens.config.ts)
-    'relative',
-    'items-center',
-    'justify-center',
-  ]
-  const styles: Record<string, string> = {
-    padding: props.padding,
-  }
-  return { class: classes, style: styles }
-})
-
-const titleAttrs = computed(() => {
-  const styles = {
-    fontWeight: 'bold',
-    marginBottom: '50px',
-    fontSize: props.titleFontSize,
-  }
-  return { style: styles }
-})
-
-const descriptionAttrs = computed(() => {
-  const styles = {
-    fontSize: props.descriptionFontSize,
-    lineHeight: `${+props.descriptionFontSize.replace('px', '') * 1.5}px`,
-    opacity: '0.8',
-  }
-  return { style: styles }
-})
+const {
+  title = 'Og Image Template',
+  description = 'Set a description to change me.',
+  padding = '0 100px',
+  titleFontSize = '75px',
+  descriptionFontSize = '35px',
+} = defineProps<{
+  title?: string
+  description?: string
+  padding?: string
+  titleFontSize?: string
+  descriptionFontSize?: string
+}>()
 </script>
 
 <script lang="ts">

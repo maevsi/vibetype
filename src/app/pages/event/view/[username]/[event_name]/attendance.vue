@@ -5,11 +5,11 @@
       class="flex flex-col gap-4"
     >
       <LayoutPageTitle :title="t('title')" />
-      <Steps
+      <AppSteps
         :active="t('qrCodeScan')"
         :steps="[t('qrCodeScan'), t('nfcWrite')]"
       />
-      <Hr />
+      <AppHr />
       <div class="flex flex-col items-center justify-center gap-4">
         <ButtonColored :aria-label="t('qrCodeScan')" @click="qrCodeScan">
           {{ t('qrCodeScan') }}
@@ -55,7 +55,7 @@
         </template>
       </Modal>
     </div>
-    <Error v-else :status-code="403" />
+    <AppError v-else :status-code="403" />
   </Loader>
 </template>
 
@@ -66,7 +66,6 @@ import {
   setZXingModuleOverrides,
   type DetectedBarcode,
 } from 'vue-qrcode-reader'
-import type { RouteLocationNormalized } from 'vue-router'
 import type { RouteNamedMap } from 'vue-router/auto-routes'
 
 import { useEventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
@@ -96,18 +95,17 @@ export default {
 </script>
 
 <script setup lang="ts">
-definePageMeta({
-  async validate(route) {
-    return await validateEventExistence(
-      route as RouteLocationNormalized<typeof ROUTE_NAME>,
-    )
-  },
-})
-
 const { t } = useI18n()
-const store = useMaevsiStore()
+const store = useStore()
 const route = useRoute(ROUTE_NAME)
 const fireAlert = useFireAlert()
+
+// validation
+if (route.params.username !== store.signedInUsername) {
+  throw createError({
+    statusCode: 403,
+  })
+}
 
 // api data
 const accountByUsernameQuery = await zalgo(
@@ -119,6 +117,11 @@ const accountId = computed(
   () =>
     getAccountItem(accountByUsernameQuery.data.value?.accountByUsername)?.id,
 )
+if (!accountId.value) {
+  throw createError({
+    statusCode: 404,
+  })
+}
 const eventQuery = await zalgo(
   useEventByCreatedByAndSlugQuery({
     createdBy: accountId,
@@ -128,20 +131,14 @@ const eventQuery = await zalgo(
 const event = computed(() =>
   getEventItem(eventQuery.data.value?.eventByCreatedByAndSlug),
 )
+if (!event.value) {
+  throw createError({
+    statusCode: 404,
+  })
+}
 const api = getApiData([accountByUsernameQuery, eventQuery])
 
-// data
-const guestId = ref<string>()
-const isNfcWritableErrorMessage = ref<string>()
-const loading = ref(true)
-
-// computations
-const isNfcError = computed(() => {
-  return !!(
-    isNfcWritableErrorMessage.value &&
-    isNfcWritableErrorMessage.value !== 'prompt'
-  )
-})
+// page
 const title = computed(() => {
   if (api.value.isFetching) return t('globalLoading')
 
@@ -150,11 +147,13 @@ const title = computed(() => {
 
   return `${t('title')} · ${event.value.name}`
 })
+useHeadDefault({ title })
 
-// methods
+// qr code
 const qrCodeScan = () => {
   store.modals.push({ id: 'ModalAttendanceScanQrCode' })
 }
+const loading = ref(true)
 const onCameraOn = () => {
   loading.value = false
 }
@@ -181,6 +180,7 @@ const onError = async (error: Error) => {
   store.modalRemove('ModalAttendanceScanQrCode')
   consola.error(errorMessage)
 }
+const guestId = ref<string>()
 const onClick = async () => {
   if (!guestId.value) return
   await writeTag(guestId.value)
@@ -191,6 +191,9 @@ const onDetect = async (detectedBarcodes: DetectedBarcode[]) => {
   await fireAlert({ level: 'success' })
   store.modalRemove('ModalAttendanceScanQrCode')
 }
+
+// nfc
+const isNfcWritableErrorMessage = ref<string>()
 const checkWriteTag = async () => {
   if (!('NDEFReader' in window)) {
     return Promise.reject(
@@ -222,6 +225,11 @@ const checkWriteTag = async () => {
     }
   }
 }
+onMounted(() => {
+  checkWriteTag().catch((err: Error) => {
+    isNfcWritableErrorMessage.value = err.message
+  })
+})
 const writeTag = async (data: string) => {
   try {
     await new NDEFReader().write(data)
@@ -255,16 +263,12 @@ const writeTag = async (data: string) => {
     }
   }
 }
-
-// lifecycle
-onMounted(() => {
-  checkWriteTag().catch((err: Error) => {
-    isNfcWritableErrorMessage.value = err.message
-  })
+const isNfcError = computed(() => {
+  return !!(
+    isNfcWritableErrorMessage.value &&
+    isNfcWritableErrorMessage.value !== 'prompt'
+  )
 })
-
-// initialization
-useHeadDefault({ title })
 </script>
 
 <i18n lang="yaml">

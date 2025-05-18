@@ -1,9 +1,9 @@
 <template>
-  <Loader :api="api" indicator="ping" :classes="classes">
+  <Loader :api="api" indicator="ping" :class="classProps">
     <LoaderImage
       :alt="t('profilePictureAlt', { username: account?.username })"
       :aspect="aspect"
-      :classes="classes"
+      :classes="classProps"
       :height="height"
       :src="profilePictureUrl || blankProfilePicture"
       :width="width"
@@ -12,6 +12,8 @@
 </template>
 
 <script setup lang="ts">
+import type { HtmlHTMLAttributes } from 'vue'
+
 import blankProfilePicture from '~/assets/images/blank-profile-picture.svg'
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 import { getProfilePictureItem } from '~~/gql/documents/fragments/profilePictureItem'
@@ -19,27 +21,30 @@ import { getUploadItem } from '~~/gql/documents/fragments/uploadItem'
 import { useAccountByIdQuery } from '~~/gql/documents/queries/account/accountById'
 import { useProfilePictureByAccountIdQuery } from '~~/gql/documents/queries/profilePicture/profilePictureByAccountId'
 
-export interface Props {
-  accountId: string
-  aspect?: string
-  classes?: string
-  height: string
-  width: string
-}
-const props = withDefaults(defineProps<Props>(), {
-  aspect: 'aspect-square',
-  classes: undefined,
-})
+const {
+  accountId,
+  aspect = 'aspect-square',
+  class: classProps = undefined,
+  height,
+  width,
+} = defineProps<
+  {
+    accountId: string
+    aspect?: string
+    height: string
+    width: string
+  } & { class?: HtmlHTMLAttributes['class'] }
+>()
 
 const { t } = useI18n()
 const TUSD_FILES_URL = useTusdFilesUrl()
 
 // api data
 const accountByIdQuery = await useAccountByIdQuery({
-  id: props.accountId,
+  id: accountId,
 })
 const profilePictureQuery = await useProfilePictureByAccountIdQuery({
-  accountId: props.accountId,
+  accountId: accountId,
 })
 const api = getApiData([accountByIdQuery, profilePictureQuery])
 const account = computed(() =>

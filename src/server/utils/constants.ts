@@ -7,6 +7,7 @@ import {
   IS_NITRO_OPENAPI_ENABLED,
 } from '../../node'
 
+export const DARGSTACK_SECRET_UNUSED_THIRD_PARTY = 'UNSET THIRD PARTY SECRET'
 export const GET_CSP = ({
   siteUrl,
   runtimeConfig,
@@ -24,17 +25,18 @@ export const GET_CSP = ({
     //   appendHeader(event, 'Origin-Agent-Cluster', '?1')
     // }
     {
-      // maevsi
+      // app
       'connect-src': [
         'blob:', // vue-advanced-cropper
         `https://${domainTldPort}`, // `/api` requests
         `https://postgraphile.${domainTldPort}`, // backend requests
         `https://tusd.${domainTldPort}`, // image upload requests
       ],
-      'font-src': ["'self'", 'data:'], // @fontsource/manrope
+      'font-src': ["'self'", 'data:'], // @fontsource/raleway
       'form-action': ["'self'"], // forms
       'img-src': [
         'blob:',
+        'https://tile.openstreetmap.org/', // map
         `https://tusd.${domainTldPort}`, // users' image uploads
         'https://www.gravatar.com/avatar/', // profile picture fallback
       ],
@@ -50,11 +52,6 @@ export const GET_CSP = ({
         `${siteUrl}${process.env.NODE_ENV === 'development' ? 'dev-' : ''}sw.js`, // @vite-pwa/nuxt
       ],
     },
-    // {
-    //   // vio
-    //   'connect-src': ["'self'"], // `${SITE_URL}/api/healthcheck`
-    //   'manifest-src': [`${siteUrl}site.webmanifest`],
-    // },
     {
       // Cloudflare
       ...(process.env.NODE_ENV === 'production'
@@ -150,6 +147,17 @@ export const GET_CSP = ({
       'worker-src': ['blob:'],
     },
     {
+      // @nuxt/content
+      ...(process.env.NODE_ENV === 'development'
+        ? {
+            'connect-src': [
+              `ws://${siteUrl.hostname}:4000/ws`, // hot reload
+              `wss://${siteUrl.hostname}:4000/ws`, // hot reload
+            ],
+          }
+        : {}),
+    },
+    {
       // nuxt
       ...(process.env.NODE_ENV === 'development'
         ? {
@@ -157,7 +165,7 @@ export const GET_CSP = ({
           }
         : {}),
       'connect-src': [
-        "'self'", // e.g. `/_nuxt/builds/meta/`, `/_payload.json`, `/privacy-policy/_payload.json`
+        "'self'", // e.g. `/_nuxt/builds/meta/`, `/_payload.json`, `/docs/legal/privacy/_payload.json`
         // ...(process.env.NODE_ENV === 'development'
         //   ? [
         //       `http://${domainTldPort}/_nuxt/`, // hot reload

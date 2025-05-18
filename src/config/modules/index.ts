@@ -1,23 +1,19 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
 import { RELEASE_NAME, SITE_URL } from '../../node'
-import { SITE_NAME } from '../../shared/utils/constants'
 import { cookieControlConfig } from './cookieControl'
 import { i18nConfig } from './i18n'
 import { pwaConfig } from './pwa'
 import { securityConfig } from './security'
 
-const ROBOTS_DISALLOW = [
-  '/%F0%9F%AB%96',
-  '/account/password/reset',
-  '/account/verify',
-  '/session/edit',
-  '/session/view',
-]
-
 export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   colorMode: {
     classSuffix: '',
+  },
+  content: {
+    experimental: {
+      nativeSqlite: true,
+    },
   },
   ...cookieControlConfig,
   eslint: {
@@ -51,16 +47,8 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   },
   ...i18nConfig,
   ...pwaConfig,
-  turnstile: {
-    secretKeyPath: process.env.NUXT_PUBLIC_SITE_URL
-      ? '/run/secrets/maevsi_turnstile-key'
-      : undefined,
-  },
   linkChecker: {
     failOnError: true,
-  },
-  robots: {
-    disallow: ROBOTS_DISALLOW,
   },
   ...securityConfig,
   sentry: {
@@ -77,11 +65,15 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
     },
   },
   site: {
-    name: SITE_NAME,
     url: SITE_URL,
   },
   sitemap: {
     credits: false,
-    exclude: ROBOTS_DISALLOW,
+  },
+  zodI18n: {
+    localeCodesMapping: {
+      'de-DE': 'de',
+      'en-GB': 'en',
+    },
   },
 }

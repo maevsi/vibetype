@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
 import { SITE_URL } from '#src/node'
+import { TIMEOUT } from '#tests/e2e/utils/constants'
 
 /**
  * Read environment variables from file.
@@ -33,25 +34,25 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
 
     /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
+    {
+      name: 'Mobile Chrome',
+      use: { ...devices['Pixel 5'] },
+    },
+    {
+      name: 'Mobile Safari',
+      use: { ...devices['iPhone 12'] },
+    },
 
     /* Test against branded browsers. */
     // {
@@ -91,7 +92,7 @@ export default defineConfig({
       NUXT_PUBLIC_VIO_IS_TESTING: 'true',
     },
     ignoreHTTPSErrors: true, // TODO: remove once tests run without it
-    timeout: process.env.NODE_ENV === 'production' ? 10000 : 100000,
+    timeout: TIMEOUT,
     url: process.env.SITE_URL || SITE_URL,
     reuseExistingServer: !process.env.CI,
   },

@@ -2,13 +2,13 @@
   <EventDashlet v-if="event.start">
     <IHeroiconsCalendar :title="t('start')" />
     <div class="flex flex-col">
-      <Button
+      <AppButton
         :aria-label="t('iCalDownload')"
         is-link-colored
         @click="downloadIcal"
       >
         {{ eventStart.format('lll') }}
-      </Button>
+      </AppButton>
       <span>
         {{ t('fromNow', { content: eventStart.fromNow() }) }}
       </span>
@@ -26,15 +26,15 @@ import type {
   GuestItemFragment,
 } from '~~/gql/generated/graphql'
 
-export interface Props {
+const {
+  contact = undefined,
+  event,
+  invitation = undefined,
+} = defineProps<{
   contact?: ContactItemFragment
   event: EventItemFragment
   invitation?: GuestItemFragment
-}
-const props = withDefaults(defineProps<Props>(), {
-  contact: undefined,
-  invitation: undefined,
-})
+}>()
 
 const ROUTE_NAME: keyof RouteNamedMap = 'event-view-username-event_name___en'
 
@@ -45,11 +45,11 @@ const fireAlert = useFireAlert()
 
 // methods
 const downloadIcal = async () => {
-  const response = await useFetch<string>('/api/ical', {
+  const response = await useFetch<string>('/api/model/event/ical', {
     body: {
-      contact: props.contact,
-      event: props.event,
-      invitation: props.invitation,
+      contact: contact,
+      event: event,
+      invitation: invitation,
     },
     method: 'POST',
   })
@@ -60,7 +60,7 @@ const downloadIcal = async () => {
     return await fireAlert({
       level: 'error',
       text: t('iCalFetchError'),
-    }) // TODO: add suggestion (https://github.com/maevsi/maevsi/issues/903) })
+    }) // TODO: add suggestion (https://github.com/maevsi/vibetype/issues/903) })
   }
 
   downloadJs(
@@ -71,7 +71,7 @@ const downloadIcal = async () => {
 }
 
 // computations
-const eventStart = computed(() => dateTime(props.event.start))
+const eventStart = computed(() => dateTime(event.start))
 </script>
 
 <i18n lang="yaml">

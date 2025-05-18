@@ -1,9 +1,15 @@
 <template>
-  <div class="relative isolate">
+  <div
+    class="flex h-screen flex-col"
+    :data-is-loading="isLoading"
+    data-testid="is-loading"
+    vaul-drawer-wrapper
+  >
+    <NuxtLoadingIndicator />
     <LazyClientOnly>
       <CardStateInfo
         v-if="!isBrowserSupported && !runtimeConfig.public.vio.isTesting"
-        is-edgy
+        class="shrink-0 rounded-none"
       >
         <i18n-t keypath="browserUnsupported">
           <template #link>
@@ -19,21 +25,22 @@
               {{ t('browserUnsupportedLink') }}
             </AppLink>
           </template>
+          <template #siteName>
+            {{ t('globalSiteName') }}
+          </template>
         </i18n-t>
       </CardStateInfo>
     </LazyClientOnly>
     <NuxtLayout>
-      <!-- `NuxtLayout` can't have mulitple child nodes (https://github.com/nuxt/nuxt/issues/21759) -->
       <NuxtPage />
     </NuxtLayout>
-    <NuxtLoadingIndicator color="#fff" />
     <VitePwaManifest />
     <ClientOnly>
       <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->
       <CookieControl :locale="locale" />
     </ClientOnly>
     <div
-      class="absolute inset-x-0 -top-16 -z-10 flex transform-gpu justify-center overflow-hidden blur-3xl"
+      class="absolute inset-x-0 -top-16 -z-10 flex max-h-screen transform-gpu items-start justify-center overflow-hidden blur-3xl"
       aria-hidden="true"
     >
       <div
@@ -44,28 +51,51 @@
 </template>
 
 <script setup lang="ts">
-import type { Locale } from '@dargmuesli/nuxt-cookie-control/runtime/types'
-import '@fontsource-variable/manrope'
-import type { WritableComputedRef } from 'vue'
+import '@fontsource-variable/raleway'
+import { isEqual } from 'ufo'
 
-import supportedBrowsers from '~/supportedBrowsers'
-
-const i18n = useI18n()
 const { $pwa } = useNuxtApp()
+const { isApp } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
-const siteConfig = useSiteConfig()
-const locale = i18n.locale as WritableComputedRef<Locale>
-const { t } = i18n
 const timezone = useTimezone()
 const localePath = useLocalePath()
+const store = useStore()
+const route = useRoute()
 
-// data
+// i18n
+const { t, locale } = useI18n()
+const { $dayjs } = useNuxtApp()
+$dayjs.locale(locale.value)
+
+// loading
+const loadingId = Math.random()
+const loadingIds = useState(STATE_LOADING_IDS_NAME, () => [loadingId])
+const isLoading = computed(() => !!loadingIds.value.length)
+onMounted(() => loadingIds.value.splice(loadingIds.value.indexOf(loadingId), 1))
+
+// browserslist
 const isBrowserSupported = ref(true)
+onBeforeMount(async () => {
+  const supportedBrowsers = (await import('~/supportedBrowsers')).default
+  isBrowserSupported.value = supportedBrowsers.test(navigator.userAgent)
+})
 
 // methods
-const initialize = () => {
+const initialize = async () => {
   if (import.meta.client) {
     saveTimezoneAsCookie()
+  }
+
+  if (
+    isApp.value &&
+    !store.signedInAccountId &&
+    !isEqual(route.path, localePath('flow-welcome').toString())
+  ) {
+    return await navigateTo(
+      localePath({
+        name: 'flow-welcome',
+      }),
+    )
   }
 }
 const saveTimezoneAsCookie = () =>
@@ -77,9 +107,6 @@ const saveTimezoneAsCookie = () =>
   }).value = timezone)
 
 // lifecycle
-onBeforeMount(() => {
-  isBrowserSupported.value = supportedBrowsers.test(navigator.userAgent)
-})
 watch(
   () => $pwa,
   async (current, _previous) => {
@@ -89,7 +116,7 @@ watch(
         showConfirmButton: true,
         text: t('pwaText'),
         timer: 10000,
-        title: t('pwaTitle'),
+        title: t('pwaTitle', { siteName: t('globalSiteName') }),
       })
 
       if (result.isConfirmed) {
@@ -102,34 +129,19 @@ watch(
 )
 
 // initialization
-if (import.meta.server) {
-  updateSiteConfig({
-    description: t('globalSeoSiteDescription'),
-  })
-}
 defineOgImageComponent(
   'Default',
+  {},
   {
-    description: t('globalSeoSiteDescription'),
-  },
-  {
-    alt: t('globalSeoOgImageAlt'),
+    alt: t('globalSeoOgImageAlt', { siteName: t('globalSiteName') }),
   },
 )
 useAppLayout()
 await useAuth()
-useFavicons()
 usePolyfills()
-useSchemaOrg([
-  defineWebSite({
-    description: t('globalSeoSiteDescription'),
-    inLanguage: locale,
-    name: siteConfig.name,
-  }),
-  defineWebPage(),
-])
-useMaevsiGtag()
-initialize()
+useSchemaOrg([defineWebSite(), defineWebPage()])
+useAppGtag()
+await initialize()
 </script>
 
 <style scoped>
@@ -158,15 +170,15 @@ initialize()
 
 <i18n lang="yaml">
 de:
-  browserUnsupported: Du benutzt einen Browser, in dem nicht alle Funktionen von maevsi unterstützt werden. {link}.
+  browserUnsupported: Du benutzt einen Browser, in dem nicht alle Funktionen von {siteName} unterstützt werden. {link}.
   browserUnsupportedLink: Mehr erfahren
   pwaConfirmButtonText: App nutzen
   pwaText: Die Installation verbraucht fast keinen Speicherplatz und bietet eine schnelle Möglichkeit, zu dieser App zurückzukehren.
-  pwaTitle: maevsi installieren
+  pwaTitle: '{siteName} installieren'
 en:
-  browserUnsupported: You're using a browser which does not support all features maevsi offers. {link}.
+  browserUnsupported: You're using a browser which does not support all features {siteName} offers. {link}.
   browserUnsupportedLink: Learn more
   pwaConfirmButtonText: Get the app
   pwaText: Installing uses almost no storage and provides a quick way to return to this app.
-  pwaTitle: Install maevsi
+  pwaTitle: Install {siteName}
 </i18n>

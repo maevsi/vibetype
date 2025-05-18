@@ -28,3 +28,20 @@ export const useHost = () => {
 
   return host
 }
+
+export const useHttpStatusCode = async ({
+  statusCode,
+}: {
+  statusCode: number
+}) => {
+  const { locale, t } = useI18n()
+
+  const { status } = await import('@http-util/status-i18n')
+  const statusName = computed(
+    () => `${status(statusCode, locale.value) || t('globalError')} 🙊`,
+  )
+
+  return {
+    statusName,
+  }
+}

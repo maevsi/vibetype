@@ -1,22 +1,22 @@
 <template>
   <Loader :api="api" indicator="ping">
     <div class="flex flex-col gap-4">
-      <LayoutPageTitle v-if="store.jwtDecoded" :title="routeParamUsername" />
+      <LayoutPageTitle v-if="store.jwtDecoded" :title="route.params.username" />
       <section class="flex justify-center">
-        <Button
+        <AppButton
           :aria-label="t('profilePictureChange')"
           @click="showModalUploadSelection"
         >
           <div class="flex items-center gap-4">
             <AccountProfilePicture
               :account-id="account?.id"
-              classes="h-24 rounded-sm w-24"
+              class="size-24 rounded-sm"
               height="96"
               width="96"
             />
             <IHeroiconsPencil />
           </div>
-        </Button>
+        </AppButton>
         <ModalUploadSelection @select="onUploadSelect" />
       </section>
       <section>
@@ -33,7 +33,7 @@
           }"
           :item-name-deletion="t('formDeleteItemNameDeletion')"
           :item-name-success="t('formDeleteItemNameSuccess')"
-          :mutation="mutation"
+          :mutation="accountDeleteMutation"
           @success="signOut"
         />
       </section>
@@ -42,32 +42,29 @@
 </template>
 
 <script setup lang="ts">
-import type { RouteLocationNormalized } from 'vue-router'
-import type { RouteNamedMap } from 'vue-router/auto-routes'
-
 import { useAccountDeleteMutation } from '~~/gql/documents/mutations/account/accountDelete'
 import { useProfilePictureSetMutation } from '~~/gql/documents/mutations/profilePicture/profilePictureSet'
 import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 
-const ROUTE_NAME: keyof RouteNamedMap = 'account-edit-username___en'
-
-definePageMeta({
-  async validate(route) {
-    return await validateAccountExistence({
-      isAuthorizationRequired: true,
-      route: route as RouteLocationNormalized<typeof ROUTE_NAME>,
-    })
-  },
-})
-
-const store = useMaevsiStore()
+const store = useStore()
 const { signOut } = await useSignOut()
 const { t } = useI18n()
-const route = useRoute(ROUTE_NAME)
-const accountDeleteMutation = useAccountDeleteMutation()
+
+// page
+const route = useRoute('account-edit-username___en')
+const title = t('settings')
+useHeadDefault({ title })
+
+// validation
+if (route.params.username !== store.signedInUsername) {
+  throw createError({
+    statusCode: 403,
+  })
+}
 
 // api data
+const accountDeleteMutation = useAccountDeleteMutation()
 const accountByUsernameQuery = await zalgo(
   useAccountByUsernameQuery({
     username: route.params.username,
@@ -79,11 +76,6 @@ const account = getAccountItem(
 const profilePictureSetMutation = useProfilePictureSetMutation()
 const api = getApiData([accountByUsernameQuery, profilePictureSetMutation])
 
-// data
-const mutation = accountDeleteMutation
-const routeParamUsername = route.params.username
-const title = t('settings')
-
 // methods
 const onUploadSelect = async (uploadId?: string | null | undefined) =>
   await profilePictureSetMutation.executeMutation({
@@ -92,9 +84,6 @@ const onUploadSelect = async (uploadId?: string | null | undefined) =>
 const showModalUploadSelection = () => {
   store.modals.push({ id: 'ModalUploadSelection' })
 }
-
-// initialization
-useHeadDefault({ title })
 </script>
 
 <i18n lang="yaml">

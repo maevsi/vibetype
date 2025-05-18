@@ -5,6 +5,7 @@ import { VIO_ESLINT_CONFIG } from '@dargmuesli/nuxt-vio/.config/lint.js'
 import { createJiti } from 'jiti'
 
 import withNuxt from './.nuxt/eslint.config.mjs'
+import 'eslint-plugin-only-error'
 
 const jiti = createJiti(import.meta.url)
 
