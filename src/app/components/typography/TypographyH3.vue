@@ -1,5 +1,5 @@
 <template>
-  <span :class="cn('text-2xl font-semibold', classProps)">
+  <span :class="cn('text-2xl font-semibold text-balance', classProps)">
     <slot />
   </span>
 </template>
