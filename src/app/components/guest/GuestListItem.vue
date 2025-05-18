@@ -6,10 +6,10 @@
       'animate-pulse': pending.deletions.includes(guest.id),
     }"
   >
-    <td class="max-w-0">
+    <LayoutTd class="max-w-0">
       <ContactPreview :contact="contact" :feedback="guest.feedback" />
-    </td>
-    <td class="max-w-0">
+    </LayoutTd>
+    <LayoutTd class="max-w-0">
       <div
         class="text-text-dark dark:text-text-bright flex items-center justify-evenly gap-4"
       >
@@ -94,7 +94,7 @@
           </template>
         </AppDropdown>
       </div>
-    </td>
+    </LayoutTd>
   </tr>
   <!-- </Loader> -->
 </template>
