@@ -6,22 +6,22 @@
       'animate-pulse': isDeleting,
     }"
   >
-    <td>
+    <LayoutTd>
       <ContactPreview :contact="contact" />
-    </td>
-    <td class="hidden xl:table-cell">
+    </LayoutTd>
+    <LayoutTd class="hidden xl:table-cell">
       {{ contact.emailAddress || '–' }}
-    </td>
-    <!-- <td class="hidden xl:table-cell">
+    </LayoutTd>
+    <!-- <LayoutTd class="hidden xl:table-cell">
       {{ (contact.address || '').replace(/\n/g, ', ') || '–' }}
-    </td> -->
-    <td class="hidden xl:table-cell">
+    </LayoutTd> -->
+    <LayoutTd class="hidden xl:table-cell">
       {{ contact.phoneNumber || '–' }}
-    </td>
-    <td class="hidden xl:table-cell">
+    </LayoutTd>
+    <LayoutTd class="hidden xl:table-cell">
       {{ contact.url || '–' }}
-    </td>
-    <td>
+    </LayoutTd>
+    <LayoutTd>
       <div class="flex items-center justify-evenly gap-2">
         <ButtonIcon
           :aria-label="
@@ -46,7 +46,7 @@
           <IHeroiconsTrash />
         </ButtonIcon>
       </div>
-    </td>
+    </LayoutTd>
   </tr>
 </template>
 
