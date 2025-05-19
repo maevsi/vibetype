@@ -4,7 +4,11 @@ import { Container, Font, Head, Html, Body } from '@vue-email/components'
 import type { Locale } from '../../utils/i18n'
 import AppLogo from './components/AppLogo.vue'
 
-const { locale, logoSource, title } = defineProps<{
+const {
+  locale,
+  logoSource = undefined,
+  title,
+} = defineProps<{
   locale: Locale
   logoSource?: string
   title: string

@@ -1,5 +1,5 @@
 <template>
-  <span :class="cn('text-2xl font-semibold', classProps)">
+  <span :class="cn('text-2xl font-semibold text-balance', classProps)">
     <slot />
   </span>
 </template>
@@ -9,7 +9,7 @@ import type { HtmlHTMLAttributes } from 'vue'
 
 import { cn } from '@/utils/shadcn'
 
-const { class: classProps } = defineProps<{
+const { class: classProps = undefined } = defineProps<{
   class?: HtmlHTMLAttributes['class']
 }>()
 </script>

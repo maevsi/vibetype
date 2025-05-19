@@ -18,7 +18,11 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 
-const { formInput, isValidationLive, validationProperty } = defineProps<{
+const {
+  formInput = undefined,
+  isValidationLive,
+  validationProperty = undefined,
+} = defineProps<{
   formInput?: BaseValidation
   isValidationLive?: boolean
   validationProperty?: string

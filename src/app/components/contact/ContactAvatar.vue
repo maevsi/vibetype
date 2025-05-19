@@ -14,9 +14,9 @@ import blankProfilePicture from '~/assets/images/blank-profile-picture.svg'
 
 const {
   aspect = 'aspect-square',
-  classes,
-  emailAddress,
-  emailAddressHash,
+  classes = undefined,
+  emailAddress = undefined,
+  emailAddressHash = undefined,
   size,
 } = defineProps<{
   aspect?: string

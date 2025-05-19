@@ -1,11 +1,11 @@
 import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
-export const useUploadCreateMutation = () =>
+export const useCreateUploadMutation = () =>
   useMutation(
     graphql(`
-      mutation uploadCreate($uploadCreateInput: UploadCreateInput!) {
-        uploadCreate(input: $uploadCreateInput) {
+      mutation createUpload($createUploadInput: CreateUploadInput!) {
+        createUpload(input: $createUploadInput) {
           clientMutationId
           upload {
             id

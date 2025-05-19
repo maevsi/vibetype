@@ -7,13 +7,13 @@
         :has-next-page="!!api.data.allGuests?.pageInfo.hasNextPage"
         @load-more="after = api.data.allGuests?.pageInfo.endCursor"
       >
-        <table class="border border-neutral-300 dark:border-neutral-600">
+        <LayoutTable class="border border-neutral-300 dark:border-neutral-600">
           <LayoutThead>
             <tr>
-              <th scope="col">
+              <LayoutTh scope="col">
                 {{ t('contact') }}
-              </th>
-              <th scope="col" />
+              </LayoutTh>
+              <LayoutTh scope="col" />
             </tr>
           </LayoutThead>
           <LayoutTbody>
@@ -24,7 +24,7 @@
               :guest="guest"
             />
           </LayoutTbody>
-        </table>
+        </LayoutTable>
       </AppScrollContainer>
       <div v-else class="flex flex-col items-center gap-2">
         {{ t('guestNone') }}

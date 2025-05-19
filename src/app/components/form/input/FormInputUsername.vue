@@ -74,7 +74,7 @@
 import type { BaseValidation } from '@vuelidate/core'
 
 const {
-  formInput,
+  formInput = undefined,
   isDisabled,
   isOptional,
   isValidatable,

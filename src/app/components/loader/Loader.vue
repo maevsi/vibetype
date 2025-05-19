@@ -18,9 +18,9 @@ import type { HtmlHTMLAttributes, UnwrapRef } from 'vue'
 
 const {
   api,
-  class: classProps,
-  errorPgIds,
-  indicator,
+  class: classProps = undefined,
+  errorPgIds = undefined,
+  indicator = undefined,
 } = defineProps<
   {
     api: UnwrapRef<ReturnType<typeof getApiData>>

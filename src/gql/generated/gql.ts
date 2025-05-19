@@ -16,13 +16,13 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
 type Documents = {
   '\n  fragment AccountItem on Account {\n    nodeId\n    id\n    username\n  }\n': typeof types.AccountItemFragmentDoc
   '\n  fragment AchievementItem on Achievement {\n    nodeId\n    id\n    accountId\n    achievement\n    level\n  }\n': typeof types.AchievementItemFragmentDoc
-  '\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    name\n    postalCode\n    region\n  }\n': typeof types.AddressItemFragmentDoc
+  '\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    location {\n      latitude\n      longitude\n    }\n    name\n    postalCode\n    region\n  }\n': typeof types.AddressItemFragmentDoc
   '\n  fragment ContactItem on Contact {\n    nodeId\n    id\n    accountId\n    accountByAccountId {\n      id\n      username\n    }\n    accountByCreatedBy {\n      id\n      username\n    }\n    addressByAddressId {\n      ...AddressItem\n    }\n    createdBy\n    emailAddress\n    emailAddressHash\n    firstName\n    lastName\n    phoneNumber\n    url\n  }\n': typeof types.ContactItemFragmentDoc
   '\n  fragment EventItem on Event {\n    id\n    nodeId\n    accountByCreatedBy {\n      id\n      username\n    }\n    addressByAddressId {\n      ...AddressItem\n    }\n    createdBy\n    description\n    end\n    guestCountMaximum\n    isArchived\n    isInPerson\n    isRemote\n    name\n    slug\n    start\n    url\n    visibility\n  }\n': typeof types.EventItemFragmentDoc
   '\n  fragment GuestItem on Guest {\n    id\n    nodeId\n    contactId\n    eventId\n    feedback\n    feedbackPaper\n    contactByContactId {\n      ...ContactItem\n    }\n  }\n': typeof types.GuestItemFragmentDoc
   '\n  fragment LegalTermItem on LegalTerm {\n    id\n    term\n  }\n': typeof types.LegalTermItemFragmentDoc
   '\n  fragment ProfilePictureItem on ProfilePicture {\n    id\n    nodeId\n    accountId\n    uploadByUploadId {\n      ...UploadItem\n    }\n  }\n': typeof types.ProfilePictureItemFragmentDoc
-  '\n  fragment UploadItem on Upload {\n    id\n    nodeId\n    accountId\n    sizeByte\n    storageKey\n  }\n': typeof types.UploadItemFragmentDoc
+  '\n  fragment UploadItem on Upload {\n    id\n    nodeId\n    sizeByte\n    storageKey\n    createdBy\n  }\n': typeof types.UploadItemFragmentDoc
   '\n  mutation authenticate($password: String!, $username: String!) {\n    authenticate(input: { password: $password, username: $username }) {\n      clientMutationId\n      jwt\n    }\n  }\n': typeof types.AuthenticateDocument
   '\n      mutation accountDelete($password: String!) {\n        accountDelete(input: { password: $password }) {\n          clientMutationId\n        }\n      }\n    ': typeof types.AccountDeleteDocument
   '\n      mutation accountEmailAddressVerification($code: UUID!) {\n        accountEmailAddressVerification(input: { code: $code }) {\n          clientMutationId\n        }\n      }\n    ': typeof types.AccountEmailAddressVerificationDocument
@@ -48,7 +48,8 @@ type Documents = {
   '\n      mutation invite($guestId: UUID!, $language: String!) {\n        invite(input: { guestId: $guestId, language: $language }) {\n          clientMutationId\n        }\n      }\n    ': typeof types.InviteDocument
   '\n      mutation profilePictureSet($uploadId: UUID!) {\n        profilePictureSet(input: { uploadId: $uploadId }) {\n          clientMutationId\n        }\n      }\n    ': typeof types.ProfilePictureSetDocument
   '\n      mutation createReport($reportInput: ReportInput!) {\n        createReport(input: { report: $reportInput }) {\n          clientMutationId\n        }\n      }\n    ': typeof types.CreateReportDocument
-  '\n      mutation uploadCreate($uploadCreateInput: UploadCreateInput!) {\n        uploadCreate(input: $uploadCreateInput) {\n          clientMutationId\n          upload {\n            id\n          }\n        }\n      }\n    ': typeof types.UploadCreateDocument
+  '\n      mutation createUpload($createUploadInput: CreateUploadInput!) {\n        createUpload(input: $createUploadInput) {\n          clientMutationId\n          upload {\n            id\n          }\n        }\n      }\n    ': typeof types.CreateUploadDocument
+  '\n      mutation deleteUploadById($id: UUID!) {\n        deleteUploadById(input: { id: $id }) {\n          clientMutationId\n          upload {\n            ...UploadItem\n          }\n        }\n      }\n    ': typeof types.DeleteUploadByIdDocument
   '\n  query accountById($id: UUID!) {\n    accountById(id: $id) {\n      ...AccountItem\n    }\n  }\n': typeof types.AccountByIdDocument
   '\n  query accountByUsername($username: String!) {\n    accountByUsername(username: $username) {\n      ...AccountItem\n    }\n  }\n': typeof types.AccountByUsernameDocument
   '\n      query accountUploadQuotaBytes {\n        accountUploadQuotaBytes\n      }\n    ': typeof types.AccountUploadQuotaBytesDocument
@@ -60,14 +61,14 @@ type Documents = {
   '\n  query allGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n    allGuests(after: $after, condition: { eventId: $eventId }, first: $first) {\n      nodes {\n        ...GuestItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.AllGuestsDocument
   '\n  query allLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        ...LegalTermItem\n      }\n    }\n  }\n': typeof types.AllLegalTermsDocument
   '\n      query profilePictureByAccountId($accountId: UUID!) {\n        profilePictureByAccountId(accountId: $accountId) {\n          ...ProfilePictureItem\n        }\n      }\n    ': typeof types.ProfilePictureByAccountIdDocument
-  '\n      query allUploads($after: Cursor, $first: Int!, $accountId: UUID) {\n        allUploads(\n          after: $after\n          condition: { accountId: $accountId }\n          first: $first\n        ) {\n          nodes {\n            ...UploadItem\n          }\n          pageInfo {\n            hasNextPage\n            endCursor\n          }\n          totalCount\n        }\n      }\n    ': typeof types.AllUploadsDocument
+  '\n      query allUploads($after: Cursor, $first: Int!, $createdBy: UUID) {\n        allUploads(\n          after: $after\n          condition: { createdBy: $createdBy }\n          first: $first\n        ) {\n          nodes {\n            ...UploadItem\n          }\n          pageInfo {\n            hasNextPage\n            endCursor\n          }\n          totalCount\n        }\n      }\n    ': typeof types.AllUploadsDocument
 }
 const documents: Documents = {
   '\n  fragment AccountItem on Account {\n    nodeId\n    id\n    username\n  }\n':
     types.AccountItemFragmentDoc,
   '\n  fragment AchievementItem on Achievement {\n    nodeId\n    id\n    accountId\n    achievement\n    level\n  }\n':
     types.AchievementItemFragmentDoc,
-  '\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    name\n    postalCode\n    region\n  }\n':
+  '\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    location {\n      latitude\n      longitude\n    }\n    name\n    postalCode\n    region\n  }\n':
     types.AddressItemFragmentDoc,
   '\n  fragment ContactItem on Contact {\n    nodeId\n    id\n    accountId\n    accountByAccountId {\n      id\n      username\n    }\n    accountByCreatedBy {\n      id\n      username\n    }\n    addressByAddressId {\n      ...AddressItem\n    }\n    createdBy\n    emailAddress\n    emailAddressHash\n    firstName\n    lastName\n    phoneNumber\n    url\n  }\n':
     types.ContactItemFragmentDoc,
@@ -79,7 +80,7 @@ const documents: Documents = {
     types.LegalTermItemFragmentDoc,
   '\n  fragment ProfilePictureItem on ProfilePicture {\n    id\n    nodeId\n    accountId\n    uploadByUploadId {\n      ...UploadItem\n    }\n  }\n':
     types.ProfilePictureItemFragmentDoc,
-  '\n  fragment UploadItem on Upload {\n    id\n    nodeId\n    accountId\n    sizeByte\n    storageKey\n  }\n':
+  '\n  fragment UploadItem on Upload {\n    id\n    nodeId\n    sizeByte\n    storageKey\n    createdBy\n  }\n':
     types.UploadItemFragmentDoc,
   '\n  mutation authenticate($password: String!, $username: String!) {\n    authenticate(input: { password: $password, username: $username }) {\n      clientMutationId\n      jwt\n    }\n  }\n':
     types.AuthenticateDocument,
@@ -131,8 +132,10 @@ const documents: Documents = {
     types.ProfilePictureSetDocument,
   '\n      mutation createReport($reportInput: ReportInput!) {\n        createReport(input: { report: $reportInput }) {\n          clientMutationId\n        }\n      }\n    ':
     types.CreateReportDocument,
-  '\n      mutation uploadCreate($uploadCreateInput: UploadCreateInput!) {\n        uploadCreate(input: $uploadCreateInput) {\n          clientMutationId\n          upload {\n            id\n          }\n        }\n      }\n    ':
-    types.UploadCreateDocument,
+  '\n      mutation createUpload($createUploadInput: CreateUploadInput!) {\n        createUpload(input: $createUploadInput) {\n          clientMutationId\n          upload {\n            id\n          }\n        }\n      }\n    ':
+    types.CreateUploadDocument,
+  '\n      mutation deleteUploadById($id: UUID!) {\n        deleteUploadById(input: { id: $id }) {\n          clientMutationId\n          upload {\n            ...UploadItem\n          }\n        }\n      }\n    ':
+    types.DeleteUploadByIdDocument,
   '\n  query accountById($id: UUID!) {\n    accountById(id: $id) {\n      ...AccountItem\n    }\n  }\n':
     types.AccountByIdDocument,
   '\n  query accountByUsername($username: String!) {\n    accountByUsername(username: $username) {\n      ...AccountItem\n    }\n  }\n':
@@ -155,7 +158,7 @@ const documents: Documents = {
     types.AllLegalTermsDocument,
   '\n      query profilePictureByAccountId($accountId: UUID!) {\n        profilePictureByAccountId(accountId: $accountId) {\n          ...ProfilePictureItem\n        }\n      }\n    ':
     types.ProfilePictureByAccountIdDocument,
-  '\n      query allUploads($after: Cursor, $first: Int!, $accountId: UUID) {\n        allUploads(\n          after: $after\n          condition: { accountId: $accountId }\n          first: $first\n        ) {\n          nodes {\n            ...UploadItem\n          }\n          pageInfo {\n            hasNextPage\n            endCursor\n          }\n          totalCount\n        }\n      }\n    ':
+  '\n      query allUploads($after: Cursor, $first: Int!, $createdBy: UUID) {\n        allUploads(\n          after: $after\n          condition: { createdBy: $createdBy }\n          first: $first\n        ) {\n          nodes {\n            ...UploadItem\n          }\n          pageInfo {\n            hasNextPage\n            endCursor\n          }\n          totalCount\n        }\n      }\n    ':
     types.AllUploadsDocument,
 }
 
@@ -189,8 +192,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    name\n    postalCode\n    region\n  }\n',
-): (typeof documents)['\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    name\n    postalCode\n    region\n  }\n']
+  source: '\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    location {\n      latitude\n      longitude\n    }\n    name\n    postalCode\n    region\n  }\n',
+): (typeof documents)['\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    location {\n      latitude\n      longitude\n    }\n    name\n    postalCode\n    region\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -225,8 +228,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  fragment UploadItem on Upload {\n    id\n    nodeId\n    accountId\n    sizeByte\n    storageKey\n  }\n',
-): (typeof documents)['\n  fragment UploadItem on Upload {\n    id\n    nodeId\n    accountId\n    sizeByte\n    storageKey\n  }\n']
+  source: '\n  fragment UploadItem on Upload {\n    id\n    nodeId\n    sizeByte\n    storageKey\n    createdBy\n  }\n',
+): (typeof documents)['\n  fragment UploadItem on Upload {\n    id\n    nodeId\n    sizeByte\n    storageKey\n    createdBy\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -381,8 +384,14 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n      mutation uploadCreate($uploadCreateInput: UploadCreateInput!) {\n        uploadCreate(input: $uploadCreateInput) {\n          clientMutationId\n          upload {\n            id\n          }\n        }\n      }\n    ',
-): (typeof documents)['\n      mutation uploadCreate($uploadCreateInput: UploadCreateInput!) {\n        uploadCreate(input: $uploadCreateInput) {\n          clientMutationId\n          upload {\n            id\n          }\n        }\n      }\n    ']
+  source: '\n      mutation createUpload($createUploadInput: CreateUploadInput!) {\n        createUpload(input: $createUploadInput) {\n          clientMutationId\n          upload {\n            id\n          }\n        }\n      }\n    ',
+): (typeof documents)['\n      mutation createUpload($createUploadInput: CreateUploadInput!) {\n        createUpload(input: $createUploadInput) {\n          clientMutationId\n          upload {\n            id\n          }\n        }\n      }\n    ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation deleteUploadById($id: UUID!) {\n        deleteUploadById(input: { id: $id }) {\n          clientMutationId\n          upload {\n            ...UploadItem\n          }\n        }\n      }\n    ',
+): (typeof documents)['\n      mutation deleteUploadById($id: UUID!) {\n        deleteUploadById(input: { id: $id }) {\n          clientMutationId\n          upload {\n            ...UploadItem\n          }\n        }\n      }\n    ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -453,8 +462,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n      query allUploads($after: Cursor, $first: Int!, $accountId: UUID) {\n        allUploads(\n          after: $after\n          condition: { accountId: $accountId }\n          first: $first\n        ) {\n          nodes {\n            ...UploadItem\n          }\n          pageInfo {\n            hasNextPage\n            endCursor\n          }\n          totalCount\n        }\n      }\n    ',
-): (typeof documents)['\n      query allUploads($after: Cursor, $first: Int!, $accountId: UUID) {\n        allUploads(\n          after: $after\n          condition: { accountId: $accountId }\n          first: $first\n        ) {\n          nodes {\n            ...UploadItem\n          }\n          pageInfo {\n            hasNextPage\n            endCursor\n          }\n          totalCount\n        }\n      }\n    ']
+  source: '\n      query allUploads($after: Cursor, $first: Int!, $createdBy: UUID) {\n        allUploads(\n          after: $after\n          condition: { createdBy: $createdBy }\n          first: $first\n        ) {\n          nodes {\n            ...UploadItem\n          }\n          pageInfo {\n            hasNextPage\n            endCursor\n          }\n          totalCount\n        }\n      }\n    ',
+): (typeof documents)['\n      query allUploads($after: Cursor, $first: Int!, $createdBy: UUID) {\n        allUploads(\n          after: $after\n          condition: { createdBy: $createdBy }\n          first: $first\n        ) {\n          nodes {\n            ...UploadItem\n          }\n          pageInfo {\n            hasNextPage\n            endCursor\n          }\n          totalCount\n        }\n      }\n    ']
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {}

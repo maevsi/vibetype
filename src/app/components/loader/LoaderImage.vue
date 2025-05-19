@@ -27,7 +27,15 @@
 <script setup lang="ts">
 import { debounce } from 'lodash-es'
 
-const { alt, aspect, classes, crossOrigin, height, src, width } = defineProps<{
+const {
+  alt,
+  aspect,
+  classes = undefined,
+  crossOrigin = undefined,
+  height,
+  src,
+  width,
+} = defineProps<{
   alt: string
   aspect: string
   classes?: string
