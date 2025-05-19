@@ -17,9 +17,11 @@
     <AppStep v-slot="errorAttrs" :is-active="step === 'error'">
       <LayoutPage v-bind="errorAttrs">
         <LayoutPageResult type="error">
-          {{ error }}
+          <span v-if="error && error.message">
+            {{ error.message }}
+          </span>
           <template #description>
-            {{ t('errorDescription') }}
+            {{ t('globalTryAgain') }}
           </template>
         </LayoutPageResult>
         <template #bottom>
@@ -31,14 +33,14 @@
                 name: 'support-contact',
               })
             "
-            variant="secondary-critical"
+            variant="secondary"
           >
             {{ t('contactSupport') }}
           </ButtonColored>
           <ButtonColored
             :aria-label="t('backToLogin')"
             class="w-full max-w-md"
-            variant="primary-critical"
+            variant="primary"
             @click="restart"
           >
             {{ t('backToLogin') }}
@@ -50,22 +52,13 @@
 </template>
 
 <script setup lang="ts">
+//compiler
 definePageMeta({
   layout: 'plain',
 })
 
-// page
+// head
 const { t } = useI18n()
-
-// template
-const templateIdTitle = useId()
-
-// sign in
-const localePath = useLocalePath()
-const route = useRoute()
-const store = useStore()
-
-// stepper
 const { error, restart, step, title } = useStepperPage<'default'>({
   steps: {
     default: {
@@ -78,7 +71,13 @@ const { error, restart, step, title } = useStepperPage<'default'>({
 })
 useHeadDefault({ title })
 
-// computations
+// template
+const templateIdTitle = useId()
+
+// sign in
+const route = useRoute()
+const localePath = useLocalePath()
+const store = useStore()
 const to = computed(() =>
   route.query.to && !Array.isArray(route.query.to) ? route.query.to : undefined,
 )
@@ -107,12 +106,10 @@ de:
   contactSupport: Support kontaktieren
   title: Einloggen
   errorTitle: Anmeldefehler
-  errorDescription: Bitte versuche es erneut
 en:
   accountRequired: Log in to continue.
   backToLogin: Back to Login
   contactSupport: Contact support
   title: Log in
   errorTitle: Login Error
-  errorDescription: Please try again
 </i18n>

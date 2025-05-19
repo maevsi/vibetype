@@ -58,7 +58,7 @@
           <ButtonColored
             :aria-label="t('backToReset')"
             class="w-full max-w-sm"
-            variant="primary-critical"
+            variant="primary"
             @click="restart"
           >
             {{ t('backToReset') }}
@@ -70,32 +70,21 @@
 </template>
 
 <script setup lang="ts">
-// page
+// compiler
 definePageMeta({
   layout: 'default-no-header',
 })
 
+// head
 const { t } = useI18n()
-const localePath = useLocalePath()
 const title = t('title')
 useHeadDefault({ title })
 
 // template
+const localePath = useLocalePath()
 const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
-
-// stepper
-const { error, restart, step } = useStepperPage<
-  'default' | 'success' | 'error'
->({
-  steps: {
-    default: {},
-    success: {},
-    error: {
-      title: t('globalError'),
-    },
-  },
-})
+const { error, restart, step } = useStepper<'default' | 'success'>()
 </script>
 
 <i18n lang="yaml">

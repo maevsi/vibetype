@@ -131,14 +131,14 @@ de:
   jwtStoreFail: Fehler beim Speichern der Authentifizierungsdaten!
   passwordReset: Passwort zurücksetzen
   postgres55000: Deine E-Mail-Adresse ist noch nicht verifiziert! Schau in dein E-Mail-Postfach, ggf. auch in den Spam-Ordner, oder kontaktiere den Support.
-  postgresP0002: Anmeldung fehlgeschlagen! Hast du dich schon registriert? Überprüfe deine Eingaben auf Schreibfehler oder kontaktiere den Support.
+  postgresP0002: Hast du dich schon registriert? Überprüfe deine Eingaben auf Schreibfehler oder kontaktiere den Support.
   register: Konto erstellen
   signIn: Einloggen
 en:
   jwtStoreFail: Failed to store the authentication data!
   passwordReset: I forgot my password
   postgres55000: Your email address has not been verified yet! Check your email inbox, including the spam folder if necessary, or contact support.
-  postgresP0002: Login failed! Have you registered yet? Check your input for spelling mistakes or contact support.
+  postgresP0002: Have you registered yet? Check your input for spelling mistakes or contact support.
   register: Create an account
   signIn: Log in
 </i18n>

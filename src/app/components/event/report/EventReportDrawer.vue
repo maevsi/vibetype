@@ -29,14 +29,14 @@
       </div>
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'error'">
-      <div v-bind="attributes" class="flex flex-col gap-4 text-center">
-        <span>
-          {{ t('globalTryAgain') }}
-        </span>
+      <LayoutPageResult v-bind="attributes" type="error">
         <span v-if="error && error.message">
           {{ error.message }}
         </span>
-      </div>
+        <template #description>
+          {{ t('globalTryAgain') }}
+        </template>
+      </LayoutPageResult>
     </AppStep>
     <template #title>
       <AppStep v-slot="attributes" :is-active="step === 'default'">
@@ -109,7 +109,7 @@
         <ButtonColored
           v-bind="attributes"
           :aria-label="t('backToReport')"
-          variant="primary-critical"
+          variant="primary"
           @click="restart"
         >
           {{ t('backToReport') }}
@@ -142,18 +142,18 @@ const { accountId, event } = defineProps<{
 // template
 const templateForm = useTemplateRef('form')
 
+// stepper
+const { error, restart, step } = useStepper<
+  'default' | 'reportConfirmation' | 'blockConfirmation' | 'error'
+>({ initial: 'blockConfirmation' })
+
 // drawer
 const isOpen = defineModel<boolean>()
 const open = () => (isOpen.value = true)
 const onAnimationEnd = (isOpen: boolean) => {
   if (isOpen) return
-  step.value = 'default'
+  restart()
 }
-
-// stepper
-const { error, restart, step } = useStepper<
-  'default' | 'reportConfirmation' | 'blockConfirmation' | 'error'
->()
 
 // block
 const createAccountBlockMutation = useCreateAccountBlockMutation()

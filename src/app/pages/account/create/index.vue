@@ -59,10 +59,12 @@
         </template>
       </LayoutPage>
     </AppStep>
-    <AppStep v-if="error" v-slot="attributes" :is-active="step === 'error'">
+    <AppStep v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="error">
-          {{ error }}
+          <span v-if="error && error.message">
+            {{ error.message }}
+          </span>
           <template #description>
             {{ t('globalTryAgain') }}
           </template>
@@ -71,7 +73,7 @@
           <ButtonColored
             :aria-label="t('backToRegistration')"
             class="w-full max-w-sm"
-            variant="primary-critical"
+            variant="primary"
             @click="restart"
           >
             {{ t('backToRegistration') }}
@@ -83,23 +85,23 @@
 </template>
 
 <script setup lang="ts">
+// compiler
 definePageMeta({
   layout: 'plain',
 })
 
+// head
 const { t } = useI18n()
-
-// template
-const templateIdTitle = useId()
-const templateForm = useTemplateRef('form')
-
-// stepper
 const { error, previous, restart, step, title } = useStepperPage<
   'default' | 'terms' | 'privacy' | 'success'
 >({
   steps: {
     default: {
       title: t('titleForm'),
+    },
+    terms: {
+      title: t('titleTerms'),
+      previous: 'default',
     },
     privacy: {
       title: t('titlePrivacy'),
@@ -108,18 +110,14 @@ const { error, previous, restart, step, title } = useStepperPage<
     success: {
       title: t('titleVerification'),
     },
-    terms: {
-      title: t('titleTerms'),
-      previous: 'default',
-    },
   },
 })
-
-// page
 useHeadDefault({ title: title.value })
 
-// legal term
+// template
 const legalTermId = ref<string>()
+const templateIdTitle = useId()
+const templateForm = useTemplateRef('form')
 </script>
 
 <i18n lang="yaml">

@@ -39,7 +39,7 @@
           <ButtonColored
             :aria-label="t('backToEarlyBird')"
             class="w-full max-w-sm"
-            variant="primary-critical"
+            variant="primary"
             @click="restart"
           >
             {{ t('backToEarlyBird') }}
@@ -51,12 +51,10 @@
 </template>
 
 <script setup lang="ts">
+// compiler
 definePageMeta({
   layout: 'default-no-header',
 })
-
-const { t } = useI18n()
-const templateIdTitle = useId()
 
 // validation
 const store = useStore()
@@ -73,9 +71,10 @@ if (!store.signedInUsername) {
   )
 }
 
-// stepper
+// head
+const { t } = useI18n()
 const { error, step, previous, restart, title } = useStepperPage<
-  'default' | 'form' | 'submission' | 'error'
+  'default' | 'form' | 'submission'
 >({
   steps: {
     default: {
@@ -90,9 +89,10 @@ const { error, step, previous, restart, title } = useStepperPage<
     submission: {},
   },
 })
-
-// page
 useHeadDefault({ title })
+
+// template
+const templateIdTitle = useId()
 </script>
 
 <i18n lang="yaml">

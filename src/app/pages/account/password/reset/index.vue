@@ -53,7 +53,9 @@
     <AppStep v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="error">
-          {{ error }}
+          <span v-if="error && error.message">
+            {{ error.message }}
+          </span>
           <template #description>
             {{ t('globalTryAgain') }}
           </template>
@@ -62,7 +64,7 @@
           <ButtonColored
             :aria-label="t('backToReset')"
             class="w-full max-w-sm"
-            variant="primary-critical"
+            variant="primary"
             @click="restart"
           >
             {{ t('backToReset') }}
@@ -74,32 +76,12 @@
 </template>
 
 <script setup lang="ts">
+// compiler
 definePageMeta({
   layout: 'default-no-header',
 })
-
 defineRouteRules({
   robots: false,
-})
-
-const localePath = useLocalePath()
-
-// page
-const { t } = useI18n()
-const title = t('title')
-useHeadDefault({ title })
-
-// stepper
-const { error, restart, step } = useStepperPage<
-  'default' | 'success' | 'error'
->({
-  steps: {
-    default: {},
-    success: {},
-    error: {
-      title: t('globalError'),
-    },
-  },
 })
 
 // validation
@@ -112,9 +94,16 @@ if (
   throw createError({ statusCode: 400 })
 }
 
+// head
+const { t } = useI18n()
+const title = t('title')
+useHeadDefault({ title })
+
 // template
+const localePath = useLocalePath()
 const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
+const { error, restart, step } = useStepper<'default' | 'success'>()
 </script>
 
 <i18n lang="yaml">

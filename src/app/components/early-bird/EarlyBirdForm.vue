@@ -8,7 +8,7 @@
         {{ t('description') }}
       </TypographyBodyMedium>
     </div>
-    <FormEarlyBird v-model:error="error" ref="form" @success="emit('next')" />
+    <FormEarlyBird ref="form" v-model:error="error" @success="emit('next')" />
     <template #bottom>
       <ButtonColored
         :aria-label="t('button')"
