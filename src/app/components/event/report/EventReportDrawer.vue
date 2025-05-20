@@ -30,11 +30,8 @@
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'error'">
       <LayoutPageResult v-bind="attributes" type="error">
-        <span v-if="error && error.message">
-          {{ error.message }}
-        </span>
         <template #description>
-          {{ t('globalTryAgain') }}
+          {{ t('somethingWentWrong') }}
         </template>
       </LayoutPageResult>
     </AppStep>
@@ -56,7 +53,7 @@
       </AppStep>
       <AppStep v-slot="attributes" :is-active="step === 'error'">
         <span v-bind="attributes">
-          {{ t('globalError') }}
+          {{ t('reportingFailed') }}
         </span>
       </AppStep>
     </template>
@@ -108,20 +105,12 @@
       <AppStep v-slot="attributes" :is-active="step === 'error'">
         <ButtonColored
           v-bind="attributes"
-          :aria-label="t('backToReport')"
+          :aria-label="t('tryAgain')"
           variant="primary"
           @click="restart"
         >
-          {{ t('backToReport') }}
+          {{ t('tryAgain') }}
         </ButtonColored>
-        <DrawerClose v-bind="attributes" as-child>
-          <ButtonColored
-            :aria-label="t('buttonReportCancel')"
-            variant="secondary-critical"
-          >
-            {{ t('buttonReportCancel') }}
-          </ButtonColored>
-        </DrawerClose>
       </AppStep>
     </template>
   </AppDrawer>
@@ -197,7 +186,6 @@ defineExpose({
 
 <i18n lang="yaml">
 de:
-  backToReport: Zurück zur Meldung
   buttonBlockConfirmation: Zurück zum Dashboard
   buttonReportCancel: Abbrechen
   buttonReportConfirmationClose: Schließen
@@ -205,11 +193,13 @@ de:
   buttonReportSubmit: Meldung einreichen
   contentBlockConfirmation: Der Benutzer {username} wurde blockiert.
   contentReportConfirmation: Vielen Dank für die Meldung. Wir werden sie prüfen und dich über unsere Entscheidung benachrichtigen. Du kannst nun den Organisator {username} blockieren oder zur Event-Seite zurückkehren.
+  reportingFailed: Meldung fehlgeschlagen
+  somethingWentWrong: Etwas ist schief gelaufen.
   titleBlockConfirmation: Benutzer blockiert
   titleReport: Event melden
   titleReportConfirmation: Meldung erhalten
+  tryAgain: Erneut versuchen
 en:
-  backToReport: Back to Report
   buttonBlockConfirmation: Back to Dashboard
   buttonReportCancel: Cancel
   buttonReportConfirmationClose: Close
@@ -217,7 +207,10 @@ en:
   buttonReportSubmit: Report
   contentBlockConfirmation: The user {username} has been blocked.
   contentReportConfirmation: Thank you for your report. We will review it and notify you about our decision. You can block the organizer {username} now or return to the event.
+  reportingFailed: Reporting Failed
+  somethingWentWrong: Something went wrong.
   titleBlockConfirmation: User blocked
   titleReport: Report event
   titleReportConfirmation: Report received
+  tryAgain: Try Again
 </i18n>

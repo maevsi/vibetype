@@ -80,9 +80,6 @@ const { error, step, previous, restart, title } = useStepperPage<
     default: {
       title: t('title'),
     },
-    error: {
-      title: t('errorTitle'),
-    },
     form: {
       previous: 'default',
     },
@@ -99,14 +96,12 @@ const templateIdTitle = useId()
 de:
   back: zurück
   backToEarlyBird: Zurück zur Registrierung
-  errorTitle: Fehler
   iconAltClose: Schließen
   title: Früher Vogel Programm
   errorDescription: Die Anmeldung für das Early Bird-Programm scheint nicht geklappt zu haben. Bitte versuche es noch einmal oder wende dich an den Support, wenn das Problem weiterhin besteht.
 en:
   back: back
   backToEarlyBird: Back to Registration
-  errorTitle: Error
   iconAltClose: Close
   title: Early Bird Program
   errorDescription: The registration for the Early Bird program does not seem to have worked. Please try again or contact support if the problem persists.
