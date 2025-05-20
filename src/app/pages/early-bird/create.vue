@@ -51,9 +51,7 @@ if (!store.signedInUsername) {
 }
 
 // stepper
-const { step, previous, title } = useStepperPage<
-  'default' | 'form' | 'submission'
->({
+const { step, previous, title } = useStepperPage<'form' | 'submission'>({
   steps: {
     default: {
       title: t('title'),
