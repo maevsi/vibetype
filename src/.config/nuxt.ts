@@ -256,6 +256,7 @@ export default defineNuxtConfig({
         'isomorphic-dompurify',
         'js-confetti',
         'leaflet',
+        'leaflet-control-geocoder',
         'lodash-es',
         'lucide-vue-next',
         'mustache',
