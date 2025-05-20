@@ -5,6 +5,7 @@ export const AccountItem = graphql(`
     nodeId
     id
     username
+    description
   }
 `)
 
