@@ -78,6 +78,7 @@ export const jwtRefresh = async ({
   id,
   runtimeConfig,
   store,
+  notificationStore,
 }: {
   $urqlReset: () => Client
   client: Client
@@ -85,6 +86,7 @@ export const jwtRefresh = async ({
   id: string
   runtimeConfig: ReturnType<typeof useRuntimeConfig>
   store: ReturnType<typeof useStore>
+  notificationStore: ReturnType<typeof useNotificationStore>
 }) => {
   consola.trace('Refreshing a JWT...')
 
@@ -99,6 +101,7 @@ export const jwtRefresh = async ({
       runtimeConfig,
       store,
     })
+    notificationStore.updateRemoteFcmToken(store, { remove: true })
   } else if (!result.data?.jwtRefresh?.jwt) {
     await authenticationAnonymous({
       $urqlReset,

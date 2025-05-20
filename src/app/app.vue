@@ -60,6 +60,7 @@ const runtimeConfig = useRuntimeConfig()
 const timezone = useTimezone()
 const localePath = useLocalePath()
 const store = useStore()
+const notificationStore = useNotificationStore()
 const route = useRoute()
 
 // i18n
@@ -71,13 +72,27 @@ $dayjs.locale(locale.value)
 const loadingId = Math.random()
 const loadingIds = useState(STATE_LOADING_IDS_NAME, () => [loadingId])
 const isLoading = computed(() => !!loadingIds.value.length)
-onMounted(() => loadingIds.value.splice(loadingIds.value.indexOf(loadingId), 1))
+
+const handleVisibilityChange = async () => {
+  if (document.visibilityState == 'visible')
+    notificationStore.updateRemoteFcmToken(store)
+}
+
+onMounted(() => {
+  loadingIds.value.splice(loadingIds.value.indexOf(loadingId), 1)
+  document.addEventListener('visibilitychange', handleVisibilityChange)
+  notificationStore.updateRemoteFcmToken(store)
+})
 
 // browserslist
 const isBrowserSupported = ref(true)
 onBeforeMount(async () => {
   const supportedBrowsers = (await import('~/supportedBrowsers')).default
   isBrowserSupported.value = supportedBrowsers.test(navigator.userAgent)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('visibilitychange', handleVisibilityChange)
 })
 
 // methods

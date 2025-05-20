@@ -9422,6 +9422,18 @@ export type UpdateContactByIdMutation = {
   } | null
 }
 
+export type CreateDeviceMutationVariables = Exact<{
+  deviceInput: DeviceInput
+}>
+
+export type CreateDeviceMutation = {
+  __typename?: 'Mutation'
+  createDevice?: {
+    __typename?: 'CreateDevicePayload'
+    clientMutationId?: string | null
+  } | null
+}
+
 export type CreateEventMutationVariables = Exact<{
   createEventInput: CreateEventInput
 }>
@@ -9684,6 +9696,16 @@ export type AllContactsQuery = {
       endCursor?: any | null
     }
   } | null
+}
+
+export type DeviceByCreatedByAndFcmTokenQueryVariables = Exact<{
+  createdBy: Scalars['UUID']['input']
+  fcmToken: Scalars['String']['input']
+}>
+
+export type DeviceByCreatedByAndFcmTokenQuery = {
+  __typename?: 'Query'
+  deviceByCreatedByAndFcmToken?: { __typename?: 'Device'; id: any } | null
 }
 
 export type EventByCreatedByAndSlugQueryVariables = Exact<{
@@ -11812,6 +11834,72 @@ export const UpdateContactByIdDocument = {
   UpdateContactByIdMutation,
   UpdateContactByIdMutationVariables
 >
+export const CreateDeviceDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'createDevice' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'deviceInput' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeviceInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createDevice' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'device' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'deviceInput' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateDeviceMutation,
+  CreateDeviceMutationVariables
+>
 export const CreateEventDocument = {
   kind: 'Document',
   definitions: [
@@ -13674,6 +13762,79 @@ export const AllContactsDocument = {
     },
   ],
 } as unknown as DocumentNode<AllContactsQuery, AllContactsQueryVariables>
+export const DeviceByCreatedByAndFcmTokenDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'deviceByCreatedByAndFcmToken' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'createdBy' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'fcmToken' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deviceByCreatedByAndFcmToken' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'createdBy' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'createdBy' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'fcmToken' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'fcmToken' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeviceByCreatedByAndFcmTokenQuery,
+  DeviceByCreatedByAndFcmTokenQueryVariables
+>
 export const EventByCreatedByAndSlugDocument = {
   kind: 'Document',
   definitions: [
