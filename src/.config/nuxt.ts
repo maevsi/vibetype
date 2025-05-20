@@ -245,6 +245,7 @@ export default defineNuxtConfig({
         '@vuelidate/core',
         '@vueuse/core',
         'chart.js',
+        'class-variance-authority',
         'clipboardy',
         'clsx',
         'css-element-queries',
