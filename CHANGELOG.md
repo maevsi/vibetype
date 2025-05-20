@@ -1,3 +1,9 @@
+## [11.3.0](https://github.com/maevsi/vibetype/compare/11.2.0...11.3.0) (2025-05-20)
+
+### Features
+
+* **app:** disable backdrop ([2531059](https://github.com/maevsi/vibetype/commit/253105904a3a60916fa4f0732fb87aeb661c5541))
+
 ## [11.2.0](https://github.com/maevsi/vibetype/compare/11.1.0...11.2.0) (2025-05-20)
 
 ### Features
