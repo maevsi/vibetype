@@ -84,7 +84,7 @@ const title = t('title')
 useHeadDefault({ title })
 
 // stepper
-const { error, step } = useStepper<'default' | 'success'>()
+const { error, step } = useStepper<'success'>()
 </script>
 
 <i18n lang="yaml">
