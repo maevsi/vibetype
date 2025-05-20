@@ -98,6 +98,7 @@
     "js-confetti": "0.12.0",
     "kafkajs": "2.2.4",
     "leaflet": "1.9.4",
+    "leaflet-control-geocoder": "3.2.0",
     "lodash-es": "4.17.21",
     "lucide-vue-next": "0.511.0",
     "moment-timezone": "0.5.48",
