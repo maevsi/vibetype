@@ -144,7 +144,7 @@ const templateForm = useTemplateRef('form')
 
 // stepper
 const { error, restart, step } = useStepper<
-  'default' | 'reportConfirmation' | 'blockConfirmation' | 'error'
+  'reportConfirmation' | 'blockConfirmation' | 'error'
 >({ initial: 'blockConfirmation' })
 
 // drawer

@@ -93,7 +93,7 @@ definePageMeta({
 // head
 const { t } = useI18n()
 const { error, previous, restart, step, title } = useStepperPage<
-  'default' | 'terms' | 'privacy' | 'success'
+  'terms' | 'privacy' | 'success'
 >({
   steps: {
     default: {

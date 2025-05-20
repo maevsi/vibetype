@@ -4,8 +4,8 @@ import { graphql } from '~~/gql/generated'
 export const useCreateUploadMutation = () =>
   useMutation(
     graphql(`
-      mutation createUpload($createUploadInput: CreateUploadInput!) {
-        createUpload(input: $createUploadInput) {
+      mutation CreateUpload($input: UploadInput!) {
+        createUpload(input: { upload: $input }) {
           clientMutationId
           upload {
             id

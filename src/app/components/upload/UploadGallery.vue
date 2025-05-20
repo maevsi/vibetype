@@ -297,11 +297,9 @@ const getUploadBlobPromise = () =>
         if (!blob || !templateInputProfilePicture.value?.files?.[0]) return
 
         const result = await uploadCreateMutation.executeMutation({
-          createUploadInput: {
-            upload: {
-              createdBy: store.signedInAccountId,
-              sizeByte: blob.size,
-            },
+          input: {
+            createdBy: store.signedInAccountId,
+            sizeByte: blob.size,
           },
         })
 

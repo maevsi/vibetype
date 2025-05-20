@@ -74,7 +74,7 @@ if (!store.signedInUsername) {
 // head
 const { t } = useI18n()
 const { error, step, previous, restart, title } = useStepperPage<
-  'default' | 'form' | 'submission'
+  'form' | 'submission'
 >({
   steps: {
     default: {

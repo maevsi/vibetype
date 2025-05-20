@@ -103,7 +103,7 @@ useHeadDefault({ title })
 const localePath = useLocalePath()
 const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
-const { error, restart, step } = useStepper<'default' | 'success'>()
+const { error, restart, step } = useStepper<'success'>()
 </script>
 
 <i18n lang="yaml">

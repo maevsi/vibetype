@@ -35,6 +35,7 @@ export type Scalars = {
   Float: { input: number; output: number }
   BigInt: { input: any; output: any }
   Cursor: { input: any; output: any }
+  Date: { input: any; output: any }
   Datetime: { input: any; output: any }
   GeoJSON: { input: any; output: any }
   Jwt: { input: any; output: any }
@@ -5745,10 +5746,25 @@ export type Mutation = {
   profilePictureSet?: Maybe<ProfilePictureSetPayload>
   /** Updates a single `Account` using its globally unique id and a patch. */
   updateAccount?: Maybe<UpdateAccountPayload>
+  /**
+   * Sets the birth date for the invoker's account.
+   *
+   * Error codes:
+   * - **P0002** when no record was updated
+   * - **23514** when the birth date is already set
+   */
+  updateAccountBirthDate?: Maybe<UpdateAccountBirthDatePayload>
   /** Updates a single `Account` using a unique key and a patch. */
   updateAccountById?: Maybe<UpdateAccountPayload>
   /** Updates a single `Account` using a unique key and a patch. */
   updateAccountByUsername?: Maybe<UpdateAccountPayload>
+  /**
+   * Sets the location for the invoker's account.
+   *
+   * Error codes:
+   * - **P0002** when no record was updated.
+   */
+  updateAccountLocation?: Maybe<UpdateAccountLocationPayload>
   /** Updates a single `AccountPreferenceEventCategory` using its globally unique id and a patch. */
   updateAccountPreferenceEventCategory?: Maybe<UpdateAccountPreferenceEventCategoryPayload>
   /** Updates a single `AccountPreferenceEventCategory` using a unique key and a patch. */
@@ -6359,6 +6375,11 @@ export type MutationUpdateAccountArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateAccountBirthDateArgs = {
+  input: UpdateAccountBirthDateInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateAccountByIdArgs = {
   input: UpdateAccountByIdInput
 }
@@ -6366,6 +6387,11 @@ export type MutationUpdateAccountByIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateAccountByUsernameArgs = {
   input: UpdateAccountByUsernameInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateAccountLocationArgs = {
+  input: UpdateAccountLocationInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -7735,6 +7761,28 @@ export enum SocialNetwork {
   X = 'X',
 }
 
+/** All input for the `updateAccountBirthDate` mutation. */
+export type UpdateAccountBirthDateInput = {
+  birthDate: Scalars['Date']['input']
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The output of our `updateAccountBirthDate` mutation. */
+export type UpdateAccountBirthDatePayload = {
+  __typename?: 'UpdateAccountBirthDatePayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
 /** All input for the `updateAccountById` mutation. */
 export type UpdateAccountByIdInput = {
   /** An object where the defined keys will be set on the `Account` being updated. */
@@ -7772,6 +7820,29 @@ export type UpdateAccountInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `Account` to be updated. */
   nodeId: Scalars['ID']['input']
+}
+
+/** All input for the `updateAccountLocation` mutation. */
+export type UpdateAccountLocationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  latitude: Scalars['Float']['input']
+  longitude: Scalars['Float']['input']
+}
+
+/** The output of our `updateAccountLocation` mutation. */
+export type UpdateAccountLocationPayload = {
+  __typename?: 'UpdateAccountLocationPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
 }
 
 /** The output of our update `Account` mutation. */
@@ -9412,6 +9483,12 @@ export type GraphCacheKeysConfig = {
   Report?: (data: WithTypename<Report>) => null | string
   ReportsConnection?: (data: WithTypename<ReportsConnection>) => null | string
   ReportsEdge?: (data: WithTypename<ReportsEdge>) => null | string
+  UpdateAccountBirthDatePayload?: (
+    data: WithTypename<UpdateAccountBirthDatePayload>,
+  ) => null | string
+  UpdateAccountLocationPayload?: (
+    data: WithTypename<UpdateAccountLocationPayload>,
+  ) => null | string
   UpdateAccountPayload?: (
     data: WithTypename<UpdateAccountPayload>,
   ) => null | string
@@ -14182,6 +14259,30 @@ export type GraphCacheResolvers = {
       WithTypename<Report> | string
     >
   }
+  UpdateAccountBirthDatePayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdateAccountBirthDatePayload>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<UpdateAccountBirthDatePayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  UpdateAccountLocationPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdateAccountLocationPayload>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<UpdateAccountLocationPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
   UpdateAccountPayload?: {
     account?: GraphCacheResolver<
       WithTypename<UpdateAccountPayload>,
@@ -15295,6 +15396,10 @@ export type GraphCacheOptimisticUpdaters = {
     MutationUpdateAccountArgs,
     Maybe<WithTypename<UpdateAccountPayload>>
   >
+  updateAccountBirthDate?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateAccountBirthDateArgs,
+    Maybe<WithTypename<UpdateAccountBirthDatePayload>>
+  >
   updateAccountById?: GraphCacheOptimisticMutationResolver<
     MutationUpdateAccountByIdArgs,
     Maybe<WithTypename<UpdateAccountPayload>>
@@ -15302,6 +15407,10 @@ export type GraphCacheOptimisticUpdaters = {
   updateAccountByUsername?: GraphCacheOptimisticMutationResolver<
     MutationUpdateAccountByUsernameArgs,
     Maybe<WithTypename<UpdateAccountPayload>>
+  >
+  updateAccountLocation?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateAccountLocationArgs,
+    Maybe<WithTypename<UpdateAccountLocationPayload>>
   >
   updateAccountPreferenceEventCategory?: GraphCacheOptimisticMutationResolver<
     MutationUpdateAccountPreferenceEventCategoryArgs,
@@ -16612,6 +16721,14 @@ export type GraphCacheUpdaters = {
       { updateAccount: Maybe<WithTypename<UpdateAccountPayload>> },
       MutationUpdateAccountArgs
     >
+    updateAccountBirthDate?: GraphCacheUpdateResolver<
+      {
+        updateAccountBirthDate: Maybe<
+          WithTypename<UpdateAccountBirthDatePayload>
+        >
+      },
+      MutationUpdateAccountBirthDateArgs
+    >
     updateAccountById?: GraphCacheUpdateResolver<
       { updateAccountById: Maybe<WithTypename<UpdateAccountPayload>> },
       MutationUpdateAccountByIdArgs
@@ -16619,6 +16736,12 @@ export type GraphCacheUpdaters = {
     updateAccountByUsername?: GraphCacheUpdateResolver<
       { updateAccountByUsername: Maybe<WithTypename<UpdateAccountPayload>> },
       MutationUpdateAccountByUsernameArgs
+    >
+    updateAccountLocation?: GraphCacheUpdateResolver<
+      {
+        updateAccountLocation: Maybe<WithTypename<UpdateAccountLocationPayload>>
+      },
+      MutationUpdateAccountLocationArgs
     >
     updateAccountPreferenceEventCategory?: GraphCacheUpdateResolver<
       {
@@ -20301,6 +20424,26 @@ export type GraphCacheUpdaters = {
     >
     node?: GraphCacheUpdateResolver<
       Maybe<WithTypename<ReportsEdge>>,
+      Record<string, never>
+    >
+  }
+  UpdateAccountBirthDatePayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountBirthDatePayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountBirthDatePayload>>,
+      Record<string, never>
+    >
+  }
+  UpdateAccountLocationPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountLocationPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountLocationPayload>>,
       Record<string, never>
     >
   }

@@ -11,7 +11,7 @@ export const useEventByCreatedByAndSlugQuery = (
   })
 
 export const eventByCreatedByAndSlugQuery = graphql(`
-  query eventByCreatedByAndSlug(
+  query EventByCreatedByAndSlug(
     $createdBy: UUID!
     $guestId: UUID
     $slug: String!
