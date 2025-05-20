@@ -11,7 +11,7 @@ import type { HtmlHTMLAttributes } from 'vue'
 
 import { cn } from '@/utils/shadcn'
 
-const { class: classProp } = defineProps<{
+const { class: classProp = undefined } = defineProps<{
   class?: HtmlHTMLAttributes['class']
 }>()
 </script>

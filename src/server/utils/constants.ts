@@ -31,11 +31,13 @@ export const GET_CSP = ({
         `https://${domainTldPort}`, // `/api` requests
         `https://postgraphile.${domainTldPort}`, // backend requests
         `https://tusd.${domainTldPort}`, // image upload requests
+        'https://nominatim.openstreetmap.org/search', // map's geocoder
       ],
       'font-src': ["'self'", 'data:'], // @fontsource/raleway
       'form-action': ["'self'"], // forms
       'img-src': [
         'blob:',
+        'https://tile.openstreetmap.org/', // map
         `https://tusd.${domainTldPort}`, // users' image uploads
         'https://www.gravatar.com/avatar/', // profile picture fallback
       ],

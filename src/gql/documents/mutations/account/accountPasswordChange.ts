@@ -4,7 +4,7 @@ import { graphql } from '~~/gql/generated'
 export const useAccountPasswordChangeMutation = () =>
   useMutation(
     graphql(`
-      mutation accountPasswordChange(
+      mutation AccountPasswordChange(
         $passwordCurrent: String!
         $passwordNew: String!
       ) {

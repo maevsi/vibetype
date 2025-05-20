@@ -66,7 +66,7 @@ const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
 
 // stepper
-const { step } = useStepper<'default' | 'success'>()
+const { step } = useStepper<'success'>()
 </script>
 
 <i18n lang="yaml">

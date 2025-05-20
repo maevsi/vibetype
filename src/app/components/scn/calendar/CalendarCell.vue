@@ -1,26 +1,24 @@
 <script lang="ts" setup>
-import { cn } from '@/utils/shadcn'
+import type { HTMLAttributes } from 'vue'
+import { reactiveOmit } from '@vueuse/core'
 import { CalendarCell, type CalendarCellProps, useForwardProps } from 'reka-ui'
-import { computed, type HTMLAttributes } from 'vue'
+import { cn } from '@/utils/shadcn'
 
 const props = defineProps<
   CalendarCellProps & { class?: HTMLAttributes['class'] }
 >()
 
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
-
-  return delegated
-})
+const delegatedProps = reactiveOmit(props, 'class')
 
 const forwardedProps = useForwardProps(delegatedProps)
 </script>
 
 <template>
   <CalendarCell
+    data-slot="calendar-cell"
     :class="
       cn(
-        '[&:has([data-selected])]:bg-accent [&:has([data-selected][data-outside-view])]:bg-accent/50 relative h-9 w-9 p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([data-selected])]:rounded-md',
+        '[&:has([data-selected])]:bg-accent relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([data-selected])]:rounded-md',
         props.class,
       )
     "

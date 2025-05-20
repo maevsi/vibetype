@@ -85,6 +85,12 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/session/create" />
     </url>
     <url>
+        <loc>http://localhost:3001/session/edit</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/session/edit" />
+        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/session/edit" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/session/edit" />
+    </url>
+    <url>
         <loc>http://localhost:3001/support/contact</loc>
         <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/support/contact" />
         <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/support/contact" />
@@ -137,6 +143,18 @@
         <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/event/ingest/url" />
         <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/event/ingest/url" />
         <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/event/ingest/url" />
+    </url>
+    <url>
+        <loc>http://localhost:3001/session/edit/color-scheme</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/session/edit/color-scheme" />
+        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/session/edit/color-scheme" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/session/edit/color-scheme" />
+    </url>
+    <url>
+        <loc>http://localhost:3001/session/edit/language</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/session/edit/language" />
+        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/session/edit/language" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/session/edit/language" />
     </url>
     <url>
         <loc>http://localhost:3001/account/password/reset/request</loc>

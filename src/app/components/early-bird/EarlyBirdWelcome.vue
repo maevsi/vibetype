@@ -1,7 +1,7 @@
 <template>
   <LayoutPage>
     <div class="flex flex-col gap-2">
-      <TypographyH6>
+      <TypographyH6 class="text-center">
         {{ t('title1', { username: store.signedInUsername }) }}
       </TypographyH6>
       <TypographyBodyMedium>

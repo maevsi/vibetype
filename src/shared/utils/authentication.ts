@@ -140,7 +140,7 @@ export const jwtStore = async ({
     setJwtCookie({ event, jwt: jwt || '', runtimeConfig })
   } else {
     try {
-      await $fetch('/api/auth', {
+      await $fetch('/api/model/account/authentication', {
         method: 'POST',
         ...(jwt ? { headers: { Authorization: `Bearer ${jwt}` } } : {}),
       })

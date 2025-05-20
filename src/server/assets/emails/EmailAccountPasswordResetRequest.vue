@@ -11,7 +11,7 @@ import Email from './Email.vue'
 const {
   emailAddress,
   locale,
-  logoSource,
+  logoSource = undefined,
   passwordResetVerificationLink,
   validUntil,
 } = defineProps<{

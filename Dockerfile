@@ -2,13 +2,13 @@
 # check=skip=SecretsUsedInArgOrEnv
 
 # <DEPENDENCIES>
-FROM ghcr.io/maevsi/sqitch:7
+FROM ghcr.io/maevsi/sqitch:8
 # </DEPENDENCIES>
 
 #############
 # Create base image.
 
-FROM node:22.15.0-alpine AS base-image
+FROM node:22.15.1-alpine AS base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -39,7 +39,7 @@ CMD ["pnpm", "run", "--dir", "src", "dev", "--host"]
 EXPOSE 3000
 
 # TODO: support healthcheck while starting (https://github.com/nuxt/framework/issues/6915)
-# HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/healthcheck || exit 1
+# HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/service/vibetype/healthcheck || exit 1
 
 
 ########################
@@ -206,7 +206,7 @@ COPY --from=test-e2e-node /srv/app/package.json /dev/null
 
 # COPY --from=collect /srv/app/.output/public/ ./
 
-# HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/healthcheck || exit 1
+# HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/service/vibetype/healthcheck || exit 1
 # EXPOSE 3000
 
 
@@ -226,7 +226,7 @@ USER node
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["pnpm", "run", "start:node"]
-HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/healthcheck || exit 1
+HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/service/vibetype/healthcheck || exit 1
 EXPOSE 3000
 LABEL org.opencontainers.image.source="https://github.com/maevsi/vibetype"
 LABEL org.opencontainers.image.description="Find events, guests and friends 💙❤️💚"

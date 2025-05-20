@@ -36,11 +36,11 @@
             <div
               v-if="!isReadonly"
               class="absolute top-0 right-0 flex rounded-bl-lg bg-red-600/75"
-              @click="deleteUpload(upload.id)"
             >
               <AppButton
                 :aria-label="t('iconTrashLabel')"
                 class="flex h-full justify-center"
+                @click="deleteUpload(upload.id)"
               >
                 <IHeroiconsTrash
                   class="text-text-bright m-1"
@@ -122,10 +122,11 @@ import prettyBytes from 'pretty-bytes'
 import type { UnwrapRef } from 'vue'
 import { Cropper, type CropperResult, type Size } from 'vue-advanced-cropper'
 
-import { useUploadCreateMutation } from '~~/gql/documents/mutations/upload/uploadCreate'
+import { useCreateUploadMutation } from '~~/gql/documents/mutations/upload/uploadCreate'
 import { useAccountUploadQuotaBytesQuery } from '~~/gql/documents/queries/account/accountUploadQuotaBytes'
 import { useAllUploadsQuery } from '~~/gql/documents/queries/upload/uploadsAll'
 import { getUploadItem } from '~~/gql/documents/fragments/uploadItem'
+import { useDeleteUploadByIdMutation } from '~~/gql/documents/mutations/upload/uploadDeleteById'
 
 const { isReadonly, isSelectable } = defineProps<{
   isReadonly?: boolean
@@ -156,19 +157,21 @@ const pending = reactive({
 const selectedItem = ref<{
   id?: string | null
 }>()
-const uppy = ref<Uppy<{ maevsiUploadUuid: string }>>()
+const uppy = ref<Uppy<{ id: string }>>()
 
 // api data
 const accountUploadQuotaBytesQuery = await useAccountUploadQuotaBytesQuery({})
 const allUploadsQuery = await useAllUploadsQuery({
   after,
   first: ITEMS_PER_PAGE,
-  accountId: store.signedInAccountId,
+  createdBy: store.signedInAccountId,
 })
-const uploadCreateMutation = useUploadCreateMutation()
+const deleteUploadByIdMutation = useDeleteUploadByIdMutation()
+const uploadCreateMutation = useCreateUploadMutation()
 const api = getApiData([
   accountUploadQuotaBytesQuery,
   allUploadsQuery,
+  deleteUploadByIdMutation,
   uploadCreateMutation,
 ])
 const uploads = computed(
@@ -215,33 +218,16 @@ const selectProfilePicture = async () => {
 }
 const deleteUpload = async (uploadId: string) => {
   pending.deletions.push(uploadId)
-
-  const host = runtimeConfig.public.vio.stagingHost
-    ? `https://${runtimeConfig.public.vio.stagingHost}`
-    : ''
-
-  const response = await $fetch.raw(`${host}/api/upload?uploadId=${uploadId}`, {
-    headers: {
-      Authorization: `Bearer ${store.jwt}`,
-    },
-    ignoreResponseError: true, // handle response status below
-    method: 'DELETE',
+  const result = await deleteUploadByIdMutation.executeMutation({
+    id: uploadId,
   })
-
   pending.deletions.splice(pending.deletions.indexOf(uploadId), 1)
 
-  switch (response.status) {
-    case 204:
-      allUploadsQuery.executeQuery()
-      break
-    case 500:
-      await fireAlert({ level: 'error', text: t('uploadDeleteFailed') })
-      break
-    default:
-      await fireAlert({
-        level: 'warning',
-        text: t('uploadDeleteUnexpectedStatusCode'),
-      })
+  allUploadsQuery.executeQuery()
+
+  if (result.error || !result.data) {
+    await fireAlert({ level: 'error', text: t('uploadDeleteFailed') })
+    return
   }
 }
 const getMimeType = (file: ArrayBuffer, fallback?: string) => {
@@ -311,7 +297,8 @@ const getUploadBlobPromise = () =>
         if (!blob || !templateInputProfilePicture.value?.files?.[0]) return
 
         const result = await uploadCreateMutation.executeMutation({
-          uploadCreateInput: {
+          input: {
+            createdBy: store.signedInAccountId,
             sizeByte: blob.size,
           },
         })
@@ -329,7 +316,7 @@ const getUploadBlobPromise = () =>
             allowedFileTypes: ['image/*'],
           },
           meta: {
-            maevsiUploadUuid: result.data.uploadCreate?.upload?.id, // TODO: rename
+            id: result.data.createUpload?.upload?.id,
           },
           onBeforeUpload: (files) =>
             Object.fromEntries(
@@ -392,7 +379,6 @@ de:
   uploadAlt: Ein hochgeladenes Bild.
   uploadAltFailed: Ein Bild, das nicht vollständig hochgeladen wurde.
   uploadDeleteFailed: Das Löschen des Elements ist fehlgeschlagen!
-  uploadDeleteUnexpectedStatusCode: Beim Löschen des Elements trat ein unerwarteter Statuscode auf.
   uploadError: 'Fehler: Dateien wurden nicht erfolgreich hochgeladen!'
   uploadNew: Lade ein neues Bild hoch
   uploadSize: 'Größe: {size}'
@@ -405,7 +391,6 @@ en:
   uploadAlt: An uploaded image.
   uploadAltFailed: "An image which hasn't been fully uploaded."
   uploadDeleteFailed: Deleting upload failed!
-  uploadDeleteUnexpectedStatusCode: Deleting upload returned an unexpected status code.
   uploadError: 'Error: Upload failed!'
   uploadNew: Upload a new image
   uploadSize: 'Size: {size}'

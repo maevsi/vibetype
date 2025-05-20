@@ -56,7 +56,7 @@ import type { ContactItemFragment } from '~~/gql/generated/graphql'
 
 const {
   contact,
-  feedback,
+  feedback = undefined,
   isUsernameLinked = true,
 } = defineProps<{
   contact: Pick<

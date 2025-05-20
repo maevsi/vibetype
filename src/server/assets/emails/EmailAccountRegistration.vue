@@ -12,7 +12,7 @@ const {
   emailAddress,
   emailAddressVerificationLink,
   locale,
-  logoSource,
+  logoSource = undefined,
   username,
   validUntil,
 } = defineProps<{

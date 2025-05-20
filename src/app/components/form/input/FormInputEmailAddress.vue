@@ -44,7 +44,7 @@ const {
   formInput,
   id = 'email-address',
   isOptional,
-  title,
+  title = undefined,
 } = defineProps<{
   formInput: BaseValidation
   id?: string

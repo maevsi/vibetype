@@ -13,7 +13,7 @@ export const useEventSearchQuery = (
   })
 
 export const eventSearchQuery = graphql(`
-  query eventSearch(
+  query EventSearch(
     $after: Cursor
     $first: Int!
     $language: Language

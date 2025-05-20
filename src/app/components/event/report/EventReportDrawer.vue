@@ -113,9 +113,7 @@ const isOpen = defineModel<boolean>()
 const open = () => (isOpen.value = true)
 
 // stepper
-const { step } = useStepper<
-  'default' | 'reportConfirmation' | 'blockConfirmation'
->()
+const { step } = useStepper<'reportConfirmation' | 'blockConfirmation'>()
 const onAnimationEnd = (isOpen: boolean) => {
   if (isOpen) return
   step.value = 'default'

@@ -78,7 +78,7 @@ const { handleSubmit } = useForm({
 })
 const onSubmit = handleSubmit(async (values) => {
   try {
-    await $fetch('/api/monday/early-bird', {
+    await $fetch('/api/service/monday/early-bird', {
       method: 'POST',
       body: values,
     })
