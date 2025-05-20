@@ -7,7 +7,7 @@ export const useAccountUploadQuotaBytesQuery = (
 ) =>
   useQuery({
     query: graphql(`
-      query accountUploadQuotaBytes {
+      query AccountUploadQuotaBytes {
         accountUploadQuotaBytes
       }
     `),

@@ -4,7 +4,7 @@ import { graphql } from '~~/gql/generated'
 export const useAccountRegistrationMutation = () =>
   useMutation(
     graphql(`
-      mutation accountRegistration(
+      mutation AccountRegistration(
         $emailAddress: String!
         $password: String!
         $username: String!

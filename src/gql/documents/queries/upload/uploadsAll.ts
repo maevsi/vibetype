@@ -5,7 +5,7 @@ import type { AllUploadsQueryVariables } from '~~/gql/generated/graphql'
 export const useAllUploadsQuery = (variables: AllUploadsQueryVariables) =>
   useQuery({
     query: graphql(`
-      query allUploads($after: Cursor, $first: Int!, $createdBy: UUID) {
+      query AllUploads($after: Cursor, $first: Int!, $createdBy: UUID) {
         allUploads(
           after: $after
           condition: { createdBy: $createdBy }

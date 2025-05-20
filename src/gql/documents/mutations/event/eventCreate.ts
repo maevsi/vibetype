@@ -4,8 +4,8 @@ import { graphql } from '~~/gql/generated'
 export const useCreateEventMutation = () =>
   useMutation(
     graphql(`
-      mutation createEvent($createEventInput: CreateEventInput!) {
-        createEvent(input: $createEventInput) {
+      mutation CreateEvent($input: EventInput!) {
+        createEvent(input: { event: $input }) {
           event {
             ...EventItem
           }

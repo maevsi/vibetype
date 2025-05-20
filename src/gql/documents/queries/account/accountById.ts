@@ -9,7 +9,7 @@ export const useAccountByIdQuery = (variables: AccountByIdQueryVariables) =>
   })
 
 export const accountByIdQuery = graphql(`
-  query accountById($id: UUID!) {
+  query AccountById($id: UUID!) {
     accountById(id: $id) {
       ...AccountItem
     }
