@@ -1,3 +1,9 @@
+## [11.2.0](https://github.com/maevsi/vibetype/compare/11.1.0...11.2.0) (2025-05-20)
+
+### Features
+
+* **components:** add geocoder to map ([6cb0922](https://github.com/maevsi/vibetype/commit/6cb09227eab844c46199bd6026cf83116127bf8b))
+
 ## [11.1.0](https://github.com/maevsi/vibetype/compare/11.0.2...11.1.0) (2025-05-18)
 
 ### Features
