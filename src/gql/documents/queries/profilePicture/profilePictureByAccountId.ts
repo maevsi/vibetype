@@ -7,7 +7,7 @@ export const useProfilePictureByAccountIdQuery = (
 ) =>
   useQuery({
     query: graphql(`
-      query profilePictureByAccountId($accountId: UUID!) {
+      query ProfilePictureByAccountId($accountId: UUID!) {
         profilePictureByAccountId(accountId: $accountId) {
           ...ProfilePictureItem
         }

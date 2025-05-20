@@ -4,7 +4,7 @@ import { graphql } from '~~/gql/generated'
 export const useAccountRegistrationRefreshMutation = () =>
   useMutation(
     graphql(`
-      mutation accountRegistrationRefresh(
+      mutation AccountRegistrationRefresh(
         $accountId: UUID!
         $language: String!
       ) {

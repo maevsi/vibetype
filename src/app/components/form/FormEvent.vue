@@ -366,23 +366,21 @@ const submit = async () => {
   } else {
     // Add
     const result = await createEventMutation.executeMutation({
-      createEventInput: {
-        event: {
-          createdBy: store.signedInAccountId || '',
-          description: form.description || null,
-          end: form.end || null,
-          guestCountMaximum: form.guestCountMaximum
-            ? +form.guestCountMaximum
-            : null,
-          isInPerson: form.isInPerson,
-          isRemote: form.isRemote,
-          // location: form.location || null,
-          name: form.name || '',
-          slug: form.slug || '',
-          start: form.start || null,
-          url: form.url || null,
-          visibility: form.visibility || EventVisibility.Private,
-        },
+      input: {
+        createdBy: store.signedInAccountId || '',
+        description: form.description || null,
+        end: form.end || null,
+        guestCountMaximum: form.guestCountMaximum
+          ? +form.guestCountMaximum
+          : null,
+        isInPerson: form.isInPerson,
+        isRemote: form.isRemote,
+        // location: form.location || null,
+        name: form.name || '',
+        slug: form.slug || '',
+        start: form.start || null,
+        url: form.url || null,
+        visibility: form.visibility || EventVisibility.Private,
       },
     })
 

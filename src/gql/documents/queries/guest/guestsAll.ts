@@ -9,7 +9,7 @@ export const useAllGuestsQuery = (variables: AllGuestsQueryVariables) =>
   })
 
 export const allGuestsQuery = graphql(`
-  query allGuests($after: Cursor, $eventId: UUID!, $first: Int!) {
+  query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {
     allGuests(after: $after, condition: { eventId: $eventId }, first: $first) {
       nodes {
         ...GuestItem

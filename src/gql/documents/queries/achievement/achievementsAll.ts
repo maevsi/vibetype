@@ -7,7 +7,7 @@ export const useAllAchievementsQuery = (
 ) =>
   useQuery({
     query: graphql(`
-      query allAchievements($accountId: UUID) {
+      query AllAchievements($accountId: UUID) {
         allAchievements(condition: { accountId: $accountId }) {
           nodes {
             ...AchievementItem

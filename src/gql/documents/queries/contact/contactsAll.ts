@@ -5,7 +5,7 @@ import type { AllContactsQueryVariables } from '~~/gql/generated/graphql'
 export const useAllContactsQuery = (variables: AllContactsQueryVariables) =>
   useQuery({
     query: graphql(`
-      query allContacts($after: Cursor, $createdBy: UUID, $first: Int!) {
+      query AllContacts($after: Cursor, $createdBy: UUID, $first: Int!) {
         allContacts(
           after: $after
           condition: { createdBy: $createdBy }

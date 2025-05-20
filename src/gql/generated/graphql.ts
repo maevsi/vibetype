@@ -35,6 +35,8 @@ export type Scalars = {
   BigInt: { input: any; output: any }
   /** A location in a connection that can be used for resuming pagination. */
   Cursor: { input: any; output: any }
+  /** The day, does not include a time. */
+  Date: { input: any; output: any }
   /**
    * A point in time as described by the [ISO
    * 8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
@@ -5756,10 +5758,25 @@ export type Mutation = {
   profilePictureSet?: Maybe<ProfilePictureSetPayload>
   /** Updates a single `Account` using its globally unique id and a patch. */
   updateAccount?: Maybe<UpdateAccountPayload>
+  /**
+   * Sets the birth date for the invoker's account.
+   *
+   * Error codes:
+   * - **P0002** when no record was updated
+   * - **23514** when the birth date is already set
+   */
+  updateAccountBirthDate?: Maybe<UpdateAccountBirthDatePayload>
   /** Updates a single `Account` using a unique key and a patch. */
   updateAccountById?: Maybe<UpdateAccountPayload>
   /** Updates a single `Account` using a unique key and a patch. */
   updateAccountByUsername?: Maybe<UpdateAccountPayload>
+  /**
+   * Sets the location for the invoker's account.
+   *
+   * Error codes:
+   * - **P0002** when no record was updated.
+   */
+  updateAccountLocation?: Maybe<UpdateAccountLocationPayload>
   /** Updates a single `AccountPreferenceEventCategory` using its globally unique id and a patch. */
   updateAccountPreferenceEventCategory?: Maybe<UpdateAccountPreferenceEventCategoryPayload>
   /** Updates a single `AccountPreferenceEventCategory` using a unique key and a patch. */
@@ -6370,6 +6387,11 @@ export type MutationUpdateAccountArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateAccountBirthDateArgs = {
+  input: UpdateAccountBirthDateInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateAccountByIdArgs = {
   input: UpdateAccountByIdInput
 }
@@ -6377,6 +6399,11 @@ export type MutationUpdateAccountByIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateAccountByUsernameArgs = {
   input: UpdateAccountByUsernameInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateAccountLocationArgs = {
+  input: UpdateAccountLocationInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -7746,6 +7773,28 @@ export enum SocialNetwork {
   X = 'X',
 }
 
+/** All input for the `updateAccountBirthDate` mutation. */
+export type UpdateAccountBirthDateInput = {
+  birthDate: Scalars['Date']['input']
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The output of our `updateAccountBirthDate` mutation. */
+export type UpdateAccountBirthDatePayload = {
+  __typename?: 'UpdateAccountBirthDatePayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
 /** All input for the `updateAccountById` mutation. */
 export type UpdateAccountByIdInput = {
   /** An object where the defined keys will be set on the `Account` being updated. */
@@ -7783,6 +7832,29 @@ export type UpdateAccountInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `Account` to be updated. */
   nodeId: Scalars['ID']['input']
+}
+
+/** All input for the `updateAccountLocation` mutation. */
+export type UpdateAccountLocationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  latitude: Scalars['Float']['input']
+  longitude: Scalars['Float']['input']
+}
+
+/** The output of our `updateAccountLocation` mutation. */
+export type UpdateAccountLocationPayload = {
+  __typename?: 'UpdateAccountLocationPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
 }
 
 /** The output of our update `Account` mutation. */
@@ -9266,18 +9338,6 @@ export type JwtRefreshMutation = {
   } | null
 }
 
-export type CreateLegalTermAcceptanceMutationVariables = Exact<{
-  input: CreateLegalTermAcceptanceInput
-}>
-
-export type CreateLegalTermAcceptanceMutation = {
-  __typename?: 'Mutation'
-  createLegalTermAcceptance?: {
-    __typename?: 'CreateLegalTermAcceptancePayload'
-    clientMutationId?: string | null
-  } | null
-}
-
 export type AccountPasswordChangeMutationVariables = Exact<{
   passwordCurrent: Scalars['String']['input']
   passwordNew: Scalars['String']['input']
@@ -9423,7 +9483,7 @@ export type UpdateContactByIdMutation = {
 }
 
 export type CreateEventMutationVariables = Exact<{
-  createEventInput: CreateEventInput
+  input: EventInput
 }>
 
 export type CreateEventMutation = {
@@ -9582,7 +9642,7 @@ export type CreateReportMutation = {
 }
 
 export type CreateUploadMutationVariables = Exact<{
-  createUploadInput: CreateUploadInput
+  input: UploadInput
 }>
 
 export type CreateUploadMutation = {
@@ -10336,7 +10396,7 @@ export const AuthenticateDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'authenticate' },
+      name: { kind: 'Name', value: 'Authenticate' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -10425,7 +10485,7 @@ export const AccountDeleteDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'accountDelete' },
+      name: { kind: 'Name', value: 'AccountDelete' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -10491,7 +10551,7 @@ export const AccountEmailAddressVerificationDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'accountEmailAddressVerification' },
+      name: { kind: 'Name', value: 'AccountEmailAddressVerification' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -10551,7 +10611,7 @@ export const JwtRefreshDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'jwtRefresh' },
+      name: { kind: 'Name', value: 'JwtRefresh' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -10603,70 +10663,13 @@ export const JwtRefreshDocument = {
     },
   ],
 } as unknown as DocumentNode<JwtRefreshMutation, JwtRefreshMutationVariables>
-export const CreateLegalTermAcceptanceDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateLegalTermAcceptance' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateLegalTermAcceptanceInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createLegalTermAcceptance' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  CreateLegalTermAcceptanceMutation,
-  CreateLegalTermAcceptanceMutationVariables
->
 export const AccountPasswordChangeDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'accountPasswordChange' },
+      name: { kind: 'Name', value: 'AccountPasswordChange' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -10754,7 +10757,7 @@ export const AccountPasswordResetDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'accountPasswordReset' },
+      name: { kind: 'Name', value: 'AccountPasswordReset' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -10836,7 +10839,7 @@ export const AccountPasswordResetRequestDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'accountPasswordResetRequest' },
+      name: { kind: 'Name', value: 'AccountPasswordResetRequest' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -10924,7 +10927,7 @@ export const AccountRegistrationDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'accountRegistration' },
+      name: { kind: 'Name', value: 'AccountRegistration' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -11075,7 +11078,7 @@ export const AccountRegistrationRefreshDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'accountRegistrationRefresh' },
+      name: { kind: 'Name', value: 'AccountRegistrationRefresh' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -11160,7 +11163,7 @@ export const CreateAccountBlockDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'createAccountBlock' },
+      name: { kind: 'Name', value: 'CreateAccountBlock' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -11226,7 +11229,7 @@ export const AchievementUnlockDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'achievementUnlock' },
+      name: { kind: 'Name', value: 'AchievementUnlock' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -11309,7 +11312,7 @@ export const CreateContactDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'createContact' },
+      name: { kind: 'Name', value: 'CreateContact' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -11474,7 +11477,7 @@ export const DeleteContactByIdDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'deleteContactById' },
+      name: { kind: 'Name', value: 'DeleteContactById' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -11637,7 +11640,7 @@ export const UpdateContactByIdDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'updateContactById' },
+      name: { kind: 'Name', value: 'UpdateContactById' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -11818,19 +11821,19 @@ export const CreateEventDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'createEvent' },
+      name: { kind: 'Name', value: 'CreateEvent' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'createEventInput' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateEventInput' },
+              name: { kind: 'Name', value: 'EventInput' },
             },
           },
         },
@@ -11846,8 +11849,17 @@ export const CreateEventDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'createEventInput' },
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'event' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'input' },
+                      },
+                    },
+                  ],
                 },
               },
             ],
@@ -11964,7 +11976,7 @@ export const EventDeleteDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'eventDelete' },
+      name: { kind: 'Name', value: 'EventDelete' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -12139,7 +12151,7 @@ export const EventUnlockDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'eventUnlock' },
+      name: { kind: 'Name', value: 'EventUnlock' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -12213,7 +12225,7 @@ export const UpdateEventByIdDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'updateEventById' },
+      name: { kind: 'Name', value: 'UpdateEventById' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -12387,7 +12399,7 @@ export const CreateGuestDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'createGuest' },
+      name: { kind: 'Name', value: 'CreateGuest' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -12559,7 +12571,7 @@ export const DeleteGuestByIdDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'deleteGuestById' },
+      name: { kind: 'Name', value: 'DeleteGuestById' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -12619,7 +12631,7 @@ export const UpdateGuestByIdDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'updateGuestById' },
+      name: { kind: 'Name', value: 'UpdateGuestById' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -12845,7 +12857,7 @@ export const InviteDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'invite' },
+      name: { kind: 'Name', value: 'Invite' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -12927,7 +12939,7 @@ export const ProfilePictureSetDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'profilePictureSet' },
+      name: { kind: 'Name', value: 'ProfilePictureSet' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -12990,7 +13002,7 @@ export const CreateReportDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'createReport' },
+      name: { kind: 'Name', value: 'CreateReport' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -13056,19 +13068,19 @@ export const CreateUploadDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'createUpload' },
+      name: { kind: 'Name', value: 'CreateUpload' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'createUploadInput' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateUploadInput' },
+              name: { kind: 'Name', value: 'UploadInput' },
             },
           },
         },
@@ -13084,8 +13096,17 @@ export const CreateUploadDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'createUploadInput' },
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'upload' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'input' },
+                      },
+                    },
+                  ],
                 },
               },
             ],
@@ -13123,7 +13144,7 @@ export const DeleteUploadByIdDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'deleteUploadById' },
+      name: { kind: 'Name', value: 'DeleteUploadById' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -13214,7 +13235,7 @@ export const AccountByIdDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'accountById' },
+      name: { kind: 'Name', value: 'AccountById' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -13278,7 +13299,7 @@ export const AccountByUsernameDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'accountByUsername' },
+      name: { kind: 'Name', value: 'AccountByUsername' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -13351,7 +13372,7 @@ export const AccountUploadQuotaBytesDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'accountUploadQuotaBytes' },
+      name: { kind: 'Name', value: 'AccountUploadQuotaBytes' },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
@@ -13373,7 +13394,7 @@ export const AllAchievementsDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'allAchievements' },
+      name: { kind: 'Name', value: 'AllAchievements' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -13460,7 +13481,7 @@ export const AllContactsDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'allContacts' },
+      name: { kind: 'Name', value: 'AllContacts' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -13680,7 +13701,7 @@ export const EventByCreatedByAndSlugDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'eventByCreatedByAndSlug' },
+      name: { kind: 'Name', value: 'EventByCreatedByAndSlug' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -13994,7 +14015,7 @@ export const EventSearchDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'eventSearch' },
+      name: { kind: 'Name', value: 'EventSearch' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -14206,7 +14227,7 @@ export const AllEventsDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'allEvents' },
+      name: { kind: 'Name', value: 'AllEvents' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -14413,7 +14434,7 @@ export const AllGuestsDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'allGuests' },
+      name: { kind: 'Name', value: 'AllGuests' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -14657,7 +14678,7 @@ export const AllLegalTermsDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'allLegalTerms' },
+      name: { kind: 'Name', value: 'AllLegalTerms' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -14738,7 +14759,7 @@ export const ProfilePictureByAccountIdDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'profilePictureByAccountId' },
+      name: { kind: 'Name', value: 'ProfilePictureByAccountId' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -14839,7 +14860,7 @@ export const AllUploadsDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'allUploads' },
+      name: { kind: 'Name', value: 'AllUploads' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
