@@ -40,14 +40,15 @@ const store = useStore()
 const localePath = useLocalePath()
 const route = useRoute()
 if (!store.signedInUsername) {
-  await navigateTo(
-    localePath({
+  await navigateTo({
+    path: localePath({
       name: 'session-create',
-      query: {
-        to: route.fullPath,
-      },
     }),
-  )
+    query: {
+      to: route.fullPath,
+    },
+    replace: true,
+  })
 }
 
 // stepper
