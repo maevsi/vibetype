@@ -108,7 +108,6 @@ export default defineNuxtConfig({
       output: {
         sourcemap: true, // TODO: remove? (https://github.com/getsentry/sentry-javascript/discussions/15028)
       },
-      // @ts-expect-error deep type instantiation (https://github.com/vitejs/vite-plugin-vue/issues/422)
       plugins: [vue()],
     },
   },
