@@ -1,3 +1,9 @@
+## [11.5.1](https://github.com/maevsi/vibetype/compare/11.5.0...11.5.1) (2025-05-21)
+
+### Bug Fixes
+
+* **utils:** correct api data typing ([722f017](https://github.com/maevsi/vibetype/commit/722f017246ff085d511720211ea6a5243032c80c))
+
 ## [11.5.0](https://github.com/maevsi/vibetype/compare/11.4.0...11.5.0) (2025-05-21)
 
 ### Features
