@@ -1,3 +1,9 @@
+## [11.4.0](https://github.com/maevsi/vibetype/compare/11.3.0...11.4.0) (2025-05-21)
+
+### Features
+
+* **components:** tweak typography ([634635b](https://github.com/maevsi/vibetype/commit/634635b1026b8390c71bfe57594e63d0f44f70ca))
+
 ## [11.3.0](https://github.com/maevsi/vibetype/compare/11.2.0...11.3.0) (2025-05-20)
 
 ### Features
