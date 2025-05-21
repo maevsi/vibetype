@@ -1,3 +1,13 @@
+## [11.5.0](https://github.com/maevsi/vibetype/compare/11.4.0...11.5.0) (2025-05-21)
+
+### Features
+
+* **session:** show customization features to anyone ([ccf8601](https://github.com/maevsi/vibetype/commit/ccf860163123fb44c0902f2044cbef082de7fe0b))
+
+### Bug Fixes
+
+* **pages:** replace history on redirection to login ([026c1ec](https://github.com/maevsi/vibetype/commit/026c1ec9a053cc5cc43399d8668de9addd372507))
+
 ## [11.4.0](https://github.com/maevsi/vibetype/compare/11.3.0...11.4.0) (2025-05-21)
 
 ### Features
