@@ -1,3 +1,10 @@
+## [11.5.2](https://github.com/maevsi/vibetype/compare/11.5.1...11.5.2) (2025-05-22)
+
+### Bug Fixes
+
+* **security:** add workaround for upstream nuxt content issue ([e77a44e](https://github.com/maevsi/vibetype/commit/e77a44e5a9205c4521b685de8bf27baadcc35613))
+* **types:** add workaround for upstream nitro issue ([6e3d48a](https://github.com/maevsi/vibetype/commit/6e3d48af32f49283ff48e746eb19b1292c644f28))
+
 ## [11.5.1](https://github.com/maevsi/vibetype/compare/11.5.0...11.5.1) (2025-05-21)
 
 ### Bug Fixes
