@@ -7,7 +7,7 @@
     </div>
     <div class="flex-1">
       <h2
-        class="text-base leading-7 font-semibold text-(--semantic-accent-accent-text)"
+        class="text-base leading-7 font-semibold text-(--semantic-accent-text)"
       >
         {{ keyword }}
       </h2>
