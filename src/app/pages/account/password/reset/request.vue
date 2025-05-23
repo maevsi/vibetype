@@ -19,6 +19,7 @@
         <div class="flex justify-center">
           <FormAccountPasswordResetRequest
             ref="form"
+            v-model:error="error"
             class="w-full max-w-md"
             @success="step = 'success'"
           />
@@ -46,31 +47,49 @@
         </LayoutPageResult>
       </LayoutPage>
     </AppStep>
+    <AppStep v-slot="attributes" :is-active="step === 'error'">
+      <LayoutPage v-bind="attributes">
+        <LayoutPageResult type="error">
+          <template #description>
+            {{ t('globalTryAgain') }}
+          </template>
+        </LayoutPageResult>
+        <template #bottom>
+          <ButtonColored
+            :aria-label="t('backToReset')"
+            class="w-full max-w-sm"
+            variant="primary"
+            @click="restart"
+          >
+            {{ t('backToReset') }}
+          </ButtonColored>
+        </template>
+      </LayoutPage>
+    </AppStep>
   </section>
 </template>
 
 <script setup lang="ts">
+// compiler
 definePageMeta({
   layout: 'default-no-header',
 })
 
-const localePath = useLocalePath()
-
-// page
+// head
 const { t } = useI18n()
 const title = t('title')
 useHeadDefault({ title })
 
 // template
+const localePath = useLocalePath()
 const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
-
-// stepper
-const { step } = useStepper<'success'>()
+const { error, restart, step } = useStepper<'success'>()
 </script>
 
 <i18n lang="yaml">
 de:
+  backToReset: Zurück zur Passwortzurücksetzung
   iconAltClose: X-Icon
   instructionsInboxDescription: Überprüfe dein Postfach
   instructionsInboxHeading: Befolge die Anweisungen in der E-Mail, um das Passwort zurückzusetzen.
@@ -78,6 +97,7 @@ de:
   send: Link zum Zurücksetzen senden
   title: Passwort zurücksetzen
 en:
+  backToReset: Back to Reset Password
   iconAltClose: X icon
   instructionsInboxDescription: Follow the instructions in the email to reset your password.
   instructionsInboxHeading: Check your inbox
