@@ -9217,6 +9217,18 @@ export type ContactItemFragment = {
     | null
 } & { ' $fragmentName'?: 'ContactItemFragment' }
 
+export type EventCategoryItemFragment = {
+  __typename?: 'EventCategory'
+  id: any
+  name: string
+} & { ' $fragmentName'?: 'EventCategoryItemFragment' }
+
+export type EventFormatItemFragment = {
+  __typename?: 'EventFormat'
+  id: any
+  name: string
+} & { ' $fragmentName'?: 'EventFormatItemFragment' }
+
 export type EventItemFragment = {
   __typename?: 'Event'
   id: any
@@ -9266,6 +9278,20 @@ export type LegalTermItemFragment = {
   term: string
 } & { ' $fragmentName'?: 'LegalTermItemFragment' }
 
+export type PreferenceEventCategoryItemFragment = {
+  __typename?: 'AccountPreferenceEventCategory'
+  nodeId: string
+  accountId: any
+  categoryId: any
+} & { ' $fragmentName'?: 'PreferenceEventCategoryItemFragment' }
+
+export type PreferenceEventFormatItemFragment = {
+  __typename?: 'AccountPreferenceEventFormat'
+  nodeId: string
+  accountId: any
+  formatId: any
+} & { ' $fragmentName'?: 'PreferenceEventFormatItemFragment' }
+
 export type ProfilePictureItemFragment = {
   __typename?: 'ProfilePicture'
   id: any
@@ -9298,6 +9324,18 @@ export type AuthenticateMutation = {
     __typename?: 'AuthenticatePayload'
     clientMutationId?: string | null
     jwt?: any | null
+  } | null
+}
+
+export type UpdateAccountBirthDateMutationVariables = Exact<{
+  input: UpdateAccountBirthDateInput
+}>
+
+export type UpdateAccountBirthDateMutation = {
+  __typename?: 'Mutation'
+  updateAccountBirthDate?: {
+    __typename?: 'UpdateAccountBirthDatePayload'
+    clientMutationId?: string | null
   } | null
 }
 
@@ -9335,6 +9373,18 @@ export type JwtRefreshMutation = {
     __typename?: 'JwtRefreshPayload'
     clientMutationId?: string | null
     jwt?: any | null
+  } | null
+}
+
+export type UpdateAccountLocationMutationVariables = Exact<{
+  input: UpdateAccountLocationInput
+}>
+
+export type UpdateAccountLocationMutation = {
+  __typename?: 'Mutation'
+  updateAccountLocation?: {
+    __typename?: 'UpdateAccountLocationPayload'
+    clientMutationId?: string | null
   } | null
 }
 
@@ -9617,6 +9667,93 @@ export type InviteMutation = {
   } | null
 }
 
+export type CreatePreferenceEventCategoryMutationVariables = Exact<{
+  input: AccountPreferenceEventCategoryInput
+}>
+
+export type CreatePreferenceEventCategoryMutation = {
+  __typename?: 'Mutation'
+  createAccountPreferenceEventCategory?: {
+    __typename?: 'CreateAccountPreferenceEventCategoryPayload'
+    accountPreferenceEventCategory?:
+      | ({ __typename?: 'AccountPreferenceEventCategory' } & {
+          ' $fragmentRefs'?: {
+            PreferenceEventCategoryItemFragment: PreferenceEventCategoryItemFragment
+          }
+        })
+      | null
+  } | null
+}
+
+export type DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutationVariables =
+  Exact<{
+    input: DeleteAccountPreferenceEventCategoryByAccountIdAndCategoryIdInput
+  }>
+
+export type DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation = {
+  __typename?: 'Mutation'
+  deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId?: {
+    __typename?: 'DeleteAccountPreferenceEventCategoryPayload'
+    deletedAccountPreferenceEventCategoryId?: string | null
+  } | null
+}
+
+export type CreatePreferenceEventFormatMutationVariables = Exact<{
+  input: AccountPreferenceEventFormatInput
+}>
+
+export type CreatePreferenceEventFormatMutation = {
+  __typename?: 'Mutation'
+  createAccountPreferenceEventFormat?: {
+    __typename?: 'CreateAccountPreferenceEventFormatPayload'
+    accountPreferenceEventFormat?:
+      | ({ __typename?: 'AccountPreferenceEventFormat' } & {
+          ' $fragmentRefs'?: {
+            PreferenceEventFormatItemFragment: PreferenceEventFormatItemFragment
+          }
+        })
+      | null
+  } | null
+}
+
+export type DeletePreferenceEventFormatByAccountIdAndFormatIdMutationVariables =
+  Exact<{
+    input: DeleteAccountPreferenceEventFormatByAccountIdAndFormatIdInput
+  }>
+
+export type DeletePreferenceEventFormatByAccountIdAndFormatIdMutation = {
+  __typename?: 'Mutation'
+  deleteAccountPreferenceEventFormatByAccountIdAndFormatId?: {
+    __typename?: 'DeleteAccountPreferenceEventFormatPayload'
+    deletedAccountPreferenceEventFormatId?: string | null
+  } | null
+}
+
+export type CreatePreferenceEventSizeMutationVariables = Exact<{
+  input: AccountPreferenceEventSizeInput
+}>
+
+export type CreatePreferenceEventSizeMutation = {
+  __typename?: 'Mutation'
+  createAccountPreferenceEventSize?: {
+    __typename?: 'CreateAccountPreferenceEventSizePayload'
+    clientMutationId?: string | null
+  } | null
+}
+
+export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables =
+  Exact<{
+    input: DeleteAccountPreferenceEventSizeByAccountIdAndEventSizeInput
+  }>
+
+export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutation = {
+  __typename?: 'Mutation'
+  deleteAccountPreferenceEventSizeByAccountIdAndEventSize?: {
+    __typename?: 'DeleteAccountPreferenceEventSizePayload'
+    clientMutationId?: string | null
+  } | null
+}
+
 export type ProfilePictureSetMutationVariables = Exact<{
   uploadId: Scalars['UUID']['input']
 }>
@@ -9776,6 +9913,36 @@ export type EventByCreatedByAndSlugQuery = {
     | null
 }
 
+export type AllEventCategoriesQueryVariables = Exact<{ [key: string]: never }>
+
+export type AllEventCategoriesQuery = {
+  __typename?: 'Query'
+  allEventCategories?: {
+    __typename?: 'EventCategoriesConnection'
+    nodes: Array<
+      { __typename?: 'EventCategory' } & {
+        ' $fragmentRefs'?: {
+          EventCategoryItemFragment: EventCategoryItemFragment
+        }
+      }
+    >
+  } | null
+}
+
+export type AllEventFormatsQueryVariables = Exact<{ [key: string]: never }>
+
+export type AllEventFormatsQuery = {
+  __typename?: 'Query'
+  allEventFormats?: {
+    __typename?: 'EventFormatsConnection'
+    nodes: Array<
+      { __typename?: 'EventFormat' } & {
+        ' $fragmentRefs'?: { EventFormatItemFragment: EventFormatItemFragment }
+      }
+    >
+  } | null
+}
+
 export type EventSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>
   first: Scalars['Int']['input']
@@ -9865,6 +10032,58 @@ export type AllLegalTermsQuery = {
   } | null
 }
 
+export type AllPreferenceEventCategoriesQueryVariables = Exact<{
+  [key: string]: never
+}>
+
+export type AllPreferenceEventCategoriesQuery = {
+  __typename?: 'Query'
+  allAccountPreferenceEventCategories?: {
+    __typename?: 'AccountPreferenceEventCategoriesConnection'
+    nodes: Array<
+      { __typename?: 'AccountPreferenceEventCategory' } & {
+        ' $fragmentRefs'?: {
+          PreferenceEventCategoryItemFragment: PreferenceEventCategoryItemFragment
+        }
+      }
+    >
+  } | null
+}
+
+export type AllPreferenceEventFormatsQueryVariables = Exact<{
+  [key: string]: never
+}>
+
+export type AllPreferenceEventFormatsQuery = {
+  __typename?: 'Query'
+  allAccountPreferenceEventFormats?: {
+    __typename?: 'AccountPreferenceEventFormatsConnection'
+    nodes: Array<
+      { __typename?: 'AccountPreferenceEventFormat' } & {
+        ' $fragmentRefs'?: {
+          PreferenceEventFormatItemFragment: PreferenceEventFormatItemFragment
+        }
+      }
+    >
+  } | null
+}
+
+export type AllPreferenceEventSizesQueryVariables = Exact<{
+  [key: string]: never
+}>
+
+export type AllPreferenceEventSizesQuery = {
+  __typename?: 'Query'
+  allAccountPreferenceEventSizes?: {
+    __typename?: 'AccountPreferenceEventSizesConnection'
+    nodes: Array<{
+      __typename?: 'AccountPreferenceEventSize'
+      nodeId: string
+      eventSize: EventSize
+    }>
+  } | null
+}
+
 export type ProfilePictureByAccountIdQueryVariables = Exact<{
   accountId: Scalars['UUID']['input']
 }>
@@ -9948,6 +10167,46 @@ export const AchievementItemFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<AchievementItemFragment, unknown>
+export const EventCategoryItemFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'EventCategoryItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'EventCategory' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<EventCategoryItemFragment, unknown>
+export const EventFormatItemFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'EventFormatItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'EventFormat' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<EventFormatItemFragment, unknown>
 export const AddressItemFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -10315,6 +10574,48 @@ export const LegalTermItemFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<LegalTermItemFragment, unknown>
+export const PreferenceEventCategoryItemFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PreferenceEventCategoryItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'AccountPreferenceEventCategory' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'categoryId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<PreferenceEventCategoryItemFragment, unknown>
+export const PreferenceEventFormatItemFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PreferenceEventFormatItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'AccountPreferenceEventFormat' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'formatId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<PreferenceEventFormatItemFragment, unknown>
 export const UploadItemFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -10478,6 +10779,63 @@ export const AuthenticateDocument = {
 } as unknown as DocumentNode<
   AuthenticateMutation,
   AuthenticateMutationVariables
+>
+export const UpdateAccountBirthDateDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateAccountBirthDate' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateAccountBirthDateInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateAccountBirthDate' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateAccountBirthDateMutation,
+  UpdateAccountBirthDateMutationVariables
 >
 export const AccountDeleteDocument = {
   kind: 'Document',
@@ -10663,6 +11021,63 @@ export const JwtRefreshDocument = {
     },
   ],
 } as unknown as DocumentNode<JwtRefreshMutation, JwtRefreshMutationVariables>
+export const UpdateAccountLocationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateAccountLocation' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateAccountLocationInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateAccountLocation' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateAccountLocationMutation,
+  UpdateAccountLocationMutationVariables
+>
 export const AccountPasswordChangeDocument = {
   kind: 'Document',
   definitions: [
@@ -12933,6 +13348,489 @@ export const InviteDocument = {
     },
   ],
 } as unknown as DocumentNode<InviteMutation, InviteMutationVariables>
+export const CreatePreferenceEventCategoryDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreatePreferenceEventCategory' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'AccountPreferenceEventCategoryInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'createAccountPreferenceEventCategory',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: {
+                        kind: 'Name',
+                        value: 'accountPreferenceEventCategory',
+                      },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'input' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: {
+                    kind: 'Name',
+                    value: 'accountPreferenceEventCategory',
+                  },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: {
+                          kind: 'Name',
+                          value: 'PreferenceEventCategoryItem',
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PreferenceEventCategoryItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'AccountPreferenceEventCategory' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'categoryId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreatePreferenceEventCategoryMutation,
+  CreatePreferenceEventCategoryMutationVariables
+>
+export const DeletePreferenceEventCategoryByAccountIdAndCategoryIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: {
+        kind: 'Name',
+        value: 'DeletePreferenceEventCategoryByAccountIdAndCategoryId',
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value:
+                  'DeleteAccountPreferenceEventCategoryByAccountIdAndCategoryIdInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value:
+                'deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: {
+                    kind: 'Name',
+                    value: 'deletedAccountPreferenceEventCategoryId',
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation,
+  DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutationVariables
+>
+export const CreatePreferenceEventFormatDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreatePreferenceEventFormat' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'AccountPreferenceEventFormatInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createAccountPreferenceEventFormat' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: {
+                        kind: 'Name',
+                        value: 'accountPreferenceEventFormat',
+                      },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'input' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'accountPreferenceEventFormat' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: {
+                          kind: 'Name',
+                          value: 'PreferenceEventFormatItem',
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PreferenceEventFormatItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'AccountPreferenceEventFormat' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'formatId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreatePreferenceEventFormatMutation,
+  CreatePreferenceEventFormatMutationVariables
+>
+export const DeletePreferenceEventFormatByAccountIdAndFormatIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: {
+        kind: 'Name',
+        value: 'DeletePreferenceEventFormatByAccountIdAndFormatId',
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value:
+                  'DeleteAccountPreferenceEventFormatByAccountIdAndFormatIdInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'deleteAccountPreferenceEventFormatByAccountIdAndFormatId',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: {
+                    kind: 'Name',
+                    value: 'deletedAccountPreferenceEventFormatId',
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeletePreferenceEventFormatByAccountIdAndFormatIdMutation,
+  DeletePreferenceEventFormatByAccountIdAndFormatIdMutationVariables
+>
+export const CreatePreferenceEventSizeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreatePreferenceEventSize' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'AccountPreferenceEventSizeInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createAccountPreferenceEventSize' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: {
+                        kind: 'Name',
+                        value: 'accountPreferenceEventSize',
+                      },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'input' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreatePreferenceEventSizeMutation,
+  CreatePreferenceEventSizeMutationVariables
+>
+export const DeletePreferenceEventSizeByAccountIdAndEventSizeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: {
+        kind: 'Name',
+        value: 'DeletePreferenceEventSizeByAccountIdAndEventSize',
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value:
+                  'DeleteAccountPreferenceEventSizeByAccountIdAndEventSizeInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'deleteAccountPreferenceEventSizeByAccountIdAndEventSize',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeletePreferenceEventSizeByAccountIdAndEventSizeMutation,
+  DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables
+>
 export const ProfilePictureSetDocument = {
   kind: 'Document',
   definitions: [
@@ -14009,6 +14907,116 @@ export const EventByCreatedByAndSlugDocument = {
   EventByCreatedByAndSlugQuery,
   EventByCreatedByAndSlugQueryVariables
 >
+export const AllEventCategoriesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllEventCategories' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allEventCategories' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'EventCategoryItem' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'EventCategoryItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'EventCategory' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllEventCategoriesQuery,
+  AllEventCategoriesQueryVariables
+>
+export const AllEventFormatsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllEventFormats' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allEventFormats' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'EventFormatItem' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'EventFormatItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'EventFormat' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllEventFormatsQuery,
+  AllEventFormatsQueryVariables
+>
 export const EventSearchDocument = {
   kind: 'Document',
   definitions: [
@@ -14753,6 +15761,171 @@ export const AllLegalTermsDocument = {
     },
   ],
 } as unknown as DocumentNode<AllLegalTermsQuery, AllLegalTermsQueryVariables>
+export const AllPreferenceEventCategoriesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllPreferenceEventCategories' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'allAccountPreferenceEventCategories',
+            },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: {
+                          kind: 'Name',
+                          value: 'PreferenceEventCategoryItem',
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PreferenceEventCategoryItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'AccountPreferenceEventCategory' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'categoryId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllPreferenceEventCategoriesQuery,
+  AllPreferenceEventCategoriesQueryVariables
+>
+export const AllPreferenceEventFormatsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllPreferenceEventFormats' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allAccountPreferenceEventFormats' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: {
+                          kind: 'Name',
+                          value: 'PreferenceEventFormatItem',
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PreferenceEventFormatItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'AccountPreferenceEventFormat' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'formatId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllPreferenceEventFormatsQuery,
+  AllPreferenceEventFormatsQueryVariables
+>
+export const AllPreferenceEventSizesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllPreferenceEventSizes' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allAccountPreferenceEventSizes' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodeId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventSize' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllPreferenceEventSizesQuery,
+  AllPreferenceEventSizesQueryVariables
+>
 export const ProfilePictureByAccountIdDocument = {
   kind: 'Document',
   definitions: [
