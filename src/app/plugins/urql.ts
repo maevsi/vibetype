@@ -15,25 +15,125 @@ import { devtoolsExchange } from '@urql/devtools'
 import { provideClient } from '@urql/vue'
 import type { Client } from '@urql/vue'
 import { consola } from 'consola'
+import type { DocumentNode } from 'graphql'
 import { ref } from 'vue'
 
 import schema from '~~/gql/generated/introspection'
-import type { GraphCacheConfig } from '~~/gql/generated/graphcache'
+import type { GraphCacheConfig, Maybe } from '~~/gql/generated/graphcache'
+import { allPreferenceEventCategoriesQuery } from '~~/gql/documents/queries/preference/preferenceEventCategoriesAll'
+import { allPreferenceEventFormatsQuery } from '~~/gql/documents/queries/preference/preferenceEventFormatsAll'
+import { getPreferenceEventFormatItem } from '~~/gql/documents/fragments/preferenceEventFormatItem'
+import { getPreferenceEventCategoryItem } from '~~/gql/documents/fragments/preferenceEventCategoryItem'
+import type { FragmentType } from '~~/gql/generated'
+import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core'
+import type { DeletePreferenceEventFormatByAccountIdAndFormatIdMutation } from '~~/gql/generated/graphql'
+
+type RelayConnection<T> = {
+  nodes: T[]
+  // ... TODO: add other pagination fields on demand
+}
+
+type QueryData<T> = {
+  [listKey: string]: RelayConnection<T>
+}
 
 const SSR_KEY = '__URQL_DATA__'
 const invalidateCache = (
   cache: Cache,
   name: string,
-  args?: { input: { id: string | number | null } },
+  args?: {
+    input: { id: string | number | null } | { nodeId: string | number | null }
+  },
 ) =>
   args
-    ? cache.invalidate({ __typename: name, id: args.input.id })
+    ? cache.invalidate({
+        __typename: name,
+        ...('id' in args.input
+          ? { id: args.input.id }
+          : { nodeId: args.input.nodeId }),
+      })
     : cache
         .inspectFields('Query')
         .filter((field) => field.fieldName === name)
         .forEach((field) => {
           cache.invalidate('Query', field.fieldKey)
         })
+
+const cacheListAppend = <
+  Fragment,
+  FragmentRaw,
+  Query extends QueryData<FragmentRaw>,
+  Result,
+>({
+  cache,
+  getItemCreated,
+  listKey,
+  query,
+  result,
+}: {
+  cache: Cache
+  getItemCreated: (result: Result) => Maybe<Fragment> | undefined
+  listKey: keyof Query & string
+  query: DocumentNode
+  result: Result
+}) => {
+  const newNode = getItemCreated(result)
+  if (!newNode) return
+
+  cache.updateQuery<Query>({ query }, (data) => {
+    if (!data?.[listKey]) return data
+
+    return {
+      ...data,
+      [listKey]: {
+        ...data[listKey],
+        nodes: [newNode, ...data[listKey].nodes],
+      },
+    }
+  })
+}
+
+const cacheListRemove = <
+  T extends { id: string } | { nodeId: string } | undefined | null,
+  ListQuery extends QueryData<FragmentType<DocumentTypeDecoration<T, unknown>>>,
+  MutationResult,
+>({
+  cache,
+  getItemDeletedId,
+  getItemOfList,
+  listKey,
+  query,
+  result,
+}: {
+  cache: Cache
+  getItemDeletedId: (result: MutationResult) => Maybe<string> | undefined
+  getItemOfList: (
+    fragment?: FragmentType<DocumentTypeDecoration<T, unknown>>,
+  ) => { id: string } | { nodeId: string } | undefined | null
+  listKey: keyof ListQuery & string
+  query: DocumentNode
+  result: MutationResult
+}) => {
+  const deletedId = getItemDeletedId(result)
+  if (!deletedId) return
+
+  cache.updateQuery<ListQuery>({ query }, (data) => {
+    if (!data?.[listKey]) return data
+
+    return {
+      ...data,
+      [listKey]: {
+        ...data[listKey],
+        nodes: data[listKey].nodes.filter((el) => {
+          const unwrapped = getItemOfList(el)
+          if (!unwrapped) return true
+          if ('id' in unwrapped) return unwrapped.id
+          if ('nodeId' in unwrapped) return unwrapped.nodeId
+        }),
+      },
+    }
+  })
+}
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   const runtimeConfig = useRuntimeConfig()
@@ -59,6 +159,11 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   }
 
   const graphCacheConfig: GraphCacheConfig = {
+    keys: {
+      AccountPreferenceEventCategory: (data) => data.nodeId ?? null,
+      AccountPreferenceEventFormat: (data) => data.nodeId ?? null,
+      AccountPreferenceEventSize: (data) => data.nodeId ?? null,
+    },
     schema,
     resolvers: {
       Query: {
@@ -70,54 +175,72 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     },
     updates: {
       Mutation: {
-        // create
-        createContact: (_result, _args, cache, _info) =>
+        // CREATE
+        createContact: (_result, _args, cache) =>
           invalidateCache(cache, 'allContacts'),
-        createGuest: (_result, _args, cache, _info) =>
+        createGuest: (_result, _args, cache) =>
           invalidateCache(cache, 'allGuests'),
-        // TODO: create manual updates that do not require invalidation (https://github.com/maevsi/vibetype/issues/720)
-        // createGuest: (result, args, cache, info) => {
-        //   cache.updateQuery(
-        //     {
-        //       query: allGuestsQuery,
-        //       variables: {
-        //         eventId: args.input.guest.eventId,
-        //         first: 10, // Replace with the appropriate value or keep this dynamic
-        //         after: null, // Update accordingly, this could be the first page of results
-        //       },
-        //     },
-        //     (data) => {
-        //       if (data?.allGuests?.nodes) {
-        //         // Append the new guest to the allGuests array
-        //         return {
-        //           ...data,
-        //           allGuests: {
-        //             ...data.allGuests,
-        //             nodes: [
-        //               ...data.allGuests.nodes,
-        //               ...(result.createGuest?.guest
-        //                 ? [result.createGuest?.guest]
-        //                 : []),
-        //             ],
-        //             totalCount: data.allGuests.totalCount + 1,
-        //           },
-        //         }
-        //       } else {
-        //         return data
-        //       }
-        //     },
-        //   )
-        // },
+        createAccountPreferenceEventCategory: (result, _args, cache) =>
+          cacheListAppend({
+            cache,
+            getItemCreated: (result) =>
+              result.createAccountPreferenceEventCategory
+                ?.accountPreferenceEventCategory,
+            listKey: 'allAccountPreferenceEventCategories',
+            query: allPreferenceEventCategoriesQuery,
+            result,
+          }),
+        createAccountPreferenceEventFormat: (result, _args, cache) =>
+          cacheListAppend({
+            cache,
+            getItemCreated: (result) =>
+              result.createAccountPreferenceEventFormat
+                ?.accountPreferenceEventFormat,
+            listKey: 'allAccountPreferenceEventFormats',
+            query: allPreferenceEventFormatsQuery,
+            result,
+          }),
 
-        // update
-        profilePictureSet: (_result, _args, cache, _info) =>
+        // UPDATE
+        profilePictureSet: (_result, _args, cache) =>
           invalidateCache(cache, 'profilePictureByAccountId'),
 
-        // delete
-        deleteContactById: (_result, args, cache, _info) =>
+        // DELETE
+        deleteContactById: (_result, args, cache) =>
           invalidateCache(cache, 'Contact', args),
-        deleteGuestById: (_result, args, cache, _info) =>
+        deleteGuestById: (_result, args, cache) =>
           invalidateCache(cache, 'Guest', args),
+        deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId: (
+          result,
+          _args,
+          cache,
+        ) =>
+          cacheListRemove({
+            cache,
+            getItemDeletedId: (result) =>
+              result
+                .deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId
+                ?.deletedAccountPreferenceEventCategoryId,
+            getItemOfList: getPreferenceEventCategoryItem,
+            listKey: 'allAccountPreferenceEventCategories',
+            query: allPreferenceEventCategoriesQuery,
+            result,
+          }),
+        deleteAccountPreferenceEventFormatByAccountIdAndFormatId: (
+          result: DeletePreferenceEventFormatByAccountIdAndFormatIdMutation,
+          _args,
+          cache,
+        ) =>
+          cacheListRemove({
+            cache,
+            getItemDeletedId: (result) =>
+              result.deleteAccountPreferenceEventFormatByAccountIdAndFormatId
+                ?.deletedAccountPreferenceEventFormatId,
+            getItemOfList: getPreferenceEventFormatItem,
+            listKey: 'allAccountPreferenceEventFormats',
+            query: allPreferenceEventFormatsQuery,
+            result,
+          }),
       },
     },
   }
