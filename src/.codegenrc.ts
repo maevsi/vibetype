@@ -1,6 +1,6 @@
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
-export default {
+export const codegenConfig: CodegenConfig = {
   schema: 'https://postgraphile.localhost/graphql',
   documents: ['gql/documents/**/*.ts'], // ignoreNoDocuments: true,
   hooks: { afterAllFileWrite: ['prettier --write', 'eslint --fix'] },
@@ -13,7 +13,11 @@ export default {
     },
     'gql/generated/graphcache.ts': {
       plugins: [
-        { add: { content: '/* eslint-disable no-use-before-define */' } },
+        {
+          add: {
+            content: `/* eslint-disable @typescript-eslint/no-empty-object-type */\n/* eslint-disable @typescript-eslint/no-explicit-any */\n/* eslint-disable import/no-duplicates */`,
+          },
+        },
         'typescript',
         'typescript-urql-graphcache',
       ],
@@ -22,4 +26,6 @@ export default {
       plugins: ['urql-introspection'],
     },
   },
-} as CodegenConfig
+}
+
+export default codegenConfig
