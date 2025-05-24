@@ -233,6 +233,7 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: [
+        '@internationalized/date',
         '@sentry/nuxt',
         '@tiptap/extension-link',
         '@tiptap/extension-text-align',
@@ -264,6 +265,7 @@ export default defineNuxtConfig({
         'prntr',
         'qrcode.vue',
         'reka-ui',
+        'reka-ui/date',
         'seedrandom',
         'slugify',
         'tailwind-merge',

@@ -30,26 +30,20 @@
           >
             <AppIconContacts />
           </CardButton>
-          <AppUnderConstruction>
-            <CardButton
-              class="bg-(--accent-strong) text-(--semantic-base-primary-button-text)"
-              :title="t('resetAISetup')"
-              :to="
-                localePath({
-                  name: 'account-edit-username',
-                  params: {
-                    username: store.signedInUsername,
-                  },
-                })
-              "
-            >
-              <AppIconNetworkIntelligence />
-
-              <template #iconSecondary>
-                <AppIconRestartAlt />
-              </template>
-            </CardButton>
-          </AppUnderConstruction>
+          <CardButton
+            class="bg-(--accent-strong) text-(--semantic-base-primary-button-text)"
+            :title="t('aiSetup')"
+            :to="
+              localePath({
+                name: 'preference-create',
+              })
+            "
+          >
+            <AppIconNetworkIntelligence />
+            <!-- <template #iconSecondary>
+              <AppIconRestartAlt />
+            </template> -->
+          </CardButton>
           <CardButton
             class="border-(--warning-strong) bg-(--warning-weak) text-(--warning-text)"
             :title="t('earlyBirdStart')"
@@ -191,6 +185,8 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
+  aiSetup: KI einrichten
+  # aiSetupReset: KI-Einrichtung zurücksetzen
   bugReport: Fehler
   colorScheme: Farbschema
   contact: Kontakt
@@ -207,12 +203,13 @@ de:
   preferences: Einstellungen
   privacy: Datenschutzerklärung
   profile: Profil
-  resetAISetup: KI-Einrichtung zurücksetzen
   earlyBirdStart: Early Bird beitreten
   # earlyBirdStop: Early Bird beenden
   support: Hilfe
   terms: Allgemeine Geschäftsbedingungen
 en:
+  aiSetup: Set up AI
+  # aiSetupReset: Reset AI Setup
   bugReport: Issue
   colorScheme: Color scheme
   contact: Contact
@@ -229,7 +226,6 @@ en:
   preferences: Settings
   privacy: Privacy Policy
   profile: Profile
-  resetAISetup: Reset AI Setup
   earlyBirdStart: Join Early Bird
   # earlyBirdStop: Stop Early Bird
   support: Support
