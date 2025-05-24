@@ -1,3 +1,9 @@
+## [11.6.0](https://github.com/maevsi/vibetype/compare/11.5.2...11.6.0) (2025-05-24)
+
+### Features
+
+* **preference:** add setup ([3b40649](https://github.com/maevsi/vibetype/commit/3b406497be5110aad6b6ed7699c5a140f6d98229))
+
 ## [11.5.2](https://github.com/maevsi/vibetype/compare/11.5.1...11.5.2) (2025-05-22)
 
 ### Bug Fixes
