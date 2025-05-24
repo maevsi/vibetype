@@ -14,7 +14,7 @@
   --secondary: oklch(97% 0 0deg);
   --secondary-foreground: oklch(20.5% 0 0deg);
   --muted: var(--semantic-base-line);
-  --muted-foreground: var(--semantic-base-text-primary);
+  --muted-foreground: var(--semantic-base-text-secondary);
   --accent: oklch(97% 0 0deg);
   --accent-foreground: oklch(20.5% 0 0deg);
   --destructive: var(--semantic-critic-weak);
