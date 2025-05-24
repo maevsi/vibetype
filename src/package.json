@@ -1,11 +1,11 @@
 {
   "description": "Find events, guests and friends 💙❤️💚",
   "devDependencies": {
-    "@aws-sdk/client-ses": "3.816.0",
-    "@aws-sdk/client-sesv2": "3.816.0",
-    "@aws-sdk/credential-providers": "3.816.0",
+    "@aws-sdk/client-ses": "3.817.0",
+    "@aws-sdk/client-sesv2": "3.817.0",
+    "@aws-sdk/credential-providers": "3.817.0",
     "@dargmuesli/nuxt-cookie-control": "9.0.4",
-    "@dargmuesli/nuxt-vio": "18.2.4",
+    "@dargmuesli/nuxt-vio": "18.2.5",
     "@fontsource-variable/raleway": "5.2.5",
     "@graphql-codegen/add": "5.0.3",
     "@graphql-codegen/cli": "5.0.6",
@@ -153,7 +153,7 @@
     "vue-router": "4.5.1",
     "vue-tsc": "2.2.10",
     "workbox-precaching": "7.3.0",
-    "zod": "3.25.23"
+    "zod": "3.25.28"
   },
   "engines": {
     "node": "22"
