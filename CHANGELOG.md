@@ -1,3 +1,10 @@
+## [11.6.1](https://github.com/maevsi/vibetype/compare/11.6.0...11.6.1) (2025-05-26)
+
+### Bug Fixes
+
+* **components:** correct page padding ([9e6645e](https://github.com/maevsi/vibetype/commit/9e6645e73728d955299e59dc0923dd12c571c899))
+* **pages:** remove preference initializer ([2c248c8](https://github.com/maevsi/vibetype/commit/2c248c88f3ee23e2508f0a09d1e3897ee36a9e1c))
+
 ## [11.6.0](https://github.com/maevsi/vibetype/compare/11.5.2...11.6.0) (2025-05-24)
 
 ### Features
