@@ -122,7 +122,6 @@ if (!store.signedInUsername) {
 const { error, step, previous, title } = useStepperPage<
   'age' | 'size' | 'format' | 'category' | 'location' | 'done'
 >({
-  initial: 'format',
   steps: {
     default: {
       title: t('title'),
