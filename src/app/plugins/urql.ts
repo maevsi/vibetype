@@ -1,3 +1,4 @@
+import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core'
 import {
   createClient,
   ssrExchange as getSsrExchange,
@@ -18,18 +19,20 @@ import { consola } from 'consola'
 import type { DocumentNode } from 'graphql'
 import { ref } from 'vue'
 
-import schema from '~~/gql/generated/introspection'
+import type { FragmentType } from '~~/gql/generated'
 import type { GraphCacheConfig, Maybe } from '~~/gql/generated/graphcache'
+import type {
+  DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation,
+  DeletePreferenceEventFormatByAccountIdAndFormatIdMutation,
+  DeletePreferenceEventLocationByIdMutation,
+} from '~~/gql/generated/graphql'
+import schema from '~~/gql/generated/introspection'
 import { allPreferenceEventCategoriesQuery } from '~~/gql/documents/queries/preference/preferenceEventCategoriesAll'
 import { allPreferenceEventFormatsQuery } from '~~/gql/documents/queries/preference/preferenceEventFormatsAll'
 import { getPreferenceEventFormatItem } from '~~/gql/documents/fragments/preferenceEventFormatItem'
 import { getPreferenceEventCategoryItem } from '~~/gql/documents/fragments/preferenceEventCategoryItem'
-import type { FragmentType } from '~~/gql/generated'
-import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core'
-import type {
-  DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation,
-  DeletePreferenceEventFormatByAccountIdAndFormatIdMutation,
-} from '~~/gql/generated/graphql'
+import { allPreferenceEventLocationsQuery } from '~~/gql/documents/queries/preference/preferenceEventLocationsAll'
+import { getPreferenceEventLocationItem } from '~~/gql/documents/fragments/preferenceEventLocationItem'
 
 type RelayConnection<T> = {
   nodes: T[]
@@ -168,6 +171,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       AccountPreferenceEventCategory: (data) => data.nodeId ?? null,
       AccountPreferenceEventFormat: (data) => data.nodeId ?? null,
       AccountPreferenceEventSize: (data) => data.nodeId ?? null,
+      GeographyPoint: (_data) => null,
     },
     schema,
     resolvers: {
@@ -203,6 +207,16 @@ export default defineNuxtPlugin(async (nuxtApp) => {
                 ?.accountPreferenceEventFormat,
             listKey: 'allAccountPreferenceEventFormats',
             query: allPreferenceEventFormatsQuery,
+            result,
+          }),
+        createAccountPreferenceEventLocation: (result, _args, cache, _info) =>
+          cacheListAppend({
+            cache,
+            getItemCreated: (result) =>
+              result.createAccountPreferenceEventLocation
+                ?.accountPreferenceEventLocation,
+            listKey: 'allAccountPreferenceEventLocations',
+            query: allPreferenceEventLocationsQuery,
             result,
           }),
 
@@ -246,6 +260,22 @@ export default defineNuxtPlugin(async (nuxtApp) => {
             getItemOfList: getPreferenceEventFormatItem,
             listKey: 'allAccountPreferenceEventFormats',
             query: allPreferenceEventFormatsQuery,
+            result,
+          }),
+        deleteAccountPreferenceEventLocationById: (
+          result: DeletePreferenceEventLocationByIdMutation,
+          _args,
+          cache,
+          _info,
+        ) =>
+          cacheListRemove({
+            cache,
+            getItemDeletedId: (result) =>
+              result.deleteAccountPreferenceEventLocationById
+                ?.deletedAccountPreferenceEventLocationId,
+            getItemOfList: getPreferenceEventLocationItem,
+            listKey: 'allAccountPreferenceEventLocations',
+            query: allPreferenceEventLocationsQuery,
             result,
           }),
       },
