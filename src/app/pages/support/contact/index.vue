@@ -17,7 +17,7 @@
           <ButtonColored
             :aria-label="t('errorButton')"
             class="w-full max-w-md"
-            variant="primary-critical"
+            variant="primary"
             @click="error = undefined"
           >
             {{ t('errorButton') }}
