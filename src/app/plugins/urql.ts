@@ -130,8 +130,10 @@ const cacheListRemove = <
         nodes: data[listKey].nodes.filter((el) => {
           const unwrapped = getItemOfList(el)
           if (!unwrapped) return true
-          if ('id' in unwrapped) return unwrapped.id
-          if ('nodeId' in unwrapped) return unwrapped.nodeId
+          if ('id' in unwrapped && unwrapped.id === deletedId) return false
+          if ('nodeId' in unwrapped && unwrapped.nodeId === deletedId)
+            return false
+          return true
         }),
       },
     }
