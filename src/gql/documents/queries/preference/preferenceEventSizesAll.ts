@@ -1,5 +1,6 @@
 import { useQuery } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
+import type { AllPreferenceEventSizesQueryVariables } from '~~/gql/generated/graphql'
 
 export const allPreferenceEventSizesQuery = graphql(`
   query AllPreferenceEventSizes {
@@ -12,8 +13,10 @@ export const allPreferenceEventSizesQuery = graphql(`
   }
 `)
 
-export const useAllPreferenceEventSizesQuery = () =>
+export const useAllPreferenceEventSizesQuery = (
+  variables?: AllPreferenceEventSizesQueryVariables,
+) =>
   useQuery({
     query: allPreferenceEventSizesQuery,
-    variables: undefined,
+    variables,
   })
