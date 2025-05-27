@@ -6,7 +6,7 @@
         {{ t('title') }}
       </TypographyH3>
       <div class="relative isolate -mx-6">
-        <AppMap v-if="!ariaHidden" ref="map" geocoder />
+        <AppMap v-if="!ariaHidden" ref="map" geocoder :position-initial />
         <div
           class="pointer-events-none absolute inset-0 z-[400] bg-[#14132699] mask-[radial-gradient(circle_140px_at_center,transparent_0,transparent_139px,black_150px)]"
         />
@@ -33,7 +33,10 @@
 </template>
 
 <script setup lang="ts">
-import { useUpdateAccountLocationMutation } from '~~/gql/documents/mutations/account/accountLocationUpdate'
+import { useAllPreferenceEventLocationsQuery } from '~~/gql/documents/queries/preference/preferenceEventLocationsAll'
+import { useCreatePreferenceEventLocationMutation } from '~~/gql/documents/mutations/preference/preferenceEventLocationCreate'
+import { useDeletePreferenceEventLocationByIdMutation } from '~~/gql/documents/mutations/preference/preferenceEventLocationDeleteById'
+import { getPreferenceEventLocationItem } from '~~/gql/documents/fragments/preferenceEventLocationItem'
 
 const { ariaHidden } = defineProps<{
   ariaHidden: boolean
@@ -46,10 +49,20 @@ const emit = defineEmits<{
 const { t, locale } = useI18n()
 
 // api data
-const updateAccountLocationMutation = useUpdateAccountLocationMutation()
-const api = getApiData([updateAccountLocationMutation])
+const allPreferenceEventLocationsQuery = await zalgo(
+  useAllPreferenceEventLocationsQuery(),
+)
+const createPreferenceEventLocationMutation =
+  useCreatePreferenceEventLocationMutation()
+const deletePreferenceEventLocationByIdMutation =
+  useDeletePreferenceEventLocationByIdMutation()
+const api = getApiData([
+  allPreferenceEventLocationsQuery,
+  createPreferenceEventLocationMutation,
+  deletePreferenceEventLocationByIdMutation,
+])
 
-// map
+// map - zoom level to radius
 const EARTH_CIRCUMFERENCE_METERS = 40075016.686
 const MAP_CUTOUT_RADIUS_PIXELS = 140
 const MAP_TILE_SIZE_PIXELS = 256
@@ -77,6 +90,43 @@ const mapCutoutRadiusInMeters = computed(() => {
 
   return metersPerPixel * MAP_CUTOUT_RADIUS_PIXELS
 })
+
+// map - radius to zoom level
+const positionInitial = ref<{
+  latitude: number
+  longitude: number
+  zoomLevel: number
+}>()
+const getZoomLevelForRadius = ({
+  latitude,
+  radiusInMeters,
+}: {
+  latitude: number
+  radiusInMeters: number
+}) =>
+  Math.log2(
+    (EARTH_CIRCUMFERENCE_METERS * Math.cos((latitude * Math.PI) / 180)) /
+      ((MAP_TILE_SIZE_PIXELS * radiusInMeters) / MAP_CUTOUT_RADIUS_PIXELS),
+  )
+const preferenceEventLocations = computed(
+  () =>
+    allPreferenceEventLocationsQuery.data.value?.allAccountPreferenceEventLocations?.nodes
+      .map((item) => getPreferenceEventLocationItem(item))
+      .filter(isNeitherNullNorUndefined) || [],
+)
+const preferenceEventLocationFirst = preferenceEventLocations.value[0]
+if (preferenceEventLocationFirst) {
+  positionInitial.value = {
+    latitude: preferenceEventLocationFirst.location.latitude,
+    longitude: preferenceEventLocationFirst.location.longitude,
+    zoomLevel: getZoomLevelForRadius({
+      latitude: preferenceEventLocationFirst.location.latitude,
+      radiusInMeters: preferenceEventLocationFirst.radius,
+    }),
+  }
+}
+
+// map - formatters
 const formatterKilometers = new Intl.NumberFormat(locale.value, {
   style: 'unit',
   unit: 'kilometer',
@@ -110,17 +160,49 @@ const formattedRadius = computed(() => {
   }
 })
 
+const store = useStore()
 const save = async () => {
   const map = templateMap.value
 
-  if (map?.mapCenter === undefined || map.mapZoom === undefined) return
+  if (
+    map?.mapCenter === undefined ||
+    map.mapZoom === undefined ||
+    mapCutoutRadiusInMeters.value === undefined
+  )
+    return
 
-  await updateAccountLocationMutation.executeMutation({
+  for (const preferenceEventLocation of preferenceEventLocations.value) {
+    const result =
+      await deletePreferenceEventLocationByIdMutation.executeMutation({
+        input: {
+          id: preferenceEventLocation.id,
+        },
+      })
+
+    if (result.error || !result.data) return
+  }
+
+  const result = await createPreferenceEventLocationMutation.executeMutation({
     input: {
-      latitude: map.mapCenter.lat,
-      longitude: map.mapCenter.lng,
+      createdBy: store.signedInAccountId,
+      location: {
+        type: 'Point',
+        coordinates: [map.mapCenter.lng, map.mapCenter.lat],
+      },
+      radius: mapCutoutRadiusInMeters.value,
     },
   })
+
+  if (result.error || !result.data) return
+
+  positionInitial.value = {
+    latitude: map.mapCenter.lat,
+    longitude: map.mapCenter.lng,
+    zoomLevel: getZoomLevelForRadius({
+      latitude: map.mapCenter.lat,
+      radiusInMeters: mapCutoutRadiusInMeters.value,
+    }),
+  }
 
   emit('next')
 }
