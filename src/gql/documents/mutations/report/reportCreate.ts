@@ -1,13 +1,12 @@
 import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
-export const useCreateReportMutation = () =>
-  useMutation(
-    graphql(`
-      mutation CreateReport($reportInput: ReportInput!) {
-        createReport(input: { report: $reportInput }) {
-          clientMutationId
-        }
-      }
-    `),
-  )
+export const createReportMutation = graphql(`
+  mutation CreateReport($reportInput: ReportInput!) {
+    createReport(input: { report: $reportInput }) {
+      clientMutationId
+    }
+  }
+`)
+
+export const useCreateReportMutation = () => useMutation(createReportMutation)
