@@ -1,3 +1,13 @@
+## [11.7.0](https://github.com/maevsi/vibetype/compare/11.6.1...11.7.0) (2025-05-27)
+
+### Features
+
+* **components:** add location preference ([11e459b](https://github.com/maevsi/vibetype/commit/11e459b396187afef22de5722dc5891bdefe33aa))
+
+### Bug Fixes
+
+* **plugins:** correct urql list deletion ([c2dd04e](https://github.com/maevsi/vibetype/commit/c2dd04e96e42dc8045d70032b30c0ff1dc0c6f63))
+
 ## [11.6.1](https://github.com/maevsi/vibetype/compare/11.6.0...11.6.1) (2025-05-26)
 
 ### Bug Fixes
