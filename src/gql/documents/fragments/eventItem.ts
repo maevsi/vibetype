@@ -23,6 +23,12 @@ export const EventItem = graphql(`
     start
     url
     visibility
+
+    eventFavoritesByEventId {
+      nodes {
+        ...EventFavoriteItem
+      }
+    }
   }
 `)
 

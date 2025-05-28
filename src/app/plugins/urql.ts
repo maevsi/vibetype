@@ -189,6 +189,14 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           invalidateCache(cache, 'allContacts'),
         createGuest: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allGuests'),
+        createEventFavorite: (_result, _args, cache, _info) => {
+          invalidateCache(cache, 'allEvents')
+          invalidateCache(cache, 'allContacts')
+        },
+        deleteEventFavorite: (_result, _args, cache, _info) => {
+          invalidateCache(cache, 'allEvents')
+          invalidateCache(cache, 'allContacts')
+        },
         createAccountPreferenceEventCategory: (result, _args, cache, _info) =>
           cacheListAppend({
             cache,
