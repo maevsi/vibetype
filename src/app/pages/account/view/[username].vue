@@ -1,113 +1,168 @@
 <template>
   <Loader :api="api" indicator="ping">
-    <LayoutPageTitle :title="title" />
     <div class="flex flex-col gap-4">
-      <div class="flex flex-col items-center justify-center sm:flex-row">
+      <TypographyH2>
+        {{ title }}
+      </TypographyH2>
+      <div class="flex flex-col gap-4">
         <div
-          class="flex w-full flex-row gap-4 rounded-xl bg-(--semantic-base-surface-1)"
-        >
-          <div class="flex flex-row items-center gap-4 px-4 py-4 md:py-5">
-            <AccountProfilePicture
-              :account-id="account.id"
-              class="size-12 rounded-full md:size-14"
-              height="50"
-              width="50"
-            />
-            <TypographyH3 class="my-auto">
-              {{ '@' + route.params.username }}
-            </TypographyH3>
-          </div>
-        </div>
-      </div>
-      <ButtonColored
-        :aria-label="t('contactBook')"
-        variant="secondary"
-        class="rounded-lg py-2"
-        :to="
-          localePath({
-            name: 'contact',
-          })
-        "
-      >
-        <div class="flex flex-row gap-4">
-          <IVibetypeContacts class="size-6" :alt="t('iconAltContactBook')" />
-          {{ t('contactBook') }}
-        </div>
-      </ButtonColored>
-      <div v-if="account.description?.trim()" class="flex flex-col gap-2">
-        <TypographyH3>
-          {{ t('about') }}
-        </TypographyH3>
-        <TypographyBodyMedium>
-          {{ account.description }}
-        </TypographyBodyMedium>
-      </div>
-      <div v-if="mixedEvents.length > 0" class="flex flex-col">
-        <div class="flex flex-row justify-between">
-          <TypographyH3>
-            {{ t('events') }}
-          </TypographyH3>
-          <ButtonColored
-            v-if="isOwnProfile"
-            :aria-label="t('contactBook')"
-            variant="primary"
-            class="rounded-xl py-2 text-sm font-semibold"
-            :to="localePath('event-create')"
-          >
-            <div class="flex flex-row gap-2">
-              {{ t('newEvent') }}
-              <IVibetypeAdd class="size-5" :alt="t('iconAdd')" />
-            </div>
-          </ButtonColored>
-        </div>
-      </div>
-      <div>
-        <div v-if="mixedEvents.length > 0" class="flex flex-col gap-4">
-          <EventProfile
-            v-for="event in mixedEvents"
-            :key="event.id"
-            :event="event"
-            :is-organizing="event.isOrganizing"
-            :is-attending="event.isAttending"
-            :is-own-profile="isOwnProfile"
-          />
-        </div>
-      </div>
-      <div class="flex flex-col gap-2">
-        <TypographyH3>
-          {{ t('achievements') }}
-        </TypographyH3>
-        <!-- @vue-ignore -->
-        <CardButton
-          class="relative"
-          is-disabled
-          :to="`/achievement/view/$username`"
+          class="light:border-(--semantic-base-line) flex flex-col items-center justify-center rounded-xl border border-1 sm:flex-row"
         >
           <div
-            v-if="
-              achievements.filter(
-                (achievement) =>
-                  achievement.achievement === AchievementType.MeetTheTeam,
-              ).length
-            "
-            class="flex gap-2 text-center"
+            class="flex w-full flex-row gap-4 rounded-xl bg-(--semantic-base-surface-1)"
           >
-            <div class="flex flex-1 flex-col items-center gap-2 p-2">
-              <div class="relative">
-                <IMaterialSymbolsHexagonOutline height="4em" width="4em" />
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <IFa6SolidHandshake height="1.5em" width="1.5em" />
-                </div>
-              </div>
-              <span class="text-gray-700 dark:text-gray-300">
-                {{ t('achievementMeetTheTeam') }}
-              </span>
+            <div class="flex flex-row items-center gap-4 px-4 py-4 md:py-5">
+              <AccountProfilePicture
+                :account-id="account.id"
+                class="size-15 rounded-full"
+                height="60"
+                width="60"
+              />
+              <TypographyH3>
+                {{ t('userHandle', { username: route.params.username }) }}
+              </TypographyH3>
             </div>
           </div>
-          <span v-else>
-            {{ t('achievementsNone') }}
+        </div>
+        <AppUnderConstruction>
+          <ButtonColored
+            v-if="store.signedInUsername !== route.params.username"
+            :aria-label="t('friendAdd')"
+            disabled
+          >
+            {{ t('friendAdd') }}
+          </ButtonColored>
+        </AppUnderConstruction>
+
+        <AppUnderConstruction>
+          <span class="text-xl font-bold">
+            {{ t('friends') }}
           </span>
-        </CardButton>
+          <!-- @vue-ignore -->
+          <CardButton
+            class="relative"
+            is-disabled
+            :to="`/friend/view/$username`"
+          >
+            <div class="isolate flex -space-x-2 overflow-hidden p-1">
+              <AccountProfilePicture
+                account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
+                class="ring-background-brighten dark:ring-background-darken rounded-full ring-3"
+                height="64"
+                width="64"
+              />
+              <AccountProfilePicture
+                account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
+                class="ring-background-brighten dark:ring-background-darken rounded-full ring-3"
+                height="64"
+                width="64"
+              />
+              <AccountProfilePicture
+                account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
+                class="ring-background-brighten dark:ring-background-darken rounded-full ring-3"
+                height="64"
+                width="64"
+              />
+            </div>
+          </CardButton>
+        </AppUnderConstruction>
+        <ButtonColored
+          v-if="isOwnProfile"
+          :aria-label="t('contactBook')"
+          variant="secondary"
+          class="py-3"
+          :to="
+            localePath({
+              name: 'contact',
+            })
+          "
+        >
+          <div class="flex flex-row gap-4">
+            <AppIconContacts :aria-label="t('iconAltContactBook')" />
+            <TypographySubtitleMedium>
+              {{ t('contactBook') }}
+            </TypographySubtitleMedium>
+          </div>
+        </ButtonColored>
+        <div v-if="account.description?.trim()" class="flex flex-col gap-2">
+          <TypographyH3>
+            {{ t('about') }}
+          </TypographyH3>
+          <TypographyBodyMedium>
+            {{ account.description }}
+          </TypographyBodyMedium>
+        </div>
+        <div v-if="mixedEvents.length > 0" class="flex flex-col">
+          <div class="flex flex-row justify-between">
+            <TypographyH3>
+              {{ t('events') }}
+            </TypographyH3>
+            <ButtonColored
+              v-if="isOwnProfile"
+              :aria-label="t('contactBook')"
+              variant="primary"
+              class="rounded-xl py-2 text-sm font-semibold"
+              :to="localePath('event-create')"
+            >
+              <div class="flex flex-row gap-2">
+                <TypographySubtitleSmall>
+                  {{ t('newEvent') }}
+                </TypographySubtitleSmall>
+                <AppIconAdd :aria-label="t('iconAdd')" />
+              </div>
+            </ButtonColored>
+          </div>
+        </div>
+        <div>
+          <div v-if="mixedEvents.length > 0" class="flex flex-col gap-4">
+            <EventCard
+              v-for="event in mixedEvents"
+              :key="event.id"
+              :event="event"
+              :is-organizing="event.isOrganizing"
+              :is-attending="event.isAttending"
+              :is-own-profile="isOwnProfile"
+            />
+          </div>
+        </div>
+        <div class="flex flex-col gap-2">
+          <TypographyH3>
+            {{ t('achievements') }}
+          </TypographyH3>
+          <!-- @vue-ignore -->
+          <CardButton
+            class="relative"
+            is-disabled
+            :to="`/achievement/view/$username`"
+          >
+            <div
+              v-if="
+                achievements.filter(
+                  (achievement) =>
+                    achievement.achievement === AchievementType.MeetTheTeam,
+                ).length
+              "
+              class="flex gap-2 text-center"
+            >
+              <div class="flex flex-1 flex-col items-center gap-2 p-2">
+                <div class="relative">
+                  <IMaterialSymbolsHexagonOutline height="4em" width="4em" />
+                  <div
+                    class="absolute inset-0 flex items-center justify-center"
+                  >
+                    <IFa6SolidHandshake height="1.5em" width="1.5em" />
+                  </div>
+                </div>
+                <span class="text-gray-700 dark:text-gray-300">
+                  {{ t('achievementMeetTheTeam') }}
+                </span>
+              </div>
+            </div>
+            <span v-else>
+              {{ t('achievementsNone') }}
+            </span>
+          </CardButton>
+        </div>
       </div>
     </div>
   </Loader>
@@ -124,8 +179,9 @@ import {
 } from '~~/gql/generated/graphql'
 import { getEventItem } from '~~/gql/documents/fragments/eventItem'
 import { useAccountEventsAttendingQuery } from '~~/gql/documents/queries/event/eventsAttending'
-import EventProfile from '~/components/event/list/EventProfile.vue'
+import EventCard from '~/components/event/list/EventCard.vue'
 import { useAllEventsQuery } from '~~/gql/documents/queries/event/eventsAll'
+
 const { t } = useI18n()
 const route = useRoute('account-view-username___en')
 const localePath = useLocalePath()
@@ -135,10 +191,13 @@ type EventWithFlags = EventItemFragment & {
 }
 
 // data
-const title = t('myProfile')
+
 const store = useStore()
 const isOwnProfile = computed(
   () => store.signedInUsername === route.params.username,
+)
+const title = computed(() =>
+  isOwnProfile.value ? t('myProfile') : t('profile'),
 )
 
 useHeadDefault({
@@ -274,10 +333,14 @@ de:
   about: Über
   contactBook: Kontaktbuch
   events: Veranstaltungen
+  friendAdd: Freundschaftsanfrage senden
+  friends: Freunde
   myProfile: Mein Profil
   newEvent: Neue Veranstaltung
+  profile: Profil
   iconAltContactBook: Kontaktbuch-Symbol
   iconAdd: Hinzufügen
+  userHandle: "{'@'}{username}"
 en:
   achievements: Achievements
   achievementsNone: None unlocked yet
@@ -285,8 +348,12 @@ en:
   about: About
   contactBook: Contact Book
   events: Events
+  friends: Friends
+  friendAdd: Send friend request
   myProfile: My Profile
   newEvent: New event
+  profile: Profile
   iconAltContactBook: Contact Book Icon
   iconAdd: Add
+  userHandle: "{'@'}{username}"
 </i18n>

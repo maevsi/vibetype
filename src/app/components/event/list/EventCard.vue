@@ -28,32 +28,26 @@
         <EventCardHeroImage :event="event" />
         <button
           v-if="store.signedInUsername"
-          class="absolute top-2 left-2 flex size-5 items-center justify-center rounded-full bg-white transition-all hover:scale-110"
-          @click.stop="toggleFavorite"
+          class="absolute top-2 left-2 z-20 flex size-5 items-center justify-center rounded-full bg-white transition-all hover:scale-110"
+          @click.stop.prevent="toggleFavorite"
         >
           <AppIconFavorite
             v-if="!isFavorite"
-            class="size-4 text-(--complement-strong)"
+            class="pointer-events-none size-4 text-(--complement-strong)"
           />
           <AppIconFavoriteFilled
             v-else
-            class="size-4 text-(--complement-strong)"
+            class="pointer-events-none size-4 text-(--complement-strong)"
           />
         </button>
       </div>
       <div
-        class="ml-4 flex flex-1 flex-col justify-center gap-2 pt-6 pb-2 md:pt-0"
+        class="ml-4 flex flex-1 flex-col justify-center gap-2 pt-8 pb-2 md:pt-0"
       >
-        <template v-if="event.name.length > 25">
-          <TypographyTitleMedium class="line-clamp-2 leading-tight">
-            {{ event.name }}
-          </TypographyTitleMedium>
-        </template>
-        <template v-else>
-          <TypographyTitleLarge class="line-clamp-2 leading-tight">
-            {{ event.name }}
-          </TypographyTitleLarge>
-        </template>
+        <span class="text-large line-clamp-2 leading-tight font-semibold">
+          {{ event.name }}
+        </span>
+
         <TypographySubtitleSmall>
           {{ eventStart.format('ddd, D MMMM •') }}
           {{ eventStart.format('h:mm a') }}
@@ -81,17 +75,14 @@
 
 <script setup lang="ts">
 import type { EventItemFragment } from '~~/gql/generated/graphql'
-import { useEventFavoriteMutation } from '~~/gql/documents/mutations/event/eventFavorite'
-import { useEventUnfavoriteMutation } from '~~/gql/documents/mutations/event/eventDeleteFavorite'
-import { useEventFavoriteByCreatedByAndEventIdQuery } from '~~/gql/documents/queries/event/eventFavorites'
+import { useEventFavoriteMutation } from '~~/gql/documents/mutations/event/eventFavoriteCreate'
+import { useEventUnfavoriteMutation } from '~~/gql/documents/mutations/event/eventFavoriteDelete'
+import { getEventFavoriteItem } from '~~/gql/documents/fragments/eventFavoriteItem'
 
 const { t } = useI18n()
 
 interface Props {
-  event: Pick<
-    EventItemFragment,
-    'id' | 'accountByCreatedBy' | 'name' | 'start' | 'slug'
-  >
+  event: EventItemFragment
   isOrganizing?: boolean
   isAttending?: boolean
   isOwnProfile: boolean
@@ -108,83 +99,82 @@ const dateTime = useDateTime()
 const localePath = useLocalePath()
 const eventStart = computed(() => dateTime(props.event.start))
 
-const favoriteId = ref<string | null>(null)
-const favoriteNodeId = ref<string | null>(null)
-const isFavorite = ref(false)
-const isProcessing = ref(false)
+const currentUserFavorite = computed(() => {
+  if (!store.signedInAccountId) return null
+
+  return (
+    props.event.eventFavoritesByEventId?.nodes?.find((favorite) => {
+      const favoriteData = getEventFavoriteItem(favorite)
+      return favoriteData?.createdBy === store.signedInAccountId
+    }) ?? null
+  )
+})
+
+const initialFavoriteData = currentUserFavorite.value
+  ? getEventFavoriteItem(currentUserFavorite.value)
+  : null
+
+const favoriteId = ref<string | null>(initialFavoriteData?.id ?? null)
+const favoriteNodeId = ref<string | null>(initialFavoriteData?.nodeId ?? null)
+const isFavorite = ref(!!initialFavoriteData)
 
 const favoriteMutation = useEventFavoriteMutation()
 const unfavoriteMutation = useEventUnfavoriteMutation()
+const isFetching = computed(
+  () => favoriteMutation.fetching.value || unfavoriteMutation.fetching.value,
+)
 
 const markFavorite = async (eventId: string) => {
-  if (isProcessing.value) return
+  if (isFetching.value) return
 
-  isProcessing.value = true
   const result = await favoriteMutation.executeMutation({
     eventId,
     createdBy: store.signedInAccountId,
   })
 
-  if (result.data?.createEventFavorite?.eventFavorite) {
-    favoriteId.value = result.data.createEventFavorite.eventFavorite.id
-    favoriteNodeId.value = result.data.createEventFavorite.eventFavorite.nodeId
-    isFavorite.value = true
-  }
+  console.log('Favorite mutation result:', result)
 
-  isProcessing.value = false
+  // Trigger a re-render by updating a reactive value
+  await nextTick()
+
   return result
 }
 
 const removeFavorite = async () => {
-  if (!favoriteNodeId.value || isProcessing.value) return
+  if (!favoriteNodeId.value || isFetching.value) return
 
-  isProcessing.value = true
   const result = await unfavoriteMutation.executeMutation({
     nodeId: favoriteNodeId.value,
   })
-
-  if (!result.error) {
-    favoriteId.value = null
-    favoriteNodeId.value = null
-    isFavorite.value = false
-  }
-
-  isProcessing.value = false
   return result
 }
 
 const toggleFavorite = async () => {
-  if (isProcessing.value) return
+  if (isFetching.value) return
 
   if (isFavorite.value) {
-    isFavorite.value = false
-    const result = await removeFavorite()
-    if (result?.error) {
-      isFavorite.value = true
-    }
+    await removeFavorite()
   } else {
-    isFavorite.value = true
-    const result = await markFavorite(props.event.id)
-    if (result?.error) {
-      isFavorite.value = false
-    }
+    await markFavorite(props.event.id)
   }
 }
 
-const favoriteData = useEventFavoriteByCreatedByAndEventIdQuery({
-  createdBy: store.signedInAccountId ?? '',
-  eventId: props.event.id,
-})
+watchEffect(() => {
+  const favorite = currentUserFavorite.value
 
-onMounted(() => {
-  watchEffect(() => {
-    const favorite = favoriteData.data.value?.eventFavoriteByCreatedByAndEventId
-    if (favorite) {
+  if (favorite) {
+    const favoriteData = getEventFavoriteItem(favorite)
+
+    if (favoriteData) {
+      favoriteId.value = favoriteData.id
+      favoriteNodeId.value = favoriteData.nodeId
       isFavorite.value = true
-      favoriteId.value = favorite.id
-      favoriteNodeId.value = favorite.nodeId
     }
-  })
+  } else {
+    favoriteId.value = null
+    favoriteNodeId.value = null
+    isFavorite.value = false
+  }
 })
 </script>
 
