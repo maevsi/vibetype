@@ -9,9 +9,22 @@ import type { EventItemFragment } from '~~/gql/generated/graphql'
 import { getAddressItem } from '~~/gql/documents/fragments/addressItem'
 import markerIcon from '~/assets/icons/location-on.svg?raw'
 
-const { events = undefined, geocoder = undefined } = defineProps<{
+const {
+  events = undefined,
+  geocoder = undefined,
+  positionInitial = {
+    latitude: 51.12421275782688,
+    longitude: 10.283203125000002,
+    zoomLevel: 6,
+  },
+} = defineProps<{
   events?: Pick<EventItemFragment, 'addressByAddressId'>[]
   geocoder?: boolean
+  positionInitial?: {
+    latitude: number
+    longitude: number
+    zoomLevel: number
+  }
 }>()
 
 const templateIdMap = useId()
@@ -26,7 +39,10 @@ onMounted(async () => {
       [-90, -180],
       [90, 180],
     ],
-  }).setView([51.12421275782688, 10.283203125000002], 6) // Kassel: 51.3144643, 9.4957866
+  }).setView(
+    [positionInitial.latitude, positionInitial.longitude],
+    positionInitial.zoomLevel,
+  ) // Kassel: 51.3144643, 9.4957866
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution:
       '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',

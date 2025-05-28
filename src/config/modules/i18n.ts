@@ -6,7 +6,6 @@ export const i18nConfig: ReturnType<DefineNuxtConfig> = {
   i18n: {
     defaultLocale: 'en', // Must be set for the default prefix_except_default prefix strategy.
     detectBrowserLanguage: false,
-    lazy: true,
     locales: LOCALES,
   },
 }
