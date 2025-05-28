@@ -4,7 +4,7 @@ import { graphql } from '~~/gql/generated'
 export const useProfilePictureSetMutation = () =>
   useMutation(
     graphql(`
-      mutation profilePictureSet($uploadId: UUID!) {
+      mutation ProfilePictureSet($uploadId: UUID!) {
         profilePictureSet(input: { uploadId: $uploadId }) {
           clientMutationId
         }

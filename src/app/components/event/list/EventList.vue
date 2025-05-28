@@ -18,7 +18,7 @@
 <script setup lang="ts">
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
-const { events, hasNextPage } = defineProps<{
+const { events = undefined, hasNextPage } = defineProps<{
   events?: EventItemFragment[]
   hasNextPage?: boolean
 }>()

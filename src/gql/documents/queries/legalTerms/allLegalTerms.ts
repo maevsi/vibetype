@@ -9,7 +9,7 @@ export const useAllLegalTermsQuery = (variables: AllLegalTermsQueryVariables) =>
   })
 
 export const allLegalTermsQuery = graphql(`
-  query allLegalTerms($language: String) {
+  query AllLegalTerms($language: String) {
     allLegalTerms(condition: { language: $language }) {
       nodes {
         ...LegalTermItem

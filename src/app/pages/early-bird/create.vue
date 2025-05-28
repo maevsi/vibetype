@@ -40,20 +40,19 @@ const store = useStore()
 const localePath = useLocalePath()
 const route = useRoute()
 if (!store.signedInUsername) {
-  await navigateTo(
-    localePath({
+  await navigateTo({
+    path: localePath({
       name: 'session-create',
-      query: {
-        to: route.fullPath,
-      },
     }),
-  )
+    query: {
+      to: route.fullPath,
+    },
+    replace: true,
+  })
 }
 
 // stepper
-const { step, previous, title } = useStepperPage<
-  'default' | 'form' | 'submission'
->({
+const { step, previous, title } = useStepperPage<'form' | 'submission'>({
   steps: {
     default: {
       title: t('title'),

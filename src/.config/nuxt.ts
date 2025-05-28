@@ -108,7 +108,6 @@ export default defineNuxtConfig({
       output: {
         sourcemap: true, // TODO: remove? (https://github.com/getsentry/sentry-javascript/discussions/15028)
       },
-      // @ts-expect-error deep type instantiation (https://github.com/vitejs/vite-plugin-vue/issues/422)
       plugins: [vue()],
     },
   },
@@ -245,6 +244,7 @@ export default defineNuxtConfig({
         '@vuelidate/core',
         '@vueuse/core',
         'chart.js',
+        'class-variance-authority',
         'clipboardy',
         'clsx',
         'css-element-queries',
@@ -256,6 +256,7 @@ export default defineNuxtConfig({
         'isomorphic-dompurify',
         'js-confetti',
         'leaflet',
+        'leaflet-control-geocoder',
         'lodash-es',
         'lucide-vue-next',
         'mustache',

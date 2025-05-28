@@ -8,14 +8,14 @@
     <CardStateInfo v-if="to" class="rounded-none">
       {{ t('accountRequired') }}
     </CardStateInfo>
-    <AppStep v-slot="formAttrs" :is-active="step === 'default'">
-      <LayoutPage v-bind="formAttrs">
+    <AppStep v-slot="attributes" :is-active="step === 'default'">
+      <LayoutPage v-bind="attributes">
         <FormAccountSignIn v-model:error="error" @signed-in="onSignIn" />
         <ContentLegalFooter />
       </LayoutPage>
     </AppStep>
-    <AppStep v-slot="errorAttrs" :is-active="step === 'error'">
-      <LayoutPage v-bind="errorAttrs">
+    <AppStep v-slot="attributes" :is-active="step === 'error'">
+      <LayoutPage v-bind="attributes">
         <LayoutPageResult type="error">
           {{ error }}
           <template #description>

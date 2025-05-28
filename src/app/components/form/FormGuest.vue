@@ -92,7 +92,7 @@ import { getContactItem } from '~~/gql/documents/fragments/contactItem'
 // import { accountByIdQuery } from '~~/gql/documents/queries/account/accountById'
 // import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 
-const { event, guestContactIdsExisting } = defineProps<{
+const { event, guestContactIdsExisting = undefined } = defineProps<{
   event: Pick<EventItemFragment, 'id'>
   guestContactIdsExisting?: number[]
 }>()

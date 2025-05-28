@@ -95,7 +95,7 @@ const templateForm = useTemplateRef('form')
 
 // stepper
 const { error, previous, restart, step, title } = useStepperPage<
-  'default' | 'terms' | 'privacy' | 'success'
+  'terms' | 'privacy' | 'success'
 >({
   steps: {
     default: {

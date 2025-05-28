@@ -11,7 +11,7 @@ export const useAccountByUsernameQuery = (
   })
 
 export const accountByUsernameQuery = graphql(`
-  query accountByUsername($username: String!) {
+  query AccountByUsername($username: String!) {
     accountByUsername(username: $username) {
       ...AccountItem
     }

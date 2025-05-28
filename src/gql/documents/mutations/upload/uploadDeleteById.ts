@@ -4,7 +4,7 @@ import { graphql } from '~~/gql/generated'
 export const useDeleteUploadByIdMutation = () =>
   useMutation(
     graphql(`
-      mutation deleteUploadById($id: UUID!) {
+      mutation DeleteUploadById($id: UUID!) {
         deleteUploadById(input: { id: $id }) {
           clientMutationId
           upload {

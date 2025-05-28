@@ -2,10 +2,11 @@
   <div>
     <LayoutPageTitle :title="title" />
     <div class="flex flex-col gap-6">
-      <section v-if="store.signedInUsername" class="flex flex-col gap-4">
+      <section class="flex flex-col gap-4">
         <span class="text-lg font-bold">{{ t('profile') }}</span>
         <div class="flex flex-col gap-3">
           <CardButton
+            v-if="store.signedInUsername"
             :title="t('personalInformation')"
             :to="
               localePath({
@@ -19,6 +20,7 @@
             <AppIconPerson />
           </CardButton>
           <CardButton
+            v-if="store.signedInUsername"
             :title="t('contactBook')"
             :to="
               localePath({

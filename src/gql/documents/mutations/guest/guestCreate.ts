@@ -4,7 +4,7 @@ import { graphql } from '~~/gql/generated'
 export const useCreateGuestMutation = () =>
   useMutation(
     graphql(`
-      mutation createGuest($guestInput: GuestInput!) {
+      mutation CreateGuest($guestInput: GuestInput!) {
         createGuest(input: { guest: $guestInput }) {
           guest {
             contactByContactId {

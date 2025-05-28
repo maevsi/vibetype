@@ -1,3 +1,43 @@
+## [11.5.1](https://github.com/maevsi/vibetype/compare/11.5.0...11.5.1) (2025-05-21)
+
+### Bug Fixes
+
+* **utils:** correct api data typing ([722f017](https://github.com/maevsi/vibetype/commit/722f017246ff085d511720211ea6a5243032c80c))
+
+## [11.5.0](https://github.com/maevsi/vibetype/compare/11.4.0...11.5.0) (2025-05-21)
+
+### Features
+
+* **session:** show customization features to anyone ([ccf8601](https://github.com/maevsi/vibetype/commit/ccf860163123fb44c0902f2044cbef082de7fe0b))
+
+### Bug Fixes
+
+* **pages:** replace history on redirection to login ([026c1ec](https://github.com/maevsi/vibetype/commit/026c1ec9a053cc5cc43399d8668de9addd372507))
+
+## [11.4.0](https://github.com/maevsi/vibetype/compare/11.3.0...11.4.0) (2025-05-21)
+
+### Features
+
+* **components:** tweak typography ([634635b](https://github.com/maevsi/vibetype/commit/634635b1026b8390c71bfe57594e63d0f44f70ca))
+
+## [11.3.0](https://github.com/maevsi/vibetype/compare/11.2.0...11.3.0) (2025-05-20)
+
+### Features
+
+* **app:** disable backdrop ([2531059](https://github.com/maevsi/vibetype/commit/253105904a3a60916fa4f0732fb87aeb661c5541))
+
+## [11.2.0](https://github.com/maevsi/vibetype/compare/11.1.0...11.2.0) (2025-05-20)
+
+### Features
+
+* **components:** add geocoder to map ([6cb0922](https://github.com/maevsi/vibetype/commit/6cb09227eab844c46199bd6026cf83116127bf8b))
+
+## [11.1.0](https://github.com/maevsi/vibetype/compare/11.0.2...11.1.0) (2025-05-18)
+
+### Features
+
+* **components:** wrap headings balanced ([7df90bd](https://github.com/maevsi/vibetype/commit/7df90bd657509e588eca8708f2079bb5a5dc0c65))
+
 ## [11.0.2](https://github.com/maevsi/vibetype/compare/11.0.1...11.0.2) (2025-05-15)
 
 ### Bug Fixes

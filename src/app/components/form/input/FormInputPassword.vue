@@ -57,7 +57,7 @@ const {
   id = 'password',
   formInput,
   isStrengthShown,
-  title,
+  title = undefined,
 } = defineProps<{
   id?: string
   formInput: BaseValidation

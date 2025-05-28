@@ -4,7 +4,7 @@ import { graphql } from '~~/gql/generated'
 export const useCreateReportMutation = () =>
   useMutation(
     graphql(`
-      mutation createReport($reportInput: ReportInput!) {
+      mutation CreateReport($reportInput: ReportInput!) {
         createReport(input: { report: $reportInput }) {
           clientMutationId
         }

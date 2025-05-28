@@ -24,7 +24,7 @@ import { useProfilePictureByAccountIdQuery } from '~~/gql/documents/queries/prof
 const {
   accountId,
   aspect = 'aspect-square',
-  class: classProps,
+  class: classProps = undefined,
   height,
   width,
 } = defineProps<
