@@ -10,9 +10,7 @@ export const useEventFavoriteMutation = () =>
         ) {
           clientMutationId
           eventFavorite {
-            id
-            nodeId
-            eventId
+            ...EventFavoriteItem
           }
         }
       }

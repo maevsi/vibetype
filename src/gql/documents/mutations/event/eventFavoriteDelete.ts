@@ -8,8 +8,7 @@ export const useEventUnfavoriteMutation = () =>
         deleteEventFavorite(input: { nodeId: $nodeId }) {
           clientMutationId
           eventFavorite {
-            id
-            eventId
+            ...EventFavoriteItem
           }
         }
       }

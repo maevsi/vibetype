@@ -75,6 +75,14 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           invalidateCache(cache, 'allContacts'),
         createGuest: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allGuests'),
+        createEventFavorite: (_result, _args, cache, _info) => {
+          invalidateCache(cache, 'allEvents')
+          invalidateCache(cache, 'allContacts')
+        },
+        deleteEventFavorite: (_result, _args, cache, _info) => {
+          invalidateCache(cache, 'allEvents')
+          invalidateCache(cache, 'allContacts')
+        },
         // TODO: create manual updates that do not require invalidation (https://github.com/maevsi/vibetype/issues/720)
         // createGuest: (result, args, cache, info) => {
         //   cache.updateQuery(

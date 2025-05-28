@@ -15,6 +15,11 @@ export const useAccountEventsAttendingQuery = (
               nodes {
                 eventByEventId {
                   ...EventItem
+                  eventFavoritesByEventId {
+                    nodes {
+                      ...EventFavoriteItem
+                    }
+                  }
                 }
               }
             }
