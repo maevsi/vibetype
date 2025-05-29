@@ -145,7 +145,7 @@
     "v-calendar": "3.1.2",
     "vaul-vue": "0.4.1",
     "vee-validate": "4.15.0",
-    "vue": "3.5.15",
+    "vue": "3.5.16",
     "vue-advanced-cropper": "2.8.9",
     "vue-chartjs": "5.3.2",
     "vue-i18n-routing": "1.2.0",
@@ -153,7 +153,7 @@
     "vue-router": "4.5.1",
     "vue-tsc": "2.2.10",
     "workbox-precaching": "7.3.0",
-    "zod": "3.25.32"
+    "zod": "3.25.34"
   },
   "engines": {
     "node": "22"
