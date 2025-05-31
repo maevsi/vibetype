@@ -65,7 +65,7 @@
     "@urql/exchange-graphcache": "7.2.3",
     "@urql/vue": "1.4.3",
     "@vee-validate/zod": "4.15.0",
-    "@vite-pwa/nuxt": "1.0.1",
+    "@vite-pwa/nuxt": "1.0.3",
     "@vitejs/plugin-vue": "5.2.4",
     "@vue-email/components": "0.0.21",
     "@vue-email/render": "0.0.9",
