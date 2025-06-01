@@ -108,7 +108,7 @@
     "nuxt-gtag": "3.0.2",
     "nuxt-security": "2.2.0",
     "nuxt-zod-i18n": "1.11.5",
-    "openai": "4.104.0",
+    "openai": "5.0.1",
     "pinia": "3.0.2",
     "postgres": "3.4.7",
     "prettier": "3.5.3",
