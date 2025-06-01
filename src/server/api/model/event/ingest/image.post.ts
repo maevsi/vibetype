@@ -1,6 +1,6 @@
 import { zodResponseFormat } from 'openai/helpers/zod'
-import { z } from 'zod'
 import sharp from 'sharp'
+import { z } from 'zod'
 
 const eventIngestImagePostBodySchema = z.object({
   base64Image: z.string(),
@@ -85,7 +85,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const completion = await openAiClient.beta.chat.completions.parse({
+  const completion = await openAiClient.chat.completions.parse({
     messages: [
       {
         role: 'system',

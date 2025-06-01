@@ -1,4 +1,4 @@
-import type { ChatCompletion } from 'openai/resources/index.mjs'
+import type { ChatCompletion } from 'openai/resources/chat/completions'
 
 const costFormatter = new Intl.NumberFormat('de-DE', {
   style: 'currency',
