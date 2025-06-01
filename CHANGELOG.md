@@ -1,3 +1,10 @@
+## [11.7.1](https://github.com/maevsi/vibetype/compare/11.7.0...11.7.1) (2025-06-01)
+
+### Bug Fixes
+
+* **components:** correct view box casing ([ba9e8cd](https://github.com/maevsi/vibetype/commit/ba9e8cd4943ceab21f8cec8d2259fc662dd5e2fb))
+* **vibetype-logo:** on back navigation ([9264805](https://github.com/maevsi/vibetype/commit/926480569d552db2bccfa5f016b142ef4f0865b1))
+
 ## [11.7.0](https://github.com/maevsi/vibetype/compare/11.6.1...11.7.0) (2025-05-27)
 
 ### Features
