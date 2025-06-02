@@ -1,7 +1,7 @@
 <template>
   <LayoutPage>
     <div class="flex flex-col gap-4 text-center">
-      <AppStepIndex :count="5" :index="3" />
+      <AppStepIndex :count="4" :index="2" />
       <TypographyH3>
         {{ t('title') }}
       </TypographyH3>

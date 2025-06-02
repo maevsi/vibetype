@@ -1,7 +1,7 @@
 <template>
   <LayoutPage :aria-hidden>
     <div class="flex flex-col gap-4">
-      <AppStepIndex :count="5" :index="5" />
+      <AppStepIndex :count="4" :index="4" />
       <TypographyH3 class="text-center">
         {{ t('title') }}
       </TypographyH3>
