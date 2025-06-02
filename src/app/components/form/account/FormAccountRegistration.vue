@@ -29,6 +29,12 @@
         :title="t('passwordRepetition')"
         @input="form.passwordRepetition = $event"
       />
+      <FormInputDateOfBirth
+        id="birthdate"
+        :form-input="v$.birthDate"
+        is-validatable
+        @input="form.birthDate = $event"
+      />
       <FormInputCaptcha
         :form-input="v$.captcha"
         is-centered
@@ -72,6 +78,7 @@ const form = reactive({
   password: ref<string>(),
   passwordRepetition: ref<string>(),
   username: ref<string>(),
+  birthDate: ref<string>(),
 })
 const isFormSent = ref(false)
 const modelError = defineModel<Error>('error')
@@ -130,6 +137,7 @@ const rules = {
     required,
     sameAs: sameAs(computed(() => form.password)),
   },
+  birthDate: VALIDATION_BIRTH_DATE(),
 }
 const v$ = useVuelidate(rules, form)
 

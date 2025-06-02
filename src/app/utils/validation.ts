@@ -18,6 +18,7 @@ import { eventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eve
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 import { EventVisibility } from '~~/gql/generated/graphql'
 import { getEventItem } from '~~/gql/documents/fragments/eventItem'
+import { getLocalTimeZone, parseDate, today } from '@internationalized/date'
 
 export const VALIDATION_ADDRESS_LENGTH_MAXIMUM = 300
 export const VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM = 254 // source: https://www.dominicsayers.com/isemail/
@@ -235,3 +236,20 @@ export const validateUsername = (invert?: boolean) => async (value: string) => {
     ? !result.data?.accountByUsername
     : !!result.data?.accountByUsername
 }
+
+export const VALIDATION_BIRTH_DATE = () => ({
+  required,
+  minimumAge: (value: string | undefined) => {
+    if (!value) return false
+
+    try {
+      const birthDate = parseDate(value)
+      const todayDate = today(getLocalTimeZone())
+      const eighteenYearsAgo = todayDate.subtract({ years: 18 })
+      const result = birthDate.compare(eighteenYearsAgo) <= 0
+      return result
+    } catch {
+      return false
+    }
+  },
+})
