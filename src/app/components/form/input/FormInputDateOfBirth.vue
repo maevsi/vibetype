@@ -16,7 +16,10 @@
         <Button
           variant="outline"
           :class="
-            cn('w-full ps-3 text-start', !value && 'text-muted-foreground')
+            cn(
+              'w-full justify-start ps-3 text-start',
+              !value && 'text-muted-foreground',
+            )
           "
         >
           <span>
