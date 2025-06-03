@@ -92,6 +92,7 @@ const submit = async (termId: string) => {
       legalTermId: termId,
       password: form.password || '',
       username: form.username || '',
+      birthDate: form.birthDate,
     },
     {
       fetchOptions: {
@@ -118,6 +119,7 @@ watch(
           getCombinedErrorMessages(current, {
             postgres22023: t('postgres22023'),
             postgres23505: t('postgres23505'),
+            YTBDA: t('birthDateTooYoung'),
           })[0],
         )
       : undefined
@@ -149,6 +151,7 @@ defineExpose({
 <i18n lang="yaml">
 de:
   accountDeletionNotice: Du wirst deinen Account jederzeit löschen können.
+  birthDateTooYoung: Du musst mindestens 18 Jahre alt sein, um dich zu registrieren.
   passwordRepetition: Passwort bestätigen
   postgres22023: Das Passwort ist zu kurz! Überlege dir ein längeres.
   postgres23505: Es gibt bereits einen Account mit diesem Nutzernamen! Überlege dir einen neuen Namen oder versuche dich anzumelden.
@@ -156,6 +159,7 @@ de:
   signIn: 'Du hast bereits ein Konto? Anmelden'
 en:
   accountDeletionNotice: "You'll be able to delete your account at any time."
+  birthDateTooYoung: You must be at least 18 years old to register.
   passwordRepetition: Confirm password
   postgres22023: Your password is too short! Think of a longer one.
   postgres23505: This username is already in use! Think of a new name or try signing in instead.

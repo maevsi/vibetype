@@ -8,6 +8,7 @@ export const accountRegistrationMutation = graphql(`
     $username: String!
     $language: String!
     $legalTermId: UUID!
+    $birthDate: Date!
   ) {
     accountRegistration(
       input: {
@@ -16,6 +17,7 @@ export const accountRegistrationMutation = graphql(`
         username: $username
         language: $language
         legalTermId: $legalTermId
+        birthDate: $birthDate
       }
     ) {
       clientMutationId
