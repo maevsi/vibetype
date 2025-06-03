@@ -2,13 +2,9 @@ import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
 export const createPreferenceEventFormatMutation = graphql(`
-  mutation CreatePreferenceEventFormat(
-    $input: AccountPreferenceEventFormatInput!
-  ) {
-    createAccountPreferenceEventFormat(
-      input: { accountPreferenceEventFormat: $input }
-    ) {
-      accountPreferenceEventFormat {
+  mutation CreatePreferenceEventFormat($input: PreferenceEventFormatInput!) {
+    createPreferenceEventFormat(input: { preferenceEventFormat: $input }) {
+      preferenceEventFormat {
         ...PreferenceEventFormatItem
       }
     }

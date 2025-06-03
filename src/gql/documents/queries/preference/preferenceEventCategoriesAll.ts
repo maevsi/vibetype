@@ -4,7 +4,7 @@ import type { AllPreferenceEventCategoriesQueryVariables } from '~~/gql/generate
 
 export const allPreferenceEventCategoriesQuery = graphql(`
   query AllPreferenceEventCategories {
-    allAccountPreferenceEventCategories {
+    allPreferenceEventCategories {
       nodes {
         ...PreferenceEventCategoryItem
       }

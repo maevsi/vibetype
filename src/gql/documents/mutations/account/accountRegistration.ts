@@ -3,6 +3,7 @@ import { graphql } from '~~/gql/generated'
 
 export const accountRegistrationMutation = graphql(`
   mutation AccountRegistration(
+    $birthDate: Date!
     $emailAddress: String!
     $password: String!
     $username: String!
@@ -11,6 +12,7 @@ export const accountRegistrationMutation = graphql(`
   ) {
     accountRegistration(
       input: {
+        birthDate: $birthDate
         emailAddress: $emailAddress
         password: $password
         username: $username

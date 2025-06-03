@@ -3,10 +3,10 @@ import { graphql } from '~~/gql/generated'
 
 export const deletePreferenceEventLocationByIdMutation = graphql(`
   mutation DeletePreferenceEventLocationById(
-    $input: DeleteAccountPreferenceEventLocationByIdInput!
+    $input: DeletePreferenceEventLocationByIdInput!
   ) {
-    deleteAccountPreferenceEventLocationById(input: $input) {
-      deletedAccountPreferenceEventLocationId
+    deletePreferenceEventLocationById(input: $input) {
+      deletedPreferenceEventLocationId
     }
   }
 `)

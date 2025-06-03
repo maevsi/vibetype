@@ -66,21 +66,15 @@ import { useForm } from 'vee-validate'
 import { z } from 'zod'
 
 import { cn } from '@/utils/shadcn'
-import { useUpdateAccountBirthDateMutation } from '~~/gql/documents/mutations/account/accountBirthDateUpdate'
 
 const emit = defineEmits<{
   submit: []
   success: []
 }>()
 
-// api data
-const updateAccountBirthDateMutation = useUpdateAccountBirthDateMutation()
-const api = getApiData([updateAccountBirthDateMutation])
-
 // form
 const { t, locale } = useI18n()
 const templateForm = useTemplateRef('form')
-const modelError = defineModel<Error>('error')
 const submit = () => {
   templateForm.value?.dispatchEvent(
     new Event('submit', { bubbles: true, cancelable: true }),
@@ -97,35 +91,10 @@ const value = computed({
   get: () => (values.birthDate ? parseDate(values.birthDate) : undefined),
   set: (val) => val,
 })
-const onSubmit = handleSubmit(async (values) => {
-  const result = await updateAccountBirthDateMutation.executeMutation({
-    input: {
-      birthDate: values.birthDate,
-    },
-  })
-
-  if (result.error) return
-
-  if (!result.data) {
-    modelError.value = new Error(t('globalErrorNoData'))
-    return
-  }
-
+const onSubmit = handleSubmit(async (_values) => {
+  // TODO
   emit('success')
 })
-watch(
-  () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(
-          getCombinedErrorMessages(current, {
-            postgresP0002: t('postgresP0002'),
-            postgres23514: t('postgres23514'),
-          })[0],
-        )
-      : undefined
-  },
-)
 
 // calendar
 const dateFormatter = new DateFormatter(locale.value, {
@@ -143,12 +112,8 @@ de:
   explanation: Dein Geburtsdatum wird zur Berechnung deines Alters verwendet.
   label: Geburtsdatum
   placeholder: Wähle ein Datum
-  postgresP0002: Das Geburtsdatum konnte nicht gespeichert werden, weil kein Konto zugeordnet werden konnte.
-  postgres23514: Das Geburtsdatum kann nur ein Mal festgelegt werden. Kontaktiere den Support, wenn du Fragen hierzu hast.
 en:
   explanation: Your date of birth is used to calculate your age.
   label: Date of birth
   placeholder: Pick a date
-  postgresP0002: The date of birth could not be saved because no associated account could be found.
-  postgres23514: The date of birth can only be set once. Contact support if you have any questions about this.
 </i18n>

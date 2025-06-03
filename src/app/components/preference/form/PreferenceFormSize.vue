@@ -97,7 +97,7 @@ const items = [
 ]
 const modelError = defineModel<Error>('error')
 const initialSelectedItems =
-  allPreferenceEventSizesQuery.data.value?.allAccountPreferenceEventSizes?.nodes?.map(
+  allPreferenceEventSizesQuery.data.value?.allPreferenceEventSizes?.nodes?.map(
     (preference) => preference.eventSize,
   ) ?? []
 const { handleSubmit } = useForm({

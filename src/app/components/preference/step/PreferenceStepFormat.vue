@@ -105,7 +105,7 @@ const eventFormats = computed(() =>
 )
 const preferenceEventFormatIds = computed(
   () =>
-    api.value.data.allAccountPreferenceEventFormats?.nodes
+    api.value.data.allPreferenceEventFormats?.nodes
       .map(getPreferenceEventFormatItem)
       .filter(isNeitherNullNorUndefined)
       .map((item) => item.formatId) || [],

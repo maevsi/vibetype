@@ -80,6 +80,7 @@ const modelError = defineModel<Error>('error')
 const submit = async (termId: string) => {
   const result = await accountRegistrationMutation.executeMutation(
     {
+      birthDate: '2025-01-01', // TODO
       emailAddress: form.emailAddress || '',
       language: locale.value,
       legalTermId: termId,
