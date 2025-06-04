@@ -1,5 +1,5 @@
 import { consola } from 'consola'
-import OpenAI from 'openai'
+import { OpenAI } from 'openai'
 
 export default defineNitroPlugin((nitroApp) => {
   const runtimeConfig = useRuntimeConfig()

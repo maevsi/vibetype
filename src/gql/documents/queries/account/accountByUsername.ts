@@ -2,14 +2,6 @@ import { useQuery } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 import type { AccountByUsernameQueryVariables } from '~~/gql/generated/graphql'
 
-export const useAccountByUsernameQuery = (
-  variables: AccountByUsernameQueryVariables,
-) =>
-  useQuery({
-    query: accountByUsernameQuery,
-    variables,
-  })
-
 export const accountByUsernameQuery = graphql(`
   query AccountByUsername($username: String!) {
     accountByUsername(username: $username) {
@@ -17,3 +9,11 @@ export const accountByUsernameQuery = graphql(`
     }
   }
 `)
+
+export const useAccountByUsernameQuery = (
+  variables?: AccountByUsernameQueryVariables,
+) =>
+  useQuery({
+    query: accountByUsernameQuery,
+    variables,
+  })

@@ -3,9 +3,9 @@
     <FormField v-slot="{ componentField }" name="name">
       <FormItem>
         <FormLabel>
-          <TypographySubtitleSmall>
+          <TypographySubtitleMedium>
             {{ t('name') }}
-          </TypographySubtitleSmall>
+          </TypographySubtitleMedium>
         </FormLabel>
         <FormControl>
           <AppInput v-bind="componentField" type="text" />
@@ -18,9 +18,9 @@
     <FormField v-slot="{ componentField }" name="emailAddress">
       <FormItem>
         <FormLabel>
-          <TypographySubtitleSmall>
+          <TypographySubtitleMedium>
             {{ t('emailAddress') }}
-          </TypographySubtitleSmall>
+          </TypographySubtitleMedium>
         </FormLabel>
         <FormControl>
           <AppInput v-bind="componentField" type="text" />

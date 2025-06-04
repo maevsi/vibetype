@@ -1,3 +1,68 @@
+## [11.7.1](https://github.com/maevsi/vibetype/compare/11.7.0...11.7.1) (2025-06-01)
+
+### Bug Fixes
+
+* **components:** correct view box casing ([ba9e8cd](https://github.com/maevsi/vibetype/commit/ba9e8cd4943ceab21f8cec8d2259fc662dd5e2fb))
+* **vibetype-logo:** on back navigation ([9264805](https://github.com/maevsi/vibetype/commit/926480569d552db2bccfa5f016b142ef4f0865b1))
+
+## [11.7.0](https://github.com/maevsi/vibetype/compare/11.6.1...11.7.0) (2025-05-27)
+
+### Features
+
+* **components:** add location preference ([11e459b](https://github.com/maevsi/vibetype/commit/11e459b396187afef22de5722dc5891bdefe33aa))
+
+### Bug Fixes
+
+* **plugins:** correct urql list deletion ([c2dd04e](https://github.com/maevsi/vibetype/commit/c2dd04e96e42dc8045d70032b30c0ff1dc0c6f63))
+
+## [11.6.1](https://github.com/maevsi/vibetype/compare/11.6.0...11.6.1) (2025-05-26)
+
+### Bug Fixes
+
+* **components:** correct page padding ([9e6645e](https://github.com/maevsi/vibetype/commit/9e6645e73728d955299e59dc0923dd12c571c899))
+* **pages:** remove preference initializer ([2c248c8](https://github.com/maevsi/vibetype/commit/2c248c88f3ee23e2508f0a09d1e3897ee36a9e1c))
+
+## [11.6.0](https://github.com/maevsi/vibetype/compare/11.5.2...11.6.0) (2025-05-24)
+
+### Features
+
+* **preference:** add setup ([3b40649](https://github.com/maevsi/vibetype/commit/3b406497be5110aad6b6ed7699c5a140f6d98229))
+
+## [11.5.2](https://github.com/maevsi/vibetype/compare/11.5.1...11.5.2) (2025-05-22)
+
+### Bug Fixes
+
+* **security:** add workaround for upstream nuxt content issue ([e77a44e](https://github.com/maevsi/vibetype/commit/e77a44e5a9205c4521b685de8bf27baadcc35613))
+* **types:** add workaround for upstream nitro issue ([6e3d48a](https://github.com/maevsi/vibetype/commit/6e3d48af32f49283ff48e746eb19b1292c644f28))
+
+## [11.5.1](https://github.com/maevsi/vibetype/compare/11.5.0...11.5.1) (2025-05-21)
+
+### Bug Fixes
+
+* **utils:** correct api data typing ([722f017](https://github.com/maevsi/vibetype/commit/722f017246ff085d511720211ea6a5243032c80c))
+
+## [11.5.0](https://github.com/maevsi/vibetype/compare/11.4.0...11.5.0) (2025-05-21)
+
+### Features
+
+* **session:** show customization features to anyone ([ccf8601](https://github.com/maevsi/vibetype/commit/ccf860163123fb44c0902f2044cbef082de7fe0b))
+
+### Bug Fixes
+
+* **pages:** replace history on redirection to login ([026c1ec](https://github.com/maevsi/vibetype/commit/026c1ec9a053cc5cc43399d8668de9addd372507))
+
+## [11.4.0](https://github.com/maevsi/vibetype/compare/11.3.0...11.4.0) (2025-05-21)
+
+### Features
+
+* **components:** tweak typography ([634635b](https://github.com/maevsi/vibetype/commit/634635b1026b8390c71bfe57594e63d0f44f70ca))
+
+## [11.3.0](https://github.com/maevsi/vibetype/compare/11.2.0...11.3.0) (2025-05-20)
+
+### Features
+
+* **app:** disable backdrop ([2531059](https://github.com/maevsi/vibetype/commit/253105904a3a60916fa4f0732fb87aeb661c5541))
+
 ## [11.2.0](https://github.com/maevsi/vibetype/compare/11.1.0...11.2.0) (2025-05-20)
 
 ### Features

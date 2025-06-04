@@ -108,7 +108,6 @@ export default defineNuxtConfig({
       output: {
         sourcemap: true, // TODO: remove? (https://github.com/getsentry/sentry-javascript/discussions/15028)
       },
-      // @ts-expect-error deep type instantiation (https://github.com/vitejs/vite-plugin-vue/issues/422)
       plugins: [vue()],
     },
   },
@@ -234,6 +233,7 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: [
+        '@internationalized/date',
         '@sentry/nuxt',
         '@tiptap/extension-link',
         '@tiptap/extension-text-align',
@@ -265,6 +265,7 @@ export default defineNuxtConfig({
         'prntr',
         'qrcode.vue',
         'reka-ui',
+        'reka-ui/date',
         'seedrandom',
         'slugify',
         'tailwind-merge',

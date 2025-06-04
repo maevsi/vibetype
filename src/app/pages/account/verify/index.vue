@@ -64,7 +64,7 @@ onMounted(async () => {
     text: t('verifiedBody'),
     title: t('verified'),
   })
-  navigateTo(localePath('session-create'))
+  await navigateTo(localePath('session-create'))
 })
 </script>
 

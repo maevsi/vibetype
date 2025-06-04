@@ -1,5 +1,7 @@
 <template>
-  <span :class="cn('text-sm font-semibold', classProps)">
+  <span
+    :class="cn('text-sm leading-5 font-semibold tracking-[0.1%]', classProps)"
+  >
     <slot />
   </span>
 </template>
