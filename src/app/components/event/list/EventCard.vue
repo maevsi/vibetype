@@ -131,10 +131,6 @@ const markFavorite = async (eventId: string) => {
     eventId,
     createdBy: store.signedInAccountId,
   })
-
-  console.log('Favorite mutation result:', result)
-
-  // Trigger a re-render by updating a reactive value
   await nextTick()
 
   return result

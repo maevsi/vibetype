@@ -193,10 +193,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           invalidateCache(cache, 'allEvents')
           invalidateCache(cache, 'allContacts')
         },
-        deleteEventFavorite: (_result, _args, cache, _info) => {
-          invalidateCache(cache, 'allEvents')
-          invalidateCache(cache, 'allContacts')
-        },
         createAccountPreferenceEventCategory: (result, _args, cache, _info) =>
           cacheListAppend({
             cache,
@@ -286,6 +282,10 @@ export default defineNuxtPlugin(async (nuxtApp) => {
             query: allPreferenceEventLocationsQuery,
             result,
           }),
+        deleteEventFavorite: (_result, _args, cache, _info) => {
+          invalidateCache(cache, 'allEvents')
+          invalidateCache(cache, 'allContacts')
+        },
       },
     },
   }
