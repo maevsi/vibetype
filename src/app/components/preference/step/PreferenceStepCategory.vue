@@ -108,7 +108,7 @@ const eventCategories = computed(() =>
 )
 const preferenceEventCategoryIds = computed(
   () =>
-    api.value.data.allAccountPreferenceEventCategories?.nodes
+    api.value.data.allPreferenceEventCategories?.nodes
       .map(getPreferenceEventCategoryItem)
       .filter(isNeitherNullNorUndefined)
       .map((item) => item.categoryId) || [],

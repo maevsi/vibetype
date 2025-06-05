@@ -23,13 +23,12 @@ type Documents = {
   '\n  fragment EventItem on Event {\n    id\n    nodeId\n    accountByCreatedBy {\n      id\n      username\n    }\n    addressByAddressId {\n      ...AddressItem\n    }\n    createdBy\n    description\n    end\n    guestCountMaximum\n    isArchived\n    isInPerson\n    isRemote\n    name\n    slug\n    start\n    url\n    visibility\n  }\n': typeof types.EventItemFragmentDoc
   '\n  fragment GuestItem on Guest {\n    id\n    nodeId\n    contactId\n    eventId\n    feedback\n    feedbackPaper\n    contactByContactId {\n      ...ContactItem\n    }\n  }\n': typeof types.GuestItemFragmentDoc
   '\n  fragment LegalTermItem on LegalTerm {\n    id\n    term\n  }\n': typeof types.LegalTermItemFragmentDoc
-  '\n  fragment PreferenceEventCategoryItem on AccountPreferenceEventCategory {\n    nodeId\n    accountId\n    categoryId\n  }\n': typeof types.PreferenceEventCategoryItemFragmentDoc
-  '\n  fragment PreferenceEventFormatItem on AccountPreferenceEventFormat {\n    nodeId\n    accountId\n    formatId\n  }\n': typeof types.PreferenceEventFormatItemFragmentDoc
-  '\n  fragment PreferenceEventLocationItem on AccountPreferenceEventLocation {\n    createdAt\n    createdBy\n    id\n    nodeId\n    radius\n    location {\n      latitude\n      longitude\n    }\n  }\n': typeof types.PreferenceEventLocationItemFragmentDoc
+  '\n  fragment PreferenceEventCategoryItem on PreferenceEventCategory {\n    nodeId\n    accountId\n    categoryId\n  }\n': typeof types.PreferenceEventCategoryItemFragmentDoc
+  '\n  fragment PreferenceEventFormatItem on PreferenceEventFormat {\n    nodeId\n    accountId\n    formatId\n  }\n': typeof types.PreferenceEventFormatItemFragmentDoc
+  '\n  fragment PreferenceEventLocationItem on PreferenceEventLocation {\n    createdAt\n    createdBy\n    id\n    nodeId\n    radius\n    location {\n      latitude\n      longitude\n    }\n  }\n': typeof types.PreferenceEventLocationItemFragmentDoc
   '\n  fragment ProfilePictureItem on ProfilePicture {\n    id\n    nodeId\n    accountId\n    uploadByUploadId {\n      ...UploadItem\n    }\n  }\n': typeof types.ProfilePictureItemFragmentDoc
   '\n  fragment UploadItem on Upload {\n    id\n    nodeId\n    sizeByte\n    storageKey\n    createdBy\n  }\n': typeof types.UploadItemFragmentDoc
   '\n  mutation Authenticate($password: String!, $username: String!) {\n    authenticate(input: { password: $password, username: $username }) {\n      clientMutationId\n      jwt\n    }\n  }\n': typeof types.AuthenticateDocument
-  '\n  mutation UpdateAccountBirthDate($input: UpdateAccountBirthDateInput!) {\n    updateAccountBirthDate(input: $input) {\n      clientMutationId\n    }\n  }\n': typeof types.UpdateAccountBirthDateDocument
   '\n  mutation AccountDelete($password: String!) {\n    accountDelete(input: { password: $password }) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountDeleteDocument
   '\n  mutation AccountEmailAddressVerification($code: UUID!) {\n    accountEmailAddressVerification(input: { code: $code }) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountEmailAddressVerificationDocument
   '\n  mutation JwtRefresh($id: UUID!) {\n    jwtRefresh(input: { jwtId: $id }) {\n      clientMutationId\n      jwt\n    }\n  }\n': typeof types.JwtRefreshDocument
@@ -37,7 +36,7 @@ type Documents = {
   '\n  mutation AccountPasswordChange(\n    $passwordCurrent: String!\n    $passwordNew: String!\n  ) {\n    accountPasswordChange(\n      input: { passwordCurrent: $passwordCurrent, passwordNew: $passwordNew }\n    ) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountPasswordChangeDocument
   '\n  mutation AccountPasswordReset($code: UUID!, $password: String!) {\n    accountPasswordReset(input: { code: $code, password: $password }) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountPasswordResetDocument
   '\n  mutation AccountPasswordResetRequest(\n    $emailAddress: String!\n    $language: String!\n  ) {\n    accountPasswordResetRequest(\n      input: { emailAddress: $emailAddress, language: $language }\n    ) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountPasswordResetRequestDocument
-  '\n  mutation AccountRegistration(\n    $emailAddress: String!\n    $password: String!\n    $username: String!\n    $language: String!\n    $legalTermId: UUID!\n  ) {\n    accountRegistration(\n      input: {\n        emailAddress: $emailAddress\n        password: $password\n        username: $username\n        language: $language\n        legalTermId: $legalTermId\n      }\n    ) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountRegistrationDocument
+  '\n  mutation AccountRegistration(\n    $birthDate: Date!\n    $emailAddress: String!\n    $password: String!\n    $username: String!\n    $language: String!\n    $legalTermId: UUID!\n  ) {\n    accountRegistration(\n      input: {\n        birthDate: $birthDate\n        emailAddress: $emailAddress\n        password: $password\n        username: $username\n        language: $language\n        legalTermId: $legalTermId\n      }\n    ) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountRegistrationDocument
   '\n  mutation AccountRegistrationRefresh($accountId: UUID!, $language: String!) {\n    accountRegistrationRefresh(\n      input: { language: $language, accountId: $accountId }\n    ) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountRegistrationRefreshDocument
   '\n  mutation CreateAccountBlock($accountBlockInput: AccountBlockInput!) {\n    createAccountBlock(input: { accountBlock: $accountBlockInput }) {\n      clientMutationId\n    }\n  }\n': typeof types.CreateAccountBlockDocument
   '\n  mutation AchievementUnlock($code: UUID!, $alias: String!) {\n    achievementUnlock(input: { code: $code, alias: $alias }) {\n      clientMutationId\n      uuid\n    }\n  }\n': typeof types.AchievementUnlockDocument
@@ -52,14 +51,14 @@ type Documents = {
   '\n  mutation DeleteGuestById($id: UUID!) {\n    deleteGuestById(input: { id: $id }) {\n      clientMutationId\n    }\n  }\n': typeof types.DeleteGuestByIdDocument
   '\n  mutation UpdateGuestById($id: UUID!, $guestPatch: GuestPatch!) {\n    updateGuestById(input: { id: $id, guestPatch: $guestPatch }) {\n      guest {\n        ...GuestItem\n        contactByContactId {\n          ...ContactItem\n        }\n      }\n    }\n  }\n': typeof types.UpdateGuestByIdDocument
   '\n  mutation Invite($guestId: UUID!, $language: String!) {\n    invite(input: { guestId: $guestId, language: $language }) {\n      clientMutationId\n    }\n  }\n': typeof types.InviteDocument
-  '\n  mutation CreatePreferenceEventCategory(\n    $input: AccountPreferenceEventCategoryInput!\n  ) {\n    createAccountPreferenceEventCategory(\n      input: { accountPreferenceEventCategory: $input }\n    ) {\n      accountPreferenceEventCategory {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n': typeof types.CreatePreferenceEventCategoryDocument
-  '\n    mutation DeletePreferenceEventCategoryByAccountIdAndCategoryId(\n      $input: DeleteAccountPreferenceEventCategoryByAccountIdAndCategoryIdInput!\n    ) {\n      deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId(\n        input: $input\n      ) {\n        deletedAccountPreferenceEventCategoryId\n      }\n    }\n  ': typeof types.DeletePreferenceEventCategoryByAccountIdAndCategoryIdDocument
-  '\n  mutation CreatePreferenceEventFormat(\n    $input: AccountPreferenceEventFormatInput!\n  ) {\n    createAccountPreferenceEventFormat(\n      input: { accountPreferenceEventFormat: $input }\n    ) {\n      accountPreferenceEventFormat {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n': typeof types.CreatePreferenceEventFormatDocument
-  '\n    mutation DeletePreferenceEventFormatByAccountIdAndFormatId(\n      $input: DeleteAccountPreferenceEventFormatByAccountIdAndFormatIdInput!\n    ) {\n      deleteAccountPreferenceEventFormatByAccountIdAndFormatId(input: $input) {\n        deletedAccountPreferenceEventFormatId\n      }\n    }\n  ': typeof types.DeletePreferenceEventFormatByAccountIdAndFormatIdDocument
-  '\n  mutation CreatePreferenceEventLocation(\n    $input: AccountPreferenceEventLocationInput!\n  ) {\n    createAccountPreferenceEventLocation(\n      input: { accountPreferenceEventLocation: $input }\n    ) {\n      accountPreferenceEventLocation {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n': typeof types.CreatePreferenceEventLocationDocument
-  '\n  mutation DeletePreferenceEventLocationById(\n    $input: DeleteAccountPreferenceEventLocationByIdInput!\n  ) {\n    deleteAccountPreferenceEventLocationById(input: $input) {\n      deletedAccountPreferenceEventLocationId\n    }\n  }\n': typeof types.DeletePreferenceEventLocationByIdDocument
-  '\n  mutation CreatePreferenceEventSize($input: AccountPreferenceEventSizeInput!) {\n    createAccountPreferenceEventSize(\n      input: { accountPreferenceEventSize: $input }\n    ) {\n      clientMutationId\n    }\n  }\n': typeof types.CreatePreferenceEventSizeDocument
-  '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeleteAccountPreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deleteAccountPreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeletePreferenceEventSizeByAccountIdAndEventSizeDocument
+  '\n  mutation CreatePreferenceEventCategory(\n    $input: PreferenceEventCategoryInput!\n  ) {\n    createPreferenceEventCategory(input: { preferenceEventCategory: $input }) {\n      preferenceEventCategory {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n': typeof types.CreatePreferenceEventCategoryDocument
+  '\n    mutation DeletePreferenceEventCategoryByAccountIdAndCategoryId(\n      $input: DeletePreferenceEventCategoryByAccountIdAndCategoryIdInput!\n    ) {\n      deletePreferenceEventCategoryByAccountIdAndCategoryId(input: $input) {\n        deletedPreferenceEventCategoryId\n      }\n    }\n  ': typeof types.DeletePreferenceEventCategoryByAccountIdAndCategoryIdDocument
+  '\n  mutation CreatePreferenceEventFormat($input: PreferenceEventFormatInput!) {\n    createPreferenceEventFormat(input: { preferenceEventFormat: $input }) {\n      preferenceEventFormat {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n': typeof types.CreatePreferenceEventFormatDocument
+  '\n    mutation DeletePreferenceEventFormatByAccountIdAndFormatId(\n      $input: DeletePreferenceEventFormatByAccountIdAndFormatIdInput!\n    ) {\n      deletePreferenceEventFormatByAccountIdAndFormatId(input: $input) {\n        deletedPreferenceEventFormatId\n      }\n    }\n  ': typeof types.DeletePreferenceEventFormatByAccountIdAndFormatIdDocument
+  '\n  mutation CreatePreferenceEventLocation(\n    $input: PreferenceEventLocationInput!\n  ) {\n    createPreferenceEventLocation(input: { preferenceEventLocation: $input }) {\n      preferenceEventLocation {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n': typeof types.CreatePreferenceEventLocationDocument
+  '\n  mutation DeletePreferenceEventLocationById(\n    $input: DeletePreferenceEventLocationByIdInput!\n  ) {\n    deletePreferenceEventLocationById(input: $input) {\n      deletedPreferenceEventLocationId\n    }\n  }\n': typeof types.DeletePreferenceEventLocationByIdDocument
+  '\n  mutation CreatePreferenceEventSize($input: PreferenceEventSizeInput!) {\n    createPreferenceEventSize(input: { preferenceEventSize: $input }) {\n      clientMutationId\n    }\n  }\n': typeof types.CreatePreferenceEventSizeDocument
+  '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeletePreferenceEventSizeByAccountIdAndEventSizeDocument
   '\n  mutation ProfilePictureSet($uploadId: UUID!) {\n    profilePictureSet(input: { uploadId: $uploadId }) {\n      clientMutationId\n    }\n  }\n': typeof types.ProfilePictureSetDocument
   '\n  mutation CreateReport($reportInput: ReportInput!) {\n    createReport(input: { report: $reportInput }) {\n      clientMutationId\n    }\n  }\n': typeof types.CreateReportDocument
   '\n  mutation CreateUpload($input: UploadInput!) {\n    createUpload(input: { upload: $input }) {\n      clientMutationId\n      upload {\n        id\n      }\n    }\n  }\n': typeof types.CreateUploadDocument
@@ -76,10 +75,10 @@ type Documents = {
   '\n  query AllEvents($after: Cursor, $createdBy: UUID, $first: Int!) {\n    allEvents(\n      after: $after\n      condition: { createdBy: $createdBy }\n      first: $first\n      orderBy: START_DESC\n    ) {\n      nodes {\n        ...EventItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.AllEventsDocument
   '\n  query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n    allGuests(after: $after, condition: { eventId: $eventId }, first: $first) {\n      nodes {\n        ...GuestItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.AllGuestsDocument
   '\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        ...LegalTermItem\n      }\n    }\n  }\n': typeof types.AllLegalTermsDocument
-  '\n  query AllPreferenceEventCategories {\n    allAccountPreferenceEventCategories {\n      nodes {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n': typeof types.AllPreferenceEventCategoriesDocument
-  '\n  query AllPreferenceEventFormats {\n    allAccountPreferenceEventFormats {\n      nodes {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n': typeof types.AllPreferenceEventFormatsDocument
-  '\n  query AllPreferenceEventLocations {\n    allAccountPreferenceEventLocations {\n      nodes {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n': typeof types.AllPreferenceEventLocationsDocument
-  '\n  query AllPreferenceEventSizes {\n    allAccountPreferenceEventSizes {\n      nodes {\n        nodeId\n        eventSize\n      }\n    }\n  }\n': typeof types.AllPreferenceEventSizesDocument
+  '\n  query AllPreferenceEventCategories {\n    allPreferenceEventCategories {\n      nodes {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n': typeof types.AllPreferenceEventCategoriesDocument
+  '\n  query AllPreferenceEventFormats {\n    allPreferenceEventFormats {\n      nodes {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n': typeof types.AllPreferenceEventFormatsDocument
+  '\n  query AllPreferenceEventLocations {\n    allPreferenceEventLocations {\n      nodes {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n': typeof types.AllPreferenceEventLocationsDocument
+  '\n  query AllPreferenceEventSizes {\n    allPreferenceEventSizes {\n      nodes {\n        nodeId\n        eventSize\n      }\n    }\n  }\n': typeof types.AllPreferenceEventSizesDocument
   '\n  query ProfilePictureByAccountId($accountId: UUID!) {\n    profilePictureByAccountId(accountId: $accountId) {\n      ...ProfilePictureItem\n    }\n  }\n': typeof types.ProfilePictureByAccountIdDocument
   '\n  query AllUploads($after: Cursor, $first: Int!, $createdBy: UUID) {\n    allUploads(\n      after: $after\n      condition: { createdBy: $createdBy }\n      first: $first\n    ) {\n      nodes {\n        ...UploadItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.AllUploadsDocument
 }
@@ -102,11 +101,11 @@ const documents: Documents = {
     types.GuestItemFragmentDoc,
   '\n  fragment LegalTermItem on LegalTerm {\n    id\n    term\n  }\n':
     types.LegalTermItemFragmentDoc,
-  '\n  fragment PreferenceEventCategoryItem on AccountPreferenceEventCategory {\n    nodeId\n    accountId\n    categoryId\n  }\n':
+  '\n  fragment PreferenceEventCategoryItem on PreferenceEventCategory {\n    nodeId\n    accountId\n    categoryId\n  }\n':
     types.PreferenceEventCategoryItemFragmentDoc,
-  '\n  fragment PreferenceEventFormatItem on AccountPreferenceEventFormat {\n    nodeId\n    accountId\n    formatId\n  }\n':
+  '\n  fragment PreferenceEventFormatItem on PreferenceEventFormat {\n    nodeId\n    accountId\n    formatId\n  }\n':
     types.PreferenceEventFormatItemFragmentDoc,
-  '\n  fragment PreferenceEventLocationItem on AccountPreferenceEventLocation {\n    createdAt\n    createdBy\n    id\n    nodeId\n    radius\n    location {\n      latitude\n      longitude\n    }\n  }\n':
+  '\n  fragment PreferenceEventLocationItem on PreferenceEventLocation {\n    createdAt\n    createdBy\n    id\n    nodeId\n    radius\n    location {\n      latitude\n      longitude\n    }\n  }\n':
     types.PreferenceEventLocationItemFragmentDoc,
   '\n  fragment ProfilePictureItem on ProfilePicture {\n    id\n    nodeId\n    accountId\n    uploadByUploadId {\n      ...UploadItem\n    }\n  }\n':
     types.ProfilePictureItemFragmentDoc,
@@ -114,8 +113,6 @@ const documents: Documents = {
     types.UploadItemFragmentDoc,
   '\n  mutation Authenticate($password: String!, $username: String!) {\n    authenticate(input: { password: $password, username: $username }) {\n      clientMutationId\n      jwt\n    }\n  }\n':
     types.AuthenticateDocument,
-  '\n  mutation UpdateAccountBirthDate($input: UpdateAccountBirthDateInput!) {\n    updateAccountBirthDate(input: $input) {\n      clientMutationId\n    }\n  }\n':
-    types.UpdateAccountBirthDateDocument,
   '\n  mutation AccountDelete($password: String!) {\n    accountDelete(input: { password: $password }) {\n      clientMutationId\n    }\n  }\n':
     types.AccountDeleteDocument,
   '\n  mutation AccountEmailAddressVerification($code: UUID!) {\n    accountEmailAddressVerification(input: { code: $code }) {\n      clientMutationId\n    }\n  }\n':
@@ -130,7 +127,7 @@ const documents: Documents = {
     types.AccountPasswordResetDocument,
   '\n  mutation AccountPasswordResetRequest(\n    $emailAddress: String!\n    $language: String!\n  ) {\n    accountPasswordResetRequest(\n      input: { emailAddress: $emailAddress, language: $language }\n    ) {\n      clientMutationId\n    }\n  }\n':
     types.AccountPasswordResetRequestDocument,
-  '\n  mutation AccountRegistration(\n    $emailAddress: String!\n    $password: String!\n    $username: String!\n    $language: String!\n    $legalTermId: UUID!\n  ) {\n    accountRegistration(\n      input: {\n        emailAddress: $emailAddress\n        password: $password\n        username: $username\n        language: $language\n        legalTermId: $legalTermId\n      }\n    ) {\n      clientMutationId\n    }\n  }\n':
+  '\n  mutation AccountRegistration(\n    $birthDate: Date!\n    $emailAddress: String!\n    $password: String!\n    $username: String!\n    $language: String!\n    $legalTermId: UUID!\n  ) {\n    accountRegistration(\n      input: {\n        birthDate: $birthDate\n        emailAddress: $emailAddress\n        password: $password\n        username: $username\n        language: $language\n        legalTermId: $legalTermId\n      }\n    ) {\n      clientMutationId\n    }\n  }\n':
     types.AccountRegistrationDocument,
   '\n  mutation AccountRegistrationRefresh($accountId: UUID!, $language: String!) {\n    accountRegistrationRefresh(\n      input: { language: $language, accountId: $accountId }\n    ) {\n      clientMutationId\n    }\n  }\n':
     types.AccountRegistrationRefreshDocument,
@@ -160,21 +157,21 @@ const documents: Documents = {
     types.UpdateGuestByIdDocument,
   '\n  mutation Invite($guestId: UUID!, $language: String!) {\n    invite(input: { guestId: $guestId, language: $language }) {\n      clientMutationId\n    }\n  }\n':
     types.InviteDocument,
-  '\n  mutation CreatePreferenceEventCategory(\n    $input: AccountPreferenceEventCategoryInput!\n  ) {\n    createAccountPreferenceEventCategory(\n      input: { accountPreferenceEventCategory: $input }\n    ) {\n      accountPreferenceEventCategory {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n':
+  '\n  mutation CreatePreferenceEventCategory(\n    $input: PreferenceEventCategoryInput!\n  ) {\n    createPreferenceEventCategory(input: { preferenceEventCategory: $input }) {\n      preferenceEventCategory {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n':
     types.CreatePreferenceEventCategoryDocument,
-  '\n    mutation DeletePreferenceEventCategoryByAccountIdAndCategoryId(\n      $input: DeleteAccountPreferenceEventCategoryByAccountIdAndCategoryIdInput!\n    ) {\n      deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId(\n        input: $input\n      ) {\n        deletedAccountPreferenceEventCategoryId\n      }\n    }\n  ':
+  '\n    mutation DeletePreferenceEventCategoryByAccountIdAndCategoryId(\n      $input: DeletePreferenceEventCategoryByAccountIdAndCategoryIdInput!\n    ) {\n      deletePreferenceEventCategoryByAccountIdAndCategoryId(input: $input) {\n        deletedPreferenceEventCategoryId\n      }\n    }\n  ':
     types.DeletePreferenceEventCategoryByAccountIdAndCategoryIdDocument,
-  '\n  mutation CreatePreferenceEventFormat(\n    $input: AccountPreferenceEventFormatInput!\n  ) {\n    createAccountPreferenceEventFormat(\n      input: { accountPreferenceEventFormat: $input }\n    ) {\n      accountPreferenceEventFormat {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n':
+  '\n  mutation CreatePreferenceEventFormat($input: PreferenceEventFormatInput!) {\n    createPreferenceEventFormat(input: { preferenceEventFormat: $input }) {\n      preferenceEventFormat {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n':
     types.CreatePreferenceEventFormatDocument,
-  '\n    mutation DeletePreferenceEventFormatByAccountIdAndFormatId(\n      $input: DeleteAccountPreferenceEventFormatByAccountIdAndFormatIdInput!\n    ) {\n      deleteAccountPreferenceEventFormatByAccountIdAndFormatId(input: $input) {\n        deletedAccountPreferenceEventFormatId\n      }\n    }\n  ':
+  '\n    mutation DeletePreferenceEventFormatByAccountIdAndFormatId(\n      $input: DeletePreferenceEventFormatByAccountIdAndFormatIdInput!\n    ) {\n      deletePreferenceEventFormatByAccountIdAndFormatId(input: $input) {\n        deletedPreferenceEventFormatId\n      }\n    }\n  ':
     types.DeletePreferenceEventFormatByAccountIdAndFormatIdDocument,
-  '\n  mutation CreatePreferenceEventLocation(\n    $input: AccountPreferenceEventLocationInput!\n  ) {\n    createAccountPreferenceEventLocation(\n      input: { accountPreferenceEventLocation: $input }\n    ) {\n      accountPreferenceEventLocation {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n':
+  '\n  mutation CreatePreferenceEventLocation(\n    $input: PreferenceEventLocationInput!\n  ) {\n    createPreferenceEventLocation(input: { preferenceEventLocation: $input }) {\n      preferenceEventLocation {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n':
     types.CreatePreferenceEventLocationDocument,
-  '\n  mutation DeletePreferenceEventLocationById(\n    $input: DeleteAccountPreferenceEventLocationByIdInput!\n  ) {\n    deleteAccountPreferenceEventLocationById(input: $input) {\n      deletedAccountPreferenceEventLocationId\n    }\n  }\n':
+  '\n  mutation DeletePreferenceEventLocationById(\n    $input: DeletePreferenceEventLocationByIdInput!\n  ) {\n    deletePreferenceEventLocationById(input: $input) {\n      deletedPreferenceEventLocationId\n    }\n  }\n':
     types.DeletePreferenceEventLocationByIdDocument,
-  '\n  mutation CreatePreferenceEventSize($input: AccountPreferenceEventSizeInput!) {\n    createAccountPreferenceEventSize(\n      input: { accountPreferenceEventSize: $input }\n    ) {\n      clientMutationId\n    }\n  }\n':
+  '\n  mutation CreatePreferenceEventSize($input: PreferenceEventSizeInput!) {\n    createPreferenceEventSize(input: { preferenceEventSize: $input }) {\n      clientMutationId\n    }\n  }\n':
     types.CreatePreferenceEventSizeDocument,
-  '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeleteAccountPreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deleteAccountPreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
+  '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.DeletePreferenceEventSizeByAccountIdAndEventSizeDocument,
   '\n  mutation ProfilePictureSet($uploadId: UUID!) {\n    profilePictureSet(input: { uploadId: $uploadId }) {\n      clientMutationId\n    }\n  }\n':
     types.ProfilePictureSetDocument,
@@ -208,13 +205,13 @@ const documents: Documents = {
     types.AllGuestsDocument,
   '\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        ...LegalTermItem\n      }\n    }\n  }\n':
     types.AllLegalTermsDocument,
-  '\n  query AllPreferenceEventCategories {\n    allAccountPreferenceEventCategories {\n      nodes {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n':
+  '\n  query AllPreferenceEventCategories {\n    allPreferenceEventCategories {\n      nodes {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n':
     types.AllPreferenceEventCategoriesDocument,
-  '\n  query AllPreferenceEventFormats {\n    allAccountPreferenceEventFormats {\n      nodes {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n':
+  '\n  query AllPreferenceEventFormats {\n    allPreferenceEventFormats {\n      nodes {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n':
     types.AllPreferenceEventFormatsDocument,
-  '\n  query AllPreferenceEventLocations {\n    allAccountPreferenceEventLocations {\n      nodes {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n':
+  '\n  query AllPreferenceEventLocations {\n    allPreferenceEventLocations {\n      nodes {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n':
     types.AllPreferenceEventLocationsDocument,
-  '\n  query AllPreferenceEventSizes {\n    allAccountPreferenceEventSizes {\n      nodes {\n        nodeId\n        eventSize\n      }\n    }\n  }\n':
+  '\n  query AllPreferenceEventSizes {\n    allPreferenceEventSizes {\n      nodes {\n        nodeId\n        eventSize\n      }\n    }\n  }\n':
     types.AllPreferenceEventSizesDocument,
   '\n  query ProfilePictureByAccountId($accountId: UUID!) {\n    profilePictureByAccountId(accountId: $accountId) {\n      ...ProfilePictureItem\n    }\n  }\n':
     types.ProfilePictureByAccountIdDocument,
@@ -294,20 +291,20 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  fragment PreferenceEventCategoryItem on AccountPreferenceEventCategory {\n    nodeId\n    accountId\n    categoryId\n  }\n',
-): (typeof documents)['\n  fragment PreferenceEventCategoryItem on AccountPreferenceEventCategory {\n    nodeId\n    accountId\n    categoryId\n  }\n']
+  source: '\n  fragment PreferenceEventCategoryItem on PreferenceEventCategory {\n    nodeId\n    accountId\n    categoryId\n  }\n',
+): (typeof documents)['\n  fragment PreferenceEventCategoryItem on PreferenceEventCategory {\n    nodeId\n    accountId\n    categoryId\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  fragment PreferenceEventFormatItem on AccountPreferenceEventFormat {\n    nodeId\n    accountId\n    formatId\n  }\n',
-): (typeof documents)['\n  fragment PreferenceEventFormatItem on AccountPreferenceEventFormat {\n    nodeId\n    accountId\n    formatId\n  }\n']
+  source: '\n  fragment PreferenceEventFormatItem on PreferenceEventFormat {\n    nodeId\n    accountId\n    formatId\n  }\n',
+): (typeof documents)['\n  fragment PreferenceEventFormatItem on PreferenceEventFormat {\n    nodeId\n    accountId\n    formatId\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  fragment PreferenceEventLocationItem on AccountPreferenceEventLocation {\n    createdAt\n    createdBy\n    id\n    nodeId\n    radius\n    location {\n      latitude\n      longitude\n    }\n  }\n',
-): (typeof documents)['\n  fragment PreferenceEventLocationItem on AccountPreferenceEventLocation {\n    createdAt\n    createdBy\n    id\n    nodeId\n    radius\n    location {\n      latitude\n      longitude\n    }\n  }\n']
+  source: '\n  fragment PreferenceEventLocationItem on PreferenceEventLocation {\n    createdAt\n    createdBy\n    id\n    nodeId\n    radius\n    location {\n      latitude\n      longitude\n    }\n  }\n',
+): (typeof documents)['\n  fragment PreferenceEventLocationItem on PreferenceEventLocation {\n    createdAt\n    createdBy\n    id\n    nodeId\n    radius\n    location {\n      latitude\n      longitude\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -326,12 +323,6 @@ export function graphql(
 export function graphql(
   source: '\n  mutation Authenticate($password: String!, $username: String!) {\n    authenticate(input: { password: $password, username: $username }) {\n      clientMutationId\n      jwt\n    }\n  }\n',
 ): (typeof documents)['\n  mutation Authenticate($password: String!, $username: String!) {\n    authenticate(input: { password: $password, username: $username }) {\n      clientMutationId\n      jwt\n    }\n  }\n']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n  mutation UpdateAccountBirthDate($input: UpdateAccountBirthDateInput!) {\n    updateAccountBirthDate(input: $input) {\n      clientMutationId\n    }\n  }\n',
-): (typeof documents)['\n  mutation UpdateAccountBirthDate($input: UpdateAccountBirthDateInput!) {\n    updateAccountBirthDate(input: $input) {\n      clientMutationId\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -378,8 +369,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  mutation AccountRegistration(\n    $emailAddress: String!\n    $password: String!\n    $username: String!\n    $language: String!\n    $legalTermId: UUID!\n  ) {\n    accountRegistration(\n      input: {\n        emailAddress: $emailAddress\n        password: $password\n        username: $username\n        language: $language\n        legalTermId: $legalTermId\n      }\n    ) {\n      clientMutationId\n    }\n  }\n',
-): (typeof documents)['\n  mutation AccountRegistration(\n    $emailAddress: String!\n    $password: String!\n    $username: String!\n    $language: String!\n    $legalTermId: UUID!\n  ) {\n    accountRegistration(\n      input: {\n        emailAddress: $emailAddress\n        password: $password\n        username: $username\n        language: $language\n        legalTermId: $legalTermId\n      }\n    ) {\n      clientMutationId\n    }\n  }\n']
+  source: '\n  mutation AccountRegistration(\n    $birthDate: Date!\n    $emailAddress: String!\n    $password: String!\n    $username: String!\n    $language: String!\n    $legalTermId: UUID!\n  ) {\n    accountRegistration(\n      input: {\n        birthDate: $birthDate\n        emailAddress: $emailAddress\n        password: $password\n        username: $username\n        language: $language\n        legalTermId: $legalTermId\n      }\n    ) {\n      clientMutationId\n    }\n  }\n',
+): (typeof documents)['\n  mutation AccountRegistration(\n    $birthDate: Date!\n    $emailAddress: String!\n    $password: String!\n    $username: String!\n    $language: String!\n    $legalTermId: UUID!\n  ) {\n    accountRegistration(\n      input: {\n        birthDate: $birthDate\n        emailAddress: $emailAddress\n        password: $password\n        username: $username\n        language: $language\n        legalTermId: $legalTermId\n      }\n    ) {\n      clientMutationId\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -468,50 +459,50 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  mutation CreatePreferenceEventCategory(\n    $input: AccountPreferenceEventCategoryInput!\n  ) {\n    createAccountPreferenceEventCategory(\n      input: { accountPreferenceEventCategory: $input }\n    ) {\n      accountPreferenceEventCategory {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n',
-): (typeof documents)['\n  mutation CreatePreferenceEventCategory(\n    $input: AccountPreferenceEventCategoryInput!\n  ) {\n    createAccountPreferenceEventCategory(\n      input: { accountPreferenceEventCategory: $input }\n    ) {\n      accountPreferenceEventCategory {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n']
+  source: '\n  mutation CreatePreferenceEventCategory(\n    $input: PreferenceEventCategoryInput!\n  ) {\n    createPreferenceEventCategory(input: { preferenceEventCategory: $input }) {\n      preferenceEventCategory {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n',
+): (typeof documents)['\n  mutation CreatePreferenceEventCategory(\n    $input: PreferenceEventCategoryInput!\n  ) {\n    createPreferenceEventCategory(input: { preferenceEventCategory: $input }) {\n      preferenceEventCategory {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    mutation DeletePreferenceEventCategoryByAccountIdAndCategoryId(\n      $input: DeleteAccountPreferenceEventCategoryByAccountIdAndCategoryIdInput!\n    ) {\n      deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId(\n        input: $input\n      ) {\n        deletedAccountPreferenceEventCategoryId\n      }\n    }\n  ',
-): (typeof documents)['\n    mutation DeletePreferenceEventCategoryByAccountIdAndCategoryId(\n      $input: DeleteAccountPreferenceEventCategoryByAccountIdAndCategoryIdInput!\n    ) {\n      deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId(\n        input: $input\n      ) {\n        deletedAccountPreferenceEventCategoryId\n      }\n    }\n  ']
+  source: '\n    mutation DeletePreferenceEventCategoryByAccountIdAndCategoryId(\n      $input: DeletePreferenceEventCategoryByAccountIdAndCategoryIdInput!\n    ) {\n      deletePreferenceEventCategoryByAccountIdAndCategoryId(input: $input) {\n        deletedPreferenceEventCategoryId\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation DeletePreferenceEventCategoryByAccountIdAndCategoryId(\n      $input: DeletePreferenceEventCategoryByAccountIdAndCategoryIdInput!\n    ) {\n      deletePreferenceEventCategoryByAccountIdAndCategoryId(input: $input) {\n        deletedPreferenceEventCategoryId\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  mutation CreatePreferenceEventFormat(\n    $input: AccountPreferenceEventFormatInput!\n  ) {\n    createAccountPreferenceEventFormat(\n      input: { accountPreferenceEventFormat: $input }\n    ) {\n      accountPreferenceEventFormat {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n',
-): (typeof documents)['\n  mutation CreatePreferenceEventFormat(\n    $input: AccountPreferenceEventFormatInput!\n  ) {\n    createAccountPreferenceEventFormat(\n      input: { accountPreferenceEventFormat: $input }\n    ) {\n      accountPreferenceEventFormat {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n']
+  source: '\n  mutation CreatePreferenceEventFormat($input: PreferenceEventFormatInput!) {\n    createPreferenceEventFormat(input: { preferenceEventFormat: $input }) {\n      preferenceEventFormat {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n',
+): (typeof documents)['\n  mutation CreatePreferenceEventFormat($input: PreferenceEventFormatInput!) {\n    createPreferenceEventFormat(input: { preferenceEventFormat: $input }) {\n      preferenceEventFormat {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    mutation DeletePreferenceEventFormatByAccountIdAndFormatId(\n      $input: DeleteAccountPreferenceEventFormatByAccountIdAndFormatIdInput!\n    ) {\n      deleteAccountPreferenceEventFormatByAccountIdAndFormatId(input: $input) {\n        deletedAccountPreferenceEventFormatId\n      }\n    }\n  ',
-): (typeof documents)['\n    mutation DeletePreferenceEventFormatByAccountIdAndFormatId(\n      $input: DeleteAccountPreferenceEventFormatByAccountIdAndFormatIdInput!\n    ) {\n      deleteAccountPreferenceEventFormatByAccountIdAndFormatId(input: $input) {\n        deletedAccountPreferenceEventFormatId\n      }\n    }\n  ']
+  source: '\n    mutation DeletePreferenceEventFormatByAccountIdAndFormatId(\n      $input: DeletePreferenceEventFormatByAccountIdAndFormatIdInput!\n    ) {\n      deletePreferenceEventFormatByAccountIdAndFormatId(input: $input) {\n        deletedPreferenceEventFormatId\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation DeletePreferenceEventFormatByAccountIdAndFormatId(\n      $input: DeletePreferenceEventFormatByAccountIdAndFormatIdInput!\n    ) {\n      deletePreferenceEventFormatByAccountIdAndFormatId(input: $input) {\n        deletedPreferenceEventFormatId\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  mutation CreatePreferenceEventLocation(\n    $input: AccountPreferenceEventLocationInput!\n  ) {\n    createAccountPreferenceEventLocation(\n      input: { accountPreferenceEventLocation: $input }\n    ) {\n      accountPreferenceEventLocation {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n',
-): (typeof documents)['\n  mutation CreatePreferenceEventLocation(\n    $input: AccountPreferenceEventLocationInput!\n  ) {\n    createAccountPreferenceEventLocation(\n      input: { accountPreferenceEventLocation: $input }\n    ) {\n      accountPreferenceEventLocation {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n']
+  source: '\n  mutation CreatePreferenceEventLocation(\n    $input: PreferenceEventLocationInput!\n  ) {\n    createPreferenceEventLocation(input: { preferenceEventLocation: $input }) {\n      preferenceEventLocation {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n',
+): (typeof documents)['\n  mutation CreatePreferenceEventLocation(\n    $input: PreferenceEventLocationInput!\n  ) {\n    createPreferenceEventLocation(input: { preferenceEventLocation: $input }) {\n      preferenceEventLocation {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  mutation DeletePreferenceEventLocationById(\n    $input: DeleteAccountPreferenceEventLocationByIdInput!\n  ) {\n    deleteAccountPreferenceEventLocationById(input: $input) {\n      deletedAccountPreferenceEventLocationId\n    }\n  }\n',
-): (typeof documents)['\n  mutation DeletePreferenceEventLocationById(\n    $input: DeleteAccountPreferenceEventLocationByIdInput!\n  ) {\n    deleteAccountPreferenceEventLocationById(input: $input) {\n      deletedAccountPreferenceEventLocationId\n    }\n  }\n']
+  source: '\n  mutation DeletePreferenceEventLocationById(\n    $input: DeletePreferenceEventLocationByIdInput!\n  ) {\n    deletePreferenceEventLocationById(input: $input) {\n      deletedPreferenceEventLocationId\n    }\n  }\n',
+): (typeof documents)['\n  mutation DeletePreferenceEventLocationById(\n    $input: DeletePreferenceEventLocationByIdInput!\n  ) {\n    deletePreferenceEventLocationById(input: $input) {\n      deletedPreferenceEventLocationId\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  mutation CreatePreferenceEventSize($input: AccountPreferenceEventSizeInput!) {\n    createAccountPreferenceEventSize(\n      input: { accountPreferenceEventSize: $input }\n    ) {\n      clientMutationId\n    }\n  }\n',
-): (typeof documents)['\n  mutation CreatePreferenceEventSize($input: AccountPreferenceEventSizeInput!) {\n    createAccountPreferenceEventSize(\n      input: { accountPreferenceEventSize: $input }\n    ) {\n      clientMutationId\n    }\n  }\n']
+  source: '\n  mutation CreatePreferenceEventSize($input: PreferenceEventSizeInput!) {\n    createPreferenceEventSize(input: { preferenceEventSize: $input }) {\n      clientMutationId\n    }\n  }\n',
+): (typeof documents)['\n  mutation CreatePreferenceEventSize($input: PreferenceEventSizeInput!) {\n    createPreferenceEventSize(input: { preferenceEventSize: $input }) {\n      clientMutationId\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeleteAccountPreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deleteAccountPreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
-): (typeof documents)['\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeleteAccountPreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deleteAccountPreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
+  source: '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -612,26 +603,26 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query AllPreferenceEventCategories {\n    allAccountPreferenceEventCategories {\n      nodes {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n',
-): (typeof documents)['\n  query AllPreferenceEventCategories {\n    allAccountPreferenceEventCategories {\n      nodes {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n']
+  source: '\n  query AllPreferenceEventCategories {\n    allPreferenceEventCategories {\n      nodes {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query AllPreferenceEventCategories {\n    allPreferenceEventCategories {\n      nodes {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query AllPreferenceEventFormats {\n    allAccountPreferenceEventFormats {\n      nodes {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n',
-): (typeof documents)['\n  query AllPreferenceEventFormats {\n    allAccountPreferenceEventFormats {\n      nodes {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n']
+  source: '\n  query AllPreferenceEventFormats {\n    allPreferenceEventFormats {\n      nodes {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query AllPreferenceEventFormats {\n    allPreferenceEventFormats {\n      nodes {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query AllPreferenceEventLocations {\n    allAccountPreferenceEventLocations {\n      nodes {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n',
-): (typeof documents)['\n  query AllPreferenceEventLocations {\n    allAccountPreferenceEventLocations {\n      nodes {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n']
+  source: '\n  query AllPreferenceEventLocations {\n    allPreferenceEventLocations {\n      nodes {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query AllPreferenceEventLocations {\n    allPreferenceEventLocations {\n      nodes {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query AllPreferenceEventSizes {\n    allAccountPreferenceEventSizes {\n      nodes {\n        nodeId\n        eventSize\n      }\n    }\n  }\n',
-): (typeof documents)['\n  query AllPreferenceEventSizes {\n    allAccountPreferenceEventSizes {\n      nodes {\n        nodeId\n        eventSize\n      }\n    }\n  }\n']
+  source: '\n  query AllPreferenceEventSizes {\n    allPreferenceEventSizes {\n      nodes {\n        nodeId\n        eventSize\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query AllPreferenceEventSizes {\n    allPreferenceEventSizes {\n      nodes {\n        nodeId\n        eventSize\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

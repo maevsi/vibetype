@@ -1,7 +1,7 @@
 import { type FragmentType, graphql, useFragment } from '~~/gql/generated'
 
 export const PreferenceEventFormatItem = graphql(`
-  fragment PreferenceEventFormatItem on AccountPreferenceEventFormat {
+  fragment PreferenceEventFormatItem on PreferenceEventFormat {
     nodeId
     accountId
     formatId

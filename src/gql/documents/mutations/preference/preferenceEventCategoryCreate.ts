@@ -1,14 +1,12 @@
 import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
-export const createAccountPreferenceEventCategoryMutation = graphql(`
+export const createPreferenceEventCategoryMutation = graphql(`
   mutation CreatePreferenceEventCategory(
-    $input: AccountPreferenceEventCategoryInput!
+    $input: PreferenceEventCategoryInput!
   ) {
-    createAccountPreferenceEventCategory(
-      input: { accountPreferenceEventCategory: $input }
-    ) {
-      accountPreferenceEventCategory {
+    createPreferenceEventCategory(input: { preferenceEventCategory: $input }) {
+      preferenceEventCategory {
         ...PreferenceEventCategoryItem
       }
     }
@@ -16,4 +14,4 @@ export const createAccountPreferenceEventCategoryMutation = graphql(`
 `)
 
 export const useCreatePreferenceEventCategoryMutation = () =>
-  useMutation(createAccountPreferenceEventCategoryMutation)
+  useMutation(createPreferenceEventCategoryMutation)
