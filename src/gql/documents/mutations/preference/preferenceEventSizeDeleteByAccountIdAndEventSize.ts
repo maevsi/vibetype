@@ -4,9 +4,9 @@ import { graphql } from '~~/gql/generated'
 export const deletePreferenceEventSizeByAccountIdAndEventSizeMutation = graphql(
   `
     mutation DeletePreferenceEventSizeByAccountIdAndEventSize(
-      $input: DeleteAccountPreferenceEventSizeByAccountIdAndEventSizeInput!
+      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!
     ) {
-      deleteAccountPreferenceEventSizeByAccountIdAndEventSize(input: $input) {
+      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {
         clientMutationId
       }
     }

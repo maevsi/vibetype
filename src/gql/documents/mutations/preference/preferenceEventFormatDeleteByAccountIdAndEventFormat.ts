@@ -4,10 +4,10 @@ import { graphql } from '~~/gql/generated'
 export const deletePreferenceEventFormatByAccountIdAndFormatIdMutation =
   graphql(`
     mutation DeletePreferenceEventFormatByAccountIdAndFormatId(
-      $input: DeleteAccountPreferenceEventFormatByAccountIdAndFormatIdInput!
+      $input: DeletePreferenceEventFormatByAccountIdAndFormatIdInput!
     ) {
-      deleteAccountPreferenceEventFormatByAccountIdAndFormatId(input: $input) {
-        deletedAccountPreferenceEventFormatId
+      deletePreferenceEventFormatByAccountIdAndFormatId(input: $input) {
+        deletedPreferenceEventFormatId
       }
     }
   `)

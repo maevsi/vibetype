@@ -4,7 +4,7 @@ import type { AllPreferenceEventSizesQueryVariables } from '~~/gql/generated/gra
 
 export const allPreferenceEventSizesQuery = graphql(`
   query AllPreferenceEventSizes {
-    allAccountPreferenceEventSizes {
+    allPreferenceEventSizes {
       nodes {
         nodeId
         eventSize

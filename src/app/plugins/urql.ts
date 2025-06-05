@@ -168,9 +168,9 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
   const graphCacheConfig: GraphCacheConfig = {
     keys: {
-      AccountPreferenceEventCategory: (data) => data.nodeId ?? null,
-      AccountPreferenceEventFormat: (data) => data.nodeId ?? null,
-      AccountPreferenceEventSize: (data) => data.nodeId ?? null,
+      PreferenceEventCategory: (data) => data.nodeId ?? null,
+      PreferenceEventFormat: (data) => data.nodeId ?? null,
+      PreferenceEventSize: (data) => data.nodeId ?? null,
       GeographyPoint: (_data) => null,
     },
     schema,
@@ -189,33 +189,30 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           invalidateCache(cache, 'allContacts'),
         createGuest: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allGuests'),
-        createAccountPreferenceEventCategory: (result, _args, cache, _info) =>
+        createPreferenceEventCategory: (result, _args, cache, _info) =>
           cacheListAppend({
             cache,
             getItemCreated: (result) =>
-              result.createAccountPreferenceEventCategory
-                ?.accountPreferenceEventCategory,
-            listKey: 'allAccountPreferenceEventCategories',
+              result.createPreferenceEventCategory?.preferenceEventCategory,
+            listKey: 'allPreferenceEventCategories',
             query: allPreferenceEventCategoriesQuery,
             result,
           }),
-        createAccountPreferenceEventFormat: (result, _args, cache, _info) =>
+        createPreferenceEventFormat: (result, _args, cache, _info) =>
           cacheListAppend({
             cache,
             getItemCreated: (result) =>
-              result.createAccountPreferenceEventFormat
-                ?.accountPreferenceEventFormat,
-            listKey: 'allAccountPreferenceEventFormats',
+              result.createPreferenceEventFormat?.preferenceEventFormat,
+            listKey: 'allPreferenceEventFormats',
             query: allPreferenceEventFormatsQuery,
             result,
           }),
-        createAccountPreferenceEventLocation: (result, _args, cache, _info) =>
+        createPreferenceEventLocation: (result, _args, cache, _info) =>
           cacheListAppend({
             cache,
             getItemCreated: (result) =>
-              result.createAccountPreferenceEventLocation
-                ?.accountPreferenceEventLocation,
-            listKey: 'allAccountPreferenceEventLocations',
+              result.createPreferenceEventLocation?.preferenceEventLocation,
+            listKey: 'allPreferenceEventLocations',
             query: allPreferenceEventLocationsQuery,
             result,
           }),
@@ -229,7 +226,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           invalidateCache(cache, 'Contact', args),
         deleteGuestById: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Guest', args),
-        deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId: (
+        deletePreferenceEventCategoryByAccountIdAndCategoryId: (
           result: DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation,
           _args,
           cache,
@@ -238,15 +235,14 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           cacheListRemove({
             cache,
             getItemDeletedId: (result) =>
-              result
-                .deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId
-                ?.deletedAccountPreferenceEventCategoryId,
+              result.deletePreferenceEventCategoryByAccountIdAndCategoryId
+                ?.deletedPreferenceEventCategoryId,
             getItemOfList: getPreferenceEventCategoryItem,
-            listKey: 'allAccountPreferenceEventCategories',
+            listKey: 'allPreferenceEventCategories',
             query: allPreferenceEventCategoriesQuery,
             result,
           }),
-        deleteAccountPreferenceEventFormatByAccountIdAndFormatId: (
+        deletePreferenceEventFormatByAccountIdAndFormatId: (
           result: DeletePreferenceEventFormatByAccountIdAndFormatIdMutation,
           _args,
           cache,
@@ -255,14 +251,14 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           cacheListRemove({
             cache,
             getItemDeletedId: (result) =>
-              result.deleteAccountPreferenceEventFormatByAccountIdAndFormatId
-                ?.deletedAccountPreferenceEventFormatId,
+              result.deletePreferenceEventFormatByAccountIdAndFormatId
+                ?.deletedPreferenceEventFormatId,
             getItemOfList: getPreferenceEventFormatItem,
-            listKey: 'allAccountPreferenceEventFormats',
+            listKey: 'allPreferenceEventFormats',
             query: allPreferenceEventFormatsQuery,
             result,
           }),
-        deleteAccountPreferenceEventLocationById: (
+        deletePreferenceEventLocationById: (
           result: DeletePreferenceEventLocationByIdMutation,
           _args,
           cache,
@@ -271,10 +267,10 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           cacheListRemove({
             cache,
             getItemDeletedId: (result) =>
-              result.deleteAccountPreferenceEventLocationById
-                ?.deletedAccountPreferenceEventLocationId,
+              result.deletePreferenceEventLocationById
+                ?.deletedPreferenceEventLocationId,
             getItemOfList: getPreferenceEventLocationItem,
-            listKey: 'allAccountPreferenceEventLocations',
+            listKey: 'allPreferenceEventLocations',
             query: allPreferenceEventLocationsQuery,
             result,
           }),

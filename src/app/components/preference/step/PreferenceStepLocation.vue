@@ -110,7 +110,7 @@ const getZoomLevelForRadius = ({
   )
 const preferenceEventLocations = computed(
   () =>
-    allPreferenceEventLocationsQuery.data.value?.allAccountPreferenceEventLocations?.nodes
+    allPreferenceEventLocationsQuery.data.value?.allPreferenceEventLocations?.nodes
       .map((item) => getPreferenceEventLocationItem(item))
       .filter(isNeitherNullNorUndefined) || [],
 )

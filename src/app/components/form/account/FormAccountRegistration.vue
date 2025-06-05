@@ -87,12 +87,12 @@ const modelError = defineModel<Error>('error')
 const submit = async (termId: string) => {
   const result = await accountRegistrationMutation.executeMutation(
     {
+      birthDate: form.birthDate,
       emailAddress: form.emailAddress || '',
       language: locale.value,
       legalTermId: termId,
       password: form.password || '',
       username: form.username || '',
-      birthDate: form.birthDate,
     },
     {
       fetchOptions: {
