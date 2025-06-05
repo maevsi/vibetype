@@ -29,8 +29,7 @@
         :title="t('passwordRepetition')"
         @input="form.passwordRepetition = $event"
       />
-      <FormInputDateOfBirth
-        id="birthdate"
+      <FormInputBirthDate
         :form-input="v$.birthDate"
         is-validatable
         @input="form.birthDate = $event"
@@ -73,12 +72,12 @@ const localePath = useLocalePath()
 const accountRegistrationMutation = useAccountRegistrationMutation()
 const api = getApiData([accountRegistrationMutation])
 const form = reactive({
+  birthDate: ref<string>(),
   captcha: ref<string>(),
   emailAddress: ref<string>(),
   password: ref<string>(),
   passwordRepetition: ref<string>(),
   username: ref<string>(),
-  birthDate: ref<string>(),
 })
 const isFormSent = ref(false)
 const modelError = defineModel<Error>('error')
@@ -117,9 +116,9 @@ watch(
     modelError.value = current?.length
       ? new Error(
           getCombinedErrorMessages(current, {
-            postgres22023: t('postgres22023'),
-            postgres23505: t('postgres23505'),
-            YTBDA: t('birthDateTooYoung'),
+            postgresVTAUV: t('postgresVTAUV'),
+            postgresVTBDA: t('postgresVTBDA'),
+            postgresVTPLL: t('postgresVTPLL'),
           })[0],
         )
       : undefined
@@ -128,6 +127,10 @@ watch(
 
 // vuelidate
 const rules = {
+  birthDate: VALIDATION_DATE({
+    duration: { years: 18 },
+    operation: 'subtract',
+  }),
   captcha: VALIDATION_CAPTCHA(),
   emailAddress: VALIDATION_EMAIL_ADDRESS({ isRequired: true }),
   username: VALIDATION_USERNAME({
@@ -139,7 +142,6 @@ const rules = {
     required,
     sameAs: sameAs(computed(() => form.password)),
   },
-  birthDate: VALIDATION_BIRTH_DATE(),
 }
 const v$ = useVuelidate(rules, form)
 
@@ -151,18 +153,18 @@ defineExpose({
 <i18n lang="yaml">
 de:
   accountDeletionNotice: Du wirst deinen Account jederzeit löschen können.
-  birthDateTooYoung: Du musst mindestens 18 Jahre alt sein, um dich zu registrieren.
   passwordRepetition: Passwort bestätigen
-  postgres22023: Das Passwort ist zu kurz! Überlege dir ein längeres.
-  postgres23505: Es gibt bereits einen Account mit diesem Nutzernamen! Überlege dir einen neuen Namen oder versuche dich anzumelden.
+  postgresVTAUV: Es gibt bereits einen Account mit diesem Nutzernamen! Überlege dir einen neuen Namen oder versuche dich anzumelden.
+  postgresVTBDA: Du musst mindestens 18 Jahre alt sein, um dich zu registrieren.
+  postgresVTPLL: Das Passwort ist zu kurz! Überlege dir ein längeres.
   register: Registrieren
   signIn: 'Du hast bereits ein Konto? Anmelden'
 en:
   accountDeletionNotice: "You'll be able to delete your account at any time."
-  birthDateTooYoung: You must be at least 18 years old to register.
   passwordRepetition: Confirm password
-  postgres22023: Your password is too short! Think of a longer one.
-  postgres23505: This username is already in use! Think of a new name or try signing in instead.
+  postgresVTAUV: This username is already in use! Think of a new name or try signing in instead.
+  postgresVTBDA: You must be at least 18 years old to register.
+  postgresVTPLL: Your password is too short! Think of a longer one.
   register: Sign Up
   signIn: Already have an account? Log in
 </i18n>

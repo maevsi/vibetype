@@ -40,10 +40,7 @@
       </PopoverContent>
     </Popover>
     <template #stateError>
-      <FormInputStateError
-        :form-input="formInput"
-        validation-property="minimumAge"
-      >
+      <FormInputStateError :form-input="formInput" validation-property="date">
         {{ t('validationMinimumAge') }}
       </FormInputStateError>
 
@@ -66,8 +63,8 @@ import {
   today,
   type DateValue,
 } from '@internationalized/date'
-import { toDate } from 'reka-ui/date'
 import type { BaseValidation } from '@vuelidate/core'
+import { toDate } from 'reka-ui/date'
 
 import { cn } from '@/utils/shadcn'
 
