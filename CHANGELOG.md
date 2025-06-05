@@ -1,3 +1,9 @@
+## [11.8.0](https://github.com/maevsi/vibetype/compare/11.7.1...11.8.0) (2025-06-05)
+
+### Features
+
+* it's june ([e16845e](https://github.com/maevsi/vibetype/commit/e16845ec91afea2905bedb696ca26c7196937b41))
+
 ## [11.7.1](https://github.com/maevsi/vibetype/compare/11.7.0...11.7.1) (2025-06-01)
 
 ### Bug Fixes
