@@ -6,7 +6,7 @@
       </TypographyH2>
       <div class="flex flex-col gap-4">
         <div
-          class="light:border-(--semantic-base-line) flex flex-col items-center justify-center rounded-xl border border-1 sm:flex-row"
+          class="flex flex-col items-center justify-center rounded-xl border border-(--semantic-base-line) sm:flex-row dark:border-none"
         >
           <div
             class="flex w-full flex-row gap-4 rounded-xl bg-(--semantic-base-surface-1)"
