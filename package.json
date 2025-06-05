@@ -15,7 +15,7 @@
   "engines": {
     "node": "22"
   },
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@10.11.1",
   "pnpm": {
     "ignoredBuiltDependencies": [
       "@firebase/util",
@@ -31,7 +31,10 @@
       "sharp",
       "unrs-resolver",
       "vue-demi"
-    ]
+    ],
+    "overrides": {
+      "debug": "4.4.1"
+    }
   },
   "private": true,
   "scripts": {

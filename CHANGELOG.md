@@ -1,3 +1,15 @@
+## [11.8.1](https://github.com/maevsi/vibetype/compare/11.8.0...11.8.1) (2025-06-05)
+
+### Bug Fixes
+
+* **app:** stop nuxt's loading indicator from hiding errors ([dd8f485](https://github.com/maevsi/vibetype/commit/dd8f485bc6602aaf89231b169f88d1a4e6a8bd46))
+
+## [11.8.0](https://github.com/maevsi/vibetype/compare/11.7.1...11.8.0) (2025-06-05)
+
+### Features
+
+* it's june ([e16845e](https://github.com/maevsi/vibetype/commit/e16845ec91afea2905bedb696ca26c7196937b41))
+
 ## [11.7.1](https://github.com/maevsi/vibetype/compare/11.7.0...11.7.1) (2025-06-01)
 
 ### Bug Fixes
