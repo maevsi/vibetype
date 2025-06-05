@@ -94,10 +94,6 @@ export default defineNuxtConfig({
     },
     'nuxt-security',
   ],
-  shadcn: {
-    prefix: '',
-    componentDir: 'app/components/scn',
-  },
   nitro: {
     compressPublicAssets: true,
     experimental: {
