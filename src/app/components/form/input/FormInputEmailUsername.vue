@@ -3,7 +3,7 @@
     v-if="formInput"
     :is-optional="isOptional"
     :id-label="`input-${id}`"
-    :title="title || t('usernameOrEmail')"
+    :title="t('usernameOrEmail')"
     :type="inputType"
     :value="formInput"
     @input="handleInput"
@@ -51,12 +51,10 @@ const {
   formInput,
   id = 'username-or-email',
   isOptional,
-  title,
 } = defineProps<{
   formInput: BaseValidation<string | undefined>
   id?: string
   isOptional?: boolean
-  title?: string
 }>()
 
 const emit = defineEmits<{
