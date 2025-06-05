@@ -31,7 +31,10 @@
       "sharp",
       "unrs-resolver",
       "vue-demi"
-    ]
+    ],
+    "overrides": {
+      "debug": "4.4.1"
+    }
   },
   "private": true,
   "scripts": {
