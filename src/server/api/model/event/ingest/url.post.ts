@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
   const html = await $fetch<string>(body.url)
   const htmlParsed = cheerio.load(html)
 
-  const completion = await openAiClient.beta.chat.completions.parse({
+  const completion = await openAiClient.chat.completions.parse({
     messages: [
       {
         role: 'system',

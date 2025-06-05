@@ -4,7 +4,8 @@
       <div class="flex flex-col items-center gap-2">
         <TypographyH3>{{ t('welcome') }}</TypographyH3>
         <div class="flex items-center gap-1">
-          <IconLogo class="h-10" />
+          <IconLogo v-if="dateToday.month !== 6" class="size-10" />
+          <IconLogoPride v-else class="size-16" />
           <TypographyH4 class="uppercase">
             {{ siteConfig.name }}
           </TypographyH4>
@@ -43,6 +44,8 @@
 </template>
 
 <script setup lang="ts">
+import { getLocalTimeZone, today } from '@internationalized/date'
+
 definePageMeta({
   layout: 'plain',
 })
@@ -50,6 +53,8 @@ definePageMeta({
 const { isApp } = usePlatform()
 const { t } = useI18n()
 const siteConfig = useSiteConfig()
+
+const dateToday = today(getLocalTimeZone())
 </script>
 
 <i18n lang="yaml">
