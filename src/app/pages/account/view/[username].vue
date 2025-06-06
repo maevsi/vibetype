@@ -241,6 +241,7 @@ const eventsAttending = computed(() => {
   const events = contacts.flatMap(
     (contact) =>
       contact.guestsByContactId?.nodes
+        ?.filter((guest) => guest.feedback === 'ACCEPTED')
         ?.map((guest) => getEventItem(guest.eventByEventId))
         .filter(isNeitherNullNorUndefined) || [],
   )

@@ -10488,6 +10488,7 @@ export type AccountEventsAttendingQuery = {
         __typename?: 'GuestsConnection'
         nodes: Array<{
           __typename?: 'Guest'
+          feedback?: InvitationFeedback | null
           eventByEventId?:
             | ({
                 __typename?: 'Event'
@@ -16843,6 +16844,10 @@ export const AccountEventsAttendingDocument = {
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'feedback' },
+                                  },
                                   {
                                     kind: 'Field',
                                     name: {

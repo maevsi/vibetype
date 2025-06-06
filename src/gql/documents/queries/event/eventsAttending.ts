@@ -13,6 +13,7 @@ export const useAccountEventsAttendingQuery = (
             id
             guestsByContactId {
               nodes {
+                feedback
                 eventByEventId {
                   ...EventItem
                   eventFavoritesByEventId {
