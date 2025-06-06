@@ -3,6 +3,7 @@
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <EventReportForm
         ref="form"
+        v-model:error="error"
         v-bind="attributes"
         :account-id
         :event
@@ -27,6 +28,13 @@
         }}
       </div>
     </AppStep>
+    <AppStep v-slot="attributes" :is-active="step === 'error'">
+      <LayoutPageResult v-bind="attributes" type="error">
+        <template #description>
+          {{ t('somethingWentWrong') }}
+        </template>
+      </LayoutPageResult>
+    </AppStep>
     <template #title>
       <AppStep v-slot="attributes" :is-active="step === 'default'">
         <span v-bind="attributes">
@@ -41,6 +49,11 @@
       <AppStep v-slot="attributes" :is-active="step === 'blockConfirmation'">
         <span v-bind="attributes">
           {{ t('titleBlockConfirmation') }}
+        </span>
+      </AppStep>
+      <AppStep v-slot="attributes" :is-active="step === 'error'">
+        <span v-bind="attributes">
+          {{ t('reportingFailed') }}
         </span>
       </AppStep>
     </template>
@@ -89,6 +102,16 @@
           </ButtonColored>
         </DrawerClose>
       </AppStep>
+      <AppStep v-slot="attributes" :is-active="step === 'error'">
+        <ButtonColored
+          v-bind="attributes"
+          :aria-label="t('tryAgain')"
+          variant="primary"
+          @click="restart"
+        >
+          {{ t('tryAgain') }}
+        </ButtonColored>
+      </AppStep>
     </template>
   </AppDrawer>
 </template>
@@ -108,15 +131,17 @@ const { accountId, event } = defineProps<{
 // template
 const templateForm = useTemplateRef('form')
 
+// stepper
+const { error, restart, step } = useStepper<
+  'reportConfirmation' | 'blockConfirmation' | 'error'
+>({ initial: 'blockConfirmation' })
+
 // drawer
 const isOpen = defineModel<boolean>()
 const open = () => (isOpen.value = true)
-
-// stepper
-const { step } = useStepper<'reportConfirmation' | 'blockConfirmation'>()
 const onAnimationEnd = (isOpen: boolean) => {
   if (isOpen) return
-  step.value = 'default'
+  restart()
 }
 
 // block
@@ -132,24 +157,16 @@ const blockOrganizer = async () => {
       createdBy: accountId,
     },
   })
-
   if (result.error) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: apiErrorMessages.value.join('\n'),
-      title: t('globalError'),
-    })
+    error.value = new Error(
+      apiErrorMessages.value.length > 0
+        ? apiErrorMessages.value.join('\n')
+        : t('globalError'),
+    )
     return
   }
-
   if (!result.data) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: t('globalErrorNoData'),
-      title: t('globalError'),
-    })
+    error.value = new Error(t('globalError'))
     return
   }
 
@@ -176,9 +193,12 @@ de:
   buttonReportSubmit: Meldung einreichen
   contentBlockConfirmation: Der Benutzer {username} wurde blockiert.
   contentReportConfirmation: Vielen Dank für die Meldung. Wir werden sie prüfen und dich über unsere Entscheidung benachrichtigen. Du kannst nun den Organisator {username} blockieren oder zur Event-Seite zurückkehren.
+  reportingFailed: Meldung fehlgeschlagen
+  somethingWentWrong: Etwas ist schief gelaufen.
   titleBlockConfirmation: Benutzer blockiert
   titleReport: Event melden
   titleReportConfirmation: Meldung erhalten
+  tryAgain: Erneut versuchen
 en:
   buttonBlockConfirmation: Back to Dashboard
   buttonReportCancel: Cancel
@@ -187,7 +207,10 @@ en:
   buttonReportSubmit: Report
   contentBlockConfirmation: The user {username} has been blocked.
   contentReportConfirmation: Thank you for your report. We will review it and notify you about our decision. You can block the organizer {username} now or return to the event.
+  reportingFailed: Reporting Failed
+  somethingWentWrong: Something went wrong.
   titleBlockConfirmation: User blocked
   titleReport: Report event
   titleReportConfirmation: Report received
+  tryAgain: Try Again
 </i18n>

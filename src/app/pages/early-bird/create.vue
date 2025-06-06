@@ -19,21 +19,42 @@
       <EarlyBirdWelcome v-bind="attributes" @next="step = 'form'" />
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'form'">
-      <EarlyBirdForm v-bind="attributes" @next="step = 'submission'" />
+      <EarlyBirdForm
+        v-model:error="error"
+        v-bind="attributes"
+        @next="step = 'submission'"
+      />
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'submission'">
       <EarlyBirdSubmission v-bind="attributes" />
+    </AppStep>
+    <AppStep v-slot="attributes" :is-active="step === 'error'">
+      <LayoutPage v-bind="attributes">
+        <LayoutPageResult type="error">
+          <template #description>
+            {{ t('errorDescription') }}
+          </template>
+        </LayoutPageResult>
+        <template #bottom>
+          <ButtonColored
+            :aria-label="t('backToEarlyBird')"
+            class="w-full max-w-sm"
+            variant="primary"
+            @click="restart"
+          >
+            {{ t('backToEarlyBird') }}
+          </ButtonColored>
+        </template>
+      </LayoutPage>
     </AppStep>
   </section>
 </template>
 
 <script setup lang="ts">
+// compiler
 definePageMeta({
   layout: 'default-no-header',
 })
-
-const { t } = useI18n()
-const templateIdTitle = useId()
 
 // validation
 const store = useStore()
@@ -51,8 +72,11 @@ if (!store.signedInUsername) {
   })
 }
 
-// stepper
-const { step, previous, title } = useStepperPage<'form' | 'submission'>({
+// head
+const { t } = useI18n()
+const { error, step, previous, restart, title } = useStepperPage<
+  'form' | 'submission'
+>({
   steps: {
     default: {
       title: t('title'),
@@ -63,18 +87,23 @@ const { step, previous, title } = useStepperPage<'form' | 'submission'>({
     submission: {},
   },
 })
-
-// page
 useHeadDefault({ title })
+
+// template
+const templateIdTitle = useId()
 </script>
 
 <i18n lang="yaml">
 de:
   back: zurück
+  backToEarlyBird: Zurück zur Registrierung
   iconAltClose: Schließen
   title: Früher Vogel Programm
+  errorDescription: Die Anmeldung für das Early Bird-Programm scheint nicht geklappt zu haben. Bitte versuche es noch einmal oder wende dich an den Support, wenn das Problem weiterhin besteht.
 en:
   back: back
+  backToEarlyBird: Back to Registration
   iconAltClose: Close
   title: Early Bird Program
+  errorDescription: The registration for the Early Bird program does not seem to have worked. Please try again or contact support if the problem persists.
 </i18n>

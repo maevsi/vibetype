@@ -1,11 +1,5 @@
 <template>
   <AppForm
-    :errors="api.errors"
-    :errors-pg-ids="{
-      postgres22023: t('postgres22023'),
-      postgresP0002: t('postgresP0002'),
-      postgres55000: t('postgres55000'),
-    }"
     :form="v$"
     :is-form-sent="isFormSent"
     is-button-hidden
@@ -39,6 +33,7 @@ const form = reactive({
   password: ref<string>(),
 })
 const isFormSent = ref(false)
+const modelError = defineModel<Error>('error')
 
 // api data
 const passwordResetMutation = useAccountPasswordResetMutation()
@@ -67,6 +62,21 @@ const v$ = useVuelidate(rules, form)
 defineExpose({
   submit,
 })
+
+watch(
+  () => api.value.errors,
+  (current) => {
+    modelError.value = current?.length
+      ? new Error(
+          getCombinedErrorMessages(current, {
+            postgres22023: t('postgres22023'),
+            postgresP0002: t('postgresP0002'),
+            postgres55000: t('postgres55000'),
+          })[0],
+        )
+      : undefined
+  },
+)
 </script>
 
 <i18n lang="yaml">

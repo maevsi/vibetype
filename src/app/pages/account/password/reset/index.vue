@@ -50,24 +50,39 @@
         </template>
       </LayoutPage>
     </AppStep>
+    <AppStep v-slot="attributes" :is-active="step === 'error'">
+      <LayoutPage v-bind="attributes">
+        <LayoutPageResult type="error">
+          <span v-if="error && error.message">
+            {{ error.message }}
+          </span>
+          <template #description>
+            {{ t('globalTryAgain') }}
+          </template>
+        </LayoutPageResult>
+        <template #bottom>
+          <ButtonColored
+            :aria-label="t('backToReset')"
+            class="w-full max-w-sm"
+            variant="primary"
+            @click="restart"
+          >
+            {{ t('backToReset') }}
+          </ButtonColored>
+        </template>
+      </LayoutPage>
+    </AppStep>
   </section>
 </template>
 
 <script setup lang="ts">
+// compiler
 definePageMeta({
   layout: 'default-no-header',
 })
-
 defineRouteRules({
   robots: false,
 })
-
-const localePath = useLocalePath()
-
-// page
-const { t } = useI18n()
-const title = t('title')
-useHeadDefault({ title })
 
 // validation
 const route = useRoute()
@@ -79,16 +94,21 @@ if (
   throw createError({ statusCode: 400 })
 }
 
+// head
+const { t } = useI18n()
+const title = t('title')
+useHeadDefault({ title })
+
 // template
+const localePath = useLocalePath()
 const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
-
-// stepper
-const { step } = useStepper<'success'>()
+const { error, restart, step } = useStepper<'success'>()
 </script>
 
 <i18n lang="yaml">
 de:
+  backToReset: Zurück zur Passwortzurücksetzung
   instructionsNew: Neues Passwort
   instructionsSuccessHeading: Passwort erfolgreich zurückgesetzt
   instructionsSuccessDescription: Du kannst dich jetzt mit deinem neuen Passwort anmelden
@@ -96,6 +116,7 @@ de:
   signIn: Einloggen
   title: Passwort zurücksetzen
 en:
+  backToReset: Back to Reset Password
   instructionsNew: Set a new password
   instructionsSuccessHeading: Password reset successful
   instructionsSuccessDescription: You can now log in using your new password.
