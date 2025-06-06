@@ -57,6 +57,10 @@ import { sameAs, required } from '@vuelidate/validators'
 
 import { useAccountRegistrationMutation } from '~~/gql/documents/mutations/account/accountRegistration'
 
+const { birthDate = undefined } = defineProps<{
+  birthDate?: string
+}>()
+
 const emit = defineEmits<{
   submit: []
   success: []
@@ -80,6 +84,7 @@ const modelError = defineModel<Error>('error')
 const submit = async (termId: string) => {
   const result = await accountRegistrationMutation.executeMutation(
     {
+      birthDate: birthDate,
       emailAddress: form.emailAddress || '',
       language: locale.value,
       legalTermId: termId,
@@ -109,8 +114,9 @@ watch(
     modelError.value = current?.length
       ? new Error(
           getCombinedErrorMessages(current, {
-            postgres22023: t('postgres22023'),
-            postgres23505: t('postgres23505'),
+            postgresVTAUV: t('postgresVTAUV'),
+            postgresVTBDA: t('postgresVTBDA'),
+            postgresVTPLL: t('postgresVTPLL'),
           })[0],
         )
       : undefined
@@ -142,15 +148,17 @@ defineExpose({
 de:
   accountDeletionNotice: Du wirst deinen Account jederzeit löschen können.
   passwordRepetition: Passwort bestätigen
-  postgres22023: Das Passwort ist zu kurz! Überlege dir ein längeres.
-  postgres23505: Es gibt bereits einen Account mit diesem Nutzernamen! Überlege dir einen neuen Namen oder versuche dich anzumelden.
+  postgresVTAUV: Es gibt bereits einen Account mit diesem Nutzernamen! Überlege dir einen neuen Namen oder versuche dich anzumelden.
+  postgresVTBDA: Du musst mindestens 18 Jahre alt sein, um dich zu registrieren.
+  postgresVTPLL: Das Passwort ist zu kurz! Überlege dir ein längeres.
   register: Registrieren
   signIn: 'Du hast bereits ein Konto? Anmelden'
 en:
   accountDeletionNotice: "You'll be able to delete your account at any time."
   passwordRepetition: Confirm password
-  postgres22023: Your password is too short! Think of a longer one.
-  postgres23505: This username is already in use! Think of a new name or try signing in instead.
+  postgresVTAUV: This username is already in use! Think of a new name or try signing in instead.
+  postgresVTBDA: You must be at least 18 years old to register.
+  postgresVTPLL: Your password is too short! Think of a longer one.
   register: Sign Up
   signIn: Already have an account? Log in
 </i18n>

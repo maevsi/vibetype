@@ -4,7 +4,7 @@ import type { AllPreferenceEventLocationsQueryVariables } from '~~/gql/generated
 
 export const allPreferenceEventLocationsQuery = graphql(`
   query AllPreferenceEventLocations {
-    allAccountPreferenceEventLocations {
+    allPreferenceEventLocations {
       nodes {
         ...PreferenceEventLocationItem
       }

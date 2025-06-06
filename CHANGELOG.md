@@ -1,3 +1,13 @@
+## [12.0.0-beta.1](https://github.com/maevsi/vibetype/compare/11.8.1...12.0.0-beta.1) (2025-06-06)
+
+### ⚠ BREAKING CHANGES
+
+* **account:** add date of birth to registration #1964
+
+### Features
+
+* **account:** add date of birth to registration [#1964](https://github.com/maevsi/vibetype/issues/1964) ([731fb18](https://github.com/maevsi/vibetype/commit/731fb18ad626afcd539e223a0dd6e4860c0ec26c))
+
 ## [11.8.1](https://github.com/maevsi/vibetype/compare/11.8.0...11.8.1) (2025-06-05)
 
 ### Bug Fixes
