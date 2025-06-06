@@ -15,11 +15,23 @@
         <FormAccountRegistration
           ref="form"
           v-model:error="error"
-          @submit="step = 'terms'"
+          :birth-date
+          @submit="step = 'age'"
           @success="step = 'success'"
         />
         <ContentLegalFooter />
       </LayoutPage>
+    </AppStep>
+    <AppStep v-slot="attributes" :is-active="step === 'age'">
+      <AccountRegistrationStepAge
+        v-bind="attributes"
+        @success="
+          ($event) => {
+            birthDate = $event
+            step = 'terms'
+          }
+        "
+      />
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'terms'">
       <AccountLegalConsent
@@ -92,14 +104,23 @@ const { t } = useI18n()
 // template
 const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
+const birthDate = ref<string>()
 
 // stepper
 const { error, previous, restart, step, title } = useStepperPage<
-  'terms' | 'privacy' | 'success'
+  'age' | 'terms' | 'privacy' | 'success'
 >({
   steps: {
     default: {
       title: t('titleForm'),
+    },
+    age: {
+      title: t('titleAge'),
+      previous: 'default',
+    },
+    terms: {
+      title: t('titleTerms'),
+      previous: 'age',
     },
     privacy: {
       title: t('titlePrivacy'),
@@ -107,10 +128,6 @@ const { error, previous, restart, step, title } = useStepperPage<
     },
     success: {
       title: t('titleVerification'),
-    },
-    terms: {
-      title: t('titleTerms'),
-      previous: 'default',
     },
   },
 })
@@ -128,6 +145,7 @@ de:
   agreePrivacy: Ich stimme der Datenschutzerklärung zu
   back: zurück
   backToRegistration: Zurück zur Registrierung
+  titleAge: Bereit für Social Media?
   titleForm: Erstelle ein Konto
   titlePrivacy: Datenschutzbestimmungen
   titleTerms: Geschäftsbedingungen
@@ -140,6 +158,7 @@ en:
   agreePrivacy: I agree to the Privacy Policy
   back: back
   backToRegistration: Back to Registration
+  titleAge: Ready for Social Media?
   titleForm: Create an account
   titlePrivacy: Privacy Policy
   titleTerms: General Terms and Conditions

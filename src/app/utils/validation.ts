@@ -1,9 +1,3 @@
-import {
-  getLocalTimeZone,
-  parseDate,
-  today,
-  type DateDuration,
-} from '@internationalized/date'
 import type { Validation } from '@vuelidate/core'
 import {
   email,
@@ -42,31 +36,6 @@ export const VALIDATION_PASSWORD_LENGTH_MINIMUM = 8
 export const VALIDATION_URL_LENGTH_MAXIMUM = 300
 export const VALIDATION_USERNAME_LENGTH_MAXIMUM = 100
 
-export const VALIDATION_DATE = ({
-  duration,
-  operation,
-}: {
-  duration: DateDuration
-  operation: 'add' | 'subtract'
-}) => ({
-  date: (value: string | undefined) => {
-    if (!value) return false
-
-    try {
-      const birthDate = parseDate(value)
-      const todayDate = today(getLocalTimeZone())
-      const eighteenYearsAgo =
-        operation === 'add'
-          ? todayDate.add(duration)
-          : todayDate.subtract(duration)
-
-      return birthDate.compare(eighteenYearsAgo) <= 0
-    } catch {
-      return false
-    }
-  },
-  required,
-})
 export const VALIDATION_CAPTCHA = () => ({
   required,
 })

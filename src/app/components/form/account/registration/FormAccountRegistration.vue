@@ -29,11 +29,6 @@
         :title="t('passwordRepetition')"
         @input="form.passwordRepetition = $event"
       />
-      <FormInputBirthDate
-        :form-input="v$.birthDate"
-        is-validatable
-        @input="form.birthDate = $event"
-      />
       <FormInputCaptcha
         :form-input="v$.captcha"
         is-centered
@@ -62,6 +57,10 @@ import { sameAs, required } from '@vuelidate/validators'
 
 import { useAccountRegistrationMutation } from '~~/gql/documents/mutations/account/accountRegistration'
 
+const { birthDate = undefined } = defineProps<{
+  birthDate?: string
+}>()
+
 const emit = defineEmits<{
   submit: []
   success: []
@@ -72,7 +71,6 @@ const localePath = useLocalePath()
 const accountRegistrationMutation = useAccountRegistrationMutation()
 const api = getApiData([accountRegistrationMutation])
 const form = reactive({
-  birthDate: ref<string>(),
   captcha: ref<string>(),
   emailAddress: ref<string>(),
   password: ref<string>(),
@@ -86,7 +84,7 @@ const modelError = defineModel<Error>('error')
 const submit = async (termId: string) => {
   const result = await accountRegistrationMutation.executeMutation(
     {
-      birthDate: form.birthDate,
+      birthDate: birthDate,
       emailAddress: form.emailAddress || '',
       language: locale.value,
       legalTermId: termId,
@@ -127,10 +125,6 @@ watch(
 
 // vuelidate
 const rules = {
-  birthDate: VALIDATION_DATE({
-    duration: { years: 18 },
-    operation: 'subtract',
-  }),
   captcha: VALIDATION_CAPTCHA(),
   emailAddress: VALIDATION_EMAIL_ADDRESS({ isRequired: true }),
   username: VALIDATION_USERNAME({

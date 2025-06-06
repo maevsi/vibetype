@@ -1,6 +1,7 @@
 {
   "globalError": "Error",
   "globalErrorNoData": "Response without data",
+  "globalFormErrorAge18": "You must be 18 years old.",
   "globalLoading": "Loading...",
   "globalPlaceholderAddress": "Eventstreet 1,\n12345 Guestcity",
   "globalPlaceholderFirstName": "Firstname",
