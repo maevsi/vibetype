@@ -9412,10 +9412,10 @@ export type AccountPasswordResetRequestMutation = {
 export type AccountRegistrationMutationVariables = Exact<{
   birthDate: Scalars['Date']['input']
   emailAddress: Scalars['String']['input']
-  password: Scalars['String']['input']
-  username: Scalars['String']['input']
   language: Scalars['String']['input']
   legalTermId: Scalars['UUID']['input']
+  password: Scalars['String']['input']
+  username: Scalars['String']['input']
 }>
 
 export type AccountRegistrationMutation = {
@@ -11381,6 +11381,31 @@ export const AccountRegistrationDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
+            name: { kind: 'Name', value: 'language' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'legalTermId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
             name: { kind: 'Name', value: 'password' },
           },
           type: {
@@ -11403,31 +11428,6 @@ export const AccountRegistrationDocument = {
               kind: 'NamedType',
               name: { kind: 'Name', value: 'String' },
             },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'language' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'legalTermId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
           },
         },
       ],
@@ -11462,22 +11462,6 @@ export const AccountRegistrationDocument = {
                     },
                     {
                       kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'password' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'password' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'username' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'username' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
                       name: { kind: 'Name', value: 'language' },
                       value: {
                         kind: 'Variable',
@@ -11490,6 +11474,22 @@ export const AccountRegistrationDocument = {
                       value: {
                         kind: 'Variable',
                         name: { kind: 'Name', value: 'legalTermId' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'password' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'password' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'username' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'username' },
                       },
                     },
                   ],

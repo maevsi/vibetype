@@ -43,9 +43,6 @@
             />
           </PopoverContent>
         </Popover>
-        <FormDescription>
-          {{ t('explanation') }}
-        </FormDescription>
         <FormMessage />
       </FormItem>
     </FormField>
@@ -68,8 +65,7 @@ import { z } from 'zod'
 import { cn } from '@/utils/shadcn'
 
 const emit = defineEmits<{
-  submit: []
-  success: []
+  success: [string]
 }>()
 
 // form
@@ -83,7 +79,25 @@ const submit = () => {
 const { handleSubmit, setFieldValue, values } = useForm({
   validationSchema: toTypedSchema(
     z.object({
-      birthDate: z.string(),
+      birthDate: z
+        .string()
+        .nonempty()
+        .refine(
+          (value) => {
+            const birthDate = parseDate(value)
+            const todayDate = today(getLocalTimeZone())
+            const targetDate = todayDate.subtract({ years: 18 })
+
+            return birthDate.compare(targetDate) <= 0
+          },
+          {
+            params: {
+              i18n: {
+                key: 'globalFormErrorAge18',
+              },
+            },
+          },
+        ),
     }),
   ),
 })
@@ -91,9 +105,8 @@ const value = computed({
   get: () => (values.birthDate ? parseDate(values.birthDate) : undefined),
   set: (val) => val,
 })
-const onSubmit = handleSubmit(async (_values) => {
-  // TODO
-  emit('success')
+const onSubmit = handleSubmit(async (values) => {
+  emit('success', values.birthDate)
 })
 
 // calendar
@@ -109,11 +122,9 @@ defineExpose({
 
 <i18n lang="yaml">
 de:
-  explanation: Dein Geburtsdatum wird zur Berechnung deines Alters verwendet.
   label: Geburtsdatum
   placeholder: Wähle ein Datum
 en:
-  explanation: Your date of birth is used to calculate your age.
   label: Date of birth
   placeholder: Pick a date
 </i18n>
