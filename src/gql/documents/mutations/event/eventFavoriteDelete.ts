@@ -6,7 +6,6 @@ export const useEventUnfavoriteMutation = () =>
     graphql(`
       mutation deleteEventFavorite($nodeId: ID!) {
         deleteEventFavorite(input: { nodeId: $nodeId }) {
-          clientMutationId
           eventFavorite {
             ...EventFavoriteItem
           }

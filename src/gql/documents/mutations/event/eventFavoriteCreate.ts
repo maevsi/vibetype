@@ -8,7 +8,6 @@ export const useEventFavoriteMutation = () =>
         createEventFavorite(
           input: { eventFavorite: { eventId: $eventId, createdBy: $createdBy } }
         ) {
-          clientMutationId
           eventFavorite {
             ...EventFavoriteItem
           }
