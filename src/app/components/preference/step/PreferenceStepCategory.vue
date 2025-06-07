@@ -1,7 +1,7 @@
 <template>
   <LayoutPage>
     <div class="flex flex-col gap-4 text-center">
-      <AppStepIndex :count="5" :index="4" />
+      <AppStepIndex :count="4" :index="3" />
       <TypographyH3>
         {{ t('title') }}
       </TypographyH3>
@@ -108,7 +108,7 @@ const eventCategories = computed(() =>
 )
 const preferenceEventCategoryIds = computed(
   () =>
-    api.value.data.allAccountPreferenceEventCategories?.nodes
+    api.value.data.allPreferenceEventCategories?.nodes
       .map(getPreferenceEventCategoryItem)
       .filter(isNeitherNullNorUndefined)
       .map((item) => item.categoryId) || [],

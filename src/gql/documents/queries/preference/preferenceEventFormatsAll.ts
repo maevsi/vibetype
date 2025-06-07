@@ -4,7 +4,7 @@ import type { AllPreferenceEventFormatsQueryVariables } from '~~/gql/generated/g
 
 export const allPreferenceEventFormatsQuery = graphql(`
   query AllPreferenceEventFormats {
-    allAccountPreferenceEventFormats {
+    allPreferenceEventFormats {
       nodes {
         ...PreferenceEventFormatItem
       }

@@ -1,3 +1,42 @@
+## [12.0.0](https://github.com/maevsi/vibetype/compare/11.8.1...12.0.0) (2025-06-06)
+
+### ⚠ BREAKING CHANGES
+
+* **account:** add date of birth to registration #1964
+
+### Features
+
+* **account:** add date of birth to registration [#1964](https://github.com/maevsi/vibetype/issues/1964) ([731fb18](https://github.com/maevsi/vibetype/commit/731fb18ad626afcd539e223a0dd6e4860c0ec26c))
+
+## [12.0.0-beta.1](https://github.com/maevsi/vibetype/compare/11.8.1...12.0.0-beta.1) (2025-06-06)
+
+### ⚠ BREAKING CHANGES
+
+* **account:** add date of birth to registration #1964
+
+### Features
+
+* **account:** add date of birth to registration [#1964](https://github.com/maevsi/vibetype/issues/1964) ([731fb18](https://github.com/maevsi/vibetype/commit/731fb18ad626afcd539e223a0dd6e4860c0ec26c))
+
+## [11.8.1](https://github.com/maevsi/vibetype/compare/11.8.0...11.8.1) (2025-06-05)
+
+### Bug Fixes
+
+* **app:** stop nuxt's loading indicator from hiding errors ([dd8f485](https://github.com/maevsi/vibetype/commit/dd8f485bc6602aaf89231b169f88d1a4e6a8bd46))
+
+## [11.8.0](https://github.com/maevsi/vibetype/compare/11.7.1...11.8.0) (2025-06-05)
+
+### Features
+
+* it's june ([e16845e](https://github.com/maevsi/vibetype/commit/e16845ec91afea2905bedb696ca26c7196937b41))
+
+## [11.7.1](https://github.com/maevsi/vibetype/compare/11.7.0...11.7.1) (2025-06-01)
+
+### Bug Fixes
+
+* **components:** correct view box casing ([ba9e8cd](https://github.com/maevsi/vibetype/commit/ba9e8cd4943ceab21f8cec8d2259fc662dd5e2fb))
+* **vibetype-logo:** on back navigation ([9264805](https://github.com/maevsi/vibetype/commit/926480569d552db2bccfa5f016b142ef4f0865b1))
+
 ## [11.7.0](https://github.com/maevsi/vibetype/compare/11.6.1...11.7.0) (2025-05-27)
 
 ### Features

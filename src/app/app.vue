@@ -5,7 +5,6 @@
     data-testid="is-loading"
     vaul-drawer-wrapper
   >
-    <NuxtLoadingIndicator />
     <LazyClientOnly>
       <CardStateInfo
         v-if="!isBrowserSupported && !runtimeConfig.public.vio.isTesting"
@@ -31,6 +30,7 @@
         </i18n-t>
       </CardStateInfo>
     </LazyClientOnly>
+    <NuxtLoadingIndicator />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
