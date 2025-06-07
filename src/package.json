@@ -1,11 +1,11 @@
 {
   "description": "Find events, guests and friends 💙❤️💚",
   "devDependencies": {
-    "@aws-sdk/client-ses": "3.825.0",
-    "@aws-sdk/client-sesv2": "3.825.0",
-    "@aws-sdk/credential-providers": "3.825.0",
+    "@aws-sdk/client-ses": "3.826.0",
+    "@aws-sdk/client-sesv2": "3.826.0",
+    "@aws-sdk/credential-providers": "3.826.0",
     "@dargmuesli/nuxt-cookie-control": "9.0.5",
-    "@dargmuesli/nuxt-vio": "18.2.5",
+    "@dargmuesli/nuxt-vio": "18.2.6",
     "@fontsource-variable/raleway": "5.2.5",
     "@graphql-codegen/add": "5.0.3",
     "@graphql-codegen/cli": "5.0.7",
@@ -42,12 +42,12 @@
     "@tailwindcss/forms": "0.5.10",
     "@tailwindcss/typography": "0.5.16",
     "@tailwindcss/vite": "4.1.8",
-    "@tiptap/core": "2.13.0",
-    "@tiptap/extension-link": "2.13.0",
-    "@tiptap/extension-text-align": "2.13.0",
-    "@tiptap/pm": "2.13.0",
-    "@tiptap/starter-kit": "2.13.0",
-    "@tiptap/vue-3": "2.13.0",
+    "@tiptap/core": "2.14.0",
+    "@tiptap/extension-link": "2.14.0",
+    "@tiptap/extension-text-align": "2.14.0",
+    "@tiptap/pm": "2.14.0",
+    "@tiptap/starter-kit": "2.14.0",
+    "@tiptap/vue-3": "2.14.0",
     "@types/downloadjs": "1.4.6",
     "@types/html-to-text": "9.0.4",
     "@types/leaflet": "1.9.18",
@@ -152,7 +152,7 @@
     "vue-router": "4.5.1",
     "vue-tsc": "2.2.10",
     "workbox-precaching": "7.3.0",
-    "zod": "3.25.53"
+    "zod": "3.25.56"
   },
   "engines": {
     "node": "22"
