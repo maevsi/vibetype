@@ -9628,6 +9628,34 @@ export type EventItemFragment = {
         ' $fragmentRefs'?: { AddressItemFragment: AddressItemFragment }
       })
     | null
+} & { ' $fragmentName'?: 'EventItemFragment' }
+
+export type EventItemWithFavoritesFragment = {
+  __typename?: 'Event'
+  id: any
+  nodeId: string
+  createdBy: any
+  description?: string | null
+  end?: any | null
+  guestCountMaximum?: number | null
+  isArchived: boolean
+  isInPerson?: boolean | null
+  isRemote?: boolean | null
+  name: string
+  slug: string
+  start: any
+  url?: string | null
+  visibility: EventVisibility
+  accountByCreatedBy?: {
+    __typename?: 'Account'
+    id: any
+    username: string
+  } | null
+  addressByAddressId?:
+    | ({ __typename?: 'Address' } & {
+        ' $fragmentRefs'?: { AddressItemFragment: AddressItemFragment }
+      })
+    | null
   eventFavoritesByEventId: {
     __typename?: 'EventFavoritesConnection'
     nodes: Array<
@@ -9638,7 +9666,7 @@ export type EventItemFragment = {
       }
     >
   }
-} & { ' $fragmentName'?: 'EventItemFragment' }
+} & { ' $fragmentName'?: 'EventItemWithFavoritesFragment' }
 
 export type GuestItemFragment = {
   __typename?: 'Guest'
@@ -9972,7 +10000,6 @@ export type CreateEventFavoriteMutation = {
   __typename?: 'Mutation'
   createEventFavorite?: {
     __typename?: 'CreateEventFavoritePayload'
-    clientMutationId?: string | null
     eventFavorite?:
       | ({ __typename?: 'EventFavorite' } & {
           ' $fragmentRefs'?: {
@@ -9991,7 +10018,6 @@ export type DeleteEventFavoriteMutation = {
   __typename?: 'Mutation'
   deleteEventFavorite?: {
     __typename?: 'DeleteEventFavoritePayload'
-    clientMutationId?: string | null
     eventFavorite?:
       | ({ __typename?: 'EventFavorite' } & {
           ' $fragmentRefs'?: {
@@ -10473,6 +10499,32 @@ export type AllEventsQuery = {
   } | null
 }
 
+export type AllEventsWithFavoritesQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  first: Scalars['Int']['input']
+}>
+
+export type AllEventsWithFavoritesQuery = {
+  __typename?: 'Query'
+  allEvents?: {
+    __typename?: 'EventsConnection'
+    totalCount: number
+    nodes: Array<
+      { __typename?: 'Event' } & {
+        ' $fragmentRefs'?: {
+          EventItemWithFavoritesFragment: EventItemWithFavoritesFragment
+        }
+      }
+    >
+    pageInfo: {
+      __typename?: 'PageInfo'
+      hasNextPage: boolean
+      endCursor?: any | null
+    }
+  } | null
+}
+
 export type AccountEventsAttendingQueryVariables = Exact<{
   accountId: Scalars['UUID']['input']
 }>
@@ -10783,6 +10835,94 @@ export const AddressItemFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<AddressItemFragment, unknown>
+export const EventItemFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'EventItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Event' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByCreatedBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'addressByAddressId' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AddressItem' },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'end' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'guestCountMaximum' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isArchived' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isInPerson' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isRemote' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'start' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'visibility' } },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AddressItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Address' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'region' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<EventItemFragment, unknown>
 export const EventFavoriteItemFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -10805,12 +10945,12 @@ export const EventFavoriteItemFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<EventFavoriteItemFragment, unknown>
-export const EventItemFragmentDoc = {
+export const EventItemWithFavoritesFragmentDoc = {
   kind: 'Document',
   definitions: [
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'EventItem' },
+      name: { kind: 'Name', value: 'EventItemWithFavorites' },
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'Event' },
@@ -10931,7 +11071,7 @@ export const EventItemFragmentDoc = {
       },
     },
   ],
-} as unknown as DocumentNode<EventItemFragment, unknown>
+} as unknown as DocumentNode<EventItemWithFavoritesFragment, unknown>
 export const ContactItemFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -12968,23 +13108,6 @@ export const CreateEventDocument = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'EventFavoriteItem' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'EventFavorite' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'eventId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'EventItem' },
       typeCondition: {
         kind: 'NamedType',
@@ -13031,28 +13154,6 @@ export const CreateEventDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'start' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
           { kind: 'Field', name: { kind: 'Name', value: 'visibility' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'eventFavoritesByEventId' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'EventFavoriteItem' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
         ],
       },
     },
@@ -13182,23 +13283,6 @@ export const EventDeleteDocument = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'EventFavoriteItem' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'EventFavorite' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'eventId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'EventItem' },
       typeCondition: {
         kind: 'NamedType',
@@ -13245,28 +13329,6 @@ export const EventDeleteDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'start' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
           { kind: 'Field', name: { kind: 'Name', value: 'visibility' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'eventFavoritesByEventId' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'EventFavoriteItem' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
         ],
       },
     },
@@ -13348,10 +13410,6 @@ export const CreateEventFavoriteDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'eventFavorite' },
@@ -13441,10 +13499,6 @@ export const DeleteEventFavoriteDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'eventFavorite' },
@@ -13680,23 +13734,6 @@ export const UpdateEventByIdDocument = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'EventFavoriteItem' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'EventFavorite' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'eventId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'EventItem' },
       typeCondition: {
         kind: 'NamedType',
@@ -13743,28 +13780,6 @@ export const UpdateEventByIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'start' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
           { kind: 'Field', name: { kind: 'Name', value: 'visibility' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'eventFavoritesByEventId' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'EventFavoriteItem' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
         ],
       },
     },
@@ -15915,23 +15930,6 @@ export const EventByCreatedByAndSlugDocument = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'EventFavoriteItem' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'EventFavorite' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'eventId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'ContactItem' },
       typeCondition: {
         kind: 'NamedType',
@@ -16036,28 +16034,6 @@ export const EventByCreatedByAndSlugDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'start' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
           { kind: 'Field', name: { kind: 'Name', value: 'visibility' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'eventFavoritesByEventId' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'EventFavoriteItem' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
         ],
       },
     },
@@ -16441,23 +16417,6 @@ export const EventSearchDocument = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'EventFavoriteItem' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'EventFavorite' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'eventId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'EventItem' },
       typeCondition: {
         kind: 'NamedType',
@@ -16504,28 +16463,6 @@ export const EventSearchDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'start' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
           { kind: 'Field', name: { kind: 'Name', value: 'visibility' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'eventFavoritesByEventId' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'EventFavoriteItem' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
         ],
       },
     },
@@ -16687,6 +16624,213 @@ export const AllEventsDocument = {
     },
     {
       kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'EventItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Event' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByCreatedBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'addressByAddressId' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'AddressItem' },
+                },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'end' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'guestCountMaximum' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isArchived' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isInPerson' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isRemote' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'start' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'visibility' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AllEventsQuery, AllEventsQueryVariables>
+export const AllEventsWithFavoritesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllEventsWithFavorites' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'createdBy' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allEvents' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'createdBy' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: { kind: 'EnumValue', value: 'START_DESC' },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'EventItemWithFavorites' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AddressItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Address' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'city' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'region' } },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'EventFavoriteItem' },
       typeCondition: {
         kind: 'NamedType',
@@ -16704,7 +16848,7 @@ export const AllEventsDocument = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'EventItem' },
+      name: { kind: 'Name', value: 'EventItemWithFavorites' },
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'Event' },
@@ -16776,7 +16920,10 @@ export const AllEventsDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<AllEventsQuery, AllEventsQueryVariables>
+} as unknown as DocumentNode<
+  AllEventsWithFavoritesQuery,
+  AllEventsWithFavoritesQueryVariables
+>
 export const AccountEventsAttendingDocument = {
   kind: 'Document',
   definitions: [
@@ -16948,23 +17095,6 @@ export const AccountEventsAttendingDocument = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'EventFavoriteItem' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'EventFavorite' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'eventId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'EventItem' },
       typeCondition: {
         kind: 'NamedType',
@@ -17011,28 +17141,23 @@ export const AccountEventsAttendingDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'start' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
           { kind: 'Field', name: { kind: 'Name', value: 'visibility' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'eventFavoritesByEventId' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'EventFavoriteItem' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'EventFavoriteItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'EventFavorite' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'eventId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
         ],
       },
     },

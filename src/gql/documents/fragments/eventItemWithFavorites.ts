@@ -1,7 +1,7 @@
 import { type FragmentType, graphql, useFragment } from '~~/gql/generated'
 
-export const EventItem = graphql(`
-  fragment EventItem on Event {
+export const EventItemWithFavorites = graphql(`
+  fragment EventItemWithFavorites on Event {
     id
     nodeId
     accountByCreatedBy {
@@ -23,9 +23,14 @@ export const EventItem = graphql(`
     start
     url
     visibility
+    eventFavoritesByEventId {
+      nodes {
+        ...EventFavoriteItem
+      }
+    }
   }
 `)
 
-export const getEventItem = (
-  fragment?: FragmentType<typeof EventItem> | null,
-) => useFragment(EventItem, fragment)
+export const getEventItemWithFavorites = (
+  fragment?: FragmentType<typeof EventItemWithFavorites> | null,
+) => useFragment(EventItemWithFavorites, fragment)

@@ -118,7 +118,7 @@
             <EventCard
               v-for="event in mixedEvents"
               :key="event.id"
-              :event="event"
+              :event="event as EventItemFragment"
               :is-organizing="event.isOrganizing"
               :is-attending="event.isAttending"
               :is-own-profile="isOwnProfile"
@@ -173,24 +173,30 @@ import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 import { getAchievementItem } from '~~/gql/documents/fragments/achievementItem'
 import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { useAllAchievementsQuery } from '~~/gql/documents/queries/achievement/achievementsAll'
+import { useAccountEventsAttendingQuery } from '~~/gql/documents/queries/event/eventsAttending'
+import { useAllEventsQuery } from '~~/gql/documents/queries/event/eventsAll'
+import { useAllEventsWithFavoritesQuery } from '~~/gql/documents/queries/event/eventsAllWithFavorites'
+import { getEventItem } from '~~/gql/documents/fragments/eventItem'
+import { getEventItemWithFavorites } from '~~/gql/documents/fragments/eventItemWithFavorites'
 import {
   AchievementType,
   type EventItemFragment,
+  type EventItemWithFavoritesFragment,
 } from '~~/gql/generated/graphql'
-import { getEventItem } from '~~/gql/documents/fragments/eventItem'
-import { useAccountEventsAttendingQuery } from '~~/gql/documents/queries/event/eventsAttending'
-import EventCard from '~/components/event/list/EventCard.vue'
-import { useAllEventsQuery } from '~~/gql/documents/queries/event/eventsAll'
 
-const { t } = useI18n()
-const route = useRoute('account-view-username___en')
-const localePath = useLocalePath()
-type EventWithFlags = EventItemFragment & {
+type EventItemWithFlags = EventItemFragment & {
   isOrganizing: boolean
   isAttending: boolean
 }
 
-// data
+type EventItemWithFavoritesAndFlags = EventItemWithFavoritesFragment & {
+  isOrganizing: boolean
+  isAttending: boolean
+}
+
+const { t } = useI18n()
+const route = useRoute('account-view-username___en')
+const localePath = useLocalePath()
 
 const store = useStore()
 const isOwnProfile = computed(
@@ -206,7 +212,6 @@ useHeadDefault({
   title,
 })
 
-// api data
 const accountByUsernameQuery = await zalgo(
   useAccountByUsernameQuery({
     username: route.params.username,
@@ -215,7 +220,7 @@ const accountByUsernameQuery = await zalgo(
 const account = getAccountItem(
   accountByUsernameQuery.data.value?.accountByUsername,
 )
-if (!account) {
+if (!account || !account.id) {
   throw createError({
     statusCode: 404,
   })
@@ -229,12 +234,13 @@ const achievements =
     .filter(isNeitherNullNorUndefined) || []
 
 const accountId = store.signedInAccountId
+
 const accountEventsAttendingQuery = accountId
   ? await zalgo(useAccountEventsAttendingQuery({ accountId }))
   : undefined
 
 const eventsAttending = computed(() => {
-  if (!accountEventsAttendingQuery) return []
+  if (!accountId || !accountEventsAttendingQuery) return []
   const contacts =
     accountEventsAttendingQuery.data.value?.allContacts?.nodes || []
   if (contacts.length === 0) return []
@@ -242,7 +248,10 @@ const eventsAttending = computed(() => {
     (contact) =>
       contact.guestsByContactId?.nodes
         ?.filter((guest) => guest.feedback === 'ACCEPTED')
-        ?.map((guest) => getEventItem(guest.eventByEventId))
+        ?.map((guest) =>
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          getEventItemWithFavorites(guest.eventByEventId as any),
+        )
         .filter(isNeitherNullNorUndefined) || [],
   )
   return [...new Map(events.map((event) => [event.id, event])).values()]
@@ -250,39 +259,51 @@ const eventsAttending = computed(() => {
 
 const allEventsQueryAfter = ref<string>()
 const allEventsQuery = await zalgo(
-  useAllEventsQuery({
-    after: allEventsQueryAfter,
-    createdBy: account.id,
-    first: ITEMS_PER_PAGE,
-  }),
-)
-const events = computed(
-  () =>
-    allEventsQuery.data.value?.allEvents?.nodes
-      ?.map(getEventItem)
-      .filter(isNeitherNullNorUndefined) || [],
+  accountId
+    ? useAllEventsWithFavoritesQuery({
+        after: allEventsQueryAfter,
+        createdBy: account.id,
+        first: ITEMS_PER_PAGE,
+      })
+    : useAllEventsQuery({
+        after: allEventsQueryAfter,
+        createdBy: account.id,
+        first: ITEMS_PER_PAGE,
+      }),
 )
 
-/**
- * Computes mixed events to display on the profile.
- *
- * Returns events with isOrganizing and isAttending flags set appropriately:
- *
- * On own profile:
- * - Events you're attending: isAttending = true
- * - Events you're organizing: isOrganizing = true
- *
- * On another user's profile:
- * - Events they organize that you're attending: isAttending = true
- *
- * Filters out duplicate events, sorts by start date, and returns max 3 events.
- */
+const events = computed(() => {
+  const nodes = allEventsQuery.data.value?.allEvents?.nodes
+  if (!nodes) return []
+
+  return nodes
+    .map((node) =>
+      accountId
+        ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          getEventItemWithFavorites(node as any)
+        : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          getEventItem(node as any),
+    )
+    .filter(isNeitherNullNorUndefined)
+})
+
 const mixedEvents = computed(() => {
+  if (!accountId) {
+    return events.value
+      .map((event) => ({
+        ...event,
+        isOrganizing: isOwnProfile.value,
+        isAttending: false,
+      }))
+      .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
+      .slice(0, 3)
+  }
+
   const attendingEventIds = new Set(
     eventsAttending.value.map((event) => event.id),
   )
 
-  let result: EventWithFlags[] = []
+  let result: (EventItemWithFlags | EventItemWithFavoritesAndFlags)[] = []
 
   if (isOwnProfile.value) {
     result = eventsAttending.value.map((event) => ({
@@ -299,7 +320,7 @@ const mixedEvents = computed(() => {
     return {
       ...event,
       isOrganizing: isOwnProfile.value,
-      isAttending: isCurrentUserAttending,
+      isAttending: Boolean(isCurrentUserAttending),
     }
   })
 
@@ -321,8 +342,8 @@ const mixedEvents = computed(() => {
 const api = getApiData([
   accountByUsernameQuery,
   achievementsQuery,
-  accountEventsAttendingQuery,
   allEventsQuery,
+  ...(accountEventsAttendingQuery ? [accountEventsAttendingQuery] : []),
 ])
 </script>
 
