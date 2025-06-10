@@ -2,18 +2,8 @@ import { useQuery, type UseQueryArgs } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 import type { EventSearchQueryVariables } from '~~/gql/generated/graphql'
 
-export const useEventSearchQuery = (
-  variables: MaybeRefObj<EventSearchQueryVariables>,
-  args?: Partial<UseQueryArgs>,
-) =>
-  useQuery({
-    query: eventSearchQuery,
-    variables,
-    ...args,
-  })
-
 export const eventSearchQuery = graphql(`
-  query eventSearch(
+  query EventSearch(
     $after: Cursor
     $first: Int!
     $language: Language
@@ -36,3 +26,13 @@ export const eventSearchQuery = graphql(`
     }
   }
 `)
+
+export const useEventSearchQuery = (
+  variables?: MaybeRefObj<EventSearchQueryVariables>,
+  args?: Partial<UseQueryArgs>,
+) =>
+  useQuery({
+    query: eventSearchQuery,
+    variables,
+    ...args,
+  })

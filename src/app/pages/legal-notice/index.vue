@@ -1,8 +1,12 @@
 <template>
-  <Content v-model="title" path="legal-notice" />
+  <!-- TODO: remove this redirect placeholder after all links to the new page path are likely updated -->
+  <div />
 </template>
 
 <script setup lang="ts">
-const title = ref<string>()
-useHeadDefault({ title })
+defineRouteRules({
+  robots: false,
+})
+
+usePageDeprecation({ name: 'docs-legal-imprint' })
 </script>

@@ -1,3 +1,602 @@
+## [12.0.0](https://github.com/maevsi/vibetype/compare/11.8.1...12.0.0) (2025-06-06)
+
+### ⚠ BREAKING CHANGES
+
+* **account:** add date of birth to registration #1964
+
+### Features
+
+* **account:** add date of birth to registration [#1964](https://github.com/maevsi/vibetype/issues/1964) ([731fb18](https://github.com/maevsi/vibetype/commit/731fb18ad626afcd539e223a0dd6e4860c0ec26c))
+
+## [12.0.0-beta.1](https://github.com/maevsi/vibetype/compare/11.8.1...12.0.0-beta.1) (2025-06-06)
+
+### ⚠ BREAKING CHANGES
+
+* **account:** add date of birth to registration #1964
+
+### Features
+
+* **account:** add date of birth to registration [#1964](https://github.com/maevsi/vibetype/issues/1964) ([731fb18](https://github.com/maevsi/vibetype/commit/731fb18ad626afcd539e223a0dd6e4860c0ec26c))
+
+## [11.8.1](https://github.com/maevsi/vibetype/compare/11.8.0...11.8.1) (2025-06-05)
+
+### Bug Fixes
+
+* **app:** stop nuxt's loading indicator from hiding errors ([dd8f485](https://github.com/maevsi/vibetype/commit/dd8f485bc6602aaf89231b169f88d1a4e6a8bd46))
+
+## [11.8.0](https://github.com/maevsi/vibetype/compare/11.7.1...11.8.0) (2025-06-05)
+
+### Features
+
+* it's june ([e16845e](https://github.com/maevsi/vibetype/commit/e16845ec91afea2905bedb696ca26c7196937b41))
+
+## [11.7.1](https://github.com/maevsi/vibetype/compare/11.7.0...11.7.1) (2025-06-01)
+
+### Bug Fixes
+
+* **components:** correct view box casing ([ba9e8cd](https://github.com/maevsi/vibetype/commit/ba9e8cd4943ceab21f8cec8d2259fc662dd5e2fb))
+* **vibetype-logo:** on back navigation ([9264805](https://github.com/maevsi/vibetype/commit/926480569d552db2bccfa5f016b142ef4f0865b1))
+
+## [11.7.0](https://github.com/maevsi/vibetype/compare/11.6.1...11.7.0) (2025-05-27)
+
+### Features
+
+* **components:** add location preference ([11e459b](https://github.com/maevsi/vibetype/commit/11e459b396187afef22de5722dc5891bdefe33aa))
+
+### Bug Fixes
+
+* **plugins:** correct urql list deletion ([c2dd04e](https://github.com/maevsi/vibetype/commit/c2dd04e96e42dc8045d70032b30c0ff1dc0c6f63))
+
+## [11.6.1](https://github.com/maevsi/vibetype/compare/11.6.0...11.6.1) (2025-05-26)
+
+### Bug Fixes
+
+* **components:** correct page padding ([9e6645e](https://github.com/maevsi/vibetype/commit/9e6645e73728d955299e59dc0923dd12c571c899))
+* **pages:** remove preference initializer ([2c248c8](https://github.com/maevsi/vibetype/commit/2c248c88f3ee23e2508f0a09d1e3897ee36a9e1c))
+
+## [11.6.0](https://github.com/maevsi/vibetype/compare/11.5.2...11.6.0) (2025-05-24)
+
+### Features
+
+* **preference:** add setup ([3b40649](https://github.com/maevsi/vibetype/commit/3b406497be5110aad6b6ed7699c5a140f6d98229))
+
+## [11.5.2](https://github.com/maevsi/vibetype/compare/11.5.1...11.5.2) (2025-05-22)
+
+### Bug Fixes
+
+* **security:** add workaround for upstream nuxt content issue ([e77a44e](https://github.com/maevsi/vibetype/commit/e77a44e5a9205c4521b685de8bf27baadcc35613))
+* **types:** add workaround for upstream nitro issue ([6e3d48a](https://github.com/maevsi/vibetype/commit/6e3d48af32f49283ff48e746eb19b1292c644f28))
+
+## [11.5.1](https://github.com/maevsi/vibetype/compare/11.5.0...11.5.1) (2025-05-21)
+
+### Bug Fixes
+
+* **utils:** correct api data typing ([722f017](https://github.com/maevsi/vibetype/commit/722f017246ff085d511720211ea6a5243032c80c))
+
+## [11.5.0](https://github.com/maevsi/vibetype/compare/11.4.0...11.5.0) (2025-05-21)
+
+### Features
+
+* **session:** show customization features to anyone ([ccf8601](https://github.com/maevsi/vibetype/commit/ccf860163123fb44c0902f2044cbef082de7fe0b))
+
+### Bug Fixes
+
+* **pages:** replace history on redirection to login ([026c1ec](https://github.com/maevsi/vibetype/commit/026c1ec9a053cc5cc43399d8668de9addd372507))
+
+## [11.4.0](https://github.com/maevsi/vibetype/compare/11.3.0...11.4.0) (2025-05-21)
+
+### Features
+
+* **components:** tweak typography ([634635b](https://github.com/maevsi/vibetype/commit/634635b1026b8390c71bfe57594e63d0f44f70ca))
+
+## [11.3.0](https://github.com/maevsi/vibetype/compare/11.2.0...11.3.0) (2025-05-20)
+
+### Features
+
+* **app:** disable backdrop ([2531059](https://github.com/maevsi/vibetype/commit/253105904a3a60916fa4f0732fb87aeb661c5541))
+
+## [11.2.0](https://github.com/maevsi/vibetype/compare/11.1.0...11.2.0) (2025-05-20)
+
+### Features
+
+* **components:** add geocoder to map ([6cb0922](https://github.com/maevsi/vibetype/commit/6cb09227eab844c46199bd6026cf83116127bf8b))
+
+## [11.1.0](https://github.com/maevsi/vibetype/compare/11.0.2...11.1.0) (2025-05-18)
+
+### Features
+
+* **components:** wrap headings balanced ([7df90bd](https://github.com/maevsi/vibetype/commit/7df90bd657509e588eca8708f2079bb5a5dc0c65))
+
+## [11.0.2](https://github.com/maevsi/vibetype/compare/11.0.1...11.0.2) (2025-05-15)
+
+### Bug Fixes
+
+* **components:** correct map icon ([1ac9274](https://github.com/maevsi/vibetype/commit/1ac9274ff70bf712ccc12ce1e409562888f1cbc8))
+
+## [11.0.1](https://github.com/maevsi/vibetype/compare/11.0.0...11.0.1) (2025-05-15)
+
+### Bug Fixes
+
+* **security:** downgrade cross-origin embedder policy for openstreetmap ([a76dfd8](https://github.com/maevsi/vibetype/commit/a76dfd8c800fb640f06496932f6e3ebfa5dbc0f4))
+
+## [11.0.0](https://github.com/maevsi/vibetype/compare/10.21.0...11.0.0) (2025-05-15)
+
+### ⚠ BREAKING CHANGES
+
+* **upload:** rework
+* **server:** structure service api directories
+
+### Features
+
+* **composables:** add development mode trigger ([b295bd6](https://github.com/maevsi/vibetype/commit/b295bd68da3526ae4d8aada7e69876e6ee284994))
+* **event:** add map ([e927a55](https://github.com/maevsi/vibetype/commit/e927a55d91f6334cc55d918df35b56266f3c1261))
+* **server:** structure service api directories ([e1c5a23](https://github.com/maevsi/vibetype/commit/e1c5a233b52342e248cd7bc8ff9a4a29475c982f))
+* **upload:** rework ([4d62232](https://github.com/maevsi/vibetype/commit/4d622327261df9b7956186c2f386c7961f8cec7a))
+
+## [11.0.0-beta.5](https://github.com/maevsi/vibetype/compare/11.0.0-beta.4...11.0.0-beta.5) (2025-05-15)
+
+### Features
+
+* **composables:** add development mode trigger ([b295bd6](https://github.com/maevsi/vibetype/commit/b295bd68da3526ae4d8aada7e69876e6ee284994))
+* **event:** add map ([e927a55](https://github.com/maevsi/vibetype/commit/e927a55d91f6334cc55d918df35b56266f3c1261))
+
+## [11.0.0-beta.4](https://github.com/maevsi/vibetype/compare/11.0.0-beta.3...11.0.0-beta.4) (2025-05-12)
+
+### ⚠ BREAKING CHANGES
+
+* **upload:** rework
+
+### Features
+
+* **upload:** rework ([4d62232](https://github.com/maevsi/vibetype/commit/4d622327261df9b7956186c2f386c7961f8cec7a))
+
+## [11.0.0-beta.3](https://github.com/maevsi/vibetype/compare/11.0.0-beta.2...11.0.0-beta.3) (2025-05-12)
+
+### Features
+
+* **event:** remove existence validation function ([a5ca776](https://github.com/maevsi/vibetype/commit/a5ca776a89fc685988c48d9c58667314a9c56dd3))
+
+### Bug Fixes
+
+* **content:** allow websocket connections in stack deployment ([92c85cd](https://github.com/maevsi/vibetype/commit/92c85cd9bcd8b6db7fbf93f3036c4ab02b6bc8c1))
+
+## [11.0.0-beta.2](https://github.com/maevsi/vibetype/compare/11.0.0-beta.1...11.0.0-beta.2) (2025-05-09)
+
+### Features
+
+* **content:** update backup service in privacy policy ([b5b2d7f](https://github.com/maevsi/vibetype/commit/b5b2d7f314f3c598ab43a88876ff0fc9667c405e))
+
+### Bug Fixes
+
+* **early-bird:** correct title alignment ([014325a](https://github.com/maevsi/vibetype/commit/014325a961b651ed6a4743f4ab0acdf574372ebf))
+* **server:** correct postgres schema ([058d45d](https://github.com/maevsi/vibetype/commit/058d45de8776b910bc0d406bfed9267ed4389652))
+
+## [11.0.0-beta.1](https://github.com/maevsi/vibetype/compare/10.18.0-beta.1...11.0.0-beta.1) (2025-05-08)
+
+### ⚠ BREAKING CHANGES
+
+* **server:** structure service api directories
+
+### Features
+
+* **server:** structure service api directories ([e1c5a23](https://github.com/maevsi/vibetype/commit/e1c5a233b52342e248cd7bc8ff9a4a29475c982f))
+
+## [10.18.0-beta.1](https://github.com/maevsi/vibetype/compare/10.17.0...10.18.0-beta.1) (2025-05-08)
+
+### Features
+
+* **server:** structure api directories ([8a4ed1f](https://github.com/maevsi/vibetype/commit/8a4ed1f20e3731628029ca96209cc01ac33e1e84))
+
+## [10.21.0](https://github.com/maevsi/vibetype/compare/10.20.2...10.21.0) (2025-05-14)
+
+### Features
+
+* **pages:** allow session edit indexing ([bb65dbc](https://github.com/maevsi/vibetype/commit/bb65dbc596229f85373a1d0d4cadf92ae78479c2))
+* **pages:** remove session id ([323dd9d](https://github.com/maevsi/vibetype/commit/323dd9de547024748511c8521d368b5fcdc68cb9))
+
+### Bug Fixes
+
+* **pages:** correct translation on session view ([656cf79](https://github.com/maevsi/vibetype/commit/656cf796751096130faa9c31166c00215f1035bd))
+
+## [10.20.2](https://github.com/maevsi/vibetype/compare/10.20.1...10.20.2) (2025-05-14)
+
+### Bug Fixes
+
+* **pages:** fully disable robots for session edit ([6441163](https://github.com/maevsi/vibetype/commit/6441163dde492618702c5ea30e47f996aa7b6fcd))
+
+## [10.20.1](https://github.com/maevsi/vibetype/compare/10.20.0...10.20.1) (2025-05-13)
+
+### Bug Fixes
+
+* **pages:** disallow robots for session view ([bcc0696](https://github.com/maevsi/vibetype/commit/bcc06964d5cd66e08bf190bbfe5e80bd99509afa))
+
+## [10.20.0](https://github.com/maevsi/vibetype/compare/10.19.2...10.20.0) (2025-05-12)
+
+### Features
+
+* **event:** remove existence validation function ([a5ca776](https://github.com/maevsi/vibetype/commit/a5ca776a89fc685988c48d9c58667314a9c56dd3))
+
+## [10.19.2](https://github.com/maevsi/vibetype/compare/10.19.1...10.19.2) (2025-05-11)
+
+### Bug Fixes
+
+* **content:** allow websocket connections in stack deployment ([92c85cd](https://github.com/maevsi/vibetype/commit/92c85cd9bcd8b6db7fbf93f3036c4ab02b6bc8c1))
+
+## [10.19.1](https://github.com/maevsi/vibetype/compare/10.19.0...10.19.1) (2025-05-09)
+
+### Bug Fixes
+
+* **early-bird:** correct title alignment ([014325a](https://github.com/maevsi/vibetype/commit/014325a961b651ed6a4743f4ab0acdf574372ebf))
+
+## [10.19.0](https://github.com/maevsi/vibetype/compare/10.18.1...10.19.0) (2025-05-09)
+
+### Features
+
+* **content:** update backup service in privacy policy ([b5b2d7f](https://github.com/maevsi/vibetype/commit/b5b2d7f314f3c598ab43a88876ff0fc9667c405e))
+
+## [10.18.1](https://github.com/maevsi/vibetype/compare/10.18.0...10.18.1) (2025-05-09)
+
+### Bug Fixes
+
+* **server:** correct postgres schema ([058d45d](https://github.com/maevsi/vibetype/commit/058d45de8776b910bc0d406bfed9267ed4389652))
+
+## [10.18.0](https://github.com/maevsi/vibetype/compare/10.17.0...10.18.0) (2025-05-08)
+
+### Features
+
+* **server:** structure api directories ([8a4ed1f](https://github.com/maevsi/vibetype/commit/8a4ed1f20e3731628029ca96209cc01ac33e1e84))
+
+## [10.17.0](https://github.com/maevsi/vibetype/compare/10.16.1...10.17.0) (2025-05-06)
+
+### Features
+
+* **components:** update form validation design ([#1875](https://github.com/maevsi/vibetype/issues/1875)) ([d6c53ca](https://github.com/maevsi/vibetype/commit/d6c53ca49d6ea139c0dbacdd1dd0e9ee65785367))
+
+## [10.16.1](https://github.com/maevsi/vibetype/compare/10.16.0...10.16.1) (2025-05-06)
+
+### Bug Fixes
+
+* **server:** use proper unsubscribe list header ([39a3e28](https://github.com/maevsi/vibetype/commit/39a3e284bd97d70886811be62cd0dd8e686cb0a8))
+
+## [10.16.0](https://github.com/maevsi/vibetype/compare/10.15.0...10.16.0) (2025-05-06)
+
+### Features
+
+* **server:** update logo in emails ([9b9ef23](https://github.com/maevsi/vibetype/commit/9b9ef23379855520478ee39e7094ecf27b8771df))
+
+### Bug Fixes
+
+* **server:** remove username from password reset emails ([1d5864e](https://github.com/maevsi/vibetype/commit/1d5864e188a22adc1af92da57020f756faae1b26))
+
+## [10.15.0](https://github.com/maevsi/vibetype/compare/10.14.1...10.15.0) (2025-05-06)
+
+### Features
+
+* **utils:** upgrade to ses api v2 ([cbb006d](https://github.com/maevsi/vibetype/commit/cbb006dc665bfd37b1255b3c28a3c1fa2368e05f))
+
+## [10.14.1](https://github.com/maevsi/vibetype/compare/10.14.0...10.14.1) (2025-05-06)
+
+### Bug Fixes
+
+* **components:** correct authentication form success computation ([6af28af](https://github.com/maevsi/vibetype/commit/6af28af4befab6b99204c5e68a14c0309e489132))
+
+## [10.14.0](https://github.com/maevsi/vibetype/compare/10.13.0...10.14.0) (2025-05-02)
+
+### Features
+
+* **account:** handle api errors gracefully ([#1889](https://github.com/maevsi/vibetype/issues/1889)) ([0cc3d27](https://github.com/maevsi/vibetype/commit/0cc3d2755573c412138a55a578f32e8d6547a0f2))
+
+## [10.13.0](https://github.com/maevsi/vibetype/compare/10.12.0...10.13.0) (2025-04-29)
+
+### Features
+
+* **pages:** add contact form ([205c216](https://github.com/maevsi/vibetype/commit/205c216f524038b92542b13a777e64798c58dbe5))
+
+### Bug Fixes
+
+* **event:** correct report step ([c6f7bb3](https://github.com/maevsi/vibetype/commit/c6f7bb3f2e59eacc26057d5a34a3b1179c151294))
+
+## [10.12.0](https://github.com/maevsi/vibetype/compare/10.11.2...10.12.0) (2025-04-29)
+
+### Features
+
+* **components:** extract icon back button for route navigation ([2714539](https://github.com/maevsi/vibetype/commit/271453951b43ad5cf89b07047e5e43b78ffc6e77))
+* **components:** use title on all buttons instead of icon buttons only ([59309dd](https://github.com/maevsi/vibetype/commit/59309ddfae02bcf2ea25b0752d8cd01454abe728))
+
+### Bug Fixes
+
+* **components:** drop `grow` in favor of `flex-1` styling ([fccb262](https://github.com/maevsi/vibetype/commit/fccb262989f556d01c47d614720fa06016e138df))
+
+## [10.11.2](https://github.com/maevsi/vibetype/compare/10.11.1...10.11.2) (2025-04-25)
+
+### Bug Fixes
+
+* **components:** correct radio buttons for event ([4634f3f](https://github.com/maevsi/vibetype/commit/4634f3f55eda611abb0f9dfad547b552733ffec8))
+
+## [10.11.1](https://github.com/maevsi/vibetype/compare/10.11.0...10.11.1) (2025-04-25)
+
+### Bug Fixes
+
+* **server:** correct postgres query variables ([1f396f4](https://github.com/maevsi/vibetype/commit/1f396f47da2a577e4669e30f8b4cfd499664262c))
+
+## [10.11.0](https://github.com/maevsi/vibetype/compare/10.10.0...10.11.0) (2025-04-24)
+
+### Features
+
+* **components:** update secondary critical button's design ([a5bc798](https://github.com/maevsi/vibetype/commit/a5bc7988611072e2ef4cd01663996883bb6fccad))
+* **pages:** link more information for welcoming new users ([02fd972](https://github.com/maevsi/vibetype/commit/02fd972988012b2e08755d1fa743e870195243cc))
+
+### Bug Fixes
+
+* **layout:** show sidebar on all large screens ([b2818f5](https://github.com/maevsi/vibetype/commit/b2818f5f7fde5357687f2ee5d73beb6007b7ce4d))
+
+## [10.10.0](https://github.com/maevsi/vibetype/compare/10.9.0...10.10.0) (2025-04-23)
+
+### Features
+
+* **early-bird:** add application ([d65598c](https://github.com/maevsi/vibetype/commit/d65598ca4ce59d66895f4893fa33449f9a377492))
+
+### Bug Fixes
+
+* **components:** add active button styling ([4db7dde](https://github.com/maevsi/vibetype/commit/4db7ddef8a9ef6a49b95c6a1397b32dcd38f4e82))
+* **components:** correct attribute casing for dialog step ([7ad658a](https://github.com/maevsi/vibetype/commit/7ad658ad859450418fdb391c0eff949e9c0d9b8a))
+
+## [10.9.0](https://github.com/maevsi/vibetype/compare/10.8.1...10.9.0) (2025-04-17)
+
+### Features
+
+* **event:** add report ([e609447](https://github.com/maevsi/vibetype/commit/e60944782ae7063afbb56b66083c300c98e09d95))
+
+## [10.8.1](https://github.com/maevsi/vibetype/compare/10.8.0...10.8.1) (2025-04-16)
+
+### Bug Fixes
+
+* **guest:** correct preview navigation ([#1887](https://github.com/maevsi/vibetype/issues/1887)) ([6c58e66](https://github.com/maevsi/vibetype/commit/6c58e66feed30af5474e615f16bd2ee289a8c13d))
+
+## [10.8.0](https://github.com/maevsi/vibetype/compare/10.7.0...10.8.0) (2025-04-15)
+
+### Features
+
+* **components:** use shadcn-nuxt's downdown ([ac456c5](https://github.com/maevsi/vibetype/commit/ac456c5348830d8b24d2551c78c0ca296d4aac38))
+
+### Bug Fixes
+
+* revert "chore(assets): remove unused css variables" ([b217ad3](https://github.com/maevsi/vibetype/commit/b217ad37aa510c8228308ff7208563804aef0fea))
+
+## [10.7.0](https://github.com/maevsi/vibetype/compare/10.6.0...10.7.0) (2025-04-15)
+
+### Features
+
+* **components:** replace headless ui with shadcn-nuxt for radio input ([776cfa0](https://github.com/maevsi/vibetype/commit/776cfa07c4e1bbe9b19d52bbbff6862c882fd2c4))
+
+## [10.6.0](https://github.com/maevsi/vibetype/compare/10.5.0...10.6.0) (2025-04-15)
+
+### Features
+
+* **components:** add label to search input ([f353f13](https://github.com/maevsi/vibetype/commit/f353f131d443b62b62024ed250403ab680082099))
+* **components:** correct search input icon ([542a168](https://github.com/maevsi/vibetype/commit/542a16811f0ba1c9b9010bfed9449bcc2a07e806))
+
+## [10.5.0](https://github.com/maevsi/vibetype/compare/10.4.0...10.5.0) (2025-04-15)
+
+### Features
+
+* **assets:** remove italic font style from placeholder ([6c3397e](https://github.com/maevsi/vibetype/commit/6c3397e53d48a8062e1930b3688199b5075bdfba))
+* **assets:** set ring on visible focus only ([0bdaec4](https://github.com/maevsi/vibetype/commit/0bdaec4b0382c349fe9c6626f9a02685e7d54289))
+* **components:** add `secondary-critical` variant to colored button ([0e0b5be](https://github.com/maevsi/vibetype/commit/0e0b5be7665806b6c202d72309b7059d3562511d))
+* **components:** set theme color for focus ring ([fe1ef00](https://github.com/maevsi/vibetype/commit/fe1ef00d325bb68b71ed4e64415f530a049945c3))
+* **components:** set theme color for tailwind ([6cdee4a](https://github.com/maevsi/vibetype/commit/6cdee4a4727b36b0ec38811c3d2ba67efee9e2a7))
+* **pages:** use tertiary button for app installation ([e07e424](https://github.com/maevsi/vibetype/commit/e07e4246109f25d305b9e8cdb8eb3e8bf9bd6a87))
+
+### Bug Fixes
+
+* **app:** don't shrink compatibility banner ([d51c45c](https://github.com/maevsi/vibetype/commit/d51c45cdb6a865ac32658875f7cff20f62a46507))
+* **components:** correct search input styling ([213d676](https://github.com/maevsi/vibetype/commit/213d67656498f584e5e0b662004fd9dfca869e6a))
+* **event:** move name out of header image ([7eb3b84](https://github.com/maevsi/vibetype/commit/7eb3b84caa74cd7461905e82ed678a2969c34f78))
+
+## [10.4.0](https://github.com/maevsi/vibetype/compare/10.3.0...10.4.0) (2025-04-15)
+
+### Features
+
+* **content:** remove end note for terms of use ([0b8a617](https://github.com/maevsi/vibetype/commit/0b8a6177867fdb8b78ee754244e380e7d722828a))
+
+### Bug Fixes
+
+* **account:** correct padding for legal consent ([2b754af](https://github.com/maevsi/vibetype/commit/2b754af5dfb822088812e08a2d41d0e7a01771e8))
+* **account:** correct text wrapping in table ([125fac5](https://github.com/maevsi/vibetype/commit/125fac5856ce59325b565a14380b1d16c3437aad))
+* **components:** deduplciate password input id for registration ([746e510](https://github.com/maevsi/vibetype/commit/746e5107e94fed9482d85798a49eea1a6bbc5543))
+* **content:** correct title hierarchy for privacy consent ([229e8aa](https://github.com/maevsi/vibetype/commit/229e8aa58dc63c634e45ce8ecf8e06220edf85b2))
+
+## [10.3.0](https://github.com/maevsi/vibetype/compare/10.2.0...10.3.0) (2025-04-14)
+
+### Features
+
+* **content:** update code of conduct ([#1879](https://github.com/maevsi/vibetype/issues/1879)) ([7bb9a72](https://github.com/maevsi/vibetype/commit/7bb9a7285e7d690cdbe54db41474bc10153e7a9e))
+
+## [10.2.0](https://github.com/maevsi/vibetype/compare/10.1.1...10.2.0) (2025-04-11)
+
+### Features
+
+* **account:** indicate password strength at registation ([ba2d0ce](https://github.com/maevsi/vibetype/commit/ba2d0ce8fb8d75f8ad7a46d97c8d9a82fb4d1de4))
+
+## [10.1.1](https://github.com/maevsi/vibetype/compare/10.1.0...10.1.1) (2025-04-11)
+
+### Bug Fixes
+
+* **account:** remove button for email confirmation ([43e6e49](https://github.com/maevsi/vibetype/commit/43e6e4994671225233ac521e8d8029660084cffa))
+
+## [10.1.0](https://github.com/maevsi/vibetype/compare/10.0.2...10.1.0) (2025-04-10)
+
+### Features
+
+* **content:** add privacy consent ([#1874](https://github.com/maevsi/vibetype/issues/1874)) ([c50d90a](https://github.com/maevsi/vibetype/commit/c50d90a8477eaa1137df7c2e2fd592d2b3e2f2cf))
+
+## [10.0.2](https://github.com/maevsi/vibetype/compare/10.0.1...10.0.2) (2025-04-10)
+
+### Bug Fixes
+
+* **components:** format form input helpers ([b643243](https://github.com/maevsi/vibetype/commit/b6432438b4e70fad1141313ea4ab28d98d566fdd))
+* **components:** remove username form input's placeholder ([76ee5f0](https://github.com/maevsi/vibetype/commit/76ee5f08958fd7fdd4c6fd4bf0d1cf8f4d11d5f6))
+* **style:** show focus ring only on devices with fine pointer ([a647d8c](https://github.com/maevsi/vibetype/commit/a647d8c26468cb17b09dcfacc3607f87d35dba7f))
+
+## [10.0.1](https://github.com/maevsi/vibetype/compare/10.0.0...10.0.1) (2025-04-10)
+
+### Bug Fixes
+
+* **layout:** grow plain's `main` ([3fe010f](https://github.com/maevsi/vibetype/commit/3fe010fd1db7dab831e2fc914751841b8a9112a7))
+
+## [10.0.0](https://github.com/maevsi/vibetype/compare/9.11.1...10.0.0) (2025-04-10)
+
+### ⚠ BREAKING CHANGES
+
+* **account:** update authentication flow (#1687)
+
+### Features
+
+* **account:** rework password reset flow ([bb9eb74](https://github.com/maevsi/vibetype/commit/bb9eb74ed02c2126b3b235ba88fdca2fa6d6d1ec))
+* **account:** update authentication flow ([#1687](https://github.com/maevsi/vibetype/issues/1687)) ([0c30f09](https://github.com/maevsi/vibetype/commit/0c30f09b3fe6b809fcc9067539230d83dca4ad2f))
+* **assets:** add state icons ([c222de5](https://github.com/maevsi/vibetype/commit/c222de5624ec0a932964bead952d7c026a7112b1))
+* **components:** disable placeholder validation ([#1851](https://github.com/maevsi/vibetype/issues/1851)) ([019a5a8](https://github.com/maevsi/vibetype/commit/019a5a81b318a28a2fb436c7e1578e9663b44f8a))
+* **content:** add terms of use ([bada46e](https://github.com/maevsi/vibetype/commit/bada46e6942a5db35471903fc14ff658d3a9e682))
+* **content:** use narrow no-break space ([abfeeac](https://github.com/maevsi/vibetype/commit/abfeeac2b34ab6eb97211e34147659e00364f838))
+* **layout:** move global initialization to app ([595eb97](https://github.com/maevsi/vibetype/commit/595eb977e42784f5939ac3123f54cfc1d224e3ab))
+* **pages:** add code of conduct ([e73f9b6](https://github.com/maevsi/vibetype/commit/e73f9b6250bc080cdfd360a77cb5947343a04825))
+* **pages:** disable robots for placeholder ([399b7e7](https://github.com/maevsi/vibetype/commit/399b7e74575f4f1c0401bf5414f5c0670d79c676))
+* **pages:** restructure legal ([#1859](https://github.com/maevsi/vibetype/issues/1859)) ([09ad806](https://github.com/maevsi/vibetype/commit/09ad8063ca5fe7454f2851d324fe8e2cbd9015fb))
+* **style:** simplify for layout ([4bbbbbd](https://github.com/maevsi/vibetype/commit/4bbbbbd2a4e3550f6139ff37a9452193cd92d22c))
+
+### Bug Fixes
+
+* **account:** don't show back button on registration completion ([c6e769d](https://github.com/maevsi/vibetype/commit/c6e769d69f612adf544a6f44fba6e86af8f2e947))
+* **account:** rework account registration flow success page ([04579f4](https://github.com/maevsi/vibetype/commit/04579f41b09e2e0d08229d844ad0d14038dc4a2e))
+* **components:** make navigations accessible ([f47e9da](https://github.com/maevsi/vibetype/commit/f47e9dada97ac1b1cc52c8683227ca723dd4a7e5))
+* **pages:** correct attributions title ([b258443](https://github.com/maevsi/vibetype/commit/b25844364246cc41620131f6467426b83dc3aca5))
+
+### Performance Improvements
+
+* **utils:** dynamically import `clipboardy` ([00f7b86](https://github.com/maevsi/vibetype/commit/00f7b86205363c472fe1032291f2325c17cda08e))
+
+## [10.0.0-beta.11](https://github.com/maevsi/vibetype/compare/10.0.0-beta.10...10.0.0-beta.11) (2025-04-10)
+
+### Features
+
+* **account:** rework password reset flow ([899c5d4](https://github.com/maevsi/vibetype/commit/899c5d4a10681232d4497f51c0f7ff3e06eae879))
+
+### Performance Improvements
+
+* **utils:** dynamically import `clipboardy` ([ef605fd](https://github.com/maevsi/vibetype/commit/ef605fd63f71839e2a063e155f31deaccff50714))
+
+## [10.0.0-beta.10](https://github.com/maevsi/vibetype/compare/10.0.0-beta.9...10.0.0-beta.10) (2025-04-10)
+
+### Features
+
+* **assets:** add state icons ([f93c49a](https://github.com/maevsi/vibetype/commit/f93c49a22f47f7521a5b262f426fd14d5c11afa1))
+* **layout:** move global initialization to app ([4f88e47](https://github.com/maevsi/vibetype/commit/4f88e474b7bad3e49ffcbabdd09c6d37df69755f))
+* **style:** simplify for layout ([66d26a1](https://github.com/maevsi/vibetype/commit/66d26a115f9ba627eebf2221d832c49e9506f1ea))
+
+### Bug Fixes
+
+* **account:** don't show back button on registration completion ([88ba9b5](https://github.com/maevsi/vibetype/commit/88ba9b5934d51272f3eabf47b50e2297dfaf8a6d))
+* **components:** make navigations accessible ([cf2f81b](https://github.com/maevsi/vibetype/commit/cf2f81b8184c7a5f455aa7d582763a5d65145ee2))
+
+## [10.0.0-beta.9](https://github.com/maevsi/vibetype/compare/10.0.0-beta.8...10.0.0-beta.9) (2025-04-10)
+
+### Bug Fixes
+
+* **content:** correct websocket hostname ([#1871](https://github.com/maevsi/vibetype/issues/1871)) ([8506c85](https://github.com/maevsi/vibetype/commit/8506c852de40e3dcc41f281b8f0978162c86dbc3))
+* **deps:** update @dargmuesli/nuxt-cookie-control to v9.0.1 ([#1870](https://github.com/maevsi/vibetype/issues/1870)) ([62185ab](https://github.com/maevsi/vibetype/commit/62185ab777b4882f39b382fdc0c15c3c5bda8d1b))
+
+## [10.0.0-beta.8](https://github.com/maevsi/vibetype/compare/10.0.0-beta.7...10.0.0-beta.8) (2025-04-09)
+
+### Features
+
+* **content:** add terms of use ([96eb049](https://github.com/maevsi/vibetype/commit/96eb049cbae547a8f40fd9f56ac7954aa4e3c3f0))
+* **content:** use narrow no-break space ([1d584d4](https://github.com/maevsi/vibetype/commit/1d584d436f2d40f58b762e097e291fb90ab49755))
+
+## [10.0.0-beta.7](https://github.com/maevsi/vibetype/compare/10.0.0-beta.6...10.0.0-beta.7) (2025-04-09)
+
+### Bug Fixes
+
+* **account:** rework account registration flow success page ([57ae83b](https://github.com/maevsi/vibetype/commit/57ae83b4d9ae3d920e6db94d110e7912b0702e00))
+
+## [10.0.0-beta.6](https://github.com/maevsi/vibetype/compare/10.0.0-beta.5...10.0.0-beta.6) (2025-04-09)
+
+### Bug Fixes
+
+* **pages:** correct attributions title ([21b6793](https://github.com/maevsi/vibetype/commit/21b6793986f2840f209e8101e09dec910c2b0cec))
+
+## [10.0.0-beta.5](https://github.com/maevsi/vibetype/compare/10.0.0-beta.4...10.0.0-beta.5) (2025-04-09)
+
+### Features
+
+* **pages:** add code of conduct ([4a15e6a](https://github.com/maevsi/vibetype/commit/4a15e6ad04f8f2362f05ed909a54dd3cd96ded20))
+
+## [10.0.0-beta.4](https://github.com/maevsi/vibetype/compare/10.0.0-beta.3...10.0.0-beta.4) (2025-04-09)
+
+### Features
+
+* **pages:** disable robots for placeholder ([2122b0d](https://github.com/maevsi/vibetype/commit/2122b0dcda79838922776b88a5479a069f649137))
+
+## [10.0.0-beta.3](https://github.com/maevsi/vibetype/compare/10.0.0-beta.2...10.0.0-beta.3) (2025-04-08)
+
+### Features
+
+* **pages:** restructure legal ([#1859](https://github.com/maevsi/vibetype/issues/1859)) ([412cf55](https://github.com/maevsi/vibetype/commit/412cf557453b8c5f635a22af7d311ddde950fffe))
+
+## [10.0.0-beta.2](https://github.com/maevsi/vibetype/compare/10.0.0-beta.1...10.0.0-beta.2) (2025-04-08)
+
+### Features
+
+* **components:** disable placeholder validation ([#1851](https://github.com/maevsi/vibetype/issues/1851)) ([ebd0da3](https://github.com/maevsi/vibetype/commit/ebd0da36097a66d8bb5bfb9273c5429fd7860d78))
+* **components:** rework error page ([#1857](https://github.com/maevsi/vibetype/issues/1857)) ([c03a13c](https://github.com/maevsi/vibetype/commit/c03a13c88bde53847fd39930a11cd3efb61254a5))
+
+## [10.0.0-beta.1](https://github.com/maevsi/vibetype/compare/9.9.1...10.0.0-beta.1) (2025-04-04)
+
+### ⚠ BREAKING CHANGES
+
+* **account:** update authentication flow (#1687)
+
+### Features
+
+* **account:** update authentication flow ([#1687](https://github.com/maevsi/vibetype/issues/1687)) ([cb1ed21](https://github.com/maevsi/vibetype/commit/cb1ed21190eda5849dbe16cb716127aadbc6b66c))
+* **platform:** allow for header and cookie key unification ([#1849](https://github.com/maevsi/vibetype/issues/1849)) ([71bf1f4](https://github.com/maevsi/vibetype/commit/71bf1f4a7c2e5ef402324ce1a6d1917723269874))
+
+## [9.11.1](https://github.com/maevsi/vibetype/compare/9.11.0...9.11.1) (2025-04-10)
+
+### Bug Fixes
+
+* **content:** correct websocket hostname ([#1871](https://github.com/maevsi/vibetype/issues/1871)) ([8506c85](https://github.com/maevsi/vibetype/commit/8506c852de40e3dcc41f281b8f0978162c86dbc3))
+* **deps:** update @dargmuesli/nuxt-cookie-control to v9.0.1 ([#1870](https://github.com/maevsi/vibetype/issues/1870)) ([62185ab](https://github.com/maevsi/vibetype/commit/62185ab777b4882f39b382fdc0c15c3c5bda8d1b))
+
+## [9.11.0](https://github.com/maevsi/vibetype/compare/9.10.0...9.11.0) (2025-04-08)
+
+### Features
+
+* **components:** rework error page ([#1857](https://github.com/maevsi/vibetype/issues/1857)) ([c03a13c](https://github.com/maevsi/vibetype/commit/c03a13c88bde53847fd39930a11cd3efb61254a5))
+
+## [9.10.0](https://github.com/maevsi/vibetype/compare/9.9.1...9.10.0) (2025-04-04)
+
+### Features
+
+* **platform:** allow for header and cookie key unification ([#1849](https://github.com/maevsi/vibetype/issues/1849)) ([71bf1f4](https://github.com/maevsi/vibetype/commit/71bf1f4a7c2e5ef402324ce1a6d1917723269874))
+
+## [9.9.1](https://github.com/maevsi/vibetype/compare/9.9.0...9.9.1) (2025-04-04)
+
+### Bug Fixes
+
+* **components:** wrap bottom navigation in landmark ([#1848](https://github.com/maevsi/vibetype/issues/1848)) ([46c2f11](https://github.com/maevsi/vibetype/commit/46c2f11ae217b8d322f3d91f9dfedc99dbec9eac))
+
+## [9.9.0](https://github.com/maevsi/vibetype/compare/9.8.1...9.9.0) (2025-04-03)
+
+### Features
+
+* **flow:** add welcome screen ([1a48de7](https://github.com/maevsi/vibetype/commit/1a48de793948c215eec8e66d72d824a0a8ede8ca))
+* **legal:** update report form link ([e7e577d](https://github.com/maevsi/vibetype/commit/e7e577d8ed291647a1fb98be8101dd31f82775b0))
+
+### Bug Fixes
+
+* **app:** correct backdrop height ([4c6f646](https://github.com/maevsi/vibetype/commit/4c6f6464cc6645f473e3290b72eb5f34b439b56a))
+* **components:** correct icon labels ([a76d0cf](https://github.com/maevsi/vibetype/commit/a76d0cfb776a53cff3e4b1af82438a44d0f295f2))
+
 ## [9.8.1](https://github.com/maevsi/vibetype/compare/9.8.0...9.8.1) (2025-04-01)
 
 ### Bug Fixes

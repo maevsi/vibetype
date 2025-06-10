@@ -57,7 +57,7 @@
         </slot>
       </div>
       <CardStateAlert v-if="errors" class="mb-4">
-        <SpanList :span="errors" />
+        <AppSpanList :span="errors" />
       </CardStateAlert>
     </Card>
   </div>
@@ -70,7 +70,7 @@ const {
   id,
   isFooterHidden,
   isSubmitDisabled,
-  submitName,
+  submitName = undefined,
   submitTaskProvider = () => Promise.resolve(),
 } = defineProps<{
   id: string

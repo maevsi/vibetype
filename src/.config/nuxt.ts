@@ -33,6 +33,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   css: ['~/assets/css/app.css'],
   experimental: {
+    inlineRouteRules: true,
     typedPages: true,
   },
   future: {
@@ -45,7 +46,9 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxtjs/color-mode',
     '@nuxtjs/html-validator',
+    'nuxt-zod-i18n', // most come before `@nuxtjs/i18n`
     '@nuxtjs/i18n',
+    '@nuxtjs/mdc',
     '@nuxtjs/seo',
     '@nuxt/content', // most come after `@nuxtjs/seo`
     '@nuxtjs/turnstile',
@@ -91,24 +94,16 @@ export default defineNuxtConfig({
     },
     'nuxt-security',
   ],
-  shadcn: {
-    prefix: '',
-    componentDir: 'app/components/scn',
-  },
   nitro: {
     compressPublicAssets: true,
     experimental: {
       asyncContext: true,
       openAPI: IS_NITRO_OPENAPI_ENABLED,
     },
-    prerender: {
-      ignore: ['/__nuxt_content/content/sql_dump'], // TODO: remove once nuxt content support is fixed (https://github.com/nuxt/content/issues/3291)
-    },
     rollupConfig: {
       output: {
         sourcemap: true, // TODO: remove? (https://github.com/getsentry/sentry-javascript/discussions/15028)
       },
-      // @ts-expect-error deep type instantiation (https://github.com/vitejs/vite-plugin-vue/issues/422)
       plugins: [vue()],
     },
   },
@@ -116,14 +111,14 @@ export default defineNuxtConfig({
     '/**': {
       headers: { 'Document-Policy': 'js-profiling' }, // Sentry's browser profiling (currently supported for Chromium-based browsers)
     },
-    '/api/auth-proxy': {
-      security: {
-        xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection on forward authentication (https://github.com/maevsi/vibetype/issues/1603)
-      },
-    },
-    '/api/ical': {
+    '/api/model/event/ical': {
       security: {
         xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection here (https://github.com/maevsi/vibetype/issues/1603)
+      },
+    },
+    '/api/service/traefik/authentication': {
+      security: {
+        xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection on forward authentication (https://github.com/maevsi/vibetype/issues/1603)
       },
     },
     '/event/view/**': {
@@ -141,6 +136,30 @@ export default defineNuxtConfig({
       api: {
         notification: {
           secret: '',
+        },
+      },
+      monday: {
+        apiToken: undefined,
+        board: {
+          contact: {
+            column: {
+              consentId: undefined,
+              emailAddressId: undefined,
+              nameId: undefined,
+              messageId: undefined,
+            },
+            id: undefined,
+            groupId: undefined,
+          },
+          earlyBird: {
+            column: {
+              agreementId: undefined,
+              emailAddressId: undefined,
+              nameId: undefined,
+            },
+            id: undefined,
+            groupId: undefined,
+          },
         },
       },
       openai: {
@@ -210,7 +229,7 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: [
-        '@headlessui/vue',
+        '@internationalized/date',
         '@sentry/nuxt',
         '@tiptap/extension-link',
         '@tiptap/extension-text-align',
@@ -218,9 +237,11 @@ export default defineNuxtConfig({
         '@tiptap/vue-3',
         '@uppy/core',
         '@uppy/tus',
+        '@vee-validate/zod',
         '@vuelidate/core',
         '@vueuse/core',
         'chart.js',
+        'class-variance-authority',
         'clipboardy',
         'clsx',
         'css-element-queries',
@@ -231,19 +252,27 @@ export default defineNuxtConfig({
         'html-to-text',
         'isomorphic-dompurify',
         'js-confetti',
+        'leaflet',
+        'leaflet-control-geocoder',
         'lodash-es',
+        'lucide-vue-next',
         'mustache',
         'pretty-bytes',
         'prntr',
         'qrcode.vue',
+        'reka-ui',
+        'reka-ui/date',
         'seedrandom',
         'slugify',
         'tailwind-merge',
         'v-calendar',
+        'vaul-vue',
+        'vee-validate',
         'vue-advanced-cropper',
         'vue-chartjs',
         'vue-qrcode-reader',
         'workbox-precaching',
+        'zod',
       ],
     },
     plugins: [

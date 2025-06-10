@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <AppForm
     :errors="api.errors"
     :errors-pg-ids="errorsPgIds"
     :form="v$"
@@ -15,21 +15,26 @@
     <template #submit-icon>
       <IHeroiconsTrash />
     </template>
-  </Form>
+  </AppForm>
 </template>
 
 <script setup lang="ts">
 import type { AnyVariables, UseMutationResponse } from '@urql/vue'
 import { useVuelidate } from '@vuelidate/core'
 
-const { errorsPgIds, itemNameDeletion, itemNameSuccess, mutation, variables } =
-  defineProps<{
-    errorsPgIds?: Record<string, string>
-    itemNameDeletion: string
-    itemNameSuccess: string
-    mutation: UseMutationResponse<unknown, AnyVariables>
-    variables?: Record<string, unknown>
-  }>()
+const {
+  errorsPgIds = undefined,
+  itemNameDeletion,
+  itemNameSuccess,
+  mutation,
+  variables = undefined,
+} = defineProps<{
+  errorsPgIds?: Record<string, string>
+  itemNameDeletion: string
+  itemNameSuccess: string
+  mutation: UseMutationResponse<unknown, AnyVariables>
+  variables?: Record<string, unknown>
+}>()
 
 const emit = defineEmits<{
   success: []

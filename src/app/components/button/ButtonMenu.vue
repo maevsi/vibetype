@@ -1,5 +1,5 @@
 <template>
-  <Button
+  <AppButton
     v-bind="delegatedProps"
     :class="[
       'p-4',
@@ -8,13 +8,13 @@
     @click="emit('onMenuHide')"
   >
     <slot />
-  </Button>
+  </AppButton>
 </template>
 
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
 
-const { ariaLabel, to } = defineProps<{
+const { ariaLabel, to = undefined } = defineProps<{
   ariaLabel: string
   to?: RouteLocationRaw
 }>()

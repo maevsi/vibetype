@@ -1,32 +1,27 @@
-import type { CombinedError } from '@urql/core'
 import { consola } from 'consola'
 
 export const getApiData = <
   S,
   T extends {
     data: Ref<S>
-    error: Ref<CombinedError | undefined>
+    error: Ref<BackendError | undefined>
     fetching: Ref<boolean>
   },
 >(
-  queries?: Array<T | undefined>,
+  queries: T[] = [],
 ) => {
-  const apiData = computed(() => ({
-    data: (queries || []).reduce(
-      (p, c) => ({ ...p, ...c?.data.value }),
-      {} as NonNullable<
-        UnionToIntersection<NonNullable<ArrayElement<T[]>['data']['value']>>
-      >,
-    ),
-    errors: (queries || []).reduce(
-      (p, c) => (c?.error.value ? [...p, c.error.value as BackendError] : p),
-      [] as BackendError[],
-    ),
-    isFetching: (queries || []).reduce(
-      (p, c) => p || c?.fetching.value || false,
-      false,
-    ),
-  }))
+  const apiData = computed(() =>
+    readonly({
+      data: queries.reduce(
+        (p, c) => (c.data.value ? { ...p, ...c.data.value } : p),
+        {} as NonNullable<UnionToIntersection<NonNullable<T['data']['value']>>>,
+      ),
+      errors: queries.flatMap((query) =>
+        query.error.value ? [query.error.value] : [],
+      ),
+      isFetching: queries.some((query) => query.fetching.value),
+    }),
+  )
 
   watch(
     () => apiData.value.errors,

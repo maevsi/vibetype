@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Form
+    <AppForm
       :errors="api.errors"
       :form="v$"
       :is-form-sent="isFormSent"
@@ -92,19 +92,18 @@
         :title="t('visibility')"
         type="radio"
         :value="v$.visibility"
-        @input="form.visibility = $event as EventVisibility"
       >
-        <FormRadioButtonGroup
-          :id="`${SITE_NAME}-${
-            runtimeConfig.public.vio.isInProduction ? 'prod' : 'dev'
-          }-input-visibility`"
-          v-model="v$.visibility.$model"
-          name="visibility"
-          :options="[
-            { title: t('visibilityPublic'), value: EventVisibility.Public },
-            { title: t('visibilityPrivate'), value: EventVisibility.Private },
-            { title: t('visibilityUnlisted'), value: EventVisibility.Unlisted },
+        <AppRadioGroup
+          :default-value="v$.visibility.$model"
+          :items="[
+            { label: t('visibilityPublic'), value: EventVisibility.Public },
+            { label: t('visibilityPrivate'), value: EventVisibility.Private },
+            { label: t('visibilityUnlisted'), value: EventVisibility.Unlisted },
           ]"
+          name="visibility"
+          @update:model-value="
+            (value) => (form.visibility = value as EventVisibility)
+          "
         />
         <template #stateError>
           <FormInputStateError
@@ -147,8 +146,8 @@
         type="text"
         :value="v$.start"
         :value-formatter="dateTimeFormatter"
-        :warning="isWarningStartPastShown"
         @click="store.modals.push({ id: 'ModalDateTimeStart' })"
+        @input="v$.start.$model = $event"
       >
         <template #stateError>
           <FormInputStateError
@@ -173,11 +172,8 @@
         :value="v$.end"
         :value-formatter="dateTimeFormatter"
         @click="store.modals.push({ id: 'ModalDateTimeEnd' })"
-        @icon="v$.end.$model = undefined"
+        @input="v$.end.$model = $event"
       >
-        <template v-if="v$.end.$model" #icon>
-          <IHeroiconsXMark />
-        </template>
       </FormInput>
       <FormInput :title="t('attendanceType')" type="checkbox">
         <FormCheckbox
@@ -230,7 +226,10 @@
         @input="form.description = $event"
       >
         <client-only v-if="v$.description">
-          <TipTap :value="v$.description" @input="form.description = $event" />
+          <AppTipTap
+            :value="v$.description"
+            @input="form.description = $event"
+          />
         </client-only>
         <template #stateError>
           <FormInputStateError
@@ -241,7 +240,7 @@
           </FormInputStateError>
         </template>
       </FormInput>
-    </Form>
+    </AppForm>
     <Modal id="ModalDateTimeStart">
       <div class="flex justify-center">
         <DatePicker
@@ -277,7 +276,6 @@
 
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core'
-import slugify from 'slugify'
 import { DatePicker } from 'v-calendar'
 
 import { useCreateEventMutation } from '~~/gql/documents/mutations/event/eventCreate'
@@ -287,14 +285,13 @@ import {
   EventVisibility,
 } from '~~/gql/generated/graphql'
 
-const { event } = defineProps<{
+const { event = undefined } = defineProps<{
   event?: Pick<EventItemFragment, 'name' | 'slug'>
 }>()
 
 const localePath = useLocalePath()
 const { locale, t } = useI18n()
 const store = useStore()
-const runtimeConfig = useRuntimeConfig()
 const colorMode = useColorMode()
 const dateTime = useDateTime()
 const timezone = useTimezone()
@@ -332,9 +329,9 @@ const dateTimeFormatter = (x?: string) =>
         timeZone: timezone,
       })
     : undefined
-const onInputName = ($event: string) => {
+const onInputName = async ($event: string) => {
   v$.value.name.$model = $event
-  updateSlug()
+  await updateSlug()
 }
 const submit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
@@ -369,23 +366,21 @@ const submit = async () => {
   } else {
     // Add
     const result = await createEventMutation.executeMutation({
-      createEventInput: {
-        event: {
-          createdBy: store.signedInAccountId || '',
-          description: form.description || null,
-          end: form.end || null,
-          guestCountMaximum: form.guestCountMaximum
-            ? +form.guestCountMaximum
-            : null,
-          isInPerson: form.isInPerson,
-          isRemote: form.isRemote,
-          // location: form.location || null,
-          name: form.name || '',
-          slug: form.slug || '',
-          start: form.start || null,
-          url: form.url || null,
-          visibility: form.visibility || EventVisibility.Private,
-        },
+      input: {
+        createdBy: store.signedInAccountId || '',
+        description: form.description || null,
+        end: form.end || null,
+        guestCountMaximum: form.guestCountMaximum
+          ? +form.guestCountMaximum
+          : null,
+        isInPerson: form.isInPerson,
+        isRemote: form.isRemote,
+        // location: form.location || null,
+        name: form.name || '',
+        slug: form.slug || '',
+        start: form.start || null,
+        url: form.url || null,
+        visibility: form.visibility || EventVisibility.Private,
       },
     })
 
@@ -418,7 +413,9 @@ const updateForm = (data?: Pick<EventItemFragment, 'name' | 'slug'>) => {
   }
 }
 
-const updateSlug = () => {
+const updateSlug = async () => {
+  const slugify = (await import('slugify')).default
+
   form.slug = slugify(form.name ?? '', {
     lower: true,
     strict: true,

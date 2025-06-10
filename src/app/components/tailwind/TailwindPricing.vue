@@ -2,7 +2,7 @@
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <div class="mx-auto max-w-4xl sm:text-center">
       <h2
-        class="text-base leading-7 font-semibold text-indigo-600 dark:text-indigo-300"
+        class="text-base leading-7 font-semibold text-(--semantic-accent-text)"
       >
         {{ t('titlePrefix') }}
       </h2>
@@ -33,42 +33,40 @@
             </span>
             <span
               v-if="tier.price"
-              class="text-sm leading-6 font-semibold text-gray-600 dark:text-gray-100"
+              class="text-sm leading-6 font-semibold text-(--semantic-base-text-tertiary)"
             >
               {{ t('perMonth') }}
             </span>
           </p>
           <p
-            class="mt-3 text-sm leading-6 text-gray-500 dark:text-gray-400"
+            class="mt-3 text-sm leading-6 text-(--semantic-base-text-tertiary)"
             :class="{ invisible: !tier.price }"
           >
             {{ t('perMonthAnnually', { price: tier.price?.annually }) }}
           </p>
-          <Button
+          <AppButton
             :aria-describedby="tier.id"
             :aria-label="tier.cta.name"
             :class="[
-              'mt-10 flex w-full justify-center px-3 py-2 text-sm leading-6 font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
+              'mt-10 flex w-full justify-center px-3 py-2 text-sm leading-6 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2',
               tier.cta.class,
             ]"
             :to="tier.to"
             @click="tier.onClick"
           >
             {{ tier.cta.name }}
-          </Button>
+          </AppButton>
           <p class="mt-10 text-sm leading-6 font-semibold">
             {{ tier.description }}
           </p>
-          <ul
-            class="mt-6 space-y-3 text-sm leading-6 text-gray-600 dark:text-gray-100"
-          >
+          <ul class="mt-6 space-y-3 text-sm leading-6">
             <li
               v-for="feature in tier.features"
               :key="feature"
               class="flex gap-x-3"
             >
               <IHeroiconsCheck
-                class="h-6 w-5 flex-none text-indigo-600 dark:text-indigo-300"
+                class="h-6 w-5 flex-none text-(--semantic-accent-icon)"
                 aria-hidden="true"
               />
               {{ feature }}
@@ -126,7 +124,7 @@ const tiers = [
     cta: {
       name: t('tier1Cta'),
       class:
-        'text-white bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-indigo-600 shadow-xs',
+        'text-(--semantic-base-primary-button-text) bg-(--accent-strong) shadow-xs',
     },
     name: t('tier1Name'),
     id: 'tier-basic',
@@ -148,7 +146,7 @@ const tiers = [
     cta: {
       name: t('tier2Cta'),
       class:
-        'text-white bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-indigo-600 shadow-xs',
+        'text-(--semantic-base-primary-button-text) bg-(--accent-strong) shadow-xs',
     },
     name: t('tier2Name'),
     id: 'tier-essential',

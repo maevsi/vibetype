@@ -1,13 +1,15 @@
 <template>
   <AppLink
     v-bind="delegatedProps"
-    class="group rounded-xl text-(--semantic-base-text-secondary) aria-[current=page]:bg-(--accent-weak) aria-[current=page]:text-(--semantic-accent-accent-text) lg:text-(--semantic-base-text-primary)"
+    class="group rounded-xl text-(--semantic-base-text-secondary) aria-[current=page]:bg-(--accent-weak) aria-[current=page]:text-(--semantic-accent-text) lg:text-(--semantic-base-text-primary)"
     :is-colored="false"
   >
     <div class="mx-4.5 my-3 flex items-center gap-1.5">
-      <slot />
+      <div class="shrink-0">
+        <slot />
+      </div>
       <TypographySubtitleSmall
-        class="line-clamp-1 hidden group-aria-[current=page]:block lg:block"
+        class="truncate group-aria-[current=page]:block max-lg:hidden"
       >
         {{ title }}
       </TypographySubtitleSmall>

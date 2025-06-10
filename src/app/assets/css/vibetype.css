@@ -1,0 +1,152 @@
+/* stylelint-disable at-rule-no-deprecated */
+/* stylelint-disable at-rule-no-unknown */
+/* stylelint-disable custom-property-pattern */
+/* stylelint-disable plugin/no-unsupported-browser-features */
+
+:root {
+  --accent-line: #dcf9ea;
+  --accent-strong-hover: #2bb86d;
+  --accent-strong: #36db83;
+  --accent-weak-hover: #c0e6d2;
+  --accent-weak: #dcf9ea;
+  --base-white: #fafafc;
+  --critic-string: #e00000;
+  --critic-weak: #ffebeb;
+  --faint-line: #f2f2f2;
+  --faint-mid: #e6e6e6;
+  --faint-strong: #d8d4d5;
+  --faint-weak: #f2f2f2;
+  --semantic-accent-icon: #12683a;
+  --semantic-accent-line: #dcf9ea;
+  --semantic-accent-text: #12683a;
+  --semantic-base-background: #fff;
+  --semantic-base-icon-primary: #5d665f;
+  --semantic-base-input-field-fill: #fff;
+  --semantic-base-light-text-on-dark: #fafafc;
+  --semantic-base-line: #f2f2f2;
+  --semantic-base-primary-button-text: #191911;
+  --semantic-base-secondary-button-text: #191911;
+  --semantic-base-surface-1: #fafafc;
+  --semantic-base-text-primary: #191911;
+  --semantic-base-text-secondary: #868679;
+  --semantic-base-text-tertiary: #505047;
+  --semantic-critic-strong-hover: #8c1818;
+  --semantic-critic-strong: #e00000;
+  --semantic-critic-text: #8c1818;
+  --semantic-critic-weak: #ffebeb;
+  --semantic-error-strong: #e00000;
+  --semantic-success-strong: #1ae4aa;
+  --semantic-warning-strong: #f9ae25;
+  --surface: #fafafc;
+  --warning-strong: #f9ae25;
+  --warning-text: #9c5407;
+  --warning-weak: #fdebd8;
+}
+
+.dark {
+  --accent-strong: #4dc762;
+  --accent-weak-hover: #9cd0a6;
+  --accent-weak: #c1dcc6;
+  --base-white: #e4e4eb;
+  --critic-weak: #e67070;
+  --faint-line: #2d2d2c;
+  --faint-mid: #898284;
+  --faint-strong: #b6afb1;
+  --faint-weak: #3e3e38;
+  --semantic-accent-icon: #0a841e;
+  --semantic-accent-line: #044a0f;
+  --semantic-accent-text: #129f2a;
+  --semantic-base-background: #191911;
+  --semantic-base-input-field-fill: #505047;
+  --semantic-base-line: #3e3e38;
+  --semantic-base-surface-1: #3e3e38;
+  --semantic-base-text-primary: #e4e4eb;
+  --semantic-base-text-secondary: #868679;
+  --semantic-base-text-tertiary: #e4e4eb;
+  --semantic-critic-strong-hover: #e67070;
+  --semantic-critic-strong: #ca3737;
+  --semantic-critic-text: #e67070;
+  --semantic-critic-weak: #e67070;
+  --surface: #3e3e38;
+
+  @apply scheme-dark;
+}
+
+@theme inline {
+  --animate-shake: shake 0.6s ease-in-out 0s 1 normal forwards running;
+
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+
+    15% {
+      transform: translateX(0.375rem);
+    }
+
+    30% {
+      transform: translateX(-0.375rem);
+    }
+
+    45% {
+      transform: translateX(0.375rem);
+    }
+
+    60% {
+      transform: translateX(-0.375rem);
+    }
+
+    75% {
+      transform: translateX(0.375rem);
+    }
+
+    90% {
+      transform: translateX(-0.375rem);
+    }
+  }
+
+  --default-font-family: var(--font-raleway);
+  --font-raleway:
+    'Raleway Variable', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --color-background-bright: var(
+    --color-white
+  ); /* TODO: replace with new design variables */
+
+  --color-background-brighten: var(
+    --color-zinc-200
+  ); /* TODO: replace with new design variables */
+
+  --color-background-dark: var(
+    --color-zinc-800
+  ); /* TODO: replace with new design variables */
+
+  --color-background-darken: var(
+    --color-zinc-700
+  ); /* TODO: replace with new design variables */
+
+  --color-link-bright: var(
+    --color-blue-400
+  ); /* TODO: replace with new design variables */
+
+  --color-link-dark: var(
+    --color-blue-600
+  ); /* TODO: replace with new design variables */
+
+  --color-text-bright: var(
+    --color-zinc-50
+  ); /* TODO: replace with new design variables */
+
+  --color-text-dark: var(
+    --color-zinc-900
+  ); /* TODO: replace with new design variables */
+
+  --text-3xl--line-height: calc(2.5 / 1.875);
+  --text-4xl--line-height: calc(3 / 2.25);
+  --text-5xl--line-height: calc(4 / 3);
+  --text-6xl--line-height: calc(4.75 / 3.75);
+  --text-7xl--line-height: calc(4.75 / 4);
+  --text-8xl--line-height: calc(7.5 / 6);
+  --text-9xl--line-height: calc(10 / 8);
+}

@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <AppForm
     v-if="event"
     class="flex min-h-0 flex-col"
     :errors="api.errors"
@@ -51,14 +51,14 @@
         </FormInputStateError>
       </template>
     </FormInput>
-    <ScrollContainer
+    <AppScrollContainer
       v-if="contacts"
       class="flex flex-col gap-2"
       :has-next-page="!!api.data.allContacts?.pageInfo.hasNextPage"
       @load-more="after = api.data.allContacts?.pageInfo.endCursor"
     >
       <!-- <div class="flex flex-col gap-2"> -->
-      <Button
+      <AppButton
         v-for="contact in contactsFiltered"
         :key="contact.id"
         :aria-label="t('buttonContact')"
@@ -75,10 +75,10 @@
             contactIdsComputed.includes(contact.id)
           "
         />
-      </Button>
+      </AppButton>
       <!-- </div> -->
-    </ScrollContainer>
-  </Form>
+    </AppScrollContainer>
+  </AppForm>
 </template>
 
 <script setup lang="ts">
@@ -92,7 +92,7 @@ import { getContactItem } from '~~/gql/documents/fragments/contactItem'
 // import { accountByIdQuery } from '~~/gql/documents/queries/account/accountById'
 // import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 
-const { event, guestContactIdsExisting } = defineProps<{
+const { event, guestContactIdsExisting = undefined } = defineProps<{
   event: Pick<EventItemFragment, 'id'>
   guestContactIdsExisting?: number[]
 }>()

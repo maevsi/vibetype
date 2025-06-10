@@ -2,9 +2,7 @@
   <FormInput
     v-if="formInput"
     :is-optional="isOptional"
-    :is-required="isRequired"
     :id-label="`input-${id}`"
-    :placeholder="t('globalPlaceholderEmailAddress')"
     :title="title || t('emailAddress')"
     type="email"
     :value="formInput"
@@ -18,7 +16,6 @@
         {{ t('globalValidationLength') }}
       </FormInputStateError>
       <FormInputStateError
-        v-if="isRequired"
         :form-input="formInput"
         validation-property="required"
       >
@@ -26,6 +23,7 @@
       </FormInputStateError>
     </template>
     <template #stateWarning>
+      <!-- this is intentionally a warning rather than an error, as we aim to be "liberal in what we accept from others" (https://www.dominicsayers.com/isemail/) -->
       <FormInputStateWarning
         v-if="
           formInput.$dirty &&
@@ -46,13 +44,11 @@ const {
   formInput,
   id = 'email-address',
   isOptional,
-  isRequired,
-  title,
+  title = undefined,
 } = defineProps<{
   formInput: BaseValidation
   id?: string
   isOptional?: boolean
-  isRequired?: boolean
   title?: string
 }>()
 

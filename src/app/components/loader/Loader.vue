@@ -7,7 +7,7 @@
       <LoaderIndicatorText v-else />
     </div>
     <CardStateAlert v-if="errorMessages.length">
-      <SpanList :span="errorMessages" />
+      <AppSpanList :span="errorMessages" />
     </CardStateAlert>
     <slot v-if="api.data" /><!--  && Object.keys(api.data).length -->
   </div>
@@ -18,9 +18,9 @@ import type { HtmlHTMLAttributes, UnwrapRef } from 'vue'
 
 const {
   api,
-  class: classProps,
-  errorPgIds,
-  indicator,
+  class: classProps = undefined,
+  errorPgIds = undefined,
+  indicator = undefined,
 } = defineProps<
   {
     api: UnwrapRef<ReturnType<typeof getApiData>>

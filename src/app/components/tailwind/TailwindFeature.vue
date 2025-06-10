@@ -5,9 +5,9 @@
     <div class="flex justify-center text-7xl lg:mt-8">
       <slot />
     </div>
-    <div class="grow">
+    <div class="flex-1">
       <h2
-        class="text-base leading-7 font-semibold text-indigo-600 dark:text-indigo-300"
+        class="text-base leading-7 font-semibold text-(--semantic-accent-text)"
       >
         {{ keyword }}
       </h2>

@@ -1,10 +1,14 @@
 <template>
-  <div class="relative isolate">
-    <NuxtLoadingIndicator />
+  <div
+    class="flex h-screen flex-col"
+    :data-is-loading="isLoading"
+    data-testid="is-loading"
+    vaul-drawer-wrapper
+  >
     <LazyClientOnly>
       <CardStateInfo
         v-if="!isBrowserSupported && !runtimeConfig.public.vio.isTesting"
-        class="rounded-none"
+        class="shrink-0 rounded-none"
       >
         <i18n-t keypath="browserUnsupported">
           <template #link>
@@ -26,6 +30,7 @@
         </i18n-t>
       </CardStateInfo>
     </LazyClientOnly>
+    <NuxtLoadingIndicator />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
@@ -34,39 +39,47 @@
       <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->
       <CookieControl v-if="!isIOS" :locale="locale" />
     </ClientOnly>
-    <div
+    <!-- <div
       class="absolute inset-x-0 -top-16 -z-10 flex max-h-screen transform-gpu items-start justify-center overflow-hidden blur-3xl"
       aria-hidden="true"
     >
       <div
         class="clip-path aspect-[1318/752] w-[82.375rem] flex-none bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-[15%] dark:opacity-10"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Locale } from '@dargmuesli/nuxt-cookie-control/runtime/types'
 import '@fontsource-variable/raleway'
 import { isEqual } from 'ufo'
-import type { WritableComputedRef } from 'vue'
 
-import supportedBrowsers from '~/supportedBrowsers'
-
-const i18n = useI18n()
 const { $pwa } = useNuxtApp()
 const { isApp } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
-const locale = i18n.locale as WritableComputedRef<Locale>
-const { t } = i18n
 const timezone = useTimezone()
 const localePath = useLocalePath()
 const store = useStore()
 const route = useRoute()
 const cookieControl = useCookieControl()
 
-// data
+// i18n
+const { t, locale } = useI18n()
+const { $dayjs } = useNuxtApp()
+$dayjs.locale(locale.value)
+
+// loading
+const loadingId = Math.random()
+const loadingIds = useState(STATE_LOADING_IDS_NAME, () => [loadingId])
+const isLoading = computed(() => !!loadingIds.value.length)
+onMounted(() => loadingIds.value.splice(loadingIds.value.indexOf(loadingId), 1))
+
+// browserslist
 const isBrowserSupported = ref(true)
+onBeforeMount(async () => {
+  const supportedBrowsers = (await import('~/supportedBrowsers')).default
+  isBrowserSupported.value = supportedBrowsers.test(navigator.userAgent)
+})
 
 // methods
 const initialize = async () => {
@@ -95,9 +108,6 @@ const saveTimezoneAsCookie = () =>
   }).value = timezone)
 
 // lifecycle
-onBeforeMount(() => {
-  isBrowserSupported.value = supportedBrowsers.test(navigator.userAgent)
-})
 watch(
   () => $pwa,
   async (current, _previous) => {

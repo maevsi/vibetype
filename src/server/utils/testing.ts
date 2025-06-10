@@ -1,26 +1,28 @@
 import type { H3Event } from 'h3'
 
-export const useIsTesting = () => {
+export const useIsTesting = ({
+  isCookieEnabled = true,
+}: { isCookieEnabled?: boolean } | undefined = {}) => {
   const event = useEvent()
   const runtimeConfig = useRuntimeConfig()
 
-  return getIsTesting({ event, runtimeConfig })
+  return getIsTesting({ event, isCookieEnabled, runtimeConfig })
 }
 
 export const getIsTesting = ({
   event,
+  isCookieEnabled,
   runtimeConfig,
 }: {
   event?: H3Event
+  isCookieEnabled?: boolean
   runtimeConfig: ReturnType<typeof useRuntimeConfig>
 }) => {
   const isTestingByRuntimeConfig = runtimeConfig.public.vio.isTesting
-
   if (isTestingByRuntimeConfig) return true
 
-  if (event) {
+  if (isCookieEnabled && event) {
     const isTestingByCookie = !!getCookie(event, TESTING_COOKIE_NAME)
-
     if (isTestingByCookie) return true
   }
 }

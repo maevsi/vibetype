@@ -3,6 +3,7 @@ import { consola } from 'consola'
 import { IS_IN_STACK } from '~~/node'
 
 const TOPIC_NOTIFICATION = `${SITE_NAME}.${SITE_NAME}_private.notification`
+const TOPIC_UPLOAD = `${SITE_NAME}.${SITE_NAME}.upload`
 
 export default defineNitroPlugin(async (nitroApp) => {
   if (!IS_IN_STACK) return
@@ -28,28 +29,45 @@ export default defineNitroPlugin(async (nitroApp) => {
 
   await consumer.connect()
   await consumer.subscribe({
-    topics: [TOPIC_NOTIFICATION],
+    topics: [TOPIC_NOTIFICATION, TOPIC_UPLOAD],
     fromBeginning: true,
   })
 
   await consumer.run({
     eachMessage: async ({ topic, message }) => {
-      if (!message.key) throw new Error(`Message without key.`)
-      if (!message.value) throw new Error(`Message without value.`)
-
-      const key = JSON.parse(message.key.toString())
-      const value = JSON.parse(message.value.toString())
+      const key = message.key
+        ? (JSON.parse(message.key.toString()) as unknown)
+        : null
+      const value = message.value
+        ? (JSON.parse(message.value.toString()) as unknown)
+        : null
 
       switch (topic) {
-        case TOPIC_NOTIFICATION:
+        case TOPIC_NOTIFICATION: {
+          const keyNotification = key as { payload: { id: string } }
+          const valueNotification = value as {
+            payload: {
+              after: {
+                channel:
+                  | 'account_password_reset_request'
+                  | 'account_registration'
+                  | 'event_invitation'
+                is_acknowledged: boolean | null
+                payload: string
+              }
+            }
+          } | null
+
+          if (!valueNotification) break
+
           try {
             await processNotification({
               channelEvent: {
-                channel: value.payload.after.channel,
-                payload: JSON.parse(value.payload.after.payload),
+                channel: valueNotification.payload.after.channel,
+                payload: JSON.parse(valueNotification.payload.after.payload),
               },
-              id: key.payload.id,
-              isAcknowledged: value.payload.after.is_acknowledged,
+              id: keyNotification.payload.id,
+              isAcknowledged: !!valueNotification.payload.after.is_acknowledged,
               runtimeConfig,
               siteUrl,
               tusdFilesUrl,
@@ -57,7 +75,28 @@ export default defineNitroPlugin(async (nitroApp) => {
           } catch (error) {
             consola.error(`Failed to process notification: ${error}`)
           }
+
           break
+        }
+        case TOPIC_UPLOAD: {
+          const keyUpload = key as { payload: { id: string } }
+          const valueUpload = value as {
+            payload: Parameters<typeof processUpload>[0]['payload']
+          } | null
+
+          if (!valueUpload) break
+
+          try {
+            await processUpload({
+              id: keyUpload.payload.id,
+              payload: valueUpload.payload,
+            })
+          } catch (error) {
+            consola.error(`Failed to process notification: ${error}`)
+          }
+
+          break
+        }
         default:
           consola.error(`Unexpected topic: ${topic}`)
       }

@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <AppForm
     class="flex min-h-0 flex-col"
     :errors="api.errors"
     :errors-pg-ids="{
@@ -100,7 +100,6 @@
         v-if="v$.address"
         id="input-address"
         v-model.trim="v$.address.$model"
-        class="form-input"
         :placeholder="t('globalPlaceholderAddress')"
         rows="2"
       />
@@ -118,7 +117,7 @@
       @input="form.phoneNumber = $event"
     />
     <FormInputUrl :form-input="v$.url" @input="form.url = $event" />
-  </Form>
+  </AppForm>
 </template>
 
 <script setup lang="ts">
@@ -128,7 +127,7 @@ import { useCreateContactMutation } from '~~/gql/documents/mutations/contact/con
 import { useUpdateContactByIdMutation } from '~~/gql/documents/mutations/contact/contactUpdateById'
 import type { ContactItemFragment } from '~~/gql/generated/graphql'
 
-const { contact } = defineProps<{
+const { contact = undefined } = defineProps<{
   contact?: Pick<
     ContactItemFragment,
     | 'accountByAccountId'

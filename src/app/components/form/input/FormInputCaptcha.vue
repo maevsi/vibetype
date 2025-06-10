@@ -38,7 +38,12 @@
       </FormInputStateInfo>
     </template>
     <template v-if="formInput.$error" #assistance>
-      <ButtonColored :aria-label="t('reset')" @click="reset">
+      <ButtonColored
+        :aria-label="t('reset')"
+        class="w-full"
+        variant="secondary"
+        @click="reset"
+      >
         {{ t('reset') }}
         <template #prefix>
           <IHeroiconsArrowPath />
