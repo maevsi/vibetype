@@ -42,6 +42,7 @@
       </div>
       <Modal id="ModalAttendanceScanQrCode" :submit-name="t('close')">
         <QrCodeStream
+          :constraints="cameraConstraints"
           @detect="onDetect"
           @error="onError"
           @camera-on="onCameraOn"
@@ -148,6 +149,17 @@ const title = computed(() => {
   return `${t('title')} · ${event.value.name}`
 })
 useHeadDefault({ title })
+
+//force rear camera
+const cameraConstraints = computed(() => {
+  const isIOSPWA =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+    window.matchMedia('(display-mode: standalone)').matches
+
+  return {
+    facingMode: isIOSPWA ? { exact: 'environment' } : 'environment',
+  }
+})
 
 // qr code
 const qrCodeScan = () => {
