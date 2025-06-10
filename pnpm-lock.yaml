@@ -156,11 +156,11 @@ importers:
         specifier: 0.11.1
         version: 0.11.1(magicast@0.3.5)(pinia@3.0.3(typescript@5.8.3)(vue@3.5.16(typescript@5.8.3)))
       '@sentry/nuxt':
-        specifier: 9.27.0
-        version: 9.27.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.34.0)(magicast@0.3.5)(nuxt@3.17.5(@parcel/watcher@2.5.1)(@types/node@22.15.31)(better-sqlite3@11.10.0)(db0@0.3.2(better-sqlite3@11.10.0))(eslint@9.28.0(jiti@2.4.2))(ioredis@5.6.1)(lightningcss@1.30.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.42.0)(stylelint@16.20.0(typescript@5.8.3))(terser@5.41.0)(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.31)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.41.0)(yaml@2.8.0))(vue-tsc@2.2.10(typescript@5.8.3))(yaml@2.8.0))(pinia@3.0.3(typescript@5.8.3)(vue@3.5.16(typescript@5.8.3)))(rollup@4.42.0)(vue@3.5.16(typescript@5.8.3))
+        specifier: 9.28.0
+        version: 9.28.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.34.0)(magicast@0.3.5)(nuxt@3.17.5(@parcel/watcher@2.5.1)(@types/node@22.15.31)(better-sqlite3@11.10.0)(db0@0.3.2(better-sqlite3@11.10.0))(eslint@9.28.0(jiti@2.4.2))(ioredis@5.6.1)(lightningcss@1.30.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.42.0)(stylelint@16.20.0(typescript@5.8.3))(terser@5.41.0)(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.31)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.41.0)(yaml@2.8.0))(vue-tsc@2.2.10(typescript@5.8.3))(yaml@2.8.0))(pinia@3.0.3(typescript@5.8.3)(vue@3.5.16(typescript@5.8.3)))(rollup@4.42.0)(vue@3.5.16(typescript@5.8.3))
       '@sentry/profiling-node':
-        specifier: 9.27.0
-        version: 9.27.0
+        specifier: 9.28.0
+        version: 9.28.0
       '@tailwindcss/forms':
         specifier: 0.5.10
         version: 0.5.10(tailwindcss@4.1.8)
@@ -235,7 +235,7 @@ importers:
         version: 1.4.3(@urql/core@5.1.1(graphql@16.11.0))(vue@3.5.16(typescript@5.8.3))
       '@vee-validate/zod':
         specifier: 4.15.1
-        version: 4.15.1(vue@3.5.16(typescript@5.8.3))(zod@3.25.57)
+        version: 4.15.1(vue@3.5.16(typescript@5.8.3))(zod@3.25.58)
       '@vite-pwa/nuxt':
         specifier: 1.0.4
         version: 1.0.4(magicast@0.3.5)(vite@6.3.5(@types/node@22.15.31)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.41.0)(yaml@2.8.0))(workbox-build@7.3.0)(workbox-window@7.3.0)
@@ -303,8 +303,8 @@ importers:
         specifier: 1.0.2
         version: 1.0.2
       firebase:
-        specifier: 11.9.0
-        version: 11.9.0
+        specifier: 11.9.1
+        version: 11.9.1
       firebase-admin:
         specifier: 13.4.0
         version: 13.4.0
@@ -342,8 +342,8 @@ importers:
         specifier: 4.17.21
         version: 4.17.21
       lucide-vue-next:
-        specifier: 0.513.0
-        version: 0.513.0(vue@3.5.16(typescript@5.8.3))
+        specifier: 0.514.0
+        version: 0.514.0(vue@3.5.16(typescript@5.8.3))
       moment-timezone:
         specifier: 0.6.0
         version: 0.6.0
@@ -366,8 +366,8 @@ importers:
         specifier: 1.11.5
         version: 1.11.5(magicast@0.3.5)(typescript@5.8.3)
       openai:
-        specifier: 5.2.0
-        version: 5.2.0(ws@8.18.2)(zod@3.25.57)
+        specifier: 5.3.0
+        version: 5.3.0(ws@8.18.2)(zod@3.25.58)
       pinia:
         specifier: 3.0.3
         version: 3.0.3(typescript@5.8.3)(vue@3.5.16(typescript@5.8.3))
@@ -450,8 +450,8 @@ importers:
         specifier: 11.22.0
         version: 11.22.0
       tailwind-merge:
-        specifier: 3.3.0
-        version: 3.3.0
+        specifier: 3.3.1
+        version: 3.3.1
       tailwindcss:
         specifier: 4.1.8
         version: 4.1.8
@@ -501,8 +501,8 @@ importers:
         specifier: 7.3.0
         version: 7.3.0
       zod:
-        specifier: 3.25.57
-        version: 3.25.57
+        specifier: 3.25.58
+        version: 3.25.58
 
   tests:
     dependencies:
@@ -1661,8 +1661,8 @@ packages:
     resolution: {integrity: sha512-0O33PKrXLoIWkoOO5ByFaLjZehBctSYWnb+xJkIdx2SKP/K9l1UPFXPwASyrOIqyY3ws+7orF/1j7wI5EKzPYQ==}
     engines: {node: '>=18.0.0'}
 
-  '@firebase/auth-compat@0.5.26':
-    resolution: {integrity: sha512-4baB7tR0KukyGzrlD25aeO4t0ChLifwvDQXTBiVJE9WWwJEOjkZpHmoU9Iww0+Vdalsq4sZ3abp6YTNjHyB1dA==}
+  '@firebase/auth-compat@0.5.27':
+    resolution: {integrity: sha512-axZx/MgjNO7uPA8/nMQiuVotGCngUFMppt5w0pxFIoIPD0kac0bsFdSEh5S2ttuEE0Aq1iUB6Flzwn+wvMgXnQ==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       '@firebase/app-compat': 0.x
@@ -1676,8 +1676,8 @@ packages:
       '@firebase/app-types': 0.x
       '@firebase/util': 1.x
 
-  '@firebase/auth@1.10.6':
-    resolution: {integrity: sha512-cFbo2FymQltog4atI9cKTO6CxKxS0dOMXslTQrlNZRH7qhDG44/d7QeI6GXLweFZtrnlecf52ESnNz1DU6ek8w==}
+  '@firebase/auth@1.10.7':
+    resolution: {integrity: sha512-77o0aBKCfchdL1gkahARdawHyYefh+wRYn7o60tbwW6bfJNq2idbrRb3WSYCT4yBKWL0+9kKdwxBHPZ6DEiB+g==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       '@firebase/app': 0.x
@@ -1797,8 +1797,8 @@ packages:
     peerDependencies:
       '@firebase/app': 0.x
 
-  '@firebase/storage-compat@0.3.22':
-    resolution: {integrity: sha512-29j6JgXTjQ76sOIkxmTNHQfYA/hDTeV9qGbn0jolynPXSg/AmzCB0CpCoCYrS0ja0Flgmy1hkA3XYDZ/eiV1Cg==}
+  '@firebase/storage-compat@0.3.23':
+    resolution: {integrity: sha512-B/ufkT/R/tSvc2av+vP6ZYybGn26FwB9YVDYg/6Bro+5TN3VEkCeNmfnX3XLa2DSdXUTZAdWCbMxW0povGa4MA==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       '@firebase/app-compat': 0.x
@@ -1809,8 +1809,8 @@ packages:
       '@firebase/app-types': 0.x
       '@firebase/util': 1.x
 
-  '@firebase/storage@0.13.12':
-    resolution: {integrity: sha512-5JmoFS01MYjW1XMQa5F5rD/kvMwBN10QF03bmcuJWq4lg+BJ3nRgL3sscWnyJPhwM/ZCyv2eRwcfzESVmsYkdQ==}
+  '@firebase/storage@0.13.13':
+    resolution: {integrity: sha512-E+MTNcBgpoAynicgVb2ZsHCuEOO4aAiUX5ahNwe/1dEyZpo2H4DwFqKQRNK/sdAIgBbjBwcfV2p0MdPFGIR0Ew==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       '@firebase/app': 0.x
@@ -3660,24 +3660,24 @@ packages:
     peerDependencies:
       semantic-release: '>=20.1.0'
 
-  '@sentry-internal/browser-utils@9.27.0':
-    resolution: {integrity: sha512-SJa7f6Ct1BzP8rWEomnshSGN1CmT+axNKvT+StrbFPD6AyHnYfFLJpKgc2iToIJHB/pmeuOI9dUwqtzVx+5nSw==}
+  '@sentry-internal/browser-utils@9.28.0':
+    resolution: {integrity: sha512-SqntPnIXudP3FoKj4mQ1BVPC1RNzo4CGtAxJnLpbIUpdT/khJVM6Q59zrGl2MgZ7URZCI986L5jXihQeferf6g==}
     engines: {node: '>=18'}
 
-  '@sentry-internal/feedback@9.27.0':
-    resolution: {integrity: sha512-e7L8eG0y63RulN352lmafoCCfQGg4jLVT8YLx6096eWu/YKLkgmVpgi8livsT5WREnH+HB+iFSrejOwK7cRkhw==}
+  '@sentry-internal/feedback@9.28.0':
+    resolution: {integrity: sha512-z2jShmVENsesmDnShEOv841Saw0zXe1tX6GHNgkK9f6NrUMbL970JvGKByBFTffhQH6uQ0WeNPnXJ5L/YKnfDg==}
     engines: {node: '>=18'}
 
   '@sentry-internal/node-cpu-profiler@2.2.0':
     resolution: {integrity: sha512-oLHVYurqZfADPh5hvmQYS5qx8t0UZzT2u6+/68VXsFruQEOnYJTODKgU3BVLmemRs3WE6kCJjPeFdHVYOQGSzQ==}
     engines: {node: '>=18'}
 
-  '@sentry-internal/replay-canvas@9.27.0':
-    resolution: {integrity: sha512-44rVSt3LCH6qePYRQrl4WUBwnkOk9dzinmnKmuwRksEdDOkVq5KBRhi/IDr7omwSpX8C+KrX5alfKhOx1cP0gQ==}
+  '@sentry-internal/replay-canvas@9.28.0':
+    resolution: {integrity: sha512-Bv4mbtUrRV3p6PpFQPseLv3+Uaen+3AlfX02Z6QHY1sMa4lpt+U8OHfRGLprnzb6Rarw6fK2LNVL5rnV9LNMwA==}
     engines: {node: '>=18'}
 
-  '@sentry-internal/replay@9.27.0':
-    resolution: {integrity: sha512-n2kO1wOfCG7GxkMAqbYYkpgTqJM5tuVLdp0JuNCqTOLTXWvw6svWGaYKlYpKUgsK9X/GDzJYSXZmfe+Dbg+FJQ==}
+  '@sentry-internal/replay@9.28.0':
+    resolution: {integrity: sha512-BVGVBlmcpJdT55d/vywjfK1u6zMC5ycjJBxU1wUCNgCU3cSKRDBnvmYgk/+Ay23bFryT28Q4hM1p5qBBAOfxjQ==}
     engines: {node: '>=18'}
 
   '@sentry/babel-plugin-component-annotate@3.2.4':
@@ -3688,8 +3688,8 @@ packages:
     resolution: {integrity: sha512-tSzfc3aE7m0PM0Aj7HBDet5llH9AB9oc+tBQ8AvOqUSnWodLrNCuWeQszJ7mIBovD3figgCU3h0cvI6U5cDtsg==}
     engines: {node: '>= 14'}
 
-  '@sentry/browser@9.27.0':
-    resolution: {integrity: sha512-geR3lhRJOmUQqi1WgovLSYcD/f66zYnctdnDEa7j1BW2XIB1nlTJn0mpYyAHghXKkUN/pBpp1Z+Jk0XlVwFYVg==}
+  '@sentry/browser@9.28.0':
+    resolution: {integrity: sha512-ttqiv3D9sIB43nZnJTTln1nXw1p4C5BDSh+sHmGUOiqdCH6ND3HByDITYMYIOz1lACSISTT4V+MEpqx0V25Tlw==}
     engines: {node: '>=18'}
 
   '@sentry/bundler-plugin-core@3.2.4':
@@ -3746,22 +3746,22 @@ packages:
     engines: {node: '>= 10'}
     hasBin: true
 
-  '@sentry/core@9.27.0':
-    resolution: {integrity: sha512-Zb2SSAdWXQjTem+sVWrrAq9L6YYfxyoTwtapaE6C6qZBR5C8Uak0wcYww8StaCFH7dDA/PSW+VxOwjNXocrQHQ==}
+  '@sentry/core@9.28.0':
+    resolution: {integrity: sha512-vzD9xhg9S864jxfCpq77feCE4y7iP2cZYsNMoTupl1vTUlmXlhp7XgF832fEMjEZq4vrPhaqCNsde7Sc3PAbaQ==}
     engines: {node: '>=18'}
 
-  '@sentry/node@9.27.0':
-    resolution: {integrity: sha512-EVyDfGRjMAL+SS0lFYK8BKZZiVfKBu6sItX/m2CGcpVLjTwhGxJQWdHlKJMEe8hIkjabME+VLL/mnkA3mINSfQ==}
+  '@sentry/node@9.28.0':
+    resolution: {integrity: sha512-CIui2wthO7oBTRih9pGopKiPdPA/Kyg/orLkwVh6dfSzhSORFTzH1lJrCpoPTfUIZwilLBTwjINBENHGLA4u3A==}
     engines: {node: '>=18'}
 
-  '@sentry/nuxt@9.27.0':
-    resolution: {integrity: sha512-4MXNDaTJ6FYESdk/8HJW3VOc+Hs5HsCmzbh+YHO0UAmV2ePdyvgVpSEZjMS9plntcYti9TaFFtYonglF3I1LgQ==}
+  '@sentry/nuxt@9.28.0':
+    resolution: {integrity: sha512-n6olkazbEXtFgxW/gw6TT7PhJrRpcTuOAFPFHs5CQzznezL9ebix7EeCecgX6+NuCZqqoXSi4XHW64fSLwaSaQ==}
     engines: {node: '>=18.19.1'}
     peerDependencies:
       nuxt: '>=3.7.0 || 4.x'
 
-  '@sentry/opentelemetry@9.27.0':
-    resolution: {integrity: sha512-IHhDUdZU+gAUEupovcoUBgXfzQoMDh6n8epjLGpV5LxjiujM+byvvrBD7Witoz/ZilOFn585uvncW7juCe7grw==}
+  '@sentry/opentelemetry@9.28.0':
+    resolution: {integrity: sha512-Zieujs3aPmfMm2vDFWnIwVTq/4lY5XM/q068xMG4IipHyIc/4rgZLWq40/C0ryLepoWjcym7c7QScgU4Y9fQjw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@opentelemetry/api': ^1.9.0
@@ -3771,8 +3771,8 @@ packages:
       '@opentelemetry/sdk-trace-base': ^1.30.1 || ^2.0.0
       '@opentelemetry/semantic-conventions': ^1.34.0
 
-  '@sentry/profiling-node@9.27.0':
-    resolution: {integrity: sha512-RL8UWc4/8KsHE5YLjwvaY9da2uT/GOtK56m6XIyHReLnyA71QAiYjBmJ79j9NTunq3RA6bxCfdQbnGabRwdx6Q==}
+  '@sentry/profiling-node@9.28.0':
+    resolution: {integrity: sha512-qh4EN0GkMTO7pnNR/J/cQaKTfGv3FDgdd23IW3d7vIFXAh+FxXiW+mIT/KTdz3hROqXJ5weiX62TtXQPA7XA/Q==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -3786,8 +3786,8 @@ packages:
     resolution: {integrity: sha512-ZRn5TLlq5xtwKOqaWP+XqS1PYVfbBCgsbMk7wW2Ly6EgF9wYePvtLqKgYnE3hwPg2LpBnRPR2ti1ohlUkR+wXA==}
     engines: {node: '>= 14'}
 
-  '@sentry/vue@9.27.0':
-    resolution: {integrity: sha512-LeoxSCDtynAA89tcUD3r1JblCwFjzByID9O0y1JkMU1UlVL08vbV9fNSfEhJ66WdvBo5KPTRn5ScHLUOoae/WA==}
+  '@sentry/vue@9.28.0':
+    resolution: {integrity: sha512-k3TG9yuta5pbmX5If5BhaL+GCs1hKrepYf0XdDW+XSMB5gXJ7BzeCNrAGbGWfRlr+pioiRz4V9nxTTBY1yX5mQ==}
     engines: {node: '>=18'}
     peerDependencies:
       pinia: 2.x || 3.x
@@ -7019,8 +7019,8 @@ packages:
     resolution: {integrity: sha512-Y8DcyKK+4pl4B93ooiy1G8qvdyRMkcNFfBSh+8rbVcw4cW8dgG0VXCCTp5NUwub8sn9vSPsOwpb9tE2OuFmcfQ==}
     engines: {node: '>=18'}
 
-  firebase@11.9.0:
-    resolution: {integrity: sha512-7uIGhxKtTNfDcoMKWn0G8G0Z1Zj5VeW8uzImAcUmI31PaYQdVWi2rVVig7thWB3vPianESPrLEKim2Fw7U8fiA==}
+  firebase@11.9.1:
+    resolution: {integrity: sha512-nbQbQxNlkHHRDn4cYwHdAKHwJPeZ0jRXxlNp6PCOb9CQx8Dc6Vjve97R34r1EZJnzOsPYZ3+ssJH7fkovDjvCw==}
 
   flat-cache@4.0.1:
     resolution: {integrity: sha512-f7ccFPK3SXFHpx15UIGyRJ/FJQctuKZ0zVuN3frBo4HnK3cay9VEW0R6yPYFHC0AgqhukPzKjq22t5DmAyqGyw==}
@@ -8568,8 +8568,8 @@ packages:
   lru-memoizer@2.3.0:
     resolution: {integrity: sha512-GXn7gyHAMhO13WSKrIiNfztwxodVsP8IoZ3XfrJV4yH2x0/OeTO/FIaAHTY5YekdGgW94njfuKmyyt1E0mR6Ug==}
 
-  lucide-vue-next@0.513.0:
-    resolution: {integrity: sha512-/J7DB2WBC+UPcRswOfJFXSWt8r5HTMVu0PRkR6e0+Ozx6kLJZv4m71vbT1DS9RCjj0pfuLskWIslSBeeXmg7BA==}
+  lucide-vue-next@0.514.0:
+    resolution: {integrity: sha512-rZUuw7l8NTa2OZPo1RT/UPQLAWOAgZjDKv4tRyAXyjB1SWl/Bb7EhGjHYadfjMFSdaAYdfgiYGh5z/zIzl59zQ==}
     peerDependencies:
       vue: '>=3.0.1'
 
@@ -9341,8 +9341,8 @@ packages:
     resolution: {integrity: sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ==}
     engines: {node: '>=12'}
 
-  openai@5.2.0:
-    resolution: {integrity: sha512-b+Sf2Yk2eApDkhqHr7C4d5hux9gkHUvyqQ7RrdSfLsjrXkCZpJPqkME0u5Py7RPB28Ozz+RkJZpW7YPTOoChew==}
+  openai@5.3.0:
+    resolution: {integrity: sha512-VIKmoF7y4oJCDOwP/oHXGzM69+x0dpGFmN9QmYO+uPbLFOmmnwO+x1GbsgUtI+6oraxomGZ566Y421oYVu191w==}
     hasBin: true
     peerDependencies:
       ws: ^8.18.0
@@ -11031,8 +11031,8 @@ packages:
     resolution: {integrity: sha512-9kY+CygyYM6j02t5YFHbNz2FN5QmYGv9zAjVp4lCDjlCw7amdckXlEt/bjMhUIfj4ThGRE4gCUH5+yGnNuPo5A==}
     engines: {node: '>=10.0.0'}
 
-  tailwind-merge@3.3.0:
-    resolution: {integrity: sha512-fyW/pEfcQSiigd5SNn0nApUOxx0zB/dm6UDU/rEwc2c3sX2smWUNbapHv+QRqLGVp9GWX3THIa7MUGPo+YkDzQ==}
+  tailwind-merge@3.3.1:
+    resolution: {integrity: sha512-gBXpgUm/3rp1lMZZrM/w7D8GKqshif0zAymAhbCyIt8KMe+0v9DQ7cdYLR4FHH/cKpdTXb+A/tKKU3eolfsI+g==}
 
   tailwindcss@4.1.8:
     resolution: {integrity: sha512-kjeW8gjdxasbmFKpVGrGd5T4i40mV5J2Rasw48QARfYeQ8YS9x02ON9SFWax3Qf616rt4Cp3nVNIj6Hd1mP3og==}
@@ -12307,8 +12307,8 @@ packages:
       typescript: ^4.9.4 || ^5.0.2
       zod: ^3
 
-  zod@3.25.57:
-    resolution: {integrity: sha512-6tgzLuwVST5oLUxXTmBqoinKMd3JeesgbgseXeFasKKj8Q1FCZrHnbqJOyiEvr4cVAlbug+CgIsmJ8cl/pU5FA==}
+  zod@3.25.58:
+    resolution: {integrity: sha512-DVLmMQzSZwNYzQoMaM3MQWnxr2eq+AtM9Hx3w1/Yl0pH8sLTSjN4jGP7w6f7uand6Hw44tsnSu1hz1AOA6qI2Q==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -14059,10 +14059,10 @@ snapshots:
       idb: 7.1.1
       tslib: 2.8.1
 
-  '@firebase/auth-compat@0.5.26(@firebase/app-compat@0.4.1)(@firebase/app-types@0.9.3)(@firebase/app@0.13.1)':
+  '@firebase/auth-compat@0.5.27(@firebase/app-compat@0.4.1)(@firebase/app-types@0.9.3)(@firebase/app@0.13.1)':
     dependencies:
       '@firebase/app-compat': 0.4.1
-      '@firebase/auth': 1.10.6(@firebase/app@0.13.1)
+      '@firebase/auth': 1.10.7(@firebase/app@0.13.1)
       '@firebase/auth-types': 0.13.0(@firebase/app-types@0.9.3)(@firebase/util@1.12.0)
       '@firebase/component': 0.6.17
       '@firebase/util': 1.12.0
@@ -14079,7 +14079,7 @@ snapshots:
       '@firebase/app-types': 0.9.3
       '@firebase/util': 1.12.0
 
-  '@firebase/auth@1.10.6(@firebase/app@0.13.1)':
+  '@firebase/auth@1.10.7(@firebase/app@0.13.1)':
     dependencies:
       '@firebase/app': 0.13.1
       '@firebase/component': 0.6.17
@@ -14273,11 +14273,11 @@ snapshots:
       '@firebase/util': 1.12.0
       tslib: 2.8.1
 
-  '@firebase/storage-compat@0.3.22(@firebase/app-compat@0.4.1)(@firebase/app-types@0.9.3)(@firebase/app@0.13.1)':
+  '@firebase/storage-compat@0.3.23(@firebase/app-compat@0.4.1)(@firebase/app-types@0.9.3)(@firebase/app@0.13.1)':
     dependencies:
       '@firebase/app-compat': 0.4.1
       '@firebase/component': 0.6.17
-      '@firebase/storage': 0.13.12(@firebase/app@0.13.1)
+      '@firebase/storage': 0.13.13(@firebase/app@0.13.1)
       '@firebase/storage-types': 0.8.3(@firebase/app-types@0.9.3)(@firebase/util@1.12.0)
       '@firebase/util': 1.12.0
       tslib: 2.8.1
@@ -14290,7 +14290,7 @@ snapshots:
       '@firebase/app-types': 0.9.3
       '@firebase/util': 1.12.0
 
-  '@firebase/storage@0.13.12(@firebase/app@0.13.1)':
+  '@firebase/storage@0.13.13(@firebase/app@0.13.1)':
     dependencies:
       '@firebase/app': 0.13.1
       '@firebase/component': 0.6.17
@@ -15432,7 +15432,7 @@ snapshots:
       unixify: 1.0.0
       urlpattern-polyfill: 8.0.2
       yargs: 17.7.2
-      zod: 3.25.57
+      zod: 3.25.58
     transitivePeerDependencies:
       - encoding
       - rollup
@@ -15534,9 +15534,9 @@ snapshots:
       unist-util-stringify-position: 4.0.0
       unist-util-visit: 5.0.0
       ws: 8.18.2
-      zod: 3.25.57
-      zod-to-json-schema: 3.24.5(zod@3.25.57)
-      zod-to-ts: 1.2.0(typescript@5.8.3)(zod@3.25.57)
+      zod: 3.25.58
+      zod-to-json-schema: 3.24.5(zod@3.25.58)
+      zod-to-ts: 1.2.0(typescript@5.8.3)(zod@3.25.58)
     transitivePeerDependencies:
       - bufferutil
       - drizzle-orm
@@ -16983,40 +16983,40 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@sentry-internal/browser-utils@9.27.0':
+  '@sentry-internal/browser-utils@9.28.0':
     dependencies:
-      '@sentry/core': 9.27.0
+      '@sentry/core': 9.28.0
 
-  '@sentry-internal/feedback@9.27.0':
+  '@sentry-internal/feedback@9.28.0':
     dependencies:
-      '@sentry/core': 9.27.0
+      '@sentry/core': 9.28.0
 
   '@sentry-internal/node-cpu-profiler@2.2.0':
     dependencies:
       detect-libc: 2.0.4
       node-abi: 3.75.0
 
-  '@sentry-internal/replay-canvas@9.27.0':
+  '@sentry-internal/replay-canvas@9.28.0':
     dependencies:
-      '@sentry-internal/replay': 9.27.0
-      '@sentry/core': 9.27.0
+      '@sentry-internal/replay': 9.28.0
+      '@sentry/core': 9.28.0
 
-  '@sentry-internal/replay@9.27.0':
+  '@sentry-internal/replay@9.28.0':
     dependencies:
-      '@sentry-internal/browser-utils': 9.27.0
-      '@sentry/core': 9.27.0
+      '@sentry-internal/browser-utils': 9.28.0
+      '@sentry/core': 9.28.0
 
   '@sentry/babel-plugin-component-annotate@3.2.4': {}
 
   '@sentry/babel-plugin-component-annotate@3.4.0': {}
 
-  '@sentry/browser@9.27.0':
+  '@sentry/browser@9.28.0':
     dependencies:
-      '@sentry-internal/browser-utils': 9.27.0
-      '@sentry-internal/feedback': 9.27.0
-      '@sentry-internal/replay': 9.27.0
-      '@sentry-internal/replay-canvas': 9.27.0
-      '@sentry/core': 9.27.0
+      '@sentry-internal/browser-utils': 9.28.0
+      '@sentry-internal/feedback': 9.28.0
+      '@sentry-internal/replay': 9.28.0
+      '@sentry-internal/replay-canvas': 9.28.0
+      '@sentry/core': 9.28.0
 
   '@sentry/bundler-plugin-core@3.2.4':
     dependencies:
@@ -17086,9 +17086,9 @@ snapshots:
       - encoding
       - supports-color
 
-  '@sentry/core@9.27.0': {}
+  '@sentry/core@9.28.0': {}
 
-  '@sentry/node@9.27.0':
+  '@sentry/node@9.28.0':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/context-async-hooks': 1.30.1(@opentelemetry/api@1.9.0)
@@ -17120,23 +17120,23 @@ snapshots:
       '@opentelemetry/sdk-trace-base': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.34.0
       '@prisma/instrumentation': 6.8.2(@opentelemetry/api@1.9.0)
-      '@sentry/core': 9.27.0
-      '@sentry/opentelemetry': 9.27.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.34.0)
+      '@sentry/core': 9.28.0
+      '@sentry/opentelemetry': 9.28.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.34.0)
       import-in-the-middle: 1.14.0
       minimatch: 9.0.5
     transitivePeerDependencies:
       - supports-color
 
-  '@sentry/nuxt@9.27.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.34.0)(magicast@0.3.5)(nuxt@3.17.5(@parcel/watcher@2.5.1)(@types/node@22.15.31)(better-sqlite3@11.10.0)(db0@0.3.2(better-sqlite3@11.10.0))(eslint@9.28.0(jiti@2.4.2))(ioredis@5.6.1)(lightningcss@1.30.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.42.0)(stylelint@16.20.0(typescript@5.8.3))(terser@5.41.0)(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.31)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.41.0)(yaml@2.8.0))(vue-tsc@2.2.10(typescript@5.8.3))(yaml@2.8.0))(pinia@3.0.3(typescript@5.8.3)(vue@3.5.16(typescript@5.8.3)))(rollup@4.42.0)(vue@3.5.16(typescript@5.8.3))':
+  '@sentry/nuxt@9.28.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.34.0)(magicast@0.3.5)(nuxt@3.17.5(@parcel/watcher@2.5.1)(@types/node@22.15.31)(better-sqlite3@11.10.0)(db0@0.3.2(better-sqlite3@11.10.0))(eslint@9.28.0(jiti@2.4.2))(ioredis@5.6.1)(lightningcss@1.30.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.42.0)(stylelint@16.20.0(typescript@5.8.3))(terser@5.41.0)(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.31)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.41.0)(yaml@2.8.0))(vue-tsc@2.2.10(typescript@5.8.3))(yaml@2.8.0))(pinia@3.0.3(typescript@5.8.3)(vue@3.5.16(typescript@5.8.3)))(rollup@4.42.0)(vue@3.5.16(typescript@5.8.3))':
     dependencies:
       '@nuxt/kit': 3.17.5(magicast@0.3.5)
-      '@sentry/browser': 9.27.0
-      '@sentry/core': 9.27.0
-      '@sentry/node': 9.27.0
-      '@sentry/opentelemetry': 9.27.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.34.0)
+      '@sentry/browser': 9.28.0
+      '@sentry/core': 9.28.0
+      '@sentry/node': 9.28.0
+      '@sentry/opentelemetry': 9.28.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.34.0)
       '@sentry/rollup-plugin': 3.4.0(rollup@4.42.0)
       '@sentry/vite-plugin': 3.2.4
-      '@sentry/vue': 9.27.0(pinia@3.0.3(typescript@5.8.3)(vue@3.5.16(typescript@5.8.3)))(vue@3.5.16(typescript@5.8.3))
+      '@sentry/vue': 9.28.0(pinia@3.0.3(typescript@5.8.3)(vue@3.5.16(typescript@5.8.3)))(vue@3.5.16(typescript@5.8.3))
       nuxt: 3.17.5(@parcel/watcher@2.5.1)(@types/node@22.15.31)(better-sqlite3@11.10.0)(db0@0.3.2(better-sqlite3@11.10.0))(eslint@9.28.0(jiti@2.4.2))(ioredis@5.6.1)(lightningcss@1.30.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.42.0)(stylelint@16.20.0(typescript@5.8.3))(terser@5.41.0)(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.31)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.41.0)(yaml@2.8.0))(vue-tsc@2.2.10(typescript@5.8.3))(yaml@2.8.0)
     transitivePeerDependencies:
       - '@opentelemetry/api'
@@ -17152,7 +17152,7 @@ snapshots:
       - supports-color
       - vue
 
-  '@sentry/opentelemetry@9.27.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.34.0)':
+  '@sentry/opentelemetry@9.28.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.34.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/context-async-hooks': 1.30.1(@opentelemetry/api@1.9.0)
@@ -17160,13 +17160,13 @@ snapshots:
       '@opentelemetry/instrumentation': 0.57.2(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.34.0
-      '@sentry/core': 9.27.0
+      '@sentry/core': 9.28.0
 
-  '@sentry/profiling-node@9.27.0':
+  '@sentry/profiling-node@9.28.0':
     dependencies:
       '@sentry-internal/node-cpu-profiler': 2.2.0
-      '@sentry/core': 9.27.0
-      '@sentry/node': 9.27.0
+      '@sentry/core': 9.28.0
+      '@sentry/node': 9.28.0
     transitivePeerDependencies:
       - supports-color
 
@@ -17187,10 +17187,10 @@ snapshots:
       - encoding
       - supports-color
 
-  '@sentry/vue@9.27.0(pinia@3.0.3(typescript@5.8.3)(vue@3.5.16(typescript@5.8.3)))(vue@3.5.16(typescript@5.8.3))':
+  '@sentry/vue@9.28.0(pinia@3.0.3(typescript@5.8.3)(vue@3.5.16(typescript@5.8.3)))(vue@3.5.16(typescript@5.8.3))':
     dependencies:
-      '@sentry/browser': 9.27.0
-      '@sentry/core': 9.27.0
+      '@sentry/browser': 9.28.0
+      '@sentry/core': 9.28.0
       vue: 3.5.16(typescript@5.8.3)
     optionalDependencies:
       pinia: 3.0.3(typescript@5.8.3)(vue@3.5.16(typescript@5.8.3))
@@ -18416,11 +18416,11 @@ snapshots:
       vue: 3.5.16(typescript@5.8.3)
       wonka: 6.3.5
 
-  '@vee-validate/zod@4.15.1(vue@3.5.16(typescript@5.8.3))(zod@3.25.57)':
+  '@vee-validate/zod@4.15.1(vue@3.5.16(typescript@5.8.3))(zod@3.25.58)':
     dependencies:
       type-fest: 4.41.0
       vee-validate: 4.15.1(vue@3.5.16(typescript@5.8.3))
-      zod: 3.25.57
+      zod: 3.25.58
     transitivePeerDependencies:
       - vue
 
@@ -21007,7 +21007,7 @@ snapshots:
       - encoding
       - supports-color
 
-  firebase@11.9.0:
+  firebase@11.9.1:
     dependencies:
       '@firebase/ai': 1.4.0(@firebase/app-types@0.9.3)(@firebase/app@0.13.1)
       '@firebase/analytics': 0.10.16(@firebase/app@0.13.1)
@@ -21017,8 +21017,8 @@ snapshots:
       '@firebase/app-check-compat': 0.3.25(@firebase/app-compat@0.4.1)(@firebase/app@0.13.1)
       '@firebase/app-compat': 0.4.1
       '@firebase/app-types': 0.9.3
-      '@firebase/auth': 1.10.6(@firebase/app@0.13.1)
-      '@firebase/auth-compat': 0.5.26(@firebase/app-compat@0.4.1)(@firebase/app-types@0.9.3)(@firebase/app@0.13.1)
+      '@firebase/auth': 1.10.7(@firebase/app@0.13.1)
+      '@firebase/auth-compat': 0.5.27(@firebase/app-compat@0.4.1)(@firebase/app-types@0.9.3)(@firebase/app@0.13.1)
       '@firebase/data-connect': 0.3.9(@firebase/app@0.13.1)
       '@firebase/database': 1.0.19
       '@firebase/database-compat': 2.0.10
@@ -21034,8 +21034,8 @@ snapshots:
       '@firebase/performance-compat': 0.2.19(@firebase/app-compat@0.4.1)(@firebase/app@0.13.1)
       '@firebase/remote-config': 0.6.4(@firebase/app@0.13.1)
       '@firebase/remote-config-compat': 0.2.17(@firebase/app-compat@0.4.1)(@firebase/app@0.13.1)
-      '@firebase/storage': 0.13.12(@firebase/app@0.13.1)
-      '@firebase/storage-compat': 0.3.22(@firebase/app-compat@0.4.1)(@firebase/app-types@0.9.3)(@firebase/app@0.13.1)
+      '@firebase/storage': 0.13.13(@firebase/app@0.13.1)
+      '@firebase/storage-compat': 0.3.23(@firebase/app-compat@0.4.1)(@firebase/app-types@0.9.3)(@firebase/app@0.13.1)
       '@firebase/util': 1.12.0
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
@@ -22768,7 +22768,7 @@ snapshots:
       lodash.clonedeep: 4.5.0
       lru-cache: 6.0.0
 
-  lucide-vue-next@0.513.0(vue@3.5.16(typescript@5.8.3)):
+  lucide-vue-next@0.514.0(vue@3.5.16(typescript@5.8.3)):
     dependencies:
       vue: 3.5.16(typescript@5.8.3)
 
@@ -23701,7 +23701,7 @@ snapshots:
       dedupe: 4.0.3
       defu: 6.1.4
       vue-tsc: 2.2.10(typescript@5.8.3)
-      zod: 3.25.57
+      zod: 3.25.58
     transitivePeerDependencies:
       - magicast
       - typescript
@@ -23917,10 +23917,10 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@5.2.0(ws@8.18.2)(zod@3.25.57):
+  openai@5.3.0(ws@8.18.2)(zod@3.25.58):
     optionalDependencies:
       ws: 8.18.2
-      zod: 3.25.57
+      zod: 3.25.58
 
   optionator@0.9.4:
     dependencies:
@@ -25927,7 +25927,7 @@ snapshots:
       string-width: 4.2.3
       strip-ansi: 6.0.1
 
-  tailwind-merge@3.3.0: {}
+  tailwind-merge@3.3.1: {}
 
   tailwindcss@4.1.8: {}
 
@@ -27343,16 +27343,16 @@ snapshots:
       compress-commons: 6.0.2
       readable-stream: 4.7.0
 
-  zod-to-json-schema@3.24.5(zod@3.25.57):
+  zod-to-json-schema@3.24.5(zod@3.25.58):
     dependencies:
-      zod: 3.25.57
+      zod: 3.25.58
 
-  zod-to-ts@1.2.0(typescript@5.8.3)(zod@3.25.57):
+  zod-to-ts@1.2.0(typescript@5.8.3)(zod@3.25.58):
     dependencies:
       typescript: 5.8.3
-      zod: 3.25.57
+      zod: 3.25.58
 
-  zod@3.25.57: {}
+  zod@3.25.58: {}
 
   zwitch@2.0.4: {}
 
