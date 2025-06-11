@@ -50,15 +50,21 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 
-const { errors, errorsPgIds, form, formClass, isButtonHidden, submitName } =
-  defineProps<{
-    errors?: BackendError[]
-    errorsPgIds?: Record<string, string>
-    form: BaseValidation
-    formClass?: string
-    isButtonHidden?: boolean
-    submitName?: string
-  }>()
+const {
+  errors = undefined,
+  errorsPgIds = undefined,
+  form,
+  formClass = undefined,
+  isButtonHidden,
+  submitName = undefined,
+} = defineProps<{
+  errors?: Readonly<BackendError[]>
+  errorsPgIds?: Record<string, string>
+  form: BaseValidation
+  formClass?: string
+  isButtonHidden?: boolean
+  submitName?: string
+}>()
 
 const emit = defineEmits<{
   click: []

@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-const { active, steps } = defineProps<{
+const { active = undefined, steps = undefined } = defineProps<{
   active?: string
   steps?: Array<string>
 }>()

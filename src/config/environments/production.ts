@@ -19,10 +19,7 @@ export const productionConfig: ReturnType<DefineNuxtConfig> = {
     },
     security: {
       headers: {
-        strictTransportSecurity: {
-          maxAge: 31536000,
-          preload: true,
-        },
+        crossOriginEmbedderPolicy: 'credentialless', // OpenStreepMap
       },
     },
   },

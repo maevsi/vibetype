@@ -64,6 +64,10 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
       },
     },
   },
+  shadcn: {
+    prefix: '',
+    componentDir: 'app/components/scn',
+  },
   site: {
     url: SITE_URL,
   },

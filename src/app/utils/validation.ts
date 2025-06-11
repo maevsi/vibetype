@@ -13,7 +13,6 @@ import { consola } from 'consola'
 import type { Ref } from 'vue'
 import type { LocationQueryValue, RouteLocationNormalized } from 'vue-router'
 
-import { eventIsExistingQuery } from '~~/gql/documents/queries/event/eventIsExisting'
 import { accountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { eventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
@@ -264,20 +263,14 @@ export const validateEventSlug =
     }
 
     try {
-      const result = await $urql.value
-        .query(eventIsExistingQuery, {
-          createdBy: signedInAccountId,
-          slug: value,
-        })
-        .toPromise()
+      const result = await getEventByCreatedByAndSlug({
+        $urql,
+        createdBy: signedInAccountId,
+        slug: value,
+      })
 
-      if (result.error) return false
-
-      return invert
-        ? !result.data?.eventIsExisting
-        : !!result.data?.eventIsExisting
-    } catch (error) {
-      console.error(error)
+      return invert ? !result : !!result
+    } catch {
       return false
     }
   }

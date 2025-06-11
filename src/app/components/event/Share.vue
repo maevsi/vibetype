@@ -64,7 +64,6 @@ const { t } = useI18n()
 const props = defineProps({
   shareUrl: {
     type: String,
-    required: true,
     default: () => window.location.href,
   },
   shareTitle: {

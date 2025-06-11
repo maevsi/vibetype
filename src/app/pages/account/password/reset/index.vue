@@ -4,7 +4,7 @@
       <!-- TODO: replace with h1 once unstyled -->
       <span :id="templateIdTitle">{{ title }}</span>
     </LayoutTopBar>
-    <AppStep v-slot="attributes" :is-active="index === 0">
+    <AppStep v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <TypographyH3 class="text-center">
           {{ t('instructionsNew') }}
@@ -15,7 +15,7 @@
             ref="form"
             class="w-full max-w-md"
             :code="route.query.code"
-            @success="index++"
+            @success="step = 'success'"
           />
         </div>
         <template #bottom>
@@ -29,7 +29,7 @@
         </template>
       </LayoutPage>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="index === 1">
+    <AppStep v-slot="attributes" :is-active="step === 'success'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="success">
           <template #description>
@@ -84,7 +84,7 @@ const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
 
 // stepper
-const index = ref(0)
+const { step } = useStepper<'success'>()
 </script>
 
 <i18n lang="yaml">

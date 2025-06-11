@@ -11,23 +11,21 @@ import Email from './Email.vue'
 const {
   emailAddress,
   locale,
-  logoSource,
+  logoSource = undefined,
   passwordResetVerificationLink,
-  username,
   validUntil,
 } = defineProps<{
   emailAddress: string
   locale: Locale
   logoSource?: string
   passwordResetVerificationLink: string
-  username: string
   validUntil: string
 }>()
 
 const locales = {
   de: {
     button: 'Passwort zurücksetzen',
-    header: (username: string) => `Hey, ${username}!`,
+    header: () => `Willkommen zurück!`,
     paragraph1: (siteName: string) =>
       `Es wurde eine Anfrage zum Zurücksetzen des Kennworts für dein ${siteName}-Konto gestellt.`,
     paragraph2:
@@ -41,7 +39,7 @@ const locales = {
   },
   en: {
     button: 'Reset password',
-    header: (username: string) => `Hey, ${username}!`,
+    header: () => `Welcome back!`,
     paragraph1: (siteName: string) =>
       `A request to reset the password for your ${siteName} account has been initiated.`,
     paragraph2:
@@ -70,7 +68,7 @@ const t = locales[locale]
               text-align: center;
             "
           >
-            {{ t.header(username) }}
+            {{ t.header() }}
           </AppText>
         </Column>
       </Row>

@@ -2,7 +2,6 @@
   <AppButton
     v-bind="delegatedProps"
     :class="cn('justify-center', classProps)"
-    :title="ariaLabel"
     @click="emit('click')"
   >
     <slot />
@@ -17,9 +16,9 @@ import { cn } from '@/utils/shadcn'
 
 const {
   ariaLabel,
-  class: classProps,
+  class: classProps = undefined,
   disabled,
-  to,
+  to = undefined,
   type = 'button',
 } = defineProps<
   {

@@ -1,7 +1,7 @@
 {
-  "globalAvailabilityNotYet": "Not yet available.",
   "globalError": "Error",
   "globalErrorNoData": "Response without data",
+  "globalFormErrorAge18": "You must be 18 years old.",
   "globalLoading": "Loading...",
   "globalPlaceholderAddress": "Eventstreet 1,\n12345 Guestcity",
   "globalPlaceholderFirstName": "Firstname",
@@ -28,7 +28,6 @@
   "globalValidationMinValue": "Under minimum value",
   "globalValidationNowOrFuture": "Point in time lies in the past",
   "globalValidationRequired": "Required",
-  "globalValidationSameAs": "Is not identical",
   "globalValidationShortness": "Too short",
   "nuxtSiteConfig": {
     "description": "Find events, guests and friends 💙❤️💚",

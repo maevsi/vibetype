@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import { cn } from '@/utils/shadcn'
+import type { HTMLAttributes } from 'vue'
+import { reactiveOmit } from '@vueuse/core'
 import {
   CalendarRoot,
   type CalendarRootEmits,
   type CalendarRootProps,
   useForwardPropsEmits,
 } from 'reka-ui'
-import { computed, type HTMLAttributes } from 'vue'
+import { cn } from '@/utils/shadcn'
 import {
   CalendarCell,
   CalendarCellTrigger,
@@ -25,58 +26,51 @@ const props = defineProps<
   CalendarRootProps & { class?: HTMLAttributes['class'] }
 >()
 const emits = defineEmits<CalendarRootEmits>()
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
-  return delegated
-})
+
+const delegatedProps = reactiveOmit(props, 'class')
+
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
 </script>
 
 <template>
   <CalendarRoot
-    v-slot="{ grid, weekDays }"
+    v-slot="{ date, grid, weekDays }"
+    data-slot="calendar"
     :class="cn('p-3', props.class)"
     v-bind="forwarded"
   >
-    <CalendarHeader
-      class="flex items-center justify-between rounded-t-lg bg-blue-400 p-4 text-white"
-    >
-      <CalendarPrevButton class="rounded p-2 hover:bg-blue-500" />
-      <CalendarHeading class="text-xl" />
-      <CalendarNextButton class="rounded p-2 hover:bg-blue-500" />
+    <CalendarHeader>
+      <slot :date>
+        <CalendarHeading />
+      </slot>
+
+      <div v-if="!$slots.default" class="flex items-center gap-1">
+        <CalendarPrevButton />
+        <CalendarNextButton />
+      </div>
     </CalendarHeader>
 
-    <div class="mt-4">
+    <div class="mt-4 flex flex-col gap-y-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">
       <CalendarGrid v-for="month in grid" :key="month.value.toString()">
         <CalendarGridHead>
-          <CalendarGridRow class="grid grid-cols-7 bg-gray-100 py-2">
-            <CalendarHeadCell
-              v-for="day in weekDays"
-              :key="day"
-              class="text-center text-gray-800"
-            >
+          <CalendarGridRow>
+            <CalendarHeadCell v-for="day in weekDays" :key="day">
               {{ day }}
             </CalendarHeadCell>
           </CalendarGridRow>
         </CalendarGridHead>
-
         <CalendarGridBody>
           <CalendarGridRow
             v-for="(weekDates, index) in month.rows"
             :key="`weekDate-${index}`"
-            class="mt-4 grid grid-cols-7 gap-2"
+            class="mt-2 w-full"
           >
             <CalendarCell
               v-for="weekDate in weekDates"
               :key="weekDate.toString()"
               :date="weekDate"
-              class="text-center"
             >
-              <CalendarCellTrigger
-                :day="weekDate"
-                :month="month.value"
-                class="flex h-10 w-10 items-center justify-center rounded-lg text-gray-800 hover:bg-gray-100 data-[selected=true]:bg-blue-500 data-[selected=true]:text-white"
-              />
+              <CalendarCellTrigger :day="weekDate" :month="month.value" />
             </CalendarCell>
           </CalendarGridRow>
         </CalendarGridBody>

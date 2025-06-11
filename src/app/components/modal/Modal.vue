@@ -70,7 +70,7 @@ const {
   id,
   isFooterHidden,
   isSubmitDisabled,
-  submitName,
+  submitName = undefined,
   submitTaskProvider = () => Promise.resolve(),
 } = defineProps<{
   id: string

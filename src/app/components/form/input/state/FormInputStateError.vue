@@ -11,7 +11,6 @@
     "
     class="text-(--semantic-critic-text)"
   >
-    <IHeroiconsExclamationCircleSolid v-if="formInput && validationProperty" />
     <slot />
   </FormInputState>
 </template>
@@ -19,7 +18,11 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 
-const { formInput, isValidationLive, validationProperty } = defineProps<{
+const {
+  formInput = undefined,
+  isValidationLive,
+  validationProperty = undefined,
+} = defineProps<{
   formInput?: BaseValidation
   isValidationLive?: boolean
   validationProperty?: string

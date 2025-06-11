@@ -3,9 +3,9 @@
     <FormField v-slot="{ componentField }" name="name">
       <FormItem>
         <FormLabel>
-          <TypographySubtitleSmall>
+          <TypographySubtitleMedium>
             {{ t('name') }}
-          </TypographySubtitleSmall>
+          </TypographySubtitleMedium>
         </FormLabel>
         <FormControl>
           <AppInput v-bind="componentField" type="text" />
@@ -18,9 +18,9 @@
     <FormField v-slot="{ componentField }" name="emailAddress">
       <FormItem>
         <FormLabel>
-          <TypographySubtitleSmall>
+          <TypographySubtitleMedium>
             {{ t('emailAddress') }}
-          </TypographySubtitleSmall>
+          </TypographySubtitleMedium>
         </FormLabel>
         <FormControl>
           <AppInput v-bind="componentField" type="text" />
@@ -78,7 +78,7 @@ const { handleSubmit } = useForm({
 })
 const onSubmit = handleSubmit(async (values) => {
   try {
-    await $fetch('/api/monday/early-bird', {
+    await $fetch('/api/service/monday/early-bird', {
       method: 'POST',
       body: values,
     })

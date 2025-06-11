@@ -20,6 +20,7 @@
     :aria-label="ariaLabel"
     :class="cn(['rounded-sm', classComputed], classProps)"
     :disabled="disabled"
+    :title="ariaLabel"
     :type="type"
     @click="emit('click')"
   >
@@ -32,18 +33,19 @@
 </template>
 
 <script setup lang="ts">
-import { cn } from '@/utils/shadcn'
 import type { ButtonHTMLAttributes, HtmlHTMLAttributes } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
+import { cn } from '@/utils/shadcn'
+
 const {
   ariaLabel,
-  class: classProps,
+  class: classProps = undefined,
   disabled,
   isBlock,
   isExternal,
   isLinkColored,
-  to,
+  to = undefined,
   type = 'button',
 } = defineProps<
   {

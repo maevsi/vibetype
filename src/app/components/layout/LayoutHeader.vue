@@ -2,26 +2,16 @@
   <!-- <Loader :api="api" indicator="ping"> -->
   <header>
     <div class="flex items-center justify-between gap-4">
-      <ButtonIcon
-        v-if="
-          store.routeHistory.length ||
-          !isEqual(route.path, localePath('index').toString())
-        "
-        :aria-label="t('back')"
-        @click="store.navigateBack()"
-      >
-        <IHeroiconsChevronLeft />
-      </ButtonIcon>
-      <AppButton
-        :aria-label="t('home')"
-        class="hidden 2xl:block"
-        :to="localePath('index')"
-      >
-        <IconLogoWithText class="h-10" />
-      </AppButton>
-      <div class="hidden grow lg:block" />
-
-      <div class="grow" />
+      <div class="flex items-center gap-4">
+        <ButtonIconBackRoute />
+        <AppButton
+          :aria-label="t('home')"
+          class="hidden 2xl:block"
+          :to="localePath('index')"
+        >
+          <IconLogoWithText class="h-10" />
+        </AppButton>
+      </div>
       <div class="flex items-center gap-2 whitespace-nowrap lg:gap-4">
         <ButtonEventNew />
         <div
@@ -50,12 +40,10 @@
           {{ t('signIn') }}
         </ButtonText>
         <ButtonIcon
-          v-if="!headerTitle.title.value"
           :aria-label="t('settings')"
           :to="
             localePath({
-              name: 'session-edit-id',
-              params: { id: store.jwtDecoded?.id || 'anonymous' },
+              name: 'session-edit',
             })
           "
         >
@@ -68,25 +56,18 @@
 </template>
 
 <script setup lang="ts">
-import { isEqual } from 'ufo'
-import { useHeaderTitle } from '~/composables/useHeaderTitle'
-
-const headerTitle = useHeaderTitle()
 const store = useStore()
 const localePath = useLocalePath()
 const { t } = useI18n()
-const route = useRoute()
 </script>
 
 <i18n lang="yaml">
 de:
-  back: zurück
   dashboard: Dashboard
   home: Nach Hause
   settings: Einstellungen
   signIn: Anmelden
 en:
-  back: back
   dashboard: Dashboard
   home: Head home
   settings: Settings

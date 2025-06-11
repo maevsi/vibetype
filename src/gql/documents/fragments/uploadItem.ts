@@ -8,9 +8,9 @@ export const UploadItem = graphql(`
   fragment UploadItem on Upload {
     id
     nodeId
-    accountId
     sizeByte
     storageKey
+    createdBy
   }
 `)
 

@@ -92,7 +92,6 @@
         :title="t('visibility')"
         type="radio"
         :value="v$.visibility"
-        @input="form.visibility = $event as EventVisibility"
       >
         <AppRadioGroup
           :default-value="v$.visibility.$model"
@@ -102,6 +101,9 @@
             { label: t('visibilityUnlisted'), value: EventVisibility.Unlisted },
           ]"
           name="visibility"
+          @update:model-value="
+            (value) => (form.visibility = value as EventVisibility)
+          "
         />
         <template #stateError>
           <FormInputStateError
@@ -144,8 +146,8 @@
         type="text"
         :value="v$.start"
         :value-formatter="dateTimeFormatter"
-        :warning="isWarningStartPastShown"
         @click="store.modals.push({ id: 'ModalDateTimeStart' })"
+        @input="v$.start.$model = $event"
       >
         <template #stateError>
           <FormInputStateError
@@ -170,11 +172,8 @@
         :value="v$.end"
         :value-formatter="dateTimeFormatter"
         @click="store.modals.push({ id: 'ModalDateTimeEnd' })"
-        @icon="v$.end.$model = undefined"
+        @input="v$.end.$model = $event"
       >
-        <template v-if="v$.end.$model" #icon>
-          <IHeroiconsXMark />
-        </template>
       </FormInput>
       <FormInput :title="t('attendanceType')" type="checkbox">
         <FormCheckbox
@@ -286,7 +285,7 @@ import {
   EventVisibility,
 } from '~~/gql/generated/graphql'
 
-const { event } = defineProps<{
+const { event = undefined } = defineProps<{
   event?: Pick<EventItemFragment, 'name' | 'slug'>
 }>()
 
@@ -348,22 +347,21 @@ const submit = async () => {
 
   if (isDraft || !form.id) {
     const result = await createEventMutation.executeMutation({
-      createEventInput: {
-        event: {
-          createdBy: store.signedInAccountId || '',
-          description: form.description || null,
-          end: form.end || null,
-          guestCountMaximum: form.guestCountMaximum
-            ? +form.guestCountMaximum
-            : null,
-          isInPerson: form.isInPerson,
-          isRemote: form.isRemote,
-          name: form.name || '',
-          slug: form.slug || '',
-          start: form.start || null,
-          url: form.url || null,
-          visibility: form.visibility || EventVisibility.Private,
-        },
+      input: {
+        createdBy: store.signedInAccountId || '',
+        description: form.description || null,
+        end: form.end || null,
+        guestCountMaximum: form.guestCountMaximum
+          ? +form.guestCountMaximum
+          : null,
+        isInPerson: form.isInPerson,
+        isRemote: form.isRemote,
+        // location: form.location || null,
+        name: form.name || '',
+        slug: form.slug || '',
+        start: form.start || null,
+        url: form.url || null,
+        visibility: form.visibility || EventVisibility.Private,
       },
     })
 

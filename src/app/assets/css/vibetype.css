@@ -11,11 +11,14 @@
   --accent-weak: #dcf9ea;
   --base-white: #fafafc;
   --critic-string: #e00000;
+  --critic-weak: #ffebeb;
   --faint-line: #f2f2f2;
+  --faint-mid: #e6e6e6;
+  --faint-strong: #d8d4d5;
   --faint-weak: #f2f2f2;
-  --semantic-accent-accent-icon: #12683a;
-  --semantic-accent-accent-line: #dcf9ea;
-  --semantic-accent-accent-text: #12683a;
+  --semantic-accent-icon: #12683a;
+  --semantic-accent-line: #dcf9ea;
+  --semantic-accent-text: #12683a;
   --semantic-base-background: #fff;
   --semantic-base-icon-primary: #5d665f;
   --semantic-base-input-field-fill: #fff;
@@ -41,14 +44,18 @@
 }
 
 .dark {
+  --accent-strong: #4dc762;
   --accent-weak-hover: #9cd0a6;
   --accent-weak: #c1dcc6;
   --base-white: #e4e4eb;
+  --critic-weak: #e67070;
   --faint-line: #2d2d2c;
+  --faint-mid: #898284;
+  --faint-strong: #b6afb1;
   --faint-weak: #3e3e38;
-  --semantic-accent-accent-icon: #0a841e;
-  --semantic-accent-accent-line: #044a0f;
-  --semantic-accent-accent-text: #129f2a;
+  --semantic-accent-icon: #0a841e;
+  --semantic-accent-line: #044a0f;
+  --semantic-accent-text: #129f2a;
   --semantic-base-background: #191911;
   --semantic-base-input-field-fill: #505047;
   --semantic-base-line: #3e3e38;

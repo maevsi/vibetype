@@ -31,11 +31,13 @@ export const GET_CSP = ({
         `https://${domainTldPort}`, // `/api` requests
         `https://postgraphile.${domainTldPort}`, // backend requests
         `https://tusd.${domainTldPort}`, // image upload requests
+        'https://nominatim.openstreetmap.org/search', // map's geocoder
       ],
       'font-src': ["'self'", 'data:'], // @fontsource/raleway
       'form-action': ["'self'"], // forms
       'img-src': [
         'blob:',
+        'https://tile.openstreetmap.org/', // map
         `https://tusd.${domainTldPort}`, // users' image uploads
         'https://www.gravatar.com/avatar/', // profile picture fallback
       ],
@@ -150,8 +152,11 @@ export const GET_CSP = ({
       ...(process.env.NODE_ENV === 'development'
         ? {
             'connect-src': [
+              // TODO: use first two lines only once nuxt content fix is merged and released (https://github.com/nuxt/content/pull/3344)
               `ws://${siteUrl.hostname}:4000/ws`, // hot reload
               `wss://${siteUrl.hostname}:4000/ws`, // hot reload
+              `ws://0.0.0.0:4000/ws`, // hot reload
+              `wss://0.0.0.0:4000/ws`, // hot reload
             ],
           }
         : {}),

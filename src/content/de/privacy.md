@@ -765,7 +765,31 @@
 
         1. **Google Fonts**
 
-            Wir haben Google Fonts lokal auf unserem Server eingebunden. Damit werden, trotz der Nutzung, keine Daten an Google übertragen.
+            Wir haben Google Fonts lokal auf unserem Server eingebunden. Damit werden trotz der Nutzung keine Daten an Google übertragen.
+
+        1. **OpenStreetMap**
+
+            Wir nutzen auf dieser Website OpenStreetMap. OpenStreetMap ist ein Plugin, welches die Einbindung von Kartenmaterial auf dieser Website ermöglicht. Dieser Dienst wird angeboten von der:
+
+            <address>
+              OpenStreetMap Foundation
+              <br />
+              St John's Innovation Centre
+              <br />
+              Cowley Road
+              <br />
+              Cambridge, CB4 0WS
+              <br />
+              Großbritannien
+            </address>
+
+            Dabei handelt es sich um ein kollaboratives Projekt, das darauf abzielt, frei nutzbare geografische Daten wie Straßenkarten zu erstellen und anzubieten. Da es sich um ein Open-Source-Projekt handelt, werden die Daten von einer Community von Kartographen aus der ganzen Welt beigetragen und aktualisiert. Diese Daten können für verschiedene Zwecke verwendet werden, von der Anzeige von Karten auf Websites bis hin zur Nutzung in GIS-Anwendungen, mobilen Apps und mehr.
+
+            Bei der Nutzung der Karten wird eine Verbindung zu den Servern der OpenStreetMap Foundation hergestellt. Dabei sind keine Cookies beteiligt, die für das Tracking der Website-Besucher verwendet werden, sondern allenfalls solche, die auf die Funktionalität der Website beschränkt sind.
+
+            Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse daran, Standorte zu zeigen oder geografische Informationen bereitzustellen.
+
+            Nähere Informationen: https://wiki.osmfoundation.org/wiki/Privacy_Policy.
 
         1. **Cloudflare DNS**
 
@@ -899,19 +923,19 @@
 
         Sofern auf unserer Website personenbezogene Daten hinterlegt sind, werden diese bei den Backups auf die Server des jeweiligen Anbieters übertragen. Die Rechtsgrundlage für die Datenverarbeitung ist Art. 6 Abs. 1 lit. f DSGVO, da wir ein berechtigtes Interesse an der Sicherung unserer Daten haben.
 
-        Folgenden Cloud-Backup-Service verwenden wir: Scaleway Object Storage, bereitgestellt durch:
+        Folgenden Cloud-Backup-Service verwenden wir: Cloudflare R2, bereitgestellt durch:
 
         <address>
-          Scaleway
+          Cloudflare Germany GmbH
           <br />
-          8 Rue de la Ville-l'Évêque
+          Rosental 7
           <br />
-          75008 Paris
+          c/o Mindspace
           <br />
-          France
+          80331 München
         </address>
 
-        Nähere Informationen: https://www.scaleway.com/en/object-storage/.
+        Nähere Informationen: https://www.cloudflare.com/de-de/developer-platform/products/r2/.
 
 1. **Das ist sonst noch wichtig**
 

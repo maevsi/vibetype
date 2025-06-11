@@ -5,7 +5,6 @@
     data-testid="is-loading"
     vaul-drawer-wrapper
   >
-    <NuxtLoadingIndicator />
     <LazyClientOnly>
       <CardStateInfo
         v-if="!isBrowserSupported && !runtimeConfig.public.vio.isTesting"
@@ -31,6 +30,7 @@
         </i18n-t>
       </CardStateInfo>
     </LazyClientOnly>
+    <NuxtLoadingIndicator />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
@@ -39,14 +39,14 @@
       <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->
       <CookieControl :locale="locale" />
     </ClientOnly>
-    <div
+    <!-- <div
       class="absolute inset-x-0 -top-16 -z-10 flex max-h-screen transform-gpu items-start justify-center overflow-hidden blur-3xl"
       aria-hidden="true"
     >
       <div
         class="clip-path aspect-[1318/752] w-[82.375rem] flex-none bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-[15%] dark:opacity-10"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 

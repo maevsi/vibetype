@@ -3,7 +3,7 @@
     :aria-label="t('nav')"
     :class="
       cn(
-        'sticky bottom-0 flex items-center justify-center gap-1 border-t-1 border-(--semantic-base-line) bg-(--semantic-base-background) px-2 py-2 shadow-xs',
+        'sticky bottom-0 flex items-center justify-center gap-1 border-t-1 border-(--semantic-base-line) bg-(--semantic-base-background) p-2 shadow-xs',
         classProps,
       )
     "
@@ -17,7 +17,7 @@ import type { HtmlHTMLAttributes } from 'vue'
 
 import { cn } from '@/utils/shadcn'
 
-const { class: classProps } = defineProps<{
+const { class: classProps = undefined } = defineProps<{
   class?: HtmlHTMLAttributes['class']
 }>()
 

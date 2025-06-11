@@ -64,7 +64,11 @@
 </template>
 
 <script setup lang="ts">
-const { description, stack, statusCode } = defineProps<{
+const {
+  description = undefined,
+  stack = undefined,
+  statusCode,
+} = defineProps<{
   description?: string
   stack?: string
   statusCode: number

@@ -2,6 +2,7 @@
   <div class="mb-4">
     <div>
       <div v-if="allEvents.length" class="flex flex-col items-center gap-4">
+        <AppMap v-if="isDevelopmentModeActive" :events />
         <ul class="flex w-full flex-col gap-4">
           <EventListItem
             v-for="event in allEvents"
@@ -34,40 +35,36 @@ import {
 } from '~/utils/storage/LocalStorageStrategy'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
-export interface Props {
+const { events = undefined, hasNextPage } = defineProps<{
   events?: EventItemFragment[]
   hasNextPage?: boolean
-  accountId?: string
-}
+}>()
 
-const props = withDefaults(defineProps<Props>(), {
-  events: undefined,
-  hasNextPage: undefined,
-  accountId: undefined,
-})
+const store = useStore()
 
 const emit = defineEmits<{
   loadMore: []
 }>()
 
 const { t } = useI18n()
+const { isDevelopmentModeActive } = useDevelopmentModeTrigger()
 const after = ref<string>()
 const storageStrategy = LocalStorageStrategy.getInstance()
 const draftEvents = ref<DraftEvent[]>([])
 
-const eventsQuery = !props.events
+const eventsQuery = events
   ? await zalgo(
       useAllEventsQuery({
         after,
-        createdBy: props.accountId,
+        createdBy: store.signedInAccountId,
         first: ITEMS_PER_PAGE,
       }),
     )
   : null
 
 const regularEvents = computed(() => {
-  if (props.events) {
-    return props.events
+  if (events) {
+    return events
   }
   return (
     eventsQuery?.data.value?.allEvents?.nodes

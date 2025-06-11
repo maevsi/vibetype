@@ -20,7 +20,7 @@ import type { HtmlHTMLAttributes } from 'vue'
 
 import { useAccountPasswordResetRequestMutation } from '~~/gql/documents/mutations/account/accountPasswordResetRequest'
 
-const { class: classProps } = defineProps<{
+const { class: classProps = undefined } = defineProps<{
   class?: HtmlHTMLAttributes['class']
 }>()
 

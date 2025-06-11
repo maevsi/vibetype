@@ -6,14 +6,18 @@
     :type="isVisible ? 'text' : 'password'"
     :value="formInput"
     @input="emit('input', $event)"
-    @icon="isVisible = !isVisible"
   >
     <template v-if="isStrengthShown" #inputSuffix>
       <Progress :model-value="strength" class="my-2" />
     </template>
     <template #icon>
-      <IHeroiconsEye v-if="!isVisible" />
-      <IHeroiconsEyeSlash v-else />
+      <ButtonIcon
+        :aria-label="t('visibilityToggle')"
+        @click="isVisible = !isVisible"
+      >
+        <IHeroiconsEye v-if="!isVisible" />
+        <IHeroiconsEyeSlash v-else />
+      </ButtonIcon>
     </template>
     <template #stateError>
       <FormInputStateError
@@ -29,7 +33,7 @@
         {{ t('globalValidationRequired') }}
       </FormInputStateError>
       <FormInputStateError :form-input="formInput" validation-property="sameAs">
-        {{ t('globalValidationSameAs') }}
+        {{ t('validationSameAs') }}
       </FormInputStateError>
     </template>
     <template #stateInfo>
@@ -53,7 +57,7 @@ const {
   id = 'password',
   formInput,
   isStrengthShown,
-  title,
+  title = undefined,
 } = defineProps<{
   id?: string
   formInput: BaseValidation
@@ -79,7 +83,11 @@ const strength = computed(() =>
 de:
   password: Passwort
   validationFormat: Muss {length} Zeichen lang sein
+  validationSameAs: Die Passwörter stimmen nicht überein
+  visibilityToggle: Sichtbarkeit umschalten
 en:
   password: Password
   validationFormat: Must be {length} characters long
+  validationSameAs: The passwords do not match
+  visibilityToggle: Toggle visibility
 </i18n>

@@ -24,17 +24,47 @@ export const useMonday = () => {
   const createItem = async ({
     board,
     columns,
-  }: {
-    board: 'earlyBird'
-    columns: {
-      agreement: boolean
-      emailAddress: string
-      name: string
-    }
-  }) => {
+  }:
+    | {
+        board: 'contact'
+        columns: {
+          consent: boolean
+          emailAddress: string
+          name: string
+          message: string
+        }
+      }
+    | {
+        board: 'earlyBird'
+        columns: {
+          agreement: boolean
+          emailAddress: string
+          name: string
+        }
+      }) => {
     const runtimeConfigBoard = runtimeConfig.private.monday.board
 
     switch (board) {
+      case 'contact': {
+        const boardContact = runtimeConfigBoard.contact
+
+        return await client.request(queries.itemCreate, {
+          boardId: boardContact.id,
+          columnValues: JSON.stringify({
+            [boardContact.column.consentId]: {
+              checked: columns.consent.toString(),
+            },
+            [boardContact.column.emailAddressId]: {
+              email: columns.emailAddress,
+              text: columns.emailAddress,
+            },
+            [boardContact.column.nameId]: columns.name,
+            [boardContact.column.messageId]: columns.message,
+          }),
+          groupId: boardContact.groupId,
+          itemName: new Date().toISOString(),
+        })
+      }
       case 'earlyBird': {
         const boardEarlyBird = runtimeConfigBoard.earlyBird
 

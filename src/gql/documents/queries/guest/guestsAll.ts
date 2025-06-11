@@ -2,14 +2,8 @@ import { useQuery } from '@urql/vue'
 import { graphql } from '~~/gql/generated/gql'
 import type { AllGuestsQueryVariables } from '~~/gql/generated/graphql'
 
-export const useAllGuestsQuery = (variables: AllGuestsQueryVariables) =>
-  useQuery({
-    query: allGuestsQuery,
-    variables,
-  })
-
 export const allGuestsQuery = graphql(`
-  query allGuests($after: Cursor, $eventId: UUID!, $first: Int!) {
+  query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {
     allGuests(after: $after, condition: { eventId: $eventId }, first: $first) {
       nodes {
         ...GuestItem
@@ -22,3 +16,9 @@ export const allGuestsQuery = graphql(`
     }
   }
 `)
+
+export const useAllGuestsQuery = (variables?: AllGuestsQueryVariables) =>
+  useQuery({
+    query: allGuestsQuery,
+    variables,
+  })

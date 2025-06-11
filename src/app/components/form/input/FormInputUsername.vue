@@ -5,16 +5,12 @@
     :is-optional="isOptional"
     :is-validatable="isValidatable"
     :id-label="`input-username`"
-    :success="!!formInput.$model && isValidatable && !formInput.$invalid"
     :title="t('username')"
     type="text"
     :validation-property="formInput"
     :value="formInput"
     @input="emit('input', $event)"
   >
-    <template v-if="$slots.icon" #icon>
-      <slot name="icon" />
-    </template>
     <template #stateError>
       <FormInputStateError
         :form-input="formInput"
@@ -78,7 +74,7 @@
 import type { BaseValidation } from '@vuelidate/core'
 
 const {
-  formInput,
+  formInput = undefined,
   isDisabled,
   isOptional,
   isValidatable,

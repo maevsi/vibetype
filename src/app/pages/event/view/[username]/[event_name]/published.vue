@@ -43,8 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import type { RouteLocationNormalized } from 'vue-router'
-import type { RouteNamedMap } from 'vue-router/auto-routes'
+import type { RouteLocationNormalized, RouteNamedMap } from 'vue-router'
 import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { getEventItem } from '~~/gql/documents/fragments/eventItem'
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'

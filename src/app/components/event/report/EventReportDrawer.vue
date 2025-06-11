@@ -1,15 +1,15 @@
 <template>
   <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
-    <AppStep v-slot="attributes" :is-active="index === 0">
+    <AppStep v-slot="attributes" :is-active="step === 'default'">
       <EventReportForm
         ref="form"
         v-bind="attributes"
         :account-id
         :event
-        @submit-success="index++"
+        @submit-success="step = 'reportConfirmation'"
       />
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="index === 1">
+    <AppStep v-slot="attributes" :is-active="step === 'reportConfirmation'">
       <div v-bind="attributes" class="text-center">
         {{
           t('contentReportConfirmation', {
@@ -18,7 +18,7 @@
         }}
       </div>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="index === 2">
+    <AppStep v-slot="attributes" :is-active="step === 'blockConfirmation'">
       <div v-bind="attributes" class="text-center">
         {{
           t('contentBlockConfirmation', {
@@ -28,24 +28,24 @@
       </div>
     </AppStep>
     <template #title>
-      <AppStep v-slot="attributes" :is-active="index === 0">
+      <AppStep v-slot="attributes" :is-active="step === 'default'">
         <span v-bind="attributes">
           {{ t('titleReport') }}
         </span>
       </AppStep>
-      <AppStep v-slot="attributes" :is-active="index === 1">
+      <AppStep v-slot="attributes" :is-active="step === 'reportConfirmation'">
         <span v-bind="attributes">
           {{ t('titleReportConfirmation') }}
         </span>
       </AppStep>
-      <AppStep v-slot="attributes" :is-active="index === 2">
+      <AppStep v-slot="attributes" :is-active="step === 'blockConfirmation'">
         <span v-bind="attributes">
           {{ t('titleBlockConfirmation') }}
         </span>
       </AppStep>
     </template>
     <template #footer>
-      <AppStep v-slot="attributes" :is-active="index === 0">
+      <AppStep v-slot="attributes" :is-active="step === 'default'">
         <ButtonColored
           v-bind="attributes"
           :aria-label="t('buttonReportSubmit')"
@@ -64,7 +64,7 @@
           </ButtonColored>
         </DrawerClose>
       </AppStep>
-      <AppStep v-slot="attributes" :is-active="index === 1">
+      <AppStep v-slot="attributes" :is-active="step === 'reportConfirmation'">
         <ButtonColored
           v-bind="attributes"
           :aria-label="t('buttonReportConfirmationBlock')"
@@ -79,7 +79,7 @@
           </ButtonColored>
         </DrawerClose>
       </AppStep>
-      <AppStep v-slot="attributes" :is-active="index === 2">
+      <AppStep v-slot="attributes" :is-active="step === 'blockConfirmation'">
         <DrawerClose v-bind="attributes" as-child>
           <ButtonColored
             :aria-label="t('buttonBlockConfirmation')"
@@ -113,10 +113,10 @@ const isOpen = defineModel<boolean>()
 const open = () => (isOpen.value = true)
 
 // stepper
-const index = ref(0)
+const { step } = useStepper<'reportConfirmation' | 'blockConfirmation'>()
 const onAnimationEnd = (isOpen: boolean) => {
   if (isOpen) return
-  index.value = 0
+  step.value = 'default'
 }
 
 // block
@@ -153,7 +153,7 @@ const blockOrganizer = async () => {
     return
   }
 
-  index.value++
+  step.value = 'blockConfirmation'
 }
 const backToDashboard = async () =>
   await navigateTo(

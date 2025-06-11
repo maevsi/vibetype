@@ -4,33 +4,46 @@
       <span :id="templateIdTitle">
         {{ title }}
       </span>
-      <template v-if="[1, 2].includes(index)" #back>
-        <ButtonIcon :aria-label="t('back')" @click="index--">
+      <template v-if="!error && previous" #back>
+        <ButtonIcon :aria-label="t('back')" @click="step = previous">
           <AppIconBack />
         </ButtonIcon>
       </template>
     </LayoutTopBar>
-    <AppStep v-slot="attributes" :is-active="index === 0">
+    <AppStep v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <FormAccountRegistration
           ref="form"
-          @submit="index++"
-          @success="index++"
+          v-model:error="error"
+          :birth-date
+          @submit="step = 'age'"
+          @success="step = 'success'"
         />
         <ContentLegalFooter />
       </LayoutPage>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="index === 1">
+    <AppStep v-slot="attributes" :is-active="step === 'age'">
+      <AccountRegistrationStepAge
+        v-bind="attributes"
+        @success="
+          ($event) => {
+            birthDate = $event
+            step = 'terms'
+          }
+        "
+      />
+    </AppStep>
+    <AppStep v-slot="attributes" :is-active="step === 'terms'">
       <AccountLegalConsent
         v-bind="attributes"
         :disabled="!legalTermId"
         :label="t('agreeTerms')"
-        @agreement="index++"
+        @agreement="step = 'privacy'"
       >
         <ContentLegalTerms @id="legalTermId = $event" />
       </AccountLegalConsent>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="index === 2">
+    <AppStep v-slot="attributes" :is-active="step === 'privacy'">
       <AccountLegalConsent
         v-bind="attributes"
         :label="t('agreePrivacy')"
@@ -39,7 +52,7 @@
         <Content path="privacy-consent" />
       </AccountLegalConsent>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="index === 3">
+    <AppStep v-slot="attributes" :is-active="step === 'success'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="success">
           <template #description>
@@ -58,12 +71,30 @@
         </template>
       </LayoutPage>
     </AppStep>
+    <AppStep v-if="error" v-slot="attributes" :is-active="step === 'error'">
+      <LayoutPage v-bind="attributes">
+        <LayoutPageResult type="error">
+          {{ error }}
+          <template #description>
+            {{ t('tryAgain') }}
+          </template>
+        </LayoutPageResult>
+        <template #bottom>
+          <ButtonColored
+            :aria-label="t('backToRegistration')"
+            class="w-full max-w-sm"
+            variant="primary-critical"
+            @click="restart"
+          >
+            {{ t('backToRegistration') }}
+          </ButtonColored>
+        </template>
+      </LayoutPage>
+    </AppStep>
   </section>
 </template>
 
 <script setup lang="ts">
-import { consola } from 'consola'
-
 definePageMeta({
   layout: 'plain',
 })
@@ -73,23 +104,32 @@ const { t } = useI18n()
 // template
 const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
+const birthDate = ref<string>()
 
 // stepper
-const index = ref(0)
-const title = computed(() => {
-  switch (index.value) {
-    case 0:
-      return t('titleForm')
-    case 1:
-      return t('titleTerms')
-    case 2:
-      return t('titlePrivacy')
-    case 3:
-      return t('titleVerification')
-    default:
-      consola.error('Unexpected account flow state')
-      return ''
-  }
+const { error, previous, restart, step, title } = useStepperPage<
+  'age' | 'terms' | 'privacy' | 'success'
+>({
+  steps: {
+    default: {
+      title: t('titleForm'),
+    },
+    age: {
+      title: t('titleAge'),
+      previous: 'default',
+    },
+    terms: {
+      title: t('titleTerms'),
+      previous: 'age',
+    },
+    privacy: {
+      title: t('titlePrivacy'),
+      previous: 'terms',
+    },
+    success: {
+      title: t('titleVerification'),
+    },
+  },
 })
 
 // page
@@ -104,20 +144,26 @@ de:
   agreeTerms: Ich stimme den Allgemeinen Geschäftsbedingungen zu
   agreePrivacy: Ich stimme der Datenschutzerklärung zu
   back: zurück
+  backToRegistration: Zurück zur Registrierung
+  titleAge: Bereit für Social Media?
   titleForm: Erstelle ein Konto
   titlePrivacy: Datenschutzbestimmungen
   titleTerms: Geschäftsbedingungen
   titleVerification: E-Mail-Bestätigung erforderlich
+  tryAgain: Bitte versuche es erneut
   verificationButton: Warte auf dich…
   verificationInstructions: Überprüfe deine E-Mails auf einen Bestätigungslink.
 en:
   agreeTerms: I agree to the Terms and Conditions
   agreePrivacy: I agree to the Privacy Policy
   back: back
+  backToRegistration: Back to Registration
+  titleAge: Ready for Social Media?
   titleForm: Create an account
   titlePrivacy: Privacy Policy
   titleTerms: General Terms and Conditions
   titleVerification: Email Verification Required
+  tryAgain: Please try again
   verificationButton: Waiting for you…
   verificationInstructions: Check your emails for a verification link.
 </i18n>

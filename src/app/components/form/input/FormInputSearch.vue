@@ -1,8 +1,8 @@
 <template>
   <div
-    class="flex items-center gap-4 rounded-lg border-1 border-(--faint-line) bg-(--semantic-base-input-field-fill) px-4 py-3 shadow hover:bg-(--faint-weak) has-focus:border-(--semantic-accent-accent-line)"
+    class="flex items-center gap-4 rounded-lg border-1 border-(--faint-line) bg-(--semantic-base-input-field-fill) px-4 py-3 shadow hover:bg-(--faint-weak) has-focus:border-(--semantic-accent-line)"
   >
-    <div class="flex-shrink-0 text-(--semantic-accent-accent-icon)">
+    <div class="shrink-0 text-(--semantic-accent-icon)">
       <AppIconSearch />
     </div>
     <label :for="templateIdInput" class="sr-only">{{ t('search') }}</label>
@@ -10,13 +10,13 @@
     <input
       :id="templateIdInput"
       v-model="model"
-      class="peer flex-grow border-none bg-transparent text-sm font-semibold placeholder-(--semantic-base-text-secondary) outline-0"
+      class="peer flex-1 border-none bg-transparent text-sm font-semibold placeholder-(--semantic-base-text-secondary) outline-none"
       :placeholder="t('search')"
       type="text"
     />
     <ButtonIcon
       :aria-label="t('close')"
-      class="hidden flex-shrink-0 text-(--semantic-accent-accent-icon) peer-not-placeholder-shown:block"
+      class="hidden shrink-0 text-(--semantic-accent-icon) peer-not-placeholder-shown:block"
       @click="model = ''"
     >
       <AppIconClose />
