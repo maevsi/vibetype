@@ -103,40 +103,44 @@ export function useEventForm(eventSlug?: string) {
     form.value.coverImage = files[coverIndex] || null
   }
 
-  const isStepOneValid = async () => {
-    await v$.value.$validate()
-    return (
+  const isPrimarySettingsValid = computed(() => {
+    const isValid = !!(
+      form.value.name?.trim() &&
+      form.value.category &&
+      form.value.format &&
+      (form.value.isInPerson || form.value.isRemote) &&
       !v$.value.name.$invalid &&
-      !v$.value.category.$invalid &&
-      !v$.value.format.$invalid &&
-      (form.value.isInPerson || form.value.isRemote)
+      !v$.value.slug.$invalid
     )
-  }
+    return isValid
+  })
 
-  const isStepTwoValid = async () => {
-    await v$.value.$validate()
-    return (
+  const isDateLocationValid = computed(() => {
+    return !!(
       !v$.value.startDate.$invalid &&
       !v$.value.endDate.$invalid &&
       !v$.value.address.$invalid &&
       !v$.value.postcode.$invalid &&
       !v$.value.city.$invalid
     )
-  }
+  })
 
-  const isStepThreeValid = async () => {
-    await v$.value.$validate()
-    return !v$.value.description.$invalid && !v$.value.website.$invalid
-  }
+  const isDetailsValid = computed(() => {
+    return !!(!v$.value.description.$invalid && !v$.value.website.$invalid)
+  })
 
   //StepFour is optional so no validation function required
 
-  const isStepFiveValid = async () => {
-    await v$.value.$validate()
-    return (
+  const isVisibilityValid = computed(() => {
+    console.log({
+      visibilityInvalid: v$.value.visibility.$invalid,
+      inviteeCountMaximumInvalid: v$.value.inviteeCountMaximum.$invalid,
+    })
+    return !!(
       !v$.value.visibility.$invalid && !v$.value.inviteeCountMaximum.$invalid
     )
-  }
+  })
+
   const updateStartTime = (time: string) => {
     form.value.startTime = time
   }
@@ -148,10 +152,10 @@ export function useEventForm(eventSlug?: string) {
   return {
     form,
     v$,
-    isStepOneValid,
-    isStepTwoValid,
-    isStepThreeValid,
-    isStepFiveValid,
+    isPrimarySettingsValid,
+    isDateLocationValid,
+    isDetailsValid,
+    isVisibilityValid,
     updateFormName,
     updateStartTime,
     updateEndTime,

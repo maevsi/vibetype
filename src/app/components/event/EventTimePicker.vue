@@ -4,33 +4,30 @@
       <Popover>
         <PopoverTrigger class="w-full">
           <div
-            class="flex h-14 w-full items-center rounded-l-xl border border-gray-200 bg-white px-4 py-2 dark:border-[--semantic-base-line] dark:bg-[--semantic-base-background]"
+            class="flex h-14 w-full items-center justify-between rounded-l-xl border border-(--semantic-base-line) px-4 py-2"
           >
-            <div class="min-w-0 flex-1">
-              <span
-                class="block truncate text-sm text-gray-600 dark:text-[--semantic-base-text-primary]"
-                >{{
-                  modelValue
-                    ? df.format(
-                        modelValue instanceof Date
-                          ? modelValue
-                          : new Date(String(modelValue)),
-                      )
-                    : props.placeholder
-                }}</span
-              >
-            </div>
+            <span class="block truncate text-(--semantic-base-text)">
+              {{
+                modelValue
+                  ? df.format(
+                      modelValue instanceof Date
+                        ? modelValue
+                        : new Date(String(modelValue)),
+                    )
+                  : props.placeholder
+              }}
+            </span>
             <CalendarIcon
-              class="ml-2 h-6 w-6 flex-shrink-0 text-gray-300 dark:text-[--semantic-base-text-secondary]"
+              class="ml-2 size-6 flex-shrink-0 text-(--semantic-base-text)"
             />
           </div>
         </PopoverTrigger>
         <PopoverContent
-          class="w-auto border border-gray-200 p-0 dark:border-[--semantic-base-line] dark:bg-[--semantic-base-background]"
+          class="z-50 min-w-[8rem] overflow-hidden rounded-md border border-(--semantic-base-line) bg-(--semantic-base-surface) p-0 shadow-md"
           hide-close
         >
           <Calendar
-            class="bg-white dark:bg-[--semantic-base-background] [&_.rdp]:p-3 [&_.rdp-button]:dark:text-[--semantic-base-text-primary] [&_.rdp-button:hover]:dark:bg-[--semantic-base-surface-1] [&_.rdp-caption]:dark:text-[--semantic-base-text-primary] [&_.rdp-day_selected]:dark:bg-[--accent-fancy] [&_.rdp-head_cell]:dark:text-[--semantic-base-text-secondary] [&_.rdp-head_th]:p-2 [&_.rdp-table]:w-full [&_.rdp-tbody_td]:p-2"
+            class="bg-(--semantic-base-surface)"
             :selected="modelValue"
             @update:model-value="
               (date) => (modelValue = date as unknown as CalendarDate)
@@ -39,12 +36,12 @@
         </PopoverContent>
       </Popover>
       <div
-        class="flex h-14 w-full items-center rounded-r-xl border border-l-0 border-gray-200 bg-white px-4 py-2 dark:border-[--semantic-base-line] dark:bg-[--semantic-base-background]"
+        class="flex h-14 w-full items-center rounded-r-xl border border-l-0 border-(--semantic-base-line) bg-(--semantic-base-surface) px-4 py-2"
       >
         <input
           v-model="time"
           type="time"
-          class="w-full border-0 px-0 py-2 text-xl text-gray-600 placeholder:text-gray-400 focus:border-transparent focus:ring-0 focus:outline-none dark:bg-(--semantic-base-background) dark:text-(--semantic-base-text-primary) dark:placeholder:text-(--semantic-base-text-secondary)"
+          class="w-full border-0 px-0 py-2 text-xl text-(--semantic-base-text) focus:border-transparent focus:ring-0 focus:outline-none"
           placeholder="10:00"
         />
       </div>

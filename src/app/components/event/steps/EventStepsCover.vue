@@ -1,11 +1,11 @@
 <template>
-  <div class="flex flex-col gap-6">
+  <div class="mt-8 flex flex-col gap-4">
+    <AppStepIndex :count="5" :index="4" />
+    <TypographyH6>{{ t('title') }}</TypographyH6>
     <div class="flex flex-col gap-4">
-      <h2
-        class="text-lg font-semibold dark:text-[--semantic-base-text-primary]"
-      >
-        {{ selectedFiles.length ? t('selectCover') : t('addImages') }}
-      </h2>
+      <TypographySubtitleMedium>
+        {{ selectedFiles.length ? t('selectImages') : '' }}
+      </TypographySubtitleMedium>
       <EventFileUploadEmptyState
         v-if="!selectedFiles.length"
         @trigger-upload="triggerFileInput"
@@ -18,11 +18,10 @@
           @remove="removeFile"
         />
         <div class="mt-4 flex items-center justify-between">
-          <button
-            class="flex items-center gap-2 text-gray-600 hover:text-gray-800"
-            @click="clearAll"
-          >
-            <span>{{ t('clearAll') }}</span>
+          <button class="flex items-center gap-2" @click="clearAll">
+            <TypographyLabel class="text-(--semantic-base-text-tertiary)">
+              {{ t('clearAll') }}
+            </TypographyLabel>
           </button>
           <ButtonColored
             :aria-label="t('addNewImage')"
@@ -43,6 +42,24 @@
       multiple
       @change="handleFileSelect"
     />
+    <div class="flex flex-col gap-2">
+      <ButtonColored
+        variant="primary"
+        class="w-full"
+        :aria-label="t('button')"
+        @click="emit('next')"
+      >
+        {{ t('button') }}
+      </ButtonColored>
+      <ButtonColored
+        variant="secondary"
+        class="w-full"
+        :aria-label="t('skip')"
+        @click="emit('next')"
+      >
+        {{ t('skip') }}
+      </ButtonColored>
+    </div>
   </div>
 </template>
 
@@ -61,6 +78,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   updateForm: [value: Partial<typeof props.form>]
+  next: []
 }>()
 
 const fileInput = ref<HTMLInputElement | null>(null)
@@ -130,15 +148,19 @@ const emitFormUpdate = () => {
 
 <i18n lang="yaml">
 de:
-  selectCover: Cover auswählen
-  addImages: Bilder hinzufügen
-  clearAll: Alle löschen
   addNewImage: Neues Bild hinzufügen
+  button: Next
+  clearAll: Alle löschen
   plus: +
+  selectImages: Bilder auswählen
+  skip: Überspringen
+  title: Bilder und Highlights
 en:
-  selectCover: Select cover
-  addImages: Add images
-  clearAll: Clear all
   addNewImage: Add new image
+  button: Next
+  clearAll: Clear all
   plus: +
+  selectImages: Select Images
+  skip: Skip
+  title: Images and Highlights
 </i18n>

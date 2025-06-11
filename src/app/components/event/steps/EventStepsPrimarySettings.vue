@@ -1,8 +1,10 @@
 <template>
   <div class="flex flex-col gap-6">
-    <p class="mb-4 text-sm text-gray-500">
+    <AppStepIndex :count="5" :index="1" />
+    <TypographyH3>{{ t('title') }}</TypographyH3>
+    <TypographySubtitleSmall class="text-(--semantic-base-text-secondary)">
       {{ t('allFieldsRequired') }}
-    </p>
+    </TypographySubtitleSmall>
     <FormInput
       id-label="event-name"
       is-validatable
@@ -11,7 +13,7 @@
       type="text"
       :validation-property="v$.slug"
       :value="v$.name"
-      input-class="w-full rounded-lg px-4 py-2 "
+      input-class="w-full rounded-lg px-4 py-2"
       @input="onInputName($event)"
     >
       <template #stateWarning>
@@ -58,121 +60,58 @@
         </FormCheckbox>
       </div>
     </FormInput>
-    <FormInput :title="t('format')" type="dropdown">
-      <DropdownMenu v-model:open="formatOpen">
-        <DropdownMenuTrigger
-          class="w-full rounded-lg border border-gray-200 bg-white px-4 py-2 text-left text-gray-900 dark:border-gray-200"
-        >
-          <div class="flex items-center justify-between">
-            <span
-              :class="{
-                'text-gray-500': !props.form.format,
-              }"
-            >
-              {{ props.form.format || t('choose') }}
-            </span>
-            <ChevronDown
-              :class="{ 'rotate-180': formatOpen }"
-              class="h-4 w-4 transition-transform"
-            />
-          </div>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          class="top-full left-0 mt-1 w-full rounded-lg border border-gray-200 bg-white shadow-lg"
-          align="start"
-        >
-          <div
-            class="border-b border-gray-100 px-4 py-3 text-lg font-medium text-gray-900"
-          >
-            {{ t('choose') }}
-          </div>
-          <DropdownMenuItem
-            v-for="format in formats"
-            :key="format.id"
-            class="block w-full px-4 py-2.5 text-gray-600 hover:bg-gray-50"
-            @click="selectFormat(format)"
-          >
-            {{ format.name }}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </FormInput>
-    <FormInput :title="t('eventCategory')" type="dropdown">
-      <DropdownMenu v-model:open="categoryOpen">
-        <DropdownMenuTrigger
-          class="w-full rounded-lg border border-gray-200 bg-white px-4 py-2 text-left text-gray-900 dark:border-gray-200"
-        >
-          <div class="flex items-center justify-between">
-            <span
-              :class="{
-                'text-gray-500': !props.form.category,
-              }"
-            >
-              {{ props.form.category || t('choose') }}
-            </span>
-            <ChevronDown
-              :class="{ 'rotate-180': categoryOpen }"
-              class="h-4 w-4 transition-transform"
-            />
-          </div>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          class="top-full left-0 mt-1 w-full rounded-lg border border-gray-200 bg-white shadow-lg"
-          align="start"
-        >
-          <div
-            class="border-b border-gray-100 px-4 py-3 text-lg font-medium text-gray-900"
-          >
-            {{ t('choose') }}
-          </div>
-          <DropdownMenuItem
-            v-for="category in eventCategory"
-            :key="category.id"
-            class="block w-full px-4 py-2.5 text-gray-600 hover:bg-gray-50"
-            @click="selectCategory(category)"
-          >
-            {{ category.name }}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </FormInput>
-    <FormInput
-      class="hidden"
-      id-label="input-slug"
-      is-required
-      :value="v$.slug"
-      :title="t('')"
-      type="text"
-    >
-      <template #stateError>
-        <FormInputStateError validation-property="formatSlug">
-          {{ t('globalValidationFormat') }}
-        </FormInputStateError>
-        <FormInputStateError
-          :form-input="validation.slug"
-          validation-property="lengthMax"
-        >
-          {{ t('globalValidationLength') }}
-        </FormInputStateError>
-        <FormInputStateError
-          :form-input="validation.slug"
-          validation-property="required"
-        >
-          {{ t('globalValidationRequired') }}
-        </FormInputStateError>
+    <FormDropDown :title="t('genre')">
+      <template #display>
+        {{ props.form.category || t('choose') }}
       </template>
-    </FormInput>
+      <DropdownMenuItem
+        v-for="category in eventCategory"
+        :key="category.id"
+        @click="selectCategory(category)"
+      >
+        {{ category.name }}
+      </DropdownMenuItem>
+    </FormDropDown>
+    <FormDropDown :title="t('format')">
+      <template #display>
+        {{ props.form.format || t('choose') }}
+      </template>
+      <DropdownMenuItem
+        v-for="format in formats"
+        :key="format.id"
+        @click="selectFormat(format)"
+      >
+        {{ format.name }}
+      </DropdownMenuItem>
+    </FormDropDown>
+    <ButtonColored
+      :disabled="!isPrimarySettingsValid"
+      variant="primary"
+      class="w-full"
+      :aria-label="t('button')"
+      @click="emit('next')"
+    >
+      {{ t('button') }}
+    </ButtonColored>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
-import { ChevronDown } from 'lucide-vue-next'
 import slugify from 'slugify'
+import FormDropDown from '~/components/form/FormDropDown.vue'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
-// import { useEventCategoriesQuery } from '~~/gql/documents/queries/event/eventCategories'
+import { useAllEventCategoriesQuery } from '~~/gql/documents/queries/event/eventCategoriesAll'
+import { getEventCategoryItem } from '~~/gql/documents/fragments/eventCategoryItem'
+import { useAllEventFormatsQuery } from '~~/gql/documents/queries/event/eventFormatsAll'
+import { getEventFormatItem } from '~~/gql/documents/fragments/eventFormatItem'
 
-const { form: eventForm, v$, updateFormName } = useEventForm()
+const {
+  form: eventForm,
+  v$,
+  updateFormName,
+  isPrimarySettingsValid,
+} = useEventForm()
 
 const props = defineProps<{
   form: {
@@ -189,59 +128,50 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   updateForm: [value: Partial<typeof props.form>]
+  next: []
 }>()
 
 const { t } = useI18n()
 
-// const { data } = useEventCategoriesQuery()
+const { data: categoriesData } = useAllEventCategoriesQuery()
+const { data: formatsData } = useAllEventFormatsQuery()
 
-// const eventCategory = computed(() => {
-//   if (!data.value?.allEventCategories?.edges) return []
-//   return data.value.allEventCategories.edges.map(
-//     (edge: { node: { category: any } }, index: number) => ({
-//       id: index + 1,
-//       name: edge.node.category,
-//     }),
-//   )
-// })
+const eventCategory = computed(
+  () =>
+    categoriesData.value?.allEventCategories?.nodes
+      ?.map(getEventCategoryItem)
+      .filter(isNeitherNullNorUndefined) || [],
+)
 
-const eventCategory = computed(() => [
-  { id: 1, name: 'Music' },
-  { id: 2, name: 'Arts' },
-  { id: 3, name: 'Tech' },
-  { id: 4, name: 'Sports' },
-  { id: 5, name: 'Education' },
-])
-
-const formats = computed(() => [
-  { id: 1, name: 'In-person' },
-  { id: 2, name: 'remote' },
-  { id: 3, name: 'Hybrid' },
-])
-
-const categoryOpen = ref(false)
-const formatOpen = ref(false)
+const formats = computed(
+  () =>
+    formatsData.value?.allEventFormats?.nodes
+      ?.map(getEventFormatItem)
+      .filter(isNeitherNullNorUndefined) || [],
+)
 
 const selectCategory = (category: { id: number; name: string }) => {
   eventForm.value.category = category.name
   emit('updateForm', { ...props.form, category: category.name })
-  categoryOpen.value = false
 }
 
 const selectFormat = (format: { id: number; name: string }) => {
   eventForm.value.format = format.name
   emit('updateForm', { ...props.form, format: format.name })
-  formatOpen.value = false
 }
 
-const onInputName = ($event: string) => {
+const onInputName = async ($event: string) => {
   v$.value.name.$model = $event
+  v$.value.slug.$model = slugify($event, {
+    lower: true,
+    strict: true,
+  })
   eventForm.value.name = $event
   eventForm.value.slug = slugify($event, {
     lower: true,
     strict: true,
   })
-  v$.value.name.$touch()
+
   emit('updateForm', {
     name: eventForm.value.name,
     slug: eventForm.value.slug,
@@ -273,26 +203,30 @@ const onAttendanceTypeChange = (
 de:
   allFieldsRequired: Alle Felder sind erforderlich
   attendanceType: Anwesenheitstyp
+  button: Weiter
   choose: Wählen
-  eventCategory: Veranstaltungskategorie
+  genre: Veranstaltungskategorie
   eventTitle: Veranstaltungstitel
   format: Format
   inPerson: In person
   namePlaceholder: Willkommensfeier
   remote: Remote
+  title: Grundlegende Event-Details
   validationExistenceNone: Du hast bereits eine Veranstaltung mit der ID "{slug}"
   validationWarningNameChangeSlug: Wenn du den Namen änderst, funktionieren bestehende Links zur Veranstaltung möglicherweise nicht mehr
   # eventTitlePlaceholder: Gib deiner Veranstaltung einen Namen
 en:
   allFieldsRequired: All fields are required
   attendanceType: Type
+  button: Next
   choose: Choose option
-  eventCategory: Genre
+  genre: Genre
   eventTitle: Title
   format: Format
   inPerson: In person
   namePlaceholder: Welcome Party
   remote: Remote
+  title: Primary event details
   validationExistenceNone: You have already created an event with id "{slug}"
   validationWarningNameChangeSlug: If you change the name, existing links to the event may no longer work
   # eventTitlePlaceholder: Give your event a name
