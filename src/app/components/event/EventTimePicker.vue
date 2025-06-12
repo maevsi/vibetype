@@ -27,7 +27,7 @@
           hide-close
         >
           <Calendar
-            class="bg-(--semantic-base-surface)"
+            class="bg-(--semantic-base-surface-1)"
             :selected="modelValue"
             @update:model-value="
               (date) => (modelValue = date as unknown as CalendarDate)
