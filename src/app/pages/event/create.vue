@@ -1,6 +1,10 @@
 <template>
   <div>
-    <LayoutTopBar v-if="store.jwtDecoded?.role === `${SITE_NAME}_account`">
+    <LayoutTopBar
+      v-if="
+        store.jwtDecoded?.role === `${SITE_NAME}_account` && step !== 'preview'
+      "
+    >
       <span> {{ t('createEvent') }} </span>
       <template #back>
         <ButtonIcon
@@ -23,6 +27,7 @@
               v-bind="stepProps"
               :form="form"
               :validation="v$"
+              :is-primary-settings-valid="isPrimarySettingsValid"
               :show-back="false"
               @update-form="updateForm"
               @next="step = 'dateLocation'"
@@ -33,6 +38,7 @@
               v-bind="stepProps"
               :form="form"
               :validation="v$"
+              :is-date-location-valid="isDateLocationValid"
               @update-form="updateForm"
               @next="step = 'details'"
             />
@@ -42,6 +48,7 @@
               v-bind="stepProps"
               :form="form"
               :validation="v$"
+              :is-details-valid="isDetailsValid"
               @update-form="updateForm"
               @next="step = 'cover'"
             />
@@ -61,9 +68,10 @@
               v-bind="stepProps"
               :form="form"
               :validation="v$"
+              :is-visibility-valid="isVisibilityValid"
               next-label="Preview"
               @update-form="updateForm"
-              @next="handleSubmit"
+              @next="step = 'preview'"
             />
           </AppStep>
         </div>
@@ -74,6 +82,14 @@
         :call-to-action-description="t('anonymousCtaDescription')"
       />
     </div>
+    <AppStep v-slot="stepProps" :is-active="step === 'preview'">
+      <EventStepsPreview
+        v-bind="stepProps"
+        :form="form"
+        @next="createEvent"
+        @previous="step = 'visibility'"
+      />
+    </AppStep>
   </div>
 </template>
 
@@ -81,34 +97,35 @@
 import { useI18n } from 'vue-i18n'
 import { useEventForm } from '~/composables/useEventForm'
 import type { EventFormType } from '~/types/events/eventForm'
+import Tus from '@uppy/tus'
+import Uppy from '@uppy/core'
+import { useCreateEventMutation } from '~~/gql/documents/mutations/event/eventCreate'
+import { useCreateUploadMutation } from '~~/gql/documents/mutations/upload/uploadCreate'
+import { EventVisibility } from '~~/gql/generated/graphql'
 
 const localePath = useLocalePath()
 const { t } = useI18n()
 const store = useStore()
+const TUSD_FILES_URL = useTusdFilesUrl()
+const createEventMutation = useCreateEventMutation()
+const uploadCreateMutation = useCreateUploadMutation()
+const runtimeConfig = useRuntimeConfig()
 
-const { form, v$ } = useEventForm()
+const {
+  form,
+  v$,
+  isPrimarySettingsValid,
+  isDateLocationValid,
+  isDetailsValid,
+  isVisibilityValid,
+} = useEventForm()
 
 const updateForm = (updatedForm: Partial<EventFormType>) => {
   form.value = { ...form.value, ...updatedForm }
 }
 
-const handleSubmit = async () => {
-  try {
-    const isValid = await v$.value.$validate()
-    if (!isValid) {
-      v$.value.$touch()
-      return
-    }
-    if (!store.signedInAccountId) throw new Error('Account id is missing!')
-    store.setPreviewForm(form.value)
-    await navigateTo(localePath({ name: 'event-preview' }))
-  } catch (error) {
-    console.log(error)
-  }
-}
-
 const { previous, step } = useStepperPage<
-  'dateLocation' | 'details' | 'cover' | 'visibility'
+  'dateLocation' | 'details' | 'cover' | 'visibility' | 'preview'
 >({
   steps: {
     default: {
@@ -126,8 +143,109 @@ const { previous, step } = useStepperPage<
     visibility: {
       previous: 'cover',
     },
+    preview: {
+      previous: 'visibility',
+    },
   },
 })
+
+const createEvent = async () => {
+  try {
+    if (!form.value) {
+      return
+    }
+
+    const result = await createEventMutation.executeMutation({
+      input: {
+        createdBy: store.signedInAccountId,
+        name: form.value.name,
+        slug: form.value.slug,
+        description: form.value.description || null,
+        isInPerson: form.value.isInPerson,
+        isRemote: form.value.isRemote,
+        start: form.value.startDate || null,
+        end: form.value.endDate || null,
+        visibility: form.value.visibility || EventVisibility.Private,
+        guestCountMaximum: form.value.inviteeCountMaximum
+          ? +form.value.inviteeCountMaximum
+          : null,
+        url: form.value.website,
+      },
+    })
+
+    if (result.error || !result.data) {
+      return
+    }
+
+    if (form.value.images?.length) {
+      try {
+        for (const file of form.value.images) {
+          const uploadResult = await uploadCreateMutation.executeMutation({
+            input: {
+              createdBy: store.signedInAccountId,
+              sizeByte: file.size,
+            },
+          })
+          if (!uploadResult.data?.createUpload?.upload?.id) {
+            throw new Error('Upload creation failed')
+          }
+          const uppy = new Uppy({
+            id: 'event-images',
+            debug: !runtimeConfig.public.vio.isInProduction,
+            restrictions: {
+              maxFileSize: 1048576,
+              maxNumberOfFiles: 6,
+              minNumberOfFiles: 0,
+              allowedFileTypes: ['image/*'],
+            },
+            meta: {
+              id: uploadResult.data.createUpload.upload.id,
+            },
+          })
+          uppy.use(Tus, {
+            endpoint: TUSD_FILES_URL,
+            limit: 6,
+            removeFingerprintOnSuccess: true,
+          })
+          uppy.addFile({
+            source: 'event-images',
+            name: `/event-images/${file.name}`,
+            type: file.type,
+            data: file,
+          })
+          const uploadSuccessResult = await uppy.upload()
+          if (
+            uploadSuccessResult &&
+            uploadSuccessResult.failed &&
+            uploadSuccessResult.failed.length > 0
+          ) {
+            console.error('Image upload failed')
+          }
+        }
+      } catch (uploadError) {
+        console.error('Image upload failed:', uploadError)
+      }
+    }
+
+    showToast({ title: t('eventCreateSuccess') })
+
+    if (!store.signedInUsername || !form.value.slug) {
+      console.error()
+    }
+
+    await navigateTo(
+      localePath({
+        name: 'event-view-username-event_name-published',
+        params: {
+          username: store.signedInUsername,
+          event_name: form.value.slug,
+        },
+      }),
+    )
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 onMounted(() => {
   if (store.jwtDecoded?.role === `${SITE_NAME}_account`) {
@@ -142,9 +260,11 @@ de:
   anonymousCtaDescription: Du suchst einen liebevollen Ort für deine Veranstaltung?
   back: zurück
   createEvent: Veranstaltung erstellen
+  eventCreateSuccess: Veranstaltung erfolgreich erstellt.
 en:
   anonymousCta: Find it on {siteName}
   anonymousCtaDescription: Are you looking for a loving place for your event?
   back: back
   createEvent: Create Event
+  eventCreateSuccess: Event created successfully.
 </i18n>
