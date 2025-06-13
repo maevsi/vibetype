@@ -1,5 +1,9 @@
 <template>
-  <span :class="cn('text-3xl font-extrabold', classProps)">
+  <span
+    :class="
+      cn('text-3xl leading-[160%] font-extrabold tracking-[0.15%]', classProps)
+    "
+  >
     <slot />
   </span>
 </template>
@@ -9,7 +13,7 @@ import type { HtmlHTMLAttributes } from 'vue'
 
 import { cn } from '@/utils/shadcn'
 
-const { class: classProps } = defineProps<{
+const { class: classProps = undefined } = defineProps<{
   class?: HtmlHTMLAttributes['class']
 }>()
 </script>

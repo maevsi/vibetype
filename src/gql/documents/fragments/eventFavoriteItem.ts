@@ -2,10 +2,10 @@ import { type FragmentType, graphql, useFragment } from '~~/gql/generated'
 
 export const EventFavoriteItem = graphql(`
   fragment EventFavoriteItem on EventFavorite {
+    createdBy
+    eventId
     id
     nodeId
-    eventId
-    createdBy
   }
 `)
 
