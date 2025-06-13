@@ -11,14 +11,13 @@ import {
 import type { Client } from '@urql/core'
 import { consola } from 'consola'
 import type { Ref } from 'vue'
-import type { LocationQueryValue, RouteLocationNormalized } from 'vue-router'
+import type { LocationQueryValue } from 'vue-router'
 
 import { accountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { eventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 import { EventVisibility } from '~~/gql/generated/graphql'
 import { getEventItem } from '~~/gql/documents/fragments/eventItem'
-import { LocalStorageStrategy } from '~/utils/storage/LocalStorageStrategy'
 
 export const VALIDATION_ADDRESS_LENGTH_MAXIMUM = 300
 export const VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM = 254 // source: https://www.dominicsayers.com/isemail/
@@ -183,64 +182,6 @@ export const getEventByCreatedByAndSlug = async ({
   return getEventItem(eventByCreatedByAndSlug.data?.eventByCreatedByAndSlug)
 }
 
-export const validateEventExistence = async (
-  route: RouteLocationNormalized<
-    | 'event-edit-username-event_name___en'
-    | 'event-view-username-event_name___en'
-    | 'event-view-username-event_name-attendance___en'
-    | 'event-view-username-event_name-guest___en'
-    | 'event-view-username-event_name-published___en'
-  >,
-) => {
-  const { $urql } = useNuxtApp()
-
-  const account = await getAccountByUsername({
-    $urql,
-    username: route.params.username,
-  })
-
-  if (!account) {
-    throw createError({
-      statusCode: 404,
-      message: 'Account not found',
-    })
-  }
-
-  if (
-    typeof route.params.event_name !== 'string' ||
-    typeof account.id !== 'string'
-  ) {
-    throw createError({
-      statusCode: 500,
-      message: 'Invalid parameters',
-    })
-  }
-
-  const eventResponse = await $urql.value
-    .query(eventIsExistingQuery, {
-      createdBy: account.id,
-      slug: route.params.event_name,
-    })
-    .toPromise()
-  if (eventResponse.data?.eventIsExisting) {
-    return true
-  }
-  if (import.meta) {
-    const storageStrategy = LocalStorageStrategy.getInstance()
-    const draftEvent = storageStrategy.getEventByAuthorAndSlug(
-      account.id,
-      route.params.event_name,
-    )
-    if (draftEvent) {
-      return true
-    }
-  }
-  throw createError({
-    statusCode: 404,
-    message: 'Event not found',
-  })
-}
-
 export const validateEventSlug =
   ({
     signedInAccountId,
@@ -282,20 +223,15 @@ export const validateUsername = (invert?: boolean) => async (value: string) => {
     return true
   }
 
-  try {
-    const result = await $urql.value
-      .query(accountByUsernameQuery, {
-        username: value,
-      })
-      .toPromise()
+  const result = await $urql.value
+    .query(accountByUsernameQuery, {
+      username: value,
+    })
+    .toPromise()
 
-    if (result.error) return false
+  if (result.error) return false
 
-    return invert
-      ? !result.data?.accountByUsername
-      : !!result.data?.accountByUsername
-  } catch (error) {
-    console.error(error)
-    return false
-  }
+  return invert
+    ? !result.data?.accountByUsername
+    : !!result.data?.accountByUsername
 }
