@@ -132,10 +132,6 @@ export function useEventForm(eventSlug?: string) {
   //StepFour is optional so no validation function required
 
   const isVisibilityValid = computed(() => {
-    console.log({
-      visibilityInvalid: v$.value.visibility.$invalid,
-      inviteeCountMaximumInvalid: v$.value.inviteeCountMaximum.$invalid,
-    })
     return !!(
       !v$.value.visibility.$invalid && !v$.value.inviteeCountMaximum.$invalid
     )
