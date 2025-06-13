@@ -2,7 +2,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli'
 
 export const codegenConfig: CodegenConfig = {
   schema: 'https://postgraphile.localhost/graphql',
-  documents: ['gql/documents/**/*.ts'], // ignoreNoDocuments: true,
+  documents: ['gql/documents/**/*.ts', 'app/**/*.vue'], // ignoreNoDocuments: true,
   hooks: { afterAllFileWrite: ['prettier --write', 'eslint --fix'] },
   config: {
     useTypeImports: true,

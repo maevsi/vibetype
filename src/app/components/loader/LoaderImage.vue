@@ -1,5 +1,5 @@
 <template>
-  <div :class="[aspect, classes]">
+  <div :class="cn(aspect, classes, classProps)">
     <LoaderIndicatorPing v-if="isLoading" />
     <CardStateAlert v-if="isError">
       {{ t('error') }}
@@ -7,7 +7,7 @@
     <img
       v-if="srcWhenLoaded"
       :alt="alt"
-      :class="[aspect, classes]"
+      :class="cn(aspect, classes, classProps)"
       :crossorigin="crossOrigin"
       :height="height"
       :src="srcWhenLoaded"
@@ -26,11 +26,15 @@
 
 <script setup lang="ts">
 import { debounce } from 'lodash-es'
+import type { HtmlHTMLAttributes } from 'vue'
+
+import { cn } from '@/utils/shadcn'
 
 const {
   alt,
   aspect,
-  classes = undefined,
+  class: classProps = undefined,
+  classes = undefined, // TODO: refactor to `class`
   crossOrigin = undefined,
   height,
   src,
@@ -38,6 +42,7 @@ const {
 } = defineProps<{
   alt: string
   aspect: string
+  class?: HtmlHTMLAttributes['class']
   classes?: string
   crossOrigin?: 'anonymous'
   height: string
