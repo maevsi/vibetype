@@ -1,4 +1,4 @@
-import { type FragmentType, graphql, useFragment } from '~~/gql/generated'
+import { type FragmentType, graphql, useFragment } from '~~/gql/generated/gql'
 
 // TODO: work around missing id for `location`
 export const AddressItem = graphql(`

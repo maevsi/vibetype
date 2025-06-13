@@ -1,5 +1,5 @@
 import { useMutation } from '@urql/vue'
-import { graphql } from '~~/gql/generated'
+import { graphql } from '~~/gql/generated/gql'
 
 export const eventUnlockMutation = graphql(`
   mutation EventUnlock($guestId: UUID!) {
