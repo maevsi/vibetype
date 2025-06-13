@@ -65,7 +65,6 @@
 
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
-const { t } = useI18n()
 
 const props = defineProps<{
   form: {
@@ -76,14 +75,10 @@ const props = defineProps<{
   validation: BaseValidation
 }>()
 
-const emit = defineEmits<{
-  updateForm: [value: Partial<typeof props.form>]
-  next: []
-}>()
-
+const { t } = useI18n()
 const fileInput = ref<HTMLInputElement | null>(null)
-const selectedFiles = ref<File[]>(props.form.images || [])
-const previewUrls = ref<string[]>(props.form.previewUrls || [])
+const selectedFiles = ref<File[]>([...props.form.images])
+const previewUrls = ref<string[]>([...props.form.previewUrls])
 const selectedCover = ref(0)
 
 const triggerFileInput = () => {
@@ -94,21 +89,18 @@ const triggerFileInput = () => {
 const handleFileSelect = (event: Event) => {
   const input = event.target as HTMLInputElement
   if (!input.files?.length) return
-
   const files = Array.from(input.files)
   const validFiles = files.filter(
     (file) =>
       ['image/png', 'image/jpeg', 'image/gif'].includes(file.type) &&
       file.size <= 10 * 1024 * 1024,
   )
-
   selectedFiles.value.push(
     ...validFiles.slice(0, 6 - selectedFiles.value.length),
   )
   validFiles.forEach((file) =>
     previewUrls.value.push(URL.createObjectURL(file)),
   )
-
   emitFormUpdate()
 }
 
@@ -117,14 +109,11 @@ const removeFile = (index: number) => {
   if (url) {
     URL.revokeObjectURL(url)
   }
-
   selectedFiles.value.splice(index, 1)
   previewUrls.value.splice(index, 1)
-
   if (selectedCover.value === index) {
     selectedCover.value = 0
   }
-
   emitFormUpdate()
 }
 
@@ -133,7 +122,6 @@ const clearAll = () => {
   selectedFiles.value = []
   previewUrls.value = []
   selectedCover.value = 0
-
   emitFormUpdate()
 }
 
@@ -144,6 +132,11 @@ const emitFormUpdate = () => {
     coverImage: selectedFiles.value[selectedCover.value] || null,
   })
 }
+
+const emit = defineEmits<{
+  updateForm: [value: Partial<typeof props.form>]
+  next: []
+}>()
 </script>
 
 <i18n lang="yaml">

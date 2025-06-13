@@ -27,9 +27,10 @@
     <div>
       <div class="flex items-center space-x-2">
         <input
-          v-model="isRecurring"
-          type="checkbox"
           class="focus:ring-primary-500 size-5 rounded-lg dark:border-[--semantic-base-line] dark:bg-[--semantic-base-background]"
+          :checked="props.form.isRecurring"
+          type="checkbox"
+          @change="updateRecurring"
         />
         <TypographySubtitleMedium>{{
           t('recurringEvent')
@@ -104,33 +105,33 @@
     >
       <div class="border-b border-(--semantic-base-line) px-4 py-2">
         <input
-          v-model="eventForm.address"
+          class="w-full border-0 px-0 py-2 focus:outline-none"
+          :value="props.form.address"
           type="text"
           :placeholder="t('address')"
-          class="w-full border-0 px-0 py-2 focus:outline-none"
           pattern="^[A-Za-z0-9\s\-\.]+$"
-          @input="onAddressInput"
+          @input="onAddressInput($event)"
         />
       </div>
       <div class="grid grid-cols-2 px-4">
         <div class="border-r border-(--semantic-base-line) py-2">
           <input
-            v-model="eventForm.postcode"
+            class="w-full appearance-none border-0 px-0 py-2 focus:outline-none"
+            :value="props.form.postcode"
+            maxlength="10"
             type="number"
             :placeholder="t('postcode')"
-            class="w-full appearance-none border-0 px-0 py-2 focus:outline-none"
-            maxlength="10"
-            @input="onPostcodeInput"
+            @input="onPostcodeInput($event)"
           />
         </div>
         <div class="py-2 pl-4">
           <input
-            v-model="eventForm.city"
+            class="w-full appearance-none border-0 px-0 py-2 focus:outline-none"
+            :value="props.form.city"
             type="text"
             :placeholder="t('city')"
-            class="w-full appearance-none border-0 px-0 py-2 focus:outline-none"
             pattern="[A-Za-z\s]+"
-            @input="onCityInput"
+            @input="onCityInput($event)"
           />
         </div>
       </div>
@@ -153,8 +154,6 @@ import { DateFormatter } from '@internationalized/date'
 import type { BaseValidation } from '@vuelidate/core'
 import { CalendarIcon, ChevronDown } from 'lucide-vue-next'
 import { toDate } from 'reka-ui/date'
-const { form: eventForm, isDateLocationValid } = useEventForm()
-const { t } = useI18n()
 
 const props = defineProps<{
   form: {
@@ -170,7 +169,15 @@ const props = defineProps<{
     city: string
   }
   validation: BaseValidation
+  isDateLocationValid: boolean
 }>()
+
+const emit = defineEmits<{
+  updateForm: [value: Partial<typeof props.form>]
+  next: []
+}>()
+
+const { t } = useI18n()
 
 const isRecurring = ref(false)
 
@@ -193,11 +200,6 @@ const frequencyOptions = computed(() => [
   { label: t('everyYear'), value: 'yearly' },
 ])
 
-const emit = defineEmits<{
-  updateForm: [value: Partial<typeof props.form>]
-  next: []
-}>()
-
 const selectStartDateTime = ({
   date,
   time,
@@ -208,11 +210,7 @@ const selectStartDateTime = ({
   const jsDate = new Date(date.toString())
   const isoDate = jsDate.toISOString()
 
-  eventForm.value.startDate = isoDate
-  eventForm.value.startTime = time
-
   emit('updateForm', {
-    ...props.form,
     startDate: isoDate,
     startTime: time,
   })
@@ -228,10 +226,7 @@ const selectEndDateTime = ({
   const jsDate = new Date(date.toString())
   const isoDate = jsDate.toISOString()
 
-  eventForm.value.endDate = isoDate
-  eventForm.value.endTime = time
   emit('updateForm', {
-    ...props.form,
     endDate: isoDate,
     endTime: time,
   })
@@ -256,22 +251,26 @@ const selectFrequency = (option: { label: string; value: string }) => {
   handleRecurringUpdate()
 }
 
-const onAddressInput = () => {
-  emit('updateForm', {
-    address: eventForm.value.address,
-  })
+const updateRecurring = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  if (target) {
+    emit('updateForm', { isRecurring: target.checked })
+  }
 }
 
-const onPostcodeInput = () => {
-  emit('updateForm', {
-    postcode: eventForm.value.postcode,
-  })
+const onAddressInput = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  emit('updateForm', { address: target.value })
 }
 
-const onCityInput = () => {
-  emit('updateForm', {
-    city: eventForm.value.city,
-  })
+const onPostcodeInput = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  emit('updateForm', { postcode: target.value })
+}
+
+const onCityInput = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  emit('updateForm', { city: target.value })
 }
 </script>
 

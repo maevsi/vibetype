@@ -6,16 +6,16 @@
 
     <div class="rounded-lg border border-(--semantic-base-line) p-4 shadow-sm">
       <textarea
-        v-model="eventForm.description"
+        :value="props.form.description"
         class="min-h-[400px] w-full resize-none border-0 focus:outline-none"
         :placeholder="t('eventDescriptionPlaceholder')"
         maxlength="2500"
-        @input="onDetailsInput"
+        @input="onDescriptionInput"
       />
     </div>
     <div class="text-right">
       <TypographySubtitleSmall>
-        {{ t('maxCharacters', { count: eventForm.description.length }) }}
+        {{ t('maxCharacters', { count: props.form.description.length }) }}
       </TypographySubtitleSmall>
     </div>
     <div class="flex flex-col gap-2">
@@ -26,27 +26,27 @@
         class="flex items-center rounded-lg border border-(--semantic-base-line) p-4 shadow-sm"
         :class="{
           'border-(--semantic-critic-strong)':
-            eventForm.website && !isValidWebsite,
+            props.form.website && !isValidWebsite,
         }"
       >
         <input
-          v-model="eventForm.website"
+          :value="props.form.website"
           type="url"
           class="flex-1 focus:border-transparent focus:ring-0 focus:outline-none"
           :placeholder="t('urlPlaceholder')"
-          @input="onDetailsInput"
+          @input="onWebsiteInput"
         />
         <Link2 class="size-6 text-(--semantic-base-icon-primary)" />
       </div>
       <TypographyBodySmall
-        v-if="eventForm.website && !isValidWebsite"
+        v-if="props.form.website && !isValidWebsite"
         class="text-(--semantic-critic-strong)"
       >
         {{ t('pleaseEnterValidUrl') }}
       </TypographyBodySmall>
     </div>
     <ButtonColored
-      :disabled="!isDetailsValid"
+      :disabled="!props.isDetailsValid"
       variant="primary"
       class="w-full"
       :aria-label="t('button')"
@@ -60,9 +60,6 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 import { Link2 } from 'lucide-vue-next'
-import { useEventForm } from '~/composables/useEventForm'
-
-const { form: eventForm, isDetailsValid } = useEventForm()
 
 const props = defineProps<{
   form: {
@@ -70,49 +67,45 @@ const props = defineProps<{
     website: string
   }
   validation: BaseValidation
+  isDetailsValid: boolean
 }>()
-
-const { t } = useI18n()
 
 const emit = defineEmits<{
   updateForm: [value: Partial<typeof props.form>]
   next: []
 }>()
 
+const { t } = useI18n()
+
 const isValidWebsite = ref(false)
 
 const validateWebsite = (url: string) => {
   try {
     if (!url.startsWith('https://')) return false
-
     const urlObj = new URL(url)
-
     const validTLDs = /\.(com|org|net|edu|gov|io|co|[a-z]{2})$/i
     const hasValidHostname =
       urlObj.hostname.includes('.') &&
       urlObj.hostname.length > 3 &&
       /^[a-zA-Z0-9][a-zA-Z0-9-._]+[a-zA-Z0-9]$/.test(urlObj.hostname) &&
       validTLDs.test(urlObj.hostname)
-
     return hasValidHostname
   } catch {
     return false
   }
 }
 
-const onDetailsInput = () => {
-  isValidWebsite.value = validateWebsite(eventForm.value.website)
+const onDescriptionInput = (event: Event) => {
+  const target = event.target as HTMLTextAreaElement
+  emit('updateForm', { description: target.value })
+}
 
-  if (isValidWebsite.value) {
-    emit('updateForm', {
-      ...props.form,
-      description: eventForm.value.description,
-      website: eventForm.value.website,
-    })
-  }
+const onWebsiteInput = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  isValidWebsite.value = validateWebsite(target.value)
+  emit('updateForm', { website: target.value })
 }
 </script>
-
 <i18n lang="yaml">
 de:
   button: Weiter

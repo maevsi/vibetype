@@ -17,26 +17,26 @@
       @input="onInputName($event)"
     >
       <template #stateWarning>
-        <FormInputStateWarning v-if="event && event.name !== form.name">
+        <FormInputStateWarning v-if="event && event.name !== props.form.name">
           {{ t('validationWarningNameChangeSlug') }}
         </FormInputStateWarning>
       </template>
       <template #stateError>
         <FormInputStateError
-          :form-input="props.validation.slug"
-          validation-property="lengthMax"
+          :form-input="v$.slug"
+          validation-property="existenceNone"
         >
           {{ t('validationExistenceNone', { slug: v$.slug?.$model }) }}
         </FormInputStateError>
         <FormInputStateError
           :form-input="v$.name"
-          validation-property="lengthMax"
+          validation-property="maxLength"
         >
           {{ t('globalValidationLength') }}
         </FormInputStateError>
         <FormInputStateError
-          :form-input="props.validation.slug"
-          validation-property="lengthMax"
+          :form-input="v$.name"
+          validation-property="required"
         >
           {{ t('globalValidationRequired') }}
         </FormInputStateError>
@@ -46,14 +46,14 @@
       <div class="flex w-3/4 flex-row justify-between">
         <FormCheckbox
           form-key="is-in-person"
-          :value="form.isInPerson"
+          :value="props.form.isInPerson"
           @change="onAttendanceTypeChange('isInPerson', $event)"
         >
           {{ t('inPerson') }}
         </FormCheckbox>
         <FormCheckbox
           form-key="is-remote"
-          :value="form.isRemote"
+          :value="props.form.isRemote"
           @change="onAttendanceTypeChange('isRemote', $event)"
         >
           {{ t('remote') }}
@@ -106,13 +106,6 @@ import { getEventCategoryItem } from '~~/gql/documents/fragments/eventCategoryIt
 import { useAllEventFormatsQuery } from '~~/gql/documents/queries/event/eventFormatsAll'
 import { getEventFormatItem } from '~~/gql/documents/fragments/eventFormatItem'
 
-const {
-  form: eventForm,
-  v$,
-  updateFormName,
-  isPrimarySettingsValid,
-} = useEventForm()
-
 const props = defineProps<{
   form: {
     name: string
@@ -123,6 +116,7 @@ const props = defineProps<{
     format: string
   }
   validation: BaseValidation
+  isPrimarySettingsValid: boolean
   event?: Pick<EventItemFragment, 'name' | 'slug'>
 }>()
 
@@ -132,6 +126,8 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+
+const v$ = toRef(props, 'validation')
 
 const { data: categoriesData } = useAllEventCategoriesQuery()
 const { data: formatsData } = useAllEventFormatsQuery()
@@ -151,51 +147,28 @@ const formats = computed(
 )
 
 const selectCategory = (category: { id: number; name: string }) => {
-  eventForm.value.category = category.name
-  emit('updateForm', { ...props.form, category: category.name })
+  emit('updateForm', { category: category.name })
 }
 
 const selectFormat = (format: { id: number; name: string }) => {
-  eventForm.value.format = format.name
-  emit('updateForm', { ...props.form, format: format.name })
+  emit('updateForm', { format: format.name })
 }
 
 const onInputName = async ($event: string) => {
-  v$.value.name.$model = $event
-  v$.value.slug.$model = slugify($event, {
-    lower: true,
-    strict: true,
-  })
-  eventForm.value.name = $event
-  eventForm.value.slug = slugify($event, {
-    lower: true,
-    strict: true,
-  })
-
-  emit('updateForm', {
-    name: eventForm.value.name,
-    slug: eventForm.value.slug,
-  })
-  updateFormName($event)
+  const slug = slugify($event, { lower: true, strict: true })
+  emit('updateForm', { name: $event, slug })
 }
 
 const onAttendanceTypeChange = (
   field: 'isInPerson' | 'isRemote',
   value: boolean,
 ) => {
-  eventForm.value[field] = value
-
   if (field === 'isInPerson') {
-    eventForm.value.isRemote = !value
+    emit('updateForm', { isInPerson: value, isRemote: !value })
   }
   if (field === 'isRemote') {
-    eventForm.value.isInPerson = !value
+    emit('updateForm', { isRemote: value, isInPerson: !value })
   }
-
-  emit('updateForm', {
-    isInPerson: eventForm.value.isInPerson,
-    isRemote: eventForm.value.isRemote,
-  })
 }
 </script>
 
