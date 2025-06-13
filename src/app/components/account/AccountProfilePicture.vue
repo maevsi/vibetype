@@ -1,14 +1,12 @@
 <template>
-  <Loader :api="api" indicator="ping" :class="classProps">
-    <LoaderImage
-      :alt="t('profilePictureAlt', { username: account?.username })"
-      :aspect="aspect"
-      :classes="classProps"
-      :height="height"
-      :src="profilePictureUrl || blankProfilePicture"
-      :width="width"
-    />
-  </Loader>
+  <LoaderImage
+    :alt="t('profilePictureAlt', { username: account?.username })"
+    :aspect="aspect"
+    :classes="classProps"
+    :height="height"
+    :src="profilePictureUrl || blankProfilePicture"
+    :width="width"
+  />
 </template>
 
 <script setup lang="ts">
@@ -46,7 +44,7 @@ const accountByIdQuery = await useAccountByIdQuery({
 const profilePictureQuery = await useProfilePictureByAccountIdQuery({
   accountId: accountId,
 })
-const api = getApiData([accountByIdQuery, profilePictureQuery])
+// const api = getApiData([accountByIdQuery, profilePictureQuery])
 const account = computed(() =>
   getAccountItem(accountByIdQuery.data.value?.accountById),
 )
