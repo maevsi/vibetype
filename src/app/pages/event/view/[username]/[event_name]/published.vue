@@ -4,11 +4,11 @@
     class="flex flex-col gap-8"
   >
     <LayoutPageTitle :title="t('eventLive')" :is-centered="true" />
-    <p
-      class="text-center text-lg font-semibold text-(--semantic-base-text-primary)"
-    >
-      {{ t('shareEvent') }}
-    </p>
+    <div class="text-center">
+      <TypographySubtitleSmall>
+        {{ t('shareEvent') }}
+      </TypographySubtitleSmall>
+    </div>
     <EventListItem :key="event.id" :event="event" />
     <EventShare
       :share-url="`${baseUrl}/event/view/${route.params.username}/${route.params.event_name}`"
@@ -43,26 +43,16 @@
 </template>
 
 <script setup lang="ts">
-import type { RouteLocationNormalized, RouteNamedMap } from 'vue-router'
 import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { getEventItem } from '~~/gql/documents/fragments/eventItem'
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 import { useEventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
+import type { RouteNamedMap } from 'vue-router/auto-routes'
 
 const ROUTE_NAME: keyof RouteNamedMap =
   'event-view-username-event_name-published___en'
 
 const localePath = useLocalePath()
-
-definePageMeta({
-  async validate(route) {
-    return (
-      (await validateEventExistence(
-        route as RouteLocationNormalized<typeof ROUTE_NAME>,
-      )) ?? false
-    )
-  },
-})
 
 const { t } = useI18n()
 const route = useRoute(ROUTE_NAME)
