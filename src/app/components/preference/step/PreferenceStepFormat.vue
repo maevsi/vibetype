@@ -14,7 +14,44 @@
               :name="eventFormat.label"
               :selected="preferenceEventFormatIds"
               @click="togglePreferenceSelection(eventFormat.id)"
-            />
+            >
+              <AppIconPreferenceFormatConference
+                v-if="eventFormat.name === 'conference'"
+              />
+              <AppIconPreferenceFormatDemo
+                v-else-if="eventFormat.name === 'demo'"
+              />
+              <AppIconPreferenceFormatExhibition
+                v-else-if="eventFormat.name === 'exhibition'"
+              />
+              <AppIconPreferenceFormatFestival
+                v-else-if="eventFormat.name === 'festival'"
+              />
+              <AppIconPreferenceFormatHackathon
+                v-else-if="eventFormat.name === 'hackathon'"
+              />
+              <AppIconPreferenceFormatLecture
+                v-else-if="eventFormat.name === 'lecture'"
+              />
+              <AppIconPreferenceFormatLivePerformance
+                v-else-if="eventFormat.name === 'live-performance'"
+              />
+              <AppIconPreferenceFormatMeetup
+                v-else-if="eventFormat.name === 'meetup'"
+              />
+              <AppIconPreferenceFormatParty
+                v-else-if="eventFormat.name === 'party'"
+              />
+              <AppIconPreferenceFormatSeminar
+                v-else-if="eventFormat.name === 'seminar'"
+              />
+              <AppIconPreferenceFormatWorkshop
+                v-else-if="eventFormat.name === 'workshop'"
+              />
+              <AppIconPreferenceOther
+                v-else-if="eventFormat.name === 'other'"
+              />
+            </PreferenceElement>
           </li>
         </ul>
       </div>
