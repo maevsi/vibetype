@@ -1,3 +1,13 @@
+## [12.1.0](https://github.com/maevsi/vibetype/compare/12.0.1...12.1.0) (2025-06-14)
+
+### Features
+
+* **account:** restyle profile page ([#1908](https://github.com/maevsi/vibetype/issues/1908)) ([8e5305b](https://github.com/maevsi/vibetype/commit/8e5305b8f665e8c21f10476ebda8176a8aae1b2e))
+
+### Performance Improvements
+
+* **account:** rework profile ([8067c27](https://github.com/maevsi/vibetype/commit/8067c27849503755e080fa9f65959237fbd9cc8d))
+
 ## [12.0.1](https://github.com/maevsi/vibetype/compare/12.0.0...12.0.1) (2025-06-14)
 
 ### Bug Fixes
