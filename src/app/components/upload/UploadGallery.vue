@@ -160,15 +160,15 @@ const selectedItem = ref<{
 const uppy = ref<Uppy<{ id: string }>>()
 
 // api data
-const accountUploadQuotaBytesQuery = await useAccountUploadQuotaBytesQuery({})
-const allUploadsQuery = await useAllUploadsQuery({
+const accountUploadQuotaBytesQuery = useAccountUploadQuotaBytesQuery({})
+const allUploadsQuery = useAllUploadsQuery({
   after,
   first: ITEMS_PER_PAGE,
   createdBy: store.signedInAccountId,
 })
 const deleteUploadByIdMutation = useDeleteUploadByIdMutation()
 const uploadCreateMutation = useCreateUploadMutation()
-const api = getApiData([
+const api = await useApiData([
   accountUploadQuotaBytesQuery,
   allUploadsQuery,
   deleteUploadByIdMutation,
@@ -176,12 +176,12 @@ const api = getApiData([
 ])
 const uploads = computed(
   () =>
-    allUploadsQuery.data.value?.allUploads?.nodes
+    api.value.data.allUploads?.nodes
       .map((x) => getUploadItem(x))
       .filter(isNeitherNullNorUndefined) || [],
 )
 const accountUploadQuotaBytes = computed(
-  () => accountUploadQuotaBytesQuery.data.value?.accountUploadQuotaBytes,
+  () => api.value.data.accountUploadQuotaBytes,
 )
 
 // computations

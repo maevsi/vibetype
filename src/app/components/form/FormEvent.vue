@@ -318,7 +318,7 @@ const isFormSent = ref(false)
 // api data
 const createEventMutation = useCreateEventMutation()
 const updateEventMutation = useUpdateEventByIdMutation()
-const api = getApiData([createEventMutation, updateEventMutation])
+const api = await useApiData([createEventMutation, updateEventMutation])
 
 // methods
 const dateTimeFormatter = (x?: string) =>

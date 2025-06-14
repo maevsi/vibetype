@@ -41,7 +41,7 @@ const templateIdTitle = useId()
 // api data
 const accountEmailAddressVerificationMutation =
   useAccountEmailAddressVerificationMutation()
-const api = getApiData([accountEmailAddressVerificationMutation])
+const api = await useApiData([accountEmailAddressVerificationMutation])
 
 // lifecycle
 const fireAlert = useFireAlert()

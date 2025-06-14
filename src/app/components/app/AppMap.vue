@@ -4,18 +4,20 @@
 
 <script setup lang="ts">
 import type { Map, LatLng } from 'leaflet'
+import type { DeepReadonly } from 'vue'
 
 import markerIcon from '~/assets/icons/location-on.svg?raw'
 
-export type AppMapProps = {
-  events?: {
-    addressByAddressId?: {
-      location?: {
-        latitude: number
-        longitude: number
-      } | null
+export type AppMapEvent = {
+  addressByAddressId?: {
+    location?: {
+      latitude: number
+      longitude: number
     } | null
-  }[]
+  } | null
+}
+export type AppMapProps = {
+  events?: readonly DeepReadonly<AppMapEvent>[]
   geocoder?: boolean
   positionInitial?: {
     latitude: number

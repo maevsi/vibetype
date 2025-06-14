@@ -49,14 +49,12 @@ const emit = defineEmits<{
 const { t, locale } = useI18n()
 
 // api data
-const allPreferenceEventLocationsQuery = await zalgo(
-  useAllPreferenceEventLocationsQuery(),
-)
+const allPreferenceEventLocationsQuery = useAllPreferenceEventLocationsQuery()
 const createPreferenceEventLocationMutation =
   useCreatePreferenceEventLocationMutation()
 const deletePreferenceEventLocationByIdMutation =
   useDeletePreferenceEventLocationByIdMutation()
-const api = getApiData([
+const api = await useApiData([
   allPreferenceEventLocationsQuery,
   createPreferenceEventLocationMutation,
   deletePreferenceEventLocationByIdMutation,
@@ -110,7 +108,7 @@ const getZoomLevelForRadius = ({
   )
 const preferenceEventLocations = computed(
   () =>
-    allPreferenceEventLocationsQuery.data.value?.allPreferenceEventLocations?.nodes
+    api.value.data.allPreferenceEventLocations?.nodes
       .map((item) => getPreferenceEventLocationItem(item))
       .filter(isNeitherNullNorUndefined) || [],
 )

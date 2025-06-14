@@ -49,7 +49,7 @@ const form = reactive({
 const isFormSent = ref(false)
 
 // api data
-const api = getApiData([mutation])
+const api = await useApiData([mutation])
 
 // methods
 const submit = async () => {

@@ -23,7 +23,7 @@ const {
   indicator = undefined,
 } = defineProps<
   {
-    api: UnwrapRef<ReturnType<typeof getApiData>>
+    api: UnwrapRef<Awaited<ReturnType<typeof useApiData>>>
     errorPgIds?: Record<string, string>
     indicator?: string
   } & { class?: HtmlHTMLAttributes['class'] }

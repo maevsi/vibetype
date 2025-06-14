@@ -65,7 +65,7 @@ const modelError = defineModel<Error>('error')
 
 // api data
 const authenticateMutation = useAuthenticateMutation()
-const api = getApiData([authenticateMutation])
+const api = await useApiData([authenticateMutation])
 
 // methods
 const submit = async () => {

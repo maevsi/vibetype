@@ -18,14 +18,14 @@ const emit = defineEmits<{
 }>()
 
 // legal terms
-const legalTermsQuery = await zalgo(
-  useAllLegalTermsQuery({
-    language: locale.value,
-  }),
-)
+const legalTermsQuery = useAllLegalTermsQuery({
+  language: locale.value,
+})
+const api = await useApiData([legalTermsQuery])
+
 const legalTermFirst = computed(
   () =>
-    legalTermsQuery.data.value?.allLegalTerms?.nodes
+    api.value.data.allLegalTerms?.nodes
       ?.map(getLegalTermItem)
       .filter(isNeitherNullNorUndefined)[0],
 )

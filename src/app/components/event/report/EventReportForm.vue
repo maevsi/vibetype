@@ -47,18 +47,15 @@ const reasons = [
 ]
 const templateForm = useTemplateRef('form')
 
-// report
-const createReportMutation = useCreateReportMutation()
-const api = getApiData([createReportMutation])
-const apiErrorMessages = computed(() =>
-  getCombinedErrorMessages(api.value.errors),
-)
-
 // form
 const submit = () =>
   templateForm.value?.dispatchEvent(
     new Event('submit', { bubbles: true, cancelable: true }),
   )
+// TODO: try to dissolve `defineExpose`
+defineExpose({
+  submit,
+})
 const { handleSubmit } = useForm({
   validationSchema: toTypedSchema(
     z.object({
@@ -98,9 +95,12 @@ const onSubmit = handleSubmit(async (values) => {
   emit('submitSuccess')
 })
 
-defineExpose({
-  submit,
-})
+// api data
+const createReportMutation = useCreateReportMutation()
+const api = await useApiData([createReportMutation])
+const apiErrorMessages = computed(() =>
+  getCombinedErrorMessages(api.value.errors),
+)
 </script>
 
 <i18n lang="yaml">

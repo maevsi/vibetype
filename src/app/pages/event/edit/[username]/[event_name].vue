@@ -52,36 +52,31 @@ if (route.params.username !== store.signedInUsername) {
 }
 
 // api data
-const accountByUsernameQuery = await zalgo(
-  useAccountByUsernameQuery({
-    username: route.params.username,
-  }),
-)
-const accountId = computed(
-  () =>
-    getAccountItem(accountByUsernameQuery.data.value?.accountByUsername)?.id,
-)
-if (!accountId.value) {
-  throw createError({
+const accountByUsernameQuery = useAccountByUsernameQuery({
+  username: route.params.username,
+})
+const account = computed(() => getAccountItem(api.value.data.accountByUsername))
+if (account.value === null) {
+  throw showError({
+    message: 'Account data missing',
     statusCode: 404,
   })
 }
-const eventQuery = await zalgo(
-  useEventByCreatedByAndSlugQuery({
-    createdBy: accountId,
-    slug: route.params.event_name,
-  }),
-)
+const eventQuery = useEventByCreatedByAndSlugQuery({
+  createdBy: account.value?.id,
+  slug: route.params.event_name,
+})
 const event = computed(() =>
-  getEventItem(eventQuery.data.value?.eventByCreatedByAndSlug),
+  getEventItem(api.value.data.eventByCreatedByAndSlug),
 )
-if (!event.value) {
-  throw createError({
+if (event.value === null) {
+  throw showError({
+    message: 'Event data missing',
     statusCode: 404,
   })
 }
 const eventDeleteMutation = useEventDeleteMutation()
-const api = getApiData([
+const api = await useApiData([
   accountByUsernameQuery,
   eventQuery,
   eventDeleteMutation,

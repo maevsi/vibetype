@@ -36,10 +36,6 @@ const form = reactive({
 })
 const isFormSent = ref(false)
 
-// api data
-const passwordResetRequestMutation = useAccountPasswordResetRequestMutation()
-const api = getApiData([passwordResetRequestMutation])
-
 // methods
 const submit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
@@ -53,14 +49,18 @@ const submit = async () => {
 
   emit('success')
 }
+// TODO: try to dissolve `defineExpose`
+defineExpose({
+  submit,
+})
+
+// api data
+const passwordResetRequestMutation = useAccountPasswordResetRequestMutation()
+const api = await useApiData([passwordResetRequestMutation])
 
 // vuelidate
 const rules = {
   emailAddress: VALIDATION_EMAIL_ADDRESS({ isRequired: true }),
 }
 const v$ = useVuelidate(rules, form)
-
-defineExpose({
-  submit,
-})
 </script>

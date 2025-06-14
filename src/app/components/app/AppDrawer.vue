@@ -21,8 +21,4 @@
 
 <script setup lang="ts">
 const isOpen = defineModel<boolean>()
-
-defineExpose({
-  open: () => (isOpen.value = true),
-})
 </script>

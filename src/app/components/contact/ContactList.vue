@@ -95,16 +95,16 @@ const selectedContact = ref<
 >()
 
 // api data
-const contactsQuery = await useAllContactsQuery({
+const contactsQuery = useAllContactsQuery({
   after,
   createdBy: store.signedInAccountId,
   first: ITEMS_PER_PAGE_LARGE,
 })
 const deleteContactByIdMutation = useDeleteContactByIdMutation()
-const api = getApiData([contactsQuery, deleteContactByIdMutation])
+const api = await useApiData([contactsQuery, deleteContactByIdMutation])
 const contacts = computed(
   () =>
-    contactsQuery.data.value?.allContacts?.nodes
+    api.value.data.allContacts?.nodes
       .map((x) => getContactItem(x))
       .filter(isNeitherNullNorUndefined) || [],
 )

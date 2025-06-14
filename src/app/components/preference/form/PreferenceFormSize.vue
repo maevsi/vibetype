@@ -56,16 +56,15 @@ const submit = () =>
   templateForm.value?.dispatchEvent(
     new Event('submit', { bubbles: true, cancelable: true }),
   )
+// TODO: try to dissolve `defineExpose`
 defineExpose({ submit })
 
 // api data
-const allPreferenceEventSizesQuery = await zalgo(
-  useAllPreferenceEventSizesQuery(),
-)
+const allPreferenceEventSizesQuery = useAllPreferenceEventSizesQuery()
 const createPreferenceEventSizeMutation = useCreatePreferenceEventSizeMutation()
 const deletePreferenceEventSizeByAccountIdAndEventSizeMutation =
   useDeletePreferenceEventSizeByAccountIdAndEventSizeMutation()
-const api = getApiData([
+const api = await useApiData([
   allPreferenceEventSizesQuery,
   createPreferenceEventSizeMutation,
   deletePreferenceEventSizeByAccountIdAndEventSizeMutation,
@@ -97,7 +96,7 @@ const items = [
 ]
 const modelError = defineModel<Error>('error')
 const initialSelectedItems =
-  allPreferenceEventSizesQuery.data.value?.allPreferenceEventSizes?.nodes?.map(
+  api.value.data.allPreferenceEventSizes?.nodes?.map(
     (preference) => preference.eventSize,
   ) ?? []
 const { handleSubmit } = useForm({

@@ -132,7 +132,7 @@
                   <AppDropdown>
                     <AppDropdownItem
                       variant="destructive"
-                      @select="templateReport?.open"
+                      @select="isReportDrawerOpen = true"
                     >
                       {{ t('report') }}
                     </AppDropdownItem>
@@ -145,7 +145,7 @@
                     </template>
                   </AppDropdown>
                   <EventReportDrawer
-                    ref="report"
+                    v-model:is-open="isReportDrawerOpen"
                     :account-id="store.signedInAccountId"
                     :event
                   />
@@ -424,39 +424,35 @@ const route = useRoute('event-view-username-event_name___en')
 const localePath = useLocalePath()
 const updateGuestByIdMutation = useUpdateGuestByIdMutation()
 
-const templateReport = useTemplateRef('report')
+// data
+const isReportDrawerOpen = ref(false)
 
 // api data
-const accountByUsernameQuery = await zalgo(
-  useAccountByUsernameQuery({
-    username: route.params.username,
-  }),
-)
-const accountId = computed(
-  () =>
-    getAccountItem(accountByUsernameQuery.data.value?.accountByUsername)?.id,
-)
-if (!accountId.value) {
-  throw createError({
+const accountByUsernameQuery = useAccountByUsernameQuery({
+  username: route.params.username,
+})
+const account = computed(() => getAccountItem(api.value.data.accountByUsername))
+if (account.value === null) {
+  throw showError({
+    message: 'Account data missing',
     statusCode: 404,
   })
 }
-const eventQuery = await zalgo(
-  useEventByCreatedByAndSlugQuery({
-    createdBy: accountId,
-    slug: route.params.event_name,
-    guestId: route.query.ic,
-  }),
-)
+const eventQuery = useEventByCreatedByAndSlugQuery({
+  createdBy: account.value?.id,
+  slug: route.params.event_name,
+  guestId: route.query.ic,
+})
 const event = computed(() =>
-  getEventItem(eventQuery.data.value?.eventByCreatedByAndSlug),
+  getEventItem(api.value.data.eventByCreatedByAndSlug),
 )
-if (!event.value) {
-  throw createError({
+if (event.value === null) {
+  throw showError({
+    message: 'Event data missing',
     statusCode: 404,
   })
 }
-const api = getApiData([accountByUsernameQuery, eventQuery])
+const api = await useApiData([accountByUsernameQuery, eventQuery])
 
 // methods
 const accept = () => {
@@ -525,7 +521,7 @@ const eventDescriptionTemplate = computed(() => {
 })
 const invitation = computed(() => {
   const invitations =
-    eventQuery.data.value?.eventByCreatedByAndSlug?.guestsByEventId.nodes
+    api.value.data.eventByCreatedByAndSlug?.guestsByEventId.nodes
       .map((x) => getGuestItem(x))
       .filter(isNeitherNullNorUndefined)
 
