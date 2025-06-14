@@ -1,3 +1,9 @@
+## [12.0.1](https://github.com/maevsi/vibetype/compare/12.0.0...12.0.1) (2025-06-14)
+
+### Bug Fixes
+
+* schedule release ([23dec26](https://github.com/maevsi/vibetype/commit/23dec26a1d9397b25ab919b1d573e80a2bdd128b))
+
 ## [12.0.0](https://github.com/maevsi/vibetype/compare/11.8.1...12.0.0) (2025-06-06)
 
 ### ⚠ BREAKING CHANGES
