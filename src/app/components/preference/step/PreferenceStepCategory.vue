@@ -17,7 +17,44 @@
               :name="eventCategory.label"
               :selected="preferenceEventCategoryIds"
               @click="togglePreferenceSelection(eventCategory.id)"
-            />
+            >
+              <AppIconPreferenceCategoryArtAndCulture
+                v-if="eventCategory.name === 'art-and-culture'"
+              />
+              <AppIconPreferenceCategoryBusiness
+                v-else-if="eventCategory.name === 'business'"
+              />
+              <AppIconPreferenceCategoryComedy
+                v-else-if="eventCategory.name === 'comedy'"
+              />
+              <AppIconPreferenceCategoryEducation
+                v-else-if="eventCategory.name === 'education'"
+              />
+              <AppIconPreferenceCategoryFashionAndLifestyle
+                v-else-if="eventCategory.name === 'fashion-and-lifestyle'"
+              />
+              <AppIconPreferenceCategoryFoodAndDrink
+                v-else-if="eventCategory.name === 'food-and-drink'"
+              />
+              <AppIconPreferenceCategoryLiterature
+                v-else-if="eventCategory.name === 'literature'"
+              />
+              <AppIconPreferenceCategoryMusicAndEntertainment
+                v-else-if="eventCategory.name === 'music-and-entertainment'"
+              />
+              <AppIconPreferenceCategoryPolitics
+                v-else-if="eventCategory.name === 'politics'"
+              />
+              <AppIconPreferenceCategorySocial
+                v-else-if="eventCategory.name === 'social'"
+              />
+              <AppIconPreferenceCategorySportsAndFitness
+                v-else-if="eventCategory.name === 'sports-and-fitness'"
+              />
+              <AppIconPreferenceOther
+                v-else-if="eventCategory.name === 'other'"
+              />
+            </PreferenceElement>
           </li>
         </ul>
       </div>
