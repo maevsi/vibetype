@@ -1,8 +1,10 @@
 <template>
   <div v-if="events?.length" class="flex flex-col items-center gap-4">
     <AppMap v-if="isDevelopmentModeActive" :events />
-    <ul class="flex w-full flex-col gap-4">
-      <EventListItem v-for="event in events" :key="event.id" :event="event" />
+    <ul class="flex w-full flex-col gap-3">
+      <li v-for="event in events" :key="event.id">
+        <EventCard :event />
+      </li>
     </ul>
     <ButtonColored
       v-if="hasNextPage"
@@ -16,10 +18,12 @@
 </template>
 
 <script setup lang="ts">
-import type { EventItemFragment } from '~~/gql/generated/graphql'
+import type { AppMapProps } from '~/components/app/AppMap.vue'
+import type { EventCardProps } from './card/EventCard.vue'
 
+// compiler
 const { events = undefined, hasNextPage } = defineProps<{
-  events?: EventItemFragment[]
+  events?: EventCardProps['event'][] & AppMapProps['events']
   hasNextPage?: boolean
 }>()
 
@@ -27,6 +31,7 @@ const emit = defineEmits<{
   loadMore: []
 }>()
 
+// template
 const { t } = useI18n()
 const { isDevelopmentModeActive } = useDevelopmentModeTrigger()
 </script>

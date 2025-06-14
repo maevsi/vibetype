@@ -1,28 +1,39 @@
 <template>
   <Loader :api="api" indicator="ping">
-    <div class="flex flex-col gap-4">
-      <TypographyH2>
-        {{ title }}
-      </TypographyH2>
-      <div class="flex flex-col gap-4">
-        <div
-          class="flex flex-col items-center justify-center rounded-xl border border-(--semantic-base-line) sm:flex-row dark:border-none"
-        >
-          <div
-            class="flex w-full flex-row gap-4 rounded-xl bg-(--semantic-base-surface-1)"
+    <LayoutPage>
+      <div v-if="account" class="flex flex-col gap-3">
+        <div class="flex items-center justify-between">
+          <TypographyH2>
+            {{ title }}
+          </TypographyH2>
+          <AppButton
+            v-if="isOwnProfile"
+            :aria-label="t('edit')"
+            :to="
+              localePath({
+                name: 'account-edit-username',
+                params: {
+                  username: store.signedInUsername,
+                },
+              })
+            "
           >
-            <div class="flex flex-row items-center gap-4 px-4 py-4 md:py-5">
-              <AccountProfilePicture
-                :account-id="account.id"
-                class="size-15 rounded-full"
-                height="60"
-                width="60"
-              />
-              <TypographyH3>
-                {{ t('userHandle', { username: route.params.username }) }}
-              </TypographyH3>
-            </div>
-          </div>
+            <AppIconSettings class="size-8" />
+          </AppButton>
+        </div>
+        <div
+          class="flex items-center gap-3 rounded-xl border border-(--semantic-base-line) bg-(--semantic-base-surface-1) p-3 dark:border-none"
+        >
+          <!-- TODO: pass in data to make subcomponent api requests unnecessary -->
+          <AccountProfilePicture
+            :account-id="account.id"
+            class="size-15 rounded-full"
+            height="60"
+            width="60"
+          />
+          <TypographyH3>
+            {{ t('username', { username: route.params.username }) }}
+          </TypographyH3>
         </div>
         <AppUnderConstruction>
           <ButtonColored
@@ -33,7 +44,6 @@
             {{ t('friendAdd') }}
           </ButtonColored>
         </AppUnderConstruction>
-
         <AppUnderConstruction>
           <span class="text-xl font-bold">
             {{ t('friends') }}
@@ -70,312 +80,210 @@
           v-if="isOwnProfile"
           :aria-label="t('contactBook')"
           variant="secondary"
-          class="py-3"
+          class="data-[size=large]:gap-4.5 data-[type=secondary]:px-4.5"
           :to="
             localePath({
               name: 'contact',
             })
           "
         >
-          <div class="flex flex-row gap-4">
-            <AppIconContacts :aria-label="t('iconAltContactBook')" />
-            <TypographySubtitleMedium>
-              {{ t('contactBook') }}
-            </TypographySubtitleMedium>
-          </div>
+          <AppIconContacts />
+          <TypographySubtitleMedium>
+            {{ t('contactBook') }}
+          </TypographySubtitleMedium>
         </ButtonColored>
-        <div v-if="account.description?.trim()" class="flex flex-col gap-2">
+        <div v-if="accountDescription" class="flex flex-col gap-2 p-1.5">
           <TypographyH3>
             {{ t('about') }}
           </TypographyH3>
           <TypographyBodyMedium>
-            {{ account.description }}
+            {{ accountDescription }}
           </TypographyBodyMedium>
         </div>
-        <div v-if="mixedEvents.length > 0" class="flex flex-col">
-          <div class="flex flex-row justify-between">
+        <div v-if="events?.length" class="flex flex-col gap-3 py-1.5">
+          <div class="flex justify-between pl-2">
             <TypographyH3>
               {{ t('events') }}
             </TypographyH3>
             <ButtonColored
               v-if="isOwnProfile"
-              :aria-label="t('contactBook')"
-              variant="primary"
-              class="rounded-xl py-2 text-sm font-semibold"
+              :aria-label="t('newEvent')"
+              class="data-[size=large]:gap-2 data-[type=primary]:px-4.5 data-[type=primary]:py-2"
               :to="localePath('event-create')"
             >
-              <div class="flex flex-row gap-2">
-                <TypographySubtitleSmall>
-                  {{ t('newEvent') }}
-                </TypographySubtitleSmall>
-                <AppIconAdd :aria-label="t('iconAdd')" />
-              </div>
+              <TypographySubtitleSmall>
+                {{ t('newEvent') }}
+              </TypographySubtitleSmall>
+              <AppIconAdd />
             </ButtonColored>
           </div>
+          <EventCard v-for="event in events" :key="event.id" :event />
         </div>
-        <div>
-          <div v-if="mixedEvents.length > 0" class="flex flex-col gap-4">
-            <EventCard
-              v-for="event in mixedEvents"
-              :key="event.id"
-              :event="event as EventItemFragment"
-              :is-organizing="event.isOrganizing"
-              :is-attending="event.isAttending"
-              :is-own-profile="isOwnProfile"
-            />
-          </div>
-        </div>
-        <div class="flex flex-col gap-2">
-          <TypographyH3>
+        <div class="flex flex-col gap-3">
+          <TypographyH3 class="px-2">
             {{ t('achievements') }}
           </TypographyH3>
-          <!-- @vue-ignore -->
-          <CardButton
-            class="relative"
-            is-disabled
-            :to="`/achievement/view/$username`"
+          <div
+            class="flex justify-between rounded-xl border border-(--semantic-base-line) bg-(--semantic-base-surface-1) px-6 py-2"
           >
             <div
               v-if="
-                achievements.filter(
+                achievements?.filter(
                   (achievement) =>
                     achievement.achievement === AchievementType.MeetTheTeam,
                 ).length
               "
               class="flex gap-2 text-center"
             >
-              <div class="flex flex-1 flex-col items-center gap-2 p-2">
-                <div class="relative">
-                  <IMaterialSymbolsHexagonOutline height="4em" width="4em" />
-                  <div
-                    class="absolute inset-0 flex items-center justify-center"
-                  >
-                    <IFa6SolidHandshake height="1.5em" width="1.5em" />
-                  </div>
-                </div>
-                <span class="text-gray-700 dark:text-gray-300">
+              <div class="flex flex-1 flex-col items-center gap-2 py-2">
+                <IFa6SolidHandshake
+                  class="text-(--semantic-base-icon-primary)"
+                  height="1.5em"
+                  width="1.5em"
+                />
+                <TypographyLabelBold>
                   {{ t('achievementMeetTheTeam') }}
-                </span>
+                </TypographyLabelBold>
               </div>
             </div>
             <span v-else>
               {{ t('achievementsNone') }}
             </span>
-          </CardButton>
+          </div>
         </div>
       </div>
-    </div>
+    </LayoutPage>
   </Loader>
 </template>
 
 <script setup lang="ts">
-import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
-import { getAchievementItem } from '~~/gql/documents/fragments/achievementItem'
-import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
-import { useAllAchievementsQuery } from '~~/gql/documents/queries/achievement/achievementsAll'
-import { useAccountEventsAttendingQuery } from '~~/gql/documents/queries/event/eventsAttending'
-import { useAllEventsQuery } from '~~/gql/documents/queries/event/eventsAll'
-import { useAllEventsWithFavoritesQuery } from '~~/gql/documents/queries/event/eventsAllWithFavorites'
-import { getEventItem } from '~~/gql/documents/fragments/eventItem'
-import { getEventItemWithFavorites } from '~~/gql/documents/fragments/eventItemWithFavorites'
+import { useQuery } from '@urql/vue'
+
 import {
   AchievementType,
-  type EventItemFragment,
-  type EventItemWithFavoritesFragment,
+  type AccountQueryVariables,
 } from '~~/gql/generated/graphql'
+import { graphql } from '~~/gql/generated'
 
-type EventItemWithFlags = EventItemFragment & {
-  isOrganizing: boolean
-  isAttending: boolean
-}
+definePageMeta({
+  layout: 'default-no-header',
+})
 
-type EventItemWithFavoritesAndFlags = EventItemWithFavoritesFragment & {
-  isOrganizing: boolean
-  isAttending: boolean
-}
+const queryAccount = graphql(`
+  query Account($username: String!) {
+    accountByUsername(username: $username) {
+      achievementsByAccountId(first: 5) {
+        nodes {
+          achievement
+          id
+        }
+      }
+      description
+      eventsByCreatedBy(first: 3) {
+        nodes {
+          eventFavoritesByEventId(first: 1) {
+            nodes {
+              createdBy
+              id
+            }
+          }
+          guestsByEventId(first: 1) {
+            nodes {
+              contactByContactId {
+                accountId
+                id
+              }
+              id
+            }
+          }
+          id
+          name
+          slug
+          start
+        }
+      }
+      id
+      imprint
+    }
+  }
+`)
 
-const { t } = useI18n()
-const route = useRoute('account-view-username___en')
-const localePath = useLocalePath()
-
+// page
 const store = useStore()
+const route = useRoute('account-view-username___en')
 const isOwnProfile = computed(
   () => store.signedInUsername === route.params.username,
 )
+const { t } = useI18n()
 const title = computed(() =>
   isOwnProfile.value ? t('myProfile') : t('profile'),
 )
-
 useHeadDefault({
   ogType: 'profile',
   profileUsername: route.params.username,
   title,
 })
 
-const accountByUsernameQuery = await zalgo(
-  useAccountByUsernameQuery({
-    username: route.params.username,
+// api data
+const query = await zalgo(
+  useQuery({
+    query: queryAccount,
+    variables: {
+      username: route.params.username,
+    } satisfies MaybeRefObj<AccountQueryVariables>,
   }),
 )
-const account = getAccountItem(
-  accountByUsernameQuery.data.value?.accountByUsername,
+const api = getApiData([query])
+const account = computed(() => query.data.value?.accountByUsername)
+const accountDescription = computed(() => account.value?.description?.trim())
+const achievements = computed(
+  () => account.value?.achievementsByAccountId.nodes,
 )
-if (!account || !account.id) {
+const events = computed(() =>
+  account.value?.eventsByCreatedBy.nodes.map((event) => ({
+    ...event,
+    accountByCreatedBy: { ...account.value, username: route.params.username },
+  })),
+)
+
+// account
+if (!account.value) {
   throw createError({
     statusCode: 404,
   })
 }
-const achievementsQuery = await useAllAchievementsQuery({
-  accountId: account.id,
-})
-const achievements =
-  achievementsQuery.data.value?.allAchievements?.nodes
-    .map((x) => getAchievementItem(x))
-    .filter(isNeitherNullNorUndefined) || []
 
-const accountId = store.signedInAccountId
-
-const accountEventsAttendingQuery = accountId
-  ? await zalgo(useAccountEventsAttendingQuery({ accountId }))
-  : undefined
-
-const eventsAttending = computed(() => {
-  if (!accountId || !accountEventsAttendingQuery) return []
-  const contacts =
-    accountEventsAttendingQuery.data.value?.allContacts?.nodes || []
-  if (contacts.length === 0) return []
-  const events = contacts.flatMap(
-    (contact) =>
-      contact.guestsByContactId?.nodes
-        ?.filter((guest) => guest.feedback === 'ACCEPTED')
-        ?.map((guest) =>
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          getEventItemWithFavorites(guest.eventByEventId as any),
-        )
-        .filter(isNeitherNullNorUndefined) || [],
-  )
-  return [...new Map(events.map((event) => [event.id, event])).values()]
-})
-
-const allEventsQueryAfter = ref<string>()
-const allEventsQuery = await zalgo(
-  accountId
-    ? useAllEventsWithFavoritesQuery({
-        after: allEventsQueryAfter,
-        createdBy: account.id,
-        first: ITEMS_PER_PAGE,
-      })
-    : useAllEventsQuery({
-        after: allEventsQueryAfter,
-        createdBy: account.id,
-        first: ITEMS_PER_PAGE,
-      }),
-)
-
-const events = computed(() => {
-  const nodes = allEventsQuery.data.value?.allEvents?.nodes
-  if (!nodes) return []
-
-  return nodes
-    .map((node) =>
-      accountId
-        ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          getEventItemWithFavorites(node as any)
-        : // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          getEventItem(node as any),
-    )
-    .filter(isNeitherNullNorUndefined)
-})
-
-const mixedEvents = computed(() => {
-  if (!accountId) {
-    return events.value
-      .map((event) => ({
-        ...event,
-        isOrganizing: isOwnProfile.value,
-        isAttending: false,
-      }))
-      .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
-      .slice(0, 3)
-  }
-
-  const attendingEventIds = new Set(
-    eventsAttending.value.map((event) => event.id),
-  )
-
-  let result: (EventItemWithFlags | EventItemWithFavoritesAndFlags)[] = []
-
-  if (isOwnProfile.value) {
-    result = eventsAttending.value.map((event) => ({
-      ...event,
-      isOrganizing: false,
-      isAttending: true,
-    }))
-  }
-
-  const organizingEvents = events.value.map((event) => {
-    const isCurrentUserAttending =
-      !isOwnProfile.value && attendingEventIds.has(event.id)
-
-    return {
-      ...event,
-      isOrganizing: isOwnProfile.value,
-      isAttending: Boolean(isCurrentUserAttending),
-    }
-  })
-
-  result.push(...organizingEvents)
-  const seen = new Set()
-  result = result.filter((event) => {
-    if (seen.has(event.id)) {
-      return false
-    }
-    seen.add(event.id)
-    return true
-  })
-
-  return result
-    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
-    .slice(0, 3)
-})
-
-const api = getApiData([
-  accountByUsernameQuery,
-  achievementsQuery,
-  allEventsQuery,
-  ...(accountEventsAttendingQuery ? [accountEventsAttendingQuery] : []),
-])
+// template
+const localePath = useLocalePath()
 </script>
 
 <i18n lang="yaml">
 de:
+  about: Über
+  achievementMeetTheTeam: Triff das Team
   achievements: Errungenschaften
   achievementsNone: Noch keine freigeschaltet
-  achievementMeetTheTeam: Triff das Team
-  about: Über
   contactBook: Kontaktbuch
-  events: Veranstaltungen
+  edit: Profil bearbeiten
+  events: Events
   friendAdd: Freundschaftsanfrage senden
   friends: Freunde
   myProfile: Mein Profil
-  newEvent: Neue Veranstaltung
+  newEvent: Neues Event
   profile: Profil
-  iconAltContactBook: Kontaktbuch-Symbol
-  iconAdd: Hinzufügen
-  userHandle: "{'@'}{username}"
+  username: "{'@'}{username}"
 en:
+  about: About
+  achievementMeetTheTeam: Meet the team
   achievements: Achievements
   achievementsNone: None unlocked yet
-  achievementMeetTheTeam: Meet the team
-  about: About
   contactBook: Contact Book
+  edit: Edit profile
   events: Events
-  friends: Friends
   friendAdd: Send friend request
+  friends: Friends
   myProfile: My Profile
   newEvent: New event
   profile: Profile
-  iconAltContactBook: Contact Book Icon
-  iconAdd: Add
-  userHandle: "{'@'}{username}"
+  username: "{'@'}{username}"
 </i18n>
