@@ -1,5 +1,5 @@
 import { useMutation } from '@urql/vue'
-import { graphql } from '~~/gql/generated'
+import { graphql } from '~~/gql/generated/gql'
 
 export const accountRegistrationRefreshMutation = graphql(`
   mutation AccountRegistrationRefresh($accountId: UUID!, $language: String!) {
