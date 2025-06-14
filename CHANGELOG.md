@@ -1,3 +1,17 @@
+## [12.2.0](https://github.com/maevsi/vibetype/compare/12.1.0...12.2.0) (2025-06-14)
+
+### Features
+
+* **preference:** add icons ([c2b470c](https://github.com/maevsi/vibetype/commit/c2b470c08d68ada939f3780278a3b7c2b9fe891f))
+
+### Bug Fixes
+
+* **modules:** exclude color override for colored icons ([1f64b1e](https://github.com/maevsi/vibetype/commit/1f64b1ee524571da6063dd0027c4fc8ff4029182))
+
+### Performance Improvements
+
+* optimize icons ([0b6ac45](https://github.com/maevsi/vibetype/commit/0b6ac4561a17a7333f83060b0818dc3d9095aac4))
+
 ## [12.1.0](https://github.com/maevsi/vibetype/compare/12.0.1...12.1.0) (2025-06-14)
 
 ### Features
