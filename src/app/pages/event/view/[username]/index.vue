@@ -17,23 +17,61 @@
       </i18n-t>
     </LayoutPageTitle>
     <EventList
-      :events="events"
-      :has-next-page="api.data.allEvents?.pageInfo.hasNextPage"
-      @load-more="allEventsQueryAfter = api.data.allEvents?.pageInfo.endCursor"
+      :events
+      :has-next-page="
+        api.data.accountByUsername?.eventsByCreatedBy.pageInfo.hasNextPage
+      "
+      @load-more="
+        queryAfter =
+          api.data.accountByUsername?.eventsByCreatedBy.pageInfo.endCursor
+      "
     />
   </Loader>
 </template>
 
 <script setup lang="ts">
-import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
-import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
-import { getEventItem } from '~~/gql/documents/fragments/eventItem'
-import { useAllEventsQuery } from '~~/gql/documents/queries/event/eventsAll'
+import { useQuery } from '@urql/vue'
+import { graphql } from '~~/gql/generated'
+import type { EventListAccountQueryVariables } from '~~/gql/generated/graphql'
 
-const { t } = useI18n()
-const localePath = useLocalePath()
+const queryEventListAccount = graphql(`
+  query EventListAccount($after: Cursor, $first: Int!, $username: String!) {
+    accountByUsername(username: $username) {
+      eventsByCreatedBy(after: $after, first: $first, orderBy: START_DESC) {
+        nodes {
+          eventFavoritesByEventId(first: 1) {
+            nodes {
+              createdBy
+              id
+            }
+          }
+          guestsByEventId(first: 1) {
+            nodes {
+              contactByContactId {
+                accountId
+                id
+              }
+              id
+            }
+          }
+          id
+          name
+          slug
+          start
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        totalCount
+      }
+      id
+    }
+  }
+`)
 
 // page
+const { t } = useI18n()
 const route = useRoute('event-view-username-event_name___en')
 const title = t('title', { name: route.params.username })
 useHeadDefault({
@@ -42,37 +80,32 @@ useHeadDefault({
   title,
 })
 
-// validation
-const accountByUsernameQuery = await zalgo(
-  useAccountByUsernameQuery({
-    username: route.params.username,
+// api data
+const queryAfter = ref<string>()
+const query = await zalgo(
+  useQuery({
+    query: queryEventListAccount,
+    variables: {
+      after: queryAfter,
+      first: ITEMS_PER_PAGE,
+      username: route.params.username,
+    } satisfies MaybeRefObj<EventListAccountQueryVariables>,
   }),
 )
-const account = getAccountItem(
-  accountByUsernameQuery.data.value?.accountByUsername,
-)
-if (!account) {
+
+const api = getApiData([query])
+const account = computed(() => query.data.value?.accountByUsername)
+const events = computed(() => account.value?.eventsByCreatedBy.nodes)
+
+// validation
+if (!account.value) {
   throw createError({
     statusCode: 404,
   })
 }
 
-// api data
-const allEventsQueryAfter = ref<string>()
-const allEventsQuery = await zalgo(
-  useAllEventsQuery({
-    after: allEventsQueryAfter,
-    createdBy: account.id,
-    first: ITEMS_PER_PAGE,
-  }),
-)
-const events = computed(
-  () =>
-    allEventsQuery.data.value?.allEvents?.nodes
-      ?.map(getEventItem)
-      .filter(isNeitherNullNorUndefined) || [],
-)
-const api = getApiData([allEventsQuery])
+// template
+const localePath = useLocalePath()
 </script>
 
 <i18n lang="yaml">

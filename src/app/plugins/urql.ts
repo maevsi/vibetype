@@ -8,6 +8,8 @@ import {
 } from '@urql/core'
 import {
   type Cache,
+  type Entity,
+  type FieldArgs,
   offlineExchange as getOfflineExchange,
 } from '@urql/exchange-graphcache'
 import { makeDefaultStorage } from '@urql/exchange-graphcache/default-storage'
@@ -22,6 +24,7 @@ import { ref } from 'vue'
 import type { FragmentType } from '~~/gql/generated'
 import type { GraphCacheConfig, Maybe } from '~~/gql/generated/graphcache'
 import type {
+  CreateEventFavoriteMutation,
   DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation,
   DeletePreferenceEventFormatByAccountIdAndFormatIdMutation,
   DeletePreferenceEventLocationByIdMutation,
@@ -64,6 +67,35 @@ const invalidateCache = (
         .forEach((field) => {
           cache.invalidate('Query', field.fieldKey)
         })
+
+const cacheNodesAppend = ({
+  cache,
+  newNode,
+  parentKey,
+  parentProperty,
+  parentPropertyArguments,
+}: {
+  cache: Cache
+  newNode: Entity
+  parentKey: string
+  parentProperty: string
+  parentPropertyArguments: FieldArgs
+}) => {
+  const newNodeKey = cache.keyOfEntity(newNode)
+  if (!newNodeKey) return
+
+  const property = cache.resolve(
+    parentKey,
+    parentProperty,
+    parentPropertyArguments,
+  )
+  if (!property) return
+
+  const nodes = cache.resolve(property as string, 'nodes')
+  if (!nodes || !Array.isArray(nodes)) return
+
+  cache.link(property as string, 'nodes', [...nodes, newNodeKey])
+}
 
 const cacheListAppend = <
   Fragment,
@@ -168,9 +200,9 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
   const graphCacheConfig: GraphCacheConfig = {
     keys: {
-      PreferenceEventCategory: (data) => data.nodeId ?? null,
-      PreferenceEventFormat: (data) => data.nodeId ?? null,
-      PreferenceEventSize: (data) => data.nodeId ?? null,
+      PreferenceEventCategory: (data) => data.nodeId ?? null, // TODO: remove
+      PreferenceEventFormat: (data) => data.nodeId ?? null, // TODO: remove
+      PreferenceEventSize: (data) => data.nodeId ?? null, // TODO: remove
       GeographyPoint: (_data) => null,
     },
     schema,
@@ -189,6 +221,30 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           invalidateCache(cache, 'allContacts'),
         createGuest: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allGuests'),
+        createEventFavorite: (
+          result: CreateEventFavoriteMutation,
+          _args,
+          cache,
+          _info,
+        ) => {
+          const newNode = result.createEventFavorite?.eventFavorite
+          if (!newNode || !newNode.__typename) return
+
+          const parentKey = cache.keyOfEntity({
+            __typename: 'Event',
+            id: newNode.eventId,
+          })
+          if (!parentKey) return
+
+          cacheNodesAppend({
+            cache,
+            // @ts-expect-error typechecked above
+            newNode,
+            parentKey,
+            parentProperty: 'eventFavoritesByEventId',
+            parentPropertyArguments: { first: 1 },
+          })
+        },
         createPreferenceEventCategory: (result, _args, cache, _info) =>
           cacheListAppend({
             cache,
@@ -274,6 +330,8 @@ export default defineNuxtPlugin(async (nuxtApp) => {
             query: allPreferenceEventLocationsQuery,
             result,
           }),
+        deleteEventFavoriteById: (_result, args, cache, _info) =>
+          invalidateCache(cache, 'EventFavorite', args),
       },
     },
   }

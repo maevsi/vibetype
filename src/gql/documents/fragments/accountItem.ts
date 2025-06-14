@@ -2,8 +2,9 @@ import { type FragmentType, graphql, useFragment } from '~~/gql/generated'
 
 export const AccountItem = graphql(`
   fragment AccountItem on Account {
-    nodeId
+    description
     id
+    nodeId
     username
   }
 `)
