@@ -1,3 +1,9 @@
+## [12.2.1](https://github.com/maevsi/vibetype/compare/12.2.0...12.2.1) (2025-06-15)
+
+### Performance Improvements
+
+* **composables:** rework api data getter ([5b9074d](https://github.com/maevsi/vibetype/commit/5b9074db49cbaf4a56773c902058c259d90b3fda))
+
 ## [12.2.0](https://github.com/maevsi/vibetype/compare/12.1.0...12.2.0) (2025-06-14)
 
 ### Features
