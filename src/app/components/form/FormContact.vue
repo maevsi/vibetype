@@ -166,7 +166,7 @@ const isFormSent = ref(false)
 // api data
 const createContactMutation = useCreateContactMutation()
 const updateContactByIdMutation = useUpdateContactByIdMutation()
-const api = getApiData([createContactMutation, updateContactByIdMutation])
+const api = await useApiData([createContactMutation, updateContactByIdMutation])
 
 // methods
 const submit = async () => {

@@ -93,14 +93,15 @@
 
 <script setup lang="ts">
 import type { OperationResult } from '@urql/core'
+import { useMutation } from '@urql/vue'
+import type { DeepReadonly } from 'vue'
 
 import { cn } from '@/utils/shadcn'
-import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
 // compiler
 export type EventCardProps = {
-  event: {
+  event: DeepReadonly<{
     id: string
     accountByCreatedBy?: {
       id?: string
@@ -124,7 +125,7 @@ export type EventCardProps = {
     name: string
     slug: string
     start: string
-  }
+  }>
 }
 const { event } = defineProps<EventCardProps>()
 
@@ -180,7 +181,7 @@ const deleteEventFavoriteByIdMutation = useMutation(
     }
   `),
 )
-const api = getApiData([
+const api = await useApiData([
   createEventFavoriteMutation,
   deleteEventFavoriteByIdMutation,
 ])

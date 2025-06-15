@@ -225,15 +225,13 @@ useHeadDefault({
 })
 
 // api data
-const query = await zalgo(
-  useQuery({
-    query: queryAccount,
-    variables: {
-      username: route.params.username,
-    } satisfies MaybeRefObj<AccountQueryVariables>,
-  }),
-)
-const api = getApiData([query])
+const query = useQuery({
+  query: queryAccount,
+  variables: {
+    username: route.params.username,
+  } satisfies MaybeRefObj<AccountQueryVariables>,
+})
+const api = await useApiData([query])
 const account = computed(() => query.data.value?.accountByUsername)
 const accountDescription = computed(() => account.value?.description?.trim())
 const achievements = computed(
@@ -247,8 +245,9 @@ const events = computed(() =>
 )
 
 // account
-if (!account.value) {
-  throw createError({
+if (account.value === null) {
+  throw showError({
+    message: 'Account data missing',
     statusCode: 404,
   })
 }

@@ -117,15 +117,13 @@ const translate = (nameKey: string) => {
 }
 
 // api data
-const allCategoriesQuery = await zalgo(useAllEventCategoriesQuery())
-const allPreferenceEventCategoriesQuery = await zalgo(
-  useAllPreferenceEventCategoriesQuery(),
-)
+const allCategoriesQuery = useAllEventCategoriesQuery()
+const allPreferenceEventCategoriesQuery = useAllPreferenceEventCategoriesQuery()
 const createPreferenceEventCategoryMutation =
   useCreatePreferenceEventCategoryMutation()
 const deletePreferenceEventCategoryByAccountIdAndCategoryIdMutation =
   useDeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation()
-const api = getApiData([
+const api = await useApiData([
   allCategoriesQuery,
   allPreferenceEventCategoriesQuery,
   createPreferenceEventCategoryMutation,

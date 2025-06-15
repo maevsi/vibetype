@@ -1,6 +1,7 @@
 <template>
   <div class="flex flex-col items-center gap-4">
     <AppForm
+      v-if="form"
       :form="v$"
       form-class="w-full"
       :is-form-sent="isFormSent"
@@ -55,73 +56,26 @@
 import { useVuelidate } from '@vuelidate/core'
 import { sameAs, required } from '@vuelidate/validators'
 
-import { useAccountRegistrationMutation } from '~~/gql/documents/mutations/account/accountRegistration'
-
-const { birthDate = undefined } = defineProps<{
-  birthDate?: string
-}>()
-
 const emit = defineEmits<{
   submit: []
-  success: []
 }>()
 
-const { locale, t } = useI18n()
+const { t } = useI18n()
 const localePath = useLocalePath()
-const accountRegistrationMutation = useAccountRegistrationMutation()
-const api = getApiData([accountRegistrationMutation])
-const form = reactive({
-  captcha: ref<string>(),
-  emailAddress: ref<string>(),
-  password: ref<string>(),
-  passwordRepetition: ref<string>(),
-  username: ref<string>(),
-})
+const form = defineModel<{
+  captcha: string | undefined
+  emailAddress: string | undefined
+  password: string | undefined
+  passwordRepetition: string | undefined
+  username: string | undefined
+}>('form', { required: true })
 const isFormSent = ref(false)
-const modelError = defineModel<Error>('error')
 
 // Methods
-const submit = async (termId: string) => {
-  const result = await accountRegistrationMutation.executeMutation(
-    {
-      birthDate: birthDate,
-      emailAddress: form.emailAddress || '',
-      language: locale.value,
-      legalTermId: termId,
-      password: form.password || '',
-      username: form.username || '',
-    },
-    {
-      fetchOptions: {
-        headers: {
-          ...(form.captcha && { [TURNSTILE_HEADER_KEY]: form.captcha }),
-        },
-      },
-    },
-  )
-  if (result.error || !result.data) return
-  emit('success')
-}
 const submitEmit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
   emit('submit')
 }
-
-// TODO: move into api utility as `errorsTranslated`
-watch(
-  () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(
-          getCombinedErrorMessages(current, {
-            postgresVTAUV: t('postgresVTAUV'),
-            postgresVTBDA: t('postgresVTBDA'),
-            postgresVTPLL: t('postgresVTPLL'),
-          })[0],
-        )
-      : undefined
-  },
-)
 
 // vuelidate
 const rules = {
@@ -134,31 +88,21 @@ const rules = {
   password: VALIDATION_PASSWORD(),
   passwordRepetition: {
     required,
-    sameAs: sameAs(computed(() => form.password)),
+    sameAs: sameAs(computed(() => form.value?.password)),
   },
 }
-const v$ = useVuelidate(rules, form)
-
-defineExpose({
-  submit,
-})
+const v$ = useVuelidate(rules, form.value)
 </script>
 
 <i18n lang="yaml">
 de:
   accountDeletionNotice: Du wirst deinen Account jederzeit löschen können.
   passwordRepetition: Passwort bestätigen
-  postgresVTAUV: Es gibt bereits einen Account mit diesem Nutzernamen! Überlege dir einen neuen Namen oder versuche dich anzumelden.
-  postgresVTBDA: Du musst mindestens 18 Jahre alt sein, um dich zu registrieren.
-  postgresVTPLL: Das Passwort ist zu kurz! Überlege dir ein längeres.
   register: Registrieren
   signIn: 'Du hast bereits ein Konto? Anmelden'
 en:
   accountDeletionNotice: "You'll be able to delete your account at any time."
   passwordRepetition: Confirm password
-  postgresVTAUV: This username is already in use! Think of a new name or try signing in instead.
-  postgresVTBDA: You must be at least 18 years old to register.
-  postgresVTPLL: Your password is too short! Think of a longer one.
   register: Sign Up
   signIn: Already have an account? Log in
 </i18n>

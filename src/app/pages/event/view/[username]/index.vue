@@ -82,24 +82,27 @@ useHeadDefault({
 
 // api data
 const queryAfter = ref<string>()
-const query = await zalgo(
-  useQuery({
-    query: queryEventListAccount,
-    variables: {
-      after: queryAfter,
-      first: ITEMS_PER_PAGE,
-      username: route.params.username,
-    } satisfies MaybeRefObj<EventListAccountQueryVariables>,
-  }),
+const query = useQuery({
+  query: queryEventListAccount,
+  variables: {
+    after: queryAfter,
+    first: ITEMS_PER_PAGE,
+    username: route.params.username,
+  } satisfies MaybeRefObj<EventListAccountQueryVariables>,
+})
+const api = await useApiData([query])
+const account = computed(() => api.value.data.accountByUsername)
+const events = computed(() =>
+  account.value?.eventsByCreatedBy.nodes.map((event) => ({
+    ...event,
+    accountByCreatedBy: { ...account.value, username: route.params.username },
+  })),
 )
 
-const api = getApiData([query])
-const account = computed(() => query.data.value?.accountByUsername)
-const events = computed(() => account.value?.eventsByCreatedBy.nodes)
-
 // validation
-if (!account.value) {
-  throw createError({
+if (account.value === null) {
+  throw showError({
+    message: 'Account data missing',
     statusCode: 404,
   })
 }

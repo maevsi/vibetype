@@ -115,16 +115,16 @@ const form = reactive({
 const isFormSent = ref(false)
 
 // api data
-const allContactsQuery = await useAllContactsQuery({
+const allContactsQuery = useAllContactsQuery({
   after,
   createdBy: store.signedInAccountId,
   first: ITEMS_PER_PAGE_LARGE,
 })
 const createGuestMutation = useCreateGuestMutation()
-const api = getApiData([allContactsQuery, createGuestMutation])
+const api = await useApiData([allContactsQuery, createGuestMutation])
 const contacts = computed(
   () =>
-    allContactsQuery.data.value?.allContacts?.nodes
+    api.value.data.allContacts?.nodes
       .map((x) => getContactItem(x))
       .filter(isNeitherNullNorUndefined) || [],
 )

@@ -119,15 +119,13 @@ const queryEventSearch = graphql(`
 `)
 
 const allEventsQueryAfter = ref<string>()
-const allEventsQuery = await zalgo(
-  useQuery({
-    query: queryEventList,
-    variables: {
-      after: allEventsQueryAfter,
-      first: ITEMS_PER_PAGE,
-    } satisfies MaybeRefObj<EventListQueryVariables>,
-  }),
-)
+const allEventsQuery = useQuery({
+  query: queryEventList,
+  variables: {
+    after: allEventsQueryAfter,
+    first: ITEMS_PER_PAGE,
+  } satisfies MaybeRefObj<EventListQueryVariables>,
+})
 
 const searchQuery = ref<string>()
 const searchQueryDebounced = refDebounced(searchQuery, 300)
@@ -135,16 +133,14 @@ const searchQueryVariable = computed(() =>
   searchQueryDebounced.value?.trim().split(/\s+/).join(' OR '),
 )
 const searchResultsQueryAfter = ref<string>()
-const searchResultsQuery = await zalgo(
-  useQuery({
-    query: queryEventSearch,
-    variables: {
-      after: searchResultsQueryAfter,
-      query: searchQueryVariable,
-      first: ITEMS_PER_PAGE,
-    } satisfies MaybeRefObj<EventSearchQueryVariables>,
-  }),
-)
+const searchResultsQuery = useQuery({
+  query: queryEventSearch,
+  variables: {
+    after: searchResultsQueryAfter,
+    query: searchQueryVariable,
+    first: ITEMS_PER_PAGE,
+  } satisfies MaybeRefObj<EventSearchQueryVariables>,
+})
 watch(searchQueryVariable, () => {
   searchResultsQueryAfter.value = undefined
 })
@@ -154,8 +150,8 @@ const query = computed(() =>
 )
 const pageInfo = computed(() =>
   searchQueryVariable.value
-    ? searchResultsQuery.data.value?.eventSearch?.pageInfo
-    : allEventsQuery.data.value?.allEvents?.pageInfo,
+    ? api.value.data.eventSearch?.pageInfo
+    : api.value.data.allEvents?.pageInfo,
 )
 const events = computed(() => {
   if (!query.value.data.value) return
@@ -171,7 +167,7 @@ const events = computed(() => {
   return undefined
 })
 
-const api = getApiData([query.value])
+const api = await useApiData([query.value])
 const loadMore = () => {
   if (!query.value.data.value) return
 

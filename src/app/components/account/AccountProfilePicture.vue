@@ -40,21 +40,19 @@ const { t } = useI18n()
 const TUSD_FILES_URL = useTusdFilesUrl()
 
 // api data
-const accountByIdQuery = await useAccountByIdQuery({
+const accountByIdQuery = useAccountByIdQuery({
   id: accountId,
 })
-const profilePictureQuery = await useProfilePictureByAccountIdQuery({
+const profilePictureQuery = useProfilePictureByAccountIdQuery({
   accountId: accountId,
 })
-const api = getApiData([accountByIdQuery, profilePictureQuery])
-const account = computed(() =>
-  getAccountItem(accountByIdQuery.data.value?.accountById),
-)
+const api = await useApiData([accountByIdQuery, profilePictureQuery])
+const account = computed(() => getAccountItem(api.value.data.accountById))
 
 // computations
 const profilePictureUrl = computed(() => {
   const profilePicture = getProfilePictureItem(
-    profilePictureQuery.data.value?.profilePictureByAccountId,
+    api.value.data.profilePictureByAccountId,
   )
   const upload = getUploadItem(profilePicture?.uploadByUploadId)
 

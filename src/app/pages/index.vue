@@ -126,7 +126,7 @@ const loadingIds = useState(STATE_LOADING_IDS_NAME, () => [loadingId])
 
 // api data
 const achievementUnlockMutation = useAchievementUnlockMutation()
-// const api = getApiData([achievementUnlockMutation])
+// const api = await useApiData([achievementUnlockMutation])
 
 // methods
 const hideScrollHint = () => {

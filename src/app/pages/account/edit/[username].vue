@@ -65,16 +65,15 @@ if (route.params.username !== store.signedInUsername) {
 
 // api data
 const accountDeleteMutation = useAccountDeleteMutation()
-const accountByUsernameQuery = await zalgo(
-  useAccountByUsernameQuery({
-    username: route.params.username,
-  }),
-)
-const account = getAccountItem(
-  accountByUsernameQuery.data.value?.accountByUsername,
-)
+const accountByUsernameQuery = useAccountByUsernameQuery({
+  username: route.params.username,
+})
 const profilePictureSetMutation = useProfilePictureSetMutation()
-const api = getApiData([accountByUsernameQuery, profilePictureSetMutation])
+const api = await useApiData([
+  accountByUsernameQuery,
+  profilePictureSetMutation,
+])
+const account = getAccountItem(api.value.data.accountByUsername)
 
 // methods
 const onUploadSelect = async (uploadId?: string | null | undefined) =>

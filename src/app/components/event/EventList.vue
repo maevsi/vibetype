@@ -18,12 +18,14 @@
 </template>
 
 <script setup lang="ts">
-import type { AppMapProps } from '~/components/app/AppMap.vue'
+import type { DeepReadonly } from 'vue'
+
+import type { AppMapEvent } from '~/components/app/AppMap.vue'
 import type { EventCardProps } from './card/EventCard.vue'
 
 // compiler
 const { events = undefined, hasNextPage } = defineProps<{
-  events?: EventCardProps['event'][] & AppMapProps['events']
+  events?: DeepReadonly<(EventCardProps['event'] & AppMapEvent)[]>
   hasNextPage?: boolean
 }>()
 

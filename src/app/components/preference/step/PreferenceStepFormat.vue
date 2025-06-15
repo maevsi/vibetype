@@ -114,15 +114,13 @@ const translate = (nameKey: string) => {
 }
 
 // api data
-const allFormatsQuery = await zalgo(useAllEventFormatsQuery())
-const allPreferenceEventFormatsQuery = await zalgo(
-  useAllPreferenceEventFormatsQuery(),
-)
+const allFormatsQuery = useAllEventFormatsQuery()
+const allPreferenceEventFormatsQuery = useAllPreferenceEventFormatsQuery()
 const createPreferenceEventFormatMutation =
   useCreatePreferenceEventFormatMutation()
 const deletePreferenceEventFormatByAccountIdAndFormatIdMutation =
   useDeletePreferenceEventFormatByAccountIdAndFormatIdMutation()
-const api = getApiData([
+const api = await useApiData([
   allFormatsQuery,
   allPreferenceEventFormatsQuery,
   createPreferenceEventFormatMutation,

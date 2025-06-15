@@ -1,15 +1,22 @@
+import type {
+  AnyVariables,
+  UseMutationResponse,
+  UseQueryResponse,
+} from '@urql/vue'
 import { consola } from 'consola'
 
-export const getApiData = <
+// TODO: account for errors in page setups
+export const useApiData = async <
+  T extends UseMutationResponse<S, V> | UseQueryResponse<S, V>,
   S,
-  T extends {
-    data: Ref<S>
-    error: Ref<BackendError | undefined>
-    fetching: Ref<boolean>
-  },
+  V extends AnyVariables = AnyVariables,
 >(
-  queries: T[] = [],
+  queriesInput: T[] = [],
 ) => {
+  const queries = import.meta.server
+    ? await Promise.all(queriesInput)
+    : queriesInput
+
   const apiData = computed(() =>
     readonly({
       data: queries.reduce(

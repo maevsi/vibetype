@@ -171,7 +171,7 @@ const title = t('title')
 
 // api data
 const eventUnlockMutation = useEventUnlockMutation()
-const api = getApiData([eventUnlockMutation])
+const api = await useApiData([eventUnlockMutation])
 
 // methods
 const submit = async () => {
