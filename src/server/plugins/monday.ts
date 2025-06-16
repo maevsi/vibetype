@@ -30,6 +30,15 @@ export default defineNitroPlugin((nitroApp) => {
     'board.earlyBird.column.nameId': board?.earlyBird?.column?.nameId,
     'board.earlyBird.id': board?.earlyBird?.id,
     'board.earlyBird.groupId': board?.earlyBird?.groupId,
+    'board.featureRequest.column.emailAddressId':
+      board?.featureRequest?.column?.emailAddressId,
+    'board.featureRequest.column.featureDescriptionId':
+      board?.featureRequest?.column?.featureDescriptionId,
+    'board.featureRequest.column.featureNameId':
+      board?.featureRequest?.column?.featureNameId,
+    'board.featureRequest.column.nameId': board?.featureRequest?.column?.nameId,
+    'board.featureRequest.id': board?.featureRequest?.id,
+    'board.featureRequest.groupId': board?.featureRequest?.groupId,
   })
     .filter(([_, value]) => !value)
     .map(([key]) => key)

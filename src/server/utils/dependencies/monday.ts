@@ -1,4 +1,6 @@
 import { consola } from 'consola'
+import { fileUpload } from '~~/gql/documents/mutations/monday/mondayFileUpload'
+import type { MultiPartData } from 'h3'
 
 export const useMonday = () => {
   const event = useEvent()
@@ -41,7 +43,17 @@ export const useMonday = () => {
           emailAddress: string
           name: string
         }
-      }) => {
+      }
+    | {
+        board: 'featureRequest'
+        columns: {
+          consent: boolean
+          emailAddress: string
+          name: string
+          featureName: string
+          featureDescription: string
+        }
+      }): Promise<{ id: string; name: string }> => {
     const runtimeConfigBoard = runtimeConfig.private.monday.board
 
     switch (board) {
@@ -84,13 +96,72 @@ export const useMonday = () => {
           itemName: new Date().toISOString(),
         })
       }
+      case 'featureRequest': {
+        const boardFeatureRequest = runtimeConfigBoard.featureRequest
+
+        return await client.request(queries.itemCreate, {
+          boardId: boardFeatureRequest.id,
+          columnValues: JSON.stringify({
+            [boardFeatureRequest.column.consentId]: {
+              checked: columns.consent.toString(),
+            },
+            [boardFeatureRequest.column.emailAddressId]: {
+              email: columns.emailAddress,
+              text: columns.emailAddress,
+            },
+            [boardFeatureRequest.column.nameId]: columns.name,
+            [boardFeatureRequest.column.featureDescriptionId]:
+              columns.featureDescription,
+          }),
+          groupId: boardFeatureRequest.groupId,
+          itemName: columns.featureName,
+        })
+      }
       default:
         consola.error('Unexpected Monday board')
+        throw createError({
+          statusCode: 500,
+          statusMessage: 'Unexpected Monday board',
+        })
     }
+  }
+
+  const uploadFile = async ({
+    itemId,
+    columnId,
+    file,
+  }: {
+    itemId: string
+    columnId: string
+    file: MultiPartData
+  }) => {
+    const formData = new FormData()
+
+    formData.append('query', fileUpload)
+    formData.append(
+      'variables',
+      JSON.stringify({
+        item_id: itemId,
+        column_id: columnId,
+      }),
+    )
+    formData.append('map', '{"file":"variables.file"}')
+    formData.append('file', new Blob([file.data]), file.filename || 'file')
+
+    const response = await $fetch('https://api.monday.com/v2/file', {
+      method: 'POST',
+      headers: {
+        Authorization: runtimeConfig.private.monday.apiToken,
+      },
+      body: formData,
+    })
+
+    return response
   }
 
   return {
     client,
     createItem,
+    uploadFile,
   }
 }

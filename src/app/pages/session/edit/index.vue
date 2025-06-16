@@ -90,7 +90,11 @@
           <CardButton
             is-external
             :title="t('featureSuggestion')"
-            to="https://forms.monday.com/forms/f3ef56d13c8383e6ececb2875d7fb4b2?r=euc1"
+            :to="
+              localePath({
+                name: 'feature-request',
+              })
+            "
           >
             <AppIconIdea />
           </CardButton>
