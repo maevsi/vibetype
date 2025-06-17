@@ -247,6 +247,7 @@ const createEvent = async () => {
   }
 }
 
+//TODO: REVIEW LAYOUT ISSUE
 onMounted(() => {
   if (store.jwtDecoded?.role === `${SITE_NAME}_account`) {
     setPageLayout('plain')
