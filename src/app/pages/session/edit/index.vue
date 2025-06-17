@@ -101,7 +101,11 @@
           <CardButton
             is-external
             :title="t('bugReport')"
-            to="https://forms.monday.com/forms/55b8fc2281c2be1647a69e6a4ffe156e?r=euc1"
+            :to="
+              localePath({
+                name: 'issue',
+              })
+            "
           >
             <AppIconBug />
           </CardButton>

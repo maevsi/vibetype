@@ -53,6 +53,16 @@ export const useMonday = () => {
           featureName: string
           featureDescription: string
         }
+      }
+    | {
+        board: 'issue'
+        columns: {
+          consent: boolean
+          email: string
+          requestor: string
+          issueName: string
+          description: string
+        }
       }): Promise<{ id: string; name: string }> => {
     const runtimeConfigBoard = runtimeConfig.private.monday.board
 
@@ -115,6 +125,26 @@ export const useMonday = () => {
           }),
           groupId: boardFeatureRequest.groupId,
           itemName: columns.featureName,
+        })
+      }
+      case 'issue': {
+        const boardIssue = runtimeConfigBoard.issue
+
+        return await client.request(queries.itemCreate, {
+          boardId: boardIssue.id,
+          columnValues: JSON.stringify({
+            [boardIssue.column.consentId]: {
+              checked: columns.consent.toString(),
+            },
+            [boardIssue.column.emailId]: {
+              email: columns.email,
+              text: columns.email,
+            },
+            [boardIssue.column.requestorId]: columns.requestor,
+            [boardIssue.column.descriptionId]: columns.description,
+          }),
+          groupId: boardIssue.groupId,
+          itemName: columns.issueName,
         })
       }
       default:

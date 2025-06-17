@@ -39,6 +39,12 @@ export default defineNitroPlugin((nitroApp) => {
     'board.featureRequest.column.nameId': board?.featureRequest?.column?.nameId,
     'board.featureRequest.id': board?.featureRequest?.id,
     'board.featureRequest.groupId': board?.featureRequest?.groupId,
+    'board.issue.column.emailId': board?.issue?.column?.emailId,
+    'board.issue.column.requestorId': board?.issue?.column?.requestorId,
+    'board.issue.column.descriptionId': board?.issue?.column?.descriptionId,
+    'board.issue.column.consentId': board?.issue?.column?.consentId,
+    'board.issue.id': board?.issue?.id,
+    'board.issue.groupId': board?.issue?.groupId,
   })
     .filter(([_, value]) => !value)
     .map(([key]) => key)

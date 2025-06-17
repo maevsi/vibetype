@@ -17,5 +17,11 @@ export const schemaFormFeatureRequest = z.object({
   featureName: z.string().max(255),
   featureDescription: z.string().max(2000),
   name: z.string().max(100),
-  screenshots: z.any().optional(),
+})
+export const schemaFormIssue = z.object({
+  consent: z.boolean().refine((value) => value === true),
+  email: z.string().email().max(1000),
+  requestor: z.string().max(100),
+  issueName: z.string().max(255),
+  description: z.string().max(2000),
 })
