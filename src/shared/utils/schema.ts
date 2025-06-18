@@ -25,3 +25,10 @@ export const schemaFormIssue = z.object({
   issueName: z.string().max(255),
   description: z.string().max(2000),
 })
+export const schemaFormReport = z.object({
+  name: z.string().min(1).max(100),
+  emailAddress: z.string().email().max(1000),
+  message: z.string().min(1).max(2000),
+  privacyConsent: z.boolean().refine((value) => value === true),
+  accuracyConfirmation: z.boolean().refine((value) => value === true),
+})
