@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   return createMondayItem({
     board: 'report',
     columns: {
-      emailAddress: body.emailAddress,
+      emailAddress: body.emailAddress || '',
       message: body.message,
       privacyConsent: body.privacyConsent,
       accuracyConfirmation: body.accuracyConfirmation,
