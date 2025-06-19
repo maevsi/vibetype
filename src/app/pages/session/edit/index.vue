@@ -120,6 +120,16 @@
             <AppIconMail />
           </CardButton>
           <CardButton
+            :title="t('report')"
+            :to="
+              localePath({
+                name: 'report',
+              })
+            "
+          >
+            <AppIconReport />
+          </CardButton>
+          <CardButton
             v-if="isDevelopmentModeActive"
             :title="t('developerInformation')"
             :to="
@@ -213,6 +223,7 @@ de:
   profile: Profil
   earlyBirdStart: Early Bird beitreten
   # earlyBirdStop: Early Bird beenden
+  report: Melden
   support: Hilfe
   terms: Allgemeine Geschäftsbedingungen
 en:
@@ -236,6 +247,7 @@ en:
   profile: Profile
   earlyBirdStart: Join Early Bird
   # earlyBirdStop: Stop Early Bird
+  report: Report
   support: Support
   terms: General Terms and Conditions
 </i18n>
