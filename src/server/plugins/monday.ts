@@ -30,6 +30,29 @@ export default defineNitroPlugin((nitroApp) => {
     'board.earlyBird.column.nameId': board?.earlyBird?.column?.nameId,
     'board.earlyBird.id': board?.earlyBird?.id,
     'board.earlyBird.groupId': board?.earlyBird?.groupId,
+    'board.featureRequest.column.emailAddressId':
+      board?.featureRequest?.column?.emailAddressId,
+    'board.featureRequest.column.featureDescriptionId':
+      board?.featureRequest?.column?.featureDescriptionId,
+    'board.featureRequest.column.featureNameId':
+      board?.featureRequest?.column?.featureNameId,
+    'board.featureRequest.column.nameId': board?.featureRequest?.column?.nameId,
+    'board.featureRequest.id': board?.featureRequest?.id,
+    'board.featureRequest.groupId': board?.featureRequest?.groupId,
+    'board.issue.column.emailId': board?.issue?.column?.emailId,
+    'board.issue.column.requestorId': board?.issue?.column?.requestorId,
+    'board.issue.column.descriptionId': board?.issue?.column?.descriptionId,
+    'board.issue.column.consentId': board?.issue?.column?.consentId,
+    'board.issue.id': board?.issue?.id,
+    'board.issue.groupId': board?.issue?.groupId,
+    'board.report.column.emailId': board?.report?.column?.emailId,
+    'board.report.column.messageId': board?.report?.column?.messageId,
+    'board.report.column.privacyConsentId':
+      board?.report?.column?.privacyConsentId,
+    'board.report.column.accuracyConfirmationId':
+      board?.report?.column?.accuracyConfirmationId,
+    'board.report.id': board?.report?.id,
+    'board.report.groupId': board?.report?.groupId,
   })
     .filter(([_, value]) => !value)
     .map(([key]) => key)
