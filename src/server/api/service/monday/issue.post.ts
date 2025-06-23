@@ -6,10 +6,10 @@ export default defineEventHandler(async (event) => {
     board: 'issue',
     columns: {
       consent: body.consent,
-      email: body.email,
-      requestor: body.requestor,
-      issueName: body.issueName,
       description: body.description,
+      email: body.email,
+      issueName: body.issueName,
+      requestor: body.requestor,
     },
   })
 })

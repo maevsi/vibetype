@@ -88,22 +88,20 @@
         </span>
         <div class="flex flex-col gap-3">
           <CardButton
-            is-external
             :title="t('featureSuggestion')"
             :to="
               localePath({
-                name: 'feature-request',
+                name: 'support-feature-request',
               })
             "
           >
             <AppIconIdea />
           </CardButton>
           <CardButton
-            is-external
             :title="t('bugReport')"
             :to="
               localePath({
-                name: 'issue',
+                name: 'support-issue',
               })
             "
           >
@@ -123,11 +121,11 @@
             :title="t('report')"
             :to="
               localePath({
-                name: 'report',
+                name: 'support-report',
               })
             "
           >
-            <AppIconReport />
+            <AppIconExclamation />
           </CardButton>
           <CardButton
             v-if="isDevelopmentModeActive"

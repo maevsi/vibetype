@@ -25,28 +25,10 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/event" />
     </url>
     <url>
-        <loc>http://localhost:3001/de/feature-request</loc>
-        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/feature-request" />
-        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/feature-request" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/feature-request" />
-    </url>
-    <url>
-        <loc>http://localhost:3001/de/issue</loc>
-        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/issue" />
-        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/issue" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/issue" />
-    </url>
-    <url>
         <loc>http://localhost:3001/de/notification</loc>
         <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/notification" />
         <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/notification" />
         <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/notification" />
-    </url>
-    <url>
-        <loc>http://localhost:3001/de/report</loc>
-        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/report" />
-        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/report" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/report" />
     </url>
     <url>
         <loc>http://localhost:3001/de/upload</loc>
@@ -113,6 +95,24 @@
         <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/support/contact" />
         <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/support/contact" />
         <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/support/contact" />
+    </url>
+    <url>
+        <loc>http://localhost:3001/de/support/feature-request</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/support/feature-request" />
+        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/support/feature-request" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/support/feature-request" />
+    </url>
+    <url>
+        <loc>http://localhost:3001/de/support/issue</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/support/issue" />
+        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/support/issue" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/support/issue" />
+    </url>
+    <url>
+        <loc>http://localhost:3001/de/support/report</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/support/report" />
+        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/support/report" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/support/report" />
     </url>
     <url>
         <loc>http://localhost:3001/de/docs/legal/attributions</loc>

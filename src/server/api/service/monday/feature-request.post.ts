@@ -34,18 +34,18 @@ export default defineEventHandler(async (event) => {
     columns: {
       consent: body.consent,
       emailAddress: body.emailAddress,
-      name: body.name,
-      featureName: body.featureName,
       featureDescription: body.featureDescription,
+      featureName: body.featureName,
+      name: body.name,
     },
   })
 
   if (files.length > 0) {
     for (const file of files) {
       await uploadFile({
-        itemId: item.id,
         columnId: 'datei_hochladen',
         file: file,
+        itemId: item.id,
       })
     }
   }

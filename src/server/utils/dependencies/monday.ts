@@ -1,5 +1,4 @@
 import { consola } from 'consola'
-import { fileUpload } from '~~/gql/documents/mutations/monday/mondayFileUpload'
 import type { MultiPartData } from 'h3'
 
 export const useMonday = () => {
@@ -49,28 +48,28 @@ export const useMonday = () => {
         columns: {
           consent: boolean
           emailAddress: string
-          name: string
-          featureName: string
           featureDescription: string
+          featureName: string
+          name: string
         }
       }
     | {
         board: 'issue'
         columns: {
           consent: boolean
-          email: string
-          requestor: string
-          issueName: string
           description: string
+          email: string
+          issueName: string
+          requestor: string
         }
       }
     | {
         board: 'report'
         columns: {
+          accuracyConfirmation: boolean
           emailAddress: string
           message: string
           privacyConsent: boolean
-          accuracyConfirmation: boolean
           reportName: string
         }
       }): Promise<{ id: string; name: string }> => {
@@ -129,9 +128,9 @@ export const useMonday = () => {
               email: columns.emailAddress,
               text: columns.emailAddress,
             },
-            [boardFeatureRequest.column.nameId]: columns.name,
             [boardFeatureRequest.column.featureDescriptionId]:
               columns.featureDescription,
+            [boardFeatureRequest.column.nameId]: columns.name,
           }),
           groupId: boardFeatureRequest.groupId,
           itemName: columns.featureName,
@@ -146,12 +145,12 @@ export const useMonday = () => {
             [boardIssue.column.consentId]: {
               checked: columns.consent.toString(),
             },
+            [boardIssue.column.descriptionId]: columns.description,
             [boardIssue.column.emailId]: {
               email: columns.email,
               text: columns.email,
             },
             [boardIssue.column.requestorId]: columns.requestor,
-            [boardIssue.column.descriptionId]: columns.description,
           }),
           groupId: boardIssue.groupId,
           itemName: columns.issueName,
@@ -163,6 +162,9 @@ export const useMonday = () => {
         return await client.request(queries.itemCreate, {
           boardId: boardReport.id,
           columnValues: JSON.stringify({
+            [boardReport.column.accuracyConfirmationId]: {
+              checked: columns.accuracyConfirmation.toString(),
+            },
             [boardReport.column.emailId]: {
               email: columns.emailAddress,
               text: columns.emailAddress,
@@ -170,9 +172,6 @@ export const useMonday = () => {
             [boardReport.column.messageId]: columns.message,
             [boardReport.column.privacyConsentId]: {
               checked: columns.privacyConsent.toString(),
-            },
-            [boardReport.column.accuracyConfirmationId]: {
-              checked: columns.accuracyConfirmation.toString(),
             },
           }),
           groupId: boardReport.groupId,
@@ -199,7 +198,19 @@ export const useMonday = () => {
   }) => {
     const formData = new FormData()
 
-    formData.append('query', fileUpload)
+    formData.append(
+      'query',
+      `
+        mutation ($file: File!, $item_id: ID!, $column_id: String!) {
+          add_file_to_column (
+            file: $file,
+            item_id: $item_id,
+            column_id: $column_id
+          ) {
+            id
+          }
+        }`,
+    )
     formData.append(
       'variables',
       JSON.stringify({
