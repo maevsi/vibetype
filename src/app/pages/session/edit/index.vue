@@ -125,7 +125,7 @@
               })
             "
           >
-            <AppIconExclamation />
+            <AppIconReport />
           </CardButton>
           <CardButton
             v-if="isDevelopmentModeActive"
