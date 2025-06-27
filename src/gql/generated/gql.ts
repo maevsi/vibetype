@@ -36,6 +36,7 @@ type Documents = {
   '\n  fragment UploadItem on Upload {\n    id\n    nodeId\n    sizeByte\n    storageKey\n    createdBy\n  }\n': typeof types.UploadItemFragmentDoc
   '\n  mutation Authenticate($password: String!, $username: String!) {\n    authenticate(input: { password: $password, username: $username }) {\n      clientMutationId\n      jwt\n    }\n  }\n': typeof types.AuthenticateDocument
   '\n  mutation AccountDelete($password: String!) {\n    accountDelete(input: { password: $password }) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountDeleteDocument
+  '\n  mutation AccountDescriptionUpdate(\n    $username: String!\n    $accountPatch: AccountPatch!\n  ) {\n    updateAccountByUsername(\n      input: { username: $username, accountPatch: $accountPatch }\n    ) {\n      account {\n        ...AccountItem\n      }\n    }\n  }\n': typeof types.AccountDescriptionUpdateDocument
   '\n  mutation AccountEmailAddressVerification($code: UUID!) {\n    accountEmailAddressVerification(input: { code: $code }) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountEmailAddressVerificationDocument
   '\n  mutation JwtRefresh($id: UUID!) {\n    jwtRefresh(input: { jwtId: $id }) {\n      clientMutationId\n      jwt\n    }\n  }\n': typeof types.JwtRefreshDocument
   '\n  mutation UpdateAccountLocation($input: UpdateAccountLocationInput!) {\n    updateAccountLocation(input: $input) {\n      clientMutationId\n    }\n  }\n': typeof types.UpdateAccountLocationDocument
@@ -132,6 +133,8 @@ const documents: Documents = {
     types.AuthenticateDocument,
   '\n  mutation AccountDelete($password: String!) {\n    accountDelete(input: { password: $password }) {\n      clientMutationId\n    }\n  }\n':
     types.AccountDeleteDocument,
+  '\n  mutation AccountDescriptionUpdate(\n    $username: String!\n    $accountPatch: AccountPatch!\n  ) {\n    updateAccountByUsername(\n      input: { username: $username, accountPatch: $accountPatch }\n    ) {\n      account {\n        ...AccountItem\n      }\n    }\n  }\n':
+    types.AccountDescriptionUpdateDocument,
   '\n  mutation AccountEmailAddressVerification($code: UUID!) {\n    accountEmailAddressVerification(input: { code: $code }) {\n      clientMutationId\n    }\n  }\n':
     types.AccountEmailAddressVerificationDocument,
   '\n  mutation JwtRefresh($id: UUID!) {\n    jwtRefresh(input: { jwtId: $id }) {\n      clientMutationId\n      jwt\n    }\n  }\n':
@@ -380,6 +383,12 @@ export function graphql(
 export function graphql(
   source: '\n  mutation AccountDelete($password: String!) {\n    accountDelete(input: { password: $password }) {\n      clientMutationId\n    }\n  }\n',
 ): (typeof documents)['\n  mutation AccountDelete($password: String!) {\n    accountDelete(input: { password: $password }) {\n      clientMutationId\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  mutation AccountDescriptionUpdate(\n    $username: String!\n    $accountPatch: AccountPatch!\n  ) {\n    updateAccountByUsername(\n      input: { username: $username, accountPatch: $accountPatch }\n    ) {\n      account {\n        ...AccountItem\n      }\n    }\n  }\n',
+): (typeof documents)['\n  mutation AccountDescriptionUpdate(\n    $username: String!\n    $accountPatch: AccountPatch!\n  ) {\n    updateAccountByUsername(\n      input: { username: $username, accountPatch: $accountPatch }\n    ) {\n      account {\n        ...AccountItem\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
