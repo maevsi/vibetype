@@ -2,7 +2,7 @@ import { consola } from 'consola'
 import type { SweetAlertIcon, SweetAlertOptions } from 'sweetalert2'
 
 export const useFireAlert = () => {
-  const { t } = useI18n()
+  const { t } = useI18n({ useScope: 'global' })
 
   return async (
     options: SweetAlertOptions & {
