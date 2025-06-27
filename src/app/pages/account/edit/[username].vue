@@ -1,6 +1,6 @@
 <template>
   <Loader :api="api" indicator="ping">
-    <LayoutPage>
+    <LayoutPage v-if="account">
       <div class="grid grid-cols-3 items-center">
         <AppButton
           :aria-label="t('back')"
@@ -21,7 +21,6 @@
       </div>
       <div class="flex flex-col gap-4">
         <div
-          v-if="account"
           class="flex items-center gap-4 rounded-lg border border-(--semantic-base-background) bg-(--semantic-base-surface-1) p-3"
         >
           <AccountProfilePicture
@@ -109,7 +108,11 @@
                 t('maxCharacters', { count: editableDescription?.length || 0 })
               }}
             </TypographySubtitleSmall>
-            <ButtonColored variant="secondary" :aria-label="t('saveChanges')">
+            <ButtonColored
+              variant="secondary"
+              :aria-label="t('saveChanges')"
+              @click="saveDescription"
+            >
               <TypographyLabel>
                 {{ t('saveChanges') }}
               </TypographyLabel>
@@ -119,6 +122,11 @@
         <CardButton
           class="border-(--warning-strong) bg-(--warning-weak) text-(--warning-text)"
           :title="t('resetPassword')"
+          :to="
+            localePath({
+              name: 'account-password-reset-request',
+            })
+          "
         >
           <AppIconVerifiedUser />
           <template #iconSecondary>
@@ -146,6 +154,7 @@
 import { useProfilePictureSetMutation } from '~~/gql/documents/mutations/profilePicture/profilePictureSet'
 import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
+import { useAccountDescriptionUpdateMutation } from '~~/gql/documents/mutations/account/accountDescriptionUpdate'
 
 definePageMeta({
   layout: 'default-no-header',
@@ -158,6 +167,7 @@ const { t } = useI18n()
 const isEditing = ref(false)
 const editableDescription = ref('')
 const isDeleteDrawerOpen = ref(false)
+const accountDescriptionMutation = useAccountDescriptionUpdateMutation()
 
 // page
 const route = useRoute('account-edit-username___en')
@@ -205,6 +215,15 @@ const cancelEdit = () => {
 
 const openDeleteDrawer = () => {
   isDeleteDrawerOpen.value = true
+}
+
+const saveDescription = async () => {
+  if (!account?.username) return
+  await accountDescriptionMutation.executeMutation({
+    username: account.username,
+    accountPatch: { description: editableDescription.value },
+  })
+  toggleEdit()
 }
 </script>
 
