@@ -2,9 +2,9 @@
   <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <div v-bind="attributes" class="space-y-6 text-center">
-        <div class="text-lg">
+        <TypographySubtitleSmall>
           {{ t('deleteAccountQuestion') }}
-        </div>
+        </TypographySubtitleSmall>
       </div>
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'passwordConfirmation'">
@@ -16,7 +16,7 @@
         :variables="{ accountId }"
         :item-name-deletion="t('account')"
         :item-name-success="t('account')"
-        @success="step = 'accountDeleted'"
+        @success="onDeleteSuccess"
       />
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'error'">
@@ -30,12 +30,11 @@
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'accountDeleted'">
       <div v-bind="attributes">
-        <div class="mx-auto flex items-center justify-center rounded-full">
-          <AppIconCheck />
-        </div>
-        <div>
-          {{ t('accountDeletedMessage') }}
-        </div>
+        <LayoutPageResult type="success">
+          <template #description>
+            {{ t('accountDeletedMessage') }}
+          </template>
+        </LayoutPageResult>
       </div>
     </AppStep>
     <template #title>
@@ -112,6 +111,7 @@ const error = ref()
 const { accountId } = defineProps<{
   accountId: string
 }>()
+const { signOut } = await useSignOut()
 
 const isOpen = defineModel<boolean>('isOpen')
 
@@ -131,6 +131,11 @@ const closeDrawer = () => {
 
 const goToHomepage = async () => {
   await navigateTo(localePath({ name: 'index' }))
+}
+
+const onDeleteSuccess = async () => {
+  step.value = 'accountDeleted'
+  await signOut()
 }
 
 watch(
