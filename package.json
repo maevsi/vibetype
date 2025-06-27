@@ -34,8 +34,7 @@
     ],
     "overrides": {
       "@nuxtjs/seo": "3.0.3",
-      "debug": "4.4.1",
-      "unrs-resolver": "1.9.1"
+      "debug": "4.4.1"
     }
   },
   "private": true,
