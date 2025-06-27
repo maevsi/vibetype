@@ -45,6 +45,7 @@
               size="compact"
               :aria-label="t('remove')"
               class="flex-1"
+              @click="removeProfilePicture"
             >
               <TypographyLabel>
                 {{ t('remove') }}
@@ -155,6 +156,10 @@ import { useProfilePictureSetMutation } from '~~/gql/documents/mutations/profile
 import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 import { useAccountDescriptionUpdateMutation } from '~~/gql/documents/mutations/account/accountDescriptionUpdate'
+import { getProfilePictureItem } from '~~/gql/documents/fragments/profilePictureItem'
+import { getUploadItem } from '~~/gql/documents/fragments/uploadItem'
+import { useProfilePictureByAccountIdQuery } from '~~/gql/documents/queries/profilePicture/profilePictureByAccountId'
+import { useDeleteUploadByIdMutation } from '~~/gql/documents/mutations/upload/uploadDeleteById'
 
 definePageMeta({
   layout: 'default-no-header',
@@ -168,6 +173,8 @@ const isEditing = ref(false)
 const editableDescription = ref('')
 const isDeleteDrawerOpen = ref(false)
 const accountDescriptionMutation = useAccountDescriptionUpdateMutation()
+const profilePictureSetMutation = useProfilePictureSetMutation()
+const deleteUploadMutation = useDeleteUploadByIdMutation()
 
 // page
 const route = useRoute('account-edit-username___en')
@@ -185,18 +192,23 @@ if (route.params.username !== store.signedInUsername) {
 const accountByUsernameQuery = useAccountByUsernameQuery({
   username: route.params.username,
 })
-const profilePictureSetMutation = useProfilePictureSetMutation()
-const api = await useApiData([
-  accountByUsernameQuery,
-  profilePictureSetMutation,
-])
-const account = getAccountItem(api.value.data.accountByUsername)
+
+const account = getAccountItem(
+  (await accountByUsernameQuery.executeQuery()).data?.value?.accountByUsername,
+)
+
+const profilePictureQuery = useProfilePictureByAccountIdQuery({
+  accountId: account?.id,
+})
+
+const api = await useApiData([accountByUsernameQuery, profilePictureQuery])
 
 // methods
 const onUploadSelect = async (uploadId?: string | null | undefined) =>
   await profilePictureSetMutation.executeMutation({
     uploadId,
   })
+
 const showModalUploadSelection = () => {
   store.modals.push({ id: 'ModalUploadSelection' })
 }
@@ -224,6 +236,20 @@ const saveDescription = async () => {
     accountPatch: { description: editableDescription.value },
   })
   toggleEdit()
+}
+
+const removeProfilePicture = async () => {
+  const profilePicture = getProfilePictureItem(
+    api.value.data.profilePictureByAccountId,
+  )
+  const upload = getUploadItem(profilePicture?.uploadByUploadId)
+
+  if (!upload?.id) return
+  console.log('her2')
+
+  await deleteUploadMutation.executeMutation({
+    id: upload.id,
+  })
 }
 </script>
 
