@@ -3,6 +3,10 @@
   "extends": ["github>dargmuesli/renovate-config"],
   "packageRules": [
     {
+      "matchPackageNames": ["@nuxtjs/seo"],
+      "allowedVersions": "3.0.3"
+    },
+    {
       "matchPackageNames": ["pnpm"],
       "allowedVersions": "10.12.1"
     }
