@@ -71,7 +71,7 @@ export const useMonday = () => {
         return await client.request(queries.itemCreate, {
           boardId: boardEarlyBird.id,
           columnValues: JSON.stringify({
-            [boardEarlyBird.column.aggreementId]: {
+            [boardEarlyBird.column.agreementId]: {
               checked: columns.agreement.toString(),
             },
             [boardEarlyBird.column.emailAddressId]: {
