@@ -114,7 +114,7 @@ Respektiere die Persönlichkeitsrechte: Niemand sollte gegen seinen Willen auf V
 
 - **Account-Sicherheit:** Schütze deinen Account durch ein sicheres Passwort und gib deine Zugangsdaten niemals an Dritte weiter.
 Du bist für die Aktivitäten auf deinem Account verantwortlich.
-Sollte dir auffallen, dass jemand unbefugt deinen Account nutzt oder sich Zugriff verschaffen will, **informiere umgehend das VIBETYPE-Team über: <https://forms.monday.com/forms/74204ae8168ecb1dd44c15b502854a5a?r=euc1>.**
+Sollte dir auffallen, dass jemand unbefugt deinen Account nutzt oder sich Zugriff verschaffen will, **informiere umgehend das VIBETYPE-Team über: <https://vibetype.app/de/support/contact>.**
 
 - **Keine Gefährdung anderer:** Bringe niemanden durch dein Verhalten in Gefahr.
 Beispielsweise dürfen in der App **keine Challenges oder Aufrufe** verbreitet werden, die andere zu gefährlichen Handlungen verleiten.
