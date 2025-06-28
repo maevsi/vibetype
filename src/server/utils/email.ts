@@ -7,11 +7,6 @@ import EmailAccountPasswordResetRequest from '../assets/emails/EmailAccountPassw
 import EmailAccountRegistration from '../assets/emails/EmailAccountRegistration.vue'
 import EmailEventInvitation from '../assets/emails/EmailEventInvitation.vue'
 
-import {
-  CHANNEL_NAME_ACCOUNT_PASSWORD_RESET as EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
-  CHANNEL_NAME_ACCOUNT_REGISTRATION as EMAIL_NAME_ACCOUNT_REGISTRATION,
-  CHANNEL_NAME_EVENT_INVITATION as EMAIL_NAME_EVENT_INVITATION,
-} from './notification'
 import { transporter } from './dependencies/nodemailer'
 import {
   LOGO,
@@ -22,15 +17,15 @@ import {
 import { getMailsSentLast24Hours } from './dependencies/aws'
 
 const emailConfig = {
-  [EMAIL_NAME_ACCOUNT_PASSWORD_RESET]: {
+  [CHANNEL_NAME_ACCOUNT_PASSWORD_RESET]: {
     component: EmailAccountPasswordResetRequest,
     props: {} as ExtractComponentProps<typeof EmailAccountPasswordResetRequest>,
   },
-  [EMAIL_NAME_ACCOUNT_REGISTRATION]: {
+  [CHANNEL_NAME_ACCOUNT_REGISTRATION]: {
     component: EmailAccountRegistration,
     props: {} as ExtractComponentProps<typeof EmailAccountRegistration>,
   },
-  [EMAIL_NAME_EVENT_INVITATION]: {
+  [CHANNEL_NAME_EVENT_INVITATION]: {
     component: EmailEventInvitation,
     props: {} as ExtractComponentProps<typeof EmailEventInvitation>,
   },
@@ -39,9 +34,9 @@ type EmailConfig = typeof emailConfig
 export type EmailProps<T extends keyof EmailConfig> = EmailConfig[T]['props']
 
 export const EMAIL_NAMES = z.enum([
-  EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
-  EMAIL_NAME_ACCOUNT_REGISTRATION,
-  EMAIL_NAME_EVENT_INVITATION,
+  CHANNEL_NAME_ACCOUNT_PASSWORD_RESET,
+  CHANNEL_NAME_ACCOUNT_REGISTRATION,
+  CHANNEL_NAME_EVENT_INVITATION,
 ])
 export type EmailName = z.infer<typeof EMAIL_NAMES>
 
@@ -103,7 +98,7 @@ export const sendEmail = async <T extends EmailName>({
         cid: LOGO_CID,
       },
       ...([
-        EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
+        CHANNEL_NAME_ACCOUNT_PASSWORD_RESET,
         CHANNEL_NAME_ACCOUNT_REGISTRATION,
       ].includes(name)
         ? [
