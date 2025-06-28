@@ -100,6 +100,7 @@ export default defineNuxtConfig({
       asyncContext: true,
       openAPI: IS_NITRO_OPENAPI_ENABLED,
     },
+    // @ts-expect-error Vue plugin not compatible with rolldown types
     rollupConfig: {
       output: {
         sourcemap: true, // TODO: remove? (https://github.com/getsentry/sentry-javascript/discussions/15028)
