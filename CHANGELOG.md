@@ -1,3 +1,9 @@
+## [12.3.0](https://github.com/maevsi/vibetype/compare/12.2.2...12.3.0) (2025-06-28)
+
+### Features
+
+* **content:** link contact form ([675227b](https://github.com/maevsi/vibetype/commit/675227bc6c93a341df32282926dfbdbebc737ea3))
+
 ## [12.2.2](https://github.com/maevsi/vibetype/compare/12.2.1...12.2.2) (2025-06-28)
 
 ### Bug Fixes
