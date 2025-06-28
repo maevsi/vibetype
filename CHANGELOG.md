@@ -1,3 +1,9 @@
+## [12.3.2](https://github.com/maevsi/vibetype/compare/12.3.1...12.3.2) (2025-06-28)
+
+### Bug Fixes
+
+* **utils:** correct monday key ([e3252fa](https://github.com/maevsi/vibetype/commit/e3252facf80332926b782d5c0b43a1ab26759d8b))
+
 ## [12.3.1](https://github.com/maevsi/vibetype/compare/12.3.0...12.3.1) (2025-06-28)
 
 ### Performance Improvements
