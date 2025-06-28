@@ -4731,20 +4731,20 @@ packages:
     peerDependencies:
       vue: '>=3.5.13'
 
-  '@unocss/core@66.2.3':
-    resolution: {integrity: sha512-mRpwm3HUAqCtQrBB7+vkCp0qDZT+G1s2EAVJIF6zzrnoqb2BmIlHgz7DXVDufRFMRJtQUCp2jVMtEQZCTXEVjQ==}
+  '@unocss/core@66.3.2':
+    resolution: {integrity: sha512-C8UbTenNb/pHo68Ob+G1DTKJkQOeWT8IXTzDV7Vq6hPa9R7eE1l2l20pDKGs6gXYEBYPpY9EV4f5E0vUKDf8sw==}
 
-  '@unocss/extractor-arbitrary-variants@66.2.3':
-    resolution: {integrity: sha512-QQig1VnIfFJPVnp3lSM0za/7zZS91A+qOmEfOvbabiJ+dyI48wUU6MgP6/xZ5qZK6bvkuyQC9Ta73g9vXXuSZw==}
+  '@unocss/extractor-arbitrary-variants@66.3.2':
+    resolution: {integrity: sha512-D3R4GR6yGy/XlVz1lQldFZqvxdsmIhRCHLCXV3Oeg9nR93BgE9gBiPs17qK8Wuw+i5xXVstGQXftmsoSPSA23Q==}
 
-  '@unocss/preset-mini@66.2.3':
-    resolution: {integrity: sha512-qGdpp5ZiekR0QREFzc5eOTjMaYT3FWs9wQJqYKZNY3OJ8wMFpgDVoDTpqdfgvCiL7hheYITuxLDHw0gp/vDGBw==}
+  '@unocss/preset-mini@66.3.2':
+    resolution: {integrity: sha512-9jaJ3Kk7qTUHY84PIUU53yl1BaFYnoFYu22TGLqd9bV6/OihsZ454sTRmpkjXFWGPWENEv6vfs1BQANliMZGIA==}
 
-  '@unocss/preset-wind3@66.2.3':
-    resolution: {integrity: sha512-jthSiWYvsVg5MJVfEykJX35NtbqKDwcabvz7zmwSqhd6LgQwywi2vM7+iRhq+Os8UmX0N5q3WTAVRNsOWLBa+w==}
+  '@unocss/preset-wind3@66.3.2':
+    resolution: {integrity: sha512-OrZdbiEGIzo4Cg/65SHCnZLRXlPe6DnlVRsQJqyPJK7gGWuLZYK1ysp06vmgrVsFdIbaGs65olml1mHygsAklw==}
 
-  '@unocss/rule-utils@66.2.3':
-    resolution: {integrity: sha512-OL4s4pTb/YD66OK2b7NavwSqGTn5cDBaafkLphqnXKe9/DUfGoWNmeUAHfSzvM1QelprRXtPNLK/GIfUjcsNMg==}
+  '@unocss/rule-utils@66.3.2':
+    resolution: {integrity: sha512-zdKhZdRsU0iB+6ba1xX5YOJVI2UqwrvffAalONRSal2VUYpZxCFCvJhyt5bbneIOBQ6pQMVgi7UVEqQ6Y7A5kQ==}
     engines: {node: '>=14'}
 
   '@unrs/resolver-binding-android-arm-eabi@1.9.2':
@@ -16397,7 +16397,7 @@ snapshots:
       defu: 6.1.4
       nuxt-site-config: 3.2.2(magicast@0.3.5)(vue@3.5.17(typescript@5.8.3))
       pathe: 2.0.3
-      pkg-types: 2.1.0
+      pkg-types: 2.1.1
       sirv: 3.0.1
       std-env: 3.9.0
       ufo: 1.6.1
@@ -18632,27 +18632,27 @@ snapshots:
       unhead: 2.0.10
       vue: 3.5.17(typescript@5.8.3)
 
-  '@unocss/core@66.2.3': {}
+  '@unocss/core@66.3.2': {}
 
-  '@unocss/extractor-arbitrary-variants@66.2.3':
+  '@unocss/extractor-arbitrary-variants@66.3.2':
     dependencies:
-      '@unocss/core': 66.2.3
+      '@unocss/core': 66.3.2
 
-  '@unocss/preset-mini@66.2.3':
+  '@unocss/preset-mini@66.3.2':
     dependencies:
-      '@unocss/core': 66.2.3
-      '@unocss/extractor-arbitrary-variants': 66.2.3
-      '@unocss/rule-utils': 66.2.3
+      '@unocss/core': 66.3.2
+      '@unocss/extractor-arbitrary-variants': 66.3.2
+      '@unocss/rule-utils': 66.3.2
 
-  '@unocss/preset-wind3@66.2.3':
+  '@unocss/preset-wind3@66.3.2':
     dependencies:
-      '@unocss/core': 66.2.3
-      '@unocss/preset-mini': 66.2.3
-      '@unocss/rule-utils': 66.2.3
+      '@unocss/core': 66.3.2
+      '@unocss/preset-mini': 66.3.2
+      '@unocss/rule-utils': 66.3.2
 
-  '@unocss/rule-utils@66.2.3':
+  '@unocss/rule-utils@66.3.2':
     dependencies:
-      '@unocss/core': 66.2.3
+      '@unocss/core': 66.3.2
       magic-string: 0.30.17
 
   '@unrs/resolver-binding-android-arm-eabi@1.9.2':
@@ -24022,7 +24022,7 @@ snapshots:
       nuxt-site-config: 3.2.2(magicast@0.3.5)(vue@3.5.17(typescript@5.8.3))
       ofetch: 1.4.1
       pathe: 2.0.3
-      pkg-types: 2.1.0
+      pkg-types: 2.1.1
       radix3: 1.1.2
       sirv: 3.0.1
       std-env: 3.9.0
@@ -24059,8 +24059,8 @@ snapshots:
       '@resvg/resvg-js': 2.6.2
       '@resvg/resvg-wasm': 2.6.2
       '@unhead/vue': 2.0.10(vue@3.5.17(typescript@5.8.3))
-      '@unocss/core': 66.2.3
-      '@unocss/preset-wind3': 66.2.3
+      '@unocss/core': 66.3.2
+      '@unocss/preset-wind3': 66.3.2
       chrome-launcher: 1.2.0
       consola: 3.4.2
       defu: 6.1.4
@@ -24073,7 +24073,7 @@ snapshots:
       ofetch: 1.4.1
       ohash: 2.0.11
       pathe: 2.0.3
-      pkg-types: 2.1.0
+      pkg-types: 2.1.1
       playwright-core: 1.53.1
       radix3: 1.1.2
       satori: 0.15.2
@@ -24099,7 +24099,7 @@ snapshots:
       defu: 6.1.4
       nuxt-site-config: 3.2.2(magicast@0.3.5)(vue@3.5.17(typescript@5.8.3))
       pathe: 2.0.3
-      pkg-types: 2.1.0
+      pkg-types: 2.1.1
       sirv: 3.0.1
     optionalDependencies:
       '@unhead/vue': 2.0.10(vue@3.5.17(typescript@5.8.3))
@@ -24134,7 +24134,7 @@ snapshots:
       image-size: 2.0.2
       nuxt-site-config: 3.2.2(magicast@0.3.5)(vue@3.5.17(typescript@5.8.3))
       pathe: 2.0.3
-      pkg-types: 2.1.0
+      pkg-types: 2.1.1
       scule: 1.3.0
       semver: 7.7.2
       ufo: 1.6.1
@@ -24146,7 +24146,7 @@ snapshots:
   nuxt-site-config-kit@3.2.2(magicast@0.3.5)(vue@3.5.17(typescript@5.8.3)):
     dependencies:
       '@nuxt/kit': 3.17.5(magicast@0.3.5)
-      pkg-types: 2.1.0
+      pkg-types: 2.1.1
       site-config-stack: 3.2.2(vue@3.5.17(typescript@5.8.3))
       std-env: 3.9.0
       ufo: 1.6.1
@@ -24159,7 +24159,7 @@ snapshots:
       '@nuxt/kit': 3.17.5(magicast@0.3.5)
       nuxt-site-config-kit: 3.2.2(magicast@0.3.5)(vue@3.5.17(typescript@5.8.3))
       pathe: 2.0.3
-      pkg-types: 2.1.0
+      pkg-types: 2.1.1
       sirv: 3.0.1
       site-config-stack: 3.2.2(vue@3.5.17(typescript@5.8.3))
       ufo: 1.6.1
