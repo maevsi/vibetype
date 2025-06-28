@@ -28,6 +28,7 @@ import type {
   DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation,
   DeletePreferenceEventFormatByAccountIdAndFormatIdMutation,
   DeletePreferenceEventLocationByIdMutation,
+  AccountDescriptionUpdateMutation,
 } from '~~/gql/generated/graphql'
 import schema from '~~/gql/generated/introspection'
 import { allPreferenceEventCategoriesQuery } from '~~/gql/documents/queries/preference/preferenceEventCategoriesAll'
@@ -36,6 +37,7 @@ import { getPreferenceEventFormatItem } from '~~/gql/documents/fragments/prefere
 import { getPreferenceEventCategoryItem } from '~~/gql/documents/fragments/preferenceEventCategoryItem'
 import { allPreferenceEventLocationsQuery } from '~~/gql/documents/queries/preference/preferenceEventLocationsAll'
 import { getPreferenceEventLocationItem } from '~~/gql/documents/fragments/preferenceEventLocationItem'
+import { accountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 
 type RelayConnection<T> = {
   nodes: T[]
@@ -274,9 +276,28 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           }),
 
         // update
-        profilePictureSet: (_result, _args, cache, _info) =>
-          invalidateCache(cache, 'profilePictureByAccountId'),
-
+        profilePictureSet: (_result, _args, cache, _info) => {
+          invalidateCache(cache, 'profilePictureByAccountId')
+        },
+        updateAccountByUsername: (
+          result: AccountDescriptionUpdateMutation,
+          args,
+          cache,
+          _info,
+        ) => {
+          const updatedAccount = result.updateAccountByUsername?.account
+          if (!updatedAccount || !args.input.username) return
+          cache.updateQuery(
+            {
+              query: accountByUsernameQuery,
+              variables: { username: args.input.username },
+            },
+            (data) => ({
+              ...data,
+              accountByUsername: updatedAccount,
+            }),
+          )
+        },
         // delete
         deleteContactById: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Contact', args),
@@ -332,6 +353,10 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           }),
         deleteEventFavoriteById: (_result, args, cache, _info) =>
           invalidateCache(cache, 'EventFavorite', args),
+        deleteUploadById: (_result, _args, cache, _info) => {
+          invalidateCache(cache, 'profilePictureByAccountId')
+          invalidateCache(cache, 'allUploads')
+        },
       },
     },
   }

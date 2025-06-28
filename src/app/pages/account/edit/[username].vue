@@ -193,15 +193,13 @@ const accountByUsernameQuery = useAccountByUsernameQuery({
   username: route.params.username,
 })
 
-const account = getAccountItem(
-  (await accountByUsernameQuery.executeQuery()).data?.value?.accountByUsername,
-)
-
 const profilePictureQuery = useProfilePictureByAccountIdQuery({
-  accountId: account?.id,
+  accountId: store.signedInAccountId,
 })
 
 const api = await useApiData([accountByUsernameQuery, profilePictureQuery])
+
+const account = computed(() => getAccountItem(api.value.data.accountByUsername))
 
 // methods
 const onUploadSelect = async (uploadId?: string | null | undefined) =>
@@ -215,14 +213,14 @@ const showModalUploadSelection = () => {
 
 const toggleEdit = () => {
   if (!isEditing.value) {
-    editableDescription.value = account?.description?.trim() || ''
+    editableDescription.value = account.value?.description?.trim() || ''
   }
   isEditing.value = !isEditing.value
 }
 
 const cancelEdit = () => {
-  editableDescription.value = account?.description?.trim() || ''
-  toggleEdit()
+  editableDescription.value = account.value?.description?.trim() || ''
+  isEditing.value = false
 }
 
 const openDeleteDrawer = () => {
@@ -230,12 +228,16 @@ const openDeleteDrawer = () => {
 }
 
 const saveDescription = async () => {
-  if (!account?.username) return
-  await accountDescriptionMutation.executeMutation({
-    username: account.username,
+  if (!account.value?.username) return
+
+  const result = await accountDescriptionMutation.executeMutation({
+    username: account.value.username,
     accountPatch: { description: editableDescription.value },
   })
-  toggleEdit()
+
+  if (!result.error) {
+    isEditing.value = false
+  }
 }
 
 const removeProfilePicture = async () => {
@@ -245,7 +247,6 @@ const removeProfilePicture = async () => {
   const upload = getUploadItem(profilePicture?.uploadByUploadId)
 
   if (!upload?.id) return
-  console.log('her2')
 
   await deleteUploadMutation.executeMutation({
     id: upload.id,
