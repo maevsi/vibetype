@@ -34,7 +34,8 @@
     ],
     "overrides": {
       "@nuxtjs/seo": "3.0.3",
-      "debug": "4.4.1"
+      "debug": "4.4.1",
+      "nuxt-og-image": "5.1.7"
     }
   },
   "private": true,
