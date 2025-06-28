@@ -1,6 +1,3 @@
-import type { NuxtError } from '#app'
-import { consola } from 'consola'
-
 export const getGraphQLErrorMessage = ({
   graphqlError,
   postgresErrorMap,
@@ -30,9 +27,4 @@ export const getCombinedErrorMessages = (
   }
 
   return errorMessages
-}
-
-export const showAppError = (error: string | Partial<NuxtError>) => {
-  showError(error)
-  consola.error(error)
 }
