@@ -8,7 +8,7 @@ FROM ghcr.io/maevsi/sqitch:9.1
 #############
 # Create base image.
 
-FROM node:22.16.0-alpine AS base-image
+FROM node:22.17.0-alpine AS base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
