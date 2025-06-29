@@ -6,6 +6,7 @@ export const i18nConfig: ReturnType<DefineNuxtConfig> = {
     detectBrowserLanguage: false,
     experimental: {
       compactRoutes: true,
+      strictSeo: true,
     },
     locales: [
       {
