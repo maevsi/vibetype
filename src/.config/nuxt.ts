@@ -161,6 +161,39 @@ export default defineNuxtConfig({
             id: undefined,
             groupId: undefined,
           },
+          featureRequest: {
+            column: {
+              consentId: undefined,
+              emailAddressId: undefined,
+              nameId: undefined,
+              featureDescriptionId: undefined,
+              featureNameId: undefined,
+            },
+            id: undefined,
+            groupId: undefined,
+          },
+          issue: {
+            column: {
+              consentId: undefined,
+              descriptionId: undefined,
+              emailId: undefined,
+              issueNameId: undefined,
+              requestorId: undefined,
+            },
+            id: undefined,
+            groupId: undefined,
+          },
+          report: {
+            column: {
+              accuracyConfirmationId: undefined,
+              emailAddressId: undefined,
+              messageId: undefined,
+              privacyConsentId: undefined,
+              reportNameId: undefined,
+            },
+            id: undefined,
+            groupId: undefined,
+          },
         },
       },
       openai: {
