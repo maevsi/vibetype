@@ -302,7 +302,7 @@ export const testMetadata = async ({
         },
         {
           key: 'href',
-          value: `${SITE_URL}${path}`,
+          value: withoutTrailingSlash(`${SITE_URL}${path}`),
         },
       ],
     },
