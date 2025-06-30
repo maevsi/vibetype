@@ -67,11 +67,15 @@
               {{ t('about') }}
             </TypographyH3>
             <AppButton
-              :aria-label="isEditing ? t('cancel') : t('edit')"
+              :aria-label="isEditingDescription ? t('cancel') : t('edit')"
               class="flex h-8 items-center gap-1 text-(--semantic-base-text-tertiary)"
-              @click="isEditing ? cancelEdit() : toggleEdit()"
+              @click="
+                isEditingDescription
+                  ? cancelEditDescription()
+                  : toggleEditDescription()
+              "
             >
-              <div v-if="!isEditing" class="flex gap-2">
+              <div v-if="!isEditingDescription" class="flex gap-2">
                 <AppIconEdit />
                 <TypographySubtitleMedium class="underline underline-offset-5">
                   {{ t('edit') }}
@@ -85,7 +89,10 @@
               </TypographySubtitleMedium>
             </AppButton>
           </div>
-          <div class="flex flex-col gap-1.5" :class="{ hidden: !isEditing }">
+          <div
+            class="flex flex-col gap-1.5"
+            :class="{ hidden: !isEditingDescription }"
+          >
             <TypographySubtitleSmall
               class="rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) px-4 py-3"
             >
@@ -108,12 +115,12 @@
             </TypographySubtitleSmall>
           </div>
           <TypographyBodyMedium
-            :class="{ hidden: isEditing || !account.description }"
+            :class="{ hidden: isEditingDescription || !account.description }"
           >
             {{ account.description }}
           </TypographyBodyMedium>
           <div
-            v-if="isEditing"
+            v-if="isEditingDescription"
             class="flex flex-col items-end gap-2 text-right"
           >
             <ButtonColored
@@ -126,6 +133,79 @@
               </TypographySubtitleMedium>
             </ButtonColored>
           </div>
+        </div>
+      </div>
+      <div
+        class="flex flex-col gap-4 rounded-lg border border-(--semantic-base-background) bg-(--semantic-base-surface-1) p-4 shadow-xs"
+      >
+        <div class="flex items-center justify-between">
+          <TypographyH3>
+            {{ t('imprint') }}
+          </TypographyH3>
+          <AppButton
+            :aria-label="isEditingImprint ? t('cancel') : t('edit')"
+            class="flex h-8 items-center gap-1 text-(--semantic-base-text-tertiary)"
+            @click="
+              isEditingImprint ? cancelEditImprint() : toggleEditImprint()
+            "
+          >
+            <div v-if="!isEditingImprint" class="flex gap-2">
+              <AppIconEdit />
+              <TypographySubtitleMedium class="underline underline-offset-5">
+                {{ t('edit') }}
+              </TypographySubtitleMedium>
+            </div>
+            <TypographySubtitleMedium
+              v-else
+              class="underline underline-offset-5"
+            >
+              {{ t('cancel') }}
+            </TypographySubtitleMedium>
+          </AppButton>
+        </div>
+        <div
+          class="flex flex-col gap-1.5"
+          :class="{ hidden: !isEditingImprint }"
+        >
+          <TypographySubtitleSmall
+            class="rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) px-4 py-3"
+          >
+            <textarea
+              v-model="editableImprint"
+              class="h-full w-full resize-none bg-transparent focus:outline-none"
+              :maxlength="imprintLengthMaximum"
+              rows="5"
+            />
+          </TypographySubtitleSmall>
+          <TypographySubtitleSmall
+            class="self-end px-2 text-(--semantic-base-text-secondary)"
+          >
+            {{
+              t('characterCount', {
+                count: editableImprint?.length || 0,
+                maximum: imprintLengthMaximum,
+              })
+            }}
+          </TypographySubtitleSmall>
+        </div>
+        <TypographyBodyMedium
+          :class="{ hidden: isEditingImprint || !account.imprint }"
+        >
+          {{ account.imprint }}
+        </TypographyBodyMedium>
+        <div
+          v-if="isEditingImprint"
+          class="flex flex-col items-end gap-2 text-right"
+        >
+          <ButtonColored
+            :aria-label="t('saveChanges')"
+            variant="secondary"
+            @click="saveImprint"
+          >
+            <TypographySubtitleMedium>
+              {{ t('saveChanges') }}
+            </TypographySubtitleMedium>
+          </ButtonColored>
         </div>
       </div>
       <CardButton
@@ -306,17 +386,32 @@ const removeProfilePicture = async () => {
 
 // description
 const descriptionLengthMaximum = 500
-const isEditing = ref<boolean>()
+const isEditingDescription = ref<boolean>()
 const editableDescription = ref<string>()
-const toggleEdit = () => {
-  if (!isEditing.value) {
+const toggleEditDescription = () => {
+  if (!isEditingDescription.value) {
     editableDescription.value = account.value?.description?.trim() || ''
   }
-  isEditing.value = !isEditing.value
+  isEditingDescription.value = !isEditingDescription.value
 }
-const cancelEdit = () => {
+const cancelEditDescription = () => {
   editableDescription.value = account.value?.description?.trim() || ''
-  isEditing.value = false
+  isEditingDescription.value = false
+}
+
+// imprint
+const imprintLengthMaximum = 500
+const isEditingImprint = ref<boolean>()
+const editableImprint = ref<string>()
+const toggleEditImprint = () => {
+  if (!isEditingImprint.value) {
+    editableImprint.value = account.value?.imprint?.trim() || ''
+  }
+  isEditingImprint.value = !isEditingImprint.value
+}
+const cancelEditImprint = () => {
+  editableImprint.value = account.value?.imprint?.trim() || ''
+  isEditingImprint.value = false
 }
 
 const updateAccountByIdMutation = useMutation(
@@ -360,7 +455,38 @@ const saveDescription = async () => {
     return
   }
 
-  isEditing.value = false
+  isEditingDescription.value = false
+}
+
+const saveImprint = async () => {
+  if (!account.value) return
+
+  const result = await updateAccountByIdMutation.executeMutation({
+    id: account.value.id,
+    accountPatch: { imprint: editableImprint.value },
+  })
+
+  if (result.error) {
+    // TODO: confirm design
+    await showToast({
+      icon: 'error',
+      text: apiErrorMessages.value.join('\n'),
+      title: t('globalError'),
+    })
+    return
+  }
+
+  if (!result.data) {
+    // TODO: confirm design
+    await showToast({
+      icon: 'error',
+      text: t('globalErrorNoData'),
+      title: t('globalError'),
+    })
+    return
+  }
+
+  isEditingImprint.value = false
 }
 
 // account
@@ -382,6 +508,7 @@ de:
   deleteAccount: Konto löschen
   edit: Bearbeiten
   errorAccountMissing: Konto nicht verfügbar
+  imprint: Impressum
   remove: Bild entfernen
   replace: Bild ersetzen
   resetPassword: Passwort zurücksetzen
@@ -395,6 +522,7 @@ en:
   deleteAccount: Delete Account
   edit: Edit
   errorAccountMissing: Account unavailable
+  imprint: Imprint
   remove: Remove Image
   replace: Replace Image
   resetPassword: Reset Password
