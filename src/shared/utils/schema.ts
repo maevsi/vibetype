@@ -13,22 +13,22 @@ export const schemaFormEarlyBird = z.object({
 })
 export const schemaFormFeatureRequest = z.object({
   consent: z.boolean().refine((value) => value === true),
-  emailAddress: z.string().email().max(1000),
+  emailAddress: z.string().email().max(1000).optional(),
   featureDescription: z.string().max(2000),
   featureName: z.string().max(255),
-  name: z.string().max(100),
+  name: z.string().max(100).optional(),
 })
 export const schemaFormIssue = z.object({
   consent: z.boolean().refine((value) => value === true),
   description: z.string().max(2000),
-  email: z.string().email().max(1000),
+  email: z.string().email().max(1000).optional(),
   issueName: z.string().max(255),
-  requestor: z.string().max(100),
+  requestor: z.string().max(100).optional(),
 })
 export const schemaFormReport = z.object({
   accuracyConfirmation: z.boolean().refine((value) => value === true),
   emailAddress: z.string().email().max(1000).optional(),
   message: z.string().min(1).max(2000),
-  name: z.string().min(1).max(100),
+  name: z.string().min(1).max(100).optional(),
   privacyConsent: z.boolean().refine((value) => value === true),
 })

@@ -33,10 +33,10 @@ export default defineEventHandler(async (event) => {
     board: 'featureRequest',
     columns: {
       consent: body.consent,
-      emailAddress: body.emailAddress,
+      emailAddress: body.emailAddress || '',
       featureDescription: body.featureDescription,
       featureName: body.featureName,
-      name: body.name,
+      name: body.name || '',
     },
   })
 

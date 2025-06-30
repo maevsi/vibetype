@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
       emailAddress: body.emailAddress || '',
       message: body.message,
       privacyConsent: body.privacyConsent,
-      reportName: body.name,
+      reportName: body.name || '',
     },
   })
 })

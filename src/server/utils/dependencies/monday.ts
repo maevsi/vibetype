@@ -146,7 +146,7 @@ export const useMonday = () => {
               checked: columns.consent.toString(),
             },
             [boardIssue.column.descriptionId]: columns.description,
-            [boardIssue.column.emailId]: {
+            [boardIssue.column.emailAddressId]: {
               email: columns.email,
               text: columns.email,
             },
@@ -165,7 +165,7 @@ export const useMonday = () => {
             [boardReport.column.accuracyConfirmationId]: {
               checked: columns.accuracyConfirmation.toString(),
             },
-            [boardReport.column.emailId]: {
+            [boardReport.column.emailAddressId]: {
               email: columns.emailAddress,
               text: columns.emailAddress,
             },

@@ -1,6 +1,6 @@
 <template>
   <AppIcon v-slot="attributes">
-    <IVibetypeExclamation v-bind="attributes" :aria-label="t('ariaLabel')" />
+    <IVibetypeReport v-bind="attributes" :aria-label="t('ariaLabel')" />
   </AppIcon>
 </template>
 
