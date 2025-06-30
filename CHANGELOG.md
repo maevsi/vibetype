@@ -1,3 +1,9 @@
+## [12.4.1](https://github.com/maevsi/vibetype/compare/12.4.0...12.4.1) (2025-06-30)
+
+### Bug Fixes
+
+* **event:** inline api ([1a29c9b](https://github.com/maevsi/vibetype/commit/1a29c9b76ed63204883482353b2ee6bf36786338))
+
 ## [12.4.0](https://github.com/maevsi/vibetype/compare/12.3.2...12.4.0) (2025-06-30)
 
 ### Features
