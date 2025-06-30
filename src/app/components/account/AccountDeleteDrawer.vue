@@ -1,38 +1,42 @@
 <template>
   <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
     <AppStep v-slot="attributes" :is-active="step === 'default'">
-      <div v-bind="attributes" class="space-y-6 text-center">
+      <div v-bind="attributes" class="text-center">
         <TypographySubtitleSmall>
           {{ t('deleteAccountQuestion') }}
         </TypographySubtitleSmall>
       </div>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'passwordConfirmation'">
+    <AppStep v-slot="attributes" :is-active="step === 'password'">
       <FormDelete
         ref="deleteForm"
         v-bind="attributes"
         v-model:error="error"
-        :mutation="accountDeleteMutation"
-        :variables="{ accountId }"
+        :errors-pg-ids="{
+          postgres23503: t('postgres23503'),
+          postgres28P01: t('postgres28P01'),
+        }"
         :item-name-deletion="t('account')"
         :item-name-success="t('account')"
+        :mutation="accountDeleteMutation"
+        :variables="{ accountId }"
         @success="onDeleteSuccess"
       />
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
-      <div v-bind="attributes">
-        <LayoutPageResult type="error">
-          <template #description>
-            {{ error }}
-          </template>
-        </LayoutPageResult>
-      </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'accountDeleted'">
+    <AppStep v-slot="attributes" :is-active="step === 'success'">
       <div v-bind="attributes">
         <LayoutPageResult type="success">
           <template #description>
             {{ t('accountDeletedMessage') }}
+          </template>
+        </LayoutPageResult>
+      </div>
+    </AppStep>
+    <AppStep v-slot="attributes" :is-active="step === 'error'">
+      <div v-bind="attributes">
+        <LayoutPageResult type="error">
+          <template v-if="error" #description>
+            {{ error.message }}
           </template>
         </LayoutPageResult>
       </div>
@@ -43,9 +47,14 @@
           {{ t('deleteAccount') }}
         </span>
       </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'passwordConfirmation'">
+      <AppStep v-slot="attributes" :is-active="step === 'password'">
         <span v-bind="attributes">
           {{ t('confirmPassword') }}
+        </span>
+      </AppStep>
+      <AppStep v-slot="attributes" :is-active="step === 'success'">
+        <span v-bind="attributes">
+          {{ t('accountDeleted') }}
         </span>
       </AppStep>
       <AppStep v-slot="attributes" :is-active="step === 'error'">
@@ -53,49 +62,44 @@
           {{ t('error') }}
         </span>
       </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'accountDeleted'">
-        <span v-bind="attributes">
-          {{ t('accountDeleted') }}
-        </span>
-      </AppStep>
     </template>
     <template #footer>
       <AppStep v-slot="attributes" :is-active="step === 'default'">
         <ButtonColored
           v-bind="attributes"
-          :aria-label="t('stayWithVibetype')"
+          :aria-label="t('stay')"
           variant="primary"
           @click="closeDrawer"
         >
-          {{ t('stayWithVibetype') }}
+          {{ t('stay') }}
         </ButtonColored>
         <ButtonColored
           v-bind="attributes"
           :aria-label="t('confirmDelete')"
           variant="secondary-critical"
-          @click="step = 'passwordConfirmation'"
+          @click="step = 'password'"
         >
           {{ t('confirmDelete') }}
+        </ButtonColored>
+      </AppStep>
+      <AppStep v-slot="attributes" :is-active="step === 'success'">
+        <ButtonColored
+          v-bind="attributes"
+          :aria-label="t('toHomepage')"
+          variant="primary"
+          @click="navigateTo(localePath({ name: 'index' }))"
+        >
+          {{ t('toHomepage') }}
         </ButtonColored>
       </AppStep>
       <AppStep v-slot="attributes" :is-active="step === 'error'">
         <ButtonColored
           v-bind="attributes"
-          :aria-label="t('cancel')"
-          variant="secondary"
-          @click="closeDrawer"
+          :aria-label="t('restart')"
+          variant="tertiary"
+          @click="restart"
         >
-          {{ t('cancel') }}
-        </ButtonColored>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'accountDeleted'">
-        <ButtonColored
-          v-bind="attributes"
-          :aria-label="t('toHomepage')"
-          variant="primary"
-          @click="goToHomepage"
-        >
-          {{ t('toHomepage') }}
+          {{ t('restart') }}
         </ButtonColored>
       </AppStep>
     </template>
@@ -103,41 +107,17 @@
 </template>
 
 <script setup lang="ts">
-import { useAccountDeleteMutation } from '~~/gql/documents/mutations/account/accountDelete'
+import { useMutation } from '@urql/vue'
 
-const localePath = useLocalePath()
-const { t } = useI18n()
-const error = ref()
+import { graphql } from '~~/gql/generated'
+
+// compiler
 const { accountId } = defineProps<{
   accountId: string
 }>()
-const { signOut } = await useSignOut()
 
-const isOpen = defineModel<boolean>('isOpen')
-
-const { step } = useStepper<
-  'passwordConfirmation' | 'accountDeleted' | 'error'
->()
-const onAnimationEnd = (isOpen: boolean) => {
-  if (isOpen) return
-  step.value = 'default'
-}
-
-const accountDeleteMutation = useAccountDeleteMutation()
-
-const closeDrawer = () => {
-  isOpen.value = false
-}
-
-const goToHomepage = async () => {
-  await navigateTo(localePath({ name: 'index' }))
-}
-
-const onDeleteSuccess = async () => {
-  step.value = 'accountDeleted'
-  await signOut()
-}
-
+// stepper
+const { error, restart, step } = useStepper<'password' | 'success'>()
 watch(
   () => error.value,
   (current) => {
@@ -146,31 +126,65 @@ watch(
     }
   },
 )
+
+// drawer
+const isOpen = defineModel<boolean>('isOpen')
+const closeDrawer = () => {
+  isOpen.value = false
+}
+const onAnimationEnd = (isOpen: boolean) => {
+  if (isOpen) return
+  step.value = 'default'
+}
+
+// sign out
+const { signOut } = await useSignOut()
+const onDeleteSuccess = async () => {
+  step.value = 'success'
+  await signOut()
+}
+
+// template
+const { t } = useI18n()
+const localePath = useLocalePath()
+const accountDeleteMutation = useMutation(
+  graphql(`
+    mutation AccountDelete($password: String!) {
+      accountDelete(input: { password: $password }) {
+        clientMutationId
+      }
+    }
+  `),
+)
 </script>
 
 <i18n lang="yaml">
 de:
-  deleteAccount: Account löschen
-  deleteAccountQuestion: Möchtest du deinen Account wirklich löschen?
-  stayWithVibetype: Nein, ich bleibe bei VIBETYPE
-  confirmDelete: Ja, Account löschen
+  account: Konto
+  accountDeleted: Konto gelöscht
+  accountDeletedMessage: Dein Konto wurde gelöscht. Wir würden uns freuen, dich bei @.upper:{'globalSiteName'} wiederzusehen!
+  confirmDelete: Ja, mein Konto löschen
   confirmPassword: Passwort bestätigen
-  accountDeleted: Account gelöscht
-  accountDeletedMessage: Dein Account wurde gelöscht. Aber wir freuen uns, dich wieder bei VIBETYPE zu sehen!
-  toHomepage: Zur Startseite
-  cancel: Abbrechen
-  account: Account
+  deleteAccount: Konto löschen
+  deleteAccountQuestion: Willst du dein Konto wirklich löschen? All deine Veranstaltungen, Kontakte und Dateien auf @.upper:{'globalSiteName'} werden unwiederbringlich verschwinden!
   error: Fehler
+  postgres23503: Dir gehören noch Daten! Lösche erst all deine Veranstaltungen.
+  postgres28P01: Passwort falsch! Überprüfe, ob du alles richtig geschrieben hast.
+  restart: Erneut versuchen
+  stay: Nein, ich bleibe bei @.upper:{'globalSiteName'}
+  toHomepage: Zur Startseite
 en:
-  deleteAccount: Delete account
-  deleteAccountQuestion: Do you really want to delete your account?
-  stayWithVibetype: No, I'm staying with VIBETYPE
+  account: Account
+  accountDeleted: Account deleted
+  accountDeletedMessage: Your account was deleted. We'd be glad to see you again with @.upper:{'globalSiteName'}!
   confirmDelete: Yes, delete my account
   confirmPassword: Confirm password
-  accountDeleted: Account deleted
-  accountDeletedMessage: Your account was deleted. But we'll be glad to see you again with VIBETYPE!
-  toHomepage: To the Homepage
-  cancel: Cancel
-  account: Account
+  deleteAccount: Delete account
+  deleteAccountQuestion: Do you really want to delete your account? All your events, contacts and files on @.upper:{'globalSiteName'} will vanish forever!
   error: Error
+  postgres23503: There's still some data connected to your account! Delete all your events first.
+  postgres28P01: Password incorrect! Check for spelling mistakes.
+  restart: Try again
+  stay: No, I'm staying with @.upper:{'globalSiteName'}
+  toHomepage: To the Homepage
 </i18n>
