@@ -1,6 +1,7 @@
 <template>
+  <LoaderIndicatorPing v-if="api.isFetching" />
   <AppError
-    v-if="route.params.username !== store.signedInUsername"
+    v-else-if="route.params.username !== store.signedInUsername"
     :status-code="403"
   />
   <AppError v-else-if="!event" :status-code="404" />
