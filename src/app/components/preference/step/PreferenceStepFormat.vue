@@ -18,7 +18,7 @@
               <AppIconPreferenceFormatConference
                 v-if="eventFormat.name === 'conference'"
               />
-              <AppIconPreferenceFormatDemo
+              <AppIconPreferenceFormatDemonstration
                 v-else-if="eventFormat.name === 'demo'"
               />
               <AppIconPreferenceFormatExhibition
@@ -87,7 +87,7 @@ const translate = (nameKey: string) => {
     case 'conference':
       return t('formatConference')
     case 'demo':
-      return t('formatDemo')
+      return t('formatDemonstration')
     case 'exhibition':
       return t('formatExhibition')
     case 'festival':
@@ -182,7 +182,7 @@ watch(
 de:
   button: Weiter
   formatConference: Konferenz
-  formatDemo: Demonstration
+  formatDemonstration: Demonstration
   formatExhibition: Ausstellung
   formatFestival: Festival
   formatHackathon: Hackathon
@@ -197,7 +197,7 @@ de:
 en:
   button: Next
   formatConference: Conference
-  formatDemo: Demo
+  formatDemonstration: Demonstration
   formatExhibition: Exhibition
   formatFestival: Festival
   formatHackathon: Hackathon

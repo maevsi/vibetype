@@ -1,6 +1,6 @@
 <template>
   <AppIconPreference v-slot="attributes">
-    <IVibetypeColoredFormatDemo
+    <IVibetypeColoredFormatDemonstration
       v-bind="attributes"
       :aria-label="t('ariaLabel')"
     />
@@ -13,7 +13,7 @@ const { t } = useI18n()
 
 <i18n lang="yaml">
 de:
-  ariaLabel: Demo
+  ariaLabel: Demonstration
 en:
-  ariaLabel: Demo
+  ariaLabel: Demonstration
 </i18n>
