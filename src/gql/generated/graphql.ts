@@ -9038,6 +9038,22 @@ export type AccountByIdQuery = {
   } | null
 }
 
+export type UserSearchQueryVariables = Exact<{
+  username?: InputMaybe<Scalars['String']['input']>
+}>
+
+export type UserSearchQuery = {
+  __typename?: 'Query'
+  allAccounts?: {
+    __typename?: 'AccountsConnection'
+    nodes: Array<
+      { __typename?: 'Account' } & {
+        ' $fragmentRefs'?: { AccountItemFragment: AccountItemFragment }
+      }
+    >
+  } | null
+}
+
 export type EventListQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>
   first: Scalars['Int']['input']
@@ -11207,6 +11223,89 @@ export const AccountByIdDocument = {
     },
   ],
 } as unknown as DocumentNode<AccountByIdQuery, AccountByIdQueryVariables>
+export const UserSearchDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'UserSearch' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'username' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allAccounts' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'username' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'AccountItem' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AccountItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Account' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<UserSearchQuery, UserSearchQueryVariables>
 export const EventListDocument = {
   kind: 'Document',
   definitions: [
