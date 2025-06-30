@@ -208,6 +208,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     schema,
     resolvers: {
       Query: {
+        allAccounts: relayPagination(),
         allContacts: relayPagination(),
         allEvents: relayPagination(),
         allGuests: relayPagination(),
