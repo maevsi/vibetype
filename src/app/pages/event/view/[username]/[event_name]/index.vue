@@ -1,187 +1,193 @@
 <template>
-  <Loader :api="api">
-    <div
-      v-if="event && event.accountByCreatedBy?.username"
-      class="flex flex-col gap-4"
-    >
-      <CardStateInfo v-if="routeQueryIc && contact" class="flex flex-col gap-2">
-        {{ t('invitationViewFor', { name: contactName }) }}
-        <ButtonColored
-          :aria-label="t('invitationSelectionClear')"
-          :to="
-            localePath({
-              name: 'event-view-username-event_name-guest',
-              params: {
-                event_name: route.params.event_name,
-                username: route.params.username,
-              },
-              query: { ...routeQuery, ic: undefined },
-            })
-          "
-        >
-          {{ t('invitationSelectionClear') }}
-          <template #prefix>
-            <IHeroiconsArrowLeft />
-          </template>
-        </ButtonColored>
-      </CardStateInfo>
-      <div v-if="contact" class="flex flex-col gap-2">
-        <div class="flex items-center justify-between gap-2">
-          <div>
-            <p class="mb-2 text-2xl font-bold">
-              {{
-                t('greeting', {
-                  usernameString: contactName ? ' ' + contactName : '',
-                })
-              }}
-            </p>
-            <p>{{ t('greetingDescription') }}</p>
-          </div>
-          <ButtonColored
-            v-if="invitation?.feedback === 'ACCEPTED'"
-            :aria-label="t('qrCodeShow')"
-            @click="qrCodeShow"
-          >
-            {{ t('qrCodeShow') }}
-            <template #prefix>
-              <IHeroiconsQrCode />
-            </template>
-          </ButtonColored>
-        </div>
-      </div>
-      <ButtonList
-        v-if="!routeQueryIc && event.createdBy === store.signedInAccountId"
-        class="justify-center"
+  <AppError
+    v-if="!account"
+    :description="t('errorAccountMissing')"
+    :status-code="404"
+  />
+  <AppError
+    v-else-if="!event"
+    :description="t('errorEventMissing')"
+    :status-code="404"
+  />
+  <div v-else class="flex flex-col gap-4">
+    <CardStateInfo v-if="routeQueryIc && contact" class="flex flex-col gap-2">
+      {{ t('invitationViewFor', { name: contactName }) }}
+      <ButtonColored
+        :aria-label="t('invitationSelectionClear')"
+        :to="
+          localePath({
+            name: 'event-view-username-event_name-guest',
+            params: {
+              event_name: route.params.event_name,
+              username: route.params.username,
+            },
+            query: { ...routeQuery, ic: undefined },
+          })
+        "
       >
-        <ButtonColored
-          :aria-label="t('guests')"
-          :to="
-            localePath({
-              name: 'event-view-username-event_name-guest',
-              params: {
-                event_name: route.params.event_name,
-                username: route.params.username,
-              },
-            })
-          "
-        >
-          {{ t('guests') }}
-          <template #prefix>
-            <IHeroiconsUsers />
-          </template>
-        </ButtonColored>
-        <ButtonColored
-          :aria-label="t('attendances')"
-          :to="
-            localePath({
-              name: 'event-view-username-event_name-attendance',
-              params: {
-                event_name: route.params.event_name,
-                username: route.params.username,
-              },
-            })
-          "
-        >
-          {{ t('attendances') }}
-          <template #prefix>
-            <ISolarUserCheckBroken />
-          </template>
-        </ButtonColored>
-        <ButtonColored
-          :aria-label="t('settings')"
-          :to="
-            localePath({
-              name: 'event-edit-username-event_name',
-              params: {
-                event_name: route.params.event_name,
-                username: route.params.username,
-              },
-            })
-          "
-        >
-          {{ t('settings') }}
-          <template #prefix>
-            <IHeroiconsPencil />
-          </template>
-        </ButtonColored>
-      </ButtonList>
-      <div class="flex flex-col gap-4">
+        {{ t('invitationSelectionClear') }}
+        <template #prefix>
+          <IHeroiconsArrowLeft />
+        </template>
+      </ButtonColored>
+    </CardStateInfo>
+    <div v-if="contact" class="flex flex-col gap-2">
+      <div class="flex items-center justify-between gap-2">
         <div>
-          <div class="relative">
-            <EventHeroImage :event="event" />
-            <div
-              class="absolute inset-x-0 top-0 flex items-center justify-between px-4 py-2"
-            >
-              <div>
-                <!-- TODO: back button -->
-                <!-- <AppButton
+          <p class="mb-2 text-2xl font-bold">
+            {{
+              t('greeting', {
+                usernameString: contactName ? ' ' + contactName : '',
+              })
+            }}
+          </p>
+          <p>{{ t('greetingDescription') }}</p>
+        </div>
+        <ButtonColored
+          v-if="invitation?.feedback === 'ACCEPTED'"
+          :aria-label="t('qrCodeShow')"
+          @click="qrCodeShow"
+        >
+          {{ t('qrCodeShow') }}
+          <template #prefix>
+            <IHeroiconsQrCode />
+          </template>
+        </ButtonColored>
+      </div>
+    </div>
+    <ButtonList
+      v-if="!routeQueryIc && event.createdBy === store.signedInAccountId"
+      class="justify-center"
+    >
+      <ButtonColored
+        :aria-label="t('guests')"
+        :to="
+          localePath({
+            name: 'event-view-username-event_name-guest',
+            params: {
+              event_name: route.params.event_name,
+              username: route.params.username,
+            },
+          })
+        "
+      >
+        {{ t('guests') }}
+        <template #prefix>
+          <IHeroiconsUsers />
+        </template>
+      </ButtonColored>
+      <ButtonColored
+        :aria-label="t('attendances')"
+        :to="
+          localePath({
+            name: 'event-view-username-event_name-attendance',
+            params: {
+              event_name: route.params.event_name,
+              username: route.params.username,
+            },
+          })
+        "
+      >
+        {{ t('attendances') }}
+        <template #prefix>
+          <ISolarUserCheckBroken />
+        </template>
+      </ButtonColored>
+      <ButtonColored
+        :aria-label="t('settings')"
+        :to="
+          localePath({
+            name: 'event-edit-username-event_name',
+            params: {
+              event_name: route.params.event_name,
+              username: route.params.username,
+            },
+          })
+        "
+      >
+        {{ t('settings') }}
+        <template #prefix>
+          <IHeroiconsPencil />
+        </template>
+      </ButtonColored>
+    </ButtonList>
+    <div class="flex flex-col gap-4">
+      <div>
+        <div class="relative">
+          <EventHeroImage :event="event" />
+          <div
+            class="absolute inset-x-0 top-0 flex items-center justify-between px-4 py-2"
+          >
+            <div>
+              <!-- TODO: back button -->
+              <!-- <AppButton
                   :aria-label="t('more')"
                   class="flex size-10 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
                 >
                   <AppIconBack />
                 </AppButton> -->
-              </div>
-              <div>
-                <!-- TODO: share & favorite button -->
-                <template
-                  v-if="
-                    store.signedInAccountId &&
-                    event.createdBy !== store.signedInAccountId
-                  "
-                >
-                  <AppDropdown>
-                    <AppDropdownItem
-                      variant="destructive"
-                      @select="isReportDrawerOpen = true"
+            </div>
+            <div>
+              <!-- TODO: share & favorite button -->
+              <template
+                v-if="
+                  store.signedInAccountId &&
+                  event.createdBy !== store.signedInAccountId
+                "
+              >
+                <AppDropdown>
+                  <AppDropdownItem
+                    variant="destructive"
+                    @select="templateReport?.open || (() => {})"
+                  >
+                    {{ t('report') }}
+                  </AppDropdownItem>
+                  <template #trigger>
+                    <span
+                      class="flex size-10 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
                     >
-                      {{ t('report') }}
-                    </AppDropdownItem>
-                    <template #trigger>
-                      <span
-                        class="flex size-10 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
-                      >
-                        <AppIconMoreVertical />
-                      </span>
-                    </template>
-                  </AppDropdown>
-                  <EventReportDrawer
-                    v-model:is-open="isReportDrawerOpen"
-                    :account-id="store.signedInAccountId"
-                    :event
-                  />
-                </template>
-              </div>
+                      <AppIconMoreVertical />
+                    </span>
+                  </template>
+                </AppDropdown>
+                <EventReportDrawer
+                  ref="report"
+                  :account-id="store.signedInAccountId"
+                  :event
+                />
+              </template>
             </div>
           </div>
-          <Card
-            v-if="event"
-            class="flex flex-col items-stretch gap-4 rounded-t-none"
+        </div>
+        <Card
+          v-if="event?.accountByCreatedBy"
+          class="flex flex-col items-stretch gap-4 rounded-t-none"
+        >
+          <div
+            class="flex flex-col items-baseline justify-center md:flex-row md:gap-2"
           >
-            <div
-              class="flex flex-col items-baseline justify-center md:flex-row md:gap-2"
-            >
-              <h1 class="m-0">
-                {{ event.name }}
-              </h1>
-              <EventOwner link :username="event.accountByCreatedBy.username" />
-            </div>
+            <h1 class="m-0">
+              {{ event.name }}
+            </h1>
+            <EventOwner link :username="event.accountByCreatedBy.username" />
+          </div>
+          <AppHr />
+          <div class="flex flex-row flex-wrap justify-center self-stretch">
+            <EventDashletStart
+              :contact="contact"
+              :event="event"
+              :invitation="invitation"
+            />
+            <EventDashletDuration :event="event" />
+            <EventDashletVisibility :event="event" with-text />
+            <EventDashletAttendanceType :event="event" />
+            <!-- TODO: reenable to address usage -->
+            <!-- <EventDashletLocation :event="event" /> -->
+            <EventDashletLink :event="event" />
+          </div>
+          <template v-if="invitation">
             <AppHr />
-            <div class="flex flex-row flex-wrap justify-center self-stretch">
-              <EventDashletStart
-                :contact="contact"
-                :event="event"
-                :invitation="invitation"
-              />
-              <EventDashletDuration :event="event" />
-              <EventDashletVisibility :event="event" with-text />
-              <EventDashletAttendanceType :event="event" />
-              <!-- TODO: reenable to address usage -->
-              <!-- <EventDashletLocation :event="event" /> -->
-              <EventDashletLink :event="event" />
-            </div>
-            <template v-if="invitation">
-              <AppHr />
-              <!-- <div
+            <!-- <div
             class="grid grid-cols-6 border-t-2 bg-background-brighten dark:bg-background-darken"
             :class="
               invitation.feedback === 'ACCEPTED'
@@ -191,123 +197,119 @@
                 : 'border-text-dark dark:border-text-bright'
             "
           > -->
-              <!-- <div
+            <!-- <div
               v-if="invitation.feedback === 'ACCEPTED'"
               class="col-start-2 m-auto rounded-full bg-gray-500 px-2 text-text-bright"
             >
               {{ t('step1Of2') }}
             </div> -->
-              <div
-                class="flex flex-col items-center gap-2"
-                :class="
-                  invitation.feedback === 'ACCEPTED'
-                    ? 'col-span-3'
-                    : 'col-span-6'
-                "
-              >
-                <!-- <span v-if="event.authorUsername !== signedInUsername">
+            <div
+              class="flex flex-col items-center gap-2"
+              :class="
+                invitation.feedback === 'ACCEPTED' ? 'col-span-3' : 'col-span-6'
+              "
+            >
+              <!-- <span v-if="event.authorUsername !== signedInUsername">
                 {{ t('feedbackRequest') }}
               </span> -->
-                <div class="flex items-center justify-center gap-4">
-                  <ButtonColored
-                    v-if="
-                      invitation.feedback === null ||
-                      invitation.feedback === 'CANCELED'
-                    "
-                    :aria-label="
+              <div class="flex items-center justify-center gap-4">
+                <ButtonColored
+                  v-if="
+                    invitation.feedback === null ||
+                    invitation.feedback === 'CANCELED'
+                  "
+                  :aria-label="
+                    event.accountByCreatedBy.username !== store.signedInUsername
+                      ? t('invitationAccept')
+                      : t('invitationAcceptAdmin', {
+                          name: contactName,
+                        })
+                  "
+                  @click="accept"
+                >
+                  <span>
+                    {{
                       event.accountByCreatedBy.username !==
                       store.signedInUsername
                         ? t('invitationAccept')
                         : t('invitationAcceptAdmin', {
                             name: contactName,
                           })
-                    "
-                    @click="accept"
-                  >
-                    <span>
-                      {{
-                        event.accountByCreatedBy.username !==
-                        store.signedInUsername
-                          ? t('invitationAccept')
-                          : t('invitationAcceptAdmin', {
-                              name: contactName,
-                            })
-                      }}
-                    </span>
-                    <template #prefix>
-                      <IHeroiconsCheckCircleSolid class="shrink-0" />
-                    </template>
-                  </ButtonColored>
-                  <div
-                    v-if="invitation.feedback === 'ACCEPTED'"
-                    class="flex items-center font-semibold text-green-600 dark:text-green-500"
-                  >
-                    <IHeroiconsCheckCircleSolid
-                      class="mr-2 shrink-0"
-                      title="accepted"
-                    />
-                    <span>
-                      {{
-                        event.accountByCreatedBy.username !==
-                        store.signedInUsername
-                          ? t('invitationAccepted')
-                          : t('invitationAcceptedAdmin', {
-                              name: contactName,
-                            })
-                      }}
-                    </span>
-                  </div>
-                  <ButtonColored
-                    v-if="
-                      invitation.feedback === null ||
-                      invitation.feedback === 'ACCEPTED'
-                    "
-                    :aria-label="
+                    }}
+                  </span>
+                  <template #prefix>
+                    <IHeroiconsCheckCircleSolid class="shrink-0" />
+                  </template>
+                </ButtonColored>
+                <div
+                  v-if="invitation.feedback === 'ACCEPTED'"
+                  class="flex items-center font-semibold text-green-600 dark:text-green-500"
+                >
+                  <IHeroiconsCheckCircleSolid
+                    class="mr-2 shrink-0"
+                    title="accepted"
+                  />
+                  <span>
+                    {{
+                      event.accountByCreatedBy.username !==
+                      store.signedInUsername
+                        ? t('invitationAccepted')
+                        : t('invitationAcceptedAdmin', {
+                            name: contactName,
+                          })
+                    }}
+                  </span>
+                </div>
+                <ButtonColored
+                  v-if="
+                    invitation.feedback === null ||
+                    invitation.feedback === 'ACCEPTED'
+                  "
+                  :aria-label="
+                    event.accountByCreatedBy.username !== store.signedInUsername
+                      ? t('invitationCancel')
+                      : t('invitationCancelAdmin', {
+                          name: contactName,
+                        })
+                  "
+                  @click="cancel"
+                >
+                  <span>
+                    {{
                       event.accountByCreatedBy.username !==
                       store.signedInUsername
                         ? t('invitationCancel')
                         : t('invitationCancelAdmin', {
                             name: contactName,
                           })
-                    "
-                    @click="cancel"
-                  >
-                    <span>
-                      {{
-                        event.accountByCreatedBy.username !==
-                        store.signedInUsername
-                          ? t('invitationCancel')
-                          : t('invitationCancelAdmin', {
-                              name: contactName,
-                            })
-                      }}
-                    </span>
-                    <template #prefix>
-                      <IHeroiconsXCircleSolid class="shrink-0" />
-                    </template>
-                  </ButtonColored>
-                  <div
-                    v-if="invitation.feedback === 'CANCELED'"
-                    class="flex items-center font-semibold text-(--semantic-critic-text)"
-                  >
-                    <IHeroiconsXCircleSolid
-                      class="mr-2 shrink-0"
-                      title="canceled"
-                    />
-                    <span>
-                      {{
-                        event.accountByCreatedBy.username !==
-                        store.signedInUsername
-                          ? t('invitationCanceled')
-                          : t('invitationCanceledAdmin', {
-                              name: contactName,
-                            })
-                      }}
-                    </span>
-                  </div>
+                    }}
+                  </span>
+                  <template #prefix>
+                    <IHeroiconsXCircleSolid class="shrink-0" />
+                  </template>
+                </ButtonColored>
+                <div
+                  v-if="invitation.feedback === 'CANCELED'"
+                  class="flex items-center font-semibold text-(--semantic-critic-text)"
+                >
+                  <IHeroiconsXCircleSolid
+                    class="mr-2 shrink-0"
+                    title="canceled"
+                  />
+                  <span>
+                    {{
+                      event.accountByCreatedBy.username !==
+                      store.signedInUsername
+                        ? t('invitationCanceled')
+                        : t('invitationCanceledAdmin', {
+                            name: contactName,
+                          })
+                    }}
+                  </span>
                 </div>
               </div>
-              <!-- <div
+            </div>
+            <!-- <div
               v-if="
                 invitation.feedback !== null &&
                 invitation.feedback === 'ACCEPTED'
@@ -348,57 +350,56 @@
                 </select>
               </FormInput>
             </div> -->
-            </template>
-          </Card>
-        </div>
-        <Card v-if="eventDescriptionTemplate">
-          <!-- eslint-disable vue/no-v-html -->
-          <LayoutProse class="w-full">
-            <div v-html="eventDescriptionTemplate" />
-          </LayoutProse>
-          <!-- eslint-enable vue/no-v-html -->
+          </template>
         </Card>
       </div>
-      <Modal id="ModalGuestQrCode">
-        <div v-if="invitation" class="flex flex-col items-center gap-2 pb-4">
-          <QrcodeVue
-            id="qrCode"
-            class="bg-white p-4"
-            :value="invitation.id"
-            :size="200"
-          />
-          <FormInputStateInfo>
-            {{ t('hintQrCode') }}
-          </FormInputStateInfo>
-        </div>
-        <template #footer>
-          <ButtonColored
-            :aria-label="t('print')"
-            variant="secondary"
-            @click="print"
-          >
-            {{ t('print') }}
-            <template #prefix>
-              <IHeroiconsPrinter />
-            </template>
-          </ButtonColored>
-          <ButtonColored
-            :aria-label="t('close')"
-            @click="store.modalRemove('ModalGuestQrCode')"
-          >
-            {{ t('close') }}
-            <template #prefix>
-              <IHeroiconsXMark />
-            </template>
-          </ButtonColored>
-        </template>
-      </Modal>
+      <Card v-if="eventDescriptionTemplate">
+        <!-- eslint-disable vue/no-v-html -->
+        <LayoutProse class="w-full">
+          <div v-html="eventDescriptionTemplate" />
+        </LayoutProse>
+        <!-- eslint-enable vue/no-v-html -->
+      </Card>
     </div>
-    <AppError v-else :status-code="403" />
-  </Loader>
+    <Modal id="ModalGuestQrCode">
+      <div v-if="invitation" class="flex flex-col items-center gap-2 pb-4">
+        <QrcodeVue
+          id="qrCode"
+          class="bg-white p-4"
+          :value="invitation.id"
+          :size="200"
+        />
+        <FormInputStateInfo>
+          {{ t('hintQrCode') }}
+        </FormInputStateInfo>
+      </div>
+      <template #footer>
+        <ButtonColored
+          :aria-label="t('print')"
+          variant="secondary"
+          @click="print"
+        >
+          {{ t('print') }}
+          <template #prefix>
+            <IHeroiconsPrinter />
+          </template>
+        </ButtonColored>
+        <ButtonColored
+          :aria-label="t('close')"
+          @click="store.modalRemove('ModalGuestQrCode')"
+        >
+          {{ t('close') }}
+          <template #prefix>
+            <IHeroiconsXMark />
+          </template>
+        </ButtonColored>
+      </template>
+    </Modal>
+  </div>
 </template>
 
 <script setup lang="ts">
+import { useQuery } from '@urql/vue'
 import DOMPurify from 'isomorphic-dompurify'
 import mustache from 'mustache'
 import prntr from 'prntr'
@@ -410,12 +411,7 @@ import {
   type GuestItemFragment,
   type GuestPatch,
 } from '~~/gql/generated/graphql'
-import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
-import { getGuestItem } from '~~/gql/documents/fragments/guestItem'
-import { getEventItem } from '~~/gql/documents/fragments/eventItem'
-import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
-import { getContactItem } from '~~/gql/documents/fragments/contactItem'
-import { useEventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
+import { graphql } from '~~/gql/generated'
 
 const { t } = useI18n()
 const fireAlert = useFireAlert()
@@ -424,35 +420,65 @@ const route = useRoute('event-view-username-event_name___en')
 const localePath = useLocalePath()
 const updateGuestByIdMutation = useUpdateGuestByIdMutation()
 
-// data
-const isReportDrawerOpen = ref(false)
+const templateReport = useTemplateRef('report')
 
 // api data
-const accountByUsernameQuery = useAccountByUsernameQuery({
-  username: route.params.username,
+const eventQuery = useQuery({
+  query: graphql(`
+    query Event($slug: String!, $username: String!) {
+      accountByUsername(username: $username) {
+        eventsByCreatedBy(condition: { slug: $slug }) {
+          nodes {
+            accountByCreatedBy {
+              id
+              username
+            }
+            createdBy
+            description
+            end
+            guestsByEventId {
+              nodes {
+                contactByContactId {
+                  accountId
+                  createdBy
+                  firstName
+                  id
+                  lastName
+                  nodeId
+                }
+                contactId
+                eventId
+                feedback
+                id
+                nodeId
+              }
+            }
+            id
+            isArchived
+            name
+            nodeId
+            isArchived
+            isInPerson
+            isRemote
+            slug
+            start
+            url
+            visibility
+          }
+        }
+        id
+        username
+      }
+    }
+  `),
+  variables: {
+    slug: route.params.event_name,
+    username: route.params.username,
+  },
 })
-const account = computed(() => getAccountItem(api.value.data.accountByUsername))
-if (account.value === null) {
-  throw showError({
-    message: 'Account data missing',
-    statusCode: 404,
-  })
-}
-const eventQuery = useEventByCreatedByAndSlugQuery({
-  createdBy: account.value?.id,
-  slug: route.params.event_name,
-  guestId: route.query.ic,
-})
-const event = computed(() =>
-  getEventItem(api.value.data.eventByCreatedByAndSlug),
-)
-if (event.value === null) {
-  throw showError({
-    message: 'Event data missing',
-    statusCode: 404,
-  })
-}
-const api = await useApiData([accountByUsernameQuery, eventQuery])
+const account = computed(() => eventQuery.data.value?.accountByUsername)
+const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
+const api = await useApiData([eventQuery])
 
 // methods
 const accept = () => {
@@ -499,14 +525,6 @@ const update = async (id: string, guestPatch: GuestPatch) => {
 }
 
 // computations
-const contact = computed(
-  () => getContactItem(invitation?.value?.contactByContactId) || undefined,
-)
-const contactName = computed(() => {
-  return invitation?.value?.contactByContactId && contact.value
-    ? getContactName(contact.value)
-    : undefined
-})
 const eventDescriptionTemplate = computed(() => {
   if (!event.value?.description) return
 
@@ -521,9 +539,8 @@ const eventDescriptionTemplate = computed(() => {
 })
 const invitation = computed(() => {
   const invitations =
-    api.value.data.eventByCreatedByAndSlug?.guestsByEventId.nodes
-      .map((x) => getGuestItem(x))
-      .filter(isNeitherNullNorUndefined)
+    eventQuery.data.value?.accountByUsername?.eventsByCreatedBy.nodes[0]
+      ?.guestsByEventId.nodes
 
   const invitationsMatchingUuid =
     store.signedInUsername === route.params.username && invitations
@@ -547,30 +564,40 @@ const invitation = computed(() => {
 
   return undefined
 })
+const contact = computed(() => invitation.value?.contactByContactId)
+const contactName = computed(() =>
+  contact.value ? getContactName(contact.value) : undefined,
+)
 const routeQuery = computed(() => route.query)
 const routeQueryIc = computed(() => route.query.ic)
 
 // page
-const descriptionSeo = computed(() =>
-  eventDescriptionTemplate.value
+const description = computed(() =>
+  event.value?.description
     ? getStringTruncated({
-        string: getTextFromHtml(eventDescriptionTemplate.value),
+        string: getTextFromHtml(event.value.description),
         limit: 200,
         isLastWordIncluded: true,
       })
     : undefined,
 )
-const title = computed(() =>
-  api.value.isFetching ? t('globalLoading') : event.value?.name || '403',
-)
+const title = computed(() => {
+  if (api.value.isFetching) return t('globalLoading')
+  if (!event.value) {
+    showAppError({ statusCode: 404, message: 'Event unavailable' })
+    return
+  }
+
+  return event.value.name
+})
 useHeadDefault({
-  description: descriptionSeo,
+  description,
   title,
 })
 defineOgImageComponent(
   'Event',
   {
-    description: descriptionSeo.value,
+    description,
   },
   {
     alt: t('ogImageAlt'),
@@ -582,6 +609,8 @@ defineOgImageComponent(
 de:
   attendances: Check-in
   close: Schließen
+  errorAccountMissing: Nutzerkonto nicht verfügbar
+  errorEventMissing: Veranstaltung nicht verfügbar
   # feedbackRequest: 'Bitte gib eine Rückmeldung, ob du teilnehmen wirst:'
   greeting: Hey{usernameString}!
   greetingDescription: Du wurdest zu folgender Veranstaltung eingeladen.
@@ -614,6 +643,8 @@ de:
 en:
   attendances: Check in
   close: Close
+  errorAccountMissing: Account not available
+  errorEventMissing: Event not available
   # feedbackRequest: 'Please confirm if you will attend:'
   greeting: Hey{usernameString}!
   greetingDescription: "You've been invited to the following event."

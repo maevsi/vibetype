@@ -31,7 +31,7 @@ const {
   event,
   invitation = undefined,
 } = defineProps<{
-  contact?: ContactItemFragment
+  contact?: ContactItemFragment | null
   event: EventItemFragment
   invitation?: GuestItemFragment
 }>()

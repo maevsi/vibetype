@@ -68,10 +68,8 @@ import {
 } from 'vue-qrcode-reader'
 import type { RouteNamedMap } from 'vue-router/auto-routes'
 
-import { useEventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
-import { getEventItem } from '~~/gql/documents/fragments/eventItem'
-import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
-import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
+import { graphql } from '~~/gql/generated'
+import { useQuery } from '@urql/vue'
 
 const ROUTE_NAME: keyof RouteNamedMap =
   'event-view-username-event_name-attendance___en'
@@ -97,10 +95,10 @@ export default {
 <script setup lang="ts">
 const { t } = useI18n()
 const store = useStore()
-const route = useRoute(ROUTE_NAME)
 const fireAlert = useFireAlert()
 
 // validation
+const route = useRoute(ROUTE_NAME)
 if (route.params.username !== store.signedInUsername) {
   throw createError({
     statusCode: 403,
@@ -108,37 +106,41 @@ if (route.params.username !== store.signedInUsername) {
 }
 
 // api data
-const accountByUsernameQuery = useAccountByUsernameQuery({
-  username: route.params.username,
+const queryEventAttendance = useQuery({
+  query: graphql(`
+    query EventAttendance($slug: String!, $username: String!) {
+      accountByUsername(username: $username) {
+        eventsByCreatedBy(condition: { slug: $slug }) {
+          nodes {
+            id
+            name
+            slug
+          }
+        }
+        id
+      }
+    }
+  `),
+  variables: {
+    slug: route.params.event_name,
+    username: route.params.username,
+  },
 })
-const account = computed(() => getAccountItem(api.value.data.accountByUsername))
-if (account.value === null) {
-  throw showError({
-    message: 'Account data missing',
-    statusCode: 404,
-  })
-}
-const eventQuery = useEventByCreatedByAndSlugQuery({
-  createdBy: account.value?.id,
-  slug: route.params.event_name,
-})
-const event = computed(() =>
-  getEventItem(api.value.data.eventByCreatedByAndSlug),
-)
-if (event.value === null) {
-  throw showError({
-    message: 'Event data missing',
-    statusCode: 404,
-  })
-}
-const api = await useApiData([accountByUsernameQuery, eventQuery])
+const api = await useApiData([queryEventAttendance])
+const account = computed(() => api.value.data.accountByUsername)
+const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
 
 // page
 const title = computed(() => {
   if (api.value.isFetching) return t('globalLoading')
-
-  if (!event.value || route.params.username !== store.signedInUsername)
-    return '403'
+  if (route.params.username !== store.signedInUsername) {
+    showAppError({ statusCode: 403, message: 'Permission denied' })
+    return
+  }
+  if (!event.value) {
+    showAppError({ statusCode: 500, message: 'Event unavailable' })
+    return
+  }
 
   return `${t('title')} · ${event.value.name}`
 })

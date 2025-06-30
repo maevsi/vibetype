@@ -5,23 +5,20 @@
       class="flex flex-col gap-4"
     >
       <LayoutPageTitle :title="t('title')" />
-      <GuestList :event="event" />
+      <GuestList :event />
     </div>
     <AppError v-else :status-code="403" />
   </Loader>
 </template>
 
 <script setup lang="ts">
-import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
-import { useEventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
-import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
-import { getEventItem } from '~~/gql/documents/fragments/eventItem'
+import { useQuery } from '@urql/vue'
 
-const route = useRoute('event-view-username-event_name-guest___en')
-const { t } = useI18n()
-const store = useStore()
+import { graphql } from '~~/gql/generated'
 
 // validation
+const route = useRoute('event-view-username-event_name-guest___en')
+const store = useStore()
 if (route.params.username !== store.signedInUsername) {
   throw createError({
     statusCode: 403,
@@ -29,42 +26,60 @@ if (route.params.username !== store.signedInUsername) {
 }
 
 // api data
-const accountByUsernameQuery = useAccountByUsernameQuery({
-  username: route.params.username,
+const queryEventGuests = useQuery({
+  query: graphql(`
+    query EventGuests($slug: String!, $username: String!) {
+      accountByUsername(username: $username) {
+        eventsByCreatedBy(condition: { slug: $slug }) {
+          nodes {
+            createdBy
+            guestsByEventId {
+              nodes {
+                contactByContactId {
+                  accountId
+                  id
+                }
+                id
+              }
+              pageInfo {
+                hasNextPage
+                endCursor
+              }
+              totalCount
+            }
+            id
+            name
+            slug
+          }
+        }
+        id
+      }
+    }
+  `),
+  variables: {
+    slug: route.params.event_name,
+    username: route.params.username,
+  },
 })
-const account = computed(() => getAccountItem(api.value.data.accountByUsername))
-if (account.value === null) {
-  throw showError({
-    message: 'Account data missing',
-    statusCode: 404,
-  })
-}
-const eventQuery = useEventByCreatedByAndSlugQuery({
-  createdBy: account.value?.id,
-  slug: route.params.event_name,
-})
-const event = computed(() =>
-  getEventItem(api.value.data.eventByCreatedByAndSlug),
-)
-if (event.value === null) {
-  throw showError({
-    message: 'Event data missing',
-    statusCode: 404,
-  })
-}
-const api = await useApiData([accountByUsernameQuery, eventQuery])
+const api = await useApiData([queryEventGuests])
+const account = computed(() => api.value.data.accountByUsername)
+const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
 
-// computations
+// page
+const { t } = useI18n()
 const title = computed(() => {
   if (api.value.isFetching) return t('globalLoading')
-
-  if (!event.value || route.params.username !== store.signedInUsername)
-    return '403'
+  if (route.params.username !== store.signedInUsername) {
+    showAppError({ statusCode: 403, message: 'Permission denied' })
+    return
+  }
+  if (!event.value) {
+    showAppError({ statusCode: 500, message: 'Event unavailable' })
+    return
+  }
 
   return `${t('title')} · ${event.value.name}`
 })
-
-// initialization
 useHeadDefault({ title })
 </script>
 
