@@ -1,3 +1,9 @@
+## [12.4.0](https://github.com/maevsi/vibetype/compare/12.3.2...12.4.0) (2025-06-30)
+
+### Features
+
+* **account:** update edit design ([#1983](https://github.com/maevsi/vibetype/issues/1983)) ([d487fde](https://github.com/maevsi/vibetype/commit/d487fdefcf7376234ba63db07906e51dbeabf3c5))
+
 ## [12.3.2](https://github.com/maevsi/vibetype/compare/12.3.1...12.3.2) (2025-06-28)
 
 ### Bug Fixes
