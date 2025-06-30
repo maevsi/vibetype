@@ -1,3 +1,45 @@
+## [12.4.2](https://github.com/maevsi/vibetype/compare/12.4.1...12.4.2) (2025-06-30)
+
+### Bug Fixes
+
+* **composables:** rename shadowed variable ([cc70597](https://github.com/maevsi/vibetype/commit/cc70597f8e0d1324577f75768d6c3551897dd8d2))
+
+## [12.4.1](https://github.com/maevsi/vibetype/compare/12.4.0...12.4.1) (2025-06-30)
+
+### Bug Fixes
+
+* **event:** inline api ([1a29c9b](https://github.com/maevsi/vibetype/commit/1a29c9b76ed63204883482353b2ee6bf36786338))
+
+## [12.4.0](https://github.com/maevsi/vibetype/compare/12.3.2...12.4.0) (2025-06-30)
+
+### Features
+
+* **account:** update edit design ([#1983](https://github.com/maevsi/vibetype/issues/1983)) ([d487fde](https://github.com/maevsi/vibetype/commit/d487fdefcf7376234ba63db07906e51dbeabf3c5))
+
+## [12.3.2](https://github.com/maevsi/vibetype/compare/12.3.1...12.3.2) (2025-06-28)
+
+### Bug Fixes
+
+* **utils:** correct monday key ([e3252fa](https://github.com/maevsi/vibetype/commit/e3252facf80332926b782d5c0b43a1ab26759d8b))
+
+## [12.3.1](https://github.com/maevsi/vibetype/compare/12.3.0...12.3.1) (2025-06-28)
+
+### Performance Improvements
+
+* **deps:** use rolldown ([a5f3380](https://github.com/maevsi/vibetype/commit/a5f338057c12bcf0d16324bd0be4c169abcb8481))
+
+## [12.3.0](https://github.com/maevsi/vibetype/compare/12.2.2...12.3.0) (2025-06-28)
+
+### Features
+
+* **content:** link contact form ([675227b](https://github.com/maevsi/vibetype/commit/675227bc6c93a341df32282926dfbdbebc737ea3))
+
+## [12.2.2](https://github.com/maevsi/vibetype/compare/12.2.1...12.2.2) (2025-06-28)
+
+### Bug Fixes
+
+* schedule release ([0111469](https://github.com/maevsi/vibetype/commit/0111469e4f0cb3926f1b9a9ef665553dfaaacad8))
+
 ## [12.2.1](https://github.com/maevsi/vibetype/compare/12.2.0...12.2.1) (2025-06-15)
 
 ### Performance Improvements

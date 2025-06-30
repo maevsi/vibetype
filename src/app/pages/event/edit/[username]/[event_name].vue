@@ -1,50 +1,43 @@
 <template>
-  <Loader
-    :api="api"
-    :error-pg-ids="{
-      postgres28P01: t('postgres28P01'),
-      postgresP0002: t('postgresP0002'),
-    }"
-  >
-    <div
-      v-if="event && route.params.username === store.signedInUsername"
-      class="flex flex-col gap-4"
-    >
-      <section>
-        <LayoutPageTitle :title="t('title')" />
-        <FormEvent :event="event" />
-      </section>
-      <section>
-        <h2>{{ t('titleDelete') }}</h2>
-        <FormDelete
-          id="deleteEvent"
-          :item-name-deletion="t('formDeleteItemNameDeletion')"
-          :item-name-success="t('formDeleteItemNameSuccess')"
-          :mutation="eventDeleteMutation"
-          :variables="{
-            id: event.id,
-          }"
-          @success="navigateTo(localePath(`dashboard`))"
-        />
-      </section>
-    </div>
-    <AppError v-else :status-code="403" />
-  </Loader>
+  <AppError
+    v-if="route.params.username !== store.signedInUsername"
+    :status-code="403"
+  />
+  <AppError v-else-if="!event" :status-code="404" />
+  <div v-else class="flex flex-col gap-4">
+    <section>
+      <LayoutPageTitle :title="t('title')" />
+      <FormEvent :event="event" />
+    </section>
+    <section>
+      <h2>{{ t('titleDelete') }}</h2>
+      <FormDelete
+        id="deleteEvent"
+        :error-pg-ids="{
+          postgres28P01: t('postgres28P01'),
+          postgresP0002: t('postgresP0002'),
+        }"
+        :item-name-deletion="t('formDeleteItemNameDeletion')"
+        :item-name-success="t('formDeleteItemNameSuccess')"
+        :mutation="eventDeleteMutation"
+        :variables="{
+          id: event.id,
+        }"
+        @success="navigateTo(localePath(`dashboard`))"
+      />
+    </section>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { getEventItem } from '~~/gql/documents/fragments/eventItem'
-import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
-import { useEventDeleteMutation } from '~~/gql/documents/mutations/event/eventDelete'
-import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
-import { useEventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
+import { useQuery } from '@urql/vue'
 
-const localePath = useLocalePath()
-const { t } = useI18n()
-const route = useRoute('event-edit-username-event_name___en')
-const store = useStore()
+import { useEventDeleteMutation } from '~~/gql/documents/mutations/event/eventDelete'
+import { graphql } from '~~/gql/generated'
 
 // validation
+const route = useRoute('event-edit-username-event_name___en')
+const store = useStore()
 if (route.params.username !== store.signedInUsername) {
   throw createError({
     statusCode: 403,
@@ -52,46 +45,58 @@ if (route.params.username !== store.signedInUsername) {
 }
 
 // api data
-const accountByUsernameQuery = useAccountByUsernameQuery({
-  username: route.params.username,
+const eventQuery = useQuery({
+  query: graphql(`
+    query EventEdit($slug: String!, $username: String!) {
+      accountByUsername(username: $username) {
+        eventsByCreatedBy(condition: { slug: $slug }) {
+          nodes {
+            createdBy
+            description
+            end
+            id
+            isArchived
+            name
+            nodeId
+            isArchived
+            isInPerson
+            isRemote
+            slug
+            start
+            url
+            visibility
+          }
+        }
+        id
+        username
+      }
+    }
+  `),
+  variables: {
+    slug: route.params.event_name,
+    username: route.params.username,
+  },
 })
-const account = computed(() => getAccountItem(api.value.data.accountByUsername))
-if (account.value === null) {
-  throw showError({
-    message: 'Account data missing',
-    statusCode: 404,
-  })
-}
-const eventQuery = useEventByCreatedByAndSlugQuery({
-  createdBy: account.value?.id,
-  slug: route.params.event_name,
-})
-const event = computed(() =>
-  getEventItem(api.value.data.eventByCreatedByAndSlug),
-)
-if (event.value === null) {
-  throw showError({
-    message: 'Event data missing',
-    statusCode: 404,
-  })
-}
+const api = await useApiData([eventQuery])
+const account = computed(() => api.value.data?.accountByUsername)
+const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
 const eventDeleteMutation = useEventDeleteMutation()
-const api = await useApiData([
-  accountByUsernameQuery,
-  eventQuery,
-  eventDeleteMutation,
-])
 
 // page
+const { t } = useI18n()
 const title = computed(() => {
   if (api.value.isFetching) return t('globalLoading')
-
-  if (!event.value || route.params.username !== store.signedInUsername)
-    return '403'
+  if (!event.value) {
+    showAppError({ statusCode: 404, message: 'Event unavailable' })
+    return
+  }
 
   return `${t('title')} · ${event.value.name}`
 })
 useHeadDefault({ title })
+
+// template
+const localePath = useLocalePath()
 </script>
 
 <i18n lang="yaml">

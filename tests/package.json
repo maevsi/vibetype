@@ -1,24 +1,24 @@
 {
   "devDependencies": {
     "@axe-core/playwright": "4.10.2",
-    "@eslint/js": "9.29.0",
-    "@playwright/test": "1.53.0",
-    "@types/node": "22.15.31",
+    "@eslint/js": "9.30.0",
+    "@playwright/test": "1.53.1",
+    "@types/node": "22.15.34",
     "cross-env": "7.0.3",
     "del-cli": "6.0.0",
-    "eslint": "9.29.0",
+    "eslint": "9.30.0",
     "eslint-config-prettier": "10.1.5",
-    "eslint-plugin-prettier": "5.4.1",
+    "eslint-plugin-prettier": "5.5.1",
     "typescript": "5.8.3",
-    "typescript-eslint": "8.34.0",
+    "typescript-eslint": "8.35.0",
     "ufo": "1.6.1",
-    "vitest": "3.2.3"
+    "vitest": "3.2.4"
   },
   "engines": {
     "node": "22"
   },
   "peerDependencies": {
-    "playwright-core": "1.53.0"
+    "playwright-core": "1.53.1"
   },
   "scripts": {
     "lint": "pnpm run lint:js && pnpm run lint:ts",

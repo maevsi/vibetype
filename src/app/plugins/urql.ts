@@ -273,10 +273,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
             result,
           }),
 
-        // update
-        profilePictureSet: (_result, _args, cache, _info) =>
-          invalidateCache(cache, 'profilePictureByAccountId'),
-
         // delete
         deleteContactById: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Contact', args),
@@ -332,6 +328,8 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           }),
         deleteEventFavoriteById: (_result, args, cache, _info) =>
           invalidateCache(cache, 'EventFavorite', args),
+        deleteProfilePictureById: (_result, args, cache, _info) =>
+          invalidateCache(cache, 'ProfilePicture', args),
       },
     },
   }
