@@ -1,6 +1,7 @@
 <template>
+  <LoaderIndicatorPing v-if="api.isFetching" />
   <AppError
-    v-if="!account"
+    v-else-if="!account"
     :description="t('errorAccountMissing')"
     :status-code="404"
   />

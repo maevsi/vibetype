@@ -13,11 +13,10 @@
 import type { I18N_LOCALE_CODE } from '@dargmuesli/nuxt-vio/shared/types/i18n'
 
 // page
-const { t } = useI18n()
+const { t, locale, locales } = useI18n()
 const title = t('title')
 
 // i18n – get
-const { locale, locales } = useI18n()
 const languages = locales.value
   .map((locale) =>
     locale.name
