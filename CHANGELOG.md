@@ -1,3 +1,9 @@
+## [12.5.0](https://github.com/maevsi/vibetype/compare/12.4.2...12.5.0) (2025-06-30)
+
+### Features
+
+* **preference:** update demo image ([5b15f9b](https://github.com/maevsi/vibetype/commit/5b15f9b3a697ff088d6c44220643b672c95141af))
+
 ## [12.4.2](https://github.com/maevsi/vibetype/compare/12.4.1...12.4.2) (2025-06-30)
 
 ### Bug Fixes
