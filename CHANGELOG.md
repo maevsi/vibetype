@@ -1,3 +1,9 @@
+## [12.4.2](https://github.com/maevsi/vibetype/compare/12.4.1...12.4.2) (2025-06-30)
+
+### Bug Fixes
+
+* **composables:** rename shadowed variable ([cc70597](https://github.com/maevsi/vibetype/commit/cc70597f8e0d1324577f75768d6c3551897dd8d2))
+
 ## [12.4.1](https://github.com/maevsi/vibetype/compare/12.4.0...12.4.1) (2025-06-30)
 
 ### Bug Fixes
