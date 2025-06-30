@@ -1,3 +1,13 @@
+## [12.6.0](https://github.com/maevsi/vibetype/compare/12.5.0...12.6.0) (2025-06-30)
+
+### Features
+
+* **pages:** show loading indicator for event ([e608af0](https://github.com/maevsi/vibetype/commit/e608af0fcd9103feefeaeb094ac8f894bb134295))
+
+### Bug Fixes
+
+* **pages:** deduplicate i18n composable ([28bfd53](https://github.com/maevsi/vibetype/commit/28bfd53871dd5b1a5b3a1f1daf572e7c594ddb88))
+
 ## [12.5.0](https://github.com/maevsi/vibetype/compare/12.4.2...12.5.0) (2025-06-30)
 
 ### Features
