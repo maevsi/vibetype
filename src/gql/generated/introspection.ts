@@ -3550,62 +3550,6 @@ export default {
       },
       {
         kind: 'OBJECT',
-        name: 'CreateAccountPayload',
-        fields: [
-          {
-            name: 'account',
-            type: {
-              kind: 'OBJECT',
-              name: 'Account',
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: 'accountEdge',
-            type: {
-              kind: 'OBJECT',
-              name: 'AccountsEdge',
-              ofType: null,
-            },
-            args: [
-              {
-                name: 'orderBy',
-                type: {
-                  kind: 'LIST',
-                  ofType: {
-                    kind: 'NON_NULL',
-                    ofType: {
-                      kind: 'SCALAR',
-                      name: 'Any',
-                    },
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: 'clientMutationId',
-            type: {
-              kind: 'SCALAR',
-              name: 'Any',
-            },
-            args: [],
-          },
-          {
-            name: 'query',
-            type: {
-              kind: 'OBJECT',
-              name: 'Query',
-              ofType: null,
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: 'OBJECT',
         name: 'CreateAccountSocialNetworkPayload',
         fields: [
           {
@@ -5270,70 +5214,6 @@ export default {
           },
           {
             name: 'deletedAccountBlockId',
-            type: {
-              kind: 'SCALAR',
-              name: 'Any',
-            },
-            args: [],
-          },
-          {
-            name: 'query',
-            type: {
-              kind: 'OBJECT',
-              name: 'Query',
-              ofType: null,
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: 'OBJECT',
-        name: 'DeleteAccountPayload',
-        fields: [
-          {
-            name: 'account',
-            type: {
-              kind: 'OBJECT',
-              name: 'Account',
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: 'accountEdge',
-            type: {
-              kind: 'OBJECT',
-              name: 'AccountsEdge',
-              ofType: null,
-            },
-            args: [
-              {
-                name: 'orderBy',
-                type: {
-                  kind: 'LIST',
-                  ofType: {
-                    kind: 'NON_NULL',
-                    ofType: {
-                      kind: 'SCALAR',
-                      name: 'Any',
-                    },
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: 'clientMutationId',
-            type: {
-              kind: 'SCALAR',
-              name: 'Any',
-            },
-            args: [],
-          },
-          {
-            name: 'deletedAccountId',
             type: {
               kind: 'SCALAR',
               name: 'Any',
@@ -11087,26 +10967,6 @@ export default {
             ],
           },
           {
-            name: 'createAccount',
-            type: {
-              kind: 'OBJECT',
-              name: 'CreateAccountPayload',
-              ofType: null,
-            },
-            args: [
-              {
-                name: 'input',
-                type: {
-                  kind: 'NON_NULL',
-                  ofType: {
-                    kind: 'SCALAR',
-                    name: 'Any',
-                  },
-                },
-              },
-            ],
-          },
-          {
             name: 'createAccountBlock',
             type: {
               kind: 'OBJECT',
@@ -11567,26 +11427,6 @@ export default {
             ],
           },
           {
-            name: 'deleteAccount',
-            type: {
-              kind: 'OBJECT',
-              name: 'DeleteAccountPayload',
-              ofType: null,
-            },
-            args: [
-              {
-                name: 'input',
-                type: {
-                  kind: 'NON_NULL',
-                  ofType: {
-                    kind: 'SCALAR',
-                    name: 'Any',
-                  },
-                },
-              },
-            ],
-          },
-          {
             name: 'deleteAccountBlock',
             type: {
               kind: 'OBJECT',
@@ -11631,46 +11471,6 @@ export default {
             type: {
               kind: 'OBJECT',
               name: 'DeleteAccountBlockPayload',
-              ofType: null,
-            },
-            args: [
-              {
-                name: 'input',
-                type: {
-                  kind: 'NON_NULL',
-                  ofType: {
-                    kind: 'SCALAR',
-                    name: 'Any',
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: 'deleteAccountById',
-            type: {
-              kind: 'OBJECT',
-              name: 'DeleteAccountPayload',
-              ofType: null,
-            },
-            args: [
-              {
-                name: 'input',
-                type: {
-                  kind: 'NON_NULL',
-                  ofType: {
-                    kind: 'SCALAR',
-                    name: 'Any',
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: 'deleteAccountByUsername',
-            type: {
-              kind: 'OBJECT',
-              name: 'DeleteAccountPayload',
               ofType: null,
             },
             args: [

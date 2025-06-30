@@ -551,18 +551,6 @@ export type AccountEmailAddressVerificationPayload = {
   query?: Maybe<Query>
 }
 
-/** An input for mutations affecting `Account` */
-export type AccountInput = {
-  /** The account's description. */
-  description?: InputMaybe<Scalars['String']['input']>
-  /** The account's internal id. */
-  id: Scalars['UUID']['input']
-  /** The account's imprint. */
-  imprint?: InputMaybe<Scalars['String']['input']>
-  /** The account's username. */
-  username: Scalars['String']['input']
-}
-
 /** All input for the `accountPasswordChange` mutation. */
 export type AccountPasswordChangeInput = {
   /**
@@ -636,12 +624,8 @@ export type AccountPasswordResetRequestPayload = {
 export type AccountPatch = {
   /** The account's description. */
   description?: InputMaybe<Scalars['String']['input']>
-  /** The account's internal id. */
-  id?: InputMaybe<Scalars['UUID']['input']>
   /** The account's imprint. */
   imprint?: InputMaybe<Scalars['String']['input']>
-  /** The account's username. */
-  username?: InputMaybe<Scalars['String']['input']>
 }
 
 /** All input for the `accountRegistration` mutation. */
@@ -1390,38 +1374,6 @@ export type CreateAccountBlockPayload = {
 /** The output of our create `AccountBlock` mutation. */
 export type CreateAccountBlockPayloadAccountBlockEdgeArgs = {
   orderBy?: InputMaybe<Array<AccountBlocksOrderBy>>
-}
-
-/** All input for the create `Account` mutation. */
-export type CreateAccountInput = {
-  /** The `Account` to be created by this mutation. */
-  account: AccountInput
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-}
-
-/** The output of our create `Account` mutation. */
-export type CreateAccountPayload = {
-  __typename?: 'CreateAccountPayload'
-  /** The `Account` that was created by this mutation. */
-  account?: Maybe<Account>
-  /** An edge for our `Account`. May be used by Relay 1. */
-  accountEdge?: Maybe<AccountsEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our create `Account` mutation. */
-export type CreateAccountPayloadAccountEdgeArgs = {
-  orderBy?: InputMaybe<Array<AccountsOrderBy>>
 }
 
 /** All input for the create `AccountSocialNetwork` mutation. */
@@ -2267,61 +2219,6 @@ export type DeleteAccountBlockPayload = {
 /** The output of our delete `AccountBlock` mutation. */
 export type DeleteAccountBlockPayloadAccountBlockEdgeArgs = {
   orderBy?: InputMaybe<Array<AccountBlocksOrderBy>>
-}
-
-/** All input for the `deleteAccountById` mutation. */
-export type DeleteAccountByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The account's internal id. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `deleteAccountByUsername` mutation. */
-export type DeleteAccountByUsernameInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The account's username. */
-  username: Scalars['String']['input']
-}
-
-/** All input for the `deleteAccount` mutation. */
-export type DeleteAccountInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `Account` to be deleted. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our delete `Account` mutation. */
-export type DeleteAccountPayload = {
-  __typename?: 'DeleteAccountPayload'
-  /** The `Account` that was deleted by this mutation. */
-  account?: Maybe<Account>
-  /** An edge for our `Account`. May be used by Relay 1. */
-  accountEdge?: Maybe<AccountsEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedAccountId?: Maybe<Scalars['ID']['output']>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our delete `Account` mutation. */
-export type DeleteAccountPayloadAccountEdgeArgs = {
-  orderBy?: InputMaybe<Array<AccountsOrderBy>>
 }
 
 /** All input for the `deleteAccountSocialNetworkByAccountIdAndSocialNetwork` mutation. */
@@ -5203,8 +5100,6 @@ export type Mutation = {
   achievementUnlock?: Maybe<AchievementUnlockPayload>
   /** Creates a JWT token that will securely identify an account and give it certain permissions. */
   authenticate?: Maybe<AuthenticatePayload>
-  /** Creates a single `Account`. */
-  createAccount?: Maybe<CreateAccountPayload>
   /** Creates a single `AccountBlock`. */
   createAccountBlock?: Maybe<CreateAccountBlockPayload>
   /** Creates a single `AccountSocialNetwork`. */
@@ -5251,18 +5146,12 @@ export type Mutation = {
   createReport?: Maybe<CreateReportPayload>
   /** Creates a single `Upload`. */
   createUpload?: Maybe<CreateUploadPayload>
-  /** Deletes a single `Account` using its globally unique id. */
-  deleteAccount?: Maybe<DeleteAccountPayload>
   /** Deletes a single `AccountBlock` using its globally unique id. */
   deleteAccountBlock?: Maybe<DeleteAccountBlockPayload>
   /** Deletes a single `AccountBlock` using a unique key. */
   deleteAccountBlockByCreatedByAndBlockedAccountId?: Maybe<DeleteAccountBlockPayload>
   /** Deletes a single `AccountBlock` using a unique key. */
   deleteAccountBlockById?: Maybe<DeleteAccountBlockPayload>
-  /** Deletes a single `Account` using a unique key. */
-  deleteAccountById?: Maybe<DeleteAccountPayload>
-  /** Deletes a single `Account` using a unique key. */
-  deleteAccountByUsername?: Maybe<DeleteAccountPayload>
   /** Deletes a single `AccountSocialNetwork` using its globally unique id. */
   deleteAccountSocialNetwork?: Maybe<DeleteAccountSocialNetworkPayload>
   /** Deletes a single `AccountSocialNetwork` using a unique key. */
@@ -5538,11 +5427,6 @@ export type MutationAuthenticateArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateAccountArgs = {
-  input: CreateAccountInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateAccountBlockArgs = {
   input: CreateAccountBlockInput
 }
@@ -5658,11 +5542,6 @@ export type MutationCreateUploadArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAccountArgs = {
-  input: DeleteAccountInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteAccountBlockArgs = {
   input: DeleteAccountBlockInput
 }
@@ -5675,16 +5554,6 @@ export type MutationDeleteAccountBlockByCreatedByAndBlockedAccountIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteAccountBlockByIdArgs = {
   input: DeleteAccountBlockByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAccountByIdArgs = {
-  input: DeleteAccountByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAccountByUsernameArgs = {
-  input: DeleteAccountByUsernameInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -9190,9 +9059,6 @@ export type GraphCacheKeysConfig = {
   CreateAccountBlockPayload?: (
     data: WithTypename<CreateAccountBlockPayload>,
   ) => null | string
-  CreateAccountPayload?: (
-    data: WithTypename<CreateAccountPayload>,
-  ) => null | string
   CreateAccountSocialNetworkPayload?: (
     data: WithTypename<CreateAccountSocialNetworkPayload>,
   ) => null | string
@@ -9257,9 +9123,6 @@ export type GraphCacheKeysConfig = {
   ) => null | string
   DeleteAccountBlockPayload?: (
     data: WithTypename<DeleteAccountBlockPayload>,
-  ) => null | string
-  DeleteAccountPayload?: (
-    data: WithTypename<DeleteAccountPayload>,
   ) => null | string
   DeleteAccountSocialNetworkPayload?: (
     data: WithTypename<DeleteAccountSocialNetworkPayload>,
@@ -10922,28 +10785,6 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
-  CreateAccountPayload?: {
-    account?: GraphCacheResolver<
-      WithTypename<CreateAccountPayload>,
-      Record<string, never>,
-      WithTypename<Account> | string
-    >
-    accountEdge?: GraphCacheResolver<
-      WithTypename<CreateAccountPayload>,
-      CreateAccountPayloadAccountEdgeArgs,
-      WithTypename<AccountsEdge> | string
-    >
-    clientMutationId?: GraphCacheResolver<
-      WithTypename<CreateAccountPayload>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    query?: GraphCacheResolver<
-      WithTypename<CreateAccountPayload>,
-      Record<string, never>,
-      WithTypename<Query> | string
-    >
-  }
   CreateAccountSocialNetworkPayload?: {
     accountByAccountId?: GraphCacheResolver<
       WithTypename<CreateAccountSocialNetworkPayload>,
@@ -11671,33 +11512,6 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<DeleteAccountBlockPayload>,
-      Record<string, never>,
-      WithTypename<Query> | string
-    >
-  }
-  DeleteAccountPayload?: {
-    account?: GraphCacheResolver<
-      WithTypename<DeleteAccountPayload>,
-      Record<string, never>,
-      WithTypename<Account> | string
-    >
-    accountEdge?: GraphCacheResolver<
-      WithTypename<DeleteAccountPayload>,
-      DeleteAccountPayloadAccountEdgeArgs,
-      WithTypename<AccountsEdge> | string
-    >
-    clientMutationId?: GraphCacheResolver<
-      WithTypename<DeleteAccountPayload>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    deletedAccountId?: GraphCacheResolver<
-      WithTypename<DeleteAccountPayload>,
-      Record<string, never>,
-      Scalars['ID'] | string
-    >
-    query?: GraphCacheResolver<
-      WithTypename<DeleteAccountPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -15026,10 +14840,6 @@ export type GraphCacheOptimisticUpdaters = {
     MutationAuthenticateArgs,
     Maybe<WithTypename<AuthenticatePayload>>
   >
-  createAccount?: GraphCacheOptimisticMutationResolver<
-    MutationCreateAccountArgs,
-    Maybe<WithTypename<CreateAccountPayload>>
-  >
   createAccountBlock?: GraphCacheOptimisticMutationResolver<
     MutationCreateAccountBlockArgs,
     Maybe<WithTypename<CreateAccountBlockPayload>>
@@ -15122,10 +14932,6 @@ export type GraphCacheOptimisticUpdaters = {
     MutationCreateUploadArgs,
     Maybe<WithTypename<CreateUploadPayload>>
   >
-  deleteAccount?: GraphCacheOptimisticMutationResolver<
-    MutationDeleteAccountArgs,
-    Maybe<WithTypename<DeleteAccountPayload>>
-  >
   deleteAccountBlock?: GraphCacheOptimisticMutationResolver<
     MutationDeleteAccountBlockArgs,
     Maybe<WithTypename<DeleteAccountBlockPayload>>
@@ -15137,14 +14943,6 @@ export type GraphCacheOptimisticUpdaters = {
   deleteAccountBlockById?: GraphCacheOptimisticMutationResolver<
     MutationDeleteAccountBlockByIdArgs,
     Maybe<WithTypename<DeleteAccountBlockPayload>>
-  >
-  deleteAccountById?: GraphCacheOptimisticMutationResolver<
-    MutationDeleteAccountByIdArgs,
-    Maybe<WithTypename<DeleteAccountPayload>>
-  >
-  deleteAccountByUsername?: GraphCacheOptimisticMutationResolver<
-    MutationDeleteAccountByUsernameArgs,
-    Maybe<WithTypename<DeleteAccountPayload>>
   >
   deleteAccountSocialNetwork?: GraphCacheOptimisticMutationResolver<
     MutationDeleteAccountSocialNetworkArgs,
@@ -16210,10 +16008,6 @@ export type GraphCacheUpdaters = {
       { authenticate: Maybe<WithTypename<AuthenticatePayload>> },
       MutationAuthenticateArgs
     >
-    createAccount?: GraphCacheUpdateResolver<
-      { createAccount: Maybe<WithTypename<CreateAccountPayload>> },
-      MutationCreateAccountArgs
-    >
     createAccountBlock?: GraphCacheUpdateResolver<
       { createAccountBlock: Maybe<WithTypename<CreateAccountBlockPayload>> },
       MutationCreateAccountBlockArgs
@@ -16344,10 +16138,6 @@ export type GraphCacheUpdaters = {
       { createUpload: Maybe<WithTypename<CreateUploadPayload>> },
       MutationCreateUploadArgs
     >
-    deleteAccount?: GraphCacheUpdateResolver<
-      { deleteAccount: Maybe<WithTypename<DeleteAccountPayload>> },
-      MutationDeleteAccountArgs
-    >
     deleteAccountBlock?: GraphCacheUpdateResolver<
       { deleteAccountBlock: Maybe<WithTypename<DeleteAccountBlockPayload>> },
       MutationDeleteAccountBlockArgs
@@ -16365,14 +16155,6 @@ export type GraphCacheUpdaters = {
         deleteAccountBlockById: Maybe<WithTypename<DeleteAccountBlockPayload>>
       },
       MutationDeleteAccountBlockByIdArgs
-    >
-    deleteAccountById?: GraphCacheUpdateResolver<
-      { deleteAccountById: Maybe<WithTypename<DeleteAccountPayload>> },
-      MutationDeleteAccountByIdArgs
-    >
-    deleteAccountByUsername?: GraphCacheUpdateResolver<
-      { deleteAccountByUsername: Maybe<WithTypename<DeleteAccountPayload>> },
-      MutationDeleteAccountByUsernameArgs
     >
     deleteAccountSocialNetwork?: GraphCacheUpdateResolver<
       {
@@ -17724,24 +17506,6 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
-  CreateAccountPayload?: {
-    account?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateAccountPayload>>,
-      Record<string, never>
-    >
-    accountEdge?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateAccountPayload>>,
-      CreateAccountPayloadAccountEdgeArgs
-    >
-    clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateAccountPayload>>,
-      Record<string, never>
-    >
-    query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<CreateAccountPayload>>,
-      Record<string, never>
-    >
-  }
   CreateAccountSocialNetworkPayload?: {
     accountByAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<CreateAccountSocialNetworkPayload>>,
@@ -18333,28 +18097,6 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<DeleteAccountBlockPayload>>,
-      Record<string, never>
-    >
-  }
-  DeleteAccountPayload?: {
-    account?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteAccountPayload>>,
-      Record<string, never>
-    >
-    accountEdge?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteAccountPayload>>,
-      DeleteAccountPayloadAccountEdgeArgs
-    >
-    clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteAccountPayload>>,
-      Record<string, never>
-    >
-    deletedAccountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteAccountPayload>>,
-      Record<string, never>
-    >
-    query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<DeleteAccountPayload>>,
       Record<string, never>
     >
   }

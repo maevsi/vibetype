@@ -1,55 +1,180 @@
 <template>
   <Loader :api="api" indicator="ping">
-    <div class="flex flex-col gap-4">
-      <LayoutPageTitle v-if="store.jwtDecoded" :title="route.params.username" />
-      <section class="flex justify-center">
+    <LayoutPage v-if="account">
+      <div class="grid grid-cols-3 items-center">
         <AppButton
-          :aria-label="t('profilePictureChange')"
-          @click="showModalUploadSelection"
+          :aria-label="t('back')"
+          :to="
+            localePath({
+              name: 'account-view-username',
+              params: { username: store.signedInUsername },
+            })
+          "
+          class="justify-self-start"
         >
-          <div class="flex items-center gap-4">
-            <AccountProfilePicture
-              :account-id="account?.id"
-              class="size-24 rounded-sm"
-              height="96"
-              width="96"
-            />
-            <IHeroiconsPencil />
-          </div>
+          <AppIconBack class="size-8" />
         </AppButton>
-        <ModalUploadSelection @select="onUploadSelect" />
-      </section>
-      <section>
-        <h2>{{ t('titlePasswordChange') }}</h2>
-        <FormAccountPasswordChange />
-      </section>
-      <section>
-        <h2>{{ t('titleAccountDelete') }}</h2>
-        <FormDelete
-          id="deleteAccount"
-          :error-pg-ids="{
-            postgres23503: t('postgres23503'),
-            postgres28P01: t('postgres28P01'),
-          }"
-          :item-name-deletion="t('formDeleteItemNameDeletion')"
-          :item-name-success="t('formDeleteItemNameSuccess')"
-          :mutation="accountDeleteMutation"
-          @success="signOut"
+        <TypographyH3 class="justify-self-center">
+          {{ t('myProfile') }}
+        </TypographyH3>
+        <div></div>
+      </div>
+      <div class="flex flex-col gap-4">
+        <div
+          class="flex items-center gap-4 rounded-lg border border-(--semantic-base-background) bg-(--semantic-base-surface-1) p-3"
+        >
+          <AccountProfilePicture
+            :account-id="account.id"
+            class="size-15 flex-shrink-0 rounded-full"
+            height="60"
+            width="60"
+          />
+          <div class="flex flex-1 gap-3">
+            <ButtonColored
+              size="compact"
+              :aria-label="t('replace')"
+              class="flex-1"
+              @click="showModalUploadSelection"
+            >
+              <TypographyLabel>
+                {{ t('replace') }}
+              </TypographyLabel>
+            </ButtonColored>
+            <ButtonColored
+              variant="secondary"
+              size="compact"
+              :aria-label="t('remove')"
+              class="flex-1"
+              @click="removeProfilePicture"
+            >
+              <TypographyLabel>
+                {{ t('remove') }}
+              </TypographyLabel>
+            </ButtonColored>
+          </div>
+          <ModalUploadSelection @select="onUploadSelect" />
+        </div>
+        <div class="flex flex-col">
+          <div
+            class="flex flex-col rounded-lg border border-(--semantic-base-background) bg-(--semantic-base-surface-1) p-4"
+          >
+            <div class="mb-4 flex items-center justify-between">
+              <TypographyH3>
+                {{ t('about') }}
+              </TypographyH3>
+              <button
+                class="flex items-center gap-1"
+                @click="isEditing ? cancelEdit() : toggleEdit()"
+              >
+                <template v-if="!isEditing">
+                  <AppIconEdit
+                    class="size-5 text-(--semantic-base-text-tertiary)"
+                  />
+                  <TypographySubtitleMedium
+                    class="text-(--semantic-base-text-tertiary) underline underline-offset-2"
+                  >
+                    {{ t('editInfo') }}
+                  </TypographySubtitleMedium>
+                </template>
+                <TypographySubtitleMedium
+                  v-if="isEditing"
+                  class="text-(--semantic-base-text-tertiary) underline underline-offset-2"
+                >
+                  {{ t('cancel') }}
+                </TypographySubtitleMedium>
+              </button>
+            </div>
+            <div
+              v-if="isEditing"
+              class="h-35 rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) p-3"
+            >
+              <textarea
+                v-model="editableDescription"
+                class="h-full w-full resize-none bg-transparent focus:outline-none"
+                maxlength="500"
+              />
+            </div>
+            <TypographyBodyMedium v-else>
+              {{ account?.description }}
+            </TypographyBodyMedium>
+          </div>
+          <div
+            v-if="isEditing"
+            class="flex flex-col items-end gap-2 text-right"
+          >
+            <TypographySubtitleSmall
+              class="text-(--semantic-base-text-secondary)"
+            >
+              {{
+                t('maxCharacters', { count: editableDescription?.length || 0 })
+              }}
+            </TypographySubtitleSmall>
+            <ButtonColored
+              variant="secondary"
+              :aria-label="t('saveChanges')"
+              @click="saveDescription"
+            >
+              <TypographyLabel>
+                {{ t('saveChanges') }}
+              </TypographyLabel>
+            </ButtonColored>
+          </div>
+        </div>
+        <CardButton
+          class="border-(--warning-strong) bg-(--warning-weak) text-(--warning-text)"
+          :title="t('resetPassword')"
+          :to="
+            localePath({
+              name: 'account-password-reset-request',
+            })
+          "
+        >
+          <AppIconVerifiedUser />
+          <template #iconSecondary>
+            <AppIconRestartAlt />
+          </template>
+        </CardButton>
+        <div class="flex justify-center">
+          <TypographySubtitleMedium
+            class="cursor-pointer text-(--semantic-critic-text) underline underline-offset-2"
+            @click="openDeleteDrawer"
+          >
+            {{ t('deleteAccount') }}
+          </TypographySubtitleMedium>
+        </div>
+        <AccountDeleteDrawer
+          v-model:is-open="isDeleteDrawerOpen"
+          :account-id="account?.id"
         />
-      </section>
-    </div>
+      </div>
+    </LayoutPage>
   </Loader>
 </template>
 
 <script setup lang="ts">
-import { useAccountDeleteMutation } from '~~/gql/documents/mutations/account/accountDelete'
 import { useProfilePictureSetMutation } from '~~/gql/documents/mutations/profilePicture/profilePictureSet'
 import { useAccountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
+import { useAccountDescriptionUpdateMutation } from '~~/gql/documents/mutations/account/accountDescriptionUpdate'
+import { getProfilePictureItem } from '~~/gql/documents/fragments/profilePictureItem'
+import { getUploadItem } from '~~/gql/documents/fragments/uploadItem'
+import { useProfilePictureByAccountIdQuery } from '~~/gql/documents/queries/profilePicture/profilePictureByAccountId'
+import { useDeleteUploadByIdMutation } from '~~/gql/documents/mutations/upload/uploadDeleteById'
+
+definePageMeta({
+  layout: 'default-no-header',
+})
 
 const store = useStore()
-const { signOut } = await useSignOut()
+const localePath = useLocalePath()
 const { t } = useI18n()
+
+const isEditing = ref(false)
+const editableDescription = ref('')
+const isDeleteDrawerOpen = ref(false)
+const accountDescriptionMutation = useAccountDescriptionUpdateMutation()
+const profilePictureSetMutation = useProfilePictureSetMutation()
+const deleteUploadMutation = useDeleteUploadByIdMutation()
 
 // page
 const route = useRoute('account-edit-username___en')
@@ -64,44 +189,96 @@ if (route.params.username !== store.signedInUsername) {
 }
 
 // api data
-const accountDeleteMutation = useAccountDeleteMutation()
 const accountByUsernameQuery = useAccountByUsernameQuery({
   username: route.params.username,
 })
-const profilePictureSetMutation = useProfilePictureSetMutation()
-const api = await useApiData([
-  accountByUsernameQuery,
-  profilePictureSetMutation,
-])
-const account = getAccountItem(api.value.data.accountByUsername)
+
+const profilePictureQuery = useProfilePictureByAccountIdQuery({
+  accountId: store.signedInAccountId,
+})
+
+const api = await useApiData([accountByUsernameQuery, profilePictureQuery])
+
+const account = computed(() => getAccountItem(api.value.data.accountByUsername))
 
 // methods
 const onUploadSelect = async (uploadId?: string | null | undefined) =>
   await profilePictureSetMutation.executeMutation({
     uploadId,
   })
+
 const showModalUploadSelection = () => {
   store.modals.push({ id: 'ModalUploadSelection' })
+}
+
+const toggleEdit = () => {
+  if (!isEditing.value) {
+    editableDescription.value = account.value?.description?.trim() || ''
+  }
+  isEditing.value = !isEditing.value
+}
+
+const cancelEdit = () => {
+  editableDescription.value = account.value?.description?.trim() || ''
+  isEditing.value = false
+}
+
+const openDeleteDrawer = () => {
+  isDeleteDrawerOpen.value = true
+}
+
+const saveDescription = async () => {
+  if (!account.value?.username) return
+
+  const result = await accountDescriptionMutation.executeMutation({
+    username: account.value.username,
+    accountPatch: { description: editableDescription.value },
+  })
+
+  if (!result.error) {
+    isEditing.value = false
+  }
+}
+
+const removeProfilePicture = async () => {
+  const profilePicture = getProfilePictureItem(
+    api.value.data.profilePictureByAccountId,
+  )
+  const upload = getUploadItem(profilePicture?.uploadByUploadId)
+
+  if (!upload?.id) return
+
+  await deleteUploadMutation.executeMutation({
+    id: upload.id,
+  })
 }
 </script>
 
 <i18n lang="yaml">
 de:
-  formDeleteItemNameDeletion: Konto
-  formDeleteItemNameSuccess: Konto
-  postgres23503: Dir gehören noch Daten! Lösche erst all deine Veranstaltungen, Kontakte und Bilder.
-  postgres28P01: Passwort falsch! Überprüfe, ob du alles richtig geschrieben hast.
-  profilePictureChange: Profilbild ändern
+  about: Über
+  back: Zurück
+  cancel: Abbrechen
+  deleteAccount: Konto löschen
+  editInfo: Info bearbeiten
+  maxCharacters: '{count}/500'
+  myProfile: Mein Profil
+  remove: Bild entfernen
+  replace: Bild ersetzen
+  resetPassword: Passwort zurücksetzen
+  saveChanges: Änderungen speichern
   settings: Bearbeiten
-  titleAccountDelete: Konto löschen
-  titlePasswordChange: Password des Kontos ändern
 en:
-  formDeleteItemNameDeletion: account
-  formDeleteItemNameSuccess: Account
-  postgres23503: There's still some data connected to your account! Delete all your events, contacts and images first.
-  postgres28P01: Password incorrect! Check for spelling mistakes.
-  profilePictureChange: Change profile picture
+  about: About
+  back: Back
+  cancel: Cancel
+  deleteAccount: Delete Account
+  editInfo: Edit Info
+  myProfile: My Profile
+  maxCharacters: '{count}/500'
+  remove: Remove Image
+  replace: Replace Image
+  resetPassword: Reset Password
   settings: edit
-  titleAccountDelete: Delete account
-  titlePasswordChange: Change account password
+  saveChanges: Save Changes
 </i18n>
