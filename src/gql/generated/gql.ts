@@ -14,10 +14,16 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
+  '\n    mutation AccountDelete($password: String!) {\n      accountDelete(input: { password: $password }) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountDeleteDocument
+  '\n    query AccountById($id: UUID!) {\n      accountById(id: $id) {\n        id\n        profilePictureByAccountId {\n          id\n          uploadByUploadId {\n            id\n            storageKey\n          }\n        }\n        username\n      }\n    }\n  ': typeof types.AccountByIdDocument
   '\n  query EventList($after: Cursor, $first: Int!) {\n    allEvents(after: $after, first: $first, orderBy: START_DESC) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            id\n            createdBy\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.EventListDocument
   '\n  query EventSearch(\n    $after: Cursor\n    $first: Int\n    $language: Language\n    $query: String\n  ) {\n    eventSearch(\n      after: $after\n      first: $first\n      language: $language\n      query: $query\n    ) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            createdBy\n            id\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.EventSearchDocument
   '\n    mutation CreateEventFavorite($input: EventFavoriteInput!) {\n      createEventFavorite(input: { eventFavorite: $input }) {\n        eventFavorite {\n          createdBy\n          eventId\n          id\n          nodeId\n        }\n      }\n    }\n  ': typeof types.CreateEventFavoriteDocument
   '\n    mutation DeleteEventFavoriteById($input: DeleteEventFavoriteByIdInput!) {\n      deleteEventFavoriteById(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteEventFavoriteByIdDocument
+  '\n    query AccountEdit($username: String!) {\n      accountByUsername(username: $username) {\n        description\n        id\n        imprint\n        profilePictureByAccountId {\n          id\n          uploadByUploadId {\n            id\n            storageKey\n          }\n        }\n        username\n      }\n    }\n  ': typeof types.AccountEditDocument
+  '\n    mutation CreateProfilePicture($input: ProfilePictureInput!) {\n      createProfilePicture(input: { profilePicture: $input }) {\n        profilePicture {\n          accountId\n          id\n          uploadId\n        }\n        accountByAccountId {\n          id\n          profilePictureByAccountId {\n            id\n            uploadId\n          }\n        }\n      }\n    }\n  ': typeof types.CreateProfilePictureDocument
+  '\n    mutation DeleteProfilePictureByIdMutation($id: UUID!) {\n      deleteProfilePictureById(input: { id: $id }) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteProfilePictureByIdMutationDocument
+  '\n    mutation UpdateAccountById($id: UUID!, $accountPatch: AccountPatch!) {\n      updateAccountById(input: { id: $id, accountPatch: $accountPatch }) {\n        account {\n          description\n          id\n          imprint\n        }\n      }\n    }\n  ': typeof types.UpdateAccountByIdDocument
   '\n  query Account($username: String!) {\n    accountByUsername(username: $username) {\n      achievementsByAccountId(first: 5) {\n        nodes {\n          achievement\n          id\n        }\n      }\n      description\n      eventsByCreatedBy(first: 3) {\n        nodes {\n          eventFavoritesByEventId(first: 1) {\n            nodes {\n              createdBy\n              id\n            }\n          }\n          guestsByEventId(first: 1) {\n            nodes {\n              contactByContactId {\n                accountId\n                id\n              }\n              id\n            }\n          }\n          id\n          name\n          slug\n          start\n        }\n      }\n      id\n      imprint\n    }\n  }\n': typeof types.AccountDocument
   '\n  query EventListAccount($after: Cursor, $first: Int!, $username: String!) {\n    accountByUsername(username: $username) {\n      eventsByCreatedBy(after: $after, first: $first, orderBy: START_DESC) {\n        nodes {\n          eventFavoritesByEventId(first: 1) {\n            nodes {\n              createdBy\n              id\n            }\n          }\n          guestsByEventId(first: 1) {\n            nodes {\n              contactByContactId {\n                accountId\n                id\n              }\n              id\n            }\n          }\n          id\n          name\n          slug\n          start\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n      id\n    }\n  }\n': typeof types.EventListAccountDocument
   '\n  fragment AccountItem on Account {\n    description\n    id\n    nodeId\n    username\n  }\n': typeof types.AccountItemFragmentDoc
@@ -35,7 +41,6 @@ type Documents = {
   '\n  fragment ProfilePictureItem on ProfilePicture {\n    id\n    nodeId\n    accountId\n    uploadByUploadId {\n      ...UploadItem\n    }\n  }\n': typeof types.ProfilePictureItemFragmentDoc
   '\n  fragment UploadItem on Upload {\n    id\n    nodeId\n    sizeByte\n    storageKey\n    createdBy\n  }\n': typeof types.UploadItemFragmentDoc
   '\n  mutation Authenticate($password: String!, $username: String!) {\n    authenticate(input: { password: $password, username: $username }) {\n      clientMutationId\n      jwt\n    }\n  }\n': typeof types.AuthenticateDocument
-  '\n  mutation AccountDelete($password: String!) {\n    accountDelete(input: { password: $password }) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountDeleteDocument
   '\n  mutation AccountEmailAddressVerification($code: UUID!) {\n    accountEmailAddressVerification(input: { code: $code }) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountEmailAddressVerificationDocument
   '\n  mutation JwtRefresh($id: UUID!) {\n    jwtRefresh(input: { jwtId: $id }) {\n      clientMutationId\n      jwt\n    }\n  }\n': typeof types.JwtRefreshDocument
   '\n  mutation UpdateAccountLocation($input: UpdateAccountLocationInput!) {\n    updateAccountLocation(input: $input) {\n      clientMutationId\n    }\n  }\n': typeof types.UpdateAccountLocationDocument
@@ -65,11 +70,9 @@ type Documents = {
   '\n  mutation DeletePreferenceEventLocationById(\n    $input: DeletePreferenceEventLocationByIdInput!\n  ) {\n    deletePreferenceEventLocationById(input: $input) {\n      deletedPreferenceEventLocationId\n    }\n  }\n': typeof types.DeletePreferenceEventLocationByIdDocument
   '\n  mutation CreatePreferenceEventSize($input: PreferenceEventSizeInput!) {\n    createPreferenceEventSize(input: { preferenceEventSize: $input }) {\n      clientMutationId\n    }\n  }\n': typeof types.CreatePreferenceEventSizeDocument
   '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeletePreferenceEventSizeByAccountIdAndEventSizeDocument
-  '\n  mutation ProfilePictureSet($uploadId: UUID!) {\n    profilePictureSet(input: { uploadId: $uploadId }) {\n      clientMutationId\n    }\n  }\n': typeof types.ProfilePictureSetDocument
   '\n  mutation CreateReport($reportInput: ReportInput!) {\n    createReport(input: { report: $reportInput }) {\n      clientMutationId\n    }\n  }\n': typeof types.CreateReportDocument
   '\n  mutation CreateUpload($input: UploadInput!) {\n    createUpload(input: { upload: $input }) {\n      clientMutationId\n      upload {\n        id\n      }\n    }\n  }\n': typeof types.CreateUploadDocument
   '\n  mutation DeleteUploadById($id: UUID!) {\n    deleteUploadById(input: { id: $id }) {\n      clientMutationId\n      upload {\n        ...UploadItem\n      }\n    }\n  }\n': typeof types.DeleteUploadByIdDocument
-  '\n  query AccountById($id: UUID!) {\n    accountById(id: $id) {\n      ...AccountItem\n    }\n  }\n': typeof types.AccountByIdDocument
   '\n  query AccountByUsername($username: String!) {\n    accountByUsername(username: $username) {\n      ...AccountItem\n    }\n  }\n': typeof types.AccountByUsernameDocument
   '\n  query AccountUploadQuotaBytes {\n    accountUploadQuotaBytes\n  }\n': typeof types.AccountUploadQuotaBytesDocument
   '\n  query AllAchievements($accountId: UUID) {\n    allAchievements(condition: { accountId: $accountId }) {\n      nodes {\n        ...AchievementItem\n      }\n    }\n  }\n': typeof types.AllAchievementsDocument
@@ -88,6 +91,10 @@ type Documents = {
   '\n  query AllUploads($after: Cursor, $first: Int!, $createdBy: UUID) {\n    allUploads(\n      after: $after\n      condition: { createdBy: $createdBy }\n      first: $first\n    ) {\n      nodes {\n        ...UploadItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.AllUploadsDocument
 }
 const documents: Documents = {
+  '\n    mutation AccountDelete($password: String!) {\n      accountDelete(input: { password: $password }) {\n        clientMutationId\n      }\n    }\n  ':
+    types.AccountDeleteDocument,
+  '\n    query AccountById($id: UUID!) {\n      accountById(id: $id) {\n        id\n        profilePictureByAccountId {\n          id\n          uploadByUploadId {\n            id\n            storageKey\n          }\n        }\n        username\n      }\n    }\n  ':
+    types.AccountByIdDocument,
   '\n  query EventList($after: Cursor, $first: Int!) {\n    allEvents(after: $after, first: $first, orderBy: START_DESC) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            id\n            createdBy\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n':
     types.EventListDocument,
   '\n  query EventSearch(\n    $after: Cursor\n    $first: Int\n    $language: Language\n    $query: String\n  ) {\n    eventSearch(\n      after: $after\n      first: $first\n      language: $language\n      query: $query\n    ) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            createdBy\n            id\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n':
@@ -96,6 +103,14 @@ const documents: Documents = {
     types.CreateEventFavoriteDocument,
   '\n    mutation DeleteEventFavoriteById($input: DeleteEventFavoriteByIdInput!) {\n      deleteEventFavoriteById(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.DeleteEventFavoriteByIdDocument,
+  '\n    query AccountEdit($username: String!) {\n      accountByUsername(username: $username) {\n        description\n        id\n        imprint\n        profilePictureByAccountId {\n          id\n          uploadByUploadId {\n            id\n            storageKey\n          }\n        }\n        username\n      }\n    }\n  ':
+    types.AccountEditDocument,
+  '\n    mutation CreateProfilePicture($input: ProfilePictureInput!) {\n      createProfilePicture(input: { profilePicture: $input }) {\n        profilePicture {\n          accountId\n          id\n          uploadId\n        }\n        accountByAccountId {\n          id\n          profilePictureByAccountId {\n            id\n            uploadId\n          }\n        }\n      }\n    }\n  ':
+    types.CreateProfilePictureDocument,
+  '\n    mutation DeleteProfilePictureByIdMutation($id: UUID!) {\n      deleteProfilePictureById(input: { id: $id }) {\n        clientMutationId\n      }\n    }\n  ':
+    types.DeleteProfilePictureByIdMutationDocument,
+  '\n    mutation UpdateAccountById($id: UUID!, $accountPatch: AccountPatch!) {\n      updateAccountById(input: { id: $id, accountPatch: $accountPatch }) {\n        account {\n          description\n          id\n          imprint\n        }\n      }\n    }\n  ':
+    types.UpdateAccountByIdDocument,
   '\n  query Account($username: String!) {\n    accountByUsername(username: $username) {\n      achievementsByAccountId(first: 5) {\n        nodes {\n          achievement\n          id\n        }\n      }\n      description\n      eventsByCreatedBy(first: 3) {\n        nodes {\n          eventFavoritesByEventId(first: 1) {\n            nodes {\n              createdBy\n              id\n            }\n          }\n          guestsByEventId(first: 1) {\n            nodes {\n              contactByContactId {\n                accountId\n                id\n              }\n              id\n            }\n          }\n          id\n          name\n          slug\n          start\n        }\n      }\n      id\n      imprint\n    }\n  }\n':
     types.AccountDocument,
   '\n  query EventListAccount($after: Cursor, $first: Int!, $username: String!) {\n    accountByUsername(username: $username) {\n      eventsByCreatedBy(after: $after, first: $first, orderBy: START_DESC) {\n        nodes {\n          eventFavoritesByEventId(first: 1) {\n            nodes {\n              createdBy\n              id\n            }\n          }\n          guestsByEventId(first: 1) {\n            nodes {\n              contactByContactId {\n                accountId\n                id\n              }\n              id\n            }\n          }\n          id\n          name\n          slug\n          start\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n      id\n    }\n  }\n':
@@ -130,8 +145,6 @@ const documents: Documents = {
     types.UploadItemFragmentDoc,
   '\n  mutation Authenticate($password: String!, $username: String!) {\n    authenticate(input: { password: $password, username: $username }) {\n      clientMutationId\n      jwt\n    }\n  }\n':
     types.AuthenticateDocument,
-  '\n  mutation AccountDelete($password: String!) {\n    accountDelete(input: { password: $password }) {\n      clientMutationId\n    }\n  }\n':
-    types.AccountDeleteDocument,
   '\n  mutation AccountEmailAddressVerification($code: UUID!) {\n    accountEmailAddressVerification(input: { code: $code }) {\n      clientMutationId\n    }\n  }\n':
     types.AccountEmailAddressVerificationDocument,
   '\n  mutation JwtRefresh($id: UUID!) {\n    jwtRefresh(input: { jwtId: $id }) {\n      clientMutationId\n      jwt\n    }\n  }\n':
@@ -190,16 +203,12 @@ const documents: Documents = {
     types.CreatePreferenceEventSizeDocument,
   '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.DeletePreferenceEventSizeByAccountIdAndEventSizeDocument,
-  '\n  mutation ProfilePictureSet($uploadId: UUID!) {\n    profilePictureSet(input: { uploadId: $uploadId }) {\n      clientMutationId\n    }\n  }\n':
-    types.ProfilePictureSetDocument,
   '\n  mutation CreateReport($reportInput: ReportInput!) {\n    createReport(input: { report: $reportInput }) {\n      clientMutationId\n    }\n  }\n':
     types.CreateReportDocument,
   '\n  mutation CreateUpload($input: UploadInput!) {\n    createUpload(input: { upload: $input }) {\n      clientMutationId\n      upload {\n        id\n      }\n    }\n  }\n':
     types.CreateUploadDocument,
   '\n  mutation DeleteUploadById($id: UUID!) {\n    deleteUploadById(input: { id: $id }) {\n      clientMutationId\n      upload {\n        ...UploadItem\n      }\n    }\n  }\n':
     types.DeleteUploadByIdDocument,
-  '\n  query AccountById($id: UUID!) {\n    accountById(id: $id) {\n      ...AccountItem\n    }\n  }\n':
-    types.AccountByIdDocument,
   '\n  query AccountByUsername($username: String!) {\n    accountByUsername(username: $username) {\n      ...AccountItem\n    }\n  }\n':
     types.AccountByUsernameDocument,
   '\n  query AccountUploadQuotaBytes {\n    accountUploadQuotaBytes\n  }\n':
@@ -252,6 +261,18 @@ export function graphql(source: string): unknown
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+  source: '\n    mutation AccountDelete($password: String!) {\n      accountDelete(input: { password: $password }) {\n        clientMutationId\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation AccountDelete($password: String!) {\n      accountDelete(input: { password: $password }) {\n        clientMutationId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query AccountById($id: UUID!) {\n      accountById(id: $id) {\n        id\n        profilePictureByAccountId {\n          id\n          uploadByUploadId {\n            id\n            storageKey\n          }\n        }\n        username\n      }\n    }\n  ',
+): (typeof documents)['\n    query AccountById($id: UUID!) {\n      accountById(id: $id) {\n        id\n        profilePictureByAccountId {\n          id\n          uploadByUploadId {\n            id\n            storageKey\n          }\n        }\n        username\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
   source: '\n  query EventList($after: Cursor, $first: Int!) {\n    allEvents(after: $after, first: $first, orderBy: START_DESC) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            id\n            createdBy\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n',
 ): (typeof documents)['\n  query EventList($after: Cursor, $first: Int!) {\n    allEvents(after: $after, first: $first, orderBy: START_DESC) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            id\n            createdBy\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n']
 /**
@@ -272,6 +293,30 @@ export function graphql(
 export function graphql(
   source: '\n    mutation DeleteEventFavoriteById($input: DeleteEventFavoriteByIdInput!) {\n      deleteEventFavoriteById(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
 ): (typeof documents)['\n    mutation DeleteEventFavoriteById($input: DeleteEventFavoriteByIdInput!) {\n      deleteEventFavoriteById(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query AccountEdit($username: String!) {\n      accountByUsername(username: $username) {\n        description\n        id\n        imprint\n        profilePictureByAccountId {\n          id\n          uploadByUploadId {\n            id\n            storageKey\n          }\n        }\n        username\n      }\n    }\n  ',
+): (typeof documents)['\n    query AccountEdit($username: String!) {\n      accountByUsername(username: $username) {\n        description\n        id\n        imprint\n        profilePictureByAccountId {\n          id\n          uploadByUploadId {\n            id\n            storageKey\n          }\n        }\n        username\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    mutation CreateProfilePicture($input: ProfilePictureInput!) {\n      createProfilePicture(input: { profilePicture: $input }) {\n        profilePicture {\n          accountId\n          id\n          uploadId\n        }\n        accountByAccountId {\n          id\n          profilePictureByAccountId {\n            id\n            uploadId\n          }\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation CreateProfilePicture($input: ProfilePictureInput!) {\n      createProfilePicture(input: { profilePicture: $input }) {\n        profilePicture {\n          accountId\n          id\n          uploadId\n        }\n        accountByAccountId {\n          id\n          profilePictureByAccountId {\n            id\n            uploadId\n          }\n        }\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    mutation DeleteProfilePictureByIdMutation($id: UUID!) {\n      deleteProfilePictureById(input: { id: $id }) {\n        clientMutationId\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation DeleteProfilePictureByIdMutation($id: UUID!) {\n      deleteProfilePictureById(input: { id: $id }) {\n        clientMutationId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    mutation UpdateAccountById($id: UUID!, $accountPatch: AccountPatch!) {\n      updateAccountById(input: { id: $id, accountPatch: $accountPatch }) {\n        account {\n          description\n          id\n          imprint\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation UpdateAccountById($id: UUID!, $accountPatch: AccountPatch!) {\n      updateAccountById(input: { id: $id, accountPatch: $accountPatch }) {\n        account {\n          description\n          id\n          imprint\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -374,12 +419,6 @@ export function graphql(
 export function graphql(
   source: '\n  mutation Authenticate($password: String!, $username: String!) {\n    authenticate(input: { password: $password, username: $username }) {\n      clientMutationId\n      jwt\n    }\n  }\n',
 ): (typeof documents)['\n  mutation Authenticate($password: String!, $username: String!) {\n    authenticate(input: { password: $password, username: $username }) {\n      clientMutationId\n      jwt\n    }\n  }\n']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n  mutation AccountDelete($password: String!) {\n    accountDelete(input: { password: $password }) {\n      clientMutationId\n    }\n  }\n',
-): (typeof documents)['\n  mutation AccountDelete($password: String!) {\n    accountDelete(input: { password: $password }) {\n      clientMutationId\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -558,12 +597,6 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  mutation ProfilePictureSet($uploadId: UUID!) {\n    profilePictureSet(input: { uploadId: $uploadId }) {\n      clientMutationId\n    }\n  }\n',
-): (typeof documents)['\n  mutation ProfilePictureSet($uploadId: UUID!) {\n    profilePictureSet(input: { uploadId: $uploadId }) {\n      clientMutationId\n    }\n  }\n']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
   source: '\n  mutation CreateReport($reportInput: ReportInput!) {\n    createReport(input: { report: $reportInput }) {\n      clientMutationId\n    }\n  }\n',
 ): (typeof documents)['\n  mutation CreateReport($reportInput: ReportInput!) {\n    createReport(input: { report: $reportInput }) {\n      clientMutationId\n    }\n  }\n']
 /**
@@ -578,12 +611,6 @@ export function graphql(
 export function graphql(
   source: '\n  mutation DeleteUploadById($id: UUID!) {\n    deleteUploadById(input: { id: $id }) {\n      clientMutationId\n      upload {\n        ...UploadItem\n      }\n    }\n  }\n',
 ): (typeof documents)['\n  mutation DeleteUploadById($id: UUID!) {\n    deleteUploadById(input: { id: $id }) {\n      clientMutationId\n      upload {\n        ...UploadItem\n      }\n    }\n  }\n']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n  query AccountById($id: UUID!) {\n    accountById(id: $id) {\n      ...AccountItem\n    }\n  }\n',
-): (typeof documents)['\n  query AccountById($id: UUID!) {\n    accountById(id: $id) {\n      ...AccountItem\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

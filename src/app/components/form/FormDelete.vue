@@ -1,7 +1,6 @@
 <template>
   <AppForm
-    :errors="api.errors"
-    :errors-pg-ids="errorsPgIds"
+    button-variant="primary-critical"
     :form="v$"
     :is-form-sent="isFormSent"
     :submit-name="t('deletion', { item: itemNameDeletion })"
@@ -12,9 +11,6 @@
       :title="t('passwordAccount')"
       @input="form.password = $event"
     />
-    <template #submit-icon>
-      <IHeroiconsTrash />
-    </template>
   </AppForm>
 </template>
 
@@ -35,6 +31,8 @@ const {
   mutation: UseMutationResponse<unknown, AnyVariables>
   variables?: Record<string, unknown>
 }>()
+
+const modelError = defineModel<Error>('error')
 
 const emit = defineEmits<{
   success: []
@@ -75,15 +73,24 @@ const rules = {
   password: VALIDATION_PASSWORD(),
 }
 const v$ = useVuelidate(rules, form)
+
+watch(
+  () => api.value.errors,
+  (current) => {
+    modelError.value = current?.length
+      ? new Error(getCombinedErrorMessages(current, errorsPgIds)[0])
+      : undefined
+  },
+)
 </script>
 
 <i18n lang="yaml">
 de:
-  deletion: '{item} löschen'
+  deletion: '{item} endgültig löschen'
   passwordAccount: Konto-Passwort
   success: '{item} erfolgreich gelöscht.'
 en:
-  deletion: 'Delete {item}'
+  deletion: 'Delete {item} permanently'
   passwordAccount: Account password
   success: '{item} deleted successfully.'
 </i18n>

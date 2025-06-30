@@ -561,18 +561,6 @@ export type AccountEmailAddressVerificationPayload = {
   query?: Maybe<Query>
 }
 
-/** An input for mutations affecting `Account` */
-export type AccountInput = {
-  /** The account's description. */
-  description?: InputMaybe<Scalars['String']['input']>
-  /** The account's internal id. */
-  id: Scalars['UUID']['input']
-  /** The account's imprint. */
-  imprint?: InputMaybe<Scalars['String']['input']>
-  /** The account's username. */
-  username: Scalars['String']['input']
-}
-
 /** All input for the `accountPasswordChange` mutation. */
 export type AccountPasswordChangeInput = {
   /**
@@ -646,12 +634,8 @@ export type AccountPasswordResetRequestPayload = {
 export type AccountPatch = {
   /** The account's description. */
   description?: InputMaybe<Scalars['String']['input']>
-  /** The account's internal id. */
-  id?: InputMaybe<Scalars['UUID']['input']>
   /** The account's imprint. */
   imprint?: InputMaybe<Scalars['String']['input']>
-  /** The account's username. */
-  username?: InputMaybe<Scalars['String']['input']>
 }
 
 /** All input for the `accountRegistration` mutation. */
@@ -1400,38 +1384,6 @@ export type CreateAccountBlockPayload = {
 /** The output of our create `AccountBlock` mutation. */
 export type CreateAccountBlockPayloadAccountBlockEdgeArgs = {
   orderBy?: InputMaybe<Array<AccountBlocksOrderBy>>
-}
-
-/** All input for the create `Account` mutation. */
-export type CreateAccountInput = {
-  /** The `Account` to be created by this mutation. */
-  account: AccountInput
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-}
-
-/** The output of our create `Account` mutation. */
-export type CreateAccountPayload = {
-  __typename?: 'CreateAccountPayload'
-  /** The `Account` that was created by this mutation. */
-  account?: Maybe<Account>
-  /** An edge for our `Account`. May be used by Relay 1. */
-  accountEdge?: Maybe<AccountsEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our create `Account` mutation. */
-export type CreateAccountPayloadAccountEdgeArgs = {
-  orderBy?: InputMaybe<Array<AccountsOrderBy>>
 }
 
 /** All input for the create `AccountSocialNetwork` mutation. */
@@ -2277,61 +2229,6 @@ export type DeleteAccountBlockPayload = {
 /** The output of our delete `AccountBlock` mutation. */
 export type DeleteAccountBlockPayloadAccountBlockEdgeArgs = {
   orderBy?: InputMaybe<Array<AccountBlocksOrderBy>>
-}
-
-/** All input for the `deleteAccountById` mutation. */
-export type DeleteAccountByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The account's internal id. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `deleteAccountByUsername` mutation. */
-export type DeleteAccountByUsernameInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The account's username. */
-  username: Scalars['String']['input']
-}
-
-/** All input for the `deleteAccount` mutation. */
-export type DeleteAccountInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `Account` to be deleted. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our delete `Account` mutation. */
-export type DeleteAccountPayload = {
-  __typename?: 'DeleteAccountPayload'
-  /** The `Account` that was deleted by this mutation. */
-  account?: Maybe<Account>
-  /** An edge for our `Account`. May be used by Relay 1. */
-  accountEdge?: Maybe<AccountsEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedAccountId?: Maybe<Scalars['ID']['output']>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our delete `Account` mutation. */
-export type DeleteAccountPayloadAccountEdgeArgs = {
-  orderBy?: InputMaybe<Array<AccountsOrderBy>>
 }
 
 /** All input for the `deleteAccountSocialNetworkByAccountIdAndSocialNetwork` mutation. */
@@ -5213,8 +5110,6 @@ export type Mutation = {
   achievementUnlock?: Maybe<AchievementUnlockPayload>
   /** Creates a JWT token that will securely identify an account and give it certain permissions. */
   authenticate?: Maybe<AuthenticatePayload>
-  /** Creates a single `Account`. */
-  createAccount?: Maybe<CreateAccountPayload>
   /** Creates a single `AccountBlock`. */
   createAccountBlock?: Maybe<CreateAccountBlockPayload>
   /** Creates a single `AccountSocialNetwork`. */
@@ -5261,18 +5156,12 @@ export type Mutation = {
   createReport?: Maybe<CreateReportPayload>
   /** Creates a single `Upload`. */
   createUpload?: Maybe<CreateUploadPayload>
-  /** Deletes a single `Account` using its globally unique id. */
-  deleteAccount?: Maybe<DeleteAccountPayload>
   /** Deletes a single `AccountBlock` using its globally unique id. */
   deleteAccountBlock?: Maybe<DeleteAccountBlockPayload>
   /** Deletes a single `AccountBlock` using a unique key. */
   deleteAccountBlockByCreatedByAndBlockedAccountId?: Maybe<DeleteAccountBlockPayload>
   /** Deletes a single `AccountBlock` using a unique key. */
   deleteAccountBlockById?: Maybe<DeleteAccountBlockPayload>
-  /** Deletes a single `Account` using a unique key. */
-  deleteAccountById?: Maybe<DeleteAccountPayload>
-  /** Deletes a single `Account` using a unique key. */
-  deleteAccountByUsername?: Maybe<DeleteAccountPayload>
   /** Deletes a single `AccountSocialNetwork` using its globally unique id. */
   deleteAccountSocialNetwork?: Maybe<DeleteAccountSocialNetworkPayload>
   /** Deletes a single `AccountSocialNetwork` using a unique key. */
@@ -5548,11 +5437,6 @@ export type MutationAuthenticateArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateAccountArgs = {
-  input: CreateAccountInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateAccountBlockArgs = {
   input: CreateAccountBlockInput
 }
@@ -5668,11 +5552,6 @@ export type MutationCreateUploadArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAccountArgs = {
-  input: DeleteAccountInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteAccountBlockArgs = {
   input: DeleteAccountBlockInput
 }
@@ -5685,16 +5564,6 @@ export type MutationDeleteAccountBlockByCreatedByAndBlockedAccountIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteAccountBlockByIdArgs = {
   input: DeleteAccountBlockByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAccountByIdArgs = {
-  input: DeleteAccountByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAccountByUsernameArgs = {
-  input: DeleteAccountByUsernameInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -9135,6 +9004,40 @@ export enum UploadsOrderBy {
   TypeDesc = 'TYPE_DESC',
 }
 
+export type AccountDeleteMutationVariables = Exact<{
+  password: Scalars['String']['input']
+}>
+
+export type AccountDeleteMutation = {
+  __typename?: 'Mutation'
+  accountDelete?: {
+    __typename?: 'AccountDeletePayload'
+    clientMutationId?: string | null
+  } | null
+}
+
+export type AccountByIdQueryVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type AccountByIdQuery = {
+  __typename?: 'Query'
+  accountById?: {
+    __typename?: 'Account'
+    id: any
+    username: string
+    profilePictureByAccountId?: {
+      __typename?: 'ProfilePicture'
+      id: any
+      uploadByUploadId?: {
+        __typename?: 'Upload'
+        id: any
+        storageKey?: string | null
+      } | null
+    } | null
+  } | null
+}
+
 export type EventListQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>
   first: Scalars['Int']['input']
@@ -9274,6 +9177,86 @@ export type DeleteEventFavoriteByIdMutation = {
   deleteEventFavoriteById?: {
     __typename?: 'DeleteEventFavoritePayload'
     clientMutationId?: string | null
+  } | null
+}
+
+export type AccountEditQueryVariables = Exact<{
+  username: Scalars['String']['input']
+}>
+
+export type AccountEditQuery = {
+  __typename?: 'Query'
+  accountByUsername?: {
+    __typename?: 'Account'
+    description?: string | null
+    id: any
+    imprint?: string | null
+    username: string
+    profilePictureByAccountId?: {
+      __typename?: 'ProfilePicture'
+      id: any
+      uploadByUploadId?: {
+        __typename?: 'Upload'
+        id: any
+        storageKey?: string | null
+      } | null
+    } | null
+  } | null
+}
+
+export type CreateProfilePictureMutationVariables = Exact<{
+  input: ProfilePictureInput
+}>
+
+export type CreateProfilePictureMutation = {
+  __typename?: 'Mutation'
+  createProfilePicture?: {
+    __typename?: 'CreateProfilePicturePayload'
+    profilePicture?: {
+      __typename?: 'ProfilePicture'
+      accountId: any
+      id: any
+      uploadId: any
+    } | null
+    accountByAccountId?: {
+      __typename?: 'Account'
+      id: any
+      profilePictureByAccountId?: {
+        __typename?: 'ProfilePicture'
+        id: any
+        uploadId: any
+      } | null
+    } | null
+  } | null
+}
+
+export type DeleteProfilePictureByIdMutationMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type DeleteProfilePictureByIdMutationMutation = {
+  __typename?: 'Mutation'
+  deleteProfilePictureById?: {
+    __typename?: 'DeleteProfilePicturePayload'
+    clientMutationId?: string | null
+  } | null
+}
+
+export type UpdateAccountByIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+  accountPatch: AccountPatch
+}>
+
+export type UpdateAccountByIdMutation = {
+  __typename?: 'Mutation'
+  updateAccountById?: {
+    __typename?: 'UpdateAccountPayload'
+    account?: {
+      __typename?: 'Account'
+      description?: string | null
+      id: any
+      imprint?: string | null
+    } | null
   } | null
 }
 
@@ -9563,18 +9546,6 @@ export type AuthenticateMutation = {
     __typename?: 'AuthenticatePayload'
     clientMutationId?: string | null
     jwt?: any | null
-  } | null
-}
-
-export type AccountDeleteMutationVariables = Exact<{
-  password: Scalars['String']['input']
-}>
-
-export type AccountDeleteMutation = {
-  __typename?: 'Mutation'
-  accountDelete?: {
-    __typename?: 'AccountDeletePayload'
-    clientMutationId?: string | null
   } | null
 }
 
@@ -10012,18 +9983,6 @@ export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutation = {
   } | null
 }
 
-export type ProfilePictureSetMutationVariables = Exact<{
-  uploadId: Scalars['UUID']['input']
-}>
-
-export type ProfilePictureSetMutation = {
-  __typename?: 'Mutation'
-  profilePictureSet?: {
-    __typename?: 'ProfilePictureSetPayload'
-    clientMutationId?: string | null
-  } | null
-}
-
 export type CreateReportMutationVariables = Exact<{
   reportInput: ReportInput
 }>
@@ -10064,19 +10023,6 @@ export type DeleteUploadByIdMutation = {
         })
       | null
   } | null
-}
-
-export type AccountByIdQueryVariables = Exact<{
-  id: Scalars['UUID']['input']
-}>
-
-export type AccountByIdQuery = {
-  __typename?: 'Query'
-  accountById?:
-    | ({ __typename?: 'Account' } & {
-        ' $fragmentRefs'?: { AccountItemFragment: AccountItemFragment }
-      })
-    | null
 }
 
 export type AccountByUsernameQueryVariables = Exact<{
@@ -10968,6 +10914,145 @@ export const ProfilePictureItemFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<ProfilePictureItemFragment, unknown>
+export const AccountDeleteDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AccountDelete' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'password' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountDelete' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'password' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'password' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AccountDeleteMutation,
+  AccountDeleteMutationVariables
+>
+export const AccountByIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AccountById' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountById' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'profilePictureByAccountId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'uploadByUploadId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'storageKey' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AccountByIdQuery, AccountByIdQueryVariables>
 export const EventListDocument = {
   kind: 'Document',
   definitions: [
@@ -11604,6 +11689,353 @@ export const DeleteEventFavoriteByIdDocument = {
   DeleteEventFavoriteByIdMutation,
   DeleteEventFavoriteByIdMutationVariables
 >
+export const AccountEditDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AccountEdit' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'username' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByUsername' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'username' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'username' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'imprint' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'profilePictureByAccountId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'uploadByUploadId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'storageKey' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AccountEditQuery, AccountEditQueryVariables>
+export const CreateProfilePictureDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateProfilePicture' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'ProfilePictureInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createProfilePicture' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'profilePicture' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'input' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'profilePicture' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'uploadId' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'accountByAccountId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'profilePictureByAccountId',
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'uploadId' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateProfilePictureMutation,
+  CreateProfilePictureMutationVariables
+>
+export const DeleteProfilePictureByIdMutationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteProfilePictureByIdMutation' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteProfilePictureById' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'id' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteProfilePictureByIdMutationMutation,
+  DeleteProfilePictureByIdMutationMutationVariables
+>
+export const UpdateAccountByIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateAccountById' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'accountPatch' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'AccountPatch' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateAccountById' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'id' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'accountPatch' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'accountPatch' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'account' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'imprint' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateAccountByIdMutation,
+  UpdateAccountByIdMutationVariables
+>
 export const AccountDocument = {
   kind: 'Document',
   definitions: [
@@ -12158,72 +12590,6 @@ export const AuthenticateDocument = {
 } as unknown as DocumentNode<
   AuthenticateMutation,
   AuthenticateMutationVariables
->
-export const AccountDeleteDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'AccountDelete' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'password' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accountDelete' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'password' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'password' },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  AccountDeleteMutation,
-  AccountDeleteMutationVariables
 >
 export const AccountEmailAddressVerificationDocument = {
   kind: 'Document',
@@ -15318,69 +15684,6 @@ export const DeletePreferenceEventSizeByAccountIdAndEventSizeDocument = {
   DeletePreferenceEventSizeByAccountIdAndEventSizeMutation,
   DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables
 >
-export const ProfilePictureSetDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'ProfilePictureSet' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'uploadId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'profilePictureSet' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'uploadId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'uploadId' },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  ProfilePictureSetMutation,
-  ProfilePictureSetMutationVariables
->
 export const CreateReportDocument = {
   kind: 'Document',
   definitions: [
@@ -15614,71 +15917,6 @@ export const DeleteUploadByIdDocument = {
   DeleteUploadByIdMutation,
   DeleteUploadByIdMutationVariables
 >
-export const AccountByIdDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'AccountById' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accountById' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'AccountItem' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AccountItem' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Account' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'username' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<AccountByIdQuery, AccountByIdQueryVariables>
 export const AccountByUsernameDocument = {
   kind: 'Document',
   definitions: [

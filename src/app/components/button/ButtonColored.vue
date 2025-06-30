@@ -35,6 +35,21 @@ import type { RouteLocationRaw } from 'vue-router'
 
 import { cn } from '@/utils/shadcn'
 
+export type ButtonColoredProps = {
+  ariaLabel: string
+  disabled?: boolean
+  isExternal?: boolean
+  size?: 'large' | 'small'
+  to?: RouteLocationRaw
+  type?: ButtonHTMLAttributes['type']
+  variant?:
+    | 'primary'
+    | 'primary-critical'
+    | 'secondary'
+    | 'secondary-critical'
+    | 'tertiary'
+    | 'tertiary-critical'
+} & { class?: HtmlHTMLAttributes['class'] }
 const {
   ariaLabel,
   class: classProps = undefined,
@@ -44,23 +59,7 @@ const {
   to = undefined,
   type = 'button',
   variant = 'primary',
-} = defineProps<
-  {
-    ariaLabel: string
-    disabled?: boolean
-    isExternal?: boolean
-    size?: 'large' | 'small'
-    to?: RouteLocationRaw
-    type?: ButtonHTMLAttributes['type']
-    variant?:
-      | 'primary'
-      | 'primary-critical'
-      | 'secondary'
-      | 'secondary-critical'
-      | 'tertiary'
-      | 'tertiary-critical'
-  } & { class?: HtmlHTMLAttributes['class'] }
->()
+} = defineProps<ButtonColoredProps>()
 
 const emit = defineEmits<{
   click: []
