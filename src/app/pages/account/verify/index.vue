@@ -14,7 +14,9 @@
 </template>
 
 <script setup lang="ts">
-import { useAccountEmailAddressVerificationMutation } from '~~/gql/documents/mutations/account/accountEmailAddressVerification'
+import { useMutation } from '@urql/vue'
+
+import { graphql } from '~~/gql/generated'
 
 defineRouteRules({
   robots: false,
@@ -35,13 +37,20 @@ if (
   throw createError({ statusCode: 400 })
 }
 
-// accessibility
-const templateIdTitle = useId()
-
 // api data
-const accountEmailAddressVerificationMutation =
-  useAccountEmailAddressVerificationMutation()
+const accountEmailAddressVerificationMutation = useMutation(
+  graphql(`
+    mutation AccountEmailAddressVerification($code: UUID!) {
+      accountEmailAddressVerification(input: { code: $code }) {
+        clientMutationId
+      }
+    }
+  `),
+)
 const api = await useApiData([accountEmailAddressVerificationMutation])
+const apiErrorMessages = computed(() =>
+  getCombinedErrorMessages(api.value.errors),
+)
 
 // lifecycle
 const fireAlert = useFireAlert()
@@ -53,11 +62,23 @@ onMounted(async () => {
     code: route.query.code,
   })
 
-  if (
-    result.error ||
-    !result.data?.accountEmailAddressVerification?.clientMutationId
-  )
+  if (result.error) {
+    await fireAlert({
+      level: 'error',
+      text: apiErrorMessages.value.join('\n'),
+      title: t('globalError'),
+    })
     return
+  }
+
+  if (!result.data?.accountEmailAddressVerification?.clientMutationId) {
+    await fireAlert({
+      level: 'error',
+      text: t('globalErrorNoData'),
+      title: t('globalError'),
+    })
+    return
+  }
 
   await fireAlert({
     level: 'success',
@@ -66,6 +87,9 @@ onMounted(async () => {
   })
   await navigateTo(localePath('session-create'))
 })
+
+// template
+const templateIdTitle = useId()
 </script>
 
 <i18n lang="yaml">

@@ -9260,6 +9260,18 @@ export type UpdateAccountByIdMutation = {
   } | null
 }
 
+export type AccountEmailAddressVerificationMutationVariables = Exact<{
+  code: Scalars['UUID']['input']
+}>
+
+export type AccountEmailAddressVerificationMutation = {
+  __typename?: 'Mutation'
+  accountEmailAddressVerification?: {
+    __typename?: 'AccountEmailAddressVerificationPayload'
+    clientMutationId?: string | null
+  } | null
+}
+
 export type AccountQueryVariables = Exact<{
   username: Scalars['String']['input']
 }>
@@ -9700,18 +9712,6 @@ export type AuthenticateMutation = {
     __typename?: 'AuthenticatePayload'
     clientMutationId?: string | null
     jwt?: any | null
-  } | null
-}
-
-export type AccountEmailAddressVerificationMutationVariables = Exact<{
-  code: Scalars['UUID']['input']
-}>
-
-export type AccountEmailAddressVerificationMutation = {
-  __typename?: 'Mutation'
-  accountEmailAddressVerification?: {
-    __typename?: 'AccountEmailAddressVerificationPayload'
-    clientMutationId?: string | null
   } | null
 }
 
@@ -12190,6 +12190,66 @@ export const UpdateAccountByIdDocument = {
   UpdateAccountByIdMutation,
   UpdateAccountByIdMutationVariables
 >
+export const AccountEmailAddressVerificationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AccountEmailAddressVerification' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'code' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountEmailAddressVerification' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'code' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'code' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AccountEmailAddressVerificationMutation,
+  AccountEmailAddressVerificationMutationVariables
+>
 export const AccountDocument = {
   kind: 'Document',
   definitions: [
@@ -13484,66 +13544,6 @@ export const AuthenticateDocument = {
 } as unknown as DocumentNode<
   AuthenticateMutation,
   AuthenticateMutationVariables
->
-export const AccountEmailAddressVerificationDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'AccountEmailAddressVerification' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'code' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accountEmailAddressVerification' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'code' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'code' },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  AccountEmailAddressVerificationMutation,
-  AccountEmailAddressVerificationMutationVariables
 >
 export const JwtRefreshDocument = {
   kind: 'Document',
