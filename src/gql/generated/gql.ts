@@ -24,6 +24,7 @@ type Documents = {
   '\n    mutation CreateProfilePicture($input: ProfilePictureInput!) {\n      createProfilePicture(input: { profilePicture: $input }) {\n        profilePicture {\n          accountId\n          id\n          uploadId\n        }\n        accountByAccountId {\n          id\n          profilePictureByAccountId {\n            id\n            uploadId\n          }\n        }\n      }\n    }\n  ': typeof types.CreateProfilePictureDocument
   '\n    mutation DeleteProfilePictureByIdMutation($id: UUID!) {\n      deleteProfilePictureById(input: { id: $id }) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteProfilePictureByIdMutationDocument
   '\n    mutation UpdateAccountById($id: UUID!, $accountPatch: AccountPatch!) {\n      updateAccountById(input: { id: $id, accountPatch: $accountPatch }) {\n        account {\n          description\n          id\n          imprint\n        }\n      }\n    }\n  ': typeof types.UpdateAccountByIdDocument
+  '\n    mutation AccountEmailAddressVerification($code: UUID!) {\n      accountEmailAddressVerification(input: { code: $code }) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountEmailAddressVerificationDocument
   '\n  query Account($username: String!) {\n    accountByUsername(username: $username) {\n      achievementsByAccountId(first: 5) {\n        nodes {\n          achievement\n          id\n        }\n      }\n      description\n      eventsByCreatedBy(first: 3) {\n        nodes {\n          eventFavoritesByEventId(first: 1) {\n            nodes {\n              createdBy\n              id\n            }\n          }\n          guestsByEventId(first: 1) {\n            nodes {\n              contactByContactId {\n                accountId\n                id\n              }\n              id\n            }\n          }\n          id\n          name\n          slug\n          start\n        }\n      }\n      id\n      imprint\n    }\n  }\n': typeof types.AccountDocument
   '\n    query EventEdit($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            createdBy\n            description\n            end\n            id\n            isArchived\n            name\n            nodeId\n            isArchived\n            isInPerson\n            isRemote\n            slug\n            start\n            url\n            visibility\n          }\n        }\n        id\n        username\n      }\n    }\n  ': typeof types.EventEditDocument
   '\n    query EventAttendance($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            id\n            name\n            slug\n          }\n        }\n        id\n      }\n    }\n  ': typeof types.EventAttendanceDocument
@@ -45,7 +46,6 @@ type Documents = {
   '\n  fragment ProfilePictureItem on ProfilePicture {\n    id\n    nodeId\n    accountId\n    uploadByUploadId {\n      ...UploadItem\n    }\n  }\n': typeof types.ProfilePictureItemFragmentDoc
   '\n  fragment UploadItem on Upload {\n    id\n    nodeId\n    sizeByte\n    storageKey\n    createdBy\n  }\n': typeof types.UploadItemFragmentDoc
   '\n  mutation Authenticate($password: String!, $username: String!) {\n    authenticate(input: { password: $password, username: $username }) {\n      clientMutationId\n      jwt\n    }\n  }\n': typeof types.AuthenticateDocument
-  '\n  mutation AccountEmailAddressVerification($code: UUID!) {\n    accountEmailAddressVerification(input: { code: $code }) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountEmailAddressVerificationDocument
   '\n  mutation JwtRefresh($id: UUID!) {\n    jwtRefresh(input: { jwtId: $id }) {\n      clientMutationId\n      jwt\n    }\n  }\n': typeof types.JwtRefreshDocument
   '\n  mutation UpdateAccountLocation($input: UpdateAccountLocationInput!) {\n    updateAccountLocation(input: $input) {\n      clientMutationId\n    }\n  }\n': typeof types.UpdateAccountLocationDocument
   '\n  mutation AccountPasswordChange(\n    $passwordCurrent: String!\n    $passwordNew: String!\n  ) {\n    accountPasswordChange(\n      input: { passwordCurrent: $passwordCurrent, passwordNew: $passwordNew }\n    ) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountPasswordChangeDocument
@@ -115,6 +115,8 @@ const documents: Documents = {
     types.DeleteProfilePictureByIdMutationDocument,
   '\n    mutation UpdateAccountById($id: UUID!, $accountPatch: AccountPatch!) {\n      updateAccountById(input: { id: $id, accountPatch: $accountPatch }) {\n        account {\n          description\n          id\n          imprint\n        }\n      }\n    }\n  ':
     types.UpdateAccountByIdDocument,
+  '\n    mutation AccountEmailAddressVerification($code: UUID!) {\n      accountEmailAddressVerification(input: { code: $code }) {\n        clientMutationId\n      }\n    }\n  ':
+    types.AccountEmailAddressVerificationDocument,
   '\n  query Account($username: String!) {\n    accountByUsername(username: $username) {\n      achievementsByAccountId(first: 5) {\n        nodes {\n          achievement\n          id\n        }\n      }\n      description\n      eventsByCreatedBy(first: 3) {\n        nodes {\n          eventFavoritesByEventId(first: 1) {\n            nodes {\n              createdBy\n              id\n            }\n          }\n          guestsByEventId(first: 1) {\n            nodes {\n              contactByContactId {\n                accountId\n                id\n              }\n              id\n            }\n          }\n          id\n          name\n          slug\n          start\n        }\n      }\n      id\n      imprint\n    }\n  }\n':
     types.AccountDocument,
   '\n    query EventEdit($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            createdBy\n            description\n            end\n            id\n            isArchived\n            name\n            nodeId\n            isArchived\n            isInPerson\n            isRemote\n            slug\n            start\n            url\n            visibility\n          }\n        }\n        id\n        username\n      }\n    }\n  ':
@@ -157,8 +159,6 @@ const documents: Documents = {
     types.UploadItemFragmentDoc,
   '\n  mutation Authenticate($password: String!, $username: String!) {\n    authenticate(input: { password: $password, username: $username }) {\n      clientMutationId\n      jwt\n    }\n  }\n':
     types.AuthenticateDocument,
-  '\n  mutation AccountEmailAddressVerification($code: UUID!) {\n    accountEmailAddressVerification(input: { code: $code }) {\n      clientMutationId\n    }\n  }\n':
-    types.AccountEmailAddressVerificationDocument,
   '\n  mutation JwtRefresh($id: UUID!) {\n    jwtRefresh(input: { jwtId: $id }) {\n      clientMutationId\n      jwt\n    }\n  }\n':
     types.JwtRefreshDocument,
   '\n  mutation UpdateAccountLocation($input: UpdateAccountLocationInput!) {\n    updateAccountLocation(input: $input) {\n      clientMutationId\n    }\n  }\n':
@@ -333,6 +333,12 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+  source: '\n    mutation AccountEmailAddressVerification($code: UUID!) {\n      accountEmailAddressVerification(input: { code: $code }) {\n        clientMutationId\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation AccountEmailAddressVerification($code: UUID!) {\n      accountEmailAddressVerification(input: { code: $code }) {\n        clientMutationId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
   source: '\n  query Account($username: String!) {\n    accountByUsername(username: $username) {\n      achievementsByAccountId(first: 5) {\n        nodes {\n          achievement\n          id\n        }\n      }\n      description\n      eventsByCreatedBy(first: 3) {\n        nodes {\n          eventFavoritesByEventId(first: 1) {\n            nodes {\n              createdBy\n              id\n            }\n          }\n          guestsByEventId(first: 1) {\n            nodes {\n              contactByContactId {\n                accountId\n                id\n              }\n              id\n            }\n          }\n          id\n          name\n          slug\n          start\n        }\n      }\n      id\n      imprint\n    }\n  }\n',
 ): (typeof documents)['\n  query Account($username: String!) {\n    accountByUsername(username: $username) {\n      achievementsByAccountId(first: 5) {\n        nodes {\n          achievement\n          id\n        }\n      }\n      description\n      eventsByCreatedBy(first: 3) {\n        nodes {\n          eventFavoritesByEventId(first: 1) {\n            nodes {\n              createdBy\n              id\n            }\n          }\n          guestsByEventId(first: 1) {\n            nodes {\n              contactByContactId {\n                accountId\n                id\n              }\n              id\n            }\n          }\n          id\n          name\n          slug\n          start\n        }\n      }\n      id\n      imprint\n    }\n  }\n']
 /**
@@ -455,12 +461,6 @@ export function graphql(
 export function graphql(
   source: '\n  mutation Authenticate($password: String!, $username: String!) {\n    authenticate(input: { password: $password, username: $username }) {\n      clientMutationId\n      jwt\n    }\n  }\n',
 ): (typeof documents)['\n  mutation Authenticate($password: String!, $username: String!) {\n    authenticate(input: { password: $password, username: $username }) {\n      clientMutationId\n      jwt\n    }\n  }\n']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n  mutation AccountEmailAddressVerification($code: UUID!) {\n    accountEmailAddressVerification(input: { code: $code }) {\n      clientMutationId\n    }\n  }\n',
-): (typeof documents)['\n  mutation AccountEmailAddressVerification($code: UUID!) {\n    accountEmailAddressVerification(input: { code: $code }) {\n      clientMutationId\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
