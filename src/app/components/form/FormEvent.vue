@@ -246,9 +246,9 @@
         <DatePicker
           v-model="v$.start.$model"
           :first-day-of-week="2"
-          :is24hr="$i18n.locale !== 'en'"
+          :is24hr="locale !== 'en'"
           :is-dark="colorMode.value === 'dark'"
-          :locale="$i18n.locale"
+          :locale
           :masks="{ input: 'YYYY-MM-DD h:mm A' }"
           :max-date="v$.end.$model"
           :minute-increment="5"
@@ -261,9 +261,9 @@
         <DatePicker
           v-model="v$.end.$model"
           :first-day-of-week="2"
-          :is24hr="$i18n.locale !== 'en'"
+          :is24hr="locale !== 'en'"
           :is-dark="colorMode.value === 'dark'"
-          :locale="$i18n.locale"
+          :locale
           :masks="{ input: 'YYYY-MM-DD h:mm A' }"
           :min-date="v$.start.$model"
           :minute-increment="5"
