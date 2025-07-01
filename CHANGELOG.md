@@ -1,3 +1,9 @@
+## [12.7.0](https://github.com/maevsi/vibetype/compare/12.6.0...12.7.0) (2025-07-01)
+
+### Features
+
+* **account:** inline verification ([c05efb3](https://github.com/maevsi/vibetype/commit/c05efb3ff31ded1add23737aa4c23b817f2ce213))
+
 ## [12.6.0](https://github.com/maevsi/vibetype/compare/12.5.0...12.6.0) (2025-06-30)
 
 ### Features
