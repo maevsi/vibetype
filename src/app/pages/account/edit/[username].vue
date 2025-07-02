@@ -66,28 +66,31 @@
             <TypographyH3>
               {{ t('about') }}
             </TypographyH3>
-            <AppButton
-              :aria-label="isEditingDescription ? t('cancel') : t('edit')"
-              class="flex h-8 items-center gap-1 text-(--semantic-base-text-tertiary)"
-              @click="
-                isEditingDescription
-                  ? cancelEditDescription()
-                  : toggleEditDescription()
-              "
+            <ButtonColored
+              v-if="!isEditingDescription"
+              :aria-label="t('edit')"
+              class="h-8 data-[size=large]:p-1"
+              variant="tertiary"
+              @click="toggleEditDescription()"
             >
-              <div v-if="!isEditingDescription" class="flex gap-2">
+              <TypographySubtitleMedium>
+                {{ t('edit') }}
+              </TypographySubtitleMedium>
+              <template #prefix>
                 <AppIconEdit />
-                <TypographySubtitleMedium class="underline underline-offset-5">
-                  {{ t('edit') }}
-                </TypographySubtitleMedium>
-              </div>
-              <TypographySubtitleMedium
-                v-else
-                class="underline underline-offset-5"
-              >
+              </template>
+            </ButtonColored>
+            <ButtonColored
+              v-else
+              :aria-label="t('cancel')"
+              class="h-8 data-[size=large]:p-1"
+              variant="tertiary"
+              @click="cancelEditDescription()"
+            >
+              <TypographySubtitleMedium>
                 {{ t('cancel') }}
               </TypographySubtitleMedium>
-            </AppButton>
+            </ButtonColored>
           </div>
           <div
             class="flex flex-col gap-1.5"
@@ -142,26 +145,31 @@
           <TypographyH3>
             {{ t('imprint') }}
           </TypographyH3>
-          <AppButton
-            :aria-label="isEditingImprint ? t('cancel') : t('edit')"
-            class="flex h-8 items-center gap-1 text-(--semantic-base-text-tertiary)"
-            @click="
-              isEditingImprint ? cancelEditImprint() : toggleEditImprint()
-            "
+          <ButtonColored
+            v-if="!isEditingImprint"
+            :aria-label="t('edit')"
+            class="h-8 data-[size=large]:p-1"
+            variant="tertiary"
+            @click="toggleEditImprint()"
           >
-            <div v-if="!isEditingImprint" class="flex gap-2">
+            <TypographySubtitleMedium>
+              {{ t('edit') }}
+            </TypographySubtitleMedium>
+            <template #prefix>
               <AppIconEdit />
-              <TypographySubtitleMedium class="underline underline-offset-5">
-                {{ t('edit') }}
-              </TypographySubtitleMedium>
-            </div>
-            <TypographySubtitleMedium
-              v-else
-              class="underline underline-offset-5"
-            >
+            </template>
+          </ButtonColored>
+          <ButtonColored
+            v-else
+            :aria-label="t('cancel')"
+            class="h-8 data-[size=large]:p-1"
+            variant="tertiary"
+            @click="cancelEditImprint()"
+          >
+            <TypographySubtitleMedium>
               {{ t('cancel') }}
             </TypographySubtitleMedium>
-          </AppButton>
+          </ButtonColored>
         </div>
         <div
           class="flex flex-col gap-1.5"
