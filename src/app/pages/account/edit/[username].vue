@@ -58,164 +58,18 @@
         </div>
         <ModalUploadSelection @select="onUploadSelect" />
       </div>
-      <div class="flex flex-col">
-        <div
-          class="flex flex-col gap-4 rounded-lg border border-(--semantic-base-background) bg-(--semantic-base-surface-1) p-4 shadow-xs"
-        >
-          <div class="flex items-center justify-between">
-            <TypographyH3>
-              {{ t('about') }}
-            </TypographyH3>
-            <ButtonColored
-              v-if="!isEditingDescription"
-              :aria-label="t('edit')"
-              class="h-8 data-[size=large]:p-1"
-              variant="tertiary"
-              @click="toggleEditDescription()"
-            >
-              <TypographySubtitleMedium>
-                {{ t('edit') }}
-              </TypographySubtitleMedium>
-              <template #prefix>
-                <AppIconEdit />
-              </template>
-            </ButtonColored>
-            <ButtonColored
-              v-else
-              :aria-label="t('cancel')"
-              class="h-8 data-[size=large]:p-1"
-              variant="tertiary"
-              @click="cancelEditDescription()"
-            >
-              <TypographySubtitleMedium>
-                {{ t('cancel') }}
-              </TypographySubtitleMedium>
-            </ButtonColored>
-          </div>
-          <div
-            class="flex flex-col gap-1.5"
-            :class="{ hidden: !isEditingDescription }"
-          >
-            <TypographySubtitleSmall
-              class="rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) px-4 py-3"
-            >
-              <textarea
-                v-model="editableDescription"
-                class="h-full w-full resize-none bg-transparent focus:outline-none"
-                :maxlength="descriptionLengthMaximum"
-                rows="5"
-              />
-            </TypographySubtitleSmall>
-            <TypographySubtitleSmall
-              class="self-end px-2 text-(--semantic-base-text-secondary)"
-            >
-              {{
-                t('characterCount', {
-                  count: editableDescription?.length || 0,
-                  maximum: descriptionLengthMaximum,
-                })
-              }}
-            </TypographySubtitleSmall>
-          </div>
-          <TypographyBodyMedium
-            :class="{ hidden: isEditingDescription || !account.description }"
-          >
-            {{ account.description }}
-          </TypographyBodyMedium>
-          <div
-            v-if="isEditingDescription"
-            class="flex flex-col items-end gap-2 text-right"
-          >
-            <ButtonColored
-              :aria-label="t('saveChanges')"
-              variant="secondary"
-              @click="saveDescription"
-            >
-              <TypographySubtitleMedium>
-                {{ t('saveChanges') }}
-              </TypographySubtitleMedium>
-            </ButtonColored>
-          </div>
-        </div>
-      </div>
-      <div
-        class="flex flex-col gap-4 rounded-lg border border-(--semantic-base-background) bg-(--semantic-base-surface-1) p-4 shadow-xs"
-      >
-        <div class="flex items-center justify-between">
-          <TypographyH3>
-            {{ t('imprint') }}
-          </TypographyH3>
-          <ButtonColored
-            v-if="!isEditingImprint"
-            :aria-label="t('edit')"
-            class="h-8 data-[size=large]:p-1"
-            variant="tertiary"
-            @click="toggleEditImprint()"
-          >
-            <TypographySubtitleMedium>
-              {{ t('edit') }}
-            </TypographySubtitleMedium>
-            <template #prefix>
-              <AppIconEdit />
-            </template>
-          </ButtonColored>
-          <ButtonColored
-            v-else
-            :aria-label="t('cancel')"
-            class="h-8 data-[size=large]:p-1"
-            variant="tertiary"
-            @click="cancelEditImprint()"
-          >
-            <TypographySubtitleMedium>
-              {{ t('cancel') }}
-            </TypographySubtitleMedium>
-          </ButtonColored>
-        </div>
-        <div
-          class="flex flex-col gap-1.5"
-          :class="{ hidden: !isEditingImprint }"
-        >
-          <TypographySubtitleSmall
-            class="rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) px-4 py-3"
-          >
-            <textarea
-              v-model="editableImprint"
-              class="h-full w-full resize-none bg-transparent focus:outline-none"
-              :maxlength="imprintLengthMaximum"
-              rows="5"
-            />
-          </TypographySubtitleSmall>
-          <TypographySubtitleSmall
-            class="self-end px-2 text-(--semantic-base-text-secondary)"
-          >
-            {{
-              t('characterCount', {
-                count: editableImprint?.length || 0,
-                maximum: imprintLengthMaximum,
-              })
-            }}
-          </TypographySubtitleSmall>
-        </div>
-        <TypographyBodyMedium
-          :class="{ hidden: isEditingImprint || !account.imprint }"
-        >
-          {{ account.imprint }}
-        </TypographyBodyMedium>
-        <div
-          v-if="isEditingImprint"
-          class="flex flex-col items-end gap-2 text-right"
-        >
-          <ButtonColored
-            :aria-label="t('saveChanges')"
-            variant="secondary"
-            @click="saveImprint"
-          >
-            <TypographySubtitleMedium>
-              {{ t('saveChanges') }}
-            </TypographySubtitleMedium>
-          </ButtonColored>
-        </div>
-      </div>
+      <AccountEditableText
+        :title="t('about')"
+        :content="account.description"
+        :max-length="descriptionLengthMaximum"
+        @save="saveDescription"
+      />
+      <AccountEditableText
+        :title="t('imprint')"
+        :content="account.imprint"
+        :max-length="imprintLengthMaximum"
+        @save="saveImprint"
+      />
       <CardButton
         class="border-(--warning-strong) bg-(--warning-weak) text-(--warning-text)"
         :title="t('resetPassword')"
@@ -392,35 +246,9 @@ const removeProfilePicture = async () => {
   }
 }
 
-// description
+// description and imprint
 const descriptionLengthMaximum = 500
-const isEditingDescription = ref<boolean>()
-const editableDescription = ref<string>()
-const toggleEditDescription = () => {
-  if (!isEditingDescription.value) {
-    editableDescription.value = account.value?.description?.trim() || ''
-  }
-  isEditingDescription.value = !isEditingDescription.value
-}
-const cancelEditDescription = () => {
-  editableDescription.value = account.value?.description?.trim() || ''
-  isEditingDescription.value = false
-}
-
-// imprint
 const imprintLengthMaximum = 500
-const isEditingImprint = ref<boolean>()
-const editableImprint = ref<string>()
-const toggleEditImprint = () => {
-  if (!isEditingImprint.value) {
-    editableImprint.value = account.value?.imprint?.trim() || ''
-  }
-  isEditingImprint.value = !isEditingImprint.value
-}
-const cancelEditImprint = () => {
-  editableImprint.value = account.value?.imprint?.trim() || ''
-  isEditingImprint.value = false
-}
 
 const updateAccountByIdMutation = useMutation(
   graphql(`
@@ -435,12 +263,13 @@ const updateAccountByIdMutation = useMutation(
     }
   `),
 )
-const saveDescription = async () => {
+
+const saveDescription = async (content: string) => {
   if (!account.value) return
 
   const result = await updateAccountByIdMutation.executeMutation({
     id: account.value.id,
-    accountPatch: { description: editableDescription.value },
+    accountPatch: { description: content },
   })
 
   if (result.error) {
@@ -462,16 +291,14 @@ const saveDescription = async () => {
     })
     return
   }
-
-  isEditingDescription.value = false
 }
 
-const saveImprint = async () => {
+const saveImprint = async (content: string) => {
   if (!account.value) return
 
   const result = await updateAccountByIdMutation.executeMutation({
     id: account.value.id,
-    accountPatch: { imprint: editableImprint.value },
+    accountPatch: { imprint: content },
   })
 
   if (result.error) {
@@ -493,8 +320,6 @@ const saveImprint = async () => {
     })
     return
   }
-
-  isEditingImprint.value = false
 }
 
 // account
@@ -511,29 +336,21 @@ const localePath = useLocalePath()
 de:
   about: Über
   back: Zurück
-  cancel: Abbrechen
-  characterCount: '{count}/{maximum}'
   deleteAccount: Konto löschen
-  edit: Bearbeiten
   errorAccountMissing: Konto nicht verfügbar
   imprint: Impressum
   remove: Bild entfernen
   replace: Bild ersetzen
   resetPassword: Passwort zurücksetzen
-  saveChanges: Änderungen speichern
   title: Mein Profil
 en:
   about: About
   back: Back
-  cancel: Cancel
-  characterCount: '{count}/{maximum}'
   deleteAccount: Delete Account
-  edit: Edit
   errorAccountMissing: Account unavailable
   imprint: Imprint
   remove: Remove Image
   replace: Replace Image
   resetPassword: Reset Password
-  saveChanges: Save Changes
   title: My Profile
 </i18n>
