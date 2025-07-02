@@ -5,5 +5,3 @@ import type { GraphQLError } from 'graphql'
 export type BackendError = {
   graphQLErrors: (GraphQLError & { errcode?: string })[]
 } & CombinedError
-
-export default {} // workaround until fix in nitro is released (https://github.com/nitrojs/nitro/pull/3368)
