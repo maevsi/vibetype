@@ -151,7 +151,7 @@
             </span>
           </div>
         </div>
-        <div v-if="accountDescription" class="flex flex-col gap-2 p-1.5">
+        <div v-if="accountImprint" class="flex flex-col gap-2 p-1.5">
           <TypographyH3>
             {{ t('imprint') }}
           </TypographyH3>
