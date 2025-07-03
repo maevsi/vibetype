@@ -7,28 +7,38 @@
         <TypographyH3>
           {{ title }}
         </TypographyH3>
-        <AppButton
-          :aria-label="isEditing ? t('cancel') : t('edit')"
-          class="flex h-8 items-center gap-1 text-(--semantic-base-text-tertiary)"
-          @click="isEditing ? cancelEdit() : toggleEdit()"
+        <ButtonColored
+          v-if="!isEditing"
+          :aria-label="t('edit')"
+          class="h-8 data-[size=large]:p-1"
+          variant="tertiary"
+          @click="edit"
         >
-          <div v-if="!isEditing" class="flex gap-2">
+          <TypographySubtitleMedium>
+            {{ t('edit') }}
+          </TypographySubtitleMedium>
+          <template #prefix>
             <AppIconEdit />
-            <TypographySubtitleMedium class="underline underline-offset-5">
-              {{ t('edit') }}
-            </TypographySubtitleMedium>
-          </div>
-          <TypographySubtitleMedium v-else class="underline underline-offset-5">
+          </template>
+        </ButtonColored>
+        <ButtonColored
+          v-else
+          :aria-label="t('cancel')"
+          class="h-8 data-[size=large]:p-1"
+          variant="tertiary"
+          @click="cancel"
+        >
+          <TypographySubtitleMedium>
             {{ t('cancel') }}
           </TypographySubtitleMedium>
-        </AppButton>
+        </ButtonColored>
       </div>
       <div class="flex flex-col gap-1.5" :class="{ hidden: !isEditing }">
         <TypographySubtitleSmall
           class="rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) px-4 py-3"
         >
           <textarea
-            v-model="editableContent"
+            v-model="content"
             class="h-full w-full resize-none bg-transparent focus:outline-none"
             :maxlength="maxLength"
             rows="5"
@@ -39,20 +49,23 @@
         >
           {{
             t('characterCount', {
-              count: editableContent?.length || 0,
+              count: content?.length || 0,
               maximum: maxLength,
             })
           }}
         </TypographySubtitleSmall>
       </div>
-      <TypographyBodyMedium :class="{ hidden: isEditing || !content }">
-        {{ content }}
+      <TypographyBodyMedium
+        class="whitespace-pre-line"
+        :class="{ hidden: isEditing || !contentInitial }"
+      >
+        {{ contentInitial }}
       </TypographyBodyMedium>
       <div v-if="isEditing" class="flex flex-col items-end gap-2 text-right">
         <ButtonColored
           :aria-label="t('saveChanges')"
           variant="secondary"
-          @click="saveContent"
+          @click="save"
         >
           <TypographySubtitleMedium>
             {{ t('saveChanges') }}
@@ -64,41 +77,39 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n()
-
+// compiler
 const {
+  contentInitial = undefined,
+  lengthMaximum: maxLength,
   title,
-  content = undefined,
-  maxLength,
 } = defineProps<{
+  contentInitial?: string | null
+  lengthMaximum: number
   title: string
-  content?: string | null
-  maxLength: number
 }>()
 
 const emit = defineEmits<{
-  save: [content: string]
+  save: [content?: string]
 }>()
 
+// input
+const content = ref<string>()
 const isEditing = ref<boolean>()
-const editableContent = ref<string>()
-
-const toggleEdit = () => {
-  if (!isEditing.value) {
-    editableContent.value = content?.trim() || ''
-  }
-  isEditing.value = !isEditing.value
+const edit = () => {
+  content.value = contentInitial?.trim()
+  isEditing.value = true
 }
-
-const cancelEdit = () => {
-  editableContent.value = content?.trim() || ''
+const cancel = () => {
+  content.value = contentInitial?.trim()
+  isEditing.value = false
+}
+const save = () => {
+  emit('save', content.value?.trim())
   isEditing.value = false
 }
 
-const saveContent = () => {
-  emit('save', editableContent.value || '')
-  isEditing.value = false
-}
+// template
+const { t } = useI18n()
 </script>
 
 <i18n lang="yaml">

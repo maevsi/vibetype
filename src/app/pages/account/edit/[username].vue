@@ -58,16 +58,16 @@
         </div>
         <ModalUploadSelection @select="onUploadSelect" />
       </div>
-      <AccountEditableText
+      <AppInputTextarea
+        :content-initial="account.description"
+        :length-maximum="descriptionLengthMaximum"
         :title="t('about')"
-        :content="account.description"
-        :max-length="descriptionLengthMaximum"
         @save="saveDescription"
       />
-      <AccountEditableText
+      <AppInputTextarea
+        :content-initial="account.imprint"
+        :length-maximum="imprintLengthMaximum"
         :title="t('imprint')"
-        :content="account.imprint"
-        :max-length="imprintLengthMaximum"
         @save="saveImprint"
       />
       <CardButton
@@ -264,7 +264,7 @@ const updateAccountByIdMutation = useMutation(
   `),
 )
 
-const saveDescription = async (content: string) => {
+const saveDescription = async (content?: string) => {
   if (!account.value) return
 
   const result = await updateAccountByIdMutation.executeMutation({
@@ -293,7 +293,7 @@ const saveDescription = async (content: string) => {
   }
 }
 
-const saveImprint = async (content: string) => {
+const saveImprint = async (content?: string) => {
   if (!account.value) return
 
   const result = await updateAccountByIdMutation.executeMutation({
