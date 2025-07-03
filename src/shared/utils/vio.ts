@@ -1,6 +1,6 @@
 export const useSiteUrl = () => {
   const runtimeConfig = useRuntimeConfig()
-  const siteUrl = runtimeConfig.public.site?.url
+  const siteUrl = runtimeConfig.public.i18n.baseUrl
 
   return {
     siteUrl,
