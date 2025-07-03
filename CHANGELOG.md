@@ -1,3 +1,9 @@
+## [12.8.0](https://github.com/maevsi/vibetype/compare/12.7.0...12.8.0) (2025-07-03)
+
+### Features
+
+* **account:** add imprint ([f23d610](https://github.com/maevsi/vibetype/commit/f23d6104b3e3f7d121b7c37c45b440920160f967))
+
 ## [12.7.0](https://github.com/maevsi/vibetype/compare/12.6.0...12.7.0) (2025-07-01)
 
 ### Features
