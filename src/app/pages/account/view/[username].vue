@@ -151,6 +151,14 @@
             </span>
           </div>
         </div>
+        <div v-if="accountImprint" class="flex flex-col gap-2 p-1.5">
+          <TypographyH3>
+            {{ t('imprint') }}
+          </TypographyH3>
+          <TypographyBodyMedium>
+            {{ accountImprint }}
+          </TypographyBodyMedium>
+        </div>
       </div>
     </LayoutPage>
   </Loader>
@@ -234,6 +242,7 @@ const query = useQuery({
 const api = await useApiData([query])
 const account = computed(() => query.data.value?.accountByUsername)
 const accountDescription = computed(() => account.value?.description?.trim())
+const accountImprint = computed(() => account.value?.imprint?.trim())
 const achievements = computed(
   () => account.value?.achievementsByAccountId.nodes,
 )
@@ -267,6 +276,7 @@ de:
   events: Events
   friendAdd: Freundschaftsanfrage senden
   friends: Freunde
+  imprint: Impressum
   myProfile: Mein Profil
   newEvent: Neues Event
   profile: Profil
@@ -281,6 +291,7 @@ en:
   events: Events
   friendAdd: Send friend request
   friends: Friends
+  imprint: Imprint
   myProfile: My Profile
   newEvent: New event
   profile: Profile
