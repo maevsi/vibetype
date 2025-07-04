@@ -49,7 +49,7 @@ const accountSearchQuery = useQuery({
   query: queryAccountSearch,
   variables: {
     after,
-    first: 20,
+    first: ITEMS_PER_PAGE_LARGE,
     username: searchQueryDebouncedTrimmed,
   } satisfies MaybeRefObj<AccountSearchQueryVariables>,
 })

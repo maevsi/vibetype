@@ -9592,6 +9592,8 @@ export type ContactItemFragment = {
   emailAddressHash?: string | null
   firstName?: string | null
   lastName?: string | null
+  nickname?: string | null
+  note?: string | null
   phoneNumber?: string | null
   url?: string | null
   accountByAccountId?: {
@@ -10751,6 +10753,8 @@ export const ContactItemFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -10910,6 +10914,8 @@ export const GuestItemFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -14622,6 +14628,8 @@ export const CreateContactDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -14785,6 +14793,8 @@ export const DeleteContactByIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -14966,6 +14976,8 @@ export const UpdateContactByIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -15719,6 +15731,8 @@ export const CreateGuestDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -15970,6 +15984,8 @@ export const UpdateGuestByIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -17352,6 +17368,8 @@ export const AllContactsDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -17580,6 +17598,8 @@ export const EventByCreatedByAndSlugDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -18060,6 +18080,8 @@ export const AllGuestsDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
