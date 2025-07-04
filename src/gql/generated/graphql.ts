@@ -9038,19 +9038,22 @@ export type AccountByIdQuery = {
   } | null
 }
 
-export type UserSearchQueryVariables = Exact<{
+export type AccountSearchQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
   username?: InputMaybe<Scalars['String']['input']>
 }>
 
-export type UserSearchQuery = {
+export type AccountSearchQuery = {
   __typename?: 'Query'
   allAccounts?: {
     __typename?: 'AccountsConnection'
-    nodes: Array<
-      { __typename?: 'Account' } & {
-        ' $fragmentRefs'?: { AccountItemFragment: AccountItemFragment }
-      }
-    >
+    nodes: Array<{ __typename?: 'Account'; id: any; username: string }>
+    pageInfo: {
+      __typename?: 'PageInfo'
+      endCursor?: any | null
+      hasNextPage: boolean
+    }
   } | null
 }
 
@@ -11223,14 +11226,30 @@ export const AccountByIdDocument = {
     },
   ],
 } as unknown as DocumentNode<AccountByIdQuery, AccountByIdQueryVariables>
-export const UserSearchDocument = {
+export const AccountSearchDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'UserSearch' },
+      name: { kind: 'Name', value: 'AccountSearch' },
       variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
         {
           kind: 'VariableDefinition',
           variable: {
@@ -11249,6 +11268,14 @@ export const UserSearchDocument = {
             arguments: [
               {
                 kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
                 name: { kind: 'Name', value: 'condition' },
                 value: {
                   kind: 'ObjectValue',
@@ -11264,6 +11291,19 @@ export const UserSearchDocument = {
                   ],
                 },
               },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: { kind: 'EnumValue', value: 'USERNAME_ASC' },
+              },
             ],
             selectionSet: {
               kind: 'SelectionSet',
@@ -11274,9 +11314,27 @@ export const UserSearchDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'AccountItem' },
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
                       },
                     ],
                   },
@@ -11287,25 +11345,8 @@ export const UserSearchDocument = {
         ],
       },
     },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AccountItem' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Account' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'username' } },
-        ],
-      },
-    },
   ],
-} as unknown as DocumentNode<UserSearchQuery, UserSearchQueryVariables>
+} as unknown as DocumentNode<AccountSearchQuery, AccountSearchQueryVariables>
 export const EventListDocument = {
   kind: 'Document',
   definitions: [
