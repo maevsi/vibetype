@@ -1,3 +1,9 @@
+## [12.10.0](https://github.com/maevsi/vibetype/compare/12.9.0...12.10.0) (2025-07-04)
+
+### Features
+
+* **account:** add search ([d2db450](https://github.com/maevsi/vibetype/commit/d2db450e9305eaff1c16df39af4545bc7f0bb22d))
+
 ## [12.9.0](https://github.com/maevsi/vibetype/compare/12.8.0...12.9.0) (2025-07-04)
 
 ### Features
