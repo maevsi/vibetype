@@ -139,7 +139,7 @@
                 <AppDropdown>
                   <AppDropdownItem
                     variant="destructive"
-                    @select="templateReport?.open || (() => {})"
+                    @select="isOpenReportDrawer = true"
                   >
                     {{ t('report') }}
                   </AppDropdownItem>
@@ -152,7 +152,7 @@
                   </template>
                 </AppDropdown>
                 <EventReportDrawer
-                  ref="report"
+                  v-model:open="isOpenReportDrawer"
                   :account-id="store.signedInAccountId"
                   :event
                 />
@@ -421,7 +421,7 @@ const route = useRoute('event-view-username-event_name___en')
 const localePath = useLocalePath()
 const updateGuestByIdMutation = useUpdateGuestByIdMutation()
 
-const templateReport = useTemplateRef('report')
+const isOpenReportDrawer = ref<boolean>()
 
 // api data
 const eventQuery = useQuery({
