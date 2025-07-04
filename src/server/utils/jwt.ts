@@ -50,7 +50,7 @@ export const setJwtCookie = ({
 }) => {
   const dateEpoch = new Date(0)
   const dateInAMonth = new Date(Date.now() + 86400 * 1000 * 31)
-  const siteUrl = new URL(runtimeConfig.public.site.url)
+  const siteUrl = new URL(runtimeConfig.public.i18n.baseUrl)
   const isHttps = siteUrl.protocol === 'https:'
   const jwtCookieName = JWT_NAME({ isHttps })
 

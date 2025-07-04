@@ -197,9 +197,6 @@ export default defineNuxtConfig({
       security: {
         isRateLimiterDisabled: true, // TODO: disable once api requests are optimized (https://github.com/maevsi/vibetype/issues/1654)
       },
-      site: {
-        url: SITE_URL,
-      },
       turnstile: {
         siteKey: '0x4AAAAAAABtEW1Hc8mcgWcZ',
       },
