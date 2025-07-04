@@ -1,3 +1,17 @@
+## [12.11.0](https://github.com/maevsi/vibetype/compare/12.10.0...12.11.0) (2025-07-04)
+
+### Features
+
+* **contact:** add nickname and note fields ([a8f411a](https://github.com/maevsi/vibetype/commit/a8f411a905e2757615786aec6672ab242caa918d))
+
+### Bug Fixes
+
+* **account:** correct achievement placeholder typography ([35f96d5](https://github.com/maevsi/vibetype/commit/35f96d5e3848cb8683797ab7eb24491a009fb81a))
+
+### Performance Improvements
+
+* **account:** use general item count for search result ([57225c4](https://github.com/maevsi/vibetype/commit/57225c4846201d58b3b064eb455df30cca13bcf8))
+
 ## [12.10.0](https://github.com/maevsi/vibetype/compare/12.9.0...12.10.0) (2025-07-04)
 
 ### Features
