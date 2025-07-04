@@ -111,6 +111,14 @@ const templateForm = useTemplateRef('form')
 // drawer
 const isOpen = defineModel<boolean>('open')
 
+const open = () => {
+  isOpen.value = true
+}
+
+defineExpose({
+  open,
+})
+
 // stepper
 const { step } = useStepper<'reportConfirmation' | 'blockConfirmation'>()
 const onAnimationEnd = (isOpen: boolean) => {

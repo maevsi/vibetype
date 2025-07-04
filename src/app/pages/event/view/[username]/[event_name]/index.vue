@@ -139,7 +139,7 @@
                 <AppDropdown>
                   <AppDropdownItem
                     variant="destructive"
-                    @select="templateReport?.open || (() => {})"
+                    @select="templateReport?.open() || (() => {})"
                   >
                     {{ t('report') }}
                   </AppDropdownItem>
