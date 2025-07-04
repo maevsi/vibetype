@@ -149,8 +149,8 @@ export default defineNuxtConfig({
               nameId: undefined,
               messageId: undefined,
             },
-            id: undefined,
             groupId: undefined,
+            id: undefined,
           },
           earlyBird: {
             column: {
@@ -158,8 +158,41 @@ export default defineNuxtConfig({
               emailAddressId: undefined,
               nameId: undefined,
             },
-            id: undefined,
             groupId: undefined,
+            id: undefined,
+          },
+          featureRequest: {
+            column: {
+              consentId: undefined,
+              emailAddressId: undefined,
+              featureDescriptionId: undefined,
+              featureNameId: undefined,
+              nameId: undefined,
+            },
+            groupId: undefined,
+            id: undefined,
+          },
+          issue: {
+            column: {
+              consentId: undefined,
+              emailAddressId: undefined,
+              descriptionId: undefined,
+              requestorId: undefined,
+              subjectId: undefined,
+            },
+            groupId: undefined,
+            id: undefined,
+          },
+          report: {
+            column: {
+              accuracyConfirmationId: undefined,
+              emailAddressId: undefined,
+              messageId: undefined,
+              nameId: undefined,
+              privacyConsentId: undefined,
+            },
+            groupId: undefined,
+            id: undefined,
           },
         },
       },

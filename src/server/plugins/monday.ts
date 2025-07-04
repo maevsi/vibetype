@@ -22,14 +22,41 @@ export default defineNitroPlugin((nitroApp) => {
       board?.contact?.column?.emailAddressId,
     'board.contact.column.messageId': board?.contact?.column?.messageId,
     'board.contact.column.nameId': board?.contact?.column?.nameId,
-    'board.contact.id': board?.contact?.id,
     'board.contact.groupId': board?.contact?.groupId,
+    'board.contact.id': board?.contact?.id,
     'board.earlyBird.column.agreementId': board?.earlyBird?.column?.agreementId,
     'board.earlyBird.column.emailAddressId':
       board?.earlyBird?.column?.emailAddressId,
     'board.earlyBird.column.nameId': board?.earlyBird?.column?.nameId,
-    'board.earlyBird.id': board?.earlyBird?.id,
     'board.earlyBird.groupId': board?.earlyBird?.groupId,
+    'board.earlyBird.id': board?.earlyBird?.id,
+    'board.featureRequest.column.consentId':
+      board?.featureRequest?.column?.consentId,
+    'board.featureRequest.column.emailAddressId':
+      board?.featureRequest?.column?.emailAddressId,
+    'board.featureRequest.column.featureDescriptionId':
+      board?.featureRequest?.column?.featureDescriptionId,
+    'board.featureRequest.column.featureNameId':
+      board?.featureRequest?.column?.featureNameId,
+    'board.featureRequest.column.nameId': board?.featureRequest?.column?.nameId,
+    'board.featureRequest.groupId': board?.featureRequest?.groupId,
+    'board.featureRequest.id': board?.featureRequest?.id,
+    'board.issue.column.consentId': board?.issue?.column?.consentId,
+    'board.issue.column.emailAddressId': board?.issue?.column?.emailAddressId,
+    'board.issue.column.descriptionId': board?.issue?.column?.descriptionId,
+    'board.issue.column.issueNameId': board?.issue?.column?.issueNameId,
+    'board.issue.column.requestorId': board?.issue?.column?.requestorId,
+    'board.issue.groupId': board?.issue?.groupId,
+    'board.issue.id': board?.issue?.id,
+    'board.report.column.accuracyConfirmationId':
+      board?.report?.column?.accuracyConfirmationId,
+    'board.report.column.emailAddressId': board?.report?.column?.emailAddressId,
+    'board.report.column.messageId': board?.report?.column?.messageId,
+    'board.report.column.nameId': board?.report?.column?.nameId,
+    'board.report.column.privacyConsentId':
+      board?.report?.column?.privacyConsentId,
+    'board.report.groupId': board?.report?.groupId,
+    'board.report.id': board?.report?.id,
   })
     .filter(([_, value]) => !value)
     .map(([key]) => key)
