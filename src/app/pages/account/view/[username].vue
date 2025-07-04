@@ -162,9 +162,9 @@
                 </TypographyLabelBold>
               </div>
             </div>
-            <span v-else>
+            <TypographyLabelBold v-else class="flex-1 px-6 py-2 text-center">
               {{ t('achievementsNone') }}
-            </span>
+            </TypographyLabelBold>
           </div>
         </div>
         <div v-if="accountImprint" class="flex flex-col gap-2 p-1.5">
