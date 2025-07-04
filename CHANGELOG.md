@@ -1,3 +1,9 @@
+## [12.11.1](https://github.com/maevsi/vibetype/compare/12.11.0...12.11.1) (2025-07-04)
+
+### Bug Fixes
+
+* **event:** report drawer not opening ([#2012](https://github.com/maevsi/vibetype/issues/2012)) ([dda72e6](https://github.com/maevsi/vibetype/commit/dda72e651e79d7fd16e07385bfca66fdcb194833))
+
 ## [12.11.0](https://github.com/maevsi/vibetype/compare/12.10.0...12.11.0) (2025-07-04)
 
 ### Features
