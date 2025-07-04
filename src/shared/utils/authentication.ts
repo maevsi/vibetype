@@ -2,8 +2,9 @@ import type { Client } from '@urql/vue'
 import { consola } from 'consola'
 import type { H3Event } from 'h3'
 import { decodeJwt } from 'jose'
+import type { CookieRef } from 'nuxt/app'
 
-import type { CookieRef } from '#app'
+import type { useStore } from '~/stores/store' // TODO: remove if nitro types are added to pinia
 
 import { authenticateMutation } from '~~/gql/documents/mutations/account/accountAuthenticate'
 import { jwtRefreshMutation } from '~~/gql/documents/mutations/account/accountJwtRefresh'
