@@ -1,3 +1,13 @@
+## [12.9.0](https://github.com/maevsi/vibetype/compare/12.8.0...12.9.0) (2025-07-04)
+
+### Features
+
+* **account:** add button to show more events ([7422733](https://github.com/maevsi/vibetype/commit/74227337f3e0a9d7976cd01b22d04e3aa1a8471c))
+
+### Bug Fixes
+
+* **component:** correct line clamping for event cards ([d8ac913](https://github.com/maevsi/vibetype/commit/d8ac91350b04fe8fa24f0571e6be46af842edbfc))
+
 ## [12.8.0](https://github.com/maevsi/vibetype/compare/12.7.0...12.8.0) (2025-07-03)
 
 ### Features
