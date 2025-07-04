@@ -9293,6 +9293,7 @@ export type AccountQuery = {
     }
     eventsByCreatedBy: {
       __typename?: 'EventsConnection'
+      totalCount: number
       nodes: Array<{
         __typename?: 'Event'
         id: any
@@ -12457,6 +12458,10 @@ export const AccountDocument = {
                             },
                           ],
                         },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'totalCount' },
                       },
                     ],
                   },

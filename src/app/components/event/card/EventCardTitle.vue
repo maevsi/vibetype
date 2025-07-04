@@ -1,9 +1,7 @@
 <template>
   <span
     :class="
-      cn(
-        'line-clamp-2 truncate text-base leading-[20px] font-semibold tracking-[0.15%]',
-      )
+      cn('line-clamp-2 text-base leading-[20px] font-semibold tracking-[0.15%]')
     "
   >
     <slot />

@@ -118,6 +118,22 @@
             </ButtonColored>
           </div>
           <EventCard v-for="event in events" :key="event.id" :event />
+          <ButtonColored
+            v-if="account.eventsByCreatedBy.totalCount > 3"
+            :aria-label="t('eventMore')"
+            :to="
+              localePath({
+                name: 'event-view-username',
+                params: { username: route.params.username },
+              })
+            "
+            variant="tertiary"
+          >
+            {{ t('eventMore') }}
+            <template #suffix>
+              <AppIconChevronDown />
+            </template>
+          </ButtonColored>
         </div>
         <div class="flex flex-col gap-3">
           <TypographyH3 class="px-2">
@@ -209,6 +225,7 @@ const queryAccount = graphql(`
           slug
           start
         }
+        totalCount
       }
       id
       imprint
@@ -273,6 +290,7 @@ de:
   achievementsNone: Noch keine freigeschaltet
   contactBook: Kontaktbuch
   edit: Profil bearbeiten
+  eventMore: Mehr…
   events: Events
   friendAdd: Freundschaftsanfrage senden
   friends: Freunde
@@ -288,6 +306,7 @@ en:
   achievementsNone: None unlocked yet
   contactBook: Contact Book
   edit: Edit profile
+  eventMore: Show more
   events: Events
   friendAdd: Send friend request
   friends: Friends
