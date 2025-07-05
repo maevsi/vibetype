@@ -1,4 +1,5 @@
-import dayjs, { type DayjsFn } from 'dayjs'
+import dayjs from 'dayjs'
+import type { DayjsFn } from 'dayjs'
 
 import 'dayjs/locale/de'
 

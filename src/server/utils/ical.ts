@@ -7,11 +7,11 @@ import ical, {
 import mustache from 'mustache'
 
 import { getTextFromHtml } from '../../shared/utils/text'
-import {
-  EventVisibility,
-  type ContactItemFragment,
-  type EventItemFragment,
-  type GuestItemFragment,
+import { EventVisibility } from '../../gql/generated/graphql'
+import type {
+  ContactItemFragment,
+  EventItemFragment,
+  GuestItemFragment,
 } from '../../gql/generated/graphql'
 
 const visibilityToClass = {

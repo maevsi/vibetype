@@ -280,10 +280,8 @@ import { DatePicker } from 'v-calendar'
 
 import { useCreateEventMutation } from '~~/gql/documents/mutations/event/eventCreate'
 import { useUpdateEventByIdMutation } from '~~/gql/documents/mutations/event/eventUpdateById'
-import {
-  type EventItemFragment,
-  EventVisibility,
-} from '~~/gql/generated/graphql'
+import { EventVisibility } from '~~/gql/generated/graphql'
+import type { EventItemFragment } from '~~/gql/generated/graphql'
 
 const { event = undefined } = defineProps<{
   event?: Pick<EventItemFragment, 'name' | 'slug'>
