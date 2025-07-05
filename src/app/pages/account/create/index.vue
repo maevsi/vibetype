@@ -68,7 +68,9 @@
     <AppStep v-if="error" v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="error">
-          {{ error }}
+          <template v-if="error">
+            {{ error.message }}
+          </template>
           <template #description>
             {{ t('tryAgain') }}
           </template>
