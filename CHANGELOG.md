@@ -1,3 +1,15 @@
+## [12.11.2](https://github.com/maevsi/vibetype/compare/12.11.1...12.11.2) (2025-07-05)
+
+### Bug Fixes
+
+* **api:** authenticate query ([5ed2963](https://github.com/maevsi/vibetype/commit/5ed2963901527ecfd3df8f0d624d83676c9862a5))
+* **pages:** use error messages ([2ec21e7](https://github.com/maevsi/vibetype/commit/2ec21e70f6a7ecdd7721b742f8fe4b5b8b3bbb2e))
+* **session:** reset used captcha ([de24941](https://github.com/maevsi/vibetype/commit/de2494180eb97062d874b82f5763ab2a8467a7d8))
+
+### Performance Improvements
+
+* **api:** link mutation names for verification ([1a7c3d1](https://github.com/maevsi/vibetype/commit/1a7c3d164e1a7157e75dbd8a89db6e8767e015ac))
+
 ## [12.11.1](https://github.com/maevsi/vibetype/compare/12.11.0...12.11.1) (2025-07-04)
 
 ### Bug Fixes
