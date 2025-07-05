@@ -12,7 +12,11 @@
     </LayoutTopBar>
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
-        <FormAccountRegistration v-model:form="form" @submit="step = 'age'" />
+        <FormAccountRegistration
+          v-model:captcha-is-used="captchaIsUsed"
+          v-model:form="form"
+          @submit="step = 'age'"
+        />
         <ContentLegalFooter />
       </LayoutPage>
     </AppStep>
@@ -130,6 +134,7 @@ const form = reactive({
   passwordRepetition: ref<string>(),
   username: ref<string>(),
 })
+const captchaIsUsed = ref<boolean>()
 const submit = async (termId: string) => {
   const result = await accountRegistrationMutation.executeMutation(
     {
@@ -149,7 +154,10 @@ const submit = async (termId: string) => {
     },
   )
 
-  if (result.error || !result.data) return
+  if (result.error || !result.data) {
+    captchaIsUsed.value = true
+    return
+  }
 
   step.value = 'success'
 }
