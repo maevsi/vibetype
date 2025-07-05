@@ -115,10 +115,16 @@ const isOpen = defineModel<boolean>('open')
 const { step } = useStepper<'reportConfirmation' | 'blockConfirmation'>()
 const onAnimationEnd = (isOpen: boolean) => {
   if (isOpen) return
+
+  if (wasOrganizerBlocked.value) {
+    backToDashboard()
+    return
+  }
   step.value = 'default'
 }
 
 // block
+const wasOrganizerBlocked = ref(false)
 const createAccountBlockMutation = useCreateAccountBlockMutation()
 const api = await useApiData([createAccountBlockMutation])
 const apiErrorMessages = computed(() =>
@@ -151,7 +157,7 @@ const blockOrganizer = async () => {
     })
     return
   }
-
+  wasOrganizerBlocked.value = true
   step.value = 'blockConfirmation'
 }
 const backToDashboard = async () =>
