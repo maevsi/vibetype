@@ -17,6 +17,7 @@
         @input="form.password = $event"
       />
       <FormInputCaptcha
+        v-model:is-used="captchaIsUsed"
         :form-input="v$.captcha"
         is-centered
         @input="form.captcha = $event"
@@ -68,6 +69,7 @@ const authenticateMutation = useAuthenticateMutation()
 const api = await useApiData([authenticateMutation])
 
 // methods
+const captchaIsUsed = ref<boolean>()
 const submit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
 
@@ -85,7 +87,10 @@ const submit = async () => {
     },
   )
 
-  if (result.error) return
+  if (result.error) {
+    captchaIsUsed.value = true
+    return
+  }
 
   try {
     await jwtStore(result.data?.authenticate?.jwt)

@@ -1,9 +1,13 @@
 import { consola } from 'consola'
+import { parse } from 'graphql'
 import type { H3Event } from 'h3'
 import { z } from 'zod'
 
+import { authenticateMutation } from '~~/gql/documents/mutations/account/accountAuthenticate'
+import { accountRegistrationMutation } from '~~/gql/documents/mutations/account/accountRegistration'
+
 const authProxyBodySchema = z.object({
-  operationName: z.string().optional(),
+  query: z.string().optional(),
   variables: z
     .object({
       password: z.string().optional(),
@@ -21,24 +25,47 @@ export default defineEventHandler(async (event) => {
 
   const body = await getBodySafe({ event, schema: authProxyBodySchema })
 
-  if (!body.operationName) {
-    consola.debug("Request's body is missing the operation name.")
+  if (!body.query) {
+    consola.debug("Request's body is missing a query.")
     return
   }
 
-  switch (body.operationName) {
-    case 'authenticate':
-      // don't check captcha for anonymous authentication
-      if (body.variables?.password === '' && body.variables.username === '')
-        return
+  const ast = parse(body.query)
 
-      await turnstileVerify(event)
-      break
-    case 'accountRegistration':
-      await turnstileVerify(event)
-      break
-    default:
-      return
+  if (
+    // authentication
+    authenticateMutation.definitions.length !== 1 ||
+    !authenticateMutation.definitions[0] ||
+    !('name' in authenticateMutation.definitions[0]) ||
+    !authenticateMutation.definitions[0].name ||
+    // account registration
+    accountRegistrationMutation.definitions.length !== 1 ||
+    !accountRegistrationMutation.definitions[0] ||
+    !('name' in accountRegistrationMutation.definitions[0]) ||
+    !accountRegistrationMutation.definitions[0].name
+  )
+    return throwError({
+      code: 500,
+      message: 'Could not get name of mutation.',
+    })
+
+  for (const definition of ast.definitions) {
+    if (definition.kind !== 'OperationDefinition' || !definition.name) continue
+
+    switch (definition.name.value) {
+      case authenticateMutation.definitions[0].name.value:
+        // don't check captcha for anonymous authentication
+        if (body.variables?.password === '' && body.variables.username === '')
+          return
+
+        await turnstileVerify(event)
+        break
+      case accountRegistrationMutation.definitions[0].name.value:
+        await turnstileVerify(event)
+        break
+      default:
+        return
+    }
   }
 })
 
