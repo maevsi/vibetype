@@ -1,9 +1,10 @@
 import { consola } from 'consola'
+import { parse } from 'graphql'
 import type { H3Event } from 'h3'
 import { z } from 'zod'
 
 const authProxyBodySchema = z.object({
-  operationName: z.string().optional(),
+  query: z.string().optional(),
   variables: z
     .object({
       password: z.string().optional(),
@@ -21,24 +22,30 @@ export default defineEventHandler(async (event) => {
 
   const body = await getBodySafe({ event, schema: authProxyBodySchema })
 
-  if (!body.operationName) {
-    consola.debug("Request's body is missing the operation name.")
+  if (!body.query) {
+    consola.debug("Request's body is missing a query.")
     return
   }
 
-  switch (body.operationName) {
-    case 'authenticate':
-      // don't check captcha for anonymous authentication
-      if (body.variables?.password === '' && body.variables.username === '')
-        return
+  const ast = parse(body.query)
 
-      await turnstileVerify(event)
-      break
-    case 'accountRegistration':
-      await turnstileVerify(event)
-      break
-    default:
-      return
+  for (const definition of ast.definitions) {
+    if (definition.kind !== 'OperationDefinition' || !definition.name) continue
+
+    switch (definition.name.value) {
+      case 'authenticate':
+        // don't check captcha for anonymous authentication
+        if (body.variables?.password === '' && body.variables.username === '')
+          return
+
+        await turnstileVerify(event)
+        break
+      case 'accountRegistration':
+        await turnstileVerify(event)
+        break
+      default:
+        return
+    }
   }
 })
 
