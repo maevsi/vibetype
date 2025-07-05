@@ -175,6 +175,20 @@
             {{ accountImprint }}
           </TypographyBodyMedium>
         </div>
+        <div v-if="!isOwnProfile" class="flex justify-center">
+          <ButtonColored
+            :aria-label="t('blockAccount')"
+            variant="tertiary-critical"
+            @click="openBlockDrawer"
+          >
+            {{ t('blockAccount') }}
+          </ButtonColored>
+          <AccountBlockDrawer
+            v-model:open="isBlockDrawerOpen"
+            :blocked-account-id="account.id"
+            :username="route.params.username"
+          />
+        </div>
       </div>
     </LayoutPage>
   </Loader>
@@ -280,6 +294,11 @@ if (account.value === null) {
 
 // template
 const localePath = useLocalePath()
+
+const isBlockDrawerOpen = ref<boolean>()
+const openBlockDrawer = () => {
+  isBlockDrawerOpen.value = true
+}
 </script>
 
 <i18n lang="yaml">
@@ -288,6 +307,7 @@ de:
   achievementMeetTheTeam: Triff das Team
   achievements: Errungenschaften
   achievementsNone: Noch keine freigeschaltet
+  blockAccount: Konto blockieren
   contactBook: Kontaktbuch
   edit: Profil bearbeiten
   eventMore: Mehr…
@@ -304,6 +324,7 @@ en:
   achievementMeetTheTeam: Meet the team
   achievements: Achievements
   achievementsNone: None unlocked yet
+  blockAccount: Block Account
   contactBook: Contact Book
   edit: Edit profile
   eventMore: Show more
