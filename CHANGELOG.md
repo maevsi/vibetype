@@ -1,3 +1,14 @@
+## [12.13.0](https://github.com/maevsi/vibetype/compare/12.12.0...12.13.0) (2025-07-06)
+
+### Features
+
+* **components:** introduce title a11y for result page ([c8f51ba](https://github.com/maevsi/vibetype/commit/c8f51baf7f2c4079ecde486c4b6649fb176a244c))
+* **error:** redesign ([1e344c3](https://github.com/maevsi/vibetype/commit/1e344c3426049ea9f6af92dfa22a89d24b9b313e))
+
+### Bug Fixes
+
+* **components:** correct small button border radius ([3212239](https://github.com/maevsi/vibetype/commit/3212239fe1c95910c552ea74cdc911d6a457a53a))
+
 ## [12.12.0](https://github.com/maevsi/vibetype/compare/12.11.2...12.12.0) (2025-07-06)
 
 ### Features
