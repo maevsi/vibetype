@@ -20,12 +20,14 @@ import { useVuelidate } from '@vuelidate/core'
 
 const {
   errorsPgIds = undefined,
+  isToastHidden = undefined,
   itemNameDeletion,
   itemNameSuccess,
   mutation,
   variables = undefined,
 } = defineProps<{
   errorsPgIds?: Record<string, string>
+  isToastHidden?: boolean
   itemNameDeletion: string
   itemNameSuccess: string
   mutation: UseMutationResponse<unknown, AnyVariables>
@@ -60,11 +62,14 @@ const submit = async () => {
 
   if (result.error) return
 
-  await showToast({
-    title: t('success', {
-      item: itemNameSuccess,
-    }),
-  })
+  if (!isToastHidden) {
+    await showToast({
+      title: t('success', {
+        item: itemNameSuccess,
+      }),
+    })
+  }
+
   emit('success')
 }
 
