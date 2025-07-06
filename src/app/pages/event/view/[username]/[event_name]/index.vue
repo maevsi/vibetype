@@ -145,7 +145,7 @@
                   </AppDropdownItem>
                   <template #trigger>
                     <span
-                      class="flex size-10 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                      class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
                     >
                       <AppIconMoreVertical />
                     </span>

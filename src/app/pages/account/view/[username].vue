@@ -6,20 +6,47 @@
           <TypographyH2>
             {{ title }}
           </TypographyH2>
-          <AppButton
-            v-if="isOwnProfile"
-            :aria-label="t('edit')"
-            :to="
-              localePath({
-                name: 'account-edit-username',
-                params: {
-                  username: store.signedInUsername,
-                },
-              })
-            "
-          >
-            <AppIconSettings class="size-8" />
-          </AppButton>
+          <template v-if="isOwnProfile">
+            <AppButton
+              v-if="isOwnProfile"
+              :aria-label="t('edit')"
+              :to="
+                localePath({
+                  name: 'account-edit-username',
+                  params: {
+                    username: store.signedInUsername,
+                  },
+                })
+              "
+            >
+              <AppIconSettings class="size-8" />
+            </AppButton>
+          </template>
+          <template v-else>
+            <div v-if="store.signedInAccountId" class="flex justify-center">
+              <AppDropdown>
+                <AppDropdownItem
+                  variant="destructive"
+                  @select="isBlockDrawerOpen = true"
+                >
+                  {{ t('blockAccount') }}
+                </AppDropdownItem>
+                <template #trigger>
+                  <span
+                    class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                  >
+                    <AppIconMoreVertical />
+                  </span>
+                </template>
+              </AppDropdown>
+              <AccountBlockDrawer
+                v-model:open="isBlockDrawerOpen"
+                :blocked-account-id="account.id"
+                :blocked-username="route.params.username"
+                :blocking-account-id="store.signedInAccountId"
+              />
+            </div>
+          </template>
         </div>
         <div
           class="flex items-center gap-3 rounded-xl border border-(--semantic-base-line) bg-(--semantic-base-surface-1) p-3 dark:border-none"
@@ -280,6 +307,7 @@ if (account.value === null) {
 
 // template
 const localePath = useLocalePath()
+const isBlockDrawerOpen = ref<boolean>()
 </script>
 
 <i18n lang="yaml">
@@ -288,6 +316,7 @@ de:
   achievementMeetTheTeam: Triff das Team
   achievements: Errungenschaften
   achievementsNone: Noch keine freigeschaltet
+  blockAccount: Konto blockieren
   contactBook: Kontaktbuch
   edit: Profil bearbeiten
   eventMore: Mehr…
@@ -304,6 +333,7 @@ en:
   achievementMeetTheTeam: Meet the team
   achievements: Achievements
   achievementsNone: None unlocked yet
+  blockAccount: Block Account
   contactBook: Contact Book
   edit: Edit profile
   eventMore: Show more

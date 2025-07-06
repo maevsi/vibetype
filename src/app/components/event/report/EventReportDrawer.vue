@@ -115,6 +115,12 @@ const isOpen = defineModel<boolean>('open')
 const { step } = useStepper<'reportConfirmation' | 'blockConfirmation'>()
 const onAnimationEnd = (isOpen: boolean) => {
   if (isOpen) return
+
+  if (step.value === 'blockConfirmation') {
+    backToDashboard()
+    return
+  }
+
   step.value = 'default'
 }
 
