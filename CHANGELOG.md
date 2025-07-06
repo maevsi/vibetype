@@ -1,3 +1,9 @@
+## [12.13.1](https://github.com/maevsi/vibetype/compare/12.13.0...12.13.1) (2025-07-06)
+
+### Bug Fixes
+
+* **account:** rework verification ([168c454](https://github.com/maevsi/vibetype/commit/168c454dcbd7ad476195510cf4ae015ae1289b9a))
+
 ## [12.13.0](https://github.com/maevsi/vibetype/compare/12.12.0...12.13.0) (2025-07-06)
 
 ### Features
