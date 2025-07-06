@@ -4,14 +4,12 @@
     :data-is-loading="isLoading"
     data-testid="is-loading"
   >
-    <NuxtLayout>
-      <div class="p-3">
-        <AppError
-          :status-code="error.statusCode"
-          :description="error.message"
-          :stack="error.stack"
-        />
-      </div>
+    <NuxtLayout name="default-no-header">
+      <AppError
+        :status-code="error.statusCode"
+        :description="error.message"
+        :stack="error.stack"
+      />
     </NuxtLayout>
   </div>
 </template>
