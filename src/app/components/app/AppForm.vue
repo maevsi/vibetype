@@ -63,7 +63,7 @@ const {
   submitName = undefined,
 } = defineProps<{
   buttonVariant?: ButtonColoredProps['variant']
-  errors?: Readonly<BackendError[]>
+  errors?: Readonly<AppCombinedError[]>
   errorsPgIds?: Record<string, string>
   form: BaseValidation
   formClass?: string

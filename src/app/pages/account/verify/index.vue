@@ -1,23 +1,9 @@
-<template>
-  <section :aria-labelledby="templateIdTitle">
-    <h1 :id="templateIdTitle">
-      {{ title }}
-    </h1>
-    <Loader
-      :api="api"
-      :error-pg-ids="{
-        postgres55000: t('postgres55000'),
-        postgresP0002: t('postgresP0002'),
-      }"
-    />
-  </section>
-</template>
-
 <script setup lang="ts">
 import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
 
+// compiler
 defineRouteRules({
   robots: false,
 })
@@ -34,7 +20,7 @@ if (
   Array.isArray(route.query.code) ||
   !REGEX_UUID.test(route.query.code)
 ) {
-  throw createError({ statusCode: 400 })
+  throw createError({ fatal: true, statusCode: 400 })
 }
 
 // api data
@@ -47,49 +33,23 @@ const accountEmailAddressVerificationMutation = useMutation(
     }
   `),
 )
-const api = await useApiData([accountEmailAddressVerificationMutation])
-const apiErrorMessages = computed(() =>
-  getCombinedErrorMessages(api.value.errors),
-)
-
-// lifecycle
-const fireAlert = useFireAlert()
-const localePath = useLocalePath()
-onMounted(async () => {
-  // run on client side only
-  // verifying on server side first leads to an error on client side: "code already used"
-  const result = await accountEmailAddressVerificationMutation.executeMutation({
-    code: route.query.code,
-  })
-
-  if (result.error) {
-    await fireAlert({
-      level: 'error',
-      text: apiErrorMessages.value.join('\n'),
-      title: t('globalError'),
-    })
-    return
-  }
-
-  if (!result.data?.accountEmailAddressVerification?.clientMutationId) {
-    await fireAlert({
-      level: 'error',
-      text: t('globalErrorNoData'),
-      title: t('globalError'),
-    })
-    return
-  }
-
-  await fireAlert({
-    level: 'success',
-    text: t('verifiedBody'),
-    title: t('verified'),
-  })
-  await navigateTo(localePath('session-create'))
+const result = await accountEmailAddressVerificationMutation.executeMutation({
+  code: route.query.code,
 })
+if (result.error) {
+  throw createError({
+    data: getCombinedErrorMessages([result.error], {
+      postgres55000: t('postgres55000'),
+      postgresP0002: t('postgresP0002'),
+    }).join('\n'),
+    fatal: true,
+  })
+}
 
-// template
-const templateIdTitle = useId()
+const localePath = useLocalePath()
+await navigateTo(
+  localePath({ name: 'session-create', query: { verified: null } }),
+)
 </script>
 
 <i18n lang="yaml">
@@ -97,12 +57,8 @@ de:
   postgres55000: Der Verifizierungscode ist abgelaufen!
   postgresP0002: Unbekannter Verifizierungscode! Hast du deine E-Mail-Adresse vielleicht schon verifiziert?
   title: Verifizierung
-  verified: E-Mail-Adresse verifiziert.
-  verifiedBody: Du kannst dich nun anmelden.
 en:
   postgres55000: The verification code has expired!
   postgresP0002: Invalid verification code! Have you perhaps already verified your email address?
   title: Verification
-  verified: Email address verified.
-  verifiedBody: You may sign in now.
 </i18n>
