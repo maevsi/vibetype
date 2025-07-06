@@ -5,11 +5,7 @@
     data-testid="is-loading"
   >
     <NuxtLayout name="default-no-header">
-      <AppError
-        :status-code="error.statusCode"
-        :description="error.message"
-        :stack="error.stack"
-      />
+      <AppError :error />
     </NuxtLayout>
   </div>
 </template>

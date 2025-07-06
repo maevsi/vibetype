@@ -22,7 +22,7 @@
       <IHeroiconsBugAnt v-else class="size-12 text-(--semantic-error-strong)" />
     </div>
     <div class="flex flex-col gap-8">
-      <TypographySubtitleLarge class="text-center">
+      <TypographySubtitleLarge v-if="$slots.description" class="text-center">
         <slot name="description" />
       </TypographySubtitleLarge>
       <slot />

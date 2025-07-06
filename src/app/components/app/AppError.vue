@@ -1,38 +1,43 @@
 <template>
   <LayoutPage>
     <LayoutPageResult type="error">
-      <span v-if="statusCode === 400">
-        {{ t('error400Hint', { siteName: t('globalSiteName') }) }}
-      </span>
-      <span v-else-if="statusCode === 403">
-        {{ t('error403Hint') }}
-      </span>
-      <span v-else-if="statusCode === 404">
-        {{ t('error404Hint') }}
-      </span>
-      <span v-else-if="statusCode === 429">
-        {{ t('error429Hint', { siteName: t('globalSiteName') }) }}
-      </span>
-      <span v-else-if="statusCode === 500">
-        {{ t('error500Hint') }}
-      </span>
-      <template #description>
-        <span v-if="statusCode === 400">
+      <template #default>
+        <span v-if="error.data">
+          {{ error.data }}
+        </span>
+        <span v-else-if="error.statusCode === 400">
+          {{ t('error400Hint', { siteName: t('globalSiteName') }) }}
+        </span>
+        <span v-else-if="error.statusCode === 403">
+          {{ t('error403Hint') }}
+        </span>
+        <span v-else-if="error.statusCode === 404">
+          {{ t('error404Hint') }}
+        </span>
+        <span v-else-if="error.statusCode === 429">
+          {{ t('error429Hint', { siteName: t('globalSiteName') }) }}
+        </span>
+        <span v-else-if="error.statusCode === 500">
+          {{ t('error500Hint') }}
+        </span>
+      </template>
+      <template v-if="!error.data" #description>
+        <span v-if="error.statusCode === 400">
           {{ t('error400Description', { siteName: t('globalSiteName') }) }}
         </span>
-        <span v-else-if="statusCode === 403">
+        <span v-else-if="error.statusCode === 403">
           {{ t('error403Description') }}
         </span>
-        <span v-else-if="statusCode === 404">
+        <span v-else-if="error.statusCode === 404">
           {{ t('error404Description', { siteName: t('globalSiteName') }) }}
         </span>
-        <span v-else-if="statusCode === 418">
+        <span v-else-if="error.statusCode === 418">
           {{ t('error418Description') }}
         </span>
-        <span v-else-if="statusCode === 429">
+        <span v-else-if="error.statusCode === 429">
           {{ t('error429Description', { siteName: t('globalSiteName') }) }}
         </span>
-        <span v-else-if="statusCode === 500">
+        <span v-else-if="error.statusCode === 500">
           {{ t('error500Description', { siteName: t('globalSiteName') }) }}
         </span>
       </template>
@@ -40,11 +45,11 @@
     </LayoutPageResult>
     <template #bottom>
       <ButtonList>
-        <ButtonSignIn v-if="[403, 404].includes(statusCode)" />
+        <ButtonSignIn v-if="[403, 404].includes(error.statusCode)" />
         <ButtonHome />
       </ButtonList>
     </template>
-    <Collapsible v-model:open="detailsIsOpen">
+    <Collapsible v-model:open="detailsIsOpen" class="flex flex-col gap-2">
       <CollapsibleTrigger as-child>
         <ButtonColored
           v-if="!detailsIsOpen"
@@ -79,11 +84,11 @@
           >
             <h2 :id="templateIdDetails">{{ t('details') }}</h2>
             <div>
-              <span v-if="description" class="font-bold">
-                {{ description }}
+              <span class="font-bold">
+                {{ error.message }}
               </span>
               <!-- eslint-disable vue/no-v-html -->
-              <div v-if="stack" v-html="stack" />
+              <div v-if="error.stack" v-html="error.stack" />
               <!-- eslint-enable vue/no-v-html -->
             </div>
           </section>
@@ -95,27 +100,24 @@
 </template>
 
 <script setup lang="ts">
-const {
-  description = undefined,
-  stack = undefined,
-  statusCode,
-} = defineProps<{
-  description?: string
-  stack?: string
-  statusCode: number
+import type { NuxtError } from '#app'
+
+const { error } = defineProps<{
+  error: Partial<NuxtError> & Required<Pick<NuxtError, 'statusCode'>>
 }>()
 
 // status code
 const { ssrContext } = useNuxtApp()
-if (ssrContext && statusCode) {
-  ssrContext.event.node.res.statusCode = statusCode
+if (ssrContext && error.statusCode) {
+  ssrContext.event.node.res.statusCode = error.statusCode
 }
-const { statusName } = await useHttpStatusCode({ statusCode })
+// const { statusName } = await useHttpStatusCode({ statusCode: error.statusCode })
 
 // template
 const { t } = useI18n()
 const detailsIsOpen = ref<boolean>()
 const templateIdDetails = useId()
+const statusName = t('globalError')
 </script>
 
 <i18n lang="yaml">

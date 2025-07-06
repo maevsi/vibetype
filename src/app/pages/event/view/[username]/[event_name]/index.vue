@@ -2,13 +2,11 @@
   <LoaderIndicatorPing v-if="api.isFetching" />
   <AppError
     v-else-if="!account"
-    :description="t('errorAccountMissing')"
-    :status-code="404"
+    :error="{ message: t('errorAccountMissing'), statusCode: 404 }"
   />
   <AppError
     v-else-if="!event"
-    :description="t('errorEventMissing')"
-    :status-code="404"
+    :error="{ message: t('errorEventMissing'), statusCode: 404 }"
   />
   <div v-else class="flex flex-col gap-4">
     <CardStateInfo v-if="routeQueryIc && contact" class="flex flex-col gap-2">

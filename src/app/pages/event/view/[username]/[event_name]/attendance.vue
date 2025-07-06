@@ -55,7 +55,7 @@
         </template>
       </Modal>
     </div>
-    <AppError v-else :status-code="403" />
+    <AppError v-else :error="{ statusCode: 403 }" />
   </Loader>
 </template>
 

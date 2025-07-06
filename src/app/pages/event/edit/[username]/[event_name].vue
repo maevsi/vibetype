@@ -2,9 +2,9 @@
   <LoaderIndicatorPing v-if="api.isFetching" />
   <AppError
     v-else-if="route.params.username !== store.signedInUsername"
-    :status-code="403"
+    :error="{ statusCode: 403 }"
   />
-  <AppError v-else-if="!event" :status-code="404" />
+  <AppError v-else-if="!event" :error="{ statusCode: 404 }" />
   <div v-else class="flex flex-col gap-4">
     <section>
       <LayoutPageTitle :title="t('title')" />

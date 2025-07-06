@@ -2,7 +2,10 @@
   <LayoutProse v-if="legalTermFirst">
     <MDCRenderer v-if="ast" :body="ast.body" :data="ast.data" />
   </LayoutProse>
-  <AppError v-else :description="t('errorUnavailable')" :status-code="500" />
+  <AppError
+    v-else
+    :error="{ message: t('errorUnavailable'), statusCode: 500 }"
+  />
 </template>
 
 <script setup lang="ts">
