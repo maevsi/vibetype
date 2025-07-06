@@ -118,14 +118,6 @@ const { accountId } = defineProps<{
 
 // stepper
 const { error, restart, step } = useStepper<'password' | 'success'>()
-watch(
-  () => error.value,
-  (current) => {
-    if (current) {
-      step.value = 'error'
-    }
-  },
-)
 
 // drawer
 const isOpen = defineModel<boolean>('isOpen')

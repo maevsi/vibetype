@@ -3,7 +3,7 @@
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <div v-bind="attributes" class="text-center">
         <TypographySubtitleSmall>
-          {{ t('blockAccountQuestion', { username }) }}
+          {{ t('blockAccountQuestion', { username: blockedUsername }) }}
         </TypographySubtitleSmall>
       </div>
     </AppStep>
@@ -11,7 +11,7 @@
       <div v-bind="attributes">
         <LayoutPageResult type="success">
           <template #description>
-            {{ t('blockAccountConfirmation', { username }) }}
+            {{ t('blockAccountConfirmation', { username: blockedUsername }) }}
           </template>
         </LayoutPageResult>
       </div>
@@ -46,19 +46,19 @@
       <AppStep v-slot="attributes" :is-active="step === 'default'">
         <ButtonColored
           v-bind="attributes"
-          :aria-label="t('cancel')"
-          variant="primary"
-          @click="closeDrawer"
-        >
-          {{ t('cancel') }}
-        </ButtonColored>
-        <ButtonColored
-          v-bind="attributes"
           :aria-label="t('confirmBlock')"
-          variant="secondary-critical"
+          variant="primary-critical"
           @click="blockUser"
         >
           {{ t('confirmBlock') }}
+        </ButtonColored>
+        <ButtonColored
+          v-bind="attributes"
+          :aria-label="t('cancel')"
+          variant="secondary-critical"
+          @click="closeDrawer"
+        >
+          {{ t('cancel') }}
         </ButtonColored>
       </AppStep>
       <AppStep v-slot="attributes" :is-active="step === 'success'">
@@ -88,28 +88,24 @@
 <script setup lang="ts">
 import { useCreateAccountBlockMutation } from '~~/gql/documents/mutations/accountBlock/accountBlockCreate'
 
-const { blockedAccountId, username } = defineProps<{
+// compiler
+const { blockedAccountId, blockedUsername, blockingAccountId } = defineProps<{
   blockedAccountId: string
-  username: string
+  blockedUsername: string
+  blockingAccountId: string
 }>()
-
-const localePath = useLocalePath()
-const { t } = useI18n()
-const store = useStore()
-const wasUserBlocked = ref(false)
 
 const { error, restart, step } = useStepper<'success'>()
 
+// drawer
 const isOpen = defineModel<boolean>('open')
-
 const closeDrawer = () => {
   isOpen.value = false
 }
-
 const onAnimationEnd = (isOpen: boolean) => {
   if (isOpen) return
 
-  if (wasUserBlocked.value) {
+  if (step.value === 'success') {
     backToDashboard()
     return
   }
@@ -117,13 +113,13 @@ const onAnimationEnd = (isOpen: boolean) => {
   step.value = 'default'
 }
 
+// api data
 const createAccountBlockMutation = useCreateAccountBlockMutation()
-
 const blockUser = async () => {
   const result = await createAccountBlockMutation.executeMutation({
     accountBlockInput: {
       blockedAccountId,
-      createdBy: store.signedInAccountId,
+      createdBy: blockingAccountId,
     },
   })
 
@@ -133,9 +129,9 @@ const blockUser = async () => {
   }
 
   step.value = 'success'
-  wasUserBlocked.value = true
 }
 
+const localePath = useLocalePath()
 const backToDashboard = async () =>
   await navigateTo(
     localePath({
@@ -143,14 +139,8 @@ const backToDashboard = async () =>
     }),
   )
 
-watch(
-  () => error.value,
-  (current) => {
-    if (current) {
-      step.value = 'error'
-    }
-  },
-)
+// template
+const { t } = useI18n()
 </script>
 
 <i18n lang="yaml">
