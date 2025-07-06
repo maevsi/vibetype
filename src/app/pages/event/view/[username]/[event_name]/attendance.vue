@@ -99,6 +99,7 @@ const fireAlert = useFireAlert()
 const route = useRoute(ROUTE_NAME)
 if (route.params.username !== store.signedInUsername) {
   throw createError({
+    fatal: true,
     statusCode: 403,
   })
 }
