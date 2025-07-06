@@ -210,10 +210,8 @@
 <script setup lang="ts">
 import { useQuery } from '@urql/vue'
 
-import {
-  AchievementType,
-  type AccountQueryVariables,
-} from '~~/gql/generated/graphql'
+import { AchievementType } from '~~/gql/generated/graphql'
+import type { AccountQueryVariables } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
 
 definePageMeta({

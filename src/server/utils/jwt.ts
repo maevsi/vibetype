@@ -1,4 +1,5 @@
-import { setCookie, type H3Event } from 'h3'
+import { setCookie } from 'h3'
+import type { H3Event } from 'h3'
 
 export const useJsonWebToken = async () => {
   const event = useEvent()

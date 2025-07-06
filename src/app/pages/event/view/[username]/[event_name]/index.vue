@@ -407,11 +407,8 @@ import prntr from 'prntr'
 import QrcodeVue from 'qrcode.vue'
 
 import { useUpdateGuestByIdMutation } from '~~/gql/documents/mutations/guest/guestUpdateById'
-import {
-  InvitationFeedback,
-  type GuestItemFragment,
-  type GuestPatch,
-} from '~~/gql/generated/graphql'
+import { InvitationFeedback } from '~~/gql/generated/graphql'
+import type { GuestItemFragment, GuestPatch } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
 
 const { t } = useI18n()

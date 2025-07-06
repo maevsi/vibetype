@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
 import { reactiveOmit } from '@vueuse/core'
-import { SelectSeparator, type SelectSeparatorProps } from 'reka-ui'
+import { SelectSeparator } from 'reka-ui'
+import type { SelectSeparatorProps } from 'reka-ui'
 import { cn } from '@/utils/shadcn'
 
 const props = defineProps<

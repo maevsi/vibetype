@@ -5,10 +5,10 @@ import { Check } from 'lucide-vue-next'
 import {
   SelectItem,
   SelectItemIndicator,
-  type SelectItemProps,
   SelectItemText,
   useForwardProps,
 } from 'reka-ui'
+import type { SelectItemProps } from 'reka-ui'
 import { cn } from '@/utils/shadcn'
 
 const props = defineProps<

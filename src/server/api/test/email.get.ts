@@ -1,7 +1,8 @@
 import { z } from 'zod'
 
 import { LOGO_BASE64 } from '~~/server/utils/assets'
-import { EMAIL_NAMES, getEmail, type EmailName } from '~~/server/utils/email'
+import { EMAIL_NAMES, getEmail } from '~~/server/utils/email'
+import type { EmailName } from '~~/server/utils/email'
 import { Locale } from '~~/server/utils/i18n'
 import { getQuerySafe } from '~~/server/utils/validation'
 
