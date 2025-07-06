@@ -38,7 +38,7 @@ export const useHttpStatusCode = async ({
 
   const { status } = await import('@http-util/status-i18n')
   const statusName = computed(
-    () => `${status(statusCode, locale.value) || t('globalError')} 🙊`,
+    () => status(statusCode, locale.value) || t('globalError'),
   )
 
   return {

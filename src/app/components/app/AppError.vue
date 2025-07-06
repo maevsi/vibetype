@@ -1,11 +1,22 @@
 <template>
-  <div class="flex flex-col items-center gap-4">
-    <section
-      :aria-labelledby="templateIdTitle"
-      class="flex flex-col items-center text-center"
-    >
-      <h1 :id="templateIdTitle">{{ statusName }}</h1>
-      <p>
+  <LayoutPage>
+    <LayoutPageResult type="error">
+      <span v-if="statusCode === 400">
+        {{ t('error400Hint', { siteName: t('globalSiteName') }) }}
+      </span>
+      <span v-else-if="statusCode === 403">
+        {{ t('error403Hint') }}
+      </span>
+      <span v-else-if="statusCode === 404">
+        {{ t('error404Hint') }}
+      </span>
+      <span v-else-if="statusCode === 429">
+        {{ t('error429Hint', { siteName: t('globalSiteName') }) }}
+      </span>
+      <span v-else-if="statusCode === 500">
+        {{ t('error500Hint') }}
+      </span>
+      <template #description>
         <span v-if="statusCode === 400">
           {{ t('error400Description', { siteName: t('globalSiteName') }) }}
         </span>
@@ -24,43 +35,63 @@
         <span v-else-if="statusCode === 500">
           {{ t('error500Description', { siteName: t('globalSiteName') }) }}
         </span>
-        <br />
-        <span v-if="statusCode === 400">
-          {{ t('error400Hint', { siteName: t('globalSiteName') }) }}
-        </span>
-        <span v-else-if="statusCode === 403">
-          {{ t('error403Hint') }}
-        </span>
-        <span v-else-if="statusCode === 404">
-          {{ t('error404Hint') }}
-        </span>
-        <span v-else-if="statusCode === 429">
-          {{ t('error429Hint', { siteName: t('globalSiteName') }) }}
-        </span>
-        <span v-else-if="statusCode === 500">
-          {{ t('error500Hint') }}
-        </span>
-      </p>
-    </section>
-    <ButtonList>
-      <ButtonSignIn v-if="[403, 404].includes(statusCode)" />
-      <ButtonHome />
-    </ButtonList>
+      </template>
+      <template #title>{{ statusName }}</template>
+    </LayoutPageResult>
+    <template #bottom>
+      <ButtonList>
+        <ButtonSignIn v-if="[403, 404].includes(statusCode)" />
+        <ButtonHome />
+      </ButtonList>
+    </template>
+    <Collapsible v-model:open="detailsIsOpen">
+      <CollapsibleTrigger as-child>
+        <ButtonColored
+          v-if="!detailsIsOpen"
+          :aria-label="t('detailsMore')"
+          class="w-full"
+          size="small"
+          variant="tertiary"
+        >
+          <TypographyLabel>
+            {{ t('detailsMore') }}
+          </TypographyLabel>
+          <AppIconChevronDown class="size-4" />
+        </ButtonColored>
+        <ButtonColored
+          v-else
+          :aria-label="t('detailsLess')"
+          class="w-full"
+          size="small"
+          variant="tertiary"
+        >
+          <TypographyLabel>
+            {{ t('detailsLess') }}
+          </TypographyLabel>
+          <AppIconChevronUp class="size-4" />
+        </ButtonColored>
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <Card>
+          <section
+            :aria-labelledby="templateIdDetails"
+            class="flex flex-col gap-4 p-2"
+          >
+            <h2 :id="templateIdDetails">{{ t('details') }}</h2>
+            <div>
+              <span v-if="description" class="font-bold">
+                {{ description }}
+              </span>
+              <!-- eslint-disable vue/no-v-html -->
+              <div v-if="stack" v-html="stack" />
+              <!-- eslint-enable vue/no-v-html -->
+            </div>
+          </section>
+        </Card>
+      </CollapsibleContent>
+    </Collapsible>
     <!-- TODO: allow to report error -->
-    <Card v-if="isInDevelopment && (description || stack)">
-      <section :aria-labelledby="templateIdDetails" class="flex flex-col gap-4">
-        <h2 :id="templateIdDetails">{{ t('details') }}</h2>
-        <div>
-          <span v-if="description" class="font-bold">
-            {{ description }}
-          </span>
-          <!-- eslint-disable vue/no-v-html -->
-          <div v-if="stack" v-html="stack" />
-          <!-- eslint-enable vue/no-v-html -->
-        </div>
-      </section>
-    </Card>
-  </div>
+  </LayoutPage>
 </template>
 
 <script setup lang="ts">
@@ -74,27 +105,24 @@ const {
   statusCode: number
 }>()
 
-const { t } = useI18n()
-
-const isInDevelopment = import.meta.dev
-
-// page
+// status code
 const { ssrContext } = useNuxtApp()
 if (ssrContext && statusCode) {
   ssrContext.event.node.res.statusCode = statusCode
 }
-
-// accessibility
-const templateIdTitle = useId()
-const templateIdDetails = useId()
-
-// status code
 const { statusName } = await useHttpStatusCode({ statusCode })
+
+// template
+const { t } = useI18n()
+const detailsIsOpen = ref<boolean>()
+const templateIdDetails = useId()
 </script>
 
 <i18n lang="yaml">
 de:
   details: Technische Details
+  detailsLess: Ausblenden
+  detailsMore: Technische Details anzeigen
   error400Description: '{siteName} hat andere Daten empfangen als erwartet.'
   error400Hint: Bitte versuche es noch einmal und melde {siteName} diesen Fehler, wenn er weiterhin auftritt.
   error403Description: Du bist aktuell nicht berechtigt, auf diese Seite zuzugreifen.
@@ -108,6 +136,8 @@ de:
   error500Hint: Bitte melde diesen Fehler.
 en:
   details: Technical details
+  detailsLess: Hide
+  detailsMore: View technical details
   error400Description: '{siteName} received unexpected data.'
   error400Hint: Please try again and report this issue to {siteName} if it keeps happening.
   error403Description: You're not authorized to access this page.
