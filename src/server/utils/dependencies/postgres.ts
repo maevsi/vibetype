@@ -7,8 +7,8 @@ export const executeQuery = async <T>(query: Promise<T>): Promise<T> => {
     return await query
   } catch (error) {
     throw throwError({
-      code: 500,
-      message: (error as Error).message,
+      statusCode: 500,
+      statusMessage: (error as Error).message,
     })
   }
 }
