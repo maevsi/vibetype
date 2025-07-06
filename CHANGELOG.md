@@ -1,3 +1,9 @@
+## [12.12.0](https://github.com/maevsi/vibetype/compare/12.11.2...12.12.0) (2025-07-06)
+
+### Features
+
+* **account:** block directly from profile ([#2013](https://github.com/maevsi/vibetype/issues/2013)) ([3c79a5c](https://github.com/maevsi/vibetype/commit/3c79a5cbdeed3e319e95f8fac0f6ca5899103b4a))
+
 ## [12.11.2](https://github.com/maevsi/vibetype/compare/12.11.1...12.11.2) (2025-07-05)
 
 ### Bug Fixes
