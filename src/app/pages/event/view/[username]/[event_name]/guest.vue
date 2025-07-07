@@ -21,6 +21,7 @@ const route = useRoute('event-view-username-event_name-guest___en')
 const store = useStore()
 if (route.params.username !== store.signedInUsername) {
   throw createError({
+    fatal: true,
     statusCode: 403,
   })
 }

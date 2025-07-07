@@ -128,7 +128,7 @@ de:
   error400Description: '{siteName} hat andere Daten empfangen als erwartet.'
   error400Hint: Bitte versuche es noch einmal und melde {siteName} diesen Fehler, wenn er weiterhin auftritt.
   error403Description: Du bist aktuell nicht berechtigt, auf diese Seite zuzugreifen.
-  error403Hint: Bist du richtig angemeldet und hast du auf diesem Gerät einen Einladungscode eingegeben?
+  error403Hint: Bist du richtig angemeldet? Wenn dich ein Link zu dieser Seite geführt hat, kann er abgelaufen sein. Du kannst in diesem Fall einen neuen Link von der Person erfragen, die dir den Link gesendet hat.
   error404Description: '{siteName} kann nicht finden, wonach du suchst. Vielleicht wurde der Inhalt gelöscht oder dir fehlen Zugriffsberechtigungen.'
   error404Hint: Du kannst überprüfen, ob du richtig angemeldet bist, und versuchen, über die Startseite an dein Ziel zu gelangen.
   error418Description: Ich werd' keinen Kaffee machen.
@@ -143,7 +143,7 @@ en:
   error400Description: '{siteName} received unexpected data.'
   error400Hint: Please try again and report this issue to {siteName} if it keeps happening.
   error403Description: You're not authorized to access this page.
-  error403Hint: Are you signed in and have you entered an invitation code on this device?
+  error403Hint: Are you signed in correctly? If a link led you to this page, it may have expired. In that case, you can request a new link from the person who provided it to you.
   error404Description: "{siteName} couldn't find what you're looking for. The content may have been deleted or you might lack the necessary permissions."
   error404Hint: Make sure you're logged in and try reaching your destination via the homepage.
   error418Description: I won't make coffee.

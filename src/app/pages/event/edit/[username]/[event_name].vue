@@ -41,6 +41,7 @@ const route = useRoute('event-edit-username-event_name___en')
 const store = useStore()
 if (route.params.username !== store.signedInUsername) {
   throw createError({
+    fatal: true,
     statusCode: 403,
   })
 }

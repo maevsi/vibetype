@@ -5,11 +5,11 @@
         {{ title }}
       </span>
     </LayoutTopBar>
-    <CardStateInfo v-if="verified" class="rounded-none">
+    <CardStateSuccess v-if="verified" class="rounded-none">
       <TypographySubtitleMedium>
         {{ t('accountVerified') }}
       </TypographySubtitleMedium>
-    </CardStateInfo>
+    </CardStateSuccess>
     <CardStateInfo v-if="to" class="rounded-none">
       {{ t('accountRequired') }}
     </CardStateInfo>

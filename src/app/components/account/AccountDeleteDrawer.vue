@@ -16,11 +16,12 @@
           postgres23503: t('postgres23503'),
           postgres28P01: t('postgres28P01'),
         }"
+        is-toast-hidden
         :item-name-deletion="t('account')"
         :item-name-success="t('account')"
         :mutation="accountDeleteMutation"
         :variables="{ accountId }"
-        @success="onDeleteSuccess"
+        @success="step = 'success'"
       />
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'success'">
@@ -68,7 +69,7 @@
         <ButtonColored
           v-bind="attributes"
           :aria-label="t('stay')"
-          variant="primary"
+          variant="secondary"
           @click="closeDrawer"
         >
           {{ t('stay') }}
@@ -76,7 +77,7 @@
         <ButtonColored
           v-bind="attributes"
           :aria-label="t('confirmDelete')"
-          variant="secondary-critical"
+          variant="primary-critical"
           @click="step = 'password'"
         >
           {{ t('confirmDelete') }}
@@ -87,7 +88,7 @@
           v-bind="attributes"
           :aria-label="t('toHomepage')"
           variant="primary"
-          @click="navigateTo(localePath({ name: 'index' }))"
+          @click="navigateToRoot"
         >
           {{ t('toHomepage') }}
         </ButtonColored>
@@ -120,20 +121,21 @@ const { accountId } = defineProps<{
 const { error, restart, step } = useStepper<'password' | 'success'>()
 
 // drawer
+const { signOut } = await useSignOut()
 const isOpen = defineModel<boolean>('isOpen')
 const closeDrawer = () => {
   isOpen.value = false
 }
-const onAnimationEnd = (isOpen: boolean) => {
+const navigateToRoot = () => navigateTo(localePath({ name: 'index' }))
+const onAnimationEnd = async (isOpen: boolean) => {
   if (isOpen) return
-  step.value = 'default'
-}
 
-// sign out
-const { signOut } = await useSignOut()
-const onDeleteSuccess = async () => {
-  step.value = 'success'
-  await signOut()
+  if (step.value === 'success') {
+    await signOut()
+    await navigateToRoot()
+  }
+
+  step.value = 'default'
 }
 
 // template

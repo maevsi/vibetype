@@ -45,8 +45,8 @@ export default defineEventHandler(async (event) => {
     !accountRegistrationMutation.definitions[0].name
   )
     return throwError({
-      code: 500,
-      message: 'Could not get name of mutation.',
+      statusCode: 500,
+      statusMessage: 'Could not get name of mutation.',
     })
 
   for (const definition of ast.definitions) {
@@ -77,15 +77,15 @@ const turnstileVerify = async (event: H3Event) => {
 
   if (Array.isArray(turnstileToken)) {
     return throwError({
-      code: 422,
-      message: 'Turnstile token cannot be an array.',
+      statusCode: 422,
+      statusMessage: 'Turnstile token cannot be an array.',
     })
   }
 
   if (!turnstileToken) {
     return throwError({
-      code: 422,
-      message: 'Turnstile token not provided.',
+      statusCode: 422,
+      statusMessage: 'Turnstile token not provided.',
     })
   }
 
@@ -93,8 +93,8 @@ const turnstileVerify = async (event: H3Event) => {
 
   if (!result.success) {
     return throwError({
-      code: 403,
-      message: `Turnstile verification unsuccessful: ${result['error-codes'].join(', ')}`,
+      statusCode: 403,
+      statusMessage: `Turnstile verification unsuccessful: ${result['error-codes'].join(', ')}`,
     })
   }
 

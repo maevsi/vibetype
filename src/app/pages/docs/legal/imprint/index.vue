@@ -1,5 +1,5 @@
 <template>
-  <Content v-model="title" path="imprint" />
+  <Content v-model:title="title" path="imprint" />
 </template>
 
 <script setup lang="ts">
