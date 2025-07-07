@@ -1,3 +1,9 @@
+## [12.15.1](https://github.com/maevsi/vibetype/compare/12.15.0...12.15.1) (2025-07-07)
+
+### Bug Fixes
+
+* **account:** sign out on button press after deletion ([0c1d00b](https://github.com/maevsi/vibetype/commit/0c1d00b968daf32e572ae5df9e8d27f90ad33abd))
+
 ## [12.15.0](https://github.com/maevsi/vibetype/compare/12.14.0...12.15.0) (2025-07-07)
 
 ### Features
