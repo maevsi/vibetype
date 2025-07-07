@@ -1,3 +1,14 @@
+## [12.15.0](https://github.com/maevsi/vibetype/compare/12.14.0...12.15.0) (2025-07-07)
+
+### Features
+
+* **guest:** extract page from event ([c80312a](https://github.com/maevsi/vibetype/commit/c80312a0ebb43333176c689d971d55d326a5ff3c))
+* **guest:** link to invitation in calendar file ([ecc3f11](https://github.com/maevsi/vibetype/commit/ecc3f117a36c0d594e12724859db256e4950e9cf))
+
+### Bug Fixes
+
+* **account:** clear `after` on search ([95b1a00](https://github.com/maevsi/vibetype/commit/95b1a00aa839933a8a7b2d69d7cd7e60fe0c3700))
+
 ## [12.14.0](https://github.com/maevsi/vibetype/compare/12.13.1...12.14.0) (2025-07-07)
 
 ### Features
