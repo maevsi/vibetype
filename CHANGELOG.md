@@ -1,3 +1,19 @@
+## [12.14.0](https://github.com/maevsi/vibetype/compare/12.13.1...12.14.0) (2025-07-07)
+
+### Features
+
+* **server:** make error utility fatal ([8ce94bb](https://github.com/maevsi/vibetype/commit/8ce94bb8f7dd1108c7173be21470320a1d15d204))
+
+### Bug Fixes
+
+* **components:** correct account deletion confirmation ([dca7aa8](https://github.com/maevsi/vibetype/commit/dca7aa82bb5b4f986f4da8b73b47338782e292e0))
+* **components:** correct checkbox design ([4a986fb](https://github.com/maevsi/vibetype/commit/4a986fb14ae7b24aa947e94c556189504054d0a4))
+* **components:** correct error display for asynchronous data in content ([1bcf270](https://github.com/maevsi/vibetype/commit/1bcf27031ed693f8d760d7ee8c3ee5b32eb11527))
+* **components:** update 404 error hint ([a8fe790](https://github.com/maevsi/vibetype/commit/a8fe79034ef271c9bcb12fa914bf6765f16a3b74))
+* **pages:** correct account verification notice color ([eef8254](https://github.com/maevsi/vibetype/commit/eef82543f4dc0f75831a9e56e8bf3144371175f3))
+* **pages:** correct error display for asynchronous account data ([e45752c](https://github.com/maevsi/vibetype/commit/e45752c2be40a811f05bb88344c81168676e85c7))
+* **pages:** make errors fatal ([329921d](https://github.com/maevsi/vibetype/commit/329921d758b89c84e1ea635a86390a68cf1036d8))
+
 ## [12.13.1](https://github.com/maevsi/vibetype/compare/12.13.0...12.13.1) (2025-07-06)
 
 ### Bug Fixes
