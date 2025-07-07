@@ -44,14 +44,18 @@ export const getIcalString = ({
 }) => {
   const eventAuthorUsername = event.accountByCreatedBy?.username
   const userEventPath = `${eventAuthorUsername}/${event.slug}`
-  const eventUrl = `${siteUrl}/event/view/${userEventPath}`
-  const eventDescriptionHtml = mustache.render(
-    event.description ? `${eventUrl}\n${event.description}` : '',
-    {
-      contact,
-      event,
-      invitation,
-    },
+  const eventUrl = invitation
+    ? `${siteUrl}/guest/view/${invitation.id}`
+    : `${siteUrl}/event/view/${userEventPath}`
+  const eventDescriptionHtml = DOMPurify.sanitize(
+    mustache.render(
+      event.description ? `${eventUrl}\n${event.description}` : '',
+      {
+        contact,
+        event,
+        invitation,
+      },
+    ),
   )
   const hostname = new URL(siteUrl).hostname
 
@@ -91,7 +95,7 @@ export const getIcalString = ({
         ...(event.description && {
           description: {
             plain: getTextFromHtml(eventDescriptionHtml),
-            html: DOMPurify.sanitize(eventDescriptionHtml),
+            html: eventDescriptionHtml,
           },
           // description: getTextFromHtml(DOMPurify.sanitize(eventDescriptionHtml)),
         }),

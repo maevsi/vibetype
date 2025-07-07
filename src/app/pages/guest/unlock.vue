@@ -125,11 +125,9 @@ definePageMeta({
       if ('quick' in to.query) {
         return await navigateTo(
           localePath({
-            name: 'event-view-username-event_name',
+            name: 'guest-view-id',
             params: {
-              username:
-                result.data.eventUnlock.eventUnlockResponse.creatorUsername,
-              event_name: result.data.eventUnlock.eventUnlockResponse.eventSlug,
+              id: to.query.ic,
             },
           }),
         )
@@ -140,12 +138,9 @@ definePageMeta({
             query: {
               ...to.query,
               redirect: localePath({
-                name: 'event-view-username-event_name',
+                name: 'guest-view-id',
                 params: {
-                  username:
-                    result.data.eventUnlock.eventUnlockResponse.creatorUsername,
-                  event_name:
-                    result.data.eventUnlock.eventUnlockResponse.eventSlug,
+                  id: to.query.ic,
                 },
               }).toString(),
             },
@@ -199,11 +194,9 @@ const submit = async () => {
 
   navigateTo(
     localePath({
-      name: 'event-view-username-event_name',
+      name: 'guest-view-id',
       params: {
-        username:
-          result.data?.eventUnlock?.eventUnlockResponse?.creatorUsername,
-        event_name: result.data?.eventUnlock?.eventUnlockResponse?.eventSlug,
+        id: form.guestId,
       },
     }),
   )

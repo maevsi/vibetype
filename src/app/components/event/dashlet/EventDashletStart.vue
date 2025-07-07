@@ -18,7 +18,6 @@
 
 <script setup lang="ts">
 import downloadJs from 'downloadjs'
-import type { RouteNamedMap } from 'vue-router/auto-routes'
 
 import type {
   ContactItemFragment,
@@ -36,11 +35,8 @@ const {
   invitation?: GuestItemFragment
 }>()
 
-const ROUTE_NAME: keyof RouteNamedMap = 'event-view-username-event_name___en'
-
 const { t } = useI18n()
 const dateTime = useDateTime()
-const route = useRoute(ROUTE_NAME)
 const fireAlert = useFireAlert()
 
 // methods
@@ -53,8 +49,7 @@ const downloadIcal = async () => {
     },
     method: 'POST',
   })
-  const fileName =
-    route.params.username + '_' + route.params.event_name + '.ics'
+  const fileName = `${event.accountByCreatedBy ? `${event.accountByCreatedBy.username}_` : ''}${event.slug}.ics`
 
   if (!response.data.value) {
     return await fireAlert({

@@ -9417,6 +9417,11 @@ export type EventGuestsQuery = {
         id: any
         name: string
         slug: string
+        accountByCreatedBy?: {
+          __typename?: 'Account'
+          id: any
+          username: string
+        } | null
         guestsByEventId: {
           __typename?: 'GuestsConnection'
           totalCount: number
@@ -9473,26 +9478,6 @@ export type EventQuery = {
           id: any
           username: string
         } | null
-        guestsByEventId: {
-          __typename?: 'GuestsConnection'
-          nodes: Array<{
-            __typename?: 'Guest'
-            contactId: any
-            eventId: any
-            feedback?: InvitationFeedback | null
-            id: any
-            nodeId: string
-            contactByContactId?: {
-              __typename?: 'Contact'
-              accountId?: any | null
-              createdBy: any
-              firstName?: string | null
-              id: any
-              lastName?: string | null
-              nodeId: string
-            } | null
-          }>
-        }
       }>
     }
   } | null
@@ -9545,6 +9530,52 @@ export type EventListAccountQuery = {
         endCursor?: any | null
       }
     }
+  } | null
+}
+
+export type GuestEventQueryVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type GuestEventQuery = {
+  __typename?: 'Query'
+  guestById?: {
+    __typename?: 'Guest'
+    contactId: any
+    eventId: any
+    feedback?: InvitationFeedback | null
+    id: any
+    nodeId: string
+    contactByContactId?: {
+      __typename?: 'Contact'
+      accountId?: any | null
+      createdBy: any
+      firstName?: string | null
+      id: any
+      lastName?: string | null
+      nodeId: string
+    } | null
+    eventByEventId?: {
+      __typename?: 'Event'
+      createdBy: any
+      description?: string | null
+      end?: any | null
+      id: any
+      isArchived: boolean
+      name: string
+      nodeId: string
+      isInPerson?: boolean | null
+      isRemote?: boolean | null
+      slug: string
+      start: any
+      url?: string | null
+      visibility: EventVisibility
+      accountByCreatedBy?: {
+        __typename?: 'Account'
+        id: any
+        username: string
+      } | null
+    } | null
   } | null
 }
 
@@ -12978,6 +13009,26 @@ export const EventGuestsDocument = {
                           selections: [
                             {
                               kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'accountByCreatedBy',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'username' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'createdBy' },
                             },
                             {
@@ -13197,110 +13248,6 @@ export const EventDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'end' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'guestsByEventId' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'nodes' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'contactByContactId',
-                                          },
-                                          selectionSet: {
-                                            kind: 'SelectionSet',
-                                            selections: [
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'accountId',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'createdBy',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'firstName',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'id',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'lastName',
-                                                },
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'nodeId',
-                                                },
-                                              },
-                                            ],
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'contactId',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'eventId',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'feedback',
-                                          },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'id' },
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: 'nodeId',
-                                          },
-                                        },
-                                      ],
-                                    },
-                                  },
-                                ],
-                              },
                             },
                             {
                               kind: 'Field',
@@ -13607,6 +13554,149 @@ export const EventListAccountDocument = {
   EventListAccountQuery,
   EventListAccountQueryVariables
 >
+export const GuestEventDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GuestEvent' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'guestById' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'contactByContactId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'firstName' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodeId' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'contactId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventByEventId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountByCreatedBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'username' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isArchived' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodeId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isArchived' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isInPerson' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isRemote' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'start' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'visibility' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'eventId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'feedback' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GuestEventQuery, GuestEventQueryVariables>
 export const AuthenticateDocument = {
   kind: 'Document',
   definitions: [

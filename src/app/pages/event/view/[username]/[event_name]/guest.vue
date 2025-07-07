@@ -33,6 +33,10 @@ const queryEventGuests = useQuery({
       accountByUsername(username: $username) {
         eventsByCreatedBy(condition: { slug: $slug }) {
           nodes {
+            accountByCreatedBy {
+              id
+              username
+            }
             createdBy
             guestsByEventId {
               nodes {
