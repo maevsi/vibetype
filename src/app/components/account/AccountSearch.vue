@@ -43,8 +43,11 @@ const after = ref<string>()
 const searchQuery = ref<string>()
 const searchQueryDebounced = refDebounced(searchQuery, 300)
 const searchQueryDebouncedTrimmed = computed(
-  () => searchQueryDebounced.value || undefined,
+  () => searchQueryDebounced.value?.trim() || undefined,
 )
+watch(searchQueryDebouncedTrimmed, () => {
+  after.value = undefined
+})
 const accountSearchQuery = useQuery({
   query: queryAccountSearch,
   variables: {
