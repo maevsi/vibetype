@@ -126,12 +126,14 @@ const isOpen = defineModel<boolean>('isOpen')
 const closeDrawer = () => {
   isOpen.value = false
 }
-const navigateToRoot = () => navigateTo(localePath({ name: 'index' }))
+const navigateToRoot = async () => {
+  await signOut()
+  await navigateTo(localePath({ name: 'index' }))
+}
 const onAnimationEnd = async (isOpen: boolean) => {
   if (isOpen) return
 
   if (step.value === 'success') {
-    await signOut()
     await navigateToRoot()
   }
 
