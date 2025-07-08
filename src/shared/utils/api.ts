@@ -1,9 +1,19 @@
 import type { NuxtError } from '#app'
 import { consola } from 'consola'
 
+export const getGraphQLErrorMessage = ({
+  graphqlError,
+  postgresErrorMap,
+}: {
+  graphqlError: AppGraphQLError
+  postgresErrorMap?: Record<string, string>
+}) =>
+  (postgresErrorMap && postgresErrorMap[`postgres${graphqlError.errcode}`]) ||
+  graphqlError.message
+
 export const getCombinedErrorMessages = (
-  errors: Readonly<BackendError[]>,
-  pgIds?: Record<string, string>,
+  errors: Readonly<AppCombinedError[]>,
+  postgresErrorMap?: Record<string, string>,
 ) => {
   const errorMessages: string[] = []
 
@@ -13,13 +23,9 @@ export const getCombinedErrorMessages = (
     }
 
     for (const graphqlError of combinedError.graphQLErrors) {
-      const translation = pgIds && pgIds[`postgres${graphqlError.errcode}`]
-
-      if (translation) {
-        errorMessages.push(translation)
-      } else {
-        errorMessages.push(graphqlError.message)
-      }
+      errorMessages.push(
+        getGraphQLErrorMessage({ graphqlError, postgresErrorMap }),
+      )
     }
   }
 

@@ -64,12 +64,10 @@
             @select="
               navigateTo(
                 localePath({
-                  name: 'event-view-username-event_name',
+                  name: 'guest-view-id',
                   params: {
-                    event_name: event.slug,
-                    username: event.accountByCreatedBy.username,
+                    id: guest.id,
                   },
-                  query: { ic: guest.id },
                 }),
               )
             "

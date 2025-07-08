@@ -14,11 +14,8 @@
 
 <script setup lang="ts">
 import { FormRadioGroupItem, AppRadioGroupItem } from '#components'
-import {
-  useForwardPropsEmits,
-  type RadioGroupRootEmits,
-  type RadioGroupRootProps,
-} from 'reka-ui'
+import { useForwardPropsEmits } from 'reka-ui'
+import type { RadioGroupRootEmits, RadioGroupRootProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 
 const props = defineProps<

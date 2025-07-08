@@ -104,7 +104,7 @@ import { getGuestItem } from '~~/gql/documents/fragments/guestItem'
 const { event } = defineProps<{
   event: Pick<
     EventItemFragment,
-    'createdBy' | 'slug' | 'guestCountMaximum' | 'id'
+    'accountByCreatedBy' | 'createdBy' | 'slug' | 'guestCountMaximum' | 'id'
   >
 }>()
 

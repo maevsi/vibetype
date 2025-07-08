@@ -1,60 +1,14 @@
 <template>
+  <LoaderIndicatorPing v-if="api.isFetching" />
   <AppError
-    v-if="!account"
-    :description="t('errorAccountMissing')"
-    :status-code="404"
+    v-else-if="!account"
+    :error="{ message: t('errorAccountMissing'), statusCode: 404 }"
   />
   <AppError
     v-else-if="!event"
-    :description="t('errorEventMissing')"
-    :status-code="404"
+    :error="{ message: t('errorEventMissing'), statusCode: 404 }"
   />
   <div v-else class="flex flex-col gap-4">
-    <CardStateInfo v-if="routeQueryIc && contact" class="flex flex-col gap-2">
-      {{ t('invitationViewFor', { name: contactName }) }}
-      <ButtonColored
-        :aria-label="t('invitationSelectionClear')"
-        :to="
-          localePath({
-            name: 'event-view-username-event_name-guest',
-            params: {
-              event_name: route.params.event_name,
-              username: route.params.username,
-            },
-            query: { ...routeQuery, ic: undefined },
-          })
-        "
-      >
-        {{ t('invitationSelectionClear') }}
-        <template #prefix>
-          <IHeroiconsArrowLeft />
-        </template>
-      </ButtonColored>
-    </CardStateInfo>
-    <div v-if="contact" class="flex flex-col gap-2">
-      <div class="flex items-center justify-between gap-2">
-        <div>
-          <p class="mb-2 text-2xl font-bold">
-            {{
-              t('greeting', {
-                usernameString: contactName ? ' ' + contactName : '',
-              })
-            }}
-          </p>
-          <p>{{ t('greetingDescription') }}</p>
-        </div>
-        <ButtonColored
-          v-if="invitation?.feedback === 'ACCEPTED'"
-          :aria-label="t('qrCodeShow')"
-          @click="qrCodeShow"
-        >
-          {{ t('qrCodeShow') }}
-          <template #prefix>
-            <IHeroiconsQrCode />
-          </template>
-        </ButtonColored>
-      </div>
-    </div>
     <ButtonList
       v-if="!routeQueryIc && event.createdBy === store.signedInAccountId"
       class="justify-center"
@@ -138,20 +92,20 @@
                 <AppDropdown>
                   <AppDropdownItem
                     variant="destructive"
-                    @select="templateReport?.open || (() => {})"
+                    @select="isOpenReportDrawer = true"
                   >
                     {{ t('report') }}
                   </AppDropdownItem>
                   <template #trigger>
                     <span
-                      class="flex size-10 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                      class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
                     >
                       <AppIconMoreVertical />
                     </span>
                   </template>
                 </AppDropdown>
                 <EventReportDrawer
-                  ref="report"
+                  v-model:open="isOpenReportDrawer"
                   :account-id="store.signedInAccountId"
                   :event
                 />
@@ -173,11 +127,7 @@
           </div>
           <AppHr />
           <div class="flex flex-row flex-wrap justify-center self-stretch">
-            <EventDashletStart
-              :contact="contact"
-              :event="event"
-              :invitation="invitation"
-            />
+            <EventDashletStart :event="event" />
             <EventDashletDuration :event="event" />
             <EventDashletVisibility :event="event" with-text />
             <EventDashletAttendanceType :event="event" />
@@ -185,172 +135,6 @@
             <!-- <EventDashletLocation :event="event" /> -->
             <EventDashletLink :event="event" />
           </div>
-          <template v-if="invitation">
-            <AppHr />
-            <!-- <div
-            class="grid grid-cols-6 border-t-2 bg-background-brighten dark:bg-background-darken"
-            :class="
-              invitation.feedback === 'ACCEPTED'
-                ? 'border-green-600 dark:border-green-500'
-                : invitation.feedback === 'CANCELED'
-                ? 'border-red-600 dark:border-red-500'
-                : 'border-text-dark dark:border-text-bright'
-            "
-          > -->
-            <!-- <div
-              v-if="invitation.feedback === 'ACCEPTED'"
-              class="col-start-2 m-auto rounded-full bg-gray-500 px-2 text-text-bright"
-            >
-              {{ t('step1Of2') }}
-            </div> -->
-            <div
-              class="flex flex-col items-center gap-2"
-              :class="
-                invitation.feedback === 'ACCEPTED' ? 'col-span-3' : 'col-span-6'
-              "
-            >
-              <!-- <span v-if="event.authorUsername !== signedInUsername">
-                {{ t('feedbackRequest') }}
-              </span> -->
-              <div class="flex items-center justify-center gap-4">
-                <ButtonColored
-                  v-if="
-                    invitation.feedback === null ||
-                    invitation.feedback === 'CANCELED'
-                  "
-                  :aria-label="
-                    event.accountByCreatedBy.username !== store.signedInUsername
-                      ? t('invitationAccept')
-                      : t('invitationAcceptAdmin', {
-                          name: contactName,
-                        })
-                  "
-                  @click="accept"
-                >
-                  <span>
-                    {{
-                      event.accountByCreatedBy.username !==
-                      store.signedInUsername
-                        ? t('invitationAccept')
-                        : t('invitationAcceptAdmin', {
-                            name: contactName,
-                          })
-                    }}
-                  </span>
-                  <template #prefix>
-                    <IHeroiconsCheckCircleSolid class="shrink-0" />
-                  </template>
-                </ButtonColored>
-                <div
-                  v-if="invitation.feedback === 'ACCEPTED'"
-                  class="flex items-center font-semibold text-green-600 dark:text-green-500"
-                >
-                  <IHeroiconsCheckCircleSolid
-                    class="mr-2 shrink-0"
-                    title="accepted"
-                  />
-                  <span>
-                    {{
-                      event.accountByCreatedBy.username !==
-                      store.signedInUsername
-                        ? t('invitationAccepted')
-                        : t('invitationAcceptedAdmin', {
-                            name: contactName,
-                          })
-                    }}
-                  </span>
-                </div>
-                <ButtonColored
-                  v-if="
-                    invitation.feedback === null ||
-                    invitation.feedback === 'ACCEPTED'
-                  "
-                  :aria-label="
-                    event.accountByCreatedBy.username !== store.signedInUsername
-                      ? t('invitationCancel')
-                      : t('invitationCancelAdmin', {
-                          name: contactName,
-                        })
-                  "
-                  @click="cancel"
-                >
-                  <span>
-                    {{
-                      event.accountByCreatedBy.username !==
-                      store.signedInUsername
-                        ? t('invitationCancel')
-                        : t('invitationCancelAdmin', {
-                            name: contactName,
-                          })
-                    }}
-                  </span>
-                  <template #prefix>
-                    <IHeroiconsXCircleSolid class="shrink-0" />
-                  </template>
-                </ButtonColored>
-                <div
-                  v-if="invitation.feedback === 'CANCELED'"
-                  class="flex items-center font-semibold text-(--semantic-critic-text)"
-                >
-                  <IHeroiconsXCircleSolid
-                    class="mr-2 shrink-0"
-                    title="canceled"
-                  />
-                  <span>
-                    {{
-                      event.accountByCreatedBy.username !==
-                      store.signedInUsername
-                        ? t('invitationCanceled')
-                        : t('invitationCanceledAdmin', {
-                            name: contactName,
-                          })
-                    }}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <!-- <div
-              v-if="
-                invitation.feedback !== null &&
-                invitation.feedback === 'ACCEPTED'
-              "
-              class="row-start-2 col-span-1 col-start-2 m-auto rounded-full bg-gray-500 px-2 text-text-bright"
-            >
-              {{ t('step2Of2') }}
-            </div>
-            <div
-              v-if="
-                invitation.feedback !== null &&
-                invitation.feedback === 'ACCEPTED'
-              "
-              class="col-span-3"
-            >
-              <FormInput
-                id-label="input-paper-invitation-feedback"
-                :title="t('invitationCardKind')"
-                type="select"
-              >
-                <select
-                  id="input-paper-invitation-feedback"
-                  v-model="invitation.feedbackPaper"
-                  @change="paperInvitationFeedback"
-                >
-                  <option disabled :value="null">
-                    {{ t('requestSelection') }}
-                  </option>
-                  <option value="NONE">
-                    {{ t('invitationCardKindNone') }}
-                  </option>
-                  <option value="PAPER">
-                    {{ t('invitationCardKindPaper') }}
-                  </option>
-                  <option value="DIGITAL">
-                    {{ t('invitationCardKindDigital') }}
-                  </option>
-                </select>
-              </FormInput>
-            </div> -->
-          </template>
         </Card>
       </div>
       <Card v-if="eventDescriptionTemplate">
@@ -361,66 +145,21 @@
         <!-- eslint-enable vue/no-v-html -->
       </Card>
     </div>
-    <Modal id="ModalGuestQrCode">
-      <div v-if="invitation" class="flex flex-col items-center gap-2 pb-4">
-        <QrcodeVue
-          id="qrCode"
-          class="bg-white p-4"
-          :value="invitation.id"
-          :size="200"
-        />
-        <FormInputStateInfo>
-          {{ t('hintQrCode') }}
-        </FormInputStateInfo>
-      </div>
-      <template #footer>
-        <ButtonColored
-          :aria-label="t('print')"
-          variant="secondary"
-          @click="print"
-        >
-          {{ t('print') }}
-          <template #prefix>
-            <IHeroiconsPrinter />
-          </template>
-        </ButtonColored>
-        <ButtonColored
-          :aria-label="t('close')"
-          @click="store.modalRemove('ModalGuestQrCode')"
-        >
-          {{ t('close') }}
-          <template #prefix>
-            <IHeroiconsXMark />
-          </template>
-        </ButtonColored>
-      </template>
-    </Modal>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useQuery } from '@urql/vue'
 import DOMPurify from 'isomorphic-dompurify'
-import mustache from 'mustache'
-import prntr from 'prntr'
-import QrcodeVue from 'qrcode.vue'
 
-import { useUpdateGuestByIdMutation } from '~~/gql/documents/mutations/guest/guestUpdateById'
-import {
-  InvitationFeedback,
-  type GuestItemFragment,
-  type GuestPatch,
-} from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
 
 const { t } = useI18n()
-const fireAlert = useFireAlert()
 const store = useStore()
 const route = useRoute('event-view-username-event_name___en')
 const localePath = useLocalePath()
-const updateGuestByIdMutation = useUpdateGuestByIdMutation()
 
-const templateReport = useTemplateRef('report')
+const isOpenReportDrawer = ref<boolean>()
 
 // api data
 const eventQuery = useQuery({
@@ -436,23 +175,6 @@ const eventQuery = useQuery({
             createdBy
             description
             end
-            guestsByEventId {
-              nodes {
-                contactByContactId {
-                  accountId
-                  createdBy
-                  firstName
-                  id
-                  lastName
-                  nodeId
-                }
-                contactId
-                eventId
-                feedback
-                id
-                nodeId
-              }
-            }
             id
             isArchived
             name
@@ -480,95 +202,12 @@ const account = computed(() => eventQuery.data.value?.accountByUsername)
 const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
 const api = await useApiData([eventQuery])
 
-// methods
-const accept = () => {
-  if (invitation.value === undefined) {
-    return
-  }
-  update(invitation.value.id, {
-    feedback: InvitationFeedback.Accepted,
-  })
-}
-const cancel = () => {
-  if (invitation.value === undefined) {
-    return
-  }
-  update(invitation.value.id, {
-    feedback: InvitationFeedback.Canceled,
-  })
-}
-// const paperInvitationFeedback = () => {
-//   if (!invitation.value) return
-
-//   update(invitation.value.id, {
-//     feedbackPaper: invitation.value.feedbackPaper,
-//   })
-// }
-const print = () => {
-  prntr({
-    printable: 'qrCode',
-    type: 'html',
-  })
-}
-const qrCodeShow = () => {
-  store.modals.push({ id: 'ModalGuestQrCode' })
-}
-const update = async (id: string, guestPatch: GuestPatch) => {
-  const result = await updateGuestByIdMutation.executeMutation({
-    id,
-    guestPatch,
-  })
-
-  if (result.error || !result.data) return
-
-  await showToast({ title: t('success') })
-}
-
 // computations
 const eventDescriptionTemplate = computed(() => {
   if (!event.value?.description) return
 
-  return DOMPurify.sanitize(
-    mustache.render(event.value.description, {
-      contact: contact.value,
-      event,
-      invitation: invitation.value,
-    }),
-    { ADD_ATTR: ['target'] },
-  )
+  return DOMPurify.sanitize(event.value.description, { ADD_ATTR: ['target'] })
 })
-const invitation = computed(() => {
-  const invitations =
-    eventQuery.data.value?.accountByUsername?.eventsByCreatedBy.nodes[0]
-      ?.guestsByEventId.nodes
-
-  const invitationsMatchingUuid =
-    store.signedInUsername === route.params.username && invitations
-      ? invitations.filter(
-          (invitation: Pick<GuestItemFragment, 'id'>) =>
-            invitation.id === route.query.ic,
-        )
-      : invitations
-
-  if (invitationsMatchingUuid?.length) {
-    if (invitationsMatchingUuid.length > 1) {
-      // TODO: use await (https://github.com/maevsi/vibetype/issues/61)
-      fireAlert({
-        level: 'warning',
-        text: t('guestIdMultipleWarning'),
-      })
-    }
-
-    return invitationsMatchingUuid[0]
-  }
-
-  return undefined
-})
-const contact = computed(() => invitation.value?.contactByContactId)
-const contactName = computed(() =>
-  contact.value ? getContactName(contact.value) : undefined,
-)
-const routeQuery = computed(() => route.query)
 const routeQueryIc = computed(() => route.query.ic)
 
 // page
@@ -608,70 +247,18 @@ defineOgImageComponent(
 <i18n lang="yaml">
 de:
   attendances: Check-in
-  close: Schließen
   errorAccountMissing: Nutzerkonto nicht verfügbar
   errorEventMissing: Veranstaltung nicht verfügbar
-  # feedbackRequest: 'Bitte gib eine Rückmeldung, ob du teilnehmen wirst:'
-  greeting: Hey{usernameString}!
-  greetingDescription: Du wurdest zu folgender Veranstaltung eingeladen.
-  guestIdMultipleWarning: Es wurden mehrere Einladungscodes für dieselbe Veranstaltung eingelöst! Diese Seite zeigt die Daten des zuerst gefundenen an.
   guests: Gäste
-  hintQrCode: Dieses Bild ist deine Zugangsberechtigung für die Veranstaltung
-  invitationAccept: Einladung annehmen
-  invitationAcceptAdmin: Einladung im Namen von {name} annehmen
-  invitationAccepted: Einladung angenommen
-  invitationAcceptedAdmin: Einladung im Namen von {name} angenommen
-  invitationCancel: Einladung ablehnen
-  invitationCancelAdmin: Einladung im Namen von {name} ablehnen
-  invitationCanceled: Einladung abgelehnt
-  invitationCanceledAdmin: Einladung im Namen von {name} abgelehnt
-  # invitationCardKind: Art der Einladungskarte
-  # invitationCardKindNone: Keine
-  # invitationCardKindPaper: Papier
-  # invitationCardKindDigital: Digital
-  invitationSelectionClear: Zurück zur Einladungsübersicht
-  invitationViewFor: Du schaust dir die Einladung für {name} an. Nur du und {name} können diese Seite sehen.
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
-  print: Drucken
-  qrCodeShow: Check-in-Code anzeigen
   report: Veranstaltung melden
-  # requestSelection: Bitte auswählen
   settings: Bearbeiten
-  # step1Of2: 1/2
-  # step2Of2: 2/2
-  success: Deine Eingabe wurde erfolgreich gespeichert.
 en:
   attendances: Check in
-  close: Close
   errorAccountMissing: Account not available
   errorEventMissing: Event not available
-  # feedbackRequest: 'Please confirm if you will attend:'
-  greeting: Hey{usernameString}!
-  greetingDescription: "You've been invited to the following event."
-  guestIdMultipleWarning: Multiple invitation codes have already been redeemed for the same event! This page shows data for the first code found.
   guests: Guests
-  hintQrCode: This picture is your access authorization for the event
-  invitationAccept: Accept invitation
-  invitationAcceptAdmin: Accept invitation on behalf of {name}
-  invitationAccepted: Guest accepted
-  invitationAcceptedAdmin: Invitation accepted on behalf of {name}
-  invitationCancel: Decline invitation
-  invitationCancelAdmin: Decline invitation on behalf of {name}
-  invitationCanceled: Invitation declined
-  invitationCanceledAdmin: Invitation declined on behalf of {name}
-  # invitationCardKind: Type of invitation card
-  # invitationCardKindNone: None
-  # invitationCardKindPaper: Paper
-  # invitationCardKindDigital: Digital
-  invitationSelectionClear: Back to the invitation overview
-  invitationViewFor: You're viewing the invitation for {name}. Only you and {name} can see this page.
   ogImageAlt: The event's preview image.
-  print: Print
-  qrCodeShow: Show check in code
   report: Report event
-  # requestSelection: Please select
   settings: Edit
-  # step1Of2: 1/2
-  # step2Of2: 2/2
-  success: Your input was saved succesfully.
 </i18n>

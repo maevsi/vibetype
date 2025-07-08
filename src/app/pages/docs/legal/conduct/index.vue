@@ -1,5 +1,5 @@
 <template>
-  <Content v-model="title" path="conduct" />
+  <Content v-model:title="title" path="conduct" />
 </template>
 
 <script setup lang="ts">

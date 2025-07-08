@@ -30,8 +30,8 @@ export default defineEventHandler(async (event) => {
 
       if (body.Event.Upload.SizeIsDeferred || !body.Event.Upload.Size) {
         return throwError({
-          code: 400,
-          message: "Upload size must be given and can't be deferred",
+          statusCode: 400,
+          statusMessage: "Upload size must be given and can't be deferred",
         })
       }
 
@@ -51,8 +51,8 @@ export default defineEventHandler(async (event) => {
 
       if (!queryResult[0]?.exists) {
         return throwError({
-          code: 404,
-          message: 'Upload with the given id does not exist',
+          statusCode: 404,
+          statusMessage: 'Upload with the given id does not exist',
         })
       }
 
@@ -109,8 +109,8 @@ export default defineEventHandler(async (event) => {
     }
     default:
       return throwError({
-        code: 500,
-        message: 'Invalid hook name header.',
+        statusCode: 500,
+        statusMessage: 'Invalid hook name header.',
       })
   }
 })

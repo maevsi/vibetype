@@ -7,7 +7,7 @@
       <LayoutPageTitle :title="t('title')" />
       <GuestList :event />
     </div>
-    <AppError v-else :status-code="403" />
+    <AppError v-else :error="{ statusCode: 403 }" />
   </Loader>
 </template>
 
@@ -21,6 +21,7 @@ const route = useRoute('event-view-username-event_name-guest___en')
 const store = useStore()
 if (route.params.username !== store.signedInUsername) {
   throw createError({
+    fatal: true,
     statusCode: 403,
   })
 }
@@ -32,6 +33,10 @@ const queryEventGuests = useQuery({
       accountByUsername(username: $username) {
         eventsByCreatedBy(condition: { slug: $slug }) {
           nodes {
+            accountByCreatedBy {
+              id
+              username
+            }
             createdBy
             guestsByEventId {
               nodes {

@@ -5,7 +5,7 @@
       cn(
         'justify-center',
         'data-[size=large]:gap-2 data-[size=large]:rounded-xl data-[size=large]:px-6 data-[size=large]:py-3 data-[size=large]:font-bold',
-        'data-[size=small]:gap-1 data-[size=small]:rounded-sm data-[size=small]:px-3 data-[size=small]:py-1 data-[size=small]:text-[11px] data-[size=small]:font-semibold',
+        'data-[size=small]:gap-1 data-[size=small]:rounded-[4px] data-[size=small]:px-3 data-[size=small]:py-1 data-[size=small]:text-[11px] data-[size=small]:font-semibold',
         'data-[type=primary]:bg-(--accent-strong) data-[type=primary]:text-(--semantic-base-primary-button-text) data-[type=primary]:hover:bg-(--accent-strong-hover) data-[type=primary]:focus-visible:ring-(--accent-strong)/50 data-[type=primary]:active:bg-(--accent-strong-hover)',
         'data-[type=primary-critical]:bg-(--semantic-critic-strong) data-[type=primary-critical]:text-(--base-white) data-[type=primary-critical]:hover:bg-(--semantic-critic-strong-hover) data-[type=primary-critical]:focus-visible:ring-(--semantic-critic-strong)/50 data-[type=primary-critical]:active:bg-(--semantic-critic-strong-hover)',
         'data-[type=secondary]:bg-(--accent-weak) data-[type=secondary]:text-(--semantic-base-secondary-button-text) data-[type=secondary]:hover:bg-(--accent-weak-hover) data-[type=secondary]:focus-visible:ring-(--accent-weak)/50 data-[type=secondary]:active:bg-(--accent-weak-hover)',

@@ -3,7 +3,8 @@ import type { StepperRootEmits, StepperRootProps } from 'reka-ui'
 import { cn } from '@/utils/shadcn'
 import { StepperRoot, useForwardPropsEmits } from 'reka-ui'
 
-import { computed, type HTMLAttributes } from 'vue'
+import { computed } from 'vue'
+import type { HTMLAttributes } from 'vue'
 
 const props = defineProps<
   StepperRootProps & { class?: HTMLAttributes['class'] }

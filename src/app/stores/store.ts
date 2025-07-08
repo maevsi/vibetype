@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/nuxt'
-import { decodeJwt, type JWTPayload } from 'jose'
+import { decodeJwt } from 'jose'
+import type { JWTPayload } from 'jose'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { RouteNamedMapI18n } from 'vue-router/auto-routes'

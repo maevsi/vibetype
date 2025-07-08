@@ -31,6 +31,7 @@
         @input="form.passwordRepetition = $event"
       />
       <FormInputCaptcha
+        v-model:is-used="captchaIsUsed"
         :form-input="v$.captcha"
         is-centered
         @input="form.captcha = $event"
@@ -70,6 +71,7 @@ const form = defineModel<{
   username: string | undefined
 }>('form', { required: true })
 const isFormSent = ref(false)
+const captchaIsUsed = defineModel<boolean>('captcha-is-used')
 
 // Methods
 const submitEmit = async () => {

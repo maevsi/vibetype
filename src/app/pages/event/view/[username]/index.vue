@@ -1,5 +1,10 @@
 <template>
-  <Loader :api="api">
+  <LoaderIndicatorPing v-if="api.isFetching" />
+  <AppError
+    v-else-if="!account"
+    :error="{ message: 'Account data missing', statusCode: 404 }"
+  />
+  <div v-else>
     <LayoutPageTitle title="-">
       <i18n-t keypath="title" tag="h1">
         <template #name>
@@ -26,7 +31,7 @@
           api.data.accountByUsername?.eventsByCreatedBy.pageInfo.endCursor
       "
     />
-  </Loader>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -98,14 +103,6 @@ const events = computed(() =>
     accountByCreatedBy: { ...account.value, username: route.params.username },
   })),
 )
-
-// validation
-if (account.value === null) {
-  throw showError({
-    message: 'Account data missing',
-    statusCode: 404,
-  })
-}
 
 // template
 const localePath = useLocalePath()

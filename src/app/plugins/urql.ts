@@ -3,15 +3,10 @@ import {
   createClient,
   ssrExchange as getSsrExchange,
   fetchExchange,
-  type ClientOptions,
-  type SSRData,
 } from '@urql/core'
-import {
-  type Cache,
-  type Entity,
-  type FieldArgs,
-  offlineExchange as getOfflineExchange,
-} from '@urql/exchange-graphcache'
+import type { ClientOptions, SSRData } from '@urql/core'
+import { offlineExchange as getOfflineExchange } from '@urql/exchange-graphcache'
+import type { Cache, Entity, FieldArgs } from '@urql/exchange-graphcache'
 import { makeDefaultStorage } from '@urql/exchange-graphcache/default-storage'
 import { relayPagination } from '@urql/exchange-graphcache/extras'
 import { devtoolsExchange } from '@urql/devtools'
@@ -208,6 +203,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     schema,
     resolvers: {
       Query: {
+        allAccounts: relayPagination(),
         allContacts: relayPagination(),
         allEvents: relayPagination(),
         allGuests: relayPagination(),

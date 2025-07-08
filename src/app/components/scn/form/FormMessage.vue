@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { cn } from '@/utils/shadcn'
 import { ErrorMessage } from 'vee-validate'
-import { type HTMLAttributes, toValue } from 'vue'
+import { toValue } from 'vue'
+import type { HTMLAttributes } from 'vue'
 import { useFormField } from './useFormField'
 
 const props = defineProps<{

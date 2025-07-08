@@ -1,8 +1,7 @@
 <template>
   <AppError
     v-if="!account"
-    :description="t('errorAccountMissing')"
-    :status-code="404"
+    :error="{ message: t('errorAccountMissing'), statusCode: 404 }"
   />
   <LayoutPage v-else>
     <div class="grid grid-cols-3 items-center">
@@ -58,76 +57,18 @@
         </div>
         <ModalUploadSelection @select="onUploadSelect" />
       </div>
-      <div class="flex flex-col">
-        <div
-          class="flex flex-col gap-4 rounded-lg border border-(--semantic-base-background) bg-(--semantic-base-surface-1) p-4 shadow-xs"
-        >
-          <div class="flex items-center justify-between">
-            <TypographyH3>
-              {{ t('about') }}
-            </TypographyH3>
-            <AppButton
-              :aria-label="isEditing ? t('cancel') : t('edit')"
-              class="flex h-8 items-center gap-1 text-(--semantic-base-text-tertiary)"
-              @click="isEditing ? cancelEdit() : toggleEdit()"
-            >
-              <div v-if="!isEditing" class="flex gap-2">
-                <AppIconEdit />
-                <TypographySubtitleMedium class="underline underline-offset-5">
-                  {{ t('edit') }}
-                </TypographySubtitleMedium>
-              </div>
-              <TypographySubtitleMedium
-                v-else
-                class="underline underline-offset-5"
-              >
-                {{ t('cancel') }}
-              </TypographySubtitleMedium>
-            </AppButton>
-          </div>
-          <div class="flex flex-col gap-1.5" :class="{ hidden: !isEditing }">
-            <TypographySubtitleSmall
-              class="rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) px-4 py-3"
-            >
-              <textarea
-                v-model="editableDescription"
-                class="h-full w-full resize-none bg-transparent focus:outline-none"
-                :maxlength="descriptionLengthMaximum"
-                rows="5"
-              />
-            </TypographySubtitleSmall>
-            <TypographySubtitleSmall
-              class="self-end px-2 text-(--semantic-base-text-secondary)"
-            >
-              {{
-                t('characterCount', {
-                  count: editableDescription?.length || 0,
-                  maximum: descriptionLengthMaximum,
-                })
-              }}
-            </TypographySubtitleSmall>
-          </div>
-          <TypographyBodyMedium
-            :class="{ hidden: isEditing || !account.description }"
-          >
-            {{ account.description }}
-          </TypographyBodyMedium>
-          <div
-            v-if="isEditing"
-            class="flex flex-col items-end gap-2 text-right"
-          >
-            <ButtonColored
-              :aria-label="t('saveChanges')"
-              variant="secondary"
-              @click="saveDescription"
-            >
-              <TypographySubtitleMedium>
-                {{ t('saveChanges') }}
-              </TypographySubtitleMedium>
-            </ButtonColored>
-          </div>
-        </div>
-      </div>
+      <AppInputTextarea
+        :content-initial="account.description"
+        :length-maximum="descriptionLengthMaximum"
+        :title="t('about')"
+        @save="saveDescription"
+      />
+      <AppInputTextarea
+        :content-initial="account.imprint"
+        :length-maximum="imprintLengthMaximum"
+        :title="t('imprint')"
+        @save="saveImprint"
+      />
       <CardButton
         class="border-(--warning-strong) bg-(--warning-weak) text-(--warning-text)"
         :title="t('resetPassword')"
@@ -177,6 +118,7 @@ const route = useRoute('account-edit-username___en')
 const store = useStore()
 if (route.params.username !== store.signedInUsername) {
   throw createError({
+    fatal: true,
     statusCode: 403,
   })
 }
@@ -304,20 +246,9 @@ const removeProfilePicture = async () => {
   }
 }
 
-// description
+// description and imprint
 const descriptionLengthMaximum = 500
-const isEditing = ref<boolean>()
-const editableDescription = ref<string>()
-const toggleEdit = () => {
-  if (!isEditing.value) {
-    editableDescription.value = account.value?.description?.trim() || ''
-  }
-  isEditing.value = !isEditing.value
-}
-const cancelEdit = () => {
-  editableDescription.value = account.value?.description?.trim() || ''
-  isEditing.value = false
-}
+const imprintLengthMaximum = 500
 
 const updateAccountByIdMutation = useMutation(
   graphql(`
@@ -332,12 +263,13 @@ const updateAccountByIdMutation = useMutation(
     }
   `),
 )
-const saveDescription = async () => {
+
+const saveDescription = async (content?: string) => {
   if (!account.value) return
 
   const result = await updateAccountByIdMutation.executeMutation({
     id: account.value.id,
-    accountPatch: { description: editableDescription.value },
+    accountPatch: { description: content },
   })
 
   if (result.error) {
@@ -359,8 +291,35 @@ const saveDescription = async () => {
     })
     return
   }
+}
 
-  isEditing.value = false
+const saveImprint = async (content?: string) => {
+  if (!account.value) return
+
+  const result = await updateAccountByIdMutation.executeMutation({
+    id: account.value.id,
+    accountPatch: { imprint: content },
+  })
+
+  if (result.error) {
+    // TODO: confirm design
+    await showToast({
+      icon: 'error',
+      text: apiErrorMessages.value.join('\n'),
+      title: t('globalError'),
+    })
+    return
+  }
+
+  if (!result.data) {
+    // TODO: confirm design
+    await showToast({
+      icon: 'error',
+      text: t('globalErrorNoData'),
+      title: t('globalError'),
+    })
+    return
+  }
 }
 
 // account
@@ -377,27 +336,21 @@ const localePath = useLocalePath()
 de:
   about: Über
   back: Zurück
-  cancel: Abbrechen
-  characterCount: '{count}/{maximum}'
   deleteAccount: Konto löschen
-  edit: Bearbeiten
   errorAccountMissing: Konto nicht verfügbar
+  imprint: Impressum
   remove: Bild entfernen
   replace: Bild ersetzen
   resetPassword: Passwort zurücksetzen
-  saveChanges: Änderungen speichern
   title: Mein Profil
 en:
   about: About
   back: Back
-  cancel: Cancel
-  characterCount: '{count}/{maximum}'
   deleteAccount: Delete Account
-  edit: Edit
   errorAccountMissing: Account unavailable
+  imprint: Imprint
   remove: Remove Image
   replace: Replace Image
   resetPassword: Reset Password
-  saveChanges: Save Changes
   title: My Profile
 </i18n>

@@ -55,17 +55,15 @@
         </template>
       </Modal>
     </div>
-    <AppError v-else :status-code="403" />
+    <AppError v-else :error="{ statusCode: 403 }" />
   </Loader>
 </template>
 
 <script lang="ts">
 import wasmFile from 'zxing-wasm/reader/zxing_reader.wasm?url'
 import { consola } from 'consola'
-import {
-  setZXingModuleOverrides,
-  type DetectedBarcode,
-} from 'vue-qrcode-reader'
+import { setZXingModuleOverrides } from 'vue-qrcode-reader'
+import type { DetectedBarcode } from 'vue-qrcode-reader'
 import type { RouteNamedMap } from 'vue-router/auto-routes'
 
 import { graphql } from '~~/gql/generated'
@@ -101,6 +99,7 @@ const fireAlert = useFireAlert()
 const route = useRoute(ROUTE_NAME)
 if (route.params.username !== store.signedInUsername) {
   throw createError({
+    fatal: true,
     statusCode: 403,
   })
 }

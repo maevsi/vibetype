@@ -63,7 +63,10 @@
       <FormItem>
         <div class="flex gap-3">
           <FormControl class="mt-1">
-            <Checkbox :model-value="value" @update:model-value="handleChange" />
+            <AppCheckbox
+              :model-value="value"
+              @update:model-value="handleChange"
+            />
           </FormControl>
           <FormLabel>
             <TypographySubtitleMedium>
@@ -84,7 +87,10 @@
       <FormItem>
         <div class="flex gap-3">
           <FormControl class="mt-1">
-            <Checkbox :model-value="value" @update:model-value="handleChange" />
+            <AppCheckbox
+              :model-value="value"
+              @update:model-value="handleChange"
+            />
           </FormControl>
           <FormLabel>
             <TypographySubtitleMedium>

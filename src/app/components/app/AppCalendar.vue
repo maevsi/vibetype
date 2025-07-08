@@ -66,18 +66,11 @@
 </template>
 
 <script setup lang="ts">
-import {
-  type DateValue,
-  getLocalTimeZone,
-  today,
-} from '@internationalized/date'
+import { getLocalTimeZone, today } from '@internationalized/date'
+import type { DateValue } from '@internationalized/date'
 import { reactiveOmit, useVModel } from '@vueuse/core'
-import {
-  type CalendarRootEmits,
-  type CalendarRootProps,
-  useDateFormatter,
-  useForwardPropsEmits,
-} from 'reka-ui'
+import { useDateFormatter, useForwardPropsEmits } from 'reka-ui'
+import type { CalendarRootEmits, CalendarRootProps } from 'reka-ui'
 import { createDecade, createYear, toDate } from 'reka-ui/date'
 import type { HTMLAttributes } from 'vue'
 

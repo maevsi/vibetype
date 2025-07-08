@@ -5,6 +5,11 @@
         {{ title }}
       </span>
     </LayoutTopBar>
+    <CardStateSuccess v-if="verified" class="rounded-none">
+      <TypographySubtitleMedium>
+        {{ t('accountVerified') }}
+      </TypographySubtitleMedium>
+    </CardStateSuccess>
     <CardStateInfo v-if="to" class="rounded-none">
       {{ t('accountRequired') }}
     </CardStateInfo>
@@ -17,7 +22,9 @@
     <AppStep v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="error">
-          {{ error }}
+          <template v-if="error">
+            {{ error.message }}
+          </template>
           <template #description>
             {{ t('errorDescription') }}
           </template>
@@ -82,6 +89,7 @@ useHeadDefault({ title })
 const to = computed(() =>
   route.query.to && !Array.isArray(route.query.to) ? route.query.to : undefined,
 )
+const verified = computed(() => route.query.verified === null)
 const onSignIn = async () => {
   // A link that allows users to delete their account is required by the Google Play Store (https://support.google.com/googleplay/android-developer/answer/13316080#account_deletion)
   // TODO: generalize, potentially whitelist valid redirection targets
@@ -103,6 +111,7 @@ const onSignIn = async () => {
 <i18n lang="yaml">
 de:
   accountRequired: Melde dich an, um fortzufahren.
+  accountVerified: E-Mail-Adresse verifiziert.
   backToLogin: Zurück zur Anmeldung
   contactSupport: Support kontaktieren
   title: Einloggen
@@ -110,6 +119,7 @@ de:
   errorDescription: Bitte versuche es erneut
 en:
   accountRequired: Log in to continue.
+  accountVerified: Email address verified.
   backToLogin: Back to Login
   contactSupport: Contact support
   title: Log in

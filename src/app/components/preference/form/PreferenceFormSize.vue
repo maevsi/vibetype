@@ -13,7 +13,7 @@
         >
           <FormItem class="flex gap-3 p-1">
             <FormControl class="mt-1">
-              <Checkbox
+              <AppCheckbox
                 :model-value="value.includes(item.id)"
                 @update:model-value="handleChange"
               />

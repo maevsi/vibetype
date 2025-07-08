@@ -9,5 +9,3 @@ export type UnionToIntersection<T> = (
 ) extends (x: infer R) => unknown
   ? R
   : never
-
-export default {} // workaround until fix in nitro is released (https://github.com/nitrojs/nitro/pull/3368)

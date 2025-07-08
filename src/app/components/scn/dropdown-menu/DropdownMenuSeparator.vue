@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { cn } from '@/utils/shadcn'
-import { DropdownMenuSeparator, type DropdownMenuSeparatorProps } from 'reka-ui'
-import { computed, type HTMLAttributes } from 'vue'
+import { DropdownMenuSeparator } from 'reka-ui'
+import type { DropdownMenuSeparatorProps } from 'reka-ui'
+import { computed } from 'vue'
+import type { HTMLAttributes } from 'vue'
 
 const props = defineProps<
   DropdownMenuSeparatorProps & {
