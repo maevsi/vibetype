@@ -133,40 +133,6 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
-    private: {
-      api: {
-        notification: {
-          secret: '',
-        },
-      },
-      monday: {
-        apiToken: undefined,
-        board: {
-          contact: {
-            column: {
-              consentId: undefined,
-              emailAddressId: undefined,
-              nameId: undefined,
-              messageId: undefined,
-            },
-            id: undefined,
-            groupId: undefined,
-          },
-          earlyBird: {
-            column: {
-              agreementId: undefined,
-              emailAddressId: undefined,
-              nameId: undefined,
-            },
-            id: undefined,
-            groupId: undefined,
-          },
-        },
-      },
-      openai: {
-        apiKey: '',
-      },
-    },
     public: {
       [SITE_NAME]: {
         email: {
@@ -213,6 +179,40 @@ export default defineNuxtConfig({
           !process.env.NUXT_PUBLIC_SITE_URL
             ? PRODUCTION_HOST
             : undefined,
+      },
+    },
+    vibetype: {
+      api: {
+        notification: {
+          secret: '',
+        },
+      },
+      monday: {
+        apiToken: undefined,
+        board: {
+          contact: {
+            column: {
+              consentId: undefined,
+              emailAddressId: undefined,
+              nameId: undefined,
+              messageId: undefined,
+            },
+            id: undefined,
+            groupId: undefined,
+          },
+          earlyBird: {
+            column: {
+              agreementId: undefined,
+              emailAddressId: undefined,
+              nameId: undefined,
+            },
+            id: undefined,
+            groupId: undefined,
+          },
+        },
+      },
+      openai: {
+        apiKey: '',
       },
     },
   },

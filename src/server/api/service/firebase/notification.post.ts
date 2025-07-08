@@ -22,13 +22,13 @@ export default defineEventHandler(async (event) => {
       statusMessage: 'Firebase uninitialized',
     })
 
-  if (!runtimeConfig.private.api.notification.secret)
+  if (!runtimeConfig.vibetype.api.notification.secret)
     return throwError({
       statusCode: 500,
       statusMessage: 'Notification secret uninitialized',
     })
 
-  if (body.secret !== runtimeConfig.private.api.notification.secret)
+  if (body.secret !== runtimeConfig.vibetype.api.notification.secret)
     return throwError({
       statusCode: 403,
       statusMessage: 'Invalid secret',
