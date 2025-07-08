@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { cn } from '@/utils/shadcn'
-import {
-  DropdownMenuSubContent,
-  type DropdownMenuSubContentEmits,
-  type DropdownMenuSubContentProps,
-  useForwardPropsEmits,
+import { DropdownMenuSubContent, useForwardPropsEmits } from 'reka-ui'
+import type {
+  DropdownMenuSubContentEmits,
+  DropdownMenuSubContentProps,
 } from 'reka-ui'
-import { computed, type HTMLAttributes } from 'vue'
+import { computed } from 'vue'
+import type { HTMLAttributes } from 'vue'
 
 const props = defineProps<
   DropdownMenuSubContentProps & { class?: HTMLAttributes['class'] }

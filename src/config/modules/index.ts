@@ -1,6 +1,6 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
-import { RELEASE_NAME, SITE_URL } from '../../node'
+import { RELEASE_NAME } from '../../node'
 import { cookieControlConfig } from './cookieControl'
 import { i18nConfig } from './i18n'
 import { pwaConfig } from './pwa'
@@ -64,8 +64,9 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
       },
     },
   },
-  site: {
-    url: SITE_URL,
+  shadcn: {
+    prefix: '',
+    componentDir: 'app/components/scn',
   },
   sitemap: {
     credits: false,

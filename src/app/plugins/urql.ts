@@ -3,13 +3,10 @@ import {
   createClient,
   ssrExchange as getSsrExchange,
   fetchExchange,
-  type ClientOptions,
-  type SSRData,
 } from '@urql/core'
-import {
-  type Cache,
-  offlineExchange as getOfflineExchange,
-} from '@urql/exchange-graphcache'
+import type { ClientOptions, SSRData } from '@urql/core'
+import { offlineExchange as getOfflineExchange } from '@urql/exchange-graphcache'
+import type { Cache, Entity, FieldArgs } from '@urql/exchange-graphcache'
 import { makeDefaultStorage } from '@urql/exchange-graphcache/default-storage'
 import { relayPagination } from '@urql/exchange-graphcache/extras'
 import { devtoolsExchange } from '@urql/devtools'
@@ -22,6 +19,7 @@ import { ref } from 'vue'
 import type { FragmentType } from '~~/gql/generated'
 import type { GraphCacheConfig, Maybe } from '~~/gql/generated/graphcache'
 import type {
+  CreateEventFavoriteMutation,
   DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation,
   DeletePreferenceEventFormatByAccountIdAndFormatIdMutation,
   DeletePreferenceEventLocationByIdMutation,
@@ -64,6 +62,35 @@ const invalidateCache = (
         .forEach((field) => {
           cache.invalidate('Query', field.fieldKey)
         })
+
+const cacheNodesAppend = ({
+  cache,
+  newNode,
+  parentKey,
+  parentProperty,
+  parentPropertyArguments,
+}: {
+  cache: Cache
+  newNode: Entity
+  parentKey: string
+  parentProperty: string
+  parentPropertyArguments: FieldArgs
+}) => {
+  const newNodeKey = cache.keyOfEntity(newNode)
+  if (!newNodeKey) return
+
+  const property = cache.resolve(
+    parentKey,
+    parentProperty,
+    parentPropertyArguments,
+  )
+  if (!property) return
+
+  const nodes = cache.resolve(property as string, 'nodes')
+  if (!nodes || !Array.isArray(nodes)) return
+
+  cache.link(property as string, 'nodes', [...nodes, newNodeKey])
+}
 
 const cacheListAppend = <
   Fragment,
@@ -168,14 +195,15 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
   const graphCacheConfig: GraphCacheConfig = {
     keys: {
-      AccountPreferenceEventCategory: (data) => data.nodeId ?? null,
-      AccountPreferenceEventFormat: (data) => data.nodeId ?? null,
-      AccountPreferenceEventSize: (data) => data.nodeId ?? null,
+      PreferenceEventCategory: (data) => data.nodeId ?? null, // TODO: remove
+      PreferenceEventFormat: (data) => data.nodeId ?? null, // TODO: remove
+      PreferenceEventSize: (data) => data.nodeId ?? null, // TODO: remove
       GeographyPoint: (_data) => null,
     },
     schema,
     resolvers: {
       Query: {
+        allAccounts: relayPagination(),
         allContacts: relayPagination(),
         allEvents: relayPagination(),
         allGuests: relayPagination(),
@@ -189,47 +217,64 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           invalidateCache(cache, 'allContacts'),
         createGuest: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allGuests'),
-        createAccountPreferenceEventCategory: (result, _args, cache, _info) =>
+        createEventFavorite: (
+          result: CreateEventFavoriteMutation,
+          _args,
+          cache,
+          _info,
+        ) => {
+          const newNode = result.createEventFavorite?.eventFavorite
+          if (!newNode || !newNode.__typename) return
+
+          const parentKey = cache.keyOfEntity({
+            __typename: 'Event',
+            id: newNode.eventId,
+          })
+          if (!parentKey) return
+
+          cacheNodesAppend({
+            cache,
+            // @ts-expect-error typechecked above
+            newNode,
+            parentKey,
+            parentProperty: 'eventFavoritesByEventId',
+            parentPropertyArguments: { first: 1 },
+          })
+        },
+        createPreferenceEventCategory: (result, _args, cache, _info) =>
           cacheListAppend({
             cache,
             getItemCreated: (result) =>
-              result.createAccountPreferenceEventCategory
-                ?.accountPreferenceEventCategory,
-            listKey: 'allAccountPreferenceEventCategories',
+              result.createPreferenceEventCategory?.preferenceEventCategory,
+            listKey: 'allPreferenceEventCategories',
             query: allPreferenceEventCategoriesQuery,
             result,
           }),
-        createAccountPreferenceEventFormat: (result, _args, cache, _info) =>
+        createPreferenceEventFormat: (result, _args, cache, _info) =>
           cacheListAppend({
             cache,
             getItemCreated: (result) =>
-              result.createAccountPreferenceEventFormat
-                ?.accountPreferenceEventFormat,
-            listKey: 'allAccountPreferenceEventFormats',
+              result.createPreferenceEventFormat?.preferenceEventFormat,
+            listKey: 'allPreferenceEventFormats',
             query: allPreferenceEventFormatsQuery,
             result,
           }),
-        createAccountPreferenceEventLocation: (result, _args, cache, _info) =>
+        createPreferenceEventLocation: (result, _args, cache, _info) =>
           cacheListAppend({
             cache,
             getItemCreated: (result) =>
-              result.createAccountPreferenceEventLocation
-                ?.accountPreferenceEventLocation,
-            listKey: 'allAccountPreferenceEventLocations',
+              result.createPreferenceEventLocation?.preferenceEventLocation,
+            listKey: 'allPreferenceEventLocations',
             query: allPreferenceEventLocationsQuery,
             result,
           }),
-
-        // update
-        profilePictureSet: (_result, _args, cache, _info) =>
-          invalidateCache(cache, 'profilePictureByAccountId'),
 
         // delete
         deleteContactById: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Contact', args),
         deleteGuestById: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Guest', args),
-        deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId: (
+        deletePreferenceEventCategoryByAccountIdAndCategoryId: (
           result: DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation,
           _args,
           cache,
@@ -238,15 +283,14 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           cacheListRemove({
             cache,
             getItemDeletedId: (result) =>
-              result
-                .deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId
-                ?.deletedAccountPreferenceEventCategoryId,
+              result.deletePreferenceEventCategoryByAccountIdAndCategoryId
+                ?.deletedPreferenceEventCategoryId,
             getItemOfList: getPreferenceEventCategoryItem,
-            listKey: 'allAccountPreferenceEventCategories',
+            listKey: 'allPreferenceEventCategories',
             query: allPreferenceEventCategoriesQuery,
             result,
           }),
-        deleteAccountPreferenceEventFormatByAccountIdAndFormatId: (
+        deletePreferenceEventFormatByAccountIdAndFormatId: (
           result: DeletePreferenceEventFormatByAccountIdAndFormatIdMutation,
           _args,
           cache,
@@ -255,14 +299,14 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           cacheListRemove({
             cache,
             getItemDeletedId: (result) =>
-              result.deleteAccountPreferenceEventFormatByAccountIdAndFormatId
-                ?.deletedAccountPreferenceEventFormatId,
+              result.deletePreferenceEventFormatByAccountIdAndFormatId
+                ?.deletedPreferenceEventFormatId,
             getItemOfList: getPreferenceEventFormatItem,
-            listKey: 'allAccountPreferenceEventFormats',
+            listKey: 'allPreferenceEventFormats',
             query: allPreferenceEventFormatsQuery,
             result,
           }),
-        deleteAccountPreferenceEventLocationById: (
+        deletePreferenceEventLocationById: (
           result: DeletePreferenceEventLocationByIdMutation,
           _args,
           cache,
@@ -271,13 +315,17 @@ export default defineNuxtPlugin(async (nuxtApp) => {
           cacheListRemove({
             cache,
             getItemDeletedId: (result) =>
-              result.deleteAccountPreferenceEventLocationById
-                ?.deletedAccountPreferenceEventLocationId,
+              result.deletePreferenceEventLocationById
+                ?.deletedPreferenceEventLocationId,
             getItemOfList: getPreferenceEventLocationItem,
-            listKey: 'allAccountPreferenceEventLocations',
+            listKey: 'allPreferenceEventLocations',
             query: allPreferenceEventLocationsQuery,
             result,
           }),
+        deleteEventFavoriteById: (_result, args, cache, _info) =>
+          invalidateCache(cache, 'EventFavorite', args),
+        deleteProfilePictureById: (_result, args, cache, _info) =>
+          invalidateCache(cache, 'ProfilePicture', args),
       },
     },
   }

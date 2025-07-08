@@ -4,9 +4,11 @@
     class="group flex flex-col items-center gap-1 p-1"
   >
     <div
-      class="flex size-24 items-center justify-center rounded-full border-(--accent-strong) bg-(--accent-weak) group-aria-selected:border-2"
+      class="flex size-24 items-center justify-center rounded-full border-(--accent-strong) bg-(--semantic-base-surface-1) group-aria-selected:border-2"
     >
-      <AppIconImage class="size-12 text-(--faint-strong)" />
+      <slot>
+        <AppIconImage class="size-12 text-(--faint-strong)" />
+      </slot>
     </div>
     <TypographyLabel v-slot="attributes">
       <div

@@ -46,7 +46,7 @@ export const useStepperPage = <T extends string>({
   const { error, step, restart } = useStepper<T>({
     initial,
   })
-  const { t } = useI18n()
+  const { t } = useI18n({ useScope: 'global' })
 
   const title = computed(
     () =>

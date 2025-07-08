@@ -4,11 +4,27 @@
 
 <script setup lang="ts">
 import type { Map, LatLng } from 'leaflet'
+import type { DeepReadonly } from 'vue'
 
-import type { EventItemFragment } from '~~/gql/generated/graphql'
-import { getAddressItem } from '~~/gql/documents/fragments/addressItem'
 import markerIcon from '~/assets/icons/location-on.svg?raw'
 
+export type AppMapEvent = {
+  addressByAddressId?: {
+    location?: {
+      latitude: number
+      longitude: number
+    } | null
+  } | null
+}
+export type AppMapProps = {
+  events?: readonly DeepReadonly<AppMapEvent>[]
+  geocoder?: boolean
+  positionInitial?: {
+    latitude: number
+    longitude: number
+    zoomLevel: number
+  }
+}
 const {
   events = undefined,
   geocoder = undefined,
@@ -17,15 +33,7 @@ const {
     longitude: 10.283203125000002,
     zoomLevel: 6,
   },
-} = defineProps<{
-  events?: Pick<EventItemFragment, 'addressByAddressId'>[]
-  geocoder?: boolean
-  positionInitial?: {
-    latitude: number
-    longitude: number
-    zoomLevel: number
-  }
-}>()
+} = defineProps<AppMapProps>()
 
 const templateIdMap = useId()
 const map = ref<Map>()
@@ -76,7 +84,7 @@ onMounted(async () => {
     })
 
     for (const event of events) {
-      const location = getAddressItem(event.addressByAddressId)?.location
+      const location = event.addressByAddressId?.location
       if (!location) continue
       L.marker([location.latitude, location.longitude], { icon }).addTo(
         map.value,

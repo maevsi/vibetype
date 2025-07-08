@@ -114,7 +114,7 @@ Respect personal rights: no one should appear on VIBETYPE against their will or 
 
 - **Account Security:** Protect your account with a strong password and never share your login details with others.
 You are responsible for all activity under your account.
-If you notice unauthorized access or suspicious behavior, **report it immediately to the VIBETYPE team via: <https://forms.monday.com/forms/74204ae8168ecb1dd44c15b502854a5a?r=euc1>.**
+If you notice unauthorized access or suspicious behavior, **report it immediately to the VIBETYPE team via: <https://vibetype.app/support/contact>.**
 
 - **Don’t Endanger Others:** Don’t put anyone at risk through your behavior.
 For example, the app may **not be used to promote challenges or content** that encourages dangerous actions.

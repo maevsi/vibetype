@@ -32,19 +32,11 @@ const emit = defineEmits<{
   success: []
 }>()
 
-const { t } = useI18n()
-
-// data
+// form
 const form = reactive({
   password: ref<string>(),
 })
 const isFormSent = ref(false)
-
-// api data
-const passwordResetMutation = useAccountPasswordResetMutation()
-const api = getApiData([passwordResetMutation])
-
-// methods
 const submit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
 
@@ -57,6 +49,14 @@ const submit = async () => {
 
   emit('success')
 }
+// TODO: try to dissolve `defineExpose`
+defineExpose({
+  submit,
+})
+
+// api data
+const passwordResetMutation = useAccountPasswordResetMutation()
+const api = await useApiData([passwordResetMutation])
 
 // vuelidate
 const rules = {
@@ -64,9 +64,8 @@ const rules = {
 }
 const v$ = useVuelidate(rules, form)
 
-defineExpose({
-  submit,
-})
+// template
+const { t } = useI18n()
 </script>
 
 <i18n lang="yaml">

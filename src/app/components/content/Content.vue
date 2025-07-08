@@ -1,27 +1,28 @@
 <template>
-  <LayoutProse>
-    <ContentRenderer v-if="page" :value="page" />
+  <LoaderIndicatorPing v-if="pending" />
+  <AppError
+    v-else-if="!data"
+    :error="{ message: 'Data is missing', statusCode: 404 }"
+  />
+  <LayoutProse v-else>
+    <ContentRenderer :value="data" />
   </LayoutProse>
 </template>
 
 <script setup lang="ts">
-const model = defineModel<string>()
-
+// compiler
 const { path } = defineProps<{
   path: string
 }>()
 
+// api data
 const { locale } = useI18n()
-
-const { data: page } = await useAsyncData(() =>
+const { data, pending } = await useAsyncData(() =>
   queryCollection('content').path(`/${locale.value}/${path}`).first(),
 )
 
-if (!page) {
-  throw createError({
-    statusCode: 404,
-  })
-}
-
-model.value = page.value?.title
+// title
+const model = defineModel<string>('title')
+const title = computed(() => data.value?.title)
+watch(title, (current) => (model.value = current), { immediate: true })
 </script>

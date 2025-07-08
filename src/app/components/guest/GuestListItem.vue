@@ -64,12 +64,10 @@
             @select="
               navigateTo(
                 localePath({
-                  name: 'event-view-username-event_name',
+                  name: 'guest-view-id',
                   params: {
-                    event_name: event.slug,
-                    username: event.accountByCreatedBy.username,
+                    id: guest.id,
                   },
-                  query: { ic: guest.id },
                 }),
               )
             "
@@ -126,7 +124,7 @@ const pending = reactive({
 // api data
 const deleteGuestByIdMutation = useDeleteGuestByIdMutation()
 const inviteMutation = useInviteMutation()
-// const api = getApiData([deleteGuestByIdMutation, inviteMutation])
+// const api = await useApiData([deleteGuestByIdMutation, inviteMutation])
 
 // methods
 const copyLink = async (guest: Pick<GuestItemFragment, 'id'>) => {

@@ -1,7 +1,7 @@
 <template>
   <LayoutPage :aria-hidden>
     <div class="flex flex-col gap-4">
-      <AppStepIndex :count="5" :index="5" />
+      <AppStepIndex :count="4" :index="4" />
       <TypographyH3 class="text-center">
         {{ t('title') }}
       </TypographyH3>
@@ -49,14 +49,12 @@ const emit = defineEmits<{
 const { t, locale } = useI18n()
 
 // api data
-const allPreferenceEventLocationsQuery = await zalgo(
-  useAllPreferenceEventLocationsQuery(),
-)
+const allPreferenceEventLocationsQuery = useAllPreferenceEventLocationsQuery()
 const createPreferenceEventLocationMutation =
   useCreatePreferenceEventLocationMutation()
 const deletePreferenceEventLocationByIdMutation =
   useDeletePreferenceEventLocationByIdMutation()
-const api = getApiData([
+const api = await useApiData([
   allPreferenceEventLocationsQuery,
   createPreferenceEventLocationMutation,
   deletePreferenceEventLocationByIdMutation,
@@ -110,7 +108,7 @@ const getZoomLevelForRadius = ({
   )
 const preferenceEventLocations = computed(
   () =>
-    allPreferenceEventLocationsQuery.data.value?.allAccountPreferenceEventLocations?.nodes
+    api.value.data.allPreferenceEventLocations?.nodes
       .map((item) => getPreferenceEventLocationItem(item))
       .filter(isNeitherNullNorUndefined) || [],
 )

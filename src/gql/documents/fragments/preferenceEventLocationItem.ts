@@ -1,7 +1,8 @@
-import { type FragmentType, graphql, useFragment } from '~~/gql/generated'
+import { graphql, useFragment } from '~~/gql/generated'
+import type { FragmentType } from '~~/gql/generated'
 
 export const PreferenceEventLocationItem = graphql(`
-  fragment PreferenceEventLocationItem on AccountPreferenceEventLocation {
+  fragment PreferenceEventLocationItem on PreferenceEventLocation {
     createdAt
     createdBy
     id

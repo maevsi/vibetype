@@ -104,7 +104,7 @@ import { getGuestItem } from '~~/gql/documents/fragments/guestItem'
 const { event } = defineProps<{
   event: Pick<
     EventItemFragment,
-    'createdBy' | 'slug' | 'guestCountMaximum' | 'id'
+    'accountByCreatedBy' | 'createdBy' | 'slug' | 'guestCountMaximum' | 'id'
   >
 }>()
 
@@ -132,12 +132,12 @@ const options = {
 }
 
 // api data
-const guestsQuery = await useAllGuestsQuery({
+const guestsQuery = useAllGuestsQuery({
   after,
   eventId: event.id,
   first: ITEMS_PER_PAGE_LARGE,
 })
-const api = getApiData([guestsQuery])
+const api = await useApiData([guestsQuery])
 
 // methods
 const add = () => {
@@ -195,7 +195,7 @@ const dataComputed = computed(() => {
 })
 const guests = computed(
   () =>
-    guestsQuery.data.value?.allGuests?.nodes
+    api.value.data.allGuests?.nodes
       .map((x) => getGuestItem(x))
       .filter(isNeitherNullNorUndefined) || [],
 )

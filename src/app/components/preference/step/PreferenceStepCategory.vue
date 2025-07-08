@@ -1,7 +1,7 @@
 <template>
   <LayoutPage>
     <div class="flex flex-col gap-4 text-center">
-      <AppStepIndex :count="5" :index="4" />
+      <AppStepIndex :count="4" :index="3" />
       <TypographyH3>
         {{ t('title') }}
       </TypographyH3>
@@ -17,7 +17,44 @@
               :name="eventCategory.label"
               :selected="preferenceEventCategoryIds"
               @click="togglePreferenceSelection(eventCategory.id)"
-            />
+            >
+              <AppIconPreferenceCategoryArtAndCulture
+                v-if="eventCategory.name === 'art-and-culture'"
+              />
+              <AppIconPreferenceCategoryBusiness
+                v-else-if="eventCategory.name === 'business'"
+              />
+              <AppIconPreferenceCategoryComedy
+                v-else-if="eventCategory.name === 'comedy'"
+              />
+              <AppIconPreferenceCategoryEducation
+                v-else-if="eventCategory.name === 'education'"
+              />
+              <AppIconPreferenceCategoryFashionAndLifestyle
+                v-else-if="eventCategory.name === 'fashion-and-lifestyle'"
+              />
+              <AppIconPreferenceCategoryFoodAndDrink
+                v-else-if="eventCategory.name === 'food-and-drink'"
+              />
+              <AppIconPreferenceCategoryLiterature
+                v-else-if="eventCategory.name === 'literature'"
+              />
+              <AppIconPreferenceCategoryMusicAndEntertainment
+                v-else-if="eventCategory.name === 'music-and-entertainment'"
+              />
+              <AppIconPreferenceCategoryPolitics
+                v-else-if="eventCategory.name === 'politics'"
+              />
+              <AppIconPreferenceCategorySocial
+                v-else-if="eventCategory.name === 'social'"
+              />
+              <AppIconPreferenceCategorySportsAndFitness
+                v-else-if="eventCategory.name === 'sports-and-fitness'"
+              />
+              <AppIconPreferenceOther
+                v-else-if="eventCategory.name === 'other'"
+              />
+            </PreferenceElement>
           </li>
         </ul>
       </div>
@@ -80,15 +117,13 @@ const translate = (nameKey: string) => {
 }
 
 // api data
-const allCategoriesQuery = await zalgo(useAllEventCategoriesQuery())
-const allPreferenceEventCategoriesQuery = await zalgo(
-  useAllPreferenceEventCategoriesQuery(),
-)
+const allCategoriesQuery = useAllEventCategoriesQuery()
+const allPreferenceEventCategoriesQuery = useAllPreferenceEventCategoriesQuery()
 const createPreferenceEventCategoryMutation =
   useCreatePreferenceEventCategoryMutation()
 const deletePreferenceEventCategoryByAccountIdAndCategoryIdMutation =
   useDeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation()
-const api = getApiData([
+const api = await useApiData([
   allCategoriesQuery,
   allPreferenceEventCategoriesQuery,
   createPreferenceEventCategoryMutation,
@@ -108,7 +143,7 @@ const eventCategories = computed(() =>
 )
 const preferenceEventCategoryIds = computed(
   () =>
-    api.value.data.allAccountPreferenceEventCategories?.nodes
+    api.value.data.allPreferenceEventCategories?.nodes
       .map(getPreferenceEventCategoryItem)
       .filter(isNeitherNullNorUndefined)
       .map((item) => item.categoryId) || [],

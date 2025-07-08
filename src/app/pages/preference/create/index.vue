@@ -11,9 +11,7 @@
       </template>
       <template
         v-if="
-          ['default', 'age', 'size', 'format', 'category', 'location'].includes(
-            step,
-          )
+          ['default', 'size', 'format', 'category', 'location'].includes(step)
         "
         #close
       >
@@ -23,14 +21,7 @@
       </template>
     </LayoutTopBar>
     <AppStep v-slot="attributes" :is-active="step === 'default'">
-      <PreferenceStepWelcome v-bind="attributes" @next="step = 'age'" />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'age'">
-      <PreferenceStepAge
-        v-bind="attributes"
-        v-model:error="error"
-        @next="step = 'size'"
-      />
+      <PreferenceStepWelcome v-bind="attributes" @next="step = 'size'" />
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'size'">
       <PreferenceStepSize
@@ -120,17 +111,14 @@ if (!store.signedInUsername) {
 
 // stepper
 const { error, step, previous, title } = useStepperPage<
-  'age' | 'size' | 'format' | 'category' | 'location' | 'done'
+  'size' | 'format' | 'category' | 'location' | 'done'
 >({
   steps: {
     default: {
       title: t('title'),
     },
-    age: {
-      previous: 'default',
-    },
     size: {
-      previous: 'age',
+      previous: 'default',
     },
     format: {
       previous: 'size',

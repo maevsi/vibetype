@@ -329,3 +329,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/linux,macos,node,webstorm,windows
+
+# Stylelint
+stylelint.config.mjs

@@ -3,7 +3,7 @@
     <div class="flex flex-col gap-4">
       <FormInputSearch v-model="searchQuery" />
       <EventList
-        :events="events"
+        :events
         :has-next-page="pageInfo?.hasNextPage"
         @load-more="loadMore"
       />
@@ -12,19 +12,120 @@
 </template>
 
 <script setup lang="ts">
+import { useQuery } from '@urql/vue'
 import { refDebounced } from '@vueuse/core'
 
-import { useAllEventsQuery } from '~~/gql/documents/queries/event/eventsAll'
-import { useEventSearchQuery } from '~~/gql/documents/queries/event/eventSearchQuery'
-import { getEventItem } from '~~/gql/documents/fragments/eventItem'
+import { graphql } from '~~/gql/generated'
+import type {
+  EventListQueryVariables,
+  EventSearchQueryVariables,
+} from '~~/gql/generated/graphql'
+
+const queryEventList = graphql(`
+  query EventList($after: Cursor, $first: Int!) {
+    allEvents(after: $after, first: $first, orderBy: START_DESC) {
+      nodes {
+        accountByCreatedBy {
+          id
+          username
+        }
+        addressByAddressId {
+          id
+          location {
+            latitude
+            longitude
+          }
+        }
+        eventFavoritesByEventId(first: 1) {
+          nodes {
+            id
+            createdBy
+          }
+        }
+        guestsByEventId(first: 1) {
+          nodes {
+            contactByContactId {
+              accountId
+              id
+            }
+            id
+          }
+        }
+        id
+        name
+        slug
+        start
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      totalCount
+    }
+  }
+`)
+const queryEventSearch = graphql(`
+  query EventSearch(
+    $after: Cursor
+    $first: Int
+    $language: Language
+    $query: String
+  ) {
+    eventSearch(
+      after: $after
+      first: $first
+      language: $language
+      query: $query
+    ) {
+      nodes {
+        accountByCreatedBy {
+          id
+          username
+        }
+        addressByAddressId {
+          id
+          location {
+            latitude
+            longitude
+          }
+        }
+        eventFavoritesByEventId(first: 1) {
+          nodes {
+            createdBy
+            id
+          }
+        }
+        guestsByEventId(first: 1) {
+          nodes {
+            contactByContactId {
+              accountId
+              id
+            }
+            id
+          }
+        }
+        id
+        name
+        slug
+        start
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      totalCount
+    }
+  }
+`)
 
 const allEventsQueryAfter = ref<string>()
-const allEventsQuery = await zalgo(
-  useAllEventsQuery({
+const allEventsQuery = useQuery({
+  query: queryEventList,
+  variables: {
     after: allEventsQueryAfter,
     first: ITEMS_PER_PAGE,
-  }),
-)
+  } satisfies MaybeRefObj<EventListQueryVariables>,
+})
 
 const searchQuery = ref<string>()
 const searchQueryDebounced = refDebounced(searchQuery, 300)
@@ -32,13 +133,14 @@ const searchQueryVariable = computed(() =>
   searchQueryDebounced.value?.trim().split(/\s+/).join(' OR '),
 )
 const searchResultsQueryAfter = ref<string>()
-const searchResultsQuery = await zalgo(
-  useEventSearchQuery({
+const searchResultsQuery = useQuery({
+  query: queryEventSearch,
+  variables: {
     after: searchResultsQueryAfter,
     query: searchQueryVariable,
     first: ITEMS_PER_PAGE,
-  }),
-)
+  } satisfies MaybeRefObj<EventSearchQueryVariables>,
+})
 watch(searchQueryVariable, () => {
   searchResultsQueryAfter.value = undefined
 })
@@ -48,32 +150,24 @@ const query = computed(() =>
 )
 const pageInfo = computed(() =>
   searchQueryVariable.value
-    ? searchResultsQuery.data.value?.eventSearch?.pageInfo
-    : allEventsQuery.data.value?.allEvents?.pageInfo,
+    ? api.value.data.eventSearch?.pageInfo
+    : api.value.data.allEvents?.pageInfo,
 )
 const events = computed(() => {
   if (!query.value.data.value) return
 
   if ('allEvents' in query.value.data.value) {
-    return (
-      query.value.data.value?.allEvents?.nodes
-        ?.map(getEventItem)
-        .filter(isNeitherNullNorUndefined) || []
-    )
+    return query.value.data.value.allEvents?.nodes || []
   }
 
   if ('eventSearch' in query.value.data.value) {
-    return (
-      query.value.data.value?.eventSearch?.nodes
-        ?.map(getEventItem)
-        .filter(isNeitherNullNorUndefined) || []
-    )
+    return query.value.data.value.eventSearch?.nodes || []
   }
 
   return undefined
 })
 
-const api = getApiData([query.value])
+const api = await useApiData([query.value])
 const loadMore = () => {
   if (!query.value.data.value) return
 

@@ -246,9 +246,9 @@
         <DatePicker
           v-model="v$.start.$model"
           :first-day-of-week="2"
-          :is24hr="$i18n.locale !== 'en'"
+          :is24hr="locale !== 'en'"
           :is-dark="colorMode.value === 'dark'"
-          :locale="$i18n.locale"
+          :locale
           :masks="{ input: 'YYYY-MM-DD h:mm A' }"
           :max-date="v$.end.$model"
           :minute-increment="5"
@@ -261,9 +261,9 @@
         <DatePicker
           v-model="v$.end.$model"
           :first-day-of-week="2"
-          :is24hr="$i18n.locale !== 'en'"
+          :is24hr="locale !== 'en'"
           :is-dark="colorMode.value === 'dark'"
-          :locale="$i18n.locale"
+          :locale
           :masks="{ input: 'YYYY-MM-DD h:mm A' }"
           :min-date="v$.start.$model"
           :minute-increment="5"
@@ -280,10 +280,8 @@ import { DatePicker } from 'v-calendar'
 
 import { useCreateEventMutation } from '~~/gql/documents/mutations/event/eventCreate'
 import { useUpdateEventByIdMutation } from '~~/gql/documents/mutations/event/eventUpdateById'
-import {
-  type EventItemFragment,
-  EventVisibility,
-} from '~~/gql/generated/graphql'
+import { EventVisibility } from '~~/gql/generated/graphql'
+import type { EventItemFragment } from '~~/gql/generated/graphql'
 
 const { event = undefined } = defineProps<{
   event?: Pick<EventItemFragment, 'name' | 'slug'>
@@ -318,7 +316,7 @@ const isFormSent = ref(false)
 // api data
 const createEventMutation = useCreateEventMutation()
 const updateEventMutation = useUpdateEventByIdMutation()
-const api = getApiData([createEventMutation, updateEventMutation])
+const api = await useApiData([createEventMutation, updateEventMutation])
 
 // methods
 const dateTimeFormatter = (x?: string) =>

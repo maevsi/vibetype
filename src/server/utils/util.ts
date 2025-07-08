@@ -1,18 +1,12 @@
 import { consola } from 'consola'
+import type { NuxtError } from 'nuxt/app'
 
-export const throwError = <DataT = unknown>({
-  code,
-  data,
-  message,
-}: {
-  code: number
-  data?: DataT
-  message: string
-}) => {
-  consola.error(message)
+export const throwError = (
+  error: Partial<NuxtError> & Required<Pick<NuxtError, 'statusCode'>>,
+) => {
+  consola.error(error)
   throw createError({
-    data,
-    statusCode: code,
-    statusMessage: message,
+    ...error,
+    fatal: true,
   })
 }

@@ -4,7 +4,11 @@ export const useMonday = () => {
   const event = useEvent()
   const runtimeConfig = useRuntimeConfig(event)
 
-  if (!event.context.$monday) throw createError('monday')
+  if (!event.context.$monday)
+    return throwError({
+      statusCode: 500,
+      statusMessage: 'Event context is missing Monday data',
+    })
 
   const client = event.context.$monday
   const queries = {
@@ -71,7 +75,7 @@ export const useMonday = () => {
         return await client.request(queries.itemCreate, {
           boardId: boardEarlyBird.id,
           columnValues: JSON.stringify({
-            [boardEarlyBird.column.aggreementId]: {
+            [boardEarlyBird.column.agreementId]: {
               checked: columns.agreement.toString(),
             },
             [boardEarlyBird.column.emailAddressId]: {

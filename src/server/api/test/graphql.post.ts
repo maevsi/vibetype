@@ -3,8 +3,9 @@ export default defineEventHandler(() => {
 
   if (!isTesting) {
     return throwError({
-      code: 403,
-      message: 'This endpoint is only available in the testing environment.',
+      statusCode: 403,
+      statusMessage:
+        'This endpoint is only available in the testing environment.',
     })
   }
 

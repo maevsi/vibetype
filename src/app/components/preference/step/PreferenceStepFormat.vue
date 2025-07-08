@@ -1,7 +1,7 @@
 <template>
   <LayoutPage>
     <div class="flex flex-col gap-4 text-center">
-      <AppStepIndex :count="5" :index="3" />
+      <AppStepIndex :count="4" :index="2" />
       <TypographyH3>
         {{ t('title') }}
       </TypographyH3>
@@ -14,7 +14,44 @@
               :name="eventFormat.label"
               :selected="preferenceEventFormatIds"
               @click="togglePreferenceSelection(eventFormat.id)"
-            />
+            >
+              <AppIconPreferenceFormatConference
+                v-if="eventFormat.name === 'conference'"
+              />
+              <AppIconPreferenceFormatDemonstration
+                v-else-if="eventFormat.name === 'demo'"
+              />
+              <AppIconPreferenceFormatExhibition
+                v-else-if="eventFormat.name === 'exhibition'"
+              />
+              <AppIconPreferenceFormatFestival
+                v-else-if="eventFormat.name === 'festival'"
+              />
+              <AppIconPreferenceFormatHackathon
+                v-else-if="eventFormat.name === 'hackathon'"
+              />
+              <AppIconPreferenceFormatLecture
+                v-else-if="eventFormat.name === 'lecture'"
+              />
+              <AppIconPreferenceFormatLivePerformance
+                v-else-if="eventFormat.name === 'live-performance'"
+              />
+              <AppIconPreferenceFormatMeetup
+                v-else-if="eventFormat.name === 'meetup'"
+              />
+              <AppIconPreferenceFormatParty
+                v-else-if="eventFormat.name === 'party'"
+              />
+              <AppIconPreferenceFormatSeminar
+                v-else-if="eventFormat.name === 'seminar'"
+              />
+              <AppIconPreferenceFormatWorkshop
+                v-else-if="eventFormat.name === 'workshop'"
+              />
+              <AppIconPreferenceOther
+                v-else-if="eventFormat.name === 'other'"
+              />
+            </PreferenceElement>
           </li>
         </ul>
       </div>
@@ -50,7 +87,7 @@ const translate = (nameKey: string) => {
     case 'conference':
       return t('formatConference')
     case 'demo':
-      return t('formatDemo')
+      return t('formatDemonstration')
     case 'exhibition':
       return t('formatExhibition')
     case 'festival':
@@ -77,15 +114,13 @@ const translate = (nameKey: string) => {
 }
 
 // api data
-const allFormatsQuery = await zalgo(useAllEventFormatsQuery())
-const allPreferenceEventFormatsQuery = await zalgo(
-  useAllPreferenceEventFormatsQuery(),
-)
+const allFormatsQuery = useAllEventFormatsQuery()
+const allPreferenceEventFormatsQuery = useAllPreferenceEventFormatsQuery()
 const createPreferenceEventFormatMutation =
   useCreatePreferenceEventFormatMutation()
 const deletePreferenceEventFormatByAccountIdAndFormatIdMutation =
   useDeletePreferenceEventFormatByAccountIdAndFormatIdMutation()
-const api = getApiData([
+const api = await useApiData([
   allFormatsQuery,
   allPreferenceEventFormatsQuery,
   createPreferenceEventFormatMutation,
@@ -105,7 +140,7 @@ const eventFormats = computed(() =>
 )
 const preferenceEventFormatIds = computed(
   () =>
-    api.value.data.allAccountPreferenceEventFormats?.nodes
+    api.value.data.allPreferenceEventFormats?.nodes
       .map(getPreferenceEventFormatItem)
       .filter(isNeitherNullNorUndefined)
       .map((item) => item.formatId) || [],
@@ -147,7 +182,7 @@ watch(
 de:
   button: Weiter
   formatConference: Konferenz
-  formatDemo: Demonstration
+  formatDemonstration: Demonstration
   formatExhibition: Ausstellung
   formatFestival: Festival
   formatHackathon: Hackathon
@@ -162,7 +197,7 @@ de:
 en:
   button: Next
   formatConference: Conference
-  formatDemo: Demo
+  formatDemonstration: Demonstration
   formatExhibition: Exhibition
   formatFestival: Festival
   formatHackathon: Hackathon

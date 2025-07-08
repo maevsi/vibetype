@@ -2,7 +2,8 @@ import { consola } from 'consola'
 import camelcaseKeys from 'camelcase-keys'
 
 import { sendEmail } from './email'
-import { LOCALE_DEFAULT, type Locale } from './i18n'
+import { LOCALE_DEFAULT } from './i18n'
+import type { Locale } from './i18n'
 import { HTML_TO_TEXT } from './dependencies/htmlToText'
 import {
   MOMENT_FORMAT,

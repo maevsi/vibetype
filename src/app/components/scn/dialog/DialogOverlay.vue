@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { cn } from '@/utils/shadcn'
-import { DialogOverlay, type DialogOverlayProps } from 'reka-ui'
-import { computed, type HTMLAttributes } from 'vue'
+import { DialogOverlay } from 'reka-ui'
+import type { DialogOverlayProps } from 'reka-ui'
+import { computed } from 'vue'
+import type { HTMLAttributes } from 'vue'
 
 const props = defineProps<
   DialogOverlayProps & { class?: HTMLAttributes['class'] }

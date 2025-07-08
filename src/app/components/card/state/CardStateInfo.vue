@@ -1,5 +1,5 @@
 <template>
-  <CardState :class="cn('bg-blue-600', classProps)">
+  <CardState :class="cn('bg-blue-600 text-(--base-white)', classProps)">
     <slot />
   </CardState>
 </template>
