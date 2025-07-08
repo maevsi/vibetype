@@ -1,3 +1,13 @@
+## [13.0.0-beta.1](https://github.com/maevsi/vibetype/compare/12.15.1...13.0.0-beta.1) (2025-07-08)
+
+### ⚠ BREAKING CHANGES
+
+* **nuxt:** rename runtime configuration key
+
+### Features
+
+* **nuxt:** rename runtime configuration key ([325238f](https://github.com/maevsi/vibetype/commit/325238fc96e97ad2b44ffe7d1e96da654e175cf5))
+
 ## [12.15.1](https://github.com/maevsi/vibetype/compare/12.15.0...12.15.1) (2025-07-07)
 
 ### Bug Fixes
