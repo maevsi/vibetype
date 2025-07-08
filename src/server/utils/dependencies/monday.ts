@@ -46,7 +46,7 @@ export const useMonday = () => {
           name: string
         }
       }) => {
-    const runtimeConfigBoard = runtimeConfig.private.monday.board
+    const runtimeConfigBoard = runtimeConfig.vibetype.monday.board
 
     switch (board) {
       case 'contact': {
