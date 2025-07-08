@@ -103,10 +103,10 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/support/contact" />
     </url>
     <url>
-        <loc>http://localhost:3001/support/feature-request</loc>
-        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/support/feature-request" />
-        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/support/feature-request" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/support/feature-request" />
+        <loc>http://localhost:3001/support/idea</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/support/idea" />
+        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/support/idea" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/support/idea" />
     </url>
     <url>
         <loc>http://localhost:3001/support/issue</loc>

@@ -1,34 +1,40 @@
 import { z } from 'zod'
 
+const itemDescription = z.string().min(1).max(10000)
+const itemName = z.string().min(1).max(255)
+const userConsent = z.boolean().refine((value) => value === true)
+const userEmailAddress = z.string().min(1).email().max(1000)
+const userName = z.string().min(1).max(100)
+
 export const schemaFormContact = z.object({
-  consent: z.boolean().refine((value) => value === true),
-  emailAddress: z.string().email().max(1000),
-  name: z.string().max(100),
-  message: z.string().max(10000),
+  itemDescription,
+  userConsent,
+  userEmailAddress,
+  userName: userName.optional(),
 })
 export const schemaFormEarlyBird = z.object({
-  agreement: z.boolean().refine((value) => value === true),
-  emailAddress: z.string().email().max(1000),
-  name: z.string().max(100),
+  userConsent,
+  userEmailAddress,
+  userName,
 })
-export const schemaFormFeatureRequest = z.object({
-  consent: z.boolean().refine((value) => value === true),
-  emailAddress: z.string().email().max(1000).optional(),
-  featureDescription: z.string().max(2000),
-  featureName: z.string().max(255),
-  name: z.string().max(100).optional(),
+export const schemaFormIdea = z.object({
+  itemDescription,
+  itemName: itemName.optional(),
+  userConsent,
+  userEmailAddress: userEmailAddress.optional(),
+  userName: userName.optional(),
 })
 export const schemaFormIssue = z.object({
-  consent: z.boolean().refine((value) => value === true),
-  description: z.string().max(2000),
-  email: z.string().email().max(1000).optional(),
-  issueName: z.string().max(255),
-  requestor: z.string().max(100).optional(),
+  itemDescription,
+  itemName: itemName.optional(),
+  userConsent,
+  userEmailAddress: userEmailAddress.optional(),
+  userName: userName.optional(),
 })
 export const schemaFormReport = z.object({
-  accuracyConfirmation: z.boolean().refine((value) => value === true),
-  emailAddress: z.string().email().max(1000).optional(),
-  message: z.string().min(1).max(2000),
-  name: z.string().min(1).max(100).optional(),
-  privacyConsent: z.boolean().refine((value) => value === true),
+  itemDescription,
+  userConsentAccuracy: userConsent,
+  userConsentProcessing: userConsent,
+  userEmailAddress: userEmailAddress.optional(),
+  userName: userName.optional(),
 })

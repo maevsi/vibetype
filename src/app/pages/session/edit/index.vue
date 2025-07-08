@@ -91,7 +91,7 @@
             :title="t('featureSuggestion')"
             :to="
               localePath({
-                name: 'support-feature-request',
+                name: 'support-idea',
               })
             "
           >

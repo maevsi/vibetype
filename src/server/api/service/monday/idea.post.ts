@@ -1,13 +1,13 @@
 export default defineEventHandler(async (event) => {
-  const body = await getBodySafe({ event, schema: schemaFormReport })
+  const body = await getBodySafe({ event, schema: schemaFormIdea })
   const { createItem: createMondayItem } = useMonday()
 
-  return createMondayItem({
-    board: 'report',
+  return await createMondayItem({
+    board: 'idea',
     columns: {
       itemDescription: body.itemDescription,
-      userConsentAccuracy: body.userConsentAccuracy,
-      userConsentProcessing: body.userConsentProcessing,
+      itemName: body.itemName || '',
+      userConsent: body.userConsent,
       userEmailAddress: body.userEmailAddress || '',
       userName: body.userName || '',
     },

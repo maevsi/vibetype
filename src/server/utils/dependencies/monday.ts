@@ -33,50 +33,50 @@ export const useMonday = () => {
     | {
         board: 'contact'
         columns: {
-          consent: boolean
-          emailAddress: string
-          name: string
-          message: string
+          itemDescription: string
+          userConsent: boolean
+          userEmailAddress: string
+          userName: string
         }
       }
     | {
         board: 'earlyBird'
         columns: {
-          agreement: boolean
-          emailAddress: string
-          name: string
+          userConsent: boolean
+          userEmailAddress: string
+          userName: string
         }
       }
     | {
-        board: 'featureRequest'
+        board: 'idea'
         columns: {
-          consent: boolean
-          emailAddress: string
-          featureDescription: string
-          featureName: string
-          name: string
+          itemDescription: string
+          itemName: string
+          userConsent: boolean
+          userEmailAddress: string
+          userName: string
         }
       }
     | {
         board: 'issue'
         columns: {
-          consent: boolean
-          description: string
-          email: string
-          issueName: string
-          requestor: string
+          itemDescription: string
+          itemName: string
+          userConsent: boolean
+          userEmailAddress: string
+          userName: string
         }
       }
     | {
         board: 'report'
         columns: {
-          accuracyConfirmation: boolean
-          emailAddress: string
-          message: string
-          privacyConsent: boolean
-          reportName: string
+          itemDescription: string
+          userConsentAccuracy: boolean
+          userConsentProcessing: boolean
+          userEmailAddress: string
+          userName: string
         }
-      }): Promise<{ id: string; name: string }> => {
+      }): Promise<{ id: string; name: string } | undefined> => {
     const runtimeConfigBoard = runtimeConfig.private.monday.board
 
     switch (board) {
@@ -86,15 +86,15 @@ export const useMonday = () => {
         return await client.request(queries.itemCreate, {
           boardId: boardContact.id,
           columnValues: JSON.stringify({
-            [boardContact.column.consentId]: {
-              checked: columns.consent.toString(),
+            [boardContact.column.itemDescriptionId]: columns.itemDescription,
+            [boardContact.column.userConsentId]: {
+              checked: columns.userConsent.toString(),
             },
-            [boardContact.column.emailAddressId]: {
-              email: columns.emailAddress,
-              text: columns.emailAddress,
+            [boardContact.column.userEmailAddressId]: {
+              email: columns.userEmailAddress,
+              text: columns.userEmailAddress,
             },
-            [boardContact.column.nameId]: columns.name,
-            [boardContact.column.messageId]: columns.message,
+            [boardContact.column.userNameId]: columns.userName,
           }),
           groupId: boardContact.groupId,
           itemName: new Date().toISOString(),
@@ -106,38 +106,38 @@ export const useMonday = () => {
         return await client.request(queries.itemCreate, {
           boardId: boardEarlyBird.id,
           columnValues: JSON.stringify({
-            [boardEarlyBird.column.agreementId]: {
-              checked: columns.agreement.toString(),
+            [boardEarlyBird.column.userConsentId]: {
+              checked: columns.userConsent.toString(),
             },
-            [boardEarlyBird.column.emailAddressId]: {
-              email: columns.emailAddress,
-              text: columns.emailAddress,
+            [boardEarlyBird.column.userEmailAddressId]: {
+              email: columns.userEmailAddress,
+              text: columns.userEmailAddress,
             },
-            [boardEarlyBird.column.nameId]: columns.name,
+            [boardEarlyBird.column.userNameId]: columns.userName,
           }),
           groupId: boardEarlyBird.groupId,
           itemName: new Date().toISOString(),
         })
       }
-      case 'featureRequest': {
-        const boardFeatureRequest = runtimeConfigBoard.featureRequest
+      case 'idea': {
+        const boardIdea = runtimeConfigBoard.idea
 
         return await client.request(queries.itemCreate, {
-          boardId: boardFeatureRequest.id,
+          boardId: boardIdea.id,
           columnValues: JSON.stringify({
-            [boardFeatureRequest.column.consentId]: {
-              checked: columns.consent.toString(),
+            [boardIdea.column.itemDescriptionId]: columns.itemDescription,
+            [boardIdea.column.itemNameId]: columns.itemName,
+            [boardIdea.column.userConsentId]: {
+              checked: columns.userConsent.toString(),
             },
-            [boardFeatureRequest.column.emailAddressId]: {
-              email: columns.emailAddress,
-              text: columns.emailAddress,
+            [boardIdea.column.userEmailAddressId]: {
+              email: columns.userEmailAddress,
+              text: columns.userEmailAddress,
             },
-            [boardFeatureRequest.column.featureDescriptionId]:
-              columns.featureDescription,
-            [boardFeatureRequest.column.nameId]: columns.name,
+            [boardIdea.column.userNameId]: columns.userName,
           }),
-          groupId: boardFeatureRequest.groupId,
-          itemName: columns.featureName,
+          groupId: boardIdea.groupId,
+          itemName: columns.itemName || new Date().toISOString(),
         })
       }
       case 'issue': {
@@ -146,18 +146,19 @@ export const useMonday = () => {
         return await client.request(queries.itemCreate, {
           boardId: boardIssue.id,
           columnValues: JSON.stringify({
-            [boardIssue.column.consentId]: {
-              checked: columns.consent.toString(),
+            [boardIssue.column.itemDescriptionId]: columns.itemDescription,
+            [boardIssue.column.itemNameId]: columns.itemName,
+            [boardIssue.column.userConsentId]: {
+              checked: columns.userConsent.toString(),
             },
-            [boardIssue.column.descriptionId]: columns.description,
-            [boardIssue.column.emailAddressId]: {
-              email: columns.email,
-              text: columns.email,
+            [boardIssue.column.userEmailAddressId]: {
+              email: columns.userEmailAddress,
+              text: columns.userEmailAddress,
             },
-            [boardIssue.column.requestorId]: columns.requestor,
+            [boardIssue.column.userNameId]: columns.userName,
           }),
           groupId: boardIssue.groupId,
-          itemName: columns.issueName,
+          itemName: columns.itemName || new Date().toISOString(),
         })
       }
       case 'report': {
@@ -166,42 +167,38 @@ export const useMonday = () => {
         return await client.request(queries.itemCreate, {
           boardId: boardReport.id,
           columnValues: JSON.stringify({
-            [boardReport.column.accuracyConfirmationId]: {
-              checked: columns.accuracyConfirmation.toString(),
+            [boardReport.column.itemDescriptionId]: columns.itemDescription,
+            [boardReport.column.userConsentAccuracyId]: {
+              checked: columns.userConsentAccuracy.toString(),
             },
-            [boardReport.column.emailAddressId]: {
-              email: columns.emailAddress,
-              text: columns.emailAddress,
+            [boardReport.column.userConsentProcessingId]: {
+              checked: columns.userConsentProcessing.toString(),
             },
-            [boardReport.column.messageId]: columns.message,
-            [boardReport.column.privacyConsentId]: {
-              checked: columns.privacyConsent.toString(),
+            [boardReport.column.userEmailAddressId]: {
+              email: columns.userEmailAddress,
+              text: columns.userEmailAddress,
             },
+            [boardReport.column.userNameId]: columns.userName,
           }),
           groupId: boardReport.groupId,
-          itemName: columns.reportName,
+          itemName: new Date().toISOString(),
         })
       }
       default:
         consola.error('Unexpected Monday board')
-        throw createError({
-          statusCode: 500,
-          statusMessage: 'Unexpected Monday board',
-        })
     }
   }
 
   const uploadFile = async ({
-    itemId,
     columnId,
     file,
+    itemId,
   }: {
-    itemId: string
     columnId: string
     file: MultiPartData
+    itemId: string
   }) => {
     const formData = new FormData()
-
     formData.append(
       'query',
       `
