@@ -1,5 +1,5 @@
-import { consola } from 'consola'
 import { ApiClient } from '@mondaydotcomorg/api'
+import { consola } from 'consola'
 
 export default defineNitroPlugin((nitroApp) => {
   const runtimeConfigMonday = useRuntimeConfig().vibetype.monday
@@ -18,17 +18,51 @@ export default defineNitroPlugin((nitroApp) => {
 
   const board = runtimeConfigMonday.board
   const missingFields = Object.entries({
-    'board.contact.column.emailAddressId': board.contact.column.emailAddressId,
-    'board.contact.column.messageId': board.contact.column.messageId,
-    'board.contact.column.nameId': board.contact.column.nameId,
-    'board.contact.id': board.contact.id,
+    'board.contact.column.itemDescriptionId':
+      board.contact.column.itemDescriptionId,
+    'board.contact.column.userConsentId': board.contact.column.userConsentId,
+    'board.contact.column.userEmailAddressId':
+      board.contact.column.userEmailAddressId,
+    'board.contact.column.userNameId': board.contact.column.userNameId,
     'board.contact.groupId': board.contact.groupId,
-    'board.earlyBird.column.agreementId': board.earlyBird.column.agreementId,
-    'board.earlyBird.column.emailAddressId':
-      board.earlyBird.column.emailAddressId,
-    'board.earlyBird.column.nameId': board.earlyBird.column.nameId,
-    'board.earlyBird.id': board.earlyBird.id,
+    'board.contact.id': board.contact.id,
+    'board.earlyBird.column.userConsentId':
+      board.earlyBird.column.userConsentId,
+    'board.earlyBird.column.userEmailAddressId':
+      board.earlyBird.column.userEmailAddressId,
+    'board.earlyBird.column.userNameId': board.earlyBird.column.userNameId,
     'board.earlyBird.groupId': board.earlyBird.groupId,
+    'board.earlyBird.id': board.earlyBird.id,
+    'board.idea.column.itemDescriptionId': board.idea.column.itemDescriptionId,
+    'board.idea.column.itemNameId': board.idea.column.itemNameId,
+    'board.idea.column.itemUploadsId': board.idea.column.itemUploadsId,
+    'board.idea.column.userConsentId': board.idea.column.userConsentId,
+    'board.idea.column.userEmailAddressId':
+      board.idea.column.userEmailAddressId,
+    'board.idea.column.userNameId': board.idea.column.userNameId,
+    'board.idea.groupId': board.idea.groupId,
+    'board.idea.id': board.idea.id,
+    'board.issue.column.itemDescriptionId':
+      board.issue.column.itemDescriptionId,
+    'board.issue.column.itemNameId': board.issue.column.itemNameId,
+    'board.issue.column.itemUploadsId': board.issue.column.itemUploadsId,
+    'board.issue.column.userConsentId': board.issue.column.userConsentId,
+    'board.issue.column.userEmailAddressId':
+      board.issue.column.userEmailAddressId,
+    'board.issue.column.userNameId': board.issue.column.userNameId,
+    'board.issue.groupId': board.issue.groupId,
+    'board.issue.id': board.issue.id,
+    'board.report.column.itemDescriptionId':
+      board.report.column.itemDescriptionId,
+    'board.report.column.userConsentAccuracyId':
+      board.report.column.userConsentAccuracyId,
+    'board.report.column.userConsentProcessingId':
+      board.report.column.userConsentProcessingId,
+    'board.report.column.userEmailAddressId':
+      board.report.column.userEmailAddressId,
+    'board.report.column.userNameId': board.report.column.userNameId,
+    'board.report.groupId': board.report.groupId,
+    'board.report.id': board.report.id,
   })
     .filter(([_, value]) => !value)
     .map(([key]) => key)

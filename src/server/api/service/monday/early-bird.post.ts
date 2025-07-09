@@ -5,9 +5,9 @@ export default defineEventHandler(async (event) => {
   return createMondayItem({
     board: 'earlyBird',
     columns: {
-      agreement: body.agreement,
-      emailAddress: body.emailAddress,
-      name: body.name,
+      userConsent: body.userConsent,
+      userEmailAddress: body.userEmailAddress,
+      userName: body.userName,
     },
   })
 })

@@ -88,16 +88,22 @@
         </span>
         <div class="flex flex-col gap-3">
           <CardButton
-            is-external
             :title="t('featureSuggestion')"
-            to="https://forms.monday.com/forms/f3ef56d13c8383e6ececb2875d7fb4b2?r=euc1"
+            :to="
+              localePath({
+                name: 'support-idea',
+              })
+            "
           >
             <AppIconIdea />
           </CardButton>
           <CardButton
-            is-external
             :title="t('bugReport')"
-            to="https://forms.monday.com/forms/55b8fc2281c2be1647a69e6a4ffe156e?r=euc1"
+            :to="
+              localePath({
+                name: 'support-issue',
+              })
+            "
           >
             <AppIconBug />
           </CardButton>
@@ -110,6 +116,16 @@
             "
           >
             <AppIconMail />
+          </CardButton>
+          <CardButton
+            :title="t('report')"
+            :to="
+              localePath({
+                name: 'support-report',
+              })
+            "
+          >
+            <AppIconReport />
           </CardButton>
           <CardButton
             v-if="isDevelopmentModeActive"
@@ -205,6 +221,7 @@ de:
   profile: Profil
   earlyBirdStart: Early Bird beitreten
   # earlyBirdStop: Early Bird beenden
+  report: Melden
   support: Hilfe
   terms: Allgemeine Geschäftsbedingungen
 en:
@@ -228,6 +245,7 @@ en:
   profile: Profile
   earlyBirdStart: Join Early Bird
   # earlyBirdStop: Stop Early Bird
+  report: Report
   support: Support
   terms: General Terms and Conditions
 </i18n>

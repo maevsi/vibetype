@@ -1,11 +1,41 @@
 <template>
   <form ref="form" class="flex flex-col gap-4" @submit="onSubmit">
+    <!-- <FormField v-slot="{ componentField }" name="itemName">
+      <FormItem>
+        <FormLabel>
+          <TypographySubtitleSmall>
+            {{ t('itemName') }}
+          </TypographySubtitleSmall>
+        </FormLabel>
+        <FormControl>
+          <AppInput v-bind="componentField" type="text" />
+        </FormControl>
+        <TypographyLabel v-slot="attributes">
+          <FormMessage v-bind="attributes" />
+        </TypographyLabel>
+      </FormItem>
+    </FormField> -->
+    <FormField v-slot="{ componentField }" name="itemDescription">
+      <FormItem>
+        <FormLabel>
+          <TypographySubtitleSmall>
+            {{ t('itemDescription') }}
+          </TypographySubtitleSmall>
+        </FormLabel>
+        <FormControl>
+          <Textarea v-bind="componentField" rows="8" />
+        </FormControl>
+        <TypographyLabel v-slot="attributes">
+          <FormMessage v-bind="attributes" />
+        </TypographyLabel>
+      </FormItem>
+    </FormField>
     <FormField v-slot="{ componentField }" name="userName">
       <FormItem>
         <FormLabel>
-          <TypographySubtitleMedium>
+          <TypographySubtitleSmall>
             {{ t('userName') }}
-          </TypographySubtitleMedium>
+          </TypographySubtitleSmall>
         </FormLabel>
         <FormControl>
           <AppInput v-bind="componentField" type="text" />
@@ -18,9 +48,9 @@
     <FormField v-slot="{ componentField }" name="userEmailAddress">
       <FormItem>
         <FormLabel>
-          <TypographySubtitleMedium>
+          <TypographySubtitleSmall>
             {{ t('userEmailAddress') }}
-          </TypographySubtitleMedium>
+          </TypographySubtitleSmall>
         </FormLabel>
         <FormControl>
           <AppInput v-bind="componentField" type="text" />
@@ -73,33 +103,26 @@
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 
+// compiler
 const emit = defineEmits<{
-  submit: []
   success: []
 }>()
 
 // form
-const fireAlert = useFireAlert()
-const { t } = useI18n()
 const templateForm = useTemplateRef('form')
+const modelError = defineModel<Error>('error')
 const { handleSubmit } = useForm({
-  validationSchema: toTypedSchema(schemaFormEarlyBird),
+  validationSchema: toTypedSchema(schemaFormIdea),
 })
 const onSubmit = handleSubmit(async (values) => {
   try {
-    await $fetch('/api/service/monday/early-bird', {
+    await $fetch('/api/service/monday/idea', {
       method: 'POST',
       body: values,
     })
     emit('success')
   } catch (error) {
-    // TODO: implement form error page
-    await fireAlert({
-      error,
-      level: 'error',
-      text: t('error'),
-      title: t('globalError'),
-    })
+    modelError.value = error as Error
   }
 })
 const submit = () => {
@@ -112,20 +135,23 @@ defineExpose({
 })
 
 // template
+const { t } = useI18n()
 const localePath = useLocalePath()
 </script>
 
 <i18n lang="yaml">
 de:
-  error: Die Anmeldung für das Early Bird-Programm scheint nicht geklappt zu haben. Bitte versuche es noch einmal oder wende dich an den Support, wenn das Problem weiterhin besteht.
-  userConsent: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über das {contactForm} widerrufen.'
+  itemDescription: Beschreibung
+  # itemName: Titel
+  userConsent: 'Ich habe die {privacyPolicy} zur Kenntnis genommen und stimme zu, dass meine Angaben aus diesem Formular zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über das {contactForm} widerrufen.'
   userConsentContactForm: Kontaktformular
   userConsentPrivacyPolicy: Datenschutzerklärung
   userEmailAddress: E-Mail-Adresse
   userName: Name
 en:
-  error: The registration for the Early Bird program does not seem to have worked. Please try again or contact support if the problem persists.
-  userConsent: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for the purpose of responding to my inquiry. I can withdraw my consent at any time using the {contactForm}.'
+  itemDescription: Description
+  # itemName: Title
+  userConsent: 'I have read the {privacyPolicy} and agree that the information I provide in this form may be processed for the purpose of responding to my inquiry. I can withdraw my consent at any time using the {contactForm}.'
   userConsentContactForm: contact form
   userConsentPrivacyPolicy: privacy policy
   userEmailAddress: Email address

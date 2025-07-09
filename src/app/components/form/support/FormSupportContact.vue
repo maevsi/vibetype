@@ -1,10 +1,25 @@
 <template>
   <form ref="form" class="flex flex-col gap-4" @submit="onSubmit">
-    <FormField v-slot="{ componentField }" name="name">
+    <FormField v-slot="{ componentField }" name="itemDescription">
       <FormItem>
         <FormLabel>
           <TypographySubtitleSmall>
-            {{ t('name') }}
+            {{ t('itemDescription') }}
+          </TypographySubtitleSmall>
+        </FormLabel>
+        <FormControl>
+          <Textarea v-bind="componentField" rows="8" />
+        </FormControl>
+        <TypographyLabel v-slot="attributes">
+          <FormMessage v-bind="attributes" />
+        </TypographyLabel>
+      </FormItem>
+    </FormField>
+    <FormField v-slot="{ componentField }" name="userName">
+      <FormItem>
+        <FormLabel>
+          <TypographySubtitleSmall>
+            {{ t('userName') }}
           </TypographySubtitleSmall>
         </FormLabel>
         <FormControl>
@@ -15,11 +30,11 @@
         </TypographyLabel>
       </FormItem>
     </FormField>
-    <FormField v-slot="{ componentField }" name="emailAddress">
+    <FormField v-slot="{ componentField }" name="userEmailAddress">
       <FormItem>
         <FormLabel>
           <TypographySubtitleSmall>
-            {{ t('emailAddress') }}
+            {{ t('userEmailAddress') }}
           </TypographySubtitleSmall>
         </FormLabel>
         <FormControl>
@@ -30,22 +45,11 @@
         </TypographyLabel>
       </FormItem>
     </FormField>
-    <FormField v-slot="{ componentField }" name="message">
-      <FormItem>
-        <FormLabel>
-          <TypographySubtitleSmall>
-            {{ t('message') }}
-          </TypographySubtitleSmall>
-        </FormLabel>
-        <FormControl>
-          <Textarea v-bind="componentField" />
-        </FormControl>
-        <TypographyLabel v-slot="attributes">
-          <FormMessage v-bind="attributes" />
-        </TypographyLabel>
-      </FormItem>
-    </FormField>
-    <FormField v-slot="{ value, handleChange }" name="consent" type="checkbox">
+    <FormField
+      v-slot="{ value, handleChange }"
+      name="userConsent"
+      type="checkbox"
+    >
       <FormItem>
         <div class="flex gap-3">
           <FormControl class="mt-1">
@@ -56,9 +60,15 @@
             />
           </FormControl>
           <FormLabel>
-            <TypographySubtitleMedium>
-              {{ t('consent') }}
-            </TypographySubtitleMedium>
+            <TypographySubtitleSmall>
+              <i18n-t keypath="userConsent">
+                <template #privacyPolicy>
+                  <AppLink is-underlined :to="localePath('docs-legal-privacy')">
+                    {{ t('privacyPolicy') }}
+                  </AppLink>
+                </template>
+              </i18n-t>
+            </TypographySubtitleSmall>
           </FormLabel>
         </div>
         <TypographyLabel v-slot="attributes">
@@ -73,21 +83,14 @@
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 
+// compiler
 const emit = defineEmits<{
   success: []
 }>()
 
-const modelError = defineModel<Error>('error')
-
-const { t } = useI18n()
-const templateForm = useTemplateRef('form')
-
 // form
-const submit = () => {
-  templateForm.value?.dispatchEvent(
-    new Event('submit', { bubbles: true, cancelable: true }),
-  )
-}
+const templateForm = useTemplateRef('form')
+const modelError = defineModel<Error>('error')
 const { handleSubmit } = useForm({
   validationSchema: toTypedSchema(schemaFormContact),
 })
@@ -102,21 +105,31 @@ const onSubmit = handleSubmit(async (values) => {
     modelError.value = error as Error
   }
 })
-
+const submit = () => {
+  templateForm.value?.dispatchEvent(
+    new Event('submit', { bubbles: true, cancelable: true }),
+  )
+}
 defineExpose({
   submit,
 })
+
+// template
+const { t } = useI18n()
+const localePath = useLocalePath()
 </script>
 
 <i18n lang="yaml">
 de:
-  consent: Ich bin damit einverstanden, dass meine persönlichen Daten zum Zweck der Kontaktaufnahme und für statistische Analysen verwendet werden.
-  emailAddress: E-Mail-Adresse
-  message: Nachricht
-  name: Name
+  itemDescription: Nachricht
+  privacyPolicy: Datenschutzerklärung
+  userConsent: 'Ich habe die {privacyPolicy} zur Kenntnis genommen und stimme zu, dass meine Angaben aus diesem Formular zur Beantwortung meiner Anfrage verarbeitet werden. Hinweis: Du kannst deine Einwilligung jederzeit über dieses Kontaktformular widerrufen.'
+  userEmailAddress: E-Mail-Adresse
+  userName: Name
 en:
-  consent: I consent that my personal data is used for the purpose of contacting me and for statistical analysis.
-  emailAddress: Email address
-  message: Message
-  name: Name
+  itemDescription: Message
+  privacyPolicy: privacy policy
+  userConsent: 'I have read the {privacyPolicy} and agree that the information I provide in this form may be processed for the purpose of responding to my inquiry. Note: You can withdraw your consent at any time using this contact form.'
+  userEmailAddress: Email address
+  userName: Name
 </i18n>
