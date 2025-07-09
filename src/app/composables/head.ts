@@ -32,9 +32,6 @@ export const useAppLayout = () => {
       ],
     })
 
-    // i18n
-    useHeadSafe(useLocaleHead().value)
-
     // seo
     useSeoMeta({
       twitterSite: SEO_META_TWITTER_SITE,
