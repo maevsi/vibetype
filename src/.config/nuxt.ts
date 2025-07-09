@@ -133,7 +133,55 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
-    private: {
+    public: {
+      [SITE_NAME]: {
+        email: {
+          limit24h: '150',
+        },
+      },
+      i18n: {
+        baseUrl: SITE_URL,
+      },
+      sentry: {
+        host: NUXT_PUBLIC_SENTRY_HOST,
+        profiles: {
+          sampleRate: NUXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE,
+        },
+        project: {
+          id: NUXT_PUBLIC_SENTRY_PROJECT_ID,
+          publicKey: NUXT_PUBLIC_SENTRY_PROJECT_PUBLIC_KEY,
+        },
+        replays: {
+          onError: {
+            sampleRate: 1.0,
+          },
+          session: {
+            sampleRate: 0.0,
+          },
+        },
+      },
+      security: {
+        isRateLimiterDisabled: true, // TODO: disable once api requests are optimized (https://github.com/maevsi/vibetype/issues/1654)
+      },
+      turnstile: {
+        siteKey: '0x4AAAAAAABtEW1Hc8mcgWcZ',
+      },
+      vio: {
+        auth: {
+          jwt: {
+            publicKey: '',
+          },
+        },
+        environment: NUXT_PUBLIC_VIO_ENVIRONMENT, // || 'development'
+        isTesting: NUXT_PUBLIC_VIO_IS_TESTING,
+        stagingHost:
+          process.env.NODE_ENV !== 'production' &&
+          !process.env.NUXT_PUBLIC_SITE_URL
+            ? PRODUCTION_HOST
+            : undefined,
+      },
+    },
+    vibetype: {
       api: {
         notification: {
           secret: '',
@@ -200,54 +248,6 @@ export default defineNuxtConfig({
       },
       openai: {
         apiKey: '',
-      },
-    },
-    public: {
-      [SITE_NAME]: {
-        email: {
-          limit24h: '150',
-        },
-      },
-      i18n: {
-        baseUrl: SITE_URL,
-      },
-      sentry: {
-        host: NUXT_PUBLIC_SENTRY_HOST,
-        profiles: {
-          sampleRate: NUXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE,
-        },
-        project: {
-          id: NUXT_PUBLIC_SENTRY_PROJECT_ID,
-          publicKey: NUXT_PUBLIC_SENTRY_PROJECT_PUBLIC_KEY,
-        },
-        replays: {
-          onError: {
-            sampleRate: 1.0,
-          },
-          session: {
-            sampleRate: 0.0,
-          },
-        },
-      },
-      security: {
-        isRateLimiterDisabled: true, // TODO: disable once api requests are optimized (https://github.com/maevsi/vibetype/issues/1654)
-      },
-      turnstile: {
-        siteKey: '0x4AAAAAAABtEW1Hc8mcgWcZ',
-      },
-      vio: {
-        auth: {
-          jwt: {
-            publicKey: '',
-          },
-        },
-        environment: NUXT_PUBLIC_VIO_ENVIRONMENT, // || 'development'
-        isTesting: NUXT_PUBLIC_VIO_IS_TESTING,
-        stagingHost:
-          process.env.NODE_ENV !== 'production' &&
-          !process.env.NUXT_PUBLIC_SITE_URL
-            ? PRODUCTION_HOST
-            : undefined,
       },
     },
   },

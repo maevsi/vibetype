@@ -77,7 +77,7 @@ export const useMonday = () => {
           userName: string
         }
       }): Promise<{ id: string; name: string } | undefined> => {
-    const runtimeConfigBoard = runtimeConfig.private.monday.board
+    const runtimeConfigBoard = runtimeConfig.vibetype.monday.board
 
     switch (board) {
       case 'contact': {

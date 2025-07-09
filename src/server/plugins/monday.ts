@@ -2,7 +2,7 @@ import { ApiClient } from '@mondaydotcomorg/api'
 import { consola } from 'consola'
 
 export default defineNitroPlugin((nitroApp) => {
-  const runtimeConfigMonday = useRuntimeConfig().private.monday
+  const runtimeConfigMonday = useRuntimeConfig().vibetype.monday
 
   if (!runtimeConfigMonday.apiToken) {
     ;(import.meta.dev ? consola.warn : consola.error)(
