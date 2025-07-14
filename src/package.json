@@ -43,7 +43,6 @@
     "@tailwindcss/typography": "0.5.16",
     "@tailwindcss/vite": "4.1.11",
     "@tiptap/core": "3.0.1",
-    "@tiptap/extension-link": "3.0.1",
     "@tiptap/extension-text-align": "3.0.1",
     "@tiptap/pm": "3.0.1",
     "@tiptap/starter-kit": "3.0.1",

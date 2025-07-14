@@ -176,9 +176,6 @@ importers:
       '@tiptap/core':
         specifier: 3.0.1
         version: 3.0.1(@tiptap/pm@3.0.1)
-      '@tiptap/extension-link':
-        specifier: 3.0.1
-        version: 3.0.1(@tiptap/core@3.0.1(@tiptap/pm@3.0.1))(@tiptap/pm@3.0.1)
       '@tiptap/extension-text-align':
         specifier: 3.0.1
         version: 3.0.1(@tiptap/core@3.0.1(@tiptap/pm@3.0.1))
@@ -14197,7 +14194,7 @@ snapshots:
       eslint: 9.30.1(jiti@2.4.2)
       eslint-config-prettier: 10.1.5(eslint@9.30.1(jiti@2.4.2))
       eslint-plugin-compat: 6.0.2(eslint@9.30.1(jiti@2.4.2))
-      eslint-plugin-prettier: 5.5.1(@types/eslint@9.6.1)(eslint-config-prettier@10.1.5(eslint@9.30.1(jiti@2.4.2)))(eslint@9.30.1(jiti@2.4.2))(prettier@3.6.2)
+      eslint-plugin-prettier: 5.5.1(@types/eslint@9.6.1)(eslint-config-prettier@10.1.5(eslint@9.31.0(jiti@2.4.2)))(eslint@9.30.1(jiti@2.4.2))(prettier@3.6.2)
       eslint-plugin-yml: 1.18.0(eslint@9.30.1(jiti@2.4.2))
       globals: 16.3.0
       jiti: 2.4.2
@@ -21509,7 +21506,7 @@ snapshots:
 
   eslint-plugin-only-error@1.0.2: {}
 
-  eslint-plugin-prettier@5.5.1(@types/eslint@9.6.1)(eslint-config-prettier@10.1.5(eslint@9.30.1(jiti@2.4.2)))(eslint@9.30.1(jiti@2.4.2))(prettier@3.6.2):
+  eslint-plugin-prettier@5.5.1(@types/eslint@9.6.1)(eslint-config-prettier@10.1.5(eslint@9.31.0(jiti@2.4.2)))(eslint@9.30.1(jiti@2.4.2))(prettier@3.6.2):
     dependencies:
       eslint: 9.30.1(jiti@2.4.2)
       prettier: 3.6.2
