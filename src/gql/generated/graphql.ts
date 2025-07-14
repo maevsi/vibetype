@@ -5092,23 +5092,26 @@ export enum LegalTermsOrderBy {
 /** The root mutation type which contains root level fields which mutate data. */
 export type Mutation = {
   __typename?: 'Mutation'
-  /** Allows to delete an account. */
+  /** Allows to delete an account.\n\nError codes:\n- **23503** when the account still has events.\n- **28P01** when the password is invalid. */
   accountDelete?: Maybe<AccountDeletePayload>
-  /** Sets the account's email address verification code to `NULL` for which the email address verification code equals the one passed and is up to date. */
+  /** Sets the account's email address verification code to `NULL` for which the email address verification code equals the one passed and is up to date.\n\nError codes:\n- **P0002** when the verification code is unknown.\n- **55000** when the verification code has expired. */
   accountEmailAddressVerification?: Maybe<AccountEmailAddressVerificationPayload>
-  /** Allows to change an account's password. */
+  /** Allows to change an account's password.\n\nError codes:\n- **22023** when the new password is too short.\n- **28P01** when an account with the given password is not found. */
   accountPasswordChange?: Maybe<AccountPasswordChangePayload>
-  /** Sets a new password for an account if there was a request to do so before that's still up to date. */
+  /**
+   * Sets a new password for an account if there was a request to do so before that's still up to date.\n\nError codes:\n- **22023** when the password is too short.\n- **P0002** when the reset code is unknown.\n- **55000** when the reset code has expired.
+   *
+   */
   accountPasswordReset?: Maybe<AccountPasswordResetPayload>
   /** Sets a new password reset verification code for an account. */
   accountPasswordResetRequest?: Maybe<AccountPasswordResetRequestPayload>
   /** Creates a contact and registers an account referencing it.\n\nError codes:\n- **VTBDA** when the birth date is not at least 18 years old.\n- **VTPLL** when the password length does not reach its minimum.\n- **VTAUV** when an account with the given username already exists. */
   accountRegistration?: Maybe<AccountRegistrationPayload>
-  /** Refreshes an account's email address verification validity period. */
+  /** Refreshes an account's email address verification validity period.\n\nError codes:\n- **01P01** in all cases right now as refreshing registrations is currently not available due to missing rate limiting.\n- **22023** when an account with this account id does not exist. */
   accountRegistrationRefresh?: Maybe<AccountRegistrationRefreshPayload>
-  /** Inserts an achievement unlock for the user that gave an existing achievement code. */
+  /** Inserts an achievement unlock for the user that gave an existing achievement code.\n\nError codes:\n- **P0002** when the achievement or the account is unknown. */
   achievementUnlock?: Maybe<AchievementUnlockPayload>
-  /** Creates a JWT token that will securely identify an account and give it certain permissions. */
+  /** Creates a JWT token that will securely identify an account and give it certain permissions.\n\nError codes:\n- **P0002** when an account is not found or when the token could not be created.\n- **55000** when the account is not verified yet. */
   authenticate?: Maybe<AuthenticatePayload>
   /** Creates a single `AccountBlock`. */
   createAccountBlock?: Maybe<CreateAccountBlockPayload>
@@ -5266,15 +5269,15 @@ export type Mutation = {
   deleteUploadById?: Maybe<DeleteUploadPayload>
   /** Deletes a single `Upload` using a unique key. */
   deleteUploadByStorageKey?: Maybe<DeleteUploadPayload>
-  /** Allows to delete an event. */
+  /** Allows to delete an event.\n\nError codes:\n- **P0002** when the event was not found.\n- **28P01** when the account with the given password was not found. */
   eventDelete?: Maybe<EventDeletePayload>
-  /** Adds a guest claim to the current session. */
+  /** Adds a guest claim to the current session.\n\nError codes:\n- **P0002** when no guest, no event, or no event creator username was found for this guest id. */
   eventUnlock?: Maybe<EventUnlockPayload>
-  /** Adds a notification for the invitation channel. */
+  /** Adds a notification for the invitation channel.\n\nError codes:\n- **P0002** when the guest, event, contact, the contact email address, or the account email address is not accessible. */
   invite?: Maybe<InvitePayload>
   /** Refreshes a JWT. */
   jwtRefresh?: Maybe<JwtRefreshPayload>
-  /** Allows to set the acknowledgement state of a notification. */
+  /** Allows to set the acknowledgement state of a notification.\n\nError codes:\n- **P0002** when no notification with the given id is found. */
   notificationAcknowledge?: Maybe<NotificationAcknowledgePayload>
   /** Sets the picture with the given upload id as the invoker's profile picture. */
   profilePictureSet?: Maybe<ProfilePictureSetPayload>
@@ -5288,7 +5291,7 @@ export type Mutation = {
    * Sets the location for the invoker's account.
    *
    * Error codes:
-   * - **P0002** when no record was updated.
+   * - **P0002** when the account is not found.
    */
   updateAccountLocation?: Maybe<UpdateAccountLocationPayload>
   /** Updates a single `AccountSocialNetwork` using its globally unique id and a patch. */
@@ -9199,6 +9202,42 @@ export type DeleteEventFavoriteByIdMutation = {
   } | null
 }
 
+export type AccountItemFragment = {
+  __typename?: 'Account'
+  description?: string | null
+  id: any
+  nodeId: string
+  username: string
+} & { ' $fragmentName'?: 'AccountItemFragment' }
+
+export type AccountBlockedQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  createdBy: Scalars['UUID']['input']
+}>
+
+export type AccountBlockedQuery = {
+  __typename?: 'Query'
+  allAccountBlocks?: {
+    __typename?: 'AccountBlocksConnection'
+    nodes: Array<{
+      __typename?: 'AccountBlock'
+      id: any
+      nodeId: string
+      accountByBlockedAccountId?:
+        | ({ __typename?: 'Account' } & {
+            ' $fragmentRefs'?: { AccountItemFragment: AccountItemFragment }
+          })
+        | null
+    }>
+    pageInfo: {
+      __typename?: 'PageInfo'
+      endCursor?: any | null
+      hasNextPage: boolean
+    }
+  } | null
+}
+
 export type AccountEditQueryVariables = Exact<{
   username: Scalars['String']['input']
 }>
@@ -9579,14 +9618,6 @@ export type GuestEventQuery = {
   } | null
 }
 
-export type AccountItemFragment = {
-  __typename?: 'Account'
-  description?: string | null
-  id: any
-  nodeId: string
-  username: string
-} & { ' $fragmentName'?: 'AccountItemFragment' }
-
 export type AchievementItemFragment = {
   __typename?: 'Achievement'
   nodeId: string
@@ -9870,6 +9901,18 @@ export type CreateAccountBlockMutation = {
   __typename?: 'Mutation'
   createAccountBlock?: {
     __typename?: 'CreateAccountBlockPayload'
+    clientMutationId?: string | null
+  } | null
+}
+
+export type DeleteAccountBlockMutationVariables = Exact<{
+  nodeId: Scalars['ID']['input']
+}>
+
+export type DeleteAccountBlockMutation = {
+  __typename?: 'Mutation'
+  deleteAccountBlock?: {
+    __typename?: 'DeleteAccountBlockPayload'
     clientMutationId?: string | null
   } | null
 }
@@ -12021,6 +12064,163 @@ export const DeleteEventFavoriteByIdDocument = {
   DeleteEventFavoriteByIdMutation,
   DeleteEventFavoriteByIdMutationVariables
 >
+export const AccountBlockedDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AccountBlocked' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'createdBy' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allAccountBlocks' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'createdBy' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: { kind: 'EnumValue', value: 'CREATED_AT_DESC' },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodeId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'accountByBlockedAccountId',
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'FragmentSpread',
+                              name: { kind: 'Name', value: 'AccountItem' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'AccountItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Account' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AccountBlockedQuery, AccountBlockedQueryVariables>
 export const AccountEditDocument = {
   kind: 'Document',
   definitions: [
@@ -14479,6 +14679,69 @@ export const CreateAccountBlockDocument = {
 } as unknown as DocumentNode<
   CreateAccountBlockMutation,
   CreateAccountBlockMutationVariables
+>
+export const DeleteAccountBlockDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteAccountBlock' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'nodeId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteAccountBlock' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'nodeId' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'nodeId' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteAccountBlockMutation,
+  DeleteAccountBlockMutationVariables
 >
 export const AchievementUnlockDocument = {
   kind: 'Document',

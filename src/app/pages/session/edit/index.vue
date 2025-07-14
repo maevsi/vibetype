@@ -152,6 +152,13 @@
           </CardButton>
         </div>
       </section>
+      <span class="text-lg font-bold">
+        {{ t('interactions') }}
+      </span>
+
+      <CardButton :title="t('blocked')" :to="localePath('account-blocked')">
+        <AppIconVerifiedUser />
+      </CardButton>
       <section class="flex flex-col">
         <CardButton
           v-if="store.signedInUsername"
@@ -187,6 +194,7 @@ useHeadDefault({ title })
 de:
   aiSetup: KI einrichten
   # aiSetupReset: KI-Einrichtung zurücksetzen
+  blocked: Blockierte Benutzer
   bugReport: Fehler
   colorScheme: Farbschema
   contact: Kontakt
@@ -194,7 +202,10 @@ de:
   cookies: Cookies
   developerInformation: Entwicklerinformationen
   display: Anzeige
+  earlyBirdStart: Early Bird beitreten
+  # earlyBirdStop: Early Bird beenden
   featureSuggestion: Idee
+  interactions: Interaktionen mit dir
   language: Sprache
   legal: Rechtliches
   legalNotice: Impressum
@@ -203,13 +214,12 @@ de:
   preferences: Einstellungen
   privacy: Datenschutzerklärung
   profile: Profil
-  earlyBirdStart: Early Bird beitreten
-  # earlyBirdStop: Early Bird beenden
   support: Hilfe
   terms: Allgemeine Geschäftsbedingungen
 en:
   aiSetup: Set up AI
   # aiSetupReset: Reset AI Setup
+  blocked: Blocked Users
   bugReport: Issue
   colorScheme: Color scheme
   contact: Contact
@@ -217,7 +227,10 @@ en:
   cookies: Cookies
   developerInformation: Developer information
   display: Display
+  earlyBirdStart: Join Early Bird
+  # earlyBirdStop: Stop Early Bird
   featureSuggestion: Idea
+  interactions: Interactions with you
   language: Language
   legal: Legal
   legalNotice: Legal Notice
@@ -226,8 +239,6 @@ en:
   preferences: Settings
   privacy: Privacy Policy
   profile: Profile
-  earlyBirdStart: Join Early Bird
-  # earlyBirdStop: Stop Early Bird
   support: Support
   terms: General Terms and Conditions
 </i18n>
