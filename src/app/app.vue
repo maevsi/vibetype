@@ -57,7 +57,7 @@ import { isEqual } from 'ufo'
 const { $pwa } = useNuxtApp()
 const { isApp } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
-const timezone = useTimezone()
+const timeZone = useTimeZone()
 const localePath = useLocalePath()
 const store = useStore()
 const route = useRoute()
@@ -83,7 +83,7 @@ onBeforeMount(async () => {
 // methods
 const initialize = async () => {
   if (import.meta.client) {
-    saveTimezoneAsCookie()
+    saveTimeZoneAsCookie()
   }
 
   if (
@@ -98,13 +98,13 @@ const initialize = async () => {
     )
   }
 }
-const saveTimezoneAsCookie = () =>
+const saveTimeZoneAsCookie = () =>
   (useCookie(TIMEZONE_COOKIE_NAME, {
     // default: () => undefined, // setting `default` on the client side only does not write the cookie
     httpOnly: false,
     sameSite: 'strict',
     secure: runtimeConfig.public.vio.isInProduction,
-  }).value = timezone)
+  }).value = timeZone)
 
 // lifecycle
 watch(

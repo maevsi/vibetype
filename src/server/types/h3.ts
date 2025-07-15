@@ -5,7 +5,7 @@ declare module 'h3' {
   interface H3EventContext {
     $openAi?: OpenAI
     $monday?: ApiClient
-    $timezone?: string
+    $timeZone?: string
   }
 }
 

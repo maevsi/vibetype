@@ -7,7 +7,7 @@ import duration from 'dayjs/plugin/duration'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import timezone from 'dayjs/plugin/timezone'
+import timeZone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
 
 export default defineNuxtPlugin((_nuxtApp) => {
@@ -15,7 +15,7 @@ export default defineNuxtPlugin((_nuxtApp) => {
   dayjs.extend(isSameOrAfter)
   dayjs.extend(localizedFormat)
   dayjs.extend(relativeTime)
-  dayjs.extend(timezone)
+  dayjs.extend(timeZone)
   dayjs.extend(utc)
 
   return {
