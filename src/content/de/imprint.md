@@ -36,10 +36,6 @@ Amtsgericht Kassel
 <br />
 Kassel
 
-## Hinweis zur Plattform der EU zur Online-Streitbeilegung (ODR-Plattform)
-<!-- TODO: remove on 2025-07-20 -->
-Wir weisen Sie auf die Plattform der EU zur außergerichtlichen Online-Streitbeilegung (gemäß Verordnung über die Online-Streitbeilegung in Verbraucherangelegenheiten, Verordnung \[EU\] Nr. 524/2013, sog. ODR-Verordnung) hin, die unter folgendem Link erreichbar ist: https://ec.europa.eu/consumers/odr/
-
 ## Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle
 
 Wir sind weder verpflichtet noch bereit, an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen (§ 36 Abs. 1 Nr. 1 VSBG).
