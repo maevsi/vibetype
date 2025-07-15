@@ -1,3 +1,9 @@
+## [12.17.0](https://github.com/maevsi/vibetype/compare/12.16.0...12.17.0) (2025-07-15)
+
+### Features
+
+* **notification:** replace `moment-timezone` with `Intl` ([8c88d57](https://github.com/maevsi/vibetype/commit/8c88d57428a440588239d76a8b933bb812d3242b))
+
 ## [12.16.0](https://github.com/maevsi/vibetype/compare/12.15.1...12.16.0) (2025-07-15)
 
 ### Features
