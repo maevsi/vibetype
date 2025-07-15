@@ -292,7 +292,7 @@ const { locale, t } = useI18n()
 const store = useStore()
 const colorMode = useColorMode()
 const dateTime = useDateTime()
-const timezone = useTimezone()
+const timeZone = useTimeZone()
 
 // data
 const now = dateTime()
@@ -324,7 +324,7 @@ const dateTimeFormatter = (x?: string) =>
     ? new Date(x).toLocaleString(locale.value, {
         dateStyle: 'medium',
         timeStyle: 'short',
-        timeZone: timezone,
+        timeZone,
       })
     : undefined
 const onInputName = async ($event: string) => {

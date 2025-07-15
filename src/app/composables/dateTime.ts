@@ -2,8 +2,8 @@ import type { Dayjs } from 'dayjs'
 
 export const useDateTime = () => {
   const { $dayjs } = useNuxtApp()
-  const timezone = useTimezone()
+  const timeZone = useTimeZone()
 
   return (dateTime?: string | number | Dayjs | Date | null) =>
-    $dayjs(dateTime).tz(timezone)
+    $dayjs(dateTime).tz(timeZone)
 }
