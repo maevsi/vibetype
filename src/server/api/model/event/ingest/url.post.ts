@@ -7,11 +7,11 @@ const eventIngestUrlPostBodySchema = z.object({
 })
 const eventSchema = z.object({
   description: z.string(),
-  end: z.string().optional(),
+  end: z.string().optional(), // TODO: z.iso.datetime({ offset: true }) when OpenAI supports it
   is_event: z.boolean(),
   location: z.string().optional(),
   name: z.string().optional(),
-  start: z.string().optional(),
+  start: z.string().optional(), // TODO: z.iso.datetime({ offset: true }) when OpenAI supports it
 })
 const prompt = `You are a data extraction specialist responsible for identifying and cataloging event information.
 Only accept html. Only if the html contains event information, extract that information into JSON. For dates, use ISO 8601 and the current year (${new Date().getFullYear()}) if no year is given. In all other cases, set all fields to an empty string and \`is_event\` to \`false\`.`

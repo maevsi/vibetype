@@ -11,22 +11,22 @@ const icalPostBodySchema = z.object({
     })
     .optional(),
   event: z.object({
-    id: z.string(),
+    id: z.uuidv4(),
     description: z.string().optional().nullable(),
-    end: z.string().optional().nullable(),
+    end: z.iso.datetime({ offset: true }).optional().nullable(),
     location: z.string().optional().nullable(),
     name: z.string(),
-    start: z.string(),
+    start: z.iso.datetime({ offset: true }),
     accountByCreatedBy: z.object({
       id: z.string(),
       username: z.string(),
     }),
     slug: z.string(),
-    visibility: z.nativeEnum(EventVisibility),
+    visibility: z.enum(EventVisibility),
   }),
   invitation: z
     .object({
-      id: z.string(),
+      id: z.uuidv4(),
     })
     .optional(),
 })
