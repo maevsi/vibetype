@@ -1,7 +1,7 @@
 import type { H3Event } from 'h3'
-import type { ZodSchema, infer as Infer } from 'zod'
+import type { ZodType, infer as Infer } from 'zod'
 
-export const getBodySafe = async <T extends ZodSchema>({
+export const getBodySafe = async <T extends ZodType>({
   event,
   schema,
 }: {
@@ -9,7 +9,7 @@ export const getBodySafe = async <T extends ZodSchema>({
   schema: T
 }) => getSafe({ event, schema, validator: readValidatedBody })
 
-export const getQuerySafe = async <T extends ZodSchema>({
+export const getQuerySafe = async <T extends ZodType>({
   event,
   schema,
 }: {
@@ -17,7 +17,7 @@ export const getQuerySafe = async <T extends ZodSchema>({
   schema: T
 }) => getSafe({ event, schema, validator: getValidatedQuery })
 
-const getSafe = async <T extends ZodSchema>({
+const getSafe = async <T extends ZodType>({
   event,
   schema,
   validator,
