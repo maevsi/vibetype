@@ -1,3 +1,9 @@
+## [12.16.0](https://github.com/maevsi/vibetype/compare/12.15.1...12.16.0) (2025-07-15)
+
+### Features
+
+* **content:** remove dispute resolution section from imprint ([ce18763](https://github.com/maevsi/vibetype/commit/ce18763b1a408107f6653a1b5411e74946ce0d72))
+
 ## [12.15.1](https://github.com/maevsi/vibetype/compare/12.15.0...12.15.1) (2025-07-07)
 
 ### Bug Fixes
