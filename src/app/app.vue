@@ -64,8 +64,6 @@ const route = useRoute()
 
 // i18n
 const { t, locale } = useI18n()
-const { $dayjs } = useNuxtApp()
-$dayjs.locale(locale.value)
 
 // loading
 const loadingId = Math.random()

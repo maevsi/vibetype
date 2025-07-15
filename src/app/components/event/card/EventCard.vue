@@ -58,7 +58,7 @@
         {{ event.name }}
       </EventCardTitle>
       <TypographySubtitleSmall class="truncate">
-        {{ eventStart.format('lll') }}
+        <AppTime :datetime="event.start" />
       </TypographySubtitleSmall>
     </div>
     <div
@@ -134,8 +134,6 @@ const localePath = useLocalePath()
 
 // event
 const store = useStore()
-const dateTime = useDateTime()
-const eventStart = computed(() => dateTime(event.start))
 const isCreator = computed(
   () =>
     event.accountByCreatedBy &&
