@@ -3,7 +3,7 @@
     "@axe-core/playwright": "4.10.2",
     "@eslint/js": "9.31.0",
     "@playwright/test": "1.54.1",
-    "@types/node": "22.16.3",
+    "@types/node": "24.0.13",
     "cross-env": "7.0.3",
     "del-cli": "6.0.0",
     "eslint": "9.31.0",
@@ -15,7 +15,7 @@
     "vitest": "3.2.4"
   },
   "engines": {
-    "node": "22"
+    "node": "^24.0.0"
   },
   "peerDependencies": {
     "playwright-core": "1.54.1"
