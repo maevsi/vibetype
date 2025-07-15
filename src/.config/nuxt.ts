@@ -229,7 +229,6 @@ export default defineNuxtConfig({
       include: [
         '@internationalized/date',
         '@sentry/nuxt',
-        '@tiptap/extension-link',
         '@tiptap/extension-text-align',
         '@tiptap/starter-kit',
         '@tiptap/vue-3',
