@@ -1,3 +1,9 @@
+## [12.17.1](https://github.com/maevsi/vibetype/compare/12.17.0...12.17.1) (2025-07-15)
+
+### Performance Improvements
+
+* **event:** replace `dayjs` with `Intl` ([44240d7](https://github.com/maevsi/vibetype/commit/44240d7034ea6e4f713b215294d3c6743e99703a))
+
 ## [12.17.0](https://github.com/maevsi/vibetype/compare/12.16.0...12.17.0) (2025-07-15)
 
 ### Features
