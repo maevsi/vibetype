@@ -7,12 +7,12 @@ const eventIngestImagePostBodySchema = z.object({
 })
 const eventSchema = z.object({
   description: z.string(),
-  end: z.string().optional(),
+  end: z.string().optional(), // TODO: z.iso.datetime({ offset: true }) when OpenAI supports it
   is_event: z.boolean(),
   location: z.string().optional(),
   name: z.string().optional(),
-  start: z.string().optional(),
-  url: z.string().optional(),
+  start: z.string().optional(), // TODO: z.iso.datetime({ offset: true }) when OpenAI supports it
+  url: z.string().optional(), // TODO: z.url() when OpenAI supports it
 })
 const prompt = `You are a data extraction specialist responsible for identifying and accurately cataloging event information.
 Only accept images. Only if the image is an event poster containing event information, extract that information into JSON. In all other cases, set \`is_event\` to \`false\`.
