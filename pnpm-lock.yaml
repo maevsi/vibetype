@@ -284,9 +284,6 @@ importers:
       css-element-queries:
         specifier: 1.2.3
         version: 1.2.3
-      dayjs:
-        specifier: 2.0.0-alpha.4
-        version: 2.0.0-alpha.4
       defu:
         specifier: 6.1.4
         version: 6.1.4
@@ -319,7 +316,7 @@ importers:
         version: 9.0.5
       ical-generator:
         specifier: 9.0.0
-        version: 9.0.0(@types/node@24.0.14)(dayjs@2.0.0-alpha.4)(luxon@3.6.1)(moment-timezone@0.6.0)(moment@2.30.1)
+        version: 9.0.0(@types/node@24.0.14)(luxon@3.6.1)(moment-timezone@0.6.0)(moment@2.30.1)
       isomorphic-dompurify:
         specifier: 2.26.0
         version: 2.26.0
@@ -14228,7 +14225,7 @@ snapshots:
       '@eslint/compat': 1.3.1(eslint@9.30.1(jiti@2.4.2))
       '@heroicons/vue': 2.2.0(vue@3.5.17(typescript@5.8.3))
       '@http-util/status-i18n': 0.9.0
-      '@intlify/eslint-plugin-vue-i18n': 4.0.1(eslint@9.30.1(jiti@2.4.2))(jsonc-eslint-parser@2.4.0)(vue-eslint-parser@10.2.0(eslint@9.30.1(jiti@2.4.2)))(yaml-eslint-parser@1.3.0)
+      '@intlify/eslint-plugin-vue-i18n': 4.0.1(eslint@9.30.1(jiti@2.4.2))(jsonc-eslint-parser@2.4.0)(vue-eslint-parser@10.2.0(eslint@9.31.0(jiti@2.4.2)))(yaml-eslint-parser@1.3.0)
       '@nuxt/devtools': 2.6.2(rolldown-vite@7.0.9(@types/node@24.0.14)(esbuild@0.25.6)(jiti@2.4.2)(terser@5.43.1)(yaml@2.8.0))(vue@3.5.17(typescript@5.8.3))
       '@nuxt/eslint': 1.5.2(@vue/compiler-sfc@3.5.17)(eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.37.0(eslint@9.31.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.31.0(jiti@2.4.2)))(eslint@9.30.1(jiti@2.4.2))(magicast@0.3.5)(rolldown-vite@7.0.9(@types/node@24.0.14)(esbuild@0.25.6)(jiti@2.4.2)(terser@5.43.1)(yaml@2.8.0))(typescript@5.8.3)
       '@nuxt/image': 1.10.0(db0@0.3.2)(ioredis@5.6.1)(magicast@0.3.5)
@@ -15798,7 +15795,7 @@ snapshots:
       '@intlify/core-base': 11.1.7
       '@intlify/shared': 11.1.7
 
-  '@intlify/eslint-plugin-vue-i18n@4.0.1(eslint@9.30.1(jiti@2.4.2))(jsonc-eslint-parser@2.4.0)(vue-eslint-parser@10.2.0(eslint@9.30.1(jiti@2.4.2)))(yaml-eslint-parser@1.3.0)':
+  '@intlify/eslint-plugin-vue-i18n@4.0.1(eslint@9.30.1(jiti@2.4.2))(jsonc-eslint-parser@2.4.0)(vue-eslint-parser@10.2.0(eslint@9.31.0(jiti@2.4.2)))(yaml-eslint-parser@1.3.0)':
     dependencies:
       '@eslint/eslintrc': 3.3.1
       '@intlify/core-base': 11.1.7
@@ -22922,10 +22919,9 @@ snapshots:
 
   husky@9.1.7: {}
 
-  ical-generator@9.0.0(@types/node@24.0.14)(dayjs@2.0.0-alpha.4)(luxon@3.6.1)(moment-timezone@0.6.0)(moment@2.30.1):
+  ical-generator@9.0.0(@types/node@24.0.14)(luxon@3.6.1)(moment-timezone@0.6.0)(moment@2.30.1):
     optionalDependencies:
       '@types/node': 24.0.14
-      dayjs: 2.0.0-alpha.4
       luxon: 3.6.1
       moment: 2.30.1
       moment-timezone: 0.6.0

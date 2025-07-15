@@ -291,11 +291,10 @@ const localePath = useLocalePath()
 const { locale, t } = useI18n()
 const store = useStore()
 const colorMode = useColorMode()
-const dateTime = useDateTime()
 const timeZone = useTimeZone()
 
 // data
-const now = dateTime()
+const now = useState('dateTimeNow', () => new Date())
 const form = reactive({
   id: ref<string>(),
   createdBy: ref<string>(),
@@ -422,7 +421,7 @@ const updateSlug = async () => {
 
 // computations
 const isWarningStartPastShown = computed(
-  () => !!form.start && dateTime(form.start) < dateTime(),
+  () => !!form.start && new Date(form.start) < now.value,
 )
 
 // vuelidate
