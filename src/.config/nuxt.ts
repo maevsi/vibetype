@@ -67,7 +67,7 @@ export default defineNuxtConfig({
         typeof nuxtConfigSecurityHeaders !== 'boolean' &&
         nuxtConfigSecurityHeaders.contentSecurityPolicy
       ) {
-        if (nuxt.options._generate) {
+        if (nuxt.options.nitro.static) {
           nuxtConfigSecurityHeaders.contentSecurityPolicy = defu(
             {
               'script-src-elem': [
