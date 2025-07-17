@@ -24,12 +24,14 @@ export const useNotificationStore = defineStore('notification', () => {
 
     const token = fcmToken.value
 
-    if (options?.remove) {
+    if (options?.remove && token) {
       // TODO: Remove token in FCM.
       const deleteDeviceMutation = useDeleteDeviceMutation()
       deleteDeviceMutation.executeMutation({
-        createdBy: store.signedInAccountId ?? '',
-        fcmToken: token,
+        deleteDeviceInput: {
+          createdBy: store.signedInAccountId ?? '',
+          fcmToken: token,
+        },
       })
       return
     }
