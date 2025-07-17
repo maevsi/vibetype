@@ -60,9 +60,9 @@ type Documents = {
   '\n  mutation CreateContact($contactInput: ContactInput!) {\n    createContact(input: { contact: $contactInput }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.CreateContactDocument
   '\n  mutation DeleteContactById($id: UUID!) {\n    deleteContactById(input: { id: $id }) {\n      clientMutationId\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.DeleteContactByIdDocument
   '\n  mutation UpdateContactById($id: UUID!, $contactPatch: ContactPatch!) {\n    updateContactById(input: { id: $id, contactPatch: $contactPatch }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.UpdateContactByIdDocument
-  '\n      mutation createDevice($deviceInput: DeviceInput!) {\n        createDevice(input: { device: $deviceInput }) {\n          clientMutationId\n        }\n      }\n    ': typeof types.CreateDeviceDocument
-  '\n      mutation deleteDeviceByCreatedByAndFcmToken(\n        $deleteDeviceInput: DeleteDeviceByCreatedByAndFcmTokenInput!\n      ) {\n        deleteDeviceByCreatedByAndFcmToken(input: $deleteDeviceInput) {\n          clientMutationId\n        }\n      }\n    ': typeof types.DeleteDeviceByCreatedByAndFcmTokenDocument
-  '\n      mutation updateDeviceByCreatedByAndFcmToken(\n        $updateDeviceInput: UpdateDeviceByCreatedByAndFcmTokenInput!\n      ) {\n        updateDeviceByCreatedByAndFcmToken(input: $updateDeviceInput) {\n          clientMutationId\n        }\n      }\n    ': typeof types.UpdateDeviceByCreatedByAndFcmTokenDocument
+  '\n  mutation createDevice($deviceInput: DeviceInput!) {\n    createDevice(input: { device: $deviceInput }) {\n      clientMutationId\n    }\n  }\n': typeof types.CreateDeviceDocument
+  '\n  mutation deleteDeviceByCreatedByAndFcmToken(\n    $deleteDeviceInput: DeleteDeviceByCreatedByAndFcmTokenInput!\n  ) {\n    deleteDeviceByCreatedByAndFcmToken(input: $deleteDeviceInput) {\n      clientMutationId\n    }\n  }\n': typeof types.DeleteDeviceByCreatedByAndFcmTokenDocument
+  '\n  mutation updateDeviceByCreatedByAndFcmToken(\n    $updateDeviceInput: UpdateDeviceByCreatedByAndFcmTokenInput!\n  ) {\n    updateDeviceByCreatedByAndFcmToken(input: $updateDeviceInput) {\n      clientMutationId\n    }\n  }\n': typeof types.UpdateDeviceByCreatedByAndFcmTokenDocument
   '\n  mutation CreateEvent($input: EventInput!) {\n    createEvent(input: { event: $input }) {\n      event {\n        ...EventItem\n      }\n    }\n  }\n': typeof types.CreateEventDocument
   '\n  mutation EventDelete($id: UUID!, $password: String!) {\n    eventDelete(input: { id: $id, password: $password }) {\n      clientMutationId\n      event {\n        ...EventItem\n      }\n    }\n  }\n': typeof types.EventDeleteDocument
   '\n  mutation EventUnlock($guestId: UUID!) {\n    eventUnlock(input: { guestId: $guestId }) {\n      eventUnlockResponse {\n        creatorUsername\n        eventSlug\n        jwt\n      }\n    }\n  }\n': typeof types.EventUnlockDocument
@@ -193,11 +193,11 @@ const documents: Documents = {
     types.DeleteContactByIdDocument,
   '\n  mutation UpdateContactById($id: UUID!, $contactPatch: ContactPatch!) {\n    updateContactById(input: { id: $id, contactPatch: $contactPatch }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n':
     types.UpdateContactByIdDocument,
-  '\n      mutation createDevice($deviceInput: DeviceInput!) {\n        createDevice(input: { device: $deviceInput }) {\n          clientMutationId\n        }\n      }\n    ':
+  '\n  mutation createDevice($deviceInput: DeviceInput!) {\n    createDevice(input: { device: $deviceInput }) {\n      clientMutationId\n    }\n  }\n':
     types.CreateDeviceDocument,
-  '\n      mutation deleteDeviceByCreatedByAndFcmToken(\n        $deleteDeviceInput: DeleteDeviceByCreatedByAndFcmTokenInput!\n      ) {\n        deleteDeviceByCreatedByAndFcmToken(input: $deleteDeviceInput) {\n          clientMutationId\n        }\n      }\n    ':
+  '\n  mutation deleteDeviceByCreatedByAndFcmToken(\n    $deleteDeviceInput: DeleteDeviceByCreatedByAndFcmTokenInput!\n  ) {\n    deleteDeviceByCreatedByAndFcmToken(input: $deleteDeviceInput) {\n      clientMutationId\n    }\n  }\n':
     types.DeleteDeviceByCreatedByAndFcmTokenDocument,
-  '\n      mutation updateDeviceByCreatedByAndFcmToken(\n        $updateDeviceInput: UpdateDeviceByCreatedByAndFcmTokenInput!\n      ) {\n        updateDeviceByCreatedByAndFcmToken(input: $updateDeviceInput) {\n          clientMutationId\n        }\n      }\n    ':
+  '\n  mutation updateDeviceByCreatedByAndFcmToken(\n    $updateDeviceInput: UpdateDeviceByCreatedByAndFcmTokenInput!\n  ) {\n    updateDeviceByCreatedByAndFcmToken(input: $updateDeviceInput) {\n      clientMutationId\n    }\n  }\n':
     types.UpdateDeviceByCreatedByAndFcmTokenDocument,
   '\n  mutation CreateEvent($input: EventInput!) {\n    createEvent(input: { event: $input }) {\n      event {\n        ...EventItem\n      }\n    }\n  }\n':
     types.CreateEventDocument,
@@ -567,20 +567,20 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n      mutation createDevice($deviceInput: DeviceInput!) {\n        createDevice(input: { device: $deviceInput }) {\n          clientMutationId\n        }\n      }\n    ',
-): (typeof documents)['\n      mutation createDevice($deviceInput: DeviceInput!) {\n        createDevice(input: { device: $deviceInput }) {\n          clientMutationId\n        }\n      }\n    ']
+  source: '\n  mutation createDevice($deviceInput: DeviceInput!) {\n    createDevice(input: { device: $deviceInput }) {\n      clientMutationId\n    }\n  }\n',
+): (typeof documents)['\n  mutation createDevice($deviceInput: DeviceInput!) {\n    createDevice(input: { device: $deviceInput }) {\n      clientMutationId\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n      mutation deleteDeviceByCreatedByAndFcmToken(\n        $deleteDeviceInput: DeleteDeviceByCreatedByAndFcmTokenInput!\n      ) {\n        deleteDeviceByCreatedByAndFcmToken(input: $deleteDeviceInput) {\n          clientMutationId\n        }\n      }\n    ',
-): (typeof documents)['\n      mutation deleteDeviceByCreatedByAndFcmToken(\n        $deleteDeviceInput: DeleteDeviceByCreatedByAndFcmTokenInput!\n      ) {\n        deleteDeviceByCreatedByAndFcmToken(input: $deleteDeviceInput) {\n          clientMutationId\n        }\n      }\n    ']
+  source: '\n  mutation deleteDeviceByCreatedByAndFcmToken(\n    $deleteDeviceInput: DeleteDeviceByCreatedByAndFcmTokenInput!\n  ) {\n    deleteDeviceByCreatedByAndFcmToken(input: $deleteDeviceInput) {\n      clientMutationId\n    }\n  }\n',
+): (typeof documents)['\n  mutation deleteDeviceByCreatedByAndFcmToken(\n    $deleteDeviceInput: DeleteDeviceByCreatedByAndFcmTokenInput!\n  ) {\n    deleteDeviceByCreatedByAndFcmToken(input: $deleteDeviceInput) {\n      clientMutationId\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n      mutation updateDeviceByCreatedByAndFcmToken(\n        $updateDeviceInput: UpdateDeviceByCreatedByAndFcmTokenInput!\n      ) {\n        updateDeviceByCreatedByAndFcmToken(input: $updateDeviceInput) {\n          clientMutationId\n        }\n      }\n    ',
-): (typeof documents)['\n      mutation updateDeviceByCreatedByAndFcmToken(\n        $updateDeviceInput: UpdateDeviceByCreatedByAndFcmTokenInput!\n      ) {\n        updateDeviceByCreatedByAndFcmToken(input: $updateDeviceInput) {\n          clientMutationId\n        }\n      }\n    ']
+  source: '\n  mutation updateDeviceByCreatedByAndFcmToken(\n    $updateDeviceInput: UpdateDeviceByCreatedByAndFcmTokenInput!\n  ) {\n    updateDeviceByCreatedByAndFcmToken(input: $updateDeviceInput) {\n      clientMutationId\n    }\n  }\n',
+): (typeof documents)['\n  mutation updateDeviceByCreatedByAndFcmToken(\n    $updateDeviceInput: UpdateDeviceByCreatedByAndFcmTokenInput!\n  ) {\n    updateDeviceByCreatedByAndFcmToken(input: $updateDeviceInput) {\n      clientMutationId\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
