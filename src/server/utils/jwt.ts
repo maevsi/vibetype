@@ -1,6 +1,8 @@
 import { setCookie } from 'h3'
 import type { H3Event } from 'h3'
 
+import { SITE_URL } from '~~/node'
+
 export const useJsonWebToken = async () => {
   const event = useEvent()
   const runtimeConfig = useRuntimeConfig()
@@ -51,7 +53,11 @@ export const setJwtCookie = ({
 }) => {
   const dateEpoch = new Date(0)
   const dateInAMonth = new Date(Date.now() + 86400 * 1000 * 31)
-  const siteUrl = new URL(runtimeConfig.public.i18n.baseUrl)
+  const siteUrl = new URL(
+    typeof runtimeConfig.public.i18n.baseUrl === 'string'
+      ? runtimeConfig.public.i18n.baseUrl
+      : SITE_URL,
+  )
   const isHttps = siteUrl.protocol === 'https:'
   const jwtCookieName = JWT_NAME({ isHttps })
 
