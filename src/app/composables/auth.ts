@@ -83,10 +83,11 @@ export const useSignOut = async () => {
   const runtimeConfig = useRuntimeConfig()
   const notificationStore = useNotificationStore()
 
-  notificationStore.updateRemoteFcmToken(store, { remove: true })
-
   return {
     async signOut() {
+      await notificationStore.updateRemoteFcmToken($urql.value, store, {
+        remove: true,
+      })
       await signOut({
         $urqlReset,
         client: $urql.value,

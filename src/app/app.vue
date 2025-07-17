@@ -54,7 +54,7 @@
 import '@fontsource-variable/raleway'
 import { isEqual } from 'ufo'
 
-const { $pwa } = useNuxtApp()
+const { $urql, $pwa } = useNuxtApp()
 const { isApp } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
 const timeZone = useTimeZone()
@@ -73,13 +73,13 @@ const isLoading = computed(() => !!loadingIds.value.length)
 
 const handleVisibilityChange = async () => {
   if (document.visibilityState == 'visible')
-    notificationStore.updateRemoteFcmToken(store)
+    await notificationStore.updateRemoteFcmToken($urql.value, store)
 }
 
-onMounted(() => {
+onMounted(async () => {
   loadingIds.value.splice(loadingIds.value.indexOf(loadingId), 1)
   document.addEventListener('visibilitychange', handleVisibilityChange)
-  notificationStore.updateRemoteFcmToken(store)
+  await notificationStore.updateRemoteFcmToken($urql.value, store)
 })
 
 // browserslist

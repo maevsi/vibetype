@@ -1,5 +1,6 @@
-import { useCreateDeviceMutation } from '~~/gql/documents/mutations/device/deviceCreate'
-import { useDeleteDeviceMutation } from '~~/gql/documents/mutations/device/deviceDelete'
+import type { Client } from '@urql/core'
+import { createDeviceMutation } from '~~/gql/documents/mutations/device/deviceCreate'
+import { deleteDeviceMutation } from '~~/gql/documents/mutations/device/deviceDelete'
 
 export const useNotificationStore = defineStore('notification', () => {
   const fcmToken = ref<string>()
@@ -17,33 +18,38 @@ export const useNotificationStore = defineStore('notification', () => {
   }
 
   const updateRemoteFcmToken = async (
+    client: Client,
     store: ReturnType<typeof useStore>,
     options?: { remove: boolean },
   ) => {
     if (permissionState.value !== 'granted' || !store.signedInAccountId) return
 
+    if (!fcmToken.value) fcmTokenInitialize()
+
     const token = fcmToken.value
 
-    if (options?.remove && token) {
-      // TODO: Remove token in FCM.
-      const deleteDeviceMutation = useDeleteDeviceMutation()
-      deleteDeviceMutation.executeMutation({
-        deleteDeviceInput: {
+    if (!token) return
+
+    if (options?.remove) {
+      await client
+        .mutation(deleteDeviceMutation, {
+          deleteDeviceInput: {
+            createdBy: store.signedInAccountId ?? '',
+            fcmToken: token,
+          },
+        })
+        .toPromise()
+      return
+    }
+
+    await client
+      .mutation(createDeviceMutation, {
+        deviceInput: {
           createdBy: store.signedInAccountId ?? '',
           fcmToken: token,
         },
       })
-      return
-    }
-
-    // Check if exist if not create otherwise update
-    const createDeviceMutation = useCreateDeviceMutation()
-    createDeviceMutation.executeMutation({
-      deviceInput: {
-        createdBy: store.signedInAccountId ?? '',
-        fcmToken: token,
-      },
-    })
+      .toPromise()
   }
 
   return {

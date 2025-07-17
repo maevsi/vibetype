@@ -101,7 +101,9 @@ export const jwtRefresh = async ({
       runtimeConfig,
       store,
     })
-    notificationStore.updateRemoteFcmToken(store, { remove: true })
+    await notificationStore.updateRemoteFcmToken(client, store, {
+      remove: true,
+    })
   } else if (!result.data?.jwtRefresh?.jwt) {
     await authenticationAnonymous({
       $urqlReset,

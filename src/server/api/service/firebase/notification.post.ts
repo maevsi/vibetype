@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
     })
 
   const fcmTokenList = body.userId
-    ? getFcmTokenListByUserId(body.userId)
+    ? await getFcmTokenListByUserId(body.userId)
     : body.fcmToken
       ? [body.fcmToken]
       : []
@@ -54,4 +54,9 @@ export default defineEventHandler(async (event) => {
   )
 })
 
-const getFcmTokenListByUserId = (_userId: string) => []
+const getFcmTokenListByUserId = async (userId: string) => {
+  const entries = await executeQuery(
+    sql`SELECT fcm_token FROM vibetype.device WHERE created_by = ${userId}`,
+  )
+  return entries.map((row) => row['fcm_token'])
+}

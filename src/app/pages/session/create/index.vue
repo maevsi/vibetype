@@ -73,6 +73,8 @@ const route = useRoute()
 const store = useStore()
 const notificationStore = useNotificationStore()
 
+const { $urql } = useNuxtApp()
+
 // stepper
 const { error, restart, step, title } = useStepperPage<'default'>({
   steps: {
@@ -92,7 +94,7 @@ const to = computed(() =>
 )
 const verified = computed(() => route.query.verified === null)
 const onSignIn = async () => {
-  notificationStore.updateRemoteFcmToken(store)
+  await notificationStore.updateRemoteFcmToken($urql.value, store)
   // A link that allows users to delete their account is required by the Google Play Store (https://support.google.com/googleplay/android-developer/answer/13316080#account_deletion)
   // TODO: generalize, potentially whitelist valid redirection targets
   if (to.value === 'account-deletion') {
