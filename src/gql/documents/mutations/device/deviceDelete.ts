@@ -7,9 +7,7 @@ export const useDeleteDeviceMutation = () =>
       mutation deleteDeviceByCreatedByAndFcmToken(
         $deleteDeviceInput: DeleteDeviceByCreatedByAndFcmTokenInput!
       ) {
-        deleteDeviceByCreatedByAndFcmToken(
-          input: { device: $deleteDeviceInput }
-        ) {
+        deleteDeviceByCreatedByAndFcmToken(input: $deleteDeviceInput) {
           clientMutationId
         }
       }

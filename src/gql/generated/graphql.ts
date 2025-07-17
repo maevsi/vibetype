@@ -9950,6 +9950,18 @@ export type CreateDeviceMutation = {
   } | null
 }
 
+export type DeleteDeviceByCreatedByAndFcmTokenMutationVariables = Exact<{
+  deleteDeviceInput: DeleteDeviceByCreatedByAndFcmTokenInput
+}>
+
+export type DeleteDeviceByCreatedByAndFcmTokenMutation = {
+  __typename?: 'Mutation'
+  deleteDeviceByCreatedByAndFcmToken?: {
+    __typename?: 'DeleteDevicePayload'
+    clientMutationId?: string | null
+  } | null
+}
+
 export type CreateEventMutationVariables = Exact<{
   input: EventInput
 }>
@@ -15165,6 +15177,66 @@ export const CreateDeviceDocument = {
 } as unknown as DocumentNode<
   CreateDeviceMutation,
   CreateDeviceMutationVariables
+>
+export const DeleteDeviceByCreatedByAndFcmTokenDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'deleteDeviceByCreatedByAndFcmToken' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'deleteDeviceInput' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'DeleteDeviceByCreatedByAndFcmTokenInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteDeviceByCreatedByAndFcmToken' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'deleteDeviceInput' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteDeviceByCreatedByAndFcmTokenMutation,
+  DeleteDeviceByCreatedByAndFcmTokenMutationVariables
 >
 export const CreateEventDocument = {
   kind: 'Document',
