@@ -4,8 +4,8 @@ import { graphql } from '~~/gql/generated'
 export const useUpdateDeviceMutation = () =>
   useMutation(
     graphql(`
-      mutation updateDevice($updateDeviceInput: UpdateDeviceByCreatedByAndFcmTokenInput!) {
-        updateDevice($updateDeviceInput) {
+      mutation updateDeviceByCreatedByAndFcmToken($updateDeviceInput: UpdateDeviceByCreatedByAndFcmTokenInput!) {
+        updateDeviceByCreatedByAndFcmToken($updateDeviceInput) {
           clientMutationId
         }
       }
