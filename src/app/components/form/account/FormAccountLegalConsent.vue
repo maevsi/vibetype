@@ -11,12 +11,12 @@
     >
       <div class="flex items-center gap-3 p-1">
         <!-- TODO: extract checkbox-label combination to form input component -->
-        <Checkbox
+        <AppCheckbox
           :id="templateIdCheckbox"
-          class="bg-(--semantic-base-surface-1)"
           :disabled
           form-key="agreement"
           :model-value="v$.agreement.$model"
+          required
           @update:model-value="
             form.agreement = typeof $event === 'string' ? false : $event
           "

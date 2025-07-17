@@ -43,7 +43,7 @@ const isFormSent = ref(false)
 
 // api data
 const accountPasswordChangeMutation = useAccountPasswordChangeMutation()
-const api = getApiData([accountPasswordChangeMutation])
+const api = await useApiData([accountPasswordChangeMutation])
 
 // methods
 const resetForm = () => {

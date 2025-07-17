@@ -1,4 +1,5 @@
-import { setCookie, type H3Event } from 'h3'
+import { setCookie } from 'h3'
+import type { H3Event } from 'h3'
 
 export const useJsonWebToken = async () => {
   const event = useEvent()
@@ -11,8 +12,8 @@ export const useJsonWebToken = async () => {
 
       if (!headerAuthorization) {
         return throwError({
-          code: 401,
-          message: 'The request header "Authorization" is missing!',
+          statusCode: 401,
+          statusMessage: 'The request header "Authorization" is missing!',
         })
       }
 
@@ -22,8 +23,8 @@ export const useJsonWebToken = async () => {
     verifyJwt: async (jwt: string) => {
       if (!jwtPublicKey) {
         return throwError({
-          code: 500,
-          message: 'Secret missing!',
+          statusCode: 500,
+          statusMessage: 'Secret missing!',
         })
       }
 
@@ -31,8 +32,8 @@ export const useJsonWebToken = async () => {
         return (await verifyJwt({ jwt, jwtPublicKey })).payload
       } catch (error) {
         return throwError({
-          code: 401,
-          message: `JSON web token verification failed${error instanceof Error ? `: ${error.message}` : '.'}`,
+          statusCode: 401,
+          statusMessage: `JSON web token verification failed${error instanceof Error ? `: ${error.message}` : '.'}`,
         })
       }
     },
@@ -50,7 +51,7 @@ export const setJwtCookie = ({
 }) => {
   const dateEpoch = new Date(0)
   const dateInAMonth = new Date(Date.now() + 86400 * 1000 * 31)
-  const siteUrl = new URL(runtimeConfig.public.site.url)
+  const siteUrl = new URL(runtimeConfig.public.i18n.baseUrl)
   const isHttps = siteUrl.protocol === 'https:'
   const jwtCookieName = JWT_NAME({ isHttps })
 

@@ -1,5 +1,5 @@
 <template>
-  <Card :class="cn('border-0 text-center font-medium text-white', classProps)">
+  <Card :class="cn('border-0 text-center font-medium', classProps)">
     <slot />
   </Card>
 </template>

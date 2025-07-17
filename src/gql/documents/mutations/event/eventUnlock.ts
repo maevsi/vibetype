@@ -1,10 +1,8 @@
 import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
-export const useEventUnlockMutation = () => useMutation(eventUnlockMutation)
-
 export const eventUnlockMutation = graphql(`
-  mutation eventUnlock($guestId: UUID!) {
+  mutation EventUnlock($guestId: UUID!) {
     eventUnlock(input: { guestId: $guestId }) {
       eventUnlockResponse {
         creatorUsername
@@ -14,3 +12,5 @@ export const eventUnlockMutation = graphql(`
     }
   }
 `)
+
+export const useEventUnlockMutation = () => useMutation(eventUnlockMutation)

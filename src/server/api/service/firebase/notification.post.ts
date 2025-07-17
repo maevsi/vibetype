@@ -22,20 +22,20 @@ export default defineEventHandler(async (event) => {
 
   if (!firebaseAdminApp)
     return throwError({
-      code: 500,
-      message: 'Firebase uninitialized',
+      statusCode: 500,
+      statusMessage: 'Firebase uninitialized',
     })
 
   if (!runtimeConfig.private.api.notification.secret)
     return throwError({
-      code: 500,
-      message: 'Notification secret uninitialized',
+      statusCode: 500,
+      statusMessage: 'Notification secret uninitialized',
     })
 
   if (body.secret !== runtimeConfig.private.api.notification.secret)
     return throwError({
-      code: 403,
-      message: 'Invalid secret',
+      statusCode: 403,
+      statusMessage: 'Invalid secret',
     })
 
   const fcmTokenList = body.userId

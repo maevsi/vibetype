@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { Column, Row, Section, Link } from '@vue-email/components'
 
-import type { Locale } from '../../utils/i18n'
 import AppButton from './components/base/AppButton.vue'
 import AppText from './components/base/AppText.vue'
 import AppAuthor from './components/AppAuthor.vue'
 import AppFooter from './components/AppFooter.vue'
 import Email from './Email.vue'
+import type { Locale } from '../../utils/i18n'
+import { getEmailDateTimeFormatter } from '../../../shared/utils/dateTime'
 
 const {
   emailAddress,
@@ -22,6 +23,7 @@ const {
   validUntil: string
 }>()
 
+const dateTimeFormatter = getEmailDateTimeFormatter(locale)
 const locales = {
   de: {
     button: 'Passwort zurücksetzen',
@@ -35,7 +37,7 @@ const locales = {
     siteName: 'Vibetype',
     title: 'Passwort zurücksetzen',
     validUntil: (validUntil: string) =>
-      `Diese Anfrage ist bis zum ${validUntil} UTC gültig.`,
+      `Diese Anfrage ist bis zum ${dateTimeFormatter.format(new Date(validUntil))} gültig.`,
   },
   en: {
     button: 'Reset password',
@@ -49,7 +51,7 @@ const locales = {
     siteName: 'Vibetype',
     title: 'Reset password',
     validUntil: (validUntil: string) =>
-      `This request is valid until ${validUntil} UTC.`,
+      `This request is valid until ${dateTimeFormatter.format(new Date(validUntil))}.`,
   },
 }
 const t = locales[locale]

@@ -5,7 +5,6 @@
     data-testid="is-loading"
     vaul-drawer-wrapper
   >
-    <NuxtLoadingIndicator />
     <LazyClientOnly>
       <CardStateInfo
         v-if="!isBrowserSupported && !runtimeConfig.public.vio.isTesting"
@@ -31,6 +30,7 @@
         </i18n-t>
       </CardStateInfo>
     </LazyClientOnly>
+    <NuxtLoadingIndicator />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
@@ -39,14 +39,14 @@
       <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->
       <CookieControl :locale="locale" />
     </ClientOnly>
-    <div
+    <!-- <div
       class="absolute inset-x-0 -top-16 -z-10 flex max-h-screen transform-gpu items-start justify-center overflow-hidden blur-3xl"
       aria-hidden="true"
     >
       <div
         class="clip-path aspect-[1318/752] w-[82.375rem] flex-none bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-[15%] dark:opacity-10"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -57,7 +57,7 @@ import { isEqual } from 'ufo'
 const { $pwa } = useNuxtApp()
 const { isApp } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
-const timezone = useTimezone()
+const timeZone = useTimeZone()
 const localePath = useLocalePath()
 const store = useStore()
 const notificationStore = useNotificationStore()
@@ -65,8 +65,6 @@ const route = useRoute()
 
 // i18n
 const { t, locale } = useI18n()
-const { $dayjs } = useNuxtApp()
-$dayjs.locale(locale.value)
 
 // loading
 const loadingId = Math.random()
@@ -98,7 +96,7 @@ onBeforeUnmount(() => {
 // methods
 const initialize = async () => {
   if (import.meta.client) {
-    saveTimezoneAsCookie()
+    saveTimeZoneAsCookie()
   }
 
   if (
@@ -113,13 +111,13 @@ const initialize = async () => {
     )
   }
 }
-const saveTimezoneAsCookie = () =>
+const saveTimeZoneAsCookie = () =>
   (useCookie(TIMEZONE_COOKIE_NAME, {
     // default: () => undefined, // setting `default` on the client side only does not write the cookie
     httpOnly: false,
     sameSite: 'strict',
     secure: runtimeConfig.public.vio.isInProduction,
-  }).value = timezone)
+  }).value = timeZone)
 
 // lifecycle
 watch(

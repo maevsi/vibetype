@@ -7,13 +7,13 @@
         :has-next-page="!!api.data.allGuests?.pageInfo.hasNextPage"
         @load-more="after = api.data.allGuests?.pageInfo.endCursor"
       >
-        <table class="border border-neutral-300 dark:border-neutral-600">
+        <LayoutTable class="border border-neutral-300 dark:border-neutral-600">
           <LayoutThead>
             <tr>
-              <th scope="col">
+              <LayoutTh scope="col">
                 {{ t('contact') }}
-              </th>
-              <th scope="col" />
+              </LayoutTh>
+              <LayoutTh scope="col" />
             </tr>
           </LayoutThead>
           <LayoutTbody>
@@ -24,7 +24,7 @@
               :guest="guest"
             />
           </LayoutTbody>
-        </table>
+        </LayoutTable>
       </AppScrollContainer>
       <div v-else class="flex flex-col items-center gap-2">
         {{ t('guestNone') }}
@@ -104,7 +104,7 @@ import { getGuestItem } from '~~/gql/documents/fragments/guestItem'
 const { event } = defineProps<{
   event: Pick<
     EventItemFragment,
-    'createdBy' | 'slug' | 'guestCountMaximum' | 'id'
+    'accountByCreatedBy' | 'createdBy' | 'slug' | 'guestCountMaximum' | 'id'
   >
 }>()
 
@@ -132,12 +132,12 @@ const options = {
 }
 
 // api data
-const guestsQuery = await useAllGuestsQuery({
+const guestsQuery = useAllGuestsQuery({
   after,
   eventId: event.id,
   first: ITEMS_PER_PAGE_LARGE,
 })
-const api = getApiData([guestsQuery])
+const api = await useApiData([guestsQuery])
 
 // methods
 const add = () => {
@@ -195,7 +195,7 @@ const dataComputed = computed(() => {
 })
 const guests = computed(
   () =>
-    guestsQuery.data.value?.allGuests?.nodes
+    api.value.data.allGuests?.nodes
       .map((x) => getGuestItem(x))
       .filter(isNeitherNullNorUndefined) || [],
 )

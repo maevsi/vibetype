@@ -13,13 +13,23 @@
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <FormAccountRegistration
-          ref="form"
-          v-model:error="error"
-          @submit="step = 'terms'"
-          @success="step = 'success'"
+          v-model:captcha-is-used="captchaIsUsed"
+          v-model:form="form"
+          @submit="step = 'age'"
         />
         <ContentLegalFooter />
       </LayoutPage>
+    </AppStep>
+    <AppStep v-slot="attributes" :is-active="step === 'age'">
+      <AccountRegistrationStepAge
+        v-bind="attributes"
+        @success="
+          ($event) => {
+            birthDate = $event
+            step = 'terms'
+          }
+        "
+      />
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'terms'">
       <AccountLegalConsent
@@ -35,7 +45,7 @@
       <AccountLegalConsent
         v-bind="attributes"
         :label="t('agreePrivacy')"
-        @agreement="templateForm?.submit(legalTermId || '')"
+        @agreement="submit(legalTermId || '')"
       >
         <Content path="privacy-consent" />
       </AccountLegalConsent>
@@ -62,7 +72,9 @@
     <AppStep v-if="error" v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="error">
-          {{ error }}
+          <template v-if="error">
+            {{ error.message }}
+          </template>
           <template #description>
             {{ t('tryAgain') }}
           </template>
@@ -83,23 +95,88 @@
 </template>
 
 <script setup lang="ts">
+import { useAccountRegistrationMutation } from '~~/gql/documents/mutations/account/accountRegistration'
+
 definePageMeta({
   layout: 'plain',
 })
 
-const { t } = useI18n()
+const { locale, t } = useI18n()
+
+// api data
+const accountRegistrationMutation = useAccountRegistrationMutation()
+const api = await useApiData([accountRegistrationMutation])
+// TODO: move into api utility as `errorsTranslated`
+watch(
+  () => api.value.errors,
+  (current) => {
+    error.value = current?.length
+      ? new Error(
+          getCombinedErrorMessages(current, {
+            postgresVTAUV: t('postgresVTAUV'),
+            postgresVTBDA: t('postgresVTBDA'),
+            postgresVTPLL: t('postgresVTPLL'),
+          })[0],
+        )
+      : undefined
+  },
+)
 
 // template
 const templateIdTitle = useId()
-const templateForm = useTemplateRef('form')
+const birthDate = ref<string>()
+
+// form
+const form = reactive({
+  captcha: ref<string>(),
+  emailAddress: ref<string>(),
+  password: ref<string>(),
+  passwordRepetition: ref<string>(),
+  username: ref<string>(),
+})
+const captchaIsUsed = ref<boolean>()
+const submit = async (termId: string) => {
+  const result = await accountRegistrationMutation.executeMutation(
+    {
+      birthDate: birthDate,
+      emailAddress: form.emailAddress || '',
+      language: locale.value,
+      legalTermId: termId,
+      password: form.password || '',
+      username: form.username || '',
+    },
+    {
+      fetchOptions: {
+        headers: {
+          ...(form.captcha && { [TURNSTILE_HEADER_KEY]: form.captcha }),
+        },
+      },
+    },
+  )
+
+  if (result.error || !result.data) {
+    captchaIsUsed.value = true
+    return
+  }
+
+  step.value = 'success'
+}
 
 // stepper
 const { error, previous, restart, step, title } = useStepperPage<
-  'default' | 'terms' | 'privacy' | 'success'
+  'age' | 'terms' | 'privacy' | 'success'
 >({
   steps: {
     default: {
       title: t('titleForm'),
+    },
+    age: {
+      title: t('titleAge'),
+      previous: 'default',
+    },
+    terms: {
+      title: t('titleTerms'),
+      previous: 'age',
     },
     privacy: {
       title: t('titlePrivacy'),
@@ -107,10 +184,6 @@ const { error, previous, restart, step, title } = useStepperPage<
     },
     success: {
       title: t('titleVerification'),
-    },
-    terms: {
-      title: t('titleTerms'),
-      previous: 'default',
     },
   },
 })
@@ -128,6 +201,10 @@ de:
   agreePrivacy: Ich stimme der Datenschutzerklärung zu
   back: zurück
   backToRegistration: Zurück zur Registrierung
+  postgresVTAUV: Es gibt bereits einen Account mit diesem Nutzernamen! Überlege dir einen neuen Namen oder versuche dich anzumelden.
+  postgresVTBDA: Du musst mindestens 18 Jahre alt sein, um dich zu registrieren.
+  postgresVTPLL: Das Passwort ist zu kurz! Überlege dir ein längeres.
+  titleAge: Bereit für Social Media?
   titleForm: Erstelle ein Konto
   titlePrivacy: Datenschutzbestimmungen
   titleTerms: Geschäftsbedingungen
@@ -140,6 +217,10 @@ en:
   agreePrivacy: I agree to the Privacy Policy
   back: back
   backToRegistration: Back to Registration
+  postgresVTAUV: This username is already in use! Think of a new name or try signing in instead.
+  postgresVTBDA: You must be at least 18 years old to register.
+  postgresVTPLL: Your password is too short! Think of a longer one.
+  titleAge: Ready for Social Media?
   titleForm: Create an account
   titlePrivacy: Privacy Policy
   titleTerms: General Terms and Conditions

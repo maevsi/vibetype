@@ -4,14 +4,8 @@
     :data-is-loading="isLoading"
     data-testid="is-loading"
   >
-    <NuxtLayout>
-      <div class="p-3">
-        <AppError
-          :status-code="error.statusCode"
-          :description="error.message"
-          :stack="error.stack"
-        />
-      </div>
+    <NuxtLayout name="default-no-header">
+      <AppError :error />
     </NuxtLayout>
   </div>
 </template>
@@ -22,9 +16,7 @@ import type { NuxtError } from '#app'
 const { error } = defineProps<{ error: NuxtError }>()
 
 // i18n
-const { t, locale } = useI18n()
-const { $dayjs } = useNuxtApp()
-$dayjs.locale(locale.value)
+const { t } = useI18n()
 
 // loading
 const loadingId = Math.random()

@@ -7,6 +7,12 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/" />
     </url>
     <url>
+        <loc>http://localhost:3001/account</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/account" />
+        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/account" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/account" />
+    </url>
+    <url>
         <loc>http://localhost:3001/contact</loc>
         <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/contact" />
         <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/contact" />

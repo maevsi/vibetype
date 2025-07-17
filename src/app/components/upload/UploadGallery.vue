@@ -120,7 +120,8 @@ import Tus from '@uppy/tus'
 import { consola } from 'consola'
 import prettyBytes from 'pretty-bytes'
 import type { UnwrapRef } from 'vue'
-import { Cropper, type CropperResult, type Size } from 'vue-advanced-cropper'
+import { Cropper } from 'vue-advanced-cropper'
+import type { CropperResult, Size } from 'vue-advanced-cropper'
 
 import { useCreateUploadMutation } from '~~/gql/documents/mutations/upload/uploadCreate'
 import { useAccountUploadQuotaBytesQuery } from '~~/gql/documents/queries/account/accountUploadQuotaBytes'
@@ -160,15 +161,15 @@ const selectedItem = ref<{
 const uppy = ref<Uppy<{ id: string }>>()
 
 // api data
-const accountUploadQuotaBytesQuery = await useAccountUploadQuotaBytesQuery({})
-const allUploadsQuery = await useAllUploadsQuery({
+const accountUploadQuotaBytesQuery = useAccountUploadQuotaBytesQuery({})
+const allUploadsQuery = useAllUploadsQuery({
   after,
   first: ITEMS_PER_PAGE,
   createdBy: store.signedInAccountId,
 })
 const deleteUploadByIdMutation = useDeleteUploadByIdMutation()
 const uploadCreateMutation = useCreateUploadMutation()
-const api = getApiData([
+const api = await useApiData([
   accountUploadQuotaBytesQuery,
   allUploadsQuery,
   deleteUploadByIdMutation,
@@ -176,12 +177,12 @@ const api = getApiData([
 ])
 const uploads = computed(
   () =>
-    allUploadsQuery.data.value?.allUploads?.nodes
+    api.value.data.allUploads?.nodes
       .map((x) => getUploadItem(x))
       .filter(isNeitherNullNorUndefined) || [],
 )
 const accountUploadQuotaBytes = computed(
-  () => accountUploadQuotaBytesQuery.data.value?.accountUploadQuotaBytes,
+  () => api.value.data.accountUploadQuotaBytes,
 )
 
 // computations
@@ -297,11 +298,9 @@ const getUploadBlobPromise = () =>
         if (!blob || !templateInputProfilePicture.value?.files?.[0]) return
 
         const result = await uploadCreateMutation.executeMutation({
-          createUploadInput: {
-            upload: {
-              createdBy: store.signedInAccountId,
-              sizeByte: blob.size,
-            },
+          input: {
+            createdBy: store.signedInAccountId,
+            sizeByte: blob.size,
           },
         })
 

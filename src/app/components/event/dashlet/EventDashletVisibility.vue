@@ -27,10 +27,8 @@
 </template>
 
 <script setup lang="ts">
-import {
-  EventVisibility,
-  type EventItemFragment,
-} from '~~/gql/generated/graphql'
+import { EventVisibility } from '~~/gql/generated/graphql'
+import type { EventItemFragment } from '~~/gql/generated/graphql'
 
 const { event } = defineProps<{
   event: Pick<EventItemFragment, 'isArchived' | 'visibility'>

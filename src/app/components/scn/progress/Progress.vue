@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { cn } from '@/utils/shadcn'
-import {
-  ProgressIndicator,
-  ProgressRoot,
-  type ProgressRootProps,
-} from 'reka-ui'
-import { computed, type HTMLAttributes } from 'vue'
+import { ProgressIndicator, ProgressRoot } from 'reka-ui'
+import type { ProgressRootProps } from 'reka-ui'
+import { computed } from 'vue'
+import type { HTMLAttributes } from 'vue'
 
 const props = withDefaults(
   defineProps<ProgressRootProps & { class?: HTMLAttributes['class'] }>(),

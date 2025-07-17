@@ -76,7 +76,10 @@ if (
   Array.isArray(route.query.code) ||
   !REGEX_UUID.test(route.query.code)
 ) {
-  throw createError({ statusCode: 400 })
+  throw createError({
+    fatal: true,
+    statusCode: 400,
+  })
 }
 
 // template
@@ -84,7 +87,7 @@ const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
 
 // stepper
-const { step } = useStepper<'default' | 'success'>()
+const { step } = useStepper<'success'>()
 </script>
 
 <i18n lang="yaml">

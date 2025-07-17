@@ -3,9 +3,9 @@
     <FormField v-slot="{ componentField }" name="name">
       <FormItem>
         <FormLabel>
-          <TypographySubtitleSmall>
+          <TypographySubtitleMedium>
             {{ t('name') }}
-          </TypographySubtitleSmall>
+          </TypographySubtitleMedium>
         </FormLabel>
         <FormControl>
           <AppInput v-bind="componentField" type="text" />
@@ -18,9 +18,9 @@
     <FormField v-slot="{ componentField }" name="emailAddress">
       <FormItem>
         <FormLabel>
-          <TypographySubtitleSmall>
+          <TypographySubtitleMedium>
             {{ t('emailAddress') }}
-          </TypographySubtitleSmall>
+          </TypographySubtitleMedium>
         </FormLabel>
         <FormControl>
           <AppInput v-bind="componentField" type="text" />
@@ -38,7 +38,11 @@
       <FormItem>
         <div class="flex gap-3">
           <FormControl class="mt-1">
-            <Checkbox :model-value="value" @update:model-value="handleChange" />
+            <AppCheckbox
+              :model-value="value"
+              required
+              @update:model-value="handleChange"
+            />
           </FormControl>
           <FormLabel>
             <TypographySubtitleMedium>

@@ -34,11 +34,11 @@ export const useHttpStatusCode = async ({
 }: {
   statusCode: number
 }) => {
-  const { locale, t } = useI18n()
+  const { locale, t } = useI18n({ useScope: 'global' })
 
   const { status } = await import('@http-util/status-i18n')
   const statusName = computed(
-    () => `${status(statusCode, locale.value) || t('globalError')} 🙊`,
+    () => status(statusCode, locale.value) || t('globalError'),
   )
 
   return {

@@ -3,19 +3,19 @@
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/commit-analyzer": "13.0.1",
     "@semantic-release/git": "10.0.1",
-    "@semantic-release/github": "11.0.2",
-    "@semantic-release/npm": "12.0.1",
+    "@semantic-release/github": "11.0.3",
+    "@semantic-release/npm": "12.0.2",
     "@semantic-release/release-notes-generator": "14.0.3",
-    "conventional-changelog-conventionalcommits": "8.0.0",
+    "conventional-changelog-conventionalcommits": "9.1.0",
     "husky": "9.1.7",
     "jiti": "2.4.2",
-    "lint-staged": "16.0.0",
-    "semantic-release": "24.2.4"
+    "lint-staged": "16.1.2",
+    "semantic-release": "24.2.7"
   },
   "engines": {
-    "node": "22"
+    "node": "^24.0.0"
   },
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@10.13.1",
   "pnpm": {
     "ignoredBuiltDependencies": [
       "@firebase/util",
@@ -33,7 +33,10 @@
       "vue-demi"
     ],
     "overrides": {
-      "@nuxtjs/i18n": "10.0.0-beta.3"
+      "@intlify/unplugin-vue-i18n": "11.0.0-beta.4",
+      "debug": "4.4.1",
+      "nuxt-og-image": "5.1.7",
+      "vite": "npm:rolldown-vite@7.0.9"
     }
   },
   "private": true,

@@ -1,11 +1,11 @@
 export const useAuth = async () => {
   const jwtFromCookie = useJwtFromCookie()
   const authenticateAnonymous = useAuthenticateAnonymous()
-  const jwtRefresh = useJwtRefresh()
+  const jwtRefreshComposable = useJwtRefresh() // TODO: rename to just `jwtRefreshComposable` when Rolldown supports variable shadowing
 
   if (import.meta.server) {
     if (jwtFromCookie?.jwtDecoded?.id) {
-      await jwtRefresh()
+      await jwtRefreshComposable()
     } else {
       await authenticateAnonymous()
     }

@@ -1,6 +1,6 @@
 import { zodResponseFormat } from 'openai/helpers/zod'
-import { z } from 'zod'
 import sharp from 'sharp'
+import { z } from 'zod'
 
 const eventIngestImagePostBodySchema = z.object({
   base64Image: z.string(),
@@ -24,8 +24,8 @@ If the image contains event information:
 export default defineEventHandler(async (event) => {
   if (!import.meta.dev) {
     return throwError({
-      code: 503,
-      message:
+      statusCode: 503,
+      statusMessage:
         'This endpoint is currently disabled until proper authentication and cost tracking is implemented.',
     })
   }
@@ -36,8 +36,8 @@ export default defineEventHandler(async (event) => {
   const jwtDecoded = await verifyJwt(getJwtFromHeader())
   if (!(jwtDecoded.role === `${SITE_NAME}_account`))
     return throwError({
-      code: 403,
-      message: 'This endpoint only available to registered users.',
+      statusCode: 403,
+      statusMessage: 'This endpoint only available to registered users.',
     })
 
   const body = await getBodySafe({
@@ -80,12 +80,12 @@ export default defineEventHandler(async (event) => {
       .join(', ')
 
     return throwError({
-      code: 403,
-      message: `The image seems to contain content that has been moderated to be of the following type${flaggedCategories.length > 1 ? 's' : ''}: ${flaggedCategories}`,
+      statusCode: 403,
+      statusMessage: `The image seems to contain content that has been moderated to be of the following type${flaggedCategories.length > 1 ? 's' : ''}: ${flaggedCategories}`,
     })
   }
 
-  const completion = await openAiClient.beta.chat.completions.parse({
+  const completion = await openAiClient.chat.completions.parse({
     messages: [
       {
         role: 'system',

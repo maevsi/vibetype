@@ -7,25 +7,25 @@
         :has-next-page="!!api.data.allContacts?.pageInfo.hasNextPage"
         @load-more="after = api.data.allContacts?.pageInfo.endCursor"
       >
-        <table>
+        <LayoutTable>
           <LayoutThead>
             <tr>
-              <th scope="col">
+              <LayoutTh scope="col">
                 {{ t('contact') }}
-              </th>
-              <th class="hidden xl:table-cell" scope="col">
+              </LayoutTh>
+              <LayoutTh class="hidden xl:table-cell" scope="col">
                 {{ t('emailAddress') }}
-              </th>
-              <!-- <th class="hidden xl:table-cell" scope="col">
+              </LayoutTh>
+              <!-- <LayoutTh class="hidden xl:table-cell" scope="col">
                 {{ t('address') }}
-              </th> -->
-              <th class="hidden xl:table-cell" scope="col">
+              </LayoutTh> -->
+              <LayoutTh class="hidden xl:table-cell" scope="col">
                 {{ t('phoneNumber') }}
-              </th>
-              <th class="hidden xl:table-cell" scope="col">
+              </LayoutTh>
+              <LayoutTh class="hidden xl:table-cell" scope="col">
                 {{ t('url') }}
-              </th>
-              <th scope="col" />
+              </LayoutTh>
+              <LayoutTh scope="col" />
             </tr>
           </LayoutThead>
           <LayoutTbody>
@@ -40,7 +40,7 @@
               @edit="edit(contact)"
             />
           </LayoutTbody>
-        </table>
+        </LayoutTable>
       </AppScrollContainer>
       <div class="flex justify-center">
         <ButtonColored :aria-label="t('contactAdd')" @click="add()">
@@ -95,16 +95,16 @@ const selectedContact = ref<
 >()
 
 // api data
-const contactsQuery = await useAllContactsQuery({
+const contactsQuery = useAllContactsQuery({
   after,
   createdBy: store.signedInAccountId,
   first: ITEMS_PER_PAGE_LARGE,
 })
 const deleteContactByIdMutation = useDeleteContactByIdMutation()
-const api = getApiData([contactsQuery, deleteContactByIdMutation])
+const api = await useApiData([contactsQuery, deleteContactByIdMutation])
 const contacts = computed(
   () =>
-    contactsQuery.data.value?.allContacts?.nodes
+    api.value.data.allContacts?.nodes
       .map((x) => getContactItem(x))
       .filter(isNeitherNullNorUndefined) || [],
 )

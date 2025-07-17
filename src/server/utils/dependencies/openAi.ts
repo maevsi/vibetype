@@ -1,4 +1,4 @@
-import type { ChatCompletion } from 'openai/resources/index.mjs'
+import type { ChatCompletion } from 'openai/resources/chat/completions'
 
 const costFormatter = new Intl.NumberFormat('de-DE', {
   style: 'currency',
@@ -9,7 +9,11 @@ const costFormatter = new Intl.NumberFormat('de-DE', {
 export const useOpenAi = () => {
   const event = useEvent()
 
-  if (!event.context.$openAi) throw createError('openai')
+  if (!event.context.$openAi)
+    return throwError({
+      statusCode: 500,
+      statusMessage: 'Event context is missing OpenAI data',
+    })
 
   return {
     getCompletionCost: (completion: ChatCompletion) => {

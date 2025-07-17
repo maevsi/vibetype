@@ -1,5 +1,5 @@
 export const useGetCurrencyFormatted = () => {
-  const { locale } = useI18n()
+  const { locale } = useI18n({ useScope: 'global' })
 
   return (number: number) =>
     new Intl.NumberFormat(locale.value, {

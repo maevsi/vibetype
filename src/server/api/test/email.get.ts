@@ -1,7 +1,8 @@
 import { z } from 'zod'
 
 import { LOGO_BASE64 } from '~~/server/utils/assets'
-import { EMAIL_NAMES, getEmail, type EmailName } from '~~/server/utils/email'
+import { EMAIL_NAMES, getEmail } from '~~/server/utils/email'
+import type { EmailName } from '~~/server/utils/email'
 import { Locale } from '~~/server/utils/i18n'
 import { getQuerySafe } from '~~/server/utils/validation'
 
@@ -43,7 +44,7 @@ const getDemoEmailProps = (locale: Locale) =>
       eventAuthorUsername: 'john_doe',
       eventDescription:
         'Join us for an exciting event on the future of technology and innovation.',
-      eventDuration: '2 hours',
+      eventEnd: '2024-10-15T16:00:00Z',
       eventLink: 'https://example.com/events/tech-event',
       eventName: 'Future of Tech 2024',
       eventStart: '2024-10-15T14:00:00Z',

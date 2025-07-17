@@ -259,13 +259,12 @@
         code block
       </AppButton> -->
     </div>
-    <EditorContent :editor="editor" />
+    <EditorContent :editor />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useEditor, EditorContent } from '@tiptap/vue-3'
-import { Link } from '@tiptap/extension-link'
 import { TextAlign } from '@tiptap/extension-text-align'
 import { StarterKit } from '@tiptap/starter-kit'
 import type { BaseValidation } from '@vuelidate/core'
@@ -291,7 +290,6 @@ const editor = useEditor({
   },
   extensions: [
     StarterKit,
-    Link,
     TextAlign.configure({ types: ['heading', 'paragraph'] }),
   ],
   onUpdate: () => {
@@ -392,9 +390,6 @@ const updateDebounced = debounce(
   1000,
   { leading: true },
 )
-
-// lifecycle
-onBeforeUnmount(() => editor.value?.destroy())
 </script>
 
 <i18n lang="yaml">

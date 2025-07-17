@@ -2,7 +2,10 @@
   <LayoutProse v-if="legalTermFirst">
     <MDCRenderer v-if="ast" :body="ast.body" :data="ast.data" />
   </LayoutProse>
-  <AppError v-else :description="t('errorUnavailable')" :status-code="500" />
+  <AppError
+    v-else
+    :error="{ message: t('errorUnavailable'), statusCode: 500 }"
+  />
 </template>
 
 <script setup lang="ts">
@@ -18,14 +21,14 @@ const emit = defineEmits<{
 }>()
 
 // legal terms
-const legalTermsQuery = await zalgo(
-  useAllLegalTermsQuery({
-    language: locale.value,
-  }),
-)
+const legalTermsQuery = useAllLegalTermsQuery({
+  language: locale.value,
+})
+const api = await useApiData([legalTermsQuery])
+
 const legalTermFirst = computed(
   () =>
-    legalTermsQuery.data.value?.allLegalTerms?.nodes
+    api.value.data.allLegalTerms?.nodes
       ?.map(getLegalTermItem)
       .filter(isNeitherNullNorUndefined)[0],
 )

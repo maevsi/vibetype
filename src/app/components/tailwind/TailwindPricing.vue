@@ -2,7 +2,7 @@
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <div class="mx-auto max-w-4xl sm:text-center">
       <h2
-        class="text-base leading-7 font-semibold text-(--semantic-accent-accent-text)"
+        class="text-base leading-7 font-semibold text-(--semantic-accent-text)"
       >
         {{ t('titlePrefix') }}
       </h2>
@@ -66,7 +66,7 @@
               class="flex gap-x-3"
             >
               <IHeroiconsCheck
-                class="h-6 w-5 flex-none text-(--semantic-accent-accent-icon)"
+                class="h-6 w-5 flex-none text-(--semantic-accent-icon)"
                 aria-hidden="true"
               />
               {{ feature }}

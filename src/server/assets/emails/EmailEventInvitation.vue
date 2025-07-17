@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { Column, Row, Section, Link, Img } from '@vue-email/components'
 
-import type { Locale } from '../../utils/i18n'
 import AppButton from './components/base/AppButton.vue'
 import AppText from './components/base/AppText.vue'
 import AppFooter from './components/AppFooter.vue'
 import Email from './Email.vue'
+import type { Locale } from '../../utils/i18n'
+import {
+  getDuration,
+  getEmailDateTimeFormatter,
+} from '../../../shared/utils/dateTime'
 
 const {
   emailAddress,
@@ -16,7 +20,7 @@ const {
   eventLink,
   eventName,
   eventDescription = undefined,
-  eventDuration = undefined,
+  eventEnd = undefined,
   eventStart,
   eventVisibility,
   locale,
@@ -30,12 +34,18 @@ const {
   eventLink: string
   eventName: string
   eventDescription?: string
-  eventDuration?: string
+  eventEnd?: string
   eventStart: string
   eventVisibility: string
   locale: Locale
   logoSource?: string
 }>()
+
+const dateTimeFormatter = getEmailDateTimeFormatter(locale)
+// @ts-expect-error https://github.com/microsoft/TypeScript/issues/60608
+const durationFormatter = new Intl.DurationFormat(locale, {
+  style: 'long',
+})
 
 const locales = {
   de: {
@@ -44,9 +54,19 @@ const locales = {
     eventAttendanceType: (eventAttendanceType: string) =>
       `Teilnahme: ${eventAttendanceType}`,
     eventDescriptionTitle: 'Details',
-    eventDuration: (eventDuration: string) => `Dauer: ${eventDuration}`,
+    eventDuration: ({
+      eventEnd,
+      eventStart,
+    }: {
+      eventEnd: string
+      eventStart: string
+    }) =>
+      `Dauer: ${durationFormatter.format(
+        getDuration(new Date(eventStart), new Date(eventEnd)),
+      )}`,
     eventShow: 'Veranstaltung anzeigen',
-    eventStart: (eventStart: string) => `Beginn: ${eventStart} UTC`,
+    eventStart: (eventStart: string) =>
+      `Beginn: ${dateTimeFormatter.format(new Date(eventStart))}`,
     eventVisibility: (eventVisibility: string) =>
       `Dies ist eine ${eventVisibility} Veranstaltung.`,
     header: (eventAuthorUsername: string) =>
@@ -60,9 +80,19 @@ const locales = {
     eventAttendanceType: (eventAttendanceType: string) =>
       `Attendance: ${eventAttendanceType}`,
     eventDescriptionTitle: 'Details',
-    eventDuration: (eventDuration: string) => `Duration: ${eventDuration}`,
+    eventDuration: ({
+      eventEnd,
+      eventStart,
+    }: {
+      eventEnd: string
+      eventStart: string
+    }) =>
+      `Duration: ${durationFormatter.format(
+        getDuration(new Date(eventStart), new Date(eventEnd)),
+      )}`,
     eventShow: 'Show event',
-    eventStart: (eventStart: string) => `Start: ${eventStart} UTC`,
+    eventStart: (eventStart: string) =>
+      `Start: ${dateTimeFormatter.format(new Date(eventStart))}`,
     eventVisibility: (eventVisibility: string) =>
       `This is ${eventVisibility} event.`,
     header: (eventAuthorUsername: string) =>
@@ -107,9 +137,9 @@ const t = locales[locale]
           </AppText>
           <AppText>
             {{ t.eventStart(eventStart) }}
-            <template v-if="eventDuration">
+            <template v-if="eventEnd">
               <br />
-              {{ t.eventDuration(eventDuration) }}
+              {{ t.eventDuration({ eventStart, eventEnd }) }}
             </template>
             <template v-if="eventAttendanceType">
               <br />

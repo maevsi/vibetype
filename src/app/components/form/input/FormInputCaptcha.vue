@@ -56,34 +56,18 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 
+// compiler
 const { isCentered } = defineProps<{
   formInput: BaseValidation
   isCentered?: boolean
 }>()
-
 const emit = defineEmits<{
   input: [event?: string]
 }>()
 
-const { t } = useI18n()
-const colorMode = useColorMode()
-const runtimeConfig = useRuntimeConfig()
-const templateTurnstile = useTemplateRef('turnstile')
-
-// data
-const isLoading = ref(true)
+// color mode
 const themeColor = ref<'auto' | 'light' | 'dark'>()
-
-// computations
-const isVisible = computed(
-  () => !runtimeConfig.public.vio.isTesting,
-  // TODO: implement invisible widget type with fallback in case of required user interaction (https://github.com/maevsi/vibetype/issues/1239)
-  // !['1x00000000000000000000BB', '2x00000000000000000000BB'].includes(
-  //   config.public.turnstile.siteKey
-  // )
-)
-
-// methods
+const colorMode = useColorMode()
 const getThemeColor = (colorModePreferenceOverride?: string) => {
   const colorModePreference =
     colorModePreferenceOverride || colorMode.preference
@@ -98,28 +82,43 @@ const getThemeColor = (colorModePreferenceOverride?: string) => {
       throw new Error(`Unexpected color mode "${colorModePreference}"`)
   }
 }
-const initialize = () => {
-  themeColor.value = getThemeColor()
-}
+themeColor.value = getThemeColor()
+watch(
+  () => colorMode.value,
+  (currentValue, _oldValue) => (themeColor.value = getThemeColor(currentValue)),
+)
+
+// template
+const runtimeConfig = useRuntimeConfig()
+const { t } = useI18n()
+
+const isLoading = ref(true)
+const templateTurnstile = useTemplateRef('turnstile')
+const isVisible = computed(
+  () => !runtimeConfig.public.vio.isTesting,
+  // TODO: implement invisible widget type with fallback in case of required user interaction (https://github.com/maevsi/vibetype/issues/1239)
+  // !['1x00000000000000000000BB', '2x00000000000000000000BB'].includes(
+  //   config.public.turnstile.siteKey
+  // )
+)
+
+const isUsed = defineModel<boolean>('is-used')
 const reset = () => {
   if (!templateTurnstile.value) return
 
   isLoading.value = true
   templateTurnstile.value.reset()
 }
+watch(isUsed, (current, old) => {
+  if (!old && current) {
+    reset()
+  }
+})
 const update = (e: string) => {
   isLoading.value = false
+  isUsed.value = false
   emit('input', e)
 }
-
-// lifecycle
-watch(
-  () => colorMode.value,
-  (currentValue, _oldValue) => (themeColor.value = getThemeColor(currentValue)),
-)
-
-// initialization
-initialize()
 </script>
 
 <i18n lang="yaml">

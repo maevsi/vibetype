@@ -3,12 +3,9 @@
     <LayoutTopBar>
       <span :id="templateIdTitle">{{ title }}</span>
       <template v-if="['default'].includes(step)" #close>
-        <ButtonIcon
-          :aria-label="t('iconAltClose')"
-          @click="navigateTo(localePath('session-create'))"
-        >
+        <ButtonIconBackRoute :aria-label="t('iconAltClose')">
           <AppIconClose />
-        </ButtonIcon>
+        </ButtonIconBackRoute>
       </template>
     </LayoutTopBar>
     <AppStep v-slot="attributes" :is-active="step === 'default'">
@@ -54,8 +51,6 @@ definePageMeta({
   layout: 'default-no-header',
 })
 
-const localePath = useLocalePath()
-
 // page
 const { t } = useI18n()
 const title = t('title')
@@ -66,7 +61,7 @@ const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
 
 // stepper
-const { step } = useStepper<'default' | 'success'>()
+const { step } = useStepper<'success'>()
 </script>
 
 <i18n lang="yaml">

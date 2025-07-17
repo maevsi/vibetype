@@ -1,31 +1,22 @@
 <template>
   <div class="flex flex-col gap-4">
-    <!-- TODO: fill page with content instead (https://github.com/maevsi/vibetype/issues/1264) -->
-    <CardStateInfo>
-      {{ t('accountDescription') }}
-    </CardStateInfo>
+    <h1>
+      {{ title }}
+    </h1>
+    <AccountSearch />
   </div>
 </template>
 
 <script setup lang="ts">
-defineRouteRules({
-  robots: false, // TODO: reactive once page is filled with content (https://github.com/maevsi/vibetype/issues/1264)
-})
-
+// page
 const { t } = useI18n()
-
-// data
 const title = t('title')
-
-// initialization
 useHeadDefault({ title })
 </script>
 
 <i18n lang="yaml">
 de:
-  accountDescription: Hier wirst du bald interessante Veranstalter entdecken können.
-  title: Konten
+  title: Personen
 en:
-  accountDescription: Here you will soon be able to discover interesting event organizers.
-  title: accounts
+  title: People
 </i18n>

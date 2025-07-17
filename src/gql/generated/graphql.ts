@@ -35,6 +35,8 @@ export type Scalars = {
   BigInt: { input: any; output: any }
   /** A location in a connection that can be used for resuming pagination. */
   Cursor: { input: any; output: any }
+  /** The day, does not include a time. */
+  Date: { input: any; output: any }
   /**
    * A point in time as described by the [ISO
    * 8601](https://en.wikipedia.org/wiki/ISO_8601) standard. May or may not include a timezone.
@@ -60,12 +62,6 @@ export type Account = Node & {
   accountBlocksByBlockedAccountId: AccountBlocksConnection
   /** Reads and enables pagination through a set of `AccountBlock`. */
   accountBlocksByCreatedBy: AccountBlocksConnection
-  /** Reads and enables pagination through a set of `AccountPreferenceEventCategory`. */
-  accountPreferenceEventCategoriesByAccountId: AccountPreferenceEventCategoriesConnection
-  /** Reads and enables pagination through a set of `AccountPreferenceEventFormat`. */
-  accountPreferenceEventFormatsByAccountId: AccountPreferenceEventFormatsConnection
-  /** Reads and enables pagination through a set of `AccountPreferenceEventSize`. */
-  accountPreferenceEventSizesByAccountId: AccountPreferenceEventSizesConnection
   /** Reads and enables pagination through a set of `AccountSocialNetwork`. */
   accountSocialNetworksByAccountId: AccountSocialNetworksConnection
   /** Reads and enables pagination through a set of `Achievement`. */
@@ -108,6 +104,14 @@ export type Account = Node & {
   legalTermAcceptancesByAccountId: LegalTermAcceptancesConnection
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID']['output']
+  /** Reads and enables pagination through a set of `PreferenceEventCategory`. */
+  preferenceEventCategoriesByAccountId: PreferenceEventCategoriesConnection
+  /** Reads and enables pagination through a set of `PreferenceEventFormat`. */
+  preferenceEventFormatsByAccountId: PreferenceEventFormatsConnection
+  /** Reads and enables pagination through a set of `PreferenceEventLocation`. */
+  preferenceEventLocationsByCreatedBy: PreferenceEventLocationsConnection
+  /** Reads and enables pagination through a set of `PreferenceEventSize`. */
+  preferenceEventSizesByAccountId: PreferenceEventSizesConnection
   /** Reads a single `ProfilePicture` that is related to this `Account`. */
   profilePictureByAccountId?: Maybe<ProfilePicture>
   /**
@@ -145,39 +149,6 @@ export type AccountAccountBlocksByCreatedByArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<AccountBlocksOrderBy>>
-}
-
-/** Public account data. */
-export type AccountAccountPreferenceEventCategoriesByAccountIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<AccountPreferenceEventCategoryCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountPreferenceEventCategoriesOrderBy>>
-}
-
-/** Public account data. */
-export type AccountAccountPreferenceEventFormatsByAccountIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<AccountPreferenceEventFormatCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountPreferenceEventFormatsOrderBy>>
-}
-
-/** Public account data. */
-export type AccountAccountPreferenceEventSizesByAccountIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<AccountPreferenceEventSizeCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountPreferenceEventSizesOrderBy>>
 }
 
 /** Public account data. */
@@ -368,6 +339,50 @@ export type AccountLegalTermAcceptancesByAccountIdArgs = {
 }
 
 /** Public account data. */
+export type AccountPreferenceEventCategoriesByAccountIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<PreferenceEventCategoryCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<PreferenceEventCategoriesOrderBy>>
+}
+
+/** Public account data. */
+export type AccountPreferenceEventFormatsByAccountIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<PreferenceEventFormatCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<PreferenceEventFormatsOrderBy>>
+}
+
+/** Public account data. */
+export type AccountPreferenceEventLocationsByCreatedByArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<PreferenceEventLocationCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<PreferenceEventLocationsOrderBy>>
+}
+
+/** Public account data. */
+export type AccountPreferenceEventSizesByAccountIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<PreferenceEventSizeCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<PreferenceEventSizesOrderBy>>
+}
+
+/** Public account data. */
 export type AccountProfilePicturesByAccountIdArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
@@ -424,6 +439,7 @@ export type AccountBlock = Node & {
   createdAt: Scalars['Datetime']['output']
   /** The account id of the user who created the account block. */
   createdBy: Scalars['UUID']['output']
+  /** The account block's internal id. */
   id: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID']['output']
@@ -450,7 +466,6 @@ export type AccountBlockInput = {
   blockedAccountId: Scalars['UUID']['input']
   /** The account id of the user who created the account block. */
   createdBy: Scalars['UUID']['input']
-  id?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** A connection to a list of `AccountBlock` values. */
@@ -546,18 +561,6 @@ export type AccountEmailAddressVerificationPayload = {
   query?: Maybe<Query>
 }
 
-/** An input for mutations affecting `Account` */
-export type AccountInput = {
-  /** The account's description. */
-  description?: InputMaybe<Scalars['String']['input']>
-  /** The account's internal id. */
-  id: Scalars['UUID']['input']
-  /** The account's imprint. */
-  imprint?: InputMaybe<Scalars['String']['input']>
-  /** The account's username. */
-  username: Scalars['String']['input']
-}
-
 /** All input for the `accountPasswordChange` mutation. */
 export type AccountPasswordChangeInput = {
   /**
@@ -631,262 +634,13 @@ export type AccountPasswordResetRequestPayload = {
 export type AccountPatch = {
   /** The account's description. */
   description?: InputMaybe<Scalars['String']['input']>
-  /** The account's internal id. */
-  id?: InputMaybe<Scalars['UUID']['input']>
   /** The account's imprint. */
   imprint?: InputMaybe<Scalars['String']['input']>
-  /** The account's username. */
-  username?: InputMaybe<Scalars['String']['input']>
-}
-
-/** A connection to a list of `AccountPreferenceEventCategory` values. */
-export type AccountPreferenceEventCategoriesConnection = {
-  __typename?: 'AccountPreferenceEventCategoriesConnection'
-  /** A list of edges which contains the `AccountPreferenceEventCategory` and cursor to aid in pagination. */
-  edges: Array<AccountPreferenceEventCategoriesEdge>
-  /** A list of `AccountPreferenceEventCategory` objects. */
-  nodes: Array<AccountPreferenceEventCategory>
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo
-  /** The count of *all* `AccountPreferenceEventCategory` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
-}
-
-/** A `AccountPreferenceEventCategory` edge in the connection. */
-export type AccountPreferenceEventCategoriesEdge = {
-  __typename?: 'AccountPreferenceEventCategoriesEdge'
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
-  /** The `AccountPreferenceEventCategory` at the end of the edge. */
-  node: AccountPreferenceEventCategory
-}
-
-/** Methods to use when ordering `AccountPreferenceEventCategory`. */
-export enum AccountPreferenceEventCategoriesOrderBy {
-  AccountIdAsc = 'ACCOUNT_ID_ASC',
-  AccountIdDesc = 'ACCOUNT_ID_DESC',
-  CategoryIdAsc = 'CATEGORY_ID_ASC',
-  CategoryIdDesc = 'CATEGORY_ID_DESC',
-  CreatedAtAsc = 'CREATED_AT_ASC',
-  CreatedAtDesc = 'CREATED_AT_DESC',
-  Natural = 'NATURAL',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-}
-
-/** Event categories a user account is interested in (M:N relationship). */
-export type AccountPreferenceEventCategory = Node & {
-  __typename?: 'AccountPreferenceEventCategory'
-  /** Reads a single `Account` that is related to this `AccountPreferenceEventCategory`. */
-  accountByAccountId?: Maybe<Account>
-  /** A user account id. */
-  accountId: Scalars['UUID']['output']
-  /** An event category id. */
-  categoryId: Scalars['UUID']['output']
-  createdAt: Scalars['Datetime']['output']
-  /** Reads a single `EventCategory` that is related to this `AccountPreferenceEventCategory`. */
-  eventCategoryByCategoryId?: Maybe<EventCategory>
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID']['output']
-}
-
-/**
- * A condition to be used against `AccountPreferenceEventCategory` object types.
- * All fields are tested for equality and combined with a logical ‘and.’
- */
-export type AccountPreferenceEventCategoryCondition = {
-  /** Checks for equality with the object’s `accountId` field. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `categoryId` field. */
-  categoryId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `createdAt` field. */
-  createdAt?: InputMaybe<Scalars['Datetime']['input']>
-}
-
-/** An input for mutations affecting `AccountPreferenceEventCategory` */
-export type AccountPreferenceEventCategoryInput = {
-  /** A user account id. */
-  accountId: Scalars['UUID']['input']
-  /** An event category id. */
-  categoryId: Scalars['UUID']['input']
-  createdAt?: InputMaybe<Scalars['Datetime']['input']>
-}
-
-/** Represents an update to a `AccountPreferenceEventCategory`. Fields that are set will be updated. */
-export type AccountPreferenceEventCategoryPatch = {
-  /** A user account id. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
-  /** An event category id. */
-  categoryId?: InputMaybe<Scalars['UUID']['input']>
-  createdAt?: InputMaybe<Scalars['Datetime']['input']>
-}
-
-/** Event formats a user account is interested in (M:N relationship). */
-export type AccountPreferenceEventFormat = Node & {
-  __typename?: 'AccountPreferenceEventFormat'
-  /** Reads a single `Account` that is related to this `AccountPreferenceEventFormat`. */
-  accountByAccountId?: Maybe<Account>
-  /** A user account id. */
-  accountId: Scalars['UUID']['output']
-  /** The timestammp when the record was created.. */
-  createdAt: Scalars['Datetime']['output']
-  /** Reads a single `EventFormat` that is related to this `AccountPreferenceEventFormat`. */
-  eventFormatByFormatId?: Maybe<EventFormat>
-  /** The id of an event format. */
-  formatId: Scalars['UUID']['output']
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID']['output']
-}
-
-/**
- * A condition to be used against `AccountPreferenceEventFormat` object types. All
- * fields are tested for equality and combined with a logical ‘and.’
- */
-export type AccountPreferenceEventFormatCondition = {
-  /** Checks for equality with the object’s `accountId` field. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `createdAt` field. */
-  createdAt?: InputMaybe<Scalars['Datetime']['input']>
-  /** Checks for equality with the object’s `formatId` field. */
-  formatId?: InputMaybe<Scalars['UUID']['input']>
-}
-
-/** An input for mutations affecting `AccountPreferenceEventFormat` */
-export type AccountPreferenceEventFormatInput = {
-  /** A user account id. */
-  accountId: Scalars['UUID']['input']
-  /** The timestammp when the record was created.. */
-  createdAt?: InputMaybe<Scalars['Datetime']['input']>
-  /** The id of an event format. */
-  formatId: Scalars['UUID']['input']
-}
-
-/** Represents an update to a `AccountPreferenceEventFormat`. Fields that are set will be updated. */
-export type AccountPreferenceEventFormatPatch = {
-  /** A user account id. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
-  /** The timestammp when the record was created.. */
-  createdAt?: InputMaybe<Scalars['Datetime']['input']>
-  /** The id of an event format. */
-  formatId?: InputMaybe<Scalars['UUID']['input']>
-}
-
-/** A connection to a list of `AccountPreferenceEventFormat` values. */
-export type AccountPreferenceEventFormatsConnection = {
-  __typename?: 'AccountPreferenceEventFormatsConnection'
-  /** A list of edges which contains the `AccountPreferenceEventFormat` and cursor to aid in pagination. */
-  edges: Array<AccountPreferenceEventFormatsEdge>
-  /** A list of `AccountPreferenceEventFormat` objects. */
-  nodes: Array<AccountPreferenceEventFormat>
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo
-  /** The count of *all* `AccountPreferenceEventFormat` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
-}
-
-/** A `AccountPreferenceEventFormat` edge in the connection. */
-export type AccountPreferenceEventFormatsEdge = {
-  __typename?: 'AccountPreferenceEventFormatsEdge'
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
-  /** The `AccountPreferenceEventFormat` at the end of the edge. */
-  node: AccountPreferenceEventFormat
-}
-
-/** Methods to use when ordering `AccountPreferenceEventFormat`. */
-export enum AccountPreferenceEventFormatsOrderBy {
-  AccountIdAsc = 'ACCOUNT_ID_ASC',
-  AccountIdDesc = 'ACCOUNT_ID_DESC',
-  CreatedAtAsc = 'CREATED_AT_ASC',
-  CreatedAtDesc = 'CREATED_AT_DESC',
-  FormatIdAsc = 'FORMAT_ID_ASC',
-  FormatIdDesc = 'FORMAT_ID_DESC',
-  Natural = 'NATURAL',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-}
-
-/** Table for the user accounts' preferred event sizes (M:N relationship). */
-export type AccountPreferenceEventSize = Node & {
-  __typename?: 'AccountPreferenceEventSize'
-  /** Reads a single `Account` that is related to this `AccountPreferenceEventSize`. */
-  accountByAccountId?: Maybe<Account>
-  /** The account's internal id. */
-  accountId: Scalars['UUID']['output']
-  /** Timestamp of when the event size preference was created, defaults to the current timestamp. */
-  createdAt: Scalars['Datetime']['output']
-  /** A preferred event sized */
-  eventSize: EventSize
-  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
-  nodeId: Scalars['ID']['output']
-}
-
-/**
- * A condition to be used against `AccountPreferenceEventSize` object types. All
- * fields are tested for equality and combined with a logical ‘and.’
- */
-export type AccountPreferenceEventSizeCondition = {
-  /** Checks for equality with the object’s `accountId` field. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `createdAt` field. */
-  createdAt?: InputMaybe<Scalars['Datetime']['input']>
-  /** Checks for equality with the object’s `eventSize` field. */
-  eventSize?: InputMaybe<EventSize>
-}
-
-/** An input for mutations affecting `AccountPreferenceEventSize` */
-export type AccountPreferenceEventSizeInput = {
-  /** The account's internal id. */
-  accountId: Scalars['UUID']['input']
-  /** A preferred event sized */
-  eventSize: EventSize
-}
-
-/** Represents an update to a `AccountPreferenceEventSize`. Fields that are set will be updated. */
-export type AccountPreferenceEventSizePatch = {
-  /** The account's internal id. */
-  accountId?: InputMaybe<Scalars['UUID']['input']>
-  /** A preferred event sized */
-  eventSize?: InputMaybe<EventSize>
-}
-
-/** A connection to a list of `AccountPreferenceEventSize` values. */
-export type AccountPreferenceEventSizesConnection = {
-  __typename?: 'AccountPreferenceEventSizesConnection'
-  /** A list of edges which contains the `AccountPreferenceEventSize` and cursor to aid in pagination. */
-  edges: Array<AccountPreferenceEventSizesEdge>
-  /** A list of `AccountPreferenceEventSize` objects. */
-  nodes: Array<AccountPreferenceEventSize>
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo
-  /** The count of *all* `AccountPreferenceEventSize` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
-}
-
-/** A `AccountPreferenceEventSize` edge in the connection. */
-export type AccountPreferenceEventSizesEdge = {
-  __typename?: 'AccountPreferenceEventSizesEdge'
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
-  /** The `AccountPreferenceEventSize` at the end of the edge. */
-  node: AccountPreferenceEventSize
-}
-
-/** Methods to use when ordering `AccountPreferenceEventSize`. */
-export enum AccountPreferenceEventSizesOrderBy {
-  AccountIdAsc = 'ACCOUNT_ID_ASC',
-  AccountIdDesc = 'ACCOUNT_ID_DESC',
-  CreatedAtAsc = 'CREATED_AT_ASC',
-  CreatedAtDesc = 'CREATED_AT_DESC',
-  EventSizeAsc = 'EVENT_SIZE_ASC',
-  EventSizeDesc = 'EVENT_SIZE_DESC',
-  Natural = 'NATURAL',
-  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
-  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
 }
 
 /** All input for the `accountRegistration` mutation. */
 export type AccountRegistrationInput = {
+  birthDate: Scalars['Date']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -1632,147 +1386,6 @@ export type CreateAccountBlockPayloadAccountBlockEdgeArgs = {
   orderBy?: InputMaybe<Array<AccountBlocksOrderBy>>
 }
 
-/** All input for the create `Account` mutation. */
-export type CreateAccountInput = {
-  /** The `Account` to be created by this mutation. */
-  account: AccountInput
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-}
-
-/** The output of our create `Account` mutation. */
-export type CreateAccountPayload = {
-  __typename?: 'CreateAccountPayload'
-  /** The `Account` that was created by this mutation. */
-  account?: Maybe<Account>
-  /** An edge for our `Account`. May be used by Relay 1. */
-  accountEdge?: Maybe<AccountsEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our create `Account` mutation. */
-export type CreateAccountPayloadAccountEdgeArgs = {
-  orderBy?: InputMaybe<Array<AccountsOrderBy>>
-}
-
-/** All input for the create `AccountPreferenceEventCategory` mutation. */
-export type CreateAccountPreferenceEventCategoryInput = {
-  /** The `AccountPreferenceEventCategory` to be created by this mutation. */
-  accountPreferenceEventCategory: AccountPreferenceEventCategoryInput
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-}
-
-/** The output of our create `AccountPreferenceEventCategory` mutation. */
-export type CreateAccountPreferenceEventCategoryPayload = {
-  __typename?: 'CreateAccountPreferenceEventCategoryPayload'
-  /** Reads a single `Account` that is related to this `AccountPreferenceEventCategory`. */
-  accountByAccountId?: Maybe<Account>
-  /** The `AccountPreferenceEventCategory` that was created by this mutation. */
-  accountPreferenceEventCategory?: Maybe<AccountPreferenceEventCategory>
-  /** An edge for our `AccountPreferenceEventCategory`. May be used by Relay 1. */
-  accountPreferenceEventCategoryEdge?: Maybe<AccountPreferenceEventCategoriesEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Reads a single `EventCategory` that is related to this `AccountPreferenceEventCategory`. */
-  eventCategoryByCategoryId?: Maybe<EventCategory>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our create `AccountPreferenceEventCategory` mutation. */
-export type CreateAccountPreferenceEventCategoryPayloadAccountPreferenceEventCategoryEdgeArgs =
-  {
-    orderBy?: InputMaybe<Array<AccountPreferenceEventCategoriesOrderBy>>
-  }
-
-/** All input for the create `AccountPreferenceEventFormat` mutation. */
-export type CreateAccountPreferenceEventFormatInput = {
-  /** The `AccountPreferenceEventFormat` to be created by this mutation. */
-  accountPreferenceEventFormat: AccountPreferenceEventFormatInput
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-}
-
-/** The output of our create `AccountPreferenceEventFormat` mutation. */
-export type CreateAccountPreferenceEventFormatPayload = {
-  __typename?: 'CreateAccountPreferenceEventFormatPayload'
-  /** Reads a single `Account` that is related to this `AccountPreferenceEventFormat`. */
-  accountByAccountId?: Maybe<Account>
-  /** The `AccountPreferenceEventFormat` that was created by this mutation. */
-  accountPreferenceEventFormat?: Maybe<AccountPreferenceEventFormat>
-  /** An edge for our `AccountPreferenceEventFormat`. May be used by Relay 1. */
-  accountPreferenceEventFormatEdge?: Maybe<AccountPreferenceEventFormatsEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Reads a single `EventFormat` that is related to this `AccountPreferenceEventFormat`. */
-  eventFormatByFormatId?: Maybe<EventFormat>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our create `AccountPreferenceEventFormat` mutation. */
-export type CreateAccountPreferenceEventFormatPayloadAccountPreferenceEventFormatEdgeArgs =
-  {
-    orderBy?: InputMaybe<Array<AccountPreferenceEventFormatsOrderBy>>
-  }
-
-/** All input for the create `AccountPreferenceEventSize` mutation. */
-export type CreateAccountPreferenceEventSizeInput = {
-  /** The `AccountPreferenceEventSize` to be created by this mutation. */
-  accountPreferenceEventSize: AccountPreferenceEventSizeInput
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-}
-
-/** The output of our create `AccountPreferenceEventSize` mutation. */
-export type CreateAccountPreferenceEventSizePayload = {
-  __typename?: 'CreateAccountPreferenceEventSizePayload'
-  /** Reads a single `Account` that is related to this `AccountPreferenceEventSize`. */
-  accountByAccountId?: Maybe<Account>
-  /** The `AccountPreferenceEventSize` that was created by this mutation. */
-  accountPreferenceEventSize?: Maybe<AccountPreferenceEventSize>
-  /** An edge for our `AccountPreferenceEventSize`. May be used by Relay 1. */
-  accountPreferenceEventSizeEdge?: Maybe<AccountPreferenceEventSizesEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our create `AccountPreferenceEventSize` mutation. */
-export type CreateAccountPreferenceEventSizePayloadAccountPreferenceEventSizeEdgeArgs =
-  {
-    orderBy?: InputMaybe<Array<AccountPreferenceEventSizesOrderBy>>
-  }
-
 /** All input for the create `AccountSocialNetwork` mutation. */
 export type CreateAccountSocialNetworkInput = {
   /** The `AccountSocialNetwork` to be created by this mutation. */
@@ -1951,17 +1564,6 @@ export type CreateDevicePayloadDeviceEdgeArgs = {
   orderBy?: InputMaybe<Array<DevicesOrderBy>>
 }
 
-/** All input for the create `EventCategory` mutation. */
-export type CreateEventCategoryInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The `EventCategory` to be created by this mutation. */
-  eventCategory: EventCategoryInput
-}
-
 /** All input for the create `EventCategoryMapping` mutation. */
 export type CreateEventCategoryMappingInput = {
   /**
@@ -1996,27 +1598,6 @@ export type CreateEventCategoryMappingPayload = {
 /** The output of our create `EventCategoryMapping` mutation. */
 export type CreateEventCategoryMappingPayloadEventCategoryMappingEdgeArgs = {
   orderBy?: InputMaybe<Array<EventCategoryMappingsOrderBy>>
-}
-
-/** The output of our create `EventCategory` mutation. */
-export type CreateEventCategoryPayload = {
-  __typename?: 'CreateEventCategoryPayload'
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** The `EventCategory` that was created by this mutation. */
-  eventCategory?: Maybe<EventCategory>
-  /** An edge for our `EventCategory`. May be used by Relay 1. */
-  eventCategoryEdge?: Maybe<EventCategoriesEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our create `EventCategory` mutation. */
-export type CreateEventCategoryPayloadEventCategoryEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventCategoriesOrderBy>>
 }
 
 /** All input for the create `EventFavorite` mutation. */
@@ -2055,17 +1636,6 @@ export type CreateEventFavoritePayloadEventFavoriteEdgeArgs = {
   orderBy?: InputMaybe<Array<EventFavoritesOrderBy>>
 }
 
-/** All input for the create `EventFormat` mutation. */
-export type CreateEventFormatInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The `EventFormat` to be created by this mutation. */
-  eventFormat: EventFormatInput
-}
-
 /** All input for the create `EventFormatMapping` mutation. */
 export type CreateEventFormatMappingInput = {
   /**
@@ -2100,27 +1670,6 @@ export type CreateEventFormatMappingPayload = {
 /** The output of our create `EventFormatMapping` mutation. */
 export type CreateEventFormatMappingPayloadEventFormatMappingEdgeArgs = {
   orderBy?: InputMaybe<Array<EventFormatMappingsOrderBy>>
-}
-
-/** The output of our create `EventFormat` mutation. */
-export type CreateEventFormatPayload = {
-  __typename?: 'CreateEventFormatPayload'
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** The `EventFormat` that was created by this mutation. */
-  eventFormat?: Maybe<EventFormat>
-  /** An edge for our `EventFormat`. May be used by Relay 1. */
-  eventFormatEdge?: Maybe<EventFormatsEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our create `EventFormat` mutation. */
-export type CreateEventFormatPayloadEventFormatEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventFormatsOrderBy>>
 }
 
 /** All input for the create `Event` mutation. */
@@ -2369,6 +1918,148 @@ export type CreateLegalTermAcceptancePayloadLegalTermAcceptanceEdgeArgs = {
   orderBy?: InputMaybe<Array<LegalTermAcceptancesOrderBy>>
 }
 
+/** All input for the create `PreferenceEventCategory` mutation. */
+export type CreatePreferenceEventCategoryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The `PreferenceEventCategory` to be created by this mutation. */
+  preferenceEventCategory: PreferenceEventCategoryInput
+}
+
+/** The output of our create `PreferenceEventCategory` mutation. */
+export type CreatePreferenceEventCategoryPayload = {
+  __typename?: 'CreatePreferenceEventCategoryPayload'
+  /** Reads a single `Account` that is related to this `PreferenceEventCategory`. */
+  accountByAccountId?: Maybe<Account>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Reads a single `EventCategory` that is related to this `PreferenceEventCategory`. */
+  eventCategoryByCategoryId?: Maybe<EventCategory>
+  /** The `PreferenceEventCategory` that was created by this mutation. */
+  preferenceEventCategory?: Maybe<PreferenceEventCategory>
+  /** An edge for our `PreferenceEventCategory`. May be used by Relay 1. */
+  preferenceEventCategoryEdge?: Maybe<PreferenceEventCategoriesEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our create `PreferenceEventCategory` mutation. */
+export type CreatePreferenceEventCategoryPayloadPreferenceEventCategoryEdgeArgs =
+  {
+    orderBy?: InputMaybe<Array<PreferenceEventCategoriesOrderBy>>
+  }
+
+/** All input for the create `PreferenceEventFormat` mutation. */
+export type CreatePreferenceEventFormatInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The `PreferenceEventFormat` to be created by this mutation. */
+  preferenceEventFormat: PreferenceEventFormatInput
+}
+
+/** The output of our create `PreferenceEventFormat` mutation. */
+export type CreatePreferenceEventFormatPayload = {
+  __typename?: 'CreatePreferenceEventFormatPayload'
+  /** Reads a single `Account` that is related to this `PreferenceEventFormat`. */
+  accountByAccountId?: Maybe<Account>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Reads a single `EventFormat` that is related to this `PreferenceEventFormat`. */
+  eventFormatByFormatId?: Maybe<EventFormat>
+  /** The `PreferenceEventFormat` that was created by this mutation. */
+  preferenceEventFormat?: Maybe<PreferenceEventFormat>
+  /** An edge for our `PreferenceEventFormat`. May be used by Relay 1. */
+  preferenceEventFormatEdge?: Maybe<PreferenceEventFormatsEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our create `PreferenceEventFormat` mutation. */
+export type CreatePreferenceEventFormatPayloadPreferenceEventFormatEdgeArgs = {
+  orderBy?: InputMaybe<Array<PreferenceEventFormatsOrderBy>>
+}
+
+/** All input for the create `PreferenceEventLocation` mutation. */
+export type CreatePreferenceEventLocationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The `PreferenceEventLocation` to be created by this mutation. */
+  preferenceEventLocation: PreferenceEventLocationInput
+}
+
+/** The output of our create `PreferenceEventLocation` mutation. */
+export type CreatePreferenceEventLocationPayload = {
+  __typename?: 'CreatePreferenceEventLocationPayload'
+  /** Reads a single `Account` that is related to this `PreferenceEventLocation`. */
+  accountByCreatedBy?: Maybe<Account>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `PreferenceEventLocation` that was created by this mutation. */
+  preferenceEventLocation?: Maybe<PreferenceEventLocation>
+  /** An edge for our `PreferenceEventLocation`. May be used by Relay 1. */
+  preferenceEventLocationEdge?: Maybe<PreferenceEventLocationsEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our create `PreferenceEventLocation` mutation. */
+export type CreatePreferenceEventLocationPayloadPreferenceEventLocationEdgeArgs =
+  {
+    orderBy?: InputMaybe<Array<PreferenceEventLocationsOrderBy>>
+  }
+
+/** All input for the create `PreferenceEventSize` mutation. */
+export type CreatePreferenceEventSizeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The `PreferenceEventSize` to be created by this mutation. */
+  preferenceEventSize: PreferenceEventSizeInput
+}
+
+/** The output of our create `PreferenceEventSize` mutation. */
+export type CreatePreferenceEventSizePayload = {
+  __typename?: 'CreatePreferenceEventSizePayload'
+  /** Reads a single `Account` that is related to this `PreferenceEventSize`. */
+  accountByAccountId?: Maybe<Account>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `PreferenceEventSize` that was created by this mutation. */
+  preferenceEventSize?: Maybe<PreferenceEventSize>
+  /** An edge for our `PreferenceEventSize`. May be used by Relay 1. */
+  preferenceEventSizeEdge?: Maybe<PreferenceEventSizesEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our create `PreferenceEventSize` mutation. */
+export type CreatePreferenceEventSizePayloadPreferenceEventSizeEdgeArgs = {
+  orderBy?: InputMaybe<Array<PreferenceEventSizesOrderBy>>
+}
+
 /** All input for the create `ProfilePicture` mutation. */
 export type CreateProfilePictureInput = {
   /**
@@ -2499,6 +2190,7 @@ export type DeleteAccountBlockByIdInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The account block's internal id. */
   id: Scalars['UUID']['input']
 }
 
@@ -2538,213 +2230,6 @@ export type DeleteAccountBlockPayload = {
 export type DeleteAccountBlockPayloadAccountBlockEdgeArgs = {
   orderBy?: InputMaybe<Array<AccountBlocksOrderBy>>
 }
-
-/** All input for the `deleteAccountById` mutation. */
-export type DeleteAccountByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The account's internal id. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `deleteAccountByUsername` mutation. */
-export type DeleteAccountByUsernameInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The account's username. */
-  username: Scalars['String']['input']
-}
-
-/** All input for the `deleteAccount` mutation. */
-export type DeleteAccountInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `Account` to be deleted. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our delete `Account` mutation. */
-export type DeleteAccountPayload = {
-  __typename?: 'DeleteAccountPayload'
-  /** The `Account` that was deleted by this mutation. */
-  account?: Maybe<Account>
-  /** An edge for our `Account`. May be used by Relay 1. */
-  accountEdge?: Maybe<AccountsEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedAccountId?: Maybe<Scalars['ID']['output']>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our delete `Account` mutation. */
-export type DeleteAccountPayloadAccountEdgeArgs = {
-  orderBy?: InputMaybe<Array<AccountsOrderBy>>
-}
-
-/** All input for the `deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId` mutation. */
-export type DeleteAccountPreferenceEventCategoryByAccountIdAndCategoryIdInput =
-  {
-    /** A user account id. */
-    accountId: Scalars['UUID']['input']
-    /** An event category id. */
-    categoryId: Scalars['UUID']['input']
-    /**
-     * An arbitrary string value with no semantic meaning. Will be included in the
-     * payload verbatim. May be used to track mutations by the client.
-     */
-    clientMutationId?: InputMaybe<Scalars['String']['input']>
-  }
-
-/** All input for the `deleteAccountPreferenceEventCategory` mutation. */
-export type DeleteAccountPreferenceEventCategoryInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `AccountPreferenceEventCategory` to be deleted. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our delete `AccountPreferenceEventCategory` mutation. */
-export type DeleteAccountPreferenceEventCategoryPayload = {
-  __typename?: 'DeleteAccountPreferenceEventCategoryPayload'
-  /** Reads a single `Account` that is related to this `AccountPreferenceEventCategory`. */
-  accountByAccountId?: Maybe<Account>
-  /** The `AccountPreferenceEventCategory` that was deleted by this mutation. */
-  accountPreferenceEventCategory?: Maybe<AccountPreferenceEventCategory>
-  /** An edge for our `AccountPreferenceEventCategory`. May be used by Relay 1. */
-  accountPreferenceEventCategoryEdge?: Maybe<AccountPreferenceEventCategoriesEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedAccountPreferenceEventCategoryId?: Maybe<Scalars['ID']['output']>
-  /** Reads a single `EventCategory` that is related to this `AccountPreferenceEventCategory`. */
-  eventCategoryByCategoryId?: Maybe<EventCategory>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our delete `AccountPreferenceEventCategory` mutation. */
-export type DeleteAccountPreferenceEventCategoryPayloadAccountPreferenceEventCategoryEdgeArgs =
-  {
-    orderBy?: InputMaybe<Array<AccountPreferenceEventCategoriesOrderBy>>
-  }
-
-/** All input for the `deleteAccountPreferenceEventFormatByAccountIdAndFormatId` mutation. */
-export type DeleteAccountPreferenceEventFormatByAccountIdAndFormatIdInput = {
-  /** A user account id. */
-  accountId: Scalars['UUID']['input']
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The id of an event format. */
-  formatId: Scalars['UUID']['input']
-}
-
-/** All input for the `deleteAccountPreferenceEventFormat` mutation. */
-export type DeleteAccountPreferenceEventFormatInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `AccountPreferenceEventFormat` to be deleted. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our delete `AccountPreferenceEventFormat` mutation. */
-export type DeleteAccountPreferenceEventFormatPayload = {
-  __typename?: 'DeleteAccountPreferenceEventFormatPayload'
-  /** Reads a single `Account` that is related to this `AccountPreferenceEventFormat`. */
-  accountByAccountId?: Maybe<Account>
-  /** The `AccountPreferenceEventFormat` that was deleted by this mutation. */
-  accountPreferenceEventFormat?: Maybe<AccountPreferenceEventFormat>
-  /** An edge for our `AccountPreferenceEventFormat`. May be used by Relay 1. */
-  accountPreferenceEventFormatEdge?: Maybe<AccountPreferenceEventFormatsEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedAccountPreferenceEventFormatId?: Maybe<Scalars['ID']['output']>
-  /** Reads a single `EventFormat` that is related to this `AccountPreferenceEventFormat`. */
-  eventFormatByFormatId?: Maybe<EventFormat>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our delete `AccountPreferenceEventFormat` mutation. */
-export type DeleteAccountPreferenceEventFormatPayloadAccountPreferenceEventFormatEdgeArgs =
-  {
-    orderBy?: InputMaybe<Array<AccountPreferenceEventFormatsOrderBy>>
-  }
-
-/** All input for the `deleteAccountPreferenceEventSizeByAccountIdAndEventSize` mutation. */
-export type DeleteAccountPreferenceEventSizeByAccountIdAndEventSizeInput = {
-  /** The account's internal id. */
-  accountId: Scalars['UUID']['input']
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** A preferred event sized */
-  eventSize: EventSize
-}
-
-/** All input for the `deleteAccountPreferenceEventSize` mutation. */
-export type DeleteAccountPreferenceEventSizeInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `AccountPreferenceEventSize` to be deleted. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our delete `AccountPreferenceEventSize` mutation. */
-export type DeleteAccountPreferenceEventSizePayload = {
-  __typename?: 'DeleteAccountPreferenceEventSizePayload'
-  /** Reads a single `Account` that is related to this `AccountPreferenceEventSize`. */
-  accountByAccountId?: Maybe<Account>
-  /** The `AccountPreferenceEventSize` that was deleted by this mutation. */
-  accountPreferenceEventSize?: Maybe<AccountPreferenceEventSize>
-  /** An edge for our `AccountPreferenceEventSize`. May be used by Relay 1. */
-  accountPreferenceEventSizeEdge?: Maybe<AccountPreferenceEventSizesEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedAccountPreferenceEventSizeId?: Maybe<Scalars['ID']['output']>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our delete `AccountPreferenceEventSize` mutation. */
-export type DeleteAccountPreferenceEventSizePayloadAccountPreferenceEventSizeEdgeArgs =
-  {
-    orderBy?: InputMaybe<Array<AccountPreferenceEventSizesOrderBy>>
-  }
 
 /** All input for the `deleteAccountSocialNetworkByAccountIdAndSocialNetwork` mutation. */
 export type DeleteAccountSocialNetworkByAccountIdAndSocialNetworkInput = {
@@ -3049,39 +2534,6 @@ export type DeleteEventByIdInput = {
   id: Scalars['UUID']['input']
 }
 
-/** All input for the `deleteEventCategoryById` mutation. */
-export type DeleteEventCategoryByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The id of the event category. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `deleteEventCategoryByName` mutation. */
-export type DeleteEventCategoryByNameInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** A category name. */
-  name: Scalars['String']['input']
-}
-
-/** All input for the `deleteEventCategory` mutation. */
-export type DeleteEventCategoryInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `EventCategory` to be deleted. */
-  nodeId: Scalars['ID']['input']
-}
-
 /** All input for the `deleteEventCategoryMappingByEventIdAndCategoryId` mutation. */
 export type DeleteEventCategoryMappingByEventIdAndCategoryIdInput = {
   /** A category id. */
@@ -3130,28 +2582,6 @@ export type DeleteEventCategoryMappingPayload = {
 /** The output of our delete `EventCategoryMapping` mutation. */
 export type DeleteEventCategoryMappingPayloadEventCategoryMappingEdgeArgs = {
   orderBy?: InputMaybe<Array<EventCategoryMappingsOrderBy>>
-}
-
-/** The output of our delete `EventCategory` mutation. */
-export type DeleteEventCategoryPayload = {
-  __typename?: 'DeleteEventCategoryPayload'
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedEventCategoryId?: Maybe<Scalars['ID']['output']>
-  /** The `EventCategory` that was deleted by this mutation. */
-  eventCategory?: Maybe<EventCategory>
-  /** An edge for our `EventCategory`. May be used by Relay 1. */
-  eventCategoryEdge?: Maybe<EventCategoriesEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our delete `EventCategory` mutation. */
-export type DeleteEventCategoryPayloadEventCategoryEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventCategoriesOrderBy>>
 }
 
 /** All input for the `deleteEventFavoriteByCreatedByAndEventId` mutation. */
@@ -3215,39 +2645,6 @@ export type DeleteEventFavoritePayloadEventFavoriteEdgeArgs = {
   orderBy?: InputMaybe<Array<EventFavoritesOrderBy>>
 }
 
-/** All input for the `deleteEventFormatById` mutation. */
-export type DeleteEventFormatByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The id of the event format. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `deleteEventFormatByName` mutation. */
-export type DeleteEventFormatByNameInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The name of the event format. */
-  name: Scalars['String']['input']
-}
-
-/** All input for the `deleteEventFormat` mutation. */
-export type DeleteEventFormatInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `EventFormat` to be deleted. */
-  nodeId: Scalars['ID']['input']
-}
-
 /** All input for the `deleteEventFormatMappingByEventIdAndFormatId` mutation. */
 export type DeleteEventFormatMappingByEventIdAndFormatIdInput = {
   /**
@@ -3296,28 +2693,6 @@ export type DeleteEventFormatMappingPayload = {
 /** The output of our delete `EventFormatMapping` mutation. */
 export type DeleteEventFormatMappingPayloadEventFormatMappingEdgeArgs = {
   orderBy?: InputMaybe<Array<EventFormatMappingsOrderBy>>
-}
-
-/** The output of our delete `EventFormat` mutation. */
-export type DeleteEventFormatPayload = {
-  __typename?: 'DeleteEventFormatPayload'
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedEventFormatId?: Maybe<Scalars['ID']['output']>
-  /** The `EventFormat` that was deleted by this mutation. */
-  eventFormat?: Maybe<EventFormat>
-  /** An edge for our `EventFormat`. May be used by Relay 1. */
-  eventFormatEdge?: Maybe<EventFormatsEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our delete `EventFormat` mutation. */
-export type DeleteEventFormatPayloadEventFormatEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventFormatsOrderBy>>
 }
 
 /** All input for the `deleteEvent` mutation. */
@@ -3596,52 +2971,246 @@ export type DeleteGuestPayloadGuestEdgeArgs = {
   orderBy?: InputMaybe<Array<GuestsOrderBy>>
 }
 
-/** All input for the `deleteLegalTermAcceptanceById` mutation. */
-export type DeleteLegalTermAcceptanceByIdInput = {
+/** All input for the `deletePreferenceEventCategoryByAccountIdAndCategoryId` mutation. */
+export type DeletePreferenceEventCategoryByAccountIdAndCategoryIdInput = {
+  /** A user account id. */
+  accountId: Scalars['UUID']['input']
+  /** An event category id. */
+  categoryId: Scalars['UUID']['input']
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** Unique identifier for this legal term acceptance record. Automatically generated for each new acceptance. */
+}
+
+/** All input for the `deletePreferenceEventCategoryById` mutation. */
+export type DeletePreferenceEventCategoryByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
   id: Scalars['UUID']['input']
 }
 
-/** All input for the `deleteLegalTermAcceptance` mutation. */
-export type DeleteLegalTermAcceptanceInput = {
+/** All input for the `deletePreferenceEventCategory` mutation. */
+export type DeletePreferenceEventCategoryInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `LegalTermAcceptance` to be deleted. */
+  /** The globally unique `ID` which will identify a single `PreferenceEventCategory` to be deleted. */
   nodeId: Scalars['ID']['input']
 }
 
-/** The output of our delete `LegalTermAcceptance` mutation. */
-export type DeleteLegalTermAcceptancePayload = {
-  __typename?: 'DeleteLegalTermAcceptancePayload'
-  /** Reads a single `Account` that is related to this `LegalTermAcceptance`. */
+/** The output of our delete `PreferenceEventCategory` mutation. */
+export type DeletePreferenceEventCategoryPayload = {
+  __typename?: 'DeletePreferenceEventCategoryPayload'
+  /** Reads a single `Account` that is related to this `PreferenceEventCategory`. */
   accountByAccountId?: Maybe<Account>
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
    */
   clientMutationId?: Maybe<Scalars['String']['output']>
-  deletedLegalTermAcceptanceId?: Maybe<Scalars['ID']['output']>
-  /** The `LegalTermAcceptance` that was deleted by this mutation. */
-  legalTermAcceptance?: Maybe<LegalTermAcceptance>
-  /** An edge for our `LegalTermAcceptance`. May be used by Relay 1. */
-  legalTermAcceptanceEdge?: Maybe<LegalTermAcceptancesEdge>
-  /** Reads a single `LegalTerm` that is related to this `LegalTermAcceptance`. */
-  legalTermByLegalTermId?: Maybe<LegalTerm>
+  deletedPreferenceEventCategoryId?: Maybe<Scalars['ID']['output']>
+  /** Reads a single `EventCategory` that is related to this `PreferenceEventCategory`. */
+  eventCategoryByCategoryId?: Maybe<EventCategory>
+  /** The `PreferenceEventCategory` that was deleted by this mutation. */
+  preferenceEventCategory?: Maybe<PreferenceEventCategory>
+  /** An edge for our `PreferenceEventCategory`. May be used by Relay 1. */
+  preferenceEventCategoryEdge?: Maybe<PreferenceEventCategoriesEdge>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>
 }
 
-/** The output of our delete `LegalTermAcceptance` mutation. */
-export type DeleteLegalTermAcceptancePayloadLegalTermAcceptanceEdgeArgs = {
-  orderBy?: InputMaybe<Array<LegalTermAcceptancesOrderBy>>
+/** The output of our delete `PreferenceEventCategory` mutation. */
+export type DeletePreferenceEventCategoryPayloadPreferenceEventCategoryEdgeArgs =
+  {
+    orderBy?: InputMaybe<Array<PreferenceEventCategoriesOrderBy>>
+  }
+
+/** All input for the `deletePreferenceEventFormatByAccountIdAndFormatId` mutation. */
+export type DeletePreferenceEventFormatByAccountIdAndFormatIdInput = {
+  /** A user account id. */
+  accountId: Scalars['UUID']['input']
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The id of an event format. */
+  formatId: Scalars['UUID']['input']
+}
+
+/** All input for the `deletePreferenceEventFormatById` mutation. */
+export type DeletePreferenceEventFormatByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  id: Scalars['UUID']['input']
+}
+
+/** All input for the `deletePreferenceEventFormat` mutation. */
+export type DeletePreferenceEventFormatInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `PreferenceEventFormat` to be deleted. */
+  nodeId: Scalars['ID']['input']
+}
+
+/** The output of our delete `PreferenceEventFormat` mutation. */
+export type DeletePreferenceEventFormatPayload = {
+  __typename?: 'DeletePreferenceEventFormatPayload'
+  /** Reads a single `Account` that is related to this `PreferenceEventFormat`. */
+  accountByAccountId?: Maybe<Account>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  deletedPreferenceEventFormatId?: Maybe<Scalars['ID']['output']>
+  /** Reads a single `EventFormat` that is related to this `PreferenceEventFormat`. */
+  eventFormatByFormatId?: Maybe<EventFormat>
+  /** The `PreferenceEventFormat` that was deleted by this mutation. */
+  preferenceEventFormat?: Maybe<PreferenceEventFormat>
+  /** An edge for our `PreferenceEventFormat`. May be used by Relay 1. */
+  preferenceEventFormatEdge?: Maybe<PreferenceEventFormatsEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our delete `PreferenceEventFormat` mutation. */
+export type DeletePreferenceEventFormatPayloadPreferenceEventFormatEdgeArgs = {
+  orderBy?: InputMaybe<Array<PreferenceEventFormatsOrderBy>>
+}
+
+/** All input for the `deletePreferenceEventLocationByCreatedByAndLocationAndRadius` mutation. */
+export type DeletePreferenceEventLocationByCreatedByAndLocationAndRadiusInput =
+  {
+    /**
+     * An arbitrary string value with no semantic meaning. Will be included in the
+     * payload verbatim. May be used to track mutations by the client.
+     */
+    clientMutationId?: InputMaybe<Scalars['String']['input']>
+    /** Reference to the account that created the location preference. */
+    createdBy: Scalars['UUID']['input']
+    /** Geographical point representing the preferred location, derived from latitude and longitude. */
+    location: Scalars['GeoJSON']['input']
+    /** Search radius in meters around the location where events are preferred. Must be positive. */
+    radius: Scalars['Float']['input']
+  }
+
+/** All input for the `deletePreferenceEventLocationById` mutation. */
+export type DeletePreferenceEventLocationByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** Unique identifier for the preference record. */
+  id: Scalars['UUID']['input']
+}
+
+/** All input for the `deletePreferenceEventLocation` mutation. */
+export type DeletePreferenceEventLocationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `PreferenceEventLocation` to be deleted. */
+  nodeId: Scalars['ID']['input']
+}
+
+/** The output of our delete `PreferenceEventLocation` mutation. */
+export type DeletePreferenceEventLocationPayload = {
+  __typename?: 'DeletePreferenceEventLocationPayload'
+  /** Reads a single `Account` that is related to this `PreferenceEventLocation`. */
+  accountByCreatedBy?: Maybe<Account>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  deletedPreferenceEventLocationId?: Maybe<Scalars['ID']['output']>
+  /** The `PreferenceEventLocation` that was deleted by this mutation. */
+  preferenceEventLocation?: Maybe<PreferenceEventLocation>
+  /** An edge for our `PreferenceEventLocation`. May be used by Relay 1. */
+  preferenceEventLocationEdge?: Maybe<PreferenceEventLocationsEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our delete `PreferenceEventLocation` mutation. */
+export type DeletePreferenceEventLocationPayloadPreferenceEventLocationEdgeArgs =
+  {
+    orderBy?: InputMaybe<Array<PreferenceEventLocationsOrderBy>>
+  }
+
+/** All input for the `deletePreferenceEventSizeByAccountIdAndEventSize` mutation. */
+export type DeletePreferenceEventSizeByAccountIdAndEventSizeInput = {
+  /** The account's internal id. */
+  accountId: Scalars['UUID']['input']
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** A preferred event size. */
+  eventSize: EventSize
+}
+
+/** All input for the `deletePreferenceEventSizeById` mutation. */
+export type DeletePreferenceEventSizeByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  id: Scalars['UUID']['input']
+}
+
+/** All input for the `deletePreferenceEventSize` mutation. */
+export type DeletePreferenceEventSizeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `PreferenceEventSize` to be deleted. */
+  nodeId: Scalars['ID']['input']
+}
+
+/** The output of our delete `PreferenceEventSize` mutation. */
+export type DeletePreferenceEventSizePayload = {
+  __typename?: 'DeletePreferenceEventSizePayload'
+  /** Reads a single `Account` that is related to this `PreferenceEventSize`. */
+  accountByAccountId?: Maybe<Account>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  deletedPreferenceEventSizeId?: Maybe<Scalars['ID']['output']>
+  /** The `PreferenceEventSize` that was deleted by this mutation. */
+  preferenceEventSize?: Maybe<PreferenceEventSize>
+  /** An edge for our `PreferenceEventSize`. May be used by Relay 1. */
+  preferenceEventSizeEdge?: Maybe<PreferenceEventSizesEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our delete `PreferenceEventSize` mutation. */
+export type DeletePreferenceEventSizePayloadPreferenceEventSizeEdgeArgs = {
+  orderBy?: InputMaybe<Array<PreferenceEventSizesOrderBy>>
 }
 
 /** All input for the `deleteProfilePictureByAccountId` mutation. */
@@ -4023,8 +3592,6 @@ export enum EventCategoriesOrderBy {
 /** Event categories. */
 export type EventCategory = Node & {
   __typename?: 'EventCategory'
-  /** Reads and enables pagination through a set of `AccountPreferenceEventCategory`. */
-  accountPreferenceEventCategoriesByCategoryId: AccountPreferenceEventCategoriesConnection
   /** Reads and enables pagination through a set of `EventCategoryMapping`. */
   eventCategoryMappingsByCategoryId: EventCategoryMappingsConnection
   /** The id of the event category. */
@@ -4033,17 +3600,8 @@ export type EventCategory = Node & {
   name: Scalars['String']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID']['output']
-}
-
-/** Event categories. */
-export type EventCategoryAccountPreferenceEventCategoriesByCategoryIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<AccountPreferenceEventCategoryCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountPreferenceEventCategoriesOrderBy>>
+  /** Reads and enables pagination through a set of `PreferenceEventCategory`. */
+  preferenceEventCategoriesByCategoryId: PreferenceEventCategoriesConnection
 }
 
 /** Event categories. */
@@ -4057,6 +3615,17 @@ export type EventCategoryEventCategoryMappingsByCategoryIdArgs = {
   orderBy?: InputMaybe<Array<EventCategoryMappingsOrderBy>>
 }
 
+/** Event categories. */
+export type EventCategoryPreferenceEventCategoriesByCategoryIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<PreferenceEventCategoryCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<PreferenceEventCategoriesOrderBy>>
+}
+
 /**
  * A condition to be used against `EventCategory` object types. All fields are
  * tested for equality and combined with a logical ‘and.’
@@ -4066,14 +3635,6 @@ export type EventCategoryCondition = {
   id?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>
-}
-
-/** An input for mutations affecting `EventCategory` */
-export type EventCategoryInput = {
-  /** The id of the event category. */
-  id?: InputMaybe<Scalars['UUID']['input']>
-  /** A category name. */
-  name: Scalars['String']['input']
 }
 
 /** Mapping events to categories (M:N relationship). */
@@ -4149,14 +3710,6 @@ export enum EventCategoryMappingsOrderBy {
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-}
-
-/** Represents an update to a `EventCategory`. Fields that are set will be updated. */
-export type EventCategoryPatch = {
-  /** The id of the event category. */
-  id?: InputMaybe<Scalars['UUID']['input']>
-  /** A category name. */
-  name?: InputMaybe<Scalars['String']['input']>
 }
 
 /** A condition to be used against `Event` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -4242,7 +3795,7 @@ export type EventFavorite = Node & {
   /** Reads a single `Event` that is related to this `EventFavorite`. */
   eventByEventId?: Maybe<Event>
   /** Reference to the event that is marked as a favorite. */
-  eventId?: Maybe<Scalars['UUID']['output']>
+  eventId: Scalars['UUID']['output']
   /** Primary key, uniquely identifies each favorite entry. */
   id: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -4269,7 +3822,7 @@ export type EventFavoriteInput = {
   /** Reference to the account that created the event favorite. */
   createdBy: Scalars['UUID']['input']
   /** Reference to the event that is marked as a favorite. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
+  eventId: Scalars['UUID']['input']
 }
 
 /** A connection to a list of `EventFavorite` values. */
@@ -4312,8 +3865,6 @@ export enum EventFavoritesOrderBy {
 /** Event formats. */
 export type EventFormat = Node & {
   __typename?: 'EventFormat'
-  /** Reads and enables pagination through a set of `AccountPreferenceEventFormat`. */
-  accountPreferenceEventFormatsByFormatId: AccountPreferenceEventFormatsConnection
   /** Reads and enables pagination through a set of `EventFormatMapping`. */
   eventFormatMappingsByFormatId: EventFormatMappingsConnection
   /** The id of the event format. */
@@ -4322,17 +3873,8 @@ export type EventFormat = Node & {
   name: Scalars['String']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   nodeId: Scalars['ID']['output']
-}
-
-/** Event formats. */
-export type EventFormatAccountPreferenceEventFormatsByFormatIdArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<AccountPreferenceEventFormatCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountPreferenceEventFormatsOrderBy>>
+  /** Reads and enables pagination through a set of `PreferenceEventFormat`. */
+  preferenceEventFormatsByFormatId: PreferenceEventFormatsConnection
 }
 
 /** Event formats. */
@@ -4346,6 +3888,17 @@ export type EventFormatEventFormatMappingsByFormatIdArgs = {
   orderBy?: InputMaybe<Array<EventFormatMappingsOrderBy>>
 }
 
+/** Event formats. */
+export type EventFormatPreferenceEventFormatsByFormatIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<PreferenceEventFormatCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<PreferenceEventFormatsOrderBy>>
+}
+
 /**
  * A condition to be used against `EventFormat` object types. All fields are tested
  * for equality and combined with a logical ‘and.’
@@ -4355,14 +3908,6 @@ export type EventFormatCondition = {
   id?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>
-}
-
-/** An input for mutations affecting `EventFormat` */
-export type EventFormatInput = {
-  /** The id of the event format. */
-  id?: InputMaybe<Scalars['UUID']['input']>
-  /** The name of the event format. */
-  name: Scalars['String']['input']
 }
 
 /** Mapping events to formats (M:N relationship). */
@@ -4438,14 +3983,6 @@ export enum EventFormatMappingsOrderBy {
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-}
-
-/** Represents an update to a `EventFormat`. Fields that are set will be updated. */
-export type EventFormatPatch = {
-  /** The id of the event format. */
-  id?: InputMaybe<Scalars['UUID']['input']>
-  /** The name of the event format. */
-  name?: InputMaybe<Scalars['String']['input']>
 }
 
 /** A connection to a list of `EventFormat` values. */
@@ -5417,6 +4954,7 @@ export type LegalTermLegalTermAcceptancesByLegalTermIdArgs = {
   orderBy?: InputMaybe<Array<LegalTermAcceptancesOrderBy>>
 }
 
+/** Tracks each user account's acceptance of legal terms and conditions. */
 export type LegalTermAcceptance = Node & {
   __typename?: 'LegalTermAcceptance'
   /** Reads a single `Account` that is related to this `LegalTermAcceptance`. */
@@ -5564,7 +5102,7 @@ export type Mutation = {
   accountPasswordReset?: Maybe<AccountPasswordResetPayload>
   /** Sets a new password reset verification code for an account. */
   accountPasswordResetRequest?: Maybe<AccountPasswordResetRequestPayload>
-  /** Creates a contact and registers an account referencing it. */
+  /** Creates a contact and registers an account referencing it.\n\nError codes:\n- **VTBDA** when the birth date is not at least 18 years old.\n- **VTPLL** when the password length does not reach its minimum.\n- **VTAUV** when an account with the given username already exists. */
   accountRegistration?: Maybe<AccountRegistrationPayload>
   /** Refreshes an account's email address verification validity period. */
   accountRegistrationRefresh?: Maybe<AccountRegistrationRefreshPayload>
@@ -5572,16 +5110,8 @@ export type Mutation = {
   achievementUnlock?: Maybe<AchievementUnlockPayload>
   /** Creates a JWT token that will securely identify an account and give it certain permissions. */
   authenticate?: Maybe<AuthenticatePayload>
-  /** Creates a single `Account`. */
-  createAccount?: Maybe<CreateAccountPayload>
   /** Creates a single `AccountBlock`. */
   createAccountBlock?: Maybe<CreateAccountBlockPayload>
-  /** Creates a single `AccountPreferenceEventCategory`. */
-  createAccountPreferenceEventCategory?: Maybe<CreateAccountPreferenceEventCategoryPayload>
-  /** Creates a single `AccountPreferenceEventFormat`. */
-  createAccountPreferenceEventFormat?: Maybe<CreateAccountPreferenceEventFormatPayload>
-  /** Creates a single `AccountPreferenceEventSize`. */
-  createAccountPreferenceEventSize?: Maybe<CreateAccountPreferenceEventSizePayload>
   /** Creates a single `AccountSocialNetwork`. */
   createAccountSocialNetwork?: Maybe<CreateAccountSocialNetworkPayload>
   /** Creates a single `Achievement`. */
@@ -5594,14 +5124,10 @@ export type Mutation = {
   createDevice?: Maybe<CreateDevicePayload>
   /** Creates a single `Event`. */
   createEvent?: Maybe<CreateEventPayload>
-  /** Creates a single `EventCategory`. */
-  createEventCategory?: Maybe<CreateEventCategoryPayload>
   /** Creates a single `EventCategoryMapping`. */
   createEventCategoryMapping?: Maybe<CreateEventCategoryMappingPayload>
   /** Creates a single `EventFavorite`. */
   createEventFavorite?: Maybe<CreateEventFavoritePayload>
-  /** Creates a single `EventFormat`. */
-  createEventFormat?: Maybe<CreateEventFormatPayload>
   /** Creates a single `EventFormatMapping`. */
   createEventFormatMapping?: Maybe<CreateEventFormatMappingPayload>
   /** Creates a single `EventRecommendation`. */
@@ -5616,36 +5142,26 @@ export type Mutation = {
   createGuests?: Maybe<CreateGuestsPayload>
   /** Creates a single `LegalTermAcceptance`. */
   createLegalTermAcceptance?: Maybe<CreateLegalTermAcceptancePayload>
+  /** Creates a single `PreferenceEventCategory`. */
+  createPreferenceEventCategory?: Maybe<CreatePreferenceEventCategoryPayload>
+  /** Creates a single `PreferenceEventFormat`. */
+  createPreferenceEventFormat?: Maybe<CreatePreferenceEventFormatPayload>
+  /** Creates a single `PreferenceEventLocation`. */
+  createPreferenceEventLocation?: Maybe<CreatePreferenceEventLocationPayload>
+  /** Creates a single `PreferenceEventSize`. */
+  createPreferenceEventSize?: Maybe<CreatePreferenceEventSizePayload>
   /** Creates a single `ProfilePicture`. */
   createProfilePicture?: Maybe<CreateProfilePicturePayload>
   /** Creates a single `Report`. */
   createReport?: Maybe<CreateReportPayload>
   /** Creates a single `Upload`. */
   createUpload?: Maybe<CreateUploadPayload>
-  /** Deletes a single `Account` using its globally unique id. */
-  deleteAccount?: Maybe<DeleteAccountPayload>
   /** Deletes a single `AccountBlock` using its globally unique id. */
   deleteAccountBlock?: Maybe<DeleteAccountBlockPayload>
   /** Deletes a single `AccountBlock` using a unique key. */
   deleteAccountBlockByCreatedByAndBlockedAccountId?: Maybe<DeleteAccountBlockPayload>
   /** Deletes a single `AccountBlock` using a unique key. */
   deleteAccountBlockById?: Maybe<DeleteAccountBlockPayload>
-  /** Deletes a single `Account` using a unique key. */
-  deleteAccountById?: Maybe<DeleteAccountPayload>
-  /** Deletes a single `Account` using a unique key. */
-  deleteAccountByUsername?: Maybe<DeleteAccountPayload>
-  /** Deletes a single `AccountPreferenceEventCategory` using its globally unique id. */
-  deleteAccountPreferenceEventCategory?: Maybe<DeleteAccountPreferenceEventCategoryPayload>
-  /** Deletes a single `AccountPreferenceEventCategory` using a unique key. */
-  deleteAccountPreferenceEventCategoryByAccountIdAndCategoryId?: Maybe<DeleteAccountPreferenceEventCategoryPayload>
-  /** Deletes a single `AccountPreferenceEventFormat` using its globally unique id. */
-  deleteAccountPreferenceEventFormat?: Maybe<DeleteAccountPreferenceEventFormatPayload>
-  /** Deletes a single `AccountPreferenceEventFormat` using a unique key. */
-  deleteAccountPreferenceEventFormatByAccountIdAndFormatId?: Maybe<DeleteAccountPreferenceEventFormatPayload>
-  /** Deletes a single `AccountPreferenceEventSize` using its globally unique id. */
-  deleteAccountPreferenceEventSize?: Maybe<DeleteAccountPreferenceEventSizePayload>
-  /** Deletes a single `AccountPreferenceEventSize` using a unique key. */
-  deleteAccountPreferenceEventSizeByAccountIdAndEventSize?: Maybe<DeleteAccountPreferenceEventSizePayload>
   /** Deletes a single `AccountSocialNetwork` using its globally unique id. */
   deleteAccountSocialNetwork?: Maybe<DeleteAccountSocialNetworkPayload>
   /** Deletes a single `AccountSocialNetwork` using a unique key. */
@@ -5678,12 +5194,6 @@ export type Mutation = {
   deleteEventByCreatedByAndSlug?: Maybe<DeleteEventPayload>
   /** Deletes a single `Event` using a unique key. */
   deleteEventById?: Maybe<DeleteEventPayload>
-  /** Deletes a single `EventCategory` using its globally unique id. */
-  deleteEventCategory?: Maybe<DeleteEventCategoryPayload>
-  /** Deletes a single `EventCategory` using a unique key. */
-  deleteEventCategoryById?: Maybe<DeleteEventCategoryPayload>
-  /** Deletes a single `EventCategory` using a unique key. */
-  deleteEventCategoryByName?: Maybe<DeleteEventCategoryPayload>
   /** Deletes a single `EventCategoryMapping` using its globally unique id. */
   deleteEventCategoryMapping?: Maybe<DeleteEventCategoryMappingPayload>
   /** Deletes a single `EventCategoryMapping` using a unique key. */
@@ -5694,12 +5204,6 @@ export type Mutation = {
   deleteEventFavoriteByCreatedByAndEventId?: Maybe<DeleteEventFavoritePayload>
   /** Deletes a single `EventFavorite` using a unique key. */
   deleteEventFavoriteById?: Maybe<DeleteEventFavoritePayload>
-  /** Deletes a single `EventFormat` using its globally unique id. */
-  deleteEventFormat?: Maybe<DeleteEventFormatPayload>
-  /** Deletes a single `EventFormat` using a unique key. */
-  deleteEventFormatById?: Maybe<DeleteEventFormatPayload>
-  /** Deletes a single `EventFormat` using a unique key. */
-  deleteEventFormatByName?: Maybe<DeleteEventFormatPayload>
   /** Deletes a single `EventFormatMapping` using its globally unique id. */
   deleteEventFormatMapping?: Maybe<DeleteEventFormatMappingPayload>
   /** Deletes a single `EventFormatMapping` using a unique key. */
@@ -5726,10 +5230,30 @@ export type Mutation = {
   deleteGuestByEventIdAndContactId?: Maybe<DeleteGuestPayload>
   /** Deletes a single `Guest` using a unique key. */
   deleteGuestById?: Maybe<DeleteGuestPayload>
-  /** Deletes a single `LegalTermAcceptance` using its globally unique id. */
-  deleteLegalTermAcceptance?: Maybe<DeleteLegalTermAcceptancePayload>
-  /** Deletes a single `LegalTermAcceptance` using a unique key. */
-  deleteLegalTermAcceptanceById?: Maybe<DeleteLegalTermAcceptancePayload>
+  /** Deletes a single `PreferenceEventCategory` using its globally unique id. */
+  deletePreferenceEventCategory?: Maybe<DeletePreferenceEventCategoryPayload>
+  /** Deletes a single `PreferenceEventCategory` using a unique key. */
+  deletePreferenceEventCategoryByAccountIdAndCategoryId?: Maybe<DeletePreferenceEventCategoryPayload>
+  /** Deletes a single `PreferenceEventCategory` using a unique key. */
+  deletePreferenceEventCategoryById?: Maybe<DeletePreferenceEventCategoryPayload>
+  /** Deletes a single `PreferenceEventFormat` using its globally unique id. */
+  deletePreferenceEventFormat?: Maybe<DeletePreferenceEventFormatPayload>
+  /** Deletes a single `PreferenceEventFormat` using a unique key. */
+  deletePreferenceEventFormatByAccountIdAndFormatId?: Maybe<DeletePreferenceEventFormatPayload>
+  /** Deletes a single `PreferenceEventFormat` using a unique key. */
+  deletePreferenceEventFormatById?: Maybe<DeletePreferenceEventFormatPayload>
+  /** Deletes a single `PreferenceEventLocation` using its globally unique id. */
+  deletePreferenceEventLocation?: Maybe<DeletePreferenceEventLocationPayload>
+  /** Deletes a single `PreferenceEventLocation` using a unique key. */
+  deletePreferenceEventLocationByCreatedByAndLocationAndRadius?: Maybe<DeletePreferenceEventLocationPayload>
+  /** Deletes a single `PreferenceEventLocation` using a unique key. */
+  deletePreferenceEventLocationById?: Maybe<DeletePreferenceEventLocationPayload>
+  /** Deletes a single `PreferenceEventSize` using its globally unique id. */
+  deletePreferenceEventSize?: Maybe<DeletePreferenceEventSizePayload>
+  /** Deletes a single `PreferenceEventSize` using a unique key. */
+  deletePreferenceEventSizeByAccountIdAndEventSize?: Maybe<DeletePreferenceEventSizePayload>
+  /** Deletes a single `PreferenceEventSize` using a unique key. */
+  deletePreferenceEventSizeById?: Maybe<DeletePreferenceEventSizePayload>
   /** Deletes a single `ProfilePicture` using its globally unique id. */
   deleteProfilePicture?: Maybe<DeleteProfilePicturePayload>
   /** Deletes a single `ProfilePicture` using a unique key. */
@@ -5760,18 +5284,13 @@ export type Mutation = {
   updateAccountById?: Maybe<UpdateAccountPayload>
   /** Updates a single `Account` using a unique key and a patch. */
   updateAccountByUsername?: Maybe<UpdateAccountPayload>
-  /** Updates a single `AccountPreferenceEventCategory` using its globally unique id and a patch. */
-  updateAccountPreferenceEventCategory?: Maybe<UpdateAccountPreferenceEventCategoryPayload>
-  /** Updates a single `AccountPreferenceEventCategory` using a unique key and a patch. */
-  updateAccountPreferenceEventCategoryByAccountIdAndCategoryId?: Maybe<UpdateAccountPreferenceEventCategoryPayload>
-  /** Updates a single `AccountPreferenceEventFormat` using its globally unique id and a patch. */
-  updateAccountPreferenceEventFormat?: Maybe<UpdateAccountPreferenceEventFormatPayload>
-  /** Updates a single `AccountPreferenceEventFormat` using a unique key and a patch. */
-  updateAccountPreferenceEventFormatByAccountIdAndFormatId?: Maybe<UpdateAccountPreferenceEventFormatPayload>
-  /** Updates a single `AccountPreferenceEventSize` using its globally unique id and a patch. */
-  updateAccountPreferenceEventSize?: Maybe<UpdateAccountPreferenceEventSizePayload>
-  /** Updates a single `AccountPreferenceEventSize` using a unique key and a patch. */
-  updateAccountPreferenceEventSizeByAccountIdAndEventSize?: Maybe<UpdateAccountPreferenceEventSizePayload>
+  /**
+   * Sets the location for the invoker's account.
+   *
+   * Error codes:
+   * - **P0002** when no record was updated.
+   */
+  updateAccountLocation?: Maybe<UpdateAccountLocationPayload>
   /** Updates a single `AccountSocialNetwork` using its globally unique id and a patch. */
   updateAccountSocialNetwork?: Maybe<UpdateAccountSocialNetworkPayload>
   /** Updates a single `AccountSocialNetwork` using a unique key and a patch. */
@@ -5804,22 +5323,10 @@ export type Mutation = {
   updateEventByCreatedByAndSlug?: Maybe<UpdateEventPayload>
   /** Updates a single `Event` using a unique key and a patch. */
   updateEventById?: Maybe<UpdateEventPayload>
-  /** Updates a single `EventCategory` using its globally unique id and a patch. */
-  updateEventCategory?: Maybe<UpdateEventCategoryPayload>
-  /** Updates a single `EventCategory` using a unique key and a patch. */
-  updateEventCategoryById?: Maybe<UpdateEventCategoryPayload>
-  /** Updates a single `EventCategory` using a unique key and a patch. */
-  updateEventCategoryByName?: Maybe<UpdateEventCategoryPayload>
   /** Updates a single `EventCategoryMapping` using its globally unique id and a patch. */
   updateEventCategoryMapping?: Maybe<UpdateEventCategoryMappingPayload>
   /** Updates a single `EventCategoryMapping` using a unique key and a patch. */
   updateEventCategoryMappingByEventIdAndCategoryId?: Maybe<UpdateEventCategoryMappingPayload>
-  /** Updates a single `EventFormat` using its globally unique id and a patch. */
-  updateEventFormat?: Maybe<UpdateEventFormatPayload>
-  /** Updates a single `EventFormat` using a unique key and a patch. */
-  updateEventFormatById?: Maybe<UpdateEventFormatPayload>
-  /** Updates a single `EventFormat` using a unique key and a patch. */
-  updateEventFormatByName?: Maybe<UpdateEventFormatPayload>
   /** Updates a single `EventFormatMapping` using its globally unique id and a patch. */
   updateEventFormatMapping?: Maybe<UpdateEventFormatMappingPayload>
   /** Updates a single `EventFormatMapping` using a unique key and a patch. */
@@ -5846,6 +5353,30 @@ export type Mutation = {
   updateGuestByEventIdAndContactId?: Maybe<UpdateGuestPayload>
   /** Updates a single `Guest` using a unique key and a patch. */
   updateGuestById?: Maybe<UpdateGuestPayload>
+  /** Updates a single `PreferenceEventCategory` using its globally unique id and a patch. */
+  updatePreferenceEventCategory?: Maybe<UpdatePreferenceEventCategoryPayload>
+  /** Updates a single `PreferenceEventCategory` using a unique key and a patch. */
+  updatePreferenceEventCategoryByAccountIdAndCategoryId?: Maybe<UpdatePreferenceEventCategoryPayload>
+  /** Updates a single `PreferenceEventCategory` using a unique key and a patch. */
+  updatePreferenceEventCategoryById?: Maybe<UpdatePreferenceEventCategoryPayload>
+  /** Updates a single `PreferenceEventFormat` using its globally unique id and a patch. */
+  updatePreferenceEventFormat?: Maybe<UpdatePreferenceEventFormatPayload>
+  /** Updates a single `PreferenceEventFormat` using a unique key and a patch. */
+  updatePreferenceEventFormatByAccountIdAndFormatId?: Maybe<UpdatePreferenceEventFormatPayload>
+  /** Updates a single `PreferenceEventFormat` using a unique key and a patch. */
+  updatePreferenceEventFormatById?: Maybe<UpdatePreferenceEventFormatPayload>
+  /** Updates a single `PreferenceEventLocation` using its globally unique id and a patch. */
+  updatePreferenceEventLocation?: Maybe<UpdatePreferenceEventLocationPayload>
+  /** Updates a single `PreferenceEventLocation` using a unique key and a patch. */
+  updatePreferenceEventLocationByCreatedByAndLocationAndRadius?: Maybe<UpdatePreferenceEventLocationPayload>
+  /** Updates a single `PreferenceEventLocation` using a unique key and a patch. */
+  updatePreferenceEventLocationById?: Maybe<UpdatePreferenceEventLocationPayload>
+  /** Updates a single `PreferenceEventSize` using its globally unique id and a patch. */
+  updatePreferenceEventSize?: Maybe<UpdatePreferenceEventSizePayload>
+  /** Updates a single `PreferenceEventSize` using a unique key and a patch. */
+  updatePreferenceEventSizeByAccountIdAndEventSize?: Maybe<UpdatePreferenceEventSizePayload>
+  /** Updates a single `PreferenceEventSize` using a unique key and a patch. */
+  updatePreferenceEventSizeById?: Maybe<UpdatePreferenceEventSizePayload>
   /** Updates a single `ProfilePicture` using its globally unique id and a patch. */
   updateProfilePicture?: Maybe<UpdateProfilePicturePayload>
   /** Updates a single `ProfilePicture` using a unique key and a patch. */
@@ -5906,28 +5437,8 @@ export type MutationAuthenticateArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateAccountArgs = {
-  input: CreateAccountInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateAccountBlockArgs = {
   input: CreateAccountBlockInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateAccountPreferenceEventCategoryArgs = {
-  input: CreateAccountPreferenceEventCategoryInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateAccountPreferenceEventFormatArgs = {
-  input: CreateAccountPreferenceEventFormatInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateAccountPreferenceEventSizeArgs = {
-  input: CreateAccountPreferenceEventSizeInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -5961,11 +5472,6 @@ export type MutationCreateEventArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateEventCategoryArgs = {
-  input: CreateEventCategoryInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateEventCategoryMappingArgs = {
   input: CreateEventCategoryMappingInput
 }
@@ -5973,11 +5479,6 @@ export type MutationCreateEventCategoryMappingArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateEventFavoriteArgs = {
   input: CreateEventFavoriteInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationCreateEventFormatArgs = {
-  input: CreateEventFormatInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6016,6 +5517,26 @@ export type MutationCreateLegalTermAcceptanceArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePreferenceEventCategoryArgs = {
+  input: CreatePreferenceEventCategoryInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePreferenceEventFormatArgs = {
+  input: CreatePreferenceEventFormatInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePreferenceEventLocationArgs = {
+  input: CreatePreferenceEventLocationInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePreferenceEventSizeArgs = {
+  input: CreatePreferenceEventSizeInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateProfilePictureArgs = {
   input: CreateProfilePictureInput
 }
@@ -6028,11 +5549,6 @@ export type MutationCreateReportArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateUploadArgs = {
   input: CreateUploadInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAccountArgs = {
-  input: DeleteAccountInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6049,49 +5565,6 @@ export type MutationDeleteAccountBlockByCreatedByAndBlockedAccountIdArgs = {
 export type MutationDeleteAccountBlockByIdArgs = {
   input: DeleteAccountBlockByIdInput
 }
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAccountByIdArgs = {
-  input: DeleteAccountByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAccountByUsernameArgs = {
-  input: DeleteAccountByUsernameInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAccountPreferenceEventCategoryArgs = {
-  input: DeleteAccountPreferenceEventCategoryInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAccountPreferenceEventCategoryByAccountIdAndCategoryIdArgs =
-  {
-    input: DeleteAccountPreferenceEventCategoryByAccountIdAndCategoryIdInput
-  }
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAccountPreferenceEventFormatArgs = {
-  input: DeleteAccountPreferenceEventFormatInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAccountPreferenceEventFormatByAccountIdAndFormatIdArgs =
-  {
-    input: DeleteAccountPreferenceEventFormatByAccountIdAndFormatIdInput
-  }
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAccountPreferenceEventSizeArgs = {
-  input: DeleteAccountPreferenceEventSizeInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteAccountPreferenceEventSizeByAccountIdAndEventSizeArgs =
-  {
-    input: DeleteAccountPreferenceEventSizeByAccountIdAndEventSizeInput
-  }
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteAccountSocialNetworkArgs = {
@@ -6175,21 +5648,6 @@ export type MutationDeleteEventByIdArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventCategoryArgs = {
-  input: DeleteEventCategoryInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventCategoryByIdArgs = {
-  input: DeleteEventCategoryByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventCategoryByNameArgs = {
-  input: DeleteEventCategoryByNameInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteEventCategoryMappingArgs = {
   input: DeleteEventCategoryMappingInput
 }
@@ -6212,21 +5670,6 @@ export type MutationDeleteEventFavoriteByCreatedByAndEventIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteEventFavoriteByIdArgs = {
   input: DeleteEventFavoriteByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventFormatArgs = {
-  input: DeleteEventFormatInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventFormatByIdArgs = {
-  input: DeleteEventFormatByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteEventFormatByNameArgs = {
-  input: DeleteEventFormatByNameInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6295,13 +5738,65 @@ export type MutationDeleteGuestByIdArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteLegalTermAcceptanceArgs = {
-  input: DeleteLegalTermAcceptanceInput
+export type MutationDeletePreferenceEventCategoryArgs = {
+  input: DeletePreferenceEventCategoryInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationDeleteLegalTermAcceptanceByIdArgs = {
-  input: DeleteLegalTermAcceptanceByIdInput
+export type MutationDeletePreferenceEventCategoryByAccountIdAndCategoryIdArgs =
+  {
+    input: DeletePreferenceEventCategoryByAccountIdAndCategoryIdInput
+  }
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePreferenceEventCategoryByIdArgs = {
+  input: DeletePreferenceEventCategoryByIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePreferenceEventFormatArgs = {
+  input: DeletePreferenceEventFormatInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePreferenceEventFormatByAccountIdAndFormatIdArgs = {
+  input: DeletePreferenceEventFormatByAccountIdAndFormatIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePreferenceEventFormatByIdArgs = {
+  input: DeletePreferenceEventFormatByIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePreferenceEventLocationArgs = {
+  input: DeletePreferenceEventLocationInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePreferenceEventLocationByCreatedByAndLocationAndRadiusArgs =
+  {
+    input: DeletePreferenceEventLocationByCreatedByAndLocationAndRadiusInput
+  }
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePreferenceEventLocationByIdArgs = {
+  input: DeletePreferenceEventLocationByIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePreferenceEventSizeArgs = {
+  input: DeletePreferenceEventSizeInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePreferenceEventSizeByAccountIdAndEventSizeArgs = {
+  input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePreferenceEventSizeByIdArgs = {
+  input: DeletePreferenceEventSizeByIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6380,37 +5875,9 @@ export type MutationUpdateAccountByUsernameArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateAccountPreferenceEventCategoryArgs = {
-  input: UpdateAccountPreferenceEventCategoryInput
+export type MutationUpdateAccountLocationArgs = {
+  input: UpdateAccountLocationInput
 }
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateAccountPreferenceEventCategoryByAccountIdAndCategoryIdArgs =
-  {
-    input: UpdateAccountPreferenceEventCategoryByAccountIdAndCategoryIdInput
-  }
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateAccountPreferenceEventFormatArgs = {
-  input: UpdateAccountPreferenceEventFormatInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateAccountPreferenceEventFormatByAccountIdAndFormatIdArgs =
-  {
-    input: UpdateAccountPreferenceEventFormatByAccountIdAndFormatIdInput
-  }
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateAccountPreferenceEventSizeArgs = {
-  input: UpdateAccountPreferenceEventSizeInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateAccountPreferenceEventSizeByAccountIdAndEventSizeArgs =
-  {
-    input: UpdateAccountPreferenceEventSizeByAccountIdAndEventSizeInput
-  }
 
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateAccountSocialNetworkArgs = {
@@ -6494,21 +5961,6 @@ export type MutationUpdateEventByIdArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventCategoryArgs = {
-  input: UpdateEventCategoryInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventCategoryByIdArgs = {
-  input: UpdateEventCategoryByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventCategoryByNameArgs = {
-  input: UpdateEventCategoryByNameInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateEventCategoryMappingArgs = {
   input: UpdateEventCategoryMappingInput
 }
@@ -6516,21 +5968,6 @@ export type MutationUpdateEventCategoryMappingArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateEventCategoryMappingByEventIdAndCategoryIdArgs = {
   input: UpdateEventCategoryMappingByEventIdAndCategoryIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventFormatArgs = {
-  input: UpdateEventFormatInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventFormatByIdArgs = {
-  input: UpdateEventFormatByIdInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateEventFormatByNameArgs = {
-  input: UpdateEventFormatByNameInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6596,6 +6033,68 @@ export type MutationUpdateGuestByEventIdAndContactIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateGuestByIdArgs = {
   input: UpdateGuestByIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventCategoryArgs = {
+  input: UpdatePreferenceEventCategoryInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventCategoryByAccountIdAndCategoryIdArgs =
+  {
+    input: UpdatePreferenceEventCategoryByAccountIdAndCategoryIdInput
+  }
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventCategoryByIdArgs = {
+  input: UpdatePreferenceEventCategoryByIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventFormatArgs = {
+  input: UpdatePreferenceEventFormatInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventFormatByAccountIdAndFormatIdArgs = {
+  input: UpdatePreferenceEventFormatByAccountIdAndFormatIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventFormatByIdArgs = {
+  input: UpdatePreferenceEventFormatByIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventLocationArgs = {
+  input: UpdatePreferenceEventLocationInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventLocationByCreatedByAndLocationAndRadiusArgs =
+  {
+    input: UpdatePreferenceEventLocationByCreatedByAndLocationAndRadiusInput
+  }
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventLocationByIdArgs = {
+  input: UpdatePreferenceEventLocationByIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventSizeArgs = {
+  input: UpdatePreferenceEventSizeInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventSizeByAccountIdAndEventSizeArgs = {
+  input: UpdatePreferenceEventSizeByAccountIdAndEventSizeInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventSizeByIdArgs = {
+  input: UpdatePreferenceEventSizeByIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6668,6 +6167,372 @@ export type PageInfo = {
   hasPreviousPage: Scalars['Boolean']['output']
   /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars['Cursor']['output']>
+}
+
+/** A connection to a list of `PreferenceEventCategory` values. */
+export type PreferenceEventCategoriesConnection = {
+  __typename?: 'PreferenceEventCategoriesConnection'
+  /** A list of edges which contains the `PreferenceEventCategory` and cursor to aid in pagination. */
+  edges: Array<PreferenceEventCategoriesEdge>
+  /** A list of `PreferenceEventCategory` objects. */
+  nodes: Array<PreferenceEventCategory>
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo
+  /** The count of *all* `PreferenceEventCategory` you could get from the connection. */
+  totalCount: Scalars['Int']['output']
+}
+
+/** A `PreferenceEventCategory` edge in the connection. */
+export type PreferenceEventCategoriesEdge = {
+  __typename?: 'PreferenceEventCategoriesEdge'
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `PreferenceEventCategory` at the end of the edge. */
+  node: PreferenceEventCategory
+}
+
+/** Methods to use when ordering `PreferenceEventCategory`. */
+export enum PreferenceEventCategoriesOrderBy {
+  AccountIdAsc = 'ACCOUNT_ID_ASC',
+  AccountIdDesc = 'ACCOUNT_ID_DESC',
+  CategoryIdAsc = 'CATEGORY_ID_ASC',
+  CategoryIdDesc = 'CATEGORY_ID_DESC',
+  CreatedAtAsc = 'CREATED_AT_ASC',
+  CreatedAtDesc = 'CREATED_AT_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+}
+
+/** Event categories a user account is interested in (M:N relationship). */
+export type PreferenceEventCategory = Node & {
+  __typename?: 'PreferenceEventCategory'
+  /** Reads a single `Account` that is related to this `PreferenceEventCategory`. */
+  accountByAccountId?: Maybe<Account>
+  /** A user account id. */
+  accountId: Scalars['UUID']['output']
+  /** An event category id. */
+  categoryId: Scalars['UUID']['output']
+  createdAt: Scalars['Datetime']['output']
+  /** Reads a single `EventCategory` that is related to this `PreferenceEventCategory`. */
+  eventCategoryByCategoryId?: Maybe<EventCategory>
+  id: Scalars['UUID']['output']
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID']['output']
+}
+
+/**
+ * A condition to be used against `PreferenceEventCategory` object types. All
+ * fields are tested for equality and combined with a logical ‘and.’
+ */
+export type PreferenceEventCategoryCondition = {
+  /** Checks for equality with the object’s `accountId` field. */
+  accountId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `categoryId` field. */
+  categoryId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `createdAt` field. */
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** An input for mutations affecting `PreferenceEventCategory` */
+export type PreferenceEventCategoryInput = {
+  /** A user account id. */
+  accountId: Scalars['UUID']['input']
+  /** An event category id. */
+  categoryId: Scalars['UUID']['input']
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** Represents an update to a `PreferenceEventCategory`. Fields that are set will be updated. */
+export type PreferenceEventCategoryPatch = {
+  /** A user account id. */
+  accountId?: InputMaybe<Scalars['UUID']['input']>
+  /** An event category id. */
+  categoryId?: InputMaybe<Scalars['UUID']['input']>
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** Event formats a user account is interested in (M:N relationship). */
+export type PreferenceEventFormat = Node & {
+  __typename?: 'PreferenceEventFormat'
+  /** Reads a single `Account` that is related to this `PreferenceEventFormat`. */
+  accountByAccountId?: Maybe<Account>
+  /** A user account id. */
+  accountId: Scalars['UUID']['output']
+  /** The timestammp when the record was created.. */
+  createdAt: Scalars['Datetime']['output']
+  /** Reads a single `EventFormat` that is related to this `PreferenceEventFormat`. */
+  eventFormatByFormatId?: Maybe<EventFormat>
+  /** The id of an event format. */
+  formatId: Scalars['UUID']['output']
+  id: Scalars['UUID']['output']
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID']['output']
+}
+
+/**
+ * A condition to be used against `PreferenceEventFormat` object types. All fields
+ * are tested for equality and combined with a logical ‘and.’
+ */
+export type PreferenceEventFormatCondition = {
+  /** Checks for equality with the object’s `accountId` field. */
+  accountId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `createdAt` field. */
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  /** Checks for equality with the object’s `formatId` field. */
+  formatId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** An input for mutations affecting `PreferenceEventFormat` */
+export type PreferenceEventFormatInput = {
+  /** A user account id. */
+  accountId: Scalars['UUID']['input']
+  /** The timestammp when the record was created.. */
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  /** The id of an event format. */
+  formatId: Scalars['UUID']['input']
+  id?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** Represents an update to a `PreferenceEventFormat`. Fields that are set will be updated. */
+export type PreferenceEventFormatPatch = {
+  /** A user account id. */
+  accountId?: InputMaybe<Scalars['UUID']['input']>
+  /** The timestammp when the record was created.. */
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  /** The id of an event format. */
+  formatId?: InputMaybe<Scalars['UUID']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** A connection to a list of `PreferenceEventFormat` values. */
+export type PreferenceEventFormatsConnection = {
+  __typename?: 'PreferenceEventFormatsConnection'
+  /** A list of edges which contains the `PreferenceEventFormat` and cursor to aid in pagination. */
+  edges: Array<PreferenceEventFormatsEdge>
+  /** A list of `PreferenceEventFormat` objects. */
+  nodes: Array<PreferenceEventFormat>
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo
+  /** The count of *all* `PreferenceEventFormat` you could get from the connection. */
+  totalCount: Scalars['Int']['output']
+}
+
+/** A `PreferenceEventFormat` edge in the connection. */
+export type PreferenceEventFormatsEdge = {
+  __typename?: 'PreferenceEventFormatsEdge'
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `PreferenceEventFormat` at the end of the edge. */
+  node: PreferenceEventFormat
+}
+
+/** Methods to use when ordering `PreferenceEventFormat`. */
+export enum PreferenceEventFormatsOrderBy {
+  AccountIdAsc = 'ACCOUNT_ID_ASC',
+  AccountIdDesc = 'ACCOUNT_ID_DESC',
+  CreatedAtAsc = 'CREATED_AT_ASC',
+  CreatedAtDesc = 'CREATED_AT_DESC',
+  FormatIdAsc = 'FORMAT_ID_ASC',
+  FormatIdDesc = 'FORMAT_ID_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+}
+
+/** Stores preferred event locations for user accounts, including coordinates and search radius. */
+export type PreferenceEventLocation = Node & {
+  __typename?: 'PreferenceEventLocation'
+  /** Reads a single `Account` that is related to this `PreferenceEventLocation`. */
+  accountByCreatedBy?: Maybe<Account>
+  /** Timestamp of when the event size preference was created, defaults to the current timestamp. */
+  createdAt: Scalars['Datetime']['output']
+  /** Reference to the account that created the location preference. */
+  createdBy: Scalars['UUID']['output']
+  /** Unique identifier for the preference record. */
+  id: Scalars['UUID']['output']
+  /** Geographical point representing the preferred location, derived from latitude and longitude. */
+  location: GeographyPoint
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID']['output']
+  /** Search radius in meters around the location where events are preferred. Must be positive. */
+  radius: Scalars['Float']['output']
+}
+
+/**
+ * A condition to be used against `PreferenceEventLocation` object types. All
+ * fields are tested for equality and combined with a logical ‘and.’
+ */
+export type PreferenceEventLocationCondition = {
+  /** Checks for equality with the object’s `createdAt` field. */
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  /** Checks for equality with the object’s `createdBy` field. */
+  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `location` field. */
+  location?: InputMaybe<Scalars['GeoJSON']['input']>
+  /** Checks for equality with the object’s `radius` field. */
+  radius?: InputMaybe<Scalars['Float']['input']>
+}
+
+/** An input for mutations affecting `PreferenceEventLocation` */
+export type PreferenceEventLocationInput = {
+  /** Reference to the account that created the location preference. */
+  createdBy: Scalars['UUID']['input']
+  /** Geographical point representing the preferred location, derived from latitude and longitude. */
+  location: Scalars['GeoJSON']['input']
+  /** Search radius in meters around the location where events are preferred. Must be positive. */
+  radius: Scalars['Float']['input']
+}
+
+/** Represents an update to a `PreferenceEventLocation`. Fields that are set will be updated. */
+export type PreferenceEventLocationPatch = {
+  /** Timestamp of when the event size preference was created, defaults to the current timestamp. */
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  /** Reference to the account that created the location preference. */
+  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  /** Unique identifier for the preference record. */
+  id?: InputMaybe<Scalars['UUID']['input']>
+  /** Geographical point representing the preferred location, derived from latitude and longitude. */
+  location?: InputMaybe<Scalars['GeoJSON']['input']>
+  /** Search radius in meters around the location where events are preferred. Must be positive. */
+  radius?: InputMaybe<Scalars['Float']['input']>
+}
+
+/** A connection to a list of `PreferenceEventLocation` values. */
+export type PreferenceEventLocationsConnection = {
+  __typename?: 'PreferenceEventLocationsConnection'
+  /** A list of edges which contains the `PreferenceEventLocation` and cursor to aid in pagination. */
+  edges: Array<PreferenceEventLocationsEdge>
+  /** A list of `PreferenceEventLocation` objects. */
+  nodes: Array<PreferenceEventLocation>
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo
+  /** The count of *all* `PreferenceEventLocation` you could get from the connection. */
+  totalCount: Scalars['Int']['output']
+}
+
+/** A `PreferenceEventLocation` edge in the connection. */
+export type PreferenceEventLocationsEdge = {
+  __typename?: 'PreferenceEventLocationsEdge'
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `PreferenceEventLocation` at the end of the edge. */
+  node: PreferenceEventLocation
+}
+
+/** Methods to use when ordering `PreferenceEventLocation`. */
+export enum PreferenceEventLocationsOrderBy {
+  CreatedAtAsc = 'CREATED_AT_ASC',
+  CreatedAtDesc = 'CREATED_AT_DESC',
+  CreatedByAsc = 'CREATED_BY_ASC',
+  CreatedByDesc = 'CREATED_BY_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  LocationAsc = 'LOCATION_ASC',
+  LocationDesc = 'LOCATION_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RadiusAsc = 'RADIUS_ASC',
+  RadiusDesc = 'RADIUS_DESC',
+}
+
+/** Table for the user accounts' preferred event sizes (M:N relationship). */
+export type PreferenceEventSize = Node & {
+  __typename?: 'PreferenceEventSize'
+  /** Reads a single `Account` that is related to this `PreferenceEventSize`. */
+  accountByAccountId?: Maybe<Account>
+  /** The account's internal id. */
+  accountId: Scalars['UUID']['output']
+  /** Timestamp of when the event size preference was created, defaults to the current timestamp. */
+  createdAt: Scalars['Datetime']['output']
+  /** A preferred event size. */
+  eventSize: EventSize
+  id: Scalars['UUID']['output']
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  nodeId: Scalars['ID']['output']
+}
+
+/**
+ * A condition to be used against `PreferenceEventSize` object types. All fields
+ * are tested for equality and combined with a logical ‘and.’
+ */
+export type PreferenceEventSizeCondition = {
+  /** Checks for equality with the object’s `accountId` field. */
+  accountId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `createdAt` field. */
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  /** Checks for equality with the object’s `eventSize` field. */
+  eventSize?: InputMaybe<EventSize>
+  /** Checks for equality with the object’s `id` field. */
+  id?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** An input for mutations affecting `PreferenceEventSize` */
+export type PreferenceEventSizeInput = {
+  /** The account's internal id. */
+  accountId: Scalars['UUID']['input']
+  /** A preferred event size. */
+  eventSize: EventSize
+  id?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** Represents an update to a `PreferenceEventSize`. Fields that are set will be updated. */
+export type PreferenceEventSizePatch = {
+  /** The account's internal id. */
+  accountId?: InputMaybe<Scalars['UUID']['input']>
+  /** A preferred event size. */
+  eventSize?: InputMaybe<EventSize>
+  id?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** A connection to a list of `PreferenceEventSize` values. */
+export type PreferenceEventSizesConnection = {
+  __typename?: 'PreferenceEventSizesConnection'
+  /** A list of edges which contains the `PreferenceEventSize` and cursor to aid in pagination. */
+  edges: Array<PreferenceEventSizesEdge>
+  /** A list of `PreferenceEventSize` objects. */
+  nodes: Array<PreferenceEventSize>
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo
+  /** The count of *all* `PreferenceEventSize` you could get from the connection. */
+  totalCount: Scalars['Int']['output']
+}
+
+/** A `PreferenceEventSize` edge in the connection. */
+export type PreferenceEventSizesEdge = {
+  __typename?: 'PreferenceEventSizesEdge'
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `PreferenceEventSize` at the end of the edge. */
+  node: PreferenceEventSize
+}
+
+/** Methods to use when ordering `PreferenceEventSize`. */
+export enum PreferenceEventSizesOrderBy {
+  AccountIdAsc = 'ACCOUNT_ID_ASC',
+  AccountIdDesc = 'ACCOUNT_ID_DESC',
+  CreatedAtAsc = 'CREATED_AT_ASC',
+  CreatedAtDesc = 'CREATED_AT_DESC',
+  EventSizeAsc = 'EVENT_SIZE_ASC',
+  EventSizeDesc = 'EVENT_SIZE_DESC',
+  IdAsc = 'ID_ASC',
+  IdDesc = 'ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
 }
 
 /** Mapping of account ids to upload ids. */
@@ -6784,15 +6649,6 @@ export type Query = Node & {
   accountBlockById?: Maybe<AccountBlock>
   accountById?: Maybe<Account>
   accountByUsername?: Maybe<Account>
-  /** Reads a single `AccountPreferenceEventCategory` using its globally unique `ID`. */
-  accountPreferenceEventCategory?: Maybe<AccountPreferenceEventCategory>
-  accountPreferenceEventCategoryByAccountIdAndCategoryId?: Maybe<AccountPreferenceEventCategory>
-  /** Reads a single `AccountPreferenceEventFormat` using its globally unique `ID`. */
-  accountPreferenceEventFormat?: Maybe<AccountPreferenceEventFormat>
-  accountPreferenceEventFormatByAccountIdAndFormatId?: Maybe<AccountPreferenceEventFormat>
-  /** Reads a single `AccountPreferenceEventSize` using its globally unique `ID`. */
-  accountPreferenceEventSize?: Maybe<AccountPreferenceEventSize>
-  accountPreferenceEventSizeByAccountIdAndEventSize?: Maybe<AccountPreferenceEventSize>
   /** Reads a single `AccountSocialNetwork` using its globally unique `ID`. */
   accountSocialNetwork?: Maybe<AccountSocialNetwork>
   accountSocialNetworkByAccountIdAndSocialNetwork?: Maybe<AccountSocialNetwork>
@@ -6807,12 +6663,6 @@ export type Query = Node & {
   addressById?: Maybe<Address>
   /** Reads and enables pagination through a set of `AccountBlock`. */
   allAccountBlocks?: Maybe<AccountBlocksConnection>
-  /** Reads and enables pagination through a set of `AccountPreferenceEventCategory`. */
-  allAccountPreferenceEventCategories?: Maybe<AccountPreferenceEventCategoriesConnection>
-  /** Reads and enables pagination through a set of `AccountPreferenceEventFormat`. */
-  allAccountPreferenceEventFormats?: Maybe<AccountPreferenceEventFormatsConnection>
-  /** Reads and enables pagination through a set of `AccountPreferenceEventSize`. */
-  allAccountPreferenceEventSizes?: Maybe<AccountPreferenceEventSizesConnection>
   /** Reads and enables pagination through a set of `AccountSocialNetwork`. */
   allAccountSocialNetworks?: Maybe<AccountSocialNetworksConnection>
   /** Reads and enables pagination through a set of `Account`. */
@@ -6851,6 +6701,14 @@ export type Query = Node & {
   allLegalTermAcceptances?: Maybe<LegalTermAcceptancesConnection>
   /** Reads and enables pagination through a set of `LegalTerm`. */
   allLegalTerms?: Maybe<LegalTermsConnection>
+  /** Reads and enables pagination through a set of `PreferenceEventCategory`. */
+  allPreferenceEventCategories?: Maybe<PreferenceEventCategoriesConnection>
+  /** Reads and enables pagination through a set of `PreferenceEventFormat`. */
+  allPreferenceEventFormats?: Maybe<PreferenceEventFormatsConnection>
+  /** Reads and enables pagination through a set of `PreferenceEventLocation`. */
+  allPreferenceEventLocations?: Maybe<PreferenceEventLocationsConnection>
+  /** Reads and enables pagination through a set of `PreferenceEventSize`. */
+  allPreferenceEventSizes?: Maybe<PreferenceEventSizesConnection>
   /** Reads and enables pagination through a set of `ProfilePicture`. */
   allProfilePictures?: Maybe<ProfilePicturesConnection>
   /** Reads and enables pagination through a set of `Report`. */
@@ -6929,6 +6787,22 @@ export type Query = Node & {
   node?: Maybe<Node>
   /** The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`. */
   nodeId: Scalars['ID']['output']
+  /** Reads a single `PreferenceEventCategory` using its globally unique `ID`. */
+  preferenceEventCategory?: Maybe<PreferenceEventCategory>
+  preferenceEventCategoryByAccountIdAndCategoryId?: Maybe<PreferenceEventCategory>
+  preferenceEventCategoryById?: Maybe<PreferenceEventCategory>
+  /** Reads a single `PreferenceEventFormat` using its globally unique `ID`. */
+  preferenceEventFormat?: Maybe<PreferenceEventFormat>
+  preferenceEventFormatByAccountIdAndFormatId?: Maybe<PreferenceEventFormat>
+  preferenceEventFormatById?: Maybe<PreferenceEventFormat>
+  /** Reads a single `PreferenceEventLocation` using its globally unique `ID`. */
+  preferenceEventLocation?: Maybe<PreferenceEventLocation>
+  preferenceEventLocationByCreatedByAndLocationAndRadius?: Maybe<PreferenceEventLocation>
+  preferenceEventLocationById?: Maybe<PreferenceEventLocation>
+  /** Reads a single `PreferenceEventSize` using its globally unique `ID`. */
+  preferenceEventSize?: Maybe<PreferenceEventSize>
+  preferenceEventSizeByAccountIdAndEventSize?: Maybe<PreferenceEventSize>
+  preferenceEventSizeById?: Maybe<PreferenceEventSize>
   /** Reads a single `ProfilePicture` using its globally unique `ID`. */
   profilePicture?: Maybe<ProfilePicture>
   profilePictureByAccountId?: Maybe<ProfilePicture>
@@ -6980,39 +6854,6 @@ export type QueryAccountByUsernameArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
-export type QueryAccountPreferenceEventCategoryArgs = {
-  nodeId: Scalars['ID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAccountPreferenceEventCategoryByAccountIdAndCategoryIdArgs = {
-  accountId: Scalars['UUID']['input']
-  categoryId: Scalars['UUID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAccountPreferenceEventFormatArgs = {
-  nodeId: Scalars['ID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAccountPreferenceEventFormatByAccountIdAndFormatIdArgs = {
-  accountId: Scalars['UUID']['input']
-  formatId: Scalars['UUID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAccountPreferenceEventSizeArgs = {
-  nodeId: Scalars['ID']['input']
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAccountPreferenceEventSizeByAccountIdAndEventSizeArgs = {
-  accountId: Scalars['UUID']['input']
-  eventSize: EventSize
-}
-
-/** The root query type which gives access points into the data universe. */
 export type QueryAccountSocialNetworkArgs = {
   nodeId: Scalars['ID']['input']
 }
@@ -7058,39 +6899,6 @@ export type QueryAllAccountBlocksArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<AccountBlocksOrderBy>>
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllAccountPreferenceEventCategoriesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<AccountPreferenceEventCategoryCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountPreferenceEventCategoriesOrderBy>>
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllAccountPreferenceEventFormatsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<AccountPreferenceEventFormatCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountPreferenceEventFormatsOrderBy>>
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllAccountPreferenceEventSizesArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<AccountPreferenceEventSizeCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<AccountPreferenceEventSizesOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -7300,6 +7108,50 @@ export type QueryAllLegalTermsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<LegalTermsOrderBy>>
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAllPreferenceEventCategoriesArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<PreferenceEventCategoryCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<PreferenceEventCategoriesOrderBy>>
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAllPreferenceEventFormatsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<PreferenceEventFormatCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<PreferenceEventFormatsOrderBy>>
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAllPreferenceEventLocationsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<PreferenceEventLocationCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<PreferenceEventLocationsOrderBy>>
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAllPreferenceEventSizesArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<PreferenceEventSizeCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<PreferenceEventSizesOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -7586,6 +7438,71 @@ export type QueryNodeArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
+export type QueryPreferenceEventCategoryArgs = {
+  nodeId: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPreferenceEventCategoryByAccountIdAndCategoryIdArgs = {
+  accountId: Scalars['UUID']['input']
+  categoryId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPreferenceEventCategoryByIdArgs = {
+  id: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPreferenceEventFormatArgs = {
+  nodeId: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPreferenceEventFormatByAccountIdAndFormatIdArgs = {
+  accountId: Scalars['UUID']['input']
+  formatId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPreferenceEventFormatByIdArgs = {
+  id: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPreferenceEventLocationArgs = {
+  nodeId: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPreferenceEventLocationByCreatedByAndLocationAndRadiusArgs = {
+  createdBy: Scalars['UUID']['input']
+  location: Scalars['GeoJSON']['input']
+  radius: Scalars['Float']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPreferenceEventLocationByIdArgs = {
+  id: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPreferenceEventSizeArgs = {
+  nodeId: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPreferenceEventSizeByAccountIdAndEventSizeArgs = {
+  accountId: Scalars['UUID']['input']
+  eventSize: EventSize
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPreferenceEventSizeByIdArgs = {
+  id: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
 export type QueryProfilePictureArgs = {
   nodeId: Scalars['ID']['input']
 }
@@ -7785,6 +7702,29 @@ export type UpdateAccountInput = {
   nodeId: Scalars['ID']['input']
 }
 
+/** All input for the `updateAccountLocation` mutation. */
+export type UpdateAccountLocationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  latitude: Scalars['Float']['input']
+  longitude: Scalars['Float']['input']
+}
+
+/** The output of our `updateAccountLocation` mutation. */
+export type UpdateAccountLocationPayload = {
+  __typename?: 'UpdateAccountLocationPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
 /** The output of our update `Account` mutation. */
 export type UpdateAccountPayload = {
   __typename?: 'UpdateAccountPayload'
@@ -7805,167 +7745,6 @@ export type UpdateAccountPayload = {
 export type UpdateAccountPayloadAccountEdgeArgs = {
   orderBy?: InputMaybe<Array<AccountsOrderBy>>
 }
-
-/** All input for the `updateAccountPreferenceEventCategoryByAccountIdAndCategoryId` mutation. */
-export type UpdateAccountPreferenceEventCategoryByAccountIdAndCategoryIdInput =
-  {
-    /** A user account id. */
-    accountId: Scalars['UUID']['input']
-    /** An object where the defined keys will be set on the `AccountPreferenceEventCategory` being updated. */
-    accountPreferenceEventCategoryPatch: AccountPreferenceEventCategoryPatch
-    /** An event category id. */
-    categoryId: Scalars['UUID']['input']
-    /**
-     * An arbitrary string value with no semantic meaning. Will be included in the
-     * payload verbatim. May be used to track mutations by the client.
-     */
-    clientMutationId?: InputMaybe<Scalars['String']['input']>
-  }
-
-/** All input for the `updateAccountPreferenceEventCategory` mutation. */
-export type UpdateAccountPreferenceEventCategoryInput = {
-  /** An object where the defined keys will be set on the `AccountPreferenceEventCategory` being updated. */
-  accountPreferenceEventCategoryPatch: AccountPreferenceEventCategoryPatch
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `AccountPreferenceEventCategory` to be updated. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our update `AccountPreferenceEventCategory` mutation. */
-export type UpdateAccountPreferenceEventCategoryPayload = {
-  __typename?: 'UpdateAccountPreferenceEventCategoryPayload'
-  /** Reads a single `Account` that is related to this `AccountPreferenceEventCategory`. */
-  accountByAccountId?: Maybe<Account>
-  /** The `AccountPreferenceEventCategory` that was updated by this mutation. */
-  accountPreferenceEventCategory?: Maybe<AccountPreferenceEventCategory>
-  /** An edge for our `AccountPreferenceEventCategory`. May be used by Relay 1. */
-  accountPreferenceEventCategoryEdge?: Maybe<AccountPreferenceEventCategoriesEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Reads a single `EventCategory` that is related to this `AccountPreferenceEventCategory`. */
-  eventCategoryByCategoryId?: Maybe<EventCategory>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our update `AccountPreferenceEventCategory` mutation. */
-export type UpdateAccountPreferenceEventCategoryPayloadAccountPreferenceEventCategoryEdgeArgs =
-  {
-    orderBy?: InputMaybe<Array<AccountPreferenceEventCategoriesOrderBy>>
-  }
-
-/** All input for the `updateAccountPreferenceEventFormatByAccountIdAndFormatId` mutation. */
-export type UpdateAccountPreferenceEventFormatByAccountIdAndFormatIdInput = {
-  /** A user account id. */
-  accountId: Scalars['UUID']['input']
-  /** An object where the defined keys will be set on the `AccountPreferenceEventFormat` being updated. */
-  accountPreferenceEventFormatPatch: AccountPreferenceEventFormatPatch
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The id of an event format. */
-  formatId: Scalars['UUID']['input']
-}
-
-/** All input for the `updateAccountPreferenceEventFormat` mutation. */
-export type UpdateAccountPreferenceEventFormatInput = {
-  /** An object where the defined keys will be set on the `AccountPreferenceEventFormat` being updated. */
-  accountPreferenceEventFormatPatch: AccountPreferenceEventFormatPatch
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `AccountPreferenceEventFormat` to be updated. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our update `AccountPreferenceEventFormat` mutation. */
-export type UpdateAccountPreferenceEventFormatPayload = {
-  __typename?: 'UpdateAccountPreferenceEventFormatPayload'
-  /** Reads a single `Account` that is related to this `AccountPreferenceEventFormat`. */
-  accountByAccountId?: Maybe<Account>
-  /** The `AccountPreferenceEventFormat` that was updated by this mutation. */
-  accountPreferenceEventFormat?: Maybe<AccountPreferenceEventFormat>
-  /** An edge for our `AccountPreferenceEventFormat`. May be used by Relay 1. */
-  accountPreferenceEventFormatEdge?: Maybe<AccountPreferenceEventFormatsEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Reads a single `EventFormat` that is related to this `AccountPreferenceEventFormat`. */
-  eventFormatByFormatId?: Maybe<EventFormat>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our update `AccountPreferenceEventFormat` mutation. */
-export type UpdateAccountPreferenceEventFormatPayloadAccountPreferenceEventFormatEdgeArgs =
-  {
-    orderBy?: InputMaybe<Array<AccountPreferenceEventFormatsOrderBy>>
-  }
-
-/** All input for the `updateAccountPreferenceEventSizeByAccountIdAndEventSize` mutation. */
-export type UpdateAccountPreferenceEventSizeByAccountIdAndEventSizeInput = {
-  /** The account's internal id. */
-  accountId: Scalars['UUID']['input']
-  /** An object where the defined keys will be set on the `AccountPreferenceEventSize` being updated. */
-  accountPreferenceEventSizePatch: AccountPreferenceEventSizePatch
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** A preferred event sized */
-  eventSize: EventSize
-}
-
-/** All input for the `updateAccountPreferenceEventSize` mutation. */
-export type UpdateAccountPreferenceEventSizeInput = {
-  /** An object where the defined keys will be set on the `AccountPreferenceEventSize` being updated. */
-  accountPreferenceEventSizePatch: AccountPreferenceEventSizePatch
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** The globally unique `ID` which will identify a single `AccountPreferenceEventSize` to be updated. */
-  nodeId: Scalars['ID']['input']
-}
-
-/** The output of our update `AccountPreferenceEventSize` mutation. */
-export type UpdateAccountPreferenceEventSizePayload = {
-  __typename?: 'UpdateAccountPreferenceEventSizePayload'
-  /** Reads a single `Account` that is related to this `AccountPreferenceEventSize`. */
-  accountByAccountId?: Maybe<Account>
-  /** The `AccountPreferenceEventSize` that was updated by this mutation. */
-  accountPreferenceEventSize?: Maybe<AccountPreferenceEventSize>
-  /** An edge for our `AccountPreferenceEventSize`. May be used by Relay 1. */
-  accountPreferenceEventSizeEdge?: Maybe<AccountPreferenceEventSizesEdge>
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our update `AccountPreferenceEventSize` mutation. */
-export type UpdateAccountPreferenceEventSizePayloadAccountPreferenceEventSizeEdgeArgs =
-  {
-    orderBy?: InputMaybe<Array<AccountPreferenceEventSizesOrderBy>>
-  }
 
 /** All input for the `updateAccountSocialNetworkByAccountIdAndSocialNetwork` mutation. */
 export type UpdateAccountSocialNetworkByAccountIdAndSocialNetworkInput = {
@@ -8295,45 +8074,6 @@ export type UpdateEventByIdInput = {
   id: Scalars['UUID']['input']
 }
 
-/** All input for the `updateEventCategoryById` mutation. */
-export type UpdateEventCategoryByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventCategory` being updated. */
-  eventCategoryPatch: EventCategoryPatch
-  /** The id of the event category. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `updateEventCategoryByName` mutation. */
-export type UpdateEventCategoryByNameInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventCategory` being updated. */
-  eventCategoryPatch: EventCategoryPatch
-  /** A category name. */
-  name: Scalars['String']['input']
-}
-
-/** All input for the `updateEventCategory` mutation. */
-export type UpdateEventCategoryInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventCategory` being updated. */
-  eventCategoryPatch: EventCategoryPatch
-  /** The globally unique `ID` which will identify a single `EventCategory` to be updated. */
-  nodeId: Scalars['ID']['input']
-}
-
 /** All input for the `updateEventCategoryMappingByEventIdAndCategoryId` mutation. */
 export type UpdateEventCategoryMappingByEventIdAndCategoryIdInput = {
   /** A category id. */
@@ -8387,66 +8127,6 @@ export type UpdateEventCategoryMappingPayloadEventCategoryMappingEdgeArgs = {
   orderBy?: InputMaybe<Array<EventCategoryMappingsOrderBy>>
 }
 
-/** The output of our update `EventCategory` mutation. */
-export type UpdateEventCategoryPayload = {
-  __typename?: 'UpdateEventCategoryPayload'
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** The `EventCategory` that was updated by this mutation. */
-  eventCategory?: Maybe<EventCategory>
-  /** An edge for our `EventCategory`. May be used by Relay 1. */
-  eventCategoryEdge?: Maybe<EventCategoriesEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our update `EventCategory` mutation. */
-export type UpdateEventCategoryPayloadEventCategoryEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventCategoriesOrderBy>>
-}
-
-/** All input for the `updateEventFormatById` mutation. */
-export type UpdateEventFormatByIdInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventFormat` being updated. */
-  eventFormatPatch: EventFormatPatch
-  /** The id of the event format. */
-  id: Scalars['UUID']['input']
-}
-
-/** All input for the `updateEventFormatByName` mutation. */
-export type UpdateEventFormatByNameInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventFormat` being updated. */
-  eventFormatPatch: EventFormatPatch
-  /** The name of the event format. */
-  name: Scalars['String']['input']
-}
-
-/** All input for the `updateEventFormat` mutation. */
-export type UpdateEventFormatInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  /** An object where the defined keys will be set on the `EventFormat` being updated. */
-  eventFormatPatch: EventFormatPatch
-  /** The globally unique `ID` which will identify a single `EventFormat` to be updated. */
-  nodeId: Scalars['ID']['input']
-}
-
 /** All input for the `updateEventFormatMappingByEventIdAndFormatId` mutation. */
 export type UpdateEventFormatMappingByEventIdAndFormatIdInput = {
   /**
@@ -8498,27 +8178,6 @@ export type UpdateEventFormatMappingPayload = {
 /** The output of our update `EventFormatMapping` mutation. */
 export type UpdateEventFormatMappingPayloadEventFormatMappingEdgeArgs = {
   orderBy?: InputMaybe<Array<EventFormatMappingsOrderBy>>
-}
-
-/** The output of our update `EventFormat` mutation. */
-export type UpdateEventFormatPayload = {
-  __typename?: 'UpdateEventFormatPayload'
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** The `EventFormat` that was updated by this mutation. */
-  eventFormat?: Maybe<EventFormat>
-  /** An edge for our `EventFormat`. May be used by Relay 1. */
-  eventFormatEdge?: Maybe<EventFormatsEdge>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-}
-
-/** The output of our update `EventFormat` mutation. */
-export type UpdateEventFormatPayloadEventFormatEdgeArgs = {
-  orderBy?: InputMaybe<Array<EventFormatsOrderBy>>
 }
 
 /** All input for the `updateEvent` mutation. */
@@ -8816,6 +8475,268 @@ export type UpdateGuestPayloadGuestEdgeArgs = {
   orderBy?: InputMaybe<Array<GuestsOrderBy>>
 }
 
+/** All input for the `updatePreferenceEventCategoryByAccountIdAndCategoryId` mutation. */
+export type UpdatePreferenceEventCategoryByAccountIdAndCategoryIdInput = {
+  /** A user account id. */
+  accountId: Scalars['UUID']['input']
+  /** An event category id. */
+  categoryId: Scalars['UUID']['input']
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `PreferenceEventCategory` being updated. */
+  preferenceEventCategoryPatch: PreferenceEventCategoryPatch
+}
+
+/** All input for the `updatePreferenceEventCategoryById` mutation. */
+export type UpdatePreferenceEventCategoryByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  id: Scalars['UUID']['input']
+  /** An object where the defined keys will be set on the `PreferenceEventCategory` being updated. */
+  preferenceEventCategoryPatch: PreferenceEventCategoryPatch
+}
+
+/** All input for the `updatePreferenceEventCategory` mutation. */
+export type UpdatePreferenceEventCategoryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `PreferenceEventCategory` to be updated. */
+  nodeId: Scalars['ID']['input']
+  /** An object where the defined keys will be set on the `PreferenceEventCategory` being updated. */
+  preferenceEventCategoryPatch: PreferenceEventCategoryPatch
+}
+
+/** The output of our update `PreferenceEventCategory` mutation. */
+export type UpdatePreferenceEventCategoryPayload = {
+  __typename?: 'UpdatePreferenceEventCategoryPayload'
+  /** Reads a single `Account` that is related to this `PreferenceEventCategory`. */
+  accountByAccountId?: Maybe<Account>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Reads a single `EventCategory` that is related to this `PreferenceEventCategory`. */
+  eventCategoryByCategoryId?: Maybe<EventCategory>
+  /** The `PreferenceEventCategory` that was updated by this mutation. */
+  preferenceEventCategory?: Maybe<PreferenceEventCategory>
+  /** An edge for our `PreferenceEventCategory`. May be used by Relay 1. */
+  preferenceEventCategoryEdge?: Maybe<PreferenceEventCategoriesEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `PreferenceEventCategory` mutation. */
+export type UpdatePreferenceEventCategoryPayloadPreferenceEventCategoryEdgeArgs =
+  {
+    orderBy?: InputMaybe<Array<PreferenceEventCategoriesOrderBy>>
+  }
+
+/** All input for the `updatePreferenceEventFormatByAccountIdAndFormatId` mutation. */
+export type UpdatePreferenceEventFormatByAccountIdAndFormatIdInput = {
+  /** A user account id. */
+  accountId: Scalars['UUID']['input']
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The id of an event format. */
+  formatId: Scalars['UUID']['input']
+  /** An object where the defined keys will be set on the `PreferenceEventFormat` being updated. */
+  preferenceEventFormatPatch: PreferenceEventFormatPatch
+}
+
+/** All input for the `updatePreferenceEventFormatById` mutation. */
+export type UpdatePreferenceEventFormatByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  id: Scalars['UUID']['input']
+  /** An object where the defined keys will be set on the `PreferenceEventFormat` being updated. */
+  preferenceEventFormatPatch: PreferenceEventFormatPatch
+}
+
+/** All input for the `updatePreferenceEventFormat` mutation. */
+export type UpdatePreferenceEventFormatInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `PreferenceEventFormat` to be updated. */
+  nodeId: Scalars['ID']['input']
+  /** An object where the defined keys will be set on the `PreferenceEventFormat` being updated. */
+  preferenceEventFormatPatch: PreferenceEventFormatPatch
+}
+
+/** The output of our update `PreferenceEventFormat` mutation. */
+export type UpdatePreferenceEventFormatPayload = {
+  __typename?: 'UpdatePreferenceEventFormatPayload'
+  /** Reads a single `Account` that is related to this `PreferenceEventFormat`. */
+  accountByAccountId?: Maybe<Account>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Reads a single `EventFormat` that is related to this `PreferenceEventFormat`. */
+  eventFormatByFormatId?: Maybe<EventFormat>
+  /** The `PreferenceEventFormat` that was updated by this mutation. */
+  preferenceEventFormat?: Maybe<PreferenceEventFormat>
+  /** An edge for our `PreferenceEventFormat`. May be used by Relay 1. */
+  preferenceEventFormatEdge?: Maybe<PreferenceEventFormatsEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `PreferenceEventFormat` mutation. */
+export type UpdatePreferenceEventFormatPayloadPreferenceEventFormatEdgeArgs = {
+  orderBy?: InputMaybe<Array<PreferenceEventFormatsOrderBy>>
+}
+
+/** All input for the `updatePreferenceEventLocationByCreatedByAndLocationAndRadius` mutation. */
+export type UpdatePreferenceEventLocationByCreatedByAndLocationAndRadiusInput =
+  {
+    /**
+     * An arbitrary string value with no semantic meaning. Will be included in the
+     * payload verbatim. May be used to track mutations by the client.
+     */
+    clientMutationId?: InputMaybe<Scalars['String']['input']>
+    /** Reference to the account that created the location preference. */
+    createdBy: Scalars['UUID']['input']
+    /** Geographical point representing the preferred location, derived from latitude and longitude. */
+    location: Scalars['GeoJSON']['input']
+    /** An object where the defined keys will be set on the `PreferenceEventLocation` being updated. */
+    preferenceEventLocationPatch: PreferenceEventLocationPatch
+    /** Search radius in meters around the location where events are preferred. Must be positive. */
+    radius: Scalars['Float']['input']
+  }
+
+/** All input for the `updatePreferenceEventLocationById` mutation. */
+export type UpdatePreferenceEventLocationByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** Unique identifier for the preference record. */
+  id: Scalars['UUID']['input']
+  /** An object where the defined keys will be set on the `PreferenceEventLocation` being updated. */
+  preferenceEventLocationPatch: PreferenceEventLocationPatch
+}
+
+/** All input for the `updatePreferenceEventLocation` mutation. */
+export type UpdatePreferenceEventLocationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `PreferenceEventLocation` to be updated. */
+  nodeId: Scalars['ID']['input']
+  /** An object where the defined keys will be set on the `PreferenceEventLocation` being updated. */
+  preferenceEventLocationPatch: PreferenceEventLocationPatch
+}
+
+/** The output of our update `PreferenceEventLocation` mutation. */
+export type UpdatePreferenceEventLocationPayload = {
+  __typename?: 'UpdatePreferenceEventLocationPayload'
+  /** Reads a single `Account` that is related to this `PreferenceEventLocation`. */
+  accountByCreatedBy?: Maybe<Account>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `PreferenceEventLocation` that was updated by this mutation. */
+  preferenceEventLocation?: Maybe<PreferenceEventLocation>
+  /** An edge for our `PreferenceEventLocation`. May be used by Relay 1. */
+  preferenceEventLocationEdge?: Maybe<PreferenceEventLocationsEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `PreferenceEventLocation` mutation. */
+export type UpdatePreferenceEventLocationPayloadPreferenceEventLocationEdgeArgs =
+  {
+    orderBy?: InputMaybe<Array<PreferenceEventLocationsOrderBy>>
+  }
+
+/** All input for the `updatePreferenceEventSizeByAccountIdAndEventSize` mutation. */
+export type UpdatePreferenceEventSizeByAccountIdAndEventSizeInput = {
+  /** The account's internal id. */
+  accountId: Scalars['UUID']['input']
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** A preferred event size. */
+  eventSize: EventSize
+  /** An object where the defined keys will be set on the `PreferenceEventSize` being updated. */
+  preferenceEventSizePatch: PreferenceEventSizePatch
+}
+
+/** All input for the `updatePreferenceEventSizeById` mutation. */
+export type UpdatePreferenceEventSizeByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  id: Scalars['UUID']['input']
+  /** An object where the defined keys will be set on the `PreferenceEventSize` being updated. */
+  preferenceEventSizePatch: PreferenceEventSizePatch
+}
+
+/** All input for the `updatePreferenceEventSize` mutation. */
+export type UpdatePreferenceEventSizeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `PreferenceEventSize` to be updated. */
+  nodeId: Scalars['ID']['input']
+  /** An object where the defined keys will be set on the `PreferenceEventSize` being updated. */
+  preferenceEventSizePatch: PreferenceEventSizePatch
+}
+
+/** The output of our update `PreferenceEventSize` mutation. */
+export type UpdatePreferenceEventSizePayload = {
+  __typename?: 'UpdatePreferenceEventSizePayload'
+  /** Reads a single `Account` that is related to this `PreferenceEventSize`. */
+  accountByAccountId?: Maybe<Account>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `PreferenceEventSize` that was updated by this mutation. */
+  preferenceEventSize?: Maybe<PreferenceEventSize>
+  /** An edge for our `PreferenceEventSize`. May be used by Relay 1. */
+  preferenceEventSizeEdge?: Maybe<PreferenceEventSizesEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `PreferenceEventSize` mutation. */
+export type UpdatePreferenceEventSizePayloadPreferenceEventSizeEdgeArgs = {
+  orderBy?: InputMaybe<Array<PreferenceEventSizesOrderBy>>
+}
+
 /** All input for the `updateProfilePictureByAccountId` mutation. */
 export type UpdateProfilePictureByAccountIdInput = {
   /** The account's id. */
@@ -9083,10 +9004,586 @@ export enum UploadsOrderBy {
   TypeDesc = 'TYPE_DESC',
 }
 
+export type AccountDeleteMutationVariables = Exact<{
+  password: Scalars['String']['input']
+}>
+
+export type AccountDeleteMutation = {
+  __typename?: 'Mutation'
+  accountDelete?: {
+    __typename?: 'AccountDeletePayload'
+    clientMutationId?: string | null
+  } | null
+}
+
+export type AccountByIdQueryVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type AccountByIdQuery = {
+  __typename?: 'Query'
+  accountById?: {
+    __typename?: 'Account'
+    id: any
+    username: string
+    profilePictureByAccountId?: {
+      __typename?: 'ProfilePicture'
+      id: any
+      uploadByUploadId?: {
+        __typename?: 'Upload'
+        id: any
+        storageKey?: string | null
+      } | null
+    } | null
+  } | null
+}
+
+export type AccountSearchQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  username?: InputMaybe<Scalars['String']['input']>
+}>
+
+export type AccountSearchQuery = {
+  __typename?: 'Query'
+  allAccounts?: {
+    __typename?: 'AccountsConnection'
+    nodes: Array<{ __typename?: 'Account'; id: any; username: string }>
+    pageInfo: {
+      __typename?: 'PageInfo'
+      endCursor?: any | null
+      hasNextPage: boolean
+    }
+  } | null
+}
+
+export type EventListQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  first: Scalars['Int']['input']
+}>
+
+export type EventListQuery = {
+  __typename?: 'Query'
+  allEvents?: {
+    __typename?: 'EventsConnection'
+    totalCount: number
+    nodes: Array<{
+      __typename?: 'Event'
+      id: any
+      name: string
+      slug: string
+      start: any
+      accountByCreatedBy?: {
+        __typename?: 'Account'
+        id: any
+        username: string
+      } | null
+      addressByAddressId?: {
+        __typename?: 'Address'
+        id: any
+        location?: {
+          __typename?: 'GeographyPoint'
+          latitude: number
+          longitude: number
+        } | null
+      } | null
+      eventFavoritesByEventId: {
+        __typename?: 'EventFavoritesConnection'
+        nodes: Array<{ __typename?: 'EventFavorite'; id: any; createdBy: any }>
+      }
+      guestsByEventId: {
+        __typename?: 'GuestsConnection'
+        nodes: Array<{
+          __typename?: 'Guest'
+          id: any
+          contactByContactId?: {
+            __typename?: 'Contact'
+            accountId?: any | null
+            id: any
+          } | null
+        }>
+      }
+    }>
+    pageInfo: {
+      __typename?: 'PageInfo'
+      hasNextPage: boolean
+      endCursor?: any | null
+    }
+  } | null
+}
+
+export type EventSearchQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  language?: InputMaybe<Language>
+  query?: InputMaybe<Scalars['String']['input']>
+}>
+
+export type EventSearchQuery = {
+  __typename?: 'Query'
+  eventSearch?: {
+    __typename?: 'EventsConnection'
+    totalCount: number
+    nodes: Array<{
+      __typename?: 'Event'
+      id: any
+      name: string
+      slug: string
+      start: any
+      accountByCreatedBy?: {
+        __typename?: 'Account'
+        id: any
+        username: string
+      } | null
+      addressByAddressId?: {
+        __typename?: 'Address'
+        id: any
+        location?: {
+          __typename?: 'GeographyPoint'
+          latitude: number
+          longitude: number
+        } | null
+      } | null
+      eventFavoritesByEventId: {
+        __typename?: 'EventFavoritesConnection'
+        nodes: Array<{ __typename?: 'EventFavorite'; createdBy: any; id: any }>
+      }
+      guestsByEventId: {
+        __typename?: 'GuestsConnection'
+        nodes: Array<{
+          __typename?: 'Guest'
+          id: any
+          contactByContactId?: {
+            __typename?: 'Contact'
+            accountId?: any | null
+            id: any
+          } | null
+        }>
+      }
+    }>
+    pageInfo: {
+      __typename?: 'PageInfo'
+      hasNextPage: boolean
+      endCursor?: any | null
+    }
+  } | null
+}
+
+export type CreateEventFavoriteMutationVariables = Exact<{
+  input: EventFavoriteInput
+}>
+
+export type CreateEventFavoriteMutation = {
+  __typename?: 'Mutation'
+  createEventFavorite?: {
+    __typename?: 'CreateEventFavoritePayload'
+    eventFavorite?: {
+      __typename?: 'EventFavorite'
+      createdBy: any
+      eventId: any
+      id: any
+      nodeId: string
+    } | null
+  } | null
+}
+
+export type DeleteEventFavoriteByIdMutationVariables = Exact<{
+  input: DeleteEventFavoriteByIdInput
+}>
+
+export type DeleteEventFavoriteByIdMutation = {
+  __typename?: 'Mutation'
+  deleteEventFavoriteById?: {
+    __typename?: 'DeleteEventFavoritePayload'
+    clientMutationId?: string | null
+  } | null
+}
+
+export type AccountEditQueryVariables = Exact<{
+  username: Scalars['String']['input']
+}>
+
+export type AccountEditQuery = {
+  __typename?: 'Query'
+  accountByUsername?: {
+    __typename?: 'Account'
+    description?: string | null
+    id: any
+    imprint?: string | null
+    username: string
+    profilePictureByAccountId?: {
+      __typename?: 'ProfilePicture'
+      id: any
+      uploadByUploadId?: {
+        __typename?: 'Upload'
+        id: any
+        storageKey?: string | null
+      } | null
+    } | null
+  } | null
+}
+
+export type CreateProfilePictureMutationVariables = Exact<{
+  input: ProfilePictureInput
+}>
+
+export type CreateProfilePictureMutation = {
+  __typename?: 'Mutation'
+  createProfilePicture?: {
+    __typename?: 'CreateProfilePicturePayload'
+    profilePicture?: {
+      __typename?: 'ProfilePicture'
+      accountId: any
+      id: any
+      uploadId: any
+    } | null
+    accountByAccountId?: {
+      __typename?: 'Account'
+      id: any
+      profilePictureByAccountId?: {
+        __typename?: 'ProfilePicture'
+        id: any
+        uploadId: any
+      } | null
+    } | null
+  } | null
+}
+
+export type DeleteProfilePictureByIdMutationMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type DeleteProfilePictureByIdMutationMutation = {
+  __typename?: 'Mutation'
+  deleteProfilePictureById?: {
+    __typename?: 'DeleteProfilePicturePayload'
+    clientMutationId?: string | null
+  } | null
+}
+
+export type UpdateAccountByIdMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+  accountPatch: AccountPatch
+}>
+
+export type UpdateAccountByIdMutation = {
+  __typename?: 'Mutation'
+  updateAccountById?: {
+    __typename?: 'UpdateAccountPayload'
+    account?: {
+      __typename?: 'Account'
+      description?: string | null
+      id: any
+      imprint?: string | null
+    } | null
+  } | null
+}
+
+export type AccountEmailAddressVerificationMutationVariables = Exact<{
+  code: Scalars['UUID']['input']
+}>
+
+export type AccountEmailAddressVerificationMutation = {
+  __typename?: 'Mutation'
+  accountEmailAddressVerification?: {
+    __typename?: 'AccountEmailAddressVerificationPayload'
+    clientMutationId?: string | null
+  } | null
+}
+
+export type AccountQueryVariables = Exact<{
+  username: Scalars['String']['input']
+}>
+
+export type AccountQuery = {
+  __typename?: 'Query'
+  accountByUsername?: {
+    __typename?: 'Account'
+    description?: string | null
+    id: any
+    imprint?: string | null
+    achievementsByAccountId: {
+      __typename?: 'AchievementsConnection'
+      nodes: Array<{
+        __typename?: 'Achievement'
+        achievement: AchievementType
+        id: any
+      }>
+    }
+    eventsByCreatedBy: {
+      __typename?: 'EventsConnection'
+      totalCount: number
+      nodes: Array<{
+        __typename?: 'Event'
+        id: any
+        name: string
+        slug: string
+        start: any
+        eventFavoritesByEventId: {
+          __typename?: 'EventFavoritesConnection'
+          nodes: Array<{
+            __typename?: 'EventFavorite'
+            createdBy: any
+            id: any
+          }>
+        }
+        guestsByEventId: {
+          __typename?: 'GuestsConnection'
+          nodes: Array<{
+            __typename?: 'Guest'
+            id: any
+            contactByContactId?: {
+              __typename?: 'Contact'
+              accountId?: any | null
+              id: any
+            } | null
+          }>
+        }
+      }>
+    }
+  } | null
+}
+
+export type EventEditQueryVariables = Exact<{
+  slug: Scalars['String']['input']
+  username: Scalars['String']['input']
+}>
+
+export type EventEditQuery = {
+  __typename?: 'Query'
+  accountByUsername?: {
+    __typename?: 'Account'
+    id: any
+    username: string
+    eventsByCreatedBy: {
+      __typename?: 'EventsConnection'
+      nodes: Array<{
+        __typename?: 'Event'
+        createdBy: any
+        description?: string | null
+        end?: any | null
+        id: any
+        isArchived: boolean
+        name: string
+        nodeId: string
+        isInPerson?: boolean | null
+        isRemote?: boolean | null
+        slug: string
+        start: any
+        url?: string | null
+        visibility: EventVisibility
+      }>
+    }
+  } | null
+}
+
+export type EventAttendanceQueryVariables = Exact<{
+  slug: Scalars['String']['input']
+  username: Scalars['String']['input']
+}>
+
+export type EventAttendanceQuery = {
+  __typename?: 'Query'
+  accountByUsername?: {
+    __typename?: 'Account'
+    id: any
+    eventsByCreatedBy: {
+      __typename?: 'EventsConnection'
+      nodes: Array<{
+        __typename?: 'Event'
+        id: any
+        name: string
+        slug: string
+      }>
+    }
+  } | null
+}
+
+export type EventGuestsQueryVariables = Exact<{
+  slug: Scalars['String']['input']
+  username: Scalars['String']['input']
+}>
+
+export type EventGuestsQuery = {
+  __typename?: 'Query'
+  accountByUsername?: {
+    __typename?: 'Account'
+    id: any
+    eventsByCreatedBy: {
+      __typename?: 'EventsConnection'
+      nodes: Array<{
+        __typename?: 'Event'
+        createdBy: any
+        id: any
+        name: string
+        slug: string
+        accountByCreatedBy?: {
+          __typename?: 'Account'
+          id: any
+          username: string
+        } | null
+        guestsByEventId: {
+          __typename?: 'GuestsConnection'
+          totalCount: number
+          nodes: Array<{
+            __typename?: 'Guest'
+            id: any
+            contactByContactId?: {
+              __typename?: 'Contact'
+              accountId?: any | null
+              id: any
+            } | null
+          }>
+          pageInfo: {
+            __typename?: 'PageInfo'
+            hasNextPage: boolean
+            endCursor?: any | null
+          }
+        }
+      }>
+    }
+  } | null
+}
+
+export type EventQueryVariables = Exact<{
+  slug: Scalars['String']['input']
+  username: Scalars['String']['input']
+}>
+
+export type EventQuery = {
+  __typename?: 'Query'
+  accountByUsername?: {
+    __typename?: 'Account'
+    id: any
+    username: string
+    eventsByCreatedBy: {
+      __typename?: 'EventsConnection'
+      nodes: Array<{
+        __typename?: 'Event'
+        createdBy: any
+        description?: string | null
+        end?: any | null
+        id: any
+        isArchived: boolean
+        name: string
+        nodeId: string
+        isInPerson?: boolean | null
+        isRemote?: boolean | null
+        slug: string
+        start: any
+        url?: string | null
+        visibility: EventVisibility
+        accountByCreatedBy?: {
+          __typename?: 'Account'
+          id: any
+          username: string
+        } | null
+      }>
+    }
+  } | null
+}
+
+export type EventListAccountQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  first: Scalars['Int']['input']
+  username: Scalars['String']['input']
+}>
+
+export type EventListAccountQuery = {
+  __typename?: 'Query'
+  accountByUsername?: {
+    __typename?: 'Account'
+    id: any
+    eventsByCreatedBy: {
+      __typename?: 'EventsConnection'
+      totalCount: number
+      nodes: Array<{
+        __typename?: 'Event'
+        id: any
+        name: string
+        slug: string
+        start: any
+        eventFavoritesByEventId: {
+          __typename?: 'EventFavoritesConnection'
+          nodes: Array<{
+            __typename?: 'EventFavorite'
+            createdBy: any
+            id: any
+          }>
+        }
+        guestsByEventId: {
+          __typename?: 'GuestsConnection'
+          nodes: Array<{
+            __typename?: 'Guest'
+            id: any
+            contactByContactId?: {
+              __typename?: 'Contact'
+              accountId?: any | null
+              id: any
+            } | null
+          }>
+        }
+      }>
+      pageInfo: {
+        __typename?: 'PageInfo'
+        hasNextPage: boolean
+        endCursor?: any | null
+      }
+    }
+  } | null
+}
+
+export type GuestEventQueryVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type GuestEventQuery = {
+  __typename?: 'Query'
+  guestById?: {
+    __typename?: 'Guest'
+    contactId: any
+    eventId: any
+    feedback?: InvitationFeedback | null
+    id: any
+    nodeId: string
+    contactByContactId?: {
+      __typename?: 'Contact'
+      accountId?: any | null
+      createdBy: any
+      firstName?: string | null
+      id: any
+      lastName?: string | null
+      nodeId: string
+    } | null
+    eventByEventId?: {
+      __typename?: 'Event'
+      createdBy: any
+      description?: string | null
+      end?: any | null
+      id: any
+      isArchived: boolean
+      name: string
+      nodeId: string
+      isInPerson?: boolean | null
+      isRemote?: boolean | null
+      slug: string
+      start: any
+      url?: string | null
+      visibility: EventVisibility
+      accountByCreatedBy?: {
+        __typename?: 'Account'
+        id: any
+        username: string
+      } | null
+    } | null
+  } | null
+}
+
 export type AccountItemFragment = {
   __typename?: 'Account'
-  nodeId: string
+  description?: string | null
   id: any
+  nodeId: string
   username: string
 } & { ' $fragmentName'?: 'AccountItemFragment' }
 
@@ -9126,6 +9623,8 @@ export type ContactItemFragment = {
   emailAddressHash?: string | null
   firstName?: string | null
   lastName?: string | null
+  nickname?: string | null
+  note?: string | null
   phoneNumber?: string | null
   url?: string | null
   accountByAccountId?: {
@@ -9144,6 +9643,18 @@ export type ContactItemFragment = {
       })
     | null
 } & { ' $fragmentName'?: 'ContactItemFragment' }
+
+export type EventCategoryItemFragment = {
+  __typename?: 'EventCategory'
+  id: any
+  name: string
+} & { ' $fragmentName'?: 'EventCategoryItemFragment' }
+
+export type EventFormatItemFragment = {
+  __typename?: 'EventFormat'
+  id: any
+  name: string
+} & { ' $fragmentName'?: 'EventFormatItemFragment' }
 
 export type EventItemFragment = {
   __typename?: 'Event'
@@ -9194,6 +9705,34 @@ export type LegalTermItemFragment = {
   term: string
 } & { ' $fragmentName'?: 'LegalTermItemFragment' }
 
+export type PreferenceEventCategoryItemFragment = {
+  __typename?: 'PreferenceEventCategory'
+  nodeId: string
+  accountId: any
+  categoryId: any
+} & { ' $fragmentName'?: 'PreferenceEventCategoryItemFragment' }
+
+export type PreferenceEventFormatItemFragment = {
+  __typename?: 'PreferenceEventFormat'
+  nodeId: string
+  accountId: any
+  formatId: any
+} & { ' $fragmentName'?: 'PreferenceEventFormatItemFragment' }
+
+export type PreferenceEventLocationItemFragment = {
+  __typename?: 'PreferenceEventLocation'
+  createdAt: any
+  createdBy: any
+  id: any
+  nodeId: string
+  radius: number
+  location: {
+    __typename?: 'GeographyPoint'
+    latitude: number
+    longitude: number
+  }
+} & { ' $fragmentName'?: 'PreferenceEventLocationItemFragment' }
+
 export type ProfilePictureItemFragment = {
   __typename?: 'ProfilePicture'
   id: any
@@ -9229,30 +9768,6 @@ export type AuthenticateMutation = {
   } | null
 }
 
-export type AccountDeleteMutationVariables = Exact<{
-  password: Scalars['String']['input']
-}>
-
-export type AccountDeleteMutation = {
-  __typename?: 'Mutation'
-  accountDelete?: {
-    __typename?: 'AccountDeletePayload'
-    clientMutationId?: string | null
-  } | null
-}
-
-export type AccountEmailAddressVerificationMutationVariables = Exact<{
-  code: Scalars['UUID']['input']
-}>
-
-export type AccountEmailAddressVerificationMutation = {
-  __typename?: 'Mutation'
-  accountEmailAddressVerification?: {
-    __typename?: 'AccountEmailAddressVerificationPayload'
-    clientMutationId?: string | null
-  } | null
-}
-
 export type JwtRefreshMutationVariables = Exact<{
   id: Scalars['UUID']['input']
 }>
@@ -9266,14 +9781,14 @@ export type JwtRefreshMutation = {
   } | null
 }
 
-export type CreateLegalTermAcceptanceMutationVariables = Exact<{
-  input: CreateLegalTermAcceptanceInput
+export type UpdateAccountLocationMutationVariables = Exact<{
+  input: UpdateAccountLocationInput
 }>
 
-export type CreateLegalTermAcceptanceMutation = {
+export type UpdateAccountLocationMutation = {
   __typename?: 'Mutation'
-  createLegalTermAcceptance?: {
-    __typename?: 'CreateLegalTermAcceptancePayload'
+  updateAccountLocation?: {
+    __typename?: 'UpdateAccountLocationPayload'
     clientMutationId?: string | null
   } | null
 }
@@ -9318,11 +9833,12 @@ export type AccountPasswordResetRequestMutation = {
 }
 
 export type AccountRegistrationMutationVariables = Exact<{
+  birthDate: Scalars['Date']['input']
   emailAddress: Scalars['String']['input']
-  password: Scalars['String']['input']
-  username: Scalars['String']['input']
   language: Scalars['String']['input']
   legalTermId: Scalars['UUID']['input']
+  password: Scalars['String']['input']
+  username: Scalars['String']['input']
 }>
 
 export type AccountRegistrationMutation = {
@@ -9435,7 +9951,7 @@ export type CreateDeviceMutation = {
 }
 
 export type CreateEventMutationVariables = Exact<{
-  createEventInput: CreateEventInput
+  input: EventInput
 }>
 
 export type CreateEventMutation = {
@@ -9569,14 +10085,119 @@ export type InviteMutation = {
   } | null
 }
 
-export type ProfilePictureSetMutationVariables = Exact<{
-  uploadId: Scalars['UUID']['input']
+export type CreatePreferenceEventCategoryMutationVariables = Exact<{
+  input: PreferenceEventCategoryInput
 }>
 
-export type ProfilePictureSetMutation = {
+export type CreatePreferenceEventCategoryMutation = {
   __typename?: 'Mutation'
-  profilePictureSet?: {
-    __typename?: 'ProfilePictureSetPayload'
+  createPreferenceEventCategory?: {
+    __typename?: 'CreatePreferenceEventCategoryPayload'
+    preferenceEventCategory?:
+      | ({ __typename?: 'PreferenceEventCategory' } & {
+          ' $fragmentRefs'?: {
+            PreferenceEventCategoryItemFragment: PreferenceEventCategoryItemFragment
+          }
+        })
+      | null
+  } | null
+}
+
+export type DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutationVariables =
+  Exact<{
+    input: DeletePreferenceEventCategoryByAccountIdAndCategoryIdInput
+  }>
+
+export type DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation = {
+  __typename?: 'Mutation'
+  deletePreferenceEventCategoryByAccountIdAndCategoryId?: {
+    __typename?: 'DeletePreferenceEventCategoryPayload'
+    deletedPreferenceEventCategoryId?: string | null
+  } | null
+}
+
+export type CreatePreferenceEventFormatMutationVariables = Exact<{
+  input: PreferenceEventFormatInput
+}>
+
+export type CreatePreferenceEventFormatMutation = {
+  __typename?: 'Mutation'
+  createPreferenceEventFormat?: {
+    __typename?: 'CreatePreferenceEventFormatPayload'
+    preferenceEventFormat?:
+      | ({ __typename?: 'PreferenceEventFormat' } & {
+          ' $fragmentRefs'?: {
+            PreferenceEventFormatItemFragment: PreferenceEventFormatItemFragment
+          }
+        })
+      | null
+  } | null
+}
+
+export type DeletePreferenceEventFormatByAccountIdAndFormatIdMutationVariables =
+  Exact<{
+    input: DeletePreferenceEventFormatByAccountIdAndFormatIdInput
+  }>
+
+export type DeletePreferenceEventFormatByAccountIdAndFormatIdMutation = {
+  __typename?: 'Mutation'
+  deletePreferenceEventFormatByAccountIdAndFormatId?: {
+    __typename?: 'DeletePreferenceEventFormatPayload'
+    deletedPreferenceEventFormatId?: string | null
+  } | null
+}
+
+export type CreatePreferenceEventLocationMutationVariables = Exact<{
+  input: PreferenceEventLocationInput
+}>
+
+export type CreatePreferenceEventLocationMutation = {
+  __typename?: 'Mutation'
+  createPreferenceEventLocation?: {
+    __typename?: 'CreatePreferenceEventLocationPayload'
+    preferenceEventLocation?:
+      | ({ __typename?: 'PreferenceEventLocation' } & {
+          ' $fragmentRefs'?: {
+            PreferenceEventLocationItemFragment: PreferenceEventLocationItemFragment
+          }
+        })
+      | null
+  } | null
+}
+
+export type DeletePreferenceEventLocationByIdMutationVariables = Exact<{
+  input: DeletePreferenceEventLocationByIdInput
+}>
+
+export type DeletePreferenceEventLocationByIdMutation = {
+  __typename?: 'Mutation'
+  deletePreferenceEventLocationById?: {
+    __typename?: 'DeletePreferenceEventLocationPayload'
+    deletedPreferenceEventLocationId?: string | null
+  } | null
+}
+
+export type CreatePreferenceEventSizeMutationVariables = Exact<{
+  input: PreferenceEventSizeInput
+}>
+
+export type CreatePreferenceEventSizeMutation = {
+  __typename?: 'Mutation'
+  createPreferenceEventSize?: {
+    __typename?: 'CreatePreferenceEventSizePayload'
+    clientMutationId?: string | null
+  } | null
+}
+
+export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables =
+  Exact<{
+    input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput
+  }>
+
+export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutation = {
+  __typename?: 'Mutation'
+  deletePreferenceEventSizeByAccountIdAndEventSize?: {
+    __typename?: 'DeletePreferenceEventSizePayload'
     clientMutationId?: string | null
   } | null
 }
@@ -9594,7 +10215,7 @@ export type CreateReportMutation = {
 }
 
 export type CreateUploadMutationVariables = Exact<{
-  createUploadInput: CreateUploadInput
+  input: UploadInput
 }>
 
 export type CreateUploadMutation = {
@@ -9621,19 +10242,6 @@ export type DeleteUploadByIdMutation = {
         })
       | null
   } | null
-}
-
-export type AccountByIdQueryVariables = Exact<{
-  id: Scalars['UUID']['input']
-}>
-
-export type AccountByIdQuery = {
-  __typename?: 'Query'
-  accountById?:
-    | ({ __typename?: 'Account' } & {
-        ' $fragmentRefs'?: { AccountItemFragment: AccountItemFragment }
-      })
-    | null
 }
 
 export type AccountByUsernameQueryVariables = Exact<{
@@ -9738,52 +10346,48 @@ export type EventByCreatedByAndSlugQuery = {
     | null
 }
 
-export type EventSearchQueryVariables = Exact<{
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  first: Scalars['Int']['input']
-  language?: InputMaybe<Language>
-  query?: InputMaybe<Scalars['String']['input']>
-}>
+export type AllEventCategoriesQueryVariables = Exact<{ [key: string]: never }>
 
-export type EventSearchQuery = {
+export type AllEventCategoriesQuery = {
   __typename?: 'Query'
-  eventSearch?: {
-    __typename?: 'EventsConnection'
-    totalCount: number
+  allEventCategories?: {
+    __typename?: 'EventCategoriesConnection'
     nodes: Array<
-      { __typename?: 'Event' } & {
-        ' $fragmentRefs'?: { EventItemFragment: EventItemFragment }
+      { __typename?: 'EventCategory' } & {
+        ' $fragmentRefs'?: {
+          EventCategoryItemFragment: EventCategoryItemFragment
+        }
       }
     >
-    pageInfo: {
-      __typename?: 'PageInfo'
-      hasNextPage: boolean
-      endCursor?: any | null
-    }
   } | null
 }
 
-export type AllEventsQueryVariables = Exact<{
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  createdBy?: InputMaybe<Scalars['UUID']['input']>
-  first: Scalars['Int']['input']
-}>
+export type AllEventFormatsQueryVariables = Exact<{ [key: string]: never }>
 
-export type AllEventsQuery = {
+export type AllEventFormatsQuery = {
   __typename?: 'Query'
-  allEvents?: {
-    __typename?: 'EventsConnection'
-    totalCount: number
+  allEventFormats?: {
+    __typename?: 'EventFormatsConnection'
     nodes: Array<
-      { __typename?: 'Event' } & {
-        ' $fragmentRefs'?: { EventItemFragment: EventItemFragment }
+      { __typename?: 'EventFormat' } & {
+        ' $fragmentRefs'?: { EventFormatItemFragment: EventFormatItemFragment }
       }
     >
-    pageInfo: {
-      __typename?: 'PageInfo'
-      hasNextPage: boolean
-      endCursor?: any | null
-    }
+  } | null
+}
+
+export type EventFavoriteByCreatedByAndEventIdQueryVariables = Exact<{
+  createdBy: Scalars['UUID']['input']
+  eventId: Scalars['UUID']['input']
+}>
+
+export type EventFavoriteByCreatedByAndEventIdQuery = {
+  __typename?: 'Query'
+  eventFavoriteByCreatedByAndEventId?: {
+    __typename?: 'EventFavorite'
+    id: any
+    nodeId: string
+    eventId: any
   } | null
 }
 
@@ -9824,6 +10428,76 @@ export type AllLegalTermsQuery = {
         ' $fragmentRefs'?: { LegalTermItemFragment: LegalTermItemFragment }
       }
     >
+  } | null
+}
+
+export type AllPreferenceEventCategoriesQueryVariables = Exact<{
+  [key: string]: never
+}>
+
+export type AllPreferenceEventCategoriesQuery = {
+  __typename?: 'Query'
+  allPreferenceEventCategories?: {
+    __typename?: 'PreferenceEventCategoriesConnection'
+    nodes: Array<
+      { __typename?: 'PreferenceEventCategory' } & {
+        ' $fragmentRefs'?: {
+          PreferenceEventCategoryItemFragment: PreferenceEventCategoryItemFragment
+        }
+      }
+    >
+  } | null
+}
+
+export type AllPreferenceEventFormatsQueryVariables = Exact<{
+  [key: string]: never
+}>
+
+export type AllPreferenceEventFormatsQuery = {
+  __typename?: 'Query'
+  allPreferenceEventFormats?: {
+    __typename?: 'PreferenceEventFormatsConnection'
+    nodes: Array<
+      { __typename?: 'PreferenceEventFormat' } & {
+        ' $fragmentRefs'?: {
+          PreferenceEventFormatItemFragment: PreferenceEventFormatItemFragment
+        }
+      }
+    >
+  } | null
+}
+
+export type AllPreferenceEventLocationsQueryVariables = Exact<{
+  [key: string]: never
+}>
+
+export type AllPreferenceEventLocationsQuery = {
+  __typename?: 'Query'
+  allPreferenceEventLocations?: {
+    __typename?: 'PreferenceEventLocationsConnection'
+    nodes: Array<
+      { __typename?: 'PreferenceEventLocation' } & {
+        ' $fragmentRefs'?: {
+          PreferenceEventLocationItemFragment: PreferenceEventLocationItemFragment
+        }
+      }
+    >
+  } | null
+}
+
+export type AllPreferenceEventSizesQueryVariables = Exact<{
+  [key: string]: never
+}>
+
+export type AllPreferenceEventSizesQuery = {
+  __typename?: 'Query'
+  allPreferenceEventSizes?: {
+    __typename?: 'PreferenceEventSizesConnection'
+    nodes: Array<{
+      __typename?: 'PreferenceEventSize'
+      nodeId: string
+      eventSize: EventSize
+    }>
   } | null
 }
 
@@ -9879,8 +10553,9 @@ export const AccountItemFragmentDoc = {
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'username' } },
         ],
       },
@@ -9910,6 +10585,46 @@ export const AchievementItemFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<AchievementItemFragment, unknown>
+export const EventCategoryItemFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'EventCategoryItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'EventCategory' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<EventCategoryItemFragment, unknown>
+export const EventFormatItemFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'EventFormatItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'EventFormat' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<EventFormatItemFragment, unknown>
 export const AddressItemFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -10091,6 +10806,8 @@ export const ContactItemFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -10250,6 +10967,8 @@ export const GuestItemFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -10277,6 +10996,82 @@ export const LegalTermItemFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<LegalTermItemFragment, unknown>
+export const PreferenceEventCategoryItemFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PreferenceEventCategoryItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'PreferenceEventCategory' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'categoryId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<PreferenceEventCategoryItemFragment, unknown>
+export const PreferenceEventFormatItemFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PreferenceEventFormatItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'PreferenceEventFormat' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'formatId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<PreferenceEventFormatItemFragment, unknown>
+export const PreferenceEventLocationItemFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PreferenceEventLocationItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'PreferenceEventLocation' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'radius' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<PreferenceEventLocationItemFragment, unknown>
 export const UploadItemFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -10352,13 +11147,2585 @@ export const ProfilePictureItemFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<ProfilePictureItemFragment, unknown>
+export const AccountDeleteDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AccountDelete' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'password' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountDelete' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'password' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'password' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AccountDeleteMutation,
+  AccountDeleteMutationVariables
+>
+export const AccountByIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AccountById' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountById' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'profilePictureByAccountId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'uploadByUploadId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'storageKey' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AccountByIdQuery, AccountByIdQueryVariables>
+export const AccountSearchDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AccountSearch' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'username' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allAccounts' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'username' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: { kind: 'EnumValue', value: 'USERNAME_ASC' },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AccountSearchQuery, AccountSearchQueryVariables>
+export const EventListDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'EventList' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allEvents' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: { kind: 'EnumValue', value: 'START_DESC' },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountByCreatedBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'username' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'addressByAddressId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'location' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'latitude' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'longitude' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'eventFavoritesByEventId',
+                        },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'first' },
+                            value: { kind: 'IntValue', value: '1' },
+                          },
+                        ],
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdBy' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'guestsByEventId' },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'first' },
+                            value: { kind: 'IntValue', value: '1' },
+                          },
+                        ],
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'contactByContactId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'accountId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'start' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<EventListQuery, EventListQueryVariables>
+export const EventSearchDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'EventSearch' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'language' },
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'Language' },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'query' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'eventSearch' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'language' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'language' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'query' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'query' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountByCreatedBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'username' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'addressByAddressId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'location' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'latitude' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'longitude' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'eventFavoritesByEventId',
+                        },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'first' },
+                            value: { kind: 'IntValue', value: '1' },
+                          },
+                        ],
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdBy' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'guestsByEventId' },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'first' },
+                            value: { kind: 'IntValue', value: '1' },
+                          },
+                        ],
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'contactByContactId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'accountId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'start' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<EventSearchQuery, EventSearchQueryVariables>
+export const CreateEventFavoriteDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateEventFavorite' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'EventFavoriteInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createEventFavorite' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'eventFavorite' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'input' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventFavorite' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodeId' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateEventFavoriteMutation,
+  CreateEventFavoriteMutationVariables
+>
+export const DeleteEventFavoriteByIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteEventFavoriteById' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteEventFavoriteByIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteEventFavoriteById' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteEventFavoriteByIdMutation,
+  DeleteEventFavoriteByIdMutationVariables
+>
+export const AccountEditDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AccountEdit' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'username' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByUsername' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'username' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'username' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'imprint' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'profilePictureByAccountId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'uploadByUploadId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'storageKey' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AccountEditQuery, AccountEditQueryVariables>
+export const CreateProfilePictureDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateProfilePicture' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'ProfilePictureInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createProfilePicture' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'profilePicture' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'input' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'profilePicture' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'uploadId' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'accountByAccountId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'profilePictureByAccountId',
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'uploadId' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateProfilePictureMutation,
+  CreateProfilePictureMutationVariables
+>
+export const DeleteProfilePictureByIdMutationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteProfilePictureByIdMutation' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteProfilePictureById' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'id' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteProfilePictureByIdMutationMutation,
+  DeleteProfilePictureByIdMutationMutationVariables
+>
+export const UpdateAccountByIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateAccountById' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'accountPatch' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'AccountPatch' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateAccountById' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'id' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'accountPatch' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'accountPatch' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'account' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'imprint' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateAccountByIdMutation,
+  UpdateAccountByIdMutationVariables
+>
+export const AccountEmailAddressVerificationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AccountEmailAddressVerification' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'code' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountEmailAddressVerification' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'code' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'code' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AccountEmailAddressVerificationMutation,
+  AccountEmailAddressVerificationMutationVariables
+>
+export const AccountDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'Account' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'username' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByUsername' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'username' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'username' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'achievementsByAccountId' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'first' },
+                      value: { kind: 'IntValue', value: '5' },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'achievement' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventsByCreatedBy' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'first' },
+                      value: { kind: 'IntValue', value: '3' },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'eventFavoritesByEventId',
+                              },
+                              arguments: [
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'first' },
+                                  value: { kind: 'IntValue', value: '1' },
+                                },
+                              ],
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdBy',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'guestsByEventId' },
+                              arguments: [
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'first' },
+                                  value: { kind: 'IntValue', value: '1' },
+                                },
+                              ],
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'contactByContactId',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'accountId',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'slug' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'start' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'totalCount' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'imprint' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AccountQuery, AccountQueryVariables>
+export const EventEditDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'EventEdit' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'slug' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'username' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByUsername' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'username' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'username' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventsByCreatedBy' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'condition' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'slug' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'slug' },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdBy' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'description' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'end' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'isArchived' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodeId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'isArchived' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'isInPerson' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'isRemote' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'slug' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'start' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'url' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'visibility' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<EventEditQuery, EventEditQueryVariables>
+export const EventAttendanceDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'EventAttendance' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'slug' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'username' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByUsername' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'username' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'username' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventsByCreatedBy' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'condition' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'slug' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'slug' },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'slug' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  EventAttendanceQuery,
+  EventAttendanceQueryVariables
+>
+export const EventGuestsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'EventGuests' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'slug' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'username' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByUsername' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'username' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'username' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventsByCreatedBy' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'condition' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'slug' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'slug' },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'accountByCreatedBy',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'username' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdBy' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'guestsByEventId' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'contactByContactId',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'accountId',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'pageInfo' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'hasNextPage',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'endCursor',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'totalCount' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'slug' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<EventGuestsQuery, EventGuestsQueryVariables>
+export const EventDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'Event' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'slug' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'username' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByUsername' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'username' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'username' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventsByCreatedBy' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'condition' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'slug' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'slug' },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'accountByCreatedBy',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'username' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdBy' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'description' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'end' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'isArchived' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodeId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'isArchived' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'isInPerson' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'isRemote' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'slug' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'start' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'url' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'visibility' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<EventQuery, EventQueryVariables>
+export const EventListAccountDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'EventListAccount' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'username' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByUsername' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'username' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'username' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventsByCreatedBy' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'after' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'after' },
+                      },
+                    },
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'first' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'first' },
+                      },
+                    },
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'orderBy' },
+                      value: { kind: 'EnumValue', value: 'START_DESC' },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'eventFavoritesByEventId',
+                              },
+                              arguments: [
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'first' },
+                                  value: { kind: 'IntValue', value: '1' },
+                                },
+                              ],
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdBy',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'guestsByEventId' },
+                              arguments: [
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'first' },
+                                  value: { kind: 'IntValue', value: '1' },
+                                },
+                              ],
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'contactByContactId',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'accountId',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'slug' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'start' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pageInfo' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'hasNextPage' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'endCursor' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'totalCount' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  EventListAccountQuery,
+  EventListAccountQueryVariables
+>
+export const GuestEventDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GuestEvent' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'guestById' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'contactByContactId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'firstName' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodeId' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'contactId' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventByEventId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountByCreatedBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'username' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isArchived' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodeId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isArchived' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isInPerson' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isRemote' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'start' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'visibility' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'eventId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'feedback' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GuestEventQuery, GuestEventQueryVariables>
 export const AuthenticateDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'authenticate' },
+      name: { kind: 'Name', value: 'Authenticate' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -10441,139 +13808,13 @@ export const AuthenticateDocument = {
   AuthenticateMutation,
   AuthenticateMutationVariables
 >
-export const AccountDeleteDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'accountDelete' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'password' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accountDelete' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'password' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'password' },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  AccountDeleteMutation,
-  AccountDeleteMutationVariables
->
-export const AccountEmailAddressVerificationDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'accountEmailAddressVerification' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'code' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accountEmailAddressVerification' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'code' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'code' },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  AccountEmailAddressVerificationMutation,
-  AccountEmailAddressVerificationMutationVariables
->
 export const JwtRefreshDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'jwtRefresh' },
+      name: { kind: 'Name', value: 'JwtRefresh' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -10625,13 +13866,13 @@ export const JwtRefreshDocument = {
     },
   ],
 } as unknown as DocumentNode<JwtRefreshMutation, JwtRefreshMutationVariables>
-export const CreateLegalTermAcceptanceDocument = {
+export const UpdateAccountLocationDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateLegalTermAcceptance' },
+      name: { kind: 'Name', value: 'UpdateAccountLocation' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -10643,7 +13884,7 @@ export const CreateLegalTermAcceptanceDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateLegalTermAcceptanceInput' },
+              name: { kind: 'Name', value: 'UpdateAccountLocationInput' },
             },
           },
         },
@@ -10653,7 +13894,7 @@ export const CreateLegalTermAcceptanceDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'createLegalTermAcceptance' },
+            name: { kind: 'Name', value: 'updateAccountLocation' },
             arguments: [
               {
                 kind: 'Argument',
@@ -10679,8 +13920,8 @@ export const CreateLegalTermAcceptanceDocument = {
     },
   ],
 } as unknown as DocumentNode<
-  CreateLegalTermAcceptanceMutation,
-  CreateLegalTermAcceptanceMutationVariables
+  UpdateAccountLocationMutation,
+  UpdateAccountLocationMutationVariables
 >
 export const AccountPasswordChangeDocument = {
   kind: 'Document',
@@ -10688,7 +13929,7 @@ export const AccountPasswordChangeDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'accountPasswordChange' },
+      name: { kind: 'Name', value: 'AccountPasswordChange' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -10776,7 +14017,7 @@ export const AccountPasswordResetDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'accountPasswordReset' },
+      name: { kind: 'Name', value: 'AccountPasswordReset' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -10858,7 +14099,7 @@ export const AccountPasswordResetRequestDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'accountPasswordResetRequest' },
+      name: { kind: 'Name', value: 'AccountPasswordResetRequest' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -10946,41 +14187,24 @@ export const AccountRegistrationDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'accountRegistration' },
+      name: { kind: 'Name', value: 'AccountRegistration' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
+            name: { kind: 'Name', value: 'birthDate' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Date' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
             name: { kind: 'Name', value: 'emailAddress' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'password' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'username' },
           },
           type: {
             kind: 'NonNullType',
@@ -11015,6 +14239,34 @@ export const AccountRegistrationDocument = {
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'password' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'username' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -11031,26 +14283,18 @@ export const AccountRegistrationDocument = {
                   fields: [
                     {
                       kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'birthDate' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'birthDate' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
                       name: { kind: 'Name', value: 'emailAddress' },
                       value: {
                         kind: 'Variable',
                         name: { kind: 'Name', value: 'emailAddress' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'password' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'password' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'username' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'username' },
                       },
                     },
                     {
@@ -11067,6 +14311,22 @@ export const AccountRegistrationDocument = {
                       value: {
                         kind: 'Variable',
                         name: { kind: 'Name', value: 'legalTermId' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'password' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'password' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'username' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'username' },
                       },
                     },
                   ],
@@ -11097,7 +14357,7 @@ export const AccountRegistrationRefreshDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'accountRegistrationRefresh' },
+      name: { kind: 'Name', value: 'AccountRegistrationRefresh' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -11182,7 +14442,7 @@ export const CreateAccountBlockDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'createAccountBlock' },
+      name: { kind: 'Name', value: 'CreateAccountBlock' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -11248,7 +14508,7 @@ export const AchievementUnlockDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'achievementUnlock' },
+      name: { kind: 'Name', value: 'AchievementUnlock' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -11331,7 +14591,7 @@ export const CreateContactDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'createContact' },
+      name: { kind: 'Name', value: 'CreateContact' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -11480,6 +14740,8 @@ export const CreateContactDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -11496,7 +14758,7 @@ export const DeleteContactByIdDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'deleteContactById' },
+      name: { kind: 'Name', value: 'DeleteContactById' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -11643,6 +14905,8 @@ export const DeleteContactByIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -11659,7 +14923,7 @@ export const UpdateContactByIdDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'updateContactById' },
+      name: { kind: 'Name', value: 'UpdateContactById' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -11824,6 +15088,8 @@ export const UpdateContactByIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -11906,19 +15172,19 @@ export const CreateEventDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'createEvent' },
+      name: { kind: 'Name', value: 'CreateEvent' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'createEventInput' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateEventInput' },
+              name: { kind: 'Name', value: 'EventInput' },
             },
           },
         },
@@ -11934,8 +15200,17 @@ export const CreateEventDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'createEventInput' },
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'event' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'input' },
+                      },
+                    },
+                  ],
                 },
               },
             ],
@@ -12052,7 +15327,7 @@ export const EventDeleteDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'eventDelete' },
+      name: { kind: 'Name', value: 'EventDelete' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -12227,7 +15502,7 @@ export const EventUnlockDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'eventUnlock' },
+      name: { kind: 'Name', value: 'EventUnlock' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -12301,7 +15576,7 @@ export const UpdateEventByIdDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'updateEventById' },
+      name: { kind: 'Name', value: 'UpdateEventById' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -12475,7 +15750,7 @@ export const CreateGuestDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'createGuest' },
+      name: { kind: 'Name', value: 'CreateGuest' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -12634,6 +15909,8 @@ export const CreateGuestDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -12647,7 +15924,7 @@ export const DeleteGuestByIdDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'deleteGuestById' },
+      name: { kind: 'Name', value: 'DeleteGuestById' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -12707,7 +15984,7 @@ export const UpdateGuestByIdDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'updateGuestById' },
+      name: { kind: 'Name', value: 'UpdateGuestById' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -12885,6 +16162,8 @@ export const UpdateGuestByIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -12933,7 +16212,7 @@ export const InviteDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'invite' },
+      name: { kind: 'Name', value: 'Invite' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -13009,23 +16288,26 @@ export const InviteDocument = {
     },
   ],
 } as unknown as DocumentNode<InviteMutation, InviteMutationVariables>
-export const ProfilePictureSetDocument = {
+export const CreatePreferenceEventCategoryDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'profilePictureSet' },
+      name: { kind: 'Name', value: 'CreatePreferenceEventCategory' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'uploadId' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'PreferenceEventCategoryInput' },
+            },
           },
         },
       ],
@@ -13034,7 +16316,7 @@ export const ProfilePictureSetDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'profilePictureSet' },
+            name: { kind: 'Name', value: 'createPreferenceEventCategory' },
             arguments: [
               {
                 kind: 'Argument',
@@ -13044,10 +16326,507 @@ export const ProfilePictureSetDocument = {
                   fields: [
                     {
                       kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'uploadId' },
+                      name: { kind: 'Name', value: 'preferenceEventCategory' },
                       value: {
                         kind: 'Variable',
-                        name: { kind: 'Name', value: 'uploadId' },
+                        name: { kind: 'Name', value: 'input' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'preferenceEventCategory' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: {
+                          kind: 'Name',
+                          value: 'PreferenceEventCategoryItem',
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PreferenceEventCategoryItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'PreferenceEventCategory' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'categoryId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreatePreferenceEventCategoryMutation,
+  CreatePreferenceEventCategoryMutationVariables
+>
+export const DeletePreferenceEventCategoryByAccountIdAndCategoryIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: {
+        kind: 'Name',
+        value: 'DeletePreferenceEventCategoryByAccountIdAndCategoryId',
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value:
+                  'DeletePreferenceEventCategoryByAccountIdAndCategoryIdInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'deletePreferenceEventCategoryByAccountIdAndCategoryId',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: {
+                    kind: 'Name',
+                    value: 'deletedPreferenceEventCategoryId',
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation,
+  DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutationVariables
+>
+export const CreatePreferenceEventFormatDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreatePreferenceEventFormat' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'PreferenceEventFormatInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createPreferenceEventFormat' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'preferenceEventFormat' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'input' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'preferenceEventFormat' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: {
+                          kind: 'Name',
+                          value: 'PreferenceEventFormatItem',
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PreferenceEventFormatItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'PreferenceEventFormat' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'formatId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreatePreferenceEventFormatMutation,
+  CreatePreferenceEventFormatMutationVariables
+>
+export const DeletePreferenceEventFormatByAccountIdAndFormatIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: {
+        kind: 'Name',
+        value: 'DeletePreferenceEventFormatByAccountIdAndFormatId',
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'DeletePreferenceEventFormatByAccountIdAndFormatIdInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'deletePreferenceEventFormatByAccountIdAndFormatId',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: {
+                    kind: 'Name',
+                    value: 'deletedPreferenceEventFormatId',
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeletePreferenceEventFormatByAccountIdAndFormatIdMutation,
+  DeletePreferenceEventFormatByAccountIdAndFormatIdMutationVariables
+>
+export const CreatePreferenceEventLocationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreatePreferenceEventLocation' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'PreferenceEventLocationInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createPreferenceEventLocation' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'preferenceEventLocation' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'input' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'preferenceEventLocation' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: {
+                          kind: 'Name',
+                          value: 'PreferenceEventLocationItem',
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PreferenceEventLocationItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'PreferenceEventLocation' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'radius' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreatePreferenceEventLocationMutation,
+  CreatePreferenceEventLocationMutationVariables
+>
+export const DeletePreferenceEventLocationByIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeletePreferenceEventLocationById' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'DeletePreferenceEventLocationByIdInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deletePreferenceEventLocationById' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: {
+                    kind: 'Name',
+                    value: 'deletedPreferenceEventLocationId',
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeletePreferenceEventLocationByIdMutation,
+  DeletePreferenceEventLocationByIdMutationVariables
+>
+export const CreatePreferenceEventSizeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreatePreferenceEventSize' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'PreferenceEventSizeInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createPreferenceEventSize' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'preferenceEventSize' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'input' },
                       },
                     },
                   ],
@@ -13069,8 +16848,74 @@ export const ProfilePictureSetDocument = {
     },
   ],
 } as unknown as DocumentNode<
-  ProfilePictureSetMutation,
-  ProfilePictureSetMutationVariables
+  CreatePreferenceEventSizeMutation,
+  CreatePreferenceEventSizeMutationVariables
+>
+export const DeletePreferenceEventSizeByAccountIdAndEventSizeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: {
+        kind: 'Name',
+        value: 'DeletePreferenceEventSizeByAccountIdAndEventSize',
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'DeletePreferenceEventSizeByAccountIdAndEventSizeInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'deletePreferenceEventSizeByAccountIdAndEventSize',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeletePreferenceEventSizeByAccountIdAndEventSizeMutation,
+  DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables
 >
 export const CreateReportDocument = {
   kind: 'Document',
@@ -13078,7 +16923,7 @@ export const CreateReportDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'createReport' },
+      name: { kind: 'Name', value: 'CreateReport' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -13144,19 +16989,19 @@ export const CreateUploadDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'createUpload' },
+      name: { kind: 'Name', value: 'CreateUpload' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'createUploadInput' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateUploadInput' },
+              name: { kind: 'Name', value: 'UploadInput' },
             },
           },
         },
@@ -13172,8 +17017,17 @@ export const CreateUploadDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'createUploadInput' },
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'upload' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'input' },
+                      },
+                    },
+                  ],
                 },
               },
             ],
@@ -13211,7 +17065,7 @@ export const DeleteUploadByIdDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'deleteUploadById' },
+      name: { kind: 'Name', value: 'DeleteUploadById' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -13296,77 +17150,13 @@ export const DeleteUploadByIdDocument = {
   DeleteUploadByIdMutation,
   DeleteUploadByIdMutationVariables
 >
-export const AccountByIdDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'accountById' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accountById' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'id' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'AccountItem' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AccountItem' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Account' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'username' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<AccountByIdQuery, AccountByIdQueryVariables>
 export const AccountByUsernameDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'accountByUsername' },
+      name: { kind: 'Name', value: 'AccountByUsername' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -13422,8 +17212,9 @@ export const AccountByUsernameDocument = {
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
           { kind: 'Field', name: { kind: 'Name', value: 'username' } },
         ],
       },
@@ -13439,7 +17230,7 @@ export const AccountUploadQuotaBytesDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'accountUploadQuotaBytes' },
+      name: { kind: 'Name', value: 'AccountUploadQuotaBytes' },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
@@ -13461,7 +17252,7 @@ export const AllAchievementsDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'allAchievements' },
+      name: { kind: 'Name', value: 'AllAchievements' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -13548,7 +17339,7 @@ export const AllContactsDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'allContacts' },
+      name: { kind: 'Name', value: 'AllContacts' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -13755,6 +17546,8 @@ export const AllContactsDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -13841,7 +17634,7 @@ export const EventByCreatedByAndSlugDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'eventByCreatedByAndSlug' },
+      name: { kind: 'Name', value: 'EventByCreatedByAndSlug' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -14056,6 +17849,8 @@ export const EventByCreatedByAndSlugDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -14149,93 +17944,19 @@ export const EventByCreatedByAndSlugDocument = {
   EventByCreatedByAndSlugQuery,
   EventByCreatedByAndSlugQueryVariables
 >
-export const EventSearchDocument = {
+export const AllEventCategoriesDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'eventSearch' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'after' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'first' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'language' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'Language' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'query' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-        },
-      ],
+      name: { kind: 'Name', value: 'AllEventCategories' },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'eventSearch' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'after' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'after' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'first' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'first' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'language' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'language' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'query' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'query' },
-                },
-              },
-            ],
+            name: { kind: 'Name', value: 'allEventCategories' },
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
@@ -14247,29 +17968,11 @@ export const EventSearchDocument = {
                     selections: [
                       {
                         kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'EventItem' },
+                        name: { kind: 'Name', value: 'EventCategoryItem' },
                       },
                     ],
                   },
                 },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'pageInfo' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'hasNextPage' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'endCursor' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
               ],
             },
           },
@@ -14278,122 +17981,107 @@ export const EventSearchDocument = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AddressItem' },
+      name: { kind: 'Name', value: 'EventCategoryItem' },
       typeCondition: {
         kind: 'NamedType',
-        name: { kind: 'Name', value: 'Address' },
+        name: { kind: 'Name', value: 'EventCategory' },
       },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'city' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'location' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
-              ],
-            },
-          },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'region' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'EventItem' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Event' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accountByCreatedBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
-              ],
-            },
-          },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'addressByAddressId' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'AddressItem' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'end' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'guestCountMaximum' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'isArchived' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'isInPerson' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'isRemote' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'start' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'visibility' } },
         ],
       },
     },
   ],
-} as unknown as DocumentNode<EventSearchQuery, EventSearchQueryVariables>
-export const AllEventsDocument = {
+} as unknown as DocumentNode<
+  AllEventCategoriesQuery,
+  AllEventCategoriesQueryVariables
+>
+export const AllEventFormatsDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'allEvents' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'after' },
+      name: { kind: 'Name', value: 'AllEventFormats' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allEventFormats' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'EventFormatItem' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
           },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
-        },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'EventFormatItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'EventFormat' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllEventFormatsQuery,
+  AllEventFormatsQueryVariables
+>
+export const EventFavoriteByCreatedByAndEventIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'eventFavoriteByCreatedByAndEventId' },
+      variableDefinitions: [
         {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
             name: { kind: 'Name', value: 'createdBy' },
           },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
         },
         {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'first' },
+            name: { kind: 'Name', value: 'eventId' },
           },
           type: {
             kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
           },
         },
       ],
@@ -14402,179 +18090,49 @@ export const AllEventsDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'allEvents' },
+            name: { kind: 'Name', value: 'eventFavoriteByCreatedByAndEventId' },
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'after' },
+                name: { kind: 'Name', value: 'createdBy' },
                 value: {
                   kind: 'Variable',
-                  name: { kind: 'Name', value: 'after' },
+                  name: { kind: 'Name', value: 'createdBy' },
                 },
               },
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'condition' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'createdBy' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'createdBy' },
-                      },
-                    },
-                  ],
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'first' },
+                name: { kind: 'Name', value: 'eventId' },
                 value: {
                   kind: 'Variable',
-                  name: { kind: 'Name', value: 'first' },
+                  name: { kind: 'Name', value: 'eventId' },
                 },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'orderBy' },
-                value: { kind: 'EnumValue', value: 'START_DESC' },
               },
             ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'EventItem' },
-                      },
-                    ],
-                  },
-                },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'pageInfo' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'hasNextPage' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'endCursor' },
-                      },
-                    ],
-                  },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'AddressItem' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Address' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'city' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'country' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'line1' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'line2' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'location' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'postalCode' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'region' } },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'EventItem' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'Event' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accountByCreatedBy' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'eventId' } },
               ],
             },
           },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'addressByAddressId' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'FragmentSpread',
-                  name: { kind: 'Name', value: 'AddressItem' },
-                },
-              ],
-            },
-          },
-          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'end' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'guestCountMaximum' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'isArchived' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'isInPerson' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'isRemote' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'start' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'visibility' } },
         ],
       },
     },
   ],
-} as unknown as DocumentNode<AllEventsQuery, AllEventsQueryVariables>
+} as unknown as DocumentNode<
+  EventFavoriteByCreatedByAndEventIdQuery,
+  EventFavoriteByCreatedByAndEventIdQueryVariables
+>
 export const AllGuestsDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'allGuests' },
+      name: { kind: 'Name', value: 'AllGuests' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -14773,6 +18331,8 @@ export const AllGuestsDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
           { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
         ],
@@ -14818,7 +18378,7 @@ export const AllLegalTermsDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'allLegalTerms' },
+      name: { kind: 'Name', value: 'AllLegalTerms' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -14893,13 +18453,247 @@ export const AllLegalTermsDocument = {
     },
   ],
 } as unknown as DocumentNode<AllLegalTermsQuery, AllLegalTermsQueryVariables>
+export const AllPreferenceEventCategoriesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllPreferenceEventCategories' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allPreferenceEventCategories' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: {
+                          kind: 'Name',
+                          value: 'PreferenceEventCategoryItem',
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PreferenceEventCategoryItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'PreferenceEventCategory' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'categoryId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllPreferenceEventCategoriesQuery,
+  AllPreferenceEventCategoriesQueryVariables
+>
+export const AllPreferenceEventFormatsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllPreferenceEventFormats' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allPreferenceEventFormats' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: {
+                          kind: 'Name',
+                          value: 'PreferenceEventFormatItem',
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PreferenceEventFormatItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'PreferenceEventFormat' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'formatId' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllPreferenceEventFormatsQuery,
+  AllPreferenceEventFormatsQueryVariables
+>
+export const AllPreferenceEventLocationsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllPreferenceEventLocations' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allPreferenceEventLocations' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: {
+                          kind: 'Name',
+                          value: 'PreferenceEventLocationItem',
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'PreferenceEventLocationItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'PreferenceEventLocation' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'radius' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'location' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'latitude' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'longitude' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllPreferenceEventLocationsQuery,
+  AllPreferenceEventLocationsQueryVariables
+>
+export const AllPreferenceEventSizesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllPreferenceEventSizes' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allPreferenceEventSizes' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodeId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventSize' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllPreferenceEventSizesQuery,
+  AllPreferenceEventSizesQueryVariables
+>
 export const ProfilePictureByAccountIdDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'profilePictureByAccountId' },
+      name: { kind: 'Name', value: 'ProfilePictureByAccountId' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -15000,7 +18794,7 @@ export const AllUploadsDocument = {
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'allUploads' },
+      name: { kind: 'Name', value: 'AllUploads' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',

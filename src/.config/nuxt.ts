@@ -94,21 +94,17 @@ export default defineNuxtConfig({
     },
     'nuxt-security',
   ],
-  shadcn: {
-    prefix: '',
-    componentDir: 'app/components/scn',
-  },
   nitro: {
     compressPublicAssets: true,
     experimental: {
       asyncContext: true,
       openAPI: IS_NITRO_OPENAPI_ENABLED,
     },
+    // @ts-expect-error Vue plugin not compatible with rolldown types
     rollupConfig: {
       output: {
         sourcemap: true, // TODO: remove? (https://github.com/getsentry/sentry-javascript/discussions/15028)
       },
-      // @ts-expect-error deep type instantiation (https://github.com/vitejs/vite-plugin-vue/issues/422)
       plugins: [vue()],
     },
   },
@@ -201,9 +197,6 @@ export default defineNuxtConfig({
       security: {
         isRateLimiterDisabled: true, // TODO: disable once api requests are optimized (https://github.com/maevsi/vibetype/issues/1654)
       },
-      site: {
-        url: SITE_URL,
-      },
       turnstile: {
         siteKey: '0x4AAAAAAABtEW1Hc8mcgWcZ',
       },
@@ -234,8 +227,8 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: [
+        '@internationalized/date',
         '@sentry/nuxt',
-        '@tiptap/extension-link',
         '@tiptap/extension-text-align',
         '@tiptap/starter-kit',
         '@tiptap/vue-3',
@@ -245,6 +238,7 @@ export default defineNuxtConfig({
         '@vuelidate/core',
         '@vueuse/core',
         'chart.js',
+        'class-variance-authority',
         'clipboardy',
         'clsx',
         'css-element-queries',
@@ -256,6 +250,7 @@ export default defineNuxtConfig({
         'isomorphic-dompurify',
         'js-confetti',
         'leaflet',
+        'leaflet-control-geocoder',
         'lodash-es',
         'lucide-vue-next',
         'mustache',
@@ -263,6 +258,7 @@ export default defineNuxtConfig({
         'prntr',
         'qrcode.vue',
         'reka-ui',
+        'reka-ui/date',
         'seedrandom',
         'slugify',
         'tailwind-merge',

@@ -109,21 +109,24 @@ const { accountId, event } = defineProps<{
 const templateForm = useTemplateRef('form')
 
 // drawer
-const isOpen = defineModel<boolean>()
-const open = () => (isOpen.value = true)
+const isOpen = defineModel<boolean>('open')
 
 // stepper
-const { step } = useStepper<
-  'default' | 'reportConfirmation' | 'blockConfirmation'
->()
+const { step } = useStepper<'reportConfirmation' | 'blockConfirmation'>()
 const onAnimationEnd = (isOpen: boolean) => {
   if (isOpen) return
+
+  if (step.value === 'blockConfirmation') {
+    backToDashboard()
+    return
+  }
+
   step.value = 'default'
 }
 
 // block
 const createAccountBlockMutation = useCreateAccountBlockMutation()
-const api = getApiData([createAccountBlockMutation])
+const api = await useApiData([createAccountBlockMutation])
 const apiErrorMessages = computed(() =>
   getCombinedErrorMessages(api.value.errors),
 )
@@ -163,10 +166,6 @@ const backToDashboard = async () =>
       name: 'dashboard',
     }),
   )
-
-defineExpose({
-  open,
-})
 </script>
 
 <i18n lang="yaml">

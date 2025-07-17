@@ -7,11 +7,11 @@ import ical, {
 import mustache from 'mustache'
 
 import { getTextFromHtml } from '../../shared/utils/text'
-import {
-  EventVisibility,
-  type ContactItemFragment,
-  type EventItemFragment,
-  type GuestItemFragment,
+import { EventVisibility } from '../../gql/generated/graphql'
+import type {
+  ContactItemFragment,
+  EventItemFragment,
+  GuestItemFragment,
 } from '../../gql/generated/graphql'
 
 const visibilityToClass = {
@@ -44,14 +44,18 @@ export const getIcalString = ({
 }) => {
   const eventAuthorUsername = event.accountByCreatedBy?.username
   const userEventPath = `${eventAuthorUsername}/${event.slug}`
-  const eventUrl = `${siteUrl}/event/view/${userEventPath}`
-  const eventDescriptionHtml = mustache.render(
-    event.description ? `${eventUrl}\n${event.description}` : '',
-    {
-      contact,
-      event,
-      invitation,
-    },
+  const eventUrl = invitation
+    ? `${siteUrl}/guest/view/${invitation.id}`
+    : `${siteUrl}/event/view/${userEventPath}`
+  const eventDescriptionHtml = DOMPurify.sanitize(
+    mustache.render(
+      event.description ? `${eventUrl}\n${event.description}` : '',
+      {
+        contact,
+        event,
+        invitation,
+      },
+    ),
   )
   const hostname = new URL(siteUrl).hostname
 
@@ -71,7 +75,7 @@ export const getIcalString = ({
         start: event.start, // Appointment date of beginning, required.
         ...(event.end && { end: event.end }),
         // `timezone` shouldn't be needed as the database outputs UTC dates.
-        // timestamp: moment(), // Appointment date of creation (= now).
+        // timestamp: new Date(), // Appointment date of creation (= now).
         // allDay: false,
         // floating: , // Mutually exclusive with `timezone`.
         // repeating: {
@@ -86,12 +90,12 @@ export const getIcalString = ({
         //   exclude: [new Date('Dec 25 2013 00:00:00 UTC')], // exclude these dates
         //   excludeTimezone: 'Europe/Berlin' // timezone of exclude
         // },
-        // recurrenceId: moment(),
+        // recurrenceId: new Date(),
         summary: event.name, // The event's title.
         ...(event.description && {
           description: {
             plain: getTextFromHtml(eventDescriptionHtml),
-            html: DOMPurify.sanitize(eventDescriptionHtml),
+            html: eventDescriptionHtml,
           },
           // description: getTextFromHtml(DOMPurify.sanitize(eventDescriptionHtml)),
         }),
@@ -113,8 +117,8 @@ export const getIcalString = ({
         // }],
         // alarms: [{
         //   type: 'display',
-        //   triggerBefore: moment(),
-        //   triggerAfter: moment(),
+        //   triggerBefore: new Date(),
+        //   triggerAfter: new Date(),
         //   repeat: 4,
         //   interval: 300,
         //   attach: 'https://example.com/notification.aud',
@@ -127,8 +131,8 @@ export const getIcalString = ({
         status: ICalEventStatus.CONFIRMED,
         // status: 'CONFIRMED',
         // busystatus: 'busy',
-        // created: moment(), // Event creation date.
-        // lastModified: moment()
+        // created: new Date(), // Event creation date.
+        // lastModified: new Date()
       },
     ],
   }).toString()

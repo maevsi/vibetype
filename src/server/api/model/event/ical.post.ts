@@ -41,12 +41,8 @@ export default defineEventHandler(async (h3Event) => {
 
   setResponseHeaders(h3Event, {
     'Content-Type': 'text/calendar',
-    'Content-Disposition':
-      'attachment; filename="' +
-      eventAuthorUsername +
-      '_' +
-      event.slug +
-      '.ics"',
+    'Content-Disposition': `attachment; filename="${eventAuthorUsername}_${event.slug}.ics`,
   })
+
   return getIcalString({ contact, event, invitation, siteUrl: SITE_URL })
 })

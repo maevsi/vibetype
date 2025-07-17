@@ -85,6 +85,22 @@
         </FormInputStateError>
       </template>
     </FormInput>
+    <FormInput
+      id-label="input-nickname"
+      :title="t('nickname')"
+      type="text"
+      :value="v$.nickname"
+      @input="form.nickname = $event"
+    >
+      <template #stateError>
+        <FormInputStateError
+          :form-input="v$.nickname"
+          validation-property="lengthMax"
+        >
+          {{ t('globalValidationLength') }}
+        </FormInputStateError>
+      </template>
+    </FormInput>
     <FormInputEmailAddress
       :form-input="v$.emailAddress"
       @input="form.emailAddress = $event"
@@ -117,6 +133,29 @@
       @input="form.phoneNumber = $event"
     />
     <FormInputUrl :form-input="v$.url" @input="form.url = $event" />
+    <FormInput
+      id-label="input-note"
+      :title="t('note')"
+      type="text"
+      :value="v$.note"
+      @input="form.note = $event"
+    >
+      <Textarea
+        v-if="v$.note"
+        id="input-note"
+        v-model.trim="v$.note.$model"
+        class="bg-(--semantic-base-input-field-fill) dark:bg-(--semantic-base-input-field-fill)"
+        rows="3"
+      />
+      <template #stateError>
+        <FormInputStateError
+          :form-input="v$.note"
+          validation-property="lengthMax"
+        >
+          {{ t('globalValidationLength') }}
+        </FormInputStateError>
+      </template>
+    </FormInput>
   </AppForm>
 </template>
 
@@ -136,6 +175,8 @@ const { contact = undefined } = defineProps<{
     | 'firstName'
     | 'id'
     | 'lastName'
+    | 'nickname'
+    | 'note'
     | 'phoneNumber'
     | 'url'
   >
@@ -158,6 +199,8 @@ const form = reactive({
   emailAddress: ref<string>(),
   firstName: ref<string>(),
   lastName: ref<string>(),
+  nickname: ref<string>(),
+  note: ref<string>(),
   phoneNumber: ref<string>(),
   url: ref<string>(),
 })
@@ -166,7 +209,7 @@ const isFormSent = ref(false)
 // api data
 const createContactMutation = useCreateContactMutation()
 const updateContactByIdMutation = useUpdateContactByIdMutation()
-const api = getApiData([createContactMutation, updateContactByIdMutation])
+const api = await useApiData([createContactMutation, updateContactByIdMutation])
 
 // methods
 const submit = async () => {
@@ -190,6 +233,8 @@ const submit = async () => {
         emailAddress: form.emailAddress || null,
         firstName: form.firstName || null,
         lastName: form.lastName || null,
+        nickname: form.nickname || null,
+        note: form.note || null,
         phoneNumber: form.phoneNumber || null,
         url: form.url || null,
       },
@@ -208,6 +253,8 @@ const submit = async () => {
         emailAddress: form.emailAddress || null,
         firstName: form.firstName || null,
         lastName: form.lastName || null,
+        nickname: form.nickname || null,
+        note: form.note || null,
         phoneNumber: form.phoneNumber || null,
         url: form.url || null,
       },
@@ -227,6 +274,8 @@ const updateForm = (
     | 'firstName'
     | 'id'
     | 'lastName'
+    | 'nickname'
+    | 'note'
     | 'phoneNumber'
     | 'url'
   >,
@@ -239,6 +288,8 @@ const updateForm = (
   form.firstName = data.firstName || undefined
   form.id = data.id
   form.lastName = data.lastName || undefined
+  form.nickname = data.nickname || undefined
+  form.note = data.note || undefined
   form.phoneNumber = data.phoneNumber || undefined
   form.url = data.url || undefined
 }
@@ -259,6 +310,12 @@ const rules = {
   lastName: VALIDATION_PRIMITIVE({
     lengthMax: VALIDATION_NAME_LAST_LENGTH_MAXIMUM,
   }),
+  nickname: VALIDATION_PRIMITIVE({
+    lengthMax: VALIDATION_NAME_NICK_LENGTH_MAXIMUM,
+  }),
+  note: VALIDATION_PRIMITIVE({
+    lengthMax: VALIDATION_NOTE_LENGTH_MAXIMUM,
+  }),
   phoneNumber: {},
   url: VALIDATION_URL(),
 }
@@ -274,6 +331,8 @@ de:
   # address: Adresse
   firstName: Vorname
   lastName: Nachname
+  nickname: Spitzname
+  note: Notiz
   postgres23505: Ein Kontakt mit dieser Nutzernamen existiert bereits!
   save: Speichern
   stateInfoUsernameDisabled: Du kannst deinen Nutzernamen in den {accountSettings} ändern.
@@ -283,6 +342,8 @@ en:
   # address: Address
   firstName: First name
   lastName: Last name
+  nickname: Nickname
+  note: Note
   postgres23505: A contact with this username already exists!
   save: Save
   stateInfoUsernameDisabled: You can edit your username in {accountSettings}.

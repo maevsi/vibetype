@@ -47,10 +47,10 @@ export const iconCollectionOptimization =
       callback: (attr, colorStr, color) => {
         if (!color) return colorStr
 
-        if (blackColor && compareColors(color, blackColor))
-          return 'currentColor'
-
         if (!isColored) {
+          if (blackColor && compareColors(color, blackColor))
+            return 'currentColor'
+
           if (['none', 'current'].includes(color.type)) {
             return color
           }

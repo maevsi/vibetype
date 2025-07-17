@@ -23,6 +23,7 @@
               hidden: isButtonHidden,
             }"
             type="submit"
+            :variant="buttonVariant"
             @click="emit('click')"
           >
             {{ submitName || t('submit') }}
@@ -50,7 +51,10 @@
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
 
+import type { ButtonColoredProps } from '../button/ButtonColored.vue'
+
 const {
+  buttonVariant = undefined,
   errors = undefined,
   errorsPgIds = undefined,
   form,
@@ -58,7 +62,8 @@ const {
   isButtonHidden,
   submitName = undefined,
 } = defineProps<{
-  errors?: Readonly<BackendError[]>
+  buttonVariant?: ButtonColoredProps['variant']
+  errors?: Readonly<AppCombinedError[]>
   errorsPgIds?: Record<string, string>
   form: BaseValidation
   formClass?: string
