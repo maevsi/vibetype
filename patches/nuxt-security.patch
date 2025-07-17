@@ -1,0 +1,77 @@
+diff --git a/dist/shared/nuxt-security.65ad4215.d.mts b/dist/shared/nuxt-security.65ad4215.d.mts
+index 14d5c554ff9b40e724c7131eb3bb36ecb14f7bd2..caf7b9c9be2577b8d9c4539884274ee180cd85e2 100644
+--- a/dist/shared/nuxt-security.65ad4215.d.mts
++++ b/dist/shared/nuxt-security.65ad4215.d.mts
+@@ -106,6 +106,34 @@ declare module '@nuxt/schema' {
+         'nuxt-security:prerenderedHeaders': (prerenderedHeaders: Record<string, Record<string, string>>) => HookResult;
+     }
+ }
++declare module 'nitropack/types' {
++    interface NitroRouteConfig {
++        security?: NuxtSecurityRouteRules;
++    }
++    interface NitroRuntimeHooks {
++        /**
++         * @deprecated
++         */
++        'nuxt-security:headers': (config: {
++            /**
++             * The route for which the headers are being configured
++             */
++            route: string;
++            /**
++             * The headers configuration for the route
++             */
++            headers: NuxtSecurityRouteRules['headers'];
++        }) => void;
++        /**
++         * @deprecated
++         */
++        'nuxt-security:ready': () => void;
++        /**
++         * Runtime hook to configure security rules for each route
++         */
++        'nuxt-security:routeRules': (routeRules: Record<string, NuxtSecurityRouteRules>) => void;
++    }
++}
+ declare module 'nitropack' {
+     interface NitroRouteConfig {
+         security?: NuxtSecurityRouteRules;
+diff --git a/dist/shared/nuxt-security.a733adee.d.ts b/dist/shared/nuxt-security.a733adee.d.ts
+index 095a9e0a2f0f7623295761b589a8637f19d9e16f..a0dd8f2a785c6b815ecdf2f5222c26c919e04d1e 100644
+--- a/dist/shared/nuxt-security.a733adee.d.ts
++++ b/dist/shared/nuxt-security.a733adee.d.ts
+@@ -105,6 +105,33 @@ declare module '@nuxt/schema' {
+     interface NuxtHooks {
+         'nuxt-security:prerenderedHeaders': (prerenderedHeaders: Record<string, Record<string, string>>) => HookResult;
+     }
++}declare module 'nitropack/types' {
++    interface NitroRouteConfig {
++        security?: NuxtSecurityRouteRules;
++    }
++    interface NitroRuntimeHooks {
++        /**
++         * @deprecated
++         */
++        'nuxt-security:headers': (config: {
++            /**
++             * The route for which the headers are being configured
++             */
++            route: string;
++            /**
++             * The headers configuration for the route
++             */
++            headers: NuxtSecurityRouteRules['headers'];
++        }) => void;
++        /**
++         * @deprecated
++         */
++        'nuxt-security:ready': () => void;
++        /**
++         * Runtime hook to configure security rules for each route
++         */
++        'nuxt-security:routeRules': (routeRules: Record<string, NuxtSecurityRouteRules>) => void;
++    }
+ }
+ declare module 'nitropack' {
+     interface NitroRouteConfig {
