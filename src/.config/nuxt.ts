@@ -36,9 +36,6 @@ export default defineNuxtConfig({
     inlineRouteRules: true,
     typedPages: true,
   },
-  future: {
-    compatibilityVersion: 4,
-  },
   modules: [
     '@dargmuesli/nuxt-cookie-control',
     '@nuxt/eslint',
