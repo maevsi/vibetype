@@ -30,7 +30,7 @@ import { GET_CSP } from '../server/utils/constants'
 // setImmediate(() => {})
 
 export default defineNuxtConfig({
-  compatibilityDate: '2024-04-03',
+  compatibilityDate: '2025-07-20',
   css: ['~/assets/css/app.css'],
   experimental: {
     inlineRouteRules: true,
