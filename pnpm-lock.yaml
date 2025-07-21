@@ -12,11 +12,6 @@ overrides:
   parse5-parser-stream: 8.0.0
   vite: npm:rolldown-vite@7.0.9
 
-patchedDependencies:
-  nuxt-security:
-    hash: c33fd42cb84273eed2662707554a8246deff52b31135c7f2e7e7b11d2c264bfd
-    path: patches/nuxt-security.patch
-
 importers:
 
   .:
@@ -362,7 +357,7 @@ importers:
         version: 3.0.3(magicast@0.3.5)
       nuxt-security:
         specifier: 2.2.0
-        version: 2.2.0(patch_hash=c33fd42cb84273eed2662707554a8246deff52b31135c7f2e7e7b11d2c264bfd)(magicast@0.3.5)(rollup@4.45.1)
+        version: 2.2.0(magicast@0.3.5)(rollup@4.45.1)
       nuxt-zod-i18n:
         specifier: 1.12.0
         version: 1.12.0(magicast@0.3.5)(typescript@5.8.3)
@@ -14144,7 +14139,7 @@ snapshots:
       jose: 6.0.12
       nuxt: 4.0.1(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.0.15)(@vue/compiler-sfc@3.5.17)(db0@0.3.2)(eslint@9.31.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rolldown-vite@7.0.9(@types/node@24.0.15)(esbuild@0.25.8)(jiti@2.4.2)(terser@5.43.1)(yaml@2.8.0))(rolldown@1.0.0-beta.27)(rollup@4.45.1)(stylelint@16.22.0(typescript@5.8.3))(terser@5.43.1)(typescript@5.8.3)(vue-tsc@3.0.3(typescript@5.8.3))(yaml@2.8.0)
       nuxt-gtag: 3.0.3(magicast@0.3.5)
-      nuxt-security: 2.2.0(patch_hash=c33fd42cb84273eed2662707554a8246deff52b31135c7f2e7e7b11d2c264bfd)(magicast@0.3.5)(rollup@4.45.1)
+      nuxt-security: 2.2.0(magicast@0.3.5)(rollup@4.45.1)
       sweetalert2: 11.22.2
       vue: 3.5.17(typescript@5.8.3)
       vue-router: 4.5.1(vue@3.5.17(typescript@5.8.3))
@@ -24363,7 +24358,7 @@ snapshots:
       - magicast
       - vue
 
-  nuxt-security@2.2.0(patch_hash=c33fd42cb84273eed2662707554a8246deff52b31135c7f2e7e7b11d2c264bfd)(magicast@0.3.5)(rollup@4.45.1):
+  nuxt-security@2.2.0(magicast@0.3.5)(rollup@4.45.1):
     dependencies:
       '@nuxt/kit': 3.17.7(magicast@0.3.5)
       basic-auth: 2.0.1
