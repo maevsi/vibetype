@@ -1,6 +1,6 @@
 import { consola } from 'consola'
 
-import { IS_IN_STACK } from '~~/node'
+import { IS_IN_STACK } from '~~/node/environment'
 
 const TOPIC_NOTIFICATION = `${SITE_NAME}.${SITE_NAME}_private.notification`
 const TOPIC_UPLOAD = `${SITE_NAME}.${SITE_NAME}.upload`
