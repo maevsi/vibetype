@@ -9,12 +9,12 @@ import Components from 'unplugin-vue-components/vite'
 import { modulesConfig } from '../config/modules'
 import { environmentsConfig } from '../config/environments'
 import {
-  iconCollectionOptimization,
   IS_NITRO_OPENAPI_ENABLED,
   NUXT_PUBLIC_VIO_ENVIRONMENT,
-  RELEASE_NAME,
   SITE_URL,
-} from '../node'
+} from '../node/environment'
+import { iconCollectionOptimization } from '../node/filesystem'
+import { RELEASE_NAME } from '../node/process'
 import {
   NUXT_PUBLIC_SENTRY_HOST,
   NUXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE,
