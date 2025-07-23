@@ -49,8 +49,8 @@ FROM base-image AS prepare
 
 COPY ./pnpm-lock.yaml ./package.json ./
 
-# pnpm patches
-COPY ./patches ./patches
+## pnpm patches
+# COPY ./patches ./patches
 
 RUN pnpm fetch
 
