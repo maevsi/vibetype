@@ -356,8 +356,8 @@ importers:
         specifier: 3.0.3
         version: 3.0.3(magicast@0.3.5)
       nuxt-security:
-        specifier: 2.2.0
-        version: 2.2.0(magicast@0.3.5)(rollup@4.45.1)
+        specifier: 2.3.0
+        version: 2.3.0(magicast@0.3.5)(rollup@4.45.1)
       nuxt-zod-i18n:
         specifier: 1.12.0
         version: 1.12.0(magicast@0.3.5)(typescript@5.8.3)
@@ -9618,6 +9618,10 @@ packages:
   nuxt-security@2.2.0:
     resolution: {integrity: sha512-bTdgAAAdnvM1R1wAX3zQBbYJh6YNFyvsKJwbT9oVv+0U9J/9+k+mufQlJMFO8AdTefi/EDFHG75in9RTnCpngQ==}
     engines: {node: '>=18.0.0'}
+
+  nuxt-security@2.3.0:
+    resolution: {integrity: sha512-7yeiEcvTOw+3ET+mKCHSiFpthNyIo//8IL1ZIZ53+zvEWBbIHb2pxhFWAtLXNFaMp0VnyEL8pvE2l3xWooi6xA==}
+    engines: {node: '>=20.0.0'}
 
   nuxt-seo-utils@7.0.14:
     resolution: {integrity: sha512-SvUCHWhnt8U/nKIpmnbe3lIvv6GewqxbxkLvcU6R7TeEIHoPnBtNLPN+nKOj12fMrDThv178/RAfw7KXq6meiw==}
@@ -24359,6 +24363,20 @@ snapshots:
       - vue
 
   nuxt-security@2.2.0(magicast@0.3.5)(rollup@4.45.1):
+    dependencies:
+      '@nuxt/kit': 3.17.7(magicast@0.3.5)
+      basic-auth: 2.0.1
+      defu: 6.1.4
+      nuxt-csurf: 1.6.5(magicast@0.3.5)
+      pathe: 1.1.2
+      unplugin-remove: 1.0.3(rollup@4.45.1)
+      xss: 1.0.15
+    transitivePeerDependencies:
+      - magicast
+      - rollup
+      - supports-color
+
+  nuxt-security@2.3.0(magicast@0.3.5)(rollup@4.45.1):
     dependencies:
       '@nuxt/kit': 3.17.7(magicast@0.3.5)
       basic-auth: 2.0.1
