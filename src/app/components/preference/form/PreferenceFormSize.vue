@@ -103,7 +103,7 @@ const { handleSubmit } = useForm({
   initialValues: { items: initialSelectedItems },
   validationSchema: toTypedSchema(
     z.object({
-      items: z.array(z.nativeEnum(EventSize)),
+      items: z.array(z.enum(EventSize)),
     }),
   ),
 })

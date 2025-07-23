@@ -7,7 +7,7 @@ import { Locale } from '~~/server/utils/i18n'
 import { getQuerySafe } from '~~/server/utils/validation'
 
 const emailGetQuerySchema = z.object({
-  locale: z.nativeEnum(Locale).default(Locale.EN),
+  locale: z.enum(Locale).default(Locale.EN),
   name: EMAIL_NAMES.optional(),
 })
 
