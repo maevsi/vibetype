@@ -33,7 +33,6 @@
       "vue-demi"
     ],
     "overrides": {
-      "@intlify/shared": "11.1.11",
       "@intlify/unplugin-vue-i18n": "11.0.0-beta.5",
       "debug": "4.4.1",
       "nuxt-og-image": "5.1.7",
