@@ -37,7 +37,7 @@
     <VitePwaManifest />
     <ClientOnly>
       <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->
-      <CookieControl :locale="locale" />
+      <CookieControl v-if="!isIOS" :locale="locale" />
     </ClientOnly>
     <!-- <div
       class="absolute inset-x-0 -top-16 -z-10 flex max-h-screen transform-gpu items-start justify-center overflow-hidden blur-3xl"
@@ -61,6 +61,7 @@ const timeZone = useTimeZone()
 const localePath = useLocalePath()
 const store = useStore()
 const route = useRoute()
+const cookieControl = useCookieControl()
 
 // i18n
 const { t, locale } = useI18n()
@@ -125,6 +126,36 @@ watch(
     }
   },
 )
+
+const handleTrackingPermissionResult = (event: Event) => {
+  const customEvent = event as CustomEvent<string>
+  if (customEvent.detail === 'authorized') {
+    cookieControl.cookiesEnabledIds.value = [GTAG_COOKIE_ID]
+    cookieControl.isConsentGiven.value = true
+  }
+}
+
+onMounted(() => {
+  if (import.meta.client) {
+    window.addEventListener(
+      'tracking-permission-result',
+      handleTrackingPermissionResult,
+    )
+  }
+})
+
+onUnmounted(() => {
+  if (import.meta.client) {
+    window.removeEventListener(
+      'tracking-permission-result',
+      handleTrackingPermissionResult,
+    )
+  }
+})
+
+const isIOS = computed(() => {
+  return /iPhone|iPad|iPod/i.test(navigator.userAgent)
+})
 
 // initialization
 defineOgImageComponent(
