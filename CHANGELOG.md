@@ -1,3 +1,9 @@
+## [12.17.2](https://github.com/maevsi/vibetype/compare/12.17.1...12.17.2) (2025-07-24)
+
+### Performance Improvements
+
+* **docker:** add volume for development node modules ([9ec8a43](https://github.com/maevsi/vibetype/commit/9ec8a435dded307e21948a8a6d2854cc2b79fded))
+
 ## [12.17.1](https://github.com/maevsi/vibetype/compare/12.17.0...12.17.1) (2025-07-15)
 
 ### Performance Improvements
