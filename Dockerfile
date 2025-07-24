@@ -29,8 +29,12 @@ COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 FROM base-image AS development
 
+RUN mkdir /srv/app/node_modules
+RUN chown node:node /srv/app/node_modules
+
 VOLUME /srv/.pnpm-store
 VOLUME /srv/app
+VOLUME /srv/app/node_modules
 
 USER node
 
