@@ -62,7 +62,7 @@ const store = useStore()
 
 <i18n lang="yaml">
 de:
-  button: Join us!
+  button: Teilnehmen!
   description1: Willkommen beim Früher Vogel Programm! Sei einer der Ersten, die unsere App mitgestalten und von exklusiven Vorteilen profitieren!
   description2: Das Programm ist deine Chance, die Entwicklung unserer App aktiv zu begleiten. Du testest neue Features, gibst Feedback und wirst Teil unserer Vision für die Zukunft.
   description3: '- Exklusive Einblicke: Teste Features vor allen anderen.{br}- Direkter Einfluss: Deine Meinung formt die App!{br}- Belohnungen: Erhalte Boni für dein Engagement.'
@@ -72,7 +72,7 @@ de:
   title3: Was ist der frühe Vogel?
   title4: Flieg los mit uns
 en:
-  button: Join us!
+  button: Join now!
   description1: Welcome to the Early Bird Program! Be one of the first to help shape our app and benefit from exclusive advantages!
   description2: The program is your chance to play an active role in the development of our app. You will test new features, give feedback and become part of our vision for the future.
   description3: '- Exclusive insights: Test features before anyone else.{br}- Direct influence: Your opinion shapes the app!{br}- Rewards: Receive bonuses for your commitment.'
