@@ -1,3 +1,9 @@
+## [12.17.3](https://github.com/maevsi/vibetype/compare/12.17.2...12.17.3) (2025-07-28)
+
+### Bug Fixes
+
+* **early-bird:** correct button label ([f980ed3](https://github.com/maevsi/vibetype/commit/f980ed3a189872e8f47de86a0a9d31037ea0a5b9))
+
 ## [12.17.2](https://github.com/maevsi/vibetype/compare/12.17.1...12.17.2) (2025-07-24)
 
 ### Performance Improvements
