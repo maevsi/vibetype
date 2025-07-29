@@ -53,20 +53,26 @@
     <AppStep v-slot="attributes" :is-active="step === 'success'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="success">
+          {{ t('verificationDescription') }}
+          <ButtonColored
+            :aria-label="t('support')"
+            size="small"
+            :to="
+              localePath({
+                name: 'support-contact',
+              })
+            "
+            variant="tertiary"
+          >
+            {{ t('support') }}
+            <template #prefix>
+              <AppIconHelp />
+            </template>
+          </ButtonColored>
           <template #description>
             {{ t('verificationInstructions') }}
           </template>
         </LayoutPageResult>
-        <template #bottom>
-          <ButtonColored
-            :aria-label="t('verificationButton')"
-            class="w-full max-w-md"
-            disabled
-            variant="secondary"
-          >
-            {{ t('verificationButton') }}
-          </ButtonColored>
-        </template>
       </LayoutPage>
     </AppStep>
     <AppStep v-if="error" v-slot="attributes" :is-active="step === 'error'">
@@ -123,6 +129,7 @@ watch(
 )
 
 // template
+const localePath = useLocalePath()
 const templateIdTitle = useId()
 const birthDate = ref<string>()
 
@@ -204,13 +211,14 @@ de:
   postgresVTAUV: Es gibt bereits einen Account mit diesem Nutzernamen! Überlege dir einen neuen Namen oder versuche dich anzumelden.
   postgresVTBDA: Du musst mindestens 18 Jahre alt sein, um dich zu registrieren.
   postgresVTPLL: Das Passwort ist zu kurz! Überlege dir ein längeres.
+  support: Support kontaktieren
   titleAge: Bereit für Social Media?
   titleForm: Erstelle ein Konto
   titlePrivacy: Datenschutzbestimmungen
   titleTerms: Geschäftsbedingungen
   titleVerification: E-Mail-Bestätigung erforderlich
   tryAgain: Bitte versuche es erneut
-  verificationButton: Warte auf dich…
+  verificationDescription: Wenn du keine E-Mail erhältst, hast du möglicherweise bereits ein Konto bei @.upper:{'globalSiteName'}. Du kannst versuchen, dein Passwort zurückzusetzen, um dich wieder in deinem Konto einzuloggen.
   verificationInstructions: Überprüfe deine E-Mails auf einen Bestätigungslink.
 en:
   agreeTerms: I agree to the Terms and Conditions
@@ -220,12 +228,13 @@ en:
   postgresVTAUV: This username is already in use! Think of a new name or try signing in instead.
   postgresVTBDA: You must be at least 18 years old to register.
   postgresVTPLL: Your password is too short! Think of a longer one.
+  support: Contact Support
   titleAge: Ready for Social Media?
   titleForm: Create an account
   titlePrivacy: Privacy Policy
   titleTerms: General Terms and Conditions
   titleVerification: Email Verification Required
   tryAgain: Please try again
-  verificationButton: Waiting for you…
+  verificationDescription: If you don't receive an email, you may already have an account with @.upper:{'globalSiteName'}. You can try to reset your password to log back into your account.
   verificationInstructions: Check your emails for a verification link.
 </i18n>
