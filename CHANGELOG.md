@@ -1,3 +1,9 @@
+## [12.18.0](https://github.com/maevsi/vibetype/compare/12.17.4...12.18.0) (2025-07-29)
+
+### Features
+
+* **pages:** drop marketing ([c67f333](https://github.com/maevsi/vibetype/commit/c67f3333dfd7606699e31049256efe0c8e70fd29))
+
 ## [12.17.4](https://github.com/maevsi/vibetype/compare/12.17.3...12.17.4) (2025-07-29)
 
 ### Performance Improvements
