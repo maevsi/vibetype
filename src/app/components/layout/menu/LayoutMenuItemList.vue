@@ -35,7 +35,14 @@
         : localePath('session-create')
     "
   >
-    <AppIconAccount />
+    <AccountProfilePicture
+      v-if="store.signedInAccountId"
+      :account-id="store.signedInAccountId"
+      class="size-6 rounded-full"
+      height="24"
+      width="24"
+    />
+    <AppIconAccount v-else />
   </LayoutMenuItem>
   <AppUnderConstruction>
     <LayoutMenuItem
