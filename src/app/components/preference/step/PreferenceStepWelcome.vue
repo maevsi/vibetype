@@ -36,12 +36,12 @@ const { t } = useI18n()
 <i18n lang="yaml">
 de:
   button: Weiter
-  description1: Lass uns gemeinsam VIBETYPE helfen, die perfekten Events für dich zu finden! Teile ein paar Infos über dich und deine Vorlieben, und wir schlagen dir Events vor, die genau deinen Geschmack treffen.
+  description1: Lass uns gemeinsam @.upper:{'globalSiteName'} helfen, die perfekten Events für dich zu finden! Teile ein paar Infos über dich und deine Vorlieben, und wir schlagen dir Events vor, die genau deinen Geschmack treffen.
   description2: Du kannst deine Präferenzen jederzeit anpassen.
   title: Willkommen!
 en:
   button: Next
-  description1: Let's help VIBETYPE uncover the perfect events for you! Share a few details about yourself and your preferences, and we'll suggest events that suit your tastes.
+  description1: Let's help @.upper:{'globalSiteName'} uncover the perfect events for you! Share a few details about yourself and your preferences, and we'll suggest events that suit your tastes.
   description2: You can fine-tune your preferences anytime.
   title: Welcome!
 </i18n>
