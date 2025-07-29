@@ -1,3 +1,9 @@
+## [12.20.0](https://github.com/maevsi/vibetype/compare/12.19.0...12.20.0) (2025-07-29)
+
+### Features
+
+* **account:** rework creation success page ([7d51369](https://github.com/maevsi/vibetype/commit/7d51369a2ce2b14c7185ce7e9ad447b9fe22ce62))
+
 ## [12.19.0](https://github.com/maevsi/vibetype/compare/12.18.0...12.19.0) (2025-07-29)
 
 ### Features
