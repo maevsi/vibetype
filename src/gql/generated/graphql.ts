@@ -9579,6 +9579,20 @@ export type GuestEventQuery = {
   } | null
 }
 
+export type AchievementUnlockMutationVariables = Exact<{
+  code: Scalars['UUID']['input']
+  alias: Scalars['String']['input']
+}>
+
+export type AchievementUnlockMutation = {
+  __typename?: 'Mutation'
+  achievementUnlock?: {
+    __typename?: 'AchievementUnlockPayload'
+    clientMutationId?: string | null
+    uuid?: any | null
+  } | null
+}
+
 export type AccountItemFragment = {
   __typename?: 'Account'
   description?: string | null
@@ -9871,20 +9885,6 @@ export type CreateAccountBlockMutation = {
   createAccountBlock?: {
     __typename?: 'CreateAccountBlockPayload'
     clientMutationId?: string | null
-  } | null
-}
-
-export type AchievementUnlockMutationVariables = Exact<{
-  code: Scalars['UUID']['input']
-  alias: Scalars['String']['input']
-}>
-
-export type AchievementUnlockMutation = {
-  __typename?: 'Mutation'
-  achievementUnlock?: {
-    __typename?: 'AchievementUnlockPayload'
-    clientMutationId?: string | null
-    uuid?: any | null
   } | null
 }
 
@@ -13697,6 +13697,89 @@ export const GuestEventDocument = {
     },
   ],
 } as unknown as DocumentNode<GuestEventQuery, GuestEventQueryVariables>
+export const AchievementUnlockDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AchievementUnlock' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'code' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'alias' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'achievementUnlock' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'code' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'code' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'alias' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'alias' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'uuid' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AchievementUnlockMutation,
+  AchievementUnlockMutationVariables
+>
 export const AuthenticateDocument = {
   kind: 'Document',
   definitions: [
@@ -14479,89 +14562,6 @@ export const CreateAccountBlockDocument = {
 } as unknown as DocumentNode<
   CreateAccountBlockMutation,
   CreateAccountBlockMutationVariables
->
-export const AchievementUnlockDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'AchievementUnlock' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'code' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'alias' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'achievementUnlock' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'code' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'code' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'alias' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'alias' },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'uuid' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  AchievementUnlockMutation,
-  AchievementUnlockMutationVariables
 >
 export const CreateContactDocument = {
   kind: 'Document',

@@ -73,12 +73,6 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/event/create" />
     </url>
     <url>
-        <loc>http://localhost:3001/flow/welcome</loc>
-        <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/flow/welcome" />
-        <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/flow/welcome" />
-        <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:3001/flow/welcome" />
-    </url>
-    <url>
         <loc>http://localhost:3001/guest/unlock</loc>
         <xhtml:link rel="alternate" hreflang="de" href="http://localhost:3001/de/guest/unlock" />
         <xhtml:link rel="alternate" hreflang="en" href="http://localhost:3001/guest/unlock" />
