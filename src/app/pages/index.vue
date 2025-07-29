@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="status === 'success' && !isAchievementNoticeHidden"
+    v-if="status === 'success'"
     class="flex flex-col gap-32 pt-8 pb-64 md:gap-64"
   >
     <LayoutPageResult type="success">
@@ -8,7 +8,7 @@
         <ButtonColored
           :aria-label="t('unlockDeny')"
           variant="secondary"
-          @click="isAchievementNoticeHidden = true"
+          @click="navigateTo(localePath('dashboard'))"
         >
           {{ t('unlockDeny') }}
         </ButtonColored>
@@ -91,6 +91,7 @@ definePageMeta({
 const route = useRoute()
 const store = useStore()
 const { t } = useI18n()
+const localePath = useLocalePath()
 const achievementUnlockMutation = useMutation(
   graphql(`
     mutation AchievementUnlock($code: UUID!, $alias: String!) {
@@ -128,6 +129,10 @@ const { /* data, */ error, status } = await useAsyncData(
 )
 if (error.value) {
   console.debug(error.value.message) // there's no way to be certain that a user tried to unlock an achievement here, so no error is thrown
+
+  if (store.signedInAccountId) {
+    await navigateTo(localePath('dashboard'))
+  }
 }
 
 // confetti
@@ -148,10 +153,8 @@ onMounted(async () => {
     confetti.addConfetti()
   }
 })
-const isAchievementNoticeHidden = ref<boolean>()
 
 // template
-const localePath = useLocalePath()
 const toProfile = () => {
   if (!store.jwtDecoded) return // TODO: error
 
