@@ -1,3 +1,9 @@
+## [12.17.4](https://github.com/maevsi/vibetype/compare/12.17.3...12.17.4) (2025-07-29)
+
+### Performance Improvements
+
+* **docker:** cache playwright node modules separately ([7187cf0](https://github.com/maevsi/vibetype/commit/7187cf0c30bd3fb96ec2b6a4c7617761251a2a87))
+
 ## [12.17.3](https://github.com/maevsi/vibetype/compare/12.17.2...12.17.3) (2025-07-28)
 
 ### Bug Fixes
