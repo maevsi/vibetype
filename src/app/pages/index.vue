@@ -1,237 +1,198 @@
 <template>
-  <div class="flex flex-col gap-32 pt-8 pb-64 md:gap-64">
-    <section id="overview" class="flex items-center gap-8">
-      <div class="flex flex-col items-start gap-8 md:gap-16">
-        <h1
-          class="m-0 text-left text-4xl font-extrabold sm:text-5xl md:text-5xl xl:text-7xl"
+  <div
+    v-if="status === 'success' && !isAchievementNoticeHidden"
+    class="flex flex-col gap-32 pt-8 pb-64 md:gap-64"
+  >
+    <LayoutPageResult type="success">
+      <div class="flex justify-center gap-4">
+        <ButtonColored
+          :aria-label="t('unlockConfirm')"
+          variant="secondary"
+          @click="isAchievementNoticeHidden = true"
         >
-          {{ t('title') }}
-        </h1>
-        <div class="flex gap-8">
-          <ButtonColored
-            :aria-label="t('testNowFree')"
-            class="text-lg md:text-xl"
-            :to="localePath('event')"
-          >
-            {{ t('testNowFree') }}
-          </ButtonColored>
-          <ButtonColored
-            v-if="!isApp"
-            :aria-label="t('appInstall')"
-            :to="localePath('docs-app')"
-            variant="tertiary"
-          >
-            {{ t('appInstall') }}
-            <template #suffix>
-              <IHeroiconsArrowRight />
-            </template>
-          </ButtonColored>
-        </div>
+          {{ t('unlockDeny') }}
+        </ButtonColored>
+        <ButtonColored
+          :aria-label="t('unlockConfirm')"
+          variant="primary"
+          @click="toProfile"
+        >
+          {{ t('unlockConfirm') }}
+        </ButtonColored>
       </div>
-      <LoaderImage
-        :alt="t('heroImage')"
-        aspect="aspect-[750/861]"
-        class="hidden xl:block"
-        height="861"
-        src="/assets/static/images/hero_background.png"
-        width="750"
-      />
-    </section>
-    <section ref="features" class="grid gap-32 2xl:grid-cols-2 2xl:gap-64">
-      <TailwindFeature
-        :keyword="t('featureRecommendationsKeyword')"
-        :title="t('featureRecommendationsTitle')"
-        :description="
-          t('featureRecommendationsDescription', {
-            siteName: t('globalSiteName'),
-          })
-        "
-      >
-        <IHeroiconsLightBulb />
-      </TailwindFeature>
-      <TailwindFeature
-        :keyword="t('featureInvitationsKeyword')"
-        :title="t('featureInvitationsTitle')"
-        :description="t('featureInvitationsDescription')"
-      >
-        <IHeroiconsSparkles />
-      </TailwindFeature>
-      <TailwindFeature
-        :keyword="t('featurePortfolioKeyword')"
-        :title="t('featurePortfolioTitle')"
-        :description="t('featurePortfolioDescription')"
-      >
-        <IHeroiconsTrophy />
-      </TailwindFeature>
-      <TailwindFeature
-        :keyword="t('featureCommunityKeyword')"
-        :title="t('featureCommunityTitle')"
-        :description="
-          t('featureCommunityDescription', { siteName: t('globalSiteName') })
-        "
-      >
-        <IHeroiconsUserGroup />
-      </TailwindFeature>
-    </section>
-    <section>
-      <TailwindDiscord />
-    </section>
-    <section v-if="!isApp">
-      <TailwindPricing />
-    </section>
-    <div
-      class="fixed bottom-4 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-xl transition duration-300"
-      :class="isScrollHintShown ? 'opacity-20' : 'opacity-0'"
-    >
-      <IHeroiconsChevronDoubleDown
-        class="animate-bounce"
-        height="3.2em"
-        width="3.2em"
-        @click="scrollToSteps"
-      />
-    </div>
-    <!-- Timeline / Awards / KPIs (https://tailwindui.com/components/marketing/sections/stats-sections) -->
-    <!-- Blog (https://tailwindui.com/components/marketing/sections/blog-sections) -->
-    <!-- Contact form (https://tailwindui.com/components/marketing/sections/contact-sections) -->
-    <!-- Socials (https://tailwindui.com/components/marketing/sections/footers) -->
-    <!-- Testimonials (https://tailwindui.com/components/marketing/sections/testimonials, https://tailwindui.com/components/marketing/sections/logo-clouds) -->
-    <!-- Team (https://tailwindui.com/components/marketing/sections/team-sections) -->
-    <!-- Organizer Page (https://github.com/maevsi/vibetype/blob/3900d49c7c2025bb75a741ed96fff03fbe204300/src/pages/index.vue) -->
+      <template #description>
+        {{ t('unlockText') }}
+      </template>
+      <template #title>
+        {{ t('unlockTitle') }}
+      </template>
+    </LayoutPageResult>
     <canvas
       ref="canvas"
       class="pointer-events-none fixed inset-0 h-full w-full"
     />
   </div>
+  <LayoutPage v-else>
+    <div class="flex flex-1 flex-col justify-center gap-10">
+      <h1 class="flex flex-col items-center gap-2">
+        <TypographyH3>{{ t('welcome') }}</TypographyH3>
+        <span class="flex items-center gap-1">
+          <IconLogo v-if="dateToday.month !== 6" class="size-10" />
+          <IconLogoPride v-else class="size-16" />
+          <TypographyH4 class="uppercase">
+            {{ siteConfig.name }}
+          </TypographyH4>
+        </span>
+      </h1>
+      <div class="flex flex-col gap-4 self-stretch">
+        <ButtonColored
+          :aria-label="t('signIn')"
+          :to="$localePath('session-create')"
+        >
+          {{ t('signIn') }}
+        </ButtonColored>
+        <ButtonColored
+          :aria-label="t('register')"
+          :to="$localePath('account-create')"
+          variant="tertiary"
+        >
+          <TypographySubtitleMedium class="text-center">
+            {{ t('register') }}
+          </TypographySubtitleMedium>
+        </ButtonColored>
+      </div>
+    </div>
+    <div class="flex flex-col gap-4">
+      <ButtonColored
+        v-if="!isApp"
+        :aria-label="t('more')"
+        to="https://vibetype.de"
+        variant="tertiary"
+      >
+        {{ t('more') }}
+      </ButtonColored>
+      <ContentLegalFooter />
+    </div>
+  </LayoutPage>
 </template>
 
 <script setup lang="ts">
-import JSConfetti from 'js-confetti'
+import { getLocalTimeZone, today } from '@internationalized/date'
+import { useMutation } from '@urql/vue'
+import { stringifyQuery } from 'ufo'
 
-import { useAchievementUnlockMutation } from '~~/gql/documents/mutations/achievement/achievementUnlock'
+import { graphql } from '~~/gql/generated'
 
-const { t } = useI18n()
-const localePath = useLocalePath()
-const siteConfig = useSiteConfig()
-const { isApp } = usePlatform()
+definePageMeta({
+  layout: 'plain',
+})
+
+// achievement
+const route = useRoute()
 const store = useStore()
-const fireAlert = useFireAlert()
-const templateCanvas = useTemplateRef('canvas')
-const templateFeatures = useTemplateRef('features')
+const { t } = useI18n()
+const achievementUnlockMutation = useMutation(
+  graphql(`
+    mutation AchievementUnlock($code: UUID!, $alias: String!) {
+      achievementUnlock(input: { code: $code, alias: $alias }) {
+        clientMutationId
+        uuid
+      }
+    }
+  `),
+)
+const { /* data, */ error, status } = await useAsyncData(
+  computed(() => `achievement:${stringifyQuery(route.query)}`),
+  async () => {
+    if (!Object.keys(route.query).length)
+      throw new Error('Short circuit for no query parameters')
 
-// data
-let confetti: JSConfetti
-const isScrollHintShown = ref(false)
+    if (store.jwtDecoded?.role !== `${SITE_NAME}_account`)
+      throw new Error('Short circuit for unauthorized access') // there's no way to be certain that a user tried to unlock an achievement here, so no prompt to login is thrown
+
+    const result = await achievementUnlockMutation.executeMutation({
+      code: 'c29d9fd1-e455-4f19-a62f-f89b5256a52b', // placeholder, not actually used
+      alias: `?${stringifyQuery(route.query)}`,
+    })
+
+    if (result.error) {
+      throw result.error
+    }
+
+    if (!result.data?.achievementUnlock?.uuid) {
+      throw new Error(t('globalErrorNoData'))
+    }
+
+    return result.data.achievementUnlock.uuid
+  },
+)
+if (error.value) {
+  console.debug(error.value.message) // there's no way to be certain that a user tried to unlock an achievement here, so no error is thrown
+}
+
+// confetti
+const templateCanvas = useTemplateRef('canvas')
 const loadingId = Math.random()
 const loadingIds = useState(STATE_LOADING_IDS_NAME, () => [loadingId])
-
-// api data
-const achievementUnlockMutation = useAchievementUnlockMutation()
-// const api = await useApiData([achievementUnlockMutation])
-
-// methods
-const hideScrollHint = () => {
-  isScrollHintShown.value = false
-}
-const scrollToSteps = () => {
-  templateFeatures.value?.scrollIntoView({ behavior: 'smooth' })
-}
-
-// lifecycle
 onMounted(async () => {
-  if (window.scrollY === 0) {
-    isScrollHintShown.value = true
-
-    window.addEventListener('scroll', hideScrollHint)
-  }
-
   loadingIds.value.splice(loadingIds.value.indexOf(loadingId), 1)
 
-  if (!templateCanvas.value) return
-
-  confetti = new JSConfetti({ canvas: templateCanvas.value })
-
-  if (store.jwtDecoded?.role === `${SITE_NAME}_account`) {
-    const result = await achievementUnlockMutation.executeMutation({
-      code: 'c29d9fd1-e455-4f19-a62f-f89b5256a52b',
-      alias: window.location.search,
-    })
-
-    if (result.error || !result.data?.achievementUnlock?.uuid) return
-
-    confetti.addConfetti()
-
-    const alertResult = await fireAlert({
-      confirmButtonText: t('unlockConfirm'),
-      denyButtonColor: 'gray',
-      denyButtonText: t('unlockDeny'),
-      iconHtml: '🎉',
-      level: 'success',
-      showDenyButton: true,
-      text: t('unlockText'),
-      title: t('unlockTitle'),
-    })
-
-    if (alertResult.isConfirmed) {
-      await navigateTo(
-        localePath({
-          name: 'account-view-username',
-          params: {
-            username: store.jwtDecoded.account_username,
-          },
-        }),
-      )
+  if (status.value === 'success') {
+    if (!templateCanvas.value) {
+      showAppError({ message: 'Could not get canvas', statusCode: 500 })
+      return
     }
+
+    const JSConfetti = (await import('js-confetti')).default
+    const confetti = new JSConfetti({ canvas: templateCanvas.value })
+    confetti.addConfetti()
   }
 })
-onBeforeUnmount(() => {
-  window.removeEventListener('scroll', hideScrollHint)
-})
+const isAchievementNoticeHidden = ref<boolean>()
 
-// initialization
+// template
+const localePath = useLocalePath()
+const toProfile = () => {
+  if (!store.jwtDecoded) return // TODO: error
+
+  return navigateTo(
+    localePath({
+      name: 'account-view-username',
+      params: {
+        username: store.jwtDecoded.account_username,
+      },
+      // // TODO: highlight achievement
+      // query: {
+      //   achievementId: data.value,
+      // },
+    }),
+  )
+}
+const { isApp } = usePlatform()
+const dateToday = today(getLocalTimeZone())
+
+// page
+const siteConfig = useSiteConfig()
 useHeadDefault({ title: siteConfig.name })
 </script>
 
 <i18n lang="yaml">
 de:
-  featureRecommendationsKeyword: Smarte Relevanz
-  featureRecommendationsTitle: Vorteilhafte Empfehlungen
-  featureRecommendationsDescription: Lehne dich zurück und entspanne dich mit einem Lächeln im Gesicht, denn du weißt, dass {siteName} dich informiert, wenn es etwas geben wird, das du nicht verpassen willst.
-  featureInvitationsKeyword: Persönliche Wertschätzung
-  featureInvitationsTitle: Exklusive Einladungen
-  featureInvitationsDescription: 'Ob du es glaubst oder nicht: Menschen lieben es, dich bei sich zu haben. Nun liegt es an dir, ihnen zu ermöglichen, dich auf elegante Art und Weise zu unvergesslichen Veranstaltungen einzuladen.'
-  featurePortfolioKeyword: Vertrauenswürdige Nutzer
-  featurePortfolioTitle: Respektables Auftreten
-  featurePortfolioDescription: Vertraue nicht uns, vertraue den Nutzenden. Sieh dir die Erfahrungen an, die andere stolz teilen, und entscheide selbst, wohin du am besten gehst.
-  featureCommunityKeyword: Loyale Gemeinschaft
-  featureCommunityTitle: Stärkende Freundschaften
-  featureCommunityDescription: An einem neuen Ort anzukommen, kann hart sein. Am selben Ort zu bleiben, auch. Wo auch immer du bist, {siteName} ist deine Abkürzung, unter tolle Menschen zu kommen und lang anhaltende Verbindungen aufzubauen.
-  appInstall: oder die App installieren
-  heroImage: Heldenbild.
-  testNowFree: Jetzt kostenlos testen
-  title: Keine Veranstaltung mehr verpassen
-  unlockConfirm: Zum Profil
-  unlockDeny: Schließen
+  more: Webseite besuchen, um mehr zu erfahren
+  register: Neu hier? Tritt VIBETYPE noch heute bei
+  signIn: Einloggen
+  unlockConfirm: Zum meinem Profil
+  unlockDeny: Nicht jetzt
   unlockText: Sieh dir deine neue Errungenschaft auf deinem Profil an.
   unlockTitle: Auszeichnung freigeschaltet
+  welcome: Willkommen bei
 en:
-  featureRecommendationsKeyword: Smart relevance
-  featureRecommendationsTitle: Advantageous recommendations
-  featureRecommendationsDescription: Lean back and relax with a smile on your face, knowing very well that {siteName} will let you know whenever there's something coming up that you don't want to miss.
-  featureInvitationsKeyword: Personal appreciation
-  featureInvitationsTitle: Exclusive invitations
-  featureInvitationsDescription: 'Believe it or not: People love to have you around. Now allow them to bring you in most elegantly for memorable get-togethers.'
-  featurePortfolioKeyword: Trustworthy users
-  featurePortfolioTitle: Respectable appearance
-  featurePortfolioDescription: Don't trust us, trust the users. Check the experiences shared proudly by others and be in full control of where to go best.
-  featureCommunityKeyword: Loyal community
-  featureCommunityTitle: Empowering friendships
-  featureCommunityDescription: Arriving somewhere new can be hard. Staying in the same place can be too. Wherever you are, {siteName} is your shortcut to get among amazing people and build long lasting connections.
-  appInstall: or install the app
-  heroImage: Hero image.
-  testNowFree: Test now for free
-  title: Never miss an event
-  unlockConfirm: Go to profile
-  unlockDeny: Close
+  more: Visit website to find out more
+  register: New here? Join VIBETYPE today
+  signIn: Log in
+  unlockConfirm: Go to my profile
+  unlockDeny: Not now
   unlockText: Check out your new achievement on your profile.
   unlockTitle: Achievement unlocked
+  welcome: Welcome to
 </i18n>

@@ -33,6 +33,7 @@ type Documents = {
   '\n    query Event($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            accountByCreatedBy {\n              id\n              username\n            }\n            createdBy\n            description\n            end\n            id\n            isArchived\n            name\n            nodeId\n            isArchived\n            isInPerson\n            isRemote\n            slug\n            start\n            url\n            visibility\n          }\n        }\n        id\n        username\n      }\n    }\n  ': typeof types.EventDocument
   '\n  query EventListAccount($after: Cursor, $first: Int!, $username: String!) {\n    accountByUsername(username: $username) {\n      eventsByCreatedBy(after: $after, first: $first, orderBy: START_DESC) {\n        nodes {\n          eventFavoritesByEventId(first: 1) {\n            nodes {\n              createdBy\n              id\n            }\n          }\n          guestsByEventId(first: 1) {\n            nodes {\n              contactByContactId {\n                accountId\n                id\n              }\n              id\n            }\n          }\n          id\n          name\n          slug\n          start\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n      id\n    }\n  }\n': typeof types.EventListAccountDocument
   '\n    query GuestEvent($id: UUID!) {\n      guestById(id: $id) {\n        contactByContactId {\n          accountId\n          createdBy\n          firstName\n          id\n          lastName\n          nodeId\n        }\n        contactId\n        eventByEventId {\n          accountByCreatedBy {\n            id\n            username\n          }\n          createdBy\n          description\n          end\n          id\n          isArchived\n          name\n          nodeId\n          isArchived\n          isInPerson\n          isRemote\n          slug\n          start\n          url\n          visibility\n        }\n        eventId\n        feedback\n        id\n        nodeId\n      }\n    }\n  ': typeof types.GuestEventDocument
+  '\n    mutation AchievementUnlock($code: UUID!, $alias: String!) {\n      achievementUnlock(input: { code: $code, alias: $alias }) {\n        clientMutationId\n        uuid\n      }\n    }\n  ': typeof types.AchievementUnlockDocument
   '\n  fragment AccountItem on Account {\n    description\n    id\n    nodeId\n    username\n  }\n': typeof types.AccountItemFragmentDoc
   '\n  fragment AchievementItem on Achievement {\n    nodeId\n    id\n    accountId\n    achievement\n    level\n  }\n': typeof types.AchievementItemFragmentDoc
   '\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    location {\n      latitude\n      longitude\n    }\n    name\n    postalCode\n    region\n  }\n': typeof types.AddressItemFragmentDoc
@@ -56,7 +57,6 @@ type Documents = {
   '\n  mutation AccountRegistration(\n    $birthDate: Date!\n    $emailAddress: String!\n    $language: String!\n    $legalTermId: UUID!\n    $password: String!\n    $username: String!\n  ) {\n    accountRegistration(\n      input: {\n        birthDate: $birthDate\n        emailAddress: $emailAddress\n        language: $language\n        legalTermId: $legalTermId\n        password: $password\n        username: $username\n      }\n    ) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountRegistrationDocument
   '\n  mutation AccountRegistrationRefresh($accountId: UUID!, $language: String!) {\n    accountRegistrationRefresh(\n      input: { language: $language, accountId: $accountId }\n    ) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountRegistrationRefreshDocument
   '\n  mutation CreateAccountBlock($accountBlockInput: AccountBlockInput!) {\n    createAccountBlock(input: { accountBlock: $accountBlockInput }) {\n      clientMutationId\n    }\n  }\n': typeof types.CreateAccountBlockDocument
-  '\n  mutation AchievementUnlock($code: UUID!, $alias: String!) {\n    achievementUnlock(input: { code: $code, alias: $alias }) {\n      clientMutationId\n      uuid\n    }\n  }\n': typeof types.AchievementUnlockDocument
   '\n  mutation CreateContact($contactInput: ContactInput!) {\n    createContact(input: { contact: $contactInput }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.CreateContactDocument
   '\n  mutation DeleteContactById($id: UUID!) {\n    deleteContactById(input: { id: $id }) {\n      clientMutationId\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.DeleteContactByIdDocument
   '\n  mutation UpdateContactById($id: UUID!, $contactPatch: ContactPatch!) {\n    updateContactById(input: { id: $id, contactPatch: $contactPatch }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.UpdateContactByIdDocument
@@ -135,6 +135,8 @@ const documents: Documents = {
     types.EventListAccountDocument,
   '\n    query GuestEvent($id: UUID!) {\n      guestById(id: $id) {\n        contactByContactId {\n          accountId\n          createdBy\n          firstName\n          id\n          lastName\n          nodeId\n        }\n        contactId\n        eventByEventId {\n          accountByCreatedBy {\n            id\n            username\n          }\n          createdBy\n          description\n          end\n          id\n          isArchived\n          name\n          nodeId\n          isArchived\n          isInPerson\n          isRemote\n          slug\n          start\n          url\n          visibility\n        }\n        eventId\n        feedback\n        id\n        nodeId\n      }\n    }\n  ':
     types.GuestEventDocument,
+  '\n    mutation AchievementUnlock($code: UUID!, $alias: String!) {\n      achievementUnlock(input: { code: $code, alias: $alias }) {\n        clientMutationId\n        uuid\n      }\n    }\n  ':
+    types.AchievementUnlockDocument,
   '\n  fragment AccountItem on Account {\n    description\n    id\n    nodeId\n    username\n  }\n':
     types.AccountItemFragmentDoc,
   '\n  fragment AchievementItem on Achievement {\n    nodeId\n    id\n    accountId\n    achievement\n    level\n  }\n':
@@ -181,8 +183,6 @@ const documents: Documents = {
     types.AccountRegistrationRefreshDocument,
   '\n  mutation CreateAccountBlock($accountBlockInput: AccountBlockInput!) {\n    createAccountBlock(input: { accountBlock: $accountBlockInput }) {\n      clientMutationId\n    }\n  }\n':
     types.CreateAccountBlockDocument,
-  '\n  mutation AchievementUnlock($code: UUID!, $alias: String!) {\n    achievementUnlock(input: { code: $code, alias: $alias }) {\n      clientMutationId\n      uuid\n    }\n  }\n':
-    types.AchievementUnlockDocument,
   '\n  mutation CreateContact($contactInput: ContactInput!) {\n    createContact(input: { contact: $contactInput }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n':
     types.CreateContactDocument,
   '\n  mutation DeleteContactById($id: UUID!) {\n    deleteContactById(input: { id: $id }) {\n      clientMutationId\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n':
@@ -393,6 +393,12 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+  source: '\n    mutation AchievementUnlock($code: UUID!, $alias: String!) {\n      achievementUnlock(input: { code: $code, alias: $alias }) {\n        clientMutationId\n        uuid\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation AchievementUnlock($code: UUID!, $alias: String!) {\n      achievementUnlock(input: { code: $code, alias: $alias }) {\n        clientMutationId\n        uuid\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
   source: '\n  fragment AccountItem on Account {\n    description\n    id\n    nodeId\n    username\n  }\n',
 ): (typeof documents)['\n  fragment AccountItem on Account {\n    description\n    id\n    nodeId\n    username\n  }\n']
 /**
@@ -527,12 +533,6 @@ export function graphql(
 export function graphql(
   source: '\n  mutation CreateAccountBlock($accountBlockInput: AccountBlockInput!) {\n    createAccountBlock(input: { accountBlock: $accountBlockInput }) {\n      clientMutationId\n    }\n  }\n',
 ): (typeof documents)['\n  mutation CreateAccountBlock($accountBlockInput: AccountBlockInput!) {\n    createAccountBlock(input: { accountBlock: $accountBlockInput }) {\n      clientMutationId\n    }\n  }\n']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n  mutation AchievementUnlock($code: UUID!, $alias: String!) {\n    achievementUnlock(input: { code: $code, alias: $alias }) {\n      clientMutationId\n      uuid\n    }\n  }\n',
-): (typeof documents)['\n  mutation AchievementUnlock($code: UUID!, $alias: String!) {\n    achievementUnlock(input: { code: $code, alias: $alias }) {\n      clientMutationId\n      uuid\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

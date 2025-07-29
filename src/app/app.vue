@@ -87,11 +87,11 @@ const initialize = async () => {
   if (
     isApp.value &&
     !store.signedInAccountId &&
-    !isEqual(route.path, localePath('flow-welcome').toString())
+    !isEqual(route.path, localePath('index').toString())
   ) {
     return await navigateTo(
       localePath({
-        name: 'flow-welcome',
+        name: 'index',
       }),
     )
   }
