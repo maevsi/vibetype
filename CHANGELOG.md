@@ -1,3 +1,9 @@
+## [12.19.0](https://github.com/maevsi/vibetype/compare/12.18.0...12.19.0) (2025-07-29)
+
+### Features
+
+* **i18n:** uppercase global site name ([bd96c08](https://github.com/maevsi/vibetype/commit/bd96c0800493ed000a63b87b2bf5174f252c9669))
+
 ## [12.18.0](https://github.com/maevsi/vibetype/compare/12.17.4...12.18.0) (2025-07-29)
 
 ### Features
