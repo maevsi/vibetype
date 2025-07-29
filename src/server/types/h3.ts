@@ -3,8 +3,8 @@ import type { OpenAI } from 'openai'
 
 declare module 'h3' {
   interface H3EventContext {
-    $openAi?: OpenAI
     $monday?: ApiClient
+    $openAi?: OpenAI
     $timeZone?: string
   }
 }
