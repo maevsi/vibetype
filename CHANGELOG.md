@@ -1,3 +1,9 @@
+## [12.21.0](https://github.com/maevsi/vibetype/compare/12.20.0...12.21.0) (2025-07-29)
+
+### Features
+
+* **account:** show profile picture in menu ([2d454fd](https://github.com/maevsi/vibetype/commit/2d454fdbd2bccee58af78271c7fd146cbfbba92d))
+
 ## [12.20.0](https://github.com/maevsi/vibetype/compare/12.19.0...12.20.0) (2025-07-29)
 
 ### Features
