@@ -5,7 +5,7 @@
     <UploadGallery v-if="store.jwtDecoded?.role === `${SITE_NAME}_account`" />
     <LayoutCallToAction
       v-else
-      :call-to-action="t('anonymousCta', { siteName: t('globalSiteName') })"
+      :call-to-action="t('anonymousCta')"
       :call-to-action-description="t('anonymousCtaDescription')"
     />
   </div>
@@ -24,11 +24,11 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  anonymousCta: Finde sie auf {siteName}
+  anonymousCta: Finde sie auf @.upper:{'globalSiteName'}
   anonymousCtaDescription: Gibt es Fotos von dir und deinen Freunden?
   title: Bildgalerie
 en:
-  anonymousCta: Find them on {siteName}
+  anonymousCta: Find them on @.upper:{'globalSiteName'}
   anonymousCtaDescription: Are there photos of you and your friends?
   title: Image gallery
 </i18n>

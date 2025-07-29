@@ -16,12 +16,12 @@ const locales = {
   de: {
     author: (siteName: string) => `${siteName}s Autor`,
     profilePicture: 'Profilbild',
-    siteName: 'Vibetype',
+    siteName: 'Vibetype'.toUpperCase(),
   },
   en: {
     author: (siteName: string) => `${siteName}'s author`,
     profilePicture: 'Profile picture',
-    siteName: 'Vibetype',
+    siteName: 'Vibetype'.toUpperCase(),
   },
 }
 const t = locales[locale]

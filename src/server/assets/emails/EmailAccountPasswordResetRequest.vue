@@ -34,7 +34,7 @@ const locales = {
       'Wenn du das warst, klicke auf den unten stehenden Button, um ein neues Passwort zu vergeben.',
     paragraph3:
       'Wenn du das nicht warst, kontaktiere uns bitte so schnell wie möglich unter der folgenden E-Mail-Adresse.',
-    siteName: 'Vibetype',
+    siteName: 'Vibetype'.toUpperCase(),
     title: 'Passwort zurücksetzen',
     validUntil: (validUntil: string) =>
       `Diese Anfrage ist bis zum ${dateTimeFormatter.format(new Date(validUntil))} gültig.`,
@@ -48,7 +48,7 @@ const locales = {
       'If that was you, click on the button below to set a new password.',
     paragraph3:
       "If that hasn't been you, please contact us as soon as possible using the email address below.",
-    siteName: 'Vibetype',
+    siteName: 'Vibetype'.toUpperCase(),
     title: 'Reset password',
     validUntil: (validUntil: string) =>
       `This request is valid until ${dateTimeFormatter.format(new Date(validUntil))}.`,

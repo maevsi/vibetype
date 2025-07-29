@@ -34,7 +34,7 @@ const locales = {
       `Vielen Dank für deine Anmeldung bei ${siteName} - wir freuen uns, dass du dabei bist!`,
     paragraph2:
       'Bitte klicke auf den unten stehenden Button, um die Registrierung abzuschließen und dein Profil einzurichten.',
-    siteName: 'Vibetype',
+    siteName: 'Vibetype'.toUpperCase(),
     title: 'Willkommen',
     validUntil: (validUntil: string) =>
       `Diese Anfrage ist bis zum ${dateTimeFormatter.format(new Date(validUntil))} gültig.`,
@@ -46,7 +46,7 @@ const locales = {
       `Thanks so much for joining ${siteName} — we're thrilled to have you!`,
     paragraph2:
       'Please click on the button below to complete your registration and set up your profile.',
-    siteName: 'Vibetype',
+    siteName: 'Vibetype'.toUpperCase(),
     title: 'Welcome',
     validUntil: (validUntil: string) =>
       `This request is valid until ${dateTimeFormatter.format(new Date(validUntil))}.`,

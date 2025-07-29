@@ -4,7 +4,7 @@
     <ContactList v-if="store.jwtDecoded?.role === `${SITE_NAME}_account`" />
     <LayoutCallToAction
       v-else
-      :call-to-action="t('anonymousCta', { siteName: t('globalSiteName') })"
+      :call-to-action="t('anonymousCta')"
       :call-to-action-description="t('anonymousCtaDescription')"
     />
   </div>
@@ -23,11 +23,11 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  anonymousCta: Finde sie auf {siteName}
+  anonymousCta: Finde sie auf @.upper:{'globalSiteName'}
   anonymousCtaDescription: Wo sind deine Freunde?
   title: Kontaktbuch
 en:
-  anonymousCta: Find them on {siteName}
+  anonymousCta: Find them on @.upper:{'globalSiteName'}
   anonymousCtaDescription: Where are your friends?
   title: Contact book
 </i18n>

@@ -6,7 +6,7 @@
     <LayoutPageResult type="success">
       <div class="flex justify-center gap-4">
         <ButtonColored
-          :aria-label="t('unlockConfirm')"
+          :aria-label="t('unlockDeny')"
           variant="secondary"
           @click="isAchievementNoticeHidden = true"
         >
@@ -179,7 +179,7 @@ useHeadDefault({ title: siteConfig.name })
 <i18n lang="yaml">
 de:
   more: Webseite besuchen, um mehr zu erfahren
-  register: Neu hier? Tritt VIBETYPE noch heute bei
+  register: Neu hier? Tritt @.upper:{'globalSiteName'} noch heute bei
   signIn: Einloggen
   unlockConfirm: Zum meinem Profil
   unlockDeny: Nicht jetzt
@@ -188,7 +188,7 @@ de:
   welcome: Willkommen bei
 en:
   more: Visit website to find out more
-  register: New here? Join VIBETYPE today
+  register: New here? Join @.upper:{'globalSiteName'} today
   signIn: Log in
   unlockConfirm: Go to my profile
   unlockDeny: Not now

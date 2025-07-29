@@ -31,10 +31,10 @@ const { t } = useI18n()
 <i18n lang="yaml">
 de:
   button: Zu meinen Vorschlägen!
-  description: VIBETYPE ist bereit, dich zu den besten Events zu führen.
+  description: "@.upper:{'globalSiteName'} ist bereit, dich zu den besten Events zu führen."
   title: Alles klar, du bist startklar!
 en:
   button: To my suggestions!
-  description: VIBETYPE is ready to guide you to the best events.
+  description: "@.upper:{'globalSiteName'} is ready to guide you to the best events."
   title: All right, you're ready to go!
 </i18n>
