@@ -8,7 +8,7 @@
   "globalPlaceholderLastName": "Nachname",
   "globalPlaceholderPhoneNumber": "+1234567890",
   "globalPlaceholderUrl": "https://websei.te",
-  "globalSeoOgImageAlt": "{siteName}s Logo.",
+  "globalSeoOgImageAlt": "@.upper:{'globalSiteName'}s Logo.",
   "globalShowMore": "Mehr anzeigen",
   "globalSiteName": "Vibetype",
   "globalStatusError": "Fehler",

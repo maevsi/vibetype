@@ -60,7 +60,7 @@
     </div>
     <LayoutCallToAction
       v-else
-      :call-to-action="t('anonymousCta', { siteName: t('globalSiteName') })"
+      :call-to-action="t('anonymousCta')"
       :call-to-action-description="t('anonymousCtaDescription')"
     />
   </div>
@@ -82,7 +82,7 @@ useHeadDefault({ title })
 de:
   account: Konto
   accountDescription: Präsentiere deine Errungenschaften
-  anonymousCta: Finde ihn auf {siteName}
+  anonymousCta: Finde ihn auf @.upper:{'globalSiteName'}
   anonymousCtaDescription: Dir fehlt der Überblick über Veranstaltungen?
   contacts: Kontake
   contactsDescription: Informationen zu all deinen Gästen
@@ -96,7 +96,7 @@ de:
 en:
   account: Account
   accountDescription: Showcase your achievements
-  anonymousCta: Find it on {siteName}
+  anonymousCta: Find it on @.upper:{'globalSiteName'}
   anonymousCtaDescription: Are you missing an overview of events?
   contacts: Contacts
   contactsDescription: Information on all your guests

@@ -114,7 +114,7 @@ watch(
         showConfirmButton: true,
         text: t('pwaText'),
         timer: 10000,
-        title: t('pwaTitle', { siteName: t('globalSiteName') }),
+        title: t('pwaTitle'),
       })
 
       if (result.isConfirmed) {
@@ -131,7 +131,7 @@ defineOgImageComponent(
   'Default',
   {},
   {
-    alt: t('globalSeoOgImageAlt', { siteName: t('globalSiteName') }),
+    alt: t('globalSeoOgImageAlt'),
   },
 )
 useAppLayout()
@@ -168,15 +168,15 @@ await initialize()
 
 <i18n lang="yaml">
 de:
-  browserUnsupported: Du benutzt einen Browser, in dem nicht alle Funktionen von {siteName} unterstützt werden. {link}.
+  browserUnsupported: Du benutzt einen Browser, in dem nicht alle Funktionen von @.upper:{'globalSiteName'} unterstützt werden. {link}.
   browserUnsupportedLink: Mehr erfahren
   pwaConfirmButtonText: App nutzen
   pwaText: Die Installation verbraucht fast keinen Speicherplatz und bietet eine schnelle Möglichkeit, zu dieser App zurückzukehren.
-  pwaTitle: '{siteName} installieren'
+  pwaTitle: "@.upper:{'globalSiteName'} installieren"
 en:
-  browserUnsupported: You're using a browser which does not support all features {siteName} offers. {link}.
+  browserUnsupported: You're using a browser which does not support all features @.upper:{'globalSiteName'} offers. {link}.
   browserUnsupportedLink: Learn more
   pwaConfirmButtonText: Get the app
   pwaText: Installing uses almost no storage and provides a quick way to return to this app.
-  pwaTitle: Install {siteName}
+  pwaTitle: Install @.upper:{'globalSiteName'}
 </i18n>
