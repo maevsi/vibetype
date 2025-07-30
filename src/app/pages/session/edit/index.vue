@@ -157,7 +157,7 @@
           v-if="store.signedInUsername"
           class="bg-(--critic-string) text-(--semantic-base-light-text-on-dark)"
           :title="t('logout')"
-          @click="signOut"
+          @click="signOutToRoot"
         >
           <template #iconSecondary />
           <AppIconLogout />
@@ -176,10 +176,21 @@ const { signOut } = await useSignOut()
 const { isDevelopmentModeActive, onDevelopmentModeTrigger } =
   useDevelopmentModeTrigger()
 
-// data
-const title = t('preferences')
+// sign out
+const signOutToRoot = async () => {
+  await signOut()
+  return navigateTo(
+    localePath({
+      name: 'index',
+      query: {
+        signOut: null,
+      },
+    }),
+  )
+}
 
-// initialization
+// page
+const title = t('preferences')
 useHeadDefault({ title })
 </script>
 
