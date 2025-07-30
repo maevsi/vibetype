@@ -5,10 +5,7 @@
       class="relative flex h-full w-full items-center justify-center text-gray-900"
       :style="`padding: ${padding}`"
     >
-      <div
-        class="flex flex-row items-center justify-between"
-        style="margin-bottom: 100px"
-      >
+      <div class="mb-[100px] flex flex-row items-center justify-between">
         <div class="flex w-full flex-col">
           <div
             :style="`fontWeight: bold; marginBottom: 50px; fontSize: ${titleFontSize};`"

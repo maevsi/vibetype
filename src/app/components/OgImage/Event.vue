@@ -1,12 +1,6 @@
 <template>
   <div
-    style="
-      /* stylelint-disable plugin/no-unsupported-browser-features */
-      background: linear-gradient(to bottom, #dbf4ff, #fff1f1);
-      display: flex;
-      height: 100%;
-      width: 100%;
-    "
+    class="flex h-full w-full flex-nowrap bg-[linear-gradient(to_bottom,_#dbf4ff,_#fff1f1)]"
   >
     <!-- <img
       alt="Event image."
@@ -14,26 +8,14 @@
       width="436"
       height="630"
     /> -->
-    <div
-      style="
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin-left: 64px;
-      "
-    >
-      <h1 style="font-size: 72px; line-height: 1">{{ title }}</h1>
-      <div
-        style="
-          color: rgb(75 85 99);
-          font-size: 30px;
-          line-height: 36px;
-          margin-top: 64px;
-        "
-      >
-        {{ description || 'asd' }}
+    <span class="mx-16 flex flex-1 flex-col justify-center">
+      <h1 class="truncate text-7xl">
+        {{ title }}
+      </h1>
+      <div class="mt-16 text-3xl text-gray-600">
+        {{ description }}
       </div>
-    </div>
+    </span>
   </div>
 </template>
 
