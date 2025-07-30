@@ -1,3 +1,9 @@
+## [12.23.1](https://github.com/maevsi/vibetype/compare/12.23.0...12.23.1) (2025-07-30)
+
+### Bug Fixes
+
+* **legal-term:** correct loading ([65e9c80](https://github.com/maevsi/vibetype/commit/65e9c80b5f5c926d25ba148380ccf18e6e9f60b6))
+
 ## [12.23.0](https://github.com/maevsi/vibetype/compare/12.22.0...12.23.0) (2025-07-30)
 
 ### Features
