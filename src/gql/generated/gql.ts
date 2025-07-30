@@ -17,6 +17,7 @@ type Documents = {
   '\n    mutation AccountDelete($password: String!) {\n      accountDelete(input: { password: $password }) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountDeleteDocument
   '\n    query AccountById($id: UUID!) {\n      accountById(id: $id) {\n        id\n        profilePictureByAccountId {\n          id\n          uploadByUploadId {\n            id\n            storageKey\n          }\n        }\n        username\n      }\n    }\n  ': typeof types.AccountByIdDocument
   '\n  query AccountSearch($after: Cursor, $first: Int, $username: String) {\n    allAccounts(\n      after: $after\n      condition: { username: $username }\n      first: $first\n      orderBy: USERNAME_ASC\n    ) {\n      nodes {\n        id\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n': typeof types.AccountSearchDocument
+  '\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        id\n        term\n      }\n    }\n  }\n': typeof types.AllLegalTermsDocument
   '\n  query EventList($after: Cursor, $first: Int!) {\n    allEvents(after: $after, first: $first, orderBy: START_DESC) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            id\n            createdBy\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.EventListDocument
   '\n  query EventSearch(\n    $after: Cursor\n    $first: Int\n    $language: Language\n    $query: String\n  ) {\n    eventSearch(\n      after: $after\n      first: $first\n      language: $language\n      query: $query\n    ) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            createdBy\n            id\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.EventSearchDocument
   '\n    mutation CreateEventFavorite($input: EventFavoriteInput!) {\n      createEventFavorite(input: { eventFavorite: $input }) {\n        eventFavorite {\n          createdBy\n          eventId\n          id\n          nodeId\n        }\n      }\n    }\n  ': typeof types.CreateEventFavoriteDocument
@@ -42,7 +43,6 @@ type Documents = {
   '\n  fragment EventFormatItem on EventFormat {\n    id\n    name\n  }\n': typeof types.EventFormatItemFragmentDoc
   '\n  fragment EventItem on Event {\n    id\n    nodeId\n    accountByCreatedBy {\n      id\n      username\n    }\n    addressByAddressId {\n      ...AddressItem\n    }\n    createdBy\n    description\n    end\n    guestCountMaximum\n    isArchived\n    isInPerson\n    isRemote\n    name\n    slug\n    start\n    url\n    visibility\n  }\n': typeof types.EventItemFragmentDoc
   '\n  fragment GuestItem on Guest {\n    id\n    nodeId\n    contactId\n    eventId\n    feedback\n    feedbackPaper\n    contactByContactId {\n      ...ContactItem\n    }\n  }\n': typeof types.GuestItemFragmentDoc
-  '\n  fragment LegalTermItem on LegalTerm {\n    id\n    term\n  }\n': typeof types.LegalTermItemFragmentDoc
   '\n  fragment PreferenceEventCategoryItem on PreferenceEventCategory {\n    nodeId\n    accountId\n    categoryId\n  }\n': typeof types.PreferenceEventCategoryItemFragmentDoc
   '\n  fragment PreferenceEventFormatItem on PreferenceEventFormat {\n    nodeId\n    accountId\n    formatId\n  }\n': typeof types.PreferenceEventFormatItemFragmentDoc
   '\n  fragment PreferenceEventLocationItem on PreferenceEventLocation {\n    createdAt\n    createdBy\n    id\n    nodeId\n    radius\n    location {\n      latitude\n      longitude\n    }\n  }\n': typeof types.PreferenceEventLocationItemFragmentDoc
@@ -88,7 +88,6 @@ type Documents = {
   '\n  query AllEventFormats {\n    allEventFormats {\n      nodes {\n        ...EventFormatItem\n      }\n    }\n  }\n': typeof types.AllEventFormatsDocument
   '\n      query eventFavoriteByCreatedByAndEventId(\n        $createdBy: UUID!\n        $eventId: UUID!\n      ) {\n        eventFavoriteByCreatedByAndEventId(\n          createdBy: $createdBy\n          eventId: $eventId\n        ) {\n          id\n          nodeId\n          eventId\n        }\n      }\n    ': typeof types.EventFavoriteByCreatedByAndEventIdDocument
   '\n  query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n    allGuests(after: $after, condition: { eventId: $eventId }, first: $first) {\n      nodes {\n        ...GuestItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.AllGuestsDocument
-  '\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        ...LegalTermItem\n      }\n    }\n  }\n': typeof types.AllLegalTermsDocument
   '\n  query AllPreferenceEventCategories {\n    allPreferenceEventCategories {\n      nodes {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n': typeof types.AllPreferenceEventCategoriesDocument
   '\n  query AllPreferenceEventFormats {\n    allPreferenceEventFormats {\n      nodes {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n': typeof types.AllPreferenceEventFormatsDocument
   '\n  query AllPreferenceEventLocations {\n    allPreferenceEventLocations {\n      nodes {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n': typeof types.AllPreferenceEventLocationsDocument
@@ -103,6 +102,8 @@ const documents: Documents = {
     types.AccountByIdDocument,
   '\n  query AccountSearch($after: Cursor, $first: Int, $username: String) {\n    allAccounts(\n      after: $after\n      condition: { username: $username }\n      first: $first\n      orderBy: USERNAME_ASC\n    ) {\n      nodes {\n        id\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n':
     types.AccountSearchDocument,
+  '\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        id\n        term\n      }\n    }\n  }\n':
+    types.AllLegalTermsDocument,
   '\n  query EventList($after: Cursor, $first: Int!) {\n    allEvents(after: $after, first: $first, orderBy: START_DESC) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            id\n            createdBy\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n':
     types.EventListDocument,
   '\n  query EventSearch(\n    $after: Cursor\n    $first: Int\n    $language: Language\n    $query: String\n  ) {\n    eventSearch(\n      after: $after\n      first: $first\n      language: $language\n      query: $query\n    ) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            createdBy\n            id\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n':
@@ -153,8 +154,6 @@ const documents: Documents = {
     types.EventItemFragmentDoc,
   '\n  fragment GuestItem on Guest {\n    id\n    nodeId\n    contactId\n    eventId\n    feedback\n    feedbackPaper\n    contactByContactId {\n      ...ContactItem\n    }\n  }\n':
     types.GuestItemFragmentDoc,
-  '\n  fragment LegalTermItem on LegalTerm {\n    id\n    term\n  }\n':
-    types.LegalTermItemFragmentDoc,
   '\n  fragment PreferenceEventCategoryItem on PreferenceEventCategory {\n    nodeId\n    accountId\n    categoryId\n  }\n':
     types.PreferenceEventCategoryItemFragmentDoc,
   '\n  fragment PreferenceEventFormatItem on PreferenceEventFormat {\n    nodeId\n    accountId\n    formatId\n  }\n':
@@ -245,8 +244,6 @@ const documents: Documents = {
     types.EventFavoriteByCreatedByAndEventIdDocument,
   '\n  query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n    allGuests(after: $after, condition: { eventId: $eventId }, first: $first) {\n      nodes {\n        ...GuestItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n':
     types.AllGuestsDocument,
-  '\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        ...LegalTermItem\n      }\n    }\n  }\n':
-    types.AllLegalTermsDocument,
   '\n  query AllPreferenceEventCategories {\n    allPreferenceEventCategories {\n      nodes {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n':
     types.AllPreferenceEventCategoriesDocument,
   '\n  query AllPreferenceEventFormats {\n    allPreferenceEventFormats {\n      nodes {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n':
@@ -293,6 +290,12 @@ export function graphql(
 export function graphql(
   source: '\n  query AccountSearch($after: Cursor, $first: Int, $username: String) {\n    allAccounts(\n      after: $after\n      condition: { username: $username }\n      first: $first\n      orderBy: USERNAME_ASC\n    ) {\n      nodes {\n        id\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n',
 ): (typeof documents)['\n  query AccountSearch($after: Cursor, $first: Int, $username: String) {\n    allAccounts(\n      after: $after\n      condition: { username: $username }\n      first: $first\n      orderBy: USERNAME_ASC\n    ) {\n      nodes {\n        id\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        id\n        term\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        id\n        term\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -443,12 +446,6 @@ export function graphql(
 export function graphql(
   source: '\n  fragment GuestItem on Guest {\n    id\n    nodeId\n    contactId\n    eventId\n    feedback\n    feedbackPaper\n    contactByContactId {\n      ...ContactItem\n    }\n  }\n',
 ): (typeof documents)['\n  fragment GuestItem on Guest {\n    id\n    nodeId\n    contactId\n    eventId\n    feedback\n    feedbackPaper\n    contactByContactId {\n      ...ContactItem\n    }\n  }\n']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n  fragment LegalTermItem on LegalTerm {\n    id\n    term\n  }\n',
-): (typeof documents)['\n  fragment LegalTermItem on LegalTerm {\n    id\n    term\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -719,12 +716,6 @@ export function graphql(
 export function graphql(
   source: '\n  query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n    allGuests(after: $after, condition: { eventId: $eventId }, first: $first) {\n      nodes {\n        ...GuestItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n',
 ): (typeof documents)['\n  query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n    allGuests(after: $after, condition: { eventId: $eventId }, first: $first) {\n      nodes {\n        ...GuestItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        ...LegalTermItem\n      }\n    }\n  }\n',
-): (typeof documents)['\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        ...LegalTermItem\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -9057,6 +9057,18 @@ export type AccountSearchQuery = {
   } | null
 }
 
+export type AllLegalTermsQueryVariables = Exact<{
+  language?: InputMaybe<Scalars['String']['input']>
+}>
+
+export type AllLegalTermsQuery = {
+  __typename?: 'Query'
+  allLegalTerms?: {
+    __typename?: 'LegalTermsConnection'
+    nodes: Array<{ __typename?: 'LegalTerm'; id: any; term: string }>
+  } | null
+}
+
 export type EventListQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>
   first: Scalars['Int']['input']
@@ -9712,12 +9724,6 @@ export type GuestItemFragment = {
       })
     | null
 } & { ' $fragmentName'?: 'GuestItemFragment' }
-
-export type LegalTermItemFragment = {
-  __typename?: 'LegalTerm'
-  id: any
-  term: string
-} & { ' $fragmentName'?: 'LegalTermItemFragment' }
 
 export type PreferenceEventCategoryItemFragment = {
   __typename?: 'PreferenceEventCategory'
@@ -10393,22 +10399,6 @@ export type AllGuestsQuery = {
   } | null
 }
 
-export type AllLegalTermsQueryVariables = Exact<{
-  language?: InputMaybe<Scalars['String']['input']>
-}>
-
-export type AllLegalTermsQuery = {
-  __typename?: 'Query'
-  allLegalTerms?: {
-    __typename?: 'LegalTermsConnection'
-    nodes: Array<
-      { __typename?: 'LegalTerm' } & {
-        ' $fragmentRefs'?: { LegalTermItemFragment: LegalTermItemFragment }
-      }
-    >
-  } | null
-}
-
 export type AllPreferenceEventCategoriesQueryVariables = Exact<{
   [key: string]: never
 }>
@@ -10954,26 +10944,6 @@ export const GuestItemFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<GuestItemFragment, unknown>
-export const LegalTermItemFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'LegalTermItem' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'LegalTerm' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'term' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<LegalTermItemFragment, unknown>
 export const PreferenceEventCategoryItemFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -11385,6 +11355,70 @@ export const AccountSearchDocument = {
     },
   ],
 } as unknown as DocumentNode<AccountSearchQuery, AccountSearchQueryVariables>
+export const AllLegalTermsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllLegalTerms' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'language' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allLegalTerms' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'language' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'language' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'term' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AllLegalTermsQuery, AllLegalTermsQueryVariables>
 export const EventListDocument = {
   kind: 'Document',
   definitions: [
@@ -18211,87 +18245,6 @@ export const AllGuestsDocument = {
     },
   ],
 } as unknown as DocumentNode<AllGuestsQuery, AllGuestsQueryVariables>
-export const AllLegalTermsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'AllLegalTerms' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'language' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'allLegalTerms' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'condition' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'language' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'language' },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'LegalTermItem' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'LegalTermItem' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'LegalTerm' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'term' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<AllLegalTermsQuery, AllLegalTermsQueryVariables>
 export const AllPreferenceEventCategoriesDocument = {
   kind: 'Document',
   definitions: [
