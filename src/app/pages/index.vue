@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="status === 'success' && !isAchievementNoticeHidden"
+    v-if="status === 'success'"
     class="flex flex-col gap-32 pt-8 pb-64 md:gap-64"
   >
     <LayoutPageResult type="success">
@@ -8,7 +8,7 @@
         <ButtonColored
           :aria-label="t('unlockDeny')"
           variant="secondary"
-          @click="isAchievementNoticeHidden = true"
+          @click="navigateTo(localePath('dashboard'))"
         >
           {{ t('unlockDeny') }}
         </ButtonColored>
@@ -32,48 +32,55 @@
       class="pointer-events-none fixed inset-0 h-full w-full"
     />
   </div>
-  <LayoutPage v-else>
-    <div class="flex flex-1 flex-col justify-center gap-10">
-      <h1 class="flex flex-col items-center gap-2">
-        <TypographyH3>{{ t('welcome') }}</TypographyH3>
-        <span class="flex items-center gap-1">
-          <IconLogo v-if="dateToday.month !== 6" class="size-10" />
-          <IconLogoPride v-else class="size-16" />
-          <TypographyH4 class="uppercase">
-            {{ siteConfig.name }}
-          </TypographyH4>
-        </span>
-      </h1>
-      <div class="flex flex-col gap-4 self-stretch">
+  <div v-else class="flex flex-1 flex-col">
+    <CardStateInfo v-if="querySignOut" class="rounded-none">
+      <TypographySubtitleMedium>
+        {{ t('signedOut') }}
+      </TypographySubtitleMedium>
+    </CardStateInfo>
+    <LayoutPage>
+      <div class="flex flex-1 flex-col justify-center gap-10">
+        <h1 class="flex flex-col items-center gap-2">
+          <TypographyH3>{{ t('welcome') }}</TypographyH3>
+          <span class="flex items-center gap-1">
+            <IconLogo v-if="dateToday.month !== 6" class="size-10" />
+            <IconLogoPride v-else class="size-16" />
+            <TypographyH4 class="uppercase">
+              {{ siteConfig.name }}
+            </TypographyH4>
+          </span>
+        </h1>
+        <div class="flex flex-col gap-4 self-stretch">
+          <ButtonColored
+            :aria-label="t('signIn')"
+            :to="$localePath('session-create')"
+          >
+            {{ t('signIn') }}
+          </ButtonColored>
+          <ButtonColored
+            :aria-label="t('register')"
+            :to="$localePath('account-create')"
+            variant="tertiary"
+          >
+            <TypographySubtitleMedium class="text-center">
+              {{ t('register') }}
+            </TypographySubtitleMedium>
+          </ButtonColored>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4">
         <ButtonColored
-          :aria-label="t('signIn')"
-          :to="$localePath('session-create')"
-        >
-          {{ t('signIn') }}
-        </ButtonColored>
-        <ButtonColored
-          :aria-label="t('register')"
-          :to="$localePath('account-create')"
+          v-if="!isApp"
+          :aria-label="t('more')"
+          to="https://vibetype.de"
           variant="tertiary"
         >
-          <TypographySubtitleMedium class="text-center">
-            {{ t('register') }}
-          </TypographySubtitleMedium>
+          {{ t('more') }}
         </ButtonColored>
+        <ContentLegalFooter />
       </div>
-    </div>
-    <div class="flex flex-col gap-4">
-      <ButtonColored
-        v-if="!isApp"
-        :aria-label="t('more')"
-        to="https://vibetype.de"
-        variant="tertiary"
-      >
-        {{ t('more') }}
-      </ButtonColored>
-      <ContentLegalFooter />
-    </div>
-  </LayoutPage>
+    </LayoutPage>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -91,6 +98,7 @@ definePageMeta({
 const route = useRoute()
 const store = useStore()
 const { t } = useI18n()
+const localePath = useLocalePath()
 const achievementUnlockMutation = useMutation(
   graphql(`
     mutation AchievementUnlock($code: UUID!, $alias: String!) {
@@ -128,6 +136,10 @@ const { /* data, */ error, status } = await useAsyncData(
 )
 if (error.value) {
   console.debug(error.value.message) // there's no way to be certain that a user tried to unlock an achievement here, so no error is thrown
+
+  if (store.signedInAccountId) {
+    await navigateTo(localePath('dashboard'))
+  }
 }
 
 // confetti
@@ -148,10 +160,8 @@ onMounted(async () => {
     confetti.addConfetti()
   }
 })
-const isAchievementNoticeHidden = ref<boolean>()
 
 // template
-const localePath = useLocalePath()
 const toProfile = () => {
   if (!store.jwtDecoded) return // TODO: error
 
@@ -170,6 +180,7 @@ const toProfile = () => {
 }
 const { isApp } = usePlatform()
 const dateToday = today(getLocalTimeZone())
+const querySignOut = computed(() => route.query.signOut === null)
 
 // page
 const siteConfig = useSiteConfig()
@@ -181,6 +192,7 @@ de:
   more: Webseite besuchen, um mehr zu erfahren
   register: Neu hier? Tritt @.upper:{'globalSiteName'} noch heute bei
   signIn: Einloggen
+  signedOut: Erfolgreich abgemeldet
   unlockConfirm: Zum meinem Profil
   unlockDeny: Nicht jetzt
   unlockText: Sieh dir deine neue Errungenschaft auf deinem Profil an.
@@ -190,6 +202,7 @@ en:
   more: Visit website to find out more
   register: New here? Join @.upper:{'globalSiteName'} today
   signIn: Log in
+  signedOut: Signed out successfully
   unlockConfirm: Go to my profile
   unlockDeny: Not now
   unlockText: Check out your new achievement on your profile.
