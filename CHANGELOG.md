@@ -1,3 +1,13 @@
+## [12.23.0](https://github.com/maevsi/vibetype/compare/12.22.0...12.23.0) (2025-07-30)
+
+### Features
+
+* **session:** redirect to root on sign out ([295bc31](https://github.com/maevsi/vibetype/commit/295bc3103139493f4b4c6aeb1d469fabc6d8c440))
+
+### Bug Fixes
+
+* **session:** redirect from root to dashboard when signed in ([41fdbfe](https://github.com/maevsi/vibetype/commit/41fdbfeda8b829aa731cdb1fadef28aca09534f5))
+
 ## [12.22.0](https://github.com/maevsi/vibetype/compare/12.21.0...12.22.0) (2025-07-30)
 
 ### Features
