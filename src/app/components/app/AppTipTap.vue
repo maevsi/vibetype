@@ -142,7 +142,7 @@
           :title="t('formatAlignCenter')"
           @click="editor.chain().focus().setTextAlign('center').run()"
         >
-          <IFa6SolidAlignJustify />
+          <IFa6SolidAlignCenter />
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('formatAlignRight')"
@@ -156,6 +156,19 @@
           @click="editor.chain().focus().setTextAlign('right').run()"
         >
           <IFa6SolidAlignRight />
+        </ButtonIcon>
+        <ButtonIcon
+          :aria-label="t('formatAlignJustify')"
+          :class="[
+            'rounded-sm p-1',
+            ...(isActive.textAlignJustify
+              ? ['bg-background-bright dark:bg-background-dark']
+              : []),
+          ]"
+          :title="t('formatAlignJustify')"
+          @click="editor.chain().focus().setTextAlign('justify').run()"
+        >
+          <IFa6SolidAlignJustify />
         </ButtonIcon>
       </div>
       <div class="flex gap-1">
@@ -312,6 +325,7 @@ const isActive = reactive({
   textAlignLeft: false,
   textAlignRight: false,
   textAlignCenter: false,
+  textAlignJustify: false,
   bulletList: false,
   orderedList: false,
   link: false,
@@ -340,6 +354,8 @@ const updateIsActive = debounce(
       editor.value?.isActive({ textAlign: 'center' }) || false
     isActive.textAlignRight =
       editor.value?.isActive({ textAlign: 'right' }) || false
+    isActive.textAlignJustify =
+      editor.value?.isActive({ textAlign: 'justify' }) || false
     isActive.bulletList = editor.value?.isActive('bulletList') || false
     isActive.orderedList = editor.value?.isActive('orderedList') || false
     isActive.link = editor.value?.isActive('link') || false
@@ -400,6 +416,7 @@ de:
   formatAlignCenter: Mittig ausrichten
   formatAlignLeft: Links ausrichten
   formatAlignRight: Rechts ausrichten
+  formatAlignJustify: Blocksatz
   heading1: Überschrift (groß)
   heading2: Überschrift (mittelgroß)
   heading3: Überschrift (klein)
@@ -423,6 +440,7 @@ en:
   formatAlignCenter: Align center
   formatAlignLeft: Align left
   formatAlignRight: Align right
+  formatAlignJustify: Justified
   heading1: Heading (large)
   heading2: Heading (medium)
   heading3: Heading (small)
