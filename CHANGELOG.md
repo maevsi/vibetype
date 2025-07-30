@@ -1,3 +1,9 @@
+## [12.22.0](https://github.com/maevsi/vibetype/compare/12.21.0...12.22.0) (2025-07-30)
+
+### Features
+
+* **tiptap:** support justified alignment ([f17ca9c](https://github.com/maevsi/vibetype/commit/f17ca9cb0ab2fe7083a1c66b8b624e33bf5b5b84))
+
 ## [12.21.0](https://github.com/maevsi/vibetype/compare/12.20.0...12.21.0) (2025-07-29)
 
 ### Features
