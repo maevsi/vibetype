@@ -1,3 +1,9 @@
+## [12.25.1](https://github.com/maevsi/vibetype/compare/12.25.0...12.25.1) (2025-07-31)
+
+### Bug Fixes
+
+* **event:** show match only on recommendation ([24a8c3c](https://github.com/maevsi/vibetype/commit/24a8c3c3367e9c6bdf1e4cb33e0840b0c1de15ac))
+
 ## [12.25.0](https://github.com/maevsi/vibetype/compare/12.24.0...12.25.0) (2025-07-31)
 
 ### Features
