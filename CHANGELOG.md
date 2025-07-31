@@ -1,3 +1,14 @@
+## [12.24.0](https://github.com/maevsi/vibetype/compare/12.23.1...12.24.0) (2025-07-31)
+
+### Features
+
+* **account:** unify detail buttons ([09ec5e6](https://github.com/maevsi/vibetype/commit/09ec5e65f2e7426abdc41dbd5987edfc392438d1))
+
+### Bug Fixes
+
+* **components:** align dashboard menu item name ([11c7702](https://github.com/maevsi/vibetype/commit/11c7702988b42be2bf53d6784e5d25f51a7a49f8))
+* **components:** correct time zone display ([33d1583](https://github.com/maevsi/vibetype/commit/33d1583c862b4723205d30f48f8b6e9fd531058e))
+
 ## [12.23.1](https://github.com/maevsi/vibetype/compare/12.23.0...12.23.1) (2025-07-30)
 
 ### Bug Fixes
