@@ -32,6 +32,7 @@ const props = withDefaults(
       | 'longOffset'
       | 'shortGeneric'
       | 'longGeneric'
+    weekday?: 'long' | 'short' | 'narrow'
     year?: 'numeric' | '2-digit'
   }>(),
   {
@@ -43,7 +44,8 @@ const props = withDefaults(
     month: 'short',
     relative: undefined,
     timeZone: undefined,
-    timeZoneName: 'short',
+    timeZoneName: undefined,
+    weekday: undefined,
     year: 'numeric',
   },
 )

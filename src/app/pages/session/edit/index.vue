@@ -6,31 +6,6 @@
         <span class="text-lg font-bold">{{ t('profile') }}</span>
         <div class="flex flex-col gap-3">
           <CardButton
-            v-if="store.signedInUsername"
-            :title="t('personalInformation')"
-            :to="
-              localePath({
-                name: 'account-edit-username',
-                params: {
-                  username: store.signedInUsername,
-                },
-              })
-            "
-          >
-            <AppIconPerson />
-          </CardButton>
-          <CardButton
-            v-if="store.signedInUsername"
-            :title="t('contactBook')"
-            :to="
-              localePath({
-                name: 'contact',
-              })
-            "
-          >
-            <AppIconContacts />
-          </CardButton>
-          <CardButton
             class="bg-(--accent-strong) text-(--semantic-base-primary-button-text)"
             :title="t('aiSetup')"
             :to="
@@ -201,7 +176,6 @@ de:
   bugReport: Fehler
   colorScheme: Farbschema
   contact: Kontakt
-  contactBook: Kontaktbuch
   cookies: Cookies
   developerInformation: Entwicklerinformationen
   display: Anzeige
@@ -210,7 +184,6 @@ de:
   legal: Rechtliches
   legalNotice: Impressum
   logout: Abmelden
-  personalInformation: Persönliche Informationen
   preferences: Einstellungen
   privacy: Datenschutzerklärung
   profile: Profil
@@ -224,7 +197,6 @@ en:
   bugReport: Issue
   colorScheme: Color scheme
   contact: Contact
-  contactBook: Contact Book
   cookies: Cookies
   developerInformation: Developer information
   display: Display
@@ -233,7 +205,6 @@ en:
   legal: Legal
   legalNotice: Legal Notice
   logout: Log Out
-  personalInformation: Personal Information
   preferences: Settings
   privacy: Privacy Policy
   profile: Profile

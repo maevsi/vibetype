@@ -77,7 +77,7 @@ en:
   account: Account
   discover: Discover
   events: Events
-  home: Home
+  home: Dashboard
   iconNotifications: Bell icon
   notifications: Notifications
 </i18n>

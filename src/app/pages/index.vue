@@ -97,6 +97,7 @@ definePageMeta({
 // achievement
 const route = useRoute()
 const store = useStore()
+const { isSignedIn } = useAuthInfo()
 const { t } = useI18n()
 const localePath = useLocalePath()
 const achievementUnlockMutation = useMutation(
@@ -115,8 +116,7 @@ const { /* data, */ error, status } = await useAsyncData(
     if (!Object.keys(route.query).length)
       throw new Error('Short circuit for no query parameters')
 
-    if (store.jwtDecoded?.role !== `${SITE_NAME}_account`)
-      throw new Error('Short circuit for unauthorized access') // there's no way to be certain that a user tried to unlock an achievement here, so no prompt to login is thrown
+    if (!isSignedIn) throw new Error('Short circuit for unauthorized access') // there's no way to be certain that a user tried to unlock an achievement here, so no prompt to login is thrown
 
     const result = await achievementUnlockMutation.executeMutation({
       code: 'c29d9fd1-e455-4f19-a62f-f89b5256a52b', // placeholder, not actually used
