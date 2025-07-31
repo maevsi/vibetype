@@ -8,7 +8,7 @@
     },
     {
       "matchPackageNames": ["vite"],
-      "allowedVersions": "npm:rolldown-vite@7.0.11"
+      "allowedVersions": "7.0.11"
     }
   ]
 }
