@@ -65,6 +65,7 @@
         />
       </AppButton>
       <div
+        v-if="variant === 'recommendation'"
         class="absolute top-2 left-2 z-20 rounded-3xl bg-(--accent-strong) px-3 py-2"
       >
         <TypographySubtitleSmall
