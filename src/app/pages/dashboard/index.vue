@@ -1,60 +1,28 @@
 <template>
+  <!-- <AppError
+    v-if="recommendationError"
+    :error="{ message: t('recommendationError'), statusCode: 500 }"
+  /> -->
   <div>
-    <LayoutPageTitle :title="title" />
-    <div
-      v-if="store.jwtDecoded?.role === `${SITE_NAME}_account`"
-      class="flex flex-col gap-8"
-    >
-      <section class="flex flex-col gap-4">
-        <CardButton
-          :description="t('eventsDescription')"
-          :title="t('events')"
-          :to="
-            localePath({
-              name: 'event-view-username',
-              params: { username: store.signedInUsername },
-            })
-          "
-        >
-          <IHeroiconsCalendar />
-        </CardButton>
-        <AppUnderConstruction>
-          <CardButton
-            :description="t('guestsDescription')"
-            :title="t('guests')"
-            :to="localePath(`guest`)"
-          >
-            <ISolarLetterLinear />
-          </CardButton>
-        </AppUnderConstruction>
-        <CardButton
-          :description="t('contactsDescription')"
-          :title="t('contacts')"
-          :to="localePath(`contact`)"
-        >
-          <IHeroiconsUsers />
-        </CardButton>
-        <CardButton
-          :description="t('uploadsDescription')"
-          :title="t('uploads')"
-          :to="localePath(`upload`)"
-        >
-          <IHeroiconsFolder />
-        </CardButton>
-        <CardButton
-          :description="t('accountDescription')"
-          :title="t('account')"
-          :to="
-            localePath({
-              name: 'account-view-username',
-              params: {
-                username: store.signedInUsername,
-              },
-            })
-          "
-        >
-          <IHeroiconsIdentification />
-        </CardButton>
+    <!-- v-else -->
+    <LayoutPageTitle :title />
+    <div v-if="isSignedIn" class="flex flex-col gap-8">
+      <section
+        :aria-labelledby="templateIdRecommendation"
+        class="flex flex-col gap-4"
+      >
+        <TypographyH3 :id="templateIdRecommendation" class="px-2">
+          {{ t('recommendationTitle') }}
+        </TypographyH3>
+        <LoaderIndicatorPing v-if="pending" />
+        <template v-else>
+          <EventCard
+            v-for="event in events"
+            :key="event.id"
+            :event
+            variant="recommendation"
+          />
+        </template>
       </section>
       <ButtonApp />
     </div>
@@ -67,44 +35,103 @@
 </template>
 
 <script setup lang="ts">
+import { graphql } from '~~/gql/generated'
+import type { DashboardEventQueryVariables } from '~~/gql/generated/graphql'
+
+// async data
+const eventQuery = graphql(`
+  query DashboardEvent($id: UUID!) {
+    eventById(id: $id) {
+      accountByCreatedBy {
+        id
+        username
+      }
+      addressByAddressId {
+        id
+        location {
+          latitude
+          longitude
+        }
+      }
+      eventFavoritesByEventId(first: 1) {
+        nodes {
+          createdBy
+          id
+        }
+      }
+      guestsByEventId(first: 1) {
+        nodes {
+          contactByContactId {
+            accountId
+            id
+          }
+          id
+        }
+      }
+      id
+      name
+      slug
+      start
+    }
+  }
+`)
+const { $urql } = useNuxtApp()
+const jwtName = useJwtName()
+const cookieJwt = useCookieJwt()
+const {
+  data: events,
+  // error: recommendationError,
+  pending,
+} = await useAsyncData('index-recommendations', async () => {
+  const eventIds = await $fetch(
+    '/api/service/reccoom/recommendations',
+    cookieJwt.value
+      ? {
+          headers: {
+            cookie: `${jwtName}=${cookieJwt.value}`,
+          },
+        }
+      : undefined,
+  )
+  const events = (
+    await Promise.all(
+      eventIds.map(
+        async (eventId) =>
+          (
+            await $urql.value
+              .query(eventQuery, {
+                id: eventId,
+              } satisfies MaybeRefObj<DashboardEventQueryVariables>)
+              .toPromise()
+          ).data?.eventById,
+      ),
+    )
+  ).filter(isNeitherNullNorUndefined)
+
+  return events
+})
+
+// page
 const { t } = useI18n()
-const store = useStore()
-const localePath = useLocalePath()
-
-// data
 const title = t('title')
-
-// initialization
 useHeadDefault({ title })
+
+// template
+const { isSignedIn } = useAuthInfo()
+const templateIdRecommendation = useId()
 </script>
 
 <i18n lang="yaml">
 de:
-  account: Konto
-  accountDescription: Präsentiere deine Errungenschaften
-  anonymousCta: Finde ihn auf @.upper:{'globalSiteName'}
+  anonymousCta: Finde ihn auf {siteName}
   anonymousCtaDescription: Dir fehlt der Überblick über Veranstaltungen?
-  contacts: Kontake
-  contactsDescription: Informationen zu all deinen Gästen
-  events: Veranstaltungen
-  eventsDescription: Organisiere deine eigenen Veranstaltungen
-  guests: Einladungen
-  guestsDescription: Sieh nach, wo du eingeladen bist
+  # recommendationError: Event-Empfehlungen konnten nicht geladen werden
+  recommendationTitle: Das solltest Du nicht verpassen
   title: Dashboard
-  uploads: Uploads
-  uploadsDescription: Teile deine Dateien
 en:
-  account: Account
-  accountDescription: Showcase your achievements
-  anonymousCta: Find it on @.upper:{'globalSiteName'}
+  anonymousCta: Find it on {siteName}
   anonymousCtaDescription: Are you missing an overview of events?
-  contacts: Contacts
-  contactsDescription: Information on all your guests
-  events: Events
-  eventsDescription: Organize your own events
-  guests: Invitations
-  guestsDescription: See where you're invited
+  # recommendationError: Event recommendations could not be loaded
+  recommendationTitle: You Should Not Miss
   title: Dashboard
-  uploads: Uploads
-  uploadsDescription: Share your files
 </i18n>
