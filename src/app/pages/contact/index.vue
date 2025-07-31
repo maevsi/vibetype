@@ -1,7 +1,7 @@
 <template>
   <div>
     <LayoutPageTitle :title="title" />
-    <ContactList v-if="store.jwtDecoded?.role === `${SITE_NAME}_account`" />
+    <ContactList v-if="isSignedIn" />
     <LayoutCallToAction
       v-else
       :call-to-action="t('anonymousCta')"
@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-const store = useStore()
+const { isSignedIn } = useAuthInfo()
 const { t } = useI18n()
 
 // data

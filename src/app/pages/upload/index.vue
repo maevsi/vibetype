@@ -2,7 +2,7 @@
   <div>
     <LayoutPageTitle :title="title" />
     <!-- "UploadGallery" must come after "ModalUploadSelection" for them to overlay properly! -->
-    <UploadGallery v-if="store.jwtDecoded?.role === `${SITE_NAME}_account`" />
+    <UploadGallery v-if="isSignedIn" />
     <LayoutCallToAction
       v-else
       :call-to-action="t('anonymousCta')"
@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 const { t } = useI18n()
-const store = useStore()
+const { isSignedIn } = useAuthInfo()
 
 // data
 const title = t('title')

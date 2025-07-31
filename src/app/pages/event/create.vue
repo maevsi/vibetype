@@ -1,7 +1,7 @@
 <template>
   <div>
     <LayoutPageTitle :is-button-event-create-shown="false" :title="title" />
-    <FormEvent v-if="store.jwtDecoded?.role === `${SITE_NAME}_account`" />
+    <FormEvent v-if="isSignedIn" />
     <LayoutCallToAction
       v-else
       :call-to-action="t('anonymousCta')"
@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 const { t } = useI18n()
-const store = useStore()
+const { isSignedIn } = useAuthInfo()
 
 // data
 const title = t('title')
