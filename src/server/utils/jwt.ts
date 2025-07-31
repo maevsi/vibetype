@@ -7,6 +7,22 @@ export const useJsonWebToken = async () => {
   const jwtPublicKey = await useJwtPublicKey()
 
   return {
+    // TODO: reevaluate name due to duplicate naming
+    getJwtFromCookie: () => {
+      const siteUrl = new URL(runtimeConfig.public.i18n.baseUrl as string) // TODO: remove typecast in @nuxtjs/i18n v11
+      const isHttps = siteUrl.protocol === 'https:'
+      const jwtCookieName = JWT_NAME({ isHttps })
+      const cookieAuthorization = getCookie(event, jwtCookieName)
+
+      if (!cookieAuthorization) {
+        return throwError({
+          statusCode: 401,
+          statusMessage: 'The authorization cookie is missing',
+        })
+      }
+
+      return cookieAuthorization
+    },
     getJwtFromHeader: () => {
       const headerAuthorization = getRequestHeader(event, 'authorization')
 
