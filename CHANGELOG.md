@@ -1,3 +1,9 @@
+## [12.25.0](https://github.com/maevsi/vibetype/compare/12.24.0...12.25.0) (2025-07-31)
+
+### Features
+
+* **recommendation:** add ([19b3f5b](https://github.com/maevsi/vibetype/commit/19b3f5b33c394675a556782adb4aa22e7600c8a9))
+
 ## [12.24.0](https://github.com/maevsi/vibetype/compare/12.23.1...12.24.0) (2025-07-31)
 
 ### Features
