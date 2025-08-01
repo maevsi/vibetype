@@ -1,3 +1,13 @@
+## [12.26.0](https://github.com/maevsi/vibetype/compare/12.25.2...12.26.0) (2025-08-01)
+
+### Features
+
+* **event:** show link option no matter the attendance type ([1c28141](https://github.com/maevsi/vibetype/commit/1c2814129b01c9b77faf689cc5b817389c3bd641))
+
+### Bug Fixes
+
+* **event:** update card style ([69a8170](https://github.com/maevsi/vibetype/commit/69a8170e5cde34a71c438dce9e99a08f474f0702))
+
 ## [12.25.2](https://github.com/maevsi/vibetype/compare/12.25.1...12.25.2) (2025-08-01)
 
 ### Bug Fixes
