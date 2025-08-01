@@ -58,7 +58,7 @@
           v-else
           :class="
             cn(
-              'text-[#5d665f]' /*'text-(--semantic-base-icon-primary)'*/,
+              'text-(--semantic-base-dark-text-on-light)' /*'text-(--semantic-base-icon-primary)'*/,
               !variant && 'size-3',
             )
           "
@@ -79,7 +79,7 @@
       :class="
         cn(
           'flex min-w-0 flex-1 flex-col gap-2 px-1 py-3.5',
-          variant === 'recommendation' && 'gap-0 px-2 py-0',
+          variant === 'recommendation' && 'gap-1 px-2 py-0',
         )
       "
     >

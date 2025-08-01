@@ -1,5 +1,5 @@
 <template>
-  <EventDashlet v-if="event.isRemote && event.url">
+  <EventDashlet v-if="event.url">
     <span>
       <IHeroiconsLink :title="t('url')" />
     </span>
