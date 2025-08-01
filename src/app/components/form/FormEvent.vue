@@ -214,11 +214,7 @@
           </FormInputStateInfo>
         </template>
       </FormInput> -->
-      <FormInputUrl
-        v-if="v$.isRemote.$model"
-        :form-input="v$.url"
-        @input="form.url = $event"
-      />
+      <FormInputUrl :form-input="v$.url" @input="form.url = $event" />
       <FormInput
         :title="t('description')"
         type="tiptap"
