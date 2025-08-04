@@ -1,6 +1,6 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
-import { RELEASE_NAME } from '../../node'
+import { RELEASE_NAME } from '../../node/process'
 import { cookieControlConfig } from './cookieControl'
 import { i18nConfig } from './i18n'
 import { pwaConfig } from './pwa'

@@ -3331,7 +3331,7 @@ export type Device = Node & {
   /** Reference to the account that created the device. */
   createdBy: Scalars['UUID']['output']
   /** The Firebase Cloud Messaging token of the device that's used to deliver notifications. */
-  fcmToken?: Maybe<Scalars['String']['output']>
+  fcmToken: Scalars['String']['output']
   /** The internal id of the device. */
   id: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -3363,7 +3363,7 @@ export type DeviceInput = {
   /** Reference to the account that created the device. */
   createdBy: Scalars['UUID']['input']
   /** The Firebase Cloud Messaging token of the device that's used to deliver notifications. */
-  fcmToken?: InputMaybe<Scalars['String']['input']>
+  fcmToken: Scalars['String']['input']
 }
 
 /** Represents an update to a `Device`. Fields that are set will be updated. */
@@ -6642,6 +6642,8 @@ export type Query = Node & {
   accountBlockById?: Maybe<AccountBlock>
   accountById?: Maybe<Account>
   accountByUsername?: Maybe<Account>
+  /** Returns all accounts with a username containing a given substring. */
+  accountSearch?: Maybe<AccountsConnection>
   /** Reads a single `AccountSocialNetwork` using its globally unique `ID`. */
   accountSocialNetwork?: Maybe<AccountSocialNetwork>
   accountSocialNetworkByAccountIdAndSocialNetwork?: Maybe<AccountSocialNetwork>
@@ -6844,6 +6846,16 @@ export type QueryAccountByIdArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryAccountByUsernameArgs = {
   username: Scalars['String']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAccountSearchArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  searchString?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -9423,6 +9435,11 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       QueryAccountByUsernameArgs,
       WithTypename<Account> | string
+    >
+    accountSearch?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryAccountSearchArgs,
+      WithTypename<AccountsConnection> | string
     >
     accountSocialNetwork?: GraphCacheResolver<
       WithTypename<Query>,
@@ -15422,6 +15439,10 @@ export type GraphCacheUpdaters = {
     accountByUsername?: GraphCacheUpdateResolver<
       { accountByUsername: Maybe<WithTypename<Account>> },
       QueryAccountByUsernameArgs
+    >
+    accountSearch?: GraphCacheUpdateResolver<
+      { accountSearch: Maybe<WithTypename<AccountsConnection>> },
+      QueryAccountSearchArgs
     >
     accountSocialNetwork?: GraphCacheUpdateResolver<
       { accountSocialNetwork: Maybe<WithTypename<AccountSocialNetwork>> },

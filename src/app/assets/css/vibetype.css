@@ -12,6 +12,7 @@
   --base-white: #fafafc;
   --critic-string: #e00000;
   --critic-weak: #ffebeb;
+  --complement-fancy: #ff3167;
   --complement-strong: #f52d62;
   --faint-line: #f2f2f2;
   --faint-mid: #e6e6e6;
@@ -21,6 +22,7 @@
   --semantic-accent-line: #dcf9ea;
   --semantic-accent-text: #12683a;
   --semantic-base-background: #fff;
+  --semantic-base-dark-text-on-light: #191911;
   --semantic-base-icon-primary: #5d665f;
   --semantic-base-input-field-fill: #fff;
   --semantic-base-light-text-on-dark: #fafafc;

@@ -9,12 +9,12 @@ import Components from 'unplugin-vue-components/vite'
 import { modulesConfig } from '../config/modules'
 import { environmentsConfig } from '../config/environments'
 import {
-  iconCollectionOptimization,
   IS_NITRO_OPENAPI_ENABLED,
   NUXT_PUBLIC_VIO_ENVIRONMENT,
-  RELEASE_NAME,
   SITE_URL,
-} from '../node'
+} from '../node/environment'
+import { iconCollectionOptimization } from '../node/filesystem'
+import { RELEASE_NAME } from '../node/process'
 import {
   NUXT_PUBLIC_SENTRY_HOST,
   NUXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE,
@@ -30,14 +30,11 @@ import { GET_CSP } from '../server/utils/constants'
 // setImmediate(() => {})
 
 export default defineNuxtConfig({
-  compatibilityDate: '2024-04-03',
+  compatibilityDate: '2025-07-20',
   css: ['~/assets/css/app.css'],
   experimental: {
     inlineRouteRules: true,
     typedPages: true,
-  },
-  future: {
-    compatibilityVersion: 4,
   },
   modules: [
     '@dargmuesli/nuxt-cookie-control',
@@ -67,7 +64,7 @@ export default defineNuxtConfig({
         typeof nuxtConfigSecurityHeaders !== 'boolean' &&
         nuxtConfigSecurityHeaders.contentSecurityPolicy
       ) {
-        if (nuxt.options._generate) {
+        if (nuxt.options.nitro.static) {
           nuxtConfigSecurityHeaders.contentSecurityPolicy = defu(
             {
               'script-src-elem': [
@@ -227,16 +224,24 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: [
+        '@dargmuesli/nuxt-cookie-control/runtime/types.js',
+        '@http-util/status-i18n',
         '@internationalized/date',
         '@sentry/nuxt',
-        '@tiptap/extension-link',
         '@tiptap/extension-text-align',
         '@tiptap/starter-kit',
         '@tiptap/vue-3',
         '@uppy/core',
         '@uppy/tus',
+        '@urql/core',
+        '@urql/devtools',
+        '@urql/exchange-graphcache',
+        '@urql/exchange-graphcache/default-storage',
+        '@urql/exchange-graphcache/extras',
+        '@urql/vue',
         '@vee-validate/zod',
         '@vuelidate/core',
+        '@vuelidate/validators',
         '@vueuse/core',
         'chart.js',
         'class-variance-authority',
@@ -249,6 +254,7 @@ export default defineNuxtConfig({
         'firebase/messaging/sw',
         'html-to-text',
         'isomorphic-dompurify',
+        'jose',
         'js-confetti',
         'leaflet',
         'leaflet-control-geocoder',
@@ -262,7 +268,9 @@ export default defineNuxtConfig({
         'reka-ui/date',
         'seedrandom',
         'slugify',
+        'sweetalert2',
         'tailwind-merge',
+        'tailwindcss/colors',
         'v-calendar',
         'vaul-vue',
         'vee-validate',

@@ -16,9 +16,7 @@ import type { NuxtError } from '#app'
 const { error } = defineProps<{ error: NuxtError }>()
 
 // i18n
-const { t, locale } = useI18n()
-const { $dayjs } = useNuxtApp()
-$dayjs.locale(locale.value)
+const { t } = useI18n()
 
 // loading
 const loadingId = Math.random()
@@ -36,7 +34,7 @@ defineOgImageComponent(
   'Default',
   {},
   {
-    alt: t('globalSeoOgImageAlt', { siteName: t('globalSiteName') }),
+    alt: t('globalSeoOgImageAlt'),
   },
 )
 </script>

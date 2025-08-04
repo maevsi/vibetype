@@ -16,12 +16,12 @@ const { siteUrl } = useSiteUrl()
 const locales = {
   de: {
     logo: (siteName: string) => `${siteName}s Logo`,
-    siteName: 'Vibetype',
+    siteName: 'Vibetype'.toUpperCase(),
     subtitle: 'Finde Veranstaltungen, Gäste und Freunde 💙❤️💚',
   },
   en: {
     logo: (siteName: string) => `${siteName}'s logo`,
-    siteName: 'Vibetype',
+    siteName: 'Vibetype'.toUpperCase(),
     subtitle: 'Find events, guests and friends 💙❤️💚',
   },
 }

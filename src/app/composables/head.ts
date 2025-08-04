@@ -12,7 +12,7 @@ export const useAppLayout = () => {
     })
 
     // favicon (https://vite-pwa-org.netlify.app/assets-generator/)
-    useServerHeadSafe({
+    useHeadSafe({
       link: [
         {
           href: `/favicon.ico?v=${CACHE_VERSION}`,
@@ -93,7 +93,7 @@ export const usePolyfills = () => {
   if (!POLYFILLS.length) return
 
   if (import.meta.server) {
-    useServerHead({
+    useHead({
       link: [
         {
           rel: 'preload',

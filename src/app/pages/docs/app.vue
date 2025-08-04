@@ -7,13 +7,13 @@
           {{ t('descriptionTitle') }}
         </div>
         <div class="">
-          {{ t('descriptionContent', { siteName: t('globalSiteName') }) }}
+          {{ t('descriptionContent') }}
         </div>
       </div>
       <div class="flex flex-col justify-center gap-4 lg:flex-row lg:gap-8">
         <CardButton
           is-external
-          :title="t('appStore', { siteName: t('globalSiteName') })"
+          :title="t('appStore')"
           to="https://testflight.apple.com/join/kkStPDoc"
         >
           <IFa6BrandsAppStore />
@@ -21,7 +21,7 @@
         <CardButton
           class="lg:h-32"
           is-external
-          :title="t('googlePlay', { siteName: t('globalSiteName') })"
+          :title="t('googlePlay')"
           to="https://play.google.com/store/apps/details?id=si.maev.twa"
         >
           <IFa6BrandsGooglePlay />
@@ -40,15 +40,15 @@ const title = t('title')
 
 <i18n lang="yaml">
 de:
-  appStore: '{siteName} im App Store'
-  descriptionContent: Installiere {siteName} jetzt als App.
+  appStore: "@.upper:{'globalSiteName'} im App Store"
+  descriptionContent: Installiere @.upper:{'globalSiteName'} jetzt als App.
   descriptionTitle: Verpasse keine Veranstaltung.
-  googlePlay: '{siteName} in Google Play'
+  googlePlay: "@.upper:{'globalSiteName'} in Google Play"
   title: App
 en:
-  appStore: '{siteName} on the App Store'
-  descriptionContent: Install the {siteName} app now.
+  appStore: "@.upper:{'globalSiteName'} on the App Store"
+  descriptionContent: Install the @.upper:{'globalSiteName'} app now.
   descriptionTitle: Don't miss any events.
-  googlePlay: '{siteName} on Google Play'
+  googlePlay: "@.upper:{'globalSiteName'} on Google Play"
   title: App
 </i18n>

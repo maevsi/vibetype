@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test'
 
-import { SITE_URL } from '#src/node'
+import { SITE_URL } from '#src/node/environment'
 import { TIMEOUT } from '#tests/e2e/utils/constants'
 
 /**

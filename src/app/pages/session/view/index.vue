@@ -7,11 +7,19 @@
         <div class="grid gap-4 lg:grid-cols-2">
           <div class="flex-1">
             <Card>
-              {{
-                store.jwtDecoded
-                  ? t('sessionExpiry', { exp: sessionExpiryTime })
-                  : t('sessionExpiryNone')
-              }}
+              <template v-if="store.jwtDecoded?.exp">
+                <i18n-t keypath="sessionExpiry">
+                  <template #exp>
+                    <AppTime
+                      weekday="short"
+                      :datetime="store.jwtDecoded.exp * 1000"
+                    />
+                  </template>
+                </i18n-t>
+              </template>
+              <template v-else>
+                {{ t('sessionExpiryNone') }}
+              </template>
             </Card>
           </div>
           <div class="flex-1">
@@ -244,7 +252,6 @@ const { t } = useI18n()
 const requestEvent = useRequestEvent()
 const store = useStore()
 const notificationStore = useNotificationStore()
-const dateTime = useDateTime()
 const { signOut } = await useSignOut()
 const fireAlert = useFireAlert()
 const { isApp, platform } = usePlatform()
@@ -286,11 +293,6 @@ const isNotificationPermissionRequestPossible = computed(
       isWindowHavingNotification.value &&
       permissionState.value === 'prompt') ||
     isIosHavingPushCapability,
-)
-const sessionExpiryTime = computed(() =>
-  store.jwtDecoded?.exp
-    ? dateTime(store.jwtDecoded?.exp * 1000).format('llll')
-    : undefined,
 )
 const userAgentString = computed(() =>
   requestEvent ? requestEvent.headers.get('user-agent') : navigator.userAgent,

@@ -1,5 +1,8 @@
 name: CI
 
+permissions:
+  contents: read
+
 on:
   pull_request:
   push:
@@ -26,7 +29,7 @@ jobs:
   release_semantic_dry:
     needs: prepare_jobs
     name: Release (semantic, dry)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@2.5.13
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@2.6.0
     if: needs.prepare_jobs.outputs.pr_found == 'false' || github.event_name == 'pull_request'
     permissions:
       contents: write
@@ -37,7 +40,7 @@ jobs:
       DRY_RUN: true
   build:
     name: Build
-    uses: dargmuesli/github-actions/.github/workflows/docker.yml@2.5.13
+    uses: dargmuesli/github-actions/.github/workflows/docker.yml@2.6.0
     needs: release_semantic_dry
     permissions:
       packages: write
@@ -49,7 +52,7 @@ jobs:
   release_semantic:
     needs: build
     name: Release (semantic)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@2.5.13
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@2.6.0
     permissions:
       contents: write
     secrets:

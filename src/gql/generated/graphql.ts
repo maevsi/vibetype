@@ -3341,7 +3341,7 @@ export type Device = Node & {
   /** Reference to the account that created the device. */
   createdBy: Scalars['UUID']['output']
   /** The Firebase Cloud Messaging token of the device that's used to deliver notifications. */
-  fcmToken?: Maybe<Scalars['String']['output']>
+  fcmToken: Scalars['String']['output']
   /** The internal id of the device. */
   id: Scalars['UUID']['output']
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
@@ -3373,7 +3373,7 @@ export type DeviceInput = {
   /** Reference to the account that created the device. */
   createdBy: Scalars['UUID']['input']
   /** The Firebase Cloud Messaging token of the device that's used to deliver notifications. */
-  fcmToken?: InputMaybe<Scalars['String']['input']>
+  fcmToken: Scalars['String']['input']
 }
 
 /** Represents an update to a `Device`. Fields that are set will be updated. */
@@ -6652,6 +6652,8 @@ export type Query = Node & {
   accountBlockById?: Maybe<AccountBlock>
   accountById?: Maybe<Account>
   accountByUsername?: Maybe<Account>
+  /** Returns all accounts with a username containing a given substring. */
+  accountSearch?: Maybe<AccountsConnection>
   /** Reads a single `AccountSocialNetwork` using its globally unique `ID`. */
   accountSocialNetwork?: Maybe<AccountSocialNetwork>
   accountSocialNetworkByAccountIdAndSocialNetwork?: Maybe<AccountSocialNetwork>
@@ -6854,6 +6856,16 @@ export type QueryAccountByIdArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryAccountByUsernameArgs = {
   username: Scalars['String']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAccountSearchArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  searchString?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -9060,6 +9072,18 @@ export type AccountSearchQuery = {
   } | null
 }
 
+export type AllLegalTermsQueryVariables = Exact<{
+  language?: InputMaybe<Scalars['String']['input']>
+}>
+
+export type AllLegalTermsQuery = {
+  __typename?: 'Query'
+  allLegalTerms?: {
+    __typename?: 'LegalTermsConnection'
+    nodes: Array<{ __typename?: 'LegalTerm'; id: any; term: string }>
+  } | null
+}
+
 export type EventListQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>
   first: Scalars['Int']['input']
@@ -9383,6 +9407,51 @@ export type AccountQuery = {
   } | null
 }
 
+export type DashboardEventQueryVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type DashboardEventQuery = {
+  __typename?: 'Query'
+  eventById?: {
+    __typename?: 'Event'
+    id: any
+    name: string
+    slug: string
+    start: any
+    accountByCreatedBy?: {
+      __typename?: 'Account'
+      id: any
+      username: string
+    } | null
+    addressByAddressId?: {
+      __typename?: 'Address'
+      id: any
+      location?: {
+        __typename?: 'GeographyPoint'
+        latitude: number
+        longitude: number
+      } | null
+    } | null
+    eventFavoritesByEventId: {
+      __typename?: 'EventFavoritesConnection'
+      nodes: Array<{ __typename?: 'EventFavorite'; createdBy: any; id: any }>
+    }
+    guestsByEventId: {
+      __typename?: 'GuestsConnection'
+      nodes: Array<{
+        __typename?: 'Guest'
+        id: any
+        contactByContactId?: {
+          __typename?: 'Contact'
+          accountId?: any | null
+          id: any
+        } | null
+      }>
+    }
+  } | null
+}
+
 export type EventEditQueryVariables = Exact<{
   slug: Scalars['String']['input']
   username: Scalars['String']['input']
@@ -9618,6 +9687,20 @@ export type GuestEventQuery = {
   } | null
 }
 
+export type AchievementUnlockMutationVariables = Exact<{
+  code: Scalars['UUID']['input']
+  alias: Scalars['String']['input']
+}>
+
+export type AchievementUnlockMutation = {
+  __typename?: 'Mutation'
+  achievementUnlock?: {
+    __typename?: 'AchievementUnlockPayload'
+    clientMutationId?: string | null
+    uuid?: any | null
+  } | null
+}
+
 export type AchievementItemFragment = {
   __typename?: 'Achievement'
   nodeId: string
@@ -9729,12 +9812,6 @@ export type GuestItemFragment = {
       })
     | null
 } & { ' $fragmentName'?: 'GuestItemFragment' }
-
-export type LegalTermItemFragment = {
-  __typename?: 'LegalTerm'
-  id: any
-  term: string
-} & { ' $fragmentName'?: 'LegalTermItemFragment' }
 
 export type PreferenceEventCategoryItemFragment = {
   __typename?: 'PreferenceEventCategory'
@@ -9914,20 +9991,6 @@ export type DeleteAccountBlockMutation = {
   deleteAccountBlock?: {
     __typename?: 'DeleteAccountBlockPayload'
     clientMutationId?: string | null
-  } | null
-}
-
-export type AchievementUnlockMutationVariables = Exact<{
-  code: Scalars['UUID']['input']
-  alias: Scalars['String']['input']
-}>
-
-export type AchievementUnlockMutation = {
-  __typename?: 'Mutation'
-  achievementUnlock?: {
-    __typename?: 'AchievementUnlockPayload'
-    clientMutationId?: string | null
-    uuid?: any | null
   } | null
 }
 
@@ -10433,22 +10496,6 @@ export type AllGuestsQuery = {
       hasNextPage: boolean
       endCursor?: any | null
     }
-  } | null
-}
-
-export type AllLegalTermsQueryVariables = Exact<{
-  language?: InputMaybe<Scalars['String']['input']>
-}>
-
-export type AllLegalTermsQuery = {
-  __typename?: 'Query'
-  allLegalTerms?: {
-    __typename?: 'LegalTermsConnection'
-    nodes: Array<
-      { __typename?: 'LegalTerm' } & {
-        ' $fragmentRefs'?: { LegalTermItemFragment: LegalTermItemFragment }
-      }
-    >
   } | null
 }
 
@@ -10997,26 +11044,6 @@ export const GuestItemFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<GuestItemFragment, unknown>
-export const LegalTermItemFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'LegalTermItem' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'LegalTerm' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'term' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<LegalTermItemFragment, unknown>
 export const PreferenceEventCategoryItemFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -11428,6 +11455,70 @@ export const AccountSearchDocument = {
     },
   ],
 } as unknown as DocumentNode<AccountSearchQuery, AccountSearchQueryVariables>
+export const AllLegalTermsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllLegalTerms' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'language' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allLegalTerms' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'language' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'language' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'term' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AllLegalTermsQuery, AllLegalTermsQueryVariables>
 export const EventListDocument = {
   kind: 'Document',
   definitions: [
@@ -12853,6 +12944,177 @@ export const AccountDocument = {
     },
   ],
 } as unknown as DocumentNode<AccountQuery, AccountQueryVariables>
+export const DashboardEventDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'DashboardEvent' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'eventById' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'accountByCreatedBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'addressByAddressId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'location' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'latitude' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'longitude' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventFavoritesByEventId' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'first' },
+                      value: { kind: 'IntValue', value: '1' },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'createdBy' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'guestsByEventId' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'first' },
+                      value: { kind: 'IntValue', value: '1' },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'contactByContactId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'accountId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'start' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<DashboardEventQuery, DashboardEventQueryVariables>
 export const EventEditDocument = {
   kind: 'Document',
   definitions: [
@@ -13897,6 +14159,89 @@ export const GuestEventDocument = {
     },
   ],
 } as unknown as DocumentNode<GuestEventQuery, GuestEventQueryVariables>
+export const AchievementUnlockDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'AchievementUnlock' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'code' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'alias' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'achievementUnlock' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'code' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'code' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'alias' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'alias' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'uuid' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AchievementUnlockMutation,
+  AchievementUnlockMutationVariables
+>
 export const AuthenticateDocument = {
   kind: 'Document',
   definitions: [
@@ -14742,89 +15087,6 @@ export const DeleteAccountBlockDocument = {
 } as unknown as DocumentNode<
   DeleteAccountBlockMutation,
   DeleteAccountBlockMutationVariables
->
-export const AchievementUnlockDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'AchievementUnlock' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'code' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'alias' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'achievementUnlock' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'code' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'code' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'alias' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'alias' },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'uuid' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  AchievementUnlockMutation,
-  AchievementUnlockMutationVariables
 >
 export const CreateContactDocument = {
   kind: 'Document',
@@ -18474,87 +18736,6 @@ export const AllGuestsDocument = {
     },
   ],
 } as unknown as DocumentNode<AllGuestsQuery, AllGuestsQueryVariables>
-export const AllLegalTermsDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'AllLegalTerms' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'language' },
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'allLegalTerms' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'condition' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'language' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'language' },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'FragmentSpread',
-                        name: { kind: 'Name', value: 'LegalTermItem' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'LegalTermItem' },
-      typeCondition: {
-        kind: 'NamedType',
-        name: { kind: 'Name', value: 'LegalTerm' },
-      },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'term' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<AllLegalTermsQuery, AllLegalTermsQueryVariables>
 export const AllPreferenceEventCategoriesDocument = {
   kind: 'Document',
   definitions: [

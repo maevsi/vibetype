@@ -17,6 +17,7 @@ type Documents = {
   '\n    mutation AccountDelete($password: String!) {\n      accountDelete(input: { password: $password }) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountDeleteDocument
   '\n    query AccountById($id: UUID!) {\n      accountById(id: $id) {\n        id\n        profilePictureByAccountId {\n          id\n          uploadByUploadId {\n            id\n            storageKey\n          }\n        }\n        username\n      }\n    }\n  ': typeof types.AccountByIdDocument
   '\n  query AccountSearch($after: Cursor, $first: Int, $username: String) {\n    allAccounts(\n      after: $after\n      condition: { username: $username }\n      first: $first\n      orderBy: USERNAME_ASC\n    ) {\n      nodes {\n        id\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n': typeof types.AccountSearchDocument
+  '\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        id\n        term\n      }\n    }\n  }\n': typeof types.AllLegalTermsDocument
   '\n  query EventList($after: Cursor, $first: Int!) {\n    allEvents(after: $after, first: $first, orderBy: START_DESC) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            id\n            createdBy\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.EventListDocument
   '\n  query EventSearch(\n    $after: Cursor\n    $first: Int\n    $language: Language\n    $query: String\n  ) {\n    eventSearch(\n      after: $after\n      first: $first\n      language: $language\n      query: $query\n    ) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            createdBy\n            id\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.EventSearchDocument
   '\n    mutation CreateEventFavorite($input: EventFavoriteInput!) {\n      createEventFavorite(input: { eventFavorite: $input }) {\n        eventFavorite {\n          createdBy\n          eventId\n          id\n          nodeId\n        }\n      }\n    }\n  ': typeof types.CreateEventFavoriteDocument
@@ -28,12 +29,14 @@ type Documents = {
   '\n    mutation UpdateAccountById($id: UUID!, $accountPatch: AccountPatch!) {\n      updateAccountById(input: { id: $id, accountPatch: $accountPatch }) {\n        account {\n          description\n          id\n          imprint\n        }\n      }\n    }\n  ': typeof types.UpdateAccountByIdDocument
   '\n    mutation AccountEmailAddressVerification($code: UUID!) {\n      accountEmailAddressVerification(input: { code: $code }) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountEmailAddressVerificationDocument
   '\n  query Account($username: String!) {\n    accountByUsername(username: $username) {\n      achievementsByAccountId(first: 5) {\n        nodes {\n          achievement\n          id\n        }\n      }\n      description\n      eventsByCreatedBy(first: 3) {\n        nodes {\n          eventFavoritesByEventId(first: 1) {\n            nodes {\n              createdBy\n              id\n            }\n          }\n          guestsByEventId(first: 1) {\n            nodes {\n              contactByContactId {\n                accountId\n                id\n              }\n              id\n            }\n          }\n          id\n          name\n          slug\n          start\n        }\n        totalCount\n      }\n      id\n      imprint\n    }\n  }\n': typeof types.AccountDocument
+  '\n  query DashboardEvent($id: UUID!) {\n    eventById(id: $id) {\n      accountByCreatedBy {\n        id\n        username\n      }\n      addressByAddressId {\n        id\n        location {\n          latitude\n          longitude\n        }\n      }\n      eventFavoritesByEventId(first: 1) {\n        nodes {\n          createdBy\n          id\n        }\n      }\n      guestsByEventId(first: 1) {\n        nodes {\n          contactByContactId {\n            accountId\n            id\n          }\n          id\n        }\n      }\n      id\n      name\n      slug\n      start\n    }\n  }\n': typeof types.DashboardEventDocument
   '\n    query EventEdit($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            createdBy\n            description\n            end\n            id\n            isArchived\n            name\n            nodeId\n            isArchived\n            isInPerson\n            isRemote\n            slug\n            start\n            url\n            visibility\n          }\n        }\n        id\n        username\n      }\n    }\n  ': typeof types.EventEditDocument
   '\n    query EventAttendance($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            id\n            name\n            slug\n          }\n        }\n        id\n      }\n    }\n  ': typeof types.EventAttendanceDocument
   '\n    query EventGuests($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            accountByCreatedBy {\n              id\n              username\n            }\n            createdBy\n            guestsByEventId {\n              nodes {\n                contactByContactId {\n                  accountId\n                  id\n                }\n                id\n              }\n              pageInfo {\n                hasNextPage\n                endCursor\n              }\n              totalCount\n            }\n            id\n            name\n            slug\n          }\n        }\n        id\n      }\n    }\n  ': typeof types.EventGuestsDocument
   '\n    query Event($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            accountByCreatedBy {\n              id\n              username\n            }\n            createdBy\n            description\n            end\n            id\n            isArchived\n            name\n            nodeId\n            isArchived\n            isInPerson\n            isRemote\n            slug\n            start\n            url\n            visibility\n          }\n        }\n        id\n        username\n      }\n    }\n  ': typeof types.EventDocument
   '\n  query EventListAccount($after: Cursor, $first: Int!, $username: String!) {\n    accountByUsername(username: $username) {\n      eventsByCreatedBy(after: $after, first: $first, orderBy: START_DESC) {\n        nodes {\n          eventFavoritesByEventId(first: 1) {\n            nodes {\n              createdBy\n              id\n            }\n          }\n          guestsByEventId(first: 1) {\n            nodes {\n              contactByContactId {\n                accountId\n                id\n              }\n              id\n            }\n          }\n          id\n          name\n          slug\n          start\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n      id\n    }\n  }\n': typeof types.EventListAccountDocument
   '\n    query GuestEvent($id: UUID!) {\n      guestById(id: $id) {\n        contactByContactId {\n          accountId\n          createdBy\n          firstName\n          id\n          lastName\n          nodeId\n        }\n        contactId\n        eventByEventId {\n          accountByCreatedBy {\n            id\n            username\n          }\n          createdBy\n          description\n          end\n          id\n          isArchived\n          name\n          nodeId\n          isArchived\n          isInPerson\n          isRemote\n          slug\n          start\n          url\n          visibility\n        }\n        eventId\n        feedback\n        id\n        nodeId\n      }\n    }\n  ': typeof types.GuestEventDocument
+  '\n    mutation AchievementUnlock($code: UUID!, $alias: String!) {\n      achievementUnlock(input: { code: $code, alias: $alias }) {\n        clientMutationId\n        uuid\n      }\n    }\n  ': typeof types.AchievementUnlockDocument
   '\n  fragment AccountItem on Account {\n    description\n    id\n    nodeId\n    username\n  }\n': typeof types.AccountItemFragmentDoc
   '\n  fragment AchievementItem on Achievement {\n    nodeId\n    id\n    accountId\n    achievement\n    level\n  }\n': typeof types.AchievementItemFragmentDoc
   '\n  fragment AddressItem on Address {\n    id\n    city\n    country\n    line1\n    line2\n    location {\n      latitude\n      longitude\n    }\n    name\n    postalCode\n    region\n  }\n': typeof types.AddressItemFragmentDoc
@@ -42,7 +45,6 @@ type Documents = {
   '\n  fragment EventFormatItem on EventFormat {\n    id\n    name\n  }\n': typeof types.EventFormatItemFragmentDoc
   '\n  fragment EventItem on Event {\n    id\n    nodeId\n    accountByCreatedBy {\n      id\n      username\n    }\n    addressByAddressId {\n      ...AddressItem\n    }\n    createdBy\n    description\n    end\n    guestCountMaximum\n    isArchived\n    isInPerson\n    isRemote\n    name\n    slug\n    start\n    url\n    visibility\n  }\n': typeof types.EventItemFragmentDoc
   '\n  fragment GuestItem on Guest {\n    id\n    nodeId\n    contactId\n    eventId\n    feedback\n    feedbackPaper\n    contactByContactId {\n      ...ContactItem\n    }\n  }\n': typeof types.GuestItemFragmentDoc
-  '\n  fragment LegalTermItem on LegalTerm {\n    id\n    term\n  }\n': typeof types.LegalTermItemFragmentDoc
   '\n  fragment PreferenceEventCategoryItem on PreferenceEventCategory {\n    nodeId\n    accountId\n    categoryId\n  }\n': typeof types.PreferenceEventCategoryItemFragmentDoc
   '\n  fragment PreferenceEventFormatItem on PreferenceEventFormat {\n    nodeId\n    accountId\n    formatId\n  }\n': typeof types.PreferenceEventFormatItemFragmentDoc
   '\n  fragment PreferenceEventLocationItem on PreferenceEventLocation {\n    createdAt\n    createdBy\n    id\n    nodeId\n    radius\n    location {\n      latitude\n      longitude\n    }\n  }\n': typeof types.PreferenceEventLocationItemFragmentDoc
@@ -58,7 +60,6 @@ type Documents = {
   '\n  mutation AccountRegistrationRefresh($accountId: UUID!, $language: String!) {\n    accountRegistrationRefresh(\n      input: { language: $language, accountId: $accountId }\n    ) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountRegistrationRefreshDocument
   '\n  mutation CreateAccountBlock($accountBlockInput: AccountBlockInput!) {\n    createAccountBlock(input: { accountBlock: $accountBlockInput }) {\n      clientMutationId\n    }\n  }\n': typeof types.CreateAccountBlockDocument
   '\n  mutation DeleteAccountBlock($nodeId: ID!) {\n    deleteAccountBlock(input: { nodeId: $nodeId }) {\n      clientMutationId\n    }\n  }\n': typeof types.DeleteAccountBlockDocument
-  '\n  mutation AchievementUnlock($code: UUID!, $alias: String!) {\n    achievementUnlock(input: { code: $code, alias: $alias }) {\n      clientMutationId\n      uuid\n    }\n  }\n': typeof types.AchievementUnlockDocument
   '\n  mutation CreateContact($contactInput: ContactInput!) {\n    createContact(input: { contact: $contactInput }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.CreateContactDocument
   '\n  mutation DeleteContactById($id: UUID!) {\n    deleteContactById(input: { id: $id }) {\n      clientMutationId\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.DeleteContactByIdDocument
   '\n  mutation UpdateContactById($id: UUID!, $contactPatch: ContactPatch!) {\n    updateContactById(input: { id: $id, contactPatch: $contactPatch }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.UpdateContactByIdDocument
@@ -90,7 +91,6 @@ type Documents = {
   '\n  query AllEventFormats {\n    allEventFormats {\n      nodes {\n        ...EventFormatItem\n      }\n    }\n  }\n': typeof types.AllEventFormatsDocument
   '\n      query eventFavoriteByCreatedByAndEventId(\n        $createdBy: UUID!\n        $eventId: UUID!\n      ) {\n        eventFavoriteByCreatedByAndEventId(\n          createdBy: $createdBy\n          eventId: $eventId\n        ) {\n          id\n          nodeId\n          eventId\n        }\n      }\n    ': typeof types.EventFavoriteByCreatedByAndEventIdDocument
   '\n  query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n    allGuests(after: $after, condition: { eventId: $eventId }, first: $first) {\n      nodes {\n        ...GuestItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.AllGuestsDocument
-  '\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        ...LegalTermItem\n      }\n    }\n  }\n': typeof types.AllLegalTermsDocument
   '\n  query AllPreferenceEventCategories {\n    allPreferenceEventCategories {\n      nodes {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n': typeof types.AllPreferenceEventCategoriesDocument
   '\n  query AllPreferenceEventFormats {\n    allPreferenceEventFormats {\n      nodes {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n': typeof types.AllPreferenceEventFormatsDocument
   '\n  query AllPreferenceEventLocations {\n    allPreferenceEventLocations {\n      nodes {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n': typeof types.AllPreferenceEventLocationsDocument
@@ -105,6 +105,8 @@ const documents: Documents = {
     types.AccountByIdDocument,
   '\n  query AccountSearch($after: Cursor, $first: Int, $username: String) {\n    allAccounts(\n      after: $after\n      condition: { username: $username }\n      first: $first\n      orderBy: USERNAME_ASC\n    ) {\n      nodes {\n        id\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n':
     types.AccountSearchDocument,
+  '\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        id\n        term\n      }\n    }\n  }\n':
+    types.AllLegalTermsDocument,
   '\n  query EventList($after: Cursor, $first: Int!) {\n    allEvents(after: $after, first: $first, orderBy: START_DESC) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            id\n            createdBy\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n':
     types.EventListDocument,
   '\n  query EventSearch(\n    $after: Cursor\n    $first: Int\n    $language: Language\n    $query: String\n  ) {\n    eventSearch(\n      after: $after\n      first: $first\n      language: $language\n      query: $query\n    ) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            createdBy\n            id\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n':
@@ -127,6 +129,8 @@ const documents: Documents = {
     types.AccountEmailAddressVerificationDocument,
   '\n  query Account($username: String!) {\n    accountByUsername(username: $username) {\n      achievementsByAccountId(first: 5) {\n        nodes {\n          achievement\n          id\n        }\n      }\n      description\n      eventsByCreatedBy(first: 3) {\n        nodes {\n          eventFavoritesByEventId(first: 1) {\n            nodes {\n              createdBy\n              id\n            }\n          }\n          guestsByEventId(first: 1) {\n            nodes {\n              contactByContactId {\n                accountId\n                id\n              }\n              id\n            }\n          }\n          id\n          name\n          slug\n          start\n        }\n        totalCount\n      }\n      id\n      imprint\n    }\n  }\n':
     types.AccountDocument,
+  '\n  query DashboardEvent($id: UUID!) {\n    eventById(id: $id) {\n      accountByCreatedBy {\n        id\n        username\n      }\n      addressByAddressId {\n        id\n        location {\n          latitude\n          longitude\n        }\n      }\n      eventFavoritesByEventId(first: 1) {\n        nodes {\n          createdBy\n          id\n        }\n      }\n      guestsByEventId(first: 1) {\n        nodes {\n          contactByContactId {\n            accountId\n            id\n          }\n          id\n        }\n      }\n      id\n      name\n      slug\n      start\n    }\n  }\n':
+    types.DashboardEventDocument,
   '\n    query EventEdit($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            createdBy\n            description\n            end\n            id\n            isArchived\n            name\n            nodeId\n            isArchived\n            isInPerson\n            isRemote\n            slug\n            start\n            url\n            visibility\n          }\n        }\n        id\n        username\n      }\n    }\n  ':
     types.EventEditDocument,
   '\n    query EventAttendance($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            id\n            name\n            slug\n          }\n        }\n        id\n      }\n    }\n  ':
@@ -139,6 +143,8 @@ const documents: Documents = {
     types.EventListAccountDocument,
   '\n    query GuestEvent($id: UUID!) {\n      guestById(id: $id) {\n        contactByContactId {\n          accountId\n          createdBy\n          firstName\n          id\n          lastName\n          nodeId\n        }\n        contactId\n        eventByEventId {\n          accountByCreatedBy {\n            id\n            username\n          }\n          createdBy\n          description\n          end\n          id\n          isArchived\n          name\n          nodeId\n          isArchived\n          isInPerson\n          isRemote\n          slug\n          start\n          url\n          visibility\n        }\n        eventId\n        feedback\n        id\n        nodeId\n      }\n    }\n  ':
     types.GuestEventDocument,
+  '\n    mutation AchievementUnlock($code: UUID!, $alias: String!) {\n      achievementUnlock(input: { code: $code, alias: $alias }) {\n        clientMutationId\n        uuid\n      }\n    }\n  ':
+    types.AchievementUnlockDocument,
   '\n  fragment AccountItem on Account {\n    description\n    id\n    nodeId\n    username\n  }\n':
     types.AccountItemFragmentDoc,
   '\n  fragment AchievementItem on Achievement {\n    nodeId\n    id\n    accountId\n    achievement\n    level\n  }\n':
@@ -155,8 +161,6 @@ const documents: Documents = {
     types.EventItemFragmentDoc,
   '\n  fragment GuestItem on Guest {\n    id\n    nodeId\n    contactId\n    eventId\n    feedback\n    feedbackPaper\n    contactByContactId {\n      ...ContactItem\n    }\n  }\n':
     types.GuestItemFragmentDoc,
-  '\n  fragment LegalTermItem on LegalTerm {\n    id\n    term\n  }\n':
-    types.LegalTermItemFragmentDoc,
   '\n  fragment PreferenceEventCategoryItem on PreferenceEventCategory {\n    nodeId\n    accountId\n    categoryId\n  }\n':
     types.PreferenceEventCategoryItemFragmentDoc,
   '\n  fragment PreferenceEventFormatItem on PreferenceEventFormat {\n    nodeId\n    accountId\n    formatId\n  }\n':
@@ -187,8 +191,6 @@ const documents: Documents = {
     types.CreateAccountBlockDocument,
   '\n  mutation DeleteAccountBlock($nodeId: ID!) {\n    deleteAccountBlock(input: { nodeId: $nodeId }) {\n      clientMutationId\n    }\n  }\n':
     types.DeleteAccountBlockDocument,
-  '\n  mutation AchievementUnlock($code: UUID!, $alias: String!) {\n    achievementUnlock(input: { code: $code, alias: $alias }) {\n      clientMutationId\n      uuid\n    }\n  }\n':
-    types.AchievementUnlockDocument,
   '\n  mutation CreateContact($contactInput: ContactInput!) {\n    createContact(input: { contact: $contactInput }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n':
     types.CreateContactDocument,
   '\n  mutation DeleteContactById($id: UUID!) {\n    deleteContactById(input: { id: $id }) {\n      clientMutationId\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n':
@@ -251,8 +253,6 @@ const documents: Documents = {
     types.EventFavoriteByCreatedByAndEventIdDocument,
   '\n  query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n    allGuests(after: $after, condition: { eventId: $eventId }, first: $first) {\n      nodes {\n        ...GuestItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n':
     types.AllGuestsDocument,
-  '\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        ...LegalTermItem\n      }\n    }\n  }\n':
-    types.AllLegalTermsDocument,
   '\n  query AllPreferenceEventCategories {\n    allPreferenceEventCategories {\n      nodes {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n':
     types.AllPreferenceEventCategoriesDocument,
   '\n  query AllPreferenceEventFormats {\n    allPreferenceEventFormats {\n      nodes {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n':
@@ -299,6 +299,12 @@ export function graphql(
 export function graphql(
   source: '\n  query AccountSearch($after: Cursor, $first: Int, $username: String) {\n    allAccounts(\n      after: $after\n      condition: { username: $username }\n      first: $first\n      orderBy: USERNAME_ASC\n    ) {\n      nodes {\n        id\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n',
 ): (typeof documents)['\n  query AccountSearch($after: Cursor, $first: Int, $username: String) {\n    allAccounts(\n      after: $after\n      condition: { username: $username }\n      first: $first\n      orderBy: USERNAME_ASC\n    ) {\n      nodes {\n        id\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        id\n        term\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        id\n        term\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -369,6 +375,12 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+  source: '\n  query DashboardEvent($id: UUID!) {\n    eventById(id: $id) {\n      accountByCreatedBy {\n        id\n        username\n      }\n      addressByAddressId {\n        id\n        location {\n          latitude\n          longitude\n        }\n      }\n      eventFavoritesByEventId(first: 1) {\n        nodes {\n          createdBy\n          id\n        }\n      }\n      guestsByEventId(first: 1) {\n        nodes {\n          contactByContactId {\n            accountId\n            id\n          }\n          id\n        }\n      }\n      id\n      name\n      slug\n      start\n    }\n  }\n',
+): (typeof documents)['\n  query DashboardEvent($id: UUID!) {\n    eventById(id: $id) {\n      accountByCreatedBy {\n        id\n        username\n      }\n      addressByAddressId {\n        id\n        location {\n          latitude\n          longitude\n        }\n      }\n      eventFavoritesByEventId(first: 1) {\n        nodes {\n          createdBy\n          id\n        }\n      }\n      guestsByEventId(first: 1) {\n        nodes {\n          contactByContactId {\n            accountId\n            id\n          }\n          id\n        }\n      }\n      id\n      name\n      slug\n      start\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
   source: '\n    query EventEdit($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            createdBy\n            description\n            end\n            id\n            isArchived\n            name\n            nodeId\n            isArchived\n            isInPerson\n            isRemote\n            slug\n            start\n            url\n            visibility\n          }\n        }\n        id\n        username\n      }\n    }\n  ',
 ): (typeof documents)['\n    query EventEdit($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            createdBy\n            description\n            end\n            id\n            isArchived\n            name\n            nodeId\n            isArchived\n            isInPerson\n            isRemote\n            slug\n            start\n            url\n            visibility\n          }\n        }\n        id\n        username\n      }\n    }\n  ']
 /**
@@ -401,6 +413,12 @@ export function graphql(
 export function graphql(
   source: '\n    query GuestEvent($id: UUID!) {\n      guestById(id: $id) {\n        contactByContactId {\n          accountId\n          createdBy\n          firstName\n          id\n          lastName\n          nodeId\n        }\n        contactId\n        eventByEventId {\n          accountByCreatedBy {\n            id\n            username\n          }\n          createdBy\n          description\n          end\n          id\n          isArchived\n          name\n          nodeId\n          isArchived\n          isInPerson\n          isRemote\n          slug\n          start\n          url\n          visibility\n        }\n        eventId\n        feedback\n        id\n        nodeId\n      }\n    }\n  ',
 ): (typeof documents)['\n    query GuestEvent($id: UUID!) {\n      guestById(id: $id) {\n        contactByContactId {\n          accountId\n          createdBy\n          firstName\n          id\n          lastName\n          nodeId\n        }\n        contactId\n        eventByEventId {\n          accountByCreatedBy {\n            id\n            username\n          }\n          createdBy\n          description\n          end\n          id\n          isArchived\n          name\n          nodeId\n          isArchived\n          isInPerson\n          isRemote\n          slug\n          start\n          url\n          visibility\n        }\n        eventId\n        feedback\n        id\n        nodeId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    mutation AchievementUnlock($code: UUID!, $alias: String!) {\n      achievementUnlock(input: { code: $code, alias: $alias }) {\n        clientMutationId\n        uuid\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation AchievementUnlock($code: UUID!, $alias: String!) {\n      achievementUnlock(input: { code: $code, alias: $alias }) {\n        clientMutationId\n        uuid\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -449,12 +467,6 @@ export function graphql(
 export function graphql(
   source: '\n  fragment GuestItem on Guest {\n    id\n    nodeId\n    contactId\n    eventId\n    feedback\n    feedbackPaper\n    contactByContactId {\n      ...ContactItem\n    }\n  }\n',
 ): (typeof documents)['\n  fragment GuestItem on Guest {\n    id\n    nodeId\n    contactId\n    eventId\n    feedback\n    feedbackPaper\n    contactByContactId {\n      ...ContactItem\n    }\n  }\n']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n  fragment LegalTermItem on LegalTerm {\n    id\n    term\n  }\n',
-): (typeof documents)['\n  fragment LegalTermItem on LegalTerm {\n    id\n    term\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -545,12 +557,6 @@ export function graphql(
 export function graphql(
   source: '\n  mutation DeleteAccountBlock($nodeId: ID!) {\n    deleteAccountBlock(input: { nodeId: $nodeId }) {\n      clientMutationId\n    }\n  }\n',
 ): (typeof documents)['\n  mutation DeleteAccountBlock($nodeId: ID!) {\n    deleteAccountBlock(input: { nodeId: $nodeId }) {\n      clientMutationId\n    }\n  }\n']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n  mutation AchievementUnlock($code: UUID!, $alias: String!) {\n    achievementUnlock(input: { code: $code, alias: $alias }) {\n      clientMutationId\n      uuid\n    }\n  }\n',
-): (typeof documents)['\n  mutation AchievementUnlock($code: UUID!, $alias: String!) {\n    achievementUnlock(input: { code: $code, alias: $alias }) {\n      clientMutationId\n      uuid\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -737,12 +743,6 @@ export function graphql(
 export function graphql(
   source: '\n  query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n    allGuests(after: $after, condition: { eventId: $eventId }, first: $first) {\n      nodes {\n        ...GuestItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n',
 ): (typeof documents)['\n  query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n    allGuests(after: $after, condition: { eventId: $eventId }, first: $first) {\n      nodes {\n        ...GuestItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        ...LegalTermItem\n      }\n    }\n  }\n',
-): (typeof documents)['\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        ...LegalTermItem\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

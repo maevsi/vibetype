@@ -5,11 +5,6 @@ import { sendEmail } from './email'
 import { LOCALE_DEFAULT } from './i18n'
 import type { Locale } from './i18n'
 import { HTML_TO_TEXT } from './dependencies/htmlToText'
-import {
-  MOMENT_FORMAT,
-  momentFormatDate,
-  momentFormatDuration,
-} from './dependencies/moments'
 import { EventVisibility } from '~~/gql/generated/graphql'
 
 const EVENT_DESCRIPTION_TRIM_LENGTH = 250
@@ -173,11 +168,7 @@ export const processNotification = async ({
           }/account/password/reset?code=${
             payload.account.password_reset_verification
           }`,
-          validUntil: momentFormatDate({
-            input: payload.account.password_reset_verification_valid_until,
-            format: MOMENT_FORMAT,
-            locale: payload.template.language,
-          }),
+          validUntil: payload.account.password_reset_verification_valid_until,
         },
       })
       break
@@ -198,11 +189,7 @@ export const processNotification = async ({
           }/account/verify?code=${payload.account.email_address_verification}`,
           locale,
           username: payload.account.username,
-          validUntil: momentFormatDate({
-            input: payload.account.email_address_verification_valid_until,
-            format: MOMENT_FORMAT,
-            locale: payload.template.language,
-          }),
+          validUntil: payload.account.email_address_verification_valid_until,
         },
       })
       break
@@ -362,14 +349,7 @@ export const sendEventInvitationMail = async ({
         : 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyAgUFVCTElDICctLy9XM0MvL0RURCBTVkcgMS4xLy9FTicgICdodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQnPgo8c3ZnIHdpZHRoPSI0MDFweCIgaGVpZ2h0PSI0MDFweCIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAzMTIuODA5IDAgNDAxIDQwMSIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIzMTIuODA5IDAgNDAxIDQwMSIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgdHJhbnNmb3JtPSJtYXRyaXgoMS4yMjMgMCAwIDEuMjIzIC00NjcuNSAtODQzLjQ0KSI+Cgk8cmVjdCB4PSI2MDEuNDUiIHk9IjY1My4wNyIgd2lkdGg9IjQwMSIgaGVpZ2h0PSI0MDEiIGZpbGw9IiNFNEU2RTciLz4KCTxwYXRoIGQ9Im04MDIuMzggOTA4LjA4Yy04NC41MTUgMC0xNTMuNTIgNDguMTg1LTE1Ny4zOCAxMDguNjJoMzE0Ljc5Yy0zLjg3LTYwLjQ0LTcyLjktMTA4LjYyLTE1Ny40MS0xMDguNjJ6IiBmaWxsPSIjQUVCNEI3Ii8+Cgk8cGF0aCBkPSJtODgxLjM3IDgxOC44NmMwIDQ2Ljc0Ni0zNS4xMDYgODQuNjQxLTc4LjQxIDg0LjY0MXMtNzguNDEtMzcuODk1LTc4LjQxLTg0LjY0MSAzNS4xMDYtODQuNjQxIDc4LjQxLTg0LjY0MWM0My4zMSAwIDc4LjQxIDM3LjkgNzguNDEgODQuNjR6IiBmaWxsPSIjQUVCNEI3Ii8+CjwvZz4KPC9zdmc+Cg==',
       eventAuthorUsername: eventCreatorUsername,
       eventDescription,
-      eventDuration: event.end
-        ? momentFormatDuration({
-            start: event.start,
-            end: event.end,
-            format: MOMENT_FORMAT,
-            locale: payloadCamelCased.template.language,
-          })
-        : undefined,
+      eventEnd: event.end || undefined,
       // TODO: add event group (https://github.com/maevsi/vibetype/issues/92)
       eventLink: `${siteUrl}${
         payloadCamelCased.template.language !== LOCALE_DEFAULT
@@ -377,11 +357,7 @@ export const sendEventInvitationMail = async ({
           : ''
       }/guest/unlock?ic=${guestId}`,
       eventName: event.name,
-      eventStart: momentFormatDate({
-        input: event.start,
-        format: MOMENT_FORMAT,
-        locale: payloadCamelCased.template.language,
-      }),
+      eventStart: event.start,
       eventVisibility,
       locale: payloadCamelCased.template.language,
     },

@@ -7,11 +7,13 @@
         is-link-colored
         @click="downloadIcal"
       >
-        {{ eventStart.format('lll') }}
+        <AppTime :datetime="event.start" />
       </AppButton>
-      <span>
-        {{ t('fromNow', { content: eventStart.fromNow() }) }}
-      </span>
+      <i18n-t keypath="fromNow" tag="span">
+        <template #content>
+          <AppTime :datetime="event.start" relative />
+        </template>
+      </i18n-t>
     </div>
   </EventDashlet>
 </template>
@@ -36,7 +38,6 @@ const {
 }>()
 
 const { t } = useI18n()
-const dateTime = useDateTime()
 const fireAlert = useFireAlert()
 
 // methods
@@ -64,9 +65,6 @@ const downloadIcal = async () => {
     'text/calendar',
   )
 }
-
-// computations
-const eventStart = computed(() => dateTime(event.start))
 </script>
 
 <i18n lang="yaml">

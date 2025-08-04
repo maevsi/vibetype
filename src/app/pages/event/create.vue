@@ -1,10 +1,10 @@
 <template>
   <div>
     <LayoutPageTitle :is-button-event-create-shown="false" :title="title" />
-    <FormEvent v-if="store.jwtDecoded?.role === `${SITE_NAME}_account`" />
+    <FormEvent v-if="isSignedIn" />
     <LayoutCallToAction
       v-else
-      :call-to-action="t('anonymousCta', { siteName: t('globalSiteName') })"
+      :call-to-action="t('anonymousCta')"
       :call-to-action-description="t('anonymousCtaDescription')"
     />
   </div>
@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 const { t } = useI18n()
-const store = useStore()
+const { isSignedIn } = useAuthInfo()
 
 // data
 const title = t('title')
@@ -23,11 +23,11 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  anonymousCta: Finde ihn auf {siteName}
+  anonymousCta: Finde ihn auf @.upper:{'globalSiteName'}
   anonymousCtaDescription: Du suchst einen liebevollen Ort für deine Veranstaltung?
   title: Veranstaltung erstellen
 en:
-  anonymousCta: Find it on {siteName}
+  anonymousCta: Find it on @.upper:{'globalSiteName'}
   anonymousCtaDescription: Are you looking for a loving place for your event?
   title: Create event
 </i18n>

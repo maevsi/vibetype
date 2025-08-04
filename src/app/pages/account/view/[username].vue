@@ -119,6 +119,22 @@
           {{ t('contactBook') }}
         </TypographySubtitleMedium>
       </ButtonColored>
+      <ButtonColored
+        v-if="isOwnProfile"
+        :aria-label="t('uploads')"
+        variant="secondary"
+        class="data-[size=large]:gap-4.5 data-[type=secondary]:px-4.5"
+        :to="
+          localePath({
+            name: 'upload',
+          })
+        "
+      >
+        <IHeroiconsFolder />
+        <TypographySubtitleMedium>
+          {{ t('uploads') }}
+        </TypographySubtitleMedium>
+      </ButtonColored>
       <div v-if="accountDescription" class="flex flex-col gap-2 p-1.5">
         <TypographyH3>
           {{ t('about') }}
@@ -316,6 +332,7 @@ de:
   myProfile: Mein Profil
   newEvent: Neues Event
   profile: Profil
+  uploads: Meine Dateien
   username: "{'@'}{username}"
 en:
   about: About
@@ -333,5 +350,6 @@ en:
   myProfile: My Profile
   newEvent: New event
   profile: Profile
+  uploads: Uploads
   username: "{'@'}{username}"
 </i18n>

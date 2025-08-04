@@ -52,12 +52,12 @@ export const cookieControlConfig: ReturnType<DefineNuxtConfig> = {
         {
           description: {
             de: 'Dieser Cookie von uns speichert die Zeitzone, in der sich das Gerät zu befinden scheint.',
-            en: 'This cookie of ours saves the timezone in which the device appears to be located.',
+            en: 'This cookie of ours saves the time zone in which the device appears to be located.',
           },
           id: 't',
           name: {
             de: 'Zeitzone',
-            en: 'Timezone',
+            en: 'Time Zone',
           },
           targetCookieIds: [TIMEZONE_COOKIE_NAME],
         },

@@ -1,6 +1,6 @@
 <template>
   <AppIcon v-slot="attributes">
-    <IVibetypePerson v-bind="attributes" :aria-label="t('ariaLabel')" />
+    <IVibetypeHelp v-bind="attributes" :aria-label="t('ariaLabel')" />
   </AppIcon>
 </template>
 
@@ -10,7 +10,7 @@ const { t } = useI18n()
 
 <i18n lang="yaml">
 de:
-  ariaLabel: Silhouette einer Person
+  ariaLabel: Fragezeichen
 en:
-  ariaLabel: Silhouette of a person
+  ariaLabel: Question mark
 </i18n>

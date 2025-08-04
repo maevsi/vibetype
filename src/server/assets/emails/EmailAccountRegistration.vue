@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { Column, Row, Section } from '@vue-email/components'
 
-import type { Locale } from '../../utils/i18n'
 import AppButton from './components/base/AppButton.vue'
 import AppText from './components/base/AppText.vue'
 import AppAuthor from './components/AppAuthor.vue'
 import AppFooter from './components/AppFooter.vue'
 import Email from './Email.vue'
+import type { Locale } from '../../utils/i18n'
+import { getEmailDateTimeFormatter } from '../../../shared/utils/dateTime'
 
 const {
   emailAddress,
@@ -24,6 +25,7 @@ const {
   validUntil: string
 }>()
 
+const dateTimeFormatter = getEmailDateTimeFormatter(locale)
 const locales = {
   de: {
     button: 'Registrierung abschließen',
@@ -32,10 +34,10 @@ const locales = {
       `Vielen Dank für deine Anmeldung bei ${siteName} - wir freuen uns, dass du dabei bist!`,
     paragraph2:
       'Bitte klicke auf den unten stehenden Button, um die Registrierung abzuschließen und dein Profil einzurichten.',
-    siteName: 'Vibetype',
+    siteName: 'Vibetype'.toUpperCase(),
     title: 'Willkommen',
     validUntil: (validUntil: string) =>
-      `Diese Anfrage ist bis zum ${validUntil} UTC gültig.`,
+      `Diese Anfrage ist bis zum ${dateTimeFormatter.format(new Date(validUntil))} gültig.`,
   },
   en: {
     button: 'Complete registration',
@@ -44,10 +46,10 @@ const locales = {
       `Thanks so much for joining ${siteName} — we're thrilled to have you!`,
     paragraph2:
       'Please click on the button below to complete your registration and set up your profile.',
-    siteName: 'Vibetype',
+    siteName: 'Vibetype'.toUpperCase(),
     title: 'Welcome',
     validUntil: (validUntil: string) =>
-      `This request is valid until ${validUntil} UTC.`,
+      `This request is valid until ${dateTimeFormatter.format(new Date(validUntil))}.`,
   },
 }
 const t = locales[locale]

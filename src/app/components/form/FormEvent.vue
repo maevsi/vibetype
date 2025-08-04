@@ -214,11 +214,7 @@
           </FormInputStateInfo>
         </template>
       </FormInput> -->
-      <FormInputUrl
-        v-if="v$.isRemote.$model"
-        :form-input="v$.url"
-        @input="form.url = $event"
-      />
+      <FormInputUrl :form-input="v$.url" @input="form.url = $event" />
       <FormInput
         :title="t('description')"
         type="tiptap"
@@ -291,11 +287,10 @@ const localePath = useLocalePath()
 const { locale, t } = useI18n()
 const store = useStore()
 const colorMode = useColorMode()
-const dateTime = useDateTime()
-const timezone = useTimezone()
+const timeZone = useTimeZone()
 
 // data
-const now = dateTime()
+const now = useState('dateTimeNow', () => new Date())
 const form = reactive({
   id: ref<string>(),
   createdBy: ref<string>(),
@@ -324,7 +319,7 @@ const dateTimeFormatter = (x?: string) =>
     ? new Date(x).toLocaleString(locale.value, {
         dateStyle: 'medium',
         timeStyle: 'short',
-        timeZone: timezone,
+        timeZone,
       })
     : undefined
 const onInputName = async ($event: string) => {
@@ -422,7 +417,7 @@ const updateSlug = async () => {
 
 // computations
 const isWarningStartPastShown = computed(
-  () => !!form.start && dateTime(form.start) < dateTime(),
+  () => !!form.start && new Date(form.start) < now.value,
 )
 
 // vuelidate

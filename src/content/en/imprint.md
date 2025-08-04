@@ -38,10 +38,6 @@ Local Court Kassel
 <br />
 Kassel
 
-## Notice on the EU Platform for Online Dispute Resolution (ODR Platform)
-<!-- TODO: remove on 2025-07-20 -->
-We would like to draw your attention to the EU platform for out-of-court online dispute resolution (according to the Regulation on Online Dispute Resolution in Consumer Matters, Regulation [EU] No. 524/2013, also known as the ODR Regulation), which is accessible at the following link: https://ec.europa.eu/consumers/odr/
-
 ## Dispute Resolution Procedure before a Consumer Arbitration Board
 
 We are neither obligated nor willing to participate in a dispute resolution procedure before a consumer arbitration board (§ 36 para. 1 no. 1 VSBG).

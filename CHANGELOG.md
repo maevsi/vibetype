@@ -1,3 +1,124 @@
+## [12.26.0](https://github.com/maevsi/vibetype/compare/12.25.2...12.26.0) (2025-08-01)
+
+### Features
+
+* **event:** show link option no matter the attendance type ([1c28141](https://github.com/maevsi/vibetype/commit/1c2814129b01c9b77faf689cc5b817389c3bd641))
+
+### Bug Fixes
+
+* **event:** update card style ([69a8170](https://github.com/maevsi/vibetype/commit/69a8170e5cde34a71c438dce9e99a08f474f0702))
+
+## [12.25.2](https://github.com/maevsi/vibetype/compare/12.25.1...12.25.2) (2025-08-01)
+
+### Bug Fixes
+
+* **recommendation:** show just one for now ([77aaacf](https://github.com/maevsi/vibetype/commit/77aaacf3cceba19408cd4a346220336c1157a090))
+
+## [12.25.1](https://github.com/maevsi/vibetype/compare/12.25.0...12.25.1) (2025-07-31)
+
+### Bug Fixes
+
+* **event:** show match only on recommendation ([24a8c3c](https://github.com/maevsi/vibetype/commit/24a8c3c3367e9c6bdf1e4cb33e0840b0c1de15ac))
+
+## [12.25.0](https://github.com/maevsi/vibetype/compare/12.24.0...12.25.0) (2025-07-31)
+
+### Features
+
+* **recommendation:** add ([19b3f5b](https://github.com/maevsi/vibetype/commit/19b3f5b33c394675a556782adb4aa22e7600c8a9))
+
+## [12.24.0](https://github.com/maevsi/vibetype/compare/12.23.1...12.24.0) (2025-07-31)
+
+### Features
+
+* **account:** unify detail buttons ([09ec5e6](https://github.com/maevsi/vibetype/commit/09ec5e65f2e7426abdc41dbd5987edfc392438d1))
+
+### Bug Fixes
+
+* **components:** align dashboard menu item name ([11c7702](https://github.com/maevsi/vibetype/commit/11c7702988b42be2bf53d6784e5d25f51a7a49f8))
+* **components:** correct time zone display ([33d1583](https://github.com/maevsi/vibetype/commit/33d1583c862b4723205d30f48f8b6e9fd531058e))
+
+## [12.23.1](https://github.com/maevsi/vibetype/compare/12.23.0...12.23.1) (2025-07-30)
+
+### Bug Fixes
+
+* **legal-term:** correct loading ([65e9c80](https://github.com/maevsi/vibetype/commit/65e9c80b5f5c926d25ba148380ccf18e6e9f60b6))
+
+## [12.23.0](https://github.com/maevsi/vibetype/compare/12.22.0...12.23.0) (2025-07-30)
+
+### Features
+
+* **session:** redirect to root on sign out ([295bc31](https://github.com/maevsi/vibetype/commit/295bc3103139493f4b4c6aeb1d469fabc6d8c440))
+
+### Bug Fixes
+
+* **session:** redirect from root to dashboard when signed in ([41fdbfe](https://github.com/maevsi/vibetype/commit/41fdbfeda8b829aa731cdb1fadef28aca09534f5))
+
+## [12.22.0](https://github.com/maevsi/vibetype/compare/12.21.0...12.22.0) (2025-07-30)
+
+### Features
+
+* **tiptap:** support justified alignment ([f17ca9c](https://github.com/maevsi/vibetype/commit/f17ca9cb0ab2fe7083a1c66b8b624e33bf5b5b84))
+
+## [12.21.0](https://github.com/maevsi/vibetype/compare/12.20.0...12.21.0) (2025-07-29)
+
+### Features
+
+* **account:** show profile picture in menu ([2d454fd](https://github.com/maevsi/vibetype/commit/2d454fdbd2bccee58af78271c7fd146cbfbba92d))
+
+## [12.20.0](https://github.com/maevsi/vibetype/compare/12.19.0...12.20.0) (2025-07-29)
+
+### Features
+
+* **account:** rework creation success page ([7d51369](https://github.com/maevsi/vibetype/commit/7d51369a2ce2b14c7185ce7e9ad447b9fe22ce62))
+
+## [12.19.0](https://github.com/maevsi/vibetype/compare/12.18.0...12.19.0) (2025-07-29)
+
+### Features
+
+* **i18n:** uppercase global site name ([bd96c08](https://github.com/maevsi/vibetype/commit/bd96c0800493ed000a63b87b2bf5174f252c9669))
+
+## [12.18.0](https://github.com/maevsi/vibetype/compare/12.17.4...12.18.0) (2025-07-29)
+
+### Features
+
+* **pages:** drop marketing ([c67f333](https://github.com/maevsi/vibetype/commit/c67f3333dfd7606699e31049256efe0c8e70fd29))
+
+## [12.17.4](https://github.com/maevsi/vibetype/compare/12.17.3...12.17.4) (2025-07-29)
+
+### Performance Improvements
+
+* **docker:** cache playwright node modules separately ([7187cf0](https://github.com/maevsi/vibetype/commit/7187cf0c30bd3fb96ec2b6a4c7617761251a2a87))
+
+## [12.17.3](https://github.com/maevsi/vibetype/compare/12.17.2...12.17.3) (2025-07-28)
+
+### Bug Fixes
+
+* **early-bird:** correct button label ([f980ed3](https://github.com/maevsi/vibetype/commit/f980ed3a189872e8f47de86a0a9d31037ea0a5b9))
+
+## [12.17.2](https://github.com/maevsi/vibetype/compare/12.17.1...12.17.2) (2025-07-24)
+
+### Performance Improvements
+
+* **docker:** add volume for development node modules ([9ec8a43](https://github.com/maevsi/vibetype/commit/9ec8a435dded307e21948a8a6d2854cc2b79fded))
+
+## [12.17.1](https://github.com/maevsi/vibetype/compare/12.17.0...12.17.1) (2025-07-15)
+
+### Performance Improvements
+
+* **event:** replace `dayjs` with `Intl` ([44240d7](https://github.com/maevsi/vibetype/commit/44240d7034ea6e4f713b215294d3c6743e99703a))
+
+## [12.17.0](https://github.com/maevsi/vibetype/compare/12.16.0...12.17.0) (2025-07-15)
+
+### Features
+
+* **notification:** replace `moment-timezone` with `Intl` ([8c88d57](https://github.com/maevsi/vibetype/commit/8c88d57428a440588239d76a8b933bb812d3242b))
+
+## [12.16.0](https://github.com/maevsi/vibetype/compare/12.15.1...12.16.0) (2025-07-15)
+
+### Features
+
+* **content:** remove dispute resolution section from imprint ([ce18763](https://github.com/maevsi/vibetype/commit/ce18763b1a408107f6653a1b5411e74946ce0d72))
+
 ## [12.15.1](https://github.com/maevsi/vibetype/compare/12.15.0...12.15.1) (2025-07-07)
 
 ### Bug Fixes

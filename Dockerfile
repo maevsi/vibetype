@@ -2,13 +2,13 @@
 # check=skip=SecretsUsedInArgOrEnv
 
 # <DEPENDENCIES>
-FROM ghcr.io/maevsi/sqitch:9.2
+FROM ghcr.io/maevsi/sqitch:9.7
 # </DEPENDENCIES>
 
 #############
 # Create base image.
 
-FROM node:22.17.0-alpine AS base-image
+FROM node:24.4.1-alpine AS base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -29,8 +29,12 @@ COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 FROM base-image AS development
 
+RUN mkdir /srv/app/node_modules \
+    && chown node:node /srv/app/node_modules
+
 VOLUME /srv/.pnpm-store
 VOLUME /srv/app
+VOLUME /srv/app/node_modules
 
 USER node
 
@@ -104,7 +108,7 @@ RUN pnpm -r run test
 ########################
 # Nuxt: test (e2e, base-image)
 
-FROM mcr.microsoft.com/playwright:v1.53.2 AS test-e2e-base-image
+FROM mcr.microsoft.com/playwright:v1.54.2 AS test-e2e-base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -130,12 +134,15 @@ ENV NODE_ENV=development
 COPY ./docker-entrypoint.sh /usr/local/bin/
 
 RUN groupadd -g $GID -o $UNAME \
-    && useradd -m -l -u $UID -g $GID -o -s /bin/bash $UNAME
+    && useradd -m -l -u $UID -g $GID -o -s /bin/bash $UNAME \
+    && mkdir /srv/app/node_modules \
+    && chown $UID:$GID /srv/app/node_modules
 
 USER $UNAME
 
 VOLUME /srv/.pnpm-store
 VOLUME /srv/app
+VOLUME /srv/app/node_modules
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 

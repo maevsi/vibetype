@@ -7,6 +7,22 @@ export const useJsonWebToken = async () => {
   const jwtPublicKey = await useJwtPublicKey()
 
   return {
+    // TODO: reevaluate name due to duplicate naming
+    getJwtFromCookie: () => {
+      const siteUrl = new URL(runtimeConfig.public.i18n.baseUrl as string) // TODO: remove typecast in @nuxtjs/i18n v11
+      const isHttps = siteUrl.protocol === 'https:'
+      const jwtCookieName = JWT_NAME({ isHttps })
+      const cookieAuthorization = getCookie(event, jwtCookieName)
+
+      if (!cookieAuthorization) {
+        return throwError({
+          statusCode: 401,
+          statusMessage: 'The authorization cookie is missing',
+        })
+      }
+
+      return cookieAuthorization
+    },
     getJwtFromHeader: () => {
       const headerAuthorization = getRequestHeader(event, 'authorization')
 
@@ -51,7 +67,15 @@ export const setJwtCookie = ({
 }) => {
   const dateEpoch = new Date(0)
   const dateInAMonth = new Date(Date.now() + 86400 * 1000 * 31)
-  const siteUrl = new URL(runtimeConfig.public.i18n.baseUrl)
+
+  if (!runtimeConfig.public.i18n.baseUrl) {
+    return throwError({
+      statusCode: 500,
+      statusMessage: 'Site URL is not defined in the runtime configuration.',
+    })
+  }
+
+  const siteUrl = new URL(runtimeConfig.public.i18n.baseUrl as string) // TODO: remove typecast in @nuxtjs/i18n v11
   const isHttps = siteUrl.protocol === 'https:'
   const jwtCookieName = JWT_NAME({ isHttps })
 
