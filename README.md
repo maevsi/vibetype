@@ -3,8 +3,8 @@
 
 [ci-image]: https://img.shields.io/github/actions/workflow/status/maevsi/vibetype/ci.yml
 [ci-url]: https://github.com/maevsi/vibetype/actions/workflows/ci.yml
-[license-image]: https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmaevsi%2Fvibetype.svg?type=shield
-[license-url]: https://app.fossa.com/projects/git%2Bgithub.com%2Fmaevsi%2Fvibetype?ref=badge_shield
+[license-image]: https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmaevsi%2Fmaevsi.svg?type=shield&issueType=license
+[license-url]: https://app.fossa.com/projects/git%2Bgithub.com%2Fmaevsi%2Fmaevsi?ref=badge_shield&issueType=license
 
 # Vibetype
 
