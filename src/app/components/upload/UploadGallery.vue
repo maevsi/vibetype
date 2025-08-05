@@ -158,7 +158,6 @@ const pending = reactive({
 const selectedItem = ref<{
   id?: string | null
 }>()
-const uppy = ref<Uppy<{ id: string }>>()
 
 // api data
 const accountUploadQuotaBytesQuery = useAccountUploadQuotaBytesQuery({})
@@ -307,7 +306,7 @@ const getUploadBlobPromise = () =>
         if (result.error) return reject(result.error)
         if (!result.data) return
 
-        uppy.value = new Uppy({
+        const uppy = new Uppy({
           id: 'profile-picture',
           debug: !runtimeConfig.public.vio.isInProduction,
           restrictions: {
@@ -331,24 +330,24 @@ const getUploadBlobPromise = () =>
             ),
         })
 
-        uppy.value.on('restriction-failed', (_file, error) => {
+        uppy.on('restriction-failed', (_file, error: Error) => {
           return reject(error.message)
         })
 
-        uppy.value.use(Tus, {
+        uppy.use(Tus, {
           endpoint: TUSD_FILES_URL,
           limit: 1,
           removeFingerprintOnSuccess: true,
         })
 
-        uppy.value.addFile({
+        uppy.addFile({
           source: 'cropper',
           name: templateInputProfilePicture.value.files[0].name,
           type: blob.type,
           data: blob,
         })
 
-        const uploadResult = await uppy.value.upload()
+        const uploadResult = await uppy.upload()
 
         allUploadsQuery.executeQuery()
 
@@ -361,9 +360,6 @@ const getUploadBlobPromise = () =>
       'image/jpeg',
     )
   })
-
-// lifecycle
-onBeforeUnmount(() => uppy.value?.destroy())
 </script>
 
 <style>
