@@ -1,3 +1,9 @@
+## [12.26.1](https://github.com/maevsi/vibetype/compare/12.26.0...12.26.1) (2025-08-05)
+
+### Bug Fixes
+
+* **upload:** unref uppy ([e7dd28e](https://github.com/maevsi/vibetype/commit/e7dd28e841890b799854cc3746191af09b4cb70d))
+
 ## [12.26.0](https://github.com/maevsi/vibetype/compare/12.25.2...12.26.0) (2025-08-01)
 
 ### Features
