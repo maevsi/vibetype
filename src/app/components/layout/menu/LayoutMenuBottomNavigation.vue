@@ -3,16 +3,19 @@
     :aria-label="t('nav')"
     :class="
       cn(
-        'sticky flex items-center justify-center gap-1 border-t-1 border-(--semantic-base-line) bg-(--semantic-base-background) p-2 shadow-xs',
-        {
-          'bottom-2': platform === 'ios' && isApp,
-          'bottom-0': !platform || platform !== 'ios' || !isApp,
-        },
+        'sticky bottom-0 flex items-center justify-center gap-1 border-t-1 border-(--semantic-base-line) bg-(--semantic-base-background) p-2 shadow-xs',
         classProps,
       )
     "
   >
-    <LayoutMenuItemList />
+    <div
+      :class="{
+        flex: true,
+        'pb-3': isApp && /^ios/.test((platform || '').toLowerCase()),
+      }"
+    >
+      <LayoutMenuItemList />
+    </div>
   </nav>
 </template>
 
