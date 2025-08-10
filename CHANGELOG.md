@@ -1,3 +1,9 @@
+## [12.26.2](https://github.com/maevsi/vibetype/compare/12.26.1...12.26.2) (2025-08-10)
+
+### Bug Fixes
+
+* **components:** add more padding for bottom menu on ios ([#2071](https://github.com/maevsi/vibetype/issues/2071)) ([6126590](https://github.com/maevsi/vibetype/commit/6126590f08b25e59df0713185835338454f52b09))
+
 ## [12.26.1](https://github.com/maevsi/vibetype/compare/12.26.0...12.26.1) (2025-08-05)
 
 ### Bug Fixes
