@@ -1,6 +1,6 @@
 declare module 'h3' {
   interface H3EventContext {
-    $platform?: string
+    $platform?: 'android' | 'ios' | 'iOS App Store'
   }
 }
 
