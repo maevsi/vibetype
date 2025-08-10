@@ -6,14 +6,18 @@ export const usePlatform = () => {
     () => ssrContext?.event.context.$platform,
   )
 
-  const isApp = ref<boolean | undefined>(
-    platform.value
-      ? ['android', 'ios', 'iOS App Store'].includes(platform.value)
-      : undefined,
-  )
+  const isAndroid = platform.value ? platform.value === 'android' : undefined
+
+  const isIos = platform.value
+    ? ['ios', 'iOS App Store'].includes(platform.value)
+    : undefined
+
+  const isApp = isAndroid || isIos
 
   return {
+    isAndroid,
     isApp,
+    isIos,
     platform,
   }
 }
