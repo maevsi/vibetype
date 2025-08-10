@@ -85,7 +85,7 @@ const initialize = async () => {
   }
 
   if (
-    isApp.value &&
+    isApp &&
     !store.signedInAccountId &&
     !isEqual(route.path, localePath('index').toString())
   ) {
