@@ -60,7 +60,7 @@
     "@uppy/tus": "4.3.2",
     "@urql/core": "6.0.1",
     "@urql/devtools": "2.0.3",
-    "@urql/exchange-graphcache": "7.2.4",
+    "@urql/exchange-graphcache": "8.1.0",
     "@urql/vue": "2.0.0",
     "@vee-validate/zod": "4.15.1",
     "@vite-pwa/nuxt": "1.0.4",
