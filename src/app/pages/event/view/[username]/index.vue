@@ -89,11 +89,14 @@ useHeadDefault({
 const queryAfter = ref<string>()
 const query = useQuery({
   query: queryEventListAccount,
-  variables: {
-    after: queryAfter,
-    first: ITEMS_PER_PAGE,
-    username: route.params.username,
-  } satisfies MaybeRefObj<EventListAccountQueryVariables>,
+  variables: computed(
+    () =>
+      ({
+        after: queryAfter.value,
+        first: ITEMS_PER_PAGE,
+        username: route.params.username,
+      }) satisfies MaybeRefObj<EventListAccountQueryVariables>,
+  ),
 })
 const api = await useApiData([query])
 const account = computed(() => api.value.data.accountByUsername)

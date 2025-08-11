@@ -153,6 +153,7 @@ import { useQuery } from '@urql/vue'
 import DOMPurify from 'isomorphic-dompurify'
 
 import { graphql } from '~~/gql/generated'
+import type { EventQueryVariables } from '~~/gql/generated/graphql'
 
 const { t } = useI18n()
 const store = useStore()
@@ -196,7 +197,7 @@ const eventQuery = useQuery({
   variables: {
     slug: route.params.event_name,
     username: route.params.username,
-  },
+  } satisfies MaybeRefObj<EventQueryVariables>,
 })
 const account = computed(() => eventQuery.data.value?.accountByUsername)
 const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])

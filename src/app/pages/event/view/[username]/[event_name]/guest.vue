@@ -15,6 +15,7 @@
 import { useQuery } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
+import type { EventGuestsQueryVariables } from '~~/gql/generated/graphql'
 
 // validation
 const route = useRoute('event-view-username-event_name-guest___en')
@@ -64,7 +65,7 @@ const queryEventGuests = useQuery({
   variables: {
     slug: route.params.event_name,
     username: route.params.username,
-  },
+  } satisfies MaybeRefObj<EventGuestsQueryVariables>,
 })
 const api = await useApiData([queryEventGuests])
 const account = computed(() => api.value.data.accountByUsername)
