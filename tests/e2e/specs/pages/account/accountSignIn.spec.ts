@@ -13,12 +13,12 @@ appTest.describe('account sign-in page', () => {
   appTest('should display sign-in form', async ({ defaultPage }) => {
     await defaultPage.goto(PAGE_PATH)
     await expect(
-      defaultPage.page.getByRole('heading', { name: 'Sign in' })
+      defaultPage.page.getByRole('heading', { name: 'Sign in' }),
     ).toBeVisible()
     await expect(defaultPage.page.getByLabel('Email address')).toBeVisible()
     await expect(defaultPage.page.getByLabel('Password')).toBeVisible()
     await expect(
-      defaultPage.page.getByRole('button', { name: 'Log in' })
+      defaultPage.page.getByRole('button', { name: 'Log in' }),
     ).toBeVisible()
   })
 
@@ -56,7 +56,7 @@ appTest.describe('sign-in flow', () => {
       await defaultPage.page.getByRole('button', { name: 'Log in' }).click()
 
       await expect(defaultPage.page).toHaveURL('/dashboard')
-    }
+    },
   )
 
   appTest(
@@ -72,9 +72,9 @@ appTest.describe('sign-in flow', () => {
       await defaultPage.page.getByRole('button', { name: 'Log in' }).click()
 
       await expect(
-        defaultPage.page.getByText('Login failed! Have you registered yet?')
+        defaultPage.page.getByText('Login failed! Have you registered yet?'),
       ).toBeVisible()
-    }
+    },
   )
 
   appTest('should show error with empty fields', async ({ defaultPage }) => {
@@ -83,7 +83,7 @@ appTest.describe('sign-in flow', () => {
     await defaultPage.page.getByRole('button', { name: 'Log in' }).click()
 
     await expect(
-      defaultPage.page.getByText('This field is required')
+      defaultPage.page.getByText('This field is required'),
     ).toBeVisible()
   })
 })
