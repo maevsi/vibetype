@@ -232,8 +232,8 @@ importers:
         specifier: 7.2.4
         version: 7.2.4(@urql/core@5.2.0(graphql@16.11.0))(graphql@16.11.0)
       '@urql/vue':
-        specifier: 1.4.3
-        version: 1.4.3(@urql/core@5.2.0(graphql@16.11.0))(vue@3.5.18(typescript@5.9.2))
+        specifier: 2.0.0
+        version: 2.0.0(@urql/core@5.2.0(graphql@16.11.0))(vue@3.5.18(typescript@5.9.2))
       '@vee-validate/zod':
         specifier: 4.15.1
         version: 4.15.1(vue@3.5.18(typescript@5.9.2))(zod@3.25.76)
@@ -5389,6 +5389,12 @@ packages:
     peerDependencies:
       '@urql/core': ^5.0.0
       vue: ^2.7.0 || ^3.0.0
+
+  '@urql/vue@2.0.0':
+    resolution: {integrity: sha512-9eW8IfEPwnGHxvqfH2t8cBSI5eKPyLq2dizFVYIRGHi4ydMw5Q+vuMD+VP0I9zo0818zZ9b8TGLiyAmOzvyoAQ==}
+    peerDependencies:
+      '@urql/core': ^6.0.0
+      vue: ^3.2.0
 
   '@vee-validate/zod@4.15.1':
     resolution: {integrity: sha512-329Z4TDBE5Vx0FdbA8S4eR9iGCFFUNGbxjpQ20ff5b5wGueScjocUIx9JHPa79LTG06RnlUR4XogQsjN4tecKA==}
@@ -19302,6 +19308,12 @@ snapshots:
       graphql: 16.11.0
 
   '@urql/vue@1.4.3(@urql/core@5.2.0(graphql@16.11.0))(vue@3.5.18(typescript@5.9.2))':
+    dependencies:
+      '@urql/core': 5.2.0(graphql@16.11.0)
+      vue: 3.5.18(typescript@5.9.2)
+      wonka: 6.3.5
+
+  '@urql/vue@2.0.0(@urql/core@5.2.0(graphql@16.11.0))(vue@3.5.18(typescript@5.9.2))':
     dependencies:
       '@urql/core': 5.2.0(graphql@16.11.0)
       vue: 3.5.18(typescript@5.9.2)
