@@ -15,6 +15,7 @@ import type { HtmlHTMLAttributes } from 'vue'
 
 import blankProfilePicture from '~/assets/images/blank-profile-picture.svg'
 import { graphql } from '~~/gql/generated'
+import type { AccountByIdQueryVariables } from '~~/gql/generated/graphql'
 
 const {
   accountId,
@@ -53,7 +54,7 @@ const query = useQuery({
   `),
   variables: {
     id: accountId,
-  },
+  } satisfies MaybeRefObj<AccountByIdQueryVariables>,
 })
 const api = await useApiData([query])
 const account = computed(() => api.value.data.accountById)

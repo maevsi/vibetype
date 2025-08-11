@@ -121,10 +121,13 @@ const queryEventSearch = graphql(`
 const allEventsQueryAfter = ref<string>()
 const allEventsQuery = useQuery({
   query: queryEventList,
-  variables: {
-    after: allEventsQueryAfter,
-    first: ITEMS_PER_PAGE,
-  } satisfies MaybeRefObj<EventListQueryVariables>,
+  variables: computed(
+    () =>
+      ({
+        after: allEventsQueryAfter.value,
+        first: ITEMS_PER_PAGE,
+      }) satisfies MaybeRefObj<EventListQueryVariables>,
+  ),
 })
 
 const searchQuery = ref<string>()
@@ -135,11 +138,14 @@ const searchQueryVariable = computed(() =>
 const searchResultsQueryAfter = ref<string>()
 const searchResultsQuery = useQuery({
   query: queryEventSearch,
-  variables: {
-    after: searchResultsQueryAfter,
-    query: searchQueryVariable,
-    first: ITEMS_PER_PAGE,
-  } satisfies MaybeRefObj<EventSearchQueryVariables>,
+  variables: computed(
+    () =>
+      ({
+        after: searchResultsQueryAfter.value,
+        query: searchQueryVariable.value,
+        first: ITEMS_PER_PAGE,
+      }) satisfies MaybeRefObj<EventSearchQueryVariables>,
+  ),
 })
 watch(searchQueryVariable, () => {
   searchResultsQueryAfter.value = undefined

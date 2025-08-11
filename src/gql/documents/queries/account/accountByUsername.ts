@@ -11,7 +11,7 @@ export const accountByUsernameQuery = graphql(`
 `)
 
 export const useAccountByUsernameQuery = (
-  variables?: AccountByUsernameQueryVariables,
+  variables: AccountByUsernameQueryVariables,
 ) =>
   useQuery({
     query: accountByUsernameQuery,

@@ -339,7 +339,12 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     : undefined
 
   const clientOptions: ClientOptions = {
-    requestPolicy: 'cache-and-network',
+    exchanges: [
+      ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
+      ...(cacheExchange ? [cacheExchange] : []),
+      ssrExchange, // `ssrExchange` must be before `fetchExchange`
+      fetchExchange,
+    ],
     fetchOptions: () => {
       const headers = {} as Record<string, string>
 
@@ -352,15 +357,11 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
       return { headers }
     },
+    preferGetMethod: false, // TODO: remove with Postgraphile v5
+    requestPolicy: 'cache-and-network',
     url: isTesting
       ? `${siteUrl}/api/test/graphql`
       : getServiceHref({ name: 'postgraphile', port: 5000 }) + '/graphql',
-    exchanges: [
-      ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
-      ...(cacheExchange ? [cacheExchange] : []),
-      ssrExchange, // `ssrExchange` must be before `fetchExchange`
-      fetchExchange,
-    ],
   }
   const client = ref(createClient(clientOptions))
 

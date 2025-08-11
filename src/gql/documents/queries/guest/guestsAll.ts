@@ -17,7 +17,7 @@ export const allGuestsQuery = graphql(`
   }
 `)
 
-export const useAllGuestsQuery = (variables?: AllGuestsQueryVariables) =>
+export const useAllGuestsQuery = (variables: AllGuestsQueryVariables) =>
   useQuery({
     query: allGuestsQuery,
     variables,
