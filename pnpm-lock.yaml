@@ -83,7 +83,7 @@ importers:
         version: 4.1.6(graphql@16.11.0)
       '@graphql-codegen/typescript-urql-graphcache':
         specifier: 3.1.1
-        version: 3.1.1(@urql/exchange-graphcache@7.2.4(@urql/core@5.2.0(graphql@16.11.0))(graphql@16.11.0))(graphql-tag@2.12.6(graphql@16.11.0))(graphql@16.11.0)
+        version: 3.1.1(@urql/exchange-graphcache@7.2.4(@urql/core@6.0.1(graphql@16.11.0))(graphql@16.11.0))(graphql-tag@2.12.6(graphql@16.11.0))(graphql@16.11.0)
       '@graphql-codegen/urql-introspection':
         specifier: 3.0.1
         version: 3.0.1(graphql@16.11.0)
@@ -223,17 +223,17 @@ importers:
         specifier: 4.3.2
         version: 4.3.2(@uppy/core@4.5.2)
       '@urql/core':
-        specifier: 5.2.0
-        version: 5.2.0(graphql@16.11.0)
+        specifier: 6.0.1
+        version: 6.0.1(graphql@16.11.0)
       '@urql/devtools':
         specifier: 2.0.3
-        version: 2.0.3(@urql/core@5.2.0(graphql@16.11.0))(graphql@16.11.0)
+        version: 2.0.3(@urql/core@6.0.1(graphql@16.11.0))(graphql@16.11.0)
       '@urql/exchange-graphcache':
         specifier: 7.2.4
-        version: 7.2.4(@urql/core@5.2.0(graphql@16.11.0))(graphql@16.11.0)
+        version: 7.2.4(@urql/core@6.0.1(graphql@16.11.0))(graphql@16.11.0)
       '@urql/vue':
         specifier: 2.0.0
-        version: 2.0.0(@urql/core@5.2.0(graphql@16.11.0))(vue@3.5.18(typescript@5.9.2))
+        version: 2.0.0(@urql/core@6.0.1(graphql@16.11.0))(vue@3.5.18(typescript@5.9.2))
       '@vee-validate/zod':
         specifier: 4.15.1
         version: 4.15.1(vue@3.5.18(typescript@5.9.2))(zod@3.25.76)
@@ -5367,6 +5367,9 @@ packages:
 
   '@urql/core@5.2.0':
     resolution: {integrity: sha512-/n0ieD0mvvDnVAXEQgX/7qJiVcvYvNkOHeBvkwtylfjydar123caCXcl58PXFY11oU1oquJocVXHxLAbtv4x1A==}
+
+  '@urql/core@6.0.1':
+    resolution: {integrity: sha512-FZDiQk6jxbj5hixf2rEPv0jI+IZz0EqqGW8mJBEug68/zHTtT+f34guZDmyjJZyiWbj0vL165LoMr/TkeDHaug==}
 
   '@urql/devtools@2.0.3':
     resolution: {integrity: sha512-TktPLiBS9LcBPHD6qcnb8wqOVcg3Bx0iCtvQ80uPpfofwwBGJmqnQTjUdEFU6kwaLOFZULQ9+Uo4831G823mQw==}
@@ -15206,11 +15209,11 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@graphql-codegen/typescript-urql-graphcache@3.1.1(@urql/exchange-graphcache@7.2.4(@urql/core@5.2.0(graphql@16.11.0))(graphql@16.11.0))(graphql-tag@2.12.6(graphql@16.11.0))(graphql@16.11.0)':
+  '@graphql-codegen/typescript-urql-graphcache@3.1.1(@urql/exchange-graphcache@7.2.4(@urql/core@6.0.1(graphql@16.11.0))(graphql@16.11.0))(graphql-tag@2.12.6(graphql@16.11.0))(graphql@16.11.0)':
     dependencies:
       '@graphql-codegen/plugin-helpers': 3.1.2(graphql@16.11.0)
       '@graphql-codegen/visitor-plugin-common': 2.13.8(graphql@16.11.0)
-      '@urql/exchange-graphcache': 7.2.4(@urql/core@5.2.0(graphql@16.11.0))(graphql@16.11.0)
+      '@urql/exchange-graphcache': 7.2.4(@urql/core@6.0.1(graphql@16.11.0))(graphql@16.11.0)
       auto-bind: 4.0.0
       change-case-all: 1.0.15
       graphql: 16.11.0
@@ -19289,16 +19292,23 @@ snapshots:
     transitivePeerDependencies:
       - graphql
 
-  '@urql/devtools@2.0.3(@urql/core@5.2.0(graphql@16.11.0))(graphql@16.11.0)':
+  '@urql/core@6.0.1(graphql@16.11.0)':
     dependencies:
-      '@urql/core': 5.2.0(graphql@16.11.0)
+      '@0no-co/graphql.web': 1.2.0(graphql@16.11.0)
+      wonka: 6.3.5
+    transitivePeerDependencies:
+      - graphql
+
+  '@urql/devtools@2.0.3(@urql/core@6.0.1(graphql@16.11.0))(graphql@16.11.0)':
+    dependencies:
+      '@urql/core': 6.0.1(graphql@16.11.0)
       graphql: 16.11.0
       wonka: 6.3.5
 
-  '@urql/exchange-graphcache@7.2.4(@urql/core@5.2.0(graphql@16.11.0))(graphql@16.11.0)':
+  '@urql/exchange-graphcache@7.2.4(@urql/core@6.0.1(graphql@16.11.0))(graphql@16.11.0)':
     dependencies:
       '@0no-co/graphql.web': 1.2.0(graphql@16.11.0)
-      '@urql/core': 5.2.0(graphql@16.11.0)
+      '@urql/core': 6.0.1(graphql@16.11.0)
       wonka: 6.3.5
     transitivePeerDependencies:
       - graphql
@@ -19313,9 +19323,9 @@ snapshots:
       vue: 3.5.18(typescript@5.9.2)
       wonka: 6.3.5
 
-  '@urql/vue@2.0.0(@urql/core@5.2.0(graphql@16.11.0))(vue@3.5.18(typescript@5.9.2))':
+  '@urql/vue@2.0.0(@urql/core@6.0.1(graphql@16.11.0))(vue@3.5.18(typescript@5.9.2))':
     dependencies:
-      '@urql/core': 5.2.0(graphql@16.11.0)
+      '@urql/core': 6.0.1(graphql@16.11.0)
       vue: 3.5.18(typescript@5.9.2)
       wonka: 6.3.5
 

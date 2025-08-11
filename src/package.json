@@ -58,7 +58,7 @@
     "@types/seedrandom": "3.0.8",
     "@uppy/core": "4.5.2",
     "@uppy/tus": "4.3.2",
-    "@urql/core": "5.2.0",
+    "@urql/core": "6.0.1",
     "@urql/devtools": "2.0.3",
     "@urql/exchange-graphcache": "7.2.4",
     "@urql/vue": "2.0.0",
