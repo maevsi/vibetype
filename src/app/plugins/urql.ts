@@ -352,6 +352,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
       return { headers }
     },
+    preferGetMethod: false, // TODO: remove with Postgraphile v5
     url: isTesting
       ? `${siteUrl}/api/test/graphql`
       : getServiceHref({ name: 'postgraphile', port: 5000 }) + '/graphql',
