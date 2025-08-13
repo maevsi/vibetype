@@ -102,6 +102,7 @@
 import { useMutation, useQuery } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
+import type { AccountEditQueryVariables } from '~~/gql/generated/graphql'
 
 // compiler
 definePageMeta({
@@ -144,7 +145,7 @@ const query = useQuery({
   `),
   variables: {
     username: route.params.username,
-  },
+  } satisfies MaybeRefObj<AccountEditQueryVariables>,
 })
 const api = await useApiData([query])
 const account = computed(() => api.value.data.accountByUsername)

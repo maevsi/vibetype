@@ -35,6 +35,7 @@ import { useQuery } from '@urql/vue'
 
 import { useEventDeleteMutation } from '~~/gql/documents/mutations/event/eventDelete'
 import { graphql } from '~~/gql/generated'
+import type { EventEditQueryVariables } from '~~/gql/generated/graphql'
 
 // validation
 const route = useRoute('event-edit-username-event_name___en')
@@ -77,7 +78,7 @@ const eventQuery = useQuery({
   variables: {
     slug: route.params.event_name,
     username: route.params.username,
-  },
+  } satisfies MaybeRefObj<EventEditQueryVariables>,
 })
 const api = await useApiData([eventQuery])
 const account = computed(() => api.value.data?.accountByUsername)

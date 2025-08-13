@@ -50,11 +50,14 @@ watch(searchQueryDebouncedTrimmed, () => {
 })
 const accountSearchQuery = useQuery({
   query: queryAccountSearch,
-  variables: {
-    after,
-    first: ITEMS_PER_PAGE_LARGE,
-    username: searchQueryDebouncedTrimmed,
-  } satisfies MaybeRefObj<AccountSearchQueryVariables>,
+  variables: computed(
+    () =>
+      ({
+        after: after.value,
+        first: ITEMS_PER_PAGE_LARGE,
+        username: searchQueryDebouncedTrimmed.value,
+      }) satisfies MaybeRefObj<AccountSearchQueryVariables>,
+  ),
 })
 const api = await useApiData([accountSearchQuery])
 const accounts = computed(() => api.value.data.allAccounts?.nodes)

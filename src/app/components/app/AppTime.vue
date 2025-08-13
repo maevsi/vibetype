@@ -10,7 +10,8 @@
 import { reactiveOmit } from '@vueuse/core'
 import { useForwardProps } from 'reka-ui'
 
-// TODO: import type { NuxtTimeProps } from '#app'
+// TODO: use imported type (https://github.com/nuxt/nuxt/issues/29757)
+// import type { NuxtTimeProps } from '#app'
 
 const { locale: defaultLocale } = useI18n()
 const defaultTimeZone = useTimeZone()

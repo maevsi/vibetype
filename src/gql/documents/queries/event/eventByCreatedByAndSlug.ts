@@ -23,7 +23,7 @@ export const eventByCreatedByAndSlugQuery = graphql(`
 `)
 
 export const useEventByCreatedByAndSlugQuery = (
-  variables?: EventByCreatedByAndSlugQueryVariables,
+  variables: EventByCreatedByAndSlugQueryVariables,
 ) =>
   useQuery({
     query: eventByCreatedByAndSlugQuery,
