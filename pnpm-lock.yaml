@@ -61,8 +61,8 @@ importers:
         specifier: 3.864.0
         version: 3.864.0
       '@dargmuesli/nuxt-cookie-control':
-        specifier: 9.1.0
-        version: 9.1.0(magicast@0.3.5)(webpack@5.101.0(esbuild@0.25.8))
+        specifier: 9.1.1
+        version: 9.1.1(magicast@0.3.5)(webpack@5.101.0(esbuild@0.25.8))
       '@dargmuesli/nuxt-vio':
         specifier: 18.3.7
         version: 18.3.7(19a82353ec6db6f9474364e29f2ead78)
@@ -109,8 +109,8 @@ importers:
         specifier: 1.2.1
         version: 1.2.1
       '@iconify-json/material-symbols':
-        specifier: 1.2.31
-        version: 1.2.31
+        specifier: 1.2.32
+        version: 1.2.32
       '@iconify-json/solar':
         specifier: 1.2.4
         version: 1.2.4
@@ -1367,6 +1367,10 @@ packages:
     resolution: {integrity: sha512-59wTVn+re0g2PtEv7XKpj0WIcwH4XEYQeJZS53pSkBEhOGN0ShmDD4akJGDWo+OJ7GHXCIVwrJVN6sA1NrgV3Q==}
     engines: {node: '>=16'}
 
+  '@dargmuesli/nuxt-cookie-control@9.1.1':
+    resolution: {integrity: sha512-lqUKgPbvjueE1GUbmZAE3DVyWe3OVMXQh93A5S7AGIK30WSWYPVYxkZCbz/w6HnjBtpc4vRbZaz3Boq5zr/O3Q==}
+    engines: {node: '>=16'}
+
   '@dargmuesli/nuxt-vio@18.3.7':
     resolution: {integrity: sha512-1ifxx0zkbvZnC07sdKhiERxIexF/++u2cL+G8OJlGgQre4CDx6g0YQ16u2I3j12TXMVNrzxQuFdeKuemXZKfdg==}
     engines: {node: '22'}
@@ -2365,8 +2369,8 @@ packages:
   '@iconify-json/heroicons@1.2.2':
     resolution: {integrity: sha512-qoW4pXr5kTTL6juEjgTs83OJIwpePu7q1tdtKVEdj+i0zyyVHgg/dd9grsXJQnpTpBt6/VwNjrXBvFjRsKPENg==}
 
-  '@iconify-json/material-symbols@1.2.31':
-    resolution: {integrity: sha512-O3xGdrPXiFNX1qJHssAbvW42OS6wcdrFqJMGfwz+CBZzSjpMGBQG8k0Urxb5FNt6nIz7asX5xqkg68IRA4ackA==}
+  '@iconify-json/material-symbols@1.2.32':
+    resolution: {integrity: sha512-Jw3wdiNV8X1MoiS0rFzlZFYek/yYS1GTh/64L3lZkqlPo+uJAb0xdtVWZR54tzY/0G2OuWXMDqeCCQ6I2wB9/w==}
 
   '@iconify-json/solar@1.2.4':
     resolution: {integrity: sha512-ruAh+bbYimlzqXW6MtqmvWlfatvFjE7o1fZWieps1h42Dx7AaHu4Z/dgOYSO1RR4MIhNzD+2xgEbFjASgBcEyg==}
@@ -14360,6 +14364,16 @@ snapshots:
       - magicast
       - webpack
 
+  '@dargmuesli/nuxt-cookie-control@9.1.1(magicast@0.3.5)(webpack@5.101.0(esbuild@0.25.8))':
+    dependencies:
+      '@nuxt/kit': 4.0.3(magicast@0.3.5)
+      css-vars-ponyfill: 2.4.9
+      defu: 6.1.4
+      string-replace-loader: 3.2.0(webpack@5.101.0(esbuild@0.25.8))
+    transitivePeerDependencies:
+      - magicast
+      - webpack
+
   '@dargmuesli/nuxt-vio@18.3.7(19a82353ec6db6f9474364e29f2ead78)':
     dependencies:
       '@dargmuesli/nuxt-cookie-control': 9.1.0(magicast@0.3.5)(webpack@5.101.0(esbuild@0.25.8))
@@ -15714,7 +15728,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/material-symbols@1.2.31':
+  '@iconify-json/material-symbols@1.2.32':
     dependencies:
       '@iconify/types': 2.0.0
 
