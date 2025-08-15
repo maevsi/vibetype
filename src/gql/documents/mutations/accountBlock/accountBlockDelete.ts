@@ -2,8 +2,10 @@ import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
 export const deleteAccountBlockMutation = graphql(`
-  mutation DeleteAccountBlock($nodeId: ID!) {
-    deleteAccountBlock(input: { nodeId: $nodeId }) {
+  mutation DeleteAccountBlock($blockedAccountId: UUID!, $createdBy: UUID!) {
+    deleteAccountBlockByCreatedByAndBlockedAccountId(
+      input: { createdBy: $createdBy, blockedAccountId: $blockedAccountId }
+    ) {
       clientMutationId
     }
   }

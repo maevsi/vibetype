@@ -89,8 +89,8 @@
 import { useDeleteAccountBlockMutation } from '~~/gql/documents/mutations/accountBlock/accountBlockDelete'
 
 // compiler
-const { blockedId, blockedUsername } = defineProps<{
-  blockedId: string
+const { blockedAccountId, blockedUsername } = defineProps<{
+  blockedAccountId: string // Changed from blockedId
   blockedUsername: string
 }>()
 
@@ -115,8 +115,11 @@ const onAnimationEnd = (isOpen: boolean) => {
 const deleteAccountBlockMutation = useDeleteAccountBlockMutation()
 
 const unblockUser = async () => {
+  const store = useStore()
+
   const result = await deleteAccountBlockMutation.executeMutation({
-    nodeId: blockedId,
+    blockedAccountId: blockedAccountId,
+    createdBy: store.signedInAccountId,
   })
 
   if (result.error) {

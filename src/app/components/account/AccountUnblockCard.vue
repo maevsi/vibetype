@@ -16,13 +16,10 @@
       class="ml-auto"
       @click="openUnblockDrawer"
     >
-      <!-- <TypographyLabel v-slot="attributes">
-        <div v-bind="attributes">Unblock User</div>
-      </TypographyLabel> -->
     </ButtonColored>
     <AccountUnblockDrawer
       v-model:open="isUnblockDrawerOpen"
-      :blocked-id="account.blockNodeId"
+      :blocked-account-id="account.blockNodeId"
       :blocked-username="account.username"
     />
   </div>
