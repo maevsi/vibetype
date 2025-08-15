@@ -97,10 +97,20 @@ const blockedAccounts = computed((): BlockedAccount[] => {
   if (!accounts) return []
 
   return accounts
-    .filter((acc) => acc.id && acc.username)
+    .filter(
+      (
+        acc,
+      ): acc is {
+        id: string
+        username: string
+        description?: string | null
+        imprint?: string | null
+        storageKey?: string | null
+      } => Boolean(acc.id && acc.username),
+    )
     .map((acc) => ({
-      id: acc.id!,
-      username: acc.username!,
+      id: acc.id,
+      username: acc.username,
       description: acc.description,
       imprint: acc.imprint,
       storageKey: acc.storageKey,
