@@ -334,8 +334,8 @@ importers:
         specifier: 1.9.4
         version: 1.9.4
       leaflet-control-geocoder:
-        specifier: 3.2.1
-        version: 3.2.1(leaflet@1.9.4)
+        specifier: 3.3.0
+        version: 3.3.0(leaflet@1.9.4)
       lodash-es:
         specifier: 4.17.21
         version: 4.17.21
@@ -451,8 +451,8 @@ importers:
         specifier: 4.1.12
         version: 4.1.12
       tw-animate-css:
-        specifier: 1.3.6
-        version: 1.3.6
+        specifier: 1.3.7
+        version: 1.3.7
       unplugin-icons:
         specifier: 22.2.0
         version: 22.2.0(@vue/compiler-sfc@3.5.18)
@@ -8855,8 +8855,8 @@ packages:
   leac@0.6.0:
     resolution: {integrity: sha512-y+SqErxb8h7nE/fiEX07jsbuhrpO9lL8eca7/Y1nuWV2moNlXhyd59iDGcRf6moVyDMbmTNzL40SUyrFU/yDpg==}
 
-  leaflet-control-geocoder@3.2.1:
-    resolution: {integrity: sha512-TbKmp6GuPC+W6lM6N1u8NZwXFEL8sX2d15ywLsLGXWylVtEoCwz0vu6mT9gR3XDPr/IWQnIAst6eQ9qacBYqkQ==}
+  leaflet-control-geocoder@3.3.0:
+    resolution: {integrity: sha512-Fq5KSomfLQDjVXr/7UrDsQGNMcdCgjLEqeCXx+BECcJlBRlncIgYJo5vJnPN7kqnZipt+hi6pVNDNWUyn99O+Q==}
     peerDependencies:
       leaflet: ^1.6.0 || ^2.0.0
 
@@ -11898,8 +11898,8 @@ packages:
     resolution: {integrity: sha512-ZLeYmjrkaU1fUsKbIi8JML52uAocjEZtBx4DKjRrqzrZa0O4MYwT6db+oqePlspV+FxXJAyFBc/L5gwUi2OFsg==}
     engines: {node: '>=18'}
 
-  tw-animate-css@1.3.6:
-    resolution: {integrity: sha512-9dy0R9UsYEGmgf26L8UcHiLmSFTHa9+D7+dAt/G/sF5dCnPePZbfgDYinc7/UzAM7g/baVrmS6m9yEpU46d+LA==}
+  tw-animate-css@1.3.7:
+    resolution: {integrity: sha512-lvLb3hTIpB5oGsk8JmLoAjeCHV58nKa2zHYn8yWOoG5JJusH3bhJlF2DLAZ/5NmJ+jyH3ssiAx/2KmbhavJy/A==}
 
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
@@ -23386,7 +23386,7 @@ snapshots:
 
   leac@0.6.0: {}
 
-  leaflet-control-geocoder@3.2.1(leaflet@1.9.4):
+  leaflet-control-geocoder@3.3.0(leaflet@1.9.4):
     dependencies:
       leaflet: 1.9.4
     optionalDependencies:
@@ -27247,7 +27247,7 @@ snapshots:
       proper-lockfile: 4.1.2
       url-parse: 1.5.10
 
-  tw-animate-css@1.3.6: {}
+  tw-animate-css@1.3.7: {}
 
   type-check@0.4.0:
     dependencies:
