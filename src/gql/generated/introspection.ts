@@ -2004,6 +2004,134 @@ export default {
       },
       {
         kind: 'OBJECT',
+        name: 'AccountBlockedAccountEdge',
+        fields: [
+          {
+            name: 'cursor',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'node',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'OBJECT',
+                name: 'AccountBlockedAccountsRecord',
+                ofType: null,
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'AccountBlockedAccountsConnection',
+        fields: [
+          {
+            name: 'edges',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'LIST',
+                ofType: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'OBJECT',
+                    name: 'AccountBlockedAccountEdge',
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'nodes',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'LIST',
+                ofType: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'OBJECT',
+                    name: 'AccountBlockedAccountsRecord',
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'totalCount',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'AccountBlockedAccountsRecord',
+        fields: [
+          {
+            name: 'description',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'id',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'imprint',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'storageKey',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'username',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
         name: 'AccountBlocksConnection',
         fields: [
           {
@@ -14896,6 +15024,51 @@ export default {
                     kind: 'SCALAR',
                     name: 'Any',
                   },
+                },
+              },
+            ],
+          },
+          {
+            name: 'accountBlockedAccounts',
+            type: {
+              kind: 'OBJECT',
+              name: 'AccountBlockedAccountsConnection',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'after',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'before',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'first',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'last',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'offset',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
                 },
               },
             ],
