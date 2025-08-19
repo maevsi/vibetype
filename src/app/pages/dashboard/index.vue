@@ -8,6 +8,7 @@
     <LayoutPageTitle :title />
     <div v-if="isSignedIn" class="flex flex-col gap-8">
       <section
+        v-if="events?.length"
         :aria-labelledby="templateIdRecommendation"
         class="flex flex-col gap-4"
       >
