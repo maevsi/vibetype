@@ -175,7 +175,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const isTesting = useIsTesting()
   const getServiceHref = useGetServiceHref()
   const store = useStore()
-  const { siteUrl } = useSiteUrl()
 
   const ssrExchange = getSsrExchange({
     isClient: import.meta.client,
@@ -360,7 +359,9 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     preferGetMethod: false, // TODO: remove with Postgraphile v5
     requestPolicy: 'cache-and-network',
     url: isTesting
-      ? `${siteUrl}/api/test/graphql`
+      ? process.env.CI
+        ? 'http://localhost:5000/graphql' // CI environment
+        : 'https://localhost/postgraphile/graphql' // Local stack
       : getServiceHref({ name: 'postgraphile', port: 5000 }) + '/graphql',
   }
   const client = ref(createClient(clientOptions))

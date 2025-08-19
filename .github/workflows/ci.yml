@@ -49,8 +49,63 @@ jobs:
       TAG: ${{ needs.release_semantic_dry.outputs.new_release_version }}
     secrets:
       BUILD_ARGUMENTS: SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
-  release_semantic:
+  e2e_tests:
+    name: E2E Tests
     needs: build
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: imresamu/postgis:17-3.5.2-alpine3.21
+        env:
+          POSTGRES_DB: vibetype
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: "10.14.0"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Setup test database
+        run: |
+          chmod +x tests/database/setup.sh
+          POSTGRES_HOST=localhost ./tests/database/setup.sh
+
+      - name: Start PostGraphile
+        run: |
+          docker run -d --name postgraphile \
+            --network host \
+            -e POSTGRAPHILE_CONNECTION=postgres://postgres:postgres@localhost:5432/vibetype \
+            -e POSTGRAPHILE_OWNER_CONNECTION=postgres://postgres:postgres@localhost:5432/vibetype \
+            -e POSTGRAPHILE_JWT_SECRET_KEY=test-jwt-secret \
+            -p 5000:5000 \
+            ghcr.io/maevsi/postgraphile:1.0.4
+          sleep 10
+
+      - name: Run E2E tests
+        run: |
+          cd tests
+          pnpm run test:e2e:server:dev
+
+  release_semantic:
+    needs: [build, e2e_tests]
     name: Release (semantic)
     uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@2.6.1
     permissions:
