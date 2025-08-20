@@ -22,6 +22,7 @@ type Documents = {
   '\n  query EventSearch(\n    $after: Cursor\n    $first: Int\n    $language: Language\n    $query: String\n  ) {\n    eventSearch(\n      after: $after\n      first: $first\n      language: $language\n      query: $query\n    ) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            createdBy\n            id\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.EventSearchDocument
   '\n    mutation CreateEventFavorite($input: EventFavoriteInput!) {\n      createEventFavorite(input: { eventFavorite: $input }) {\n        eventFavorite {\n          createdBy\n          eventId\n          id\n          nodeId\n        }\n      }\n    }\n  ': typeof types.CreateEventFavoriteDocument
   '\n    mutation DeleteEventFavoriteById($input: DeleteEventFavoriteByIdInput!) {\n      deleteEventFavoriteById(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteEventFavoriteByIdDocument
+  '\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          nodeId\n          eventSize\n        }\n      }\n    }\n  ': typeof types.AllPreferenceEventSizesDocument
   '\n    query AccountEdit($username: String!) {\n      accountByUsername(username: $username) {\n        description\n        id\n        imprint\n        profilePictureByAccountId {\n          id\n          uploadByUploadId {\n            id\n            storageKey\n          }\n        }\n        username\n      }\n    }\n  ': typeof types.AccountEditDocument
   '\n    mutation CreateProfilePicture($input: ProfilePictureInput!) {\n      createProfilePicture(input: { profilePicture: $input }) {\n        profilePicture {\n          accountId\n          id\n          uploadId\n        }\n        accountByAccountId {\n          id\n          profilePictureByAccountId {\n            id\n            uploadId\n          }\n        }\n      }\n    }\n  ': typeof types.CreateProfilePictureDocument
   '\n    mutation DeleteProfilePictureByIdMutation($id: UUID!) {\n      deleteProfilePictureById(input: { id: $id }) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteProfilePictureByIdMutationDocument
@@ -92,7 +93,6 @@ type Documents = {
   '\n  query AllPreferenceEventCategories {\n    allPreferenceEventCategories {\n      nodes {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n': typeof types.AllPreferenceEventCategoriesDocument
   '\n  query AllPreferenceEventFormats {\n    allPreferenceEventFormats {\n      nodes {\n        ...PreferenceEventFormatItem\n      }\n    }\n  }\n': typeof types.AllPreferenceEventFormatsDocument
   '\n  query AllPreferenceEventLocations {\n    allPreferenceEventLocations {\n      nodes {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n': typeof types.AllPreferenceEventLocationsDocument
-  '\n  query AllPreferenceEventSizes {\n    allPreferenceEventSizes {\n      nodes {\n        nodeId\n        eventSize\n      }\n    }\n  }\n': typeof types.AllPreferenceEventSizesDocument
   '\n  query ProfilePictureByAccountId($accountId: UUID!) {\n    profilePictureByAccountId(accountId: $accountId) {\n      ...ProfilePictureItem\n    }\n  }\n': typeof types.ProfilePictureByAccountIdDocument
   '\n  query AllUploads($after: Cursor, $first: Int!, $createdBy: UUID) {\n    allUploads(\n      after: $after\n      condition: { createdBy: $createdBy }\n      first: $first\n    ) {\n      nodes {\n        ...UploadItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.AllUploadsDocument
 }
@@ -113,6 +113,8 @@ const documents: Documents = {
     types.CreateEventFavoriteDocument,
   '\n    mutation DeleteEventFavoriteById($input: DeleteEventFavoriteByIdInput!) {\n      deleteEventFavoriteById(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.DeleteEventFavoriteByIdDocument,
+  '\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          nodeId\n          eventSize\n        }\n      }\n    }\n  ':
+    types.AllPreferenceEventSizesDocument,
   '\n    query AccountEdit($username: String!) {\n      accountByUsername(username: $username) {\n        description\n        id\n        imprint\n        profilePictureByAccountId {\n          id\n          uploadByUploadId {\n            id\n            storageKey\n          }\n        }\n        username\n      }\n    }\n  ':
     types.AccountEditDocument,
   '\n    mutation CreateProfilePicture($input: ProfilePictureInput!) {\n      createProfilePicture(input: { profilePicture: $input }) {\n        profilePicture {\n          accountId\n          id\n          uploadId\n        }\n        accountByAccountId {\n          id\n          profilePictureByAccountId {\n            id\n            uploadId\n          }\n        }\n      }\n    }\n  ':
@@ -253,8 +255,6 @@ const documents: Documents = {
     types.AllPreferenceEventFormatsDocument,
   '\n  query AllPreferenceEventLocations {\n    allPreferenceEventLocations {\n      nodes {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n':
     types.AllPreferenceEventLocationsDocument,
-  '\n  query AllPreferenceEventSizes {\n    allPreferenceEventSizes {\n      nodes {\n        nodeId\n        eventSize\n      }\n    }\n  }\n':
-    types.AllPreferenceEventSizesDocument,
   '\n  query ProfilePictureByAccountId($accountId: UUID!) {\n    profilePictureByAccountId(accountId: $accountId) {\n      ...ProfilePictureItem\n    }\n  }\n':
     types.ProfilePictureByAccountIdDocument,
   '\n  query AllUploads($after: Cursor, $first: Int!, $createdBy: UUID) {\n    allUploads(\n      after: $after\n      condition: { createdBy: $createdBy }\n      first: $first\n    ) {\n      nodes {\n        ...UploadItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n':
@@ -323,6 +323,12 @@ export function graphql(
 export function graphql(
   source: '\n    mutation DeleteEventFavoriteById($input: DeleteEventFavoriteByIdInput!) {\n      deleteEventFavoriteById(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
 ): (typeof documents)['\n    mutation DeleteEventFavoriteById($input: DeleteEventFavoriteByIdInput!) {\n      deleteEventFavoriteById(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          nodeId\n          eventSize\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          nodeId\n          eventSize\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -743,12 +749,6 @@ export function graphql(
 export function graphql(
   source: '\n  query AllPreferenceEventLocations {\n    allPreferenceEventLocations {\n      nodes {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n',
 ): (typeof documents)['\n  query AllPreferenceEventLocations {\n    allPreferenceEventLocations {\n      nodes {\n        ...PreferenceEventLocationItem\n      }\n    }\n  }\n']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n  query AllPreferenceEventSizes {\n    allPreferenceEventSizes {\n      nodes {\n        nodeId\n        eventSize\n      }\n    }\n  }\n',
-): (typeof documents)['\n  query AllPreferenceEventSizes {\n    allPreferenceEventSizes {\n      nodes {\n        nodeId\n        eventSize\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

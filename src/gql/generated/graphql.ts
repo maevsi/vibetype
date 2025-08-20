@@ -9223,6 +9223,22 @@ export type DeleteEventFavoriteByIdMutation = {
   } | null
 }
 
+export type AllPreferenceEventSizesQueryVariables = Exact<{
+  [key: string]: never
+}>
+
+export type AllPreferenceEventSizesQuery = {
+  __typename?: 'Query'
+  allPreferenceEventSizes?: {
+    __typename?: 'PreferenceEventSizesConnection'
+    nodes: Array<{
+      __typename?: 'PreferenceEventSize'
+      nodeId: string
+      eventSize: EventSize
+    }>
+  } | null
+}
+
 export type AccountEditQueryVariables = Exact<{
   username: Scalars['String']['input']
 }>
@@ -10507,22 +10523,6 @@ export type AllPreferenceEventLocationsQuery = {
         }
       }
     >
-  } | null
-}
-
-export type AllPreferenceEventSizesQueryVariables = Exact<{
-  [key: string]: never
-}>
-
-export type AllPreferenceEventSizesQuery = {
-  __typename?: 'Query'
-  allPreferenceEventSizes?: {
-    __typename?: 'PreferenceEventSizesConnection'
-    nodes: Array<{
-      __typename?: 'PreferenceEventSize'
-      nodeId: string
-      eventSize: EventSize
-    }>
   } | null
 }
 
@@ -12111,6 +12111,50 @@ export const DeleteEventFavoriteByIdDocument = {
 } as unknown as DocumentNode<
   DeleteEventFavoriteByIdMutation,
   DeleteEventFavoriteByIdMutationVariables
+>
+export const AllPreferenceEventSizesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllPreferenceEventSizes' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allPreferenceEventSizes' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodeId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventSize' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllPreferenceEventSizesQuery,
+  AllPreferenceEventSizesQueryVariables
 >
 export const AccountEditDocument = {
   kind: 'Document',
@@ -18662,50 +18706,6 @@ export const AllPreferenceEventLocationsDocument = {
 } as unknown as DocumentNode<
   AllPreferenceEventLocationsQuery,
   AllPreferenceEventLocationsQueryVariables
->
-export const AllPreferenceEventSizesDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'AllPreferenceEventSizes' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'allPreferenceEventSizes' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'nodeId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'eventSize' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  AllPreferenceEventSizesQuery,
-  AllPreferenceEventSizesQueryVariables
 >
 export const ProfilePictureByAccountIdDocument = {
   kind: 'Document',

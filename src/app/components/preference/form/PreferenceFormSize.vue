@@ -1,5 +1,14 @@
 <template>
-  <form ref="form" class="flex flex-col gap-4" @submit="onSubmit">
+  <LoaderIndicatorPing v-if="api.isFetching" />
+  <AppError
+    v-else-if="error"
+    :error="{ message: error.message, statusCode: 500 }"
+  />
+  <AppError
+    v-else-if="!api.data.allPreferenceEventSizes?.nodes.length"
+    :error="{ message: 'Data is missing', statusCode: 404 }"
+  />
+  <form v-else ref="form" class="flex flex-col gap-4" @submit="onSubmit">
     <FormField name="size">
       <FormItem class="flex flex-col gap-2">
         <FormField
@@ -37,14 +46,18 @@
 </template>
 
 <script setup lang="ts">
+import { useQuery } from '@urql/vue'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import { z } from 'zod'
 
-import { EventSize } from '~~/gql/generated/graphql'
-import { useAllPreferenceEventSizesQuery } from '~~/gql/documents/queries/preference/preferenceEventSizesAll'
+import {
+  EventSize,
+  type AllPreferenceEventSizesQueryVariables,
+} from '~~/gql/generated/graphql'
 import { useCreatePreferenceEventSizeMutation } from '~~/gql/documents/mutations/preference/preferenceEventSizeCreate'
 import { useDeletePreferenceEventSizeByAccountIdAndEventSizeMutation } from '~~/gql/documents/mutations/preference/preferenceEventSizeDeleteByAccountIdAndEventSize'
+import { graphql } from '~~/gql/generated'
 
 const emit = defineEmits<{
   submit: []
@@ -60,7 +73,19 @@ const submit = () =>
 defineExpose({ submit })
 
 // api data
-const allPreferenceEventSizesQuery = useAllPreferenceEventSizesQuery()
+const allPreferenceEventSizesQuery = useQuery({
+  query: graphql(`
+    query AllPreferenceEventSizes {
+      allPreferenceEventSizes {
+        nodes {
+          nodeId
+          eventSize
+        }
+      }
+    }
+  `),
+  variables: {} satisfies AllPreferenceEventSizesQueryVariables,
+})
 const createPreferenceEventSizeMutation = useCreatePreferenceEventSizeMutation()
 const deletePreferenceEventSizeByAccountIdAndEventSizeMutation =
   useDeletePreferenceEventSizeByAccountIdAndEventSizeMutation()
