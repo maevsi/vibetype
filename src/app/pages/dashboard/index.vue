@@ -84,20 +84,16 @@ const {
   // error: recommendationError,
   pending,
 } = await useAsyncData('index-recommendations', async () => {
-  const eventIds = [
-    (
-      await $fetch(
-        '/api/service/reccoom/recommendations',
-        cookieJwt.value
-          ? {
-              headers: {
-                cookie: `${jwtName}=${cookieJwt.value}`,
-              },
-            }
-          : undefined,
-      )
-    )[0],
-  ]
+  const eventIds = await $fetch(
+    '/api/service/reccoom/recommendations',
+    cookieJwt.value
+      ? {
+          headers: {
+            cookie: `${jwtName}=${cookieJwt.value}`,
+          },
+        }
+      : undefined,
+  )
   const events = (
     await Promise.all(
       eventIds.map(
