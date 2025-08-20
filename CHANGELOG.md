@@ -1,3 +1,14 @@
+## [12.27.0](https://github.com/maevsi/vibetype/compare/12.26.2...12.27.0) (2025-08-20)
+
+### Features
+
+* **recommendation:** show up to 10 ([ec9678d](https://github.com/maevsi/vibetype/commit/ec9678d5f41c0ce41e916385fe953fddcddc0887))
+
+### Bug Fixes
+
+* **preference:** await asynchronous data at initialization ([bb3422b](https://github.com/maevsi/vibetype/commit/bb3422be5c649d1f22fa30a20266ad42bef78630))
+* **recommendation:** don't show section if content is empty ([ce65f88](https://github.com/maevsi/vibetype/commit/ce65f8852ce7b4b07e9ef9b8d825f1e709be57d9))
+
 ## [12.26.2](https://github.com/maevsi/vibetype/compare/12.26.1...12.26.2) (2025-08-10)
 
 ### Bug Fixes
