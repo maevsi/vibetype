@@ -38,7 +38,7 @@ const queryAccountSearch = graphql(`
     }
   }
 `)
-const after = ref<string>()
+const after = ref<string | null>()
 const searchQuery = ref<string>()
 const searchQueryDebounced = refDebounced(searchQuery, 300)
 const searchQueryDebouncedTrimmed = computed(

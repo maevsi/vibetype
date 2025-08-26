@@ -93,7 +93,7 @@ const submit = async () => {
   }
 
   try {
-    await jwtStore(result.data?.authenticate?.jwt)
+    await jwtStore(result.data?.authenticate?.jwt || undefined)
   } catch (error) {
     await fireAlert({
       error,

@@ -178,7 +178,10 @@ const createProfilePictureMutation = useMutation(
   `),
 )
 const onUploadSelect = async (uploadId?: string | null | undefined) => {
+  if (!account.value?.id || !uploadId) return
+
   await removeProfilePicture()
+
   const result = await createProfilePictureMutation.executeMutation({
     input: {
       accountId: account.value?.id,

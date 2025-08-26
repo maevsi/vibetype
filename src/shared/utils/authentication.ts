@@ -41,7 +41,7 @@ export const authenticationAnonymous = async ({
     await jwtStore({
       $urqlReset,
       event,
-      jwt: result.data.authenticate.jwt,
+      jwt: result.data.authenticate.jwt || undefined,
       runtimeConfig,
       store,
     })

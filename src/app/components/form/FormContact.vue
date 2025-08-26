@@ -245,6 +245,8 @@ const submit = async () => {
     emit('submitSuccess')
   } else {
     // Add
+    if (!store.signedInAccountId) return
+
     const result = await createContactMutation.executeMutation({
       contactInput: {
         accountId: account?.id || null,

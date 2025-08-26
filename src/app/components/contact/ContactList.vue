@@ -73,7 +73,7 @@ const { t } = useI18n()
 const store = useStore()
 
 // data
-const after = ref<string>()
+const after = ref<string | null>()
 const formContactHeading = ref<string>()
 const pending = reactive({
   deletions: ref<string[]>([]),

@@ -80,7 +80,9 @@ definePageMeta({
       const { jwtStore } = await useJwtStore()
 
       if (
-        !isQueryIcFormatValid(to.query.ic) ||
+        !to.query.ic ||
+        Array.isArray(to.query.ic) ||
+        !REGEX_UUID.test(to.query.ic) ||
         'error' in to.query ||
         'redirect' in to.query
       )
@@ -170,7 +172,12 @@ const api = await useApiData([eventUnlockMutation])
 
 // methods
 const submit = async () => {
-  if (!isFormValid({ v$, isFormSent })) return
+  if (
+    !isFormValid({ v$, isFormSent }) ||
+    !form.guestId ||
+    Array.isArray(form.guestId)
+  )
+    return
 
   const result = await eventUnlockMutation.executeMutation({
     guestId: form.guestId,
@@ -181,7 +188,9 @@ const submit = async () => {
   }
 
   try {
-    await jwtStore(result.data?.eventUnlock?.eventUnlockResponse?.jwt)
+    await jwtStore(
+      result.data?.eventUnlock?.eventUnlockResponse?.jwt || undefined,
+    )
   } catch (error) {
     await fireAlert({
       error,

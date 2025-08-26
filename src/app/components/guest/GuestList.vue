@@ -115,7 +115,7 @@ const runtimeConfig = useRuntimeConfig()
 const templateDoughnut = useTemplateRef<DoughnutController>('doughnut')
 
 // data
-const after = ref<string>()
+const after = ref<string | null>()
 const options = {
   plugins: {
     legend: {

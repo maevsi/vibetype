@@ -11,7 +11,6 @@ import {
 import type { Client } from '@urql/core'
 import { consola } from 'consola'
 import type { Ref } from 'vue'
-import type { LocationQueryValue } from 'vue-router'
 
 import { accountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { eventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
@@ -134,10 +133,6 @@ export const isFormValid = async ({
 
   return isValid
 }
-
-export const isQueryIcFormatValid = (
-  ic?: LocationQueryValue | LocationQueryValue[],
-) => ic && !Array.isArray(ic) && REGEX_UUID.test(ic)
 
 export const getAccountByUsername = async ({
   $urql,

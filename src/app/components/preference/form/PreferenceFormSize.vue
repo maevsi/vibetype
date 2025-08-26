@@ -136,6 +136,8 @@ const { handleSubmit } = useForm({
 })
 const store = useStore()
 const onSubmit = handleSubmit(async (values) => {
+  if (!store.signedInAccountId) return
+
   const itemsToCreate = values.items.filter(
     (eventSize) => !initialSelectedItems.includes(eventSize),
   )
