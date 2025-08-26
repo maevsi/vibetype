@@ -68,7 +68,6 @@ import type { RouteNamedMap } from 'vue-router/auto-routes'
 
 import { graphql } from '~~/gql/generated'
 import { useQuery } from '@urql/vue'
-import type { EventAttendanceQueryVariables } from '~~/gql/generated/graphql'
 
 const ROUTE_NAME: keyof RouteNamedMap =
   'event-view-username-event_name-attendance___en'
@@ -124,7 +123,7 @@ const queryEventAttendance = useQuery({
   variables: {
     slug: route.params.event_name,
     username: route.params.username,
-  } satisfies MaybeRefObj<EventAttendanceQueryVariables>,
+  },
 })
 const api = await useApiData([queryEventAttendance])
 const account = computed(() => api.value.data.accountByUsername)

@@ -285,10 +285,7 @@ import QrcodeVue from 'qrcode.vue'
 
 import { useUpdateGuestByIdMutation } from '~~/gql/documents/mutations/guest/guestUpdateById'
 import { InvitationFeedback } from '~~/gql/generated/graphql'
-import type {
-  GuestEventQueryVariables,
-  GuestPatch,
-} from '~~/gql/generated/graphql'
+import type { GuestPatch } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
 
 const { t } = useI18n()
@@ -342,7 +339,7 @@ const eventQuery = useQuery({
   `),
   variables: {
     id: route.params.id,
-  } satisfies MaybeRefObj<GuestEventQueryVariables>,
+  },
 })
 const guest = computed(() => eventQuery.data.value?.guestById)
 const event = computed(() => guest.value?.eventByEventId)

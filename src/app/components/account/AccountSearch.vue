@@ -17,7 +17,6 @@ import { useQuery } from '@urql/vue'
 import { refDebounced } from '@vueuse/core'
 
 import { graphql } from '~~/gql/generated'
-import type { AccountSearchQueryVariables } from '~~/gql/generated/graphql'
 
 // api data
 const queryAccountSearch = graphql(`
@@ -39,7 +38,7 @@ const queryAccountSearch = graphql(`
     }
   }
 `)
-const after = ref<string>()
+const after = ref<string | null>()
 const searchQuery = ref<string>()
 const searchQueryDebounced = refDebounced(searchQuery, 300)
 const searchQueryDebouncedTrimmed = computed(
@@ -50,14 +49,11 @@ watch(searchQueryDebouncedTrimmed, () => {
 })
 const accountSearchQuery = useQuery({
   query: queryAccountSearch,
-  variables: computed(
-    () =>
-      ({
-        after: after.value,
-        first: ITEMS_PER_PAGE_LARGE,
-        username: searchQueryDebouncedTrimmed.value,
-      }) satisfies MaybeRefObj<AccountSearchQueryVariables>,
-  ),
+  variables: computed(() => ({
+    after: after.value,
+    first: ITEMS_PER_PAGE_LARGE,
+    username: searchQueryDebouncedTrimmed.value,
+  })),
 })
 const api = await useApiData([accountSearchQuery])
 const accounts = computed(() => api.value.data.allAccounts?.nodes)

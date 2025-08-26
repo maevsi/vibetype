@@ -36,13 +36,13 @@ export type Scalars = {
   Int: { input: number; output: number }
   Float: { input: number; output: number }
   BigInt: { input: any; output: any }
-  Cursor: { input: any; output: any }
+  Cursor: { input: string; output: string }
   Date: { input: any; output: any }
   Datetime: { input: any; output: any }
   GeoJSON: { input: any; output: any }
-  Jwt: { input: any; output: any }
+  Jwt: { input: string; output: string }
   RegConfig: { input: any; output: any }
-  UUID: { input: any; output: any }
+  UUID: { input: string; output: string }
 }
 
 /** Public account data. */

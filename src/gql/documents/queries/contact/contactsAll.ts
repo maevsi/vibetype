@@ -22,7 +22,9 @@ export const allContactsQuery = graphql(`
   }
 `)
 
-export const useAllContactsQuery = (variables: AllContactsQueryVariables) =>
+export const useAllContactsQuery = (
+  variables: MaybeRefOrGetter<AllContactsQueryVariables>,
+) =>
   useQuery({
     query: allContactsQuery,
     variables,

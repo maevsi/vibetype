@@ -226,7 +226,6 @@
 import { useQuery } from '@urql/vue'
 
 import { AchievementType } from '~~/gql/generated/graphql'
-import type { AccountQueryVariables } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
 
 definePageMeta({
@@ -294,7 +293,7 @@ const query = useQuery({
   query: queryAccount,
   variables: {
     username: route.params.username,
-  } satisfies MaybeRefObj<AccountQueryVariables>,
+  },
 })
 const api = await useApiData([query])
 const account = computed(() => query.data.value?.accountByUsername)

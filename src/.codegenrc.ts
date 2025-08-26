@@ -7,6 +7,11 @@ export const codegenConfig: CodegenConfig = {
   hooks: { afterAllFileWrite: ['prettier --write', 'eslint --fix'] },
   config: {
     useTypeImports: true,
+    scalars: {
+      Cursor: 'string',
+      Jwt: 'string',
+      UUID: 'string',
+    },
   },
   generates: {
     './gql/generated/': {

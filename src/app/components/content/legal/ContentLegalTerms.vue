@@ -14,7 +14,6 @@ import { parseMarkdown } from '@nuxtjs/mdc/runtime'
 import { useQuery } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
-import type { AllLegalTermsQueryVariables } from '~~/gql/generated/graphql'
 
 // compiler
 const emit = defineEmits<{
@@ -38,7 +37,7 @@ const legalTermsQuery = useQuery({
   query: allLegalTermsQuery,
   variables: {
     language: locale.value,
-  } satisfies MaybeRefObj<AllLegalTermsQueryVariables>,
+  },
 })
 
 const { data, error, pending } = await useAsyncData(

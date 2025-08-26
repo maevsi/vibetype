@@ -21,7 +21,9 @@ export const allUploadsQuery = graphql(`
   }
 `)
 
-export const useAllUploadsQuery = (variables: AllUploadsQueryVariables) =>
+export const useAllUploadsQuery = (
+  variables: MaybeRefOrGetter<AllUploadsQueryVariables>,
+) =>
   useQuery({
     query: allUploadsQuery,
     variables,
