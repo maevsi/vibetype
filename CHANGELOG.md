@@ -1,3 +1,9 @@
+## [12.27.1](https://github.com/maevsi/vibetype/compare/12.27.0...12.27.1) (2025-08-26)
+
+### Bug Fixes
+
+* **gql:** correct variable computation ([42a5885](https://github.com/maevsi/vibetype/commit/42a58859704615ad9720e541949e7e6850a27dc2))
+
 ## [12.27.0](https://github.com/maevsi/vibetype/compare/12.26.2...12.27.0) (2025-08-20)
 
 ### Features
