@@ -161,11 +161,13 @@ const selectedItem = ref<{
 
 // api data
 const accountUploadQuotaBytesQuery = useAccountUploadQuotaBytesQuery({})
-const allUploadsQuery = useAllUploadsQuery({
-  after,
-  first: ITEMS_PER_PAGE,
-  createdBy: store.signedInAccountId,
-})
+const allUploadsQuery = useAllUploadsQuery(
+  computed(() => ({
+    after: after.value,
+    first: ITEMS_PER_PAGE,
+    createdBy: store.signedInAccountId,
+  })),
+)
 const deleteUploadByIdMutation = useDeleteUploadByIdMutation()
 const uploadCreateMutation = useCreateUploadMutation()
 const api = await useApiData([

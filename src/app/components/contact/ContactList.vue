@@ -95,11 +95,13 @@ const selectedContact = ref<
 >()
 
 // api data
-const contactsQuery = useAllContactsQuery({
-  after,
-  createdBy: store.signedInAccountId,
-  first: ITEMS_PER_PAGE_LARGE,
-})
+const contactsQuery = useAllContactsQuery(
+  computed(() => ({
+    after: after.value,
+    createdBy: store.signedInAccountId,
+    first: ITEMS_PER_PAGE_LARGE,
+  })),
+)
 const deleteContactByIdMutation = useDeleteContactByIdMutation()
 const api = await useApiData([contactsQuery, deleteContactByIdMutation])
 const contacts = computed(
