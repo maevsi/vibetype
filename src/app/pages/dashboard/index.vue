@@ -37,7 +37,6 @@
 
 <script setup lang="ts">
 import { graphql } from '~~/gql/generated'
-import type { DashboardEventQueryVariables } from '~~/gql/generated/graphql'
 
 // async data
 const eventQuery = graphql(`
@@ -102,7 +101,7 @@ const {
             await $urql.value
               .query(eventQuery, {
                 id: eventId,
-              } satisfies MaybeRefObj<DashboardEventQueryVariables>)
+              })
               .toPromise()
           ).data?.eventById,
       ),
