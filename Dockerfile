@@ -73,6 +73,13 @@ ENV RELEASE_NAME=${RELEASE_NAME}
 ARG SENTRY_AUTH_TOKEN
 ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
 
+
+ARG NUXT_PUBLIC_VIO_IS_TESTING=true
+ARG SITE_URL=http://localhost:3001
+ENV NUXT_PUBLIC_VIO_IS_TESTING=${NUXT_PUBLIC_VIO_IS_TESTING}
+ENV SITE_URL=${SITE_URL}
+# -----------------------------------------------
+
 ENV NODE_ENV=production
 RUN pnpm --dir src run build:node
 
@@ -173,6 +180,7 @@ RUN pnpm -r rebuild
 FROM test-e2e-prepare AS test-e2e-node
 
 COPY --from=build-node /srv/app/src/.output ./src/.output
+
 
 ARG NUXT_PUBLIC_VIO_IS_TESTING=true
 ARG SITE_URL=http://localhost:3001
