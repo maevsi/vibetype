@@ -104,6 +104,33 @@ jobs:
           cd tests
           pnpm run test:e2e:server:dev
 
+  e2e_tests_mock:
+    name: E2E Tests (Mock)
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: "10.14.0"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run E2E tests with mock API
+        env:
+          NUXT_PUBLIC_VIO_IS_TESTING: true
+        run: |
+          cd tests
+          pnpm run test:e2e:server:dev
+
   release_semantic:
     needs: [build, e2e_tests]
     name: Release (semantic)

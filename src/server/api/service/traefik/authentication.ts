@@ -1,6 +1,7 @@
 import { consola } from 'consola'
 import { parse } from 'graphql'
 import type { H3Event } from 'h3'
+import { getCookie } from 'h3'
 import { z } from 'zod'
 
 import { authenticateMutation } from '~~/gql/documents/mutations/account/accountAuthenticate'
@@ -53,16 +54,49 @@ export default defineEventHandler(async (event) => {
     if (definition.kind !== 'OperationDefinition' || !definition.name) continue
 
     switch (definition.name.value) {
-      case authenticateMutation.definitions[0].name.value:
+      case authenticateMutation.definitions[0].name.value: {
         // don't check captcha for anonymous authentication
         if (body.variables?.password === '' && body.variables.username === '')
           return
 
+        // bypass captcha in testing mode
+        const runtimeConfig = useRuntimeConfig()
+        const isTestingFromConfig = runtimeConfig.public.vio.isTesting
+        const isTestingFromEnv =
+          process.env.NUXT_PUBLIC_VIO_IS_TESTING === 'true'
+        const isTestingFromCookie = getCookie(event, 'VIO_TESTING') === 'true'
+
+        const isTesting =
+          isTestingFromConfig || isTestingFromEnv || isTestingFromCookie
+
+        if (isTesting) {
+          return
+        }
+
         await turnstileVerify(event)
         break
-      case accountRegistrationMutation.definitions[0].name.value:
+      }
+      case accountRegistrationMutation.definitions[0].name.value: {
+        // bypass captcha in testing mode for registration too
+        const runtimeConfigReg = useRuntimeConfig()
+        const isTestingFromConfigReg = runtimeConfigReg.public.vio.isTesting
+        const isTestingFromEnvReg =
+          process.env.NUXT_PUBLIC_VIO_IS_TESTING === 'true'
+        const isTestingFromCookieReg =
+          getCookie(event, 'VIO_TESTING') === 'true'
+
+        const isTestingReg =
+          isTestingFromConfigReg ||
+          isTestingFromEnvReg ||
+          isTestingFromCookieReg
+
+        if (isTestingReg) {
+          return
+        }
+
         await turnstileVerify(event)
         break
+      }
       default:
         return
     }
