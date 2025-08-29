@@ -59,6 +59,7 @@ type Documents = {
   '\n  mutation AccountRegistration(\n    $birthDate: Date!\n    $emailAddress: String!\n    $language: String!\n    $legalTermId: UUID!\n    $password: String!\n    $username: String!\n  ) {\n    accountRegistration(\n      input: {\n        birthDate: $birthDate\n        emailAddress: $emailAddress\n        language: $language\n        legalTermId: $legalTermId\n        password: $password\n        username: $username\n      }\n    ) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountRegistrationDocument
   '\n  mutation AccountRegistrationRefresh($accountId: UUID!, $language: String!) {\n    accountRegistrationRefresh(\n      input: { language: $language, accountId: $accountId }\n    ) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountRegistrationRefreshDocument
   '\n  mutation CreateAccountBlock($accountBlockInput: AccountBlockInput!) {\n    createAccountBlock(input: { accountBlock: $accountBlockInput }) {\n      clientMutationId\n    }\n  }\n': typeof types.CreateAccountBlockDocument
+  '\n  mutation DeleteAccountBlock($blockedAccountId: UUID!, $createdBy: UUID!) {\n    deleteAccountBlockByCreatedByAndBlockedAccountId(\n      input: { createdBy: $createdBy, blockedAccountId: $blockedAccountId }\n    ) {\n      clientMutationId\n    }\n  }\n': typeof types.DeleteAccountBlockDocument
   '\n  mutation CreateContact($contactInput: ContactInput!) {\n    createContact(input: { contact: $contactInput }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.CreateContactDocument
   '\n  mutation DeleteContactById($id: UUID!) {\n    deleteContactById(input: { id: $id }) {\n      clientMutationId\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.DeleteContactByIdDocument
   '\n  mutation UpdateContactById($id: UUID!, $contactPatch: ContactPatch!) {\n    updateContactById(input: { id: $id, contactPatch: $contactPatch }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.UpdateContactByIdDocument
@@ -81,6 +82,7 @@ type Documents = {
   '\n  mutation CreateReport($reportInput: ReportInput!) {\n    createReport(input: { report: $reportInput }) {\n      clientMutationId\n    }\n  }\n': typeof types.CreateReportDocument
   '\n  mutation CreateUpload($input: UploadInput!) {\n    createUpload(input: { upload: $input }) {\n      clientMutationId\n      upload {\n        id\n      }\n    }\n  }\n': typeof types.CreateUploadDocument
   '\n  mutation DeleteUploadById($id: UUID!) {\n    deleteUploadById(input: { id: $id }) {\n      clientMutationId\n      upload {\n        ...UploadItem\n      }\n    }\n  }\n': typeof types.DeleteUploadByIdDocument
+  '\n  query AccountBlockedAccounts {\n    accountBlockedAccounts {\n      nodes {\n        id\n        username\n        description\n        imprint\n        storageKey\n      }\n    }\n  }\n': typeof types.AccountBlockedAccountsDocument
   '\n  query AccountByUsername($username: String!) {\n    accountByUsername(username: $username) {\n      ...AccountItem\n    }\n  }\n': typeof types.AccountByUsernameDocument
   '\n  query AccountUploadQuotaBytes {\n    accountUploadQuotaBytes\n  }\n': typeof types.AccountUploadQuotaBytesDocument
   '\n  query AllAchievements($accountId: UUID) {\n    allAchievements(condition: { accountId: $accountId }) {\n      nodes {\n        ...AchievementItem\n      }\n    }\n  }\n': typeof types.AllAchievementsDocument
@@ -187,6 +189,8 @@ const documents: Documents = {
     types.AccountRegistrationRefreshDocument,
   '\n  mutation CreateAccountBlock($accountBlockInput: AccountBlockInput!) {\n    createAccountBlock(input: { accountBlock: $accountBlockInput }) {\n      clientMutationId\n    }\n  }\n':
     types.CreateAccountBlockDocument,
+  '\n  mutation DeleteAccountBlock($blockedAccountId: UUID!, $createdBy: UUID!) {\n    deleteAccountBlockByCreatedByAndBlockedAccountId(\n      input: { createdBy: $createdBy, blockedAccountId: $blockedAccountId }\n    ) {\n      clientMutationId\n    }\n  }\n':
+    types.DeleteAccountBlockDocument,
   '\n  mutation CreateContact($contactInput: ContactInput!) {\n    createContact(input: { contact: $contactInput }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n':
     types.CreateContactDocument,
   '\n  mutation DeleteContactById($id: UUID!) {\n    deleteContactById(input: { id: $id }) {\n      clientMutationId\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n':
@@ -231,6 +235,8 @@ const documents: Documents = {
     types.CreateUploadDocument,
   '\n  mutation DeleteUploadById($id: UUID!) {\n    deleteUploadById(input: { id: $id }) {\n      clientMutationId\n      upload {\n        ...UploadItem\n      }\n    }\n  }\n':
     types.DeleteUploadByIdDocument,
+  '\n  query AccountBlockedAccounts {\n    accountBlockedAccounts {\n      nodes {\n        id\n        username\n        description\n        imprint\n        storageKey\n      }\n    }\n  }\n':
+    types.AccountBlockedAccountsDocument,
   '\n  query AccountByUsername($username: String!) {\n    accountByUsername(username: $username) {\n      ...AccountItem\n    }\n  }\n':
     types.AccountByUsernameDocument,
   '\n  query AccountUploadQuotaBytes {\n    accountUploadQuotaBytes\n  }\n':
@@ -549,6 +555,12 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+  source: '\n  mutation DeleteAccountBlock($blockedAccountId: UUID!, $createdBy: UUID!) {\n    deleteAccountBlockByCreatedByAndBlockedAccountId(\n      input: { createdBy: $createdBy, blockedAccountId: $blockedAccountId }\n    ) {\n      clientMutationId\n    }\n  }\n',
+): (typeof documents)['\n  mutation DeleteAccountBlock($blockedAccountId: UUID!, $createdBy: UUID!) {\n    deleteAccountBlockByCreatedByAndBlockedAccountId(\n      input: { createdBy: $createdBy, blockedAccountId: $blockedAccountId }\n    ) {\n      clientMutationId\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
   source: '\n  mutation CreateContact($contactInput: ContactInput!) {\n    createContact(input: { contact: $contactInput }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n',
 ): (typeof documents)['\n  mutation CreateContact($contactInput: ContactInput!) {\n    createContact(input: { contact: $contactInput }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n']
 /**
@@ -677,6 +689,12 @@ export function graphql(
 export function graphql(
   source: '\n  mutation DeleteUploadById($id: UUID!) {\n    deleteUploadById(input: { id: $id }) {\n      clientMutationId\n      upload {\n        ...UploadItem\n      }\n    }\n  }\n',
 ): (typeof documents)['\n  mutation DeleteUploadById($id: UUID!) {\n    deleteUploadById(input: { id: $id }) {\n      clientMutationId\n      upload {\n        ...UploadItem\n      }\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query AccountBlockedAccounts {\n    accountBlockedAccounts {\n      nodes {\n        id\n        username\n        description\n        imprint\n        storageKey\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query AccountBlockedAccounts {\n    accountBlockedAccounts {\n      nodes {\n        id\n        username\n        description\n        imprint\n        storageKey\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

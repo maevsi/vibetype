@@ -458,6 +458,36 @@ export type AccountBlockInput = {
   createdBy: Scalars['UUID']['input']
 }
 
+/** A `AccountBlockedAccountsRecord` edge in the connection. */
+export type AccountBlockedAccountEdge = {
+  __typename?: 'AccountBlockedAccountEdge'
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `AccountBlockedAccountsRecord` at the end of the edge. */
+  node: AccountBlockedAccountsRecord
+}
+
+/** A connection to a list of `AccountBlockedAccountsRecord` values. */
+export type AccountBlockedAccountsConnection = {
+  __typename?: 'AccountBlockedAccountsConnection'
+  /** A list of edges which contains the `AccountBlockedAccountsRecord` and cursor to aid in pagination. */
+  edges: Array<AccountBlockedAccountEdge>
+  /** A list of `AccountBlockedAccountsRecord` objects. */
+  nodes: Array<AccountBlockedAccountsRecord>
+  /** The count of *all* `AccountBlockedAccountsRecord` you could get from the connection. */
+  totalCount: Scalars['Int']['output']
+}
+
+/** The return type of our `accountBlockedAccounts` query. */
+export type AccountBlockedAccountsRecord = {
+  __typename?: 'AccountBlockedAccountsRecord'
+  description?: Maybe<Scalars['String']['output']>
+  id?: Maybe<Scalars['UUID']['output']>
+  imprint?: Maybe<Scalars['String']['output']>
+  storageKey?: Maybe<Scalars['String']['output']>
+  username?: Maybe<Scalars['String']['output']>
+}
+
 /** A connection to a list of `AccountBlock` values. */
 export type AccountBlocksConnection = {
   __typename?: 'AccountBlocksConnection'
@@ -5082,23 +5112,26 @@ export enum LegalTermsOrderBy {
 /** The root mutation type which contains root level fields which mutate data. */
 export type Mutation = {
   __typename?: 'Mutation'
-  /** Allows to delete an account. */
+  /** Allows to delete an account.\n\nError codes:\n- **23503** when the account still has events.\n- **28P01** when the password is invalid. */
   accountDelete?: Maybe<AccountDeletePayload>
-  /** Sets the account's email address verification code to `NULL` for which the email address verification code equals the one passed and is up to date. */
+  /** Sets the account's email address verification code to `NULL` for which the email address verification code equals the one passed and is up to date.\n\nError codes:\n- **P0002** when the verification code is unknown.\n- **55000** when the verification code has expired. */
   accountEmailAddressVerification?: Maybe<AccountEmailAddressVerificationPayload>
-  /** Allows to change an account's password. */
+  /** Allows to change an account's password.\n\nError codes:\n- **22023** when the new password is too short.\n- **28P01** when an account with the given password is not found. */
   accountPasswordChange?: Maybe<AccountPasswordChangePayload>
-  /** Sets a new password for an account if there was a request to do so before that's still up to date. */
+  /**
+   * Sets a new password for an account if there was a request to do so before that's still up to date.\n\nError codes:\n- **22023** when the password is too short.\n- **P0002** when the reset code is unknown.\n- **55000** when the reset code has expired.
+   *
+   */
   accountPasswordReset?: Maybe<AccountPasswordResetPayload>
   /** Sets a new password reset verification code for an account. */
   accountPasswordResetRequest?: Maybe<AccountPasswordResetRequestPayload>
   /** Creates a contact and registers an account referencing it.\n\nError codes:\n- **VTBDA** when the birth date is not at least 18 years old.\n- **VTPLL** when the password length does not reach its minimum.\n- **VTAUV** when an account with the given username already exists. */
   accountRegistration?: Maybe<AccountRegistrationPayload>
-  /** Refreshes an account's email address verification validity period. */
+  /** Refreshes an account's email address verification validity period.\n\nError codes:\n- **01P01** in all cases right now as refreshing registrations is currently not available due to missing rate limiting.\n- **22023** when an account with this account id does not exist. */
   accountRegistrationRefresh?: Maybe<AccountRegistrationRefreshPayload>
-  /** Inserts an achievement unlock for the user that gave an existing achievement code. */
+  /** Inserts an achievement unlock for the user that gave an existing achievement code.\n\nError codes:\n- **P0002** when the achievement or the account is unknown. */
   achievementUnlock?: Maybe<AchievementUnlockPayload>
-  /** Creates a JWT token that will securely identify an account and give it certain permissions. */
+  /** Creates a JWT token that will securely identify an account and give it certain permissions.\n\nError codes:\n- **P0002** when an account is not found or when the token could not be created.\n- **55000** when the account is not verified yet. */
   authenticate?: Maybe<AuthenticatePayload>
   /** Creates a single `AccountBlock`. */
   createAccountBlock?: Maybe<CreateAccountBlockPayload>
@@ -5256,15 +5289,15 @@ export type Mutation = {
   deleteUploadById?: Maybe<DeleteUploadPayload>
   /** Deletes a single `Upload` using a unique key. */
   deleteUploadByStorageKey?: Maybe<DeleteUploadPayload>
-  /** Allows to delete an event. */
+  /** Allows to delete an event.\n\nError codes:\n- **P0002** when the event was not found.\n- **28P01** when the account with the given password was not found. */
   eventDelete?: Maybe<EventDeletePayload>
-  /** Adds a guest claim to the current session. */
+  /** Adds a guest claim to the current session.\n\nError codes:\n- **P0002** when no guest, no event, or no event creator username was found for this guest id. */
   eventUnlock?: Maybe<EventUnlockPayload>
-  /** Adds a notification for the invitation channel. */
+  /** Adds a notification for the invitation channel.\n\nError codes:\n- **P0002** when the guest, event, contact, the contact email address, or the account email address is not accessible. */
   invite?: Maybe<InvitePayload>
   /** Refreshes a JWT. */
   jwtRefresh?: Maybe<JwtRefreshPayload>
-  /** Allows to set the acknowledgement state of a notification. */
+  /** Allows to set the acknowledgement state of a notification.\n\nError codes:\n- **P0002** when no notification with the given id is found. */
   notificationAcknowledge?: Maybe<NotificationAcknowledgePayload>
   /** Sets the picture with the given upload id as the invoker's profile picture. */
   profilePictureSet?: Maybe<ProfilePictureSetPayload>
@@ -5278,7 +5311,7 @@ export type Mutation = {
    * Sets the location for the invoker's account.
    *
    * Error codes:
-   * - **P0002** when no record was updated.
+   * - **P0002** when the account is not found.
    */
   updateAccountLocation?: Maybe<UpdateAccountLocationPayload>
   /** Updates a single `AccountSocialNetwork` using its globally unique id and a patch. */
@@ -6637,6 +6670,8 @@ export type Query = Node & {
   accountBlock?: Maybe<AccountBlock>
   accountBlockByCreatedByAndBlockedAccountId?: Maybe<AccountBlock>
   accountBlockById?: Maybe<AccountBlock>
+  /** Returns the id, description, imprint, username, and storage key (of profile picture, if it exists) of all accounts blocked by the invoker account. */
+  accountBlockedAccounts?: Maybe<AccountBlockedAccountsConnection>
   accountById?: Maybe<Account>
   accountByUsername?: Maybe<Account>
   /** Returns all accounts with a username containing a given substring. */
@@ -6833,6 +6868,15 @@ export type QueryAccountBlockByCreatedByAndBlockedAccountIdArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryAccountBlockByIdArgs = {
   id: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAccountBlockedAccountsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -9013,6 +9057,15 @@ export type WithTypename<T extends { __typename?: any }> = Partial<T> & {
 export type GraphCacheKeysConfig = {
   Account?: (data: WithTypename<Account>) => null | string
   AccountBlock?: (data: WithTypename<AccountBlock>) => null | string
+  AccountBlockedAccountEdge?: (
+    data: WithTypename<AccountBlockedAccountEdge>,
+  ) => null | string
+  AccountBlockedAccountsConnection?: (
+    data: WithTypename<AccountBlockedAccountsConnection>,
+  ) => null | string
+  AccountBlockedAccountsRecord?: (
+    data: WithTypename<AccountBlockedAccountsRecord>,
+  ) => null | string
   AccountBlocksConnection?: (
     data: WithTypename<AccountBlocksConnection>,
   ) => null | string
@@ -9422,6 +9475,11 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       QueryAccountBlockByIdArgs,
       WithTypename<AccountBlock> | string
+    >
+    accountBlockedAccounts?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryAccountBlockedAccountsArgs,
+      WithTypename<AccountBlockedAccountsConnection> | string
     >
     accountById?: GraphCacheResolver<
       WithTypename<Query>,
@@ -10193,6 +10251,62 @@ export type GraphCacheResolvers = {
       WithTypename<AccountBlock>,
       Record<string, never>,
       Scalars['ID'] | string
+    >
+  }
+  AccountBlockedAccountEdge?: {
+    cursor?: GraphCacheResolver<
+      WithTypename<AccountBlockedAccountEdge>,
+      Record<string, never>,
+      Scalars['Cursor'] | string
+    >
+    node?: GraphCacheResolver<
+      WithTypename<AccountBlockedAccountEdge>,
+      Record<string, never>,
+      WithTypename<AccountBlockedAccountsRecord> | string
+    >
+  }
+  AccountBlockedAccountsConnection?: {
+    edges?: GraphCacheResolver<
+      WithTypename<AccountBlockedAccountsConnection>,
+      Record<string, never>,
+      Array<WithTypename<AccountBlockedAccountEdge> | string>
+    >
+    nodes?: GraphCacheResolver<
+      WithTypename<AccountBlockedAccountsConnection>,
+      Record<string, never>,
+      Array<WithTypename<AccountBlockedAccountsRecord> | string>
+    >
+    totalCount?: GraphCacheResolver<
+      WithTypename<AccountBlockedAccountsConnection>,
+      Record<string, never>,
+      Scalars['Int'] | string
+    >
+  }
+  AccountBlockedAccountsRecord?: {
+    description?: GraphCacheResolver<
+      WithTypename<AccountBlockedAccountsRecord>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    id?: GraphCacheResolver<
+      WithTypename<AccountBlockedAccountsRecord>,
+      Record<string, never>,
+      Scalars['UUID'] | string
+    >
+    imprint?: GraphCacheResolver<
+      WithTypename<AccountBlockedAccountsRecord>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    storageKey?: GraphCacheResolver<
+      WithTypename<AccountBlockedAccountsRecord>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    username?: GraphCacheResolver<
+      WithTypename<AccountBlockedAccountsRecord>,
+      Record<string, never>,
+      Scalars['String'] | string
     >
   }
   AccountBlocksConnection?: {
@@ -15429,6 +15543,14 @@ export type GraphCacheUpdaters = {
       { accountBlockById: Maybe<WithTypename<AccountBlock>> },
       QueryAccountBlockByIdArgs
     >
+    accountBlockedAccounts?: GraphCacheUpdateResolver<
+      {
+        accountBlockedAccounts: Maybe<
+          WithTypename<AccountBlockedAccountsConnection>
+        >
+      },
+      QueryAccountBlockedAccountsArgs
+    >
     accountById?: GraphCacheUpdateResolver<
       { accountById: Maybe<WithTypename<Account>> },
       QueryAccountByIdArgs
@@ -17028,6 +17150,52 @@ export type GraphCacheUpdaters = {
     >
     nodeId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<AccountBlock>>,
+      Record<string, never>
+    >
+  }
+  AccountBlockedAccountEdge?: {
+    cursor?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockedAccountEdge>>,
+      Record<string, never>
+    >
+    node?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockedAccountEdge>>,
+      Record<string, never>
+    >
+  }
+  AccountBlockedAccountsConnection?: {
+    edges?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockedAccountsConnection>>,
+      Record<string, never>
+    >
+    nodes?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockedAccountsConnection>>,
+      Record<string, never>
+    >
+    totalCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockedAccountsConnection>>,
+      Record<string, never>
+    >
+  }
+  AccountBlockedAccountsRecord?: {
+    description?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockedAccountsRecord>>,
+      Record<string, never>
+    >
+    id?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockedAccountsRecord>>,
+      Record<string, never>
+    >
+    imprint?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockedAccountsRecord>>,
+      Record<string, never>
+    >
+    storageKey?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockedAccountsRecord>>,
+      Record<string, never>
+    >
+    username?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockedAccountsRecord>>,
       Record<string, never>
     >
   }
