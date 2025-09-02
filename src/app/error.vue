@@ -13,7 +13,11 @@
 <script setup lang="ts">
 import type { NuxtError } from '#app'
 
-const { error } = defineProps<{ error: NuxtError }>()
+const { error } = defineProps<{
+  error: NuxtError & {
+    data?: { vibetype?: string }
+  }
+}>()
 
 // i18n
 const { t } = useI18n()

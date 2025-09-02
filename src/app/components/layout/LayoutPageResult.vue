@@ -3,7 +3,11 @@
     :aria-labelledby="$slots.title ? templateIdTitle : undefined"
     class="flex flex-col gap-10"
   >
-    <TypographyH3 v-if="$slots.title" :id="templateIdTitle" class="text-center">
+    <TypographyH3
+      v-if="$slots.title"
+      :id="templateIdTitle"
+      class="text-center text-pretty"
+    >
       <slot name="title" />
     </TypographyH3>
     <div class="flex justify-center">
@@ -22,7 +26,10 @@
       <IHeroiconsBugAnt v-else class="size-12 text-(--semantic-error-strong)" />
     </div>
     <div class="flex flex-col gap-8">
-      <TypographySubtitleLarge v-if="$slots.description" class="text-center">
+      <TypographySubtitleLarge
+        v-if="$slots.description"
+        class="text-center text-pretty"
+      >
         <slot name="description" />
       </TypographySubtitleLarge>
       <slot />
