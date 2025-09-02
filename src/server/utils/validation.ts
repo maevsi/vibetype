@@ -31,7 +31,9 @@ const getSafe = async <T extends ZodSchema>({
   )
   if (!validationResult.success)
     return throwError({
-      data: validationResult.error.issues,
+      message: validationResult.error.issues
+        .map((issue) => issue.message)
+        .join(', '),
       statusCode: 400,
       statusMessage: 'Validation Error',
     })
