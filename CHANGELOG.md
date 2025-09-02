@@ -1,3 +1,9 @@
+## [12.27.2](https://github.com/maevsi/vibetype/compare/12.27.1...12.27.2) (2025-09-02)
+
+### Bug Fixes
+
+* **account:** unref date for registration ([e35cb03](https://github.com/maevsi/vibetype/commit/e35cb03a6cf11466b88c89fca115d29d76621f45))
+
 ## [12.27.1](https://github.com/maevsi/vibetype/compare/12.27.0...12.27.1) (2025-08-26)
 
 ### Bug Fixes
