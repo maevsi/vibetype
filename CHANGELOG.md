@@ -1,3 +1,9 @@
+## [12.28.0](https://github.com/maevsi/vibetype/compare/12.27.2...12.28.0) (2025-09-02)
+
+### Features
+
+* **components:** update error design ([07e75d7](https://github.com/maevsi/vibetype/commit/07e75d7449c40891814d700fb8082235bfc09904))
+
 ## [12.27.2](https://github.com/maevsi/vibetype/compare/12.27.1...12.27.2) (2025-09-02)
 
 ### Bug Fixes
