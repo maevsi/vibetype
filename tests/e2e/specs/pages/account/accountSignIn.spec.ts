@@ -1,6 +1,15 @@
 import { test, expect } from '@playwright/test'
 
-test('login with valid credentials', async ({ page }) => {
+test('login with valid credentials', async ({ page, context }) => {
+  await context.addCookies([
+    {
+      name: 'VIO_TESTING',
+      value: 'true',
+      domain: 'localhost',
+      path: '/',
+    },
+  ])
+
   await page.goto('/session/create')
 
   const emailInput = page.locator('#vibetype-dev-input-email-address')
@@ -17,8 +26,8 @@ test('login with valid credentials', async ({ page }) => {
 
   const passwordInput = page.locator('#vibetype-dev-input-password')
 
-  await emailInput.fill('mail+sqitch-1@maev.si')
-  await passwordInput.fill('password')
+  await emailInput.fill('test@example.com')
+  await passwordInput.fill('validpassword123')
 
   const submitButton = page.getByRole('button', {
     name: /log in/i,
@@ -33,7 +42,16 @@ test('login with valid credentials', async ({ page }) => {
   expect(currentUrl).toContain('/session/create')
 })
 
-test('login with incorrect credentials', async ({ page }) => {
+test('login with incorrect credentials', async ({ page, context }) => {
+  await context.addCookies([
+    {
+      name: 'VIO_TESTING',
+      value: 'true',
+      domain: 'localhost',
+      path: '/',
+    },
+  ])
+
   await page.goto('/session/create')
 
   const emailInput = page.locator('#vibetype-dev-input-email-address')
