@@ -1,5 +1,10 @@
 import { test, expect } from '@playwright/test'
 
+test.skip(
+  process.env.NUXT_PUBLIC_VIO_IS_TESTING !== 'true',
+  'Only run in mock mode'
+)
+
 test('login with valid credentials', async ({ page, context }) => {
   await context.addCookies([
     {
