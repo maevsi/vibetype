@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test('login with valid credentials', async ({ page, context }) => {
+test('login with valid credentials', async ({ page }) => {
   await page.goto('/session/create')
 
   const emailInput = page.locator('#vibetype-dev-input-email-address')
@@ -33,7 +33,7 @@ test('login with valid credentials', async ({ page, context }) => {
   expect(currentUrl).toContain('/session/create')
 })
 
-test('login with incorrect credentials', async ({ page, context }) => {
+test('login with incorrect credentials', async ({ page }) => {
   await page.goto('/session/create')
 
   const emailInput = page.locator('#vibetype-dev-input-email-address')
