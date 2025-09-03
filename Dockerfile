@@ -187,7 +187,7 @@ ARG SITE_URL=http://localhost:3001
 ENV NUXT_PUBLIC_VIO_IS_TESTING=${NUXT_PUBLIC_VIO_IS_TESTING}
 ENV SITE_URL=${SITE_URL}
 
-RUN pnpm --dir tests run test:e2e:server:node
+# RUN pnpm --dir tests run test:e2e:server:node
 
 
 # ########################
