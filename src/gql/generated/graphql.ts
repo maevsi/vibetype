@@ -468,6 +468,36 @@ export type AccountBlockInput = {
   createdBy: Scalars['UUID']['input']
 }
 
+/** A `AccountBlockedAccountsRecord` edge in the connection. */
+export type AccountBlockedAccountEdge = {
+  __typename?: 'AccountBlockedAccountEdge'
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `AccountBlockedAccountsRecord` at the end of the edge. */
+  node: AccountBlockedAccountsRecord
+}
+
+/** A connection to a list of `AccountBlockedAccountsRecord` values. */
+export type AccountBlockedAccountsConnection = {
+  __typename?: 'AccountBlockedAccountsConnection'
+  /** A list of edges which contains the `AccountBlockedAccountsRecord` and cursor to aid in pagination. */
+  edges: Array<AccountBlockedAccountEdge>
+  /** A list of `AccountBlockedAccountsRecord` objects. */
+  nodes: Array<AccountBlockedAccountsRecord>
+  /** The count of *all* `AccountBlockedAccountsRecord` you could get from the connection. */
+  totalCount: Scalars['Int']['output']
+}
+
+/** The return type of our `accountBlockedAccounts` query. */
+export type AccountBlockedAccountsRecord = {
+  __typename?: 'AccountBlockedAccountsRecord'
+  description?: Maybe<Scalars['String']['output']>
+  id?: Maybe<Scalars['UUID']['output']>
+  imprint?: Maybe<Scalars['String']['output']>
+  storageKey?: Maybe<Scalars['String']['output']>
+  username?: Maybe<Scalars['String']['output']>
+}
+
 /** A connection to a list of `AccountBlock` values. */
 export type AccountBlocksConnection = {
   __typename?: 'AccountBlocksConnection'
@@ -5092,23 +5122,26 @@ export enum LegalTermsOrderBy {
 /** The root mutation type which contains root level fields which mutate data. */
 export type Mutation = {
   __typename?: 'Mutation'
-  /** Allows to delete an account. */
+  /** Allows to delete an account.\n\nError codes:\n- **23503** when the account still has events.\n- **28P01** when the password is invalid. */
   accountDelete?: Maybe<AccountDeletePayload>
-  /** Sets the account's email address verification code to `NULL` for which the email address verification code equals the one passed and is up to date. */
+  /** Sets the account's email address verification code to `NULL` for which the email address verification code equals the one passed and is up to date.\n\nError codes:\n- **P0002** when the verification code is unknown.\n- **55000** when the verification code has expired. */
   accountEmailAddressVerification?: Maybe<AccountEmailAddressVerificationPayload>
-  /** Allows to change an account's password. */
+  /** Allows to change an account's password.\n\nError codes:\n- **22023** when the new password is too short.\n- **28P01** when an account with the given password is not found. */
   accountPasswordChange?: Maybe<AccountPasswordChangePayload>
-  /** Sets a new password for an account if there was a request to do so before that's still up to date. */
+  /**
+   * Sets a new password for an account if there was a request to do so before that's still up to date.\n\nError codes:\n- **22023** when the password is too short.\n- **P0002** when the reset code is unknown.\n- **55000** when the reset code has expired.
+   *
+   */
   accountPasswordReset?: Maybe<AccountPasswordResetPayload>
   /** Sets a new password reset verification code for an account. */
   accountPasswordResetRequest?: Maybe<AccountPasswordResetRequestPayload>
   /** Creates a contact and registers an account referencing it.\n\nError codes:\n- **VTBDA** when the birth date is not at least 18 years old.\n- **VTPLL** when the password length does not reach its minimum.\n- **VTAUV** when an account with the given username already exists. */
   accountRegistration?: Maybe<AccountRegistrationPayload>
-  /** Refreshes an account's email address verification validity period. */
+  /** Refreshes an account's email address verification validity period.\n\nError codes:\n- **01P01** in all cases right now as refreshing registrations is currently not available due to missing rate limiting.\n- **22023** when an account with this account id does not exist. */
   accountRegistrationRefresh?: Maybe<AccountRegistrationRefreshPayload>
-  /** Inserts an achievement unlock for the user that gave an existing achievement code. */
+  /** Inserts an achievement unlock for the user that gave an existing achievement code.\n\nError codes:\n- **P0002** when the achievement or the account is unknown. */
   achievementUnlock?: Maybe<AchievementUnlockPayload>
-  /** Creates a JWT token that will securely identify an account and give it certain permissions. */
+  /** Creates a JWT token that will securely identify an account and give it certain permissions.\n\nError codes:\n- **P0002** when an account is not found or when the token could not be created.\n- **55000** when the account is not verified yet. */
   authenticate?: Maybe<AuthenticatePayload>
   /** Creates a single `AccountBlock`. */
   createAccountBlock?: Maybe<CreateAccountBlockPayload>
@@ -5266,15 +5299,15 @@ export type Mutation = {
   deleteUploadById?: Maybe<DeleteUploadPayload>
   /** Deletes a single `Upload` using a unique key. */
   deleteUploadByStorageKey?: Maybe<DeleteUploadPayload>
-  /** Allows to delete an event. */
+  /** Allows to delete an event.\n\nError codes:\n- **P0002** when the event was not found.\n- **28P01** when the account with the given password was not found. */
   eventDelete?: Maybe<EventDeletePayload>
-  /** Adds a guest claim to the current session. */
+  /** Adds a guest claim to the current session.\n\nError codes:\n- **P0002** when no guest, no event, or no event creator username was found for this guest id. */
   eventUnlock?: Maybe<EventUnlockPayload>
-  /** Adds a notification for the invitation channel. */
+  /** Adds a notification for the invitation channel.\n\nError codes:\n- **P0002** when the guest, event, contact, the contact email address, or the account email address is not accessible. */
   invite?: Maybe<InvitePayload>
   /** Refreshes a JWT. */
   jwtRefresh?: Maybe<JwtRefreshPayload>
-  /** Allows to set the acknowledgement state of a notification. */
+  /** Allows to set the acknowledgement state of a notification.\n\nError codes:\n- **P0002** when no notification with the given id is found. */
   notificationAcknowledge?: Maybe<NotificationAcknowledgePayload>
   /** Sets the picture with the given upload id as the invoker's profile picture. */
   profilePictureSet?: Maybe<ProfilePictureSetPayload>
@@ -5288,7 +5321,7 @@ export type Mutation = {
    * Sets the location for the invoker's account.
    *
    * Error codes:
-   * - **P0002** when no record was updated.
+   * - **P0002** when the account is not found.
    */
   updateAccountLocation?: Maybe<UpdateAccountLocationPayload>
   /** Updates a single `AccountSocialNetwork` using its globally unique id and a patch. */
@@ -6647,6 +6680,8 @@ export type Query = Node & {
   accountBlock?: Maybe<AccountBlock>
   accountBlockByCreatedByAndBlockedAccountId?: Maybe<AccountBlock>
   accountBlockById?: Maybe<AccountBlock>
+  /** Returns the id, description, imprint, username, and storage key (of profile picture, if it exists) of all accounts blocked by the invoker account. */
+  accountBlockedAccounts?: Maybe<AccountBlockedAccountsConnection>
   accountById?: Maybe<Account>
   accountByUsername?: Maybe<Account>
   /** Returns all accounts with a username containing a given substring. */
@@ -6843,6 +6878,15 @@ export type QueryAccountBlockByCreatedByAndBlockedAccountIdArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryAccountBlockByIdArgs = {
   id: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAccountBlockedAccountsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -9979,6 +10023,19 @@ export type CreateAccountBlockMutation = {
   } | null
 }
 
+export type DeleteAccountBlockMutationVariables = Exact<{
+  blockedAccountId: Scalars['UUID']['input']
+  createdBy: Scalars['UUID']['input']
+}>
+
+export type DeleteAccountBlockMutation = {
+  __typename?: 'Mutation'
+  deleteAccountBlockByCreatedByAndBlockedAccountId?: {
+    __typename?: 'DeleteAccountBlockPayload'
+    clientMutationId?: string | null
+  } | null
+}
+
 export type CreateContactMutationVariables = Exact<{
   contactInput: ContactInput
 }>
@@ -10320,6 +10377,25 @@ export type DeleteUploadByIdMutation = {
           ' $fragmentRefs'?: { UploadItemFragment: UploadItemFragment }
         })
       | null
+  } | null
+}
+
+export type AccountBlockedAccountsQueryVariables = Exact<{
+  [key: string]: never
+}>
+
+export type AccountBlockedAccountsQuery = {
+  __typename?: 'Query'
+  accountBlockedAccounts?: {
+    __typename?: 'AccountBlockedAccountsConnection'
+    nodes: Array<{
+      __typename?: 'AccountBlockedAccountsRecord'
+      id?: any | null
+      username?: string | null
+      description?: string | null
+      imprint?: string | null
+      storageKey?: string | null
+    }>
   } | null
 }
 
@@ -14881,6 +14957,91 @@ export const CreateAccountBlockDocument = {
   CreateAccountBlockMutation,
   CreateAccountBlockMutationVariables
 >
+export const DeleteAccountBlockDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteAccountBlock' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'blockedAccountId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'createdBy' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'deleteAccountBlockByCreatedByAndBlockedAccountId',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'createdBy' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'blockedAccountId' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'blockedAccountId' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteAccountBlockMutation,
+  DeleteAccountBlockMutationVariables
+>
 export const CreateContactDocument = {
   kind: 'Document',
   definitions: [
@@ -17379,6 +17540,59 @@ export const DeleteUploadByIdDocument = {
 } as unknown as DocumentNode<
   DeleteUploadByIdMutation,
   DeleteUploadByIdMutationVariables
+>
+export const AccountBlockedAccountsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AccountBlockedAccounts' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountBlockedAccounts' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'description' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'imprint' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'storageKey' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AccountBlockedAccountsQuery,
+  AccountBlockedAccountsQueryVariables
 >
 export const AccountByUsernameDocument = {
   kind: 'Document',
