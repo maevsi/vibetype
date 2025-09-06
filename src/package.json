@@ -120,7 +120,7 @@
     "prosemirror-schema-list": "1.5.1",
     "prosemirror-state": "1.4.3",
     "prosemirror-transform": "1.10.4",
-    "prosemirror-view": "1.40.1",
+    "prosemirror-view": "1.41.0",
     "qrcode.vue": "3.6.0",
     "reka-ui": "2.5.0",
     "seedrandom": "3.0.5",
