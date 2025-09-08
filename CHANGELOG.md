@@ -1,3 +1,9 @@
+## [12.29.0](https://github.com/maevsi/vibetype/compare/12.28.0...12.29.0) (2025-09-08)
+
+### Features
+
+* **docs:** add redirection to app stores ([4369d28](https://github.com/maevsi/vibetype/commit/4369d2867cac50ecbaff4ce3a25dddee14511095))
+
 ## [12.28.0](https://github.com/maevsi/vibetype/compare/12.27.2...12.28.0) (2025-09-02)
 
 ### Features
