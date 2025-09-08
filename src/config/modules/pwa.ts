@@ -126,7 +126,10 @@ export const pwaConfig: ReturnType<DefineNuxtConfig> = {
           id: 'si.maev.twa',
         },
       ],
-      scope_extensions: [{ origin: 'maev.si' }, { origin: 'vibetype.app' }],
+      scope_extensions: [
+        { origin: 'https://maev.si', type: 'origin' },
+        { origin: 'https://vibetype.app', type: 'origin' },
+      ],
       // share_target: {
       //   action: '/collect-files',
       //   method: 'POST',
