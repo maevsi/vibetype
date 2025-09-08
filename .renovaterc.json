@@ -12,7 +12,7 @@
     },
     {
       "matchPackageNames": ["vite", "rolldown-vite"],
-      "allowedVersions": "<8"
+      "allowedVersions": "7.0.11"
     }
   ]
 }
