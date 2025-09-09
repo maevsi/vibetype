@@ -3,7 +3,7 @@
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <div v-bind="attributes" class="text-center">
         <TypographySubtitleSmall>
-          {{ t('unblockAccountQuestion', { username: blockedUsername }) }}
+          {{ t('unblockAccountQuestion', { username: account.username }) }}
         </TypographySubtitleSmall>
       </div>
     </AppStep>
@@ -11,7 +11,9 @@
       <div v-bind="attributes">
         <LayoutPageResult type="success">
           <template #description>
-            {{ t('unblockAccountConfirmation', { username: blockedUsername }) }}
+            {{
+              t('unblockAccountConfirmation', { username: account.username })
+            }}
           </template>
         </LayoutPageResult>
       </div>
@@ -47,7 +49,7 @@
         <ButtonColored
           v-bind="attributes"
           :aria-label="t('keepBlocked')"
-          variant="primary"
+          variant="secondary"
           @click="closeDrawer"
         >
           {{ t('keepBlocked') }}
@@ -55,7 +57,6 @@
         <ButtonColored
           v-bind="attributes"
           :aria-label="t('unblock')"
-          variant="secondary"
           @click="unblockUser"
         >
           {{ t('unblock') }}
@@ -86,12 +87,14 @@
 </template>
 
 <script setup lang="ts">
-import { useDeleteAccountBlockMutation } from '~~/gql/documents/mutations/accountBlock/accountBlockDelete'
+import { useMutation } from '@urql/vue'
+
+import { graphql } from '~~/gql/generated'
+import type { AccountBlockAccountsRecord } from '~~/gql/generated/graphql'
 
 // compiler
-const { blockedAccountId, blockedUsername } = defineProps<{
-  blockedAccountId: string // Changed from blockedId
-  blockedUsername: string
+const { account } = defineProps<{
+  account: AccountBlockAccountsRecord
 }>()
 
 const { error, restart, step } = useStepper<'success'>()
@@ -112,13 +115,23 @@ const onAnimationEnd = (isOpen: boolean) => {
   step.value = 'default'
 }
 
-const deleteAccountBlockMutation = useDeleteAccountBlockMutation()
+const deleteAccountBlockMutation = useMutation(
+  graphql(`
+    mutation DeleteAccountBlock($blockedAccountId: UUID!, $createdBy: UUID!) {
+      deleteAccountBlockByCreatedByAndBlockedAccountId(
+        input: { blockedAccountId: $blockedAccountId, createdBy: $createdBy }
+      ) {
+        clientMutationId
+      }
+    }
+  `),
+)
 
 const unblockUser = async () => {
   const store = useStore()
 
   const result = await deleteAccountBlockMutation.executeMutation({
-    blockedAccountId: blockedAccountId,
+    blockedAccountId: account.id,
     createdBy: store.signedInAccountId,
   })
 

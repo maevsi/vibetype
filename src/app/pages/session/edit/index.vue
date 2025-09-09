@@ -127,16 +127,24 @@
           </CardButton>
         </div>
       </section>
-      <span class="text-lg font-bold">
-        {{ t('interactions') }}
-      </span>
-
-      <CardButton :title="t('blocked')" :to="localePath('account-blocked')">
-        <AppIconVerifiedUser />
-      </CardButton>
-      <section class="flex flex-col">
+      <section v-if="store.signedInUsername" class="flex flex-col gap-4">
+        <span class="text-lg font-bold">
+          {{ t('interactions') }}
+        </span>
         <CardButton
-          v-if="store.signedInUsername"
+          :title="t('accountBlock')"
+          :to="
+            localePath({
+              name: 'account-view-username-block',
+              params: { username: store.signedInUsername },
+            })
+          "
+        >
+          <AppIconVerifiedUser />
+        </CardButton>
+      </section>
+      <section v-if="store.signedInUsername" class="flex flex-col">
+        <CardButton
           class="bg-(--critic-string) text-(--semantic-base-light-text-on-dark)"
           :title="t('logout')"
           @click="signOutToRoot"
@@ -178,9 +186,9 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
+  accountBlock: Blockierte Benutzer
   aiSetup: KI einrichten
   # aiSetupReset: KI-Einrichtung zurücksetzen
-  blocked: Blockierte Benutzer
   bugReport: Fehler
   colorScheme: Farbschema
   contact: Kontakt
@@ -201,9 +209,9 @@ de:
   support: Hilfe
   terms: Allgemeine Geschäftsbedingungen
 en:
+  accountBlock: Blocked Users
   aiSetup: Set up AI
   # aiSetupReset: Reset AI Setup
-  blocked: Blocked Users
   bugReport: Issue
   colorScheme: Color scheme
   contact: Contact

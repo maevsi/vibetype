@@ -17,11 +17,13 @@ type Documents = {
   '\n    mutation AccountDelete($password: String!) {\n      accountDelete(input: { password: $password }) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountDeleteDocument
   '\n    query AccountById($id: UUID!) {\n      accountById(id: $id) {\n        id\n        profilePictureByAccountId {\n          id\n          uploadByUploadId {\n            id\n            storageKey\n          }\n        }\n        username\n      }\n    }\n  ': typeof types.AccountByIdDocument
   '\n  query AccountSearch($after: Cursor, $first: Int, $username: String) {\n    allAccounts(\n      after: $after\n      condition: { username: $username }\n      first: $first\n      orderBy: USERNAME_ASC\n    ) {\n      nodes {\n        id\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n': typeof types.AccountSearchDocument
+  '\n    mutation DeleteAccountBlock($blockedAccountId: UUID!, $createdBy: UUID!) {\n      deleteAccountBlockByCreatedByAndBlockedAccountId(\n        input: { blockedAccountId: $blockedAccountId, createdBy: $createdBy }\n      ) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteAccountBlockDocument
   '\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        id\n        term\n      }\n    }\n  }\n': typeof types.AllLegalTermsDocument
   '\n  query EventList($after: Cursor, $first: Int!) {\n    allEvents(after: $after, first: $first, orderBy: START_DESC) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            id\n            createdBy\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.EventListDocument
   '\n  query EventSearch(\n    $after: Cursor\n    $first: Int\n    $language: Language\n    $query: String\n  ) {\n    eventSearch(\n      after: $after\n      first: $first\n      language: $language\n      query: $query\n    ) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            createdBy\n            id\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.EventSearchDocument
   '\n    mutation CreateEventFavorite($input: EventFavoriteInput!) {\n      createEventFavorite(input: { eventFavorite: $input }) {\n        eventFavorite {\n          createdBy\n          eventId\n          id\n          nodeId\n        }\n      }\n    }\n  ': typeof types.CreateEventFavoriteDocument
   '\n    mutation DeleteEventFavoriteById($input: DeleteEventFavoriteByIdInput!) {\n      deleteEventFavoriteById(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteEventFavoriteByIdDocument
+  '\n    query AccountBlockAccounts {\n      accountBlockAccounts {\n        nodes {\n          id\n          storageKey\n          username\n        }\n      }\n    }\n  ': typeof types.AccountBlockAccountsDocument
   '\n    query AccountEdit($username: String!) {\n      accountByUsername(username: $username) {\n        description\n        id\n        imprint\n        profilePictureByAccountId {\n          id\n          uploadByUploadId {\n            id\n            storageKey\n          }\n        }\n        username\n      }\n    }\n  ': typeof types.AccountEditDocument
   '\n    mutation CreateProfilePicture($input: ProfilePictureInput!) {\n      createProfilePicture(input: { profilePicture: $input }) {\n        profilePicture {\n          accountId\n          id\n          uploadId\n        }\n        accountByAccountId {\n          id\n          profilePictureByAccountId {\n            id\n            uploadId\n          }\n        }\n      }\n    }\n  ': typeof types.CreateProfilePictureDocument
   '\n    mutation DeleteProfilePictureByIdMutation($id: UUID!) {\n      deleteProfilePictureById(input: { id: $id }) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteProfilePictureByIdMutationDocument
@@ -58,7 +60,6 @@ type Documents = {
   '\n  mutation AccountRegistration(\n    $birthDate: Date!\n    $emailAddress: String!\n    $language: String!\n    $legalTermId: UUID!\n    $password: String!\n    $username: String!\n  ) {\n    accountRegistration(\n      input: {\n        birthDate: $birthDate\n        emailAddress: $emailAddress\n        language: $language\n        legalTermId: $legalTermId\n        password: $password\n        username: $username\n      }\n    ) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountRegistrationDocument
   '\n  mutation AccountRegistrationRefresh($accountId: UUID!, $language: String!) {\n    accountRegistrationRefresh(\n      input: { language: $language, accountId: $accountId }\n    ) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountRegistrationRefreshDocument
   '\n  mutation CreateAccountBlock($accountBlockInput: AccountBlockInput!) {\n    createAccountBlock(input: { accountBlock: $accountBlockInput }) {\n      clientMutationId\n    }\n  }\n': typeof types.CreateAccountBlockDocument
-  '\n  mutation DeleteAccountBlock($blockedAccountId: UUID!, $createdBy: UUID!) {\n    deleteAccountBlockByCreatedByAndBlockedAccountId(\n      input: { createdBy: $createdBy, blockedAccountId: $blockedAccountId }\n    ) {\n      clientMutationId\n    }\n  }\n': typeof types.DeleteAccountBlockDocument
   '\n  mutation CreateContact($contactInput: ContactInput!) {\n    createContact(input: { contact: $contactInput }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.CreateContactDocument
   '\n  mutation DeleteContactById($id: UUID!) {\n    deleteContactById(input: { id: $id }) {\n      clientMutationId\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.DeleteContactByIdDocument
   '\n  mutation UpdateContactById($id: UUID!, $contactPatch: ContactPatch!) {\n    updateContactById(input: { id: $id, contactPatch: $contactPatch }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.UpdateContactByIdDocument
@@ -81,7 +82,6 @@ type Documents = {
   '\n  mutation CreateReport($reportInput: ReportInput!) {\n    createReport(input: { report: $reportInput }) {\n      clientMutationId\n    }\n  }\n': typeof types.CreateReportDocument
   '\n  mutation CreateUpload($input: UploadInput!) {\n    createUpload(input: { upload: $input }) {\n      clientMutationId\n      upload {\n        id\n      }\n    }\n  }\n': typeof types.CreateUploadDocument
   '\n  mutation DeleteUploadById($id: UUID!) {\n    deleteUploadById(input: { id: $id }) {\n      clientMutationId\n      upload {\n        ...UploadItem\n      }\n    }\n  }\n': typeof types.DeleteUploadByIdDocument
-  '\n  query AccountBlockedAccounts {\n    accountBlockedAccounts {\n      nodes {\n        id\n        username\n        description\n        imprint\n        storageKey\n      }\n    }\n  }\n': typeof types.AccountBlockedAccountsDocument
   '\n  query AccountByUsername($username: String!) {\n    accountByUsername(username: $username) {\n      ...AccountItem\n    }\n  }\n': typeof types.AccountByUsernameDocument
   '\n  query AccountUploadQuotaBytes {\n    accountUploadQuotaBytes\n  }\n': typeof types.AccountUploadQuotaBytesDocument
   '\n  query AllAchievements($accountId: UUID) {\n    allAchievements(condition: { accountId: $accountId }) {\n      nodes {\n        ...AchievementItem\n      }\n    }\n  }\n': typeof types.AllAchievementsDocument
@@ -105,6 +105,8 @@ const documents: Documents = {
     types.AccountByIdDocument,
   '\n  query AccountSearch($after: Cursor, $first: Int, $username: String) {\n    allAccounts(\n      after: $after\n      condition: { username: $username }\n      first: $first\n      orderBy: USERNAME_ASC\n    ) {\n      nodes {\n        id\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n':
     types.AccountSearchDocument,
+  '\n    mutation DeleteAccountBlock($blockedAccountId: UUID!, $createdBy: UUID!) {\n      deleteAccountBlockByCreatedByAndBlockedAccountId(\n        input: { blockedAccountId: $blockedAccountId, createdBy: $createdBy }\n      ) {\n        clientMutationId\n      }\n    }\n  ':
+    types.DeleteAccountBlockDocument,
   '\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        id\n        term\n      }\n    }\n  }\n':
     types.AllLegalTermsDocument,
   '\n  query EventList($after: Cursor, $first: Int!) {\n    allEvents(after: $after, first: $first, orderBy: START_DESC) {\n      nodes {\n        accountByCreatedBy {\n          id\n          username\n        }\n        addressByAddressId {\n          id\n          location {\n            latitude\n            longitude\n          }\n        }\n        eventFavoritesByEventId(first: 1) {\n          nodes {\n            id\n            createdBy\n          }\n        }\n        guestsByEventId(first: 1) {\n          nodes {\n            contactByContactId {\n              accountId\n              id\n            }\n            id\n          }\n        }\n        id\n        name\n        slug\n        start\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n':
@@ -115,6 +117,8 @@ const documents: Documents = {
     types.CreateEventFavoriteDocument,
   '\n    mutation DeleteEventFavoriteById($input: DeleteEventFavoriteByIdInput!) {\n      deleteEventFavoriteById(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.DeleteEventFavoriteByIdDocument,
+  '\n    query AccountBlockAccounts {\n      accountBlockAccounts {\n        nodes {\n          id\n          storageKey\n          username\n        }\n      }\n    }\n  ':
+    types.AccountBlockAccountsDocument,
   '\n    query AccountEdit($username: String!) {\n      accountByUsername(username: $username) {\n        description\n        id\n        imprint\n        profilePictureByAccountId {\n          id\n          uploadByUploadId {\n            id\n            storageKey\n          }\n        }\n        username\n      }\n    }\n  ':
     types.AccountEditDocument,
   '\n    mutation CreateProfilePicture($input: ProfilePictureInput!) {\n      createProfilePicture(input: { profilePicture: $input }) {\n        profilePicture {\n          accountId\n          id\n          uploadId\n        }\n        accountByAccountId {\n          id\n          profilePictureByAccountId {\n            id\n            uploadId\n          }\n        }\n      }\n    }\n  ':
@@ -187,8 +191,6 @@ const documents: Documents = {
     types.AccountRegistrationRefreshDocument,
   '\n  mutation CreateAccountBlock($accountBlockInput: AccountBlockInput!) {\n    createAccountBlock(input: { accountBlock: $accountBlockInput }) {\n      clientMutationId\n    }\n  }\n':
     types.CreateAccountBlockDocument,
-  '\n  mutation DeleteAccountBlock($blockedAccountId: UUID!, $createdBy: UUID!) {\n    deleteAccountBlockByCreatedByAndBlockedAccountId(\n      input: { createdBy: $createdBy, blockedAccountId: $blockedAccountId }\n    ) {\n      clientMutationId\n    }\n  }\n':
-    types.DeleteAccountBlockDocument,
   '\n  mutation CreateContact($contactInput: ContactInput!) {\n    createContact(input: { contact: $contactInput }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n':
     types.CreateContactDocument,
   '\n  mutation DeleteContactById($id: UUID!) {\n    deleteContactById(input: { id: $id }) {\n      clientMutationId\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n':
@@ -233,8 +235,6 @@ const documents: Documents = {
     types.CreateUploadDocument,
   '\n  mutation DeleteUploadById($id: UUID!) {\n    deleteUploadById(input: { id: $id }) {\n      clientMutationId\n      upload {\n        ...UploadItem\n      }\n    }\n  }\n':
     types.DeleteUploadByIdDocument,
-  '\n  query AccountBlockedAccounts {\n    accountBlockedAccounts {\n      nodes {\n        id\n        username\n        description\n        imprint\n        storageKey\n      }\n    }\n  }\n':
-    types.AccountBlockedAccountsDocument,
   '\n  query AccountByUsername($username: String!) {\n    accountByUsername(username: $username) {\n      ...AccountItem\n    }\n  }\n':
     types.AccountByUsernameDocument,
   '\n  query AccountUploadQuotaBytes {\n    accountUploadQuotaBytes\n  }\n':
@@ -303,6 +303,12 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+  source: '\n    mutation DeleteAccountBlock($blockedAccountId: UUID!, $createdBy: UUID!) {\n      deleteAccountBlockByCreatedByAndBlockedAccountId(\n        input: { blockedAccountId: $blockedAccountId, createdBy: $createdBy }\n      ) {\n        clientMutationId\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation DeleteAccountBlock($blockedAccountId: UUID!, $createdBy: UUID!) {\n      deleteAccountBlockByCreatedByAndBlockedAccountId(\n        input: { blockedAccountId: $blockedAccountId, createdBy: $createdBy }\n      ) {\n        clientMutationId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
   source: '\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        id\n        term\n      }\n    }\n  }\n',
 ): (typeof documents)['\n  query AllLegalTerms($language: String) {\n    allLegalTerms(condition: { language: $language }) {\n      nodes {\n        id\n        term\n      }\n    }\n  }\n']
 /**
@@ -329,6 +335,12 @@ export function graphql(
 export function graphql(
   source: '\n    mutation DeleteEventFavoriteById($input: DeleteEventFavoriteByIdInput!) {\n      deleteEventFavoriteById(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
 ): (typeof documents)['\n    mutation DeleteEventFavoriteById($input: DeleteEventFavoriteByIdInput!) {\n      deleteEventFavoriteById(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query AccountBlockAccounts {\n      accountBlockAccounts {\n        nodes {\n          id\n          storageKey\n          username\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    query AccountBlockAccounts {\n      accountBlockAccounts {\n        nodes {\n          id\n          storageKey\n          username\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -549,12 +561,6 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  mutation DeleteAccountBlock($blockedAccountId: UUID!, $createdBy: UUID!) {\n    deleteAccountBlockByCreatedByAndBlockedAccountId(\n      input: { createdBy: $createdBy, blockedAccountId: $blockedAccountId }\n    ) {\n      clientMutationId\n    }\n  }\n',
-): (typeof documents)['\n  mutation DeleteAccountBlock($blockedAccountId: UUID!, $createdBy: UUID!) {\n    deleteAccountBlockByCreatedByAndBlockedAccountId(\n      input: { createdBy: $createdBy, blockedAccountId: $blockedAccountId }\n    ) {\n      clientMutationId\n    }\n  }\n']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
   source: '\n  mutation CreateContact($contactInput: ContactInput!) {\n    createContact(input: { contact: $contactInput }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n',
 ): (typeof documents)['\n  mutation CreateContact($contactInput: ContactInput!) {\n    createContact(input: { contact: $contactInput }) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n']
 /**
@@ -683,12 +689,6 @@ export function graphql(
 export function graphql(
   source: '\n  mutation DeleteUploadById($id: UUID!) {\n    deleteUploadById(input: { id: $id }) {\n      clientMutationId\n      upload {\n        ...UploadItem\n      }\n    }\n  }\n',
 ): (typeof documents)['\n  mutation DeleteUploadById($id: UUID!) {\n    deleteUploadById(input: { id: $id }) {\n      clientMutationId\n      upload {\n        ...UploadItem\n      }\n    }\n  }\n']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n  query AccountBlockedAccounts {\n    accountBlockedAccounts {\n      nodes {\n        id\n        username\n        description\n        imprint\n        storageKey\n      }\n    }\n  }\n',
-): (typeof documents)['\n  query AccountBlockedAccounts {\n    accountBlockedAccounts {\n      nodes {\n        id\n        username\n        description\n        imprint\n        storageKey\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

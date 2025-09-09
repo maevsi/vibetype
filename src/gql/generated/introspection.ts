@@ -2004,7 +2004,7 @@ export default {
       },
       {
         kind: 'OBJECT',
-        name: 'AccountBlockedAccountEdge',
+        name: 'AccountBlockAccountEdge',
         fields: [
           {
             name: 'cursor',
@@ -2020,7 +2020,7 @@ export default {
               kind: 'NON_NULL',
               ofType: {
                 kind: 'OBJECT',
-                name: 'AccountBlockedAccountsRecord',
+                name: 'AccountBlockAccountsRecord',
                 ofType: null,
               },
             },
@@ -2031,7 +2031,7 @@ export default {
       },
       {
         kind: 'OBJECT',
-        name: 'AccountBlockedAccountsConnection',
+        name: 'AccountBlockAccountsConnection',
         fields: [
           {
             name: 'edges',
@@ -2043,7 +2043,7 @@ export default {
                   kind: 'NON_NULL',
                   ofType: {
                     kind: 'OBJECT',
-                    name: 'AccountBlockedAccountEdge',
+                    name: 'AccountBlockAccountEdge',
                     ofType: null,
                   },
                 },
@@ -2061,7 +2061,7 @@ export default {
                   kind: 'NON_NULL',
                   ofType: {
                     kind: 'OBJECT',
-                    name: 'AccountBlockedAccountsRecord',
+                    name: 'AccountBlockAccountsRecord',
                     ofType: null,
                   },
                 },
@@ -2085,26 +2085,10 @@ export default {
       },
       {
         kind: 'OBJECT',
-        name: 'AccountBlockedAccountsRecord',
+        name: 'AccountBlockAccountsRecord',
         fields: [
           {
-            name: 'description',
-            type: {
-              kind: 'SCALAR',
-              name: 'Any',
-            },
-            args: [],
-          },
-          {
             name: 'id',
-            type: {
-              kind: 'SCALAR',
-              name: 'Any',
-            },
-            args: [],
-          },
-          {
-            name: 'imprint',
             type: {
               kind: 'SCALAR',
               name: 'Any',
@@ -14979,6 +14963,51 @@ export default {
             ],
           },
           {
+            name: 'accountBlockAccounts',
+            type: {
+              kind: 'OBJECT',
+              name: 'AccountBlockAccountsConnection',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'after',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'before',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'first',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'last',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'offset',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+            ],
+          },
+          {
             name: 'accountBlockByCreatedByAndBlockedAccountId',
             type: {
               kind: 'OBJECT',
@@ -15024,51 +15053,6 @@ export default {
                     kind: 'SCALAR',
                     name: 'Any',
                   },
-                },
-              },
-            ],
-          },
-          {
-            name: 'accountBlockedAccounts',
-            type: {
-              kind: 'OBJECT',
-              name: 'AccountBlockedAccountsConnection',
-              ofType: null,
-            },
-            args: [
-              {
-                name: 'after',
-                type: {
-                  kind: 'SCALAR',
-                  name: 'Any',
-                },
-              },
-              {
-                name: 'before',
-                type: {
-                  kind: 'SCALAR',
-                  name: 'Any',
-                },
-              },
-              {
-                name: 'first',
-                type: {
-                  kind: 'SCALAR',
-                  name: 'Any',
-                },
-              },
-              {
-                name: 'last',
-                type: {
-                  kind: 'SCALAR',
-                  name: 'Any',
-                },
-              },
-              {
-                name: 'offset',
-                type: {
-                  kind: 'SCALAR',
-                  name: 'Any',
                 },
               },
             ],
