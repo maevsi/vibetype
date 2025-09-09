@@ -1,3 +1,9 @@
+## [12.29.1](https://github.com/maevsi/vibetype/compare/12.29.0...12.29.1) (2025-09-09)
+
+### Bug Fixes
+
+* **modules:** correct pwa scope extensions ([3b5d072](https://github.com/maevsi/vibetype/commit/3b5d072ef29571ef2397303a4c6f2dbd218fe3f9))
+
 ## [12.29.0](https://github.com/maevsi/vibetype/compare/12.28.0...12.29.0) (2025-09-08)
 
 ### Features
