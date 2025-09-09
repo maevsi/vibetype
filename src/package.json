@@ -97,7 +97,7 @@
     "leaflet": "1.9.4",
     "leaflet-control-geocoder": "3.3.0",
     "lodash-es": "4.17.21",
-    "lucide-vue-next": "0.542.0",
+    "lucide-vue-next": "0.543.0",
     "mustache": "4.2.0",
     "nodemailer": "7.0.6",
     "nuxt": "4.1.1",
