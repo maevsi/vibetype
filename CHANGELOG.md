@@ -1,3 +1,13 @@
+## [12.31.0](https://github.com/maevsi/vibetype/compare/12.30.0...12.31.0) (2025-09-09)
+
+### Features
+
+* **app:** disable text selection ([df7b53d](https://github.com/maevsi/vibetype/commit/df7b53d50e9a1f364057935d46d985d4a1a28160))
+
+### Bug Fixes
+
+* **session:** move developer information button up ([9e1bc5c](https://github.com/maevsi/vibetype/commit/9e1bc5c939e0d473303b7d3b763bb7781d62ac50))
+
 ## [12.30.0](https://github.com/maevsi/vibetype/compare/12.29.1...12.30.0) (2025-09-09)
 
 ### Features
