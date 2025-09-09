@@ -1,3 +1,9 @@
+## [12.30.0](https://github.com/maevsi/vibetype/compare/12.29.1...12.30.0) (2025-09-09)
+
+### Features
+
+* **docs:** do not redirect when app is installed ([c82b422](https://github.com/maevsi/vibetype/commit/c82b4227e419e8ffa5263e838972ca8ea3749f23))
+
 ## [12.29.1](https://github.com/maevsi/vibetype/compare/12.29.0...12.29.1) (2025-09-09)
 
 ### Bug Fixes
