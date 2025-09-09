@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <LayoutPageTitle :title="title" />
+  <div class="flex flex-1 flex-col justify-center">
+    <!-- <LayoutPageTitle :title="title" /> -->
     <div class="flex flex-col gap-8 rounded-lg p-8 text-center">
       <div class="flex flex-col gap-4">
         <div class="text-4xl leading-tight font-bold tracking-tight">
           {{ t('descriptionTitle') }}
         </div>
-        <div class="">
+        <div>
           {{ t('descriptionContent') }}
         </div>
       </div>
@@ -33,6 +33,18 @@
 
 <script setup lang="ts">
 import { UAParser } from 'ua-parser-js'
+
+// compiler
+definePageMeta({
+  layout: 'plain',
+})
+
+// redirect
+const { isApp } = usePlatform()
+
+if (isApp) {
+  await navigateTo('/', { replace: true })
+}
 
 const { ssrContext } = useNuxtApp()
 const userAgent = import.meta.server
@@ -65,6 +77,7 @@ if (userAgent) {
 // template
 const { t } = useI18n()
 const title = t('title')
+useHeadDefault({ title })
 </script>
 
 <i18n lang="yaml">
