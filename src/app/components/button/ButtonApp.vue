@@ -5,10 +5,10 @@
     :to="localePath('docs-app')"
     variant="secondary"
   >
-    {{ t('appInstall') }}
+    <!-- {{ t('appInstall') }}
     <template #suffix>
       <IHeroiconsArrowRight />
-    </template>
+    </template> -->
   </AppButton>
 </template>
 
