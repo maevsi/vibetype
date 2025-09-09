@@ -115,7 +115,7 @@ const runtimeConfig = useRuntimeConfig()
 const templateDoughnut = useTemplateRef<DoughnutController>('doughnut')
 
 // data
-const after = ref<string>()
+const after = ref<string | null>()
 const options = {
   plugins: {
     legend: {
@@ -132,11 +132,13 @@ const options = {
 }
 
 // api data
-const guestsQuery = useAllGuestsQuery({
-  after,
-  eventId: event.id,
-  first: ITEMS_PER_PAGE_LARGE,
-})
+const guestsQuery = useAllGuestsQuery(
+  computed(() => ({
+    after: after.value,
+    eventId: event.id,
+    first: ITEMS_PER_PAGE_LARGE,
+  })),
+)
 const api = await useApiData([guestsQuery])
 
 // methods

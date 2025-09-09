@@ -160,6 +160,8 @@ const formattedRadius = computed(() => {
 
 const store = useStore()
 const save = async () => {
+  if (!store.signedInAccountId) return
+
   const map = templateMap.value
 
   if (

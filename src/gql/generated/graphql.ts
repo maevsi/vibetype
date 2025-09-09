@@ -34,7 +34,7 @@ export type Scalars = {
    */
   BigInt: { input: any; output: any }
   /** A location in a connection that can be used for resuming pagination. */
-  Cursor: { input: any; output: any }
+  Cursor: { input: string; output: string }
   /** The day, does not include a time. */
   Date: { input: any; output: any }
   /**
@@ -48,11 +48,11 @@ export type Scalars = {
    * A JSON Web Token defined by [RFC 7519](https://tools.ietf.org/html/rfc7519)
    * which securely represents claims between two parties.
    */
-  Jwt: { input: any; output: any }
+  Jwt: { input: string; output: string }
   /** A builtin object identifier type for a text search configuration */
   RegConfig: { input: any; output: any }
   /** A universally unique identifier as defined by [RFC 4122](https://tools.ietf.org/html/rfc4122). */
-  UUID: { input: any; output: any }
+  UUID: { input: string; output: string }
 }
 
 /** Public account data. */
@@ -9075,14 +9075,14 @@ export type AccountByIdQuery = {
   __typename?: 'Query'
   accountById?: {
     __typename?: 'Account'
-    id: any
+    id: string
     username: string
     profilePictureByAccountId?: {
       __typename?: 'ProfilePicture'
-      id: any
+      id: string
       uploadByUploadId?: {
         __typename?: 'Upload'
-        id: any
+        id: string
         storageKey?: string | null
       } | null
     } | null
@@ -9099,10 +9099,10 @@ export type AccountSearchQuery = {
   __typename?: 'Query'
   allAccounts?: {
     __typename?: 'AccountsConnection'
-    nodes: Array<{ __typename?: 'Account'; id: any; username: string }>
+    nodes: Array<{ __typename?: 'Account'; id: string; username: string }>
     pageInfo: {
       __typename?: 'PageInfo'
-      endCursor?: any | null
+      endCursor?: string | null
       hasNextPage: boolean
     }
   } | null
@@ -9129,7 +9129,7 @@ export type AllLegalTermsQuery = {
   __typename?: 'Query'
   allLegalTerms?: {
     __typename?: 'LegalTermsConnection'
-    nodes: Array<{ __typename?: 'LegalTerm'; id: any; term: string }>
+    nodes: Array<{ __typename?: 'LegalTerm'; id: string; term: string }>
   } | null
 }
 
@@ -9145,18 +9145,18 @@ export type EventListQuery = {
     totalCount: number
     nodes: Array<{
       __typename?: 'Event'
-      id: any
+      id: string
       name: string
       slug: string
       start: any
       accountByCreatedBy?: {
         __typename?: 'Account'
-        id: any
+        id: string
         username: string
       } | null
       addressByAddressId?: {
         __typename?: 'Address'
-        id: any
+        id: string
         location?: {
           __typename?: 'GeographyPoint'
           latitude: number
@@ -9165,17 +9165,21 @@ export type EventListQuery = {
       } | null
       eventFavoritesByEventId: {
         __typename?: 'EventFavoritesConnection'
-        nodes: Array<{ __typename?: 'EventFavorite'; id: any; createdBy: any }>
+        nodes: Array<{
+          __typename?: 'EventFavorite'
+          id: string
+          createdBy: string
+        }>
       }
       guestsByEventId: {
         __typename?: 'GuestsConnection'
         nodes: Array<{
           __typename?: 'Guest'
-          id: any
+          id: string
           contactByContactId?: {
             __typename?: 'Contact'
-            accountId?: any | null
-            id: any
+            accountId?: string | null
+            id: string
           } | null
         }>
       }
@@ -9183,7 +9187,7 @@ export type EventListQuery = {
     pageInfo: {
       __typename?: 'PageInfo'
       hasNextPage: boolean
-      endCursor?: any | null
+      endCursor?: string | null
     }
   } | null
 }
@@ -9202,18 +9206,18 @@ export type EventSearchQuery = {
     totalCount: number
     nodes: Array<{
       __typename?: 'Event'
-      id: any
+      id: string
       name: string
       slug: string
       start: any
       accountByCreatedBy?: {
         __typename?: 'Account'
-        id: any
+        id: string
         username: string
       } | null
       addressByAddressId?: {
         __typename?: 'Address'
-        id: any
+        id: string
         location?: {
           __typename?: 'GeographyPoint'
           latitude: number
@@ -9222,17 +9226,21 @@ export type EventSearchQuery = {
       } | null
       eventFavoritesByEventId: {
         __typename?: 'EventFavoritesConnection'
-        nodes: Array<{ __typename?: 'EventFavorite'; createdBy: any; id: any }>
+        nodes: Array<{
+          __typename?: 'EventFavorite'
+          createdBy: string
+          id: string
+        }>
       }
       guestsByEventId: {
         __typename?: 'GuestsConnection'
         nodes: Array<{
           __typename?: 'Guest'
-          id: any
+          id: string
           contactByContactId?: {
             __typename?: 'Contact'
-            accountId?: any | null
-            id: any
+            accountId?: string | null
+            id: string
           } | null
         }>
       }
@@ -9240,7 +9248,7 @@ export type EventSearchQuery = {
     pageInfo: {
       __typename?: 'PageInfo'
       hasNextPage: boolean
-      endCursor?: any | null
+      endCursor?: string | null
     }
   } | null
 }
@@ -9255,9 +9263,9 @@ export type CreateEventFavoriteMutation = {
     __typename?: 'CreateEventFavoritePayload'
     eventFavorite?: {
       __typename?: 'EventFavorite'
-      createdBy: any
-      eventId: any
-      id: any
+      createdBy: string
+      eventId: string
+      id: string
       nodeId: string
     } | null
   } | null
@@ -9275,17 +9283,18 @@ export type DeleteEventFavoriteByIdMutation = {
   } | null
 }
 
-export type AccountBlockAccountsQueryVariables = Exact<{ [key: string]: never }>
+export type AllPreferenceEventSizesQueryVariables = Exact<{
+  [key: string]: never
+}>
 
-export type AccountBlockAccountsQuery = {
+export type AllPreferenceEventSizesQuery = {
   __typename?: 'Query'
-  accountBlockAccounts?: {
-    __typename?: 'AccountBlockAccountsConnection'
+  allPreferenceEventSizes?: {
+    __typename?: 'PreferenceEventSizesConnection'
     nodes: Array<{
-      __typename?: 'AccountBlockAccountsRecord'
-      id?: any | null
-      storageKey?: string | null
-      username?: string | null
+      __typename?: 'PreferenceEventSize'
+      nodeId: string
+      eventSize: EventSize
     }>
   } | null
 }
@@ -9299,15 +9308,15 @@ export type AccountEditQuery = {
   accountByUsername?: {
     __typename?: 'Account'
     description?: string | null
-    id: any
+    id: string
     imprint?: string | null
     username: string
     profilePictureByAccountId?: {
       __typename?: 'ProfilePicture'
-      id: any
+      id: string
       uploadByUploadId?: {
         __typename?: 'Upload'
-        id: any
+        id: string
         storageKey?: string | null
       } | null
     } | null
@@ -9324,17 +9333,17 @@ export type CreateProfilePictureMutation = {
     __typename?: 'CreateProfilePicturePayload'
     profilePicture?: {
       __typename?: 'ProfilePicture'
-      accountId: any
-      id: any
-      uploadId: any
+      accountId: string
+      id: string
+      uploadId: string
     } | null
     accountByAccountId?: {
       __typename?: 'Account'
-      id: any
+      id: string
       profilePictureByAccountId?: {
         __typename?: 'ProfilePicture'
-        id: any
-        uploadId: any
+        id: string
+        uploadId: string
       } | null
     } | null
   } | null
@@ -9364,7 +9373,7 @@ export type UpdateAccountByIdMutation = {
     account?: {
       __typename?: 'Account'
       description?: string | null
-      id: any
+      id: string
       imprint?: string | null
     } | null
   } | null
@@ -9382,6 +9391,21 @@ export type AccountEmailAddressVerificationMutation = {
   } | null
 }
 
+export type AccountBlockAccountsQueryVariables = Exact<{ [key: string]: never }>
+
+export type AccountBlockAccountsQuery = {
+  __typename?: 'Query'
+  accountBlockAccounts?: {
+    __typename?: 'AccountBlockAccountsConnection'
+    nodes: Array<{
+      __typename?: 'AccountBlockAccountsRecord'
+      id?: string | null
+      storageKey?: string | null
+      username?: string | null
+    }>
+  } | null
+}
+
 export type AccountQueryVariables = Exact<{
   username: Scalars['String']['input']
 }>
@@ -9391,14 +9415,14 @@ export type AccountQuery = {
   accountByUsername?: {
     __typename?: 'Account'
     description?: string | null
-    id: any
+    id: string
     imprint?: string | null
     achievementsByAccountId: {
       __typename?: 'AchievementsConnection'
       nodes: Array<{
         __typename?: 'Achievement'
         achievement: AchievementType
-        id: any
+        id: string
       }>
     }
     eventsByCreatedBy: {
@@ -9406,7 +9430,7 @@ export type AccountQuery = {
       totalCount: number
       nodes: Array<{
         __typename?: 'Event'
-        id: any
+        id: string
         name: string
         slug: string
         start: any
@@ -9414,19 +9438,19 @@ export type AccountQuery = {
           __typename?: 'EventFavoritesConnection'
           nodes: Array<{
             __typename?: 'EventFavorite'
-            createdBy: any
-            id: any
+            createdBy: string
+            id: string
           }>
         }
         guestsByEventId: {
           __typename?: 'GuestsConnection'
           nodes: Array<{
             __typename?: 'Guest'
-            id: any
+            id: string
             contactByContactId?: {
               __typename?: 'Contact'
-              accountId?: any | null
-              id: any
+              accountId?: string | null
+              id: string
             } | null
           }>
         }
@@ -9443,18 +9467,18 @@ export type DashboardEventQuery = {
   __typename?: 'Query'
   eventById?: {
     __typename?: 'Event'
-    id: any
+    id: string
     name: string
     slug: string
     start: any
     accountByCreatedBy?: {
       __typename?: 'Account'
-      id: any
+      id: string
       username: string
     } | null
     addressByAddressId?: {
       __typename?: 'Address'
-      id: any
+      id: string
       location?: {
         __typename?: 'GeographyPoint'
         latitude: number
@@ -9463,17 +9487,21 @@ export type DashboardEventQuery = {
     } | null
     eventFavoritesByEventId: {
       __typename?: 'EventFavoritesConnection'
-      nodes: Array<{ __typename?: 'EventFavorite'; createdBy: any; id: any }>
+      nodes: Array<{
+        __typename?: 'EventFavorite'
+        createdBy: string
+        id: string
+      }>
     }
     guestsByEventId: {
       __typename?: 'GuestsConnection'
       nodes: Array<{
         __typename?: 'Guest'
-        id: any
+        id: string
         contactByContactId?: {
           __typename?: 'Contact'
-          accountId?: any | null
-          id: any
+          accountId?: string | null
+          id: string
         } | null
       }>
     }
@@ -9489,16 +9517,16 @@ export type EventEditQuery = {
   __typename?: 'Query'
   accountByUsername?: {
     __typename?: 'Account'
-    id: any
+    id: string
     username: string
     eventsByCreatedBy: {
       __typename?: 'EventsConnection'
       nodes: Array<{
         __typename?: 'Event'
-        createdBy: any
+        createdBy: string
         description?: string | null
         end?: any | null
-        id: any
+        id: string
         isArchived: boolean
         name: string
         nodeId: string
@@ -9522,12 +9550,12 @@ export type EventAttendanceQuery = {
   __typename?: 'Query'
   accountByUsername?: {
     __typename?: 'Account'
-    id: any
+    id: string
     eventsByCreatedBy: {
       __typename?: 'EventsConnection'
       nodes: Array<{
         __typename?: 'Event'
-        id: any
+        id: string
         name: string
         slug: string
       }>
@@ -9544,18 +9572,18 @@ export type EventGuestsQuery = {
   __typename?: 'Query'
   accountByUsername?: {
     __typename?: 'Account'
-    id: any
+    id: string
     eventsByCreatedBy: {
       __typename?: 'EventsConnection'
       nodes: Array<{
         __typename?: 'Event'
-        createdBy: any
-        id: any
+        createdBy: string
+        id: string
         name: string
         slug: string
         accountByCreatedBy?: {
           __typename?: 'Account'
-          id: any
+          id: string
           username: string
         } | null
         guestsByEventId: {
@@ -9563,17 +9591,17 @@ export type EventGuestsQuery = {
           totalCount: number
           nodes: Array<{
             __typename?: 'Guest'
-            id: any
+            id: string
             contactByContactId?: {
               __typename?: 'Contact'
-              accountId?: any | null
-              id: any
+              accountId?: string | null
+              id: string
             } | null
           }>
           pageInfo: {
             __typename?: 'PageInfo'
             hasNextPage: boolean
-            endCursor?: any | null
+            endCursor?: string | null
           }
         }
       }>
@@ -9590,16 +9618,16 @@ export type EventQuery = {
   __typename?: 'Query'
   accountByUsername?: {
     __typename?: 'Account'
-    id: any
+    id: string
     username: string
     eventsByCreatedBy: {
       __typename?: 'EventsConnection'
       nodes: Array<{
         __typename?: 'Event'
-        createdBy: any
+        createdBy: string
         description?: string | null
         end?: any | null
-        id: any
+        id: string
         isArchived: boolean
         name: string
         nodeId: string
@@ -9611,7 +9639,7 @@ export type EventQuery = {
         visibility: EventVisibility
         accountByCreatedBy?: {
           __typename?: 'Account'
-          id: any
+          id: string
           username: string
         } | null
       }>
@@ -9629,13 +9657,13 @@ export type EventListAccountQuery = {
   __typename?: 'Query'
   accountByUsername?: {
     __typename?: 'Account'
-    id: any
+    id: string
     eventsByCreatedBy: {
       __typename?: 'EventsConnection'
       totalCount: number
       nodes: Array<{
         __typename?: 'Event'
-        id: any
+        id: string
         name: string
         slug: string
         start: any
@@ -9643,19 +9671,19 @@ export type EventListAccountQuery = {
           __typename?: 'EventFavoritesConnection'
           nodes: Array<{
             __typename?: 'EventFavorite'
-            createdBy: any
-            id: any
+            createdBy: string
+            id: string
           }>
         }
         guestsByEventId: {
           __typename?: 'GuestsConnection'
           nodes: Array<{
             __typename?: 'Guest'
-            id: any
+            id: string
             contactByContactId?: {
               __typename?: 'Contact'
-              accountId?: any | null
-              id: any
+              accountId?: string | null
+              id: string
             } | null
           }>
         }
@@ -9663,7 +9691,7 @@ export type EventListAccountQuery = {
       pageInfo: {
         __typename?: 'PageInfo'
         hasNextPage: boolean
-        endCursor?: any | null
+        endCursor?: string | null
       }
     }
   } | null
@@ -9677,26 +9705,26 @@ export type GuestEventQuery = {
   __typename?: 'Query'
   guestById?: {
     __typename?: 'Guest'
-    contactId: any
-    eventId: any
+    contactId: string
+    eventId: string
     feedback?: InvitationFeedback | null
-    id: any
+    id: string
     nodeId: string
     contactByContactId?: {
       __typename?: 'Contact'
-      accountId?: any | null
-      createdBy: any
+      accountId?: string | null
+      createdBy: string
       firstName?: string | null
-      id: any
+      id: string
       lastName?: string | null
       nodeId: string
     } | null
     eventByEventId?: {
       __typename?: 'Event'
-      createdBy: any
+      createdBy: string
       description?: string | null
       end?: any | null
-      id: any
+      id: string
       isArchived: boolean
       name: string
       nodeId: string
@@ -9708,7 +9736,7 @@ export type GuestEventQuery = {
       visibility: EventVisibility
       accountByCreatedBy?: {
         __typename?: 'Account'
-        id: any
+        id: string
         username: string
       } | null
     } | null
@@ -9725,14 +9753,14 @@ export type AchievementUnlockMutation = {
   achievementUnlock?: {
     __typename?: 'AchievementUnlockPayload'
     clientMutationId?: string | null
-    uuid?: any | null
+    uuid?: string | null
   } | null
 }
 
 export type AccountItemFragment = {
   __typename?: 'Account'
   description?: string | null
-  id: any
+  id: string
   nodeId: string
   username: string
 } & { ' $fragmentName'?: 'AccountItemFragment' }
@@ -9740,15 +9768,15 @@ export type AccountItemFragment = {
 export type AchievementItemFragment = {
   __typename?: 'Achievement'
   nodeId: string
-  id: any
-  accountId: any
+  id: string
+  accountId: string
   achievement: AchievementType
   level: number
 } & { ' $fragmentName'?: 'AchievementItemFragment' }
 
 export type AddressItemFragment = {
   __typename?: 'Address'
-  id: any
+  id: string
   city?: string | null
   country?: string | null
   line1?: string | null
@@ -9766,9 +9794,9 @@ export type AddressItemFragment = {
 export type ContactItemFragment = {
   __typename?: 'Contact'
   nodeId: string
-  id: any
-  accountId?: any | null
-  createdBy: any
+  id: string
+  accountId?: string | null
+  createdBy: string
   emailAddress?: string | null
   emailAddressHash?: string | null
   firstName?: string | null
@@ -9779,12 +9807,12 @@ export type ContactItemFragment = {
   url?: string | null
   accountByAccountId?: {
     __typename?: 'Account'
-    id: any
+    id: string
     username: string
   } | null
   accountByCreatedBy?: {
     __typename?: 'Account'
-    id: any
+    id: string
     username: string
   } | null
   addressByAddressId?:
@@ -9796,21 +9824,21 @@ export type ContactItemFragment = {
 
 export type EventCategoryItemFragment = {
   __typename?: 'EventCategory'
-  id: any
+  id: string
   name: string
 } & { ' $fragmentName'?: 'EventCategoryItemFragment' }
 
 export type EventFormatItemFragment = {
   __typename?: 'EventFormat'
-  id: any
+  id: string
   name: string
 } & { ' $fragmentName'?: 'EventFormatItemFragment' }
 
 export type EventItemFragment = {
   __typename?: 'Event'
-  id: any
+  id: string
   nodeId: string
-  createdBy: any
+  createdBy: string
   description?: string | null
   end?: any | null
   guestCountMaximum?: number | null
@@ -9824,7 +9852,7 @@ export type EventItemFragment = {
   visibility: EventVisibility
   accountByCreatedBy?: {
     __typename?: 'Account'
-    id: any
+    id: string
     username: string
   } | null
   addressByAddressId?:
@@ -9836,10 +9864,10 @@ export type EventItemFragment = {
 
 export type GuestItemFragment = {
   __typename?: 'Guest'
-  id: any
+  id: string
   nodeId: string
-  contactId: any
-  eventId: any
+  contactId: string
+  eventId: string
   feedback?: InvitationFeedback | null
   feedbackPaper?: InvitationFeedbackPaper | null
   contactByContactId?:
@@ -9852,22 +9880,22 @@ export type GuestItemFragment = {
 export type PreferenceEventCategoryItemFragment = {
   __typename?: 'PreferenceEventCategory'
   nodeId: string
-  accountId: any
-  categoryId: any
+  accountId: string
+  categoryId: string
 } & { ' $fragmentName'?: 'PreferenceEventCategoryItemFragment' }
 
 export type PreferenceEventFormatItemFragment = {
   __typename?: 'PreferenceEventFormat'
   nodeId: string
-  accountId: any
-  formatId: any
+  accountId: string
+  formatId: string
 } & { ' $fragmentName'?: 'PreferenceEventFormatItemFragment' }
 
 export type PreferenceEventLocationItemFragment = {
   __typename?: 'PreferenceEventLocation'
   createdAt: any
-  createdBy: any
-  id: any
+  createdBy: string
+  id: string
   nodeId: string
   radius: number
   location: {
@@ -9879,9 +9907,9 @@ export type PreferenceEventLocationItemFragment = {
 
 export type ProfilePictureItemFragment = {
   __typename?: 'ProfilePicture'
-  id: any
+  id: string
   nodeId: string
-  accountId: any
+  accountId: string
   uploadByUploadId?:
     | ({ __typename?: 'Upload' } & {
         ' $fragmentRefs'?: { UploadItemFragment: UploadItemFragment }
@@ -9891,11 +9919,11 @@ export type ProfilePictureItemFragment = {
 
 export type UploadItemFragment = {
   __typename?: 'Upload'
-  id: any
+  id: string
   nodeId: string
   sizeByte: any
   storageKey?: string | null
-  createdBy: any
+  createdBy: string
 } & { ' $fragmentName'?: 'UploadItemFragment' }
 
 export type AuthenticateMutationVariables = Exact<{
@@ -9908,7 +9936,7 @@ export type AuthenticateMutation = {
   authenticate?: {
     __typename?: 'AuthenticatePayload'
     clientMutationId?: string | null
-    jwt?: any | null
+    jwt?: string | null
   } | null
 }
 
@@ -9921,7 +9949,7 @@ export type JwtRefreshMutation = {
   jwtRefresh?: {
     __typename?: 'JwtRefreshPayload'
     clientMutationId?: string | null
-    jwt?: any | null
+    jwt?: string | null
   } | null
 }
 
@@ -10114,7 +10142,7 @@ export type EventUnlockMutation = {
       __typename?: 'EventUnlockResponse'
       creatorUsername?: string | null
       eventSlug?: string | null
-      jwt?: any | null
+      jwt?: string | null
     } | null
   } | null
 }
@@ -10146,7 +10174,7 @@ export type CreateGuestMutation = {
     __typename?: 'CreateGuestPayload'
     guest?: {
       __typename?: 'Guest'
-      id: any
+      id: string
       contactByContactId?:
         | ({ __typename?: 'Contact' } & {
             ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment }
@@ -10341,7 +10369,7 @@ export type CreateUploadMutation = {
   createUpload?: {
     __typename?: 'CreateUploadPayload'
     clientMutationId?: string | null
-    upload?: { __typename?: 'Upload'; id: any } | null
+    upload?: { __typename?: 'Upload'; id: string } | null
   } | null
 }
 
@@ -10419,7 +10447,7 @@ export type AllContactsQuery = {
     pageInfo: {
       __typename?: 'PageInfo'
       hasNextPage: boolean
-      endCursor?: any | null
+      endCursor?: string | null
     }
   } | null
 }
@@ -10493,9 +10521,9 @@ export type EventFavoriteByCreatedByAndEventIdQuery = {
   __typename?: 'Query'
   eventFavoriteByCreatedByAndEventId?: {
     __typename?: 'EventFavorite'
-    id: any
+    id: string
     nodeId: string
-    eventId: any
+    eventId: string
   } | null
 }
 
@@ -10518,7 +10546,7 @@ export type AllGuestsQuery = {
     pageInfo: {
       __typename?: 'PageInfo'
       hasNextPage: boolean
-      endCursor?: any | null
+      endCursor?: string | null
     }
   } | null
 }
@@ -10577,22 +10605,6 @@ export type AllPreferenceEventLocationsQuery = {
   } | null
 }
 
-export type AllPreferenceEventSizesQueryVariables = Exact<{
-  [key: string]: never
-}>
-
-export type AllPreferenceEventSizesQuery = {
-  __typename?: 'Query'
-  allPreferenceEventSizes?: {
-    __typename?: 'PreferenceEventSizesConnection'
-    nodes: Array<{
-      __typename?: 'PreferenceEventSize'
-      nodeId: string
-      eventSize: EventSize
-    }>
-  } | null
-}
-
 export type ProfilePictureByAccountIdQueryVariables = Exact<{
   accountId: Scalars['UUID']['input']
 }>
@@ -10627,7 +10639,7 @@ export type AllUploadsQuery = {
     pageInfo: {
       __typename?: 'PageInfo'
       hasNextPage: boolean
-      endCursor?: any | null
+      endCursor?: string | null
     }
   } | null
 }
@@ -12264,19 +12276,19 @@ export const DeleteEventFavoriteByIdDocument = {
   DeleteEventFavoriteByIdMutation,
   DeleteEventFavoriteByIdMutationVariables
 >
-export const AccountBlockAccountsDocument = {
+export const AllPreferenceEventSizesDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'AccountBlockAccounts' },
+      name: { kind: 'Name', value: 'AllPreferenceEventSizes' },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'accountBlockAccounts' },
+            name: { kind: 'Name', value: 'allPreferenceEventSizes' },
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
@@ -12286,14 +12298,13 @@ export const AccountBlockAccountsDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'storageKey' },
+                        name: { kind: 'Name', value: 'nodeId' },
                       },
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'username' },
+                        name: { kind: 'Name', value: 'eventSize' },
                       },
                     ],
                   },
@@ -12306,8 +12317,8 @@ export const AccountBlockAccountsDocument = {
     },
   ],
 } as unknown as DocumentNode<
-  AccountBlockAccountsQuery,
-  AccountBlockAccountsQueryVariables
+  AllPreferenceEventSizesQuery,
+  AllPreferenceEventSizesQueryVariables
 >
 export const AccountEditDocument = {
   kind: 'Document',
@@ -12715,6 +12726,51 @@ export const AccountEmailAddressVerificationDocument = {
 } as unknown as DocumentNode<
   AccountEmailAddressVerificationMutation,
   AccountEmailAddressVerificationMutationVariables
+>
+export const AccountBlockAccountsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AccountBlockAccounts' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountBlockAccounts' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'storageKey' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AccountBlockAccountsQuery,
+  AccountBlockAccountsQueryVariables
 >
 export const AccountDocument = {
   kind: 'Document',
@@ -18859,50 +18915,6 @@ export const AllPreferenceEventLocationsDocument = {
 } as unknown as DocumentNode<
   AllPreferenceEventLocationsQuery,
   AllPreferenceEventLocationsQueryVariables
->
-export const AllPreferenceEventSizesDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'AllPreferenceEventSizes' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'allPreferenceEventSizes' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'nodeId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'eventSize' },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  AllPreferenceEventSizesQuery,
-  AllPreferenceEventSizesQueryVariables
 >
 export const ProfilePictureByAccountIdDocument = {
   kind: 'Document',

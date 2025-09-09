@@ -21,7 +21,7 @@ test.describe('headers middleware', () => {
       'Referrer-Policy': 'no-referrer',
       'Report-To': `'{"group":"default","max_age":31536000,"endpoints":[{"url":"https://o4507213726154752.ingest.de.sentry.io/api/4507213736837200/security/?sentry_key=5e253cec6a72a9eea44531e7205016ba&sentry_environment=production&sentry_release=<VERSION>"}],"include_subdomains":true}'`,
       'Strict-Transport-Security':
-        'max-age=31536000; includeSubDomains; preload;',
+        'max-age=31536000; includeSubDomains; preload',
       'X-Content-Type-Options': 'nosniff',
       'X-DNS-Prefetch-Control': 'off',
       'X-Download-Options': 'noopen',

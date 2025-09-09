@@ -8,6 +8,7 @@
     <LayoutPageTitle :title />
     <div v-if="isSignedIn" class="flex flex-col gap-8">
       <section
+        v-if="events?.length"
         :aria-labelledby="templateIdRecommendation"
         class="flex flex-col gap-4"
       >
@@ -36,7 +37,6 @@
 
 <script setup lang="ts">
 import { graphql } from '~~/gql/generated'
-import type { DashboardEventQueryVariables } from '~~/gql/generated/graphql'
 
 // async data
 const eventQuery = graphql(`
@@ -83,20 +83,16 @@ const {
   // error: recommendationError,
   pending,
 } = await useAsyncData('index-recommendations', async () => {
-  const eventIds = [
-    (
-      await $fetch(
-        '/api/service/reccoom/recommendations',
-        cookieJwt.value
-          ? {
-              headers: {
-                cookie: `${jwtName}=${cookieJwt.value}`,
-              },
-            }
-          : undefined,
-      )
-    )[0],
-  ]
+  const eventIds = await $fetch(
+    '/api/service/reccoom/recommendations',
+    cookieJwt.value
+      ? {
+          headers: {
+            cookie: `${jwtName}=${cookieJwt.value}`,
+          },
+        }
+      : undefined,
+  )
   const events = (
     await Promise.all(
       eventIds.map(
@@ -105,7 +101,7 @@ const {
             await $urql.value
               .query(eventQuery, {
                 id: eventId,
-              } satisfies MaybeRefObj<DashboardEventQueryVariables>)
+              })
               .toPromise()
           ).data?.eventById,
       ),

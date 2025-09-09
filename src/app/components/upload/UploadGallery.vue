@@ -89,7 +89,7 @@
       >
         <ButtonColored
           :aria-label="t('globalShowMore')"
-          @click="after = api.data.allUploads?.pageInfo.endCursor"
+          @click="after = api.data.allUploads.pageInfo.endCursor"
         >
           {{ t('globalShowMore') }}
         </ButtonColored>
@@ -149,7 +149,7 @@ const templateCropper = useTemplateRef('cropper')
 const templateInputProfilePicture = useTemplateRef('inputProfilePicture')
 
 // data
-const after = ref<string>()
+const after = ref<string | null>()
 const fileSelectedUrl = ref<string>()
 const fileSelectedMimeType = ref<string>()
 const pending = reactive({
@@ -161,11 +161,13 @@ const selectedItem = ref<{
 
 // api data
 const accountUploadQuotaBytesQuery = useAccountUploadQuotaBytesQuery({})
-const allUploadsQuery = useAllUploadsQuery({
-  after,
-  first: ITEMS_PER_PAGE,
-  createdBy: store.signedInAccountId,
-})
+const allUploadsQuery = useAllUploadsQuery(
+  computed(() => ({
+    after: after.value,
+    first: ITEMS_PER_PAGE,
+    createdBy: store.signedInAccountId,
+  })),
+)
 const deleteUploadByIdMutation = useDeleteUploadByIdMutation()
 const uploadCreateMutation = useCreateUploadMutation()
 const api = await useApiData([
@@ -294,7 +296,12 @@ const getUploadBlobPromise = () =>
   new Promise<void>((resolve, reject) => {
     ;(templateCropper.value?.getResult() as CropperResult).canvas?.toBlob(
       async (blob) => {
-        if (!blob || !templateInputProfilePicture.value?.files?.[0]) return
+        if (
+          !store.signedInAccountId ||
+          !blob ||
+          !templateInputProfilePicture.value?.files?.[0]
+        )
+          return
 
         const result = await uploadCreateMutation.executeMutation({
           input: {

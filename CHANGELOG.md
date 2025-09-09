@@ -1,3 +1,50 @@
+## [12.30.0](https://github.com/maevsi/vibetype/compare/12.29.1...12.30.0) (2025-09-09)
+
+### Features
+
+* **docs:** do not redirect when app is installed ([c82b422](https://github.com/maevsi/vibetype/commit/c82b4227e419e8ffa5263e838972ca8ea3749f23))
+
+## [12.29.1](https://github.com/maevsi/vibetype/compare/12.29.0...12.29.1) (2025-09-09)
+
+### Bug Fixes
+
+* **modules:** correct pwa scope extensions ([3b5d072](https://github.com/maevsi/vibetype/commit/3b5d072ef29571ef2397303a4c6f2dbd218fe3f9))
+
+## [12.29.0](https://github.com/maevsi/vibetype/compare/12.28.0...12.29.0) (2025-09-08)
+
+### Features
+
+* **docs:** add redirection to app stores ([4369d28](https://github.com/maevsi/vibetype/commit/4369d2867cac50ecbaff4ce3a25dddee14511095))
+
+## [12.28.0](https://github.com/maevsi/vibetype/compare/12.27.2...12.28.0) (2025-09-02)
+
+### Features
+
+* **components:** update error design ([07e75d7](https://github.com/maevsi/vibetype/commit/07e75d7449c40891814d700fb8082235bfc09904))
+
+## [12.27.2](https://github.com/maevsi/vibetype/compare/12.27.1...12.27.2) (2025-09-02)
+
+### Bug Fixes
+
+* **account:** unref date for registration ([e35cb03](https://github.com/maevsi/vibetype/commit/e35cb03a6cf11466b88c89fca115d29d76621f45))
+
+## [12.27.1](https://github.com/maevsi/vibetype/compare/12.27.0...12.27.1) (2025-08-26)
+
+### Bug Fixes
+
+* **gql:** correct variable computation ([42a5885](https://github.com/maevsi/vibetype/commit/42a58859704615ad9720e541949e7e6850a27dc2))
+
+## [12.27.0](https://github.com/maevsi/vibetype/compare/12.26.2...12.27.0) (2025-08-20)
+
+### Features
+
+* **recommendation:** show up to 10 ([ec9678d](https://github.com/maevsi/vibetype/commit/ec9678d5f41c0ce41e916385fe953fddcddc0887))
+
+### Bug Fixes
+
+* **preference:** await asynchronous data at initialization ([bb3422b](https://github.com/maevsi/vibetype/commit/bb3422be5c649d1f22fa30a20266ad42bef78630))
+* **recommendation:** don't show section if content is empty ([ce65f88](https://github.com/maevsi/vibetype/commit/ce65f8852ce7b4b07e9ef9b8d825f1e709be57d9))
+
 ## [12.26.2](https://github.com/maevsi/vibetype/compare/12.26.1...12.26.2) (2025-08-10)
 
 ### Bug Fixes
