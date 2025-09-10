@@ -4,7 +4,7 @@
     :class="
       cn(
         'sticky bottom-0 flex items-center justify-center gap-1 border-t-1 border-(--semantic-base-line) bg-(--semantic-base-background) p-2 shadow-xs',
-        isIos && 'pb-3',
+        isIos && 'pb-6',
         classProps,
       )
     "

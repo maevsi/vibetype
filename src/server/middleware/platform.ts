@@ -6,8 +6,8 @@ export default defineEventHandler(async (event) => {
     getCookie(event, `${SITE_NAME}_platform`) ||
     getCookie(event, 'app-platform') // currently in use by maevsi/ios
 
-  if (appPlatformHeader || appPlatformCookie) {
-    event.context.$platform = appPlatformHeader || appPlatformCookie
-    return
-  }
+  console.log('platform: header', appPlatformHeader)
+  console.log('platform: cookie', appPlatformCookie)
+
+  event.context.$platform = appPlatformHeader || appPlatformCookie
 })
