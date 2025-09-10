@@ -5,7 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@intlify/unplugin-vue-i18n': 11.0.0
   debug: 4.4.1
   nuxt-og-image: 5.1.7
   parse5-parser-stream: 8.0.0
