@@ -1,3 +1,9 @@
+## [12.32.0](https://github.com/maevsi/vibetype/compare/12.31.0...12.32.0) (2025-09-10)
+
+### Features
+
+* **components:** double menu bottom padding for ios ([54a81f3](https://github.com/maevsi/vibetype/commit/54a81f324f73a3b71cf5b96ef3e34b0ee196417c))
+
 ## [12.31.0](https://github.com/maevsi/vibetype/compare/12.30.0...12.31.0) (2025-09-09)
 
 ### Features
