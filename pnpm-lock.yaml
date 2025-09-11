@@ -24,8 +24,8 @@ importers:
         specifier: 10.0.1
         version: 10.0.1(semantic-release@24.2.8(typescript@5.9.2))
       '@semantic-release/github':
-        specifier: 11.0.5
-        version: 11.0.5(semantic-release@24.2.8(typescript@5.9.2))
+        specifier: 11.0.6
+        version: 11.0.6(semantic-release@24.2.8(typescript@5.9.2))
       '@semantic-release/npm':
         specifier: 12.0.2
         version: 12.0.2(semantic-release@24.2.8(typescript@5.9.2))
@@ -4258,8 +4258,8 @@ packages:
     peerDependencies:
       semantic-release: '>=18.0.0'
 
-  '@semantic-release/github@11.0.5':
-    resolution: {integrity: sha512-wJamzHteXwBdopvkTD6BJjPz1UHLm20twlVCSMA9zpd3B5KrOQX137jfTbNJT6ZVz3pXtg0S1DroQl4wifJ4WQ==}
+  '@semantic-release/github@11.0.6':
+    resolution: {integrity: sha512-ctDzdSMrT3H+pwKBPdyCPty6Y47X8dSrjd3aPZ5KKIKKWTwZBE9De8GtsH3TyAlw3Uyo2stegMx6rJMXKpJwJA==}
     engines: {node: '>=20.8.1'}
     peerDependencies:
       semantic-release: '>=24.1.0'
@@ -17640,7 +17640,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@semantic-release/github@11.0.5(semantic-release@24.2.8(typescript@5.9.2))':
+  '@semantic-release/github@11.0.6(semantic-release@24.2.8(typescript@5.9.2))':
     dependencies:
       '@octokit/core': 7.0.3
       '@octokit/plugin-paginate-rest': 13.1.1(@octokit/core@7.0.3)
@@ -17650,7 +17650,6 @@ snapshots:
       aggregate-error: 5.0.0
       debug: 4.4.1
       dir-glob: 3.0.1
-      globby: 14.1.0
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.6
       issue-parser: 7.0.1
@@ -17658,6 +17657,7 @@ snapshots:
       mime: 4.0.7
       p-filter: 4.1.0
       semantic-release: 24.2.8(typescript@5.9.2)
+      tinyglobby: 0.2.15
       url-join: 5.0.0
     transitivePeerDependencies:
       - supports-color
@@ -25757,7 +25757,7 @@ snapshots:
     dependencies:
       '@semantic-release/commit-analyzer': 13.0.1(semantic-release@24.2.8(typescript@5.9.2))
       '@semantic-release/error': 4.0.0
-      '@semantic-release/github': 11.0.5(semantic-release@24.2.8(typescript@5.9.2))
+      '@semantic-release/github': 11.0.6(semantic-release@24.2.8(typescript@5.9.2))
       '@semantic-release/npm': 12.0.2(semantic-release@24.2.8(typescript@5.9.2))
       '@semantic-release/release-notes-generator': 14.1.0(semantic-release@24.2.8(typescript@5.9.2))
       aggregate-error: 5.0.0
@@ -26856,7 +26856,7 @@ snapshots:
       pkg-types: 2.3.0
       scule: 1.3.0
       strip-literal: 3.0.0
-      tinyglobby: 0.2.14
+      tinyglobby: 0.2.15
       unplugin: 2.3.10
       unplugin-utils: 0.2.5
 
