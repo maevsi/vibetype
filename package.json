@@ -15,7 +15,7 @@
   "engines": {
     "node": "^24.0.0"
   },
-  "packageManager": "pnpm@10.15.1",
+  "packageManager": "pnpm@10.16.1",
   "pnpm": {
     "ignoredBuiltDependencies": [
       "@firebase/util",
@@ -33,7 +33,7 @@
       "vue-demi"
     ],
     "overrides": {
-      "debug": "4.4.1",
+      "debug": "4.4.3",
       "nuxt-og-image": "5.1.7",
       "parse5-parser-stream": "8.0.0",
       "vite": "npm:rolldown-vite@7.0.11"
