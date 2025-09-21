@@ -109,7 +109,7 @@
     "postgres": "3.4.7",
     "prettier": "3.6.2",
     "prettier-plugin-tailwindcss": "0.6.14",
-    "pretty-bytes": "7.0.1",
+    "pretty-bytes": "7.1.0",
     "prntr": "2.0.18",
     "prosemirror-commands": "1.7.1",
     "prosemirror-dropcursor": "1.8.2",
