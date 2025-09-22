@@ -5,7 +5,7 @@
     "@playwright/test": "1.55.0",
     "@types/node": "24.5.2",
     "cross-env": "10.0.0",
-    "del-cli": "6.0.0",
+    "del-cli": "7.0.0",
     "eslint": "9.36.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.4",
