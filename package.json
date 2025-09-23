@@ -8,14 +8,14 @@
     "@semantic-release/release-notes-generator": "14.1.0",
     "conventional-changelog-conventionalcommits": "9.1.0",
     "husky": "9.1.7",
-    "jiti": "2.5.1",
-    "lint-staged": "16.1.6",
+    "jiti": "2.6.0",
+    "lint-staged": "16.2.0",
     "semantic-release": "24.2.9"
   },
   "engines": {
     "node": "^24.0.0"
   },
-  "packageManager": "pnpm@10.17.0",
+  "packageManager": "pnpm@10.17.1",
   "pnpm": {
     "ignoredBuiltDependencies": [
       "@firebase/util",
