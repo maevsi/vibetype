@@ -360,8 +360,8 @@ importers:
         specifier: 1.12.1
         version: 1.12.1(magicast@0.3.5)
       openai:
-        specifier: 5.23.2
-        version: 5.23.2(ws@8.18.3)(zod@3.25.76)
+        specifier: 6.1.0
+        version: 6.1.0(ws@8.18.3)(zod@3.25.76)
       pinia:
         specifier: 3.0.3
         version: 3.0.3(typescript@5.9.3)(vue@3.5.22(typescript@5.9.3))
@@ -9788,12 +9788,12 @@ packages:
     resolution: {integrity: sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ==}
     engines: {node: '>=12'}
 
-  openai@5.23.2:
-    resolution: {integrity: sha512-MQBzmTulj+MM5O8SKEk/gL8a7s5mktS9zUtAkU257WjvobGc9nKcBuVwjyEEcb9SI8a8Y2G/mzn3vm9n1Jlleg==}
+  openai@6.1.0:
+    resolution: {integrity: sha512-5sqb1wK67HoVgGlsPwcH2bUbkg66nnoIYKoyV9zi5pZPqh7EWlmSrSDjAh4O5jaIg/0rIlcDKBtWvZBuacmGZg==}
     hasBin: true
     peerDependencies:
       ws: ^8.18.0
-      zod: ^3.23.8
+      zod: ^3.25 || ^4.0
     peerDependenciesMeta:
       ws:
         optional: true
@@ -24673,7 +24673,7 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@5.23.2(ws@8.18.3)(zod@3.25.76):
+  openai@6.1.0(ws@8.18.3)(zod@3.25.76):
     optionalDependencies:
       ws: 8.18.3
       zod: 3.25.76
