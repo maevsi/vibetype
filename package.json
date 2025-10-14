@@ -9,13 +9,13 @@
     "conventional-changelog-conventionalcommits": "9.1.0",
     "husky": "9.1.7",
     "jiti": "2.6.1",
-    "lint-staged": "16.2.3",
+    "lint-staged": "16.2.4",
     "semantic-release": "24.2.9"
   },
   "engines": {
     "node": "^24.0.0"
   },
-  "packageManager": "pnpm@10.18.0",
+  "packageManager": "pnpm@10.18.3",
   "pnpm": {
     "ignoredBuiltDependencies": [
       "@firebase/util",
@@ -35,8 +35,7 @@
     "overrides": {
       "debug": "4.4.3",
       "nuxt-og-image": "5.1.7",
-      "parse5-parser-stream": "8.0.0",
-      "vite": "npm:rolldown-vite@7.0.11"
+      "parse5-parser-stream": "8.0.0"
     }
   },
   "private": true,
