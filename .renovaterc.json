@@ -5,10 +5,6 @@
     {
       "matchPackageNames": ["nuxt-og-image"],
       "allowedVersions": "5.1.7"
-    },
-    {
-      "matchPackageNames": ["vite", "rolldown-vite"],
-      "allowedVersions": "7.0.11"
     }
   ]
 }
