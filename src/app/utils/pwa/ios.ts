@@ -22,19 +22,21 @@ export const requestNotificationPermission = (
   }
 }
 
-// // Requests the current notification permission state
-// export const requestNotificationPermissionState = async () => {
-//   if (hasPushCapability) {
-//     window.webkit?.messageHandlers['push-permission-state']?.postMessage(
-//       'push-permission-state',
-//     )
-//   } else {
-//     const permissionStatus = await navigator.permissions.query({
-//       name: 'notifications',
-//     })
-//     permissionState.value = permissionStatus.state
-//   }
-// }
+// Requests the current notification permission state
+export const requestNotificationPermissionState = async (
+  notificationStore: ReturnType<typeof useNotificationStore>,
+) => {
+  if (hasPushCapability) {
+    window.webkit?.messageHandlers['push-permission-state']?.postMessage(
+      'push-permission-state',
+    )
+  } else {
+    const permissionStatus = await navigator.permissions.query({
+      name: 'notifications',
+    })
+    notificationStore.permissionState = permissionStatus.state
+  }
+}
 
 export const registerIosCallbackHandler = (
   notificationStore: ReturnType<typeof useNotificationStore>,
