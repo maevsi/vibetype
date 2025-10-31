@@ -14,6 +14,11 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
+  /* Fix for #2113: Disable zoom on webapp layout for better touch experience */
+  body {
+      touch-action: manipulation;
+  }
+  
   :disabled {
     /* cursor-not-allowed */
     @apply pointer-events-none opacity-75;
