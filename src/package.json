@@ -88,7 +88,7 @@
     "graphql": "16.11.0",
     "h3": "1.15.4",
     "html-to-text": "9.0.5",
-    "ical-generator": "9.0.0",
+    "ical-generator": "10.0.0",
     "isomorphic-dompurify": "2.30.1",
     "jose": "6.1.0",
     "js-confetti": "0.13.1",
