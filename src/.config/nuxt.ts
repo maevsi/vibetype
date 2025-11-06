@@ -243,7 +243,6 @@ export default defineNuxtConfig({
         '@vueuse/core',
         'chart.js',
         'class-variance-authority',
-        'clipboardy',
         'clsx',
         'css-element-queries',
         'downloadjs',
