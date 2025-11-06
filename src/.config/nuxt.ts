@@ -225,6 +225,8 @@ export default defineNuxtConfig({
         '@dargmuesli/nuxt-cookie-control/runtime/types.js',
         '@http-util/status-i18n',
         '@internationalized/date',
+        '@intlify/core-base',
+        '@intlify/shared',
         '@sentry/nuxt',
         '@tiptap/extension-text-align',
         '@tiptap/starter-kit',
