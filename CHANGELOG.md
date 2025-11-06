@@ -1,3 +1,9 @@
+## [12.32.5](https://github.com/maevsi/vibetype/compare/12.32.4...12.32.5) (2025-11-06)
+
+### Performance Improvements
+
+* **utils:** replace copy dependency ([4eb7c65](https://github.com/maevsi/vibetype/commit/4eb7c65054774190a18dd76a23d49a4a80b1e1c9))
+
 ## [12.32.4](https://github.com/maevsi/vibetype/compare/12.32.3...12.32.4) (2025-11-01)
 
 ### Bug Fixes
