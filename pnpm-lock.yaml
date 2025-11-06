@@ -448,6 +448,9 @@ importers:
       ua-parser-js:
         specifier: 2.0.6
         version: 2.0.6
+      ufo:
+        specifier: 1.6.1
+        version: 1.6.1
       unplugin-icons:
         specifier: 22.5.0
         version: 22.5.0(@vue/compiler-sfc@3.5.23)
@@ -19320,8 +19323,8 @@ snapshots:
   '@vue/language-core@3.1.2(typescript@5.9.3)':
     dependencies:
       '@volar/language-core': 2.4.23
-      '@vue/compiler-dom': 3.5.22
-      '@vue/shared': 3.5.22
+      '@vue/compiler-dom': 3.5.23
+      '@vue/shared': 3.5.23
       alien-signals: 3.0.5
       muggle-string: 0.4.1
       path-browserify: 1.0.1
