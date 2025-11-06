@@ -36,17 +36,6 @@ export const developmentConfig: ReturnType<DefineNuxtConfig> = {
     },
 
     // modules
-    content: {
-      watch: {
-        ...(process.env.NUXT_PUBLIC_SITE_URL // TODO: make more readable, find better naming ("enable https only in standalone mode, not when running inside the stack")
-          ? {
-              hostname: '0.0.0.0',
-            }
-          : {
-              https: HTTPS,
-            }),
-      },
-    },
     gtag: {
       enabled: false,
     },
