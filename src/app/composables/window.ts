@@ -1,4 +1,4 @@
-import { useWindowScroll } from '@vueuse/core'
+import { useClipboard, useWindowScroll } from '@vueuse/core'
 
 export const useInfiniteScroll = ({
   loadMore,
@@ -14,4 +14,26 @@ export const useInfiniteScroll = ({
 
     loadMore()
   })
+}
+
+export const useCopy = () => {
+  const { copy: clipboardCopy, isSupported } = useClipboard()
+  const { t } = useI18n({ useScope: 'global' })
+
+  const copy = async (text: string) => {
+    if (!import.meta.client) return
+
+    if (!isSupported) {
+      await showToast({
+        icon: 'error',
+        text: t('globalErrorClipboard'),
+        title: t('globalError'),
+      })
+      return
+    }
+
+    await clipboardCopy(text)
+  }
+
+  return { copy }
 }
