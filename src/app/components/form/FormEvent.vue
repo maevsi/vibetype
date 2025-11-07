@@ -280,7 +280,23 @@ import { EventVisibility } from '~~/gql/generated/graphql'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
 const { event = undefined } = defineProps<{
-  event?: Pick<EventItemFragment, 'name' | 'slug'>
+  event?: Pick<
+    EventItemFragment,
+    // typescript
+    | 'name'
+    | 'slug'
+    // inputs
+    | 'name'
+    | 'slug'
+    | 'visibility'
+    | 'guestCountMaximum'
+    | 'start'
+    | 'end'
+    | 'isInPerson'
+    | 'isRemote'
+    | 'url'
+    | 'description'
+  >
 }>()
 
 const localePath = useLocalePath()
@@ -398,7 +414,7 @@ const submit = async () => {
   }
 }
 
-const updateForm = (data?: Pick<EventItemFragment, 'name' | 'slug'>) => {
+const updateForm = (data?: Record<string, unknown>) => {
   if (!data) return
 
   for (const [k, v] of Object.entries(data)) {

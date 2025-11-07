@@ -320,11 +320,10 @@ const eventQuery = useQuery({
           end
           id
           isArchived
-          name
-          nodeId
-          isArchived
           isInPerson
           isRemote
+          name
+          nodeId
           slug
           start
           url
