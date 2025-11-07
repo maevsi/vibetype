@@ -28,7 +28,7 @@ jobs:
   release_semantic_dry:
     needs: prepare_jobs
     name: Release (semantic, dry)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@4e6e3d3fa4b81be372036d8ac7b14638d27be045 # 2.7.0
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@2e609b27f8b3a698ba389d86518c92bca3a5d492 # 3.1.0
     if: needs.prepare_jobs.outputs.pr_found == 'false' || github.event_name == 'pull_request'
     permissions:
       contents: write
@@ -39,7 +39,7 @@ jobs:
       DRY_RUN: true
   build:
     name: Build
-    uses: dargmuesli/github-actions/.github/workflows/docker.yml@4e6e3d3fa4b81be372036d8ac7b14638d27be045 # 2.7.0
+    uses: dargmuesli/github-actions/.github/workflows/docker.yml@2e609b27f8b3a698ba389d86518c92bca3a5d492 # 3.1.0
     needs: release_semantic_dry
     permissions:
       packages: write
@@ -51,7 +51,7 @@ jobs:
   release_semantic:
     needs: build
     name: Release (semantic)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@4e6e3d3fa4b81be372036d8ac7b14638d27be045 # 2.7.0
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@2e609b27f8b3a698ba389d86518c92bca3a5d492 # 3.1.0
     permissions:
       contents: write
     secrets:
