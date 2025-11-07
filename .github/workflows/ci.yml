@@ -21,14 +21,14 @@ jobs:
     steps:
       - name: Get current PR
         id: pr
-        uses: 8BitJonny/gh-get-current-pr@4.0.0
+        uses: 8BitJonny/gh-get-current-pr@4056877062a1f3b624d5d4c2bedefa9cf51435c9 # 4.0.0
         with:
           filterOutClosed: true
           filterOutDraft: true
   release_semantic_dry:
     needs: prepare_jobs
     name: Release (semantic, dry)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@2.7.0
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@4e6e3d3fa4b81be372036d8ac7b14638d27be045 # 2.7.0
     if: needs.prepare_jobs.outputs.pr_found == 'false' || github.event_name == 'pull_request'
     permissions:
       contents: write
@@ -39,7 +39,7 @@ jobs:
       DRY_RUN: true
   build:
     name: Build
-    uses: dargmuesli/github-actions/.github/workflows/docker.yml@2.7.0
+    uses: dargmuesli/github-actions/.github/workflows/docker.yml@4e6e3d3fa4b81be372036d8ac7b14638d27be045 # 2.7.0
     needs: release_semantic_dry
     permissions:
       packages: write
@@ -51,7 +51,7 @@ jobs:
   release_semantic:
     needs: build
     name: Release (semantic)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@2.7.0
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@4e6e3d3fa4b81be372036d8ac7b14638d27be045 # 2.7.0
     permissions:
       contents: write
     secrets:
