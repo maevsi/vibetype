@@ -1,6 +1,8 @@
 import type { SweetAlertIcon } from 'sweetalert2'
 import colors from 'tailwindcss/colors'
 
+export { toast } from 'vue-sonner'
+
 export const showToast = async ({
   confirmButtonText,
   icon = 'success',
