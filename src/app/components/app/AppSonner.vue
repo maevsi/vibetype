@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO: confirm design -->
   <Toaster
     class="pointer-events-auto"
     rich-colors

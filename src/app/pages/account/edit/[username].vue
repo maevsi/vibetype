@@ -147,10 +147,8 @@ const query = useQuery({
   },
 })
 const api = await useApiData([query])
+const processApiResult = useProcessApiResult(api)
 const account = computed(() => api.value.data.accountByUsername)
-const apiErrorMessages = computed(() =>
-  getCombinedErrorMessages(api.value.errors),
-)
 
 // profile picture
 const showModalUploadSelection = () => {
@@ -189,25 +187,8 @@ const onUploadSelect = async (uploadId?: string | null | undefined) => {
     },
   })
 
-  if (result.error) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: apiErrorMessages.value.join('\n'),
-      title: t('globalError'),
-    })
-    return
-  }
-
-  if (!result.data) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: t('globalErrorNoData'),
-      title: t('globalError'),
-    })
-    return
-  }
+  // TODO: confirm design
+  processApiResult({ result })
 }
 
 const deleteProfilePictureByIdMutation = useMutation(
@@ -228,25 +209,8 @@ const removeProfilePicture = async () => {
     id: profilePicture.id,
   })
 
-  if (result.error) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: apiErrorMessages.value.join('\n'),
-      title: t('globalError'),
-    })
-    return
-  }
-
-  if (!result.data) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: t('globalErrorNoData'),
-      title: t('globalError'),
-    })
-    return
-  }
+  // TODO: confirm design
+  processApiResult({ result })
 }
 
 // description and imprint
@@ -275,25 +239,8 @@ const saveDescription = async (content?: string) => {
     accountPatch: { description: content },
   })
 
-  if (result.error) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: apiErrorMessages.value.join('\n'),
-      title: t('globalError'),
-    })
-    return
-  }
-
-  if (!result.data) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: t('globalErrorNoData'),
-      title: t('globalError'),
-    })
-    return
-  }
+  // TODO: confirm design
+  processApiResult({ result })
 }
 
 const saveImprint = async (content?: string) => {
@@ -304,25 +251,8 @@ const saveImprint = async (content?: string) => {
     accountPatch: { imprint: content },
   })
 
-  if (result.error) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: apiErrorMessages.value.join('\n'),
-      title: t('globalError'),
-    })
-    return
-  }
-
-  if (!result.data) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: t('globalErrorNoData'),
-      title: t('globalError'),
-    })
-    return
-  }
+  // TODO: confirm design
+  processApiResult({ result })
 }
 
 // account

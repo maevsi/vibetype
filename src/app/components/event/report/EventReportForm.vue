@@ -63,6 +63,11 @@ const { handleSubmit } = useForm({
     }),
   ),
 })
+// api data // TODO: move when dissolving `defineExpose`
+const createReportMutation = useCreateReportMutation()
+const api = await useApiData([createReportMutation])
+const processApiResult = useProcessApiResult(api)
+// api data end
 const onSubmit = handleSubmit(async (values) => {
   const result = await createReportMutation.executeMutation({
     reportInput: {
@@ -72,35 +77,11 @@ const onSubmit = handleSubmit(async (values) => {
     },
   })
 
-  if (result.error) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: apiErrorMessages.value.join('\n'),
-      title: t('globalError'),
-    })
-    return
-  }
-
-  if (!result.data) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: t('globalErrorNoData'),
-      title: t('globalError'),
-    })
-    return
-  }
+  // TODO: confirm design
+  processApiResult({ result })
 
   emit('submitSuccess')
 })
-
-// api data
-const createReportMutation = useCreateReportMutation()
-const api = await useApiData([createReportMutation])
-const apiErrorMessages = computed(() =>
-  getCombinedErrorMessages(api.value.errors),
-)
 </script>
 
 <i18n lang="yaml">

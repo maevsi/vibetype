@@ -371,7 +371,7 @@ const submit = async () => {
 
     if (result.error || !result.data) return
 
-    await showToast({ title: t('updated') })
+    toast.success(t('eventUpdateSuccess'))
   } else {
     // Add
     const result = await createEventMutation.executeMutation({
@@ -395,7 +395,7 @@ const submit = async () => {
 
     if (result.error || !result.data) return
 
-    await showToast({ title: t('eventCreateSuccess') })
+    toast.success(t('eventCreateSuccess'))
 
     if (!store.signedInUsername || !form.slug)
       throw new Error(
@@ -487,6 +487,7 @@ de:
   eventCreate: Veranstaltung erstellen
   eventCreateSuccess: Veranstaltung erfolgreich erstellt.
   eventUpdate: Änderungen speichern
+  eventUpdateSuccess: Aktualisiert
   # stateInfoLocation: Ein Suchbegriff für Google Maps.
   isInPerson: vor Ort
   isRemote: digital
@@ -497,7 +498,6 @@ de:
   slug: Slug
   slugPlaceholder: willkommensfeier
   start: Beginn
-  updated: Aktualisiert
   validationExistenceNone: Du hast bereits eine Veranstaltung mit der ID "{slug}" angelegt
   validationWarningNameChangeSlug: Wenn du den Namen änderst, funktionieren bestehende Links zur Veranstaltung möglicherweise nicht mehr
   visibility: Sichtbarkeit
@@ -511,6 +511,7 @@ en:
   eventCreate: Create event
   eventCreateSuccess: Event created successfully.
   eventUpdate: Save changes
+  eventUpdateSuccess: Updated
   # stateInfoLocation: A search phrase for Google Maps.
   isInPerson: in person
   isRemote: remote
@@ -521,7 +522,6 @@ en:
   slug: Slug
   slugPlaceholder: welcome-party
   start: Start
-  updated: Updated
   validationExistenceNone: You have already created an event with id "{slug}"
   validationWarningNameChangeSlug: If you change the name, existing links to the event may no longer work
   visibility: Visibility

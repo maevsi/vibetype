@@ -377,7 +377,7 @@ const update = async (id: string, guestPatch: GuestPatch) => {
 
   if (result.error || !result.data) return
 
-  await showToast({ title: t('success') })
+  toast.success(t('success'))
 }
 
 // computations

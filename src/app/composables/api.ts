@@ -1,3 +1,4 @@
+import type { OperationResult } from '@urql/core'
 import type {
   AnyVariables,
   UseMutationResponse,
@@ -40,4 +41,30 @@ export const useApiData = async <
   )
 
   return apiData
+}
+
+export const useProcessApiResult = (
+  api: Awaited<ReturnType<typeof useApiData>>,
+) => {
+  const { t } = useI18n({ useScope: 'global' })
+
+  const apiErrorMessages = computed(() =>
+    getCombinedErrorMessages(api.value.errors),
+  )
+
+  return async ({ result }: { result: OperationResult }) => {
+    // TODO: confirm design
+    if (result.error) {
+      toast.error(t('globalError'), {
+        description: apiErrorMessages.value.join('\n'),
+      })
+      return
+    }
+    if (!result.data) {
+      toast.error(t('globalError'), {
+        description: t('globalErrorNoData'),
+      })
+      return
+    }
+  }
 }

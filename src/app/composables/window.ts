@@ -24,11 +24,7 @@ export const useCopy = () => {
     if (!import.meta.client) return
 
     if (!isSupported) {
-      await showToast({
-        icon: 'error',
-        text: t('globalErrorClipboard'),
-        title: t('globalError'),
-      })
+      toast.error(t('globalError'), { description: t('globalErrorClipboard') })
       return
     }
 

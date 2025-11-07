@@ -148,7 +148,6 @@
 </template>
 
 <script setup lang="ts">
-import type { OperationResult } from '@urql/core'
 import { useMutation } from '@urql/vue'
 import type { DeepReadonly } from 'vue'
 
@@ -246,6 +245,7 @@ const api = await useApiData([
   createEventFavoriteMutation,
   deleteEventFavoriteByIdMutation,
 ])
+const processApiResult = useProcessApiResult(api)
 const isFavorite = computed(
   () =>
     store.signedInAccountId &&
@@ -297,30 +297,6 @@ const toggleEventFavorite = async () => {
 
 // utility
 const { t } = useI18n()
-const apiErrorMessages = computed(() =>
-  getCombinedErrorMessages(api.value.errors),
-)
-const processApiResult = async ({ result }: { result: OperationResult }) => {
-  if (result.error) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: apiErrorMessages.value.join('\n'),
-      title: t('globalError'),
-    })
-    return
-  }
-
-  if (!result.data) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: t('globalErrorNoData'),
-      title: t('globalError'),
-    })
-    return
-  }
-}
 </script>
 
 <i18n lang="yaml">

@@ -127,9 +127,7 @@ const onAnimationEnd = (isOpen: boolean) => {
 // block
 const createAccountBlockMutation = useCreateAccountBlockMutation()
 const api = await useApiData([createAccountBlockMutation])
-const apiErrorMessages = computed(() =>
-  getCombinedErrorMessages(api.value.errors),
-)
+const processApiResult = useProcessApiResult(api)
 const blockOrganizer = async () => {
   const result = await createAccountBlockMutation.executeMutation({
     accountBlockInput: {
@@ -138,25 +136,8 @@ const blockOrganizer = async () => {
     },
   })
 
-  if (result.error) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: apiErrorMessages.value.join('\n'),
-      title: t('globalError'),
-    })
-    return
-  }
-
-  if (!result.data) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: t('globalErrorNoData'),
-      title: t('globalError'),
-    })
-    return
-  }
+  // TODO: confirm design
+  processApiResult({ result })
 
   step.value = 'blockConfirmation'
 }
