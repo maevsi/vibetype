@@ -270,6 +270,7 @@ export default defineNuxtConfig({
         'sweetalert2',
         'tailwind-merge',
         'tailwindcss/colors',
+        'ua-parser-js',
         'v-calendar',
         'vaul-vue',
         'vee-validate',
