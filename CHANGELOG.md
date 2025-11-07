@@ -1,3 +1,9 @@
+## [12.32.6](https://github.com/maevsi/vibetype/compare/12.32.5...12.32.6) (2025-11-07)
+
+### Bug Fixes
+
+* **event:** correct maximum guest count fetching ([95c6528](https://github.com/maevsi/vibetype/commit/95c6528f0d2a79444acb56f3103646307a89f9bc))
+
 ## [12.32.5](https://github.com/maevsi/vibetype/compare/12.32.4...12.32.5) (2025-11-06)
 
 ### Performance Improvements
