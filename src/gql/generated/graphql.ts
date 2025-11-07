@@ -1,7 +1,7 @@
 /* eslint-disable */
 import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core'
 export type Maybe<T> = T | null
-export type InputMaybe<T> = Maybe<T>
+export type InputMaybe<T> = T | null | undefined
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K]
 }
@@ -9460,11 +9460,12 @@ export type EventEditQuery = {
         description?: string | null
         end?: any | null
         id: string
+        guestCountMaximum?: number | null
         isArchived: boolean
-        name: string
-        nodeId: string
         isInPerson?: boolean | null
         isRemote?: boolean | null
+        name: string
+        nodeId: string
         slug: string
         start: any
         url?: string | null
@@ -9562,10 +9563,10 @@ export type EventQuery = {
         end?: any | null
         id: string
         isArchived: boolean
-        name: string
-        nodeId: string
         isInPerson?: boolean | null
         isRemote?: boolean | null
+        name: string
+        nodeId: string
         slug: string
         start: any
         url?: string | null
@@ -9659,10 +9660,10 @@ export type GuestEventQuery = {
       end?: any | null
       id: string
       isArchived: boolean
-      name: string
-      nodeId: string
       isInPerson?: boolean | null
       isRemote?: boolean | null
+      name: string
+      nodeId: string
       slug: string
       start: any
       url?: string | null
@@ -13073,15 +13074,10 @@ export const EventEditDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'isArchived' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'nodeId' },
+                              name: {
+                                kind: 'Name',
+                                value: 'guestCountMaximum',
+                              },
                             },
                             {
                               kind: 'Field',
@@ -13094,6 +13090,14 @@ export const EventEditDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'isRemote' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodeId' },
                             },
                             {
                               kind: 'Field',
@@ -13577,23 +13581,19 @@ export const EventDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'name' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'nodeId' },
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'isArchived' },
-                            },
-                            {
-                              kind: 'Field',
                               name: { kind: 'Name', value: 'isInPerson' },
                             },
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'isRemote' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodeId' },
                             },
                             {
                               kind: 'Field',
@@ -13976,15 +13976,6 @@ export const GuestEventDocument = {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'isArchived' },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'nodeId' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'isArchived' },
-                      },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'isInPerson' },
@@ -13992,6 +13983,11 @@ export const GuestEventDocument = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'isRemote' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodeId' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'start' } },

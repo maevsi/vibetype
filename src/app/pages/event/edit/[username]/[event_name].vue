@@ -53,12 +53,12 @@ const eventQuery = useQuery({
             description
             end
             id
-            isArchived
-            name
-            nodeId
+            guestCountMaximum
             isArchived
             isInPerson
             isRemote
+            name
+            nodeId
             slug
             start
             url
