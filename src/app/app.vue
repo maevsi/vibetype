@@ -34,6 +34,7 @@
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
+    <AppSonner />
     <VitePwaManifest />
     <ClientOnly>
       <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->

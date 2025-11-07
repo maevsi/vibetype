@@ -276,6 +276,7 @@ export default defineNuxtConfig({
         'vue-advanced-cropper',
         'vue-chartjs',
         'vue-qrcode-reader',
+        'vue-sonner',
         'workbox-precaching',
         'zod',
       ],
