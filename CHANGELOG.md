@@ -1,3 +1,12 @@
+## [12.33.0](https://github.com/maevsi/vibetype/compare/12.32.6...12.33.0) (2025-11-08)
+
+### Features
+
+* **components:** replace toast with sonner ([500e1bd](https://github.com/maevsi/vibetype/commit/500e1bdfdedffa7703cff6b0978de32a6ce1a745))
+* **composables:** add alert error ([3119c37](https://github.com/maevsi/vibetype/commit/3119c379ae24a1af109b4b1a0c5765ea33941f1c))
+* **composables:** centralize urql result handling ([cec435e](https://github.com/maevsi/vibetype/commit/cec435efd820467d295c39e7f1fd032174dffe5f))
+* **session:** allow to clear api client data ([278b484](https://github.com/maevsi/vibetype/commit/278b484ec1e29e2226c83bce48de0dd2976da285))
+
 ## [12.32.6](https://github.com/maevsi/vibetype/compare/12.32.5...12.32.6) (2025-11-07)
 
 ### Bug Fixes
