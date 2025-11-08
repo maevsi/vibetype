@@ -1,5 +1,3 @@
-<!-- TODO: link https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-vscode -->
-
 [![ci status][ci-image]][ci-url]
 [![license status][license-image]][license-url]
 
@@ -43,7 +41,9 @@ You're encouraged to ask questions on [Vibetype's Discord](https://discord.gg/E3
 
 #### Preparation
 
-1. (optional) if you're on Windows, you might want to [setup WSL](https://docs.microsoft.com/en-us/windows/wsl/install) to be able to use all Linux functionality this project utilizes
+1. (optional) if you're on Windows, you might want to
+  1. [set up WSL](https://docs.microsoft.com/en-us/windows/wsl/install) to be able to use all Linux functionality this project utilizes
+  1. [set up Visual Studio Code for WSL](https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-vscode) so that it works properly with Linux-specific features such as symbolic links
 1. [install Git](https://git-scm.com/) to download this project's modules and participate in version management
 1. [install mkcert](https://github.com/FiloSottile/mkcert#installation) for development certificate generation and installation, so that all services are available through https
 1. [install nvm](https://github.com/nvm-sh/nvm#installing-and-updating) to be able to switch the currently active [Node.js](https://nodejs.org/en/) version on your machine (useful when working on multiple Node.js projects)
@@ -82,7 +82,9 @@ You're encouraged to ask questions on [Vibetype's Discord](https://discord.gg/E3
 
 #### Preparation
 
-1. if you're on Windows, [setup WSL](https://docs.microsoft.com/en-us/windows/wsl/install) to be able to use all Linux functionality this project utilizes
+1. if you're on Windows, you might want to
+  1. [set up WSL](https://docs.microsoft.com/en-us/windows/wsl/install) to be able to use all Linux functionality this project utilizes
+  1. [set up Visual Studio Code for WSL](https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-vscode) so that it works
 1. [install Git](https://git-scm.com/) to download this project's modules and participate in version management
 1. [install nvm](https://github.com/nvm-sh/nvm#installing-and-updating) to be able to switch the currently active [Node.js](https://nodejs.org/en/) version on your machine
 1. [install mkcert](https://github.com/FiloSottile/mkcert#installation) for development certificate generation and installation, so that all services are available through https
