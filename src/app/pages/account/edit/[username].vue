@@ -147,7 +147,7 @@ const query = useQuery({
   },
 })
 const api = await useApiData([query])
-const processApiResult = useProcessApiResult(api)
+const executeUrqlRequest = useExecuteUrqlRequest()
 const account = computed(() => api.value.data.accountByUsername)
 
 // profile picture
@@ -180,15 +180,15 @@ const onUploadSelect = async (uploadId?: string | null | undefined) => {
 
   await removeProfilePicture()
 
-  const result = await createProfilePictureMutation.executeMutation({
-    input: {
-      accountId: account.value?.id,
-      uploadId,
-    },
+  await executeUrqlRequest({
+    errorMessageI18n: t('errorProfilePictureCreate'),
+    request: createProfilePictureMutation.executeMutation({
+      input: {
+        accountId: account.value?.id,
+        uploadId,
+      },
+    }),
   })
-
-  // TODO: confirm design
-  processApiResult({ result })
 }
 
 const deleteProfilePictureByIdMutation = useMutation(
@@ -205,12 +205,12 @@ const removeProfilePicture = async () => {
 
   if (!profilePicture?.id) return
 
-  const result = await deleteProfilePictureByIdMutation.executeMutation({
-    id: profilePicture.id,
+  await executeUrqlRequest({
+    errorMessageI18n: t('errorProfilePictureDelete'),
+    request: deleteProfilePictureByIdMutation.executeMutation({
+      id: profilePicture.id,
+    }),
   })
-
-  // TODO: confirm design
-  processApiResult({ result })
 }
 
 // description and imprint
@@ -234,25 +234,25 @@ const updateAccountByIdMutation = useMutation(
 const saveDescription = async (content?: string) => {
   if (!account.value) return
 
-  const result = await updateAccountByIdMutation.executeMutation({
-    id: account.value.id,
-    accountPatch: { description: content },
+  await executeUrqlRequest({
+    errorMessageI18n: t('errorUpdateDescription'),
+    request: updateAccountByIdMutation.executeMutation({
+      id: account.value.id,
+      accountPatch: { description: content },
+    }),
   })
-
-  // TODO: confirm design
-  processApiResult({ result })
 }
 
 const saveImprint = async (content?: string) => {
   if (!account.value) return
 
-  const result = await updateAccountByIdMutation.executeMutation({
-    id: account.value.id,
-    accountPatch: { imprint: content },
+  await executeUrqlRequest({
+    errorMessageI18n: t('errorUpdateImprint'),
+    request: updateAccountByIdMutation.executeMutation({
+      id: account.value.id,
+      accountPatch: { imprint: content },
+    }),
   })
-
-  // TODO: confirm design
-  processApiResult({ result })
 }
 
 // account
@@ -271,6 +271,10 @@ de:
   back: Zurück
   deleteAccount: Konto löschen
   errorAccountMissing: Konto nicht verfügbar
+  errorProfilePictureCreate: Beim Speichern des Profilbildes ist ein Problem aufgetreten
+  errorProfilePictureDelete: Beim Entfernen des Profilbildes ist ein Problem aufgetreten
+  errorUpdateDescription: Beim Speichern der Beschreibung ist ein Problem aufgetreten
+  errorUpdateImprint: Beim Speichern des Impressums ist ein Problem aufgetreten
   imprint: Impressum
   remove: Bild entfernen
   replace: Bild ersetzen
@@ -281,6 +285,10 @@ en:
   back: Back
   deleteAccount: Delete Account
   errorAccountMissing: Account unavailable
+  errorProfilePictureCreate: There was a problem saving the profile picture
+  errorProfilePictureDelete: There was a problem removing the profile picture
+  errorUpdateDescription: There was a problem saving the description
+  errorUpdateImprint: There was a problem saving the imprint
   imprint: Imprint
   remove: Remove Image
   replace: Replace Image

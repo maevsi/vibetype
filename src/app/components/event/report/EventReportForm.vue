@@ -65,20 +65,22 @@ const { handleSubmit } = useForm({
 })
 // api data // TODO: move when dissolving `defineExpose`
 const createReportMutation = useCreateReportMutation()
-const api = await useApiData([createReportMutation])
-const processApiResult = useProcessApiResult(api)
+// const api = await useApiData([createReportMutation]) // TODO: show loading state, error details
 // api data end
+const executeUrqlRequest = useExecuteUrqlRequest()
 const onSubmit = handleSubmit(async (values) => {
-  const result = await createReportMutation.executeMutation({
-    reportInput: {
-      targetEventId: event.id,
-      reason: values.reason,
-      createdBy: accountId,
-    },
+  const result = await executeUrqlRequest({
+    errorMessageI18n: t('errorCreate'),
+    request: createReportMutation.executeMutation({
+      reportInput: {
+        targetEventId: event.id,
+        reason: values.reason,
+        createdBy: accountId,
+      },
+    }),
   })
 
-  // TODO: confirm design
-  processApiResult({ result })
+  if (!result) return // TODO: show error page
 
   emit('submitSuccess')
 })
@@ -92,6 +94,7 @@ de:
   drawerRadioOther: Anderes
   drawerRadioSexual: Sexueller Inhalt
   drawerRadioViolence: Gewalt
+  errorCreate: Es gab ein Problem beim Speichern deiner Meldung
 en:
   drawerDescription: Why are you reporting this event?
   drawerRadioDrugs: Drugs
@@ -99,4 +102,5 @@ en:
   drawerRadioOther: Other
   drawerRadioSexual: Sexual actions
   drawerRadioViolence: Violence
+  errorCreate: There was an issue saving your report
 </i18n>

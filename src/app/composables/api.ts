@@ -43,28 +43,50 @@ export const useApiData = async <
   return apiData
 }
 
-export const useProcessApiResult = (
-  api: Awaited<ReturnType<typeof useApiData>>,
-) => {
-  const { t } = useI18n({ useScope: 'global' })
+export const useExecuteUrqlRequest = () =>
+  // api: Awaited<ReturnType<typeof useApiData>>,
+  {
+    const { t } = useI18n({ useScope: 'global' })
+    const alertError = useAlertError()
 
-  const apiErrorMessages = computed(() =>
-    getCombinedErrorMessages(api.value.errors),
-  )
+    //   // TODO: details
+    //   // const apiErrorMessages = computed(() =>
+    //   //   getCombinedErrorMessages(api.value.errors),
+    //   // )
+    //   // apiErrorMessages.value.join('\n'),
 
-  return async ({ result }: { result: OperationResult }) => {
-    // TODO: confirm design
-    if (result.error) {
-      toast.error(t('globalError'), {
-        description: apiErrorMessages.value.join('\n'),
-      })
-      return
-    }
-    if (!result.data) {
-      toast.error(t('globalError'), {
-        description: t('globalErrorNoData'),
-      })
-      return
+    return async <S, V extends AnyVariables = AnyVariables>({
+      errorMessageI18n,
+      progress,
+      request,
+    }: {
+      errorMessageI18n: string
+      progress?: {
+        id: string
+        idArray: string[]
+      } // TODO: evaluate turning this non-optional
+      request: Promise<OperationResult<S, V>>
+    }) => {
+      if (progress) progress.idArray.push(progress.id)
+
+      const result = await request
+
+      if (progress)
+        progress.idArray.splice(progress.idArray.indexOf(progress.id), 1)
+
+      if (result.error) {
+        alertError({
+          error: result.error,
+          messageI18n: errorMessageI18n,
+        })
+        return
+      }
+
+      if (!result.data) {
+        alertError(t('globalErrorNoData'))
+        return
+      }
+
+      return result
     }
   }
-}
