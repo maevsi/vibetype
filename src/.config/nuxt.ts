@@ -267,7 +267,6 @@ export default defineNuxtConfig({
         'reka-ui/date',
         'seedrandom',
         'slugify',
-        'sweetalert2',
         'tailwind-merge',
         'tailwindcss/colors',
         'ua-parser-js',

@@ -308,8 +308,8 @@ const requestEvent = useRequestEvent()
 const store = useStore()
 const notificationStore = useNotificationStore()
 const { signOut } = await useSignOut()
-const fireAlert = useFireAlert()
 const { isApp, platform } = usePlatform()
+const alertError = useAlertError()
 
 // data
 const isNavigatorHavingPermissions = ref<boolean>()
@@ -322,7 +322,7 @@ const title = t('title')
 // methods
 const apiClientCacheClear = async () => {
   if (!$urqlCache) {
-    toast.error(t('apiClientCacheErrorUndefined'))
+    alertError(t('apiClientCacheErrorUndefined'))
     return
   }
 
@@ -340,15 +340,25 @@ const sendNotification = async () => {
     tag: 'test',
   })
 }
+const { copy } = useCopy()
 const showFcmToken = async () => {
   if (!notificationStore.fcmToken) {
     await notificationStore.fcmTokenInitialize()
   }
 
-  await fireAlert({
-    level: 'info',
-    title: 'FCM Token',
-    text: notificationStore.fcmToken,
+  toast.info(t('fcmToken'), {
+    action: {
+      label: t('copy'),
+      onClick: () => {
+        if (!notificationStore.fcmToken) {
+          alertError(t('fcmTokenUndefined'))
+          return
+        }
+
+        copy(notificationStore.fcmToken)
+      },
+    },
+    description: notificationStore.fcmToken,
   })
 }
 
@@ -415,9 +425,12 @@ de:
   codes: Einladungscodes
   codesEntered: 'Du hast die folgenden Codes eingegeben:'
   codesEnteredNone: Dieser Sitzung sind keine Einladungscodes zugeordnet.
+  copy: Kopieren
   data: Daten
   end: Ende
   endNow: Diese Sitzung beenden
+  fcmToken: FCM Token
+  fcmTokenUndefined: Das FCM Token ist nicht verfügbar
   hasIosPushCapability: Fenster hat Push-Fähigkeit (iOS)
   hasNavigatorPermissions: Navigator hat Berechtigungen
   hasNavigatorServiceWorkers: Navigator hat Service Worker
@@ -443,9 +456,12 @@ en:
   codes: Invitation codes
   codesEntered: 'You entered the following codes:'
   codesEnteredNone: There are no invitation codes assigned to this session.
+  copy: Copy
   data: Data
   end: End
   endNow: End this session
+  fcmToken: FCM Token
+  fcmTokenUndefined: The FCM Token is not available
   hasIosPushCapability: Window has Push-Capability (iOS)
   hasNavigatorPermissions: Navigator has permissions
   hasNavigatorServiceWorkers: Navigator has service workers
