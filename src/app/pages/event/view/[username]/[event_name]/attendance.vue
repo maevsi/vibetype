@@ -93,7 +93,7 @@ export default {
 <script setup lang="ts">
 const { t } = useI18n()
 const store = useStore()
-const fireAlert = useFireAlert()
+const alertError = useAlertError()
 
 // validation
 const route = useRoute(ROUTE_NAME)
@@ -172,7 +172,7 @@ const onError = async (error: Error) => {
     errorMessage = t('errorCameraStreamApiNotSupported') as string
   }
 
-  await fireAlert({ level: 'error', text: errorMessage })
+  alertError(errorMessage)
   store.modalRemove('ModalAttendanceScanQrCode')
   consola.error(errorMessage)
 }
@@ -184,7 +184,7 @@ const onClick = async () => {
 const onDetect = async (detectedBarcodes: DetectedBarcode[]) => {
   if (!detectedBarcodes.length || !detectedBarcodes[0]) return
   guestId.value = detectedBarcodes[0].rawValue
-  await fireAlert({ level: 'success' })
+  toast.success(t('successDetect'))
   store.modalRemove('ModalAttendanceScanQrCode')
 }
 
@@ -229,7 +229,7 @@ onMounted(() => {
 const writeTag = async (data: string) => {
   try {
     await new NDEFReader().write(data)
-    await fireAlert({ level: 'success' })
+    toast.success(t('successWrite'))
   } catch (error) {
     if (error instanceof DOMException) {
       let errorMessage: string = error.message
@@ -252,7 +252,7 @@ const writeTag = async (data: string) => {
         }) as string
       }
 
-      await fireAlert({ level: 'error', text: errorMessage })
+      alertError(errorMessage)
       consola.error(errorMessage)
     } else {
       alert(`Unexpected error: ${error}`)
@@ -289,6 +289,8 @@ de:
   qrCodeScan: Check-in-Code scannen
   qrHint: Lass dir von Gästen den QR-Code auf ihrer Einladungsseite zeigen
   scanned: 'Gescannt: {scanResult}'
+  successDetect: Tag erkannt
+  successWrite: Tag beschrieben
   title: Check-in
 en:
   close: Close
@@ -311,5 +313,7 @@ en:
   qrCodeScan: Scan check in code
   qrHint: Ask guests to show you the QR code on their invitation page
   scanned: 'Scanned: {scanResult}'
+  successDetect: Tag detected
+  successWrite: Tag written
   title: Check in
 </i18n>

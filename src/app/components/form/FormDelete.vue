@@ -63,11 +63,11 @@ const submit = async () => {
   if (result.error) return
 
   if (!isToastHidden) {
-    await showToast({
-      title: t('success', {
+    toast.success(
+      t('success', {
         item: itemNameSuccess,
       }),
-    })
+    )
   }
 
   emit('success')

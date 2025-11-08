@@ -34,6 +34,7 @@
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
+    <AppSonner />
     <VitePwaManifest />
     <ClientOnly>
       <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->
@@ -109,19 +110,16 @@ watch(
   () => $pwa,
   async (current, _previous) => {
     if (current?.showInstallPrompt && !runtimeConfig.public.vio.isTesting) {
-      const result = await showToast({
-        confirmButtonText: t('pwaConfirmButtonText'),
-        showConfirmButton: true,
-        text: t('pwaText'),
-        timer: 10000,
-        title: t('pwaTitle'),
+      toast(t('pwaTitle'), {
+        action: {
+          label: t('pwaConfirmButtonText'),
+          onClick: current.install,
+        },
+        description: t('pwaText'),
+        onDismiss: current.cancelInstall,
+        onAutoClose: current.cancelInstall,
+        duration: 10e3,
       })
-
-      if (result.isConfirmed) {
-        current.install()
-      } else {
-        current.cancelInstall()
-      }
     }
   },
 )

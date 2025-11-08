@@ -19,16 +19,13 @@ export const useInfiniteScroll = ({
 export const useCopy = () => {
   const { copy: clipboardCopy, isSupported } = useClipboard()
   const { t } = useI18n({ useScope: 'global' })
+  const alertError = useAlertError()
 
   const copy = async (text: string) => {
     if (!import.meta.client) return
 
     if (!isSupported) {
-      await showToast({
-        icon: 'error',
-        text: t('globalErrorClipboard'),
-        title: t('globalError'),
-      })
+      alertError(t('globalErrorClipboard'))
       return
     }
 

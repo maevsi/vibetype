@@ -63,44 +63,27 @@ const { handleSubmit } = useForm({
     }),
   ),
 })
+// api data // TODO: move when dissolving `defineExpose`
+const createReportMutation = useCreateReportMutation()
+// const api = await useApiData([createReportMutation]) // TODO: show loading state, error details
+// api data end
+const executeUrqlRequest = useExecuteUrqlRequest()
 const onSubmit = handleSubmit(async (values) => {
-  const result = await createReportMutation.executeMutation({
-    reportInput: {
-      targetEventId: event.id,
-      reason: values.reason,
-      createdBy: accountId,
-    },
+  const result = await executeUrqlRequest({
+    errorMessageI18n: t('errorCreate'),
+    request: createReportMutation.executeMutation({
+      reportInput: {
+        targetEventId: event.id,
+        reason: values.reason,
+        createdBy: accountId,
+      },
+    }),
   })
 
-  if (result.error) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: apiErrorMessages.value.join('\n'),
-      title: t('globalError'),
-    })
-    return
-  }
-
-  if (!result.data) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: t('globalErrorNoData'),
-      title: t('globalError'),
-    })
-    return
-  }
+  if (!result) return // TODO: show error page
 
   emit('submitSuccess')
 })
-
-// api data
-const createReportMutation = useCreateReportMutation()
-const api = await useApiData([createReportMutation])
-const apiErrorMessages = computed(() =>
-  getCombinedErrorMessages(api.value.errors),
-)
 </script>
 
 <i18n lang="yaml">
@@ -111,6 +94,7 @@ de:
   drawerRadioOther: Anderes
   drawerRadioSexual: Sexueller Inhalt
   drawerRadioViolence: Gewalt
+  errorCreate: Es gab ein Problem beim Speichern deiner Meldung
 en:
   drawerDescription: Why are you reporting this event?
   drawerRadioDrugs: Drugs
@@ -118,4 +102,5 @@ en:
   drawerRadioOther: Other
   drawerRadioSexual: Sexual actions
   drawerRadioViolence: Violence
+  errorCreate: There was an issue saving your report
 </i18n>
