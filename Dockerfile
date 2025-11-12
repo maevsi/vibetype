@@ -39,7 +39,7 @@ VOLUME /srv/app/node_modules
 USER node
 
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["pnpm", "run", "--dir", "src", "dev", "--host"]
+CMD ["pnpm", "run", "--dir", "src", "dev", "--host", "0.0.0.0"]
 EXPOSE 3000
 
 # TODO: support healthcheck while starting (https://github.com/nuxt/framework/issues/6915)
