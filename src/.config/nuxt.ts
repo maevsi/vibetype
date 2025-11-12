@@ -67,7 +67,7 @@ export default defineNuxtConfig({
           nuxtConfigSecurityHeaders.contentSecurityPolicy = defu(
             {
               'script-src-elem': [
-                "'unsafe-inline'", // nuxt-color-mode (https://github.com/nuxt-modules/color-mode/issues/266), runtimeConfig (static)
+                "'unsafe-inline'", // TODO: remove (https://github.com/Baroshem/nuxt-security/pull/659)
               ],
             },
             GET_CSP({ siteUrl: new URL(SITE_URL) }),
