@@ -445,6 +445,34 @@ export type AccountBlock = Node & {
   nodeId: Scalars['ID']['output']
 }
 
+/** A `AccountBlockAccountsRecord` edge in the connection. */
+export type AccountBlockAccountEdge = {
+  __typename?: 'AccountBlockAccountEdge'
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `AccountBlockAccountsRecord` at the end of the edge. */
+  node: AccountBlockAccountsRecord
+}
+
+/** A connection to a list of `AccountBlockAccountsRecord` values. */
+export type AccountBlockAccountsConnection = {
+  __typename?: 'AccountBlockAccountsConnection'
+  /** A list of edges which contains the `AccountBlockAccountsRecord` and cursor to aid in pagination. */
+  edges: Array<AccountBlockAccountEdge>
+  /** A list of `AccountBlockAccountsRecord` objects. */
+  nodes: Array<AccountBlockAccountsRecord>
+  /** The count of *all* `AccountBlockAccountsRecord` you could get from the connection. */
+  totalCount: Scalars['Int']['output']
+}
+
+/** The return type of our `accountBlockAccounts` query. */
+export type AccountBlockAccountsRecord = {
+  __typename?: 'AccountBlockAccountsRecord'
+  id?: Maybe<Scalars['UUID']['output']>
+  storageKey?: Maybe<Scalars['String']['output']>
+  username?: Maybe<Scalars['String']['output']>
+}
+
 /**
  * A condition to be used against `AccountBlock` object types. All fields are
  * tested for equality and combined with a logical ‘and.’
@@ -6645,6 +6673,8 @@ export type Query = Node & {
   account?: Maybe<Account>
   /** Reads a single `AccountBlock` using its globally unique `ID`. */
   accountBlock?: Maybe<AccountBlock>
+  /** Returns the id, username, and storage key of the profile picture, if it exists, of all accounts blocked by the invoker account. */
+  accountBlockAccounts?: Maybe<AccountBlockAccountsConnection>
   accountBlockByCreatedByAndBlockedAccountId?: Maybe<AccountBlock>
   accountBlockById?: Maybe<AccountBlock>
   accountById?: Maybe<Account>
@@ -6832,6 +6862,15 @@ export type QueryAccountArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryAccountBlockArgs = {
   nodeId: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAccountBlockAccountsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -9069,6 +9108,19 @@ export type AccountSearchQuery = {
   } | null
 }
 
+export type DeleteAccountBlockMutationVariables = Exact<{
+  blockedAccountId: Scalars['UUID']['input']
+  createdBy: Scalars['UUID']['input']
+}>
+
+export type DeleteAccountBlockMutation = {
+  __typename?: 'Mutation'
+  deleteAccountBlockByCreatedByAndBlockedAccountId?: {
+    __typename?: 'DeleteAccountBlockPayload'
+    clientMutationId?: string | null
+  } | null
+}
+
 export type AllLegalTermsQueryVariables = Exact<{
   language?: InputMaybe<Scalars['String']['input']>
 }>
@@ -9336,6 +9388,21 @@ export type AccountEmailAddressVerificationMutation = {
   accountEmailAddressVerification?: {
     __typename?: 'AccountEmailAddressVerificationPayload'
     clientMutationId?: string | null
+  } | null
+}
+
+export type AccountBlockAccountsQueryVariables = Exact<{ [key: string]: never }>
+
+export type AccountBlockAccountsQuery = {
+  __typename?: 'Query'
+  accountBlockAccounts?: {
+    __typename?: 'AccountBlockAccountsConnection'
+    nodes: Array<{
+      __typename?: 'AccountBlockAccountsRecord'
+      id?: string | null
+      storageKey?: string | null
+      username?: string | null
+    }>
   } | null
 }
 
@@ -11425,6 +11492,91 @@ export const AccountSearchDocument = {
     },
   ],
 } as unknown as DocumentNode<AccountSearchQuery, AccountSearchQueryVariables>
+export const DeleteAccountBlockDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteAccountBlock' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'blockedAccountId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'createdBy' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'deleteAccountBlockByCreatedByAndBlockedAccountId',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'blockedAccountId' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'blockedAccountId' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'createdBy' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteAccountBlockMutation,
+  DeleteAccountBlockMutationVariables
+>
 export const AllLegalTermsDocument = {
   kind: 'Document',
   definitions: [
@@ -12575,6 +12727,51 @@ export const AccountEmailAddressVerificationDocument = {
 } as unknown as DocumentNode<
   AccountEmailAddressVerificationMutation,
   AccountEmailAddressVerificationMutationVariables
+>
+export const AccountBlockAccountsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AccountBlockAccounts' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountBlockAccounts' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'storageKey' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AccountBlockAccountsQuery,
+  AccountBlockAccountsQueryVariables
 >
 export const AccountDocument = {
   kind: 'Document',
