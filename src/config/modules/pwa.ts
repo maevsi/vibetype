@@ -72,7 +72,7 @@ export const pwaConfig: ReturnType<DefineNuxtConfig> = {
           type: 'image/png',
         },
       ],
-      id: '/?source=pwa',
+      id: 'bbe5f2d7-4968-4cff-a9e8-16622ada2135',
       lang: 'en',
       launch_handler: {
         client_mode: ['auto'],
