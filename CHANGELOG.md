@@ -1,3 +1,12 @@
+## [12.33.1](https://github.com/maevsi/vibetype/compare/12.33.0...12.33.1) (2025-11-17)
+
+### Bug Fixes
+
+* **attendance:** add missing hint to camera error ([d3b7233](https://github.com/maevsi/vibetype/commit/d3b72339d65a7ff5eb11d9825c4e6171e6b0138d))
+* **attendance:** don't log error twice ([d2e12d1](https://github.com/maevsi/vibetype/commit/d2e12d14abd2ee017197e5e5f39466a98946e9b0))
+* **pwa:** set id ([cf486d9](https://github.com/maevsi/vibetype/commit/cf486d972158b0bf0b7a10bae2483189671702c2))
+* **security:** apply camera permission globally ([88043a3](https://github.com/maevsi/vibetype/commit/88043a310f86688c27a84a807d242b631ff64ec9))
+
 ## [12.33.0](https://github.com/maevsi/vibetype/compare/12.32.6...12.33.0) (2025-11-08)
 
 ### Features
