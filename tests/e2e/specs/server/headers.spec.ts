@@ -17,7 +17,7 @@ test.describe('headers middleware', () => {
       NEL: '\'{"report_to":"default","max_age":31536000,"include_subdomains":true}\'',
       'Origin-Agent-Cluster': '?1',
       'Permissions-Policy':
-        'accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(self), usb=(), web-share=(), xr-spatial-tracking=()',
+        'accelerometer=(), autoplay=(), camera=(self), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(self), usb=(), web-share=(), xr-spatial-tracking=()',
       'Referrer-Policy': 'no-referrer',
       'Report-To': `'{"group":"default","max_age":31536000,"endpoints":[{"url":"https://o4507213726154752.ingest.de.sentry.io/api/4507213736837200/security/?sentry_key=5e253cec6a72a9eea44531e7205016ba&sentry_environment=production&sentry_release=<VERSION>"}],"include_subdomains":true}'`,
       'Strict-Transport-Security':
