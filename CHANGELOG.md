@@ -1,3 +1,9 @@
+## [12.34.0](https://github.com/maevsi/vibetype/compare/12.33.1...12.34.0) (2025-11-17)
+
+### Features
+
+* **head:** test disabled scaling ([e8730bd](https://github.com/maevsi/vibetype/commit/e8730bd8a2ff6d2d38a4793433ecb57db6574948))
+
 ## [12.33.1](https://github.com/maevsi/vibetype/compare/12.33.0...12.33.1) (2025-11-17)
 
 ### Bug Fixes
