@@ -174,7 +174,6 @@ const onError = async (error: Error) => {
 
   alertError(errorMessage)
   store.modalRemove('ModalAttendanceScanQrCode')
-  consola.error(errorMessage)
 }
 const guestId = ref<string>()
 const onClick = async () => {
