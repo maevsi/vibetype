@@ -293,7 +293,7 @@ de:
   title: Check-in
 en:
   close: Close
-  errorCameraNotAllowed: Need camera access permissons.
+  errorCameraNotAllowed: Need camera access permissons. {hintBrowserSettings}
   errorCameraNotFound: Could not find a suitable camera.
   errorCameraNotReadable: Could not access camera. Is it in use by another program right now?
   errorCameraNotSupported: The web page is not loaded over a secure connection.
