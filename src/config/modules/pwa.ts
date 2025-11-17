@@ -79,7 +79,7 @@ export const pwaConfig: ReturnType<DefineNuxtConfig> = {
       },
       name: 'Vibetype',
       short_name: 'Vibetype',
-      // orientation: ..., // Disabled to respect system's rotation setting
+      // orientation: ..., // No need to restrict the system's orientation setting
       scope: '/',
       screenshots: [
         {
