@@ -256,6 +256,7 @@ export const sendEventInvitationMail = async ({
           accountByCreatedBy: {
             username: eventCreatorUsername,
           },
+          visibility: event.visibility.toUpperCase(), // graphql uses enums in caps per convention
         },
         guest: {
           id: guestId,
@@ -315,11 +316,11 @@ export const sendEventInvitationMail = async ({
 
   if (event.isArchived) {
     eventVisibility = t.eventIsArchived
-  } else if (event.visibility === EventVisibility.Public.toLowerCase()) {
+  } else if (event.visibility.toUpperCase() === EventVisibility.Public) {
     eventVisibility = t.eventVisibilityIsPublic
-  } else if (event.visibility === EventVisibility.Private.toLowerCase()) {
+  } else if (event.visibility.toUpperCase() === EventVisibility.Private) {
     eventVisibility = t.eventVisibilityIsPrivate
-  } else if (event.visibility === EventVisibility.Unlisted.toLowerCase()) {
+  } else if (event.visibility.toUpperCase() === EventVisibility.Unlisted) {
     eventVisibility = t.eventVisibilityIsUnlisted
   } else {
     throw new Error(
