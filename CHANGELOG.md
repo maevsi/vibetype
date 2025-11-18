@@ -1,3 +1,11 @@
+## [12.34.1](https://github.com/maevsi/vibetype/compare/12.34.0...12.34.1) (2025-11-18)
+
+### Bug Fixes
+
+* **notification:** correct enum capitalization for invitation visibility ([6b7c4bd](https://github.com/maevsi/vibetype/commit/6b7c4bd701824318e2b92ab8d6ade4de30434059))
+* **notification:** only attach successfully fetched ical data ([ba52f0b](https://github.com/maevsi/vibetype/commit/ba52f0bb79b852e2da44b98057454e9e6ae6b3e0))
+* **notification:** skip empty payloads ([2f34b68](https://github.com/maevsi/vibetype/commit/2f34b689ceec57f4af13530c1823f86718db173f))
+
 ## [12.34.0](https://github.com/maevsi/vibetype/compare/12.33.1...12.34.0) (2025-11-17)
 
 ### Features
