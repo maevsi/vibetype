@@ -58,7 +58,12 @@ export default defineNitroPlugin(async (nitroApp) => {
             }
           } | null
 
-          if (!valueNotification) break
+          if (
+            !valueNotification ||
+            valueNotification.payload.after.payload ===
+              '__debezium_unavailable_value'
+          )
+            break
 
           try {
             await processNotification({
