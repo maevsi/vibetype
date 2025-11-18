@@ -247,8 +247,9 @@ export const sendEventInvitationMail = async ({
     eventCreatorUsername,
   } = payloadCamelCased.data
 
-  const res = await (
-    await fetch(`http://${SITE_NAME}:3000/api/model/event/ical`, {
+  const icalFetch = await fetch(
+    `http://${SITE_NAME}:3000/api/model/event/ical`,
+    {
       body: JSON.stringify({
         contact: { emailAddress },
         event: {
@@ -266,8 +267,14 @@ export const sendEventInvitationMail = async ({
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
       },
-    })
-  ).text()
+    },
+  )
+
+  if (!icalFetch.ok) {
+    consola.error(`Could not get ical data!`, event)
+  }
+
+  const icalText = icalFetch.ok ? await icalFetch.text() : undefined
 
   if (!guestId) {
     consola.error(`Could not get guest id ${guestId}!`)
@@ -332,11 +339,15 @@ export const sendEventInvitationMail = async ({
     limit24h,
     mailOptions: {
       fromName: eventCreatorUsername,
-      icalEvent: {
-        content: res,
-        filename: eventCreatorUsername + '_' + event.slug + '.ics',
-        method: 'request',
-      },
+      ...(icalText
+        ? {
+            icalEvent: {
+              content: icalText,
+              filename: eventCreatorUsername + '_' + event.slug + '.ics',
+              method: 'request',
+            },
+          }
+        : {}),
       subject: t.subject(event.name),
       to: emailAddress,
     },
