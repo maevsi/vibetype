@@ -29,16 +29,14 @@ export const getIcalString = ({
   contact?: Pick<ContactItemFragment, 'firstName' | 'lastName'>
   event: Pick<
     EventItemFragment,
-    | 'accountByCreatedBy'
     // | 'addressByAddressId' // TODO: update for address
-    | 'description'
-    | 'end'
-    | 'id'
-    | 'name'
-    | 'slug'
-    | 'start'
-    | 'visibility'
-  >
+    'description' | 'end' | 'id' | 'name' | 'slug' | 'start' | 'visibility'
+  > & {
+    accountByCreatedBy?: Omit<
+      NonNullable<EventItemFragment['accountByCreatedBy']>,
+      'id'
+    > | null
+  }
   invitation?: Pick<GuestItemFragment, 'id'>
   siteUrl: string
 }) => {

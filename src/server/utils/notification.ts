@@ -31,7 +31,7 @@ type Template = {
 
 type Event = {
   id: number
-  authorUsername: string
+  createdBy: string
   description: string | null
   end: string | null // Date
   guestCountMaximum: number | null
