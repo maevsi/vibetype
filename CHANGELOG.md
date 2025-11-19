@@ -1,3 +1,13 @@
+## [12.34.2](https://github.com/maevsi/vibetype/compare/12.34.1...12.34.2) (2025-11-19)
+
+### Bug Fixes
+
+* **event:** relax ical data requirements ([2ccf25b](https://github.com/maevsi/vibetype/commit/2ccf25b764db9488a496c0a6cd1840ecd9adb71e))
+
+### Performance Improvements
+
+* **aws:** complete migration to ses client v2 ([1ed17ac](https://github.com/maevsi/vibetype/commit/1ed17ac31a7fc565ea1984ed367d3bf1738d697a))
+
 ## [12.34.1](https://github.com/maevsi/vibetype/compare/12.34.0...12.34.1) (2025-11-18)
 
 ### Bug Fixes
