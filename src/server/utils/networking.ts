@@ -28,3 +28,6 @@ export const useHost = () => {
 
   return host
 }
+
+export const useSiteUrl = () =>
+  getSiteUrl(useRuntimeConfig().public.i18n.baseUrl)

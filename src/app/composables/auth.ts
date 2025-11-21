@@ -48,6 +48,8 @@ export const useJwtFromCookie = () => {
   return getJwtFromCookie({ cookie })
 }
 
+export const useJwtName = () => getJwtName(useSiteUrl().siteUrlTyped)
+
 export const useJwtRefresh = () => {
   const { $urql, $urqlReset, ssrContext } = useNuxtApp()
   const jwtFromCookie = useJwtFromCookie()
@@ -71,7 +73,7 @@ export const useJwtStore = async () => {
   const runtimeConfig = useRuntimeConfig()
 
   return {
-    async jwtStore(jwt?: string) {
+    jwtStore: async (jwt?: string) => {
       await jwtStore({
         $urqlReset,
         event: ssrContext?.event,

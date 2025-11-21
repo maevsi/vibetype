@@ -1,5 +1,13 @@
 import type { H3Event } from 'h3'
 
+export const getHost = (event: H3Event) => {
+  const host = event.node.req.headers.host
+
+  if (!host) throw new Error('Host header is not given!')
+
+  return host
+}
+
 export const getRootHost = (host: string) => {
   const hostParts = host.split('.')
   const hostPartsLast = hostParts[hostParts.length - 1]
@@ -10,14 +18,6 @@ export const getRootHost = (host: string) => {
   if (hostParts.length === 1) return hostParts[0]
 
   return `${hostParts[hostParts.length - 2]}.${hostPartsLast}`
-}
-
-export const getHost = (event: H3Event) => {
-  const host = event.node.req.headers.host
-
-  if (!host) throw new Error('Host header is not given!')
-
-  return host
 }
 
 export const getServiceHref = ({

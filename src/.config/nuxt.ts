@@ -1,6 +1,6 @@
 import tailwindcss from '@tailwindcss/vite'
 import vue from '@vitejs/plugin-vue'
-import { defu } from 'defu'
+import { createResolver } from 'nuxt/kit'
 import type { Nuxt, ModuleOptions } from 'nuxt/schema'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
@@ -24,10 +24,11 @@ import {
   PRODUCTION_HOST,
   SITE_NAME,
 } from '../shared/utils/constants'
-import { GET_CSP } from '../server/utils/constants'
 
 // TODO: let this error in "eslint (compat/compat)"" (https://github.com/DefinitelyTyped/DefinitelyTyped/issues/55519)
 // setImmediate(() => {})
+
+const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-20',
@@ -63,18 +64,6 @@ export default defineNuxtConfig({
         typeof nuxtConfigSecurityHeaders !== 'boolean' &&
         nuxtConfigSecurityHeaders.contentSecurityPolicy
       ) {
-        if (nuxt.options.nitro.static) {
-          nuxtConfigSecurityHeaders.contentSecurityPolicy = defu(
-            {
-              'script-src-elem': [
-                "'unsafe-inline'", // TODO: remove (https://github.com/Baroshem/nuxt-security/pull/659)
-              ],
-            },
-            GET_CSP({ siteUrl: new URL(SITE_URL) }),
-            nuxtConfigSecurityHeaders.contentSecurityPolicy,
-          )
-        }
-
         const csp = nuxtConfigSecurityHeaders.contentSecurityPolicy
 
         for (const [key, value] of Object.entries(csp)) {
@@ -204,6 +193,9 @@ export default defineNuxtConfig({
   },
   sourcemap: true,
   typescript: {
+    nodeTsConfig: {
+      include: [resolve('../node')],
+    },
     tsConfig: {
       vueCompilerOptions: {
         htmlAttributes: [], // https://github.com/johnsoncodehk/volar/issues/1970#issuecomment-1276994634
