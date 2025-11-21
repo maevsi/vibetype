@@ -435,6 +435,34 @@ export type AccountBlock = Node & {
   nodeId: Scalars['ID']['output']
 }
 
+/** A `AccountBlockAccountsRecord` edge in the connection. */
+export type AccountBlockAccountEdge = {
+  __typename?: 'AccountBlockAccountEdge'
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `AccountBlockAccountsRecord` at the end of the edge. */
+  node: AccountBlockAccountsRecord
+}
+
+/** A connection to a list of `AccountBlockAccountsRecord` values. */
+export type AccountBlockAccountsConnection = {
+  __typename?: 'AccountBlockAccountsConnection'
+  /** A list of edges which contains the `AccountBlockAccountsRecord` and cursor to aid in pagination. */
+  edges: Array<AccountBlockAccountEdge>
+  /** A list of `AccountBlockAccountsRecord` objects. */
+  nodes: Array<AccountBlockAccountsRecord>
+  /** The count of *all* `AccountBlockAccountsRecord` you could get from the connection. */
+  totalCount: Scalars['Int']['output']
+}
+
+/** The return type of our `accountBlockAccounts` query. */
+export type AccountBlockAccountsRecord = {
+  __typename?: 'AccountBlockAccountsRecord'
+  id?: Maybe<Scalars['UUID']['output']>
+  storageKey?: Maybe<Scalars['String']['output']>
+  username?: Maybe<Scalars['String']['output']>
+}
+
 /**
  * A condition to be used against `AccountBlock` object types. All fields are
  * tested for equality and combined with a logical ‘and.’
@@ -6635,6 +6663,8 @@ export type Query = Node & {
   account?: Maybe<Account>
   /** Reads a single `AccountBlock` using its globally unique `ID`. */
   accountBlock?: Maybe<AccountBlock>
+  /** Returns the id, username, and storage key of the profile picture, if it exists, of all accounts blocked by the invoker account. */
+  accountBlockAccounts?: Maybe<AccountBlockAccountsConnection>
   accountBlockByCreatedByAndBlockedAccountId?: Maybe<AccountBlock>
   accountBlockById?: Maybe<AccountBlock>
   accountById?: Maybe<Account>
@@ -6822,6 +6852,15 @@ export type QueryAccountArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryAccountBlockArgs = {
   nodeId: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAccountBlockAccountsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -9013,6 +9052,15 @@ export type WithTypename<T extends { __typename?: any }> = Partial<T> & {
 export type GraphCacheKeysConfig = {
   Account?: (data: WithTypename<Account>) => null | string
   AccountBlock?: (data: WithTypename<AccountBlock>) => null | string
+  AccountBlockAccountEdge?: (
+    data: WithTypename<AccountBlockAccountEdge>,
+  ) => null | string
+  AccountBlockAccountsConnection?: (
+    data: WithTypename<AccountBlockAccountsConnection>,
+  ) => null | string
+  AccountBlockAccountsRecord?: (
+    data: WithTypename<AccountBlockAccountsRecord>,
+  ) => null | string
   AccountBlocksConnection?: (
     data: WithTypename<AccountBlocksConnection>,
   ) => null | string
@@ -9412,6 +9460,11 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       QueryAccountBlockArgs,
       WithTypename<AccountBlock> | string
+    >
+    accountBlockAccounts?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryAccountBlockAccountsArgs,
+      WithTypename<AccountBlockAccountsConnection> | string
     >
     accountBlockByCreatedByAndBlockedAccountId?: GraphCacheResolver<
       WithTypename<Query>,
@@ -10193,6 +10246,52 @@ export type GraphCacheResolvers = {
       WithTypename<AccountBlock>,
       Record<string, never>,
       Scalars['ID'] | string
+    >
+  }
+  AccountBlockAccountEdge?: {
+    cursor?: GraphCacheResolver<
+      WithTypename<AccountBlockAccountEdge>,
+      Record<string, never>,
+      Scalars['Cursor'] | string
+    >
+    node?: GraphCacheResolver<
+      WithTypename<AccountBlockAccountEdge>,
+      Record<string, never>,
+      WithTypename<AccountBlockAccountsRecord> | string
+    >
+  }
+  AccountBlockAccountsConnection?: {
+    edges?: GraphCacheResolver<
+      WithTypename<AccountBlockAccountsConnection>,
+      Record<string, never>,
+      Array<WithTypename<AccountBlockAccountEdge> | string>
+    >
+    nodes?: GraphCacheResolver<
+      WithTypename<AccountBlockAccountsConnection>,
+      Record<string, never>,
+      Array<WithTypename<AccountBlockAccountsRecord> | string>
+    >
+    totalCount?: GraphCacheResolver<
+      WithTypename<AccountBlockAccountsConnection>,
+      Record<string, never>,
+      Scalars['Int'] | string
+    >
+  }
+  AccountBlockAccountsRecord?: {
+    id?: GraphCacheResolver<
+      WithTypename<AccountBlockAccountsRecord>,
+      Record<string, never>,
+      Scalars['UUID'] | string
+    >
+    storageKey?: GraphCacheResolver<
+      WithTypename<AccountBlockAccountsRecord>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    username?: GraphCacheResolver<
+      WithTypename<AccountBlockAccountsRecord>,
+      Record<string, never>,
+      Scalars['String'] | string
     >
   }
   AccountBlocksConnection?: {
@@ -15417,6 +15516,14 @@ export type GraphCacheUpdaters = {
       { accountBlock: Maybe<WithTypename<AccountBlock>> },
       QueryAccountBlockArgs
     >
+    accountBlockAccounts?: GraphCacheUpdateResolver<
+      {
+        accountBlockAccounts: Maybe<
+          WithTypename<AccountBlockAccountsConnection>
+        >
+      },
+      QueryAccountBlockAccountsArgs
+    >
     accountBlockByCreatedByAndBlockedAccountId?: GraphCacheUpdateResolver<
       {
         accountBlockByCreatedByAndBlockedAccountId: Maybe<
@@ -17028,6 +17135,44 @@ export type GraphCacheUpdaters = {
     >
     nodeId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<AccountBlock>>,
+      Record<string, never>
+    >
+  }
+  AccountBlockAccountEdge?: {
+    cursor?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockAccountEdge>>,
+      Record<string, never>
+    >
+    node?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockAccountEdge>>,
+      Record<string, never>
+    >
+  }
+  AccountBlockAccountsConnection?: {
+    edges?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockAccountsConnection>>,
+      Record<string, never>
+    >
+    nodes?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockAccountsConnection>>,
+      Record<string, never>
+    >
+    totalCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockAccountsConnection>>,
+      Record<string, never>
+    >
+  }
+  AccountBlockAccountsRecord?: {
+    id?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockAccountsRecord>>,
+      Record<string, never>
+    >
+    storageKey?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockAccountsRecord>>,
+      Record<string, never>
+    >
+    username?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountBlockAccountsRecord>>,
       Record<string, never>
     >
   }
