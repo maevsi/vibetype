@@ -175,10 +175,14 @@ const cacheListRemove = <
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   const runtimeConfig = useRuntimeConfig()
-  const isTesting = useIsTesting()
+  const isTestingEnv = process.env.NUXT_PUBLIC_VIO_IS_TESTING === 'true'
+  const isTestingConfig = runtimeConfig.public.vio.isTesting
+  const isTestingLocalStorage =
+    import.meta.client && localStorage.getItem('VIO_TESTING') === 'true'
+
+  const isTesting = isTestingEnv || isTestingConfig || isTestingLocalStorage
   const getServiceHref = useGetServiceHref()
   const store = useStore()
-  const { siteUrl } = useSiteUrl()
 
   const ssrExchange = getSsrExchange({
     isClient: import.meta.client,
@@ -343,6 +347,10 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         })
       : undefined
 
+  const graphqlUrl = isTesting
+    ? `${process.env.SITE_URL || 'http://localhost:3000'}/api/test/authenticate`
+    : getServiceHref({ name: 'postgraphile', port: 5000 }) + '/graphql'
+
   const clientOptions: ClientOptions = {
     exchanges: [
       ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
@@ -364,9 +372,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     },
     preferGetMethod: false, // TODO: remove with Postgraphile v5
     requestPolicy: 'cache-and-network',
-    url: isTesting
-      ? `${siteUrl}/api/test/graphql`
-      : getServiceHref({ name: 'postgraphile', port: 5000 }) + '/graphql',
+    url: graphqlUrl,
   }
   const client = ref(createClient(clientOptions))
 
