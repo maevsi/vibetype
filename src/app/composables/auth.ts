@@ -53,6 +53,7 @@ export const useJwtRefresh = () => {
   const jwtFromCookie = useJwtFromCookie()
   const runtimeConfig = useRuntimeConfig()
   const store = useStore()
+  const notificationStore = useNotificationStore()
 
   return async () =>
     await jwtRefresh({
@@ -62,6 +63,7 @@ export const useJwtRefresh = () => {
       id: jwtFromCookie?.jwtDecoded.id as string,
       runtimeConfig,
       store,
+      notificationStore,
     })
 }
 
@@ -87,9 +89,13 @@ export const useSignOut = async () => {
   const { $urql, $urqlReset, ssrContext } = useNuxtApp()
   const store = useStore()
   const runtimeConfig = useRuntimeConfig()
+  const notificationStore = useNotificationStore()
 
   return {
     async signOut() {
+      await notificationStore.updateRemoteFcmToken($urql.value, store, {
+        remove: true,
+      })
       await signOut({
         $urqlReset,
         client: $urql.value,
