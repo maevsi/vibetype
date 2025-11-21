@@ -71,6 +71,13 @@ export const GET_CSP = ({
       'script-src-elem': ['https://challenges.cloudflare.com'],
     },
     {
+      // Firebase (Cloud Messaging)
+      'connect-src': [
+        'https://firebaseinstallations.googleapis.com',
+        'https://fcmregistrations.googleapis.com',
+      ],
+    },
+    {
       // Google Analytics 4 (https://developers.google.com/tag-platform/tag-manager/web/csp)
       'connect-src': [
         'https://*.analytics.google.com',
@@ -209,13 +216,6 @@ export const GET_CSP = ({
             // ],
           }
         : {}),
-    },
-    {
-      // Firebase (Cloud Messaging)
-      'connect-src': [
-        'https://firebaseinstallations.googleapis.com',
-        'https://fcmregistrations.googleapis.com',
-      ],
     },
   )
 }
