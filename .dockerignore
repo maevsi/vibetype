@@ -1,4 +1,5 @@
 node_modules/
+src/.data/
 src/.nuxt/
 src/.output/
 src/dist/
