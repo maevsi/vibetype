@@ -1,3 +1,9 @@
+## [12.34.3](https://github.com/maevsi/vibetype/compare/12.34.2...12.34.3) (2025-11-26)
+
+### Performance Improvements
+
+* **docker:** use cache mounts ([ef0a6db](https://github.com/maevsi/vibetype/commit/ef0a6db52f1edcd9752d9ac9641571f4bcdfbc8b))
+
 ## [12.34.2](https://github.com/maevsi/vibetype/compare/12.34.1...12.34.2) (2025-11-19)
 
 ### Bug Fixes
