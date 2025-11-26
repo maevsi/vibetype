@@ -196,7 +196,7 @@ export const GET_CSP = ({
       ],
       'style-src': [
         "'self'", // TODO: `${siteUrl}_nuxt/`, // bundle
-        "'unsafe-inline'", // TODO: replace with "'nonce-{{nonce}}'" once Sweetalert supports it (+ https://github.com/unjs/nitro/issues/81)
+        "'unsafe-inline'", // TODO: replace with "'nonce-{{nonce}}'" once vue-sonner supports it (+ https://github.com/unjs/nitro/issues/81)
         // "'unsafe-eval'", // https://github.com/unjs/nitro/issues/81
       ], // TODO: use `style-src-elem` once Playwright WebKit supports it
     },
