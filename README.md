@@ -119,11 +119,6 @@ You're encouraged to ask questions on [Vibetype's Discord](https://discord.gg/E3
     ```sh
     cd ../stack/src/development
     cp stack.env.template stack.env
-    pnpm store path
-    ```
-1. use the previous command's path output to fill the `PNPM_STORE_DIR` variabe using the editor of your choice:
-    ```sh
-    $EDITOR stack.env
     ```
 1. install a root development certificate on your system and create subcertificates for the application to have all services available under `https`:
     ```sh
