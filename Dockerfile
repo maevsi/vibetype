@@ -15,10 +15,11 @@ ENV CI=true
 
 WORKDIR /srv/app/
 
-RUN apk update \
-    && apk add --no-cache \
+RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
+    apk update \
+    && apk add \
       git \
-    && apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
+    && apk add --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
       mkcert \
     && corepack enable
 
@@ -56,7 +57,8 @@ COPY ./pnpm-lock.yaml ./package.json ./
 ## pnpm patches
 # COPY ./patches ./patches
 
-RUN pnpm fetch
+RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
+    pnpm fetch
 
 COPY ./ ./
 
@@ -226,8 +228,8 @@ FROM collect AS production
 ENV NODE_ENV=production
 
 # Update dependencies.
-RUN apk update \
-    && apk upgrade --no-cache
+RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
+    apk upgrade
 
 USER node
 
