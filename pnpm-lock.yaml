@@ -60,7 +60,7 @@ importers:
         version: 9.1.9(magicast@0.5.1)(webpack@5.103.0(esbuild@0.27.0))
       '@dargmuesli/nuxt-vio':
         specifier: 20.1.0
-        version: 20.1.0(e495afa84b5177ed0d6845023a98faa3)
+        version: 20.1.0(d4269ba486852fd89b7161150b69f93b)
       '@fontsource-variable/raleway':
         specifier: 5.2.8
         version: 5.2.8
@@ -359,11 +359,11 @@ importers:
         specifier: 3.4.7
         version: 3.4.7
       prettier:
-        specifier: 3.7.2
-        version: 3.7.2
+        specifier: 3.7.3
+        version: 3.7.3
       prettier-plugin-tailwindcss:
         specifier: 0.7.1
-        version: 0.7.1(prettier@3.7.2)
+        version: 0.7.1(prettier@3.7.3)
       pretty-bytes:
         specifier: 7.1.0
         version: 7.1.0
@@ -523,7 +523,7 @@ importers:
         version: 10.1.8(eslint@9.39.1(jiti@2.6.1))
       eslint-plugin-prettier:
         specifier: 5.5.4
-        version: 5.5.4(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))(prettier@3.7.2)
+        version: 5.5.4(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))(prettier@3.7.3)
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -10434,8 +10434,8 @@ packages:
       prettier-plugin-svelte:
         optional: true
 
-  prettier@3.7.2:
-    resolution: {integrity: sha512-n3HV2J6QhItCXndGa3oMWvWFAgN1ibnS7R9mt6iokScBOC0Ul9/iZORmU2IWUMcyAQaMPjTlY3uT34TqocUxMA==}
+  prettier@3.7.3:
+    resolution: {integrity: sha512-QgODejq9K3OzoBbuyobZlUhznP5SKwPqp+6Q6xw6o8gnhr4O85L2U915iM2IDcfF2NPXVaM9zlo9tdwipnYwzg==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -14084,7 +14084,7 @@ snapshots:
       - magicast
       - webpack
 
-  '@dargmuesli/nuxt-vio@20.1.0(e495afa84b5177ed0d6845023a98faa3)':
+  '@dargmuesli/nuxt-vio@20.1.0(d4269ba486852fd89b7161150b69f93b)':
     dependencies:
       '@dargmuesli/nuxt-cookie-control': 9.1.9(magicast@0.5.1)(webpack@5.103.0(esbuild@0.27.0))
       '@eslint/compat': 2.0.0(eslint@9.39.1(jiti@2.6.1))
@@ -14114,7 +14114,7 @@ snapshots:
       eslint: 9.39.1(jiti@2.6.1)
       eslint-config-prettier: 10.1.8(eslint@9.39.1(jiti@2.6.1))
       eslint-plugin-compat: 6.0.2(eslint@9.39.1(jiti@2.6.1))
-      eslint-plugin-prettier: 5.5.4(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))(prettier@3.7.2)
+      eslint-plugin-prettier: 5.5.4(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))(prettier@3.7.3)
       eslint-plugin-yml: 1.19.0(eslint@9.39.1(jiti@2.6.1))
       globals: 16.5.0
       jiti: 2.6.1
@@ -16531,7 +16531,7 @@ snapshots:
       html-validate: 9.4.2
       knitwork: 1.3.0
       pathe: 2.0.3
-      prettier: 3.7.2
+      prettier: 3.7.3
       std-env: 3.10.0
     transitivePeerDependencies:
       - jest
@@ -21322,10 +21322,10 @@ snapshots:
 
   eslint-plugin-only-error@1.0.2: {}
 
-  eslint-plugin-prettier@5.5.4(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))(prettier@3.7.2):
+  eslint-plugin-prettier@5.5.4(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.1(jiti@2.6.1)))(eslint@9.39.1(jiti@2.6.1))(prettier@3.7.3):
     dependencies:
       eslint: 9.39.1(jiti@2.6.1)
-      prettier: 3.7.2
+      prettier: 3.7.3
       prettier-linter-helpers: 1.0.0
       synckit: 0.11.11
     optionalDependencies:
@@ -22970,7 +22970,7 @@ snapshots:
       js-yaml: 4.1.1
       lodash: 4.17.21
       minimist: 1.2.8
-      prettier: 3.7.2
+      prettier: 3.7.3
       tinyglobby: 0.2.15
 
   json-schema-to-zod@2.7.0: {}
@@ -25125,11 +25125,11 @@ snapshots:
     dependencies:
       fast-diff: 1.3.0
 
-  prettier-plugin-tailwindcss@0.7.1(prettier@3.7.2):
+  prettier-plugin-tailwindcss@0.7.1(prettier@3.7.3):
     dependencies:
-      prettier: 3.7.2
+      prettier: 3.7.3
 
-  prettier@3.7.2: {}
+  prettier@3.7.3: {}
 
   pretty-bytes@5.6.0: {}
 
