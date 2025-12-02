@@ -3,7 +3,6 @@ export default defineEventHandler(async () => {
   const { getJwtFromCookie, verifyJwt } = await useJsonWebToken()
   const jwt = getJwtFromCookie()
   const jwtDecoded = await verifyJwt(jwt)
-  const jwtName = useJwtName()
   const getServiceHref = useGetServiceHref()
 
   if (!(jwtDecoded.role === `${SITE_NAME}_account`))
@@ -15,7 +14,7 @@ export default defineEventHandler(async () => {
   const recommendations = await $fetch<string[]>('/recommendations', {
     baseURL: getServiceHref({ name: 'reccoom', port: 5245 }),
     headers: {
-      cookie: `${jwtName}=${jwt}`,
+      cookie: `jwt=${jwt}`,
     },
   })
 
