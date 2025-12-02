@@ -148,6 +148,8 @@ const preferenceEventFormatIds = computed(
 
 const store = useStore()
 const togglePreferenceSelection = async (formatId: string) => {
+  if (!store.signedInAccountId) return
+
   if (preferenceEventFormatIds.value.includes(formatId)) {
     await deletePreferenceEventFormatByAccountIdAndFormatIdMutation.executeMutation(
       {

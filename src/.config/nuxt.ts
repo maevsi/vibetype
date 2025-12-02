@@ -1,6 +1,6 @@
 import tailwindcss from '@tailwindcss/vite'
 import vue from '@vitejs/plugin-vue'
-import { defu } from 'defu'
+import { createResolver } from 'nuxt/kit'
 import type { Nuxt, ModuleOptions } from 'nuxt/schema'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
@@ -9,12 +9,12 @@ import Components from 'unplugin-vue-components/vite'
 import { modulesConfig } from '../config/modules'
 import { environmentsConfig } from '../config/environments'
 import {
-  iconCollectionOptimization,
   IS_NITRO_OPENAPI_ENABLED,
   NUXT_PUBLIC_VIO_ENVIRONMENT,
-  RELEASE_NAME,
   SITE_URL,
-} from '../node'
+} from '../node/environment'
+import { iconCollectionOptimization } from '../node/filesystem'
+import { RELEASE_NAME } from '../node/process'
 import {
   NUXT_PUBLIC_SENTRY_HOST,
   NUXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE,
@@ -24,25 +24,22 @@ import {
   PRODUCTION_HOST,
   SITE_NAME,
 } from '../shared/utils/constants'
-import { GET_CSP } from '../server/utils/constants'
 
 // TODO: let this error in "eslint (compat/compat)"" (https://github.com/DefinitelyTyped/DefinitelyTyped/issues/55519)
 // setImmediate(() => {})
 
+const { resolve } = createResolver(import.meta.url)
+
 export default defineNuxtConfig({
-  compatibilityDate: '2024-04-03',
+  compatibilityDate: '2025-07-20',
   css: ['~/assets/css/app.css'],
   experimental: {
     inlineRouteRules: true,
     typedPages: true,
   },
-  future: {
-    compatibilityVersion: 4,
-  },
   modules: [
     '@dargmuesli/nuxt-cookie-control',
     '@nuxt/eslint',
-    '@nuxt/image',
     '@nuxt/scripts',
     '@nuxtjs/color-mode',
     '@nuxtjs/html-validator',
@@ -67,18 +64,6 @@ export default defineNuxtConfig({
         typeof nuxtConfigSecurityHeaders !== 'boolean' &&
         nuxtConfigSecurityHeaders.contentSecurityPolicy
       ) {
-        if (nuxt.options._generate) {
-          nuxtConfigSecurityHeaders.contentSecurityPolicy = defu(
-            {
-              'script-src-elem': [
-                "'unsafe-inline'", // nuxt-color-mode (https://github.com/nuxt-modules/color-mode/issues/266), runtimeConfig (static)
-              ],
-            },
-            GET_CSP({ siteUrl: new URL(SITE_URL) }),
-            nuxtConfigSecurityHeaders.contentSecurityPolicy,
-          )
-        }
-
         const csp = nuxtConfigSecurityHeaders.contentSecurityPolicy
 
         for (const [key, value] of Object.entries(csp)) {
@@ -100,7 +85,6 @@ export default defineNuxtConfig({
       asyncContext: true,
       openAPI: IS_NITRO_OPENAPI_ENABLED,
     },
-    // @ts-expect-error Vue plugin not compatible with rolldown types
     rollupConfig: {
       output: {
         sourcemap: true, // TODO: remove? (https://github.com/getsentry/sentry-javascript/discussions/15028)
@@ -120,15 +104,6 @@ export default defineNuxtConfig({
     '/api/service/traefik/authentication': {
       security: {
         xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection on forward authentication (https://github.com/maevsi/vibetype/issues/1603)
-      },
-    },
-    '/event/view/**': {
-      security: {
-        headers: {
-          permissionsPolicy: {
-            camera: ['self'],
-          },
-        },
       },
     },
   },
@@ -218,6 +193,9 @@ export default defineNuxtConfig({
   },
   sourcemap: true,
   typescript: {
+    nodeTsConfig: {
+      include: [resolve('../node')],
+    },
     tsConfig: {
       vueCompilerOptions: {
         htmlAttributes: [], // https://github.com/johnsoncodehk/volar/issues/1970#issuecomment-1276994634
@@ -227,20 +205,29 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: [
+        '@dargmuesli/nuxt-cookie-control/runtime/types.js',
+        '@http-util/status-i18n',
         '@internationalized/date',
+        '@intlify/core-base',
+        '@intlify/shared',
         '@sentry/nuxt',
-        '@tiptap/extension-link',
         '@tiptap/extension-text-align',
         '@tiptap/starter-kit',
         '@tiptap/vue-3',
         '@uppy/core',
         '@uppy/tus',
+        '@urql/core',
+        '@urql/devtools',
+        '@urql/exchange-graphcache',
+        '@urql/exchange-graphcache/default-storage',
+        '@urql/exchange-graphcache/extras',
+        '@urql/vue',
         '@vee-validate/zod',
         '@vuelidate/core',
+        '@vuelidate/validators',
         '@vueuse/core',
         'chart.js',
         'class-variance-authority',
-        'clipboardy',
         'clsx',
         'css-element-queries',
         'downloadjs',
@@ -249,6 +236,7 @@ export default defineNuxtConfig({
         'firebase/messaging/sw',
         'html-to-text',
         'isomorphic-dompurify',
+        'jose',
         'js-confetti',
         'leaflet',
         'leaflet-control-geocoder',
@@ -263,12 +251,15 @@ export default defineNuxtConfig({
         'seedrandom',
         'slugify',
         'tailwind-merge',
+        'tailwindcss/colors',
+        'ua-parser-js',
         'v-calendar',
         'vaul-vue',
         'vee-validate',
         'vue-advanced-cropper',
         'vue-chartjs',
         'vue-qrcode-reader',
+        'vue-sonner',
         'workbox-precaching',
         'zod',
       ],

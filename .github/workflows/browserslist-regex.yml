@@ -1,5 +1,7 @@
 name: "Browserslist: Regex"
 
+permissions: {}
+
 on:
   schedule:
     - cron: "0 0 * * 2" # Every Tuesday at 00:00 AM UTC on the default branch
@@ -7,12 +9,11 @@ on:
 
 jobs:
   browserslist-regex:
-    uses: dargmuesli/github-actions/.github/workflows/browserslist-regex.yml@2.5.13
+    uses: dargmuesli/github-actions/.github/workflows/browserslist-regex.yml@d6dda211541b8c8c8088762ff8f4a1c4d32f047c # 3.2.1
     secrets:
       PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
     with:
       DIRECTORY: src/
-      NODE_VERSION: 22
       OUTPUT_PATH: app/supportedBrowsers.js
       UBUNTU_DEPENDENCIES: mkcert
       UBUNTU_REPOSITORIES: universe

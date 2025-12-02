@@ -214,11 +214,7 @@
           </FormInputStateInfo>
         </template>
       </FormInput> -->
-      <FormInputUrl
-        v-if="v$.isRemote.$model"
-        :form-input="v$.url"
-        @input="form.url = $event"
-      />
+      <FormInputUrl :form-input="v$.url" @input="form.url = $event" />
       <FormInput
         :title="t('description')"
         type="tiptap"
@@ -284,18 +280,33 @@ import { EventVisibility } from '~~/gql/generated/graphql'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
 const { event = undefined } = defineProps<{
-  event?: Pick<EventItemFragment, 'name' | 'slug'>
+  event?: Pick<
+    EventItemFragment,
+    // typescript
+    | 'name'
+    | 'slug'
+    // inputs
+    | 'name'
+    | 'slug'
+    | 'visibility'
+    | 'guestCountMaximum'
+    | 'start'
+    | 'end'
+    | 'isInPerson'
+    | 'isRemote'
+    | 'url'
+    | 'description'
+  >
 }>()
 
 const localePath = useLocalePath()
 const { locale, t } = useI18n()
 const store = useStore()
 const colorMode = useColorMode()
-const dateTime = useDateTime()
-const timezone = useTimezone()
+const timeZone = useTimeZone()
 
 // data
-const now = dateTime()
+const now = useState('dateTimeNow', () => new Date())
 const form = reactive({
   id: ref<string>(),
   createdBy: ref<string>(),
@@ -324,7 +335,7 @@ const dateTimeFormatter = (x?: string) =>
     ? new Date(x).toLocaleString(locale.value, {
         dateStyle: 'medium',
         timeStyle: 'short',
-        timeZone: timezone,
+        timeZone,
       })
     : undefined
 const onInputName = async ($event: string) => {
@@ -360,7 +371,7 @@ const submit = async () => {
 
     if (result.error || !result.data) return
 
-    await showToast({ title: t('updated') })
+    toast.success(t('eventUpdateSuccess'))
   } else {
     // Add
     const result = await createEventMutation.executeMutation({
@@ -384,7 +395,7 @@ const submit = async () => {
 
     if (result.error || !result.data) return
 
-    await showToast({ title: t('eventCreateSuccess') })
+    toast.success(t('eventCreateSuccess'))
 
     if (!store.signedInUsername || !form.slug)
       throw new Error(
@@ -403,7 +414,7 @@ const submit = async () => {
   }
 }
 
-const updateForm = (data?: Pick<EventItemFragment, 'name' | 'slug'>) => {
+const updateForm = (data?: Record<string, unknown>) => {
   if (!data) return
 
   for (const [k, v] of Object.entries(data)) {
@@ -422,7 +433,7 @@ const updateSlug = async () => {
 
 // computations
 const isWarningStartPastShown = computed(
-  () => !!form.start && dateTime(form.start) < dateTime(),
+  () => !!form.start && new Date(form.start) < now.value,
 )
 
 // vuelidate
@@ -476,6 +487,7 @@ de:
   eventCreate: Veranstaltung erstellen
   eventCreateSuccess: Veranstaltung erfolgreich erstellt.
   eventUpdate: Änderungen speichern
+  eventUpdateSuccess: Aktualisiert
   # stateInfoLocation: Ein Suchbegriff für Google Maps.
   isInPerson: vor Ort
   isRemote: digital
@@ -486,7 +498,6 @@ de:
   slug: Slug
   slugPlaceholder: willkommensfeier
   start: Beginn
-  updated: Aktualisiert
   validationExistenceNone: Du hast bereits eine Veranstaltung mit der ID "{slug}" angelegt
   validationWarningNameChangeSlug: Wenn du den Namen änderst, funktionieren bestehende Links zur Veranstaltung möglicherweise nicht mehr
   visibility: Sichtbarkeit
@@ -500,6 +511,7 @@ en:
   eventCreate: Create event
   eventCreateSuccess: Event created successfully.
   eventUpdate: Save changes
+  eventUpdateSuccess: Updated
   # stateInfoLocation: A search phrase for Google Maps.
   isInPerson: in person
   isRemote: remote
@@ -510,7 +522,6 @@ en:
   slug: Slug
   slugPlaceholder: welcome-party
   start: Start
-  updated: Updated
   validationExistenceNone: You have already created an event with id "{slug}"
   validationWarningNameChangeSlug: If you change the name, existing links to the event may no longer work
   visibility: Visibility

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { Column, Row, Section, Link } from '@vue-email/components'
 
-import type { Locale } from '../../utils/i18n'
 import AppButton from './components/base/AppButton.vue'
 import AppText from './components/base/AppText.vue'
 import AppAuthor from './components/AppAuthor.vue'
 import AppFooter from './components/AppFooter.vue'
 import Email from './Email.vue'
+import type { Locale } from '../../utils/i18n'
+import { getEmailDateTimeFormatter } from '../../../shared/utils/dateTime'
 
 const {
   emailAddress,
@@ -22,6 +23,7 @@ const {
   validUntil: string
 }>()
 
+const dateTimeFormatter = getEmailDateTimeFormatter(locale)
 const locales = {
   de: {
     button: 'Passwort zurücksetzen',
@@ -32,10 +34,10 @@ const locales = {
       'Wenn du das warst, klicke auf den unten stehenden Button, um ein neues Passwort zu vergeben.',
     paragraph3:
       'Wenn du das nicht warst, kontaktiere uns bitte so schnell wie möglich unter der folgenden E-Mail-Adresse.',
-    siteName: 'Vibetype',
+    siteName: 'Vibetype'.toUpperCase(),
     title: 'Passwort zurücksetzen',
     validUntil: (validUntil: string) =>
-      `Diese Anfrage ist bis zum ${validUntil} UTC gültig.`,
+      `Diese Anfrage ist bis zum ${dateTimeFormatter.format(new Date(validUntil))} gültig.`,
   },
   en: {
     button: 'Reset password',
@@ -46,10 +48,10 @@ const locales = {
       'If that was you, click on the button below to set a new password.',
     paragraph3:
       "If that hasn't been you, please contact us as soon as possible using the email address below.",
-    siteName: 'Vibetype',
+    siteName: 'Vibetype'.toUpperCase(),
     title: 'Reset password',
     validUntil: (validUntil: string) =>
-      `This request is valid until ${validUntil} UTC.`,
+      `This request is valid until ${dateTimeFormatter.format(new Date(validUntil))}.`,
   },
 }
 const t = locales[locale]

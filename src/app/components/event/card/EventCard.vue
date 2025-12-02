@@ -3,37 +3,86 @@
     :class="
       cn(
         'has-focus-visible:focus-ring relative isolate flex items-center gap-3 rounded-lg border border-(--faint-line) bg-(--semantic-base-surface-1) p-3 shadow-xs',
-        isDraft
-          ? 'border-(--semantic-warning-strong)'
-          : isCreator
-            ? 'border-(--accent-strong)'
-            : undefined,
+        !variant &&
+          (isDraft
+            ? 'border-(--semantic-warning-strong)'
+            : isCreator
+              ? 'border-(--accent-strong)'
+              : undefined),
+        variant === 'highlight' &&
+          'bg-(--complement-fancy) text-(--semantic-base-light-text-on-dark)',
+        variant === 'recommendation' &&
+          'flex-col items-stretch gap-1.5 px-0 pt-0 pb-2',
       )
     "
   >
-    <div class="relative w-1/3">
+    <div
+      :class="cn('relative w-1/3', variant === 'recommendation' && 'w-auto')"
+    >
       <LoaderImage
         :alt="t('heroImage')"
-        aspect="aspect-[130/94]"
-        class="h-24 w-full rounded-lg object-cover"
-        height="94"
+        :aspect="
+          !variant || variant === 'highlight'
+            ? 'aspect-[130/94]'
+            : 'aspect-[366/173]'
+        "
+        :class="
+          cn(
+            'h-24 w-full rounded-lg object-cover',
+            variant === 'recommendation' && 'h-44 rounded-b-none',
+          )
+        "
+        :height="!variant || variant === 'highlight' ? '94' : '173'"
         :src="`/assets/static/images/event/${getHeroImageName(event.name)}.jpg`"
-        width="130"
+        :width="!variant || variant === 'highlight' ? '130' : '366'"
       />
       <AppButton
-        v-if="store.signedInUsername"
+        v-if="
+          (!variant || variant === 'recommendation') && store.signedInUsername
+        "
         :aria-label="isFavorite ? t('favoriteDelete') : t('favoriteCreate')"
-        class="absolute top-1 left-1 z-20 flex size-5 items-center justify-center rounded-full bg-(--base-white)"
+        :class="
+          cn(
+            'absolute z-20 flex size-5 items-center justify-center rounded-full bg-(--base-white)',
+            !variant && 'top-1 left-1',
+            variant === 'recommendation' && 'right-2 bottom-2 size-9',
+          )
+        "
         @click="toggleEventFavorite"
       >
         <AppIconFavoriteFilled
           v-if="isFavorite"
-          class="size-3 text-(--complement-strong)"
+          :class="cn('text-(--complement-strong)', !variant && 'size-3')"
         />
-        <AppIconFavorite v-else class="size-3 text-(--complement-strong)" />
+        <AppIconFavorite
+          v-else
+          :class="
+            cn(
+              'text-(--semantic-base-dark-text-on-light)' /*'text-(--semantic-base-icon-primary)'*/,
+              !variant && 'size-3',
+            )
+          "
+        />
       </AppButton>
+      <div
+        v-if="variant === 'recommendation'"
+        class="absolute top-2 left-2 z-20 rounded-3xl bg-(--accent-strong) px-3 py-2"
+      >
+        <TypographySubtitleSmall
+          class="text-(--semantic-base-primary-button-text)"
+        >
+          {{ t('match') }}
+        </TypographySubtitleSmall>
+      </div>
     </div>
-    <div class="flex min-w-0 flex-1 flex-col gap-2 px-1 py-3.5">
+    <div
+      :class="
+        cn(
+          'flex min-w-0 flex-1 flex-col gap-2 px-1 py-3.5',
+          variant === 'recommendation' && 'gap-1 px-2 py-0',
+        )
+      "
+    >
       <AppButton
         v-if="event.accountByCreatedBy"
         :aria-label="event.name"
@@ -50,19 +99,26 @@
         "
       >
         <span class="absolute inset-0 z-10" />
-        <EventCardTitle>
+        <EventCardTitle :variant>
           {{ event.name }}
         </EventCardTitle>
       </AppButton>
-      <EventCardTitle v-else>
+      <EventCardTitle v-else :variant>
         {{ event.name }}
       </EventCardTitle>
-      <TypographySubtitleSmall class="truncate">
-        {{ eventStart.format('lll') }}
-      </TypographySubtitleSmall>
+      <Component
+        :is="
+          variant === 'highlight'
+            ? TypographyBodySmall
+            : TypographySubtitleSmall
+        "
+        class="truncate"
+      >
+        <AppTime :datetime="event.start" />
+      </Component>
     </div>
     <div
-      v-if="isDraft || isCreator || isGuest"
+      v-if="!variant && (isDraft || isCreator || isGuest)"
       :class="
         cn(
           'absolute top-1 right-1 rounded-sm px-1.5 py-0.5 text-(--semantic-base-primary-button-text)',
@@ -92,50 +148,54 @@
 </template>
 
 <script setup lang="ts">
-import type { OperationResult } from '@urql/core'
 import { useMutation } from '@urql/vue'
 import type { DeepReadonly } from 'vue'
 
 import { cn } from '@/utils/shadcn'
 import { graphql } from '~~/gql/generated'
 
+import { TypographyBodySmall, TypographySubtitleSmall } from '#components'
+
 // compiler
 export type EventCardProps = {
   event: DeepReadonly<{
-    id: string
     accountByCreatedBy?: {
       id?: string
       username: string
     } | null
     eventFavoritesByEventId?: {
       nodes: {
-        id: string
         createdBy: string
+        id: string
       }[]
     } | null
     guestsByEventId?: {
       nodes: {
-        id: string
         contactByContactId?: {
           id: string
           accountId?: string | null
         } | null
+        id: string
       }[]
     } | null
+    id: string
     name: string
     slug: string
     start: string
   }>
+  // TODO: turn javascript usage into attribute based styles
+  variant?:
+    | 'highlight'
+    // | 'invitation' // TODO: implement invitation
+    | 'recommendation' // alias for 'large'
 }
-const { event } = defineProps<EventCardProps>()
+const { event, variant = undefined } = defineProps<EventCardProps>()
 
 // template
 const localePath = useLocalePath()
 
 // event
 const store = useStore()
-const dateTime = useDateTime()
-const eventStart = computed(() => dateTime(event.start))
 const isCreator = computed(
   () =>
     event.accountByCreatedBy &&
@@ -181,10 +241,11 @@ const deleteEventFavoriteByIdMutation = useMutation(
     }
   `),
 )
-const api = await useApiData([
-  createEventFavoriteMutation,
-  deleteEventFavoriteByIdMutation,
-])
+// TODO: show loading state, error details
+// const api = await useApiData([
+//   createEventFavoriteMutation,
+//   deleteEventFavoriteByIdMutation,
+// ])
 const isFavorite = computed(
   () =>
     store.signedInAccountId &&
@@ -192,72 +253,32 @@ const isFavorite = computed(
     event.eventFavoritesByEventId?.nodes[0]?.createdBy ===
       store.signedInAccountId,
 )
-const createEventFavorite = async ({
-  eventId,
-  createdBy,
-}: {
-  eventId: string
-  createdBy: string
-}) => {
-  const result = await createEventFavoriteMutation.executeMutation({
-    input: {
-      eventId,
-      createdBy,
-    },
-  })
-
-  processApiResult({ result })
-}
-const removeEventFavorite = async ({ id }: { id: string }) => {
-  const result = await deleteEventFavoriteByIdMutation.executeMutation({
-    input: {
-      id,
-    },
-  })
-
-  processApiResult({ result })
-}
+const executeUrqlRequest = useExecuteUrqlRequest()
+const { t } = useI18n()
 const toggleEventFavorite = async () => {
   if (isFavorite.value) {
     if (!event.eventFavoritesByEventId?.nodes[0]) return // TODO: error
 
-    await removeEventFavorite({
-      id: event.eventFavoritesByEventId.nodes[0].id,
+    await executeUrqlRequest({
+      errorMessageI18n: t('favoriteDeleteError'),
+      request: deleteEventFavoriteByIdMutation.executeMutation({
+        input: {
+          id: event.eventFavoritesByEventId.nodes[0].id,
+        },
+      }),
     })
   } else {
     if (!store.signedInAccountId) return // TODO: error
 
-    await createEventFavorite({
-      createdBy: store.signedInAccountId,
-      eventId: event.id,
+    await executeUrqlRequest({
+      errorMessageI18n: t('favoriteCreateError'),
+      request: createEventFavoriteMutation.executeMutation({
+        input: {
+          createdBy: store.signedInAccountId,
+          eventId: event.id,
+        },
+      }),
     })
-  }
-}
-
-// utility
-const { t } = useI18n()
-const apiErrorMessages = computed(() =>
-  getCombinedErrorMessages(api.value.errors),
-)
-const processApiResult = async ({ result }: { result: OperationResult }) => {
-  if (result.error) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: apiErrorMessages.value.join('\n'),
-      title: t('globalError'),
-    })
-    return
-  }
-
-  if (!result.data) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: t('globalErrorNoData'),
-      title: t('globalError'),
-    })
-    return
   }
 }
 </script>
@@ -265,16 +286,22 @@ const processApiResult = async ({ result }: { result: OperationResult }) => {
 <i18n lang="yaml">
 de:
   favoriteCreate: Als Favorit markieren
+  favoriteCreateError: Favorit konnte nicht hinzugefügt werden
   favoriteDelete: Nicht mehr als Favorit markieren
+  favoriteDeleteError: Favorit konnte nicht entfernt werden
   heroImage: Titelbild der Veranstaltung
   isCreator: Du organisierst
   isDraft: Im Entwurf
   isGuest: Du nimmst teil
+  match: Match
 en:
   favoriteCreate: Mark as favorite
+  favoriteCreateError: Favorite could not be added
   favoriteDelete: Unmark as favorite
+  favoriteDeleteError: Favorite could not be removed
   heroImage: Title picture of the event
   isCreator: You're organizing
   isDraft: In Draft
   isGuest: You're attending
+  match: Match
 </i18n>

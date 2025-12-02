@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 import { EventVisibility } from '~~/gql/generated/graphql'
-import { SITE_URL } from '~~/node'
+import { SITE_URL } from '~~/node/environment'
 
 const icalPostBodySchema = z.object({
   contact: z
@@ -18,7 +18,6 @@ const icalPostBodySchema = z.object({
     name: z.string(),
     start: z.string(),
     accountByCreatedBy: z.object({
-      id: z.string(),
       username: z.string(),
     }),
     slug: z.string(),

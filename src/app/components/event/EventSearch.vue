@@ -16,10 +16,6 @@ import { useQuery } from '@urql/vue'
 import { refDebounced } from '@vueuse/core'
 
 import { graphql } from '~~/gql/generated'
-import type {
-  EventListQueryVariables,
-  EventSearchQueryVariables,
-} from '~~/gql/generated/graphql'
 
 const queryEventList = graphql(`
   query EventList($after: Cursor, $first: Int!) {
@@ -118,13 +114,13 @@ const queryEventSearch = graphql(`
   }
 `)
 
-const allEventsQueryAfter = ref<string>()
+const allEventsQueryAfter = ref<string | null>()
 const allEventsQuery = useQuery({
   query: queryEventList,
-  variables: {
-    after: allEventsQueryAfter,
+  variables: computed(() => ({
+    after: allEventsQueryAfter.value,
     first: ITEMS_PER_PAGE,
-  } satisfies MaybeRefObj<EventListQueryVariables>,
+  })),
 })
 
 const searchQuery = ref<string>()
@@ -132,14 +128,14 @@ const searchQueryDebounced = refDebounced(searchQuery, 300)
 const searchQueryVariable = computed(() =>
   searchQueryDebounced.value?.trim().split(/\s+/).join(' OR '),
 )
-const searchResultsQueryAfter = ref<string>()
+const searchResultsQueryAfter = ref<string | null>()
 const searchResultsQuery = useQuery({
   query: queryEventSearch,
-  variables: {
-    after: searchResultsQueryAfter,
-    query: searchQueryVariable,
+  variables: computed(() => ({
+    after: searchResultsQueryAfter.value,
+    query: searchQueryVariable.value,
     first: ITEMS_PER_PAGE,
-  } satisfies MaybeRefObj<EventSearchQueryVariables>,
+  })),
 })
 watch(searchQueryVariable, () => {
   searchResultsQueryAfter.value = undefined

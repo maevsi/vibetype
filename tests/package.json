@@ -1,24 +1,24 @@
 {
   "devDependencies": {
-    "@axe-core/playwright": "4.10.2",
-    "@eslint/js": "9.30.1",
-    "@playwright/test": "1.53.2",
-    "@types/node": "22.16.0",
-    "cross-env": "7.0.3",
-    "del-cli": "6.0.0",
-    "eslint": "9.30.1",
-    "eslint-config-prettier": "10.1.5",
-    "eslint-plugin-prettier": "5.5.1",
-    "typescript": "5.8.3",
-    "typescript-eslint": "8.35.1",
+    "@axe-core/playwright": "4.11.0",
+    "@eslint/js": "9.39.1",
+    "@playwright/test": "1.57.0",
+    "@types/node": "24.10.1",
+    "cross-env": "10.1.0",
+    "del-cli": "7.0.0",
+    "eslint": "9.39.1",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-prettier": "5.5.4",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.48.0",
     "ufo": "1.6.1",
-    "vitest": "3.2.4"
+    "vitest": "4.0.14"
   },
   "engines": {
-    "node": "22"
+    "node": "^24.0.0"
   },
   "peerDependencies": {
-    "playwright-core": "1.53.2"
+    "playwright-core": "1.57.0"
   },
   "scripts": {
     "lint": "pnpm run lint:js && pnpm run lint:ts",
@@ -29,7 +29,7 @@
     "test:e2e": "playwright test",
     "test:e2e:docker:br": "pnpm run test:e2e:docker:build && pnpm run test:e2e:docker:run",
     "test:e2e:docker:build": "sudo docker build -t test-e2e_development --build-arg UID=$(id -u) --build-arg GID=$(id -g) --target test-e2e_development ..",
-    "test:e2e:docker:run": "sudo docker run --rm -v \"$PWD/..:/srv/app\" -v \"$(pnpm store path):/srv/.pnpm-store\" test-e2e_development",
+    "test:e2e:docker:run": "sudo docker run --rm -v \"$PWD/..:/srv/app\" -v \"vibetype_playwright_data:/srv/app/node_modules\" -v \"$(pnpm store path):/srv/.pnpm-store\" test-e2e_development",
     "test:e2e:docker:server:dev": "pnpm run test:e2e:docker:br pnpm --dir tests run test:e2e:server:dev",
     "test:e2e:docker:server:dev:update": "del-cli e2e/specs/**/*.png && pnpm run test:e2e:docker:server:dev --update-snapshots",
     "test:e2e:docker:server:node": "pnpm run test:e2e:docker:br pnpm --dir tests run test:e2e:server:node",

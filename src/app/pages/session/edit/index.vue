@@ -6,31 +6,6 @@
         <span class="text-lg font-bold">{{ t('profile') }}</span>
         <div class="flex flex-col gap-3">
           <CardButton
-            v-if="store.signedInUsername"
-            :title="t('personalInformation')"
-            :to="
-              localePath({
-                name: 'account-edit-username',
-                params: {
-                  username: store.signedInUsername,
-                },
-              })
-            "
-          >
-            <AppIconPerson />
-          </CardButton>
-          <CardButton
-            v-if="store.signedInUsername"
-            :title="t('contactBook')"
-            :to="
-              localePath({
-                name: 'contact',
-              })
-            "
-          >
-            <AppIconContacts />
-          </CardButton>
-          <CardButton
             class="bg-(--accent-strong) text-(--semantic-base-primary-button-text)"
             :title="t('aiSetup')"
             :to="
@@ -88,6 +63,17 @@
         </span>
         <div class="flex flex-col gap-3">
           <CardButton
+            v-if="isDevelopmentModeActive"
+            :title="t('developerInformation')"
+            :to="
+              localePath({
+                name: 'session-view',
+              })
+            "
+          >
+            <AppIconWrench />
+          </CardButton>
+          <CardButton
             is-external
             :title="t('featureSuggestion')"
             to="https://forms.monday.com/forms/f3ef56d13c8383e6ececb2875d7fb4b2?r=euc1"
@@ -110,17 +96,6 @@
             "
           >
             <AppIconMail />
-          </CardButton>
-          <CardButton
-            v-if="isDevelopmentModeActive"
-            :title="t('developerInformation')"
-            :to="
-              localePath({
-                name: 'session-view',
-              })
-            "
-          >
-            <AppIconWrench />
           </CardButton>
         </div>
       </section>
@@ -157,7 +132,7 @@
           v-if="store.signedInUsername"
           class="bg-(--critic-string) text-(--semantic-base-light-text-on-dark)"
           :title="t('logout')"
-          @click="signOut"
+          @click="signOutToRoot"
         >
           <template #iconSecondary />
           <AppIconLogout />
@@ -176,10 +151,21 @@ const { signOut } = await useSignOut()
 const { isDevelopmentModeActive, onDevelopmentModeTrigger } =
   useDevelopmentModeTrigger()
 
-// data
-const title = t('preferences')
+// sign out
+const signOutToRoot = async () => {
+  await signOut()
+  return navigateTo(
+    localePath({
+      name: 'index',
+      query: {
+        signOut: null,
+      },
+    }),
+  )
+}
 
-// initialization
+// page
+const title = t('preferences')
 useHeadDefault({ title })
 </script>
 
@@ -190,7 +176,6 @@ de:
   bugReport: Fehler
   colorScheme: Farbschema
   contact: Kontakt
-  contactBook: Kontaktbuch
   cookies: Cookies
   developerInformation: Entwicklerinformationen
   display: Anzeige
@@ -199,7 +184,6 @@ de:
   legal: Rechtliches
   legalNotice: Impressum
   logout: Abmelden
-  personalInformation: Persönliche Informationen
   preferences: Einstellungen
   privacy: Datenschutzerklärung
   profile: Profil
@@ -213,7 +197,6 @@ en:
   bugReport: Issue
   colorScheme: Color scheme
   contact: Contact
-  contactBook: Contact Book
   cookies: Cookies
   developerInformation: Developer information
   display: Display
@@ -222,7 +205,6 @@ en:
   legal: Legal
   legalNotice: Legal Notice
   logout: Log Out
-  personalInformation: Personal Information
   preferences: Settings
   privacy: Privacy Policy
   profile: Profile

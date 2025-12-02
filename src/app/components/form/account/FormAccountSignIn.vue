@@ -50,7 +50,6 @@ const emit = defineEmits<{
   'signed-in': []
 }>()
 
-const fireAlert = useFireAlert()
 const { t } = useI18n()
 const { jwtStore } = await useJwtStore()
 const localePath = useLocalePath()
@@ -69,6 +68,7 @@ const authenticateMutation = useAuthenticateMutation()
 const api = await useApiData([authenticateMutation])
 
 // methods
+const alertError = useAlertError()
 const captchaIsUsed = ref<boolean>()
 const submit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
@@ -93,13 +93,11 @@ const submit = async () => {
   }
 
   try {
-    await jwtStore(result.data?.authenticate?.jwt)
+    await jwtStore(result.data?.authenticate?.jwt || undefined)
   } catch (error) {
-    await fireAlert({
-      error,
-      level: 'error',
-      text: t('jwtStoreFail'),
-      title: t('globalStatusError'),
+    alertError({
+      ...(error instanceof Error ? { error } : {}),
+      messageI18n: t('jwtStoreFail'),
     })
     return
   }

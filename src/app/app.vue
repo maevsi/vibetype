@@ -34,6 +34,7 @@
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
+    <AppSonner />
     <VitePwaManifest />
     <ClientOnly>
       <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->
@@ -57,15 +58,13 @@ import { isEqual } from 'ufo'
 const { $pwa } = useNuxtApp()
 const { isApp } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
-const timezone = useTimezone()
+const timeZone = useTimeZone()
 const localePath = useLocalePath()
 const store = useStore()
 const route = useRoute()
 
 // i18n
 const { t, locale } = useI18n()
-const { $dayjs } = useNuxtApp()
-$dayjs.locale(locale.value)
 
 // loading
 const loadingId = Math.random()
@@ -83,47 +82,44 @@ onBeforeMount(async () => {
 // methods
 const initialize = async () => {
   if (import.meta.client) {
-    saveTimezoneAsCookie()
+    saveTimeZoneAsCookie()
   }
 
   if (
-    isApp.value &&
+    isApp &&
     !store.signedInAccountId &&
-    !isEqual(route.path, localePath('flow-welcome').toString())
+    !isEqual(route.path, localePath('index').toString())
   ) {
     return await navigateTo(
       localePath({
-        name: 'flow-welcome',
+        name: 'index',
       }),
     )
   }
 }
-const saveTimezoneAsCookie = () =>
+const saveTimeZoneAsCookie = () =>
   (useCookie(TIMEZONE_COOKIE_NAME, {
     // default: () => undefined, // setting `default` on the client side only does not write the cookie
     httpOnly: false,
     sameSite: 'strict',
     secure: runtimeConfig.public.vio.isInProduction,
-  }).value = timezone)
+  }).value = timeZone)
 
 // lifecycle
 watch(
   () => $pwa,
   async (current, _previous) => {
     if (current?.showInstallPrompt && !runtimeConfig.public.vio.isTesting) {
-      const result = await showToast({
-        confirmButtonText: t('pwaConfirmButtonText'),
-        showConfirmButton: true,
-        text: t('pwaText'),
-        timer: 10000,
-        title: t('pwaTitle', { siteName: t('globalSiteName') }),
+      toast(t('pwaTitle'), {
+        action: {
+          label: t('pwaConfirmButtonText'),
+          onClick: current.install,
+        },
+        description: t('pwaText'),
+        onDismiss: current.cancelInstall,
+        onAutoClose: current.cancelInstall,
+        duration: 10e3,
       })
-
-      if (result.isConfirmed) {
-        current.install()
-      } else {
-        current.cancelInstall()
-      }
     }
   },
 )
@@ -133,7 +129,7 @@ defineOgImageComponent(
   'Default',
   {},
   {
-    alt: t('globalSeoOgImageAlt', { siteName: t('globalSiteName') }),
+    alt: t('globalSeoOgImageAlt'),
   },
 )
 useAppLayout()
@@ -170,15 +166,15 @@ await initialize()
 
 <i18n lang="yaml">
 de:
-  browserUnsupported: Du benutzt einen Browser, in dem nicht alle Funktionen von {siteName} unterstützt werden. {link}.
+  browserUnsupported: Du benutzt einen Browser, in dem nicht alle Funktionen von @.upper:{'globalSiteName'} unterstützt werden. {link}.
   browserUnsupportedLink: Mehr erfahren
   pwaConfirmButtonText: App nutzen
   pwaText: Die Installation verbraucht fast keinen Speicherplatz und bietet eine schnelle Möglichkeit, zu dieser App zurückzukehren.
-  pwaTitle: '{siteName} installieren'
+  pwaTitle: "@.upper:{'globalSiteName'} installieren"
 en:
-  browserUnsupported: You're using a browser which does not support all features {siteName} offers. {link}.
+  browserUnsupported: You're using a browser which does not support all features @.upper:{'globalSiteName'} offers. {link}.
   browserUnsupportedLink: Learn more
   pwaConfirmButtonText: Get the app
   pwaText: Installing uses almost no storage and provides a quick way to return to this app.
-  pwaTitle: Install {siteName}
+  pwaTitle: Install @.upper:{'globalSiteName'}
 </i18n>

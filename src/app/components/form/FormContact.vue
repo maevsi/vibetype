@@ -49,7 +49,7 @@
     </FormInputUsername>
     <!-- TODO: replace with override checkbox -->
     <FormInputStateInfo v-if="v$.accountUsername.$model">
-      {{ t('accountOverride', { siteName: t('globalSiteName') }) }}
+      {{ t('accountOverride') }}
     </FormInputStateInfo>
     <FormInput
       id-label="input-first-name"
@@ -245,6 +245,8 @@ const submit = async () => {
     emit('submitSuccess')
   } else {
     // Add
+    if (!store.signedInAccountId) return
+
     const result = await createContactMutation.executeMutation({
       contactInput: {
         accountId: account?.id || null,
@@ -327,7 +329,7 @@ updateForm(contact)
 
 <i18n lang="yaml">
 de:
-  accountOverride: Falls angegeben, nutzt {siteName} die folgenden Daten anstelle der Daten des oben genannten Kontos.
+  accountOverride: Falls angegeben, nutzt @.upper:{'globalSiteName'} die folgenden Daten anstelle der Daten des oben genannten Kontos.
   # address: Adresse
   firstName: Vorname
   lastName: Nachname
@@ -338,7 +340,7 @@ de:
   stateInfoUsernameDisabled: Du kannst deinen Nutzernamen in den {accountSettings} ändern.
   stateInfoUsernameDisabledLink: Einstellungen deines Kontos
 en:
-  accountOverride: If given, {siteName} will prefer to use the following data instead of the data given by the account above.
+  accountOverride: If given, @.upper:{'globalSiteName'} will prefer to use the following data instead of the data given by the account above.
   # address: Address
   firstName: First name
   lastName: Last name

@@ -151,6 +151,8 @@ const preferenceEventCategoryIds = computed(
 
 const store = useStore()
 const togglePreferenceSelection = async (categoryId: string) => {
+  if (!store.signedInAccountId) return
+
   if (preferenceEventCategoryIds.value.includes(categoryId)) {
     await deletePreferenceEventCategoryByAccountIdAndCategoryIdMutation.executeMutation(
       {

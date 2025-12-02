@@ -1,11 +1,11 @@
 <template>
   <AppButton
     v-if="!isApp"
-    :aria-label="t('appInstall', { siteName: t('globalSiteName') })"
+    :aria-label="t('appInstall')"
     :to="localePath('docs-app')"
     variant="secondary"
   >
-    {{ t('appInstall', { siteName: t('globalSiteName') }) }}
+    {{ t('appInstall') }}
     <template #suffix>
       <IHeroiconsArrowRight />
     </template>
@@ -20,7 +20,7 @@ const { isApp } = usePlatform()
 
 <i18n lang="yaml">
 de:
-  appInstall: '{siteName}-App installieren, um nichts zu verpassen'
+  appInstall: "@.upper:{'globalSiteName'}-App installieren, um nichts zu verpassen"
 en:
-  appInstall: Install the {siteName} app, don't miss any news
+  appInstall: Install the @.upper:{'globalSiteName'} app, don't miss any news
 </i18n>

@@ -37,7 +37,6 @@
 <script setup lang="ts">
 import { useQuery } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
-import type { EventListAccountQueryVariables } from '~~/gql/generated/graphql'
 
 const queryEventListAccount = graphql(`
   query EventListAccount($after: Cursor, $first: Int!, $username: String!) {
@@ -86,14 +85,14 @@ useHeadDefault({
 })
 
 // api data
-const queryAfter = ref<string>()
+const queryAfter = ref<string | null>()
 const query = useQuery({
   query: queryEventListAccount,
-  variables: {
-    after: queryAfter,
+  variables: computed(() => ({
+    after: queryAfter.value,
     first: ITEMS_PER_PAGE,
     username: route.params.username,
-  } satisfies MaybeRefObj<EventListAccountQueryVariables>,
+  })),
 })
 const api = await useApiData([query])
 const account = computed(() => api.value.data.accountByUsername)

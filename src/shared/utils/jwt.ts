@@ -1,11 +1,4 @@
-export const useJwtPublicKey = async () => {
-  const runtimeConfig = useRuntimeConfig()
+import { JWT_NAME } from './constants' // TODO: remove import once shared namespace has proper auto-imports (https://github.com/nuxt/nuxt/issues/32714)
 
-  if (runtimeConfig.public.vio.stagingHost) {
-    return await $fetch<string>(
-      `https://${runtimeConfig.public.vio.stagingHost}/api/service/postgraphile/jwt-public-key`,
-    )
-  } else {
-    return runtimeConfig.public.vio.auth.jwt.publicKey
-  }
-}
+export const getJwtName = (siteUrl: URL) =>
+  JWT_NAME({ isHttps: siteUrl.protocol === 'https:' })

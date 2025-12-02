@@ -218,7 +218,7 @@ export const testMetadata = async ({
           key: 'property',
           value: 'og:image:alt',
         },
-        { key: 'content', value: "Vibetype's logo." },
+        { key: 'content', value: "VIBETYPE's logo." },
       ],
     },
     {
@@ -228,7 +228,7 @@ export const testMetadata = async ({
           key: 'name',
           value: 'twitter:image:alt',
         },
-        { key: 'content', value: "Vibetype's logo." },
+        { key: 'content', value: "VIBETYPE's logo." },
       ],
     },
     {

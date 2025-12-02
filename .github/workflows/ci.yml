@@ -1,5 +1,7 @@
 name: CI
 
+permissions: {}
+
 on:
   pull_request:
   push:
@@ -10,26 +12,19 @@ on:
       - renovate/**
 
 jobs:
-  prepare_jobs:
-    name: "Prepare: job optimization"
-    runs-on: ubuntu-latest
-    outputs:
-      pr_found: ${{ steps.pr.outputs.pr_found }}
-    steps:
-      - name: Get current PR
-        id: pr
-        uses: 8BitJonny/gh-get-current-pr@3.0.0
-        with:
-          filterOutClosed: true
-          filterOutDraft: true
-          sha: ${{ github.event.pull_request.head.sha }}
+  ci-optimization:
+    name: CI optimization
+    uses: dargmuesli/github-actions/.github/workflows/ci-optimization.yml@d6dda211541b8c8c8088762ff8f4a1c4d32f047c # 3.2.1
+    permissions:
+      pull-requests: read
   release_semantic_dry:
-    needs: prepare_jobs
+    needs: ci-optimization
+    if: needs.ci-optimization.outputs.continue == 'true'
     name: Release (semantic, dry)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@2.5.13
-    if: needs.prepare_jobs.outputs.pr_found == 'false' || github.event_name == 'pull_request'
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@d6dda211541b8c8c8088762ff8f4a1c4d32f047c # 3.2.1
     permissions:
       contents: write
+      id-token: write
     secrets:
       PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
     with:
@@ -37,7 +32,7 @@ jobs:
       DRY_RUN: true
   build:
     name: Build
-    uses: dargmuesli/github-actions/.github/workflows/docker.yml@2.5.13
+    uses: dargmuesli/github-actions/.github/workflows/docker.yml@d6dda211541b8c8c8088762ff8f4a1c4d32f047c # 3.2.1
     needs: release_semantic_dry
     permissions:
       packages: write
@@ -49,9 +44,10 @@ jobs:
   release_semantic:
     needs: build
     name: Release (semantic)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@2.5.13
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@d6dda211541b8c8c8088762ff8f4a1c4d32f047c # 3.2.1
     permissions:
       contents: write
+      id-token: write
     secrets:
       PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
     with:

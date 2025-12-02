@@ -2,23 +2,24 @@
 # check=skip=SecretsUsedInArgOrEnv
 
 # <DEPENDENCIES>
-FROM ghcr.io/maevsi/sqitch:9.2
+FROM ghcr.io/maevsi/sqitch:9.8
 # </DEPENDENCIES>
 
 #############
 # Create base image.
 
-FROM node:22.17.0-alpine AS base-image
+FROM node:24.11.1-alpine AS base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
 
 WORKDIR /srv/app/
 
-RUN apk update \
-    && apk add --no-cache \
+RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
+    apk update \
+    && apk add \
       git \
-    && apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
+    && apk add --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
       mkcert \
     && corepack enable
 
@@ -29,13 +30,17 @@ COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 FROM base-image AS development
 
+RUN mkdir /srv/app/node_modules \
+    && chown node:node /srv/app/node_modules
+
 VOLUME /srv/.pnpm-store
 VOLUME /srv/app
+VOLUME /srv/app/node_modules
 
 USER node
 
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["pnpm", "run", "--dir", "src", "dev", "--host"]
+CMD ["pnpm", "run", "--dir", "src", "dev", "--host", "0.0.0.0"]
 EXPOSE 3000
 
 # TODO: support healthcheck while starting (https://github.com/nuxt/framework/issues/6915)
@@ -52,7 +57,8 @@ COPY ./pnpm-lock.yaml ./package.json ./
 ## pnpm patches
 # COPY ./patches ./patches
 
-RUN pnpm fetch
+RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
+    pnpm fetch
 
 COPY ./ ./
 
@@ -104,7 +110,7 @@ RUN pnpm -r run test
 ########################
 # Nuxt: test (e2e, base-image)
 
-FROM mcr.microsoft.com/playwright:v1.53.2 AS test-e2e-base-image
+FROM mcr.microsoft.com/playwright:v1.57.0 AS test-e2e-base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -130,12 +136,15 @@ ENV NODE_ENV=development
 COPY ./docker-entrypoint.sh /usr/local/bin/
 
 RUN groupadd -g $GID -o $UNAME \
-    && useradd -m -l -u $UID -g $GID -o -s /bin/bash $UNAME
+    && useradd -m -l -u $UID -g $GID -o -s /bin/bash $UNAME \
+    && mkdir /srv/app/node_modules \
+    && chown $UID:$GID /srv/app/node_modules
 
 USER $UNAME
 
 VOLUME /srv/.pnpm-store
 VOLUME /srv/app
+VOLUME /srv/app/node_modules
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
@@ -219,8 +228,8 @@ FROM collect AS production
 ENV NODE_ENV=production
 
 # Update dependencies.
-RUN apk update \
-    && apk upgrade --no-cache
+RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
+    apk upgrade
 
 USER node
 

@@ -89,7 +89,7 @@
       >
         <ButtonColored
           :aria-label="t('globalShowMore')"
-          @click="after = api.data.allUploads?.pageInfo.endCursor"
+          @click="after = api.data.allUploads.pageInfo.endCursor"
         >
           {{ t('globalShowMore') }}
         </ButtonColored>
@@ -144,12 +144,11 @@ const store = useStore()
 const runtimeConfig = useRuntimeConfig()
 const TUSD_FILES_URL = useTusdFilesUrl()
 const localePath = useLocalePath()
-const fireAlert = useFireAlert()
 const templateCropper = useTemplateRef('cropper')
 const templateInputProfilePicture = useTemplateRef('inputProfilePicture')
 
 // data
-const after = ref<string>()
+const after = ref<string | null>()
 const fileSelectedUrl = ref<string>()
 const fileSelectedMimeType = ref<string>()
 const pending = reactive({
@@ -158,15 +157,16 @@ const pending = reactive({
 const selectedItem = ref<{
   id?: string | null
 }>()
-const uppy = ref<Uppy<{ id: string }>>()
 
 // api data
 const accountUploadQuotaBytesQuery = useAccountUploadQuotaBytesQuery({})
-const allUploadsQuery = useAllUploadsQuery({
-  after,
-  first: ITEMS_PER_PAGE,
-  createdBy: store.signedInAccountId,
-})
+const allUploadsQuery = useAllUploadsQuery(
+  computed(() => ({
+    after: after.value,
+    first: ITEMS_PER_PAGE,
+    createdBy: store.signedInAccountId,
+  })),
+)
 const deleteUploadByIdMutation = useDeleteUploadByIdMutation()
 const uploadCreateMutation = useCreateUploadMutation()
 const api = await useApiData([
@@ -217,19 +217,24 @@ const selectProfilePicture = async () => {
     await navigateTo(pathUpload)
   }
 }
+const executeUrqlRequest = useExecuteUrqlRequest()
 const deleteUpload = async (uploadId: string) => {
-  pending.deletions.push(uploadId)
-  const result = await deleteUploadByIdMutation.executeMutation({
-    id: uploadId,
+  // pending.deletions.push(uploadId)
+  const result = await executeUrqlRequest({
+    errorMessageI18n: t('uploadDeleteFailed'),
+    progress: {
+      id: uploadId,
+      idArray: pending.deletions,
+    },
+    request: deleteUploadByIdMutation.executeMutation({
+      id: uploadId,
+    }),
   })
-  pending.deletions.splice(pending.deletions.indexOf(uploadId), 1)
+  // pending.deletions.splice(pending.deletions.indexOf(uploadId), 1)
+
+  if (!result) return
 
   allUploadsQuery.executeQuery()
-
-  if (result.error || !result.data) {
-    await fireAlert({ level: 'error', text: t('uploadDeleteFailed') })
-    return
-  }
 }
 const getMimeType = (file: ArrayBuffer, fallback?: string) => {
   const byteArray = new Uint8Array(file).subarray(0, 4)
@@ -295,7 +300,12 @@ const getUploadBlobPromise = () =>
   new Promise<void>((resolve, reject) => {
     ;(templateCropper.value?.getResult() as CropperResult).canvas?.toBlob(
       async (blob) => {
-        if (!blob || !templateInputProfilePicture.value?.files?.[0]) return
+        if (
+          !store.signedInAccountId ||
+          !blob ||
+          !templateInputProfilePicture.value?.files?.[0]
+        )
+          return
 
         const result = await uploadCreateMutation.executeMutation({
           input: {
@@ -307,7 +317,7 @@ const getUploadBlobPromise = () =>
         if (result.error) return reject(result.error)
         if (!result.data) return
 
-        uppy.value = new Uppy({
+        const uppy = new Uppy({
           id: 'profile-picture',
           debug: !runtimeConfig.public.vio.isInProduction,
           restrictions: {
@@ -331,24 +341,24 @@ const getUploadBlobPromise = () =>
             ),
         })
 
-        uppy.value.on('restriction-failed', (_file, error) => {
+        uppy.on('restriction-failed', (_file, error: Error) => {
           return reject(error.message)
         })
 
-        uppy.value.use(Tus, {
+        uppy.use(Tus, {
           endpoint: TUSD_FILES_URL,
           limit: 1,
           removeFingerprintOnSuccess: true,
         })
 
-        uppy.value.addFile({
+        uppy.addFile({
           source: 'cropper',
           name: templateInputProfilePicture.value.files[0].name,
           type: blob.type,
           data: blob,
         })
 
-        const uploadResult = await uppy.value.upload()
+        const uploadResult = await uppy.upload()
 
         allUploadsQuery.executeQuery()
 
@@ -361,9 +371,6 @@ const getUploadBlobPromise = () =>
       'image/jpeg',
     )
   })
-
-// lifecycle
-onBeforeUnmount(() => uppy.value?.destroy())
 </script>
 
 <style>

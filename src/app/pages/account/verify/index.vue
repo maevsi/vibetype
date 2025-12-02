@@ -41,10 +41,12 @@ const result = await accountEmailAddressVerificationMutation.executeMutation({
 })
 if (result.error) {
   throw createError({
-    data: getCombinedErrorMessages([result.error], {
-      postgres55000: t('postgres55000'),
-      postgresP0002: t('postgresP0002'),
-    }).join('\n'),
+    data: {
+      vibetype: getCombinedErrorMessages([result.error], {
+        postgres55000: t('postgres55000'),
+        postgresP0002: t('postgresP0002'),
+      }).join('\n'),
+    },
     fatal: true,
   })
 }

@@ -7,11 +7,13 @@
         is-link-colored
         @click="downloadIcal"
       >
-        {{ eventStart.format('lll') }}
+        <AppTime :datetime="event.start" />
       </AppButton>
-      <span>
-        {{ t('fromNow', { content: eventStart.fromNow() }) }}
-      </span>
+      <i18n-t keypath="fromNow" tag="span">
+        <template #content>
+          <AppTime :datetime="event.start" relative />
+        </template>
+      </i18n-t>
     </div>
   </EventDashlet>
 </template>
@@ -36,8 +38,7 @@ const {
 }>()
 
 const { t } = useI18n()
-const dateTime = useDateTime()
-const fireAlert = useFireAlert()
+const alertError = useAlertError()
 
 // methods
 const downloadIcal = async () => {
@@ -52,10 +53,8 @@ const downloadIcal = async () => {
   const fileName = `${event.accountByCreatedBy ? `${event.accountByCreatedBy.username}_` : ''}${event.slug}.ics`
 
   if (!response.data.value) {
-    return await fireAlert({
-      level: 'error',
-      text: t('iCalFetchError'),
-    }) // TODO: add suggestion (https://github.com/maevsi/vibetype/issues/903) })
+    alertError(t('iCalFetchError')) // TODO: add suggestion (https://github.com/maevsi/vibetype/issues/903) })
+    return
   }
 
   downloadJs(
@@ -64,9 +63,6 @@ const downloadIcal = async () => {
     'text/calendar',
   )
 }
-
-// computations
-const eventStart = computed(() => dateTime(event.start))
 </script>
 
 <i18n lang="yaml">

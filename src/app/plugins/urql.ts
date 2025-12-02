@@ -7,7 +7,10 @@ import {
 import type { ClientOptions, SSRData } from '@urql/core'
 import { offlineExchange as getOfflineExchange } from '@urql/exchange-graphcache'
 import type { Cache, Entity, FieldArgs } from '@urql/exchange-graphcache'
-import { makeDefaultStorage } from '@urql/exchange-graphcache/default-storage'
+import {
+  makeDefaultStorage,
+  type DefaultStorage,
+} from '@urql/exchange-graphcache/default-storage'
 import { relayPagination } from '@urql/exchange-graphcache/extras'
 import { devtoolsExchange } from '@urql/devtools'
 import { provideClient } from '@urql/vue'
@@ -330,16 +333,23 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     },
   }
 
-  const cacheExchange = import.meta.client
-    ? getOfflineExchange({
-        ...graphCacheConfig,
-        schema,
-        storage: makeDefaultStorage(),
-      })
-    : undefined
+  const cacheStorage = import.meta.client ? makeDefaultStorage() : undefined
+  const cacheExchange =
+    import.meta.client && cacheStorage
+      ? getOfflineExchange({
+          ...graphCacheConfig,
+          schema,
+          storage: cacheStorage,
+        })
+      : undefined
 
   const clientOptions: ClientOptions = {
-    requestPolicy: 'cache-and-network',
+    exchanges: [
+      ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
+      ...(cacheExchange ? [cacheExchange] : []),
+      ssrExchange, // `ssrExchange` must be before `fetchExchange`
+      fetchExchange,
+    ],
     fetchOptions: () => {
       const headers = {} as Record<string, string>
 
@@ -352,15 +362,11 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
       return { headers }
     },
+    preferGetMethod: false, // TODO: remove with Postgraphile v5
+    requestPolicy: 'cache-and-network',
     url: isTesting
       ? `${siteUrl}/api/test/graphql`
       : getServiceHref({ name: 'postgraphile', port: 5000 }) + '/graphql',
-    exchanges: [
-      ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
-      ...(cacheExchange ? [cacheExchange] : []),
-      ssrExchange, // `ssrExchange` must be before `fetchExchange`
-      fetchExchange,
-    ],
   }
   const client = ref(createClient(clientOptions))
 
@@ -374,6 +380,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   return {
     provide: {
       urql: client,
+      urqlCache: cacheStorage,
       urqlReset,
     },
   }
@@ -382,6 +389,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 declare module '#app' {
   interface NuxtApp {
     $urql: Ref<Client>
+    $urqlCache?: DefaultStorage
     $urqlReset: () => Client
   }
 }

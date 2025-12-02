@@ -72,14 +72,14 @@ export const pwaConfig: ReturnType<DefineNuxtConfig> = {
           type: 'image/png',
         },
       ],
-      id: '/?source=pwa',
+      id: 'bbe5f2d7-4968-4cff-a9e8-16622ada2135',
       lang: 'en',
       launch_handler: {
         client_mode: ['auto'],
       },
       name: 'Vibetype',
       short_name: 'Vibetype',
-      // orientation: ..., // Disabled to respect system's rotation setting
+      // orientation: ..., // No need to restrict the system's orientation setting
       scope: '/',
       screenshots: [
         {
@@ -126,7 +126,10 @@ export const pwaConfig: ReturnType<DefineNuxtConfig> = {
           id: 'si.maev.twa',
         },
       ],
-      scope_extensions: [{ origin: 'maev.si' }, { origin: 'vibetype.app' }],
+      scope_extensions: [
+        { origin: 'https://maev.si', type: 'origin' },
+        { origin: 'https://vibetype.app', type: 'origin' },
+      ],
       // share_target: {
       //   action: '/collect-files',
       //   method: 'POST',

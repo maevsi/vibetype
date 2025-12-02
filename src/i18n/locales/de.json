@@ -1,6 +1,7 @@
 {
   "globalError": "Fehler",
   "globalErrorNoData": "Antwort ohne Daten",
+  "globalErrorClipboard": "Dein Browser unterstützt das moderne Kopieren in die Zwischenablage nicht.",
   "globalFormErrorAge18": "Du musst 18 Jahre alt sein.",
   "globalLoading": "Lade...",
   "globalPlaceholderAddress": "Veranstaltungsstraße 1,\n12345 Gaststadt",
@@ -8,7 +9,7 @@
   "globalPlaceholderLastName": "Nachname",
   "globalPlaceholderPhoneNumber": "+1234567890",
   "globalPlaceholderUrl": "https://websei.te",
-  "globalSeoOgImageAlt": "{siteName}s Logo.",
+  "globalSeoOgImageAlt": "@.upper:{'globalSiteName'}s Logo.",
   "globalShowMore": "Mehr anzeigen",
   "globalSiteName": "Vibetype",
   "globalStatusError": "Fehler",

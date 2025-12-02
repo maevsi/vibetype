@@ -18,7 +18,6 @@ test('gets ical string', () => {
       event: {
         id: '1',
         accountByCreatedBy: {
-          id: 1,
           username: 'authorUsername',
         },
         description: '<p>description</p>',

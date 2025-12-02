@@ -70,7 +70,7 @@
 <script setup lang="ts">
 const { t } = useI18n()
 const store = useStore()
-const fireAlert = useFireAlert()
+const alertError = useAlertError()
 const templateFileInput = useTemplateRef('fileInput')
 
 // data
@@ -133,12 +133,9 @@ const uploadFile = async () => {
       })
       console.log('Upload success')
     } catch (error) {
-      console.error('Upload failed:', error)
-      await fireAlert({
-        error,
-        level: 'error',
-        text: t('uploadFailed'),
-        title: t('error'),
+      alertError({
+        ...(error instanceof Error ? { error } : {}),
+        messageI18n: t('uploadFailed'),
       })
     }
   }
@@ -152,7 +149,6 @@ const uploadFile = async () => {
 de:
   clearAll: Löschen
   fileTypes: PNG, JPG, GIF bis zu 10 MB
-  error: Fehler
   replaceImage: Bild ersetzen
   selectFromDevice: Vom Gerät auswählen
   title: Bild laden
@@ -162,7 +158,6 @@ de:
 en:
   clearAll: Clear
   fileTypes: PNG, JPG, GIF up to 10 MB
-  error: Error
   replaceImage: Replace image
   selectFromDevice: Select from device
   title: Ingest image

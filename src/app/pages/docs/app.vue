@@ -1,19 +1,19 @@
 <template>
-  <div>
-    <LayoutPageTitle :title="title" />
+  <div class="flex flex-1 flex-col justify-center">
+    <!-- <LayoutPageTitle :title="title" /> -->
     <div class="flex flex-col gap-8 rounded-lg p-8 text-center">
       <div class="flex flex-col gap-4">
         <div class="text-4xl leading-tight font-bold tracking-tight">
           {{ t('descriptionTitle') }}
         </div>
-        <div class="">
-          {{ t('descriptionContent', { siteName: t('globalSiteName') }) }}
+        <div>
+          {{ t('descriptionContent') }}
         </div>
       </div>
       <div class="flex flex-col justify-center gap-4 lg:flex-row lg:gap-8">
         <CardButton
           is-external
-          :title="t('appStore', { siteName: t('globalSiteName') })"
+          :title="t('appStore')"
           to="https://testflight.apple.com/join/kkStPDoc"
         >
           <IFa6BrandsAppStore />
@@ -21,7 +21,7 @@
         <CardButton
           class="lg:h-32"
           is-external
-          :title="t('googlePlay', { siteName: t('globalSiteName') })"
+          :title="t('googlePlay')"
           to="https://play.google.com/store/apps/details?id=si.maev.twa"
         >
           <IFa6BrandsGooglePlay />
@@ -32,23 +32,65 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n()
+import { UAParser } from 'ua-parser-js'
 
-// data
+// compiler
+definePageMeta({
+  layout: 'plain',
+})
+
+// redirect
+const { isApp } = usePlatform()
+
+if (isApp) {
+  await navigateTo('/', { replace: true })
+}
+
+const { ssrContext } = useNuxtApp()
+const userAgent = import.meta.server
+  ? ssrContext?.event.headers.get('user-agent')
+  : navigator.userAgent
+
+if (userAgent) {
+  const { os } = UAParser(userAgent)
+
+  if (os.is('Android')) {
+    await navigateTo(
+      'https://play.google.com/store/apps/details?id=si.maev.twa',
+      { external: true, replace: true },
+    )
+  }
+
+  if (os.is('iOS')) {
+    await navigateTo('https://testflight.apple.com/join/kkStPDoc', {
+      external: true,
+      replace: true,
+    })
+  }
+
+  console.debug(
+    'Not redirecting, neither Android nor iOS detected',
+    JSON.stringify({ os, userAgent }),
+  )
+}
+
+// template
+const { t } = useI18n()
 const title = t('title')
+useHeadDefault({ title })
 </script>
 
 <i18n lang="yaml">
 de:
-  appStore: '{siteName} im App Store'
-  descriptionContent: Installiere {siteName} jetzt als App.
+  appStore: "@.upper:{'globalSiteName'} im App Store"
+  descriptionContent: Installiere @.upper:{'globalSiteName'} jetzt als App.
   descriptionTitle: Verpasse keine Veranstaltung.
-  googlePlay: '{siteName} in Google Play'
+  googlePlay: "@.upper:{'globalSiteName'} in Google Play"
   title: App
 en:
-  appStore: '{siteName} on the App Store'
-  descriptionContent: Install the {siteName} app now.
+  appStore: "@.upper:{'globalSiteName'} on the App Store"
+  descriptionContent: Install the @.upper:{'globalSiteName'} app now.
   descriptionTitle: Don't miss any events.
-  googlePlay: '{siteName} on Google Play'
+  googlePlay: "@.upper:{'globalSiteName'} on Google Play"
   title: App
 </i18n>

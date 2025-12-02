@@ -94,7 +94,7 @@ import { getContactItem } from '~~/gql/documents/fragments/contactItem'
 
 const { event, guestContactIdsExisting = undefined } = defineProps<{
   event: Pick<EventItemFragment, 'id'>
-  guestContactIdsExisting?: number[]
+  guestContactIdsExisting?: string[]
 }>()
 
 const emit = defineEmits<{
@@ -107,7 +107,7 @@ const localePath = useLocalePath()
 const { t } = useI18n()
 
 // data
-const after = ref<string>()
+const after = ref<string | null>()
 const form = reactive({
   contactIds: ref<string[]>([]),
   searchString: ref<string>(),
@@ -115,11 +115,13 @@ const form = reactive({
 const isFormSent = ref(false)
 
 // api data
-const allContactsQuery = useAllContactsQuery({
-  after,
-  createdBy: store.signedInAccountId,
-  first: ITEMS_PER_PAGE_LARGE,
-})
+const allContactsQuery = useAllContactsQuery(
+  computed(() => ({
+    after: after.value,
+    createdBy: store.signedInAccountId,
+    first: ITEMS_PER_PAGE_LARGE,
+  })),
+)
 const createGuestMutation = useCreateGuestMutation()
 const api = await useApiData([allContactsQuery, createGuestMutation])
 const contacts = computed(
@@ -148,7 +150,7 @@ const submit = async () => {
     for (const contactId of form.contactIds) {
       const result = await createGuestMutation.executeMutation({
         guestInput: {
-          contactId: contactId || null,
+          contactId: contactId,
           eventId: event.id,
         },
       })

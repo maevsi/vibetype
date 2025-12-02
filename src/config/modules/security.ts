@@ -29,6 +29,9 @@ export const securityConfig: ReturnType<DefineNuxtConfig> = {
         'upgrade-insecure-requests': false, // TODO: when tests run on https, set to `process.env.NODE_ENV === 'production'` or `true`
         'worker-src': false as const,
       },
+      permissionsPolicy: {
+        camera: ['self'], // can't be set per route and must be set globally as users can navigate routes client side
+      },
       xXSSProtection: '1; mode=block', // TODO: set back to `0` once CSP does not use `unsafe-*` anymore (https://github.com/maevsi/vibetype/issues/1047)
     },
     ssg: {

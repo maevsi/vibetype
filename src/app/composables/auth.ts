@@ -12,6 +12,17 @@ export const useAuth = async () => {
   }
 }
 
+export const useAuthInfo = () => {
+  const store = useStore()
+  const isSignedIn = computed(
+    () => store.jwtDecoded?.role === `${SITE_NAME}_account`,
+  )
+
+  return {
+    isSignedIn,
+  }
+}
+
 export const useAuthenticateAnonymous = () => {
   const { $urql, $urqlReset, ssrContext } = useNuxtApp()
   const runtimeConfig = useRuntimeConfig()
@@ -28,17 +39,16 @@ export const useAuthenticateAnonymous = () => {
 }
 
 export const useCookieJwt = () => {
-  const { siteUrlTyped } = useSiteUrl()
-
-  const jwtName = JWT_NAME({ isHttps: siteUrlTyped.protocol === 'https:' })
+  const jwtName = useJwtName()
   return useCookie(jwtName)
 }
 
 export const useJwtFromCookie = () => {
   const cookie = useCookieJwt()
-
   return getJwtFromCookie({ cookie })
 }
+
+export const useJwtName = () => getJwtName(useSiteUrl().siteUrlTyped)
 
 export const useJwtRefresh = () => {
   const { $urql, $urqlReset, ssrContext } = useNuxtApp()
@@ -63,7 +73,7 @@ export const useJwtStore = async () => {
   const runtimeConfig = useRuntimeConfig()
 
   return {
-    async jwtStore(jwt?: string) {
+    jwtStore: async (jwt?: string) => {
       await jwtStore({
         $urqlReset,
         event: ssrContext?.event,

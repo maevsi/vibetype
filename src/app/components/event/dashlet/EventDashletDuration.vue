@@ -4,8 +4,10 @@
       <ISolarHourglassOutline :title="t('duration')" />
     </span>
     {{
-      // @ts-ignore `duration` should be part of `$dayjs` (https://github.com/iamkun/dayjs/issues/2106)
-      $dayjs.duration($dayjs(event.end).diff($dayjs(event.start))).humanize()
+      // @ts-expect-error https://github.com/microsoft/TypeScript/issues/60608
+      new Intl.DurationFormat(locale, { style: 'long' }).format(
+        getDuration(new Date(event.start), new Date(event.end)),
+      )
     }}
   </EventDashlet>
 </template>
@@ -17,7 +19,7 @@ const { event } = defineProps<{
   event: Pick<EventItemFragment, 'end' | 'start'>
 }>()
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 </script>
 
 <i18n lang="yaml">

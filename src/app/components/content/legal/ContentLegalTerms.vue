@@ -1,46 +1,68 @@
 <template>
-  <LayoutProse v-if="legalTermFirst">
-    <MDCRenderer v-if="ast" :body="ast.body" :data="ast.data" />
-  </LayoutProse>
+  <LoaderIndicatorPing v-if="pending" />
   <AppError
-    v-else
+    v-else-if="!data?.legalTerm"
     :error="{ message: t('errorUnavailable'), statusCode: 500 }"
   />
+  <LayoutProse v-else>
+    <MDCRenderer v-if="data.ast" :body="data.ast.body" :data="data.ast.data" />
+  </LayoutProse>
 </template>
 
 <script setup lang="ts">
 import { parseMarkdown } from '@nuxtjs/mdc/runtime'
+import { useQuery } from '@urql/vue'
 
-import { getLegalTermItem } from '~~/gql/documents/fragments/legalTermItem'
-import { useAllLegalTermsQuery } from '~~/gql/documents/queries/legalTerms/allLegalTerms'
+import { graphql } from '~~/gql/generated'
 
-const { t, locale } = useI18n()
-
+// compiler
 const emit = defineEmits<{
   id: [string]
 }>()
 
-// legal terms
-const legalTermsQuery = useAllLegalTermsQuery({
-  language: locale.value,
-})
-const api = await useApiData([legalTermsQuery])
+// async data
+const { t, locale } = useI18n()
 
-const legalTermFirst = computed(
-  () =>
-    api.value.data.allLegalTerms?.nodes
-      ?.map(getLegalTermItem)
-      .filter(isNeitherNullNorUndefined)[0],
+const allLegalTermsQuery = graphql(`
+  query AllLegalTerms($language: String) {
+    allLegalTerms(condition: { language: $language }) {
+      nodes {
+        id
+        term
+      }
+    }
+  }
+`)
+const legalTermsQuery = useQuery({
+  query: allLegalTermsQuery,
+  variables: {
+    language: locale.value,
+  },
+})
+
+const { data, error, pending } = await useAsyncData(
+  'content-legal-terms',
+  async () => {
+    const legalTermsQueryResolved = await legalTermsQuery
+    const legalTermFirst =
+      legalTermsQueryResolved.data.value?.allLegalTerms?.nodes[0]
+
+    if (!legalTermFirst) throw new Error('No legal terms available')
+
+    return {
+      ast: await parseMarkdown(legalTermFirst.term.replace(/\r\n|\r/g, '\n')),
+      legalTerm: legalTermFirst,
+    }
+  },
 )
-if (!legalTermFirst.value) {
-  console.error('No legal terms available')
-} else {
-  emit('id', legalTermFirst.value.id)
+
+if (error.value) {
+  console.error(error.value)
 }
 
-const { data: ast } = await useAsyncData('markdown', () =>
-  parseMarkdown(legalTermFirst.value?.term.replace(/\r\n|\r/g, '\n') || ''),
-)
+if (data.value?.legalTerm) {
+  emit('id', data.value.legalTerm.id)
+}
 </script>
 
 <i18n lang="yaml">
