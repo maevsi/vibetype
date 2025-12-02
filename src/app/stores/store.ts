@@ -10,7 +10,7 @@ import type { Modal } from '~/types/modal'
 export const useStore = defineStore(SITE_NAME, () => {
   const localePath = useLocalePath()
 
-  const jwt = ref<string>() // TODO: remove (https://github.com/maevsi/vibetype/issues/1720)
+  // const jwt = ref<string>() // we don't store the JWT itself for security reasons
   const jwtDecoded = ref<JWTPayload>()
   const modals = ref<Modal[]>([])
   const routeHistory = ref<string[]>([])
@@ -26,7 +26,6 @@ export const useStore = defineStore(SITE_NAME, () => {
   const jwtSet = (jwtNew?: string) => {
     const jwtDecodedNew = jwtNew !== undefined ? decodeJwt(jwtNew) : undefined
 
-    jwt.value = jwtNew
     jwtDecoded.value = jwtDecodedNew
 
     if (
@@ -68,7 +67,6 @@ export const useStore = defineStore(SITE_NAME, () => {
   }
 
   return {
-    jwt,
     jwtDecoded,
     modals,
     routeHistory,
