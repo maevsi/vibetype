@@ -1,3 +1,13 @@
+## [13.0.0-beta.3](https://github.com/maevsi/vibetype/compare/13.0.0-beta.2...13.0.0-beta.3) (2025-12-02)
+
+### ⚠ BREAKING CHANGES
+
+* **store:** remove plain jwt
+
+### Bug Fixes
+
+* **store:** remove plain jwt ([aa03b04](https://github.com/maevsi/vibetype/commit/aa03b0457db8790c4b895b59d3d788d3b0ca8e6c))
+
 ## [13.0.0-beta.2](https://github.com/maevsi/vibetype/compare/13.0.0-beta.1...13.0.0-beta.2) (2025-12-02)
 
 ### Features
