@@ -1,3 +1,14 @@
+## [12.35.0](https://github.com/maevsi/vibetype/compare/12.34.3...12.35.0) (2025-12-02)
+
+### Features
+
+* **utils:** change cookie prefix from `Secure` to `Http` ([ee05422](https://github.com/maevsi/vibetype/commit/ee05422a7473942c6e4e9bcfd4106e9bc381ab39))
+
+### Bug Fixes
+
+* **event:** correct ingestion api paths ([d31722d](https://github.com/maevsi/vibetype/commit/d31722d7ff2fd4df4f2836fbf6a937c6aaf3ae1a))
+* **utils:** remove root host getter ([022931e](https://github.com/maevsi/vibetype/commit/022931e0abf0bc2ab6174d0ef3914ef4b462a5d2))
+
 ## [12.34.3](https://github.com/maevsi/vibetype/compare/12.34.2...12.34.3) (2025-11-26)
 
 ### Performance Improvements
