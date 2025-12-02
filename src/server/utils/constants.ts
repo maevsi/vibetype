@@ -17,7 +17,7 @@ export const GET_CSP = ({
 }) => {
   const domainTldPort = IS_IN_FRONTEND_DEVELOPMENT
     ? PRODUCTION_HOST
-    : getRootHost(siteUrl.host)
+    : siteUrl.host
 
   return defu(
     // if (isHttps(event.node.req)) {
