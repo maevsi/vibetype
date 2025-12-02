@@ -124,7 +124,7 @@ const uploadFile = async () => {
     const base64Image = (reader.result as string).split(',')[1]
 
     try {
-      await $fetch('/api/event/ingest/image', {
+      await $fetch('/api/model/event/ingest/image', {
         body: { base64Image },
         headers: {
           Authorization: `Bearer ${store.jwt}`,
