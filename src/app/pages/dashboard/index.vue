@@ -76,23 +76,12 @@ const eventQuery = graphql(`
   }
 `)
 const { $urql } = useNuxtApp()
-const jwtName = useJwtName()
-const cookieJwt = useCookieJwt()
 const {
   data: events,
   // error: recommendationError,
   pending,
 } = await useAsyncData('index-recommendations', async () => {
-  const eventIds = await $fetch(
-    '/api/service/reccoom/recommendations',
-    cookieJwt.value
-      ? {
-          headers: {
-            cookie: `${jwtName}=${cookieJwt.value}`,
-          },
-        }
-      : undefined,
-  )
+  const eventIds = await $fetch('/api/service/reccoom/recommendations')
   const events = (
     await Promise.all(
       eventIds.map(

@@ -26,9 +26,10 @@ export default defineEventHandler(async (event) => {
   }
 
   const { client: openAiClient, getCompletionCost } = useOpenAi()
-  const { getJwtFromHeader, verifyJwt } = await useJsonWebToken()
+  const { getJwtFromCookie, verifyJwt } = await useJsonWebToken()
 
-  const jwtDecoded = await verifyJwt(getJwtFromHeader())
+  const jwt = getJwtFromCookie()
+  const jwtDecoded = await verifyJwt(jwt)
   if (!(jwtDecoded.role === `${SITE_NAME}_account`))
     return throwError({
       statusCode: 403,

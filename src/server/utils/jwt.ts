@@ -27,6 +27,7 @@ export const setJwtCookie = ({
   setCookie(event, jwtCookieName, jwt, {
     expires: jwt ? dateInAMonth : dateEpoch,
     httpOnly: true,
+    domain: siteUrl.hostname,
     // path: '/',
     sameSite: 'lax', // Cannot be 'strict' to allow authentications after clicking on links within webmailers.
     secure: isHttps,
@@ -54,18 +55,6 @@ export const useJsonWebToken = async () => {
       }
 
       return cookieAuthorization
-    },
-    getJwtFromHeader: () => {
-      const headerAuthorization = getRequestHeader(event, 'authorization')
-
-      if (!headerAuthorization) {
-        return throwError({
-          statusCode: 401,
-          statusMessage: 'The request header "Authorization" is missing!',
-        })
-      }
-
-      return headerAuthorization.substring(7)
     },
     setJwtCookie: (jwt: string) => setJwtCookie({ event, jwt, runtimeConfig }),
     verifyJwt: async (jwt: string) => {

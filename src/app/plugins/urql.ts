@@ -15,7 +15,6 @@ import { relayPagination } from '@urql/exchange-graphcache/extras'
 import { devtoolsExchange } from '@urql/devtools'
 import { provideClient } from '@urql/vue'
 import type { Client } from '@urql/vue'
-import { consola } from 'consola'
 import type { DocumentNode } from 'graphql'
 import { ref } from 'vue'
 
@@ -177,7 +176,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const runtimeConfig = useRuntimeConfig()
   const isTesting = useIsTesting()
   const getServiceHref = useGetServiceHref()
-  const store = useStore()
   const { siteUrl } = useSiteUrl()
 
   const ssrExchange = getSsrExchange({
@@ -350,17 +348,8 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       ssrExchange, // `ssrExchange` must be before `fetchExchange`
       fetchExchange,
     ],
-    fetchOptions: () => {
-      const headers = {} as Record<string, string>
-
-      if (store.jwt) {
-        consola.trace('GraphQL request authenticated with: ' + store.jwt)
-        headers.authorization = `Bearer ${store.jwt}`
-      } else {
-        consola.trace('GraphQL request without authentication.')
-      }
-
-      return { headers }
+    fetchOptions: {
+      credentials: 'include',
     },
     preferGetMethod: false, // TODO: remove with Postgraphile v5
     requestPolicy: 'cache-and-network',

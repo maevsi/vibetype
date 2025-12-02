@@ -14,8 +14,7 @@ if (sharedSentryConfig.dsn) {
       Sentry.httpClientIntegration(),
       Sentry.replayIntegration(),
 
-      // // enable once plain JWT isn't stored any more
-      // Sentry.piniaIntegration(usePinia()),
+      Sentry.piniaIntegration(usePinia()),
 
       // // enable if more components or hooks should be tracked
       // Sentry.vueIntegration({
