@@ -10098,15 +10098,15 @@ export type UpdateEventByIdMutation = {
   } | null
 }
 
-export type CreateGuestMutationVariables = Exact<{
-  guestInput: GuestInput
+export type CreateGuestsMutationVariables = Exact<{
+  createGuestsInput: CreateGuestsInput
 }>
 
-export type CreateGuestMutation = {
+export type CreateGuestsMutation = {
   __typename?: 'Mutation'
-  createGuest?: {
-    __typename?: 'CreateGuestPayload'
-    guest?: {
+  createGuests?: {
+    __typename?: 'CreateGuestsPayload'
+    guests?: Array<{
       __typename?: 'Guest'
       id: string
       contactByContactId?:
@@ -10114,7 +10114,7 @@ export type CreateGuestMutation = {
             ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment }
           })
         | null
-    } | null
+    }> | null
   } | null
 }
 
@@ -15970,25 +15970,25 @@ export const UpdateEventByIdDocument = {
   UpdateEventByIdMutation,
   UpdateEventByIdMutationVariables
 >
-export const CreateGuestDocument = {
+export const CreateGuestsDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateGuest' },
+      name: { kind: 'Name', value: 'CreateGuests' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'guestInput' },
+            name: { kind: 'Name', value: 'createGuestsInput' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'GuestInput' },
+              name: { kind: 'Name', value: 'CreateGuestsInput' },
             },
           },
         },
@@ -15998,23 +15998,14 @@ export const CreateGuestDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'createGuest' },
+            name: { kind: 'Name', value: 'createGuests' },
             arguments: [
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'guest' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'guestInput' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'createGuestsInput' },
                 },
               },
             ],
@@ -16023,7 +16014,7 @@ export const CreateGuestDocument = {
               selections: [
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'guest' },
+                  name: { kind: 'Name', value: 'guests' },
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
@@ -16143,7 +16134,10 @@ export const CreateGuestDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<CreateGuestMutation, CreateGuestMutationVariables>
+} as unknown as DocumentNode<
+  CreateGuestsMutation,
+  CreateGuestsMutationVariables
+>
 export const DeleteGuestByIdDocument = {
   kind: 'Document',
   definitions: [
