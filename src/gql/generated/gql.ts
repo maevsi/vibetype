@@ -66,7 +66,7 @@ type Documents = {
   '\n  mutation EventDelete($id: UUID!, $password: String!) {\n    eventDelete(input: { id: $id, password: $password }) {\n      clientMutationId\n      event {\n        ...EventItem\n      }\n    }\n  }\n': typeof types.EventDeleteDocument
   '\n  mutation EventUnlock($guestId: UUID!) {\n    eventUnlock(input: { guestId: $guestId }) {\n      eventUnlockResponse {\n        creatorUsername\n        eventSlug\n        jwt\n      }\n    }\n  }\n': typeof types.EventUnlockDocument
   '\n  mutation UpdateEventById($id: UUID!, $eventPatch: EventPatch!) {\n    updateEventById(input: { id: $id, eventPatch: $eventPatch }) {\n      event {\n        ...EventItem\n      }\n    }\n  }\n': typeof types.UpdateEventByIdDocument
-  '\n  mutation CreateGuest($guestInput: GuestInput!) {\n    createGuest(input: { guest: $guestInput }) {\n      guest {\n        contactByContactId {\n          ...ContactItem\n        }\n        id\n      }\n    }\n  }\n': typeof types.CreateGuestDocument
+  '\n  mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n    createGuests(input: $createGuestsInput) {\n      guests {\n        contactByContactId {\n          ...ContactItem\n        }\n        id\n      }\n    }\n  }\n': typeof types.CreateGuestsDocument
   '\n  mutation DeleteGuestById($id: UUID!) {\n    deleteGuestById(input: { id: $id }) {\n      clientMutationId\n    }\n  }\n': typeof types.DeleteGuestByIdDocument
   '\n  mutation UpdateGuestById($id: UUID!, $guestPatch: GuestPatch!) {\n    updateGuestById(input: { id: $id, guestPatch: $guestPatch }) {\n      guest {\n        ...GuestItem\n        contactByContactId {\n          ...ContactItem\n        }\n      }\n    }\n  }\n': typeof types.UpdateGuestByIdDocument
   '\n  mutation Invite($guestId: UUID!, $language: String!) {\n    invite(input: { guestId: $guestId, language: $language }) {\n      clientMutationId\n    }\n  }\n': typeof types.InviteDocument
@@ -201,8 +201,8 @@ const documents: Documents = {
     types.EventUnlockDocument,
   '\n  mutation UpdateEventById($id: UUID!, $eventPatch: EventPatch!) {\n    updateEventById(input: { id: $id, eventPatch: $eventPatch }) {\n      event {\n        ...EventItem\n      }\n    }\n  }\n':
     types.UpdateEventByIdDocument,
-  '\n  mutation CreateGuest($guestInput: GuestInput!) {\n    createGuest(input: { guest: $guestInput }) {\n      guest {\n        contactByContactId {\n          ...ContactItem\n        }\n        id\n      }\n    }\n  }\n':
-    types.CreateGuestDocument,
+  '\n  mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n    createGuests(input: $createGuestsInput) {\n      guests {\n        contactByContactId {\n          ...ContactItem\n        }\n        id\n      }\n    }\n  }\n':
+    types.CreateGuestsDocument,
   '\n  mutation DeleteGuestById($id: UUID!) {\n    deleteGuestById(input: { id: $id }) {\n      clientMutationId\n    }\n  }\n':
     types.DeleteGuestByIdDocument,
   '\n  mutation UpdateGuestById($id: UUID!, $guestPatch: GuestPatch!) {\n    updateGuestById(input: { id: $id, guestPatch: $guestPatch }) {\n      guest {\n        ...GuestItem\n        contactByContactId {\n          ...ContactItem\n        }\n      }\n    }\n  }\n':
@@ -591,8 +591,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  mutation CreateGuest($guestInput: GuestInput!) {\n    createGuest(input: { guest: $guestInput }) {\n      guest {\n        contactByContactId {\n          ...ContactItem\n        }\n        id\n      }\n    }\n  }\n',
-): (typeof documents)['\n  mutation CreateGuest($guestInput: GuestInput!) {\n    createGuest(input: { guest: $guestInput }) {\n      guest {\n        contactByContactId {\n          ...ContactItem\n        }\n        id\n      }\n    }\n  }\n']
+  source: '\n  mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n    createGuests(input: $createGuestsInput) {\n      guests {\n        contactByContactId {\n          ...ContactItem\n        }\n        id\n      }\n    }\n  }\n',
+): (typeof documents)['\n  mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n    createGuests(input: $createGuestsInput) {\n      guests {\n        contactByContactId {\n          ...ContactItem\n        }\n        id\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

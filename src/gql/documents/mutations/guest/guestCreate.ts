@@ -1,10 +1,10 @@
 import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
-export const createGuestMutation = graphql(`
-  mutation CreateGuest($guestInput: GuestInput!) {
-    createGuest(input: { guest: $guestInput }) {
-      guest {
+export const createGuestsMutation = graphql(`
+  mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {
+    createGuests(input: $createGuestsInput) {
+      guests {
         contactByContactId {
           ...ContactItem
         }
@@ -14,4 +14,4 @@ export const createGuestMutation = graphql(`
   }
 `)
 
-export const useCreateGuestMutation = () => useMutation(createGuestMutation)
+export const useCreateGuestsMutation = () => useMutation(createGuestsMutation)
