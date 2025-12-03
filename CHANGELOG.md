@@ -1,3 +1,13 @@
+## [12.36.0](https://github.com/maevsi/vibetype/compare/12.35.0...12.36.0) (2025-12-03)
+
+### Features
+
+* **guest:** create multiple ([113e027](https://github.com/maevsi/vibetype/commit/113e0276b316aab091f7875e13df700392ffa7c0))
+
+### Bug Fixes
+
+* **app:** remove platform logging ([86ff53f](https://github.com/maevsi/vibetype/commit/86ff53f713e0048dca18af74a37b5412071cfdf9))
+
 ## [12.35.0](https://github.com/maevsi/vibetype/compare/12.34.3...12.35.0) (2025-12-02)
 
 ### Features
