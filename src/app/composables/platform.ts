@@ -6,9 +6,6 @@ export const usePlatform = () => {
     () => ssrContext?.event.context.$platform,
   )
 
-  console.log('platform: ssr', !!ssrContext)
-  console.log('platform:', platform.value)
-
   const isAndroid = platform.value ? platform.value === 'android' : undefined
 
   const isIos = platform.value
