@@ -1,3 +1,9 @@
+## [12.37.0](https://github.com/maevsi/vibetype/compare/12.36.0...12.37.0) (2025-12-06)
+
+### Features
+
+* add account unblock screen ([#2032](https://github.com/maevsi/vibetype/issues/2032)) ([aa20ad9](https://github.com/maevsi/vibetype/commit/aa20ad9b7c6bfd946ce378a927a992aa04b82ab9))
+
 ## [12.36.0](https://github.com/maevsi/vibetype/compare/12.35.0...12.36.0) (2025-12-03)
 
 ### Features
