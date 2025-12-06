@@ -1,5 +1,4 @@
-import { GetSendQuotaCommand } from '@aws-sdk/client-ses' // TODO: use v2 api once quota tracking is available there
-import { SESv2Client } from '@aws-sdk/client-sesv2'
+import { SESv2Client, GetAccountCommand } from '@aws-sdk/client-sesv2'
 import { fromIni } from '@aws-sdk/credential-providers'
 
 export const sesClient = new SESv2Client({
@@ -8,8 +7,8 @@ export const sesClient = new SESv2Client({
 })
 
 export const getMailsSentLast24Hours = async () => {
-  const getSendQuotaCommand = new GetSendQuotaCommand({})
-  const { SentLast24Hours } = await sesClient.send(getSendQuotaCommand)
+  const getAccountCommand = new GetAccountCommand({})
+  const { SendQuota } = await sesClient.send(getAccountCommand)
 
-  return SentLast24Hours
+  return SendQuota?.SentLast24Hours
 }

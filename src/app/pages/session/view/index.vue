@@ -237,6 +237,60 @@
           </section>
         </div>
       </section>
+      <section class="flex flex-col gap-4">
+        <h2>{{ t('data') }}</h2>
+        <div class="grid gap-4 lg:grid-cols-2">
+          <div class="flex flex-1 flex-col gap-2">
+            <Card class="flex flex-col gap-1">
+              <div class="flex gap-2">
+                <ClientOnly>
+                  <IHeroiconsCheckCircle
+                    v-if="$urqlCache"
+                    class="text-green-600 dark:text-green-500"
+                  />
+                  <IHeroiconsXCircle
+                    v-else
+                    class="text-(--semantic-critic-text) dark:text-red-500"
+                  />
+                  <template #fallback>
+                    <IHeroiconsQuestionMarkCircle />
+                  </template>
+                </ClientOnly>
+                <span>
+                  {{ t('apiClient') }}
+                </span>
+              </div>
+            </Card>
+          </div>
+          <div class="flex flex-1 flex-col gap-2">
+            <ClientOnly>
+              <ButtonColored
+                :aria-label="t('apiClientCacheClear')"
+                :disabled="!$urqlCache"
+                variant="secondary"
+                @click="apiClientCacheClear"
+              >
+                {{ t('apiClientCacheClear') }}
+                <template #prefix>
+                  <IHeroiconsTrash />
+                </template>
+              </ButtonColored>
+              <template #fallback>
+                <ButtonColored
+                  :aria-label="t('apiClientCacheClear')"
+                  disabled
+                  variant="secondary"
+                >
+                  {{ t('apiClientCacheClear') }}
+                  <template #prefix>
+                    <IHeroiconsTrash />
+                  </template>
+                </ButtonColored>
+              </template>
+            </ClientOnly>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </template>
@@ -248,13 +302,14 @@ defineRouteRules({
   robots: false,
 })
 
+const { $urqlCache } = useNuxtApp()
 const { t } = useI18n()
 const requestEvent = useRequestEvent()
 const store = useStore()
 const notificationStore = useNotificationStore()
 const { signOut } = await useSignOut()
-const fireAlert = useFireAlert()
 const { isApp, platform } = usePlatform()
+const alertError = useAlertError()
 
 // data
 const isNavigatorHavingPermissions = ref<boolean>()
@@ -265,6 +320,17 @@ const permissionState = ref<PermissionState>()
 const title = t('title')
 
 // methods
+const apiClientCacheClear = async () => {
+  if (!$urqlCache) {
+    alertError(t('apiClientCacheErrorUndefined'))
+    return
+  }
+
+  toast.promise($urqlCache.clear(), {
+    error: () => t('apiClientCacheClearError'),
+    success: () => t('apiClientCacheClearSuccess'),
+  })
+}
 const sendNotification = async () => {
   const serviceWorkerRegistration = await navigator.serviceWorker.ready
 
@@ -274,15 +340,25 @@ const sendNotification = async () => {
     tag: 'test',
   })
 }
+const { copy } = useCopy()
 const showFcmToken = async () => {
   if (!notificationStore.fcmToken) {
     await notificationStore.fcmTokenInitialize()
   }
 
-  await fireAlert({
-    level: 'info',
-    title: 'FCM Token',
-    text: notificationStore.fcmToken,
+  toast.info(t('fcmToken'), {
+    action: {
+      label: t('copy'),
+      onClick: () => {
+        if (!notificationStore.fcmToken) {
+          alertError(t('fcmTokenUndefined'))
+          return
+        }
+
+        copy(notificationStore.fcmToken)
+      },
+    },
+    description: notificationStore.fcmToken,
   })
 }
 
@@ -349,12 +425,21 @@ de:
   codes: Einladungscodes
   codesEntered: 'Du hast die folgenden Codes eingegeben:'
   codesEnteredNone: Dieser Sitzung sind keine Einladungscodes zugeordnet.
+  copy: Kopieren
+  data: Daten
   end: Ende
   endNow: Diese Sitzung beenden
+  fcmToken: FCM Token
+  fcmTokenUndefined: Das FCM Token ist nicht verfügbar
   hasIosPushCapability: Fenster hat Push-Fähigkeit (iOS)
   hasNavigatorPermissions: Navigator hat Berechtigungen
   hasNavigatorServiceWorkers: Navigator hat Service Worker
   hasWindowNotification: Fenster hat Benachrichtigung
+  apiClient: API client
+  apiClientCacheClear: Cache leeren
+  apiClientCacheErrorUndefined: Es ist kein API client Cache definiert
+  apiClientCacheClearError: Cache konnte nicht geleert werden
+  apiClientCacheClearSuccess: Cache geleert
   notification: Benachrichtigungen
   notificationPermit: Benachrichtigungen erlauben
   notificationPermitted: Benachrichtigungen sind erlaubt
@@ -371,12 +456,21 @@ en:
   codes: Invitation codes
   codesEntered: 'You entered the following codes:'
   codesEnteredNone: There are no invitation codes assigned to this session.
+  copy: Copy
+  data: Data
   end: End
   endNow: End this session
+  fcmToken: FCM Token
+  fcmTokenUndefined: The FCM Token is not available
   hasIosPushCapability: Window has Push-Capability (iOS)
   hasNavigatorPermissions: Navigator has permissions
   hasNavigatorServiceWorkers: Navigator has service workers
   hasWindowNotification: Window has notification
+  apiClient: API client
+  apiClientCacheErrorUndefined: The API client cache is undefined
+  apiClientCacheClear: Clear cache
+  apiClientCacheClearError: Cache could not be cleared
+  apiClientCacheClearSuccess: Cache cleared
   notification: Notifications
   notificationPermit: Permit notifications
   notificationPermitted: Notifications are permitted

@@ -39,7 +39,7 @@ const uploadURL = async () => {
   if (!enteredURL.value || !store.jwt) return
 
   try {
-    await $fetch('/api/event/ingest/url', {
+    await $fetch('/api/model/event/ingest/url', {
       body: { url: enteredURL.value },
       headers: {
         Authorization: `Bearer ${store.jwt}`,

@@ -1,3 +1,124 @@
+## [12.36.0](https://github.com/maevsi/vibetype/compare/12.35.0...12.36.0) (2025-12-03)
+
+### Features
+
+* **guest:** create multiple ([113e027](https://github.com/maevsi/vibetype/commit/113e0276b316aab091f7875e13df700392ffa7c0))
+
+### Bug Fixes
+
+* **app:** remove platform logging ([86ff53f](https://github.com/maevsi/vibetype/commit/86ff53f713e0048dca18af74a37b5412071cfdf9))
+
+## [12.35.0](https://github.com/maevsi/vibetype/compare/12.34.3...12.35.0) (2025-12-02)
+
+### Features
+
+* **utils:** change cookie prefix from `Secure` to `Http` ([ee05422](https://github.com/maevsi/vibetype/commit/ee05422a7473942c6e4e9bcfd4106e9bc381ab39))
+
+### Bug Fixes
+
+* **event:** correct ingestion api paths ([d31722d](https://github.com/maevsi/vibetype/commit/d31722d7ff2fd4df4f2836fbf6a937c6aaf3ae1a))
+* **utils:** remove root host getter ([022931e](https://github.com/maevsi/vibetype/commit/022931e0abf0bc2ab6174d0ef3914ef4b462a5d2))
+
+## [12.34.3](https://github.com/maevsi/vibetype/compare/12.34.2...12.34.3) (2025-11-26)
+
+### Performance Improvements
+
+* **docker:** use cache mounts ([ef0a6db](https://github.com/maevsi/vibetype/commit/ef0a6db52f1edcd9752d9ac9641571f4bcdfbc8b))
+
+## [12.34.2](https://github.com/maevsi/vibetype/compare/12.34.1...12.34.2) (2025-11-19)
+
+### Bug Fixes
+
+* **event:** relax ical data requirements ([2ccf25b](https://github.com/maevsi/vibetype/commit/2ccf25b764db9488a496c0a6cd1840ecd9adb71e))
+
+### Performance Improvements
+
+* **aws:** complete migration to ses client v2 ([1ed17ac](https://github.com/maevsi/vibetype/commit/1ed17ac31a7fc565ea1984ed367d3bf1738d697a))
+
+## [12.34.1](https://github.com/maevsi/vibetype/compare/12.34.0...12.34.1) (2025-11-18)
+
+### Bug Fixes
+
+* **notification:** correct enum capitalization for invitation visibility ([6b7c4bd](https://github.com/maevsi/vibetype/commit/6b7c4bd701824318e2b92ab8d6ade4de30434059))
+* **notification:** only attach successfully fetched ical data ([ba52f0b](https://github.com/maevsi/vibetype/commit/ba52f0bb79b852e2da44b98057454e9e6ae6b3e0))
+* **notification:** skip empty payloads ([2f34b68](https://github.com/maevsi/vibetype/commit/2f34b689ceec57f4af13530c1823f86718db173f))
+
+## [12.34.0](https://github.com/maevsi/vibetype/compare/12.33.1...12.34.0) (2025-11-17)
+
+### Features
+
+* **head:** test disabled scaling ([e8730bd](https://github.com/maevsi/vibetype/commit/e8730bd8a2ff6d2d38a4793433ecb57db6574948))
+
+## [12.33.1](https://github.com/maevsi/vibetype/compare/12.33.0...12.33.1) (2025-11-17)
+
+### Bug Fixes
+
+* **attendance:** add missing hint to camera error ([d3b7233](https://github.com/maevsi/vibetype/commit/d3b72339d65a7ff5eb11d9825c4e6171e6b0138d))
+* **attendance:** don't log error twice ([d2e12d1](https://github.com/maevsi/vibetype/commit/d2e12d14abd2ee017197e5e5f39466a98946e9b0))
+* **pwa:** set id ([cf486d9](https://github.com/maevsi/vibetype/commit/cf486d972158b0bf0b7a10bae2483189671702c2))
+* **security:** apply camera permission globally ([88043a3](https://github.com/maevsi/vibetype/commit/88043a310f86688c27a84a807d242b631ff64ec9))
+
+## [12.33.0](https://github.com/maevsi/vibetype/compare/12.32.6...12.33.0) (2025-11-08)
+
+### Features
+
+* **components:** replace toast with sonner ([500e1bd](https://github.com/maevsi/vibetype/commit/500e1bdfdedffa7703cff6b0978de32a6ce1a745))
+* **composables:** add alert error ([3119c37](https://github.com/maevsi/vibetype/commit/3119c379ae24a1af109b4b1a0c5765ea33941f1c))
+* **composables:** centralize urql result handling ([cec435e](https://github.com/maevsi/vibetype/commit/cec435efd820467d295c39e7f1fd032174dffe5f))
+* **session:** allow to clear api client data ([278b484](https://github.com/maevsi/vibetype/commit/278b484ec1e29e2226c83bce48de0dd2976da285))
+
+## [12.32.6](https://github.com/maevsi/vibetype/compare/12.32.5...12.32.6) (2025-11-07)
+
+### Bug Fixes
+
+* **event:** correct maximum guest count fetching ([95c6528](https://github.com/maevsi/vibetype/commit/95c6528f0d2a79444acb56f3103646307a89f9bc))
+
+## [12.32.5](https://github.com/maevsi/vibetype/compare/12.32.4...12.32.5) (2025-11-06)
+
+### Performance Improvements
+
+* **utils:** replace copy dependency ([4eb7c65](https://github.com/maevsi/vibetype/commit/4eb7c65054774190a18dd76a23d49a4a80b1e1c9))
+
+## [12.32.4](https://github.com/maevsi/vibetype/compare/12.32.3...12.32.4) (2025-11-01)
+
+### Bug Fixes
+
+* schedule release ([b695e10](https://github.com/maevsi/vibetype/commit/b695e10c7f4db18ff1447871b2c08174dd565a88))
+
+## [12.32.3](https://github.com/maevsi/vibetype/compare/12.32.2...12.32.3) (2025-10-18)
+
+### Bug Fixes
+
+* schedule release ([67695d9](https://github.com/maevsi/vibetype/commit/67695d95ffe301803feadb7702937ccd310d2e5e))
+
+## [12.32.2](https://github.com/maevsi/vibetype/compare/12.32.1...12.32.2) (2025-10-04)
+
+### Bug Fixes
+
+* schedule release ([f8f5a6c](https://github.com/maevsi/vibetype/commit/f8f5a6cf441e300da9e88b7b25403b0834c583be))
+
+## [12.32.1](https://github.com/maevsi/vibetype/compare/12.32.0...12.32.1) (2025-09-20)
+
+### Bug Fixes
+
+* schedule release ([e273b95](https://github.com/maevsi/vibetype/commit/e273b95e7c5d3364eb42025518372e7e24c6145a))
+
+## [12.32.0](https://github.com/maevsi/vibetype/compare/12.31.0...12.32.0) (2025-09-10)
+
+### Features
+
+* **components:** double menu bottom padding for ios ([54a81f3](https://github.com/maevsi/vibetype/commit/54a81f324f73a3b71cf5b96ef3e34b0ee196417c))
+
+## [12.31.0](https://github.com/maevsi/vibetype/compare/12.30.0...12.31.0) (2025-09-09)
+
+### Features
+
+* **app:** disable text selection ([df7b53d](https://github.com/maevsi/vibetype/commit/df7b53d50e9a1f364057935d46d985d4a1a28160))
+
+### Bug Fixes
+
+* **session:** move developer information button up ([9e1bc5c](https://github.com/maevsi/vibetype/commit/9e1bc5c939e0d473303b7d3b763bb7781d62ac50))
+
 ## [12.30.0](https://github.com/maevsi/vibetype/compare/12.29.1...12.30.0) (2025-09-09)
 
 ### Features

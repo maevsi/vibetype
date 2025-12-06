@@ -144,7 +144,6 @@ const store = useStore()
 const runtimeConfig = useRuntimeConfig()
 const TUSD_FILES_URL = useTusdFilesUrl()
 const localePath = useLocalePath()
-const fireAlert = useFireAlert()
 const templateCropper = useTemplateRef('cropper')
 const templateInputProfilePicture = useTemplateRef('inputProfilePicture')
 
@@ -218,19 +217,24 @@ const selectProfilePicture = async () => {
     await navigateTo(pathUpload)
   }
 }
+const executeUrqlRequest = useExecuteUrqlRequest()
 const deleteUpload = async (uploadId: string) => {
-  pending.deletions.push(uploadId)
-  const result = await deleteUploadByIdMutation.executeMutation({
-    id: uploadId,
+  // pending.deletions.push(uploadId)
+  const result = await executeUrqlRequest({
+    errorMessageI18n: t('uploadDeleteFailed'),
+    progress: {
+      id: uploadId,
+      idArray: pending.deletions,
+    },
+    request: deleteUploadByIdMutation.executeMutation({
+      id: uploadId,
+    }),
   })
-  pending.deletions.splice(pending.deletions.indexOf(uploadId), 1)
+  // pending.deletions.splice(pending.deletions.indexOf(uploadId), 1)
+
+  if (!result) return
 
   allUploadsQuery.executeQuery()
-
-  if (result.error || !result.data) {
-    await fireAlert({ level: 'error', text: t('uploadDeleteFailed') })
-    return
-  }
 }
 const getMimeType = (file: ArrayBuffer, fallback?: string) => {
   const byteArray = new Uint8Array(file).subarray(0, 4)

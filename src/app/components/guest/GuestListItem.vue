@@ -113,6 +113,7 @@ const { event, guest } = defineProps<{
 
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
+const { copy } = useCopy()
 
 // data
 const pending = reactive({
@@ -130,11 +131,11 @@ const inviteMutation = useInviteMutation()
 const copyLink = async (guest: Pick<GuestItemFragment, 'id'>) => {
   if (!import.meta.client) return
 
-  await copyText(
+  await copy(
     `${window.location.origin}${localePath(`guest-unlock`)}?ic=${guest.id}`,
   )
 
-  await showToast({ title: t('copySuccess') })
+  toast.success(t('copySuccess'))
 }
 const delete_ = async (id: string) => {
   pending.deletions.push(id)
@@ -153,7 +154,7 @@ const send = async (guest: Pick<GuestItemFragment, 'id'>) => {
 
   if (result.error || !result.data) return
 
-  await showToast({ title: t('sendSuccess') })
+  toast.success(t('sendSuccess'))
 }
 
 // computations

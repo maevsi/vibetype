@@ -63,6 +63,17 @@
         </span>
         <div class="flex flex-col gap-3">
           <CardButton
+            v-if="isDevelopmentModeActive"
+            :title="t('developerInformation')"
+            :to="
+              localePath({
+                name: 'session-view',
+              })
+            "
+          >
+            <AppIconWrench />
+          </CardButton>
+          <CardButton
             is-external
             :title="t('featureSuggestion')"
             to="https://forms.monday.com/forms/f3ef56d13c8383e6ececb2875d7fb4b2?r=euc1"
@@ -85,17 +96,6 @@
             "
           >
             <AppIconMail />
-          </CardButton>
-          <CardButton
-            v-if="isDevelopmentModeActive"
-            :title="t('developerInformation')"
-            :to="
-              localePath({
-                name: 'session-view',
-              })
-            "
-          >
-            <AppIconWrench />
           </CardButton>
         </div>
       </section>

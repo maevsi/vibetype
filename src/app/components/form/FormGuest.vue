@@ -85,7 +85,7 @@
 import { useVuelidate } from '@vuelidate/core'
 import { minLength, minValue, required } from '@vuelidate/validators'
 
-import { useCreateGuestMutation } from '~~/gql/documents/mutations/guest/guestCreate'
+import { useCreateGuestsMutation } from '~~/gql/documents/mutations/guest/guestCreate'
 import { useAllContactsQuery } from '~~/gql/documents/queries/contact/contactsAll'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 import { getContactItem } from '~~/gql/documents/fragments/contactItem'
@@ -122,7 +122,7 @@ const allContactsQuery = useAllContactsQuery(
     first: ITEMS_PER_PAGE_LARGE,
   })),
 )
-const createGuestMutation = useCreateGuestMutation()
+const createGuestMutation = useCreateGuestsMutation()
 const api = await useApiData([allContactsQuery, createGuestMutation])
 const contacts = computed(
   () =>
@@ -147,21 +147,19 @@ const submit = async () => {
   const successIds = []
 
   try {
-    for (const contactId of form.contactIds) {
-      const result = await createGuestMutation.executeMutation({
-        guestInput: {
-          contactId: contactId,
-          eventId: event.id,
-        },
-      })
+    const result = await createGuestMutation.executeMutation({
+      createGuestsInput: {
+        contactIds: form.contactIds,
+        eventId: event.id,
+      },
+    })
 
-      if (!result.data) {
-        throw new Error('No data!')
-      }
+    if (!result.data) {
+      throw new Error('No data!')
+    }
 
-      if (!result.error) {
-        successIds.push(contactId)
-      }
+    if (!result.error) {
+      successIds.push(...form.contactIds)
     }
   } catch (error) {
     console.error(error)

@@ -67,7 +67,7 @@ const emit = defineEmits<{
   success: []
 }>()
 
-const fireAlert = useFireAlert()
+const alertError = useAlertError()
 const { t } = useI18n()
 const templateForm = useTemplateRef('form')
 
@@ -89,11 +89,9 @@ const onSubmit = handleSubmit(async (values) => {
     emit('success')
   } catch (error) {
     // TODO: implement form error page
-    await fireAlert({
-      error,
-      level: 'error',
-      text: t('error'),
-      title: t('globalError'),
+    alertError({
+      ...(error instanceof Error ? { error } : {}),
+      messageI18n: t('error'),
     })
   }
 })

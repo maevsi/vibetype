@@ -17,7 +17,7 @@ export const GET_CSP = ({
 }) => {
   const domainTldPort = IS_IN_FRONTEND_DEVELOPMENT
     ? PRODUCTION_HOST
-    : getRootHost(siteUrl.host)
+    : siteUrl.host
 
   return defu(
     // if (isHttps(event.node.req)) {
@@ -69,6 +69,13 @@ export const GET_CSP = ({
       // Cloudflare Turnstile
       'frame-src': ['https://challenges.cloudflare.com'],
       'script-src-elem': ['https://challenges.cloudflare.com'],
+    },
+    {
+      // Firebase (Cloud Messaging)
+      'connect-src': [
+        'https://firebaseinstallations.googleapis.com',
+        'https://fcmregistrations.googleapis.com',
+      ],
     },
     {
       // Google Analytics 4 (https://developers.google.com/tag-platform/tag-manager/web/csp)
@@ -189,7 +196,7 @@ export const GET_CSP = ({
       ],
       'style-src': [
         "'self'", // TODO: `${siteUrl}_nuxt/`, // bundle
-        "'unsafe-inline'", // TODO: replace with "'nonce-{{nonce}}'" once Sweetalert supports it (+ https://github.com/unjs/nitro/issues/81)
+        "'unsafe-inline'", // TODO: replace with "'nonce-{{nonce}}'" once vue-sonner supports it (+ https://github.com/unjs/nitro/issues/81)
         // "'unsafe-eval'", // https://github.com/unjs/nitro/issues/81
       ], // TODO: use `style-src-elem` once Playwright WebKit supports it
     },
@@ -209,13 +216,6 @@ export const GET_CSP = ({
             // ],
           }
         : {}),
-    },
-    {
-      // Firebase (Cloud Messaging)
-      'connect-src': [
-        'https://firebaseinstallations.googleapis.com',
-        'https://fcmregistrations.googleapis.com',
-      ],
     },
   )
 }

@@ -1,6 +1,7 @@
 {
   "globalError": "Fehler",
   "globalErrorNoData": "Antwort ohne Daten",
+  "globalErrorClipboard": "Dein Browser unterstützt das moderne Kopieren in die Zwischenablage nicht.",
   "globalFormErrorAge18": "Du musst 18 Jahre alt sein.",
   "globalLoading": "Lade...",
   "globalPlaceholderAddress": "Veranstaltungsstraße 1,\n12345 Gaststadt",

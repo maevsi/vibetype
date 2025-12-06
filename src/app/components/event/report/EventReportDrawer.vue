@@ -126,37 +126,20 @@ const onAnimationEnd = (isOpen: boolean) => {
 
 // block
 const createAccountBlockMutation = useCreateAccountBlockMutation()
-const api = await useApiData([createAccountBlockMutation])
-const apiErrorMessages = computed(() =>
-  getCombinedErrorMessages(api.value.errors),
-)
+// const api = await useApiData([createAccountBlockMutation]) // TODO: show loading state, error details
+const executeUrqlRequest = useExecuteUrqlRequest()
 const blockOrganizer = async () => {
-  const result = await createAccountBlockMutation.executeMutation({
-    accountBlockInput: {
-      blockedAccountId: event.createdBy,
-      createdBy: accountId,
-    },
+  const result = await executeUrqlRequest({
+    errorMessageI18n: t('errorBlock'),
+    request: createAccountBlockMutation.executeMutation({
+      accountBlockInput: {
+        blockedAccountId: event.createdBy,
+        createdBy: accountId,
+      },
+    }),
   })
 
-  if (result.error) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: apiErrorMessages.value.join('\n'),
-      title: t('globalError'),
-    })
-    return
-  }
-
-  if (!result.data) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: t('globalErrorNoData'),
-      title: t('globalError'),
-    })
-    return
-  }
+  if (!result) return
 
   step.value = 'blockConfirmation'
 }
@@ -177,6 +160,7 @@ de:
   buttonReportSubmit: Meldung einreichen
   contentBlockConfirmation: Der Benutzer {username} wurde blockiert.
   contentReportConfirmation: Vielen Dank für die Meldung. Wir werden sie prüfen und dich über unsere Entscheidung benachrichtigen. Du kannst nun den Organisator {username} blockieren oder zur Event-Seite zurückkehren.
+  errorBlock: Der Benutzer konnte nicht blockiert werden
   titleBlockConfirmation: Benutzer blockiert
   titleReport: Event melden
   titleReportConfirmation: Meldung erhalten
@@ -188,6 +172,7 @@ en:
   buttonReportSubmit: Report
   contentBlockConfirmation: The user {username} has been blocked.
   contentReportConfirmation: Thank you for your report. We will review it and notify you about our decision. You can block the organizer {username} now or return to the event.
+  errorBlock: The user could not be blocked
   titleBlockConfirmation: User blocked
   titleReport: Report event
   titleReportConfirmation: Report received

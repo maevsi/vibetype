@@ -320,11 +320,10 @@ const eventQuery = useQuery({
           end
           id
           isArchived
-          name
-          nodeId
-          isArchived
           isInPerson
           isRemote
+          name
+          nodeId
           slug
           start
           url
@@ -378,7 +377,7 @@ const update = async (id: string, guestPatch: GuestPatch) => {
 
   if (result.error || !result.data) return
 
-  await showToast({ title: t('success') })
+  toast.success(t('success'))
 }
 
 // computations

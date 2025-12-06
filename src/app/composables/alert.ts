@@ -1,39 +1,26 @@
 import { consola } from 'consola'
-import type { SweetAlertIcon, SweetAlertOptions } from 'sweetalert2'
 
-export const useFireAlert = () => {
+export const useAlertError = () => {
   const { t } = useI18n({ useScope: 'global' })
 
-  return async (
-    options: SweetAlertOptions & {
-      error?: unknown
-      level: SweetAlertIcon
-    },
+  return (
+    options:
+      | string
+      | {
+          error?: Error
+          messageI18n: string
+          toastOptions?: Parameters<typeof toast>[1]
+        },
   ) => {
-    const Swal = (await import('sweetalert2')).default
-    const { error, title, level } = options
+    const error =
+      typeof options === 'string' ? new Error(options) : options.error
+    const errorMessage =
+      typeof options === 'string' ? options : options.messageI18n
 
-    if (error) {
-      consola.error(error)
-    }
-
-    const iconTitleMapping = {
-      error: {
-        icon: 'error',
-        title: title || t('globalStatusError'),
-      },
-      info: { icon: 'info' },
-      question: { icon: 'question' },
-      success: { icon: 'success' },
-      warning: {
-        icon: 'warning',
-        title: title || t('globalStatusWarning'),
-      },
-    } as Record<SweetAlertIcon, { icon: SweetAlertIcon; title?: string }>
-
-    return Swal.fire({
-      ...options,
-      ...iconTitleMapping[level],
+    consola.error({ errorMessage, ...(error ? { error } : {}) })
+    toast.error(t('globalError'), {
+      ...(typeof options !== 'string' ? options.toastOptions || {} : {}),
+      description: errorMessage,
     })
   }
 }

@@ -2,23 +2,24 @@
 # check=skip=SecretsUsedInArgOrEnv
 
 # <DEPENDENCIES>
-FROM ghcr.io/maevsi/sqitch:9.7
+FROM ghcr.io/maevsi/sqitch:9.8
 # </DEPENDENCIES>
 
 #############
 # Create base image.
 
-FROM node:24.7.0-alpine AS base-image
+FROM node:24.11.1-alpine AS base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
 
 WORKDIR /srv/app/
 
-RUN apk update \
-    && apk add --no-cache \
+RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
+    apk update \
+    && apk add \
       git \
-    && apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
+    && apk add --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
       mkcert \
     && corepack enable
 
@@ -39,7 +40,7 @@ VOLUME /srv/app/node_modules
 USER node
 
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["pnpm", "run", "--dir", "src", "dev", "--host"]
+CMD ["pnpm", "run", "--dir", "src", "dev", "--host", "0.0.0.0"]
 EXPOSE 3000
 
 # TODO: support healthcheck while starting (https://github.com/nuxt/framework/issues/6915)
@@ -56,7 +57,8 @@ COPY ./pnpm-lock.yaml ./package.json ./
 ## pnpm patches
 # COPY ./patches ./patches
 
-RUN pnpm fetch
+RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
+    pnpm fetch
 
 COPY ./ ./
 
@@ -108,7 +110,7 @@ RUN pnpm -r run test
 ########################
 # Nuxt: test (e2e, base-image)
 
-FROM mcr.microsoft.com/playwright:v1.55.0 AS test-e2e-base-image
+FROM mcr.microsoft.com/playwright:v1.57.0 AS test-e2e-base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -226,8 +228,8 @@ FROM collect AS production
 ENV NODE_ENV=production
 
 # Update dependencies.
-RUN apk update \
-    && apk upgrade --no-cache
+RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
+    apk upgrade
 
 USER node
 

@@ -18,7 +18,6 @@ const icalPostBodySchema = z.object({
     name: z.string(),
     start: z.string(),
     accountByCreatedBy: z.object({
-      id: z.string(),
       username: z.string(),
     }),
     slug: z.string(),

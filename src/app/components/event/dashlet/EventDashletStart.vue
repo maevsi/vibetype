@@ -38,7 +38,7 @@ const {
 }>()
 
 const { t } = useI18n()
-const fireAlert = useFireAlert()
+const alertError = useAlertError()
 
 // methods
 const downloadIcal = async () => {
@@ -53,10 +53,8 @@ const downloadIcal = async () => {
   const fileName = `${event.accountByCreatedBy ? `${event.accountByCreatedBy.username}_` : ''}${event.slug}.ics`
 
   if (!response.data.value) {
-    return await fireAlert({
-      level: 'error',
-      text: t('iCalFetchError'),
-    }) // TODO: add suggestion (https://github.com/maevsi/vibetype/issues/903) })
+    alertError(t('iCalFetchError')) // TODO: add suggestion (https://github.com/maevsi/vibetype/issues/903) })
+    return
   }
 
   downloadJs(

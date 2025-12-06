@@ -148,7 +148,6 @@
 </template>
 
 <script setup lang="ts">
-import type { OperationResult } from '@urql/core'
 import { useMutation } from '@urql/vue'
 import type { DeepReadonly } from 'vue'
 
@@ -242,10 +241,11 @@ const deleteEventFavoriteByIdMutation = useMutation(
     }
   `),
 )
-const api = await useApiData([
-  createEventFavoriteMutation,
-  deleteEventFavoriteByIdMutation,
-])
+// TODO: show loading state, error details
+// const api = await useApiData([
+//   createEventFavoriteMutation,
+//   deleteEventFavoriteByIdMutation,
+// ])
 const isFavorite = computed(
   () =>
     store.signedInAccountId &&
@@ -253,72 +253,32 @@ const isFavorite = computed(
     event.eventFavoritesByEventId?.nodes[0]?.createdBy ===
       store.signedInAccountId,
 )
-const createEventFavorite = async ({
-  eventId,
-  createdBy,
-}: {
-  eventId: string
-  createdBy: string
-}) => {
-  const result = await createEventFavoriteMutation.executeMutation({
-    input: {
-      eventId,
-      createdBy,
-    },
-  })
-
-  processApiResult({ result })
-}
-const removeEventFavorite = async ({ id }: { id: string }) => {
-  const result = await deleteEventFavoriteByIdMutation.executeMutation({
-    input: {
-      id,
-    },
-  })
-
-  processApiResult({ result })
-}
+const executeUrqlRequest = useExecuteUrqlRequest()
+const { t } = useI18n()
 const toggleEventFavorite = async () => {
   if (isFavorite.value) {
     if (!event.eventFavoritesByEventId?.nodes[0]) return // TODO: error
 
-    await removeEventFavorite({
-      id: event.eventFavoritesByEventId.nodes[0].id,
+    await executeUrqlRequest({
+      errorMessageI18n: t('favoriteDeleteError'),
+      request: deleteEventFavoriteByIdMutation.executeMutation({
+        input: {
+          id: event.eventFavoritesByEventId.nodes[0].id,
+        },
+      }),
     })
   } else {
     if (!store.signedInAccountId) return // TODO: error
 
-    await createEventFavorite({
-      createdBy: store.signedInAccountId,
-      eventId: event.id,
+    await executeUrqlRequest({
+      errorMessageI18n: t('favoriteCreateError'),
+      request: createEventFavoriteMutation.executeMutation({
+        input: {
+          createdBy: store.signedInAccountId,
+          eventId: event.id,
+        },
+      }),
     })
-  }
-}
-
-// utility
-const { t } = useI18n()
-const apiErrorMessages = computed(() =>
-  getCombinedErrorMessages(api.value.errors),
-)
-const processApiResult = async ({ result }: { result: OperationResult }) => {
-  if (result.error) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: apiErrorMessages.value.join('\n'),
-      title: t('globalError'),
-    })
-    return
-  }
-
-  if (!result.data) {
-    // TODO: confirm design
-    await showToast({
-      icon: 'error',
-      text: t('globalErrorNoData'),
-      title: t('globalError'),
-    })
-    return
   }
 }
 </script>
@@ -326,7 +286,9 @@ const processApiResult = async ({ result }: { result: OperationResult }) => {
 <i18n lang="yaml">
 de:
   favoriteCreate: Als Favorit markieren
+  favoriteCreateError: Favorit konnte nicht hinzugefügt werden
   favoriteDelete: Nicht mehr als Favorit markieren
+  favoriteDeleteError: Favorit konnte nicht entfernt werden
   heroImage: Titelbild der Veranstaltung
   isCreator: Du organisierst
   isDraft: Im Entwurf
@@ -334,7 +296,9 @@ de:
   match: Match
 en:
   favoriteCreate: Mark as favorite
+  favoriteCreateError: Favorite could not be added
   favoriteDelete: Unmark as favorite
+  favoriteDeleteError: Favorite could not be removed
   heroImage: Title picture of the event
   isCreator: You're organizing
   isDraft: In Draft

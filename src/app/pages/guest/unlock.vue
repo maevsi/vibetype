@@ -157,7 +157,7 @@ const { jwtStore } = await useJwtStore()
 const localePath = useLocalePath()
 const { t } = useI18n()
 const route = useRoute()
-const fireAlert = useFireAlert()
+const alertError = useAlertError()
 
 // data
 const form = reactive({
@@ -192,11 +192,9 @@ const submit = async () => {
       result.data?.eventUnlock?.eventUnlockResponse?.jwt || undefined,
     )
   } catch (error) {
-    await fireAlert({
-      error,
-      level: 'error',
-      text: t('jwtStoreFail'),
-      title: t('globalStatusError'),
+    alertError({
+      ...(error instanceof Error ? { error } : {}),
+      messageI18n: t('jwtStoreFail'),
     })
     return
   }

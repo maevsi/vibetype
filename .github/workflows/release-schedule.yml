@@ -1,7 +1,6 @@
 name: "Release: Scheduled"
 
-permissions:
-  contents: read
+permissions: {}
 
 on:
   schedule:
@@ -11,7 +10,9 @@ on:
 jobs:
   release-schedule:
     name: "Release: Scheduled"
-    uses: dargmuesli/github-actions/.github/workflows/release-schedule.yml@2.6.3
+    uses: dargmuesli/github-actions/.github/workflows/release-schedule.yml@a5dc6e8243538aa44ebc8ef9c4a2d2ace56569f8 # 3.2.2
+    permissions:
+      contents: read
     secrets:
       PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
     with:

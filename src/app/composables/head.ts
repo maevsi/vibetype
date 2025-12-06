@@ -1,13 +1,27 @@
 export const useAppLayout = () => {
   const colorMode = useColorMode()
   const siteConfig = useSiteConfig()
+  const { isApp } = usePlatform()
 
   if (import.meta.server) {
+    // app
+    if (isApp) {
+      useHeadSafe({
+        meta: [
+          {
+            content:
+              'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
+            name: 'viewport',
+          },
+        ],
+      })
+    }
+
     // style
     useHeadSafe({
       bodyAttrs: {
         class:
-          'bg-(--semantic-base-background) text-(--semantic-base-text-primary)',
+          'bg-(--semantic-base-background) text-(--semantic-base-text-primary) max-lg:select-none',
       },
     })
 

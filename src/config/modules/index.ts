@@ -7,9 +7,6 @@ import { pwaConfig } from './pwa'
 import { securityConfig } from './security'
 
 export const modulesConfig: ReturnType<DefineNuxtConfig> = {
-  colorMode: {
-    classSuffix: '',
-  },
   content: {
     experimental: {
       nativeSqlite: true,
