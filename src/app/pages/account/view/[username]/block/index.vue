@@ -115,18 +115,18 @@ const blockedAccounts = computed(() =>
 
 // filtering
 const searchQuery = ref<string>()
-const searchQueryDebouncedTrimmed = computed(
+const searchQueryTrimmed = computed(
   () => searchQuery.value?.trim() || undefined,
 )
 const blockedAccountsFiltered = computed(() => {
-  if (!searchQueryDebouncedTrimmed.value) return blockedAccounts.value
+  if (!searchQueryTrimmed.value) return blockedAccounts.value
 
   return blockedAccounts.value?.filter(
     (account) =>
-      searchQueryDebouncedTrimmed.value &&
+      searchQueryTrimmed.value &&
       account.username
         ?.toLowerCase()
-        .includes(searchQueryDebouncedTrimmed.value.toLowerCase()),
+        .includes(searchQueryTrimmed.value.toLowerCase()),
   )
 })
 

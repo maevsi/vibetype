@@ -136,7 +136,7 @@ const deleteAccountBlockMutation = useMutation(
 const store = useStore()
 const unblockUser = async () => {
   if (!account.id || !store.signedInAccountId) {
-    error.value = new Error(t('errorDataMissing'))
+    error.value = new Error(t('errorDataMissingBlock'))
     return
   }
 
@@ -155,13 +155,19 @@ const unblockUser = async () => {
 }
 
 const localePath = useLocalePath()
-const toProfile = async () =>
+const toProfile = async () => {
+  if (!account.username) {
+    error.value = new Error(t('errorDataMissingNavigate'))
+    return
+  }
+
   await navigateTo(
     localePath({
       name: 'account-view-username',
       params: { username: account.username },
     }),
   )
+}
 
 // template
 const { t } = useI18n()
@@ -170,8 +176,9 @@ const { t } = useI18n()
 <i18n lang="yaml">
 de:
   error: Fehler
-  errorDataMissing: Der Nutzer konnte nicht blockiert werden. Interne Daten scheinen zu fehlen.
-  keepBlocked: Nein, blockiert lassen
+  errorDataMissingBlock: Der Nutzer konnte nicht entsperrt werden. Interne Daten scheinen zu fehlen.
+  errorDataMissingNavigate: Eine Weiterleitung zum Profil ist nicht möglich. Interne Daten scheinen zu fehlen.
+  keepBlocked: Nein, gesperrt lassen
   ok: OK
   restart: Erneut versuchen
   title: Benutzer entsperren
@@ -182,7 +189,8 @@ de:
   userUnblocked: Benutzer entsperrt
 en:
   error: Error
-  errorDataMissing: The user could not be blocked. Internal data seems to be missing.
+  errorDataMissingBlock: The user could not be unblocked. Internal data seems to be missing.
+  errorDataMissingNavigate: Navigation to the profile is not possible. Internal data seems to be missing.
   keepBlocked: No, keep blocked
   ok: OK
   restart: Try again
