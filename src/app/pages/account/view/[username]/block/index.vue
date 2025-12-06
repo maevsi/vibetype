@@ -102,8 +102,14 @@ const accountBlockAccountsQuery = useQuery({
   `),
 })
 const api = await useApiData([accountBlockAccountsQuery])
-const blockedAccounts = computed(
-  () => accountBlockAccountsQuery.data.value?.accountBlockAccounts?.nodes,
+const blockedAccounts = computed(() =>
+  api.value.data.accountBlockAccounts?.nodes.filter(
+    (
+      x,
+    ): x is Exclude<typeof x, null | undefined> & {
+      id: NonNullable<(typeof x)['id']>
+    } => !!x.id,
+  ),
 )
 
 // filtering

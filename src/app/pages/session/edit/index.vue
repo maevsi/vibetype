@@ -140,7 +140,7 @@
             })
           "
         >
-          <AppIconVerifiedUser />
+          <AppIconNoSymbol />
         </CardButton>
       </section>
       <section v-if="store.signedInUsername" class="flex flex-col">

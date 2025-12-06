@@ -3,7 +3,7 @@
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <div v-bind="attributes" class="text-center">
         <TypographySubtitleSmall>
-          {{ t('unblockAccountQuestion', { username: account.username }) }}
+          {{ t('unblockAccountQuestion') }}
         </TypographySubtitleSmall>
       </div>
     </AppStep>
@@ -65,11 +65,11 @@
       <AppStep v-slot="attributes" :is-active="step === 'success'">
         <ButtonColored
           v-bind="attributes"
-          :aria-label="t('backToDashboard')"
+          :aria-label="t('ok')"
           variant="primary"
-          @click="backToDashboard"
+          @click="store.navigateBack"
         >
-          {{ t('backToDashboard') }}
+          {{ t('ok') }}
         </ButtonColored>
       </AppStep>
       <AppStep v-slot="attributes" :is-active="step === 'error'">
@@ -104,11 +104,12 @@ const isOpen = defineModel<boolean>('open')
 const closeDrawer = () => {
   isOpen.value = false
 }
+const store = useStore()
 const onAnimationEnd = (isOpen: boolean) => {
   if (isOpen) return
 
   if (step.value === 'success') {
-    backToDashboard()
+    store.navigateBack()
     return
   }
 
@@ -128,7 +129,7 @@ const deleteAccountBlockMutation = useMutation(
 )
 
 const unblockUser = async () => {
-  const store = useStore()
+  if (!account.id || !store.signedInAccountId) return // TODO: error
 
   const result = await deleteAccountBlockMutation.executeMutation({
     blockedAccountId: account.id,
@@ -143,37 +144,29 @@ const unblockUser = async () => {
   step.value = 'success'
 }
 
-const localePath = useLocalePath()
-const backToDashboard = async () =>
-  await navigateTo(
-    localePath({
-      name: 'dashboard',
-    }),
-  )
-
 // template
 const { t } = useI18n()
 </script>
 
 <i18n lang="yaml">
 de:
-  backToDashboard: Zurück zum Dashboard
   error: Fehler
   keepBlocked: Nein, blockiert lassen
+  ok: OK
   restart: Erneut versuchen
   title: Benutzer entsperren
   unblock: Ja, entsperren
   unblockAccountConfirmation: Der Benutzer {username} wurde entsperrt.
-  unblockAccountQuestion: Möchtest du {username} wirklich entsperren? Er wird dir wieder Einladungen senden können.
+  unblockAccountQuestion: Möchtest du den Nutzer wirklich entsperren? Er wird dir wieder Einladungen senden können.
   userUnblocked: Benutzer entsperrt
 en:
-  backToDashboard: Back to Dashboard
   error: Error
   keepBlocked: No, keep blocked
+  ok: OK
   restart: Try again
   title: Unblock user
   unblock: Yes, unblock
   unblockAccountConfirmation: The user {username} has been unblocked.
-  unblockAccountQuestion: Do you really want to unblock the user? He will be able to send you invitations again.
+  unblockAccountQuestion: Do you really want to unblock the user? They will be able to send you invitations again.
   userUnblocked: User Unblocked
 </i18n>
