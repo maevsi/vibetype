@@ -67,9 +67,17 @@
           v-bind="attributes"
           :aria-label="t('ok')"
           variant="primary"
-          @click="store.navigateBack"
+          @click="closeDrawer"
         >
           {{ t('ok') }}
+        </ButtonColored>
+        <ButtonColored
+          v-bind="attributes"
+          :aria-label="t('toProfile')"
+          variant="secondary"
+          @click="toProfile"
+        >
+          {{ t('toProfile') }}
         </ButtonColored>
       </AppStep>
       <AppStep v-slot="attributes" :is-active="step === 'error'">
@@ -96,6 +104,9 @@ import type { AccountBlockAccountsRecord } from '~~/gql/generated/graphql'
 const { account } = defineProps<{
   account: AccountBlockAccountsRecord
 }>()
+const emits = defineEmits<{
+  success: []
+}>()
 
 const { error, restart, step } = useStepper<'success'>()
 
@@ -104,14 +115,8 @@ const isOpen = defineModel<boolean>('open')
 const closeDrawer = () => {
   isOpen.value = false
 }
-const store = useStore()
 const onAnimationEnd = (isOpen: boolean) => {
   if (isOpen) return
-
-  if (step.value === 'success') {
-    store.navigateBack()
-    return
-  }
 
   step.value = 'default'
 }
@@ -128,8 +133,12 @@ const deleteAccountBlockMutation = useMutation(
   `),
 )
 
+const store = useStore()
 const unblockUser = async () => {
-  if (!account.id || !store.signedInAccountId) return // TODO: error
+  if (!account.id || !store.signedInAccountId) {
+    error.value = new Error(t('errorDataMissing'))
+    return
+  }
 
   const result = await deleteAccountBlockMutation.executeMutation({
     blockedAccountId: account.id,
@@ -142,7 +151,17 @@ const unblockUser = async () => {
   }
 
   step.value = 'success'
+  emits('success')
 }
+
+const localePath = useLocalePath()
+const toProfile = async () =>
+  await navigateTo(
+    localePath({
+      name: 'account-view-username',
+      params: { username: account.username },
+    }),
+  )
 
 // template
 const { t } = useI18n()
@@ -151,22 +170,26 @@ const { t } = useI18n()
 <i18n lang="yaml">
 de:
   error: Fehler
+  errorDataMissing: Der Nutzer konnte nicht blockiert werden. Interne Daten scheinen zu fehlen.
   keepBlocked: Nein, blockiert lassen
   ok: OK
   restart: Erneut versuchen
   title: Benutzer entsperren
+  toProfile: Zum Profil
   unblock: Ja, entsperren
   unblockAccountConfirmation: Der Benutzer {username} wurde entsperrt.
   unblockAccountQuestion: Möchtest du den Nutzer wirklich entsperren? Er wird dir wieder Einladungen senden können.
   userUnblocked: Benutzer entsperrt
 en:
   error: Error
+  errorDataMissing: The user could not be blocked. Internal data seems to be missing.
   keepBlocked: No, keep blocked
   ok: OK
   restart: Try again
   title: Unblock user
+  toProfile: To profile
   unblock: Yes, unblock
   unblockAccountConfirmation: The user {username} has been unblocked.
   unblockAccountQuestion: Do you really want to unblock the user? They will be able to send you invitations again.
-  userUnblocked: User Unblocked
+  userUnblocked: User unblocked
 </i18n>

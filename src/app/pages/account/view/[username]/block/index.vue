@@ -57,6 +57,7 @@
       v-if="blockRemoveAccount"
       v-model:open="isBlockRemoveDrawerOpen"
       :account="blockRemoveAccount"
+      @success="accountBlockAccountsQuery.executeQuery"
     />
   </div>
 </template>
@@ -69,7 +70,7 @@ import type { AccountBlockAccountsRecord } from '~~/gql/generated/graphql'
 
 // compiler
 definePageMeta({
-  layout: 'plain',
+  layout: 'default-no-header',
 })
 
 // validation
@@ -145,7 +146,7 @@ de:
   title: Blockierte Benutzer
   unblock: Benutzer entsperren
 en:
-  errorNotFound: Noone found
+  errorNotFound: No one found
   noBlockedAccounts: No blocked users
   title: Blocked Users
   unblock: Unblock
