@@ -75,6 +75,6 @@ de:
   errorNotFound: Niemand gefunden
   errorNotFoundHint: ℹ️ Der Nutzername muss exakt angegeben werden, Buchstabe für Buchstabe. Aber bald wird es möglich sein, ohne diese Beschränkung zu suchen ✨
 en:
-  errorNotFound: Noone found
+  errorNotFound: No one found
   errorNotFoundHint: ℹ️ The username must match exactly, character by character. A more relaxed search will be available shortly ✨
 </i18n>

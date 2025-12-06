@@ -127,9 +127,24 @@
           </CardButton>
         </div>
       </section>
-      <section class="flex flex-col">
+      <section v-if="store.signedInUsername" class="flex flex-col gap-4">
+        <span class="text-lg font-bold">
+          {{ t('interactions') }}
+        </span>
         <CardButton
-          v-if="store.signedInUsername"
+          :title="t('accountBlock')"
+          :to="
+            localePath({
+              name: 'account-view-username-block',
+              params: { username: store.signedInUsername },
+            })
+          "
+        >
+          <AppIconNoSymbol />
+        </CardButton>
+      </section>
+      <section v-if="store.signedInUsername" class="flex flex-col">
+        <CardButton
           class="bg-(--critic-string) text-(--semantic-base-light-text-on-dark)"
           :title="t('logout')"
           @click="signOutToRoot"
@@ -171,6 +186,7 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
+  accountBlock: Blockierte Benutzer
   aiSetup: KI einrichten
   # aiSetupReset: KI-Einrichtung zurücksetzen
   bugReport: Fehler
@@ -179,7 +195,10 @@ de:
   cookies: Cookies
   developerInformation: Entwicklerinformationen
   display: Anzeige
+  earlyBirdStart: Early Bird beitreten
+  # earlyBirdStop: Early Bird beenden
   featureSuggestion: Idee
+  interactions: Interaktionen mit dir
   language: Sprache
   legal: Rechtliches
   legalNotice: Impressum
@@ -187,11 +206,10 @@ de:
   preferences: Einstellungen
   privacy: Datenschutzerklärung
   profile: Profil
-  earlyBirdStart: Early Bird beitreten
-  # earlyBirdStop: Early Bird beenden
   support: Hilfe
   terms: Allgemeine Geschäftsbedingungen
 en:
+  accountBlock: Blocked Users
   aiSetup: Set up AI
   # aiSetupReset: Reset AI Setup
   bugReport: Issue
@@ -200,7 +218,10 @@ en:
   cookies: Cookies
   developerInformation: Developer information
   display: Display
+  earlyBirdStart: Join Early Bird
+  # earlyBirdStop: Stop Early Bird
   featureSuggestion: Idea
+  interactions: Interactions with you
   language: Language
   legal: Legal
   legalNotice: Legal Notice
@@ -208,8 +229,6 @@ en:
   preferences: Settings
   privacy: Privacy Policy
   profile: Profile
-  earlyBirdStart: Join Early Bird
-  # earlyBirdStop: Stop Early Bird
   support: Support
   terms: General Terms and Conditions
 </i18n>

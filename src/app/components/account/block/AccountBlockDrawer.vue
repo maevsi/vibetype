@@ -64,11 +64,19 @@
       <AppStep v-slot="attributes" :is-active="step === 'success'">
         <ButtonColored
           v-bind="attributes"
-          :aria-label="t('backToDashboard')"
+          :aria-label="t('toDashboard')"
           variant="primary"
-          @click="backToDashboard"
+          @click="toDashboard"
         >
-          {{ t('backToDashboard') }}
+          {{ t('toDashboard') }}
+        </ButtonColored>
+        <ButtonColored
+          v-bind="attributes"
+          :aria-label="t('accountsBlocked')"
+          variant="secondary"
+          @click="toBlockList"
+        >
+          {{ t('accountsBlocked') }}
         </ButtonColored>
       </AppStep>
       <AppStep v-slot="attributes" :is-active="step === 'error'">
@@ -106,7 +114,7 @@ const onAnimationEnd = (isOpen: boolean) => {
   if (isOpen) return
 
   if (step.value === 'success') {
-    backToDashboard()
+    toDashboard()
     return
   }
 
@@ -132,10 +140,18 @@ const blockUser = async () => {
 }
 
 const localePath = useLocalePath()
-const backToDashboard = async () =>
+const toDashboard = async () =>
   await navigateTo(
     localePath({
       name: 'dashboard',
+    }),
+  )
+const store = useStore()
+const toBlockList = async () =>
+  await navigateTo(
+    localePath({
+      name: 'account-view-username-block',
+      params: { username: store.signedInUsername },
     }),
   )
 
@@ -145,23 +161,25 @@ const { t } = useI18n()
 
 <i18n lang="yaml">
 de:
-  backToDashboard: Zurück zum Dashboard
+  accountsBlocked: Zur Blockliste
   blockAccount: Benutzer blockieren
-  blockAccountQuestion: Möchtest du {username} wirklich blockieren? Du wirst keine Einladungen mehr von diesem Benutzer erhalten.
   blockAccountConfirmation: Der Benutzer {username} wurde blockiert.
+  blockAccountQuestion: Möchtest du {username} wirklich blockieren? Du wirst keine Einladungen mehr von diesem Benutzer erhalten.
   cancel: Abbrechen
   confirmBlock: Ja, blockieren
   error: Fehler
   restart: Erneut versuchen
+  toDashboard: Zum Dashboard
   userBlocked: Benutzer blockiert
 en:
-  backToDashboard: Back to Dashboard
+  accountsBlocked: To blocklist
   blockAccount: Block User
-  blockAccountQuestion: Do you really want to block {username}? You will no longer get invitations from this user.
   blockAccountConfirmation: The user {username} has been blocked.
+  blockAccountQuestion: Do you really want to block {username}? You will no longer get invitations from this user.
   cancel: Cancel
   confirmBlock: Yes, block user
   error: Error
   restart: Try again
+  toDashboard: To dashboard
   userBlocked: User blocked
 </i18n>
