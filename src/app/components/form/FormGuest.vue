@@ -251,12 +251,12 @@ de:
   contactsAdd: Zu meinem Kontaktbuch
   formHint: Wähle aus Kontakten deines Kontaktbuchs.
   placeholderContact: Max Mustermann
-  select: Gast hinzufügen
+  select: Zur Gästeliste hinzufügen
 en:
   buttonContact: A contact
   contact: Contact
   contactsAdd: To my contact book
   formHint: Choose from contacts in your contact book.
   placeholderContact: John Doe
-  select: Add guest
+  select: Add to guestlist
 </i18n>
