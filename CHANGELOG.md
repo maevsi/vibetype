@@ -1,3 +1,10 @@
+## [12.38.0](https://github.com/maevsi/vibetype/compare/12.37.0...12.38.0) (2025-12-07)
+
+### Features
+
+* **security:** allow giphy as image source ([179252e](https://github.com/maevsi/vibetype/commit/179252e4e100bcc038b04c6f5cc5f47b89761541))
+* **security:** allow giphy as image source ([#2141](https://github.com/maevsi/vibetype/issues/2141)) ([aa4aba4](https://github.com/maevsi/vibetype/commit/aa4aba414de1e7de16a457b3b0da989a9906a8a7))
+
 ## [12.37.0](https://github.com/maevsi/vibetype/compare/12.36.0...12.37.0) (2025-12-06)
 
 ### Features
