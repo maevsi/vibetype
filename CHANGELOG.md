@@ -1,3 +1,10 @@
+## [12.39.0](https://github.com/maevsi/vibetype/compare/12.38.0...12.39.0) (2025-12-07)
+
+### Features
+
+* **guest:** introduce guest list label ([66669e8](https://github.com/maevsi/vibetype/commit/66669e85283db9711c8de72adeaadcfc7f1b601e))
+* **jwt:** set cookie domain ([ebb4704](https://github.com/maevsi/vibetype/commit/ebb470410d31b550c343f95a19704eee2f44d1f7))
+
 ## [12.38.0](https://github.com/maevsi/vibetype/compare/12.37.0...12.38.0) (2025-12-07)
 
 ### Features
