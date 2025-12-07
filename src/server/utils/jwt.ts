@@ -25,6 +25,7 @@ export const setJwtCookie = ({
   const jwtCookieName = JWT_NAME({ isHttps })
 
   setCookie(event, jwtCookieName, jwt, {
+    domain: siteUrl.hostname,
     expires: jwt ? dateInAMonth : dateEpoch,
     httpOnly: true,
     // path: '/',
