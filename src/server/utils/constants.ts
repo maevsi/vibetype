@@ -1,12 +1,6 @@
 import { defu } from 'defu'
 import type { RuntimeConfig } from 'nuxt/schema'
 
-import {
-  IS_IN_PRODUCTION,
-  IS_IN_STACK,
-  IS_NITRO_OPENAPI_ENABLED,
-} from '../../node/environment'
-
 export const DARGSTACK_SECRET_UNUSED_THIRD_PARTY = 'UNSET THIRD PARTY SECRET'
 export const GET_CSP = ({
   siteUrl,
@@ -220,4 +214,3 @@ export const GET_CSP = ({
     },
   )
 }
-export const IS_IN_FRONTEND_DEVELOPMENT = !IS_IN_PRODUCTION && !IS_IN_STACK

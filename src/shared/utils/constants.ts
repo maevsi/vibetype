@@ -1,5 +1,10 @@
 import { DEFAULTS } from '@dargmuesli/nuxt-cookie-control/runtime/types.js'
 
+export {
+  IS_IN_FRONTEND_DEVELOPMENT,
+  IS_NITRO_OPENAPI_ENABLED,
+} from '../../node/environment'
+
 export const SITE_NAME = 'vibetype'
 
 export const CACHE_VERSION = '9Th9y78ype'
