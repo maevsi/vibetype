@@ -132,7 +132,12 @@ const copyLink = async (guest: Pick<GuestItemFragment, 'id'>) => {
   if (!import.meta.client) return
 
   await copy(
-    `${window.location.origin}${localePath(`guest-unlock`)}?ic=${guest.id}`,
+    `${window.location.origin}${localePath({
+      name: 'guest-view-id',
+      params: {
+        id: guest.id,
+      },
+    })}`,
   )
 
   toast.success(t('copySuccess'))
