@@ -367,7 +367,7 @@ export const sendEventInvitationMail = async ({
         payloadCamelCased.template.language !== LOCALE_DEFAULT
           ? '/' + payloadCamelCased.template.language
           : ''
-      }/guest/unlock?ic=${guestId}`,
+      }/guest/view/${guestId}`,
       eventName: event.name,
       eventStart: event.start,
       eventVisibility,

@@ -287,6 +287,7 @@ import { useUpdateGuestByIdMutation } from '~~/gql/documents/mutations/guest/gue
 import { InvitationFeedback } from '~~/gql/generated/graphql'
 import type { GuestPatch } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
+import { useEventUnlockMutation } from '~~/gql/documents/mutations/event/eventUnlock'
 
 const { t } = useI18n()
 const store = useStore()
@@ -295,6 +296,24 @@ const localePath = useLocalePath()
 const updateGuestByIdMutation = useUpdateGuestByIdMutation()
 
 const isOpenReportDrawer = ref<boolean>()
+
+const eventUnlockMutation = useEventUnlockMutation()
+const result = await eventUnlockMutation.executeMutation({
+  guestId: route.params.id,
+})
+
+const { jwtStore } = await useJwtStore()
+const alertError = useAlertError()
+try {
+  await jwtStore(
+    result.data?.eventUnlock?.eventUnlockResponse?.jwt || undefined,
+  )
+} catch (error) {
+  alertError({
+    ...(error instanceof Error ? { error } : {}),
+    messageI18n: t('jwtStoreFail'),
+  })
+}
 
 // api data
 const eventQuery = useQuery({
@@ -451,6 +470,7 @@ de:
   invitationCanceledAdmin: Einladung im Namen von {name} abgelehnt
   invitationSelectionClear: Zurück zur Einladungsübersicht
   invitationViewFor: Du schaust dir die Einladung für {name} an. Alle Personen, die den Link zu dieser Seite bzw. die ID dieser Einladung kennen, können auf diese Einladung zugreifen und mit ihr interagieren.
+  jwtStoreFail: Fehler beim Speichern der Authentifizierungsdaten!
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
   print: Drucken
   qrCodeShow: Check-in-Code anzeigen
@@ -474,6 +494,7 @@ en:
   invitationCanceledAdmin: Invitation declined on behalf of {name}
   invitationSelectionClear: Back to the invitation overview
   invitationViewFor: You're viewing the invitation for {name}. Anyone knowing the link to this page or this invitation's id can access this invitation and interact with it.
+  jwtStoreFail: Failed to store the authentication data!
   ogImageAlt: The event's preview image.
   print: Print
   qrCodeShow: Show check in code
