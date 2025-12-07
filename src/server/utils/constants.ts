@@ -39,6 +39,7 @@ export const GET_CSP = ({
         'blob:',
         'https://tile.openstreetmap.org/', // map
         `https://tusd.${domainTldPort}`, // users' image uploads
+        'https://media3.giphy.com/', // gifs
         'https://www.gravatar.com/avatar/', // profile picture fallback
       ],
       // 'manifest-src': ["'self'"],
