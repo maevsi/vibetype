@@ -88,7 +88,8 @@ const initialize = async () => {
   if (
     isApp &&
     !store.signedInAccountId &&
-    !isEqual(route.path, localePath('index').toString())
+    !isEqual(route.path, localePath('index').toString()) &&
+    !isEqual(route.path, localePath('guest-view-id').toString())
   ) {
     return await navigateTo(
       localePath({
