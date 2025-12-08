@@ -11,7 +11,7 @@ export const setJwtCookie = ({
   runtimeConfig: ReturnType<typeof useRuntimeConfig>
 }) => {
   const dateEpoch = new Date(0)
-  const dateInAMonth = new Date(Date.now() + 86400 * 1000 * 31)
+  const dateInAMonth = new Date(Date.now() + 86400 * 1000 * 31) // TODO: read from jwt expiration claim
 
   if (!runtimeConfig.public.i18n.baseUrl) {
     return throwError({
