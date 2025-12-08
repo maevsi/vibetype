@@ -152,6 +152,7 @@
                         name: contactName,
                       })
                 "
+                :disabled="isUpdating"
                 @click="accept"
               >
                 <span>
@@ -164,7 +165,8 @@
                   }}
                 </span>
                 <template #prefix>
-                  <IHeroiconsCheckCircleSolid class="shrink-0" />
+                  <LoaderIndicatorSpinner v-if="isUpdating" class="size-8" />
+                  <IHeroiconsCheckCircleSolid v-else class="shrink-0" />
                 </template>
               </ButtonColored>
               <div
@@ -194,6 +196,7 @@
                         name: contactName,
                       })
                 "
+                :disabled="isUpdating"
                 @click="cancel"
               >
                 <span>
@@ -206,7 +209,8 @@
                   }}
                 </span>
                 <template #prefix>
-                  <IHeroiconsXCircleSolid class="shrink-0" />
+                  <LoaderIndicatorSpinner v-if="isUpdating" class="size-8" />
+                  <IHeroiconsXCircleSolid v-else class="shrink-0" />
                 </template>
               </ButtonColored>
               <div
@@ -389,11 +393,14 @@ const print = () => {
 const qrCodeShow = () => {
   store.modals.push({ id: 'ModalGuestQrCode' })
 }
+const isUpdating = ref<boolean>()
 const update = async (id: string, guestPatch: GuestPatch) => {
+  isUpdating.value = true
   const result = await updateGuestByIdMutation.executeMutation({
     id,
     guestPatch,
   })
+  isUpdating.value = false
 
   if (result.error || !result.data) return
 
