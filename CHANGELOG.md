@@ -1,3 +1,15 @@
+## [12.43.0](https://github.com/maevsi/vibetype/compare/12.42.0...12.43.0) (2025-12-08)
+
+### Features
+
+* **event:** add map ([631580c](https://github.com/maevsi/vibetype/commit/631580c1a3b1e020c0cdb86581369aaa24b1cb4c))
+* **event:** rework dashlets ([c4eda20](https://github.com/maevsi/vibetype/commit/c4eda20a8c0977bf6d33211ce2266a1cede74b86))
+* **guest:** correct invitation naming ([44bb4e3](https://github.com/maevsi/vibetype/commit/44bb4e322ea7327b57b6f7d41ef87d9a0bf67302))
+
+### Bug Fixes
+
+* **components:** account for map in bottom menu's z-index ([f8bb853](https://github.com/maevsi/vibetype/commit/f8bb853fc7ab1b7c0cf70ad55616997b2aca3ac5))
+
 ## [12.42.0](https://github.com/maevsi/vibetype/compare/12.41.0...12.42.0) (2025-12-08)
 
 ### Features
