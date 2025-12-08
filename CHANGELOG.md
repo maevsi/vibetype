@@ -1,3 +1,9 @@
+## [12.40.0](https://github.com/maevsi/vibetype/compare/12.39.0...12.40.0) (2025-12-08)
+
+### Features
+
+* **guest:** skip unlock ([0078313](https://github.com/maevsi/vibetype/commit/0078313f9472f20ec8b3bfdca25f3bb0d8e3679e))
+
 ## [12.39.0](https://github.com/maevsi/vibetype/compare/12.38.0...12.39.0) (2025-12-07)
 
 ### Features
