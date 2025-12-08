@@ -1,3 +1,9 @@
+## [12.41.0](https://github.com/maevsi/vibetype/compare/12.40.0...12.41.0) (2025-12-08)
+
+### Features
+
+* **guest:** prefer contact nickname ([f34e7fb](https://github.com/maevsi/vibetype/commit/f34e7fb84f413c51eebc0b813a3cf584aa45ed93))
+
 ## [12.40.0](https://github.com/maevsi/vibetype/compare/12.39.0...12.40.0) (2025-12-08)
 
 ### Features
