@@ -1,3 +1,9 @@
+## [12.43.1](https://github.com/maevsi/vibetype/compare/12.43.0...12.43.1) (2025-12-08)
+
+### Bug Fixes
+
+* **app:** don't redirect to welcome screen on guest view ([c9916fd](https://github.com/maevsi/vibetype/commit/c9916fdd5f2f63689b87ef9c7680efee9960d3d2))
+
 ## [12.43.0](https://github.com/maevsi/vibetype/compare/12.42.0...12.43.0) (2025-12-08)
 
 ### Features
