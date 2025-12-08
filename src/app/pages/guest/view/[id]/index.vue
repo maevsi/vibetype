@@ -235,6 +235,7 @@
           </div>
         </Card>
       </div>
+      <AppMap class="h-42 rounded-xl" :events :position-initial />
       <Card v-if="eventDescriptionTemplate">
         <!-- eslint-disable vue/no-v-html -->
         <LayoutProse class="w-full">
@@ -339,6 +340,13 @@ const eventQuery = useQuery({
             id
             username
           }
+          addressByAddressId {
+            id
+            location {
+              latitude
+              longitude
+            }
+          }
           createdBy
           description
           end
@@ -366,6 +374,7 @@ const eventQuery = useQuery({
 })
 const guest = computed(() => eventQuery.data.value?.guestById)
 const event = computed(() => guest.value?.eventByEventId)
+const events = computed(() => (event.value ? [event.value] : []))
 const account = computed(() => event.value?.accountByCreatedBy)
 const api = await useApiData([eventQuery])
 
@@ -423,6 +432,18 @@ const eventDescriptionTemplate = computed(() => {
 const contact = computed(() => guest.value?.contactByContactId)
 const contactName = computed(() =>
   contact.value ? getContactName({ contact: contact.value }) : undefined,
+)
+
+// map
+const positionInitial = computed(() =>
+  event.value?.addressByAddressId?.location?.latitude &&
+  event.value?.addressByAddressId?.location?.longitude
+    ? {
+        latitude: event.value.addressByAddressId.location.latitude,
+        longitude: event.value.addressByAddressId.location.longitude,
+        zoomLevel: 18,
+      }
+    : undefined,
 )
 
 // page

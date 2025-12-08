@@ -137,6 +137,7 @@
           </div>
         </Card>
       </div>
+      <AppMap class="h-42 rounded-xl" :events :position-initial />
       <Card v-if="eventDescriptionTemplate">
         <!-- eslint-disable vue/no-v-html -->
         <LayoutProse class="w-full">
@@ -172,6 +173,13 @@ const eventQuery = useQuery({
               id
               username
             }
+            addressByAddressId {
+              id
+              location {
+                latitude
+                longitude
+              }
+            }
             createdBy
             description
             end
@@ -198,7 +206,8 @@ const eventQuery = useQuery({
   },
 })
 const account = computed(() => eventQuery.data.value?.accountByUsername)
-const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
+const events = computed(() => account.value?.eventsByCreatedBy.nodes)
+const event = computed(() => (events.value ? events.value[0] : undefined))
 const api = await useApiData([eventQuery])
 
 // computations
@@ -240,6 +249,18 @@ defineOgImageComponent(
   {
     alt: t('ogImageAlt'),
   },
+)
+
+// map
+const positionInitial = computed(() =>
+  event.value?.addressByAddressId?.location?.latitude &&
+  event.value?.addressByAddressId?.location?.longitude
+    ? {
+        latitude: event.value.addressByAddressId.location.latitude,
+        longitude: event.value.addressByAddressId.location.longitude,
+        zoomLevel: 18,
+      }
+    : undefined,
 )
 </script>
 
