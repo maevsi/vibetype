@@ -5,7 +5,7 @@
     :error="{ message: t('errorGuestMissing'), statusCode: 404 }"
   />
   <AppError
-    v-else-if="!event"
+    v-else-if="!event || !event.accountByCreatedBy"
     :error="{ message: t('errorEventMissing'), statusCode: 404 }"
   />
   <AppError
@@ -66,20 +66,19 @@
     <div class="flex flex-col gap-4">
       <div>
         <div class="relative">
-          <EventHeroImage :event="event" />
+          <EventHeroImage :event />
           <div
-            class="absolute inset-x-0 top-0 flex items-center justify-between px-4 py-2"
+            class="absolute inset-x-0 top-0 flex items-center justify-between p-2"
           >
+            <div />
             <div>
-              <!-- TODO: back button -->
-              <!-- <AppButton
-                  :aria-label="t('more')"
-                  class="flex size-10 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
-                >
-                  <AppIconBack />
-                </AppButton> -->
-            </div>
-            <div>
+              <AppButtonIcon
+                :aria-label="t('iCalDownload')"
+                class="flex size-12 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                @click="downloadIcal"
+              >
+                <IHeroiconsArrowDownTray :title="t('iCalDownload')" />
+              </AppButtonIcon>
               <!-- TODO: share & favorite button -->
               <template
                 v-if="
@@ -111,10 +110,7 @@
             </div>
           </div>
         </div>
-        <Card
-          v-if="event?.accountByCreatedBy"
-          class="flex flex-col items-stretch gap-4 rounded-t-none"
-        >
+        <Card class="flex flex-col items-stretch gap-6 rounded-t-none">
           <div
             class="flex flex-col items-baseline justify-center md:flex-row md:gap-2"
           >
@@ -123,117 +119,108 @@
             </h1>
             <EventOwner link :username="event.accountByCreatedBy.username" />
           </div>
-          <AppHr />
-          <div class="flex flex-row flex-wrap justify-center self-stretch">
-            <EventDashletStart
-              :contact="contact"
-              :event="event"
-              :invitation="guest"
-            />
-            <EventDashletDuration :event="event" />
-            <EventDashletVisibility :event="event" with-text />
-            <EventDashletAttendanceType :event="event" />
-            <!-- TODO: reenable to address usage -->
-            <!-- <EventDashletLocation :event="event" /> -->
-            <EventDashletLink :event="event" />
+          <div class="flex flex-col gap-2">
+            <EventDashletStart :contact :event :guest />
+            <EventDashletDuration :event />
+            <EventDashletLocation :address :event />
+            <EventDashletVisibility :event with-text />
+            <!-- <EventDashletAttendanceType :event />
+            <EventDashletLink :event /> -->
           </div>
-          <AppHr />
-          <div
-            class="flex flex-col items-center gap-2"
-            :class="guest.feedback === 'ACCEPTED' ? 'col-span-3' : 'col-span-6'"
-          >
-            <div class="flex items-center justify-center gap-4">
-              <ButtonColored
-                v-if="guest.feedback === null || guest.feedback === 'CANCELED'"
-                :aria-label="
-                  event.accountByCreatedBy.username !== store.signedInUsername
-                    ? t('invitationAccept')
-                    : t('invitationAcceptAdmin', {
-                        name: contactName,
-                      })
-                "
-                :disabled="isUpdating"
-                @click="accept"
-              >
-                <span>
-                  {{
-                    event.accountByCreatedBy.username !== store.signedInUsername
-                      ? t('invitationAccept')
-                      : t('invitationAcceptAdmin', {
-                          name: contactName,
-                        })
-                  }}
-                </span>
-                <template #prefix>
-                  <LoaderIndicatorSpinner v-if="isUpdating" class="size-8" />
-                  <IHeroiconsCheckCircleSolid v-else class="shrink-0" />
-                </template>
-              </ButtonColored>
-              <div
-                v-if="guest.feedback === 'ACCEPTED'"
-                class="flex items-center font-semibold text-green-600 dark:text-green-500"
-              >
-                <IHeroiconsCheckCircleSolid
-                  class="mr-2 shrink-0"
-                  title="accepted"
-                />
-                <span>
-                  {{
-                    event.accountByCreatedBy.username !== store.signedInUsername
-                      ? t('invitationAccepted')
-                      : t('invitationAcceptedAdmin', {
-                          name: contactName,
-                        })
-                  }}
-                </span>
-              </div>
-              <ButtonColored
-                v-if="guest.feedback === null || guest.feedback === 'ACCEPTED'"
-                :aria-label="
-                  event.accountByCreatedBy.username !== store.signedInUsername
-                    ? t('invitationCancel')
-                    : t('invitationCancelAdmin', {
-                        name: contactName,
-                      })
-                "
-                :disabled="isUpdating"
-                @click="cancel"
-              >
-                <span>
-                  {{
-                    event.accountByCreatedBy.username !== store.signedInUsername
-                      ? t('invitationCancel')
-                      : t('invitationCancelAdmin', {
-                          name: contactName,
-                        })
-                  }}
-                </span>
-                <template #prefix>
-                  <LoaderIndicatorSpinner v-if="isUpdating" class="size-8" />
-                  <IHeroiconsXCircleSolid v-else class="shrink-0" />
-                </template>
-              </ButtonColored>
-              <div
-                v-if="guest.feedback === 'CANCELED'"
-                class="flex items-center font-semibold text-(--semantic-critic-text)"
-              >
-                <IHeroiconsXCircleSolid
-                  class="mr-2 shrink-0"
-                  title="canceled"
-                />
-                <span>
-                  {{
-                    event.accountByCreatedBy.username !== store.signedInUsername
-                      ? t('invitationCanceled')
-                      : t('invitationCanceledAdmin', {
-                          name: contactName,
-                        })
-                  }}
-                </span>
-              </div>
-            </div>
-          </div>
+          <AppMap class="h-42 rounded-xl" :events :position-initial />
         </Card>
+      </div>
+      <div
+        class="flex flex-col items-center gap-2"
+        :class="guest.feedback === 'ACCEPTED' ? 'col-span-3' : 'col-span-6'"
+      >
+        <div class="flex items-center justify-center gap-4">
+          <ButtonColored
+            v-if="guest.feedback === null || guest.feedback === 'CANCELED'"
+            :aria-label="
+              event.accountByCreatedBy.username !== store.signedInUsername
+                ? t('invitationAccept')
+                : t('invitationAcceptAdmin', {
+                    name: contactName,
+                  })
+            "
+            :disabled="isUpdating"
+            @click="accept"
+          >
+            <span>
+              {{
+                event.accountByCreatedBy.username !== store.signedInUsername
+                  ? t('invitationAccept')
+                  : t('invitationAcceptAdmin', {
+                      name: contactName,
+                    })
+              }}
+            </span>
+            <template #prefix>
+              <LoaderIndicatorSpinner v-if="isUpdating" class="size-8" />
+              <IHeroiconsCheckCircleSolid v-else class="shrink-0" />
+            </template>
+          </ButtonColored>
+          <div
+            v-if="guest.feedback === 'ACCEPTED'"
+            class="flex items-center font-semibold text-green-600 dark:text-green-500"
+          >
+            <IHeroiconsCheckCircleSolid
+              class="mr-2 shrink-0"
+              title="accepted"
+            />
+            <span>
+              {{
+                event.accountByCreatedBy.username !== store.signedInUsername
+                  ? t('invitationAccepted')
+                  : t('invitationAcceptedAdmin', {
+                      name: contactName,
+                    })
+              }}
+            </span>
+          </div>
+          <ButtonColored
+            v-if="guest.feedback === null || guest.feedback === 'ACCEPTED'"
+            :aria-label="
+              event.accountByCreatedBy.username !== store.signedInUsername
+                ? t('invitationCancel')
+                : t('invitationCancelAdmin', {
+                    name: contactName,
+                  })
+            "
+            :disabled="isUpdating"
+            @click="cancel"
+          >
+            <span>
+              {{
+                event.accountByCreatedBy.username !== store.signedInUsername
+                  ? t('invitationCancel')
+                  : t('invitationCancelAdmin', {
+                      name: contactName,
+                    })
+              }}
+            </span>
+            <template #prefix>
+              <LoaderIndicatorSpinner v-if="isUpdating" class="size-8" />
+              <IHeroiconsXCircleSolid v-else class="shrink-0" />
+            </template>
+          </ButtonColored>
+          <div
+            v-if="guest.feedback === 'CANCELED'"
+            class="flex items-center font-semibold text-(--semantic-critic-text)"
+          >
+            <IHeroiconsXCircleSolid class="mr-2 shrink-0" title="canceled" />
+            <span>
+              {{
+                event.accountByCreatedBy.username !== store.signedInUsername
+                  ? t('invitationCanceled')
+                  : t('invitationCanceledAdmin', {
+                      name: contactName,
+                    })
+              }}
+            </span>
+          </div>
+        </div>
       </div>
       <Card v-if="eventDescriptionTemplate">
         <!-- eslint-disable vue/no-v-html -->
@@ -282,6 +269,7 @@
 
 <script setup lang="ts">
 import { useQuery } from '@urql/vue'
+import downloadJs from 'downloadjs'
 import DOMPurify from 'isomorphic-dompurify'
 import mustache from 'mustache'
 import prntr from 'prntr'
@@ -339,6 +327,14 @@ const eventQuery = useQuery({
             id
             username
           }
+          addressByAddressId {
+            id
+            location {
+              latitude
+              longitude
+            }
+            name
+          }
           createdBy
           description
           end
@@ -366,6 +362,8 @@ const eventQuery = useQuery({
 })
 const guest = computed(() => eventQuery.data.value?.guestById)
 const event = computed(() => guest.value?.eventByEventId)
+const events = computed(() => (event.value ? [event.value] : []))
+const address = computed(() => event.value?.addressByAddressId)
 const account = computed(() => event.value?.accountByCreatedBy)
 const api = await useApiData([eventQuery])
 
@@ -383,6 +381,30 @@ const cancel = () => {
   update(guest.value.id, {
     feedback: InvitationFeedback.Canceled,
   })
+}
+const downloadIcal = async () => {
+  if (!event.value) return
+
+  const response = await useFetch<string>('/api/model/event/ical', {
+    body: {
+      contact,
+      event,
+      guest,
+    },
+    method: 'POST',
+  })
+  const fileName = `${event.value.accountByCreatedBy ? `${event.value.accountByCreatedBy.username}_` : ''}${event.value.slug}.ics`
+
+  if (!response.data.value) {
+    alertError(t('iCalFetchError')) // TODO: add suggestion (https://github.com/maevsi/vibetype/issues/903) })
+    return
+  }
+
+  downloadJs(
+    new Blob([response.data.value]), // Blob necessary for charset utf-8
+    fileName,
+    'text/calendar',
+  )
 }
 const print = () => {
   prntr({
@@ -423,6 +445,18 @@ const eventDescriptionTemplate = computed(() => {
 const contact = computed(() => guest.value?.contactByContactId)
 const contactName = computed(() =>
   contact.value ? getContactName({ contact: contact.value }) : undefined,
+)
+
+// map
+const positionInitial = computed(() =>
+  event.value?.addressByAddressId?.location?.latitude &&
+  event.value?.addressByAddressId?.location?.longitude
+    ? {
+        latitude: event.value.addressByAddressId.location.latitude,
+        longitude: event.value.addressByAddressId.location.longitude,
+        zoomLevel: 18,
+      }
+    : undefined,
 )
 
 // page
@@ -468,6 +502,9 @@ de:
   greeting: Hey{usernameString}!
   greetingDescription: Du wurdest zu folgender Veranstaltung eingeladen.
   hintQrCode: Dieses Bild ist deine Zugangsberechtigung für die Veranstaltung
+  iCalDownload: Als Kalendereintrag herunterladen
+  # iCalHint: Die heruntergeladene Datei kann dann mit deiner Kalender-Anwendung geöffnet werden.
+  iCalFetchError: iCal-Daten konnten nicht geladen werden!
   invitationAccept: Einladung annehmen
   invitationAcceptAdmin: Einladung im Namen von {name} annehmen
   invitationAccepted: Einladung angenommen
@@ -492,9 +529,12 @@ en:
   greeting: Hey{usernameString}!
   greetingDescription: "You've been invited to the following event."
   hintQrCode: This picture is your access authorization for the event
+  iCalDownload: Download for your calendar
+  # iCalHint: You can open the downloaded file in your calendar app.
+  iCalFetchError: Could not get iCal data!
   invitationAccept: Accept invitation
   invitationAcceptAdmin: Accept invitation on behalf of {name}
-  invitationAccepted: Guest accepted
+  invitationAccepted: Invitation accepted
   invitationAcceptedAdmin: Invitation accepted on behalf of {name}
   invitationCancel: Decline invitation
   invitationCancelAdmin: Decline invitation on behalf of {name}

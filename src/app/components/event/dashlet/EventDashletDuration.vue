@@ -1,14 +1,14 @@
 <template>
   <EventDashlet v-if="event.end && event.start">
-    <span>
-      <ISolarHourglassOutline :title="t('duration')" />
-    </span>
     {{
       // @ts-expect-error https://github.com/microsoft/TypeScript/issues/60608
       new Intl.DurationFormat(locale, { style: 'long' }).format(
         getDuration(new Date(event.start), new Date(event.end)),
       )
     }}
+    <template #icon>
+      <ISolarHourglassOutline :title="t('duration')" />
+    </template>
   </EventDashlet>
 </template>
 

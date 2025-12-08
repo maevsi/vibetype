@@ -17,7 +17,7 @@ test.describe('api load', () => {
     const inputData = [
       { data: undefined, message: 'Validation Error' },
       {
-        data: { contact: {}, invitation: {} },
+        data: { contact: {}, guest: {} },
         message: 'Validation Error',
       },
     ]

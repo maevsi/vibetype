@@ -70,17 +70,9 @@
         <div class="relative">
           <EventHeroImage :event="event" />
           <div
-            class="absolute inset-x-0 top-0 flex items-center justify-between px-4 py-2"
+            class="absolute inset-x-0 top-0 flex items-center justify-between p-2"
           >
-            <div>
-              <!-- TODO: back button -->
-              <!-- <AppButton
-                  :aria-label="t('more')"
-                  class="flex size-10 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
-                >
-                  <AppIconBack />
-                </AppButton> -->
-            </div>
+            <div />
             <div>
               <!-- TODO: share & favorite button -->
               <template
@@ -115,7 +107,7 @@
         </div>
         <Card
           v-if="event?.accountByCreatedBy"
-          class="flex flex-col items-stretch gap-4 rounded-t-none"
+          class="flex flex-col items-stretch gap-6 rounded-t-none"
         >
           <div
             class="flex flex-col items-baseline justify-center md:flex-row md:gap-2"
@@ -125,16 +117,15 @@
             </h1>
             <EventOwner link :username="event.accountByCreatedBy.username" />
           </div>
-          <AppHr />
-          <div class="flex flex-row flex-wrap justify-center self-stretch">
-            <EventDashletStart :event="event" />
-            <EventDashletDuration :event="event" />
-            <EventDashletVisibility :event="event" with-text />
-            <EventDashletAttendanceType :event="event" />
-            <!-- TODO: reenable to address usage -->
-            <!-- <EventDashletLocation :event="event" /> -->
-            <EventDashletLink :event="event" />
+          <div class="flex flex-col gap-2">
+            <EventDashletStart :event />
+            <EventDashletDuration :event />
+            <EventDashletVisibility :event with-text />
+            <EventDashletAttendanceType :event />
+            <EventDashletLocation :address :event />
+            <EventDashletLink :event />
           </div>
+          <AppMap class="h-42 rounded-xl" :events :position-initial />
         </Card>
       </div>
       <Card v-if="eventDescriptionTemplate">
@@ -172,6 +163,14 @@ const eventQuery = useQuery({
               id
               username
             }
+            addressByAddressId {
+              id
+              location {
+                latitude
+                longitude
+              }
+              name
+            }
             createdBy
             description
             end
@@ -198,7 +197,9 @@ const eventQuery = useQuery({
   },
 })
 const account = computed(() => eventQuery.data.value?.accountByUsername)
-const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
+const events = computed(() => account.value?.eventsByCreatedBy.nodes)
+const event = computed(() => (events.value ? events.value[0] : undefined))
+const address = computed(() => event.value?.addressByAddressId)
 const api = await useApiData([eventQuery])
 
 // computations
@@ -240,6 +241,18 @@ defineOgImageComponent(
   {
     alt: t('ogImageAlt'),
   },
+)
+
+// map
+const positionInitial = computed(() =>
+  event.value?.addressByAddressId?.location?.latitude &&
+  event.value?.addressByAddressId?.location?.longitude
+    ? {
+        latitude: event.value.addressByAddressId.location.latitude,
+        longitude: event.value.addressByAddressId.location.longitude,
+        zoomLevel: 18,
+      }
+    : undefined,
 )
 </script>
 
