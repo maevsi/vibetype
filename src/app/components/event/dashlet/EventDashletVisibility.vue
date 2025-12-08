@@ -1,11 +1,5 @@
 <template>
   <EventDashlet v-if="event">
-    <span>
-      <EventIconVisibility
-        :is-archived="event.isArchived"
-        :visibility="event.visibility"
-      />
-    </span>
     <span v-if="event.isArchived" class="block">{{ t('archived') }}</span>
     <span v-else-if="event.visibility === EventVisibility.Public" class="block">
       {{ t('public') }}
@@ -23,6 +17,14 @@
       {{ t('private') }}
     </span>
     <span v-else class="block">{{ t('bug') }}</span>
+    <template #icon>
+      <span>
+        <EventIconVisibility
+          :is-archived="event.isArchived"
+          :visibility="event.visibility"
+        />
+      </span>
+    </template>
   </EventDashlet>
 </template>
 
@@ -43,11 +45,11 @@ de:
   bug: Bug
   private: privat
   public: öffentlich
-  unlisted: ungelistet
+  unlisted: nur mit Einladung
 en:
   archived: archived
   bug: bug
   private: private
   public: public
-  unlisted: unlisted
+  unlisted: invitation only
 </i18n>

@@ -9646,6 +9646,7 @@ export type EventQuery = {
         addressByAddressId?: {
           __typename?: 'Address'
           id: string
+          name: string
           location?: {
             __typename?: 'GeographyPoint'
             latitude: number
@@ -9753,6 +9754,7 @@ export type GuestEventQuery = {
       addressByAddressId?: {
         __typename?: 'Address'
         id: string
+        name: string
         location?: {
           __typename?: 'GeographyPoint'
           latitude: number
@@ -13811,6 +13813,10 @@ export const EventDocument = {
                                       ],
                                     },
                                   },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
                                 ],
                               },
                             },
@@ -14247,6 +14253,10 @@ export const GuestEventDocument = {
                                   },
                                 ],
                               },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
                             },
                           ],
                         },

@@ -1,15 +1,17 @@
 <template>
   <EventDashlet v-if="event.isInPerson || event.isRemote">
-    <span class="flex gap-2">
-      <IFa6RegularHandshake v-if="event.isInPerson" :title="t('inPerson')" />
-      <IHeroiconsWifi v-if="event.isRemote" :title="t('remote')" />
-    </span>
     {{
       [
         ...(event.isInPerson ? [t('inPerson')] : []),
         ...(event.isRemote ? [t('remote')] : []),
       ].join(', ')
     }}
+    <template #icon>
+      <span class="flex gap-2">
+        <IHeroiconsMapPin v-if="event.isInPerson" :title="t('inPerson')" />
+        <IHeroiconsWifi v-if="event.isRemote" :title="t('remote')" />
+      </span>
+    </template>
   </EventDashlet>
 </template>
 

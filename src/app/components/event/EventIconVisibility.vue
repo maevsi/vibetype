@@ -4,7 +4,7 @@
     v-else-if="visibility === EventVisibility.Public"
     :title="t('public')"
   />
-  <IHeroiconsEyeSlash
+  <IHeroiconsTicket
     v-else-if="visibility === EventVisibility.Unlisted"
     :title="t('unlisted')"
   />
@@ -32,11 +32,11 @@ de:
   bug: Bug
   private: privat
   public: öffentlich
-  unlisted: ungelistet
+  unlisted: nur mit Einladung
 en:
   archived: archived
   bug: bug
   private: private
   public: public
-  unlisted: unlisted
+  unlisted: invitation only
 </i18n>
