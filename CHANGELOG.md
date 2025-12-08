@@ -1,3 +1,9 @@
+## [12.42.0](https://github.com/maevsi/vibetype/compare/12.41.0...12.42.0) (2025-12-08)
+
+### Features
+
+* **guest:** add loading indicator to buttons ([de3280c](https://github.com/maevsi/vibetype/commit/de3280ccc1dd2788029c06b0dcb9d426fd1522e3))
+
 ## [12.41.0](https://github.com/maevsi/vibetype/compare/12.40.0...12.41.0) (2025-12-08)
 
 ### Features
