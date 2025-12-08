@@ -9718,6 +9718,7 @@ export type GuestEventQuery = {
       firstName?: string | null
       id: string
       lastName?: string | null
+      nickname?: string | null
       nodeId: string
     } | null
     eventByEventId?: {
@@ -14127,6 +14128,10 @@ export const GuestEventDocument = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'lastName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nickname' },
                       },
                       {
                         kind: 'Field',

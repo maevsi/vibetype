@@ -55,6 +55,7 @@
 </template>
 
 <script setup lang="ts">
+// TODO: evaluate to remove page when guest id migration has been added (https://github.com/maevsi/vibetype/issues/131)
 import { useVuelidate } from '@vuelidate/core'
 import { consola } from 'consola'
 

@@ -326,6 +326,7 @@ const eventQuery = useQuery({
           firstName
           id
           lastName
+          nickname
           nodeId
         }
         contactId
@@ -414,7 +415,7 @@ const eventDescriptionTemplate = computed(() => {
 })
 const contact = computed(() => guest.value?.contactByContactId)
 const contactName = computed(() =>
-  contact.value ? getContactName(contact.value) : undefined,
+  contact.value ? getContactName({ contact: contact.value }) : undefined,
 )
 
 // page
