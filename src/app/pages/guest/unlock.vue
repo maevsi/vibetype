@@ -14,7 +14,7 @@
       <!-- TODO: move id-label suffix to FormInput (https://github.com/maevsi/vibetype/issues/955) -->
       <!-- The id's suffix `-${SITE_NAME}` makes browser suggest inputs just for this service. -->
       <FormInput
-        :id-label="`input-invitation-id-${SITE_NAME}`"
+        :id-label="`input-guest-id-${SITE_NAME}`"
         :is-disabled="!!routeQueryIc"
         placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
         :title="t('guestId')"

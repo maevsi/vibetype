@@ -515,7 +515,7 @@ en:
   hintQrCode: This picture is your access authorization for the event
   invitationAccept: Accept invitation
   invitationAcceptAdmin: Accept invitation on behalf of {name}
-  invitationAccepted: Guest accepted
+  invitationAccepted: Invitation accepted
   invitationAcceptedAdmin: Invitation accepted on behalf of {name}
   invitationCancel: Decline invitation
   invitationCancelAdmin: Decline invitation on behalf of {name}

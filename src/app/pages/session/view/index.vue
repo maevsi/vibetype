@@ -44,7 +44,7 @@
         <div class="grid gap-4 lg:grid-cols-2">
           <div class="flex-1">
             <Card>
-              <div v-if="store.jwtDecoded?.invitations">
+              <div v-if="store.jwtDecoded?.guests">
                 <p>
                   {{ t('codesEntered') }}
                 </p>
