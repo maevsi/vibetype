@@ -1,14 +1,6 @@
 {
   "devDependencies": {
-    "@semantic-release/changelog": "6.0.3",
-    "@semantic-release/commit-analyzer": "13.0.1",
-    "@semantic-release/git": "10.0.1",
-    "@semantic-release/github": "12.0.2",
-    "@semantic-release/npm": "13.1.2",
-    "@semantic-release/release-notes-generator": "14.1.0",
-    "conventional-changelog-conventionalcommits": "9.1.0",
-    "jiti": "2.6.1",
-    "semantic-release": "25.0.2"
+    "jiti": "2.6.1"
   },
   "engines": {
     "node": "^24.0.0"
