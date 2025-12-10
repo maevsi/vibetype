@@ -49,6 +49,7 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   },
   ...securityConfig,
   sentry: {
+    enabled: false,
     sourceMapsUploadOptions: {
       authToken: process.env.SENTRY_AUTH_TOKEN,
       org: 'maevsi',

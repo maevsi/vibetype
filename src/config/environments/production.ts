@@ -2,7 +2,6 @@ import type { DefineNuxtConfig } from 'nuxt/config'
 
 export const productionConfig: ReturnType<DefineNuxtConfig> = {
   $production: {
-    modules: ['@sentry/nuxt/module'],
     runtimeConfig: {
       public: {
         vio: {
@@ -21,6 +20,9 @@ export const productionConfig: ReturnType<DefineNuxtConfig> = {
       headers: {
         crossOriginEmbedderPolicy: 'credentialless', // OpenStreepMap
       },
+    },
+    sentry: {
+      enabled: true,
     },
   },
 }
