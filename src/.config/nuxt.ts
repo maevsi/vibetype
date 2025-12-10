@@ -50,6 +50,7 @@ export default defineNuxtConfig({
     '@nuxt/content', // most come after `@nuxtjs/seo`
     '@nuxtjs/turnstile',
     '@pinia/nuxt',
+    '@sentry/nuxt/module',
     '@vite-pwa/nuxt',
     'nuxt-gtag',
     'shadcn-nuxt',
