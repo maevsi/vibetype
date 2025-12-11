@@ -1,6 +1,6 @@
 <template>
   <QrcodeStream
-    @detect="emits('detect', $event)"
+    @detect="emit('detect', $event)"
     @error="onError"
     @camera-on="onCameraOn"
   >
@@ -37,7 +37,7 @@ export default {
 
 <script setup lang="ts">
 // compiler
-const emits = defineEmits<{
+const emit = defineEmits<{
   detect: [detectedCodes: DetectedBarcode[]]
   error: [error: EmittedError]
 }>()
@@ -72,7 +72,7 @@ const onError = async (error: Error) => {
   }
 
   alertError(errorMessage)
-  emits('error', error)
+  emit('error', error)
 }
 </script>
 
