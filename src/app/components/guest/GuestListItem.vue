@@ -170,7 +170,7 @@ const contact = computed(() => getContactItem(guest.contactByContactId))
 de:
   copySuccess: Der Einladungslink wurde in die Zwischenablage kopiert.
   disabledReasonEmailAddressNone: Diesem Kontakt fehlt eine E-Mail-Adresse.
-  guestDelete: Einladung löschen
+  guestDelete: Gast löschen
   guestLink: Einladungslink kopieren
   guestSend: Einladung versenden
   guestView: Einladung anzeigen
@@ -180,9 +180,9 @@ en:
   copySuccess: The guest link has been copied to the clipboard.
   disabledReasonEmailAddressNone: This contact does not have an associated email address.
   guestDelete: Delete guest
-  guestLink: Copy guest link
-  guestSend: Send guest
-  guestView: View guest
-  sendSuccess: The guest was successfully sent by email.
+  guestLink: Copy invitation link
+  guestSend: Send invitation
+  guestView: View invitation
+  sendSuccess: The invitation was successfully sent by email.
   # postgresP0002: The guest could not be sent! You may not have access to the necessary data right now. Try reloading the page.
 </i18n>
