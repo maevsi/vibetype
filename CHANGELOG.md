@@ -1,3 +1,14 @@
+## [12.45.0](https://github.com/maevsi/vibetype/compare/12.44.0...12.45.0) (2025-12-11)
+
+### Features
+
+* **security:** add default trusted type policy ([216c7b1](https://github.com/maevsi/vibetype/commit/216c7b189df4d6d145a9cbc0906da139022985b9))
+
+### Bug Fixes
+
+* **app:** correct installation toast ([e12b16e](https://github.com/maevsi/vibetype/commit/e12b16e289d771182cf49f838548c0bceae11849))
+* **pages:** don't request recommendations when not logged signed in ([3b5dd20](https://github.com/maevsi/vibetype/commit/3b5dd20d5bc884fb23a7b57a07be8295e300a2eb))
+
 ## [12.44.0](https://github.com/maevsi/vibetype/compare/12.43.1...12.44.0) (2025-12-11)
 
 ### Features
