@@ -1,3 +1,16 @@
+## [12.44.0](https://github.com/maevsi/vibetype/compare/12.43.1...12.44.0) (2025-12-11)
+
+### Features
+
+* **security:** enable trusted types ([3fb8ab9](https://github.com/maevsi/vibetype/commit/3fb8ab9880a05248612c6511e111a96b18300313))
+* **sentry:** enable server ([93d5742](https://github.com/maevsi/vibetype/commit/93d5742263deac446ab836544e594de55ab54ce5))
+
+### Bug Fixes
+
+* **event:** correct dashlet icons ([8139210](https://github.com/maevsi/vibetype/commit/8139210d6e610b61d2073ac5de0d6fbecb40d4b5))
+* **event:** show map only if location is available ([e91af5f](https://github.com/maevsi/vibetype/commit/e91af5f931b721f2ce8b23c1e98b074a297a290e))
+* **guest:** differentiate feedback spinners ([14d11a6](https://github.com/maevsi/vibetype/commit/14d11a6349bc0cbb83ead98dd1f54eca1615b22a))
+
 ## [12.43.1](https://github.com/maevsi/vibetype/compare/12.43.0...12.43.1) (2025-12-08)
 
 ### Bug Fixes
