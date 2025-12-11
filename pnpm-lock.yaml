@@ -177,6 +177,9 @@ importers:
       '@types/seedrandom':
         specifier: 3.0.8
         version: 3.0.8
+      '@types/trusted-types':
+        specifier: 2.0.7
+        version: 2.0.7
       '@uppy/core':
         specifier: 5.2.0
         version: 5.2.0

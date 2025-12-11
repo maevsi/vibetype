@@ -36,8 +36,13 @@ export const GET_CSP = ({
         'https://media3.giphy.com/', // gifs
         'https://www.gravatar.com/avatar/', // profile picture fallback
       ],
-      // 'manifest-src': ["'self'"],
+      'manifest-src': ["'self'"],
       // 'prefetch-src': ["'self'"],
+      ...(process.env.NODE_ENV === 'development'
+        ? {
+            'require-trusted-types-for': "'script'", // csp-evaluator // TODO: enable for production once trusted types are properly implemented
+          }
+        : {}),
       'script-src': [
         "'wasm-unsafe-eval'", // vue-qrcode-reader
       ],

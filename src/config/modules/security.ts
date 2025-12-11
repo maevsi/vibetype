@@ -17,8 +17,9 @@ export const securityConfig: ReturnType<DefineNuxtConfig> = {
         'object-src': false as const,
         'prefetch-src': false as const,
         'report-to': undefined,
+        'trusted-types': false as const,
         'report-uri': false as const,
-        'require-trusted-types-for': "'script'", // csp-evaluator
+        'require-trusted-types-for': false as const,
         sandbox: false as const,
         'script-src': false as const,
         'script-src-attr': false as const,
