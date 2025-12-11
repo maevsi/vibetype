@@ -1,6 +1,5 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
-import { RELEASE_NAME } from '../../node/process'
 import { cookieControlConfig } from './cookieControl'
 import { i18nConfig } from './i18n'
 import { pwaConfig } from './pwa'
@@ -49,18 +48,15 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   },
   ...securityConfig,
   sentry: {
-    enabled: false,
-    sourceMapsUploadOptions: {
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      org: 'maevsi',
-      project: 'nuxt',
-      telemetry: false,
+    org: 'maevsi',
+    project: 'nuxt',
+    release: {
+      name: process.env.RELEASE_NAME || undefined,
     },
-    unstable_sentryBundlerPluginOptions: {
-      release: {
-        name: await RELEASE_NAME(),
-      },
+    sourcemaps: {
+      disable: !process.env.RELEASE_NAME,
     },
+    telemetry: false,
   },
   shadcn: {
     prefix: '',

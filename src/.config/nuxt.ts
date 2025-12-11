@@ -79,14 +79,16 @@ export default defineNuxtConfig({
   ],
   nitro: {
     compressPublicAssets: true,
+    esbuild: {
+      options: {
+        target: 'es2022', // needed for sentry server-side configuration (top-level async release getter) // TODO: remove once top-level target option is available (https://github.com/nuxt/nuxt/issues/14893)
+      },
+    },
     experimental: {
       asyncContext: true,
       openAPI: IS_NITRO_OPENAPI_ENABLED,
     },
     rollupConfig: {
-      output: {
-        sourcemap: true, // TODO: remove? (https://github.com/getsentry/sentry-javascript/discussions/15028)
-      },
       plugins: [vue()],
     },
   },
@@ -192,7 +194,7 @@ export default defineNuxtConfig({
   sourcemap: true,
   typescript: {
     nodeTsConfig: {
-      include: [resolve('../node')],
+      include: [resolve('../node'), resolve('../sentry.server.config.ts')],
     },
     tsConfig: {
       vueCompilerOptions: {

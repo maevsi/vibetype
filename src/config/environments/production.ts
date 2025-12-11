@@ -21,8 +21,5 @@ export const productionConfig: ReturnType<DefineNuxtConfig> = {
         crossOriginEmbedderPolicy: 'credentialless', // OpenStreepMap
       },
     },
-    sentry: {
-      enabled: true,
-    },
   },
 }
