@@ -127,7 +127,12 @@
             <!-- <EventDashletAttendanceType :event />
             <EventDashletLink :event /> -->
           </div>
-          <AppMap class="h-42 rounded-xl" :events :position-initial />
+          <AppMap
+            v-if="positionInitial"
+            class="h-42 rounded-xl"
+            :events
+            :position-initial
+          />
         </Card>
       </div>
       <div
@@ -144,7 +149,7 @@
                     name: contactName,
                   })
             "
-            :disabled="isUpdating"
+            :disabled="isUpdatingAccept"
             @click="accept"
           >
             <span>
@@ -157,7 +162,7 @@
               }}
             </span>
             <template #prefix>
-              <LoaderIndicatorSpinner v-if="isUpdating" class="size-8" />
+              <LoaderIndicatorSpinner v-if="isUpdatingAccept" class="size-8" />
               <IHeroiconsCheckCircleSolid v-else class="shrink-0" />
             </template>
           </ButtonColored>
@@ -188,7 +193,7 @@
                     name: contactName,
                   })
             "
-            :disabled="isUpdating"
+            :disabled="isUpdatingCancel"
             @click="cancel"
           >
             <span>
@@ -201,7 +206,7 @@
               }}
             </span>
             <template #prefix>
-              <LoaderIndicatorSpinner v-if="isUpdating" class="size-8" />
+              <LoaderIndicatorSpinner v-if="isUpdatingCancel" class="size-8" />
               <IHeroiconsXCircleSolid v-else class="shrink-0" />
             </template>
           </ButtonColored>
@@ -368,19 +373,32 @@ const account = computed(() => event.value?.accountByCreatedBy)
 const api = await useApiData([eventQuery])
 
 // methods
-const accept = () => {
+const isUpdatingAccept = ref<boolean>()
+const accept = async () => {
   if (!guest.value) return
 
-  update(guest.value.id, {
-    feedback: InvitationFeedback.Accepted,
-  })
+  isUpdatingAccept.value = true
+
+  try {
+    await update(guest.value.id, {
+      feedback: InvitationFeedback.Accepted,
+    })
+  } finally {
+    isUpdatingAccept.value = false
+  }
 }
-const cancel = () => {
+const isUpdatingCancel = ref<boolean>()
+const cancel = async () => {
   if (!guest.value) return
 
-  update(guest.value.id, {
-    feedback: InvitationFeedback.Canceled,
-  })
+  isUpdatingCancel.value = true
+  try {
+    await update(guest.value.id, {
+      feedback: InvitationFeedback.Canceled,
+    })
+  } finally {
+    isUpdatingCancel.value = false
+  }
 }
 const downloadIcal = async () => {
   if (!event.value) return
@@ -415,14 +433,11 @@ const print = () => {
 const qrCodeShow = () => {
   store.modals.push({ id: 'ModalGuestQrCode' })
 }
-const isUpdating = ref<boolean>()
 const update = async (id: string, guestPatch: GuestPatch) => {
-  isUpdating.value = true
   const result = await updateGuestByIdMutation.executeMutation({
     id,
     guestPatch,
   })
-  isUpdating.value = false
 
   if (result.error || !result.data) return
 

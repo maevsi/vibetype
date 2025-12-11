@@ -27,7 +27,7 @@ const props = defineProps<
     }[]
   } & RadioGroupRootProps & { class?: HTMLAttributes['class'] }
 >()
-const emits = defineEmits<RadioGroupRootEmits>()
+const emit = defineEmits<RadioGroupRootEmits>()
 
 const delegatedProps = computed(() => {
   const { class: _, isForm: _isForm, items: _items, ...delegated } = props
@@ -35,5 +35,5 @@ const delegatedProps = computed(() => {
   return delegated
 })
 
-const forwarded = useForwardPropsEmits(delegatedProps, emits)
+const forwarded = useForwardPropsEmits(delegatedProps, emit)
 </script>

@@ -231,6 +231,9 @@ FROM collect AS production
 
 ENV NODE_ENV=production
 
+ARG RELEASE_NAME
+ENV RELEASE_NAME=${RELEASE_NAME}
+
 # Update dependencies.
 RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
     apk upgrade

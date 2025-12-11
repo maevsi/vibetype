@@ -1,4 +1,3 @@
-// import { useRuntimeConfig } from '#imports'
 import * as Sentry from '@sentry/nuxt'
 import { consola } from 'consola'
 
@@ -13,6 +12,7 @@ if (sharedSentryConfig.dsn) {
       Sentry.captureConsoleIntegration({ levels: ['error'] }),
       Sentry.httpClientIntegration(),
       Sentry.replayIntegration(),
+      Sentry.zodErrorsIntegration(),
 
       // // enable once plain JWT isn't stored any more
       // Sentry.piniaIntegration(usePinia()),
@@ -30,8 +30,8 @@ if (sharedSentryConfig.dsn) {
     replaysSessionSampleRate:
       runtimeConfig.public.sentry.replays.session.sampleRate,
     tracePropagationTargets: [
-      /^https:\/\/postgraphile\.(localhost|maev\.si)\/graphql/,
-      /^https:\/\/(localhost|maev\.si)\/api/,
+      /^https:\/\/postgraphile\.(localhost|vibetype\.app)\/graphql/,
+      /^https:\/\/(localhost|vibetype\.app)\/api/,
     ],
 
     // // TODO: enable when offline support is implemented

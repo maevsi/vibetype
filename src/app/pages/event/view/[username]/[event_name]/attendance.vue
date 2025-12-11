@@ -41,15 +41,7 @@
         </div>
       </div>
       <Modal id="ModalAttendanceScanQrCode" :submit-name="t('close')">
-        <QrCodeStream
-          @detect="onDetect"
-          @error="onError"
-          @camera-on="onCameraOn"
-        >
-          <div v-if="loading" class="text-center">
-            {{ t('globalLoading') }}
-          </div>
-        </QrCodeStream>
+        <LazyAppQrCodeStream @detect="onDetect" @error="modalClose" />
         <template #submit-icon>
           <IHeroiconsXCircleSolid />
         </template>
@@ -60,9 +52,7 @@
 </template>
 
 <script lang="ts">
-import wasmFile from 'zxing-wasm/reader/zxing_reader.wasm?url'
 import { consola } from 'consola'
-import { setZXingModuleOverrides } from 'vue-qrcode-reader'
 import type { DetectedBarcode } from 'vue-qrcode-reader'
 import type { RouteNamedMap } from 'vue-router/auto-routes'
 
@@ -71,23 +61,6 @@ import { useQuery } from '@urql/vue'
 
 const ROUTE_NAME: keyof RouteNamedMap =
   'event-view-username-event_name-attendance___en'
-
-setZXingModuleOverrides({
-  locateFile: (path, prefix) => {
-    if (path.endsWith('.wasm')) {
-      return wasmFile
-    }
-    return prefix + path
-  },
-})
-
-export default {
-  components: {
-    QrCodeStream: defineAsyncComponent(
-      async () => (await import('vue-qrcode-reader')).QrcodeStream,
-    ),
-  },
-}
 </script>
 
 <script setup lang="ts">
@@ -149,32 +122,7 @@ useHeadDefault({ title })
 const qrCodeScan = () => {
   store.modals.push({ id: 'ModalAttendanceScanQrCode' })
 }
-const loading = ref(true)
-const onCameraOn = () => {
-  loading.value = false
-}
-const onError = async (error: Error) => {
-  let errorMessage: string = error.message
-
-  if (error.name === 'NotAllowedError') {
-    errorMessage = t('errorCameraNotAllowed', {
-      hintBrowserSettings: t('hintBrowserSettings'),
-    }) as string
-  } else if (error.name === 'NotFoundError') {
-    errorMessage = t('errorCameraNotFound') as string
-  } else if (error.name === 'NotSupportedError') {
-    errorMessage = t('errorCameraNotSupported') as string
-  } else if (error.name === 'NotReadableError') {
-    errorMessage = t('errorCameraNotReadable') as string
-  } else if (error.name === 'OverconstrainedError') {
-    errorMessage = t('errorCameraOverconstrained') as string
-  } else if (error.name === 'StreamApiNotSupportedError') {
-    errorMessage = t('errorCameraStreamApiNotSupported') as string
-  }
-
-  alertError(errorMessage)
-  store.modalRemove('ModalAttendanceScanQrCode')
-}
+const modalClose = () => store.modalRemove('ModalAttendanceScanQrCode')
 const guestId = ref<string>()
 const onClick = async () => {
   if (!guestId.value) return
@@ -184,7 +132,7 @@ const onDetect = async (detectedBarcodes: DetectedBarcode[]) => {
   if (!detectedBarcodes.length || !detectedBarcodes[0]) return
   guestId.value = detectedBarcodes[0].rawValue
   toast.success(t('successDetect'))
-  store.modalRemove('ModalAttendanceScanQrCode')
+  modalClose()
 }
 
 // nfc
@@ -269,12 +217,6 @@ const isNfcError = computed(() => {
 <i18n lang="yaml">
 de:
   close: Schließen
-  errorCameraNotAllowed: Berechtigung zum Kamerazugriff fehlt. {hintBrowserSettings}
-  errorCameraNotFound: Konnte keine geeignete Kamera finden.
-  errorCameraNotReadable: Zugriff auf die Kamera nicht möglich. Wird sie von einem anderen Programm verwendet?
-  errorCameraNotSupported: Die Webseite wird nicht über eine sichere Verbindung geladen.
-  errorCameraOverconstrained: Frontkamerazugriff ist nicht möglich.
-  errorCameraStreamApiNotSupported: Der Browser unterstützt den Zugriff auf Videostreams nicht.
   errorNavigatorPermissionsNotSupported: Navigator-Berechtigungen werden nicht unterstützt! {hintUpdateOrChrome}
   errorNfcAbort: Der NFC-Scan wurde unterbrochen! {hintTryAgain}
   errorNfcNetwork: Die NFC-Übertragung wurde unterbrochen! {hintTryAgain}
@@ -293,12 +235,6 @@ de:
   title: Check-in
 en:
   close: Close
-  errorCameraNotAllowed: Need camera access permissons. {hintBrowserSettings}
-  errorCameraNotFound: Could not find a suitable camera.
-  errorCameraNotReadable: Could not access camera. Is it in use by another program right now?
-  errorCameraNotSupported: The web page is not loaded over a secure connection.
-  errorCameraOverconstrained: Could not access front camera.
-  errorCameraStreamApiNotSupported: Your browser does not support access to video streams.
   errorNavigatorPermissionsNotSupported: Navigator permissions are not supported! {hintUpdateOrChrome}
   errorNfcAbort: The NFC scan was interrupted! {hintTryAgain}
   errorNfcNetwork: The NFC transmission was interrupted! {hintTryAgain}

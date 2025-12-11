@@ -1,11 +1,11 @@
 <template>
   <EventDashlet v-if="event.url">
-    <span>
-      <IHeroiconsLink :title="t('url')" />
-    </span>
     <AppLink class="line-clamp-2" is-external :to="event.url">
       {{ event.url }}
     </AppLink>
+    <template #icon>
+      <IHeroiconsLink :title="t('url')" />
+    </template>
   </EventDashlet>
 </template>
 

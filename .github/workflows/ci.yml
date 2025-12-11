@@ -37,8 +37,8 @@ jobs:
     permissions:
       packages: write
     with:
-      BUILD_ARGUMENTS: RELEASE_NAME=${{ needs.release_semantic_dry.outputs.new_release_version }}
-      TAG: ${{ needs.release_semantic_dry.outputs.new_release_version }}
+      BUILD_ARGUMENTS: ${{ (needs.release_semantic_dry.outputs.new_release_version != null) && format('RELEASE_NAME={0}', needs.release_semantic_dry.outputs.new_release_version) || '' }}
+      TAG: ${{ (needs.release_semantic_dry.outputs.new_release_version != null) && needs.release_semantic_dry.outputs.new_release_version || '' }}
     secrets:
       BUILD_ARGUMENTS: SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
   release_semantic:

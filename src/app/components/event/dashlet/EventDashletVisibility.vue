@@ -18,12 +18,10 @@
     </span>
     <span v-else class="block">{{ t('bug') }}</span>
     <template #icon>
-      <span>
-        <EventIconVisibility
-          :is-archived="event.isArchived"
-          :visibility="event.visibility"
-        />
-      </span>
+      <EventIconVisibility
+        :is-archived="event.isArchived"
+        :visibility="event.visibility"
+      />
     </template>
   </EventDashlet>
 </template>

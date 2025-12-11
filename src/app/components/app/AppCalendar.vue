@@ -83,17 +83,17 @@ const props = withDefaults(
     modelValue: undefined,
   },
 )
-const emits = defineEmits<
+const emit = defineEmits<
   {
     next: []
   } & CalendarRootEmits
 >()
 
 const delegatedProps = reactiveOmit(props, 'class', 'placeholder')
-const forwarded = useForwardPropsEmits(delegatedProps, emits)
+const forwarded = useForwardPropsEmits(delegatedProps, emit)
 
 const calendarDateToday = today(getLocalTimeZone())
-const placeholder = useVModel(props, 'modelValue', emits, {
+const placeholder = useVModel(props, 'modelValue', emit, {
   passive: false,
   defaultValue: calendarDateToday,
 }) as Ref<DateValue>

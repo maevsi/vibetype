@@ -1,6 +1,6 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
-import { SITE_NAME } from '../../shared/utils/constants'
+import { SITE_NAME } from '../../node/static'
 
 const HTTPS = {
   key: './.config/certificates/ssl.key',
@@ -9,9 +9,6 @@ const HTTPS = {
 
 export const developmentConfig: ReturnType<DefineNuxtConfig> = {
   $development: {
-    build: {
-      transpile: ['import-in-the-middle', 'semver'],
-    },
     ...(process.env.NUXT_PUBLIC_SITE_URL // TODO: make more readable, find better naming ("enable https only in standalone mode, not when running inside the stack")
       ? {}
       : {
@@ -43,6 +40,9 @@ export const developmentConfig: ReturnType<DefineNuxtConfig> = {
       headers: {
         strictTransportSecurity: false, // prevent endless reload in Chrome
       },
+    },
+    sentry: {
+      enabled: false,
     },
     site: {
       debug: true,

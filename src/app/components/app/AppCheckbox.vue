@@ -25,7 +25,7 @@ import { cn } from '@/utils/shadcn'
 const props = defineProps<
   CheckboxRootProps & { class?: HTMLAttributes['class'] }
 >()
-const emits = defineEmits<CheckboxRootEmits>()
+const emit = defineEmits<CheckboxRootEmits>()
 
 const delegatedProps = computed(() => {
   const { class: _, ...delegated } = props
@@ -33,5 +33,5 @@ const delegatedProps = computed(() => {
   return delegated
 })
 
-const forwarded = useForwardPropsEmits(delegatedProps, emits)
+const forwarded = useForwardPropsEmits(delegatedProps, emit)
 </script>

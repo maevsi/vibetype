@@ -104,7 +104,7 @@ import type { AccountBlockAccountsRecord } from '~~/gql/generated/graphql'
 const { account } = defineProps<{
   account: AccountBlockAccountsRecord
 }>()
-const emits = defineEmits<{
+const emit = defineEmits<{
   success: []
 }>()
 
@@ -151,7 +151,7 @@ const unblockUser = async () => {
   }
 
   step.value = 'success'
-  emits('success')
+  emit('success')
 }
 
 const localePath = useLocalePath()
