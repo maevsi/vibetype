@@ -24,8 +24,7 @@
     ],
     "overrides": {
       "debug": "4.4.3",
-      "parse5-parser-stream": "8.0.0",
-      "remark-mdc": "3.8.0"
+      "parse5-parser-stream": "8.0.0"
     }
   },
   "private": true,
