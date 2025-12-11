@@ -76,11 +76,10 @@ FROM prepare AS build-node
 
 ARG RELEASE_NAME
 ENV RELEASE_NAME=${RELEASE_NAME}
-ARG SENTRY_AUTH_TOKEN
-ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
 
 ENV NODE_ENV=production
-RUN pnpm --dir src run build:node
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN \
+    pnpm --dir src run build:node
 
 
 # ########################
@@ -160,6 +159,7 @@ FROM test-e2e-base-image AS test-e2e-prepare
 
 COPY --from=prepare /srv/app/ ./
 
+# a rebuild is necessary because the node image we're pulling dependencies from uses alpine linux while here we use debian
 RUN pnpm -r rebuild
 
 
