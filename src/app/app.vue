@@ -107,23 +107,26 @@ const saveTimeZoneAsCookie = () =>
   }).value = timeZone)
 
 // lifecycle
-watch(
-  () => $pwa,
-  async (current, _previous) => {
-    if (current?.showInstallPrompt && !runtimeConfig.public.vio.isTesting) {
-      toast(t('pwaTitle'), {
-        action: {
-          label: t('pwaConfirmButtonText'),
-          onClick: current.install,
-        },
-        description: t('pwaText'),
-        onDismiss: current.cancelInstall,
-        onAutoClose: current.cancelInstall,
-        duration: 10e3,
-      })
-    }
-  },
-)
+if (!runtimeConfig.public.vio.isTesting && !isApp) {
+  watch(
+    () => $pwa,
+    async (current, _previous) => {
+      if (current?.showInstallPrompt) {
+        toast(t('pwaTitle'), {
+          action: {
+            label: t('pwaConfirmButtonText'),
+            onClick: current.install,
+          },
+          description: t('pwaText'),
+          onDismiss: current.cancelInstall,
+          onAutoClose: current.cancelInstall,
+          duration: 10e3,
+        })
+      }
+    },
+    { deep: true },
+  )
+}
 
 // initialization
 defineOgImageComponent(
@@ -170,12 +173,12 @@ de:
   browserUnsupported: Du benutzt einen Browser, in dem nicht alle Funktionen von @.upper:{'globalSiteName'} unterstützt werden. {link}.
   browserUnsupportedLink: Mehr erfahren
   pwaConfirmButtonText: App nutzen
-  pwaText: Die Installation verbraucht fast keinen Speicherplatz und bietet eine schnelle Möglichkeit, zu dieser App zurückzukehren.
+  pwaText: Erhalte Veranstaltungsempfehlungen direkt, sobald sie verfügbar sind!
   pwaTitle: "@.upper:{'globalSiteName'} installieren"
 en:
   browserUnsupported: You're using a browser which does not support all features @.upper:{'globalSiteName'} offers. {link}.
   browserUnsupportedLink: Learn more
   pwaConfirmButtonText: Get the app
-  pwaText: Installing uses almost no storage and provides a quick way to return to this app.
+  pwaText: Get event recommendations right when they become available!
   pwaTitle: Install @.upper:{'globalSiteName'}
 </i18n>
