@@ -139,7 +139,6 @@ defineOgImageComponent(
 useAppLayout()
 await useAuth()
 usePolyfills()
-useSchemaOrg([defineWebSite(), defineWebPage()])
 useAppGtag()
 await initialize()
 </script>
