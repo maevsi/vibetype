@@ -27,7 +27,7 @@
       >
         {{ t('guests') }}
         <template #prefix>
-          <IHeroiconsUsers />
+          <AppIconUsers />
         </template>
       </ButtonColored>
       <ButtonColored
@@ -44,7 +44,7 @@
       >
         {{ t('attendances') }}
         <template #prefix>
-          <ISolarUserCheckBroken />
+          <AppIconUserCheckBroken />
         </template>
       </ButtonColored>
       <ButtonColored
@@ -61,7 +61,7 @@
       >
         {{ t('settings') }}
         <template #prefix>
-          <IHeroiconsPencil />
+          <AppIconPencil />
         </template>
       </ButtonColored>
     </ButtonList>

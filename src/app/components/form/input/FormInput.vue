@@ -44,13 +44,13 @@
           />
           <template v-if="validationProperty && isValidatable">
             <AppIcon v-slot="attributes">
-              <ISolarHourglassBold
+              <AppIconHourglassBold
                 v-if="validationProperty.$pending"
                 v-bind="attributes"
                 class="text-blue-600"
                 :title="t('globalLoading')"
               />
-              <IHeroiconsCheckCircleSolid
+              <AppIconCheckCircleSolid
                 v-else-if="
                   !!validationProperty.$model && !validationProperty.$invalid
                 "
@@ -58,7 +58,7 @@
                 class="text-(--semantic-success-strong)"
                 :title="t('valid')"
               />
-              <IHeroiconsExclamationCircleSolid
+              <AppIconExclamationCircleSolid
                 v-else-if="
                   !!validationProperty.$model && validationProperty.$invalid
                 "

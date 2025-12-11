@@ -6,7 +6,7 @@
   >
     {{ t('eventUnlock') }}
     <template #prefix>
-      <IHeroiconsKey />
+      <AppIconKey />
     </template>
   </ButtonColored>
 </template>

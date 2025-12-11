@@ -46,7 +46,7 @@
       >
         {{ t('reset') }}
         <template #prefix>
-          <IHeroiconsArrowPath />
+          <AppIconArrowPath />
         </template>
       </ButtonColored>
     </template>

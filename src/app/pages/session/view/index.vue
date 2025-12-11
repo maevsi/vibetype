@@ -32,7 +32,7 @@
               >
                 {{ t('endNow') }}
                 <template #prefix>
-                  <IHeroiconsOutlineLogout />
+                  <AppIconOutlineLogout />
                 </template>
               </ButtonColored>
             </div>
@@ -85,12 +85,12 @@
           <div class="flex flex-1 flex-col gap-2">
             <Card class="flex flex-col gap-1">
               <div class="flex gap-2">
-                <IHeroiconsQuestionMarkCircle v-if="isApp === undefined" />
-                <IHeroiconsCheckCircle
+                <AppIconQuestionMarkCircle v-if="isApp === undefined" />
+                <AppIconCheckCircle
                   v-else-if="isApp"
                   class="text-green-600 dark:text-green-500"
                 />
-                <IHeroiconsXCircle
+                <AppIconXCircle
                   v-else
                   class="text-(--semantic-critic-text) dark:text-red-500"
                 />
@@ -113,14 +113,14 @@
           <section class="flex-1">
             <Card class="flex flex-col gap-1">
               <div class="flex gap-2">
-                <IHeroiconsQuestionMarkCircle
+                <AppIconQuestionMarkCircle
                   v-if="isNavigatorHavingPermissions === undefined"
                 />
-                <IHeroiconsCheckCircle
+                <AppIconCheckCircle
                   v-else-if="isNavigatorHavingPermissions"
                   class="text-green-600 dark:text-green-500"
                 />
-                <IHeroiconsXCircle
+                <AppIconXCircle
                   v-else
                   class="text-(--semantic-critic-text) dark:text-red-500"
                 />
@@ -129,14 +129,14 @@
                 </span>
               </div>
               <div class="flex gap-2">
-                <IHeroiconsQuestionMarkCircle
+                <AppIconQuestionMarkCircle
                   v-if="isNavigatorHavingServiceWorker === undefined"
                 />
-                <IHeroiconsCheckCircle
+                <AppIconCheckCircle
                   v-else-if="isNavigatorHavingServiceWorker"
                   class="text-green-600 dark:text-green-500"
                 />
-                <IHeroiconsXCircle
+                <AppIconXCircle
                   v-else
                   class="text-(--semantic-critic-text) dark:text-red-500"
                 />
@@ -145,14 +145,14 @@
                 </span>
               </div>
               <div class="flex gap-2">
-                <IHeroiconsQuestionMarkCircle
+                <AppIconQuestionMarkCircle
                   v-if="isWindowHavingNotification === undefined"
                 />
-                <IHeroiconsCheckCircle
+                <AppIconCheckCircle
                   v-else-if="isWindowHavingNotification"
                   class="text-green-600 dark:text-green-500"
                 />
-                <IHeroiconsXCircle
+                <AppIconXCircle
                   v-else
                   class="text-(--semantic-critic-text) dark:text-red-500"
                 />
@@ -161,14 +161,14 @@
                 </span>
               </div>
               <div class="flex gap-2">
-                <IHeroiconsQuestionMarkCircle
+                <AppIconQuestionMarkCircle
                   v-if="isIosHavingPushCapability === undefined"
                 />
-                <IHeroiconsCheckCircle
+                <AppIconCheckCircle
                   v-else-if="isIosHavingPushCapability"
                   class="text-green-600 dark:text-green-500"
                 />
-                <IHeroiconsXCircle
+                <AppIconXCircle
                   v-else
                   class="text-(--semantic-critic-text) dark:text-red-500"
                 />
@@ -177,22 +177,22 @@
                 </span>
               </div>
               <div class="flex gap-2">
-                <IHeroiconsQuestionMarkCircle
+                <AppIconQuestionMarkCircle
                   v-if="permissionState === undefined"
                 />
-                <IHeroiconsCheckCircle
+                <AppIconCheckCircle
                   v-else-if="permissionState === 'granted'"
                   class="text-green-600 dark:text-green-500"
                 />
-                <IHeroiconsQuestionMarkCircle
+                <AppIconQuestionMarkCircle
                   v-else-if="permissionState === 'prompt'"
                   class="text-blue-600 dark:text-blue-400"
                 />
-                <IHeroiconsXCircle
+                <AppIconXCircle
                   v-else-if="permissionState === 'denied'"
                   class="text-(--semantic-critic-text) dark:text-red-500"
                 />
-                <IHeroiconsBugAnt v-else class="text-red-500" />
+                <AppIconBugAnt v-else class="text-red-500" />
                 <span>
                   {{ t('notificationPermitted') }}
                 </span>
@@ -209,7 +209,7 @@
               >
                 {{ t('notificationPermit') }}
                 <template #prefix>
-                  <IHeroiconsShieldCheck />
+                  <AppIconShieldCheck />
                 </template>
               </ButtonColored>
               <ButtonColored
@@ -220,7 +220,7 @@
               >
                 {{ t('notificationSend') }}
                 <template #prefix>
-                  <IHeroiconsBellAlert />
+                  <AppIconBellAlert />
                 </template>
               </ButtonColored>
               <ButtonColored
@@ -230,7 +230,7 @@
               >
                 {{ t('showFcmToken') }}
                 <template #prefix>
-                  <IHeroiconsClipboard />
+                  <AppIconClipboard />
                 </template>
               </ButtonColored>
             </div>
@@ -244,16 +244,16 @@
             <Card class="flex flex-col gap-1">
               <div class="flex gap-2">
                 <ClientOnly>
-                  <IHeroiconsCheckCircle
+                  <AppIconCheckCircle
                     v-if="$urqlCache"
                     class="text-green-600 dark:text-green-500"
                   />
-                  <IHeroiconsXCircle
+                  <AppIconXCircle
                     v-else
                     class="text-(--semantic-critic-text) dark:text-red-500"
                   />
                   <template #fallback>
-                    <IHeroiconsQuestionMarkCircle />
+                    <AppIconQuestionMarkCircle />
                   </template>
                 </ClientOnly>
                 <span>
@@ -272,7 +272,7 @@
               >
                 {{ t('apiClientCacheClear') }}
                 <template #prefix>
-                  <IHeroiconsTrash />
+                  <AppIconTrash />
                 </template>
               </ButtonColored>
               <template #fallback>
@@ -283,7 +283,7 @@
                 >
                   {{ t('apiClientCacheClear') }}
                   <template #prefix>
-                    <IHeroiconsTrash />
+                    <AppIconTrash />
                   </template>
                 </ButtonColored>
               </template>

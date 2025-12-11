@@ -35,7 +35,7 @@
       >
         {{ t('invitationSelectionClear') }}
         <template #prefix>
-          <IHeroiconsArrowLeft />
+          <AppIconArrowLeft />
         </template>
       </ButtonColored>
     </CardStateInfo>
@@ -58,7 +58,7 @@
         >
           {{ t('qrCodeShow') }}
           <template #prefix>
-            <IHeroiconsQrCode />
+            <AppIconQrCode />
           </template>
         </ButtonColored>
       </div>
@@ -77,7 +77,7 @@
                 class="flex size-12 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
                 @click="downloadIcal"
               >
-                <IHeroiconsArrowDownTray :title="t('iCalDownload')" />
+                <AppIconArrowDownTray :title="t('iCalDownload')" />
               </AppButtonIcon>
               <!-- TODO: share & favorite button -->
               <template
@@ -163,16 +163,16 @@
             </span>
             <template #prefix>
               <LoaderIndicatorSpinner v-if="isUpdatingAccept" class="size-8" />
-              <IHeroiconsCheckCircleSolid v-else class="shrink-0" />
+              <AppIconCheckCircleSolid v-else class="shrink-0" />
             </template>
           </ButtonColored>
           <div
             v-if="guest.feedback === 'ACCEPTED'"
             class="flex items-center font-semibold text-green-600 dark:text-green-500"
           >
-            <IHeroiconsCheckCircleSolid
+            <AppIconCheckCircleSolid
               class="mr-2 shrink-0"
-              title="accepted"
+              :title="t('invitationAccepted')"
             />
             <span>
               {{
@@ -207,14 +207,17 @@
             </span>
             <template #prefix>
               <LoaderIndicatorSpinner v-if="isUpdatingCancel" class="size-8" />
-              <IHeroiconsXCircleSolid v-else class="shrink-0" />
+              <AppIconXCircleSolid v-else class="shrink-0" />
             </template>
           </ButtonColored>
           <div
             v-if="guest.feedback === 'CANCELED'"
             class="flex items-center font-semibold text-(--semantic-critic-text)"
           >
-            <IHeroiconsXCircleSolid class="mr-2 shrink-0" title="canceled" />
+            <AppIconXCircleSolid
+              class="mr-2 shrink-0"
+              :title="t('invitationCanceled')"
+            />
             <span>
               {{
                 event.accountByCreatedBy.username !== store.signedInUsername
@@ -255,7 +258,7 @@
         >
           {{ t('print') }}
           <template #prefix>
-            <IHeroiconsPrinter />
+            <AppIconPrinter />
           </template>
         </ButtonColored>
         <ButtonColored
@@ -264,7 +267,7 @@
         >
           {{ t('close') }}
           <template #prefix>
-            <IHeroiconsXMark />
+            <AppIconXMark />
           </template>
         </ButtonColored>
       </template>

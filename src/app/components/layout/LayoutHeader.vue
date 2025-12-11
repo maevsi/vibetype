@@ -47,7 +47,7 @@
             })
           "
         >
-          <IHeroiconsBars3 height="2em" width="2em" />
+          <AppIconBars3 class="size-8" />
         </ButtonIcon>
       </div>
     </div>

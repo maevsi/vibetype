@@ -16,7 +16,7 @@
           :title="t('appStore')"
           to="https://testflight.apple.com/join/kkStPDoc"
         >
-          <IFa6BrandsAppStore />
+          <AppIconAppStore />
         </CardButton>
         <CardButton
           class="lg:h-32"
@@ -24,7 +24,7 @@
           :title="t('googlePlay')"
           to="https://play.google.com/store/apps/details?id=si.maev.twa"
         >
-          <IFa6BrandsGooglePlay />
+          <AppIconGooglePlay />
         </CardButton>
       </div>
     </div>

@@ -11,7 +11,7 @@
   >
     {{ t('signIn') }}
     <template #prefix>
-      <IHeroiconsUser />
+      <AppIconUser />
     </template>
   </ButtonColored>
 </template>

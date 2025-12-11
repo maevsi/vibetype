@@ -3,7 +3,7 @@
     <!-- TODO: merge with v1 -->
     <div class="flex items-center gap-4">
       <div class="px-2">
-        <IHeroiconsHeart />
+        <AppIconHeart />
       </div>
       <div class="flex flex-1 flex-col">
         <i18n-t keypath="message" tag="span">
