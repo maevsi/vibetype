@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 import { EventVisibility } from '~~/gql/generated/graphql'
-import { SITE_URL } from '~~/node/environment'
+import { SITE_URL } from '~~/node/static'
 
 const icalPostBodySchema = z.object({
   contact: z

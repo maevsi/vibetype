@@ -1,6 +1,6 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
-import { SITE_NAME } from '../../shared/utils/constants'
+import { SITE_NAME } from '../../node/static'
 
 const HTTPS = {
   key: './.config/certificates/ssl.key',

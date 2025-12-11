@@ -13,6 +13,7 @@ if (sharedSentryConfig.dsn) {
       Sentry.captureConsoleIntegration({ levels: ['error'] }),
       Sentry.httpClientIntegration(),
       Sentry.replayIntegration(),
+      Sentry.zodErrorsIntegration(),
 
       // // enable once plain JWT isn't stored any more
       // Sentry.piniaIntegration(usePinia()),

@@ -1,11 +1,13 @@
 import { DEFAULTS } from '@dargmuesli/nuxt-cookie-control/runtime/types.js'
 
+import { SITE_NAME } from '../../node/static'
+
 export {
   IS_IN_FRONTEND_DEVELOPMENT,
+  IS_IN_STACK,
   IS_NITRO_OPENAPI_ENABLED,
-} from '../../node/environment'
-
-export const SITE_NAME = 'vibetype'
+  SITE_NAME,
+} from '../../node/static'
 
 export const CACHE_VERSION = '9Th9y78ype'
 export const COOKIE_CONTROL_CONSENT_COOKIE_NAME =
@@ -32,12 +34,6 @@ export const LOCALES = [
   },
 ]
 export const MAEVSI_EMAIL_LIMIT_24H = 150
-export const NUXT_PUBLIC_SENTRY_HOST = 'o4507213726154752.ingest.de.sentry.io'
-export const NUXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE = 1.0
-export const NUXT_PUBLIC_SENTRY_PROJECT_ID = '4507213736837200'
-export const NUXT_PUBLIC_SENTRY_PROJECT_PUBLIC_KEY =
-  '5e253cec6a72a9eea44531e7205016ba'
-export const NUXT_PUBLIC_VIO_IS_TESTING = false
 export const POLYFILLS = ['Promise', 'requestAnimationFrame']
 export const POSTGRES_INTEGER_MAXIMUM = Math.pow(2, 31) - 1
 export const PRODUCTION_HOST = 'vibetype.app'
