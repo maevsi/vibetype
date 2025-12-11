@@ -159,6 +159,7 @@ FROM test-e2e-base-image AS test-e2e-prepare
 
 COPY --from=prepare /srv/app/ ./
 
+# a rebuild is necessary because the node image we're pulling dependencies from uses alpine linux while here we use debian
 RUN pnpm -r rebuild
 
 
