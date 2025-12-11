@@ -127,7 +127,12 @@
             <!-- <EventDashletAttendanceType :event />
             <EventDashletLink :event /> -->
           </div>
-          <AppMap class="h-42 rounded-xl" :events :position-initial />
+          <AppMap
+            v-if="positionInitial"
+            class="h-42 rounded-xl"
+            :events
+            :position-initial
+          />
         </Card>
       </div>
       <div
