@@ -4,7 +4,7 @@
       {{ event.url }}
     </AppLink>
     <template #icon>
-      <IHeroiconsLink :title="t('url')" />
+      <AppIconLink />
     </template>
   </EventDashlet>
 </template>
@@ -15,13 +15,4 @@ import type { EventItemFragment } from '~~/gql/generated/graphql'
 const { event } = defineProps<{
   event: Pick<EventItemFragment, 'url' | 'isRemote'>
 }>()
-
-const { t } = useI18n()
 </script>
-
-<i18n lang="yaml">
-de:
-  url: Link
-en:
-  url: Link
-</i18n>

@@ -50,7 +50,7 @@
       :to="localePath('notification')"
     >
       <div class="relative">
-        <IHeroiconsBell :aria-label="t('iconNotifications')" />
+        <AppIconBell />
         <div class="absolute top-0 right-0">
           <NotificationIndicator />
         </div>
@@ -71,13 +71,11 @@ de:
   discover: Entdecken
   events: Veranstaltungen
   home: Dashboard
-  iconNotifications: Icon einer Glocke
   notifications: Benachrichtigungen
 en:
   account: Account
   discover: Discover
   events: Events
   home: Dashboard
-  iconNotifications: Bell icon
   notifications: Notifications
 </i18n>

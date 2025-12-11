@@ -7,7 +7,7 @@
   >
     {{ t('appInstall') }}
     <template #suffix>
-      <IHeroiconsArrowRight />
+      <AppIconArrowRight />
     </template>
   </AppButton>
 </template>

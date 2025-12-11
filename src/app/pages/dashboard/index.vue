@@ -78,11 +78,14 @@ const eventQuery = graphql(`
 const { $urql } = useNuxtApp()
 const jwtName = useJwtName()
 const cookieJwt = useCookieJwt()
+const { isSignedIn } = useAuthInfo()
 const {
   data: events,
   // error: recommendationError,
   pending,
 } = await useAsyncData('index-recommendations', async () => {
+  if (!isSignedIn.value) return []
+
   const eventIds = await $fetch(
     '/api/service/reccoom/recommendations',
     cookieJwt.value
@@ -117,7 +120,6 @@ const title = t('title')
 useHeadDefault({ title })
 
 // template
-const { isSignedIn } = useAuthInfo()
 const templateIdRecommendation = useId()
 </script>
 

@@ -10,7 +10,7 @@
     </span>
     <!-- </AppLink> -->
     <template #icon>
-      <IHeroiconsMap :title="t('location')" />
+      <AppIconMap :title="t('location')" />
     </template>
   </EventDashlet>
 </template>

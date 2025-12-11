@@ -62,6 +62,9 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
     prefix: '',
     componentDir: 'app/components/scn',
   },
+  schemaOrg: {
+    reactive: false, // TODO: for a strict trusted type policy, evaluate linking schema org json instead of reatively updating it inline (https://github.com/harlan-zw/nuxt-schema-org/issues/96)
+  },
   sitemap: {
     credits: false,
   },

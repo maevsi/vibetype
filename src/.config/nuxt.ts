@@ -194,7 +194,11 @@ export default defineNuxtConfig({
   sourcemap: true,
   typescript: {
     nodeTsConfig: {
-      include: [resolve('../node'), resolve('../sentry.server.config.ts')],
+      include: [
+        resolve('../config'),
+        resolve('../node'),
+        resolve('../sentry.server.config.ts'),
+      ],
     },
     tsConfig: {
       vueCompilerOptions: {

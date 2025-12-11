@@ -14,7 +14,7 @@
         <ButtonColored :aria-label="t('qrCodeScan')" @click="qrCodeScan">
           {{ t('qrCodeScan') }}
           <template #prefix>
-            <IHeroiconsQrCode />
+            <AppIconQrCode />
           </template>
         </ButtonColored>
         <FormInputStateInfo v-if="!guestId">
@@ -32,7 +32,7 @@
           >
             {{ t('nfcWrite') }}
             <template #prefix>
-              <IFa6SolidUserTag />
+              <AppIconUserTag />
             </template>
           </ButtonColored>
           <CardStateAlert v-if="isNfcError">
@@ -43,7 +43,7 @@
       <Modal id="ModalAttendanceScanQrCode" :submit-name="t('close')">
         <LazyAppQrCodeStream @detect="onDetect" @error="modalClose" />
         <template #submit-icon>
-          <IHeroiconsXCircleSolid />
+          <AppIconXCircleSolid />
         </template>
       </Modal>
     </div>

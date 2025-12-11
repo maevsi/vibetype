@@ -1,18 +1,18 @@
 <template>
-  <IHeroiconsArchiveBox v-if="isArchived" :title="t('archived')" />
-  <IHeroiconsEye
+  <AppIconArchiveBox v-if="isArchived" :title="t('archived')" />
+  <AppIconEye
     v-else-if="visibility === EventVisibility.Public"
     :title="t('public')"
   />
-  <IHeroiconsTicket
+  <AppIconTicket
     v-else-if="visibility === EventVisibility.Unlisted"
     :title="t('unlisted')"
   />
-  <IHeroiconsLockClosed
+  <AppIconLockClosed
     v-else-if="visibility === EventVisibility.Private"
     :title="t('private')"
   />
-  <IHeroiconsBugAnt v-else :title="t('bug')" />
+  <AppIconBugAnt v-else :title="t('bug')" />
 </template>
 
 <script setup lang="ts">

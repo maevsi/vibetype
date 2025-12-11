@@ -130,7 +130,7 @@
           })
         "
       >
-        <IHeroiconsFolder />
+        <AppIconFolder />
         <TypographySubtitleMedium>
           {{ t('uploads') }}
         </TypographySubtitleMedium>
@@ -195,11 +195,7 @@
             class="flex gap-2 text-center"
           >
             <div class="flex flex-1 flex-col items-center gap-2 py-2">
-              <IFa6SolidHandshake
-                class="text-(--semantic-base-icon-primary)"
-                height="1.5em"
-                width="1.5em"
-              />
+              <AppIconHandshake class="text-(--semantic-base-icon-primary)" />
               <TypographyLabelBold>
                 {{ t('achievementMeetTheTeam') }}
               </TypographyLabelBold>

@@ -19,16 +19,8 @@
         </i18n-t>
       </div>
       <div class="relative flex gap-1">
-        <IHeroiconsXCircle
-          class="text-gray-500 dark:text-gray-400"
-          height="2.5em"
-          width="2.5em"
-        />
-        <IHeroiconsCheckCircle
-          class="text-green-500"
-          height="2.5em"
-          width="2.5em"
-        />
+        <AppIconXCircle class="size-10 text-gray-500 dark:text-gray-400" />
+        <AppIconCheckCircle class="size-10 text-green-500" />
       </div>
     </div>
   </Card>

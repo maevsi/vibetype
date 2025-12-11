@@ -26,14 +26,14 @@
           "
           @click="send(guest)"
         >
-          <IHeroiconsPaperAirplane />
+          <AppIconPaperAirplane />
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('guestLink')"
           class="hidden md:block"
           @click="copyLink(guest)"
         >
-          <IHeroiconsLink />
+          <AppIconLink />
         </ButtonIcon>
         <AppDropdown>
           <AppDropdownItem
@@ -44,7 +44,7 @@
             "
             @select="send(guest)"
           >
-            <IHeroiconsPaperAirplane />
+            <AppIconPaperAirplane />
             <span>
               {{
                 contact.accountId || contact.emailAddress
@@ -54,7 +54,7 @@
             </span>
           </AppDropdownItem>
           <AppDropdownItem class="md:hidden" @select="copyLink(guest)">
-            <IHeroiconsLink />
+            <AppIconLink />
             <span>
               {{ t('guestLink') }}
             </span>
@@ -72,7 +72,7 @@
               )
             "
           >
-            <IHeroiconsEye />
+            <AppIconEye />
             <span>
               {{ t('guestView') }}
             </span>
@@ -82,13 +82,13 @@
             variant="destructive"
             @select="delete_(guest.id)"
           >
-            <IHeroiconsTrash />
+            <AppIconTrash />
             <span>
               {{ t('guestDelete') }}
             </span>
           </AppDropdownItem>
           <template #trigger>
-            <IHeroiconsEllipsisVertical />
+            <AppIconEllipsisVertical />
           </template>
         </AppDropdown>
       </div>

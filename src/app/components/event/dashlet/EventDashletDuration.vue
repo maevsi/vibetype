@@ -7,7 +7,7 @@
       )
     }}
     <template #icon>
-      <ISolarHourglassOutline :title="t('duration')" />
+      <AppIconHourglassOutline :title="t('duration')" />
     </template>
   </EventDashlet>
 </template>

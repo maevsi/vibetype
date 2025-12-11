@@ -15,8 +15,8 @@
         :aria-label="t('visibilityToggle')"
         @click="isVisible = !isVisible"
       >
-        <IHeroiconsEye v-if="!isVisible" />
-        <IHeroiconsEyeSlash v-else />
+        <AppIconEye v-if="!isVisible" />
+        <AppIconEyeSlash v-else />
       </ButtonIcon>
     </template>
     <template #stateError>

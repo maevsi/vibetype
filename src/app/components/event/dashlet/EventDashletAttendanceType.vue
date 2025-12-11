@@ -8,8 +8,8 @@
     }}
     <template #icon>
       <span class="flex gap-2">
-        <IHeroiconsMapPin v-if="event.isInPerson" :title="t('inPerson')" />
-        <IHeroiconsWifi v-if="event.isRemote" :title="t('remote')" />
+        <AppIconMapPin v-if="event.isInPerson" :title="t('inPerson')" />
+        <AppIconWifi v-if="event.isRemote" :title="t('remote')" />
       </span>
     </template>
   </EventDashlet>

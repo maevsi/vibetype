@@ -8,7 +8,7 @@
           :title="t('undo')"
           @click="editor.chain().focus().undo().run()"
         >
-          <IFa6SolidArrowRotateLeft />
+          <AppIconArrowRotateLeft />
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('redo')"
@@ -16,7 +16,7 @@
           :title="t('redo')"
           @click="editor.chain().focus().redo().run()"
         >
-          <IFa6SolidArrowRotateRight />
+          <AppIconArrowRotateRight />
         </ButtonIcon>
       </div>
       <div class="flex gap-1">
@@ -25,7 +25,7 @@
           :title="t('paragraph')"
           @click="editor.chain().focus().setParagraph().run()"
         >
-          <IFa6SolidParagraph />
+          <AppIconParagraph />
         </ButtonIcon /> -->
         <ButtonIcon
           :aria-label="t('heading1')"
@@ -39,7 +39,7 @@
           @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
         >
           <div class="align-end flex">
-            <IFa6SolidHeading />
+            <AppIconHeading />
             <span>{{ t('number1') }}</span>
           </div>
         </ButtonIcon>
@@ -55,7 +55,7 @@
           @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
         >
           <div class="align-end flex">
-            <IFa6SolidHeading />
+            <AppIconHeading />
             <span>{{ t('number2') }}</span>
           </div>
         </ButtonIcon>
@@ -71,7 +71,7 @@
           @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
         >
           <div class="align-end flex">
-            <IFa6SolidHeading />
+            <AppIconHeading />
             <span>{{ t('number3') }}</span>
           </div>
         </ButtonIcon>
@@ -88,7 +88,7 @@
           :title="t('bold')"
           @click="editor.chain().focus().toggleBold().run()"
         >
-          <IFa6SolidBold />
+          <AppIconBold />
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('italic')"
@@ -101,7 +101,7 @@
           :title="t('italic')"
           @click="editor.chain().focus().toggleItalic().run()"
         >
-          <IFa6SolidItalic />
+          <AppIconItalic />
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('strike')"
@@ -114,7 +114,7 @@
           :title="t('strike')"
           @click="editor.chain().focus().toggleStrike().run()"
         >
-          <IFa6SolidStrikethrough />
+          <AppIconStrikethrough />
         </ButtonIcon>
       </div>
       <div class="flex gap-1">
@@ -129,7 +129,7 @@
           :title="t('formatAlignLeft')"
           @click="editor.chain().focus().setTextAlign('left').run()"
         >
-          <IFa6SolidAlignLeft />
+          <AppIconAlignLeft />
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('formatAlignCenter')"
@@ -142,7 +142,7 @@
           :title="t('formatAlignCenter')"
           @click="editor.chain().focus().setTextAlign('center').run()"
         >
-          <IFa6SolidAlignCenter />
+          <AppIconAlignCenter />
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('formatAlignRight')"
@@ -155,7 +155,7 @@
           :title="t('formatAlignRight')"
           @click="editor.chain().focus().setTextAlign('right').run()"
         >
-          <IFa6SolidAlignRight />
+          <AppIconAlignRight />
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('formatAlignJustify')"
@@ -168,7 +168,7 @@
           :title="t('formatAlignJustify')"
           @click="editor.chain().focus().setTextAlign('justify').run()"
         >
-          <IFa6SolidAlignJustify />
+          <AppIconAlignJustify />
         </ButtonIcon>
       </div>
       <div class="flex gap-1">
@@ -183,7 +183,7 @@
           :title="t('listUl')"
           @click="editor.chain().focus().toggleBulletList().run()"
         >
-          <IFa6SolidListUl />
+          <AppIconListUl />
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('listOl')"
@@ -196,7 +196,7 @@
           :title="t('listOl')"
           @click="editor.chain().focus().toggleOrderedList().run()"
         >
-          <IFa6SolidListOl />
+          <AppIconListOl />
         </ButtonIcon>
       </div>
       <div class="flex gap-1">
@@ -220,7 +220,7 @@
           :title="t('linkRemove')"
           @click="editor.chain().focus().unsetLink().run()"
         >
-          <IFa6SolidLinkSlash />
+          <AppIconLinkSlash />
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('blockquote')"
@@ -233,7 +233,7 @@
           :title="t('blockquote')"
           @click="editor.chain().focus().toggleBlockquote().run()"
         >
-          <IFa6SolidQuoteLeft />
+          <AppIconQuoteLeft />
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('code')"
@@ -246,7 +246,7 @@
           :title="t('code')"
           @click="editor.chain().focus().toggleCode().run()"
         >
-          <IFa6SolidCode />
+          <AppIconCode />
         </ButtonIcon>
       </div>
       <div class="flex gap-1">
@@ -261,7 +261,7 @@
           :title="t('horizontalRule')"
           @click="editor.chain().focus().setHorizontalRule().run()"
         >
-          <IFa6SolidMinus />
+          <AppIconMinus />
         </ButtonIcon>
       </div>
       <!--

@@ -54,6 +54,7 @@
     "@types/nodemailer": "7.0.4",
     "@types/pg": "8.15.6",
     "@types/seedrandom": "3.0.8",
+    "@types/trusted-types": "2.0.7",
     "@uppy/core": "5.2.0",
     "@uppy/tus": "5.1.0",
     "@urql/core": "6.0.1",

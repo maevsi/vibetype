@@ -42,7 +42,7 @@
                 class="flex h-full justify-center"
                 @click="deleteUpload(upload.id)"
               >
-                <IHeroiconsTrash
+                <AppIconTrash
                   class="text-text-bright m-1"
                   :title="t('iconTrash')"
                 />
@@ -67,11 +67,7 @@
             "
             @click="selectProfilePicture"
           >
-            <IHeroiconsPlusSolid
-              class="text-gray-500"
-              width="3em"
-              height="3em"
-            />
+            <AppIconPlusSolid class="size-12 text-gray-500" />
           </AppButton>
           <input
             ref="inputProfilePicture"
@@ -109,7 +105,7 @@
         }"
       />
       <template #header>{{ t('uploadNew') }}</template>
-      <template #submit-icon><IHeroiconsArrowUpTray /></template>
+      <template #submit-icon><AppIconArrowUpTray /></template>
     </Modal>
   </Loader>
 </template>

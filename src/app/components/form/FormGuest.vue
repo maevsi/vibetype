@@ -15,7 +15,7 @@
       <ButtonColored :aria-label="t('contactsAdd')" :to="localePath('contact')">
         {{ t('contactsAdd') }}
         <template #suffix>
-          <IHeroiconsArrowRight />
+          <AppIconArrowRight />
         </template>
       </ButtonColored>
     </div>
@@ -28,7 +28,7 @@
       @input="form.searchString = $event"
     >
       <template #icon>
-        <IHeroiconsMagnifyingGlass />
+        <AppIconMagnifyingGlass />
       </template>
       <template #stateError>
         <FormInputStateError

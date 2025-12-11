@@ -9,7 +9,7 @@
       </template>
     </i18n-t>
     <template #icon>
-      <IHeroiconsCalendar :title="t('start')" />
+      <AppIconCalendar :title="t('start')" />
     </template>
   </EventDashlet>
 </template>
