@@ -13,10 +13,11 @@ export const securityConfig: ReturnType<DefineNuxtConfig> = {
         'frame-ancestors': ["'none'"], // does not fallback to `default-src`
         'frame-src': false as const,
         'img-src': false as const,
+        'manifest-src': false as const,
         'media-src': false as const,
         'object-src': false as const,
         'prefetch-src': false as const,
-        'report-to': undefined,
+        'report-to': false as const,
         'trusted-types': false as const,
         'report-uri': false as const,
         'require-trusted-types-for': false as const,
