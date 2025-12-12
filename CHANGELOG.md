@@ -1,3 +1,9 @@
+## [12.45.1](https://github.com/maevsi/vibetype/compare/12.45.0...12.45.1) (2025-12-12)
+
+### Bug Fixes
+
+* **guest:** correct invitation labels ([cac119d](https://github.com/maevsi/vibetype/commit/cac119d435e6dfaeaddd771726ef38f5d7e74f86))
+
 ## [12.45.0](https://github.com/maevsi/vibetype/compare/12.44.0...12.45.0) (2025-12-11)
 
 ### Features
