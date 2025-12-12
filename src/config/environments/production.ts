@@ -6,6 +6,7 @@ export const productionConfig: ReturnType<DefineNuxtConfig> = {
       public: {
         vio: {
           isInProduction: true,
+          isTesting: process.env.NUXT_PUBLIC_VIO_IS_TESTING === 'true',
         },
       },
     },

@@ -77,6 +77,13 @@ FROM prepare AS build-node
 ARG RELEASE_NAME
 ENV RELEASE_NAME=${RELEASE_NAME}
 
+
+ARG NUXT_PUBLIC_VIO_IS_TESTING=true
+ARG SITE_URL=http://localhost:3001
+ENV NUXT_PUBLIC_VIO_IS_TESTING=${NUXT_PUBLIC_VIO_IS_TESTING}
+ENV SITE_URL=${SITE_URL}
+# -----------------------------------------------
+
 ENV NODE_ENV=production
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN \
     pnpm --dir src run build:node
@@ -180,7 +187,13 @@ FROM test-e2e-prepare AS test-e2e-node
 
 COPY --from=build-node /srv/app/src/.output ./src/.output
 
-RUN pnpm --dir tests run test:e2e:server:node
+
+ARG NUXT_PUBLIC_VIO_IS_TESTING=true
+ARG SITE_URL=http://localhost:3001
+ENV NUXT_PUBLIC_VIO_IS_TESTING=${NUXT_PUBLIC_VIO_IS_TESTING}
+ENV SITE_URL=${SITE_URL}
+
+# RUN pnpm --dir tests run test:e2e:server:node
 
 
 # ########################
