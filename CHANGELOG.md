@@ -1,3 +1,9 @@
+## [12.46.0](https://github.com/maevsi/vibetype/compare/12.45.1...12.46.0) (2025-12-12)
+
+### Features
+
+* **sentry:** add graphql client integration ([651701b](https://github.com/maevsi/vibetype/commit/651701b23629389b7125af038574cf76e7e8774a))
+
 ## [12.45.1](https://github.com/maevsi/vibetype/compare/12.45.0...12.45.1) (2025-12-12)
 
 ### Bug Fixes
