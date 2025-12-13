@@ -1,7 +1,7 @@
 <template>
   <div>
     <LayoutPageTitle :is-button-event-create-shown="false" :title="title" />
-    <FormEvent v-if="isSignedIn" />
+    <FormEvent v-if="authentication.isSignedIn" />
     <LayoutCallToAction
       v-else
       :call-to-action="t('anonymousCta')"
@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 const { t } = useI18n()
-const { isSignedIn } = useAuthInfo()
+const authentication = useAuthentication()
 
 // data
 const title = t('title')

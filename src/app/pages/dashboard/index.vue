@@ -6,7 +6,7 @@
   <div>
     <!-- v-else -->
     <LayoutPageTitle :title />
-    <div v-if="isSignedIn" class="flex flex-col gap-8">
+    <div v-if="authentication.isSignedIn" class="flex flex-col gap-8">
       <section
         v-if="events?.length"
         :aria-labelledby="templateIdRecommendation"
@@ -78,13 +78,13 @@ const eventQuery = graphql(`
 const { $urql } = useNuxtApp()
 const jwtName = useJwtName()
 const cookieJwt = useCookieJwt()
-const { isSignedIn } = useAuthInfo()
+const authentication = useAuthentication()
 const {
   data: events,
   // error: recommendationError,
   pending,
 } = await useAsyncData('index-recommendations', async () => {
-  if (!isSignedIn.value) return []
+  if (!authentication.value.isSignedIn) return []
 
   const eventIds = await $fetch(
     '/api/service/reccoom/recommendations',
