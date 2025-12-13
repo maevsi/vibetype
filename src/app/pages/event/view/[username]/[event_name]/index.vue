@@ -68,7 +68,7 @@
     <div class="flex flex-col gap-4">
       <div>
         <div class="relative">
-          <EventHeroImage :event="event" />
+          <EventHeroImage :event />
           <div
             class="absolute inset-x-0 top-0 flex items-center justify-between p-2"
           >

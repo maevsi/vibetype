@@ -1,9 +1,9 @@
 <template>
   <FormInput
     v-if="formInput"
-    :is-disabled="isDisabled"
-    :is-optional="isOptional"
-    :is-validatable="isValidatable"
+    :is-disabled
+    :is-optional
+    :is-validatable
     :id-label="`input-username`"
     :title="t('username')"
     type="text"
@@ -13,41 +13,32 @@
   >
     <template #stateError>
       <FormInputStateError
-        :form-input="formInput"
+        :form-input
         :is-validation-live="!isValidationInverted"
         validation-property="existence"
       >
         {{ t('globalValidationExistenceNone') }}
       </FormInputStateError>
       <FormInputStateError
-        :form-input="formInput"
+        :form-input
         :is-validation-live="isValidationInverted"
         validation-property="existenceNone"
       >
         {{ t('globalValidationAvailabilityNone') }}
       </FormInputStateError>
-      <FormInputStateError
-        :form-input="formInput"
-        validation-property="formatSlug"
-      >
+      <FormInputStateError :form-input validation-property="formatSlug">
         {{ t('validationFormat') }}
       </FormInputStateError>
-      <FormInputStateError
-        :form-input="formInput"
-        validation-property="lengthMax"
-      >
+      <FormInputStateError :form-input validation-property="lengthMax">
         {{ t('globalValidationLength') }}
       </FormInputStateError>
-      <FormInputStateError
-        :form-input="formInput"
-        validation-property="required"
-      >
+      <FormInputStateError :form-input validation-property="required">
         {{ t('globalValidationRequired') }}
       </FormInputStateError>
     </template>
     <template #stateInfo>
       <FormInputStateInfo
-        :form-input="formInput"
+        :form-input
         :is-validation-live="!isValidationInverted"
         validation-property="existence"
       >
@@ -56,10 +47,7 @@
       <slot name="stateInfo" />
     </template>
     <template v-if="!!formInput.$model && isValidatable" #stateSuccess>
-      <FormInputStateSuccess
-        :form-input="formInput"
-        validation-property="existence"
-      >
+      <FormInputStateSuccess :form-input validation-property="existence">
         {{
           isValidationInverted
             ? t('globalValidationAvailability')

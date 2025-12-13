@@ -6,21 +6,14 @@
     </CardStateAlert>
     <img
       v-if="srcWhenLoaded"
-      :alt="alt"
+      :alt
       :class="cn(aspect, classes, classProps)"
       :crossorigin="crossOrigin"
-      :height="height"
+      :height
       :src="srcWhenLoaded"
-      :width="width"
+      :width
     />
-    <img
-      :alt="alt"
-      class="hidden"
-      :crossorigin="crossOrigin"
-      :height="height"
-      :src="src"
-      :width="width"
-    />
+    <img :alt class="hidden" :crossorigin="crossOrigin" :height :src :width />
   </div>
 </template>
 

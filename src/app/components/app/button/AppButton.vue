@@ -2,11 +2,11 @@
   <AppLink
     v-if="to"
     v-bind="delegatedProps"
-    :aria-label="ariaLabel"
+    :aria-label
     :class="cn(classComputed, classProps)"
     :is-disabled="disabled"
     :is-colored="false"
-    :to="to"
+    :to
     @click="emit('click')"
   >
     <slot name="prefix" />
@@ -17,11 +17,11 @@
   </AppLink>
   <button
     v-else
-    :aria-label="ariaLabel"
+    :aria-label
     :class="cn(['rounded-sm', classComputed], classProps)"
-    :disabled="disabled"
+    :disabled
     :title="ariaLabel"
-    :type="type"
+    :type
     @click="emit('click')"
   >
     <slot name="prefix" />

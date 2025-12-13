@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LayoutPageTitle :is-button-event-create-shown="false" :title="title" />
+    <LayoutPageTitle :is-button-event-create-shown="false" :title />
     <FormEvent v-if="authentication.isSignedIn" />
     <LayoutCallToAction
       v-else

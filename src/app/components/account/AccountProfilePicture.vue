@@ -1,11 +1,11 @@
 <template>
   <LoaderImage
     :alt="t('profilePictureAlt', { username: account?.username })"
-    :aspect="aspect"
+    :aspect
     :classes="classProps"
-    :height="height"
+    :height
     :src="profilePictureUrl || blankProfilePicture"
-    :width="width"
+    :width
   />
 </template>
 

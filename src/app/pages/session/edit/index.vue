@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LayoutPageTitle :title="title" />
+    <LayoutPageTitle :title />
     <div class="flex flex-col gap-6">
       <section class="flex flex-col gap-4">
         <span class="text-lg font-bold">{{ t('profile') }}</span>

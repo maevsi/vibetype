@@ -1,7 +1,7 @@
 <template>
   <FormInput
     v-if="formInput"
-    :is-optional="isOptional"
+    :is-optional
     :id-label="`input-${id}`"
     :placeholder="t('globalPlaceholderPhoneNumber')"
     :title="t('phoneNumber')"

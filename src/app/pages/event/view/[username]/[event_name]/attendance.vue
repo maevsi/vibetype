@@ -1,5 +1,5 @@
 <template>
-  <Loader :api="api" indicator="ping">
+  <Loader :api indicator="ping">
     <div
       v-if="event && route.params.username === store.signedInUsername"
       class="flex flex-col gap-4"

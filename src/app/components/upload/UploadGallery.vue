@@ -1,6 +1,6 @@
 <template>
   <Loader
-    :api="api"
+    :api
     :error-pg-ids="{
       postgres53100: t('postgres53100'),
     }"
@@ -98,7 +98,7 @@
     >
       <Cropper
         ref="cropper"
-        :init-stretcher="initStretcher"
+        :init-stretcher
         :src="fileSelectedUrl"
         :stencil-props="{
           aspectRatio: 1,

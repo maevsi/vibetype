@@ -1,5 +1,5 @@
 <template>
-  <Loader :api="api">
+  <Loader :api>
     <div class="flex flex-col gap-4">
       <AppScrollContainer
         v-if="event && guests.length"
@@ -20,8 +20,8 @@
             <GuestListItem
               v-for="guest in guests"
               :key="guest.id"
-              :event="event"
-              :guest="guest"
+              :event
+              :guest
             />
           </LayoutTbody>
         </LayoutTable>
@@ -65,13 +65,13 @@
             v-if="!runtimeConfig.public.vio.isTesting"
             ref="doughnut"
             :data="dataComputed"
-            :options="options"
+            :options
           />
         </div>
       </div>
       <Modal id="ModalGuest" is-footer-hidden>
         <FormGuest
-          :event="event"
+          :event
           :guest-contact-ids-existing="guests.map((i) => i.contactId)"
           @submit-success="onGuestSubmitSuccess"
         />
