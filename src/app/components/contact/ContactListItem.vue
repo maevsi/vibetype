@@ -7,7 +7,7 @@
     }"
   >
     <LayoutTd>
-      <ContactPreview :contact="contact" />
+      <ContactPreview :contact />
     </LayoutTd>
     <LayoutTd class="hidden xl:table-cell">
       {{ contact.emailAddress || '–' }}

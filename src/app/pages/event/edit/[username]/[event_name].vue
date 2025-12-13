@@ -4,7 +4,7 @@
   <div v-else class="flex flex-col gap-4">
     <section>
       <LayoutPageTitle :title="t('title')" />
-      <FormEvent :event="event" />
+      <FormEvent :event />
     </section>
     <section>
       <h2>{{ t('titleDelete') }}</h2>

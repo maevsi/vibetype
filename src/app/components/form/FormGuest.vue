@@ -67,7 +67,7 @@
         type="button"
         @click="selectToggle(contact.id)"
       >
-        <ContactPreview :contact="contact" :is-username-linked="false" />
+        <ContactPreview :contact :is-username-linked="false" />
         <FormCheckbox
           :is-disabled="guestContactIdsExisting?.includes(contact.id)"
           :value="

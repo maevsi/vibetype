@@ -2,7 +2,7 @@
   <LoaderImage
     v-bind="delegatedProps"
     :alt="t('profilePictureAlt', { emailAddress })"
-    :cross-origin="crossOrigin"
+    :cross-origin
     :height="size"
     :src="imageSrc"
     :width="size"

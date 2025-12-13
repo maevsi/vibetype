@@ -105,7 +105,7 @@ const t = locales[locale]
 </script>
 
 <template>
-  <Email :locale="locale" :logo-source="logoSource" :title="t.title(eventName)">
+  <Email :locale :logo-source :title="t.title(eventName)">
     <Section style="padding-top: 30px">
       <Row style="width: 45%">
         <Column>
@@ -196,6 +196,6 @@ const t = locales[locale]
         </Column>
       </Row>
     </Section>
-    <AppFooter :email-address="emailAddress" :locale="locale" />
+    <AppFooter :email-address :locale />
   </Email>
 </template>

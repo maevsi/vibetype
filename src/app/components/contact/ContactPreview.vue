@@ -18,7 +18,7 @@
       <GuestFeedbackIcon
         v-if="feedback"
         class="bg-background-bright dark:bg-background-dark absolute right-0 bottom-0 rounded-full"
-        :feedback="feedback"
+        :feedback
       />
     </div>
     <div class="flex flex-col items-start justify-center overflow-hidden">

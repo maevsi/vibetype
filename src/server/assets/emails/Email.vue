@@ -58,7 +58,7 @@ export default {
       <Container
         style="background-color: #f0f0f0; max-width: 42.5em; padding: 0 2.5em"
       >
-        <AppLogo :locale="locale" :logo-source="logoSource" />
+        <AppLogo :locale :logo-source />
         <slot />
       </Container>
     </Body>

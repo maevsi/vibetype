@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LayoutPageTitle :title="title" />
+    <LayoutPageTitle :title />
     <div class="flex flex-col gap-8">
       <AppUnderConstruction>
         <div class="flex flex-col gap-8">

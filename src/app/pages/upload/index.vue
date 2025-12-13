@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LayoutPageTitle :title="title" />
+    <LayoutPageTitle :title />
     <!-- "UploadGallery" must come after "ModalUploadSelection" for them to overlay properly! -->
     <UploadGallery v-if="authentication.isSignedIn" />
     <LayoutCallToAction

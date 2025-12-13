@@ -1,5 +1,5 @@
 <template>
-  <!-- <Loader :api="api" indicator="ping"> -->
+  <!-- <Loader :api indicator="ping"> -->
   <tr
     v-if="contact"
     :class="{
@@ -7,7 +7,7 @@
     }"
   >
     <LayoutTd class="max-w-0">
-      <ContactPreview :contact="contact" :feedback="guest.feedback" />
+      <ContactPreview :contact :feedback="guest.feedback" />
     </LayoutTd>
     <LayoutTd class="max-w-0">
       <div

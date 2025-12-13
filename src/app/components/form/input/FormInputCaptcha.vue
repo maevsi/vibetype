@@ -19,16 +19,13 @@
     />
     <FormInputStateError
       v-if="!isVisible"
-      :form-input="formInput"
+      :form-input
       validation-property="required"
     >
       {{ t('globalValidationRequired') }}
     </FormInputStateError>
     <template v-if="isVisible" #stateError>
-      <FormInputStateError
-        :form-input="formInput"
-        validation-property="required"
-      >
+      <FormInputStateError :form-input validation-property="required">
         {{ t('globalValidationRequired') }}
       </FormInputStateError>
     </template>

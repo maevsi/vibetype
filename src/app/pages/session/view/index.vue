@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LayoutPageTitle :title="title" />
+    <LayoutPageTitle :title />
     <div class="flex flex-col gap-8">
       <section class="flex flex-col gap-4">
         <h2>{{ t('end') }}</h2>

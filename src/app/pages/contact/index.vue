@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LayoutPageTitle :title="title" />
+    <LayoutPageTitle :title />
     <ContactList v-if="authentication.isSignedIn" />
     <LayoutCallToAction
       v-else

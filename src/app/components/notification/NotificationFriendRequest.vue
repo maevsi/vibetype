@@ -3,7 +3,7 @@
     <div class="flex items-center gap-4">
       <div class="px-2">
         <AccountProfilePicture
-          :account-id="accountId"
+          :account-id
           class="size-12 rounded-full"
           height="48"
           width="48"

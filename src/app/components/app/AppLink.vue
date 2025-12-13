@@ -1,11 +1,11 @@
 <template>
   <NuxtLink
-    :aria-label="ariaLabel"
+    :aria-label
     :class="cn(classComputed, classProps)"
     :disabled="isDisabled"
     :external="isExternal"
     :target="targetComputed"
-    :to="to"
+    :to
     @click="emit('click')"
   >
     <slot />
