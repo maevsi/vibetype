@@ -12,15 +12,29 @@ export const useAuth = async () => {
   }
 }
 
-export const useAuthInfo = () => {
+export const useAuthentication = () => {
   const store = useStore()
+
   const isSignedIn = computed(
     () => store.jwtDecoded?.role === `${SITE_NAME}_account`,
   )
+  const signedInAccountId = computed(() => store.signedInAccountId)
 
-  return {
-    isSignedIn,
-  }
+  return computed(() => {
+    if (!isSignedIn.value) {
+      return {
+        isSignedIn: false as const,
+      }
+    }
+
+    if (!signedInAccountId.value)
+      throw new Error('Inconsistent auth state: signed in but no account ID')
+
+    return {
+      isSignedIn: true as const,
+      signedInAccountId: signedInAccountId.value,
+    }
+  })
 }
 
 export const useAuthenticateAnonymous = () => {

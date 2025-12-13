@@ -1,7 +1,7 @@
 <template>
   <div>
     <LayoutPageTitle :title="title" />
-    <ContactList v-if="isSignedIn" />
+    <ContactList v-if="authentication.isSignedIn" />
     <LayoutCallToAction
       v-else
       :call-to-action="t('anonymousCta')"
@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-const { isSignedIn } = useAuthInfo()
+const authentication = useAuthentication()
 const { t } = useI18n()
 
 // data
