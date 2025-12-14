@@ -1,3 +1,9 @@
+## [12.49.0](https://github.com/maevsi/vibetype/compare/12.48.0...12.49.0) (2025-12-14)
+
+### Features
+
+* **composables:** add feature flags ([efb2f57](https://github.com/maevsi/vibetype/commit/efb2f5704ca3e47c08a3b23f8cc5de79570c558b))
+
 ## [12.48.0](https://github.com/maevsi/vibetype/compare/12.47.0...12.48.0) (2025-12-14)
 
 ### Features
