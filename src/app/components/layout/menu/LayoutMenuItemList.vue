@@ -44,19 +44,6 @@
     />
     <AppIconAccount v-else />
   </LayoutMenuItem>
-  <AppUnderConstruction>
-    <LayoutMenuItem
-      :title="t('notifications')"
-      :to="localePath('notification')"
-    >
-      <div class="relative">
-        <AppIconBell />
-        <div class="absolute top-0 right-0">
-          <NotificationIndicator />
-        </div>
-      </div>
-    </LayoutMenuItem>
-  </AppUnderConstruction>
 </template>
 
 <script setup lang="ts">
@@ -71,11 +58,9 @@ de:
   discover: Entdecken
   events: Veranstaltungen
   home: Dashboard
-  notifications: Benachrichtigungen
 en:
   account: Account
   discover: Discover
   events: Events
   home: Dashboard
-  notifications: Notifications
 </i18n>
