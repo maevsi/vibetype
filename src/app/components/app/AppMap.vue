@@ -1,6 +1,6 @@
 <template>
   <div v-if="!isMounted" :class="cn('flex justify-center', classComputed)">
-    <LoaderIndicatorSpinner class="size-8" />
+    <AppLoaderLogo class="size-8" />
   </div>
   <div v-else :id="templateIdMap" :class="classComputed" />
 </template>
