@@ -9459,11 +9459,11 @@ export type AccountQuery = {
   } | null
 }
 
-export type DashboardEventQueryVariables = Exact<{
+export type DashboardEventRecommendationsQueryVariables = Exact<{
   id: Scalars['UUID']['input']
 }>
 
-export type DashboardEventQuery = {
+export type DashboardEventRecommendationsQuery = {
   __typename?: 'Query'
   eventById?: {
     __typename?: 'Event'
@@ -9505,6 +9505,30 @@ export type DashboardEventQuery = {
         } | null
       }>
     }
+  } | null
+}
+
+export type DashboardEventsByCreatedByQueryVariables = Exact<{
+  createdBy: Scalars['UUID']['input']
+}>
+
+export type DashboardEventsByCreatedByQuery = {
+  __typename?: 'Query'
+  allEvents?: {
+    __typename?: 'EventsConnection'
+    nodes: Array<{
+      __typename?: 'Event'
+      end?: any | null
+      id: string
+      name: string
+      slug: string
+      start: any
+      accountByCreatedBy?: {
+        __typename?: 'Account'
+        id: string
+        username: string
+      } | null
+    }>
   } | null
 }
 
@@ -13019,13 +13043,13 @@ export const AccountDocument = {
     },
   ],
 } as unknown as DocumentNode<AccountQuery, AccountQueryVariables>
-export const DashboardEventDocument = {
+export const DashboardEventRecommendationsDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'DashboardEvent' },
+      name: { kind: 'Name', value: 'DashboardEventRecommendations' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -13189,7 +13213,100 @@ export const DashboardEventDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<DashboardEventQuery, DashboardEventQueryVariables>
+} as unknown as DocumentNode<
+  DashboardEventRecommendationsQuery,
+  DashboardEventRecommendationsQueryVariables
+>
+export const DashboardEventsByCreatedByDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'DashboardEventsByCreatedBy' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'createdBy' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allEvents' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'createdBy' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountByCreatedBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'username' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'start' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DashboardEventsByCreatedByQuery,
+  DashboardEventsByCreatedByQueryVariables
+>
 export const EventEditDocument = {
   kind: 'Document',
   definitions: [
