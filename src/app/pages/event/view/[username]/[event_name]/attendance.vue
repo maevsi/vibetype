@@ -1,54 +1,54 @@
 <template>
-  <Loader :api indicator="ping">
-    <div
-      v-if="event && route.params.username === store.signedInUsername"
-      class="flex flex-col gap-4"
-    >
-      <LayoutPageTitle :title="t('title')" />
-      <AppSteps
-        :active="t('qrCodeScan')"
-        :steps="[t('qrCodeScan'), t('nfcWrite')]"
-      />
-      <AppHr />
-      <div class="flex flex-col items-center justify-center gap-4">
-        <ButtonColored :aria-label="t('qrCodeScan')" @click="qrCodeScan">
-          {{ t('qrCodeScan') }}
+  <LoaderIndicatorPing v-if="api.isFetching" />
+  <AppError
+    v-else-if="route.params.username !== store.signedInUsername"
+    :error="{ statusCode: 403 }"
+  />
+  <AppError v-else-if="!event" :error="{ statusCode: 404 }" />
+  <AppContent v-else class="flex flex-col gap-4">
+    <LayoutPageTitle :title="t('title')" />
+    <AppSteps
+      :active="t('qrCodeScan')"
+      :steps="[t('qrCodeScan'), t('nfcWrite')]"
+    />
+    <AppHr />
+    <div class="flex flex-col items-center justify-center gap-4">
+      <ButtonColored :aria-label="t('qrCodeScan')" @click="qrCodeScan">
+        {{ t('qrCodeScan') }}
+        <template #prefix>
+          <AppIconQrCode />
+        </template>
+      </ButtonColored>
+      <FormInputStateInfo v-if="!guestId">
+        {{ t('qrHint') }}
+      </FormInputStateInfo>
+      <CardStateInfo v-if="guestId">
+        {{ t('scanned', { scanResult: guestId }) }}
+      </CardStateInfo>
+      <div v-if="guestId" class="flex flex-col items-center gap-2">
+        <ButtonColored
+          :aria-label="t('nfcWrite')"
+          :disabled="isNfcError"
+          class="text-text-bright"
+          @click="onClick"
+        >
+          {{ t('nfcWrite') }}
           <template #prefix>
-            <AppIconQrCode />
+            <AppIconUserTag />
           </template>
         </ButtonColored>
-        <FormInputStateInfo v-if="!guestId">
-          {{ t('qrHint') }}
-        </FormInputStateInfo>
-        <CardStateInfo v-if="guestId">
-          {{ t('scanned', { scanResult: guestId }) }}
-        </CardStateInfo>
-        <div v-if="guestId" class="flex flex-col items-center gap-2">
-          <ButtonColored
-            :aria-label="t('nfcWrite')"
-            :disabled="isNfcError"
-            class="text-text-bright"
-            @click="onClick"
-          >
-            {{ t('nfcWrite') }}
-            <template #prefix>
-              <AppIconUserTag />
-            </template>
-          </ButtonColored>
-          <CardStateAlert v-if="isNfcError">
-            {{ isNfcWritableErrorMessage }}
-          </CardStateAlert>
-        </div>
+        <CardStateAlert v-if="isNfcError">
+          {{ isNfcWritableErrorMessage }}
+        </CardStateAlert>
       </div>
-      <Modal id="ModalAttendanceScanQrCode" :submit-name="t('close')">
-        <LazyAppQrCodeStream @detect="onDetect" @error="modalClose" />
-        <template #submit-icon>
-          <AppIconXCircleSolid />
-        </template>
-      </Modal>
     </div>
-    <AppError v-else :error="{ statusCode: 403 }" />
-  </Loader>
+    <Modal id="ModalAttendanceScanQrCode" :submit-name="t('close')">
+      <LazyAppQrCodeStream @detect="onDetect" @error="modalClose" />
+      <template #submit-icon>
+        <AppIconXCircleSolid />
+      </template>
+    </Modal>
+  </AppContent>
 </template>
 
 <script lang="ts">
@@ -58,6 +58,11 @@ import type { RouteNamedMap } from 'vue-router/auto-routes'
 
 import { graphql } from '~~/gql/generated'
 import { useQuery } from '@urql/vue'
+
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
 
 const ROUTE_NAME: keyof RouteNamedMap =
   'event-view-username-event_name-attendance___en'

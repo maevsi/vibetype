@@ -1,15 +1,32 @@
 <template>
   <LayoutMenuItem
+    v-slot="attributes"
     :title="t('home')"
     :to="store.signedInUsername ? localePath('dashboard') : localePath('index')"
   >
-    <AppIconHome />
+    <AppIconHome v-bind="attributes" />
   </LayoutMenuItem>
-  <LayoutMenuItem :title="t('discover')" :to="localePath('event')">
-    <AppIconSearch />
+  <LayoutMenuItem
+    v-slot="attributes"
+    :title="t('discover')"
+    :to="localePath('event')"
+  >
+    <AppIconMagnifyingGlass v-bind="attributes" />
+  </LayoutMenuItem>
+  <LayoutMenuItem
+    :title="t('create')"
+    :to="localePath('event-create')"
+    variant="special"
+  >
+    <div
+      class="max-lg:rounded-2xl max-lg:bg-(--primary-green-middle-dark) max-lg:p-2"
+    >
+      <AppIconPlus class="max-lg:text-white" />
+    </div>
   </LayoutMenuItem>
   <LayoutMenuItem
     v-if="store.signedInUsername"
+    v-slot="attributes"
     :title="t('events')"
     :to="
       localePath({
@@ -20,9 +37,10 @@
       })
     "
   >
-    <AppIconToday />
+    <AppIconCalendar v-bind="attributes" />
   </LayoutMenuItem>
   <LayoutMenuItem
+    v-slot="attributes"
     :title="t('account')"
     :to="
       store.signedInUsername
@@ -38,11 +56,12 @@
     <AccountProfilePicture
       v-if="store.signedInAccountId"
       :account-id="store.signedInAccountId"
-      class="size-6 rounded-full"
+      v-bind="attributes"
+      class="rounded-full"
       height="24"
       width="24"
     />
-    <AppIconAccount v-else />
+    <AppIconAccount v-else v-bind="attributes" />
   </LayoutMenuItem>
 </template>
 
@@ -56,11 +75,13 @@ const localePath = useLocalePath()
 de:
   account: Account
   discover: Entdecken
+  create: Erstellen
   events: Veranstaltungen
   home: Dashboard
 en:
   account: Account
   discover: Discover
+  create: Create
   events: Events
   home: Dashboard
 </i18n>

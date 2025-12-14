@@ -1,14 +1,7 @@
 <template>
   <LoaderIndicatorPing v-if="api.isFetching" />
-  <div v-else>
-    <LayoutTopBar>
-      <span>
-        {{ title }}
-      </span>
-      <template #back>
-        <ButtonIconBackRoute />
-      </template>
-    </LayoutTopBar>
+  <AppContent v-else>
+    <LayoutPageTitle :title />
     <LayoutPage>
       <div class="flex flex-col gap-3">
         <FormInputSearch v-model="searchQuery" />
@@ -59,7 +52,7 @@
       :account="blockRemoveAccount"
       @success="accountBlockAccountsQuery.executeQuery"
     />
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">

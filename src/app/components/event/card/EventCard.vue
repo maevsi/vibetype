@@ -2,83 +2,81 @@
   <div
     :class="
       cn(
-        'has-focus-visible:focus-ring relative isolate flex items-center gap-3 rounded-lg border border-(--faint-line) bg-(--semantic-base-surface-1) p-3 shadow-xs',
-        !variant &&
-          (isDraft
-            ? 'border-(--semantic-warning-strong)'
-            : isCreator
-              ? 'border-(--accent-strong)'
-              : undefined),
-        variant === 'highlight' &&
-          'bg-(--complement-fancy) text-(--semantic-base-light-text-on-dark)',
+        'group has-focus-visible:focus-ring relative isolate flex items-center gap-4 rounded-3xl p-2',
+        'data-[variant=highlight]:bg-(--neutral-level-1)',
+        'data-[variant=recommendation]:bg-(--neutral-level-1)',
         variant === 'recommendation' &&
           'flex-col items-stretch gap-1.5 px-0 pt-0 pb-2',
       )
     "
+    :data-variant="variant"
   >
-    <div
-      :class="cn('relative w-1/3', variant === 'recommendation' && 'w-auto')"
-    >
+    <div class="relative">
       <LoaderImage
         :alt="t('heroImage')"
         :aspect="
-          !variant || variant === 'highlight'
-            ? 'aspect-[130/94]'
-            : 'aspect-[366/173]'
+          variant === 'highlight'
+            ? 'aspect-[160/120]'
+            : variant === 'recommendation'
+              ? 'aspect-[344/260]'
+              : 'aspect-square'
         "
         :class="
           cn(
-            'h-24 w-full rounded-lg object-cover',
-            variant === 'recommendation' && 'h-44 rounded-b-none',
+            'size-24 rounded-2xl object-cover',
+            'group-data-[variant=highlight]:h-30 group-data-[variant=highlight]:w-40',
+            'group-data-[variant=recommendation]:h-65 group-data-[variant=recommendation]:w-full',
           )
         "
-        :height="!variant || variant === 'highlight' ? '94' : '173'"
+        :height="
+          variant === 'highlight'
+            ? '120'
+            : variant === 'recommendation'
+              ? '260'
+              : '96'
+        "
         :src="`/assets/static/images/event/${getHeroImageName(event.name)}.jpg`"
-        :width="!variant || variant === 'highlight' ? '130' : '366'"
+        :width="
+          variant === 'highlight'
+            ? '160'
+            : variant === 'recommendation'
+              ? '344'
+              : '96'
+        "
       />
       <AppButton
-        v-if="
-          (!variant || variant === 'recommendation') && store.signedInUsername
-        "
+        v-if="variant === 'recommendation' && authentication.isSignedIn"
         :aria-label="isFavorite ? t('favoriteDelete') : t('favoriteCreate')"
-        :class="
-          cn(
-            'absolute z-20 flex size-5 items-center justify-center rounded-full bg-(--base-white)',
-            !variant && 'top-1 left-1',
-            variant === 'recommendation' && 'right-2 bottom-2 size-9',
-          )
-        "
+        class="absolute top-2 right-2 z-20 flex size-10 items-center justify-center rounded-full bg-(--neutral-level-1)"
         @click="toggleEventFavorite"
       >
         <AppIconFavoriteFilled
           v-if="isFavorite"
-          :class="cn('text-(--complement-strong)', !variant && 'size-3')"
+          class="size-4 text-(--complement-strong)"
         />
-        <AppIconFavorite
-          v-else
-          :class="
-            cn(
-              'text-(--semantic-base-dark-text-on-light)' /*'text-(--semantic-base-icon-primary)'*/,
-              !variant && 'size-3',
-            )
-          "
-        />
+        <AppIconFavorite v-else class="size-4 text-(--neutral-level-6)" />
       </AppButton>
       <div
         v-if="variant === 'recommendation'"
-        class="absolute top-2 left-2 z-20 rounded-3xl bg-(--accent-strong) px-3 py-2"
+        class="absolute top-2 left-2 z-20 rounded-[20px] bg-(--primary-green-middle-dark) px-4 py-2"
       >
-        <TypographySubtitleSmall
-          class="text-(--semantic-base-primary-button-text)"
-        >
+        <AppTypographyCaption1Emphasized class="text-(--base-white)">
           {{ t('match') }}
-        </TypographySubtitleSmall>
+        </AppTypographyCaption1Emphasized>
+      </div>
+      <div
+        v-if="variant === 'recommendation'"
+        class="absolute bottom-2 left-2 z-20 rounded-[20px] bg-(--neutral-level-1) px-4 py-2"
+      >
+        <AppTypographySubheadlineEmphasized class="text-(--base-white)">
+          <AppTime :datetime="event.start" />
+        </AppTypographySubheadlineEmphasized>
       </div>
     </div>
     <div
       :class="
         cn(
-          'flex min-w-0 flex-1 flex-col gap-2 px-1 py-3.5',
+          'flex min-w-0 flex-1 flex-col gap-1 py-1',
           variant === 'recommendation' && 'gap-1 px-2 py-0',
         )
       "
@@ -106,28 +104,24 @@
       <EventCardTitle v-else :variant>
         {{ event.name }}
       </EventCardTitle>
-      <Component
-        :is="
-          variant === 'highlight'
-            ? TypographyBodySmall
-            : TypographySubtitleSmall
-        "
+      <AppTypographyFootnoteEmphasized
+        v-if="variant !== 'recommendation'"
         class="truncate"
       >
         <AppTime :datetime="event.start" />
-      </Component>
+      </AppTypographyFootnoteEmphasized>
     </div>
     <div
       v-if="!variant && (isDraft || isCreator || isGuest)"
       :class="
         cn(
-          'absolute top-1 right-1 rounded-sm px-1.5 py-0.5 text-(--semantic-base-primary-button-text)',
+          'absolute top-1 right-1 rounded-2xl px-3 py-1.5',
           isDraft
-            ? 'bg-(--semantic-warning-strong)'
+            ? 'bg-(--warning-yellow-light) text-(--warning-yellow-middle-dark)'
             : isCreator
-              ? 'bg-(--accent-strong)'
+              ? 'bg-(--secondary-blue-light) text-(--secondary-blue-middle-dark)'
               : isGuest
-                ? 'bg-(--complement-strong) text-(--base-white)'
+                ? 'bg-(--primary-green-light) text-(--primary-green-middle-dark)'
                 : undefined,
         )
       "
@@ -154,8 +148,6 @@ import type { DeepReadonly } from 'vue'
 import { cn } from '@/utils/shadcn'
 import { graphql } from '~~/gql/generated'
 
-import { TypographyBodySmall, TypographySubtitleSmall } from '#components'
-
 // compiler
 export type EventCardProps = {
   event: DeepReadonly<{
@@ -172,8 +164,8 @@ export type EventCardProps = {
     guestsByEventId?: {
       nodes: {
         contactByContactId?: {
-          id: string
           accountId?: string | null
+          id: string
         } | null
         id: string
       }[]
@@ -184,10 +176,7 @@ export type EventCardProps = {
     start: string
   }>
   // TODO: turn javascript usage into attribute based styles
-  variant?:
-    | 'highlight'
-    // | 'invitation' // TODO: implement invitation
-    | 'recommendation' // alias for 'large'
+  variant?: 'highlight' | 'recommendation' // alias for 'large'
 }
 const { event, variant = undefined } = defineProps<EventCardProps>()
 
@@ -195,20 +184,21 @@ const { event, variant = undefined } = defineProps<EventCardProps>()
 const localePath = useLocalePath()
 
 // event
+const authentication = useAuthentication()
 const store = useStore()
 const isCreator = computed(
   () =>
     event.accountByCreatedBy &&
-    event.accountByCreatedBy.id === store.signedInAccountId,
+    event.accountByCreatedBy.id === authentication.value.signedInAccountId,
 )
 const isDraft = false // TODO: implements event drafts
 const isGuest = computed(() =>
   event.guestsByEventId?.nodes[0]
     ? event.guestsByEventId.nodes[0].contactByContactId &&
-      store.signedInAccountId
+      authentication.value.isSignedIn
       ? event.guestsByEventId.nodes[0].contactByContactId.accountId &&
         event.guestsByEventId.nodes[0].contactByContactId.accountId ===
-          store.signedInAccountId
+          authentication.value.signedInAccountId
       : store.jwtDecoded &&
           'guests' in store.jwtDecoded &&
           Array.isArray(store.jwtDecoded.guests)
@@ -248,10 +238,10 @@ const deleteEventFavoriteByIdMutation = useMutation(
 // ])
 const isFavorite = computed(
   () =>
-    store.signedInAccountId &&
+    authentication.value.isSignedIn &&
     event.eventFavoritesByEventId?.nodes[0]?.createdBy &&
     event.eventFavoritesByEventId?.nodes[0]?.createdBy ===
-      store.signedInAccountId,
+      authentication.value.signedInAccountId,
 )
 const executeUrqlRequest = useExecuteUrqlRequest()
 const { t } = useI18n()
@@ -268,13 +258,13 @@ const toggleEventFavorite = async () => {
       }),
     })
   } else {
-    if (!store.signedInAccountId) return // TODO: error
+    if (!authentication.value.isSignedIn) return // TODO: error
 
     await executeUrqlRequest({
       errorMessageI18n: t('favoriteCreateError'),
       request: createEventFavoriteMutation.executeMutation({
         input: {
-          createdBy: store.signedInAccountId,
+          createdBy: authentication.value.signedInAccountId,
           eventId: event.id,
         },
       }),
@@ -290,9 +280,10 @@ de:
   favoriteDelete: Nicht mehr als Favorit markieren
   favoriteDeleteError: Favorit konnte nicht entfernt werden
   heroImage: Titelbild der Veranstaltung
-  isCreator: Du organisierst
-  isDraft: Im Entwurf
-  isGuest: Du nimmst teil
+  isCreator: Veranstaltend
+  isDraft: Entwurf
+  # isFavorite: Favorit
+  isGuest: Teilnehmend
   match: Match
 en:
   favoriteCreate: Mark as favorite
@@ -300,8 +291,9 @@ en:
   favoriteDelete: Unmark as favorite
   favoriteDeleteError: Favorite could not be removed
   heroImage: Title picture of the event
-  isCreator: You're organizing
-  isDraft: In Draft
-  isGuest: You're attending
+  isCreator: Hosting
+  isDraft: Draft
+  # isFavorite: Favorite
+  isGuest: Going
   match: Match
 </i18n>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <AppContent>
     <h1>
       {{ t('title') }}
     </h1>
@@ -64,10 +64,15 @@
       type="file"
       @change="handleFileSelect"
     />
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
+
 const { t } = useI18n()
 const store = useStore()
 const alertError = useAlertError()

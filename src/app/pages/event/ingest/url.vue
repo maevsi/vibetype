@@ -1,32 +1,36 @@
 <template>
-  <div class="flex flex-col gap-4">
-    <h1>
-      {{ t('title') }}
-    </h1>
-    <div>
-      <label for="url-input">
-        {{ t('addURL') }}
-      </label>
-      <input
-        id="url-input"
-        v-model="enteredURL"
-        type="url"
-        class="text-text-dark w-full rounded"
-        :placeholder="t('enterEventLink')"
-      />
-    </div>
-    <ButtonColored
-      :aria-label="t('process')"
-      class="self-end"
-      @click="uploadURL"
-    >
-      {{ t('process') }}
-    </ButtonColored>
-  </div>
+  <AppContent>
+    <section class="flex flex-col gap-4">
+      <h1>
+        {{ t('title') }}
+      </h1>
+      <div>
+        <label for="url-input">
+          {{ t('addURL') }}
+        </label>
+        <input
+          id="url-input"
+          v-model="enteredURL"
+          type="url"
+          class="text-text-dark w-full rounded"
+          :placeholder="t('enterEventLink')"
+        />
+      </div>
+      <ButtonColored
+        :aria-label="t('process')"
+        class="self-end"
+        @click="uploadURL"
+      >
+        {{ t('process') }}
+      </ButtonColored>
+    </section>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
+// compiler
 definePageMeta({
+  layout: 'default-no-header',
   validate: () => import.meta.dev,
 })
 

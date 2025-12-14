@@ -12,7 +12,7 @@
     v-else-if="!account"
     :error="{ message: t('errorAccountMissing'), statusCode: 404 }"
   />
-  <div v-else class="flex flex-col gap-4">
+  <AppContent v-else class="flex flex-col gap-4">
     <CardStateInfo
       v-if="
         account.id === store.signedInAccountId &&
@@ -272,7 +272,7 @@
         </ButtonColored>
       </template>
     </Modal>
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
@@ -288,6 +288,11 @@ import { InvitationFeedback } from '~~/gql/generated/graphql'
 import type { GuestPatch } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
 import { useEventUnlockMutation } from '~~/gql/documents/mutations/event/eventUnlock'
+
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
 
 const { t } = useI18n()
 const store = useStore()

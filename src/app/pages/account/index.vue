@@ -1,13 +1,15 @@
 <template>
-  <div class="flex flex-col gap-4">
-    <h1>
-      {{ title }}
-    </h1>
+  <AppContent class="flex flex-col gap-4">
     <AccountSearch />
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
+
 // page
 const { t } = useI18n()
 const title = t('title')

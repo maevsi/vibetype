@@ -1,16 +1,21 @@
 <template>
-  <div>
+  <AppContent>
     <LayoutPageTitle :title />
     <AppRadioGroup
       :default-value="locale"
       :items="languages"
       @update:model-value="onI18nChange"
     />
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
 import type { I18N_LOCALE_CODE } from '@dargmuesli/nuxt-vio/shared/types/i18n'
+
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
 
 // page
 const { t, locale, locales } = useI18n()

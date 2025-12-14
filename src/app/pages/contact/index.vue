@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <AppContent>
     <LayoutPageTitle :title />
     <ContactList v-if="authentication.isSignedIn" />
     <LayoutCallToAction
@@ -7,18 +7,22 @@
       :call-to-action="t('anonymousCta')"
       :call-to-action-description="t('anonymousCtaDescription')"
     />
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
-const authentication = useAuthentication()
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
+
+// page
 const { t } = useI18n()
-
-// data
 const title = t('title')
-
-// initialization
 useHeadDefault({ title })
+
+// template
+const authentication = useAuthentication()
 </script>
 
 <i18n lang="yaml">

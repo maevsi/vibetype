@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <AppContent>
     <LayoutPageTitle :title />
     <div class="flex flex-col gap-8">
       <AppFeature feature="notifications">
@@ -36,18 +36,22 @@
       </AppFeature>
       <ButtonApp />
     </div>
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
+
+// page
 const { t } = useI18n()
-const store = useStore()
-
-// data
 const title = t('notifications')
-
-// initialization
 useHeadDefault({ title })
+
+// template
+const store = useStore()
 </script>
 
 <i18n lang="yaml">

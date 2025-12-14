@@ -4,7 +4,7 @@
     v-else-if="!account"
     :error="{ message: 'Account data missing', statusCode: 404 }"
   />
-  <div v-else>
+  <AppContent v-else>
     <LayoutPageTitle title="-">
       <i18n-t keypath="title" tag="h1">
         <template #name>
@@ -31,12 +31,17 @@
           api.data.accountByUsername?.eventsByCreatedBy.pageInfo.endCursor
       "
     />
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
 import { useQuery } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
+
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
 
 const queryEventListAccount = graphql(`
   query EventListAccount($after: Cursor, $first: Int!, $username: String!) {

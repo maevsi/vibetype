@@ -1,7 +1,7 @@
 <template>
   <LoaderIndicatorPing v-if="api.isFetching" />
   <AppError v-else-if="!event" :error="{ statusCode: 404 }" />
-  <div v-else class="flex flex-col gap-4">
+  <AppContent v-else class="flex flex-col gap-4">
     <section>
       <LayoutPageTitle :title="t('title')" />
       <FormEvent :event />
@@ -23,7 +23,7 @@
         @success="navigateTo(localePath(`dashboard`))"
       />
     </section>
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
@@ -31,6 +31,11 @@ import { useQuery } from '@urql/vue'
 
 import { useEventDeleteMutation } from '~~/gql/documents/mutations/event/eventDelete'
 import { graphql } from '~~/gql/generated'
+
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
 
 // validation
 const route = useRoute('event-edit-username-event_name___en')

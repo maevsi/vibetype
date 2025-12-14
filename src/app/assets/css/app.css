@@ -77,6 +77,10 @@
   @apply max-w-full overflow-hidden font-bold text-ellipsis;
 }
 
+@utility subheadlineEmphasized {
+  @apply align-middle text-[15px] leading-5 font-semibold -tracking-[0.4px];
+}
+
 @utility truncate-overflow {
   @apply overflow-hidden text-ellipsis;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <AppContent>
     <LayoutPageTitle :is-button-event-create-shown="false" :title />
     <FormEvent v-if="authentication.isSignedIn" />
     <LayoutCallToAction
@@ -7,10 +7,15 @@
       :call-to-action="t('anonymousCta')"
       :call-to-action-description="t('anonymousCtaDescription')"
     />
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
+
 const { t } = useI18n()
 const authentication = useAuthentication()
 

@@ -4,12 +4,29 @@
 /* stylelint-disable plugin/no-unsupported-browser-features */
 
 :root {
+  /* v3 */
+  --base-background: #fff;
+  --base-background-nav-bar: #eff0efe5;
+  --base-white: #fff;
+  --critic-red-light: #ffb8cb;
+  --critic-red-middle-dark: #c20034;
+  --neutral-level-1: #eff0ef;
+  --neutral-level-2: #dbdcdb;
+  --neutral-level-5: #737874;
+  --neutral-level-6: #000;
+  --primary-green-light: #c2f5ca;
+  --primary-green-middle-dark: #1ba732;
+  --secondary-blue-light: #b9d6fe;
+  --secondary-blue-middle-dark: #0351bf;
+  --warning-yellow-light: #f5f0c2;
+  --warning-yellow-middle-dark: #a7991b;
+
+  /* v2 */
   --accent-line: #dcf9ea;
   --accent-strong-hover: #2bb86d;
   --accent-strong: #36db83;
   --accent-weak-hover: #c0e6d2;
   --accent-weak: #dcf9ea;
-  --base-white: #fafafc;
   --critic-red-middle: #ff1453;
   --critic-string: #e00000;
   --critic-weak: #ffebeb;
@@ -48,10 +65,24 @@
 }
 
 .dark {
+  /* v3 */
+  --base-background: #000;
+  --base-background-nav-bar: #191a19e5;
+  --neutral-level-1: #191a19;
+  --neutral-level-2: #282a28;
+  --neutral-level-5: #737874;
+  --neutral-level-6: #fff;
+  --primary-green-light: #9fefac;
+  --primary-green-middle-dark: #158428;
+  --secondary-blue-light: #90befd;
+  --secondary-blue-middle-dark: #024097;
+  --warning-yellow-light: #fbf9e5;
+  --warning-yellow-middle-dark: #cab921;
+
+  /* v2 */
   --accent-strong: #4dc762;
   --accent-weak-hover: #9cd0a6;
   --accent-weak: #c1dcc6;
-  --base-white: #e4e4eb;
   --critic-weak: #e67070;
   --complement-strong: #d7456b;
   --faint-line: #2d2d2c;

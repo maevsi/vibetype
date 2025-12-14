@@ -1,5 +1,5 @@
 <template>
-  <div class="m-auto max-w-xl">
+  <AppContent>
     <h1>{{ title }}</h1>
     <AppForm
       :errors="api.errors"
@@ -51,7 +51,7 @@
     <p class="mt-2">
       {{ t('greetingExplanation') }}
     </p>
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
@@ -68,7 +68,7 @@ definePageMeta({
   layout: computed(() => {
     const route = useRoute()
 
-    return 'redirect' in route.query ? 'canvas' : 'default'
+    return 'redirect' in route.query ? 'canvas' : 'default-no-header'
   }),
   middleware: [
     // TODO: implement invitation pages, removing this middleware (https://github.com/maevsi/vibetype/issues/1266)

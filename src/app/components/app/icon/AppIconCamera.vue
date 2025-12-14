@@ -1,6 +1,6 @@
 <template>
   <AppIcon v-slot="attributes">
-    <IHeroiconsHomeSolid v-bind="attributes" :aria-label="t('ariaLabel')" />
+    <IHeroiconsCamera v-bind="attributes" :aria-label="t('ariaLabel')" />
   </AppIcon>
 </template>
 
@@ -10,7 +10,7 @@ const { t } = useI18n()
 
 <i18n lang="yaml">
 de:
-  ariaLabel: Haus
+  ariaLabel: Kamera
 en:
-  ariaLabel: House
+  ariaLabel: Camera
 </i18n>
