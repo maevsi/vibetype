@@ -1,3 +1,9 @@
+## [12.48.0](https://github.com/maevsi/vibetype/compare/12.47.0...12.48.0) (2025-12-14)
+
+### Features
+
+* **components:** add logo loader ([9edc4b6](https://github.com/maevsi/vibetype/commit/9edc4b6961560c89a1b7e2577046977e276295ef))
+
 ## [12.47.0](https://github.com/maevsi/vibetype/compare/12.46.0...12.47.0) (2025-12-14)
 
 ### Features
