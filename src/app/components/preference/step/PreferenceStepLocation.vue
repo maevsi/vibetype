@@ -221,13 +221,13 @@ watch(
 <i18n lang="yaml">
 de:
   button: Weiter
-  description: Vibetype schlägt dir gelegentlich auch Events außerhalb dieses Gebiets vor, wenn sie für dich relevant sind.
+  description: "@.upper:{'globalSiteName'} schlägt dir gelegentlich auch Events außerhalb dieses Gebiets vor, wenn sie für dich relevant sind."
   radius: 'Umkreis: {radius}'
   title: Welche Gegend interessiert dich am meisten?
   # title: Finde lokale Events, die zu deinem Vibe passen.
 en:
   button: Next
-  description: Vibetype suggests events outside of this area from time to time too when they're relevant for you.
+  description: "@.upper:{'globalSiteName'} suggests events outside of this area from time to time too when they're relevant for you."
   radius: 'Radius: {radius}'
   title: Which area is most interesting to you?
   # title: Find local events that match your vibe.
