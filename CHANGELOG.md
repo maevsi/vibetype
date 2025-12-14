@@ -1,3 +1,13 @@
+## [12.47.0](https://github.com/maevsi/vibetype/compare/12.46.0...12.47.0) (2025-12-14)
+
+### Features
+
+* **event:** show upcoming on dashboard ([d915a3f](https://github.com/maevsi/vibetype/commit/d915a3f6b9ed075a2c7097bcd9b9aff94053b25d))
+
+### Bug Fixes
+
+* **account:** sort events by start ([45918be](https://github.com/maevsi/vibetype/commit/45918be5719d4e4f1cd2a776312d9c4a09fe8ae1))
+
 ## [12.46.0](https://github.com/maevsi/vibetype/compare/12.45.1...12.46.0) (2025-12-12)
 
 ### Features
