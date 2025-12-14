@@ -238,7 +238,7 @@ const queryAccount = graphql(`
         }
       }
       description
-      eventsByCreatedBy(first: 3) {
+      eventsByCreatedBy(first: 3, orderBy: START_DESC) {
         nodes {
           eventFavoritesByEventId(first: 1) {
             nodes {
