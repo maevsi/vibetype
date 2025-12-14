@@ -1,6 +1,5 @@
 <template>
   <div class="flex flex-1 flex-col justify-center">
-    <!-- <LayoutPageTitle :title /> -->
     <div class="flex flex-col gap-8 rounded-lg p-8 text-center">
       <div class="flex flex-col gap-4">
         <div class="text-4xl leading-tight font-bold tracking-tight">
@@ -74,7 +73,7 @@ if (userAgent) {
   )
 }
 
-// template
+// page
 const { t } = useI18n()
 const title = t('title')
 useHeadDefault({ title })

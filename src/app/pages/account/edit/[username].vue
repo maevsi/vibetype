@@ -28,7 +28,7 @@
       >
         <AccountProfilePicture
           :account-id="account.id"
-          class="size-15 flex-shrink-0 rounded-full"
+          class="size-15 shrink-0 rounded-full"
           height="60"
           width="60"
         />

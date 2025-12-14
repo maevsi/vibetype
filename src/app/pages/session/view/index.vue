@@ -419,6 +419,11 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
+  apiClient: API client
+  apiClientCacheClear: Cache leeren
+  apiClientCacheClearError: Cache konnte nicht geleert werden
+  apiClientCacheClearSuccess: Cache geleert
+  apiClientCacheErrorUndefined: Es ist kein API client Cache definiert
   app: App
   appIs: Umgebung is eine App
   appPlatform: 'App-Plattform: {platform}'
@@ -435,11 +440,6 @@ de:
   hasNavigatorPermissions: Navigator hat Berechtigungen
   hasNavigatorServiceWorkers: Navigator hat Service Worker
   hasWindowNotification: Fenster hat Benachrichtigung
-  apiClient: API client
-  apiClientCacheClear: Cache leeren
-  apiClientCacheErrorUndefined: Es ist kein API client Cache definiert
-  apiClientCacheClearError: Cache konnte nicht geleert werden
-  apiClientCacheClearSuccess: Cache geleert
   notification: Benachrichtigungen
   notificationPermit: Benachrichtigungen erlauben
   notificationPermitted: Benachrichtigungen sind erlaubt
@@ -450,6 +450,11 @@ de:
   title: Sitzung
   userAgentString: User agent string
 en:
+  apiClient: API client
+  apiClientCacheClear: Clear cache
+  apiClientCacheClearError: Cache could not be cleared
+  apiClientCacheClearSuccess: Cache cleared
+  apiClientCacheErrorUndefined: The API client cache is undefined
   app: App
   appIs: Environment is an app
   appPlatform: 'App platform: {platform}'
@@ -466,11 +471,6 @@ en:
   hasNavigatorPermissions: Navigator has permissions
   hasNavigatorServiceWorkers: Navigator has service workers
   hasWindowNotification: Window has notification
-  apiClient: API client
-  apiClientCacheErrorUndefined: The API client cache is undefined
-  apiClientCacheClear: Clear cache
-  apiClientCacheClearError: Cache could not be cleared
-  apiClientCacheClearSuccess: Cache cleared
   notification: Notifications
   notificationPermit: Permit notifications
   notificationPermitted: Notifications are permitted

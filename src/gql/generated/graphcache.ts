@@ -1202,7 +1202,7 @@ export type Contact = Node & {
   note?: Maybe<Scalars['String']['output']>
   /** The international phone number of the contact, formatted according to E.164 (https://wikipedia.org/wiki/E.164). */
   phoneNumber?: Maybe<Scalars['String']['output']>
-  /** Timezone of the contact in ISO 8601 format, e.g., `+02:00`, `-05:30`, or `Z`. */
+  /** Time zone of the contact in IANA format, e.g., `Europe/Berlin` or `America/New_York`. */
   timezone?: Maybe<Scalars['String']['output']>
   /** URL associated with the contact, must start with "https://" and be up to 300 characters. */
   url?: Maybe<Scalars['String']['output']>
@@ -1275,7 +1275,7 @@ export type ContactInput = {
   note?: InputMaybe<Scalars['String']['input']>
   /** The international phone number of the contact, formatted according to E.164 (https://wikipedia.org/wiki/E.164). */
   phoneNumber?: InputMaybe<Scalars['String']['input']>
-  /** Timezone of the contact in ISO 8601 format, e.g., `+02:00`, `-05:30`, or `Z`. */
+  /** Time zone of the contact in IANA format, e.g., `Europe/Berlin` or `America/New_York`. */
   timezone?: InputMaybe<Scalars['String']['input']>
   /** URL associated with the contact, must start with "https://" and be up to 300 characters. */
   url?: InputMaybe<Scalars['String']['input']>
@@ -1303,7 +1303,7 @@ export type ContactPatch = {
   note?: InputMaybe<Scalars['String']['input']>
   /** The international phone number of the contact, formatted according to E.164 (https://wikipedia.org/wiki/E.164). */
   phoneNumber?: InputMaybe<Scalars['String']['input']>
-  /** Timezone of the contact in ISO 8601 format, e.g., `+02:00`, `-05:30`, or `Z`. */
+  /** Time zone of the contact in IANA format, e.g., `Europe/Berlin` or `America/New_York`. */
   timezone?: InputMaybe<Scalars['String']['input']>
   /** URL associated with the contact, must start with "https://" and be up to 300 characters. */
   url?: InputMaybe<Scalars['String']['input']>
