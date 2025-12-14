@@ -66,7 +66,7 @@
           {{ t('username', { username: route.params.username }) }}
         </TypographyH3>
       </div>
-      <AppUnderConstruction>
+      <AppFeature feature="friends">
         <ButtonColored
           v-if="store.signedInUsername !== route.params.username"
           :aria-label="t('friendAdd')"
@@ -74,8 +74,8 @@
         >
           {{ t('friendAdd') }}
         </ButtonColored>
-      </AppUnderConstruction>
-      <AppUnderConstruction>
+      </AppFeature>
+      <AppFeature feature="friends">
         <span class="text-xl font-bold">
           {{ t('friends') }}
         </span>
@@ -102,7 +102,7 @@
             />
           </div>
         </CardButton>
-      </AppUnderConstruction>
+      </AppFeature>
       <ButtonColored
         v-if="isOwnProfile"
         :aria-label="t('contactBook')"

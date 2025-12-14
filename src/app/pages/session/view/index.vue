@@ -3,6 +3,53 @@
     <LayoutPageTitle :title />
     <div class="flex flex-col gap-8">
       <section class="flex flex-col gap-4">
+        <h2>{{ t('featureFlags') }}</h2>
+        <!-- lg:grid-cols-2 -->
+        <div class="flex gap-4">
+          <div class="flex-1">
+            <Card>
+              <ul class="flex flex-col gap-2">
+                <template v-for="feature in FEATURE_FLAGS" :key="feature">
+                  <li class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <AppIconCheckCircle
+                        v-if="isFeatureEnabled(feature).value"
+                        class="text-green-600 dark:text-green-500"
+                      />
+                      <AppIconXCircle
+                        v-else
+                        class="text-(--semantic-critic-text) dark:text-red-500"
+                      />
+                      <span class="font-mono">
+                        {{ feature }}
+                      </span>
+                    </div>
+                    <div>
+                      <ButtonColored
+                        :aria-label="
+                          isFeatureEnabled(feature).value
+                            ? t('featureFlagsDisable')
+                            : t('featureFlagsEnable')
+                        "
+                        variant="secondary"
+                        @click="toggleFeature(feature)"
+                      >
+                        <span v-if="isFeatureEnabled(feature).value">
+                          {{ t('featureFlagsDisable') }}
+                        </span>
+                        <span v-else>
+                          {{ t('featureFlagsEnable') }}
+                        </span>
+                      </ButtonColored>
+                    </div>
+                  </li>
+                </template>
+              </ul>
+            </Card>
+          </div>
+        </div>
+      </section>
+      <section class="flex flex-col gap-4">
         <h2>{{ t('end') }}</h2>
         <div class="grid gap-4 lg:grid-cols-2">
           <div class="flex-1">
@@ -311,6 +358,9 @@ const { signOut } = await useSignOut()
 const { isApp, platform } = usePlatform()
 const alertError = useAlertError()
 
+// feature flags
+const { isFeatureEnabled, toggleFeature } = useFeatureFlags()
+
 // data
 const isNavigatorHavingPermissions = ref<boolean>()
 const isNavigatorHavingServiceWorker = ref<boolean>()
@@ -436,6 +486,9 @@ de:
   endNow: Diese Sitzung beenden
   fcmToken: FCM Token
   fcmTokenUndefined: Das FCM Token ist nicht verfügbar
+  featureFlags: Feature-Flags
+  featureFlagsDisable: Deaktivieren
+  featureFlagsEnable: Aktivieren
   hasIosPushCapability: Fenster hat Push-Fähigkeit (iOS)
   hasNavigatorPermissions: Navigator hat Berechtigungen
   hasNavigatorServiceWorkers: Navigator hat Service Worker
@@ -467,6 +520,9 @@ en:
   endNow: End this session
   fcmToken: FCM Token
   fcmTokenUndefined: The FCM Token is not available
+  featureFlags: Feature Flags
+  featureFlagsDisable: Disable
+  featureFlagsEnable: Enable
   hasIosPushCapability: Window has Push-Capability (iOS)
   hasNavigatorPermissions: Navigator has permissions
   hasNavigatorServiceWorkers: Navigator has service workers

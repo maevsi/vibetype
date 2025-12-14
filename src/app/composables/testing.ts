@@ -2,7 +2,8 @@ export const useDevelopmentModeTrigger = (
   triggerCount = 5,
   timeoutMilliseconds = 1500,
 ) => {
-  const isDevelopmentModeActive = useState<boolean>('dev-mode', () => false)
+  const { isFeatureEnabled, toggleFeature } = useFeatureFlags()
+  const isDevelopmentModeActive = isFeatureEnabled('developer-tools')
   const tapCount = ref(0)
   const timeoutId = ref<ReturnType<typeof setTimeout>>()
 
@@ -16,7 +17,7 @@ export const useDevelopmentModeTrigger = (
     }, timeoutMilliseconds)
 
     if (tapCount.value >= triggerCount) {
-      isDevelopmentModeActive.value = !isDevelopmentModeActive.value
+      toggleFeature('developer-tools')
       tapCount.value = 0
     }
   }

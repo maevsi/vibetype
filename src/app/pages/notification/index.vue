@@ -2,7 +2,7 @@
   <div>
     <LayoutPageTitle :title />
     <div class="flex flex-col gap-8">
-      <AppUnderConstruction>
+      <AppFeature feature="notifications">
         <div class="flex flex-col gap-8">
           <section
             v-if="store.signedInAccountId && store.signedInUsername"
@@ -33,7 +33,7 @@
             </div>
           </section>
         </div>
-      </AppUnderConstruction>
+      </AppFeature>
       <ButtonApp />
     </div>
   </div>

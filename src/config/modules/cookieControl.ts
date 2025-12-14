@@ -1,12 +1,14 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
 import {
+  FEATURE_FLAGS_COOKIE_ID,
+  FEATURE_FLAGS_COOKIE_NAME,
   GTAG_COOKIE_ID,
   JWT_NAME,
   TIMEZONE_COOKIE_NAME,
 } from '../../shared/utils/constants'
 
-export const cookieControlConfig: ReturnType<DefineNuxtConfig> = {
+export const cookieControlConfig = {
   cookieControl: {
     colors: {
       checkboxActiveBackground: '#00A34A', // text-green-600
@@ -77,6 +79,18 @@ export const cookieControlConfig: ReturnType<DefineNuxtConfig> = {
       optional: [
         {
           description: {
+            de: 'Dieser Cookie von uns speichert aktivierte Feature-Flags für experimentelle Funktionen.',
+            en: 'This cookie of ours stores enabled feature flags for experimental features.',
+          },
+          id: FEATURE_FLAGS_COOKIE_ID,
+          name: {
+            de: 'Feature-Flags',
+            en: 'Feature Flags',
+          },
+          targetCookieIds: [FEATURE_FLAGS_COOKIE_NAME],
+        },
+        {
+          description: {
             de: 'Die Cookies vom Drittanbieter Google ermöglichen die Analyse von Nutzerverhalten. Diese Analyse hilft uns unsere Dienste zu verbessern, indem wir verstehen, wie diese Webseite genutzt wird.',
             en: 'The third-party cookies by Google enable the analysis of user behavior. This analysis helps us to improve our services by understanding how this website is used.',
           },
@@ -96,4 +110,4 @@ export const cookieControlConfig: ReturnType<DefineNuxtConfig> = {
     isControlButtonEnabled: false,
     locales: ['en', 'de'],
   },
-}
+} satisfies ReturnType<DefineNuxtConfig>
