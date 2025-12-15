@@ -1,3 +1,13 @@
+## [12.50.0](https://github.com/maevsi/vibetype/compare/12.49.0...12.50.0) (2025-12-15)
+
+### Features
+
+* **session:** always allow trying to send notifications ([1b308c2](https://github.com/maevsi/vibetype/commit/1b308c2a4baab246a712dd14140df499aba7efd7))
+
+### Bug Fixes
+
+* **composables:** use lax same site for render-critical cookies ([2176dff](https://github.com/maevsi/vibetype/commit/2176dff331eeeac4325ac7e6d4e00229a5accff6))
+
 ## [12.49.0](https://github.com/maevsi/vibetype/compare/12.48.0...12.49.0) (2025-12-14)
 
 ### Features
