@@ -29,7 +29,7 @@ export const setJwtCookie = ({
     expires: jwt ? dateInAMonth : dateEpoch,
     httpOnly: true,
     // path: '/',
-    sameSite: 'lax', // Cannot be 'strict' to allow authentications after clicking on links within webmailers.
+    sameSite: COOKIE_SAME_SITE,
     secure: isHttps,
   })
 }
