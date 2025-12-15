@@ -261,7 +261,6 @@
               </ButtonColored>
               <ButtonColored
                 :aria-label="t('notificationSend')"
-                :disabled="permissionState !== 'granted'"
                 variant="secondary"
                 @click="sendNotification"
               >
