@@ -27,4 +27,4 @@ echo "key crt" | tr ' ' '\n' | while read -r glob; do
     fi
 done
 
-create "ssl" "localhost" "127.0.0.1" "0.0.0.0"
+create "ssl" "localhost" "app.localhost" "127.0.0.1" "0.0.0.0"
