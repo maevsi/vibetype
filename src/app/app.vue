@@ -102,7 +102,7 @@ const saveTimeZoneAsCookie = () =>
   (useCookie(TIMEZONE_COOKIE_NAME, {
     // default: () => undefined, // setting `default` on the client side only does not write the cookie
     httpOnly: false,
-    sameSite: 'strict',
+    sameSite: COOKIE_SAME_SITE,
     secure: runtimeConfig.public.vio.isInProduction,
   }).value = timeZone)
 
