@@ -33,58 +33,55 @@ const parseFeatureFlags = (value?: unknown | null): FeatureFlag[] => {
  * if (isFeatureEnabled('map').value) { ... }
  */
 export const useFeatureFlags = () => {
+  // feature flags
   const featureFlags = useState<Set<FeatureFlag>>(
     'feature-flags',
     () => new Set(),
   )
-  const isFeatureEnabledCache = useState<
-    Map<FeatureFlag, ComputedRef<boolean>>
-  >('feature-flags-cache', () => new Map())
-  const cookieControl = useCookieControl()
-  const { siteUrlTyped: siteUrl } = useSiteUrl()
 
+  // cookie
+  const cookieControl = useCookieControl()
+  const isCookieAllowed = computed(
+    () =>
+      cookieControl.cookiesEnabledIds.value?.includes(
+        FEATURE_FLAGS_COOKIE_ID,
+      ) ?? false,
+  )
+  const { siteUrlTyped: siteUrl } = useSiteUrl()
   const cookie = useCookie<string | null>(FEATURE_FLAGS_COOKIE_NAME, {
     maxAge: FEATURE_FLAGS_COOKIE_MAX_AGE,
     sameSite: COOKIE_SAME_SITE,
     secure: siteUrl.protocol === 'https:',
   })
 
-  const canUseFeatureFlags = computed(
-    () =>
-      cookieControl.cookiesEnabledIds.value?.includes(
-        FEATURE_FLAGS_COOKIE_ID,
-      ) ?? false,
-  )
-
+  // io
   const hydrateFromCookie = (value: string | null | undefined): void => {
     featureFlags.value.clear()
     parseFeatureFlags(value).forEach((flag) => featureFlags.value.add(flag))
   }
-
   const persistToCookie = (): void => {
-    if (!canUseFeatureFlags.value) return
+    if (!isCookieAllowed.value) return
 
     cookie.value = Array.from(featureFlags.value).join(',')
   }
-
   const reset = (): void => {
     featureFlags.value.clear()
     cookie.value = null
   }
 
-  if (canUseFeatureFlags.value) {
-    hydrateFromCookie(cookie.value)
-  }
-
+  // reactivity
+  const isInternalUpdate = ref<boolean>()
   watch(
     () => cookie.value,
     (newValue) => {
-      if (!canUseFeatureFlags.value) return
+      if (!isCookieAllowed.value || isInternalUpdate.value) {
+        isInternalUpdate.value = false
+        return
+      }
       hydrateFromCookie(newValue)
     },
   )
-
-  watch(canUseFeatureFlags, (isAllowed) => {
+  watch(isCookieAllowed, (isAllowed) => {
     if (isAllowed) {
       hydrateFromCookie(cookie.value)
       persistToCookie()
@@ -94,28 +91,30 @@ export const useFeatureFlags = () => {
     reset()
   })
 
+  // initialization
+  if (isCookieAllowed.value) {
+    hydrateFromCookie(cookie.value)
+  }
+
+  // functions
   const disableFeature = (feature: FeatureFlag): void => {
-    if (!canUseFeatureFlags.value || !featureFlags.value.has(feature)) return
+    if (!isCookieAllowed.value || !featureFlags.value.has(feature)) return
 
     featureFlags.value.delete(feature)
+    isInternalUpdate.value = true
     persistToCookie()
   }
 
   const enableFeature = (feature: FeatureFlag): void => {
-    if (!canUseFeatureFlags.value || featureFlags.value.has(feature)) return
+    if (!isCookieAllowed.value || featureFlags.value.has(feature)) return
 
     featureFlags.value.add(feature)
+    isInternalUpdate.value = true
     persistToCookie()
   }
 
-  const isFeatureEnabled = (feature: FeatureFlag): ComputedRef<boolean> => {
-    const cached = isFeatureEnabledCache.value.get(feature)
-    if (cached) return cached
-
-    const state = computed(() => featureFlags.value.has(feature))
-    isFeatureEnabledCache.value.set(feature, state)
-    return state
-  }
+  const isFeatureEnabled = (feature: FeatureFlag): ComputedRef<boolean> =>
+    computed(() => featureFlags.value.has(feature))
 
   const toggleFeature = (feature: FeatureFlag): void => {
     if (isFeatureEnabled(feature).value) {
