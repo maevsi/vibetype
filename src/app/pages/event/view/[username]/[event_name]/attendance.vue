@@ -20,9 +20,7 @@
         <FormInputStateInfo v-if="!guestId">
           {{ t('qrHint') }}
         </FormInputStateInfo>
-        <CardStateInfo v-if="guestId">
-          {{ t('scanned', { scanResult: guestId }) }}
-        </CardStateInfo>
+        <AppAttendanceGuestDynamic v-if="guestId" :guest-id />
         <div v-if="guestId" class="flex flex-col items-center gap-2">
           <ButtonColored
             :aria-label="t('nfcWrite')"
@@ -57,7 +55,7 @@ import type { DetectedBarcode } from 'vue-qrcode-reader'
 import type { RouteNamedMap } from 'vue-router/auto-routes'
 
 import { graphql } from '~~/gql/generated'
-import { useQuery } from '@urql/vue'
+import { useMutation, useQuery } from '@urql/vue'
 
 const ROUTE_NAME: keyof RouteNamedMap =
   'event-view-username-event_name-attendance___en'
@@ -124,8 +122,30 @@ const qrCodeScan = () => {
 }
 const modalClose = () => store.modalRemove('ModalAttendanceScanQrCode')
 const guestId = ref<string>()
+const executeUrqlRequest = useExecuteUrqlRequest()
+const createAttendanceMutation = useMutation(
+  graphql(`
+    mutation AttendanceCreate($attendanceInput: AttendanceInput!) {
+      createAttendance(input: { attendance: $attendanceInput }) {
+        attendance {
+          id
+        }
+      }
+    }
+  `),
+)
 const onClick = async () => {
   if (!guestId.value) return
+
+  await executeUrqlRequest({
+    errorMessageI18n: t('errorAttendanceCreate'),
+    request: createAttendanceMutation.executeMutation({
+      attendanceInput: {
+        guestId: guestId.value,
+      },
+    }),
+  })
+
   await writeTag(guestId.value)
 }
 const onDetect = async (detectedBarcodes: DetectedBarcode[]) => {
@@ -217,6 +237,7 @@ const isNfcError = computed(() => {
 <i18n lang="yaml">
 de:
   close: Schließen
+  errorAttendanceCreate: Beim Erstellen der Anwesenheit ist ein Fehler aufgetreten.
   errorNavigatorPermissionsNotSupported: Navigator-Berechtigungen werden nicht unterstützt! {hintUpdateOrChrome}
   errorNfcAbort: Der NFC-Scan wurde unterbrochen! {hintTryAgain}
   errorNfcNetwork: Die NFC-Übertragung wurde unterbrochen! {hintTryAgain}
@@ -229,12 +250,12 @@ de:
   nfcWrite: NFC-Tag schreiben
   qrCodeScan: Check-in-Code scannen
   qrHint: Lass dir von Gästen den QR-Code auf ihrer Einladungsseite zeigen
-  scanned: 'Gescannt: {scanResult}'
   successDetect: Tag erkannt
   successWrite: Tag beschrieben
   title: Check-in
 en:
   close: Close
+  errorAttendanceCreate: Failed to create attendance.
   errorNavigatorPermissionsNotSupported: Navigator permissions are not supported! {hintUpdateOrChrome}
   errorNfcAbort: The NFC scan was interrupted! {hintTryAgain}
   errorNfcNetwork: The NFC transmission was interrupted! {hintTryAgain}
@@ -242,12 +263,11 @@ en:
   errorNfcNotReadable: Could not access NFC adapter. Is it in use by another program right now?
   errorNfcNotSupported: No compatible NFC adapter was found. {hintUpdateOrChrome}
   hintBrowserSettings: Check your browser settings.
-  hintUpdateOrChrome: Try updating your browser or use Google Chrome.
   hintTryAgain: Try again.
+  hintUpdateOrChrome: Try updating your browser or use Google Chrome.
   nfcWrite: Write to NFC tag
   qrCodeScan: Scan check in code
   qrHint: Ask guests to show you the QR code on their invitation page
-  scanned: 'Scanned: {scanResult}'
   successDetect: Tag detected
   successWrite: Tag written
   title: Check in
