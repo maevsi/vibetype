@@ -146,7 +146,12 @@ const onClick = async () => {
     }),
   })
 
-  await writeTag(guestId.value)
+  await writeTag(
+    `https://${siteUrl.host}/${localePath({
+      name: 'attendance-view-id',
+      params: { id: guestId.value },
+    })}`,
+  )
 }
 const onDetect = async (detectedBarcodes: DetectedBarcode[]) => {
   if (!detectedBarcodes.length || !detectedBarcodes[0]) return
