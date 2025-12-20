@@ -149,7 +149,7 @@ const onClick = async () => {
   })
 
   await writeTag(
-    `https://${siteUrl.host}/${localePath({
+    `https://${siteUrl.host}${localePath({
       name: 'attendance-view-id',
       params: { id: guestId.value },
     })}`,

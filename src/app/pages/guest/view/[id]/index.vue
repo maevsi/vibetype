@@ -72,13 +72,13 @@
           >
             <div />
             <div>
-              <AppButtonIcon
+              <ButtonIcon
                 :aria-label="t('iCalDownload')"
                 class="flex size-12 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
                 @click="downloadIcal"
               >
                 <AppIconArrowDownTray :title="t('iCalDownload')" />
-              </AppButtonIcon>
+              </ButtonIcon>
               <!-- TODO: share & favorite button -->
               <template
                 v-if="
@@ -240,12 +240,9 @@
     </div>
     <Modal id="ModalGuestQrCode">
       <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
-        <QrcodeVue
-          id="qrCode"
-          class="bg-white p-4"
-          :value="guest.id"
-          :size="200"
-        />
+        <div class="bg-white p-4">
+          <QrcodeVue id="qrCode" :value="guest.id" :size="200" />
+        </div>
         <FormInputStateInfo>
           {{ t('hintQrCode') }}
         </FormInputStateInfo>
