@@ -1,3 +1,9 @@
+## [13.0.1](https://github.com/maevsi/vibetype/compare/13.0.0...13.0.1) (2025-12-20)
+
+### Bug Fixes
+
+* **jwt:** update name ([7115dfe](https://github.com/maevsi/vibetype/commit/7115dfef80567415ab142edaea4ca53e3ca60a1f))
+
 ## [13.0.0](https://github.com/maevsi/vibetype/compare/12.50.0...13.0.0) (2025-12-20)
 
 ### ⚠ BREAKING CHANGES
