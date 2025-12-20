@@ -134,6 +134,8 @@ const createAttendanceMutation = useMutation(
     }
   `),
 )
+const { siteUrlTyped: siteUrl } = useSiteUrl()
+const localePath = useLocalePath()
 const onClick = async () => {
   if (!guestId.value) return
 
