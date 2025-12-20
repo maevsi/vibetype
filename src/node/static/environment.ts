@@ -8,4 +8,4 @@ export const NUXT_PUBLIC_VIO_ENVIRONMENT = process.env.NODE_ENV
 export const SITE_URL =
   process.env.SITE_URL ||
   process.env.NUXT_PUBLIC_SITE_URL ||
-  `https://${process.env.HOST || 'localhost'}:${process.env.PORT || '3000'}`
+  `https://${process.env.HOST || 'app.localhost'}:${process.env.PORT || '3000'}`
