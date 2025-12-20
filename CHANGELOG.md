@@ -1,3 +1,19 @@
+## [13.0.0](https://github.com/maevsi/vibetype/compare/12.50.0...13.0.0) (2025-12-20)
+
+### ⚠ BREAKING CHANGES
+
+* **sqitch:** migrate to v10
+
+### Features
+
+* **attendance:** add ([e200914](https://github.com/maevsi/vibetype/commit/e200914740e94a665734b050e9dd380a343da2d2))
+* **sqitch:** migrate to v10 ([bd00bc7](https://github.com/maevsi/vibetype/commit/bd00bc757f253f9dd3cd7b8088eed83260c2e599))
+
+### Bug Fixes
+
+* **attendance:** add missing composables ([5b3ae73](https://github.com/maevsi/vibetype/commit/5b3ae73167f1e5893ab0b5f9ee71f3a840bcaab4))
+* **attendance:** write link ([cfa8605](https://github.com/maevsi/vibetype/commit/cfa8605ed10f68540ddd0da2c048120621710194))
+
 ## [12.50.0](https://github.com/maevsi/vibetype/compare/12.49.0...12.50.0) (2025-12-15)
 
 ### Features
