@@ -18,7 +18,7 @@ export const ITEMS_PER_PAGE = 10
 export const ITEMS_PER_PAGE_LARGE = 100
 export const JWT_ALGORITHM = 'RS256'
 export const JWT_NAME = ({ isHttps }: { isHttps?: boolean }) =>
-  `${isHttps ? '__Http-' : ''}jwt`
+  `${isHttps ? '__Http-' : ''}jwt2`
 export type LOCALE_CODES = 'de' | 'en'
 export const LOCALES = [
   {
