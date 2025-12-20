@@ -305,9 +305,7 @@ const result = await eventUnlockMutation.executeMutation({
 const { jwtStore } = await useJwtStore()
 const alertError = useAlertError()
 try {
-  await jwtStore(
-    result.data?.eventUnlock?.eventUnlockResponse?.jwt || undefined,
-  )
+  await jwtStore(result.data?.eventUnlock?.results?.[0]?.jwt || undefined)
 } catch (error) {
   alertError({
     ...(error instanceof Error ? { error } : {}),

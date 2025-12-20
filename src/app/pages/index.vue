@@ -170,7 +170,7 @@ const toProfile = () => {
     localePath({
       name: 'account-view-username',
       params: {
-        username: store.jwtDecoded.account_username,
+        username: store.jwtDecoded.username,
       },
       // // TODO: highlight achievement
       // query: {

@@ -97,7 +97,7 @@ const onSignIn = async () => {
     return await navigateTo(
       localePath({
         name: 'account-edit-username',
-        params: { username: store.jwtDecoded?.account_username },
+        params: { username: store.jwtDecoded?.username },
       }),
     )
   }

@@ -5,8 +5,8 @@ import { decodeJwt } from 'jose'
 
 import type { CookieRef } from '#app'
 
-import { authenticateMutation } from '~~/gql/documents/mutations/account/accountAuthenticate'
-import { jwtRefreshMutation } from '~~/gql/documents/mutations/account/accountJwtRefresh'
+import { jwtCreateMutation } from '~~/gql/documents/mutations/jwt/jwtCreate'
+import { jwtUpdateMutation } from '~~/gql/documents/mutations/jwt/jwtUpdate'
 import { setJwtCookie } from '~~/server/utils/jwt'
 
 export const authenticationAnonymous = async ({
@@ -25,7 +25,7 @@ export const authenticationAnonymous = async ({
   consola.trace('Authenticating anonymously...')
 
   const result = await client
-    .mutation(authenticateMutation, {
+    .mutation(jwtCreateMutation, {
       username: '',
       password: '',
     })
@@ -34,14 +34,14 @@ export const authenticationAnonymous = async ({
   if (result.error) {
     consola.error(result.error)
   } else {
-    if (!result.data?.authenticate) {
+    if (!result.data?.jwtCreate) {
       return
     }
 
     await jwtStore({
       $urqlReset,
       event,
-      jwt: result.data.authenticate.jwt || undefined,
+      jwt: result.data.jwtCreate.jwt || undefined,
       runtimeConfig,
       store,
     })
@@ -71,7 +71,7 @@ export const getJwtFromCookie = ({
   }
 }
 
-export const jwtRefresh = async ({
+export const jwtUpdate = async ({
   $urqlReset,
   client,
   event,
@@ -86,9 +86,9 @@ export const jwtRefresh = async ({
   runtimeConfig: ReturnType<typeof useRuntimeConfig>
   store: ReturnType<typeof useStore>
 }) => {
-  consola.trace('Refreshing a JWT...')
+  consola.trace('Updating a JWT...')
 
-  const result = await client.mutation(jwtRefreshMutation, { id }).toPromise()
+  const result = await client.mutation(jwtUpdateMutation, { id }).toPromise()
 
   if (result.error) {
     consola.error(result.error)
@@ -99,7 +99,7 @@ export const jwtRefresh = async ({
       runtimeConfig,
       store,
     })
-  } else if (!result.data?.jwtRefresh?.jwt) {
+  } else if (!result.data?.jwtUpdate?.jwt) {
     await authenticationAnonymous({
       $urqlReset,
       client,
@@ -111,7 +111,7 @@ export const jwtRefresh = async ({
     await jwtStore({
       $urqlReset,
       event,
-      jwt: result.data.jwtRefresh.jwt,
+      jwt: result.data.jwtUpdate.jwt,
       runtimeConfig,
       store,
     })

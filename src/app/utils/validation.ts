@@ -20,7 +20,7 @@ import { getEventItem } from '~~/gql/documents/fragments/eventItem'
 
 export const VALIDATION_ADDRESS_LENGTH_MAXIMUM = 300
 export const VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM = 254 // source: https://www.dominicsayers.com/isemail/
-export const VALIDATION_EVENT_DESCRIPTION_LENGTH_MAXIMUM = 1000000
+export const VALIDATION_EVENT_DESCRIPTION_LENGTH_MAXIMUM = 10000
 export const VALIDATION_EVENT_LOCATION_LENGTH_MAXIMUM = 300
 export const VALIDATION_EVENT_NAME_LENGTH_MAXIMUM = 100
 export const VALIDATION_EVENT_SLUG_LENGTH_MAXIMUM = 100
@@ -34,7 +34,7 @@ export const VALIDATION_NAME_LAST_LENGTH_MAXIMUM = 100
 export const VALIDATION_NAME_NICK_LENGTH_MAXIMUM = 100
 export const VALIDATION_NOTE_LENGTH_MAXIMUM = 1000
 export const VALIDATION_PASSWORD_LENGTH_MINIMUM = 8
-export const VALIDATION_URL_LENGTH_MAXIMUM = 300
+export const VALIDATION_URL_LENGTH_MAXIMUM = 2000
 export const VALIDATION_USERNAME_LENGTH_MAXIMUM = 100
 
 export const VALIDATION_CAPTCHA = () => ({
@@ -107,6 +107,7 @@ export const VALIDATION_USERNAME = ({
     ? { existenceNone: helpers.withAsync(validateUsername(true)) } // TODO: debounce (https://github.com/maevsi/vibetype/issues/1672)
     : {}),
   formatSlug: VALIDATION_FORMAT_SLUG,
+  // TODO: description max length 1000, imprint url length 2000
   lengthMax: maxLength(VALIDATION_USERNAME_LENGTH_MAXIMUM),
   ...(isRequired ? { required } : {}),
 })
