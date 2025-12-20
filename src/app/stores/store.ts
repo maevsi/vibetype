@@ -34,14 +34,12 @@ export const useStore = defineStore(SITE_NAME, () => {
       jwtDecodedNew.exp !== undefined &&
       jwtDecodedNew.exp > Math.floor(Date.now() / 1000)
     ) {
-      signedInAccountId.value = jwtDecodedNew.account_id as string | undefined
-      signedInUsername.value = jwtDecodedNew.account_username as
-        | string
-        | undefined
+      signedInAccountId.value = jwtDecodedNew.sub as string | undefined
+      signedInUsername.value = jwtDecodedNew.username as string | undefined
 
       Sentry.setUser({
-        id: jwtDecodedNew.account_id as string | undefined,
-        username: jwtDecodedNew.account_username as string | undefined,
+        id: jwtDecodedNew.sub as string | undefined,
+        username: jwtDecodedNew.username as string | undefined,
       })
     } else {
       signedInAccountId.value = undefined

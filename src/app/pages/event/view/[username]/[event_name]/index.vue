@@ -211,7 +211,17 @@ const api = await useApiData([eventQuery])
 const eventDescriptionTemplate = computed(() => {
   if (!event.value?.description) return
 
-  return DOMPurify.sanitize(event.value.description, { ADD_ATTR: ['target'] })
+  const descriptionSanitized = DOMPurify.sanitize(event.value.description, {
+    ADD_ATTR: ['target'],
+  })
+
+  // TODO: split event description and guest invitation texts (https://github.com/maevsi/vibetype/issues/211)
+  const descriptionNoTemplates = descriptionSanitized.replace(
+    /{{\s*[\w.]+\s*}}/g,
+    `[${t('errorTemplate')}]`,
+  )
+
+  return descriptionNoTemplates
 })
 const routeQueryIc = computed(() => route.query.ic)
 
@@ -266,6 +276,7 @@ de:
   attendances: Check-in
   errorAccountMissing: Nutzerkonto nicht verfügbar
   errorEventMissing: Veranstaltung nicht verfügbar
+  errorTemplate: Wert nur in der Einladung verfügbar
   guests: Gäste
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
   report: Veranstaltung melden
@@ -274,6 +285,7 @@ en:
   attendances: Check in
   errorAccountMissing: Account not available
   errorEventMissing: Event not available
+  errorTemplate: value available in invitation only
   guests: Guests
   ogImageAlt: The event's preview image.
   report: Report event

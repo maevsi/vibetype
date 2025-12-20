@@ -206,12 +206,14 @@
           </TypographyLabelBold>
         </div>
       </div>
-      <div v-if="accountImprint" class="flex flex-col gap-2 p-1.5">
+      <div v-if="accountImprintUrl" class="flex flex-col gap-2 p-1.5">
         <TypographyH3>
           {{ t('imprint') }}
         </TypographyH3>
         <TypographyBodyMedium>
-          {{ accountImprint }}
+          <AppLink :to="accountImprintUrl">
+            {{ accountImprintUrl }}
+          </AppLink>
         </TypographyBodyMedium>
       </div>
     </div>
@@ -263,7 +265,7 @@ const queryAccount = graphql(`
         totalCount
       }
       id
-      imprint
+      imprintUrl
     }
   }
 `)
@@ -294,7 +296,7 @@ const query = useQuery({
 const api = await useApiData([query])
 const account = computed(() => query.data.value?.accountByUsername)
 const accountDescription = computed(() => account.value?.description?.trim())
-const accountImprint = computed(() => account.value?.imprint?.trim())
+const accountImprintUrl = computed(() => account.value?.imprintUrl?.trim())
 const achievements = computed(
   () => account.value?.achievementsByAccountId.nodes,
 )

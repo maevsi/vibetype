@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core'
-import { useAuthenticateMutation } from '~~/gql/documents/mutations/account/accountAuthenticate'
+import { useJwtCreateMutation } from '~~/gql/documents/mutations/jwt/jwtCreate'
 
 const emit = defineEmits<{
   'signed-in': []
@@ -64,8 +64,8 @@ const isFormSent = ref(false)
 const modelError = defineModel<Error>('error')
 
 // api data
-const authenticateMutation = useAuthenticateMutation()
-const api = await useApiData([authenticateMutation])
+const jwtCreateMutation = useJwtCreateMutation()
+const api = await useApiData([jwtCreateMutation])
 
 // methods
 const alertError = useAlertError()
@@ -73,7 +73,7 @@ const captchaIsUsed = ref<boolean>()
 const submit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
 
-  const result = await authenticateMutation.executeMutation(
+  const result = await jwtCreateMutation.executeMutation(
     {
       username: form.username || '',
       password: form.password || '',
@@ -93,7 +93,7 @@ const submit = async () => {
   }
 
   try {
-    await jwtStore(result.data?.authenticate?.jwt || undefined)
+    await jwtStore(result.data?.jwtCreate?.jwt || undefined)
   } catch (error) {
     alertError({
       ...(error instanceof Error ? { error } : {}),

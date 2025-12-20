@@ -3,7 +3,7 @@ import { parse } from 'graphql'
 import type { H3Event } from 'h3'
 import { z } from 'zod'
 
-import { authenticateMutation } from '~~/gql/documents/mutations/account/accountAuthenticate'
+import { jwtCreateMutation } from '~~/gql/documents/mutations/jwt/jwtCreate'
 import { accountRegistrationMutation } from '~~/gql/documents/mutations/account/accountRegistration'
 
 const authProxyBodySchema = z.object({
@@ -34,10 +34,10 @@ export default defineEventHandler(async (event) => {
 
   if (
     // authentication
-    authenticateMutation.definitions.length !== 1 ||
-    !authenticateMutation.definitions[0] ||
-    !('name' in authenticateMutation.definitions[0]) ||
-    !authenticateMutation.definitions[0].name ||
+    jwtCreateMutation.definitions.length !== 1 ||
+    !jwtCreateMutation.definitions[0] ||
+    !('name' in jwtCreateMutation.definitions[0]) ||
+    !jwtCreateMutation.definitions[0].name ||
     // account registration
     accountRegistrationMutation.definitions.length !== 1 ||
     !accountRegistrationMutation.definitions[0] ||
@@ -53,7 +53,7 @@ export default defineEventHandler(async (event) => {
     if (definition.kind !== 'OperationDefinition' || !definition.name) continue
 
     switch (definition.name.value) {
-      case authenticateMutation.definitions[0].name.value:
+      case jwtCreateMutation.definitions[0].name.value:
         // don't check captcha for anonymous authentication
         if (body.variables?.password === '' && body.variables.username === '')
           return
