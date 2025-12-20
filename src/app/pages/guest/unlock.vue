@@ -99,7 +99,7 @@ definePageMeta({
         consola.error(result.error)
       }
 
-      if (!result.data?.eventUnlock?.eventUnlockResponse?.jwt) {
+      if (!result.data?.eventUnlock?.results?.[0]?.jwt) {
         return await navigateTo(
           localePath({
             name: 'guest-unlock',
@@ -112,15 +112,15 @@ definePageMeta({
       }
 
       try {
-        await jwtStore(result.data.eventUnlock.eventUnlockResponse.jwt)
+        await jwtStore(result.data.eventUnlock.results[0].jwt)
       } catch (error) {
         consola.error(error)
         return
       }
 
       if (
-        !result.data.eventUnlock.eventUnlockResponse.creatorUsername ||
-        !result.data.eventUnlock.eventUnlockResponse.eventSlug
+        !result.data.eventUnlock.results[0]?.creatorUsername ||
+        !result.data.eventUnlock.results[0]?.eventSlug
       ) {
         throw new Error('Author account username or event slug missing!')
       }
@@ -184,14 +184,12 @@ const submit = async () => {
     guestId: form.guestId,
   })
 
-  if (!result.data?.eventUnlock?.eventUnlockResponse) {
+  if (!result.data?.eventUnlock?.results) {
     return
   }
 
   try {
-    await jwtStore(
-      result.data?.eventUnlock?.eventUnlockResponse?.jwt || undefined,
-    )
+    await jwtStore(result.data?.eventUnlock?.results?.[0]?.jwt || undefined)
   } catch (error) {
     alertError({
       ...(error instanceof Error ? { error } : {}),

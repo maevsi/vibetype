@@ -1,13 +1,13 @@
 import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
-export const authenticateMutation = graphql(`
+export const jwtCreateMutation = graphql(`
   mutation Authenticate($password: String!, $username: String!) {
-    authenticate(input: { password: $password, username: $username }) {
+    jwtCreate(input: { password: $password, username: $username }) {
       clientMutationId
       jwt
     }
   }
 `)
 
-export const useAuthenticateMutation = () => useMutation(authenticateMutation)
+export const useJwtCreateMutation = () => useMutation(jwtCreateMutation)

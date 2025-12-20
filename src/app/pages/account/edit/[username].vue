@@ -64,7 +64,7 @@
         @save="saveDescription"
       />
       <AppInputTextarea
-        :content-initial="account.imprint"
+        :content-initial="account.imprintUrl"
         :length-maximum="imprintLengthMaximum"
         :title="t('imprint')"
         @save="saveImprint"
@@ -130,7 +130,7 @@ const query = useQuery({
       accountByUsername(username: $username) {
         description
         id
-        imprint
+        imprintUrl
         profilePictureByAccountId {
           id
           uploadByUploadId {
@@ -224,7 +224,7 @@ const updateAccountByIdMutation = useMutation(
         account {
           description
           id
-          imprint
+          imprintUrl
         }
       }
     }
@@ -250,7 +250,7 @@ const saveImprint = async (content?: string) => {
     errorMessageI18n: t('errorUpdateImprint'),
     request: updateAccountByIdMutation.executeMutation({
       id: account.value.id,
-      accountPatch: { imprint: content },
+      accountPatch: { imprintUrl: content },
     }),
   })
 }

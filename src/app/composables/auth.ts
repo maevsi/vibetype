@@ -1,13 +1,13 @@
 export const useAuth = async () => {
   const jwtFromCookie = useJwtFromCookie()
-  const authenticateAnonymous = useAuthenticateAnonymous()
-  const jwtRefreshComposable = useJwtRefresh() // TODO: rename to just `jwtRefreshComposable` when Rolldown supports variable shadowing
+  const jwtCreateAnonymous = useJwtCreateAnonymous()
+  const jwtUpdateComposable = useJwtUpdate() // TODO: rename to just `jwtUpdate` when Rolldown supports variable shadowing
 
   if (import.meta.server) {
-    if (jwtFromCookie?.jwtDecoded?.id) {
-      await jwtRefreshComposable()
+    if (jwtFromCookie?.jwtDecoded?.jti) {
+      await jwtUpdateComposable()
     } else {
-      await authenticateAnonymous()
+      await jwtCreateAnonymous()
     }
   }
 }
@@ -37,7 +37,7 @@ export const useAuthentication = () => {
   })
 }
 
-export const useAuthenticateAnonymous = () => {
+export const useJwtCreateAnonymous = () => {
   const { $urql, $urqlReset, ssrContext } = useNuxtApp()
   const runtimeConfig = useRuntimeConfig()
   const store = useStore()
@@ -64,18 +64,18 @@ export const useJwtFromCookie = () => {
 
 export const useJwtName = () => getJwtName(useSiteUrl().siteUrlTyped)
 
-export const useJwtRefresh = () => {
+export const useJwtUpdate = () => {
   const { $urql, $urqlReset, ssrContext } = useNuxtApp()
   const jwtFromCookie = useJwtFromCookie()
   const runtimeConfig = useRuntimeConfig()
   const store = useStore()
 
   return async () =>
-    await jwtRefresh({
+    await jwtUpdate({
       $urqlReset,
       client: $urql.value,
       event: ssrContext?.event,
-      id: jwtFromCookie?.jwtDecoded.id as string,
+      id: jwtFromCookie?.jwtDecoded.jti as string,
       runtimeConfig,
       store,
     })
