@@ -1,3 +1,9 @@
+## [13.0.2](https://github.com/maevsi/vibetype/compare/13.0.1...13.0.2) (2025-12-20)
+
+### Bug Fixes
+
+* **attendance:** correct link ([8602c73](https://github.com/maevsi/vibetype/commit/8602c737b20fb95c6e0372a7ed38462a55a32d53))
+
 ## [13.0.1](https://github.com/maevsi/vibetype/compare/13.0.0...13.0.1) (2025-12-20)
 
 ### Bug Fixes
