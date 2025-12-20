@@ -1,13 +1,15 @@
 <template>
-  <div>
-    <h1>
-      {{ title }}
-    </h1>
+  <AppContent>
     <EventSearch />
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
+
 const { t } = useI18n()
 
 // data

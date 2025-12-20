@@ -1,8 +1,21 @@
 <template>
   <Loader :api>
     <div class="flex flex-col gap-4">
-      <FormInputSearch v-model="searchQuery" />
+      <FormInputSearch v-model="searchQuery">
+        <template #suffix>
+          <AppFeature feature="map">
+            <ButtonIcon
+              :aria-label="t('map')"
+              class="rounded-xl bg-(--primary-green-middle-dark) p-2"
+              @click="isMapVisible = !isMapVisible"
+            >
+              <AppIconMap class="size-5" />
+            </ButtonIcon>
+          </AppFeature>
+        </template>
+      </FormInputSearch>
       <EventList
+        :is-map-visible
         :events
         :has-next-page="pageInfo?.hasNextPage"
         @load-more="loadMore"
@@ -177,4 +190,17 @@ const loadMore = () => {
       query.value.data.value?.eventSearch?.pageInfo.endCursor
   }
 }
+
+// map
+const isMapVisible = ref<boolean>()
+
+// template
+const { t } = useI18n()
 </script>
+
+<i18n lang="yaml">
+de:
+  map: Karte
+en:
+  map: Map
+</i18n>

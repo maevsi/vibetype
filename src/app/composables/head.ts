@@ -21,7 +21,7 @@ export const useAppLayout = () => {
     useHeadSafe({
       bodyAttrs: {
         class:
-          'bg-(--semantic-base-background) text-(--semantic-base-text-primary) max-lg:select-none',
+          'bg-(--base-background) text-(--neutral-level-6) max-lg:select-none',
       },
     })
 

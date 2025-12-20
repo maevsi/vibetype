@@ -1,21 +1,52 @@
 <template>
-  <!-- <AppError
-    v-if="recommendationError"
-    :error="{ message: t('recommendationError'), statusCode: 500 }"
-  /> -->
-  <div>
-    <!-- v-else -->
-    <LayoutPageTitle :title />
-    <div v-if="authentication.isSignedIn" class="flex flex-col gap-8">
+  <AppContent>
+    <div class="flex items-center justify-between py-2">
+      <div class="flex items-center gap-2 p-2">
+        <IconLogo class="h-8" />
+        <AppTypographyTitle3Emphasized>
+          {{ t('globalSiteName') }}
+        </AppTypographyTitle3Emphasized>
+      </div>
+      <div class="flex gap-2">
+        <AppFeature feature="poster-hunt">
+          <AppButtonNew
+            :aria-label="t('hunt')"
+            class="px-4"
+            :to="localePath('event-ingest-image')"
+          >
+            {{ t('hunt') }}
+            <template #prefix>
+              <AppIconCamera />
+            </template>
+          </AppButtonNew>
+        </AppFeature>
+        <AppFeature feature="notifications">
+          <AppButtonNew
+            :aria-label="t('notifications')"
+            variant="secondary"
+            class="rounded-full"
+            :to="localePath('notification')"
+          >
+            <div class="relative">
+              <AppIconBell class="size-6" />
+              <div class="absolute top-[0.5px] right-0.75">
+                <NotificationIndicator />
+              </div>
+            </div>
+          </AppButtonNew>
+        </AppFeature>
+      </div>
+    </div>
+    <div v-if="authentication.isSignedIn" class="flex flex-col gap-8 py-2">
       <section
         v-if="eventUpcoming?.data"
         :aria-labelledby="templateIdUpcoming"
         class="flex flex-col gap-4"
       >
-        <TypographyH3 :id="templateIdUpcoming" class="px-2">
+        <TypographyH3 :id="templateIdUpcoming" class="px-1">
           {{ t('upcomingTitle') }}
         </TypographyH3>
-        <LoaderIndicatorPing v-if="eventUpcoming.fetching" />
+        <AppLoaderLogo v-if="eventUpcoming.fetching" />
         <CardStateAlert
           v-else-if="eventUpcoming.error"
           :message="eventUpcoming.error.message"
@@ -27,10 +58,10 @@
         :aria-labelledby="templateIdRecommendation"
         class="flex flex-col gap-4"
       >
-        <TypographyH3 :id="templateIdRecommendation" class="px-2">
+        <TypographyH3 :id="templateIdRecommendation" class="px-1">
           {{ t('recommendationTitle') }}
         </TypographyH3>
-        <LoaderIndicatorPing v-if="eventRecommendationsPending" />
+        <AppLoaderLogo v-if="eventRecommendationsPending" />
         <template v-else>
           <EventCard
             v-for="event in eventRecommendations"
@@ -47,13 +78,18 @@
       :call-to-action="t('anonymousCta')"
       :call-to-action-description="t('anonymousCtaDescription')"
     />
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
 import { useQuery } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
+
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
 
 // async data
 const eventQuery = graphql(`
@@ -201,12 +237,15 @@ useHeadDefault({ title })
 // template
 const templateIdRecommendation = useId()
 const templateIdUpcoming = useId()
+const localePath = useLocalePath()
 </script>
 
 <i18n lang="yaml">
 de:
   anonymousCta: Finde ihn auf {siteName}
   anonymousCtaDescription: Dir fehlt der Überblick über Veranstaltungen?
+  hunt: Jagd
+  notifications: Benachrichtigungen
   # recommendationError: Event-Empfehlungen konnten nicht geladen werden
   recommendationTitle: Das solltest Du nicht verpassen
   title: Dashboard
@@ -214,8 +253,10 @@ de:
 en:
   anonymousCta: Find it on {siteName}
   anonymousCtaDescription: Are you missing an overview of events?
+  hunt: Hunt
+  notifications: Notifications
   # recommendationError: Event recommendations could not be loaded
   recommendationTitle: You Should Not Miss
   title: Dashboard
-  upcomingTitle: Your upcoming event
+  upcomingTitle: Your next event
 </i18n>

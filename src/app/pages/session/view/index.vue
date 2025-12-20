@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <AppContent>
     <LayoutPageTitle :title />
     <div class="flex flex-col gap-8">
       <section class="flex flex-col gap-4">
@@ -51,7 +51,7 @@
       </section>
       <section class="flex flex-col gap-4">
         <h2>{{ t('end') }}</h2>
-        <div class="grid gap-4 lg:grid-cols-2">
+        <div class="flex gap-4">
           <div class="flex-1">
             <Card>
               <template v-if="store.jwtDecoded?.exp">
@@ -88,7 +88,7 @@
       </section>
       <section class="flex flex-col gap-4">
         <h2>{{ t('codes') }}</h2>
-        <div class="grid gap-4 lg:grid-cols-2">
+        <div class="flex gap-4">
           <div class="flex-1">
             <Card>
               <div v-if="store.jwtDecoded?.guests">
@@ -118,7 +118,7 @@
       </section>
       <section class="flex flex-col gap-4">
         <h2>{{ t('userAgentString') }}</h2>
-        <div class="grid gap-4 lg:grid-cols-2">
+        <div class="flex gap-4">
           <div class="flex-1">
             <Card>
               {{ userAgentString }}
@@ -128,7 +128,7 @@
       </section>
       <section class="flex flex-col gap-4">
         <h2>{{ t('app') }}</h2>
-        <div class="grid gap-4 lg:grid-cols-2">
+        <div class="flex gap-4">
           <div class="flex flex-1 flex-col gap-2">
             <Card class="flex flex-col gap-1">
               <div class="flex gap-2">
@@ -156,7 +156,7 @@
       </section>
       <section class="flex flex-col gap-4">
         <h2>{{ t('notification') }}</h2>
-        <div class="flex flex-col gap-4 lg:flex-row">
+        <div class="flex flex-col gap-4">
           <section class="flex-1">
             <Card class="flex flex-col gap-1">
               <div class="flex gap-2">
@@ -285,7 +285,7 @@
       </section>
       <section class="flex flex-col gap-4">
         <h2>{{ t('data') }}</h2>
-        <div class="grid gap-4 lg:grid-cols-2">
+        <div class="flex gap-4">
           <div class="flex flex-1 flex-col gap-2">
             <Card class="flex flex-col gap-1">
               <div class="flex gap-2">
@@ -338,12 +338,16 @@
         </div>
       </section>
     </div>
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
 import { consola } from 'consola'
 
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
 defineRouteRules({
   robots: false,
 })

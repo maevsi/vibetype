@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <AppContent>
     <LayoutPageTitle :title />
     <LayoutProse>
       <section>
@@ -11,14 +11,19 @@
         </p>
       </section>
     </LayoutProse>
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n()
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
 
 // data
+const { t } = useI18n()
 const title = t('title')
+useHeadDefault({ title })
 </script>
 
 <i18n lang="yaml">

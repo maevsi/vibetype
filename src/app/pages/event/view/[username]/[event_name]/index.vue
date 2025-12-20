@@ -8,7 +8,7 @@
     v-else-if="!event"
     :error="{ message: t('errorEventMissing'), statusCode: 404 }"
   />
-  <div v-else class="flex flex-col gap-4">
+  <AppContent v-else class="flex flex-col gap-4">
     <ButtonList
       v-if="!routeQueryIc && event.createdBy === store.signedInAccountId"
       class="justify-center"
@@ -141,7 +141,7 @@
         <!-- eslint-enable vue/no-v-html -->
       </Card>
     </div>
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
@@ -149,6 +149,11 @@ import { useQuery } from '@urql/vue'
 import DOMPurify from 'isomorphic-dompurify'
 
 import { graphql } from '~~/gql/generated'
+
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
 
 const { t } = useI18n()
 const store = useStore()

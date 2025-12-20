@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <AppContent>
     <LayoutPageTitle :title />
     <div class="flex flex-col gap-6">
       <section class="flex flex-col gap-4">
@@ -154,10 +154,15 @@
         </CardButton>
       </section>
     </div>
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
+
 const { t } = useI18n()
 const cookieControl = useCookieControl()
 const localePath = useLocalePath()

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <AppContent>
     <LayoutPageTitle :title />
     <ColorScheme>
       <AppRadioGroup
@@ -11,10 +11,15 @@
         <AppRadioGroup :items="colorSchemes" />
       </template>
     </ColorScheme>
-  </div>
+  </AppContent>
 </template>
 
 <script setup lang="ts">
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
+
 // page
 const { t } = useI18n()
 const title = t('title')

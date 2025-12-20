@@ -1,20 +1,25 @@
 <template>
-  <Loader :api>
-    <div
-      v-if="event && route.params.username === store.signedInUsername"
-      class="flex flex-col gap-4"
-    >
-      <LayoutPageTitle :title="t('title')" />
-      <GuestList :event />
-    </div>
-    <AppError v-else :error="{ statusCode: 403 }" />
-  </Loader>
+  <LoaderIndicatorPing v-if="api.isFetching" />
+  <AppError
+    v-else-if="route.params.username !== store.signedInUsername"
+    :error="{ statusCode: 403 }"
+  />
+  <AppError v-else-if="!event" :error="{ statusCode: 404 }" />
+  <AppContent v-else class="flex flex-col gap-4">
+    <LayoutPageTitle :title="t('title')" />
+    <GuestList :event />
+  </AppContent>
 </template>
 
 <script setup lang="ts">
 import { useQuery } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
+
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
 
 // validation
 const route = useRoute('event-view-username-event_name-guest___en')

@@ -10,9 +10,8 @@
         <TypographyH2>
           {{ title }}
         </TypographyH2>
-        <template v-if="isOwnProfile">
+        <div v-if="isOwnProfile" class="flex gap-3">
           <AppButton
-            v-if="isOwnProfile"
             :aria-label="t('edit')"
             :to="
               localePath({
@@ -25,7 +24,17 @@
           >
             <AppIconSettings class="size-8" />
           </AppButton>
-        </template>
+          <ButtonIcon
+            :aria-label="t('settings')"
+            :to="
+              localePath({
+                name: 'session-edit',
+              })
+            "
+          >
+            <AppIconBars3 class="size-8" />
+          </ButtonIcon>
+        </div>
         <template v-else>
           <div v-if="store.signedInAccountId" class="flex justify-center">
             <AppDropdown>
@@ -327,6 +336,7 @@ de:
   myProfile: Mein Profil
   newEvent: Neues Event
   profile: Profil
+  settings: Einstellungen
   uploads: Meine Dateien
   username: "{'@'}{username}"
 en:
@@ -345,6 +355,7 @@ en:
   myProfile: My Profile
   newEvent: New event
   profile: Profile
+  settings: Settings
   uploads: Uploads
   username: "{'@'}{username}"
 </i18n>
