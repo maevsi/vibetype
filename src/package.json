@@ -1,8 +1,8 @@
 {
   "description": "Find events, guests and friends 💙❤️💚",
   "devDependencies": {
-    "@aws-sdk/client-sesv2": "3.956.0",
-    "@aws-sdk/credential-providers": "3.956.0",
+    "@aws-sdk/client-sesv2": "3.957.0",
+    "@aws-sdk/credential-providers": "3.957.0",
     "@dargmuesli/nuxt-cookie-control": "9.1.10",
     "@dargmuesli/nuxt-vio": "20.1.2",
     "@fontsource-variable/raleway": "5.2.8",
@@ -97,7 +97,7 @@
     "lodash-es": "4.17.22",
     "lucide-vue-next": "0.562.0",
     "mustache": "4.2.0",
-    "nodemailer": "7.0.11",
+    "nodemailer": "7.0.12",
     "nuxt": "4.2.2",
     "nuxt-gtag": "4.1.0",
     "nuxt-security": "2.5.0",
