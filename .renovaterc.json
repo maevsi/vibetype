@@ -1,10 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>dargmuesli/renovate-config"],
-  "packageRules": [
-    {
-      "allowedVersions": "3.8.0",
-      "matchPackageNames": ["remark-mdc"]
-    }
-  ]
+  "extends": ["github>dargmuesli/renovate-config"]
 }
