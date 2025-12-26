@@ -1,15 +1,17 @@
 <template>
-  <AppAttendanceGuest v-if="guest" :guest="guest" />
-  <div v-else class="text-sm text-gray-500">{{ t('globalLoading') }}</div>
+  <div v-if="query.fetching" class="text-sm text-gray-500">
+    {{ t('globalLoading') }}
+  </div>
+  <CardStateAlert v-else-if="!guest">
+    {{ t('globalErrorNoData') }}
+  </CardStateAlert>
+  <AppAttendanceGuest v-else :guest />
 </template>
 
 <script setup lang="ts">
 import { useQuery } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
-import type { AppAttendanceGuestProps } from './AppAttendanceGuest.vue'
-
-const guest = ref<AppAttendanceGuestProps>()
 
 const { guestId } = defineProps<{
   guestId: string
@@ -45,7 +47,7 @@ const query = await useQuery({
   },
 })
 
-guest.value = query.data.value?.guestById
+const guest = computed(() => query.data.value?.guestById)
 
 const { t } = useI18n()
 </script>
