@@ -24,3 +24,9 @@ export default defineNitroPlugin((nitroApp) => {
     event.context.$openAi = openAi
   })
 })
+
+declare module 'h3' {
+  interface H3EventContext {
+    $openAi?: OpenAI
+  }
+}

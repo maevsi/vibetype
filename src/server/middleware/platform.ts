@@ -8,3 +8,9 @@ export default defineEventHandler(async (event) => {
 
   event.context.$platform = appPlatformHeader || appPlatformCookie
 })
+
+declare module 'h3' {
+  interface H3EventContext {
+    $platform?: string
+  }
+}
