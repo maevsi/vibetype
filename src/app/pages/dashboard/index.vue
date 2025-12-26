@@ -4,9 +4,13 @@
     :error="{ message: t('recommendationError'), statusCode: 500 }"
   /> -->
   <div>
-    <!-- v-else -->
     <LayoutPageTitle :title />
-    <div v-if="authentication.isSignedIn" class="flex flex-col gap-8">
+    <LayoutCallToAction
+      v-if="!authentication.isSignedIn"
+      :call-to-action="t('anonymousCta')"
+      :call-to-action-description="t('anonymousCtaDescription')"
+    />
+    <div v-else class="flex flex-col gap-8">
       <section
         v-if="queryEventUpcoming"
         :aria-labelledby="templateIdUpcoming"
@@ -47,11 +51,6 @@
       </section>
       <ButtonApp />
     </div>
-    <LayoutCallToAction
-      v-else
-      :call-to-action="t('anonymousCta')"
-      :call-to-action-description="t('anonymousCtaDescription')"
-    />
   </div>
 </template>
 
