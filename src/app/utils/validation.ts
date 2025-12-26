@@ -9,7 +9,6 @@ import {
   required,
 } from '@vuelidate/validators'
 import type { Client } from '@urql/core'
-import { consola } from 'consola'
 import type { Ref } from 'vue'
 
 import { accountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
@@ -129,7 +128,7 @@ export const isFormValid = async ({
   isFormSent.value = isValid
 
   if (!isValid) {
-    consola.error('Form in invalid!')
+    console.log('Form in invalid!')
   }
 
   return isValid
