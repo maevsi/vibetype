@@ -1,3 +1,11 @@
+## [13.0.4](https://github.com/maevsi/vibetype/compare/13.0.3...13.0.4) (2025-12-26)
+
+### Bug Fixes
+
+* **cookie:** rework secure parameter ([59484aa](https://github.com/maevsi/vibetype/commit/59484aa13d79f64e9b024d8c8114a0685b444cb0))
+* **event:** account for unsupported duration format ([1d339b2](https://github.com/maevsi/vibetype/commit/1d339b2c39a58971e7763cc34341a8b4fa26980a))
+* **sentry:** relax error logging ([ad2a049](https://github.com/maevsi/vibetype/commit/ad2a049274feb953cff4f8033c4ad929b4780f58))
+
 ## [13.0.3](https://github.com/maevsi/vibetype/compare/13.0.2...13.0.3) (2025-12-26)
 
 ### Bug Fixes
