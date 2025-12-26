@@ -18889,8 +18889,11 @@ export default {
               {
                 name: 'attendanceId',
                 type: {
-                  kind: 'SCALAR',
-                  name: 'Any',
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
                 },
               },
             ],

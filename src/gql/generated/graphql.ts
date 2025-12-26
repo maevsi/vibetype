@@ -7820,7 +7820,7 @@ export type QueryEventAppByIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryEventByAttendanceIdArgs = {
-  attendanceId?: InputMaybe<Scalars['UUID']['input']>
+  attendanceId: Scalars['UUID']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -10222,11 +10222,11 @@ export type DashboardEventRecommendationsQuery = {
   } | null
 }
 
-export type DashboardEventsByCreatedByQueryVariables = Exact<{
+export type DashboardEventUpcomingQueryVariables = Exact<{
   createdBy: Scalars['UUID']['input']
 }>
 
-export type DashboardEventsByCreatedByQuery = {
+export type DashboardEventUpcomingQuery = {
   __typename?: 'Query'
   allEvents?: {
     __typename?: 'EventsConnection'
@@ -14379,13 +14379,13 @@ export const DashboardEventRecommendationsDocument = {
   DashboardEventRecommendationsQuery,
   DashboardEventRecommendationsQueryVariables
 >
-export const DashboardEventsByCreatedByDocument = {
+export const DashboardEventUpcomingDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'DashboardEventsByCreatedBy' },
+      name: { kind: 'Name', value: 'DashboardEventUpcoming' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -14466,8 +14466,8 @@ export const DashboardEventsByCreatedByDocument = {
     },
   ],
 } as unknown as DocumentNode<
-  DashboardEventsByCreatedByQuery,
-  DashboardEventsByCreatedByQueryVariables
+  DashboardEventUpcomingQuery,
+  DashboardEventUpcomingQueryVariables
 >
 export const EventEditDocument = {
   kind: 'Document',

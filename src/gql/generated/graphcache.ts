@@ -7810,7 +7810,7 @@ export type QueryEventAppByIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryEventByAttendanceIdArgs = {
-  attendanceId?: InputMaybe<Scalars['UUID']['input']>
+  attendanceId: Scalars['UUID']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
