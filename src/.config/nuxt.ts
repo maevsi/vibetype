@@ -153,6 +153,9 @@ export default defineNuxtConfig({
       },
       sentry: {
         host: NUXT_PUBLIC_SENTRY_HOST,
+        logs: {
+          enable: true,
+        },
         profiles: {
           sampleRate: NUXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE,
         },

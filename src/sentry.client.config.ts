@@ -8,7 +8,8 @@ if (sharedSentryConfig.dsn) {
     ...sharedSentryConfig,
     integrations: [
       Sentry.browserProfilingIntegration(),
-      Sentry.captureConsoleIntegration({ levels: ['error'] }),
+      Sentry.captureConsoleIntegration(),
+      Sentry.consoleLoggingIntegration(),
       Sentry.graphqlClientIntegration({ endpoints: [/\/graphql$/] }),
       Sentry.httpClientIntegration(),
       Sentry.replayIntegration(),
