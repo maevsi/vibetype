@@ -342,8 +342,6 @@
 </template>
 
 <script setup lang="ts">
-import { consola } from 'consola'
-
 defineRouteRules({
   robots: false,
 })
@@ -446,7 +444,7 @@ onMounted(async () => {
     })
 
     permissionStatus.addEventListener('change', async () => {
-      consola.log(
+      console.log(
         'User decided to change his settings. New permission: ' +
           permissionStatus.state,
       )

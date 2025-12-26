@@ -15,7 +15,6 @@ import { relayPagination } from '@urql/exchange-graphcache/extras'
 import { devtoolsExchange } from '@urql/devtools'
 import { provideClient } from '@urql/vue'
 import type { Client } from '@urql/vue'
-import { consola } from 'consola'
 import type { DocumentNode } from 'graphql'
 import { ref } from 'vue'
 
@@ -354,10 +353,12 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       const headers = {} as Record<string, string>
 
       if (store.jwt) {
-        consola.trace('GraphQL request authenticated with: ' + store.jwt)
+        console.debug(
+          'GraphQL request authenticated with: ' + store.jwt.slice(0, 10), // trimmed for security
+        )
         headers.authorization = `Bearer ${store.jwt}`
       } else {
-        consola.trace('GraphQL request without authentication.')
+        console.debug('GraphQL request without authentication.')
       }
 
       return { headers }

@@ -1,18 +1,17 @@
-import { consola } from 'consola'
 import { ApiClient } from '@mondaydotcomorg/api'
 
 export default defineNitroPlugin((nitroApp) => {
   const runtimeConfigMonday = useRuntimeConfig().private.monday
 
   if (!runtimeConfigMonday?.apiToken) {
-    ;(import.meta.dev ? consola.warn : consola.error)(
+    ;(import.meta.dev ? console.warn : console.error)(
       'Monday api token not set',
     )
     return
   }
 
   if (runtimeConfigMonday?.apiToken === DARGSTACK_SECRET_UNUSED_THIRD_PARTY) {
-    consola.warn('Monday api token not set in stack as provided by third party')
+    console.warn('Monday api token not set in stack as provided by third party')
     return
   }
 
@@ -35,7 +34,7 @@ export default defineNitroPlugin((nitroApp) => {
     .map(([key]) => key)
 
   if (missingFields.length) {
-    ;(import.meta.dev ? consola.warn : consola.error)(
+    ;(import.meta.dev ? console.warn : console.error)(
       `Missing Monday board config values: ${missingFields.join(', ')}`,
     )
     return

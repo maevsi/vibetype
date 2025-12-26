@@ -1,5 +1,4 @@
 import type { Client } from '@urql/vue'
-import { consola } from 'consola'
 import type { H3Event } from 'h3'
 import { decodeJwt } from 'jose'
 
@@ -22,7 +21,7 @@ export const authenticationAnonymous = async ({
   runtimeConfig: ReturnType<typeof useRuntimeConfig>
   store: ReturnType<typeof useStore>
 }) => {
-  consola.trace('Authenticating anonymously...')
+  console.debug('Authenticating anonymously...')
 
   const result = await client
     .mutation(jwtCreateMutation, {
@@ -32,7 +31,7 @@ export const authenticationAnonymous = async ({
     .toPromise()
 
   if (result.error) {
-    consola.error(result.error)
+    console.error(result.error)
   } else {
     if (!result.data?.jwtCreate) {
       return
@@ -54,14 +53,14 @@ export const getJwtFromCookie = ({
   cookie: CookieRef<string | null | undefined>
 }) => {
   if (!cookie.value) {
-    consola.debug('No token cookie.')
+    console.debug('No token cookie.')
     return
   }
 
   const jwt = decodeJwt(cookie.value)
 
   if (jwt.exp === undefined || jwt.exp <= Date.now() / 1000) {
-    consola.info('Token expired.')
+    console.info('Token expired.')
     return
   }
 
@@ -86,12 +85,12 @@ export const jwtUpdate = async ({
   runtimeConfig: ReturnType<typeof useRuntimeConfig>
   store: ReturnType<typeof useStore>
 }) => {
-  consola.trace('Updating a JWT...')
+  console.debug('Updating a JWT...')
 
   const result = await client.mutation(jwtUpdateMutation, { id }).toPromise()
 
   if (result.error) {
-    consola.error(result.error)
+    console.error(result.error)
     await signOut({
       $urqlReset,
       client,
@@ -133,7 +132,10 @@ export const jwtStore = async ({
 }) => {
   $urqlReset()
 
-  consola.trace('Storing the following JWT: ' + jwt)
+  console.debug(
+    'Storing the following JWT: ' +
+      (jwt?.length ? jwt.slice(0, 10) : '<undefined>'), // trimmed for security
+  )
   store.jwtSet(jwt)
 
   if (event) {
@@ -145,7 +147,7 @@ export const jwtStore = async ({
         ...(jwt ? { headers: { Authorization: `Bearer ${jwt}` } } : {}),
       })
     } catch (error) {
-      consola.error(error)
+      console.error(error)
       return Promise.reject(Error('Authentication api call failed.'))
     }
   }

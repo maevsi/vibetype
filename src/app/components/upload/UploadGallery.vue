@@ -113,7 +113,6 @@
 <script setup lang="ts">
 import { Uppy } from '@uppy/core'
 import Tus from '@uppy/tus'
-import { consola } from 'consola'
 import prettyBytes from 'pretty-bytes'
 import type { UnwrapRef } from 'vue'
 import { Cropper } from 'vue-advanced-cropper'
@@ -280,7 +279,7 @@ const loadProfilePicture = (event: Event) => {
     }
     fileReader.readAsDataURL(file)
   } catch (error) {
-    consola.error(error)
+    console.error(error)
   }
 }
 const toggleSelect = (upload: UnwrapRef<typeof selectedItem>) => {

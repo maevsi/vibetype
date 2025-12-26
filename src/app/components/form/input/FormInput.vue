@@ -93,7 +93,6 @@
 
 <script setup lang="ts">
 import type { BaseValidation } from '@vuelidate/core'
-import { consola } from 'consola'
 
 const {
   isDisabled,
@@ -140,7 +139,7 @@ const idLabelFull = idLabel
 
 // initialization
 if (!value && type && !['checkbox', 'select'].includes(type)) {
-  consola.warn(`value is missing for ${idLabel}!`)
+  console.warn(`value is missing for ${idLabel}!`)
 }
 
 // if (
@@ -156,7 +155,7 @@ if (!value && type && !['checkbox', 'select'].includes(type)) {
 //     'radio',
 //   ].includes(type)
 // ) {
-//   consola.warn(`placeholder is missing for ${idLabel}!`)
+//   console.warn(`placeholder is missing for ${idLabel}!`)
 // }
 </script>
 

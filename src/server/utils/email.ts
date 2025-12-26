@@ -1,6 +1,5 @@
 import type { ExtractComponentProps } from '@vue-email/render'
 import { render } from '@vue-email/render'
-import { consola } from 'consola'
 import { z } from 'zod'
 
 import EmailAccountPasswordResetRequest from '../assets/emails/EmailAccountPasswordResetRequest.vue'
@@ -121,7 +120,7 @@ export const sendEmail = async <T extends EmailName>({
     process.env.NODE_ENV !== 'production' &&
     mailOptions.to.startsWith('mail+sqitch-')
   ) {
-    consola.debug(
+    console.debug(
       'Skipping mail sending for test data email accounts ("mail+sqitch-...").',
     )
     return
@@ -138,9 +137,9 @@ export const sendEmail = async <T extends EmailName>({
 
   transporter.sendMail(mailOptionsWithDefaults, (err, info) => {
     if (err) {
-      consola.error('Error sending email:', err)
+      console.error('Error sending email:', err)
     } else {
-      consola.log('Email sent:', info.response)
+      console.log('Email sent:', info.response)
     }
   })
 }

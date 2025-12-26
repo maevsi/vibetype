@@ -1,4 +1,3 @@
-import { consola } from 'consola'
 import { z } from 'zod'
 
 const tusdPostBodySchema = z.object({
@@ -23,7 +22,7 @@ export default defineEventHandler(async (event) => {
 
   switch (body.Type) {
     case 'pre-create': {
-      consola.debug(
+      console.debug(
         'tusd/pre-create',
         JSON.stringify({ id: body.Event.Upload.MetaData.id }),
       )
@@ -59,7 +58,7 @@ export default defineEventHandler(async (event) => {
       return {}
     }
     case 'pre-finish': {
-      consola.debug(
+      console.debug(
         'tusd/pre-finish',
         JSON.stringify({
           id: body.Event.Upload.MetaData.id,
@@ -85,7 +84,7 @@ export default defineEventHandler(async (event) => {
       return {}
     }
     case 'pre-terminate': {
-      consola.debug(
+      console.debug(
         'tusd/pre-terminate',
         JSON.stringify({
           id: body.Event.Upload.MetaData.id,

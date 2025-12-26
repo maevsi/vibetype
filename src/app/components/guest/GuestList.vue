@@ -94,7 +94,6 @@ import {
   Title,
   Tooltip,
 } from 'chart.js'
-import { consola } from 'consola'
 import { Doughnut } from 'vue-chartjs'
 
 import { useAllGuestsQuery } from '~~/gql/documents/queries/guest/guestsAll'
@@ -180,7 +179,7 @@ const dataComputed = computed(() => {
           datasetData.none += 1
           break
         default:
-          consola.error('Unexpected guest type.')
+          console.error('Unexpected guest type.')
       }
     }
   }
