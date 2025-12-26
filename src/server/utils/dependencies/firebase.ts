@@ -1,9 +1,8 @@
-import { consola } from 'consola'
 import { initializeApp, cert } from 'firebase-admin/app'
 
 const getFirebaseAdminApp = () => {
   if (!process.env.FIREBASE_SERVICE_ACCOUNT_CREDENTIALS) {
-    ;(import.meta.dev ? consola.warn : consola.error)(
+    ;(import.meta.dev ? console.warn : console.error)(
       'Firebase service account credentials not set',
     )
     return
@@ -13,7 +12,7 @@ const getFirebaseAdminApp = () => {
     process.env.FIREBASE_SERVICE_ACCOUNT_CREDENTIALS ===
     DARGSTACK_SECRET_UNUSED_THIRD_PARTY
   ) {
-    consola.warn(
+    console.warn(
       'Firebase service account credentials not set in stack as provided by third party',
     )
     return
@@ -26,7 +25,7 @@ const getFirebaseAdminApp = () => {
       ),
     })
   } catch (error) {
-    consola.error('Failed to parse Firebase credentials:', error)
+    console.error('Failed to parse Firebase credentials:', error)
   }
 }
 

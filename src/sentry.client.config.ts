@@ -1,5 +1,4 @@
 import * as Sentry from '@sentry/nuxt'
-import { consola } from 'consola'
 
 const runtimeConfig = useRuntimeConfig()
 const sharedSentryConfig = useSharedSentryConfig()
@@ -9,7 +8,8 @@ if (sharedSentryConfig.dsn) {
     ...sharedSentryConfig,
     integrations: [
       Sentry.browserProfilingIntegration(),
-      Sentry.captureConsoleIntegration({ levels: ['error'] }),
+      Sentry.captureConsoleIntegration(),
+      Sentry.consoleLoggingIntegration(),
       Sentry.graphqlClientIntegration({ endpoints: [/\/graphql$/] }),
       Sentry.httpClientIntegration(),
       Sentry.replayIntegration(),
@@ -39,7 +39,7 @@ if (sharedSentryConfig.dsn) {
     // transport: Sentry.makeBrowserOfflineTransport(Sentry.makeFetchTransport),
   })
 } else {
-  consola.warn(
+  console.warn(
     'Sentry configuration is incomplete, skipping Sentry initialization.',
   )
 }

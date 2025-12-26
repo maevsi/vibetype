@@ -57,7 +57,6 @@
 <script setup lang="ts">
 // TODO: evaluate to remove page when guest id migration has been added (https://github.com/maevsi/vibetype/issues/131)
 import { useVuelidate } from '@vuelidate/core'
-import { consola } from 'consola'
 
 import {
   eventUnlockMutation as eventUnlockMutationImported,
@@ -96,7 +95,7 @@ definePageMeta({
         .toPromise()
 
       if (result.error) {
-        consola.error(result.error)
+        console.error(result.error)
       }
 
       if (!result.data?.eventUnlock?.results?.[0]?.jwt) {
@@ -114,7 +113,7 @@ definePageMeta({
       try {
         await jwtStore(result.data.eventUnlock.results[0].jwt)
       } catch (error) {
-        consola.error(error)
+        console.error(error)
         return
       }
 

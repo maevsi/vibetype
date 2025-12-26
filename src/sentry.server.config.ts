@@ -22,6 +22,7 @@ const sharedSentryConfig = getSharedSentryConfig({
 if (sharedSentryConfig.dsn) {
   Sentry.init({
     ...sharedSentryConfig,
+    integrations: [Sentry.consoleLoggingIntegration()],
   })
 } else {
   console.warn(

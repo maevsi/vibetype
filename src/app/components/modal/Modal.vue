@@ -64,8 +64,6 @@
 </template>
 
 <script setup lang="ts">
-import { consola } from 'consola'
-
 const {
   id,
   isFooterHidden,
@@ -129,7 +127,7 @@ const submit = async () => {
     close()
   } catch (errorsLocal) {
     errors.value = [errorsLocal]
-    consola.error(errorsLocal)
+    console.error(errorsLocal)
   }
 
   isSubmitting.value = false

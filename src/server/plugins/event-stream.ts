@@ -1,5 +1,3 @@
-import { consola } from 'consola'
-
 const TOPIC_NOTIFICATION = `${SITE_NAME}.${SITE_NAME}_private.notification`
 const TOPIC_UPLOAD = `${SITE_NAME}.${SITE_NAME}.upload`
 
@@ -76,7 +74,7 @@ export default defineNitroPlugin(async (nitroApp) => {
               tusdFilesUrl,
             })
           } catch (error) {
-            consola.error(`Failed to process notification: ${error}`)
+            console.error(`Failed to process notification: ${error}`)
           }
 
           break
@@ -95,13 +93,13 @@ export default defineNitroPlugin(async (nitroApp) => {
               payload: valueUpload.payload,
             })
           } catch (error) {
-            consola.error(`Failed to process notification: ${error}`)
+            console.error(`Failed to process notification: ${error}`)
           }
 
           break
         }
         default:
-          consola.error(`Unexpected topic: ${topic}`)
+          console.error(`Unexpected topic: ${topic}`)
       }
     },
   })

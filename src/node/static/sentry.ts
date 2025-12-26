@@ -7,6 +7,7 @@ export const NUXT_PUBLIC_SENTRY_PROJECT_PUBLIC_KEY =
   '5e253cec6a72a9eea44531e7205016ba'
 
 export const getSharedSentryConfig = ({
+  enableLogs,
   environment,
   host,
   isInProduction,
@@ -15,6 +16,7 @@ export const getSharedSentryConfig = ({
   projectPublicKey,
   release,
 }: {
+  enableLogs?: boolean
   environment?: string
   host: string
   isInProduction: boolean
@@ -28,6 +30,7 @@ export const getSharedSentryConfig = ({
       ? `https://${projectPublicKey}@${host}/${projectId}`
       : undefined,
   enabled: isInProduction && !isTesting,
+  enableLogs,
   environment,
   release,
   tracesSampleRate: 1.0,

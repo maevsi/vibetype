@@ -1,4 +1,3 @@
-import { consola } from 'consola'
 import { parse } from 'graphql'
 import type { H3Event } from 'h3'
 import { z } from 'zod'
@@ -19,14 +18,14 @@ const authProxyBodySchema = z.object({
 
 export default defineEventHandler(async (event) => {
   if (event.method !== 'POST') {
-    consola.debug("Skipping auth proxy as request wasn't POSTed.")
+    console.debug("Skipping auth proxy as request wasn't POSTed.")
     return
   }
 
   const body = await getBodySafe({ event, schema: authProxyBodySchema })
 
   if (!body.query) {
-    consola.debug("Request's body is missing a query.")
+    console.debug("Request's body is missing a query.")
     return
   }
 
@@ -98,5 +97,5 @@ const turnstileVerify = async (event: H3Event) => {
     })
   }
 
-  consola.debug('Turnstile verification succeeded')
+  console.debug('Turnstile verification succeeded')
 }

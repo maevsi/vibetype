@@ -1,5 +1,3 @@
-import { consola } from 'consola'
-
 export const useMonday = () => {
   const event = useEvent()
   const runtimeConfig = useRuntimeConfig(event)
@@ -89,7 +87,7 @@ export const useMonday = () => {
         })
       }
       default:
-        consola.error('Unexpected Monday board')
+        console.error('Unexpected Monday board')
     }
   }
 
