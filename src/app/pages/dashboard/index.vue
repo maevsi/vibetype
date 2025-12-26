@@ -4,9 +4,13 @@
     :error="{ message: t('recommendationError'), statusCode: 500 }"
   /> -->
   <div>
-    <!-- v-else -->
     <LayoutPageTitle :title />
-    <div v-if="authentication.isSignedIn" class="flex flex-col gap-8">
+    <LayoutCallToAction
+      v-if="!authentication.isSignedIn"
+      :call-to-action="t('anonymousCta')"
+      :call-to-action-description="t('anonymousCtaDescription')"
+    />
+    <div v-else class="flex flex-col gap-8">
       <section
         v-if="queryEventUpcoming"
         :aria-labelledby="templateIdUpcoming"
@@ -47,11 +51,6 @@
       </section>
       <ButtonApp />
     </div>
-    <LayoutCallToAction
-      v-else
-      :call-to-action="t('anonymousCta')"
-      :call-to-action-description="t('anonymousCtaDescription')"
-    />
   </div>
 </template>
 
@@ -167,7 +166,7 @@ const api = await useApiData([
   ...(queryEventUpcoming ? [queryEventUpcoming] : []),
 ])
 
-const now = useState('dateTimeNow', () => new Date())
+const now = useNow()
 const TWELVE_HOURS = 12 * 60 * 60 * 1000
 const eventUpcoming = computed(() => {
   if (!api.value.data.allEvents?.nodes) return undefined

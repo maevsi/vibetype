@@ -1,4 +1,4 @@
-import { getSharedSentryConfig } from '../../node/static'
+import { getSharedSentryConfig } from '~~/node/static'
 
 export const useSharedSentryConfig = () => {
   const isTesting = useIsTesting()

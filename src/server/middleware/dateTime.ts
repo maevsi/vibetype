@@ -3,3 +3,9 @@ export default defineEventHandler(async (event) => {
 
   event.context.$timeZone = timeZone
 })
+
+declare module 'h3' {
+  interface H3EventContext {
+    $timeZone?: string
+  }
+}

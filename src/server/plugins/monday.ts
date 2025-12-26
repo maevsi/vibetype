@@ -49,3 +49,9 @@ export default defineNitroPlugin((nitroApp) => {
     event.context.$monday = monday
   })
 })
+
+declare module 'h3' {
+  interface H3EventContext {
+    $monday?: ApiClient
+  }
+}

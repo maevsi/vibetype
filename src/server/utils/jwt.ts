@@ -1,5 +1,6 @@
 import { setCookie } from 'h3'
 import type { H3Event } from 'h3'
+import { getIsSecure } from './networking'
 
 export const setJwtCookie = ({
   event,
@@ -20,9 +21,9 @@ export const setJwtCookie = ({
     })
   }
 
-  const siteUrl = new URL(runtimeConfig.public.i18n.baseUrl as string) // TODO: remove typecast in @nuxtjs/i18n v11
-  const isHttps = siteUrl.protocol === 'https:'
-  const jwtCookieName = JWT_NAME({ isHttps })
+  const siteUrl = getSiteUrl(runtimeConfig.public.i18n.baseUrl).siteUrlTyped
+  const isSecure = getIsSecure({ siteUrl })
+  const jwtCookieName = JWT_NAME({ isHttps: isSecure })
 
   setCookie(event, jwtCookieName, jwt, {
     domain: siteUrl.hostname,
@@ -30,7 +31,7 @@ export const setJwtCookie = ({
     httpOnly: true,
     // path: '/',
     sameSite: COOKIE_SAME_SITE,
-    secure: isHttps,
+    secure: isSecure,
   })
 }
 

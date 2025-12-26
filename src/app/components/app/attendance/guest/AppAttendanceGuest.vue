@@ -52,29 +52,27 @@
 <script setup lang="ts">
 import type { InvitationFeedback } from '~~/gql/generated/graphql'
 
-export type AppAttendanceGuestProps = {
-  contactByContactId?: {
-    accountByAccountId?: {
-      id: string
-      username: string
-    } | null
-    firstName?: string | null
-    id: string
-    lastName?: string | null
-    language?: string | null
-    nickname?: string | null
-  } | null
-  attendanceByGuestId?: {
-    checkedOut?: boolean | null
-    id: string
-    updatedAt?: string | null
-  } | null
-  feedback?: InvitationFeedback | null
-  id: string
-} | null
-
 const { guest } = defineProps<{
-  guest: AppAttendanceGuestProps
+  guest: {
+    contactByContactId?: {
+      accountByAccountId?: {
+        id: string
+        username: string
+      } | null
+      firstName?: string | null
+      id: string
+      lastName?: string | null
+      language?: string | null
+      nickname?: string | null
+    } | null
+    attendanceByGuestId?: {
+      checkedOut?: boolean | null
+      id: string
+      updatedAt?: string | null
+    } | null
+    feedback?: InvitationFeedback | null
+    id: string
+  } | null
 }>()
 
 const { t } = useI18n()

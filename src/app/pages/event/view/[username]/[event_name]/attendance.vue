@@ -50,7 +50,6 @@
 </template>
 
 <script lang="ts">
-import { consola } from 'consola'
 import type { DetectedBarcode } from 'vue-qrcode-reader'
 import type { RouteNamedMap } from 'vue-router/auto-routes'
 
@@ -64,7 +63,6 @@ const ROUTE_NAME: keyof RouteNamedMap =
 <script setup lang="ts">
 const { t } = useI18n()
 const store = useStore()
-const alertError = useAlertError()
 
 // validation
 const route = useRoute(ROUTE_NAME)
@@ -226,8 +224,10 @@ const writeTag = async (data: string) => {
         }) as string
       }
 
-      alertError(errorMessage)
-      consola.error(errorMessage)
+      toast.warning(t('globalError'), {
+        description: errorMessage,
+      })
+      console.log(errorMessage)
     } else {
       alert(`Unexpected error: ${error}`)
     }

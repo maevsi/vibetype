@@ -58,8 +58,8 @@
                 <i18n-t keypath="sessionExpiry">
                   <template #exp>
                     <AppTime
-                      weekday="short"
                       :datetime="store.jwtDecoded.exp * 1000"
+                      :options="{ weekday: 'short' }"
                     />
                   </template>
                 </i18n-t>

@@ -41,12 +41,12 @@ export const useFeatureFlags = () => {
     Map<FeatureFlag, ComputedRef<boolean>>
   >('feature-flags-cache', () => new Map())
   const cookieControl = useCookieControl()
-  const { siteUrlTyped: siteUrl } = useSiteUrl()
+  const isSecure = useIsSecure()
 
   const cookie = useCookie<string | null>(FEATURE_FLAGS_COOKIE_NAME, {
     maxAge: FEATURE_FLAGS_COOKIE_MAX_AGE,
     sameSite: COOKIE_SAME_SITE,
-    secure: siteUrl.protocol === 'https:',
+    secure: isSecure,
   })
 
   const canUseFeatureFlags = computed(
