@@ -1,3 +1,9 @@
+## [13.0.3](https://github.com/maevsi/vibetype/compare/13.0.2...13.0.3) (2025-12-26)
+
+### Bug Fixes
+
+* **event:** correct conditional loading for upcoming ([a17cbb3](https://github.com/maevsi/vibetype/commit/a17cbb3326032e0d5f9a6b0b69b2b59cdab0b933))
+
 ## [13.0.2](https://github.com/maevsi/vibetype/compare/13.0.1...13.0.2) (2025-12-20)
 
 ### Bug Fixes
