@@ -8,3 +8,5 @@ export const useTimeZone = () =>
   (import.meta.client
     ? Intl.DateTimeFormat().resolvedOptions().timeZone
     : undefined)
+
+export const useNow = () => useState(STATE_KEY_NOW, () => new Date())

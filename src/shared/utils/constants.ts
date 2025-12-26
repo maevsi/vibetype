@@ -45,6 +45,7 @@ export const REGEX_URL_HTTPS = /^https:\/\//
 export const REGEX_UUID =
   /^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/
 export const SEO_META_TWITTER_SITE = '@maev_si'
+export const STATE_KEY_NOW = 'dateTimeNow'
 export const STATE_LOADING_IDS_NAME = 'loadingIds'
 export const TESTING_COOKIE_NAME = `${SITE_NAME}_is-testing`
 export const FEATURE_FLAGS_COOKIE_NAME = `${SITE_NAME}_feature-flags`

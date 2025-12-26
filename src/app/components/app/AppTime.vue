@@ -1,34 +1,33 @@
 <template>
   <NuxtTime
     v-bind="forwardedProps"
-    :locale="props.locale || defaultLocale"
-    :time-zone="props.timeZone || defaultTimeZone"
+    :locale="props.options.locale || defaultLocale"
+    :time-zone="props.options.timeZone || defaultTimeZone"
   />
 </template>
 
 <script setup lang="ts">
-import { reactiveOmit } from '@vueuse/core'
-import { useForwardProps } from 'reka-ui'
-
 import type { NuxtTimeProps } from '#app'
 
 const { locale: defaultLocale } = useI18n()
 const defaultTimeZone = useTimeZone()
 
-const props = withDefaults(defineProps<NuxtTimeProps>(), {
-  // ...dateTimeFormatOptions, TODO: use shared options
-  day: 'numeric',
-  hour: 'numeric',
-  locale: undefined,
-  minute: 'numeric',
-  month: 'short',
-  relative: undefined,
-  timeZone: undefined,
-  timeZoneName: undefined,
-  weekday: undefined,
-  year: 'numeric',
-})
+const props = withDefaults(
+  defineProps<{
+    datetime: NuxtTimeProps['datetime']
+    options?: Omit<NuxtTimeProps, 'datetime'>
+  }>(),
+  {
+    options: () => ({
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    }),
+  },
+)
 
-const delegatedProps = reactiveOmit(props, 'locale', 'timeZone')
-const forwardedProps = useForwardProps(delegatedProps)
+const forwardedProps = computed(() => {
+  const { locale, timeZone, ...delegated } = props.options
+
+  return { datetime: props.datetime, ...delegated }
+})
 </script>

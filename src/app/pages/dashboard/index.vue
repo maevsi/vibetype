@@ -167,7 +167,7 @@ const api = await useApiData([
   ...(queryEventUpcoming ? [queryEventUpcoming] : []),
 ])
 
-const now = useState('dateTimeNow', () => new Date())
+const now = useNow()
 const TWELVE_HOURS = 12 * 60 * 60 * 1000
 const eventUpcoming = computed(() => {
   if (!api.value.data.allEvents?.nodes) return undefined

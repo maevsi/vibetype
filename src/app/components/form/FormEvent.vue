@@ -306,7 +306,7 @@ const colorMode = useColorMode()
 const timeZone = useTimeZone()
 
 // data
-const now = useState('dateTimeNow', () => new Date())
+const now = useNow()
 const form = reactive({
   id: ref<string>(),
   createdBy: ref<string>(),
