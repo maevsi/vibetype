@@ -1,3 +1,10 @@
+## [13.1.0](https://github.com/maevsi/vibetype/compare/13.0.4...13.1.0) (2025-12-27)
+
+### Features
+
+* **deps:** drop consola ([0a67310](https://github.com/maevsi/vibetype/commit/0a6731019ec625097369234a8b1bb030af03f7f1))
+* **sentry:** enable logs ([c4863a3](https://github.com/maevsi/vibetype/commit/c4863a331af3fc13e6bb928742366e4ead164d7d))
+
 ## [13.0.4](https://github.com/maevsi/vibetype/compare/13.0.3...13.0.4) (2025-12-26)
 
 ### Bug Fixes
