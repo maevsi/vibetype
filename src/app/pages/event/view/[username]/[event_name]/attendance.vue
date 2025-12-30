@@ -146,12 +146,17 @@ const onClick = async () => {
     }),
   })
 
-  await writeTag(
-    `https://${siteUrl.host}${localePath({
-      name: 'attendance-view-id',
-      params: { id: guestId.value },
-    })}`,
-  )
+  await writeTag({
+    records: [
+      {
+        recordType: 'url',
+        data: `https://${siteUrl.host}${localePath({
+          name: 'attendance-view-id',
+          params: { id: guestId.value },
+        })}`,
+      },
+    ],
+  })
 }
 const onDetect = async (detectedBarcodes: DetectedBarcode[]) => {
   if (!detectedBarcodes.length || !detectedBarcodes[0]) return
@@ -198,7 +203,7 @@ onMounted(() => {
     isNfcWritableErrorMessage.value = err.message
   })
 })
-const writeTag = async (data: string) => {
+const writeTag = async (data: NDEFMessageSource) => {
   try {
     await new NDEFReader().write(data)
     toast.success(t('successWrite'))
