@@ -35,7 +35,7 @@ export const useApiData = async <
     (current, previous) => {
       current
         .filter((error) => !previous.includes(error))
-        .forEach((error) => console.error(error))
+        .forEach((error) => console.error(error)) // TODO: only log errors for unhandled errors
     },
   )
 
