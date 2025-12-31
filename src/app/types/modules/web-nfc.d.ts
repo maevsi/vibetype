@@ -6,21 +6,22 @@
 // This type definitions referenced to WebIDL.
 // https://w3c.github.io/web-nfc/#actual-idl-index
 
-declare type NDEFRecordDataSource = string | BufferSource | NDEFMessageInit
-
-declare interface NDEFRecordInit {
-  recordType: string
-  mediaType?: string
-  id?: string
-  encoding?: string
-  lang?: string
-  data?: NDEFRecordDataSource
+interface Window {
+  NDEFMessage: NDEFMessage
 }
-
+declare class NDEFMessage {
+  constructor(messageInit: NDEFMessageInit)
+  records: ReadonlyArray<NDEFRecord>
+}
 declare interface NDEFMessageInit {
   records: NDEFRecordInit[]
 }
 
+declare type NDEFRecordDataSource = string | BufferSource | NDEFMessageInit
+
+interface Window {
+  NDEFRecord: NDEFRecord
+}
 declare class NDEFRecord {
   constructor(recordInit: NDEFRecordInit)
   readonly recordType: string
@@ -31,34 +32,20 @@ declare class NDEFRecord {
   readonly lang?: string
   toRecords?: () => NDEFRecord[]
 }
-
-declare class NDEFMessage {
-  constructor(messageInit: NDEFMessageInit)
-  records: ReadonlyArray<NDEFRecord>
+declare interface NDEFRecordInit {
+  recordType: string
+  mediaType?: string
+  id?: string
+  encoding?: string
+  lang?: string
+  data?: NDEFRecordDataSource
 }
 
 declare type NDEFMessageSource = string | BufferSource | NDEFMessageInit
 
-interface NDEFReadingEventInit extends EventInit {
-  serialNumber?: string
-  message: NDEFMessageInit
+interface Window {
+  NDEFReader: NDEFReader
 }
-
-declare class NDEFReadingEvent extends Event {
-  constructor(type: string, readingEventInitDict: NDEFReadingEventInit)
-  serialNumber: string
-  message: NDEFMessage
-}
-
-interface NDEFWriteOptions {
-  overwrite?: boolean
-  signal?: AbortSignal
-}
-
-interface NDEFScanOptions {
-  signal: AbortSignal
-}
-
 declare class NDEFReader extends EventTarget {
   constructor()
   onreading: (this: this, event: NDEFReadingEvent) => unknown
@@ -68,4 +55,29 @@ declare class NDEFReader extends EventTarget {
     message: NDEFMessageSource,
     options?: NDEFWriteOptions,
   ) => Promise<void>
+  makeReadOnly: (options?: NDEFMakeReadOnlyOptions) => Promise<void>
+}
+
+interface Window {
+  NDEFReadingEvent: NDEFReadingEvent
+}
+declare class NDEFReadingEvent extends Event {
+  constructor(type: string, readingEventInitDict: NDEFReadingEventInit)
+  serialNumber: string
+  message: NDEFMessage
+}
+interface NDEFReadingEventInit extends EventInit {
+  serialNumber?: string
+  message: NDEFMessageInit
+}
+
+interface NDEFWriteOptions {
+  overwrite?: boolean
+  signal?: AbortSignal
+}
+interface NDEFMakeReadOnlyOptions {
+  signal?: AbortSignal
+}
+interface NDEFScanOptions {
+  signal: AbortSignal
 }
