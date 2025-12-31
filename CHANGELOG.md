@@ -1,3 +1,9 @@
+## [13.1.1](https://github.com/maevsi/vibetype/compare/13.1.0...13.1.1) (2025-12-31)
+
+### Bug Fixes
+
+* **attendance:** set record type for nfc writing ([032ee0b](https://github.com/maevsi/vibetype/commit/032ee0b627718b0afe37be360cfa065244962bcd))
+
 ## [13.1.0](https://github.com/maevsi/vibetype/compare/13.0.4...13.1.0) (2025-12-27)
 
 ### Features
