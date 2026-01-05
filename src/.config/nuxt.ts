@@ -1,7 +1,6 @@
 import tailwindcss from '@tailwindcss/vite'
 import vue from '@vitejs/plugin-vue'
 import { createResolver } from 'nuxt/kit'
-import type { Nuxt, ModuleOptions } from 'nuxt/schema'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -9,7 +8,7 @@ import Components from 'unplugin-vue-components/vite'
 import { modulesConfig } from '../config/modules'
 import { environmentsConfig } from '../config/environments'
 
-import { iconCollectionOptimization, RELEASE_NAME } from '../node'
+import { iconCollectionOptimization } from '../node'
 import {
   IS_NITRO_OPENAPI_ENABLED,
   NUXT_PUBLIC_SENTRY_HOST,
@@ -51,30 +50,6 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
     'nuxt-gtag',
     'shadcn-nuxt',
-    async (_options: ModuleOptions, nuxt: Nuxt) => {
-      nuxt.options.runtimeConfig.public.vio.releaseName = await RELEASE_NAME()
-    },
-    // nuxt-security: remove invalid `'none'`s and duplicates
-    (_options: ModuleOptions, nuxt: Nuxt) => {
-      const nuxtConfigSecurityHeaders = nuxt.options.security.headers
-
-      if (
-        typeof nuxtConfigSecurityHeaders !== 'boolean' &&
-        nuxtConfigSecurityHeaders.contentSecurityPolicy
-      ) {
-        const csp = nuxtConfigSecurityHeaders.contentSecurityPolicy
-
-        for (const [key, value] of Object.entries(csp)) {
-          if (!Array.isArray(value)) continue
-
-          const valueFiltered = value.filter((x) => x !== "'none'")
-
-          if (valueFiltered.length) {
-            ;(csp as Record<string, unknown>)[key] = [...new Set(valueFiltered)]
-          }
-        }
-      }
-    },
     'nuxt-security',
   ],
   nitro: {
