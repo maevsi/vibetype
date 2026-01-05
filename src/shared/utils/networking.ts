@@ -15,7 +15,7 @@ export const getServiceHref = ({
   port,
   stagingHost,
 }: {
-  host: string
+  host?: string
   isSsr?: boolean
   name?: string
   port?: number
@@ -27,9 +27,15 @@ export const getServiceHref = ({
 
   if (stagingHost) {
     return `https://${nameSubdomainString}${stagingHost}`
-  } else if (isSsr && import.meta.server) {
+  }
+
+  if (import.meta.server && isSsr) {
     return `http://${name}${portString}`
-  } else {
+  }
+
+  if (host) {
     return `https://${nameSubdomainString}${host}`
   }
+
+  throw new Error('Could not get service href!')
 }
