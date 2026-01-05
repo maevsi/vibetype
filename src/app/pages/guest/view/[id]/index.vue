@@ -248,7 +248,9 @@
         </FormInputStateInfo>
       </div>
       <template #footer>
+        <!-- TODO: check printing support in app -->
         <ButtonColored
+          v-if="!isApp"
           :aria-label="t('print')"
           variant="secondary"
           @click="print"
@@ -286,6 +288,7 @@ import type { GuestPatch } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
 import { useEventUnlockMutation } from '~~/gql/documents/mutations/event/eventUnlock'
 
+const { isApp } = usePlatform()
 const { t } = useI18n()
 const store = useStore()
 const route = useRoute('guest-view-id___en')
