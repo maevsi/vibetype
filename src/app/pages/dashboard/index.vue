@@ -3,7 +3,8 @@
     v-if="recommendationError"
     :error="{ message: t('recommendationError'), statusCode: 500 }"
   /> -->
-  <div>
+  <AppLoaderLogo v-if="api.isFetching || eventRecommendationsPending" />
+  <div v-else>
     <LayoutPageTitle :title />
     <LayoutCallToAction
       v-if="!authentication.isSignedIn"
@@ -12,24 +13,14 @@
     />
     <div v-else class="flex flex-col gap-8">
       <section
-        v-if="queryEventUpcoming"
+        v-if="eventUpcoming"
         :aria-labelledby="templateIdUpcoming"
         class="flex flex-col gap-4"
       >
         <TypographyH3 :id="templateIdUpcoming" class="px-2">
           {{ t('upcomingTitle') }}
         </TypographyH3>
-        <AppLoaderLogo
-          v-if="queryEventUpcoming.fetching.value"
-          class="size-16"
-        />
-        <CardStateAlert v-else-if="queryEventUpcoming.error.value">
-          {{ queryEventUpcoming.error.value.message }}
-        </CardStateAlert>
-        <CardStateAlert v-else-if="!eventUpcoming">
-          {{ t('errorUpcomingUndefined') }}
-        </CardStateAlert>
-        <EventCard v-else :event="eventUpcoming" variant="highlight" />
+        <EventCard :event="eventUpcoming" variant="highlight" />
       </section>
       <section
         v-if="eventRecommendations?.length"
@@ -201,7 +192,6 @@ const templateIdUpcoming = useId()
 de:
   anonymousCta: Finde ihn auf {siteName}
   anonymousCtaDescription: Dir fehlt der Überblick über Veranstaltungen?
-  errorUpcomingUndefined: Es fehlen Daten, um dein nächstes Event anzuzeigen.
   # recommendationError: Event-Empfehlungen konnten nicht geladen werden
   recommendationTitle: Das solltest Du nicht verpassen
   title: Dashboard
@@ -209,7 +199,6 @@ de:
 en:
   anonymousCta: Find it on {siteName}
   anonymousCtaDescription: Are you missing an overview of events?
-  errorUpcomingUndefined: Data to display your upcoming event is missing.
   # recommendationError: Event recommendations could not be loaded
   recommendationTitle: You Should Not Miss
   title: Dashboard
