@@ -10,6 +10,7 @@ import { environmentsConfig } from '../config/environments'
 
 import { iconCollectionOptimization } from '../node'
 import {
+  IS_IN_FRONTEND_DEVELOPMENT,
   IS_NITRO_OPENAPI_ENABLED,
   NUXT_PUBLIC_SENTRY_HOST,
   NUXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE,
@@ -159,13 +160,9 @@ export default defineNuxtConfig({
             publicKey: '',
           },
         },
-        environment: NUXT_PUBLIC_VIO_ENVIRONMENT, // || 'development'
-        isTesting: false, // NUXT_PUBLIC_VIO_IS_TESTING,
-        stagingHost:
-          process.env.NODE_ENV !== 'production' &&
-          !process.env.NUXT_PUBLIC_SITE_URL
-            ? PRODUCTION_HOST
-            : undefined,
+        environment: NUXT_PUBLIC_VIO_ENVIRONMENT,
+        isTesting: false,
+        stagingHost: IS_IN_FRONTEND_DEVELOPMENT ? PRODUCTION_HOST : undefined,
       },
     },
   },
