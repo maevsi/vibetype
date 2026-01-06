@@ -7,8 +7,18 @@ export default defineEventHandler(async (event) => {
   const getServiceHref = useGetServiceHref()
   const baseURL = getServiceHref({ name: 'postgraphile', port: 5000 })
 
+  const variables = // TODO: remove with Postgraphile v5
+    typeof query.variables === 'string'
+      ? JSON.parse(query.variables)
+      : query.variables
+
   const graphql = await event.$fetch('/graphql', {
     baseURL,
+    body: {
+      query: query.query,
+      operationName: query.operationName,
+      variables,
+    }, // TODO: remove with Postgraphile v5
     headers: {
       ...(jwt
         ? {
@@ -16,8 +26,8 @@ export default defineEventHandler(async (event) => {
           }
         : {}),
     },
-    method: 'GET',
-    query,
+    method: 'POST', // TODO: 'GET' with Postgraphile v5
+    // query, // TODO: reenable with Postgraphile v5
   })
 
   return graphql

@@ -16,7 +16,8 @@
     <CardStateInfo
       v-if="
         account.id === store.signedInAccountId &&
-        guest.contactByContactId?.accountId !== store.signedInAccountId
+        guest.contactByContactId?.accountByAccountId?.id !==
+          store.signedInAccountId
       "
       class="flex flex-col gap-2"
     >
@@ -286,32 +287,35 @@ import { useUpdateGuestByIdMutation } from '~~/gql/documents/mutations/guest/gue
 import { InvitationFeedback } from '~~/gql/generated/graphql'
 import type { GuestPatch } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
-import { useEventUnlockMutation } from '~~/gql/documents/mutations/event/eventUnlock'
 
 const { isApp } = usePlatform()
 const { t } = useI18n()
-const store = useStore()
 const route = useRoute('guest-view-id___en')
 const localePath = useLocalePath()
 const updateGuestByIdMutation = useUpdateGuestByIdMutation()
 
 const isOpenReportDrawer = ref<boolean>()
 
-const eventUnlockMutation = useEventUnlockMutation()
-const result = await eventUnlockMutation.executeMutation({
-  guestId: route.params.id,
-})
-
-const { jwtStore } = await useJwtStore()
-const alertError = useAlertError()
+const csrfRequestFetch = useCsrfRequestFetch()
+const store = useStore()
 try {
-  await jwtStore(result.data?.eventUnlock?.results?.[0]?.jwt || undefined)
-} catch (error) {
-  alertError({
-    ...(error instanceof Error ? { error } : {}),
-    messageI18n: t('jwtStoreFail'),
+  const { jwtDecoded: jwt } = await csrfRequestFetch('/api/model/jwt', {
+    body: {
+      guestId: route.params.id,
+    },
+    method: 'PUT',
   })
+
+  if (!jwt) {
+    throw new Error('JWT update failed: no JWT returned')
+  }
+
+  store.jwtSet(jwt)
+} catch (error) {
+  console.error('JWT update failed:', error)
 }
+
+const alertError = useAlertError()
 
 // api data
 const eventQuery = useQuery({
@@ -319,7 +323,10 @@ const eventQuery = useQuery({
     query GuestEvent($id: UUID!) {
       guestById(id: $id) {
         contactByContactId {
-          accountId
+          accountByAccountId {
+            id
+            username
+          }
           createdBy
           firstName
           id
@@ -327,7 +334,6 @@ const eventQuery = useQuery({
           nickname
           nodeId
         }
-        contactId
         eventByEventId {
           accountByCreatedBy {
             id
@@ -355,7 +361,6 @@ const eventQuery = useQuery({
           url
           visibility
         }
-        eventId
         feedback
         id
         nodeId
@@ -401,10 +406,11 @@ const cancel = async () => {
     isUpdatingCancel.value = false
   }
 }
+const { $csrfFetch } = useNuxtApp()
 const downloadIcal = async () => {
   if (!event.value) return
 
-  const response = await useFetch<string>('/api/model/event/ical', {
+  const response = await $csrfFetch('/api/model/event/ical', {
     body: {
       contact,
       event,
@@ -459,8 +465,11 @@ const eventDescriptionTemplate = computed(() => {
   )
 })
 const contact = computed(() => guest.value?.contactByContactId)
+const contactAccount = computed(() => contact.value?.accountByAccountId)
 const contactName = computed(() =>
-  contact.value ? getContactName({ contact: contact.value }) : undefined,
+  contact.value
+    ? getContactName({ account: contactAccount.value, contact: contact.value })
+    : undefined,
 )
 
 // map
@@ -531,7 +540,6 @@ de:
   invitationCanceledAdmin: Einladung im Namen von {name} abgelehnt
   invitationSelectionClear: Zurück zur Einladungsübersicht
   invitationViewFor: Du schaust dir die Einladung für {name} an. Alle Personen, die den Link zu dieser Seite bzw. die ID dieser Einladung kennen, können auf diese Einladung zugreifen und mit ihr interagieren.
-  jwtStoreFail: Fehler beim Speichern der Authentifizierungsdaten!
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
   print: Drucken
   qrCodeShow: Check-in-Code anzeigen
@@ -558,7 +566,6 @@ en:
   invitationCanceledAdmin: Invitation declined on behalf of {name}
   invitationSelectionClear: Back to the invitation overview
   invitationViewFor: You're viewing the invitation for {name}. Anyone knowing the link to this page or this invitation's id can access this invitation and interact with it.
-  jwtStoreFail: Failed to store the authentication data!
   ogImageAlt: The event's preview image.
   print: Print
   qrCodeShow: Show check in code

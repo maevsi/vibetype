@@ -4,9 +4,10 @@ import {
   FEATURE_FLAGS_COOKIE_ID,
   FEATURE_FLAGS_COOKIE_NAME,
   GTAG_COOKIE_ID,
-  JWT_NAME,
   TIMEZONE_COOKIE_NAME,
 } from '../../shared/utils/constants'
+import { getJwtName } from '../../shared/utils/jwt'
+import { SITE_URL_TYPED } from '../../node/static'
 
 export const cookieControlConfig = {
   cookieControl: {
@@ -37,7 +38,7 @@ export const cookieControlConfig = {
             de: 'Authentifizierungsdaten',
             en: 'Authentication Data',
           },
-          targetCookieIds: [JWT_NAME({ isHttps: true })], // TODO: set `isHttps` at runtime
+          targetCookieIds: [getJwtName(SITE_URL_TYPED)],
         },
         {
           description: {
@@ -50,6 +51,18 @@ export const cookieControlConfig = {
             en: 'Cookie Preferences',
           },
           targetCookieIds: ['ncc_c', 'ncc_e'],
+        },
+        {
+          description: {
+            de: 'Dieser Cookie von uns speichert Sicherheitsinformationen für den Schutz vor Angriffen.',
+            en: 'This cookie of ours stores security information for protection against attacks.',
+          },
+          id: 's',
+          name: {
+            de: 'Sicherheit (csrf)',
+            en: 'Security (csrf)',
+          },
+          targetCookieIds: ['__Host-csrf'],
         },
         {
           description: {

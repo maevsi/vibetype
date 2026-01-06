@@ -337,7 +337,6 @@ export const getUrqlClient = async ({
       ssrExchange, // `ssrExchange` must be before `fetchExchange`
       fetchExchange,
     ],
-    preferGetMethod: false, // TODO: remove with Postgraphile v5
     url: `${baseUrl}/api/service/postgraphile/graphql`,
   }
   const client = ref(createClient(_clientOptions))

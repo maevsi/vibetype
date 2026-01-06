@@ -121,13 +121,13 @@ const { accountId } = defineProps<{
 const { error, restart, step } = useStepper<'password' | 'success'>()
 
 // drawer
-const { signOut } = await useSignOut()
+const jwtDelete = await useJwtDelete()
 const isOpen = defineModel<boolean>('isOpen')
 const closeDrawer = () => {
   isOpen.value = false
 }
 const navigateToRoot = async () => {
-  await signOut()
+  await jwtDelete()
   await navigateTo(localePath({ name: 'index' }))
 }
 const onAnimationEnd = async (isOpen: boolean) => {

@@ -104,32 +104,23 @@ const ROUTE_NAME: keyof RouteNamedMap = 'attendance-view-id___en'
 const route = useRoute(ROUTE_NAME)
 const { t } = useI18n()
 
-const jwtUpdateAttendanceAddMutation = useMutation(
-  graphql(`
-    mutation JwtUpdateAttendanceAdd($input: JwtUpdateAttendanceAddInput!) {
-      jwtUpdateAttendanceAdd(input: $input) {
-        jwt
-      }
-    }
-  `),
-)
-
-// TODO: add error handling
-const result = await jwtUpdateAttendanceAddMutation.executeMutation({
-  input: {
-    attendanceId: route.params.id,
-  },
-})
-
-const { jwtStore } = await useJwtStore()
-const alertError = useAlertError()
+const csrfRequestFetch = useCsrfRequestFetch()
+const store = useStore()
 try {
-  await jwtStore(result.data?.jwtUpdateAttendanceAdd?.jwt || undefined)
-} catch (error) {
-  alertError({
-    ...(error instanceof Error ? { error } : {}),
-    messageI18n: t('jwtStoreFail'),
+  const { jwtDecoded: jwt } = await csrfRequestFetch('/api/model/jwt', {
+    body: {
+      attendanceId: route.params.id,
+    },
+    method: 'PUT',
   })
+
+  if (!jwt) {
+    throw new Error('JWT update failed: no JWT returned')
+  }
+
+  store.jwtSet(jwt)
+} catch (error) {
+  console.error('JWT update failed:', error)
 }
 
 // api data
@@ -271,7 +262,6 @@ de:
   event: Veranstaltung
   guest: Gast
   guestView: Einladung anzeigen
-  jwtStoreFail: Fehler beim Speichern der Authentifizierungsdaten!
   loading: Lädt…
   title: Anwesenheitsdetails für {name}
 en:
@@ -287,7 +277,6 @@ en:
   event: Event
   guest: Guest
   guestView: Show invitation
-  jwtStoreFail: Failed to store the authentication data!
   loading: Loading…
   title: Attendance Details for {name}
 </i18n>
