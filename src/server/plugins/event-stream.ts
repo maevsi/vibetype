@@ -8,6 +8,9 @@ export default defineNitroPlugin(async (nitroApp) => {
   const { siteUrl } = useSiteUrl()
   const tusdFilesUrl = useTusdFilesUrl()
 
+  const isTesting = getIsTesting({ runtimeConfig })
+  if (isTesting) return
+
   const { Kafka } = await import('kafkajs')
   const kafka = new Kafka({
     clientId: SITE_NAME,
