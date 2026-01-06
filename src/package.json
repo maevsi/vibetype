@@ -60,6 +60,7 @@
     "@urql/core": "6.0.1",
     "@urql/devtools": "2.0.3",
     "@urql/exchange-graphcache": "8.1.0",
+    "@urql/exchange-request-policy": "2.0.0",
     "@urql/vue": "2.0.0",
     "@vee-validate/zod": "4.15.1",
     "@vite-pwa/nuxt": "1.1.0",

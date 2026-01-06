@@ -9,6 +9,7 @@ import { offlineExchange as getOfflineExchange } from '@urql/exchange-graphcache
 import type { Cache, Entity, FieldArgs } from '@urql/exchange-graphcache'
 import { makeDefaultStorage } from '@urql/exchange-graphcache/default-storage'
 import { relayPagination } from '@urql/exchange-graphcache/extras'
+import { requestPolicyExchange } from '@urql/exchange-request-policy'
 import { devtoolsExchange } from '@urql/devtools'
 import type { DocumentNode } from 'graphql'
 import type { useRuntimeConfig } from 'nuxt/app'
@@ -331,12 +332,12 @@ export const getUrqlClient = async ({
     ...clientOptions,
     exchanges: [
       ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
+      requestPolicyExchange({}),
       ...(cacheExchange ? [cacheExchange] : []),
       ssrExchange, // `ssrExchange` must be before `fetchExchange`
       fetchExchange,
     ],
     preferGetMethod: false, // TODO: remove with Postgraphile v5
-    requestPolicy: 'cache-and-network',
     url: `${baseUrl}/api/service/postgraphile/graphql`,
   }
   const client = ref(createClient(_clientOptions))

@@ -196,6 +196,9 @@ importers:
       '@urql/exchange-graphcache':
         specifier: 8.1.0
         version: 8.1.0(@urql/core@6.0.1(graphql@16.12.0))(graphql@16.12.0)
+      '@urql/exchange-request-policy':
+        specifier: 2.0.0
+        version: 2.0.0(@urql/core@6.0.1(graphql@16.12.0))
       '@urql/vue':
         specifier: 2.0.0
         version: 2.0.0(@urql/core@6.0.1(graphql@16.12.0))(vue@3.5.26(typescript@5.9.3))
@@ -5371,6 +5374,11 @@ packages:
 
   '@urql/exchange-graphcache@8.1.0':
     resolution: {integrity: sha512-KxdDFcGAWhYOkpCz/NLNHb8SaWSxE2G1iv+jlFty2f/ZlCkD+FjtzwQuieGl7fk1MVR8DG1zLmxGNlwfCNksfQ==}
+    peerDependencies:
+      '@urql/core': ^6.0.0
+
+  '@urql/exchange-request-policy@2.0.0':
+    resolution: {integrity: sha512-GjTY7PMFTGUlXmz75mYcAS6TdLbJxNJ0DilHsLEFPW8CB36McSomCDRKFeCn8OBSw9+BJAaIFLBeGsPf75i69A==}
     peerDependencies:
       '@urql/core': ^6.0.0
 
@@ -18282,6 +18290,11 @@ snapshots:
       wonka: 6.3.5
     transitivePeerDependencies:
       - graphql
+
+  '@urql/exchange-request-policy@2.0.0(@urql/core@6.0.1(graphql@16.12.0))':
+    dependencies:
+      '@urql/core': 6.0.1(graphql@16.12.0)
+      wonka: 6.3.5
 
   '@urql/introspection@0.3.3(graphql@16.12.0)':
     dependencies:
