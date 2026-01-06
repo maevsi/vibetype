@@ -343,7 +343,7 @@ export const getUrqlClient = async ({
 
   const _clientOptionsTesting: ClientOptions = {
     ..._clientOptions,
-    url: `${baseUrl}/api/test/graphql`,
+    url: `${baseUrl}/api/test/service/postgraphile/graphql`,
   }
   const clientTesting = ref(createClient(_clientOptionsTesting))
 
