@@ -6,6 +6,6 @@ export const IS_NITRO_OPENAPI_ENABLED =
   !!process.env.NUXT_IS_NITRO_OPENAPI_ENABLED || false
 export const NUXT_PUBLIC_VIO_ENVIRONMENT = process.env.NODE_ENV
 export const SITE_URL =
-  process.env.SITE_URL ||
   process.env.NUXT_PUBLIC_SITE_URL ||
-  `https://${process.env.HOST || 'app.localhost'}:${process.env.PORT || '3000'}`
+  `http://${process.env.HOST || 'app.localhost'}:${process.env.PORT || '3000'}`
+export const SITE_URL_TYPED = new URL(SITE_URL)
