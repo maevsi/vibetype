@@ -1,7 +1,20 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
+import { COOKIE_SAME_SITE } from '../../shared/utils/constants'
+import { getIsSecure } from '../../shared/utils/networking'
+import { SITE_URL_TYPED } from '../../node/static'
+
 export const securityConfig: ReturnType<DefineNuxtConfig> = {
   security: {
+    csrf: {
+      addCsrfTokenToEventCtx: true,
+      cookie: {
+        httpOnly: true,
+        sameSite: COOKIE_SAME_SITE,
+        secure: getIsSecure({ siteUrl: SITE_URL_TYPED }),
+      },
+      https: true,
+    },
     headers: {
       contentSecurityPolicy: {
         'base-uri': ["'none'"], // does not fallback to `default-src`

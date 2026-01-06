@@ -2,7 +2,7 @@ import { parse } from 'graphql'
 import type { H3Event } from 'h3'
 import { z } from 'zod'
 
-import { jwtCreateMutation } from '~~/gql/documents/mutations/jwt/jwtCreate'
+import { jwtCreateMutation } from '~~/server/api/model/jwt.post'
 import { accountRegistrationMutation } from '~~/gql/documents/mutations/account/accountRegistration'
 
 const authProxyBodySchema = z.object({

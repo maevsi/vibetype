@@ -4571,37 +4571,6 @@ export enum EventSize {
   Small = 'SMALL',
 }
 
-/** All input for the `eventUnlock` mutation. */
-export type EventUnlockInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  guestId: Scalars['UUID']['input']
-}
-
-/** The output of our `eventUnlock` mutation. */
-export type EventUnlockPayload = {
-  __typename?: 'EventUnlockPayload'
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-  results?: Maybe<Array<Maybe<EventUnlockRecord>>>
-}
-
-/** The return type of our `eventUnlock` mutation. */
-export type EventUnlockRecord = {
-  __typename?: 'EventUnlockRecord'
-  creatorUsername?: Maybe<Scalars['String']['output']>
-  eventSlug?: Maybe<Scalars['String']['output']>
-  jwt?: Maybe<Scalars['Jwt']['output']>
-}
-
 /** Associates uploaded files with events. */
 export type EventUpload = Node & {
   __typename?: 'EventUpload'
@@ -5329,6 +5298,29 @@ export type JwtUpdateAttendanceAddPayload = {
   query?: Maybe<Query>
 }
 
+/** All input for the `jwtUpdateGuestAdd` mutation. */
+export type JwtUpdateGuestAddInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  guestId: Scalars['UUID']['input']
+}
+
+/** The output of our `jwtUpdateGuestAdd` mutation. */
+export type JwtUpdateGuestAddPayload = {
+  __typename?: 'JwtUpdateGuestAddPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  jwt?: Maybe<Scalars['Jwt']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
 /** All input for the `jwtUpdate` mutation. */
 export type JwtUpdateInput = {
   /**
@@ -5705,16 +5697,16 @@ export type Mutation = {
   deleteUploadByStorageKey?: Maybe<DeleteUploadPayload>
   /** Allows to delete an event.\n\nError codes:\n- **P0002** when the event was not found.\n- **28P01** when the account with the given password was not found. */
   eventDelete?: Maybe<EventDeletePayload>
-  /** Adds a guest claim to the current session.\n\nError codes:\n- **P0002** when no guest, no event, or no event creator username was found for this guest id. */
-  eventUnlock?: Maybe<EventUnlockPayload>
   /** Adds a notification for the invitation channel.\n\nError codes:\n- **P0002** when the guest, event, contact, the contact email address, or the account email address is not accessible. */
   invite?: Maybe<InvitePayload>
-  /** Creates a JWT token that will securely identify an account and give it certain permissions.\n\nError codes:\n- **P0002** when an account is not found or when the token could not be created.\n- **55000** when the account is not verified yet. */
+  /** Creates a JWT token that will securely identify an account and give it certain permissions. */
   jwtCreate?: Maybe<JwtCreatePayload>
   /** Refreshes a JWT. */
   jwtUpdate?: Maybe<JwtUpdatePayload>
-  /** Adds an attendance UUID to the current session JWT. */
+  /** Adds an attendance claim to the current session. */
   jwtUpdateAttendanceAdd?: Maybe<JwtUpdateAttendanceAddPayload>
+  /** Adds a guest claim to the current session. */
+  jwtUpdateGuestAdd?: Maybe<JwtUpdateGuestAddPayload>
   /** Allows to set the acknowledgement state of a notification.\n\nError codes:\n- **P0002** when no notification with the given id is found. */
   notificationAcknowledge?: Maybe<NotificationAcknowledgePayload>
   /** Sets the picture with the given upload id as the invoker's profile picture. */
@@ -6282,11 +6274,6 @@ export type MutationEventDeleteArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationEventUnlockArgs = {
-  input: EventUnlockInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationInviteArgs = {
   input: InviteInput
 }
@@ -6304,6 +6291,11 @@ export type MutationJwtUpdateArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationJwtUpdateAttendanceAddArgs = {
   input: JwtUpdateAttendanceAddInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationJwtUpdateGuestAddArgs = {
+  input: JwtUpdateGuestAddInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -10096,18 +10088,6 @@ export type AccountQuery = {
   } | null
 }
 
-export type JwtUpdateAttendanceAddMutationVariables = Exact<{
-  input: JwtUpdateAttendanceAddInput
-}>
-
-export type JwtUpdateAttendanceAddMutation = {
-  __typename?: 'Mutation'
-  jwtUpdateAttendanceAdd?: {
-    __typename?: 'JwtUpdateAttendanceAddPayload'
-    jwt?: string | null
-  } | null
-}
-
 export type AttendanceQueryVariables = Exact<{
   id: Scalars['UUID']['input']
 }>
@@ -10466,20 +10446,22 @@ export type GuestEventQuery = {
   __typename?: 'Query'
   guestById?: {
     __typename?: 'Guest'
-    contactId: string
-    eventId: string
     feedback?: InvitationFeedback | null
     id: string
     nodeId: string
     contactByContactId?: {
       __typename?: 'Contact'
-      accountId?: string | null
       createdBy: string
       firstName?: string | null
       id: string
       lastName?: string | null
       nickname?: string | null
       nodeId: string
+      accountByAccountId?: {
+        __typename?: 'Account'
+        id: string
+        username: string
+      } | null
     } | null
     eventByEventId?: {
       __typename?: 'Event'
@@ -10875,23 +10857,6 @@ export type EventDeleteMutation = {
   } | null
 }
 
-export type EventUnlockMutationVariables = Exact<{
-  guestId: Scalars['UUID']['input']
-}>
-
-export type EventUnlockMutation = {
-  __typename?: 'Mutation'
-  eventUnlock?: {
-    __typename?: 'EventUnlockPayload'
-    results?: Array<{
-      __typename?: 'EventUnlockRecord'
-      creatorUsername?: string | null
-      eventSlug?: string | null
-      jwt?: string | null
-    } | null> | null
-  } | null
-}
-
 export type UpdateEventByIdMutationVariables = Exact<{
   id: Scalars['UUID']['input']
   eventPatch: EventPatch
@@ -10973,33 +10938,6 @@ export type InviteMutation = {
   invite?: {
     __typename?: 'InvitePayload'
     clientMutationId?: string | null
-  } | null
-}
-
-export type AuthenticateMutationVariables = Exact<{
-  password: Scalars['String']['input']
-  username: Scalars['String']['input']
-}>
-
-export type AuthenticateMutation = {
-  __typename?: 'Mutation'
-  jwtCreate?: {
-    __typename?: 'JwtCreatePayload'
-    clientMutationId?: string | null
-    jwt?: string | null
-  } | null
-}
-
-export type JwtUpdateMutationVariables = Exact<{
-  id: Scalars['UUID']['input']
-}>
-
-export type JwtUpdateMutation = {
-  __typename?: 'Mutation'
-  jwtUpdate?: {
-    __typename?: 'JwtUpdatePayload'
-    clientMutationId?: string | null
-    jwt?: string | null
   } | null
 }
 
@@ -11413,6 +11351,57 @@ export type AllUploadsQuery = {
       hasNextPage: boolean
       endCursor?: string | null
     }
+  } | null
+}
+
+export type JwtCreateMutationVariables = Exact<{
+  password: Scalars['String']['input']
+  username: Scalars['String']['input']
+}>
+
+export type JwtCreateMutation = {
+  __typename?: 'Mutation'
+  jwtCreate?: {
+    __typename?: 'JwtCreatePayload'
+    clientMutationId?: string | null
+    jwt?: string | null
+  } | null
+}
+
+export type JwtUpdateMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type JwtUpdateMutation = {
+  __typename?: 'Mutation'
+  jwtUpdate?: {
+    __typename?: 'JwtUpdatePayload'
+    clientMutationId?: string | null
+    jwt?: string | null
+  } | null
+}
+
+export type JwtUpdateAttendanceAddMutationVariables = Exact<{
+  input: JwtUpdateAttendanceAddInput
+}>
+
+export type JwtUpdateAttendanceAddMutation = {
+  __typename?: 'Mutation'
+  jwtUpdateAttendanceAdd?: {
+    __typename?: 'JwtUpdateAttendanceAddPayload'
+    jwt?: string | null
+  } | null
+}
+
+export type JwtUpdateGuestAddMutationVariables = Exact<{
+  input: JwtUpdateGuestAddInput
+}>
+
+export type JwtUpdateGuestAddMutation = {
+  __typename?: 'Mutation'
+  jwtUpdateGuestAdd?: {
+    __typename?: 'JwtUpdateGuestAddPayload'
+    jwt?: string | null
   } | null
 }
 
@@ -13884,60 +13873,6 @@ export const AccountDocument = {
     },
   ],
 } as unknown as DocumentNode<AccountQuery, AccountQueryVariables>
-export const JwtUpdateAttendanceAddDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'JwtUpdateAttendanceAdd' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'JwtUpdateAttendanceAddInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'jwtUpdateAttendanceAdd' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'jwt' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  JwtUpdateAttendanceAddMutation,
-  JwtUpdateAttendanceAddMutationVariables
->
 export const AttendanceDocument = {
   kind: 'Document',
   definitions: [
@@ -15528,7 +15463,20 @@ export const GuestEventDocument = {
                     selections: [
                       {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'accountId' },
+                        name: { kind: 'Name', value: 'accountByAccountId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'username' },
+                            },
+                          ],
+                        },
                       },
                       {
                         kind: 'Field',
@@ -15554,7 +15502,6 @@ export const GuestEventDocument = {
                     ],
                   },
                 },
-                { kind: 'Field', name: { kind: 'Name', value: 'contactId' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'eventByEventId' },
@@ -15649,7 +15596,6 @@ export const GuestEventDocument = {
                     ],
                   },
                 },
-                { kind: 'Field', name: { kind: 'Name', value: 'eventId' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'feedback' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'nodeId' } },
@@ -17225,80 +17171,6 @@ export const EventDeleteDocument = {
     },
   ],
 } as unknown as DocumentNode<EventDeleteMutation, EventDeleteMutationVariables>
-export const EventUnlockDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'EventUnlock' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'guestId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'eventUnlock' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'guestId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'guestId' },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'results' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'creatorUsername' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'eventSlug' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'jwt' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<EventUnlockMutation, EventUnlockMutationVariables>
 export const UpdateEventByIdDocument = {
   kind: 'Document',
   definitions: [
@@ -18011,153 +17883,6 @@ export const InviteDocument = {
     },
   ],
 } as unknown as DocumentNode<InviteMutation, InviteMutationVariables>
-export const AuthenticateDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'Authenticate' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'password' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'username' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'jwtCreate' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'password' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'password' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'username' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'username' },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'jwt' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  AuthenticateMutation,
-  AuthenticateMutationVariables
->
-export const JwtUpdateDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'JwtUpdate' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'jwtUpdate' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'jwtId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'id' },
-                      },
-                    },
-                  ],
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-                { kind: 'Field', name: { kind: 'Name', value: 'jwt' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<JwtUpdateMutation, JwtUpdateMutationVariables>
 export const CreatePreferenceEventCategoryDocument = {
   kind: 'Document',
   definitions: [
@@ -20597,3 +20322,255 @@ export const AllUploadsDocument = {
     },
   ],
 } as unknown as DocumentNode<AllUploadsQuery, AllUploadsQueryVariables>
+export const JwtCreateDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'JwtCreate' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'password' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'username' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'jwtCreate' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'password' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'password' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'username' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'username' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'jwt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<JwtCreateMutation, JwtCreateMutationVariables>
+export const JwtUpdateDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'JwtUpdate' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'jwtUpdate' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'jwtId' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'id' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'jwt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<JwtUpdateMutation, JwtUpdateMutationVariables>
+export const JwtUpdateAttendanceAddDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'JwtUpdateAttendanceAdd' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'JwtUpdateAttendanceAddInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'jwtUpdateAttendanceAdd' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'jwt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  JwtUpdateAttendanceAddMutation,
+  JwtUpdateAttendanceAddMutationVariables
+>
+export const JwtUpdateGuestAddDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'JwtUpdateGuestAdd' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'JwtUpdateGuestAddInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'jwtUpdateGuestAdd' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'jwt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  JwtUpdateGuestAddMutation,
+  JwtUpdateGuestAddMutationVariables
+>

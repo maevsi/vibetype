@@ -15,7 +15,7 @@
     </CardStateInfo>
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
-        <FormAccountSignIn v-model:error="error" @signed-in="onSignIn" />
+        <FormSessionCreate v-model:error="error" @signed-in="onSignIn" />
         <ContentLegalFooter />
       </LayoutPage>
     </AppStep>
