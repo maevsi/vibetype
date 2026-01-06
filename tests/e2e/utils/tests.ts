@@ -105,7 +105,9 @@ export const testMetadata = async ({
           key: 'content',
           value: joinURL(
             SITE_URL,
-            `/__og-image__/${process.env.VIO_SERVER === 'static' ? 'static' : 'image'}`,
+            `/__og-image__/${
+              process.env.VIO_SERVER === 'static' ? 'static' : 'image'
+            }`,
             path,
             '/og.png',
           ),
@@ -146,7 +148,9 @@ export const testMetadata = async ({
           key: 'content',
           value: joinURL(
             SITE_URL,
-            `/__og-image__/${process.env.VIO_SERVER === 'static' ? 'static' : 'image'}`,
+            `/__og-image__/${
+              process.env.VIO_SERVER === 'static' ? 'static' : 'image'
+            }`,
             path,
             '/og.png',
           ),
@@ -164,7 +168,9 @@ export const testMetadata = async ({
           key: 'content',
           value: joinURL(
             SITE_URL,
-            `/__og-image__/${process.env.VIO_SERVER === 'static' ? 'static' : 'image'}`,
+            `/__og-image__/${
+              process.env.VIO_SERVER === 'static' ? 'static' : 'image'
+            }`,
             path,
             '/og.png',
           ),
@@ -545,12 +551,12 @@ export const testPageLoad = (url: string, statusCode: number = 200) =>
     })
   })
 
-export const testVisualRegression = (url: string) =>
+export const testVisualRegression = (url: string, plain?: boolean) =>
   appTest.describe('visual regression', () => {
-    appTest('looks as before', async ({ defaultPage }) => {
-      await defaultPage.goto(url)
+    appTest('looks as before', async ({ defaultPage, page }) => {
+      await (plain ? page : defaultPage).goto(url)
 
-      await expect(defaultPage.page).toHaveScreenshot({
+      await expect(plain ? page : defaultPage.page).toHaveScreenshot({
         timeout: TIMEOUT,
       })
     })
