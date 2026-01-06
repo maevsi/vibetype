@@ -3,10 +3,10 @@ import type { Ref } from 'vue'
 
 export default defineNitroPlugin(async (nitroApp) => {
   const runtimeConfig = useRuntimeConfig()
+  const getServiceHref = useGetServiceHref()
 
   const baseUrl = getServiceHref({
     port: 3000,
-    stagingHost: runtimeConfig.public.vio.stagingHost,
   })
 
   const { urql, urqlTesting } = await getUrqlClient({
