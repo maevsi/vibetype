@@ -201,6 +201,7 @@ export default defineNuxtConfig({
         '@urql/exchange-graphcache',
         '@urql/exchange-graphcache/default-storage',
         '@urql/exchange-graphcache/extras',
+        '@urql/exchange-request-policy',
         '@urql/vue',
         '@vee-validate/zod',
         '@vuelidate/core',
