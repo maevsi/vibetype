@@ -1,3 +1,9 @@
+## [13.3.0](https://github.com/maevsi/vibetype/compare/13.2.0...13.3.0) (2026-01-06)
+
+### Features
+
+* **api:** cache based in time to live ([018969e](https://github.com/maevsi/vibetype/commit/018969e0fd8b221c1cb61c3d6318c2cdef2ab1e7))
+
 ## [13.2.0](https://github.com/maevsi/vibetype/compare/13.1.1...13.2.0) (2026-01-06)
 
 ### Features
