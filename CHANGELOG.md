@@ -1,3 +1,18 @@
+## [13.2.0](https://github.com/maevsi/vibetype/compare/13.1.1...13.2.0) (2026-01-06)
+
+### Features
+
+* **contact:** prefix username with @ ([c045d16](https://github.com/maevsi/vibetype/commit/c045d16f8c7eeb9009c10015be238a7688ff6bb0))
+* **content:** improve error handling for legal terms ([f037d66](https://github.com/maevsi/vibetype/commit/f037d660a99dc54dbf9f3443eb852b85bfe5bb36))
+* **guest:** remove separate unlock page ([e08782c](https://github.com/maevsi/vibetype/commit/e08782c2cf39eba44fef5e3b6590396482fd3e1f))
+
+### Bug Fixes
+
+* **api:** correct testing urls for urql ([6698319](https://github.com/maevsi/vibetype/commit/6698319018b37414eda18f1be4e8bbc0ff9abd27))
+* **api:** relax error log ([8c1a6ba](https://github.com/maevsi/vibetype/commit/8c1a6ba80f84dc7ee3ea5ed5788f2706948125c5))
+* **guest:** hide qr code print button in app ([b975a45](https://github.com/maevsi/vibetype/commit/b975a452114a0c06287313ab17b00f0bc118c48e))
+* **pages:** correct dashboard loading ([05e5258](https://github.com/maevsi/vibetype/commit/05e5258737f33a3ec8c03a054e347be36c9a8ffd))
+
 ## [13.1.1](https://github.com/maevsi/vibetype/compare/13.1.0...13.1.1) (2025-12-31)
 
 ### Bug Fixes
