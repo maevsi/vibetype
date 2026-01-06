@@ -48,13 +48,6 @@ export const useJsonWebToken = async () => {
       const jwtCookieName = JWT_NAME({ isHttps })
       const cookieAuthorization = getCookie(event, jwtCookieName)
 
-      if (!cookieAuthorization) {
-        return throwError({
-          statusCode: 401,
-          statusMessage: 'The authorization cookie is missing',
-        })
-      }
-
       return cookieAuthorization
     },
     getJwtFromHeader: () => {
@@ -70,7 +63,9 @@ export const useJsonWebToken = async () => {
       return headerAuthorization.substring(7)
     },
     setJwtCookie: (jwt: string) => setJwtCookie({ event, jwt, runtimeConfig }),
-    verifyJwt: async (jwt: string) => {
+    verifyJwt: async (jwt?: string) => {
+      if (!jwt) return
+
       if (!jwtPublicKey) {
         return throwError({
           statusCode: 500,

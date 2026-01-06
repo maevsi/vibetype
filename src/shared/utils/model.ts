@@ -4,7 +4,7 @@ export const getContactName = ({
 }: {
   account?: {
     username?: string | null
-  }
+  } | null
   contact: {
     accountId?: string | null
     firstName?: string | null
@@ -15,4 +15,6 @@ export const getContactName = ({
   contact.nickname ||
   (contact.firstName
     ? contact.firstName + (contact.lastName ? ` ${contact.lastName}` : '')
-    : account?.username)
+    : account?.username
+      ? `@${account.username}`
+      : undefined)

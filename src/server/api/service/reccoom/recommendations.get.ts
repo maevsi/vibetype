@@ -6,7 +6,7 @@ export default defineEventHandler(async () => {
   const getServiceHref = useGetServiceHref()
   const runtimeConfig = useRuntimeConfig()
 
-  if (!(jwtDecoded.role === `${SITE_NAME}_account`))
+  if (!(jwtDecoded?.role === `${SITE_NAME}_account`))
     return throwError({
       statusCode: 403,
       statusMessage: 'This endpoint only available to registered users.',

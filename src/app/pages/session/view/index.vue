@@ -110,9 +110,7 @@
             </Card>
           </div>
           <div class="flex-1">
-            <div class="flex flex-col">
-              <ButtonEventUnlock />
-            </div>
+            <!-- TODO: implement guest code management (https://github.com/maevsi/vibetype/issues/61) -->
           </div>
         </div>
       </section>

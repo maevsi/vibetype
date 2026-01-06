@@ -1,9 +1,7 @@
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
-export const codegenConfig: CodegenConfig = {
-  // schema: 'https://postgraphile.app.localhost/graphql',
-  schema: 'https://postgraphile.vibetype.app/graphql',
-  documents: ['gql/documents/**/*.ts', 'app/**/*.vue'], // ignoreNoDocuments: true,
+export const codegenConfigBase: CodegenConfig = {
+  documents: ['gql/documents/**/*.ts', 'app/**/*.vue', 'server/**/*.ts'], // ignoreNoDocuments: true,
   hooks: { afterAllFileWrite: ['prettier --write', 'eslint --fix'] },
   config: {
     useTypeImports: true,
@@ -33,5 +31,3 @@ export const codegenConfig: CodegenConfig = {
     },
   },
 }
-
-export default codegenConfig

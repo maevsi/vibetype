@@ -9,7 +9,7 @@
     <NuxtTurnstile
       ref="turnstile"
       :key="themeColor"
-      :class="{ 'flex justify-center': isCentered, 'h-[65px]': isVisible }"
+      :class="{ 'flex justify-center': isCentered, 'h-16.25': isVisible }"
       :options="{
         'error-callback': () => (isLoading = false),
         'expired-callback': () => emit('input', undefined),
