@@ -11,7 +11,7 @@
     "eslint-plugin-prettier": "5.5.4",
     "typescript": "5.9.3",
     "typescript-eslint": "8.52.0",
-    "ufo": "1.6.1",
+    "ufo": "1.6.2",
     "vitest": "4.0.16"
   },
   "engines": {
