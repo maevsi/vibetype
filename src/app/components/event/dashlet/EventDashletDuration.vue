@@ -1,14 +1,9 @@
 <template>
-  <EventDashlet v-if="event.end && event.start">
-    <span>
-      <ISolarHourglassOutline :title="t('duration')" />
-    </span>
-    {{
-      // @ts-expect-error https://github.com/microsoft/TypeScript/issues/60608
-      new Intl.DurationFormat(locale, { style: 'long' }).format(
-        getDuration(new Date(event.start), new Date(event.end)),
-      )
-    }}
+  <EventDashlet v-if="duration">
+    {{ duration }}
+    <template #icon>
+      <AppIconHourglassOutline :title="t('duration')" />
+    </template>
   </EventDashlet>
 </template>
 
@@ -20,6 +15,26 @@ const { event } = defineProps<{
 }>()
 
 const { t, locale } = useI18n()
+const formatDuration = ({
+  duration,
+  locale,
+}: {
+  duration: Duration
+  locale: string
+}) => {
+  if (typeof Intl === 'undefined' || !('DurationFormat' in Intl)) return // TODO: evaluate polyfill
+
+  // @ts-expect-error https://github.com/microsoft/TypeScript/issues/60608
+  return new Intl.DurationFormat(locale, { style: 'long' }).format(duration)
+}
+
+const duration =
+  event.end && event.start
+    ? formatDuration({
+        duration: getDuration(new Date(event.start), new Date(event.end)),
+        locale: locale.value,
+      })
+    : undefined
 </script>
 
 <i18n lang="yaml">

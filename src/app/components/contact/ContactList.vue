@@ -1,5 +1,5 @@
 <template>
-  <Loader :api="api">
+  <Loader :api>
     <div class="flex flex-col gap-4">
       <AppScrollContainer
         v-if="contacts"
@@ -33,7 +33,7 @@
               v-for="contact in contacts"
               :id="contact.nodeId"
               :key="contact.nodeId"
-              :contact="contact"
+              :contact
               :is-deleting="pending.deletions.includes(contact.nodeId)"
               :is-editing="pending.edits.includes(contact.nodeId)"
               @delete="delete_(contact.nodeId, contact.id)"
@@ -46,7 +46,7 @@
         <ButtonColored :aria-label="t('contactAdd')" @click="add()">
           {{ t('contactAdd') }}
           <template #prefix>
-            <IHeroiconsPlus />
+            <AppIconPlus />
           </template>
         </ButtonColored>
       </div>

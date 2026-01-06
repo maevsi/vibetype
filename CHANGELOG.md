@@ -86,6 +86,227 @@
 
 * **nuxt:** rename runtime configuration key ([325238f](https://github.com/maevsi/vibetype/commit/325238fc96e97ad2b44ffe7d1e96da654e175cf5))
 
+## [13.3.0](https://github.com/maevsi/vibetype/compare/13.2.0...13.3.0) (2026-01-06)
+
+### Features
+
+* **api:** cache based in time to live ([018969e](https://github.com/maevsi/vibetype/commit/018969e0fd8b221c1cb61c3d6318c2cdef2ab1e7))
+
+## [13.2.0](https://github.com/maevsi/vibetype/compare/13.1.1...13.2.0) (2026-01-06)
+
+### Features
+
+* **contact:** prefix username with @ ([c045d16](https://github.com/maevsi/vibetype/commit/c045d16f8c7eeb9009c10015be238a7688ff6bb0))
+* **content:** improve error handling for legal terms ([f037d66](https://github.com/maevsi/vibetype/commit/f037d660a99dc54dbf9f3443eb852b85bfe5bb36))
+* **guest:** remove separate unlock page ([e08782c](https://github.com/maevsi/vibetype/commit/e08782c2cf39eba44fef5e3b6590396482fd3e1f))
+
+### Bug Fixes
+
+* **api:** correct testing urls for urql ([6698319](https://github.com/maevsi/vibetype/commit/6698319018b37414eda18f1be4e8bbc0ff9abd27))
+* **api:** relax error log ([8c1a6ba](https://github.com/maevsi/vibetype/commit/8c1a6ba80f84dc7ee3ea5ed5788f2706948125c5))
+* **guest:** hide qr code print button in app ([b975a45](https://github.com/maevsi/vibetype/commit/b975a452114a0c06287313ab17b00f0bc118c48e))
+* **pages:** correct dashboard loading ([05e5258](https://github.com/maevsi/vibetype/commit/05e5258737f33a3ec8c03a054e347be36c9a8ffd))
+
+## [13.1.1](https://github.com/maevsi/vibetype/compare/13.1.0...13.1.1) (2025-12-31)
+
+### Bug Fixes
+
+* **attendance:** set record type for nfc writing ([032ee0b](https://github.com/maevsi/vibetype/commit/032ee0b627718b0afe37be360cfa065244962bcd))
+
+## [13.1.0](https://github.com/maevsi/vibetype/compare/13.0.4...13.1.0) (2025-12-27)
+
+### Features
+
+* **deps:** drop consola ([0a67310](https://github.com/maevsi/vibetype/commit/0a6731019ec625097369234a8b1bb030af03f7f1))
+* **sentry:** enable logs ([c4863a3](https://github.com/maevsi/vibetype/commit/c4863a331af3fc13e6bb928742366e4ead164d7d))
+
+## [13.0.4](https://github.com/maevsi/vibetype/compare/13.0.3...13.0.4) (2025-12-26)
+
+### Bug Fixes
+
+* **cookie:** rework secure parameter ([59484aa](https://github.com/maevsi/vibetype/commit/59484aa13d79f64e9b024d8c8114a0685b444cb0))
+* **event:** account for unsupported duration format ([1d339b2](https://github.com/maevsi/vibetype/commit/1d339b2c39a58971e7763cc34341a8b4fa26980a))
+* **sentry:** relax error logging ([ad2a049](https://github.com/maevsi/vibetype/commit/ad2a049274feb953cff4f8033c4ad929b4780f58))
+
+## [13.0.3](https://github.com/maevsi/vibetype/compare/13.0.2...13.0.3) (2025-12-26)
+
+### Bug Fixes
+
+* **event:** correct conditional loading for upcoming ([a17cbb3](https://github.com/maevsi/vibetype/commit/a17cbb3326032e0d5f9a6b0b69b2b59cdab0b933))
+
+## [13.0.2](https://github.com/maevsi/vibetype/compare/13.0.1...13.0.2) (2025-12-20)
+
+### Bug Fixes
+
+* **attendance:** correct link ([8602c73](https://github.com/maevsi/vibetype/commit/8602c737b20fb95c6e0372a7ed38462a55a32d53))
+
+## [13.0.1](https://github.com/maevsi/vibetype/compare/13.0.0...13.0.1) (2025-12-20)
+
+### Bug Fixes
+
+* **jwt:** update name ([7115dfe](https://github.com/maevsi/vibetype/commit/7115dfef80567415ab142edaea4ca53e3ca60a1f))
+
+## [13.0.0](https://github.com/maevsi/vibetype/compare/12.50.0...13.0.0) (2025-12-20)
+
+### ⚠ BREAKING CHANGES
+
+* **sqitch:** migrate to v10
+
+### Features
+
+* **attendance:** add ([e200914](https://github.com/maevsi/vibetype/commit/e200914740e94a665734b050e9dd380a343da2d2))
+* **sqitch:** migrate to v10 ([bd00bc7](https://github.com/maevsi/vibetype/commit/bd00bc757f253f9dd3cd7b8088eed83260c2e599))
+
+### Bug Fixes
+
+* **attendance:** add missing composables ([5b3ae73](https://github.com/maevsi/vibetype/commit/5b3ae73167f1e5893ab0b5f9ee71f3a840bcaab4))
+* **attendance:** write link ([cfa8605](https://github.com/maevsi/vibetype/commit/cfa8605ed10f68540ddd0da2c048120621710194))
+
+## [12.50.0](https://github.com/maevsi/vibetype/compare/12.49.0...12.50.0) (2025-12-15)
+
+### Features
+
+* **session:** always allow trying to send notifications ([1b308c2](https://github.com/maevsi/vibetype/commit/1b308c2a4baab246a712dd14140df499aba7efd7))
+
+### Bug Fixes
+
+* **composables:** use lax same site for render-critical cookies ([2176dff](https://github.com/maevsi/vibetype/commit/2176dff331eeeac4325ac7e6d4e00229a5accff6))
+
+## [12.49.0](https://github.com/maevsi/vibetype/compare/12.48.0...12.49.0) (2025-12-14)
+
+### Features
+
+* **composables:** add feature flags ([efb2f57](https://github.com/maevsi/vibetype/commit/efb2f5704ca3e47c08a3b23f8cc5de79570c558b))
+
+## [12.48.0](https://github.com/maevsi/vibetype/compare/12.47.0...12.48.0) (2025-12-14)
+
+### Features
+
+* **components:** add logo loader ([9edc4b6](https://github.com/maevsi/vibetype/commit/9edc4b6961560c89a1b7e2577046977e276295ef))
+
+## [12.47.0](https://github.com/maevsi/vibetype/compare/12.46.0...12.47.0) (2025-12-14)
+
+### Features
+
+* **event:** show upcoming on dashboard ([d915a3f](https://github.com/maevsi/vibetype/commit/d915a3f6b9ed075a2c7097bcd9b9aff94053b25d))
+
+### Bug Fixes
+
+* **account:** sort events by start ([45918be](https://github.com/maevsi/vibetype/commit/45918be5719d4e4f1cd2a776312d9c4a09fe8ae1))
+
+## [12.46.0](https://github.com/maevsi/vibetype/compare/12.45.1...12.46.0) (2025-12-12)
+
+### Features
+
+* **sentry:** add graphql client integration ([651701b](https://github.com/maevsi/vibetype/commit/651701b23629389b7125af038574cf76e7e8774a))
+
+## [12.45.1](https://github.com/maevsi/vibetype/compare/12.45.0...12.45.1) (2025-12-12)
+
+### Bug Fixes
+
+* **guest:** correct invitation labels ([cac119d](https://github.com/maevsi/vibetype/commit/cac119d435e6dfaeaddd771726ef38f5d7e74f86))
+
+## [12.45.0](https://github.com/maevsi/vibetype/compare/12.44.0...12.45.0) (2025-12-11)
+
+### Features
+
+* **security:** add default trusted type policy ([216c7b1](https://github.com/maevsi/vibetype/commit/216c7b189df4d6d145a9cbc0906da139022985b9))
+
+### Bug Fixes
+
+* **app:** correct installation toast ([e12b16e](https://github.com/maevsi/vibetype/commit/e12b16e289d771182cf49f838548c0bceae11849))
+* **pages:** don't request recommendations when not logged signed in ([3b5dd20](https://github.com/maevsi/vibetype/commit/3b5dd20d5bc884fb23a7b57a07be8295e300a2eb))
+
+## [12.44.0](https://github.com/maevsi/vibetype/compare/12.43.1...12.44.0) (2025-12-11)
+
+### Features
+
+* **security:** enable trusted types ([3fb8ab9](https://github.com/maevsi/vibetype/commit/3fb8ab9880a05248612c6511e111a96b18300313))
+* **sentry:** enable server ([93d5742](https://github.com/maevsi/vibetype/commit/93d5742263deac446ab836544e594de55ab54ce5))
+
+### Bug Fixes
+
+* **event:** correct dashlet icons ([8139210](https://github.com/maevsi/vibetype/commit/8139210d6e610b61d2073ac5de0d6fbecb40d4b5))
+* **event:** show map only if location is available ([e91af5f](https://github.com/maevsi/vibetype/commit/e91af5f931b721f2ce8b23c1e98b074a297a290e))
+* **guest:** differentiate feedback spinners ([14d11a6](https://github.com/maevsi/vibetype/commit/14d11a6349bc0cbb83ead98dd1f54eca1615b22a))
+
+## [12.43.1](https://github.com/maevsi/vibetype/compare/12.43.0...12.43.1) (2025-12-08)
+
+### Bug Fixes
+
+* **app:** don't redirect to welcome screen on guest view ([c9916fd](https://github.com/maevsi/vibetype/commit/c9916fdd5f2f63689b87ef9c7680efee9960d3d2))
+
+## [12.43.0](https://github.com/maevsi/vibetype/compare/12.42.0...12.43.0) (2025-12-08)
+
+### Features
+
+* **event:** add map ([631580c](https://github.com/maevsi/vibetype/commit/631580c1a3b1e020c0cdb86581369aaa24b1cb4c))
+* **event:** rework dashlets ([c4eda20](https://github.com/maevsi/vibetype/commit/c4eda20a8c0977bf6d33211ce2266a1cede74b86))
+* **guest:** correct invitation naming ([44bb4e3](https://github.com/maevsi/vibetype/commit/44bb4e322ea7327b57b6f7d41ef87d9a0bf67302))
+
+### Bug Fixes
+
+* **components:** account for map in bottom menu's z-index ([f8bb853](https://github.com/maevsi/vibetype/commit/f8bb853fc7ab1b7c0cf70ad55616997b2aca3ac5))
+
+## [12.42.0](https://github.com/maevsi/vibetype/compare/12.41.0...12.42.0) (2025-12-08)
+
+### Features
+
+* **guest:** add loading indicator to buttons ([de3280c](https://github.com/maevsi/vibetype/commit/de3280ccc1dd2788029c06b0dcb9d426fd1522e3))
+
+## [12.41.0](https://github.com/maevsi/vibetype/compare/12.40.0...12.41.0) (2025-12-08)
+
+### Features
+
+* **guest:** prefer contact nickname ([f34e7fb](https://github.com/maevsi/vibetype/commit/f34e7fb84f413c51eebc0b813a3cf584aa45ed93))
+
+## [12.40.0](https://github.com/maevsi/vibetype/compare/12.39.0...12.40.0) (2025-12-08)
+
+### Features
+
+* **guest:** skip unlock ([0078313](https://github.com/maevsi/vibetype/commit/0078313f9472f20ec8b3bfdca25f3bb0d8e3679e))
+
+## [12.39.0](https://github.com/maevsi/vibetype/compare/12.38.0...12.39.0) (2025-12-07)
+
+### Features
+
+* **guest:** introduce guest list label ([66669e8](https://github.com/maevsi/vibetype/commit/66669e85283db9711c8de72adeaadcfc7f1b601e))
+* **jwt:** set cookie domain ([ebb4704](https://github.com/maevsi/vibetype/commit/ebb470410d31b550c343f95a19704eee2f44d1f7))
+
+## [12.38.0](https://github.com/maevsi/vibetype/compare/12.37.0...12.38.0) (2025-12-07)
+
+### Features
+
+* **security:** allow giphy as image source ([179252e](https://github.com/maevsi/vibetype/commit/179252e4e100bcc038b04c6f5cc5f47b89761541))
+* **security:** allow giphy as image source ([#2141](https://github.com/maevsi/vibetype/issues/2141)) ([aa4aba4](https://github.com/maevsi/vibetype/commit/aa4aba414de1e7de16a457b3b0da989a9906a8a7))
+
+## [12.37.0](https://github.com/maevsi/vibetype/compare/12.36.0...12.37.0) (2025-12-06)
+
+### Features
+
+* add account unblock screen ([#2032](https://github.com/maevsi/vibetype/issues/2032)) ([aa20ad9](https://github.com/maevsi/vibetype/commit/aa20ad9b7c6bfd946ce378a927a992aa04b82ab9))
+
+## [12.36.0](https://github.com/maevsi/vibetype/compare/12.35.0...12.36.0) (2025-12-03)
+
+### Features
+
+* **guest:** create multiple ([113e027](https://github.com/maevsi/vibetype/commit/113e0276b316aab091f7875e13df700392ffa7c0))
+
+### Bug Fixes
+
+* **app:** remove platform logging ([86ff53f](https://github.com/maevsi/vibetype/commit/86ff53f713e0048dca18af74a37b5412071cfdf9))
+
+## [12.35.0](https://github.com/maevsi/vibetype/compare/12.34.3...12.35.0) (2025-12-02)
+
+### Features
+
+* **utils:** change cookie prefix from `Secure` to `Http` ([ee05422](https://github.com/maevsi/vibetype/commit/ee05422a7473942c6e4e9bcfd4106e9bc381ab39))
+
+### Bug Fixes
+
+* **event:** correct ingestion api paths ([d31722d](https://github.com/maevsi/vibetype/commit/d31722d7ff2fd4df4f2836fbf6a937c6aaf3ae1a))
+* **utils:** remove root host getter ([022931e](https://github.com/maevsi/vibetype/commit/022931e0abf0bc2ab6174d0ef3914ef4b462a5d2))
+
 ## [12.34.3](https://github.com/maevsi/vibetype/compare/12.34.2...12.34.3) (2025-11-26)
 
 ### Performance Improvements

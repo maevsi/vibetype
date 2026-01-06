@@ -1,29 +1,26 @@
 import tailwindcss from '@tailwindcss/vite'
 import vue from '@vitejs/plugin-vue'
 import { createResolver } from 'nuxt/kit'
-import type { Nuxt, ModuleOptions } from 'nuxt/schema'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 import Components from 'unplugin-vue-components/vite'
 
 import { modulesConfig } from '../config/modules'
 import { environmentsConfig } from '../config/environments'
+
+import { iconCollectionOptimization } from '../node'
 import {
+  IS_IN_FRONTEND_DEVELOPMENT,
   IS_NITRO_OPENAPI_ENABLED,
-  NUXT_PUBLIC_VIO_ENVIRONMENT,
-  SITE_URL,
-} from '../node/environment'
-import { iconCollectionOptimization } from '../node/filesystem'
-import { RELEASE_NAME } from '../node/process'
-import {
   NUXT_PUBLIC_SENTRY_HOST,
   NUXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE,
   NUXT_PUBLIC_SENTRY_PROJECT_ID,
   NUXT_PUBLIC_SENTRY_PROJECT_PUBLIC_KEY,
-  NUXT_PUBLIC_VIO_IS_TESTING,
-  PRODUCTION_HOST,
+  NUXT_PUBLIC_VIO_ENVIRONMENT,
   SITE_NAME,
-} from '../shared/utils/constants'
+  SITE_URL,
+} from '../node/static'
+import { PRODUCTION_HOST } from '../shared/utils/constants'
 
 // TODO: let this error in "eslint (compat/compat)"" (https://github.com/DefinitelyTyped/DefinitelyTyped/issues/55519)
 // setImmediate(() => {})
@@ -50,45 +47,24 @@ export default defineNuxtConfig({
     '@nuxt/content', // most come after `@nuxtjs/seo`
     '@nuxtjs/turnstile',
     '@pinia/nuxt',
+    '@sentry/nuxt/module',
     '@vite-pwa/nuxt',
     'nuxt-gtag',
     'shadcn-nuxt',
-    async (_options: ModuleOptions, nuxt: Nuxt) => {
-      nuxt.options.runtimeConfig.public.vio.releaseName = await RELEASE_NAME()
-    },
-    // nuxt-security: remove invalid `'none'`s and duplicates
-    (_options: ModuleOptions, nuxt: Nuxt) => {
-      const nuxtConfigSecurityHeaders = nuxt.options.security.headers
-
-      if (
-        typeof nuxtConfigSecurityHeaders !== 'boolean' &&
-        nuxtConfigSecurityHeaders.contentSecurityPolicy
-      ) {
-        const csp = nuxtConfigSecurityHeaders.contentSecurityPolicy
-
-        for (const [key, value] of Object.entries(csp)) {
-          if (!Array.isArray(value)) continue
-
-          const valueFiltered = value.filter((x) => x !== "'none'")
-
-          if (valueFiltered.length) {
-            ;(csp as Record<string, unknown>)[key] = [...new Set(valueFiltered)]
-          }
-        }
-      }
-    },
     'nuxt-security',
   ],
   nitro: {
     compressPublicAssets: true,
+    esbuild: {
+      options: {
+        target: 'es2022', // needed for sentry server-side configuration (top-level async release getter) // TODO: remove once top-level target option is available (https://github.com/nuxt/nuxt/issues/14893)
+      },
+    },
     experimental: {
       asyncContext: true,
       openAPI: IS_NITRO_OPENAPI_ENABLED,
     },
     rollupConfig: {
-      output: {
-        sourcemap: true, // TODO: remove? (https://github.com/getsentry/sentry-javascript/discussions/15028)
-      },
       plugins: [vue()],
     },
   },
@@ -119,6 +95,9 @@ export default defineNuxtConfig({
       },
       sentry: {
         host: NUXT_PUBLIC_SENTRY_HOST,
+        logs: {
+          enable: true,
+        },
         profiles: {
           sampleRate: NUXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE,
         },
@@ -147,13 +126,9 @@ export default defineNuxtConfig({
             publicKey: '',
           },
         },
-        environment: NUXT_PUBLIC_VIO_ENVIRONMENT, // || 'development'
-        isTesting: NUXT_PUBLIC_VIO_IS_TESTING,
-        stagingHost:
-          process.env.NODE_ENV !== 'production' &&
-          !process.env.NUXT_PUBLIC_SITE_URL
-            ? PRODUCTION_HOST
-            : undefined,
+        environment: NUXT_PUBLIC_VIO_ENVIRONMENT,
+        isTesting: false,
+        stagingHost: IS_IN_FRONTEND_DEVELOPMENT ? PRODUCTION_HOST : undefined,
       },
     },
     vibetype: {
@@ -194,7 +169,12 @@ export default defineNuxtConfig({
   sourcemap: true,
   typescript: {
     nodeTsConfig: {
-      include: [resolve('../node')],
+      include: [
+        resolve('../.config'),
+        resolve('../config'),
+        resolve('../node'),
+        resolve('../sentry.server.config.ts'),
+      ],
     },
     tsConfig: {
       vueCompilerOptions: {
@@ -221,6 +201,7 @@ export default defineNuxtConfig({
         '@urql/exchange-graphcache',
         '@urql/exchange-graphcache/default-storage',
         '@urql/exchange-graphcache/extras',
+        '@urql/exchange-request-policy',
         '@urql/vue',
         '@vee-validate/zod',
         '@vuelidate/core',
@@ -283,6 +264,29 @@ export default defineNuxtConfig({
         scale: 1.5,
       }),
       tailwindcss(),
+      {
+        // This plugin suppresses false-positive sourcemap warnings from Tailwind's Vite plugin
+        // TODO: remove once tailwind generates sourcemaps for their transforms (https://github.com/tailwindlabs/tailwindcss/discussions/16119)
+        apply: 'build',
+        name: 'vite-plugin-ignore-sourcemap-warnings',
+        configResolved(config) {
+          const originalOnWarn = config.build.rollupOptions.onwarn
+          config.build.rollupOptions.onwarn = (warning, warn) => {
+            if (
+              warning.code === 'SOURCEMAP_BROKEN' &&
+              warning.plugin === '@tailwindcss/vite:generate:build'
+            ) {
+              return
+            }
+
+            if (originalOnWarn) {
+              originalOnWarn(warning, warn)
+            } else {
+              warn(warning)
+            }
+          }
+        },
+      },
     ],
   },
   ...modulesConfig,

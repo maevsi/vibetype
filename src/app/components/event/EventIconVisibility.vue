@@ -1,18 +1,18 @@
 <template>
-  <IHeroiconsArchiveBox v-if="isArchived" :title="t('archived')" />
-  <IHeroiconsEye
+  <AppIconArchiveBox v-if="isArchived" :title="t('archived')" />
+  <AppIconEye
     v-else-if="visibility === EventVisibility.Public"
     :title="t('public')"
   />
-  <IHeroiconsEyeSlash
+  <AppIconTicket
     v-else-if="visibility === EventVisibility.Unlisted"
     :title="t('unlisted')"
   />
-  <IHeroiconsLockClosed
+  <AppIconLockClosed
     v-else-if="visibility === EventVisibility.Private"
     :title="t('private')"
   />
-  <IHeroiconsBugAnt v-else :title="t('bug')" />
+  <AppIconBugAnt v-else :title="t('bug')" />
 </template>
 
 <script setup lang="ts">
@@ -32,11 +32,11 @@ de:
   bug: Bug
   private: privat
   public: öffentlich
-  unlisted: ungelistet
+  unlisted: nur mit Einladung
 en:
   archived: archived
   bug: bug
   private: private
   public: public
-  unlisted: unlisted
+  unlisted: invitation only
 </i18n>

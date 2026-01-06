@@ -1,6 +1,6 @@
 <template>
   <Loader
-    :api="api"
+    :api
     :error-pg-ids="{
       postgres53100: t('postgres53100'),
     }"
@@ -42,7 +42,7 @@
                 class="flex h-full justify-center"
                 @click="deleteUpload(upload.id)"
               >
-                <IHeroiconsTrash
+                <AppIconTrash
                   class="text-text-bright m-1"
                   :title="t('iconTrash')"
                 />
@@ -67,11 +67,7 @@
             "
             @click="selectProfilePicture"
           >
-            <IHeroiconsPlusSolid
-              class="text-gray-500"
-              width="3em"
-              height="3em"
-            />
+            <AppIconPlusSolid class="size-12 text-gray-500" />
           </AppButton>
           <input
             ref="inputProfilePicture"
@@ -102,14 +98,14 @@
     >
       <Cropper
         ref="cropper"
-        :init-stretcher="initStretcher"
+        :init-stretcher
         :src="fileSelectedUrl"
         :stencil-props="{
           aspectRatio: 1,
         }"
       />
       <template #header>{{ t('uploadNew') }}</template>
-      <template #submit-icon><IHeroiconsArrowUpTray /></template>
+      <template #submit-icon><AppIconArrowUpTray /></template>
     </Modal>
   </Loader>
 </template>
@@ -117,7 +113,6 @@
 <script setup lang="ts">
 import { Uppy } from '@uppy/core'
 import Tus from '@uppy/tus'
-import { consola } from 'consola'
 import prettyBytes from 'pretty-bytes'
 import type { UnwrapRef } from 'vue'
 import { Cropper } from 'vue-advanced-cropper'
@@ -284,7 +279,7 @@ const loadProfilePicture = (event: Event) => {
     }
     fileReader.readAsDataURL(file)
   } catch (error) {
-    consola.error(error)
+    console.error(error)
   }
 }
 const toggleSelect = (upload: UnwrapRef<typeof selectedItem>) => {

@@ -1,7 +1,7 @@
 <template>
   <FormInput
     v-if="formInput"
-    :is-optional="isOptional"
+    :is-optional
     :id-label="`input-${id}`"
     :title="title || t('emailAddress')"
     type="email"
@@ -9,16 +9,10 @@
     @input="emit('input', $event)"
   >
     <template #stateError>
-      <FormInputStateError
-        :form-input="formInput"
-        validation-property="lengthMax"
-      >
+      <FormInputStateError :form-input validation-property="lengthMax">
         {{ t('globalValidationLength') }}
       </FormInputStateError>
-      <FormInputStateError
-        :form-input="formInput"
-        validation-property="required"
-      >
+      <FormInputStateError :form-input validation-property="required">
         {{ t('globalValidationRequired') }}
       </FormInputStateError>
     </template>

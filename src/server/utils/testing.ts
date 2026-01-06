@@ -1,9 +1,14 @@
 import type { H3Event } from 'h3'
 
 export const useIsTesting = ({
+  event,
   isCookieEnabled = true,
-}: { isCookieEnabled?: boolean } | undefined = {}) => {
-  const event = useEvent()
+}:
+  | {
+      event?: H3Event
+      isCookieEnabled?: boolean
+    }
+  | undefined = {}) => {
   const runtimeConfig = useRuntimeConfig()
 
   return getIsTesting({ event, isCookieEnabled, runtimeConfig })

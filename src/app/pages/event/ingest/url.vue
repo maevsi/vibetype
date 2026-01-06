@@ -38,7 +38,7 @@ const uploadURL = async () => {
   if (!enteredURL.value) return
 
   try {
-    await $fetch('/api/event/ingest/url', {
+    await $fetch('/api/model/event/ingest/url', {
       body: { url: enteredURL.value },
       method: 'POST',
     })

@@ -1,5 +1,5 @@
 <template>
-  <Loader :api="api">
+  <Loader :api>
     <div class="flex flex-col gap-4">
       <AppScrollContainer
         v-if="event && guests.length"
@@ -20,8 +20,8 @@
             <GuestListItem
               v-for="guest in guests"
               :key="guest.id"
-              :event="event"
-              :guest="guest"
+              :event
+              :guest
             />
           </LayoutTbody>
         </LayoutTable>
@@ -44,7 +44,7 @@
         >
           {{ t('guestAdd') }}
           <template #prefix>
-            <IHeroiconsPlus />
+            <AppIconPlus />
           </template>
         </ButtonColored>
         <p class="text-center text-gray-500 dark:text-gray-400">
@@ -65,13 +65,13 @@
             v-if="!runtimeConfig.public.vio.isTesting"
             ref="doughnut"
             :data="dataComputed"
-            :options="options"
+            :options
           />
         </div>
       </div>
       <Modal id="ModalGuest" is-footer-hidden>
         <FormGuest
-          :event="event"
+          :event
           :guest-contact-ids-existing="guests.map((i) => i.contactId)"
           @submit-success="onGuestSubmitSuccess"
         />
@@ -94,7 +94,6 @@ import {
   Title,
   Tooltip,
 } from 'chart.js'
-import { consola } from 'consola'
 import { Doughnut } from 'vue-chartjs'
 
 import { useAllGuestsQuery } from '~~/gql/documents/queries/guest/guestsAll'
@@ -180,7 +179,7 @@ const dataComputed = computed(() => {
           datasetData.none += 1
           break
         default:
-          consola.error('Unexpected guest type.')
+          console.error('Unexpected guest type.')
       }
     }
   }

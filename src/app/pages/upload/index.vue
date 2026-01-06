@@ -1,8 +1,8 @@
 <template>
   <div>
-    <LayoutPageTitle :title="title" />
+    <LayoutPageTitle :title />
     <!-- "UploadGallery" must come after "ModalUploadSelection" for them to overlay properly! -->
-    <UploadGallery v-if="isSignedIn" />
+    <UploadGallery v-if="authentication.isSignedIn" />
     <LayoutCallToAction
       v-else
       :call-to-action="t('anonymousCta')"
@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 const { t } = useI18n()
-const { isSignedIn } = useAuthInfo()
+const authentication = useAuthentication()
 
 // data
 const title = t('title')

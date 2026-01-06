@@ -5,7 +5,7 @@
     data-testid="is-loading"
     vaul-drawer-wrapper
   >
-    <LazyClientOnly>
+    <ClientOnly>
       <CardStateInfo
         v-if="!isBrowserSupported && !runtimeConfig.public.vio.isTesting"
         class="shrink-0 rounded-none"
@@ -29,7 +29,7 @@
           </template>
         </i18n-t>
       </CardStateInfo>
-    </LazyClientOnly>
+    </ClientOnly>
     <NuxtLoadingIndicator />
     <NuxtLayout>
       <NuxtPage />
@@ -38,7 +38,7 @@
     <VitePwaManifest />
     <ClientOnly>
       <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->
-      <CookieControl :locale="locale" />
+      <CookieControl :locale />
     </ClientOnly>
     <!-- <div
       class="absolute inset-x-0 -top-16 -z-10 flex max-h-screen transform-gpu items-start justify-center overflow-hidden blur-3xl"
@@ -88,7 +88,8 @@ const initialize = async () => {
   if (
     isApp &&
     !store.signedInAccountId &&
-    !isEqual(route.path, localePath('index').toString())
+    !isEqual(route.path, localePath('index').toString()) &&
+    !isEqual(route.path, localePath('guest-view-id').toString())
   ) {
     return await navigateTo(
       localePath({
@@ -101,28 +102,31 @@ const saveTimeZoneAsCookie = () =>
   (useCookie(TIMEZONE_COOKIE_NAME, {
     // default: () => undefined, // setting `default` on the client side only does not write the cookie
     httpOnly: false,
-    sameSite: 'strict',
-    secure: runtimeConfig.public.vio.isInProduction,
+    sameSite: COOKIE_SAME_SITE,
+    secure: useIsSecure(),
   }).value = timeZone)
 
 // lifecycle
-watch(
-  () => $pwa,
-  async (current, _previous) => {
-    if (current?.showInstallPrompt && !runtimeConfig.public.vio.isTesting) {
-      toast(t('pwaTitle'), {
-        action: {
-          label: t('pwaConfirmButtonText'),
-          onClick: current.install,
-        },
-        description: t('pwaText'),
-        onDismiss: current.cancelInstall,
-        onAutoClose: current.cancelInstall,
-        duration: 10e3,
-      })
-    }
-  },
-)
+if (!runtimeConfig.public.vio.isTesting && !isApp) {
+  watch(
+    () => $pwa,
+    async (current, _previous) => {
+      if (current?.showInstallPrompt) {
+        toast(t('pwaTitle'), {
+          action: {
+            label: t('pwaConfirmButtonText'),
+            onClick: current.install,
+          },
+          description: t('pwaText'),
+          onDismiss: current.cancelInstall,
+          onAutoClose: current.cancelInstall,
+          duration: 10e3,
+        })
+      }
+    },
+    { deep: true },
+  )
+}
 
 // initialization
 defineOgImageComponent(
@@ -135,7 +139,6 @@ defineOgImageComponent(
 useAppLayout()
 await useAuth()
 usePolyfills()
-useSchemaOrg([defineWebSite(), defineWebPage()])
 useAppGtag()
 await initialize()
 </script>
@@ -169,12 +172,12 @@ de:
   browserUnsupported: Du benutzt einen Browser, in dem nicht alle Funktionen von @.upper:{'globalSiteName'} unterstützt werden. {link}.
   browserUnsupportedLink: Mehr erfahren
   pwaConfirmButtonText: App nutzen
-  pwaText: Die Installation verbraucht fast keinen Speicherplatz und bietet eine schnelle Möglichkeit, zu dieser App zurückzukehren.
+  pwaText: Erhalte Veranstaltungsempfehlungen direkt, sobald sie verfügbar sind!
   pwaTitle: "@.upper:{'globalSiteName'} installieren"
 en:
   browserUnsupported: You're using a browser which does not support all features @.upper:{'globalSiteName'} offers. {link}.
   browserUnsupportedLink: Learn more
   pwaConfirmButtonText: Get the app
-  pwaText: Installing uses almost no storage and provides a quick way to return to this app.
+  pwaText: Get event recommendations right when they become available!
   pwaTitle: Install @.upper:{'globalSiteName'}
 </i18n>

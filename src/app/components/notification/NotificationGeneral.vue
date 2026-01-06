@@ -2,7 +2,7 @@
   <Card>
     <div class="flex items-center gap-4">
       <div class="px-2">
-        <IHeroiconsMapPinSolid />
+        <AppIconMapPinSolid />
       </div>
       <div class="flex flex-1 items-center gap-2">
         <NotificationIndicator />

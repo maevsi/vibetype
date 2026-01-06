@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 import { EventVisibility } from '~~/gql/generated/graphql'
-import { SITE_URL } from '~~/node/environment'
+import { SITE_URL } from '~~/node/static'
 
 const icalPostBodySchema = z.object({
   contact: z
@@ -23,7 +23,7 @@ const icalPostBodySchema = z.object({
     slug: z.string(),
     visibility: z.nativeEnum(EventVisibility),
   }),
-  invitation: z
+  guest: z
     .object({
       id: z.string(),
     })
@@ -36,12 +36,12 @@ export default defineEventHandler(async (h3Event) => {
   const contact = body.contact
   const event = body.event
   const eventAuthorUsername = body.event.accountByCreatedBy.username
-  const invitation = body.invitation
+  const guest = body.guest
 
   setResponseHeaders(h3Event, {
     'Content-Type': 'text/calendar',
     'Content-Disposition': `attachment; filename="${eventAuthorUsername}_${event.slug}.ics`,
   })
 
-  return getIcalString({ contact, event, invitation, siteUrl: SITE_URL })
+  return getIcalString({ contact, event, guest, siteUrl: SITE_URL })
 })

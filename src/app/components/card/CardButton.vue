@@ -15,9 +15,9 @@
         :aria-label="title"
         class="focus-visible:ring-0"
         :disabled="isDisabled"
-        :is-external="isExternal"
+        :is-external
         is-external-icon-disabled
-        :to="to"
+        :to
       >
         <span class="absolute inset-0 z-10" />
         <span class="font-bold">

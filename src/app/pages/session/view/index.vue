@@ -1,7 +1,54 @@
 <template>
   <div>
-    <LayoutPageTitle :title="title" />
+    <LayoutPageTitle :title />
     <div class="flex flex-col gap-8">
+      <section class="flex flex-col gap-4">
+        <h2>{{ t('featureFlags') }}</h2>
+        <!-- lg:grid-cols-2 -->
+        <div class="flex gap-4">
+          <div class="flex-1">
+            <Card>
+              <ul class="flex flex-col gap-2">
+                <template v-for="feature in FEATURE_FLAGS" :key="feature">
+                  <li class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <AppIconCheckCircle
+                        v-if="isFeatureEnabled(feature).value"
+                        class="text-green-600 dark:text-green-500"
+                      />
+                      <AppIconXCircle
+                        v-else
+                        class="text-(--semantic-critic-text) dark:text-red-500"
+                      />
+                      <span class="font-mono">
+                        {{ feature }}
+                      </span>
+                    </div>
+                    <div>
+                      <ButtonColored
+                        :aria-label="
+                          isFeatureEnabled(feature).value
+                            ? t('featureFlagsDisable')
+                            : t('featureFlagsEnable')
+                        "
+                        variant="secondary"
+                        @click="toggleFeature(feature)"
+                      >
+                        <span v-if="isFeatureEnabled(feature).value">
+                          {{ t('featureFlagsDisable') }}
+                        </span>
+                        <span v-else>
+                          {{ t('featureFlagsEnable') }}
+                        </span>
+                      </ButtonColored>
+                    </div>
+                  </li>
+                </template>
+              </ul>
+            </Card>
+          </div>
+        </div>
+      </section>
       <section class="flex flex-col gap-4">
         <h2>{{ t('end') }}</h2>
         <div class="grid gap-4 lg:grid-cols-2">
@@ -11,8 +58,8 @@
                 <i18n-t keypath="sessionExpiry">
                   <template #exp>
                     <AppTime
-                      weekday="short"
                       :datetime="store.jwtDecoded.exp * 1000"
+                      :options="{ weekday: 'short' }"
                     />
                   </template>
                 </i18n-t>
@@ -32,7 +79,7 @@
               >
                 {{ t('endNow') }}
                 <template #prefix>
-                  <IHeroiconsOutlineLogout />
+                  <AppIconOutlineLogout />
                 </template>
               </ButtonColored>
             </div>
@@ -44,7 +91,7 @@
         <div class="grid gap-4 lg:grid-cols-2">
           <div class="flex-1">
             <Card>
-              <div v-if="store.jwtDecoded?.invitations">
+              <div v-if="store.jwtDecoded?.guests">
                 <p>
                   {{ t('codesEntered') }}
                 </p>
@@ -63,9 +110,7 @@
             </Card>
           </div>
           <div class="flex-1">
-            <div class="flex flex-col">
-              <ButtonEventUnlock />
-            </div>
+            <!-- TODO: implement guest code management (https://github.com/maevsi/vibetype/issues/61) -->
           </div>
         </div>
       </section>
@@ -85,12 +130,12 @@
           <div class="flex flex-1 flex-col gap-2">
             <Card class="flex flex-col gap-1">
               <div class="flex gap-2">
-                <IHeroiconsQuestionMarkCircle v-if="isApp === undefined" />
-                <IHeroiconsCheckCircle
+                <AppIconQuestionMarkCircle v-if="isApp === undefined" />
+                <AppIconCheckCircle
                   v-else-if="isApp"
                   class="text-green-600 dark:text-green-500"
                 />
-                <IHeroiconsXCircle
+                <AppIconXCircle
                   v-else
                   class="text-(--semantic-critic-text) dark:text-red-500"
                 />
@@ -113,14 +158,14 @@
           <section class="flex-1">
             <Card class="flex flex-col gap-1">
               <div class="flex gap-2">
-                <IHeroiconsQuestionMarkCircle
+                <AppIconQuestionMarkCircle
                   v-if="isNavigatorHavingPermissions === undefined"
                 />
-                <IHeroiconsCheckCircle
+                <AppIconCheckCircle
                   v-else-if="isNavigatorHavingPermissions"
                   class="text-green-600 dark:text-green-500"
                 />
-                <IHeroiconsXCircle
+                <AppIconXCircle
                   v-else
                   class="text-(--semantic-critic-text) dark:text-red-500"
                 />
@@ -129,14 +174,14 @@
                 </span>
               </div>
               <div class="flex gap-2">
-                <IHeroiconsQuestionMarkCircle
+                <AppIconQuestionMarkCircle
                   v-if="isNavigatorHavingServiceWorker === undefined"
                 />
-                <IHeroiconsCheckCircle
+                <AppIconCheckCircle
                   v-else-if="isNavigatorHavingServiceWorker"
                   class="text-green-600 dark:text-green-500"
                 />
-                <IHeroiconsXCircle
+                <AppIconXCircle
                   v-else
                   class="text-(--semantic-critic-text) dark:text-red-500"
                 />
@@ -145,14 +190,14 @@
                 </span>
               </div>
               <div class="flex gap-2">
-                <IHeroiconsQuestionMarkCircle
+                <AppIconQuestionMarkCircle
                   v-if="isWindowHavingNotification === undefined"
                 />
-                <IHeroiconsCheckCircle
+                <AppIconCheckCircle
                   v-else-if="isWindowHavingNotification"
                   class="text-green-600 dark:text-green-500"
                 />
-                <IHeroiconsXCircle
+                <AppIconXCircle
                   v-else
                   class="text-(--semantic-critic-text) dark:text-red-500"
                 />
@@ -161,14 +206,14 @@
                 </span>
               </div>
               <div class="flex gap-2">
-                <IHeroiconsQuestionMarkCircle
+                <AppIconQuestionMarkCircle
                   v-if="isIosHavingPushCapability === undefined"
                 />
-                <IHeroiconsCheckCircle
+                <AppIconCheckCircle
                   v-else-if="isIosHavingPushCapability"
                   class="text-green-600 dark:text-green-500"
                 />
-                <IHeroiconsXCircle
+                <AppIconXCircle
                   v-else
                   class="text-(--semantic-critic-text) dark:text-red-500"
                 />
@@ -177,22 +222,22 @@
                 </span>
               </div>
               <div class="flex gap-2">
-                <IHeroiconsQuestionMarkCircle
+                <AppIconQuestionMarkCircle
                   v-if="permissionState === undefined"
                 />
-                <IHeroiconsCheckCircle
+                <AppIconCheckCircle
                   v-else-if="permissionState === 'granted'"
                   class="text-green-600 dark:text-green-500"
                 />
-                <IHeroiconsQuestionMarkCircle
+                <AppIconQuestionMarkCircle
                   v-else-if="permissionState === 'prompt'"
                   class="text-blue-600 dark:text-blue-400"
                 />
-                <IHeroiconsXCircle
+                <AppIconXCircle
                   v-else-if="permissionState === 'denied'"
                   class="text-(--semantic-critic-text) dark:text-red-500"
                 />
-                <IHeroiconsBugAnt v-else class="text-red-500" />
+                <AppIconBugAnt v-else class="text-red-500" />
                 <span>
                   {{ t('notificationPermitted') }}
                 </span>
@@ -209,18 +254,17 @@
               >
                 {{ t('notificationPermit') }}
                 <template #prefix>
-                  <IHeroiconsShieldCheck />
+                  <AppIconShieldCheck />
                 </template>
               </ButtonColored>
               <ButtonColored
                 :aria-label="t('notificationSend')"
-                :disabled="permissionState !== 'granted'"
                 variant="secondary"
                 @click="sendNotification"
               >
                 {{ t('notificationSend') }}
                 <template #prefix>
-                  <IHeroiconsBellAlert />
+                  <AppIconBellAlert />
                 </template>
               </ButtonColored>
               <ButtonColored
@@ -230,7 +274,7 @@
               >
                 {{ t('showFcmToken') }}
                 <template #prefix>
-                  <IHeroiconsClipboard />
+                  <AppIconClipboard />
                 </template>
               </ButtonColored>
             </div>
@@ -244,16 +288,16 @@
             <Card class="flex flex-col gap-1">
               <div class="flex gap-2">
                 <ClientOnly>
-                  <IHeroiconsCheckCircle
+                  <AppIconCheckCircle
                     v-if="$urqlCache"
                     class="text-green-600 dark:text-green-500"
                   />
-                  <IHeroiconsXCircle
+                  <AppIconXCircle
                     v-else
                     class="text-(--semantic-critic-text) dark:text-red-500"
                   />
                   <template #fallback>
-                    <IHeroiconsQuestionMarkCircle />
+                    <AppIconQuestionMarkCircle />
                   </template>
                 </ClientOnly>
                 <span>
@@ -272,7 +316,7 @@
               >
                 {{ t('apiClientCacheClear') }}
                 <template #prefix>
-                  <IHeroiconsTrash />
+                  <AppIconTrash />
                 </template>
               </ButtonColored>
               <template #fallback>
@@ -283,7 +327,7 @@
                 >
                   {{ t('apiClientCacheClear') }}
                   <template #prefix>
-                    <IHeroiconsTrash />
+                    <AppIconTrash />
                   </template>
                 </ButtonColored>
               </template>
@@ -296,8 +340,6 @@
 </template>
 
 <script setup lang="ts">
-import { consola } from 'consola'
-
 defineRouteRules({
   robots: false,
 })
@@ -310,6 +352,9 @@ const notificationStore = useNotificationStore()
 const { signOut } = await useSignOut()
 const { isApp, platform } = usePlatform()
 const alertError = useAlertError()
+
+// feature flags
+const { isFeatureEnabled, toggleFeature } = useFeatureFlags()
 
 // data
 const isNavigatorHavingPermissions = ref<boolean>()
@@ -397,7 +442,7 @@ onMounted(async () => {
     })
 
     permissionStatus.addEventListener('change', async () => {
-      consola.log(
+      console.log(
         'User decided to change his settings. New permission: ' +
           permissionStatus.state,
       )
@@ -419,6 +464,11 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
+  apiClient: API client
+  apiClientCacheClear: Cache leeren
+  apiClientCacheClearError: Cache konnte nicht geleert werden
+  apiClientCacheClearSuccess: Cache geleert
+  apiClientCacheErrorUndefined: Es ist kein API client Cache definiert
   app: App
   appIs: Umgebung is eine App
   appPlatform: 'App-Plattform: {platform}'
@@ -431,15 +481,13 @@ de:
   endNow: Diese Sitzung beenden
   fcmToken: FCM Token
   fcmTokenUndefined: Das FCM Token ist nicht verfügbar
+  featureFlags: Feature-Flags
+  featureFlagsDisable: Deaktivieren
+  featureFlagsEnable: Aktivieren
   hasIosPushCapability: Fenster hat Push-Fähigkeit (iOS)
   hasNavigatorPermissions: Navigator hat Berechtigungen
   hasNavigatorServiceWorkers: Navigator hat Service Worker
   hasWindowNotification: Fenster hat Benachrichtigung
-  apiClient: API client
-  apiClientCacheClear: Cache leeren
-  apiClientCacheErrorUndefined: Es ist kein API client Cache definiert
-  apiClientCacheClearError: Cache konnte nicht geleert werden
-  apiClientCacheClearSuccess: Cache geleert
   notification: Benachrichtigungen
   notificationPermit: Benachrichtigungen erlauben
   notificationPermitted: Benachrichtigungen sind erlaubt
@@ -450,6 +498,11 @@ de:
   title: Sitzung
   userAgentString: User agent string
 en:
+  apiClient: API client
+  apiClientCacheClear: Clear cache
+  apiClientCacheClearError: Cache could not be cleared
+  apiClientCacheClearSuccess: Cache cleared
+  apiClientCacheErrorUndefined: The API client cache is undefined
   app: App
   appIs: Environment is an app
   appPlatform: 'App platform: {platform}'
@@ -462,15 +515,13 @@ en:
   endNow: End this session
   fcmToken: FCM Token
   fcmTokenUndefined: The FCM Token is not available
+  featureFlags: Feature Flags
+  featureFlagsDisable: Disable
+  featureFlagsEnable: Enable
   hasIosPushCapability: Window has Push-Capability (iOS)
   hasNavigatorPermissions: Navigator has permissions
   hasNavigatorServiceWorkers: Navigator has service workers
   hasWindowNotification: Window has notification
-  apiClient: API client
-  apiClientCacheErrorUndefined: The API client cache is undefined
-  apiClientCacheClear: Clear cache
-  apiClientCacheClearError: Cache could not be cleared
-  apiClientCacheClearSuccess: Cache cleared
   notification: Notifications
   notificationPermit: Permit notifications
   notificationPermitted: Notifications are permitted

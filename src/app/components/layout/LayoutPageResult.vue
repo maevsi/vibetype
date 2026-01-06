@@ -23,7 +23,7 @@
         v-else-if="type === 'warning'"
         class="size-12 text-(--semantic-warning-strong)"
       />
-      <IHeroiconsBugAnt v-else class="size-12 text-(--semantic-error-strong)" />
+      <AppIconBugAnt v-else class="size-12 text-(--semantic-error-strong)" />
     </div>
     <div class="flex flex-col gap-8">
       <TypographySubtitleLarge

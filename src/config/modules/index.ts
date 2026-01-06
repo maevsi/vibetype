@@ -1,6 +1,5 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
-import { RELEASE_NAME } from '../../node/process'
 import { cookieControlConfig } from './cookieControl'
 import { i18nConfig } from './i18n'
 import { pwaConfig } from './pwa'
@@ -49,21 +48,22 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   },
   ...securityConfig,
   sentry: {
-    sourceMapsUploadOptions: {
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      org: 'maevsi',
-      project: 'nuxt',
-      telemetry: false,
+    org: 'maevsi',
+    project: 'nuxt',
+    release: {
+      name: process.env.RELEASE_NAME || undefined,
     },
-    unstable_sentryBundlerPluginOptions: {
-      release: {
-        name: await RELEASE_NAME(),
-      },
+    sourcemaps: {
+      disable: !process.env.RELEASE_NAME,
     },
+    telemetry: false,
   },
   shadcn: {
     prefix: '',
     componentDir: 'app/components/scn',
+  },
+  schemaOrg: {
+    reactive: false, // TODO: for a strict trusted type policy, evaluate linking schema org json instead of reatively updating it inline (https://github.com/harlan-zw/nuxt-schema-org/issues/96)
   },
   sitemap: {
     credits: false,

@@ -4,7 +4,6 @@ import type {
   UseMutationResponse,
   UseQueryResponse,
 } from '@urql/vue'
-import { consola } from 'consola'
 
 // TODO: account for errors in page setups
 export const useApiData = async <
@@ -36,7 +35,7 @@ export const useApiData = async <
     (current, previous) => {
       current
         .filter((error) => !previous.includes(error))
-        .forEach((error) => consola.error(error))
+        .forEach((error) => console.error(error)) // TODO: only log errors for unhandled errors
     },
   )
 

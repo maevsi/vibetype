@@ -1,16 +1,24 @@
 import { DEFAULTS } from '@dargmuesli/nuxt-cookie-control/runtime/types.js'
 
-export const SITE_NAME = 'vibetype'
+import { SITE_NAME } from '../../node/static'
+
+export {
+  IS_IN_FRONTEND_DEVELOPMENT,
+  IS_IN_STACK,
+  IS_NITRO_OPENAPI_ENABLED,
+  SITE_NAME,
+} from '../../node/static'
 
 export const CACHE_VERSION = '9Th9y78ype'
 export const COOKIE_CONTROL_CONSENT_COOKIE_NAME =
   DEFAULTS.cookieNameIsConsentGiven
+export const COOKIE_SAME_SITE = 'lax' as const // cannot be `strict` as this would block cookies when coming from external sources
 export const GTAG_COOKIE_ID = 'ga'
 export const ITEMS_PER_PAGE = 10
 export const ITEMS_PER_PAGE_LARGE = 100
 export const JWT_ALGORITHM = 'RS256'
 export const JWT_NAME = ({ isHttps }: { isHttps?: boolean }) =>
-  `${isHttps ? '__Secure-' : ''}jwt`
+  `${isHttps ? '__Http-' : ''}jwt2`
 export type LOCALE_CODES = 'de' | 'en'
 export const LOCALES = [
   {
@@ -27,12 +35,6 @@ export const LOCALES = [
   },
 ]
 export const MAEVSI_EMAIL_LIMIT_24H = 150
-export const NUXT_PUBLIC_SENTRY_HOST = 'o4507213726154752.ingest.de.sentry.io'
-export const NUXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE = 1.0
-export const NUXT_PUBLIC_SENTRY_PROJECT_ID = '4507213736837200'
-export const NUXT_PUBLIC_SENTRY_PROJECT_PUBLIC_KEY =
-  '5e253cec6a72a9eea44531e7205016ba'
-export const NUXT_PUBLIC_VIO_IS_TESTING = false
 export const POLYFILLS = ['Promise', 'requestAnimationFrame']
 export const POSTGRES_INTEGER_MAXIMUM = Math.pow(2, 31) - 1
 export const PRODUCTION_HOST = 'vibetype.app'
@@ -43,8 +45,12 @@ export const REGEX_URL_HTTPS = /^https:\/\//
 export const REGEX_UUID =
   /^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/
 export const SEO_META_TWITTER_SITE = '@maev_si'
+export const STATE_KEY_NOW = 'dateTimeNow'
 export const STATE_LOADING_IDS_NAME = 'loadingIds'
 export const TESTING_COOKIE_NAME = `${SITE_NAME}_is-testing`
+export const FEATURE_FLAGS_COOKIE_NAME = `${SITE_NAME}_feature-flags`
+export const FEATURE_FLAGS_COOKIE_ID = 'f'
+export const FEATURE_FLAGS_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year
 export const THEME_COLOR = '#ffffff'
 export const THEME_COLOR_DARK = '#191911'
 export const TIMEZONE_COOKIE_NAME = 'm_tz'

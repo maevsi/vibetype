@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test'
 
-import { SITE_URL } from '#src/node/environment'
+import { SITE_URL } from '#src/node/static'
 import { TIMEOUT } from '#tests/e2e/utils/constants'
 
 /**
@@ -93,7 +93,7 @@ export default defineConfig({
     },
     ignoreHTTPSErrors: true, // TODO: remove once tests run without it
     timeout: TIMEOUT,
-    url: process.env.SITE_URL || SITE_URL,
+    url: SITE_URL,
     reuseExistingServer: !process.env.CI,
   },
 

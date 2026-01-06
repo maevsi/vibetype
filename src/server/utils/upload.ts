@@ -1,5 +1,3 @@
-import { consola } from 'consola'
-
 type Upload = {
   id: string
   name?: string
@@ -37,22 +35,22 @@ export const processUpload = async ({
 
       switch (response.status) {
         case 204:
-          consola.debug(
+          console.debug(
             'Upload deleted',
             JSON.stringify({ id, storageKey: payload.before.storage_key }),
           )
           break
         case 404:
-          consola.warn(
+          console.warn(
             'Stored file could not be found for upload deletion',
             JSON.stringify({ id, storageKey: payload.before.storage_key }),
           )
           break
         default:
-          consola.warn('Unexpected tusd status code', response.status)
+          console.warn('Unexpected tusd status code', response.status)
       }
     } else {
-      consola.debug(
+      console.debug(
         'Upload has no storage key, skipping deletion from file storage',
       )
     }

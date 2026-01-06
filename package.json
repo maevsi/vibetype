@@ -1,21 +1,11 @@
 {
   "devDependencies": {
-    "@semantic-release/changelog": "6.0.3",
-    "@semantic-release/commit-analyzer": "13.0.1",
-    "@semantic-release/git": "10.0.1",
-    "@semantic-release/github": "12.0.2",
-    "@semantic-release/npm": "13.1.2",
-    "@semantic-release/release-notes-generator": "14.1.0",
-    "conventional-changelog-conventionalcommits": "9.1.0",
-    "husky": "9.1.7",
-    "jiti": "2.6.1",
-    "lint-staged": "16.2.7",
-    "semantic-release": "25.0.2"
+    "jiti": "2.6.1"
   },
   "engines": {
     "node": "^24.0.0"
   },
-  "packageManager": "pnpm@10.24.0",
+  "packageManager": "pnpm@10.27.0",
   "pnpm": {
     "ignoredBuiltDependencies": [
       "@firebase/util",
@@ -34,7 +24,7 @@
     ],
     "overrides": {
       "debug": "4.4.3",
-      "nuxt-og-image": "5.1.7",
+      "nuxt-og-image": "5.1.12",
       "parse5-parser-stream": "8.0.0"
     }
   },
@@ -46,7 +36,6 @@
     "dev": "pnpm --dir src run start:dev",
     "generate": "pnpm --dir src run generate",
     "lint": "pnpm -r lint",
-    "prepare": "husky",
     "start": "pnpm --dir src run start",
     "start:dev": "pnpm --dir src run start:dev",
     "start:node": "pnpm --dir src run start:node",

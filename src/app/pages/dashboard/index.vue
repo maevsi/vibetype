@@ -3,22 +3,37 @@
     v-if="recommendationError"
     :error="{ message: t('recommendationError'), statusCode: 500 }"
   /> -->
-  <div>
-    <!-- v-else -->
+  <AppLoaderLogo v-if="api.isFetching || eventRecommendationsPending" />
+  <div v-else>
     <LayoutPageTitle :title />
-    <div v-if="isSignedIn" class="flex flex-col gap-8">
+    <LayoutCallToAction
+      v-if="!authentication.isSignedIn"
+      :call-to-action="t('anonymousCta')"
+      :call-to-action-description="t('anonymousCtaDescription')"
+    />
+    <div v-else class="flex flex-col gap-8">
       <section
-        v-if="events?.length"
+        v-if="eventUpcoming"
+        :aria-labelledby="templateIdUpcoming"
+        class="flex flex-col gap-4"
+      >
+        <TypographyH3 :id="templateIdUpcoming" class="px-2">
+          {{ t('upcomingTitle') }}
+        </TypographyH3>
+        <EventCard :event="eventUpcoming" variant="highlight" />
+      </section>
+      <section
+        v-if="eventRecommendations?.length"
         :aria-labelledby="templateIdRecommendation"
         class="flex flex-col gap-4"
       >
         <TypographyH3 :id="templateIdRecommendation" class="px-2">
           {{ t('recommendationTitle') }}
         </TypographyH3>
-        <LoaderIndicatorPing v-if="pending" />
+        <LoaderIndicatorPing v-if="eventRecommendationsPending" />
         <template v-else>
           <EventCard
-            v-for="event in events"
+            v-for="event in eventRecommendations"
             :key="event.id"
             :event
             variant="recommendation"
@@ -27,20 +42,17 @@
       </section>
       <ButtonApp />
     </div>
-    <LayoutCallToAction
-      v-else
-      :call-to-action="t('anonymousCta')"
-      :call-to-action-description="t('anonymousCtaDescription')"
-    />
   </div>
 </template>
 
 <script setup lang="ts">
+import { useQuery } from '@urql/vue'
+
 import { graphql } from '~~/gql/generated'
 
 // async data
 const eventQuery = graphql(`
-  query DashboardEvent($id: UUID!) {
+  query DashboardEventRecommendations($id: UUID!) {
     eventById(id: $id) {
       accountByCreatedBy {
         id
@@ -76,11 +88,14 @@ const eventQuery = graphql(`
   }
 `)
 const { $urql } = useNuxtApp()
+const authentication = useAuthentication()
 const {
-  data: events,
+  data: eventRecommendations,
   // error: recommendationError,
-  pending,
+  pending: eventRecommendationsPending,
 } = await useAsyncData('index-recommendations', async () => {
+  if (!authentication.value.isSignedIn) return []
+
   const eventIds = await $fetch('/api/service/reccoom/recommendations')
   const events = (
     await Promise.all(
@@ -100,14 +115,66 @@ const {
   return events
 })
 
+// async data - upcoming
+// TODO: use custom and more precise database function instead of full fetch and client filtering
+const eventUpcomingQuery = graphql(`
+  query DashboardEventUpcoming($createdBy: UUID!) {
+    allEvents(condition: { createdBy: $createdBy }) {
+      nodes {
+        accountByCreatedBy {
+          id
+          username
+        }
+        end
+        id
+        name
+        slug
+        start
+      }
+    }
+  }
+`)
+const queryEventUpcoming = authentication.value.isSignedIn
+  ? useQuery({
+      query: eventUpcomingQuery,
+      variables: {
+        createdBy: authentication.value.signedInAccountId,
+      },
+    })
+  : undefined
+const api = await useApiData([
+  ...(queryEventUpcoming ? [queryEventUpcoming] : []),
+])
+
+const now = useNow()
+const TWELVE_HOURS = 12 * 60 * 60 * 1000
+const eventUpcoming = computed(() => {
+  if (!api.value.data.allEvents?.nodes) return undefined
+
+  const upcomingEvents = api.value.data.allEvents.nodes
+    .filter((event) => {
+      if (event.end) {
+        return now.value < new Date(event.end)
+      }
+      const eventStart = new Date(event.start)
+      const eventStartPlusDuration = new Date(
+        eventStart.getTime() + TWELVE_HOURS,
+      )
+      return now.value < eventStartPlusDuration
+    })
+    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
+
+  return upcomingEvents.length ? upcomingEvents[0] : undefined
+})
+
 // page
 const { t } = useI18n()
 const title = t('title')
 useHeadDefault({ title })
 
 // template
-const { isSignedIn } = useAuthInfo()
 const templateIdRecommendation = useId()
+const templateIdUpcoming = useId()
 </script>
 
 <i18n lang="yaml">
@@ -117,10 +184,12 @@ de:
   # recommendationError: Event-Empfehlungen konnten nicht geladen werden
   recommendationTitle: Das solltest Du nicht verpassen
   title: Dashboard
+  upcomingTitle: Dein nächstes Event
 en:
   anonymousCta: Find it on {siteName}
   anonymousCtaDescription: Are you missing an overview of events?
   # recommendationError: Event recommendations could not be loaded
   recommendationTitle: You Should Not Miss
   title: Dashboard
+  upcomingTitle: Your upcoming event
 </i18n>

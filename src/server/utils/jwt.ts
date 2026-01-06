@@ -1,5 +1,6 @@
 import { setCookie } from 'h3'
 import type { H3Event } from 'h3'
+import { getIsSecure } from './networking'
 
 export const setJwtCookie = ({
   event,
@@ -11,7 +12,7 @@ export const setJwtCookie = ({
   runtimeConfig: ReturnType<typeof useRuntimeConfig>
 }) => {
   const dateEpoch = new Date(0)
-  const dateInAMonth = new Date(Date.now() + 86400 * 1000 * 31)
+  const dateInAMonth = new Date(Date.now() + 86400 * 1000 * 31) // TODO: read from jwt expiration claim
 
   if (!runtimeConfig.public.i18n.baseUrl) {
     return throwError({
@@ -20,17 +21,17 @@ export const setJwtCookie = ({
     })
   }
 
-  const siteUrl = new URL(runtimeConfig.public.i18n.baseUrl as string) // TODO: remove typecast in @nuxtjs/i18n v11
-  const isHttps = siteUrl.protocol === 'https:'
-  const jwtCookieName = JWT_NAME({ isHttps })
+  const siteUrl = getSiteUrl(runtimeConfig.public.i18n.baseUrl).siteUrlTyped
+  const isSecure = getIsSecure({ siteUrl })
+  const jwtCookieName = JWT_NAME({ isHttps: isSecure })
 
   setCookie(event, jwtCookieName, jwt, {
+    domain: siteUrl.hostname,
     expires: jwt ? dateInAMonth : dateEpoch,
     httpOnly: true,
-    domain: siteUrl.hostname,
     // path: '/',
-    sameSite: 'lax', // Cannot be 'strict' to allow authentications after clicking on links within webmailers.
-    secure: isHttps,
+    sameSite: COOKIE_SAME_SITE,
+    secure: isSecure,
   })
 }
 
@@ -47,17 +48,12 @@ export const useJsonWebToken = async () => {
       const jwtCookieName = JWT_NAME({ isHttps })
       const cookieAuthorization = getCookie(event, jwtCookieName)
 
-      if (!cookieAuthorization) {
-        return throwError({
-          statusCode: 401,
-          statusMessage: 'The authorization cookie is missing',
-        })
-      }
-
       return cookieAuthorization
     },
     setJwtCookie: (jwt: string) => setJwtCookie({ event, jwt, runtimeConfig }),
-    verifyJwt: async (jwt: string) => {
+    verifyJwt: async (jwt?: string) => {
+      if (!jwt) return
+
       if (!jwtPublicKey) {
         return throwError({
           statusCode: 500,
@@ -76,8 +72,6 @@ export const useJsonWebToken = async () => {
     },
   }
 }
-
-export const useJwtName = () => getJwtName(useSiteUrl().siteUrlTyped)
 
 export const useJwtPublicKey = async () => {
   const runtimeConfig = useRuntimeConfig()

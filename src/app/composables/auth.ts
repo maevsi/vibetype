@@ -1,29 +1,43 @@
 export const useAuth = async () => {
   const store = useStore()
-  const authenticateAnonymous = useAuthenticateAnonymous()
-  const jwtRefresh = useJwtRefresh()
+  const jwtCreateAnonymous = useJwtCreateAnonymous()
+  const jwtUpdate = useJwtUpdate()
 
   if (import.meta.server) {
-    if (store.jwtDecoded?.id) {
-      await jwtRefresh()
+    if (store.jwtDecoded?.jti) {
+      await jwtUpdate()
     } else {
-      await authenticateAnonymous()
+      await jwtCreateAnonymous()
     }
   }
 }
 
-export const useAuthInfo = () => {
+export const useAuthentication = () => {
   const store = useStore()
+
   const isSignedIn = computed(
     () => store.jwtDecoded?.role === `${SITE_NAME}_account`,
   )
+  const signedInAccountId = computed(() => store.signedInAccountId)
 
-  return {
-    isSignedIn,
-  }
+  return computed(() => {
+    if (!isSignedIn.value) {
+      return {
+        isSignedIn: false as const,
+      }
+    }
+
+    if (!signedInAccountId.value)
+      throw new Error('Inconsistent auth state: signed in but no account ID')
+
+    return {
+      isSignedIn: true as const,
+      signedInAccountId: signedInAccountId.value,
+    }
+  })
 }
 
-export const useAuthenticateAnonymous = () => {
+export const useJwtCreateAnonymous = () => {
   const { $urql, $urqlReset, ssrContext } = useNuxtApp()
   const runtimeConfig = useRuntimeConfig()
   const store = useStore()
@@ -38,17 +52,17 @@ export const useAuthenticateAnonymous = () => {
     })
 }
 
-export const useJwtRefresh = () => {
+export const useJwtUpdate = () => {
   const { $urql, $urqlReset, ssrContext } = useNuxtApp()
   const runtimeConfig = useRuntimeConfig()
   const store = useStore()
 
   return async () =>
-    await jwtRefresh({
+    await jwtUpdate({
       $urqlReset,
       client: $urql.value,
       event: ssrContext?.event,
-      id: store.jwtDecoded?.id as string,
+      id: store.jwtDecoded?.jti as string,
       runtimeConfig,
       store,
     })

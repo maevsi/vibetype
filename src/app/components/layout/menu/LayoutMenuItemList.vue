@@ -44,19 +44,6 @@
     />
     <AppIconAccount v-else />
   </LayoutMenuItem>
-  <AppUnderConstruction>
-    <LayoutMenuItem
-      :title="t('notifications')"
-      :to="localePath('notification')"
-    >
-      <div class="relative">
-        <IHeroiconsBell :aria-label="t('iconNotifications')" />
-        <div class="absolute top-0 right-0">
-          <NotificationIndicator />
-        </div>
-      </div>
-    </LayoutMenuItem>
-  </AppUnderConstruction>
 </template>
 
 <script setup lang="ts">
@@ -71,13 +58,9 @@ de:
   discover: Entdecken
   events: Veranstaltungen
   home: Dashboard
-  iconNotifications: Icon einer Glocke
-  notifications: Benachrichtigungen
 en:
   account: Account
   discover: Discover
   events: Events
   home: Dashboard
-  iconNotifications: Bell icon
-  notifications: Notifications
 </i18n>

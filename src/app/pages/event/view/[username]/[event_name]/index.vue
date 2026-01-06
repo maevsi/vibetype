@@ -27,7 +27,7 @@
       >
         {{ t('guests') }}
         <template #prefix>
-          <IHeroiconsUsers />
+          <AppIconUsers />
         </template>
       </ButtonColored>
       <ButtonColored
@@ -44,7 +44,7 @@
       >
         {{ t('attendances') }}
         <template #prefix>
-          <ISolarUserCheckBroken />
+          <AppIconUserCheckBroken />
         </template>
       </ButtonColored>
       <ButtonColored
@@ -61,26 +61,18 @@
       >
         {{ t('settings') }}
         <template #prefix>
-          <IHeroiconsPencil />
+          <AppIconPencil />
         </template>
       </ButtonColored>
     </ButtonList>
     <div class="flex flex-col gap-4">
       <div>
         <div class="relative">
-          <EventHeroImage :event="event" />
+          <EventHeroImage :event />
           <div
-            class="absolute inset-x-0 top-0 flex items-center justify-between px-4 py-2"
+            class="absolute inset-x-0 top-0 flex items-center justify-between p-2"
           >
-            <div>
-              <!-- TODO: back button -->
-              <!-- <AppButton
-                  :aria-label="t('more')"
-                  class="flex size-10 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
-                >
-                  <AppIconBack />
-                </AppButton> -->
-            </div>
+            <div />
             <div>
               <!-- TODO: share & favorite button -->
               <template
@@ -115,7 +107,7 @@
         </div>
         <Card
           v-if="event?.accountByCreatedBy"
-          class="flex flex-col items-stretch gap-4 rounded-t-none"
+          class="flex flex-col items-stretch gap-6 rounded-t-none"
         >
           <div
             class="flex flex-col items-baseline justify-center md:flex-row md:gap-2"
@@ -125,16 +117,20 @@
             </h1>
             <EventOwner link :username="event.accountByCreatedBy.username" />
           </div>
-          <AppHr />
-          <div class="flex flex-row flex-wrap justify-center self-stretch">
-            <EventDashletStart :event="event" />
-            <EventDashletDuration :event="event" />
-            <EventDashletVisibility :event="event" with-text />
-            <EventDashletAttendanceType :event="event" />
-            <!-- TODO: reenable to address usage -->
-            <!-- <EventDashletLocation :event="event" /> -->
-            <EventDashletLink :event="event" />
+          <div class="flex flex-col gap-2">
+            <EventDashletStart :event />
+            <EventDashletDuration :event />
+            <EventDashletVisibility :event with-text />
+            <EventDashletAttendanceType :event />
+            <EventDashletLocation :address :event />
+            <EventDashletLink :event />
           </div>
+          <AppMap
+            v-if="positionInitial"
+            class="h-42 rounded-xl"
+            :events
+            :position-initial
+          />
         </Card>
       </div>
       <Card v-if="eventDescriptionTemplate">
@@ -172,6 +168,14 @@ const eventQuery = useQuery({
               id
               username
             }
+            addressByAddressId {
+              id
+              location {
+                latitude
+                longitude
+              }
+              name
+            }
             createdBy
             description
             end
@@ -198,14 +202,26 @@ const eventQuery = useQuery({
   },
 })
 const account = computed(() => eventQuery.data.value?.accountByUsername)
-const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
+const events = computed(() => account.value?.eventsByCreatedBy.nodes)
+const event = computed(() => (events.value ? events.value[0] : undefined))
+const address = computed(() => event.value?.addressByAddressId)
 const api = await useApiData([eventQuery])
 
 // computations
 const eventDescriptionTemplate = computed(() => {
   if (!event.value?.description) return
 
-  return DOMPurify.sanitize(event.value.description, { ADD_ATTR: ['target'] })
+  const descriptionSanitized = DOMPurify.sanitize(event.value.description, {
+    ADD_ATTR: ['target'],
+  })
+
+  // TODO: split event description and guest invitation texts (https://github.com/maevsi/vibetype/issues/211)
+  const descriptionNoTemplates = descriptionSanitized.replace(
+    /{{\s*[\w.]+\s*}}/g,
+    `[${t('errorTemplate')}]`,
+  )
+
+  return descriptionNoTemplates
 })
 const routeQueryIc = computed(() => route.query.ic)
 
@@ -241,6 +257,18 @@ defineOgImageComponent(
     alt: t('ogImageAlt'),
   },
 )
+
+// map
+const positionInitial = computed(() =>
+  event.value?.addressByAddressId?.location?.latitude &&
+  event.value?.addressByAddressId?.location?.longitude
+    ? {
+        latitude: event.value.addressByAddressId.location.latitude,
+        longitude: event.value.addressByAddressId.location.longitude,
+        zoomLevel: 18,
+      }
+    : undefined,
+)
 </script>
 
 <i18n lang="yaml">
@@ -248,6 +276,7 @@ de:
   attendances: Check-in
   errorAccountMissing: Nutzerkonto nicht verfügbar
   errorEventMissing: Veranstaltung nicht verfügbar
+  errorTemplate: Wert nur in der Einladung verfügbar
   guests: Gäste
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
   report: Veranstaltung melden
@@ -256,6 +285,7 @@ en:
   attendances: Check in
   errorAccountMissing: Account not available
   errorEventMissing: Event not available
+  errorTemplate: value available in invitation only
   guests: Guests
   ogImageAlt: The event's preview image.
   report: Report event

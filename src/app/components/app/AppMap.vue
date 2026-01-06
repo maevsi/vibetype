@@ -1,10 +1,17 @@
 <template>
-  <div :id="templateIdMap" class="h-96 w-full text-[#191911]" />
+  <div v-if="!isMounted" :class="cn('flex justify-center', classComputed)">
+    <AppLoaderLogo class="size-8" />
+  </div>
+  <div v-else :id="templateIdMap" :class="classComputed" />
 </template>
 
 <script setup lang="ts">
+import { useMounted } from '@vueuse/core'
+
 import type { Map, LatLng } from 'leaflet'
-import type { DeepReadonly } from 'vue'
+import type { DeepReadonly, HtmlHTMLAttributes } from 'vue'
+
+import { cn } from '@/utils/shadcn'
 
 import markerIcon from '~/assets/icons/location-on.svg?raw'
 
@@ -26,6 +33,7 @@ export type AppMapProps = {
   }
 }
 const {
+  class: classProps = undefined,
   events = undefined,
   geocoder = undefined,
   positionInitial = {
@@ -33,13 +41,17 @@ const {
     longitude: 10.283203125000002,
     zoomLevel: 6,
   },
-} = defineProps<AppMapProps>()
+} = defineProps<AppMapProps & { class?: HtmlHTMLAttributes['class'] }>()
+const classComputed = computed(() =>
+  cn('h-96 w-full text-[#191911]', classProps),
+)
 
 const templateIdMap = useId()
 const map = ref<Map>()
 const mapCenter = ref<LatLng>()
 const mapZoom = ref<number>()
 
+const isMounted = useMounted()
 onMounted(async () => {
   const L = await import('leaflet')
   map.value = L.map(templateIdMap, {
@@ -76,7 +88,7 @@ onMounted(async () => {
 
   if (events && events.length) {
     const icon = L.divIcon({
-      className: 'text-(--semantic-critic-strong)',
+      className: 'text-(--critic-red-middle)',
       html: markerIcon,
       iconAnchor: [15, 25],
       iconSize: [30, 30],

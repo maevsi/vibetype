@@ -23,7 +23,7 @@ const visibilityToClass = {
 export const getIcalString = ({
   contact,
   event,
-  invitation,
+  guest,
   siteUrl,
 }: {
   contact?: Pick<ContactItemFragment, 'firstName' | 'lastName'>
@@ -37,13 +37,13 @@ export const getIcalString = ({
       'id'
     > | null
   }
-  invitation?: Pick<GuestItemFragment, 'id'>
+  guest?: Pick<GuestItemFragment, 'id'>
   siteUrl: string
 }) => {
   const eventAuthorUsername = event.accountByCreatedBy?.username
   const userEventPath = `${eventAuthorUsername}/${event.slug}`
-  const eventUrl = invitation
-    ? `${siteUrl}/guest/view/${invitation.id}`
+  const eventUrl = guest
+    ? `${siteUrl}/guest/view/${guest.id}`
     : `${siteUrl}/event/view/${userEventPath}`
   const eventDescriptionHtml = DOMPurify.sanitize(
     mustache.render(
@@ -51,7 +51,7 @@ export const getIcalString = ({
       {
         contact,
         event,
-        invitation,
+        guest,
       },
     ),
   )

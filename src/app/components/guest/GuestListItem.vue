@@ -1,5 +1,5 @@
 <template>
-  <!-- <Loader :api="api" indicator="ping"> -->
+  <!-- <Loader :api indicator="ping"> -->
   <tr
     v-if="contact"
     :class="{
@@ -7,7 +7,7 @@
     }"
   >
     <LayoutTd class="max-w-0">
-      <ContactPreview :contact="contact" :feedback="guest.feedback" />
+      <ContactPreview :contact :feedback="guest.feedback" />
     </LayoutTd>
     <LayoutTd class="max-w-0">
       <div
@@ -26,14 +26,14 @@
           "
           @click="send(guest)"
         >
-          <IHeroiconsPaperAirplane />
+          <AppIconPaperAirplane />
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('guestLink')"
           class="hidden md:block"
           @click="copyLink(guest)"
         >
-          <IHeroiconsLink />
+          <AppIconLink />
         </ButtonIcon>
         <AppDropdown>
           <AppDropdownItem
@@ -44,7 +44,7 @@
             "
             @select="send(guest)"
           >
-            <IHeroiconsPaperAirplane />
+            <AppIconPaperAirplane />
             <span>
               {{
                 contact.accountId || contact.emailAddress
@@ -54,7 +54,7 @@
             </span>
           </AppDropdownItem>
           <AppDropdownItem class="md:hidden" @select="copyLink(guest)">
-            <IHeroiconsLink />
+            <AppIconLink />
             <span>
               {{ t('guestLink') }}
             </span>
@@ -72,7 +72,7 @@
               )
             "
           >
-            <IHeroiconsEye />
+            <AppIconEye />
             <span>
               {{ t('guestView') }}
             </span>
@@ -82,13 +82,13 @@
             variant="destructive"
             @select="delete_(guest.id)"
           >
-            <IHeroiconsTrash />
+            <AppIconTrash />
             <span>
               {{ t('guestDelete') }}
             </span>
           </AppDropdownItem>
           <template #trigger>
-            <IHeroiconsEllipsisVertical />
+            <AppIconEllipsisVertical />
           </template>
         </AppDropdown>
       </div>
@@ -132,7 +132,12 @@ const copyLink = async (guest: Pick<GuestItemFragment, 'id'>) => {
   if (!import.meta.client) return
 
   await copy(
-    `${window.location.origin}${localePath(`guest-unlock`)}?ic=${guest.id}`,
+    `${window.location.origin}${localePath({
+      name: 'guest-view-id',
+      params: {
+        id: guest.id,
+      },
+    })}`,
   )
 
   toast.success(t('copySuccess'))
@@ -165,7 +170,7 @@ const contact = computed(() => getContactItem(guest.contactByContactId))
 de:
   copySuccess: Der Einladungslink wurde in die Zwischenablage kopiert.
   disabledReasonEmailAddressNone: Diesem Kontakt fehlt eine E-Mail-Adresse.
-  guestDelete: Einladung löschen
+  guestDelete: Gast löschen
   guestLink: Einladungslink kopieren
   guestSend: Einladung versenden
   guestView: Einladung anzeigen
@@ -175,9 +180,9 @@ en:
   copySuccess: The guest link has been copied to the clipboard.
   disabledReasonEmailAddressNone: This contact does not have an associated email address.
   guestDelete: Delete guest
-  guestLink: Copy guest link
-  guestSend: Send guest
-  guestView: View guest
-  sendSuccess: The guest was successfully sent by email.
+  guestLink: Copy invitation link
+  guestSend: Send invitation
+  guestView: View invitation
+  sendSuccess: The invitation was successfully sent by email.
   # postgresP0002: The guest could not be sent! You may not have access to the necessary data right now. Try reloading the page.
 </i18n>

@@ -1,24 +1,29 @@
 <template>
-  <!-- TODO: reenable to address usage -->
-  <EventDashlet v-if="event.isInPerson /*&& event.location*/">
-    <span>
-      <IHeroiconsMapPinSolid :title="t('location')" />
-    </span>
+  <EventDashlet v-if="event.isInPerson && address?.name">
     <!-- <AppLink
       class="line-clamp-2"
       is-external
-      :to="`https://maps.google.de/?q=${encodeURIComponent(event.location)}`"
-    >
-      {{ event.location }}
-    </AppLink> -->
+      :to="`https://maps.google.de/?q=${encodeURIComponent(address.name)}`"
+    > -->
+    <span>
+      {{ address.name }}
+    </span>
+    <!-- </AppLink> -->
+    <template #icon>
+      <AppIconMap :title="t('location')" />
+    </template>
   </EventDashlet>
 </template>
 
 <script setup lang="ts">
-import type { EventItemFragment } from '~~/gql/generated/graphql'
-
-const { event } = defineProps<{
-  event: Pick<EventItemFragment, 'isInPerson'> //  | 'location'
+const { address = undefined, event } = defineProps<{
+  address?: {
+    id?: string | null
+    name?: string | null
+  } | null
+  event: {
+    isInPerson?: boolean | null
+  }
 }>()
 
 const { t } = useI18n()

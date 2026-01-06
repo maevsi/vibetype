@@ -1,20 +1,21 @@
 <template>
-  <IHeroiconsCheckCircleSolid
+  <AppIconCheckCircleSolid
     v-if="feedback === 'ACCEPTED'"
     class="text-green-600"
     :title="t('feedbackAccepted')"
   />
-  <IHeroiconsXCircleSolid
+  <AppIconXCircleSolid
     v-else-if="feedback === 'CANCELED'"
     class="text-(--semantic-critic-text)"
     :title="t('feedbackCanceled')"
   />
-  <IHeroiconsQuestionMarkCircleSolid
+  <!-- TODO: check if can be replaced with `AppIconQuestionMarkCircle` -->
+  <AppIconQuestionMarkCircleSolid
     v-else-if="feedback === null"
     class="text-gray-600"
     :title="t('feedbackNone')"
   />
-  <IHeroiconsBugAnt v-else :title="t('bug')" />
+  <AppIconBugAnt v-else :title="t('bug')" />
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,5 @@
 <template>
-  <!-- <Loader :api="api" indicator="ping"> -->
+  <!-- <Loader :api indicator="ping"> -->
   <header>
     <div class="flex items-center justify-between gap-4">
       <div class="flex items-center gap-4">
@@ -47,7 +47,7 @@
             })
           "
         >
-          <IHeroiconsBars3 height="2em" width="2em" />
+          <AppIconBars3 class="size-8" />
         </ButtonIcon>
       </div>
     </div>

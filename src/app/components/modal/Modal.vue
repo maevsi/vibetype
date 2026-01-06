@@ -14,7 +14,7 @@
           :disabled="isSubmitting"
           @click="close()"
         >
-          <IHeroiconsXMark />
+          <AppIconXMark />
         </ButtonIcon>
         <h2 v-if="$slots.header" class="m-0 flex-1 px-4 text-center">
           <slot name="header" />
@@ -25,7 +25,7 @@
           :disabled="isSubmitting"
           @click="close()"
         >
-          <IHeroiconsXMark />
+          <AppIconXMark />
         </ButtonIcon>
       </div>
       <div
@@ -50,7 +50,7 @@
             {{ submitName || t('ok') }}
             <template #prefix>
               <slot name="submit-icon">
-                <IHeroiconsCheckCircleSolid />
+                <AppIconCheckCircleSolid />
               </slot>
             </template>
           </ButtonColored>
@@ -64,8 +64,6 @@
 </template>
 
 <script setup lang="ts">
-import { consola } from 'consola'
-
 const {
   id,
   isFooterHidden,
@@ -129,7 +127,7 @@ const submit = async () => {
     close()
   } catch (errorsLocal) {
     errors.value = [errorsLocal]
-    consola.error(errorsLocal)
+    console.error(errorsLocal)
   }
 
   isSubmitting.value = false

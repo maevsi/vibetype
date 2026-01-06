@@ -1,7 +1,7 @@
 <template>
   <FormInput
     v-if="formInput"
-    :is-optional="isOptional"
+    :is-optional
     :id-label="`input-${id}`"
     :placeholder="t('globalPlaceholderUrl')"
     :title="t('url')"
@@ -10,16 +10,10 @@
     @input="emit('input', $event)"
   >
     <template #stateError>
-      <FormInputStateError
-        :form-input="formInput"
-        validation-property="lengthMax"
-      >
+      <FormInputStateError :form-input validation-property="lengthMax">
         {{ t('globalValidationLength') }}
       </FormInputStateError>
-      <FormInputStateError
-        :form-input="formInput"
-        validation-property="formatUrlHttps"
-      >
+      <FormInputStateError :form-input validation-property="formatUrlHttps">
         {{ t('globalValidationFormatUrlHttps') }}
       </FormInputStateError>
     </template>

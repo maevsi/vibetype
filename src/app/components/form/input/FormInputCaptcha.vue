@@ -9,7 +9,7 @@
     <NuxtTurnstile
       ref="turnstile"
       :key="themeColor"
-      :class="{ 'flex justify-center': isCentered, 'h-[65px]': isVisible }"
+      :class="{ 'flex justify-center': isCentered, 'h-16.25': isVisible }"
       :options="{
         'error-callback': () => (isLoading = false),
         'expired-callback': () => emit('input', undefined),
@@ -19,16 +19,13 @@
     />
     <FormInputStateError
       v-if="!isVisible"
-      :form-input="formInput"
+      :form-input
       validation-property="required"
     >
       {{ t('globalValidationRequired') }}
     </FormInputStateError>
     <template v-if="isVisible" #stateError>
-      <FormInputStateError
-        :form-input="formInput"
-        validation-property="required"
-      >
+      <FormInputStateError :form-input validation-property="required">
         {{ t('globalValidationRequired') }}
       </FormInputStateError>
     </template>
@@ -46,7 +43,7 @@
       >
         {{ t('reset') }}
         <template #prefix>
-          <IHeroiconsArrowPath />
+          <AppIconArrowPath />
         </template>
       </ButtonColored>
     </template>

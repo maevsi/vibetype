@@ -1,6 +1,6 @@
 <template>
   <div v-if="events?.length" class="flex flex-col items-center gap-4">
-    <AppMap v-if="isDevelopmentModeActive" :events />
+    <AppMap v-if="isMapVisible" :events />
     <ul class="flex w-full flex-col gap-3">
       <li v-for="event in events" :key="event.id">
         <EventCard :event />
@@ -24,7 +24,12 @@ import type { AppMapEvent } from '~/components/app/AppMap.vue'
 import type { EventCardProps } from './card/EventCard.vue'
 
 // compiler
-const { events = undefined, hasNextPage } = defineProps<{
+const {
+  isMapVisible = undefined,
+  events = undefined,
+  hasNextPage,
+} = defineProps<{
+  isMapVisible?: boolean
   events?: DeepReadonly<(EventCardProps['event'] & AppMapEvent)[]>
   hasNextPage?: boolean
 }>()
@@ -35,7 +40,6 @@ const emit = defineEmits<{
 
 // template
 const { t } = useI18n()
-const { isDevelopmentModeActive } = useDevelopmentModeTrigger()
 </script>
 
 <i18n lang="yaml">

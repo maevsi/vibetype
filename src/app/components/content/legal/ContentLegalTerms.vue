@@ -1,8 +1,13 @@
 <template>
   <LoaderIndicatorPing v-if="pending" />
+  <!-- TODO: replace with model error -->
+  <AppError
+    v-else-if="error"
+    :error="{ message: error.message, statusCode: 500 }"
+  />
   <AppError
     v-else-if="!data?.legalTerm"
-    :error="{ message: t('errorUnavailable'), statusCode: 500 }"
+    :error="{ message: t('errorUnavailable'), statusCode: 404 }"
   />
   <LayoutProse v-else>
     <MDCRenderer v-if="data.ast" :body="data.ast.body" :data="data.ast.data" />
@@ -40,10 +45,17 @@ const legalTermsQuery = useQuery({
   },
 })
 
+const modelError = defineModel<Error>('error')
+
 const { data, error, pending } = await useAsyncData(
   'content-legal-terms',
   async () => {
     const legalTermsQueryResolved = await legalTermsQuery
+
+    if (legalTermsQueryResolved.error.value) {
+      throw legalTermsQueryResolved.error.value
+    }
+
     const legalTermFirst =
       legalTermsQueryResolved.data.value?.allLegalTerms?.nodes[0]
 
@@ -57,7 +69,7 @@ const { data, error, pending } = await useAsyncData(
 )
 
 if (error.value) {
-  console.error(error.value)
+  modelError.value = error.value // TODO: watch?
 }
 
 if (data.value?.legalTerm) {

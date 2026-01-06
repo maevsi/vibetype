@@ -1,5 +1,5 @@
 <template>
-  <Loader :api="api">
+  <Loader :api>
     <div class="flex flex-col gap-4">
       <FormInputSearch v-model="searchQuery" />
       <EventList

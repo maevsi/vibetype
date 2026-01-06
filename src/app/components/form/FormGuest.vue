@@ -15,7 +15,7 @@
       <ButtonColored :aria-label="t('contactsAdd')" :to="localePath('contact')">
         {{ t('contactsAdd') }}
         <template #suffix>
-          <IHeroiconsArrowRight />
+          <AppIconArrowRight />
         </template>
       </ButtonColored>
     </div>
@@ -28,7 +28,7 @@
       @input="form.searchString = $event"
     >
       <template #icon>
-        <IHeroiconsMagnifyingGlass />
+        <AppIconMagnifyingGlass />
       </template>
       <template #stateError>
         <FormInputStateError
@@ -67,7 +67,7 @@
         type="button"
         @click="selectToggle(contact.id)"
       >
-        <ContactPreview :contact="contact" :is-username-linked="false" />
+        <ContactPreview :contact :is-username-linked="false" />
         <FormCheckbox
           :is-disabled="guestContactIdsExisting?.includes(contact.id)"
           :value="
@@ -85,7 +85,7 @@
 import { useVuelidate } from '@vuelidate/core'
 import { minLength, minValue, required } from '@vuelidate/validators'
 
-import { useCreateGuestMutation } from '~~/gql/documents/mutations/guest/guestCreate'
+import { useCreateGuestsMutation } from '~~/gql/documents/mutations/guest/guestCreate'
 import { useAllContactsQuery } from '~~/gql/documents/queries/contact/contactsAll'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 import { getContactItem } from '~~/gql/documents/fragments/contactItem'
@@ -122,7 +122,7 @@ const allContactsQuery = useAllContactsQuery(
     first: ITEMS_PER_PAGE_LARGE,
   })),
 )
-const createGuestMutation = useCreateGuestMutation()
+const createGuestMutation = useCreateGuestsMutation()
 const api = await useApiData([allContactsQuery, createGuestMutation])
 const contacts = computed(
   () =>
@@ -147,21 +147,19 @@ const submit = async () => {
   const successIds = []
 
   try {
-    for (const contactId of form.contactIds) {
-      const result = await createGuestMutation.executeMutation({
-        guestInput: {
-          contactId: contactId,
-          eventId: event.id,
-        },
-      })
+    const result = await createGuestMutation.executeMutation({
+      createGuestsInput: {
+        contactIds: form.contactIds,
+        eventId: event.id,
+      },
+    })
 
-      if (!result.data) {
-        throw new Error('No data!')
-      }
+    if (!result.data) {
+      throw new Error('No data!')
+    }
 
-      if (!result.error) {
-        successIds.push(contactId)
-      }
+    if (!result.error) {
+      successIds.push(...form.contactIds)
     }
   } catch (error) {
     console.error(error)
@@ -253,12 +251,12 @@ de:
   contactsAdd: Zu meinem Kontaktbuch
   formHint: Wähle aus Kontakten deines Kontaktbuchs.
   placeholderContact: Max Mustermann
-  select: Gast hinzufügen
+  select: Zur Gästeliste hinzufügen
 en:
   buttonContact: A contact
   contact: Contact
   contactsAdd: To my contact book
   formHint: Choose from contacts in your contact book.
   placeholderContact: John Doe
-  select: Add guest
+  select: Add to guestlist
 </i18n>

@@ -1,5 +1,3 @@
-import { consola } from 'consola'
-
 export const useAlertError = () => {
   const { t } = useI18n({ useScope: 'global' })
 
@@ -17,7 +15,7 @@ export const useAlertError = () => {
     const errorMessage =
       typeof options === 'string' ? options : options.messageI18n
 
-    consola.error({ errorMessage, ...(error ? { error } : {}) })
+    console.error({ errorMessage, ...(error ? { error } : {}) })
     toast.error(t('globalError'), {
       ...(typeof options !== 'string' ? options.toastOptions || {} : {}),
       description: errorMessage,

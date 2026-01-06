@@ -1,12 +1,6 @@
 import { defu } from 'defu'
 import type { RuntimeConfig } from 'nuxt/schema'
 
-import {
-  IS_IN_PRODUCTION,
-  IS_IN_STACK,
-  IS_NITRO_OPENAPI_ENABLED,
-} from '../../node/environment'
-
 export const DARGSTACK_SECRET_UNUSED_THIRD_PARTY = 'UNSET THIRD PARTY SECRET'
 export const GET_CSP = ({
   siteUrl,
@@ -17,7 +11,7 @@ export const GET_CSP = ({
 }) => {
   const domainTldPort = IS_IN_FRONTEND_DEVELOPMENT
     ? PRODUCTION_HOST
-    : getRootHost(siteUrl.host)
+    : siteUrl.host
 
   return defu(
     // if (isHttps(event.node.req)) {
@@ -39,10 +33,16 @@ export const GET_CSP = ({
         'blob:',
         'https://tile.openstreetmap.org/', // map
         `https://tusd.${domainTldPort}`, // users' image uploads
+        'https://media3.giphy.com/', // gifs
         'https://www.gravatar.com/avatar/', // profile picture fallback
       ],
-      // 'manifest-src': ["'self'"],
+      'manifest-src': ["'self'"],
       // 'prefetch-src': ["'self'"],
+      ...(process.env.NODE_ENV === 'development'
+        ? {
+            'require-trusted-types-for': "'script'", // csp-evaluator // TODO: enable for production once trusted types are properly implemented
+          }
+        : {}),
       'script-src': [
         "'wasm-unsafe-eval'", // vue-qrcode-reader
       ],
@@ -219,4 +219,3 @@ export const GET_CSP = ({
     },
   )
 }
-export const IS_IN_FRONTEND_DEVELOPMENT = !IS_IN_PRODUCTION && !IS_IN_STACK

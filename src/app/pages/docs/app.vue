@@ -1,6 +1,5 @@
 <template>
   <div class="flex flex-1 flex-col justify-center">
-    <!-- <LayoutPageTitle :title="title" /> -->
     <div class="flex flex-col gap-8 rounded-lg p-8 text-center">
       <div class="flex flex-col gap-4">
         <div class="text-4xl leading-tight font-bold tracking-tight">
@@ -16,7 +15,7 @@
           :title="t('appStore')"
           to="https://testflight.apple.com/join/kkStPDoc"
         >
-          <IFa6BrandsAppStore />
+          <AppIconAppStore />
         </CardButton>
         <CardButton
           class="lg:h-32"
@@ -24,7 +23,7 @@
           :title="t('googlePlay')"
           to="https://play.google.com/store/apps/details?id=si.maev.twa"
         >
-          <IFa6BrandsGooglePlay />
+          <AppIconGooglePlay />
         </CardButton>
       </div>
     </div>
@@ -74,7 +73,7 @@ if (userAgent) {
   )
 }
 
-// template
+// page
 const { t } = useI18n()
 const title = t('title')
 useHeadDefault({ title })

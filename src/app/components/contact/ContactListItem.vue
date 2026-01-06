@@ -7,7 +7,7 @@
     }"
   >
     <LayoutTd>
-      <ContactPreview :contact="contact" />
+      <ContactPreview :contact />
     </LayoutTd>
     <LayoutTd class="hidden xl:table-cell">
       {{ contact.emailAddress || '–' }}
@@ -34,7 +34,7 @@
           :disabled="contact.createdBy !== store.signedInAccountId || isEditing"
           @click="emit('edit')"
         >
-          <IHeroiconsPencil />
+          <AppIconPencil />
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('contactDelete')"
@@ -43,7 +43,7 @@
           "
           @click="emit('delete')"
         >
-          <IHeroiconsTrash />
+          <AppIconTrash />
         </ButtonIcon>
       </div>
     </LayoutTd>

@@ -7,9 +7,9 @@
     <span class="hidden 2xl:block">
       {{ t('text') }}
     </span>
-    <ISolarCalendarAddOutline class="2xl:hidden" height="2em" width="2em" />
+    <AppIconCalendarAddOutline class="size-8 2xl:hidden" />
     <template #prefix>
-      <IHeroiconsPlus class="hidden 2xl:block" />
+      <AppIconPlus class="hidden 2xl:block" />
     </template>
   </AppButton>
 </template>

@@ -14,14 +14,14 @@ on:
 jobs:
   ci-optimization:
     name: CI optimization
-    uses: dargmuesli/github-actions/.github/workflows/ci-optimization.yml@d6dda211541b8c8c8088762ff8f4a1c4d32f047c # 3.2.1
+    uses: dargmuesli/github-actions/.github/workflows/ci-optimization.yml@a28ad8d1bb0c4ce7faf46e16951e3f17a2d461f5 # 4.0.2
     permissions:
       pull-requests: read
   release_semantic_dry:
     needs: ci-optimization
     if: needs.ci-optimization.outputs.continue == 'true'
     name: Release (semantic, dry)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@d6dda211541b8c8c8088762ff8f4a1c4d32f047c # 3.2.1
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@a28ad8d1bb0c4ce7faf46e16951e3f17a2d461f5 # 4.0.2
     permissions:
       contents: write
       id-token: write
@@ -32,19 +32,19 @@ jobs:
       DRY_RUN: true
   build:
     name: Build
-    uses: dargmuesli/github-actions/.github/workflows/docker.yml@d6dda211541b8c8c8088762ff8f4a1c4d32f047c # 3.2.1
+    uses: dargmuesli/github-actions/.github/workflows/docker.yml@a28ad8d1bb0c4ce7faf46e16951e3f17a2d461f5 # 4.0.2-beta.1
     needs: release_semantic_dry
     permissions:
       packages: write
     with:
-      BUILD_ARGUMENTS: RELEASE_NAME=${{ needs.release_semantic_dry.outputs.new_release_version }}
-      TAG: ${{ needs.release_semantic_dry.outputs.new_release_version }}
+      BUILD_ARGUMENTS: ${{ (needs.release_semantic_dry.outputs.new_release_version != null) && format('RELEASE_NAME={0}', needs.release_semantic_dry.outputs.new_release_version) || '' }}
+      TAG: ${{ (needs.release_semantic_dry.outputs.new_release_version != null) && needs.release_semantic_dry.outputs.new_release_version || '' }}
     secrets:
       BUILD_ARGUMENTS: SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
   release_semantic:
     needs: build
     name: Release (semantic)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@d6dda211541b8c8c8088762ff8f4a1c4d32f047c # 3.2.1
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@a28ad8d1bb0c4ce7faf46e16951e3f17a2d461f5 # 4.0.2
     permissions:
       contents: write
       id-token: write

@@ -1,6 +1,7 @@
 export const useGetServiceHref = () => {
   const host = useHost()
   const runtimeConfig = useRuntimeConfig()
+  const isTesting = useIsTesting()
 
   return ({
     isSsr = true,
@@ -14,6 +15,7 @@ export const useGetServiceHref = () => {
     getServiceHref({
       host,
       isSsr,
+      isTesting,
       name,
       port,
       stagingHost: runtimeConfig.public.vio.stagingHost,
@@ -44,4 +46,15 @@ export const useHttpStatusCode = async ({
   return {
     statusName,
   }
+}
+
+export const useIsSecure = () => useSiteUrl().siteUrlTyped.protocol === 'https:'
+
+export const useSiteUrl = () =>
+  getSiteUrl(useRuntimeConfig().public.i18n.baseUrl)
+
+export const useTusdFilesUrl = () => {
+  const { siteUrlTyped: siteUrl } = useSiteUrl()
+
+  return getTusdFilesUrl({ siteUrl })
 }

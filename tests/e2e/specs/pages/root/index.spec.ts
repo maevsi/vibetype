@@ -62,7 +62,7 @@ appTest.describe('internationalization', () => {
 // TODO: mock graphql server
 // it('sets the session cookie', () => {
 //   cy.visit('/')
-//   cy.getCookie('__Secure-jwt').should('exist')
+//   cy.getCookie('__Http-jwt').should('exist')
 // })
 // })
 

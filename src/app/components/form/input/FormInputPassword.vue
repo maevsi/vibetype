@@ -15,32 +15,23 @@
         :aria-label="t('visibilityToggle')"
         @click="isVisible = !isVisible"
       >
-        <IHeroiconsEye v-if="!isVisible" />
-        <IHeroiconsEyeSlash v-else />
+        <AppIconEye v-if="!isVisible" />
+        <AppIconEyeSlash v-else />
       </ButtonIcon>
     </template>
     <template #stateError>
-      <FormInputStateError
-        :form-input="formInput"
-        validation-property="lengthMin"
-      >
+      <FormInputStateError :form-input validation-property="lengthMin">
         {{ t('globalValidationShortness') }}
       </FormInputStateError>
-      <FormInputStateError
-        :form-input="formInput"
-        validation-property="required"
-      >
+      <FormInputStateError :form-input validation-property="required">
         {{ t('globalValidationRequired') }}
       </FormInputStateError>
-      <FormInputStateError :form-input="formInput" validation-property="sameAs">
+      <FormInputStateError :form-input validation-property="sameAs">
         {{ t('validationSameAs') }}
       </FormInputStateError>
     </template>
     <template #stateInfo>
-      <FormInputStateInfo
-        :form-input="formInput"
-        validation-property="lengthMin"
-      >
+      <FormInputStateInfo :form-input validation-property="lengthMin">
         {{
           t('validationFormat', { length: VALIDATION_PASSWORD_LENGTH_MINIMUM })
         }}

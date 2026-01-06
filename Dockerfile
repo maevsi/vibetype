@@ -2,13 +2,13 @@
 # check=skip=SecretsUsedInArgOrEnv
 
 # <DEPENDENCIES>
-FROM ghcr.io/maevsi/sqitch:9.8
+FROM ghcr.io/maevsi/sqitch:10.0
 # </DEPENDENCIES>
 
 #############
 # Create base image.
 
-FROM node:24.11.1-alpine AS base-image
+FROM node:24.12.0-alpine AS base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -30,8 +30,12 @@ COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 FROM base-image AS development
 
-RUN mkdir /srv/app/node_modules \
-    && chown node:node /srv/app/node_modules
+RUN mkdir \
+      /srv/.pnpm-store \
+      /srv/app/node_modules \
+    && chown node:node \
+      /srv/.pnpm-store \
+      /srv/app/node_modules
 
 VOLUME /srv/.pnpm-store
 VOLUME /srv/app
@@ -72,11 +76,10 @@ FROM prepare AS build-node
 
 ARG RELEASE_NAME
 ENV RELEASE_NAME=${RELEASE_NAME}
-ARG SENTRY_AUTH_TOKEN
-ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
 
 ENV NODE_ENV=production
-RUN pnpm --dir src run build:node
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN \
+    pnpm --dir src run build:node
 
 
 # ########################
@@ -84,8 +87,8 @@ RUN pnpm --dir src run build:node
 
 # FROM prepare AS build-static
 
-# ARG SITE_URL=https://localhost:3002
-# ENV SITE_URL=${SITE_URL}
+# ARG NUXT_PUBLIC_SITE_URL=https://localhost:3002
+# ENV NUXT_PUBLIC_SITE_URL=${NUXT_PUBLIC_SITE_URL}
 
 # ENV NODE_ENV=production
 # RUN pnpm --dir src run build:static
@@ -156,6 +159,7 @@ FROM test-e2e-base-image AS test-e2e-prepare
 
 COPY --from=prepare /srv/app/ ./
 
+# a rebuild is necessary because the node image we're pulling dependencies from uses alpine linux while here we use debian
 RUN pnpm -r rebuild
 
 
@@ -226,6 +230,9 @@ COPY --from=test-e2e-node /srv/app/package.json /dev/null
 FROM collect AS production
 
 ENV NODE_ENV=production
+
+ARG RELEASE_NAME
+ENV RELEASE_NAME=${RELEASE_NAME}
 
 # Update dependencies.
 RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \

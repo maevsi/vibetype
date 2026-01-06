@@ -1,9 +1,10 @@
 <template>
+  <!-- z-1000 for above map -->
   <nav
     :aria-label="t('nav')"
     :class="
       cn(
-        'sticky bottom-0 flex items-center justify-center gap-1 border-t-1 border-(--semantic-base-line) bg-(--semantic-base-background) p-2 shadow-xs',
+        'sticky bottom-0 z-1000 flex items-center justify-center gap-1 border-t border-(--semantic-base-line) bg-(--semantic-base-background) p-2 shadow-xs',
         isIos && 'pb-6',
         classProps,
       )
