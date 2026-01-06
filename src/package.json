@@ -171,7 +171,7 @@
     "lint:ts": "nuxt typecheck",
     "prepare": "nuxt prepare && ./.config/certificates/mkcert.sh",
     "start": "pnpm run start:node",
-    "start:dev": "nuxt dev",
+    "start:dev": "NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" nuxt dev",
     "start:node": "node --import ./.output/server/sentry.server.config.mjs .output/server/index.mjs",
     "start:static": "serve .output/public --ssl-cert ./.config/certificates/ssl.crt --ssl-key ./.config/certificates/ssl.key",
     "supportedBrowsers": "echo \"export default $(browserslist-useragent-regexp --allowHigherVersions);\" > supportedBrowsers.js"

@@ -1,6 +1,8 @@
 import type { H3Event } from 'h3'
+import type { useRuntimeConfig } from 'nuxt/app'
 
-import { SITE_URL_TYPED } from '~~/node/static'
+import { getSiteUrl } from './vio'
+import { SITE_URL_TYPED } from '../../node/static'
 
 export const getHost = (event: H3Event) => {
   const host = event.node.req.headers.host
@@ -9,6 +11,20 @@ export const getHost = (event: H3Event) => {
 
   return host
 }
+
+export const getIsSecure = (
+  options:
+    | {
+        runtimeConfig: ReturnType<typeof useRuntimeConfig>
+      }
+    | {
+        siteUrl: URL
+      },
+) =>
+  ('siteUrl' in options
+    ? options.siteUrl.protocol
+    : getSiteUrl(options.runtimeConfig.public.i18n.baseUrl).siteUrlTyped
+        .protocol) === 'https:'
 
 export const getServiceHref = ({
   host,
