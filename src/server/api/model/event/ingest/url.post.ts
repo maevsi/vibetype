@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
   const { getJwtFromCookie, verifyJwt } = await useJsonWebToken()
 
   const jwt = getJwtFromCookie()
-  const jwtDecoded = await verifyJwt(jwt)
+  const jwtDecoded = await verifyJwt<Jwt>(jwt)
 
   if (!(jwtDecoded?.role === `${SITE_NAME}_account`))
     return throwError({

@@ -1,6 +1,4 @@
 import * as Sentry from '@sentry/nuxt'
-import { decodeJwt } from 'jose'
-import type { JWTPayload } from 'jose'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { RouteNamedMapI18n } from 'vue-router/auto-routes'
@@ -11,7 +9,7 @@ export const useStore = defineStore(SITE_NAME, () => {
   const localePath = useLocalePath()
 
   // const jwt = ref<string>() // we don't store the JWT itself for security reasons
-  const jwtDecoded = ref<JWTPayload>()
+  const jwtDecoded = ref<Jwt>()
   const modals = ref<Modal[]>([])
   const routeHistory = ref<string[]>([])
   const routeHistoryDisabled = ref<boolean>(false)
@@ -23,9 +21,7 @@ export const useStore = defineStore(SITE_NAME, () => {
     Sentry.setUser(null)
   }
 
-  const jwtSet = (jwtNew?: string) => {
-    const jwtDecodedNew = jwtNew !== undefined ? decodeJwt(jwtNew) : undefined
-
+  const jwtSet = (jwtDecodedNew?: Jwt) => {
     jwtDecoded.value = jwtDecodedNew
 
     if (

@@ -1,10 +1,8 @@
-// this proxy may be dropped in the future for performance reasons
 export default defineEventHandler(async () => {
   const { getJwtFromCookie, verifyJwt } = await useJsonWebToken()
   const jwt = getJwtFromCookie()
-  const jwtDecoded = await verifyJwt(jwt)
+  const jwtDecoded = await verifyJwt<Jwt>(jwt)
   const getServiceHref = useGetServiceHref()
-  const runtimeConfig = useRuntimeConfig()
 
   if (!(jwtDecoded?.role === `${SITE_NAME}_account`))
     return throwError({
@@ -12,8 +10,9 @@ export default defineEventHandler(async () => {
       statusMessage: 'This endpoint only available to registered users.',
     })
 
-  if (runtimeConfig.public.vio.stagingHost) {
+  if (IS_IN_FRONTEND_DEVELOPMENT) {
     // reccoom is currently not available in frontend-only development
+    // TODO: proxy to production
     return []
   }
 
