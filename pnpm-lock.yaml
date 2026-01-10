@@ -170,8 +170,8 @@ importers:
         specifier: 24.10.6
         version: 24.10.6
       '@types/nodemailer':
-        specifier: 7.0.4
-        version: 7.0.4
+        specifier: 7.0.5
+        version: 7.0.5
       '@types/pg':
         specifier: 8.16.0
         version: 8.16.0
@@ -5040,8 +5040,8 @@ packages:
   '@types/node@24.10.6':
     resolution: {integrity: sha512-B8h60xgJMR/xmgyX9fncRzEW9gCxoJjdenUhke2v1JGOd/V66KopmWrLPXi5oUI4VuiGK+d+HlXJjDRZMj21EQ==}
 
-  '@types/nodemailer@7.0.4':
-    resolution: {integrity: sha512-ee8fxWqOchH+Hv6MDDNNy028kwvVnLplrStm4Zf/3uHWw5zzo8FoYYeffpJtGs2wWysEumMH0ZIdMGMY1eMAow==}
+  '@types/nodemailer@7.0.5':
+    resolution: {integrity: sha512-7WtR4MFJUNN2UFy0NIowBRJswj5KXjXDhlZY43Hmots5eGu5q/dTeFd/I6GgJA/qj3RqO6dDy4SvfcV3fOVeIA==}
 
   '@types/parse-path@7.1.0':
     resolution: {integrity: sha512-EULJ8LApcVEPbrfND0cRQqutIOdiIgJ1Mgrhpy755r14xMohPTEpkV/k28SJvuOs9bHRFW8x+KeDAEPiGQPB9Q==}
@@ -17851,7 +17851,7 @@ snapshots:
     dependencies:
       undici-types: 7.16.0
 
-  '@types/nodemailer@7.0.4':
+  '@types/nodemailer@7.0.5':
     dependencies:
       '@aws-sdk/client-sesv2': 3.966.0
       '@types/node': 24.10.6
