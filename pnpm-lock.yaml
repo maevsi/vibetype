@@ -26,8 +26,8 @@ importers:
         specifier: 3.968.0
         version: 3.968.0
       '@dargmuesli/nuxt-cookie-control':
-        specifier: 9.1.12
-        version: 9.1.12(magicast@0.5.1)(webpack@5.104.1(esbuild@0.27.2))
+        specifier: 9.1.13
+        version: 9.1.13(magicast@0.5.1)(webpack@5.104.1(esbuild@0.27.2))
       '@dargmuesli/nuxt-vio':
         specifier: 20.1.5
         version: 20.1.5(63ec25480de6511ec8a2360602c63328)
@@ -1365,8 +1365,8 @@ packages:
     resolution: {integrity: sha512-6kwvqXTZfJ38Df/XVbiZKuOkGRZ9j5UH4/8IbJCKeqcvpE6pKdZOqC1s0DH8Qz6i0utqKhEHzkPcPpKaT7VOrQ==}
     engines: {node: '>=16'}
 
-  '@dargmuesli/nuxt-cookie-control@9.1.12':
-    resolution: {integrity: sha512-/E6qPJGPT5i5JN+iULDROCVAFvSJasKiiAzLIJtIN9599O+px6dZm60MwVshcIK4GB0O4PP2QXtuE7mqnCFJrA==}
+  '@dargmuesli/nuxt-cookie-control@9.1.13':
+    resolution: {integrity: sha512-2x64JYYnMfvOSqkLuRyA238+qoCScsI3mNfrv+/LIAy2iDGVFcYOwVZ4SQ/rQP++EBG18bUYalLpZsnFTJyztQ==}
     engines: {node: '>=16'}
 
   '@dargmuesli/nuxt-vio@20.1.5':
@@ -13458,7 +13458,7 @@ snapshots:
       - magicast
       - webpack
 
-  '@dargmuesli/nuxt-cookie-control@9.1.12(magicast@0.5.1)(webpack@5.104.1(esbuild@0.27.2))':
+  '@dargmuesli/nuxt-cookie-control@9.1.13(magicast@0.5.1)(webpack@5.104.1(esbuild@0.27.2))':
     dependencies:
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
       css-vars-ponyfill: 2.4.9
