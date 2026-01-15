@@ -8,10 +8,10 @@
     "del-cli": "7.0.0",
     "eslint": "9.39.2",
     "eslint-config-prettier": "10.1.8",
-    "eslint-plugin-prettier": "5.5.4",
+    "eslint-plugin-prettier": "5.5.5",
     "typescript": "5.9.3",
     "typescript-eslint": "8.53.0",
-    "ufo": "1.6.2",
+    "ufo": "1.6.3",
     "vitest": "4.0.17"
   },
   "engines": {
