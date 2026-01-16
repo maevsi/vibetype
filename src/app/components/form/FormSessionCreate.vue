@@ -74,7 +74,7 @@ const submit = async () => {
 
   try {
     loading.value = true
-    const jwt = await $csrfFetch('/api/model/jwt', {
+    const { jwtDecoded: jwt } = await $csrfFetch('/api/model/jwt', {
       body: {
         password: form.password,
         username: form.username,

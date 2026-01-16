@@ -131,14 +131,14 @@ if (!runtimeConfig.public.vio.isTesting && !isApp) {
 // TODO: move the JWT code below to a composable once `useFetch` (SSR caching) works from within (https://github.com/nuxt/nuxt/issues/14736)
 // initially get JWT
 const { data } = await useFetch('/api/model/jwt')
-store.jwtSet(data.value)
+store.jwtSet(data.value?.jwtDecoded)
 
 // if JWT exists, update it
 if (store.jwtDecoded) {
   const csrfRequestFetch = useCsrfRequestFetch()
 
   try {
-    const jwt = await csrfRequestFetch('/api/model/jwt', {
+    const { jwtDecoded: jwt } = await csrfRequestFetch('/api/model/jwt', {
       body: {
         id: store.jwtDecoded.jti,
       },

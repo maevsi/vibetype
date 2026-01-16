@@ -22,13 +22,12 @@ export const useStore = defineStore(SITE_NAME, () => {
   }
 
   const jwtSet = (jwtDecodedNew?: Jwt) => {
-    jwtDecoded.value = jwtDecodedNew
-
     if (
       jwtDecodedNew?.role === `${SITE_NAME}_account` &&
       jwtDecodedNew.exp !== undefined &&
       jwtDecodedNew.exp > Math.floor(Date.now() / 1000)
     ) {
+      jwtDecoded.value = jwtDecodedNew
       signedInAccountId.value = jwtDecodedNew.sub as string | undefined
       signedInUsername.value = jwtDecodedNew.username as string | undefined
 
@@ -37,6 +36,7 @@ export const useStore = defineStore(SITE_NAME, () => {
         username: jwtDecodedNew.username as string | undefined,
       })
     } else {
+      jwtDecoded.value = undefined
       signedInAccountId.value = undefined
       signedInUsername.value = undefined
 

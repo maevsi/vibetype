@@ -76,5 +76,7 @@ export default defineEventHandler(async (event) => {
   setJwtCookie(jwt)
 
   const jwtDecoded = await verifyJwt<Jwt>(jwt)
-  return jwtDecoded
+  return {
+    jwtDecoded,
+  }
 })

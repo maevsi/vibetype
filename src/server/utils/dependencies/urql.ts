@@ -22,7 +22,7 @@ export const urqlMutate = async <
       fetchOptions: {
         headers: toHeadersInit({
           cookie: headers.cookie,
-          'csrf-token': headers['csrf-token'],
+          [CSRF_HEADER_NAME]: headers[CSRF_HEADER_NAME],
           'x-turnstile-key': headers['x-turnstile-key'],
         }),
         ...urql.fetchOptions,

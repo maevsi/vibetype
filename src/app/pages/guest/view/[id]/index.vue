@@ -299,7 +299,7 @@ const isOpenReportDrawer = ref<boolean>()
 const csrfRequestFetch = useCsrfRequestFetch()
 const store = useStore()
 try {
-  const jwt = await csrfRequestFetch('/api/model/jwt', {
+  const { jwtDecoded: jwt } = await csrfRequestFetch('/api/model/jwt', {
     body: {
       guestId: route.params.id,
     },

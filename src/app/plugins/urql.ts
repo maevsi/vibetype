@@ -16,7 +16,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const clientOptions: Partial<ClientOptions> = {
     fetchOptions: {
       headers: {
-        'csrf-token': csrf,
+        [CSRF_HEADER_NAME]: csrf,
         ...(import.meta.server &&
         nuxtApp.ssrContext?.event.node.req.headers.cookie
           ? { cookie: nuxtApp.ssrContext.event.node.req.headers.cookie }

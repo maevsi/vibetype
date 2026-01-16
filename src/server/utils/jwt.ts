@@ -19,9 +19,11 @@ export const setJwtCookie = ({
     })
   }
 
-  const siteUrl = getSiteUrl(runtimeConfig.public.i18n.baseUrl).siteUrlTyped
-  const isSecure = getIsSecure({ runtimeConfig })
+  const { siteUrlTyped: siteUrl } = getSiteUrl(
+    runtimeConfig.public.i18n.baseUrl,
+  )
   const jwtCookieName = getJwtName(siteUrl)
+  const isSecure = getIsSecure({ runtimeConfig })
 
   setCookie(event, jwtCookieName, jwt, {
     expires: jwt.length ? dateInAMonth : dateEpoch,

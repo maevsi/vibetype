@@ -107,7 +107,7 @@ const { t } = useI18n()
 const csrfRequestFetch = useCsrfRequestFetch()
 const store = useStore()
 try {
-  const jwt = await csrfRequestFetch('/api/model/jwt', {
+  const { jwtDecoded: jwt } = await csrfRequestFetch('/api/model/jwt', {
     body: {
       attendanceId: route.params.id,
     },

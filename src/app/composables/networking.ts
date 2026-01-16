@@ -8,7 +8,7 @@ export const useCsrfRequestFetch = () => {
     const { csrf } = useCsrf()
     const headers = {
       ...(options?.headers || {}),
-      'csrf-token': csrf,
+      [CSRF_HEADER_NAME]: csrf,
     }
 
     return await requestFetch(url, {

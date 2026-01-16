@@ -1,6 +1,6 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
-import { COOKIE_SAME_SITE } from '../../shared/utils/constants'
+import { CSRF_HEADER_NAME } from '../../shared/utils/constants'
 import { getIsSecure } from '../../shared/utils/networking'
 import { SITE_URL_TYPED } from '../../node/static'
 
@@ -10,10 +10,11 @@ export const securityConfig: ReturnType<DefineNuxtConfig> = {
       addCsrfTokenToEventCtx: true,
       cookie: {
         httpOnly: true,
-        sameSite: COOKIE_SAME_SITE,
+        sameSite: 'strict',
         secure: getIsSecure({ siteUrl: SITE_URL_TYPED }),
       },
-      https: true,
+      headerName: CSRF_HEADER_NAME,
+      https: getIsSecure({ siteUrl: SITE_URL_TYPED }),
     },
     headers: {
       contentSecurityPolicy: {

@@ -9,6 +9,7 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   content: {
     experimental: {
       nativeSqlite: true,
+      // sqliteConnector: 'native',
     },
   },
   ...cookieControlConfig,
