@@ -1,3 +1,9 @@
+## [14.0.0-beta.2](https://github.com/maevsi/vibetype/compare/14.0.0-beta.1...14.0.0-beta.2) (2026-01-17)
+
+### Bug Fixes
+
+* schedule release ([c6806e4](https://github.com/maevsi/vibetype/commit/c6806e4bf13259209cd6b1590f64272e5a0d322d))
+
 ## [14.0.0-beta.1](https://github.com/maevsi/vibetype/compare/13.3.0...14.0.0-beta.1) (2026-01-06)
 
 ### ⚠ BREAKING CHANGES
