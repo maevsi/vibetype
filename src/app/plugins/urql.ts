@@ -8,6 +8,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const runtimeConfig = useRuntimeConfig()
   const isTesting = useIsTesting()
   const getServiceHref = useGetServiceHref()
+  const { csrf } = useCsrf()
 
   const baseUrl = getServiceHref({
     port: 3000,
@@ -15,6 +16,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const clientOptions: Partial<ClientOptions> = {
     fetchOptions: {
       headers: {
+        [CSRF_HEADER_NAME]: csrf,
         ...(import.meta.server &&
         nuxtApp.ssrContext?.event.node.req.headers.cookie
           ? { cookie: nuxtApp.ssrContext.event.node.req.headers.cookie }

@@ -88,6 +88,7 @@ const eventQuery = graphql(`
   }
 `)
 const { $urql } = useNuxtApp()
+const requestFetch = useRequestFetch()
 const authentication = useAuthentication()
 const {
   data: eventRecommendations,
@@ -96,7 +97,7 @@ const {
 } = await useAsyncData('index-recommendations', async () => {
   if (!authentication.value.isSignedIn) return []
 
-  const eventIds = await $fetch('/api/service/reccoom/recommendations')
+  const eventIds = await requestFetch('/api/service/reccoom/recommendations')
   const events = (
     await Promise.all(
       eventIds.map(

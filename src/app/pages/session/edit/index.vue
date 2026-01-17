@@ -162,13 +162,13 @@ const { t } = useI18n()
 const cookieControl = useCookieControl()
 const localePath = useLocalePath()
 const store = useStore()
-const { signOut } = await useSignOut()
+const jwtDelete = await useJwtDelete()
 const { isDevelopmentModeActive, onDevelopmentModeTrigger } =
   useDevelopmentModeTrigger()
 
 // sign out
 const signOutToRoot = async () => {
-  await signOut()
+  await jwtDelete()
   return navigateTo(
     localePath({
       name: 'index',
