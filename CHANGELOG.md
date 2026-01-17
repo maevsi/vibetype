@@ -101,6 +101,12 @@
 
 * **nuxt:** rename runtime configuration key ([325238f](https://github.com/maevsi/vibetype/commit/325238fc96e97ad2b44ffe7d1e96da654e175cf5))
 
+## [13.3.1](https://github.com/maevsi/vibetype/compare/13.3.0...13.3.1) (2026-01-17)
+
+### Bug Fixes
+
+* schedule release ([c6806e4](https://github.com/maevsi/vibetype/commit/c6806e4bf13259209cd6b1590f64272e5a0d322d))
+
 ## [13.3.0](https://github.com/maevsi/vibetype/compare/13.2.0...13.3.0) (2026-01-06)
 
 ### Features
