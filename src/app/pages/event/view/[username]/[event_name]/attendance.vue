@@ -45,7 +45,7 @@
         </template>
       </Modal>
     </div>
-    <AppError v-else :error="{ statusCode: 403 }" />
+    <AppError v-else :error="{ status: 403 }" />
   </Loader>
 </template>
 
@@ -69,7 +69,7 @@ const route = useRoute(ROUTE_NAME)
 if (route.params.username !== store.signedInUsername) {
   throw createError({
     fatal: true,
-    statusCode: 403,
+    status: 403,
   })
 }
 
@@ -102,11 +102,11 @@ const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
 const title = computed(() => {
   if (api.value.isFetching) return t('globalLoading')
   if (route.params.username !== store.signedInUsername) {
-    showAppError({ statusCode: 403, message: 'Permission denied' })
+    showAppError({ status: 403, message: 'Permission denied' })
     return
   }
   if (!event.value) {
-    showAppError({ statusCode: 500, message: 'Event unavailable' })
+    showAppError({ status: 500, message: 'Event unavailable' })
     return
   }
 

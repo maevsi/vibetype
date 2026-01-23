@@ -2,11 +2,11 @@
   <LoaderIndicatorPing v-if="api.isFetching" />
   <AppError
     v-else-if="error"
-    :error="{ message: error.message, statusCode: 500 }"
+    :error="{ message: error.message, status: 500 }"
   />
   <AppError
     v-else-if="!api.data.allPreferenceEventSizes?.nodes.length"
-    :error="{ message: 'Data is missing', statusCode: 404 }"
+    :error="{ message: 'Data is missing', status: 404 }"
   />
   <form v-else ref="form" class="flex flex-col gap-4" @submit="onSubmit">
     <FormField name="size">

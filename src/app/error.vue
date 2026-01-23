@@ -14,9 +14,10 @@
 import type { NuxtError } from '#app'
 
 const { error } = defineProps<{
-  error: NuxtError & {
-    data?: { vibetype?: string }
-  }
+  error: NuxtError &
+    Required<Pick<NuxtError, 'status'>> & {
+      data?: { vibetype?: string }
+    }
 }>()
 
 // i18n
@@ -32,7 +33,7 @@ onMounted(() => loadingIds.value.splice(loadingIds.value.indexOf(loadingId), 1))
 useAppLayout()
 
 // page
-const { statusName } = await useHttpStatusCode({ statusCode: error.statusCode })
+const { statusName } = await useHttpStatusCode({ status: error.status })
 useHeadDefault({ title: statusName })
 defineOgImageComponent(
   'Default',

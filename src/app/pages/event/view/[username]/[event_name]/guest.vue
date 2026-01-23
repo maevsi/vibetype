@@ -7,7 +7,7 @@
       <LayoutPageTitle :title="t('title')" />
       <GuestList :event />
     </div>
-    <AppError v-else :error="{ statusCode: 403 }" />
+    <AppError v-else :error="{ status: 403 }" />
   </Loader>
 </template>
 
@@ -22,7 +22,7 @@ const store = useStore()
 if (route.params.username !== store.signedInUsername) {
   throw createError({
     fatal: true,
-    statusCode: 403,
+    status: 403,
   })
 }
 
@@ -75,11 +75,11 @@ const { t } = useI18n()
 const title = computed(() => {
   if (api.value.isFetching) return t('globalLoading')
   if (route.params.username !== store.signedInUsername) {
-    showAppError({ statusCode: 403, message: 'Permission denied' })
+    showAppError({ status: 403, message: 'Permission denied' })
     return
   }
   if (!event.value) {
-    showAppError({ statusCode: 500, message: 'Event unavailable' })
+    showAppError({ status: 500, message: 'Event unavailable' })
     return
   }
 

@@ -34,8 +34,8 @@ const getSafe = async <T extends ZodSchema>({
       message: validationResult.error.issues
         .map((issue) => issue.message)
         .join(', '),
-      statusCode: 400,
-      statusMessage: 'Validation Error',
+      status: 400,
+      statusText: 'Validation Error',
     })
   return validationResult.data as Infer<T>
 }

@@ -2,7 +2,7 @@
   <div v-if="api.isFetching" class="text-sm text-gray-500">
     {{ t('loading') }}
   </div>
-  <AppError v-else-if="!attendance" :error="{ statusCode: 404 }" />
+  <AppError v-else-if="!attendance" :error="{ status: 404 }" />
   <div v-else class="flex flex-col gap-4">
     <section class="flex flex-col gap-4">
       <span class="text-3xl font-bold">

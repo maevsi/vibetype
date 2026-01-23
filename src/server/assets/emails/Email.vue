@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Container, Font, Head, Html, Body } from '@vue-email/components'
 
-import type { Locale } from '../../utils/i18n'
 import AppLogo from './components/AppLogo.vue'
 
 const {
@@ -9,7 +8,7 @@ const {
   logoSource = undefined,
   title,
 } = defineProps<{
-  locale: Locale
+  locale: AppLocale
   logoSource?: string
   title: string
 }>()

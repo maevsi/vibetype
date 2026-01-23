@@ -6,8 +6,6 @@ import AppText from './components/base/AppText.vue'
 import AppAuthor from './components/AppAuthor.vue'
 import AppFooter from './components/AppFooter.vue'
 import Email from './Email.vue'
-import type { Locale } from '../../utils/i18n'
-import { getEmailDateTimeFormatter } from '../../../shared/utils/dateTime'
 
 const {
   emailAddress,
@@ -17,7 +15,7 @@ const {
   validUntil,
 } = defineProps<{
   emailAddress: string
-  locale: Locale
+  locale: AppLocale
   logoSource?: string
   passwordResetVerificationLink: string
   validUntil: string

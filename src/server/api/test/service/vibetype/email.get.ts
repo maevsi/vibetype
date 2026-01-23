@@ -1,19 +1,13 @@
 import { z } from 'zod'
 
-import { LOGO_BASE64 } from '~~/server/utils/assets'
-import { EMAIL_NAMES, getEmail } from '~~/server/utils/email'
-import type { EmailName } from '~~/server/utils/email'
-import { Locale } from '~~/server/utils/i18n'
-import { getQuerySafe } from '~~/server/utils/validation'
-
 const emailGetQuerySchema = z.object({
-  locale: z.nativeEnum(Locale).default(Locale.EN),
+  locale: z.nativeEnum(AppLocale).default(AppLocale.EN),
   name: EMAIL_NAMES.optional(),
 })
 
 const logoSource = `data:image/png;base64,${LOGO_BASE64}`
 
-const getDemoEmailProps = (locale: Locale) =>
+const getDemoEmailProps = (locale: AppLocale) =>
   ({
     [EMAIL_NAMES.enum.account_password_reset_request]: {
       emailAddress: 'user@example.com',
@@ -57,7 +51,7 @@ const getDemoEmailProps = (locale: Locale) =>
 
 const generateEmailContent = async (
   emailNames: EmailName[],
-  locale: Locale,
+  locale: AppLocale,
 ): Promise<string> => {
   const demoEmailProps = getDemoEmailProps(locale)
   const allEmails = await Promise.all(

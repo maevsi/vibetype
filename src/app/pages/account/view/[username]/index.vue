@@ -2,7 +2,7 @@
   <LoaderIndicatorPing v-if="api.isFetching" />
   <AppError
     v-else-if="!account"
-    :error="{ message: 'Account data missing', statusCode: 404 }"
+    :error="{ message: 'Account data missing', status: 404 }"
   />
   <LayoutPage v-else>
     <div class="flex flex-col gap-3">

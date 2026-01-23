@@ -1,9 +1,5 @@
 import camelcaseKeys from 'camelcase-keys'
 
-import { sendEmail } from './email'
-import { LOCALE_DEFAULT } from './i18n'
-import type { Locale } from './i18n'
-import { HTML_TO_TEXT } from './dependencies/htmlToText'
 import { EventVisibility } from '~~/gql/generated/graphql'
 
 const EVENT_DESCRIPTION_TRIM_LENGTH = 250
@@ -23,7 +19,7 @@ export type Account = {
 }
 
 type Template = {
-  language: Locale
+  language: AppLocale
   namespace: string
   variables: Record<string, unknown>
 }
