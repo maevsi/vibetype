@@ -25,7 +25,7 @@
     "@iconify/utils": "3.1.0",
     "@internationalized/date": "3.10.1",
     "@mondaydotcomorg/api": "11.0.2",
-    "@nuxt/content": "3.11.0",
+    "@nuxt/content": "3.10.0",
     "@nuxt/devtools": "3.1.1",
     "@nuxt/schema": "4.2.2",
     "@nuxt/scripts": "0.13.2",
