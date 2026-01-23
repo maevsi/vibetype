@@ -1,7 +1,7 @@
 <template>
   <AppError
     v-if="!account"
-    :error="{ message: t('errorAccountMissing'), statusCode: 404 }"
+    :error="{ message: t('errorAccountMissing'), status: 404 }"
   />
   <LayoutPage v-else>
     <div class="grid grid-cols-3 items-center">
@@ -119,7 +119,7 @@ const store = useStore()
 if (route.params.username !== store.signedInUsername) {
   throw createError({
     fatal: true,
-    statusCode: 403,
+    status: 403,
   })
 }
 

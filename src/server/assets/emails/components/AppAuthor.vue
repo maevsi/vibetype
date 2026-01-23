@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { Column, Img, Row, Section } from '@vue-email/components'
 
-import type { Locale } from '../../../utils/i18n'
 import { PROFILE_PICTURE_JONAS_CID } from '../../../utils/assets'
 import AppText from './base/AppText.vue'
 
 const { locale } = defineProps<{
-  locale: Locale
+  locale: AppLocale
 }>()
 
 // data

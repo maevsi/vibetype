@@ -1,6 +1,6 @@
 <template>
   <LoaderIndicatorPing v-if="api.isFetching" />
-  <AppError v-else-if="!event" :error="{ statusCode: 404 }" />
+  <AppError v-else-if="!event" :error="{ status: 404 }" />
   <div v-else class="flex flex-col gap-4">
     <section>
       <LayoutPageTitle :title="t('title')" />
@@ -38,7 +38,7 @@ const store = useStore()
 if (route.params.username !== store.signedInUsername) {
   throw createError({
     fatal: true,
-    statusCode: 403,
+    status: 403,
   })
 }
 
@@ -85,7 +85,7 @@ const { t } = useI18n()
 const title = computed(() => {
   if (api.value.isFetching) return t('globalLoading')
   if (!event.value) {
-    showAppError({ statusCode: 404, message: 'Event unavailable' })
+    showAppError({ status: 404, message: 'Event unavailable' })
     return
   }
 

@@ -79,7 +79,7 @@ const route = useRoute('account-view-username-block___en')
 if (route.params.username !== store.signedInUsername) {
   throw createError({
     fatal: true,
-    statusCode: 403,
+    status: 403,
   })
 }
 

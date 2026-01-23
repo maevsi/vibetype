@@ -5,11 +5,6 @@ import AppButton from './components/base/AppButton.vue'
 import AppText from './components/base/AppText.vue'
 import AppFooter from './components/AppFooter.vue'
 import Email from './Email.vue'
-import type { Locale } from '../../utils/i18n'
-import {
-  getDuration,
-  getEmailDateTimeFormatter,
-} from '../../../shared/utils/dateTime'
 
 const {
   emailAddress,
@@ -37,7 +32,7 @@ const {
   eventEnd?: string
   eventStart: string
   eventVisibility: string
-  locale: Locale
+  locale: AppLocale
   logoSource?: string
 }>()
 

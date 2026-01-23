@@ -4,8 +4,8 @@ export const useMonday = () => {
 
   if (!event.context.$monday)
     return throwError({
-      statusCode: 500,
-      statusMessage: 'Event context is missing Monday data',
+      status: 500,
+      statusText: 'Event context is missing Monday data',
     })
 
   const client = event.context.$monday

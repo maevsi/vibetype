@@ -2,7 +2,7 @@
   <LoaderIndicatorPing v-if="pending" />
   <AppError
     v-else-if="!data"
-    :error="{ message: 'Data is missing', statusCode: 404 }"
+    :error="{ message: 'Data is missing', status: 404 }"
   />
   <LayoutProse v-else>
     <ContentRenderer :value="data" />

@@ -22,7 +22,7 @@ if (
 ) {
   throw createError({
     fatal: true,
-    statusCode: 400,
+    status: 400,
   })
 }
 
