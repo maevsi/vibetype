@@ -3,10 +3,6 @@
   "extends": ["github>dargmuesli/renovate-config"],
   "packageRules": [
     {
-      "allowedVersions": "3.10.0",
-      "matchPackageNames": ["@nuxt/content"]
-    },
-    {
       "allowedVersions": "5.1.12",
       "matchPackageNames": ["nuxt-og-image"]
     }
