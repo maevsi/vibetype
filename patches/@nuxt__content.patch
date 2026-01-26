@@ -1,0 +1,14 @@
+diff --git a/dist/runtime/internal/api.js b/dist/runtime/internal/api.js
+index 0a41128168783b69146a578b8f89f5e02d78a923..8a07f6817c9b9f6889dbd134d5387ce73e62fcc3 100644
+--- a/dist/runtime/internal/api.js
++++ b/dist/runtime/internal/api.js
+@@ -6,7 +6,8 @@ async function fetchContent(event, collection, path, options) {
+   const fetchOptions = {
+     ...options,
+     headers: {
+-      ...headers,
++      ...(headers.cookie ? { cookie: headers.cookie } : {}),
++      ...(event?.context.nitro.runtimeConfig?.csurf.headerName && event.context.csrfToken ? { [event.context.nitro.runtimeConfig.csurf.headerName]: event.context.csrfToken } : {}),
+       ...options.headers
+     },
+     query: { v: checksums[String(collection)], t: import.meta.dev ? Date.now() : void 0 }

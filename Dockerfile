@@ -58,8 +58,8 @@ FROM base-image AS prepare
 
 COPY ./pnpm-lock.yaml ./package.json ./
 
-## pnpm patches
-# COPY ./patches ./patches
+# pnpm patches
+COPY ./patches ./patches
 
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
     pnpm fetch
