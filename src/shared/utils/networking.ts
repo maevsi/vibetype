@@ -2,7 +2,7 @@ import type { H3Event } from 'h3'
 import type { useRuntimeConfig } from 'nuxt/app'
 
 import { getSiteUrl } from './vio'
-import { SITE_URL_TYPED } from '../../node/static'
+import { SITE_NAME, SITE_URL_TYPED } from '../../node/static'
 
 export const getHost = (event: H3Event) => {
   const host = event.node.req.headers.host
@@ -41,7 +41,8 @@ export const getServiceHref = ({
   port?: number
   stagingHost?: string
 }) => {
-  const nameSubdomain = name?.replaceAll('_', '-')
+  const nameSubdomain =
+    name !== SITE_NAME ? name?.replaceAll('_', '-') : undefined
   const nameSubdomainString = nameSubdomain ? `${nameSubdomain}.` : ''
   const portString = port ? `:${port}` : ''
 

@@ -11,6 +11,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const { csrf } = useCsrf()
 
   const baseUrl = getServiceHref({
+    name: SITE_NAME,
     port: 3000,
   })
   const clientOptions: Partial<ClientOptions> = {

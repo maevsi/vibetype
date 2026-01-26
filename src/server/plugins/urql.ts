@@ -6,6 +6,7 @@ export default defineNitroPlugin(async (nitroApp) => {
   const getServiceHref = useGetServiceHref()
 
   const baseUrl = getServiceHref({
+    name: SITE_NAME,
     port: 3000,
   })
 
