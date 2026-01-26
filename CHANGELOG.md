@@ -1,3 +1,19 @@
+## [14.0.0-beta.3](https://github.com/maevsi/vibetype/compare/14.0.0-beta.2...14.0.0-beta.3) (2026-01-26)
+
+### ⚠ BREAKING CHANGES
+
+* **security:** use http-only cookie
+
+### Features
+
+* **content:** improve error handling ([f441aa0](https://github.com/maevsi/vibetype/commit/f441aa0f79227d4d105dc267c980b420c6654909))
+* **security:** use http-only cookie ([547df19](https://github.com/maevsi/vibetype/commit/547df196a2f3653287966242cb449a374c125c4d))
+
+### Bug Fixes
+
+* **components:** deduplicate icon wrapper ([357a623](https://github.com/maevsi/vibetype/commit/357a623fc30479034bbd999fcac970eb4e5389b9))
+* **deps:** patch @nuxt/content ([495a671](https://github.com/maevsi/vibetype/commit/495a67142ee3eeaa05cfcd0a5ddd9393ddb3e44a))
+
 ## [14.0.0-beta.2](https://github.com/maevsi/vibetype/compare/14.0.0-beta.1...14.0.0-beta.2) (2026-01-17)
 
 ### Bug Fixes
