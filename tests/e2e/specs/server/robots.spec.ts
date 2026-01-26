@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-import { TESTING_COOKIE_NAME } from '#src/shared/utils/constants'
+import { SITE_URL } from '#tests/e2e/utils/constants'
 import { testPageLoad } from '#tests/e2e/utils/tests'
 
 const PAGE_PATH = '/robots.txt'
@@ -9,11 +9,16 @@ testPageLoad(PAGE_PATH)
 
 test.describe('robots.txt', () => {
   test('content', async ({ request }) => {
-    const resp = await request.get(PAGE_PATH, {
-      headers: {
-        Cookie: `${TESTING_COOKIE_NAME}=true`,
-      },
-    })
-    expect(await resp.text()).toMatchSnapshot(`robots-txt-content.txt`)
+    const resp = await request.get(PAGE_PATH)
+    expect(
+      (await resp.text()).replace(
+        new RegExp(SITE_URL, 'g'),
+        'https://example.com',
+      ),
+    ).toMatchSnapshot(
+      `robots-txt-content-${
+        process.env.NODE_ENV === 'production' ? 'production' : 'development'
+      }.txt`,
+    )
   })
 })
