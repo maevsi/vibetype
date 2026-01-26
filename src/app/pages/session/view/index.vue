@@ -75,7 +75,7 @@
                 :aria-label="t('endNow')"
                 :disabled="!store.jwtDecoded"
                 variant="secondary"
-                @click="signOut"
+                @click="jwtDelete"
               >
                 {{ t('endNow') }}
                 <template #prefix>
@@ -349,7 +349,7 @@ const { t } = useI18n()
 const requestEvent = useRequestEvent()
 const store = useStore()
 const notificationStore = useNotificationStore()
-const { signOut } = await useSignOut()
+const jwtDelete = await useJwtDelete()
 const { isApp, platform } = usePlatform()
 const alertError = useAlertError()
 

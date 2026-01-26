@@ -9,6 +9,11 @@ overrides:
   nuxt-og-image: 5.1.12
   parse5-parser-stream: 8.0.0
 
+patchedDependencies:
+  '@nuxt/content':
+    hash: f2284dc6a53c938df0edff786150b5c3fcc006d1407532a98bad1f25bef38ba9
+    path: patches/@nuxt__content.patch
+
 importers:
 
   .:
@@ -93,7 +98,7 @@ importers:
         version: 11.0.2
       '@nuxt/content':
         specifier: 3.11.0
-        version: 3.11.0(magicast@0.5.1)(valibot@1.2.0(typescript@5.9.3))
+        version: 3.11.0(patch_hash=f2284dc6a53c938df0edff786150b5c3fcc006d1407532a98bad1f25bef38ba9)(magicast@0.5.1)(valibot@1.2.0(typescript@5.9.3))
       '@nuxt/devtools':
         specifier: 3.1.1
         version: 3.1.1(vite@7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(yaml@2.8.2))(vue@3.5.26(typescript@5.9.3))
@@ -244,6 +249,9 @@ importers:
       clsx:
         specifier: 2.1.1
         version: 2.1.1
+      consola:
+        specifier: 3.4.2
+        version: 3.4.2
       css-element-queries:
         specifier: 1.2.3
         version: 1.2.3
@@ -15262,7 +15270,7 @@ snapshots:
       - magicast
       - supports-color
 
-  '@nuxt/content@3.11.0(magicast@0.5.1)(valibot@1.2.0(typescript@5.9.3))':
+  '@nuxt/content@3.11.0(patch_hash=f2284dc6a53c938df0edff786150b5c3fcc006d1407532a98bad1f25bef38ba9)(magicast@0.5.1)(valibot@1.2.0(typescript@5.9.3))':
     dependencies:
       '@nuxt/kit': 4.2.2(magicast@0.5.1)
       '@nuxtjs/mdc': 0.20.0(magicast@0.5.1)

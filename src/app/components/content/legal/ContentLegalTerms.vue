@@ -17,6 +17,7 @@
 <script setup lang="ts">
 import { parseMarkdown } from '@nuxtjs/mdc/runtime'
 import { useQuery } from '@urql/vue'
+import { consola } from 'consola'
 
 import { graphql } from '~~/gql/generated'
 
@@ -69,6 +70,7 @@ const { data, error, pending } = await useAsyncData(
 )
 
 if (error.value) {
+  consola.log(error.value)
   modelError.value = error.value // TODO: watch?
 }
 

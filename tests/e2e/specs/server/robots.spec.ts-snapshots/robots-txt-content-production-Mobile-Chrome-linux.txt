@@ -2,5 +2,5 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://localhost:3001/sitemap_index.xml
+Sitemap: https://example.com/sitemap_index.xml
 # END nuxt-robots

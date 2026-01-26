@@ -1,7 +1,21 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
+import { CSRF_HEADER_NAME } from '../../shared/utils/constants'
+import { getIsSecure } from '../../shared/utils/networking'
+import { SITE_URL_TYPED } from '../../node/static'
+
 export const securityConfig: ReturnType<DefineNuxtConfig> = {
   security: {
+    csrf: {
+      addCsrfTokenToEventCtx: true,
+      cookie: {
+        httpOnly: true,
+        sameSite: 'strict',
+        secure: getIsSecure({ siteUrl: SITE_URL_TYPED }),
+      },
+      headerName: CSRF_HEADER_NAME,
+      https: getIsSecure({ siteUrl: SITE_URL_TYPED }),
+    },
     headers: {
       contentSecurityPolicy: {
         'base-uri': ["'none'"], // does not fallback to `default-src`
