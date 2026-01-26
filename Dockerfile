@@ -130,20 +130,20 @@ RUN corepack enable \
 
 FROM test-e2e-base-image AS test-e2e_development
 
-ARG UNAME=e2e
-ARG UID=1000
-ARG GID=1000
+ARG USER_NAME=e2e
+ARG USER_ID=1000
+ARG GROUP_ID=1000
 
 ENV NODE_ENV=development
 
+RUN groupadd -g $GROUP_ID -o $USER_NAME \
+    && useradd -m -l -u $USER_ID -g $GROUP_ID -o -s /bin/bash $USER_NAME \
+    && mkdir /srv/app/node_modules \
+    && chown $USER_ID:$GROUP_ID /srv/app/node_modules
+
 COPY ./docker-entrypoint.sh /usr/local/bin/
 
-RUN groupadd -g $GID -o $UNAME \
-    && useradd -m -l -u $UID -g $GID -o -s /bin/bash $UNAME \
-    && mkdir /srv/app/node_modules \
-    && chown $UID:$GID /srv/app/node_modules
-
-USER $UNAME
+USER $USER_NAME
 
 VOLUME /srv/.pnpm-store
 VOLUME /srv/app
