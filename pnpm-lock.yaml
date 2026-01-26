@@ -92,8 +92,8 @@ importers:
         specifier: 3.10.1
         version: 3.10.1
       '@mondaydotcomorg/api':
-        specifier: 11.0.2
-        version: 11.0.2
+        specifier: 13.0.0
+        version: 13.0.0
       '@nuxt/content':
         specifier: 3.10.0
         version: 3.10.0(magicast@0.5.1)(valibot@1.2.0(typescript@5.9.3))
@@ -2924,8 +2924,8 @@ packages:
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
 
-  '@mondaydotcomorg/api@11.0.2':
-    resolution: {integrity: sha512-k0NUE2nx8tzRmRGkREQerK1ZQBi+hcL6BUntf4nj4cRcdbYPpJDwFJxehJeihT8gqVT2MkEUXuQt+8mjfWQRAg==}
+  '@mondaydotcomorg/api@13.0.0':
+    resolution: {integrity: sha512-CsnHtZ5bz84iFuMon0s0TJ1bM29u/ntbpoZkNZb6xla7kIbBUXg4k55fe//I/vCOR7Jg2KHndyiX69X4KdHLTg==}
     engines: {node: '>= 16.20.0'}
 
   '@napi-rs/wasm-runtime@0.2.12':
@@ -11947,6 +11947,9 @@ packages:
     peerDependencies:
       zod: ^3.25 || ^4
 
+  zod@3.24.4:
+    resolution: {integrity: sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==}
+
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
@@ -14742,7 +14745,7 @@ snapshots:
   '@graphql-tools/optimize@2.0.0(graphql@16.12.0)':
     dependencies:
       graphql: 16.12.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@graphql-tools/relay-operation-optimizer@6.5.18(graphql@16.12.0)':
     dependencies:
@@ -14759,7 +14762,7 @@ snapshots:
       '@ardatan/relay-compiler': 12.0.3(graphql@16.12.0)
       '@graphql-tools/utils': 11.0.0(graphql@16.12.0)
       graphql: 16.12.0
-      tslib: 2.6.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - encoding
 
@@ -15371,11 +15374,12 @@ snapshots:
       json5: 2.2.3
       rollup: 4.56.0
 
-  '@mondaydotcomorg/api@11.0.2':
+  '@mondaydotcomorg/api@13.0.0':
     dependencies:
       graphql: 16.8.2
       graphql-request: 6.1.0(graphql@16.8.2)
       graphql-tag: 2.12.6(graphql@16.8.2)
+      zod: 3.24.4
     transitivePeerDependencies:
       - encoding
 
@@ -26487,6 +26491,8 @@ snapshots:
   zod-to-json-schema@3.25.1(zod@3.25.76):
     dependencies:
       zod: 3.25.76
+
+  zod@3.24.4: {}
 
   zod@3.25.76: {}
 
