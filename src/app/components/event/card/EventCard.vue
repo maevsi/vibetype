@@ -209,10 +209,10 @@ const isGuest = computed(() =>
       ? event.guestsByEventId.nodes[0].contactByContactId.accountId &&
         event.guestsByEventId.nodes[0].contactByContactId.accountId ===
           store.signedInAccountId
-      : store.jwtDecoded &&
-          'guests' in store.jwtDecoded &&
-          Array.isArray(store.jwtDecoded.guests)
-        ? store.jwtDecoded.guests.includes(event.guestsByEventId.nodes[0].id)
+      : store.jwtPayload &&
+          'guests' in store.jwtPayload &&
+          Array.isArray(store.jwtPayload.guests)
+        ? store.jwtPayload.guests.includes(event.guestsByEventId.nodes[0].id)
         : undefined
     : undefined,
 )

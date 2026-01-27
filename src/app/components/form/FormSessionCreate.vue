@@ -74,7 +74,7 @@ const submit = async () => {
 
   try {
     loading.value = true
-    const { jwtDecoded: jwt } = await $csrfFetch('/api/model/jwt', {
+    const { jwtPayload } = await $csrfFetch('/api/model/jwt', {
       body: {
         password: form.password,
         username: form.username,
@@ -85,11 +85,11 @@ const submit = async () => {
       method: 'POST',
     })
 
-    if (!jwt) {
+    if (!jwtPayload) {
       throw new Error(t('error'))
     }
 
-    store.jwtSet(jwt)
+    store.jwtSet(jwtPayload)
     $urqlReset()
     emit('signed-in')
   } catch (error) {

@@ -54,11 +54,11 @@
         <div class="grid gap-4 lg:grid-cols-2">
           <div class="flex-1">
             <Card>
-              <template v-if="store.jwtDecoded?.exp">
+              <template v-if="store.jwtPayload?.exp">
                 <i18n-t keypath="sessionExpiry">
                   <template #exp>
                     <AppTime
-                      :datetime="store.jwtDecoded.exp * 1000"
+                      :datetime="store.jwtPayload.exp * 1000"
                       :options="{ weekday: 'short' }"
                     />
                   </template>
@@ -73,7 +73,7 @@
             <div class="flex flex-col gap-2">
               <ButtonColored
                 :aria-label="t('endNow')"
-                :disabled="!store.jwtDecoded"
+                :disabled="!store.jwtPayload"
                 variant="secondary"
                 @click="jwtDelete"
               >
@@ -91,13 +91,13 @@
         <div class="grid gap-4 lg:grid-cols-2">
           <div class="flex-1">
             <Card>
-              <div v-if="store.jwtDecoded?.guests">
+              <div v-if="store.jwtPayload?.guests">
                 <p>
                   {{ t('codesEntered') }}
                 </p>
                 <ul class="list-disc">
                   <li
-                    v-for="guestId in store.jwtDecoded?.guests"
+                    v-for="guestId in store.jwtPayload?.guests"
                     :key="guestId"
                   >
                     {{ guestId }}

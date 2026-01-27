@@ -9,7 +9,7 @@ export const useStore = defineStore(SITE_NAME, () => {
   const localePath = useLocalePath()
 
   // const jwt = ref<string>() // we don't store the JWT itself for security reasons
-  const jwtDecoded = ref<Jwt>()
+  const jwtPayload = ref<Jwt>()
   const modals = ref<Modal[]>([])
   const routeHistory = ref<string[]>([])
   const routeHistoryDisabled = ref<boolean>(false)
@@ -21,22 +21,22 @@ export const useStore = defineStore(SITE_NAME, () => {
     Sentry.setUser(null)
   }
 
-  const jwtSet = (jwtDecodedNew?: Jwt) => {
+  const jwtSet = (jwtPayloadNew?: Jwt) => {
     if (
-      jwtDecodedNew?.role === `${SITE_NAME}_account` &&
-      jwtDecodedNew.exp !== undefined &&
-      jwtDecodedNew.exp > Math.floor(Date.now() / 1000)
+      jwtPayloadNew?.role === `${SITE_NAME}_account` &&
+      jwtPayloadNew.exp !== undefined &&
+      jwtPayloadNew.exp > Math.floor(Date.now() / 1000)
     ) {
-      jwtDecoded.value = jwtDecodedNew
-      signedInAccountId.value = jwtDecodedNew.sub as string | undefined
-      signedInUsername.value = jwtDecodedNew.username as string | undefined
+      jwtPayload.value = jwtPayloadNew
+      signedInAccountId.value = jwtPayloadNew.sub as string | undefined
+      signedInUsername.value = jwtPayloadNew.username as string | undefined
 
       Sentry.setUser({
-        id: jwtDecodedNew.sub as string | undefined,
-        username: jwtDecodedNew.username as string | undefined,
+        id: jwtPayloadNew.sub as string | undefined,
+        username: jwtPayloadNew.username as string | undefined,
       })
     } else {
-      jwtDecoded.value = undefined
+      jwtPayload.value = undefined
       signedInAccountId.value = undefined
       signedInUsername.value = undefined
 
@@ -61,7 +61,7 @@ export const useStore = defineStore(SITE_NAME, () => {
   }
 
   return {
-    jwtDecoded,
+    jwtPayload,
     modals,
     routeHistory,
     routeHistoryDisabled,

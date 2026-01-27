@@ -2,7 +2,7 @@ export const useAuthentication = () => {
   const store = useStore()
 
   const isSignedIn = computed(
-    () => store.jwtDecoded?.role === `${SITE_NAME}_account`,
+    () => store.jwtPayload?.role === `${SITE_NAME}_account`,
   )
   const signedInAccountId = computed(() => store.signedInAccountId)
 

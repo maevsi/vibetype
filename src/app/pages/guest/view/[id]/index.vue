@@ -299,18 +299,18 @@ const isOpenReportDrawer = ref<boolean>()
 const csrfRequestFetch = useCsrfRequestFetch()
 const store = useStore()
 try {
-  const { jwtDecoded: jwt } = await csrfRequestFetch('/api/model/jwt', {
+  const { jwtPayload } = await csrfRequestFetch('/api/model/jwt', {
     body: {
       guestId: route.params.id,
     },
     method: 'PUT',
   })
 
-  if (!jwt) {
+  if (!jwtPayload) {
     throw new Error('JWT update failed: no JWT returned')
   }
 
-  store.jwtSet(jwt)
+  store.jwtSet(jwtPayload)
 } catch (error) {
   console.error('JWT update failed:', error)
 }

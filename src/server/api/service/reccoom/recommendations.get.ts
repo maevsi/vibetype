@@ -1,10 +1,10 @@
 export default defineEventHandler(async () => {
   const { getJwtFromCookie, verifyJwt } = await useJsonWebToken()
   const jwt = getJwtFromCookie()
-  const jwtDecoded = await verifyJwt<Jwt>(jwt)
+  const jwtPayload = await verifyJwt<Jwt>(jwt)
   const getServiceHref = useGetServiceHref()
 
-  if (!(jwtDecoded?.role === `${SITE_NAME}_account`))
+  if (!(jwtPayload?.role === `${SITE_NAME}_account`))
     return throwError({
       status: 403,
       statusText: 'This endpoint only available to registered users.',

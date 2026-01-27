@@ -107,18 +107,18 @@ const { t } = useI18n()
 const csrfRequestFetch = useCsrfRequestFetch()
 const store = useStore()
 try {
-  const { jwtDecoded: jwt } = await csrfRequestFetch('/api/model/jwt', {
+  const { jwtPayload } = await csrfRequestFetch('/api/model/jwt', {
     body: {
       attendanceId: route.params.id,
     },
     method: 'PUT',
   })
 
-  if (!jwt) {
+  if (!jwtPayload) {
     throw new Error('JWT update failed: no JWT returned')
   }
 
-  store.jwtSet(jwt)
+  store.jwtSet(jwtPayload)
 } catch (error) {
   console.error('JWT update failed:', error)
 }

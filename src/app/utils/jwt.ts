@@ -7,8 +7,8 @@ export const jwtGet = async ({
   requestFetch: ReturnType<typeof useRequestFetch>
   store: ReturnType<typeof useStore>
 }) => {
-  const { jwtDecoded: jwt } = await requestFetch('/api/model/jwt')
-  store.jwtSet(jwt)
+  const { jwtPayload } = await requestFetch('/api/model/jwt')
+  store.jwtSet(jwtPayload)
   // no $urqlReset necessary as authorization is not expected to change
 }
 

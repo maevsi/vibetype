@@ -164,13 +164,13 @@ onMounted(async () => {
 
 // template
 const toProfile = () => {
-  if (!store.jwtDecoded) return // TODO: error
+  if (!store.jwtPayload) return // TODO: error
 
   return navigateTo(
     localePath({
       name: 'account-view-username',
       params: {
-        username: store.jwtDecoded.username,
+        username: store.jwtPayload.username,
       },
       // // TODO: highlight achievement
       // query: {
