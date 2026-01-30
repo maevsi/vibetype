@@ -32,8 +32,8 @@ importers:
         specifier: 9.1.13
         version: 9.1.13(magicast@0.5.1)(webpack@5.104.1(esbuild@0.27.2))
       '@dargmuesli/nuxt-vio':
-        specifier: 20.2.0
-        version: 20.2.0(97e5886e2ccc937a23f43600c366bfcc)
+        specifier: 20.5.1
+        version: 20.5.1(212a3b21231f41d97965dfd89ab3a38e)
       '@fontsource-variable/raleway':
         specifier: 5.2.8
         version: 5.2.8
@@ -1395,8 +1395,8 @@ packages:
     resolution: {integrity: sha512-2x64JYYnMfvOSqkLuRyA238+qoCScsI3mNfrv+/LIAy2iDGVFcYOwVZ4SQ/rQP++EBG18bUYalLpZsnFTJyztQ==}
     engines: {node: '>=16'}
 
-  '@dargmuesli/nuxt-vio@20.2.0':
-    resolution: {integrity: sha512-v/1HVPW30WLY5XQfNM6Y6ryYyp5oedBdN0poXa4Lf13EAg2tP9rp0zlFjzZdAr2TicKMg/aLO5nEPhfkGNGPJQ==}
+  '@dargmuesli/nuxt-vio@20.5.1':
+    resolution: {integrity: sha512-kjrQ3U3VpOXVytnIXfpfsTtQqw7GIJN0pnUnL3vO4gNdDnUpA+3luOAdp3Dlmyia2Q5riLj9iL3QGQNIr3NNvQ==}
     engines: {node: '24'}
     peerDependencies:
       nuxt: 4.2.2
@@ -5077,6 +5077,9 @@ packages:
 
   '@types/nodemailer@7.0.5':
     resolution: {integrity: sha512-7WtR4MFJUNN2UFy0NIowBRJswj5KXjXDhlZY43Hmots5eGu5q/dTeFd/I6GgJA/qj3RqO6dDy4SvfcV3fOVeIA==}
+
+  '@types/nodemailer@7.0.9':
+    resolution: {integrity: sha512-vI8oF1M+8JvQhsId0Pc38BdUP2evenIIys7c7p+9OZXSPOH5c1dyINP1jT8xQ2xPuBUXmIC87s+91IZMDjH8Ow==}
 
   '@types/parse-path@7.1.0':
     resolution: {integrity: sha512-EULJ8LApcVEPbrfND0cRQqutIOdiIgJ1Mgrhpy755r14xMohPTEpkV/k28SJvuOs9bHRFW8x+KeDAEPiGQPB9Q==}
@@ -9170,6 +9173,10 @@ packages:
 
   nodemailer@7.0.12:
     resolution: {integrity: sha512-H+rnK5bX2Pi/6ms3sN4/jRQvYSMltV6vqup/0SFOrxYYY/qoNvhXPlYq3e+Pm9RFJRwrMGbMIwi81M4dxpomhA==}
+    engines: {node: '>=6.0.0'}
+
+  nodemailer@7.0.13:
+    resolution: {integrity: sha512-PNDFSJdP+KFgdsG3ZzMXCgquO7I6McjY2vlqILjtJd0hy8wEvtugS9xKRF2NWlPNGxvLCXlTNIae4serI7dinw==}
     engines: {node: '>=6.0.0'}
 
   nopt@7.2.1:
@@ -13445,7 +13452,7 @@ snapshots:
       - magicast
       - webpack
 
-  '@dargmuesli/nuxt-vio@20.2.0(97e5886e2ccc937a23f43600c366bfcc)':
+  '@dargmuesli/nuxt-vio@20.5.1(212a3b21231f41d97965dfd89ab3a38e)':
     dependencies:
       '@dargmuesli/nuxt-cookie-control': 9.1.13(magicast@0.5.1)(webpack@5.104.1(esbuild@0.27.2))
       '@eslint/compat': 2.0.1(eslint@9.39.2(jiti@2.6.1))
@@ -13459,11 +13466,13 @@ snapshots:
       '@nuxtjs/html-validator': 2.1.0(magicast@0.5.1)
       '@nuxtjs/i18n': 10.2.1(@vue/compiler-dom@3.5.27)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.9.2)(magicast@0.5.1)(rollup@4.57.0)(vue@3.5.27(typescript@5.9.3))
       '@nuxtjs/seo': 3.3.0(@unhead/vue@2.1.2(vue@3.5.27(typescript@5.9.3)))(db0@0.3.4)(ioredis@5.9.2)(magicast@0.5.1)(rollup@4.57.0)(unhead@2.1.2)(unstorage@1.17.4(db0@0.3.4)(ioredis@5.9.2))(vite@7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(yaml@2.8.2))(vue@3.5.27(typescript@5.9.3))(zod@3.25.76)
+      '@nuxtjs/turnstile': 1.1.1(@nuxt/scripts@0.13.2(@unhead/vue@2.1.2(vue@3.5.27(typescript@5.9.3)))(db0@0.3.4)(ioredis@5.9.2)(magicast@0.5.1)(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(magicast@0.5.1)
       '@pinia/nuxt': 0.11.3(magicast@0.5.1)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))
       '@tailwindcss/forms': 0.5.11(tailwindcss@4.1.18)
       '@tailwindcss/typography': 0.5.19(tailwindcss@4.1.18)
       '@tailwindcss/vite': 4.1.18(vite@7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(yaml@2.8.2))
       '@types/lodash-es': 4.17.12
+      '@types/nodemailer': 7.0.9
       '@urql/core': 6.0.1(graphql@16.12.0)
       '@urql/vue': 2.0.0(@urql/core@6.0.1(graphql@16.12.0))(vue@3.5.27(typescript@5.9.3))
       '@vuelidate/core': 2.0.3(vue@3.5.27(typescript@5.9.3))
@@ -13481,6 +13490,7 @@ snapshots:
       jiti: 2.6.1
       jose: 6.1.3
       lucide-vue-next: 0.562.0(vue@3.5.27(typescript@5.9.3))
+      nodemailer: 7.0.13
       nuxt: 4.2.2(@parcel/watcher@2.5.6)(@types/node@24.10.9)(@vue/compiler-sfc@3.5.27)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.9.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.57.0)(stylelint@17.0.0(typescript@5.9.3))(terser@5.46.0)(typescript@5.9.3)(vite@7.3.1(@types/node@24.10.9)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(yaml@2.8.2))(vue-tsc@3.2.4(typescript@5.9.3))(yaml@2.8.2)
       nuxt-gtag: 4.1.0(magicast@0.5.1)
       nuxt-security: 2.5.1(magicast@0.5.1)(rollup@4.57.0)
@@ -13504,6 +13514,7 @@ snapshots:
       - '@netlify/blobs'
       - '@nuxt/kit'
       - '@nuxt/schema'
+      - '@nuxt/scripts'
       - '@planetscale/database'
       - '@types/eslint'
       - '@typescript-eslint/utils'
@@ -18079,6 +18090,10 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
+  '@types/nodemailer@7.0.9':
+    dependencies:
+      '@types/node': 24.10.9
+
   '@types/parse-path@7.1.0':
     dependencies:
       parse-path: 7.1.0
@@ -18195,7 +18210,7 @@ snapshots:
   '@typescript-eslint/project-service@8.53.1(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/tsconfig-utils': 8.53.1(typescript@5.9.3)
-      '@typescript-eslint/types': 8.53.1
+      '@typescript-eslint/types': 8.54.0
       debug: 4.4.3
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -23021,6 +23036,8 @@ snapshots:
   node-releases@2.0.27: {}
 
   nodemailer@7.0.12: {}
+
+  nodemailer@7.0.13: {}
 
   nopt@7.2.1:
     dependencies:
