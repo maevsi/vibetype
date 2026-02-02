@@ -10,15 +10,7 @@ import {
   CHANNEL_NAME_ACCOUNT_PASSWORD_RESET as EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
   CHANNEL_NAME_ACCOUNT_REGISTRATION as EMAIL_NAME_ACCOUNT_REGISTRATION,
   CHANNEL_NAME_EVENT_INVITATION as EMAIL_NAME_EVENT_INVITATION,
-} from './notification'
-import { transporter } from './dependencies/nodemailer'
-import {
-  LOGO,
-  LOGO_CID,
-  PROFILE_PICTURE_JONAS,
-  PROFILE_PICTURE_JONAS_CID,
-} from './assets'
-import { getMailsSentLast24Hours } from './dependencies/aws'
+} from '#server/utils/notification'
 
 const emailConfig = {
   [EMAIL_NAME_ACCOUNT_PASSWORD_RESET]: {

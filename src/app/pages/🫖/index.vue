@@ -9,6 +9,6 @@ defineRouteRules({
 
 throw createError({
   fatal: true,
-  statusCode: 418,
+  status: 418,
 })
 </script>

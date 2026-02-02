@@ -1,4 +1,4 @@
-import type { AppGraphQLError, AppCombinedError } from '../types/api' // TODO: remove import once shared namespace has proper auto-imports (https://github.com/nuxt/nuxt/issues/32714)
+import type { AppGraphQLError, AppCombinedError } from '#shared/types/api'
 
 export const getGraphQLErrorMessage = ({
   graphqlError,

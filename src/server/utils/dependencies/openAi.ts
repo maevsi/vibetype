@@ -11,8 +11,8 @@ export const useOpenAi = () => {
 
   if (!event.context.$openAi)
     return throwError({
-      statusCode: 500,
-      statusMessage: 'Event context is missing OpenAI data',
+      status: 500,
+      statusText: 'Event context is missing OpenAI data',
     })
 
   return {

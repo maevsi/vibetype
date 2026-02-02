@@ -6,7 +6,7 @@ import ical, {
 } from 'ical-generator'
 import mustache from 'mustache'
 
-import { getTextFromHtml } from '../../shared/utils/text'
+import { getTextFromHtml } from '../../shared/utils/text' // TODO: replace this with an e2e test (https://playwright.dev/docs/clock)
 import { EventVisibility } from '../../gql/generated/graphql'
 import type {
   ContactItemFragment,
