@@ -61,8 +61,9 @@ COPY ./pnpm-lock.yaml ./package.json ./
 ## pnpm patches
 # COPY ./patches ./patches
 
+# TODO: evaluate dropping libc arguments by running e2e tests separately
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
-    pnpm fetch
+    pnpm fetch --libc=musl --libc=glibc
 
 COPY ./ ./
 
@@ -159,14 +160,14 @@ FROM test-e2e-base-image AS test-e2e-prepare
 
 COPY --from=prepare /srv/app/ ./
 
-# a rebuild is necessary because the node image we're pulling dependencies from uses alpine linux while here we use debian
-RUN pnpm -r rebuild
-
 
 # ########################
 # # Nuxt: test (e2e, development)
 
 # FROM test-e2e-prepare AS test-e2e-dev
+
+# # a rebuild is necessary because the node image we're pulling dependencies from uses alpine linux while here we use debian
+# RUN pnpm -r rebuild
 
 # ENV NODE_ENV=development
 

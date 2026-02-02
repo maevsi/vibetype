@@ -32,7 +32,7 @@ jobs:
       DRY_RUN: true
   build:
     name: Build
-    uses: dargmuesli/github-actions/.github/workflows/docker.yml@3b92c03668733baf4e5bd956234845848314ad92 # 4.0.5-beta.1
+    uses: dargmuesli/github-actions/.github/workflows/docker.yml@3b92c03668733baf4e5bd956234845848314ad92 # 4.0.5
     needs: release_semantic_dry
     permissions:
       packages: write
