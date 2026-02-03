@@ -2,11 +2,11 @@
   <LoaderIndicatorPing v-if="api.isFetching" />
   <AppError
     v-else-if="!account"
-    :error="{ message: t('errorAccountMissing'), statusCode: 404 }"
+    :error="{ message: t('errorAccountMissing'), status: 404 }"
   />
   <AppError
     v-else-if="!event"
-    :error="{ message: t('errorEventMissing'), statusCode: 404 }"
+    :error="{ message: t('errorEventMissing'), status: 404 }"
   />
   <div v-else class="flex flex-col gap-4">
     <ButtonList
@@ -238,7 +238,7 @@ const description = computed(() =>
 const title = computed(() => {
   if (api.value.isFetching) return t('globalLoading')
   if (!event.value) {
-    showAppError({ statusCode: 404, message: 'Event unavailable' })
+    showAppError({ status: 404, message: 'Event unavailable' })
     return
   }
 

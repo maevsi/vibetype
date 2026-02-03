@@ -152,7 +152,7 @@ onMounted(async () => {
 
   if (status.value === 'success') {
     if (!templateCanvas.value) {
-      showAppError({ message: 'Could not get canvas', statusCode: 500 })
+      showAppError({ message: 'Could not get canvas', status: 500 })
       return
     }
 

@@ -1,6 +1,6 @@
 import type { useRuntimeConfig } from 'nuxt/app'
 
-import { getIsSecure } from './networking' // TODO: remove import once shared namespace has proper auto-imports (https://github.com/nuxt/nuxt/issues/32714)
+import { getIsSecure } from './networking'
 
 export const getJwtName = (siteUrl: URL) =>
   `${getIsSecure({ siteUrl }) ? '__Host-' : ''}jwt-v3`

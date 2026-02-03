@@ -25,10 +25,13 @@ RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
 
 COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
+
 #############
 # Serve Nuxt in development mode.
 
 FROM base-image AS development
+
+ENV CI=false
 
 RUN mkdir \
       /srv/.pnpm-store \
@@ -57,12 +60,11 @@ EXPOSE 3000
 FROM base-image AS prepare
 
 COPY ./pnpm-lock.yaml ./package.json ./
-
-# pnpm patches
 COPY ./patches ./patches
 
+# TODO: evaluate dropping libc arguments by running e2e tests separately
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
-    pnpm fetch
+    pnpm fetch --libc=musl --libc=glibc
 
 COPY ./ ./
 
@@ -94,6 +96,14 @@ RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN \
 # RUN pnpm --dir src run build:static
 
 
+# ########################
+# # Build for static deployment.
+
+# FROM prepare AS build-static-test
+
+# RUN pnpm --dir src run build:static:test
+
+
 ########################
 # Nuxt: lint
 
@@ -113,7 +123,7 @@ RUN pnpm -r run test
 ########################
 # Nuxt: test (e2e, base-image)
 
-FROM mcr.microsoft.com/playwright:v1.57.0 AS test-e2e-base-image
+FROM mcr.microsoft.com/playwright:v1.58.1 AS test-e2e-base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -134,14 +144,12 @@ ARG USER_NAME=e2e
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 
-ENV NODE_ENV=development
-
 RUN groupadd -g $GROUP_ID -o $USER_NAME \
     && useradd -m -l -u $USER_ID -g $GROUP_ID -o -s /bin/bash $USER_NAME \
     && mkdir /srv/app/node_modules \
     && chown $USER_ID:$GROUP_ID /srv/app/node_modules
 
-COPY ./docker-entrypoint.sh /usr/local/bin/
+COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 USER $USER_NAME
 
@@ -159,14 +167,14 @@ FROM test-e2e-base-image AS test-e2e-prepare
 
 COPY --from=prepare /srv/app/ ./
 
-# a rebuild is necessary because the node image we're pulling dependencies from uses alpine linux while here we use debian
-RUN pnpm -r rebuild
-
 
 # ########################
 # # Nuxt: test (e2e, development)
 
 # FROM test-e2e-prepare AS test-e2e-dev
+
+# # a rebuild is necessary because the node image we're pulling dependencies from uses alpine linux while here we use debian
+# RUN pnpm -r rebuild
 
 # ENV NODE_ENV=development
 
@@ -188,7 +196,7 @@ RUN pnpm --dir tests run test:e2e:server:node
 
 # FROM test-e2e-prepare AS test-e2e-static
 
-# COPY --from=build-static /srv/app/src/.output/public ./src/.output/public
+# COPY --from=build-static-test /srv/app/src/.output/public ./src/.output/public
 
 # RUN pnpm --dir tests run test:e2e:server:static
 
@@ -222,6 +230,8 @@ COPY --from=test-e2e-node /srv/app/package.json /dev/null
 
 # HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/service/vibetype/healthcheck || exit 1
 # EXPOSE 3000
+# LABEL org.opencontainers.image.source="https://github.com/maevsi/vibetype"
+# LABEL org.opencontainers.image.description="Find events, guests and friends 💙❤️💚"
 
 
 #######################

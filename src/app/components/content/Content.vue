@@ -3,11 +3,11 @@
   <!-- TODO: use v-model error -->
   <AppError
     v-else-if="error"
-    :error="{ message: error.message, statusCode: 500 }"
+    :error="{ message: error.message, status: 500 }"
   />
   <AppError
     v-else-if="!data"
-    :error="{ message: 'Data is missing', statusCode: 404 }"
+    :error="{ message: 'Data is missing', status: 404 }"
   />
   <LayoutProse v-else>
     <ContentRenderer :value="data" />

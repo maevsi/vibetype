@@ -31,8 +31,8 @@ export default defineEventHandler(async (event) => {
   if (mutationJwtCreate.error) {
     if (mutationJwtCreate.error.networkError) {
       return throwError({
-        statusCode: 500,
-        statusMessage:
+        status: 500,
+        statusText:
           (mutationJwtCreate.error.networkError.cause as { message?: string })
             ?.message || mutationJwtCreate.error.networkError.message,
       })
@@ -43,14 +43,14 @@ export default defineEventHandler(async (event) => {
         .map((error: GraphQLError) => error.message)
         .join('; ')
       return throwError({
-        statusCode: 500,
-        statusMessage: `GraphQL error(s) during JWT creation: ${messages}`,
+        status: 500,
+        statusText: `GraphQL error(s) during JWT creation: ${messages}`,
       })
     }
 
     return throwError({
-      statusCode: 500,
-      statusMessage:
+      status: 500,
+      statusText:
         mutationJwtCreate.error.message ||
         'Unexpected error during JWT creation.',
     })
@@ -58,8 +58,8 @@ export default defineEventHandler(async (event) => {
 
   if (!mutationJwtCreate.data) {
     return throwError({
-      statusCode: 500,
-      statusMessage: `No data returned from JWT creation mutation.`,
+      status: 500,
+      statusText: `No data returned from JWT creation mutation.`,
     })
   }
 
@@ -67,8 +67,8 @@ export default defineEventHandler(async (event) => {
 
   if (!jwt) {
     return throwError({
-      statusCode: 500,
-      statusMessage: 'No JWT returned from creation mutation.',
+      status: 500,
+      statusText: 'No JWT returned from creation mutation.',
     })
   }
 

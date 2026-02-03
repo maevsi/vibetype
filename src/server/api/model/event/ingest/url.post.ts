@@ -19,8 +19,8 @@ Only accept html. Only if the html contains event information, extract that info
 export default defineEventHandler(async (event) => {
   if (!import.meta.dev) {
     return throwError({
-      statusCode: 503,
-      statusMessage:
+      status: 503,
+      statusText:
         'This endpoint is currently disabled until proper authentication and cost tracking is implemented.',
     })
   }
@@ -33,8 +33,8 @@ export default defineEventHandler(async (event) => {
 
   if (!(jwtDecoded?.role === `${SITE_NAME}_account`))
     return throwError({
-      statusCode: 403,
-      statusMessage: 'This endpoint only available to registered users.',
+      status: 403,
+      statusText: 'This endpoint only available to registered users.',
     })
 
   const body = await getBodySafe({

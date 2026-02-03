@@ -5,10 +5,10 @@ import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 import Components from 'unplugin-vue-components/vite'
 
-import { modulesConfig } from '../config/modules'
-import { environmentsConfig } from '../config/environments'
+import { modulesConfig } from './config/modules'
+import { environmentsConfig } from './config/environments'
 
-import { iconCollectionOptimization } from '../node'
+import { iconCollectionOptimization } from './node'
 import {
   IS_IN_FRONTEND_DEVELOPMENT,
   IS_NITRO_OPENAPI_ENABLED,
@@ -19,8 +19,8 @@ import {
   NUXT_PUBLIC_VIO_ENVIRONMENT,
   SITE_NAME,
   SITE_URL,
-} from '../node/static'
-import { PRODUCTION_HOST } from '../shared/utils/constants'
+} from './node/static'
+import { PRODUCTION_HOST } from './shared/utils/constants'
 
 // TODO: let this error in "eslint (compat/compat)"" (https://github.com/DefinitelyTyped/DefinitelyTyped/issues/55519)
 // setImmediate(() => {})

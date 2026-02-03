@@ -3,11 +3,11 @@
   <!-- TODO: replace with model error -->
   <AppError
     v-else-if="error"
-    :error="{ message: error.message, statusCode: 500 }"
+    :error="{ message: error.message, status: 500 }"
   />
   <AppError
     v-else-if="!data?.legalTerm"
-    :error="{ message: t('errorUnavailable'), statusCode: 404 }"
+    :error="{ message: t('errorUnavailable'), status: 404 }"
   />
   <LayoutProse v-else>
     <MDCRenderer v-if="data.ast" :body="data.ast.body" :data="data.ast.data" />

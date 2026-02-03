@@ -61,8 +61,8 @@ const getJwtFromResult = <
   if (result.error) {
     if (result.error.networkError) {
       return throwError({
-        statusCode: 500,
-        statusMessage:
+        status: 500,
+        statusText:
           (result.error.networkError.cause as { message?: string })?.message ||
           result.error.networkError.message,
       })
@@ -73,30 +73,29 @@ const getJwtFromResult = <
         .map((e) => e.message)
         .join('; ')
       return throwError({
-        statusCode: 500,
-        statusMessage: `GraphQL error(s) during ${context}: ${messages}`,
+        status: 500,
+        statusText: `GraphQL error(s) during ${context}: ${messages}`,
       })
     }
 
     return throwError({
-      statusCode: 500,
-      statusMessage:
-        result.error.message || `Unexpected error during ${context}.`,
+      status: 500,
+      statusText: result.error.message || `Unexpected error during ${context}.`,
     })
   }
 
   if (!result.data) {
     return throwError({
-      statusCode: 500,
-      statusMessage: `No data returned from ${context} mutation.`,
+      status: 500,
+      statusText: `No data returned from ${context} mutation.`,
     })
   }
 
   const jwt = extract(result.data)
   if (!jwt) {
     return throwError({
-      statusCode: 500,
-      statusMessage: `No JWT returned from ${context} mutation.`,
+      status: 500,
+      statusText: `No JWT returned from ${context} mutation.`,
     })
   }
 
@@ -174,8 +173,8 @@ export default defineEventHandler(async (event) => {
 
   if (!jwt) {
     return throwError({
-      statusCode: 500,
-      statusMessage: 'No JWT returned from update mutation.',
+      status: 500,
+      statusText: 'No JWT returned from update mutation.',
     })
   }
 

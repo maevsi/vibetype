@@ -51,16 +51,12 @@ export const useHost = () => {
   return host
 }
 
-export const useHttpStatusCode = async ({
-  statusCode,
-}: {
-  statusCode: number
-}) => {
+export const useHttpStatusCode = async ({ status }: { status: number }) => {
   const { locale, t } = useI18n({ useScope: 'global' })
 
-  const { status } = await import('@http-util/status-i18n')
+  const { status: statusText } = await import('@http-util/status-i18n')
   const statusName = computed(
-    () => status(statusCode, locale.value) || t('globalError'),
+    () => statusText(status, locale.value) || t('globalError'),
   )
 
   return {

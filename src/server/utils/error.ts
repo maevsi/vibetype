@@ -1,7 +1,7 @@
 import type { NuxtError } from 'nuxt/app'
 
 export const throwError = (
-  error: Partial<NuxtError> & Required<Pick<NuxtError, 'statusCode'>>,
+  error: Partial<NuxtError> & Required<Pick<NuxtError, 'status'>>,
 ) => {
   throw createError({
     ...error,
