@@ -25,10 +25,13 @@ RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
 
 COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
+
 #############
 # Serve Nuxt in development mode.
 
 FROM base-image AS development
+
+ENV CI=false
 
 RUN mkdir \
       /srv/.pnpm-store \
@@ -57,8 +60,6 @@ EXPOSE 3000
 FROM base-image AS prepare
 
 COPY ./pnpm-lock.yaml ./package.json ./
-
-# pnpm patches
 COPY ./patches ./patches
 
 # TODO: evaluate dropping libc arguments by running e2e tests separately
@@ -93,6 +94,14 @@ RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN \
 
 # ENV NODE_ENV=production
 # RUN pnpm --dir src run build:static
+
+
+# ########################
+# # Build for static deployment.
+
+# FROM prepare AS build-static-test
+
+# RUN pnpm --dir src run build:static:test
 
 
 ########################
@@ -131,20 +140,18 @@ RUN corepack enable \
 
 FROM test-e2e-base-image AS test-e2e_development
 
-ARG UNAME=e2e
-ARG UID=1000
-ARG GID=1000
+ARG USER_NAME=e2e
+ARG USER_ID=1000
+ARG GROUP_ID=1000
 
-ENV NODE_ENV=development
-
-COPY ./docker-entrypoint.sh /usr/local/bin/
-
-RUN groupadd -g $GID -o $UNAME \
-    && useradd -m -l -u $UID -g $GID -o -s /bin/bash $UNAME \
+RUN groupadd -g $GROUP_ID -o $USER_NAME \
+    && useradd -m -l -u $USER_ID -g $GROUP_ID -o -s /bin/bash $USER_NAME \
     && mkdir /srv/app/node_modules \
-    && chown $UID:$GID /srv/app/node_modules
+    && chown $USER_ID:$GROUP_ID /srv/app/node_modules
 
-USER $UNAME
+COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+USER $USER_NAME
 
 VOLUME /srv/.pnpm-store
 VOLUME /srv/app
@@ -189,7 +196,7 @@ RUN pnpm --dir tests run test:e2e:server:node
 
 # FROM test-e2e-prepare AS test-e2e-static
 
-# COPY --from=build-static /srv/app/src/.output/public ./src/.output/public
+# COPY --from=build-static-test /srv/app/src/.output/public ./src/.output/public
 
 # RUN pnpm --dir tests run test:e2e:server:static
 
@@ -222,6 +229,8 @@ COPY --from=test-e2e-node /srv/app/package.json /dev/null
 
 # HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/service/vibetype/healthcheck || exit 1
 # EXPOSE 3000
+# LABEL org.opencontainers.image.source="https://github.com/maevsi/vibetype"
+# LABEL org.opencontainers.image.description="Find events, guests and friends 💙❤️💚"
 
 
 #######################

@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import type { I18N_LOCALE_CODE } from '@dargmuesli/nuxt-vio/shared/types/i18n'
+import type { Locale } from '@intlify/core-base'
 
 // page
 const { t, locale, locales } = useI18n()
@@ -33,7 +33,7 @@ const switchLocalePath = useSwitchLocalePath()
 const router = useRouter()
 const onI18nChange = async (value: string) =>
   await router.push({
-    path: switchLocalePath(value as I18N_LOCALE_CODE),
+    path: switchLocalePath(value as Locale),
   })
 </script>
 
