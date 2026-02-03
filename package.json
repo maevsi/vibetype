@@ -23,10 +23,12 @@
       "vue-demi"
     ],
     "overrides": {
-      "@nuxt/content": "3.10.0",
       "debug": "4.4.3",
       "nuxt-og-image": "5.1.12",
       "parse5-parser-stream": "8.0.0"
+    },
+    "patchedDependencies": {
+      "@nuxt/content": "patches/@nuxt__content.patch"
     }
   },
   "private": true,
