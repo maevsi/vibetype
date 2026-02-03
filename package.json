@@ -24,9 +24,7 @@
     ],
     "overrides": {
       "@nuxt/content": "3.10.0",
-      "@nuxt/schema": "4.2.2",
       "debug": "4.4.3",
-      "nuxt": "4.2.2",
       "nuxt-og-image": "5.1.12",
       "parse5-parser-stream": "8.0.0"
     }

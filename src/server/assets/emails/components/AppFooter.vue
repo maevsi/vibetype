@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { Column, Link, Row, Section } from '@vue-email/components'
 
-import type { Locale } from '../../../utils/i18n'
 import AppText from './base/AppText.vue'
 
 const { emailAddress, locale } = defineProps<{
   emailAddress: string
-  locale: Locale
+  locale: AppLocale
 }>()
 
 // data

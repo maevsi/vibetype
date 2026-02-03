@@ -18,20 +18,20 @@ export default defineEventHandler(async (event) => {
 
   if (!firebaseAdminApp)
     return throwError({
-      statusCode: 500,
-      statusMessage: 'Firebase uninitialized',
+      status: 500,
+      statusText: 'Firebase uninitialized',
     })
 
   if (!runtimeConfig.private.api.notification.secret)
     return throwError({
-      statusCode: 500,
-      statusMessage: 'Notification secret uninitialized',
+      status: 500,
+      statusText: 'Notification secret uninitialized',
     })
 
   if (body.secret !== runtimeConfig.private.api.notification.secret)
     return throwError({
-      statusCode: 403,
-      statusMessage: 'Invalid secret',
+      status: 403,
+      statusText: 'Invalid secret',
     })
 
   return getMessaging(firebaseAdminApp).send({ ...body.payload })

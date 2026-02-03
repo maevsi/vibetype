@@ -1,6 +1,4 @@
-import { setCookie } from 'h3'
 import type { H3Event } from 'h3'
-import { getIsSecure } from './networking'
 
 export const setJwtCookie = ({
   event,
@@ -16,8 +14,8 @@ export const setJwtCookie = ({
 
   if (!runtimeConfig.public.i18n.baseUrl) {
     return throwError({
-      statusCode: 500,
-      statusMessage: 'Site URL is not defined in the runtime configuration.',
+      status: 500,
+      statusText: 'Site URL is not defined in the runtime configuration.',
     })
   }
 
@@ -55,8 +53,8 @@ export const useJsonWebToken = async () => {
 
       if (!headerAuthorization) {
         return throwError({
-          statusCode: 401,
-          statusMessage: 'The request header "Authorization" is missing!',
+          status: 401,
+          statusText: 'The request header "Authorization" is missing!',
         })
       }
 
@@ -68,8 +66,8 @@ export const useJsonWebToken = async () => {
 
       if (!jwtPublicKey) {
         return throwError({
-          statusCode: 500,
-          statusMessage: 'Secret missing!',
+          status: 500,
+          statusText: 'Secret missing!',
         })
       }
 
@@ -77,8 +75,8 @@ export const useJsonWebToken = async () => {
         return (await verifyJwt({ jwt, jwtPublicKey })).payload
       } catch (error) {
         return throwError({
-          statusCode: 401,
-          statusMessage: `JSON web token verification failed${error instanceof Error ? `: ${error.message}` : '.'}`,
+          status: 401,
+          statusText: `JSON web token verification failed${error instanceof Error ? `: ${error.message}` : '.'}`,
         })
       }
     },

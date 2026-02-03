@@ -3,8 +3,8 @@ export default defineEventHandler(async (event) => {
 
   if (!jwtPublicKey) {
     return throwError({
-      statusCode: 500,
-      statusMessage: 'The authentication key is not available!',
+      status: 500,
+      statusText: 'The authentication key is not available!',
     })
   }
 

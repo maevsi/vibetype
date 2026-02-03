@@ -9,16 +9,16 @@
       <div class="flex flex-1 flex-col gap-8">
         <LayoutPageResult type="error">
           <template v-if="!error.data?.vibetype" #default>
-            <span v-if="error.statusCode === 403">
+            <span v-if="error.status === 403">
               {{ t('error403Hint') }}
             </span>
-            <span v-else-if="error.statusCode === 404">
+            <span v-else-if="error.status === 404">
               {{ t('error404Hint') }}
             </span>
-            <span v-else-if="error.statusCode === 429">
+            <span v-else-if="error.status === 429">
               {{ t('error429Hint') }}
             </span>
-            <span v-else-if="error.statusCode === 500">
+            <span v-else-if="error.status === 500">
               {{ t('error500Hint') }}
             </span>
             <span v-else>
@@ -29,22 +29,22 @@
             <span v-if="error.data?.vibetype">
               {{ error.data.vibetype }}
             </span>
-            <span v-else-if="error.statusCode === 400">
+            <span v-else-if="error.status === 400">
               {{ t('error400Description') }}
             </span>
-            <span v-else-if="error.statusCode === 403">
+            <span v-else-if="error.status === 403">
               {{ t('error403Description') }}
             </span>
-            <span v-else-if="error.statusCode === 404">
+            <span v-else-if="error.status === 404">
               {{ t('error404Description') }}
             </span>
-            <span v-else-if="error.statusCode === 418">
+            <span v-else-if="error.status === 418">
               {{ t('error418Description') }}
             </span>
-            <span v-else-if="error.statusCode === 429">
+            <span v-else-if="error.status === 429">
               {{ t('error429Description') }}
             </span>
-            <span v-else-if="error.statusCode === 500">
+            <span v-else-if="error.status === 500">
               {{ t('error500Description') }}
             </span>
             <span v-else>
@@ -89,7 +89,7 @@
                 <h2 :id="templateIdDetails">{{ t('details') }}</h2>
                 <div>
                   <span class="font-bold">
-                    {{ error.statusMessage }}
+                    {{ error.statusText }}
                   </span>
                   <!-- eslint-disable vue/no-v-html -->
                   <div v-if="error.stack" v-html="error.stack" />
@@ -117,7 +117,7 @@
       </div>
       <template #bottom>
         <ButtonList>
-          <ButtonSignIn v-if="[403, 404].includes(error.statusCode)" />
+          <ButtonSignIn v-if="[403, 404].includes(error.status)" />
           <ButtonHome />
         </ButtonList>
       </template>
@@ -130,17 +130,17 @@ import type { NuxtError } from '#app'
 
 const { error } = defineProps<{
   error: Partial<NuxtError> &
-    Required<Pick<NuxtError, 'statusCode'>> & {
+    Required<Pick<NuxtError, 'status'>> & {
       data?: { vibetype?: string }
     }
 }>()
 
 // status code
 const { ssrContext } = useNuxtApp()
-if (ssrContext && error.statusCode) {
-  ssrContext.event.node.res.statusCode = error.statusCode
+if (ssrContext && error.status) {
+  ssrContext.event.node.res.statusCode = error.status
 }
-const { statusName } = await useHttpStatusCode({ statusCode: error.statusCode })
+const { statusName } = await useHttpStatusCode({ status: error.status })
 
 // template
 const { t } = useI18n()

@@ -539,7 +539,7 @@ export const testOgImage = (url: string) =>
     })
   })
 
-export const testPageLoad = (url: string, statusCode: number = 200) =>
+export const testPageLoad = (url: string, status: number = 200) =>
   appTest.describe('page load', () => {
     appTest('loads the page successfully', async ({ request }) => {
       const resp = await request.get(url, {
@@ -547,7 +547,7 @@ export const testPageLoad = (url: string, statusCode: number = 200) =>
           Cookie: `${TESTING_COOKIE_NAME}=true`,
         },
       })
-      expect(resp.status()).toBe(statusCode)
+      expect(resp.status()).toBe(status)
     })
   })
 

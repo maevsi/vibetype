@@ -8,8 +8,8 @@ export default defineEventHandler(async () => {
 
   if (!(jwtDecoded?.role === `${SITE_NAME}_account`))
     return throwError({
-      statusCode: 403,
-      statusMessage: 'This endpoint only available to registered users.',
+      status: 403,
+      statusText: 'This endpoint only available to registered users.',
     })
 
   if (runtimeConfig.public.vio.stagingHost) {
