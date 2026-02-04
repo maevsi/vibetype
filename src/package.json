@@ -97,7 +97,7 @@
     "lodash-es": "4.17.23",
     "lucide-vue-next": "0.563.0",
     "mustache": "4.2.0",
-    "nodemailer": "7.0.13",
+    "nodemailer": "8.0.0",
     "nuxt": "https://pkg.pr.new/nuxt@34191",
     "nuxt-gtag": "4.1.0",
     "nuxt-security": "2.5.1",
