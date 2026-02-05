@@ -72,52 +72,23 @@ export default defineNuxtConfig({
     '/**': {
       headers: { 'Document-Policy': 'js-profiling' }, // Sentry's browser profiling (currently supported for Chromium-based browsers)
     },
+    '/__nuxt_content/content/query': {
+      csurf: false,
+    },
     '/api/model/event/ical': {
+      csurf: false,
       security: {
         xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection here (https://github.com/maevsi/vibetype/issues/1603)
       },
     },
-    '/api/service/traefik/authentication': {
+    '/api/internal/service/postgraphile/authentication': {
+      csurf: false,
       security: {
         xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection on forward authentication (https://github.com/maevsi/vibetype/issues/1603)
       },
     },
   },
   runtimeConfig: {
-    private: {
-      api: {
-        notification: {
-          secret: '',
-        },
-      },
-      monday: {
-        apiToken: undefined,
-        board: {
-          contact: {
-            column: {
-              consentId: undefined,
-              emailAddressId: undefined,
-              nameId: undefined,
-              messageId: undefined,
-            },
-            id: undefined,
-            groupId: undefined,
-          },
-          earlyBird: {
-            column: {
-              agreementId: undefined,
-              emailAddressId: undefined,
-              nameId: undefined,
-            },
-            id: undefined,
-            groupId: undefined,
-          },
-        },
-      },
-      openai: {
-        apiKey: '',
-      },
-    },
     public: {
       [SITE_NAME]: {
         email: {
@@ -163,6 +134,40 @@ export default defineNuxtConfig({
         environment: NUXT_PUBLIC_VIO_ENVIRONMENT,
         isTesting: false,
         stagingHost: IS_IN_FRONTEND_DEVELOPMENT ? PRODUCTION_HOST : undefined,
+      },
+    },
+    vibetype: {
+      api: {
+        notification: {
+          secret: '',
+        },
+      },
+      monday: {
+        apiToken: undefined,
+        board: {
+          contact: {
+            column: {
+              consentId: undefined,
+              emailAddressId: undefined,
+              nameId: undefined,
+              messageId: undefined,
+            },
+            id: undefined,
+            groupId: undefined,
+          },
+          earlyBird: {
+            column: {
+              agreementId: undefined,
+              emailAddressId: undefined,
+              nameId: undefined,
+            },
+            id: undefined,
+            groupId: undefined,
+          },
+        },
+      },
+      openai: {
+        apiKey: '',
       },
     },
   },

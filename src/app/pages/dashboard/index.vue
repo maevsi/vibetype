@@ -88,8 +88,7 @@ const eventQuery = graphql(`
   }
 `)
 const { $urql } = useNuxtApp()
-const jwtName = useJwtName()
-const cookieJwt = useCookieJwt()
+const requestFetch = useRequestFetch()
 const authentication = useAuthentication()
 const {
   data: eventRecommendations,
@@ -98,16 +97,7 @@ const {
 } = await useAsyncData('index-recommendations', async () => {
   if (!authentication.value.isSignedIn) return []
 
-  const eventIds = await $fetch(
-    '/api/service/reccoom/recommendations',
-    cookieJwt.value
-      ? {
-          headers: {
-            cookie: `${jwtName}=${cookieJwt.value}`,
-          },
-        }
-      : undefined,
-  )
+  const eventIds = await requestFetch('/api/service/reccoom/recommendations')
   const events = (
     await Promise.all(
       eventIds.map(

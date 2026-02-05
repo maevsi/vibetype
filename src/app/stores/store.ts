@@ -1,6 +1,4 @@
 import * as Sentry from '@sentry/nuxt'
-import { decodeJwt } from 'jose'
-import type { JWTPayload } from 'jose'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import type { RouteNamedMapI18n } from 'vue-router/auto-routes'
@@ -10,8 +8,8 @@ import type { Modal } from '~/types/modal'
 export const useStore = defineStore(SITE_NAME, () => {
   const localePath = useLocalePath()
 
-  const jwt = ref<string>() // TODO: remove (https://github.com/maevsi/vibetype/issues/1720)
-  const jwtDecoded = ref<JWTPayload>()
+  // const jwt = ref<string>() // we don't store the JWT itself for security reasons
+  const jwtDecoded = ref<Jwt>()
   const modals = ref<Modal[]>([])
   const routeHistory = ref<string[]>([])
   const routeHistoryDisabled = ref<boolean>(false)
@@ -23,17 +21,13 @@ export const useStore = defineStore(SITE_NAME, () => {
     Sentry.setUser(null)
   }
 
-  const jwtSet = (jwtNew?: string) => {
-    const jwtDecodedNew = jwtNew !== undefined ? decodeJwt(jwtNew) : undefined
-
-    jwt.value = jwtNew
-    jwtDecoded.value = jwtDecodedNew
-
+  const jwtSet = (jwtDecodedNew?: Jwt) => {
     if (
       jwtDecodedNew?.role === `${SITE_NAME}_account` &&
       jwtDecodedNew.exp !== undefined &&
       jwtDecodedNew.exp > Math.floor(Date.now() / 1000)
     ) {
+      jwtDecoded.value = jwtDecodedNew
       signedInAccountId.value = jwtDecodedNew.sub as string | undefined
       signedInUsername.value = jwtDecodedNew.username as string | undefined
 
@@ -42,6 +36,7 @@ export const useStore = defineStore(SITE_NAME, () => {
         username: jwtDecodedNew.username as string | undefined,
       })
     } else {
+      jwtDecoded.value = undefined
       signedInAccountId.value = undefined
       signedInUsername.value = undefined
 
@@ -66,7 +61,6 @@ export const useStore = defineStore(SITE_NAME, () => {
   }
 
   return {
-    jwt,
     jwtDecoded,
     modals,
     routeHistory,

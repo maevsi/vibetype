@@ -128,6 +128,34 @@ if (!runtimeConfig.public.vio.isTesting && !isApp) {
   )
 }
 
+// TODO: move the JWT code below to a composable once `useFetch` (SSR caching) works from within (https://github.com/nuxt/nuxt/issues/14736)
+// initially get JWT
+const { data } = await useFetch('/api/model/jwt')
+store.jwtSet(data.value?.jwtDecoded)
+
+// if JWT exists, update it
+if (store.jwtDecoded) {
+  const csrfRequestFetch = useCsrfRequestFetch()
+
+  try {
+    const { jwtDecoded: jwt } = await csrfRequestFetch('/api/model/jwt', {
+      body: {
+        id: store.jwtDecoded.jti,
+      },
+      method: 'PUT',
+    })
+
+    if (!jwt) {
+      throw new Error('JWT update failed: no JWT returned')
+    }
+
+    store.jwtSet(jwt)
+    // no $urqlReset necessary as authorization is not expected to change
+  } catch (error) {
+    console.error('JWT update failed:', error)
+  }
+}
+
 // initialization
 defineOgImageComponent(
   'Default',
@@ -137,7 +165,6 @@ defineOgImageComponent(
   },
 )
 useAppLayout()
-await useAuth()
 usePolyfills()
 useAppGtag()
 await initialize()
