@@ -472,18 +472,18 @@ importers:
   tests:
     dependencies:
       playwright-core:
-        specifier: 1.58.1
-        version: 1.58.1
+        specifier: 1.58.2
+        version: 1.58.2
     devDependencies:
       '@axe-core/playwright':
         specifier: 4.11.1
-        version: 4.11.1(playwright-core@1.58.1)
+        version: 4.11.1(playwright-core@1.58.2)
       '@eslint/js':
         specifier: 9.39.2
         version: 9.39.2
       '@playwright/test':
-        specifier: 1.58.1
-        version: 1.58.1
+        specifier: 1.58.2
+        version: 1.58.2
       '@types/node':
         specifier: 24.10.11
         version: 24.10.11
@@ -3063,24 +3063,24 @@ packages:
     engines: {node: '>=18.12.0'}
 
   '@nuxt/kit@https://pkg.pr.new/nuxt/nuxt/@nuxt/kit@04a64c1':
-    resolution: {integrity: sha512-D3W7BvWi77kaOWXZLCxJRy2HDCyyNd9nB11zy1D+oc54qXGEvSG5jXPFIIVAIZt/q98FfY7omJ1S3+2cyc745Q==, tarball: https://pkg.pr.new/nuxt/nuxt/@nuxt/kit@04a64c1}
+    resolution: {tarball: https://pkg.pr.new/nuxt/nuxt/@nuxt/kit@04a64c1}
     version: 4.3.0
     engines: {node: '>=18.12.0'}
 
   '@nuxt/nitro-server@https://pkg.pr.new/nuxt/nuxt/@nuxt/nitro-server@04a64c1':
-    resolution: {integrity: sha512-F009/4Zmt5sDvvbZVPx6Y8NW8jMawUuAvk0GqxrDCI9dgPKSyZxBMT7YUhUpJu0vWhqXAnz6lMsbPFXeZD+6Rg==, tarball: https://pkg.pr.new/nuxt/nuxt/@nuxt/nitro-server@04a64c1}
+    resolution: {tarball: https://pkg.pr.new/nuxt/nuxt/@nuxt/nitro-server@04a64c1}
     version: 4.3.0
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
       nuxt: ^4.3.0
 
   '@nuxt/schema@https://pkg.pr.new/@nuxt/schema@34191':
-    resolution: {integrity: sha512-B+CukPulfEVI8+9wIhL6wmuO9Bs9nE6cuSUf7dqUWB7vh9LrMUt6BV6GoSqD4sTnjO9vNzDr+w8OtRmE/AXsOg==, tarball: https://pkg.pr.new/@nuxt/schema@34191}
+    resolution: {tarball: https://pkg.pr.new/@nuxt/schema@34191}
     version: 4.3.0
     engines: {node: ^14.18.0 || >=16.10.0}
 
   '@nuxt/schema@https://pkg.pr.new/nuxt/nuxt/@nuxt/schema@04a64c1':
-    resolution: {integrity: sha512-B+CukPulfEVI8+9wIhL6wmuO9Bs9nE6cuSUf7dqUWB7vh9LrMUt6BV6GoSqD4sTnjO9vNzDr+w8OtRmE/AXsOg==, tarball: https://pkg.pr.new/nuxt/nuxt/@nuxt/schema@04a64c1}
+    resolution: {tarball: https://pkg.pr.new/nuxt/nuxt/@nuxt/schema@04a64c1}
     version: 4.3.0
     engines: {node: ^14.18.0 || >=16.10.0}
 
@@ -3114,7 +3114,7 @@ packages:
     hasBin: true
 
   '@nuxt/vite-builder@https://pkg.pr.new/nuxt/nuxt/@nuxt/vite-builder@04a64c1':
-    resolution: {integrity: sha512-MT1saVMI3CKUehyUbYRo5kUNMDDHQr3BmUKvqfeL+GqNCHukaA/OisvPHZ9VLD9OwxbH9Ccpn9W15W4wQ1Vxvg==, tarball: https://pkg.pr.new/nuxt/nuxt/@nuxt/vite-builder@04a64c1}
+    resolution: {tarball: https://pkg.pr.new/nuxt/nuxt/@nuxt/vite-builder@04a64c1}
     version: 4.3.0
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
@@ -4142,8 +4142,8 @@ packages:
     resolution: {integrity: sha512-QNqXyfVS2wm9hweSYD2O7F0G06uurj9kZ96TRQE5Y9hU7+tgdZwIkbAKc5Ocy1HxEY2kuDQa6cQ1WRs/O5LFKA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@playwright/test@1.58.1':
-    resolution: {integrity: sha512-6LdVIUERWxQMmUSSQi0I53GgCBYgM2RpGngCPY7hSeju+VrKjq3lvs7HpJoPbDiY5QM5EYRtRX5fvrinnMAz3w==}
+  '@playwright/test@1.58.2':
+    resolution: {integrity: sha512-akea+6bHYBBfA9uQqSYmlJXn61cTa+jbO87xVLCWbTqbWadRVmhxlXATaOjOgcBaWU4ePo0wB41KMFv3o35IXA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -9486,7 +9486,7 @@ packages:
     resolution: {integrity: sha512-QXEKQnX4r+UzCxCi+bAfhWZK/JMm4ij3WTItbkyiPEucbKu/A73ghmICuIiPNoyr/ct8PXN1qtc8wdjGs1MSAA==}
 
   nuxt@https://pkg.pr.new/nuxt@34191:
-    resolution: {integrity: sha512-3jEg5RHe13Od3z12RjdLFsXaaWTwR0hMmIFF7hFc5xpMm8AE8BDHSxweJtquF5k8aJHvOcOJG5MUOqzEiPQHUQ==, tarball: https://pkg.pr.new/nuxt@34191}
+    resolution: {tarball: https://pkg.pr.new/nuxt@34191}
     version: 4.3.0
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
@@ -9854,8 +9854,13 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  playwright@1.58.1:
-    resolution: {integrity: sha512-+2uTZHxSCcxjvGc5C891LrS1/NlxglGxzrC4seZiVjcYVQfUa87wBL6rTDqzGjuoWNjnBzRqKmF6zRYGMvQUaQ==}
+  playwright-core@1.58.2:
+    resolution: {integrity: sha512-yZkEtftgwS8CsfYo7nm0KE8jsvm6i/PTgVtB8DL726wNf6H2IMsDuxCpJj59KDaxCtSnrWan2AeDqM7JBaultg==}
+    engines: {node: '>=18'}
+    hasBin: true
+
+  playwright@1.58.2:
+    resolution: {integrity: sha512-vA30H8Nvkq/cPBnNw4Q8TWz1EJyqgpuinBcHET0YVJVFldr8JDNiU9LaWAE1KqSkRYazuaBhTpB5ZzShOezQ6A==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -12952,10 +12957,10 @@ snapshots:
 
   '@aws/lambda-invoke-store@0.2.3': {}
 
-  '@axe-core/playwright@4.11.1(playwright-core@1.58.1)':
+  '@axe-core/playwright@4.11.1(playwright-core@1.58.2)':
     dependencies:
       axe-core: 4.11.1
-      playwright-core: 1.58.1
+      playwright-core: 1.58.2
 
   '@babel/code-frame@7.29.0':
     dependencies:
@@ -17166,9 +17171,9 @@ snapshots:
 
   '@pkgr/core@0.2.9': {}
 
-  '@playwright/test@1.58.1':
+  '@playwright/test@1.58.2':
     dependencies:
-      playwright: 1.58.1
+      playwright: 1.58.2
 
   '@polka/url@1.0.0-next.29': {}
 
@@ -24135,9 +24140,11 @@ snapshots:
 
   playwright-core@1.58.1: {}
 
-  playwright@1.58.1:
+  playwright-core@1.58.2: {}
+
+  playwright@1.58.2:
     dependencies:
-      playwright-core: 1.58.1
+      playwright-core: 1.58.2
     optionalDependencies:
       fsevents: 2.3.2
 
