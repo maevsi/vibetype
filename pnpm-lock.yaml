@@ -34,8 +34,8 @@ importers:
         specifier: 9.1.15
         version: 9.1.15(magicast@0.5.1)(webpack@5.105.0(esbuild@0.27.2))
       '@dargmuesli/nuxt-vio':
-        specifier: 20.5.2
-        version: 20.5.2(aec76f9e053f2086316fa218f854dc3e)
+        specifier: 20.6.2
+        version: 20.6.2(aec76f9e053f2086316fa218f854dc3e)
       '@fontsource-variable/raleway':
         specifier: 5.2.8
         version: 5.2.8
@@ -1402,16 +1402,12 @@ packages:
   '@cyberalien/svg-utils@1.1.1':
     resolution: {integrity: sha512-i05Cnpzeezf3eJAXLx7aFirTYYoq5D1XUItp1XsjqkerNJh//6BG9sOYHbiO7v0KYMvJAx3kosrZaRcNlQPdsA==}
 
-  '@dargmuesli/nuxt-cookie-control@9.1.14':
-    resolution: {integrity: sha512-WQAXreAUIsuiNQtFP5umsmTFc1i7ZiT2ZUYlsDrLgWCbd7CA5eBThxVJx+VffjBUACVL9mRYz1PFo1s6pkyk7Q==}
-    engines: {node: '>=16'}
-
   '@dargmuesli/nuxt-cookie-control@9.1.15':
     resolution: {integrity: sha512-3V7/OzhKLik/eov4bWG0epAIUTEfiYTX7Dmk7B/6HGuxa1FRGiqnZmMw0goQ009kpO8IiINs+ztswKambAJpkw==}
     engines: {node: '>=16'}
 
-  '@dargmuesli/nuxt-vio@20.5.2':
-    resolution: {integrity: sha512-sLHg6Oa3lJANGMaX7o3ru9LMS8kXQ/poMLf8dA3+0OiYlAUZiNoCDVvZ/LQG2XXY7NW7OQeVH8cKaX7C4MBy0g==}
+  '@dargmuesli/nuxt-vio@20.6.2':
+    resolution: {integrity: sha512-1L/2n8YTyXyPEnFOiGt+61xxwTLBA5tTdzTgVsG15kn1D6WLcsUeEI4jI05H0fBhYLphDBL9qXVtnNwflrvibQ==}
     engines: {node: '24'}
     peerDependencies:
       nuxt: ^4.1.0
@@ -3072,24 +3068,24 @@ packages:
     engines: {node: '>=18.12.0'}
 
   '@nuxt/kit@https://pkg.pr.new/nuxt/nuxt/@nuxt/kit@04a64c1':
-    resolution: {integrity: sha512-D3W7BvWi77kaOWXZLCxJRy2HDCyyNd9nB11zy1D+oc54qXGEvSG5jXPFIIVAIZt/q98FfY7omJ1S3+2cyc745Q==, tarball: https://pkg.pr.new/nuxt/nuxt/@nuxt/kit@04a64c1}
+    resolution: {tarball: https://pkg.pr.new/nuxt/nuxt/@nuxt/kit@04a64c1}
     version: 4.3.0
     engines: {node: '>=18.12.0'}
 
   '@nuxt/nitro-server@https://pkg.pr.new/nuxt/nuxt/@nuxt/nitro-server@04a64c1':
-    resolution: {integrity: sha512-F009/4Zmt5sDvvbZVPx6Y8NW8jMawUuAvk0GqxrDCI9dgPKSyZxBMT7YUhUpJu0vWhqXAnz6lMsbPFXeZD+6Rg==, tarball: https://pkg.pr.new/nuxt/nuxt/@nuxt/nitro-server@04a64c1}
+    resolution: {tarball: https://pkg.pr.new/nuxt/nuxt/@nuxt/nitro-server@04a64c1}
     version: 4.3.0
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
       nuxt: ^4.3.0
 
   '@nuxt/schema@https://pkg.pr.new/@nuxt/schema@34191':
-    resolution: {integrity: sha512-B+CukPulfEVI8+9wIhL6wmuO9Bs9nE6cuSUf7dqUWB7vh9LrMUt6BV6GoSqD4sTnjO9vNzDr+w8OtRmE/AXsOg==, tarball: https://pkg.pr.new/@nuxt/schema@34191}
+    resolution: {tarball: https://pkg.pr.new/@nuxt/schema@34191}
     version: 4.3.0
     engines: {node: ^14.18.0 || >=16.10.0}
 
   '@nuxt/schema@https://pkg.pr.new/nuxt/nuxt/@nuxt/schema@04a64c1':
-    resolution: {integrity: sha512-B+CukPulfEVI8+9wIhL6wmuO9Bs9nE6cuSUf7dqUWB7vh9LrMUt6BV6GoSqD4sTnjO9vNzDr+w8OtRmE/AXsOg==, tarball: https://pkg.pr.new/nuxt/nuxt/@nuxt/schema@04a64c1}
+    resolution: {tarball: https://pkg.pr.new/nuxt/nuxt/@nuxt/schema@04a64c1}
     version: 4.3.0
     engines: {node: ^14.18.0 || >=16.10.0}
 
@@ -3123,7 +3119,7 @@ packages:
     hasBin: true
 
   '@nuxt/vite-builder@https://pkg.pr.new/nuxt/nuxt/@nuxt/vite-builder@04a64c1':
-    resolution: {integrity: sha512-MT1saVMI3CKUehyUbYRo5kUNMDDHQr3BmUKvqfeL+GqNCHukaA/OisvPHZ9VLD9OwxbH9Ccpn9W15W4wQ1Vxvg==, tarball: https://pkg.pr.new/nuxt/nuxt/@nuxt/vite-builder@04a64c1}
+    resolution: {tarball: https://pkg.pr.new/nuxt/nuxt/@nuxt/vite-builder@04a64c1}
     version: 4.3.0
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
@@ -3139,10 +3135,6 @@ packages:
 
   '@nuxtjs/html-validator@2.1.0':
     resolution: {integrity: sha512-ldo8ioSsH3OEumtgwDMokTxlhjgO9FxjJWViAxisq5l/wjvaVX8SYTQ02wjtQcQQPSvS6BwgypAp400RlyFHng==}
-
-  '@nuxtjs/i18n@10.2.1':
-    resolution: {integrity: sha512-/CHAIpYbFgobxeMsnKcD8xBUHxBpqipRMjaI3ol9MVZKscJM+IetYdNL9lGNFdEtlxzkV8COxnoa60rE4sPjuQ==}
-    engines: {node: '>=20.11.1'}
 
   '@nuxtjs/i18n@10.2.3':
     resolution: {integrity: sha512-nRAQJbWjbiBvW6XRsG3Q6olYw2EKz7V1J6cDCHLCPbF1EyNhrAH/9aCNQaR5PYcoXPeRLpF86DIPBEnamghyHw==}
@@ -6571,8 +6563,8 @@ packages:
     resolution: {integrity: sha512-5mOlNS0mhX0707P2I0aZ2V/cmHUEO/fL7VFLqszkhUsxt7RwnmrInf/eEQKlf5GzvYeHIjT+Ov1HRfNmymlG0w==}
     engines: {node: '>=18'}
 
-  clipboardy@5.2.0:
-    resolution: {integrity: sha512-qlXzpbPfFtMKUMeLRkKDe42uRfhRVGTv86VOy7vDVjFh5cHhkCrxPlXfgiJdL65X/Lr+iJtl1haUtq7dMfEilA==}
+  clipboardy@5.2.1:
+    resolution: {integrity: sha512-RWp4E/ivQAzgF4QSWA9sjeW+Bjo+U2SvebkDhNIfO7y65eGdXPUxMTdIKYsn+bxM3ItPHGm3e68Bv3fgQ3mARw==}
     engines: {node: '>=20'}
 
   cliui@6.0.0:
@@ -9401,10 +9393,6 @@ packages:
   node-releases@2.0.27:
     resolution: {integrity: sha512-nmh3lCkYZ3grZvqcCH+fjmQ7X+H0OeZgP40OierEaAptX4XofMh5kwNbWh7lBduUzCcV/8kZ+NDLCwm2iorIlA==}
 
-  nodemailer@7.0.13:
-    resolution: {integrity: sha512-PNDFSJdP+KFgdsG3ZzMXCgquO7I6McjY2vlqILjtJd0hy8wEvtugS9xKRF2NWlPNGxvLCXlTNIae4serI7dinw==}
-    engines: {node: '>=6.0.0'}
-
   nodemailer@8.0.0:
     resolution: {integrity: sha512-xvVJf/f0bzmNpnRIbhCp/IKxaHgJ6QynvUbLXzzMRPG3LDQr5oXkYuw4uDFyFYs8cge8agwwrJAXZsd4hhMquw==}
     engines: {node: '>=6.0.0'}
@@ -9499,7 +9487,7 @@ packages:
     resolution: {integrity: sha512-QXEKQnX4r+UzCxCi+bAfhWZK/JMm4ij3WTItbkyiPEucbKu/A73ghmICuIiPNoyr/ct8PXN1qtc8wdjGs1MSAA==}
 
   nuxt@https://pkg.pr.new/nuxt@34191:
-    resolution: {integrity: sha512-3jEg5RHe13Od3z12RjdLFsXaaWTwR0hMmIFF7hFc5xpMm8AE8BDHSxweJtquF5k8aJHvOcOJG5MUOqzEiPQHUQ==, tarball: https://pkg.pr.new/nuxt@34191}
+    resolution: {tarball: https://pkg.pr.new/nuxt@34191}
     version: 4.3.0
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
@@ -13765,16 +13753,6 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@dargmuesli/nuxt-cookie-control@9.1.14(magicast@0.5.1)(webpack@5.105.0(esbuild@0.27.2))':
-    dependencies:
-      '@nuxt/kit': 4.3.0(magicast@0.5.1)
-      css-vars-ponyfill: 2.4.9
-      defu: 6.1.4
-      string-replace-loader: 3.3.0(webpack@5.105.0(esbuild@0.27.2))
-    transitivePeerDependencies:
-      - magicast
-      - webpack
-
   '@dargmuesli/nuxt-cookie-control@9.1.15(magicast@0.5.1)(webpack@5.105.0(esbuild@0.27.2))':
     dependencies:
       '@nuxt/kit': 4.3.0(magicast@0.5.1)
@@ -13785,9 +13763,9 @@ snapshots:
       - magicast
       - webpack
 
-  '@dargmuesli/nuxt-vio@20.5.2(aec76f9e053f2086316fa218f854dc3e)':
+  '@dargmuesli/nuxt-vio@20.6.2(aec76f9e053f2086316fa218f854dc3e)':
     dependencies:
-      '@dargmuesli/nuxt-cookie-control': 9.1.14(magicast@0.5.1)(webpack@5.105.0(esbuild@0.27.2))
+      '@dargmuesli/nuxt-cookie-control': 9.1.15(magicast@0.5.1)(webpack@5.105.0(esbuild@0.27.2))
       '@eslint/compat': 2.0.2(eslint@9.39.2(jiti@2.6.1))
       '@heroicons/vue': 2.2.0(vue@3.5.27(typescript@5.9.3))
       '@http-util/status-i18n': 0.9.0
@@ -13797,7 +13775,7 @@ snapshots:
       '@nuxt/image': 2.0.0(db0@0.3.4)(ioredis@5.9.2)(magicast@0.5.1)
       '@nuxtjs/color-mode': 4.0.0(magicast@0.5.1)
       '@nuxtjs/html-validator': 2.1.0(magicast@0.5.1)
-      '@nuxtjs/i18n': 10.2.1(@vue/compiler-dom@3.5.27)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.9.2)(magicast@0.5.1)(rollup@4.57.1)(vue@3.5.27(typescript@5.9.3))
+      '@nuxtjs/i18n': 10.2.3(@vue/compiler-dom@3.5.27)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.9.2)(magicast@0.5.1)(rollup@4.57.1)(vue@3.5.27(typescript@5.9.3))
       '@nuxtjs/seo': 3.4.0(@unhead/vue@2.1.2(vue@3.5.27(typescript@5.9.3)))(db0@0.3.4)(ioredis@5.9.2)(magicast@0.5.1)(rollup@4.57.1)(unhead@2.1.2)(unstorage@1.17.4(db0@0.3.4)(ioredis@5.9.2))(vite@7.3.1(@types/node@24.10.11)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(yaml@2.8.2))(vue@3.5.27(typescript@5.9.3))(zod@3.25.76)
       '@nuxtjs/turnstile': 1.1.1(@nuxt/scripts@0.13.2(@unhead/vue@2.1.2(vue@3.5.27(typescript@5.9.3)))(db0@0.3.4)(ioredis@5.9.2)(magicast@0.5.1)(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))(magicast@0.5.1)
       '@pinia/nuxt': 0.11.3(magicast@0.5.1)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3)))
@@ -13812,7 +13790,7 @@ snapshots:
       '@vuelidate/validators': 2.0.4(vue@3.5.27(typescript@5.9.3))
       '@vueuse/core': 14.2.0(vue@3.5.27(typescript@5.9.3))
       class-variance-authority: 0.7.1
-      clipboardy: 5.2.0
+      clipboardy: 5.2.1
       clsx: 2.1.1
       eslint: 9.39.2(jiti@2.6.1)
       eslint-config-prettier: 10.1.8(eslint@9.39.2(jiti@2.6.1))
@@ -13823,7 +13801,7 @@ snapshots:
       jiti: 2.6.1
       jose: 6.1.3
       lucide-vue-next: 0.563.0(vue@3.5.27(typescript@5.9.3))
-      nodemailer: 7.0.13
+      nodemailer: 8.0.0
       nuxt: https://pkg.pr.new/nuxt@34191(@parcel/watcher@2.5.6)(@types/node@24.10.11)(@vue/compiler-sfc@3.5.27)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.9.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.57.1)(stylelint@17.1.1(typescript@5.9.3))(terser@5.46.0)(typescript@5.9.3)(vite@7.3.1(@types/node@24.10.11)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(yaml@2.8.2))(vue-tsc@3.2.4(typescript@5.9.3))(yaml@2.8.2)
       nuxt-gtag: 4.1.0(magicast@0.5.1)
       nuxt-security: 2.5.1(magicast@0.5.1)(rollup@4.57.1)
@@ -16291,64 +16269,6 @@ snapshots:
       - jest-snapshot
       - magicast
       - vitest
-
-  '@nuxtjs/i18n@10.2.1(@vue/compiler-dom@3.5.27)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.9.2)(magicast@0.5.1)(rollup@4.57.1)(vue@3.5.27(typescript@5.9.3))':
-    dependencies:
-      '@intlify/core': 11.2.8
-      '@intlify/h3': 0.7.4
-      '@intlify/shared': 11.2.8
-      '@intlify/unplugin-vue-i18n': 11.0.3(@vue/compiler-dom@3.5.27)(eslint@9.39.2(jiti@2.6.1))(rollup@4.57.1)(typescript@5.9.3)(vue-i18n@11.2.8(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3))
-      '@intlify/utils': 0.13.0
-      '@miyaneee/rollup-plugin-json5': 1.2.0(rollup@4.57.1)
-      '@nuxt/kit': 4.3.0(magicast@0.5.1)
-      '@rollup/plugin-yaml': 4.1.2(rollup@4.57.1)
-      '@vue/compiler-sfc': 3.5.27
-      defu: 6.1.4
-      devalue: 5.6.2
-      h3: 1.15.5
-      knitwork: 1.3.0
-      magic-string: 0.30.21
-      mlly: 1.8.0
-      nuxt-define: 1.0.0
-      ohash: 2.0.11
-      oxc-parser: 0.95.0
-      oxc-transform: 0.95.0
-      oxc-walker: 0.5.2(oxc-parser@0.95.0)
-      pathe: 2.0.3
-      typescript: 5.9.3
-      ufo: 1.6.3
-      unplugin: 2.3.11
-      unplugin-vue-router: 0.16.2(@vue/compiler-sfc@3.5.27)(vue-router@4.6.4(vue@3.5.27(typescript@5.9.3)))(vue@3.5.27(typescript@5.9.3))
-      unstorage: 1.17.4(db0@0.3.4)(ioredis@5.9.2)
-      vue-i18n: 11.2.8(vue@3.5.27(typescript@5.9.3))
-      vue-router: 4.6.4(vue@3.5.27(typescript@5.9.3))
-    transitivePeerDependencies:
-      - '@azure/app-configuration'
-      - '@azure/cosmos'
-      - '@azure/data-tables'
-      - '@azure/identity'
-      - '@azure/keyvault-secrets'
-      - '@azure/storage-blob'
-      - '@capacitor/preferences'
-      - '@deno/kv'
-      - '@netlify/blobs'
-      - '@planetscale/database'
-      - '@upstash/redis'
-      - '@vercel/blob'
-      - '@vercel/functions'
-      - '@vercel/kv'
-      - '@vue/compiler-dom'
-      - aws4fetch
-      - db0
-      - eslint
-      - idb-keyval
-      - ioredis
-      - magicast
-      - petite-vue-i18n
-      - rollup
-      - supports-color
-      - uploadthing
-      - vue
 
   '@nuxtjs/i18n@10.2.3(@vue/compiler-dom@3.5.27)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.9.2)(magicast@0.5.1)(rollup@4.57.1)(vue@3.5.27(typescript@5.9.3))':
     dependencies:
@@ -19954,7 +19874,7 @@ snapshots:
       is-wsl: 3.1.0
       is64bit: 2.0.0
 
-  clipboardy@5.2.0:
+  clipboardy@5.2.1:
     dependencies:
       clipboard-image: 0.1.0
       execa: 9.6.1
@@ -23357,8 +23277,6 @@ snapshots:
   node-mock-http@1.0.4: {}
 
   node-releases@2.0.27: {}
-
-  nodemailer@7.0.13: {}
 
   nodemailer@8.0.0: {}
 
