@@ -1,3 +1,9 @@
+## [13.3.2](https://github.com/maevsi/vibetype/compare/13.3.1...13.3.2) (2026-02-07)
+
+### Bug Fixes
+
+* schedule release ([6c0e7f2](https://github.com/maevsi/vibetype/commit/6c0e7f2f6ef447026a950d591bee96338994691b))
+
 ## [13.3.1](https://github.com/maevsi/vibetype/compare/13.3.0...13.3.1) (2026-01-17)
 
 ### Bug Fixes
