@@ -98,7 +98,7 @@
     "lucide-vue-next": "0.563.0",
     "mustache": "4.2.0",
     "nodemailer": "8.0.1",
-    "nuxt": "https://pkg.pr.new/nuxt@34191",
+    "nuxt": "4.3.1",
     "nuxt-gtag": "4.1.0",
     "nuxt-security": "2.5.1",
     "nuxt-zod-i18n": "1.12.1",
