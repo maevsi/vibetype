@@ -32,10 +32,10 @@ importers:
         version: 3.985.0
       '@dargmuesli/nuxt-cookie-control':
         specifier: 9.1.15
-        version: 9.1.15(magicast@0.5.1)(webpack@5.105.0(esbuild@0.27.2))
+        version: 9.1.15(magicast@0.5.1)(webpack@5.105.0(esbuild@0.27.3))
       '@dargmuesli/nuxt-vio':
-        specifier: 20.6.3
-        version: 20.6.3(85cdd75b219777e764e0f3e120ec207f)
+        specifier: 20.7.1
+        version: 20.7.1(1ee026d0bf7e7b01c32c12fdfe83caba)
       '@fontsource-variable/raleway':
         specifier: 5.2.8
         version: 5.2.8
@@ -1400,8 +1400,8 @@ packages:
     resolution: {integrity: sha512-3V7/OzhKLik/eov4bWG0epAIUTEfiYTX7Dmk7B/6HGuxa1FRGiqnZmMw0goQ009kpO8IiINs+ztswKambAJpkw==}
     engines: {node: '>=16'}
 
-  '@dargmuesli/nuxt-vio@20.6.3':
-    resolution: {integrity: sha512-22Ai7Jsig7Y8dsSyksOGY5eb2y00NQx1hN0OpvIMZpN1B4kiheJWaKHFlu4wEQ909WsmNNeA9/N/wg8PYchCNA==}
+  '@dargmuesli/nuxt-vio@20.7.1':
+    resolution: {integrity: sha512-Y9xOtQtzVZDBRxI5AlcV1a8uZEod6Xkn9NK+pyVhgxPMaFFLMLSUuc5JmXirPOksVa1p44XoOmyPowOEqGQdxQ==}
     engines: {node: '24'}
     peerDependencies:
       nuxt: ^4.1.0
@@ -13942,19 +13942,19 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@dargmuesli/nuxt-cookie-control@9.1.15(magicast@0.5.1)(webpack@5.105.0(esbuild@0.27.2))':
+  '@dargmuesli/nuxt-cookie-control@9.1.15(magicast@0.5.1)(webpack@5.105.0(esbuild@0.27.3))':
     dependencies:
       '@nuxt/kit': 4.3.0(magicast@0.5.1)
       css-vars-ponyfill: 2.4.9
       defu: 6.1.4
-      string-replace-loader: 3.3.0(webpack@5.105.0(esbuild@0.27.2))
+      string-replace-loader: 3.3.0(webpack@5.105.0(esbuild@0.27.3))
     transitivePeerDependencies:
       - magicast
       - webpack
 
-  '@dargmuesli/nuxt-vio@20.6.3(85cdd75b219777e764e0f3e120ec207f)':
+  '@dargmuesli/nuxt-vio@20.7.1(1ee026d0bf7e7b01c32c12fdfe83caba)':
     dependencies:
-      '@dargmuesli/nuxt-cookie-control': 9.1.15(magicast@0.5.1)(webpack@5.105.0(esbuild@0.27.2))
+      '@dargmuesli/nuxt-cookie-control': 9.1.15(magicast@0.5.1)(webpack@5.105.0(esbuild@0.27.3))
       '@eslint/compat': 2.0.2(eslint@9.39.2(jiti@2.6.1))
       '@heroicons/vue': 2.2.0(vue@3.5.28(typescript@5.9.3))
       '@http-util/status-i18n': 0.9.0
@@ -14392,10 +14392,10 @@ snapshots:
   '@eslint/config-inspector@1.4.2(eslint@9.39.2(jiti@2.6.1))':
     dependencies:
       ansis: 4.2.0
-      bundle-require: 5.1.0(esbuild@0.27.2)
+      bundle-require: 5.1.0(esbuild@0.27.3)
       cac: 6.7.14
       chokidar: 4.0.3
-      esbuild: 0.27.2
+      esbuild: 0.27.3
       eslint: 9.39.2(jiti@2.6.1)
       h3: 1.15.5
       tinyglobby: 0.2.15
@@ -15790,7 +15790,7 @@ snapshots:
       jsonc-eslint-parser: 2.4.2
       lodash: 4.17.23
       parse5: 7.3.0
-      semver: 7.7.3
+      semver: 7.7.4
       synckit: 0.10.4
       vue-eslint-parser: 10.2.0(eslint@9.39.2(jiti@2.6.1))
       yaml-eslint-parser: 2.0.0
@@ -16181,7 +16181,7 @@ snapshots:
       '@nuxt/devtools-kit': 3.1.1(magicast@0.5.1)(vite@7.3.1(@types/node@24.10.12)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(yaml@2.8.2))
       '@nuxt/eslint-config': 1.14.0(@typescript-eslint/utils@8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.28)(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       '@nuxt/eslint-plugin': 1.14.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      '@nuxt/kit': 4.3.0(magicast@0.5.1)
+      '@nuxt/kit': 4.3.1(magicast@0.5.1)
       chokidar: 5.0.0
       eslint: 9.39.2(jiti@2.6.1)
       eslint-flat-config-utils: 3.0.1
@@ -16205,7 +16205,7 @@ snapshots:
 
   '@nuxt/image@2.0.0(db0@0.3.4)(ioredis@5.9.2)(magicast@0.5.1)':
     dependencies:
-      '@nuxt/kit': 4.3.0(magicast@0.5.1)
+      '@nuxt/kit': 4.3.1(magicast@0.5.1)
       consola: 3.4.2
       defu: 6.1.4
       h3: 1.15.5
@@ -16508,11 +16508,11 @@ snapshots:
 
   '@nuxtjs/color-mode@4.0.0(magicast@0.5.1)':
     dependencies:
-      '@nuxt/kit': 4.3.0(magicast@0.5.1)
+      '@nuxt/kit': 4.3.1(magicast@0.5.1)
       exsolve: 1.0.8
       pathe: 2.0.3
       pkg-types: 2.3.0
-      semver: 7.7.3
+      semver: 7.7.4
     transitivePeerDependencies:
       - magicast
 
@@ -18837,7 +18837,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 8.54.0
       debug: 4.4.3
       minimatch: 9.0.5
-      semver: 7.7.3
+      semver: 7.7.4
       tinyglobby: 0.2.15
       ts-api-utils: 2.4.0(typescript@5.9.3)
       typescript: 5.9.3
@@ -19928,9 +19928,9 @@ snapshots:
     dependencies:
       run-applescript: 7.1.0
 
-  bundle-require@5.1.0(esbuild@0.27.2):
+  bundle-require@5.1.0(esbuild@0.27.3):
     dependencies:
-      esbuild: 0.27.2
+      esbuild: 0.27.3
       load-tsconfig: 0.2.5
 
   c12@3.3.3(magicast@0.5.1):
@@ -20688,7 +20688,7 @@ snapshots:
       '@one-ini/wasm': 0.1.1
       commander: 10.0.1
       minimatch: 9.0.1
-      semver: 7.7.3
+      semver: 7.7.4
 
   ee-first@1.1.1: {}
 
@@ -20962,7 +20962,7 @@ snapshots:
   eslint-compat-utils@0.6.5(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
       eslint: 9.39.2(jiti@2.6.1)
-      semver: 7.7.3
+      semver: 7.7.4
 
   eslint-config-flat-gitignore@2.1.0(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
@@ -20999,7 +20999,7 @@ snapshots:
       find-up: 5.0.0
       globals: 15.15.0
       lodash.memoize: 4.1.2
-      semver: 7.7.3
+      semver: 7.7.4
 
   eslint-plugin-import-lite@0.5.0(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
@@ -21014,7 +21014,7 @@ snapshots:
       eslint-import-context: 0.1.9(unrs-resolver@1.11.1)
       is-glob: 4.0.3
       minimatch: 10.1.2
-      semver: 7.7.3
+      semver: 7.7.4
       stable-hash-x: 0.2.0
       unrs-resolver: 1.11.1
     optionalDependencies:
@@ -21036,7 +21036,7 @@ snapshots:
       html-entities: 2.6.0
       object-deep-merge: 2.0.0
       parse-imports-exports: 0.2.4
-      semver: 7.7.3
+      semver: 7.7.4
       spdx-expression-parse: 4.0.0
       to-valid-identifier: 1.0.0
     transitivePeerDependencies:
@@ -21084,7 +21084,7 @@ snapshots:
       pluralize: 8.0.0
       regexp-tree: 0.1.27
       regjsparser: 0.13.0
-      semver: 7.7.3
+      semver: 7.7.4
       strip-indent: 4.1.1
 
   eslint-plugin-vue@10.7.0(@stylistic/eslint-plugin@5.7.1(eslint@9.39.2(jiti@2.6.1)))(@typescript-eslint/parser@8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(vue-eslint-parser@10.2.0(eslint@9.39.2(jiti@2.6.1))):
@@ -21094,7 +21094,7 @@ snapshots:
       natural-compare: 1.4.0
       nth-check: 2.1.1
       postcss-selector-parser: 7.1.1
-      semver: 7.7.3
+      semver: 7.7.4
       vue-eslint-parser: 10.2.0(eslint@9.39.2(jiti@2.6.1))
       xml-name-validator: 4.0.0
     optionalDependencies:
@@ -22633,7 +22633,7 @@ snapshots:
       acorn: 8.15.0
       eslint-visitor-keys: 3.4.3
       espree: 9.6.1
-      semver: 7.7.3
+      semver: 7.7.4
 
   jsonfile@6.2.0:
     dependencies:
@@ -22966,7 +22966,7 @@ snapshots:
 
   macos-version@6.0.0:
     dependencies:
-      semver: 7.7.3
+      semver: 7.7.4
 
   magic-regexp@0.10.0:
     dependencies:
@@ -23570,7 +23570,7 @@ snapshots:
 
   node-abi@3.87.0:
     dependencies:
-      semver: 7.7.3
+      semver: 7.7.4
 
   node-addon-api@7.1.1: {}
 
@@ -23813,7 +23813,7 @@ snapshots:
 
   nuxt-site-config-kit@3.2.19(magicast@0.5.1)(vue@3.5.28(typescript@5.9.3)):
     dependencies:
-      '@nuxt/kit': 4.3.0(magicast@0.5.1)
+      '@nuxt/kit': 4.3.1(magicast@0.5.1)
       pkg-types: 2.3.0
       site-config-stack: 3.2.19(vue@3.5.28(typescript@5.9.3))
       std-env: 3.10.0
@@ -25643,10 +25643,10 @@ snapshots:
 
   string-env-interpolation@1.0.1: {}
 
-  string-replace-loader@3.3.0(webpack@5.105.0(esbuild@0.27.2)):
+  string-replace-loader@3.3.0(webpack@5.105.0(esbuild@0.27.3)):
     dependencies:
       schema-utils: 4.3.3
-      webpack: 5.105.0(esbuild@0.27.2)
+      webpack: 5.105.0(esbuild@0.27.3)
 
   string-width@4.2.3:
     dependencies:
@@ -25967,16 +25967,16 @@ snapshots:
       type-fest: 0.16.0
       unique-string: 2.0.0
 
-  terser-webpack-plugin@5.3.16(esbuild@0.27.2)(webpack@5.105.0(esbuild@0.27.2)):
+  terser-webpack-plugin@5.3.16(esbuild@0.27.3)(webpack@5.105.0(esbuild@0.27.3)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       jest-worker: 27.5.1
       schema-utils: 4.3.3
       serialize-javascript: 6.0.2
       terser: 5.46.0
-      webpack: 5.105.0(esbuild@0.27.2)
+      webpack: 5.105.0(esbuild@0.27.3)
     optionalDependencies:
-      esbuild: 0.27.2
+      esbuild: 0.27.3
 
   terser@5.46.0:
     dependencies:
@@ -26765,7 +26765,7 @@ snapshots:
       eslint-visitor-keys: 4.2.1
       espree: 10.4.0
       esquery: 1.7.0
-      semver: 7.7.3
+      semver: 7.7.4
     transitivePeerDependencies:
       - supports-color
 
@@ -26846,7 +26846,7 @@ snapshots:
 
   webpack-virtual-modules@0.6.2: {}
 
-  webpack@5.105.0(esbuild@0.27.2):
+  webpack@5.105.0(esbuild@0.27.3):
     dependencies:
       '@types/eslint-scope': 3.7.7
       '@types/estree': 1.0.8
@@ -26870,7 +26870,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 4.3.3
       tapable: 2.3.0
-      terser-webpack-plugin: 5.3.16(esbuild@0.27.2)(webpack@5.105.0(esbuild@0.27.2))
+      terser-webpack-plugin: 5.3.16(esbuild@0.27.3)(webpack@5.105.0(esbuild@0.27.3))
       watchpack: 2.5.1
       webpack-sources: 3.3.3
     transitivePeerDependencies:
