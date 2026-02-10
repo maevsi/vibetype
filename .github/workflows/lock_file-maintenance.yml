@@ -1,0 +1,88 @@
+name: "Lock file: Maintenance"
+
+permissions: {}
+
+on:
+  workflow_dispatch:
+
+jobs:
+  lock_file-maintenance:
+    name: Lock file Maintenance
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        # with:
+        #   token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+      #   with:
+      #     node-version-file: .nvmrc
+
+      # - name: Install mkcert
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y mkcert
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Remove lock file
+        run: rm pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+        # working-directory: .
+
+      # - name: Check if lock file changed
+      #   id: check-changes
+      #   run: |
+      #     if git diff --quiet pnpm-lock.yaml; then
+      #       echo "changed=false" >> $GITHUB_OUTPUT
+      #       echo "No changes detected in lock file"
+      #     else
+      #       echo "changed=true" >> $GITHUB_OUTPUT
+      #       echo "Lock file has been updated"
+      #     fi
+
+      # - name: Run lint
+      #   if: steps.check-changes.outputs.changed == 'true'
+      #   run: pnpm -r run lint
+
+      # - name: Prepare certificates
+      #   if: steps.check-changes.outputs.changed == 'true'
+      #   run: pnpm run --dir src prepare
+
+      # - name: Run build
+      #   if: steps.check-changes.outputs.changed == 'true'
+      #   run: pnpm run --dir src build:node
+      #   env:
+      #     NODE_ENV: production
+      #     SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+
+      # - name: Run unit tests
+      #   if: steps.check-changes.outputs.changed == 'true'
+      #   run: pnpm -r run test
+
+      - name: Create Pull Request
+        # if: steps.check-changes.outputs.changed == 'true'
+        id: pull-request
+        uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8.1.0
+        with:
+          body: |
+            🔧 This Pull Request updates lock files to use the latest dependency versions.
+          branch: chore/deps/lock_file-maintenance
+          commit-message: "chore(deps): lock file maintenance"
+          # delete-branch: true
+          title: "chore(deps): lock file maintenance"
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      # - name: Enable auto-merge
+      #   if: steps.check-changes.outputs.changed == 'true' && steps.pull-request.outputs.pull-request-number != ''
+      #   run: gh pr merge --auto --squash "${{ steps.pull-request.outputs.pull-request-number }}"
+      #   env:
+      #     GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
