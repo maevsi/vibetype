@@ -1,4 +1,4 @@
-name: "Lock file: Maintenance"
+name: "Lock File: Maintenance"
 
 permissions: {}
 
@@ -7,7 +7,7 @@ on:
 
 jobs:
   lock_file-maintenance:
-    name: Lock file Maintenance
+    name: Lock File Maintenance
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -35,7 +35,7 @@ jobs:
         run: rm pnpm-lock.yaml
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --lockfile-only
         # working-directory: .
 
       # - name: Check if lock file changed
