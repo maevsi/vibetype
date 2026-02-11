@@ -3,7 +3,7 @@
   "devDependencies": {
     "@aws-sdk/client-sesv2": "3.987.0",
     "@aws-sdk/credential-providers": "3.987.0",
-    "@dargmuesli/nuxt-cookie-control": "9.1.15",
+    "@dargmuesli/nuxt-cookie-control": "9.1.16",
     "@dargmuesli/nuxt-vio": "20.7.1",
     "@fontsource-variable/raleway": "5.2.8",
     "@graphql-codegen/add": "6.0.0",
