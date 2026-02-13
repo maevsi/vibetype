@@ -144,7 +144,7 @@
     "vue-advanced-cropper": "2.8.9",
     "vue-chartjs": "5.3.3",
     "vue-qrcode-reader": "5.7.3",
-    "vue-router": "4.6.4",
+    "vue-router": "5.0.2",
     "vue-sonner": "2.0.9",
     "vue-tsc": "3.2.4",
     "workbox-precaching": "7.4.0",
