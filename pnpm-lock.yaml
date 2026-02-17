@@ -94,8 +94,8 @@ importers:
         specifier: 3.11.0
         version: 3.11.0
       '@mondaydotcomorg/api':
-        specifier: 11.0.2
-        version: 11.0.2
+        specifier: 13.0.0
+        version: 13.0.0
       '@nuxt/content':
         specifier: 3.11.2
         version: 3.11.2(patch_hash=4436b1f17ccbb7b4f35caf4ecd83fe497bbd064594f4a251c86b4d95f9d907ff)(magicast@0.5.2)(valibot@1.2.0(typescript@5.9.3))
@@ -2941,8 +2941,8 @@ packages:
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
 
-  '@mondaydotcomorg/api@11.0.2':
-    resolution: {integrity: sha512-k0NUE2nx8tzRmRGkREQerK1ZQBi+hcL6BUntf4nj4cRcdbYPpJDwFJxehJeihT8gqVT2MkEUXuQt+8mjfWQRAg==}
+  '@mondaydotcomorg/api@13.0.0':
+    resolution: {integrity: sha512-CsnHtZ5bz84iFuMon0s0TJ1bM29u/ntbpoZkNZb6xla7kIbBUXg4k55fe//I/vCOR7Jg2KHndyiX69X4KdHLTg==}
     engines: {node: '>= 16.20.0'}
 
   '@napi-rs/wasm-runtime@0.2.12':
@@ -3097,7 +3097,7 @@ packages:
     engines: {node: ^14.18.0 || >=16.10.0}
 
   '@nuxt/schema@https://pkg.pr.new/@nuxt/schema@34191':
-    resolution: {integrity: sha512-B+CukPulfEVI8+9wIhL6wmuO9Bs9nE6cuSUf7dqUWB7vh9LrMUt6BV6GoSqD4sTnjO9vNzDr+w8OtRmE/AXsOg==, tarball: https://pkg.pr.new/@nuxt/schema@34191}
+    resolution: {tarball: https://pkg.pr.new/@nuxt/schema@34191}
     version: 4.3.0
     engines: {node: ^14.18.0 || >=16.10.0}
 
@@ -12397,6 +12397,9 @@ packages:
     peerDependencies:
       zod: ^3.25 || ^4
 
+  zod@3.24.4:
+    resolution: {integrity: sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==}
+
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
@@ -15812,11 +15815,12 @@ snapshots:
       json5: 2.2.3
       rollup: 4.57.1
 
-  '@mondaydotcomorg/api@11.0.2':
+  '@mondaydotcomorg/api@13.0.0':
     dependencies:
       graphql: 16.8.2
       graphql-request: 6.1.0(graphql@16.8.2)
       graphql-tag: 2.12.6(graphql@16.8.2)
+      zod: 3.24.4
     transitivePeerDependencies:
       - encoding
 
@@ -27196,6 +27200,8 @@ snapshots:
   zod-to-json-schema@3.25.1(zod@3.25.76):
     dependencies:
       zod: 3.25.76
+
+  zod@3.24.4: {}
 
   zod@3.25.76: {}
 
