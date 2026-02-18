@@ -3,15 +3,15 @@ import type { FragmentType } from '~~/gql/generated'
 
 export const ContactItem = graphql(`
   fragment ContactItem on Contact {
-    nodeId
-    id
     accountId
     accountByAccountId {
       id
+      rowId
       username
     }
     accountByCreatedBy {
       id
+      rowId
       username
     }
     addressByAddressId {
@@ -21,10 +21,12 @@ export const ContactItem = graphql(`
     emailAddress
     emailAddressHash
     firstName
+    id
     lastName
     nickname
     note
     phoneNumber
+    rowId
     url
   }
 `)

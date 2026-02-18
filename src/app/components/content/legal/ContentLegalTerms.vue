@@ -34,6 +34,7 @@ const allLegalTermsQuery = graphql(`
     allLegalTerms(condition: { language: $language }) {
       nodes {
         id
+        rowId
         term
       }
     }
@@ -75,7 +76,7 @@ if (error.value) {
 }
 
 if (data.value?.legalTerm) {
-  emit('id', data.value.legalTerm.id)
+  emit('id', data.value.legalTerm.rowId)
 }
 </script>
 

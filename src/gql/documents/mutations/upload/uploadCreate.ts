@@ -7,6 +7,7 @@ export const createUploadMutation = graphql(`
       clientMutationId
       upload {
         id
+        rowId
       }
     }
   }

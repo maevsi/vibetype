@@ -4,7 +4,7 @@
       :errors="api.errors"
       :form="v$"
       :is-form-sent="isFormSent"
-      :submit-name="v$.id.$model ? t('eventUpdate') : t('eventCreate')"
+      :submit-name="v$.rowId.$model ? t('eventUpdate') : t('eventCreate')"
       @submit.prevent="submit"
     >
       <FormInput
@@ -13,8 +13,8 @@
         title="id"
         type="text"
         placeholder="id"
-        :value="v$.id"
-        @input="form.id = $event"
+        :value="v$.rowId"
+        @input="form.rowId = $event"
       />
       <FormInput
         id-label="input-name"
@@ -115,7 +115,7 @@
         </template>
       </FormInput>
       <FormInput
-        v-if="v$.visibility.$model === 'PUBLIC'"
+        v-if="v$.visibility.$model === EventVisibility.Public"
         id-label="input-invitee-count-maximum"
         :title="t('maximumInviteeCount')"
         type="number"
@@ -275,7 +275,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { DatePicker } from 'v-calendar'
 
 import { useCreateEventMutation } from '~~/gql/documents/mutations/event/eventCreate'
-import { useUpdateEventByIdMutation } from '~~/gql/documents/mutations/event/eventUpdateById'
+import { useUpdateEventByRowIdMutation } from '~~/gql/documents/mutations/event/eventUpdateByRowId'
 import { EventVisibility } from '~~/gql/generated/graphql'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
@@ -308,7 +308,6 @@ const timeZone = useTimeZone()
 // data
 const now = useNow()
 const form = reactive({
-  id: ref<string>(),
   createdBy: ref<string>(),
   description: ref<string>(),
   end: ref<string>(),
@@ -317,6 +316,7 @@ const form = reactive({
   isRemote: ref<boolean>(),
   // location: ref<string>(),
   name: ref<string>(),
+  rowId: ref<string>(),
   slug: ref<string>(),
   start: ref<string>(),
   url: ref<string>(),
@@ -326,7 +326,7 @@ const isFormSent = ref(false)
 
 // api data
 const createEventMutation = useCreateEventMutation()
-const updateEventMutation = useUpdateEventByIdMutation()
+const updateEventMutation = useUpdateEventByRowIdMutation()
 const api = await useApiData([createEventMutation, updateEventMutation])
 
 // methods
@@ -347,10 +347,10 @@ const submit = async () => {
 
   if (!store.signedInAccountId) throw new Error('Account id is missing!')
 
-  if (form.id) {
+  if (form.rowId) {
     // Edit
     const result = await updateEventMutation.executeMutation({
-      id: form.id,
+      id: form.rowId,
       eventPatch: {
         createdBy: store.signedInAccountId,
         description: form.description || null,
@@ -438,7 +438,6 @@ const isWarningStartPastShown = computed(
 
 // vuelidate
 const rules = {
-  id: {},
   createdBy: {},
   description: VALIDATION_PRIMITIVE({
     lengthMax: VALIDATION_EVENT_DESCRIPTION_LENGTH_MAXIMUM,
@@ -457,6 +456,7 @@ const rules = {
     isRequired: true,
     lengthMax: VALIDATION_EVENT_NAME_LENGTH_MAXIMUM,
   }),
+  rowId: {},
   slug: VALIDATION_SLUG({
     existenceNone: validateEventSlug({
       signedInAccountId: store.signedInAccountId || '',

@@ -23,6 +23,7 @@ const queryEventList = graphql(`
       nodes {
         accountByCreatedBy {
           id
+          rowId
           username
         }
         addressByAddressId {
@@ -31,11 +32,13 @@ const queryEventList = graphql(`
             latitude
             longitude
           }
+          rowId
         }
         eventFavoritesByEventId(first: 1) {
           nodes {
             id
             createdBy
+            rowId
           }
         }
         guestsByEventId(first: 1) {
@@ -43,12 +46,15 @@ const queryEventList = graphql(`
             contactByContactId {
               accountId
               id
+              rowId
             }
             id
+            rowId
           }
         }
         id
         name
+        rowId
         slug
         start
       }
@@ -76,6 +82,7 @@ const queryEventSearch = graphql(`
       nodes {
         accountByCreatedBy {
           id
+          rowId
           username
         }
         addressByAddressId {
@@ -84,11 +91,13 @@ const queryEventSearch = graphql(`
             latitude
             longitude
           }
+          rowId
         }
         eventFavoritesByEventId(first: 1) {
           nodes {
             createdBy
             id
+            rowId
           }
         }
         guestsByEventId(first: 1) {
@@ -96,12 +105,15 @@ const queryEventSearch = graphql(`
             contactByContactId {
               accountId
               id
+              rowId
             }
             id
+            rowId
           }
         }
         id
         name
+        rowId
         slug
         start
       }

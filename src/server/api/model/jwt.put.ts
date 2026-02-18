@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { graphql } from '~~/gql/generated'
 import type {
   JwtUpdateAttendanceAddMutation,
-  JwtUpdateGuestAddMutation,
+  // JwtUpdateGuestAddMutation,
   JwtUpdateMutation,
 } from '~~/gql/generated/graphql'
 
@@ -25,7 +25,7 @@ const mutationJwtUpdate = graphql(`
   mutation JwtUpdate($id: UUID!) {
     jwtUpdate(input: { jwtId: $id }) {
       clientMutationId
-      jwt
+      result
     }
   }
 `)
@@ -33,18 +33,18 @@ const mutationJwtUpdate = graphql(`
 const mutationJwtUpdateAttendanceAdd = graphql(`
   mutation JwtUpdateAttendanceAdd($input: JwtUpdateAttendanceAddInput!) {
     jwtUpdateAttendanceAdd(input: $input) {
-      jwt
+      result
     }
   }
 `)
 
-const mutationJwtUpdateGuestAdd = graphql(`
-  mutation JwtUpdateGuestAdd($input: JwtUpdateGuestAddInput!) {
-    jwtUpdateGuestAdd(input: $input) {
-      jwt
-    }
-  }
-`)
+// const mutationJwtUpdateGuestAdd = graphql(`
+//   mutation JwtUpdateGuestAdd($input: JwtUpdateGuestAddInput!) {
+//     jwtUpdateGuestAdd(input: $input) {
+//       jwt
+//     }
+//   }
+// `)
 
 const getJwtFromResult = <
   Data,
@@ -121,7 +121,7 @@ const getJwt = async ({
     })
     return getJwtFromResult({
       context: 'JWT update',
-      extract: (data: JwtUpdateMutation) => data.jwtUpdate?.jwt,
+      extract: (data: JwtUpdateMutation) => data.jwtUpdate?.result,
       result: jwtCreateMutation,
     })
   }
@@ -141,29 +141,29 @@ const getJwt = async ({
     return getJwtFromResult({
       context: 'JWT attendance add',
       extract: (data: JwtUpdateAttendanceAddMutation) =>
-        data.jwtUpdateAttendanceAdd?.jwt,
+        data.jwtUpdateAttendanceAdd?.result,
       result: jwtUpdateAttendanceAddMutation,
     })
   }
 
-  if ('guestId' in body) {
-    const jwtUpdateGuestAddMutation = await urqlMutate({
-      event,
-      urql: {
-        mutation: mutationJwtUpdateGuestAdd,
-        variables: {
-          input: {
-            ...body,
-          },
-        },
-      },
-    })
-    return getJwtFromResult({
-      context: 'JWT guest add',
-      extract: (data: JwtUpdateGuestAddMutation) => data.jwtUpdateGuestAdd?.jwt,
-      result: jwtUpdateGuestAddMutation,
-    })
-  }
+  // if ('guestId' in body) {
+  //   const jwtUpdateGuestAddMutation = await urqlMutate({
+  //     event,
+  //     urql: {
+  //       mutation: mutationJwtUpdateGuestAdd,
+  //       variables: {
+  //         input: {
+  //           ...body,
+  //         },
+  //       },
+  //     },
+  //   })
+  //   return getJwtFromResult({
+  //     context: 'JWT guest add',
+  //     extract: (data: JwtUpdateGuestAddMutation) => data.jwtUpdateGuestAdd?.jwt,
+  //     result: jwtUpdateGuestAddMutation,
+  //   })
+  // }
 }
 
 export default defineEventHandler(async (event) => {
