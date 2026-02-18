@@ -1,11 +1,9 @@
 export default defineEventHandler(async (event) => {
   const { getJwtFromCookie } = await useJsonWebToken()
 
+  const baseURL = useServiceHrefPostgraphile()
   const jwt = getJwtFromCookie()
   const query = getQuery(event)
-
-  const getServiceHref = useGetServiceHref()
-  const baseURL = getServiceHref({ name: 'postgraphile', port: 5000 })
 
   const variables = // TODO: remove with Postgraphile v5
     typeof query.variables === 'string'

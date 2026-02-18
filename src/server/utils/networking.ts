@@ -24,6 +24,12 @@ export const useGetServiceHref = ({ event }: { event?: H3Event } = {}) => {
     })
 }
 
+export const getServiceHrefPostgraphile = () =>
+  getServiceHref({ name: 'postgraphile', port: 5678 })
+
+export const useServiceHrefPostgraphile = () =>
+  useGetServiceHref()({ name: 'postgraphile', port: 5678 })
+
 export const useHost = ({ event }: { event?: H3Event } = {}) => {
   const { siteUrlTyped: siteUrl } = useSiteUrl()
   const host = event ? getHost(event) : siteUrl.host

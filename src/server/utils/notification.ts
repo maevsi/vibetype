@@ -206,7 +206,8 @@ export const processNotification = async ({
 }
 
 const ack = async ({ id }: { id: string }) => {
-  const response = await fetch('http://postgraphile:5000/graphql', {
+  const baseURL = getServiceHrefPostgraphile()
+  const response = await fetch(`${baseURL}/graphql`, {
     body: JSON.stringify({
       query: `mutation { notificationAcknowledge(input: { id: "${id}", isAcknowledged: true }) { clientMutationId } }`,
     }),
