@@ -1,3 +1,9 @@
+## [14.0.0-beta.4](https://github.com/maevsi/vibetype/compare/14.0.0-beta.3...14.0.0-beta.4) (2026-02-20)
+
+### Bug Fixes
+
+* **urql:** correct site name ([742aa8c](https://github.com/maevsi/vibetype/commit/742aa8c1cd9696cc00adf9317aa292b26d114554))
+
 ## [14.0.0-beta.3](https://github.com/maevsi/vibetype/compare/14.0.0-beta.2...14.0.0-beta.3) (2026-01-26)
 
 ### ⚠ BREAKING CHANGES
