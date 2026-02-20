@@ -307,8 +307,8 @@ importers:
         specifier: 4.17.23
         version: 4.17.23
       lucide-vue-next:
-        specifier: 0.564.0
-        version: 0.564.0(vue@3.5.28(typescript@5.9.3))
+        specifier: 0.574.0
+        version: 0.574.0(vue@3.5.28(typescript@5.9.3))
       mustache:
         specifier: 4.2.0
         version: 4.2.0
@@ -3091,7 +3091,7 @@ packages:
     engines: {node: ^14.18.0 || >=16.10.0}
 
   '@nuxt/schema@https://pkg.pr.new/@nuxt/schema@34191':
-    resolution: {tarball: https://pkg.pr.new/@nuxt/schema@34191}
+    resolution: {integrity: sha512-B+CukPulfEVI8+9wIhL6wmuO9Bs9nE6cuSUf7dqUWB7vh9LrMUt6BV6GoSqD4sTnjO9vNzDr+w8OtRmE/AXsOg==, tarball: https://pkg.pr.new/@nuxt/schema@34191}
     version: 4.3.0
     engines: {node: ^14.18.0 || >=16.10.0}
 
@@ -9209,11 +9209,6 @@ packages:
   lru-memoizer@2.3.0:
     resolution: {integrity: sha512-GXn7gyHAMhO13WSKrIiNfztwxodVsP8IoZ3XfrJV4yH2x0/OeTO/FIaAHTY5YekdGgW94njfuKmyyt1E0mR6Ug==}
 
-  lucide-vue-next@0.564.0:
-    resolution: {integrity: sha512-Zf51QMPVsRPpAmlVdzzp3vUofPMgxxRd/33O+7YsTCC2Aw9J5bSnJg2ZToMZ7SHkXkeDfvpWRZuRSU0+nK2okQ==}
-    peerDependencies:
-      vue: '>=3.0.1'
-
   lucide-vue-next@0.574.0:
     resolution: {integrity: sha512-WzsTQJ2YLINuGeN2iM2fmhHmgkyhGdAADbiXnbAvOuizry4ISFbE2oQGRz3ExjwK3wunW9oGe9EC8WNiXW2b9A==}
     peerDependencies:
@@ -14062,7 +14057,7 @@ snapshots:
       eslint: 9.39.2(jiti@2.6.1)
       eslint-config-prettier: 10.1.8(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-compat: 6.2.0(eslint@9.39.2(jiti@2.6.1))
-      eslint-plugin-prettier: 5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(prettier@3.8.1)
+      eslint-plugin-prettier: 5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@10.0.0(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(prettier@3.8.1)
       eslint-plugin-yml: 3.2.1(@eslint/markdown@7.5.1)(eslint@9.39.2(jiti@2.6.1))
       globals: 17.3.0
       jiti: 2.6.1
@@ -21237,7 +21232,7 @@ snapshots:
       '@types/eslint': 9.6.1
       eslint-config-prettier: 10.1.8(eslint@10.0.0(jiti@2.6.1))
 
-  eslint-plugin-prettier@5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(prettier@3.8.1):
+  eslint-plugin-prettier@5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@10.0.0(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(prettier@3.8.1):
     dependencies:
       eslint: 9.39.2(jiti@2.6.1)
       prettier: 3.8.1
@@ -23249,10 +23244,6 @@ snapshots:
     dependencies:
       lodash.clonedeep: 4.5.0
       lru-cache: 6.0.0
-
-  lucide-vue-next@0.564.0(vue@3.5.28(typescript@5.9.3)):
-    dependencies:
-      vue: 3.5.28(typescript@5.9.3)
 
   lucide-vue-next@0.574.0(vue@3.5.28(typescript@5.9.3)):
     dependencies:
