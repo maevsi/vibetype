@@ -3,10 +3,9 @@ import type { FragmentType } from '~~/gql/generated'
 
 export const EventItem = graphql(`
   fragment EventItem on Event {
-    id
-    nodeId
     accountByCreatedBy {
       id
+      rowId
       username
     }
     addressByAddressId {
@@ -16,10 +15,12 @@ export const EventItem = graphql(`
     description
     end
     guestCountMaximum
+    id
     isArchived
     isInPerson
     isRemote
     name
+    rowId
     slug
     start
     url

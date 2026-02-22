@@ -517,7 +517,9 @@ export const testMetadata = async ({
 
   expect(
     await page.locator('script[data-hid="schema-org-graph"]').innerText(),
-  ).toMatchSnapshot(`schema-org-graph-${process.env.VIO_SERVER || 'dev'}.json`)
+  ).toMatchSnapshot(
+    `schema-org-graph-${process.env.VIO_SERVER || 'development'}.json`,
+  )
 
   // if (process.env.VIO_SERVER === 'static') {
   //   expect(

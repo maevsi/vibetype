@@ -13,10 +13,12 @@ export default defineEventHandler(() => {
       allLegalTerms: {
         nodes: [
           {
-            id: '858ab35b-0433-4698-902f-ff42a25ec94a',
+            rowId: '858ab35b-0433-4698-902f-ff42a25ec94a',
             term: '# Terms of Use',
+            __typename: 'LegalTerm',
           },
         ],
+        __typename: 'LegalTermConnection',
       },
     },
   }

@@ -3,11 +3,11 @@ import type { FragmentType } from '~~/gql/generated'
 
 export const UploadItem = graphql(`
   fragment UploadItem on Upload {
+    createdBy
     id
-    nodeId
+    rowId
     sizeByte
     storageKey
-    createdBy
   }
 `)
 

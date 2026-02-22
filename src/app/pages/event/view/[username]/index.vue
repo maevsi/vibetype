@@ -47,6 +47,7 @@ const queryEventListAccount = graphql(`
             nodes {
               createdBy
               id
+              rowId
             }
           }
           guestsByEventId(first: 1) {
@@ -54,12 +55,15 @@ const queryEventListAccount = graphql(`
               contactByContactId {
                 accountId
                 id
+                rowId
               }
               id
+              rowId
             }
           }
           id
           name
+          rowId
           slug
           start
         }
@@ -70,6 +74,7 @@ const queryEventListAccount = graphql(`
         totalCount
       }
       id
+      rowId
     }
   }
 `)

@@ -16,18 +16,20 @@
       placeholder="id"
       title="id"
       type="text"
-      :value="v$.id"
-      @input="form.id = $event"
+      :value="v$.rowId"
+      @input="form.rowId = $event"
     />
     <FormInputUsername
       :form-input="v$.accountUsername"
-      :is-disabled="contact?.accountByAccountId?.id === store.signedInAccountId"
+      :is-disabled="
+        contact?.accountByAccountId?.rowId === store.signedInAccountId
+      "
       is-validatable
       @input="form.accountUsername = $event"
     >
       <template #stateInfo>
         <FormInputStateInfo
-          v-if="contact?.accountByAccountId?.id === store.signedInAccountId"
+          v-if="contact?.accountByAccountId?.rowId === store.signedInAccountId"
         >
           <i18n-t keypath="stateInfoUsernameDisabled" tag="span">
             <template #accountSettings>
@@ -163,7 +165,7 @@
 import { useVuelidate } from '@vuelidate/core'
 
 import { useCreateContactMutation } from '~~/gql/documents/mutations/contact/contactCreate'
-import { useUpdateContactByIdMutation } from '~~/gql/documents/mutations/contact/contactUpdateById'
+import { useUpdateContactByRowIdMutation } from '~~/gql/documents/mutations/contact/contactUpdateByRowId'
 import type { ContactItemFragment } from '~~/gql/generated/graphql'
 
 const { contact = undefined } = defineProps<{
@@ -173,11 +175,12 @@ const { contact = undefined } = defineProps<{
     // | 'addressByAddressId'
     | 'emailAddress'
     | 'firstName'
-    | 'id'
+    // | 'id'
     | 'lastName'
     | 'nickname'
     | 'note'
     | 'phoneNumber'
+    | 'rowId'
     | 'url'
   >
 }>()
@@ -193,7 +196,6 @@ const { t } = useI18n()
 
 // data
 const form = reactive({
-  id: ref<string>(),
   accountUsername: ref<string>(),
   address: ref<string>(),
   emailAddress: ref<string>(),
@@ -202,14 +204,18 @@ const form = reactive({
   nickname: ref<string>(),
   note: ref<string>(),
   phoneNumber: ref<string>(),
+  rowId: ref<string>(),
   url: ref<string>(),
 })
 const isFormSent = ref(false)
 
 // api data
 const createContactMutation = useCreateContactMutation()
-const updateContactByIdMutation = useUpdateContactByIdMutation()
-const api = await useApiData([createContactMutation, updateContactByIdMutation])
+const updateContactByRowIdMutation = useUpdateContactByRowIdMutation()
+const api = await useApiData([
+  createContactMutation,
+  updateContactByRowIdMutation,
+])
 
 // methods
 const submit = async () => {
@@ -222,12 +228,12 @@ const submit = async () => {
       })
     : undefined
 
-  if (form.id) {
+  if (form.rowId) {
     // Edit
-    const result = await updateContactByIdMutation.executeMutation({
-      id: form.id,
+    const result = await updateContactByRowIdMutation.executeMutation({
+      id: form.rowId,
       contactPatch: {
-        accountId: account?.id || null,
+        accountId: account?.rowId || null,
         // address: form.address || null,
         createdBy: store.signedInAccountId,
         emailAddress: form.emailAddress || null,
@@ -249,7 +255,7 @@ const submit = async () => {
 
     const result = await createContactMutation.executeMutation({
       contactInput: {
-        accountId: account?.id || null,
+        accountId: account?.rowId || null,
         // address: form.address || null,
         createdBy: store.signedInAccountId,
         emailAddress: form.emailAddress || null,
@@ -274,11 +280,12 @@ const updateForm = (
     // | 'addressByAddressId'
     | 'emailAddress'
     | 'firstName'
-    | 'id'
+    // | 'id'
     | 'lastName'
     | 'nickname'
     | 'note'
     | 'phoneNumber'
+    | 'rowId'
     | 'url'
   >,
 ) => {
@@ -288,17 +295,16 @@ const updateForm = (
   // form.address = data.address || undefined
   form.emailAddress = data.emailAddress || undefined
   form.firstName = data.firstName || undefined
-  form.id = data.id
   form.lastName = data.lastName || undefined
   form.nickname = data.nickname || undefined
   form.note = data.note || undefined
   form.phoneNumber = data.phoneNumber || undefined
+  form.rowId = data.rowId
   form.url = data.url || undefined
 }
 
 // vuelidate
 const rules = {
-  id: {},
   accountUsername: VALIDATION_USERNAME({
     validateExistence: true,
   }),
@@ -319,6 +325,7 @@ const rules = {
     lengthMax: VALIDATION_NOTE_LENGTH_MAXIMUM,
   }),
   phoneNumber: {},
+  rowId: {},
   url: VALIDATION_URL(),
 }
 const v$ = useVuelidate(rules, form)

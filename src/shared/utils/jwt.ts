@@ -1,7 +1,13 @@
 import { type H3Event, setCookie } from 'h3'
+import type { useRuntimeConfig } from 'nuxt/app'
+
+import { COOKIE_SAME_SITE } from './constants'
+import { throwError } from './error'
+import { getIsSecure } from './networking'
+import { getSiteUrl } from './vio'
 
 export const getJwtName = (siteUrl: URL) =>
-  JWT_NAME({ isHttps: siteUrl.protocol === 'https:' })
+  `${getIsSecure({ siteUrl }) ? '__Host-' : ''}jwt-v3`
 
 export const setJwtCookie = ({
   event,
@@ -22,16 +28,30 @@ export const setJwtCookie = ({
     })
   }
 
-  const siteUrl = getSiteUrl(runtimeConfig.public.i18n.baseUrl).siteUrlTyped
-  const isSecure = getIsSecure({ siteUrl })
-  const jwtCookieName = JWT_NAME({ isHttps: isSecure })
+  const { siteUrlTyped: siteUrl } = getSiteUrl(
+    runtimeConfig.public.i18n.baseUrl,
+  )
+  const jwtCookieName = getJwtName(siteUrl)
+  const isSecure = getIsSecure({ runtimeConfig })
 
   setCookie(event, jwtCookieName, jwt, {
-    domain: siteUrl.hostname,
-    expires: jwt ? dateInAMonth : dateEpoch,
+    expires: jwt.length ? dateInAMonth : dateEpoch,
     httpOnly: true,
-    // path: '/',
     sameSite: COOKIE_SAME_SITE,
     secure: isSecure,
   })
+}
+
+export const getJwtPublicKey = async ({
+  runtimeConfig,
+}: {
+  runtimeConfig: ReturnType<typeof useRuntimeConfig>
+}) => {
+  if (runtimeConfig.public.vio.stagingHost) {
+    return await $fetch<string>(
+      `https://${runtimeConfig.public.vio.stagingHost}/api/service/postgraphile/jwt-public-key`,
+    )
+  }
+
+  return runtimeConfig.public.vio.auth.jwt.publicKey
 }

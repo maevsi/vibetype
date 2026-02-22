@@ -1,7 +1,7 @@
 <template>
   <tr
     v-if="contact"
-    :key="contact.nodeId"
+    :key="contact.rowId"
     :class="{
       'animate-pulse': isDeleting,
     }"
@@ -56,7 +56,6 @@ import type { ContactItemFragment } from '~~/gql/generated/graphql'
 const { contact, isDeleting, isEditing } = defineProps<{
   contact: Pick<
     ContactItemFragment,
-    | 'nodeId'
     | 'accountId'
     | 'accountByAccountId'
     | 'accountByCreatedBy'
@@ -67,6 +66,7 @@ const { contact, isDeleting, isEditing } = defineProps<{
     | 'firstName'
     | 'lastName'
     | 'phoneNumber'
+    | 'rowId'
     | 'url'
   >
   isDeleting?: boolean

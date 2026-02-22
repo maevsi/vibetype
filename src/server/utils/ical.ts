@@ -30,20 +30,20 @@ export const getIcalString = ({
   event: Pick<
     EventItemFragment,
     // | 'addressByAddressId' // TODO: update for address
-    'description' | 'end' | 'id' | 'name' | 'slug' | 'start' | 'visibility'
+    'description' | 'end' | 'name' | 'rowId' | 'slug' | 'start' | 'visibility'
   > & {
     accountByCreatedBy?: Omit<
       NonNullable<EventItemFragment['accountByCreatedBy']>,
-      'id'
+      'id' | 'rowId'
     > | null
   }
-  guest?: Pick<GuestItemFragment, 'id'>
+  guest?: Pick<GuestItemFragment, 'rowId'>
   siteUrl: string
 }) => {
   const eventAuthorUsername = event.accountByCreatedBy?.username
   const userEventPath = `${eventAuthorUsername}/${event.slug}`
   const eventUrl = guest
-    ? `${siteUrl}/guest/view/${guest.id}`
+    ? `${siteUrl}/guest/view/${guest.rowId}`
     : `${siteUrl}/event/view/${userEventPath}`
   const eventDescriptionHtml = sanitize(
     mustache.render(
@@ -68,7 +68,7 @@ export const getIcalString = ({
     events: [
       {
         class: visibilityToClass[event.visibility] || ICalEventClass.PRIVATE,
-        id: event.id,
+        id: event.rowId,
         // sequence: ,
         start: event.start, // Appointment date of beginning, required.
         ...(event.end && { end: event.end }),

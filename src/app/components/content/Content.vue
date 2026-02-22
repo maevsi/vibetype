@@ -1,5 +1,10 @@
 <template>
   <LoaderIndicatorPing v-if="pending" />
+  <!-- TODO: use v-model error -->
+  <AppError
+    v-else-if="error"
+    :error="{ message: error.message, status: 500 }"
+  />
   <AppError
     v-else-if="!data"
     :error="{ message: 'Data is missing', status: 404 }"
@@ -17,7 +22,7 @@ const { path } = defineProps<{
 
 // api data
 const { locale } = useI18n()
-const { data, pending } = await useAsyncData(() =>
+const { data, pending, error } = await useAsyncData(() =>
   queryCollection('content').path(`/${locale.value}/${path}`).first(),
 )
 

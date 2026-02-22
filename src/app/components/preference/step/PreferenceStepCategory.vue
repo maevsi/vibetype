@@ -7,16 +7,19 @@
       </TypographyH3>
       <div>
         <ul class="flex flex-wrap justify-center gap-5">
-          <li v-for="eventCategory in eventCategories" :key="eventCategory.id">
+          <li
+            v-for="eventCategory in eventCategories"
+            :key="eventCategory.rowId"
+          >
             <PreferenceElement
               v-if="
                 eventCategory.label &&
                 eventCategory.label !== eventCategory.name
               "
-              :id="eventCategory.id"
+              :id="eventCategory.rowId"
               :name="eventCategory.label"
               :selected="preferenceEventCategoryIds"
-              @click="togglePreferenceSelection(eventCategory.id)"
+              @click="togglePreferenceSelection(eventCategory.rowId)"
             >
               <AppIconPreferenceCategoryArtAndCulture
                 v-if="eventCategory.name === 'art-and-culture'"

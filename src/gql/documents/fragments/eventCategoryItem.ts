@@ -5,6 +5,7 @@ export const EventCategoryItem = graphql(`
   fragment EventCategoryItem on EventCategory {
     id
     name
+    rowId
   }
 `)
 

@@ -5,7 +5,7 @@ export const eventDeleteMutation = graphql(`
   mutation EventDelete($id: UUID!, $password: String!) {
     eventDelete(input: { id: $id, password: $password }) {
       clientMutationId
-      event {
+      result {
         ...EventItem
       }
     }

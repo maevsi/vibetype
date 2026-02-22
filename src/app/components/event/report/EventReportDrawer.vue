@@ -102,7 +102,7 @@ const { t } = useI18n()
 
 const { accountId, event } = defineProps<{
   accountId: string
-  event: Pick<EventItemFragment, 'id' | 'accountByCreatedBy' | 'createdBy'>
+  event: Pick<EventItemFragment, 'accountByCreatedBy' | 'createdBy' | 'rowId'>
 }>()
 
 // template

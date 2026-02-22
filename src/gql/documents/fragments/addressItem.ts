@@ -4,9 +4,9 @@ import type { FragmentType } from '~~/gql/generated'
 // TODO: work around missing id for `location`
 export const AddressItem = graphql(`
   fragment AddressItem on Address {
-    id
     city
     country
+    id
     line1
     line2
     location {
@@ -16,6 +16,7 @@ export const AddressItem = graphql(`
     name
     postalCode
     region
+    rowId
   }
 `)
 

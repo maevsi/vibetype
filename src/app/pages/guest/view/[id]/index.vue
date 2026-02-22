@@ -15,8 +15,9 @@
   <div v-else class="flex flex-col gap-4">
     <CardStateInfo
       v-if="
-        account.id === store.signedInAccountId &&
-        guest.contactByContactId?.accountId !== store.signedInAccountId
+        account.rowId === store.signedInAccountId &&
+        guest.contactByContactId?.accountByAccountId?.rowId !==
+          store.signedInAccountId
       "
       class="flex flex-col gap-2"
     >
@@ -52,7 +53,7 @@
           <p>{{ t('greetingDescription') }}</p>
         </div>
         <ButtonColored
-          v-if="guest.feedback === 'ACCEPTED'"
+          v-if="guest.feedback === InvitationFeedback.Accepted"
           :aria-label="t('qrCodeShow')"
           @click="qrCodeShow"
         >
@@ -137,11 +138,18 @@
       </div>
       <div
         class="flex flex-col items-center gap-2"
-        :class="guest.feedback === 'ACCEPTED' ? 'col-span-3' : 'col-span-6'"
+        :class="
+          guest.feedback === InvitationFeedback.Accepted
+            ? 'col-span-3'
+            : 'col-span-6'
+        "
       >
         <div class="flex items-center justify-center gap-4">
           <ButtonColored
-            v-if="guest.feedback === null || guest.feedback === 'CANCELED'"
+            v-if="
+              guest.feedback === null ||
+              guest.feedback === InvitationFeedback.Canceled
+            "
             :aria-label="
               event.accountByCreatedBy.username !== store.signedInUsername
                 ? t('invitationAccept')
@@ -167,7 +175,7 @@
             </template>
           </ButtonColored>
           <div
-            v-if="guest.feedback === 'ACCEPTED'"
+            v-if="guest.feedback === InvitationFeedback.Accepted"
             class="flex items-center font-semibold text-green-600 dark:text-green-500"
           >
             <AppIconCheckCircleSolid
@@ -185,7 +193,10 @@
             </span>
           </div>
           <ButtonColored
-            v-if="guest.feedback === null || guest.feedback === 'ACCEPTED'"
+            v-if="
+              guest.feedback === null ||
+              guest.feedback === InvitationFeedback.Accepted
+            "
             :aria-label="
               event.accountByCreatedBy.username !== store.signedInUsername
                 ? t('invitationCancel')
@@ -211,7 +222,7 @@
             </template>
           </ButtonColored>
           <div
-            v-if="guest.feedback === 'CANCELED'"
+            v-if="guest.feedback === InvitationFeedback.Canceled"
             class="flex items-center font-semibold text-(--semantic-critic-text)"
           >
             <AppIconXCircleSolid
@@ -241,7 +252,7 @@
     <Modal id="ModalGuestQrCode">
       <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
         <div class="bg-white p-4">
-          <QrcodeVue id="qrCode" :value="guest.id" :size="200" />
+          <QrcodeVue id="qrCode" :value="guest.rowId" :size="200" />
         </div>
         <FormInputStateInfo>
           {{ t('hintQrCode') }}
@@ -282,55 +293,62 @@ import mustache from 'mustache'
 import prntr from 'prntr'
 import QrcodeVue from 'qrcode.vue'
 
-import { useUpdateGuestByIdMutation } from '~~/gql/documents/mutations/guest/guestUpdateById'
+import { useUpdateGuestByRowIdMutation } from '~~/gql/documents/mutations/guest/guestUpdateByRowId'
 import { InvitationFeedback } from '~~/gql/generated/graphql'
 import type { GuestPatch } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
-import { useEventUnlockMutation } from '~~/gql/documents/mutations/event/eventUnlock'
 
 const { isApp } = usePlatform()
 const { t } = useI18n()
-const store = useStore()
 const route = useRoute('guest-view-id___en')
 const localePath = useLocalePath()
-const updateGuestByIdMutation = useUpdateGuestByIdMutation()
+const updateGuestByRowIdMutation = useUpdateGuestByRowIdMutation()
 
 const isOpenReportDrawer = ref<boolean>()
 
-const eventUnlockMutation = useEventUnlockMutation()
-const result = await eventUnlockMutation.executeMutation({
-  guestId: route.params.id,
-})
-
-const { jwtStore } = await useJwtStore()
-const alertError = useAlertError()
+const csrfRequestFetch = useCsrfRequestFetch()
+const store = useStore()
 try {
-  await jwtStore(result.data?.eventUnlock?.results?.[0]?.jwt || undefined)
-} catch (error) {
-  alertError({
-    ...(error instanceof Error ? { error } : {}),
-    messageI18n: t('jwtStoreFail'),
+  const { jwtPayload } = await csrfRequestFetch('/api/model/jwt', {
+    body: {
+      guestId: route.params.id,
+    },
+    method: 'PUT',
   })
+
+  if (!jwtPayload) {
+    throw new Error('JWT update failed: no JWT returned')
+  }
+
+  store.jwtSet(jwtPayload)
+} catch (error) {
+  console.error('JWT update failed:', error)
 }
+
+const alertError = useAlertError()
 
 // api data
 const eventQuery = useQuery({
   query: graphql(`
     query GuestEvent($id: UUID!) {
-      guestById(id: $id) {
+      guestByRowId(rowId: $id) {
         contactByContactId {
-          accountId
+          accountByAccountId {
+            id
+            rowId
+            username
+          }
           createdBy
           firstName
           id
           lastName
           nickname
-          nodeId
+          rowId
         }
-        contactId
         eventByEventId {
           accountByCreatedBy {
             id
+            rowId
             username
           }
           addressByAddressId {
@@ -340,6 +358,7 @@ const eventQuery = useQuery({
               longitude
             }
             name
+            rowId
           }
           createdBy
           description
@@ -349,16 +368,15 @@ const eventQuery = useQuery({
           isInPerson
           isRemote
           name
-          nodeId
+          rowId
           slug
           start
           url
           visibility
         }
-        eventId
         feedback
         id
-        nodeId
+        rowId
       }
     }
   `),
@@ -366,7 +384,7 @@ const eventQuery = useQuery({
     id: route.params.id,
   },
 })
-const guest = computed(() => eventQuery.data.value?.guestById)
+const guest = computed(() => eventQuery.data.value?.guestByRowId)
 const event = computed(() => guest.value?.eventByEventId)
 const events = computed(() => (event.value ? [event.value] : []))
 const address = computed(() => event.value?.addressByAddressId)
@@ -381,7 +399,7 @@ const accept = async () => {
   isUpdatingAccept.value = true
 
   try {
-    await update(guest.value.id, {
+    await update(guest.value.rowId, {
       feedback: InvitationFeedback.Accepted,
     })
   } finally {
@@ -394,17 +412,18 @@ const cancel = async () => {
 
   isUpdatingCancel.value = true
   try {
-    await update(guest.value.id, {
+    await update(guest.value.rowId, {
       feedback: InvitationFeedback.Canceled,
     })
   } finally {
     isUpdatingCancel.value = false
   }
 }
+const { $csrfFetch } = useNuxtApp()
 const downloadIcal = async () => {
   if (!event.value) return
 
-  const response = await useFetch<string>('/api/model/event/ical', {
+  const response = await $csrfFetch('/api/model/event/ical', {
     body: {
       contact,
       event,
@@ -435,7 +454,7 @@ const qrCodeShow = () => {
   store.modals.push({ id: 'ModalGuestQrCode' })
 }
 const update = async (id: string, guestPatch: GuestPatch) => {
-  const result = await updateGuestByIdMutation.executeMutation({
+  const result = await updateGuestByRowIdMutation.executeMutation({
     id,
     guestPatch,
   })
@@ -459,8 +478,11 @@ const eventDescriptionTemplate = computed(() => {
   )
 })
 const contact = computed(() => guest.value?.contactByContactId)
+const contactAccount = computed(() => contact.value?.accountByAccountId)
 const contactName = computed(() =>
-  contact.value ? getContactName({ contact: contact.value }) : undefined,
+  contact.value
+    ? getContactName({ account: contactAccount.value, contact: contact.value })
+    : undefined,
 )
 
 // map
@@ -531,7 +553,6 @@ de:
   invitationCanceledAdmin: Einladung im Namen von {name} abgelehnt
   invitationSelectionClear: Zurück zur Einladungsübersicht
   invitationViewFor: Du schaust dir die Einladung für {name} an. Alle Personen, die den Link zu dieser Seite bzw. die ID dieser Einladung kennen, können auf diese Einladung zugreifen und mit ihr interagieren.
-  jwtStoreFail: Fehler beim Speichern der Authentifizierungsdaten!
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
   print: Drucken
   qrCodeShow: Check-in-Code anzeigen
@@ -558,7 +579,6 @@ en:
   invitationCanceledAdmin: Invitation declined on behalf of {name}
   invitationSelectionClear: Back to the invitation overview
   invitationViewFor: You're viewing the invitation for {name}. Anyone knowing the link to this page or this invitation's id can access this invitation and interact with it.
-  jwtStoreFail: Failed to store the authentication data!
   ogImageAlt: The event's preview image.
   print: Print
   qrCodeShow: Show check in code

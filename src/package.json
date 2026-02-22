@@ -76,6 +76,7 @@
     "cheerio": "1.2.0",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
+    "consola": "3.4.2",
     "css-element-queries": "1.2.3",
     "defu": "6.1.4",
     "downloadjs": "1.4.7",
@@ -160,7 +161,8 @@
     "build": "pnpm run build:node",
     "build:node": "nuxt build",
     "build:static": "nuxt generate",
-    "dev": "pnpm run start:dev",
+    "certificates": ".config/certificates/mkcert.sh",
+    "dev": "pnpm run start:development",
     "generate": "pnpm run build:static",
     "gql:codegen": "NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" graphql-codegen --config .config/codegen/.rc.dev.ts",
     "gql:codegen:prod": "graphql-codegen --config .config/codegen/.rc.prod.ts",
@@ -169,13 +171,13 @@
     "lint:js": "eslint --cache",
     "lint:style": "stylelint --cache \"**/*.{vue,css}\" --ignore-path .gitignore",
     "lint:ts": "nuxt typecheck",
-    "prepare": "nuxt prepare && ./.config/certificates/mkcert.sh",
+    "postinstall": "nuxt prepare",
     "start": "pnpm run start:node",
-    "start:dev": "nuxt dev",
-    "start:node": "node --import ./.output/server/sentry.server.config.mjs .output/server/index.mjs",
-    "start:static": "serve .output/public --ssl-cert ./.config/certificates/ssl.crt --ssl-key ./.config/certificates/ssl.key",
+    "start:development": "pnpm run certificates && NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" nuxt dev",
+    "start:node": "node scripts/server.mjs",
+    "start:static": "serve .output/public --ssl-cert ./.config/certificates/ssl-dev.crt --ssl-key ./.config/certificates/ssl-dev.key",
     "supportedBrowsers": "echo \"export default $(browserslist-useragent-regexp --allowHigherVersions);\" > supportedBrowsers.js"
   },
   "type": "module",
-  "version": "13.3.3"
+  "version": "14.0.0-beta.6"
 }

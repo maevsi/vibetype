@@ -20,10 +20,11 @@ const { guestId } = defineProps<{
 const query = await useQuery({
   query: graphql(`
     query AttendanceGuest($id: UUID!) {
-      guestById(id: $id) {
+      guestByRowId(rowId: $id) {
         contactByContactId {
           accountByAccountId {
             id
+            rowId
             username
           }
           firstName
@@ -31,14 +32,17 @@ const query = await useQuery({
           lastName
           language
           nickname
+          rowId
         }
         attendanceByGuestId {
           checkedOut
           id
+          rowId
           updatedAt
         }
         feedback
         id
+        rowId
       }
     }
   `),
@@ -47,7 +51,7 @@ const query = await useQuery({
   },
 })
 
-const guest = computed(() => query.data.value?.guestById)
+const guest = computed(() => query.data.value?.guestByRowId)
 
 const { t } = useI18n()
 </script>

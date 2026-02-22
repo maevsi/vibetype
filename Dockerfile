@@ -2,7 +2,7 @@
 # check=skip=SecretsUsedInArgOrEnv
 
 # <DEPENDENCIES>
-FROM ghcr.io/maevsi/sqitch:10.0
+FROM ghcr.io/maevsi/postgraphile:2.0.0-beta.1
 # </DEPENDENCIES>
 
 #############
@@ -207,6 +207,7 @@ RUN pnpm --dir tests run test:e2e:server:node
 FROM base-image AS collect
 
 COPY --from=build-node --chown=node /srv/app/src/.output ./.output
+COPY --from=build-node --chown=node /srv/app/src/scripts ./scripts
 COPY --from=build-node --chown=node /srv/app/src/package.json ./package.json
 # COPY --from=build-static /srv/app/package.json /dev/null
 COPY --from=lint /srv/app/package.json /dev/null
