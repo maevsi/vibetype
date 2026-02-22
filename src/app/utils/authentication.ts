@@ -6,7 +6,6 @@ import type { CookieRef } from '#app'
 
 import { jwtCreateMutation } from '~~/gql/documents/mutations/jwt/jwtCreate'
 import { jwtUpdateMutation } from '~~/gql/documents/mutations/jwt/jwtUpdate'
-import { setJwtCookie } from '~~/server/utils/jwt'
 
 export const authenticationAnonymous = async ({
   $urqlReset,
