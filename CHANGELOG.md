@@ -1,3 +1,9 @@
+## [13.3.3](https://github.com/maevsi/vibetype/compare/13.3.2...13.3.3) (2026-02-22)
+
+### Bug Fixes
+
+* **nuxt:** correct server side jwt logic ([69b8001](https://github.com/maevsi/vibetype/commit/69b800123db24ecf546b27a5b5fabf3af61d50b3))
+
 ## [13.3.2](https://github.com/maevsi/vibetype/compare/13.3.1...13.3.2) (2026-02-07)
 
 ### Bug Fixes
