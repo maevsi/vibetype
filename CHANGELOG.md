@@ -1,3 +1,13 @@
+## [14.0.0-beta.5](https://github.com/maevsi/vibetype/compare/14.0.0-beta.4...14.0.0-beta.5) (2026-02-22)
+
+### ⚠ BREAKING CHANGES
+
+* **postgraphile:** upgrade to v5
+
+### Features
+
+* **postgraphile:** upgrade to v5 ([b1efcce](https://github.com/maevsi/vibetype/commit/b1efccee7b11f8d65a5359a9486768e9cddf9985))
+
 ## [14.0.0-beta.4](https://github.com/maevsi/vibetype/compare/14.0.0-beta.3...14.0.0-beta.4) (2026-02-20)
 
 ### Bug Fixes
