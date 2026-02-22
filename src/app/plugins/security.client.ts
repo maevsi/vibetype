@@ -1,6 +1,6 @@
 /// <reference types="@types/trusted-types" />
 
-import DOMPurify from 'isomorphic-dompurify'
+import { sanitize } from 'isomorphic-dompurify'
 
 export default defineNuxtPlugin(() => {
   if (import.meta.server) return
@@ -9,7 +9,7 @@ export default defineNuxtPlugin(() => {
 
   if (window.trustedTypes && !def) {
     window.trustedTypes.createPolicy('default', {
-      createHTML: (input) => DOMPurify.sanitize(input),
+      createHTML: (input) => sanitize(input),
       createScriptURL: (input) => {
         if (
           [
