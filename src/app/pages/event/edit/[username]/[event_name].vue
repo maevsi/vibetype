@@ -18,7 +18,7 @@
         :item-name-success="t('formDeleteItemNameSuccess')"
         :mutation="eventDeleteMutation"
         :variables="{
-          id: event.id,
+          id: event.rowId,
         }"
         @success="navigateTo(localePath(`dashboard`))"
       />
@@ -58,7 +58,7 @@ const eventQuery = useQuery({
             isInPerson
             isRemote
             name
-            nodeId
+            rowId
             slug
             start
             url
@@ -66,6 +66,7 @@ const eventQuery = useQuery({
           }
         }
         id
+        rowId
         username
       }
     }

@@ -34,7 +34,7 @@
           {{ t('apps') }}
         </span>
         <ul>
-          <template v-for="eventApp in eventApps" :key="eventApp.id">
+          <template v-for="eventApp in eventApps" :key="eventApp.rowId">
             <li
               v-if="
                 eventApp.appByAppId?.urlAttendance &&
@@ -46,8 +46,8 @@
                 :aria-label="eventApp.appByAppId.name"
                 :to="
                   eventApp.appByAppId?.urlAttendance.replace(
-                    '{attendance.id}',
-                    attendance.id,
+                    '{attendance.rowId}',
+                    attendance.rowId,
                   )
                 "
               >
@@ -64,7 +64,7 @@
         </ul>
       </section>
     </section>
-    <section v-if="guest?.id" class="flex flex-col gap-4">
+    <section v-if="guest?.rowId" class="flex flex-col gap-4">
       <span class="text-3xl font-bold">
         {{ t('attendance') }}
       </span>
@@ -85,7 +85,9 @@
       <div class="flex">
         <ButtonColored
           :aria-label="t('guestView')"
-          :to="localePath({ name: 'guest-view-id', params: { id: guest.id } })"
+          :to="
+            localePath({ name: 'guest-view-id', params: { id: guest.rowId } })
+          "
         >
           {{ t('guestView') }}
         </ButtonColored>
@@ -127,11 +129,12 @@ try {
 const queryAttendance = useQuery({
   query: graphql(`
     query Attendance($id: UUID!) {
-      attendanceById(id: $id) {
+      attendanceByRowId(rowId: $id) {
         checkedOut
         contactByContactId {
           accountByAccountId {
             id
+            rowId
             username
           }
           firstName
@@ -139,11 +142,14 @@ const queryAttendance = useQuery({
           lastName
           language
           nickname
+          rowId
         }
         guestByGuestId {
           id
+          rowId
         }
         id
+        rowId
         updatedAt
       }
       eventByAttendanceId(attendanceId: $id) {
@@ -156,11 +162,14 @@ const queryAttendance = useQuery({
               iconSvg
               id
               name
+              rowId
               url
               urlAttendance
             }
+            rowId
           }
         }
+        rowId
       }
     }
   `),
@@ -169,7 +178,7 @@ const queryAttendance = useQuery({
   },
 })
 const api = await useApiData([queryAttendance])
-const attendance = computed(() => api.value.data.attendanceById)
+const attendance = computed(() => api.value.data.attendanceByRowId)
 const guest = computed(() => attendance.value?.guestByGuestId)
 const contact = computed(() => attendance.value?.contactByContactId)
 const contactName = computed(() =>
@@ -189,12 +198,13 @@ const checkOutMutation = useMutation(
       $id: UUID!
       $attendancePatch: AttendancePatch!
     ) {
-      updateAttendanceById(
-        input: { id: $id, attendancePatch: $attendancePatch }
+      updateAttendanceByRowId(
+        input: { rowId: $id, attendancePatch: $attendancePatch }
       ) {
         attendance {
           id
           checkedOut
+          rowId
         }
       }
     }
@@ -210,7 +220,7 @@ const onCheckOut = async () => {
   await executeUrqlRequest({
     errorMessageI18n: t('errorAttendanceCheckOut'),
     request: checkOutMutation.executeMutation({
-      id: attendance.value.id,
+      id: attendance.value.rowId,
       attendancePatch: {
         checkedOut: true,
       },
@@ -221,7 +231,7 @@ const onCheckOut = async () => {
 // contact
 const localePath = useLocalePath()
 const friendAdd = async () => {
-  if (!contact.value?.accountByAccountId?.id) {
+  if (!contact.value?.accountByAccountId?.rowId) {
     toast.info(t('errorContactNoAccount'))
     return
   }

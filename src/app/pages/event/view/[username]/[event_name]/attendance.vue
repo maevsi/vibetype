@@ -82,6 +82,7 @@ const queryEventAttendance = useQuery({
           nodes {
             id
             name
+            rowId
             slug
           }
         }
@@ -127,6 +128,7 @@ const createAttendanceMutation = useMutation(
       createAttendance(input: { attendance: $attendanceInput }) {
         attendance {
           id
+          rowId
         }
       }
     }

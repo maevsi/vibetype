@@ -37,16 +37,19 @@ const TUSD_FILES_URL = useTusdFilesUrl()
 // api data
 const query = useQuery({
   query: graphql(`
-    query AccountById($id: UUID!) {
-      accountById(id: $id) {
+    query AccountByRowId($id: UUID!) {
+      accountByRowId(rowId: $id) {
         id
         profilePictureByAccountId {
           id
+          rowId
           uploadByUploadId {
             id
+            rowId
             storageKey
           }
         }
+        rowId
         username
       }
     }
@@ -56,7 +59,7 @@ const query = useQuery({
   },
 })
 const api = await useApiData([query])
-const account = computed(() => api.value.data.accountById)
+const account = computed(() => api.value.data.accountByRowId)
 const upload = computed(
   () => account.value?.profilePictureByAccountId?.uploadByUploadId,
 )

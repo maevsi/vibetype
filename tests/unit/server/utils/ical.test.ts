@@ -16,7 +16,6 @@ test('gets ical string', () => {
   expect(
     getIcalString({
       event: {
-        id: '1',
         accountByCreatedBy: {
           username: 'authorUsername',
         },
@@ -28,6 +27,7 @@ test('gets ical string', () => {
         // isRemote: false,
         // location: 'location',
         name: 'name',
+        rowId: '1',
         slug: 'slug',
         start: new Date(),
         visibility: EventVisibility.Private,

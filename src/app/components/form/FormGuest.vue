@@ -60,19 +60,19 @@
       <!-- <div class="flex flex-col gap-2"> -->
       <AppButton
         v-for="contact in contactsFiltered"
-        :key="contact.id"
+        :key="contact.rowId"
         :aria-label="t('buttonContact')"
         class="flex w-full items-center gap-4 rounded-sm border-2 border-neutral-300 px-4 py-2 dark:border-neutral-600"
-        :disabled="guestContactIdsExisting?.includes(contact.id)"
+        :disabled="guestContactIdsExisting?.includes(contact.rowId)"
         type="button"
-        @click="selectToggle(contact.id)"
+        @click="selectToggle(contact.rowId)"
       >
         <ContactPreview :contact :is-username-linked="false" />
         <FormCheckbox
-          :is-disabled="guestContactIdsExisting?.includes(contact.id)"
+          :is-disabled="guestContactIdsExisting?.includes(contact.rowId)"
           :value="
-            guestContactIdsExisting?.includes(contact.id) ||
-            contactIdsComputed.includes(contact.id)
+            guestContactIdsExisting?.includes(contact.rowId) ||
+            contactIdsComputed.includes(contact.rowId)
           "
         />
       </AppButton>
@@ -89,11 +89,11 @@ import { useCreateGuestsMutation } from '~~/gql/documents/mutations/guest/guestC
 import { useAllContactsQuery } from '~~/gql/documents/queries/contact/contactsAll'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 import { getContactItem } from '~~/gql/documents/fragments/contactItem'
-// import { accountByIdQuery } from '~~/gql/documents/queries/account/accountById'
+// import { accountByRowIdQuery } from '~~/gql/documents/queries/account/accountByRowId'
 // import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
 
 const { event, guestContactIdsExisting = undefined } = defineProps<{
-  event: Pick<EventItemFragment, 'id'>
+  event: Pick<EventItemFragment, 'rowId'>
   guestContactIdsExisting?: string[]
 }>()
 
@@ -150,7 +150,7 @@ const submit = async () => {
     const result = await createGuestMutation.executeMutation({
       createGuestsInput: {
         contactIds: form.contactIds,
-        eventId: event.id,
+        eventId: event.rowId,
       },
     })
 
@@ -188,8 +188,8 @@ const contactsFiltered = computed(() => {
     // // TODO: make more performant
     // const contactAccountQuery = contact.accountId
     //   ? await $urql.value
-    //       .query(accountByIdQuery, {
-    //         id: contact.accountId,
+    //       .query(accountByRowIdQuery, {
+    //         rowId: contact.accountId,
     //       })
     //       .toPromise()
     //   : undefined
@@ -201,7 +201,7 @@ const contactsFiltered = computed(() => {
     // }
 
     // const contactAccount = getAccountItem(
-    //   contactAccountQuery?.data?.accountById,
+    //   contactAccountQuery?.data?.accountByRowId,
     // )
 
     // if (!contactAccount) {

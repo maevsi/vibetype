@@ -15,8 +15,8 @@
   <div v-else class="flex flex-col gap-4">
     <CardStateInfo
       v-if="
-        account.id === store.signedInAccountId &&
-        guest.contactByContactId?.accountByAccountId?.id !==
+        account.rowId === store.signedInAccountId &&
+        guest.contactByContactId?.accountByAccountId?.rowId !==
           store.signedInAccountId
       "
       class="flex flex-col gap-2"
@@ -53,7 +53,7 @@
           <p>{{ t('greetingDescription') }}</p>
         </div>
         <ButtonColored
-          v-if="guest.feedback === 'ACCEPTED'"
+          v-if="guest.feedback === InvitationFeedback.Accepted"
           :aria-label="t('qrCodeShow')"
           @click="qrCodeShow"
         >
@@ -138,11 +138,18 @@
       </div>
       <div
         class="flex flex-col items-center gap-2"
-        :class="guest.feedback === 'ACCEPTED' ? 'col-span-3' : 'col-span-6'"
+        :class="
+          guest.feedback === InvitationFeedback.Accepted
+            ? 'col-span-3'
+            : 'col-span-6'
+        "
       >
         <div class="flex items-center justify-center gap-4">
           <ButtonColored
-            v-if="guest.feedback === null || guest.feedback === 'CANCELED'"
+            v-if="
+              guest.feedback === null ||
+              guest.feedback === InvitationFeedback.Canceled
+            "
             :aria-label="
               event.accountByCreatedBy.username !== store.signedInUsername
                 ? t('invitationAccept')
@@ -168,7 +175,7 @@
             </template>
           </ButtonColored>
           <div
-            v-if="guest.feedback === 'ACCEPTED'"
+            v-if="guest.feedback === InvitationFeedback.Accepted"
             class="flex items-center font-semibold text-green-600 dark:text-green-500"
           >
             <AppIconCheckCircleSolid
@@ -186,7 +193,10 @@
             </span>
           </div>
           <ButtonColored
-            v-if="guest.feedback === null || guest.feedback === 'ACCEPTED'"
+            v-if="
+              guest.feedback === null ||
+              guest.feedback === InvitationFeedback.Accepted
+            "
             :aria-label="
               event.accountByCreatedBy.username !== store.signedInUsername
                 ? t('invitationCancel')
@@ -212,7 +222,7 @@
             </template>
           </ButtonColored>
           <div
-            v-if="guest.feedback === 'CANCELED'"
+            v-if="guest.feedback === InvitationFeedback.Canceled"
             class="flex items-center font-semibold text-(--semantic-critic-text)"
           >
             <AppIconXCircleSolid
@@ -242,7 +252,7 @@
     <Modal id="ModalGuestQrCode">
       <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
         <div class="bg-white p-4">
-          <QrcodeVue id="qrCode" :value="guest.id" :size="200" />
+          <QrcodeVue id="qrCode" :value="guest.rowId" :size="200" />
         </div>
         <FormInputStateInfo>
           {{ t('hintQrCode') }}
@@ -283,7 +293,7 @@ import mustache from 'mustache'
 import prntr from 'prntr'
 import QrcodeVue from 'qrcode.vue'
 
-import { useUpdateGuestByIdMutation } from '~~/gql/documents/mutations/guest/guestUpdateById'
+import { useUpdateGuestByRowIdMutation } from '~~/gql/documents/mutations/guest/guestUpdateByRowId'
 import { InvitationFeedback } from '~~/gql/generated/graphql'
 import type { GuestPatch } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
@@ -292,7 +302,7 @@ const { isApp } = usePlatform()
 const { t } = useI18n()
 const route = useRoute('guest-view-id___en')
 const localePath = useLocalePath()
-const updateGuestByIdMutation = useUpdateGuestByIdMutation()
+const updateGuestByRowIdMutation = useUpdateGuestByRowIdMutation()
 
 const isOpenReportDrawer = ref<boolean>()
 
@@ -321,10 +331,11 @@ const alertError = useAlertError()
 const eventQuery = useQuery({
   query: graphql(`
     query GuestEvent($id: UUID!) {
-      guestById(id: $id) {
+      guestByRowId(rowId: $id) {
         contactByContactId {
           accountByAccountId {
             id
+            rowId
             username
           }
           createdBy
@@ -332,11 +343,12 @@ const eventQuery = useQuery({
           id
           lastName
           nickname
-          nodeId
+          rowId
         }
         eventByEventId {
           accountByCreatedBy {
             id
+            rowId
             username
           }
           addressByAddressId {
@@ -346,6 +358,7 @@ const eventQuery = useQuery({
               longitude
             }
             name
+            rowId
           }
           createdBy
           description
@@ -355,7 +368,7 @@ const eventQuery = useQuery({
           isInPerson
           isRemote
           name
-          nodeId
+          rowId
           slug
           start
           url
@@ -363,7 +376,7 @@ const eventQuery = useQuery({
         }
         feedback
         id
-        nodeId
+        rowId
       }
     }
   `),
@@ -371,7 +384,7 @@ const eventQuery = useQuery({
     id: route.params.id,
   },
 })
-const guest = computed(() => eventQuery.data.value?.guestById)
+const guest = computed(() => eventQuery.data.value?.guestByRowId)
 const event = computed(() => guest.value?.eventByEventId)
 const events = computed(() => (event.value ? [event.value] : []))
 const address = computed(() => event.value?.addressByAddressId)
@@ -386,7 +399,7 @@ const accept = async () => {
   isUpdatingAccept.value = true
 
   try {
-    await update(guest.value.id, {
+    await update(guest.value.rowId, {
       feedback: InvitationFeedback.Accepted,
     })
   } finally {
@@ -399,7 +412,7 @@ const cancel = async () => {
 
   isUpdatingCancel.value = true
   try {
-    await update(guest.value.id, {
+    await update(guest.value.rowId, {
       feedback: InvitationFeedback.Canceled,
     })
   } finally {
@@ -441,7 +454,7 @@ const qrCodeShow = () => {
   store.modals.push({ id: 'ModalGuestQrCode' })
 }
 const update = async (id: string, guestPatch: GuestPatch) => {
-  const result = await updateGuestByIdMutation.executeMutation({
+  const result = await updateGuestByRowIdMutation.executeMutation({
     id,
     guestPatch,
   })

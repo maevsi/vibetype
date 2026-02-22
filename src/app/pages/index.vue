@@ -105,7 +105,7 @@ const achievementUnlockMutation = useMutation(
     mutation AchievementUnlock($code: UUID!, $alias: String!) {
       achievementUnlock(input: { code: $code, alias: $alias }) {
         clientMutationId
-        uuid
+        result
       }
     }
   `),
@@ -128,11 +128,11 @@ const { /* data, */ error, status } = await useAsyncData(
       throw result.error
     }
 
-    if (!result.data?.achievementUnlock?.uuid) {
+    if (!result.data?.achievementUnlock?.result) {
       throw new Error(t('globalErrorNoData'))
     }
 
-    return result.data.achievementUnlock.uuid
+    return result.data.achievementUnlock.result
   },
 )
 if (error.value) {

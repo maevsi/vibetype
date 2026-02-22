@@ -7,13 +7,13 @@
       </TypographyH3>
       <div>
         <ul class="flex flex-wrap justify-center gap-5">
-          <li v-for="eventFormat in eventFormats" :key="eventFormat.id">
+          <li v-for="eventFormat in eventFormats" :key="eventFormat.rowId">
             <PreferenceElement
               v-if="eventFormat.label && eventFormat.label !== eventFormat.name"
-              :id="eventFormat.id"
+              :id="eventFormat.rowId"
               :name="eventFormat.label"
               :selected="preferenceEventFormatIds"
-              @click="togglePreferenceSelection(eventFormat.id)"
+              @click="togglePreferenceSelection(eventFormat.rowId)"
             >
               <AppIconPreferenceFormatConference
                 v-if="eventFormat.name === 'conference'"

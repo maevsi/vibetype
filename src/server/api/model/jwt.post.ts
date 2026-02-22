@@ -12,7 +12,7 @@ export const jwtCreateMutation = graphql(`
   mutation JwtCreate($password: String!, $username: String!) {
     jwtCreate(input: { password: $password, username: $username }) {
       clientMutationId
-      jwt
+      result
     }
   }
 `)
@@ -63,7 +63,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const jwt = mutationJwtCreate.data?.jwtCreate?.jwt
+  const jwt = mutationJwtCreate.data?.jwtCreate?.result
 
   if (!jwt) {
     return throwError({

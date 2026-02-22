@@ -21,7 +21,7 @@ import type {
   CreateEventFavoriteMutation,
   DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation,
   DeletePreferenceEventFormatByAccountIdAndFormatIdMutation,
-  DeletePreferenceEventLocationByIdMutation,
+  DeletePreferenceEventLocationByRowIdMutation,
 } from '~~/gql/generated/graphql'
 import schema from '~~/gql/generated/introspection'
 import { allPreferenceEventCategoriesQuery } from '~~/gql/documents/queries/preference/preferenceEventCategoriesAll'
@@ -44,15 +44,15 @@ const invalidateCache = (
   cache: Cache,
   name: string,
   args?: {
-    input: { id: string | number | null } | { nodeId: string | number | null }
+    input: { rowId: string | number | null } | { id: string | number | null }
   },
 ) =>
   args
     ? cache.invalidate({
         __typename: name,
-        ...('id' in args.input
-          ? { id: args.input.id }
-          : { nodeId: args.input.nodeId }),
+        ...('rowId' in args.input
+          ? { id: args.input.rowId }
+          : { nodeId: args.input.id }),
       })
     : cache
         .inspectFields('Query')
@@ -183,9 +183,9 @@ export const getUrqlClient = async ({
 
   const graphCacheConfig: GraphCacheConfig = {
     keys: {
-      PreferenceEventCategory: (data) => data.nodeId ?? null, // TODO: remove
-      PreferenceEventFormat: (data) => data.nodeId ?? null, // TODO: remove
-      PreferenceEventSize: (data) => data.nodeId ?? null, // TODO: remove
+      PreferenceEventCategory: (data) => data.id ?? null, // TODO: remove
+      PreferenceEventFormat: (data) => data.id ?? null, // TODO: remove
+      PreferenceEventSize: (data) => data.id ?? null, // TODO: remove
       GeographyPoint: (_data) => null,
     },
     schema,
@@ -258,9 +258,9 @@ export const getUrqlClient = async ({
           }),
 
         // delete
-        deleteContactById: (_result, args, cache, _info) =>
+        deleteContactByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Contact', args),
-        deleteGuestById: (_result, args, cache, _info) =>
+        deleteGuestByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Guest', args),
         deletePreferenceEventCategoryByAccountIdAndCategoryId: (
           result: DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation,
@@ -294,8 +294,8 @@ export const getUrqlClient = async ({
             query: allPreferenceEventFormatsQuery,
             result,
           }),
-        deletePreferenceEventLocationById: (
-          result: DeletePreferenceEventLocationByIdMutation,
+        deletePreferenceEventLocationByRowId: (
+          result: DeletePreferenceEventLocationByRowIdMutation,
           _args,
           cache,
           _info,
@@ -303,16 +303,16 @@ export const getUrqlClient = async ({
           cacheListRemove({
             cache,
             getItemDeletedId: (result) =>
-              result.deletePreferenceEventLocationById
+              result.deletePreferenceEventLocationByRowId
                 ?.deletedPreferenceEventLocationId,
             getItemOfList: getPreferenceEventLocationItem,
             listKey: 'allPreferenceEventLocations',
             query: allPreferenceEventLocationsQuery,
             result,
           }),
-        deleteEventFavoriteById: (_result, args, cache, _info) =>
+        deleteEventFavoriteByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'EventFavorite', args),
-        deleteProfilePictureById: (_result, args, cache, _info) =>
+        deleteProfilePictureByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'ProfilePicture', args),
       },
     },

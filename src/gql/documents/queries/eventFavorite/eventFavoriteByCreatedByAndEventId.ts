@@ -15,9 +15,9 @@ export const useEventFavoriteByCreatedByAndEventIdQuery = (variables: {
           createdBy: $createdBy
           eventId: $eventId
         ) {
-          id
-          nodeId
           eventId
+          id
+          rowId
         }
       }
     `),

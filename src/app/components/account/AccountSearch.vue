@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-4">
     <FormInputSearch v-model="searchQuery" />
     <div v-if="accounts?.length" class="flex flex-col gap-2">
-      <AccountCard v-for="account in accounts" :key="account.id" :account />
+      <AccountCard v-for="account in accounts" :key="account.rowId" :account />
     </div>
     <TypographyBodyMedium v-else>
       {{ t('errorNotFound') }}
@@ -29,6 +29,7 @@ const queryAccountSearch = graphql(`
     ) {
       nodes {
         id
+        rowId
         username
       }
       pageInfo {

@@ -6,12 +6,12 @@ export const PreferenceEventLocationItem = graphql(`
     createdAt
     createdBy
     id
-    nodeId
-    radius
     location {
       latitude
       longitude
     }
+    radius
+    rowId
   }
 `)
 
