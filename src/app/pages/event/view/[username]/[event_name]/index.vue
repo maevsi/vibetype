@@ -146,7 +146,7 @@
 
 <script setup lang="ts">
 import { useQuery } from '@urql/vue'
-import DOMPurify from 'isomorphic-dompurify'
+import { sanitize } from 'isomorphic-dompurify'
 
 import { graphql } from '~~/gql/generated'
 
@@ -211,7 +211,7 @@ const api = await useApiData([eventQuery])
 const eventDescriptionTemplate = computed(() => {
   if (!event.value?.description) return
 
-  const descriptionSanitized = DOMPurify.sanitize(event.value.description, {
+  const descriptionSanitized = sanitize(event.value.description, {
     ADD_ATTR: ['target'],
   })
 
