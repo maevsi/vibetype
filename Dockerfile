@@ -8,7 +8,7 @@ FROM ghcr.io/maevsi/postgraphile:2.0.0-beta.1
 #############
 # Create base image.
 
-FROM node:24.13.0-alpine AS base-image
+FROM node:24.13.1-alpine AS base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -123,7 +123,7 @@ RUN pnpm -r run test
 ########################
 # Nuxt: test (e2e, base-image)
 
-FROM mcr.microsoft.com/playwright:v1.58.1 AS test-e2e-base-image
+FROM mcr.microsoft.com/playwright:v1.58.2 AS test-e2e-base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true

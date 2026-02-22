@@ -1,38 +1,3 @@
-import type { H3Event } from 'h3'
-
-export const setJwtCookie = ({
-  event,
-  jwt,
-  runtimeConfig,
-}: {
-  event: H3Event
-  jwt: string
-  runtimeConfig: ReturnType<typeof useRuntimeConfig>
-}) => {
-  const dateEpoch = new Date(0)
-  const dateInAMonth = new Date(Date.now() + 86400 * 1000 * 31) // TODO: read from jwt expiration claim
-
-  if (!runtimeConfig.public.i18n.baseUrl) {
-    return throwError({
-      status: 500,
-      statusText: 'Site URL is not defined in the runtime configuration.',
-    })
-  }
-
-  const { siteUrlTyped: siteUrl } = getSiteUrl(
-    runtimeConfig.public.i18n.baseUrl,
-  )
-  const jwtCookieName = getJwtName(siteUrl)
-  const isSecure = getIsSecure({ runtimeConfig })
-
-  setCookie(event, jwtCookieName, jwt, {
-    expires: jwt.length ? dateInAMonth : dateEpoch,
-    httpOnly: true,
-    sameSite: COOKIE_SAME_SITE,
-    secure: isSecure,
-  })
-}
-
 export const useJsonWebToken = async () => {
   const event = useEvent()
   const runtimeConfig = useRuntimeConfig()

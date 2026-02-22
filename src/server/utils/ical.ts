@@ -1,4 +1,4 @@
-import DOMPurify from 'isomorphic-dompurify'
+import { sanitize } from 'isomorphic-dompurify'
 import ical, {
   ICalCalendarMethod,
   ICalEventClass,
@@ -45,7 +45,7 @@ export const getIcalString = ({
   const eventUrl = guest
     ? `${siteUrl}/guest/view/${guest.rowId}`
     : `${siteUrl}/event/view/${userEventPath}`
-  const eventDescriptionHtml = DOMPurify.sanitize(
+  const eventDescriptionHtml = sanitize(
     mustache.render(
       event.description ? `${eventUrl}\n${event.description}` : '',
       {

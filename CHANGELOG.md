@@ -139,6 +139,18 @@
 
 * **nuxt:** rename runtime configuration key ([325238f](https://github.com/maevsi/vibetype/commit/325238fc96e97ad2b44ffe7d1e96da654e175cf5))
 
+## [13.3.3](https://github.com/maevsi/vibetype/compare/13.3.2...13.3.3) (2026-02-22)
+
+### Bug Fixes
+
+* **nuxt:** correct server side jwt logic ([69b8001](https://github.com/maevsi/vibetype/commit/69b800123db24ecf546b27a5b5fabf3af61d50b3))
+
+## [13.3.2](https://github.com/maevsi/vibetype/compare/13.3.1...13.3.2) (2026-02-07)
+
+### Bug Fixes
+
+* schedule release ([6c0e7f2](https://github.com/maevsi/vibetype/commit/6c0e7f2f6ef447026a950d591bee96338994691b))
+
 ## [13.3.1](https://github.com/maevsi/vibetype/compare/13.3.0...13.3.1) (2026-01-17)
 
 ### Bug Fixes

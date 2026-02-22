@@ -288,7 +288,7 @@
 <script setup lang="ts">
 import { useQuery } from '@urql/vue'
 import downloadJs from 'downloadjs'
-import DOMPurify from 'isomorphic-dompurify'
+import { sanitize } from 'isomorphic-dompurify'
 import mustache from 'mustache'
 import prntr from 'prntr'
 import QrcodeVue from 'qrcode.vue'
@@ -468,7 +468,7 @@ const update = async (id: string, guestPatch: GuestPatch) => {
 const eventDescriptionTemplate = computed(() => {
   if (!event.value?.description) return
 
-  return DOMPurify.sanitize(
+  return sanitize(
     mustache.render(event.value.description, {
       contact: contact.value,
       event,
