@@ -1,3 +1,10 @@
+## [14.0.0-beta.6](https://github.com/maevsi/vibetype/compare/14.0.0-beta.5...14.0.0-beta.6) (2026-02-22)
+
+### Bug Fixes
+
+* **nuxt:** correct server side jwt logic ([69b8001](https://github.com/maevsi/vibetype/commit/69b800123db24ecf546b27a5b5fabf3af61d50b3))
+* schedule release ([6c0e7f2](https://github.com/maevsi/vibetype/commit/6c0e7f2f6ef447026a950d591bee96338994691b))
+
 ## [14.0.0-beta.5](https://github.com/maevsi/vibetype/compare/14.0.0-beta.4...14.0.0-beta.5) (2026-02-22)
 
 ### ⚠ BREAKING CHANGES
