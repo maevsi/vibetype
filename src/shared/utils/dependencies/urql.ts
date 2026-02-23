@@ -1,5 +1,6 @@
 import type { Client, DocumentInput, OperationContext } from '@urql/core'
 import type { H3Event, RequestHeaders } from 'h3'
+import { getRequestHeaders } from 'h3'
 
 export const urqlMutate = async <
   Data,
