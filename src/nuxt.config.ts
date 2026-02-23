@@ -175,10 +175,10 @@ export default defineNuxtConfig({
   typescript: {
     nodeTsConfig: {
       include: [
-        resolve('../.config'),
-        resolve('../config'),
-        resolve('../node'),
-        resolve('../sentry.server.config.ts'),
+        resolve('./.config'),
+        resolve('./config'),
+        resolve('./node'),
+        resolve('./sentry.server.config.ts'),
       ],
     },
     tsConfig: {
