@@ -6,8 +6,21 @@ import { throwError } from './error'
 import { getIsSecure } from './networking'
 import { getSiteUrl } from './vio'
 
-export const getJwtName = (siteUrl: URL) =>
-  `${getIsSecure({ siteUrl }) ? '__Host-' : ''}jwt-v3`
+export { getJwtName } from '~~/node/static'
+
+export const getJwtPublicKey = async ({
+  runtimeConfig,
+}: {
+  runtimeConfig: ReturnType<typeof useRuntimeConfig>
+}) => {
+  if (runtimeConfig.public.vio.stagingHost) {
+    return await $fetch<string>(
+      `https://${runtimeConfig.public.vio.stagingHost}/api/service/postgraphile/jwt-public-key`,
+    )
+  }
+
+  return runtimeConfig.public.vio.auth.jwt.publicKey
+}
 
 export const setJwtCookie = ({
   event,
@@ -40,18 +53,4 @@ export const setJwtCookie = ({
     sameSite: COOKIE_SAME_SITE,
     secure: isSecure,
   })
-}
-
-export const getJwtPublicKey = async ({
-  runtimeConfig,
-}: {
-  runtimeConfig: ReturnType<typeof useRuntimeConfig>
-}) => {
-  if (runtimeConfig.public.vio.stagingHost) {
-    return await $fetch<string>(
-      `https://${runtimeConfig.public.vio.stagingHost}/api/service/postgraphile/jwt-public-key`,
-    )
-  }
-
-  return runtimeConfig.public.vio.auth.jwt.publicKey
 }
