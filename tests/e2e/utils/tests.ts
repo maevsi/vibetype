@@ -1,5 +1,5 @@
-import { expect, type Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
+import { expect, type Page } from '@playwright/test'
 import { joinURL, withoutTrailingSlash } from 'ufo'
 
 import { TESTING_COOKIE_NAME } from '#src/shared/utils/constants'
@@ -539,7 +539,7 @@ export const testOgImage = (url: string) =>
     })
   })
 
-export const testPageLoad = (url: string, status: number = 200) =>
+export const testPageLoad = (url: string, status = 200) =>
   appTest.describe('page load', () => {
     appTest('loads the page successfully', async ({ request }) => {
       const resp = await request.get(url, {
