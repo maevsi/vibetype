@@ -1,13 +1,13 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
 import {
+  SITE_URL_TYPED,
+  getJwtName,
   FEATURE_FLAGS_COOKIE_ID,
   FEATURE_FLAGS_COOKIE_NAME,
   GTAG_COOKIE_ID,
   TIMEZONE_COOKIE_NAME,
-} from '../../shared/utils/constants'
-import { getJwtName } from '../../shared/utils/jwt'
-import { SITE_URL_TYPED } from '../../node/static'
+} from '../../node/static'
 
 export const cookieControlConfig = {
   cookieControl: {

@@ -9,8 +9,8 @@ import 'eslint-plugin-only-error'
 
 const jiti = createJiti(import.meta.url)
 
-const constants = /** @type {import('./shared/utils/constants')} */ (
-  await jiti.import('./shared/utils/constants.ts')
+const constants = /** @type {import('./node/static/index')} */ (
+  await jiti.import('./node/static/index.ts')
 )
 const POLYFILLS = constants.POLYFILLS
 

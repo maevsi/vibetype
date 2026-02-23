@@ -1,8 +1,10 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
-import { CSRF_HEADER_NAME } from '../../shared/utils/constants'
-import { getIsSecure } from '../../shared/utils/networking'
-import { SITE_URL_TYPED } from '../../node/static'
+import {
+  CSRF_HEADER_NAME,
+  SITE_URL_TYPED,
+  getIsSecure,
+} from '../../node/static'
 
 export const securityConfig: ReturnType<DefineNuxtConfig> = {
   security: {

@@ -17,10 +17,10 @@ import {
   NUXT_PUBLIC_SENTRY_PROJECT_ID,
   NUXT_PUBLIC_SENTRY_PROJECT_PUBLIC_KEY,
   NUXT_PUBLIC_VIO_ENVIRONMENT,
+  PRODUCTION_HOST,
   SITE_NAME,
   SITE_URL,
 } from './node/static'
-import { PRODUCTION_HOST } from './shared/utils/constants'
 
 // TODO: let this error in "eslint (compat/compat)"" (https://github.com/DefinitelyTyped/DefinitelyTyped/issues/55519)
 // setImmediate(() => {})
