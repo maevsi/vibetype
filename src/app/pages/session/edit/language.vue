@@ -11,6 +11,7 @@
 
 <script setup lang="ts">
 import type { Locale } from '@intlify/core-base'
+import type { AcceptableValue } from 'reka-ui'
 
 // page
 const { t, locale, locales } = useI18n()
@@ -31,7 +32,7 @@ const languages = locales.value
 // i18n – set
 const switchLocalePath = useSwitchLocalePath()
 const router = useRouter()
-const onI18nChange = async (value: string) =>
+const onI18nChange = async (value: AcceptableValue) =>
   await router.push({
     path: switchLocalePath(value as Locale),
   })
