@@ -5,7 +5,9 @@
       <AppRadioGroup
         :default-value="colorMode.preference"
         :items="colorSchemes"
-        @update:model-value="(value) => (colorMode.preference = value)"
+        @update:model-value="
+          (value: AcceptableValue) => (colorMode.preference = String(value))
+        "
       />
       <template #placeholder>
         <AppRadioGroup :items="colorSchemes" />
@@ -15,6 +17,8 @@
 </template>
 
 <script setup lang="ts">
+import type { AcceptableValue } from 'reka-ui'
+
 // page
 const { t } = useI18n()
 const title = t('title')
