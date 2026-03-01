@@ -1,7 +1,3 @@
-import type { H3Event } from 'h3'
-import type { H3Event$Fetch } from 'nitropack/types'
-import type { FetchResponse } from 'ofetch'
-
 export const useCsrfImmediately = () => {
   // get csrf token
   const { csrf: csrfToken } = useCsrf()
@@ -33,30 +29,21 @@ export const useCsrfImmediately = () => {
   )
 }
 
-export const useCsrfRequestFetch = <T = unknown>(requestEvent: H3Event) => {
+export const useCsrfRequestFetch = () => {
   const { csrf } = useCsrf()
-  let resolveResponse: (value: FetchResponse<T>) => void
-  const promise = new Promise<FetchResponse<T>>((resolve) => {
-    resolveResponse = resolve
-  })
+  const requestFetch = useRequestFetch()
 
-  const csrfRequestFetch: H3Event$Fetch = (
-    url: Parameters<H3Event$Fetch>[0],
-    options: Parameters<H3Event$Fetch>[1],
+  const csrfRequestFetch: typeof requestFetch = (
+    url: Parameters<typeof requestFetch>[0],
+    options?: Parameters<typeof requestFetch>[1],
   ) =>
-    requestEvent.$fetch(url, {
+    requestFetch(url, {
       ...options,
-      onResponse: (response) => {
-        resolveResponse(response.response)
-      },
       headers: {
         ...(options?.headers || {}),
         [CSRF_HEADER_NAME]: csrf,
       },
-    }) satisfies ReturnType<H3Event$Fetch>
+    })
 
-  return {
-    csrfRequestFetch,
-    response: promise,
-  }
+  return csrfRequestFetch
 }
