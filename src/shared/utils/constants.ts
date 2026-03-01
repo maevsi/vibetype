@@ -4,6 +4,7 @@ import { SITE_NAME } from '~~/node/static'
 
 export {
   CACHE_VERSION,
+  CSRF_COOKIE_NAME,
   CSRF_HEADER_NAME,
   FEATURE_FLAGS_COOKIE_ID,
   FEATURE_FLAGS_COOKIE_NAME,
@@ -16,6 +17,7 @@ export {
   SITE_NAME,
   THEME_COLOR,
   TIMEZONE_COOKIE_NAME,
+  TURNSTILE_HEADER_NAME,
 } from '~~/node/static'
 
 export const COOKIE_CONTROL_CONSENT_COOKIE_NAME =

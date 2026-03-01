@@ -1,8 +1,8 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
 import {
-  SITE_URL_TYPED,
-  getJwtName,
+  CSRF_COOKIE_NAME,
+  JWT_COOKIE_NAME,
   FEATURE_FLAGS_COOKIE_ID,
   FEATURE_FLAGS_COOKIE_NAME,
   GTAG_COOKIE_ID,
@@ -38,7 +38,7 @@ export const cookieControlConfig = {
             de: 'Authentifizierungsdaten',
             en: 'Authentication Data',
           },
-          targetCookieIds: [getJwtName(SITE_URL_TYPED)],
+          targetCookieIds: [JWT_COOKIE_NAME],
         },
         {
           description: {
@@ -62,7 +62,7 @@ export const cookieControlConfig = {
             de: 'Sicherheit (csrf)',
             en: 'Security (csrf)',
           },
-          targetCookieIds: ['__Host-csrf'],
+          targetCookieIds: [CSRF_COOKIE_NAME],
         },
         {
           description: {
