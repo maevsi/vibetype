@@ -303,31 +303,16 @@ const { t } = useI18n()
 const route = useRoute('guest-view-id___en')
 const localePath = useLocalePath()
 const updateGuestByRowIdMutation = useUpdateGuestByRowIdMutation()
+const store = useStore()
 
 const isOpenReportDrawer = ref<boolean>()
-
-const csrfRequestFetch = useCsrfRequestFetch()
-const store = useStore()
-try {
-  const { jwtPayload } = await csrfRequestFetch('/api/model/jwt', {
-    body: {
-      guestId: route.params.id,
-    },
-    method: 'PUT',
-  })
-
-  if (!jwtPayload) {
-    throw new Error('JWT update failed: no JWT returned')
-  }
-
-  store.jwtSet(jwtPayload)
-} catch (error) {
-  console.error('JWT update failed:', error)
-}
-
 const alertError = useAlertError()
 
 // api data
+const jwtUpdateGuestAdd = import.meta.server
+  ? useJwtUpdateGuestAdd({ guestId: route.params.id })
+  : undefined
+const jwt = jwtUpdateGuestAdd ? await jwtUpdateGuestAdd() : undefined
 const eventQuery = useQuery({
   query: graphql(`
     query GuestEvent($id: UUID!) {
@@ -383,7 +368,19 @@ const eventQuery = useQuery({
   variables: {
     id: route.params.id,
   },
+  ...(jwt
+    ? {
+        context: {
+          fetchOptions: {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          },
+        },
+      }
+    : {}),
 })
+
 const guest = computed(() => eventQuery.data.value?.guestByRowId)
 const event = computed(() => guest.value?.eventByEventId)
 const events = computed(() => (event.value ? [event.value] : []))
@@ -510,11 +507,11 @@ const description = computed(() =>
 const title = computed(() => {
   if (api.value.isFetching) return t('globalLoading')
   if (!event.value) {
-    showAppError({ status: 404, message: 'Event unavailable' })
+    showAppError({ statusCode: 404, message: 'Event unavailable' })
     return
   }
 
-  return event.value.name
+  return event.value?.name
 })
 useHeadDefault({
   description,
