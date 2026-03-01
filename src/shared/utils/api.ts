@@ -47,31 +47,43 @@ export const getJwtFromResult = <
 }) => {
   if (result.error) {
     if (result.error.networkError) {
-      throw new Error(
-        (result.error.networkError.cause as { message?: string })?.message ||
+      return throwError({
+        status: 500,
+        statusText:
+          (result.error.networkError.cause as { message?: string })?.message ||
           result.error.networkError.message,
-      ) // TODO: 500
+      })
     }
 
     if (result.error.graphQLErrors?.length) {
       const messages = result.error.graphQLErrors
         .map((e) => e.message)
         .join('; ')
-      throw new Error(`GraphQL error(s) during ${context}: ${messages}`) // TODO: 500
+      return throwError({
+        status: 500,
+        statusText: `GraphQL error(s) during ${context}: ${messages}`,
+      })
     }
 
-    throw new Error(
-      result.error.message || `Unexpected error during ${context}.`,
-    ) // TODO: 500
+    return throwError({
+      status: 500,
+      statusText: result.error.message || `Unexpected error during ${context}.`,
+    })
   }
 
   if (!result.data) {
-    throw new Error(`No data returned from ${context} mutation.`) // TODO: 500
+    return throwError({
+      status: 500,
+      statusText: `No data returned from ${context} mutation.`,
+    })
   }
 
   const jwt = extract(result.data)
   if (!jwt) {
-    throw new Error(`No JWT returned from ${context} mutation.`) // TODO: 500
+    return throwError({
+      status: 500,
+      statusText: `No JWT returned from ${context} mutation.`,
+    })
   }
 
   return jwt
