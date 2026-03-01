@@ -42,6 +42,7 @@ type Documents = {
   '\n    query EventGuests($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            accountByCreatedBy {\n              id\n              rowId\n              username\n            }\n            createdBy\n            guestsByEventId {\n              nodes {\n                contactByContactId {\n                  accountId\n                  id\n                  rowId\n                }\n                id\n                rowId\n              }\n              pageInfo {\n                hasNextPage\n                endCursor\n              }\n              totalCount\n            }\n            id\n            name\n            rowId\n            slug\n          }\n        }\n        id\n        rowId\n      }\n    }\n  ': typeof types.EventGuestsDocument
   '\n    query Event($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            accountByCreatedBy {\n              id\n              rowId\n              username\n            }\n            addressByAddressId {\n              id\n              location {\n                latitude\n                longitude\n              }\n              name\n              rowId\n            }\n            createdBy\n            description\n            end\n            id\n            isArchived\n            isInPerson\n            isRemote\n            name\n            rowId\n            slug\n            start\n            url\n            visibility\n          }\n        }\n        id\n        rowId\n        username\n      }\n    }\n  ': typeof types.EventDocument
   '\n  query EventListAccount($after: Cursor, $first: Int!, $username: String!) {\n    accountByUsername(username: $username) {\n      eventsByCreatedBy(after: $after, first: $first, orderBy: START_DESC) {\n        nodes {\n          eventFavoritesByEventId(first: 1) {\n            nodes {\n              createdBy\n              id\n              rowId\n            }\n          }\n          guestsByEventId(first: 1) {\n            nodes {\n              contactByContactId {\n                accountId\n                id\n                rowId\n              }\n              id\n              rowId\n            }\n          }\n          id\n          name\n          rowId\n          slug\n          start\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n      id\n      rowId\n    }\n  }\n': typeof types.EventListAccountDocument
+  '\n    mutation JwtUpdateGuestAddGuest($input: JwtUpdateGuestAddInput!) {\n      jwtUpdateGuestAdd(input: $input) {\n        result\n      }\n    }\n  ': typeof types.JwtUpdateGuestAddGuestDocument
   '\n    query GuestEvent($id: UUID!) {\n      guestByRowId(rowId: $id) {\n        contactByContactId {\n          accountByAccountId {\n            id\n            rowId\n            username\n          }\n          createdBy\n          firstName\n          id\n          lastName\n          nickname\n          rowId\n        }\n        eventByEventId {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          addressByAddressId {\n            id\n            location {\n              latitude\n              longitude\n            }\n            name\n            rowId\n          }\n          createdBy\n          description\n          end\n          id\n          isArchived\n          isInPerson\n          isRemote\n          name\n          rowId\n          slug\n          start\n          url\n          visibility\n        }\n        feedback\n        id\n        rowId\n      }\n    }\n  ': typeof types.GuestEventDocument
   '\n    mutation AchievementUnlock($code: UUID!, $alias: String!) {\n      achievementUnlock(input: { code: $code, alias: $alias }) {\n        clientMutationId\n        result\n      }\n    }\n  ': typeof types.AchievementUnlockDocument
   '\n  fragment AccountItem on Account {\n    description\n    id\n    rowId\n    username\n  }\n': typeof types.AccountItemFragmentDoc
@@ -102,6 +103,7 @@ type Documents = {
   '\n  mutation JwtCreate($password: String!, $username: String!) {\n    jwtCreate(input: { password: $password, username: $username }) {\n      clientMutationId\n      result\n    }\n  }\n': typeof types.JwtCreateDocument
   '\n  mutation JwtUpdate($id: UUID!) {\n    jwtUpdate(input: { jwtId: $id }) {\n      clientMutationId\n      result\n    }\n  }\n': typeof types.JwtUpdateDocument
   '\n  mutation JwtUpdateAttendanceAdd($input: JwtUpdateAttendanceAddInput!) {\n    jwtUpdateAttendanceAdd(input: $input) {\n      result\n    }\n  }\n': typeof types.JwtUpdateAttendanceAddDocument
+  '\n  mutation JwtUpdateGuestAdd($input: JwtUpdateGuestAddInput!) {\n    jwtUpdateGuestAdd(input: $input) {\n      result\n    }\n  }\n': typeof types.JwtUpdateGuestAddDocument
 }
 const documents: Documents = {
   '\n    mutation AccountDelete($password: String!) {\n      accountDelete(input: { password: $password }) {\n        clientMutationId\n      }\n    }\n  ':
@@ -160,6 +162,8 @@ const documents: Documents = {
     types.EventDocument,
   '\n  query EventListAccount($after: Cursor, $first: Int!, $username: String!) {\n    accountByUsername(username: $username) {\n      eventsByCreatedBy(after: $after, first: $first, orderBy: START_DESC) {\n        nodes {\n          eventFavoritesByEventId(first: 1) {\n            nodes {\n              createdBy\n              id\n              rowId\n            }\n          }\n          guestsByEventId(first: 1) {\n            nodes {\n              contactByContactId {\n                accountId\n                id\n                rowId\n              }\n              id\n              rowId\n            }\n          }\n          id\n          name\n          rowId\n          slug\n          start\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n      id\n      rowId\n    }\n  }\n':
     types.EventListAccountDocument,
+  '\n    mutation JwtUpdateGuestAddGuest($input: JwtUpdateGuestAddInput!) {\n      jwtUpdateGuestAdd(input: $input) {\n        result\n      }\n    }\n  ':
+    types.JwtUpdateGuestAddGuestDocument,
   '\n    query GuestEvent($id: UUID!) {\n      guestByRowId(rowId: $id) {\n        contactByContactId {\n          accountByAccountId {\n            id\n            rowId\n            username\n          }\n          createdBy\n          firstName\n          id\n          lastName\n          nickname\n          rowId\n        }\n        eventByEventId {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          addressByAddressId {\n            id\n            location {\n              latitude\n              longitude\n            }\n            name\n            rowId\n          }\n          createdBy\n          description\n          end\n          id\n          isArchived\n          isInPerson\n          isRemote\n          name\n          rowId\n          slug\n          start\n          url\n          visibility\n        }\n        feedback\n        id\n        rowId\n      }\n    }\n  ':
     types.GuestEventDocument,
   '\n    mutation AchievementUnlock($code: UUID!, $alias: String!) {\n      achievementUnlock(input: { code: $code, alias: $alias }) {\n        clientMutationId\n        result\n      }\n    }\n  ':
@@ -280,6 +284,8 @@ const documents: Documents = {
     types.JwtUpdateDocument,
   '\n  mutation JwtUpdateAttendanceAdd($input: JwtUpdateAttendanceAddInput!) {\n    jwtUpdateAttendanceAdd(input: $input) {\n      result\n    }\n  }\n':
     types.JwtUpdateAttendanceAddDocument,
+  '\n  mutation JwtUpdateGuestAdd($input: JwtUpdateGuestAddInput!) {\n    jwtUpdateGuestAdd(input: $input) {\n      result\n    }\n  }\n':
+    types.JwtUpdateGuestAddDocument,
 }
 
 /**
@@ -464,6 +470,12 @@ export function graphql(
 export function graphql(
   source: '\n  query EventListAccount($after: Cursor, $first: Int!, $username: String!) {\n    accountByUsername(username: $username) {\n      eventsByCreatedBy(after: $after, first: $first, orderBy: START_DESC) {\n        nodes {\n          eventFavoritesByEventId(first: 1) {\n            nodes {\n              createdBy\n              id\n              rowId\n            }\n          }\n          guestsByEventId(first: 1) {\n            nodes {\n              contactByContactId {\n                accountId\n                id\n                rowId\n              }\n              id\n              rowId\n            }\n          }\n          id\n          name\n          rowId\n          slug\n          start\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n      id\n      rowId\n    }\n  }\n',
 ): (typeof documents)['\n  query EventListAccount($after: Cursor, $first: Int!, $username: String!) {\n    accountByUsername(username: $username) {\n      eventsByCreatedBy(after: $after, first: $first, orderBy: START_DESC) {\n        nodes {\n          eventFavoritesByEventId(first: 1) {\n            nodes {\n              createdBy\n              id\n              rowId\n            }\n          }\n          guestsByEventId(first: 1) {\n            nodes {\n              contactByContactId {\n                accountId\n                id\n                rowId\n              }\n              id\n              rowId\n            }\n          }\n          id\n          name\n          rowId\n          slug\n          start\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n      id\n      rowId\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    mutation JwtUpdateGuestAddGuest($input: JwtUpdateGuestAddInput!) {\n      jwtUpdateGuestAdd(input: $input) {\n        result\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation JwtUpdateGuestAddGuest($input: JwtUpdateGuestAddInput!) {\n      jwtUpdateGuestAdd(input: $input) {\n        result\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -824,6 +836,12 @@ export function graphql(
 export function graphql(
   source: '\n  mutation JwtUpdateAttendanceAdd($input: JwtUpdateAttendanceAddInput!) {\n    jwtUpdateAttendanceAdd(input: $input) {\n      result\n    }\n  }\n',
 ): (typeof documents)['\n  mutation JwtUpdateAttendanceAdd($input: JwtUpdateAttendanceAddInput!) {\n    jwtUpdateAttendanceAdd(input: $input) {\n      result\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  mutation JwtUpdateGuestAdd($input: JwtUpdateGuestAddInput!) {\n    jwtUpdateGuestAdd(input: $input) {\n      result\n    }\n  }\n',
+): (typeof documents)['\n  mutation JwtUpdateGuestAdd($input: JwtUpdateGuestAddInput!) {\n    jwtUpdateGuestAdd(input: $input) {\n      result\n    }\n  }\n']
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {}

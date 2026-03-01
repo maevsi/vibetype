@@ -9225,76 +9225,6 @@ export default {
       },
       {
         kind: 'OBJECT',
-        name: 'EventUnlockPayload',
-        fields: [
-          {
-            name: 'clientMutationId',
-            type: {
-              kind: 'SCALAR',
-              name: 'Any',
-            },
-            args: [],
-          },
-          {
-            name: 'query',
-            type: {
-              kind: 'OBJECT',
-              name: 'Query',
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: 'result',
-            type: {
-              kind: 'LIST',
-              ofType: {
-                kind: 'NON_NULL',
-                ofType: {
-                  kind: 'OBJECT',
-                  name: 'EventUnlockRecord',
-                  ofType: null,
-                },
-              },
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: 'OBJECT',
-        name: 'EventUnlockRecord',
-        fields: [
-          {
-            name: 'creatorUsername',
-            type: {
-              kind: 'SCALAR',
-              name: 'Any',
-            },
-            args: [],
-          },
-          {
-            name: 'eventSlug',
-            type: {
-              kind: 'SCALAR',
-              name: 'Any',
-            },
-            args: [],
-          },
-          {
-            name: 'jwt',
-            type: {
-              kind: 'SCALAR',
-              name: 'Any',
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: 'OBJECT',
         name: 'EventUpload',
         fields: [
           {
@@ -10524,6 +10454,38 @@ export default {
       {
         kind: 'OBJECT',
         name: 'JwtUpdateAttendanceAddPayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'result',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'JwtUpdateGuestAddPayload',
         fields: [
           {
             name: 'clientMutationId',
@@ -12627,26 +12589,6 @@ export default {
             ],
           },
           {
-            name: 'eventUnlock',
-            type: {
-              kind: 'OBJECT',
-              name: 'EventUnlockPayload',
-              ofType: null,
-            },
-            args: [
-              {
-                name: 'input',
-                type: {
-                  kind: 'NON_NULL',
-                  ofType: {
-                    kind: 'SCALAR',
-                    name: 'Any',
-                  },
-                },
-              },
-            ],
-          },
-          {
             name: 'invite',
             type: {
               kind: 'OBJECT',
@@ -12711,6 +12653,26 @@ export default {
             type: {
               kind: 'OBJECT',
               name: 'JwtUpdateAttendanceAddPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'jwtUpdateGuestAdd',
+            type: {
+              kind: 'OBJECT',
+              name: 'JwtUpdateGuestAddPayload',
               ofType: null,
             },
             args: [
