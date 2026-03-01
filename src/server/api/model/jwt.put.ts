@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { graphql } from '~~/gql/generated'
 import type {
   JwtUpdateAttendanceAddMutation,
-  // JwtUpdateGuestAddMutation,
+  JwtUpdateGuestAddMutation,
   JwtUpdateMutation,
 } from '~~/gql/generated/graphql'
 
@@ -37,13 +37,13 @@ const mutationJwtUpdateAttendanceAdd = graphql(`
   }
 `)
 
-// const mutationJwtUpdateGuestAdd = graphql(`
-//   mutation JwtUpdateGuestAdd($input: JwtUpdateGuestAddInput!) {
-//     jwtUpdateGuestAdd(input: $input) {
-//       jwt
-//     }
-//   }
-// `)
+const mutationJwtUpdateGuestAdd = graphql(`
+  mutation JwtUpdateGuestAdd($input: JwtUpdateGuestAddInput!) {
+    jwtUpdateGuestAdd(input: $input) {
+      result
+    }
+  }
+`)
 
 const getJwt = async ({
   event,
@@ -53,7 +53,7 @@ const getJwt = async ({
   body: z.infer<typeof jwtUpdateBodySchema>
 }) => {
   if ('id' in body) {
-    const jwtCreateMutation = await urqlMutate({
+    const jwtUpdateMutation = await urqlMutate({
       event,
       urql: {
         mutation: mutationJwtUpdate,
@@ -65,7 +65,7 @@ const getJwt = async ({
     return getJwtFromResult({
       context: 'JWT update',
       extract: (data: JwtUpdateMutation) => data.jwtUpdate?.result,
-      result: jwtCreateMutation,
+      result: jwtUpdateMutation,
     })
   }
 
@@ -89,24 +89,25 @@ const getJwt = async ({
     })
   }
 
-  // if ('guestId' in body) {
-  //   const jwtUpdateGuestAddMutation = await urqlMutate({
-  //     event,
-  //     urql: {
-  //       mutation: mutationJwtUpdateGuestAdd,
-  //       variables: {
-  //         input: {
-  //           ...body,
-  //         },
-  //       },
-  //     },
-  //   })
-  //   return getJwtFromResult({
-  //     context: 'JWT guest add',
-  //     extract: (data: JwtUpdateGuestAddMutation) => data.jwtUpdateGuestAdd?.jwt,
-  //     result: jwtUpdateGuestAddMutation,
-  //   })
-  // }
+  if ('guestId' in body) {
+    const jwtUpdateGuestAddMutation = await urqlMutate({
+      event,
+      urql: {
+        mutation: mutationJwtUpdateGuestAdd,
+        variables: {
+          input: {
+            ...body,
+          },
+        },
+      },
+    })
+    return getJwtFromResult({
+      context: 'JWT guest add',
+      extract: (data: JwtUpdateGuestAddMutation) =>
+        data.jwtUpdateGuestAdd?.result,
+      result: jwtUpdateGuestAddMutation,
+    })
+  }
 }
 
 export default defineEventHandler(async (event) => {
@@ -122,9 +123,11 @@ export default defineEventHandler(async (event) => {
   }
 
   const { setJwtCookie, verifyJwt } = await useJsonWebToken()
-  setJwtCookie(jwt)
-
   const jwtPayload = await verifyJwt<Jwt>(jwt)
+  setJwtCookie({
+    value: jwt,
+    expires: jwtPayload?.exp ? jwtPayload.exp * 1000 : 0,
+  })
   return {
     jwtPayload,
   }
