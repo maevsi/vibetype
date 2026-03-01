@@ -33,7 +33,7 @@ export const useCsrfRequestFetch = () => {
   const { csrf } = useCsrf()
   const requestFetch = useRequestFetch()
 
-  const csrfRequestFetch: typeof requestFetch = (
+  const csrfRequestFetch = (
     url: Parameters<typeof requestFetch>[0],
     options?: Parameters<typeof requestFetch>[1],
   ) =>
@@ -45,5 +45,9 @@ export const useCsrfRequestFetch = () => {
       },
     })
 
-  return csrfRequestFetch
+  // TypeScript cannot verify the equivalence of the generic call signatures at
+  // call sites because Nitro's conditional route types exceed the recursion
+  // depth limit (TS2321). Asserting as the original type preserves the
+  // caller-side inference without re-evaluating the constraint.
+  return csrfRequestFetch as typeof requestFetch
 }
