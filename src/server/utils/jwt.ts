@@ -1,17 +1,20 @@
 export const useJsonWebToken = async () => {
   const event = useEvent()
-  const runtimeConfig = useRuntimeConfig()
-  const jwtPublicKey = await useJwtPublicKey()
   const { siteUrlTyped: siteUrl } = useSiteUrl()
+  const jwtPublicKey = await useJwtPublicKey()
 
   return {
-    getJwtFromCookie: () => {
-      const jwtCookieName = getJwtName(siteUrl)
-      const cookieAuthorization = getCookie(event, jwtCookieName)
-
-      return cookieAuthorization
+    getJwtFromCookie: (options: { name: string } = { name: JWT_COOKIE_NAME }) =>
+      getCookie(event, options.name),
+    setJwtCookie: ({ expires, value }: { expires: number; value?: string }) => {
+      const args = getJwtCookieParameters({
+        siteUrl,
+      })
+      setCookie(event, args.name, value || '', {
+        ...args.options,
+        expires: new Date(expires),
+      })
     },
-    setJwtCookie: (jwt: string) => setJwtCookie({ event, jwt, runtimeConfig }),
     verifyJwt: async <T>(jwt?: string) => {
       if (!jwt) return
 

@@ -1,23 +1,3 @@
-export const useCsrfRequestFetch = () => {
-  const requestFetch = useRequestFetch()
-
-  return async (
-    url: Parameters<typeof requestFetch>[0],
-    options?: Parameters<typeof requestFetch>[1],
-  ) => {
-    const { csrf } = useCsrf()
-    const headers = {
-      ...(options?.headers || {}),
-      [CSRF_HEADER_NAME]: csrf,
-    }
-
-    return await requestFetch(url, {
-      ...options,
-      headers,
-    })
-  }
-}
-
 export const useGetServiceHref = () => {
   const host = useHost()
   const runtimeConfig = useRuntimeConfig()
@@ -65,7 +45,7 @@ export const useHttpStatusCode = async ({ status }: { status: number }) => {
 }
 
 export const useIsSecure = () =>
-  getIsSecure({ runtimeConfig: useRuntimeConfig() })
+  getIsSecure({ siteUrl: useSiteUrl().siteUrlTyped })
 
 export const useSiteUrl = () =>
   getSiteUrl(useRuntimeConfig().public.i18n.baseUrl)

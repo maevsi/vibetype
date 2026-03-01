@@ -1,11 +1,10 @@
-import type { Client, OperationResult, OperationResultSource } from '@urql/core'
 import type { H3Event } from 'h3'
 import { z } from 'zod'
 
 import { graphql } from '~~/gql/generated'
 import type {
   JwtUpdateAttendanceAddMutation,
-  // JwtUpdateGuestAddMutation,
+  JwtUpdateGuestAddMutation,
   JwtUpdateMutation,
 } from '~~/gql/generated/graphql'
 
@@ -38,69 +37,13 @@ const mutationJwtUpdateAttendanceAdd = graphql(`
   }
 `)
 
-// const mutationJwtUpdateGuestAdd = graphql(`
-//   mutation JwtUpdateGuestAdd($input: JwtUpdateGuestAddInput!) {
-//     jwtUpdateGuestAdd(input: $input) {
-//       jwt
-//     }
-//   }
-// `)
-
-const getJwtFromResult = <
-  Data,
-  Variables extends Parameters<Client['mutation']>[1],
->({
-  context,
-  extract,
-  result,
-}: {
-  context: string
-  extract: (data: Data) => string | null | undefined
-  result: Awaited<OperationResultSource<OperationResult<Data, Variables>>>
-}) => {
-  if (result.error) {
-    if (result.error.networkError) {
-      return throwError({
-        status: 500,
-        statusText:
-          (result.error.networkError.cause as { message?: string })?.message ||
-          result.error.networkError.message,
-      })
+const mutationJwtUpdateGuestAdd = graphql(`
+  mutation JwtUpdateGuestAdd($input: JwtUpdateGuestAddInput!) {
+    jwtUpdateGuestAdd(input: $input) {
+      result
     }
-
-    if (result.error.graphQLErrors?.length) {
-      const messages = result.error.graphQLErrors
-        .map((e) => e.message)
-        .join('; ')
-      return throwError({
-        status: 500,
-        statusText: `GraphQL error(s) during ${context}: ${messages}`,
-      })
-    }
-
-    return throwError({
-      status: 500,
-      statusText: result.error.message || `Unexpected error during ${context}.`,
-    })
   }
-
-  if (!result.data) {
-    return throwError({
-      status: 500,
-      statusText: `No data returned from ${context} mutation.`,
-    })
-  }
-
-  const jwt = extract(result.data)
-  if (!jwt) {
-    return throwError({
-      status: 500,
-      statusText: `No JWT returned from ${context} mutation.`,
-    })
-  }
-
-  return jwt
-}
+`)
 
 const getJwt = async ({
   event,
@@ -110,7 +53,7 @@ const getJwt = async ({
   body: z.infer<typeof jwtUpdateBodySchema>
 }) => {
   if ('id' in body) {
-    const jwtCreateMutation = await urqlMutate({
+    const jwtUpdateMutation = await urqlMutate({
       event,
       urql: {
         mutation: mutationJwtUpdate,
@@ -122,7 +65,7 @@ const getJwt = async ({
     return getJwtFromResult({
       context: 'JWT update',
       extract: (data: JwtUpdateMutation) => data.jwtUpdate?.result,
-      result: jwtCreateMutation,
+      result: jwtUpdateMutation,
     })
   }
 
@@ -146,24 +89,25 @@ const getJwt = async ({
     })
   }
 
-  // if ('guestId' in body) {
-  //   const jwtUpdateGuestAddMutation = await urqlMutate({
-  //     event,
-  //     urql: {
-  //       mutation: mutationJwtUpdateGuestAdd,
-  //       variables: {
-  //         input: {
-  //           ...body,
-  //         },
-  //       },
-  //     },
-  //   })
-  //   return getJwtFromResult({
-  //     context: 'JWT guest add',
-  //     extract: (data: JwtUpdateGuestAddMutation) => data.jwtUpdateGuestAdd?.jwt,
-  //     result: jwtUpdateGuestAddMutation,
-  //   })
-  // }
+  if ('guestId' in body) {
+    const jwtUpdateGuestAddMutation = await urqlMutate({
+      event,
+      urql: {
+        mutation: mutationJwtUpdateGuestAdd,
+        variables: {
+          input: {
+            ...body,
+          },
+        },
+      },
+    })
+    return getJwtFromResult({
+      context: 'JWT guest add',
+      extract: (data: JwtUpdateGuestAddMutation) =>
+        data.jwtUpdateGuestAdd?.result,
+      result: jwtUpdateGuestAddMutation,
+    })
+  }
 }
 
 export default defineEventHandler(async (event) => {
@@ -179,9 +123,11 @@ export default defineEventHandler(async (event) => {
   }
 
   const { setJwtCookie, verifyJwt } = await useJsonWebToken()
-  setJwtCookie(jwt)
-
   const jwtPayload = await verifyJwt<Jwt>(jwt)
+  setJwtCookie({
+    value: jwt,
+    expires: jwtPayload?.exp ? jwtPayload.exp * 1000 : 0,
+  })
   return {
     jwtPayload,
   }

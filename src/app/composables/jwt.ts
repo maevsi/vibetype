@@ -1,3 +1,11 @@
+import { useMutation } from '@urql/vue'
+import { getRequestHeaders } from 'h3'
+
+import type { CookieOptions } from '#app'
+
+import { graphql } from '~~/gql/generated'
+import type { uuid } from '~~/shared/types/model'
+
 export const useAuthentication = () => {
   const store = useStore()
 
@@ -23,6 +31,24 @@ export const useAuthentication = () => {
   })
 }
 
+export const useJwtCookie = (
+  options:
+    | { options: CookieOptions & { readonly: false } }
+    | undefined = undefined,
+) => {
+  const { siteUrlTyped: siteUrl } = useSiteUrl()
+  const jwtCookieParameters = getJwtCookieParameters({
+    siteUrl,
+  })
+
+  const cookie = useCookie(jwtCookieParameters.name, {
+    ...jwtCookieParameters.options,
+    ...(options?.options ? options.options : {}),
+  })
+
+  return cookie
+}
+
 export const useJwtDelete = async () => {
   const { $urqlReset } = useNuxtApp()
   const requestFetch = useRequestFetch()
@@ -34,4 +60,58 @@ export const useJwtDelete = async () => {
       requestFetch,
       store,
     })
+}
+
+export const useJwtUpdateGuestAdd = ({ guestId }: { guestId: uuid }) => {
+  const requestEvent = useRequestEvent()
+
+  if (!requestEvent) {
+    throw new Error('Request event is not available.')
+  }
+
+  const mutationJwtUpdateGuestAdd = graphql(`
+    mutation JwtUpdateGuestAddGuest($input: JwtUpdateGuestAddInput!) {
+      jwtUpdateGuestAdd(input: $input) {
+        result
+      }
+    }
+  `)
+  const { csrfToken, csrfCookieValue } = useCsrfImmediately()
+  const headers = getRequestHeaders(requestEvent)
+  const cookieHeaderValue = [
+    ...(!headers.cookie?.includes(`${CSRF_COOKIE_NAME}=`) && csrfCookieValue
+      ? [`${CSRF_COOKIE_NAME}=${csrfCookieValue}`]
+      : []),
+    ...(headers.cookie ? [headers.cookie] : []),
+  ].join('; ')
+  const csrfHeaderValue = headers[CSRF_HEADER_NAME] || csrfToken
+  const jwtUpdateGuestAddMutation = useMutation(mutationJwtUpdateGuestAdd)
+  const jwtCookie = useJwtCookie()
+
+  return async () => {
+    const result = await jwtUpdateGuestAddMutation.executeMutation(
+      {
+        input: {
+          guestId,
+        },
+      },
+      {
+        fetchOptions: () => ({
+          headers: {
+            ...(cookieHeaderValue ? { cookie: cookieHeaderValue } : {}),
+            ...(csrfHeaderValue ? { [CSRF_HEADER_NAME]: csrfHeaderValue } : {}),
+          },
+        }),
+      },
+    )
+
+    const jwt = getJwtFromResult({
+      context: 'JWT guest add',
+      extract: (data) => data.jwtUpdateGuestAdd?.result,
+      result,
+    })
+    jwtCookie.value = jwt
+
+    return jwt
+  }
 }

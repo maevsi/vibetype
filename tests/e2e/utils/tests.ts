@@ -2,7 +2,7 @@ import { expect, type Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import { joinURL, withoutTrailingSlash } from 'ufo'
 
-import { TESTING_COOKIE_NAME } from '#src/shared/utils/constants'
+import { TESTING_COOKIE_NAME } from '#src/node/static'
 import { appTest } from '#tests/e2e/fixtures/appTest'
 import { SITE_URL, TIMEOUT } from '#tests/e2e/utils/constants'
 
