@@ -73,9 +73,11 @@ export default defineEventHandler(async (event) => {
   }
 
   const { setJwtCookie, verifyJwt } = await useJsonWebToken()
-  setJwtCookie(jwt)
-
   const jwtPayload = await verifyJwt<Jwt>(jwt)
+  setJwtCookie({
+    value: jwt,
+    expires: jwtPayload?.exp ? jwtPayload.exp * 1000 : 0,
+  })
   return {
     jwtPayload,
   }
