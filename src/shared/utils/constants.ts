@@ -1,9 +1,6 @@
-import { DEFAULTS } from '@dargmuesli/nuxt-cookie-control/runtime/types.js'
-
-import { SITE_NAME } from '~~/node/static'
-
 export {
   CACHE_VERSION,
+  COOKIE_CONTROL_CONSENT_COOKIE_NAME,
   CSRF_COOKIE_NAME,
   CSRF_HEADER_NAME,
   FEATURE_FLAGS_COOKIE_ID,
@@ -15,13 +12,12 @@ export {
   POLYFILLS,
   PRODUCTION_HOST,
   SITE_NAME,
+  TESTING_COOKIE_NAME,
   THEME_COLOR,
   TIMEZONE_COOKIE_NAME,
   TURNSTILE_HEADER_NAME,
 } from '~~/node/static'
 
-export const COOKIE_CONTROL_CONSENT_COOKIE_NAME =
-  DEFAULTS.cookieNameIsConsentGiven
 export const COOKIE_SAME_SITE = 'lax' as const // cannot be `strict` as this would block cookies when coming from external sources
 export const ITEMS_PER_PAGE = 10
 export const ITEMS_PER_PAGE_LARGE = 100
@@ -38,7 +34,6 @@ export const REGEX_UUID =
 export const SEO_META_TWITTER_SITE = '@maev_si'
 export const STATE_KEY_NOW = 'dateTimeNow'
 export const STATE_LOADING_IDS_NAME = 'loadingIds'
-export const TESTING_COOKIE_NAME = `${SITE_NAME}_is-testing`
 export const FEATURE_FLAGS_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year
 export const THEME_COLOR_DARK = '#191911'
 export const TITLE_TEMPLATE = ({

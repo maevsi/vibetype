@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-import { TESTING_COOKIE_NAME } from '#src/shared/utils/constants'
+import { TESTING_COOKIE_NAME } from '#src/node/static'
 
 test.describe('headers middleware', () => {
   test('sets the correct headers', async ({ request }) => {
