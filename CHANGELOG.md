@@ -1,3 +1,16 @@
+## [14.0.0-beta.7](https://github.com/maevsi/vibetype/compare/14.0.0-beta.6...14.0.0-beta.7) (2026-03-01)
+
+### Features
+
+* **cookie:** add `getResponseCookie` utility ([bff2be4](https://github.com/maevsi/vibetype/commit/bff2be465609f562d58f2c4a341abd04d37b0c09))
+* **guest:** enable JWT guest mutation endpoint ([88f7b92](https://github.com/maevsi/vibetype/commit/88f7b928eb33491db2dea4cf308802b87490f51a))
+* **guest:** use JWT composable for server-side authentication ([4b6a97a](https://github.com/maevsi/vibetype/commit/4b6a97a7f3ea2df3c0208bd353dc3b3edde17f19))
+* **jwt:** add JWT and security composables ([cfd74d8](https://github.com/maevsi/vibetype/commit/cfd74d892580d1b47e5292ce5261621bd72d3fe0))
+
+### Reverts
+
+* **security:** drop response promise return ([6f719ce](https://github.com/maevsi/vibetype/commit/6f719ce90f37802d9554db1e9e5341a851916a9d))
+
 ## [14.0.0-beta.6](https://github.com/maevsi/vibetype/compare/14.0.0-beta.5...14.0.0-beta.6) (2026-02-22)
 
 ### Bug Fixes
