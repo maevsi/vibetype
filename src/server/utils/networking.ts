@@ -40,7 +40,7 @@ export const useHost = ({ event }: { event?: H3Event } = {}) => {
 }
 
 export const useIsSecure = () =>
-  getIsSecure({ runtimeConfig: useRuntimeConfig() })
+  getIsSecure({ siteUrl: useSiteUrl().siteUrlTyped })
 
 export const useSiteUrl = () =>
   getSiteUrl(useRuntimeConfig().public.i18n.baseUrl)

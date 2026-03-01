@@ -21,13 +21,9 @@ export const getJwtPublicKey = async ({
   return runtimeConfig.public.vio.auth.jwt.publicKey
 }
 
-export const getJwtCookieParameters = ({
-  runtimeConfig,
-}: {
-  runtimeConfig: ReturnType<typeof useRuntimeConfig>
-}) => {
+export const getJwtCookieParameters = ({ siteUrl }: { siteUrl: URL }) => {
   const jwtCookieName = JWT_COOKIE_NAME
-  const isSecure = getIsSecure({ runtimeConfig })
+  const isSecure = getIsSecure({ siteUrl })
 
   return {
     name: jwtCookieName,

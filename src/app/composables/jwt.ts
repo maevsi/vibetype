@@ -36,9 +36,9 @@ export const useJwtCookie = (
     | { options: CookieOptions & { readonly: false } }
     | undefined = undefined,
 ) => {
-  const runtimeConfig = useRuntimeConfig()
+  const { siteUrlTyped: siteUrl } = useSiteUrl()
   const jwtCookieParameters = getJwtCookieParameters({
-    runtimeConfig,
+    siteUrl,
   })
 
   const cookie = useCookie(jwtCookieParameters.name, {

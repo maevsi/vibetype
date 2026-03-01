@@ -45,7 +45,7 @@ export const useHttpStatusCode = async ({ status }: { status: number }) => {
 }
 
 export const useIsSecure = () =>
-  getIsSecure({ runtimeConfig: useRuntimeConfig() })
+  getIsSecure({ siteUrl: useSiteUrl().siteUrlTyped })
 
 export const useSiteUrl = () =>
   getSiteUrl(useRuntimeConfig().public.i18n.baseUrl)

@@ -1,6 +1,6 @@
 export const useJsonWebToken = async () => {
   const event = useEvent()
-  const runtimeConfig = useRuntimeConfig()
+  const { siteUrlTyped: siteUrl } = useSiteUrl()
   const jwtPublicKey = await useJwtPublicKey()
 
   return {
@@ -8,7 +8,7 @@ export const useJsonWebToken = async () => {
       getCookie(event, options.name),
     setJwtCookie: ({ expires, value }: { expires: number; value?: string }) => {
       const args = getJwtCookieParameters({
-        runtimeConfig,
+        siteUrl,
       })
       setCookie(event, args.name, value || '', {
         ...args.options,
