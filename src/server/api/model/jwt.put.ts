@@ -53,7 +53,7 @@ const getJwt = async ({
   body: z.infer<typeof jwtUpdateBodySchema>
 }) => {
   if ('id' in body) {
-    const jwtCreateMutation = await urqlMutate({
+    const jwtUpdateMutation = await urqlMutate({
       event,
       urql: {
         mutation: mutationJwtUpdate,
@@ -65,7 +65,7 @@ const getJwt = async ({
     return getJwtFromResult({
       context: 'JWT update',
       extract: (data: JwtUpdateMutation) => data.jwtUpdate?.result,
-      result: jwtCreateMutation,
+      result: jwtUpdateMutation,
     })
   }
 
@@ -123,9 +123,11 @@ export default defineEventHandler(async (event) => {
   }
 
   const { setJwtCookie, verifyJwt } = await useJsonWebToken()
-  setJwtCookie(jwt)
-
   const jwtPayload = await verifyJwt<Jwt>(jwt)
+  setJwtCookie({
+    value: jwt,
+    expires: jwtPayload?.exp ? jwtPayload.exp * 1000 : 0,
+  })
   return {
     jwtPayload,
   }

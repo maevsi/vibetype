@@ -287,9 +287,7 @@
 
 <script setup lang="ts">
 import { useQuery } from '@urql/vue'
-import { parseSetCookie } from 'cookie-es'
 import downloadJs from 'downloadjs'
-import { getRequestHeaders } from 'h3'
 import { sanitize } from 'isomorphic-dompurify'
 import mustache from 'mustache'
 import prntr from 'prntr'
@@ -308,64 +306,13 @@ const updateGuestByRowIdMutation = useUpdateGuestByRowIdMutation()
 const store = useStore()
 
 const isOpenReportDrawer = ref<boolean>()
-
-let jwt: string | undefined = undefined
-
-if (import.meta.server) {
-  const runtimeConfig = useRuntimeConfig()
-  const requestEvent = useRequestEvent()!
-  const { csrfToken, csrfCookieValue } = useCsrfImmediately()
-  const headers = getRequestHeaders(requestEvent)
-
-  const { csrfRequestFetch, response } = useCsrfRequestFetch(requestEvent)
-  const store = useStore()
-  try {
-    const { jwtPayload } = await csrfRequestFetch('/api/model/jwt', {
-      body: {
-        guestId: route.params.id,
-      },
-      headers: {
-        cookie: `${csrfCookieValue ? `__Host-csrf=${csrfCookieValue}` : ''}${headers.cookie ? `; ${headers.cookie}` : ''}`,
-        ...(headers[CSRF_HEADER_NAME] || csrfToken
-          ? { [CSRF_HEADER_NAME]: headers[CSRF_HEADER_NAME] || csrfToken }
-          : {}),
-      },
-      method: 'PUT',
-    })
-    if (!jwtPayload) {
-      throw new Error('JWT update failed: no JWT returned')
-    }
-    store.jwtSet(jwtPayload)
-  } catch (error) {
-    console.error('JWT update failed:', error)
-  }
-
-  const jwtResponseCookie = (await response).headers
-    .getSetCookie()
-    .map((header) => parseSetCookie(header))
-    .filter((cookie) => cookie.name === JWT_COOKIE_NAME)[0]
-
-  jwt = jwtResponseCookie?.value
-
-  if (!jwt) {
-    throw new Error('JWT update failed: JWT cookie not set in response')
-  }
-
-  const jwtCookieParameters = getJwtCookieParameters({
-    jwt,
-    runtimeConfig,
-  })
-
-  const cookie = useCookie(
-    jwtCookieParameters.name,
-    jwtCookieParameters.options,
-  )
-  cookie.value = jwtCookieParameters.value
-}
-
 const alertError = useAlertError()
 
 // api data
+const jwtUpdateGuestAdd = import.meta.server
+  ? useJwtUpdateGuestAdd({ guestId: route.params.id })
+  : undefined
+const jwt = jwtUpdateGuestAdd ? await jwtUpdateGuestAdd() : undefined
 const eventQuery = useQuery({
   query: graphql(`
     query GuestEvent($id: UUID!) {
@@ -558,11 +505,11 @@ const description = computed(() =>
     : undefined,
 )
 const title = computed(() => {
-  if (api.value.isFetching) return t('globalLoading')
-  if (!event.value) {
-    showAppError({ statusCode: 404, message: 'Event unavailable' })
-    return
-  }
+  // if (api.value.isFetching) return t('globalLoading')
+  // if (!event.value) {
+  //   showAppError({ statusCode: 404, message: 'Event unavailable' })
+  //   return
+  // }
 
   return event.value?.name
 })

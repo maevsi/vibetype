@@ -22,22 +22,16 @@ export const getJwtPublicKey = async ({
 }
 
 export const getJwtCookieParameters = ({
-  jwt,
   runtimeConfig,
 }: {
-  jwt: string
   runtimeConfig: ReturnType<typeof useRuntimeConfig>
 }) => {
   const jwtCookieName = JWT_COOKIE_NAME
-  const dateInAMonth = new Date(Date.now() + 86400 * 1000 * 31) // TODO: read from jwt expiration claim
-  const dateEpoch = new Date(0)
   const isSecure = getIsSecure({ runtimeConfig })
 
   return {
     name: jwtCookieName,
-    value: jwt,
     options: {
-      expires: jwt.length ? dateInAMonth : dateEpoch,
       httpOnly: true,
       sameSite: COOKIE_SAME_SITE,
       secure: isSecure,

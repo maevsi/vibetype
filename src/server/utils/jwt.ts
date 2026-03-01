@@ -6,12 +6,14 @@ export const useJsonWebToken = async () => {
   return {
     getJwtFromCookie: (options: { name: string } = { name: JWT_COOKIE_NAME }) =>
       getCookie(event, options.name),
-    setJwtCookie: (jwt: string) => {
+    setJwtCookie: ({ expires, value }: { expires: number; value?: string }) => {
       const args = getJwtCookieParameters({
-        jwt,
         runtimeConfig,
       })
-      setCookie(event, args.name, args.value, args.options)
+      setCookie(event, args.name, value || '', {
+        ...args.options,
+        expires: new Date(expires),
+      })
     },
     verifyJwt: async <T>(jwt?: string) => {
       if (!jwt) return

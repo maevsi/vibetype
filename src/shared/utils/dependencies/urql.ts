@@ -6,13 +6,9 @@ export const urqlMutate = async <
   Data,
   Variables extends Parameters<Client['mutation']>[1],
 >({
-  // csrfToken,
-  // csrfCookieValue,
   event,
   urql,
 }: {
-  // csrfToken?: string
-  // csrfCookieValue?: string
   event: H3Event
   urql: {
     mutation: DocumentInput<Data, Variables>
@@ -20,11 +16,8 @@ export const urqlMutate = async <
   }
 }) => {
   const headers = getRequestHeaders(event)
-  const cookieHeaderValue = [
-    // ...(csrfCookieValue ? [`${CSRF_COOKIE_NAME}=${csrfCookieValue}`] : []),
-    ...(headers.cookie ? [headers.cookie] : []),
-  ].join('; ')
-  const csrfHeaderValue = headers[CSRF_HEADER_NAME] //|| csrfToken
+  const cookieHeaderValue = headers.cookie
+  const csrfHeaderValue = headers[CSRF_HEADER_NAME]
   const turnstileHeaderValue = headers[TURNSTILE_HEADER_NAME]
 
   return await event.context.$urql.value
