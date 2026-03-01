@@ -287,7 +287,9 @@
 
 <script setup lang="ts">
 import { useQuery } from '@urql/vue'
+import { parseSetCookie } from 'cookie-es'
 import downloadJs from 'downloadjs'
+import { getRequestHeaders } from 'h3'
 import { sanitize } from 'isomorphic-dompurify'
 import mustache from 'mustache'
 import prntr from 'prntr'
@@ -303,26 +305,62 @@ const { t } = useI18n()
 const route = useRoute('guest-view-id___en')
 const localePath = useLocalePath()
 const updateGuestByRowIdMutation = useUpdateGuestByRowIdMutation()
+const store = useStore()
 
 const isOpenReportDrawer = ref<boolean>()
 
-const csrfRequestFetch = useCsrfRequestFetch()
-const store = useStore()
-try {
-  const { jwtPayload } = await csrfRequestFetch('/api/model/jwt', {
-    body: {
-      guestId: route.params.id,
-    },
-    method: 'PUT',
-  })
+let jwt: string | undefined = undefined
 
-  if (!jwtPayload) {
-    throw new Error('JWT update failed: no JWT returned')
+if (import.meta.server) {
+  const runtimeConfig = useRuntimeConfig()
+  const requestEvent = useRequestEvent()!
+  const { csrfToken, csrfCookieValue } = useCsrfImmediately()
+  const headers = getRequestHeaders(requestEvent)
+
+  const { csrfRequestFetch, response } = useCsrfRequestFetch(requestEvent)
+  const store = useStore()
+  try {
+    const { jwtPayload } = await csrfRequestFetch('/api/model/jwt', {
+      body: {
+        guestId: route.params.id,
+      },
+      headers: {
+        cookie: `${csrfCookieValue ? `__Host-csrf=${csrfCookieValue}` : ''}${headers.cookie ? `; ${headers.cookie}` : ''}`,
+        ...(headers[CSRF_HEADER_NAME] || csrfToken
+          ? { [CSRF_HEADER_NAME]: headers[CSRF_HEADER_NAME] || csrfToken }
+          : {}),
+      },
+      method: 'PUT',
+    })
+    if (!jwtPayload) {
+      throw new Error('JWT update failed: no JWT returned')
+    }
+    store.jwtSet(jwtPayload)
+  } catch (error) {
+    console.error('JWT update failed:', error)
   }
 
-  store.jwtSet(jwtPayload)
-} catch (error) {
-  console.error('JWT update failed:', error)
+  const jwtResponseCookie = (await response).headers
+    .getSetCookie()
+    .map((header) => parseSetCookie(header))
+    .filter((cookie) => cookie.name === JWT_COOKIE_NAME)[0]
+
+  jwt = jwtResponseCookie?.value
+
+  if (!jwt) {
+    throw new Error('JWT update failed: JWT cookie not set in response')
+  }
+
+  const jwtCookieParameters = getJwtCookieParameters({
+    jwt,
+    runtimeConfig,
+  })
+
+  const cookie = useCookie(
+    jwtCookieParameters.name,
+    jwtCookieParameters.options,
+  )
+  cookie.value = jwtCookieParameters.value
 }
 
 const alertError = useAlertError()
@@ -383,7 +421,19 @@ const eventQuery = useQuery({
   variables: {
     id: route.params.id,
   },
+  ...(jwt
+    ? {
+        context: {
+          fetchOptions: {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          },
+        },
+      }
+    : {}),
 })
+
 const guest = computed(() => eventQuery.data.value?.guestByRowId)
 const event = computed(() => guest.value?.eventByEventId)
 const events = computed(() => (event.value ? [event.value] : []))
@@ -510,11 +560,11 @@ const description = computed(() =>
 const title = computed(() => {
   if (api.value.isFetching) return t('globalLoading')
   if (!event.value) {
-    showAppError({ status: 404, message: 'Event unavailable' })
+    showAppError({ statusCode: 404, message: 'Event unavailable' })
     return
   }
 
-  return event.value.name
+  return event.value?.name
 })
 useHeadDefault({
   description,

@@ -4007,36 +4007,6 @@ export enum EventSize {
   Small = 'small',
 }
 
-/** All input for the `eventUnlock` mutation. */
-export type EventUnlockInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  guestId: Scalars['UUID']['input']
-}
-
-/** The output of our `eventUnlock` mutation. */
-export type EventUnlockPayload = {
-  __typename?: 'EventUnlockPayload'
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
-  result?: Maybe<Array<EventUnlockRecord>>
-}
-
-export type EventUnlockRecord = {
-  __typename?: 'EventUnlockRecord'
-  creatorUsername?: Maybe<Scalars['String']['output']>
-  eventSlug?: Maybe<Scalars['String']['output']>
-  jwt?: Maybe<Scalars['Jwt']['output']>
-}
-
 /** Associates uploaded files with events. */
 export type EventUpload = Node & {
   __typename?: 'EventUpload'
@@ -4645,6 +4615,29 @@ export type JwtUpdateAttendanceAddPayload = {
   result?: Maybe<Scalars['Jwt']['output']>
 }
 
+/** All input for the `jwtUpdateGuestAdd` mutation. */
+export type JwtUpdateGuestAddInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  guestId: Scalars['UUID']['input']
+}
+
+/** The output of our `jwtUpdateGuestAdd` mutation. */
+export type JwtUpdateGuestAddPayload = {
+  __typename?: 'JwtUpdateGuestAddPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+  result?: Maybe<Scalars['Jwt']['output']>
+}
+
 /** All input for the `jwtUpdate` mutation. */
 export type JwtUpdateInput = {
   /**
@@ -4995,16 +4988,16 @@ export type Mutation = {
   deleteUploadByStorageKey?: Maybe<DeleteUploadPayload>
   /** Allows to delete an event.\n\nError codes:\n- **P0002** when the event was not found.\n- **28P01** when the account with the given password was not found. */
   eventDelete?: Maybe<EventDeletePayload>
-  /** Adds a guest claim to the current session.\n\nError codes:\n- **P0002** when no guest, no event, or no event creator username was found for this guest id. */
-  eventUnlock?: Maybe<EventUnlockPayload>
   /** Adds a notification for the invitation channel.\n\nError codes:\n- **P0002** when the guest, event, contact, the contact email address, or the account email address is not accessible. */
   invite?: Maybe<InvitePayload>
-  /** Creates a JWT token that will securely identify an account and give it certain permissions.\n\nError codes:\n- **P0002** when an account is not found or when the token could not be created.\n- **55000** when the account is not verified yet. */
+  /** Creates a JWT token that will securely identify an account and give it certain permissions. */
   jwtCreate?: Maybe<JwtCreatePayload>
   /** Refreshes a JWT. */
   jwtUpdate?: Maybe<JwtUpdatePayload>
-  /** Adds an attendance UUID to the current session JWT. */
+  /** Adds an attendance claim to the current session. */
   jwtUpdateAttendanceAdd?: Maybe<JwtUpdateAttendanceAddPayload>
+  /** Adds a guest claim to the current session. */
+  jwtUpdateGuestAdd?: Maybe<JwtUpdateGuestAddPayload>
   /** Allows to set the acknowledgement state of a notification.\n\nError codes:\n- **P0002** when no notification with the given id is found. */
   notificationAcknowledge?: Maybe<NotificationAcknowledgePayload>
   /** Sets the picture with the given upload id as the invoker's profile picture. */
@@ -5489,11 +5482,6 @@ export type MutationEventDeleteArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationEventUnlockArgs = {
-  input: EventUnlockInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
 export type MutationInviteArgs = {
   input: InviteInput
 }
@@ -5511,6 +5499,11 @@ export type MutationJwtUpdateArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationJwtUpdateAttendanceAddArgs = {
   input: JwtUpdateAttendanceAddInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationJwtUpdateGuestAddArgs = {
+  input: JwtUpdateGuestAddInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -8338,8 +8331,6 @@ export type GraphCacheKeysConfig = {
   EventRecommendationEdge?: (
     data: WithTypename<EventRecommendationEdge>,
   ) => null | string
-  EventUnlockPayload?: (data: WithTypename<EventUnlockPayload>) => null | string
-  EventUnlockRecord?: (data: WithTypename<EventUnlockRecord>) => null | string
   EventUpload?: (data: WithTypename<EventUpload>) => null | string
   EventUploadConnection?: (
     data: WithTypename<EventUploadConnection>,
@@ -8369,6 +8360,9 @@ export type GraphCacheKeysConfig = {
   JwtCreatePayload?: (data: WithTypename<JwtCreatePayload>) => null | string
   JwtUpdateAttendanceAddPayload?: (
     data: WithTypename<JwtUpdateAttendanceAddPayload>,
+  ) => null | string
+  JwtUpdateGuestAddPayload?: (
+    data: WithTypename<JwtUpdateGuestAddPayload>,
   ) => null | string
   JwtUpdatePayload?: (data: WithTypename<JwtUpdatePayload>) => null | string
   LegalTerm?: (data: WithTypename<LegalTerm>) => null | string
@@ -11847,40 +11841,6 @@ export type GraphCacheResolvers = {
       WithTypename<EventRecommendation> | string
     >
   }
-  EventUnlockPayload?: {
-    clientMutationId?: GraphCacheResolver<
-      WithTypename<EventUnlockPayload>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    query?: GraphCacheResolver<
-      WithTypename<EventUnlockPayload>,
-      Record<string, never>,
-      WithTypename<Query> | string
-    >
-    result?: GraphCacheResolver<
-      WithTypename<EventUnlockPayload>,
-      Record<string, never>,
-      Array<WithTypename<EventUnlockRecord> | string>
-    >
-  }
-  EventUnlockRecord?: {
-    creatorUsername?: GraphCacheResolver<
-      WithTypename<EventUnlockRecord>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    eventSlug?: GraphCacheResolver<
-      WithTypename<EventUnlockRecord>,
-      Record<string, never>,
-      Scalars['String'] | string
-    >
-    jwt?: GraphCacheResolver<
-      WithTypename<EventUnlockRecord>,
-      Record<string, never>,
-      Scalars['Jwt'] | string
-    >
-  }
   EventUpload?: {
     eventByEventId?: GraphCacheResolver<
       WithTypename<EventUpload>,
@@ -12433,6 +12393,23 @@ export type GraphCacheResolvers = {
     >
     result?: GraphCacheResolver<
       WithTypename<JwtUpdateAttendanceAddPayload>,
+      Record<string, never>,
+      Scalars['Jwt'] | string
+    >
+  }
+  JwtUpdateGuestAddPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<JwtUpdateGuestAddPayload>,
+      Record<string, never>,
+      Scalars['String'] | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<JwtUpdateGuestAddPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+    result?: GraphCacheResolver<
+      WithTypename<JwtUpdateGuestAddPayload>,
       Record<string, never>,
       Scalars['Jwt'] | string
     >
@@ -13760,10 +13737,6 @@ export type GraphCacheOptimisticUpdaters = {
     MutationEventDeleteArgs,
     Maybe<WithTypename<EventDeletePayload>>
   >
-  eventUnlock?: GraphCacheOptimisticMutationResolver<
-    MutationEventUnlockArgs,
-    Maybe<WithTypename<EventUnlockPayload>>
-  >
   invite?: GraphCacheOptimisticMutationResolver<
     MutationInviteArgs,
     Maybe<WithTypename<InvitePayload>>
@@ -13779,6 +13752,10 @@ export type GraphCacheOptimisticUpdaters = {
   jwtUpdateAttendanceAdd?: GraphCacheOptimisticMutationResolver<
     MutationJwtUpdateAttendanceAddArgs,
     Maybe<WithTypename<JwtUpdateAttendanceAddPayload>>
+  >
+  jwtUpdateGuestAdd?: GraphCacheOptimisticMutationResolver<
+    MutationJwtUpdateGuestAddArgs,
+    Maybe<WithTypename<JwtUpdateGuestAddPayload>>
   >
   notificationAcknowledge?: GraphCacheOptimisticMutationResolver<
     MutationNotificationAcknowledgeArgs,
@@ -15046,10 +15023,6 @@ export type GraphCacheUpdaters = {
       { eventDelete: Maybe<WithTypename<EventDeletePayload>> },
       MutationEventDeleteArgs
     >
-    eventUnlock?: GraphCacheUpdateResolver<
-      { eventUnlock: Maybe<WithTypename<EventUnlockPayload>> },
-      MutationEventUnlockArgs
-    >
     invite?: GraphCacheUpdateResolver<
       { invite: Maybe<WithTypename<InvitePayload>> },
       MutationInviteArgs
@@ -15069,6 +15042,10 @@ export type GraphCacheUpdaters = {
         >
       },
       MutationJwtUpdateAttendanceAddArgs
+    >
+    jwtUpdateGuestAdd?: GraphCacheUpdateResolver<
+      { jwtUpdateGuestAdd: Maybe<WithTypename<JwtUpdateGuestAddPayload>> },
+      MutationJwtUpdateGuestAddArgs
     >
     notificationAcknowledge?: GraphCacheUpdateResolver<
       {
@@ -17462,34 +17439,6 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
-  EventUnlockPayload?: {
-    clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventUnlockPayload>>,
-      Record<string, never>
-    >
-    query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventUnlockPayload>>,
-      Record<string, never>
-    >
-    result?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventUnlockPayload>>,
-      Record<string, never>
-    >
-  }
-  EventUnlockRecord?: {
-    creatorUsername?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventUnlockRecord>>,
-      Record<string, never>
-    >
-    eventSlug?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventUnlockRecord>>,
-      Record<string, never>
-    >
-    jwt?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventUnlockRecord>>,
-      Record<string, never>
-    >
-  }
   EventUpload?: {
     eventByEventId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<EventUpload>>,
@@ -17939,6 +17888,20 @@ export type GraphCacheUpdaters = {
     >
     result?: GraphCacheUpdateResolver<
       Maybe<WithTypename<JwtUpdateAttendanceAddPayload>>,
+      Record<string, never>
+    >
+  }
+  JwtUpdateGuestAddPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<JwtUpdateGuestAddPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<JwtUpdateGuestAddPayload>>,
+      Record<string, never>
+    >
+    result?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<JwtUpdateGuestAddPayload>>,
       Record<string, never>
     >
   }
