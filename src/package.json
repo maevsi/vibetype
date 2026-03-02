@@ -1,8 +1,8 @@
 {
   "description": "Find events, guests and friends 💙❤️💚",
   "devDependencies": {
-    "@aws-sdk/client-sesv2": "3.999.0",
-    "@aws-sdk/credential-providers": "3.999.0",
+    "@aws-sdk/client-sesv2": "3.1000.0",
+    "@aws-sdk/credential-providers": "3.1000.0",
     "@dargmuesli/nuxt-cookie-control": "9.1.17",
     "@dargmuesli/nuxt-vio": "20.7.5",
     "@fontsource-variable/raleway": "5.2.8",
@@ -82,7 +82,7 @@
     "embla-carousel-vue": "8.6.0",
     "eslint": "10.0.2",
     "eslint-plugin-only-error": "1.0.2",
-    "firebase": "12.9.0",
+    "firebase": "12.10.0",
     "firebase-admin": "13.7.0",
     "graphql": "16.13.0",
     "h3": "1.15.5",
