@@ -1,3 +1,9 @@
+## [14.0.0-beta.8](https://github.com/maevsi/vibetype/compare/14.0.0-beta.7...14.0.0-beta.8) (2026-03-03)
+
+### Bug Fixes
+
+* **nuxt:** access headers without h3 imports ([40a9f1c](https://github.com/maevsi/vibetype/commit/40a9f1c774e0ae4ea352f3bba146f49466a13cbe))
+
 ## [14.0.0-beta.7](https://github.com/maevsi/vibetype/compare/14.0.0-beta.6...14.0.0-beta.7) (2026-03-01)
 
 ### Features
