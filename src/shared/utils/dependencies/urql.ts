@@ -1,6 +1,5 @@
 import type { Client, DocumentInput } from '@urql/core'
 import type { H3Event, RequestHeaders } from 'h3'
-import { getRequestHeaders } from 'h3'
 
 export const urqlMutate = async <
   Data,
@@ -15,10 +14,10 @@ export const urqlMutate = async <
     variables: Variables
   }
 }) => {
-  const headers = getRequestHeaders(event)
-  const cookieHeaderValue = headers.cookie
-  const csrfHeaderValue = headers[CSRF_HEADER_NAME]
-  const turnstileHeaderValue = headers[TURNSTILE_HEADER_NAME]
+  const headers = event.headers
+  const cookieHeaderValue = headers.get('cookie')
+  const csrfHeaderValue = headers.get(CSRF_HEADER_NAME)
+  const turnstileHeaderValue = headers.get(TURNSTILE_HEADER_NAME)
 
   return await event.context.$urql.value
     .mutation(urql.mutation, urql.variables, {

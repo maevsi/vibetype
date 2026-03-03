@@ -1,5 +1,4 @@
 import { useMutation } from '@urql/vue'
-import { getRequestHeaders } from 'h3'
 
 import type { CookieOptions } from '#app'
 
@@ -77,14 +76,15 @@ export const useJwtUpdateGuestAdd = ({ guestId }: { guestId: uuid }) => {
     }
   `)
   const { csrfToken, csrfCookieValue } = useCsrfImmediately()
-  const headers = getRequestHeaders(requestEvent)
+  const headers = requestEvent.headers
   const cookieHeaderValue = [
-    ...(!headers.cookie?.includes(`${CSRF_COOKIE_NAME}=`) && csrfCookieValue
+    ...(!headers.get('cookie')?.includes(`${CSRF_COOKIE_NAME}=`) &&
+    csrfCookieValue
       ? [`${CSRF_COOKIE_NAME}=${csrfCookieValue}`]
       : []),
-    ...(headers.cookie ? [headers.cookie] : []),
+    ...(headers.get('cookie') ? [headers.get('cookie')] : []),
   ].join('; ')
-  const csrfHeaderValue = headers[CSRF_HEADER_NAME] || csrfToken
+  const csrfHeaderValue = headers.get(CSRF_HEADER_NAME) || csrfToken
   const jwtUpdateGuestAddMutation = useMutation(mutationJwtUpdateGuestAdd)
   const jwtCookie = useJwtCookie()
 
