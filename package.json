@@ -26,7 +26,8 @@
     "overrides": {
       "debug": "4.4.3",
       "nuxt-og-image": "5.1.12",
-      "parse5-parser-stream": "8.0.0"
+      "parse5-parser-stream": "8.0.0",
+      "unimport": "5.6.0"
     }
   },
   "private": true,
