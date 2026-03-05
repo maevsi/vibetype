@@ -5,6 +5,10 @@
     {
       "allowedVersions": "5.1.12",
       "matchPackageNames": ["nuxt-og-image"]
+    },
+    {
+      "allowedVersions": "5.6.0",
+      "matchPackageNames": ["unimport"]
     }
   ]
 }
