@@ -25,7 +25,7 @@ const { link, username } = defineProps<{
   username: string
 }>()
 
-useI18n() // TODO: use i18n-t without useI18n (https://github.com/intlify/vue-i18n-next/issues/1274)
+useI18n()
 const localePath = useLocalePath()
 </script>
 
