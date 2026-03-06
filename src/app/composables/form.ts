@@ -1,6 +1,7 @@
 import useVuelidate from '@vuelidate/core'
 
-export const useAppForm = <T extends Record<string, Ref>>({
+type Fields = Record<string, Ref> // TODO: inline below (https://github.com/unjs/unimport/issues/502)
+export const useAppForm = <T extends Fields>({
   fields,
   rules,
   onSubmit,
