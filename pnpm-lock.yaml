@@ -80,8 +80,8 @@ importers:
         specifier: 1.2.5
         version: 1.2.5
       '@iconify/tools':
-        specifier: 5.0.4
-        version: 5.0.4
+        specifier: 5.0.5
+        version: 5.0.5
       '@iconify/utils':
         specifier: 3.1.0
         version: 3.1.0
@@ -284,8 +284,8 @@ importers:
         specifier: 3.0.0
         version: 3.0.0
       jose:
-        specifier: 6.1.3
-        version: 6.1.3
+        specifier: 6.2.0
+        version: 6.2.0
       js-confetti:
         specifier: 0.13.1
         version: 0.13.1
@@ -2476,8 +2476,8 @@ packages:
   '@iconify-json/solar@1.2.5':
     resolution: {integrity: sha512-WMAiNwchU8zhfrySww6KQBRIBbsQ6SvgIu2yA+CHGyMima/0KQwT5MXogrZPJGoQF+1Ye3Qj6K+1CiyNn3YkoA==}
 
-  '@iconify/tools@5.0.4':
-    resolution: {integrity: sha512-cXCAxFNQq23mlu+rCcX4clUolc1W4CuQPJ/QyFipbgxBKdsdbzvvdcOz1d6m9C82zPq5Zhdxwq1X75RrqxSvHQ==}
+  '@iconify/tools@5.0.5':
+    resolution: {integrity: sha512-JE3uqne+l89kggZYKIukaYDIae4lHKMNVDg7Oc+L+8rPwiMcfD5C56YLWyynyH/ib6I9xDFH1aamdfoL+m7OFA==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -8803,6 +8803,9 @@ packages:
 
   jose@6.1.3:
     resolution: {integrity: sha512-0TpaTfihd4QMNwrz/ob2Bp7X04yuxJkjRGi4aKmOqwhov54i6u79oCv7T+C7lo70MKH6BesI3vscD1yb/yzKXQ==}
+
+  jose@6.2.0:
+    resolution: {integrity: sha512-xsfE1TcSCbUdo6U07tR0mvhg0flGxU8tPLbF03mirl2ukGQENhUg4ubGYQnhVH0b5stLlPM+WOqDkEl1R1y5sQ==}
 
   js-base64@3.7.8:
     resolution: {integrity: sha512-hNngCeKxIUQiEUN3GPJOkz4wF/YvdUdbNL9hsBcMQTkKzboD7T/q3OYOuuPZLUE6dBxSGpwhk5mwuDud7JVAow==}
@@ -15363,7 +15366,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify/tools@5.0.4':
+  '@iconify/tools@5.0.5':
     dependencies:
       '@cyberalien/svg-utils': 1.2.5
       '@iconify/types': 2.0.0
@@ -22755,6 +22758,8 @@ snapshots:
   jose@4.15.9: {}
 
   jose@6.1.3: {}
+
+  jose@6.2.0: {}
 
   js-base64@3.7.8: {}
 
