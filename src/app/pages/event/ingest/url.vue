@@ -31,19 +31,15 @@ definePageMeta({
 })
 
 const { t } = useI18n()
-const store = useStore()
 
 const enteredURL = ref<string>()
 
 const uploadURL = async () => {
-  if (!enteredURL.value || !store.jwt) return
+  if (!enteredURL.value) return
 
   try {
     await $fetch('/api/model/event/ingest/url', {
       body: { url: enteredURL.value },
-      headers: {
-        Authorization: `Bearer ${store.jwt}`,
-      },
       method: 'POST',
     })
   } catch (error) {

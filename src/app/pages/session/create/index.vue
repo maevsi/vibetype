@@ -15,7 +15,7 @@
     </CardStateInfo>
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
-        <FormAccountSignIn v-model:error="error" @signed-in="onSignIn" />
+        <FormSessionCreate v-model:error="error" @signed-in="onSignIn" />
         <ContentLegalFooter />
       </LayoutPage>
     </AppStep>
@@ -97,7 +97,7 @@ const onSignIn = async () => {
     return await navigateTo(
       localePath({
         name: 'account-edit-username',
-        params: { username: store.jwtDecoded?.username },
+        params: { username: store.jwtPayload?.username },
       }),
     )
   }

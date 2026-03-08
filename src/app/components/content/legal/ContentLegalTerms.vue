@@ -17,6 +17,7 @@
 <script setup lang="ts">
 import { parseMarkdown } from '@nuxtjs/mdc/runtime'
 import { useQuery } from '@urql/vue'
+import { consola } from 'consola'
 
 import { graphql } from '~~/gql/generated'
 
@@ -33,6 +34,7 @@ const allLegalTermsQuery = graphql(`
     allLegalTerms(condition: { language: $language }) {
       nodes {
         id
+        rowId
         term
       }
     }
@@ -69,11 +71,12 @@ const { data, error, pending } = await useAsyncData(
 )
 
 if (error.value) {
+  consola.log(error.value)
   modelError.value = error.value // TODO: watch?
 }
 
 if (data.value?.legalTerm) {
-  emit('id', data.value.legalTerm.id)
+  emit('id', data.value.legalTerm.rowId)
 }
 </script>
 

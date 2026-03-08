@@ -3,7 +3,7 @@
   <tr
     v-if="contact"
     :class="{
-      'animate-pulse': pending.deletions.includes(guest.id),
+      'animate-pulse': pending.deletions.includes(guest.rowId),
     }"
   >
     <LayoutTd class="max-w-0">
@@ -22,7 +22,7 @@
           class="hidden md:block"
           :disabled="
             (!contact.accountId && !contact.emailAddress) ||
-            pending.sends.includes(guest.id)
+            pending.sends.includes(guest.rowId)
           "
           @click="send(guest)"
         >
@@ -40,7 +40,7 @@
             class="md:hidden"
             :disabled="
               (!contact.accountId && !contact.emailAddress) ||
-              pending.sends.includes(guest.id)
+              pending.sends.includes(guest.rowId)
             "
             @select="send(guest)"
           >
@@ -66,7 +66,7 @@
                 localePath({
                   name: 'guest-view-id',
                   params: {
-                    id: guest.id,
+                    id: guest.rowId,
                   },
                 }),
               )
@@ -78,9 +78,9 @@
             </span>
           </AppDropdownItem>
           <AppDropdownItem
-            :disabled="pending.deletions.includes(guest.id)"
+            :disabled="pending.deletions.includes(guest.rowId)"
             variant="destructive"
-            @select="delete_(guest.id)"
+            @select="delete_(guest.rowId)"
           >
             <AppIconTrash />
             <span>
@@ -98,7 +98,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDeleteGuestByIdMutation } from '~~/gql/documents/mutations/guest/guestDelete'
+import { useDeleteGuestByRowIdMutation } from '~~/gql/documents/mutations/guest/guestDelete'
 import { useInviteMutation } from '~~/gql/documents/mutations/guest/invite'
 import { getContactItem } from '~~/gql/documents/fragments/contactItem'
 import type {
@@ -108,7 +108,7 @@ import type {
 
 const { event, guest } = defineProps<{
   event: Pick<EventItemFragment, 'accountByCreatedBy' | 'slug'>
-  guest: Pick<GuestItemFragment, 'contactByContactId' | 'feedback' | 'id'>
+  guest: Pick<GuestItemFragment, 'contactByContactId' | 'feedback' | 'rowId'>
 }>()
 
 const { locale, t } = useI18n()
@@ -123,19 +123,19 @@ const pending = reactive({
 })
 
 // api data
-const deleteGuestByIdMutation = useDeleteGuestByIdMutation()
+const deleteGuestByRowIdMutation = useDeleteGuestByRowIdMutation()
 const inviteMutation = useInviteMutation()
-// const api = await useApiData([deleteGuestByIdMutation, inviteMutation])
+// const api = await useApiData([deleteGuestByRowIdMutation, inviteMutation])
 
 // methods
-const copyLink = async (guest: Pick<GuestItemFragment, 'id'>) => {
+const copyLink = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
   if (!import.meta.client) return
 
   await copy(
     `${window.location.origin}${localePath({
       name: 'guest-view-id',
       params: {
-        id: guest.id,
+        id: guest.rowId,
       },
     })}`,
   )
@@ -144,18 +144,18 @@ const copyLink = async (guest: Pick<GuestItemFragment, 'id'>) => {
 }
 const delete_ = async (id: string) => {
   pending.deletions.push(id)
-  await deleteGuestByIdMutation.executeMutation({ id })
+  await deleteGuestByRowIdMutation.executeMutation({ id })
   pending.deletions.splice(pending.deletions.indexOf(id), 1)
 }
-const send = async (guest: Pick<GuestItemFragment, 'id'>) => {
-  pending.sends.push(guest.id)
+const send = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
+  pending.sends.push(guest.rowId)
 
   const result = await inviteMutation.executeMutation({
-    guestId: guest.id,
+    guestId: guest.rowId,
     language: locale.value,
   })
 
-  pending.sends.splice(pending.sends.indexOf(guest.id), 1)
+  pending.sends.splice(pending.sends.indexOf(guest.rowId), 1)
 
   if (result.error || !result.data) return
 

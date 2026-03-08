@@ -3,9 +3,10 @@ import type { FragmentType } from '~~/gql/generated'
 
 export const PreferenceEventFormatItem = graphql(`
   fragment PreferenceEventFormatItem on PreferenceEventFormat {
-    nodeId
     accountId
     formatId
+    id
+    rowId
   }
 `)
 

@@ -31,10 +31,12 @@ export default defineEventHandler(async (event) => {
   }
 
   const { client: openAiClient, getCompletionCost } = useOpenAi()
-  const { getJwtFromHeader, verifyJwt } = await useJsonWebToken()
+  const { getJwtFromCookie, verifyJwt } = await useJsonWebToken()
 
-  const jwtDecoded = await verifyJwt(getJwtFromHeader())
-  if (!(jwtDecoded?.role === `${SITE_NAME}_account`))
+  const jwt = getJwtFromCookie()
+  const jwtPayload = await verifyJwt<Jwt>(jwt)
+
+  if (!(jwtPayload?.role === `${SITE_NAME}_account`))
     return throwError({
       status: 403,
       statusText: 'This endpoint only available to registered users.',

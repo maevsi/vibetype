@@ -4,7 +4,7 @@ import {
   COOKIE_CONTROL_CONSENT_COOKIE_NAME,
   TESTING_COOKIE_NAME,
   TIMEZONE_COOKIE_NAME,
-} from '#src/shared/utils/constants'
+} from '#src/node/static'
 import {
   COOKIE_CONTROL_CONSENT_COOKIE_DEFAULT_VALUE,
   TIMEZONE_DEFAULT,

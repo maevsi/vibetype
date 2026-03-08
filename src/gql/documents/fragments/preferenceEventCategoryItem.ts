@@ -3,9 +3,10 @@ import type { FragmentType } from '~~/gql/generated'
 
 export const PreferenceEventCategoryItem = graphql(`
   fragment PreferenceEventCategoryItem on PreferenceEventCategory {
-    nodeId
     accountId
     categoryId
+    id
+    rowId
   }
 `)
 

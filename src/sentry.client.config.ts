@@ -12,11 +12,9 @@ if (sharedSentryConfig.dsn) {
       Sentry.consoleLoggingIntegration(),
       Sentry.graphqlClientIntegration({ endpoints: [/\/graphql$/] }),
       Sentry.httpClientIntegration(),
+      Sentry.piniaIntegration(usePinia()),
       Sentry.replayIntegration(),
       Sentry.zodErrorsIntegration(),
-
-      // // enable once plain JWT isn't stored any more
-      // Sentry.piniaIntegration(usePinia()),
 
       // // enable if more components or hooks should be tracked
       // Sentry.vueIntegration({

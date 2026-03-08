@@ -31,12 +31,12 @@
           <LayoutTbody>
             <ContactListItem
               v-for="contact in contacts"
-              :id="contact.nodeId"
-              :key="contact.nodeId"
+              :id="contact.rowId"
+              :key="contact.rowId"
               :contact
-              :is-deleting="pending.deletions.includes(contact.nodeId)"
-              :is-editing="pending.edits.includes(contact.nodeId)"
-              @delete="delete_(contact.nodeId, contact.id)"
+              :is-deleting="pending.deletions.includes(contact.rowId)"
+              :is-editing="pending.edits.includes(contact.rowId)"
+              @delete="delete_(contact.rowId)"
               @edit="edit(contact)"
             />
           </LayoutTbody>
@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDeleteContactByIdMutation } from '~~/gql/documents/mutations/contact/contactDeleteById'
+import { useDeleteContactByRowIdMutation } from '~~/gql/documents/mutations/contact/contactDeleteByRowId'
 import { useAllContactsQuery } from '~~/gql/documents/queries/contact/contactsAll'
 import type { ContactItemFragment } from '~~/gql/generated/graphql'
 import { getContactItem } from '~~/gql/documents/fragments/contactItem'
@@ -88,8 +88,8 @@ const selectedContact = ref<
     | 'firstName'
     | 'id'
     | 'lastName'
-    | 'nodeId'
     | 'phoneNumber'
+    | 'rowId'
     | 'url'
   >
 >()
@@ -102,8 +102,8 @@ const contactsQuery = useAllContactsQuery(
     first: ITEMS_PER_PAGE_LARGE,
   })),
 )
-const deleteContactByIdMutation = useDeleteContactByIdMutation()
-const api = await useApiData([contactsQuery, deleteContactByIdMutation])
+const deleteContactByRowIdMutation = useDeleteContactByRowIdMutation()
+const api = await useApiData([contactsQuery, deleteContactByRowIdMutation])
 const contacts = computed(
   () =>
     api.value.data.allContacts?.nodes
@@ -118,10 +118,10 @@ const add = () => {
   selectedContact.value = undefined
   store.modals.push({ id: 'ModalContact' })
 }
-const delete_ = async (nodeId: string, id: string) => {
-  pending.deletions.push(nodeId)
-  await deleteContactByIdMutation.executeMutation({ id })
-  pending.deletions.splice(pending.deletions.indexOf(nodeId), 1)
+const delete_ = async (rowId: string) => {
+  pending.deletions.push(rowId)
+  await deleteContactByRowIdMutation.executeMutation({ id: rowId })
+  pending.deletions.splice(pending.deletions.indexOf(rowId), 1)
   // TODO: update cache, especially pagination, or reset query (https://github.com/maevsi/vibetype/issues/720)
 }
 const edit = (
@@ -133,12 +133,12 @@ const edit = (
     | 'firstName'
     | 'id'
     | 'lastName'
-    | 'nodeId'
     | 'phoneNumber'
+    | 'rowId'
     | 'url'
   >,
 ) => {
-  pending.edits.push(contact.nodeId)
+  pending.edits.push(contact.rowId)
   formContactHeading.value = t('contactEdit')
   selectedContact.value = contact
   store.modals.push({ id: 'ModalContact' })
@@ -151,7 +151,7 @@ const onContactSubmitSuccess = () => {
 const onModalContactClose = () => {
   if (!selectedContact.value) return
 
-  pending.edits.splice(pending.edits.indexOf(selectedContact.value.nodeId), 1)
+  pending.edits.splice(pending.edits.indexOf(selectedContact.value.rowId), 1)
 }
 </script>
 

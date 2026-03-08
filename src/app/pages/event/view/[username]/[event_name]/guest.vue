@@ -35,6 +35,7 @@ const queryEventGuests = useQuery({
           nodes {
             accountByCreatedBy {
               id
+              rowId
               username
             }
             createdBy
@@ -43,8 +44,10 @@ const queryEventGuests = useQuery({
                 contactByContactId {
                   accountId
                   id
+                  rowId
                 }
                 id
+                rowId
               }
               pageInfo {
                 hasNextPage
@@ -54,10 +57,12 @@ const queryEventGuests = useQuery({
             }
             id
             name
+            rowId
             slug
           }
         }
         id
+        rowId
       }
     }
   `),

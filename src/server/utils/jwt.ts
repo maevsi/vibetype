@@ -1,32 +1,21 @@
 export const useJsonWebToken = async () => {
   const event = useEvent()
-  const runtimeConfig = useRuntimeConfig()
+  const { siteUrlTyped: siteUrl } = useSiteUrl()
   const jwtPublicKey = await useJwtPublicKey()
 
   return {
-    // TODO: reevaluate name due to duplicate naming
-    getJwtFromCookie: () => {
-      const siteUrl = new URL(runtimeConfig.public.i18n.baseUrl as string) // TODO: remove typecast in @nuxtjs/i18n v11
-      const isHttps = siteUrl.protocol === 'https:'
-      const jwtCookieName = JWT_NAME({ isHttps })
-      const cookieAuthorization = getCookie(event, jwtCookieName)
-
-      return cookieAuthorization
+    getJwtFromCookie: (options: { name: string } = { name: JWT_COOKIE_NAME }) =>
+      getCookie(event, options.name),
+    setJwtCookie: ({ expires, value }: { expires: number; value?: string }) => {
+      const args = getJwtCookieParameters({
+        siteUrl,
+      })
+      setCookie(event, args.name, value || '', {
+        ...args.options,
+        expires: new Date(expires),
+      })
     },
-    getJwtFromHeader: () => {
-      const headerAuthorization = getRequestHeader(event, 'authorization')
-
-      if (!headerAuthorization) {
-        return throwError({
-          status: 401,
-          statusText: 'The request header "Authorization" is missing!',
-        })
-      }
-
-      return headerAuthorization.substring(7)
-    },
-    setJwtCookie: (jwt: string) => setJwtCookie({ event, jwt, runtimeConfig }),
-    verifyJwt: async (jwt?: string) => {
+    verifyJwt: async <T>(jwt?: string) => {
       if (!jwt) return
 
       if (!jwtPublicKey) {
@@ -37,7 +26,7 @@ export const useJsonWebToken = async () => {
       }
 
       try {
-        return (await verifyJwt({ jwt, jwtPublicKey })).payload
+        return (await verifyJwt({ jwt, jwtPublicKey })).payload as T
       } catch (error) {
         return throwError({
           status: 401,
@@ -48,16 +37,5 @@ export const useJsonWebToken = async () => {
   }
 }
 
-export const useJwtName = () => getJwtName(useSiteUrl().siteUrlTyped)
-
-export const useJwtPublicKey = async () => {
-  const runtimeConfig = useRuntimeConfig()
-
-  if (runtimeConfig.public.vio.stagingHost) {
-    return await $fetch<string>(
-      `https://${runtimeConfig.public.vio.stagingHost}/api/service/postgraphile/jwt-public-key`,
-    )
-  } else {
-    return runtimeConfig.public.vio.auth.jwt.publicKey
-  }
-}
+export const useJwtPublicKey = async () =>
+  await getJwtPublicKey({ runtimeConfig: useRuntimeConfig() })

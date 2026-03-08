@@ -10,10 +10,10 @@
         <template v-if="uploads?.length">
           <li
             v-for="upload in uploads"
-            :id="upload.id"
-            :key="upload.id"
+            :id="upload.rowId"
+            :key="upload.rowId"
             :class="[
-              ...(pending.deletions.includes(upload.id)
+              ...(pending.deletions.includes(upload.rowId)
                 ? ['animate-pulse']
                 : []),
               ...(isSelectable && upload === selectedItem
@@ -21,7 +21,7 @@
                 : ['border-transparent']),
             ]"
             class="relative box-border border-4"
-            :disabled="pending.deletions.includes(upload.id)"
+            :disabled="pending.deletions.includes(upload.rowId)"
             @click="toggleSelect(upload)"
           >
             <LoaderImage
@@ -40,7 +40,7 @@
               <AppButton
                 :aria-label="t('iconTrashLabel')"
                 class="flex h-full justify-center"
-                @click="deleteUpload(upload.id)"
+                @click="deleteUpload(upload)"
               >
                 <AppIconTrash
                   class="text-text-bright m-1"
@@ -122,7 +122,8 @@ import { useCreateUploadMutation } from '~~/gql/documents/mutations/upload/uploa
 import { useAccountUploadQuotaBytesQuery } from '~~/gql/documents/queries/account/accountUploadQuotaBytes'
 import { useAllUploadsQuery } from '~~/gql/documents/queries/upload/uploadsAll'
 import { getUploadItem } from '~~/gql/documents/fragments/uploadItem'
-import { useDeleteUploadByIdMutation } from '~~/gql/documents/mutations/upload/uploadDeleteById'
+import { useDeleteUploadByRowIdMutation } from '~~/gql/documents/mutations/upload/uploadDeleteByRowId'
+import type { UploadItemFragment } from '~~/gql/generated/graphql'
 
 const { isReadonly, isSelectable } = defineProps<{
   isReadonly?: boolean
@@ -150,7 +151,7 @@ const pending = reactive({
   deletions: ref<string[]>([]),
 })
 const selectedItem = ref<{
-  id?: string | null
+  rowId?: string | null
 }>()
 
 // api data
@@ -162,12 +163,12 @@ const allUploadsQuery = useAllUploadsQuery(
     createdBy: store.signedInAccountId,
   })),
 )
-const deleteUploadByIdMutation = useDeleteUploadByIdMutation()
+const deleteUploadByRowIdMutation = useDeleteUploadByRowIdMutation()
 const uploadCreateMutation = useCreateUploadMutation()
 const api = await useApiData([
   accountUploadQuotaBytesQuery,
   allUploadsQuery,
-  deleteUploadByIdMutation,
+  deleteUploadByRowIdMutation,
   uploadCreateMutation,
 ])
 const uploads = computed(
@@ -213,19 +214,19 @@ const selectProfilePicture = async () => {
   }
 }
 const executeUrqlRequest = useExecuteUrqlRequest()
-const deleteUpload = async (uploadId: string) => {
-  // pending.deletions.push(uploadId)
+const deleteUpload = async (upload: Pick<UploadItemFragment, 'rowId'>) => {
+  // pending.deletions.push(upload.rowId)
   const result = await executeUrqlRequest({
     errorMessageI18n: t('uploadDeleteFailed'),
     progress: {
-      id: uploadId,
+      id: upload.rowId,
       idArray: pending.deletions,
     },
-    request: deleteUploadByIdMutation.executeMutation({
-      id: uploadId,
+    request: deleteUploadByRowIdMutation.executeMutation({
+      id: upload.rowId,
     }),
   })
-  // pending.deletions.splice(pending.deletions.indexOf(uploadId), 1)
+  // pending.deletions.splice(pending.deletions.indexOf(upload.rowId), 1)
 
   if (!result) return
 
@@ -288,7 +289,7 @@ const toggleSelect = (upload: UnwrapRef<typeof selectedItem>) => {
     emit('selection', undefined)
   } else {
     selectedItem.value = upload
-    emit('selection', selectedItem.value?.id)
+    emit('selection', selectedItem.value?.rowId)
   }
 }
 const getUploadBlobPromise = () =>
@@ -322,7 +323,7 @@ const getUploadBlobPromise = () =>
             allowedFileTypes: ['image/*'],
           },
           meta: {
-            id: result.data.createUpload?.upload?.id,
+            id: result.data.createUpload?.upload?.rowId,
           },
           onBeforeUpload: (files) =>
             Object.fromEntries(

@@ -30,7 +30,7 @@ const { t } = useI18n()
 
 const { accountId, event } = defineProps<{
   accountId: string
-  event: Pick<EventItemFragment, 'id'>
+  event: Pick<EventItemFragment, 'rowId'>
 }>()
 
 const emit = defineEmits<{
@@ -73,7 +73,7 @@ const onSubmit = handleSubmit(async (values) => {
     errorMessageI18n: t('errorCreate'),
     request: createReportMutation.executeMutation({
       reportInput: {
-        targetEventId: event.id,
+        targetEventId: event.rowId,
         reason: values.reason,
         createdBy: accountId,
       },

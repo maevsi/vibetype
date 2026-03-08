@@ -166,6 +166,7 @@ const eventQuery = useQuery({
           nodes {
             accountByCreatedBy {
               id
+              rowId
               username
             }
             addressByAddressId {
@@ -175,6 +176,7 @@ const eventQuery = useQuery({
                 longitude
               }
               name
+              rowId
             }
             createdBy
             description
@@ -184,7 +186,7 @@ const eventQuery = useQuery({
             isInPerson
             isRemote
             name
-            nodeId
+            rowId
             slug
             start
             url
@@ -192,6 +194,7 @@ const eventQuery = useQuery({
           }
         }
         id
+        rowId
         username
       }
     }

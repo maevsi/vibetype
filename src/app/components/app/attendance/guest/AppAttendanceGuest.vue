@@ -7,7 +7,7 @@
           {{
             guest.contactByContactId?.nickname ||
             `${guest.contactByContactId?.firstName || ''} ${guest.contactByContactId?.lastName || ''}`.trim() ||
-            guest.id
+            guest.rowId
           }}
         </p>
       </div>
@@ -57,6 +57,7 @@ const { guest } = defineProps<{
     contactByContactId?: {
       accountByAccountId?: {
         id: string
+        rowId: string
         username: string
       } | null
       firstName?: string | null
@@ -64,14 +65,17 @@ const { guest } = defineProps<{
       lastName?: string | null
       language?: string | null
       nickname?: string | null
+      rowId: string
     } | null
     attendanceByGuestId?: {
       checkedOut?: boolean | null
       id: string
+      rowId: string
       updatedAt?: string | null
     } | null
     feedback?: InvitationFeedback | null
     id: string
+    rowId: string
   } | null
 }>()
 

@@ -43,30 +43,25 @@
             @input="emit('input', ($event.target as HTMLInputElement)?.value)"
           />
           <template v-if="validationProperty && isValidatable">
-            <AppIcon v-slot="attributes">
-              <AppIconHourglassBold
-                v-if="validationProperty.$pending"
-                v-bind="attributes"
-                class="text-blue-600"
-                :title="t('globalLoading')"
-              />
-              <AppIconCheckCircleSolid
-                v-else-if="
-                  !!validationProperty.$model && !validationProperty.$invalid
-                "
-                v-bind="attributes"
-                class="text-(--semantic-success-strong)"
-                :title="t('valid')"
-              />
-              <AppIconExclamationCircleSolid
-                v-else-if="
-                  !!validationProperty.$model && validationProperty.$invalid
-                "
-                v-bind="attributes"
-                class="text-(--semantic-critic-text)"
-                :title="t('validNot')"
-              />
-            </AppIcon>
+            <AppIconHourglassBold
+              v-if="validationProperty.$pending"
+              class="text-blue-600"
+              :title="t('globalLoading')"
+            />
+            <AppIconCheckCircleSolid
+              v-else-if="
+                !!validationProperty.$model && !validationProperty.$invalid
+              "
+              class="text-(--semantic-success-strong)"
+              :title="t('valid')"
+            />
+            <AppIconExclamationCircleSolid
+              v-else-if="
+                !!validationProperty.$model && validationProperty.$invalid
+              "
+              class="text-(--semantic-critic-text)"
+              :title="t('validNot')"
+            />
           </template>
           <ButtonIcon
             :aria-label="t('iconAltClose')"

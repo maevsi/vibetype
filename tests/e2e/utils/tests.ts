@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, type Page } from '@playwright/test'
 import { joinURL, withoutTrailingSlash } from 'ufo'
 
-import { TESTING_COOKIE_NAME } from '#src/shared/utils/constants'
+import { TESTING_COOKIE_NAME } from '#src/node/static'
 import { appTest } from '#tests/e2e/fixtures/appTest'
 import { SITE_URL, TIMEOUT } from '#tests/e2e/utils/constants'
 
@@ -517,7 +517,9 @@ export const testMetadata = async ({
 
   expect(
     await page.locator('script[data-hid="schema-org-graph"]').innerText(),
-  ).toMatchSnapshot(`schema-org-graph-${process.env.VIO_SERVER || 'dev'}.json`)
+  ).toMatchSnapshot(
+    `schema-org-graph-${process.env.VIO_SERVER || 'development'}.json`,
+  )
 
   // if (process.env.VIO_SERVER === 'static') {
   //   expect(

@@ -34,7 +34,7 @@
         <template v-else>
           <EventCard
             v-for="event in eventRecommendations"
-            :key="event.id"
+            :key="event.rowId"
             :event
             variant="recommendation"
           />
@@ -53,9 +53,10 @@ import { graphql } from '~~/gql/generated'
 // async data
 const eventQuery = graphql(`
   query DashboardEventRecommendations($id: UUID!) {
-    eventById(id: $id) {
+    eventByRowId(rowId: $id) {
       accountByCreatedBy {
         id
+        rowId
         username
       }
       addressByAddressId {
@@ -64,11 +65,13 @@ const eventQuery = graphql(`
           latitude
           longitude
         }
+        rowId
       }
       eventFavoritesByEventId(first: 1) {
         nodes {
           createdBy
           id
+          rowId
         }
       }
       guestsByEventId(first: 1) {
@@ -76,20 +79,22 @@ const eventQuery = graphql(`
           contactByContactId {
             accountId
             id
+            rowId
           }
           id
+          rowId
         }
       }
       id
       name
+      rowId
       slug
       start
     }
   }
 `)
 const { $urql } = useNuxtApp()
-const jwtName = useJwtName()
-const cookieJwt = useCookieJwt()
+const requestFetch = useRequestFetch()
 const authentication = useAuthentication()
 const {
   data: eventRecommendations,
@@ -98,16 +103,7 @@ const {
 } = await useAsyncData('index-recommendations', async () => {
   if (!authentication.value.isSignedIn) return []
 
-  const eventIds = await $fetch(
-    '/api/service/reccoom/recommendations',
-    cookieJwt.value
-      ? {
-          headers: {
-            cookie: `${jwtName}=${cookieJwt.value}`,
-          },
-        }
-      : undefined,
-  )
+  const eventIds = await requestFetch('/api/service/reccoom/recommendations')
   const events = (
     await Promise.all(
       eventIds.map(
@@ -118,7 +114,7 @@ const {
                 id: eventId,
               })
               .toPromise()
-          ).data?.eventById,
+          ).data?.eventByRowId,
       ),
     )
   ).filter(isNeitherNullNorUndefined)
@@ -134,11 +130,13 @@ const eventUpcomingQuery = graphql(`
       nodes {
         accountByCreatedBy {
           id
+          rowId
           username
         }
         end
         id
         name
+        rowId
         slug
         start
       }

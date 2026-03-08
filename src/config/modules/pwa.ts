@@ -1,6 +1,6 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
-import { CACHE_VERSION, THEME_COLOR } from '../../shared/utils/constants'
+import { CACHE_VERSION, THEME_COLOR } from '../../node/static'
 
 export const pwaConfig: ReturnType<DefineNuxtConfig> = {
   pwa: {

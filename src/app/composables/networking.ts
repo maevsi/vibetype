@@ -44,7 +44,8 @@ export const useHttpStatusCode = async ({ status }: { status: number }) => {
   }
 }
 
-export const useIsSecure = () => useSiteUrl().siteUrlTyped.protocol === 'https:'
+export const useIsSecure = () =>
+  getIsSecure({ siteUrl: useSiteUrl().siteUrlTyped })
 
 export const useSiteUrl = () =>
   getSiteUrl(useRuntimeConfig().public.i18n.baseUrl)

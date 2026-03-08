@@ -1,11 +1,11 @@
 <template>
   <AppIconCheckCircleSolid
-    v-if="feedback === 'ACCEPTED'"
+    v-if="feedback === InvitationFeedback.Accepted"
     class="text-green-600"
     :title="t('feedbackAccepted')"
   />
   <AppIconXCircleSolid
-    v-else-if="feedback === 'CANCELED'"
+    v-else-if="feedback === InvitationFeedback.Canceled"
     class="text-(--semantic-critic-text)"
     :title="t('feedbackCanceled')"
   />
@@ -19,8 +19,10 @@
 </template>
 
 <script setup lang="ts">
+import { InvitationFeedback } from '~~/gql/generated/graphql'
+
 const { feedback } = defineProps<{
-  feedback: string
+  feedback: InvitationFeedback | null
 }>()
 
 const { t } = useI18n()

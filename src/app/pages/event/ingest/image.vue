@@ -69,7 +69,6 @@
 
 <script setup lang="ts">
 const { t } = useI18n()
-const store = useStore()
 const alertError = useAlertError()
 const templateFileInput = useTemplateRef('fileInput')
 
@@ -126,9 +125,6 @@ const uploadFile = async () => {
     try {
       await $fetch('/api/model/event/ingest/image', {
         body: { base64Image },
-        headers: {
-          Authorization: `Bearer ${store.jwt}`,
-        },
         method: 'POST',
       })
       console.log('Upload success')

@@ -34,7 +34,7 @@
           {{ t('apps') }}
         </span>
         <ul>
-          <template v-for="eventApp in eventApps" :key="eventApp.id">
+          <template v-for="eventApp in eventApps" :key="eventApp.rowId">
             <li
               v-if="
                 eventApp.appByAppId?.urlAttendance &&
@@ -46,8 +46,8 @@
                 :aria-label="eventApp.appByAppId.name"
                 :to="
                   eventApp.appByAppId?.urlAttendance.replace(
-                    '{attendance.id}',
-                    attendance.id,
+                    '{attendance.rowId}',
+                    attendance.rowId,
                   )
                 "
               >
@@ -64,7 +64,7 @@
         </ul>
       </section>
     </section>
-    <section v-if="guest?.id" class="flex flex-col gap-4">
+    <section v-if="guest?.rowId" class="flex flex-col gap-4">
       <span class="text-3xl font-bold">
         {{ t('attendance') }}
       </span>
@@ -85,7 +85,9 @@
       <div class="flex">
         <ButtonColored
           :aria-label="t('guestView')"
-          :to="localePath({ name: 'guest-view-id', params: { id: guest.id } })"
+          :to="
+            localePath({ name: 'guest-view-id', params: { id: guest.rowId } })
+          "
         >
           {{ t('guestView') }}
         </ButtonColored>
@@ -104,43 +106,35 @@ const ROUTE_NAME: keyof RouteNamedMap = 'attendance-view-id___en'
 const route = useRoute(ROUTE_NAME)
 const { t } = useI18n()
 
-const jwtUpdateAttendanceAddMutation = useMutation(
-  graphql(`
-    mutation JwtUpdateAttendanceAdd($input: JwtUpdateAttendanceAddInput!) {
-      jwtUpdateAttendanceAdd(input: $input) {
-        jwt
-      }
-    }
-  `),
-)
-
-// TODO: add error handling
-const result = await jwtUpdateAttendanceAddMutation.executeMutation({
-  input: {
-    attendanceId: route.params.id,
-  },
-})
-
-const { jwtStore } = await useJwtStore()
-const alertError = useAlertError()
+const csrfRequestFetch = useCsrfRequestFetch()
+const store = useStore()
 try {
-  await jwtStore(result.data?.jwtUpdateAttendanceAdd?.jwt || undefined)
-} catch (error) {
-  alertError({
-    ...(error instanceof Error ? { error } : {}),
-    messageI18n: t('jwtStoreFail'),
+  const { jwtPayload } = await csrfRequestFetch('/api/model/jwt', {
+    body: {
+      attendanceId: route.params.id,
+    },
+    method: 'PUT',
   })
+
+  if (!jwtPayload) {
+    throw new Error('JWT update failed: no JWT returned')
+  }
+
+  store.jwtSet(jwtPayload)
+} catch (error) {
+  console.error('JWT update failed:', error)
 }
 
 // api data
 const queryAttendance = useQuery({
   query: graphql(`
     query Attendance($id: UUID!) {
-      attendanceById(id: $id) {
+      attendanceByRowId(rowId: $id) {
         checkedOut
         contactByContactId {
           accountByAccountId {
             id
+            rowId
             username
           }
           firstName
@@ -148,11 +142,14 @@ const queryAttendance = useQuery({
           lastName
           language
           nickname
+          rowId
         }
         guestByGuestId {
           id
+          rowId
         }
         id
+        rowId
         updatedAt
       }
       eventByAttendanceId(attendanceId: $id) {
@@ -165,11 +162,14 @@ const queryAttendance = useQuery({
               iconSvg
               id
               name
+              rowId
               url
               urlAttendance
             }
+            rowId
           }
         }
+        rowId
       }
     }
   `),
@@ -178,7 +178,7 @@ const queryAttendance = useQuery({
   },
 })
 const api = await useApiData([queryAttendance])
-const attendance = computed(() => api.value.data.attendanceById)
+const attendance = computed(() => api.value.data.attendanceByRowId)
 const guest = computed(() => attendance.value?.guestByGuestId)
 const contact = computed(() => attendance.value?.contactByContactId)
 const contactName = computed(() =>
@@ -198,12 +198,13 @@ const checkOutMutation = useMutation(
       $id: UUID!
       $attendancePatch: AttendancePatch!
     ) {
-      updateAttendanceById(
-        input: { id: $id, attendancePatch: $attendancePatch }
+      updateAttendanceByRowId(
+        input: { rowId: $id, attendancePatch: $attendancePatch }
       ) {
         attendance {
           id
           checkedOut
+          rowId
         }
       }
     }
@@ -219,7 +220,7 @@ const onCheckOut = async () => {
   await executeUrqlRequest({
     errorMessageI18n: t('errorAttendanceCheckOut'),
     request: checkOutMutation.executeMutation({
-      id: attendance.value.id,
+      id: attendance.value.rowId,
       attendancePatch: {
         checkedOut: true,
       },
@@ -230,7 +231,7 @@ const onCheckOut = async () => {
 // contact
 const localePath = useLocalePath()
 const friendAdd = async () => {
-  if (!contact.value?.accountByAccountId?.id) {
+  if (!contact.value?.accountByAccountId?.rowId) {
     toast.info(t('errorContactNoAccount'))
     return
   }
@@ -271,7 +272,6 @@ de:
   event: Veranstaltung
   guest: Gast
   guestView: Einladung anzeigen
-  jwtStoreFail: Fehler beim Speichern der Authentifizierungsdaten!
   loading: Lädt…
   title: Anwesenheitsdetails für {name}
 en:
@@ -287,7 +287,6 @@ en:
   event: Event
   guest: Guest
   guestView: Show invitation
-  jwtStoreFail: Failed to store the authentication data!
   loading: Loading…
   title: Attendance Details for {name}
 </i18n>

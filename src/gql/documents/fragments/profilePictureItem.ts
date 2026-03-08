@@ -3,9 +3,9 @@ import type { FragmentType } from '~~/gql/generated'
 
 export const ProfilePictureItem = graphql(`
   fragment ProfilePictureItem on ProfilePicture {
-    id
-    nodeId
     accountId
+    id
+    rowId
     uploadByUploadId {
       ...UploadItem
     }

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="/__sitemap__/style.xsl"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd http://www.google.com/schemas/sitemap-image/1.1 http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://example.com/de</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/" />
+    </url>
+    <url>
+        <loc>https://example.com/de/account</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/account" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/account" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/account" />
+    </url>
+    <url>
+        <loc>https://example.com/de/contact</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/contact" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/contact" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/contact" />
+    </url>
+    <url>
+        <loc>https://example.com/de/dashboard</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/dashboard" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/dashboard" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/dashboard" />
+    </url>
+    <url>
+        <loc>https://example.com/de/event</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/event" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/event" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/event" />
+    </url>
+    <url>
+        <loc>https://example.com/de/notification</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/notification" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/notification" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/notification" />
+    </url>
+    <url>
+        <loc>https://example.com/de/upload</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/upload" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/upload" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/upload" />
+    </url>
+    <url>
+        <loc>https://example.com/de/account/create</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/account/create" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/account/create" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/account/create" />
+    </url>
+    <url>
+        <loc>https://example.com/de/docs/app</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/docs/app" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/docs/app" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/docs/app" />
+    </url>
+    <url>
+        <loc>https://example.com/de/docs/browser-support</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/docs/browser-support" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/docs/browser-support" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/docs/browser-support" />
+    </url>
+    <url>
+        <loc>https://example.com/de/early-bird/create</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/early-bird/create" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/early-bird/create" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/early-bird/create" />
+    </url>
+    <url>
+        <loc>https://example.com/de/event/create</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/event/create" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/event/create" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/event/create" />
+    </url>
+    <url>
+        <loc>https://example.com/de/session/create</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/session/create" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/session/create" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/session/create" />
+    </url>
+    <url>
+        <loc>https://example.com/de/session/edit</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/session/edit" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/session/edit" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/session/edit" />
+    </url>
+    <url>
+        <loc>https://example.com/de/support/contact</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/support/contact" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/support/contact" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/support/contact" />
+    </url>
+    <url>
+        <loc>https://example.com/de/docs/legal/attributions</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/docs/legal/attributions" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/docs/legal/attributions" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/docs/legal/attributions" />
+    </url>
+    <url>
+        <loc>https://example.com/de/docs/legal/conduct</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/docs/legal/conduct" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/docs/legal/conduct" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/docs/legal/conduct" />
+    </url>
+    <url>
+        <loc>https://example.com/de/docs/legal/imprint</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/docs/legal/imprint" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/docs/legal/imprint" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/docs/legal/imprint" />
+    </url>
+    <url>
+        <loc>https://example.com/de/docs/legal/privacy</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/docs/legal/privacy" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/docs/legal/privacy" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/docs/legal/privacy" />
+    </url>
+    <url>
+        <loc>https://example.com/de/docs/legal/terms</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/docs/legal/terms" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/docs/legal/terms" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/docs/legal/terms" />
+    </url>
+    <url>
+        <loc>https://example.com/de/event/ingest/image</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/event/ingest/image" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/event/ingest/image" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/event/ingest/image" />
+    </url>
+    <url>
+        <loc>https://example.com/de/event/ingest/url</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/event/ingest/url" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/event/ingest/url" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/event/ingest/url" />
+    </url>
+    <url>
+        <loc>https://example.com/de/session/edit/color-scheme</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/session/edit/color-scheme" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/session/edit/color-scheme" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/session/edit/color-scheme" />
+    </url>
+    <url>
+        <loc>https://example.com/de/session/edit/language</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/session/edit/language" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/session/edit/language" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/session/edit/language" />
+    </url>
+    <url>
+        <loc>https://example.com/de/account/password/reset/request</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/account/password/reset/request" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/account/password/reset/request" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/account/password/reset/request" />
+    </url>
+</urlset>
