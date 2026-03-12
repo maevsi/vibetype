@@ -1,3 +1,9 @@
+## [13.4.0](https://github.com/maevsi/vibetype/compare/13.3.3...13.4.0) (2026-03-12)
+
+### Features
+
+* **a11y:** upgrade to nuxt v4.4 ([72869bc](https://github.com/maevsi/vibetype/commit/72869bc58870a5a2dc80ad794deab1ee69d7eb06))
+
 ## [13.3.3](https://github.com/maevsi/vibetype/compare/13.3.2...13.3.3) (2026-02-22)
 
 ### Bug Fixes
