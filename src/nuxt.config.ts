@@ -36,6 +36,7 @@ export default defineNuxtConfig({
   },
   modules: [
     '@dargmuesli/nuxt-cookie-control',
+    '@nuxt/a11y',
     '@nuxt/eslint',
     '@nuxt/scripts',
     '@nuxtjs/color-mode',
