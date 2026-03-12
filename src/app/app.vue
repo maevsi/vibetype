@@ -31,6 +31,8 @@
       </CardStateInfo>
     </ClientOnly>
     <NuxtLoadingIndicator />
+    <NuxtAnnouncer />
+    <NuxtRouteAnnouncer />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
