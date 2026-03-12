@@ -114,7 +114,7 @@ const title = t('title')
 useHeadDefault({ title })
 
 // validation
-const route = useRoute('account-edit-username___en')
+const route = useRoute()
 const store = useStore()
 if (route.params.username !== store.signedInUsername) {
   throw createError({

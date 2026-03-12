@@ -76,7 +76,7 @@ const queryEventListAccount = graphql(`
 
 // page
 const { t } = useI18n()
-const route = useRoute('event-view-username-event_name___en')
+const route = useRoute()
 const title = t('title', { name: route.params.username })
 useHeadDefault({
   ogType: 'profile',

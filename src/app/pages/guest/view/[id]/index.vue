@@ -291,7 +291,7 @@ import { useEventUnlockMutation } from '~~/gql/documents/mutations/event/eventUn
 const { isApp } = usePlatform()
 const { t } = useI18n()
 const store = useStore()
-const route = useRoute('guest-view-id___en')
+const route = useRoute()
 const localePath = useLocalePath()
 const updateGuestByIdMutation = useUpdateGuestByIdMutation()
 

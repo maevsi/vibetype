@@ -17,7 +17,7 @@ import { useQuery } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
 // validation
-const route = useRoute('event-view-username-event_name-guest___en')
+const route = useRoute()
 const store = useStore()
 if (route.params.username !== store.signedInUsername) {
   throw createError({

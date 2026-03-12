@@ -59,7 +59,7 @@ EXPOSE 3000
 
 FROM base-image AS prepare
 
-COPY ./pnpm-lock.yaml ./package.json ./
+COPY ./pnpm-lock.yaml ./pnpm-workspace.yaml ./package.json ./
 # COPY ./patches ./patches
 
 # TODO: evaluate dropping libc arguments by running e2e tests separately
