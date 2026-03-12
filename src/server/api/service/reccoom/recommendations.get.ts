@@ -7,7 +7,7 @@ export default defineEventHandler(async () => {
   const runtimeConfig = useRuntimeConfig()
 
   if (!(jwtDecoded?.role === `${SITE_NAME}_account`))
-    return throwError({
+    throw createAppError({
       status: 403,
       statusText: 'This endpoint only available to registered users.',
     })

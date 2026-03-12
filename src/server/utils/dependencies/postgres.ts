@@ -6,7 +6,7 @@ export const executeQuery = async <T>(query: Promise<T>): Promise<T> => {
   try {
     return await query
   } catch (error) {
-    throw throwError({
+    throw createAppError({
       status: 500,
       statusText: (error as Error).message,
     })

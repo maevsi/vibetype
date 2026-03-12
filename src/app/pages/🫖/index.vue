@@ -7,8 +7,8 @@ defineRouteRules({
   robots: false,
 })
 
-throw createError({
-  fatal: true,
+const { createA11yError } = useA11yError()
+throw createA11yError({
   status: 418,
 })
 </script>

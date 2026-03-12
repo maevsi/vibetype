@@ -23,7 +23,7 @@ If the image contains event information:
 
 export default defineEventHandler(async (event) => {
   if (!import.meta.dev) {
-    return throwError({
+    throw createAppError({
       status: 503,
       statusText:
         'This endpoint is currently disabled until proper authentication and cost tracking is implemented.',
@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
 
   const jwtDecoded = await verifyJwt(getJwtFromHeader())
   if (!(jwtDecoded?.role === `${SITE_NAME}_account`))
-    return throwError({
+    throw createAppError({
       status: 403,
       statusText: 'This endpoint only available to registered users.',
     })
@@ -79,7 +79,7 @@ export default defineEventHandler(async (event) => {
       )
       .join(', ')
 
-    return throwError({
+    throw createAppError({
       status: 403,
       statusText: `The image seems to contain content that has been moderated to be of the following type${flaggedCategories.length > 1 ? 's' : ''}: ${flaggedCategories}`,
     })

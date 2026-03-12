@@ -1,5 +1,6 @@
 {
   "globalError": "Error",
+  "globalErrorMessage": "An error occurred.",
   "globalErrorNoData": "Response without data",
   "globalErrorClipboard": "Your browser does not support modern copying to the clipboard.",
   "globalFormErrorAge18": "You must be 18 years old.",

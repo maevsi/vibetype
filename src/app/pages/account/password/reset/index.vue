@@ -71,13 +71,13 @@ useHeadDefault({ title })
 
 // validation
 const route = useRoute()
+const { createA11yError } = useA11yError()
 if (
   !route.query.code ||
   Array.isArray(route.query.code) ||
   !REGEX_UUID.test(route.query.code)
 ) {
-  throw createError({
-    fatal: true,
+  throw createA11yError({
     status: 400,
   })
 }
