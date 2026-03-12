@@ -272,7 +272,7 @@ const queryAccount = graphql(`
 
 // page
 const store = useStore()
-const route = useRoute('account-view-username___en')
+const route = useRoute()
 const isOwnProfile = computed(
   () => store.signedInUsername === route.params.username,
 )

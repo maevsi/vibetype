@@ -33,7 +33,7 @@ import { useEventDeleteMutation } from '~~/gql/documents/mutations/event/eventDe
 import { graphql } from '~~/gql/generated'
 
 // validation
-const route = useRoute('event-edit-username-event_name___en')
+const route = useRoute()
 const store = useStore()
 if (route.params.username !== store.signedInUsername) {
   throw createError({

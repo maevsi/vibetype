@@ -75,7 +75,7 @@ definePageMeta({
 
 // validation
 const store = useStore()
-const route = useRoute('account-view-username-block___en')
+const route = useRoute()
 if (route.params.username !== store.signedInUsername) {
   throw createError({
     fatal: true,

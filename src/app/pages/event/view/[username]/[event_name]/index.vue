@@ -152,7 +152,7 @@ import { graphql } from '~~/gql/generated'
 
 const { t } = useI18n()
 const store = useStore()
-const route = useRoute('event-view-username-event_name___en')
+const route = useRoute()
 const localePath = useLocalePath()
 
 const isOpenReportDrawer = ref<boolean>()
