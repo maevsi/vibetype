@@ -30,7 +30,7 @@ const getSafe = async <T extends ZodSchema>({
     schema.safeParse(data),
   )
   if (!validationResult.success)
-    return throwError({
+    throw createAppError({
       message: validationResult.error.issues
         .map((issue) => issue.message)
         .join(', '),

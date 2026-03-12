@@ -1,10 +1,9 @@
 import type { NuxtError } from 'nuxt/app'
 
-export const throwError = (
+export const createAppError = (
   error: Partial<NuxtError> & Required<Pick<NuxtError, 'status'>>,
-) => {
-  throw createError({
+) =>
+  createError({
     ...error,
     fatal: true,
   })
-}

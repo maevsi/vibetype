@@ -10,7 +10,7 @@ export const useOpenAi = () => {
   const event = useEvent()
 
   if (!event.context.$openAi)
-    return throwError({
+    throw createAppError({
       status: 500,
       statusText: 'Event context is missing OpenAI data',
     })

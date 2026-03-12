@@ -3,7 +3,7 @@ export const useMonday = () => {
   const runtimeConfig = useRuntimeConfig(event)
 
   if (!event.context.$monday)
-    return throwError({
+    throw createAppError({
       status: 500,
       statusText: 'Event context is missing Monday data',
     })

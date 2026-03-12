@@ -16,7 +16,7 @@ export const setJwtCookie = ({
   const dateInAMonth = new Date(Date.now() + 86400 * 1000 * 31) // TODO: read from jwt expiration claim
 
   if (!runtimeConfig.public.i18n.baseUrl) {
-    return throwError({
+    throw createAppError({
       status: 500,
       statusText: 'Site URL is not defined in the runtime configuration.',
     })

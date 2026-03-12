@@ -17,7 +17,7 @@ export const useJsonWebToken = async () => {
       const headerAuthorization = getRequestHeader(event, 'authorization')
 
       if (!headerAuthorization) {
-        return throwError({
+        throw createAppError({
           status: 401,
           statusText: 'The request header "Authorization" is missing!',
         })
@@ -30,7 +30,7 @@ export const useJsonWebToken = async () => {
       if (!jwt) return
 
       if (!jwtPublicKey) {
-        return throwError({
+        throw createAppError({
           status: 500,
           statusText: 'Secret missing!',
         })
@@ -39,7 +39,7 @@ export const useJsonWebToken = async () => {
       try {
         return (await verifyJwt({ jwt, jwtPublicKey })).payload
       } catch (error) {
-        return throwError({
+        throw createAppError({
           status: 401,
           statusText: `JSON web token verification failed${error instanceof Error ? `: ${error.message}` : '.'}`,
         })
