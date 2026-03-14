@@ -21,7 +21,7 @@ export {
 export const COOKIE_SAME_SITE = 'lax' as const // cannot be `strict` as this would block cookies when coming from external sources
 export const ITEMS_PER_PAGE = 10
 export const ITEMS_PER_PAGE_LARGE = 100
-export const JWT_ALGORITHM = 'RS256'
+export const JWT_ALGORITHM = 'ES256'
 export type LOCALE_CODES = 'de' | 'en'
 export const MAEVSI_EMAIL_LIMIT_24H = 150
 export const POSTGRES_INTEGER_MAXIMUM = Math.pow(2, 31) - 1
