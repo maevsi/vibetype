@@ -1,3 +1,13 @@
+## [14.0.0-beta.9](https://github.com/maevsi/vibetype/compare/14.0.0-beta.8...14.0.0-beta.9) (2026-03-14)
+
+### ⚠ BREAKING CHANGES
+
+* **jwt:** use ecdsa key
+
+### Features
+
+* **jwt:** use ecdsa key ([80885a8](https://github.com/maevsi/vibetype/commit/80885a861096f51ef71cf34e103b7e555b7a1714))
+
 ## [14.0.0-beta.8](https://github.com/maevsi/vibetype/compare/14.0.0-beta.7...14.0.0-beta.8) (2026-03-03)
 
 ### Bug Fixes
