@@ -121,7 +121,7 @@ const { accountId } = defineProps<{
 const { error, restart, step } = useStepper<'password' | 'success'>()
 
 // drawer
-const jwtDelete = await useJwtDelete()
+const jwtDelete = useJwtDelete()
 const isOpen = defineModel<boolean>('isOpen')
 const closeDrawer = () => {
   isOpen.value = false

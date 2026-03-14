@@ -162,7 +162,7 @@ const { t } = useI18n()
 const cookieControl = useCookieControl()
 const localePath = useLocalePath()
 const store = useStore()
-const jwtDelete = await useJwtDelete()
+const jwtDelete = useJwtDelete()
 const { isDevelopmentModeActive, onDevelopmentModeTrigger } =
   useDevelopmentModeTrigger()
 

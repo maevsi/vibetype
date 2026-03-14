@@ -349,7 +349,7 @@ const { t } = useI18n()
 const requestEvent = useRequestEvent()
 const store = useStore()
 const notificationStore = useNotificationStore()
-const jwtDelete = await useJwtDelete()
+const jwtDelete = useJwtDelete()
 const { isApp, platform } = usePlatform()
 const alertError = useAlertError()
 

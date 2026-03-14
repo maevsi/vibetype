@@ -48,7 +48,7 @@ export const useJwtCookie = (
   return cookie
 }
 
-export const useJwtDelete = async () => {
+export const useJwtDelete = () => {
   const { $urqlReset } = useNuxtApp()
   const requestFetch = useRequestFetch()
   const store = useStore()
