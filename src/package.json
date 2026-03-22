@@ -86,7 +86,7 @@
     "firebase": "12.11.0",
     "firebase-admin": "13.7.0",
     "graphql": "16.13.1",
-    "h3": "1.15.6",
+    "h3": "1.15.9",
     "html-to-text": "9.0.5",
     "ical-generator": "10.1.0",
     "isomorphic-dompurify": "3.5.1",
