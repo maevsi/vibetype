@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@nuxtjs/i18n': github:dargmuesli/nuxt-i18n#ce3f825b0f9cb34ccd38f6ff64313e23fb07e795
+  '@nuxtjs/i18n': github:dargmuesli/nuxt-i18n#1e84f8ab70dccc51506179f38ad6c14627264907
   debug: 4.4.3
   h3: 1.15.6
   nuxt-og-image: 5.1.12
@@ -112,8 +112,8 @@ importers:
         specifier: 2.1.0
         version: 2.1.0(magicast@0.5.2)
       '@nuxtjs/i18n':
-        specifier: github:dargmuesli/nuxt-i18n#ce3f825b0f9cb34ccd38f6ff64313e23fb07e795
-        version: https://codeload.github.com/dargmuesli/nuxt-i18n/tar.gz/ce3f825b0f9cb34ccd38f6ff64313e23fb07e795(@vue/compiler-dom@3.5.30)(db0@0.3.4)(eslint@10.1.0(jiti@2.6.1))(ioredis@5.10.1)(magicast@0.5.2)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(rollup@4.60.0)(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3))
+        specifier: github:dargmuesli/nuxt-i18n#1e84f8ab70dccc51506179f38ad6c14627264907
+        version: https://codeload.github.com/dargmuesli/nuxt-i18n/tar.gz/1e84f8ab70dccc51506179f38ad6c14627264907(@vue/compiler-dom@3.5.30)(db0@0.3.4)(eslint@10.1.0(jiti@2.6.1))(ioredis@5.10.1)(magicast@0.5.2)(rollup@4.60.0)(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3))
       '@nuxtjs/mdc':
         specifier: 0.20.2
         version: 0.20.2(magicast@0.5.2)
@@ -3015,8 +3015,8 @@ packages:
   '@nuxtjs/html-validator@2.1.0':
     resolution: {integrity: sha512-ldo8ioSsH3OEumtgwDMokTxlhjgO9FxjJWViAxisq5l/wjvaVX8SYTQ02wjtQcQQPSvS6BwgypAp400RlyFHng==}
 
-  '@nuxtjs/i18n@https://codeload.github.com/dargmuesli/nuxt-i18n/tar.gz/ce3f825b0f9cb34ccd38f6ff64313e23fb07e795':
-    resolution: {tarball: https://codeload.github.com/dargmuesli/nuxt-i18n/tar.gz/ce3f825b0f9cb34ccd38f6ff64313e23fb07e795}
+  '@nuxtjs/i18n@https://codeload.github.com/dargmuesli/nuxt-i18n/tar.gz/1e84f8ab70dccc51506179f38ad6c14627264907':
+    resolution: {tarball: https://codeload.github.com/dargmuesli/nuxt-i18n/tar.gz/1e84f8ab70dccc51506179f38ad6c14627264907}
     version: 10.2.3
     engines: {node: '>=20.11.1'}
 
@@ -11642,6 +11642,16 @@ packages:
       '@nuxt/kit':
         optional: true
 
+  unplugin-vue-router@0.16.2:
+    resolution: {integrity: sha512-lE6ZjnHaXfS2vFI/PSEwdKcdOo5RwAbCKUnPBIN9YwLgSWas3x+qivzQvJa/uxhKzJldE6WK43aDKjGj9Rij9w==}
+    deprecated: 'Merged into vuejs/router. Migrate: https://router.vuejs.org/guide/migration/v4-to-v5.html'
+    peerDependencies:
+      '@vue/compiler-sfc': ^3.5.17
+      vue-router: ^4.6.0
+    peerDependenciesMeta:
+      vue-router:
+        optional: true
+
   unplugin@1.16.1:
     resolution: {integrity: sha512-4/u/j4FrCKdi17jaxuJA0jClGxB1AvU2hw/IuayPc4ay1XGaJs/rbb4v5WKwAjNifjmXK9PIFyuPiaK8azyR9w==}
     engines: {node: '>=14.0.0'}
@@ -12034,6 +12044,11 @@ packages:
   vue-qrcode-reader@5.7.3:
     resolution: {integrity: sha512-iSGko42FsEvdHyizBMBs/X+HMO9Z5ONDxjW+mQdoraOR5emRNedmjC5SEJdYzGz8ZP5ME3lwB4iHy3S7MOt5Qw==}
     engines: {node: '>=18.0.0'}
+
+  vue-router@4.6.4:
+    resolution: {integrity: sha512-Hz9q5sa33Yhduglwz6g9skT8OBPii+4bFn88w6J+J4MfEo4KRRpmiNG/hHHkdbRFlLBOqxN8y8gf2Fb0MTUgVg==}
+    peerDependencies:
+      vue: ^3.5.0
 
   vue-router@5.0.4:
     resolution: {integrity: sha512-lCqDLCI2+fKVRl2OzXuzdSWmxXFLQRxQbmHugnRpTMyYiT+hNaycV0faqG5FBHDXoYrZ6MQcX87BvbY8mQ20Bg==}
@@ -13736,7 +13751,7 @@ snapshots:
       '@nuxt/image': 2.0.0(db0@0.3.4)(ioredis@5.10.1)(magicast@0.5.2)
       '@nuxtjs/color-mode': 4.0.0(magicast@0.5.2)
       '@nuxtjs/html-validator': 2.1.0(magicast@0.5.2)
-      '@nuxtjs/i18n': https://codeload.github.com/dargmuesli/nuxt-i18n/tar.gz/ce3f825b0f9cb34ccd38f6ff64313e23fb07e795(@vue/compiler-dom@3.5.30)(db0@0.3.4)(eslint@10.0.3(jiti@2.6.1))(ioredis@5.10.1)(magicast@0.5.2)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(rollup@4.60.0)(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3))
+      '@nuxtjs/i18n': https://codeload.github.com/dargmuesli/nuxt-i18n/tar.gz/1e84f8ab70dccc51506179f38ad6c14627264907(@vue/compiler-dom@3.5.30)(db0@0.3.4)(eslint@10.0.3(jiti@2.6.1))(ioredis@5.10.1)(magicast@0.5.2)(rollup@4.60.0)(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3))
       '@nuxtjs/seo': 3.4.0(@unhead/vue@2.1.12(vue@3.5.30(typescript@5.9.3)))(db0@0.3.4)(ioredis@5.10.1)(magicast@0.5.2)(rollup@4.60.0)(unhead@2.1.12)(unstorage@1.17.4(db0@0.3.4)(ioredis@5.10.1))(vite@7.3.1(@types/node@24.12.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vue@3.5.30(typescript@5.9.3))(zod@3.25.76)
       '@nuxtjs/turnstile': 1.1.1(@nuxt/scripts@0.13.2(@unhead/vue@2.1.12(vue@3.5.30(typescript@5.9.3)))(db0@0.3.4)(ioredis@5.10.1)(magicast@0.5.2)(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(magicast@0.5.2)
       '@pinia/nuxt': 0.11.3(magicast@0.5.2)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))
@@ -13756,7 +13771,7 @@ snapshots:
       eslint: 10.0.3(jiti@2.6.1)
       eslint-config-prettier: 10.1.8(eslint@10.0.3(jiti@2.6.1))
       eslint-plugin-compat: 7.0.1(eslint@10.0.3(jiti@2.6.1))
-      eslint-plugin-prettier: 5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@10.0.3(jiti@2.6.1)))(eslint@10.0.3(jiti@2.6.1))(prettier@3.8.1)
+      eslint-plugin-prettier: 5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@10.1.0(jiti@2.6.1)))(eslint@10.0.3(jiti@2.6.1))(prettier@3.8.1)
       eslint-plugin-yml: 3.3.1(eslint@10.0.3(jiti@2.6.1))
       globals: 17.4.0
       jiti: 2.6.1
@@ -13787,7 +13802,6 @@ snapshots:
       - '@nuxt/kit'
       - '@nuxt/schema'
       - '@nuxt/scripts'
-      - '@pinia/colada'
       - '@planetscale/database'
       - '@types/eslint'
       - '@typescript-eslint/utils'
@@ -16125,7 +16139,7 @@ snapshots:
       - magicast
       - vitest
 
-  '@nuxtjs/i18n@https://codeload.github.com/dargmuesli/nuxt-i18n/tar.gz/ce3f825b0f9cb34ccd38f6ff64313e23fb07e795(@vue/compiler-dom@3.5.30)(db0@0.3.4)(eslint@10.0.3(jiti@2.6.1))(ioredis@5.10.1)(magicast@0.5.2)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(rollup@4.60.0)(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3))':
+  '@nuxtjs/i18n@https://codeload.github.com/dargmuesli/nuxt-i18n/tar.gz/1e84f8ab70dccc51506179f38ad6c14627264907(@vue/compiler-dom@3.5.30)(db0@0.3.4)(eslint@10.0.3(jiti@2.6.1))(ioredis@5.10.1)(magicast@0.5.2)(rollup@4.60.0)(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3))':
     dependencies:
       '@intlify/core': 11.3.0
       '@intlify/h3': 0.7.4
@@ -16150,10 +16164,11 @@ snapshots:
       pathe: 2.0.3
       ufo: 1.6.3
       unplugin: 2.3.11
+      unplugin-vue-router: 0.16.2(@vue/compiler-sfc@3.5.30)(vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))
       unrouting: 0.1.7
       unstorage: 1.17.4(db0@0.3.4)(ioredis@5.10.1)
       vue-i18n: 11.3.0(vue@3.5.30(typescript@5.9.3))
-      vue-router: 5.0.4(@vue/compiler-sfc@3.5.30)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))
+      vue-router: 4.6.4(vue@3.5.30(typescript@5.9.3))
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -16164,7 +16179,6 @@ snapshots:
       - '@capacitor/preferences'
       - '@deno/kv'
       - '@netlify/blobs'
-      - '@pinia/colada'
       - '@planetscale/database'
       - '@upstash/redis'
       - '@vercel/blob'
@@ -16178,14 +16192,13 @@ snapshots:
       - ioredis
       - magicast
       - petite-vue-i18n
-      - pinia
       - rollup
       - supports-color
       - typescript
       - uploadthing
       - vue
 
-  '@nuxtjs/i18n@https://codeload.github.com/dargmuesli/nuxt-i18n/tar.gz/ce3f825b0f9cb34ccd38f6ff64313e23fb07e795(@vue/compiler-dom@3.5.30)(db0@0.3.4)(eslint@10.1.0(jiti@2.6.1))(ioredis@5.10.1)(magicast@0.5.2)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(rollup@4.60.0)(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3))':
+  '@nuxtjs/i18n@https://codeload.github.com/dargmuesli/nuxt-i18n/tar.gz/1e84f8ab70dccc51506179f38ad6c14627264907(@vue/compiler-dom@3.5.30)(db0@0.3.4)(eslint@10.1.0(jiti@2.6.1))(ioredis@5.10.1)(magicast@0.5.2)(rollup@4.60.0)(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3))':
     dependencies:
       '@intlify/core': 11.3.0
       '@intlify/h3': 0.7.4
@@ -16210,10 +16223,11 @@ snapshots:
       pathe: 2.0.3
       ufo: 1.6.3
       unplugin: 2.3.11
+      unplugin-vue-router: 0.16.2(@vue/compiler-sfc@3.5.30)(vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))
       unrouting: 0.1.7
       unstorage: 1.17.4(db0@0.3.4)(ioredis@5.10.1)
       vue-i18n: 11.3.0(vue@3.5.30(typescript@5.9.3))
-      vue-router: 5.0.4(@vue/compiler-sfc@3.5.30)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3))
+      vue-router: 4.6.4(vue@3.5.30(typescript@5.9.3))
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -16224,7 +16238,6 @@ snapshots:
       - '@capacitor/preferences'
       - '@deno/kv'
       - '@netlify/blobs'
-      - '@pinia/colada'
       - '@planetscale/database'
       - '@upstash/redis'
       - '@vercel/blob'
@@ -16238,7 +16251,6 @@ snapshots:
       - ioredis
       - magicast
       - petite-vue-i18n
-      - pinia
       - rollup
       - supports-color
       - typescript
@@ -20804,7 +20816,7 @@ snapshots:
 
   eslint-plugin-only-error@1.0.2: {}
 
-  eslint-plugin-prettier@5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@10.0.3(jiti@2.6.1)))(eslint@10.0.3(jiti@2.6.1))(prettier@3.8.1):
+  eslint-plugin-prettier@5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@10.1.0(jiti@2.6.1)))(eslint@10.0.3(jiti@2.6.1))(prettier@3.8.1):
     dependencies:
       eslint: 10.0.3(jiti@2.6.1)
       prettier: 3.8.1
@@ -26209,6 +26221,31 @@ snapshots:
     optionalDependencies:
       '@nuxt/kit': 4.4.2(magicast@0.5.2)
 
+  unplugin-vue-router@0.16.2(@vue/compiler-sfc@3.5.30)(vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)):
+    dependencies:
+      '@babel/generator': 7.29.1
+      '@vue-macros/common': 3.1.2(vue@3.5.30(typescript@5.9.3))
+      '@vue/compiler-sfc': 3.5.30
+      '@vue/language-core': 3.2.6
+      ast-walker-scope: 0.8.3
+      chokidar: 4.0.3
+      json5: 2.2.3
+      local-pkg: 1.1.2
+      magic-string: 0.30.21
+      mlly: 1.8.2
+      muggle-string: 0.4.1
+      pathe: 2.0.3
+      picomatch: 4.0.3
+      scule: 1.3.0
+      tinyglobby: 0.2.15
+      unplugin: 2.3.11
+      unplugin-utils: 0.3.1
+      yaml: 2.8.3
+    optionalDependencies:
+      vue-router: 4.6.4(vue@3.5.30(typescript@5.9.3))
+    transitivePeerDependencies:
+      - vue
+
   unplugin@1.16.1:
     dependencies:
       acorn: 8.16.0
@@ -26588,6 +26625,11 @@ snapshots:
     dependencies:
       barcode-detector: 2.2.2
       webrtc-adapter: 8.2.3
+
+  vue-router@4.6.4(vue@3.5.30(typescript@5.9.3)):
+    dependencies:
+      '@vue/devtools-api': 6.6.4
+      vue: 3.5.30(typescript@5.9.3)
 
   vue-router@5.0.4(@vue/compiler-sfc@3.5.30)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(vue@3.5.30(typescript@5.9.3)):
     dependencies:
