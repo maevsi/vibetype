@@ -286,8 +286,8 @@ importers:
         specifier: 10.1.0
         version: 10.1.0(@types/node@24.12.0)
       isomorphic-dompurify:
-        specifier: 3.5.1
-        version: 3.5.1
+        specifier: 3.6.0
+        version: 3.6.0
       jose:
         specifier: 6.2.2
         version: 6.2.2
@@ -8635,8 +8635,8 @@ packages:
     resolution: {integrity: sha512-FFUtZMpoZ8RqHS3XeXEmHWLA4thH+ZxCv2lOiPIn1Xc7CxrqhWzNSDzD+/chS/zbYezmiwWLdQC09JdQKmthOw==}
     engines: {node: '>=20'}
 
-  isomorphic-dompurify@3.5.1:
-    resolution: {integrity: sha512-LlUCZikq/W6CmSq1UWcFLgS4nhkNBwimmVyNQtdByDffT0yVjKYef9lincZ7/ohBlknPkX1C97BBmjeNuFFR4Q==}
+  isomorphic-dompurify@3.6.0:
+    resolution: {integrity: sha512-0dF93ZF/7SgzdnCjXTsqSteJmhlR5PNhq/mJXRMQtnFdaGdG94ul6mYF80hSKfh6VfmLsaGKBd0Eye4eUHyeWA==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24.0.0}
 
   isomorphic-git@1.37.4:
@@ -13756,7 +13756,7 @@ snapshots:
       eslint: 10.0.3(jiti@2.6.1)
       eslint-config-prettier: 10.1.8(eslint@10.0.3(jiti@2.6.1))
       eslint-plugin-compat: 7.0.1(eslint@10.0.3(jiti@2.6.1))
-      eslint-plugin-prettier: 5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@10.0.3(jiti@2.6.1)))(eslint@10.0.3(jiti@2.6.1))(prettier@3.8.1)
+      eslint-plugin-prettier: 5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@10.1.0(jiti@2.6.1)))(eslint@10.0.3(jiti@2.6.1))(prettier@3.8.1)
       eslint-plugin-yml: 3.3.1(eslint@10.0.3(jiti@2.6.1))
       globals: 17.4.0
       jiti: 2.6.1
@@ -20804,7 +20804,7 @@ snapshots:
 
   eslint-plugin-only-error@1.0.2: {}
 
-  eslint-plugin-prettier@5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@10.0.3(jiti@2.6.1)))(eslint@10.0.3(jiti@2.6.1))(prettier@3.8.1):
+  eslint-plugin-prettier@5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@10.1.0(jiti@2.6.1)))(eslint@10.0.3(jiti@2.6.1))(prettier@3.8.1):
     dependencies:
       eslint: 10.0.3(jiti@2.6.1)
       prettier: 3.8.1
@@ -22285,7 +22285,7 @@ snapshots:
 
   isexe@4.0.0: {}
 
-  isomorphic-dompurify@3.5.1:
+  isomorphic-dompurify@3.6.0:
     dependencies:
       dompurify: 3.3.3
       jsdom: 29.0.1

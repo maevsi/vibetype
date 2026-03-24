@@ -89,7 +89,7 @@
     "h3": "1.15.6",
     "html-to-text": "9.0.5",
     "ical-generator": "10.1.0",
-    "isomorphic-dompurify": "3.5.1",
+    "isomorphic-dompurify": "3.6.0",
     "jose": "6.2.2",
     "js-confetti": "0.13.1",
     "kafkajs": "2.2.4",
