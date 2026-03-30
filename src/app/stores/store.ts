@@ -3,6 +3,7 @@ import { decodeJwt } from 'jose'
 import type { JWTPayload } from 'jose'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import type { RouteNamedMapI18n } from 'vue-router/auto-routes'
 
 import type { Modal } from '~/types/modal'
 
@@ -56,7 +57,11 @@ export const useStore = defineStore(SITE_NAME, () => {
 
   const navigateBack = async () => {
     routeHistoryDisabled.value = true
-    await navigateTo(localePath(routeHistory.value.pop() || 'index'))
+    await navigateTo(
+      localePath(
+        (routeHistory.value.pop() as keyof RouteNamedMapI18n) || 'index',
+      ),
+    )
     routeHistoryDisabled.value = false
   }
 
