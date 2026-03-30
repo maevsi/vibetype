@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { cn } from '@/utils/shadcn'
-import { X } from 'lucide-vue-next'
+import { X } from '@lucide/vue'
 import {
   DialogClose,
   DialogContent,

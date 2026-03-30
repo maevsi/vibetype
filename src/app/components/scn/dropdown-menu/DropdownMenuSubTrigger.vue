@@ -2,7 +2,7 @@
 import type { HTMLAttributes } from 'vue'
 import { cn } from '@/utils/shadcn'
 import { reactiveOmit } from '@vueuse/core'
-import { ChevronRight } from 'lucide-vue-next'
+import { ChevronRight } from '@lucide/vue'
 import { DropdownMenuSubTrigger, useForwardProps } from 'reka-ui'
 import type { DropdownMenuSubTriggerProps } from 'reka-ui'
 
