@@ -37,7 +37,6 @@ const {
 }>()
 
 const dateTimeFormatter = getEmailDateTimeFormatter(locale)
-// @ts-expect-error https://github.com/microsoft/TypeScript/issues/60608
 const durationFormatter = new Intl.DurationFormat(locale, {
   style: 'long',
 })

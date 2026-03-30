@@ -2,7 +2,7 @@ import { test, expect, type APIResponse } from '@playwright/test'
 
 test.describe('api load', () => {
   test('only allows POST requests', async ({ request }) => {
-    const disallowedMethods = ['get', 'put', 'delete', 'patch']
+    const disallowedMethods = ['get', 'put', 'delete', 'patch'] as const
 
     for (const disallowedMethod of disallowedMethods) {
       const resp = await (

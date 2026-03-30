@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import '@fontsource-variable/raleway'
+import '@fontsource-variable/raleway/wght.css'
 import { isEqual } from 'ufo'
 
 const { $pwa } = useNuxtApp()

@@ -24,7 +24,6 @@ const formatDuration = ({
 }) => {
   if (typeof Intl === 'undefined' || !('DurationFormat' in Intl)) return // TODO: evaluate polyfill
 
-  // @ts-expect-error https://github.com/microsoft/TypeScript/issues/60608
   return new Intl.DurationFormat(locale, { style: 'long' }).format(duration)
 }
 
