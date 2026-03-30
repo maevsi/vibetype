@@ -2,7 +2,7 @@
 import type { RadioGroupItemProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { cn } from '@/utils/shadcn'
-import { CircleIcon } from 'lucide-vue-next'
+import { CircleIcon } from '@lucide/vue'
 import { RadioGroupIndicator, RadioGroupItem, useForwardProps } from 'reka-ui'
 import { computed } from 'vue'
 

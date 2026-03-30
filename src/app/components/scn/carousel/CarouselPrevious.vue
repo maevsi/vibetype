@@ -3,7 +3,7 @@ import type { WithClassAsProps } from './interface'
 import { cn } from '@/utils/shadcn'
 import { Button } from '@/components/scn/button'
 import type { ButtonVariants } from '@/components/scn/button'
-import { ArrowLeft } from 'lucide-vue-next'
+import { ArrowLeft } from '@lucide/vue'
 import { useCarousel } from './useCarousel'
 
 const { t } = useI18n()

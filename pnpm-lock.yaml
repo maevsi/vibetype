@@ -89,6 +89,9 @@ importers:
       '@internationalized/date':
         specifier: 3.12.0
         version: 3.12.0
+      '@lucide/vue':
+        specifier: 1.7.0
+        version: 1.7.0(vue@3.5.31(typescript@5.9.3))
       '@mondaydotcomorg/api':
         specifier: 11.0.2
         version: 11.0.2
@@ -305,9 +308,6 @@ importers:
       lodash-es:
         specifier: 4.17.23
         version: 4.17.23
-      lucide-vue-next:
-        specifier: 1.0.0
-        version: 1.0.0(vue@3.5.31(typescript@5.9.3))
       mustache:
         specifier: 4.2.0
         version: 4.2.0
@@ -2780,6 +2780,11 @@ packages:
 
   '@kwsites/promise-deferred@1.1.1':
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
+
+  '@lucide/vue@1.7.0':
+    resolution: {integrity: sha512-X3gTarOkNh2ThNK7IaDa4gdjFAtZyoKH/eoScklvmtNTWE5uxkycBQOuchGExY5swCqh1WptEIAWrmbuQcy2fA==}
+    peerDependencies:
+      vue: '>=3.0.1'
 
   '@mapbox/node-pre-gyp@2.0.3':
     resolution: {integrity: sha512-uwPAhccfFJlsfCxMYTwOdVfOz3xqyj8xYL3zJj8f0pb30tLohnnFPhLuqp4/qoEz8sNxe4SESZedcBojRefIzg==}
@@ -9446,11 +9451,6 @@ packages:
     peerDependencies:
       vue: '>=3.0.1'
 
-  lucide-vue-next@1.0.0:
-    resolution: {integrity: sha512-V6SPvx1IHTj/UY+FrIYWV5faISsPSb8BnWSFDxAtezWKvWc9ZZ40PDrdu1/Qb5vg4lHWr1hs1BAMGVGm6V1Xdg==}
-    peerDependencies:
-      vue: '>=3.0.1'
-
   macos-version@6.0.0:
     resolution: {integrity: sha512-O2S8voA+pMfCHhBn/TIYDXzJ1qNHpPDU32oFxglKnVdJABiYYITt45oLkV9yhwA3E2FDwn3tQqUFrTsr1p3sBQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -15772,6 +15772,10 @@ snapshots:
       - supports-color
 
   '@kwsites/promise-deferred@1.1.1': {}
+
+  '@lucide/vue@1.7.0(vue@3.5.31(typescript@5.9.3))':
+    dependencies:
+      vue: 3.5.31(typescript@5.9.3)
 
   '@mapbox/node-pre-gyp@2.0.3':
     dependencies:
@@ -23356,10 +23360,6 @@ snapshots:
       lru-cache: 6.0.0
 
   lucide-vue-next@0.577.0(vue@3.5.31(typescript@5.9.3)):
-    dependencies:
-      vue: 3.5.31(typescript@5.9.3)
-
-  lucide-vue-next@1.0.0(vue@3.5.31(typescript@5.9.3)):
     dependencies:
       vue: 3.5.31(typescript@5.9.3)
 

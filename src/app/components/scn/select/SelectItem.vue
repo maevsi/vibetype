@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
 import { reactiveOmit } from '@vueuse/core'
-import { Check } from 'lucide-vue-next'
+import { Check } from '@lucide/vue'
 import {
   SelectItem,
   SelectItemIndicator,
