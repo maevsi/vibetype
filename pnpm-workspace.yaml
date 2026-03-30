@@ -1,5 +1,3 @@
-onlyBuiltDependencies:
-  - "@nuxtjs/i18n"
 packages:
   - src
   - tests
