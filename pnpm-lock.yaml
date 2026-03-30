@@ -2162,8 +2162,8 @@ packages:
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
 
-  '@graphql-tools/executor-http@3.1.2':
-    resolution: {integrity: sha512-iVY3bg9OaV/UiaAIhaL1mywTl2VH1v5A/krZkLrEa+TjbU93IMCHUMP7T4EH97CbWxRQuILUiZHdTcMfsXKXqA==}
+  '@graphql-tools/executor-http@3.1.3':
+    resolution: {integrity: sha512-pMPQ2uhKOox1XUv4glnpjLu0Po0r2qfBpcjADC/DHETemkAM0ofUAqTNu6oR9R9Zln4Dlc2YK0ZzbUu7NHwSXA==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
@@ -14805,7 +14805,7 @@ snapshots:
       - crossws
       - utf-8-validate
 
-  '@graphql-tools/executor-http@3.1.2(@types/node@24.12.0)(graphql@16.13.2)':
+  '@graphql-tools/executor-http@3.1.3(@types/node@24.12.0)(graphql@16.13.2)':
     dependencies:
       '@graphql-hive/signal': 2.0.0
       '@graphql-tools/executor-common': 1.0.6(graphql@16.13.2)
@@ -14856,7 +14856,7 @@ snapshots:
 
   '@graphql-tools/github-loader@9.0.6(@types/node@24.12.0)(graphql@16.13.2)':
     dependencies:
-      '@graphql-tools/executor-http': 3.1.2(@types/node@24.12.0)(graphql@16.13.2)
+      '@graphql-tools/executor-http': 3.1.3(@types/node@24.12.0)(graphql@16.13.2)
       '@graphql-tools/graphql-tag-pluck': 8.3.27(graphql@16.13.2)
       '@graphql-tools/utils': 11.0.0(graphql@16.13.2)
       '@whatwg-node/fetch': 0.10.13
@@ -14941,7 +14941,7 @@ snapshots:
   '@graphql-tools/url-loader@9.0.6(@types/node@24.12.0)(crossws@0.3.5)(graphql@16.13.2)':
     dependencies:
       '@graphql-tools/executor-graphql-ws': 3.1.5(crossws@0.3.5)(graphql@16.13.2)
-      '@graphql-tools/executor-http': 3.1.2(@types/node@24.12.0)(graphql@16.13.2)
+      '@graphql-tools/executor-http': 3.1.3(@types/node@24.12.0)(graphql@16.13.2)
       '@graphql-tools/executor-legacy-ws': 1.1.25(graphql@16.13.2)
       '@graphql-tools/utils': 11.0.0(graphql@16.13.2)
       '@graphql-tools/wrap': 11.1.12(graphql@16.13.2)
