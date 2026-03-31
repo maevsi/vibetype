@@ -21,11 +21,11 @@ importers:
   src:
     devDependencies:
       '@aws-sdk/client-sesv2':
-        specifier: 3.1018.0
-        version: 3.1018.0
+        specifier: 3.1019.0
+        version: 3.1019.0
       '@aws-sdk/credential-providers':
-        specifier: 3.1018.0
-        version: 3.1018.0
+        specifier: 3.1019.0
+        version: 3.1019.0
       '@dargmuesli/nuxt-cookie-control':
         specifier: 9.1.19
         version: 9.1.19(magicast@0.5.2)(webpack@5.105.4(esbuild@0.27.4))
@@ -81,8 +81,8 @@ importers:
         specifier: 1.2.5
         version: 1.2.5
       '@iconify/tools':
-        specifier: 5.0.6
-        version: 5.0.6
+        specifier: 5.0.8
+        version: 5.0.8
       '@iconify/utils':
         specifier: 3.1.0
         version: 3.1.0
@@ -569,12 +569,12 @@ packages:
   '@aws-crypto/util@5.2.0':
     resolution: {integrity: sha512-4RkU9EsI6ZpBve5fseQlGNUWKMa1RLPQ1dnjnQoe07ldfIzcsGb5hC5W0Dm7u423KWzawlrpbjXBrXCEv9zazQ==}
 
-  '@aws-sdk/client-cognito-identity@3.1018.0':
-    resolution: {integrity: sha512-BRF3W1H8Ews1pomU6gJ/LtKvXezJofABrj6L928Uex89QafRiDik2c1bZ15woci2XdhtfHo4p0nxYOQcXsbUlw==}
+  '@aws-sdk/client-cognito-identity@3.1019.0':
+    resolution: {integrity: sha512-nl6J9+6GqEPKPgVbJbfxL97rTgj1gdXHolXutOdW3A3uux7paHxAdTt3ck8TA6Juwz/DwuL3kGqszqCFjy547A==}
     engines: {node: '>=20.0.0'}
 
-  '@aws-sdk/client-sesv2@3.1018.0':
-    resolution: {integrity: sha512-L5/hJ8dDNoQVwmGTKYZEMAP+8NQjjUG/vHG/bk3FhRHMKW3Ss0CZ9FAVV39Aw4wyCq0kcKVovT6Su66fBGRGzw==}
+  '@aws-sdk/client-sesv2@3.1019.0':
+    resolution: {integrity: sha512-Fqn3+pM9QG4mcEoNfN/G99Hkmbkh2vBlEWKG8LTWW/+BUl0QvS8nWb1yvNvVhjcIy+DNWQyhtZj+tCGkTha0zw==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/core@3.973.25':
@@ -617,8 +617,8 @@ packages:
     resolution: {integrity: sha512-cXcS3+XD3iwhoXkM44AmxjmbcKueoLCINr1e+IceMmCySda5ysNIfiGBGe9qn5EMiQ9Jd7pP0AGFtcd6OV3Lvg==}
     engines: {node: '>=20.0.0'}
 
-  '@aws-sdk/credential-providers@3.1018.0':
-    resolution: {integrity: sha512-Lou9mLRBRDEknOxJ0KBHcIZ5H0BCzlpsHXrSDqkil8kOxPBqxa56s3dS6S0Y/aVl2u7Nd1oOk4IHUf3A+WdqMQ==}
+  '@aws-sdk/credential-providers@3.1019.0':
+    resolution: {integrity: sha512-F6dsoXZgBzpR7/EmhlVd0CKQYa9qwlq8CYFfzvF+QCZNhMKad7Tsv8beLCxQ+yd7CzDYVBNIJ87VI6Si1Ht0Qg==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/middleware-host-header@3.972.8':
@@ -2337,8 +2337,8 @@ packages:
   '@iconify-json/solar@1.2.5':
     resolution: {integrity: sha512-WMAiNwchU8zhfrySww6KQBRIBbsQ6SvgIu2yA+CHGyMima/0KQwT5MXogrZPJGoQF+1Ye3Qj6K+1CiyNn3YkoA==}
 
-  '@iconify/tools@5.0.6':
-    resolution: {integrity: sha512-94dmgES3W9j3Z9xcxSZh6sLBIYwVFykcIER3vV1DTTF/g3Eyr/kG3/QNm4GNhqKoXexg5tmCtVA9AAilO81e4w==}
+  '@iconify/tools@5.0.8':
+    resolution: {integrity: sha512-J5GG2mQT2tidrkcLc8nx2d8qSXKFObzTWMXAM8G0NqaNWNIk5PlNm9+g3wgBhWR6JKSnSP4Ec3uoQVOCfYrsGw==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -12561,7 +12561,7 @@ snapshots:
       '@smithy/util-utf8': 2.3.0
       tslib: 2.8.1
 
-  '@aws-sdk/client-cognito-identity@3.1018.0':
+  '@aws-sdk/client-cognito-identity@3.1019.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
@@ -12605,7 +12605,7 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-sesv2@3.1018.0':
+  '@aws-sdk/client-sesv2@3.1019.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
@@ -12780,9 +12780,9 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/credential-providers@3.1018.0':
+  '@aws-sdk/credential-providers@3.1019.0':
     dependencies:
-      '@aws-sdk/client-cognito-identity': 3.1018.0
+      '@aws-sdk/client-cognito-identity': 3.1019.0
       '@aws-sdk/core': 3.973.25
       '@aws-sdk/credential-provider-cognito-identity': 3.972.19
       '@aws-sdk/credential-provider-env': 3.972.23
@@ -14786,7 +14786,7 @@ snapshots:
     dependencies:
       graphql: 16.13.2
       lodash.sortby: 4.7.0
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@graphql-tools/executor-common@1.0.6(graphql@16.13.2)':
     dependencies:
@@ -14927,14 +14927,14 @@ snapshots:
   '@graphql-tools/optimize@2.0.0(graphql@16.13.2)':
     dependencies:
       graphql: 16.13.2
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@graphql-tools/relay-operation-optimizer@7.1.1(graphql@16.13.2)':
     dependencies:
       '@ardatan/relay-compiler': 13.0.0(graphql@16.13.2)
       '@graphql-tools/utils': 11.0.0(graphql@16.13.2)
       graphql: 16.13.2
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@graphql-tools/schema@10.0.31(graphql@16.13.2)':
     dependencies:
@@ -15065,7 +15065,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify/tools@5.0.6':
+  '@iconify/tools@5.0.8':
     dependencies:
       '@cyberalien/svg-utils': 1.2.8
       '@iconify/types': 2.0.0
