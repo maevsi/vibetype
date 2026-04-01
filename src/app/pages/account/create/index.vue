@@ -47,7 +47,7 @@
         :label="t('agreePrivacy')"
         @agreement="submit(legalTermId || '')"
       >
-        <Content path="privacy-consent" />
+        <AppContent :content="contentPrivacyConsent" />
       </AccountLegalConsent>
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'success'">
@@ -110,6 +110,7 @@ definePageMeta({
 const { locale, t } = useI18n()
 
 // api data
+const contentPrivacyConsent = await useContent('privacy-consent')
 const accountRegistrationMutation = useAccountRegistrationMutation()
 const api = await useApiData([accountRegistrationMutation])
 // TODO: move into api utility as `errorsTranslated`

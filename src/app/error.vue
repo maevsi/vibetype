@@ -20,9 +20,6 @@ const { error } = defineProps<{
     }
 }>()
 
-// i18n
-const { t } = useI18n()
-
 // loading
 const loadingId = Math.random()
 const loadingIds = useState(STATE_LOADING_IDS_NAME, () => [loadingId])
@@ -35,11 +32,4 @@ useAppLayout()
 // page
 const { statusName } = await useHttpStatusCode({ status: error.status })
 useHeadDefault({ title: statusName })
-defineOgImageComponent(
-  'Default',
-  {},
-  {
-    alt: t('globalSeoOgImageAlt'),
-  },
-)
 </script>

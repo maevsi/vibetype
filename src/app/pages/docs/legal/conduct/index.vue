@@ -1,8 +1,3 @@
 <template>
-  <Content v-model:title="title" path="conduct" />
+  <AppContentPage path="conduct" />
 </template>
-
-<script setup lang="ts">
-const title = ref<string>()
-useHeadDefault({ title })
-</script>

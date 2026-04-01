@@ -6,6 +6,7 @@ CERTIFICATE_SUFFIX="-dev"
 
 [ -n "$CI" ] && CERTIFICATE_SUFFIX="-ci"
 
+# TODO: check if all hostnames are included
 is_certificate_valid() {
     certificate_path="$1"
     root_ca_path="$(mkcert -CAROOT)/rootCA.pem"
@@ -46,4 +47,4 @@ generate_certificate() {
     echo "✓ Certificate generated: '${certificate_name}'"
 }
 
-generate_certificate "ssl" "localhost" "app.localhost" "127.0.0.1" "0.0.0.0"
+generate_certificate "ssl" "localhost" "app.localhost" "127.0.0.1" "0.0.0.0" "::1"

@@ -17,6 +17,16 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
       typescript: true,
     },
   },
+  fonts: {
+    families: [
+      {
+        name: 'Raleway',
+        weights: [400, 700],
+        global: true,
+        formats: ['ttf'],
+      },
+    ],
+  },
   gtag: {
     config: {
       cookie_flags: 'samesite=strict',
@@ -57,6 +67,9 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
       disable: !process.env.RELEASE_NAME,
     },
     telemetry: false,
+  },
+  seo: {
+    minify: false, // TODO: enable (https://github.com/harlan-zw/nuxt-seo-utils/issues/103)
   },
   shadcn: {
     prefix: '',

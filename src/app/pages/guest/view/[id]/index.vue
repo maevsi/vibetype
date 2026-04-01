@@ -517,8 +517,8 @@ useHeadDefault({
   description,
   title,
 })
-defineOgImageComponent(
-  'Event',
+defineOgImage(
+  'Event.takumi',
   {
     description,
   },

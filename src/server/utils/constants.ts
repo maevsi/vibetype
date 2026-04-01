@@ -27,7 +27,10 @@ export const GET_CSP = ({
         `https://tusd.${domainTldPort}`, // image upload requests
         'https://nominatim.openstreetmap.org/search', // map's geocoder
       ],
-      'font-src': ["'self'", 'data:'], // @fontsource/raleway
+      'font-src': [
+        "'self'", // @fontsource/raleway, @nuxt/fonts / nuxt-og-image
+        'data:', // @fontsource/raleway
+      ],
       'form-action': ["'self'"], // forms
       'img-src': [
         'blob:',

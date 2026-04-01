@@ -26,7 +26,6 @@
     "overrides": {
       "debug": "4.4.3",
       "h3": "1.15.6",
-      "nuxt-og-image": "5.1.12",
       "parse5-parser-stream": "8.0.0"
     }
   },
@@ -47,7 +46,8 @@
     "test:e2e:docker:server:node": "pnpm --dir tests run test:e2e:docker:server:node",
     "test:e2e:docker:server:node:update": "pnpm --dir tests run test:e2e:docker:server:node:update",
     "test:e2e:docker:server:static": "pnpm --dir tests run test:e2e:docker:server:static",
-    "test:e2e:docker:server:static:update": "pnpm --dir tests run test:e2e:docker:server:static:update"
+    "test:e2e:docker:server:static:update": "pnpm --dir tests run test:e2e:docker:server:static:update",
+    "test:e2e:ui": "pnpm run --dir tests test:e2e:ui"
   },
   "type": "module"
 }
