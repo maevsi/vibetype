@@ -73,6 +73,6 @@ export const getResponseCookie = ({
       : []
   const cookieMatches = setCookieHeaderArray
     .map((header) => parseSetCookie(header))
-    .filter((header) => header.name === name)
+    .filter((header) => header && header.name === name)
   return cookieMatches[0]
 }
