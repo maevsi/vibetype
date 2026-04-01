@@ -51,13 +51,9 @@
 
 <script lang="ts">
 import type { DetectedBarcode } from 'vue-qrcode-reader'
-import type { RouteNamedMap } from 'vue-router/auto-routes'
 
 import { graphql } from '~~/gql/generated'
 import { useMutation, useQuery } from '@urql/vue'
-
-const ROUTE_NAME: keyof RouteNamedMap =
-  'event-view-username-event_name-attendance___en'
 </script>
 
 <script setup lang="ts">
@@ -65,10 +61,10 @@ const { t } = useI18n()
 const store = useStore()
 
 // validation
-const route = useRoute(ROUTE_NAME)
+const route = useRoute()
+const { createA11yError } = useA11yError()
 if (route.params.username !== store.signedInUsername) {
-  throw createError({
-    fatal: true,
+  throw createA11yError({
     status: 403,
   })
 }

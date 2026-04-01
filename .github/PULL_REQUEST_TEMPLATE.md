@@ -1,24 +1,8 @@
-### 📚 Description
-
 <!--
-  Describe your changes in detail.
-  Why is this change required? What problem does it solve?
-  If it resolves an open issue, please link to the issue here. For example "Resolves #1337"
+  Describe your changes in detail. Link issues [1].
+
+  If any commit in this pull request does not follow the Conventional Commit format [2], the pull request will be squash-merged. If the pull request's title does not follow this format, the pull request will be renamed. If you're fine with that, you can ignore the status check that fails on detection of format mismatch.
+
+  [1] https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue
+  [2] https://conventionalcommits.org
 -->
-
-### 📝 Checklist
-
-<!--
-  Put an `x` in all the boxes that apply.
-  If you're unsure about any of these, don't hesitate to ask. We're here to help!
-
-  Examples for Conventional Commits:
-  - fix(types): correct array typing
-  - feat(component): add button
-  - docs(readme): explain setup
-
-  https://conventionalcommits.org
--->
-
-- [ ] All commits follow the Conventional Commit format or I'm fine with a squash merge of this PR
-- [ ] The PR's title follows the Conventional Commit format

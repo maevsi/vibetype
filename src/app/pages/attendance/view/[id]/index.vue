@@ -98,12 +98,10 @@
 
 <script setup lang="ts">
 import { useMutation, useQuery } from '@urql/vue'
-import type { RouteNamedMap } from 'vue-router/auto-routes'
 
 import { graphql } from '~~/gql/generated'
 
-const ROUTE_NAME: keyof RouteNamedMap = 'attendance-view-id___en'
-const route = useRoute(ROUTE_NAME)
+const route = useRoute()
 const { t } = useI18n()
 
 const csrfRequestFetch = useCsrfRequestFetch()

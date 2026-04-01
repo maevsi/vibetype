@@ -18,7 +18,7 @@ Only accept html. Only if the html contains event information, extract that info
 
 export default defineEventHandler(async (event) => {
   if (!import.meta.dev) {
-    return throwError({
+    throw createAppError({
       status: 503,
       statusText:
         'This endpoint is currently disabled until proper authentication and cost tracking is implemented.',
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
   const jwtPayload = await verifyJwt<Jwt>(jwt)
 
   if (!(jwtPayload?.role === `${SITE_NAME}_account`))
-    return throwError({
+    throw createAppError({
       status: 403,
       statusText: 'This endpoint only available to registered users.',
     })

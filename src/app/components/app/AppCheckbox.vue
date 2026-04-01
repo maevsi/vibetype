@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { Check } from 'lucide-vue-next'
+import { Check } from '@lucide/vue'
 import { useForwardPropsEmits } from 'reka-ui'
 import type { CheckboxRootEmits, CheckboxRootProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'

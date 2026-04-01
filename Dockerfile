@@ -8,7 +8,7 @@ FROM ghcr.io/maevsi/postgraphile:2.0.0-beta.1
 #############
 # Create base image.
 
-FROM node:24.13.1-alpine AS base-image
+FROM node:24.14.1-alpine AS base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -59,8 +59,8 @@ EXPOSE 3000
 
 FROM base-image AS prepare
 
-COPY ./pnpm-lock.yaml ./package.json ./
-COPY ./patches ./patches
+COPY ./pnpm-lock.yaml ./pnpm-workspace.yaml ./package.json ./
+# COPY ./patches ./patches
 
 # TODO: evaluate dropping libc arguments by running e2e tests separately
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \

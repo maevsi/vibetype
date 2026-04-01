@@ -300,7 +300,7 @@ import { graphql } from '~~/gql/generated'
 
 const { isApp } = usePlatform()
 const { t } = useI18n()
-const route = useRoute('guest-view-id___en')
+const route = useRoute()
 const localePath = useLocalePath()
 const updateGuestByRowIdMutation = useUpdateGuestByRowIdMutation()
 const store = useStore()

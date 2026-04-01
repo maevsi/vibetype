@@ -36,6 +36,7 @@ export default defineNuxtConfig({
   },
   modules: [
     '@dargmuesli/nuxt-cookie-control',
+    // '@nuxt/a11y',
     '@nuxt/eslint',
     '@nuxt/scripts',
     '@nuxtjs/color-mode',
@@ -195,6 +196,7 @@ export default defineNuxtConfig({
         '@internationalized/date',
         '@intlify/core-base',
         '@intlify/shared',
+        '@lucide/vue',
         '@sentry/nuxt',
         '@tiptap/extension-text-align',
         '@tiptap/starter-kit',
@@ -227,7 +229,6 @@ export default defineNuxtConfig({
         'leaflet',
         'leaflet-control-geocoder',
         'lodash-es',
-        'lucide-vue-next',
         'mustache',
         'pretty-bytes',
         'prntr',

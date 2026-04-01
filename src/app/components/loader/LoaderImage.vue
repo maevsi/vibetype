@@ -36,7 +36,7 @@ const {
   alt: string
   aspect: string
   class?: HtmlHTMLAttributes['class']
-  classes?: string
+  classes?: HtmlHTMLAttributes['class']
   crossOrigin?: 'anonymous'
   height: string
   src: string

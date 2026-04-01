@@ -1,5 +1,6 @@
 {
   "globalError": "Fehler",
+  "globalErrorMessage": "Es ist ein Fehler aufgetreten.",
   "globalErrorNoData": "Antwort ohne Daten",
   "globalErrorClipboard": "Dein Browser unterstützt das moderne Kopieren in die Zwischenablage nicht.",
   "globalFormErrorAge18": "Du musst 18 Jahre alt sein.",

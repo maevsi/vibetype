@@ -47,7 +47,7 @@ export const getJwtFromResult = <
 }) => {
   if (result.error) {
     if (result.error.networkError) {
-      return throwError({
+      throw createAppError({
         status: 500,
         statusText:
           (result.error.networkError.cause as { message?: string })?.message ||
@@ -59,20 +59,20 @@ export const getJwtFromResult = <
       const messages = result.error.graphQLErrors
         .map((e) => e.message)
         .join('; ')
-      return throwError({
+      throw createAppError({
         status: 500,
         statusText: `GraphQL error(s) during ${context}: ${messages}`,
       })
     }
 
-    return throwError({
+    throw createAppError({
       status: 500,
       statusText: result.error.message || `Unexpected error during ${context}.`,
     })
   }
 
   if (!result.data) {
-    return throwError({
+    throw createAppError({
       status: 500,
       statusText: `No data returned from ${context} mutation.`,
     })
@@ -80,7 +80,7 @@ export const getJwtFromResult = <
 
   const jwt = extract(result.data)
   if (!jwt) {
-    return throwError({
+    throw createAppError({
       status: 500,
       statusText: `No JWT returned from ${context} mutation.`,
     })

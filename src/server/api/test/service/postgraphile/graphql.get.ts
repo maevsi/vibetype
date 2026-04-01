@@ -2,7 +2,7 @@ export default defineEventHandler(() => {
   const isTesting = useIsTesting({ isCookieEnabled: false })
 
   if (!isTesting) {
-    return throwError({
+    throw createAppError({
       status: 403,
       statusText: 'This endpoint is only available in the testing environment.',
     })

@@ -19,7 +19,7 @@ export const useJsonWebToken = async () => {
       if (!jwt) return
 
       if (!jwtPublicKey) {
-        return throwError({
+        throw createAppError({
           status: 500,
           statusText: 'Secret missing!',
         })
@@ -28,7 +28,7 @@ export const useJsonWebToken = async () => {
       try {
         return (await verifyJwt({ jwt, jwtPublicKey })).payload as T
       } catch (error) {
-        return throwError({
+        throw createAppError({
           status: 401,
           statusText: `JSON web token verification failed${error instanceof Error ? `: ${error.message}` : '.'}`,
         })

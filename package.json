@@ -5,7 +5,7 @@
   "engines": {
     "node": "^24.0.0"
   },
-  "packageManager": "pnpm@10.30.0",
+  "packageManager": "pnpm@10.33.0",
   "pnpm": {
     "ignoredBuiltDependencies": [
       "@dargmuesli/nuxt-vio",
@@ -25,11 +25,9 @@
     ],
     "overrides": {
       "debug": "4.4.3",
+      "h3": "1.15.6",
       "nuxt-og-image": "5.1.12",
       "parse5-parser-stream": "8.0.0"
-    },
-    "patchedDependencies": {
-      "@nuxt/content": "patches/@nuxt__content.patch"
     }
   },
   "private": true,

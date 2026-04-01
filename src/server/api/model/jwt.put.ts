@@ -116,7 +116,7 @@ export default defineEventHandler(async (event) => {
   const jwt = await getJwt({ event, body })
 
   if (!jwt) {
-    return throwError({
+    throw createAppError({
       status: 500,
       statusText: 'No JWT returned from update mutation.',
     })

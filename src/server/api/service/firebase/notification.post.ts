@@ -17,19 +17,19 @@ export default defineEventHandler(async (event) => {
   const body = await getBodySafe({ event, schema: fcmMessageSchema })
 
   if (!firebaseAdminApp)
-    return throwError({
+    throw createAppError({
       status: 500,
       statusText: 'Firebase uninitialized',
     })
 
   if (!runtimeConfig.vibetype.api.notification.secret)
-    return throwError({
+    throw createAppError({
       status: 500,
       statusText: 'Notification secret uninitialized',
     })
 
   if (body.secret !== runtimeConfig.vibetype.api.notification.secret)
-    return throwError({
+    throw createAppError({
       status: 403,
       statusText: 'Invalid secret',
     })

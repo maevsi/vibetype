@@ -75,10 +75,10 @@ definePageMeta({
 
 // validation
 const store = useStore()
-const route = useRoute('account-view-username-block___en')
+const route = useRoute()
+const { createA11yError } = useA11yError()
 if (route.params.username !== store.signedInUsername) {
-  throw createError({
-    fatal: true,
+  throw createA11yError({
     status: 403,
   })
 }

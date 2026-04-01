@@ -15,13 +15,13 @@ useHeadDefault({ title })
 
 // validation
 const route = useRoute()
+const { createA11yError } = useA11yError()
 if (
   !route.query.code ||
   Array.isArray(route.query.code) ||
   !REGEX_UUID.test(route.query.code)
 ) {
-  throw createError({
-    fatal: true,
+  throw createA11yError({
     status: 400,
   })
 }
@@ -40,14 +40,14 @@ const result = await accountEmailAddressVerificationMutation.executeMutation({
   code: route.query.code,
 })
 if (result.error) {
-  throw createError({
+  throw createA11yError({
     data: {
       vibetype: getCombinedErrorMessages([result.error], {
         postgres55000: t('postgres55000'),
         postgresP0002: t('postgresP0002'),
       }).join('\n'),
     },
-    fatal: true,
+    status: 400,
   })
 }
 
