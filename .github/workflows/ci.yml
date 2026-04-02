@@ -28,7 +28,6 @@ jobs:
     secrets:
       PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
     with:
-      APT_PACKAGES: mkcert
       DRY_RUN: true
   build:
     name: Build
@@ -37,6 +36,8 @@ jobs:
     permissions:
       packages: write
     with:
+      BUILD_ADD_HOSTS: |
+        app.localhost=127.0.0.1
       BUILD_ARGUMENTS: ${{ (needs.release_semantic_dry.outputs.new_release_version != null) && format('RELEASE_NAME={0}', needs.release_semantic_dry.outputs.new_release_version) || '' }}
       TAG: ${{ (needs.release_semantic_dry.outputs.new_release_version != null) && needs.release_semantic_dry.outputs.new_release_version || '' }}
     secrets:
@@ -50,5 +51,3 @@ jobs:
       id-token: write
     secrets:
       PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-    with:
-      APT_PACKAGES: mkcert

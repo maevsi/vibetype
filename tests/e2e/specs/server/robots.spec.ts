@@ -10,14 +10,10 @@ testPageLoad(PAGE_PATH)
 test.describe('robots.txt', () => {
   test('content', async ({ request }) => {
     const resp = await request.get(PAGE_PATH)
-    expect(
-      (await resp.text()).replace(
-        new RegExp(SITE_URL, 'g'),
-        'https://example.com',
-      ),
-    ).toMatchSnapshot(
+    const text = (await resp.text()).replaceAll(SITE_URL, 'https://example.com')
+    expect(text).toMatchSnapshot(
       `robots-txt-content-${
-        process.env.NODE_ENV === 'production' ? 'production' : 'development'
+        process.env.VIO_SERVER === 'development' ? 'development' : 'production'
       }.txt`,
     )
   })

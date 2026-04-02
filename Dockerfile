@@ -89,8 +89,8 @@ RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN \
 
 # FROM prepare AS build-static
 
-# ARG NUXT_PUBLIC_SITE_URL=https://localhost:3002
-# ENV NUXT_PUBLIC_SITE_URL=${NUXT_PUBLIC_SITE_URL}
+# ARG NUXT_PUBLIC_I18N_BASE_URL=https://localhost:3002
+# ENV NUXT_PUBLIC_I18N_BASE_URL=${NUXT_PUBLIC_I18N_BASE_URL}
 
 # ENV NODE_ENV=production
 # RUN pnpm --dir src run build:static
