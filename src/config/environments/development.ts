@@ -40,9 +40,9 @@ export const developmentConfig: ReturnType<DefineNuxtConfig> = {
         strictTransportSecurity: false, // prevent endless reload in Chrome
       },
     },
-    sentry: {
-      enabled: false,
-    },
+    // sentry: {
+    //   enabled: false,
+    // },
     site: {
       debug: true,
     },
