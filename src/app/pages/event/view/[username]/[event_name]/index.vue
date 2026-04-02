@@ -251,10 +251,12 @@ useHeadDefault({
   description,
   title,
 })
-defineOgImageComponent(
-  'Event',
+defineOgImage(
+  'Event.takumi',
   {
-    description,
+    description: event.value?.description
+      ? getTextFromHtml(event.value.description)
+      : undefined,
   },
   {
     alt: t('ogImageAlt'),

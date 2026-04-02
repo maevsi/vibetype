@@ -1,5 +1,5 @@
 <template>
-  <Content v-model:title="title" path="privacy" />
+  <AppContentPage path="privacy" />
 </template>
 
 <script setup lang="ts">
@@ -7,7 +7,4 @@
 // - App Store Connect (app privacy)
 // - Facebook (page info)
 // - vibetype.de (footer)
-
-const title = ref<string>()
-useHeadDefault({ title })
 </script>

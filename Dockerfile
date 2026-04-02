@@ -23,8 +23,6 @@ RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
       mkcert \
     && corepack enable
 
-COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-
 
 #############
 # Serve Nuxt in development mode.
@@ -39,6 +37,8 @@ RUN mkdir \
     && chown node:node \
       /srv/.pnpm-store \
       /srv/app/node_modules
+
+COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 VOLUME /srv/.pnpm-store
 VOLUME /srv/app
@@ -60,7 +60,7 @@ EXPOSE 3000
 FROM base-image AS prepare
 
 COPY ./pnpm-lock.yaml ./pnpm-workspace.yaml ./package.json ./
-# COPY ./patches ./patches
+COPY ./patches ./patches
 
 # TODO: evaluate dropping libc arguments by running e2e tests separately
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
@@ -123,7 +123,7 @@ RUN pnpm -r run test
 ########################
 # Nuxt: test (e2e, base-image)
 
-FROM mcr.microsoft.com/playwright:v1.58.2 AS test-e2e-base-image
+FROM mcr.microsoft.com/playwright:v1.59.1 AS test-e2e-base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -207,7 +207,7 @@ RUN pnpm --dir tests run test:e2e:server:node
 FROM base-image AS collect
 
 COPY --from=build-node --chown=node /srv/app/src/.output ./.output
-COPY --from=build-node --chown=node /srv/app/src/scripts ./scripts
+COPY --from=build-node --chown=node /srv/app/src/node/server/node.mjs ./node/server/node.mjs
 COPY --from=build-node --chown=node /srv/app/src/package.json ./package.json
 # COPY --from=build-static /srv/app/package.json /dev/null
 COPY --from=lint /srv/app/package.json /dev/null
@@ -240,6 +240,7 @@ COPY --from=test-e2e-node /srv/app/package.json /dev/null
 
 FROM collect AS production
 
+ENV CI=false
 ENV NODE_ENV=production
 
 ARG RELEASE_NAME
@@ -248,6 +249,8 @@ ENV RELEASE_NAME=${RELEASE_NAME}
 # Update dependencies.
 RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
     apk upgrade
+
+COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 USER node
 

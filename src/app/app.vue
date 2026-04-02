@@ -159,13 +159,6 @@ if (store.jwtPayload) {
 }
 
 // initialization
-defineOgImageComponent(
-  'Default',
-  {},
-  {
-    alt: t('globalSeoOgImageAlt'),
-  },
-)
 useAppLayout()
 usePolyfills()
 useAppGtag()

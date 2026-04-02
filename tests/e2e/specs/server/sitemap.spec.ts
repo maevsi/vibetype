@@ -22,13 +22,11 @@ test.describe('sitemap', () => {
   test('content', async ({ request }) => {
     for (const language of languages) {
       const resp = await request.get(`/__sitemap__/${language}.xml`)
-      const text = await resp.text()
+      const text = (await resp.text())
+        .replaceAll(/\n.+<\/lastmod>/g, '')
+        .replaceAll(SITE_URL, 'https://example.com')
 
-      expect(
-        text
-          .replace(/\n.+<\/lastmod>/g, '')
-          .replace(new RegExp(SITE_URL, 'g'), 'https://example.com'),
-      ).toMatchSnapshot(
+      expect(text).toMatchSnapshot(
         `sitemap-content-${process.env.VIO_SERVER}-${language}.txt`,
       )
     }
