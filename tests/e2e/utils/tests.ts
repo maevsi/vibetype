@@ -101,18 +101,7 @@ export const testMetadata = async ({
           key: 'property',
           value: 'og:image',
         },
-        // TODO: check for open graph image content differently
-        // {
-        //   key: 'content',
-        //   value: joinURL(
-        //     SITE_URL,
-        //     `/__og-image__/${
-        //       process.env.VIO_SERVER === 'static' ? 'static' : 'image'
-        //     }`,
-        //     path,
-        //     '/og.png',
-        //   ),
-        // },
+        // content is checked below
       ],
     },
     {
@@ -145,18 +134,7 @@ export const testMetadata = async ({
           key: 'name',
           value: 'twitter:image',
         },
-        // TODO: check for open graph image content differently
-        // {
-        //   key: 'content',
-        //   value: joinURL(
-        //     SITE_URL,
-        //     `/__og-image__/${
-        //       process.env.VIO_SERVER === 'static' ? 'static' : 'image'
-        //     }`,
-        //     path,
-        //     '/og.png',
-        //   ),
-        // },
+        // content is checked below
       ],
     },
     {
@@ -166,18 +144,7 @@ export const testMetadata = async ({
           key: 'name',
           value: 'twitter:image:src',
         },
-        // TODO: check for open graph image content differently
-        // {
-        //   key: 'content',
-        //   value: joinURL(
-        //     SITE_URL,
-        //     `/__og-image__/${
-        //       process.env.VIO_SERVER === 'static' ? 'static' : 'image'
-        //     }`,
-        //     path,
-        //     '/og.png',
-        //   ),
-        // },
+        // content is checked below
       ],
     },
     {
@@ -325,9 +292,9 @@ export const testMetadata = async ({
         {
           key: 'content',
           value:
-            process.env.NODE_ENV === 'production'
-              ? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
-              : 'noindex, nofollow',
+            process.env.VIO_SERVER === 'development'
+              ? 'noindex, nofollow'
+              : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
         },
       ],
     },
@@ -531,6 +498,17 @@ export const testMetadata = async ({
   //       .innerText(),
   //   ).toMatchSnapshot(`content-security-policy.txt`)
   // }
+
+  for (const locator of [
+    'meta[property="og:image"]',
+    'meta[name="twitter:image"]',
+    'meta[name="twitter:image:src"]',
+  ]) {
+    const content = await page.locator(locator).getAttribute('content')
+    expect(content).toBeTruthy()
+    expect(content?.startsWith(SITE_URL)).toBeTruthy()
+    expect(content).toMatch(/(\/_og\/[ds]\/).+\.png$/)
+  }
 }
 
 export const testOgImage = (paths: {

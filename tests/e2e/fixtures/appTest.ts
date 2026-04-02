@@ -45,19 +45,19 @@ export const appTest = test.extend<{
   defaultPage: async ({ page, context }, use) => {
     await context.addCookies([
       {
-        domain: 'localhost',
+        domain: 'app.localhost',
         name: TESTING_COOKIE_NAME,
         path: '/',
         value: 'true',
       },
       {
-        domain: 'localhost',
+        domain: 'app.localhost',
         name: TIMEZONE_COOKIE_NAME,
         path: '/',
         value: TIMEZONE_DEFAULT,
       },
       {
-        domain: 'localhost',
+        domain: 'app.localhost',
         name: COOKIE_CONTROL_CONSENT_COOKIE_NAME,
         path: '/',
         value: COOKIE_CONTROL_CONSENT_COOKIE_DEFAULT_VALUE,

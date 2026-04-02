@@ -13,6 +13,18 @@ export const getHost = (event: H3Event) => {
 
 export { getIsSecure } from '~~/node/static'
 
+export const getRootHost = (host: string) => {
+  const hostParts = host.split('.')
+  const hostPartsLast = hostParts[hostParts.length - 1]
+
+  if (hostPartsLast && /^localhost(:[0-9]+)?$/.test(hostPartsLast))
+    return hostPartsLast
+
+  if (hostParts.length === 1) return hostParts[0]
+
+  return `${hostParts[hostParts.length - 2]}.${hostPartsLast}`
+}
+
 export const getServiceHref = ({
   host,
   isSsr = true,
