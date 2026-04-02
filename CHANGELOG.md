@@ -1,3 +1,15 @@
+## [14.0.0-beta.10](https://github.com/maevsi/vibetype/compare/14.0.0-beta.9...14.0.0-beta.10) (2026-04-02)
+
+### Features
+
+* **a11y:** create error ([4c4a143](https://github.com/maevsi/vibetype/commit/4c4a14340e69b102c5092e28bd77e9f8c52a578f))
+* **a11y:** upgrade to nuxt v4.4 ([72869bc](https://github.com/maevsi/vibetype/commit/72869bc58870a5a2dc80ad794deab1ee69d7eb06))
+* **deps:** upgrade @dargmuesli/nuxt-vio to v21 ([deeebf7](https://github.com/maevsi/vibetype/commit/deeebf7ef7dbddb234463039b2af0a404f99d95a))
+
+### Bug Fixes
+
+* schedule release ([c9838ad](https://github.com/maevsi/vibetype/commit/c9838ade28ac8991df44136ac09cc163607311b6))
+
 ## [14.0.0-beta.9](https://github.com/maevsi/vibetype/compare/14.0.0-beta.8...14.0.0-beta.9) (2026-03-14)
 
 ### ⚠ BREAKING CHANGES
