@@ -80,6 +80,7 @@ ARG RELEASE_NAME
 ENV RELEASE_NAME=${RELEASE_NAME}
 
 ENV NODE_ENV=production
+ENV NODE_OPTIONS="--max-old-space-size=6144"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN \
     pnpm --dir src run build:node
 
