@@ -27,9 +27,6 @@
       "debug": "4.4.3",
       "h3": "1.15.6",
       "parse5-parser-stream": "8.0.0"
-    },
-    "patchedDependencies": {
-      "nuxt-link-checker": "patches/nuxt-link-checker.patch"
     }
   },
   "private": true,
