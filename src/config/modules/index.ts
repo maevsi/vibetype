@@ -64,7 +64,7 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
       name: process.env.RELEASE_NAME || undefined,
     },
     sourcemaps: {
-      disable: true, // TODO: reset to !process.env.RELEASE_NAME (https://github.com/getsentry/sentry-javascript/issues/19663)
+      disable: !process.env.RELEASE_NAME,
     },
     telemetry: false,
   },
