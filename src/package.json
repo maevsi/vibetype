@@ -118,7 +118,7 @@
     "prosemirror-model": "1.25.4",
     "prosemirror-schema-list": "1.5.1",
     "prosemirror-state": "1.4.4",
-    "prosemirror-transform": "1.11.0",
+    "prosemirror-transform": "1.12.0",
     "prosemirror-view": "1.41.7",
     "qrcode.vue": "3.8.0",
     "reka-ui": "2.9.2",
