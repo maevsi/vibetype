@@ -1,3 +1,9 @@
+## [14.0.0-beta.11](https://github.com/maevsi/vibetype/compare/14.0.0-beta.10...14.0.0-beta.11) (2026-04-02)
+
+### Bug Fixes
+
+* **sentry:** reenable sourcemaps ([d6dec70](https://github.com/maevsi/vibetype/commit/d6dec706b93dbefb41cb6dd567aed01576c287a3))
+
 ## [14.0.0-beta.10](https://github.com/maevsi/vibetype/compare/14.0.0-beta.9...14.0.0-beta.10) (2026-04-02)
 
 ### Features
