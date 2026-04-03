@@ -1,3 +1,9 @@
+## [14.0.0-beta.12](https://github.com/maevsi/vibetype/compare/14.0.0-beta.11...14.0.0-beta.12) (2026-04-03)
+
+### Bug Fixes
+
+* **docker:** improve environment variable loading ([e8d4cde](https://github.com/maevsi/vibetype/commit/e8d4cde23887035238199236d71c58b435addf6f))
+
 ## [14.0.0-beta.11](https://github.com/maevsi/vibetype/compare/14.0.0-beta.10...14.0.0-beta.11) (2026-04-02)
 
 ### Bug Fixes
