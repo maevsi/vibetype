@@ -10,7 +10,7 @@
 
 Find events, guests and friends: [vibetype.app](https://vibetype.app/).
 
-This project is deployed within the [maevsi/stack](https://github.com/maevsi/stack/) in accordance with the [dargstack template](https://github.com/dargstack/dargstack_template/) to make deployment a breeze.
+This project is deployed within the [maevsi/stack](https://github.com/maevsi/stack/) using [dargstack](https://github.com/dargstack/dargstack/).
 
 ![Welcome](https://vibetype.app/_og/d/a_VIBETYPE's+logo.,c_Default.takumi,description_~RmluZCBldmVudHMsIGd1ZXN0cyBhbmQgZnJpZW5kcyDwn5KZ4p2k77iP8J-SmiDwn4-b77iP,title_Vibetype.png "Vibetype")
 
@@ -28,9 +28,9 @@ Before you start with development, make sure you familiarize yourself with our [
 
 ## Development
 
-The setup for frontend development is easy! 💅
+The setup for frontend-only development is easy! 💅
 
-The setup for backend development is more complex as it consists of numerous services which are best set up containerized 🧑‍💻
+For fullstack development, which runs all services containerized, see the [maevsi/stack setup guide](https://github.com/maevsi/stack/blob/main/CONTRIBUTING.md).
 
 You're encouraged to ask questions on [Vibetype's Discord](https://discord.gg/E3hD3wEUQ4) if the setup could go smoother!
 
@@ -77,82 +77,8 @@ You're encouraged to ask questions on [Vibetype's Discord](https://discord.gg/E3
 </details>
 
 ### Fullstack
-<details>
-  <summary><b>click here for instructions</b></summary>
 
-#### Preparation
-
-1. if you're on Windows, you might want to
-  1. [set up WSL](https://docs.microsoft.com/en-us/windows/wsl/install) to be able to use all Linux functionality this project utilizes
-  1. [set up Visual Studio Code for WSL](https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-vscode) so that it works
-1. [install Git](https://git-scm.com/) to download this project's modules and participate in version management
-1. [install nvm](https://github.com/nvm-sh/nvm#installing-and-updating) to be able to switch the currently active [Node.js](https://nodejs.org/en/) version on your machine
-1. [install mkcert](https://github.com/FiloSottile/mkcert#installation) for development certificate generation and installation, so that all services are available through https
-1. [install Docker](https://docs.docker.com/engine/install/) so that all services run in their [containers](https://en.wikipedia.org/wiki/Containerization)
-1. [install dargstack](https://github.com/dargstack/dargstack#installation-example) to bootstrap a [Docker stack](https://docs.docker.com/engine/reference/commandline/stack/) setup
-
-
-#### Setup
-
-1. create a directory named `vibetype` in a directory of your liking
-1. download the project modules [vibetype](https://github.com/maevsi/vibetype), [maevsi/stack](https://github.com/maevsi/stack) and [sqitch](https://github.com/maevsi/sqitch) into that newly created directory:
-    ```sh
-    cd vibetype
-    git clone https://github.com/maevsi/vibetype.git
-    git clone https://github.com/maevsi/stack.git
-    git clone https://github.com/maevsi/sqitch.git
-    ```
-    - **vibetype** contains the frontend and database migrations
-    - **maevsi/stack** is the service configuration
-    - **sqitch** is the database migration service
-1. switch into the `vibetype` subdirectory and setup Node:
-    ```sh
-    cd vibetype
-    nvm install
-    ```
-1. then install all dependencies using [pnpm](https://pnpm.io/), including the **src** directory:
-    ```sh
-    corepack enable
-    pnpm install
-    ```
-1. configure Vibetype's [dargstack](https://github.com/dargstack/dargstack) then take note of the following output:
-    ```sh
-    cd ../stack/src/development
-    cp stack.env.template stack.env
-    ```
-1. install a root development certificate on your system and create subcertificates for the application to have all services available under `https`:
-    ```sh
-    mkcert -install
-    ./certificates/mkcert.sh
-    ```
-    > Note that in a WSL setup `mkcert` does not import the root certificate authority into your browsers' certificate store.
-    You'd need to manually add this certificate to your browsers' storage then.
-    You can find the directory containing the certificate file by running `mkcert -CAROOT`.
-1. you are now ready to start everything up:
-    ```sh
-    cd ../../
-    dargstack deploy
-    ```
-1. finally, create the Docker development images for `vibetype` and `sqitch` so that their services start successfully:
-    ```sh
-    dargstack build vibetype
-    dargstack build sqitch
-    ```
-1. you should now be able to access Vibetype under https://localhost! 🎉
-
-    If there are issues, you can debug the services as described in the following "Container Management" section.
-
-
-#### Container Management
-
-To see if services are running or not you can use [Portainer](https://www.portainer.io/) if you prefer a web view instead of the command line.
-Head to [this gist](https://gist.github.com/dargmuesli/5808c950c03b2b49754681e1d9e5cb4e) for the Portainer setup command.
-When the container is running, you'll be able to access Portainer under https://localhost:9443.
-You may be asked to accept the risk of a self-signed certificate, which is ok to do at this time.
-On your local Portainer website, create a user, add an environment, start the Docker wizard, choose "Socket", name it e.g. "local" and close the wizard.
-Under "home", select the newly created environment then.
-You'll have access to all containers, images, volumes and more via the left sidebar then.
-</details>
+For fullstack development see the [maevsi/stack setup guide](https://github.com/maevsi/stack/blob/main/CONTRIBUTING.md).
 
 
 ## Security
