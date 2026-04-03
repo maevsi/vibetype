@@ -8,15 +8,14 @@ The security of Vibetype is a top priority for our team. We believe in transpare
 
 If you discover a security vulnerability in Vibetype, we encourage you to report it to us promptly. To report a security issue, please follow these steps:
 
-
 Send an email to contact+security@maev.si with the subject line "Security Issue: [Brief Description]." Please provide a detailed description of the vulnerability, including the following:
 
-A concise summary of the issue.
-A detailed explanation of the vulnerability and its potential impact.
-Steps to reproduce the vulnerability (if applicable).
-Any additional information that can help us understand and address the issue.
+- A concise summary of the issue.
+- A detailed explanation of the vulnerability and its potential impact.
+- Steps to reproduce the vulnerability (if applicable).
+- Any additional information that can help us understand and address the issue.
 
-## 3. Handling of Reports
+## 3 Handling of Reports
 
 Upon receiving a security report, the Vibetype team will follow these steps:
 
@@ -51,9 +50,8 @@ We highly value the contributions of the security community and will provide cre
 
 Vibetype will not pursue legal action against security researchers who follow this disclosure policy and act in good faith. We appreciate your efforts to help us maintain the security of our project.
 
-
 ## 7 Changes to this Policy
 
 This security disclosure policy may be updated or revised from time to time.
 
-Last Updated: 2025-03-11
+Last Updated: 2026-04-03

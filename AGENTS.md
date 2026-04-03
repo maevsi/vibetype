@@ -3,6 +3,8 @@ applyTo: '**'
 ---
 # Project Instructions
 
+This project is a Nuxt v4 application that serves as the client for `vibetype`, an event community platform. It is one of many services defined in the `stack` repository and is closely related to the `postgraphile` and `sqitch` repositories.
+
 ## Code style
 - Do not use abbreviations in naming, except for instances where it would be weird not to abbreviate
 - Prefer descriptive syntax for naming and only add comments where additional context is necessary
