@@ -1,3 +1,9 @@
+## [14.0.0-beta.13](https://github.com/maevsi/vibetype/compare/14.0.0-beta.12...14.0.0-beta.13) (2026-04-03)
+
+### Bug Fixes
+
+* various touchups ([24561ed](https://github.com/maevsi/vibetype/commit/24561ed798656ad6dea94bd654eaeefed28c07f2))
+
 ## [14.0.0-beta.12](https://github.com/maevsi/vibetype/compare/14.0.0-beta.11...14.0.0-beta.12) (2026-04-03)
 
 ### Bug Fixes
