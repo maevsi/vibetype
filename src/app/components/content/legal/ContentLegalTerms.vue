@@ -71,7 +71,7 @@ const { data, error, pending } = await useAsyncData(
 )
 
 if (error.value) {
-  consola.log(error.value)
+  consola.error(error.value)
   modelError.value = error.value // TODO: watch?
 }
 

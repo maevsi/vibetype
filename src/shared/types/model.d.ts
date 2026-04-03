@@ -1,4 +1,4 @@
-type uuid = string
+export type uuid = string
 
 export type Jwt = {
   attendances: uuid[]
