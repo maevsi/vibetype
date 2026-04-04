@@ -54,8 +54,6 @@ export type Scalars = {
   Jwt: { input: string; output: string }
   /** A builtin object identifier type for a text search configuration */
   RegConfig: { input: any; output: any }
-  /** A PostgreSQL full-text search document (`tsvector`). See https://www.postgresql.org/docs/current/datatype-textsearch.html */
-  TsVector: { input: any; output: any }
   /** A universally unique identifier as defined by [RFC 4122](https://tools.ietf.org/html/rfc4122). */
   UUID: { input: string; output: string }
 }
@@ -3585,8 +3583,6 @@ export type EventCondition = {
   createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `rowId` field. */
   rowId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `searchVector` field. */
-  searchVector?: InputMaybe<Scalars['TsVector']['input']>
   /** Checks for equality with the object’s `slug` field. */
   slug?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `start` field. */
@@ -3911,8 +3907,6 @@ export enum EventOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   RowIdAsc = 'ROW_ID_ASC',
   RowIdDesc = 'ROW_ID_DESC',
-  SearchVectorAsc = 'SEARCH_VECTOR_ASC',
-  SearchVectorDesc = 'SEARCH_VECTOR_DESC',
   SlugAsc = 'SLUG_ASC',
   SlugDesc = 'SLUG_DESC',
   StartAsc = 'START_ASC',
@@ -8387,12 +8381,12 @@ export type CreateEventFavoriteMutation = {
 }
 
 export type DeleteEventFavoriteByRowIdMutationVariables = Exact<{
-  input: DeleteEventFavoriteInput
+  input: DeleteEventFavoriteByRowIdInput
 }>
 
 export type DeleteEventFavoriteByRowIdMutation = {
   __typename?: 'Mutation'
-  deleteEventFavorite?: {
+  deleteEventFavoriteByRowId?: {
     __typename?: 'DeleteEventFavoritePayload'
     clientMutationId?: string | null
   } | null
@@ -8412,6 +8406,18 @@ export type AllPreferenceEventSizesQuery = {
       id: string
       rowId: string
     }>
+  } | null
+}
+
+export type JwtUpdateGuestAddGuestMutationVariables = Exact<{
+  input: JwtUpdateGuestAddInput
+}>
+
+export type JwtUpdateGuestAddGuestMutation = {
+  __typename?: 'Mutation'
+  jwtUpdateGuestAdd?: {
+    __typename?: 'JwtUpdateGuestAddPayload'
+    result?: string | null
   } | null
 }
 
@@ -8963,18 +8969,6 @@ export type EventListAccountQuery = {
         endCursor?: string | null
       }
     }
-  } | null
-}
-
-export type JwtUpdateGuestAddGuestMutationVariables = Exact<{
-  input: JwtUpdateGuestAddInput
-}>
-
-export type JwtUpdateGuestAddGuestMutation = {
-  __typename?: 'Mutation'
-  jwtUpdateGuestAdd?: {
-    __typename?: 'JwtUpdateGuestAddPayload'
-    result?: string | null
   } | null
 }
 
@@ -11733,7 +11727,7 @@ export const DeleteEventFavoriteByRowIdDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'DeleteEventFavoriteInput' },
+              name: { kind: 'Name', value: 'DeleteEventFavoriteByRowIdInput' },
             },
           },
         },
@@ -11743,7 +11737,7 @@ export const DeleteEventFavoriteByRowIdDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'deleteEventFavorite' },
+            name: { kind: 'Name', value: 'deleteEventFavoriteByRowId' },
             arguments: [
               {
                 kind: 'Argument',
@@ -11813,6 +11807,60 @@ export const AllPreferenceEventSizesDocument = {
 } as unknown as DocumentNode<
   AllPreferenceEventSizesQuery,
   AllPreferenceEventSizesQueryVariables
+>
+export const JwtUpdateGuestAddGuestDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'JwtUpdateGuestAddGuest' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'JwtUpdateGuestAddInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'jwtUpdateGuestAdd' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'result' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  JwtUpdateGuestAddGuestMutation,
+  JwtUpdateGuestAddGuestMutationVariables
 >
 export const AccountEditDocument = {
   kind: 'Document',
@@ -14183,60 +14231,6 @@ export const EventListAccountDocument = {
 } as unknown as DocumentNode<
   EventListAccountQuery,
   EventListAccountQueryVariables
->
-export const JwtUpdateGuestAddGuestDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'JwtUpdateGuestAddGuest' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'JwtUpdateGuestAddInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'jwtUpdateGuestAdd' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'result' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  JwtUpdateGuestAddGuestMutation,
-  JwtUpdateGuestAddGuestMutationVariables
 >
 export const GuestEventDocument = {
   kind: 'Document',

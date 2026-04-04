@@ -1,7 +1,12 @@
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
 export const codegenConfigBase: CodegenConfig = {
-  documents: ['gql/documents/**/*.ts', 'app/**/*.vue', 'server/**/*.ts'], // ignoreNoDocuments: true,
+  documents: [
+    'gql/documents/**/*.ts',
+    'app/**/*.ts',
+    'app/**/*.vue',
+    'server/**/*.ts',
+  ], // ignoreNoDocuments: true,
   hooks: { afterAllFileWrite: ['prettier --write', 'eslint --fix'] },
   config: {
     useTypeImports: true,

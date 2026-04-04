@@ -239,8 +239,10 @@ const createEventFavoriteMutation = useMutation(
 )
 const deleteEventFavoriteByRowIdMutation = useMutation(
   graphql(`
-    mutation DeleteEventFavoriteByRowId($input: DeleteEventFavoriteInput!) {
-      deleteEventFavorite(input: $input) {
+    mutation DeleteEventFavoriteByRowId(
+      $input: DeleteEventFavoriteByRowIdInput!
+    ) {
+      deleteEventFavoriteByRowId(input: $input) {
         clientMutationId
       }
     }
@@ -268,7 +270,7 @@ const toggleEventFavorite = async () => {
       errorMessageI18n: t('favoriteDeleteError'),
       request: deleteEventFavoriteByRowIdMutation.executeMutation({
         input: {
-          id: event.eventFavoritesByEventId.nodes[0].rowId,
+          rowId: event.eventFavoritesByEventId.nodes[0].rowId,
         },
       }),
     })

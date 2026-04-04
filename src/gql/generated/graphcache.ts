@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import type {
@@ -42,7 +41,6 @@ export type Scalars = {
   GeoJSON: { input: any; output: any }
   Jwt: { input: string; output: string }
   RegConfig: { input: any; output: any }
-  TsVector: { input: any; output: any }
   UUID: { input: string; output: string }
 }
 
@@ -3571,8 +3569,6 @@ export type EventCondition = {
   createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `rowId` field. */
   rowId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `searchVector` field. */
-  searchVector?: InputMaybe<Scalars['TsVector']['input']>
   /** Checks for equality with the object’s `slug` field. */
   slug?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `start` field. */
@@ -3897,8 +3893,6 @@ export enum EventOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   RowIdAsc = 'ROW_ID_ASC',
   RowIdDesc = 'ROW_ID_DESC',
-  SearchVectorAsc = 'SEARCH_VECTOR_ASC',
-  SearchVectorDesc = 'SEARCH_VECTOR_DESC',
   SlugAsc = 'SLUG_ASC',
   SlugDesc = 'SLUG_DESC',
   StartAsc = 'START_ASC',
@@ -8522,7 +8516,7 @@ export type GraphCacheResolvers = {
     accountUploadQuotaBytes?: GraphCacheResolver<
       WithTypename<Query>,
       Record<string, never>,
-      Scalars['BigInt'] | string
+      Scalars['BigInt']['output'] | string
     >
     achievement?: GraphCacheResolver<
       WithTypename<Query>,
@@ -8732,7 +8726,7 @@ export type GraphCacheResolvers = {
     attendanceClaimArray?: GraphCacheResolver<
       WithTypename<Query>,
       Record<string, never>,
-      Array<Scalars['UUID'] | string>
+      Array<Scalars['UUID']['output'] | string>
     >
     contact?: GraphCacheResolver<
       WithTypename<Query>,
@@ -8867,7 +8861,7 @@ export type GraphCacheResolvers = {
     eventGuestCountMaximum?: GraphCacheResolver<
       WithTypename<Query>,
       QueryEventGuestCountMaximumArgs,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
     eventRecommendation?: GraphCacheResolver<
       WithTypename<Query>,
@@ -8932,7 +8926,7 @@ export type GraphCacheResolvers = {
     guestClaimArray?: GraphCacheResolver<
       WithTypename<Query>,
       Record<string, never>,
-      Array<Scalars['UUID'] | string>
+      Array<Scalars['UUID']['output'] | string>
     >
     guestContactIds?: GraphCacheResolver<
       WithTypename<Query>,
@@ -8942,22 +8936,22 @@ export type GraphCacheResolvers = {
     guestCount?: GraphCacheResolver<
       WithTypename<Query>,
       QueryGuestCountArgs,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<Query>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     invokerAccountId?: GraphCacheResolver<
       WithTypename<Query>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     languageIsoFullTextSearch?: GraphCacheResolver<
       WithTypename<Query>,
       QueryLanguageIsoFullTextSearchArgs,
-      Scalars['RegConfig'] | string
+      Scalars['RegConfig']['output'] | string
     >
     legalTerm?: GraphCacheResolver<
       WithTypename<Query>,
@@ -9184,7 +9178,7 @@ export type GraphCacheResolvers = {
     description?: GraphCacheResolver<
       WithTypename<Account>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     devicesByCreatedBy?: GraphCacheResolver<
       WithTypename<Account>,
@@ -9244,12 +9238,12 @@ export type GraphCacheResolvers = {
     id?: GraphCacheResolver<
       WithTypename<Account>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     imprintUrl?: GraphCacheResolver<
       WithTypename<Account>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     legalTermAcceptancesByAccountId?: GraphCacheResolver<
       WithTypename<Account>,
@@ -9294,7 +9288,7 @@ export type GraphCacheResolvers = {
     rowId?: GraphCacheResolver<
       WithTypename<Account>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     uploadsByCreatedBy?: GraphCacheResolver<
       WithTypename<Account>,
@@ -9304,7 +9298,7 @@ export type GraphCacheResolvers = {
     username?: GraphCacheResolver<
       WithTypename<Account>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
   }
   AccountBlock?: {
@@ -9321,27 +9315,27 @@ export type GraphCacheResolvers = {
     blockedAccountId?: GraphCacheResolver<
       WithTypename<AccountBlock>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     createdAt?: GraphCacheResolver<
       WithTypename<AccountBlock>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     createdBy?: GraphCacheResolver<
       WithTypename<AccountBlock>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<AccountBlock>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<AccountBlock>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   AccountBlockAccountsConnection?: {
@@ -9363,14 +9357,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<AccountBlockAccountsConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   AccountBlockAccountsEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<AccountBlockAccountsEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<AccountBlockAccountsEdge>,
@@ -9382,17 +9376,17 @@ export type GraphCacheResolvers = {
     id?: GraphCacheResolver<
       WithTypename<AccountBlockAccountsRecord>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     storageKey?: GraphCacheResolver<
       WithTypename<AccountBlockAccountsRecord>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     username?: GraphCacheResolver<
       WithTypename<AccountBlockAccountsRecord>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
   }
   AccountBlockConnection?: {
@@ -9414,14 +9408,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<AccountBlockConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   AccountBlockEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<AccountBlockEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<AccountBlockEdge>,
@@ -9448,14 +9442,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<AccountConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   AccountDeletePayload?: {
     clientMutationId?: GraphCacheResolver<
       WithTypename<AccountDeletePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<AccountDeletePayload>,
@@ -9467,7 +9461,7 @@ export type GraphCacheResolvers = {
     cursor?: GraphCacheResolver<
       WithTypename<AccountEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<AccountEdge>,
@@ -9479,7 +9473,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<AccountEmailAddressVerificationPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<AccountEmailAddressVerificationPayload>,
@@ -9491,7 +9485,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<AccountPasswordChangePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<AccountPasswordChangePayload>,
@@ -9503,7 +9497,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<AccountPasswordResetPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<AccountPasswordResetPayload>,
@@ -9515,7 +9509,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<AccountPasswordResetRequestPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<AccountPasswordResetRequestPayload>,
@@ -9527,7 +9521,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<AccountRegistrationPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<AccountRegistrationPayload>,
@@ -9539,7 +9533,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<AccountRegistrationRefreshPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<AccountRegistrationRefreshPayload>,
@@ -9556,12 +9550,12 @@ export type GraphCacheResolvers = {
     accountId?: GraphCacheResolver<
       WithTypename<AccountSocialNetwork>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<AccountSocialNetwork>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     socialNetwork?: GraphCacheResolver<
       WithTypename<AccountSocialNetwork>,
@@ -9571,7 +9565,7 @@ export type GraphCacheResolvers = {
     socialNetworkUsername?: GraphCacheResolver<
       WithTypename<AccountSocialNetwork>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
   }
   AccountSocialNetworkConnection?: {
@@ -9593,14 +9587,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<AccountSocialNetworkConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   AccountSocialNetworkEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<AccountSocialNetworkEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<AccountSocialNetworkEdge>,
@@ -9617,7 +9611,7 @@ export type GraphCacheResolvers = {
     accountId?: GraphCacheResolver<
       WithTypename<Achievement>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     achievement?: GraphCacheResolver<
       WithTypename<Achievement>,
@@ -9627,17 +9621,17 @@ export type GraphCacheResolvers = {
     id?: GraphCacheResolver<
       WithTypename<Achievement>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     level?: GraphCacheResolver<
       WithTypename<Achievement>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<Achievement>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   AchievementConnection?: {
@@ -9659,14 +9653,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<AchievementConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   AchievementEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<AchievementEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<AchievementEdge>,
@@ -9678,7 +9672,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<AchievementUnlockPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<AchievementUnlockPayload>,
@@ -9688,7 +9682,7 @@ export type GraphCacheResolvers = {
     result?: GraphCacheResolver<
       WithTypename<AchievementUnlockPayload>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   Address?: {
@@ -9705,7 +9699,7 @@ export type GraphCacheResolvers = {
     city?: GraphCacheResolver<
       WithTypename<Address>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     contactsByAddressId?: GraphCacheResolver<
       WithTypename<Address>,
@@ -9715,17 +9709,17 @@ export type GraphCacheResolvers = {
     country?: GraphCacheResolver<
       WithTypename<Address>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     createdAt?: GraphCacheResolver<
       WithTypename<Address>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     createdBy?: GraphCacheResolver<
       WithTypename<Address>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     eventsByAddressId?: GraphCacheResolver<
       WithTypename<Address>,
@@ -9735,17 +9729,17 @@ export type GraphCacheResolvers = {
     id?: GraphCacheResolver<
       WithTypename<Address>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     line1?: GraphCacheResolver<
       WithTypename<Address>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     line2?: GraphCacheResolver<
       WithTypename<Address>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     location?: GraphCacheResolver<
       WithTypename<Address>,
@@ -9755,32 +9749,32 @@ export type GraphCacheResolvers = {
     name?: GraphCacheResolver<
       WithTypename<Address>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     postalCode?: GraphCacheResolver<
       WithTypename<Address>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     region?: GraphCacheResolver<
       WithTypename<Address>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<Address>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     updatedAt?: GraphCacheResolver<
       WithTypename<Address>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     updatedBy?: GraphCacheResolver<
       WithTypename<Address>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   AddressConnection?: {
@@ -9802,14 +9796,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<AddressConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   AddressEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<AddressEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<AddressEdge>,
@@ -9826,12 +9820,12 @@ export type GraphCacheResolvers = {
     createdAt?: GraphCacheResolver<
       WithTypename<App>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     createdBy?: GraphCacheResolver<
       WithTypename<App>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     eventAppsByAppId?: GraphCacheResolver<
       WithTypename<App>,
@@ -9841,32 +9835,32 @@ export type GraphCacheResolvers = {
     iconSvg?: GraphCacheResolver<
       WithTypename<App>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<App>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     name?: GraphCacheResolver<
       WithTypename<App>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<App>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     url?: GraphCacheResolver<
       WithTypename<App>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     urlAttendance?: GraphCacheResolver<
       WithTypename<App>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
   }
   AppConnection?: {
@@ -9888,14 +9882,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<AppConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   AppEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<AppEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<AppEdge>,
@@ -9912,7 +9906,7 @@ export type GraphCacheResolvers = {
     checkedOut?: GraphCacheResolver<
       WithTypename<Attendance>,
       Record<string, never>,
-      Scalars['Boolean'] | string
+      Scalars['Boolean']['output'] | string
     >
     contactByContactId?: GraphCacheResolver<
       WithTypename<Attendance>,
@@ -9922,12 +9916,12 @@ export type GraphCacheResolvers = {
     contactId?: GraphCacheResolver<
       WithTypename<Attendance>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     createdAt?: GraphCacheResolver<
       WithTypename<Attendance>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     guestByGuestId?: GraphCacheResolver<
       WithTypename<Attendance>,
@@ -9937,27 +9931,27 @@ export type GraphCacheResolvers = {
     guestId?: GraphCacheResolver<
       WithTypename<Attendance>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<Attendance>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<Attendance>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     updatedAt?: GraphCacheResolver<
       WithTypename<Attendance>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     updatedBy?: GraphCacheResolver<
       WithTypename<Attendance>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   AttendanceConnection?: {
@@ -9979,14 +9973,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<AttendanceConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   AttendanceEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<AttendanceEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<AttendanceEdge>,
@@ -10008,7 +10002,7 @@ export type GraphCacheResolvers = {
     accountId?: GraphCacheResolver<
       WithTypename<Contact>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     addressByAddressId?: GraphCacheResolver<
       WithTypename<Contact>,
@@ -10018,7 +10012,7 @@ export type GraphCacheResolvers = {
     addressId?: GraphCacheResolver<
       WithTypename<Contact>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     attendancesByContactId?: GraphCacheResolver<
       WithTypename<Contact>,
@@ -10028,27 +10022,27 @@ export type GraphCacheResolvers = {
     createdAt?: GraphCacheResolver<
       WithTypename<Contact>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     createdBy?: GraphCacheResolver<
       WithTypename<Contact>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     emailAddress?: GraphCacheResolver<
       WithTypename<Contact>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     emailAddressHash?: GraphCacheResolver<
       WithTypename<Contact>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     firstName?: GraphCacheResolver<
       WithTypename<Contact>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     guestsByContactId?: GraphCacheResolver<
       WithTypename<Contact>,
@@ -10058,7 +10052,7 @@ export type GraphCacheResolvers = {
     id?: GraphCacheResolver<
       WithTypename<Contact>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     language?: GraphCacheResolver<
       WithTypename<Contact>,
@@ -10068,37 +10062,37 @@ export type GraphCacheResolvers = {
     lastName?: GraphCacheResolver<
       WithTypename<Contact>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     nickname?: GraphCacheResolver<
       WithTypename<Contact>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     note?: GraphCacheResolver<
       WithTypename<Contact>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     phoneNumber?: GraphCacheResolver<
       WithTypename<Contact>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<Contact>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     timeZone?: GraphCacheResolver<
       WithTypename<Contact>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     url?: GraphCacheResolver<
       WithTypename<Contact>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
   }
   ContactConnection?: {
@@ -10120,14 +10114,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<ContactConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   ContactEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<ContactEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<ContactEdge>,
@@ -10149,7 +10143,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateAccountBlockPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<CreateAccountBlockPayload>,
@@ -10171,7 +10165,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateAccountSocialNetworkPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<CreateAccountSocialNetworkPayload>,
@@ -10193,7 +10187,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateAddressPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<CreateAddressPayload>,
@@ -10215,7 +10209,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateAttendancePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<CreateAttendancePayload>,
@@ -10227,7 +10221,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateContactPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     contact?: GraphCacheResolver<
       WithTypename<CreateContactPayload>,
@@ -10249,7 +10243,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateDevicePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     device?: GraphCacheResolver<
       WithTypename<CreateDevicePayload>,
@@ -10271,7 +10265,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateEventCategoryMappingPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     eventCategoryMapping?: GraphCacheResolver<
       WithTypename<CreateEventCategoryMappingPayload>,
@@ -10293,7 +10287,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateEventFavoritePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     eventFavorite?: GraphCacheResolver<
       WithTypename<CreateEventFavoritePayload>,
@@ -10315,7 +10309,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateEventFormatMappingPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     eventFormatMapping?: GraphCacheResolver<
       WithTypename<CreateEventFormatMappingPayload>,
@@ -10337,7 +10331,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateEventPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     event?: GraphCacheResolver<
       WithTypename<CreateEventPayload>,
@@ -10359,7 +10353,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateEventUploadPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     eventUpload?: GraphCacheResolver<
       WithTypename<CreateEventUploadPayload>,
@@ -10381,7 +10375,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateFriendshipPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     friendship?: GraphCacheResolver<
       WithTypename<CreateFriendshipPayload>,
@@ -10403,7 +10397,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateGuestPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     guest?: GraphCacheResolver<
       WithTypename<CreateGuestPayload>,
@@ -10425,7 +10419,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateGuestsPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<CreateGuestsPayload>,
@@ -10442,7 +10436,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateLegalTermAcceptancePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     legalTermAcceptance?: GraphCacheResolver<
       WithTypename<CreateLegalTermAcceptancePayload>,
@@ -10464,7 +10458,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreatePreferenceEventCategoryPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     preferenceEventCategory?: GraphCacheResolver<
       WithTypename<CreatePreferenceEventCategoryPayload>,
@@ -10486,7 +10480,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreatePreferenceEventFormatPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     preferenceEventFormat?: GraphCacheResolver<
       WithTypename<CreatePreferenceEventFormatPayload>,
@@ -10508,7 +10502,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreatePreferenceEventLocationPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     preferenceEventLocation?: GraphCacheResolver<
       WithTypename<CreatePreferenceEventLocationPayload>,
@@ -10530,7 +10524,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreatePreferenceEventSizePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     preferenceEventSize?: GraphCacheResolver<
       WithTypename<CreatePreferenceEventSizePayload>,
@@ -10552,7 +10546,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateProfilePicturePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     profilePicture?: GraphCacheResolver<
       WithTypename<CreateProfilePicturePayload>,
@@ -10574,7 +10568,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateReportPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<CreateReportPayload>,
@@ -10596,7 +10590,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateUploadPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<CreateUploadPayload>,
@@ -10628,12 +10622,12 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeleteAccountBlockPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     deletedAccountBlockId?: GraphCacheResolver<
       WithTypename<DeleteAccountBlockPayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<DeleteAccountBlockPayload>,
@@ -10655,12 +10649,12 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeleteAccountSocialNetworkPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     deletedAccountSocialNetworkId?: GraphCacheResolver<
       WithTypename<DeleteAccountSocialNetworkPayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<DeleteAccountSocialNetworkPayload>,
@@ -10682,12 +10676,12 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeleteAddressPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     deletedAddressId?: GraphCacheResolver<
       WithTypename<DeleteAddressPayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<DeleteAddressPayload>,
@@ -10699,7 +10693,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeleteContactPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     contact?: GraphCacheResolver<
       WithTypename<DeleteContactPayload>,
@@ -10714,7 +10708,7 @@ export type GraphCacheResolvers = {
     deletedContactId?: GraphCacheResolver<
       WithTypename<DeleteContactPayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<DeleteContactPayload>,
@@ -10726,12 +10720,12 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeleteDevicePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     deletedDeviceId?: GraphCacheResolver<
       WithTypename<DeleteDevicePayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     device?: GraphCacheResolver<
       WithTypename<DeleteDevicePayload>,
@@ -10753,12 +10747,12 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeleteEventCategoryMappingPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     deletedEventCategoryMappingId?: GraphCacheResolver<
       WithTypename<DeleteEventCategoryMappingPayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     eventCategoryMapping?: GraphCacheResolver<
       WithTypename<DeleteEventCategoryMappingPayload>,
@@ -10780,12 +10774,12 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeleteEventFavoritePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     deletedEventFavoriteId?: GraphCacheResolver<
       WithTypename<DeleteEventFavoritePayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     eventFavorite?: GraphCacheResolver<
       WithTypename<DeleteEventFavoritePayload>,
@@ -10807,12 +10801,12 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeleteEventFormatMappingPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     deletedEventFormatMappingId?: GraphCacheResolver<
       WithTypename<DeleteEventFormatMappingPayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     eventFormatMapping?: GraphCacheResolver<
       WithTypename<DeleteEventFormatMappingPayload>,
@@ -10834,12 +10828,12 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeleteEventPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     deletedEventId?: GraphCacheResolver<
       WithTypename<DeleteEventPayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     event?: GraphCacheResolver<
       WithTypename<DeleteEventPayload>,
@@ -10861,12 +10855,12 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeleteEventUploadPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     deletedEventUploadId?: GraphCacheResolver<
       WithTypename<DeleteEventUploadPayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     eventUpload?: GraphCacheResolver<
       WithTypename<DeleteEventUploadPayload>,
@@ -10888,12 +10882,12 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeleteFriendshipPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     deletedFriendshipId?: GraphCacheResolver<
       WithTypename<DeleteFriendshipPayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     friendship?: GraphCacheResolver<
       WithTypename<DeleteFriendshipPayload>,
@@ -10915,12 +10909,12 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeleteGuestPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     deletedGuestId?: GraphCacheResolver<
       WithTypename<DeleteGuestPayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     guest?: GraphCacheResolver<
       WithTypename<DeleteGuestPayload>,
@@ -10942,12 +10936,12 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeletePreferenceEventCategoryPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     deletedPreferenceEventCategoryId?: GraphCacheResolver<
       WithTypename<DeletePreferenceEventCategoryPayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     preferenceEventCategory?: GraphCacheResolver<
       WithTypename<DeletePreferenceEventCategoryPayload>,
@@ -10969,12 +10963,12 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeletePreferenceEventFormatPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     deletedPreferenceEventFormatId?: GraphCacheResolver<
       WithTypename<DeletePreferenceEventFormatPayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     preferenceEventFormat?: GraphCacheResolver<
       WithTypename<DeletePreferenceEventFormatPayload>,
@@ -10996,12 +10990,12 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeletePreferenceEventLocationPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     deletedPreferenceEventLocationId?: GraphCacheResolver<
       WithTypename<DeletePreferenceEventLocationPayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     preferenceEventLocation?: GraphCacheResolver<
       WithTypename<DeletePreferenceEventLocationPayload>,
@@ -11023,12 +11017,12 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeletePreferenceEventSizePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     deletedPreferenceEventSizeId?: GraphCacheResolver<
       WithTypename<DeletePreferenceEventSizePayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     preferenceEventSize?: GraphCacheResolver<
       WithTypename<DeletePreferenceEventSizePayload>,
@@ -11050,12 +11044,12 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeleteProfilePicturePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     deletedProfilePictureId?: GraphCacheResolver<
       WithTypename<DeleteProfilePicturePayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     profilePicture?: GraphCacheResolver<
       WithTypename<DeleteProfilePicturePayload>,
@@ -11077,12 +11071,12 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeleteUploadPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     deletedUploadId?: GraphCacheResolver<
       WithTypename<DeleteUploadPayload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<DeleteUploadPayload>,
@@ -11114,37 +11108,37 @@ export type GraphCacheResolvers = {
     createdAt?: GraphCacheResolver<
       WithTypename<Device>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     createdBy?: GraphCacheResolver<
       WithTypename<Device>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     fcmToken?: GraphCacheResolver<
       WithTypename<Device>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<Device>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<Device>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     updatedAt?: GraphCacheResolver<
       WithTypename<Device>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     updatedBy?: GraphCacheResolver<
       WithTypename<Device>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   DeviceConnection?: {
@@ -11166,14 +11160,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<DeviceConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   DeviceEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<DeviceEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<DeviceEdge>,
@@ -11195,27 +11189,27 @@ export type GraphCacheResolvers = {
     addressId?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     createdAt?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     createdBy?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     description?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     end?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     eventAppsByEventId?: GraphCacheResolver<
       WithTypename<Event>,
@@ -11250,7 +11244,7 @@ export type GraphCacheResolvers = {
     guestCountMaximum?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
     guestsByEventId?: GraphCacheResolver<
       WithTypename<Event>,
@@ -11260,22 +11254,22 @@ export type GraphCacheResolvers = {
     id?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     isArchived?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
-      Scalars['Boolean'] | string
+      Scalars['Boolean']['output'] | string
     >
     isInPerson?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
-      Scalars['Boolean'] | string
+      Scalars['Boolean']['output'] | string
     >
     isRemote?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
-      Scalars['Boolean'] | string
+      Scalars['Boolean']['output'] | string
     >
     language?: GraphCacheResolver<
       WithTypename<Event>,
@@ -11285,7 +11279,7 @@ export type GraphCacheResolvers = {
     name?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     reportsByTargetEventId?: GraphCacheResolver<
       WithTypename<Event>,
@@ -11295,22 +11289,22 @@ export type GraphCacheResolvers = {
     rowId?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     slug?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     start?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     url?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     visibility?: GraphCacheResolver<
       WithTypename<Event>,
@@ -11332,17 +11326,17 @@ export type GraphCacheResolvers = {
     appId?: GraphCacheResolver<
       WithTypename<EventApp>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     createdAt?: GraphCacheResolver<
       WithTypename<EventApp>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     createdBy?: GraphCacheResolver<
       WithTypename<EventApp>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     eventByEventId?: GraphCacheResolver<
       WithTypename<EventApp>,
@@ -11352,17 +11346,17 @@ export type GraphCacheResolvers = {
     eventId?: GraphCacheResolver<
       WithTypename<EventApp>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<EventApp>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<EventApp>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   EventAppConnection?: {
@@ -11384,14 +11378,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<EventAppConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   EventAppEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<EventAppEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<EventAppEdge>,
@@ -11408,12 +11402,12 @@ export type GraphCacheResolvers = {
     id?: GraphCacheResolver<
       WithTypename<EventCategory>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     name?: GraphCacheResolver<
       WithTypename<EventCategory>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     preferenceEventCategoriesByCategoryId?: GraphCacheResolver<
       WithTypename<EventCategory>,
@@ -11423,7 +11417,7 @@ export type GraphCacheResolvers = {
     rowId?: GraphCacheResolver<
       WithTypename<EventCategory>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   EventCategoryConnection?: {
@@ -11445,14 +11439,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<EventCategoryConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   EventCategoryEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<EventCategoryEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<EventCategoryEdge>,
@@ -11464,7 +11458,7 @@ export type GraphCacheResolvers = {
     categoryId?: GraphCacheResolver<
       WithTypename<EventCategoryMapping>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     eventByEventId?: GraphCacheResolver<
       WithTypename<EventCategoryMapping>,
@@ -11479,12 +11473,12 @@ export type GraphCacheResolvers = {
     eventId?: GraphCacheResolver<
       WithTypename<EventCategoryMapping>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<EventCategoryMapping>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
   }
   EventCategoryMappingConnection?: {
@@ -11506,14 +11500,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<EventCategoryMappingConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   EventCategoryMappingEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<EventCategoryMappingEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<EventCategoryMappingEdge>,
@@ -11540,14 +11534,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<EventConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   EventDeletePayload?: {
     clientMutationId?: GraphCacheResolver<
       WithTypename<EventDeletePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     eventEdge?: GraphCacheResolver<
       WithTypename<EventDeletePayload>,
@@ -11569,7 +11563,7 @@ export type GraphCacheResolvers = {
     cursor?: GraphCacheResolver<
       WithTypename<EventEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<EventEdge>,
@@ -11586,12 +11580,12 @@ export type GraphCacheResolvers = {
     createdAt?: GraphCacheResolver<
       WithTypename<EventFavorite>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     createdBy?: GraphCacheResolver<
       WithTypename<EventFavorite>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     eventByEventId?: GraphCacheResolver<
       WithTypename<EventFavorite>,
@@ -11601,17 +11595,17 @@ export type GraphCacheResolvers = {
     eventId?: GraphCacheResolver<
       WithTypename<EventFavorite>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<EventFavorite>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<EventFavorite>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   EventFavoriteConnection?: {
@@ -11633,14 +11627,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<EventFavoriteConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   EventFavoriteEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<EventFavoriteEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<EventFavoriteEdge>,
@@ -11657,12 +11651,12 @@ export type GraphCacheResolvers = {
     id?: GraphCacheResolver<
       WithTypename<EventFormat>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     name?: GraphCacheResolver<
       WithTypename<EventFormat>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     preferenceEventFormatsByFormatId?: GraphCacheResolver<
       WithTypename<EventFormat>,
@@ -11672,7 +11666,7 @@ export type GraphCacheResolvers = {
     rowId?: GraphCacheResolver<
       WithTypename<EventFormat>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   EventFormatConnection?: {
@@ -11694,14 +11688,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<EventFormatConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   EventFormatEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<EventFormatEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<EventFormatEdge>,
@@ -11723,17 +11717,17 @@ export type GraphCacheResolvers = {
     eventId?: GraphCacheResolver<
       WithTypename<EventFormatMapping>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     formatId?: GraphCacheResolver<
       WithTypename<EventFormatMapping>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<EventFormatMapping>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
   }
   EventFormatMappingConnection?: {
@@ -11755,14 +11749,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<EventFormatMappingConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   EventFormatMappingEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<EventFormatMappingEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<EventFormatMappingEdge>,
@@ -11779,7 +11773,7 @@ export type GraphCacheResolvers = {
     accountId?: GraphCacheResolver<
       WithTypename<EventRecommendation>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     eventByEventId?: GraphCacheResolver<
       WithTypename<EventRecommendation>,
@@ -11789,22 +11783,22 @@ export type GraphCacheResolvers = {
     eventId?: GraphCacheResolver<
       WithTypename<EventRecommendation>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<EventRecommendation>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     predictedScore?: GraphCacheResolver<
       WithTypename<EventRecommendation>,
       Record<string, never>,
-      Scalars['Float'] | string
+      Scalars['Float']['output'] | string
     >
     score?: GraphCacheResolver<
       WithTypename<EventRecommendation>,
       Record<string, never>,
-      Scalars['Float'] | string
+      Scalars['Float']['output'] | string
     >
   }
   EventRecommendationConnection?: {
@@ -11826,14 +11820,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<EventRecommendationConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   EventRecommendationEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<EventRecommendationEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<EventRecommendationEdge>,
@@ -11850,22 +11844,22 @@ export type GraphCacheResolvers = {
     eventId?: GraphCacheResolver<
       WithTypename<EventUpload>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<EventUpload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     isHeaderImage?: GraphCacheResolver<
       WithTypename<EventUpload>,
       Record<string, never>,
-      Scalars['Boolean'] | string
+      Scalars['Boolean']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<EventUpload>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     uploadByUploadId?: GraphCacheResolver<
       WithTypename<EventUpload>,
@@ -11875,7 +11869,7 @@ export type GraphCacheResolvers = {
     uploadId?: GraphCacheResolver<
       WithTypename<EventUpload>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   EventUploadConnection?: {
@@ -11897,14 +11891,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<EventUploadConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   EventUploadEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<EventUploadEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<EventUploadEdge>,
@@ -11916,7 +11910,7 @@ export type GraphCacheResolvers = {
     aAccountId?: GraphCacheResolver<
       WithTypename<Friendship>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     accountByAAccountId?: GraphCacheResolver<
       WithTypename<Friendship>,
@@ -11941,27 +11935,27 @@ export type GraphCacheResolvers = {
     bAccountId?: GraphCacheResolver<
       WithTypename<Friendship>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     createdAt?: GraphCacheResolver<
       WithTypename<Friendship>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     createdBy?: GraphCacheResolver<
       WithTypename<Friendship>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<Friendship>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<Friendship>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     status?: GraphCacheResolver<
       WithTypename<Friendship>,
@@ -11971,12 +11965,12 @@ export type GraphCacheResolvers = {
     updatedAt?: GraphCacheResolver<
       WithTypename<Friendship>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     updatedBy?: GraphCacheResolver<
       WithTypename<Friendship>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   FriendshipConnection?: {
@@ -11998,14 +11992,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<FriendshipConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   FriendshipEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<FriendshipEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<FriendshipEdge>,
@@ -12017,22 +12011,22 @@ export type GraphCacheResolvers = {
     geojson?: GraphCacheResolver<
       WithTypename<GeographyPoint>,
       Record<string, never>,
-      Scalars['GeoJSON'] | string
+      Scalars['GeoJSON']['output'] | string
     >
     latitude?: GraphCacheResolver<
       WithTypename<GeographyPoint>,
       Record<string, never>,
-      Scalars['Float'] | string
+      Scalars['Float']['output'] | string
     >
     longitude?: GraphCacheResolver<
       WithTypename<GeographyPoint>,
       Record<string, never>,
-      Scalars['Float'] | string
+      Scalars['Float']['output'] | string
     >
     srid?: GraphCacheResolver<
       WithTypename<GeographyPoint>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   Guest?: {
@@ -12054,12 +12048,12 @@ export type GraphCacheResolvers = {
     contactId?: GraphCacheResolver<
       WithTypename<Guest>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     createdAt?: GraphCacheResolver<
       WithTypename<Guest>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     eventByEventId?: GraphCacheResolver<
       WithTypename<Guest>,
@@ -12069,7 +12063,7 @@ export type GraphCacheResolvers = {
     eventId?: GraphCacheResolver<
       WithTypename<Guest>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     feedback?: GraphCacheResolver<
       WithTypename<Guest>,
@@ -12084,22 +12078,22 @@ export type GraphCacheResolvers = {
     id?: GraphCacheResolver<
       WithTypename<Guest>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<Guest>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     updatedAt?: GraphCacheResolver<
       WithTypename<Guest>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     updatedBy?: GraphCacheResolver<
       WithTypename<Guest>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   GuestConnection?: {
@@ -12121,7 +12115,7 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<GuestConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   GuestContactIdsConnection?: {
@@ -12133,7 +12127,7 @@ export type GraphCacheResolvers = {
     nodes?: GraphCacheResolver<
       WithTypename<GuestContactIdsConnection>,
       Record<string, never>,
-      Array<Scalars['UUID'] | string>
+      Array<Scalars['UUID']['output'] | string>
     >
     pageInfo?: GraphCacheResolver<
       WithTypename<GuestContactIdsConnection>,
@@ -12143,26 +12137,26 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<GuestContactIdsConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   GuestContactIdsEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<GuestContactIdsEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<GuestContactIdsEdge>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   GuestEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<GuestEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<GuestEdge>,
@@ -12174,117 +12168,117 @@ export type GraphCacheResolvers = {
     contactAccountId?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     contactAddressId?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     contactCreatedBy?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     contactEmailAddress?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     contactEmailAddressHash?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     contactFirstName?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     contactId?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     contactLastName?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     contactPhoneNumber?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     contactUrl?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     eventAddressId?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     eventCreatedBy?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     eventDescription?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     eventEnd?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     eventGuestCountMaximum?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
     eventId?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     eventIsArchived?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['Boolean'] | string
+      Scalars['Boolean']['output'] | string
     >
     eventIsInPerson?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['Boolean'] | string
+      Scalars['Boolean']['output'] | string
     >
     eventIsRemote?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['Boolean'] | string
+      Scalars['Boolean']['output'] | string
     >
     eventName?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     eventSlug?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     eventStart?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     eventUrl?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     eventVisibility?: GraphCacheResolver<
       WithTypename<GuestFlat>,
@@ -12294,12 +12288,12 @@ export type GraphCacheResolvers = {
     guestContactId?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     guestEventId?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     guestFeedback?: GraphCacheResolver<
       WithTypename<GuestFlat>,
@@ -12314,7 +12308,7 @@ export type GraphCacheResolvers = {
     guestId?: GraphCacheResolver<
       WithTypename<GuestFlat>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   GuestFlatConnection?: {
@@ -12336,14 +12330,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<GuestFlatConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   GuestFlatEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<GuestFlatEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<GuestFlatEdge>,
@@ -12355,7 +12349,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<InvitePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<InvitePayload>,
@@ -12367,7 +12361,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<JwtCreatePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<JwtCreatePayload>,
@@ -12377,14 +12371,14 @@ export type GraphCacheResolvers = {
     result?: GraphCacheResolver<
       WithTypename<JwtCreatePayload>,
       Record<string, never>,
-      Scalars['Jwt'] | string
+      Scalars['Jwt']['output'] | string
     >
   }
   JwtUpdateAttendanceAddPayload?: {
     clientMutationId?: GraphCacheResolver<
       WithTypename<JwtUpdateAttendanceAddPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<JwtUpdateAttendanceAddPayload>,
@@ -12394,14 +12388,14 @@ export type GraphCacheResolvers = {
     result?: GraphCacheResolver<
       WithTypename<JwtUpdateAttendanceAddPayload>,
       Record<string, never>,
-      Scalars['Jwt'] | string
+      Scalars['Jwt']['output'] | string
     >
   }
   JwtUpdateGuestAddPayload?: {
     clientMutationId?: GraphCacheResolver<
       WithTypename<JwtUpdateGuestAddPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<JwtUpdateGuestAddPayload>,
@@ -12411,14 +12405,14 @@ export type GraphCacheResolvers = {
     result?: GraphCacheResolver<
       WithTypename<JwtUpdateGuestAddPayload>,
       Record<string, never>,
-      Scalars['Jwt'] | string
+      Scalars['Jwt']['output'] | string
     >
   }
   JwtUpdatePayload?: {
     clientMutationId?: GraphCacheResolver<
       WithTypename<JwtUpdatePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<JwtUpdatePayload>,
@@ -12428,24 +12422,24 @@ export type GraphCacheResolvers = {
     result?: GraphCacheResolver<
       WithTypename<JwtUpdatePayload>,
       Record<string, never>,
-      Scalars['Jwt'] | string
+      Scalars['Jwt']['output'] | string
     >
   }
   LegalTerm?: {
     createdAt?: GraphCacheResolver<
       WithTypename<LegalTerm>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<LegalTerm>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     language?: GraphCacheResolver<
       WithTypename<LegalTerm>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     legalTermAcceptancesByLegalTermId?: GraphCacheResolver<
       WithTypename<LegalTerm>,
@@ -12455,17 +12449,17 @@ export type GraphCacheResolvers = {
     rowId?: GraphCacheResolver<
       WithTypename<LegalTerm>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     term?: GraphCacheResolver<
       WithTypename<LegalTerm>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     version?: GraphCacheResolver<
       WithTypename<LegalTerm>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
   }
   LegalTermAcceptance?: {
@@ -12477,17 +12471,17 @@ export type GraphCacheResolvers = {
     accountId?: GraphCacheResolver<
       WithTypename<LegalTermAcceptance>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     createdAt?: GraphCacheResolver<
       WithTypename<LegalTermAcceptance>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<LegalTermAcceptance>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     legalTermByLegalTermId?: GraphCacheResolver<
       WithTypename<LegalTermAcceptance>,
@@ -12497,12 +12491,12 @@ export type GraphCacheResolvers = {
     legalTermId?: GraphCacheResolver<
       WithTypename<LegalTermAcceptance>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<LegalTermAcceptance>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   LegalTermAcceptanceConnection?: {
@@ -12524,14 +12518,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<LegalTermAcceptanceConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   LegalTermAcceptanceEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<LegalTermAcceptanceEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<LegalTermAcceptanceEdge>,
@@ -12558,14 +12552,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<LegalTermConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   LegalTermEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<LegalTermEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<LegalTermEdge>,
@@ -12577,7 +12571,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<NotificationAcknowledgePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<NotificationAcknowledgePayload>,
@@ -12589,22 +12583,22 @@ export type GraphCacheResolvers = {
     endCursor?: GraphCacheResolver<
       WithTypename<PageInfo>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     hasNextPage?: GraphCacheResolver<
       WithTypename<PageInfo>,
       Record<string, never>,
-      Scalars['Boolean'] | string
+      Scalars['Boolean']['output'] | string
     >
     hasPreviousPage?: GraphCacheResolver<
       WithTypename<PageInfo>,
       Record<string, never>,
-      Scalars['Boolean'] | string
+      Scalars['Boolean']['output'] | string
     >
     startCursor?: GraphCacheResolver<
       WithTypename<PageInfo>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
   }
   PreferenceEventCategory?: {
@@ -12616,17 +12610,17 @@ export type GraphCacheResolvers = {
     accountId?: GraphCacheResolver<
       WithTypename<PreferenceEventCategory>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     categoryId?: GraphCacheResolver<
       WithTypename<PreferenceEventCategory>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     createdAt?: GraphCacheResolver<
       WithTypename<PreferenceEventCategory>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     eventCategoryByCategoryId?: GraphCacheResolver<
       WithTypename<PreferenceEventCategory>,
@@ -12636,12 +12630,12 @@ export type GraphCacheResolvers = {
     id?: GraphCacheResolver<
       WithTypename<PreferenceEventCategory>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<PreferenceEventCategory>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   PreferenceEventCategoryConnection?: {
@@ -12663,14 +12657,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<PreferenceEventCategoryConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   PreferenceEventCategoryEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<PreferenceEventCategoryEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<PreferenceEventCategoryEdge>,
@@ -12687,12 +12681,12 @@ export type GraphCacheResolvers = {
     accountId?: GraphCacheResolver<
       WithTypename<PreferenceEventFormat>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     createdAt?: GraphCacheResolver<
       WithTypename<PreferenceEventFormat>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     eventFormatByFormatId?: GraphCacheResolver<
       WithTypename<PreferenceEventFormat>,
@@ -12702,17 +12696,17 @@ export type GraphCacheResolvers = {
     formatId?: GraphCacheResolver<
       WithTypename<PreferenceEventFormat>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<PreferenceEventFormat>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<PreferenceEventFormat>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   PreferenceEventFormatConnection?: {
@@ -12734,14 +12728,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<PreferenceEventFormatConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   PreferenceEventFormatEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<PreferenceEventFormatEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<PreferenceEventFormatEdge>,
@@ -12758,17 +12752,17 @@ export type GraphCacheResolvers = {
     createdAt?: GraphCacheResolver<
       WithTypename<PreferenceEventLocation>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     createdBy?: GraphCacheResolver<
       WithTypename<PreferenceEventLocation>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<PreferenceEventLocation>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     location?: GraphCacheResolver<
       WithTypename<PreferenceEventLocation>,
@@ -12778,12 +12772,12 @@ export type GraphCacheResolvers = {
     radius?: GraphCacheResolver<
       WithTypename<PreferenceEventLocation>,
       Record<string, never>,
-      Scalars['Float'] | string
+      Scalars['Float']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<PreferenceEventLocation>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   PreferenceEventLocationConnection?: {
@@ -12805,14 +12799,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<PreferenceEventLocationConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   PreferenceEventLocationEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<PreferenceEventLocationEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<PreferenceEventLocationEdge>,
@@ -12829,12 +12823,12 @@ export type GraphCacheResolvers = {
     accountId?: GraphCacheResolver<
       WithTypename<PreferenceEventSize>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     createdAt?: GraphCacheResolver<
       WithTypename<PreferenceEventSize>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     eventSize?: GraphCacheResolver<
       WithTypename<PreferenceEventSize>,
@@ -12844,12 +12838,12 @@ export type GraphCacheResolvers = {
     id?: GraphCacheResolver<
       WithTypename<PreferenceEventSize>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<PreferenceEventSize>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   PreferenceEventSizeConnection?: {
@@ -12871,14 +12865,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<PreferenceEventSizeConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   PreferenceEventSizeEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<PreferenceEventSizeEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<PreferenceEventSizeEdge>,
@@ -12895,17 +12889,17 @@ export type GraphCacheResolvers = {
     accountId?: GraphCacheResolver<
       WithTypename<ProfilePicture>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     id?: GraphCacheResolver<
       WithTypename<ProfilePicture>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<ProfilePicture>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     uploadByUploadId?: GraphCacheResolver<
       WithTypename<ProfilePicture>,
@@ -12915,7 +12909,7 @@ export type GraphCacheResolvers = {
     uploadId?: GraphCacheResolver<
       WithTypename<ProfilePicture>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
   }
   ProfilePictureConnection?: {
@@ -12937,14 +12931,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<ProfilePictureConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   ProfilePictureEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<ProfilePictureEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<ProfilePictureEdge>,
@@ -12956,7 +12950,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<ProfilePictureSetPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<ProfilePictureSetPayload>,
@@ -12978,12 +12972,12 @@ export type GraphCacheResolvers = {
     createdAt?: GraphCacheResolver<
       WithTypename<Report>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     createdBy?: GraphCacheResolver<
       WithTypename<Report>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     eventByTargetEventId?: GraphCacheResolver<
       WithTypename<Report>,
@@ -12993,32 +12987,32 @@ export type GraphCacheResolvers = {
     id?: GraphCacheResolver<
       WithTypename<Report>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     reason?: GraphCacheResolver<
       WithTypename<Report>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<Report>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     targetAccountId?: GraphCacheResolver<
       WithTypename<Report>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     targetEventId?: GraphCacheResolver<
       WithTypename<Report>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     targetUploadId?: GraphCacheResolver<
       WithTypename<Report>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     uploadByTargetUploadId?: GraphCacheResolver<
       WithTypename<Report>,
@@ -13045,14 +13039,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<ReportConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   ReportEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<ReportEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<ReportEdge>,
@@ -13064,7 +13058,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<UpdateAccountLocationPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<UpdateAccountLocationPayload>,
@@ -13086,7 +13080,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<UpdateAccountPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<UpdateAccountPayload>,
@@ -13108,7 +13102,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<UpdateAccountSocialNetworkPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<UpdateAccountSocialNetworkPayload>,
@@ -13130,7 +13124,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<UpdateAddressPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<UpdateAddressPayload>,
@@ -13152,7 +13146,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<UpdateAttendancePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<UpdateAttendancePayload>,
@@ -13164,7 +13158,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<UpdateContactPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     contact?: GraphCacheResolver<
       WithTypename<UpdateContactPayload>,
@@ -13186,7 +13180,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<UpdateDevicePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     device?: GraphCacheResolver<
       WithTypename<UpdateDevicePayload>,
@@ -13208,7 +13202,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<UpdateEventPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     event?: GraphCacheResolver<
       WithTypename<UpdateEventPayload>,
@@ -13230,7 +13224,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<UpdateFriendshipPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     friendship?: GraphCacheResolver<
       WithTypename<UpdateFriendshipPayload>,
@@ -13252,7 +13246,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<UpdateGuestPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     guest?: GraphCacheResolver<
       WithTypename<UpdateGuestPayload>,
@@ -13274,7 +13268,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<UpdateProfilePicturePayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     profilePicture?: GraphCacheResolver<
       WithTypename<UpdateProfilePicturePayload>,
@@ -13296,7 +13290,7 @@ export type GraphCacheResolvers = {
     clientMutationId?: GraphCacheResolver<
       WithTypename<UpdateUploadPayload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
       WithTypename<UpdateUploadPayload>,
@@ -13323,12 +13317,12 @@ export type GraphCacheResolvers = {
     createdAt?: GraphCacheResolver<
       WithTypename<Upload>,
       Record<string, never>,
-      Scalars['Datetime'] | string
+      Scalars['Datetime']['output'] | string
     >
     createdBy?: GraphCacheResolver<
       WithTypename<Upload>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     eventUploadsByUploadId?: GraphCacheResolver<
       WithTypename<Upload>,
@@ -13338,12 +13332,12 @@ export type GraphCacheResolvers = {
     id?: GraphCacheResolver<
       WithTypename<Upload>,
       Record<string, never>,
-      Scalars['ID'] | string
+      Scalars['ID']['output'] | string
     >
     name?: GraphCacheResolver<
       WithTypename<Upload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     profilePicturesByUploadId?: GraphCacheResolver<
       WithTypename<Upload>,
@@ -13358,22 +13352,22 @@ export type GraphCacheResolvers = {
     rowId?: GraphCacheResolver<
       WithTypename<Upload>,
       Record<string, never>,
-      Scalars['UUID'] | string
+      Scalars['UUID']['output'] | string
     >
     sizeByte?: GraphCacheResolver<
       WithTypename<Upload>,
       Record<string, never>,
-      Scalars['BigInt'] | string
+      Scalars['BigInt']['output'] | string
     >
     storageKey?: GraphCacheResolver<
       WithTypename<Upload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
     type?: GraphCacheResolver<
       WithTypename<Upload>,
       Record<string, never>,
-      Scalars['String'] | string
+      Scalars['String']['output'] | string
     >
   }
   UploadConnection?: {
@@ -13395,14 +13389,14 @@ export type GraphCacheResolvers = {
     totalCount?: GraphCacheResolver<
       WithTypename<UploadConnection>,
       Record<string, never>,
-      Scalars['Int'] | string
+      Scalars['Int']['output'] | string
     >
   }
   UploadEdge?: {
     cursor?: GraphCacheResolver<
       WithTypename<UploadEdge>,
       Record<string, never>,
-      Scalars['Cursor'] | string
+      Scalars['Cursor']['output'] | string
     >
     node?: GraphCacheResolver<
       WithTypename<UploadEdge>,
@@ -13950,7 +13944,7 @@ export type GraphCacheUpdaters = {
       QueryAccountSocialNetworkByAccountIdAndSocialNetworkArgs
     >
     accountUploadQuotaBytes?: GraphCacheUpdateResolver<
-      { accountUploadQuotaBytes: Maybe<Scalars['BigInt']> },
+      { accountUploadQuotaBytes: Maybe<Scalars['BigInt']['output']> },
       Record<string, never>
     >
     achievement?: GraphCacheUpdateResolver<
@@ -14156,7 +14150,7 @@ export type GraphCacheUpdaters = {
       QueryAttendanceByRowIdArgs
     >
     attendanceClaimArray?: GraphCacheUpdateResolver<
-      { attendanceClaimArray: Maybe<Array<Scalars['UUID']>> },
+      { attendanceClaimArray: Maybe<Array<Scalars['UUID']['output']>> },
       Record<string, never>
     >
     contact?: GraphCacheUpdateResolver<
@@ -14274,7 +14268,7 @@ export type GraphCacheUpdaters = {
       QueryEventFormatMappingByEventIdAndFormatIdArgs
     >
     eventGuestCountMaximum?: GraphCacheUpdateResolver<
-      { eventGuestCountMaximum: Maybe<Scalars['Int']> },
+      { eventGuestCountMaximum: Maybe<Scalars['Int']['output']> },
       QueryEventGuestCountMaximumArgs
     >
     eventRecommendation?: GraphCacheUpdateResolver<
@@ -14330,7 +14324,7 @@ export type GraphCacheUpdaters = {
       QueryGuestByRowIdArgs
     >
     guestClaimArray?: GraphCacheUpdateResolver<
-      { guestClaimArray: Maybe<Array<Scalars['UUID']>> },
+      { guestClaimArray: Maybe<Array<Scalars['UUID']['output']>> },
       Record<string, never>
     >
     guestContactIds?: GraphCacheUpdateResolver<
@@ -14338,16 +14332,19 @@ export type GraphCacheUpdaters = {
       QueryGuestContactIdsArgs
     >
     guestCount?: GraphCacheUpdateResolver<
-      { guestCount: Maybe<Scalars['Int']> },
+      { guestCount: Maybe<Scalars['Int']['output']> },
       QueryGuestCountArgs
     >
-    id?: GraphCacheUpdateResolver<{ id: Scalars['ID'] }, Record<string, never>>
+    id?: GraphCacheUpdateResolver<
+      { id: Scalars['ID']['output'] },
+      Record<string, never>
+    >
     invokerAccountId?: GraphCacheUpdateResolver<
-      { invokerAccountId: Maybe<Scalars['UUID']> },
+      { invokerAccountId: Maybe<Scalars['UUID']['output']> },
       Record<string, never>
     >
     languageIsoFullTextSearch?: GraphCacheUpdateResolver<
-      { languageIsoFullTextSearch: Maybe<Scalars['RegConfig']> },
+      { languageIsoFullTextSearch: Maybe<Scalars['RegConfig']['output']> },
       QueryLanguageIsoFullTextSearchArgs
     >
     legalTerm?: GraphCacheUpdateResolver<
@@ -15228,7 +15225,7 @@ export type GraphCacheUpdaters = {
       MutationUpdateUploadByStorageKeyArgs
     >
   }
-  Subscription?: {}
+  Subscription?: object
   Account?: {
     accountBlocksByBlockedAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
