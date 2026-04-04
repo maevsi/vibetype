@@ -146,12 +146,14 @@ const captchaIsUsed = ref<boolean>()
 const submit = async (termId: string) => {
   const result = await accountRegistrationMutation.executeMutation(
     {
-      birthDate: birthDate.value,
-      emailAddress: form.emailAddress || '',
-      language: locale.value,
-      legalTermId: termId,
-      password: form.password || '',
-      username: form.username || '',
+      input: {
+        birthDate: birthDate.value,
+        emailAddress: form.emailAddress || '',
+        language: locale.value,
+        legalTermId: termId,
+        password: form.password || '',
+        username: form.username || '',
+      },
     },
     {
       fetchOptions: {

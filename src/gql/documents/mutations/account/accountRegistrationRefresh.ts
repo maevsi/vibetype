@@ -2,10 +2,10 @@ import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
 export const accountRegistrationRefreshMutation = graphql(`
-  mutation AccountRegistrationRefresh($accountId: UUID!, $language: String!) {
-    accountRegistrationRefresh(
-      input: { language: $language, accountId: $accountId }
-    ) {
+  mutation AccountRegistrationRefresh(
+    $input: AccountRegistrationRefreshInput!
+  ) {
+    accountRegistrationRefresh(input: $input) {
       clientMutationId
     }
   }

@@ -223,7 +223,7 @@ const deleteUpload = async (upload: Pick<UploadItemFragment, 'rowId'>) => {
       idArray: pending.deletions,
     },
     request: deleteUploadByRowIdMutation.executeMutation({
-      id: upload.rowId,
+      input: { rowId: upload.rowId },
     }),
   })
   // pending.deletions.splice(pending.deletions.indexOf(upload.rowId), 1)
@@ -305,8 +305,10 @@ const getUploadBlobPromise = () =>
 
         const result = await uploadCreateMutation.executeMutation({
           input: {
-            createdBy: store.signedInAccountId,
-            sizeByte: blob.size,
+            upload: {
+              createdBy: store.signedInAccountId,
+              sizeByte: blob.size,
+            },
           },
         })
 

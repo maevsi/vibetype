@@ -2,8 +2,8 @@ import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
 export const updateEventByRowIdMutation = graphql(`
-  mutation updateEventByRowId($id: UUID!, $eventPatch: EventPatch!) {
-    updateEventByRowId(input: { rowId: $id, eventPatch: $eventPatch }) {
+  mutation updateEventByRowId($input: UpdateEventByRowIdInput!) {
+    updateEventByRowId(input: $input) {
       event {
         ...EventItem
       }

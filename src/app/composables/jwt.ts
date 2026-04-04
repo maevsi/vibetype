@@ -72,10 +72,13 @@ export const useJwtInitialize = async () => {
   const jwtId = store.jwtPayload.jti
 
   try {
-    const { data: updatedData, error } = await useCsrfFetch('/api/model/jwt', {
-      body: { id: jwtId },
-      method: 'PUT',
-    })
+    const { data: updatedData, error } = await useCsrfRequestFetch(
+      '/api/model/jwt',
+      {
+        body: { id: jwtId },
+        method: 'PUT',
+      },
+    )
 
     if (error.value) throw error.value
 

@@ -21,8 +21,8 @@ const jwtUpdateBodySchema = z.union([
 ])
 
 const mutationJwtUpdate = graphql(`
-  mutation JwtUpdate($id: UUID!) {
-    jwtUpdate(input: { jwtId: $id }) {
+  mutation JwtUpdate($input: JwtUpdateInput!) {
+    jwtUpdate(input: $input) {
       clientMutationId
       result
     }
@@ -58,7 +58,7 @@ const getJwt = async ({
       urql: {
         mutation: mutationJwtUpdate,
         variables: {
-          ...body,
+          input: { jwtId: body.id },
         },
       },
     })

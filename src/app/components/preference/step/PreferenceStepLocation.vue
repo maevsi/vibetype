@@ -184,12 +184,14 @@ const save = async () => {
 
   const result = await createPreferenceEventLocationMutation.executeMutation({
     input: {
-      createdBy: store.signedInAccountId,
-      location: {
-        type: 'Point',
-        coordinates: [map.mapCenter.lng, map.mapCenter.lat],
+      preferenceEventLocation: {
+        createdBy: store.signedInAccountId,
+        location: {
+          type: 'Point',
+          coordinates: [map.mapCenter.lng, map.mapCenter.lat],
+        },
+        radius: mapCutoutRadiusInMeters.value,
       },
-      radius: mapCutoutRadiusInMeters.value,
     },
   })
 

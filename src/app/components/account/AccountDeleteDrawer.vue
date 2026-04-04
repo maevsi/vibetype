@@ -145,8 +145,8 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 const accountDeleteMutation = useMutation(
   graphql(`
-    mutation AccountDelete($password: String!) {
-      accountDelete(input: { password: $password }) {
+    mutation AccountDelete($input: AccountDeleteInput!) {
+      accountDelete(input: $input) {
         clientMutationId
       }
     }

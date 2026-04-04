@@ -162,8 +162,10 @@ const togglePreferenceSelection = async (formatId: string) => {
   } else {
     await createPreferenceEventFormatMutation.executeMutation({
       input: {
-        accountId: store.signedInAccountId,
-        formatId,
+        preferenceEventFormat: {
+          accountId: store.signedInAccountId,
+          formatId,
+        },
       },
     })
   }

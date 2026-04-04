@@ -120,7 +120,7 @@ const add = () => {
 }
 const delete_ = async (rowId: string) => {
   pending.deletions.push(rowId)
-  await deleteContactByRowIdMutation.executeMutation({ id: rowId })
+  await deleteContactByRowIdMutation.executeMutation({ input: { rowId } })
   pending.deletions.splice(pending.deletions.indexOf(rowId), 1)
   // TODO: update cache, especially pagination, or reset query (https://github.com/maevsi/vibetype/issues/720)
 }

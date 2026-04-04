@@ -41,8 +41,10 @@ const submit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
 
   const result = await passwordResetRequestMutation.executeMutation({
-    emailAddress: form.emailAddress || '',
-    language: locale.value,
+    input: {
+      emailAddress: form.emailAddress || '',
+      language: locale.value,
+    },
   })
 
   if (result.error || !result.data) return

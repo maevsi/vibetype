@@ -53,8 +53,10 @@ const submit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
 
   const result = await accountPasswordChangeMutation.executeMutation({
-    passwordCurrent: form.passwordCurrent || '',
-    passwordNew: form.passwordNew || '',
+    input: {
+      passwordCurrent: form.passwordCurrent || '',
+      passwordNew: form.passwordNew || '',
+    },
   })
 
   if (result.error || !result.data) return

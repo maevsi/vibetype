@@ -106,15 +106,13 @@ const { t } = useI18n()
 
 const store = useStore()
 try {
-  const { data: jwtUpdateData, error: jwtUpdateError } = await useCsrfFetch(
-    '/api/model/jwt',
-    {
+  const { data: jwtUpdateData, error: jwtUpdateError } =
+    await useCsrfRequestFetch('/api/model/jwt', {
       body: {
         attendanceId: route.params.id,
       },
       method: 'PUT',
-    },
-  )
+    })
 
   if (jwtUpdateError.value) throw jwtUpdateError.value
 

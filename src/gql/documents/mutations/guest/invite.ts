@@ -2,8 +2,8 @@ import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
 export const inviteMutation = graphql(`
-  mutation Invite($guestId: UUID!, $language: String!) {
-    invite(input: { guestId: $guestId, language: $language }) {
+  mutation Invite($input: InviteInput!) {
+    invite(input: $input) {
       clientMutationId
     }
   }

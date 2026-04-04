@@ -231,18 +231,20 @@ const submit = async () => {
   if (form.rowId) {
     // Edit
     const result = await updateContactByRowIdMutation.executeMutation({
-      id: form.rowId,
-      contactPatch: {
-        accountId: account?.rowId || null,
-        // address: form.address || null,
-        createdBy: store.signedInAccountId,
-        emailAddress: form.emailAddress || null,
-        firstName: form.firstName || null,
-        lastName: form.lastName || null,
-        nickname: form.nickname || null,
-        note: form.note || null,
-        phoneNumber: form.phoneNumber || null,
-        url: form.url || null,
+      input: {
+        rowId: form.rowId,
+        contactPatch: {
+          accountId: account?.rowId || null,
+          // address: form.address || null,
+          createdBy: store.signedInAccountId,
+          emailAddress: form.emailAddress || null,
+          firstName: form.firstName || null,
+          lastName: form.lastName || null,
+          nickname: form.nickname || null,
+          note: form.note || null,
+          phoneNumber: form.phoneNumber || null,
+          url: form.url || null,
+        },
       },
     })
 
@@ -254,17 +256,19 @@ const submit = async () => {
     if (!store.signedInAccountId) return
 
     const result = await createContactMutation.executeMutation({
-      contactInput: {
-        accountId: account?.rowId || null,
-        // address: form.address || null,
-        createdBy: store.signedInAccountId,
-        emailAddress: form.emailAddress || null,
-        firstName: form.firstName || null,
-        lastName: form.lastName || null,
-        nickname: form.nickname || null,
-        note: form.note || null,
-        phoneNumber: form.phoneNumber || null,
-        url: form.url || null,
+      input: {
+        contact: {
+          accountId: account?.rowId || null,
+          // address: form.address || null,
+          createdBy: store.signedInAccountId,
+          emailAddress: form.emailAddress || null,
+          firstName: form.firstName || null,
+          lastName: form.lastName || null,
+          nickname: form.nickname || null,
+          note: form.note || null,
+          phoneNumber: form.phoneNumber || null,
+          url: form.url || null,
+        },
       },
     })
 
