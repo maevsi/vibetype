@@ -61,6 +61,35 @@ export const useJwtDelete = () => {
     })
 }
 
+export const useJwtInitialize = async () => {
+  const store = useStore()
+
+  const { data: initialData } = await useFetch('/api/model/jwt')
+  store.jwtSet(initialData.value?.jwtPayload)
+
+  if (!store.jwtPayload) return
+
+  const jwtId = store.jwtPayload.jti
+
+  try {
+    const { data: updatedData, error } = await useCsrfFetch('/api/model/jwt', {
+      body: { id: jwtId },
+      method: 'PUT',
+    })
+
+    if (error.value) throw error.value
+
+    if (!updatedData.value?.jwtPayload) {
+      throw new Error('JWT update failed: no JWT returned')
+    }
+
+    store.jwtSet(updatedData.value.jwtPayload)
+    // no $urqlReset necessary as authorization is not expected to change
+  } catch (error) {
+    console.error('JWT update failed:', error)
+  }
+}
+
 export const useJwtUpdateGuestAdd = ({ guestId }: { guestId: uuid }) => {
   const requestEvent = useRequestEvent()
 
