@@ -2,8 +2,8 @@ import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
 export const deleteContactByRowIdMutation = graphql(`
-  mutation DeleteContactByRowId($id: UUID!) {
-    deleteContactByRowId(input: { rowId: $id }) {
+  mutation DeleteContactByRowId($input: DeleteContactByRowIdInput!) {
+    deleteContactByRowId(input: $input) {
       clientMutationId
       contact {
         ...ContactItem

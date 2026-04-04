@@ -123,10 +123,10 @@ const onAnimationEnd = (isOpen: boolean) => {
 
 const deleteAccountBlockMutation = useMutation(
   graphql(`
-    mutation DeleteAccountBlock($blockedAccountId: UUID!, $createdBy: UUID!) {
-      deleteAccountBlockByCreatedByAndBlockedAccountId(
-        input: { blockedAccountId: $blockedAccountId, createdBy: $createdBy }
-      ) {
+    mutation DeleteAccountBlock(
+      $input: DeleteAccountBlockByCreatedByAndBlockedAccountIdInput!
+    ) {
+      deleteAccountBlockByCreatedByAndBlockedAccountId(input: $input) {
         clientMutationId
       }
     }
@@ -141,8 +141,10 @@ const unblockUser = async () => {
   }
 
   const result = await deleteAccountBlockMutation.executeMutation({
-    blockedAccountId: account.id,
-    createdBy: store.signedInAccountId,
+    input: {
+      blockedAccountId: account.id,
+      createdBy: store.signedInAccountId,
+    },
   })
 
   if (result.error) {

@@ -350,22 +350,24 @@ const submit = async () => {
   if (form.rowId) {
     // Edit
     const result = await updateEventMutation.executeMutation({
-      id: form.rowId,
-      eventPatch: {
-        createdBy: store.signedInAccountId,
-        description: form.description || null,
-        end: form.end || null,
-        guestCountMaximum: form.guestCountMaximum
-          ? +form.guestCountMaximum
-          : null,
-        isInPerson: form.isInPerson,
-        isRemote: form.isRemote,
-        // location: form.location || null,
-        name: form.name || null,
-        slug: form.slug || null,
-        start: form.start || null,
-        url: form.url || null,
-        visibility: form.visibility || null,
+      input: {
+        rowId: form.rowId,
+        eventPatch: {
+          createdBy: store.signedInAccountId,
+          description: form.description || null,
+          end: form.end || null,
+          guestCountMaximum: form.guestCountMaximum
+            ? +form.guestCountMaximum
+            : null,
+          isInPerson: form.isInPerson,
+          isRemote: form.isRemote,
+          // location: form.location || null,
+          name: form.name || null,
+          slug: form.slug || null,
+          start: form.start || null,
+          url: form.url || null,
+          visibility: form.visibility || null,
+        },
       },
     })
 
@@ -376,20 +378,22 @@ const submit = async () => {
     // Add
     const result = await createEventMutation.executeMutation({
       input: {
-        createdBy: store.signedInAccountId || '',
-        description: form.description || null,
-        end: form.end || null,
-        guestCountMaximum: form.guestCountMaximum
-          ? +form.guestCountMaximum
-          : null,
-        isInPerson: form.isInPerson,
-        isRemote: form.isRemote,
-        // location: form.location || null,
-        name: form.name || '',
-        slug: form.slug || '',
-        start: form.start || null,
-        url: form.url || null,
-        visibility: form.visibility || EventVisibility.Private,
+        event: {
+          createdBy: store.signedInAccountId || '',
+          description: form.description || null,
+          end: form.end || null,
+          guestCountMaximum: form.guestCountMaximum
+            ? +form.guestCountMaximum
+            : null,
+          isInPerson: form.isInPerson,
+          isRemote: form.isRemote,
+          // location: form.location || null,
+          name: form.name || '',
+          slug: form.slug || '',
+          start: form.start || null,
+          url: form.url || null,
+          visibility: form.visibility || EventVisibility.Private,
+        },
       },
     })
 

@@ -168,8 +168,10 @@ const togglePreferenceSelection = async (categoryId: string) => {
   } else {
     await createPreferenceEventCategoryMutation.executeMutation({
       input: {
-        accountId: store.signedInAccountId,
-        categoryId,
+        preferenceEventCategory: {
+          accountId: store.signedInAccountId,
+          categoryId,
+        },
       },
     })
   }

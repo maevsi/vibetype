@@ -9,8 +9,8 @@ const jwtPostBodySchema = z.object({
 })
 
 export const jwtCreateMutation = graphql(`
-  mutation JwtCreate($password: String!, $username: String!) {
-    jwtCreate(input: { password: $password, username: $username }) {
+  mutation JwtCreate($input: JwtCreateInput!) {
+    jwtCreate(input: $input) {
       clientMutationId
       result
     }
@@ -24,7 +24,9 @@ export default defineEventHandler(async (event) => {
     event,
     urql: {
       mutation: jwtCreateMutation,
-      variables: { password: body.password, username: body.username },
+      variables: {
+        input: { password: body.password, username: body.username },
+      },
     },
   })
 

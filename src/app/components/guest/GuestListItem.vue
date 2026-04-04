@@ -144,15 +144,17 @@ const copyLink = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
 }
 const delete_ = async (id: string) => {
   pending.deletions.push(id)
-  await deleteGuestByRowIdMutation.executeMutation({ id })
+  await deleteGuestByRowIdMutation.executeMutation({ input: { rowId: id } })
   pending.deletions.splice(pending.deletions.indexOf(id), 1)
 }
 const send = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
   pending.sends.push(guest.rowId)
 
   const result = await inviteMutation.executeMutation({
-    guestId: guest.rowId,
-    language: locale.value,
+    input: {
+      guestId: guest.rowId,
+      language: locale.value,
+    },
   })
 
   pending.sends.splice(pending.sends.indexOf(guest.rowId), 1)

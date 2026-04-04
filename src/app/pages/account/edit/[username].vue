@@ -160,8 +160,8 @@ const showModalUploadSelection = () => {
 
 const createProfilePictureMutation = useMutation(
   graphql(`
-    mutation CreateProfilePicture($input: ProfilePictureInput!) {
-      createProfilePicture(input: { profilePicture: $input }) {
+    mutation CreateProfilePicture($input: CreateProfilePictureInput!) {
+      createProfilePicture(input: $input) {
         profilePicture {
           accountByAccountId {
             id
@@ -188,8 +188,10 @@ const onUploadSelect = async (uploadId?: string | null | undefined) => {
     errorMessageI18n: t('errorProfilePictureCreate'),
     request: createProfilePictureMutation.executeMutation({
       input: {
-        accountId: account.value?.rowId,
-        uploadId,
+        profilePicture: {
+          accountId: account.value?.rowId,
+          uploadId,
+        },
       },
     }),
   })
@@ -197,8 +199,10 @@ const onUploadSelect = async (uploadId?: string | null | undefined) => {
 
 const deleteProfilePictureByRowIdMutation = useMutation(
   graphql(`
-    mutation DeleteProfilePictureByRowIdMutation($id: UUID!) {
-      deleteProfilePictureByRowId(input: { rowId: $id }) {
+    mutation DeleteProfilePictureByRowIdMutation(
+      $input: DeleteProfilePictureByRowIdInput!
+    ) {
+      deleteProfilePictureByRowId(input: $input) {
         clientMutationId
       }
     }
@@ -212,7 +216,7 @@ const removeProfilePicture = async () => {
   await executeUrqlRequest({
     errorMessageI18n: t('errorProfilePictureDelete'),
     request: deleteProfilePictureByRowIdMutation.executeMutation({
-      id: profilePicture.rowId,
+      input: { rowId: profilePicture.rowId },
     }),
   })
 }
@@ -223,8 +227,8 @@ const imprintLengthMaximum = 500
 
 const updateAccountByRowIdMutation = useMutation(
   graphql(`
-    mutation UpdateAccountByRowId($id: UUID!, $accountPatch: AccountPatch!) {
-      updateAccountByRowId(input: { rowId: $id, accountPatch: $accountPatch }) {
+    mutation UpdateAccountByRowId($input: UpdateAccountByRowIdInput!) {
+      updateAccountByRowId(input: $input) {
         account {
           description
           id
@@ -242,8 +246,10 @@ const saveDescription = async (content?: string) => {
   await executeUrqlRequest({
     errorMessageI18n: t('errorUpdateDescription'),
     request: updateAccountByRowIdMutation.executeMutation({
-      id: account.value.rowId,
-      accountPatch: { description: content },
+      input: {
+        rowId: account.value.rowId,
+        accountPatch: { description: content },
+      },
     }),
   })
 }
@@ -254,8 +260,10 @@ const saveImprint = async (content?: string) => {
   await executeUrqlRequest({
     errorMessageI18n: t('errorUpdateImprint'),
     request: updateAccountByRowIdMutation.executeMutation({
-      id: account.value.rowId,
-      accountPatch: { imprintUrl: content },
+      input: {
+        rowId: account.value.rowId,
+        accountPatch: { imprintUrl: content },
+      },
     }),
   })
 }

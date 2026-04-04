@@ -56,8 +56,10 @@ const submit = async () => {
   if (!(await isFormValid({ v$, isFormSent }))) return
 
   const result = await mutation.executeMutation({
-    password: form.password,
-    ...variables,
+    input: {
+      password: form.password,
+      ...variables,
+    },
   })
 
   if (result.error) return

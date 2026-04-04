@@ -8104,7 +8104,7 @@ export type UploadPatch = {
 }
 
 export type AccountDeleteMutationVariables = Exact<{
-  password: Scalars['String']['input']
+  input: AccountDeleteInput
 }>
 
 export type AccountDeleteMutation = {
@@ -8165,8 +8165,7 @@ export type AccountSearchQuery = {
 }
 
 export type DeleteAccountBlockMutationVariables = Exact<{
-  blockedAccountId: Scalars['UUID']['input']
-  createdBy: Scalars['UUID']['input']
+  input: DeleteAccountBlockByCreatedByAndBlockedAccountIdInput
 }>
 
 export type DeleteAccountBlockMutation = {
@@ -8363,7 +8362,7 @@ export type EventSearchQuery = {
 }
 
 export type CreateEventFavoriteMutationVariables = Exact<{
-  input: EventFavoriteInput
+  input: CreateEventFavoriteInput
 }>
 
 export type CreateEventFavoriteMutation = {
@@ -8449,7 +8448,7 @@ export type AccountEditQuery = {
 }
 
 export type CreateProfilePictureMutationVariables = Exact<{
-  input: ProfilePictureInput
+  input: CreateProfilePictureInput
 }>
 
 export type CreateProfilePictureMutation = {
@@ -8476,7 +8475,7 @@ export type CreateProfilePictureMutation = {
 }
 
 export type DeleteProfilePictureByRowIdMutationMutationVariables = Exact<{
-  id: Scalars['UUID']['input']
+  input: DeleteProfilePictureByRowIdInput
 }>
 
 export type DeleteProfilePictureByRowIdMutationMutation = {
@@ -8488,8 +8487,7 @@ export type DeleteProfilePictureByRowIdMutationMutation = {
 }
 
 export type UpdateAccountByRowIdMutationVariables = Exact<{
-  id: Scalars['UUID']['input']
-  accountPatch: AccountPatch
+  input: UpdateAccountByRowIdInput
 }>
 
 export type UpdateAccountByRowIdMutation = {
@@ -8507,7 +8505,7 @@ export type UpdateAccountByRowIdMutation = {
 }
 
 export type AccountEmailAddressVerificationMutationVariables = Exact<{
-  code: Scalars['UUID']['input']
+  input: AccountEmailAddressVerificationInput
 }>
 
 export type AccountEmailAddressVerificationMutation = {
@@ -8804,7 +8802,7 @@ export type EventAttendanceQuery = {
 }
 
 export type AttendanceCreateMutationVariables = Exact<{
-  attendanceInput: AttendanceInput
+  input: CreateAttendanceInput
 }>
 
 export type AttendanceCreateMutation = {
@@ -9035,8 +9033,7 @@ export type GuestEventQuery = {
 }
 
 export type AchievementUnlockMutationVariables = Exact<{
-  code: Scalars['UUID']['input']
-  alias: Scalars['String']['input']
+  input: AchievementUnlockInput
 }>
 
 export type AchievementUnlockMutation = {
@@ -9238,8 +9235,7 @@ export type UpdateAccountLocationMutation = {
 }
 
 export type AccountPasswordChangeMutationVariables = Exact<{
-  passwordCurrent: Scalars['String']['input']
-  passwordNew: Scalars['String']['input']
+  input: AccountPasswordChangeInput
 }>
 
 export type AccountPasswordChangeMutation = {
@@ -9251,8 +9247,7 @@ export type AccountPasswordChangeMutation = {
 }
 
 export type AccountPasswordResetMutationVariables = Exact<{
-  code: Scalars['UUID']['input']
-  password: Scalars['String']['input']
+  input: AccountPasswordResetInput
 }>
 
 export type AccountPasswordResetMutation = {
@@ -9264,8 +9259,7 @@ export type AccountPasswordResetMutation = {
 }
 
 export type AccountPasswordResetRequestMutationVariables = Exact<{
-  emailAddress: Scalars['String']['input']
-  language: Scalars['String']['input']
+  input: AccountPasswordResetRequestInput
 }>
 
 export type AccountPasswordResetRequestMutation = {
@@ -9277,12 +9271,7 @@ export type AccountPasswordResetRequestMutation = {
 }
 
 export type AccountRegistrationMutationVariables = Exact<{
-  birthDate: Scalars['Date']['input']
-  emailAddress: Scalars['String']['input']
-  language: Scalars['String']['input']
-  legalTermId: Scalars['UUID']['input']
-  password: Scalars['String']['input']
-  username: Scalars['String']['input']
+  input: AccountRegistrationInput
 }>
 
 export type AccountRegistrationMutation = {
@@ -9294,8 +9283,7 @@ export type AccountRegistrationMutation = {
 }
 
 export type AccountRegistrationRefreshMutationVariables = Exact<{
-  accountId: Scalars['UUID']['input']
-  language: Scalars['String']['input']
+  input: AccountRegistrationRefreshInput
 }>
 
 export type AccountRegistrationRefreshMutation = {
@@ -9307,7 +9295,7 @@ export type AccountRegistrationRefreshMutation = {
 }
 
 export type CreateAccountBlockMutationVariables = Exact<{
-  accountBlockInput: AccountBlockInput
+  input: CreateAccountBlockInput
 }>
 
 export type CreateAccountBlockMutation = {
@@ -9319,7 +9307,7 @@ export type CreateAccountBlockMutation = {
 }
 
 export type CreateContactMutationVariables = Exact<{
-  contactInput: ContactInput
+  input: CreateContactInput
 }>
 
 export type CreateContactMutation = {
@@ -9335,7 +9323,7 @@ export type CreateContactMutation = {
 }
 
 export type DeleteContactByRowIdMutationVariables = Exact<{
-  id: Scalars['UUID']['input']
+  input: DeleteContactByRowIdInput
 }>
 
 export type DeleteContactByRowIdMutation = {
@@ -9352,8 +9340,7 @@ export type DeleteContactByRowIdMutation = {
 }
 
 export type UpdateContactByRowIdMutationVariables = Exact<{
-  id: Scalars['UUID']['input']
-  contactPatch: ContactPatch
+  input: UpdateContactByRowIdInput
 }>
 
 export type UpdateContactByRowIdMutation = {
@@ -9369,7 +9356,7 @@ export type UpdateContactByRowIdMutation = {
 }
 
 export type CreateEventMutationVariables = Exact<{
-  input: EventInput
+  input: CreateEventInput
 }>
 
 export type CreateEventMutation = {
@@ -9385,8 +9372,7 @@ export type CreateEventMutation = {
 }
 
 export type EventDeleteMutationVariables = Exact<{
-  id: Scalars['UUID']['input']
-  password: Scalars['String']['input']
+  input: EventDeleteInput
 }>
 
 export type EventDeleteMutation = {
@@ -9403,8 +9389,7 @@ export type EventDeleteMutation = {
 }
 
 export type UpdateEventByRowIdMutationVariables = Exact<{
-  id: Scalars['UUID']['input']
-  eventPatch: EventPatch
+  input: UpdateEventByRowIdInput
 }>
 
 export type UpdateEventByRowIdMutation = {
@@ -9441,7 +9426,7 @@ export type CreateGuestsMutation = {
 }
 
 export type DeleteGuestByRowIdMutationVariables = Exact<{
-  id: Scalars['UUID']['input']
+  input: DeleteGuestByRowIdInput
 }>
 
 export type DeleteGuestByRowIdMutation = {
@@ -9453,8 +9438,7 @@ export type DeleteGuestByRowIdMutation = {
 }
 
 export type UpdateGuestByRowIdMutationVariables = Exact<{
-  id: Scalars['UUID']['input']
-  guestPatch: GuestPatch
+  input: UpdateGuestByRowIdInput
 }>
 
 export type UpdateGuestByRowIdMutation = {
@@ -9475,8 +9459,7 @@ export type UpdateGuestByRowIdMutation = {
 }
 
 export type InviteMutationVariables = Exact<{
-  guestId: Scalars['UUID']['input']
-  language: Scalars['String']['input']
+  input: InviteInput
 }>
 
 export type InviteMutation = {
@@ -9488,7 +9471,7 @@ export type InviteMutation = {
 }
 
 export type CreatePreferenceEventCategoryMutationVariables = Exact<{
-  input: PreferenceEventCategoryInput
+  input: CreatePreferenceEventCategoryInput
 }>
 
 export type CreatePreferenceEventCategoryMutation = {
@@ -9519,7 +9502,7 @@ export type DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation = {
 }
 
 export type CreatePreferenceEventFormatMutationVariables = Exact<{
-  input: PreferenceEventFormatInput
+  input: CreatePreferenceEventFormatInput
 }>
 
 export type CreatePreferenceEventFormatMutation = {
@@ -9550,7 +9533,7 @@ export type DeletePreferenceEventFormatByAccountIdAndFormatIdMutation = {
 }
 
 export type CreatePreferenceEventLocationMutationVariables = Exact<{
-  input: PreferenceEventLocationInput
+  input: CreatePreferenceEventLocationInput
 }>
 
 export type CreatePreferenceEventLocationMutation = {
@@ -9580,7 +9563,7 @@ export type DeletePreferenceEventLocationByRowIdMutation = {
 }
 
 export type CreatePreferenceEventSizeMutationVariables = Exact<{
-  input: PreferenceEventSizeInput
+  input: CreatePreferenceEventSizeInput
 }>
 
 export type CreatePreferenceEventSizeMutation = {
@@ -9605,7 +9588,7 @@ export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutation = {
 }
 
 export type CreateReportMutationVariables = Exact<{
-  reportInput: ReportInput
+  input: CreateReportInput
 }>
 
 export type CreateReportMutation = {
@@ -9617,7 +9600,7 @@ export type CreateReportMutation = {
 }
 
 export type CreateUploadMutationVariables = Exact<{
-  input: UploadInput
+  input: CreateUploadInput
 }>
 
 export type CreateUploadMutation = {
@@ -9630,7 +9613,7 @@ export type CreateUploadMutation = {
 }
 
 export type DeleteUploadByRowIdMutationVariables = Exact<{
-  id: Scalars['UUID']['input']
+  input: DeleteUploadByRowIdInput
 }>
 
 export type DeleteUploadByRowIdMutation = {
@@ -9901,8 +9884,7 @@ export type AllUploadsQuery = {
 }
 
 export type JwtCreateMutationVariables = Exact<{
-  password: Scalars['String']['input']
-  username: Scalars['String']['input']
+  input: JwtCreateInput
 }>
 
 export type JwtCreateMutation = {
@@ -9915,7 +9897,7 @@ export type JwtCreateMutation = {
 }
 
 export type JwtUpdateMutationVariables = Exact<{
-  id: Scalars['UUID']['input']
+  input: JwtUpdateInput
 }>
 
 export type JwtUpdateMutation = {
@@ -10563,13 +10545,13 @@ export const AccountDeleteDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'password' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
+              name: { kind: 'Name', value: 'AccountDeleteInput' },
             },
           },
         },
@@ -10585,17 +10567,8 @@ export const AccountDeleteDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'password' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'password' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -10830,22 +10803,17 @@ export const DeleteAccountBlockDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'blockedAccountId' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'createdBy' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'DeleteAccountBlockByCreatedByAndBlockedAccountIdInput',
+              },
+            },
           },
         },
       ],
@@ -10863,25 +10831,8 @@ export const DeleteAccountBlockDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'blockedAccountId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'blockedAccountId' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'createdBy' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'createdBy' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -11646,7 +11597,7 @@ export const CreateEventFavoriteDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'EventFavoriteInput' },
+              name: { kind: 'Name', value: 'CreateEventFavoriteInput' },
             },
           },
         },
@@ -11662,17 +11613,8 @@ export const CreateEventFavoriteDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'eventFavorite' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'input' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -11967,7 +11909,7 @@ export const CreateProfilePictureDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'ProfilePictureInput' },
+              name: { kind: 'Name', value: 'CreateProfilePictureInput' },
             },
           },
         },
@@ -11983,17 +11925,8 @@ export const CreateProfilePictureDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'profilePicture' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'input' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -12073,10 +12006,16 @@ export const DeleteProfilePictureByRowIdMutationDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
           type: {
             kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteProfilePictureByRowIdInput' },
+            },
           },
         },
       ],
@@ -12091,17 +12030,8 @@ export const DeleteProfilePictureByRowIdMutationDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'rowId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'id' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -12133,23 +12063,15 @@ export const UpdateAccountByRowIdDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'accountPatch' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'AccountPatch' },
+              name: { kind: 'Name', value: 'UpdateAccountByRowIdInput' },
             },
           },
         },
@@ -12165,25 +12087,8 @@ export const UpdateAccountByRowIdDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'rowId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'id' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'accountPatch' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'accountPatch' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -12230,10 +12135,19 @@ export const AccountEmailAddressVerificationDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'code' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
           type: {
             kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'AccountEmailAddressVerificationInput',
+              },
+            },
           },
         },
       ],
@@ -12248,17 +12162,8 @@ export const AccountEmailAddressVerificationDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'code' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'code' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -13443,13 +13348,13 @@ export const AttendanceCreateDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'attendanceInput' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'AttendanceInput' },
+              name: { kind: 'Name', value: 'CreateAttendanceInput' },
             },
           },
         },
@@ -13465,17 +13370,8 @@ export const AttendanceCreateDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'attendance' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'attendanceInput' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -14436,23 +14332,15 @@ export const AchievementUnlockDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'code' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'alias' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
+              name: { kind: 'Name', value: 'AchievementUnlockInput' },
             },
           },
         },
@@ -14468,25 +14356,8 @@ export const AchievementUnlockDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'code' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'code' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'alias' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'alias' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -14578,27 +14449,13 @@ export const AccountPasswordChangeDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'passwordCurrent' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'passwordNew' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
+              name: { kind: 'Name', value: 'AccountPasswordChangeInput' },
             },
           },
         },
@@ -14614,25 +14471,8 @@ export const AccountPasswordChangeDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'passwordCurrent' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'passwordCurrent' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'passwordNew' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'passwordNew' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -14664,23 +14504,15 @@ export const AccountPasswordResetDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'code' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'password' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
+              name: { kind: 'Name', value: 'AccountPasswordResetInput' },
             },
           },
         },
@@ -14696,25 +14528,8 @@ export const AccountPasswordResetDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'code' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'code' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'password' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'password' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -14748,27 +14563,13 @@ export const AccountPasswordResetRequestDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'emailAddress' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'language' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
+              name: { kind: 'Name', value: 'AccountPasswordResetRequestInput' },
             },
           },
         },
@@ -14784,25 +14585,8 @@ export const AccountPasswordResetRequestDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'emailAddress' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'emailAddress' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'language' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'language' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -14836,77 +14620,13 @@ export const AccountRegistrationDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'birthDate' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Date' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'emailAddress' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'language' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'legalTermId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'password' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'username' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
+              name: { kind: 'Name', value: 'AccountRegistrationInput' },
             },
           },
         },
@@ -14922,57 +14642,8 @@ export const AccountRegistrationDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'birthDate' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'birthDate' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'emailAddress' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'emailAddress' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'language' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'language' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'legalTermId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'legalTermId' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'password' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'password' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'username' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'username' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -15006,24 +14677,13 @@ export const AccountRegistrationRefreshDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'accountId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'language' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
+              name: { kind: 'Name', value: 'AccountRegistrationRefreshInput' },
             },
           },
         },
@@ -15039,25 +14699,8 @@ export const AccountRegistrationRefreshDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'language' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'language' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'accountId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'accountId' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -15091,13 +14734,13 @@ export const CreateAccountBlockDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'accountBlockInput' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'AccountBlockInput' },
+              name: { kind: 'Name', value: 'CreateAccountBlockInput' },
             },
           },
         },
@@ -15113,17 +14756,8 @@ export const CreateAccountBlockDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'accountBlock' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'accountBlockInput' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -15157,13 +14791,13 @@ export const CreateContactDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'contactInput' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'ContactInput' },
+              name: { kind: 'Name', value: 'CreateContactInput' },
             },
           },
         },
@@ -15179,17 +14813,8 @@ export const CreateContactDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'contact' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'contactInput' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -15325,10 +14950,16 @@ export const DeleteContactByRowIdDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
           type: {
             kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteContactByRowIdInput' },
+            },
           },
         },
       ],
@@ -15343,17 +14974,8 @@ export const DeleteContactByRowIdDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'rowId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'id' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -15493,23 +15115,15 @@ export const UpdateContactByRowIdDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'contactPatch' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'ContactPatch' },
+              name: { kind: 'Name', value: 'UpdateContactByRowIdInput' },
             },
           },
         },
@@ -15525,25 +15139,8 @@ export const UpdateContactByRowIdDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'rowId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'id' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'contactPatch' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'contactPatch' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -15687,7 +15284,7 @@ export const CreateEventDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'EventInput' },
+              name: { kind: 'Name', value: 'CreateEventInput' },
             },
           },
         },
@@ -15703,17 +15300,8 @@ export const CreateEventDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'event' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'input' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -15836,23 +15424,15 @@ export const EventDeleteDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'password' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
+              name: { kind: 'Name', value: 'EventDeleteInput' },
             },
           },
         },
@@ -15868,25 +15448,8 @@ export const EventDeleteDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'id' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'id' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'password' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'password' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -16013,23 +15576,15 @@ export const UpdateEventByRowIdDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'eventPatch' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'EventPatch' },
+              name: { kind: 'Name', value: 'UpdateEventByRowIdInput' },
             },
           },
         },
@@ -16045,25 +15600,8 @@ export const UpdateEventByRowIdDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'rowId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'id' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'eventPatch' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'eventPatch' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -16361,10 +15899,16 @@ export const DeleteGuestByRowIdDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
           type: {
             kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteGuestByRowIdInput' },
+            },
           },
         },
       ],
@@ -16379,17 +15923,8 @@ export const DeleteGuestByRowIdDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'rowId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'id' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -16421,23 +15956,15 @@ export const UpdateGuestByRowIdDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'guestPatch' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'GuestPatch' },
+              name: { kind: 'Name', value: 'UpdateGuestByRowIdInput' },
             },
           },
         },
@@ -16453,25 +15980,8 @@ export const UpdateGuestByRowIdDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'rowId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'id' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'guestPatch' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'guestPatch' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -16654,24 +16164,13 @@ export const InviteDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'guestId' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'language' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
+              name: { kind: 'Name', value: 'InviteInput' },
             },
           },
         },
@@ -16687,25 +16186,8 @@ export const InviteDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'guestId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'guestId' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'language' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'language' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -16742,7 +16224,10 @@ export const CreatePreferenceEventCategoryDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'PreferenceEventCategoryInput' },
+              name: {
+                kind: 'Name',
+                value: 'CreatePreferenceEventCategoryInput',
+              },
             },
           },
         },
@@ -16758,17 +16243,8 @@ export const CreatePreferenceEventCategoryDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'preferenceEventCategory' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'input' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -16907,7 +16383,7 @@ export const CreatePreferenceEventFormatDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'PreferenceEventFormatInput' },
+              name: { kind: 'Name', value: 'CreatePreferenceEventFormatInput' },
             },
           },
         },
@@ -16923,17 +16399,8 @@ export const CreatePreferenceEventFormatDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'preferenceEventFormat' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'input' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -17071,7 +16538,10 @@ export const CreatePreferenceEventLocationDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'PreferenceEventLocationInput' },
+              name: {
+                kind: 'Name',
+                value: 'CreatePreferenceEventLocationInput',
+              },
             },
           },
         },
@@ -17087,17 +16557,8 @@ export const CreatePreferenceEventLocationDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'preferenceEventLocation' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'input' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -17244,7 +16705,7 @@ export const CreatePreferenceEventSizeDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'PreferenceEventSizeInput' },
+              name: { kind: 'Name', value: 'CreatePreferenceEventSizeInput' },
             },
           },
         },
@@ -17260,17 +16721,8 @@ export const CreatePreferenceEventSizeDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'preferenceEventSize' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'input' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -17370,13 +16822,13 @@ export const CreateReportDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'reportInput' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'ReportInput' },
+              name: { kind: 'Name', value: 'CreateReportInput' },
             },
           },
         },
@@ -17392,17 +16844,8 @@ export const CreateReportDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'report' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'reportInput' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -17442,7 +16885,7 @@ export const CreateUploadDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'UploadInput' },
+              name: { kind: 'Name', value: 'CreateUploadInput' },
             },
           },
         },
@@ -17458,17 +16901,8 @@ export const CreateUploadDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'upload' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'input' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -17511,10 +16945,16 @@ export const DeleteUploadByRowIdDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
           type: {
             kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteUploadByRowIdInput' },
+            },
           },
         },
       ],
@@ -17529,17 +16969,8 @@ export const DeleteUploadByRowIdDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'rowId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'id' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -19195,27 +18626,13 @@ export const JwtCreateDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'password' },
+            name: { kind: 'Name', value: 'input' },
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'username' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
+              name: { kind: 'Name', value: 'JwtCreateInput' },
             },
           },
         },
@@ -19231,25 +18648,8 @@ export const JwtCreateDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'password' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'password' },
-                      },
-                    },
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'username' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'username' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],
@@ -19279,10 +18679,16 @@ export const JwtUpdateDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
           type: {
             kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'JwtUpdateInput' },
+            },
           },
         },
       ],
@@ -19297,17 +18703,8 @@ export const JwtUpdateDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'input' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'jwtId' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'id' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
                 },
               },
             ],

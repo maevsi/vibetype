@@ -149,8 +149,10 @@ const onSubmit = handleSubmit(async (values) => {
   for (const item of itemsToCreate) {
     const result = await createPreferenceEventSizeMutation.executeMutation({
       input: {
-        accountId: store.signedInAccountId,
-        eventSize: item,
+        preferenceEventSize: {
+          accountId: store.signedInAccountId,
+          eventSize: item,
+        },
       },
     })
 

@@ -225,8 +225,8 @@ const isGuest = computed(() =>
 // event favorite
 const createEventFavoriteMutation = useMutation(
   graphql(`
-    mutation CreateEventFavorite($input: EventFavoriteInput!) {
-      createEventFavorite(input: { eventFavorite: $input }) {
+    mutation CreateEventFavorite($input: CreateEventFavoriteInput!) {
+      createEventFavorite(input: $input) {
         eventFavorite {
           createdBy
           eventId
@@ -281,8 +281,10 @@ const toggleEventFavorite = async () => {
       errorMessageI18n: t('favoriteCreateError'),
       request: createEventFavoriteMutation.executeMutation({
         input: {
-          createdBy: store.signedInAccountId,
-          eventId: event.rowId,
+          eventFavorite: {
+            createdBy: store.signedInAccountId,
+            eventId: event.rowId,
+          },
         },
       }),
     })

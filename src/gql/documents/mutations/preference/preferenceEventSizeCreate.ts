@@ -2,8 +2,8 @@ import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
 export const createPreferenceEventSizeMutation = graphql(`
-  mutation CreatePreferenceEventSize($input: PreferenceEventSizeInput!) {
-    createPreferenceEventSize(input: { preferenceEventSize: $input }) {
+  mutation CreatePreferenceEventSize($input: CreatePreferenceEventSizeInput!) {
+    createPreferenceEventSize(input: $input) {
       clientMutationId
     }
   }

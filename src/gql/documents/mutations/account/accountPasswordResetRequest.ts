@@ -3,12 +3,9 @@ import { graphql } from '~~/gql/generated'
 
 export const accountPasswordResetRequestMutation = graphql(`
   mutation AccountPasswordResetRequest(
-    $emailAddress: String!
-    $language: String!
+    $input: AccountPasswordResetRequestInput!
   ) {
-    accountPasswordResetRequest(
-      input: { emailAddress: $emailAddress, language: $language }
-    ) {
+    accountPasswordResetRequest(input: $input) {
       clientMutationId
     }
   }

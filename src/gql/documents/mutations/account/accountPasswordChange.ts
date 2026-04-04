@@ -2,13 +2,8 @@ import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
 export const accountPasswordChangeMutation = graphql(`
-  mutation AccountPasswordChange(
-    $passwordCurrent: String!
-    $passwordNew: String!
-  ) {
-    accountPasswordChange(
-      input: { passwordCurrent: $passwordCurrent, passwordNew: $passwordNew }
-    ) {
+  mutation AccountPasswordChange($input: AccountPasswordChangeInput!) {
+    accountPasswordChange(input: $input) {
       clientMutationId
     }
   }

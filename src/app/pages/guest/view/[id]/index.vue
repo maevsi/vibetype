@@ -452,8 +452,7 @@ const qrCodeShow = () => {
 }
 const update = async (id: string, guestPatch: GuestPatch) => {
   const result = await updateGuestByRowIdMutation.executeMutation({
-    id,
-    guestPatch,
+    input: { rowId: id, guestPatch },
   })
 
   if (result.error || !result.data) return

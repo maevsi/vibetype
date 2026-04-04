@@ -132,9 +132,11 @@ const blockOrganizer = async () => {
   const result = await executeUrqlRequest({
     errorMessageI18n: t('errorBlock'),
     request: createAccountBlockMutation.executeMutation({
-      accountBlockInput: {
-        blockedAccountId: event.createdBy,
-        createdBy: accountId,
+      input: {
+        accountBlock: {
+          blockedAccountId: event.createdBy,
+          createdBy: accountId,
+        },
       },
     }),
   })

@@ -72,10 +72,12 @@ const onSubmit = handleSubmit(async (values) => {
   const result = await executeUrqlRequest({
     errorMessageI18n: t('errorCreate'),
     request: createReportMutation.executeMutation({
-      reportInput: {
-        targetEventId: event.rowId,
-        reason: values.reason,
-        createdBy: accountId,
+      input: {
+        report: {
+          targetEventId: event.rowId,
+          reason: values.reason,
+          createdBy: accountId,
+        },
       },
     }),
   })
