@@ -1,13 +1,13 @@
 import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
-export const deleteGuestByIdMutation = graphql(`
-  mutation DeleteGuestById($id: UUID!) {
-    deleteGuestById(input: { id: $id }) {
+export const deleteGuestByRowIdMutation = graphql(`
+  mutation DeleteGuestByRowId($input: DeleteGuestByRowIdInput!) {
+    deleteGuestByRowId(input: $input) {
       clientMutationId
     }
   }
 `)
 
-export const useDeleteGuestByIdMutation = () =>
-  useMutation(deleteGuestByIdMutation)
+export const useDeleteGuestByRowIdMutation = () =>
+  useMutation(deleteGuestByRowIdMutation)

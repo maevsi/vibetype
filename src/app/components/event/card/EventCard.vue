@@ -161,25 +161,30 @@ export type EventCardProps = {
   event: DeepReadonly<{
     accountByCreatedBy?: {
       id?: string
+      rowId?: string
       username: string
     } | null
     eventFavoritesByEventId?: {
       nodes: {
         createdBy: string
         id: string
+        rowId: string
       }[]
     } | null
     guestsByEventId?: {
       nodes: {
         contactByContactId?: {
-          id: string
           accountId?: string | null
+          id: string
+          rowId: string
         } | null
         id: string
+        rowId: string
       }[]
     } | null
     id: string
     name: string
+    rowId: string
     slug: string
     start: string
   }>
@@ -199,7 +204,7 @@ const store = useStore()
 const isCreator = computed(
   () =>
     event.accountByCreatedBy &&
-    event.accountByCreatedBy.id === store.signedInAccountId,
+    event.accountByCreatedBy.rowId === store.signedInAccountId,
 )
 const isDraft = false // TODO: implements event drafts
 const isGuest = computed(() =>
@@ -209,10 +214,10 @@ const isGuest = computed(() =>
       ? event.guestsByEventId.nodes[0].contactByContactId.accountId &&
         event.guestsByEventId.nodes[0].contactByContactId.accountId ===
           store.signedInAccountId
-      : store.jwtDecoded &&
-          'guests' in store.jwtDecoded &&
-          Array.isArray(store.jwtDecoded.guests)
-        ? store.jwtDecoded.guests.includes(event.guestsByEventId.nodes[0].id)
+      : store.jwtPayload &&
+          'guests' in store.jwtPayload &&
+          Array.isArray(store.jwtPayload.guests)
+        ? store.jwtPayload.guests.includes(event.guestsByEventId.nodes[0].rowId)
         : undefined
     : undefined,
 )
@@ -220,22 +225,24 @@ const isGuest = computed(() =>
 // event favorite
 const createEventFavoriteMutation = useMutation(
   graphql(`
-    mutation CreateEventFavorite($input: EventFavoriteInput!) {
-      createEventFavorite(input: { eventFavorite: $input }) {
+    mutation CreateEventFavorite($input: CreateEventFavoriteInput!) {
+      createEventFavorite(input: $input) {
         eventFavorite {
           createdBy
           eventId
           id
-          nodeId
+          rowId
         }
       }
     }
   `),
 )
-const deleteEventFavoriteByIdMutation = useMutation(
+const deleteEventFavoriteByRowIdMutation = useMutation(
   graphql(`
-    mutation DeleteEventFavoriteById($input: DeleteEventFavoriteByIdInput!) {
-      deleteEventFavoriteById(input: $input) {
+    mutation DeleteEventFavoriteByRowId(
+      $input: DeleteEventFavoriteByRowIdInput!
+    ) {
+      deleteEventFavoriteByRowId(input: $input) {
         clientMutationId
       }
     }
@@ -244,7 +251,7 @@ const deleteEventFavoriteByIdMutation = useMutation(
 // TODO: show loading state, error details
 // const api = await useApiData([
 //   createEventFavoriteMutation,
-//   deleteEventFavoriteByIdMutation,
+//   deleteEventFavoriteByRowIdMutation,
 // ])
 const isFavorite = computed(
   () =>
@@ -261,9 +268,9 @@ const toggleEventFavorite = async () => {
 
     await executeUrqlRequest({
       errorMessageI18n: t('favoriteDeleteError'),
-      request: deleteEventFavoriteByIdMutation.executeMutation({
+      request: deleteEventFavoriteByRowIdMutation.executeMutation({
         input: {
-          id: event.eventFavoritesByEventId.nodes[0].id,
+          rowId: event.eventFavoritesByEventId.nodes[0].rowId,
         },
       }),
     })
@@ -274,8 +281,10 @@ const toggleEventFavorite = async () => {
       errorMessageI18n: t('favoriteCreateError'),
       request: createEventFavoriteMutation.executeMutation({
         input: {
-          createdBy: store.signedInAccountId,
-          eventId: event.id,
+          eventFavorite: {
+            createdBy: store.signedInAccountId,
+            eventId: event.rowId,
+          },
         },
       }),
     })

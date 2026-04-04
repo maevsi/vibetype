@@ -10,7 +10,7 @@ export const eventByCreatedByAndSlugQuery = graphql(`
   ) {
     eventByCreatedByAndSlug(createdBy: $createdBy, slug: $slug) {
       ...EventItem
-      guestsByEventId(condition: { id: $guestId }) {
+      guestsByEventId(condition: { rowId: $guestId }) {
         nodes {
           ...GuestItem
           contactByContactId {

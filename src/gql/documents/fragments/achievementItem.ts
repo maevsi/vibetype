@@ -3,11 +3,11 @@ import type { FragmentType } from '~~/gql/generated'
 
 export const AchievementItem = graphql(`
   fragment AchievementItem on Achievement {
-    nodeId
-    id
     accountId
     achievement
+    id
     level
+    rowId
   }
 `)
 

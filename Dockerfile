@@ -2,7 +2,8 @@
 # check=skip=SecretsUsedInArgOrEnv
 
 # <DEPENDENCIES>
-FROM ghcr.io/maevsi/sqitch:10.0
+FROM ghcr.io/maevsi/postgraphile:2.0.0
+FROM ghcr.io/maevsi/sqitch:11.0
 # </DEPENDENCIES>
 
 #############
@@ -22,8 +23,6 @@ RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
     && apk add --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
       mkcert \
     && corepack enable
-
-COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 
 #############
@@ -46,7 +45,7 @@ VOLUME /srv/app/node_modules
 
 USER node
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/srv/app/docker-entrypoint.sh"]
 CMD ["pnpm", "run", "--dir", "src", "dev", "--host", "0.0.0.0"]
 EXPOSE 3000
 
@@ -80,6 +79,7 @@ ARG RELEASE_NAME
 ENV RELEASE_NAME=${RELEASE_NAME}
 
 ENV NODE_ENV=production
+ENV NODE_OPTIONS="--max-old-space-size=6144"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN \
     pnpm --dir src run build:node
 
@@ -89,8 +89,8 @@ RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN \
 
 # FROM prepare AS build-static
 
-# ARG NUXT_PUBLIC_SITE_URL=https://localhost:3002
-# ENV NUXT_PUBLIC_SITE_URL=${NUXT_PUBLIC_SITE_URL}
+# ARG NUXT_PUBLIC_I18N_BASE_URL=https://localhost:3002
+# ENV NUXT_PUBLIC_I18N_BASE_URL=${NUXT_PUBLIC_I18N_BASE_URL}
 
 # ENV NODE_ENV=production
 # RUN pnpm --dir src run build:static
@@ -123,7 +123,7 @@ RUN pnpm -r run test
 ########################
 # Nuxt: test (e2e, base-image)
 
-FROM mcr.microsoft.com/playwright:v1.58.2 AS test-e2e-base-image
+FROM mcr.microsoft.com/playwright:v1.59.1 AS test-e2e-base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -149,15 +149,13 @@ RUN groupadd -g $GROUP_ID -o $USER_NAME \
     && mkdir /srv/app/node_modules \
     && chown $USER_ID:$GROUP_ID /srv/app/node_modules
 
-COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-
 USER $USER_NAME
 
 VOLUME /srv/.pnpm-store
 VOLUME /srv/app
 VOLUME /srv/app/node_modules
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/srv/app/docker-entrypoint.sh"]
 
 
 ########################
@@ -207,7 +205,9 @@ RUN pnpm --dir tests run test:e2e:server:node
 FROM base-image AS collect
 
 COPY --from=build-node --chown=node /srv/app/src/.output ./.output
+COPY --from=build-node --chown=node /srv/app/src/node/server/node.mjs ./node/server/node.mjs
 COPY --from=build-node --chown=node /srv/app/src/package.json ./package.json
+COPY --from=build-node --chown=node /srv/app/docker-entrypoint.sh ./docker-entrypoint.sh
 # COPY --from=build-static /srv/app/package.json /dev/null
 COPY --from=lint /srv/app/package.json /dev/null
 COPY --from=test-unit /srv/app/package.json /dev/null
@@ -239,6 +239,7 @@ COPY --from=test-e2e-node /srv/app/package.json /dev/null
 
 FROM collect AS production
 
+ENV CI=false
 ENV NODE_ENV=production
 
 ARG RELEASE_NAME
@@ -250,7 +251,7 @@ RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
 
 USER node
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/srv/app/docker-entrypoint.sh"]
 CMD ["pnpm", "run", "start:node"]
 HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/service/vibetype/healthcheck || exit 1
 EXPOSE 3000

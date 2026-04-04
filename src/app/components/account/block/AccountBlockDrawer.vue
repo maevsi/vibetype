@@ -125,9 +125,11 @@ const onAnimationEnd = (isOpen: boolean) => {
 const createAccountBlockMutation = useCreateAccountBlockMutation()
 const blockUser = async () => {
   const result = await createAccountBlockMutation.executeMutation({
-    accountBlockInput: {
-      blockedAccountId,
-      createdBy: blockingAccountId,
+    input: {
+      accountBlock: {
+        blockedAccountId,
+        createdBy: blockingAccountId,
+      },
     },
   })
 

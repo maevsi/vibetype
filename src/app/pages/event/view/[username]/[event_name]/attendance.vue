@@ -78,6 +78,7 @@ const queryEventAttendance = useQuery({
           nodes {
             id
             name
+            rowId
             slug
           }
         }
@@ -119,10 +120,11 @@ const guestId = ref<string>()
 const executeUrqlRequest = useExecuteUrqlRequest()
 const createAttendanceMutation = useMutation(
   graphql(`
-    mutation AttendanceCreate($attendanceInput: AttendanceInput!) {
-      createAttendance(input: { attendance: $attendanceInput }) {
+    mutation AttendanceCreate($input: CreateAttendanceInput!) {
+      createAttendance(input: $input) {
         attendance {
           id
+          rowId
         }
       }
     }
@@ -136,8 +138,10 @@ const onClick = async () => {
   await executeUrqlRequest({
     errorMessageI18n: t('errorAttendanceCreate'),
     request: createAttendanceMutation.executeMutation({
-      attendanceInput: {
-        guestId: guestId.value,
+      input: {
+        attendance: {
+          guestId: guestId.value,
+        },
       },
     }),
   })

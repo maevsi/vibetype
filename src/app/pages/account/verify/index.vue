@@ -29,15 +29,17 @@ if (
 // api data
 const accountEmailAddressVerificationMutation = useMutation(
   graphql(`
-    mutation AccountEmailAddressVerification($code: UUID!) {
-      accountEmailAddressVerification(input: { code: $code }) {
+    mutation AccountEmailAddressVerification(
+      $input: AccountEmailAddressVerificationInput!
+    ) {
+      accountEmailAddressVerification(input: $input) {
         clientMutationId
       }
     }
   `),
 )
 const result = await accountEmailAddressVerificationMutation.executeMutation({
-  code: route.query.code,
+  input: { code: route.query.code },
 })
 if (result.error) {
   throw createA11yError({

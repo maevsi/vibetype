@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test'
 
-import { TESTING_COOKIE_NAME } from '#src/shared/utils/constants'
+import { SITE_URL } from '#tests/e2e/utils/constants'
 import { testPageLoad } from '#tests/e2e/utils/tests'
 
-const PAGE_PATH = '/sitemap.xml'
+const PAGE_PATH = '/sitemap_index.xml'
 
 testPageLoad(PAGE_PATH)
 
@@ -11,30 +11,23 @@ test.describe('sitemap', () => {
   const languages = ['en', 'de']
 
   test('index', async ({ request }) => {
-    const resp = await request.get('/sitemap_index.xml', {
-      headers: {
-        Cookie: `${TESTING_COOKIE_NAME}=true`,
-      },
-    })
+    const resp = await request.get(PAGE_PATH)
     const text = await resp.text()
 
     for (const language of languages) {
-      expect(text).toContain(
-        `http://localhost:3001/__sitemap__/${language}.xml`,
-      )
+      expect(text).toContain(`${SITE_URL}/__sitemap__/${language}.xml`)
     }
   })
 
   test('content', async ({ request }) => {
     for (const language of languages) {
-      const resp = await request.get(`/__sitemap__/${language}.xml`, {
-        headers: {
-          Cookie: `${TESTING_COOKIE_NAME}=true`,
-        },
-      })
-      const text = await resp.text()
-      expect(text.replace(/\n.+<\/lastmod>/g, '')).toMatchSnapshot(
-        `sitemap-content-${language}.xml`,
+      const resp = await request.get(`/__sitemap__/${language}.xml`)
+      const text = (await resp.text())
+        .replaceAll(/\n.+<\/lastmod>/g, '')
+        .replaceAll(SITE_URL, 'https://example.com')
+
+      expect(text).toMatchSnapshot(
+        `sitemap-content-${process.env.VIO_SERVER}-${language}.txt`,
       )
     }
   })

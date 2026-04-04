@@ -3,9 +3,9 @@ import { graphql } from '~~/gql/generated'
 
 export const createPreferenceEventCategoryMutation = graphql(`
   mutation CreatePreferenceEventCategory(
-    $input: PreferenceEventCategoryInput!
+    $input: CreatePreferenceEventCategoryInput!
   ) {
-    createPreferenceEventCategory(input: { preferenceEventCategory: $input }) {
+    createPreferenceEventCategory(input: $input) {
       preferenceEventCategory {
         ...PreferenceEventCategoryItem
       }

@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, type Page } from '@playwright/test'
 import { joinURL, withoutTrailingSlash } from 'ufo'
 
-import { TESTING_COOKIE_NAME } from '#src/shared/utils/constants'
+import { TESTING_COOKIE_NAME } from '#src/node/static'
 import { appTest } from '#tests/e2e/fixtures/appTest'
 import { SITE_URL, TIMEOUT } from '#tests/e2e/utils/constants'
 
@@ -101,17 +101,7 @@ export const testMetadata = async ({
           key: 'property',
           value: 'og:image',
         },
-        {
-          key: 'content',
-          value: joinURL(
-            SITE_URL,
-            `/__og-image__/${
-              process.env.VIO_SERVER === 'static' ? 'static' : 'image'
-            }`,
-            path,
-            '/og.png',
-          ),
-        },
+        // content is checked below
       ],
     },
     {
@@ -144,17 +134,7 @@ export const testMetadata = async ({
           key: 'name',
           value: 'twitter:image',
         },
-        {
-          key: 'content',
-          value: joinURL(
-            SITE_URL,
-            `/__og-image__/${
-              process.env.VIO_SERVER === 'static' ? 'static' : 'image'
-            }`,
-            path,
-            '/og.png',
-          ),
-        },
+        // content is checked below
       ],
     },
     {
@@ -164,17 +144,7 @@ export const testMetadata = async ({
           key: 'name',
           value: 'twitter:image:src',
         },
-        {
-          key: 'content',
-          value: joinURL(
-            SITE_URL,
-            `/__og-image__/${
-              process.env.VIO_SERVER === 'static' ? 'static' : 'image'
-            }`,
-            path,
-            '/og.png',
-          ),
-        },
+        // content is checked below
       ],
     },
     {
@@ -322,9 +292,9 @@ export const testMetadata = async ({
         {
           key: 'content',
           value:
-            process.env.NODE_ENV === 'production'
-              ? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
-              : 'noindex, nofollow',
+            process.env.VIO_SERVER === 'development'
+              ? 'noindex, nofollow'
+              : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
         },
       ],
     },
@@ -517,7 +487,9 @@ export const testMetadata = async ({
 
   expect(
     await page.locator('script[data-hid="schema-org-graph"]').innerText(),
-  ).toMatchSnapshot(`schema-org-graph-${process.env.VIO_SERVER || 'dev'}.json`)
+  ).toMatchSnapshot(
+    `schema-org-graph-${process.env.VIO_SERVER || 'development'}.json`,
+  )
 
   // if (process.env.VIO_SERVER === 'static') {
   //   expect(
@@ -526,15 +498,42 @@ export const testMetadata = async ({
   //       .innerText(),
   //   ).toMatchSnapshot(`content-security-policy.txt`)
   // }
+
+  for (const locator of [
+    'meta[property="og:image"]',
+    'meta[name="twitter:image"]',
+    'meta[name="twitter:image:src"]',
+  ]) {
+    const content = await page.locator(locator).getAttribute('content')
+    expect(content).toBeTruthy()
+    expect(content?.startsWith(SITE_URL)).toBeTruthy()
+    expect(content).toMatch(/(\/_og\/[ds]\/).+\.png$/)
+  }
 }
 
-export const testOgImage = (url: string) =>
+export const testOgImage = (paths: {
+  static?: { en: string; de: string }
+  dynamic?: { en: string; de: string }
+}) =>
   appTest.describe('visual regression', () => {
     appTest('generates the open graph image', async ({ page }) => {
-      await page.goto(joinURL('/__og-image__/image', url, '/og.png'))
+      const isStaticServer = process.env.VIO_SERVER === 'static'
+      const serverPaths = isStaticServer ? paths.static : paths.dynamic
+
+      if (!serverPaths) {
+        throw new Error(
+          isStaticServer
+            ? 'Static paths must be provided for static server tests'
+            : 'Dynamic paths must be provided for dynamic server tests',
+        )
+      }
+
+      const serverPrefix = isStaticServer ? 's' : 'd'
+
+      await page.goto(joinURL(`/_og/${serverPrefix}/${serverPaths.en}`))
       await expect(page).toHaveScreenshot()
 
-      await page.goto(joinURL('/__og-image__/image/de', url, '/og.png'))
+      await page.goto(joinURL(`/_og/${serverPrefix}/${serverPaths.de}`))
       await expect(page).toHaveScreenshot()
     })
   })

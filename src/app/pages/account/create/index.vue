@@ -47,7 +47,7 @@
         :label="t('agreePrivacy')"
         @agreement="submit(legalTermId || '')"
       >
-        <Content path="privacy-consent" />
+        <AppContent :content="contentPrivacyConsent" />
       </AccountLegalConsent>
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'success'">
@@ -110,6 +110,7 @@ definePageMeta({
 const { locale, t } = useI18n()
 
 // api data
+const contentPrivacyConsent = await useContent('privacy-consent')
 const accountRegistrationMutation = useAccountRegistrationMutation()
 const api = await useApiData([accountRegistrationMutation])
 // TODO: move into api utility as `errorsTranslated`
@@ -145,12 +146,14 @@ const captchaIsUsed = ref<boolean>()
 const submit = async (termId: string) => {
   const result = await accountRegistrationMutation.executeMutation(
     {
-      birthDate: birthDate.value,
-      emailAddress: form.emailAddress || '',
-      language: locale.value,
-      legalTermId: termId,
-      password: form.password || '',
-      username: form.username || '',
+      input: {
+        birthDate: birthDate.value,
+        emailAddress: form.emailAddress || '',
+        language: locale.value,
+        legalTermId: termId,
+        password: form.password || '',
+        username: form.username || '',
+      },
     },
     {
       fetchOptions: {

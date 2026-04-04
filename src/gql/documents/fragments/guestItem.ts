@@ -3,15 +3,15 @@ import type { FragmentType } from '~~/gql/generated'
 
 export const GuestItem = graphql(`
   fragment GuestItem on Guest {
-    id
-    nodeId
+    contactByContactId {
+      ...ContactItem
+    }
     contactId
     eventId
     feedback
     feedbackPaper
-    contactByContactId {
-      ...ContactItem
-    }
+    id
+    rowId
   }
 `)
 

@@ -8,7 +8,7 @@ import { securityConfig } from './security'
 export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   content: {
     experimental: {
-      nativeSqlite: true,
+      sqliteConnector: 'native',
     },
   },
   ...cookieControlConfig,
@@ -16,6 +16,17 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
     config: {
       typescript: true,
     },
+  },
+  fonts: {
+    families: [
+      {
+        formats: ['ttf'],
+        global: true,
+        name: 'Raleway',
+        provider: 'fontsource',
+        weights: [400, 700],
+      },
+    ],
   },
   gtag: {
     config: {
@@ -57,6 +68,9 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
       disable: !process.env.RELEASE_NAME,
     },
     telemetry: false,
+  },
+  seo: {
+    minify: false, // TODO: enable (https://github.com/harlan-zw/nuxt-seo-utils/issues/103)
   },
   shadcn: {
     prefix: '',

@@ -2,18 +2,17 @@ import type { DefineNuxtConfig } from 'nuxt/config'
 
 import { IS_IN_STACK, SITE_NAME } from '../../node/static'
 
-const HTTPS = {
-  key: './.config/certificates/ssl.key',
-  cert: './.config/certificates/ssl.crt',
-}
-
 export const developmentConfig: ReturnType<DefineNuxtConfig> = {
   $development: {
     devServer: {
       ...(IS_IN_STACK
         ? {}
         : {
-            https: HTTPS,
+            host: 'app.localhost',
+            https: {
+              key: './.config/certificates/ssl-dev.key',
+              cert: './.config/certificates/ssl-dev.crt',
+            },
           }),
     },
     devtools: {

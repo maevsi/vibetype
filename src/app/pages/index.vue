@@ -102,10 +102,10 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 const achievementUnlockMutation = useMutation(
   graphql(`
-    mutation AchievementUnlock($code: UUID!, $alias: String!) {
-      achievementUnlock(input: { code: $code, alias: $alias }) {
+    mutation AchievementUnlock($input: AchievementUnlockInput!) {
+      achievementUnlock(input: $input) {
         clientMutationId
-        uuid
+        result
       }
     }
   `),
@@ -120,19 +120,21 @@ const { /* data, */ error, status } = await useAsyncData(
       throw new Error('Short circuit for unauthorized access') // there's no way to be certain that a user tried to unlock an achievement here, so no prompt to login is thrown
 
     const result = await achievementUnlockMutation.executeMutation({
-      code: 'c29d9fd1-e455-4f19-a62f-f89b5256a52b', // placeholder, not actually used
-      alias: `?${stringifyQuery(route.query)}`,
+      input: {
+        code: 'c29d9fd1-e455-4f19-a62f-f89b5256a52b', // placeholder, not actually used
+        alias: `?${stringifyQuery(route.query)}`,
+      },
     })
 
     if (result.error) {
       throw result.error
     }
 
-    if (!result.data?.achievementUnlock?.uuid) {
+    if (!result.data?.achievementUnlock?.result) {
       throw new Error(t('globalErrorNoData'))
     }
 
-    return result.data.achievementUnlock.uuid
+    return result.data.achievementUnlock.result
   },
 )
 if (error.value) {
@@ -164,13 +166,13 @@ onMounted(async () => {
 
 // template
 const toProfile = () => {
-  if (!store.jwtDecoded) return // TODO: error
+  if (!store.jwtPayload) return // TODO: error
 
   return navigateTo(
     localePath({
       name: 'account-view-username',
       params: {
-        username: store.jwtDecoded.username,
+        username: store.jwtPayload.username,
       },
       // // TODO: highlight achievement
       // query: {

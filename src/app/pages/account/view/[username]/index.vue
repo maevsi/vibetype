@@ -45,7 +45,7 @@
             </AppDropdown>
             <AccountBlockDrawer
               v-model:open="isBlockDrawerOpen"
-              :blocked-account-id="account.id"
+              :blocked-account-id="account.rowId"
               :blocked-username="route.params.username"
               :blocking-account-id="store.signedInAccountId"
             />
@@ -57,7 +57,7 @@
       >
         <!-- TODO: pass in data to make subcomponent api requests unnecessary -->
         <AccountProfilePicture
-          :account-id="account.id"
+          :account-id="account.rowId"
           class="size-15 rounded-full"
           height="60"
           width="60"
@@ -160,7 +160,7 @@
             <AppIconAdd />
           </ButtonColored>
         </div>
-        <EventCard v-for="event in events" :key="event.id" :event />
+        <EventCard v-for="event in events" :key="event.rowId" :event />
         <ButtonColored
           v-if="account.eventsByCreatedBy.totalCount > 3"
           :aria-label="t('eventMore')"
@@ -237,6 +237,7 @@ const queryAccount = graphql(`
         nodes {
           achievement
           id
+          rowId
         }
       }
       description
@@ -246,6 +247,7 @@ const queryAccount = graphql(`
             nodes {
               createdBy
               id
+              rowId
             }
           }
           guestsByEventId(first: 1) {
@@ -253,12 +255,15 @@ const queryAccount = graphql(`
               contactByContactId {
                 accountId
                 id
+                rowId
               }
               id
+              rowId
             }
           }
           id
           name
+          rowId
           slug
           start
         }
@@ -266,6 +271,7 @@ const queryAccount = graphql(`
       }
       id
       imprintUrl
+      rowId
     }
   }
 `)

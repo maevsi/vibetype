@@ -1,5 +1,7 @@
 import type { CombinedError } from '@urql/core'
+import type { Client } from '@urql/vue'
 import type { GraphQLError } from 'graphql'
+import type { Ref } from 'vue'
 
 export type AppGraphQLError = GraphQLError & { errcode?: string }
 
@@ -7,3 +9,9 @@ export type AppGraphQLError = GraphQLError & { errcode?: string }
 export type AppCombinedError = {
   graphQLErrors: AppGraphQLError[]
 } & CombinedError
+
+declare module 'h3' {
+  interface H3EventContext {
+    $urql: Ref<Client>
+  }
+}

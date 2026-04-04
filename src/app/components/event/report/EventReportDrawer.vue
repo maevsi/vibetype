@@ -102,7 +102,7 @@ const { t } = useI18n()
 
 const { accountId, event } = defineProps<{
   accountId: string
-  event: Pick<EventItemFragment, 'id' | 'accountByCreatedBy' | 'createdBy'>
+  event: Pick<EventItemFragment, 'accountByCreatedBy' | 'createdBy' | 'rowId'>
 }>()
 
 // template
@@ -132,9 +132,11 @@ const blockOrganizer = async () => {
   const result = await executeUrqlRequest({
     errorMessageI18n: t('errorBlock'),
     request: createAccountBlockMutation.executeMutation({
-      accountBlockInput: {
-        blockedAccountId: event.createdBy,
-        createdBy: accountId,
+      input: {
+        accountBlock: {
+          blockedAccountId: event.createdBy,
+          createdBy: accountId,
+        },
       },
     }),
   })

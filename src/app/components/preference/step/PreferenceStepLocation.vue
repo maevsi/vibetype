@@ -35,7 +35,7 @@
 <script setup lang="ts">
 import { useAllPreferenceEventLocationsQuery } from '~~/gql/documents/queries/preference/preferenceEventLocationsAll'
 import { useCreatePreferenceEventLocationMutation } from '~~/gql/documents/mutations/preference/preferenceEventLocationCreate'
-import { useDeletePreferenceEventLocationByIdMutation } from '~~/gql/documents/mutations/preference/preferenceEventLocationDeleteById'
+import { useDeletePreferenceEventLocationByRowIdMutation } from '~~/gql/documents/mutations/preference/preferenceEventLocationDeleteByRowId'
 import { getPreferenceEventLocationItem } from '~~/gql/documents/fragments/preferenceEventLocationItem'
 
 const { ariaHidden } = defineProps<{
@@ -52,12 +52,12 @@ const { t, locale } = useI18n()
 const allPreferenceEventLocationsQuery = useAllPreferenceEventLocationsQuery()
 const createPreferenceEventLocationMutation =
   useCreatePreferenceEventLocationMutation()
-const deletePreferenceEventLocationByIdMutation =
-  useDeletePreferenceEventLocationByIdMutation()
+const deletePreferenceEventLocationByRowIdMutation =
+  useDeletePreferenceEventLocationByRowIdMutation()
 const api = await useApiData([
   allPreferenceEventLocationsQuery,
   createPreferenceEventLocationMutation,
-  deletePreferenceEventLocationByIdMutation,
+  deletePreferenceEventLocationByRowIdMutation,
 ])
 
 // map - zoom level to radius
@@ -173,9 +173,9 @@ const save = async () => {
 
   for (const preferenceEventLocation of preferenceEventLocations.value) {
     const result =
-      await deletePreferenceEventLocationByIdMutation.executeMutation({
+      await deletePreferenceEventLocationByRowIdMutation.executeMutation({
         input: {
-          id: preferenceEventLocation.id,
+          rowId: preferenceEventLocation.rowId,
         },
       })
 
@@ -184,12 +184,14 @@ const save = async () => {
 
   const result = await createPreferenceEventLocationMutation.executeMutation({
     input: {
-      createdBy: store.signedInAccountId,
-      location: {
-        type: 'Point',
-        coordinates: [map.mapCenter.lng, map.mapCenter.lat],
+      preferenceEventLocation: {
+        createdBy: store.signedInAccountId,
+        location: {
+          type: 'Point',
+          coordinates: [map.mapCenter.lng, map.mapCenter.lat],
+        },
+        radius: mapCutoutRadiusInMeters.value,
       },
-      radius: mapCutoutRadiusInMeters.value,
     },
   })
 

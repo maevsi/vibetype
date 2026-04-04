@@ -27,7 +27,7 @@
         class="flex items-center justify-between gap-4 rounded-lg border border-(--semantic-base-background) bg-(--semantic-base-surface-1) p-3"
       >
         <AccountProfilePicture
-          :account-id="account.id"
+          :account-id="account.rowId"
           class="size-15 shrink-0 rounded-full"
           height="60"
           width="60"
@@ -92,7 +92,7 @@
       </ButtonColored>
       <AccountDeleteDrawer
         v-model:is-open="isDeleteDrawerOpen"
-        :account-id="account.id"
+        :account-id="account.rowId"
       />
     </div>
   </LayoutPage>
@@ -133,11 +133,14 @@ const query = useQuery({
         imprintUrl
         profilePictureByAccountId {
           id
+          rowId
           uploadByUploadId {
             id
+            rowId
             storageKey
           }
         }
+        rowId
         username
       }
     }
@@ -157,26 +160,27 @@ const showModalUploadSelection = () => {
 
 const createProfilePictureMutation = useMutation(
   graphql(`
-    mutation CreateProfilePicture($input: ProfilePictureInput!) {
-      createProfilePicture(input: { profilePicture: $input }) {
+    mutation CreateProfilePicture($input: CreateProfilePictureInput!) {
+      createProfilePicture(input: $input) {
         profilePicture {
-          accountId
-          id
-          uploadId
-        }
-        accountByAccountId {
-          id
-          profilePictureByAccountId {
+          accountByAccountId {
             id
-            uploadId
+            profilePictureByAccountId {
+              id
+              rowId
+            }
+            rowId
           }
+          id
+          rowId
+          uploadId
         }
       }
     }
   `),
 )
 const onUploadSelect = async (uploadId?: string | null | undefined) => {
-  if (!account.value?.id || !uploadId) return
+  if (!account.value?.rowId || !uploadId) return
 
   await removeProfilePicture()
 
@@ -184,17 +188,21 @@ const onUploadSelect = async (uploadId?: string | null | undefined) => {
     errorMessageI18n: t('errorProfilePictureCreate'),
     request: createProfilePictureMutation.executeMutation({
       input: {
-        accountId: account.value?.id,
-        uploadId,
+        profilePicture: {
+          accountId: account.value?.rowId,
+          uploadId,
+        },
       },
     }),
   })
 }
 
-const deleteProfilePictureByIdMutation = useMutation(
+const deleteProfilePictureByRowIdMutation = useMutation(
   graphql(`
-    mutation DeleteProfilePictureByIdMutation($id: UUID!) {
-      deleteProfilePictureById(input: { id: $id }) {
+    mutation DeleteProfilePictureByRowIdMutation(
+      $input: DeleteProfilePictureByRowIdInput!
+    ) {
+      deleteProfilePictureByRowId(input: $input) {
         clientMutationId
       }
     }
@@ -203,12 +211,12 @@ const deleteProfilePictureByIdMutation = useMutation(
 const removeProfilePicture = async () => {
   const profilePicture = account.value?.profilePictureByAccountId
 
-  if (!profilePicture?.id) return
+  if (!profilePicture?.rowId) return
 
   await executeUrqlRequest({
     errorMessageI18n: t('errorProfilePictureDelete'),
-    request: deleteProfilePictureByIdMutation.executeMutation({
-      id: profilePicture.id,
+    request: deleteProfilePictureByRowIdMutation.executeMutation({
+      input: { rowId: profilePicture.rowId },
     }),
   })
 }
@@ -217,14 +225,15 @@ const removeProfilePicture = async () => {
 const descriptionLengthMaximum = 500
 const imprintLengthMaximum = 500
 
-const updateAccountByIdMutation = useMutation(
+const updateAccountByRowIdMutation = useMutation(
   graphql(`
-    mutation UpdateAccountById($id: UUID!, $accountPatch: AccountPatch!) {
-      updateAccountById(input: { id: $id, accountPatch: $accountPatch }) {
+    mutation UpdateAccountByRowId($input: UpdateAccountByRowIdInput!) {
+      updateAccountByRowId(input: $input) {
         account {
           description
           id
           imprintUrl
+          rowId
         }
       }
     }
@@ -236,9 +245,11 @@ const saveDescription = async (content?: string) => {
 
   await executeUrqlRequest({
     errorMessageI18n: t('errorUpdateDescription'),
-    request: updateAccountByIdMutation.executeMutation({
-      id: account.value.id,
-      accountPatch: { description: content },
+    request: updateAccountByRowIdMutation.executeMutation({
+      input: {
+        rowId: account.value.rowId,
+        accountPatch: { description: content },
+      },
     }),
   })
 }
@@ -248,9 +259,11 @@ const saveImprint = async (content?: string) => {
 
   await executeUrqlRequest({
     errorMessageI18n: t('errorUpdateImprint'),
-    request: updateAccountByIdMutation.executeMutation({
-      id: account.value.id,
-      accountPatch: { imprintUrl: content },
+    request: updateAccountByRowIdMutation.executeMutation({
+      input: {
+        rowId: account.value.rowId,
+        accountPatch: { imprintUrl: content },
+      },
     }),
   })
 }

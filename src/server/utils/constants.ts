@@ -11,7 +11,7 @@ export const GET_CSP = ({
 }) => {
   const domainTldPort = IS_IN_FRONTEND_DEVELOPMENT
     ? PRODUCTION_HOST
-    : siteUrl.host
+    : getRootHost(siteUrl.host)
 
   return defu(
     // if (isHttps(event.node.req)) {
@@ -22,12 +22,15 @@ export const GET_CSP = ({
       // app
       'connect-src': [
         'blob:', // vue-advanced-cropper
-        `https://${domainTldPort}`, // `/api` requests
+        `https://app.${domainTldPort}`, // `/api` requests
         `https://postgraphile.${domainTldPort}`, // backend requests
         `https://tusd.${domainTldPort}`, // image upload requests
         'https://nominatim.openstreetmap.org/search', // map's geocoder
       ],
-      'font-src': ["'self'", 'data:'], // @fontsource/raleway
+      'font-src': [
+        "'self'", // @fontsource/raleway, @nuxt/fonts / nuxt-og-image
+        'data:', // @fontsource/raleway
+      ],
       'form-action': ["'self'"], // forms
       'img-src': [
         'blob:',

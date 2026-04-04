@@ -3,7 +3,7 @@
     class="has-focus-visible:focus-ring relative isolate flex items-center gap-3 rounded-lg border border-(--faint-line) bg-(--semantic-base-surface-1) p-3 shadow-xs dark:border-none"
   >
     <AccountProfilePicture
-      :account-id="account.id"
+      :account-id="account.rowId"
       class="size-15 rounded-full"
       height="60"
       width="60"
@@ -32,7 +32,7 @@
 // compiler
 const { account } = defineProps<{
   account: {
-    id: string
+    rowId: string
     username: string
   }
 }>()

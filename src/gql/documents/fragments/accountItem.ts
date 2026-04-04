@@ -5,7 +5,7 @@ export const AccountItem = graphql(`
   fragment AccountItem on Account {
     description
     id
-    nodeId
+    rowId
     username
   }
 `)

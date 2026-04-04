@@ -131,17 +131,10 @@ if (!runtimeConfig.public.vio.isTesting && !isApp) {
 }
 
 // initialization
-defineOgImageComponent(
-  'Default',
-  {},
-  {
-    alt: t('globalSeoOgImageAlt'),
-  },
-)
 useAppLayout()
-await useAuth()
 usePolyfills()
 useAppGtag()
+await useJwtInitialize()
 await initialize()
 </script>
 

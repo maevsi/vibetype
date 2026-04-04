@@ -1,12 +1,13 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
 
 import {
+  CSRF_COOKIE_NAME,
+  JWT_COOKIE_NAME,
   FEATURE_FLAGS_COOKIE_ID,
   FEATURE_FLAGS_COOKIE_NAME,
   GTAG_COOKIE_ID,
-  JWT_NAME,
   TIMEZONE_COOKIE_NAME,
-} from '../../shared/utils/constants'
+} from '../../node/static'
 
 export const cookieControlConfig = {
   cookieControl: {
@@ -37,7 +38,7 @@ export const cookieControlConfig = {
             de: 'Authentifizierungsdaten',
             en: 'Authentication Data',
           },
-          targetCookieIds: [JWT_NAME({ isHttps: true })], // TODO: set `isHttps` at runtime
+          targetCookieIds: [JWT_COOKIE_NAME],
         },
         {
           description: {
@@ -50,6 +51,18 @@ export const cookieControlConfig = {
             en: 'Cookie Preferences',
           },
           targetCookieIds: ['ncc_c', 'ncc_e'],
+        },
+        {
+          description: {
+            de: 'Dieser Cookie von uns speichert Sicherheitsinformationen für den Schutz vor Angriffen.',
+            en: 'This cookie of ours stores security information for protection against attacks.',
+          },
+          id: 's',
+          name: {
+            de: 'Sicherheit (csrf)',
+            en: 'Security (csrf)',
+          },
+          targetCookieIds: [CSRF_COOKIE_NAME],
         },
         {
           description: {

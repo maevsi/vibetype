@@ -19,7 +19,7 @@
           <LayoutTbody>
             <GuestListItem
               v-for="guest in guests"
-              :key="guest.id"
+              :key="guest.rowId"
               :event
               :guest
             />
@@ -97,13 +97,14 @@ import {
 import { Doughnut } from 'vue-chartjs'
 
 import { useAllGuestsQuery } from '~~/gql/documents/queries/guest/guestsAll'
+import { InvitationFeedback } from '~~/gql/generated/graphql'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 import { getGuestItem } from '~~/gql/documents/fragments/guestItem'
 
 const { event } = defineProps<{
   event: Pick<
     EventItemFragment,
-    'accountByCreatedBy' | 'createdBy' | 'slug' | 'guestCountMaximum' | 'id'
+    'accountByCreatedBy' | 'createdBy' | 'slug' | 'guestCountMaximum' | 'rowId'
   >
 }>()
 
@@ -134,7 +135,7 @@ const options = {
 const guestsQuery = useAllGuestsQuery(
   computed(() => ({
     after: after.value,
-    eventId: event.id,
+    eventId: event.rowId,
     first: ITEMS_PER_PAGE_LARGE,
   })),
 )
@@ -169,10 +170,10 @@ const dataComputed = computed(() => {
   if (guests.value) {
     for (const guest of guests.value) {
       switch (guest.feedback) {
-        case 'ACCEPTED':
+        case InvitationFeedback.Accepted:
           datasetData.accepted += 1
           break
-        case 'CANCELED':
+        case InvitationFeedback.Canceled:
           datasetData.canceled += 1
           break
         case null:

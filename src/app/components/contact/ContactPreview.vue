@@ -52,7 +52,10 @@
 </template>
 
 <script setup lang="ts">
-import type { ContactItemFragment } from '~~/gql/generated/graphql'
+import type {
+  ContactItemFragment,
+  InvitationFeedback,
+} from '~~/gql/generated/graphql'
 
 const {
   contact,
@@ -69,7 +72,7 @@ const {
     | 'firstName'
     | 'lastName'
   >
-  feedback?: string | null
+  feedback?: InvitationFeedback | null
   isUsernameLinked?: boolean
 }>()
 

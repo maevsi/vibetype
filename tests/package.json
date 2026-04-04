@@ -2,8 +2,8 @@
   "devDependencies": {
     "@axe-core/playwright": "4.11.1",
     "@eslint/js": "10.0.1",
-    "@playwright/test": "1.58.2",
-    "@types/node": "24.12.0",
+    "@playwright/test": "1.59.1",
+    "@types/node": "25.5.0",
     "cross-env": "10.1.0",
     "del-cli": "7.0.0",
     "eslint": "10.1.0",
@@ -18,7 +18,7 @@
     "node": "^24.0.0"
   },
   "peerDependencies": {
-    "playwright-core": "1.58.2"
+    "playwright-core": "1.59.1"
   },
   "scripts": {
     "lint": "pnpm run lint:js && pnpm run lint:ts",
@@ -29,16 +29,17 @@
     "test:e2e": "playwright test",
     "test:e2e:docker:br": "pnpm run test:e2e:docker:build && pnpm run test:e2e:docker:run",
     "test:e2e:docker:build": "sudo docker build -t test-e2e_development --build-arg UID=$(id -u) --build-arg GID=$(id -g) --target test-e2e_development ..",
-    "test:e2e:docker:run": "sudo docker run --rm -v \"$PWD/..:/srv/app\" -v \"vibetype_playwright_data:/srv/app/node_modules\" -v \"$(pnpm store path):/srv/.pnpm-store\" test-e2e_development",
+    "test:e2e:docker:run": "sudo docker run --add-host=app.localhost:127.0.0.1 --rm -v \"$PWD/..:/srv/app\" -v \"vibetype_playwright_data:/srv/app/node_modules\" -v \"$(pnpm store path):/srv/.pnpm-store\" test-e2e_development",
     "test:e2e:docker:server:dev": "pnpm run test:e2e:docker:br pnpm --dir tests run test:e2e:server:dev",
     "test:e2e:docker:server:dev:update": "del-cli e2e/specs/**/*.png && pnpm run test:e2e:docker:server:dev --update-snapshots",
     "test:e2e:docker:server:node": "pnpm run test:e2e:docker:br pnpm --dir tests run test:e2e:server:node",
     "test:e2e:docker:server:node:update": "del-cli e2e/specs/**/*.png && pnpm run test:e2e:docker:server:node --update-snapshots",
     "test:e2e:docker:server:static": "pnpm run test:e2e:docker:br pnpm --dir tests run test:e2e:server:static",
     "test:e2e:docker:server:static:update": "del-cli e2e/specs/**/*.png && pnpm run test:e2e:docker:server:static --update-snapshots",
-    "test:e2e:server:dev": "cross-env PORT=3000 NUXT_PUBLIC_SITE_URL=https://localhost:3000 VIO_SERVER=dev pnpm run test:e2e",
-    "test:e2e:server:node": "cross-env NODE_ENV=production NUXT_PUBLIC_I18N_BASE_URL=http://localhost:3001 NUXT_PUBLIC_SITE_URL=http://localhost:3001 PORT=3001 VIO_SERVER=node pnpm run test:e2e",
-    "test:e2e:server:static": "cross-env NODE_ENV=production PORT=3002 NUXT_PUBLIC_SITE_URL=https://localhost:3002 VIO_SERVER=static pnpm run test:e2e"
+    "test:e2e:server:dev": "cross-env NUXT_PUBLIC_I18N_BASE_URL=https://app.localhost:3000 PORT=3000 VIO_SERVER=development pnpm run test:e2e",
+    "test:e2e:server:node": "cross-env NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" NUXT_PUBLIC_I18N_BASE_URL=https://app.localhost:3001 PORT=3001 VIO_SERVER=node pnpm run test:e2e",
+    "test:e2e:server:static": "cross-env NUXT_PUBLIC_I18N_BASE_URL=https://app.localhost:3002 PORT=3002 VIO_SERVER=static pnpm run test:e2e",
+    "test:e2e:ui": "pnpm run test:e2e --ui"
   },
   "type": "module"
 }

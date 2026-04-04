@@ -1,37 +1,36 @@
-import { type H3Event, setCookie } from 'h3'
+import type { useRuntimeConfig } from 'nuxt/app'
 
-export const getJwtName = (siteUrl: URL) =>
-  JWT_NAME({ isHttps: siteUrl.protocol === 'https:' })
+import { JWT_COOKIE_NAME } from '~~/node/static'
 
-export const setJwtCookie = ({
-  event,
-  jwt,
+import { COOKIE_SAME_SITE } from './constants'
+import { getIsSecure } from './networking'
+
+export { JWT_COOKIE_NAME } from '~~/node/static'
+
+export const getJwtPublicKey = async ({
   runtimeConfig,
 }: {
-  event: H3Event
-  jwt: string
   runtimeConfig: ReturnType<typeof useRuntimeConfig>
 }) => {
-  const dateEpoch = new Date(0)
-  const dateInAMonth = new Date(Date.now() + 86400 * 1000 * 31) // TODO: read from jwt expiration claim
-
-  if (!runtimeConfig.public.i18n.baseUrl) {
-    throw createAppError({
-      status: 500,
-      statusText: 'Site URL is not defined in the runtime configuration.',
-    })
+  if (runtimeConfig.public.vio.stagingHost) {
+    return await $fetch<string>(
+      `https://${runtimeConfig.public.vio.stagingHost}/api/service/postgraphile/jwt-public-key`,
+    )
   }
 
-  const siteUrl = getSiteUrl(runtimeConfig.public.i18n.baseUrl).siteUrlTyped
-  const isSecure = getIsSecure({ siteUrl })
-  const jwtCookieName = JWT_NAME({ isHttps: isSecure })
+  return runtimeConfig.public.vio.auth.jwt.publicKey
+}
 
-  setCookie(event, jwtCookieName, jwt, {
-    domain: siteUrl.hostname,
-    expires: jwt ? dateInAMonth : dateEpoch,
-    httpOnly: true,
-    // path: '/',
-    sameSite: COOKIE_SAME_SITE,
-    secure: isSecure,
-  })
+export const getJwtCookieParameters = ({ siteUrl }: { siteUrl: URL }) => {
+  const jwtCookieName = JWT_COOKIE_NAME
+  const isSecure = getIsSecure({ siteUrl })
+
+  return {
+    name: jwtCookieName,
+    options: {
+      httpOnly: true,
+      sameSite: COOKIE_SAME_SITE,
+      secure: isSecure,
+    },
+  }
 }

@@ -5,6 +5,7 @@ export const EventFormatItem = graphql(`
   fragment EventFormatItem on EventFormat {
     id
     name
+    rowId
   }
 `)
 

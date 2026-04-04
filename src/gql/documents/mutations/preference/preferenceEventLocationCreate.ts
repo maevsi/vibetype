@@ -3,9 +3,9 @@ import { graphql } from '~~/gql/generated'
 
 export const createPreferenceEventLocationMutation = graphql(`
   mutation CreatePreferenceEventLocation(
-    $input: PreferenceEventLocationInput!
+    $input: CreatePreferenceEventLocationInput!
   ) {
-    createPreferenceEventLocation(input: { preferenceEventLocation: $input }) {
+    createPreferenceEventLocation(input: $input) {
       preferenceEventLocation {
         ...PreferenceEventLocationItem
       }

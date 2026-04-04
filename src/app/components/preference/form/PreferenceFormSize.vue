@@ -14,16 +14,16 @@
         <FormField
           v-for="item in items"
           v-slot="{ value, handleChange }"
-          :key="item.id"
+          :key="item.rowId"
           name="items"
-          :value="item.id"
+          :value="item.rowId"
           type="checkbox"
           :unchecked-value="false"
         >
           <FormItem class="flex gap-3 p-1">
             <FormControl class="mt-1">
               <AppCheckbox
-                :model-value="value.includes(item.id)"
+                :model-value="value.includes(item.rowId)"
                 @update:model-value="handleChange"
               />
             </FormControl>
@@ -78,8 +78,9 @@ const allPreferenceEventSizesQuery = useQuery({
     query AllPreferenceEventSizes {
       allPreferenceEventSizes {
         nodes {
-          nodeId
           eventSize
+          id
+          rowId
         }
       }
     }
@@ -99,24 +100,24 @@ const api = await useApiData([
 const { t } = useI18n()
 const items = [
   {
-    id: EventSize.Small,
     labelName: t('size1'),
     labelDescription: t('size1Numbers'),
+    rowId: EventSize.Small,
   },
   {
-    id: EventSize.Medium,
     labelName: t('size2'),
     labelDescription: t('size2Numbers'),
+    rowId: EventSize.Medium,
   },
   {
-    id: EventSize.Large,
     labelName: t('size3'),
     labelDescription: t('size3Numbers'),
+    rowId: EventSize.Large,
   },
   {
-    id: EventSize.Huge,
     labelName: t('size4'),
     labelDescription: t('size4Numbers'),
+    rowId: EventSize.Huge,
   },
 ]
 const modelError = defineModel<Error>('error')
@@ -148,8 +149,10 @@ const onSubmit = handleSubmit(async (values) => {
   for (const item of itemsToCreate) {
     const result = await createPreferenceEventSizeMutation.executeMutation({
       input: {
-        accountId: store.signedInAccountId,
-        eventSize: item,
+        preferenceEventSize: {
+          accountId: store.signedInAccountId,
+          eventSize: item,
+        },
       },
     })
 
