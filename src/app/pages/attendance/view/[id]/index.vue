@@ -104,21 +104,25 @@ import { graphql } from '~~/gql/generated'
 const route = useRoute()
 const { t } = useI18n()
 
-const csrfRequestFetch = useCsrfRequestFetch()
 const store = useStore()
 try {
-  const { jwtPayload } = await csrfRequestFetch('/api/model/jwt', {
-    body: {
-      attendanceId: route.params.id,
+  const { data: jwtUpdateData, error: jwtUpdateError } = await useCsrfFetch(
+    '/api/model/jwt',
+    {
+      body: {
+        attendanceId: route.params.id,
+      },
+      method: 'PUT',
     },
-    method: 'PUT',
-  })
+  )
 
-  if (!jwtPayload) {
+  if (jwtUpdateError.value) throw jwtUpdateError.value
+
+  if (!jwtUpdateData.value?.jwtPayload) {
     throw new Error('JWT update failed: no JWT returned')
   }
 
-  store.jwtSet(jwtPayload)
+  store.jwtSet(jwtUpdateData.value.jwtPayload)
 } catch (error) {
   console.error('JWT update failed:', error)
 }

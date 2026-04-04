@@ -51,8 +51,8 @@ const invalidateCache = (
     ? cache.invalidate({
         __typename: name,
         ...('rowId' in args.input
-          ? { id: args.input.rowId }
-          : { nodeId: args.input.id }),
+          ? { rowId: args.input.rowId }
+          : { id: args.input.id }),
       })
     : cache
         .inspectFields('Query')

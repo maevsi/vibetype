@@ -1,7 +1,7 @@
-import type { GraphQLError } from 'graphql'
 import { z } from 'zod'
 
 import { graphql } from '~~/gql/generated'
+import type { JwtCreateMutation } from '~~/gql/generated/graphql'
 
 const jwtPostBodySchema = z.object({
   password: z.string(),
@@ -28,49 +28,14 @@ export default defineEventHandler(async (event) => {
     },
   })
 
-  if (mutationJwtCreate.error) {
-    if (mutationJwtCreate.error.networkError) {
-      throw createAppError({
-        status: 500,
-        statusText:
-          (mutationJwtCreate.error.networkError.cause as { message?: string })
-            ?.message || mutationJwtCreate.error.networkError.message,
-      })
-    }
-
-    if (mutationJwtCreate.error.graphQLErrors.length) {
-      const messages = mutationJwtCreate.error.graphQLErrors
-        .map((error: GraphQLError) => error.message)
-        .join('; ')
-      throw createAppError({
-        status: 500,
-        statusText: `GraphQL error(s) during JWT creation: ${messages}`,
-      })
-    }
-
-    throw createAppError({
-      status: 500,
-      statusText:
-        mutationJwtCreate.error.message ||
-        'Unexpected error during JWT creation.',
-    })
-  }
-
-  if (!mutationJwtCreate.data) {
-    throw createAppError({
-      status: 500,
-      statusText: `No data returned from JWT creation mutation.`,
-    })
-  }
-
-  const jwt = mutationJwtCreate.data?.jwtCreate?.result
-
-  if (!jwt) {
-    throw createAppError({
-      status: 500,
-      statusText: 'No JWT returned from creation mutation.',
-    })
-  }
+  const jwt = getJwtFromResult<
+    JwtCreateMutation,
+    (typeof mutationJwtCreate)['operation']['variables']
+  >({
+    context: 'JWT creation',
+    extract: (data: JwtCreateMutation) => data.jwtCreate?.result,
+    result: mutationJwtCreate,
+  })
 
   const { setJwtCookie, verifyJwt } = await useJsonWebToken()
   const jwtPayload = await verifyJwt<Jwt>(jwt)
