@@ -29,7 +29,7 @@ export const useCsrfImmediately = () => {
   )
 }
 
-export const useCsrfFetch = createUseFetch((currentOptions) => {
+export const useCsrfRequestFetch = createUseFetch((currentOptions) => {
   const { csrf } = useCsrf()
   return {
     headers: {
