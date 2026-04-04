@@ -1,3 +1,46 @@
+## [14.0.0](https://github.com/maevsi/vibetype/compare/13.4.0...14.0.0) (2026-04-04)
+
+### ⚠ BREAKING CHANGES
+
+* **jwt:** use ecdsa key
+* **postgraphile:** upgrade to v5
+* **security:** use http-only cookie
+* **store:** remove plain jwt
+* **nuxt:** rename runtime configuration key
+
+### Features
+
+* **a11y:** create error ([4c4a143](https://github.com/maevsi/vibetype/commit/4c4a14340e69b102c5092e28bd77e9f8c52a578f))
+* **content:** improve error handling ([f441aa0](https://github.com/maevsi/vibetype/commit/f441aa0f79227d4d105dc267c980b420c6654909))
+* **cookie:** add `getResponseCookie` utility ([bff2be4](https://github.com/maevsi/vibetype/commit/bff2be465609f562d58f2c4a341abd04d37b0c09))
+* **deps:** upgrade @dargmuesli/nuxt-vio to v21 ([deeebf7](https://github.com/maevsi/vibetype/commit/deeebf7ef7dbddb234463039b2af0a404f99d95a))
+* **guest:** enable JWT guest mutation endpoint ([88f7b92](https://github.com/maevsi/vibetype/commit/88f7b928eb33491db2dea4cf308802b87490f51a))
+* **guest:** use JWT composable for server-side authentication ([4b6a97a](https://github.com/maevsi/vibetype/commit/4b6a97a7f3ea2df3c0208bd353dc3b3edde17f19))
+* **jwt:** add JWT and security composables ([cfd74d8](https://github.com/maevsi/vibetype/commit/cfd74d892580d1b47e5292ce5261621bd72d3fe0))
+* **jwt:** use ecdsa key ([80885a8](https://github.com/maevsi/vibetype/commit/80885a861096f51ef71cf34e103b7e555b7a1714))
+* **nuxt:** rename runtime configuration key ([325238f](https://github.com/maevsi/vibetype/commit/325238fc96e97ad2b44ffe7d1e96da654e175cf5))
+* **postgraphile:** upgrade to v5 ([b1efcce](https://github.com/maevsi/vibetype/commit/b1efccee7b11f8d65a5359a9486768e9cddf9985))
+* **security:** use http-only cookie ([547df19](https://github.com/maevsi/vibetype/commit/547df196a2f3653287966242cb449a374c125c4d))
+
+### Bug Fixes
+
+* **components:** deduplicate icon wrapper ([357a623](https://github.com/maevsi/vibetype/commit/357a623fc30479034bbd999fcac970eb4e5389b9))
+* **deps:** patch @nuxt/content ([495a671](https://github.com/maevsi/vibetype/commit/495a67142ee3eeaa05cfcd0a5ddd9393ddb3e44a))
+* **docker:** improve environment variable loading ([e8d4cde](https://github.com/maevsi/vibetype/commit/e8d4cde23887035238199236d71c58b435addf6f))
+* **event:** correct favorite mutation name ([fdaae1c](https://github.com/maevsi/vibetype/commit/fdaae1ca3b86367f1dd9c948534e5c43f00c0b75))
+* **gql:** align cache invalidation keys ([eea6e1a](https://github.com/maevsi/vibetype/commit/eea6e1a54011e71e4652e5944aefc3206e822ad6))
+* **jwt:** improve error handling ([0811c95](https://github.com/maevsi/vibetype/commit/0811c95131ae7e1e43371867b15d473022117eea))
+* **nuxt:** access headers without h3 imports ([40a9f1c](https://github.com/maevsi/vibetype/commit/40a9f1c774e0ae4ea352f3bba146f49466a13cbe))
+* schedule release ([c9838ad](https://github.com/maevsi/vibetype/commit/c9838ade28ac8991df44136ac09cc163607311b6))
+* **sentry:** reenable sourcemaps ([d6dec70](https://github.com/maevsi/vibetype/commit/d6dec706b93dbefb41cb6dd567aed01576c287a3))
+* **store:** remove plain jwt ([aa03b04](https://github.com/maevsi/vibetype/commit/aa03b0457db8790c4b895b59d3d788d3b0ca8e6c))
+* **urql:** correct site name ([742aa8c](https://github.com/maevsi/vibetype/commit/742aa8c1cd9696cc00adf9317aa292b26d114554))
+* various touchups ([24561ed](https://github.com/maevsi/vibetype/commit/24561ed798656ad6dea94bd654eaeefed28c07f2))
+
+### Reverts
+
+* **security:** drop response promise return ([6f719ce](https://github.com/maevsi/vibetype/commit/6f719ce90f37802d9554db1e9e5341a851916a9d))
+
 ## [14.0.0-beta.13](https://github.com/maevsi/vibetype/compare/14.0.0-beta.12...14.0.0-beta.13) (2026-04-03)
 
 ### Bug Fixes
