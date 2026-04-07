@@ -47,6 +47,11 @@
     </FormField>
     <FormFieldConsent name="userConsent">
       <i18n-t keypath="userConsent">
+        <template #contactForm>
+          <AppLink is-underlined :to="localePath('support-contact')">
+            {{ t('userConsentContactForm') }}
+          </AppLink>
+        </template>
         <template #privacyPolicy>
           <AppLink is-underlined :to="localePath('docs-legal-privacy')">
             {{ t('userConsentPrivacyPolicy') }}
@@ -67,9 +72,9 @@ const emit = defineEmits<{
 const modelError = defineModel<Error>('error')
 const { onSubmit, submit } = useFormSubmit({
   emit,
-  endpoint: '/api/service/zammad/contact',
+  endpoint: '/api/service/zammad/issue',
   modelError,
-  schema: schemaFormContact,
+  schema: schemaFormIssue,
 })
 defineExpose({
   submit,
@@ -82,14 +87,16 @@ const localePath = useLocalePath()
 
 <i18n lang="yaml">
 de:
-  itemDescription: Nachricht
-  userConsent: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über dieses Formular widerrufen.'
+  itemDescription: Beschreibung
+  userConsent: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über das {contactForm} widerrufen.'
+  userConsentContactForm: Kontaktformular
   userConsentPrivacyPolicy: Datenschutzerklärung
   userEmailAddress: E-Mail-Adresse
   userName: Name
 en:
-  itemDescription: Message
-  userConsent: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for the purpose of responding to my inquiry. I can withdraw my consent at any time using this form.'
+  itemDescription: Description
+  userConsent: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for the purpose of responding to my inquiry. I can withdraw my consent at any time using the {contactForm}.'
+  userConsentContactForm: contact form
   userConsentPrivacyPolicy: privacy policy
   userEmailAddress: Email address
   userName: Name

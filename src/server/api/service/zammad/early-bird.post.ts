@@ -2,9 +2,9 @@ export default defineEventHandler(async (event) => {
   const body = await getBodySafe({ event, schema: schemaFormEarlyBird })
   const { createTicket } = useZammad()
 
-  createTicket({
-    body: `Name: ${body.name}\nEmail: ${body.emailAddress}\nAgreement: ${body.agreement}`,
-    customerEmailAddress: body.emailAddress,
-    title: `Early Bird: ${body.name}`,
+  await createTicket({
+    body: `Name: ${body.userName}\nEmail: ${body.userEmailAddress}`,
+    customerEmailAddress: body.userEmailAddress,
+    title: `Early Bird: ${body.userName}`,
   })
 })

@@ -1,11 +1,11 @@
 <template>
   <form ref="form" class="flex flex-col gap-4" @submit="onSubmit">
-    <FormField v-slot="{ componentField }" name="name">
+    <FormField v-slot="{ componentField }" name="userName">
       <FormItem>
         <FormLabel>
-          <TypographySubtitleMedium>
-            {{ t('name') }}
-          </TypographySubtitleMedium>
+          <TypographySubtitleSmall>
+            {{ t('userName') }}
+          </TypographySubtitleSmall>
         </FormLabel>
         <FormControl>
           <AppInput v-bind="componentField" type="text" />
@@ -15,101 +15,72 @@
         </TypographyLabel>
       </FormItem>
     </FormField>
-    <FormField v-slot="{ componentField }" name="emailAddress">
+    <FormField v-slot="{ componentField }" name="userEmailAddress">
       <FormItem>
         <FormLabel>
-          <TypographySubtitleMedium>
-            {{ t('emailAddress') }}
-          </TypographySubtitleMedium>
+          <TypographySubtitleSmall>
+            {{ t('userEmailAddress') }}
+          </TypographySubtitleSmall>
         </FormLabel>
         <FormControl>
-          <AppInput v-bind="componentField" type="text" />
+          <AppInput v-bind="componentField" type="email" />
         </FormControl>
         <TypographyLabel v-slot="attributes">
           <FormMessage v-bind="attributes" />
         </TypographyLabel>
       </FormItem>
     </FormField>
-    <FormField
-      v-slot="{ value, handleChange }"
-      name="agreement"
-      type="checkbox"
-    >
-      <FormItem>
-        <div class="flex gap-3">
-          <FormControl class="mt-1">
-            <AppCheckbox
-              :model-value="value"
-              required
-              @update:model-value="handleChange"
-            />
-          </FormControl>
-          <FormLabel>
-            <TypographySubtitleMedium>
-              {{ t('agreement') }}
-            </TypographySubtitleMedium>
-          </FormLabel>
-        </div>
-        <TypographyLabel v-slot="attributes">
-          <FormMessage v-bind="attributes" />
-        </TypographyLabel>
-      </FormItem>
-    </FormField>
+    <FormFieldConsent name="userConsent">
+      <i18n-t keypath="userConsent">
+        <template #contactForm>
+          <AppLink is-underlined :to="localePath('support-contact')">
+            {{ t('userConsentContactForm') }}
+          </AppLink>
+        </template>
+        <template #privacyPolicy>
+          <AppLink is-underlined :to="localePath('docs-legal-privacy')">
+            {{ t('userConsentPrivacyPolicy') }}
+          </AppLink>
+        </template>
+      </i18n-t>
+    </FormFieldConsent>
   </form>
 </template>
 
 <script setup lang="ts">
-import { toTypedSchema } from '@vee-validate/zod'
-import { useForm } from 'vee-validate'
-
+// compiler
 const emit = defineEmits<{
-  submit: []
   success: []
 }>()
 
-const alertError = useAlertError()
-const { t } = useI18n()
-const templateForm = useTemplateRef('form')
-
 // form
-const submit = () => {
-  templateForm.value?.dispatchEvent(
-    new Event('submit', { bubbles: true, cancelable: true }),
-  )
-}
-const { handleSubmit } = useForm({
-  validationSchema: toTypedSchema(schemaFormEarlyBird),
+const modelError = defineModel<Error>('error')
+const { onSubmit, submit } = useFormSubmit({
+  emit,
+  endpoint: '/api/service/zammad/early-bird',
+  modelError,
+  schema: schemaFormEarlyBird,
 })
-const onSubmit = handleSubmit(async (values) => {
-  try {
-    await $fetch('/api/service/zammad/early-bird', {
-      method: 'POST',
-      body: values,
-    })
-    emit('success')
-  } catch (error) {
-    // TODO: implement form error page
-    alertError({
-      ...(error instanceof Error ? { error } : {}),
-      messageI18n: t('error'),
-    })
-  }
-})
-
 defineExpose({
   submit,
 })
+
+// template
+const { t } = useI18n()
+const localePath = useLocalePath()
 </script>
 
 <i18n lang="yaml">
 de:
-  agreement: Mit deiner Teilnahme stimmst du zu, dass wir deine Kontaktdaten speichern und dich im Rahmen des Programms kontaktieren dürfen.
-  error: Die Anmeldung für das Early Bird-Programm scheint nicht geklappt zu haben. Bitte versuche es noch einmal oder wende dich an den Support, wenn das Problem weiterhin besteht.
-  emailAddress: E-Mail-Adresse
-  name: Name
+  userConsent: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über das {contactForm} widerrufen.'
+  userConsentContactForm: Kontaktformular
+  userConsentPrivacyPolicy: Datenschutzerklärung
+  userEmailAddress: E-Mail-Adresse
+  userName: Name
 en:
-  agreement: By participating, you agree that we may save your contact details and contact you as part of the program.
-  error: The registration for the Early Bird program does not seem to have worked. Please try again or contact support if the problem persists.
-  emailAddress: Email address
-  name: Name
+  userConsent: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for the purpose of responding to my inquiry. I can withdraw my consent at any time using the {contactForm}.'
+  userConsentContactForm: contact form
+  userConsentPrivacyPolicy: privacy policy
+  userEmailAddress: Email address
+  userName: Name
 </i18n>

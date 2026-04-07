@@ -45,11 +45,19 @@
         </TypographyLabel>
       </FormItem>
     </FormField>
-    <FormFieldConsent name="userConsent">
-      <i18n-t keypath="userConsent">
+    <FormFieldConsent name="userConsentAccuracy">
+      {{ t('userConsentAccuracy') }}
+    </FormFieldConsent>
+    <FormFieldConsent name="userConsentProcessing">
+      <i18n-t keypath="userConsentProcessing">
+        <template #contactForm>
+          <AppLink is-underlined :to="localePath('support-contact')">
+            {{ t('userConsentProcessingContactForm') }}
+          </AppLink>
+        </template>
         <template #privacyPolicy>
           <AppLink is-underlined :to="localePath('docs-legal-privacy')">
-            {{ t('userConsentPrivacyPolicy') }}
+            {{ t('userConsentProcessingPrivacyPolicy') }}
           </AppLink>
         </template>
       </i18n-t>
@@ -67,9 +75,9 @@ const emit = defineEmits<{
 const modelError = defineModel<Error>('error')
 const { onSubmit, submit } = useFormSubmit({
   emit,
-  endpoint: '/api/service/zammad/contact',
+  endpoint: '/api/service/zammad/report',
   modelError,
-  schema: schemaFormContact,
+  schema: schemaFormReport,
 })
 defineExpose({
   submit,
@@ -82,15 +90,19 @@ const localePath = useLocalePath()
 
 <i18n lang="yaml">
 de:
-  itemDescription: Nachricht
-  userConsent: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über dieses Formular widerrufen.'
-  userConsentPrivacyPolicy: Datenschutzerklärung
+  itemDescription: Beschreibung
+  userConsentAccuracy: Ich stelle sicher, nach bestem Wissen und Gewissen, dass alle oben offengelegten Informationen korrekt und wahrheitsgemäß sind.
+  userConsentProcessing: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über das {contactForm} widerrufen.'
+  userConsentProcessingContactForm: Kontaktformular
+  userConsentProcessingPrivacyPolicy: Datenschutzerklärung
   userEmailAddress: E-Mail-Adresse
   userName: Name
 en:
-  itemDescription: Message
-  userConsent: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for the purpose of responding to my inquiry. I can withdraw my consent at any time using this form.'
-  userConsentPrivacyPolicy: privacy policy
+  itemDescription: Description
+  userConsentAccuracy: I ensure, to the best of my ability and knowledge, that all the information disclosed above is accurate and true.
+  userConsentProcessing: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for the purpose of responding to my inquiry. I can withdraw my consent at any time using the {contactForm}.'
+  userConsentProcessingContactForm: contact form
+  userConsentProcessingPrivacyPolicy: privacy policy
   userEmailAddress: Email address
   userName: Name
 </i18n>
