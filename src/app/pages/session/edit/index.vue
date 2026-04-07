@@ -74,16 +74,22 @@
             <AppIconWrench />
           </CardButton>
           <CardButton
-            is-external
             :title="t('featureSuggestion')"
-            to="https://forms.monday.com/forms/f3ef56d13c8383e6ececb2875d7fb4b2?r=euc1"
+            :to="
+              localePath({
+                name: 'support-contact',
+              })
+            "
           >
             <AppIconIdea />
           </CardButton>
           <CardButton
-            is-external
             :title="t('bugReport')"
-            to="https://forms.monday.com/forms/55b8fc2281c2be1647a69e6a4ffe156e?r=euc1"
+            :to="
+              localePath({
+                name: 'support-contact',
+              })
+            "
           >
             <AppIconBug />
           </CardButton>
