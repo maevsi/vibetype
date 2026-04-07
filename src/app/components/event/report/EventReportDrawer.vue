@@ -4,6 +4,7 @@
       <EventReportForm
         ref="form"
         v-bind="attributes"
+        v-model:error="error"
         :account-id
         :event
         @submit-success="step = 'reportConfirmation'"
@@ -27,6 +28,13 @@
         }}
       </div>
     </AppStep>
+    <AppStep v-slot="attributes" :is-active="step === 'error'">
+      <div v-bind="attributes" class="text-center">
+        <span v-if="error && error.message">
+          {{ error.message }}
+        </span>
+      </div>
+    </AppStep>
     <template #title>
       <AppStep v-slot="attributes" :is-active="step === 'default'">
         <span v-bind="attributes">
@@ -41,6 +49,11 @@
       <AppStep v-slot="attributes" :is-active="step === 'blockConfirmation'">
         <span v-bind="attributes">
           {{ t('titleBlockConfirmation') }}
+        </span>
+      </AppStep>
+      <AppStep v-slot="attributes" :is-active="step === 'error'">
+        <span v-bind="attributes">
+          {{ t('globalError') }}
         </span>
       </AppStep>
     </template>
@@ -89,6 +102,16 @@
           </ButtonColored>
         </DrawerClose>
       </AppStep>
+      <AppStep v-slot="attributes" :is-active="step === 'error'">
+        <ButtonColored
+          v-bind="attributes"
+          :aria-label="t('globalTryAgain')"
+          variant="primary"
+          @click="restart"
+        >
+          {{ t('globalTryAgain') }}
+        </ButtonColored>
+      </AppStep>
     </template>
   </AppDrawer>
 </template>
@@ -112,7 +135,9 @@ const templateForm = useTemplateRef('form')
 const isOpen = defineModel<boolean>('open')
 
 // stepper
-const { step } = useStepper<'reportConfirmation' | 'blockConfirmation'>()
+const { error, restart, step } = useStepper<
+  'reportConfirmation' | 'blockConfirmation'
+>()
 const onAnimationEnd = (isOpen: boolean) => {
   if (isOpen) return
 
@@ -121,27 +146,30 @@ const onAnimationEnd = (isOpen: boolean) => {
     return
   }
 
-  step.value = 'default'
+  restart()
 }
 
 // block
 const createAccountBlockMutation = useCreateAccountBlockMutation()
-// const api = await useApiData([createAccountBlockMutation]) // TODO: show loading state, error details
-const executeUrqlRequest = useExecuteUrqlRequest()
 const blockOrganizer = async () => {
-  const result = await executeUrqlRequest({
-    errorMessageI18n: t('errorBlock'),
-    request: createAccountBlockMutation.executeMutation({
-      input: {
-        accountBlock: {
-          blockedAccountId: event.createdBy,
-          createdBy: accountId,
-        },
+  const result = await createAccountBlockMutation.executeMutation({
+    input: {
+      accountBlock: {
+        blockedAccountId: event.createdBy,
+        createdBy: accountId,
       },
-    }),
+    },
   })
 
-  if (!result) return
+  if (result.error) {
+    error.value = new Error(t('errorBlock'))
+    return
+  }
+
+  if (!result.data) {
+    error.value = new Error(t('globalErrorNoData'))
+    return
+  }
 
   step.value = 'blockConfirmation'
 }

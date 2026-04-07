@@ -1,11 +1,5 @@
 <template>
   <AppForm
-    :errors="api.errors"
-    :errors-pg-ids="{
-      postgres22023: t('postgres22023'),
-      postgresP0002: t('postgresP0002'),
-      postgres55000: t('postgres55000'),
-    }"
     :form="v$"
     :is-form-sent="isFormSent"
     is-button-hidden
@@ -31,6 +25,8 @@ const { code } = defineProps<{
 const emit = defineEmits<{
   success: []
 }>()
+
+const modelError = defineModel<Error>('error')
 
 // form
 const form = reactive({
@@ -59,6 +55,20 @@ defineExpose({
 // api data
 const passwordResetMutation = useAccountPasswordResetMutation()
 const api = await useApiData([passwordResetMutation])
+watch(
+  () => api.value.errors,
+  (current) => {
+    modelError.value = current?.length
+      ? new Error(
+          getCombinedErrorMessages(current, {
+            postgres22023: t('postgres22023'),
+            postgres55000: t('postgres55000'),
+            postgresP0002: t('postgresP0002'),
+          })[0],
+        )
+      : undefined
+  },
+)
 
 // vuelidate
 const rules = {

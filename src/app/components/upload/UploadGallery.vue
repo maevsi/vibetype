@@ -313,7 +313,7 @@ const getUploadBlobPromise = () =>
         })
 
         if (result.error) return reject(result.error)
-        if (!result.data) return
+        if (!result.data) return reject(new Error(t('globalErrorNoData')))
 
         const uppy = new Uppy({
           id: 'profile-picture',

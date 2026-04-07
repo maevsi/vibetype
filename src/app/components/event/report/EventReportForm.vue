@@ -37,6 +37,8 @@ const emit = defineEmits<{
   submitSuccess: []
 }>()
 
+const modelError = defineModel<Error>('error')
+
 // template
 const reasons = [
   { label: t('drawerRadioSexual'), value: 'sexual' },
@@ -66,23 +68,26 @@ const { handleSubmit } = useForm({
 // api data // TODO: move when dissolving `defineExpose`
 const createReportMutation = useCreateReportMutation()
 // const api = await useApiData([createReportMutation]) // TODO: show loading state, error details
-// api data end
-const executeUrqlRequest = useExecuteUrqlRequest()
 const onSubmit = handleSubmit(async (values) => {
-  const result = await executeUrqlRequest({
-    errorMessageI18n: t('errorCreate'),
-    request: createReportMutation.executeMutation({
-      input: {
-        report: {
-          targetEventId: event.rowId,
-          reason: values.reason,
-          createdBy: accountId,
-        },
+  const result = await createReportMutation.executeMutation({
+    input: {
+      report: {
+        targetEventId: event.rowId,
+        reason: values.reason,
+        createdBy: accountId,
       },
-    }),
+    },
   })
 
-  if (!result) return // TODO: show error page
+  if (result.error) {
+    modelError.value = new Error(t('errorCreate'))
+    return
+  }
+
+  if (!result.data) {
+    modelError.value = new Error(t('globalErrorNoData'))
+    return
+  }
 
   emit('submitSuccess')
 })

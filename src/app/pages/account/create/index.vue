@@ -75,21 +75,21 @@
         </LayoutPageResult>
       </LayoutPage>
     </AppStep>
-    <AppStep v-if="error" v-slot="attributes" :is-active="step === 'error'">
+    <AppStep v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="error">
-          <template v-if="error">
+          <span v-if="error && error.message">
             {{ error.message }}
-          </template>
+          </span>
           <template #description>
-            {{ t('tryAgain') }}
+            {{ t('globalTryAgain') }}
           </template>
         </LayoutPageResult>
         <template #bottom>
           <ButtonColored
             :aria-label="t('backToRegistration')"
             class="w-full max-w-sm"
-            variant="primary-critical"
+            variant="primary"
             @click="restart"
           >
             {{ t('backToRegistration') }}
@@ -220,7 +220,6 @@ de:
   titlePrivacy: Datenschutzbestimmungen
   titleTerms: Geschäftsbedingungen
   titleVerification: E-Mail-Bestätigung erforderlich
-  tryAgain: Bitte versuche es erneut
   verificationDescription: Wenn du keine E-Mail erhältst, hast du möglicherweise bereits ein Konto bei @.upper:{'globalSiteName'}. Du kannst versuchen, dein Passwort zurückzusetzen, um dich wieder in deinem Konto einzuloggen.
   verificationInstructions: Überprüfe deine E-Mails auf einen Bestätigungslink.
 en:
@@ -237,7 +236,6 @@ en:
   titlePrivacy: Privacy Policy
   titleTerms: General Terms and Conditions
   titleVerification: Email Verification Required
-  tryAgain: Please try again
   verificationDescription: If you don't receive an email, you may already have an account with @.upper:{'globalSiteName'}. You can try to reset your password to log back into your account.
   verificationInstructions: Check your emails for a verification link.
 </i18n>

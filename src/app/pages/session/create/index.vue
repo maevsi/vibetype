@@ -22,11 +22,11 @@
     <AppStep v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="error">
-          <template v-if="error">
+          <span v-if="error && error.message">
             {{ error.message }}
-          </template>
+          </span>
           <template #description>
-            {{ t('errorDescription') }}
+            {{ t('globalTryAgain') }}
           </template>
         </LayoutPageResult>
         <template #bottom>
@@ -38,14 +38,14 @@
                 name: 'support-contact',
               })
             "
-            variant="secondary-critical"
+            variant="secondary"
           >
             {{ t('contactSupport') }}
           </ButtonColored>
           <ButtonColored
             :aria-label="t('backToLogin')"
             class="w-full max-w-md"
-            variant="primary-critical"
+            variant="primary"
             @click="restart"
           >
             {{ t('backToLogin') }}
@@ -114,15 +114,13 @@ de:
   accountVerified: E-Mail-Adresse verifiziert.
   backToLogin: Zurück zur Anmeldung
   contactSupport: Support kontaktieren
-  title: Einloggen
   errorTitle: Anmeldefehler
-  errorDescription: Bitte versuche es erneut
+  title: Einloggen
 en:
   accountRequired: Log in to continue.
   accountVerified: Email address verified.
   backToLogin: Back to Login
   contactSupport: Contact support
-  title: Log in
   errorTitle: Login Error
-  errorDescription: Please try again
+  title: Log in
 </i18n>
