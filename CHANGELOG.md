@@ -1,3 +1,9 @@
+## [15.0.0-beta.2](https://github.com/maevsi/vibetype/compare/15.0.0-beta.1...15.0.0-beta.2) (2026-04-07)
+
+### Bug Fixes
+
+* **security:** correct csp service links ([fdf0496](https://github.com/maevsi/vibetype/commit/fdf0496d841555eefc208fc31de54dcdaf82f45a))
+
 ## [15.0.0-beta.1](https://github.com/maevsi/vibetype/compare/14.0.0...15.0.0-beta.1) (2026-04-07)
 
 ### ⚠ BREAKING CHANGES
