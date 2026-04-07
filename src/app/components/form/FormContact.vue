@@ -11,6 +11,7 @@
             const exists = await validateUsername()(val)
             return exists ? undefined : t('usernameNotFound')
           },
+          onBlurAsyncDebounceMs: 300,
         }"
       >
         <Field>

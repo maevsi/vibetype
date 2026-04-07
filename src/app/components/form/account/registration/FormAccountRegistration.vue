@@ -11,6 +11,7 @@
             const isAvailable = await validateUsername(true)(val)
             return isAvailable ? undefined : t('usernameAlreadyTaken')
           },
+          onBlurAsyncDebounceMs: 300,
         }"
       >
         <Field>

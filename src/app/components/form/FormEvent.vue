@@ -45,6 +45,7 @@
                 ? t('validationExistenceNone', { slug: val })
                 : undefined
             },
+            onBlurAsyncDebounceMs: 300,
           }"
         >
           <FieldError
