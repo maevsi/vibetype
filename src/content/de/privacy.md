@@ -234,19 +234,19 @@
 
             Wir löschen diese Daten spätestens 3 Monate nach Erhalt, es sei denn, sie werden für eine entstandene Vertragsbeziehung benötigt.
 
-            Wir binden das Kontaktformular von Monday
+            Wir nutzen Zammad
 
             <address>
-              Monday.com Labs Ltd.
+              Zammad Foundation
               <br />
-              52 Menachem Begin Road
+              Marienstraße 18
               <br />
-              Tel Aviv 6713701
+              10117 Berlin
               <br />
-              Israel
+              Deutschland
             </address>
 
-            auf unserer Website ein. Weitere Details: https://monday.com/l/de/privatsphaere/datenschutzerklarung/.</li>
+            als unser Ticketsystem zur Bearbeitung von Kontaktanfragen. Weitere Details: https://zammad.com/de/unternehmen/datenschutz.</li>
             </ol>
 
         1. **Fragebögen/Formulare**
