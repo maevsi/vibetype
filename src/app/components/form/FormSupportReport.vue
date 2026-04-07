@@ -1,5 +1,22 @@
 <template>
   <form ref="form" class="flex flex-col gap-4" @submit="onSubmit">
+    <FormField v-slot="{ componentField }" name="itemDescription">
+      <FormItem>
+        <FormLabel>
+          <div class="flex flex-col gap-1">
+            <TypographySubtitleSmall>
+              {{ t('itemDescription') }}
+            </TypographySubtitleSmall>
+          </div>
+        </FormLabel>
+        <FormControl>
+          <Textarea v-bind="componentField" rows="8" />
+        </FormControl>
+        <TypographyLabel v-slot="attributes">
+          <FormMessage v-bind="attributes" />
+        </TypographyLabel>
+      </FormItem>
+    </FormField>
     <FormField v-slot="{ componentField }" name="userName">
       <FormItem>
         <FormLabel>
@@ -18,9 +35,11 @@
     <FormField v-slot="{ componentField }" name="userEmailAddress">
       <FormItem>
         <FormLabel>
-          <TypographySubtitleSmall>
-            {{ t('userEmailAddress') }}
-          </TypographySubtitleSmall>
+          <div class="flex flex-col gap-1">
+            <TypographySubtitleSmall>
+              {{ t('userEmailAddress') }}
+            </TypographySubtitleSmall>
+          </div>
         </FormLabel>
         <FormControl>
           <AppInput v-bind="componentField" type="text" />
@@ -32,7 +51,7 @@
     </FormField>
     <FormField
       v-slot="{ value, handleChange }"
-      name="userConsent"
+      name="userConsentAccuracy"
       type="checkbox"
     >
       <FormItem>
@@ -46,15 +65,40 @@
           </FormControl>
           <FormLabel>
             <TypographySubtitleSmall>
-              <i18n-t keypath="userConsent">
+              {{ t('userConsentAccuracy') }}
+            </TypographySubtitleSmall>
+          </FormLabel>
+        </div>
+        <TypographyLabel v-slot="attributes">
+          <FormMessage v-bind="attributes" />
+        </TypographyLabel>
+      </FormItem>
+    </FormField>
+    <FormField
+      v-slot="{ value, handleChange }"
+      name="userConsentProcessing"
+      type="checkbox"
+    >
+      <FormItem>
+        <div class="flex gap-3">
+          <FormControl class="mt-1">
+            <AppCheckbox
+              :model-value="value"
+              required
+              @update:model-value="handleChange"
+            />
+          </FormControl>
+          <FormLabel>
+            <TypographySubtitleSmall>
+              <i18n-t keypath="userConsentProcessing">
                 <template #contactForm>
                   <AppLink is-underlined :to="localePath('support-contact')">
-                    {{ t('userConsentContactForm') }}
+                    {{ t('userConsentProcessingContactForm') }}
                   </AppLink>
                 </template>
                 <template #privacyPolicy>
                   <AppLink is-underlined :to="localePath('docs-legal-privacy')">
-                    {{ t('userConsentPrivacyPolicy') }}
+                    {{ t('userConsentProcessingPrivacyPolicy') }}
                   </AppLink>
                 </template>
               </i18n-t>
@@ -82,11 +126,11 @@ const emit = defineEmits<{
 const modelError = defineModel<Error>('error')
 const templateForm = useTemplateRef('form')
 const { handleSubmit } = useForm({
-  validationSchema: toTypedSchema(schemaFormEarlyBird),
+  validationSchema: toTypedSchema(schemaFormReport),
 })
 const onSubmit = handleSubmit(async (values) => {
   try {
-    await $fetch('/api/service/zammad/early-bird', {
+    await $fetch('/api/service/zammad/report', {
       method: 'POST',
       body: values,
     })
@@ -111,15 +155,19 @@ const localePath = useLocalePath()
 
 <i18n lang="yaml">
 de:
-  userConsent: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über das {contactForm} widerrufen.'
-  userConsentContactForm: Kontaktformular
-  userConsentPrivacyPolicy: Datenschutzerklärung
+  itemDescription: Beschreibung
+  userConsentAccuracy: Ich stelle sicher, nach bestem Wissen und Gewissen, dass alle oben offengelegten Informationen korrekt und wahrheitsgemäß sind.
+  userConsentProcessing: 'Ich habe die {privacyPolicy} zur Kenntnis genommen und stimme zu, dass meine Angaben aus diesem Formular zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über das {contactForm} widerrufen.'
+  userConsentProcessingContactForm: Kontaktformular
+  userConsentProcessingPrivacyPolicy: Datenschutzerklärung
   userEmailAddress: E-Mail-Adresse
   userName: Name
 en:
-  userConsent: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for the purpose of responding to my inquiry. I can withdraw my consent at any time using the {contactForm}.'
-  userConsentContactForm: contact form
-  userConsentPrivacyPolicy: privacy policy
+  itemDescription: Description
+  userConsentAccuracy: I ensure, to the best of my ability and knowledge, that all the information disclosed above is accurate and true.
+  userConsentProcessing: 'I have read the {privacyPolicy} and agree that the information I provide in this form may be processed for the purpose of responding to my inquiry. I can withdraw my consent at any time using the {contactForm}.'
+  userConsentProcessingContactForm: contact form
+  userConsentProcessingPrivacyPolicy: privacy policy
   userEmailAddress: Email address
   userName: Name
 </i18n>

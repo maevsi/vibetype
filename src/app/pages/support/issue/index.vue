@@ -8,7 +8,13 @@
     <AppStep v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="error">
-          {{ t('errorDescription2') }}
+          <i18n-t keypath="errorDescription2" tag="span">
+            <template #supportLink>
+              <AppLink :to="localePath('support-contact')" is-underlined>
+                {{ t('supportLink') }}
+              </AppLink>
+            </template>
+          </i18n-t>
           <template #description>
             {{ t('errorDescription1') }}
           </template>
@@ -27,7 +33,7 @@
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
-        <FormSupportContact
+        <FormSupportIssue
           ref="form"
           v-model:error="error"
           @success="step = 'success'"
@@ -79,6 +85,7 @@ const title = t('title')
 useHeadDefault({ title })
 
 // template
+const localePath = useLocalePath()
 const { error, step } = useStepper<'success'>()
 const store = useStore()
 const templateForm = useTemplateRef('form')
@@ -88,20 +95,22 @@ const templateIdTitle = useId()
 <i18n lang="yaml">
 de:
   errorButton: Zurück zum Formular
-  errorDescription1: Die Kontaktaufnahme scheint nicht geklappt zu haben.
-  errorDescription2: Bitte versuche es noch einmal oder wende dich über einen anderen Weg an den Support, wenn das Problem weiterhin besteht.
+  errorDescription1: Das Senden des Fehlerberichts scheint nicht geklappt zu haben.
+  errorDescription2: Bitte versuche es noch einmal oder wende dich {supportLink}, wenn das Problem weiterhin besteht.
   formButton: Senden
   successButton: OK
-  successDescription1: Deine Kontaktaufnahme wurde erfolgreich abgesendet!
+  successDescription1: Dein Fehlerbericht wurde erfolgreich abgesendet!
   successDescription2: Wir werden uns so schnell wie möglich bei dir melden.
-  title: Kontakt
+  supportLink: an den Support
+  title: Fehlerbericht
 en:
   errorButton: Back to the form
-  errorDescription1: The contact request does not seem to have worked.
-  errorDescription2: Please try again or contact support in another way if the problem persists.
+  errorDescription1: The issue report does not seem to have worked.
+  errorDescription2: Please try again or {supportLink} if the problem persists.
   formButton: Send
   successButton: OK
-  successDescription1: Your contact request was submitted successully!
+  successDescription1: Your issue was submitted successfully!
   successDescription2: We'll get back to you as soon as possible.
-  title: Contact
+  supportLink: contact support
+  title: Bug Report
 </i18n>

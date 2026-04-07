@@ -91,6 +91,24 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/support/contact" />
     </url>
     <url>
+        <loc>https://example.com/support/idea</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/support/idea" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/support/idea" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/support/idea" />
+    </url>
+    <url>
+        <loc>https://example.com/support/issue</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/support/issue" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/support/issue" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/support/issue" />
+    </url>
+    <url>
+        <loc>https://example.com/support/report</loc>
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/support/report" />
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/support/report" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/support/report" />
+    </url>
+    <url>
         <loc>https://example.com/docs/legal/attributions</loc>
         <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/docs/legal/attributions" />
         <xhtml:link rel="alternate" hreflang="en" href="https://example.com/docs/legal/attributions" />

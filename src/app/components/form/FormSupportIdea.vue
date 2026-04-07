@@ -1,5 +1,20 @@
 <template>
   <form ref="form" class="flex flex-col gap-4" @submit="onSubmit">
+    <FormField v-slot="{ componentField }" name="itemDescription">
+      <FormItem>
+        <FormLabel>
+          <TypographySubtitleSmall>
+            {{ t('itemDescription') }}
+          </TypographySubtitleSmall>
+        </FormLabel>
+        <FormControl>
+          <Textarea v-bind="componentField" rows="8" />
+        </FormControl>
+        <TypographyLabel v-slot="attributes">
+          <FormMessage v-bind="attributes" />
+        </TypographyLabel>
+      </FormItem>
+    </FormField>
     <FormField v-slot="{ componentField }" name="userName">
       <FormItem>
         <FormLabel>
@@ -82,11 +97,11 @@ const emit = defineEmits<{
 const modelError = defineModel<Error>('error')
 const templateForm = useTemplateRef('form')
 const { handleSubmit } = useForm({
-  validationSchema: toTypedSchema(schemaFormEarlyBird),
+  validationSchema: toTypedSchema(schemaFormIdea),
 })
 const onSubmit = handleSubmit(async (values) => {
   try {
-    await $fetch('/api/service/zammad/early-bird', {
+    await $fetch('/api/service/zammad/idea', {
       method: 'POST',
       body: values,
     })
@@ -111,13 +126,15 @@ const localePath = useLocalePath()
 
 <i18n lang="yaml">
 de:
-  userConsent: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über das {contactForm} widerrufen.'
+  itemDescription: Beschreibung
+  userConsent: 'Ich habe die {privacyPolicy} zur Kenntnis genommen und stimme zu, dass meine Angaben aus diesem Formular zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über das {contactForm} widerrufen.'
   userConsentContactForm: Kontaktformular
   userConsentPrivacyPolicy: Datenschutzerklärung
   userEmailAddress: E-Mail-Adresse
   userName: Name
 en:
-  userConsent: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for the purpose of responding to my inquiry. I can withdraw my consent at any time using the {contactForm}.'
+  itemDescription: Description
+  userConsent: 'I have read the {privacyPolicy} and agree that the information I provide in this form may be processed for the purpose of responding to my inquiry. I can withdraw my consent at any time using the {contactForm}.'
   userConsentContactForm: contact form
   userConsentPrivacyPolicy: privacy policy
   userEmailAddress: Email address

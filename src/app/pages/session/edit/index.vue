@@ -77,7 +77,7 @@
             :title="t('featureSuggestion')"
             :to="
               localePath({
-                name: 'support-contact',
+                name: 'support-idea',
               })
             "
           >
@@ -87,7 +87,7 @@
             :title="t('bugReport')"
             :to="
               localePath({
-                name: 'support-contact',
+                name: 'support-issue',
               })
             "
           >
@@ -102,6 +102,16 @@
             "
           >
             <AppIconMail />
+          </CardButton>
+          <CardButton
+            :title="t('report')"
+            :to="
+              localePath({
+                name: 'support-report',
+              })
+            "
+          >
+            <AppIconReport />
           </CardButton>
         </div>
       </section>
@@ -212,6 +222,7 @@ de:
   preferences: Einstellungen
   privacy: Datenschutzerklärung
   profile: Profil
+  report: Meldung von Inhalten
   support: Hilfe
   terms: Allgemeine Geschäftsbedingungen
 en:
@@ -235,6 +246,7 @@ en:
   preferences: Settings
   privacy: Privacy Policy
   profile: Profile
+  report: Content Report
   support: Support
   terms: General Terms and Conditions
 </i18n>
