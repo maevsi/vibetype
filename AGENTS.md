@@ -25,7 +25,11 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
 - Commit bodies are only to be filled in when necessary, e.g. to mention a resolved issue link
 
 ## NPM
+- Proposal of changes to installed dependencies are allowed
 - Use scripts from `package.json` to verify that the project's requirements are met
+  - `pnpm run lint` for formatting and type checks
+  - `pnpm run build` as preparation for end-to-end testing
+  - `pnpm run test:e2e:docker:server:node:update` for end-to-end testing with snapshot updates
 
 ## Nuxt
 - Nuxt auto-imports are active, so there is no need to import Nuxt components, composables and Vue.js APIs
@@ -36,3 +40,6 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
 
 ## Typescript
 - Do not use typecasts, except when there is no other way
+
+## GraphQL
+- Run `pnpm --dir src run gql:codegen` after any changes to GraphQL queries or mutations to update the generated types
