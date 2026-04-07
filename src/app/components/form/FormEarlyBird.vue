@@ -23,7 +23,7 @@
           </TypographySubtitleSmall>
         </FormLabel>
         <FormControl>
-          <AppInput v-bind="componentField" type="text" />
+          <AppInput v-bind="componentField" type="email" />
         </FormControl>
         <TypographyLabel v-slot="attributes">
           <FormMessage v-bind="attributes" />
