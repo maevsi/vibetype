@@ -1,3 +1,9 @@
+## [15.0.0-beta.3](https://github.com/maevsi/vibetype/compare/15.0.0-beta.2...15.0.0-beta.3) (2026-04-07)
+
+### Features
+
+* **components:** visualize api errors for steppers ([#2254](https://github.com/maevsi/vibetype/issues/2254)) ([a2b8562](https://github.com/maevsi/vibetype/commit/a2b85628f814e6e802bf7d85d5d1b2edb83dfedb))
+
 ## [15.0.0-beta.2](https://github.com/maevsi/vibetype/compare/15.0.0-beta.1...15.0.0-beta.2) (2026-04-07)
 
 ### Bug Fixes
