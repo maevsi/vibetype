@@ -9,7 +9,7 @@ export const useGetServiceHref = () => {
     port,
   }: {
     isSsr?: boolean
-    name?: string
+    name: string
     port?: number
   }) =>
     getServiceHref({

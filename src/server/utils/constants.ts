@@ -9,9 +9,21 @@ export const GET_CSP = ({
   siteUrl: URL
   runtimeConfig?: RuntimeConfig
 }) => {
-  const domainTldPort = IS_IN_FRONTEND_DEVELOPMENT
-    ? PRODUCTION_HOST
-    : getRootHost(siteUrl.host)
+  const hrefApp = getServiceHref({
+    host: siteUrl.host,
+    isSsr: false,
+    name: SITE_NAME,
+  })
+  const hrefPostgraphile = getServiceHref({
+    host: getRootHost(siteUrl.host),
+    isSsr: false,
+    name: 'postgraphile',
+  })
+  const hrefTusd = getServiceHref({
+    host: getRootHost(siteUrl.host),
+    isSsr: false,
+    name: 'tusd',
+  })
 
   return defu(
     // if (isHttps(event.node.req)) {
@@ -22,9 +34,9 @@ export const GET_CSP = ({
       // app
       'connect-src': [
         'blob:', // vue-advanced-cropper
-        `https://app.${domainTldPort}`, // `/api` requests
-        `https://postgraphile.${domainTldPort}`, // backend requests
-        `https://tusd.${domainTldPort}`, // image upload requests
+        hrefApp, // `/api` requests
+        hrefPostgraphile, // backend requests
+        hrefTusd, // image upload requests
         'https://nominatim.openstreetmap.org/search', // map's geocoder
       ],
       'font-src': [
@@ -35,7 +47,7 @@ export const GET_CSP = ({
       'img-src': [
         'blob:',
         'https://tile.openstreetmap.org/', // map
-        `https://tusd.${domainTldPort}`, // users' image uploads
+        hrefTusd, // users' image uploads
         'https://media3.giphy.com/', // gifs
         'https://www.gravatar.com/avatar/', // profile picture fallback
       ],

@@ -36,7 +36,7 @@ export const getServiceHref = ({
   host?: string
   isSsr?: boolean
   isTesting?: boolean
-  name?: string
+  name: string
   port?: number
   stagingHost?: string
 }) => {
