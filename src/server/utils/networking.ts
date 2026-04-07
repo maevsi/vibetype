@@ -11,7 +11,7 @@ export const useGetServiceHref = ({ event }: { event?: H3Event } = {}) => {
     port,
   }: {
     isSsr?: boolean
-    name?: string
+    name: string
     port?: number
   }) =>
     getServiceHref({
