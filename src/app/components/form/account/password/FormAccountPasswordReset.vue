@@ -1,21 +1,49 @@
 <template>
-  <AppForm
-    :form="v$"
-    :is-form-sent="isFormSent"
-    is-button-hidden
-    @submit.prevent="submit"
-  >
-    <FormInputPassword
-      :form-input="v$.password"
-      is-strength-shown
-      :title="t('passwordNew')"
-      @input="form.password = $event"
-    />
-  </AppForm>
+  <form ref="formRef" class="flex flex-col gap-4" @submit="onSubmit">
+    <form.Field v-slot="{ field }" name="password">
+      <Field>
+        <FieldLabel>
+          <TypographySubtitleSmall>
+            {{ t('passwordNew') }}
+          </TypographySubtitleSmall>
+        </FieldLabel>
+        <FieldContent>
+          <div class="relative">
+            <Input
+              :type="isPasswordVisible ? 'text' : 'password'"
+              :model-value="field.state.value"
+              :aria-invalid="isFieldInvalid(field)"
+              @blur="field.handleBlur"
+              @input="
+                field.handleChange(($event.target as HTMLInputElement).value)
+              "
+            />
+            <ButtonIcon
+              :aria-label="t('visibilityToggle')"
+              class="absolute top-1/2 right-2 -translate-y-1/2"
+              @click="isPasswordVisible = !isPasswordVisible"
+            >
+              <AppIconEye v-if="!isPasswordVisible" />
+              <AppIconEyeSlash v-else />
+            </ButtonIcon>
+          </div>
+          <Progress
+            :model-value="calculatePasswordStrength(field.state.value)"
+            class="my-2"
+          />
+        </FieldContent>
+        <FieldError
+          v-if="isFieldInvalid(field)"
+          :errors="field.state.meta.errors"
+        />
+      </Field>
+    </form.Field>
+  </form>
 </template>
 
 <script setup lang="ts">
-import { useVuelidate } from '@vuelidate/core'
+import { useForm } from '@tanstack/vue-form'
+import { z } from 'zod'
 import { useAccountPasswordResetMutation } from '~~/gql/documents/mutations/account/accountPasswordReset'
 
 const { code } = defineProps<{
@@ -28,29 +56,13 @@ const emit = defineEmits<{
 
 const modelError = defineModel<Error>('error')
 
-// form
-const form = reactive({
-  password: ref<string>(),
-})
-const isFormSent = ref(false)
-const submit = async () => {
-  if (!(await isFormValid({ v$, isFormSent }))) return
+const { t } = useI18n()
+const formRef = useTemplateRef<HTMLFormElement>('formRef')
+const submit = () => formRef.value?.requestSubmit()
+defineExpose({ submit })
 
-  const result = await passwordResetMutation.executeMutation({
-    input: {
-      code,
-      password: form.password || '',
-    },
-  })
-
-  if (result.error || !result.data) return
-
-  emit('success')
-}
-// TODO: try to dissolve `defineExpose`
-defineExpose({
-  submit,
-})
+// data
+const isPasswordVisible = ref(false)
 
 // api data
 const passwordResetMutation = useAccountPasswordResetMutation()
@@ -70,14 +82,37 @@ watch(
   },
 )
 
-// vuelidate
-const rules = {
-  password: VALIDATION_PASSWORD(),
-}
-const v$ = useVuelidate(rules, form)
+// form
+const formSchema = z.object({
+  password: z.string().min(VALIDATION_PASSWORD_LENGTH_MINIMUM),
+})
 
-// template
-const { t } = useI18n()
+const form = useForm({
+  defaultValues: {
+    password: '',
+  },
+  validators: {
+    onSubmit: formSchema,
+  },
+  onSubmit: async ({ value }) => {
+    const result = await passwordResetMutation.executeMutation({
+      input: {
+        code,
+        password: value.password,
+      },
+    })
+
+    if (result.error || !result.data) return
+
+    emit('success')
+  },
+})
+
+const onSubmit = (e: Event) => {
+  e.preventDefault()
+  e.stopPropagation()
+  form.handleSubmit()
+}
 </script>
 
 <i18n lang="yaml">
@@ -86,9 +121,11 @@ de:
   postgres22023: Das Passwort ist zu kurz! Überlege dir ein längeres.
   postgresP0002: Unbekannter Zurücksetzungslink! Hast du dein Passwort vielleicht schon zurückgesetzt?
   postgres55000: Der Zurücksetzungslink ist abgelaufen!
+  visibilityToggle: Sichtbarkeit umschalten
 en:
   passwordNew: Enter new password
   postgres22023: This password is too short! Think of a longer one.
   postgresP0002: Invalid reset link! Have you perhaps already reset your password?
   postgres55000: Your reset link has expired!
+  visibilityToggle: Toggle visibility
 </i18n>

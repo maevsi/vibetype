@@ -1,53 +1,96 @@
 <template>
-  <form ref="form" class="flex flex-col gap-4" @submit="onSubmit">
-    <FormField v-slot="{ componentField }" name="userName">
-      <FormItem>
-        <FormLabel>
+  <form ref="formRef" class="flex flex-col gap-4" @submit="onSubmit">
+    <form.Field v-slot="{ field }" name="userName">
+      <Field>
+        <FieldLabel>
           <TypographySubtitleSmall>
             {{ t('userName') }}
           </TypographySubtitleSmall>
-        </FormLabel>
-        <FormControl>
-          <AppInput v-bind="componentField" type="text" />
-        </FormControl>
-        <TypographyLabel v-slot="attributes">
-          <FormMessage v-bind="attributes" />
-        </TypographyLabel>
-      </FormItem>
-    </FormField>
-    <FormField v-slot="{ componentField }" name="userEmailAddress">
-      <FormItem>
-        <FormLabel>
+        </FieldLabel>
+        <FieldContent>
+          <Input
+            type="text"
+            :model-value="field.state.value"
+            :aria-invalid="isFieldInvalid(field)"
+            @blur="field.handleBlur"
+            @input="
+              field.handleChange(($event.target as HTMLInputElement).value)
+            "
+          />
+        </FieldContent>
+        <FieldError
+          v-if="isFieldInvalid(field)"
+          :errors="field.state.meta.errors"
+        />
+      </Field>
+    </form.Field>
+    <form.Field v-slot="{ field }" name="userEmailAddress">
+      <Field>
+        <FieldLabel>
           <TypographySubtitleSmall>
             {{ t('userEmailAddress') }}
           </TypographySubtitleSmall>
-        </FormLabel>
-        <FormControl>
-          <AppInput v-bind="componentField" type="email" />
-        </FormControl>
-        <TypographyLabel v-slot="attributes">
-          <FormMessage v-bind="attributes" />
-        </TypographyLabel>
-      </FormItem>
-    </FormField>
-    <FormFieldConsent name="userConsent">
-      <i18n-t keypath="userConsent">
-        <template #contactForm>
-          <AppLink is-underlined :to="localePath('support-contact')">
-            {{ t('userConsentContactForm') }}
-          </AppLink>
-        </template>
-        <template #privacyPolicy>
-          <AppLink is-underlined :to="localePath('docs-legal-privacy')">
-            {{ t('userConsentPrivacyPolicy') }}
-          </AppLink>
-        </template>
-      </i18n-t>
-    </FormFieldConsent>
+        </FieldLabel>
+        <FieldContent>
+          <Input
+            type="email"
+            :model-value="field.state.value"
+            :aria-invalid="isFieldInvalid(field)"
+            @blur="field.handleBlur"
+            @input="
+              field.handleChange(($event.target as HTMLInputElement).value)
+            "
+          />
+        </FieldContent>
+        <FieldError
+          v-if="isFieldInvalid(field)"
+          :errors="field.state.meta.errors"
+        />
+      </Field>
+    </form.Field>
+    <form.Field v-slot="{ field }" name="userConsent">
+      <Field>
+        <div class="flex gap-3">
+          <FieldContent class="mt-1">
+            <AppCheckbox
+              :model-value="field.state.value"
+              required
+              :aria-invalid="isFieldInvalid(field)"
+              @update:model-value="
+                (checked) => field.handleChange(checked === true)
+              "
+            />
+          </FieldContent>
+          <FieldLabel>
+            <TypographySubtitleSmall>
+              <i18n-t keypath="userConsent">
+                <template #contactForm>
+                  <AppLink is-underlined :to="localePath('support-contact')">
+                    {{ t('userConsentContactForm') }}
+                  </AppLink>
+                </template>
+                <template #privacyPolicy>
+                  <AppLink is-underlined :to="localePath('docs-legal-privacy')">
+                    {{ t('userConsentPrivacyPolicy') }}
+                  </AppLink>
+                </template>
+              </i18n-t>
+            </TypographySubtitleSmall>
+          </FieldLabel>
+        </div>
+        <FieldError
+          v-if="isFieldInvalid(field)"
+          :errors="field.state.meta.errors"
+        />
+      </Field>
+    </form.Field>
   </form>
 </template>
 
 <script setup lang="ts">
+import { useForm } from '@tanstack/vue-form'
+import { z } from 'zod'
+
 // compiler
 const emit = defineEmits<{
   success: []
@@ -55,12 +98,43 @@ const emit = defineEmits<{
 
 // form
 const modelError = defineModel<Error>('error')
-const { onSubmit, submit } = useFormSubmit({
-  emit,
-  endpoint: '/api/service/zammad/early-bird',
-  modelError,
-  schema: schemaFormEarlyBird,
+const formRef = useTemplateRef<HTMLFormElement>('formRef')
+
+const formSchema = z.object({
+  userConsent: z.boolean().refine((value) => value === true),
+  userEmailAddress: z.string().min(1).email().max(1000),
+  userName: z.string().min(1).max(100),
 })
+
+const form = useForm({
+  defaultValues: {
+    userConsent: false,
+    userEmailAddress: '',
+    userName: '',
+  },
+  validators: {
+    onSubmit: formSchema,
+  },
+  onSubmit: async ({ value }) => {
+    try {
+      await $fetch('/api/service/zammad/early-bird', {
+        body: value,
+        method: 'POST',
+      })
+      emit('success')
+    } catch (error) {
+      modelError.value = error as Error
+    }
+  },
+})
+
+const onSubmit = (e: Event) => {
+  e.preventDefault()
+  e.stopPropagation()
+  form.handleSubmit()
+}
+
+const submit = () => formRef.value?.requestSubmit()
 defineExpose({
   submit,
 })

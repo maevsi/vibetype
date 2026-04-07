@@ -17,9 +17,9 @@
             <AppIconQrCode />
           </template>
         </ButtonColored>
-        <FormInputStateInfo v-if="!guestId">
+        <p v-if="!guestId" class="text-sm text-gray-500 dark:text-gray-400">
           {{ t('qrHint') }}
-        </FormInputStateInfo>
+        </p>
         <AppAttendanceGuestDynamic v-if="guestId" :guest-id />
         <div v-if="guestId" class="flex flex-col items-center gap-2">
           <ButtonColored

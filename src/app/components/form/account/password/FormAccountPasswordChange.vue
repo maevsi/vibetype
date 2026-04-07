@@ -1,76 +1,145 @@
 <template>
-  <AppForm
-    ref="form"
-    :errors="api.errors"
-    :errors-pg-ids="{
-      postgres22023: t('postgres22023'),
-      postgres28P01: t('postgres28P01'),
-    }"
-    :form="v$"
-    :is-form-sent="isFormSent"
-    :submit-name="t('passwordChange')"
-    @submit.prevent="submit"
-  >
-    <FormInputPassword
-      id="passwordCurrent"
-      :form-input="v$.passwordCurrent"
-      :title="t('passwordCurrent')"
-      @input="form.passwordCurrent = $event"
-    />
-    <FormInputPassword
-      id="passwordNew"
-      :form-input="v$.passwordNew"
-      :title="t('passwordNew')"
-      @input="form.passwordNew = $event"
-    />
-  </AppForm>
+  <form class="flex flex-col gap-4" @submit="onSubmit">
+    <form.Field v-slot="{ field }" name="passwordCurrent">
+      <Field>
+        <FieldLabel>
+          <TypographySubtitleSmall>
+            {{ t('passwordCurrent') }}
+          </TypographySubtitleSmall>
+        </FieldLabel>
+        <FieldContent>
+          <div class="relative">
+            <Input
+              :type="isCurrentVisible ? 'text' : 'password'"
+              :model-value="field.state.value"
+              :aria-invalid="isFieldInvalid(field)"
+              @blur="field.handleBlur"
+              @input="
+                field.handleChange(($event.target as HTMLInputElement).value)
+              "
+            />
+            <ButtonIcon
+              :aria-label="t('visibilityToggle')"
+              class="absolute top-1/2 right-2 -translate-y-1/2"
+              @click="isCurrentVisible = !isCurrentVisible"
+            >
+              <AppIconEye v-if="!isCurrentVisible" />
+              <AppIconEyeSlash v-else />
+            </ButtonIcon>
+          </div>
+        </FieldContent>
+        <FieldError
+          v-if="isFieldInvalid(field)"
+          :errors="field.state.meta.errors"
+        />
+      </Field>
+    </form.Field>
+    <form.Field v-slot="{ field }" name="passwordNew">
+      <Field>
+        <FieldLabel>
+          <TypographySubtitleSmall>
+            {{ t('passwordNew') }}
+          </TypographySubtitleSmall>
+        </FieldLabel>
+        <FieldContent>
+          <div class="relative">
+            <Input
+              :type="isNewVisible ? 'text' : 'password'"
+              :model-value="field.state.value"
+              :aria-invalid="isFieldInvalid(field)"
+              @blur="field.handleBlur"
+              @input="
+                field.handleChange(($event.target as HTMLInputElement).value)
+              "
+            />
+            <ButtonIcon
+              :aria-label="t('visibilityToggle')"
+              class="absolute top-1/2 right-2 -translate-y-1/2"
+              @click="isNewVisible = !isNewVisible"
+            >
+              <AppIconEye v-if="!isNewVisible" />
+              <AppIconEyeSlash v-else />
+            </ButtonIcon>
+          </div>
+        </FieldContent>
+        <FieldError
+          v-if="isFieldInvalid(field)"
+          :errors="field.state.meta.errors"
+        />
+      </Field>
+    </form.Field>
+    <ButtonColored
+      :aria-label="t('passwordChange')"
+      class="w-full"
+      type="submit"
+    >
+      {{ t('passwordChange') }}
+    </ButtonColored>
+    <CardStateAlert v-if="errorMessages?.length">
+      <AppSpanList :span="errorMessages" />
+    </CardStateAlert>
+  </form>
 </template>
 
 <script setup lang="ts">
-import { useVuelidate } from '@vuelidate/core'
+import { useForm } from '@tanstack/vue-form'
+import { z } from 'zod'
 
 import { useAccountPasswordChangeMutation } from '~~/gql/documents/mutations/account/accountPasswordChange'
 
 const { t } = useI18n()
-const templateForm = useTemplateRef('form')
 
 // data
-const form = reactive({
-  passwordCurrent: ref<string>(),
-  passwordNew: ref<string>(),
-})
-const isFormSent = ref(false)
+const isCurrentVisible = ref(false)
+const isNewVisible = ref(false)
 
 // api data
 const accountPasswordChangeMutation = useAccountPasswordChangeMutation()
 const api = await useApiData([accountPasswordChangeMutation])
 
-// methods
-const resetForm = () => {
-  templateForm.value?.resetForm()
+const errorMessages = computed(() =>
+  api.value.errors.length
+    ? getCombinedErrorMessages(api.value.errors, {
+        postgres22023: t('postgres22023'),
+        postgres28P01: t('postgres28P01'),
+      })
+    : undefined,
+)
+
+// form
+const formSchema = z.object({
+  passwordCurrent: z.string().min(1),
+  passwordNew: z.string().min(VALIDATION_PASSWORD_LENGTH_MINIMUM),
+})
+
+const form = useForm({
+  defaultValues: {
+    passwordCurrent: '',
+    passwordNew: '',
+  },
+  validators: {
+    onSubmit: formSchema,
+  },
+  onSubmit: async ({ value }) => {
+    const result = await accountPasswordChangeMutation.executeMutation({
+      input: {
+        passwordCurrent: value.passwordCurrent,
+        passwordNew: value.passwordNew,
+      },
+    })
+
+    if (result.error || !result.data) return
+
+    toast.success(t('passwordChangeSuccess'))
+    form.reset()
+  },
+})
+
+const onSubmit = (e: Event) => {
+  e.preventDefault()
+  e.stopPropagation()
+  form.handleSubmit()
 }
-const submit = async () => {
-  if (!(await isFormValid({ v$, isFormSent }))) return
-
-  const result = await accountPasswordChangeMutation.executeMutation({
-    input: {
-      passwordCurrent: form.passwordCurrent || '',
-      passwordNew: form.passwordNew || '',
-    },
-  })
-
-  if (result.error || !result.data) return
-
-  toast.success(t('passwordChangeSuccess'))
-  resetForm()
-}
-
-// vuelidate
-const rules = {
-  passwordCurrent: VALIDATION_PASSWORD(),
-  passwordNew: VALIDATION_PASSWORD(),
-}
-const v$ = useVuelidate(rules, form)
 </script>
 
 <i18n lang="yaml">
@@ -81,6 +150,7 @@ de:
   passwordNew: Neues Passwort
   postgres22023: Das neue Passwort ist zu kurz! Überlege dir ein längeres.
   postgres28P01: Aktuelles Passwort falsch! Überprüfe, ob du alles richtig geschrieben hast.
+  visibilityToggle: Sichtbarkeit umschalten
 en:
   passwordChange: Change password
   passwordChangeSuccess: Password changed successfully.
@@ -88,4 +158,5 @@ en:
   passwordNew: New password
   postgres22023: Your new password is too short! Think of a longer one.
   postgres28P01: Current password incorrect! Check for spelling mistakes.
+  visibilityToggle: Toggle visibility
 </i18n>

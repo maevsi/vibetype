@@ -14,8 +14,12 @@
       <LayoutPage v-bind="attributes">
         <FormAccountRegistration
           v-model:captcha-is-used="captchaIsUsed"
-          v-model:form="form"
-          @submit="step = 'age'"
+          @submit="
+            (values) => {
+              formValues = values
+              step = 'age'
+            }
+          "
         />
         <ContentLegalFooter />
       </LayoutPage>
@@ -135,30 +139,33 @@ const templateIdTitle = useId()
 const birthDate = ref<string>()
 
 // form
-const form = reactive({
-  captcha: ref<string>(),
-  emailAddress: ref<string>(),
-  password: ref<string>(),
-  passwordRepetition: ref<string>(),
-  username: ref<string>(),
-})
+const formValues = ref<{
+  captcha: string
+  emailAddress: string
+  password: string
+  username: string
+}>()
 const captchaIsUsed = ref<boolean>()
 const submit = async (termId: string) => {
+  if (!formValues.value) return
+
   const result = await accountRegistrationMutation.executeMutation(
     {
       input: {
         birthDate: birthDate.value,
-        emailAddress: form.emailAddress || '',
+        emailAddress: formValues.value.emailAddress,
         language: locale.value,
         legalTermId: termId,
-        password: form.password || '',
-        username: form.username || '',
+        password: formValues.value.password,
+        username: formValues.value.username,
       },
     },
     {
       fetchOptions: {
         headers: {
-          ...(form.captcha && { [TURNSTILE_HEADER_KEY]: form.captcha }),
+          ...(formValues.value.captcha && {
+            [TURNSTILE_HEADER_KEY]: formValues.value.captcha,
+          }),
         },
       },
     },

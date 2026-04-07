@@ -280,11 +280,10 @@
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import { TextAlign } from '@tiptap/extension-text-align'
 import { StarterKit } from '@tiptap/starter-kit'
-import type { BaseValidation } from '@vuelidate/core'
 import { debounce } from 'lodash-es'
 
-const { value } = defineProps<{
-  value: BaseValidation<string | undefined>
+const { value = undefined } = defineProps<{
+  value?: string
 }>()
 
 const emit = defineEmits<{
@@ -294,7 +293,7 @@ const emit = defineEmits<{
 const host = useHost()
 const { t } = useI18n()
 const editor = useEditor({
-  content: value.$model,
+  content: value,
   editorProps: {
     attributes: {
       class:
