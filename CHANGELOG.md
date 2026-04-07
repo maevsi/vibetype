@@ -1,3 +1,9 @@
+## [14.0.1](https://github.com/maevsi/vibetype/compare/14.0.0...14.0.1) (2026-04-07)
+
+### Bug Fixes
+
+* **security:** correct csp service links ([fdf0496](https://github.com/maevsi/vibetype/commit/fdf0496d841555eefc208fc31de54dcdaf82f45a))
+
 ## [14.0.0](https://github.com/maevsi/vibetype/compare/13.4.0...14.0.0) (2026-04-04)
 
 ### ⚠ BREAKING CHANGES
