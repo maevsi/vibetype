@@ -1,3 +1,13 @@
+## [15.0.0-beta.1](https://github.com/maevsi/vibetype/compare/14.0.0...15.0.0-beta.1) (2026-04-07)
+
+### ⚠ BREAKING CHANGES
+
+* **support:** let zammad replace monday (#2251)
+
+### Features
+
+* **support:** let zammad replace monday ([#2251](https://github.com/maevsi/vibetype/issues/2251)) ([a7f6f74](https://github.com/maevsi/vibetype/commit/a7f6f74e69bfbe3aaa41b4a7f9b61974f46d293d))
+
 ## [14.0.0](https://github.com/maevsi/vibetype/compare/13.4.0...14.0.0) (2026-04-04)
 
 ### ⚠ BREAKING CHANGES
