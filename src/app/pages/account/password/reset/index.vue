@@ -13,6 +13,7 @@
           <FormAccountPasswordReset
             v-if="route.query.code && !Array.isArray(route.query.code)"
             ref="form"
+            v-model:error="error"
             class="w-full max-w-md"
             :code="route.query.code"
             @success="step = 'success'"
@@ -50,6 +51,28 @@
         </template>
       </LayoutPage>
     </AppStep>
+    <AppStep v-slot="attributes" :is-active="step === 'error'">
+      <LayoutPage v-bind="attributes">
+        <LayoutPageResult type="error">
+          <span v-if="error && error.message">
+            {{ error.message }}
+          </span>
+          <template #description>
+            {{ t('globalTryAgain') }}
+          </template>
+        </LayoutPageResult>
+        <template #bottom>
+          <ButtonColored
+            :aria-label="t('backToReset')"
+            class="w-full max-w-md"
+            variant="primary"
+            @click="restart"
+          >
+            {{ t('backToReset') }}
+          </ButtonColored>
+        </template>
+      </LayoutPage>
+    </AppStep>
   </section>
 </template>
 
@@ -64,11 +87,6 @@ defineRouteRules({
 
 const localePath = useLocalePath()
 
-// page
-const { t } = useI18n()
-const title = t('title')
-useHeadDefault({ title })
-
 // validation
 const route = useRoute()
 const { createA11yError } = useA11yError()
@@ -82,16 +100,30 @@ if (
   })
 }
 
+// stepper
+const { t } = useI18n()
+const { error, restart, step, title } = useStepperPage<'success'>({
+  steps: {
+    default: {
+      title: t('title'),
+    },
+    success: {
+      title: t('instructionsSuccessHeading'),
+    },
+  },
+})
+
+// page
+useHeadDefault({ title })
+
 // template
 const templateIdTitle = useId()
 const templateForm = useTemplateRef('form')
-
-// stepper
-const { step } = useStepper<'success'>()
 </script>
 
 <i18n lang="yaml">
 de:
+  backToReset: Zurück zum Zurücksetzen
   instructionsNew: Neues Passwort
   instructionsSuccessHeading: Passwort erfolgreich zurückgesetzt
   instructionsSuccessDescription: Du kannst dich jetzt mit deinem neuen Passwort anmelden
@@ -99,6 +131,7 @@ de:
   signIn: Einloggen
   title: Passwort zurücksetzen
 en:
+  backToReset: Back to Reset Password
   instructionsNew: Set a new password
   instructionsSuccessHeading: Password reset successful
   instructionsSuccessDescription: You can now log in using your new password.

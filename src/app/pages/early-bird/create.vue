@@ -9,7 +9,7 @@
           <AppIconBack />
         </ButtonIcon>
       </template>
-      <template v-if="['default', 'form'].includes(step)" #close>
+      <template v-if="!error && ['default', 'form'].includes(step)" #close>
         <ButtonIconBackRoute :aria-label="t('iconAltClose')">
           <AppIconClose />
         </ButtonIconBackRoute>
@@ -19,10 +19,36 @@
       <EarlyBirdWelcome v-bind="attributes" @next="step = 'form'" />
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'form'">
-      <EarlyBirdForm v-bind="attributes" @next="step = 'submission'" />
+      <EarlyBirdForm
+        v-bind="attributes"
+        v-model:error="error"
+        @next="step = 'submission'"
+      />
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'submission'">
       <EarlyBirdSubmission v-bind="attributes" />
+    </AppStep>
+    <AppStep v-slot="attributes" :is-active="step === 'error'">
+      <LayoutPage v-bind="attributes">
+        <LayoutPageResult type="error">
+          <span v-if="error && error.message">
+            {{ error.message }}
+          </span>
+          <template #description>
+            {{ t('globalTryAgain') }}
+          </template>
+        </LayoutPageResult>
+        <template #bottom>
+          <ButtonColored
+            :aria-label="t('backToForm')"
+            class="w-full max-w-md"
+            variant="primary"
+            @click="restart"
+          >
+            {{ t('backToForm') }}
+          </ButtonColored>
+        </template>
+      </LayoutPage>
     </AppStep>
   </section>
 </template>
@@ -52,7 +78,9 @@ if (!store.signedInUsername) {
 }
 
 // stepper
-const { step, previous, title } = useStepperPage<'form' | 'submission'>({
+const { error, previous, restart, step, title } = useStepperPage<
+  'form' | 'submission'
+>({
   steps: {
     default: {
       title: t('title'),
@@ -71,10 +99,12 @@ useHeadDefault({ title })
 <i18n lang="yaml">
 de:
   back: zurück
+  backToForm: Zurück zum Formular
   iconAltClose: Schließen
   title: Früher Vogel Programm
 en:
   back: back
+  backToForm: Back to Form
   iconAltClose: Close
   title: Early Bird Program
 </i18n>

@@ -1,7 +1,6 @@
 <template>
   <AppForm
     :class="classProps"
-    :errors="api.errors"
     :form="v$"
     :is-form-sent="isFormSent"
     is-button-hidden
@@ -27,6 +26,8 @@ const { class: classProps = undefined } = defineProps<{
 const emit = defineEmits<{
   success: []
 }>()
+
+const modelError = defineModel<Error>('error')
 
 const { locale } = useI18n()
 
@@ -59,6 +60,14 @@ defineExpose({
 // api data
 const passwordResetRequestMutation = useAccountPasswordResetRequestMutation()
 const api = await useApiData([passwordResetRequestMutation])
+watch(
+  () => api.value.errors,
+  (current) => {
+    modelError.value = current?.length
+      ? new Error(getCombinedErrorMessages(current)[0])
+      : undefined
+  },
+)
 
 // vuelidate
 const rules = {

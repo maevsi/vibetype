@@ -123,6 +123,7 @@ const onAnimationEnd = (isOpen: boolean) => {
 
 // api data
 const createAccountBlockMutation = useCreateAccountBlockMutation()
+// const api = await useApiData([createAccountBlockMutation]) // TODO: show loading state, error details
 const blockUser = async () => {
   const result = await createAccountBlockMutation.executeMutation({
     input: {
