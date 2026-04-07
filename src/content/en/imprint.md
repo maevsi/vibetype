@@ -55,7 +55,7 @@ The number of average monthly active users is:  -->
 
 ## Contact Points for Users pursuant to Art. 12 of Regulation \[EU\] 2022/2065 (Digital Services Act)
 
-- Users have the option to initiate a so-called reporting procedure to report illegal content, i.e., content that they believe violates laws, our terms of use, and/or our code of conduct. For this purpose, they can use the reporting form provided: https://vibetype.app/support/contact
+- Users have the option to initiate a so-called reporting procedure to report illegal content, i.e., content that they believe violates laws, our terms of use, and/or our code of conduct. For this purpose, they can use the reporting form provided: https://vibetype.app/support/report
 
 - For all other concerns, users can contact our designated contact point: contact+legal-notice@maev.si
 
