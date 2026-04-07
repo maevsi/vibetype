@@ -1,76 +1,31 @@
 <template>
-  <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
-    <LayoutTopBar>
-      <span :id="templateIdTitle">
-        {{ title }}
-      </span>
-    </LayoutTopBar>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
-      <LayoutPage v-bind="attributes">
-        <LayoutPageResult type="error">
-          <i18n-t keypath="errorDescription2" tag="span">
-            <template #supportLink>
-              <AppLink :to="localePath('support-contact')" is-underlined>
-                {{ t('supportLink') }}
-              </AppLink>
-            </template>
-          </i18n-t>
-          <template #description>
-            {{ t('errorDescription1') }}
-          </template>
-        </LayoutPageResult>
-        <template #bottom>
-          <ButtonColored
-            :aria-label="t('errorButton')"
-            class="w-full max-w-md"
-            variant="primary-critical"
-            @click="error = undefined"
-          >
-            {{ t('errorButton') }}
-          </ButtonColored>
+  <LayoutSupportPage
+    v-model:error="error"
+    v-model:step="step"
+    :error-button="t('errorButton')"
+    :error-description="t('errorDescription1')"
+    :form-button="t('formButton')"
+    :success-button="t('successButton')"
+    :success-description="t('successDescription2')"
+    :success-title="t('successDescription1')"
+    :title="title"
+    @submit="templateForm?.submit"
+  >
+    <template #error>
+      <i18n-t keypath="errorDescription2" tag="span">
+        <template #supportLink>
+          <AppLink :to="localePath('support-contact')" is-underlined>
+            {{ t('supportLink') }}
+          </AppLink>
         </template>
-      </LayoutPage>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
-      <LayoutPage v-bind="attributes">
-        <FormSupportIssue
-          ref="form"
-          v-model:error="error"
-          @success="step = 'success'"
-        />
-        <template #bottom>
-          <ButtonColored
-            :aria-label="t('formButton')"
-            class="w-full max-w-md"
-            @click="templateForm?.submit"
-          >
-            {{ t('formButton') }}
-          </ButtonColored>
-        </template>
-      </LayoutPage>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'success'">
-      <LayoutPage v-bind="attributes">
-        <LayoutPageResult type="success">
-          <template #description>
-            {{ t('successDescription2') }}
-          </template>
-          <template #title>
-            {{ t('successDescription1') }}
-          </template>
-        </LayoutPageResult>
-        <template #bottom>
-          <ButtonColored
-            :aria-label="t('successButton')"
-            class="w-full max-w-md"
-            @click="store.navigateBack"
-          >
-            {{ t('successButton') }}
-          </ButtonColored>
-        </template>
-      </LayoutPage>
-    </AppStep>
-  </section>
+      </i18n-t>
+    </template>
+    <FormSupportIssue
+      ref="form"
+      v-model:error="error"
+      @success="step = 'success'"
+    />
+  </LayoutSupportPage>
 </template>
 
 <script setup lang="ts">
@@ -87,9 +42,7 @@ useHeadDefault({ title })
 // template
 const localePath = useLocalePath()
 const { error, step } = useStepper<'success'>()
-const store = useStore()
 const templateForm = useTemplateRef('form')
-const templateIdTitle = useId()
 </script>
 
 <i18n lang="yaml">

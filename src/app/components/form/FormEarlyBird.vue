@@ -30,49 +30,24 @@
         </TypographyLabel>
       </FormItem>
     </FormField>
-    <FormField
-      v-slot="{ value, handleChange }"
-      name="userConsent"
-      type="checkbox"
-    >
-      <FormItem>
-        <div class="flex gap-3">
-          <FormControl class="mt-1">
-            <AppCheckbox
-              :model-value="value"
-              required
-              @update:model-value="handleChange"
-            />
-          </FormControl>
-          <FormLabel>
-            <TypographySubtitleSmall>
-              <i18n-t keypath="userConsent">
-                <template #contactForm>
-                  <AppLink is-underlined :to="localePath('support-contact')">
-                    {{ t('userConsentContactForm') }}
-                  </AppLink>
-                </template>
-                <template #privacyPolicy>
-                  <AppLink is-underlined :to="localePath('docs-legal-privacy')">
-                    {{ t('userConsentPrivacyPolicy') }}
-                  </AppLink>
-                </template>
-              </i18n-t>
-            </TypographySubtitleSmall>
-          </FormLabel>
-        </div>
-        <TypographyLabel v-slot="attributes">
-          <FormMessage v-bind="attributes" />
-        </TypographyLabel>
-      </FormItem>
-    </FormField>
+    <FormFieldConsent name="userConsent">
+      <i18n-t keypath="userConsent">
+        <template #contactForm>
+          <AppLink is-underlined :to="localePath('support-contact')">
+            {{ t('userConsentContactForm') }}
+          </AppLink>
+        </template>
+        <template #privacyPolicy>
+          <AppLink is-underlined :to="localePath('docs-legal-privacy')">
+            {{ t('userConsentPrivacyPolicy') }}
+          </AppLink>
+        </template>
+      </i18n-t>
+    </FormFieldConsent>
   </form>
 </template>
 
 <script setup lang="ts">
-import { toTypedSchema } from '@vee-validate/zod'
-import { useForm } from 'vee-validate'
-
 // compiler
 const emit = defineEmits<{
   success: []
@@ -80,26 +55,12 @@ const emit = defineEmits<{
 
 // form
 const modelError = defineModel<Error>('error')
-const templateForm = useTemplateRef('form')
-const { handleSubmit } = useForm({
-  validationSchema: toTypedSchema(schemaFormEarlyBird),
+const { onSubmit, submit } = useFormSubmit({
+  emit,
+  endpoint: '/api/service/zammad/early-bird',
+  modelError,
+  schema: schemaFormEarlyBird,
 })
-const onSubmit = handleSubmit(async (values) => {
-  try {
-    await $fetch('/api/service/zammad/early-bird', {
-      method: 'POST',
-      body: values,
-    })
-    emit('success')
-  } catch (error) {
-    modelError.value = error as Error
-  }
-})
-const submit = () => {
-  templateForm.value?.dispatchEvent(
-    new Event('submit', { bubbles: true, cancelable: true }),
-  )
-}
 defineExpose({
   submit,
 })

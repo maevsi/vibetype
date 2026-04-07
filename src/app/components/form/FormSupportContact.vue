@@ -45,44 +45,19 @@
         </TypographyLabel>
       </FormItem>
     </FormField>
-    <FormField
-      v-slot="{ value, handleChange }"
-      name="userConsent"
-      type="checkbox"
-    >
-      <FormItem>
-        <div class="flex gap-3">
-          <FormControl class="mt-1">
-            <AppCheckbox
-              :model-value="value"
-              required
-              @update:model-value="handleChange"
-            />
-          </FormControl>
-          <FormLabel>
-            <TypographySubtitleSmall>
-              <i18n-t keypath="userConsent">
-                <template #privacyPolicy>
-                  <AppLink is-underlined :to="localePath('docs-legal-privacy')">
-                    {{ t('userConsentPrivacyPolicy') }}
-                  </AppLink>
-                </template>
-              </i18n-t>
-            </TypographySubtitleSmall>
-          </FormLabel>
-        </div>
-        <TypographyLabel v-slot="attributes">
-          <FormMessage v-bind="attributes" />
-        </TypographyLabel>
-      </FormItem>
-    </FormField>
+    <FormFieldConsent name="userConsent">
+      <i18n-t keypath="userConsent">
+        <template #privacyPolicy>
+          <AppLink is-underlined :to="localePath('docs-legal-privacy')">
+            {{ t('userConsentPrivacyPolicy') }}
+          </AppLink>
+        </template>
+      </i18n-t>
+    </FormFieldConsent>
   </form>
 </template>
 
 <script setup lang="ts">
-import { toTypedSchema } from '@vee-validate/zod'
-import { useForm } from 'vee-validate'
-
 // compiler
 const emit = defineEmits<{
   success: []
@@ -90,26 +65,12 @@ const emit = defineEmits<{
 
 // form
 const modelError = defineModel<Error>('error')
-const templateForm = useTemplateRef('form')
-const { handleSubmit } = useForm({
-  validationSchema: toTypedSchema(schemaFormContact),
+const { onSubmit, submit } = useFormSubmit({
+  emit,
+  endpoint: '/api/service/zammad/contact',
+  modelError,
+  schema: schemaFormContact,
 })
-const onSubmit = handleSubmit(async (values) => {
-  try {
-    await $fetch('/api/service/zammad/contact', {
-      method: 'POST',
-      body: values,
-    })
-    emit('success')
-  } catch (error) {
-    modelError.value = error as Error
-  }
-})
-const submit = () => {
-  templateForm.value?.dispatchEvent(
-    new Event('submit', { bubbles: true, cancelable: true }),
-  )
-}
 defineExpose({
   submit,
 })
@@ -122,15 +83,13 @@ const localePath = useLocalePath()
 <i18n lang="yaml">
 de:
   itemDescription: Nachricht
-  userConsent: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über das {contactForm} widerrufen.'
-  userConsentContactForm: Kontaktformular
+  userConsent: 'Ich stimme zu, dass meine Angaben aus diesem Formular gemäß der {privacyPolicy} zur Beantwortung meiner Anfrage verarbeitet werden. Meine Einwilligung zur Datenverarbeitung kann ich jederzeit über dieses Formular widerrufen.'
   userConsentPrivacyPolicy: Datenschutzerklärung
   userEmailAddress: E-Mail-Adresse
   userName: Name
 en:
   itemDescription: Message
-  userConsent: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for the purpose of responding to my inquiry. I can withdraw my consent at any time using the {contactForm}.'
-  userConsentContactForm: contact form
+  userConsent: 'I agree that the information I provide in this form may be processed in accordance with the {privacyPolicy} for the purpose of responding to my inquiry. I can withdraw my consent at any time using this form.'
   userConsentPrivacyPolicy: privacy policy
   userEmailAddress: Email address
   userName: Name
