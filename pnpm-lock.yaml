@@ -20,11 +20,11 @@ importers:
   src:
     devDependencies:
       '@aws-sdk/client-sesv2':
-        specifier: 3.1024.0
-        version: 3.1024.0
+        specifier: 3.1025.0
+        version: 3.1025.0
       '@aws-sdk/credential-providers':
-        specifier: 3.1024.0
-        version: 3.1024.0
+        specifier: 3.1025.0
+        version: 3.1025.0
       '@dargmuesli/nuxt-cookie-control':
         specifier: 9.1.20
         version: 9.1.20(magicast@0.5.2)(webpack@5.105.4(esbuild@0.27.7))
@@ -401,8 +401,8 @@ importers:
         specifier: 3.0.5
         version: 3.0.5
       shadcn-nuxt:
-        specifier: 2.5.1
-        version: 2.5.1(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(magicast@0.5.2)
+        specifier: 2.5.2
+        version: 2.5.2(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(magicast@0.5.2)
       sharp:
         specifier: 0.34.5
         version: 0.34.5
@@ -587,12 +587,12 @@ packages:
   '@aws-crypto/util@5.2.0':
     resolution: {integrity: sha512-4RkU9EsI6ZpBve5fseQlGNUWKMa1RLPQ1dnjnQoe07ldfIzcsGb5hC5W0Dm7u423KWzawlrpbjXBrXCEv9zazQ==}
 
-  '@aws-sdk/client-cognito-identity@3.1024.0':
-    resolution: {integrity: sha512-PhbZl7TT+SBAsNxeC4vjRCqnkKYadRPKpsX4s0CtsVZz3QJ6UWBO7nBCHV5Pdv1f+YJD+UbCxGBj389vOPLmsw==}
+  '@aws-sdk/client-cognito-identity@3.1025.0':
+    resolution: {integrity: sha512-ke7vyS7Dmo3St1a354AlpAjocZpG25Ql52XQ1AXRD3VQ791FBT7vX+EqGCfAEIWLPxpcldaW2Nny6P6klEOkkw==}
     engines: {node: '>=20.0.0'}
 
-  '@aws-sdk/client-sesv2@3.1024.0':
-    resolution: {integrity: sha512-WPPKywO6GKXJPH71MyNuLo9eup/7LjrILKwTdLI64Z8J55zprHz6eFe5Y6S+yjj04mdoIgs/3i1CaFY996fq+g==}
+  '@aws-sdk/client-sesv2@3.1025.0':
+    resolution: {integrity: sha512-OR/YnfZbmnPiYBtr/kMJij9XAMzJ1lIWr2ovlHA3S+pkJWPfMZfRMPvZOVFObverKbpGQb6gpJaXPUInMQO29g==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/core@3.973.26':
@@ -635,8 +635,8 @@ packages:
     resolution: {integrity: sha512-d+6h0SD8GGERzKe27v5rOzNGKOl0D+l0bWJdqrxH8WSQzHzjsQFIAPgIeOTUwBHVsKKwtSxc91K/SWax6XgswQ==}
     engines: {node: '>=20.0.0'}
 
-  '@aws-sdk/credential-providers@3.1024.0':
-    resolution: {integrity: sha512-5aVZ74iKJ3InT/s4H2tVzAjH48SdegJU0Y0RaAYToQbmrS1R17tipw0jVQrFzajX6W5sbG6xfLcTNIGL33ODMQ==}
+  '@aws-sdk/credential-providers@3.1025.0':
+    resolution: {integrity: sha512-hOMHzYetTwnpvfbLN8emaw+nnQrqlEV0I5rTrgRKTAx1anzEvls/rD1IXwOvX8Z+B9mgbK+yNFqO3wQkBghI1g==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/middleware-host-header@3.972.8':
@@ -11020,8 +11020,8 @@ packages:
   shadcn-nuxt@2.4.3:
     resolution: {integrity: sha512-OY1vV3aQCmbgTn/DFIyaSOxvIosUeWKT98eLBabgYc8K6V99IdTRJ5zlbFj0olwTHHwXTs8pGvDK9CGkn/pY2g==}
 
-  shadcn-nuxt@2.5.1:
-    resolution: {integrity: sha512-SrCUv/KZSRe/Pqz+Pq/luQFUt+YbQtWkN9pxiMQs+s5YrfrWlBd4mRQM9AwiR0hqZCw7H6UhwQ++Kk6cGS2KUQ==}
+  shadcn-nuxt@2.5.2:
+    resolution: {integrity: sha512-V6Olu6g149BrTfc4MFDtrAEPaBRgAsfUGZKce8kDuQWJO2E2O9HhQJ1nJYyxMV7tQIiNkm5OQ4N4j3720rPy1g==}
 
   sharp@0.34.5:
     resolution: {integrity: sha512-Ou9I5Ft9WNcCbXrU9cMgPBcCK8LiwLqcbywW3t4oDV37n1pzpuNLsYiAV8eODnjbtQlSDwZ2cUEeQz4E54Hltg==}
@@ -12683,7 +12683,7 @@ snapshots:
       '@smithy/util-utf8': 2.3.0
       tslib: 2.8.1
 
-  '@aws-sdk/client-cognito-identity@3.1024.0':
+  '@aws-sdk/client-cognito-identity@3.1025.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
@@ -12727,7 +12727,7 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-sesv2@3.1024.0':
+  '@aws-sdk/client-sesv2@3.1025.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
@@ -12902,9 +12902,9 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/credential-providers@3.1024.0':
+  '@aws-sdk/credential-providers@3.1025.0':
     dependencies:
-      '@aws-sdk/client-cognito-identity': 3.1024.0
+      '@aws-sdk/client-cognito-identity': 3.1025.0
       '@aws-sdk/core': 3.973.26
       '@aws-sdk/credential-provider-cognito-identity': 3.972.21
       '@aws-sdk/credential-provider-env': 3.972.24
@@ -26200,7 +26200,7 @@ snapshots:
       - '@emnapi/runtime'
       - magicast
 
-  shadcn-nuxt@2.5.1(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(magicast@0.5.2):
+  shadcn-nuxt@2.5.2(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(magicast@0.5.2):
     dependencies:
       '@nuxt/kit': 3.21.2(magicast@0.5.2)
       oxc-parser: 0.102.0(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)

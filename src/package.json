@@ -1,8 +1,8 @@
 {
   "description": "Find events, guests and friends 💙❤️💚",
   "devDependencies": {
-    "@aws-sdk/client-sesv2": "3.1024.0",
-    "@aws-sdk/credential-providers": "3.1024.0",
+    "@aws-sdk/client-sesv2": "3.1025.0",
+    "@aws-sdk/credential-providers": "3.1025.0",
     "@dargmuesli/nuxt-cookie-control": "9.1.20",
     "@dargmuesli/nuxt-vio": "21.0.2",
     "@fontsource-variable/raleway": "5.2.8",
@@ -128,7 +128,7 @@
     "qrcode.vue": "3.8.1",
     "reka-ui": "2.9.4",
     "seedrandom": "3.0.5",
-    "shadcn-nuxt": "2.5.1",
+    "shadcn-nuxt": "2.5.2",
     "sharp": "0.34.5",
     "slugify": "1.6.9",
     "stylelint": "17.6.0",
