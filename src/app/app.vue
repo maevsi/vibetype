@@ -64,7 +64,6 @@ const timeZone = useTimeZone()
 const localePath = useLocalePath()
 const store = useStore()
 const route = useRoute()
-const cookieControl = useCookieControl()
 
 // i18n
 const { t, locale } = useI18n()
@@ -131,38 +130,16 @@ if (!runtimeConfig.public.vio.isTesting && !isApp) {
   )
 }
 
-const handleTrackingPermissionResult = (event: Event) => {
-  const customEvent = event as CustomEvent<string>
-  if (customEvent.detail === 'authorized') {
-    cookieControl.cookiesEnabledIds.value = [GTAG_COOKIE_ID]
-    cookieControl.isConsentGiven.value = true
-  }
-}
-
-onMounted(() => {
-  if (import.meta.client) {
-    window.addEventListener(
-      'tracking-permission-result',
-      handleTrackingPermissionResult,
-    )
-  }
-})
-
-onUnmounted(() => {
-  if (import.meta.client) {
-    window.removeEventListener(
-      'tracking-permission-result',
-      handleTrackingPermissionResult,
-    )
-  }
-})
-
 // initialization
 useAppLayout()
 usePolyfills()
 useAppGtag()
 await useJwtInitialize()
 await initialize()
+
+onMounted(() => {
+  requestTrackingPermission()
+})
 </script>
 
 <style scoped>

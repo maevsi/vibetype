@@ -109,7 +109,11 @@
           </CardButton>
           <CardButton
             :title="t('cookies')"
-            @click="cookieControl.isModalActive.value = true"
+            @click="
+              isIos
+                ? requestTrackingPermission()
+                : (cookieControl.isModalActive.value = true)
+            "
           >
             <AppIconCookieOutline />
           </CardButton>
@@ -160,6 +164,7 @@
 <script setup lang="ts">
 const { t } = useI18n()
 const cookieControl = useCookieControl()
+const { isIos } = usePlatform()
 const localePath = useLocalePath()
 const store = useStore()
 const jwtDelete = useJwtDelete()
