@@ -1,3 +1,9 @@
+## [14.1.0](https://github.com/maevsi/vibetype/compare/14.0.1...14.1.0) (2026-04-10)
+
+### Features
+
+* **platform:** consent to optional cookies through native ios framework ([#1845](https://github.com/maevsi/vibetype/issues/1845)) ([924c15a](https://github.com/maevsi/vibetype/commit/924c15a1a1a3c29ccea9c5613a06fd849da7ee32))
+
 ## [14.0.1](https://github.com/maevsi/vibetype/compare/14.0.0...14.0.1) (2026-04-07)
 
 ### Bug Fixes
