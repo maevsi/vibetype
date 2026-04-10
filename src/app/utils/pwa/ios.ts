@@ -36,7 +36,7 @@ export const requestNotificationPermission = (
 //   }
 // }
 
-export const registerIosCallbackHandler = (
+export const registerIosPushCallbackHandler = (
   notificationStore: ReturnType<typeof useNotificationStore>,
 ) => {
   window.addEventListener('push-permission-request', (event: CustomEvent) => {
@@ -72,6 +72,31 @@ export const registerIosCallbackHandler = (
 
     if (event.detail !== 'ERROR GET TOKEN') {
       notificationStore.fcmToken = event.detail
+    }
+  })
+}
+
+export const hasAttCapability =
+  window &&
+  window.webkit?.messageHandlers?.['att-request-permission'] !== undefined
+
+export const requestTrackingPermission = () => {
+  if (hasAttCapability) {
+    window.webkit?.messageHandlers['att-request-permission']?.postMessage(
+      'att-request-permission',
+    )
+  }
+}
+
+export const registerIosTrackingCallbackHandler = (
+  cookieControl: ReturnType<typeof useCookieControl>,
+) => {
+  window.addEventListener('att-permission-response', (event: Event) => {
+    const { detail } = event as CustomEvent<string>
+    if (detail === 'authorized') {
+      cookieControl.cookiesEnabledIds.value =
+        cookieControl.moduleOptions.cookies.optional.map((cookie) => cookie.id)
+      cookieControl.isConsentGiven.value = true
     }
   })
 }
