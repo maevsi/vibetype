@@ -108,12 +108,9 @@
             <AppIconContract />
           </CardButton>
           <CardButton
+            v-if="!isIos"
             :title="t('cookies')"
-            @click="
-              isIos
-                ? requestTrackingPermission()
-                : (cookieControl.isModalActive.value = true)
-            "
+            @click="cookieControl.isModalActive.value = true"
           >
             <AppIconCookieOutline />
           </CardButton>
