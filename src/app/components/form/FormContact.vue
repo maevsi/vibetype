@@ -1,5 +1,9 @@
 <template>
-  <form class="flex min-h-0 flex-col" novalidate @submit.prevent="onSubmit">
+  <form
+    class="flex min-h-0 flex-col"
+    novalidate
+    @submit.prevent="form.handleSubmit"
+  >
     <div class="flex flex-col gap-4">
       <form.Field
         v-slot="{ field }"
@@ -386,12 +390,6 @@ const form = useForm({
     }
   },
 })
-
-const onSubmit = (e: Event) => {
-  e.preventDefault()
-  e.stopPropagation()
-  form.handleSubmit()
-}
 
 // computations
 const errorMessages = computed(() =>

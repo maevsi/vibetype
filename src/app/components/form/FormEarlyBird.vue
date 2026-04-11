@@ -1,5 +1,9 @@
 <template>
-  <form ref="formRef" class="flex flex-col gap-4" @submit="onSubmit">
+  <form
+    ref="formRef"
+    class="flex flex-col gap-4"
+    @submit.prevent="form.handleSubmit"
+  >
     <form.Field v-slot="{ field }" name="userName">
       <Field>
         <FieldLabel>
@@ -84,6 +88,7 @@
         />
       </Field>
     </form.Field>
+    <FormFieldCaptcha v-model:captcha-is-used="captchaIsUsed" :form />
   </form>
 </template>
 
@@ -99,8 +104,10 @@ const emit = defineEmits<{
 // form
 const modelError = defineModel<Error>('error')
 const formRef = useTemplateRef<HTMLFormElement>('formRef')
+const captchaIsUsed = ref<boolean>()
 
 const formSchema = z.object({
+  captcha: z.string().min(1),
   userConsent: z.boolean().refine((value) => value === true),
   userEmailAddress: z.string().min(1).email().max(1000),
   userName: z.string().min(1).max(100),
@@ -109,6 +116,7 @@ const formSchema = z.object({
 const { $csrfFetch } = useNuxtApp()
 const form = useForm({
   defaultValues: {
+    captcha: '',
     userConsent: false,
     userEmailAddress: '',
     userName: '',
@@ -120,20 +128,19 @@ const form = useForm({
     try {
       await $csrfFetch('/api/service/zammad/early-bird', {
         body: value,
+        headers: {
+          ...(value.captcha ? { [TURNSTILE_HEADER_KEY]: value.captcha } : {}),
+        },
         method: 'POST',
       })
       emit('success')
     } catch (error) {
       modelError.value = error as Error
+    } finally {
+      captchaIsUsed.value = true
     }
   },
 })
-
-const onSubmit = (e: Event) => {
-  e.preventDefault()
-  e.stopPropagation()
-  form.handleSubmit()
-}
 
 const submit = () => formRef.value?.requestSubmit()
 defineExpose({
