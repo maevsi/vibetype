@@ -1,3 +1,9 @@
+## [14.1.1](https://github.com/maevsi/vibetype/compare/14.1.0...14.1.1) (2026-04-11)
+
+### Bug Fixes
+
+* **app:** hide cookie button on ios ([#2258](https://github.com/maevsi/vibetype/issues/2258)) ([ace4e7b](https://github.com/maevsi/vibetype/commit/ace4e7bb0c908c45d542cef82a1d8b5c83870b37))
+
 ## [14.1.0](https://github.com/maevsi/vibetype/compare/14.0.1...14.1.0) (2026-04-10)
 
 ### Features
