@@ -20,11 +20,11 @@ importers:
   src:
     devDependencies:
       '@aws-sdk/client-sesv2':
-        specifier: 3.1026.0
-        version: 3.1026.0
+        specifier: 3.1027.0
+        version: 3.1027.0
       '@aws-sdk/credential-providers':
-        specifier: 3.1026.0
-        version: 3.1026.0
+        specifier: 3.1027.0
+        version: 3.1027.0
       '@dargmuesli/nuxt-cookie-control':
         specifier: 9.1.20
         version: 9.1.20(magicast@0.5.2)(webpack@5.105.4(esbuild@0.27.7))
@@ -299,8 +299,8 @@ importers:
         specifier: 10.1.0
         version: 10.1.0(@types/node@25.5.2)
       isomorphic-dompurify:
-        specifier: 3.7.1
-        version: 3.7.1
+        specifier: 3.8.0
+        version: 3.8.0
       jose:
         specifier: 6.2.2
         version: 6.2.2
@@ -341,8 +341,8 @@ importers:
         specifier: 1.12.1
         version: 1.12.1(magicast@0.5.2)
       openai:
-        specifier: 6.33.0
-        version: 6.33.0(ws@8.20.0)(zod@3.25.76)
+        specifier: 6.34.0
+        version: 6.34.0(ws@8.20.0)(zod@3.25.76)
       pinia:
         specifier: 3.0.4
         version: 3.0.4(typescript@6.0.2)(vue@3.5.32(typescript@6.0.2))
@@ -523,7 +523,7 @@ importers:
         version: 1.6.3
       vitest:
         specifier: 4.1.3
-        version: 4.1.3(@opentelemetry/api@1.9.1)(@types/node@25.5.2)(jsdom@29.0.1)(vite@7.3.2(@types/node@25.5.2)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))
+        version: 4.1.3(@opentelemetry/api@1.9.1)(@types/node@25.5.2)(jsdom@29.0.2)(vite@7.3.2(@types/node@25.5.2)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))
 
 packages:
 
@@ -587,12 +587,12 @@ packages:
   '@aws-crypto/util@5.2.0':
     resolution: {integrity: sha512-4RkU9EsI6ZpBve5fseQlGNUWKMa1RLPQ1dnjnQoe07ldfIzcsGb5hC5W0Dm7u423KWzawlrpbjXBrXCEv9zazQ==}
 
-  '@aws-sdk/client-cognito-identity@3.1026.0':
-    resolution: {integrity: sha512-qrRoZ+ZD3xeAtODDxON0iPqf0jCwM4EtZKxNrvefWIsj9AFgbC70J7e3IQcw1HDwSZYMdMPRb9JDhfxG1+V77Q==}
+  '@aws-sdk/client-cognito-identity@3.1027.0':
+    resolution: {integrity: sha512-xGZgYNqR0lHVm3ASm1y/MYutLgJ2Ja2kufrbBQuwGD7KYrfUVBnDgbYeuEhhyzQhOvoKXpJ7KrA8tmv5Rc3agA==}
     engines: {node: '>=20.0.0'}
 
-  '@aws-sdk/client-sesv2@3.1026.0':
-    resolution: {integrity: sha512-0O3dBNYUZ50JY65bmjrMSaEB7aMC+dlcSF4GKfW7U8OVRlngg3wDPiengOiiar3rtoBRUEYYIqKPRxr0IC729A==}
+  '@aws-sdk/client-sesv2@3.1027.0':
+    resolution: {integrity: sha512-AE/feM9ALHyK13A+r3IIBgK4HWxGWdvw9m8Z0krgK77bDFGccC+prAHDNimmU1CT7pz0aVEYfdTyMaEcoPASWg==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/core@3.973.27':
@@ -635,8 +635,8 @@ packages:
     resolution: {integrity: sha512-PdMBza1WEKEUPFEmMGCfnU2RYCz9MskU2e8JxjyUOsMKku7j9YaDKvbDi2dzC0ihFoM6ods2SbhfAAro+Gwlew==}
     engines: {node: '>=20.0.0'}
 
-  '@aws-sdk/credential-providers@3.1026.0':
-    resolution: {integrity: sha512-6sD0UzNhndLFeFawMJtVuJwzDnGEsAUH1h8OMWD4RikLRY8V+jH2t6SXySjCbSE0FIezyJJKibm/9P8ZRvTKZw==}
+  '@aws-sdk/credential-providers@3.1027.0':
+    resolution: {integrity: sha512-QJZqR86dDtlBKTmpvvyzqSSoaLBF5ubm1RvEydVXkLOpbD5Vakq+IbHRRMARxbQ1E0QZM1p/n6z0mnsjGWbKYw==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/middleware-host-header@3.972.9':
@@ -8932,8 +8932,8 @@ packages:
     resolution: {integrity: sha512-FFUtZMpoZ8RqHS3XeXEmHWLA4thH+ZxCv2lOiPIn1Xc7CxrqhWzNSDzD+/chS/zbYezmiwWLdQC09JdQKmthOw==}
     engines: {node: '>=20'}
 
-  isomorphic-dompurify@3.7.1:
-    resolution: {integrity: sha512-ChhzwwCm7k8h8ANiq1Vc7geCWeHGaAPusgXU5N4mu7Y2wChgn2JHvbUe6aH/XQOUG3+KV+GmqSq95MntW/V1ng==}
+  isomorphic-dompurify@3.8.0:
+    resolution: {integrity: sha512-W2u6DS4nsbEU2m+Pb8xuLBJIDHTA30DRD+d9TczkXyLbea0Whmqn3g+pq8iNkUYdFP2qxp/PeqTXC0gIkfCTKA==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24.0.0}
 
   isomorphic-git@1.37.4:
@@ -9009,8 +9009,8 @@ packages:
     resolution: {integrity: sha512-dh140MMgjyg3JhJZY/+iEzW+NO5xR2gpbDFKHqotCmexElVntw7GjWjt511+C/Ef02RU5TKYrJo/Xlzk+OLaTw==}
     engines: {node: '>=20.0.0'}
 
-  jsdom@29.0.1:
-    resolution: {integrity: sha512-z6JOK5gRO7aMybVq/y/MlIpKh8JIi68FBKMUtKkK2KH/wMSRlCxQ682d08LB9fYXplyY/UXG8P4XXTScmdjApg==}
+  jsdom@29.0.2:
+    resolution: {integrity: sha512-9VnGEBosc/ZpwyOsJBCQ/3I5p7Q5ngOY14a9bf5btenAORmZfDse1ZEheMiWcJ3h81+Fv7HmJFdS0szo/waF2w==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24.0.0}
     peerDependencies:
       canvas: ^3.0.0
@@ -10089,8 +10089,8 @@ packages:
     resolution: {integrity: sha512-smsWv2LzFjP03xmvFoJ331ss6h+jixfA4UUV/Bsiyuu4YJPfN+FIQGOIiv4w9/+MoHkfkJ22UIaQWRVFRfH6Vw==}
     engines: {node: '>=20'}
 
-  openai@6.33.0:
-    resolution: {integrity: sha512-xAYN1W3YsDXJWA5F277135YfkEk6H7D3D6vWwRhJ3OEkzRgcyK8z/P5P9Gyi/wB4N8kK9kM5ZjprfvyHagKmpw==}
+  openai@6.34.0:
+    resolution: {integrity: sha512-yEr2jdGf4tVFYG6ohmr3pF6VJuveP0EA/sS8TBx+4Eq5NT10alu5zg2dmxMXMgqpihRDQlFGpRt2XwsGj+Fyxw==}
     hasBin: true
     peerDependencies:
       ws: ^8.18.0
@@ -12823,7 +12823,7 @@ snapshots:
       '@smithy/util-utf8': 2.3.0
       tslib: 2.8.1
 
-  '@aws-sdk/client-cognito-identity@3.1026.0':
+  '@aws-sdk/client-cognito-identity@3.1027.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
@@ -12867,7 +12867,7 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-sesv2@3.1026.0':
+  '@aws-sdk/client-sesv2@3.1027.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
@@ -13042,9 +13042,9 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/credential-providers@3.1026.0':
+  '@aws-sdk/credential-providers@3.1027.0':
     dependencies:
-      '@aws-sdk/client-cognito-identity': 3.1026.0
+      '@aws-sdk/client-cognito-identity': 3.1027.0
       '@aws-sdk/core': 3.973.27
       '@aws-sdk/credential-provider-cognito-identity': 3.972.22
       '@aws-sdk/credential-provider-env': 3.972.25
@@ -23239,10 +23239,10 @@ snapshots:
 
   isexe@4.0.0: {}
 
-  isomorphic-dompurify@3.7.1:
+  isomorphic-dompurify@3.8.0:
     dependencies:
       dompurify: 3.3.3
-      jsdom: 29.0.1
+      jsdom: 29.0.2
     transitivePeerDependencies:
       - '@noble/hashes'
       - canvas
@@ -23323,7 +23323,7 @@ snapshots:
 
   jsdoc-type-pratt-parser@7.2.0: {}
 
-  jsdom@29.0.1:
+  jsdom@29.0.2:
     dependencies:
       '@asamuzakjp/css-color': 5.1.6
       '@asamuzakjp/dom-selector': 7.0.7
@@ -25179,7 +25179,7 @@ snapshots:
       powershell-utils: 0.1.0
       wsl-utils: 0.3.1
 
-  openai@6.33.0(ws@8.20.0)(zod@3.25.76):
+  openai@6.34.0(ws@8.20.0)(zod@3.25.76):
     optionalDependencies:
       ws: 8.20.0
       zod: 3.25.76
@@ -27789,7 +27789,7 @@ snapshots:
       terser: 5.46.1
       yaml: 2.8.3
 
-  vitest@4.1.3(@opentelemetry/api@1.9.1)(@types/node@25.5.2)(jsdom@29.0.1)(vite@7.3.2(@types/node@25.5.2)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3)):
+  vitest@4.1.3(@opentelemetry/api@1.9.1)(@types/node@25.5.2)(jsdom@29.0.2)(vite@7.3.2(@types/node@25.5.2)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3)):
     dependencies:
       '@vitest/expect': 4.1.3
       '@vitest/mocker': 4.1.3(vite@7.3.2(@types/node@25.5.2)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))
@@ -27814,7 +27814,7 @@ snapshots:
     optionalDependencies:
       '@opentelemetry/api': 1.9.1
       '@types/node': 25.5.2
-      jsdom: 29.0.1
+      jsdom: 29.0.2
     transitivePeerDependencies:
       - msw
 
