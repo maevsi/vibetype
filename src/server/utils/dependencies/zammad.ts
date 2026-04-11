@@ -26,7 +26,8 @@ export const useZammad = () => {
           subject: title,
           type: 'note',
         },
-        customer: `guess:${customerEmailAddress}`,
+        customer_id: `guess:${customerEmailAddress}`,
+        group_id: 1,
         title,
       },
       headers: {

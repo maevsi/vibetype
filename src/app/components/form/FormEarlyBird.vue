@@ -106,6 +106,7 @@ const formSchema = z.object({
   userName: z.string().min(1).max(100),
 })
 
+const { $csrfFetch } = useNuxtApp()
 const form = useForm({
   defaultValues: {
     userConsent: false,
@@ -117,7 +118,7 @@ const form = useForm({
   },
   onSubmit: async ({ value }) => {
     try {
-      await $fetch('/api/service/zammad/early-bird', {
+      await $csrfFetch('/api/service/zammad/early-bird', {
         body: value,
         method: 'POST',
       })

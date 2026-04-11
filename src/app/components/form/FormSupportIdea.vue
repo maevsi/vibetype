@@ -139,6 +139,7 @@ const formSchema = z.object({
   userName: z.string().max(100),
 })
 
+const { $csrfFetch } = useNuxtApp()
 const form = useForm({
   defaultValues: {
     itemDescription: '',
@@ -151,7 +152,7 @@ const form = useForm({
   },
   onSubmit: async ({ value }) => {
     try {
-      await $fetch('/api/service/zammad/idea', {
+      await $csrfFetch('/api/service/zammad/idea', {
         body: {
           ...value,
           userEmailAddress: value.userEmailAddress || undefined,
