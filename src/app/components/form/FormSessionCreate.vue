@@ -5,14 +5,14 @@
         <Field>
           <FieldLabel>
             <TypographySubtitleSmall>
-              {{ t('emailAddress') }}
+              {{ t('emailAddressOrUsername') }}
             </TypographySubtitleSmall>
           </FieldLabel>
           <FieldContent>
             <Input
-              type="email"
               :model-value="field.state.value"
               :aria-invalid="isFieldInvalid(field)"
+              autocomplete="username"
               @blur="field.handleBlur"
               @input="
                 field.handleChange(($event.target as HTMLInputElement).value)
@@ -25,7 +25,6 @@
           />
         </Field>
       </form.Field>
-      <!-- TODO: allow for username too -->
       <form.Field v-slot="{ field }" name="password">
         <Field>
           <FieldLabel>
@@ -164,7 +163,14 @@ const { $csrfFetch, $urqlReset } = useNuxtApp()
 const formSchema = z.object({
   captcha: z.string().min(1),
   password: z.string().min(1),
-  username: z.string().min(1).email().max(1000),
+  username: z.union([
+    z.string().min(1).email().max(254),
+    z
+      .string()
+      .min(1)
+      .max(100)
+      .regex(/^[-A-Za-z0-9]+$/),
+  ]),
 })
 
 const form = useForm({
@@ -219,7 +225,7 @@ const onSubmit = (e: Event) => {
 
 <i18n lang="yaml">
 de:
-  emailAddress: E-Mail-Adresse
+  emailAddressOrUsername: E-Mail-Adresse oder Benutzername
   error: Es gab ein Problem bei der Anmeldung. Versuche es nochmal oder kontaktiere den Support, wir helfen dir gerne weiter.
   password: Passwort
   passwordReset: Passwort zurücksetzen
@@ -227,7 +233,7 @@ de:
   signIn: Einloggen
   visibilityToggle: Sichtbarkeit umschalten
 en:
-  emailAddress: Email address
+  emailAddressOrUsername: Email address or username
   error: There was a problem signing in. Please try again or contact support, we are happy to help.
   password: Password
   passwordReset: I forgot my password
