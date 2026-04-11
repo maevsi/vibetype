@@ -1,5 +1,9 @@
 <template>
-  <form ref="formRef" class="flex flex-col gap-4" @submit="onSubmit">
+  <form
+    ref="formRef"
+    class="flex flex-col gap-4"
+    @submit.prevent="form.handleSubmit"
+  >
     <form.Field v-slot="{ field }" name="birthDate">
       <Field class="flex flex-col">
         <FieldLabel>{{ t('label') }}</FieldLabel>
@@ -103,12 +107,6 @@ const form = useForm({
     emit('success', value.birthDate)
   },
 })
-
-const onSubmit = (e: Event) => {
-  e.preventDefault()
-  e.stopPropagation()
-  form.handleSubmit()
-}
 
 const submit = () => formRef.value?.requestSubmit()
 defineExpose({

@@ -8,7 +8,12 @@
     v-else-if="!api.data.allPreferenceEventSizes?.nodes.length"
     :error="{ message: 'Data is missing', status: 404 }"
   />
-  <form v-else ref="formRef" class="flex flex-col gap-4" @submit="onSubmit">
+  <form
+    v-else
+    ref="formRef"
+    class="flex flex-col gap-4"
+    @submit.prevent="form.handleSubmit"
+  >
     <form.Field v-slot="{ field }" name="items">
       <Field class="flex flex-col gap-2">
         <div v-for="item in items" :key="item.rowId" class="flex gap-3 p-1">
@@ -187,12 +192,6 @@ const form = useForm({
     emit('success')
   },
 })
-
-const onSubmit = (e: Event) => {
-  e.preventDefault()
-  e.stopPropagation()
-  form.handleSubmit()
-}
 
 const error = computed(() =>
   api.value.errors.length

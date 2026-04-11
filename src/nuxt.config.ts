@@ -149,6 +149,7 @@ export default defineNuxtConfig({
       },
       zammad: {
         apiToken: undefined,
+        groupId: 1,
         url: undefined,
       },
     },

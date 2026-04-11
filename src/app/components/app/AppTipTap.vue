@@ -282,8 +282,8 @@ import { TextAlign } from '@tiptap/extension-text-align'
 import { StarterKit } from '@tiptap/starter-kit'
 import { debounce } from 'lodash-es'
 
-const { value = undefined } = defineProps<{
-  value?: string
+const { value } = defineProps<{
+  value: string | undefined
 }>()
 
 const emit = defineEmits<{

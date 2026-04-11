@@ -1,5 +1,6 @@
 export const useZammad = () => {
   const event = useEvent()
+  const runtimeConfig = useRuntimeConfig()
 
   if (!event.context.$zammad)
     throw createAppError({
@@ -27,7 +28,7 @@ export const useZammad = () => {
           type: 'note',
         },
         customer_id: `guess:${customerEmailAddress}`,
-        group_id: 1,
+        group_id: runtimeConfig.vibetype.zammad.groupId,
         title,
       },
       headers: {

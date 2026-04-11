@@ -1,5 +1,5 @@
 <template>
-  <form ref="formRef" @submit="onSubmit">
+  <form ref="formRef" @submit.prevent="form.handleSubmit">
     <form.Field v-slot="{ field }" name="reason">
       <Field>
         <FieldLabel class="justify-center">
@@ -102,12 +102,6 @@ const form = useForm({
     emit('submitSuccess')
   },
 })
-
-const onSubmit = (e: Event) => {
-  e.preventDefault()
-  e.stopPropagation()
-  form.handleSubmit()
-}
 </script>
 
 <i18n lang="yaml">
