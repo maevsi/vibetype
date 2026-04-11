@@ -107,10 +107,10 @@ const formRef = useTemplateRef<HTMLFormElement>('formRef')
 const captchaIsUsed = ref<boolean>()
 
 const formSchema = z.object({
-  captcha: z.string().min(1),
-  userConsent: z.boolean().refine((value) => value === true),
-  userEmailAddress: z.string().min(1).email().max(1000),
-  userName: z.string().min(1).max(100),
+  captcha: SCHEMA_CAPTCHA,
+  userConsent: SCHEMA_CONSENT_REQUIRED,
+  userEmailAddress: SCHEMA_EMAIL_ADDRESS_REQUIRED,
+  userName: SCHEMA_USER_NAME_REQUIRED,
 })
 
 const { $csrfFetch } = useNuxtApp()

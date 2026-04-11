@@ -133,11 +133,11 @@ defineExpose({ submit })
 const captchaIsUsed = ref<boolean>()
 
 const formSchema = z.object({
-  captcha: z.string().min(1),
-  itemDescription: z.string().min(1).max(10000),
-  userConsent: z.boolean().refine((value) => value === true),
-  userEmailAddress: z.string().min(1).email().max(1000),
-  userName: z.string().max(100),
+  captcha: SCHEMA_CAPTCHA,
+  itemDescription: SCHEMA_ITEM_DESCRIPTION_REQUIRED,
+  userConsent: SCHEMA_CONSENT_REQUIRED,
+  userEmailAddress: SCHEMA_EMAIL_ADDRESS_REQUIRED,
+  userName: SCHEMA_USER_NAME_OPTIONAL,
 })
 
 const { $csrfFetch } = useNuxtApp()

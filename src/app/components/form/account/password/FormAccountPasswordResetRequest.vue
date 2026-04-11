@@ -68,7 +68,7 @@ watch(
 
 // form
 const formSchema = z.object({
-  emailAddress: z.string().min(1).email().max(1000),
+  emailAddress: SCHEMA_EMAIL_ADDRESS_REQUIRED,
 })
 
 const form = useForm({

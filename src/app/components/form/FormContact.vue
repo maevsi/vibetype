@@ -287,36 +287,15 @@ const api = await useApiData([
 
 // form
 const formSchema = z.object({
-  accountUsername: z
-    .string()
-    .regex(REGEX_SLUG)
-    .max(VALIDATION_USERNAME_LENGTH_MAXIMUM)
-    .or(z.literal('')),
-  emailAddress: z
-    .string()
-    .email()
-    .max(VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM)
-    .or(z.literal('')),
-  firstName: z
-    .string()
-    .max(VALIDATION_NAME_FIRST_LENGTH_MAXIMUM)
-    .or(z.literal('')),
-  lastName: z
-    .string()
-    .max(VALIDATION_NAME_LAST_LENGTH_MAXIMUM)
-    .or(z.literal('')),
-  nickname: z
-    .string()
-    .max(VALIDATION_NAME_NICK_LENGTH_MAXIMUM)
-    .or(z.literal('')),
-  note: z.string().max(VALIDATION_NOTE_LENGTH_MAXIMUM).or(z.literal('')),
-  phoneNumber: z.string().or(z.literal('')),
+  accountUsername: SCHEMA_USERNAME_OPTIONAL,
+  emailAddress: SCHEMA_EMAIL_ADDRESS_OPTIONAL,
+  firstName: SCHEMA_NAME_FIRST_OPTIONAL,
+  lastName: SCHEMA_NAME_LAST_OPTIONAL,
+  nickname: SCHEMA_NAME_NICK_OPTIONAL,
+  note: SCHEMA_NOTE_OPTIONAL,
+  phoneNumber: SCHEMA_PHONE_NUMBER_OPTIONAL,
   rowId: z.string().or(z.literal('')),
-  url: z
-    .string()
-    .regex(REGEX_URL_HTTPS)
-    .max(VALIDATION_URL_LENGTH_MAXIMUM)
-    .or(z.literal('')),
+  url: SCHEMA_URL_HTTPS_OPTIONAL,
 })
 
 const form = useForm({

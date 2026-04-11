@@ -151,15 +151,11 @@ const captchaIsUsed = defineModel<boolean>('captcha-is-used')
 // form
 const formSchema = z
   .object({
-    captcha: z.string().min(1),
-    emailAddress: z.string().min(1).email().max(1000),
-    password: z.string().min(VALIDATION_PASSWORD_LENGTH_MINIMUM),
+    captcha: SCHEMA_CAPTCHA,
+    emailAddress: SCHEMA_EMAIL_ADDRESS_REQUIRED,
+    password: SCHEMA_PASSWORD,
     passwordRepetition: z.string().min(1),
-    username: z
-      .string()
-      .min(1)
-      .max(VALIDATION_USERNAME_LENGTH_MAXIMUM)
-      .regex(REGEX_SLUG),
+    username: SCHEMA_USERNAME_REQUIRED,
   })
   .refine((data) => data.password === data.passwordRepetition, {
     message: t('passwordMismatch'),

@@ -75,7 +75,7 @@ const api = await useApiData([mutation])
 
 // form
 const formSchema = z.object({
-  password: z.string().min(VALIDATION_PASSWORD_LENGTH_MINIMUM),
+  password: SCHEMA_PASSWORD,
 })
 
 const form = useForm({

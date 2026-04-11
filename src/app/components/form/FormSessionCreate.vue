@@ -96,16 +96,9 @@ const store = useStore()
 const { $csrfFetch, $urqlReset } = useNuxtApp()
 
 const formSchema = z.object({
-  captcha: z.string().min(1),
+  captcha: SCHEMA_CAPTCHA,
   password: z.string().min(1),
-  username: z.union([
-    z.string().min(1).email().max(254),
-    z
-      .string()
-      .min(1)
-      .max(100)
-      .regex(/^[-A-Za-z0-9]+$/),
-  ]),
+  username: z.union([SCHEMA_EMAIL_ADDRESS_REQUIRED, SCHEMA_USERNAME_REQUIRED]),
 })
 
 const form = useForm({

@@ -78,8 +78,8 @@ const errorMessages = computed(() =>
 
 // form
 const formSchema = z.object({
-  passwordCurrent: z.string().min(1),
-  passwordNew: z.string().min(VALIDATION_PASSWORD_LENGTH_MINIMUM),
+  passwordCurrent: SCHEMA_PASSWORD,
+  passwordNew: SCHEMA_PASSWORD,
 })
 
 const form = useForm({

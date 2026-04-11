@@ -330,27 +330,16 @@ const validateEventSlugFn = async (value: string) => {
 
 // form
 const formSchema = z.object({
-  description: z
-    .string()
-    .max(VALIDATION_EVENT_DESCRIPTION_LENGTH_MAXIMUM)
-    .or(z.literal('')),
+  description: SCHEMA_EVENT_DESCRIPTION_OPTIONAL,
   end: z.string(),
   guestCountMaximum: z.string(),
   isInPerson: z.boolean(),
   isRemote: z.boolean(),
-  name: z.string().min(1).max(VALIDATION_EVENT_NAME_LENGTH_MAXIMUM),
+  name: SCHEMA_EVENT_NAME_REQUIRED,
   rowId: z.string(),
-  slug: z
-    .string()
-    .regex(REGEX_SLUG)
-    .max(VALIDATION_EVENT_SLUG_LENGTH_MAXIMUM)
-    .min(1),
+  slug: SCHEMA_EVENT_SLUG_REQUIRED,
   start: z.string().min(1),
-  url: z
-    .string()
-    .regex(REGEX_URL_HTTPS)
-    .max(VALIDATION_URL_LENGTH_MAXIMUM)
-    .or(z.literal('')),
+  url: SCHEMA_URL_HTTPS_OPTIONAL,
   visibility: z.nativeEnum(EventVisibility),
 })
 
