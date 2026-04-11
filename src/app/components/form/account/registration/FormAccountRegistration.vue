@@ -1,6 +1,9 @@
 <template>
   <div class="flex flex-col items-center gap-4">
-    <form class="flex w-full flex-col gap-4" @submit="onSubmit">
+    <form
+      class="flex w-full flex-col gap-4"
+      @submit.prevent="form.handleSubmit"
+    >
       <form.Field
         v-slot="{ field }"
         name="username"
@@ -69,25 +72,12 @@
             </TypographySubtitleSmall>
           </FieldLabel>
           <FieldContent>
-            <div class="relative">
-              <Input
-                :type="isPasswordVisible ? 'text' : 'password'"
-                :model-value="field.state.value"
-                :aria-invalid="isFieldInvalid(field)"
-                @blur="field.handleBlur"
-                @input="
-                  field.handleChange(($event.target as HTMLInputElement).value)
-                "
-              />
-              <ButtonIcon
-                :aria-label="t('visibilityToggle')"
-                class="absolute top-1/2 right-2 -translate-y-1/2"
-                @click="isPasswordVisible = !isPasswordVisible"
-              >
-                <AppIconEye v-if="!isPasswordVisible" />
-                <AppIconEyeSlash v-else />
-              </ButtonIcon>
-            </div>
+            <FormInputPassword
+              :aria-invalid="isFieldInvalid(field)"
+              :model-value="field.state.value"
+              @blur="field.handleBlur"
+              @input="field.handleChange($event)"
+            />
             <Progress
               :model-value="calculatePasswordStrength(field.state.value)"
               class="my-2"
@@ -107,25 +97,12 @@
             </TypographySubtitleSmall>
           </FieldLabel>
           <FieldContent>
-            <div class="relative">
-              <Input
-                :type="isPasswordRepVisible ? 'text' : 'password'"
-                :model-value="field.state.value"
-                :aria-invalid="isFieldInvalid(field)"
-                @blur="field.handleBlur"
-                @input="
-                  field.handleChange(($event.target as HTMLInputElement).value)
-                "
-              />
-              <ButtonIcon
-                :aria-label="t('visibilityToggle')"
-                class="absolute top-1/2 right-2 -translate-y-1/2"
-                @click="isPasswordRepVisible = !isPasswordRepVisible"
-              >
-                <AppIconEye v-if="!isPasswordRepVisible" />
-                <AppIconEyeSlash v-else />
-              </ButtonIcon>
-            </div>
+            <FormInputPassword
+              :aria-invalid="isFieldInvalid(field)"
+              :model-value="field.state.value"
+              @blur="field.handleBlur"
+              @input="field.handleChange($event)"
+            />
           </FieldContent>
           <FieldError
             v-if="isFieldInvalid(field)"
@@ -133,36 +110,7 @@
           />
         </Field>
       </form.Field>
-      <form.Field v-slot="{ field }" name="captcha">
-        <div
-          :class="{
-            hidden:
-              !isCaptchaVisible &&
-              !(field.state.meta.isTouched && !field.state.meta.isValid),
-          }"
-        >
-          <NuxtTurnstile
-            ref="turnstile"
-            :key="themeColor"
-            :class="{
-              'flex justify-center': true,
-              'h-16.25': isCaptchaVisible,
-            }"
-            :options="{
-              'error-callback': () => (isCaptchaLoading = false),
-              'expired-callback': () => field.handleChange(''),
-              theme: themeColor,
-            }"
-            @update:model-value="
-              (value: string) => {
-                isCaptchaLoading = false
-                captchaIsUsed = false
-                field.handleChange(value)
-              }
-            "
-          />
-        </div>
-      </form.Field>
+      <FormFieldCaptcha v-model:captcha-is-used="captchaIsUsed" :form />
       <ButtonColored :aria-label="t('register')" class="w-full" type="submit">
         {{ t('register') }}
       </ButtonColored>
@@ -198,35 +146,7 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const localePath = useLocalePath()
-const isPasswordVisible = ref(false)
-const isPasswordRepVisible = ref(false)
 const captchaIsUsed = defineModel<boolean>('captcha-is-used')
-
-// captcha
-const runtimeConfig = useRuntimeConfig()
-const colorMode = useColorMode()
-const themeColor = ref<'auto' | 'light' | 'dark'>()
-const getThemeColor = (colorModePreferenceOverride?: string) => {
-  const colorModePreference =
-    colorModePreferenceOverride || colorMode.preference
-
-  switch (colorModePreference) {
-    case 'system':
-      return 'auto'
-    case 'light':
-    case 'dark':
-      return colorModePreference
-    default:
-      throw new Error(`Unexpected color mode "${colorModePreference}"`)
-  }
-}
-themeColor.value = getThemeColor()
-watch(
-  () => colorMode.value,
-  (currentValue) => (themeColor.value = getThemeColor(currentValue)),
-)
-const isCaptchaVisible = computed(() => !runtimeConfig.public.vio.isTesting)
-const isCaptchaLoading = ref(true)
 
 // form
 const formSchema = z
@@ -266,12 +186,6 @@ const form = useForm({
     })
   },
 })
-
-const onSubmit = (e: Event) => {
-  e.preventDefault()
-  e.stopPropagation()
-  form.handleSubmit()
-}
 </script>
 
 <i18n lang="yaml">
@@ -285,7 +199,6 @@ de:
   signIn: 'Du hast bereits ein Konto? Anmelden'
   username: Nutzername
   usernameAlreadyTaken: Dieser Nutzername ist bereits vergeben
-  visibilityToggle: Sichtbarkeit umschalten
 en:
   accountDeletionNotice: "You'll be able to delete your account at any time."
   emailAddress: Email address
@@ -296,5 +209,4 @@ en:
   signIn: Already have an account? Log in
   username: Username
   usernameAlreadyTaken: This username is already taken
-  visibilityToggle: Toggle visibility
 </i18n>

@@ -1,6 +1,9 @@
 <template>
   <div class="flex flex-col items-center gap-4">
-    <form class="flex w-full flex-col gap-4" @submit="onSubmit">
+    <form
+      class="flex w-full flex-col gap-4"
+      @submit.prevent="form.handleSubmit"
+    >
       <form.Field v-slot="{ field }" name="username">
         <Field>
           <FieldLabel>
@@ -34,25 +37,12 @@
             </TypographySubtitleSmall>
           </FieldLabel>
           <FieldContent>
-            <div class="relative">
-              <Input
-                :type="isPasswordVisible ? 'text' : 'password'"
-                :model-value="field.state.value"
-                :aria-invalid="isFieldInvalid(field)"
-                @blur="field.handleBlur"
-                @input="
-                  field.handleChange(($event.target as HTMLInputElement).value)
-                "
-              />
-              <ButtonIcon
-                :aria-label="t('visibilityToggle')"
-                class="absolute top-1/2 right-2 -translate-y-1/2"
-                @click="isPasswordVisible = !isPasswordVisible"
-              >
-                <AppIconEye v-if="!isPasswordVisible" />
-                <AppIconEyeSlash v-else />
-              </ButtonIcon>
-            </div>
+            <FormInputPassword
+              :aria-invalid="isFieldInvalid(field)"
+              :model-value="field.state.value"
+              @blur="field.handleBlur"
+              @input="field.handleChange($event)"
+            />
           </FieldContent>
           <FieldError
             v-if="isFieldInvalid(field)"
@@ -60,36 +50,7 @@
           />
         </Field>
       </form.Field>
-      <form.Field v-slot="{ field }" name="captcha">
-        <div
-          :class="{
-            hidden:
-              !isCaptchaVisible &&
-              !(field.state.meta.isTouched && !field.state.meta.isValid),
-          }"
-        >
-          <NuxtTurnstile
-            ref="turnstile"
-            :key="themeColor"
-            :class="{
-              'flex justify-center': true,
-              'h-16.25': isCaptchaVisible,
-            }"
-            :options="{
-              'error-callback': () => (isCaptchaLoading = false),
-              'expired-callback': () => field.handleChange(''),
-              theme: themeColor,
-            }"
-            @update:model-value="
-              (value: string) => {
-                isCaptchaLoading = false
-                captchaIsUsed = false
-                field.handleChange(value)
-              }
-            "
-          />
-        </div>
-      </form.Field>
+      <FormFieldCaptcha v-model:captcha-is-used="captchaIsUsed" :form />
       <ButtonColored :aria-label="t('signIn')" class="w-full" type="submit">
         {{ t('signIn') }}
       </ButtonColored>
@@ -125,34 +86,8 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 
 // data
-const isPasswordVisible = ref(false)
 const modelError = defineModel<Error>('error')
 
-// captcha
-const runtimeConfig = useRuntimeConfig()
-const colorMode = useColorMode()
-const themeColor = ref<'auto' | 'light' | 'dark'>()
-const getThemeColor = (colorModePreferenceOverride?: string) => {
-  const colorModePreference =
-    colorModePreferenceOverride || colorMode.preference
-
-  switch (colorModePreference) {
-    case 'system':
-      return 'auto'
-    case 'light':
-    case 'dark':
-      return colorModePreference
-    default:
-      throw new Error(`Unexpected color mode "${colorModePreference}"`)
-  }
-}
-themeColor.value = getThemeColor()
-watch(
-  () => colorMode.value,
-  (currentValue) => (themeColor.value = getThemeColor(currentValue)),
-)
-const isCaptchaVisible = computed(() => !runtimeConfig.public.vio.isTesting)
-const isCaptchaLoading = ref(true)
 const captchaIsUsed = ref<boolean>()
 
 // form
@@ -209,12 +144,6 @@ const form = useForm({
     }
   },
 })
-
-const onSubmit = (e: Event) => {
-  e.preventDefault()
-  e.stopPropagation()
-  form.handleSubmit()
-}
 </script>
 
 <i18n lang="yaml">
@@ -225,7 +154,6 @@ de:
   passwordReset: Passwort zurücksetzen
   register: Konto erstellen
   signIn: Einloggen
-  visibilityToggle: Sichtbarkeit umschalten
 en:
   emailAddress: Email address
   error: There was a problem signing in. Please try again or contact support, we are happy to help.
@@ -233,5 +161,4 @@ en:
   passwordReset: I forgot my password
   register: Create an account
   signIn: Log in
-  visibilityToggle: Toggle visibility
 </i18n>

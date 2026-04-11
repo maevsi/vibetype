@@ -1,5 +1,5 @@
 <template>
-  <form ref="formRef" novalidate @submit.prevent="onSubmit">
+  <form ref="formRef" novalidate @submit.prevent="form.handleSubmit">
     <div class="flex flex-col gap-4">
       <form.Field v-slot="{ field }" name="password">
         <Field>
@@ -7,26 +7,13 @@
             t('passwordAccount')
           }}</FieldLabel>
           <FieldContent>
-            <div class="relative">
-              <Input
-                id="input-password"
-                :type="isPasswordVisible ? 'text' : 'password'"
-                :model-value="field.state.value"
-                :aria-invalid="isFieldInvalid(field)"
-                @blur="field.handleBlur"
-                @input="
-                  field.handleChange(($event.target as HTMLInputElement).value)
-                "
-              />
-              <ButtonIcon
-                class="absolute top-1/2 right-2 -translate-y-1/2"
-                :aria-label="t('visibilityToggle')"
-                @click="isPasswordVisible = !isPasswordVisible"
-              >
-                <AppIconEye v-if="!isPasswordVisible" />
-                <AppIconEyeSlash v-else />
-              </ButtonIcon>
-            </div>
+            <FormInputPassword
+              id="input-password"
+              :aria-invalid="isFieldInvalid(field)"
+              :model-value="field.state.value"
+              @blur="field.handleBlur"
+              @input="field.handleChange($event)"
+            />
           </FieldContent>
           <FieldError
             v-if="isFieldInvalid(field)"
@@ -83,9 +70,6 @@ const formRef = useTemplateRef<HTMLFormElement>('formRef')
 const submit = () => formRef.value?.requestSubmit()
 defineExpose({ submit })
 
-// data
-const isPasswordVisible = ref(false)
-
 // api data
 const api = await useApiData([mutation])
 
@@ -123,12 +107,6 @@ const form = useForm({
   },
 })
 
-const onSubmit = (e: Event) => {
-  e.preventDefault()
-  e.stopPropagation()
-  form.handleSubmit()
-}
-
 // computations
 const errorMessages = computed(() =>
   api.value.errors
@@ -151,10 +129,8 @@ de:
   deletion: '{item} endgültig löschen'
   passwordAccount: Konto-Passwort
   success: '{item} erfolgreich gelöscht.'
-  visibilityToggle: Passwort-Sichtbarkeit umschalten
 en:
   deletion: 'Delete {item} permanently'
   passwordAccount: Account password
   success: '{item} deleted successfully.'
-  visibilityToggle: Toggle password visibility
 </i18n>

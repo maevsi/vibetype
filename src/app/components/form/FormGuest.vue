@@ -3,7 +3,7 @@
     v-if="event"
     class="flex min-h-0 flex-col"
     novalidate
-    @submit.prevent="onSubmit"
+    @submit.prevent="form.handleSubmit"
   >
     <div class="flex flex-col gap-4">
       <div class="flex flex-col items-center gap-4">
@@ -88,6 +88,7 @@
 
 <script setup lang="ts">
 import { useForm } from '@tanstack/vue-form'
+import type { AnyFieldApi } from '@tanstack/vue-form'
 import { z } from 'zod'
 
 import { useCreateGuestsMutation } from '~~/gql/documents/mutations/guest/guestCreate'
@@ -177,15 +178,8 @@ const form = useForm({
   },
 })
 
-const onSubmit = (e: Event) => {
-  e.preventDefault()
-  e.stopPropagation()
-  form.handleSubmit()
-}
-
 // methods
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const selectToggle = (contactId: string, field: any) => {
+const selectToggle = (contactId: string, field: AnyFieldApi) => {
   const currentIds = field.state.value as string[]
   const index = currentIds.indexOf(contactId)
 

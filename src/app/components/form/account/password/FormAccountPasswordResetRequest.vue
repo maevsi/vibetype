@@ -3,7 +3,7 @@
     ref="formRef"
     :class="classProps"
     class="flex flex-col gap-4"
-    @submit="onSubmit"
+    @submit.prevent="form.handleSubmit"
   >
     <form.Field v-slot="{ field }" name="emailAddress">
       <Field>
@@ -91,12 +91,6 @@ const form = useForm({
     emit('success')
   },
 })
-
-const onSubmit = (e: Event) => {
-  e.preventDefault()
-  e.stopPropagation()
-  form.handleSubmit()
-}
 </script>
 
 <i18n lang="yaml">

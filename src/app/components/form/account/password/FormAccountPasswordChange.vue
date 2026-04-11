@@ -1,5 +1,5 @@
 <template>
-  <form class="flex flex-col gap-4" @submit="onSubmit">
+  <form class="flex flex-col gap-4" @submit.prevent="form.handleSubmit">
     <form.Field v-slot="{ field }" name="passwordCurrent">
       <Field>
         <FieldLabel>
@@ -8,25 +8,12 @@
           </TypographySubtitleSmall>
         </FieldLabel>
         <FieldContent>
-          <div class="relative">
-            <Input
-              :type="isCurrentVisible ? 'text' : 'password'"
-              :model-value="field.state.value"
-              :aria-invalid="isFieldInvalid(field)"
-              @blur="field.handleBlur"
-              @input="
-                field.handleChange(($event.target as HTMLInputElement).value)
-              "
-            />
-            <ButtonIcon
-              :aria-label="t('visibilityToggle')"
-              class="absolute top-1/2 right-2 -translate-y-1/2"
-              @click="isCurrentVisible = !isCurrentVisible"
-            >
-              <AppIconEye v-if="!isCurrentVisible" />
-              <AppIconEyeSlash v-else />
-            </ButtonIcon>
-          </div>
+          <FormInputPassword
+            :aria-invalid="isFieldInvalid(field)"
+            :model-value="field.state.value"
+            @blur="field.handleBlur"
+            @input="field.handleChange($event)"
+          />
         </FieldContent>
         <FieldError
           v-if="isFieldInvalid(field)"
@@ -42,25 +29,12 @@
           </TypographySubtitleSmall>
         </FieldLabel>
         <FieldContent>
-          <div class="relative">
-            <Input
-              :type="isNewVisible ? 'text' : 'password'"
-              :model-value="field.state.value"
-              :aria-invalid="isFieldInvalid(field)"
-              @blur="field.handleBlur"
-              @input="
-                field.handleChange(($event.target as HTMLInputElement).value)
-              "
-            />
-            <ButtonIcon
-              :aria-label="t('visibilityToggle')"
-              class="absolute top-1/2 right-2 -translate-y-1/2"
-              @click="isNewVisible = !isNewVisible"
-            >
-              <AppIconEye v-if="!isNewVisible" />
-              <AppIconEyeSlash v-else />
-            </ButtonIcon>
-          </div>
+          <FormInputPassword
+            :aria-invalid="isFieldInvalid(field)"
+            :model-value="field.state.value"
+            @blur="field.handleBlur"
+            @input="field.handleChange($event)"
+          />
         </FieldContent>
         <FieldError
           v-if="isFieldInvalid(field)"
@@ -88,10 +62,6 @@ import { z } from 'zod'
 import { useAccountPasswordChangeMutation } from '~~/gql/documents/mutations/account/accountPasswordChange'
 
 const { t } = useI18n()
-
-// data
-const isCurrentVisible = ref(false)
-const isNewVisible = ref(false)
 
 // api data
 const accountPasswordChangeMutation = useAccountPasswordChangeMutation()
@@ -134,12 +104,6 @@ const form = useForm({
     form.reset()
   },
 })
-
-const onSubmit = (e: Event) => {
-  e.preventDefault()
-  e.stopPropagation()
-  form.handleSubmit()
-}
 </script>
 
 <i18n lang="yaml">
@@ -150,7 +114,6 @@ de:
   passwordNew: Neues Passwort
   postgres22023: Das neue Passwort ist zu kurz! Überlege dir ein längeres.
   postgres28P01: Aktuelles Passwort falsch! Überprüfe, ob du alles richtig geschrieben hast.
-  visibilityToggle: Sichtbarkeit umschalten
 en:
   passwordChange: Change password
   passwordChangeSuccess: Password changed successfully.
@@ -158,5 +121,4 @@ en:
   passwordNew: New password
   postgres22023: Your new password is too short! Think of a longer one.
   postgres28P01: Current password incorrect! Check for spelling mistakes.
-  visibilityToggle: Toggle visibility
 </i18n>

@@ -1,3 +1,8 @@
+import type { AnyFormApi } from '@tanstack/vue-form'
+import type { Component } from 'vue'
+
+export type AnyVueForm = AnyFormApi & { Field: Component }
+
 export const isFieldInvalid = (field: {
   state: { meta: { isTouched: boolean; isValid: boolean } }
 }) => field.state.meta.isTouched && !field.state.meta.isValid

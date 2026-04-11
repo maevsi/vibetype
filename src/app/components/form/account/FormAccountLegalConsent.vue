@@ -2,7 +2,7 @@
   <form
     class="sticky bottom-0 z-10 flex flex-col gap-3 border-t border-(--semantic-base-line) bg-(--semantic-base-background) p-3"
     novalidate
-    @submit.prevent="onSubmit"
+    @submit.prevent="form.handleSubmit"
   >
     <div
       class="rounded-xl border border-(--semantic-base-line) bg-(--faint-weak) px-3 py-4"
@@ -73,12 +73,6 @@ const form = useForm({
     emit('agreement')
   },
 })
-
-const onSubmit = (e: Event) => {
-  e.preventDefault()
-  e.stopPropagation()
-  form.handleSubmit()
-}
 
 // accessibility
 const templateIdCheckbox = useId()

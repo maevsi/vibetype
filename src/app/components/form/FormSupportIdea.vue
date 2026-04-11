@@ -115,6 +115,7 @@
           </div>
         </Field>
       </form.Field>
+      <FormFieldCaptcha v-model:captcha-is-used="captchaIsUsed" :form />
     </FieldGroup>
   </form>
 </template>
@@ -131,8 +132,10 @@ const emit = defineEmits<{
 // form
 const modelError = defineModel<Error>('error')
 const formRef = useTemplateRef<HTMLFormElement>('formRef')
+const captchaIsUsed = ref<boolean>()
 
 const formSchema = z.object({
+  captcha: z.string().min(1),
   itemDescription: z.string().min(1).max(10000),
   userConsent: z.boolean().refine((value) => value === true),
   userEmailAddress: z.string().email().max(1000).or(z.literal('')),
@@ -142,6 +145,7 @@ const formSchema = z.object({
 const { $csrfFetch } = useNuxtApp()
 const form = useForm({
   defaultValues: {
+    captcha: '',
     itemDescription: '',
     userConsent: false,
     userEmailAddress: '',
@@ -158,20 +162,21 @@ const form = useForm({
           userEmailAddress: value.userEmailAddress || undefined,
           userName: value.userName || undefined,
         },
+        headers: {
+          ...(value.captcha ? { [TURNSTILE_HEADER_KEY]: value.captcha } : {}),
+        },
         method: 'POST',
       })
       emit('success')
     } catch (error) {
       modelError.value = error as Error
+    } finally {
+      captchaIsUsed.value = true
     }
   },
 })
 
-const submit = () => {
-  formRef.value?.dispatchEvent(
-    new Event('submit', { bubbles: true, cancelable: true }),
-  )
-}
+const submit = () => formRef.value?.requestSubmit()
 defineExpose({ submit })
 
 // template

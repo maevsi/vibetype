@@ -1,4 +1,5 @@
 export default defineEventHandler(async (event) => {
+  await turnstileVerify(event)
   const body = await getBodySafe({ event, schema: schemaFormEarlyBird })
   const { createTicket } = useZammad()
 

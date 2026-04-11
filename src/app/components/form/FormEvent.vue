@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form novalidate @submit.prevent="onSubmit">
+    <form novalidate @submit.prevent="form.handleSubmit">
       <div class="flex flex-col gap-4">
         <form.Field v-slot="{ field: nameField }" name="name">
           <Field>
@@ -271,6 +271,7 @@
 
 <script setup lang="ts">
 import { useForm } from '@tanstack/vue-form'
+import type { AnyFieldApi } from '@tanstack/vue-form'
 import { z } from 'zod'
 import { DatePicker } from 'v-calendar'
 
@@ -446,12 +447,6 @@ const form = useForm({
   },
 })
 
-const onSubmit = (e: Event) => {
-  e.preventDefault()
-  e.stopPropagation()
-  form.handleSubmit()
-}
-
 // methods
 const dateTimeFormatter = (x?: string) =>
   x
@@ -461,8 +456,7 @@ const dateTimeFormatter = (x?: string) =>
         timeZone,
       })
     : undefined
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const onInputName = async (value: string, nameField: any) => {
+const onInputName = async (value: string, nameField: AnyFieldApi) => {
   nameField.handleChange(value)
   await updateSlug()
 }
