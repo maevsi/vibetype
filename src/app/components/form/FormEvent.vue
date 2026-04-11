@@ -37,7 +37,7 @@
           v-slot="{ field: slugField }"
           name="slug"
           :validators="{
-            onBlurAsync: async ({ value: val }) => {
+            onChangeAsync: async ({ value: val }) => {
               if (!val) return undefined
 
               const slugExists = await validateEventSlugFn(val)
@@ -45,7 +45,7 @@
                 ? t('validationExistenceNone', { slug: val })
                 : undefined
             },
-            onBlurAsyncDebounceMs: 300,
+            onChangeAsyncDebounceMs: 300,
           }"
         >
           <FieldError
