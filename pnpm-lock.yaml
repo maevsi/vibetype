@@ -20,11 +20,11 @@ importers:
   src:
     devDependencies:
       '@aws-sdk/client-sesv2':
-        specifier: 3.1028.0
-        version: 3.1028.0
+        specifier: 3.1029.0
+        version: 3.1029.0
       '@aws-sdk/credential-providers':
-        specifier: 3.1028.0
-        version: 3.1028.0
+        specifier: 3.1029.0
+        version: 3.1029.0
       '@dargmuesli/nuxt-cookie-control':
         specifier: 9.1.20
         version: 9.1.20(magicast@0.5.2)(webpack@5.106.1(esbuild@0.27.7))
@@ -587,12 +587,12 @@ packages:
   '@aws-crypto/util@5.2.0':
     resolution: {integrity: sha512-4RkU9EsI6ZpBve5fseQlGNUWKMa1RLPQ1dnjnQoe07ldfIzcsGb5hC5W0Dm7u423KWzawlrpbjXBrXCEv9zazQ==}
 
-  '@aws-sdk/client-cognito-identity@3.1028.0':
-    resolution: {integrity: sha512-T94NnSifr6PPd66exnzK+QS7tQfo/tTw7ZvkHh6FmcepK4mFNm12s5OEIu/XYiVWSX4RaBCwYIAZvcjqXnWHGQ==}
+  '@aws-sdk/client-cognito-identity@3.1029.0':
+    resolution: {integrity: sha512-wmQpZI+DweZ8mKGvkGXZFLxgyR2PoSqsnSvS8wHEuq9U282eD91zfkFsTK+rgQZK+ZYuCKwlBTjHbKKlQiJEjw==}
     engines: {node: '>=20.0.0'}
 
-  '@aws-sdk/client-sesv2@3.1028.0':
-    resolution: {integrity: sha512-6602QTjIBdV3ul0HZe98TbpoKtpEfCBxNxLZUJ6MV6Y8L2LOl81hi7FWpAFknMzfcinmKZiiMIju/Sm3IAIkUQ==}
+  '@aws-sdk/client-sesv2@3.1029.0':
+    resolution: {integrity: sha512-ZL2E13IaLQjevcL9nHqT7Jf8EeYfDhgwNyuOh1bp/2ECga+0BzJaHKiASZdvBCZHV+cCDqH3SiGKePUMOxakYA==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/core@3.973.27':
@@ -635,8 +635,8 @@ packages:
     resolution: {integrity: sha512-PdMBza1WEKEUPFEmMGCfnU2RYCz9MskU2e8JxjyUOsMKku7j9YaDKvbDi2dzC0ihFoM6ods2SbhfAAro+Gwlew==}
     engines: {node: '>=20.0.0'}
 
-  '@aws-sdk/credential-providers@3.1028.0':
-    resolution: {integrity: sha512-ceaO4TnRycUoJl/1hNCdwWJLKHVF4R82YtBY6QE2SF1JVkrnR/WZu/yF1n1fPLuvYQlXW7OIOT9df7t2bfXM2Q==}
+  '@aws-sdk/credential-providers@3.1029.0':
+    resolution: {integrity: sha512-oGkmHMuzj1tfvuCS9fWPvzy3vZqUQKClYClQ7QGAdMd1uH0QqrJQgJtX/jw2Be5nA0ZZ2DG7QEexqM1/TT1JHQ==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/middleware-host-header@3.972.9':
@@ -12790,7 +12790,7 @@ snapshots:
       '@smithy/util-utf8': 2.3.0
       tslib: 2.8.1
 
-  '@aws-sdk/client-cognito-identity@3.1028.0':
+  '@aws-sdk/client-cognito-identity@3.1029.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
@@ -12834,7 +12834,7 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-sesv2@3.1028.0':
+  '@aws-sdk/client-sesv2@3.1029.0':
     dependencies:
       '@aws-crypto/sha256-browser': 5.2.0
       '@aws-crypto/sha256-js': 5.2.0
@@ -13009,9 +13009,9 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/credential-providers@3.1028.0':
+  '@aws-sdk/credential-providers@3.1029.0':
     dependencies:
-      '@aws-sdk/client-cognito-identity': 3.1028.0
+      '@aws-sdk/client-cognito-identity': 3.1029.0
       '@aws-sdk/core': 3.973.27
       '@aws-sdk/credential-provider-cognito-identity': 3.972.22
       '@aws-sdk/credential-provider-env': 3.972.25
