@@ -43,7 +43,7 @@
     "@tailwindcss/forms": "0.5.11",
     "@tailwindcss/typography": "0.5.19",
     "@tailwindcss/vite": "4.2.2",
-    "@takumi-rs/core": "0.73.1",
+    "@takumi-rs/core": "1.0.1",
     "@tiptap/core": "3.22.3",
     "@tiptap/extension-text-align": "3.22.3",
     "@tiptap/pm": "3.22.3",
