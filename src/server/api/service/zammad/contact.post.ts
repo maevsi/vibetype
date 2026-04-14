@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-  await turnstileVerify(event)
+  // await turnstileVerify(event)
   const body = await getBodySafe({ event, schema: schemaFormContact })
   const { createTicket } = useZammad()
 
