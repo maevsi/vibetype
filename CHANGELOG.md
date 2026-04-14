@@ -1,3 +1,9 @@
+## [15.0.1](https://github.com/maevsi/vibetype/compare/15.0.0...15.0.1) (2026-04-14)
+
+### Bug Fixes
+
+* **zammad:** temporarily disable turnstile ([86988cc](https://github.com/maevsi/vibetype/commit/86988cce4877f43c1e1c97d3e6820f310c2c4439))
+
 ## [15.0.0](https://github.com/maevsi/vibetype/compare/14.1.3...15.0.0) (2026-04-14)
 
 ### ⚠ BREAKING CHANGES
