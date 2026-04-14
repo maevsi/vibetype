@@ -1,3 +1,15 @@
+## [15.0.0-beta.5](https://github.com/maevsi/vibetype/compare/15.0.0-beta.4...15.0.0-beta.5) (2026-04-14)
+
+### Features
+
+* **platform:** consent to optional cookies through native ios framework ([#1845](https://github.com/maevsi/vibetype/issues/1845)) ([924c15a](https://github.com/maevsi/vibetype/commit/924c15a1a1a3c29ccea9c5613a06fd849da7ee32))
+
+### Bug Fixes
+
+* **app:** hide cookie button on ios ([#2258](https://github.com/maevsi/vibetype/issues/2258)) ([ace4e7b](https://github.com/maevsi/vibetype/commit/ace4e7bb0c908c45d542cef82a1d8b5c83870b37))
+* **security:** temporarily disable csrf check ([#2262](https://github.com/maevsi/vibetype/issues/2262)) ([9a600ff](https://github.com/maevsi/vibetype/commit/9a600ff0980ff6be404860f69ad95554a5b7d751))
+* **util:** try to show original network error ([#2261](https://github.com/maevsi/vibetype/issues/2261)) ([81e4475](https://github.com/maevsi/vibetype/commit/81e4475a31a3cdff57ded9365548d2e2905d9685))
+
 ## [15.0.0-beta.4](https://github.com/maevsi/vibetype/compare/15.0.0-beta.3...15.0.0-beta.4) (2026-04-14)
 
 ### Features
