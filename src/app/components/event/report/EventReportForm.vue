@@ -1,26 +1,35 @@
 <template>
-  <form ref="form" @submit="onSubmit">
-    <FormField v-slot="{ componentField }" type="radio" name="reason">
-      <FormItem>
-        <FormLabel class="justify-center">
+  <form ref="formRef" @submit.prevent="form.handleSubmit">
+    <form.Field v-slot="{ field }" name="reason">
+      <Field>
+        <FieldLabel class="justify-center">
           <TypographySubtitleSmall>
             {{ t('drawerDescription') }}
           </TypographySubtitleSmall>
-        </FormLabel>
-        <FormControl>
-          <AppRadioGroup v-bind="componentField" is-form :items="reasons" />
-        </FormControl>
-        <TypographyLabel v-slot="attributes">
-          <FormMessage v-bind="attributes" />
-        </TypographyLabel>
-      </FormItem>
-    </FormField>
+        </FieldLabel>
+        <FieldContent>
+          <AppRadioGroup
+            :items="reasons"
+            :model-value="field.state.value"
+            @update:model-value="
+              (value) => {
+                field.handleChange(String(value ?? ''))
+                field.handleBlur()
+              }
+            "
+          />
+        </FieldContent>
+        <FieldError
+          v-if="isFieldInvalid(field)"
+          :errors="field.state.meta.errors"
+        />
+      </Field>
+    </form.Field>
   </form>
 </template>
 
 <script setup lang="ts">
-import { toTypedSchema } from '@vee-validate/zod'
-import { useForm } from 'vee-validate'
+import { useForm } from '@tanstack/vue-form'
 import { z } from 'zod'
 
 import { useCreateReportMutation } from '~~/gql/documents/mutations/report/reportCreate'
@@ -47,49 +56,48 @@ const reasons = [
   { label: t('drawerRadioDrugs'), value: 'drugs' },
   { label: t('drawerRadioOther'), value: 'other' },
 ]
-const templateForm = useTemplateRef('form')
+const formRef = useTemplateRef<HTMLFormElement>('formRef')
 
 // form
-const submit = () =>
-  templateForm.value?.dispatchEvent(
-    new Event('submit', { bubbles: true, cancelable: true }),
-  )
-// TODO: try to dissolve `defineExpose`
+const submit = () => formRef.value?.requestSubmit()
 defineExpose({
   submit,
 })
-const { handleSubmit } = useForm({
-  validationSchema: toTypedSchema(
-    z.object({
-      reason: z.string().min(1).max(2000),
-    }),
-  ),
+
+const formSchema = z.object({
+  reason: z.string().min(1).max(2000),
 })
-// api data // TODO: move when dissolving `defineExpose`
+
+// api data
 const createReportMutation = useCreateReportMutation()
-// const api = await useApiData([createReportMutation]) // TODO: show loading state, error details
-const onSubmit = handleSubmit(async (values) => {
-  const result = await createReportMutation.executeMutation({
-    input: {
-      report: {
-        targetEventId: event.rowId,
-        reason: values.reason,
-        createdBy: accountId,
+
+const form = useForm({
+  defaultValues: {
+    reason: '',
+  },
+  validators: {
+    onSubmit: formSchema,
+  },
+  onSubmit: async ({ value }) => {
+    const result = await createReportMutation.executeMutation({
+      input: {
+        report: {
+          targetEventId: event.rowId,
+          reason: value.reason,
+          createdBy: accountId,
+        },
       },
-    },
-  })
+    })
 
-  if (result.error) {
-    modelError.value = new Error(t('errorCreate'))
-    return
-  }
+    if (!getResultData(result)) {
+      modelError.value = new Error(
+        result.error ? t('errorCreate') : t('globalErrorNoData'),
+      )
+      return
+    }
 
-  if (!result.data) {
-    modelError.value = new Error(t('globalErrorNoData'))
-    return
-  }
-
-  emit('submitSuccess')
+    emit('submitSuccess')
+  },
 })
 </script>
 

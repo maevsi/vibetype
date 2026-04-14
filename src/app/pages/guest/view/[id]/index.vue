@@ -254,9 +254,9 @@
         <div class="bg-white p-4">
           <QrcodeVue id="qrCode" :value="guest.rowId" :size="200" />
         </div>
-        <FormInputStateInfo>
+        <p class="text-sm text-gray-500 dark:text-gray-400">
           {{ t('hintQrCode') }}
-        </FormInputStateInfo>
+        </p>
       </div>
       <template #footer>
         <!-- TODO: check printing support in app -->
@@ -455,7 +455,7 @@ const update = async (id: string, guestPatch: GuestPatch) => {
     input: { rowId: id, guestPatch },
   })
 
-  if (result.error || !result.data) return
+  if (!getResultData(result)) return
 
   toast.success(t('success'))
 }

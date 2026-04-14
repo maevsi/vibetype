@@ -161,13 +161,10 @@ const blockOrganizer = async () => {
     },
   })
 
-  if (result.error) {
-    error.value = new Error(t('errorBlock'))
-    return
-  }
-
-  if (!result.data) {
-    error.value = new Error(t('globalErrorNoData'))
+  if (!getResultData(result)) {
+    error.value = new Error(
+      result.error ? t('errorBlock') : t('globalErrorNoData'),
+    )
     return
   }
 

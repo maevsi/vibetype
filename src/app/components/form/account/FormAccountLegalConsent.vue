@@ -1,47 +1,53 @@
 <template>
-  <AppForm
-    :form="v$"
-    form-class="sticky bottom-0 z-10 flex flex-col gap-3 border-t border-(--semantic-base-line) bg-(--semantic-base-background) p-3"
-    :is-form-sent="isFormSent"
-    :submit-name="t('next')"
-    @submit.prevent="formSubmit"
+  <form
+    class="sticky bottom-0 z-10 flex flex-col gap-3 border-t border-(--semantic-base-line) bg-(--semantic-base-background) p-3"
+    novalidate
+    @submit.prevent="form.handleSubmit"
   >
     <div
       class="rounded-xl border border-(--semantic-base-line) bg-(--faint-weak) px-3 py-4"
     >
-      <div class="flex items-center gap-3 p-1">
-        <!-- TODO: extract checkbox-label combination to form input component -->
-        <AppCheckbox
-          :id="templateIdCheckbox"
-          :disabled
-          form-key="agreement"
-          :model-value="v$.agreement.$model"
-          required
-          @update:model-value="
-            form.agreement = typeof $event === 'string' ? false : $event
-          "
+      <form.Field v-slot="{ field }" name="agreement">
+        <div class="flex items-center gap-3 p-1">
+          <AppCheckbox
+            :id="templateIdCheckbox"
+            :disabled
+            form-key="agreement"
+            :model-value="field.state.value"
+            required
+            @update:model-value="
+              ($event) => {
+                field.handleChange(
+                  typeof $event === 'string' ? false : ($event ?? false),
+                )
+                field.handleBlur()
+              }
+            "
+          />
+          <label
+            :for="templateIdCheckbox"
+            class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            <TypographySubtitleMedium>
+              {{ label }}
+            </TypographySubtitleMedium>
+          </label>
+        </div>
+        <FieldError
+          v-if="isFieldInvalid(field)"
+          :errors="field.state.meta.errors"
         />
-        <label
-          :for="templateIdCheckbox"
-          class="peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          <TypographySubtitleMedium>
-            {{ label }}
-          </TypographySubtitleMedium>
-        </label>
-      </div>
-      <FormInputStateError
-        :form-input="v$.agreement"
-        validation-property="required"
-      >
-        {{ t('globalValidationRequired') }}
-      </FormInputStateError>
+      </form.Field>
     </div>
-  </AppForm>
+    <ButtonColored :aria-label="t('next')" class="w-full" type="submit">
+      {{ t('next') }}
+    </ButtonColored>
+  </form>
 </template>
 
 <script setup lang="ts">
-import { and, required } from '@vuelidate/validators'
+import { useForm } from '@tanstack/vue-form'
+import { z } from 'zod'
 
 const { disabled, label } = defineProps<{
   disabled?: boolean
@@ -52,16 +58,23 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const { form, isFormSent, formSubmit, v$ } = useAppForm({
-  fields: {
-    agreement: ref<boolean>(),
+
+const formSchema = z.object({
+  agreement: z.literal(true, {
+    errorMap: () => ({ message: t('globalValidationRequired') }),
+  }),
+})
+
+const form = useForm({
+  defaultValues: {
+    agreement: false,
   },
-  rules: {
-    agreement: {
-      required: and(required, (value: unknown) => !!value),
-    },
+  validators: {
+    onSubmit: formSchema,
   },
-  onSubmit: () => emit('agreement'),
+  onSubmit: () => {
+    emit('agreement')
+  },
 })
 
 // accessibility

@@ -28,9 +28,9 @@
       </AppScrollContainer>
       <div v-else class="flex flex-col items-center gap-2">
         {{ t('guestNone') }}
-        <FormInputStateInfo>
+        <p class="text-sm text-gray-500 dark:text-gray-400">
           {{ t('hintInviteSelf') }}
-        </FormInputStateInfo>
+        </p>
       </div>
       <div class="flex flex-col items-center gap-1">
         <ButtonColored

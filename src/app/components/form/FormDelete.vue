@@ -1,22 +1,47 @@
 <template>
-  <AppForm
-    button-variant="primary-critical"
-    :form="v$"
-    :is-form-sent="isFormSent"
-    :submit-name="t('deletion', { item: itemNameDeletion })"
-    @submit.prevent="submit"
-  >
-    <FormInputPassword
-      :form-input="v$.password"
-      :title="t('passwordAccount')"
-      @input="form.password = $event"
-    />
-  </AppForm>
+  <form ref="formRef" novalidate @submit.prevent="form.handleSubmit">
+    <div class="flex flex-col gap-4">
+      <form.Field v-slot="{ field }" name="password">
+        <Field>
+          <FieldLabel for="input-password">{{
+            t('passwordAccount')
+          }}</FieldLabel>
+          <FieldContent>
+            <FormInputPassword
+              id="input-password"
+              :aria-invalid="isFieldInvalid(field)"
+              :model-value="field.state.value"
+              @blur="field.handleBlur"
+              @input="field.handleChange($event)"
+            />
+          </FieldContent>
+          <FieldError
+            v-if="isFieldInvalid(field)"
+            :errors="field.state.meta.errors"
+          />
+        </Field>
+      </form.Field>
+      <div class="flex flex-col items-center">
+        <ButtonColored
+          :aria-label="t('deletion', { item: itemNameDeletion })"
+          class="w-full"
+          type="submit"
+          variant="primary-critical"
+        >
+          {{ t('deletion', { item: itemNameDeletion }) }}
+        </ButtonColored>
+      </div>
+      <CardStateAlert v-if="errorMessages?.length">
+        <AppSpanList :span="errorMessages" />
+      </CardStateAlert>
+    </div>
+  </form>
 </template>
 
 <script setup lang="ts">
 import type { AnyVariables, UseMutationResponse } from '@urql/vue'
-import { useVuelidate } from '@vuelidate/core'
+import { useForm } from '@tanstack/vue-form'
+import { z } from 'zod'
 
 const {
   errorsPgIds = undefined,
@@ -41,45 +66,53 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-
-// data
-const form = reactive({
-  password: ref<string>(),
-})
-const isFormSent = ref(false)
+const formRef = useTemplateRef<HTMLFormElement>('formRef')
+const submit = () => formRef.value?.requestSubmit()
+defineExpose({ submit })
 
 // api data
 const api = await useApiData([mutation])
 
-// methods
-const submit = async () => {
-  if (!(await isFormValid({ v$, isFormSent }))) return
+// form
+const formSchema = z.object({
+  password: SCHEMA_PASSWORD,
+})
 
-  const result = await mutation.executeMutation({
-    input: {
-      password: form.password,
-      ...variables,
-    },
-  })
+const form = useForm({
+  defaultValues: {
+    password: '',
+  },
+  validators: {
+    onSubmit: formSchema,
+  },
+  onSubmit: async ({ value }) => {
+    const result = await mutation.executeMutation({
+      input: {
+        password: value.password,
+        ...variables,
+      },
+    })
 
-  if (result.error) return
+    if (!getResultData(result)) return
 
-  if (!isToastHidden) {
-    toast.success(
-      t('success', {
-        item: itemNameSuccess,
-      }),
-    )
-  }
+    if (!isToastHidden) {
+      toast.success(
+        t('success', {
+          item: itemNameSuccess,
+        }),
+      )
+    }
 
-  emit('success')
-}
+    emit('success')
+  },
+})
 
-// vuelidate
-const rules = {
-  password: VALIDATION_PASSWORD(),
-}
-const v$ = useVuelidate(rules, form)
+// computations
+const errorMessages = computed(() =>
+  api.value.errors
+    ? getCombinedErrorMessages(api.value.errors, errorsPgIds)
+    : undefined,
+)
 
 watch(
   () => api.value.errors,

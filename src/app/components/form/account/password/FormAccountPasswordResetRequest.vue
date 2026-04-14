@@ -1,20 +1,40 @@
 <template>
-  <AppForm
+  <form
+    ref="formRef"
     :class="classProps"
-    :form="v$"
-    :is-form-sent="isFormSent"
-    is-button-hidden
-    @submit.prevent="submit"
+    class="flex flex-col gap-4"
+    @submit.prevent="form.handleSubmit"
   >
-    <FormInputEmailAddress
-      :form-input="v$.emailAddress"
-      @input="form.emailAddress = $event"
-    />
-  </AppForm>
+    <form.Field v-slot="{ field }" name="emailAddress">
+      <Field>
+        <FieldLabel>
+          <TypographySubtitleSmall>
+            {{ t('emailAddress') }}
+          </TypographySubtitleSmall>
+        </FieldLabel>
+        <FieldContent>
+          <Input
+            type="email"
+            :model-value="field.state.value"
+            :aria-invalid="isFieldInvalid(field)"
+            @blur="field.handleBlur"
+            @input="
+              field.handleChange(($event.target as HTMLInputElement).value)
+            "
+          />
+        </FieldContent>
+        <FieldError
+          v-if="isFieldInvalid(field)"
+          :errors="field.state.meta.errors"
+        />
+      </Field>
+    </form.Field>
+  </form>
 </template>
 
 <script setup lang="ts">
-import { useVuelidate } from '@vuelidate/core'
+import { useForm } from '@tanstack/vue-form'
+import { z } from 'zod'
 import type { HtmlHTMLAttributes } from 'vue'
 
 import { useAccountPasswordResetRequestMutation } from '~~/gql/documents/mutations/account/accountPasswordResetRequest'
@@ -29,33 +49,10 @@ const emit = defineEmits<{
 
 const modelError = defineModel<Error>('error')
 
-const { locale } = useI18n()
-
-// data
-const form = reactive({
-  emailAddress: ref<string>(),
-})
-const isFormSent = ref(false)
-
-// methods
-const submit = async () => {
-  if (!(await isFormValid({ v$, isFormSent }))) return
-
-  const result = await passwordResetRequestMutation.executeMutation({
-    input: {
-      emailAddress: form.emailAddress || '',
-      language: locale.value,
-    },
-  })
-
-  if (result.error || !result.data) return
-
-  emit('success')
-}
-// TODO: try to dissolve `defineExpose`
-defineExpose({
-  submit,
-})
+const { locale, t } = useI18n()
+const formRef = useTemplateRef<HTMLFormElement>('formRef')
+const submit = () => formRef.value?.requestSubmit()
+defineExpose({ submit })
 
 // api data
 const passwordResetRequestMutation = useAccountPasswordResetRequestMutation()
@@ -69,9 +66,36 @@ watch(
   },
 )
 
-// vuelidate
-const rules = {
-  emailAddress: VALIDATION_EMAIL_ADDRESS({ isRequired: true }),
-}
-const v$ = useVuelidate(rules, form)
+// form
+const formSchema = z.object({
+  emailAddress: SCHEMA_EMAIL_ADDRESS_REQUIRED,
+})
+
+const form = useForm({
+  defaultValues: {
+    emailAddress: '',
+  },
+  validators: {
+    onSubmit: formSchema,
+  },
+  onSubmit: async ({ value }) => {
+    const result = await passwordResetRequestMutation.executeMutation({
+      input: {
+        emailAddress: value.emailAddress,
+        language: locale.value,
+      },
+    })
+
+    if (!getResultData(result)) return
+
+    emit('success')
+  },
+})
 </script>
+
+<i18n lang="yaml">
+de:
+  emailAddress: E-Mail-Adresse
+en:
+  emailAddress: Email address
+</i18n>

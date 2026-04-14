@@ -17,7 +17,7 @@
   --muted-foreground: var(--semantic-base-text-secondary);
   --accent: oklch(97% 0 0deg);
   --accent-foreground: oklch(20.5% 0 0deg);
-  --destructive: var(--semantic-critic-weak);
+  --destructive: var(--critic-red-middle-dark);
   --destructive-foreground: var(--semantic-critic-text);
   --border: oklch(92.2% 0 0deg);
   --input: var(--semantic-base-line);
