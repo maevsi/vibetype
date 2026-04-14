@@ -15,6 +15,7 @@ export const securityConfig: ReturnType<DefineNuxtConfig> = {
         sameSite: 'strict',
         secure: getIsSecure({ siteUrl: SITE_URL_TYPED }),
       },
+      enabled: false,
       headerName: CSRF_HEADER_NAME,
       https: getIsSecure({ siteUrl: SITE_URL_TYPED }),
     },
