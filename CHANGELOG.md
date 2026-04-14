@@ -1,3 +1,9 @@
+## [14.1.2](https://github.com/maevsi/vibetype/compare/14.1.1...14.1.2) (2026-04-14)
+
+### Bug Fixes
+
+* **util:** try to show original network error ([#2261](https://github.com/maevsi/vibetype/issues/2261)) ([81e4475](https://github.com/maevsi/vibetype/commit/81e4475a31a3cdff57ded9365548d2e2905d9685))
+
 ## [14.1.1](https://github.com/maevsi/vibetype/compare/14.1.0...14.1.1) (2026-04-11)
 
 ### Bug Fixes
