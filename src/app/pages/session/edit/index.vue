@@ -124,6 +124,7 @@
             <AppIconContract />
           </CardButton>
           <CardButton
+            v-if="!isIos"
             :title="t('cookies')"
             @click="cookieControl.isModalActive.value = true"
           >
@@ -176,6 +177,7 @@
 <script setup lang="ts">
 const { t } = useI18n()
 const cookieControl = useCookieControl()
+const { isIos } = usePlatform()
 const localePath = useLocalePath()
 const store = useStore()
 const jwtDelete = useJwtDelete()

@@ -40,7 +40,7 @@
     <VitePwaManifest />
     <ClientOnly>
       <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->
-      <CookieControl :locale />
+      <CookieControl v-if="!isIos" :locale />
     </ClientOnly>
     <!-- <div
       class="absolute inset-x-0 -top-16 -z-10 flex max-h-screen transform-gpu items-start justify-center overflow-hidden blur-3xl"
@@ -58,7 +58,7 @@ import '@fontsource-variable/raleway/wght.css'
 import { isEqual } from 'ufo'
 
 const { $pwa } = useNuxtApp()
-const { isApp } = usePlatform()
+const { isApp, isIos } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
 const timeZone = useTimeZone()
 const localePath = useLocalePath()
@@ -136,6 +136,10 @@ usePolyfills()
 useAppGtag()
 await useJwtInitialize()
 await initialize()
+
+onMounted(() => {
+  requestTrackingPermission()
+})
 </script>
 
 <style scoped>
