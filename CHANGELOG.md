@@ -1,3 +1,13 @@
+## [15.0.0](https://github.com/maevsi/vibetype/compare/14.1.3...15.0.0) (2026-04-14)
+
+### ⚠ BREAKING CHANGES
+
+* **release:** v15 (#2253)
+
+### Continuous Integration
+
+* **release:** v15 ([#2253](https://github.com/maevsi/vibetype/issues/2253)) ([379f995](https://github.com/maevsi/vibetype/commit/379f995eefdb2422ac2534b7b790e227614f48ef))
+
 ## [15.0.0-beta.5](https://github.com/maevsi/vibetype/compare/15.0.0-beta.4...15.0.0-beta.5) (2026-04-14)
 
 ### Features
