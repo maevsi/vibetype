@@ -1,16 +1,6 @@
 import type { Client, OperationResult, OperationResultSource } from '@urql/core'
 
-import type { AppGraphQLError, AppCombinedError } from '#shared/types/api'
-
-export const getGraphQLErrorMessage = ({
-  graphqlError,
-  postgresErrorMap,
-}: {
-  graphqlError: AppGraphQLError
-  postgresErrorMap?: Record<string, string>
-}) =>
-  (postgresErrorMap && postgresErrorMap[`postgres${graphqlError.errcode}`]) ||
-  graphqlError.message
+import type { AppCombinedError, AppGraphQLError } from '#shared/types/api'
 
 export const getCombinedErrorMessages = (
   errors: Readonly<AppCombinedError[]>,
@@ -33,6 +23,16 @@ export const getCombinedErrorMessages = (
   return errorMessages
 }
 
+export const getGraphQLErrorMessage = ({
+  graphqlError,
+  postgresErrorMap,
+}: {
+  graphqlError: AppGraphQLError
+  postgresErrorMap?: Record<string, string>
+}) =>
+  (postgresErrorMap && postgresErrorMap[`postgres${graphqlError.errcode}`]) ||
+  graphqlError.message
+
 export const getJwtFromResult = <
   Data,
   Variables extends Parameters<Client['mutation']>[1],
@@ -45,6 +45,37 @@ export const getJwtFromResult = <
   extract: (data: Data) => string | null | undefined
   result: Awaited<OperationResultSource<OperationResult<Data, Variables>>>
 }) => {
+  const data = getResultDataOrThrow({ context, result })
+
+  const jwt = extract(data)
+  if (!jwt) {
+    throw createAppError({
+      status: 500,
+      statusText: `No JWT returned from ${context} mutation.`,
+    })
+  }
+
+  return jwt
+}
+
+export const getResultData = <Data>(result: {
+  data?: Data
+  error?: unknown
+}): Data | undefined => {
+  if (result.error || !result.data) return undefined
+  return result.data
+}
+
+export const getResultDataOrThrow = <
+  Data,
+  Variables extends Parameters<Client['mutation']>[1],
+>({
+  context,
+  result,
+}: {
+  context: string
+  result: Awaited<OperationResultSource<OperationResult<Data, Variables>>>
+}): Data => {
   if (result.error) {
     if (result.error.networkError) {
       throw createAppError({
@@ -78,13 +109,5 @@ export const getJwtFromResult = <
     })
   }
 
-  const jwt = extract(result.data)
-  if (!jwt) {
-    throw createAppError({
-      status: 500,
-      statusText: `No JWT returned from ${context} mutation.`,
-    })
-  }
-
-  return jwt
+  return result.data
 }

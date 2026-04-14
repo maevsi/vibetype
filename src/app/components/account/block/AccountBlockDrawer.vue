@@ -123,6 +123,7 @@ const onAnimationEnd = (isOpen: boolean) => {
 
 // api data
 const createAccountBlockMutation = useCreateAccountBlockMutation()
+// const api = await useApiData([createAccountBlockMutation]) // TODO: show loading state, error details
 const blockUser = async () => {
   const result = await createAccountBlockMutation.executeMutation({
     input: {
@@ -133,8 +134,8 @@ const blockUser = async () => {
     },
   })
 
-  if (result.error) {
-    error.value = result.error
+  if (!getResultData(result)) {
+    error.value = result.error ?? new Error(t('globalErrorNoData'))
     return
   }
 

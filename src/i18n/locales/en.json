@@ -15,6 +15,7 @@
   "globalSiteName": "Vibetype",
   "globalStatusError": "Error",
   "globalStatusWarning": "Warning",
+  "globalTryAgain": "Please try again",
   "globalValidationAvailability": "Available",
   "globalValidationAvailabilityNone": "Unavailable",
   "globalValidationCheck": "Make sure this is correct",

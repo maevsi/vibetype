@@ -1,168 +1,251 @@
 <template>
-  <AppForm
+  <form
     class="flex min-h-0 flex-col"
-    :errors="api.errors"
-    :errors-pg-ids="{
-      postgres23505: t('postgres23505'),
-    }"
-    :form="v$"
-    :is-form-sent="isFormSent"
-    :submit-name="t('save')"
-    @submit.prevent="submit"
+    novalidate
+    @submit.prevent="form.handleSubmit"
   >
-    <FormInput
-      class="hidden"
-      id-label="input-id"
-      placeholder="id"
-      title="id"
-      type="text"
-      :value="v$.rowId"
-      @input="form.rowId = $event"
-    />
-    <FormInputUsername
-      :form-input="v$.accountUsername"
-      :is-disabled="
-        contact?.accountByAccountId?.rowId === store.signedInAccountId
-      "
-      is-validatable
-      @input="form.accountUsername = $event"
-    >
-      <template #stateInfo>
-        <FormInputStateInfo
-          v-if="contact?.accountByAccountId?.rowId === store.signedInAccountId"
-        >
-          <i18n-t keypath="stateInfoUsernameDisabled" tag="span">
-            <template #accountSettings>
-              <AppLink
-                :aria-label="t('stateInfoUsernameDisabledLink')"
-                :to="
-                  localePath({
-                    name: 'account-edit-username',
-                    params: { username: store.signedInUsername },
-                  })
-                "
-              >
-                {{ t('stateInfoUsernameDisabledLink') }}
-              </AppLink>
-            </template>
-          </i18n-t>
-        </FormInputStateInfo>
-      </template>
-    </FormInputUsername>
-    <!-- TODO: replace with override checkbox -->
-    <FormInputStateInfo v-if="v$.accountUsername.$model">
-      {{ t('accountOverride') }}
-    </FormInputStateInfo>
-    <FormInput
-      id-label="input-first-name"
-      :placeholder="t('globalPlaceholderFirstName')"
-      :title="t('firstName')"
-      type="text"
-      :value="v$.firstName"
-      @input="form.firstName = $event"
-    >
-      <template #stateError>
-        <FormInputStateError
-          :form-input="v$.firstName"
-          validation-property="lengthMax"
-        >
-          {{ t('globalValidationLength') }}
-        </FormInputStateError>
-      </template>
-    </FormInput>
-    <FormInput
-      id-label="input-last-name"
-      :placeholder="t('globalPlaceholderLastName')"
-      :title="t('lastName')"
-      type="text"
-      :value="v$.lastName"
-      @input="form.lastName = $event"
-    >
-      <template #stateError>
-        <FormInputStateError
-          :form-input="v$.lastName"
-          validation-property="lengthMax"
-        >
-          {{ t('globalValidationLength') }}
-        </FormInputStateError>
-      </template>
-    </FormInput>
-    <FormInput
-      id-label="input-nickname"
-      :title="t('nickname')"
-      type="text"
-      :value="v$.nickname"
-      @input="form.nickname = $event"
-    >
-      <template #stateError>
-        <FormInputStateError
-          :form-input="v$.nickname"
-          validation-property="lengthMax"
-        >
-          {{ t('globalValidationLength') }}
-        </FormInputStateError>
-      </template>
-    </FormInput>
-    <FormInputEmailAddress
-      :form-input="v$.emailAddress"
-      @input="form.emailAddress = $event"
-    />
-    <!-- <FormInput
-      id-label="input-address"
-      :title="t('address')"
-      type="textarea"
-      :value="v$.address"
-      @input="form.address = $event"
-    >
-      <textarea
-        v-if="v$.address"
-        id="input-address"
-        v-model.trim="v$.address.$model"
-        :placeholder="t('globalPlaceholderAddress')"
-        rows="2"
-      />
-      <template #stateError>
-        <FormInputStateError
-          :form-input="v$.address"
-          validation-property="lengthMax"
-        >
-          {{ t('globalValidationLength') }}
-        </FormInputStateError>
-      </template>
-    </FormInput> -->
-    <FormInputPhoneNumber
-      :form-input="v$.phoneNumber"
-      @input="form.phoneNumber = $event"
-    />
-    <FormInputUrl :form-input="v$.url" @input="form.url = $event" />
-    <FormInput
-      id-label="input-note"
-      :title="t('note')"
-      type="text"
-      :value="v$.note"
-      @input="form.note = $event"
-    >
-      <Textarea
-        v-if="v$.note"
-        id="input-note"
-        v-model.trim="v$.note.$model"
-        class="bg-(--semantic-base-input-field-fill) dark:bg-(--semantic-base-input-field-fill)"
-        rows="3"
-      />
-      <template #stateError>
-        <FormInputStateError
-          :form-input="v$.note"
-          validation-property="lengthMax"
-        >
-          {{ t('globalValidationLength') }}
-        </FormInputStateError>
-      </template>
-    </FormInput>
-  </AppForm>
+    <div class="flex flex-col gap-4">
+      <form.Field
+        v-slot="{ field }"
+        name="accountUsername"
+        :validators="{
+          onBlurAsync: async ({ value: val }) => {
+            if (!val) return undefined
+
+            const exists = await validateUsername()(val)
+            return exists ? undefined : t('usernameNotFound')
+          },
+          onBlurAsyncDebounceMs: 300,
+        }"
+      >
+        <Field>
+          <FieldLabel for="input-username">{{ t('username') }}</FieldLabel>
+          <FieldContent>
+            <Input
+              id="input-username"
+              type="text"
+              :disabled="
+                contact?.accountByAccountId?.rowId === store.signedInAccountId
+              "
+              :model-value="field.state.value"
+              :aria-invalid="isFieldInvalid(field)"
+              @blur="field.handleBlur"
+              @input="
+                field.handleChange(($event.target as HTMLInputElement).value)
+              "
+            />
+          </FieldContent>
+          <FieldError
+            v-if="isFieldInvalid(field)"
+            :errors="normalizeFieldErrors(field.state.meta.errors)"
+          />
+          <p
+            v-if="
+              contact?.accountByAccountId?.rowId === store.signedInAccountId
+            "
+            class="text-muted-foreground text-sm"
+          >
+            <i18n-t keypath="stateInfoUsernameDisabled" tag="span">
+              <template #accountSettings>
+                <AppLink
+                  :aria-label="t('stateInfoUsernameDisabledLink')"
+                  :to="
+                    localePath({
+                      name: 'account-edit-username',
+                      params: { username: store.signedInUsername },
+                    })
+                  "
+                >
+                  {{ t('stateInfoUsernameDisabledLink') }}
+                </AppLink>
+              </template>
+            </i18n-t>
+          </p>
+        </Field>
+      </form.Field>
+      <p
+        v-if="form.getFieldValue('accountUsername')"
+        class="text-muted-foreground text-sm"
+      >
+        {{ t('accountOverride') }}
+      </p>
+      <form.Field v-slot="{ field }" name="firstName">
+        <Field>
+          <FieldLabel for="input-first-name">{{ t('firstName') }}</FieldLabel>
+          <FieldContent>
+            <Input
+              id="input-first-name"
+              type="text"
+              :placeholder="t('globalPlaceholderFirstName')"
+              :model-value="field.state.value"
+              :aria-invalid="isFieldInvalid(field)"
+              @blur="field.handleBlur"
+              @input="
+                field.handleChange(($event.target as HTMLInputElement).value)
+              "
+            />
+          </FieldContent>
+          <FieldError
+            v-if="isFieldInvalid(field)"
+            :errors="field.state.meta.errors"
+          />
+        </Field>
+      </form.Field>
+      <form.Field v-slot="{ field }" name="lastName">
+        <Field>
+          <FieldLabel for="input-last-name">{{ t('lastName') }}</FieldLabel>
+          <FieldContent>
+            <Input
+              id="input-last-name"
+              type="text"
+              :placeholder="t('globalPlaceholderLastName')"
+              :model-value="field.state.value"
+              :aria-invalid="isFieldInvalid(field)"
+              @blur="field.handleBlur"
+              @input="
+                field.handleChange(($event.target as HTMLInputElement).value)
+              "
+            />
+          </FieldContent>
+          <FieldError
+            v-if="isFieldInvalid(field)"
+            :errors="field.state.meta.errors"
+          />
+        </Field>
+      </form.Field>
+      <form.Field v-slot="{ field }" name="nickname">
+        <Field>
+          <FieldLabel for="input-nickname">{{ t('nickname') }}</FieldLabel>
+          <FieldContent>
+            <Input
+              id="input-nickname"
+              type="text"
+              :model-value="field.state.value"
+              :aria-invalid="isFieldInvalid(field)"
+              @blur="field.handleBlur"
+              @input="
+                field.handleChange(($event.target as HTMLInputElement).value)
+              "
+            />
+          </FieldContent>
+          <FieldError
+            v-if="isFieldInvalid(field)"
+            :errors="field.state.meta.errors"
+          />
+        </Field>
+      </form.Field>
+      <form.Field v-slot="{ field }" name="emailAddress">
+        <Field>
+          <FieldLabel for="input-email-address">{{
+            t('emailAddress')
+          }}</FieldLabel>
+          <FieldContent>
+            <Input
+              id="input-email-address"
+              type="email"
+              :model-value="field.state.value"
+              :aria-invalid="isFieldInvalid(field)"
+              @blur="field.handleBlur"
+              @input="
+                field.handleChange(($event.target as HTMLInputElement).value)
+              "
+            />
+          </FieldContent>
+          <FieldError
+            v-if="isFieldInvalid(field)"
+            :errors="field.state.meta.errors"
+          />
+        </Field>
+      </form.Field>
+      <form.Field v-slot="{ field }" name="phoneNumber">
+        <Field>
+          <FieldLabel for="input-phone-number">{{
+            t('phoneNumber')
+          }}</FieldLabel>
+          <FieldContent>
+            <Input
+              id="input-phone-number"
+              type="tel"
+              :placeholder="t('globalPlaceholderPhoneNumber')"
+              :model-value="field.state.value"
+              :aria-invalid="isFieldInvalid(field)"
+              @blur="field.handleBlur"
+              @input="
+                field.handleChange(($event.target as HTMLInputElement).value)
+              "
+            />
+          </FieldContent>
+          <p
+            v-if="
+              field.state.meta.isTouched &&
+              field.state.value &&
+              !REGEX_PHONE_NUMBER.test(field.state.value)
+            "
+            class="text-muted-foreground text-sm"
+          >
+            {{ t('phoneNumberFormat') }}
+          </p>
+        </Field>
+      </form.Field>
+      <form.Field v-slot="{ field }" name="url">
+        <Field>
+          <FieldLabel for="input-url">{{ t('url') }}</FieldLabel>
+          <FieldContent>
+            <Input
+              id="input-url"
+              type="url"
+              :placeholder="t('globalPlaceholderUrl')"
+              :model-value="field.state.value"
+              :aria-invalid="isFieldInvalid(field)"
+              @blur="field.handleBlur"
+              @input="
+                field.handleChange(($event.target as HTMLInputElement).value)
+              "
+            />
+          </FieldContent>
+          <FieldError
+            v-if="isFieldInvalid(field)"
+            :errors="field.state.meta.errors"
+          />
+        </Field>
+      </form.Field>
+      <form.Field v-slot="{ field }" name="note">
+        <Field>
+          <FieldLabel for="input-note">{{ t('note') }}</FieldLabel>
+          <FieldContent>
+            <Textarea
+              id="input-note"
+              class="bg-(--semantic-base-input-field-fill) dark:bg-(--semantic-base-input-field-fill)"
+              rows="3"
+              :model-value="field.state.value"
+              :aria-invalid="isFieldInvalid(field)"
+              @blur="field.handleBlur"
+              @input="
+                field.handleChange(($event.target as HTMLInputElement).value)
+              "
+            />
+          </FieldContent>
+          <FieldError
+            v-if="isFieldInvalid(field)"
+            :errors="field.state.meta.errors"
+          />
+        </Field>
+      </form.Field>
+      <div class="flex flex-col items-center">
+        <ButtonColored :aria-label="t('save')" class="w-full" type="submit">
+          {{ t('save') }}
+        </ButtonColored>
+      </div>
+      <CardStateAlert v-if="errorMessages?.length">
+        <AppSpanList :span="errorMessages" />
+      </CardStateAlert>
+    </div>
+  </form>
 </template>
 
 <script setup lang="ts">
-import { useVuelidate } from '@vuelidate/core'
+import { useForm } from '@tanstack/vue-form'
+import { z } from 'zod'
 
 import { useCreateContactMutation } from '~~/gql/documents/mutations/contact/contactCreate'
 import { useUpdateContactByRowIdMutation } from '~~/gql/documents/mutations/contact/contactUpdateByRowId'
@@ -194,21 +277,6 @@ const store = useStore()
 const localePath = useLocalePath()
 const { t } = useI18n()
 
-// data
-const form = reactive({
-  accountUsername: ref<string>(),
-  address: ref<string>(),
-  emailAddress: ref<string>(),
-  firstName: ref<string>(),
-  lastName: ref<string>(),
-  nickname: ref<string>(),
-  note: ref<string>(),
-  phoneNumber: ref<string>(),
-  rowId: ref<string>(),
-  url: ref<string>(),
-})
-const isFormSent = ref(false)
-
 // api data
 const createContactMutation = useCreateContactMutation()
 const updateContactByRowIdMutation = useUpdateContactByRowIdMutation()
@@ -217,148 +285,132 @@ const api = await useApiData([
   updateContactByRowIdMutation,
 ])
 
-// methods
-const submit = async () => {
-  if (!(await isFormValid({ v$, isFormSent }))) return
+// form
+const formSchema = z.object({
+  accountUsername: SCHEMA_USERNAME_OPTIONAL,
+  emailAddress: SCHEMA_EMAIL_ADDRESS_OPTIONAL,
+  firstName: SCHEMA_NAME_FIRST_OPTIONAL,
+  lastName: SCHEMA_NAME_LAST_OPTIONAL,
+  nickname: SCHEMA_NAME_NICK_OPTIONAL,
+  note: SCHEMA_NOTE_OPTIONAL,
+  phoneNumber: SCHEMA_PHONE_NUMBER_OPTIONAL,
+  rowId: z.string().or(z.literal('')),
+  url: SCHEMA_URL_HTTPS_OPTIONAL,
+})
 
-  const account = form.accountUsername
-    ? await getAccountByUsername({
-        $urql,
-        username: form.accountUsername,
+const form = useForm({
+  defaultValues: {
+    accountUsername: contact?.accountByAccountId?.username ?? '',
+    emailAddress: contact?.emailAddress ?? '',
+    firstName: contact?.firstName ?? '',
+    lastName: contact?.lastName ?? '',
+    nickname: contact?.nickname ?? '',
+    note: contact?.note ?? '',
+    phoneNumber: contact?.phoneNumber ?? '',
+    rowId: contact?.rowId ?? '',
+    url: contact?.url ?? '',
+  },
+  validators: {
+    onSubmit: formSchema,
+  },
+  onSubmit: async ({ value }) => {
+    const account = value.accountUsername
+      ? await getAccountByUsername({
+          $urql,
+          username: value.accountUsername,
+        })
+      : undefined
+
+    if (value.rowId) {
+      // Edit
+      const result = await updateContactByRowIdMutation.executeMutation({
+        input: {
+          rowId: value.rowId,
+          contactPatch: {
+            accountId: account?.rowId || null,
+            createdBy: store.signedInAccountId,
+            emailAddress: value.emailAddress || null,
+            firstName: value.firstName || null,
+            lastName: value.lastName || null,
+            nickname: value.nickname || null,
+            note: value.note || null,
+            phoneNumber: value.phoneNumber || null,
+            url: value.url || null,
+          },
+        },
       })
-    : undefined
 
-  if (form.rowId) {
-    // Edit
-    const result = await updateContactByRowIdMutation.executeMutation({
-      input: {
-        rowId: form.rowId,
-        contactPatch: {
-          accountId: account?.rowId || null,
-          // address: form.address || null,
-          createdBy: store.signedInAccountId,
-          emailAddress: form.emailAddress || null,
-          firstName: form.firstName || null,
-          lastName: form.lastName || null,
-          nickname: form.nickname || null,
-          note: form.note || null,
-          phoneNumber: form.phoneNumber || null,
-          url: form.url || null,
+      if (!getResultData(result)) return
+
+      emit('submitSuccess')
+    } else {
+      // Add
+      if (!store.signedInAccountId) return
+
+      const result = await createContactMutation.executeMutation({
+        input: {
+          contact: {
+            accountId: account?.rowId || null,
+            createdBy: store.signedInAccountId,
+            emailAddress: value.emailAddress || null,
+            firstName: value.firstName || null,
+            lastName: value.lastName || null,
+            nickname: value.nickname || null,
+            note: value.note || null,
+            phoneNumber: value.phoneNumber || null,
+            url: value.url || null,
+          },
         },
-      },
-    })
+      })
 
-    if (result.error || !result.data) return
+      if (!getResultData(result)) return
 
-    emit('submitSuccess')
-  } else {
-    // Add
-    if (!store.signedInAccountId) return
+      emit('submitSuccess')
+    }
+  },
+})
 
-    const result = await createContactMutation.executeMutation({
-      input: {
-        contact: {
-          accountId: account?.rowId || null,
-          // address: form.address || null,
-          createdBy: store.signedInAccountId,
-          emailAddress: form.emailAddress || null,
-          firstName: form.firstName || null,
-          lastName: form.lastName || null,
-          nickname: form.nickname || null,
-          note: form.note || null,
-          phoneNumber: form.phoneNumber || null,
-          url: form.url || null,
-        },
-      },
-    })
-
-    if (result.error || !result.data) return
-
-    emit('submitSuccess')
-  }
-}
-const updateForm = (
-  data?: Pick<
-    ContactItemFragment,
-    | 'accountByAccountId'
-    // | 'addressByAddressId'
-    | 'emailAddress'
-    | 'firstName'
-    // | 'id'
-    | 'lastName'
-    | 'nickname'
-    | 'note'
-    | 'phoneNumber'
-    | 'rowId'
-    | 'url'
-  >,
-) => {
-  if (!data) return
-
-  form.accountUsername = data.accountByAccountId?.username
-  // form.address = data.address || undefined
-  form.emailAddress = data.emailAddress || undefined
-  form.firstName = data.firstName || undefined
-  form.lastName = data.lastName || undefined
-  form.nickname = data.nickname || undefined
-  form.note = data.note || undefined
-  form.phoneNumber = data.phoneNumber || undefined
-  form.rowId = data.rowId
-  form.url = data.url || undefined
-}
-
-// vuelidate
-const rules = {
-  accountUsername: VALIDATION_USERNAME({
-    validateExistence: true,
-  }),
-  address: VALIDATION_PRIMITIVE({
-    lengthMax: VALIDATION_ADDRESS_LENGTH_MAXIMUM,
-  }),
-  emailAddress: VALIDATION_EMAIL_ADDRESS({}),
-  firstName: VALIDATION_PRIMITIVE({
-    lengthMax: VALIDATION_NAME_FIRST_LENGTH_MAXIMUM,
-  }),
-  lastName: VALIDATION_PRIMITIVE({
-    lengthMax: VALIDATION_NAME_LAST_LENGTH_MAXIMUM,
-  }),
-  nickname: VALIDATION_PRIMITIVE({
-    lengthMax: VALIDATION_NAME_NICK_LENGTH_MAXIMUM,
-  }),
-  note: VALIDATION_PRIMITIVE({
-    lengthMax: VALIDATION_NOTE_LENGTH_MAXIMUM,
-  }),
-  phoneNumber: {},
-  rowId: {},
-  url: VALIDATION_URL(),
-}
-const v$ = useVuelidate(rules, form)
-
-// initialization
-updateForm(contact)
+// computations
+const errorMessages = computed(() =>
+  api.value.errors
+    ? getCombinedErrorMessages(api.value.errors, {
+        postgres23505: t('postgres23505'),
+      })
+    : undefined,
+)
 </script>
 
 <i18n lang="yaml">
 de:
   accountOverride: Falls angegeben, nutzt @.upper:{'globalSiteName'} die folgenden Daten anstelle der Daten des oben genannten Kontos.
-  # address: Adresse
+  emailAddress: E-Mail-Adresse
   firstName: Vorname
   lastName: Nachname
   nickname: Spitzname
   note: Notiz
+  phoneNumber: Telefonnummer
+  phoneNumberFormat: Sollte mit einem Plus beginnen, wonach nur Ziffern folgen (z.B. +1234567890)
   postgres23505: Ein Kontakt mit dieser Nutzernamen existiert bereits!
   save: Speichern
   stateInfoUsernameDisabled: Du kannst deinen Nutzernamen in den {accountSettings} ändern.
   stateInfoUsernameDisabledLink: Einstellungen deines Kontos
+  url: Weblink
+  username: Nutzername
+  usernameNotFound: Dieser Nutzername wurde nicht gefunden
 en:
   accountOverride: If given, @.upper:{'globalSiteName'} will prefer to use the following data instead of the data given by the account above.
-  # address: Address
+  emailAddress: Email address
   firstName: First name
   lastName: Last name
   nickname: Nickname
   note: Note
+  phoneNumber: Phone number
+  phoneNumberFormat: Should start with a plus followed only by digits (e.g. +1234567890)
   postgres23505: A contact with this username already exists!
   save: Save
   stateInfoUsernameDisabled: You can edit your username in {accountSettings}.
   stateInfoUsernameDisabledLink: your account's settings
+  url: Weblink
+  username: Username
+  usernameNotFound: This username was not found
 </i18n>

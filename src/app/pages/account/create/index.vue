@@ -14,8 +14,12 @@
       <LayoutPage v-bind="attributes">
         <FormAccountRegistration
           v-model:captcha-is-used="captchaIsUsed"
-          v-model:form="form"
-          @submit="step = 'age'"
+          @submit="
+            (values) => {
+              formValues = values
+              step = 'age'
+            }
+          "
         />
         <ContentLegalFooter />
       </LayoutPage>
@@ -75,21 +79,21 @@
         </LayoutPageResult>
       </LayoutPage>
     </AppStep>
-    <AppStep v-if="error" v-slot="attributes" :is-active="step === 'error'">
+    <AppStep v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="error">
-          <template v-if="error">
+          <span v-if="error && error.message">
             {{ error.message }}
-          </template>
+          </span>
           <template #description>
-            {{ t('tryAgain') }}
+            {{ t('globalTryAgain') }}
           </template>
         </LayoutPageResult>
         <template #bottom>
           <ButtonColored
             :aria-label="t('backToRegistration')"
             class="w-full max-w-sm"
-            variant="primary-critical"
+            variant="primary"
             @click="restart"
           >
             {{ t('backToRegistration') }}
@@ -135,36 +139,39 @@ const templateIdTitle = useId()
 const birthDate = ref<string>()
 
 // form
-const form = reactive({
-  captcha: ref<string>(),
-  emailAddress: ref<string>(),
-  password: ref<string>(),
-  passwordRepetition: ref<string>(),
-  username: ref<string>(),
-})
+const formValues = ref<{
+  captcha: string
+  emailAddress: string
+  password: string
+  username: string
+}>()
 const captchaIsUsed = ref<boolean>()
 const submit = async (termId: string) => {
+  if (!formValues.value) return
+
   const result = await accountRegistrationMutation.executeMutation(
     {
       input: {
         birthDate: birthDate.value,
-        emailAddress: form.emailAddress || '',
+        emailAddress: formValues.value.emailAddress,
         language: locale.value,
         legalTermId: termId,
-        password: form.password || '',
-        username: form.username || '',
+        password: formValues.value.password,
+        username: formValues.value.username,
       },
     },
     {
       fetchOptions: {
         headers: {
-          ...(form.captcha && { [TURNSTILE_HEADER_KEY]: form.captcha }),
+          ...(formValues.value.captcha && {
+            [TURNSTILE_HEADER_KEY]: formValues.value.captcha,
+          }),
         },
       },
     },
   )
 
-  if (result.error || !result.data) {
+  if (!getResultData(result)) {
     captchaIsUsed.value = true
     return
   }
@@ -220,7 +227,6 @@ de:
   titlePrivacy: Datenschutzbestimmungen
   titleTerms: Geschäftsbedingungen
   titleVerification: E-Mail-Bestätigung erforderlich
-  tryAgain: Bitte versuche es erneut
   verificationDescription: Wenn du keine E-Mail erhältst, hast du möglicherweise bereits ein Konto bei @.upper:{'globalSiteName'}. Du kannst versuchen, dein Passwort zurückzusetzen, um dich wieder in deinem Konto einzuloggen.
   verificationInstructions: Überprüfe deine E-Mails auf einen Bestätigungslink.
 en:
@@ -237,7 +243,6 @@ en:
   titlePrivacy: Privacy Policy
   titleTerms: General Terms and Conditions
   titleVerification: Email Verification Required
-  tryAgain: Please try again
   verificationDescription: If you don't receive an email, you may already have an account with @.upper:{'globalSiteName'}. You can try to reset your password to log back into your account.
   verificationInstructions: Check your emails for a verification link.
 </i18n>

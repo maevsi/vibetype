@@ -1,51 +1,60 @@
 <template>
-  <form ref="form" class="flex flex-col gap-4" @submit="onSubmit">
-    <FormField name="birthDate">
-      <FormItem class="flex flex-col">
-        <FormLabel>{{ t('label') }}</FormLabel>
-        <Popover>
-          <PopoverTrigger as-child>
-            <FormControl>
+  <form
+    ref="formRef"
+    class="flex flex-col gap-4"
+    @submit.prevent="form.handleSubmit"
+  >
+    <form.Field v-slot="{ field }" name="birthDate">
+      <Field class="flex flex-col">
+        <FieldLabel>{{ t('label') }}</FieldLabel>
+        <FieldContent>
+          <Popover>
+            <PopoverTrigger as-child>
               <Button
                 variant="outline"
                 :class="
-                  cn('ps-3 text-start', !value && 'text-muted-foreground')
+                  cn(
+                    'ps-3 text-start',
+                    !field.state.value && 'text-muted-foreground',
+                  )
                 "
               >
                 <span>
                   {{
-                    value
-                      ? dateFormatter.format(toDate(value))
+                    field.state.value
+                      ? dateFormatter.format(
+                          toDate(parseDate(field.state.value)),
+                        )
                       : t('placeholder')
                   }}
                 </span>
               </Button>
-              <input hidden />
-            </FormControl>
-          </PopoverTrigger>
-          <PopoverContent class="w-auto p-0">
-            <AppCalendar
-              v-model:placeholder="placeholder"
-              v-model="value"
-              :calendar-label="t('label')"
-              initial-focus
-              :min-value="new CalendarDate(1900, 1, 1)"
-              :max-value="today(getLocalTimeZone())"
-              @update:model-value="
-                (v) => {
-                  if (v) {
-                    setFieldValue('birthDate', v.toString())
-                  } else {
-                    setFieldValue('birthDate', undefined)
+            </PopoverTrigger>
+            <PopoverContent class="w-auto p-0">
+              <AppCalendar
+                v-model:placeholder="placeholder"
+                :model-value="
+                  field.state.value ? parseDate(field.state.value) : undefined
+                "
+                :calendar-label="t('label')"
+                initial-focus
+                :min-value="new CalendarDate(1900, 1, 1)"
+                :max-value="today(getLocalTimeZone())"
+                @update:model-value="
+                  (v) => {
+                    field.handleChange(v ? v.toString() : '')
                   }
-                }
-              "
-            />
-          </PopoverContent>
-        </Popover>
-        <FormMessage />
-      </FormItem>
-    </FormField>
+                "
+              />
+            </PopoverContent>
+          </Popover>
+        </FieldContent>
+        <FieldError
+          v-if="isFieldInvalid(field)"
+          :errors="field.state.meta.errors"
+        />
+      </Field>
+    </form.Field>
   </form>
 </template>
 
@@ -58,8 +67,7 @@ import {
   today,
 } from '@internationalized/date'
 import { toDate } from 'reka-ui/date'
-import { toTypedSchema } from '@vee-validate/zod'
-import { useForm } from 'vee-validate'
+import { useForm } from '@tanstack/vue-form'
 import { z } from 'zod'
 
 import { cn } from '@/utils/shadcn'
@@ -70,43 +78,39 @@ const emit = defineEmits<{
 
 // form
 const { t, locale } = useI18n()
-const templateForm = useTemplateRef('form')
-const submit = () => {
-  templateForm.value?.dispatchEvent(
-    new Event('submit', { bubbles: true, cancelable: true }),
-  )
-}
-const { handleSubmit, setFieldValue, values } = useForm({
-  validationSchema: toTypedSchema(
-    z.object({
-      birthDate: z
-        .string()
-        .nonempty()
-        .refine(
-          (value) => {
-            const birthDate = parseDate(value)
-            const todayDate = today(getLocalTimeZone())
-            const targetDate = todayDate.subtract({ years: 18 })
+const formRef = useTemplateRef<HTMLFormElement>('formRef')
 
-            return birthDate.compare(targetDate) <= 0
-          },
-          {
-            params: {
-              i18n: {
-                key: 'globalFormErrorAge18',
-              },
-            },
-          },
-        ),
-    }),
-  ),
+const formSchema = z.object({
+  birthDate: z
+    .string()
+    .min(1)
+    .refine(
+      (value) => {
+        const birthDate = parseDate(value)
+        const todayDate = today(getLocalTimeZone())
+        const targetDate = todayDate.subtract({ years: 18 })
+
+        return birthDate.compare(targetDate) <= 0
+      },
+      { message: t('globalFormErrorAge18') },
+    ),
 })
-const value = computed({
-  get: () => (values.birthDate ? parseDate(values.birthDate) : undefined),
-  set: (val) => val,
+
+const form = useForm({
+  defaultValues: {
+    birthDate: '',
+  },
+  validators: {
+    onSubmit: formSchema,
+  },
+  onSubmit: async ({ value }) => {
+    emit('success', value.birthDate)
+  },
 })
-const onSubmit = handleSubmit(async (values) => {
-  emit('success', values.birthDate)
+
+const submit = () => formRef.value?.requestSubmit()
+defineExpose({
+  submit,
 })
 
 // calendar
@@ -114,10 +118,6 @@ const dateFormatter = new DateFormatter(locale.value, {
   dateStyle: 'long',
 })
 const placeholder = ref()
-
-defineExpose({
-  submit,
-})
 </script>
 
 <i18n lang="yaml">

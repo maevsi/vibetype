@@ -147,8 +147,8 @@ const unblockUser = async () => {
     },
   })
 
-  if (result.error) {
-    error.value = result.error
+  if (!getResultData(result)) {
+    error.value = result.error ?? new Error(t('globalErrorNoData'))
     return
   }
 

@@ -234,19 +234,19 @@
 
             We delete this data no later than three months after receipt unless it is required for an ongoing contractual relationship.
 
-            We integrate the contact form of Monday
+            We use Zammad
 
             <address>
-              Monday.com Labs Ltd.
+              Zammad Foundation
               <br />
-              52 Menachem Begin Road
+              Marienstraße 18
               <br />
-              Tel Aviv 6713701
+              10117 Berlin
               <br />
-              Israel
+              Germany
             </address>
 
-            on our website. More details: https://monday.com/l/de/privatsphaere/datenschutzerklarung/.</li>
+            as our ticket system for processing contact requests. More details: https://zammad.com/en/company/privacy.</li>
             </ol>
 
         1. **Questionnaires/forms**

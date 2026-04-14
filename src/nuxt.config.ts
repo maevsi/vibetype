@@ -141,32 +141,13 @@ export default defineNuxtConfig({
           secret: '',
         },
       },
-      monday: {
-        apiToken: undefined,
-        board: {
-          contact: {
-            column: {
-              consentId: undefined,
-              emailAddressId: undefined,
-              nameId: undefined,
-              messageId: undefined,
-            },
-            id: undefined,
-            groupId: undefined,
-          },
-          earlyBird: {
-            column: {
-              agreementId: undefined,
-              emailAddressId: undefined,
-              nameId: undefined,
-            },
-            id: undefined,
-            groupId: undefined,
-          },
-        },
-      },
       openai: {
         apiKey: '',
+      },
+      zammad: {
+        apiToken: undefined,
+        groupId: 1,
+        url: undefined,
       },
     },
   },
@@ -208,9 +189,6 @@ export default defineNuxtConfig({
         '@urql/exchange-graphcache/extras',
         '@urql/exchange-request-policy',
         '@urql/vue',
-        '@vee-validate/zod',
-        '@vuelidate/core',
-        '@vuelidate/validators',
         '@vueuse/core',
         'chart.js',
         'class-variance-authority',
@@ -240,7 +218,6 @@ export default defineNuxtConfig({
         'ua-parser-js',
         'v-calendar',
         'vaul-vue',
-        'vee-validate',
         'vue-advanced-cropper',
         'vue-chartjs',
         'vue-qrcode-reader',

@@ -159,7 +159,7 @@ const send = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
 
   pending.sends.splice(pending.sends.indexOf(guest.rowId), 1)
 
-  if (result.error || !result.data) return
+  if (!getResultData(result)) return
 
   toast.success(t('sendSuccess'))
 }

@@ -312,8 +312,9 @@ const getUploadBlobPromise = () =>
           },
         })
 
-        if (result.error) return reject(result.error)
-        if (!result.data) return
+        const data = getResultData(result)
+        if (!data)
+          return reject(result.error ?? new Error(t('globalErrorNoData')))
 
         const uppy = new Uppy({
           id: 'profile-picture',
@@ -325,7 +326,7 @@ const getUploadBlobPromise = () =>
             allowedFileTypes: ['image/*'],
           },
           meta: {
-            id: result.data.createUpload?.upload?.rowId,
+            id: data.createUpload?.upload?.rowId,
           },
           onBeforeUpload: (files) =>
             Object.fromEntries(

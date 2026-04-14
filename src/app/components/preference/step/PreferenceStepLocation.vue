@@ -179,7 +179,7 @@ const save = async () => {
         },
       })
 
-    if (result.error || !result.data) return
+    if (!getResultData(result)) return
   }
 
   const result = await createPreferenceEventLocationMutation.executeMutation({
@@ -195,7 +195,7 @@ const save = async () => {
     },
   })
 
-  if (result.error || !result.data) return
+  if (!getResultData(result)) return
 
   positionInitial.value = {
     latitude: map.mapCenter.lat,

@@ -1,90 +1,41 @@
 <template>
-  <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
-    <LayoutTopBar>
-      <span :id="templateIdTitle">
-        {{ title }}
-      </span>
-    </LayoutTopBar>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
-      <LayoutPage v-bind="attributes">
-        <LayoutPageResult type="error">
-          {{ t('errorDescription2') }}
-          <template #description>
-            {{ t('errorDescription1') }}
-          </template>
-        </LayoutPageResult>
-        <template #bottom>
-          <ButtonColored
-            :aria-label="t('errorButton')"
-            class="w-full max-w-md"
-            variant="primary-critical"
-            @click="error = undefined"
-          >
-            {{ t('errorButton') }}
-          </ButtonColored>
-        </template>
-      </LayoutPage>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
-      <LayoutPage v-bind="attributes">
-        <FormSupportContact
-          ref="form"
-          v-model:error="error"
-          @success="step = 'success'"
-        />
-        <template #bottom>
-          <ButtonColored
-            :aria-label="t('formButton')"
-            class="w-full max-w-md"
-            @click="templateForm?.submit"
-          >
-            {{ t('formButton') }}
-          </ButtonColored>
-        </template>
-      </LayoutPage>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'success'">
-      <LayoutPage v-bind="attributes">
-        <LayoutPageResult type="success">
-          <template #description>
-            {{ t('successDescription2') }}
-          </template>
-          <template #title>
-            {{ t('successDescription1') }}
-          </template>
-        </LayoutPageResult>
-        <template #bottom>
-          <ButtonColored
-            :aria-label="t('successButton')"
-            class="w-full max-w-md"
-            @click="store.navigateBack"
-          >
-            {{ t('successButton') }}
-          </ButtonColored>
-        </template>
-      </LayoutPage>
-    </AppStep>
-  </section>
+  <LayoutSupportPage
+    v-model:error="error"
+    v-model:step="step"
+    :error-button="t('errorButton')"
+    :error-description="t('errorDescription1')"
+    :form-button="t('formButton')"
+    :success-button="t('successButton')"
+    :success-description="t('successDescription2')"
+    :success-title="t('successDescription1')"
+    :title="title"
+    @submit="templateForm?.submit"
+  >
+    <template #error>
+      {{ t('errorDescription2') }}
+    </template>
+    <FormSupportContact
+      ref="form"
+      v-model:error="error"
+      @success="step = 'success'"
+    />
+  </LayoutSupportPage>
 </template>
 
 <script setup lang="ts">
+// compiler
 definePageMeta({
   layout: 'default-no-header',
 })
 
-const { t } = useI18n()
-const store = useStore()
-
-// template
-const templateForm = useTemplateRef('form')
-const templateIdTitle = useId()
-
 // page
+const { t } = useI18n()
 const title = t('title')
 useHeadDefault({ title })
 
-// stepper
+// template
 const { error, step } = useStepper<'success'>()
+const templateForm = useTemplateRef('form')
 </script>
 
 <i18n lang="yaml">

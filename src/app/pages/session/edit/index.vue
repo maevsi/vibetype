@@ -74,16 +74,22 @@
             <AppIconWrench />
           </CardButton>
           <CardButton
-            is-external
             :title="t('featureSuggestion')"
-            to="https://forms.monday.com/forms/f3ef56d13c8383e6ececb2875d7fb4b2?r=euc1"
+            :to="
+              localePath({
+                name: 'support-idea',
+              })
+            "
           >
             <AppIconIdea />
           </CardButton>
           <CardButton
-            is-external
             :title="t('bugReport')"
-            to="https://forms.monday.com/forms/55b8fc2281c2be1647a69e6a4ffe156e?r=euc1"
+            :to="
+              localePath({
+                name: 'support-issue',
+              })
+            "
           >
             <AppIconBug />
           </CardButton>
@@ -96,6 +102,16 @@
             "
           >
             <AppIconMail />
+          </CardButton>
+          <CardButton
+            :title="t('report')"
+            :to="
+              localePath({
+                name: 'support-report',
+              })
+            "
+          >
+            <AppIconReport />
           </CardButton>
         </div>
       </section>
@@ -208,6 +224,7 @@ de:
   preferences: Einstellungen
   privacy: Datenschutzerklärung
   profile: Profil
+  report: Meldung von Inhalten
   support: Hilfe
   terms: Allgemeine Geschäftsbedingungen
 en:
@@ -231,6 +248,7 @@ en:
   preferences: Settings
   privacy: Privacy Policy
   profile: Profile
+  report: Content Report
   support: Support
   terms: General Terms and Conditions
 </i18n>

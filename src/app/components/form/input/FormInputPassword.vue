@@ -1,84 +1,43 @@
 <template>
-  <FormInput
-    v-if="formInput"
-    :id-label="`input-${id}`"
-    :title="title || t('password')"
-    :type="isVisible ? 'text' : 'password'"
-    :value="formInput"
-    @input="emit('input', $event)"
-  >
-    <template v-if="isStrengthShown" #inputSuffix>
-      <Progress :model-value="strength" class="my-2" />
-    </template>
-    <template #icon>
-      <ButtonIcon
-        :aria-label="t('visibilityToggle')"
-        @click="isVisible = !isVisible"
-      >
-        <AppIconEye v-if="!isVisible" />
-        <AppIconEyeSlash v-else />
-      </ButtonIcon>
-    </template>
-    <template #stateError>
-      <FormInputStateError :form-input validation-property="lengthMin">
-        {{ t('globalValidationShortness') }}
-      </FormInputStateError>
-      <FormInputStateError :form-input validation-property="required">
-        {{ t('globalValidationRequired') }}
-      </FormInputStateError>
-      <FormInputStateError :form-input validation-property="sameAs">
-        {{ t('validationSameAs') }}
-      </FormInputStateError>
-    </template>
-    <template #stateInfo>
-      <FormInputStateInfo :form-input validation-property="lengthMin">
-        {{
-          t('validationFormat', { length: VALIDATION_PASSWORD_LENGTH_MINIMUM })
-        }}
-      </FormInputStateInfo>
-      <slot name="stateInfo" />
-    </template>
-  </FormInput>
+  <div class="relative">
+    <Input
+      :id
+      :type="isVisible ? 'text' : 'password'"
+      :model-value="modelValue"
+      :aria-invalid="ariaInvalid"
+      @blur="emit('blur')"
+      @input="emit('input', ($event.target as HTMLInputElement).value)"
+    />
+    <ButtonIcon
+      :aria-label="t('visibilityToggle')"
+      class="absolute top-1/2 right-2 -translate-y-1/2"
+      @click="isVisible = !isVisible"
+    >
+      <AppIconEye v-if="!isVisible" />
+      <AppIconEyeSlash v-else />
+    </ButtonIcon>
+  </div>
 </template>
 
 <script setup lang="ts">
-import type { BaseValidation } from '@vuelidate/core'
-
-const {
-  id = 'password',
-  formInput,
-  isStrengthShown,
-  title = undefined,
-} = defineProps<{
+defineProps<{
+  ariaInvalid?: boolean
   id?: string
-  formInput: BaseValidation
-  isStrengthShown?: boolean
-  title?: string
+  modelValue?: string
 }>()
 
 const emit = defineEmits<{
-  input: [event: string]
+  blur: []
+  input: [value: string]
 }>()
 
 const { t } = useI18n()
-
-// data
 const isVisible = ref(false)
-
-const strength = computed(() =>
-  calculatePasswordStrength(formInput.$model as string),
-)
 </script>
 
 <i18n lang="yaml">
 de:
-  password: Passwort
-  validationFormat: Muss {length} Zeichen lang sein
-  validationSameAs: Die Passwörter stimmen nicht überein
-  visibilityToggle: Sichtbarkeit umschalten
+  visibilityToggle: Passwort-Sichtbarkeit umschalten
 en:
-  password: Password
-  validationFormat: Must be {length} characters long
-  validationSameAs: The passwords do not match
-  visibilityToggle: Toggle visibility
+  visibilityToggle: Toggle password visibility
 </i18n>

@@ -1,76 +1,109 @@
 <template>
-  <AppForm
-    ref="form"
-    :errors="api.errors"
-    :errors-pg-ids="{
-      postgres22023: t('postgres22023'),
-      postgres28P01: t('postgres28P01'),
-    }"
-    :form="v$"
-    :is-form-sent="isFormSent"
-    :submit-name="t('passwordChange')"
-    @submit.prevent="submit"
-  >
-    <FormInputPassword
-      id="passwordCurrent"
-      :form-input="v$.passwordCurrent"
-      :title="t('passwordCurrent')"
-      @input="form.passwordCurrent = $event"
-    />
-    <FormInputPassword
-      id="passwordNew"
-      :form-input="v$.passwordNew"
-      :title="t('passwordNew')"
-      @input="form.passwordNew = $event"
-    />
-  </AppForm>
+  <form class="flex flex-col gap-4" @submit.prevent="form.handleSubmit">
+    <form.Field v-slot="{ field }" name="passwordCurrent">
+      <Field>
+        <FieldLabel>
+          <TypographySubtitleSmall>
+            {{ t('passwordCurrent') }}
+          </TypographySubtitleSmall>
+        </FieldLabel>
+        <FieldContent>
+          <FormInputPassword
+            :aria-invalid="isFieldInvalid(field)"
+            :model-value="field.state.value"
+            @blur="field.handleBlur"
+            @input="field.handleChange($event)"
+          />
+        </FieldContent>
+        <FieldError
+          v-if="isFieldInvalid(field)"
+          :errors="field.state.meta.errors"
+        />
+      </Field>
+    </form.Field>
+    <form.Field v-slot="{ field }" name="passwordNew">
+      <Field>
+        <FieldLabel>
+          <TypographySubtitleSmall>
+            {{ t('passwordNew') }}
+          </TypographySubtitleSmall>
+        </FieldLabel>
+        <FieldContent>
+          <FormInputPassword
+            :aria-invalid="isFieldInvalid(field)"
+            :model-value="field.state.value"
+            @blur="field.handleBlur"
+            @input="field.handleChange($event)"
+          />
+        </FieldContent>
+        <FieldError
+          v-if="isFieldInvalid(field)"
+          :errors="field.state.meta.errors"
+        />
+      </Field>
+    </form.Field>
+    <ButtonColored
+      :aria-label="t('passwordChange')"
+      class="w-full"
+      type="submit"
+    >
+      {{ t('passwordChange') }}
+    </ButtonColored>
+    <CardStateAlert v-if="errorMessages?.length">
+      <AppSpanList :span="errorMessages" />
+    </CardStateAlert>
+  </form>
 </template>
 
 <script setup lang="ts">
-import { useVuelidate } from '@vuelidate/core'
+import { useForm } from '@tanstack/vue-form'
+import { z } from 'zod'
 
 import { useAccountPasswordChangeMutation } from '~~/gql/documents/mutations/account/accountPasswordChange'
 
 const { t } = useI18n()
-const templateForm = useTemplateRef('form')
-
-// data
-const form = reactive({
-  passwordCurrent: ref<string>(),
-  passwordNew: ref<string>(),
-})
-const isFormSent = ref(false)
 
 // api data
 const accountPasswordChangeMutation = useAccountPasswordChangeMutation()
 const api = await useApiData([accountPasswordChangeMutation])
 
-// methods
-const resetForm = () => {
-  templateForm.value?.resetForm()
-}
-const submit = async () => {
-  if (!(await isFormValid({ v$, isFormSent }))) return
+const errorMessages = computed(() =>
+  api.value.errors.length
+    ? getCombinedErrorMessages(api.value.errors, {
+        postgres22023: t('postgres22023'),
+        postgres28P01: t('postgres28P01'),
+      })
+    : undefined,
+)
 
-  const result = await accountPasswordChangeMutation.executeMutation({
-    input: {
-      passwordCurrent: form.passwordCurrent || '',
-      passwordNew: form.passwordNew || '',
-    },
-  })
+// form
+const formSchema = z.object({
+  passwordCurrent: SCHEMA_PASSWORD,
+  passwordNew: SCHEMA_PASSWORD,
+})
 
-  if (result.error || !result.data) return
+const form = useForm({
+  defaultValues: {
+    passwordCurrent: '',
+    passwordNew: '',
+  },
+  validators: {
+    onSubmit: formSchema,
+  },
+  onSubmit: async ({ value }) => {
+    const result = await accountPasswordChangeMutation.executeMutation({
+      input: {
+        passwordCurrent: value.passwordCurrent,
+        passwordNew: value.passwordNew,
+      },
+    })
 
-  toast.success(t('passwordChangeSuccess'))
-  resetForm()
-}
+    if (!getResultData(result)) return
 
-// vuelidate
-const rules = {
-  passwordCurrent: VALIDATION_PASSWORD(),
-  passwordNew: VALIDATION_PASSWORD(),
-}
-const v$ = useVuelidate(rules, form)
+    toast.success(t('passwordChangeSuccess'))
+    form.reset()
+  },
+})
 </script>
 
 <i18n lang="yaml">

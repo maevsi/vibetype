@@ -1,27 +1,40 @@
 <template>
-  <AppForm
-    :errors="api.errors"
-    :errors-pg-ids="{
-      postgres22023: t('postgres22023'),
-      postgresP0002: t('postgresP0002'),
-      postgres55000: t('postgres55000'),
-    }"
-    :form="v$"
-    :is-form-sent="isFormSent"
-    is-button-hidden
-    @submit.prevent="submit"
+  <form
+    ref="formRef"
+    class="flex flex-col gap-4"
+    @submit.prevent="form.handleSubmit"
   >
-    <FormInputPassword
-      :form-input="v$.password"
-      is-strength-shown
-      :title="t('passwordNew')"
-      @input="form.password = $event"
-    />
-  </AppForm>
+    <form.Field v-slot="{ field }" name="password">
+      <Field>
+        <FieldLabel>
+          <TypographySubtitleSmall>
+            {{ t('passwordNew') }}
+          </TypographySubtitleSmall>
+        </FieldLabel>
+        <FieldContent>
+          <FormInputPassword
+            :aria-invalid="isFieldInvalid(field)"
+            :model-value="field.state.value"
+            @blur="field.handleBlur"
+            @input="field.handleChange($event)"
+          />
+          <Progress
+            :model-value="calculatePasswordStrength(field.state.value)"
+            class="my-2"
+          />
+        </FieldContent>
+        <FieldError
+          v-if="isFieldInvalid(field)"
+          :errors="field.state.meta.errors"
+        />
+      </Field>
+    </form.Field>
+  </form>
 </template>
 
 <script setup lang="ts">
-import { useVuelidate } from '@vuelidate/core'
+import { useForm } from '@tanstack/vue-form'
+import { z } from 'zod'
 import { useAccountPasswordResetMutation } from '~~/gql/documents/mutations/account/accountPasswordReset'
 
 const { code } = defineProps<{
@@ -32,42 +45,56 @@ const emit = defineEmits<{
   success: []
 }>()
 
-// form
-const form = reactive({
-  password: ref<string>(),
-})
-const isFormSent = ref(false)
-const submit = async () => {
-  if (!(await isFormValid({ v$, isFormSent }))) return
+const modelError = defineModel<Error>('error')
 
-  const result = await passwordResetMutation.executeMutation({
-    input: {
-      code,
-      password: form.password || '',
-    },
-  })
-
-  if (result.error || !result.data) return
-
-  emit('success')
-}
-// TODO: try to dissolve `defineExpose`
-defineExpose({
-  submit,
-})
+const { t } = useI18n()
+const formRef = useTemplateRef<HTMLFormElement>('formRef')
+const submit = () => formRef.value?.requestSubmit()
+defineExpose({ submit })
 
 // api data
 const passwordResetMutation = useAccountPasswordResetMutation()
 const api = await useApiData([passwordResetMutation])
+watch(
+  () => api.value.errors,
+  (current) => {
+    modelError.value = current?.length
+      ? new Error(
+          getCombinedErrorMessages(current, {
+            postgres22023: t('postgres22023'),
+            postgres55000: t('postgres55000'),
+            postgresP0002: t('postgresP0002'),
+          })[0],
+        )
+      : undefined
+  },
+)
 
-// vuelidate
-const rules = {
-  password: VALIDATION_PASSWORD(),
-}
-const v$ = useVuelidate(rules, form)
+// form
+const formSchema = z.object({
+  password: SCHEMA_PASSWORD,
+})
 
-// template
-const { t } = useI18n()
+const form = useForm({
+  defaultValues: {
+    password: '',
+  },
+  validators: {
+    onSubmit: formSchema,
+  },
+  onSubmit: async ({ value }) => {
+    const result = await passwordResetMutation.executeMutation({
+      input: {
+        code,
+        password: value.password,
+      },
+    })
+
+    if (!getResultData(result)) return
+
+    emit('success')
+  },
+})
 </script>
 
 <i18n lang="yaml">

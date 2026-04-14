@@ -1,5 +1,4 @@
 import { parse } from 'graphql'
-import type { H3Event } from 'h3'
 import { z } from 'zod'
 
 import { jwtCreateMutation } from '~~/server/api/model/jwt.post'
@@ -67,35 +66,3 @@ export default defineEventHandler(async (event) => {
     }
   }
 })
-
-const turnstileVerify = async (event: H3Event) => {
-  const turnstileToken = getRequestHeader(
-    event,
-    TURNSTILE_HEADER_KEY.toLowerCase(),
-  )
-
-  if (Array.isArray(turnstileToken)) {
-    throw createAppError({
-      status: 422,
-      statusText: 'Turnstile token cannot be an array.',
-    })
-  }
-
-  if (!turnstileToken) {
-    throw createAppError({
-      status: 422,
-      statusText: 'Turnstile token not provided.',
-    })
-  }
-
-  const result = await verifyTurnstileToken(turnstileToken)
-
-  if (!result.success) {
-    throw createAppError({
-      status: 403,
-      statusText: `Turnstile verification unsuccessful: ${result['error-codes'].join(', ')}`,
-    })
-  }
-
-  console.debug('Turnstile verification succeeded')
-}

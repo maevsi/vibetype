@@ -1,26 +1,35 @@
 <template>
-  <form ref="form" @submit="onSubmit">
-    <FormField v-slot="{ componentField }" type="radio" name="reason">
-      <FormItem>
-        <FormLabel class="justify-center">
+  <form ref="formRef" @submit.prevent="form.handleSubmit">
+    <form.Field v-slot="{ field }" name="reason">
+      <Field>
+        <FieldLabel class="justify-center">
           <TypographySubtitleSmall>
             {{ t('drawerDescription') }}
           </TypographySubtitleSmall>
-        </FormLabel>
-        <FormControl>
-          <AppRadioGroup v-bind="componentField" is-form :items="reasons" />
-        </FormControl>
-        <TypographyLabel v-slot="attributes">
-          <FormMessage v-bind="attributes" />
-        </TypographyLabel>
-      </FormItem>
-    </FormField>
+        </FieldLabel>
+        <FieldContent>
+          <AppRadioGroup
+            :items="reasons"
+            :model-value="field.state.value"
+            @update:model-value="
+              (value) => {
+                field.handleChange(String(value ?? ''))
+                field.handleBlur()
+              }
+            "
+          />
+        </FieldContent>
+        <FieldError
+          v-if="isFieldInvalid(field)"
+          :errors="field.state.meta.errors"
+        />
+      </Field>
+    </form.Field>
   </form>
 </template>
 
 <script setup lang="ts">
-import { toTypedSchema } from '@vee-validate/zod'
-import { useForm } from 'vee-validate'
+import { useForm } from '@tanstack/vue-form'
 import { z } from 'zod'
 
 import { useCreateReportMutation } from '~~/gql/documents/mutations/report/reportCreate'
@@ -37,6 +46,8 @@ const emit = defineEmits<{
   submitSuccess: []
 }>()
 
+const modelError = defineModel<Error>('error')
+
 // template
 const reasons = [
   { label: t('drawerRadioSexual'), value: 'sexual' },
@@ -45,46 +56,48 @@ const reasons = [
   { label: t('drawerRadioDrugs'), value: 'drugs' },
   { label: t('drawerRadioOther'), value: 'other' },
 ]
-const templateForm = useTemplateRef('form')
+const formRef = useTemplateRef<HTMLFormElement>('formRef')
 
 // form
-const submit = () =>
-  templateForm.value?.dispatchEvent(
-    new Event('submit', { bubbles: true, cancelable: true }),
-  )
-// TODO: try to dissolve `defineExpose`
+const submit = () => formRef.value?.requestSubmit()
 defineExpose({
   submit,
 })
-const { handleSubmit } = useForm({
-  validationSchema: toTypedSchema(
-    z.object({
-      reason: z.string().min(1).max(2000),
-    }),
-  ),
+
+const formSchema = z.object({
+  reason: z.string().min(1).max(2000),
 })
-// api data // TODO: move when dissolving `defineExpose`
+
+// api data
 const createReportMutation = useCreateReportMutation()
-// const api = await useApiData([createReportMutation]) // TODO: show loading state, error details
-// api data end
-const executeUrqlRequest = useExecuteUrqlRequest()
-const onSubmit = handleSubmit(async (values) => {
-  const result = await executeUrqlRequest({
-    errorMessageI18n: t('errorCreate'),
-    request: createReportMutation.executeMutation({
+
+const form = useForm({
+  defaultValues: {
+    reason: '',
+  },
+  validators: {
+    onSubmit: formSchema,
+  },
+  onSubmit: async ({ value }) => {
+    const result = await createReportMutation.executeMutation({
       input: {
         report: {
           targetEventId: event.rowId,
-          reason: values.reason,
+          reason: value.reason,
           createdBy: accountId,
         },
       },
-    }),
-  })
+    })
 
-  if (!result) return // TODO: show error page
+    if (!getResultData(result)) {
+      modelError.value = new Error(
+        result.error ? t('errorCreate') : t('globalErrorNoData'),
+      )
+      return
+    }
 
-  emit('submitSuccess')
+    emit('submitSuccess')
+  },
 })
 </script>
 

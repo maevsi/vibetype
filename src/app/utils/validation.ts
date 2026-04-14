@@ -1,20 +1,11 @@
-import type { Validation } from '@vuelidate/core'
-import {
-  email,
-  helpers,
-  maxLength,
-  maxValue,
-  minLength,
-  minValue,
-  required,
-} from '@vuelidate/validators'
 import type { Client } from '@urql/core'
 import type { Ref } from 'vue'
+
+import { z } from 'zod'
 
 import { accountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
 import { eventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
 import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
-import { EventVisibility } from '~~/gql/generated/graphql'
 import { getEventItem } from '~~/gql/documents/fragments/eventItem'
 
 export const VALIDATION_ADDRESS_LENGTH_MAXIMUM = 300
@@ -23,11 +14,6 @@ export const VALIDATION_EVENT_DESCRIPTION_LENGTH_MAXIMUM = 10000
 export const VALIDATION_EVENT_LOCATION_LENGTH_MAXIMUM = 300
 export const VALIDATION_EVENT_NAME_LENGTH_MAXIMUM = 100
 export const VALIDATION_EVENT_SLUG_LENGTH_MAXIMUM = 100
-export const VALIDATION_FORMAT_SLUG = helpers.regex(REGEX_SLUG)
-export const VALIDATION_FORMAT_UPPERCASE_NONE =
-  helpers.regex(REGEX_UPPERCASE_NONE)
-export const VALIDATION_FORMAT_URL_HTTPS = helpers.regex(REGEX_URL_HTTPS)
-export const VALIDATION_FORMAT_UUID = helpers.regex(REGEX_UUID)
 export const VALIDATION_NAME_FIRST_LENGTH_MAXIMUM = 100
 export const VALIDATION_NAME_LAST_LENGTH_MAXIMUM = 100
 export const VALIDATION_NAME_NICK_LENGTH_MAXIMUM = 100
@@ -36,103 +22,78 @@ export const VALIDATION_PASSWORD_LENGTH_MINIMUM = 8
 export const VALIDATION_URL_LENGTH_MAXIMUM = 2000
 export const VALIDATION_USERNAME_LENGTH_MAXIMUM = 100
 
-export const VALIDATION_CAPTCHA = () => ({
-  required,
-})
-export const VALIDATION_EMAIL_ADDRESS = ({
-  isRequired,
-}: {
-  isRequired?: boolean
-}) => ({
-  format: email,
-  lengthMax: maxLength(VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM),
-  ...(isRequired ? { required } : {}),
-})
-export const VALIDATION_EVENT_VISIBILITY = () => ({
-  formatEnum: (value: string) =>
-    Object.values(EventVisibility).includes(value as EventVisibility),
-  // `required` is implicitly covered by `formatEnum`
-})
-export const VALIDATION_PRIMITIVE = ({
-  isRequired,
-  lengthMax,
-  lengthMin,
-  valueMax,
-  valueMin,
-}: {
-  isRequired?: boolean
-  lengthMax?: number
-  lengthMin?: number
-  valueMax?: number
-  valueMin?: number
-}) => ({
-  ...(isRequired ? { required } : {}),
-  ...(lengthMax ? { lengthMax: maxLength(lengthMax) } : {}),
-  ...(lengthMin ? { lengthMin: minLength(lengthMin) } : {}),
-  ...(valueMax ? { valueMax: maxValue(valueMax) } : {}),
-  ...(valueMin ? { valueMin: minValue(valueMin) } : {}),
-})
-export const VALIDATION_PASSWORD = () => ({
-  lengthMin: minLength(VALIDATION_PASSWORD_LENGTH_MINIMUM),
-  required,
-})
-export const VALIDATION_SLUG = ({
-  existenceNone,
-}: {
-  existenceNone: (value: string) => Promise<boolean>
-}) => ({
-  existenceNone: helpers.withAsync(existenceNone),
-  formatSlug: VALIDATION_FORMAT_SLUG,
-  lengthMax: maxLength(VALIDATION_EVENT_SLUG_LENGTH_MAXIMUM),
-  required,
-})
-export const VALIDATION_URL = () => ({
-  formatUrlHttps: VALIDATION_FORMAT_URL_HTTPS,
-  lengthMax: maxLength(VALIDATION_URL_LENGTH_MAXIMUM),
-})
-export const VALIDATION_USERNAME = ({
-  isRequired,
-  validateExistence,
-  validateExistenceNone,
-}: {
-  isRequired?: boolean
-  validateExistence?: boolean
-  validateExistenceNone?: boolean
-}) => ({
-  ...(validateExistence
-    ? { existence: helpers.withAsync(validateUsername()) } // TODO: debounce (https://github.com/maevsi/vibetype/issues/1672)
-    : {}),
-  ...(validateExistenceNone
-    ? { existenceNone: helpers.withAsync(validateUsername(true)) } // TODO: debounce (https://github.com/maevsi/vibetype/issues/1672)
-    : {}),
-  formatSlug: VALIDATION_FORMAT_SLUG,
-  // TODO: description max length 1000, imprint url length 2000
-  lengthMax: maxLength(VALIDATION_USERNAME_LENGTH_MAXIMUM),
-  ...(isRequired ? { required } : {}),
-})
-export const VALIDATION_UUID = () => ({
-  required,
-  formatUuid: VALIDATION_FORMAT_UUID,
-})
-
-export const isFormValid = async ({
-  v$,
-  isFormSent,
-}: {
-  v$: Ref<Validation>
-  isFormSent: Ref<boolean>
-}) => {
-  v$.value.$touch()
-
-  const isValid = await v$.value.$validate()
-  isFormSent.value = isValid
-
-  if (!isValid) {
-    console.log('Form in invalid!')
-  }
-
-  return isValid
-}
+// Zod schemas
+export const SCHEMA_CAPTCHA = z.string().min(1)
+export const SCHEMA_CONSENT_REQUIRED = z.boolean().refine((value) => value)
+export const SCHEMA_EMAIL_ADDRESS_OPTIONAL = z
+  .string()
+  .email()
+  .max(VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM)
+  .or(z.literal(''))
+export const SCHEMA_EMAIL_ADDRESS_REQUIRED = z
+  .string()
+  .min(1)
+  .email()
+  .max(VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM)
+export const SCHEMA_EVENT_DESCRIPTION_OPTIONAL = z
+  .string()
+  .max(VALIDATION_EVENT_DESCRIPTION_LENGTH_MAXIMUM)
+  .or(z.literal(''))
+export const SCHEMA_EVENT_NAME_REQUIRED = z
+  .string()
+  .min(1)
+  .max(VALIDATION_EVENT_NAME_LENGTH_MAXIMUM)
+export const SCHEMA_EVENT_SLUG_REQUIRED = z
+  .string()
+  .min(1)
+  .max(VALIDATION_EVENT_SLUG_LENGTH_MAXIMUM)
+  .regex(REGEX_SLUG)
+export const SCHEMA_ITEM_DESCRIPTION_REQUIRED = z
+  .string()
+  .min(1)
+  .max(VALIDATION_EVENT_DESCRIPTION_LENGTH_MAXIMUM)
+export const SCHEMA_NAME_FIRST_OPTIONAL = z
+  .string()
+  .max(VALIDATION_NAME_FIRST_LENGTH_MAXIMUM)
+  .or(z.literal(''))
+export const SCHEMA_NAME_LAST_OPTIONAL = z
+  .string()
+  .max(VALIDATION_NAME_LAST_LENGTH_MAXIMUM)
+  .or(z.literal(''))
+export const SCHEMA_NAME_NICK_OPTIONAL = z
+  .string()
+  .max(VALIDATION_NAME_NICK_LENGTH_MAXIMUM)
+  .or(z.literal(''))
+export const SCHEMA_NOTE_OPTIONAL = z
+  .string()
+  .max(VALIDATION_NOTE_LENGTH_MAXIMUM)
+  .or(z.literal(''))
+export const SCHEMA_PASSWORD = z
+  .string()
+  .min(VALIDATION_PASSWORD_LENGTH_MINIMUM)
+export const SCHEMA_PHONE_NUMBER_OPTIONAL = z.string().or(z.literal(''))
+export const SCHEMA_URL_HTTPS_OPTIONAL = z
+  .string()
+  .regex(REGEX_URL_HTTPS)
+  .max(VALIDATION_URL_LENGTH_MAXIMUM)
+  .or(z.literal(''))
+export const SCHEMA_USERNAME_OPTIONAL = z
+  .string()
+  .max(VALIDATION_USERNAME_LENGTH_MAXIMUM)
+  .regex(REGEX_SLUG)
+  .or(z.literal(''))
+export const SCHEMA_USERNAME_REQUIRED = z
+  .string()
+  .min(1)
+  .max(VALIDATION_USERNAME_LENGTH_MAXIMUM)
+  .regex(REGEX_SLUG)
+export const SCHEMA_USER_NAME_OPTIONAL = z
+  .string()
+  .max(VALIDATION_NAME_FIRST_LENGTH_MAXIMUM)
+export const SCHEMA_USER_NAME_REQUIRED = z
+  .string()
+  .min(1)
+  .max(VALIDATION_NAME_FIRST_LENGTH_MAXIMUM)
 
 export const getAccountByUsername = async ({
   $urql,
@@ -179,44 +140,10 @@ export const getEventByCreatedByAndSlug = async ({
   return getEventItem(eventByCreatedByAndSlug.data?.eventByCreatedByAndSlug)
 }
 
-export const validateEventSlug =
-  ({
-    signedInAccountId,
-    invert,
-    exclude,
-  }: {
-    signedInAccountId: string
-    invert: boolean
-    exclude?: string
-  }) =>
-  async (value: string) => {
-    const { $urql } = useNuxtApp()
-
-    if (!helpers.req(value)) {
-      return true
-    }
-
-    if (value === exclude) {
-      return true
-    }
-
-    try {
-      const result = await getEventByCreatedByAndSlug({
-        $urql,
-        createdBy: signedInAccountId,
-        slug: value,
-      })
-
-      return invert ? !result : !!result
-    } catch {
-      return false
-    }
-  }
-
 export const validateUsername = (invert?: boolean) => async (value: string) => {
   const { $urql } = useNuxtApp()
 
-  if (!helpers.req(value)) {
+  if (!value.trim()) {
     return true
   }
 
@@ -226,9 +153,9 @@ export const validateUsername = (invert?: boolean) => async (value: string) => {
     })
     .toPromise()
 
-  if (result.error) return false
+  const data = getResultData(result)
 
-  return invert
-    ? !result.data?.accountByUsername
-    : !!result.data?.accountByUsername
+  if (!data) return false
+
+  return invert ? !data.accountByUsername : !!data.accountByUsername
 }

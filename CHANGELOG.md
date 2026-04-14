@@ -1,3 +1,43 @@
+## [15.0.0-beta.5](https://github.com/maevsi/vibetype/compare/15.0.0-beta.4...15.0.0-beta.5) (2026-04-14)
+
+### Features
+
+* **platform:** consent to optional cookies through native ios framework ([#1845](https://github.com/maevsi/vibetype/issues/1845)) ([924c15a](https://github.com/maevsi/vibetype/commit/924c15a1a1a3c29ccea9c5613a06fd849da7ee32))
+
+### Bug Fixes
+
+* **app:** hide cookie button on ios ([#2258](https://github.com/maevsi/vibetype/issues/2258)) ([ace4e7b](https://github.com/maevsi/vibetype/commit/ace4e7bb0c908c45d542cef82a1d8b5c83870b37))
+* **security:** temporarily disable csrf check ([#2262](https://github.com/maevsi/vibetype/issues/2262)) ([9a600ff](https://github.com/maevsi/vibetype/commit/9a600ff0980ff6be404860f69ad95554a5b7d751))
+* **util:** try to show original network error ([#2261](https://github.com/maevsi/vibetype/issues/2261)) ([81e4475](https://github.com/maevsi/vibetype/commit/81e4475a31a3cdff57ded9365548d2e2905d9685))
+
+## [15.0.0-beta.4](https://github.com/maevsi/vibetype/compare/15.0.0-beta.3...15.0.0-beta.4) (2026-04-14)
+
+### Features
+
+* **components:** refactor form to tanstack ([#2255](https://github.com/maevsi/vibetype/issues/2255)) ([8425cef](https://github.com/maevsi/vibetype/commit/8425cef4097ee2905eea1e9ed67701356a66751c))
+
+## [15.0.0-beta.3](https://github.com/maevsi/vibetype/compare/15.0.0-beta.2...15.0.0-beta.3) (2026-04-07)
+
+### Features
+
+* **components:** visualize api errors for steppers ([#2254](https://github.com/maevsi/vibetype/issues/2254)) ([a2b8562](https://github.com/maevsi/vibetype/commit/a2b85628f814e6e802bf7d85d5d1b2edb83dfedb))
+
+## [15.0.0-beta.2](https://github.com/maevsi/vibetype/compare/15.0.0-beta.1...15.0.0-beta.2) (2026-04-07)
+
+### Bug Fixes
+
+* **security:** correct csp service links ([fdf0496](https://github.com/maevsi/vibetype/commit/fdf0496d841555eefc208fc31de54dcdaf82f45a))
+
+## [15.0.0-beta.1](https://github.com/maevsi/vibetype/compare/14.0.0...15.0.0-beta.1) (2026-04-07)
+
+### ⚠ BREAKING CHANGES
+
+* **support:** let zammad replace monday (#2251)
+
+### Features
+
+* **support:** let zammad replace monday ([#2251](https://github.com/maevsi/vibetype/issues/2251)) ([a7f6f74](https://github.com/maevsi/vibetype/commit/a7f6f74e69bfbe3aaa41b4a7f9b61974f46d293d))
+
 ## [14.1.3](https://github.com/maevsi/vibetype/compare/14.1.2...14.1.3) (2026-04-14)
 
 ### Bug Fixes
