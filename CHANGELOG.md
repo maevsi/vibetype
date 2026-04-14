@@ -1,3 +1,9 @@
+## [15.0.0-beta.4](https://github.com/maevsi/vibetype/compare/15.0.0-beta.3...15.0.0-beta.4) (2026-04-14)
+
+### Features
+
+* **components:** refactor form to tanstack ([#2255](https://github.com/maevsi/vibetype/issues/2255)) ([8425cef](https://github.com/maevsi/vibetype/commit/8425cef4097ee2905eea1e9ed67701356a66751c))
+
 ## [15.0.0-beta.3](https://github.com/maevsi/vibetype/compare/15.0.0-beta.2...15.0.0-beta.3) (2026-04-07)
 
 ### Features
