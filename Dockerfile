@@ -49,8 +49,8 @@ ENTRYPOINT ["/srv/app/docker-entrypoint.sh"]
 CMD ["pnpm", "run", "--dir", "src", "dev", "--host", "0.0.0.0"]
 EXPOSE 3000
 
-# TODO: support healthcheck while starting (https://github.com/nuxt/framework/issues/6915)
-# HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/service/vibetype/healthcheck || exit 1
+# TODO: support healthcheck while starting (https://github.com/nuxt/nuxt/issues/14697)
+HEALTHCHECK --start-period=60s CMD wget -O /dev/null http://0.0.0.0:3000/api/service/vibetype/healthcheck || exit 1
 
 
 ########################

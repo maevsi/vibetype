@@ -48,7 +48,7 @@ export const getJwtFromResult = <
   if (result.error) {
     if (result.error.networkError) {
       throw createAppError({
-        status: 500,
+        status: result.error.response?.status || 500,
         statusText:
           (result.error.networkError.cause as { message?: string })?.message ||
           result.error.networkError.message,
