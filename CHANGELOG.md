@@ -1,3 +1,9 @@
+## [15.0.2](https://github.com/maevsi/vibetype/compare/15.0.1...15.0.2) (2026-04-14)
+
+### Bug Fixes
+
+* **event:** sort ascending ([ac04cf0](https://github.com/maevsi/vibetype/commit/ac04cf06eb118ed144d0b7a118e47f6a688b43b6))
+
 ## [15.0.1](https://github.com/maevsi/vibetype/compare/15.0.0...15.0.1) (2026-04-14)
 
 ### Bug Fixes
