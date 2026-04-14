@@ -1,3 +1,9 @@
+## [14.1.3](https://github.com/maevsi/vibetype/compare/14.1.2...14.1.3) (2026-04-14)
+
+### Bug Fixes
+
+* **security:** temporarily disable csrf check ([#2262](https://github.com/maevsi/vibetype/issues/2262)) ([9a600ff](https://github.com/maevsi/vibetype/commit/9a600ff0980ff6be404860f69ad95554a5b7d751))
+
 ## [14.1.2](https://github.com/maevsi/vibetype/compare/14.1.1...14.1.2) (2026-04-14)
 
 ### Bug Fixes
