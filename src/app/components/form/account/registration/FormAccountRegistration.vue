@@ -17,7 +17,7 @@
                 :model-value="field.state.value"
                 :placeholder="t('password')"
                 @blur="handlePasswordBlur(field)"
-                @input="field.handleChange($event)"
+                @input="handlePasswordInput(field, $event)"
               />
               <Progress
                 :model-value="calculatePasswordStrength(field.state.value)"
@@ -43,7 +43,7 @@
                 :model-value="field.state.value"
                 :placeholder="t('passwordRepetition')"
                 @blur="handlePasswordRepBlur(field)"
-                @input="field.handleChange($event)"
+                @input="handlePasswordRepInput(field, $event)"
               />
             </div>
           </FieldContent>
@@ -129,6 +129,17 @@ const handlePasswordBlur = (field: {
   validatePassword(field.state.value)
 }
 
+const handlePasswordInput = (
+  field: { handleChange: (value: string) => void },
+  value: string,
+) => {
+  field.handleChange(value)
+  if (passwordTouched.value) validatePassword(value)
+  if (passwordRepTouched.value) {
+    validatePasswordRep(value, form.getFieldValue('passwordRepetition'))
+  }
+}
+
 const handlePasswordRepBlur = (field: {
   handleBlur: () => void
   state: { value: string }
@@ -136,6 +147,16 @@ const handlePasswordRepBlur = (field: {
   field.handleBlur()
   passwordRepTouched.value = true
   validatePasswordRep(form.getFieldValue('password'), field.state.value)
+}
+
+const handlePasswordRepInput = (
+  field: { handleChange: (value: string) => void },
+  value: string,
+) => {
+  field.handleChange(value)
+  if (passwordRepTouched.value) {
+    validatePasswordRep(form.getFieldValue('password'), value)
+  }
 }
 
 // form
@@ -166,27 +187,6 @@ const form = useForm({
     })
   },
 })
-
-// watch password field to revalidate while typing (after first blur)
-watch(
-  () => form.getFieldValue('password'),
-  (value) => {
-    if (passwordTouched.value) validatePassword(value)
-    if (passwordRepTouched.value) {
-      validatePasswordRep(value, form.getFieldValue('passwordRepetition'))
-    }
-  },
-)
-
-// watch password repetition field to revalidate while typing (after first blur)
-watch(
-  () => form.getFieldValue('passwordRepetition'),
-  (value) => {
-    if (passwordRepTouched.value) {
-      validatePasswordRep(form.getFieldValue('password'), value)
-    }
-  },
-)
 </script>
 
 <i18n lang="yaml">
