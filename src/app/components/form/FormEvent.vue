@@ -389,7 +389,7 @@ const form = useForm({
         },
       })
 
-      if (result.error || !result.data) return
+      if (!getResultData(result)) return
 
       toast.success(t('eventUpdateSuccess'))
     } else {
@@ -414,7 +414,7 @@ const form = useForm({
         },
       })
 
-      if (result.error || !result.data) return
+      if (!getResultData(result)) return
 
       toast.success(t('eventCreateSuccess'))
 

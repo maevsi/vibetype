@@ -86,7 +86,7 @@ const form = useForm({
       },
     })
 
-    if (result.error || !result.data) return
+    if (!getResultData(result)) return
 
     emit('success')
   },

@@ -160,12 +160,7 @@ const form = useForm({
         },
       })
 
-      if (result.error) return
-
-      if (!result.data) {
-        modelError.value = new Error(t('globalErrorNoData'))
-        return
-      }
+      if (!getResultData(result)) return
     }
 
     for (const item of itemsToDelete) {
@@ -179,12 +174,7 @@ const form = useForm({
           },
         )
 
-      if (result.error) return
-
-      if (!result.data) {
-        modelError.value = new Error(t('globalErrorNoData'))
-        return
-      }
+      if (!getResultData(result)) return
     }
 
     initialSelectedItems.splice(0, initialSelectedItems.length, ...value.items)

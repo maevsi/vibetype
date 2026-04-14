@@ -154,13 +154,11 @@ const form = useForm({
         },
       })
 
-      if (!result.data) {
+      if (!getResultData(result)) {
         throw new Error('No data!')
       }
 
-      if (!result.error) {
-        successIds.push(...value.contactIds)
-      }
+      successIds.push(...value.contactIds)
     } catch (error) {
       console.error(error)
       return

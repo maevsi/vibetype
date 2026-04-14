@@ -455,7 +455,7 @@ const update = async (id: string, guestPatch: GuestPatch) => {
     input: { rowId: id, guestPatch },
   })
 
-  if (result.error || !result.data) return
+  if (!getResultData(result)) return
 
   toast.success(t('success'))
 }

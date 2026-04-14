@@ -126,15 +126,13 @@ const { /* data, */ error, status } = await useAsyncData(
       },
     })
 
-    if (result.error) {
-      throw result.error
+    const data = getResultData(result)
+
+    if (!data?.achievementUnlock?.result) {
+      throw result.error ?? new Error(t('globalErrorNoData'))
     }
 
-    if (!result.data?.achievementUnlock?.result) {
-      throw new Error(t('globalErrorNoData'))
-    }
-
-    return result.data.achievementUnlock.result
+    return data.achievementUnlock.result
   },
 )
 if (error.value) {

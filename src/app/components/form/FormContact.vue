@@ -340,7 +340,7 @@ const form = useForm({
         },
       })
 
-      if (result.error || !result.data) return
+      if (!getResultData(result)) return
 
       emit('submitSuccess')
     } else {
@@ -363,7 +363,7 @@ const form = useForm({
         },
       })
 
-      if (result.error || !result.data) return
+      if (!getResultData(result)) return
 
       emit('submitSuccess')
     }

@@ -93,7 +93,7 @@ const form = useForm({
       },
     })
 
-    if (result.error) return
+    if (!getResultData(result)) return
 
     if (!isToastHidden) {
       toast.success(

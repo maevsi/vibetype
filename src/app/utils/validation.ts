@@ -153,9 +153,9 @@ export const validateUsername = (invert?: boolean) => async (value: string) => {
     })
     .toPromise()
 
-  if (result.error) return false
+  const data = getResultData(result)
 
-  return invert
-    ? !result.data?.accountByUsername
-    : !!result.data?.accountByUsername
+  if (!data) return false
+
+  return invert ? !data.accountByUsername : !!data.accountByUsername
 }

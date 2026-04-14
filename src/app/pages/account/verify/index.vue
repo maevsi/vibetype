@@ -41,13 +41,15 @@ const accountEmailAddressVerificationMutation = useMutation(
 const result = await accountEmailAddressVerificationMutation.executeMutation({
   input: { code: route.query.code },
 })
-if (result.error) {
+if (!getResultData(result)) {
   throw createA11yError({
     data: {
-      vibetype: getCombinedErrorMessages([result.error], {
-        postgres55000: t('postgres55000'),
-        postgresP0002: t('postgresP0002'),
-      }).join('\n'),
+      vibetype: result.error
+        ? getCombinedErrorMessages([result.error], {
+            postgres55000: t('postgres55000'),
+            postgresP0002: t('postgresP0002'),
+          }).join('\n')
+        : t('globalErrorNoData'),
     },
     status: 400,
   })

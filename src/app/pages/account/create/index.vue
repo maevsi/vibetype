@@ -171,7 +171,7 @@ const submit = async (termId: string) => {
     },
   )
 
-  if (result.error || !result.data) {
+  if (!getResultData(result)) {
     captchaIsUsed.value = true
     return
   }

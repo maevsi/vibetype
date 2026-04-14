@@ -89,13 +89,10 @@ const form = useForm({
       },
     })
 
-    if (result.error) {
-      modelError.value = new Error(t('errorCreate'))
-      return
-    }
-
-    if (!result.data) {
-      modelError.value = new Error(t('globalErrorNoData'))
+    if (!getResultData(result)) {
+      modelError.value = new Error(
+        result.error ? t('errorCreate') : t('globalErrorNoData'),
+      )
       return
     }
 
