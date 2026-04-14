@@ -85,7 +85,10 @@
             required
             class="mt-1"
             @update:model-value="
-              (checked) => field.handleChange(checked === true)
+              (checked) => {
+                field.handleChange(checked === true)
+                field.handleBlur()
+              }
             "
           />
           <div class="flex flex-col gap-1">

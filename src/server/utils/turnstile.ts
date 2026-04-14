@@ -6,17 +6,17 @@ export const turnstileVerify = async (event: H3Event) => {
     TURNSTILE_HEADER_KEY.toLowerCase(),
   )
 
-  if (Array.isArray(turnstileToken)) {
-    throw createAppError({
-      status: 422,
-      statusText: 'Turnstile token cannot be an array.',
-    })
-  }
-
   if (!turnstileToken) {
     throw createAppError({
       status: 422,
       statusText: 'Turnstile token not provided.',
+    })
+  }
+
+  if (Array.isArray(turnstileToken)) {
+    throw createAppError({
+      status: 422,
+      statusText: 'Invalid Turnstile token format.',
     })
   }
 

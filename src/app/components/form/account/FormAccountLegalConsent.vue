@@ -16,9 +16,12 @@
             :model-value="field.state.value"
             required
             @update:model-value="
-              field.handleChange(
-                typeof $event === 'string' ? false : ($event ?? false),
-              )
+              ($event) => {
+                field.handleChange(
+                  typeof $event === 'string' ? false : ($event ?? false),
+                )
+                field.handleBlur()
+              }
             "
           />
           <label
