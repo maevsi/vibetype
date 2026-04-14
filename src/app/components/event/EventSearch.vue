@@ -19,7 +19,7 @@ import { graphql } from '~~/gql/generated'
 
 const queryEventList = graphql(`
   query EventList($after: Cursor, $first: Int!) {
-    allEvents(after: $after, first: $first, orderBy: START_DESC) {
+    allEvents(after: $after, first: $first, orderBy: START_ASC) {
       nodes {
         accountByCreatedBy {
           id

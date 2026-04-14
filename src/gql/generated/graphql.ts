@@ -11090,7 +11090,7 @@ export const EventListDocument = {
               {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'orderBy' },
-                value: { kind: 'EnumValue', value: 'START_DESC' },
+                value: { kind: 'EnumValue', value: 'START_ASC' },
               },
             ],
             selectionSet: {
