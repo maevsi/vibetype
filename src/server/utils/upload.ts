@@ -56,3 +56,25 @@ export const processUpload = async ({
     }
   }
 }
+
+export type UploadMessageKey = { payload: { id: string } }
+export type UploadMessageValue = { payload: Payload } | null
+
+export const processRawUpload = async ({
+  key,
+  value,
+}: {
+  key: UploadMessageKey | null
+  value: UploadMessageValue
+}) => {
+  if (!key || !value) {
+    const errorMessage = 'Upload message missing key or value'
+    console.error(errorMessage)
+    throw new Error(errorMessage)
+  }
+
+  await processUpload({
+    id: key.payload.id,
+    payload: value.payload,
+  })
+}
