@@ -1,4 +1,5 @@
 import type { ExtractComponentProps } from '@vue-email/render'
+import type Redis from 'ioredis'
 import { render } from '@vue-email/render'
 import { z } from 'zod'
 
@@ -11,6 +12,46 @@ import {
   CHANNEL_NAME_ACCOUNT_REGISTRATION as EMAIL_NAME_ACCOUNT_REGISTRATION,
   CHANNEL_NAME_EVENT_INVITATION as EMAIL_NAME_EVENT_INVITATION,
 } from '#server/utils/notification'
+
+const MAIL_RATE_LIMIT_MAX_WAIT_MS = 10_000
+
+const acquireMailRateSlot = async (
+  rateLimitPerSecond: number,
+  redis: Redis,
+): Promise<void> => {
+  const startTime = Date.now()
+
+  while (Date.now() - startTime < MAIL_RATE_LIMIT_MAX_WAIT_MS) {
+    try {
+      const windowKey = `mail:rate:${Math.floor(Date.now() / 1000)}`
+
+      // Atomically increment only when under the limit to avoid inflating the
+      // counter on failed acquisitions, which would reduce throughput further.
+      const count = await redis.eval(
+        `local c = redis.call('get', KEYS[1])
+if c and tonumber(c) >= tonumber(ARGV[1]) then return 0 end
+local n = redis.call('incr', KEYS[1])
+redis.call('expire', KEYS[1], 2)
+return n`,
+        1,
+        windowKey,
+        String(rateLimitPerSecond),
+      )
+
+      if (Number(count) > 0) return
+
+      const waitMs = 1000 - (Date.now() % 1000)
+      await new Promise<void>((resolve) => setTimeout(resolve, waitMs))
+    } catch (error) {
+      console.warn(`Redis rate limiting unavailable, proceeding: ${error}`)
+      return
+    }
+  }
+
+  throw new Error(
+    `Mail rate limit slot could not be acquired within ${MAIL_RATE_LIMIT_MAX_WAIT_MS}ms`,
+  )
+}
 
 const emailConfig = {
   [EMAIL_NAME_ACCOUNT_PASSWORD_RESET]: {
@@ -49,12 +90,13 @@ export const getEmail = async <T extends EmailName>({
   })
 
 export const sendEmail = async <T extends EmailName>({
-  limit24h,
   mailOptions,
   name,
   props,
+  rateLimitPerDay,
+  rateLimitPerSecond,
+  redis,
 }: {
-  limit24h: number
   mailOptions: {
     fromName?: string
     icalEvent?: Record<string, unknown> // https://nodemailer.com/message/calendar-events/
@@ -63,6 +105,9 @@ export const sendEmail = async <T extends EmailName>({
   }
   name: T
   props: EmailProps<T>
+  rateLimitPerDay: number
+  rateLimitPerSecond: number
+  redis: Redis
 }) => {
   const { html, text } = await getHtmlAndText({
     name,
@@ -120,19 +165,24 @@ export const sendEmail = async <T extends EmailName>({
 
   // TODO: implement proper rate limiting
   const sentLast24Hours = await getMailsSentLast24Hours()
-  if (sentLast24Hours && sentLast24Hours > limit24h) {
+  if (sentLast24Hours && sentLast24Hours > rateLimitPerDay) {
     // TODO: notify admin
     throw new Error(
-      `More than ${limit24h} mails sent in the last 24 hours, not sending any more for now to prevent spamming.`,
+      `More than ${rateLimitPerDay} mails sent in the last day, not sending any more for now to prevent spamming.`,
     )
   }
 
-  transporter.sendMail(mailOptionsWithDefaults, (err, info) => {
-    if (err) {
-      console.error('Error sending email:', err)
-    } else {
-      console.log('Email sent:', info.response)
-    }
+  await acquireMailRateSlot(rateLimitPerSecond, redis)
+
+  await new Promise<void>((resolve, reject) => {
+    transporter.sendMail(mailOptionsWithDefaults, (err, info) => {
+      if (err) {
+        reject(err)
+      } else {
+        console.log('Email sent:', info.response)
+        resolve()
+      }
+    })
   })
 }
 
