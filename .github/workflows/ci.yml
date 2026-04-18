@@ -14,14 +14,14 @@ on:
 jobs:
   ci-optimization:
     name: CI optimization
-    uses: dargmuesli/github-actions/.github/workflows/ci-optimization.yml@d8fbc998656a0a3476bfdb091c216c3cf78cdc94 # 5.1.1
+    uses: dargmuesli/github-actions/.github/workflows/ci-optimization.yml@1fc4c936d18dfa98bca895c19dd429ee108e07ea # 5.1.2
     permissions:
       pull-requests: read
   release_semantic_dry:
     needs: ci-optimization
     if: needs.ci-optimization.outputs.continue == 'true'
     name: Release (semantic, dry)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@d8fbc998656a0a3476bfdb091c216c3cf78cdc94 # 5.1.1
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@1fc4c936d18dfa98bca895c19dd429ee108e07ea # 5.1.2
     permissions:
       contents: write
       id-token: write
@@ -31,7 +31,7 @@ jobs:
       DRY_RUN: true
   build:
     name: Build
-    uses: dargmuesli/github-actions/.github/workflows/docker.yml@d8fbc998656a0a3476bfdb091c216c3cf78cdc94 # 5.1.1
+    uses: dargmuesli/github-actions/.github/workflows/docker.yml@1fc4c936d18dfa98bca895c19dd429ee108e07ea # 5.1.2
     needs: release_semantic_dry
     permissions:
       packages: write
@@ -45,7 +45,7 @@ jobs:
   release_semantic:
     needs: build
     name: Release (semantic)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@d8fbc998656a0a3476bfdb091c216c3cf78cdc94 # 5.1.1
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@1fc4c936d18dfa98bca895c19dd429ee108e07ea # 5.1.2
     permissions:
       contents: write
       id-token: write
