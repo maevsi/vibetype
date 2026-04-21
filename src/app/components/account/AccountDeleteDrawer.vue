@@ -20,7 +20,6 @@
         :item-name-deletion="t('account')"
         :item-name-success="t('account')"
         :mutation="accountDeleteMutation"
-        :variables="{ accountId }"
         @success="step = 'success'"
       />
     </AppStep>
@@ -111,11 +110,6 @@
 import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
-
-// compiler
-const { accountId } = defineProps<{
-  accountId: string
-}>()
 
 // stepper
 const { error, restart, step } = useStepper<'password' | 'success'>()
