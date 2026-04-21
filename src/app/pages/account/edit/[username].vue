@@ -90,10 +90,7 @@
       >
         {{ t('deleteAccount') }}
       </ButtonColored>
-      <AccountDeleteDrawer
-        v-model:is-open="isDeleteDrawerOpen"
-        :account-id="account.rowId"
-      />
+      <AccountDeleteDrawer v-model:is-open="isDeleteDrawerOpen" />
     </div>
   </LayoutPage>
 </template>
