@@ -1,3 +1,9 @@
+## [15.0.3](https://github.com/maevsi/vibetype/compare/15.0.2...15.0.3) (2026-04-21)
+
+### Bug Fixes
+
+* **components:** set referrer policy for map ([#2267](https://github.com/maevsi/vibetype/issues/2267)) ([793719a](https://github.com/maevsi/vibetype/commit/793719a11bc3ca414b34fc637224242fea1c7bd7))
+
 ## [15.0.2](https://github.com/maevsi/vibetype/compare/15.0.1...15.0.2) (2026-04-14)
 
 ### Bug Fixes
