@@ -65,7 +65,8 @@ onMounted(async () => {
   ) // Kassel: 51.3144643, 9.4957866
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution:
-      '<a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      '<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    referrerPolicy: 'strict-origin-when-cross-origin', // TODO: remove when open street map is auto-detected in leaflet (https://github.com/Leaflet/Leaflet/pull/9883)
   }).addTo(map.value)
 
   if (geocoder) {
