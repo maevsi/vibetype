@@ -1,3 +1,10 @@
+## [15.0.4](https://github.com/maevsi/vibetype/compare/15.0.3...15.0.4) (2026-04-21)
+
+### Bug Fixes
+
+* **account:** simplify deletion variables ([bf0720e](https://github.com/maevsi/vibetype/commit/bf0720eaa56092441970b542c6d3218f53ff66fa))
+* **account:** simplify deletion variables ([#2268](https://github.com/maevsi/vibetype/issues/2268)) ([e216aac](https://github.com/maevsi/vibetype/commit/e216aac2619ca044c3b7e1c3bfc19ac1d7b1d3d4))
+
 ## [15.0.3](https://github.com/maevsi/vibetype/compare/15.0.2...15.0.3) (2026-04-21)
 
 ### Bug Fixes
