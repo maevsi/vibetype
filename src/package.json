@@ -102,7 +102,7 @@
     "nodemailer": "8.0.5",
     "nuxt": "4.4.2",
     "nuxt-gtag": "4.1.0",
-    "nuxt-og-image": "6.4.3",
+    "nuxt-og-image": "6.4.4",
     "nuxt-security": "2.5.1",
     "nuxt-zod-i18n": "1.12.1",
     "openai": "6.34.0",
