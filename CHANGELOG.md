@@ -1,3 +1,9 @@
+## [15.0.5](https://github.com/maevsi/vibetype/compare/15.0.4...15.0.5) (2026-04-27)
+
+### Performance Improvements
+
+* **i18n:** compact routes ([0b1d28c](https://github.com/maevsi/vibetype/commit/0b1d28c4191a7aab4c362cca9d2d3c7bb49602e1))
+
 ## [15.0.4](https://github.com/maevsi/vibetype/compare/15.0.3...15.0.4) (2026-04-21)
 
 ### Bug Fixes
