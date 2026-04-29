@@ -5,6 +5,8 @@
       :type="isVisible ? 'text' : 'password'"
       :model-value="modelValue"
       :aria-invalid="ariaInvalid"
+      :class="inputClass"
+      :placeholder
       @blur="emit('blur')"
       @input="emit('input', ($event.target as HTMLInputElement).value)"
     />
@@ -20,10 +22,14 @@
 </template>
 
 <script setup lang="ts">
+import type { HTMLAttributes } from 'vue'
+
 defineProps<{
   ariaInvalid?: boolean
   id?: string
+  inputClass?: HTMLAttributes['class']
   modelValue?: string
+  placeholder?: string
 }>()
 
 const emit = defineEmits<{
