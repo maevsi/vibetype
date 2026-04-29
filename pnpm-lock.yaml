@@ -83,8 +83,8 @@ importers:
         specifier: 5.0.11
         version: 5.0.11
       '@iconify/utils':
-        specifier: 3.1.0
-        version: 3.1.0
+        specifier: 3.1.1
+        version: 3.1.1
       '@internationalized/date':
         specifier: 3.12.1
         version: 3.12.1
@@ -2348,8 +2348,8 @@ packages:
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
 
-  '@iconify/utils@3.1.0':
-    resolution: {integrity: sha512-Zlzem1ZXhI1iHeeERabLNzBHdOa4VhQbqAcOQaMKuTuyZCpwKbC2R4Dd0Zo3g9EAc+Y4fiarO8HIHRAth7+skw==}
+  '@iconify/utils@3.1.1':
+    resolution: {integrity: sha512-MwzoDtw9rO1x+qfgLTV/IVXsHDBqeYZoMIQC8SfxfYSlaSUG+oWiAcoiB1yajAda6mqblm4/1/w2E8tRu7a7Tw==}
 
   '@iconify/vue@5.0.0':
     resolution: {integrity: sha512-C+KuEWIF5nSBrobFJhT//JS87OZ++QDORB6f2q2Wm6fl2mueSTpFBeBsveK0KW9hWiZ4mNiPjsh6Zs4jjdROSg==}
@@ -12366,10 +12366,12 @@ packages:
 
   uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
   uuid@9.0.1:
     resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
   v-calendar@3.1.2:
@@ -15661,7 +15663,7 @@ snapshots:
     dependencies:
       '@cyberalien/svg-utils': 1.2.10
       '@iconify/types': 2.0.0
-      '@iconify/utils': 3.1.0
+      '@iconify/utils': 3.1.1
       fflate: 0.8.2
       modern-tar: 0.7.6
       pathe: 2.0.3
@@ -15669,7 +15671,7 @@ snapshots:
 
   '@iconify/types@2.0.0': {}
 
-  '@iconify/utils@3.1.0':
+  '@iconify/utils@3.1.1':
     dependencies:
       '@antfu/install-pkg': 1.1.0
       '@iconify/types': 2.0.0
@@ -16469,7 +16471,7 @@ snapshots:
     dependencies:
       '@iconify/collections': 1.0.674
       '@iconify/types': 2.0.0
-      '@iconify/utils': 3.1.0
+      '@iconify/utils': 3.1.1
       '@iconify/vue': 5.0.0(vue@3.5.33(typescript@6.0.3))
       '@nuxt/devtools-kit': 3.2.4(magicast@0.5.2)(vite@7.3.2(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))
       '@nuxt/kit': 4.4.2(magicast@0.5.2)
@@ -27599,7 +27601,7 @@ snapshots:
   unplugin-icons@23.0.1(@vue/compiler-sfc@3.5.33):
     dependencies:
       '@antfu/install-pkg': 1.1.0
-      '@iconify/utils': 3.1.0
+      '@iconify/utils': 3.1.1
       local-pkg: 1.1.2
       obug: 2.1.1
       unplugin: 2.3.11
