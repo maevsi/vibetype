@@ -314,8 +314,8 @@ importers:
         specifier: 4.2.0
         version: 4.2.0
       nodemailer:
-        specifier: 8.0.6
-        version: 8.0.6
+        specifier: 8.0.7
+        version: 8.0.7
       nuxt:
         specifier: 4.4.2
         version: 4.4.2(@babel/core@7.29.0)(@babel/plugin-syntax-jsx@7.28.6(@babel/core@7.29.0))(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@parcel/watcher@2.5.6)(@types/node@25.6.0)(@vue/compiler-sfc@3.5.33)(cac@6.7.14)(db0@0.3.4)(eslint@10.2.1(jiti@2.6.1))(ioredis@5.10.1)(lightningcss@1.32.0)(magicast@0.5.2)(optionator@0.9.4)(pinia@3.0.4(typescript@6.0.3)(vue@3.5.33(typescript@6.0.3)))(rollup-plugin-visualizer@7.0.1(rollup@4.60.2))(rollup@4.60.2)(srvx@0.11.15)(stylelint@17.9.0(typescript@6.0.3))(terser@5.46.1)(typescript@6.0.3)(vite@7.3.2(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vue-tsc@3.2.7(typescript@6.0.3))(yaml@2.8.3)
@@ -383,8 +383,8 @@ importers:
         specifier: 1.41.8
         version: 1.41.8
       qrcode.vue:
-        specifier: 3.8.1
-        version: 3.8.1(vue@3.5.33(typescript@6.0.3))
+        specifier: 3.9.0
+        version: 3.9.0(vue@3.5.33(typescript@6.0.3))
       reka-ui:
         specifier: 2.9.6
         version: 2.9.6(vue@3.5.33(typescript@6.0.3))
@@ -10161,8 +10161,8 @@ packages:
     resolution: {integrity: sha512-0PF8Yb1yZuQfQbq+5/pZJrtF6WQcjTd5/S4JOHs9PGFxuTqoB/icwuB44pOdURHJbRKX1PPoJZtY7R4VUoCC8w==}
     engines: {node: '>=6.0.0'}
 
-  nodemailer@8.0.6:
-    resolution: {integrity: sha512-Nm2XeuDwwy2wi5A+8jPWwQwNzcjNjhWdE3pVLoXEusxJqCnAPAgnBGkSmiLknbnWuOF9qraRpYZjfxqtKZ4tPw==}
+  nodemailer@8.0.7:
+    resolution: {integrity: sha512-pkjE4mkBzQjdJT4/UmlKl3pX0rC9fZmjh7c6C9o7lv66Ac6w9WCnzPzhbPNxwZAzlF4mdq4CSWB5+FbK6FWCow==}
     engines: {node: '>=6.0.0'}
 
   nopt@7.2.1:
@@ -11084,8 +11084,8 @@ packages:
     resolution: {integrity: sha512-n7mar4T0xQ+39dE2vGTAlbxUEpndwPANH0kDef1/MYsB8Bba9wshkybIRx74qgcvKQPEWErf9AqAdYjhzY2Ilg==}
     engines: {node: '>=20'}
 
-  qrcode.vue@3.8.1:
-    resolution: {integrity: sha512-kJORXcI5Uml5GtzcfFkchpljFgaXKQB/3ZUt+Hwnw7Y1F7FiA01U2yyO5Vscwv3bVxPkm/KLKXUOXsHbTsYrTw==}
+  qrcode.vue@3.9.0:
+    resolution: {integrity: sha512-AxkgdNXd6R6N1rJcSKna3GfMz3cMpLZo95CLuF/3227nNY32iACBtyqRr6mJc3SW7w628Iy0vgnLWYqxHqgRLw==}
     peerDependencies:
       vue: ^3.0.0
 
@@ -24643,7 +24643,7 @@ snapshots:
 
   nodemailer@8.0.5: {}
 
-  nodemailer@8.0.6: {}
+  nodemailer@8.0.7: {}
 
   nopt@7.2.1:
     dependencies:
@@ -26160,7 +26160,7 @@ snapshots:
     dependencies:
       hookified: 2.1.1
 
-  qrcode.vue@3.8.1(vue@3.5.33(typescript@6.0.3)):
+  qrcode.vue@3.9.0(vue@3.5.33(typescript@6.0.3)):
     dependencies:
       vue: 3.5.33(typescript@6.0.3)
 
