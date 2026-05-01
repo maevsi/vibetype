@@ -42,6 +42,7 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
 
 ## Typescript
 - Do not use typecasts, except when there is no other way
+- Use `const` over `let`
 
 ## GraphQL
 - Run `pnpm --dir src run gql:codegen` after any changes to GraphQL queries or mutations to update the generated types
