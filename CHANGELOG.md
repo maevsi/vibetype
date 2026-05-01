@@ -1,3 +1,9 @@
+## [15.1.1](https://github.com/maevsi/vibetype/compare/15.1.0...15.1.1) (2026-05-01)
+
+### Bug Fixes
+
+* **app:** exclude password reset from redirection ([067fb6a](https://github.com/maevsi/vibetype/commit/067fb6a66c6eab4a1a7a3e9d65e19ed261d09d0e))
+
 ## [15.1.0](https://github.com/maevsi/vibetype/compare/15.0.5...15.1.0) (2026-05-01)
 
 ### Features
