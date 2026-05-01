@@ -30,6 +30,7 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
   - `pnpm run lint` for formatting and type checks
   - `pnpm run build` as preparation for end-to-end testing
   - `pnpm run test:e2e:docker:server:node:update` for end-to-end testing with snapshot updates
+- Pin development dependencies to an exact version, don't use caret-versioning
 
 ## Nuxt
 - Nuxt auto-imports are active, so there is no need to import Nuxt components, composables and Vue.js APIs – run `pnpm exec nuxt prepare` instead to update the barrel files
