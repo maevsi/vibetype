@@ -38,6 +38,7 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
 
 ## Docker
 - The `Dockerfile` contains the full build pipeline, divided into multiple stages
+- You may need `sudo` to invoke `docker` commands
 
 ## Typescript
 - Do not use typecasts, except when there is no other way
