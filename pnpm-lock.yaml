@@ -89,8 +89,8 @@ importers:
         specifier: 3.12.1
         version: 3.12.1
       '@lucide/vue':
-        specifier: 1.11.0
-        version: 1.11.0(vue@3.5.33(typescript@6.0.3))
+        specifier: 1.12.0
+        version: 1.12.0(vue@3.5.33(typescript@6.0.3))
       '@nuxt/a11y':
         specifier: 1.0.0-alpha.1
         version: 1.0.0-alpha.1(magicast@0.5.2)(vite@7.3.2(@types/node@25.6.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))
@@ -332,8 +332,8 @@ importers:
         specifier: 1.12.1
         version: 1.12.1(magicast@0.5.2)
       openai:
-        specifier: 6.34.0
-        version: 6.34.0(ws@8.20.0)(zod@3.25.76)
+        specifier: 6.35.0
+        version: 6.35.0(ws@8.20.0)(zod@3.25.76)
       pinia:
         specifier: 3.0.4
         version: 3.0.4(typescript@6.0.3)(vue@3.5.33(typescript@6.0.3))
@@ -2816,8 +2816,8 @@ packages:
   '@kwsites/promise-deferred@1.1.1':
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
 
-  '@lucide/vue@1.11.0':
-    resolution: {integrity: sha512-ISNBw5Xm7cwfwMQ/sEYelzBCpBnpIcAJUUfIBV62Q6fL10WIEZBrVho1tjragziFTVImDupJYzWozxRn55Fc1g==}
+  '@lucide/vue@1.12.0':
+    resolution: {integrity: sha512-qv6B46TsHNvKv9Urp/r5zekkRVL3lIJk7aupwllx4MalU6LsMaVT28CJw23ee/LVlO/A/6nPL6DJB4HoZS6Kbw==}
     peerDependencies:
       vue: '>=3.0.1'
 
@@ -10597,8 +10597,8 @@ packages:
     resolution: {integrity: sha512-smsWv2LzFjP03xmvFoJ331ss6h+jixfA4UUV/Bsiyuu4YJPfN+FIQGOIiv4w9/+MoHkfkJ22UIaQWRVFRfH6Vw==}
     engines: {node: '>=20'}
 
-  openai@6.34.0:
-    resolution: {integrity: sha512-yEr2jdGf4tVFYG6ohmr3pF6VJuveP0EA/sS8TBx+4Eq5NT10alu5zg2dmxMXMgqpihRDQlFGpRt2XwsGj+Fyxw==}
+  openai@6.35.0:
+    resolution: {integrity: sha512-L/skwIGnt5xQZHb0UfTu9uAUKbis3ehKypOuJKi20QvG7UStV6C8IC3myGYHcdiF4kms/bAvOJ9UqqNWqi8x/Q==}
     hasBin: true
     peerDependencies:
       ws: ^8.18.0
@@ -16303,7 +16303,7 @@ snapshots:
 
   '@kwsites/promise-deferred@1.1.1': {}
 
-  '@lucide/vue@1.11.0(vue@3.5.33(typescript@6.0.3))':
+  '@lucide/vue@1.12.0(vue@3.5.33(typescript@6.0.3))':
     dependencies:
       vue: 3.5.33(typescript@6.0.3)
 
@@ -25638,7 +25638,7 @@ snapshots:
       powershell-utils: 0.1.0
       wsl-utils: 0.3.1
 
-  openai@6.34.0(ws@8.20.0)(zod@3.25.76):
+  openai@6.35.0(ws@8.20.0)(zod@3.25.76):
     optionalDependencies:
       ws: 8.20.0
       zod: 3.25.76
