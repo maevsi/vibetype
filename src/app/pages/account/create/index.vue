@@ -1,111 +1,209 @@
 <template>
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
-    <LayoutTopBar>
-      <span :id="templateIdTitle">
-        {{ title }}
-      </span>
-      <template v-if="!error && previous" #back>
-        <ButtonIcon :aria-label="t('back')" @click="step = previous">
-          <AppIconBack />
-        </ButtonIcon>
-      </template>
-    </LayoutTopBar>
+    <!-- Header -->
+    <FormAuthPageHeader
+      :header-key="step"
+      :title-id="templateIdTitle"
+      @back="handleBackClick"
+    >
+      <template #title>{{ title }}</template>
+      <template v-if="subtitle" #subtitle>{{ subtitle }}</template>
+    </FormAuthPageHeader>
+
+    <!-- Step: Email -->
     <AppStep v-slot="attributes" :is-active="step === 'default'">
+      <LayoutPage v-bind="attributes">
+        <div class="flex flex-col gap-6">
+          <FormAuthInput
+            :model-value="emailField.value.value"
+            type="email"
+            :placeholder="t('emailPlaceholder')"
+            :aria-label="t('emailPlaceholder')"
+            @blur="emailField.handleBlur"
+            @input="emailField.handleInput($event)"
+          >
+            <template #icon>
+              <IHeroiconsEnvelope />
+            </template>
+          </FormAuthInput>
+          <p v-if="emailField.error.value" class="text-sm text-red-600">
+            {{ emailField.error.value }}
+          </p>
+          <!-- Terms checkbox -->
+          <div class="flex items-start gap-3">
+            <FormCheckbox
+              :value="agreedToTerms"
+              :aria-label="t('agreeCheckboxLabel')"
+              @change="agreedToTerms = $event"
+            />
+            <span class="text-sm text-gray-500 dark:text-gray-400">
+              {{ t('agreePrefix') }}
+              <NuxtLinkLocale
+                class="font-semibold text-green-600"
+                to="docs-legal-terms"
+                >{{ t('termsOfService') }}</NuxtLinkLocale
+              >{{ t('legalComma') }}
+              <NuxtLinkLocale
+                class="font-semibold text-green-600"
+                to="docs-legal-imprint"
+                >{{ t('imprint') }}</NuxtLinkLocale
+              >
+              {{ t('and') }}
+              <NuxtLinkLocale
+                class="font-semibold text-green-600"
+                to="docs-legal-privacy"
+                >{{ t('privacyPolicy') }}</NuxtLinkLocale
+              >
+            </span>
+          </div>
+          <p v-if="termsError" class="text-sm text-red-600">
+            {{ termsError }}
+          </p>
+          <FormAuthButton
+            :aria-label="t('continue')"
+            @click="handleEmailContinue"
+          >
+            {{ t('continue') }}
+          </FormAuthButton>
+          <p class="text-center text-[15px] text-gray-500 dark:text-gray-400">
+            {{ t('alreadyHaveAccount') }}
+            <NuxtLinkLocale
+              class="font-semibold text-green-600"
+              to="session-create"
+              >{{ t('signInLink') }}</NuxtLinkLocale
+            >
+          </p>
+        </div>
+      </LayoutPage>
+    </AppStep>
+
+    <!-- Step: Password -->
+    <AppStep v-slot="attributes" :is-active="step === 'password'">
       <LayoutPage v-bind="attributes">
         <FormAccountRegistration
           v-model:captcha-is-used="captchaIsUsed"
           @submit="
             (values) => {
-              formValues = values
-              step = 'age'
+              passwordData = values
+              step = 'username'
             }
           "
         />
-        <ContentLegalFooter />
       </LayoutPage>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'age'">
-      <AccountRegistrationStepAge
-        v-bind="attributes"
-        @success="
-          ($event) => {
-            birthDate = $event
-            step = 'terms'
-          }
-        "
-      />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'terms'">
-      <AccountLegalConsent
-        v-bind="attributes"
-        :disabled="!legalTermId"
-        :label="t('agreeTerms')"
-        @agreement="step = 'privacy'"
-      >
-        <ContentLegalTerms @id="legalTermId = $event" />
-      </AccountLegalConsent>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'privacy'">
-      <AccountLegalConsent
-        v-bind="attributes"
-        :label="t('agreePrivacy')"
-        @agreement="submit(legalTermId || '')"
-      >
-        <AppContent :content="contentPrivacyConsent" />
-      </AccountLegalConsent>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'success'">
+
+    <!-- Step: Username -->
+    <AppStep v-slot="attributes" :is-active="step === 'username'">
       <LayoutPage v-bind="attributes">
-        <LayoutPageResult type="success">
-          {{ t('verificationDescription') }}
-          <ButtonColored
-            :aria-label="t('support')"
-            size="small"
-            :to="
-              localePath({
-                name: 'support-contact',
-              })
+        <div class="flex flex-col gap-4">
+          <div class="relative">
+            <FormAuthInput
+              :model-value="usernameField.value.value"
+              type="text"
+              :placeholder="t('usernamePlaceholder')"
+              :aria-label="t('usernamePlaceholder')"
+              :disabled="usernameField.isLoading.value"
+              @blur="usernameField.handleBlur"
+              @input="handleUsernameInput($event)"
+            >
+              <template #icon>
+                <IHeroiconsUser />
+              </template>
+            </FormAuthInput>
+            <div
+              v-if="usernameField.isLoading.value"
+              class="absolute top-1/2 right-4 -translate-y-1/2"
+            >
+              <div
+                class="size-5 animate-spin rounded-full border-2 border-gray-300 border-t-green-600"
+              />
+            </div>
+          </div>
+          <p v-if="usernameField.error.value" class="text-sm text-red-600">
+            {{ usernameField.error.value }}
+          </p>
+          <FormAuthButton
+            :aria-label="t('continue')"
+            :disabled="
+              !usernameField.value.value || !!usernameField.error.value
             "
-            variant="tertiary"
+            @click="handleUsernameContinue"
           >
-            {{ t('support') }}
-            <template #prefix>
-              <AppIconHelp />
-            </template>
-          </ButtonColored>
-          <template #description>
-            {{ t('verificationInstructions') }}
-          </template>
-        </LayoutPageResult>
+            {{ t('continue') }}
+          </FormAuthButton>
+        </div>
       </LayoutPage>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
+
+    <!-- Step: Age -->
+    <AppStep v-slot="attributes" :is-active="step === 'age'">
       <LayoutPage v-bind="attributes">
-        <LayoutPageResult type="error">
-          <span v-if="error && error.message">
-            {{ error.message }}
-          </span>
-          <template #description>
-            {{ t('globalTryAgain') }}
-          </template>
-        </LayoutPageResult>
-        <template #bottom>
-          <ButtonColored
-            :aria-label="t('backToRegistration')"
-            class="w-full max-w-sm"
-            variant="primary"
-            @click="restart"
+        <div class="flex flex-col gap-4">
+          <FormAccountRegistrationAge
+            ref="ageForm"
+            @success="handleAgeSuccess"
+          />
+          <FormAuthButton
+            :aria-label="t('confirmAge')"
+            @click="ageFormRef?.submit()"
           >
-            {{ t('backToRegistration') }}
-          </ButtonColored>
-        </template>
+            {{ t('confirmAge') }}
+          </FormAuthButton>
+        </div>
       </LayoutPage>
     </AppStep>
+
+    <!-- Step: Success -->
+    <FormAuthStepSuccess :is-active="step === 'success'">
+      <div class="flex flex-col gap-4">
+        <p
+          class="text-[15px] leading-5 font-semibold text-gray-500 dark:text-gray-400"
+        >
+          {{ t('verificationSentTo') }}
+          <span class="font-semibold text-gray-900 dark:text-gray-100">{{
+            emailField.value.value
+          }}</span>
+        </p>
+        <p
+          class="text-[15px] leading-5 font-semibold text-gray-500 dark:text-gray-400"
+        >
+          {{ t('verificationOpenLink') }}
+        </p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          {{ t('verificationDescription') }}
+        </p>
+        <NuxtLinkLocale
+          class="flex items-center justify-center gap-2 text-[15px] text-gray-500 dark:text-gray-400"
+          to="support-contact"
+        >
+          <IHeroiconsQuestionMarkCircle class="size-5" />
+          {{ t('support') }}
+        </NuxtLinkLocale>
+      </div>
+    </FormAuthStepSuccess>
+
+    <!-- Step: Error -->
+    <FormAuthStepError :error="error" :is-active="step === 'error'">
+      <ButtonColored
+        :aria-label="t('backToRegistration')"
+        class="w-full max-w-sm"
+        variant="primary"
+        @click="restart"
+      >
+        {{ t('backToRegistration') }}
+      </ButtonColored>
+    </FormAuthStepError>
   </section>
 </template>
 
 <script setup lang="ts">
+import { useQuery } from '@urql/vue'
+import { graphql } from '~~/gql/generated'
 import { useAccountRegistrationMutation } from '~~/gql/documents/mutations/account/accountRegistration'
+import {
+  useValidationDedup,
+  useValidationField,
+} from '~/composables/useValidation'
 
 definePageMeta({
   layout: 'plain',
@@ -113,10 +211,16 @@ definePageMeta({
 
 const { locale, t } = useI18n()
 
+// navigation
+const router = useRouter()
+const navigateBack = () => {
+  router.back()
+}
+
 // api data
-const contentPrivacyConsent = await useContent('privacy-consent')
 const accountRegistrationMutation = useAccountRegistrationMutation()
 const api = await useApiData([accountRegistrationMutation])
+
 // TODO: move into api utility as `errorsTranslated`
 watch(
   () => api.value.errors,
@@ -134,37 +238,123 @@ watch(
 )
 
 // template
-const localePath = useLocalePath()
 const templateIdTitle = useId()
 const birthDate = ref<string>()
+const agreedToTerms = ref(false)
+const termsError = ref('')
 
-// form
-const formValues = ref<{
-  captcha: string
-  emailAddress: string
-  password: string
-  username: string
-}>()
+// email validation
+const emailField = useValidationField({
+  validator: (value: string) => {
+    const result = SCHEMA_EMAIL_ADDRESS_REQUIRED.safeParse(value)
+    return {
+      error: result.success ? undefined : t('emailInvalid'),
+      success: result.success,
+    }
+  },
+})
+
+// password data
+const passwordData = ref<
+  | {
+      captcha: string
+      password: string
+    }
+  | undefined
+>()
 const captchaIsUsed = ref<boolean>()
-const submit = async (termId: string) => {
-  if (!formValues.value) return
+
+// username validation with request deduplication
+const { validateWithDedup } = useValidationDedup()
+
+const usernameField = useValidationField({
+  validator: async (value: string) => {
+    if (!value) {
+      return { error: t('usernameRequired'), success: false }
+    }
+    if (!REGEX_SLUG.test(value)) {
+      return { error: t('usernameInvalidCharacters'), success: false }
+    }
+
+    const isAvailable = await validateWithDedup(value, {
+      validator: (username) => validateUsername(true)(username),
+    })
+
+    return {
+      error: isAvailable ? undefined : t('usernameAlreadyTaken'),
+      success: isAvailable,
+    }
+  },
+})
+
+const handleUsernameInput = (newValue: string) => {
+  usernameField.handleInput(newValue)
+}
+
+// age step
+const ageFormRef = useTemplateRef<{ submit: () => void }>('ageForm')
+const handleAgeSuccess = async (date: string) => {
+  birthDate.value = date
+  await submit()
+}
+
+// legal term
+const allLegalTermsQuery = graphql(`
+  query AllLegalTerms($language: String) {
+    allLegalTerms(condition: { language: $language }) {
+      nodes {
+        id
+        rowId
+        term
+      }
+    }
+  }
+`)
+const legalTermsQuery = useQuery({
+  query: allLegalTermsQuery,
+  variables: { language: locale.value },
+})
+
+const legalTermId = computed(() => {
+  const result = legalTermsQuery.data.value?.allLegalTerms?.nodes?.[0]?.rowId
+  if (!result && legalTermsQuery.error.value) {
+    console.error('Failed to fetch legal terms:', legalTermsQuery.error.value)
+  }
+  return result
+})
+
+// csrf
+const { csrf } = useCsrf()
+
+const submit = async () => {
+  if (!passwordData.value) {
+    error.value = new Error(t('globalTryAgain'))
+    return
+  }
+
+  const legalTermIdValue = legalTermId.value
+  if (!legalTermIdValue) {
+    error.value = new Error(t('legalTermsUnavailable'))
+    return
+  }
 
   const result = await accountRegistrationMutation.executeMutation(
     {
       input: {
         birthDate: birthDate.value,
-        emailAddress: formValues.value.emailAddress,
+        emailAddress: emailField.value.value,
         language: locale.value,
-        legalTermId: termId,
-        password: formValues.value.password,
-        username: formValues.value.username,
+        legalTermId: legalTermIdValue,
+        password: passwordData.value.password,
+        username: usernameField.value.value,
       },
     },
     {
       fetchOptions: {
         headers: {
-          ...(formValues.value.captcha && {
-            [TURNSTILE_HEADER_KEY]: formValues.value.captcha,
+          [CSRF_HEADER_NAME]: csrf,
+          ...(passwordData.value.captcha && {
+            [TURNSTILE_HEADER_KEY]: passwordData.value.captcha,
           }),
         },
       },
@@ -181,68 +371,148 @@ const submit = async (termId: string) => {
 
 // stepper
 const { error, previous, restart, step, title } = useStepperPage<
-  'age' | 'terms' | 'privacy' | 'success'
+  'age' | 'password' | 'success' | 'username'
 >({
   steps: {
-    default: {
-      title: t('titleForm'),
-    },
     age: {
       title: t('titleAge'),
+      previous: 'username',
+    },
+    default: {
+      title: t('titleEmail'),
+    },
+    password: {
+      title: t('titlePassword'),
       previous: 'default',
-    },
-    terms: {
-      title: t('titleTerms'),
-      previous: 'age',
-    },
-    privacy: {
-      title: t('titlePrivacy'),
-      previous: 'terms',
     },
     success: {
       title: t('titleVerification'),
     },
+    username: {
+      title: t('titleUsername'),
+      previous: 'password',
+    },
   },
 })
 
+// subtitle (only shown on email step)
+const subtitle = computed(() => {
+  if (step.value === 'age') return t('subtitleAge')
+  if (step.value === 'default') return t('subtitleEmail')
+  if (step.value === 'password') return t('subtitlePassword')
+  if (step.value === 'username') return t('subtitleUsername')
+  return undefined
+})
+
+// handlers
+const handleBackClick = () => {
+  if (step.value === 'default') {
+    navigateBack()
+  } else {
+    step.value = previous.value || 'default'
+  }
+}
+
+const handleEmailContinue = async () => {
+  if (!emailField.value.value) {
+    emailField.error.value = t('emailRequired')
+    return
+  }
+  const isValid = await emailField.validate()
+  if (!isValid) return
+  if (!agreedToTerms.value) {
+    termsError.value = t('termsRequired')
+    return
+  }
+  termsError.value = ''
+  step.value = 'password'
+}
+
+const handleUsernameContinue = async () => {
+  const isValid = await usernameField.validate()
+  if (!isValid) return
+  step.value = 'age'
+}
+
 // page
 useHeadDefault({ title: title.value })
-
-// legal term
-const legalTermId = ref<string>()
 </script>
 
 <i18n lang="yaml">
 de:
-  agreeTerms: Ich stimme den Allgemeinen Geschäftsbedingungen zu
-  agreePrivacy: Ich stimme der Datenschutzerklärung zu
-  back: zurück
+  agreeCheckboxLabel: Ich stimme den Bedingungen zu
+  agreePrefix: "Ich stimme Vibetype's "
+  alreadyHaveAccount: 'Du hast bereits ein Konto?'
+  and: ' und '
   backToRegistration: Zurück zur Registrierung
+  confirmAge: Alter bestätigen
+  continue: Weiter
+  emailInvalid: Bitte gib eine gültige E-Mail-Adresse ein
+  emailPlaceholder: E-Mail-Adresse eingeben
+  emailRequired: Bitte gib eine E-Mail-Adresse ein
+  imprint: Impressum
+  legalComma: ', '
+  legalTermsUnavailable: Die rechtlichen Bedingungen konnten nicht geladen werden. Bitte versuche es später erneut.
   postgresVTAUV: Es gibt bereits einen Account mit diesem Nutzernamen! Überlege dir einen neuen Namen oder versuche dich anzumelden.
   postgresVTBDA: Du musst mindestens 18 Jahre alt sein, um dich zu registrieren.
   postgresVTPLL: Das Passwort ist zu kurz! Überlege dir ein längeres.
+  privacyPolicy: Datenschutzrichtlinie
+  signInLink: Anmelden
+  subtitleAge: Für den richtigen Vibe und deine Sicherheit zeigt dir Vibetype nur Events, die zu deinem Alter passen.
+  subtitleEmail: Wir verwenden sie, um dir einen Bestätigungslink zu senden und dein Konto zu sichern.
+  subtitlePassword: Mindestens 12 Zeichen mit mindestens 1 Großbuchstaben und 1 Sonderzeichen.
+  subtitleUsername: Dieser Name wird anderen Nutzern angezeigt.
   support: Support kontaktieren
-  titleAge: Bereit für Social Media?
-  titleForm: Erstelle ein Konto
-  titlePrivacy: Datenschutzbestimmungen
-  titleTerms: Geschäftsbedingungen
-  titleVerification: E-Mail-Bestätigung erforderlich
+  termsOfService: Nutzungsbedingungen
+  termsRequired: Bitte stimme den Bedingungen zu
+  titleAge: Alter bestätigen
+  titleEmail: Registriere dich mit deiner E-Mail
+  titlePassword: Erstelle dein Passwort
+  titleUsername: Wähle deinen Nutzernamen
+  titleVerification: Überprüfe dein Postfach
+  usernameAlreadyTaken: Dieser Nutzername ist bereits vergeben
+  usernameInvalidCharacters: Nur Buchstaben, Zahlen und Bindestriche erlaubt
+  usernamePlaceholder: Nutzername
+  usernameRequired: Bitte gib einen Nutzernamen ein
   verificationDescription: Wenn du keine E-Mail erhältst, hast du möglicherweise bereits ein Konto bei @.upper:{'globalSiteName'}. Du kannst versuchen, dein Passwort zurückzusetzen, um dich wieder in deinem Konto einzuloggen.
-  verificationInstructions: Überprüfe deine E-Mails auf einen Bestätigungslink.
+  verificationOpenLink: Öffne den Link, um zu bestätigen, dass du es wirklich bist.
+  verificationSentTo: 'Wir haben dir gerade einen Bestätigungslink gesendet an '
 en:
-  agreeTerms: I agree to the Terms and Conditions
-  agreePrivacy: I agree to the Privacy Policy
-  back: back
+  agreeCheckboxLabel: I agree to the terms
+  agreePrefix: "I agree to Vibetype's "
+  alreadyHaveAccount: 'Already have an account?'
+  and: ' and '
   backToRegistration: Back to Registration
+  confirmAge: Confirm age
+  continue: Continue
+  emailInvalid: Please enter a valid email address
+  emailPlaceholder: Enter your email
+  emailRequired: Please enter an email address
+  imprint: Imprint
+  legalComma: ', '
+  legalTermsUnavailable: We could not load the legal terms. Please try again later.
   postgresVTAUV: This username is already in use! Think of a new name or try signing in instead.
   postgresVTBDA: You must be at least 18 years old to register.
   postgresVTPLL: Your password is too short! Think of a longer one.
-  support: Contact Support
-  titleAge: Ready for Social Media?
-  titleForm: Create an account
-  titlePrivacy: Privacy Policy
-  titleTerms: General Terms and Conditions
-  titleVerification: Email Verification Required
+  privacyPolicy: Privacy Policy
+  signInLink: Sign in
+  subtitleAge: To keep things fun and safe, Vibetype curates just the right events for your age and vibe.
+  subtitleEmail: We'll use it to send your verification link and keep your account secure.
+  subtitlePassword: Minimum 12 characters with at least 1 uppercase letter and 1 special character.
+  subtitleUsername: This name will be visible to other users.
+  support: Contact support
+  termsOfService: Terms of Service
+  termsRequired: Please agree to the terms
+  titleAge: Confirm your age
+  titleEmail: Sign up using your email
+  titlePassword: Create your password
+  titleUsername: Choose your username
+  titleVerification: Check your inbox for a verification link
+  usernameAlreadyTaken: This username is already taken
+  usernameInvalidCharacters: Only letters, numbers, and hyphens allowed
+  usernamePlaceholder: Username
+  usernameRequired: Please enter a username
   verificationDescription: If you don't receive an email, you may already have an account with @.upper:{'globalSiteName'}. You can try to reset your password to log back into your account.
-  verificationInstructions: Check your emails for a verification link.
+  verificationOpenLink: Open it to confirm it's really you.
+  verificationSentTo: "We've just sent a verification link to "
 </i18n>

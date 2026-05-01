@@ -29,7 +29,7 @@
           </TypographySubtitleSmall>
         </FieldLabel>
         <FieldContent>
-          <FormInputPassword
+          <FormAuthInputPassword
             :aria-invalid="isFieldInvalid(field)"
             :model-value="field.state.value"
             @blur="field.handleBlur"
@@ -42,13 +42,9 @@
         />
       </Field>
     </form.Field>
-    <ButtonColored
-      :aria-label="t('passwordChange')"
-      class="w-full"
-      type="submit"
-    >
+    <FormAuthButton :aria-label="t('passwordChange')" type="submit">
       {{ t('passwordChange') }}
-    </ButtonColored>
+    </FormAuthButton>
     <CardStateAlert v-if="errorMessages?.length">
       <AppSpanList :span="errorMessages" />
     </CardStateAlert>

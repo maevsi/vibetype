@@ -1,77 +1,54 @@
 <template>
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
-    <LayoutTopBar>
-      <span :id="templateIdTitle">{{ title }}</span>
-      <template v-if="!error && ['default'].includes(step)" #close>
-        <ButtonIconBackRoute :aria-label="t('iconAltClose')">
-          <AppIconClose />
-        </ButtonIconBackRoute>
-      </template>
-    </LayoutTopBar>
+    <h1 :id="templateIdTitle" class="sr-only">
+      {{ title }}
+    </h1>
+    <FormAuthPageHeader v-if="step === 'default'" @back="navigateBack">
+      <template #title>{{ t('title') }}</template>
+      <template #subtitle>{{ t('subtitle') }}</template>
+    </FormAuthPageHeader>
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
-        <TypographyH3 class="text-center">
-          {{ t('instructionsRequest') }}
-        </TypographyH3>
-        <div class="flex justify-center">
-          <FormAccountPasswordResetRequest
-            ref="form"
-            v-model:error="error"
-            class="w-full max-w-md"
-            @success="step = 'success'"
-          />
-        </div>
-        <template #bottom>
-          <ButtonColored
-            :aria-label="t('send')"
-            class="w-full max-w-md"
-            @click="templateForm?.submit"
-          >
-            {{ t('send') }}
-          </ButtonColored>
-        </template>
+        <FormAccountPasswordResetRequest
+          v-model:error="error"
+          @success="handleSuccess"
+        />
       </LayoutPage>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'success'">
-      <LayoutPage v-bind="attributes">
-        <LayoutPageResult type="success">
-          <template #description>
-            {{ t('instructionsInboxDescription') }}
-          </template>
-          <template #title>
-            {{ t('instructionsInboxHeading') }}
-          </template>
-        </LayoutPageResult>
-      </LayoutPage>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
-      <LayoutPage v-bind="attributes">
-        <LayoutPageResult type="error">
-          <span v-if="error && error.message">
-            {{ error.message }}
-          </span>
-          <template #description>
-            {{ t('globalTryAgain') }}
-          </template>
-        </LayoutPageResult>
-        <template #bottom>
-          <ButtonColored
-            :aria-label="t('backToRequest')"
-            class="w-full max-w-md"
-            variant="primary"
-            @click="restart"
-          >
-            {{ t('backToRequest') }}
-          </ButtonColored>
-        </template>
-      </LayoutPage>
-    </AppStep>
+    <FormAuthStepSuccess :is-active="step === 'success'">
+      <h2 class="text-[28px] leading-8.5 font-bold tracking-[-0.4px]">
+        {{ t('instructionsInboxHeading') }}
+      </h2>
+      <p
+        class="mt-2 text-[15px] leading-5 font-semibold text-gray-500 dark:text-gray-400"
+      >
+        {{ t('sentResetLinkTo') }}
+        <span class="font-semibold text-gray-900 dark:text-gray-100">{{
+          submittedEmail
+        }}</span>
+      </p>
+      <p
+        class="mt-2 text-[15px] leading-5 font-semibold text-gray-500 dark:text-gray-400"
+      >
+        {{ t('instructionsInboxDescription') }}
+      </p>
+    </FormAuthStepSuccess>
+    <FormAuthStepError :error="error" :is-active="step === 'error'">
+      <ButtonColored
+        :aria-label="t('backToRequest')"
+        class="w-full max-w-md"
+        variant="primary"
+        @click="restart"
+      >
+        {{ t('backToRequest') }}
+      </ButtonColored>
+    </FormAuthStepError>
   </section>
 </template>
 
 <script setup lang="ts">
 definePageMeta({
-  layout: 'default-no-header',
+  layout: 'plain',
 })
 
 // stepper
@@ -92,24 +69,36 @@ useHeadDefault({ title })
 
 // template
 const templateIdTitle = useId()
-const templateForm = useTemplateRef('form')
+
+// state
+const submittedEmail = ref('')
+
+// handlers
+const handleSuccess = (emailAddress: string) => {
+  submittedEmail.value = emailAddress
+  step.value = 'success'
+}
+
+// navigation
+const router = useRouter()
+const navigateBack = () => {
+  router.back()
+}
 </script>
 
 <i18n lang="yaml">
 de:
   backToRequest: Zurück zur Anfrage
-  iconAltClose: X-Icon
-  instructionsInboxDescription: Überprüfe dein Postfach
-  instructionsInboxHeading: Befolge die Anweisungen in der E-Mail, um das Passwort zurückzusetzen.
-  instructionsRequest: Gib deine E-Mail-Adresse ein, um dein Passwort zurückzusetzen.
-  send: Link zum Zurücksetzen senden
-  title: Passwort zurücksetzen
+  instructionsInboxDescription: Öffne den Link, um dein Passwort zurückzusetzen.
+  instructionsInboxHeading: Überprüfe dein Postfach auf einen Link zum Zurücksetzen
+  sentResetLinkTo: 'Wir haben gerade einen Link zum Zurücksetzen gesendet an '
+  subtitle: Kein Problem! Gib deine E-Mail-Adresse ein und wir senden dir einen Link zum Zurücksetzen.
+  title: Passwort vergessen?
 en:
   backToRequest: Back to Request
-  iconAltClose: X icon
-  instructionsInboxDescription: Follow the instructions in the email to reset your password.
-  instructionsInboxHeading: Check your inbox
-  instructionsRequest: Enter your email address to reset your password.
-  send: Send reset link
-  title: Reset password
+  instructionsInboxDescription: Open the link to reset your password.
+  instructionsInboxHeading: Check your inbox for a reset link
+  sentResetLinkTo: "We've just sent a reset link to "
+  subtitle: "No worries! Enter your email and we'll send you a link to reset it."
+  title: Forgot your password?
 </i18n>

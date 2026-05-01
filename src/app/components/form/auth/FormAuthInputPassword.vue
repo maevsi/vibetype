@@ -6,13 +6,22 @@
       :model-value="modelValue"
       :aria-invalid="ariaInvalid"
       :class="[
-        inputClass,
-        ariaInvalid ? 'border-red-500 bg-red-50 dark:bg-red-950' : '',
+        cn(
+          'h-13 rounded-2xl border-transparent bg-gray-100 pr-12 pl-12 text-[17px] dark:bg-gray-800',
+          { 'border-red-500': ariaInvalid },
+        ),
       ]"
       :placeholder
       @blur="emit('blur')"
       @input="emit('input', ($event.target as HTMLInputElement).value)"
     />
+    <div
+      class="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-gray-500 dark:text-gray-400"
+    >
+      <slot name="icon">
+        <IHeroiconsKey />
+      </slot>
+    </div>
     <ButtonIcon
       :aria-label="t('visibilityToggle')"
       class="absolute top-1/2 right-2 -translate-y-1/2"
@@ -25,12 +34,11 @@
 </template>
 
 <script setup lang="ts">
-import type { HTMLAttributes } from 'vue'
+import { cn } from '@/utils/shadcn'
 
 defineProps<{
   ariaInvalid?: boolean
   id?: string
-  inputClass?: HTMLAttributes['class']
   modelValue?: string
   placeholder?: string
 }>()
