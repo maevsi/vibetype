@@ -1,3 +1,9 @@
+## [15.1.0](https://github.com/maevsi/vibetype/compare/15.0.5...15.1.0) (2026-05-01)
+
+### Features
+
+* **account:** redesign authentication ([6ccc999](https://github.com/maevsi/vibetype/commit/6ccc999ec80d3fefee0e3fcb2efd61491d7e6179))
+
 ## [15.0.5](https://github.com/maevsi/vibetype/compare/15.0.4...15.0.5) (2026-04-27)
 
 ### Performance Improvements
