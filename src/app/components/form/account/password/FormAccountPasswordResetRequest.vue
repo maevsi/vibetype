@@ -1,58 +1,53 @@
 <template>
   <form
-    ref="formRef"
-    :class="classProps"
-    class="flex flex-col gap-4"
-    @submit.prevent="form.handleSubmit"
+    class="flex w-full max-w-md flex-col self-center px-3 pt-6 lg:px-6"
+    @submit.prevent="handleSubmit"
   >
     <form.Field v-slot="{ field }" name="emailAddress">
-      <Field>
-        <FieldLabel>
-          <TypographySubtitleSmall>
-            {{ t('emailAddress') }}
-          </TypographySubtitleSmall>
-        </FieldLabel>
-        <FieldContent>
-          <Input
-            type="email"
-            :model-value="field.state.value"
-            :aria-invalid="isFieldInvalid(field)"
-            @blur="field.handleBlur"
-            @input="
-              field.handleChange(($event.target as HTMLInputElement).value)
-            "
-          />
-        </FieldContent>
-        <FieldError
-          v-if="isFieldInvalid(field)"
-          :errors="field.state.meta.errors"
-        />
-      </Field>
+      <FormAuthInput
+        :aria-invalid="!!emailError"
+        :model-value="field.state.value"
+        :placeholder="t('emailAddress')"
+        type="email"
+        @blur="handleEmailBlur(field)"
+        @input="handleEmailInput(field, $event)"
+      >
+        <template #icon>
+          <IHeroiconsEnvelope />
+        </template>
+      </FormAuthInput>
+      <p v-if="emailError" class="mt-1 text-sm text-red-500 dark:text-red-400">
+        {{ emailError }}
+      </p>
     </form.Field>
+    <FormAuthButton class="mt-4" :aria-label="t('send')" type="submit">
+      {{ t('send') }}
+    </FormAuthButton>
+    <p class="mt-6 text-center text-[15px] text-gray-500 dark:text-gray-400">
+      {{ t('rememberPassword') }}
+      <NuxtLinkLocale
+        class="font-semibold text-green-600 dark:text-green-400"
+        to="session-create"
+      >
+        {{ t('signIn') }}
+      </NuxtLinkLocale>
+    </p>
   </form>
 </template>
 
 <script setup lang="ts">
 import { useForm } from '@tanstack/vue-form'
 import { z } from 'zod'
-import type { HtmlHTMLAttributes } from 'vue'
 
 import { useAccountPasswordResetRequestMutation } from '~~/gql/documents/mutations/account/accountPasswordResetRequest'
 
-const { class: classProps = undefined } = defineProps<{
-  class?: HtmlHTMLAttributes['class']
-}>()
-
 const emit = defineEmits<{
-  success: []
+  success: [emailAddress: string]
 }>()
 
 const modelError = defineModel<Error>('error')
 
 const { locale, t } = useI18n()
-const formRef = useTemplateRef<HTMLFormElement>('formRef')
-const submit = () => formRef.value?.requestSubmit()
-defineExpose({ submit })
 
 // api data
 const passwordResetRequestMutation = useAccountPasswordResetRequestMutation()
@@ -65,6 +60,41 @@ watch(
       : undefined
   },
 )
+
+// validation
+const emailTouched = ref(false)
+const emailError = ref('')
+
+const validateEmail = (value: string) => {
+  if (!value) {
+    emailError.value = t('validationEmailRequired')
+    return false
+  }
+  const result = SCHEMA_EMAIL_ADDRESS_REQUIRED.safeParse(value)
+  if (!result.success) {
+    emailError.value = t('validationEmailInvalid')
+    return false
+  }
+  emailError.value = ''
+  return true
+}
+
+const handleEmailBlur = (field: {
+  handleBlur: () => void
+  state: { value: string }
+}) => {
+  field.handleBlur()
+  emailTouched.value = true
+  validateEmail(field.state.value)
+}
+
+const handleEmailInput = (
+  field: { handleChange: (value: string) => void },
+  value: string,
+) => {
+  field.handleChange(value)
+  if (emailTouched.value) validateEmail(value)
+}
 
 // form
 const formSchema = z.object({
@@ -88,14 +118,32 @@ const form = useForm({
 
     if (!getResultData(result)) return
 
-    emit('success')
+    emit('success', value.emailAddress)
   },
 })
+
+const handleSubmit = () => {
+  emailTouched.value = true
+  const emailValue = form.getFieldValue('emailAddress')
+  const isValid = validateEmail(emailValue)
+  if (!isValid) return
+  form.handleSubmit()
+}
 </script>
 
 <i18n lang="yaml">
 de:
   emailAddress: E-Mail-Adresse
+  rememberPassword: 'Erinnerst du dich an dein Passwort? '
+  send: Link zum Zurücksetzen senden
+  signIn: Anmelden
+  validationEmailInvalid: Ungültige E-Mail-Adresse
+  validationEmailRequired: E-Mail-Adresse erforderlich
 en:
   emailAddress: Email address
+  rememberPassword: 'Remember your password? '
+  send: Send reset link
+  signIn: Sign in
+  validationEmailInvalid: Invalid email address
+  validationEmailRequired: Email address is required
 </i18n>

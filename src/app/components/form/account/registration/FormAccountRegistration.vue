@@ -1,131 +1,33 @@
 <template>
-  <div class="flex flex-col items-center gap-4">
+  <div class="flex flex-col gap-4">
     <form
       class="flex w-full flex-col gap-4"
       @submit.prevent="form.handleSubmit"
     >
-      <form.Field
-        v-slot="{ field }"
-        name="username"
-        :validators="{
-          onBlurAsync: async ({ value: val }) => {
-            if (!val) return undefined
-
-            const isAvailable = await validateUsername(true)(val)
-            return isAvailable ? undefined : t('usernameAlreadyTaken')
-          },
-          onBlurAsyncDebounceMs: 300,
-        }"
-      >
-        <Field>
-          <FieldLabel>
-            <TypographySubtitleSmall>
-              {{ t('username') }}
-            </TypographySubtitleSmall>
-          </FieldLabel>
-          <FieldContent>
-            <Input
-              type="text"
-              :model-value="field.state.value"
-              :aria-invalid="isFieldInvalid(field)"
-              @blur="field.handleBlur"
-              @input="
-                field.handleChange(($event.target as HTMLInputElement).value)
-              "
-            />
-          </FieldContent>
-          <FieldError
-            v-if="isFieldInvalid(field)"
-            :errors="normalizeFieldErrors(field.state.meta.errors)"
-          />
-        </Field>
-      </form.Field>
-      <form.Field v-slot="{ field }" name="emailAddress">
-        <Field>
-          <FieldLabel>
-            <TypographySubtitleSmall>
-              {{ t('emailAddress') }}
-            </TypographySubtitleSmall>
-          </FieldLabel>
-          <FieldContent>
-            <Input
-              type="email"
-              :model-value="field.state.value"
-              :aria-invalid="isFieldInvalid(field)"
-              @blur="field.handleBlur"
-              @input="
-                field.handleChange(($event.target as HTMLInputElement).value)
-              "
-            />
-          </FieldContent>
-          <FieldError
-            v-if="isFieldInvalid(field)"
-            :errors="field.state.meta.errors"
-          />
-        </Field>
-      </form.Field>
-      <form.Field v-slot="{ field }" name="password">
-        <Field>
-          <FieldLabel>
-            <TypographySubtitleSmall>
-              {{ t('password') }}
-            </TypographySubtitleSmall>
-          </FieldLabel>
-          <FieldContent>
-            <FormInputPassword
-              :aria-invalid="isFieldInvalid(field)"
-              :model-value="field.state.value"
-              @blur="field.handleBlur"
-              @input="field.handleChange($event)"
-            />
-            <Progress
-              :model-value="calculatePasswordStrength(field.state.value)"
-              class="my-2"
-            />
-          </FieldContent>
-          <FieldError
-            v-if="isFieldInvalid(field)"
-            :errors="field.state.meta.errors"
-          />
-        </Field>
-      </form.Field>
-      <form.Field v-slot="{ field }" name="passwordRepetition">
-        <Field>
-          <FieldLabel>
-            <TypographySubtitleSmall>
-              {{ t('passwordRepetition') }}
-            </TypographySubtitleSmall>
-          </FieldLabel>
-          <FieldContent>
-            <FormInputPassword
-              :aria-invalid="isFieldInvalid(field)"
-              :model-value="field.state.value"
-              @blur="field.handleBlur"
-              @input="field.handleChange($event)"
-            />
-          </FieldContent>
-          <FieldError
-            v-if="isFieldInvalid(field)"
-            :errors="field.state.meta.errors"
-          />
-        </Field>
-      </form.Field>
+      <FormAuthPasswordPair
+        :password-error="passwordValidation.error.value"
+        :password-placeholder="t('password')"
+        :password-strength="
+          calculatePasswordStrength(form.getFieldValue('password'))
+        "
+        :password-value="form.getFieldValue('password')"
+        :repetition-error="passwordRepetitionValidation.error.value"
+        :repetition-placeholder="t('passwordRepetition')"
+        :repetition-value="form.getFieldValue('passwordRepetition')"
+        show-strength
+        @password-blur="handlePasswordBlur"
+        @repetition-blur="handlePasswordRepetitionBlur"
+        @update:password-value="handlePasswordInput"
+        @update:repetition-value="handlePasswordRepetitionInput"
+      />
       <FormFieldCaptcha v-model:captcha-is-used="captchaIsUsed" :form />
-      <ButtonColored :aria-label="t('register')" class="w-full" type="submit">
+      <FormAuthButton :aria-label="t('register')" type="submit">
         {{ t('register') }}
-      </ButtonColored>
+      </FormAuthButton>
       <p class="text-sm text-gray-500 dark:text-gray-400">
         {{ t('accountDeletionNotice') }}
       </p>
     </form>
-    <ButtonColored
-      :aria-label="t('signIn')"
-      class="w-full"
-      :to="localePath('session-create')"
-      variant="tertiary"
-    >
-      {{ t('signIn') }}
-    </ButtonColored>
   </div>
 </template>
 
@@ -137,25 +39,70 @@ const emit = defineEmits<{
   submit: [
     values: {
       captcha: string
-      emailAddress: string
       password: string
-      username: string
     },
   ]
 }>()
 
 const { t } = useI18n()
-const localePath = useLocalePath()
 const captchaIsUsed = defineModel<boolean>('captcha-is-used')
+
+const passwordMessages = computed(() => ({
+  minimumLength: t('passwordMinLength'),
+  passwordMismatch: t('passwordMismatch'),
+  specialCharacter: t('passwordSpecialChar'),
+  uppercase: t('passwordUppercase'),
+}))
+
+const passwordValidation = useAuthFieldValidation({
+  validator: (value: string) =>
+    getStrongPasswordError({
+      messages: passwordMessages.value,
+      password: value,
+    }),
+})
+
+const passwordRepetitionValidation = useAuthFieldValidation({
+  validator: (value: string) =>
+    getPasswordConfirmationError({
+      messages: passwordMessages.value,
+      password: form.getFieldValue('password'),
+      repetition: value,
+    }),
+})
+
+const handlePasswordBlur = async () => {
+  await passwordValidation.handleBlur(form.getFieldValue('password'))
+}
+
+const handlePasswordInput = async (value: string) => {
+  form.setFieldValue('password', value)
+  await passwordValidation.handleInput(value)
+
+  if (passwordRepetitionValidation.touched.value) {
+    await passwordRepetitionValidation.validate(
+      form.getFieldValue('passwordRepetition'),
+    )
+  }
+}
+
+const handlePasswordRepetitionBlur = async () => {
+  await passwordRepetitionValidation.handleBlur(
+    form.getFieldValue('passwordRepetition'),
+  )
+}
+
+const handlePasswordRepetitionInput = async (value: string) => {
+  form.setFieldValue('passwordRepetition', value)
+  await passwordRepetitionValidation.handleInput(value)
+}
 
 // form
 const formSchema = z
   .object({
     captcha: SCHEMA_CAPTCHA,
-    emailAddress: SCHEMA_EMAIL_ADDRESS_REQUIRED,
-    password: SCHEMA_PASSWORD,
+    password: SCHEMA_PASSWORD_V2,
     passwordRepetition: z.string().min(1),
-    username: SCHEMA_USERNAME_REQUIRED,
   })
   .refine((data) => data.password === data.passwordRepetition, {
     message: t('passwordMismatch'),
@@ -165,10 +112,8 @@ const formSchema = z
 const form = useForm({
   defaultValues: {
     captcha: '',
-    emailAddress: '',
     password: '',
     passwordRepetition: '',
-    username: '',
   },
   validators: {
     onSubmit: formSchema,
@@ -176,9 +121,7 @@ const form = useForm({
   onSubmit: async ({ value }) => {
     emit('submit', {
       captcha: value.captcha,
-      emailAddress: value.emailAddress,
       password: value.password,
-      username: value.username,
     })
   },
 })
@@ -187,22 +130,20 @@ const form = useForm({
 <i18n lang="yaml">
 de:
   accountDeletionNotice: Du wirst deinen Account jederzeit löschen können.
-  emailAddress: E-Mail-Adresse
   password: Passwort
+  passwordMinLength: Mindestens 12 Zeichen erforderlich
   passwordMismatch: Die Passwörter stimmen nicht überein
   passwordRepetition: Passwort bestätigen
-  register: Registrieren
-  signIn: 'Du hast bereits ein Konto? Anmelden'
-  username: Nutzername
-  usernameAlreadyTaken: Dieser Nutzername ist bereits vergeben
+  passwordSpecialChar: Mindestens 1 Sonderzeichen erforderlich
+  passwordUppercase: Mindestens 1 Großbuchstabe erforderlich
+  register: Passwort speichern
 en:
   accountDeletionNotice: "You'll be able to delete your account at any time."
-  emailAddress: Email address
   password: Password
+  passwordMinLength: At least 12 characters required
   passwordMismatch: The passwords do not match
   passwordRepetition: Confirm password
-  register: Sign Up
-  signIn: Already have an account? Log in
-  username: Username
-  usernameAlreadyTaken: This username is already taken
+  passwordSpecialChar: At least 1 special character required
+  passwordUppercase: At least 1 uppercase letter required
+  register: Save password
 </i18n>

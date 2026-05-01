@@ -1,58 +1,46 @@
 <template>
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
-    <LayoutTopBar>
-      <span :id="templateIdTitle">
-        {{ title }}
-      </span>
-    </LayoutTopBar>
-    <CardStateSuccess v-if="verified" class="rounded-none">
+    <FormAuthPageHeader :title-id="templateIdTitle" @back="navigateBack">
+      <template #title>
+        {{ t('welcomeBack') }}<br />{{ t('goodToSeeYou') }}
+      </template>
+      <template #subtitle>{{ t('subtitle') }}</template>
+    </FormAuthPageHeader>
+    <CardStateSuccess v-if="verified" class="mt-4 rounded-none">
       <TypographySubtitleMedium>
         {{ t('accountVerified') }}
       </TypographySubtitleMedium>
     </CardStateSuccess>
-    <CardStateInfo v-if="to" class="rounded-none">
+    <CardStateInfo v-if="to" class="mt-4 rounded-none">
       {{ t('accountRequired') }}
     </CardStateInfo>
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <FormSessionCreate v-model:error="error" @signed-in="onSignIn" />
-        <ContentLegalFooter />
       </LayoutPage>
     </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
-      <LayoutPage v-bind="attributes">
-        <LayoutPageResult type="error">
-          <span v-if="error && error.message">
-            {{ error.message }}
-          </span>
-          <template #description>
-            {{ t('globalTryAgain') }}
-          </template>
-        </LayoutPageResult>
-        <template #bottom>
-          <ButtonColored
-            :aria-label="t('contactSupport')"
-            class="w-full max-w-md"
-            :to="
-              localePath({
-                name: 'support-contact',
-              })
-            "
-            variant="secondary"
-          >
-            {{ t('contactSupport') }}
-          </ButtonColored>
-          <ButtonColored
-            :aria-label="t('backToLogin')"
-            class="w-full max-w-md"
-            variant="primary"
-            @click="restart"
-          >
-            {{ t('backToLogin') }}
-          </ButtonColored>
-        </template>
-      </LayoutPage>
-    </AppStep>
+    <FormAuthStepError :error="error" :is-active="step === 'error'">
+      <ButtonColored
+        :aria-label="t('contactSupport')"
+        class="w-full max-w-md"
+        :to="
+          localePath({
+            name: 'support-contact',
+          })
+        "
+        variant="secondary"
+      >
+        {{ t('contactSupport') }}
+      </ButtonColored>
+      <ButtonColored
+        :aria-label="t('backToLogin')"
+        class="w-full max-w-md"
+        variant="primary"
+        @click="restart"
+      >
+        {{ t('backToLogin') }}
+      </ButtonColored>
+    </FormAuthStepError>
   </section>
 </template>
 
@@ -66,6 +54,12 @@ const { t } = useI18n()
 
 // template
 const templateIdTitle = useId()
+
+// navigation
+const router = useRouter()
+const navigateBack = () => {
+  router.back()
+}
 
 // sign in
 const localePath = useLocalePath()
@@ -115,12 +109,18 @@ de:
   backToLogin: Zurück zur Anmeldung
   contactSupport: Support kontaktieren
   errorTitle: Anmeldefehler
+  goodToSeeYou: Schön, dich zu sehen!
+  subtitle: Melde dich einfach mit deinen Zugangsdaten an.
   title: Einloggen
+  welcomeBack: Willkommen zurück!
 en:
   accountRequired: Log in to continue.
   accountVerified: Email address verified.
   backToLogin: Back to Login
   contactSupport: Contact support
   errorTitle: Login Error
+  goodToSeeYou: Good to see you!
+  subtitle: "Let's pick up where the vibe left off. Just type in your credentials."
   title: Log in
+  welcomeBack: Welcome back!
 </i18n>

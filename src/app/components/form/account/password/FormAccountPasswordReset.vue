@@ -1,34 +1,23 @@
 <template>
   <form
-    ref="formRef"
-    class="flex flex-col gap-4"
-    @submit.prevent="form.handleSubmit"
+    class="flex w-full max-w-md flex-col self-center px-3 pt-6 lg:px-6"
+    @submit.prevent="handleSubmit"
   >
-    <form.Field v-slot="{ field }" name="password">
-      <Field>
-        <FieldLabel>
-          <TypographySubtitleSmall>
-            {{ t('passwordNew') }}
-          </TypographySubtitleSmall>
-        </FieldLabel>
-        <FieldContent>
-          <FormInputPassword
-            :aria-invalid="isFieldInvalid(field)"
-            :model-value="field.state.value"
-            @blur="field.handleBlur"
-            @input="field.handleChange($event)"
-          />
-          <Progress
-            :model-value="calculatePasswordStrength(field.state.value)"
-            class="my-2"
-          />
-        </FieldContent>
-        <FieldError
-          v-if="isFieldInvalid(field)"
-          :errors="field.state.meta.errors"
-        />
-      </Field>
-    </form.Field>
+    <FormAuthPasswordPair
+      :password-error="passwordValidation.error.value"
+      :password-placeholder="t('passwordNew')"
+      :password-value="form.getFieldValue('password')"
+      :repetition-error="passwordConfirmationValidation.error.value"
+      :repetition-placeholder="t('passwordConfirm')"
+      :repetition-value="form.getFieldValue('passwordConfirm')"
+      @password-blur="handlePasswordBlur"
+      @repetition-blur="handlePasswordConfirmationBlur"
+      @update:password-value="handlePasswordInput"
+      @update:repetition-value="handlePasswordConfirmationInput"
+    />
+    <FormAuthButton class="mt-4" :aria-label="t('save')" type="submit">
+      {{ t('save') }}
+    </FormAuthButton>
   </form>
 </template>
 
@@ -48,9 +37,6 @@ const emit = defineEmits<{
 const modelError = defineModel<Error>('error')
 
 const { t } = useI18n()
-const formRef = useTemplateRef<HTMLFormElement>('formRef')
-const submit = () => formRef.value?.requestSubmit()
-defineExpose({ submit })
 
 // api data
 const passwordResetMutation = useAccountPasswordResetMutation()
@@ -70,14 +56,67 @@ watch(
   },
 )
 
+// validation
+const passwordMessages = computed(() => ({
+  minimumLength: t('passwordMinLength'),
+  passwordMismatch: t('passwordMismatch'),
+  specialCharacter: t('passwordSpecialChar'),
+  uppercase: t('passwordUppercase'),
+}))
+
+const passwordValidation = useAuthFieldValidation({
+  validator: (value: string) =>
+    getStrongPasswordError({
+      messages: passwordMessages.value,
+      password: value,
+    }),
+})
+
+const passwordConfirmationValidation = useAuthFieldValidation({
+  validator: (value: string) =>
+    getPasswordConfirmationError({
+      messages: passwordMessages.value,
+      password: form.getFieldValue('password'),
+      repetition: value,
+    }),
+})
+
+const handlePasswordBlur = async () => {
+  await passwordValidation.handleBlur(form.getFieldValue('password'))
+}
+
+const handlePasswordInput = async (value: string) => {
+  form.setFieldValue('password', value)
+  await passwordValidation.handleInput(value)
+
+  if (passwordConfirmationValidation.touched.value) {
+    await passwordConfirmationValidation.validate(
+      form.getFieldValue('passwordConfirm'),
+    )
+  }
+}
+
+const handlePasswordConfirmationBlur = async () => {
+  await passwordConfirmationValidation.handleBlur(
+    form.getFieldValue('passwordConfirm'),
+  )
+}
+
+const handlePasswordConfirmationInput = async (value: string) => {
+  form.setFieldValue('passwordConfirm', value)
+  await passwordConfirmationValidation.handleInput(value)
+}
+
 // form
 const formSchema = z.object({
-  password: SCHEMA_PASSWORD,
+  password: SCHEMA_PASSWORD_V2,
+  passwordConfirm: z.string(),
 })
 
 const form = useForm({
   defaultValues: {
     password: '',
+    passwordConfirm: '',
   },
   validators: {
     onSubmit: formSchema,
@@ -95,17 +134,45 @@ const form = useForm({
     emit('success')
   },
 })
+
+const handleSubmit = async () => {
+  passwordValidation.touched.value = true
+  passwordConfirmationValidation.touched.value = true
+
+  const isPasswordValid = await passwordValidation.validate(
+    form.getFieldValue('password'),
+  )
+  const isConfirmationValid = await passwordConfirmationValidation.validate(
+    form.getFieldValue('passwordConfirm'),
+  )
+
+  if (!isPasswordValid || !isConfirmationValid) return
+
+  form.handleSubmit()
+}
 </script>
 
 <i18n lang="yaml">
 de:
-  passwordNew: Gib dein neues Passwort ein
+  passwordConfirm: Neues Passwort bestätigen
+  passwordMinLength: Mindestens 12 Zeichen erforderlich
+  passwordMismatch: Passwörter stimmen nicht überein
+  passwordNew: Neues Passwort eingeben
+  passwordSpecialChar: Mindestens 1 Sonderzeichen erforderlich
+  passwordUppercase: Mindestens 1 Großbuchstabe erforderlich
   postgres22023: Das Passwort ist zu kurz! Überlege dir ein längeres.
   postgresP0002: Unbekannter Zurücksetzungslink! Hast du dein Passwort vielleicht schon zurückgesetzt?
   postgres55000: Der Zurücksetzungslink ist abgelaufen!
+  save: Neues Passwort speichern
 en:
+  passwordConfirm: Confirm new password
+  passwordMinLength: Minimum 12 characters required
+  passwordMismatch: Passwords do not match
   passwordNew: Enter new password
+  passwordSpecialChar: At least 1 special character required
+  passwordUppercase: At least 1 uppercase letter required
   postgres22023: This password is too short! Think of a longer one.
   postgresP0002: Invalid reset link! Have you perhaps already reset your password?
   postgres55000: Your reset link has expired!
+  save: Save new password
 </i18n>

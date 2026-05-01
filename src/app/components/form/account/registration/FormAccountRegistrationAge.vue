@@ -4,7 +4,11 @@
     class="flex flex-col gap-4"
     @submit.prevent="form.handleSubmit"
   >
-    <form.Field v-slot="{ field }" name="birthDate">
+    <form.Field
+      v-slot="{ field }"
+      name="birthDate"
+      :validators="{ onChange: formSchema.shape.birthDate }"
+    >
       <Field class="flex flex-col">
         <FieldLabel>{{ t('label') }}</FieldLabel>
         <FieldContent>
@@ -83,9 +87,10 @@ const formRef = useTemplateRef<HTMLFormElement>('formRef')
 const formSchema = z.object({
   birthDate: z
     .string()
-    .min(1)
+    .min(1, t('dateRequired'))
     .refine(
       (value) => {
+        if (!value) return true
         const birthDate = parseDate(value)
         const todayDate = today(getLocalTimeZone())
         const targetDate = todayDate.subtract({ years: 18 })
@@ -122,9 +127,11 @@ const placeholder = ref()
 
 <i18n lang="yaml">
 de:
+  dateRequired: Bitte wähle ein Datum
   label: Geburtsdatum
   placeholder: Wähle ein Datum
 en:
+  dateRequired: Please select a date
   label: Date of birth
   placeholder: Pick a date
 </i18n>
