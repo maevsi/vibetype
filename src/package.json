@@ -89,7 +89,7 @@
     "firebase-admin": "13.8.0",
     "graphql": "16.13.2",
     "h3": "1.15.6",
-    "html-to-text": "9.0.5",
+    "html-to-text": "10.0.0",
     "ical-generator": "10.2.0",
     "isomorphic-dompurify": "3.10.0",
     "jose": "6.2.3",
