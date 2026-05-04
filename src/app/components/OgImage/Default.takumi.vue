@@ -1,7 +1,7 @@
 <template>
   <div
     class="flex flex-col bg-white px-16 py-8 text-gray-900"
-    style="font-family: Raleway, sans-serif"
+    style="font-family: 'Raleway Variable', sans-serif"
   >
     <div class="flex flex-1 items-center">
       <div class="flex flex-col gap-32">

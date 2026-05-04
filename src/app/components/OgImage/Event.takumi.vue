@@ -1,7 +1,7 @@
 <template>
   <div
     class="relative isolate bg-[linear-gradient(to_bottom,#dbf4ff,#fff1f1)] px-16 py-8"
-    style="font-family: Raleway, sans-serif"
+    style="font-family: 'Raleway Variable', sans-serif"
   >
     <img
       alt="Event image."
