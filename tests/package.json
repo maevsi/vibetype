@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@axe-core/playwright": "4.11.2",
+    "@axe-core/playwright": "4.11.3",
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.59.1",
     "@types/node": "25.6.0",
@@ -11,7 +11,7 @@
     "eslint-plugin-prettier": "5.5.5",
     "typescript": "6.0.3",
     "typescript-eslint": "8.59.1",
-    "ufo": "1.6.3",
+    "ufo": "1.6.4",
     "vitest": "4.1.5"
   },
   "engines": {
