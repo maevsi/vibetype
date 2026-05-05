@@ -177,6 +177,7 @@ export default defineNuxtConfig({
         '@intlify/shared',
         '@lucide/vue',
         '@sentry/nuxt',
+        '@tanstack/vue-form',
         '@tiptap/extension-text-align',
         '@tiptap/starter-kit',
         '@tiptap/vue-3',
