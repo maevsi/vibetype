@@ -20,13 +20,14 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   fonts: {
     families: [
       {
-        formats: ['ttf'],
         global: true,
-        name: 'Raleway',
-        provider: 'fontsource',
-        weights: [400, 700],
+        name: 'Raleway Variable',
+        provider: 'npm',
       },
     ],
+    npm: {
+      remote: false,
+    },
   },
   gtag: {
     config: {
