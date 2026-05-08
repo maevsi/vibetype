@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, expect, test, vi } from 'vitest'
 
 import { getIcalString } from '#src/server/utils/ical'
-import { EventVisibility } from '~/gql/generated/graphql'
+import { EventVisibility } from '~/gql/generated/graphcache'
 
 beforeEach(() => {
   vi.useFakeTimers()
@@ -20,7 +20,7 @@ test('gets ical string', () => {
           username: 'authorUsername',
         },
         description: '<p>description</p>',
-        end: new Date(),
+        end: new Date().toISOString(),
         // guestCountMaximum: 0,
         // isArchived: false,
         // isInPerson: false,
@@ -29,7 +29,7 @@ test('gets ical string', () => {
         name: 'name',
         rowId: '1',
         slug: 'slug',
-        start: new Date(),
+        start: new Date().toISOString(),
         visibility: EventVisibility.Private,
       },
       siteUrl: 'https://app.test',

@@ -327,8 +327,13 @@ const legalTermId = computed(() => {
 const { csrf } = useCsrf()
 
 const submit = async () => {
+  if (!birthDate.value) {
+    error.value = new Error(t('birthDateUnavailable'))
+    return
+  }
+
   if (!passwordData.value) {
-    error.value = new Error(t('globalTryAgain'))
+    error.value = new Error(t('passwordUnavailable'))
     return
   }
 
@@ -445,6 +450,7 @@ de:
   alreadyHaveAccount: 'Du hast bereits ein Konto?'
   and: ' und '
   backToRegistration: Zurück zur Registrierung
+  birthDateUnavailable: Das Geburtsdatum ist nicht verfügbar. Bitte versuche es erneut.
   confirmAge: Alter bestätigen
   continue: Weiter
   emailInvalid: Bitte gib eine gültige E-Mail-Adresse ein
@@ -453,6 +459,7 @@ de:
   imprint: Impressum
   legalComma: ', '
   legalTermsUnavailable: Die rechtlichen Bedingungen konnten nicht geladen werden. Bitte versuche es später erneut.
+  passwordUnavailable: Das Passwort ist nicht verfügbar. Bitte versuche es erneut.
   postgresVTAUV: Es gibt bereits einen Account mit diesem Nutzernamen! Überlege dir einen neuen Namen oder versuche dich anzumelden.
   postgresVTBDA: Du musst mindestens 18 Jahre alt sein, um dich zu registrieren.
   postgresVTPLL: Das Passwort ist zu kurz! Überlege dir ein längeres.
@@ -483,6 +490,7 @@ en:
   alreadyHaveAccount: 'Already have an account?'
   and: ' and '
   backToRegistration: Back to Registration
+  birthDateUnavailable: Birth date is unavailable. Please try again.
   confirmAge: Confirm age
   continue: Continue
   emailInvalid: Please enter a valid email address
@@ -491,6 +499,7 @@ en:
   imprint: Imprint
   legalComma: ', '
   legalTermsUnavailable: We could not load the legal terms. Please try again later.
+  passwordUnavailable: Password is unavailable. Please try again.
   postgresVTAUV: This username is already in use! Think of a new name or try signing in instead.
   postgresVTBDA: You must be at least 18 years old to register.
   postgresVTPLL: Your password is too short! Think of a longer one.

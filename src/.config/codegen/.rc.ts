@@ -11,7 +11,11 @@ export const codegenConfigBase: CodegenConfig = {
   config: {
     useTypeImports: true,
     scalars: {
+      BigInt: 'number',
       Cursor: 'string',
+      Date: 'string',
+      Datetime: 'string',
+      GeoJSON: 'unknown', // TODO: import `@types/geojson`
       Jwt: 'string',
       UUID: 'string',
     },

@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { EventVisibility } from '~~/gql/generated/graphql'
+import { EventVisibility } from '~~/gql/generated/graphcache'
 
 const { isArchived, visibility } = defineProps<{
   isArchived?: boolean
