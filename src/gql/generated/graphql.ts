@@ -7,6 +7,7 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never
     }
+import type { GeoJSON } from 'geojson'
 import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core'
 /** An input for mutations affecting `AccountBlock` */
 export type AccountBlockInput = {

@@ -23,6 +23,13 @@ export const codegenConfigBase: CodegenConfig = {
   },
   generates: {
     './gql/generated/': {
+      plugins: [
+        {
+          add: {
+            content: `import type { GeoJSON } from 'geojson'`,
+          },
+        },
+      ],
       preset: 'client',
     },
     'gql/generated/graphcache.ts': {
