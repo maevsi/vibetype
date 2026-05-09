@@ -15,8 +15,9 @@ export const codegenConfigBase: CodegenConfig = {
       Cursor: 'string',
       Date: 'string',
       Datetime: 'string',
-      GeoJSON: 'unknown', // TODO: import `@types/geojson`
+      GeoJSON: 'GeoJSON',
       Jwt: 'string',
+      RegConfig: 'unknown', // explicitly set to `unknown` as this should not be used directly in client code
       UUID: 'string',
     },
   },
@@ -28,7 +29,7 @@ export const codegenConfigBase: CodegenConfig = {
       plugins: [
         {
           add: {
-            content: `/* eslint-disable @typescript-eslint/no-empty-object-type */\n/* eslint-disable @typescript-eslint/no-explicit-any */\n/* eslint-disable import/no-duplicates */`,
+            content: `/* eslint-disable @typescript-eslint/no-explicit-any */\nimport type { GeoJSON } from 'geojson'`,
           },
         },
         'typescript',

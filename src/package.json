@@ -50,6 +50,7 @@
     "@tiptap/starter-kit": "3.22.5",
     "@tiptap/vue-3": "3.22.5",
     "@types/downloadjs": "1.4.6",
+    "@types/geojson": "7946.0.16",
     "@types/html-to-text": "9.0.4",
     "@types/leaflet": "1.9.21",
     "@types/lodash-es": "4.17.12",

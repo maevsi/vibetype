@@ -634,7 +634,7 @@ export type PreferenceEventLocationInput = {
   /** Reference to the account that created the location preference. */
   createdBy: string
   /** Geographical point representing the preferred location, derived from latitude and longitude. */
-  location: unknown
+  location: GeoJSON
   /** Search radius in meters around the location where events are preferred. Must be positive. */
   radius: number
 }

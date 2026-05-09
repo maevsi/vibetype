@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
+import type { GeoJSON } from 'geojson'
 import type {
   cacheExchange,
   Resolver as GraphCacheResolver,
@@ -20,7 +20,7 @@ export type Scalars = {
   Cursor: { input: string; output: string }
   Date: { input: string; output: string }
   Datetime: { input: string; output: string }
-  GeoJSON: { input: unknown; output: unknown }
+  GeoJSON: { input: GeoJSON; output: GeoJSON }
   Jwt: { input: string; output: string }
   RegConfig: { input: unknown; output: unknown }
   UUID: { input: string; output: string }
