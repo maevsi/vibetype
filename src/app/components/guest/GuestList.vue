@@ -97,7 +97,7 @@ import {
 import { Doughnut } from 'vue-chartjs'
 
 import { useAllGuestsQuery } from '~~/gql/documents/queries/guest/guestsAll'
-import { InvitationFeedback } from '~~/gql/generated/graphql'
+import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 import { getGuestItem } from '~~/gql/documents/fragments/guestItem'
 

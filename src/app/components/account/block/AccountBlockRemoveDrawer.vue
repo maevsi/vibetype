@@ -98,7 +98,7 @@
 import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
-import type { AccountBlockAccountsRecord } from '~~/gql/generated/graphql'
+import type { AccountBlockAccountsRecord } from '~~/gql/generated/graphcache'
 
 // compiler
 const { account } = defineProps<{

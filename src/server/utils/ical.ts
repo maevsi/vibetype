@@ -7,7 +7,7 @@ import ical, {
 import mustache from 'mustache'
 
 import { getTextFromHtml } from '../../shared/utils/text' // TODO: replace this with an e2e test (https://playwright.dev/docs/clock)
-import { EventVisibility } from '../../gql/generated/graphql'
+import { EventVisibility } from '../../gql/generated/graphcache'
 import type {
   ContactItemFragment,
   EventItemFragment,
@@ -32,10 +32,10 @@ export const getIcalString = ({
     // | 'addressByAddressId' // TODO: update for address
     'description' | 'end' | 'name' | 'rowId' | 'slug' | 'start' | 'visibility'
   > & {
-    accountByCreatedBy?: Omit<
+    accountByCreatedBy: Omit<
       NonNullable<EventItemFragment['accountByCreatedBy']>,
       'id' | 'rowId'
-    > | null
+    >
   }
   guest?: Pick<GuestItemFragment, 'rowId'>
   siteUrl: string

@@ -17,12 +17,6 @@ import { ref } from 'vue'
 
 import type { FragmentType } from '~~/gql/generated'
 import type { GraphCacheConfig, Maybe } from '~~/gql/generated/graphcache'
-import type {
-  CreateEventFavoriteMutation,
-  DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation,
-  DeletePreferenceEventFormatByAccountIdAndFormatIdMutation,
-  DeletePreferenceEventLocationByRowIdMutation,
-} from '~~/gql/generated/graphql'
 import schema from '~~/gql/generated/introspection'
 import { allPreferenceEventCategoriesQuery } from '~~/gql/documents/queries/preference/preferenceEventCategoriesAll'
 import { allPreferenceEventFormatsQuery } from '~~/gql/documents/queries/preference/preferenceEventFormatsAll'
@@ -186,7 +180,7 @@ export const getUrqlClient = async ({
       PreferenceEventCategory: (data) => data.id ?? null, // TODO: remove
       PreferenceEventFormat: (data) => data.id ?? null, // TODO: remove
       PreferenceEventSize: (data) => data.id ?? null, // TODO: remove
-      GeographyPoint: (_data) => null,
+      // GeographyPoint: (_data) => null,
     },
     schema,
     resolvers: {
@@ -205,12 +199,7 @@ export const getUrqlClient = async ({
           invalidateCache(cache, 'allContacts'),
         createGuest: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allGuests'),
-        createEventFavorite: (
-          result: CreateEventFavoriteMutation,
-          _args,
-          cache,
-          _info,
-        ) => {
+        createEventFavorite: (result, _args, cache, _info) => {
           const newNode = result.createEventFavorite?.eventFavorite
           if (!newNode || !newNode.__typename) return
 
@@ -263,7 +252,7 @@ export const getUrqlClient = async ({
         deleteGuestByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Guest', args),
         deletePreferenceEventCategoryByAccountIdAndCategoryId: (
-          result: DeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation,
+          result,
           _args,
           cache,
           _info,
@@ -279,7 +268,7 @@ export const getUrqlClient = async ({
             result,
           }),
         deletePreferenceEventFormatByAccountIdAndFormatId: (
-          result: DeletePreferenceEventFormatByAccountIdAndFormatIdMutation,
+          result,
           _args,
           cache,
           _info,
@@ -294,12 +283,7 @@ export const getUrqlClient = async ({
             query: allPreferenceEventFormatsQuery,
             result,
           }),
-        deletePreferenceEventLocationByRowId: (
-          result: DeletePreferenceEventLocationByRowIdMutation,
-          _args,
-          cache,
-          _info,
-        ) =>
+        deletePreferenceEventLocationByRowId: (result, _args, cache, _info) =>
           cacheListRemove({
             cache,
             getItemDeletedId: (result) =>

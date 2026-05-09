@@ -54,7 +54,7 @@
 <script setup lang="ts">
 import type {
   ContactItemFragment,
-  InvitationFeedback,
+  GuestItemFragment,
 } from '~~/gql/generated/graphql'
 
 const {
@@ -62,17 +62,20 @@ const {
   feedback = undefined,
   isUsernameLinked = true,
 } = defineProps<{
-  contact: Pick<
-    ContactItemFragment,
-    | 'accountId'
-    | 'accountByAccountId'
-    | 'accountByCreatedBy'
-    | 'emailAddress'
-    | 'emailAddressHash'
-    | 'firstName'
-    | 'lastName'
+  contact: MakeOptional<
+    Pick<
+      ContactItemFragment,
+      | 'accountId'
+      | 'accountByAccountId'
+      | 'accountByCreatedBy'
+      | 'emailAddress'
+      | 'emailAddressHash'
+      | 'firstName'
+      | 'lastName'
+    >,
+    'accountId' | 'accountByCreatedBy' | 'emailAddress' | 'emailAddressHash'
   >
-  feedback?: InvitationFeedback | null
+  feedback?: GuestItemFragment['feedback']
   isUsernameLinked?: boolean
 }>()
 

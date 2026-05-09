@@ -51,13 +51,11 @@ import { useQuery } from '@urql/vue'
 import { useForm } from '@tanstack/vue-form'
 import { z } from 'zod'
 
-import {
-  EventSize,
-  type AllPreferenceEventSizesQueryVariables,
-} from '~~/gql/generated/graphql'
+import type { AllPreferenceEventSizesQueryVariables } from '~~/gql/generated/graphql'
 import { useCreatePreferenceEventSizeMutation } from '~~/gql/documents/mutations/preference/preferenceEventSizeCreate'
 import { useDeletePreferenceEventSizeByAccountIdAndEventSizeMutation } from '~~/gql/documents/mutations/preference/preferenceEventSizeDeleteByAccountIdAndEventSize'
 import { graphql } from '~~/gql/generated'
+import { EventSize } from '~~/gql/generated/graphcache'
 
 const emit = defineEmits<{
   submit: []
@@ -131,7 +129,7 @@ const formSchema = z.object({
 const store = useStore()
 const form = useForm({
   defaultValues: {
-    items: initialSelectedItems as EventSize[],
+    items: initialSelectedItems,
   },
   validators: {
     onSubmit: formSchema,

@@ -294,7 +294,7 @@ import prntr from 'prntr'
 import QrcodeVue from 'qrcode.vue'
 
 import { useUpdateGuestByRowIdMutation } from '~~/gql/documents/mutations/guest/guestUpdateByRowId'
-import { InvitationFeedback } from '~~/gql/generated/graphql'
+import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import type { GuestPatch } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
 

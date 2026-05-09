@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
+import type { GeoJSON } from 'geojson'
 import type {
   cacheExchange,
   Resolver as GraphCacheResolver,
@@ -9,24 +9,6 @@ import type {
 
 export type Maybe<T> = T | null
 export type InputMaybe<T> = Maybe<T>
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K]
-}
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>
-}
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>
-}
-export type MakeEmpty<
-  T extends { [key: string]: unknown },
-  K extends keyof T,
-> = { [_ in K]?: never }
-export type Incremental<T> =
-  | T
-  | {
-      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never
-    }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string }
@@ -34,13 +16,13 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean }
   Int: { input: number; output: number }
   Float: { input: number; output: number }
-  BigInt: { input: any; output: any }
+  BigInt: { input: number; output: number }
   Cursor: { input: string; output: string }
-  Date: { input: any; output: any }
-  Datetime: { input: any; output: any }
-  GeoJSON: { input: any; output: any }
+  Date: { input: string; output: string }
+  Datetime: { input: string; output: string }
+  GeoJSON: { input: GeoJSON; output: GeoJSON }
   Jwt: { input: string; output: string }
-  RegConfig: { input: any; output: any }
+  RegConfig: { input: unknown; output: unknown }
   UUID: { input: string; output: string }
 }
 
