@@ -204,9 +204,12 @@ RUN pnpm --dir tests run test:e2e:server:node
 
 FROM base-image AS collect
 
-COPY --from=build-node --chown=node /srv/app/src/.output ./.output
-COPY --from=build-node --chown=node /srv/app/src/node/server/node.mjs ./node/server/node.mjs
-COPY --from=build-node --chown=node /srv/app/src/package.json ./package.json
+RUN chown node:node .
+
+COPY --from=build-node --chown=node /srv/app/src/.output ./src/.output
+COPY --from=build-node --chown=node /srv/app/src/node/server/node.mjs ./src/node/server/node.mjs
+COPY --from=build-node --chown=node /srv/app/src/package.json ./src/package.json
+COPY --from=build-node --chown=node /srv/app/package.json ./package.json
 COPY --from=build-node --chown=node /srv/app/docker-entrypoint.sh ./docker-entrypoint.sh
 # COPY --from=build-static /srv/app/package.json /dev/null
 COPY --from=lint /srv/app/package.json /dev/null
