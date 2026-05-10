@@ -5,7 +5,9 @@ export default defineNuxtModule({
   meta: {
     name: 'security',
   },
-  async setup(_moduleOptions, nuxt) {
+  setup(_moduleOptions, nuxt) {
+    if (typeof nuxt.options.security == 'boolean') return
+
     const nuxtConfigSecurityHeaders = nuxt.options.security.headers
 
     if (
