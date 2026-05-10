@@ -1,22 +1,22 @@
 import { z } from 'zod'
 
-import { EventVisibility } from '~~/gql/generated/graphql'
+import { EventVisibility } from '~~/gql/generated/graphcache'
 import { SITE_URL } from '~~/node/static'
 
 const icalPostBodySchema = z.object({
   contact: z
     .object({
-      firstName: z.string().optional().nullable(),
-      lastName: z.string().optional().nullable(),
+      firstName: z.string().nullable(),
+      lastName: z.string().nullable(),
     })
     .optional(),
   event: z.object({
     accountByCreatedBy: z.object({
       username: z.string(),
     }),
-    description: z.string().optional().nullable(),
-    end: z.string().optional().nullable(),
-    location: z.string().optional().nullable(),
+    description: z.string().nullable(),
+    end: z.string().nullable(),
+    location: z.string().nullable(),
     name: z.string(),
     rowId: z.string(),
     start: z.string(),
@@ -40,7 +40,7 @@ export default defineEventHandler(async (h3Event) => {
 
   setResponseHeaders(h3Event, {
     'Content-Type': 'text/calendar',
-    'Content-Disposition': `attachment; filename="${eventAuthorUsername}_${event.slug}.ics`,
+    'Content-Disposition': `attachment; filename="${eventAuthorUsername}_${event.slug}.ics"`,
   })
 
   return getIcalString({ contact, event, guest, siteUrl: SITE_URL })

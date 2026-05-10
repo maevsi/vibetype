@@ -39,6 +39,7 @@ const queryEventGuests = useQuery({
               username
             }
             createdBy
+            guestCountMaximum
             guestsByEventId {
               nodes {
                 contactByContactId {

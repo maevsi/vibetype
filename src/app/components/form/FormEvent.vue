@@ -277,7 +277,7 @@ import { DatePicker } from 'v-calendar'
 
 import { useCreateEventMutation } from '~~/gql/documents/mutations/event/eventCreate'
 import { useUpdateEventByRowIdMutation } from '~~/gql/documents/mutations/event/eventUpdateByRowId'
-import { EventVisibility } from '~~/gql/generated/graphql'
+import { EventVisibility } from '~~/gql/generated/graphcache'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
 const { event = undefined } = defineProps<{
@@ -407,7 +407,7 @@ const form = useForm({
             isRemote: value.isRemote,
             name: value.name || '',
             slug: value.slug || '',
-            start: value.start || null,
+            start: value.start || '',
             url: value.url || null,
             visibility: value.visibility || EventVisibility.Private,
           },

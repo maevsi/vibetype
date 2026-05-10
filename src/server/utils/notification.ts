@@ -1,6 +1,6 @@
 import camelcaseKeys from 'camelcase-keys'
 
-import { EventVisibility } from '~~/gql/generated/graphql'
+import { EventVisibility } from '~~/gql/generated/graphcache'
 
 const EVENT_DESCRIPTION_TRIM_LENGTH = 250
 

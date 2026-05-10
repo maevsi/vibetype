@@ -19,10 +19,11 @@
 </template>
 
 <script setup lang="ts">
-import { InvitationFeedback } from '~~/gql/generated/graphql'
+import { InvitationFeedback } from '~~/gql/generated/graphcache'
+import type { GuestItemFragment } from '~~/gql/generated/graphql'
 
 const { feedback } = defineProps<{
-  feedback: InvitationFeedback | null
+  feedback: GuestItemFragment['feedback']
 }>()
 
 const { t } = useI18n()

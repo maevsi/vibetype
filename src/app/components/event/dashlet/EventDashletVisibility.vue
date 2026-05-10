@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { EventVisibility } from '~~/gql/generated/graphql'
+import { EventVisibility } from '~~/gql/generated/graphcache'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
 const { event } = defineProps<{

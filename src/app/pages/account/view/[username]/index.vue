@@ -223,7 +223,7 @@
 <script setup lang="ts">
 import { useQuery } from '@urql/vue'
 
-import { AchievementType } from '~~/gql/generated/graphql'
+import { AchievementType } from '~~/gql/generated/graphcache'
 import { graphql } from '~~/gql/generated'
 
 definePageMeta({

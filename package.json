@@ -2,32 +2,14 @@
   "devDependencies": {
     "jiti": "2.6.1"
   },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.0.8"
+    }
+  },
   "engines": {
     "node": "^24.0.0"
-  },
-  "packageManager": "pnpm@10.33.2",
-  "pnpm": {
-    "ignoredBuiltDependencies": [
-      "@dargmuesli/nuxt-vio",
-      "@firebase/util",
-      "@intlify/vue-i18n-bridge",
-      "@intlify/vue-router-bridge",
-      "@parcel/watcher",
-      "@sentry-internal/node-cpu-profiler",
-      "@sentry/cli",
-      "@tailwindcss/oxide",
-      "better-sqlite3",
-      "esbuild",
-      "protobufjs",
-      "sharp",
-      "unrs-resolver",
-      "vue-demi"
-    ],
-    "overrides": {
-      "debug": "4.4.3",
-      "h3": "1.15.6",
-      "parse5-parser-stream": "8.0.0"
-    }
   },
   "private": true,
   "scripts": {
