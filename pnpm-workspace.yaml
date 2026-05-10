@@ -10,7 +10,6 @@ allowBuilds:
   unrs-resolver: false
   vue-demi: false
 overrides:
-  debug: 4.4.3
   parse5-parser-stream: 8.0.0
 packages:
   - src
