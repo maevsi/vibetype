@@ -1,3 +1,9 @@
+## [15.1.5](https://github.com/maevsi/vibetype/compare/15.1.4...15.1.5) (2026-05-11)
+
+### Performance Improvements
+
+* **docker:** prepare package manager for production ([fb68511](https://github.com/maevsi/vibetype/commit/fb68511611761d87b8970ebdbb7706f9bf014bcc))
+
 ## [15.1.4](https://github.com/maevsi/vibetype/compare/15.1.3...15.1.4) (2026-05-11)
 
 ### Bug Fixes
