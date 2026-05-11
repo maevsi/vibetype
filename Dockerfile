@@ -254,6 +254,9 @@ RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
 
 USER node
 
+# Install package manager as `node` user.
+RUN corepack prepare
+
 ENTRYPOINT ["/srv/app/docker-entrypoint.sh"]
 CMD ["pnpm", "run", "start:node"]
 HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/service/vibetype/healthcheck || exit 1
