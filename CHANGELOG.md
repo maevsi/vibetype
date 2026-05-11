@@ -1,3 +1,9 @@
+## [15.1.3](https://github.com/maevsi/vibetype/compare/15.1.2...15.1.3) (2026-05-11)
+
+### Bug Fixes
+
+* **docker:** mirror directory layout for production ([9175c51](https://github.com/maevsi/vibetype/commit/9175c51845da0445a75045307dd59067d46a54dd))
+
 ## [15.1.2](https://github.com/maevsi/vibetype/compare/15.1.1...15.1.2) (2026-05-09)
 
 ### Bug Fixes
