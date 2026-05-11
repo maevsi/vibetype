@@ -1,4 +1,4 @@
-import * as cheerio from 'cheerio'
+import { htmlToText } from 'html-to-text'
 import { zodResponseFormat } from 'openai/helpers/zod'
 import { z } from 'zod'
 
@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
   })
 
   const html = await $fetch<string>(body.url)
-  const htmlParsed = cheerio.load(html)
+  const htmlText = htmlToText(html)
 
   const completion = await openAiClient.chat.completions.parse({
     messages: [
@@ -57,7 +57,7 @@ export default defineEventHandler(async (event) => {
           {
             type: 'text',
             text: `\`\`\`
-${htmlParsed.text()}
+${htmlText}
 \`\`\``,
           },
         ],
