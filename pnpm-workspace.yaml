@@ -9,8 +9,6 @@ allowBuilds:
   sharp: false
   unrs-resolver: false
   vue-demi: false
-overrides:
-  parse5-parser-stream: 8.0.0
 packages:
   - src
   - tests
