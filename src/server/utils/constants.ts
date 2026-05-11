@@ -9,19 +9,23 @@ export const GET_CSP = ({
   siteUrl: URL
   runtimeConfig?: RuntimeConfig
 }) => {
-  const hrefApp = getServiceHref({
-    host: siteUrl.host,
+  const sharedOptions = {
     isSsr: false,
+    stagingHost: runtimeConfig?.public.vio.stagingHost,
+  }
+  const hrefApp = getServiceHref({
+    ...sharedOptions,
+    host: siteUrl.host,
     name: SITE_NAME,
   })
   const hrefPostgraphile = getServiceHref({
+    ...sharedOptions,
     host: getRootHost(siteUrl.host),
-    isSsr: false,
     name: 'postgraphile',
   })
   const hrefTusd = getServiceHref({
+    ...sharedOptions,
     host: getRootHost(siteUrl.host),
-    isSsr: false,
     name: 'tusd',
   })
 
