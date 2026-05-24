@@ -1,11 +1,11 @@
 import { DEFAULTS } from '@dargmuesli/nuxt-cookie-control/runtime/types.js'
 
-import { SITE_URL_TYPED } from './environment'
-import { getIsSecure, SITE_NAME } from './site'
+import { SITE_URL_TYPED } from './environment.ts'
+import { getIsSecure, SITE_NAME } from './site.ts'
 
-export * from './environment'
-export * from './sentry'
-export * from './site'
+export * from './environment.ts'
+export * from './sentry.ts'
+export * from './site.ts'
 
 export const CACHE_VERSION = '9Th9y78ype'
 export const COOKIE_CONTROL_CONSENT_COOKIE_NAME =

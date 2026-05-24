@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
     "allowSyntheticDefaultImports": true,
     "lib": ["ESNext"],
     "moduleResolution": "Bundler",
