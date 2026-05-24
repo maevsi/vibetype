@@ -6,11 +6,7 @@ settings:
 
 importers:
 
-  .:
-    devDependencies:
-      jiti:
-        specifier: 2.6.1
-        version: 2.6.1
+  .: {}
 
   src:
     devDependencies:
@@ -14240,7 +14236,7 @@ snapshots:
       eslint: 10.2.1(jiti@2.6.1)
       eslint-config-prettier: 10.1.8(eslint@10.2.1(jiti@2.6.1))
       eslint-plugin-compat: 7.0.1(eslint@10.2.1(jiti@2.6.1))
-      eslint-plugin-prettier: 5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@10.2.1(jiti@2.6.1)))(eslint@10.2.1(jiti@2.6.1))(prettier@3.8.3)
+      eslint-plugin-prettier: 5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@10.3.0(jiti@2.6.1)))(eslint@10.2.1(jiti@2.6.1))(prettier@3.8.3)
       eslint-plugin-yml: 3.3.1(eslint@10.2.1(jiti@2.6.1))
       globals: 17.5.0
       jiti: 2.6.1
@@ -21863,7 +21859,7 @@ snapshots:
 
   eslint-plugin-only-error@1.0.2: {}
 
-  eslint-plugin-prettier@5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@10.2.1(jiti@2.6.1)))(eslint@10.2.1(jiti@2.6.1))(prettier@3.8.3):
+  eslint-plugin-prettier@5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@10.3.0(jiti@2.6.1)))(eslint@10.2.1(jiti@2.6.1))(prettier@3.8.3):
     dependencies:
       eslint: 10.2.1(jiti@2.6.1)
       prettier: 3.8.3

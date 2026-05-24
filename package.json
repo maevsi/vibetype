@@ -1,7 +1,4 @@
 {
-  "devDependencies": {
-    "jiti": "2.6.1"
-  },
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
