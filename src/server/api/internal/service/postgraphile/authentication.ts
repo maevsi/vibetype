@@ -52,10 +52,6 @@ export default defineEventHandler(async (event) => {
 
     switch (definition.name.value) {
       case jwtCreateMutation.definitions[0].name.value:
-        // don't check captcha for anonymous authentication
-        if (body.variables?.password === '' && body.variables.username === '')
-          return
-
         await turnstileVerify(event)
         break
       case accountRegistrationMutation.definitions[0].name.value:
