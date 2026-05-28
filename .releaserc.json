@@ -16,9 +16,9 @@
     ],
     "@semantic-release/changelog",
     [
-      "@semantic-release/npm",
+      "@semantic-release/exec",
       {
-        "pkgRoot": "./src"
+        "prepareCmd": "pnpm --dir src version ${nextRelease.version} --git-tag-version=false --no-git-checks"
       }
     ],
     "@semantic-release/github",
