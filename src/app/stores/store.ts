@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/nuxt'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { RouteNamedMapI18n } from 'vue-router/auto-routes'
+import type { RouteNamedMap } from 'vue-router/auto-routes'
 
 import type { Modal } from '~/types/modal'
 
@@ -53,9 +53,7 @@ export const useStore = defineStore(SITE_NAME, () => {
   const navigateBack = async () => {
     routeHistoryDisabled.value = true
     await navigateTo(
-      localePath(
-        (routeHistory.value.pop() as keyof RouteNamedMapI18n) || 'index',
-      ),
+      localePath((routeHistory.value.pop() as keyof RouteNamedMap) || 'index'),
     )
     routeHistoryDisabled.value = false
   }

@@ -15,6 +15,7 @@ import type { RouteLocationRaw } from 'vue-router'
 import { cn } from '@/utils/shadcn'
 
 const {
+  // @ts-expect-error TODO: wait for sitemap to support compact routes (https://github.com/nuxt-modules/sitemap/issues/617)
   ariaLabel,
   class: classProps = undefined,
   disabled,
