@@ -51,6 +51,7 @@ export type ButtonColoredProps = {
     | 'tertiary-critical'
 } & { class?: HtmlHTMLAttributes['class'] }
 const {
+  // @ts-expect-error TODO: wait for sitemap to support compact routes (https://github.com/nuxt-modules/sitemap/issues/617)
   ariaLabel,
   class: classProps = undefined,
   disabled,
