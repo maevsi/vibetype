@@ -129,10 +129,14 @@ FROM mcr.microsoft.com/playwright:v1.60.0 AS test-e2e-base-image
 ENV CI=true
 ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 
+# renovate: datasource=deb distro=ubuntu depName=mkcert suite=noble
+ENV MKCERT_VERSION="1.4.4-1ubuntu3.2"
+
 WORKDIR /srv/app/
 
 RUN corepack enable \
-    && apt update && apt install mkcert
+    && apt-get update && apt-get install --no-install-recommends -y \
+      mkcert="${MKCERT_VERSION}"
 
 
 ########################
