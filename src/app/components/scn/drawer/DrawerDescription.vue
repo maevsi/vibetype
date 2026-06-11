@@ -18,9 +18,9 @@ const delegatedProps = computed(() => {
 
 <template>
   <DrawerDescription
-    data-slot="drawer-description"
     v-bind="delegatedProps"
     :class="cn('text-muted-foreground text-sm', props.class)"
+    data-slot="drawer-description"
   >
     <slot />
   </DrawerDescription>

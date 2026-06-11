@@ -30,4 +30,9 @@ export default withNuxt(
       '@intlify/vue-i18n/no-duplicate-keys-in-locale': 'off',
     },
   }, // TODO: remove once `@intlify/vue-i18n/no-duplicate-keys-in-locale` is checked across layers
+  {
+    rules: {
+      'vue/attributes-order': ['error', { alphabetical: true }],
+    },
+  },
 )

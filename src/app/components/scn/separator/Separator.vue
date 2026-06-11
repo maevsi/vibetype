@@ -19,7 +19,6 @@ const delegatedProps = reactiveOmit(props, 'class')
 
 <template>
   <Separator
-    data-slot="separator"
     v-bind="delegatedProps"
     :class="
       cn(
@@ -27,5 +26,6 @@ const delegatedProps = reactiveOmit(props, 'class')
         props.class,
       )
     "
+    data-slot="separator"
   />
 </template>

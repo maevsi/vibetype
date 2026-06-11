@@ -26,8 +26,6 @@ const { orientation, canScrollPrev, scrollPrev } = useCarousel()
 
 <template>
   <Button
-    data-slot="carousel-previous"
-    :disabled="!canScrollPrev"
     :class="
       cn(
         'absolute size-8 rounded-full',
@@ -37,8 +35,10 @@ const { orientation, canScrollPrev, scrollPrev } = useCarousel()
         props.class,
       )
     "
-    :variant="variant"
+    data-slot="carousel-previous"
+    :disabled="!canScrollPrev"
     :size="size"
+    :variant="variant"
     @click="scrollPrev"
   >
     <slot>

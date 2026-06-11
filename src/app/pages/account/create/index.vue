@@ -15,10 +15,10 @@
       <LayoutPage v-bind="attributes">
         <div class="flex flex-col gap-6">
           <FormAuthInput
-            :model-value="emailField.value.value"
-            type="email"
-            :placeholder="t('emailPlaceholder')"
             :aria-label="t('emailPlaceholder')"
+            :model-value="emailField.value.value"
+            :placeholder="t('emailPlaceholder')"
+            type="email"
             @blur="emailField.handleBlur"
             @input="emailField.handleInput($event)"
           >
@@ -32,8 +32,8 @@
           <!-- Terms checkbox -->
           <div class="flex items-start gap-3">
             <FormCheckbox
-              :value="agreedToTerms"
               :aria-label="t('agreeCheckboxLabel')"
+              :value="agreedToTerms"
               @change="agreedToTerms = $event"
             />
             <span class="text-sm text-gray-500 dark:text-gray-400">
@@ -98,11 +98,11 @@
         <div class="flex flex-col gap-4">
           <div class="relative">
             <FormAuthInput
-              :model-value="usernameField.value.value"
-              type="text"
-              :placeholder="t('usernamePlaceholder')"
               :aria-label="t('usernamePlaceholder')"
               :disabled="usernameField.isLoading.value"
+              :model-value="usernameField.value.value"
+              :placeholder="t('usernamePlaceholder')"
+              type="text"
               @blur="usernameField.handleBlur"
               @input="handleUsernameInput($event)"
             >

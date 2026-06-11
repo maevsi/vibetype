@@ -252,7 +252,7 @@
     <Modal id="ModalGuestQrCode">
       <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
         <div class="bg-white p-4">
-          <QrcodeVue id="qrCode" :value="guest.rowId" :size="200" />
+          <QrcodeVue id="qrCode" :size="200" :value="guest.rowId" />
         </div>
         <p class="text-sm text-gray-500 dark:text-gray-400">
           {{ t('hintQrCode') }}

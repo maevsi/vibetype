@@ -4,8 +4,8 @@
     v-bind="delegatedProps"
     :aria-label
     :class="cn(classComputed, classProps)"
-    :is-disabled="disabled"
     :is-colored="false"
+    :is-disabled="disabled"
     :to
     @click="emit('click')"
   >

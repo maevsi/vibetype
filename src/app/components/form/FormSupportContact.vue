@@ -14,9 +14,9 @@
           </FieldLabel>
           <Textarea
             :id="field.name"
-            :name="field.name"
-            :model-value="field.state.value"
             :aria-invalid="isFieldInvalid(field)"
+            :model-value="field.state.value"
+            :name="field.name"
             rows="8"
             @blur="field.handleBlur"
             @input="
@@ -38,9 +38,9 @@
           </FieldLabel>
           <AppInput
             :id="field.name"
-            :name="field.name"
-            :model-value="field.state.value"
             :aria-invalid="isFieldInvalid(field)"
+            :model-value="field.state.value"
+            :name="field.name"
             type="text"
             @blur="field.handleBlur"
             @input="
@@ -62,9 +62,9 @@
           </FieldLabel>
           <AppInput
             :id="field.name"
-            :name="field.name"
-            :model-value="field.state.value"
             :aria-invalid="isFieldInvalid(field)"
+            :model-value="field.state.value"
+            :name="field.name"
             type="email"
             @blur="field.handleBlur"
             @input="
@@ -78,12 +78,12 @@
         </Field>
       </form.Field>
       <form.Field v-slot="{ field }" name="userConsent">
-        <Field orientation="horizontal" :data-invalid="isFieldInvalid(field)">
+        <Field :data-invalid="isFieldInvalid(field)" orientation="horizontal">
           <AppCheckbox
             :id="field.name"
+            class="mt-1"
             :model-value="field.state.value"
             required
-            class="mt-1"
             @update:model-value="
               (checked) => {
                 field.handleChange(checked === true)

@@ -30,7 +30,6 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
 
 <template>
   <DropdownMenuRadioItem
-    data-slot="dropdown-menu-radio-item"
     v-bind="forwarded"
     :class="
       cn(
@@ -38,6 +37,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
         props.class,
       )
     "
+    data-slot="dropdown-menu-radio-item"
   >
     <span
       class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center"

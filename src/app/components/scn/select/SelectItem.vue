@@ -22,7 +22,6 @@ const forwardedProps = useForwardProps(delegatedProps)
 
 <template>
   <SelectItem
-    data-slot="select-item"
     v-bind="forwardedProps"
     :class="
       cn(
@@ -30,6 +29,7 @@ const forwardedProps = useForwardProps(delegatedProps)
         props.class,
       )
     "
+    data-slot="select-item"
   >
     <span class="absolute right-2 flex size-3.5 items-center justify-center">
       <SelectItemIndicator>

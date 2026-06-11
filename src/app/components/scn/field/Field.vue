@@ -12,10 +12,10 @@ const props = defineProps<{
 
 <template>
   <div
-    role="group"
-    data-slot="field"
-    :data-orientation="orientation"
     :class="cn(fieldVariants({ orientation }), props.class)"
+    :data-orientation="orientation"
+    data-slot="field"
+    role="group"
   >
     <slot />
   </div>

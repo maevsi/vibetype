@@ -23,12 +23,12 @@
           <FieldContent>
             <Input
               id="input-username"
-              type="text"
+              :aria-invalid="isFieldInvalid(field)"
               :disabled="
                 contact?.accountByAccountId?.rowId === store.signedInAccountId
               "
               :model-value="field.state.value"
-              :aria-invalid="isFieldInvalid(field)"
+              type="text"
               @blur="field.handleBlur"
               @input="
                 field.handleChange(($event.target as HTMLInputElement).value)
@@ -75,10 +75,10 @@
           <FieldContent>
             <Input
               id="input-first-name"
-              type="text"
-              :placeholder="t('globalPlaceholderFirstName')"
-              :model-value="field.state.value"
               :aria-invalid="isFieldInvalid(field)"
+              :model-value="field.state.value"
+              :placeholder="t('globalPlaceholderFirstName')"
+              type="text"
               @blur="field.handleBlur"
               @input="
                 field.handleChange(($event.target as HTMLInputElement).value)
@@ -97,10 +97,10 @@
           <FieldContent>
             <Input
               id="input-last-name"
-              type="text"
-              :placeholder="t('globalPlaceholderLastName')"
-              :model-value="field.state.value"
               :aria-invalid="isFieldInvalid(field)"
+              :model-value="field.state.value"
+              :placeholder="t('globalPlaceholderLastName')"
+              type="text"
               @blur="field.handleBlur"
               @input="
                 field.handleChange(($event.target as HTMLInputElement).value)
@@ -119,9 +119,9 @@
           <FieldContent>
             <Input
               id="input-nickname"
-              type="text"
-              :model-value="field.state.value"
               :aria-invalid="isFieldInvalid(field)"
+              :model-value="field.state.value"
+              type="text"
               @blur="field.handleBlur"
               @input="
                 field.handleChange(($event.target as HTMLInputElement).value)
@@ -142,9 +142,9 @@
           <FieldContent>
             <Input
               id="input-email-address"
-              type="email"
-              :model-value="field.state.value"
               :aria-invalid="isFieldInvalid(field)"
+              :model-value="field.state.value"
+              type="email"
               @blur="field.handleBlur"
               @input="
                 field.handleChange(($event.target as HTMLInputElement).value)
@@ -165,10 +165,10 @@
           <FieldContent>
             <Input
               id="input-phone-number"
-              type="tel"
-              :placeholder="t('globalPlaceholderPhoneNumber')"
-              :model-value="field.state.value"
               :aria-invalid="isFieldInvalid(field)"
+              :model-value="field.state.value"
+              :placeholder="t('globalPlaceholderPhoneNumber')"
+              type="tel"
               @blur="field.handleBlur"
               @input="
                 field.handleChange(($event.target as HTMLInputElement).value)
@@ -193,10 +193,10 @@
           <FieldContent>
             <Input
               id="input-url"
-              type="url"
-              :placeholder="t('globalPlaceholderUrl')"
-              :model-value="field.state.value"
               :aria-invalid="isFieldInvalid(field)"
+              :model-value="field.state.value"
+              :placeholder="t('globalPlaceholderUrl')"
+              type="url"
               @blur="field.handleBlur"
               @input="
                 field.handleChange(($event.target as HTMLInputElement).value)
@@ -215,10 +215,10 @@
           <FieldContent>
             <Textarea
               id="input-note"
-              class="bg-(--semantic-base-input-field-fill) dark:bg-(--semantic-base-input-field-fill)"
-              rows="3"
-              :model-value="field.state.value"
               :aria-invalid="isFieldInvalid(field)"
+              class="bg-(--semantic-base-input-field-fill) dark:bg-(--semantic-base-input-field-fill)"
+              :model-value="field.state.value"
+              rows="3"
               @blur="field.handleBlur"
               @input="
                 field.handleChange(($event.target as HTMLInputElement).value)

@@ -7,7 +7,7 @@
     >
       <AppIconArrowLeft class="size-6" />
     </button>
-    <FormAuthHeader :key="headerKey" :title-id class="mt-4">
+    <FormAuthHeader :key="headerKey" class="mt-4" :title-id>
       <template #title>
         <slot name="title" />
       </template>

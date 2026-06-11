@@ -22,7 +22,6 @@ const delegatedProps = computed(() => {
 
 <template>
   <ProgressRoot
-    data-slot="progress"
     v-bind="delegatedProps"
     :class="
       cn(
@@ -30,10 +29,11 @@ const delegatedProps = computed(() => {
         props.class,
       )
     "
+    data-slot="progress"
   >
     <ProgressIndicator
-      data-slot="progress-indicator"
       class="bg-primary h-full w-full flex-1 transition-all"
+      data-slot="progress-indicator"
       :style="`transform: translateX(-${100 - (props.modelValue ?? 0)}%);`"
     />
   </ProgressRoot>

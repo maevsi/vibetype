@@ -12,6 +12,7 @@
             v-for="upload in uploads"
             :id="upload.rowId"
             :key="upload.rowId"
+            class="relative box-border border-4"
             :class="[
               ...(pending.deletions.includes(upload.rowId)
                 ? ['animate-pulse']
@@ -20,7 +21,6 @@
                 ? ['border-red-600']
                 : ['border-transparent']),
             ]"
-            class="relative box-border border-4"
             :disabled="pending.deletions.includes(upload.rowId)"
             @click="toggleSelect(upload)"
           >

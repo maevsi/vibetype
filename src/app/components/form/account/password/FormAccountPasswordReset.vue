@@ -15,7 +15,7 @@
       @update:password-value="handlePasswordInput"
       @update:repetition-value="handlePasswordConfirmationInput"
     />
-    <FormAuthButton class="mt-4" :aria-label="t('save')" type="submit">
+    <FormAuthButton :aria-label="t('save')" class="mt-4" type="submit">
       {{ t('save') }}
     </FormAuthButton>
   </form>

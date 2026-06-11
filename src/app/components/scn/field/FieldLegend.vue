@@ -10,8 +10,6 @@ const props = defineProps<{
 
 <template>
   <legend
-    data-slot="field-legend"
-    :data-variant="props.variant"
     :class="
       cn(
         'mb-3 font-medium',
@@ -20,6 +18,8 @@ const props = defineProps<{
         props.class,
       )
     "
+    data-slot="field-legend"
+    :data-variant="props.variant"
   >
     <slot />
   </legend>

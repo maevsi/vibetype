@@ -106,13 +106,13 @@
       <ButtonColored
         v-if="isOwnProfile"
         :aria-label="t('contactBook')"
-        variant="secondary"
         class="data-[size=large]:gap-4.5 data-[type=secondary]:px-4.5"
         :to="
           localePath({
             name: 'contact',
           })
         "
+        variant="secondary"
       >
         <AppIconContacts />
         <TypographySubtitleMedium>
@@ -122,13 +122,13 @@
       <ButtonColored
         v-if="isOwnProfile"
         :aria-label="t('uploads')"
-        variant="secondary"
         class="data-[size=large]:gap-4.5 data-[type=secondary]:px-4.5"
         :to="
           localePath({
             name: 'upload',
           })
         "
+        variant="secondary"
       >
         <AppIconFolder />
         <TypographySubtitleMedium>

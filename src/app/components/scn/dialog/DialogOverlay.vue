@@ -18,7 +18,6 @@ const delegatedProps = computed(() => {
 
 <template>
   <DialogOverlay
-    data-slot="dialog-overlay"
     v-bind="delegatedProps"
     :class="
       cn(
@@ -26,6 +25,7 @@ const delegatedProps = computed(() => {
         props.class,
       )
     "
+    data-slot="dialog-overlay"
   >
     <slot />
   </DialogOverlay>
