@@ -103,12 +103,14 @@
 
           <div class="grid w-full grid-cols-2 gap-3">
             <button
+              type="button"
               :aria-label="t('signInApple')"
               class="flex h-13 items-center justify-center rounded-2xl bg-gray-100 dark:bg-gray-800"
             >
               <IFa6BrandsApple class="size-6 text-black dark:text-white" />
             </button>
             <button
+              type="button"
               :aria-label="t('signInGoogle')"
               class="flex h-13 items-center justify-center rounded-2xl bg-gray-100 dark:bg-gray-800"
             >
