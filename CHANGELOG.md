@@ -1,3 +1,9 @@
+## [15.1.8](https://github.com/maevsi/vibetype/compare/15.1.7...15.1.8) (2026-06-11)
+
+### Bug Fixes
+
+* **a11y:** specify button types ([#2293](https://github.com/maevsi/vibetype/issues/2293)) ([be31c1d](https://github.com/maevsi/vibetype/commit/be31c1db49749d728b9c96f5b8dda1fa42fcc8f8))
+
 ## [15.1.7](https://github.com/maevsi/vibetype/compare/15.1.6...15.1.7) (2026-06-06)
 
 ### Bug Fixes
