@@ -21,7 +21,6 @@ const forwardedProps = useForwardProps(delegatedProps)
 
 <template>
   <RadioGroupItem
-    data-slot="radio-group-item"
     v-bind="forwardedProps"
     :class="
       cn(
@@ -29,10 +28,11 @@ const forwardedProps = useForwardProps(delegatedProps)
         props.class,
       )
     "
+    data-slot="radio-group-item"
   >
     <RadioGroupIndicator
-      data-slot="radio-group-indicator"
       class="relative flex items-center justify-center"
+      data-slot="radio-group-indicator"
     >
       <CircleIcon
         class="fill-primary absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2"

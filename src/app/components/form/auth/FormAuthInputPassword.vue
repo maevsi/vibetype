@@ -2,8 +2,6 @@
   <div class="relative">
     <Input
       :id
-      :type="isVisible ? 'text' : 'password'"
-      :model-value="modelValue"
       :aria-invalid="ariaInvalid"
       :class="[
         cn(
@@ -11,7 +9,9 @@
           { 'border-red-500': ariaInvalid },
         ),
       ]"
+      :model-value="modelValue"
       :placeholder
+      :type="isVisible ? 'text' : 'password'"
       @blur="emit('blur')"
       @input="emit('input', ($event.target as HTMLInputElement).value)"
     />

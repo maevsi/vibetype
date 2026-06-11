@@ -18,7 +18,6 @@ const forwardedProps = useForwardProps(delegatedProps)
 
 <template>
   <CalendarPrev
-    data-slot="calendar-prev-button"
     :class="
       cn(
         buttonVariants({ variant: 'outline' }),
@@ -27,6 +26,7 @@ const forwardedProps = useForwardProps(delegatedProps)
         props.class,
       )
     "
+    data-slot="calendar-prev-button"
     v-bind="forwardedProps"
   >
     <slot>

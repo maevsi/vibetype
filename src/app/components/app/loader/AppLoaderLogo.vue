@@ -1,5 +1,5 @@
 <template>
   <AppLoader>
-    <AppLoaderLogoSvg class="grayscale" aria-hidden="true" />
+    <AppLoaderLogoSvg aria-hidden="true" class="grayscale" />
   </AppLoader>
 </template>

@@ -15,13 +15,13 @@
           <Popover>
             <PopoverTrigger as-child>
               <Button
-                variant="outline"
                 :class="
                   cn(
                     'ps-3 text-start',
                     !field.state.value && 'text-muted-foreground',
                   )
                 "
+                variant="outline"
               >
                 <span>
                   {{
@@ -37,13 +37,13 @@
             <PopoverContent class="w-auto p-0">
               <AppCalendar
                 v-model:placeholder="placeholder"
+                :calendar-label="t('label')"
+                initial-focus
+                :max-value="today(getLocalTimeZone())"
+                :min-value="new CalendarDate(1900, 1, 1)"
                 :model-value="
                   field.state.value ? parseDate(field.state.value) : undefined
                 "
-                :calendar-label="t('label')"
-                initial-focus
-                :min-value="new CalendarDate(1900, 1, 1)"
-                :max-value="today(getLocalTimeZone())"
                 @update:model-value="
                   (v) => {
                     field.handleChange(v ? v.toString() : '')

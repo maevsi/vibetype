@@ -32,7 +32,6 @@ const { t } = useI18n()
   <DialogPortal>
     <DialogOverlay />
     <DialogContent
-      data-slot="dialog-content"
       v-bind="forwarded"
       :class="
         cn(
@@ -40,6 +39,7 @@ const { t } = useI18n()
           props.class,
         )
       "
+      data-slot="dialog-content"
     >
       <slot />
 

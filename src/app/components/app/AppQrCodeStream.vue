@@ -1,8 +1,8 @@
 <template>
   <QrcodeStream
+    @camera-on="onCameraOn"
     @detect="emit('detect', $event)"
     @error="onError"
-    @camera-on="onCameraOn"
   >
     <div v-if="loading" class="text-center">
       {{ t('globalLoading') }}

@@ -5,7 +5,7 @@
     <div class="shrink-0 text-(--semantic-accent-icon)">
       <AppIconSearch />
     </div>
-    <label :for="templateIdInput" class="sr-only">{{ t('search') }}</label>
+    <label class="sr-only" :for="templateIdInput">{{ t('search') }}</label>
     <!-- TODO: extract input component, e.g. to set placeholder color in one place only -->
     <input
       :id="templateIdInput"

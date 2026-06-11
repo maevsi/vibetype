@@ -22,8 +22,6 @@ const forwardedProps = useForwardProps(delegatedProps)
 
 <template>
   <SelectTrigger
-    data-slot="select-trigger"
-    :data-size="size"
     v-bind="forwardedProps"
     :class="
       cn(
@@ -31,6 +29,8 @@ const forwardedProps = useForwardProps(delegatedProps)
         props.class,
       )
     "
+    :data-size="size"
+    data-slot="select-trigger"
   >
     <slot />
     <SelectIcon as-child>

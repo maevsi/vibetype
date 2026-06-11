@@ -7,13 +7,13 @@
     <div class="grid grid-cols-3 items-center">
       <AppButton
         :aria-label="t('back')"
+        class="flex size-12 justify-center justify-self-start"
         :to="
           localePath({
             name: 'account-view-username',
             params: { username: store.signedInUsername },
           })
         "
-        class="flex size-12 justify-center justify-self-start"
       >
         <AppIconBack />
       </AppButton>

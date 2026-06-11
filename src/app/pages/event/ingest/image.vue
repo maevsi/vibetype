@@ -15,7 +15,7 @@
             stroke="currentColor"
             viewBox="0 0 24 24"
           >
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+            <rect height="18" rx="2" ry="2" width="18" x="3" y="3" />
             <circle cx="8.5" cy="8.5" r="1.5" />
             <path d="M20.4 14.5L16 10 4 20" />
           </svg>

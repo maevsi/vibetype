@@ -13,9 +13,9 @@
         </FieldLabel>
         <FieldContent>
           <Input
-            type="text"
-            :model-value="field.state.value"
             :aria-invalid="isFieldInvalid(field)"
+            :model-value="field.state.value"
+            type="text"
             @blur="field.handleBlur"
             @input="
               field.handleChange(($event.target as HTMLInputElement).value)
@@ -37,9 +37,9 @@
         </FieldLabel>
         <FieldContent>
           <Input
-            type="email"
-            :model-value="field.state.value"
             :aria-invalid="isFieldInvalid(field)"
+            :model-value="field.state.value"
+            type="email"
             @blur="field.handleBlur"
             @input="
               field.handleChange(($event.target as HTMLInputElement).value)
@@ -57,9 +57,9 @@
         <div class="flex gap-3">
           <FieldContent class="mt-1">
             <AppCheckbox
+              :aria-invalid="isFieldInvalid(field)"
               :model-value="field.state.value"
               required
-              :aria-invalid="isFieldInvalid(field)"
               @update:model-value="
                 (checked) => field.handleChange(checked === true)
               "

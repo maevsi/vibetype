@@ -31,9 +31,9 @@
               <Input
                 id="input-contact-id"
                 class="pl-9"
+                :model-value="field.state.value"
                 :placeholder="t('placeholderContact')"
                 type="text"
-                :model-value="field.state.value"
                 @blur="field.handleBlur"
                 @input="
                   field.handleChange(($event.target as HTMLInputElement).value)

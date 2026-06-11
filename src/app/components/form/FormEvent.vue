@@ -8,10 +8,10 @@
             <FieldContent>
               <Input
                 id="input-name"
-                type="text"
-                :placeholder="t('namePlaceholder')"
-                :model-value="nameField.state.value"
                 :aria-invalid="isFieldInvalid(nameField)"
+                :model-value="nameField.state.value"
+                :placeholder="t('namePlaceholder')"
+                type="text"
                 @blur="nameField.handleBlur"
                 @input="
                   onInputName(
@@ -98,9 +98,9 @@
             <FieldContent>
               <Input
                 id="input-invitee-count-maximum"
-                type="number"
-                :model-value="field.state.value"
                 :aria-invalid="isFieldInvalid(field)"
+                :model-value="field.state.value"
+                type="number"
                 @blur="field.handleBlur"
                 @input="
                   field.handleChange(($event.target as HTMLInputElement).value)
@@ -119,11 +119,11 @@
             <FieldContent>
               <Input
                 id="input-start"
-                type="text"
-                readonly
-                :placeholder="dateTimeFormatter(now.toISOString())"
-                :model-value="dateTimeFormatter(field.state.value)"
                 :aria-invalid="isFieldInvalid(field)"
+                :model-value="dateTimeFormatter(field.state.value)"
+                :placeholder="dateTimeFormatter(now.toISOString())"
+                readonly
+                type="text"
                 @click="store.modals.push({ id: 'ModalDateTimeStart' })"
               />
             </FieldContent>
@@ -145,10 +145,10 @@
             <FieldContent>
               <Input
                 id="input-end"
-                type="text"
-                readonly
-                :placeholder="dateTimeFormatter(now.toISOString())"
                 :model-value="dateTimeFormatter(field.state.value)"
+                :placeholder="dateTimeFormatter(now.toISOString())"
+                readonly
+                type="text"
                 @click="store.modals.push({ id: 'ModalDateTimeEnd' })"
               />
             </FieldContent>
@@ -183,10 +183,10 @@
             <FieldContent>
               <Input
                 id="input-url"
-                type="url"
-                :placeholder="t('globalPlaceholderUrl')"
-                :model-value="field.state.value"
                 :aria-invalid="isFieldInvalid(field)"
+                :model-value="field.state.value"
+                :placeholder="t('globalPlaceholderUrl')"
+                type="url"
                 @blur="field.handleBlur"
                 @input="
                   field.handleChange(($event.target as HTMLInputElement).value)
@@ -237,15 +237,15 @@
     <Modal id="ModalDateTimeStart">
       <div class="flex justify-center">
         <DatePicker
-          :model-value="form.getFieldValue('start')"
           :first-day-of-week="2"
-          :is24hr="locale !== 'en'"
           :is-dark="colorMode.value === 'dark'"
+          :is24hr="locale !== 'en'"
           :locale
           :masks="{ input: 'YYYY-MM-DD h:mm A' }"
           :max-date="form.getFieldValue('end')"
           :minute-increment="5"
           mode="dateTime"
+          :model-value="form.getFieldValue('start')"
           @update:model-value="form.setFieldValue('start', $event as string)"
         />
       </div>
@@ -253,15 +253,15 @@
     <Modal id="ModalDateTimeEnd">
       <div class="flex justify-center">
         <DatePicker
-          :model-value="form.getFieldValue('end')"
           :first-day-of-week="2"
-          :is24hr="locale !== 'en'"
           :is-dark="colorMode.value === 'dark'"
+          :is24hr="locale !== 'en'"
           :locale
           :masks="{ input: 'YYYY-MM-DD h:mm A' }"
           :min-date="form.getFieldValue('start')"
           :minute-increment="5"
           mode="dateTime"
+          :model-value="form.getFieldValue('end')"
           @update:model-value="form.setFieldValue('end', $event as string)"
         />
       </div>

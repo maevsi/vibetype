@@ -20,7 +20,7 @@
         {{ emailError }}
       </p>
     </form.Field>
-    <FormAuthButton class="mt-4" :aria-label="t('send')" type="submit">
+    <FormAuthButton :aria-label="t('send')" class="mt-4" type="submit">
       {{ t('send') }}
     </FormAuthButton>
     <p class="mt-6 text-center text-[15px] text-gray-500 dark:text-gray-400">

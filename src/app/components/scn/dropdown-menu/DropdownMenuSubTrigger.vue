@@ -19,7 +19,6 @@ const forwardedProps = useForwardProps(delegatedProps)
 
 <template>
   <DropdownMenuSubTrigger
-    data-slot="dropdown-menu-sub-trigger"
     v-bind="forwardedProps"
     :class="
       cn(
@@ -27,6 +26,7 @@ const forwardedProps = useForwardProps(delegatedProps)
         props.class,
       )
     "
+    data-slot="dropdown-menu-sub-trigger"
   >
     <slot />
     <ChevronRight class="ml-auto size-4" />

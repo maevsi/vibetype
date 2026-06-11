@@ -10,9 +10,9 @@
       <input
         id="url-input"
         v-model="enteredURL"
-        type="url"
         class="text-text-dark w-full rounded"
         :placeholder="t('enterEventLink')"
+        type="url"
       />
     </div>
     <ButtonColored

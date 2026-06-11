@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="flex justify-center">
-      <img src="/assets/static/logos/app_logo.svg" height="60" />
+      <img height="60" src="/assets/static/logos/app_logo.svg" />
     </div>
   </div>
 </template>

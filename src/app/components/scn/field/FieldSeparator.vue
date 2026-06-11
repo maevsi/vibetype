@@ -10,14 +10,14 @@ const props = defineProps<{
 
 <template>
   <div
-    data-slot="field-separator"
-    :data-content="!!$slots.default"
     :class="
       cn(
         'relative -my-2 h-5 text-sm group-data-[variant=outline]/field-group:-mb-2',
         props.class,
       )
     "
+    :data-content="!!$slots.default"
+    data-slot="field-separator"
   >
     <Separator class="absolute inset-0 top-1/2" />
     <span

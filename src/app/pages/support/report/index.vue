@@ -14,7 +14,7 @@
     <template #error>
       <i18n-t keypath="errorDescription2" tag="span">
         <template #supportLink>
-          <AppLink :to="localePath('support-contact')" is-underlined>
+          <AppLink is-underlined :to="localePath('support-contact')">
             {{ t('supportLink') }}
           </AppLink>
         </template>

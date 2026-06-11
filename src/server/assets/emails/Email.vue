@@ -30,8 +30,8 @@ export default {
       <!-- TODO: fix style inclusion for fonts -->
       <!-- TODO: update font to Raleway -->
       <Font
-        font-family="Manrope"
         :fallback-font-family="['Helvetica', 'Arial', 'sans-serif']"
+        font-family="Manrope"
         :web-font="{
           url: 'https://fonts.gstatic.com/s/manrope/v15/xn7gYHE41ni1AdIRggexSg.woff2',
           format: 'woff2',
