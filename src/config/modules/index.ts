@@ -70,9 +70,6 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
     },
     telemetry: false,
   },
-  seo: {
-    minify: false, // TODO: enable (https://github.com/harlan-zw/nuxt-seo-utils/issues/103)
-  },
   shadcn: {
     prefix: '',
     componentDir: 'app/components/scn',
