@@ -1,3 +1,9 @@
+## [15.1.9](https://github.com/maevsi/vibetype/compare/15.1.8...15.1.9) (2026-06-17)
+
+### Performance Improvements
+
+* **deps:** update dargmuesli/github-actions to v5.5.1 ([163d1e8](https://github.com/maevsi/vibetype/commit/163d1e8ac522721e6dff84bdf9636dd64795cad5))
+
 ## [15.1.8](https://github.com/maevsi/vibetype/compare/15.1.7...15.1.8) (2026-06-11)
 
 ### Bug Fixes
