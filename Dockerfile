@@ -127,6 +127,8 @@ FROM mcr.microsoft.com/playwright:v1.61.0 AS test-e2e-base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
+ENV CONSOLA_LEVEL=-999
+ENV NODE_ENV=test
 ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
 
 # renovate: datasource=deb distro=ubuntu depName=mkcert suite=noble
