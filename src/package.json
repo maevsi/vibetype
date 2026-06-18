@@ -87,7 +87,7 @@
     "eslint-plugin-only-error": "1.0.2",
     "firebase": "12.14.0",
     "firebase-admin": "14.0.0",
-    "graphql": "16.14.2",
+    "graphql": "17.0.1",
     "h3": "1.15.11",
     "html-to-text": "10.0.0",
     "ical-generator": "11.0.0",
