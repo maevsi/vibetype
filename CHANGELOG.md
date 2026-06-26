@@ -1,3 +1,13 @@
+## [16.0.0-beta.1](https://github.com/maevsi/vibetype/compare/15.1.9...16.0.0-beta.1) (2026-06-26)
+
+### ⚠ BREAKING CHANGES
+
+* **app:** drop outdated detection keys
+
+### Features
+
+* **app:** drop outdated detection keys ([9eb7e4e](https://github.com/maevsi/vibetype/commit/9eb7e4efe1b94a489b94ccb7c1b2c92f53040531))
+
 ## [15.1.9](https://github.com/maevsi/vibetype/compare/15.1.8...15.1.9) (2026-06-17)
 
 ### Performance Improvements
