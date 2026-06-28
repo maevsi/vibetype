@@ -89,6 +89,7 @@ export default defineConfig({
   webServer: {
     command: `pnpm --dir ../src run certificates && pnpm --dir ../src run start:${process.env.VIO_SERVER || 'development'}`,
     env: {
+      CONSOLA_LEVEL: '0',
       NUXT_PUBLIC_VIO_IS_TESTING: 'true',
     },
     ignoreHTTPSErrors: true, // TODO: remove once tests run without it
