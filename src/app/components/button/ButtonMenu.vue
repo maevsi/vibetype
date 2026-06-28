@@ -14,11 +14,7 @@
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
 
-const {
-  // @ts-expect-error TODO: wait for sitemap to support compact routes (https://github.com/nuxt-modules/sitemap/issues/617)
-  ariaLabel,
-  to = undefined,
-} = defineProps<{
+const { ariaLabel, to = undefined } = defineProps<{
   ariaLabel: string
   to?: RouteLocationRaw
 }>()
