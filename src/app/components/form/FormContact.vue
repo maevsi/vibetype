@@ -41,7 +41,8 @@
           />
           <p
             v-if="
-              contact?.accountByAccountId?.rowId === store.signedInAccountId
+              store.signedInUsername &&
+              contact?.accountByAccountId?.username === store.signedInUsername
             "
             class="text-muted-foreground text-sm"
           >

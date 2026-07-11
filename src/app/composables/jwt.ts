@@ -32,8 +32,7 @@ export const useAuthentication = () => {
 
 export const useJwtCookie = (
   options:
-    | { options: CookieOptions & { readonly: false } }
-    | undefined = undefined,
+    { options: CookieOptions & { readonly: false } } | undefined = undefined,
 ) => {
   const { siteUrlTyped: siteUrl } = useSiteUrl()
   const jwtCookieParameters = getJwtCookieParameters({

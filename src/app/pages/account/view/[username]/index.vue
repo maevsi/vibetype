@@ -18,7 +18,7 @@
               localePath({
                 name: 'account-edit-username',
                 params: {
-                  username: store.signedInUsername,
+                  username: route.params.username,
                 },
               })
             "
