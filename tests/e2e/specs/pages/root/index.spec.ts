@@ -15,8 +15,8 @@ const PAGE_PATH = '/'
 testA11y(PAGE_PATH)
 testOgImage({
   dynamic: {
-    de: 'a_VIBETYPEs+Logo.,c_Default.takumi,description_~RmluZGUgVmVyYW5zdGFsdHVuZ2VuLCBHw6RzdGUgdW5kIEZyZXVuZGUg8J-SmeKdpO-4j~Cfkpo,title_Vibetype,p_Ii9kZSI.png',
-    en: `a_VIBETYPE's+logo.,c_Default.takumi,description_~RmluZCBldmVudHMsIGd1ZXN0cyBhbmQgZnJpZW5kcyDwn5KZ4p2k77iP8J-Smg,title_Vibetype.png`,
+    de: 'a_VIBETYPEs+Logo.,c_Default.takumi,description_~RmluZGUgVmVyYW5zdGFsdHVuZ2VuLCBHw6RzdGUgdW5kIEZyZXVuZGUg8J-SmeKdpO-4j~Cfkpo,title_Vibetype,p_Ii9kZSI,s_6f9b4Q7oK7kDbYfN.png',
+    en: `a_VIBETYPE's+logo.,c_Default.takumi,description_~RmluZCBldmVudHMsIGd1ZXN0cyBhbmQgZnJpZW5kcyDwn5KZ4p2k77iP8J-Smg,title_Vibetype,s_B_pNK4L0QuZIE4Uo.png`,
   },
 })
 testPageLoad(PAGE_PATH)
