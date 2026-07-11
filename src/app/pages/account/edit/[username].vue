@@ -11,7 +11,7 @@
         :to="
           localePath({
             name: 'account-view-username',
-            params: { username: store.signedInUsername },
+            params: { username: route.params.username },
           })
         "
       >

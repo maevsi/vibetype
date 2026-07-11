@@ -150,14 +150,18 @@ const toDashboard = async () =>
     }),
   )
 const store = useStore()
-const toBlockList = async () =>
+const toBlockList = async () => {
+  if (!store.signedInUsername) {
+    throw new Error('No signed in username found')
+  }
+
   await navigateTo(
     localePath({
       name: 'account-view-username-block',
       params: { username: store.signedInUsername },
     }),
   )
-
+}
 // template
 const { t } = useI18n()
 </script>

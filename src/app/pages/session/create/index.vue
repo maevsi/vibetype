@@ -64,7 +64,6 @@ const navigateBack = () => {
 // sign in
 const localePath = useLocalePath()
 const route = useRoute()
-const store = useStore()
 
 // stepper
 const { error, restart, step, title } = useStepperPage<'default'>({
@@ -84,14 +83,14 @@ const to = computed(() =>
   route.query.to && !Array.isArray(route.query.to) ? route.query.to : undefined,
 )
 const verified = computed(() => route.query.verified === null)
-const onSignIn = async () => {
+const onSignIn = async (username: string) => {
   // A link that allows users to delete their account is required by the Google Play Store (https://support.google.com/googleplay/android-developer/answer/13316080#account_deletion)
   // TODO: generalize, potentially whitelist valid redirection targets
   if (to.value === 'account-deletion') {
     return await navigateTo(
       localePath({
         name: 'account-edit-username',
-        params: { username: store.jwtPayload?.username },
+        params: { username: username },
       }),
     )
   }

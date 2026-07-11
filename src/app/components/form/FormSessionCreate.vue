@@ -73,7 +73,7 @@ import { useForm } from '@tanstack/vue-form'
 import { z } from 'zod'
 
 const emit = defineEmits<{
-  'signed-in': []
+  'signed-in': [username: string]
 }>()
 
 const { t } = useI18n()
@@ -184,7 +184,7 @@ const form = useForm({
 
       store.jwtSet(jwtPayload)
       $urqlReset()
-      emit('signed-in')
+      emit('signed-in', value.username)
     } catch (error) {
       alertError({
         ...(error instanceof Error ? { error } : {}),

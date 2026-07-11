@@ -1,9 +1,9 @@
-import type { RouteNamedMap } from 'vue-router/auto-routes'
+import type { RouteNamedMapI18n } from 'vue-router/auto-routes'
 
 export const usePageDeprecation = async ({
   name,
 }: {
-  name: keyof RouteNamedMap
+  name: keyof RouteNamedMapI18n
 }) => {
   const { ssrContext } = useNuxtApp()
   const route = useRoute()
