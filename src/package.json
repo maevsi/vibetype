@@ -42,7 +42,7 @@
     "@tailwindcss/forms": "0.5.11",
     "@tailwindcss/typography": "0.5.20",
     "@tailwindcss/vite": "4.3.1",
-    "@takumi-rs/core": "1.8.6",
+    "@takumi-rs/core": "2.0.1",
     "@tanstack/vue-form": "1.33.0",
     "@tiptap/core": "3.27.1",
     "@tiptap/extension-text-align": "3.27.1",
