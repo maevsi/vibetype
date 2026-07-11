@@ -110,24 +110,28 @@ const saveTimeZoneAsCookie = () =>
   }).value = timeZone)
 
 // lifecycle
-if (!runtimeConfig.public.vio.isTesting && !isApp) {
+if (!runtimeConfig.public.vio.isTesting && !isApp && $pwa) {
   watch(
-    () => $pwa,
+    () => $pwa.showInstallPrompt,
     async (current, _previous) => {
-      if (current?.showInstallPrompt) {
+      if (!$pwa) {
+        console.error('PWA plugin is not available')
+        return
+      }
+
+      if (current) {
         toast(t('pwaTitle'), {
           action: {
             label: t('pwaConfirmButtonText'),
-            onClick: current.install,
+            onClick: $pwa.install,
           },
           description: t('pwaText'),
-          onDismiss: current.cancelInstall,
-          onAutoClose: current.cancelInstall,
+          onDismiss: $pwa.cancelInstall,
+          onAutoClose: $pwa.cancelInstall,
           duration: 10e3,
         })
       }
     },
-    { deep: true },
   )
 }
 
