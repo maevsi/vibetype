@@ -106,7 +106,7 @@
     "nuxt-security": "2.6.0",
     "nuxt-zod-i18n": "1.12.1",
     "openai": "6.48.0",
-    "pinia": "3.0.4",
+    "pinia": "4.0.2",
     "postgres": "3.4.9",
     "prettier": "3.9.5",
     "prettier-plugin-tailwindcss": "0.8.1",
