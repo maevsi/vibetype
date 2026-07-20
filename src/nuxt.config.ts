@@ -75,6 +75,7 @@ export default defineNuxtConfig({
       asyncContext: true,
       openAPI: IS_NITRO_OPENAPI_ENABLED,
     },
+    // @ts-expect-error environment type missing
     rollupConfig: {
       plugins: [vue()],
     },
