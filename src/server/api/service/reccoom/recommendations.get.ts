@@ -17,7 +17,9 @@ export default defineEventHandler(async () => {
   }
 
   const baseURL = getServiceHref({ name: 'reccoom', port: 5245 })
-  const recommendations = await $fetch<string[]>('/recommendations', {
+  const recommendations = await $fetch<
+    Array<{ event_id: string; score: number; score_type: string }>
+  >('/recommendations', {
     baseURL,
     headers: {
       cookie: `jwt=${jwt}`,
