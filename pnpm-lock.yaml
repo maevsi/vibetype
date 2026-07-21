@@ -495,8 +495,8 @@ importers:
         specifier: 1.9.4
         version: 1.9.4
       leaflet-control-geocoder:
-        specifier: 3.3.1
-        version: 3.3.1(leaflet@1.9.4)
+        specifier: 4.0.0
+        version: 4.0.0(leaflet@1.9.4)
       lodash-es:
         specifier: 4.18.1
         version: 4.18.1
@@ -9660,10 +9660,10 @@ packages:
   leac@0.7.0:
     resolution: {integrity: sha512-qMrZeyEekgdRQ9o6a4NAB2EQZrv827GJdn1vnapwSJ90hWRB4TzUSunvacPkxQ2TnNqHNI1/zSt0hlo0crG8Jw==}
 
-  leaflet-control-geocoder@3.3.1:
-    resolution: {integrity: sha512-DOLZLAbTq5mKzbvXt6O4HOWeJ03QofwYBbEjcp4Upg1JyWcrVSkfOKWIwbB4bOSPb40cdFoe59DOxGa1Sj10yQ==}
+  leaflet-control-geocoder@4.0.0:
+    resolution: {integrity: sha512-VInJiG9GKbUtZ/m425MxLZfnEDFQfjGXUHK/96sfMYRYsDuVCRgT3jszhqY114tDlkpAssRIex08i6UArDN3rA==}
     peerDependencies:
-      leaflet: ^1.6.0 || ^2.0.0
+      leaflet: ^1.6.0
 
   leaflet@1.9.4:
     resolution: {integrity: sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==}
@@ -23971,7 +23971,7 @@ snapshots:
 
   leac@0.7.0: {}
 
-  leaflet-control-geocoder@3.3.1(leaflet@1.9.4):
+  leaflet-control-geocoder@4.0.0(leaflet@1.9.4):
     dependencies:
       leaflet: 1.9.4
     optionalDependencies:
