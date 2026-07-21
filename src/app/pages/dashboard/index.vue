@@ -107,11 +107,11 @@ const {
   const events = (
     await Promise.all(
       eventIds.map(
-        async (eventId) =>
+        async (recommendation) =>
           (
             await $urql.value
               .query(eventQuery, {
-                id: eventId,
+                id: recommendation.event_id,
               })
               .toPromise()
           ).data?.eventByRowId,
