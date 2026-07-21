@@ -263,7 +263,7 @@ RUN corepack prepare
 
 ENTRYPOINT ["/srv/app/docker-entrypoint.sh"]
 CMD ["pnpm", "run", "start:node"]
-HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/service/vibetype/healthcheck || exit 1
+HEALTHCHECK --interval=10s --start-period=10s --timeout=5s CMD wget -O /dev/null http://localhost:3000/api/service/vibetype/healthcheck || exit 1
 EXPOSE 3000
 LABEL org.opencontainers.image.source="https://github.com/maevsi/vibetype"
 LABEL org.opencontainers.image.description="Find events, guests and friends 💙❤️💚"
