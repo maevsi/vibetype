@@ -248,6 +248,8 @@ FROM collect AS production
 
 ENV CI=false
 ENV NODE_ENV=production
+ENV NITRO_HOST=0.0.0.0
+ENV HOST=0.0.0.0
 
 ARG RELEASE_NAME
 ENV RELEASE_NAME=${RELEASE_NAME}
@@ -263,7 +265,7 @@ RUN corepack prepare
 
 ENTRYPOINT ["/srv/app/docker-entrypoint.sh"]
 CMD ["pnpm", "run", "start:node"]
-HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/service/vibetype/healthcheck || exit 1
+HEALTHCHECK --interval=10s --start-period=60s --timeout=5s CMD sh -c 'echo "[$(date)] healthcheck attempt" >> /tmp/healthcheck.log && wget -v -O /tmp/healthcheck-response.txt http://0.0.0.0:3000/api/service/vibetype/healthcheck 2>&1 | tee -a /tmp/healthcheck.log && echo "[$(date)] healthcheck OK" >> /tmp/healthcheck.log || { echo "[$(date)] healthcheck FAILED (exit $?)" >> /tmp/healthcheck.log; exit 1; }'
 EXPOSE 3000
 LABEL org.opencontainers.image.source="https://github.com/maevsi/vibetype"
 LABEL org.opencontainers.image.description="Find events, guests and friends 💙❤️💚"

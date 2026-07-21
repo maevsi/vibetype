@@ -39,6 +39,7 @@ jobs:
       BUILD_ADD_HOSTS: |
         app.localhost=127.0.0.1
       BUILD_ARGUMENTS: ${{ (needs.release_semantic_dry.outputs.new_release_version != null) && format('RELEASE_NAME={0}', needs.release_semantic_dry.outputs.new_release_version) || '' }}
+      SMOKE_TEST_SCRIPT: .github/smoke-test.sh
       TAG: ${{ (needs.release_semantic_dry.outputs.new_release_version != null) && needs.release_semantic_dry.outputs.new_release_version || '' }}
     secrets:
       BUILD_ARGUMENTS: SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
