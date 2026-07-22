@@ -83,6 +83,9 @@ export default defineNuxtConfig({
     '/**': {
       headers: { 'Document-Policy': 'js-profiling' }, // Sentry's browser profiling (currently supported for Chromium-based browsers)
     },
+    '/.well-known/apple-app-site-association': {
+      headers: { 'Content-Type': 'application/json' },
+    },
     '/__nuxt_content/content/query': {
       csurf: false,
     },
