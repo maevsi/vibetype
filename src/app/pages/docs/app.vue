@@ -43,34 +43,34 @@ const { isApp } = usePlatform()
 
 if (isApp) {
   await navigateTo('/', { replace: true })
-}
+} else {
+  const { ssrContext } = useNuxtApp()
+  const userAgent = import.meta.server
+    ? ssrContext?.event.headers.get('user-agent')
+    : navigator.userAgent
 
-const { ssrContext } = useNuxtApp()
-const userAgent = import.meta.server
-  ? ssrContext?.event.headers.get('user-agent')
-  : navigator.userAgent
+  if (userAgent) {
+    const { os } = UAParser(userAgent)
 
-if (userAgent) {
-  const { os } = UAParser(userAgent)
+    if (os.is('Android')) {
+      await navigateTo(
+        'https://play.google.com/store/apps/details?id=si.maev.twa',
+        { external: true, replace: true },
+      )
+    }
 
-  if (os.is('Android')) {
-    await navigateTo(
-      'https://play.google.com/store/apps/details?id=si.maev.twa',
-      { external: true, replace: true },
+    if (os.is('iOS')) {
+      await navigateTo('https://testflight.apple.com/join/kkStPDoc', {
+        external: true,
+        replace: true,
+      })
+    }
+
+    console.debug(
+      'Not redirecting, neither Android nor iOS detected',
+      JSON.stringify({ os, userAgent }),
     )
   }
-
-  if (os.is('iOS')) {
-    await navigateTo('https://testflight.apple.com/join/kkStPDoc', {
-      external: true,
-      replace: true,
-    })
-  }
-
-  console.debug(
-    'Not redirecting, neither Android nor iOS detected',
-    JSON.stringify({ os, userAgent }),
-  )
 }
 
 // page
