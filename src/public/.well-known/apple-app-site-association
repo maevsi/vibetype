@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["NJWSWLWL24.si.maev.twa"],
+        "paths": ["*"]
+      }
+    ]
+  },
+  "webcredentials": {
+    "domains": ["vibetype.app"]
+  }
+}
