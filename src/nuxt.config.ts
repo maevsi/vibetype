@@ -40,6 +40,9 @@ export default defineNuxtConfig({
     inlineRouteRules: true,
     typedPages: true,
   },
+  future: {
+    compatibilityVersion: 5,
+  },
   modules: [
     '@dargmuesli/nuxt-cookie-control',
     // '@nuxt/a11y',
