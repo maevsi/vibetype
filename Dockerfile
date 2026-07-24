@@ -9,20 +9,20 @@ FROM ghcr.io/maevsi/sqitch:12.0
 #############
 # Create base image.
 
-FROM node:24.18.0-alpine AS base-image
+FROM node:24.18.0-bookworm AS base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
 
 WORKDIR /srv/app/
 
-RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
-    apk update \
-    && apk add \
+RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt \
+    apt-get update \
+    && apt-get install -y --no-install-recommends \
       git \
-    && apk add --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
       mkcert \
-    && corepack enable
+    && corepack enable \
+    && rm -rf /var/lib/apt/lists/*
 
 
 #############
@@ -253,8 +253,10 @@ ARG RELEASE_NAME
 ENV RELEASE_NAME=${RELEASE_NAME}
 
 # Update dependencies.
-RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
-    apk upgrade
+RUN --mount=type=cache,id=apt-cache,target=/var/cache/apt \
+    apt-get update \
+    && apt-get upgrade -y \
+    && rm -rf /var/lib/apt/lists/*
 
 USER node
 
