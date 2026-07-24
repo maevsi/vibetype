@@ -10,6 +10,8 @@ allowBuilds:
   sharp: false
   unrs-resolver: false
   vue-demi: false
+minimumReleaseAgeExclude:
+  - '@nuxtjs/i18n@10.5.0'
 packages:
   - src
   - tests

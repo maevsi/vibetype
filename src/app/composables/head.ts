@@ -47,7 +47,7 @@ export const useAppLayout = () => {
     })
 
     // i18n
-    useHeadSafe(useLocaleHead().value)
+    useHead(useLocaleHead().value) // TODO: use `useHeadSafe` (https://github.com/nuxt-modules/i18n/issues/4061)
 
     // seo
     useSeoMeta({
