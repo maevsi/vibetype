@@ -37,7 +37,7 @@ ENV_DIR="$(mktemp -d -p "$(pwd)" smoke-env.XXXXXX)"
 chmod 755 "$ENV_DIR"
 
 docker run --detach --name "$CONTAINER" \
-  -p 3000:3000 \
+  -p 0:3000 \
   "$IMAGE"
 echo "Container started."
 echo "::endgroup::"
@@ -83,10 +83,8 @@ fi
 echo "::endgroup::"
 
 echo "::group::Smoke test"
-HTTP_CODE=$(curl -sS --retry 10 --retry-all-errors --retry-connrefused --retry-delay 2 --retry-max-time 60 --max-time 10 -o /dev/null -w '%{http_code}' "http://localhost:3000/api/service/vibetype/healthcheck" 2>/tmp/smoke-curl-verbose.log) || {
-  echo "Request failed, curl verbose output:"
-  cat /tmp/smoke-curl-verbose.log
-  echo "Container logs:"
+HTTP_CODE=$(curl -sS --retry 10 --retry-all-errors --retry-connrefused --retry-delay 2 --retry-max-time 60 --max-time 10 -o /dev/null -w '%{http_code}' "http://localhost:${HOST_PORT}/api/service/vibetype/healthcheck" 2>/tmp/smoke-curl-verbose.log) || {
+  echo "Request failed, container logs:"
   docker logs "$CONTAINER"
   exit 1
 }
