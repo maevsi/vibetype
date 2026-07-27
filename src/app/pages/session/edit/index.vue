@@ -35,9 +35,7 @@
       <section class="flex flex-col gap-4">
         <span class="text-lg font-bold">{{ t('display') }}</span>
         <div class="flex flex-col gap-3">
-          <!-- TODO: reenable button for ios once "system" color mode selection works (https://github.com/maevsi/ios/issues/41) -->
           <CardButton
-            v-if="!isIos"
             :title="t('colorScheme')"
             :to="
               localePath({
