@@ -37,6 +37,7 @@ ENV_DIR="$(mktemp -d -p "$(pwd)" smoke-env.XXXXXX)"
 chmod 755 "$ENV_DIR"
 
 docker run --detach --name "$CONTAINER" \
+  --volume "$ENV_DIR:/run/environment-variables:ro" \
   -p 0:3000 \
   "$IMAGE"
 echo "Container started."
