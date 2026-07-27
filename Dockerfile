@@ -50,7 +50,7 @@ CMD ["pnpm", "run", "--dir", "src", "dev", "--host", "0.0.0.0"]
 EXPOSE 3000
 
 # TODO: support healthcheck while starting (https://github.com/nuxt/nuxt/issues/14697)
-HEALTHCHECK --start-period=300s CMD wget -O /dev/null http://0.0.0.0:3000/api/service/vibetype/healthcheck || exit 1
+HEALTHCHECK --start-period=300s CMD wget -O /dev/null http://127.0.0.1:3000/api/service/vibetype/healthcheck || exit 1
 
 
 ########################
@@ -263,7 +263,7 @@ RUN corepack prepare
 
 ENTRYPOINT ["/srv/app/docker-entrypoint.sh"]
 CMD ["pnpm", "run", "start:node"]
-HEALTHCHECK --interval=10s --timeout=5s CMD sh -c 'echo "[$(date)] healthcheck attempt" >> /tmp/healthcheck.log; if wget -O /tmp/healthcheck-response.txt http://0.0.0.0:3000/api/service/vibetype/healthcheck >> /tmp/healthcheck.log 2>&1; then echo "[$(date)] healthcheck OK" >> /tmp/healthcheck.log; else rc=$?; echo "[$(date)] healthcheck FAILED (exit $rc)" >> /tmp/healthcheck.log; exit 1; fi'
+HEALTHCHECK --interval=10s --timeout=5s CMD sh -c 'echo "[$(date)] healthcheck attempt" >> /tmp/healthcheck.log; if wget -O /tmp/healthcheck-response.txt http://127.0.0.1:3000/api/service/vibetype/healthcheck >> /tmp/healthcheck.log 2>&1; then echo "[$(date)] healthcheck OK" >> /tmp/healthcheck.log; else rc=$?; echo "[$(date)] healthcheck FAILED (exit $rc)" >> /tmp/healthcheck.log; exit 1; fi'
 EXPOSE 3000
 LABEL org.opencontainers.image.source="https://github.com/maevsi/vibetype"
 LABEL org.opencontainers.image.description="Find events, guests and friends 💙❤️💚"
