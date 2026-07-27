@@ -84,7 +84,7 @@ fi
 echo "::endgroup::"
 
 echo "::group::Smoke test"
-HTTP_CODE=$(curl -sS --retry 10 --retry-all-errors --retry-connrefused --retry-delay 2 --retry-max-time 60 --max-time 10 -o /dev/null -w '%{http_code}' "http://localhost:${HOST_PORT}/api/service/vibetype/healthcheck" 2>/tmp/smoke-curl-verbose.log) || {
+HTTP_CODE=$(curl -sS --max-time 10 -o /dev/null -w '%{http_code}' "http://localhost:${HOST_PORT}/api/service/vibetype/healthcheck") || {
   echo "Request failed, container logs:"
   docker logs "$CONTAINER"
   exit 1
