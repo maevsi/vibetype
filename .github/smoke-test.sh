@@ -96,7 +96,7 @@ echo "Server listen addresses:"
 docker exec "$CONTAINER" sh -c 'ss -tlnp 2>/dev/null || netstat -tlnp 2>/dev/null || cat /proc/net/tcp6 /proc/net/tcp 2>/dev/null' || true
 echo "Healthcheck log:"
 docker exec "$CONTAINER" cat /tmp/healthcheck.log 2>/dev/null || echo "No log"
-HTTP_CODE=$(curl -sS --retry 10 --retry-connrefused --retry-delay 2 --retry-max-time 60 --max-time 10 -o /dev/null -w '%{http_code}' "http://localhost:3000/api/service/vibetype/healthcheck" 2>/tmp/smoke-curl-verbose.log) || {
+HTTP_CODE=$(curl -sS --retry 10 --retry-all-errors --retry-connrefused --retry-delay 2 --retry-max-time 60 --max-time 10 -o /dev/null -w '%{http_code}' "http://localhost:3000/api/service/vibetype/healthcheck" 2>/tmp/smoke-curl-verbose.log) || {
   echo "Request failed, curl verbose output:"
   cat /tmp/smoke-curl-verbose.log
   echo "Container logs:"
