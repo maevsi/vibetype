@@ -263,7 +263,7 @@ RUN corepack prepare
 
 ENTRYPOINT ["/srv/app/docker-entrypoint.sh"]
 CMD ["pnpm", "run", "start:node"]
-HEALTHCHECK --interval=10s --timeout=5s CMD sh -c 'echo "[$(date)] healthcheck attempt" >> /tmp/healthcheck.log; if wget -O /tmp/healthcheck-response.txt http://127.0.0.1:3000/api/service/vibetype/healthcheck >> /tmp/healthcheck.log 2>&1; then echo "[$(date)] healthcheck OK" >> /tmp/healthcheck.log; else rc=$?; echo "[$(date)] healthcheck FAILED (exit $rc)" >> /tmp/healthcheck.log; exit 1; fi'
+HEALTHCHECK --interval=10s CMD wget -O /dev/null http://127.0.0.1:3000/api/service/vibetype/healthcheck || exit 1
 EXPOSE 3000
 LABEL org.opencontainers.image.source="https://github.com/maevsi/vibetype"
 LABEL org.opencontainers.image.description="Find events, guests and friends 💙❤️💚"

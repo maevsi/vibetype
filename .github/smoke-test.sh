@@ -61,9 +61,6 @@ for i in $(seq 1 60); do
   fi
   if [ "$STATUS" = "unhealthy" ]; then
     echo "Container became unhealthy"
-    echo "::group::Healthcheck debug log"
-    docker exec "$CONTAINER" cat /tmp/healthcheck.log 2>/dev/null || echo "No healthcheck log found"
-    echo "::endgroup::"
     docker logs "$CONTAINER"
     exit 1
   fi
@@ -74,9 +71,6 @@ for i in $(seq 1 60); do
 done
 if [ "$STATUS" != "healthy" ]; then
   echo "Timeout waiting for healthy status"
-  echo "::group::Healthcheck debug log"
-  docker exec "$CONTAINER" cat /tmp/healthcheck.log 2>/dev/null || echo "No healthcheck log found"
-  echo "::endgroup::"
   docker logs "$CONTAINER"
   exit 1
 fi
