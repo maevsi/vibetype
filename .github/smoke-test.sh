@@ -5,7 +5,6 @@ IMAGE="${SMOKE_TEST_IMAGE:?SMOKE_TEST_IMAGE not set}"
 ENV_DIR=""
 SUFFIX="${GITHUB_RUN_ID:-$$}-${GITHUB_RUN_ATTEMPT:-1}"
 CONTAINER="smoke-${SUFFIX}"
-NETWORK="smoke-${SUFFIX}"
 
 echo "::group::Environment"
 echo "Image: $IMAGE"
@@ -16,9 +15,8 @@ echo "::endgroup::"
 
 cleanup() {
   echo "::group::Cleanup"
-  echo "Removing containers and network..."
+  echo "Removing container..."
   docker rm --force "$CONTAINER" >/dev/null 2>&1 || true
-  docker network rm "$NETWORK" >/dev/null 2>&1 || true
   if [ -n "${ENV_DIR:-}" ]; then
     rm -rf "$ENV_DIR" || true
   fi
@@ -27,17 +25,11 @@ cleanup() {
 }
 trap cleanup EXIT
 
-echo "::group::Create test network"
-docker network inspect "$NETWORK" >/dev/null 2>&1 || docker network create "$NETWORK"
-echo "Network ready."
-echo "::endgroup::"
-
 echo "::group::Start"
 ENV_DIR="$(mktemp -d -p "$(pwd)" smoke-env.XXXXXX)"
 chmod 755 "$ENV_DIR"
 
 docker run --detach --name "$CONTAINER" \
-  --network "$NETWORK" \
   --volume "$ENV_DIR:/run/environment-variables:ro" \
   -p 0:3000 \
   "$IMAGE"

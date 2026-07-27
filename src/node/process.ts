@@ -5,4 +5,7 @@ const execPromise = promisify(exec)
 
 export const RELEASE_NAME = async () =>
   process.env.RELEASE_NAME ||
-  (await execPromise('git describe --tags').catch(() => undefined))?.stdout.trim()
+  (
+    await execPromise('git describe --tags').catch(() => undefined)
+  )?.stdout.trim() ||
+  ''
