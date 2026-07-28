@@ -220,7 +220,7 @@ importers:
         version: 9.2.1(magic-string@1.1.0)(magicast@0.5.3)(oxc-parser@0.138.0)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23))
       '@dargmuesli/nuxt-vio':
         specifier: 22.0.0-beta.3
-        version: 22.0.0-beta.3(fc0b12fa61a8e50bc7ca375c4af56479)
+        version: 22.0.0-beta.3(5f5e707a895a189291660b0b60cd41a0)
       '@fontsource-variable/raleway':
         specifier: 5.2.8
         version: 5.2.8
@@ -310,7 +310,7 @@ importers:
         version: 0.22.2(magic-string@1.1.0)(magicast@0.5.3)(oxc-parser@0.138.0)(supports-color@10.2.2)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))
       '@nuxtjs/seo':
         specifier: 5.3.2
-        version: 5.3.2(771d0e51aa684e3e768d1f205a8a8cf6)
+        version: 5.3.2(81de6b6b3ce0b2039f297788e5848e77)
       '@nuxtjs/turnstile':
         specifier: 1.1.3
         version: 1.1.3(@nuxt/scripts@1.3.1(@unhead/vue@2.1.16(vue@3.5.40(typescript@6.0.3)))(db0@0.3.4)(esbuild@0.27.7)(ioredis@5.11.1(supports-color@10.2.2))(magicast@0.5.3)(rollup@4.62.2)(typescript@6.0.3)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(vue@3.5.40(typescript@6.0.3))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))(magicast@0.5.3)
@@ -514,7 +514,7 @@ importers:
         version: 4.1.0(magic-string@1.1.0)(magicast@0.5.3)(oxc-parser@0.138.0)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))
       nuxt-og-image:
         specifier: 6.7.2
-        version: 6.7.2(e47099e6950501fabaaebc04d7a0fdb3)
+        version: 6.7.2(d29e993b076d807407d1432d2648647d)
       nuxt-security:
         specifier: 2.6.0
         version: 2.6.0(magic-string@1.1.0)(magicast@0.5.3)(oxc-parser@0.138.0)(rollup@4.62.2)(supports-color@10.2.2)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))
@@ -663,18 +663,18 @@ importers:
   tests:
     dependencies:
       playwright-core:
-        specifier: 1.61.1
-        version: 1.61.1
+        specifier: 1.62.0
+        version: 1.62.0
     devDependencies:
       '@axe-core/playwright':
         specifier: 4.12.1
-        version: 4.12.1(playwright-core@1.61.1)
+        version: 4.12.1(playwright-core@1.62.0)
       '@eslint/js':
         specifier: 10.0.1
         version: 10.0.1(eslint@10.7.0(jiti@2.7.0)(supports-color@10.2.2))
       '@playwright/test':
-        specifier: 1.61.1
-        version: 1.61.1
+        specifier: 1.62.0
+        version: 1.62.0
       '@types/node':
         specifier: 24.13.3
         version: 24.13.3
@@ -4922,9 +4922,9 @@ packages:
     resolution: {integrity: sha512-SEeaJLb3qBNF/OaXnaR1NmmBbFYk1zC0ZH/52fATcRPLFg/p791YrcyFFy44Bo9sLaGuSuLp5Q6axbb/O+v/RA==}
     engines: {node: ^14.18.0 || >=16.0.0}
 
-  '@playwright/test@1.61.1':
-    resolution: {integrity: sha512-8nKv6+0RJSL9FE4jYOEGXnPeM/Hg12qZpmqzZjRh3qM0Y7c3z1mrOTfFLids72RDQYVh9WpLEfR5WdpNX4fkig==}
-    engines: {node: '>=18'}
+  '@playwright/test@1.62.0':
+    resolution: {integrity: sha512-9zOJ6ZQRAena31MpOH9VSzIz8Ou3YJ/wtY/eQm5T2uhfhG7/U3COrMS8xOtUrZrp9OgdmzEnIYODye3nY1VqzA==}
+    engines: {node: '>=20'}
     hasBin: true
 
   '@polka/url@1.0.0-next.29':
@@ -10835,14 +10835,14 @@ packages:
   pkg-types@2.3.1:
     resolution: {integrity: sha512-y+ichcgc2LrADuhLNAx8DFjVfgz91pRxfZdI3UDhxHvcVEZsenLO+7XaU5vOp0u/7V/wZ+plyuQxtrDlZJ+yeg==}
 
-  playwright-core@1.61.1:
-    resolution: {integrity: sha512-h7Qlt6m4REp25qvIdvbDtVmD4LqVXfpRxhORv9L0jzETM05p4fuPJ3dKyuSXQxDSbXnmS79HAgi9589lGSpLkg==}
-    engines: {node: '>=18'}
+  playwright-core@1.62.0:
+    resolution: {integrity: sha512-nsNRyq0r2zsG8AcRHWknc9QRA5XCueC7gWMrs+Gx2tlZn9hcl8zudfh00lhJPY1DE7NmZ6bDsT9g2yey8mXljA==}
+    engines: {node: '>=20'}
     hasBin: true
 
-  playwright@1.61.1:
-    resolution: {integrity: sha512-DWnY5o3YbLWK4GovuAVwpqL+1VwGNdUGrRr++8j8PtQQzvAVZUIMjKQ90fY689sEJZJBbZVw1rXaOKSTitkzPQ==}
-    engines: {node: '>=18'}
+  playwright@1.62.0:
+    resolution: {integrity: sha512-Z14dG305dgaLu6foB1TXQagFiW8JfSUIUaUuPaKQ6NtBPKF1P/qXcqfh6c6K/icPqdy37JmjbiBXf6JNg6Sylw==}
+    engines: {node: '>=20'}
     hasBin: true
 
   pluralize@8.0.0:
@@ -13427,10 +13427,10 @@ snapshots:
 
   '@aws/lambda-invoke-store@0.3.0': {}
 
-  '@axe-core/playwright@4.12.1(playwright-core@1.61.1)':
+  '@axe-core/playwright@4.12.1(playwright-core@1.62.0)':
     dependencies:
       axe-core: 4.12.1
-      playwright-core: 1.61.1
+      playwright-core: 1.62.0
 
   '@babel/code-frame@7.29.7':
     dependencies:
@@ -14250,7 +14250,7 @@ snapshots:
       - unplugin
       - webpack
 
-  '@dargmuesli/nuxt-vio@22.0.0-beta.3(fc0b12fa61a8e50bc7ca375c4af56479)':
+  '@dargmuesli/nuxt-vio@22.0.0-beta.3(5f5e707a895a189291660b0b60cd41a0)':
     dependencies:
       '@dargmuesli/nuxt-cookie-control': 9.1.28(magic-string@1.1.0)(magicast@0.5.3)(oxc-parser@0.138.0)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23))
       '@eslint/compat': 2.1.0(eslint@10.4.1(jiti@2.7.0)(supports-color@10.2.2))
@@ -14264,7 +14264,7 @@ snapshots:
       '@nuxtjs/color-mode': 4.0.0(magic-string@1.1.0)(magicast@0.5.3)(oxc-parser@0.138.0)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))
       '@nuxtjs/html-validator': 2.1.0(magicast@0.5.3)
       '@nuxtjs/i18n': 10.4.0(@vue/compiler-dom@3.5.40)(db0@0.3.4)(esbuild@0.27.7)(eslint@10.4.1(jiti@2.7.0)(supports-color@10.2.2))(ioredis@5.11.1(supports-color@10.2.2))(magicast@0.5.3)(pinia@4.0.2(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.40(typescript@6.0.3)))(rollup@4.62.2)(supports-color@10.2.2)(typescript@6.0.3)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(vue@3.5.40(typescript@6.0.3))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23))
-      '@nuxtjs/seo': 5.1.3(170f701bae1c61743432d932e1bf98db)
+      '@nuxtjs/seo': 5.1.3(1e99cc7d34769c1b3aa511d150dfec57)
       '@nuxtjs/turnstile': 1.1.3(@nuxt/scripts@1.3.1(@unhead/vue@2.1.16(vue@3.5.40(typescript@6.0.3)))(db0@0.3.4)(esbuild@0.27.7)(ioredis@5.11.1(supports-color@10.2.2))(magicast@0.5.3)(rollup@4.62.2)(typescript@6.0.3)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(vue@3.5.40(typescript@6.0.3))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))(magicast@0.5.3)
       '@pinia/nuxt': 0.11.3(magic-string@1.1.0)(magicast@0.5.3)(oxc-parser@0.138.0)(pinia@4.0.2(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.40(typescript@6.0.3)))(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))
       '@tailwindcss/forms': 0.5.11(tailwindcss@4.3.3)
@@ -17461,14 +17461,14 @@ snapshots:
       - vite
       - vue
 
-  '@nuxtjs/seo@5.1.3(170f701bae1c61743432d932e1bf98db)':
+  '@nuxtjs/seo@5.1.3(1e99cc7d34769c1b3aa511d150dfec57)':
     dependencies:
       '@nuxt/kit': 4.5.0(magic-string@1.1.0)(magicast@0.5.3)(oxc-parser@0.138.0)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))
       '@nuxtjs/robots': 6.1.3(@nuxt/schema@4.4.8)(magic-string@1.1.0)(magicast@0.5.3)(nuxt@4.4.8(b37b639a51975f8acdcc72118d9cc846))(oxc-parser@0.138.0)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(vue@3.5.40(typescript@6.0.3))(zod@3.25.76)
       '@nuxtjs/sitemap': 8.3.0(@nuxt/schema@4.4.8)(magic-string@1.1.0)(magicast@0.5.3)(nuxt@4.4.8(b37b639a51975f8acdcc72118d9cc846))(oxc-parser@0.138.0)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(vue@3.5.40(typescript@6.0.3))(zod@3.25.76)
       nuxt: 4.4.8(b37b639a51975f8acdcc72118d9cc846)
       nuxt-link-checker: 5.1.3(@nuxt/schema@4.4.8)(db0@0.3.4)(ioredis@5.11.1(supports-color@10.2.2))(magicast@0.5.3)(nuxt@4.4.8(b37b639a51975f8acdcc72118d9cc846))(oxc-parser@0.138.0)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(vue@3.5.40(typescript@6.0.3))(zod@3.25.76)
-      nuxt-og-image: 6.7.2(cc6628ace90bf8c2a774094ea8920307)
+      nuxt-og-image: 6.7.2(17002a6aa1e2df31e90d50abd7beea30)
       nuxt-schema-org: 6.2.7(@nuxt/schema@4.4.8)(@unhead/vue@2.1.16(vue@3.5.40(typescript@6.0.3)))(magic-string@1.1.0)(magicast@0.5.3)(nuxt@4.4.8(b37b639a51975f8acdcc72118d9cc846))(oxc-parser@0.138.0)(unhead@3.2.3(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(vue@3.5.40(typescript@6.0.3))(zod@3.25.76)
       nuxt-seo-utils: 8.3.2(3cc5e5126dfe54c75938bb01efb9106a)
       nuxt-site-config: 4.1.2(@nuxt/schema@4.4.8)(magic-string@1.1.0)(magicast@0.5.3)(nuxt@4.4.8(b37b639a51975f8acdcc72118d9cc846))(oxc-parser@0.138.0)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(vue@3.5.40(typescript@6.0.3))(zod@3.25.76)
@@ -17533,14 +17533,14 @@ snapshots:
       - webpack
       - zod
 
-  '@nuxtjs/seo@5.3.2(771d0e51aa684e3e768d1f205a8a8cf6)':
+  '@nuxtjs/seo@5.3.2(81de6b6b3ce0b2039f297788e5848e77)':
     dependencies:
       '@nuxt/kit': 4.5.0(magic-string@1.1.0)(magicast@0.5.3)(oxc-parser@0.138.0)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))
       '@nuxtjs/robots': 6.1.3(@nuxt/schema@4.4.8)(magic-string@1.1.0)(magicast@0.5.3)(nuxt@4.4.8(b37b639a51975f8acdcc72118d9cc846))(oxc-parser@0.138.0)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(vue@3.5.40(typescript@6.0.3))(zod@3.25.76)
       '@nuxtjs/sitemap': 8.3.0(@nuxt/schema@4.4.8)(magic-string@1.1.0)(magicast@0.5.3)(nuxt@4.4.8(b37b639a51975f8acdcc72118d9cc846))(oxc-parser@0.138.0)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(vue@3.5.40(typescript@6.0.3))(zod@3.25.76)
       nuxt: 4.4.8(b37b639a51975f8acdcc72118d9cc846)
       nuxt-link-checker: 5.1.3(@nuxt/schema@4.4.8)(db0@0.3.4)(ioredis@5.11.1(supports-color@10.2.2))(magicast@0.5.3)(nuxt@4.4.8(b37b639a51975f8acdcc72118d9cc846))(oxc-parser@0.138.0)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(vue@3.5.40(typescript@6.0.3))(zod@3.25.76)
-      nuxt-og-image: 6.7.2(e47099e6950501fabaaebc04d7a0fdb3)
+      nuxt-og-image: 6.7.2(d29e993b076d807407d1432d2648647d)
       nuxt-schema-org: 6.2.7(@nuxt/schema@4.4.8)(@unhead/vue@2.1.16(vue@3.5.40(typescript@6.0.3)))(magic-string@1.1.0)(magicast@0.5.3)(nuxt@4.4.8(b37b639a51975f8acdcc72118d9cc846))(oxc-parser@0.138.0)(unhead@3.2.3(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(vue@3.5.40(typescript@6.0.3))(zod@3.25.76)
       nuxt-seo-utils: 8.3.2(3cc5e5126dfe54c75938bb01efb9106a)
       nuxt-site-config: 4.1.2(@nuxt/schema@4.4.8)(magic-string@1.1.0)(magicast@0.5.3)(nuxt@4.4.8(b37b639a51975f8acdcc72118d9cc846))(oxc-parser@0.138.0)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(vue@3.5.40(typescript@6.0.3))(zod@3.25.76)
@@ -18361,9 +18361,9 @@ snapshots:
 
   '@pkgr/core@0.3.6': {}
 
-  '@playwright/test@1.61.1':
+  '@playwright/test@1.62.0':
     dependencies:
-      playwright: 1.61.1
+      playwright: 1.62.0
 
   '@polka/url@1.0.0-next.29': {}
 
@@ -24758,7 +24758,7 @@ snapshots:
       - vue
       - zod
 
-  nuxt-og-image@6.7.2(cc6628ace90bf8c2a774094ea8920307):
+  nuxt-og-image@6.7.2(17002a6aa1e2df31e90d50abd7beea30):
     dependencies:
       '@clack/prompts': 1.7.0
       '@nuxt/kit': 4.5.0(magic-string@0.30.21)(magicast@0.5.3)(oxc-parser@0.138.0)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))
@@ -24798,7 +24798,7 @@ snapshots:
       '@takumi-rs/core': 1.7.0
       fontless: 0.2.1(db0@0.3.4)(ioredis@5.11.1(supports-color@10.2.2))(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))
       nitropack: 2.13.4(oxc-parser@0.138.0)(srvx@0.11.22)(supports-color@10.2.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23))
-      playwright-core: 1.61.1
+      playwright-core: 1.62.0
       sharp: 0.35.3(@types/node@24.13.3)
       tailwindcss: 4.3.3
       unifont: 0.7.4
@@ -24818,7 +24818,7 @@ snapshots:
       - vue
       - webpack
 
-  nuxt-og-image@6.7.2(e47099e6950501fabaaebc04d7a0fdb3):
+  nuxt-og-image@6.7.2(d29e993b076d807407d1432d2648647d):
     dependencies:
       '@clack/prompts': 1.7.0
       '@nuxt/kit': 4.5.0(magic-string@0.30.21)(magicast@0.5.3)(oxc-parser@0.138.0)(unplugin@3.3.0(esbuild@0.27.7)(rollup@4.62.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23)))
@@ -24858,7 +24858,7 @@ snapshots:
       '@takumi-rs/core': 2.3.0(csstype@3.2.3)(preact@10.29.7)
       fontless: 0.2.1(db0@0.3.4)(ioredis@5.11.1(supports-color@10.2.2))(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))
       nitropack: 2.13.4(oxc-parser@0.138.0)(srvx@0.11.22)(supports-color@10.2.2)(vite@7.3.6(@types/node@24.13.3)(jiti@2.7.0)(lightningcss@1.33.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.0(cssnano@8.0.2(postcss@8.5.23))(csso@5.0.5)(esbuild@0.27.7)(lightningcss@1.33.0)(postcss@8.5.23))
-      playwright-core: 1.61.1
+      playwright-core: 1.62.0
       sharp: 0.35.3(@types/node@24.13.3)
       tailwindcss: 4.3.3
       unifont: 0.7.4
@@ -25902,11 +25902,11 @@ snapshots:
       exsolve: 1.1.0
       pathe: 2.0.3
 
-  playwright-core@1.61.1: {}
+  playwright-core@1.62.0: {}
 
-  playwright@1.61.1:
+  playwright@1.62.0:
     dependencies:
-      playwright-core: 1.61.1
+      playwright-core: 1.62.0
     optionalDependencies:
       fsevents: 2.3.2
 
