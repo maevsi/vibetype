@@ -38,7 +38,10 @@ export default defineNuxtConfig({
   css: ['~/assets/css/app.css'],
   experimental: {
     inlineRouteRules: true,
+    prefetchPreloadTags: true,
     typedPages: true,
+    typescriptPlugin: true,
+    watcher: 'builder',
   },
   imports: {
     parser: 'regex', // TODO: remove once unimport issue is resolved (https://github.com/nuxt/nuxt/issues/35858)
@@ -168,6 +171,7 @@ export default defineNuxtConfig({
     },
   },
   sourcemap: true,
+  tracingChannel: true,
   typescript: {
     sharedTsConfig: typescriptConfig,
     nodeTsConfig: {
