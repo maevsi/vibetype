@@ -203,6 +203,10 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@nuxt/schema': 4.4.8
+  nuxt: 4.4.8
+
 importers:
 
   .: {}
@@ -1496,7 +1500,7 @@ packages:
     resolution: {integrity: sha512-INLpy1UuGDMsP/YRyWG+kKZ5U01UuDtuuOw1IhaWEL+pfsPQaeKdY+RxzmBrcp4Fl1L0V80mcygSy+abuxs4lw==}
     engines: {node: '24'}
     peerDependencies:
-      nuxt: ^4.1.0
+      nuxt: 4.4.8
       vue: ^3.5.21
       vue-router: ^4.5.1 || ^5.0.0
 
@@ -3350,7 +3354,7 @@ packages:
     engines: {node: ^16.14.0 || >=18.0.0}
     hasBin: true
     peerDependencies:
-      '@nuxt/schema': ^4.4.6
+      '@nuxt/schema': 4.4.8
     peerDependenciesMeta:
       '@nuxt/schema':
         optional: true
@@ -3468,7 +3472,7 @@ packages:
       '@babel/plugin-proposal-decorators': ^7.25.0
       '@babel/plugin-syntax-typescript': ^7.25.0
       '@rollup/plugin-babel': ^6.0.0 || ^7.0.0
-      nuxt: ^4.4.8
+      nuxt: 4.4.8
     peerDependenciesMeta:
       '@babel/plugin-proposal-decorators':
         optional: true
@@ -3569,12 +3573,12 @@ packages:
   '@nuxtjs/seo@5.1.3':
     resolution: {integrity: sha512-aqRjn8sHAwP2iVTxGXOEGewYXYvbFq0XPaJOakvFSussUhPzoYp9yyUbfMhHPXKo25Ndz5+pcB6DsdGt15pY/w==}
     peerDependencies:
-      nuxt: ^3.16.0 || ^4.0.0
+      nuxt: 4.4.8
 
   '@nuxtjs/seo@5.3.2':
     resolution: {integrity: sha512-oRHLfEBCHS6C0resx71ffAAE7XZWYEMvOzuCiXVZfP0cahIl0AIQdgrrvmFso1bxITHmrVXz5Gr++K5kpyuZXw==}
     peerDependencies:
-      nuxt: ^3.16.0 || ^4.0.0
+      nuxt: 4.4.8
 
   '@nuxtjs/sitemap@8.3.0':
     resolution: {integrity: sha512-EmI/C/2GkkxuKwILjAFEyUppy5vDpE/eOTGAvD1pETvbPc/SVos/hi2HFfNIZpitUreEXSUwU19s7M+PebMJSw==}
@@ -5349,7 +5353,7 @@ packages:
     engines: {node: '>=18.19.1'}
     peerDependencies:
       nitro: 2.x || 3.x
-      nuxt: '>=3.7.0 || 4.x || 5.x'
+      nuxt: 4.4.8
     peerDependenciesMeta:
       nitro:
         optional: true
@@ -10336,7 +10340,7 @@ packages:
   nuxt-link-checker@5.1.3:
     resolution: {integrity: sha512-tGNgRzJli+vwlfxHRDViLGRjAgrha1weXeuId9PuG5IJRM1juQqQa7hkilOphUwKgh5MzNejYBcnzad8wip5JQ==}
     peerDependencies:
-      nuxt: ^3.9.0 || ^4.0.0
+      nuxt: 4.4.8
 
   nuxt-og-image@6.7.2:
     resolution: {integrity: sha512-+TdTqdimQvMrTxWrvci3hHLxsgP/RhkQQ+4XawLgis9tWpGCxmbdSfrelBr9C0LeQ/vhc7ztSIOzsewcGbLpXw==}
@@ -10408,7 +10412,7 @@ packages:
       '@unhead/vue': ^2.0.7 || ^3.0.0
       esbuild: '>=0.17.0'
       lightningcss: '>=1.20.0'
-      nuxt: ^3.0.0 || ^4.0.0
+      nuxt: 4.4.8
       rolldown: '>=1.0.0-beta.0'
       unhead: ^2.0.7 || ^3.0.0
     peerDependenciesMeta:
@@ -10448,8 +10452,8 @@ packages:
   nuxtseo-shared@5.1.3:
     resolution: {integrity: sha512-euCaYANxdjeLzJcxvEczKpLuikxPy/LUT/v69orStKlG2U4pvWaqDv74QO8YMCCmUbAO+8BoRj/SJccu9GcJGQ==}
     peerDependencies:
-      '@nuxt/schema': ^3.16.0 || ^4.0.0
-      nuxt: ^3.16.0 || ^4.0.0
+      '@nuxt/schema': 4.4.8
+      nuxt: 4.4.8
       nuxt-site-config: ^3.2.0 || ^4.0.0
       vue: ^3.5.0
       zod: ^3.23.0 || ^4.0.0
@@ -10462,8 +10466,8 @@ packages:
   nuxtseo-shared@5.3.2:
     resolution: {integrity: sha512-0A+oVQJUvcNKFqB/lzhG5+YhthZmrpzRv2os0LRsPbGNXwj1w3qUbmd0d7SRIP80cto1lKhZfSNZ/HxoCsbI4A==}
     peerDependencies:
-      '@nuxt/schema': ^3.16.0 || ^4.0.0
-      nuxt: ^3.16.0 || ^4.0.0
+      '@nuxt/schema': 4.4.8
+      nuxt: 4.4.8
       nuxt-site-config: ^3.2.0 || ^4.0.0
       vue: ^3.5.0
       zod: ^3.23.0 || ^4.0.0
@@ -10476,8 +10480,8 @@ packages:
   nuxtseo-shared@5.3.6:
     resolution: {integrity: sha512-l6CAwodMSe/0X9O4FxNN4BtKldz1L/aVu8ThCynjRPdTb2qsste91+tcegYfit0TpA7o5S9qHLDiOEte+mS9rg==}
     peerDependencies:
-      '@nuxt/schema': ^3.16.0 || ^4.0.0
-      nuxt: ^3.16.0 || ^4.0.0
+      '@nuxt/schema': 4.4.8
+      nuxt: 4.4.8
       nuxt-site-config: ^3.2.0 || ^4.0.0
       vue: ^3.5.0
       zod: ^3.23.0 || ^4.0.0
@@ -12843,8 +12847,8 @@ packages:
     resolution: {integrity: sha512-i6BokNlNDL93fpzNxN/LZSn6D6MzlO+i3qXt6iVZne3x1k7R46d5HlFB4P8tYydhgqOrRbIZEsnRd3kG7qGXyw==}
     peerDependencies:
       '@nuxt/kit': ^4.0.3
-      '@nuxt/schema': ^4.0.3
-      nuxt: ^4.0.3
+      '@nuxt/schema': 4.4.8
+      nuxt: 4.4.8
     peerDependenciesMeta:
       '@nuxt/kit':
         optional: true
