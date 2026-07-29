@@ -10,9 +10,6 @@ allowBuilds:
   sharp: false
   unrs-resolver: false
   vue-demi: false
-overrides:
-  '@nuxt/schema': '4.4.8'
-  nuxt: '4.4.8'
 packages:
   - src
   - tests
