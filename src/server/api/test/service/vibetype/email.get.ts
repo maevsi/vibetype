@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 const emailGetQuerySchema = z.object({
-  locale: z.nativeEnum(AppLocale).default(AppLocale.EN),
+  locale: z.enum(AppLocale).default(AppLocale.EN),
   name: EMAIL_NAMES.optional(),
 })
 

@@ -340,7 +340,7 @@ const formSchema = z.object({
   slug: SCHEMA_EVENT_SLUG_REQUIRED,
   start: z.string().min(1),
   url: SCHEMA_URL_HTTPS_OPTIONAL,
-  visibility: z.nativeEnum(EventVisibility),
+  visibility: z.enum(EventVisibility),
 })
 
 const form = useForm({

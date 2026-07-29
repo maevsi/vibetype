@@ -105,7 +105,7 @@ const formSchema = z
     passwordRepetition: z.string().min(1),
   })
   .refine((data) => data.password === data.passwordRepetition, {
-    message: t('passwordMismatch'),
+    error: t('passwordMismatch'),
     path: ['passwordRepetition'],
   })
 

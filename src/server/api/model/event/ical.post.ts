@@ -21,7 +21,7 @@ const icalPostBodySchema = z.object({
     rowId: z.string(),
     start: z.string(),
     slug: z.string(),
-    visibility: z.nativeEnum(EventVisibility),
+    visibility: z.enum(EventVisibility),
   }),
   guest: z
     .object({

@@ -123,7 +123,7 @@ const initialSelectedItems =
   ) ?? []
 
 const formSchema = z.object({
-  items: z.array(z.nativeEnum(EventSize)),
+  items: z.array(z.enum(EventSize)),
 })
 
 const store = useStore()
