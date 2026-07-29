@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="isEnabled || runtimeConfig.public.vio.environment !== 'production'"
+    v-if="isEnabled || import.meta.envName !== 'production'"
     class="relative"
   >
     <slot />
@@ -17,6 +17,4 @@ const { feature } = defineProps<{
 
 const { isFeatureEnabled } = useFeatureFlags()
 const isEnabled = isFeatureEnabled(feature)
-
-const runtimeConfig = useRuntimeConfig()
 </script>

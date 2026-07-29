@@ -109,7 +109,7 @@ export const sendEmail = async <T extends EmailName>({
   }
 
   if (
-    process.env.NODE_ENV !== 'production' &&
+    import.meta.envName !== 'production' &&
     mailOptions.to.startsWith('mail+sqitch-')
   ) {
     console.debug(

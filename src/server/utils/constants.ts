@@ -9,6 +9,7 @@ export const GET_CSP = ({
   siteUrl: URL
   runtimeConfig?: RuntimeConfig
 }) => {
+  console.log('env', import.meta.envName, import.meta.dev, import.meta.test)
   const sharedOptions = {
     isSsr: false,
     stagingHost: runtimeConfig?.public.vio.stagingHost,
@@ -57,7 +58,7 @@ export const GET_CSP = ({
       ],
       'manifest-src': ["'self'"],
       // 'prefetch-src': ["'self'"],
-      ...(process.env.NODE_ENV === 'development'
+      ...(import.meta.envName === 'development'
         ? {
             'require-trusted-types-for': "'script'", // csp-evaluator // TODO: enable for production once trusted types are properly implemented
           }
@@ -69,12 +70,12 @@ export const GET_CSP = ({
         'https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js', // ESLint plugin compat
       ],
       'worker-src': [
-        `${siteUrl}${process.env.NODE_ENV === 'development' ? 'dev-' : ''}sw.js`, // @vite-pwa/nuxt
+        `${siteUrl}${import.meta.envName === 'development' ? 'dev-' : ''}sw.js`, // @vite-pwa/nuxt
       ],
     },
     {
       // Cloudflare
-      ...(process.env.NODE_ENV === 'production'
+      ...(import.meta.envName === 'production'
         ? {
             'connect-src': ['https://cloudflareinsights.com'], // analytics
             'script-src-elem': [
@@ -111,7 +112,7 @@ export const GET_CSP = ({
     },
     // {
     //   // nuxt-link-checker
-    //   ...(process.env.NODE_ENV === 'development'
+    //   ...(import.meta.envName === 'development'
     //     ? {
     //         'connect-src': [`${siteUrl}api/__link_checker__/inspect`],
     //       }
@@ -119,7 +120,7 @@ export const GET_CSP = ({
     // },
     {
       // nuxt-og-image
-      ...(process.env.NODE_ENV === 'development'
+      ...(import.meta.envName === 'development'
         ? {
             // 'connect-src': [`${siteUrl}__og-image__/`],
             'frame-ancestors': ["'self'"],
@@ -128,7 +129,7 @@ export const GET_CSP = ({
     },
     // {
     //   // nuxt-schema-org
-    //   ...(process.env.NODE_ENV === 'development'
+    //   ...(import.meta.envName === 'development'
     //     ? {
     //         'connect-src': [`${siteUrl}__schema-org__/debug.json`],
     //       }
@@ -136,7 +137,7 @@ export const GET_CSP = ({
     // },
     // {
     //   // nuxt-simple-robots
-    //   ...(process.env.NODE_ENV === 'development'
+    //   ...(import.meta.envName === 'development'
     //     ? {
     //         'connect-src': [
     //           `${siteUrl}__robots__/debug.json`,
@@ -148,7 +149,7 @@ export const GET_CSP = ({
     // {
     //   // nuxt-simple-sitemap
     //   'script-src-elem': [`${SITE_URL}/__sitemap__/style.xsl`],
-    //   ...(process.env.NODE_ENV === 'development'
+    //   ...(import.meta.envName === 'development'
     //     ? {
     //         'connect-src': [`${siteUrl}__sitemap__/debug.json`],
     //       }
@@ -156,7 +157,7 @@ export const GET_CSP = ({
     // },
     // {
     //   // nuxt-site-config
-    //   ...(process.env.NODE_ENV === 'development'
+    //   ...(import.meta.envName === 'development'
     //     ? {
     //         'connect-src': [`${siteUrl}__site-config__/debug.json`],
     //       }
@@ -175,7 +176,7 @@ export const GET_CSP = ({
     },
     {
       // @nuxt/content
-      ...(process.env.NODE_ENV === 'development'
+      ...(import.meta.envName === 'development'
         ? {
             'connect-src': [
               // TODO: use first two lines only once nuxt content fix is merged and released (https://github.com/nuxt/content/pull/3344)
@@ -189,14 +190,14 @@ export const GET_CSP = ({
     },
     {
       // nuxt
-      ...(process.env.NODE_ENV === 'development'
+      ...(import.meta.envName === 'development'
         ? {
             'frame-src': [`${siteUrl}__nuxt_devtools__/client/`], // devtools
           }
         : {}),
       'connect-src': [
         "'self'", // e.g. `/_nuxt/builds/meta/`, `/_payload.json`, `/docs/legal/privacy/_payload.json`
-        // ...(process.env.NODE_ENV === 'development'
+        // ...(import.meta.envName === 'development'
         //   ? [
         //       `http://${domainTldPort}/_nuxt/`, // hot reload
         //       `https://${domainTldPort}/_nuxt/`, // hot reload

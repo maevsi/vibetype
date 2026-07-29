@@ -45,7 +45,7 @@ export const securityConfig: ReturnType<DefineNuxtConfig> = {
         'style-src': false as const,
         'style-src-attr': false as const,
         'style-src-elem': false as const,
-        'upgrade-insecure-requests': false, // TODO: when tests run on https, set to `process.env.NODE_ENV === 'production'` or `true`
+        'upgrade-insecure-requests': false, // TODO: when tests run on https, set to `import.meta.envName === 'production'` or `true`
         'worker-src': false as const,
       },
       permissionsPolicy: {
