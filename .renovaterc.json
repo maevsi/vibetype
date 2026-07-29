@@ -1,14 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>dargmuesli/renovate-config"],
-  "packageRules": [
-    {
-      "allowedVersions": "1.15.6",
-      "matchPackageNames": ["h3"]
-    },
-    {
-      "allowedVersions": "4.4.8",
-      "matchPackageNames": ["nuxt", "@nuxt/schema"]
-    }
-  ]
+  "extends": ["github>dargmuesli/renovate-config"]
 }
