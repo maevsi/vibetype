@@ -15,43 +15,13 @@ import {
 
 const MAIL_RATE_LIMIT_MAX_WAIT_MS = 10_000
 
-const acquireMailRateSlot = async (
-  rateLimitPerSecond: number,
-  redis: Redis,
-): Promise<void> => {
-  const startTime = Date.now()
-
-  while (Date.now() - startTime < MAIL_RATE_LIMIT_MAX_WAIT_MS) {
-    try {
-      const windowKey = `mail:rate:${Math.floor(Date.now() / 1000)}`
-
-      // Atomically increment only when under the limit to avoid inflating the
-      // counter on failed acquisitions, which would reduce throughput further.
-      const count = await redis.eval(
-        `local c = redis.call('get', KEYS[1])
-if c and tonumber(c) >= tonumber(ARGV[1]) then return 0 end
-local n = redis.call('incr', KEYS[1])
-redis.call('expire', KEYS[1], 2)
-return n`,
-        1,
-        windowKey,
-        String(rateLimitPerSecond),
-      )
-
-      if (Number(count) > 0) return
-
-      const waitMs = 1000 - (Date.now() % 1000)
-      await new Promise<void>((resolve) => setTimeout(resolve, waitMs))
-    } catch (error) {
-      console.warn(`Redis rate limiting unavailable, proceeding: ${error}`)
-      return
-    }
-  }
-
-  throw new Error(
-    `Mail rate limit slot could not be acquired within ${MAIL_RATE_LIMIT_MAX_WAIT_MS}ms`,
-  )
-}
+const acquireMailRateSlot = (rateLimitPerSecond: number, redis: Redis) =>
+  acquireRateLimitSlot({
+    key: 'mail:rate',
+    limit: rateLimitPerSecond,
+    maxWaitMs: MAIL_RATE_LIMIT_MAX_WAIT_MS,
+    redis,
+  })
 
 const emailConfig = {
   [EMAIL_NAME_ACCOUNT_PASSWORD_RESET]: {

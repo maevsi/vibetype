@@ -140,11 +140,20 @@ export const processNotification = async ({
       ? +runtimeConfig.public[SITE_NAME].email.limit24h
       : undefined
 
-  const rateLimitPerDay = isNaN(
-    +runtimeConfig.public[SITE_NAME].email.rateLimit.perDay,
-  )
-    ? limit24hLegacy
-    : +runtimeConfig.public[SITE_NAME].email.rateLimit.perDay
+  const rateLimitPerDayConfigured =
+    runtimeConfig.public[SITE_NAME].email.rateLimit.perDay !== ''
+      ? +runtimeConfig.public[SITE_NAME].email.rateLimit.perDay
+      : undefined
+
+  const rateLimitPerDayParsed =
+    rateLimitPerDayConfigured !== undefined && !isNaN(rateLimitPerDayConfigured)
+      ? rateLimitPerDayConfigured
+      : limit24hLegacy
+
+  const rateLimitPerDay =
+    rateLimitPerDayParsed !== undefined && !isNaN(rateLimitPerDayParsed)
+      ? rateLimitPerDayParsed
+      : MAEVSI_EMAIL_RATE_LIMIT_PER_DAY
 
   const rateLimitPerSecondParsed =
     +runtimeConfig.public[SITE_NAME].email.rateLimit.perSecond
@@ -153,7 +162,7 @@ export const processNotification = async ({
       ? rateLimitPerSecondParsed
       : MAEVSI_EMAIL_RATE_LIMIT_PER_SECOND
 
-  if (!rateLimitPerDay) {
+  if (rateLimitPerDayParsed === undefined || isNaN(rateLimitPerDayParsed)) {
     console.warn(
       `daily email limit is not a number, using default: ${MAEVSI_EMAIL_RATE_LIMIT_PER_DAY}`,
     )
@@ -182,7 +191,7 @@ export const processNotification = async ({
           }`,
           validUntil: payload.account.password_reset_verification_valid_until,
         },
-        rateLimitPerDay: rateLimitPerDay || MAEVSI_EMAIL_RATE_LIMIT_PER_DAY,
+        rateLimitPerDay,
         rateLimitPerSecond,
         redis,
       })
@@ -205,15 +214,15 @@ export const processNotification = async ({
           username: payload.account.username,
           validUntil: payload.account.email_address_verification_valid_until,
         },
-        rateLimitPerDay: rateLimitPerDay || MAEVSI_EMAIL_RATE_LIMIT_PER_DAY,
+        rateLimitPerDay,
         rateLimitPerSecond,
         redis,
       })
       break
     case CHANNEL_NAME_EVENT_INVITATION:
-      sendEventInvitationMail({
+      await sendEventInvitationMail({
         channelEvent,
-        rateLimitPerDay: rateLimitPerDay || MAEVSI_EMAIL_RATE_LIMIT_PER_DAY,
+        rateLimitPerDay,
         rateLimitPerSecond,
         redis,
         siteUrl,
@@ -233,7 +242,8 @@ const ack = async ({ id }: { id: string }) => {
   const baseURL = getServiceHrefPostgraphile()
   const response = await fetch(`${baseURL}/graphql`, {
     body: JSON.stringify({
-      query: `mutation { notificationAcknowledge(input: { id: "${id}", isAcknowledged: true }) { clientMutationId } }`,
+      query: `mutation ($id: UUID!) { notificationAcknowledge(input: { id: $id, isAcknowledged: true }) { clientMutationId } }`,
+      variables: { id },
     }),
     headers: {
       'Content-Type': 'application/json',
@@ -241,6 +251,10 @@ const ack = async ({ id }: { id: string }) => {
     method: 'POST',
   })
 
+  // best-effort: the email was already sent above, so a failed ack must not
+  // throw here, that would trigger a retry and resend it. The Redis dedupe
+  // key is the actual guard against reprocessing; a lost ack only matters if
+  // that key expires (24h) before the notification row is touched again.
   if (!response.ok)
     console.error(`Could not ack due to error: "${response.statusText}"`)
 }
@@ -274,13 +288,22 @@ export const processRawNotification = async ({
   tusdFilesUrl: string
   value: NotificationMessageValue
 }) => {
-  if (!key || !value) {
-    const errorMessage = 'Notification message missing key or value'
-    console.error(errorMessage)
-    throw new Error(errorMessage)
+  if (!key) {
+    throw new PermanentProcessingError('Notification message missing key')
   }
 
+  // a null value is a Debezium delete tombstone, nothing to process
+  if (!value) return
+
   if (value.payload.after.payload === '__debezium_unavailable_value') {
+    return
+  }
+
+  const dedupeKey = `dedupe:notification:${key.payload.id}`
+  if (await hasBeenProcessed(redis, dedupeKey)) {
+    console.info(
+      `Notification ${key.payload.id} already processed, skipping duplicate delivery`,
+    )
     return
   }
 
@@ -296,6 +319,16 @@ export const processRawNotification = async ({
     siteUrl,
     tusdFilesUrl,
   })
+
+  // best-effort: the notification was already fully processed above, so a
+  // failure to record that shouldn't cause a (duplicate-sending) retry
+  try {
+    await markProcessed(redis, dedupeKey, EVENT_STREAM_DEDUPE_TTL_SECONDS)
+  } catch (error) {
+    console.warn(
+      `Failed to record notification ${key.payload.id} as processed: ${error}`,
+    )
+  }
 }
 
 export const sendEventInvitationMail = async ({

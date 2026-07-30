@@ -1,3 +1,7 @@
+// thrown by a handler to signal that retrying is pointless (e.g. malformed
+// input) so retryWithBackoff fails fast instead of burning through its delays
+export class PermanentProcessingError extends Error {}
+
 export const retryWithBackoff = async <T>(
   fn: () => Promise<T>,
   maxAttempts: number,
@@ -7,6 +11,7 @@ export const retryWithBackoff = async <T>(
     try {
       return await fn()
     } catch (error) {
+      if (error instanceof PermanentProcessingError) throw error
       if (attempt >= maxAttempts) throw error
       const delay = initialDelayMs * Math.pow(2, attempt - 1)
       console.warn(

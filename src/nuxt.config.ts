@@ -115,7 +115,7 @@ export default defineNuxtConfig({
           // TODO(major): remove deprecated `limit24h` in the next major version
           limit24h: '150',
           rateLimit: {
-            perDay: '150',
+            perDay: '', // falls back to the deprecated `limit24h`, then to `MAEVSI_EMAIL_RATE_LIMIT_PER_DAY`
             perSecond: '14',
           },
         },
