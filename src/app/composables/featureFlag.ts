@@ -25,8 +25,11 @@ const parseFeatureFlags = (value?: unknown | null): FeatureFlag[] => {
 }
 
 /**
- * Manages feature flags via cookies. Flags are stored as comma-separated values
- * in `${SITE_NAME}_feature-flags` (when consented) and synced reactively.
+ * Manages feature flags via a cookie. The cookie is the single source of
+ * truth: enabled flags are always derived from it, never mirrored into a
+ * second reactive state, so nothing can drift out of sync with it. Flags
+ * read as disabled whenever consent for `${SITE_NAME}_feature-flags` is
+ * withheld, and the cookie is dropped the moment consent is revoked.
  *
  * @example
  * const { enableFeature, isFeatureEnabled } = useFeatureFlags()
@@ -34,13 +37,6 @@ const parseFeatureFlags = (value?: unknown | null): FeatureFlag[] => {
  * if (isFeatureEnabled('map').value) { ... }
  */
 export const useFeatureFlags = () => {
-  const featureFlags = useState<Set<FeatureFlag>>(
-    'feature-flags',
-    () => new Set(),
-  )
-  const isFeatureEnabledCache = useState<
-    Map<FeatureFlag, ComputedRef<boolean>>
-  >('feature-flags-cache', () => new Map())
   const cookieControl = useCookieControl()
   const isSecure = useIsSecure()
 
@@ -50,70 +46,57 @@ export const useFeatureFlags = () => {
     secure: isSecure,
   })
 
-  const canUseFeatureFlags = computed(
+  const isCookieAllowed = computed(
     () =>
       cookieControl.cookiesEnabledIds.value?.includes(
         FEATURE_FLAGS_COOKIE_ID,
       ) ?? false,
   )
 
-  const hydrateFromCookie = (value: string | null | undefined): void => {
-    featureFlags.value.clear()
-    parseFeatureFlags(value).forEach((flag) => featureFlags.value.add(flag))
-  }
-
-  const persistToCookie = (): void => {
-    if (!canUseFeatureFlags.value) return
-
-    cookie.value = Array.from(featureFlags.value).join(',')
-  }
-
-  const reset = (): void => {
-    featureFlags.value.clear()
-    cookie.value = null
-  }
-
-  if (canUseFeatureFlags.value) {
-    hydrateFromCookie(cookie.value)
-  }
-
-  watch(
-    () => cookie.value,
-    (newValue) => {
-      if (!canUseFeatureFlags.value) return
-      hydrateFromCookie(newValue)
-    },
+  const enabledFlags = computed<Set<FeatureFlag>>(() =>
+    isCookieAllowed.value
+      ? new Set(parseFeatureFlags(cookie.value))
+      : new Set(),
   )
 
-  watch(canUseFeatureFlags, (isAllowed) => {
-    if (isAllowed) {
-      hydrateFromCookie(cookie.value)
-      persistToCookie()
-      return
-    }
-
-    reset()
+  // Consent has just one side effect to enforce: a withdrawn consent
+  // must not leave flags lingering in a cookie we're no longer allowed to
+  // read from or write to.
+  watch(isCookieAllowed, (isAllowed) => {
+    if (!isAllowed) cookie.value = null
   })
 
-  const disableFeature = (feature: FeatureFlag): void => {
-    if (!canUseFeatureFlags.value || !featureFlags.value.has(feature)) return
+  const writeFlags = (flags: Set<FeatureFlag>): void => {
+    if (!isCookieAllowed.value) return
 
-    featureFlags.value.delete(feature)
-    persistToCookie()
+    cookie.value = flags.size ? Array.from(flags).join(',') : null
   }
 
   const enableFeature = (feature: FeatureFlag): void => {
-    if (!canUseFeatureFlags.value || featureFlags.value.has(feature)) return
+    if (!isCookieAllowed.value || enabledFlags.value.has(feature)) return
 
-    featureFlags.value.add(feature)
-    persistToCookie()
+    writeFlags(new Set(enabledFlags.value).add(feature))
   }
+
+  const disableFeature = (feature: FeatureFlag): void => {
+    if (!isCookieAllowed.value || !enabledFlags.value.has(feature)) return
+
+    const next = new Set(enabledFlags.value)
+    next.delete(feature)
+    writeFlags(next)
+  }
+
+  // Cached per flag so repeated calls (e.g. from a template) return the same
+  // ComputedRef instance instead of allocating a new one on every access.
+  const isFeatureEnabledCache = useState<
+    Map<FeatureFlag, ComputedRef<boolean>>
+  >('feature-flags-cache', () => new Map())
 
   const isFeatureEnabled = (feature: FeatureFlag): ComputedRef<boolean> => {
     const cached = isFeatureEnabledCache.value.get(feature)
     if (cached) return cached
 
-    const state = computed(() => featureFlags.value.has(feature))
+    const state = computed(() => enabledFlags.value.has(feature))
     isFeatureEnabledCache.value.set(feature, state)
     return state
   }
