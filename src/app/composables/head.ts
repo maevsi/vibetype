@@ -46,10 +46,6 @@ export const useAppLayout = () => {
       ],
     })
 
-    // i18n
-    // @ts-expect-error wait for nuxt-i18n > 10.5.0 (https://github.com/nuxt-modules/i18n/issues/4061)
-    useHeadSafe(useLocaleHead().value)
-
     // seo
     useSeoMeta({
       twitterSite: SEO_META_TWITTER_SITE,
