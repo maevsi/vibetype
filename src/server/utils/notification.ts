@@ -406,7 +406,7 @@ export const sendEventInvitationMail = async ({
 
   const eventAttendanceType = [
     ...(event.isInPerson ? [t.eventAttendanceTypeInPerson] : []),
-    ...(event.isRemote ? [t.eventAttendanceTypeInPerson] : []),
+    ...(event.isRemote ? [t.eventAttendanceTypeRemote] : []),
   ].join(', ')
 
   let eventDescription

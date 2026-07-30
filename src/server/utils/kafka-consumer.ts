@@ -154,7 +154,7 @@ export const createReliableConsumer = async ({
         originalValue: string | undefined
       }
 
-      let deadLetterQueueValue: DeadLetterQueueValue | null = null
+      let deadLetterQueueValue: DeadLetterQueueValue | null
 
       try {
         deadLetterQueueValue = message.value

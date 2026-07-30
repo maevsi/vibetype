@@ -110,7 +110,7 @@ export const sendEmail = async <T extends EmailName>({
       },
       ...([
         EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
-        CHANNEL_NAME_ACCOUNT_REGISTRATION,
+        EMAIL_NAME_ACCOUNT_REGISTRATION,
       ].includes(name)
         ? [
             {

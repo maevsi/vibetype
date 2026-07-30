@@ -19,7 +19,8 @@ export {
 } from '~~/node/static'
 
 export const COOKIE_SAME_SITE = 'lax' as const // cannot be `strict` as this would block cookies when coming from external sources
-export const EVENT_STREAM_DEDUPE_TTL_SECONDS = 60 * 60 * 24 // covers redelivery via retries/DLQ replay, not meant to survive indefinitely
+export const EVENT_STREAM_DEDUPE_TTL_SECONDS =
+  60 * 60 * 24 /* redelivery window */
 export const ITEMS_PER_PAGE = 10
 export const ITEMS_PER_PAGE_LARGE = 100
 export const JWT_ALGORITHM = 'ES256'
