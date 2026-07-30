@@ -39,6 +39,7 @@ const parseFeatureFlags = (value?: unknown | null): FeatureFlag[] => {
 export const useFeatureFlags = () => {
   const cookieControl = useCookieControl()
   const isSecure = useIsSecure()
+  const { t } = useI18n({ useScope: 'global' })
 
   const cookie = useCookie<string | null>(FEATURE_FLAGS_COOKIE_NAME, {
     maxAge: FEATURE_FLAGS_COOKIE_MAX_AGE,
@@ -73,7 +74,12 @@ export const useFeatureFlags = () => {
   }
 
   const enableFeature = (feature: FeatureFlag): void => {
-    if (!isCookieAllowed.value || enabledFlags.value.has(feature)) return
+    if (!isCookieAllowed.value) {
+      toast.warning(t('globalFeatureFlagsCookieRequired'))
+      return
+    }
+
+    if (enabledFlags.value.has(feature)) return
 
     writeFlags(new Set(enabledFlags.value).add(feature))
   }
@@ -88,16 +94,18 @@ export const useFeatureFlags = () => {
 
   // Cached per flag so repeated calls (e.g. from a template) return the same
   // ComputedRef instance instead of allocating a new one on every access.
-  const isFeatureEnabledCache = useState<
-    Map<FeatureFlag, ComputedRef<boolean>>
-  >('feature-flags-cache', () => new Map())
+  // Kept as a plain local (not `useState`), since a `ComputedRef` doesn't
+  // survive the SSR payload round-trip: Nuxt's payload revival treats it
+  // like a `ref` and replaces it with a plain ref frozen at its
+  // server-render value, permanently disconnecting it from `enabledFlags`.
+  const isFeatureEnabledCache = new Map<FeatureFlag, ComputedRef<boolean>>()
 
   const isFeatureEnabled = (feature: FeatureFlag): ComputedRef<boolean> => {
-    const cached = isFeatureEnabledCache.value.get(feature)
+    const cached = isFeatureEnabledCache.get(feature)
     if (cached) return cached
 
     const state = computed(() => enabledFlags.value.has(feature))
-    isFeatureEnabledCache.value.set(feature, state)
+    isFeatureEnabledCache.set(feature, state)
     return state
   }
 
