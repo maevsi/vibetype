@@ -15,12 +15,7 @@ const fcmMessageSchema = z.object({
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig(event)
   const body = await getBodySafe({ event, schema: fcmMessageSchema })
-
-  if (!firebaseAdminApp)
-    throw createAppError({
-      status: 500,
-      statusText: 'Firebase uninitialized',
-    })
+  const { adminApp } = useFirebase()
 
   if (!runtimeConfig.vibetype.api.notification.secret)
     throw createAppError({
@@ -34,5 +29,5 @@ export default defineEventHandler(async (event) => {
       statusText: 'Invalid secret',
     })
 
-  return getMessaging(firebaseAdminApp).send({ ...body.payload })
+  return getMessaging(adminApp).send({ ...body.payload })
 })

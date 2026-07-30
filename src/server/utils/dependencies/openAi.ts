@@ -1,3 +1,4 @@
+import { OpenAI } from 'openai'
 import type { ChatCompletion } from 'openai/resources/chat/completions'
 
 const costFormatter = new Intl.NumberFormat('de-DE', {
@@ -6,13 +7,31 @@ const costFormatter = new Intl.NumberFormat('de-DE', {
   minimumFractionDigits: 8,
 })
 
-export const useOpenAi = () => {
-  const event = useEvent()
+const getOpenAiClient = () => {
+  const runtimeConfig = useRuntimeConfig()
 
-  if (!event.context.$openAi)
+  if (!runtimeConfig.vibetype.openai.apiKey) {
+    ;(import.meta.dev ? console.warn : console.error)('OpenAI api key not set')
+    return
+  }
+
+  if (
+    runtimeConfig.vibetype.openai.apiKey === DARGSTACK_SECRET_UNUSED_THIRD_PARTY
+  ) {
+    console.warn('OpenAI api key not set in stack as provided by third party')
+    return
+  }
+
+  return new OpenAI({ apiKey: runtimeConfig.vibetype.openai.apiKey })
+}
+
+export const openAiClient = getOpenAiClient()
+
+export const useOpenAi = () => {
+  if (!openAiClient)
     throw createAppError({
       status: 500,
-      statusText: 'Event context is missing OpenAI data',
+      statusText: 'OpenAI client uninitialized',
     })
 
   return {
@@ -33,6 +52,6 @@ export const useOpenAi = () => {
 
       return costFormatter.format(costs)
     },
-    client: event.context.$openAi,
+    client: openAiClient,
   }
 }
