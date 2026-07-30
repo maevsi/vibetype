@@ -28,14 +28,12 @@ export const VALIDATION_USERNAME_LENGTH_MAXIMUM = 100
 export const SCHEMA_CAPTCHA = z.string().min(1)
 export const SCHEMA_CONSENT_REQUIRED = z.boolean().refine((value) => value)
 export const SCHEMA_EMAIL_ADDRESS_OPTIONAL = z
-  .string()
   .email()
   .max(VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM)
   .or(z.literal(''))
 export const SCHEMA_EMAIL_ADDRESS_REQUIRED = z
-  .string()
-  .min(1)
   .email()
+  .min(1)
   .max(VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM)
 export const SCHEMA_EVENT_DESCRIPTION_OPTIONAL = z
   .string()

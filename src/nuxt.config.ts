@@ -54,7 +54,6 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxtjs/color-mode',
     '@nuxtjs/html-validator',
-    'nuxt-zod-i18n', // most come before `@nuxtjs/i18n`
     '@nuxtjs/i18n',
     '@nuxtjs/mdc',
     '@nuxtjs/seo',

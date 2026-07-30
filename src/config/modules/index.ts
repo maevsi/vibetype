@@ -80,10 +80,4 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   sitemap: {
     credits: false,
   },
-  zodI18n: {
-    localeCodesMapping: {
-      'de-DE': 'de',
-      'en-GB': 'en',
-    },
-  },
 }

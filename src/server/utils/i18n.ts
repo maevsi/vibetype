@@ -6,4 +6,4 @@ export enum AppLocale {
   DE = 'de',
   EN = 'en',
 }
-export const LocaleSchema = z.nativeEnum(AppLocale)
+export const LocaleSchema = z.enum(AppLocale)
