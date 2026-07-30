@@ -1,3 +1,5 @@
+## [15.1.21](https://github.com/maevsi/vibetype/compare/15.1.20...15.1.21) (2026-07-30)
+
 ## [15.1.20](https://github.com/maevsi/vibetype/compare/15.1.19...15.1.20) (2026-07-29)
 
 ## [15.1.19](https://github.com/maevsi/vibetype/compare/15.1.18...15.1.19) (2026-07-29)
