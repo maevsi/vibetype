@@ -112,7 +112,12 @@ export default defineNuxtConfig({
     public: {
       [SITE_NAME]: {
         email: {
+          // TODO(major): remove deprecated `limit24h` in the next major version
           limit24h: '150',
+          rateLimit: {
+            perDay: '', // falls back to the deprecated `limit24h`, then to `MAEVSI_EMAIL_RATE_LIMIT_PER_DAY`
+            perSecond: '14',
+          },
         },
       },
       i18n: {
@@ -153,14 +158,20 @@ export default defineNuxtConfig({
         stagingHost: IS_IN_FRONTEND_DEVELOPMENT ? PRODUCTION_HOST : undefined,
       },
     },
-    vibetype: {
+    [SITE_NAME]: {
       api: {
         notification: {
           secret: '',
         },
       },
+      kafka: {
+        brokers: 'redpanda:9092',
+      },
       openai: {
         apiKey: '',
+      },
+      redis: {
+        url: 'redis://redis:6379',
       },
       zammad: {
         apiToken: undefined,

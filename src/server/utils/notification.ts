@@ -1,3 +1,4 @@
+import type Redis from 'ioredis'
 import camelcaseKeys from 'camelcase-keys'
 
 import { EventVisibility } from '~~/gql/generated/graphcache'
@@ -118,6 +119,7 @@ export const processNotification = async ({
   channelEvent,
   id,
   isAcknowledged,
+  redis,
   runtimeConfig,
   siteUrl,
   tusdFilesUrl,
@@ -125,19 +127,44 @@ export const processNotification = async ({
   channelEvent: ChannelEvent
   id: string
   isAcknowledged?: boolean
+  redis: Redis
   runtimeConfig: ReturnType<typeof useRuntimeConfig>
   siteUrl: string
   tusdFilesUrl: string
 }) => {
   if (isAcknowledged) return
 
-  const limit24h = isNaN(+runtimeConfig.public[SITE_NAME].email.limit24h)
-    ? undefined
-    : +runtimeConfig.public[SITE_NAME].email.limit24h
+  // TODO(major): remove `limit24h` fallback in the next major version
+  const limit24hLegacy =
+    runtimeConfig.public[SITE_NAME].email.limit24h !== ''
+      ? +runtimeConfig.public[SITE_NAME].email.limit24h
+      : undefined
 
-  if (!limit24h) {
+  const rateLimitPerDayConfigured =
+    runtimeConfig.public[SITE_NAME].email.rateLimit.perDay !== ''
+      ? +runtimeConfig.public[SITE_NAME].email.rateLimit.perDay
+      : undefined
+
+  const rateLimitPerDayParsed =
+    rateLimitPerDayConfigured !== undefined && !isNaN(rateLimitPerDayConfigured)
+      ? rateLimitPerDayConfigured
+      : limit24hLegacy
+
+  const rateLimitPerDay =
+    rateLimitPerDayParsed !== undefined && !isNaN(rateLimitPerDayParsed)
+      ? rateLimitPerDayParsed
+      : MAEVSI_EMAIL_RATE_LIMIT_PER_DAY
+
+  const rateLimitPerSecondParsed =
+    +runtimeConfig.public[SITE_NAME].email.rateLimit.perSecond
+  const rateLimitPerSecond =
+    !isNaN(rateLimitPerSecondParsed) && rateLimitPerSecondParsed > 0
+      ? rateLimitPerSecondParsed
+      : MAEVSI_EMAIL_RATE_LIMIT_PER_SECOND
+
+  if (rateLimitPerDayParsed === undefined || isNaN(rateLimitPerDayParsed)) {
     console.warn(
-      `24h email limit is not a number, using default: ${MAEVSI_EMAIL_LIMIT_24H}`,
+      `daily email limit is not a number, using default: ${MAEVSI_EMAIL_RATE_LIMIT_PER_DAY}`,
     )
   }
 
@@ -147,7 +174,6 @@ export const processNotification = async ({
   switch (channel) {
     case CHANNEL_NAME_ACCOUNT_PASSWORD_RESET:
       await sendEmail({
-        limit24h: limit24h || MAEVSI_EMAIL_LIMIT_24H,
         mailOptions: {
           subject: locales[channel][locale].subject,
           to: payload.account.email_address,
@@ -165,11 +191,13 @@ export const processNotification = async ({
           }`,
           validUntil: payload.account.password_reset_verification_valid_until,
         },
+        rateLimitPerDay,
+        rateLimitPerSecond,
+        redis,
       })
       break
     case CHANNEL_NAME_ACCOUNT_REGISTRATION:
       await sendEmail({
-        limit24h: limit24h || MAEVSI_EMAIL_LIMIT_24H,
         mailOptions: {
           subject: locales[channel][locale].subject,
           to: payload.account.email_address,
@@ -186,12 +214,17 @@ export const processNotification = async ({
           username: payload.account.username,
           validUntil: payload.account.email_address_verification_valid_until,
         },
+        rateLimitPerDay,
+        rateLimitPerSecond,
+        redis,
       })
       break
     case CHANNEL_NAME_EVENT_INVITATION:
-      sendEventInvitationMail({
-        limit24h: limit24h || MAEVSI_EMAIL_LIMIT_24H,
+      await sendEventInvitationMail({
         channelEvent,
+        rateLimitPerDay,
+        rateLimitPerSecond,
+        redis,
         siteUrl,
         tusdFilesUrl,
       })
@@ -209,7 +242,8 @@ const ack = async ({ id }: { id: string }) => {
   const baseURL = getServiceHrefPostgraphile()
   const response = await fetch(`${baseURL}/graphql`, {
     body: JSON.stringify({
-      query: `mutation { notificationAcknowledge(input: { id: "${id}", isAcknowledged: true }) { clientMutationId } }`,
+      query: `mutation ($id: UUID!) { notificationAcknowledge(input: { id: $id, isAcknowledged: true }) { clientMutationId } }`,
+      variables: { id },
     }),
     headers: {
       'Content-Type': 'application/json',
@@ -217,18 +251,98 @@ const ack = async ({ id }: { id: string }) => {
     method: 'POST',
   })
 
+  // best-effort: the email was already sent above, so a failed ack must not
+  // throw here, that would trigger a retry and resend it. The Redis dedupe
+  // key is the actual guard against reprocessing; a lost ack only matters if
+  // that key expires (24h) before the notification row is touched again.
   if (!response.ok)
     console.error(`Could not ack due to error: "${response.statusText}"`)
 }
 
+export type NotificationMessageKey = { payload: { id: string } }
+export type NotificationMessageValue = {
+  payload: {
+    after: {
+      channel:
+        | typeof CHANNEL_NAME_ACCOUNT_PASSWORD_RESET
+        | typeof CHANNEL_NAME_ACCOUNT_REGISTRATION
+        | typeof CHANNEL_NAME_EVENT_INVITATION
+      is_acknowledged: boolean | null
+      payload: string
+    }
+  }
+} | null
+
+export const processRawNotification = async ({
+  key,
+  redis,
+  runtimeConfig,
+  siteUrl,
+  tusdFilesUrl,
+  value,
+}: {
+  key: NotificationMessageKey | null
+  redis: Redis
+  runtimeConfig: ReturnType<typeof useRuntimeConfig>
+  siteUrl: string
+  tusdFilesUrl: string
+  value: NotificationMessageValue
+}) => {
+  if (!key) {
+    throw new PermanentProcessingError('Notification message missing key')
+  }
+
+  // a null value is a Debezium delete tombstone, nothing to process
+  if (!value) return
+
+  if (value.payload.after.payload === '__debezium_unavailable_value') {
+    return
+  }
+
+  const dedupeKey = `dedupe:notification:${key.payload.id}`
+  if (await hasBeenProcessed(redis, dedupeKey)) {
+    console.info(
+      `Notification ${key.payload.id} already processed, skipping duplicate delivery`,
+    )
+    return
+  }
+
+  await processNotification({
+    channelEvent: {
+      channel: value.payload.after.channel,
+      payload: JSON.parse(value.payload.after.payload),
+    },
+    id: key.payload.id,
+    isAcknowledged: !!value.payload.after.is_acknowledged,
+    redis,
+    runtimeConfig,
+    siteUrl,
+    tusdFilesUrl,
+  })
+
+  // best-effort: the notification was already fully processed above, so a
+  // failure to record that shouldn't cause a (duplicate-sending) retry
+  try {
+    await markProcessed(redis, dedupeKey, EVENT_STREAM_DEDUPE_TTL_SECONDS)
+  } catch (error) {
+    console.warn(
+      `Failed to record notification ${key.payload.id} as processed: ${error}`,
+    )
+  }
+}
+
 export const sendEventInvitationMail = async ({
   channelEvent,
-  limit24h,
+  rateLimitPerDay,
+  rateLimitPerSecond,
+  redis,
   siteUrl,
   tusdFilesUrl,
 }: {
   channelEvent: EventInvitationEvent
-  limit24h: number
+  rateLimitPerDay: number
+  rateLimitPerSecond: number
+  redis: Redis
   siteUrl: string
   tusdFilesUrl: string
 }) => {
@@ -292,7 +406,7 @@ export const sendEventInvitationMail = async ({
 
   const eventAttendanceType = [
     ...(event.isInPerson ? [t.eventAttendanceTypeInPerson] : []),
-    ...(event.isRemote ? [t.eventAttendanceTypeInPerson] : []),
+    ...(event.isRemote ? [t.eventAttendanceTypeRemote] : []),
   ].join(', ')
 
   let eventDescription
@@ -332,7 +446,7 @@ export const sendEventInvitationMail = async ({
   }
 
   await sendEmail({
-    limit24h,
+    rateLimitPerDay,
     mailOptions: {
       fromName: eventCreatorUsername,
       ...(icalText
@@ -369,5 +483,7 @@ export const sendEventInvitationMail = async ({
       eventVisibility,
       locale: payloadCamelCased.template.language,
     },
+    rateLimitPerSecond,
+    redis,
   })
 }
