@@ -166,7 +166,7 @@
     "dev": "pnpm run start:development",
     "generate": "pnpm run build:static",
     "gql:codegen": "NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" graphql-codegen --config .config/codegen/.rc.dev.ts",
-    "gql:codegen:prod": "graphql-codegen --config .config/codegen/.rc.prod.ts",
+    "gql:codegen:production": "graphql-codegen --config .config/codegen/.rc.prod.ts",
     "lint": "pnpm run lint:js && pnpm run lint:ts && pnpm run lint:style",
     "lint:fix": "pnpm run lint:js --fix",
     "lint:js": "eslint --cache",
