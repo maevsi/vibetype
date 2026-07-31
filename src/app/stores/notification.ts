@@ -1,8 +1,32 @@
 import type { Client } from '@urql/core'
 
-import { createDeviceMutation } from '~~/gql/documents/mutations/device/deviceCreate'
-import { deleteDeviceByCreatedByAndFcmTokenMutation } from '~~/gql/documents/mutations/device/deviceDelete'
-import { deviceByCreatedByAndFcmTokenQuery } from '~~/gql/documents/queries/device/deviceByCreatedByAndFcmToken'
+import { graphql } from '~~/gql/generated'
+
+const deviceByCreatedByAndFcmTokenQuery = graphql(`
+  query DeviceByCreatedByAndFcmToken($createdBy: UUID!, $fcmToken: String!) {
+    deviceByCreatedByAndFcmToken(createdBy: $createdBy, fcmToken: $fcmToken) {
+      id
+    }
+  }
+`)
+
+const createDeviceMutation = graphql(`
+  mutation CreateDevice($input: CreateDeviceInput!) {
+    createDevice(input: $input) {
+      clientMutationId
+    }
+  }
+`)
+
+const deleteDeviceByCreatedByAndFcmTokenMutation = graphql(`
+  mutation DeleteDeviceByCreatedByAndFcmToken(
+    $input: DeleteDeviceByCreatedByAndFcmTokenInput!
+  ) {
+    deleteDeviceByCreatedByAndFcmToken(input: $input) {
+      clientMutationId
+    }
+  }
+`)
 
 export const useNotificationStore = defineStore('notification', () => {
   const fcmToken = ref<string>()

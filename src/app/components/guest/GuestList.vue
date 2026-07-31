@@ -96,10 +96,15 @@ import {
 } from 'chart.js'
 import { Doughnut } from 'vue-chartjs'
 
-import { useAllGuestsQuery } from '~~/gql/documents/queries/guest/guestsAll'
+import { useQuery } from '@urql/vue'
+
+import { graphql } from '~~/gql/generated'
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
-import type { EventItemFragment } from '~~/gql/generated/graphql'
-import { getGuestItem } from '~~/gql/documents/fragments/guestItem'
+import type {
+  AllGuestsQueryVariables,
+  EventItemFragment,
+} from '~~/gql/generated/graphql'
+import { getGuestItem } from '~~/shared/utils/guest'
 
 const { event } = defineProps<{
   event: Pick<
@@ -132,13 +137,31 @@ const options = {
 }
 
 // api data
-const guestsQuery = useAllGuestsQuery(
-  computed(() => ({
+const guestsQuery = useQuery({
+  query: graphql(`
+    query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {
+      allGuests(
+        after: $after
+        condition: { eventId: $eventId }
+        first: $first
+      ) {
+        nodes {
+          ...GuestItem
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        totalCount
+      }
+    }
+  `),
+  variables: computed<AllGuestsQueryVariables>(() => ({
     after: after.value,
     eventId: event.rowId,
     first: ITEMS_PER_PAGE_LARGE,
   })),
-)
+})
 const api = await useApiData([guestsQuery])
 
 // methods

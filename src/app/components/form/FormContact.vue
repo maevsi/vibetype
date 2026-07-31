@@ -246,10 +246,10 @@
 
 <script setup lang="ts">
 import { useForm } from '@tanstack/vue-form'
+import { useMutation } from '@urql/vue'
 import { z } from 'zod'
 
-import { useCreateContactMutation } from '~~/gql/documents/mutations/contact/contactCreate'
-import { useUpdateContactByRowIdMutation } from '~~/gql/documents/mutations/contact/contactUpdateByRowId'
+import { graphql } from '~~/gql/generated'
 import type { ContactItemFragment } from '~~/gql/generated/graphql'
 
 const { contact = undefined } = defineProps<{
@@ -279,8 +279,28 @@ const localePath = useLocalePath()
 const { t } = useI18n()
 
 // api data
-const createContactMutation = useCreateContactMutation()
-const updateContactByRowIdMutation = useUpdateContactByRowIdMutation()
+const createContactMutation = useMutation(
+  graphql(`
+    mutation CreateContact($input: CreateContactInput!) {
+      createContact(input: $input) {
+        contact {
+          id
+        }
+      }
+    }
+  `),
+)
+const updateContactByRowIdMutation = useMutation(
+  graphql(`
+    mutation UpdateContactByRowId($input: UpdateContactByRowIdInput!) {
+      updateContactByRowId(input: $input) {
+        contact {
+          ...ContactItem
+        }
+      }
+    }
+  `),
+)
 const api = await useApiData([
   createContactMutation,
   updateContactByRowIdMutation,

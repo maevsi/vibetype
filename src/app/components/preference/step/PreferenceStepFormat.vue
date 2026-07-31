@@ -69,12 +69,13 @@
 </template>
 
 <script setup lang="ts">
-import { useAllEventFormatsQuery } from '~~/gql/documents/queries/event/eventFormatsAll'
-import { useAllPreferenceEventFormatsQuery } from '~~/gql/documents/queries/preference/preferenceEventFormatsAll'
-import { useCreatePreferenceEventFormatMutation } from '~~/gql/documents/mutations/preference/preferenceEventFormatCreate'
-import { useDeletePreferenceEventFormatByAccountIdAndFormatIdMutation } from '~~/gql/documents/mutations/preference/preferenceEventFormatDeleteByAccountIdAndEventFormat'
-import { getPreferenceEventFormatItem } from '~~/gql/documents/fragments/preferenceEventFormatItem'
-import { getEventFormatItem } from '~~/gql/documents/fragments/eventFormatItem'
+import { useMutation, useQuery } from '@urql/vue'
+
+import { graphql } from '~~/gql/generated'
+import {
+  getPreferenceEventFormatItem,
+  useAllPreferenceEventFormatsQuery,
+} from '~~/shared/utils/preference/eventFormat'
 
 const emit = defineEmits<{
   next: []
@@ -114,12 +115,44 @@ const translate = (nameKey: string) => {
 }
 
 // api data
-const allFormatsQuery = useAllEventFormatsQuery()
+const allFormatsQuery = useQuery({
+  query: graphql(`
+    query AllEventFormats {
+      allEventFormats {
+        nodes {
+          id
+          name
+          rowId
+        }
+      }
+    }
+  `),
+})
 const allPreferenceEventFormatsQuery = useAllPreferenceEventFormatsQuery()
-const createPreferenceEventFormatMutation =
-  useCreatePreferenceEventFormatMutation()
-const deletePreferenceEventFormatByAccountIdAndFormatIdMutation =
-  useDeletePreferenceEventFormatByAccountIdAndFormatIdMutation()
+const createPreferenceEventFormatMutation = useMutation(
+  graphql(`
+    mutation CreatePreferenceEventFormat(
+      $input: CreatePreferenceEventFormatInput!
+    ) {
+      createPreferenceEventFormat(input: $input) {
+        preferenceEventFormat {
+          ...PreferenceEventFormatItem
+        }
+      }
+    }
+  `),
+)
+const deletePreferenceEventFormatByAccountIdAndFormatIdMutation = useMutation(
+  graphql(`
+    mutation DeletePreferenceEventFormatByAccountIdAndFormatId(
+      $input: DeletePreferenceEventFormatByAccountIdAndFormatIdInput!
+    ) {
+      deletePreferenceEventFormatByAccountIdAndFormatId(input: $input) {
+        deletedPreferenceEventFormatId
+      }
+    }
+  `),
+)
 const api = await useApiData([
   allFormatsQuery,
   allPreferenceEventFormatsQuery,
@@ -129,7 +162,6 @@ const api = await useApiData([
 
 const eventFormats = computed(() =>
   api.value.data.allEventFormats?.nodes
-    .map(getEventFormatItem)
     .filter(isNeitherNullNorUndefined)
     .map((item) => ({ ...item, label: translate(item.name) }))
     .sort((a, b) => {

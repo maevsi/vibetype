@@ -197,9 +197,9 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
+import { useMutation, useQuery } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
-import { useAccountRegistrationMutation } from '~~/gql/documents/mutations/account/accountRegistration'
+import { accountRegistrationMutation as accountRegistrationDocument } from '~~/shared/utils/account'
 import {
   useValidationDedup,
   useValidationField,
@@ -218,7 +218,7 @@ const navigateBack = () => {
 }
 
 // api data
-const accountRegistrationMutation = useAccountRegistrationMutation()
+const accountRegistrationMutation = useMutation(accountRegistrationDocument)
 const api = await useApiData([accountRegistrationMutation])
 
 // TODO: move into api utility as `errorsTranslated`

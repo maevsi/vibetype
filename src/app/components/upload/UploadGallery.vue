@@ -117,13 +117,10 @@ import prettyBytes from 'pretty-bytes'
 import type { UnwrapRef } from 'vue'
 import { Cropper } from 'vue-advanced-cropper'
 import type { CropperResult, Size } from 'vue-advanced-cropper'
+import { useMutation, useQuery } from '@urql/vue'
 
-import { useCreateUploadMutation } from '~~/gql/documents/mutations/upload/uploadCreate'
-import { useAccountUploadQuotaBytesQuery } from '~~/gql/documents/queries/account/accountUploadQuotaBytes'
-import { useAllUploadsQuery } from '~~/gql/documents/queries/upload/uploadsAll'
-import { getUploadItem } from '~~/gql/documents/fragments/uploadItem'
-import { useDeleteUploadByRowIdMutation } from '~~/gql/documents/mutations/upload/uploadDeleteByRowId'
-import type { UploadItemFragment } from '~~/gql/generated/graphql'
+import { graphql } from '~~/gql/generated'
+import type { AllUploadsQueryVariables } from '~~/gql/generated/graphql'
 
 const { isReadonly, isSelectable } = defineProps<{
   isReadonly?: boolean
@@ -155,16 +152,63 @@ const selectedItem = ref<{
 }>()
 
 // api data
-const accountUploadQuotaBytesQuery = useAccountUploadQuotaBytesQuery({})
-const allUploadsQuery = useAllUploadsQuery(
-  computed(() => ({
+const accountUploadQuotaBytesQuery = useQuery({
+  query: graphql(`
+    query AccountUploadQuotaBytes {
+      accountUploadQuotaBytes
+    }
+  `),
+})
+const allUploadsQuery = useQuery({
+  query: graphql(`
+    query AllUploads($after: Cursor, $first: Int!, $createdBy: UUID) {
+      allUploads(
+        after: $after
+        condition: { createdBy: $createdBy }
+        first: $first
+      ) {
+        nodes {
+          id
+          rowId
+          sizeByte
+          storageKey
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        totalCount
+      }
+    }
+  `),
+  variables: computed<AllUploadsQueryVariables>(() => ({
     after: after.value,
     first: ITEMS_PER_PAGE,
     createdBy: store.signedInAccountId,
   })),
+})
+const deleteUploadByRowIdMutation = useMutation(
+  graphql(`
+    mutation DeleteUploadByRowId($input: DeleteUploadByRowIdInput!) {
+      deleteUploadByRowId(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
 )
-const deleteUploadByRowIdMutation = useDeleteUploadByRowIdMutation()
-const uploadCreateMutation = useCreateUploadMutation()
+const uploadCreateMutation = useMutation(
+  graphql(`
+    mutation CreateUpload($input: CreateUploadInput!) {
+      createUpload(input: $input) {
+        clientMutationId
+        upload {
+          id
+          rowId
+        }
+      }
+    }
+  `),
+)
 const api = await useApiData([
   accountUploadQuotaBytesQuery,
   allUploadsQuery,
@@ -173,9 +217,7 @@ const api = await useApiData([
 ])
 const uploads = computed(
   () =>
-    api.value.data.allUploads?.nodes
-      .map((x) => getUploadItem(x))
-      .filter(isNeitherNullNorUndefined) || [],
+    api.value.data.allUploads?.nodes.filter(isNeitherNullNorUndefined) || [],
 )
 const accountUploadQuotaBytes = computed(
   () => api.value.data.accountUploadQuotaBytes,
@@ -214,7 +256,9 @@ const selectProfilePicture = async () => {
   }
 }
 const executeUrqlRequest = useExecuteUrqlRequest()
-const deleteUpload = async (upload: Pick<UploadItemFragment, 'rowId'>) => {
+const deleteUpload = async (
+  upload: Pick<(typeof uploads.value)[number], 'rowId'>,
+) => {
   // pending.deletions.push(upload.rowId)
   const result = await executeUrqlRequest({
     errorMessageI18n: t('uploadDeleteFailed'),

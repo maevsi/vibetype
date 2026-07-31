@@ -64,10 +64,14 @@
 </template>
 
 <script setup lang="ts">
-import { useDeleteContactByRowIdMutation } from '~~/gql/documents/mutations/contact/contactDeleteByRowId'
-import { useAllContactsQuery } from '~~/gql/documents/queries/contact/contactsAll'
-import type { ContactItemFragment } from '~~/gql/generated/graphql'
-import { getContactItem } from '~~/gql/documents/fragments/contactItem'
+import { useMutation, useQuery } from '@urql/vue'
+
+import { graphql } from '~~/gql/generated'
+import type {
+  AllContactsQueryVariables,
+  ContactItemFragment,
+} from '~~/gql/generated/graphql'
+import { getContactItem } from '~~/shared/utils/contact'
 
 const { t } = useI18n()
 const store = useStore()
@@ -97,14 +101,41 @@ const selectedContact = ref<
 >()
 
 // api data
-const contactsQuery = useAllContactsQuery(
-  computed(() => ({
+const contactsQuery = useQuery({
+  query: graphql(`
+    query AllContacts($after: Cursor, $createdBy: UUID, $first: Int!) {
+      allContacts(
+        after: $after
+        condition: { createdBy: $createdBy }
+        first: $first
+        orderBy: [FIRST_NAME_ASC, LAST_NAME_ASC]
+      ) {
+        nodes {
+          ...ContactItem
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        totalCount
+      }
+    }
+  `),
+  variables: computed<AllContactsQueryVariables>(() => ({
     after: after.value,
     createdBy: store.signedInAccountId,
     first: ITEMS_PER_PAGE_LARGE,
   })),
+})
+const deleteContactByRowIdMutation = useMutation(
+  graphql(`
+    mutation DeleteContactByRowId($input: DeleteContactByRowIdInput!) {
+      deleteContactByRowId(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
 )
-const deleteContactByRowIdMutation = useDeleteContactByRowIdMutation()
 const api = await useApiData([contactsQuery, deleteContactByRowIdMutation])
 const contacts = computed(
   () =>

@@ -272,11 +272,11 @@
 <script setup lang="ts">
 import { useForm } from '@tanstack/vue-form'
 import type { AnyFieldApi } from '@tanstack/vue-form'
+import { useMutation } from '@urql/vue'
 import { z } from 'zod'
 import { DatePicker } from 'v-calendar'
 
-import { useCreateEventMutation } from '~~/gql/documents/mutations/event/eventCreate'
-import { useUpdateEventByRowIdMutation } from '~~/gql/documents/mutations/event/eventUpdateByRowId'
+import { graphql } from '~~/gql/generated'
 import { EventVisibility } from '~~/gql/generated/graphcache'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
@@ -307,8 +307,28 @@ const timeZone = useTimeZone()
 const now = useNow()
 
 // api data
-const createEventMutation = useCreateEventMutation()
-const updateEventMutation = useUpdateEventByRowIdMutation()
+const createEventMutation = useMutation(
+  graphql(`
+    mutation CreateEvent($input: CreateEventInput!) {
+      createEvent(input: $input) {
+        event {
+          id
+        }
+      }
+    }
+  `),
+)
+const updateEventMutation = useMutation(
+  graphql(`
+    mutation updateEventByRowId($input: UpdateEventByRowIdInput!) {
+      updateEventByRowId(input: $input) {
+        event {
+          id
+        }
+      }
+    }
+  `),
+)
 const api = await useApiData([createEventMutation, updateEventMutation])
 
 // slug validation

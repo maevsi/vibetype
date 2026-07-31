@@ -94,7 +94,9 @@
 </template>
 
 <script setup lang="ts">
-import { useCreateAccountBlockMutation } from '~~/gql/documents/mutations/accountBlock/accountBlockCreate'
+import { useMutation } from '@urql/vue'
+
+import { graphql } from '~~/gql/generated'
 
 // compiler
 const { blockedAccountId, blockedUsername, blockingAccountId } = defineProps<{
@@ -122,7 +124,15 @@ const onAnimationEnd = (isOpen: boolean) => {
 }
 
 // api data
-const createAccountBlockMutation = useCreateAccountBlockMutation()
+const createAccountBlockMutation = useMutation(
+  graphql(`
+    mutation CreateAccountBlock($input: CreateAccountBlockInput!) {
+      createAccountBlock(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
 // const api = await useApiData([createAccountBlockMutation]) // TODO: show loading state, error details
 const blockUser = async () => {
   const result = await createAccountBlockMutation.executeMutation({
