@@ -43,9 +43,6 @@ export default defineNuxtConfig({
     typescriptPlugin: true,
     watcher: 'builder',
   },
-  imports: {
-    parser: 'regex', // TODO: remove once unimport issue is resolved (https://github.com/nuxt/nuxt/issues/35858)
-  },
   modules: [
     '@dargmuesli/nuxt-cookie-control',
     // '@nuxt/a11y',
