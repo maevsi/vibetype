@@ -57,12 +57,13 @@
 import '@fontsource-variable/raleway/wght.css'
 import { isEqual } from 'ufo'
 
-const { $pwa } = useNuxtApp()
+const { $pwa, $urql } = useNuxtApp()
 const { isApp, isIos } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
 const timeZone = useTimeZone()
 const localePath = useLocalePath()
 const store = useStore()
+const notificationStore = useNotificationStore()
 const route = useRoute()
 
 // i18n
@@ -132,6 +133,24 @@ if (!runtimeConfig.public.vio.isTesting && !isApp && $pwa) {
         })
       }
     },
+  )
+}
+
+// notifications
+if (import.meta.client) {
+  watch(
+    () =>
+      [
+        store.signedInAccountId,
+        notificationStore.permissionState,
+        notificationStore.fcmToken,
+      ] as const,
+    ([signedInAccountId, permissionState]) => {
+      if (signedInAccountId && permissionState === 'granted') {
+        notificationStore.registerDevice($urql.value, signedInAccountId)
+      }
+    },
+    { immediate: true },
   )
 }
 

@@ -6,4 +6,6 @@ export default defineNuxtPlugin(() => {
   } else {
     initializeFirebaseClient()
   }
+
+  requestNotificationPermissionState(notificationStore)
 })

@@ -48,16 +48,25 @@ export const useJwtCookie = (
 }
 
 export const useJwtDelete = () => {
-  const { $urqlReset } = useNuxtApp()
+  const { $urql, $urqlReset } = useNuxtApp()
   const requestFetch = useRequestFetch()
   const store = useStore()
+  const notificationStore = useNotificationStore()
 
-  return async () =>
+  return async () => {
+    // captured before `jwtDelete` clears `store.signedInAccountId`
+    const signedInAccountId = store.signedInAccountId
+
+    if (signedInAccountId) {
+      await notificationStore.unregisterDevice($urql.value, signedInAccountId)
+    }
+
     await jwtDelete({
       $urqlReset,
       requestFetch,
       store,
     })
+  }
 }
 
 export const useJwtInitialize = async () => {
