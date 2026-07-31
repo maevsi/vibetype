@@ -48,16 +48,28 @@ export const useJwtCookie = (
 }
 
 export const useJwtDelete = () => {
-  const { $urqlReset } = useNuxtApp()
+  const { $urql, $urqlReset } = useNuxtApp()
   const requestFetch = useRequestFetch()
   const store = useStore()
+  const notificationStore = useNotificationStore()
 
-  return async () =>
+  return async () => {
+    // captured before `jwtDelete` clears `store.signedInAccountId`
+    const signedInAccountId = store.signedInAccountId
+
+    if (signedInAccountId) {
+      // Best-effort: `unregisterDevice` reports its own errors and never
+      // rejects on a GraphQL-level failure, so sign-out always proceeds
+      // below even if the device couldn't be unregistered.
+      await notificationStore.unregisterDevice($urql.value, signedInAccountId)
+    }
+
     await jwtDelete({
       $urqlReset,
       requestFetch,
       store,
     })
+  }
 }
 
 export const useJwtInitialize = async () => {
