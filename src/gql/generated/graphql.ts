@@ -221,6 +221,17 @@ export type CreateContactInput = {
   contact: ContactInput
 }
 
+/** All input for the create `Device` mutation. */
+export type CreateDeviceInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** The `Device` to be created by this mutation. */
+  device: DeviceInput
+}
+
 /** All input for the create `EventFavorite` mutation. */
 export type CreateEventFavoriteInput = {
   /**
@@ -355,6 +366,19 @@ export type DeleteContactByRowIdInput = {
   rowId: string
 }
 
+/** All input for the `deleteDeviceByCreatedByAndFcmToken` mutation. */
+export type DeleteDeviceByCreatedByAndFcmTokenInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** Reference to the account that created the device. */
+  createdBy: string
+  /** The Firebase Cloud Messaging token of the device that's used to deliver notifications. Must be non-empty and not exceed 300 characters. */
+  fcmToken: string
+}
+
 /** All input for the `deleteEventFavoriteByRowId` mutation. */
 export type DeleteEventFavoriteByRowIdInput = {
   /**
@@ -447,6 +471,14 @@ export type DeleteUploadByRowIdInput = {
   clientMutationId?: string | null | undefined
   /** The upload's internal id. */
   rowId: string
+}
+
+/** An input for mutations affecting `Device` */
+export type DeviceInput = {
+  /** Reference to the account that created the device. */
+  createdBy: string
+  /** The Firebase Cloud Messaging token of the device that's used to deliver notifications. Must be non-empty and not exceed 300 characters. */
+  fcmToken: string
 }
 
 /** All input for the `eventDelete` mutation. */
@@ -1636,6 +1668,22 @@ export type UpdateContactByRowIdMutation = {
   } | null
 }
 
+export type CreateDeviceMutationVariables = Exact<{
+  input: CreateDeviceInput
+}>
+
+export type CreateDeviceMutation = {
+  createDevice: { clientMutationId: string | null } | null
+}
+
+export type DeleteDeviceByCreatedByAndFcmTokenMutationVariables = Exact<{
+  input: DeleteDeviceByCreatedByAndFcmTokenInput
+}>
+
+export type DeleteDeviceByCreatedByAndFcmTokenMutation = {
+  deleteDeviceByCreatedByAndFcmToken: { clientMutationId: string | null } | null
+}
+
 export type CreateEventMutationVariables = Exact<{
   input: CreateEventInput
 }>
@@ -1890,6 +1938,15 @@ export type AllContactsQuery = {
     }>
     pageInfo: { hasNextPage: boolean; endCursor: string | null }
   } | null
+}
+
+export type DeviceByCreatedByAndFcmTokenQueryVariables = Exact<{
+  createdBy: string
+  fcmToken: string
+}>
+
+export type DeviceByCreatedByAndFcmTokenQuery = {
+  deviceByCreatedByAndFcmToken: { id: string } | null
 }
 
 export type EventByCreatedByAndSlugQueryVariables = Exact<{
@@ -7407,6 +7464,123 @@ export const UpdateContactByRowIdDocument = {
   UpdateContactByRowIdMutation,
   UpdateContactByRowIdMutationVariables
 >
+export const CreateDeviceDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateDevice' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateDeviceInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createDevice' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateDeviceMutation,
+  CreateDeviceMutationVariables
+>
+export const DeleteDeviceByCreatedByAndFcmTokenDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteDeviceByCreatedByAndFcmToken' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'DeleteDeviceByCreatedByAndFcmTokenInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteDeviceByCreatedByAndFcmToken' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteDeviceByCreatedByAndFcmTokenMutation,
+  DeleteDeviceByCreatedByAndFcmTokenMutationVariables
+>
 export const CreateEventDocument = {
   kind: 'Document',
   definitions: [
@@ -9572,6 +9746,79 @@ export const AllContactsDocument = {
     },
   ],
 } as unknown as DocumentNode<AllContactsQuery, AllContactsQueryVariables>
+export const DeviceByCreatedByAndFcmTokenDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'DeviceByCreatedByAndFcmToken' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'createdBy' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'fcmToken' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'String' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deviceByCreatedByAndFcmToken' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'createdBy' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'createdBy' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'fcmToken' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'fcmToken' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeviceByCreatedByAndFcmTokenQuery,
+  DeviceByCreatedByAndFcmTokenQueryVariables
+>
 export const EventByCreatedByAndSlugDocument = {
   kind: 'Document',
   definitions: [

@@ -58,6 +58,9 @@ export const useJwtDelete = () => {
     const signedInAccountId = store.signedInAccountId
 
     if (signedInAccountId) {
+      // Best-effort: `unregisterDevice` reports its own errors and never
+      // rejects on a GraphQL-level failure, so sign-out always proceeds
+      // below even if the device couldn't be unregistered.
       await notificationStore.unregisterDevice($urql.value, signedInAccountId)
     }
 

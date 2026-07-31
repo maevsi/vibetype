@@ -138,6 +138,10 @@ if (!runtimeConfig.public.vio.isTesting && !isApp && $pwa) {
 
 // notifications
 if (import.meta.client) {
+  // `notificationStore.fcmToken` is watched but not read here: `registerDevice`
+  // reads it directly off the store. It's a dependency so this watcher re-fires
+  // once the token arrives, which on iOS happens asynchronously via a native
+  // callback well after permission is granted and the account is signed in.
   watch(
     () =>
       [

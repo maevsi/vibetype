@@ -68,6 +68,8 @@ type Documents = {
   '\n  mutation CreateContact($input: CreateContactInput!) {\n    createContact(input: $input) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.CreateContactDocument
   '\n  mutation DeleteContactByRowId($input: DeleteContactByRowIdInput!) {\n    deleteContactByRowId(input: $input) {\n      clientMutationId\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.DeleteContactByRowIdDocument
   '\n  mutation UpdateContactByRowId($input: UpdateContactByRowIdInput!) {\n    updateContactByRowId(input: $input) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n': typeof types.UpdateContactByRowIdDocument
+  '\n  mutation CreateDevice($input: CreateDeviceInput!) {\n    createDevice(input: $input) {\n      clientMutationId\n    }\n  }\n': typeof types.CreateDeviceDocument
+  '\n  mutation DeleteDeviceByCreatedByAndFcmToken(\n    $input: DeleteDeviceByCreatedByAndFcmTokenInput!\n  ) {\n    deleteDeviceByCreatedByAndFcmToken(input: $input) {\n      clientMutationId\n    }\n  }\n': typeof types.DeleteDeviceByCreatedByAndFcmTokenDocument
   '\n  mutation CreateEvent($input: CreateEventInput!) {\n    createEvent(input: $input) {\n      event {\n        ...EventItem\n      }\n    }\n  }\n': typeof types.CreateEventDocument
   '\n  mutation EventDelete($input: EventDeleteInput!) {\n    eventDelete(input: $input) {\n      clientMutationId\n      result {\n        ...EventItem\n      }\n    }\n  }\n': typeof types.EventDeleteDocument
   '\n  mutation updateEventByRowId($input: UpdateEventByRowIdInput!) {\n    updateEventByRowId(input: $input) {\n      event {\n        ...EventItem\n      }\n    }\n  }\n': typeof types.UpdateEventByRowIdDocument
@@ -90,6 +92,7 @@ type Documents = {
   '\n  query AccountUploadQuotaBytes {\n    accountUploadQuotaBytes\n  }\n': typeof types.AccountUploadQuotaBytesDocument
   '\n  query AllAchievements($accountId: UUID) {\n    allAchievements(condition: { accountId: $accountId }) {\n      nodes {\n        ...AchievementItem\n      }\n    }\n  }\n': typeof types.AllAchievementsDocument
   '\n  query AllContacts($after: Cursor, $createdBy: UUID, $first: Int!) {\n    allContacts(\n      after: $after\n      condition: { createdBy: $createdBy }\n      first: $first\n      orderBy: [FIRST_NAME_ASC, LAST_NAME_ASC]\n    ) {\n      nodes {\n        ...ContactItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n': typeof types.AllContactsDocument
+  '\n  query DeviceByCreatedByAndFcmToken($createdBy: UUID!, $fcmToken: String!) {\n    deviceByCreatedByAndFcmToken(createdBy: $createdBy, fcmToken: $fcmToken) {\n      id\n    }\n  }\n': typeof types.DeviceByCreatedByAndFcmTokenDocument
   '\n  query EventByCreatedByAndSlug(\n    $createdBy: UUID!\n    $guestId: UUID\n    $slug: String!\n  ) {\n    eventByCreatedByAndSlug(createdBy: $createdBy, slug: $slug) {\n      ...EventItem\n      guestsByEventId(condition: { rowId: $guestId }) {\n        nodes {\n          ...GuestItem\n          contactByContactId {\n            ...ContactItem\n          }\n        }\n      }\n    }\n  }\n': typeof types.EventByCreatedByAndSlugDocument
   '\n  query AllEventCategories {\n    allEventCategories {\n      nodes {\n        ...EventCategoryItem\n      }\n    }\n  }\n': typeof types.AllEventCategoriesDocument
   '\n  query AllEventFormats {\n    allEventFormats {\n      nodes {\n        ...EventFormatItem\n      }\n    }\n  }\n': typeof types.AllEventFormatsDocument
@@ -214,6 +217,10 @@ const documents: Documents = {
     types.DeleteContactByRowIdDocument,
   '\n  mutation UpdateContactByRowId($input: UpdateContactByRowIdInput!) {\n    updateContactByRowId(input: $input) {\n      contact {\n        ...ContactItem\n      }\n    }\n  }\n':
     types.UpdateContactByRowIdDocument,
+  '\n  mutation CreateDevice($input: CreateDeviceInput!) {\n    createDevice(input: $input) {\n      clientMutationId\n    }\n  }\n':
+    types.CreateDeviceDocument,
+  '\n  mutation DeleteDeviceByCreatedByAndFcmToken(\n    $input: DeleteDeviceByCreatedByAndFcmTokenInput!\n  ) {\n    deleteDeviceByCreatedByAndFcmToken(input: $input) {\n      clientMutationId\n    }\n  }\n':
+    types.DeleteDeviceByCreatedByAndFcmTokenDocument,
   '\n  mutation CreateEvent($input: CreateEventInput!) {\n    createEvent(input: $input) {\n      event {\n        ...EventItem\n      }\n    }\n  }\n':
     types.CreateEventDocument,
   '\n  mutation EventDelete($input: EventDeleteInput!) {\n    eventDelete(input: $input) {\n      clientMutationId\n      result {\n        ...EventItem\n      }\n    }\n  }\n':
@@ -258,6 +265,8 @@ const documents: Documents = {
     types.AllAchievementsDocument,
   '\n  query AllContacts($after: Cursor, $createdBy: UUID, $first: Int!) {\n    allContacts(\n      after: $after\n      condition: { createdBy: $createdBy }\n      first: $first\n      orderBy: [FIRST_NAME_ASC, LAST_NAME_ASC]\n    ) {\n      nodes {\n        ...ContactItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n':
     types.AllContactsDocument,
+  '\n  query DeviceByCreatedByAndFcmToken($createdBy: UUID!, $fcmToken: String!) {\n    deviceByCreatedByAndFcmToken(createdBy: $createdBy, fcmToken: $fcmToken) {\n      id\n    }\n  }\n':
+    types.DeviceByCreatedByAndFcmTokenDocument,
   '\n  query EventByCreatedByAndSlug(\n    $createdBy: UUID!\n    $guestId: UUID\n    $slug: String!\n  ) {\n    eventByCreatedByAndSlug(createdBy: $createdBy, slug: $slug) {\n      ...EventItem\n      guestsByEventId(condition: { rowId: $guestId }) {\n        nodes {\n          ...GuestItem\n          contactByContactId {\n            ...ContactItem\n          }\n        }\n      }\n    }\n  }\n':
     types.EventByCreatedByAndSlugDocument,
   '\n  query AllEventCategories {\n    allEventCategories {\n      nodes {\n        ...EventCategoryItem\n      }\n    }\n  }\n':
@@ -630,6 +639,18 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+  source: '\n  mutation CreateDevice($input: CreateDeviceInput!) {\n    createDevice(input: $input) {\n      clientMutationId\n    }\n  }\n',
+): (typeof documents)['\n  mutation CreateDevice($input: CreateDeviceInput!) {\n    createDevice(input: $input) {\n      clientMutationId\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  mutation DeleteDeviceByCreatedByAndFcmToken(\n    $input: DeleteDeviceByCreatedByAndFcmTokenInput!\n  ) {\n    deleteDeviceByCreatedByAndFcmToken(input: $input) {\n      clientMutationId\n    }\n  }\n',
+): (typeof documents)['\n  mutation DeleteDeviceByCreatedByAndFcmToken(\n    $input: DeleteDeviceByCreatedByAndFcmTokenInput!\n  ) {\n    deleteDeviceByCreatedByAndFcmToken(input: $input) {\n      clientMutationId\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
   source: '\n  mutation CreateEvent($input: CreateEventInput!) {\n    createEvent(input: $input) {\n      event {\n        ...EventItem\n      }\n    }\n  }\n',
 ): (typeof documents)['\n  mutation CreateEvent($input: CreateEventInput!) {\n    createEvent(input: $input) {\n      event {\n        ...EventItem\n      }\n    }\n  }\n']
 /**
@@ -758,6 +779,12 @@ export function graphql(
 export function graphql(
   source: '\n  query AllContacts($after: Cursor, $createdBy: UUID, $first: Int!) {\n    allContacts(\n      after: $after\n      condition: { createdBy: $createdBy }\n      first: $first\n      orderBy: [FIRST_NAME_ASC, LAST_NAME_ASC]\n    ) {\n      nodes {\n        ...ContactItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n',
 ): (typeof documents)['\n  query AllContacts($after: Cursor, $createdBy: UUID, $first: Int!) {\n    allContacts(\n      after: $after\n      condition: { createdBy: $createdBy }\n      first: $first\n      orderBy: [FIRST_NAME_ASC, LAST_NAME_ASC]\n    ) {\n      nodes {\n        ...ContactItem\n      }\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query DeviceByCreatedByAndFcmToken($createdBy: UUID!, $fcmToken: String!) {\n    deviceByCreatedByAndFcmToken(createdBy: $createdBy, fcmToken: $fcmToken) {\n      id\n    }\n  }\n',
+): (typeof documents)['\n  query DeviceByCreatedByAndFcmToken($createdBy: UUID!, $fcmToken: String!) {\n    deviceByCreatedByAndFcmToken(createdBy: $createdBy, fcmToken: $fcmToken) {\n      id\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

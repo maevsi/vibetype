@@ -35,7 +35,7 @@ export const useNotificationStore = defineStore('notification', () => {
 
     if (existingDevice.data?.deviceByCreatedByAndFcmToken) return
 
-    await client
+    const createResult = await client
       .mutation(createDeviceMutation, {
         input: {
           device: {
@@ -45,6 +45,15 @@ export const useNotificationStore = defineStore('notification', () => {
         },
       })
       .toPromise()
+
+    if (createResult.error) {
+      // A concurrent call (e.g. from a second tab) may have registered the
+      // same account+token pair between the check above and this mutation;
+      // the backend's uniqueness constraint on (createdBy, fcmToken) turns
+      // that race into an error here rather than a duplicate row, so it is
+      // logged rather than surfaced as a failure.
+      console.error('Device registration failed:', createResult.error)
+    }
   }
 
   // Removes the device registration for `accountId`, e.g. on sign-out.
@@ -53,7 +62,7 @@ export const useNotificationStore = defineStore('notification', () => {
   const unregisterDevice = async (client: Client, accountId: string) => {
     if (!fcmToken.value) return
 
-    await client
+    const deleteResult = await client
       .mutation(deleteDeviceByCreatedByAndFcmTokenMutation, {
         input: {
           createdBy: accountId,
@@ -61,6 +70,10 @@ export const useNotificationStore = defineStore('notification', () => {
         },
       })
       .toPromise()
+
+    if (deleteResult.error) {
+      console.error('Device unregistration failed:', deleteResult.error)
+    }
   }
 
   return {

@@ -36,9 +36,11 @@ export default defineEventHandler(async (event) => {
       statusText: 'Invalid secret',
     })
 
-  const fcmTokens = body.payload.userId
-    ? await getFcmTokensByAccountId(body.payload.userId)
-    : [body.payload.token as string]
+  // `body.payload.token` narrows the ternary's true branch; the schema's
+  // `.refine()` guarantees `userId` is set whenever `token` isn't.
+  const fcmTokens = body.payload.token
+    ? [body.payload.token]
+    : await getFcmTokensByAccountId(body.payload.userId!)
 
   const messaging = getMessaging(adminApp)
 
