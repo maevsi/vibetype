@@ -522,8 +522,8 @@ importers:
         specifier: 2.6.0
         version: 2.6.0(magic-string@1.1.0)(magicast@0.5.3)(oxc-parser@0.140.0)(rolldown@1.2.1)(rollup@4.62.3)(supports-color@10.2.2)(unplugin@3.3.0(esbuild@0.28.1)(rolldown@1.2.1)(rollup@4.62.3)(vite@8.1.5(@types/node@24.13.3)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(webpack@5.109.2(cssnano@8.0.2(postcss@8.5.25))(csso@5.0.5)(esbuild@0.28.1)(lightningcss@1.33.0)(postcss@8.5.25)))
       openai:
-        specifier: 6.49.0
-        version: 6.49.0(@aws-sdk/credential-provider-node@3.972.75)(@smithy/signature-v4@5.6.12)(ws@8.21.1)(zod@4.4.3)
+        specifier: 7.0.0
+        version: 7.0.0(@aws-sdk/credential-provider-node@3.972.75)(@smithy/signature-v4@5.6.12)(ws@8.21.1)(zod@4.4.3)
       pinia:
         specifier: 4.0.2
         version: 4.0.2(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.40(typescript@6.0.3))
@@ -9753,8 +9753,9 @@ packages:
     resolution: {integrity: sha512-smsWv2LzFjP03xmvFoJ331ss6h+jixfA4UUV/Bsiyuu4YJPfN+FIQGOIiv4w9/+MoHkfkJ22UIaQWRVFRfH6Vw==}
     engines: {node: '>=20'}
 
-  openai@6.49.0:
-    resolution: {integrity: sha512-aYCc0C6L864eR6WSYIwQGyXriw/nIyZx0ObvhzOEVuk0zoBDpynjSbrionWI7q65B5H8jJX0DXR9snEzM6bfPg==}
+  openai@7.0.0:
+    resolution: {integrity: sha512-NaAHnDTmut8tl1Is/T2bmRGQm67fEb9VrxdlVradQoh6WnHNPToQeOZiVjLa7LV9uq0Ha4C5twgOsp4+0UWwYg==}
+    engines: {node: '>=22.0.0'}
     peerDependencies:
       '@aws-sdk/credential-provider-node': '>=3.972.0 <4'
       '@smithy/hash-node': '>=4.3.0 <5'
@@ -23532,7 +23533,7 @@ snapshots:
       powershell-utils: 0.1.0
       wsl-utils: 0.3.1
 
-  openai@6.49.0(@aws-sdk/credential-provider-node@3.972.75)(@smithy/signature-v4@5.6.12)(ws@8.21.1)(zod@4.4.3):
+  openai@7.0.0(@aws-sdk/credential-provider-node@3.972.75)(@smithy/signature-v4@5.6.12)(ws@8.21.1)(zod@4.4.3):
     optionalDependencies:
       '@aws-sdk/credential-provider-node': 3.972.75
       '@smithy/signature-v4': 5.6.12
