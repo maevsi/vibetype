@@ -46,6 +46,9 @@ export default defineNuxtConfig({
   imports: {
     parser: 'regex', // TODO: remove once unimport issue is resolved (https://github.com/nuxt/nuxt/issues/35858)
   },
+  future: {
+    compatibilityVersion: 5,
+  },
   modules: [
     '@dargmuesli/nuxt-cookie-control',
     // '@nuxt/a11y',
