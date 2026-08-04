@@ -1,3 +1,5 @@
+import { SITE_NAME } from '~~/node/static'
+
 // single source of truth for every service `getServiceHref` can address:
 // - `port` is only used for the internal (docker network) address
 // - `hasSubdomain: false` means the service has no public `<name>.<host>`
