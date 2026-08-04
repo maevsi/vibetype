@@ -98,9 +98,10 @@
 </template>
 
 <script setup lang="ts">
-import { useDeleteGuestByRowIdMutation } from '~~/gql/documents/mutations/guest/guestDelete'
-import { useInviteMutation } from '~~/gql/documents/mutations/guest/invite'
-import { getContactItem } from '~~/gql/documents/fragments/contactItem'
+import { useMutation } from '@urql/vue'
+
+import { graphql } from '~~/gql/generated'
+import { getContactItem } from '~~/shared/utils/contact'
 import type {
   EventItemFragment,
   GuestItemFragment,
@@ -123,8 +124,24 @@ const pending = reactive({
 })
 
 // api data
-const deleteGuestByRowIdMutation = useDeleteGuestByRowIdMutation()
-const inviteMutation = useInviteMutation()
+const deleteGuestByRowIdMutation = useMutation(
+  graphql(`
+    mutation DeleteGuestByRowId($input: DeleteGuestByRowIdInput!) {
+      deleteGuestByRowId(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
+const inviteMutation = useMutation(
+  graphql(`
+    mutation Invite($input: InviteInput!) {
+      invite(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
 // const api = await useApiData([deleteGuestByRowIdMutation, inviteMutation])
 
 // methods

@@ -117,7 +117,9 @@
 </template>
 
 <script setup lang="ts">
-import { useCreateAccountBlockMutation } from '~~/gql/documents/mutations/accountBlock/accountBlockCreate'
+import { useMutation } from '@urql/vue'
+
+import { graphql } from '~~/gql/generated'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
 const localePath = useLocalePath()
@@ -150,7 +152,15 @@ const onAnimationEnd = (isOpen: boolean) => {
 }
 
 // block
-const createAccountBlockMutation = useCreateAccountBlockMutation()
+const createAccountBlockMutation = useMutation(
+  graphql(`
+    mutation CreateAccountBlock($input: CreateAccountBlockInput!) {
+      createAccountBlock(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
 const blockOrganizer = async () => {
   const result = await createAccountBlockMutation.executeMutation({
     input: {

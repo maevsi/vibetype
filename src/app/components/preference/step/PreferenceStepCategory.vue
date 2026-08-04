@@ -75,12 +75,13 @@
 </template>
 
 <script setup lang="ts">
-import { useAllEventCategoriesQuery } from '~~/gql/documents/queries/event/eventCategoriesAll'
-import { useAllPreferenceEventCategoriesQuery } from '~~/gql/documents/queries/preference/preferenceEventCategoriesAll'
-import { useCreatePreferenceEventCategoryMutation } from '~~/gql/documents/mutations/preference/preferenceEventCategoryCreate'
-import { useDeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation } from '~~/gql/documents/mutations/preference/preferenceEventCategoryDeleteByAccountIdAndEventCategory'
-import { getPreferenceEventCategoryItem } from '~~/gql/documents/fragments/preferenceEventCategoryItem'
-import { getEventCategoryItem } from '~~/gql/documents/fragments/eventCategoryItem'
+import { useMutation, useQuery } from '@urql/vue'
+
+import { graphql } from '~~/gql/generated'
+import {
+  getPreferenceEventCategoryItem,
+  useAllPreferenceEventCategoriesQuery,
+} from '~~/shared/utils/preference/eventCategory'
 
 const emit = defineEmits<{
   next: []
@@ -120,12 +121,45 @@ const translate = (nameKey: string) => {
 }
 
 // api data
-const allCategoriesQuery = useAllEventCategoriesQuery()
+const allCategoriesQuery = useQuery({
+  query: graphql(`
+    query AllEventCategories {
+      allEventCategories {
+        nodes {
+          id
+          name
+          rowId
+        }
+      }
+    }
+  `),
+})
 const allPreferenceEventCategoriesQuery = useAllPreferenceEventCategoriesQuery()
-const createPreferenceEventCategoryMutation =
-  useCreatePreferenceEventCategoryMutation()
+const createPreferenceEventCategoryMutation = useMutation(
+  graphql(`
+    mutation CreatePreferenceEventCategory(
+      $input: CreatePreferenceEventCategoryInput!
+    ) {
+      createPreferenceEventCategory(input: $input) {
+        preferenceEventCategory {
+          ...PreferenceEventCategoryItem
+        }
+      }
+    }
+  `),
+)
 const deletePreferenceEventCategoryByAccountIdAndCategoryIdMutation =
-  useDeletePreferenceEventCategoryByAccountIdAndCategoryIdMutation()
+  useMutation(
+    graphql(`
+      mutation DeletePreferenceEventCategoryByAccountIdAndCategoryId(
+        $input: DeletePreferenceEventCategoryByAccountIdAndCategoryIdInput!
+      ) {
+        deletePreferenceEventCategoryByAccountIdAndCategoryId(input: $input) {
+          deletedPreferenceEventCategoryId
+        }
+      }
+    `),
+  )
 const api = await useApiData([
   allCategoriesQuery,
   allPreferenceEventCategoriesQuery,
@@ -135,7 +169,6 @@ const api = await useApiData([
 
 const eventCategories = computed(() =>
   api.value.data.allEventCategories?.nodes
-    .map(getEventCategoryItem)
     .filter(isNeitherNullNorUndefined)
     .map((item) => ({ ...item, label: translate(item.name) }))
     .sort((a, b) => {

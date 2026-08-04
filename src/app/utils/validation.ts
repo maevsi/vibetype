@@ -3,10 +3,7 @@ import type { Ref } from 'vue'
 
 import { z } from 'zod'
 
-import { accountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
-import { eventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
-import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
-import { getEventItem } from '~~/gql/documents/fragments/eventItem'
+import { graphql } from '~~/gql/generated'
 
 export const VALIDATION_ADDRESS_LENGTH_MAXIMUM = 300
 export const VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM = 254 // source: https://www.dominicsayers.com/isemail/
@@ -100,6 +97,15 @@ export const SCHEMA_USER_NAME_REQUIRED = z
   .min(1)
   .max(VALIDATION_NAME_FIRST_LENGTH_MAXIMUM)
 
+const accountByUsernameQuery = graphql(`
+  query AccountByUsername($username: String!) {
+    accountByUsername(username: $username) {
+      id
+      rowId
+    }
+  }
+`)
+
 export const getAccountByUsername = async ({
   $urql,
   username,
@@ -117,8 +123,16 @@ export const getAccountByUsername = async ({
     throw new Error(getCombinedErrorMessages([accountByUsername.error]).join())
   }
 
-  return getAccountItem(accountByUsername.data?.accountByUsername)
+  return accountByUsername.data?.accountByUsername
 }
+
+const eventByCreatedByAndSlugQuery = graphql(`
+  query EventByCreatedByAndSlug($createdBy: UUID!, $slug: String!) {
+    eventByCreatedByAndSlug(createdBy: $createdBy, slug: $slug) {
+      id
+    }
+  }
+`)
 
 export const getEventByCreatedByAndSlug = async ({
   $urql,
@@ -142,7 +156,7 @@ export const getEventByCreatedByAndSlug = async ({
     )
   }
 
-  return getEventItem(eventByCreatedByAndSlug.data?.eventByCreatedByAndSlug)
+  return eventByCreatedByAndSlug.data?.eventByCreatedByAndSlug
 }
 
 export const validateUsername = (invert?: boolean) => async (value: string) => {

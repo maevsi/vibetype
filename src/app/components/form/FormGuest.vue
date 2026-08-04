@@ -89,12 +89,15 @@
 <script setup lang="ts">
 import { useForm } from '@tanstack/vue-form'
 import type { AnyFieldApi } from '@tanstack/vue-form'
+import { useMutation, useQuery } from '@urql/vue'
 import { z } from 'zod'
 
-import { useCreateGuestsMutation } from '~~/gql/documents/mutations/guest/guestCreate'
-import { useAllContactsQuery } from '~~/gql/documents/queries/contact/contactsAll'
-import type { EventItemFragment } from '~~/gql/generated/graphql'
-import { getContactItem } from '~~/gql/documents/fragments/contactItem'
+import { graphql } from '~~/gql/generated'
+import type {
+  AllContactsQueryVariables,
+  EventItemFragment,
+} from '~~/gql/generated/graphql'
+import { getContactItem } from '~~/shared/utils/contact'
 
 const { event, guestContactIdsExisting = undefined } = defineProps<{
   event: Pick<EventItemFragment, 'rowId'>
@@ -113,14 +116,44 @@ const { t } = useI18n()
 const after = ref<string | null>()
 
 // api data
-const allContactsQuery = useAllContactsQuery(
-  computed(() => ({
+const allContactsQuery = useQuery({
+  query: graphql(`
+    query AllContacts($after: Cursor, $createdBy: UUID, $first: Int!) {
+      allContacts(
+        after: $after
+        condition: { createdBy: $createdBy }
+        first: $first
+        orderBy: [FIRST_NAME_ASC, LAST_NAME_ASC]
+      ) {
+        nodes {
+          ...ContactItem
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        totalCount
+      }
+    }
+  `),
+  variables: computed<AllContactsQueryVariables>(() => ({
     after: after.value,
     createdBy: store.signedInAccountId,
     first: ITEMS_PER_PAGE_LARGE,
   })),
+})
+const createGuestMutation = useMutation(
+  graphql(`
+    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {
+      createGuests(input: $createGuestsInput) {
+        result {
+          id
+          rowId
+        }
+      }
+    }
+  `),
 )
-const createGuestMutation = useCreateGuestsMutation()
 const apiData = await useApiData([allContactsQuery, createGuestMutation])
 const contacts = computed(
   () =>

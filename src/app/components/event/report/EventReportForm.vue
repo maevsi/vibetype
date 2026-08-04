@@ -30,9 +30,10 @@
 
 <script setup lang="ts">
 import { useForm } from '@tanstack/vue-form'
+import { useMutation } from '@urql/vue'
 import { z } from 'zod'
 
-import { useCreateReportMutation } from '~~/gql/documents/mutations/report/reportCreate'
+import { graphql } from '~~/gql/generated'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
 const { t } = useI18n()
@@ -69,7 +70,15 @@ const formSchema = z.object({
 })
 
 // api data
-const createReportMutation = useCreateReportMutation()
+const createReportMutation = useMutation(
+  graphql(`
+    mutation CreateReport($input: CreateReportInput!) {
+      createReport(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
 
 const form = useForm({
   defaultValues: {

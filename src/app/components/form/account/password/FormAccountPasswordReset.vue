@@ -23,8 +23,10 @@
 
 <script setup lang="ts">
 import { useForm } from '@tanstack/vue-form'
+import { useMutation } from '@urql/vue'
 import { z } from 'zod'
-import { useAccountPasswordResetMutation } from '~~/gql/documents/mutations/account/accountPasswordReset'
+
+import { graphql } from '~~/gql/generated'
 
 const { code } = defineProps<{
   code: string
@@ -39,7 +41,15 @@ const modelError = defineModel<Error>('error')
 const { t } = useI18n()
 
 // api data
-const passwordResetMutation = useAccountPasswordResetMutation()
+const passwordResetMutation = useMutation(
+  graphql(`
+    mutation AccountPasswordReset($input: AccountPasswordResetInput!) {
+      accountPasswordReset(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
 const api = await useApiData([passwordResetMutation])
 watch(
   () => api.value.errors,

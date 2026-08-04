@@ -18,12 +18,18 @@ import { ref } from 'vue'
 import type { FragmentType } from '~~/gql/generated'
 import type { GraphCacheConfig, Maybe } from '~~/gql/generated/graphcache'
 import schema from '~~/gql/generated/introspection'
-import { allPreferenceEventCategoriesQuery } from '~~/gql/documents/queries/preference/preferenceEventCategoriesAll'
-import { allPreferenceEventFormatsQuery } from '~~/gql/documents/queries/preference/preferenceEventFormatsAll'
-import { getPreferenceEventFormatItem } from '~~/gql/documents/fragments/preferenceEventFormatItem'
-import { getPreferenceEventCategoryItem } from '~~/gql/documents/fragments/preferenceEventCategoryItem'
-import { allPreferenceEventLocationsQuery } from '~~/gql/documents/queries/preference/preferenceEventLocationsAll'
-import { getPreferenceEventLocationItem } from '~~/gql/documents/fragments/preferenceEventLocationItem'
+import {
+  allPreferenceEventCategoriesQuery,
+  getPreferenceEventCategoryItem,
+} from '~~/shared/utils/preference/eventCategory'
+import {
+  allPreferenceEventFormatsQuery,
+  getPreferenceEventFormatItem,
+} from '~~/shared/utils/preference/eventFormat'
+import {
+  allPreferenceEventLocationsQuery,
+  getPreferenceEventLocationItem,
+} from '~~/shared/utils/preference/eventLocation'
 
 type RelayConnection<T> = {
   nodes: T[]

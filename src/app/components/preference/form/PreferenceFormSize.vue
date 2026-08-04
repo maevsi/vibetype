@@ -47,13 +47,11 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
+import { useMutation, useQuery } from '@urql/vue'
 import { useForm } from '@tanstack/vue-form'
 import { z } from 'zod'
 
 import type { AllPreferenceEventSizesQueryVariables } from '~~/gql/generated/graphql'
-import { useCreatePreferenceEventSizeMutation } from '~~/gql/documents/mutations/preference/preferenceEventSizeCreate'
-import { useDeletePreferenceEventSizeByAccountIdAndEventSizeMutation } from '~~/gql/documents/mutations/preference/preferenceEventSizeDeleteByAccountIdAndEventSize'
 import { graphql } from '~~/gql/generated'
 import { EventSize } from '~~/gql/generated/graphcache'
 
@@ -81,9 +79,28 @@ const allPreferenceEventSizesQuery = useQuery({
   `),
   variables: {} satisfies AllPreferenceEventSizesQueryVariables,
 })
-const createPreferenceEventSizeMutation = useCreatePreferenceEventSizeMutation()
-const deletePreferenceEventSizeByAccountIdAndEventSizeMutation =
-  useDeletePreferenceEventSizeByAccountIdAndEventSizeMutation()
+const createPreferenceEventSizeMutation = useMutation(
+  graphql(`
+    mutation CreatePreferenceEventSize(
+      $input: CreatePreferenceEventSizeInput!
+    ) {
+      createPreferenceEventSize(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
+const deletePreferenceEventSizeByAccountIdAndEventSizeMutation = useMutation(
+  graphql(`
+    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(
+      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!
+    ) {
+      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
 const api = await useApiData([
   allPreferenceEventSizesQuery,
   createPreferenceEventSizeMutation,

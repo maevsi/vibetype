@@ -2,7 +2,7 @@ import { parse } from 'graphql'
 import { z } from 'zod'
 
 import { jwtCreateMutation } from '~~/server/api/model/jwt.post'
-import { accountRegistrationMutation } from '~~/gql/documents/mutations/account/accountRegistration'
+import { accountRegistrationMutation } from '~~/shared/utils/account'
 
 const authProxyBodySchema = z.object({
   query: z.string().optional(),

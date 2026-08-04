@@ -1,15 +1,14 @@
-import { graphql, useFragment } from '~~/gql/generated'
-import type { FragmentType } from '~~/gql/generated'
+import { graphql } from '~~/gql/generated'
 
+// Shared field-shape contract for `Event` data drilled through many
+// components (see `Pick<EventItemFragment, ...>` usages). Not spread into
+// any operation itself; each page fetches its own tailored `Event` fields.
 export const EventItem = graphql(`
   fragment EventItem on Event {
     accountByCreatedBy {
       id
       rowId
       username
-    }
-    addressByAddressId {
-      ...AddressItem
     }
     createdBy
     description
@@ -27,7 +26,3 @@ export const EventItem = graphql(`
     visibility
   }
 `)
-
-export const getEventItem = (
-  fragment?: FragmentType<typeof EventItem> | null,
-) => useFragment(EventItem, fragment)

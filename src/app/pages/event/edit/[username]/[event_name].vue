@@ -27,9 +27,8 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
+import { useMutation, useQuery } from '@urql/vue'
 
-import { useEventDeleteMutation } from '~~/gql/documents/mutations/event/eventDelete'
 import { graphql } from '~~/gql/generated'
 
 // validation
@@ -79,7 +78,15 @@ const eventQuery = useQuery({
 const api = await useApiData([eventQuery])
 const account = computed(() => api.value.data?.accountByUsername)
 const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
-const eventDeleteMutation = useEventDeleteMutation()
+const eventDeleteMutation = useMutation(
+  graphql(`
+    mutation EventDelete($input: EventDeleteInput!) {
+      eventDelete(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
 
 // page
 const { t } = useI18n()
