@@ -42,21 +42,23 @@ export const getServiceHref = ({
   stagingHost?: string
 }) => {
   const { hasSubdomain, port } = SERVICES[name]
-  const nameSubdomain =
-    name !== SITE_NAME ? name.replaceAll('_', '-') : undefined
-  const nameSubdomainString = nameSubdomain ? `${nameSubdomain}.` : ''
+  const isSelf = name === SITE_NAME
+  const nameSubdomainString = isSelf ? '' : `${name.replaceAll('_', '-')}.`
 
   if (isTesting) {
     return `${SITE_URL_TYPED.protocol}//${nameSubdomainString}${SITE_URL_TYPED.host}`
   }
 
-  if (stagingHost) {
+  // the app itself always runs locally, even in frontend-only development -
+  // only its backend dependencies get proxied to production there - so its
+  // own href must never redirect to stagingHost, unlike other services'
+  if (stagingHost && !isSelf) {
     return hasSubdomain
       ? `https://${nameSubdomainString}${stagingHost}`
       : `https://${stagingHost}/api/service/${name}`
   }
 
-  if (import.meta.server && allowInternal) {
+  if (import.meta.server && allowInternal && !stagingHost) {
     return `http://${name}:${port}`
   }
 
