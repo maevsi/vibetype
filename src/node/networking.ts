@@ -28,14 +28,14 @@ export const getRootHost = (host: string) => {
 export const getServiceHref = ({
   allowInternal = true,
   host,
-  isServer,
+  isServer = import.meta.server,
   isTesting,
   name,
   stagingHost,
 }: {
   allowInternal?: boolean
   host?: string
-  isServer: boolean
+  isServer?: boolean
   isTesting?: boolean
   name: ServiceName
   stagingHost?: string
