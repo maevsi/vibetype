@@ -3,6 +3,7 @@ export default defineEventHandler(async () => {
   const jwt = getJwtFromCookie()
   const jwtPayload = await verifyJwt<Jwt>(jwt)
   const getServiceHref = useGetServiceHref()
+  const runtimeConfig = useRuntimeConfig()
 
   if (!(jwtPayload?.role === `${SITE_NAME}_account`))
     throw createAppError({
@@ -10,21 +11,21 @@ export default defineEventHandler(async () => {
       statusText: 'This endpoint only available to registered users.',
     })
 
-  if (IS_IN_FRONTEND_DEVELOPMENT) {
-    // reccoom is currently not available in frontend-only development
-    // TODO: proxy to production
-    return []
-  }
-
-  const baseURL = getServiceHref({ name: 'reccoom', port: 5245 })
+  const { stagingHost } = runtimeConfig.public.vio
+  // reccoom has no public subdomain, so frontend-only development proxies
+  // through production's own API route instead of a direct service href.
   const recommendations = await $fetch<
     Array<{ event_id: string; score: number; score_type: string }>
-  >('/recommendations', {
-    baseURL,
-    headers: {
-      cookie: `jwt=${jwt}`,
+  >(
+    stagingHost
+      ? `https://${stagingHost}/api/service/reccoom/recommendations`
+      : `${getServiceHref({ name: 'reccoom', port: 5245 })}/recommendations`,
+    {
+      headers: {
+        cookie: `${stagingHost ? JWT_COOKIE_NAME : 'jwt'}=${jwt}`,
+      },
     },
-  })
+  )
 
   return recommendations
 })
