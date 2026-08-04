@@ -91,7 +91,7 @@
     "h3": "1.15.11",
     "html-to-text": "10.0.0",
     "ical-generator": "11.1.0",
-    "ioredis": "5.11.1",
+    "ioredis": "6.0.0",
     "isomorphic-dompurify": "3.20.0",
     "jose": "6.2.5",
     "js-confetti": "0.13.1",
