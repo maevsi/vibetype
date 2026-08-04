@@ -1,34 +1,33 @@
 import type { H3Event } from 'h3'
 
+import type { ServiceName } from '~~/shared/utils/services'
+
 export const useGetServiceHref = ({ event }: { event?: H3Event } = {}) => {
   const host = useHost({ event })
   const runtimeConfig = useRuntimeConfig()
   const isTesting = useIsTesting()
 
   return ({
-    isSsr = true,
+    allowInternal = true,
     name,
-    port,
   }: {
-    isSsr?: boolean
-    name: string
-    port?: number
+    allowInternal?: boolean
+    name: ServiceName
   }) =>
     getServiceHref({
+      allowInternal,
       host,
-      isSsr,
       isTesting,
       name,
-      port,
       stagingHost: runtimeConfig.public.vio.stagingHost,
     })
 }
 
 export const getServiceHrefPostgraphile = () =>
-  getServiceHref({ name: 'postgraphile', port: 5678 })
+  getServiceHref({ name: 'postgraphile' })
 
 export const useServiceHrefPostgraphile = () =>
-  useGetServiceHref()({ name: 'postgraphile', port: 5678 })
+  useGetServiceHref()({ name: 'postgraphile' })
 
 export const useHost = ({ event }: { event?: H3Event } = {}) => {
   const { siteUrlTyped: siteUrl } = useSiteUrl()

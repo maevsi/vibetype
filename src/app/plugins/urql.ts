@@ -11,7 +11,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
   const baseUrl = getServiceHref({
     name: SITE_NAME,
-    port: 3000,
   })
   const clientOptions: Partial<ClientOptions> = {
     fetchOptions: {

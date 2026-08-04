@@ -10,7 +10,7 @@ export const GET_CSP = ({
   runtimeConfig?: RuntimeConfig
 }) => {
   const sharedOptions = {
-    isSsr: false,
+    allowInternal: false,
     stagingHost: runtimeConfig?.public.vio.stagingHost,
   }
   const hrefApp = getServiceHref({

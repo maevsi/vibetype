@@ -1,5 +1,5 @@
 export const useTusdFilesUrl = () => {
-  const { siteUrlTyped: siteUrl } = useSiteUrl()
+  const getServiceHref = useGetServiceHref()
 
-  return getTusdFilesUrl({ siteUrl })
+  return `${getServiceHref({ allowInternal: false, name: 'tusd' })}/files/`
 }

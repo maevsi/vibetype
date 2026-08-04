@@ -3,6 +3,9 @@ import type { H3Event } from 'h3'
 
 import { SITE_NAME, SITE_URL_TYPED } from '~~/node/static'
 
+import type { ServiceName } from './services'
+import { SERVICES } from './services'
+
 export const getHost = (event: H3Event) => {
   const host = event.node.req.headers.host
 
@@ -26,38 +29,41 @@ export const getRootHost = (host: string) => {
 }
 
 export const getServiceHref = ({
+  allowInternal = true,
   host,
-  isSsr = true,
   isTesting,
   name,
-  port,
   stagingHost,
 }: {
+  allowInternal?: boolean
   host?: string
-  isSsr?: boolean
   isTesting?: boolean
-  name: string
-  port?: number
+  name: ServiceName
   stagingHost?: string
 }) => {
+  const { hasSubdomain, port } = SERVICES[name]
   const nameSubdomain =
-    name !== SITE_NAME ? name?.replaceAll('_', '-') : undefined
+    name !== SITE_NAME ? name.replaceAll('_', '-') : undefined
   const nameSubdomainString = nameSubdomain ? `${nameSubdomain}.` : ''
-  const portString = port ? `:${port}` : ''
 
   if (isTesting) {
     return `${SITE_URL_TYPED.protocol}//${nameSubdomainString}${SITE_URL_TYPED.host}`
   }
 
   if (stagingHost) {
-    return `https://${nameSubdomainString}${stagingHost}`
+    return hasSubdomain
+      ? `https://${nameSubdomainString}${stagingHost}`
+      : `https://${stagingHost}/api/service/${name}`
   }
 
-  if (import.meta.server && isSsr) {
-    return `http://${name}${portString}`
+  if (import.meta.server && allowInternal) {
+    return `http://${name}:${port}`
   }
 
   if (host) {
+    if (!hasSubdomain)
+      throw new Error(`Service "${name}" has no public subdomain!`)
+
     return `https://${nameSubdomainString}${host}`
   }
 
