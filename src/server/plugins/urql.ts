@@ -4,7 +4,6 @@ export default defineNitroPlugin(async (nitroApp) => {
 
   const baseUrl = getServiceHref({
     name: SITE_NAME,
-    port: 3000,
   })
 
   const { urql, urqlTesting } = await getUrqlClient({

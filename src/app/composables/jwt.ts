@@ -73,6 +73,7 @@ export const useJwtDelete = () => {
 }
 
 export const useJwtInitialize = async () => {
+  const nuxtApp = useNuxtApp()
   const store = useStore()
 
   const { data: initialData } = await useFetch('/api/model/jwt')
@@ -83,12 +84,11 @@ export const useJwtInitialize = async () => {
   const jwtId = store.jwtPayload.jti
 
   try {
-    const { data: updatedData, error } = await useCsrfRequestFetch(
-      '/api/model/jwt',
-      {
+    const { data: updatedData, error } = await nuxtApp.runWithContext(() =>
+      useCsrfRequestFetch('/api/model/jwt', {
         body: { id: jwtId },
         method: 'PUT',
-      },
+      }),
     )
 
     if (error.value) throw error.value
