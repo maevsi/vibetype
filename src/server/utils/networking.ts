@@ -17,6 +17,7 @@ export const useGetServiceHref = ({ event }: { event?: H3Event } = {}) => {
     getServiceHref({
       allowInternal,
       host,
+      isServer: import.meta.server,
       isTesting,
       name,
       stagingHost: runtimeConfig.public.vio.stagingHost,
@@ -24,7 +25,7 @@ export const useGetServiceHref = ({ event }: { event?: H3Event } = {}) => {
 }
 
 export const getServiceHrefPostgraphile = () =>
-  getServiceHref({ name: 'postgraphile' })
+  getServiceHref({ isServer: import.meta.server, name: 'postgraphile' })
 
 export const useServiceHrefPostgraphile = () =>
   useGetServiceHref()({ name: 'postgraphile' })

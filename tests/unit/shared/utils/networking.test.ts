@@ -5,26 +5,34 @@ import { getServiceHref } from '#src/shared/utils/networking'
 
 describe('getServiceHref', () => {
   test('isTesting takes priority and targets the test site for a service with a subdomain', () => {
-    expect(getServiceHref({ isTesting: true, name: 'postgraphile' })).toBe(
-      `${SITE_URL_TYPED.protocol}//postgraphile.${SITE_URL_TYPED.host}`,
-    )
+    expect(
+      getServiceHref({ isServer: true, isTesting: true, name: 'postgraphile' }),
+    ).toBe(`${SITE_URL_TYPED.protocol}//postgraphile.${SITE_URL_TYPED.host}`)
   })
 
   test('isTesting targets the test site itself without a subdomain prefix', () => {
-    expect(getServiceHref({ isTesting: true, name: SITE_NAME })).toBe(
-      `${SITE_URL_TYPED.protocol}//${SITE_URL_TYPED.host}`,
-    )
+    expect(
+      getServiceHref({ isServer: true, isTesting: true, name: SITE_NAME }),
+    ).toBe(`${SITE_URL_TYPED.protocol}//${SITE_URL_TYPED.host}`)
   })
 
   test('stagingHost proxies a service with a public subdomain directly', () => {
     expect(
-      getServiceHref({ name: 'postgraphile', stagingHost: 'vibetype.app' }),
+      getServiceHref({
+        isServer: true,
+        name: 'postgraphile',
+        stagingHost: 'vibetype.app',
+      }),
     ).toBe('https://postgraphile.vibetype.app')
   })
 
   test("stagingHost proxies a service without a public subdomain through the app's own API route", () => {
     expect(
-      getServiceHref({ name: 'reccoom', stagingHost: 'vibetype.app' }),
+      getServiceHref({
+        isServer: true,
+        name: 'reccoom',
+        stagingHost: 'vibetype.app',
+      }),
     ).toBe('https://vibetype.app/api/service/reccoom')
   })
 
@@ -32,6 +40,7 @@ describe('getServiceHref', () => {
     expect(
       getServiceHref({
         host: 'app.localhost:3000',
+        isServer: true,
         name: SITE_NAME,
         stagingHost: 'vibetype.app',
       }),
@@ -39,11 +48,25 @@ describe('getServiceHref', () => {
   })
 
   test('server-side without stagingHost resolves the internal address', () => {
-    expect(getServiceHref({ name: 'tusd' })).toBe('http://tusd:8080')
+    expect(getServiceHref({ isServer: true, name: 'tusd' })).toBe(
+      'http://tusd:8080',
+    )
   })
 
   test("server-side without stagingHost resolves the app's own internal address too", () => {
-    expect(getServiceHref({ name: SITE_NAME })).toBe('http://vibetype:3000')
+    expect(getServiceHref({ isServer: true, name: SITE_NAME })).toBe(
+      'http://vibetype:3000',
+    )
+  })
+
+  test('client-side never uses the internal address, even though allowInternal defaults to true', () => {
+    expect(
+      getServiceHref({
+        host: 'vibetype.app',
+        isServer: false,
+        name: 'postgraphile',
+      }),
+    ).toBe('https://postgraphile.vibetype.app')
   })
 
   test('allowInternal: false skips the internal address in favor of a public host', () => {
@@ -51,6 +74,7 @@ describe('getServiceHref', () => {
       getServiceHref({
         allowInternal: false,
         host: 'vibetype.app',
+        isServer: true,
         name: 'postgraphile',
       }),
     ).toBe('https://postgraphile.vibetype.app')
@@ -61,14 +85,25 @@ describe('getServiceHref', () => {
       getServiceHref({
         allowInternal: false,
         host: 'vibetype.app',
+        isServer: true,
         name: 'reccoom',
       }),
     ).toThrowError('Service "reccoom" has no public subdomain!')
   })
 
-  test('throws when no resolution strategy applies', () => {
+  test('throws when no resolution strategy applies server-side', () => {
     expect(() =>
-      getServiceHref({ allowInternal: false, name: 'postgraphile' }),
+      getServiceHref({
+        allowInternal: false,
+        isServer: true,
+        name: 'postgraphile',
+      }),
+    ).toThrowError('Could not get service href!')
+  })
+
+  test('throws when no resolution strategy applies client-side', () => {
+    expect(() =>
+      getServiceHref({ isServer: false, name: 'postgraphile' }),
     ).toThrowError('Could not get service href!')
   })
 })

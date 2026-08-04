@@ -25,7 +25,7 @@ export const processUpload = async ({
   if (payload.before !== null && payload.after === null) {
     if (payload.before.storage_key !== null) {
       const response = await $fetch.raw(
-        `${getServiceHref({ name: 'tusd' })}/files/${payload.before.storage_key}`,
+        `${getServiceHref({ isServer: import.meta.server, name: 'tusd' })}/files/${payload.before.storage_key}`,
         {
           headers: {
             'Tus-Resumable': '1.0.0',
