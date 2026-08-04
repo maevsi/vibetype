@@ -596,6 +596,12 @@ importers:
       stylelint:
         specifier: 17.14.1
         version: 17.14.1(supports-color@10.2.2)(typescript@6.0.3)
+      stylelint-config-html:
+        specifier: 2.0.0
+        version: 2.0.0(postcss-html@2.0.0(postcss@8.5.25))(stylelint@17.14.1(supports-color@10.2.2)(typescript@6.0.3))
+      stylelint-config-recommended:
+        specifier: 18.0.0
+        version: 18.0.0(stylelint@17.14.1(supports-color@10.2.2)(typescript@6.0.3))
       stylelint-config-recommended-vue:
         specifier: 2.0.0
         version: 2.0.0(postcss-html@2.0.0(postcss@8.5.25))(stylelint-config-html@2.0.0(postcss-html@2.0.0(postcss@8.5.25))(stylelint@17.14.1(supports-color@10.2.2)(typescript@6.0.3)))(stylelint-config-recommended@18.0.0(stylelint@17.14.1(supports-color@10.2.2)(typescript@6.0.3)))(stylelint@17.14.1(supports-color@10.2.2)(typescript@6.0.3))
