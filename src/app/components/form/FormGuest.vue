@@ -142,7 +142,7 @@ const allContactsQuery = useQuery({
     first: ITEMS_PER_PAGE_LARGE,
   })),
 })
-const createGuestMutation = useMutation(
+const createGuestsMutation = useMutation(
   graphql(`
     mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {
       createGuests(input: $createGuestsInput) {
@@ -154,7 +154,7 @@ const createGuestMutation = useMutation(
     }
   `),
 )
-const apiData = await useApiData([allContactsQuery, createGuestMutation])
+const apiData = await useApiData([allContactsQuery, createGuestsMutation])
 const contacts = computed(
   () =>
     apiData.value.data.allContacts?.nodes
@@ -180,7 +180,7 @@ const form = useForm({
     const successIds: string[] = []
 
     try {
-      const result = await createGuestMutation.executeMutation({
+      const result = await createGuestsMutation.executeMutation({
         createGuestsInput: {
           contactIds: value.contactIds,
           eventId: event.rowId,
