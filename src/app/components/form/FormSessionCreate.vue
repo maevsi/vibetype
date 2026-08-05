@@ -183,7 +183,7 @@ const form = useForm({
       }
 
       store.jwtSet(jwtPayload)
-      $urqlReset()
+      await $urqlReset()
       emit('signed-in', value.username)
     } catch (error) {
       alertError({

@@ -6,7 +6,7 @@ import {
 } from '@urql/core'
 import type { ClientOptions } from '@urql/core'
 import { offlineExchange as getOfflineExchange } from '@urql/exchange-graphcache'
-import type { Cache, Entity, FieldArgs } from '@urql/exchange-graphcache'
+import type { Cache } from '@urql/exchange-graphcache'
 import { makeDefaultStorage } from '@urql/exchange-graphcache/default-storage'
 import { relayPagination } from '@urql/exchange-graphcache/extras'
 import { requestPolicyExchange } from '@urql/exchange-request-policy'
@@ -40,6 +40,12 @@ type QueryData<T> = {
   [listKey: string]: RelayConnection<T>
 }
 
+// Postgraphile's `...ByRowId` delete mutations only ever supply `rowId`,
+// never the Relay `id` graphcache keys by default, so any type reachable
+// through one of those mutations has to be keyed by `rowId` too, or
+// `invalidateCache` below can't resolve a key and `cache.invalidate` throws.
+const keyByRowId = (data: { rowId?: string | null }) => data.rowId ?? null
+
 const invalidateCache = (
   cache: Cache,
   name: string,
@@ -60,35 +66,6 @@ const invalidateCache = (
         .forEach((field) => {
           cache.invalidate('Query', field.fieldKey)
         })
-
-const cacheNodesAppend = ({
-  cache,
-  newNode,
-  parentKey,
-  parentProperty,
-  parentPropertyArguments,
-}: {
-  cache: Cache
-  newNode: Entity
-  parentKey: string
-  parentProperty: string
-  parentPropertyArguments: FieldArgs
-}) => {
-  const newNodeKey = cache.keyOfEntity(newNode)
-  if (!newNodeKey) return
-
-  const property = cache.resolve(
-    parentKey,
-    parentProperty,
-    parentPropertyArguments,
-  )
-  if (!property) return
-
-  const nodes = cache.resolve(property as string, 'nodes')
-  if (!nodes || !Array.isArray(nodes)) return
-
-  cache.link(property as string, 'nodes', [...nodes, newNodeKey])
-}
 
 const cacheListAppend = <
   Fragment,
@@ -183,11 +160,10 @@ export const getUrqlClient = async ({
 
   const graphCacheConfig: GraphCacheConfig = {
     keys: {
-      EventFavorite: (data) => data.rowId ?? null,
-      PreferenceEventCategory: (data) => data.id ?? null, // TODO: remove
-      PreferenceEventFormat: (data) => data.id ?? null, // TODO: remove
-      PreferenceEventSize: (data) => data.id ?? null, // TODO: remove
-      // GeographyPoint: (_data) => null,
+      Contact: (data) => keyByRowId(data),
+      EventFavorite: (data) => keyByRowId(data),
+      Guest: (data) => keyByRowId(data),
+      ProfilePicture: (data) => keyByRowId(data),
     },
     schema,
     resolvers: {
@@ -204,27 +180,21 @@ export const getUrqlClient = async ({
         // create
         createContact: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allContacts'),
+        createEvent: (_result, _args, cache, _info) => {
+          invalidateCache(cache, 'allEvents')
+          invalidateCache(cache, 'eventSearch')
+        },
         createGuest: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allGuests'),
         createEventFavorite: (result, _args, cache, _info) => {
           const newNode = result.createEventFavorite?.eventFavorite
-          if (!newNode || !newNode.__typename || !newNode.eventByEventId?.id)
-            return
+          if (!newNode?.eventByEventId?.id) return
 
-          const parentKey = cache.keyOfEntity({
-            __typename: 'Event',
-            id: newNode.eventByEventId.id,
-          })
-          if (!parentKey) return
-
-          cacheNodesAppend({
-            cache,
-            // @ts-expect-error typechecked above
-            newNode,
-            parentKey,
-            parentProperty: 'eventFavoritesByEventId',
-            parentPropertyArguments: { first: 1 },
-          })
+          cache.invalidate(
+            { __typename: 'Event', id: newNode.eventByEventId.id },
+            'eventFavoritesByEventId',
+            { first: 1 },
+          )
         },
         createPreferenceEventCategory: (result, _args, cache, _info) =>
           cacheListAppend({
@@ -257,6 +227,10 @@ export const getUrqlClient = async ({
         // delete
         deleteContactByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Contact', args),
+        eventDelete: (_result, _args, cache, _info) => {
+          invalidateCache(cache, 'allEvents')
+          invalidateCache(cache, 'eventSearch')
+        },
         deleteGuestByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Guest', args),
         deleteEventFavoriteByRowId: (_result, args, cache, _info) =>
@@ -311,37 +285,54 @@ export const getUrqlClient = async ({
   }
 
   const cacheStorage = import.meta.client ? makeDefaultStorage() : undefined
-  const cacheExchange =
-    import.meta.client && cacheStorage
-      ? getOfflineExchange({
-          ...graphCacheConfig,
-          schema,
-          storage: cacheStorage,
-        })
-      : undefined
 
-  const _clientOptions: ClientOptions = {
-    ...clientOptions,
-    exchanges: [
-      ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
-      requestPolicyExchange({}),
-      ...(cacheExchange ? [cacheExchange] : []),
-      ssrExchange, // `ssrExchange` must be before `fetchExchange`
-      fetchExchange,
-    ],
-    url: `${baseUrl}/api/service/postgraphile/graphql`,
+  // `getOfflineExchange` binds a fresh in-memory store to whichever `storage`
+  // it's given at call time, so this has to be re-invoked (not just reused)
+  // whenever the client is rebuilt - otherwise `urqlReset` recreates the
+  // `Client`s but keeps serving normalized entities from the old store.
+  const buildClientOptions = () => {
+    const cacheExchange =
+      import.meta.client && cacheStorage
+        ? getOfflineExchange({
+            ...graphCacheConfig,
+            schema,
+            storage: cacheStorage,
+          })
+        : undefined
+
+    const clientOpts: ClientOptions = {
+      ...clientOptions,
+      exchanges: [
+        ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
+        requestPolicyExchange({}),
+        ...(cacheExchange ? [cacheExchange] : []),
+        ssrExchange, // `ssrExchange` must be before `fetchExchange`
+        fetchExchange,
+      ],
+      url: `${baseUrl}/api/service/postgraphile/graphql`,
+    }
+
+    return {
+      clientOptions: clientOpts,
+      clientOptionsTesting: {
+        ...clientOpts,
+        url: `${baseUrl}/api/test/service/postgraphile/graphql`,
+      },
+    }
   }
-  const client = ref(createClient(_clientOptions))
 
-  const _clientOptionsTesting: ClientOptions = {
-    ..._clientOptions,
-    url: `${baseUrl}/api/test/service/postgraphile/graphql`,
-  }
-  const clientTesting = ref(createClient(_clientOptionsTesting))
+  const initial = buildClientOptions()
+  const client = ref(createClient(initial.clientOptions))
+  const clientTesting = ref(createClient(initial.clientOptionsTesting))
 
-  const urqlReset = () => {
-    client.value = createClient(_clientOptions)
-    clientTesting.value = createClient(_clientOptionsTesting)
+  const urqlReset = async () => {
+    // Drop persisted entities first so the rebuilt exchange below starts
+    // from an empty store instead of rehydrating the previous session's data.
+    await cacheStorage?.clear()
+
+    const next = buildClientOptions()
+    client.value = createClient(next.clientOptions)
+    clientTesting.value = createClient(next.clientOptionsTesting)
   }
 
   return {
