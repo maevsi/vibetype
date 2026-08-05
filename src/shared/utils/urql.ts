@@ -311,37 +311,54 @@ export const getUrqlClient = async ({
   }
 
   const cacheStorage = import.meta.client ? makeDefaultStorage() : undefined
-  const cacheExchange =
-    import.meta.client && cacheStorage
-      ? getOfflineExchange({
-          ...graphCacheConfig,
-          schema,
-          storage: cacheStorage,
-        })
-      : undefined
 
-  const _clientOptions: ClientOptions = {
-    ...clientOptions,
-    exchanges: [
-      ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
-      requestPolicyExchange({}),
-      ...(cacheExchange ? [cacheExchange] : []),
-      ssrExchange, // `ssrExchange` must be before `fetchExchange`
-      fetchExchange,
-    ],
-    url: `${baseUrl}/api/service/postgraphile/graphql`,
+  // `getOfflineExchange` binds a fresh in-memory store to whichever `storage`
+  // it's given at call time, so this has to be re-invoked (not just reused)
+  // whenever the client is rebuilt - otherwise `urqlReset` recreates the
+  // `Client`s but keeps serving normalized entities from the old store.
+  const buildClientOptions = () => {
+    const cacheExchange =
+      import.meta.client && cacheStorage
+        ? getOfflineExchange({
+            ...graphCacheConfig,
+            schema,
+            storage: cacheStorage,
+          })
+        : undefined
+
+    const clientOpts: ClientOptions = {
+      ...clientOptions,
+      exchanges: [
+        ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
+        requestPolicyExchange({}),
+        ...(cacheExchange ? [cacheExchange] : []),
+        ssrExchange, // `ssrExchange` must be before `fetchExchange`
+        fetchExchange,
+      ],
+      url: `${baseUrl}/api/service/postgraphile/graphql`,
+    }
+
+    return {
+      clientOptions: clientOpts,
+      clientOptionsTesting: {
+        ...clientOpts,
+        url: `${baseUrl}/api/test/service/postgraphile/graphql`,
+      },
+    }
   }
-  const client = ref(createClient(_clientOptions))
 
-  const _clientOptionsTesting: ClientOptions = {
-    ..._clientOptions,
-    url: `${baseUrl}/api/test/service/postgraphile/graphql`,
-  }
-  const clientTesting = ref(createClient(_clientOptionsTesting))
+  const initial = buildClientOptions()
+  const client = ref(createClient(initial.clientOptions))
+  const clientTesting = ref(createClient(initial.clientOptionsTesting))
 
-  const urqlReset = () => {
-    client.value = createClient(_clientOptions)
-    clientTesting.value = createClient(_clientOptionsTesting)
+  const urqlReset = async () => {
+    // Drop persisted entities first so the rebuilt exchange below starts
+    // from an empty store instead of rehydrating the previous session's data.
+    await cacheStorage?.clear()
+
+    const next = buildClientOptions()
+    client.value = createClient(next.clientOptions)
+    clientTesting.value = createClient(next.clientOptionsTesting)
   }
 
   return {
