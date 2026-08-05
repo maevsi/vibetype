@@ -1,9 +1,12 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
+import { defineAddress, defineOrganization } from 'nuxt-schema-org/schema'
 
 import { cookieControlConfig } from './cookieControl'
 import { i18nConfig } from './i18n'
 import { pwaConfig } from './pwa'
 import { securityConfig } from './security'
+
+import { SITE_NAME } from '../../node/static'
 
 export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   content: {
@@ -75,6 +78,23 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
     componentDir: 'app/components/scn',
   },
   schemaOrg: {
+    identity: defineOrganization({
+      address: defineAddress({
+        addressCountry: 'DE',
+        addressLocality: 'Kassel',
+        postalCode: '34121',
+        streetAddress: 'Virchowstraße 4',
+      }),
+      legalName: 'maevsi UG (haftungsbeschränkt)',
+      logo: '/assets/static/favicon/apple-touch-icon-180x180.png',
+      name: SITE_NAME.toUpperCase(),
+      sameAs: [
+        'https://instagram.com/vibetype.app/',
+        'https://facebook.com/profile.php?id=61573494951867',
+        'https://tiktok.com/@vibetype',
+        'https://linkedin.com/company/92700414/',
+      ],
+    }),
     reactive: false, // TODO: for a strict trusted type policy, evaluate linking schema org json instead of reatively updating it inline (https://github.com/harlan-zw/nuxt-schema-org/issues/96)
   },
   sitemap: {
