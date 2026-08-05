@@ -72,6 +72,9 @@ const { t } = useI18n()
 const alertError = useAlertError()
 const templateFileInput = useTemplateRef('fileInput')
 
+// page
+useHeadDefault({ title: t('title') })
+
 // data
 const previewUrl = ref<string>()
 const selectedFile = ref<File>()

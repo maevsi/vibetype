@@ -4,5 +4,15 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n()
+useHeadDefault({ title: t('title') })
+
 const error = ref<Error | undefined>()
 </script>
+
+<i18n lang="yaml">
+de:
+  title: Allgemeine Geschäftsbedingungen
+en:
+  title: Terms and Conditions
+</i18n>

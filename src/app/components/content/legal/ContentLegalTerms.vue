@@ -20,7 +20,6 @@ const modelError = defineModel<Error>('error')
 
 // async data
 const { locale } = useI18n()
-
 const allLegalTermsQuery = graphql(`
   query AllLegalTerms($language: String) {
     allLegalTerms(condition: { language: $language }) {

@@ -22,6 +22,7 @@ import type { AcceptableValue } from 'reka-ui'
 // page
 const { t } = useI18n()
 const title = t('title')
+useHeadDefault({ title })
 
 // color mode
 const colorMode = useColorMode()
