@@ -196,6 +196,28 @@ export const getUrqlClient = async ({
             { first: 1 },
           )
         },
+        createEventCategoryMapping: (result, _args, cache, _info) => {
+          const eventId =
+            result.createEventCategoryMapping?.eventCategoryMapping
+              ?.eventByEventId?.id
+          if (!eventId) return
+
+          cache.invalidate(
+            { __typename: 'Event', id: eventId },
+            'eventCategoryMappingsByEventId',
+          )
+        },
+        createEventFormatMapping: (result, _args, cache, _info) => {
+          const eventId =
+            result.createEventFormatMapping?.eventFormatMapping?.eventByEventId
+              ?.id
+          if (!eventId) return
+
+          cache.invalidate(
+            { __typename: 'Event', id: eventId },
+            'eventFormatMappingsByEventId',
+          )
+        },
         createPreferenceEventCategory: (result, _args, cache, _info) =>
           cacheListAppend({
             cache,
@@ -235,6 +257,36 @@ export const getUrqlClient = async ({
           invalidateCache(cache, 'Guest', args),
         deleteEventFavoriteByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'EventFavorite', args),
+        deleteEventCategoryMappingByEventIdAndCategoryId: (
+          result,
+          _args,
+          cache,
+          _info,
+        ) => {
+          const deletedId =
+            result.deleteEventCategoryMappingByEventIdAndCategoryId
+              ?.deletedEventCategoryMappingId
+          if (deletedId)
+            cache.invalidate({
+              __typename: 'EventCategoryMapping',
+              id: deletedId,
+            })
+        },
+        deleteEventFormatMappingByEventIdAndFormatId: (
+          result,
+          _args,
+          cache,
+          _info,
+        ) => {
+          const deletedId =
+            result.deleteEventFormatMappingByEventIdAndFormatId
+              ?.deletedEventFormatMappingId
+          if (deletedId)
+            cache.invalidate({
+              __typename: 'EventFormatMapping',
+              id: deletedId,
+            })
+        },
         deletePreferenceEventCategoryByAccountIdAndCategoryId: (
           result,
           _args,
