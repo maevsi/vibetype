@@ -1,5 +1,5 @@
 import type { DefineNuxtConfig } from 'nuxt/config'
-import type { OrganizationSimple } from 'nuxt-schema-org/schema'
+import { defineAddress, defineOrganization } from 'nuxt-schema-org/schema'
 
 import { cookieControlConfig } from './cookieControl'
 import { i18nConfig } from './i18n'
@@ -78,15 +78,13 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
     componentDir: 'app/components/scn',
   },
   schemaOrg: {
-    identity: {
-      '@type': 'Organization',
-      address: {
-        '@type': 'PostalAddress',
+    identity: defineOrganization({
+      address: defineAddress({
         addressCountry: 'DE',
         addressLocality: 'Kassel',
         postalCode: '34121',
         streetAddress: 'Virchowstraße 4',
-      },
+      }),
       legalName: 'maevsi UG (haftungsbeschränkt)',
       logo: '/assets/static/favicon/apple-touch-icon-180x180.png',
       name: SITE_NAME.toUpperCase(),
@@ -96,7 +94,7 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
         'https://tiktok.com/@vibetype',
         'https://linkedin.com/company/92700414/',
       ],
-    } satisfies OrganizationSimple,
+    }),
     reactive: false, // for a strict trusted type policy the script may not change and it must be inlined / cannot be linked (https://github.com/harlan-zw/nuxt-schema-org/issues/96)
   },
   sitemap: {
