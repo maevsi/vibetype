@@ -3,7 +3,7 @@
 
 # <DEPENDENCIES>
 FROM ghcr.io/maevsi/postgraphile:2.2.0
-FROM ghcr.io/maevsi/sqitch:12.0
+FROM ghcr.io/maevsi/sqitch:12.1
 # </DEPENDENCIES>
 
 #############
