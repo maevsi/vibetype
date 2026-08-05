@@ -1,11 +1,7 @@
 <template>
   <LoaderIndicatorPing v-if="api.isFetching" />
-  <AppError
-    v-else-if="error"
-    :error="{ message: error.message, status: 500 }"
-  />
   <form
-    v-else
+    v-else-if="!error"
     ref="formRef"
     class="flex flex-col gap-4"
     @submit.prevent="form.handleSubmit"
