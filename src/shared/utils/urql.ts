@@ -184,7 +184,7 @@ export const getUrqlClient = async ({
           invalidateCache(cache, 'allEvents')
           invalidateCache(cache, 'eventSearch')
         },
-        createGuest: (_result, _args, cache, _info) =>
+        createGuests: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allGuests'),
         createEventFavorite: (result, _args, cache, _info) => {
           const newNode = result.createEventFavorite?.eventFavorite
