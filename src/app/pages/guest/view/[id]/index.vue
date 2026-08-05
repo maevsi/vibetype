@@ -1,5 +1,5 @@
 <template>
-  <LoaderIndicatorPing v-if="api.isFetching" />
+  <AppLoaderLogo v-if="api.isFetching" />
   <AppError
     v-else-if="!guest"
     :error="{ message: t('errorGuestMissing'), status: 404 }"

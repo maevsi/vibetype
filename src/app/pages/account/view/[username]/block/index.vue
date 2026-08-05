@@ -1,5 +1,5 @@
 <template>
-  <LoaderIndicatorPing v-if="api.isFetching" />
+  <AppLoaderLogo v-if="api.isFetching" />
   <div v-else>
     <LayoutTopBar>
       <span>

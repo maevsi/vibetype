@@ -1,5 +1,5 @@
 <template>
-  <LoaderIndicatorPing v-if="pending" />
+  <AppLoaderLogo v-if="pending" />
   <LayoutProse v-else-if="data?.ast">
     <MarkdownDocument :value="data.ast" />
   </LayoutProse>

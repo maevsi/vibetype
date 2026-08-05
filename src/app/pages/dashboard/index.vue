@@ -30,15 +30,12 @@
         <TypographyH3 :id="templateIdRecommendation" class="px-2">
           {{ t('recommendationTitle') }}
         </TypographyH3>
-        <LoaderIndicatorPing v-if="eventRecommendationsPending" />
-        <template v-else>
-          <EventCard
-            v-for="event in eventRecommendations"
-            :key="event.rowId"
-            :event
-            variant="recommendation"
-          />
-        </template>
+        <EventCard
+          v-for="event in eventRecommendations"
+          :key="event.rowId"
+          :event
+          variant="recommendation"
+        />
       </section>
       <ButtonApp />
     </div>
@@ -113,31 +110,28 @@ const eventQuery = graphql(`
 const { $urql } = useNuxtApp()
 const requestFetch = useRequestFetch()
 const authentication = useAuthentication()
-const {
-  data: eventRecommendations,
-  // error: recommendationError,
-  pending: eventRecommendationsPending,
-} = await useAsyncData('index-recommendations', async () => {
-  if (!authentication.value.isSignedIn) return []
+const { data: eventRecommendations, pending: eventRecommendationsPending } =
+  await useAsyncData('index-recommendations', async () => {
+    if (!authentication.value.isSignedIn) return []
 
-  const eventIds = await requestFetch('/api/service/reccoom/recommendations')
-  const events = (
-    await Promise.all(
-      eventIds.map(
-        async (recommendation) =>
-          (
-            await $urql.value
-              .query(eventQuery, {
-                id: recommendation.event_id,
-              })
-              .toPromise()
-          ).data?.eventByRowId,
-      ),
-    )
-  ).filter(isNeitherNullNorUndefined)
+    const eventIds = await requestFetch('/api/service/reccoom/recommendations')
+    const events = (
+      await Promise.all(
+        eventIds.map(
+          async (recommendation) =>
+            (
+              await $urql.value
+                .query(eventQuery, {
+                  id: recommendation.event_id,
+                })
+                .toPromise()
+            ).data?.eventByRowId,
+        ),
+      )
+    ).filter(isNeitherNullNorUndefined)
 
-  return events
-})
+    return events
+  })
 
 // async data - upcoming
 // TODO: use custom and more precise database function instead of full fetch and client filtering
@@ -213,14 +207,12 @@ const templateIdUpcoming = useId()
 de:
   anonymousCta: Finde ihn auf {siteName}
   anonymousCtaDescription: Dir fehlt der Überblick über Veranstaltungen?
-  # recommendationError: Event-Empfehlungen konnten nicht geladen werden
   recommendationTitle: Das solltest Du nicht verpassen
   title: Dashboard
   upcomingTitle: Dein nächstes Event
 en:
   anonymousCta: Find it on {siteName}
   anonymousCtaDescription: Are you missing an overview of events?
-  # recommendationError: Event recommendations could not be loaded
   recommendationTitle: You Should Not Miss
   title: Dashboard
   upcomingTitle: Your upcoming event
