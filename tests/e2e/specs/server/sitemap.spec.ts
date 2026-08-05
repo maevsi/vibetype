@@ -23,12 +23,32 @@ test.describe('sitemap', () => {
     for (const language of languages) {
       const resp = await request.get(`/__sitemap__/${language}.xml`)
       const text = (await resp.text())
+        // Public event URLs depend on whatever's in the database during this
+        // run (shared with other specs), so they aren't stable across runs -
+        // only the static route set is asserted against the snapshot here.
+        .replaceAll(/ {4}<url>[\s\S]*?<\/url>\n/g, (urlBlock) =>
+          urlBlock.includes('/event/view/') ? '' : urlBlock,
+        )
         .replaceAll(/\n.+<\/lastmod>/g, '')
         .replaceAll(SITE_URL, 'https://example.com')
 
       expect(text).toMatchSnapshot(
         `sitemap-content-${process.env.VIO_SERVER}-${language}.txt`,
       )
+    }
+  })
+
+  test('events source', async ({ request }) => {
+    const resp = await request.get('/api/__sitemap__/events')
+
+    expect(resp.ok()).toBeTruthy()
+
+    const urls: unknown = await resp.json()
+
+    expect(Array.isArray(urls)).toBe(true)
+
+    for (const url of urls as { loc: string }[]) {
+      expect(url.loc).toMatch(/^\/event\/view\/[^/]+\/[^/]+$/)
     }
   })
 })
