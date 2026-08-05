@@ -183,6 +183,7 @@ export const getUrqlClient = async ({
 
   const graphCacheConfig: GraphCacheConfig = {
     keys: {
+      EventFavorite: (data) => data.rowId ?? null,
       PreferenceEventCategory: (data) => data.id ?? null, // TODO: remove
       PreferenceEventFormat: (data) => data.id ?? null, // TODO: remove
       PreferenceEventSize: (data) => data.id ?? null, // TODO: remove
@@ -207,11 +208,12 @@ export const getUrqlClient = async ({
           invalidateCache(cache, 'allGuests'),
         createEventFavorite: (result, _args, cache, _info) => {
           const newNode = result.createEventFavorite?.eventFavorite
-          if (!newNode || !newNode.__typename) return
+          if (!newNode || !newNode.__typename || !newNode.eventByEventId?.id)
+            return
 
           const parentKey = cache.keyOfEntity({
             __typename: 'Event',
-            id: newNode.eventId,
+            id: newNode.eventByEventId.id,
           })
           if (!parentKey) return
 
@@ -257,6 +259,8 @@ export const getUrqlClient = async ({
           invalidateCache(cache, 'Contact', args),
         deleteGuestByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Guest', args),
+        deleteEventFavoriteByRowId: (_result, args, cache, _info) =>
+          invalidateCache(cache, 'EventFavorite', args),
         deletePreferenceEventCategoryByAccountIdAndCategoryId: (
           result,
           _args,
@@ -300,8 +304,6 @@ export const getUrqlClient = async ({
             query: allPreferenceEventLocationsQuery,
             result,
           }),
-        deleteEventFavoriteByRowId: (_result, args, cache, _info) =>
-          invalidateCache(cache, 'EventFavorite', args),
         deleteProfilePictureByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'ProfilePicture', args),
       },

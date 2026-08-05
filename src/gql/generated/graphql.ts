@@ -966,6 +966,7 @@ export type CreateEventFavoriteMutation = {
       eventId: string
       id: string
       rowId: string
+      eventByEventId: { id: string } | null
     } | null
   } | null
 }
@@ -3563,6 +3564,19 @@ export const CreateEventFavoriteDocument = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'createdBy' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
                       },
                       {
                         kind: 'Field',

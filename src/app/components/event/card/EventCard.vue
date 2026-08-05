@@ -229,6 +229,9 @@ const createEventFavoriteMutation = useMutation(
       createEventFavorite(input: $input) {
         eventFavorite {
           createdBy
+          eventByEventId {
+            id
+          }
           eventId
           id
           rowId
@@ -253,31 +256,45 @@ const deleteEventFavoriteByRowIdMutation = useMutation(
 //   createEventFavoriteMutation,
 //   deleteEventFavoriteByRowIdMutation,
 // ])
+// `favoriteOverride` tracks the result of the latest toggle locally: some
+// callers (e.g. the dashboard recommendations) pass in an `event` snapshot
+// that never refreshes from the cache, so `isFavorite` can't rely on the
+// prop alone to reflect a toggle performed in this component instance.
+// `undefined` = defer to the prop, `null` = locally unfavorited.
+const favoriteOverride = ref<{ createdBy: string; rowId: string } | null>()
+const currentFavorite = computed(() =>
+  favoriteOverride.value === undefined
+    ? event.eventFavoritesByEventId?.nodes[0]
+    : favoriteOverride.value,
+)
 const isFavorite = computed(
   () =>
-    store.signedInAccountId &&
-    event.eventFavoritesByEventId?.nodes[0]?.createdBy &&
-    event.eventFavoritesByEventId?.nodes[0]?.createdBy ===
-      store.signedInAccountId,
+    !!(
+      store.signedInAccountId &&
+      currentFavorite.value?.createdBy &&
+      currentFavorite.value.createdBy === store.signedInAccountId
+    ),
 )
 const executeUrqlRequest = useExecuteUrqlRequest()
 const { t } = useI18n()
 const toggleEventFavorite = async () => {
   if (isFavorite.value) {
-    if (!event.eventFavoritesByEventId?.nodes[0]) return // TODO: error
+    const favorite = currentFavorite.value
+    if (!favorite) return // TODO: error
 
-    await executeUrqlRequest({
+    const result = await executeUrqlRequest({
       errorMessageI18n: t('favoriteDeleteError'),
       request: deleteEventFavoriteByRowIdMutation.executeMutation({
         input: {
-          rowId: event.eventFavoritesByEventId.nodes[0].rowId,
+          rowId: favorite.rowId,
         },
       }),
     })
+    if (result) favoriteOverride.value = null
   } else {
     if (!store.signedInAccountId) return // TODO: error
 
-    await executeUrqlRequest({
+    const result = await executeUrqlRequest({
       errorMessageI18n: t('favoriteCreateError'),
       request: createEventFavoriteMutation.executeMutation({
         input: {
@@ -288,6 +305,12 @@ const toggleEventFavorite = async () => {
         },
       }),
     })
+    const created = result?.data?.createEventFavorite?.eventFavorite
+    if (created)
+      favoriteOverride.value = {
+        createdBy: created.createdBy,
+        rowId: created.rowId,
+      }
   }
 }
 </script>
