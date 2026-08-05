@@ -30,8 +30,14 @@ type Documents = {
   '\n    mutation CreateReport($input: CreateReportInput!) {\n      createReport(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.CreateReportDocument
   '\n    mutation CreateContact($input: CreateContactInput!) {\n      createContact(input: $input) {\n        contact {\n          id\n        }\n      }\n    }\n  ': typeof types.CreateContactDocument
   '\n    mutation UpdateContactByRowId($input: UpdateContactByRowIdInput!) {\n      updateContactByRowId(input: $input) {\n        contact {\n          ...ContactItem\n        }\n      }\n    }\n  ': typeof types.UpdateContactByRowIdDocument
-  '\n    mutation CreateEvent($input: CreateEventInput!) {\n      createEvent(input: $input) {\n        event {\n          id\n        }\n      }\n    }\n  ': typeof types.CreateEventDocument
+  '\n    mutation CreateEvent($input: CreateEventInput!) {\n      createEvent(input: $input) {\n        event {\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.CreateEventDocument
   '\n    mutation updateEventByRowId($input: UpdateEventByRowIdInput!) {\n      updateEventByRowId(input: $input) {\n        event {\n          id\n        }\n      }\n    }\n  ': typeof types.UpdateEventByRowIdDocument
+  '\n    mutation CreateEventCategoryMapping(\n      $input: CreateEventCategoryMappingInput!\n    ) {\n      createEventCategoryMapping(input: $input) {\n        eventCategoryMapping {\n          categoryId\n          eventByEventId {\n            id\n          }\n          id\n        }\n      }\n    }\n  ': typeof types.CreateEventCategoryMappingDocument
+  '\n    mutation DeleteEventCategoryMappingByEventIdAndCategoryId(\n      $input: DeleteEventCategoryMappingByEventIdAndCategoryIdInput!\n    ) {\n      deleteEventCategoryMappingByEventIdAndCategoryId(input: $input) {\n        deletedEventCategoryMappingId\n      }\n    }\n  ': typeof types.DeleteEventCategoryMappingByEventIdAndCategoryIdDocument
+  '\n    mutation CreateEventFormatMapping($input: CreateEventFormatMappingInput!) {\n      createEventFormatMapping(input: $input) {\n        eventFormatMapping {\n          eventByEventId {\n            id\n          }\n          formatId\n          id\n        }\n      }\n    }\n  ': typeof types.CreateEventFormatMappingDocument
+  '\n    mutation DeleteEventFormatMappingByEventIdAndFormatId(\n      $input: DeleteEventFormatMappingByEventIdAndFormatIdInput!\n    ) {\n      deleteEventFormatMappingByEventIdAndFormatId(input: $input) {\n        deletedEventFormatMappingId\n      }\n    }\n  ': typeof types.DeleteEventFormatMappingByEventIdAndFormatIdDocument
+  '\n    query AllEventCategoriesFormEvent {\n      allEventCategories {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllEventCategoriesFormEventDocument
+  '\n    query AllEventFormatsFormEvent {\n      allEventFormats {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllEventFormatsFormEventDocument
   '\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.CreateGuestsDocument
   '\n    mutation AccountPasswordChange($input: AccountPasswordChangeInput!) {\n      accountPasswordChange(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountPasswordChangeDocument
   '\n    mutation AccountPasswordReset($input: AccountPasswordResetInput!) {\n      accountPasswordReset(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountPasswordResetDocument
@@ -66,7 +72,7 @@ type Documents = {
   '\n    mutation AttendanceCheckOut(\n      $id: UUID!\n      $attendancePatch: AttendancePatch!\n    ) {\n      updateAttendanceByRowId(\n        input: { rowId: $id, attendancePatch: $attendancePatch }\n      ) {\n        attendance {\n          id\n          checkedOut\n          rowId\n        }\n      }\n    }\n  ': typeof types.AttendanceCheckOutDocument
   '\n  query DashboardEventRecommendations($id: UUID!) {\n    eventByRowId(rowId: $id) {\n      accountByCreatedBy {\n        id\n        rowId\n        username\n      }\n      addressByAddressId {\n        id\n        location {\n          latitude\n          longitude\n        }\n        rowId\n      }\n      eventFavoritesByEventId(first: 1) {\n        nodes {\n          createdBy\n          id\n          rowId\n        }\n      }\n      guestsByEventId(first: 1) {\n        nodes {\n          contactByContactId {\n            accountId\n            id\n            rowId\n          }\n          id\n          rowId\n        }\n      }\n      id\n      name\n      rowId\n      slug\n      start\n    }\n  }\n': typeof types.DashboardEventRecommendationsDocument
   '\n  query DashboardEventUpcoming($createdBy: UUID!) {\n    allEvents(condition: { createdBy: $createdBy }) {\n      nodes {\n        accountByCreatedBy {\n          id\n          rowId\n          username\n        }\n        end\n        id\n        name\n        rowId\n        slug\n        start\n      }\n    }\n  }\n': typeof types.DashboardEventUpcomingDocument
-  '\n    query EventEdit($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            createdBy\n            description\n            end\n            id\n            guestCountMaximum\n            isArchived\n            isInPerson\n            isRemote\n            name\n            rowId\n            slug\n            start\n            url\n            visibility\n          }\n        }\n        id\n        rowId\n        username\n      }\n    }\n  ': typeof types.EventEditDocument
+  '\n    query EventEdit($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            createdBy\n            description\n            end\n            eventCategoryMappingsByEventId {\n              nodes {\n                categoryId\n                id\n              }\n            }\n            eventFormatMappingsByEventId {\n              nodes {\n                formatId\n                id\n              }\n            }\n            id\n            guestCountMaximum\n            isArchived\n            isInPerson\n            isRemote\n            name\n            rowId\n            slug\n            start\n            url\n            visibility\n          }\n        }\n        id\n        rowId\n        username\n      }\n    }\n  ': typeof types.EventEditDocument
   '\n    mutation EventDelete($input: EventDeleteInput!) {\n      eventDelete(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.EventDeleteDocument
   '\n    query EventAttendance($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            id\n            name\n            rowId\n            slug\n          }\n        }\n        id\n      }\n    }\n  ': typeof types.EventAttendanceDocument
   '\n    mutation AttendanceCreate($input: CreateAttendanceInput!) {\n      createAttendance(input: $input) {\n        attendance {\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.AttendanceCreateDocument
@@ -87,7 +93,7 @@ type Documents = {
   '\n  mutation JwtUpdateGuestAdd($input: JwtUpdateGuestAddInput!) {\n    jwtUpdateGuestAdd(input: $input) {\n      result\n    }\n  }\n': typeof types.JwtUpdateGuestAddDocument
   '\n  mutation AccountRegistration($input: AccountRegistrationInput!) {\n    accountRegistration(input: $input) {\n      clientMutationId\n    }\n  }\n': typeof types.AccountRegistrationDocument
   '\n  fragment ContactItem on Contact {\n    accountId\n    accountByAccountId {\n      id\n      rowId\n      username\n    }\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    emailAddress\n    emailAddressHash\n    firstName\n    id\n    lastName\n    nickname\n    note\n    phoneNumber\n    rowId\n    url\n  }\n': typeof types.ContactItemFragmentDoc
-  '\n  fragment EventItem on Event {\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    description\n    end\n    guestCountMaximum\n    id\n    isArchived\n    isInPerson\n    isRemote\n    name\n    rowId\n    slug\n    start\n    url\n    visibility\n  }\n': typeof types.EventItemFragmentDoc
+  '\n  fragment EventItem on Event {\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    description\n    end\n    eventCategoryMappingsByEventId {\n      nodes {\n        categoryId\n        id\n      }\n    }\n    eventFormatMappingsByEventId {\n      nodes {\n        formatId\n        id\n      }\n    }\n    guestCountMaximum\n    id\n    isArchived\n    isInPerson\n    isRemote\n    name\n    rowId\n    slug\n    start\n    url\n    visibility\n  }\n': typeof types.EventItemFragmentDoc
   '\n  fragment GuestItem on Guest {\n    contactByContactId {\n      ...ContactItem\n    }\n    contactId\n    feedback\n    id\n    rowId\n  }\n': typeof types.GuestItemFragmentDoc
   '\n  fragment PreferenceEventCategoryItem on PreferenceEventCategory {\n    categoryId\n    id\n  }\n': typeof types.PreferenceEventCategoryItemFragmentDoc
   '\n  query AllPreferenceEventCategories {\n    allPreferenceEventCategories {\n      nodes {\n        ...PreferenceEventCategoryItem\n      }\n    }\n  }\n': typeof types.AllPreferenceEventCategoriesDocument
@@ -129,10 +135,22 @@ const documents: Documents = {
     types.CreateContactDocument,
   '\n    mutation UpdateContactByRowId($input: UpdateContactByRowIdInput!) {\n      updateContactByRowId(input: $input) {\n        contact {\n          ...ContactItem\n        }\n      }\n    }\n  ':
     types.UpdateContactByRowIdDocument,
-  '\n    mutation CreateEvent($input: CreateEventInput!) {\n      createEvent(input: $input) {\n        event {\n          id\n        }\n      }\n    }\n  ':
+  '\n    mutation CreateEvent($input: CreateEventInput!) {\n      createEvent(input: $input) {\n        event {\n          id\n          rowId\n        }\n      }\n    }\n  ':
     types.CreateEventDocument,
   '\n    mutation updateEventByRowId($input: UpdateEventByRowIdInput!) {\n      updateEventByRowId(input: $input) {\n        event {\n          id\n        }\n      }\n    }\n  ':
     types.UpdateEventByRowIdDocument,
+  '\n    mutation CreateEventCategoryMapping(\n      $input: CreateEventCategoryMappingInput!\n    ) {\n      createEventCategoryMapping(input: $input) {\n        eventCategoryMapping {\n          categoryId\n          eventByEventId {\n            id\n          }\n          id\n        }\n      }\n    }\n  ':
+    types.CreateEventCategoryMappingDocument,
+  '\n    mutation DeleteEventCategoryMappingByEventIdAndCategoryId(\n      $input: DeleteEventCategoryMappingByEventIdAndCategoryIdInput!\n    ) {\n      deleteEventCategoryMappingByEventIdAndCategoryId(input: $input) {\n        deletedEventCategoryMappingId\n      }\n    }\n  ':
+    types.DeleteEventCategoryMappingByEventIdAndCategoryIdDocument,
+  '\n    mutation CreateEventFormatMapping($input: CreateEventFormatMappingInput!) {\n      createEventFormatMapping(input: $input) {\n        eventFormatMapping {\n          eventByEventId {\n            id\n          }\n          formatId\n          id\n        }\n      }\n    }\n  ':
+    types.CreateEventFormatMappingDocument,
+  '\n    mutation DeleteEventFormatMappingByEventIdAndFormatId(\n      $input: DeleteEventFormatMappingByEventIdAndFormatIdInput!\n    ) {\n      deleteEventFormatMappingByEventIdAndFormatId(input: $input) {\n        deletedEventFormatMappingId\n      }\n    }\n  ':
+    types.DeleteEventFormatMappingByEventIdAndFormatIdDocument,
+  '\n    query AllEventCategoriesFormEvent {\n      allEventCategories {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ':
+    types.AllEventCategoriesFormEventDocument,
+  '\n    query AllEventFormatsFormEvent {\n      allEventFormats {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ':
+    types.AllEventFormatsFormEventDocument,
   '\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          id\n          rowId\n        }\n      }\n    }\n  ':
     types.CreateGuestsDocument,
   '\n    mutation AccountPasswordChange($input: AccountPasswordChangeInput!) {\n      accountPasswordChange(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
@@ -201,7 +219,7 @@ const documents: Documents = {
     types.DashboardEventRecommendationsDocument,
   '\n  query DashboardEventUpcoming($createdBy: UUID!) {\n    allEvents(condition: { createdBy: $createdBy }) {\n      nodes {\n        accountByCreatedBy {\n          id\n          rowId\n          username\n        }\n        end\n        id\n        name\n        rowId\n        slug\n        start\n      }\n    }\n  }\n':
     types.DashboardEventUpcomingDocument,
-  '\n    query EventEdit($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            createdBy\n            description\n            end\n            id\n            guestCountMaximum\n            isArchived\n            isInPerson\n            isRemote\n            name\n            rowId\n            slug\n            start\n            url\n            visibility\n          }\n        }\n        id\n        rowId\n        username\n      }\n    }\n  ':
+  '\n    query EventEdit($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            createdBy\n            description\n            end\n            eventCategoryMappingsByEventId {\n              nodes {\n                categoryId\n                id\n              }\n            }\n            eventFormatMappingsByEventId {\n              nodes {\n                formatId\n                id\n              }\n            }\n            id\n            guestCountMaximum\n            isArchived\n            isInPerson\n            isRemote\n            name\n            rowId\n            slug\n            start\n            url\n            visibility\n          }\n        }\n        id\n        rowId\n        username\n      }\n    }\n  ':
     types.EventEditDocument,
   '\n    mutation EventDelete($input: EventDeleteInput!) {\n      eventDelete(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.EventDeleteDocument,
@@ -243,7 +261,7 @@ const documents: Documents = {
     types.AccountRegistrationDocument,
   '\n  fragment ContactItem on Contact {\n    accountId\n    accountByAccountId {\n      id\n      rowId\n      username\n    }\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    emailAddress\n    emailAddressHash\n    firstName\n    id\n    lastName\n    nickname\n    note\n    phoneNumber\n    rowId\n    url\n  }\n':
     types.ContactItemFragmentDoc,
-  '\n  fragment EventItem on Event {\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    description\n    end\n    guestCountMaximum\n    id\n    isArchived\n    isInPerson\n    isRemote\n    name\n    rowId\n    slug\n    start\n    url\n    visibility\n  }\n':
+  '\n  fragment EventItem on Event {\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    description\n    end\n    eventCategoryMappingsByEventId {\n      nodes {\n        categoryId\n        id\n      }\n    }\n    eventFormatMappingsByEventId {\n      nodes {\n        formatId\n        id\n      }\n    }\n    guestCountMaximum\n    id\n    isArchived\n    isInPerson\n    isRemote\n    name\n    rowId\n    slug\n    start\n    url\n    visibility\n  }\n':
     types.EventItemFragmentDoc,
   '\n  fragment GuestItem on Guest {\n    contactByContactId {\n      ...ContactItem\n    }\n    contactId\n    feedback\n    id\n    rowId\n  }\n':
     types.GuestItemFragmentDoc,
@@ -375,14 +393,50 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    mutation CreateEvent($input: CreateEventInput!) {\n      createEvent(input: $input) {\n        event {\n          id\n        }\n      }\n    }\n  ',
-): (typeof documents)['\n    mutation CreateEvent($input: CreateEventInput!) {\n      createEvent(input: $input) {\n        event {\n          id\n        }\n      }\n    }\n  ']
+  source: '\n    mutation CreateEvent($input: CreateEventInput!) {\n      createEvent(input: $input) {\n        event {\n          id\n          rowId\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation CreateEvent($input: CreateEventInput!) {\n      createEvent(input: $input) {\n        event {\n          id\n          rowId\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
   source: '\n    mutation updateEventByRowId($input: UpdateEventByRowIdInput!) {\n      updateEventByRowId(input: $input) {\n        event {\n          id\n        }\n      }\n    }\n  ',
 ): (typeof documents)['\n    mutation updateEventByRowId($input: UpdateEventByRowIdInput!) {\n      updateEventByRowId(input: $input) {\n        event {\n          id\n        }\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    mutation CreateEventCategoryMapping(\n      $input: CreateEventCategoryMappingInput!\n    ) {\n      createEventCategoryMapping(input: $input) {\n        eventCategoryMapping {\n          categoryId\n          eventByEventId {\n            id\n          }\n          id\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation CreateEventCategoryMapping(\n      $input: CreateEventCategoryMappingInput!\n    ) {\n      createEventCategoryMapping(input: $input) {\n        eventCategoryMapping {\n          categoryId\n          eventByEventId {\n            id\n          }\n          id\n        }\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    mutation DeleteEventCategoryMappingByEventIdAndCategoryId(\n      $input: DeleteEventCategoryMappingByEventIdAndCategoryIdInput!\n    ) {\n      deleteEventCategoryMappingByEventIdAndCategoryId(input: $input) {\n        deletedEventCategoryMappingId\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation DeleteEventCategoryMappingByEventIdAndCategoryId(\n      $input: DeleteEventCategoryMappingByEventIdAndCategoryIdInput!\n    ) {\n      deleteEventCategoryMappingByEventIdAndCategoryId(input: $input) {\n        deletedEventCategoryMappingId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    mutation CreateEventFormatMapping($input: CreateEventFormatMappingInput!) {\n      createEventFormatMapping(input: $input) {\n        eventFormatMapping {\n          eventByEventId {\n            id\n          }\n          formatId\n          id\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation CreateEventFormatMapping($input: CreateEventFormatMappingInput!) {\n      createEventFormatMapping(input: $input) {\n        eventFormatMapping {\n          eventByEventId {\n            id\n          }\n          formatId\n          id\n        }\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    mutation DeleteEventFormatMappingByEventIdAndFormatId(\n      $input: DeleteEventFormatMappingByEventIdAndFormatIdInput!\n    ) {\n      deleteEventFormatMappingByEventIdAndFormatId(input: $input) {\n        deletedEventFormatMappingId\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation DeleteEventFormatMappingByEventIdAndFormatId(\n      $input: DeleteEventFormatMappingByEventIdAndFormatIdInput!\n    ) {\n      deleteEventFormatMappingByEventIdAndFormatId(input: $input) {\n        deletedEventFormatMappingId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query AllEventCategoriesFormEvent {\n      allEventCategories {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    query AllEventCategoriesFormEvent {\n      allEventCategories {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query AllEventFormatsFormEvent {\n      allEventFormats {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    query AllEventFormatsFormEvent {\n      allEventFormats {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -591,8 +645,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    query EventEdit($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            createdBy\n            description\n            end\n            id\n            guestCountMaximum\n            isArchived\n            isInPerson\n            isRemote\n            name\n            rowId\n            slug\n            start\n            url\n            visibility\n          }\n        }\n        id\n        rowId\n        username\n      }\n    }\n  ',
-): (typeof documents)['\n    query EventEdit($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            createdBy\n            description\n            end\n            id\n            guestCountMaximum\n            isArchived\n            isInPerson\n            isRemote\n            name\n            rowId\n            slug\n            start\n            url\n            visibility\n          }\n        }\n        id\n        rowId\n        username\n      }\n    }\n  ']
+  source: '\n    query EventEdit($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            createdBy\n            description\n            end\n            eventCategoryMappingsByEventId {\n              nodes {\n                categoryId\n                id\n              }\n            }\n            eventFormatMappingsByEventId {\n              nodes {\n                formatId\n                id\n              }\n            }\n            id\n            guestCountMaximum\n            isArchived\n            isInPerson\n            isRemote\n            name\n            rowId\n            slug\n            start\n            url\n            visibility\n          }\n        }\n        id\n        rowId\n        username\n      }\n    }\n  ',
+): (typeof documents)['\n    query EventEdit($slug: String!, $username: String!) {\n      accountByUsername(username: $username) {\n        eventsByCreatedBy(condition: { slug: $slug }) {\n          nodes {\n            createdBy\n            description\n            end\n            eventCategoryMappingsByEventId {\n              nodes {\n                categoryId\n                id\n              }\n            }\n            eventFormatMappingsByEventId {\n              nodes {\n                formatId\n                id\n              }\n            }\n            id\n            guestCountMaximum\n            isArchived\n            isInPerson\n            isRemote\n            name\n            rowId\n            slug\n            start\n            url\n            visibility\n          }\n        }\n        id\n        rowId\n        username\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -717,8 +771,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  fragment EventItem on Event {\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    description\n    end\n    guestCountMaximum\n    id\n    isArchived\n    isInPerson\n    isRemote\n    name\n    rowId\n    slug\n    start\n    url\n    visibility\n  }\n',
-): (typeof documents)['\n  fragment EventItem on Event {\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    description\n    end\n    guestCountMaximum\n    id\n    isArchived\n    isInPerson\n    isRemote\n    name\n    rowId\n    slug\n    start\n    url\n    visibility\n  }\n']
+  source: '\n  fragment EventItem on Event {\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    description\n    end\n    eventCategoryMappingsByEventId {\n      nodes {\n        categoryId\n        id\n      }\n    }\n    eventFormatMappingsByEventId {\n      nodes {\n        formatId\n        id\n      }\n    }\n    guestCountMaximum\n    id\n    isArchived\n    isInPerson\n    isRemote\n    name\n    rowId\n    slug\n    start\n    url\n    visibility\n  }\n',
+): (typeof documents)['\n  fragment EventItem on Event {\n    accountByCreatedBy {\n      id\n      rowId\n      username\n    }\n    createdBy\n    description\n    end\n    eventCategoryMappingsByEventId {\n      nodes {\n        categoryId\n        id\n      }\n    }\n    eventFormatMappingsByEventId {\n      nodes {\n        formatId\n        id\n      }\n    }\n    guestCountMaximum\n    id\n    isArchived\n    isInPerson\n    isRemote\n    name\n    rowId\n    slug\n    start\n    url\n    visibility\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
