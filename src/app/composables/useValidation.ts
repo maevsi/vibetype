@@ -81,6 +81,9 @@ export const useValidationField = (
   const handleInput = (newValue: string) => {
     value.value = newValue
     if (touched.value) {
+      // Invalidate any in-flight validation immediately so its result can't
+      // overwrite the state while this newer input awaits the debounce delay.
+      latestValidationRun += 1
       clearTimeout(debounceTimer)
       debounceTimer = setTimeout(() => {
         void validate()
