@@ -1,5 +1,5 @@
 <template>
-  <LoaderIndicatorPing v-if="api.isFetching" />
+  <AppLoaderLogo v-if="api.isFetching" />
   <AppError v-else-if="!event" :error="{ status: 404 }" />
   <div v-else class="flex flex-col gap-4">
     <section>

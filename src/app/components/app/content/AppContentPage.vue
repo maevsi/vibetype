@@ -1,5 +1,5 @@
 <template>
-  <LoaderIndicatorPing v-if="content.pending.value" />
+  <AppLoaderLogo v-if="content.pending.value" />
   <AppError
     v-else-if="content.error.value"
     :error="{ message: content.error.value.message, status: 500 }"
