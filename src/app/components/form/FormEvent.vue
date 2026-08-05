@@ -242,7 +242,7 @@
           :is24hr="locale !== 'en'"
           :locale
           :masks="{ input: 'YYYY-MM-DD h:mm A' }"
-          :max-date="form.getFieldValue('end')"
+          :max-date="form.getFieldValue('end') || undefined"
           :minute-increment="5"
           mode="dateTime"
           :model-value="form.getFieldValue('start')"
@@ -258,7 +258,7 @@
           :is24hr="locale !== 'en'"
           :locale
           :masks="{ input: 'YYYY-MM-DD h:mm A' }"
-          :min-date="form.getFieldValue('start')"
+          :min-date="form.getFieldValue('start') || undefined"
           :minute-increment="5"
           mode="dateTime"
           :model-value="form.getFieldValue('end')"
