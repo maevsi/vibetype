@@ -13,6 +13,20 @@ export const EventItem = graphql(`
     createdBy
     description
     end
+    eventCategoryMappingsByEventId {
+      nodes {
+        eventCategoryByCategoryId {
+          name
+        }
+      }
+    }
+    eventFormatMappingsByEventId {
+      nodes {
+        eventFormatByFormatId {
+          name
+        }
+      }
+    }
     guestCountMaximum
     id
     isArchived
