@@ -95,7 +95,7 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
         'https://linkedin.com/company/92700414/',
       ],
     }),
-    reactive: false, // TODO: for a strict trusted type policy, evaluate linking schema org json instead of reatively updating it inline (https://github.com/harlan-zw/nuxt-schema-org/issues/96)
+    reactive: false, // for a strict trusted type policy the script may not change and it must be inlined / cannot be linked (https://github.com/harlan-zw/nuxt-schema-org/issues/96)
   },
   sitemap: {
     credits: false,

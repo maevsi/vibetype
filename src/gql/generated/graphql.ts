@@ -1358,6 +1358,15 @@ export type AccountQuery = {
     achievementsByAccountId: {
       nodes: Array<{ achievement: AchievementType; id: string; rowId: string }>
     }
+    profilePictureByAccountId: {
+      id: string
+      rowId: string
+      uploadByUploadId: {
+        id: string
+        rowId: string
+        storageKey: string | null
+      } | null
+    } | null
     eventsByCreatedBy: {
       totalCount: number
       nodes: Array<{
@@ -6110,6 +6119,38 @@ export const AccountDocument = {
                   },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'profilePictureByAccountId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'uploadByUploadId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rowId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'storageKey' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'eventsByCreatedBy' },

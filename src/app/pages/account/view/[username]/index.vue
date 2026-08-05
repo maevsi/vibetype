@@ -241,6 +241,15 @@ const queryAccount = graphql(`
         }
       }
       description
+      profilePictureByAccountId {
+        id
+        rowId
+        uploadByUploadId {
+          id
+          rowId
+          storageKey
+        }
+      }
       eventsByCreatedBy(first: 3, orderBy: START_DESC) {
         nodes {
           eventFavoritesByEventId(first: 1) {
@@ -313,6 +322,42 @@ const events = computed(() =>
   })),
 )
 
+// page (post-fetch)
+const TUSD_FILES_URL = useTusdFilesUrl()
+const accountProfilePictureUrl = computed(() => {
+  const storageKey =
+    account.value?.profilePictureByAccountId?.uploadByUploadId?.storageKey
+
+  return storageKey ? TUSD_FILES_URL + storageKey : undefined
+})
+const { siteUrlTyped: siteUrl } = useSiteUrl()
+const seoDescription = accountDescription.value
+if (seoDescription) {
+  useSeoMeta({
+    description: seoDescription,
+    ogDescription: seoDescription,
+    twitterDescription: seoDescription,
+  })
+}
+
+definePerson({
+  description: accountDescription,
+  image: accountProfilePictureUrl,
+  name: route.params.username,
+  url: `https://${siteUrl.host}${route.fullPath}`,
+})
+defineOgImage(
+  'Person.takumi',
+  {
+    description: accountDescription,
+    image: accountProfilePictureUrl,
+    username: route.params.username,
+  },
+  {
+    alt: t('ogImageAlt'),
+  },
+)
+
 // template
 const localePath = useLocalePath()
 const isBlockDrawerOpen = ref<boolean>()
@@ -334,6 +379,7 @@ de:
   imprint: Impressum
   myProfile: Mein Profil
   newEvent: Neues Event
+  ogImageAlt: Das Profilbild des Kontos.
   profile: Profil
   uploads: Meine Dateien
   username: "{'@'}{username}"
@@ -352,6 +398,7 @@ en:
   imprint: Imprint
   myProfile: My Profile
   newEvent: New event
+  ogImageAlt: The account's profile picture.
   profile: Profile
   uploads: Uploads
   username: "{'@'}{username}"
