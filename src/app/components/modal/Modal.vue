@@ -1,33 +1,13 @@
 <template>
-  <div v-if="isVisible">
-    <div
-      class="fixed inset-0 z-10 backdrop-blur-sm backdrop-brightness-50 transition"
-      @click="close"
-    />
-    <Card
-      class="fixed top-[10%] left-1/2 z-20 flex max-h-[80%] w-5/6 -translate-x-1/2 flex-col gap-2 overflow-auto sm:w-2/3 lg:w-1/2 xl:w-1/3"
+  <Dialog :open="isVisible" @update:open="onOpenChange">
+    <DialogContent
+      class="top-[10%] max-h-[80%] w-5/6 max-w-none translate-y-0 flex-col gap-2 overflow-auto rounded-xl border-(--faint-line) bg-(--surface) p-2 shadow-xs sm:w-2/3 sm:max-w-none lg:w-1/2 xl:w-1/3"
     >
-      <div class="flex justify-end">
-        <ButtonIcon
-          :aria-label="t('cancel')"
-          class="invisible"
-          :disabled="isSubmitting"
-          @click="close()"
-        >
-          <AppIconXMark />
-        </ButtonIcon>
-        <h2 v-if="$slots.header" class="m-0 flex-1 px-4 text-center">
-          <slot name="header" />
-        </h2>
-        <ButtonIcon
-          :aria-label="t('cancel')"
-          class="self-start"
-          :disabled="isSubmitting"
-          @click="close()"
-        >
-          <AppIconXMark />
-        </ButtonIcon>
-      </div>
+      <DialogHeader :class="$slots.header ? 'pr-8' : 'sr-only'">
+        <DialogTitle class="text-center">
+          <slot name="header">{{ t('dialog') }}</slot>
+        </DialogTitle>
+      </DialogHeader>
       <div
         class="flex min-h-0 flex-col"
         :class="{
@@ -39,7 +19,7 @@
           <LoaderIndicatorSpinner class="m-auto size-8" />
         </div>
       </div>
-      <div v-if="!isFooterHidden" class="flex justify-center gap-8">
+      <DialogFooter v-if="!isFooterHidden" class="gap-8 sm:justify-center">
         <slot name="footer">
           <ButtonColored
             :aria-label="submitName || t('ok')"
@@ -55,12 +35,12 @@
             </template>
           </ButtonColored>
         </slot>
-      </div>
+      </DialogFooter>
       <CardStateAlert v-if="errors" class="mb-4">
         <AppSpanList :span="errors" />
       </CardStateAlert>
-    </Card>
-  </div>
+    </DialogContent>
+  </Dialog>
 </template>
 
 <script setup lang="ts">
@@ -101,21 +81,9 @@ const close = () => {
 
   store.modalRemove(id)
 }
-const modalKeydowns = (e: KeyboardEvent) => {
-  if (!isVisible.value) {
-    return
-  }
-
-  switch (e.key) {
-    // // Temporarily disabled until https://github.com/maevsi/vibetype/issues/765
-    // case 'Enter': // Enter
-    //   if (!data.isSubmitting && !isSubmitDisabled) {
-    //     methods.submit()
-    //   }
-    //   break
-    case 'Escape': // Escape
-      close()
-      break
+const onOpenChange = (open: boolean) => {
+  if (!open) {
+    close()
   }
 }
 const submit = async () => {
@@ -135,11 +103,7 @@ const submit = async () => {
 
 // lifecycle
 watch(isVisible, (newValue: boolean, _oldvalue) => {
-  if (newValue) {
-    window.addEventListener('keydown', modalKeydowns)
-  } else {
-    window.removeEventListener('keydown', modalKeydowns)
-
+  if (!newValue) {
     errors.value = undefined
     emit('close')
   }
@@ -154,9 +118,9 @@ export default {
 
 <i18n lang="yaml">
 de:
-  cancel: Abbrechen
+  dialog: Dialog
   ok: Ok
 en:
-  cancel: Cancel
+  dialog: Dialog
   ok: Ok
 </i18n>
