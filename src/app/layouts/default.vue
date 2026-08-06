@@ -6,7 +6,7 @@
         class="container flex flex-1 flex-col gap-4 self-center overflow-hidden p-4 md:px-8 2xl:gap-8"
       >
         <LayoutHeader />
-        <main class="flex flex-1 flex-col">
+        <main class="flex flex-1 flex-col *:min-w-0">
           <slot />
         </main>
       </div>
