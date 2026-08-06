@@ -1,5 +1,7 @@
 <template>
-  <AppLoaderLogo v-if="content.pending.value" />
+  <div v-if="content.pending.value" class="flex justify-center">
+    <AppLoaderLogo class="size-16" />
+  </div>
   <AppError
     v-else-if="content.error.value"
     :error="{ message: content.error.value.message, status: 500 }"

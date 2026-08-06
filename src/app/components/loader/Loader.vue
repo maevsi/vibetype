@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="api.isFetching" :class="classProps">
-      <AppLoaderLogo />
+    <div v-if="api.isFetching" :class="cn('flex justify-center', classProps)">
+      <AppLoaderLogo class="size-16" />
     </div>
     <CardStateAlert v-if="errorMessages.length">
       <AppSpanList :span="errorMessages" />
@@ -12,6 +12,8 @@
 
 <script setup lang="ts">
 import type { HtmlHTMLAttributes, UnwrapRef } from 'vue'
+
+import { cn } from '@/utils/shadcn'
 
 const {
   api,
