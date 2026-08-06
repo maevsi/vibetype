@@ -263,14 +263,22 @@ export const getUrqlClient = async ({
           cache,
           _info,
         ) => {
-          const deletedId =
+          const payload =
             result.deleteEventCategoryMappingByEventIdAndCategoryId
-              ?.deletedEventCategoryMappingId
-          if (deletedId)
+          if (!payload) return
+
+          if (payload.deletedEventCategoryMappingId)
             cache.invalidate({
               __typename: 'EventCategoryMapping',
-              id: deletedId,
+              id: payload.deletedEventCategoryMappingId,
             })
+
+          const eventId = payload.eventCategoryMapping?.eventByEventId?.id
+          if (eventId)
+            cache.invalidate(
+              { __typename: 'Event', id: eventId },
+              'eventCategoryMappingsByEventId',
+            )
         },
         deleteEventFormatMappingByEventIdAndFormatId: (
           result,
@@ -278,14 +286,21 @@ export const getUrqlClient = async ({
           cache,
           _info,
         ) => {
-          const deletedId =
-            result.deleteEventFormatMappingByEventIdAndFormatId
-              ?.deletedEventFormatMappingId
-          if (deletedId)
+          const payload = result.deleteEventFormatMappingByEventIdAndFormatId
+          if (!payload) return
+
+          if (payload.deletedEventFormatMappingId)
             cache.invalidate({
               __typename: 'EventFormatMapping',
-              id: deletedId,
+              id: payload.deletedEventFormatMappingId,
             })
+
+          const eventId = payload.eventFormatMapping?.eventByEventId?.id
+          if (eventId)
+            cache.invalidate(
+              { __typename: 'Event', id: eventId },
+              'eventFormatMappingsByEventId',
+            )
         },
         deletePreferenceEventCategoryByAccountIdAndCategoryId: (
           result,

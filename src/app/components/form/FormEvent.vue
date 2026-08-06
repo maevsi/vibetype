@@ -410,6 +410,11 @@ const deleteEventCategoryMappingByEventIdAndCategoryIdMutation = useMutation(
     ) {
       deleteEventCategoryMappingByEventIdAndCategoryId(input: $input) {
         deletedEventCategoryMappingId
+        eventCategoryMapping {
+          eventByEventId {
+            id
+          }
+        }
       }
     }
   `),
@@ -436,6 +441,11 @@ const deleteEventFormatMappingByEventIdAndFormatIdMutation = useMutation(
     ) {
       deleteEventFormatMappingByEventIdAndFormatId(input: $input) {
         deletedEventFormatMappingId
+        eventFormatMapping {
+          eventByEventId {
+            id
+          }
+        }
       }
     }
   `),
@@ -492,7 +502,7 @@ const syncEventCategoryMappings = async ({
   originalCategoryIds: string[]
   selectedCategoryIds: string[]
 }) => {
-  await Promise.all([
+  const results = await Promise.all([
     ...selectedCategoryIds
       .filter((categoryId) => !originalCategoryIds.includes(categoryId))
       .map((categoryId) =>
@@ -508,6 +518,8 @@ const syncEventCategoryMappings = async ({
         ),
       ),
   ])
+
+  return results.every((result) => !result.error)
 }
 const syncEventFormatMappings = async ({
   eventId,
@@ -518,7 +530,7 @@ const syncEventFormatMappings = async ({
   originalFormatIds: string[]
   selectedFormatIds: string[]
 }) => {
-  await Promise.all([
+  const results = await Promise.all([
     ...selectedFormatIds
       .filter((formatId) => !originalFormatIds.includes(formatId))
       .map((formatId) =>
@@ -534,6 +546,8 @@ const syncEventFormatMappings = async ({
         }),
       ),
   ])
+
+  return results.every((result) => !result.error)
 }
 
 const form = useForm({
@@ -592,7 +606,7 @@ const form = useForm({
 
       if (!getResultData(result)) return
 
-      await syncEventCategoryMappings({
+      const categoryMappingsSynced = await syncEventCategoryMappings({
         eventId: value.rowId,
         originalCategoryIds:
           event?.eventCategoryMappingsByEventId?.nodes
@@ -600,7 +614,7 @@ const form = useForm({
             .map((node) => node.categoryId) ?? [],
         selectedCategoryIds: value.categoryIds,
       })
-      await syncEventFormatMappings({
+      const formatMappingsSynced = await syncEventFormatMappings({
         eventId: value.rowId,
         originalFormatIds:
           event?.eventFormatMappingsByEventId?.nodes
@@ -608,6 +622,7 @@ const form = useForm({
             .map((node) => node.formatId) ?? [],
         selectedFormatIds: value.formatIds,
       })
+      if (!categoryMappingsSynced || !formatMappingsSynced) return
 
       toast.success(t('eventUpdateSuccess'))
     } else {
@@ -637,16 +652,17 @@ const form = useForm({
 
       const eventId = data.createEvent?.event?.rowId
       if (eventId) {
-        await syncEventCategoryMappings({
+        const categoryMappingsSynced = await syncEventCategoryMappings({
           eventId,
           originalCategoryIds: [],
           selectedCategoryIds: value.categoryIds,
         })
-        await syncEventFormatMappings({
+        const formatMappingsSynced = await syncEventFormatMappings({
           eventId,
           originalFormatIds: [],
           selectedFormatIds: value.formatIds,
         })
+        if (!categoryMappingsSynced || !formatMappingsSynced) return
       }
 
       toast.success(t('eventCreateSuccess'))
