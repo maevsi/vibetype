@@ -211,6 +211,7 @@ export default defineNuxtConfig({
         '@tiptap/extension-text-align',
         '@tiptap/starter-kit',
         '@tiptap/vue-3',
+        '@unhead/schema-org/vue',
         '@uppy/core',
         '@uppy/tus',
         '@urql/core',
@@ -255,6 +256,7 @@ export default defineNuxtConfig({
         'vue-sonner',
         'workbox-precaching',
         'zod',
+        'zod/locales',
       ],
     },
     plugins: [
