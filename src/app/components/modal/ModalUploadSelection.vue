@@ -1,6 +1,6 @@
 <template>
   <Modal
-    id="ModalUploadSelection"
+    v-model="open"
     :is-submit-disabled="!selectedUploadId"
     @close="selectedUploadId = undefined"
     @submit-success="emit('select', selectedUploadId)"
@@ -19,6 +19,7 @@ const emit = defineEmits<{
   select: [uploadId?: string | null]
 }>()
 
+const open = defineModel<boolean>()
 const { t } = useI18n()
 
 // data

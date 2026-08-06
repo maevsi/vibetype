@@ -124,7 +124,7 @@
                 :placeholder="dateTimeFormatter(now.toISOString())"
                 readonly
                 type="text"
-                @click="store.modals.push({ id: 'ModalDateTimeStart' })"
+                @click="isModalDateTimeStartOpen = true"
               />
             </FieldContent>
             <FieldError
@@ -149,7 +149,7 @@
                 :placeholder="dateTimeFormatter(now.toISOString())"
                 readonly
                 type="text"
-                @click="store.modals.push({ id: 'ModalDateTimeEnd' })"
+                @click="isModalDateTimeEndOpen = true"
               />
             </FieldContent>
           </Field>
@@ -234,7 +234,7 @@
         </CardStateAlert>
       </div>
     </form>
-    <Modal id="ModalDateTimeStart">
+    <Modal v-model="isModalDateTimeStartOpen">
       <div class="flex justify-center">
         <DatePicker
           :first-day-of-week="2"
@@ -259,7 +259,7 @@
         />
       </div>
     </Modal>
-    <Modal id="ModalDateTimeEnd">
+    <Modal v-model="isModalDateTimeEndOpen">
       <div class="flex justify-center">
         <DatePicker
           :first-day-of-week="2"
@@ -322,6 +322,8 @@ const colorMode = useColorMode()
 const timeZone = useTimeZone()
 
 // data
+const isModalDateTimeEndOpen = ref<boolean>()
+const isModalDateTimeStartOpen = ref<boolean>()
 const now = useNow()
 
 // api data

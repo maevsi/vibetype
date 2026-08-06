@@ -92,7 +92,7 @@
       </div>
     </Card>
     <Modal
-      id="ModalUploadGallery"
+      v-model="isModalUploadGalleryOpen"
       :submit-name="t('upload')"
       :submit-task-provider="getUploadBlobPromise"
     >
@@ -144,6 +144,7 @@ const templateInputProfilePicture = useTemplateRef('inputProfilePicture')
 const after = ref<string | null>()
 const fileSelectedUrl = ref<string>()
 const fileSelectedMimeType = ref<string>()
+const isModalUploadGalleryOpen = ref<boolean>()
 const pending = reactive({
   deletions: ref<string[]>([]),
 })
@@ -320,7 +321,7 @@ const loadProfilePicture = (event: Event) => {
         e.target?.result as ArrayBuffer,
         file.type,
       )
-      store.modals.push({ id: 'ModalUploadGallery' })
+      isModalUploadGalleryOpen.value = true
     }
     fileReader.readAsDataURL(file)
   } catch (error) {

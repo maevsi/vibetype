@@ -69,7 +69,7 @@
           />
         </div>
       </div>
-      <Modal id="ModalGuest" is-footer-hidden>
+      <Modal v-model="isModalGuestOpen" is-footer-hidden>
         <FormGuest
           :event
           :guest-contact-ids-existing="guests.map((i) => i.contactId)"
@@ -115,12 +115,12 @@ const { event } = defineProps<{
 
 const colorMode = useColorMode()
 const { t } = useI18n()
-const store = useStore()
 const runtimeConfig = useRuntimeConfig()
 const templateDoughnut = useTemplateRef<DoughnutController>('doughnut')
 
 // data
 const after = ref<string | null>()
+const isModalGuestOpen = ref<boolean>()
 const options = {
   plugins: {
     legend: {
@@ -167,10 +167,10 @@ const api = await useApiData([guestsQuery])
 // methods
 const add = () => {
   guestsQuery.pause()
-  store.modals.push({ id: 'ModalGuest' })
+  isModalGuestOpen.value = true
 }
 const onGuestSubmitSuccess = () => {
-  store.modalRemove('ModalGuest')
+  isModalGuestOpen.value = false
   after.value = undefined
   guestsQuery.resume()
 }

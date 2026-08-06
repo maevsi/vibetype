@@ -50,7 +50,11 @@
           </template>
         </ButtonColored>
       </div>
-      <Modal id="ModalContact" is-footer-hidden @close="onModalContactClose">
+      <Modal
+        v-model="isModalContactOpen"
+        is-footer-hidden
+        @close="onModalContactClose"
+      >
         <FormContact
           :contact="selectedContact"
           @submit-success="onContactSubmitSuccess"
@@ -79,6 +83,7 @@ const store = useStore()
 // data
 const after = ref<string | null>()
 const formContactHeading = ref<string>()
+const isModalContactOpen = ref<boolean>()
 const pending = reactive({
   deletions: ref<string[]>([]),
   edits: ref<string[]>([]),
@@ -149,7 +154,7 @@ const add = () => {
   contactsQuery.pause()
   formContactHeading.value = t('contactAdd')
   selectedContact.value = undefined
-  store.modals.push({ id: 'ModalContact' })
+  isModalContactOpen.value = true
 }
 const delete_ = async (rowId: string) => {
   pending.deletions.push(rowId)
@@ -176,10 +181,10 @@ const edit = (
   pending.edits.push(contact.rowId)
   formContactHeading.value = t('contactEdit')
   selectedContact.value = contact
-  store.modals.push({ id: 'ModalContact' })
+  isModalContactOpen.value = true
 }
 const onContactSubmitSuccess = () => {
-  store.modalRemove('ModalContact')
+  isModalContactOpen.value = false
   after.value = undefined
   contactsQuery.resume()
 }

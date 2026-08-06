@@ -38,7 +38,10 @@
           </CardStateAlert>
         </div>
       </div>
-      <Modal id="ModalAttendanceScanQrCode" :submit-name="t('close')">
+      <Modal
+        v-model="isModalAttendanceScanQrCodeOpen"
+        :submit-name="t('close')"
+      >
         <LazyAppQrCodeStream @detect="onDetect" @error="modalClose" />
         <template #submit-icon>
           <AppIconXCircleSolid />
@@ -112,10 +115,13 @@ const title = computed(() => {
 useHeadDefault({ title })
 
 // qr code
+const isModalAttendanceScanQrCodeOpen = ref<boolean>()
 const qrCodeScan = () => {
-  store.modals.push({ id: 'ModalAttendanceScanQrCode' })
+  isModalAttendanceScanQrCodeOpen.value = true
 }
-const modalClose = () => store.modalRemove('ModalAttendanceScanQrCode')
+const modalClose = () => {
+  isModalAttendanceScanQrCodeOpen.value = false
+}
 const guestId = ref<string>()
 const executeUrqlRequest = useExecuteUrqlRequest()
 const createAttendanceMutation = useMutation(

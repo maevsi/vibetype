@@ -1,5 +1,5 @@
 <template>
-  <Dialog :open="isVisible" @update:open="onOpenChange">
+  <Dialog v-model:open="open">
     <DialogContent
       class="top-[10%] max-h-[80%] w-5/6 max-w-none translate-y-0 flex-col gap-2 overflow-auto rounded-xl border-(--faint-line) bg-(--surface) p-2 shadow-xs sm:w-2/3 sm:max-w-none lg:w-1/2 xl:w-1/3"
     >
@@ -45,13 +45,11 @@
 
 <script setup lang="ts">
 const {
-  id,
   isFooterHidden,
   isSubmitDisabled,
   submitName = undefined,
   submitTaskProvider = () => Promise.resolve(),
 } = defineProps<{
-  id: string
   isFooterHidden?: boolean
   isSubmitDisabled?: boolean
   submitName?: string
@@ -63,28 +61,18 @@ const emit = defineEmits<{
   submitSuccess: [submitSuccess: unknown]
 }>()
 
-const store = useStore()
+const open = defineModel<boolean>()
 const { t } = useI18n()
 
 // data
 const errors = ref()
 const isSubmitting = ref(false)
 
-// computations
-const isVisible = computed(
-  () => store.modals.filter((modal) => modal.id === id).length > 0,
-)
-
 // methods
 const close = () => {
   // NOT = "cancel"! Used by `submit` too.
 
-  store.modalRemove(id)
-}
-const onOpenChange = (open: boolean) => {
-  if (!open) {
-    close()
-  }
+  open.value = false
 }
 const submit = async () => {
   isSubmitting.value = true
@@ -102,7 +90,7 @@ const submit = async () => {
 }
 
 // lifecycle
-watch(isVisible, (newValue: boolean, _oldvalue) => {
+watch(open, (newValue) => {
   if (!newValue) {
     errors.value = undefined
     emit('close')
