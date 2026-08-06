@@ -16,6 +16,7 @@ import type { AcceptableValue } from 'reka-ui'
 // page
 const { t, locale, locales } = useI18n()
 const title = t('title')
+useHeadDefault({ title })
 
 // i18n – get
 const languages = locales.value

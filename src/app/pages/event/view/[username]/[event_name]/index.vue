@@ -262,6 +262,33 @@ defineOgImage(
     alt: t('ogImageAlt'),
   },
 )
+defineEvent({
+  description,
+  endDate: event.value?.end,
+  eventAttendanceMode: event.value?.isRemote
+    ? event.value.isInPerson
+      ? 'MixedEventAttendanceMode'
+      : 'OnlineEventAttendanceMode'
+    : event.value?.isInPerson
+      ? 'OfflineEventAttendanceMode'
+      : undefined,
+  location:
+    event.value?.isInPerson && address.value?.name
+      ? definePlace({
+          address: address.value.name,
+          latitude: address.value.location?.latitude ?? undefined,
+          longitude: address.value.location?.longitude ?? undefined,
+          name: address.value.name,
+        })
+      : event.value?.isRemote && event.value.url
+        ? defineVirtualLocation({ url: event.value.url })
+        : undefined,
+  name: event.value?.name,
+  organizer: event.value?.accountByCreatedBy
+    ? definePerson({ name: event.value.accountByCreatedBy.username })
+    : undefined,
+  startDate: event.value?.start,
+})
 
 // map
 const positionInitial = computed(() =>

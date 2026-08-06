@@ -43,6 +43,8 @@ If you find yourself adding empty lines to a Vue component's template to add str
 We use [Playwright](https://playwright.dev/docs/intro) for end-to-end testing.
 If your CI pipeline is failing because of incorrect test snapshots, `pnpm build` the application, update the snapshots using `pnpm test:e2e:docker:server:node:update` and commit the resulting changes if they match your expectation.
 
+Pages backed by GraphQL data can't be tested against a real database in e2e tests, since Playwright's network mocking only intercepts requests made from the browser, not the server-side fetches Nuxt's SSR performs. Instead, when `NUXT_PUBLIC_VIO_IS_TESTING` is set (which the Playwright config always sets for its `webServer`), the app's GraphQL client is pointed at `server/api/test/service/postgraphile/graphql.get.ts`, a Nitro route that returns fixed, deterministic responses per `operationName` instead of talking to a real backend. If you're writing an e2e test for a page that queries GraphQL data, add a `case` for its operation name there rather than trying to mock the network in the test itself.
+
 ### Tailwind CSS
 
 1. Follow [Tailwind's core concepts](https://tailwindcss.com/docs)
