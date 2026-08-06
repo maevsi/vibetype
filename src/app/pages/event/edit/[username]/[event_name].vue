@@ -1,31 +1,30 @@
 <template>
-  <div v-if="api.isFetching" class="flex flex-1 items-center justify-center">
-    <AppLoaderLogo class="size-16" />
-  </div>
-  <AppError v-else-if="!event" :error="{ status: 404 }" />
-  <div v-else class="flex flex-col gap-4">
-    <section>
-      <LayoutPageTitle :title="t('title')" />
-      <FormEvent :event />
-    </section>
-    <section>
-      <h2>{{ t('titleDelete') }}</h2>
-      <FormDelete
-        id="deleteEvent"
-        :error-pg-ids="{
-          postgres28P01: t('postgres28P01'),
-          postgresP0002: t('postgresP0002'),
-        }"
-        :item-name-deletion="t('formDeleteItemNameDeletion')"
-        :item-name-success="t('formDeleteItemNameSuccess')"
-        :mutation="eventDeleteMutation"
-        :variables="{
-          id: event.rowId,
-        }"
-        @success="navigateTo(localePath(`dashboard`))"
-      />
-    </section>
-  </div>
+  <Loader :api>
+    <AppError v-if="!event" :error="{ status: 404 }" />
+    <div v-else class="flex flex-col gap-4">
+      <section>
+        <LayoutPageTitle :title="t('title')" />
+        <FormEvent :event />
+      </section>
+      <section>
+        <h2>{{ t('titleDelete') }}</h2>
+        <FormDelete
+          id="deleteEvent"
+          :error-pg-ids="{
+            postgres28P01: t('postgres28P01'),
+            postgresP0002: t('postgresP0002'),
+          }"
+          :item-name-deletion="t('formDeleteItemNameDeletion')"
+          :item-name-success="t('formDeleteItemNameSuccess')"
+          :mutation="eventDeleteMutation"
+          :variables="{
+            id: event.rowId,
+          }"
+          @success="navigateTo(localePath(`dashboard`))"
+        />
+      </section>
+    </div>
+  </Loader>
 </template>
 
 <script setup lang="ts">
