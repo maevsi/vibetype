@@ -245,8 +245,17 @@
           :max-date="form.getFieldValue('end') || undefined"
           :minute-increment="5"
           mode="dateTime"
-          :model-value="form.getFieldValue('start')"
-          @update:model-value="form.setFieldValue('start', $event as string)"
+          :model-value="
+            form.getFieldValue('start')
+              ? new Date(form.getFieldValue('start'))
+              : null
+          "
+          @update:model-value="
+            form.setFieldValue(
+              'start',
+              ($event as Date | null)?.toISOString() ?? '',
+            )
+          "
         />
       </div>
     </Modal>
@@ -261,8 +270,17 @@
           :min-date="form.getFieldValue('start') || undefined"
           :minute-increment="5"
           mode="dateTime"
-          :model-value="form.getFieldValue('end')"
-          @update:model-value="form.setFieldValue('end', $event as string)"
+          :model-value="
+            form.getFieldValue('end')
+              ? new Date(form.getFieldValue('end'))
+              : null
+          "
+          @update:model-value="
+            form.setFieldValue(
+              'end',
+              ($event as Date | null)?.toISOString() ?? '',
+            )
+          "
         />
       </div>
     </Modal>
