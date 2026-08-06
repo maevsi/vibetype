@@ -1,5 +1,5 @@
 <template>
-  <div v-if="api.isFetching" class="flex justify-center">
+  <div v-if="api.isFetching" class="flex flex-1 items-center justify-center">
     <AppLoaderLogo class="size-16" />
   </div>
   <AppError

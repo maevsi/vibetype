@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="api.isFetching || eventRecommendationsPending"
-    class="flex justify-center"
+    class="flex flex-1 items-center justify-center"
   >
     <AppLoaderLogo class="size-16" />
   </div>

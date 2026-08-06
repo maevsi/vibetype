@@ -1,5 +1,5 @@
 <template>
-  <div v-if="pending" class="flex justify-center">
+  <div v-if="pending" class="flex flex-1 items-center justify-center">
     <AppLoaderLogo class="size-16" />
   </div>
   <LayoutProse v-else-if="data?.ast">

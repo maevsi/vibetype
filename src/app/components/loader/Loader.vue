@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div v-if="api.isFetching" :class="cn('flex justify-center', classProps)">
+    <div
+      v-if="api.isFetching"
+      :class="cn('flex flex-1 items-center justify-center', classProps)"
+    >
       <AppLoaderLogo class="size-16" />
     </div>
     <CardStateAlert v-if="errorMessages.length">

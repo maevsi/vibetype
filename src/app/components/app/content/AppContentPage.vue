@@ -1,5 +1,8 @@
 <template>
-  <div v-if="content.pending.value" class="flex justify-center">
+  <div
+    v-if="content.pending.value"
+    class="flex flex-1 items-center justify-center"
+  >
     <AppLoaderLogo class="size-16" />
   </div>
   <AppError
