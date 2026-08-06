@@ -106,16 +106,19 @@ const cancel = () => {
   content.value = contentInitial?.trim()
   isEditing.value = false
 }
+const isSaving = ref(false)
 const save = () => {
+  isSaving.value = true
   emit('save', content.value?.trim())
 }
 
-// closes editing once the caller's save request settles
+// closes editing once this instance's save request settles
 watch(
   () => loading,
   (loadingCurrent, loadingPrevious) => {
-    if (loadingPrevious && !loadingCurrent) {
+    if (loadingPrevious && !loadingCurrent && isSaving.value) {
       isEditing.value = false
+      isSaving.value = false
     }
   },
 )

@@ -7,7 +7,16 @@
     :is-colored="false"
     :is-disabled="disabled || loading"
     :to
-    @click="emit('click')"
+    @click="
+      (event: MouseEvent) => {
+        if (disabled || loading) {
+          event.preventDefault()
+          event.stopPropagation()
+          return
+        }
+        emit('click')
+      }
+    "
   >
     <template v-if="loading">
       <AppButtonSpinner />

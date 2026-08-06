@@ -78,7 +78,7 @@ const createReportMutation = useMutation(
 )
 
 defineExpose({
-  isSubmitting: createReportMutation.fetching,
+  isSubmitting: computed(() => createReportMutation.fetching.value),
   submit,
 })
 
