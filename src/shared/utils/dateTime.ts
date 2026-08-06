@@ -100,7 +100,8 @@ export const dateTimeFormatOptions: Intl.DateTimeFormatOptions = {
  * Returns a date-time formatter function for use in emails.
  *
  * The formatter uses the specified locale and time zone, falling back to UTC when no time zone
- * is given, e.g. because the receiving contact hasn't set one.
+ * is given, e.g. because the receiving contact hasn't set one, or when the given time zone isn't
+ * a valid IANA time zone name.
  *
  * @param {string} locale - A BCP 47 language tag (e.g., "en-US", "fr-FR") used to format the date/time.
  * @param {string} [timeZone] - An IANA time zone name (e.g., "Europe/Berlin"); defaults to "UTC".
@@ -114,8 +115,21 @@ export const dateTimeFormatOptions: Intl.DateTimeFormatOptions = {
 export const getEmailDateTimeFormatter = (
   locale: string,
   timeZone = 'UTC',
-): Intl.DateTimeFormat =>
-  Intl.DateTimeFormat(locale, {
-    ...dateTimeFormatOptions,
-    timeZone,
-  })
+): Intl.DateTimeFormat => {
+  try {
+    return Intl.DateTimeFormat(locale, {
+      ...dateTimeFormatOptions,
+      timeZone,
+    })
+  } catch (error) {
+    if (error instanceof RangeError) {
+      console.warn(`Invalid time zone "${timeZone}", falling back to UTC.`)
+      return Intl.DateTimeFormat(locale, {
+        ...dateTimeFormatOptions,
+        timeZone: 'UTC',
+      })
+    }
+
+    throw error
+  }
+}

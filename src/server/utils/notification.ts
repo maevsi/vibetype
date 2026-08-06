@@ -489,7 +489,7 @@ export const sendEventInvitationMail = async ({
       eventStart: event.start,
       eventVisibility,
       locale: payloadCamelCased.template.language,
-      timeZone: timeZone || undefined,
+      timeZone: timeZone ?? undefined,
     },
     rateLimitPerSecond,
     redis,

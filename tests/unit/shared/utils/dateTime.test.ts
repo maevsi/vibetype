@@ -145,7 +145,18 @@ describe('getEmailDateTimeFormatter', () => {
 
   test('should format date in the given time zone when provided', () => {
     const formatter = getEmailDateTimeFormatter('en-US', 'America/New_York')
-    const formatted = formatter.format(testDate)
-    expect(formatted).toMatch(/Jul \d{1,2}, 2023,? \d{1,2}:\d{2} [AP]M EDT/)
+
+    expect(formatter.resolvedOptions().timeZone).toBe('America/New_York')
+
+    const parts = formatter.formatToParts(testDate)
+    const hourPart = parts.find((part) => part.type === 'hour')
+    const minutePart = parts.find((part) => part.type === 'minute')
+    expect(hourPart?.value).toBe('10')
+    expect(minutePart?.value).toBe('30')
+  })
+
+  test('should fall back to UTC for an invalid time zone', () => {
+    const formatter = getEmailDateTimeFormatter('en-US', 'not-a-time-zone')
+    expect(formatter.resolvedOptions().timeZone).toBe('UTC')
   })
 })
