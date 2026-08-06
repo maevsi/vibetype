@@ -1,12 +1,12 @@
 <template>
   <LoaderIndicatorPing v-if="pending" />
   <LayoutProse v-else-if="data?.ast">
-    <MDCRenderer :body="data.ast.body" :data="data.ast.data" />
+    <MarkdownDocument :value="data.ast" />
   </LayoutProse>
 </template>
 
 <script setup lang="ts">
-import { parseMarkdown } from '@nuxtjs/mdc/runtime'
+import { parseMarkdown } from 'comark'
 import { useQuery } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'

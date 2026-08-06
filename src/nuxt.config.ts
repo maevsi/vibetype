@@ -44,6 +44,7 @@ export default defineNuxtConfig({
     watcher: 'builder',
   },
   modules: [
+    '@comark/nuxt',
     '@dargmuesli/nuxt-cookie-control',
     // '@nuxt/a11y',
     '@nuxt/eslint',
@@ -52,7 +53,6 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxtjs/html-validator',
     '@nuxtjs/i18n',
-    '@nuxtjs/mdc',
     '@nuxtjs/seo',
     '@nuxt/content', // most come after `@nuxtjs/seo`
     '@nuxtjs/turnstile',
