@@ -116,7 +116,7 @@ const { $urql } = useNuxtApp()
 const requestFetch = useRequestFetch()
 const authentication = useAuthentication()
 const { data: eventRecommendations, pending: eventRecommendationsPending } =
-  await useAsyncData('index-recommendations', async () => {
+  useAsyncData('index-recommendations', async () => {
     if (!authentication.value.isSignedIn) return []
 
     const eventIds = await requestFetch('/api/service/reccoom/recommendations')
