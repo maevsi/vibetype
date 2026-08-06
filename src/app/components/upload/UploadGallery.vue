@@ -429,7 +429,9 @@ const onUploadSubmit = async () => {
     await uploadBlobPromise()
     isModalUploadGalleryOpen.value = false
   } catch (errorsLocal) {
-    uploadSubmitErrors.value = [errorsLocal]
+    uploadSubmitErrors.value = [
+      errorsLocal instanceof Error ? errorsLocal.message : String(errorsLocal),
+    ]
     console.error(errorsLocal)
   }
 

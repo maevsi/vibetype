@@ -69,11 +69,15 @@
           />
         </div>
       </div>
-      <Modal v-model="isModalGuestOpen" is-footer-hidden>
+      <Modal
+        v-model="isModalGuestOpen"
+        is-footer-hidden
+        @close="onModalGuestClose"
+      >
         <FormGuest
           :event
           :guest-contact-ids-existing="guests.map((i) => i.contactId)"
-          @submit-success="onGuestSubmitSuccess"
+          @submit-success="onModalGuestClose"
         />
         <template #header>
           {{ t('contactSelect') }}
@@ -169,7 +173,7 @@ const add = () => {
   guestsQuery.pause()
   isModalGuestOpen.value = true
 }
-const onGuestSubmitSuccess = () => {
+const onModalGuestClose = () => {
   isModalGuestOpen.value = false
   after.value = undefined
   guestsQuery.resume()

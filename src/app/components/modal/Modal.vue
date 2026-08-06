@@ -1,5 +1,13 @@
 <template>
-  <Dialog v-model:open="open">
+  <Dialog
+    :open="open"
+    @update:open="
+      (nextOpen) => {
+        if (isSubmitting && !nextOpen) return
+        open = nextOpen
+      }
+    "
+  >
     <DialogContent>
       <DialogHeader :class="$slots.header ? 'px-8' : 'sr-only'">
         <DialogTitle class="text-center">
