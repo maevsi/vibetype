@@ -1,7 +1,9 @@
 <template>
   <div
     v-if="categoryName || formatName"
+    :aria-label="t('heroImage')"
     class="flex aspect-[3/2] h-48 w-full items-center justify-center gap-4 rounded-t-xl bg-(--semantic-base-surface-1)"
+    role="img"
   >
     <EventIconCategory
       v-if="categoryName"

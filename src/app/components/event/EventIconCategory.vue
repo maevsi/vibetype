@@ -1,64 +1,28 @@
 <template>
-  <AppIconPreferenceCategoryArtAndCulture
-    v-if="name === 'art-and-culture'"
+  <component
+    :is="category.component"
     :class="classProps"
-    :title="t('artAndCulture')"
+    :title="category.title()"
   />
-  <AppIconPreferenceCategoryBusiness
-    v-else-if="name === 'business'"
-    :class="classProps"
-    :title="t('business')"
-  />
-  <AppIconPreferenceCategoryComedy
-    v-else-if="name === 'comedy'"
-    :class="classProps"
-    :title="t('comedy')"
-  />
-  <AppIconPreferenceCategoryEducation
-    v-else-if="name === 'education'"
-    :class="classProps"
-    :title="t('education')"
-  />
-  <AppIconPreferenceCategoryFashionAndLifestyle
-    v-else-if="name === 'fashion-and-lifestyle'"
-    :class="classProps"
-    :title="t('fashionAndLifestyle')"
-  />
-  <AppIconPreferenceCategoryFoodAndDrink
-    v-else-if="name === 'food-and-drink'"
-    :class="classProps"
-    :title="t('foodAndDrink')"
-  />
-  <AppIconPreferenceCategoryLiterature
-    v-else-if="name === 'literature'"
-    :class="classProps"
-    :title="t('literature')"
-  />
-  <AppIconPreferenceCategoryMusicAndEntertainment
-    v-else-if="name === 'music-and-entertainment'"
-    :class="classProps"
-    :title="t('musicAndEntertainment')"
-  />
-  <AppIconPreferenceCategoryPolitics
-    v-else-if="name === 'politics'"
-    :class="classProps"
-    :title="t('politics')"
-  />
-  <AppIconPreferenceCategorySocial
-    v-else-if="name === 'social'"
-    :class="classProps"
-    :title="t('social')"
-  />
-  <AppIconPreferenceCategorySportsAndFitness
-    v-else-if="name === 'sports-and-fitness'"
-    :class="classProps"
-    :title="t('sportsAndFitness')"
-  />
-  <AppIconPreferenceOther v-else :class="classProps" :title="t('other')" />
 </template>
 
 <script setup lang="ts">
-import type { HtmlHTMLAttributes } from 'vue'
+import type { Component, HtmlHTMLAttributes } from 'vue'
+
+import {
+  AppIconPreferenceCategoryArtAndCulture,
+  AppIconPreferenceCategoryBusiness,
+  AppIconPreferenceCategoryComedy,
+  AppIconPreferenceCategoryEducation,
+  AppIconPreferenceCategoryFashionAndLifestyle,
+  AppIconPreferenceCategoryFoodAndDrink,
+  AppIconPreferenceCategoryLiterature,
+  AppIconPreferenceCategoryMusicAndEntertainment,
+  AppIconPreferenceCategoryPolitics,
+  AppIconPreferenceCategorySocial,
+  AppIconPreferenceCategorySportsAndFitness,
+  AppIconPreferenceOther,
+} from '#components'
 
 const { class: classProps = undefined, name } = defineProps<{
   class?: HtmlHTMLAttributes['class']
@@ -66,6 +30,64 @@ const { class: classProps = undefined, name } = defineProps<{
 }>()
 
 const { t } = useI18n()
+
+const categories: Record<
+  string,
+  { component: Component; title: () => string }
+> = {
+  'art-and-culture': {
+    component: AppIconPreferenceCategoryArtAndCulture,
+    title: () => t('artAndCulture'),
+  },
+  business: {
+    component: AppIconPreferenceCategoryBusiness,
+    title: () => t('business'),
+  },
+  comedy: {
+    component: AppIconPreferenceCategoryComedy,
+    title: () => t('comedy'),
+  },
+  education: {
+    component: AppIconPreferenceCategoryEducation,
+    title: () => t('education'),
+  },
+  'fashion-and-lifestyle': {
+    component: AppIconPreferenceCategoryFashionAndLifestyle,
+    title: () => t('fashionAndLifestyle'),
+  },
+  'food-and-drink': {
+    component: AppIconPreferenceCategoryFoodAndDrink,
+    title: () => t('foodAndDrink'),
+  },
+  literature: {
+    component: AppIconPreferenceCategoryLiterature,
+    title: () => t('literature'),
+  },
+  'music-and-entertainment': {
+    component: AppIconPreferenceCategoryMusicAndEntertainment,
+    title: () => t('musicAndEntertainment'),
+  },
+  politics: {
+    component: AppIconPreferenceCategoryPolitics,
+    title: () => t('politics'),
+  },
+  social: {
+    component: AppIconPreferenceCategorySocial,
+    title: () => t('social'),
+  },
+  'sports-and-fitness': {
+    component: AppIconPreferenceCategorySportsAndFitness,
+    title: () => t('sportsAndFitness'),
+  },
+}
+
+const category = computed(
+  () =>
+    categories[name] ?? {
+      component: AppIconPreferenceOther,
+      title: () => t('other'),
+    },
+)
 </script>
 
 <i18n lang="yaml">

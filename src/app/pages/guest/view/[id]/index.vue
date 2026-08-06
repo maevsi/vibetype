@@ -357,14 +357,14 @@ const eventQuery = useQuery({
           createdBy
           description
           end
-          eventCategoryMappingsByEventId {
+          eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
             nodes {
               eventCategoryByCategoryId {
                 name
               }
             }
           }
-          eventFormatMappingsByEventId {
+          eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
             nodes {
               eventFormatByFormatId {
                 name

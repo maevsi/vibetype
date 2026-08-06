@@ -21,12 +21,14 @@
     >
       <div
         v-if="categoryName || formatName"
+        :aria-label="t('heroImage')"
         :class="
           cn(
             'flex h-24 w-full items-center justify-center gap-2 rounded-lg border border-(--faint-line)',
             variant === 'recommendation' && 'h-44 rounded-b-none',
           )
         "
+        role="img"
       >
         <EventIconCategory
           v-if="categoryName"

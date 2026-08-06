@@ -67,7 +67,7 @@ const eventQuery = graphql(`
         }
         rowId
       }
-      eventCategoryMappingsByEventId {
+      eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
         nodes {
           eventCategoryByCategoryId {
             name
@@ -81,7 +81,7 @@ const eventQuery = graphql(`
           rowId
         }
       }
-      eventFormatMappingsByEventId {
+      eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
         nodes {
           eventFormatByFormatId {
             name
@@ -148,14 +148,14 @@ const eventUpcomingQuery = graphql(`
           username
         }
         end
-        eventCategoryMappingsByEventId {
+        eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventCategoryByCategoryId {
               name
             }
           }
         }
-        eventFormatMappingsByEventId {
+        eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventFormatByFormatId {
               name

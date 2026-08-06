@@ -2014,6 +2014,18 @@ export const EventItemFragmentDoc = {
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'eventCategoryMappingsByEventId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'IntValue', value: '1' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: { kind: 'EnumValue', value: 'PRIMARY_KEY_ASC' },
+              },
+            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
@@ -2048,6 +2060,18 @@ export const EventItemFragmentDoc = {
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'eventFormatMappingsByEventId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'IntValue', value: '1' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: { kind: 'EnumValue', value: 'PRIMARY_KEY_ASC' },
+              },
+            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
@@ -3225,6 +3249,21 @@ export const EventListDocument = {
                           kind: 'Name',
                           value: 'eventCategoryMappingsByEventId',
                         },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'first' },
+                            value: { kind: 'IntValue', value: '1' },
+                          },
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'orderBy' },
+                            value: {
+                              kind: 'EnumValue',
+                              value: 'PRIMARY_KEY_ASC',
+                            },
+                          },
+                        ],
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
@@ -3302,6 +3341,21 @@ export const EventListDocument = {
                           kind: 'Name',
                           value: 'eventFormatMappingsByEventId',
                         },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'first' },
+                            value: { kind: 'IntValue', value: '1' },
+                          },
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'orderBy' },
+                            value: {
+                              kind: 'EnumValue',
+                              value: 'PRIMARY_KEY_ASC',
+                            },
+                          },
+                        ],
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
@@ -3584,6 +3638,21 @@ export const EventSearchDocument = {
                           kind: 'Name',
                           value: 'eventCategoryMappingsByEventId',
                         },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'first' },
+                            value: { kind: 'IntValue', value: '1' },
+                          },
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'orderBy' },
+                            value: {
+                              kind: 'EnumValue',
+                              value: 'PRIMARY_KEY_ASC',
+                            },
+                          },
+                        ],
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
@@ -3661,6 +3730,21 @@ export const EventSearchDocument = {
                           kind: 'Name',
                           value: 'eventFormatMappingsByEventId',
                         },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'first' },
+                            value: { kind: 'IntValue', value: '1' },
+                          },
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'orderBy' },
+                            value: {
+                              kind: 'EnumValue',
+                              value: 'PRIMARY_KEY_ASC',
+                            },
+                          },
+                        ],
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
@@ -6448,6 +6532,21 @@ export const AccountDocument = {
                                 kind: 'Name',
                                 value: 'eventCategoryMappingsByEventId',
                               },
+                              arguments: [
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'first' },
+                                  value: { kind: 'IntValue', value: '1' },
+                                },
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'orderBy' },
+                                  value: {
+                                    kind: 'EnumValue',
+                                    value: 'PRIMARY_KEY_ASC',
+                                  },
+                                },
+                              ],
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
@@ -6534,6 +6633,21 @@ export const AccountDocument = {
                                 kind: 'Name',
                                 value: 'eventFormatMappingsByEventId',
                               },
+                              arguments: [
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'first' },
+                                  value: { kind: 'IntValue', value: '1' },
+                                },
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'orderBy' },
+                                  value: {
+                                    kind: 'EnumValue',
+                                    value: 'PRIMARY_KEY_ASC',
+                                  },
+                                },
+                              ],
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
@@ -7047,6 +7161,18 @@ export const DashboardEventRecommendationsDocument = {
                     kind: 'Name',
                     value: 'eventCategoryMappingsByEventId',
                   },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'first' },
+                      value: { kind: 'IntValue', value: '1' },
+                    },
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'orderBy' },
+                      value: { kind: 'EnumValue', value: 'PRIMARY_KEY_ASC' },
+                    },
+                  ],
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
@@ -7118,6 +7244,18 @@ export const DashboardEventRecommendationsDocument = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'eventFormatMappingsByEventId' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'first' },
+                      value: { kind: 'IntValue', value: '1' },
+                    },
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'orderBy' },
+                      value: { kind: 'EnumValue', value: 'PRIMARY_KEY_ASC' },
+                    },
+                  ],
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
@@ -7304,6 +7442,21 @@ export const DashboardEventUpcomingDocument = {
                           kind: 'Name',
                           value: 'eventCategoryMappingsByEventId',
                         },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'first' },
+                            value: { kind: 'IntValue', value: '1' },
+                          },
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'orderBy' },
+                            value: {
+                              kind: 'EnumValue',
+                              value: 'PRIMARY_KEY_ASC',
+                            },
+                          },
+                        ],
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
@@ -7341,6 +7494,21 @@ export const DashboardEventUpcomingDocument = {
                           kind: 'Name',
                           value: 'eventFormatMappingsByEventId',
                         },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'first' },
+                            value: { kind: 'IntValue', value: '1' },
+                          },
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'orderBy' },
+                            value: {
+                              kind: 'EnumValue',
+                              value: 'PRIMARY_KEY_ASC',
+                            },
+                          },
+                        ],
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
@@ -8200,6 +8368,21 @@ export const EventDocument = {
                                 kind: 'Name',
                                 value: 'eventCategoryMappingsByEventId',
                               },
+                              arguments: [
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'first' },
+                                  value: { kind: 'IntValue', value: '1' },
+                                },
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'orderBy' },
+                                  value: {
+                                    kind: 'EnumValue',
+                                    value: 'PRIMARY_KEY_ASC',
+                                  },
+                                },
+                              ],
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
@@ -8240,6 +8423,21 @@ export const EventDocument = {
                                 kind: 'Name',
                                 value: 'eventFormatMappingsByEventId',
                               },
+                              arguments: [
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'first' },
+                                  value: { kind: 'IntValue', value: '1' },
+                                },
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'orderBy' },
+                                  value: {
+                                    kind: 'EnumValue',
+                                    value: 'PRIMARY_KEY_ASC',
+                                  },
+                                },
+                              ],
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
@@ -8433,6 +8631,21 @@ export const EventListAccountDocument = {
                                 kind: 'Name',
                                 value: 'eventCategoryMappingsByEventId',
                               },
+                              arguments: [
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'first' },
+                                  value: { kind: 'IntValue', value: '1' },
+                                },
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'orderBy' },
+                                  value: {
+                                    kind: 'EnumValue',
+                                    value: 'PRIMARY_KEY_ASC',
+                                  },
+                                },
+                              ],
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
@@ -8519,6 +8732,21 @@ export const EventListAccountDocument = {
                                 kind: 'Name',
                                 value: 'eventFormatMappingsByEventId',
                               },
+                              arguments: [
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'first' },
+                                  value: { kind: 'IntValue', value: '1' },
+                                },
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'orderBy' },
+                                  value: {
+                                    kind: 'EnumValue',
+                                    value: 'PRIMARY_KEY_ASC',
+                                  },
+                                },
+                              ],
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
@@ -8913,6 +9141,21 @@ export const GuestEventDocument = {
                           kind: 'Name',
                           value: 'eventCategoryMappingsByEventId',
                         },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'first' },
+                            value: { kind: 'IntValue', value: '1' },
+                          },
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'orderBy' },
+                            value: {
+                              kind: 'EnumValue',
+                              value: 'PRIMARY_KEY_ASC',
+                            },
+                          },
+                        ],
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
@@ -8950,6 +9193,21 @@ export const GuestEventDocument = {
                           kind: 'Name',
                           value: 'eventFormatMappingsByEventId',
                         },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'first' },
+                            value: { kind: 'IntValue', value: '1' },
+                          },
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'orderBy' },
+                            value: {
+                              kind: 'EnumValue',
+                              value: 'PRIMARY_KEY_ASC',
+                            },
+                          },
+                        ],
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [

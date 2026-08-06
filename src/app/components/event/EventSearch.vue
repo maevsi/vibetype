@@ -34,7 +34,7 @@ const queryEventList = graphql(`
           }
           rowId
         }
-        eventCategoryMappingsByEventId {
+        eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventCategoryByCategoryId {
               name
@@ -48,7 +48,7 @@ const queryEventList = graphql(`
             rowId
           }
         }
-        eventFormatMappingsByEventId {
+        eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventFormatByFormatId {
               name
@@ -107,7 +107,7 @@ const queryEventSearch = graphql(`
           }
           rowId
         }
-        eventCategoryMappingsByEventId {
+        eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventCategoryByCategoryId {
               name
@@ -121,7 +121,7 @@ const queryEventSearch = graphql(`
             rowId
           }
         }
-        eventFormatMappingsByEventId {
+        eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventFormatByFormatId {
               name

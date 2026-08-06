@@ -43,7 +43,7 @@ const queryEventListAccount = graphql(`
     accountByUsername(username: $username) {
       eventsByCreatedBy(after: $after, first: $first, orderBy: START_DESC) {
         nodes {
-          eventCategoryMappingsByEventId {
+          eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
             nodes {
               eventCategoryByCategoryId {
                 name
@@ -57,7 +57,7 @@ const queryEventListAccount = graphql(`
               rowId
             }
           }
-          eventFormatMappingsByEventId {
+          eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
             nodes {
               eventFormatByFormatId {
                 name
