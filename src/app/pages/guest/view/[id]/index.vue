@@ -249,7 +249,7 @@
         <!-- eslint-enable vue/no-v-html -->
       </Card>
     </div>
-    <Modal id="ModalGuestQrCode">
+    <Modal v-model="isModalGuestQrCodeOpen">
       <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
         <div class="bg-white p-4">
           <QrcodeVue id="qrCode" :size="200" :value="guest.rowId" />
@@ -273,7 +273,7 @@
         </ButtonColored>
         <ButtonColored
           :aria-label="t('close')"
-          @click="store.modalRemove('ModalGuestQrCode')"
+          @click="isModalGuestQrCodeOpen = false"
         >
           {{ t('close') }}
           <template #prefix>
@@ -315,6 +315,7 @@ const updateGuestByRowIdMutation = useMutation(
 )
 const store = useStore()
 
+const isModalGuestQrCodeOpen = ref<boolean>()
 const isOpenReportDrawer = ref<boolean>()
 const alertError = useAlertError()
 
@@ -458,7 +459,7 @@ const print = () => {
   })
 }
 const qrCodeShow = () => {
-  store.modals.push({ id: 'ModalGuestQrCode' })
+  isModalGuestQrCodeOpen.value = true
 }
 const update = async (id: string, guestPatch: GuestPatch) => {
   const result = await updateGuestByRowIdMutation.executeMutation({

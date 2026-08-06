@@ -55,7 +55,10 @@
             </TypographyLabel>
           </ButtonColored>
         </div>
-        <ModalUploadSelection @select="onUploadSelect" />
+        <ModalUploadSelection
+          v-model="isModalUploadSelectionOpen"
+          @select="onUploadSelect"
+        />
       </div>
       <AppInputTextarea
         :content-initial="account.description"
@@ -151,8 +154,9 @@ const executeUrqlRequest = useExecuteUrqlRequest()
 const account = computed(() => api.value.data.accountByUsername)
 
 // profile picture
+const isModalUploadSelectionOpen = ref<boolean>()
 const showModalUploadSelection = () => {
-  store.modals.push({ id: 'ModalUploadSelection' })
+  isModalUploadSelectionOpen.value = true
 }
 
 const createProfilePictureMutation = useMutation(
