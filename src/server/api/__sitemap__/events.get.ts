@@ -42,12 +42,12 @@ const fetchEventSitemapUrls = async (event: H3Event): Promise<SitemapUrl[]> => {
 
     if (result.error) throw result.error
 
+    // Postgraphile returns `null` here (not an empty connection) when the
+    // requester can't see any rows, e.g. a database with no public events
+    // yet - that's a normal empty state, not a failure.
     const connection = result.data?.allEvents
-    if (!connection) {
-      throw new Error('EventsSitemap: `allEvents` was null')
-    }
 
-    for (const node of connection.nodes) {
+    for (const node of connection?.nodes ?? []) {
       const username = node.accountByCreatedBy?.username
 
       if (!username || node.visibility !== EventVisibility.Public) continue
@@ -55,11 +55,11 @@ const fetchEventSitemapUrls = async (event: H3Event): Promise<SitemapUrl[]> => {
       urls.push(toSitemapUrl(`/event/view/${username}/${node.slug}`))
     }
 
-    if (connection.pageInfo.hasNextPage && !connection.pageInfo.endCursor) {
+    if (connection?.pageInfo.hasNextPage && !connection.pageInfo.endCursor) {
       throw new Error('EventsSitemap: missing endCursor for next page')
     }
 
-    after = connection.pageInfo.hasNextPage
+    after = connection?.pageInfo.hasNextPage
       ? connection.pageInfo.endCursor
       : undefined
   } while (after)

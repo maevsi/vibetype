@@ -37,20 +37,20 @@ const fetchAccountSitemapUrls = async (
 
     if (result.error) throw result.error
 
+    // Postgraphile returns `null` here (not an empty connection) when the
+    // requester can't see any rows, e.g. a database with no accounts yet -
+    // that's a normal empty state, not a failure.
     const connection = result.data?.allAccounts
-    if (!connection) {
-      throw new Error('AccountsSitemap: `allAccounts` was null')
-    }
 
-    for (const node of connection.nodes) {
+    for (const node of connection?.nodes ?? []) {
       urls.push(toSitemapUrl(`/account/view/${node.username}`))
     }
 
-    if (connection.pageInfo.hasNextPage && !connection.pageInfo.endCursor) {
+    if (connection?.pageInfo.hasNextPage && !connection.pageInfo.endCursor) {
       throw new Error('AccountsSitemap: missing endCursor for next page')
     }
 
-    after = connection.pageInfo.hasNextPage
+    after = connection?.pageInfo.hasNextPage
       ? connection.pageInfo.endCursor
       : undefined
   } while (after)
