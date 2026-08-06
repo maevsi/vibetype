@@ -18,6 +18,7 @@
     <ButtonColored
       :aria-label="t('process')"
       class="self-end"
+      :loading="isUploading"
       @click="uploadURL"
     >
       {{ t('process') }}
@@ -33,9 +34,12 @@ definePageMeta({
 const { t } = useI18n()
 
 const enteredURL = ref<string>()
+const isUploading = ref(false)
 
 const uploadURL = async () => {
   if (!enteredURL.value) return
+
+  isUploading.value = true
 
   try {
     await $fetch('/api/model/event/ingest/url', {
@@ -44,6 +48,8 @@ const uploadURL = async () => {
     })
   } catch (error) {
     console.error('Upload failed:', error)
+  } finally {
+    isUploading.value = false
   }
 }
 </script>

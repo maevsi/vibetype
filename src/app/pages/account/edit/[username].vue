@@ -45,6 +45,7 @@
           </ButtonColored>
           <ButtonColored
             :aria-label="t('remove')"
+            :loading="deleteProfilePictureByRowIdMutation.fetching.value"
             variant="secondary"
             @click="removeProfilePicture"
           >
@@ -63,12 +64,14 @@
       <AppInputTextarea
         :content-initial="account.description"
         :length-maximum="descriptionLengthMaximum"
+        :loading="updateAccountByRowIdMutation.fetching.value"
         :title="t('about')"
         @save="saveDescription"
       />
       <AppInputTextarea
         :content-initial="account.imprintUrl"
         :length-maximum="imprintLengthMaximum"
+        :loading="updateAccountByRowIdMutation.fetching.value"
         :title="t('imprint')"
         @save="saveImprint"
       />

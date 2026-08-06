@@ -6,7 +6,7 @@
     :external="isExternal"
     :target="targetComputed"
     :to
-    @click="emit('click')"
+    @click="emit('click', $event)"
   >
     <slot />
   </NuxtLink>
@@ -41,7 +41,7 @@ const {
 >()
 
 const emit = defineEmits<{
-  click: []
+  click: [event: MouseEvent]
 }>()
 
 // computations

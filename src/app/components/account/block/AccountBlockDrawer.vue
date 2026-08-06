@@ -47,6 +47,7 @@
         <ButtonColored
           v-bind="attributes"
           :aria-label="t('confirmBlock')"
+          :loading="createAccountBlockMutation.fetching.value"
           variant="primary-critical"
           @click="blockUser"
         >
@@ -133,7 +134,7 @@ const createAccountBlockMutation = useMutation(
     }
   `),
 )
-// const api = await useApiData([createAccountBlockMutation]) // TODO: show loading state, error details
+// TODO: show error details
 const blockUser = async () => {
   const result = await createAccountBlockMutation.executeMutation({
     input: {

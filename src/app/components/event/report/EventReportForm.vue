@@ -61,9 +61,6 @@ const formRef = useTemplateRef<HTMLFormElement>('formRef')
 
 // form
 const submit = () => formRef.value?.requestSubmit()
-defineExpose({
-  submit,
-})
 
 const formSchema = z.object({
   reason: z.string().min(1).max(2000),
@@ -79,6 +76,11 @@ const createReportMutation = useMutation(
     }
   `),
 )
+
+defineExpose({
+  isSubmitting: computed(() => createReportMutation.fetching.value),
+  submit,
+})
 
 const form = useForm({
   defaultValues: {

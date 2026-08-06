@@ -75,7 +75,12 @@
         </AppScrollContainer>
       </form.Field>
       <div class="flex flex-col items-center">
-        <ButtonColored :aria-label="t('select')" class="w-full" type="submit">
+        <ButtonColored
+          :aria-label="t('select')"
+          class="w-full"
+          :loading="createGuestsMutation.fetching.value"
+          type="submit"
+        >
           {{ t('select') }}
         </ButtonColored>
       </div>

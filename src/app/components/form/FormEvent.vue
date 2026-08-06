@@ -222,6 +222,7 @@
               form.getFieldValue('rowId') ? t('eventUpdate') : t('eventCreate')
             "
             class="w-full"
+            :loading="api.isFetching"
             type="submit"
           >
             {{

@@ -30,7 +30,8 @@
         <slot name="footer">
           <ButtonColored
             :aria-label="submitName || t('ok')"
-            :disabled="isSubmitting || isSubmitDisabled"
+            :disabled="isSubmitDisabled"
+            :loading="isSubmitting"
             type="submit"
             @click="emit('submit')"
           >
