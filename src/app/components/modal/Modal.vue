@@ -1,9 +1,7 @@
 <template>
   <Dialog v-model:open="open">
-    <DialogContent
-      class="top-[10%] max-h-[80%] w-5/6 max-w-none translate-y-0 flex-col gap-2 overflow-auto rounded-xl border-(--faint-line) bg-(--surface) p-2 shadow-xs sm:w-2/3 sm:max-w-none lg:w-1/2 xl:w-1/3"
-    >
-      <DialogHeader :class="$slots.header ? 'pr-8' : 'sr-only'">
+    <DialogContent>
+      <DialogHeader :class="$slots.header ? 'px-8' : 'sr-only'">
         <DialogTitle class="text-center">
           <slot name="header">{{ t('dialog') }}</slot>
         </DialogTitle>
@@ -15,6 +13,7 @@
         }"
       >
         <slot />
+        <!-- TODO: show submitting state on button, not whole modal -->
         <div v-if="isSubmitting" class="absolute inset-0">
           <LoaderIndicatorSpinner class="m-auto size-8" />
         </div>
