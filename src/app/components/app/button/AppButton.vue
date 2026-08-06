@@ -2,6 +2,7 @@
   <AppLink
     v-if="to"
     v-bind="delegatedProps"
+    :aria-busy="loading"
     :aria-label
     :class="cn(classComputed, classProps)"
     :is-colored="false"
@@ -14,7 +15,7 @@
           event.stopPropagation()
           return
         }
-        emit('click')
+        emit('click', event)
       }
     "
   >
@@ -38,7 +39,7 @@
     :disabled="disabled || loading"
     :title="ariaLabel"
     :type
-    @click="emit('click')"
+    @click="emit('click', $event)"
   >
     <template v-if="loading">
       <AppButtonSpinner />
@@ -88,7 +89,7 @@ const delegatedProps = computed(() => ({
 }))
 
 const emit = defineEmits<{
-  click: []
+  click: [event: MouseEvent]
 }>()
 
 const { t } = useI18n()

@@ -107,9 +107,17 @@ const cancel = () => {
   isEditing.value = false
 }
 const isSaving = ref(false)
-const save = () => {
+const save = async () => {
   isSaving.value = true
   emit('save', content.value?.trim())
+
+  // the caller may not actually start a loading request (e.g. a guard
+  // clause returning early), in which case there is no loading
+  // transition to reset `isSaving` below
+  await nextTick()
+  if (!loading) {
+    isSaving.value = false
+  }
 }
 
 // closes editing once this instance's save request settles
