@@ -100,7 +100,7 @@ const {
   data: eventRecommendations,
   // error: recommendationError,
   pending: eventRecommendationsPending,
-} = await useAsyncData('index-recommendations', async () => {
+} = useAsyncData('index-recommendations', async () => {
   if (!authentication.value.isSignedIn) return []
 
   const eventIds = await requestFetch('/api/service/reccoom/recommendations')
