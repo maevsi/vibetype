@@ -19,7 +19,28 @@
     <div
       :class="cn('relative w-1/3', variant === 'recommendation' && 'w-auto')"
     >
+      <div
+        v-if="categoryName || formatName"
+        :class="
+          cn(
+            'flex h-24 w-full items-center justify-center gap-2 rounded-lg border border-(--faint-line)',
+            variant === 'recommendation' && 'h-44 rounded-b-none',
+          )
+        "
+      >
+        <EventIconCategory
+          v-if="categoryName"
+          :class="cn('size-10', variant === 'recommendation' && 'size-16')"
+          :name="categoryName"
+        />
+        <EventIconFormat
+          v-if="formatName"
+          :class="cn('size-10', variant === 'recommendation' && 'size-16')"
+          :name="formatName"
+        />
+      </div>
       <LoaderImage
+        v-else
         :alt="t('heroImage')"
         :aspect="
           !variant || variant === 'highlight'
@@ -171,6 +192,16 @@ export type EventCardProps = {
         rowId: string
       }[]
     } | null
+    eventCategoryMappingsByEventId?: {
+      nodes: {
+        eventCategoryByCategoryId?: { name: string } | null
+      }[]
+    } | null
+    eventFormatMappingsByEventId?: {
+      nodes: {
+        eventFormatByFormatId?: { name: string } | null
+      }[]
+    } | null
     guestsByEventId?: {
       nodes: {
         contactByContactId?: {
@@ -200,6 +231,15 @@ const { event, variant = undefined } = defineProps<EventCardProps>()
 const localePath = useLocalePath()
 
 // event
+const categoryName = computed(
+  () =>
+    event.eventCategoryMappingsByEventId?.nodes[0]?.eventCategoryByCategoryId
+      ?.name,
+)
+const formatName = computed(
+  () =>
+    event.eventFormatMappingsByEventId?.nodes[0]?.eventFormatByFormatId?.name,
+)
 const store = useStore()
 const isCreator = computed(
   () =>

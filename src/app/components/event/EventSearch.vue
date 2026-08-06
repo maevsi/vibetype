@@ -34,11 +34,25 @@ const queryEventList = graphql(`
           }
           rowId
         }
+        eventCategoryMappingsByEventId {
+          nodes {
+            eventCategoryByCategoryId {
+              name
+            }
+          }
+        }
         eventFavoritesByEventId(first: 1) {
           nodes {
             id
             createdBy
             rowId
+          }
+        }
+        eventFormatMappingsByEventId {
+          nodes {
+            eventFormatByFormatId {
+              name
+            }
           }
         }
         guestsByEventId(first: 1) {
@@ -93,11 +107,25 @@ const queryEventSearch = graphql(`
           }
           rowId
         }
+        eventCategoryMappingsByEventId {
+          nodes {
+            eventCategoryByCategoryId {
+              name
+            }
+          }
+        }
         eventFavoritesByEventId(first: 1) {
           nodes {
             createdBy
             id
             rowId
+          }
+        }
+        eventFormatMappingsByEventId {
+          nodes {
+            eventFormatByFormatId {
+              name
+            }
           }
         }
         guestsByEventId(first: 1) {

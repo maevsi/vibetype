@@ -895,8 +895,14 @@ export type EventListQuery = {
         rowId: string
         location: { latitude: number; longitude: number } | null
       } | null
+      eventCategoryMappingsByEventId: {
+        nodes: Array<{ eventCategoryByCategoryId: { name: string } | null }>
+      }
       eventFavoritesByEventId: {
         nodes: Array<{ id: string; createdBy: string; rowId: string }>
+      }
+      eventFormatMappingsByEventId: {
+        nodes: Array<{ eventFormatByFormatId: { name: string } | null }>
       }
       guestsByEventId: {
         nodes: Array<{
@@ -936,8 +942,14 @@ export type EventSearchQuery = {
         rowId: string
         location: { latitude: number; longitude: number } | null
       } | null
+      eventCategoryMappingsByEventId: {
+        nodes: Array<{ eventCategoryByCategoryId: { name: string } | null }>
+      }
       eventFavoritesByEventId: {
         nodes: Array<{ createdBy: string; id: string; rowId: string }>
+      }
+      eventFormatMappingsByEventId: {
+        nodes: Array<{ eventFormatByFormatId: { name: string } | null }>
       }
       guestsByEventId: {
         nodes: Array<{
@@ -1375,8 +1387,14 @@ export type AccountQuery = {
         rowId: string
         slug: string
         start: string
+        eventCategoryMappingsByEventId: {
+          nodes: Array<{ eventCategoryByCategoryId: { name: string } | null }>
+        }
         eventFavoritesByEventId: {
           nodes: Array<{ createdBy: string; id: string; rowId: string }>
+        }
+        eventFormatMappingsByEventId: {
+          nodes: Array<{ eventFormatByFormatId: { name: string } | null }>
         }
         guestsByEventId: {
           nodes: Array<{
@@ -1464,8 +1482,14 @@ export type DashboardEventRecommendationsQuery = {
       rowId: string
       location: { latitude: number; longitude: number } | null
     } | null
+    eventCategoryMappingsByEventId: {
+      nodes: Array<{ eventCategoryByCategoryId: { name: string } | null }>
+    }
     eventFavoritesByEventId: {
       nodes: Array<{ createdBy: string; id: string; rowId: string }>
+    }
+    eventFormatMappingsByEventId: {
+      nodes: Array<{ eventFormatByFormatId: { name: string } | null }>
     }
     guestsByEventId: {
       nodes: Array<{
@@ -1495,6 +1519,12 @@ export type DashboardEventUpcomingQuery = {
       slug: string
       start: string
       accountByCreatedBy: { id: string; rowId: string; username: string } | null
+      eventCategoryMappingsByEventId: {
+        nodes: Array<{ eventCategoryByCategoryId: { name: string } | null }>
+      }
+      eventFormatMappingsByEventId: {
+        nodes: Array<{ eventFormatByFormatId: { name: string } | null }>
+      }
     }>
   } | null
 }
@@ -1665,8 +1695,14 @@ export type EventListAccountQuery = {
         rowId: string
         slug: string
         start: string
+        eventCategoryMappingsByEventId: {
+          nodes: Array<{ eventCategoryByCategoryId: { name: string } | null }>
+        }
         eventFavoritesByEventId: {
           nodes: Array<{ createdBy: string; id: string; rowId: string }>
+        }
+        eventFormatMappingsByEventId: {
+          nodes: Array<{ eventFormatByFormatId: { name: string } | null }>
         }
         guestsByEventId: {
           nodes: Array<{
@@ -3187,6 +3223,43 @@ export const EventListDocument = {
                         kind: 'Field',
                         name: {
                           kind: 'Name',
+                          value: 'eventCategoryMappingsByEventId',
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'eventCategoryByCategoryId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
                           value: 'eventFavoritesByEventId',
                         },
                         arguments: [
@@ -3216,6 +3289,43 @@ export const EventListDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'eventFormatMappingsByEventId',
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'eventFormatByFormatId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                      ],
+                                    },
                                   },
                                 ],
                               },
@@ -3472,6 +3582,43 @@ export const EventSearchDocument = {
                         kind: 'Field',
                         name: {
                           kind: 'Name',
+                          value: 'eventCategoryMappingsByEventId',
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'eventCategoryByCategoryId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
                           value: 'eventFavoritesByEventId',
                         },
                         arguments: [
@@ -3501,6 +3648,43 @@ export const EventSearchDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'eventFormatMappingsByEventId',
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'eventFormatByFormatId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                      ],
+                                    },
                                   },
                                 ],
                               },
@@ -6262,6 +6446,46 @@ export const AccountDocument = {
                               kind: 'Field',
                               name: {
                                 kind: 'Name',
+                                value: 'eventCategoryMappingsByEventId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'eventCategoryByCategoryId',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'name',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
                                 value: 'eventFavoritesByEventId',
                               },
                               arguments: [
@@ -6296,6 +6520,46 @@ export const AccountDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'rowId',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'eventFormatMappingsByEventId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'eventFormatByFormatId',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'name',
+                                                },
+                                              },
+                                            ],
                                           },
                                         },
                                       ],
@@ -6779,6 +7043,43 @@ export const DashboardEventRecommendationsDocument = {
                 },
                 {
                   kind: 'Field',
+                  name: {
+                    kind: 'Name',
+                    value: 'eventCategoryMappingsByEventId',
+                  },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'eventCategoryByCategoryId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'eventFavoritesByEventId' },
                   arguments: [
                     {
@@ -6807,6 +7108,40 @@ export const DashboardEventRecommendationsDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'rowId' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventFormatMappingsByEventId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'eventFormatByFormatId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                ],
+                              },
                             },
                           ],
                         },
@@ -6963,6 +7298,80 @@ export const DashboardEventUpcomingDocument = {
                         },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'end' } },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'eventCategoryMappingsByEventId',
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'eventCategoryByCategoryId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'eventFormatMappingsByEventId',
+                        },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'eventFormatByFormatId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'name' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
@@ -8022,6 +8431,46 @@ export const EventListAccountDocument = {
                               kind: 'Field',
                               name: {
                                 kind: 'Name',
+                                value: 'eventCategoryMappingsByEventId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'eventCategoryByCategoryId',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'name',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
                                 value: 'eventFavoritesByEventId',
                               },
                               arguments: [
@@ -8056,6 +8505,46 @@ export const EventListAccountDocument = {
                                           name: {
                                             kind: 'Name',
                                             value: 'rowId',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'eventFormatMappingsByEventId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'eventFormatByFormatId',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'name',
+                                                },
+                                              },
+                                            ],
                                           },
                                         },
                                       ],
