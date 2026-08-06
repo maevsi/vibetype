@@ -1,6 +1,9 @@
 <template>
   <div
-    v-if="api.isFetching || eventRecommendationsPending"
+    v-if="
+      api.isFetching ||
+      (authentication.isSignedIn && eventRecommendationsPending)
+    "
     class="flex flex-1 items-center justify-center"
   >
     <AppLoaderLogo class="size-16" />
