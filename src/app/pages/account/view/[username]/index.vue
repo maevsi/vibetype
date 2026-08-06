@@ -295,11 +295,6 @@ const { t } = useI18n()
 const title = computed(() =>
   isOwnProfile.value ? t('myProfile') : t('profile'),
 )
-useHeadDefault({
-  ogType: 'profile',
-  profileUsername: route.params.username,
-  title,
-})
 
 // api data
 const query = useQuery({
@@ -331,15 +326,12 @@ const accountProfilePictureUrl = computed(() => {
   return storageKey ? TUSD_FILES_URL + storageKey : undefined
 })
 const { siteUrlTyped: siteUrl } = useSiteUrl()
-const seoDescription = accountDescription.value
-if (seoDescription) {
-  useSeoMeta({
-    description: seoDescription,
-    ogDescription: seoDescription,
-    twitterDescription: seoDescription,
-  })
-}
-
+useHeadDefault({
+  description: accountDescription,
+  ogType: 'profile',
+  profileUsername: route.params.username,
+  title,
+})
 definePerson({
   description: accountDescription,
   image: accountProfilePictureUrl,

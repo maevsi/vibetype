@@ -1,10 +1,20 @@
 import { test } from '@playwright/test'
 
+import { testOgImage } from '#tests/e2e/utils/tests'
+
 // import { TIMEZONE_COOKIE_NAME } from '~/utils/constants'
 // import {
 //   COOKIE_CONTROL_CONSENT_COOKIE_DEFAULT,
 //   TIMEZONE_DEFAULT,
 // } from '~/cypress/utils/constants'
+
+// fixture account served by `server/api/test/service/postgraphile/graphql.get.ts`
+testOgImage({
+  dynamic: {
+    de: 'a_Das+Profilbild+des+Kontos.,c_Person.takumi,description_~QnVpbGRpbmcgdmliZXR5cGUsIG9uZSBldmVudCBhdCBhIHRpbWUu,title_Profil,username_e2e-test-account,p_Ii9kZS9hY2NvdW50L3ZpZXcvZTJlLXRlc3QtYWNjb3VudCI,s_RgpoxFkWn9mqGRkg.png',
+    en: `a_The+account's+profile+picture.,c_Person.takumi,description_~QnVpbGRpbmcgdmliZXR5cGUsIG9uZSBldmVudCBhdCBhIHRpbWUu,title_Profile,username_e2e-test-account,p_Ii9hY2NvdW50L3ZpZXcvZTJlLXRlc3QtYWNjb3VudCI,s_GKEir2paKu3o389J.png`,
+  },
+})
 
 test.describe('account username page', () => {
   // TODO: mock data

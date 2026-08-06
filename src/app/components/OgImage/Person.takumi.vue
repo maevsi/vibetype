@@ -11,11 +11,10 @@
       width="1000"
     />
     <img
-      v-if="image"
       alt="Profile picture."
       class="rounded-full border-8 border-white object-cover"
       height="360"
-      :src="image"
+      :src="image || '/assets/static/images/blank-profile-picture.svg'"
       width="360"
     />
     <span class="flex flex-col justify-center gap-16">
