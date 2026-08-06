@@ -26,7 +26,7 @@ const { path } = defineProps<{
 }>()
 
 // content
-const content = await useContent(path)
+const content = useContent(path)
 
 // seo
 useHeadDefault({ title: computed(() => content.data.value?.title) })

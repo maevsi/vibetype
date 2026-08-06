@@ -41,7 +41,7 @@ const legalTermsQuery = useQuery({
   },
 })
 
-const { data, error, pending } = await useAsyncData(
+const { data, error, pending } = useAsyncData(
   'content-legal-terms',
   async () => {
     const legalTermsQueryResolved = await legalTermsQuery
