@@ -38,12 +38,19 @@ const fetchAccountSitemapUrls = async (
     if (result.error) throw result.error
 
     const connection = result.data?.allAccounts
+    if (!connection) {
+      throw new Error('AccountsSitemap: `allAccounts` was null')
+    }
 
-    for (const node of connection?.nodes ?? []) {
+    for (const node of connection.nodes) {
       urls.push(toSitemapUrl(`/account/view/${node.username}`))
     }
 
-    after = connection?.pageInfo.hasNextPage
+    if (connection.pageInfo.hasNextPage && !connection.pageInfo.endCursor) {
+      throw new Error('AccountsSitemap: missing endCursor for next page')
+    }
+
+    after = connection.pageInfo.hasNextPage
       ? connection.pageInfo.endCursor
       : undefined
   } while (after)

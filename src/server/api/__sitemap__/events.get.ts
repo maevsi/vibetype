@@ -43,8 +43,11 @@ const fetchEventSitemapUrls = async (event: H3Event): Promise<SitemapUrl[]> => {
     if (result.error) throw result.error
 
     const connection = result.data?.allEvents
+    if (!connection) {
+      throw new Error('EventsSitemap: `allEvents` was null')
+    }
 
-    for (const node of connection?.nodes ?? []) {
+    for (const node of connection.nodes) {
       const username = node.accountByCreatedBy?.username
 
       if (!username || node.visibility !== EventVisibility.Public) continue
@@ -52,7 +55,11 @@ const fetchEventSitemapUrls = async (event: H3Event): Promise<SitemapUrl[]> => {
       urls.push(toSitemapUrl(`/event/view/${username}/${node.slug}`))
     }
 
-    after = connection?.pageInfo.hasNextPage
+    if (connection.pageInfo.hasNextPage && !connection.pageInfo.endCursor) {
+      throw new Error('EventsSitemap: missing endCursor for next page')
+    }
+
+    after = connection.pageInfo.hasNextPage
       ? connection.pageInfo.endCursor
       : undefined
   } while (after)
