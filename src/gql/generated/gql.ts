@@ -33,9 +33,9 @@ type Documents = {
   '\n    mutation CreateEvent($input: CreateEventInput!) {\n      createEvent(input: $input) {\n        event {\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.CreateEventDocument
   '\n    mutation updateEventByRowId($input: UpdateEventByRowIdInput!) {\n      updateEventByRowId(input: $input) {\n        event {\n          id\n        }\n      }\n    }\n  ': typeof types.UpdateEventByRowIdDocument
   '\n    mutation CreateEventCategoryMapping(\n      $input: CreateEventCategoryMappingInput!\n    ) {\n      createEventCategoryMapping(input: $input) {\n        eventCategoryMapping {\n          categoryId\n          eventByEventId {\n            id\n          }\n          id\n        }\n      }\n    }\n  ': typeof types.CreateEventCategoryMappingDocument
-  '\n    mutation DeleteEventCategoryMappingByEventIdAndCategoryId(\n      $input: DeleteEventCategoryMappingByEventIdAndCategoryIdInput!\n    ) {\n      deleteEventCategoryMappingByEventIdAndCategoryId(input: $input) {\n        deletedEventCategoryMappingId\n      }\n    }\n  ': typeof types.DeleteEventCategoryMappingByEventIdAndCategoryIdDocument
+  '\n    mutation DeleteEventCategoryMappingByEventIdAndCategoryId(\n      $input: DeleteEventCategoryMappingByEventIdAndCategoryIdInput!\n    ) {\n      deleteEventCategoryMappingByEventIdAndCategoryId(input: $input) {\n        deletedEventCategoryMappingId\n        eventCategoryMapping {\n          eventByEventId {\n            id\n          }\n        }\n      }\n    }\n  ': typeof types.DeleteEventCategoryMappingByEventIdAndCategoryIdDocument
   '\n    mutation CreateEventFormatMapping($input: CreateEventFormatMappingInput!) {\n      createEventFormatMapping(input: $input) {\n        eventFormatMapping {\n          eventByEventId {\n            id\n          }\n          formatId\n          id\n        }\n      }\n    }\n  ': typeof types.CreateEventFormatMappingDocument
-  '\n    mutation DeleteEventFormatMappingByEventIdAndFormatId(\n      $input: DeleteEventFormatMappingByEventIdAndFormatIdInput!\n    ) {\n      deleteEventFormatMappingByEventIdAndFormatId(input: $input) {\n        deletedEventFormatMappingId\n      }\n    }\n  ': typeof types.DeleteEventFormatMappingByEventIdAndFormatIdDocument
+  '\n    mutation DeleteEventFormatMappingByEventIdAndFormatId(\n      $input: DeleteEventFormatMappingByEventIdAndFormatIdInput!\n    ) {\n      deleteEventFormatMappingByEventIdAndFormatId(input: $input) {\n        deletedEventFormatMappingId\n        eventFormatMapping {\n          eventByEventId {\n            id\n          }\n        }\n      }\n    }\n  ': typeof types.DeleteEventFormatMappingByEventIdAndFormatIdDocument
   '\n    query AllEventCategoriesFormEvent {\n      allEventCategories {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllEventCategoriesFormEventDocument
   '\n    query AllEventFormatsFormEvent {\n      allEventFormats {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllEventFormatsFormEventDocument
   '\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.CreateGuestsDocument
@@ -141,11 +141,11 @@ const documents: Documents = {
     types.UpdateEventByRowIdDocument,
   '\n    mutation CreateEventCategoryMapping(\n      $input: CreateEventCategoryMappingInput!\n    ) {\n      createEventCategoryMapping(input: $input) {\n        eventCategoryMapping {\n          categoryId\n          eventByEventId {\n            id\n          }\n          id\n        }\n      }\n    }\n  ':
     types.CreateEventCategoryMappingDocument,
-  '\n    mutation DeleteEventCategoryMappingByEventIdAndCategoryId(\n      $input: DeleteEventCategoryMappingByEventIdAndCategoryIdInput!\n    ) {\n      deleteEventCategoryMappingByEventIdAndCategoryId(input: $input) {\n        deletedEventCategoryMappingId\n      }\n    }\n  ':
+  '\n    mutation DeleteEventCategoryMappingByEventIdAndCategoryId(\n      $input: DeleteEventCategoryMappingByEventIdAndCategoryIdInput!\n    ) {\n      deleteEventCategoryMappingByEventIdAndCategoryId(input: $input) {\n        deletedEventCategoryMappingId\n        eventCategoryMapping {\n          eventByEventId {\n            id\n          }\n        }\n      }\n    }\n  ':
     types.DeleteEventCategoryMappingByEventIdAndCategoryIdDocument,
   '\n    mutation CreateEventFormatMapping($input: CreateEventFormatMappingInput!) {\n      createEventFormatMapping(input: $input) {\n        eventFormatMapping {\n          eventByEventId {\n            id\n          }\n          formatId\n          id\n        }\n      }\n    }\n  ':
     types.CreateEventFormatMappingDocument,
-  '\n    mutation DeleteEventFormatMappingByEventIdAndFormatId(\n      $input: DeleteEventFormatMappingByEventIdAndFormatIdInput!\n    ) {\n      deleteEventFormatMappingByEventIdAndFormatId(input: $input) {\n        deletedEventFormatMappingId\n      }\n    }\n  ':
+  '\n    mutation DeleteEventFormatMappingByEventIdAndFormatId(\n      $input: DeleteEventFormatMappingByEventIdAndFormatIdInput!\n    ) {\n      deleteEventFormatMappingByEventIdAndFormatId(input: $input) {\n        deletedEventFormatMappingId\n        eventFormatMapping {\n          eventByEventId {\n            id\n          }\n        }\n      }\n    }\n  ':
     types.DeleteEventFormatMappingByEventIdAndFormatIdDocument,
   '\n    query AllEventCategoriesFormEvent {\n      allEventCategories {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ':
     types.AllEventCategoriesFormEventDocument,
@@ -411,8 +411,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    mutation DeleteEventCategoryMappingByEventIdAndCategoryId(\n      $input: DeleteEventCategoryMappingByEventIdAndCategoryIdInput!\n    ) {\n      deleteEventCategoryMappingByEventIdAndCategoryId(input: $input) {\n        deletedEventCategoryMappingId\n      }\n    }\n  ',
-): (typeof documents)['\n    mutation DeleteEventCategoryMappingByEventIdAndCategoryId(\n      $input: DeleteEventCategoryMappingByEventIdAndCategoryIdInput!\n    ) {\n      deleteEventCategoryMappingByEventIdAndCategoryId(input: $input) {\n        deletedEventCategoryMappingId\n      }\n    }\n  ']
+  source: '\n    mutation DeleteEventCategoryMappingByEventIdAndCategoryId(\n      $input: DeleteEventCategoryMappingByEventIdAndCategoryIdInput!\n    ) {\n      deleteEventCategoryMappingByEventIdAndCategoryId(input: $input) {\n        deletedEventCategoryMappingId\n        eventCategoryMapping {\n          eventByEventId {\n            id\n          }\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation DeleteEventCategoryMappingByEventIdAndCategoryId(\n      $input: DeleteEventCategoryMappingByEventIdAndCategoryIdInput!\n    ) {\n      deleteEventCategoryMappingByEventIdAndCategoryId(input: $input) {\n        deletedEventCategoryMappingId\n        eventCategoryMapping {\n          eventByEventId {\n            id\n          }\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -423,8 +423,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    mutation DeleteEventFormatMappingByEventIdAndFormatId(\n      $input: DeleteEventFormatMappingByEventIdAndFormatIdInput!\n    ) {\n      deleteEventFormatMappingByEventIdAndFormatId(input: $input) {\n        deletedEventFormatMappingId\n      }\n    }\n  ',
-): (typeof documents)['\n    mutation DeleteEventFormatMappingByEventIdAndFormatId(\n      $input: DeleteEventFormatMappingByEventIdAndFormatIdInput!\n    ) {\n      deleteEventFormatMappingByEventIdAndFormatId(input: $input) {\n        deletedEventFormatMappingId\n      }\n    }\n  ']
+  source: '\n    mutation DeleteEventFormatMappingByEventIdAndFormatId(\n      $input: DeleteEventFormatMappingByEventIdAndFormatIdInput!\n    ) {\n      deleteEventFormatMappingByEventIdAndFormatId(input: $input) {\n        deletedEventFormatMappingId\n        eventFormatMapping {\n          eventByEventId {\n            id\n          }\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation DeleteEventFormatMappingByEventIdAndFormatId(\n      $input: DeleteEventFormatMappingByEventIdAndFormatIdInput!\n    ) {\n      deleteEventFormatMappingByEventIdAndFormatId(input: $input) {\n        deletedEventFormatMappingId\n        eventFormatMapping {\n          eventByEventId {\n            id\n          }\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

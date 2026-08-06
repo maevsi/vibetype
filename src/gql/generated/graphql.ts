@@ -1109,6 +1109,7 @@ export type DeleteEventCategoryMappingByEventIdAndCategoryIdMutationVariables =
 export type DeleteEventCategoryMappingByEventIdAndCategoryIdMutation = {
   deleteEventCategoryMappingByEventIdAndCategoryId: {
     deletedEventCategoryMappingId: string | null
+    eventCategoryMapping: { eventByEventId: { id: string } | null } | null
   } | null
 }
 
@@ -1134,6 +1135,7 @@ export type DeleteEventFormatMappingByEventIdAndFormatIdMutationVariables =
 export type DeleteEventFormatMappingByEventIdAndFormatIdMutation = {
   deleteEventFormatMappingByEventIdAndFormatId: {
     deletedEventFormatMappingId: string | null
+    eventFormatMapping: { eventByEventId: { id: string } | null } | null
   } | null
 }
 
@@ -4353,6 +4355,28 @@ export const DeleteEventCategoryMappingByEventIdAndCategoryIdDocument = {
                     value: 'deletedEventCategoryMappingId',
                   },
                 },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventCategoryMapping' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -4498,6 +4522,28 @@ export const DeleteEventFormatMappingByEventIdAndFormatIdDocument = {
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'deletedEventFormatMappingId' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventFormatMapping' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
                 },
               ],
             },
