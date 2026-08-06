@@ -41,6 +41,7 @@
       <Modal
         v-model="isModalAttendanceScanQrCodeOpen"
         :submit-name="t('close')"
+        @submit="modalClose"
       >
         <LazyAppQrCodeStream @detect="onDetect" @error="modalClose" />
         <template #submit-icon>

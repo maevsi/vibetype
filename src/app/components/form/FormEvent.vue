@@ -234,7 +234,10 @@
         </CardStateAlert>
       </div>
     </form>
-    <Modal v-model="isModalDateTimeStartOpen">
+    <Modal
+      v-model="isModalDateTimeStartOpen"
+      @submit="isModalDateTimeStartOpen = false"
+    >
       <div class="flex justify-center">
         <DatePicker
           :first-day-of-week="2"
@@ -259,7 +262,10 @@
         />
       </div>
     </Modal>
-    <Modal v-model="isModalDateTimeEndOpen">
+    <Modal
+      v-model="isModalDateTimeEndOpen"
+      @submit="isModalDateTimeEndOpen = false"
+    >
       <div class="flex justify-center">
         <DatePicker
           :first-day-of-week="2"

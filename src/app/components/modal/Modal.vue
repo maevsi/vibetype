@@ -25,7 +25,7 @@
             :aria-label="submitName || t('ok')"
             :disabled="isSubmitting || isSubmitDisabled"
             type="submit"
-            @click="submit()"
+            @click="emit('submit')"
           >
             {{ submitName || t('ok') }}
             <template #prefix>
@@ -36,9 +36,6 @@
           </ButtonColored>
         </slot>
       </DialogFooter>
-      <CardStateAlert v-if="errors" class="mb-4">
-        <AppSpanList :span="errors" />
-      </CardStateAlert>
     </DialogContent>
   </Dialog>
 </template>
@@ -47,52 +44,26 @@
 const {
   isFooterHidden,
   isSubmitDisabled,
+  isSubmitting,
   submitName = undefined,
-  submitTaskProvider = () => Promise.resolve(),
 } = defineProps<{
   isFooterHidden?: boolean
   isSubmitDisabled?: boolean
+  isSubmitting?: boolean
   submitName?: string
-  submitTaskProvider?: () => Promise<unknown>
 }>()
 
 const emit = defineEmits<{
   close: []
-  submitSuccess: [submitSuccess: unknown]
+  submit: []
 }>()
 
 const open = defineModel<boolean>()
 const { t } = useI18n()
 
-// data
-const errors = ref()
-const isSubmitting = ref(false)
-
-// methods
-const close = () => {
-  // NOT = "cancel"! Used by `submit` too.
-
-  open.value = false
-}
-const submit = async () => {
-  isSubmitting.value = true
-
-  try {
-    const value = await submitTaskProvider()
-    emit('submitSuccess', value)
-    close()
-  } catch (errorsLocal) {
-    errors.value = [errorsLocal]
-    console.error(errorsLocal)
-  }
-
-  isSubmitting.value = false
-}
-
 // lifecycle
 watch(open, (newValue) => {
   if (!newValue) {
-    errors.value = undefined
     emit('close')
   }
 })

@@ -93,8 +93,9 @@
     </Card>
     <Modal
       v-model="isModalUploadGalleryOpen"
+      :is-submitting="isUploadSubmitting"
       :submit-name="t('upload')"
-      :submit-task-provider="getUploadBlobPromise"
+      @submit="onUploadSubmit"
     >
       <Cropper
         ref="cropper"
@@ -104,6 +105,9 @@
           aspectRatio: 1,
         }"
       />
+      <CardStateAlert v-if="uploadSubmitErrors" class="mb-4">
+        <AppSpanList :span="uploadSubmitErrors" />
+      </CardStateAlert>
       <template #header>{{ t('uploadNew') }}</template>
       <template #submit-icon><AppIconArrowUpTray /></template>
     </Modal>
@@ -145,6 +149,8 @@ const after = ref<string | null>()
 const fileSelectedUrl = ref<string>()
 const fileSelectedMimeType = ref<string>()
 const isModalUploadGalleryOpen = ref<boolean>()
+const isUploadSubmitting = ref(false)
+const uploadSubmitErrors = ref()
 const pending = reactive({
   deletions: ref<string[]>([]),
 })
@@ -337,7 +343,7 @@ const toggleSelect = (upload: UnwrapRef<typeof selectedItem>) => {
     emit('selection', selectedItem.value?.rowId)
   }
 }
-const getUploadBlobPromise = () =>
+const uploadBlobPromise = () =>
   new Promise<void>((resolve, reject) => {
     ;(templateCropper.value?.getResult() as CropperResult).canvas?.toBlob(
       async (blob) => {
@@ -415,6 +421,20 @@ const getUploadBlobPromise = () =>
       'image/jpeg',
     )
   })
+const onUploadSubmit = async () => {
+  isUploadSubmitting.value = true
+  uploadSubmitErrors.value = undefined
+
+  try {
+    await uploadBlobPromise()
+    isModalUploadGalleryOpen.value = false
+  } catch (errorsLocal) {
+    uploadSubmitErrors.value = [errorsLocal]
+    console.error(errorsLocal)
+  }
+
+  isUploadSubmitting.value = false
+}
 </script>
 
 <style>

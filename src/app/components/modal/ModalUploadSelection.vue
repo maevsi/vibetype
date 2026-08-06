@@ -3,7 +3,7 @@
     v-model="open"
     :is-submit-disabled="!selectedUploadId"
     @close="selectedUploadId = undefined"
-    @submit-success="emit('select', selectedUploadId)"
+    @submit="onSubmit"
   >
     <UploadGallery
       is-readonly
@@ -28,6 +28,10 @@ const selectedUploadId = ref<string | null>()
 // methods
 const selectProfilePictureUploadId = (storageKey?: string | null) => {
   selectedUploadId.value = storageKey
+}
+const onSubmit = () => {
+  emit('select', selectedUploadId.value)
+  open.value = false
 }
 </script>
 
