@@ -1,5 +1,7 @@
 <template>
-  <AppLoaderLogo v-if="api.isFetching" />
+  <div v-if="api.isFetching" class="flex justify-center">
+    <AppLoaderLogo class="size-16" />
+  </div>
   <div v-else>
     <LayoutTopBar>
       <span>

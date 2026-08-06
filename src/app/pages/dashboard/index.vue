@@ -1,5 +1,10 @@
 <template>
-  <AppLoaderLogo v-if="api.isFetching || eventRecommendationsPending" />
+  <div
+    v-if="api.isFetching || eventRecommendationsPending"
+    class="flex justify-center"
+  >
+    <AppLoaderLogo class="size-16" />
+  </div>
   <div v-else>
     <!-- <AppError
       v-if="recommendationError"

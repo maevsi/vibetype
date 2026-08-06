@@ -1,5 +1,7 @@
 <template>
-  <AppLoaderLogo v-if="pending" />
+  <div v-if="pending" class="flex justify-center">
+    <AppLoaderLogo class="size-16" />
+  </div>
   <LayoutProse v-else-if="data?.ast">
     <MarkdownDocument :value="data.ast" />
   </LayoutProse>
