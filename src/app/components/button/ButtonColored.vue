@@ -26,6 +26,9 @@
     <template #suffix>
       <slot name="suffix" />
     </template>
+    <template v-if="$slots.loading" #loading>
+      <slot name="loading" />
+    </template>
   </AppButton>
 </template>
 
@@ -39,6 +42,7 @@ export type ButtonColoredProps = {
   ariaLabel: string
   disabled?: boolean
   isExternal?: boolean
+  loading?: boolean
   size?: 'large' | 'small'
   to?: RouteLocationRaw
   type?: ButtonHTMLAttributes['type']
@@ -55,6 +59,7 @@ const {
   class: classProps = undefined,
   disabled,
   isExternal,
+  loading,
   size = 'large',
   to = undefined,
   type = 'button',
@@ -69,6 +74,7 @@ const delegatedProps = computed(() => ({
   ariaLabel,
   disabled,
   isExternal,
+  loading,
   to,
   type,
 }))

@@ -25,6 +25,7 @@
         <ButtonColored
           :aria-label="t('deletion', { item: itemNameDeletion })"
           class="w-full"
+          :loading="api.isFetching"
           type="submit"
           variant="primary-critical"
         >

@@ -157,7 +157,7 @@
                     name: contactName,
                   })
             "
-            :disabled="isUpdatingAccept"
+            :loading="isUpdatingAccept"
             @click="accept"
           >
             <span>
@@ -170,8 +170,7 @@
               }}
             </span>
             <template #prefix>
-              <LoaderIndicatorSpinner v-if="isUpdatingAccept" class="size-8" />
-              <AppIconCheckCircleSolid v-else class="shrink-0" />
+              <AppIconCheckCircleSolid class="shrink-0" />
             </template>
           </ButtonColored>
           <div
@@ -204,7 +203,7 @@
                     name: contactName,
                   })
             "
-            :disabled="isUpdatingCancel"
+            :loading="isUpdatingCancel"
             @click="cancel"
           >
             <span>
@@ -217,8 +216,7 @@
               }}
             </span>
             <template #prefix>
-              <LoaderIndicatorSpinner v-if="isUpdatingCancel" class="size-8" />
-              <AppIconXCircleSolid v-else class="shrink-0" />
+              <AppIconXCircleSolid class="shrink-0" />
             </template>
           </ButtonColored>
           <div

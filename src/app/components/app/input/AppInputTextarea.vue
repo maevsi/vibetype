@@ -64,6 +64,7 @@
       <div v-if="isEditing" class="flex flex-col items-end gap-2 text-right">
         <ButtonColored
           :aria-label="t('saveChanges')"
+          :loading
           variant="secondary"
           @click="save"
         >
@@ -81,10 +82,12 @@
 const {
   contentInitial = undefined,
   lengthMaximum: maxLength,
+  loading,
   title,
 } = defineProps<{
   contentInitial?: string | null
   lengthMaximum: number
+  loading?: boolean
   title: string
 }>()
 
@@ -105,8 +108,17 @@ const cancel = () => {
 }
 const save = () => {
   emit('save', content.value?.trim())
-  isEditing.value = false
 }
+
+// closes editing once the caller's save request settles
+watch(
+  () => loading,
+  (loadingCurrent, loadingPrevious) => {
+    if (loadingPrevious && !loadingCurrent) {
+      isEditing.value = false
+    }
+  },
+)
 
 // template
 const { t } = useI18n()

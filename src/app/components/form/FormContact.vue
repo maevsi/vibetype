@@ -233,7 +233,12 @@
         </Field>
       </form.Field>
       <div class="flex flex-col items-center">
-        <ButtonColored :aria-label="t('save')" class="w-full" type="submit">
+        <ButtonColored
+          :aria-label="t('save')"
+          class="w-full"
+          :loading="api.isFetching"
+          type="submit"
+        >
           {{ t('save') }}
         </ButtonColored>
       </div>

@@ -62,6 +62,7 @@
         <ButtonColored
           v-bind="attributes"
           :aria-label="t('buttonReportSubmit')"
+          :loading="templateForm?.isSubmitting"
           type="submit"
           variant="primary-critical"
           @click="templateForm?.submit"
@@ -81,6 +82,7 @@
         <ButtonColored
           v-bind="attributes"
           :aria-label="t('buttonReportConfirmationBlock')"
+          :loading="createAccountBlockMutation.fetching.value"
           variant="secondary-critical"
           @click="blockOrganizer"
         >
