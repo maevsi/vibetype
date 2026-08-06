@@ -126,13 +126,10 @@
 </template>
 
 <script setup lang="ts">
-import type { NuxtError } from '#app'
+import type { AppErrorInput } from '~~/shared/utils/error'
 
 const { error } = defineProps<{
-  error: Partial<NuxtError> &
-    Required<Pick<NuxtError, 'status'>> & {
-      data?: { vibetype?: string }
-    }
+  error: AppErrorInput
 }>()
 
 // status code
