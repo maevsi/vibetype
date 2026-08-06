@@ -97,22 +97,25 @@ export const dateTimeFormatOptions: Intl.DateTimeFormatOptions = {
 }
 
 /**
- * Returns a date-time formatter function for use in emails which don't support targeted locales yet.
+ * Returns a date-time formatter function for use in emails.
  *
- * The formatter uses the specified locale and a fixed UTC time zone.
+ * The formatter uses the specified locale and time zone, falling back to UTC when no time zone
+ * is given, e.g. because the receiving contact hasn't set one.
  *
  * @param {string} locale - A BCP 47 language tag (e.g., "en-US", "fr-FR") used to format the date/time.
- * @returns {Intl.DateTimeFormat} A formatter instance that formats dates in the specified locale and UTC time zone.
+ * @param {string} [timeZone] - An IANA time zone name (e.g., "Europe/Berlin"); defaults to "UTC".
+ * @returns {Intl.DateTimeFormat} A formatter instance that formats dates in the specified locale and time zone.
  *
  * @example
- * const format = getEmailDateTimeFormatter('en-US')
+ * const format = getEmailDateTimeFormatter('en-US', 'America/New_York')
  * format.format(new Date('2025-07-15T18:00:00Z'))
- * // → "Jul 15, 2025, 6:00 PM UTC"
+ * // → "Jul 15, 2025, 2:00 PM EDT"
  */
 export const getEmailDateTimeFormatter = (
   locale: string,
+  timeZone = 'UTC',
 ): Intl.DateTimeFormat =>
   Intl.DateTimeFormat(locale, {
     ...dateTimeFormatOptions,
-    timeZone: 'UTC',
+    timeZone,
   })

@@ -142,4 +142,10 @@ describe('getEmailDateTimeFormatter', () => {
     expect(enFormatted).toContain('UTC')
     expect(frFormatted).toContain('UTC')
   })
+
+  test('should format date in the given time zone when provided', () => {
+    const formatter = getEmailDateTimeFormatter('en-US', 'America/New_York')
+    const formatted = formatter.format(testDate)
+    expect(formatted).toMatch(/Jul \d{1,2}, 2023,? \d{1,2}:\d{2} [AP]M EDT/)
+  })
 })

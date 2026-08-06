@@ -61,11 +61,16 @@ type EventInvitationEvent = {
   channel: 'event_invitation'
   payload: {
     data: {
-      emailAddress: string
+      contact: {
+        emailAddress: string
+        timeZone: string | null
+      }
       event: Event
       eventCreatorProfilePictureUploadStorageKey: string
       eventCreatorUsername: string
-      guestId: string
+      guest: {
+        id: string
+      }
     }
     template: Template
   }
@@ -350,12 +355,14 @@ export const sendEventInvitationMail = async ({
   const payloadCamelCased = camelcaseKeys(payload, { deep: true })
 
   const {
-    emailAddress,
+    contact,
     event,
-    guestId,
+    guest,
     eventCreatorProfilePictureUploadStorageKey,
     eventCreatorUsername,
   } = payloadCamelCased.data
+  const { emailAddress, timeZone } = contact
+  const guestId = guest.id
 
   const icalFetch = await fetch(
     `http://${SITE_NAME}:3000/api/model/event/ical`,
@@ -482,6 +489,7 @@ export const sendEventInvitationMail = async ({
       eventStart: event.start,
       eventVisibility,
       locale: payloadCamelCased.template.language,
+      timeZone: timeZone || undefined,
     },
     rateLimitPerSecond,
     redis,

@@ -46,6 +46,7 @@ const getDemoEmailProps = (locale: AppLocale) =>
       logoSource,
       locale,
       stackDomain: 'example.com',
+      timeZone: 'Europe/Berlin',
     },
   }) as const
 
