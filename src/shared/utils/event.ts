@@ -13,18 +13,22 @@ export const EventItem = graphql(`
     createdBy
     description
     end
-    eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+    eventCategoryMappingsByEventId {
       nodes {
+        categoryId
         eventCategoryByCategoryId {
           name
         }
+        id
       }
     }
-    eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+    eventFormatMappingsByEventId {
       nodes {
         eventFormatByFormatId {
           name
         }
+        formatId
+        id
       }
     }
     guestCountMaximum

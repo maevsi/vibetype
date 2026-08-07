@@ -86,6 +86,28 @@
             />
           </Field>
         </form.Field>
+        <form.Field v-slot="{ field }" name="categoryIds">
+          <Field>
+            <FieldLabel>{{ t('categories') }}</FieldLabel>
+            <FieldContent>
+              <FormEventCategorySelect
+                :model-value="field.state.value"
+                @update:model-value="field.handleChange($event)"
+              />
+            </FieldContent>
+          </Field>
+        </form.Field>
+        <form.Field v-slot="{ field }" name="formatIds">
+          <Field>
+            <FieldLabel>{{ t('formats') }}</FieldLabel>
+            <FieldContent>
+              <FormEventFormatSelect
+                :model-value="field.state.value"
+                @update:model-value="field.handleChange($event)"
+              />
+            </FieldContent>
+          </Field>
+        </form.Field>
         <form.Field
           v-if="form.getFieldValue('visibility') === EventVisibility.Public"
           v-slot="{ field }"
@@ -319,7 +341,14 @@ const { event = undefined } = defineProps<{
     | 'url'
     | 'description'
     | 'rowId'
-  >
+  > & {
+    eventCategoryMappingsByEventId?: {
+      nodes: readonly { categoryId: string }[]
+    } | null
+    eventFormatMappingsByEventId?: {
+      nodes: readonly { formatId: string }[]
+    } | null
+  }
 }>()
 
 const localePath = useLocalePath()
@@ -340,6 +369,7 @@ const createEventMutation = useMutation(
       createEvent(input: $input) {
         event {
           id
+          rowId
         }
       }
     }
@@ -356,7 +386,78 @@ const updateEventMutation = useMutation(
     }
   `),
 )
-const api = await useApiData([createEventMutation, updateEventMutation])
+const createEventCategoryMappingMutation = useMutation(
+  graphql(`
+    mutation CreateEventCategoryMapping(
+      $input: CreateEventCategoryMappingInput!
+    ) {
+      createEventCategoryMapping(input: $input) {
+        eventCategoryMapping {
+          categoryId
+          eventByEventId {
+            id
+          }
+          id
+        }
+      }
+    }
+  `),
+)
+const deleteEventCategoryMappingByEventIdAndCategoryIdMutation = useMutation(
+  graphql(`
+    mutation DeleteEventCategoryMappingByEventIdAndCategoryId(
+      $input: DeleteEventCategoryMappingByEventIdAndCategoryIdInput!
+    ) {
+      deleteEventCategoryMappingByEventIdAndCategoryId(input: $input) {
+        deletedEventCategoryMappingId
+        eventCategoryMapping {
+          eventByEventId {
+            id
+          }
+        }
+      }
+    }
+  `),
+)
+const createEventFormatMappingMutation = useMutation(
+  graphql(`
+    mutation CreateEventFormatMapping($input: CreateEventFormatMappingInput!) {
+      createEventFormatMapping(input: $input) {
+        eventFormatMapping {
+          eventByEventId {
+            id
+          }
+          formatId
+          id
+        }
+      }
+    }
+  `),
+)
+const deleteEventFormatMappingByEventIdAndFormatIdMutation = useMutation(
+  graphql(`
+    mutation DeleteEventFormatMappingByEventIdAndFormatId(
+      $input: DeleteEventFormatMappingByEventIdAndFormatIdInput!
+    ) {
+      deleteEventFormatMappingByEventIdAndFormatId(input: $input) {
+        deletedEventFormatMappingId
+        eventFormatMapping {
+          eventByEventId {
+            id
+          }
+        }
+      }
+    }
+  `),
+)
+const api = await useApiData([
+  createEventMutation,
+  updateEventMutation,
+  createEventCategoryMappingMutation,
+  deleteEventCategoryMappingByEventIdAndCategoryIdMutation,
+  createEventFormatMappingMutation,
+  deleteEventFormatMappingByEventIdAndFormatIdMutation,
+])
 
 // slug validation
 const validateEventSlugFn = async (value: string) => {
@@ -377,8 +478,10 @@ const validateEventSlugFn = async (value: string) => {
 
 // form
 const formSchema = z.object({
+  categoryIds: z.array(z.string()),
   description: SCHEMA_EVENT_DESCRIPTION_OPTIONAL,
   end: z.string(),
+  formatIds: z.array(z.string()),
   guestCountMaximum: z.string(),
   isInPerson: z.boolean(),
   isRemote: z.boolean(),
@@ -390,10 +493,75 @@ const formSchema = z.object({
   visibility: z.enum(EventVisibility),
 })
 
+const syncEventCategoryMappings = async ({
+  eventId,
+  originalCategoryIds,
+  selectedCategoryIds,
+}: {
+  eventId: string
+  originalCategoryIds: string[]
+  selectedCategoryIds: string[]
+}) => {
+  const results = await Promise.all([
+    ...selectedCategoryIds
+      .filter((categoryId) => !originalCategoryIds.includes(categoryId))
+      .map((categoryId) =>
+        createEventCategoryMappingMutation.executeMutation({
+          input: { eventCategoryMapping: { categoryId, eventId } },
+        }),
+      ),
+    ...originalCategoryIds
+      .filter((categoryId) => !selectedCategoryIds.includes(categoryId))
+      .map((categoryId) =>
+        deleteEventCategoryMappingByEventIdAndCategoryIdMutation.executeMutation(
+          { input: { categoryId, eventId } },
+        ),
+      ),
+  ])
+
+  return results.every((result) => !result.error)
+}
+const syncEventFormatMappings = async ({
+  eventId,
+  originalFormatIds,
+  selectedFormatIds,
+}: {
+  eventId: string
+  originalFormatIds: string[]
+  selectedFormatIds: string[]
+}) => {
+  const results = await Promise.all([
+    ...selectedFormatIds
+      .filter((formatId) => !originalFormatIds.includes(formatId))
+      .map((formatId) =>
+        createEventFormatMappingMutation.executeMutation({
+          input: { eventFormatMapping: { eventId, formatId } },
+        }),
+      ),
+    ...originalFormatIds
+      .filter((formatId) => !selectedFormatIds.includes(formatId))
+      .map((formatId) =>
+        deleteEventFormatMappingByEventIdAndFormatIdMutation.executeMutation({
+          input: { eventId, formatId },
+        }),
+      ),
+  ])
+
+  return results.every((result) => !result.error)
+}
+
 const form = useForm({
   defaultValues: {
+    categoryIds:
+      event?.eventCategoryMappingsByEventId?.nodes
+        .filter(isNeitherNullNorUndefined)
+        .map((node) => node.categoryId) ?? [],
     description: (event?.description as string) ?? '',
     end: (event?.end as string) ?? '',
+    formatIds:
+      event?.eventFormatMappingsByEventId?.nodes
+        .filter(isNeitherNullNorUndefined)
+        .map((node) => node.formatId) ?? [],
     guestCountMaximum: event?.guestCountMaximum
       ? String(event.guestCountMaximum)
       : '',
@@ -438,6 +606,24 @@ const form = useForm({
 
       if (!getResultData(result)) return
 
+      const categoryMappingsSynced = await syncEventCategoryMappings({
+        eventId: value.rowId,
+        originalCategoryIds:
+          event?.eventCategoryMappingsByEventId?.nodes
+            .filter(isNeitherNullNorUndefined)
+            .map((node) => node.categoryId) ?? [],
+        selectedCategoryIds: value.categoryIds,
+      })
+      const formatMappingsSynced = await syncEventFormatMappings({
+        eventId: value.rowId,
+        originalFormatIds:
+          event?.eventFormatMappingsByEventId?.nodes
+            .filter(isNeitherNullNorUndefined)
+            .map((node) => node.formatId) ?? [],
+        selectedFormatIds: value.formatIds,
+      })
+      if (!categoryMappingsSynced || !formatMappingsSynced) return
+
       toast.success(t('eventUpdateSuccess'))
     } else {
       // Add
@@ -461,7 +647,23 @@ const form = useForm({
         },
       })
 
-      if (!getResultData(result)) return
+      const data = getResultData(result)
+      if (!data) return
+
+      const eventId = data.createEvent?.event?.rowId
+      if (eventId) {
+        const categoryMappingsSynced = await syncEventCategoryMappings({
+          eventId,
+          originalCategoryIds: [],
+          selectedCategoryIds: value.categoryIds,
+        })
+        const formatMappingsSynced = await syncEventFormatMappings({
+          eventId,
+          originalFormatIds: [],
+          selectedFormatIds: value.formatIds,
+        })
+        if (!categoryMappingsSynced || !formatMappingsSynced) return
+      }
 
       toast.success(t('eventCreateSuccess'))
 
@@ -530,12 +732,14 @@ if (event?.rowId) {
 <i18n lang="yaml">
 de:
   attendanceType: Anwesenheitstyp
+  categories: Kategorien
   description: Einladungstext
   end: Ende
   eventCreate: Veranstaltung erstellen
   eventCreateSuccess: Veranstaltung erfolgreich erstellt.
   eventUpdate: Änderungen speichern
   eventUpdateSuccess: Aktualisiert
+  formats: Formate
   # stateInfoLocation: Ein Suchbegriff für Google Maps.
   isInPerson: vor Ort
   isRemote: digital
@@ -553,12 +757,14 @@ de:
   url: Weblink
 en:
   attendanceType: Attendance type
+  categories: Categories
   description: Invitation text
   end: End
   eventCreate: Create event
   eventCreateSuccess: Event created successfully.
   eventUpdate: Save changes
   eventUpdateSuccess: Updated
+  formats: Formats
   # stateInfoLocation: A search phrase for Google Maps.
   isInPerson: in person
   isRemote: remote

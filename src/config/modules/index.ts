@@ -99,5 +99,6 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   },
   sitemap: {
     credits: false,
+    sources: ['/api/__sitemap__/accounts', '/api/__sitemap__/events'],
   },
 }
