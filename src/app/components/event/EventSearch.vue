@@ -187,13 +187,15 @@ const searchResultsQuery = useQuery({
     first: ITEMS_PER_PAGE,
   })),
 })
-watch(searchQueryVariable, () => {
-  searchResultsQueryAfter.value = undefined
-})
-
 const query = computed(() =>
   searchQueryVariable.value ? searchResultsQuery : allEventsQuery,
 )
+// Both queries are passed here (rather than just `query.value` at setup
+// time) so `api.value.data`/`pageInfo` keep reflecting whichever one is
+// currently active - otherwise, once a search starts, `api` would stay
+// permanently frozen on `allEvents`'s data and `pageInfo` would always
+// read as `undefined` for search results.
+const api = await useApiData([allEventsQuery, searchResultsQuery])
 const pageInfo = computed(() =>
   searchQueryVariable.value
     ? api.value.data.eventSearch?.pageInfo
@@ -217,7 +219,6 @@ const events = computed(() => {
   return undefined
 })
 
-const api = await useApiData([query.value])
 const loadMore = () => {
   if (!query.value.data.value) return
 
@@ -232,14 +233,49 @@ const loadMore = () => {
   }
 }
 
+// Bounds how far `advanceUntilUpcomingEvent` will page ahead looking for a
+// single upcoming event before giving up, so a server-side inconsistency
+// (see the `endCursor` guard below) can't turn into an unbounded loop.
+const ADVANCE_UNTIL_UPCOMING_EVENT_MAX_PAGES = 50
+
 // The "show more" button only renders once there's at least one upcoming
 // event to show, so a run of past-only pages would otherwise leave the list
-// stuck empty with no way to reach the upcoming ones. Awaiting the catch-up
-// here (rather than e.g. reacting to it in a watcher) also makes it finish
-// during server-side rendering instead of flashing an empty list on load.
-while (events.value?.length === 0 && pageInfo.value?.hasNextPage) {
-  loadMore()
-  await query.value.executeQuery()
+// stuck empty with no way to reach the upcoming ones. This pages ahead
+// (starting with a large batch, see `allEventsQueryFirst`/`ITEMS_PER_PAGE_LARGE`
+// above) until an upcoming event turns up, hasNextPage goes false, or one of
+// the guards below trips.
+const advanceUntilUpcomingEvent = async () => {
+  let pages = 0
+  let previousEndCursor: string | null | undefined
+
+  while (events.value?.length === 0 && pageInfo.value?.hasNextPage) {
+    if (pages >= ADVANCE_UNTIL_UPCOMING_EVENT_MAX_PAGES) break
+    // `hasNextPage` being true with an `endCursor` that isn't moving would
+    // otherwise refetch the same page forever.
+    if (pages > 0 && pageInfo.value.endCursor === previousEndCursor) break
+
+    previousEndCursor = pageInfo.value.endCursor
+    pages++
+    loadMore()
+    await query.value.executeQuery()
+  }
 }
+
+// Awaiting this at setup (rather than only reacting to it in a watcher)
+// makes the initial catch-up finish during server-side rendering instead of
+// flashing an empty list on load.
+await advanceUntilUpcomingEvent()
 allEventsQueryFirst.value = ITEMS_PER_PAGE
+
+watch(searchQueryVariable, async () => {
+  searchResultsQueryAfter.value = undefined
+  // `query.value` already reflects the new search state by this point, so
+  // this re-fetches whichever query just changed (a fresh search, or
+  // `allEvents` again once the search is cleared) before re-running the
+  // same catch-up used on initial load - without it, a new search whose
+  // first page is entirely past events would get stuck the same way the
+  // initial load used to.
+  await query.value.executeQuery()
+  await advanceUntilUpcomingEvent()
+})
 </script>
