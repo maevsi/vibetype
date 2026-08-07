@@ -248,7 +248,6 @@ export default defineNuxtConfig({
         'tailwind-merge',
         'tailwindcss/colors',
         'ua-parser-js',
-        'v-calendar',
         'vaul-vue',
         'vue-advanced-cropper',
         'vue-chartjs',

@@ -136,18 +136,60 @@
           </Field>
         </form.Field>
         <form.Field v-slot="{ field }" name="start">
-          <Field>
-            <FieldLabel for="input-start">{{ t('start') }}</FieldLabel>
+          <Field class="flex flex-col">
+            <FieldLabel for="button-start">{{ t('start') }}</FieldLabel>
             <FieldContent>
-              <Input
-                id="input-start"
-                :aria-invalid="isFieldInvalid(field)"
-                :model-value="dateTimeFormatter(field.state.value)"
-                :placeholder="dateTimeFormatter(now.toISOString())"
-                readonly
-                type="text"
-                @click="isModalDateTimeStartOpen = true"
-              />
+              <Popover>
+                <PopoverTrigger as-child>
+                  <Button
+                    id="button-start"
+                    :aria-invalid="isFieldInvalid(field)"
+                    :class="
+                      cn(
+                        'justify-start text-start font-normal',
+                        !field.state.value && 'text-muted-foreground',
+                      )
+                    "
+                    variant="outline"
+                  >
+                    {{
+                      dateTimeFormatter(field.state.value) ??
+                      dateTimeFormatter(now.toISOString())
+                    }}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent class="w-auto p-0">
+                  <div
+                    class="flex max-h-(--reka-popover-content-available-height) flex-col items-center gap-3 overflow-y-auto p-3"
+                  >
+                    <AppCalendar
+                      :max-value="
+                        form.getFieldValue('end')
+                          ? isoToCalendarDateTime(form.getFieldValue('end'))
+                          : undefined
+                      "
+                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :week-starts-on="1"
+                      @update:model-value="
+                        (date) => applyDateSelection(field, date)
+                      "
+                    />
+                    <AppTimeField
+                      :locale
+                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :placeholder="
+                        isoToCalendarDateTime(field.state.value) ??
+                        nowCalendarDateTime
+                      "
+                      :step="{ minute: 5 }"
+                      step-snapping
+                      @update:model-value="
+                        (time) => applyTimeSelection(field, time)
+                      "
+                    />
+                  </div>
+                </PopoverContent>
+              </Popover>
             </FieldContent>
             <FieldError
               v-if="isFieldInvalid(field)"
@@ -162,17 +204,59 @@
           </Field>
         </form.Field>
         <form.Field v-slot="{ field }" name="end">
-          <Field>
-            <FieldLabel for="input-end">{{ t('end') }}</FieldLabel>
+          <Field class="flex flex-col">
+            <FieldLabel for="button-end">{{ t('end') }}</FieldLabel>
             <FieldContent>
-              <Input
-                id="input-end"
-                :model-value="dateTimeFormatter(field.state.value)"
-                :placeholder="dateTimeFormatter(now.toISOString())"
-                readonly
-                type="text"
-                @click="isModalDateTimeEndOpen = true"
-              />
+              <Popover>
+                <PopoverTrigger as-child>
+                  <Button
+                    id="button-end"
+                    :class="
+                      cn(
+                        'justify-start text-start font-normal',
+                        !field.state.value && 'text-muted-foreground',
+                      )
+                    "
+                    variant="outline"
+                  >
+                    {{
+                      dateTimeFormatter(field.state.value) ??
+                      dateTimeFormatter(now.toISOString())
+                    }}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent class="w-auto p-0">
+                  <div
+                    class="flex max-h-(--reka-popover-content-available-height) flex-col items-center gap-3 overflow-y-auto p-3"
+                  >
+                    <AppCalendar
+                      :min-value="
+                        form.getFieldValue('start')
+                          ? isoToCalendarDateTime(form.getFieldValue('start'))
+                          : undefined
+                      "
+                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :week-starts-on="1"
+                      @update:model-value="
+                        (date) => applyDateSelection(field, date)
+                      "
+                    />
+                    <AppTimeField
+                      :locale
+                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :placeholder="
+                        isoToCalendarDateTime(field.state.value) ??
+                        nowCalendarDateTime
+                      "
+                      :step="{ minute: 5 }"
+                      step-snapping
+                      @update:model-value="
+                        (time) => applyTimeSelection(field, time)
+                      "
+                    />
+                  </div>
+                </PopoverContent>
+              </Popover>
             </FieldContent>
           </Field>
         </form.Field>
@@ -257,71 +341,24 @@
         </CardStateAlert>
       </div>
     </form>
-    <Modal
-      v-model="isModalDateTimeStartOpen"
-      @submit="isModalDateTimeStartOpen = false"
-    >
-      <div class="flex justify-center">
-        <DatePicker
-          :first-day-of-week="2"
-          :is-dark="colorMode.value === 'dark'"
-          :is24hr="locale !== 'en'"
-          :locale
-          :masks="{ input: 'YYYY-MM-DD h:mm A' }"
-          :max-date="form.getFieldValue('end') || undefined"
-          :minute-increment="5"
-          mode="dateTime"
-          :model-value="
-            form.getFieldValue('start')
-              ? new Date(form.getFieldValue('start'))
-              : null
-          "
-          @update:model-value="
-            form.setFieldValue(
-              'start',
-              ($event as Date | null)?.toISOString() ?? '',
-            )
-          "
-        />
-      </div>
-    </Modal>
-    <Modal
-      v-model="isModalDateTimeEndOpen"
-      @submit="isModalDateTimeEndOpen = false"
-    >
-      <div class="flex justify-center">
-        <DatePicker
-          :first-day-of-week="2"
-          :is-dark="colorMode.value === 'dark'"
-          :is24hr="locale !== 'en'"
-          :locale
-          :masks="{ input: 'YYYY-MM-DD h:mm A' }"
-          :min-date="form.getFieldValue('start') || undefined"
-          :minute-increment="5"
-          mode="dateTime"
-          :model-value="
-            form.getFieldValue('end')
-              ? new Date(form.getFieldValue('end'))
-              : null
-          "
-          @update:model-value="
-            form.setFieldValue(
-              'end',
-              ($event as Date | null)?.toISOString() ?? '',
-            )
-          "
-        />
-      </div>
-    </Modal>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { DateValue, TimeValue } from 'reka-ui'
+import {
+  fromDate,
+  getLocalTimeZone,
+  parseAbsoluteToLocal,
+  toCalendarDateTime,
+} from '@internationalized/date'
+import { toDate } from 'reka-ui/date'
 import { useForm } from '@tanstack/vue-form'
 import type { AnyFieldApi } from '@tanstack/vue-form'
 import { useMutation } from '@urql/vue'
 import { z } from 'zod'
-import { DatePicker } from 'v-calendar'
+
+import { cn } from '@/utils/shadcn'
 
 import { graphql } from '~~/gql/generated'
 import { EventVisibility } from '~~/gql/generated/graphcache'
@@ -354,12 +391,9 @@ const { event = undefined } = defineProps<{
 const localePath = useLocalePath()
 const { locale, t } = useI18n()
 const store = useStore()
-const colorMode = useColorMode()
 const timeZone = useTimeZone()
 
 // data
-const isModalDateTimeEndOpen = ref<boolean>()
-const isModalDateTimeStartOpen = ref<boolean>()
 const now = useNow()
 
 // api data
@@ -694,6 +728,32 @@ const dateTimeFormatter = (x?: string) =>
         timeZone,
       })
     : undefined
+const isoToCalendarDateTime = (value?: string) =>
+  value ? toCalendarDateTime(parseAbsoluteToLocal(value)) : undefined
+const applyDateSelection = (field: AnyFieldApi, date?: DateValue) => {
+  if (!date) {
+    field.handleChange('')
+    return
+  }
+
+  const time =
+    isoToCalendarDateTime(field.state.value) ?? nowCalendarDateTime.value
+  field.handleChange(
+    toDate(toCalendarDateTime(date, time), getLocalTimeZone()).toISOString(),
+  )
+}
+const applyTimeSelection = (field: AnyFieldApi, time?: TimeValue) => {
+  if (!time) {
+    field.handleChange('')
+    return
+  }
+
+  const date =
+    isoToCalendarDateTime(field.state.value) ?? nowCalendarDateTime.value
+  field.handleChange(
+    toDate(toCalendarDateTime(date, time), getLocalTimeZone()).toISOString(),
+  )
+}
 const onInputName = async (value: string, nameField: AnyFieldApi) => {
   nameField.handleChange(value)
   await updateSlug()
@@ -711,6 +771,9 @@ const updateSlug = async () => {
 }
 
 // computations
+const nowCalendarDateTime = computed(() =>
+  toCalendarDateTime(fromDate(now.value, getLocalTimeZone())),
+)
 const isWarningStartPastShown = computed(() => {
   const start = form.getFieldValue('start')
   return !!start && new Date(start) < now.value
@@ -724,10 +787,6 @@ if (event?.rowId) {
   form.setFieldValue('rowId', event.rowId)
 }
 </script>
-
-<style>
-@import url('~~/node_modules/v-calendar/dist/style.css');
-</style>
 
 <i18n lang="yaml">
 de:
