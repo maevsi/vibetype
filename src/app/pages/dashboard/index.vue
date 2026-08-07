@@ -49,6 +49,7 @@
 import { useQuery } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
+import { eventHasEnded } from '~~/shared/utils/event'
 
 // async data
 const eventQuery = graphql(`
@@ -184,21 +185,11 @@ const api = await useApiData([
 ])
 
 const now = useNow()
-const TWELVE_HOURS = 12 * 60 * 60 * 1000
 const eventUpcoming = computed(() => {
   if (!api.value.data.allEvents?.nodes) return undefined
 
   const upcomingEvents = api.value.data.allEvents.nodes
-    .filter((event) => {
-      if (event.end) {
-        return now.value < new Date(event.end)
-      }
-      const eventStart = new Date(event.start)
-      const eventStartPlusDuration = new Date(
-        eventStart.getTime() + TWELVE_HOURS,
-      )
-      return now.value < eventStartPlusDuration
-    })
+    .filter((event) => !eventHasEnded(event, now.value))
     .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
 
   return upcomingEvents.length ? upcomingEvents[0] : undefined

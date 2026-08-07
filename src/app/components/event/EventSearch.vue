@@ -16,6 +16,7 @@ import { useQuery } from '@urql/vue'
 import { refDebounced } from '@vueuse/core'
 
 import { graphql } from '~~/gql/generated'
+import { eventHasEnded } from '~~/shared/utils/event'
 
 const queryEventList = graphql(`
   query EventList($after: Cursor, $first: Int!) {
@@ -34,6 +35,7 @@ const queryEventList = graphql(`
           }
           rowId
         }
+        end
         eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventCategoryByCategoryId {
@@ -107,6 +109,7 @@ const queryEventSearch = graphql(`
           }
           rowId
         }
+        end
         eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventCategoryByCategoryId {
@@ -154,12 +157,19 @@ const queryEventSearch = graphql(`
   }
 `)
 
+const now = useNow()
+
+// `orderBy: START_ASC` sorts past events first, so a freshly fetched page
+// can consist entirely of events that have already ended even though
+// upcoming ones exist further on. Starting with a large batch reduces how
+// many round trips that takes to get through.
 const allEventsQueryAfter = ref<string | null>()
+const allEventsQueryFirst = ref(ITEMS_PER_PAGE_LARGE)
 const allEventsQuery = useQuery({
   query: queryEventList,
   variables: computed(() => ({
     after: allEventsQueryAfter.value,
-    first: ITEMS_PER_PAGE,
+    first: allEventsQueryFirst.value,
   })),
 })
 
@@ -193,11 +203,15 @@ const events = computed(() => {
   if (!query.value.data.value) return
 
   if ('allEvents' in query.value.data.value) {
-    return query.value.data.value.allEvents?.nodes || []
+    return query.value.data.value.allEvents?.nodes.filter(
+      (event) => !eventHasEnded(event, now.value),
+    )
   }
 
   if ('eventSearch' in query.value.data.value) {
-    return query.value.data.value.eventSearch?.nodes || []
+    return query.value.data.value.eventSearch?.nodes.filter(
+      (event) => !eventHasEnded(event, now.value),
+    )
   }
 
   return undefined
@@ -217,4 +231,15 @@ const loadMore = () => {
       query.value.data.value?.eventSearch?.pageInfo.endCursor
   }
 }
+
+// The "show more" button only renders once there's at least one upcoming
+// event to show, so a run of past-only pages would otherwise leave the list
+// stuck empty with no way to reach the upcoming ones. Awaiting the catch-up
+// here (rather than e.g. reacting to it in a watcher) also makes it finish
+// during server-side rendering instead of flashing an empty list on load.
+while (events.value?.length === 0 && pageInfo.value?.hasNextPage) {
+  loadMore()
+  await query.value.executeQuery()
+}
+allEventsQueryFirst.value = ITEMS_PER_PAGE
 </script>

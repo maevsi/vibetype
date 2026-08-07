@@ -948,6 +948,7 @@ export type EventListQuery = {
   allEvents: {
     totalCount: number
     nodes: Array<{
+      end: string | null
       id: string
       name: string
       rowId: string
@@ -995,6 +996,7 @@ export type EventSearchQuery = {
   eventSearch: {
     totalCount: number
     nodes: Array<{
+      end: string | null
       id: string
       name: string
       rowId: string
@@ -3423,6 +3425,7 @@ export const EventListDocument = {
                           ],
                         },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
                       {
                         kind: 'Field',
                         name: {
@@ -3812,6 +3815,7 @@ export const EventSearchDocument = {
                           ],
                         },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
                       {
                         kind: 'Field',
                         name: {
