@@ -67,11 +67,25 @@ const eventQuery = graphql(`
         }
         rowId
       }
+      eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+        nodes {
+          eventCategoryByCategoryId {
+            name
+          }
+        }
+      }
       eventFavoritesByEventId(first: 1) {
         nodes {
           createdBy
           id
           rowId
+        }
+      }
+      eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+        nodes {
+          eventFormatByFormatId {
+            name
+          }
         }
       }
       guestsByEventId(first: 1) {
@@ -134,6 +148,20 @@ const eventUpcomingQuery = graphql(`
           username
         }
         end
+        eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+          nodes {
+            eventCategoryByCategoryId {
+              name
+            }
+          }
+        }
+        eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+          nodes {
+            eventFormatByFormatId {
+              name
+            }
+          }
+        }
         id
         name
         rowId

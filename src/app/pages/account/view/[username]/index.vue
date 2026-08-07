@@ -252,11 +252,25 @@ const queryAccount = graphql(`
       }
       eventsByCreatedBy(first: 3, orderBy: START_DESC) {
         nodes {
+          eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+            nodes {
+              eventCategoryByCategoryId {
+                name
+              }
+            }
+          }
           eventFavoritesByEventId(first: 1) {
             nodes {
               createdBy
               id
               rowId
+            }
+          }
+          eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+            nodes {
+              eventFormatByFormatId {
+                name
+              }
             }
           }
           guestsByEventId(first: 1) {

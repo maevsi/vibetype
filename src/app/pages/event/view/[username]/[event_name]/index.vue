@@ -181,6 +181,24 @@ const eventQuery = useQuery({
             createdBy
             description
             end
+            eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+              nodes {
+                categoryId
+                eventCategoryByCategoryId {
+                  name
+                }
+                id
+              }
+            }
+            eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+              nodes {
+                eventFormatByFormatId {
+                  name
+                }
+                formatId
+                id
+              }
+            }
             id
             isArchived
             isInPerson

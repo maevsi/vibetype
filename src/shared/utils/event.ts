@@ -16,11 +16,17 @@ export const EventItem = graphql(`
     eventCategoryMappingsByEventId {
       nodes {
         categoryId
+        eventCategoryByCategoryId {
+          name
+        }
         id
       }
     }
     eventFormatMappingsByEventId {
       nodes {
+        eventFormatByFormatId {
+          name
+        }
         formatId
         id
       }
