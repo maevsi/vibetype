@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div v-if="api.isFetching" :class="classProps">
-      <LoaderIndicatorPing v-if="indicator === 'ping'" />
-      <LoaderIndicatorSpinner v-else-if="indicator === 'spinner'" />
-      <LoaderIndicatorText v-else-if="indicator === 'text'" />
-      <LoaderIndicatorText v-else />
+    <div
+      v-if="api.isFetching"
+      :class="cn('flex flex-1 items-center justify-center', classProps)"
+    >
+      <AppLoaderLogo class="size-16" />
     </div>
     <CardStateAlert v-if="errorMessages.length">
       <AppSpanList :span="errorMessages" />
@@ -16,16 +16,16 @@
 <script setup lang="ts">
 import type { HtmlHTMLAttributes, UnwrapRef } from 'vue'
 
+import { cn } from '@/utils/shadcn'
+
 const {
   api,
   class: classProps = undefined,
   errorPgIds = undefined,
-  indicator = undefined,
 } = defineProps<
   {
     api: UnwrapRef<Awaited<ReturnType<typeof useApiData>>>
     errorPgIds?: Record<string, string>
-    indicator?: string
   } & { class?: HtmlHTMLAttributes['class'] }
 >()
 
@@ -33,10 +33,4 @@ const {
 const errorMessages = computed(() =>
   getCombinedErrorMessages(api.errors, errorPgIds),
 )
-</script>
-
-<script lang="ts">
-export default {
-  name: 'AppLoader',
-}
 </script>
