@@ -196,6 +196,28 @@ export const getUrqlClient = async ({
             { first: 1 },
           )
         },
+        createEventCategoryMapping: (result, _args, cache, _info) => {
+          const eventId =
+            result.createEventCategoryMapping?.eventCategoryMapping
+              ?.eventByEventId?.id
+          if (!eventId) return
+
+          cache.invalidate(
+            { __typename: 'Event', id: eventId },
+            'eventCategoryMappingsByEventId',
+          )
+        },
+        createEventFormatMapping: (result, _args, cache, _info) => {
+          const eventId =
+            result.createEventFormatMapping?.eventFormatMapping?.eventByEventId
+              ?.id
+          if (!eventId) return
+
+          cache.invalidate(
+            { __typename: 'Event', id: eventId },
+            'eventFormatMappingsByEventId',
+          )
+        },
         createPreferenceEventCategory: (result, _args, cache, _info) =>
           cacheListAppend({
             cache,
@@ -235,6 +257,51 @@ export const getUrqlClient = async ({
           invalidateCache(cache, 'Guest', args),
         deleteEventFavoriteByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'EventFavorite', args),
+        deleteEventCategoryMappingByEventIdAndCategoryId: (
+          result,
+          _args,
+          cache,
+          _info,
+        ) => {
+          const payload =
+            result.deleteEventCategoryMappingByEventIdAndCategoryId
+          if (!payload) return
+
+          if (payload.deletedEventCategoryMappingId)
+            cache.invalidate({
+              __typename: 'EventCategoryMapping',
+              id: payload.deletedEventCategoryMappingId,
+            })
+
+          const eventId = payload.eventCategoryMapping?.eventByEventId?.id
+          if (eventId)
+            cache.invalidate(
+              { __typename: 'Event', id: eventId },
+              'eventCategoryMappingsByEventId',
+            )
+        },
+        deleteEventFormatMappingByEventIdAndFormatId: (
+          result,
+          _args,
+          cache,
+          _info,
+        ) => {
+          const payload = result.deleteEventFormatMappingByEventIdAndFormatId
+          if (!payload) return
+
+          if (payload.deletedEventFormatMappingId)
+            cache.invalidate({
+              __typename: 'EventFormatMapping',
+              id: payload.deletedEventFormatMappingId,
+            })
+
+          const eventId = payload.eventFormatMapping?.eventByEventId?.id
+          if (eventId)
+            cache.invalidate(
+              { __typename: 'Event', id: eventId },
+              'eventFormatMappingsByEventId',
+            )
+        },
         deletePreferenceEventCategoryByAccountIdAndCategoryId: (
           result,
           _args,

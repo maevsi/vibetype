@@ -51,6 +51,18 @@ const eventQuery = useQuery({
             createdBy
             description
             end
+            eventCategoryMappingsByEventId {
+              nodes {
+                categoryId
+                id
+              }
+            }
+            eventFormatMappingsByEventId {
+              nodes {
+                formatId
+                id
+              }
+            }
             id
             guestCountMaximum
             isArchived
