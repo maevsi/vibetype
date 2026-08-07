@@ -87,6 +87,8 @@ type Documents = {
   '\n  mutation DeleteDeviceByCreatedByAndFcmToken(\n    $input: DeleteDeviceByCreatedByAndFcmTokenInput!\n  ) {\n    deleteDeviceByCreatedByAndFcmToken(input: $input) {\n      clientMutationId\n    }\n  }\n': typeof types.DeleteDeviceByCreatedByAndFcmTokenDocument
   '\n  query AccountByUsername($username: String!) {\n    accountByUsername(username: $username) {\n      id\n      rowId\n    }\n  }\n': typeof types.AccountByUsernameDocument
   '\n  query EventByCreatedByAndSlug($createdBy: UUID!, $slug: String!) {\n    eventByCreatedByAndSlug(createdBy: $createdBy, slug: $slug) {\n      id\n    }\n  }\n': typeof types.EventByCreatedByAndSlugDocument
+  '\n  query AccountsSitemap($after: Cursor, $first: Int!) {\n    allAccounts(after: $after, first: $first, orderBy: ROW_ID_ASC) {\n      nodes {\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n': typeof types.AccountsSitemapDocument
+  '\n  query EventsSitemap($after: Cursor, $first: Int!) {\n    allEvents(after: $after, first: $first, orderBy: ROW_ID_ASC) {\n      nodes {\n        accountByCreatedBy {\n          username\n        }\n        slug\n        visibility\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n': typeof types.EventsSitemapDocument
   '\n  mutation JwtCreate($input: JwtCreateInput!) {\n    jwtCreate(input: $input) {\n      clientMutationId\n      result\n    }\n  }\n': typeof types.JwtCreateDocument
   '\n  mutation JwtUpdate($input: JwtUpdateInput!) {\n    jwtUpdate(input: $input) {\n      clientMutationId\n      result\n    }\n  }\n': typeof types.JwtUpdateDocument
   '\n  mutation JwtUpdateAttendanceAdd($input: JwtUpdateAttendanceAddInput!) {\n    jwtUpdateAttendanceAdd(input: $input) {\n      result\n    }\n  }\n': typeof types.JwtUpdateAttendanceAddDocument
@@ -249,6 +251,10 @@ const documents: Documents = {
     types.AccountByUsernameDocument,
   '\n  query EventByCreatedByAndSlug($createdBy: UUID!, $slug: String!) {\n    eventByCreatedByAndSlug(createdBy: $createdBy, slug: $slug) {\n      id\n    }\n  }\n':
     types.EventByCreatedByAndSlugDocument,
+  '\n  query AccountsSitemap($after: Cursor, $first: Int!) {\n    allAccounts(after: $after, first: $first, orderBy: ROW_ID_ASC) {\n      nodes {\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n':
+    types.AccountsSitemapDocument,
+  '\n  query EventsSitemap($after: Cursor, $first: Int!) {\n    allEvents(after: $after, first: $first, orderBy: ROW_ID_ASC) {\n      nodes {\n        accountByCreatedBy {\n          username\n        }\n        slug\n        visibility\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n':
+    types.EventsSitemapDocument,
   '\n  mutation JwtCreate($input: JwtCreateInput!) {\n    jwtCreate(input: $input) {\n      clientMutationId\n      result\n    }\n  }\n':
     types.JwtCreateDocument,
   '\n  mutation JwtUpdate($input: JwtUpdateInput!) {\n    jwtUpdate(input: $input) {\n      clientMutationId\n      result\n    }\n  }\n':
@@ -731,6 +737,18 @@ export function graphql(
 export function graphql(
   source: '\n  query EventByCreatedByAndSlug($createdBy: UUID!, $slug: String!) {\n    eventByCreatedByAndSlug(createdBy: $createdBy, slug: $slug) {\n      id\n    }\n  }\n',
 ): (typeof documents)['\n  query EventByCreatedByAndSlug($createdBy: UUID!, $slug: String!) {\n    eventByCreatedByAndSlug(createdBy: $createdBy, slug: $slug) {\n      id\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query AccountsSitemap($after: Cursor, $first: Int!) {\n    allAccounts(after: $after, first: $first, orderBy: ROW_ID_ASC) {\n      nodes {\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query AccountsSitemap($after: Cursor, $first: Int!) {\n    allAccounts(after: $after, first: $first, orderBy: ROW_ID_ASC) {\n      nodes {\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query EventsSitemap($after: Cursor, $first: Int!) {\n    allEvents(after: $after, first: $first, orderBy: ROW_ID_ASC) {\n      nodes {\n        accountByCreatedBy {\n          username\n        }\n        slug\n        visibility\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query EventsSitemap($after: Cursor, $first: Int!) {\n    allEvents(after: $after, first: $first, orderBy: ROW_ID_ASC) {\n      nodes {\n        accountByCreatedBy {\n          username\n        }\n        slug\n        visibility\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
