@@ -13,7 +13,11 @@
     <!-- Step: Email -->
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
-        <div class="flex flex-col gap-6">
+        <form
+          class="flex flex-col gap-6"
+          novalidate
+          @submit.prevent="handleEmailContinue"
+        >
           <FormAuthInput
             :aria-label="t('emailPlaceholder')"
             :model-value="emailField.value.value"
@@ -59,10 +63,7 @@
           <p v-if="termsError" class="text-sm text-red-600">
             {{ termsError }}
           </p>
-          <FormAuthButton
-            :aria-label="t('continue')"
-            @click="handleEmailContinue"
-          >
+          <FormAuthButton :aria-label="t('continue')" type="submit">
             {{ t('continue') }}
           </FormAuthButton>
           <p class="text-center text-[15px] text-gray-500 dark:text-gray-400">
@@ -73,7 +74,7 @@
               >{{ t('signInLink') }}</NuxtLinkLocale
             >
           </p>
-        </div>
+        </form>
       </LayoutPage>
     </AppStep>
 
@@ -95,7 +96,11 @@
     <!-- Step: Username -->
     <AppStep v-slot="attributes" :is-active="step === 'username'">
       <LayoutPage v-bind="attributes">
-        <div class="flex flex-col gap-4">
+        <form
+          class="flex flex-col gap-4"
+          novalidate
+          @submit.prevent="handleUsernameContinue"
+        >
           <div class="relative">
             <FormAuthInput
               :aria-label="t('usernamePlaceholder')"
@@ -127,11 +132,11 @@
             :disabled="
               !usernameField.value.value || !!usernameField.error.value
             "
-            @click="handleUsernameContinue"
+            type="submit"
           >
             {{ t('continue') }}
           </FormAuthButton>
-        </div>
+        </form>
       </LayoutPage>
     </AppStep>
 
