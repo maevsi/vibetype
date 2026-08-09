@@ -1,5 +1,7 @@
 <template>
-  <LoaderIndicatorPing v-if="pending" />
+  <div v-if="pending" class="flex flex-1 items-center justify-center">
+    <AppLoaderLogo class="size-16" />
+  </div>
   <LayoutProse v-else-if="data?.ast">
     <MarkdownDocument :value="data.ast" />
   </LayoutProse>
@@ -38,7 +40,7 @@ const legalTermsQuery = useQuery({
   },
 })
 
-const { data, error, pending } = await useAsyncData(
+const { data, error, pending } = useAsyncData(
   'content-legal-terms',
   async () => {
     const legalTermsQueryResolved = await legalTermsQuery
