@@ -96,9 +96,9 @@
           />
         </div>
       </div>
-      <Modal
+      <AppDrawer
         v-model="isModalGuestOpen"
-        is-footer-hidden
+        direction="right"
         @close="onModalGuestClose"
       >
         <FormGuest
@@ -106,10 +106,10 @@
           :guest-contact-ids-existing="guests.map((i) => i.contactId)"
           @submit-success="onModalGuestClose"
         />
-        <template #header>
+        <template #title>
           {{ t('contactSelect') }}
         </template>
-      </Modal>
+      </AppDrawer>
     </div>
   </Loader>
 </template>

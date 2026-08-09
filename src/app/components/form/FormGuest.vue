@@ -1,11 +1,11 @@
 <template>
   <form
     v-if="event"
-    class="flex min-h-0 flex-col"
+    class="flex min-h-0 flex-1 flex-col"
     novalidate
     @submit.prevent="form.handleSubmit"
   >
-    <div class="flex flex-col gap-4">
+    <div class="flex min-h-0 flex-1 flex-col gap-4">
       <div class="flex flex-col items-center gap-4">
         <span>
           {{ t('formHint') }}
@@ -48,11 +48,9 @@
           v-if="isFieldInvalid(field)"
           :errors="field.state.meta.errors"
         />
-        <AppScrollContainer
+        <div
           v-if="contacts"
-          class="flex flex-col gap-2"
-          :has-next-page="!!apiData.data.allContacts?.pageInfo.hasNextPage"
-          @load-more="after = apiData.data.allContacts?.pageInfo.endCursor"
+          class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto"
         >
           <AppButton
             v-for="contact in contactsFiltered"
@@ -72,7 +70,18 @@
               "
             />
           </AppButton>
-        </AppScrollContainer>
+          <div
+            v-if="apiData.data.allContacts?.pageInfo.hasNextPage"
+            class="flex justify-center"
+          >
+            <ButtonColored
+              :aria-label="t('globalShowMore')"
+              @click="after = apiData.data.allContacts?.pageInfo.endCursor"
+            >
+              {{ t('globalShowMore') }}
+            </ButtonColored>
+          </div>
+        </div>
       </form.Field>
       <div class="flex flex-col items-center">
         <ButtonColored
