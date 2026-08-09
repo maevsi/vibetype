@@ -12,6 +12,7 @@ const {
   emailAddressVerificationLink,
   locale,
   logoSource = undefined,
+  timeZone = undefined,
   username,
   validUntil,
 } = defineProps<{
@@ -19,11 +20,12 @@ const {
   emailAddressVerificationLink: string
   locale: AppLocale
   logoSource?: string
+  timeZone?: string
   username: string
   validUntil: string
 }>()
 
-const dateTimeFormatter = getEmailDateTimeFormatter(locale)
+const dateTimeFormatter = getEmailDateTimeFormatter(locale, timeZone)
 const locales = {
   de: {
     button: 'Registrierung abschließen',
