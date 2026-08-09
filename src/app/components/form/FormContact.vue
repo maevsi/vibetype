@@ -176,16 +176,10 @@
               "
             />
           </FieldContent>
-          <p
-            v-if="
-              field.state.meta.isTouched &&
-              field.state.value &&
-              !REGEX_PHONE_NUMBER.test(field.state.value)
-            "
-            class="text-muted-foreground text-sm"
-          >
-            {{ t('phoneNumberFormat') }}
-          </p>
+          <FieldError
+            v-if="isFieldInvalid(field)"
+            :errors="field.state.meta.errors"
+          />
         </Field>
       </form.Field>
       <form.Field v-slot="{ field }" name="url">
@@ -415,7 +409,6 @@ de:
   nickname: Spitzname
   note: Notiz
   phoneNumber: Telefonnummer
-  phoneNumberFormat: Sollte mit einem Plus beginnen, wonach nur Ziffern folgen (z.B. +1234567890)
   postgres23505: Ein Kontakt mit dieser Nutzernamen existiert bereits!
   save: Speichern
   stateInfoUsernameDisabled: Du kannst deinen Nutzernamen in den {accountSettings} ändern.
@@ -431,7 +424,6 @@ en:
   nickname: Nickname
   note: Note
   phoneNumber: Phone number
-  phoneNumberFormat: Should start with a plus followed only by digits (e.g. +1234567890)
   postgres23505: A contact with this username already exists!
   save: Save
   stateInfoUsernameDisabled: You can edit your username in {accountSettings}.
