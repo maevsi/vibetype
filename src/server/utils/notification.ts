@@ -22,6 +22,7 @@ export type Account = {
 type Template = {
   language: AppLocale
   namespace: string
+  time_zone?: string | null
   variables: Record<string, unknown>
 }
 
@@ -194,6 +195,7 @@ export const processNotification = async ({
           }/account/password/reset?code=${
             payload.account.password_reset_verification
           }`,
+          timeZone: payload.template.time_zone ?? undefined,
           validUntil: payload.account.password_reset_verification_valid_until,
         },
         rateLimitPerDay,
@@ -216,6 +218,7 @@ export const processNotification = async ({
               : ''
           }/account/verify?code=${payload.account.email_address_verification}`,
           locale,
+          timeZone: payload.template.time_zone ?? undefined,
           username: payload.account.username,
           validUntil: payload.account.email_address_verification_valid_until,
         },
