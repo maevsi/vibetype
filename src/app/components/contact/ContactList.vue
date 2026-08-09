@@ -1,7 +1,19 @@
 <template>
   <Loader :api>
     <div class="flex flex-col gap-4">
-      <FormInputSearch v-if="contacts.length" v-model="searchString" />
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+        <FormInputSearch
+          v-if="contacts.length"
+          v-model="searchString"
+          class="flex-1"
+        />
+        <ButtonColored :aria-label="t('contactAdd')" @click="add()">
+          {{ t('contactAdd') }}
+          <template #prefix>
+            <AppIconPlus />
+          </template>
+        </ButtonColored>
+      </div>
       <LayoutTable v-if="contactsFiltered.length">
         <LayoutThead>
           <tr>
@@ -48,14 +60,6 @@
           @click="after = api.data.allContacts?.pageInfo.endCursor"
         >
           {{ t('globalShowMore') }}
-        </ButtonColored>
-      </div>
-      <div class="flex justify-center">
-        <ButtonColored :aria-label="t('contactAdd')" @click="add()">
-          {{ t('contactAdd') }}
-          <template #prefix>
-            <AppIconPlus />
-          </template>
         </ButtonColored>
       </div>
       <Modal
