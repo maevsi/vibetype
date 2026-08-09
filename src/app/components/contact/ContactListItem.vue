@@ -16,7 +16,7 @@
       {{ (contact.address || '').replace(/\n/g, ', ') || '–' }}
     </LayoutTd> -->
     <LayoutTd class="hidden xl:table-cell">
-      {{ contact.phoneNumber || '–' }}
+      {{ getPhoneNumberFormatted(contact.phoneNumber) || '–' }}
     </LayoutTd>
     <LayoutTd class="hidden xl:table-cell">
       {{ contact.url || '–' }}
