@@ -1,13 +1,26 @@
 <template>
   <Loader :api>
     <div class="flex flex-col gap-4">
-      <AppScrollContainer
-        v-if="event && guests.length"
-        class="max-h-[70vh]"
-        :has-next-page="!!api.data.allGuests?.pageInfo.hasNextPage"
-        @load-more="after = api.data.allGuests?.pageInfo.endCursor"
-      >
-        <LayoutTable class="border border-neutral-300 dark:border-neutral-600">
+      <template v-if="event && guests.length">
+        <Select v-model="feedbackFilter">
+          <SelectTrigger :aria-label="t('feedbackFilter')" class="w-full">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{{ t('feedbackFilterAll') }}</SelectItem>
+            <SelectItem :value="InvitationFeedback.Accepted">
+              {{ t('accepted') }}
+            </SelectItem>
+            <SelectItem :value="InvitationFeedback.Canceled">
+              {{ t('canceled') }}
+            </SelectItem>
+            <SelectItem value="none">{{ t('noFeedback') }}</SelectItem>
+          </SelectContent>
+        </Select>
+        <LayoutTable
+          v-if="guestsFiltered.length"
+          class="border border-neutral-300 dark:border-neutral-600"
+        >
           <LayoutThead>
             <tr>
               <LayoutTh scope="col">
@@ -18,14 +31,28 @@
           </LayoutThead>
           <LayoutTbody>
             <GuestListItem
-              v-for="guest in guests"
+              v-for="guest in guestsFiltered"
               :key="guest.rowId"
               :event
               :guest
             />
           </LayoutTbody>
         </LayoutTable>
-      </AppScrollContainer>
+        <p v-else class="text-center">
+          {{ t('guestNoneFiltered') }}
+        </p>
+        <div
+          v-if="api.data.allGuests?.pageInfo.hasNextPage"
+          class="flex justify-center"
+        >
+          <ButtonColored
+            :aria-label="t('globalShowMore')"
+            @click="after = api.data.allGuests?.pageInfo.endCursor"
+          >
+            {{ t('globalShowMore') }}
+          </ButtonColored>
+        </div>
+      </template>
       <div v-else class="flex flex-col items-center gap-2">
         {{ t('guestNone') }}
         <p class="text-sm text-gray-500 dark:text-gray-400">
@@ -124,6 +151,7 @@ const templateDoughnut = useTemplateRef<DoughnutController>('doughnut')
 
 // data
 const after = ref<string | null>()
+const feedbackFilter = ref<string>('all')
 const isModalGuestOpen = ref<boolean>()
 const options = {
   plugins: {
@@ -228,6 +256,18 @@ const guests = computed(
       .map((x) => getGuestItem(x))
       .filter(isNeitherNullNorUndefined) || [],
 )
+const guestsFiltered = computed(() => {
+  switch (feedbackFilter.value) {
+    case 'all':
+      return guests.value
+    case 'none':
+      return guests.value.filter((guest) => guest.feedback === null)
+    default:
+      return guests.value.filter(
+        (guest) => guest.feedback === feedbackFilter.value,
+      )
+  }
+})
 
 // lifecycle
 watch(
@@ -258,9 +298,12 @@ de:
   contact: Kontakt
   contactSelect: Kontakt auswählen
   feedback: Rückmeldungen
+  feedbackFilter: Nach Rückmeldung filtern
+  feedbackFilterAll: Alle
   hintInviteSelf: 'Tipp: du kannst dich auch zuerst selbst einladen'
   guestAdd: Gäste hinzufügen
   guestNone: Es wurde noch kein Gast hinzugefügt 😕
+  guestNoneFiltered: Keine Gäste entsprechen diesem Filter 😕
   guestsUsed: 'Gästekontingent genutzt: {amountCurrent} / {amountMaximum}'
   noFeedback: keine Rückmeldung
 en:
@@ -269,9 +312,12 @@ en:
   contact: Contact
   contactSelect: Select Contact
   feedback: Guest responses
+  feedbackFilter: Filter by feedback
+  feedbackFilterAll: All
   hintInviteSelf: 'Hint: you can also invite yourself first'
   guestAdd: Add guests
   guestNone: No guest has been added yet 😕
+  guestNoneFiltered: No guests match this filter 😕
   guestsUsed: 'Guest quota used: {amountCurrent} / {amountMaximum}'
   noFeedback: no response
 </i18n>
