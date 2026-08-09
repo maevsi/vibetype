@@ -98,6 +98,7 @@ export const sendEmail = async <T extends EmailName>({
     subject: mailOptions.subject,
     text,
     html,
+    ...(mailOptions.icalEvent ? { icalEvent: mailOptions.icalEvent } : {}),
     list: {
       // TODO: add https link (https://github.com/maevsi/vibetype/issues/326)
       unsubscribe: `mailto:contact+unsubscribe@maev.si?subject=Unsubscribe%20${mailOptions.to}`,
