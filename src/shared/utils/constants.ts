@@ -28,7 +28,6 @@ export type LOCALE_CODES = 'de' | 'en'
 export const MAEVSI_EMAIL_RATE_LIMIT_PER_DAY = 150
 export const MAEVSI_EMAIL_RATE_LIMIT_PER_SECOND = 14
 export const POSTGRES_INTEGER_MAXIMUM = Math.pow(2, 31) - 1
-export const REGEX_PHONE_NUMBER = /^\+(?:[0-9] ?){6,14}[0-9]$/
 export const REGEX_SLUG = /^[-A-Za-z0-9]+$/
 export const REGEX_UPPERCASE_NONE = /^[^A-Z]+$/
 export const REGEX_URL_HTTPS = /^https:\/\//

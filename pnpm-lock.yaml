@@ -503,6 +503,9 @@ importers:
       leaflet-control-geocoder:
         specifier: 4.0.0
         version: 4.0.0(leaflet@1.9.4)
+      libphonenumber-js:
+        specifier: 1.13.10
+        version: 1.13.10
       lodash-es:
         specifier: 4.18.1
         version: 4.18.1
@@ -9024,6 +9027,9 @@ packages:
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
+
+  libphonenumber-js@1.13.10:
+    resolution: {integrity: sha512-xJxrdqvbl2rtn2MaUJrUejz8J7/uZNC0V77oks2LxYrO/+ZtVpRmz+fEQMuu6VusnEB1fmpByiLS1WXecOnAnw==}
 
   lighthouse-logger@2.0.2:
     resolution: {integrity: sha512-vWl2+u5jgOQuZR55Z1WM0XDdrJT6mzMP8zHUct7xTlWhuQs+eV0g+QL0RQdFjT54zVmbhLCP8vIVpy1wGn/gCg==}
@@ -22528,6 +22534,8 @@ snapshots:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
+
+  libphonenumber-js@1.13.10: {}
 
   lighthouse-logger@2.0.2(supports-color@10.2.2):
     dependencies:

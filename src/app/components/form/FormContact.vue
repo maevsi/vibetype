@@ -170,7 +170,12 @@
               :model-value="field.state.value"
               :placeholder="t('globalPlaceholderPhoneNumber')"
               type="tel"
-              @blur="field.handleBlur"
+              @blur="
+                () => {
+                  field.handleBlur()
+                  field.handleChange(getPhoneNumberFormatted(field.state.value))
+                }
+              "
               @input="
                 field.handleChange(($event.target as HTMLInputElement).value)
               "
