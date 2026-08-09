@@ -18,6 +18,7 @@ export const VALIDATION_NOTE_LENGTH_MAXIMUM = 1000
 export const VALIDATION_PASSWORD_LENGTH_MINIMUM = 8
 export const VALIDATION_PASSWORD_LENGTH_MINIMUM_V2 = 12
 export const VALIDATION_PASSWORD_SCHEMA = /[!@#$%^&*(),.?":{}|<>]/
+export const VALIDATION_PHONE_NUMBER_LENGTH_MAXIMUM = 30 // longest string matching `REGEX_PHONE_NUMBER`
 export const VALIDATION_URL_LENGTH_MAXIMUM = 2000
 export const VALIDATION_USERNAME_LENGTH_MAXIMUM = 100
 
@@ -73,7 +74,11 @@ export const SCHEMA_PASSWORD_V2 = z
   .min(VALIDATION_PASSWORD_LENGTH_MINIMUM_V2)
   .regex(/[A-Z]/)
   .regex(VALIDATION_PASSWORD_SCHEMA)
-export const SCHEMA_PHONE_NUMBER_OPTIONAL = z.string().or(z.literal(''))
+export const SCHEMA_PHONE_NUMBER_OPTIONAL = z
+  .string()
+  .regex(REGEX_PHONE_NUMBER)
+  .max(VALIDATION_PHONE_NUMBER_LENGTH_MAXIMUM)
+  .or(z.literal(''))
 export const SCHEMA_URL_HTTPS_OPTIONAL = z
   .string()
   .regex(REGEX_URL_HTTPS)
