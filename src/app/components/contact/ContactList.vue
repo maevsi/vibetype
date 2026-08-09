@@ -237,7 +237,7 @@ en:
   # address: Address
   contact: Contact
   contactAdd: Add contact
-  contactEdit: Kontakt bearbeiten
+  contactEdit: Edit contact
   emailAddress: Email address
   noContactsFound: No contacts found 😕
   phoneNumber: Phone number
