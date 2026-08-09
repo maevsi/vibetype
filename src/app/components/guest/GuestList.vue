@@ -1,6 +1,30 @@
 <template>
   <Loader :api>
     <div class="flex flex-col gap-4">
+      <div class="flex flex-col items-center gap-1">
+        <ButtonColored
+          :aria-label="t('guestAdd')"
+          :disabled="
+            event.guestCountMaximum && api.data.allGuests?.totalCount
+              ? api.data.allGuests.totalCount >= event.guestCountMaximum
+              : false
+          "
+          @click="add()"
+        >
+          {{ t('guestAdd') }}
+          <template #prefix>
+            <AppIconPlus />
+          </template>
+        </ButtonColored>
+        <p class="text-center text-gray-500 dark:text-gray-400">
+          {{
+            t('guestsUsed', {
+              amountCurrent: api.data.allGuests?.totalCount,
+              amountMaximum: event.guestCountMaximum || '∞',
+            })
+          }}
+        </p>
+      </div>
       <template v-if="event && guests.length">
         <Select v-model="feedbackFilter">
           <SelectTrigger :aria-label="t('feedbackFilter')" class="w-full">
@@ -57,30 +81,6 @@
         {{ t('guestNone') }}
         <p class="text-sm text-gray-500 dark:text-gray-400">
           {{ t('hintInviteSelf') }}
-        </p>
-      </div>
-      <div class="flex flex-col items-center gap-1">
-        <ButtonColored
-          :aria-label="t('guestAdd')"
-          :disabled="
-            event.guestCountMaximum && api.data.allGuests?.totalCount
-              ? api.data.allGuests.totalCount >= event.guestCountMaximum
-              : false
-          "
-          @click="add()"
-        >
-          {{ t('guestAdd') }}
-          <template #prefix>
-            <AppIconPlus />
-          </template>
-        </ButtonColored>
-        <p class="text-center text-gray-500 dark:text-gray-400">
-          {{
-            t('guestsUsed', {
-              amountCurrent: api.data.allGuests?.totalCount,
-              amountMaximum: event.guestCountMaximum || '∞',
-            })
-          }}
         </p>
       </div>
       <div v-if="api.data.allGuests?.totalCount">
