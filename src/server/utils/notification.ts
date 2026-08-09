@@ -26,7 +26,7 @@ type Template = {
 }
 
 type Event = {
-  id: number
+  id: string
   createdBy: string
   description: string | null
   end: string | null // Date
@@ -367,17 +367,21 @@ export const sendEventInvitationMail = async ({
   const icalFetch = await fetch(
     `http://${SITE_NAME}:3000/api/model/event/ical`,
     {
+      // `contact` is intentionally omitted here: this notification's payload only carries
+      // `emailAddress`/`timeZone`, not the guest's linked `Contact` record (`firstName`/`lastName`),
+      // so `{{contact.firstName}}`-style merge fields in the event description render blank in the
+      // emailed `.ics` attachment, unlike the guest-view page's manual download.
       body: JSON.stringify({
-        contact: { emailAddress },
         event: {
           ...event,
           accountByCreatedBy: {
             username: eventCreatorUsername,
           },
+          rowId: event.id,
           visibility: event.visibility,
         },
         guest: {
-          id: guestId,
+          rowId: guestId,
         },
       }),
       method: 'POST',
