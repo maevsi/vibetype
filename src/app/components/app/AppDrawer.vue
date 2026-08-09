@@ -1,12 +1,15 @@
 <template>
   <Drawer v-model:open="isOpen" :direction no-body-styles>
-    <DrawerContent class="gap-4">
+    <DrawerContent class="gap-4" :class="classProps">
       <DrawerHeader class="py-0">
         <DrawerTitle class="pb-2 text-center leading-7">
           <TypographyH6>
             <slot name="title" />
           </TypographyH6>
         </DrawerTitle>
+        <DrawerDescription class="sr-only">
+          <slot name="description" />
+        </DrawerDescription>
         <AppHr />
       </DrawerHeader>
       <div class="flex min-h-0 flex-1 flex-col overflow-y-auto px-3">
@@ -20,9 +23,11 @@
 </template>
 
 <script setup lang="ts">
+import type { HTMLAttributes } from 'vue'
 import type { DrawerDirection } from 'vaul-vue'
 
-const { direction = undefined } = defineProps<{
+const { class: classProps = undefined, direction = undefined } = defineProps<{
+  class?: HTMLAttributes['class']
   direction?: DrawerDirection
 }>()
 

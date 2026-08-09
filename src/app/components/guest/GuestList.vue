@@ -98,6 +98,7 @@
       </div>
       <AppDrawer
         v-model="isModalGuestOpen"
+        class="sm:max-w-lg"
         direction="right"
         @close="onModalGuestClose"
       >
@@ -108,6 +109,9 @@
         />
         <template #title>
           {{ t('contactSelect') }}
+        </template>
+        <template #description>
+          {{ t('contactSelectDescription') }}
         </template>
       </AppDrawer>
     </div>
@@ -297,6 +301,7 @@ de:
   canceled: abgelehnt
   contact: Kontakt
   contactSelect: Kontakt auswählen
+  contactSelectDescription: Durchsuche dein Kontaktbuch und wähle die Personen aus, die du einladen möchtest.
   feedback: Rückmeldungen
   feedbackFilter: Nach Rückmeldung filtern
   feedbackFilterAll: Alle
@@ -311,6 +316,7 @@ en:
   canceled: declined
   contact: Contact
   contactSelect: Select Contact
+  contactSelectDescription: Search your contact book and select the people you want to invite.
   feedback: Guest responses
   feedbackFilter: Filter by feedback
   feedbackFilterAll: All
