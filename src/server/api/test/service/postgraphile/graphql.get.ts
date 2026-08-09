@@ -1,8 +1,7 @@
-const ACCOUNT_ROW_ID = 'a3f8f6c2-6b1e-4b6a-9b9a-9f7d6a2e6c1a'
-const ACCOUNT_ID =
-  'QWNjb3VudDphM2Y4ZjZjMi02YjFlLTRiNmEtOWI5YS05ZjdkNmEyZTZjMWE='
-const ACCOUNT_USERNAME = 'e2e-test-account'
-const ACCOUNT_DESCRIPTION = 'Building vibetype, one event at a time.'
+const ACCOUNT_ROW_ID = TESTING_ACCOUNT_ROW_ID
+const ACCOUNT_ID = TESTING_ACCOUNT_ID
+const ACCOUNT_USERNAME = TESTING_ACCOUNT_USERNAME
+const ACCOUNT_DESCRIPTION = TESTING_ACCOUNT_DESCRIPTION
 
 export default defineEventHandler((event) => {
   const isTesting = useIsTesting({ isCookieEnabled: false })
@@ -48,6 +47,50 @@ export default defineEventHandler((event) => {
             rowId: ACCOUNT_ROW_ID,
             username: ACCOUNT_USERNAME,
             __typename: 'Account',
+          },
+        },
+      }
+    case 'AllEventCategoriesFormEvent':
+      return {
+        data: {
+          allEventCategories: {
+            nodes: [
+              {
+                id: 'RXZlbnRDYXRlZ29yeToxMTExMTExMS0xMTExLTExMTEtMTExMS0xMTExMTExMTExMTE=',
+                name: 'music-and-entertainment',
+                rowId: '11111111-1111-1111-1111-111111111111',
+                __typename: 'EventCategory',
+              },
+              {
+                id: 'RXZlbnRDYXRlZ29yeToyMjIyMjIyMi0yMjIyLTIyMjItMjIyMi0yMjIyMjIyMjIyMjI=',
+                name: 'sports-and-fitness',
+                rowId: '22222222-2222-2222-2222-222222222222',
+                __typename: 'EventCategory',
+              },
+            ],
+            __typename: 'EventCategoryConnection',
+          },
+        },
+      }
+    case 'AllEventFormatsFormEvent':
+      return {
+        data: {
+          allEventFormats: {
+            nodes: [
+              {
+                id: 'RXZlbnRGb3JtYXQ6MzMzMzMzMzMtMzMzMy0zMzMzLTMzMzMtMzMzMzMzMzMzMzMz',
+                name: 'meetup',
+                rowId: '33333333-3333-3333-3333-333333333333',
+                __typename: 'EventFormat',
+              },
+              {
+                id: 'RXZlbnRGb3JtYXQ6NDQ0NDQ0NDQtNDQ0NC00NDQ0LTQ0NDQtNDQ0NDQ0NDQ0NDQ0',
+                name: 'workshop',
+                rowId: '44444444-4444-4444-4444-444444444444',
+                __typename: 'EventFormat',
+              },
+            ],
+            __typename: 'EventFormatConnection',
           },
         },
       }

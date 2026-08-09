@@ -19,7 +19,7 @@ const formatDuration = ({
   duration,
   locale,
 }: {
-  duration: Duration
+  duration: ReturnType<typeof getDuration>
   locale: string
 }) => {
   if (typeof Intl === 'undefined' || !('DurationFormat' in Intl)) return // TODO: evaluate polyfill
