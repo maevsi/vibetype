@@ -19,7 +19,7 @@ export const VALIDATION_NOTE_LENGTH_MAXIMUM = 1000
 export const VALIDATION_PASSWORD_LENGTH_MINIMUM = 8
 export const VALIDATION_PASSWORD_LENGTH_MINIMUM_V2 = 12
 export const VALIDATION_PASSWORD_SCHEMA = /[!@#$%^&*(),.?":{}|<>]/
-export const VALIDATION_PHONE_NUMBER_LENGTH_MAXIMUM = 30 // generous cap; a valid E.164 number is at most 16 characters
+export const VALIDATION_PHONE_NUMBER_LENGTH_MAXIMUM = 30 // rejects pathological input before parsing; real formatted numbers stay well under this
 export const VALIDATION_URL_LENGTH_MAXIMUM = 2000
 export const VALIDATION_USERNAME_LENGTH_MAXIMUM = 100
 
