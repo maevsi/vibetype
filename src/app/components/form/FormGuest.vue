@@ -236,7 +236,7 @@ const selectToggle = (contactId: string, field: AnyFieldApi) => {
 }
 
 // computations
-const searchString = computed(() => form.getFieldValue('searchString'))
+const searchString = form.useStore((state) => state.values.searchString)
 const contactsFiltered = computed(() => {
   if (!contacts.value) {
     return undefined
