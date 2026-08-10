@@ -35,47 +35,7 @@
       </FormAuthButton>
     </FormAuthStepSuccess>
     <FormAuthStepError :error="error" :is-active="step === 'error'">
-      <div
-        class="mb-6 flex size-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30"
-      >
-        <IHeroiconsExclamationCircle
-          class="size-8 text-red-600 dark:text-red-400"
-        />
-      </div>
-      <h2
-        class="mb-2 text-[28px] leading-8.5 font-bold tracking-tight text-gray-900 dark:text-white"
-      >
-        {{ t('errorHeading') }}
-      </h2>
-      <p
-        class="mb-6 text-[15px] leading-5 font-semibold tracking-tight text-gray-500 dark:text-gray-400"
-      >
-        {{ t('errorDescription') }}
-      </p>
-      <div
-        v-if="error?.message"
-        class="mb-6 rounded-2xl bg-gray-100 p-4 dark:bg-gray-800"
-      >
-        <p class="mb-2 text-[15px] font-semibold text-gray-900 dark:text-white">
-          {{ t('errorMessageLabel') }}
-        </p>
-        <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
-          {{ error.message }}
-        </p>
-        <button
-          class="text-sm font-medium text-gray-900 underline dark:text-white"
-          type="button"
-          @click="copyErrorToClipboard"
-        >
-          {{ t('copyToClipboard') }}
-        </button>
-      </div>
-      <FormAuthButton
-        :aria-label="t('tryAgain')"
-        class="mb-3"
-        variant="primary"
-        @click="restart"
-      >
+      <FormAuthButton :aria-label="t('tryAgain')" @click="restart">
         {{ t('tryAgain') }}
       </FormAuthButton>
       <FormAuthButton
@@ -137,28 +97,10 @@ const router = useRouter()
 const navigateBack = () => {
   router.back()
 }
-
-// error
-const copyErrorToClipboard = async () => {
-  if (!error.value?.message) return
-
-  try {
-    await navigator.clipboard.writeText(error.value.message)
-    toast.success(t('copiedToClipboard'))
-  } catch {
-    toast.error(t('copyFailed'))
-  }
-}
 </script>
 
 <i18n lang="yaml">
 de:
-  copiedToClipboard: In Zwischenablage kopiert
-  copyFailed: Kopieren fehlgeschlagen
-  copyToClipboard: In Zwischenablage kopieren
-  errorDescription: Etwas ist schiefgelaufen. Bitte versuche es später erneut.
-  errorHeading: Ein Fehler ist aufgetreten
-  errorMessageLabel: 'Fehlermeldung:'
   instructionsSuccessDescription: Du kannst dich jetzt mit deinem neuen Passwort anmelden.
   instructionsSuccessHeading: Passwort erfolgreich zurückgesetzt
   returnBack: Zurück
@@ -167,12 +109,6 @@ de:
   title: Neues Passwort festlegen
   tryAgain: Erneut versuchen
 en:
-  copiedToClipboard: Copied to clipboard
-  copyFailed: Failed to copy
-  copyToClipboard: Copy to clipboard
-  errorDescription: Oops! Something went wrong. Please try again later.
-  errorHeading: Something went wrong
-  errorMessageLabel: 'Error message:'
   instructionsSuccessDescription: You can now log in using your new password.
   instructionsSuccessHeading: Password reset successful
   returnBack: Return back
