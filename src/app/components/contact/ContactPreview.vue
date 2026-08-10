@@ -1,6 +1,6 @@
 <template>
   <div v-if="contact" class="flex min-w-0 flex-1 gap-4">
-    <div class="relative">
+    <div class="relative shrink-0">
       <AccountProfilePicture
         v-if="contact.accountId"
         :account-id="contact.accountId"

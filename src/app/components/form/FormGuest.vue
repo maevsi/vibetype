@@ -1,22 +1,10 @@
 <template>
-  <div v-if="event" class="flex min-h-0 flex-col">
-    <div class="flex flex-col gap-4">
-      <div class="flex flex-col items-center gap-4">
-        <span>
-          {{ t('formHint') }}
-        </span>
-        <ButtonColored
-          :aria-label="t('contactsAdd')"
-          :to="localePath('contact')"
-        >
-          {{ t('contactsAdd') }}
-          <template #suffix>
-            <AppIconArrowRight />
-          </template>
-        </ButtonColored>
-      </div>
+  <div v-if="event" class="flex min-h-0 flex-1 flex-col">
+    <div class="flex min-h-0 flex-1 flex-col gap-4">
       <Field>
-        <FieldLabel for="input-contact-id">{{ t('contact') }}</FieldLabel>
+        <FieldLabel for="input-contact-id">
+          {{ t('contactBookSearch') }}
+        </FieldLabel>
         <FieldContent>
           <div class="relative">
             <AppIconMagnifyingGlass
@@ -39,17 +27,15 @@
             v-if="isFieldInvalid(field)"
             :errors="field.state.meta.errors"
           />
-          <AppScrollContainer
+          <div
             v-if="contacts"
-            class="flex flex-col gap-2"
-            :has-next-page="!!apiData.data.allContacts?.pageInfo.hasNextPage"
-            @load-more="after = apiData.data.allContacts?.pageInfo.endCursor"
+            class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto"
           >
             <AppButton
               v-for="contact in contactsFiltered"
               :key="contact.rowId"
               :aria-label="t('buttonContact')"
-              class="flex w-full items-center gap-4 rounded-sm border-2 border-neutral-300 px-4 py-2 dark:border-neutral-600"
+              class="flex w-full shrink-0 items-center gap-4 rounded-sm border-2 border-neutral-300 px-4 py-2 dark:border-neutral-600"
               :disabled="guestContactIdsExisting?.includes(contact.rowId)"
               type="button"
               @click="selectToggle(contact.rowId, field)"
@@ -63,8 +49,30 @@
                 "
               />
             </AppButton>
-          </AppScrollContainer>
+            <div
+              v-if="apiData.data.allContacts?.pageInfo.hasNextPage"
+              class="flex justify-center"
+            >
+              <ButtonColored
+                :aria-label="t('globalShowMore')"
+                @click="after = apiData.data.allContacts?.pageInfo.endCursor"
+              >
+                {{ t('globalShowMore') }}
+              </ButtonColored>
+            </div>
+          </div>
         </form.Field>
+        <div class="flex flex-col items-center">
+          <ButtonText
+            :aria-label="t('contactsAdd')"
+            :to="localePath('contact')"
+          >
+            {{ t('contactsAdd') }}
+            <template #suffix>
+              <AppIconArrowRight />
+            </template>
+          </ButtonText>
+        </div>
         <div class="flex flex-col items-center">
           <ButtonColored
             :aria-label="t('select')"
@@ -259,16 +267,14 @@ const errorMessages = computed(() =>
 <i18n lang="yaml">
 de:
   buttonContact: Ein Kontakt
-  contact: Kontakt
+  contactBookSearch: Kontaktbuch durchsuchen
   contactsAdd: Zu meinem Kontaktbuch
-  formHint: Wähle aus Kontakten deines Kontaktbuchs.
   placeholderContact: Max Mustermann
   select: Zur Gästeliste hinzufügen
 en:
   buttonContact: A contact
-  contact: Contact
+  contactBookSearch: Search your contact book
   contactsAdd: To my contact book
-  formHint: Choose from contacts in your contact book.
   placeholderContact: John Doe
-  select: Add to guestlist
+  select: Add to guest list
 </i18n>
