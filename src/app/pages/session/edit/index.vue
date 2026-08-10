@@ -38,9 +38,9 @@
         <TypographyH4 class="text-(--figma-neutral-level-6)">{{
           t('display')
         }}</TypographyH4>
-        <div class="flex flex-col gap-3">
-          <CardButton
-            :title="t('colorScheme')"
+        <div class="flex flex-col">
+          <AccountSettingsMenuItem
+            :label="t('colorScheme')"
             :to="
               localePath({
                 name: 'session-edit-color-scheme',
@@ -48,9 +48,9 @@
             "
           >
             <AppIconSun />
-          </CardButton>
-          <CardButton
-            :title="t('language')"
+          </AccountSettingsMenuItem>
+          <AccountSettingsMenuItem
+            :label="t('language')"
             :to="
               localePath({
                 name: 'session-edit-language',
@@ -58,7 +58,7 @@
             "
           >
             <AppIconLanguage />
-          </CardButton>
+          </AccountSettingsMenuItem>
         </div>
       </section>
       <section class="flex flex-col gap-4">
@@ -68,10 +68,10 @@
         >
           {{ t('support') }}
         </TypographyH4>
-        <div class="flex flex-col gap-3">
-          <CardButton
+        <div class="flex flex-col">
+          <AccountSettingsMenuItem
             v-if="isDevelopmentModeActive"
-            :title="t('developerInformation')"
+            :label="t('developerInformation')"
             :to="
               localePath({
                 name: 'session-view',
@@ -79,9 +79,9 @@
             "
           >
             <AppIconWrench />
-          </CardButton>
-          <CardButton
-            :title="t('featureSuggestion')"
+          </AccountSettingsMenuItem>
+          <AccountSettingsMenuItem
+            :label="t('featureSuggestion')"
             :to="
               localePath({
                 name: 'support-idea',
@@ -89,9 +89,9 @@
             "
           >
             <AppIconIdea />
-          </CardButton>
-          <CardButton
-            :title="t('bugReport')"
+          </AccountSettingsMenuItem>
+          <AccountSettingsMenuItem
+            :label="t('bugReport')"
             :to="
               localePath({
                 name: 'support-issue',
@@ -99,9 +99,9 @@
             "
           >
             <AppIconBug />
-          </CardButton>
-          <CardButton
-            :title="t('contact')"
+          </AccountSettingsMenuItem>
+          <AccountSettingsMenuItem
+            :label="t('contact')"
             :to="
               localePath({
                 name: 'support-contact',
@@ -109,9 +109,9 @@
             "
           >
             <AppIconMail />
-          </CardButton>
-          <CardButton
-            :title="t('report')"
+          </AccountSettingsMenuItem>
+          <AccountSettingsMenuItem
+            :label="t('report')"
             :to="
               localePath({
                 name: 'support-report',
@@ -119,7 +119,7 @@
             "
           >
             <AppIconReport />
-          </CardButton>
+          </AccountSettingsMenuItem>
         </div>
       </section>
       <section class="flex flex-col gap-4">
@@ -155,8 +155,8 @@
         <TypographyH4 class="text-(--figma-neutral-level-6)">
           {{ t('interactions') }}
         </TypographyH4>
-        <CardButton
-          :title="t('accountBlock')"
+        <AccountSettingsMenuItem
+          :label="t('accountBlock')"
           :to="
             localePath({
               name: 'account-view-username-block',
@@ -165,7 +165,7 @@
           "
         >
           <AppIconNoSymbol />
-        </CardButton>
+        </AccountSettingsMenuItem>
       </section>
       <section v-if="store.signedInUsername" class="flex flex-col">
         <CardButton
