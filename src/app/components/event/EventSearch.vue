@@ -20,6 +20,20 @@
           </AppButton>
         </div>
 
+        <!-- TODO: "Nearby" section (requires device location + backend proximity query) -->
+        <!-- TODO: "Popular" section (requires attendee count aggregation) -->
+
+        <!-- This weekend section -->
+        <div v-if="thisWeekendEvents.length > 0" class="flex flex-col gap-3">
+          <TypographyH3>{{ t('thisWeekend') }}</TypographyH3>
+          <EventCard
+            v-for="event in thisWeekendEvents"
+            :key="event.rowId"
+            :event
+            variant="compact"
+          />
+        </div>
+
         <EventList
           :events
           :has-next-page="pageInfo?.hasNextPage"
@@ -358,13 +372,41 @@ const onCategorySelect = (categoryId: string) => {
   )
   if (category) searchQuery.value = category.name.replace(/-/g, ' ')
 }
+
+// This weekend filter
+const thisWeekendEvents = computed(() => {
+  const today = new Date()
+  const dayOfWeek = today.getDay() // 0=Sun, 1=Mon, ..., 5=Fri, 6=Sat
+
+  // If today is Fri/Sat/Sun, the weekend starts today; otherwise next Friday
+  const daysUntilFriday =
+    dayOfWeek === 5
+      ? 0
+      : dayOfWeek === 6
+        ? -1
+        : dayOfWeek === 0
+          ? -2
+          : (5 - dayOfWeek + 7) % 7
+  const friday = new Date(today)
+  friday.setDate(today.getDate() + daysUntilFriday)
+  friday.setHours(0, 0, 0, 0)
+  const sunday = new Date(friday)
+  sunday.setDate(friday.getDate() + 2)
+  sunday.setHours(23, 59, 59, 999)
+  return (events.value ?? []).filter((event) => {
+    const eventDate = new Date(event.start)
+    return eventDate >= friday && eventDate <= sunday
+  })
+})
 </script>
 
 <i18n lang="yaml">
 de:
   browseAll: Alle Kategorien
   showFewer: Weniger anzeigen
+  thisWeekend: Dieses Wochenende
 en:
   browseAll: Browse all categories
   showFewer: Show fewer
+  thisWeekend: This weekend
 </i18n>
