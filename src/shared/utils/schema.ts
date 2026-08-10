@@ -11,6 +11,15 @@ const userEmailAddressOptional = z.preprocess(
 const userName = z.string().min(1).max(100)
 const userNameOptional = z.preprocess(emptyToUndefined, userName.optional())
 
+export const schemaEventOutput = z.object({
+  description: z.string(),
+  end: z.string().optional(),
+  is_event: z.boolean(),
+  location: z.string().optional(),
+  name: z.string().optional(),
+  start: z.string().optional(),
+  url: z.string().optional(),
+})
 export const schemaFormContact = z.object({
   itemDescription,
   userConsent,
@@ -21,6 +30,9 @@ export const schemaFormEarlyBird = z.object({
   userConsent,
   userEmailAddress,
   userName,
+})
+export const schemaFormEventIngestUrl = z.object({
+  url: z.string().url(),
 })
 export const schemaFormIdea = z.object({
   itemDescription,
