@@ -6,23 +6,11 @@
     @submit.prevent="form.handleSubmit"
   >
     <div class="flex min-h-0 flex-1 flex-col gap-4">
-      <div class="flex flex-col items-center gap-4">
-        <span>
-          {{ t('formHint') }}
-        </span>
-        <ButtonColored
-          :aria-label="t('contactsAdd')"
-          :to="localePath('contact')"
-        >
-          {{ t('contactsAdd') }}
-          <template #suffix>
-            <AppIconArrowRight />
-          </template>
-        </ButtonColored>
-      </div>
       <form.Field v-slot="{ field }" name="searchString">
         <Field>
-          <FieldLabel for="input-contact-id">{{ t('contact') }}</FieldLabel>
+          <FieldLabel for="input-contact-id">
+            {{ t('contactBookSearch') }}
+          </FieldLabel>
           <FieldContent>
             <div class="relative">
               <AppIconMagnifyingGlass
@@ -83,6 +71,14 @@
           </div>
         </div>
       </form.Field>
+      <div class="flex flex-col items-center">
+        <ButtonText :aria-label="t('contactsAdd')" :to="localePath('contact')">
+          {{ t('contactsAdd') }}
+          <template #suffix>
+            <AppIconArrowRight />
+          </template>
+        </ButtonText>
+      </div>
       <div class="flex flex-col items-center">
         <ButtonColored
           :aria-label="t('select')"
@@ -277,16 +273,14 @@ const errorMessages = computed(() =>
 <i18n lang="yaml">
 de:
   buttonContact: Ein Kontakt
-  contact: Kontakt
+  contactBookSearch: Kontaktbuch durchsuchen
   contactsAdd: Zu meinem Kontaktbuch
-  formHint: Wähle aus Kontakten deines Kontaktbuchs.
   placeholderContact: Max Mustermann
   select: Zur Gästeliste hinzufügen
 en:
   buttonContact: A contact
-  contact: Contact
+  contactBookSearch: Search your contact book
   contactsAdd: To my contact book
-  formHint: Choose from contacts in your contact book.
   placeholderContact: John Doe
-  select: Add to guestlist
+  select: Add to guest list
 </i18n>
