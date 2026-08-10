@@ -1,7 +1,9 @@
 export const FEATURE_FLAGS = [
+  'attendee-avatar-stacks',
   'developer-tools',
   'friends',
   'map',
+  'match-scores',
   'notifications',
   'poster-hunt',
   'social-login',
