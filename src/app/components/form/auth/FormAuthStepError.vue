@@ -1,39 +1,48 @@
 <template>
   <AppStep v-slot="attributes" :is-active="isActive">
     <LayoutPage v-bind="attributes">
-      <LayoutPageResult type="error">
-        <span v-if="error?.message">
-          {{ error.message }}
-        </span>
-        <template #description>
-          {{ translatedDescription }}
-        </template>
-      </LayoutPageResult>
-      <template #bottom>
+      <AppErrorPanel
+        :description="description ?? t('description')"
+        :error-message="error?.message"
+        :heading="heading ?? t('heading')"
+      >
         <slot />
-      </template>
+        <FormAuthButton
+          :aria-label="t('contactSupport')"
+          variant="secondary"
+          @click="navigateTo(localePath({ name: 'support-contact' }))"
+        >
+          {{ t('contactSupport') }}
+        </FormAuthButton>
+      </AppErrorPanel>
     </LayoutPage>
   </AppStep>
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(
-  defineProps<{
-    description?: string
-    error?: Error | null
-    isActive?: boolean
-  }>(),
-  {
-    description: 'globalTryAgain',
-    error: null,
-    isActive: false,
-  },
-)
+const {
+  description = undefined,
+  error = null,
+  heading = undefined,
+  isActive = false,
+} = defineProps<{
+  description?: string
+  error?: Error | null
+  heading?: string
+  isActive?: boolean
+}>()
 
 const { t } = useI18n()
-
-const translatedDescription = computed(() => {
-  if (props.description === 'globalTryAgain') return t('globalTryAgain')
-  return props.description || t('globalTryAgain')
-})
+const localePath = useLocalePath()
 </script>
+
+<i18n lang="yaml">
+de:
+  contactSupport: Support kontaktieren
+  description: Bitte versuche es später erneut.
+  heading: Fehler
+en:
+  contactSupport: Contact support
+  description: Please try again later.
+  heading: Error
+</i18n>
