@@ -41,41 +41,48 @@
             <SelectItem value="none">{{ t('noFeedback') }}</SelectItem>
           </SelectContent>
         </Select>
-        <LayoutTable
+        <div
           v-if="guestsFiltered.length"
-          class="border border-neutral-300 dark:border-neutral-600"
+          ref="scrollRef"
+          class="max-h-[70vh] overflow-y-auto rounded-lg border border-neutral-300 dark:border-neutral-600"
         >
-          <LayoutThead>
-            <tr>
-              <LayoutTh scope="col">
-                {{ t('contact') }}
-              </LayoutTh>
-              <LayoutTh scope="col" />
-            </tr>
-          </LayoutThead>
-          <LayoutTbody>
-            <GuestListItem
-              v-for="guest in guestsFiltered"
-              :key="guest.rowId"
-              :event
-              :guest
-            />
-          </LayoutTbody>
-        </LayoutTable>
+          <LayoutTable>
+            <LayoutThead>
+              <tr>
+                <LayoutTh scope="col">
+                  {{ t('contact') }}
+                </LayoutTh>
+                <LayoutTh scope="col" />
+              </tr>
+            </LayoutThead>
+            <LayoutTbody>
+              <tr v-if="paddingTop > 0">
+                <td colspan="2" :style="{ height: `${paddingTop}px` }" />
+              </tr>
+              <GuestListItem
+                v-for="virtualRow in virtualGuestItems"
+                :key="virtualRow.index"
+                :ref="
+                  (el) => {
+                    if (el)
+                      rowVirtualizer.measureElement(
+                        (el as ComponentPublicInstance).$el ?? (el as Element),
+                      )
+                  }
+                "
+                :data-index="virtualRow.index"
+                :event
+                :guest="guestsFiltered[virtualRow.index]!"
+              />
+              <tr v-if="paddingBottom > 0">
+                <td colspan="2" :style="{ height: `${paddingBottom}px` }" />
+              </tr>
+            </LayoutTbody>
+          </LayoutTable>
+        </div>
         <p v-else class="text-center">
           {{ t('guestNoneFiltered') }}
         </p>
-        <div
-          v-if="api.data.allGuests?.pageInfo.hasNextPage"
-          class="flex justify-center"
-        >
-          <ButtonColored
-            :aria-label="t('globalShowMore')"
-            @click="after = api.data.allGuests?.pageInfo.endCursor"
-          >
-            {{ t('globalShowMore') }}
-          </ButtonColored>
-        </div>
       </template>
       <div v-else class="flex flex-col items-center gap-2">
         {{ t('guestNone') }}
@@ -129,6 +136,8 @@ import {
   Title,
   Tooltip,
 } from 'chart.js'
+import { useVirtualizer } from '@tanstack/vue-virtual'
+import type { ComponentPublicInstance } from 'vue'
 import { Doughnut } from 'vue-chartjs'
 
 import { useQuery } from '@urql/vue'
@@ -270,6 +279,34 @@ const guestsFiltered = computed(() => {
       return guests.value.filter(
         (guest) => guest.feedback === feedbackFilter.value,
       )
+  }
+})
+
+// virtualization — declared after guestsFiltered so count computed can reference it
+const scrollRef = ref<HTMLElement | null>(null)
+const rowVirtualizer = useVirtualizer(
+  computed(() => ({
+    count: guestsFiltered.value.length,
+    getScrollElement: () => scrollRef.value,
+    estimateSize: () => 56,
+    overscan: 10,
+  })),
+)
+const virtualGuestItems = computed(() => rowVirtualizer.value.getVirtualItems())
+const paddingTop = computed(() => virtualGuestItems.value[0]?.start ?? 0)
+const paddingBottom = computed(() => {
+  const last = virtualGuestItems.value[virtualGuestItems.value.length - 1]
+  return last ? rowVirtualizer.value.getTotalSize() - last.end : 0
+})
+
+watch(virtualGuestItems, (items) => {
+  const lastItem = items[items.length - 1]
+  if (!lastItem) return
+  if (
+    lastItem.index >= guestsFiltered.value.length - 1 &&
+    api.value.data.allGuests?.pageInfo.hasNextPage
+  ) {
+    after.value = api.value.data.allGuests.pageInfo.endCursor
   }
 })
 
