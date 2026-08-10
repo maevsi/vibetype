@@ -1,126 +1,23 @@
 <template>
   <div class="flex flex-1 flex-col">
-    <LayoutTopBar>
-      <span>
-        {{ statusName }}
-      </span>
-    </LayoutTopBar>
     <LayoutPage>
-      <div class="flex flex-1 flex-col gap-8">
-        <LayoutPageResult type="error">
-          <template v-if="!error.data?.vibetype" #default>
-            <span v-if="error.status === 403">
-              {{ t('error403Hint') }}
-            </span>
-            <span v-else-if="error.status === 404">
-              {{ t('error404Hint') }}
-            </span>
-            <span v-else-if="error.status === 429">
-              {{ t('error429Hint') }}
-            </span>
-            <span v-else-if="error.status === 500">
-              {{ t('error500Hint') }}
-            </span>
-            <span v-else>
-              {{ t('errorHint') }}
-            </span>
-          </template>
-          <template #description>
-            <span v-if="error.data?.vibetype">
-              {{ error.data.vibetype }}
-            </span>
-            <span v-else-if="error.status === 400">
-              {{ t('error400Description') }}
-            </span>
-            <span v-else-if="error.status === 403">
-              {{ t('error403Description') }}
-            </span>
-            <span v-else-if="error.status === 404">
-              {{ t('error404Description') }}
-            </span>
-            <span v-else-if="error.status === 418">
-              {{ t('error418Description') }}
-            </span>
-            <span v-else-if="error.status === 429">
-              {{ t('error429Description') }}
-            </span>
-            <span v-else-if="error.status === 500">
-              {{ t('error500Description') }}
-            </span>
-            <span v-else>
-              {{ t('errorDescription') }}
-            </span>
-          </template>
-          <!-- <template #title>{{ statusName }}</template> -->
-        </LayoutPageResult>
-        <Collapsible v-model:open="detailsIsOpen" class="flex flex-col gap-2">
-          <CollapsibleTrigger as-child>
-            <ButtonColored
-              v-if="!detailsIsOpen"
-              :aria-label="t('detailsMore')"
-              class="w-full"
-              size="small"
-              variant="tertiary"
-            >
-              <TypographyLabel>
-                {{ t('detailsMore') }}
-              </TypographyLabel>
-              <AppIconChevronDown class="size-4" />
-            </ButtonColored>
-            <ButtonColored
-              v-else
-              :aria-label="t('detailsLess')"
-              class="w-full"
-              size="small"
-              variant="tertiary"
-            >
-              <TypographyLabel>
-                {{ t('detailsLess') }}
-              </TypographyLabel>
-              <AppIconChevronUp class="size-4" />
-            </ButtonColored>
-          </CollapsibleTrigger>
-          <CollapsibleContent>
-            <Card>
-              <section
-                :aria-labelledby="templateIdDetails"
-                class="flex flex-col gap-4 p-2"
-              >
-                <h2 :id="templateIdDetails">{{ t('details') }}</h2>
-                <div>
-                  <span class="font-bold">
-                    {{ error.statusText }}
-                  </span>
-                  <!-- eslint-disable vue/no-v-html -->
-                  <div v-if="error.stack" v-html="error.stack" />
-                  <!-- eslint-enable vue/no-v-html -->
-                </div>
-              </section>
-            </Card>
-          </CollapsibleContent>
-        </Collapsible>
-        <ButtonColored
+      <AppErrorPanel
+        :description
+        :error-message="error.data?.vibetype"
+        :heading="statusName"
+        :hint
+      >
+        <FormAuthButton :aria-label="t('returnBack')" @click="navigateBack">
+          {{ t('returnBack') }}
+        </FormAuthButton>
+        <FormAuthButton
           :aria-label="t('support')"
-          size="small"
-          :to="
-            localePath({
-              name: 'support-contact',
-            })
-          "
-          variant="tertiary"
+          variant="secondary"
+          @click="navigateTo(localePath({ name: 'support-contact' }))"
         >
           {{ t('support') }}
-          <template #prefix>
-            <AppIconHelp class="size-4" />
-          </template>
-        </ButtonColored>
-      </div>
-      <template #bottom>
-        <ButtonList>
-          <ButtonSignIn v-if="[403, 404].includes(error.status)" />
-          <ButtonHome />
-        </ButtonList>
-      </template>
+        </FormAuthButton>
+      </AppErrorPanel>
     </LayoutPage>
   </div>
 </template>
@@ -145,15 +42,50 @@ const { statusName } = await useHttpStatusCode({ status: error.status })
 // template
 const { t } = useI18n()
 const localePath = useLocalePath()
-const detailsIsOpen = ref<boolean>()
-const templateIdDetails = useId()
+
+// description
+const description = computed(() => {
+  switch (error.status) {
+    case 400:
+      return t('error400Description')
+    case 403:
+      return t('error403Description')
+    case 404:
+      return t('error404Description')
+    case 418:
+      return t('error418Description')
+    case 429:
+      return t('error429Description')
+    case 500:
+      return t('error500Description')
+    default:
+      return t('errorDescription')
+  }
+})
+
+// hint
+const hint = computed(() => {
+  switch (error.status) {
+    case 403:
+      return t('error403Hint')
+    case 404:
+      return t('error404Hint')
+    case 429:
+      return t('error429Hint')
+    case 500:
+      return t('error500Hint')
+    default:
+      return t('errorHint')
+  }
+})
+
+// navigation
+const router = useRouter()
+const navigateBack = () => router.back()
 </script>
 
 <i18n lang="yaml">
 de:
-  details: Technische Details
-  detailsLess: Ausblenden
-  detailsMore: Technische Details anzeigen
   errorDescription: Sieht so aus als wäre etwas nicht so wie es sein sollte.
   errorHint: Bitte versuche es noch einmal und melde @.upper:{'globalSiteName'} diesen Fehler, wenn er weiterhin auftritt.
   error400Description: "@.upper:{'globalSiteName'} hat andere Daten empfangen als erwartet."
@@ -166,11 +98,9 @@ de:
   error429Hint: Lehn dich einen Moment zurück und versuch es erneut – oder melde @.upper:{'globalSiteName'} den Fehler, wenn du glaubst, dass er unbegründet ist.
   error500Description: Sieht so aus als wäre etwas bei @.upper:{'globalSiteName'} nicht so wie es sein sollte.
   error500Hint: Bitte melde diesen Fehler.
+  returnBack: Zurück
   support: Support kontaktieren
 en:
-  details: Technical details
-  detailsLess: Hide
-  detailsMore: View technical details
   errorDescription: Looks like something went not the way it should.
   errorHint: Please try again and report this issue to @.upper:{'globalSiteName'} if it keeps happening.
   error400Description: "@.upper:{'globalSiteName'} received unexpected data."
@@ -183,5 +113,6 @@ en:
   error429Hint: Take a short break and try again – or report this issue to @.upper:{'globalSiteName'} if you think it shouldn't have occurred.
   error500Description: Looks like something went not the way it should at @.upper:{'globalSiteName'}.
   error500Hint: Please report this issue.
+  returnBack: Return back
   support: Contact support
 </i18n>
