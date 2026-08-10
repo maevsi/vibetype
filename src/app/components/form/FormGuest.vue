@@ -1,99 +1,94 @@
 <template>
-  <form
-    v-if="event"
-    class="flex min-h-0 flex-1 flex-col"
-    novalidate
-    @submit.prevent="form.handleSubmit"
-  >
+  <div v-if="event" class="flex min-h-0 flex-1 flex-col">
     <div class="flex min-h-0 flex-1 flex-col gap-4">
-      <form.Field v-slot="{ field }" name="searchString">
-        <Field>
-          <FieldLabel for="input-contact-id">
-            {{ t('contactBookSearch') }}
-          </FieldLabel>
-          <FieldContent>
-            <div class="relative">
-              <AppIconMagnifyingGlass
-                class="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2"
-              />
-              <Input
-                id="input-contact-id"
-                class="pl-9"
-                :model-value="field.state.value"
-                :placeholder="t('placeholderContact')"
-                type="text"
-                @blur="field.handleBlur"
-                @input="
-                  field.handleChange(($event.target as HTMLInputElement).value)
+      <Field>
+        <FieldLabel for="input-contact-id">
+          {{ t('contactBookSearch') }}
+        </FieldLabel>
+        <FieldContent>
+          <div class="relative">
+            <AppIconMagnifyingGlass
+              class="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2"
+            />
+            <Input
+              id="input-contact-id"
+              class="pl-9"
+              :model-value="searchString"
+              :placeholder="t('placeholderContact')"
+              type="text"
+              @input="searchString = ($event.target as HTMLInputElement).value"
+            />
+          </div>
+        </FieldContent>
+      </Field>
+      <form class="contents" novalidate @submit.prevent="form.handleSubmit">
+        <form.Field v-slot="{ field }" name="contactIds">
+          <FieldError
+            v-if="isFieldInvalid(field)"
+            :errors="field.state.meta.errors"
+          />
+          <div
+            v-if="contacts"
+            class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto"
+          >
+            <AppButton
+              v-for="contact in contactsFiltered"
+              :key="contact.rowId"
+              :aria-label="t('buttonContact')"
+              class="flex w-full shrink-0 items-center gap-4 rounded-sm border-2 border-neutral-300 px-4 py-2 dark:border-neutral-600"
+              :disabled="guestContactIdsExisting?.includes(contact.rowId)"
+              type="button"
+              @click="selectToggle(contact.rowId, field)"
+            >
+              <ContactPreview :contact :is-username-linked="false" />
+              <FormCheckbox
+                :is-disabled="guestContactIdsExisting?.includes(contact.rowId)"
+                :value="
+                  guestContactIdsExisting?.includes(contact.rowId) ||
+                  field.state.value.includes(contact.rowId)
                 "
               />
-            </div>
-          </FieldContent>
-        </Field>
-      </form.Field>
-      <form.Field v-slot="{ field }" name="contactIds">
-        <FieldError
-          v-if="isFieldInvalid(field)"
-          :errors="field.state.meta.errors"
-        />
-        <div
-          v-if="contacts"
-          class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto"
-        >
-          <AppButton
-            v-for="contact in contactsFiltered"
-            :key="contact.rowId"
-            :aria-label="t('buttonContact')"
-            class="flex w-full shrink-0 items-center gap-4 rounded-sm border-2 border-neutral-300 px-4 py-2 dark:border-neutral-600"
-            :disabled="guestContactIdsExisting?.includes(contact.rowId)"
-            type="button"
-            @click="selectToggle(contact.rowId, field)"
-          >
-            <ContactPreview :contact :is-username-linked="false" />
-            <FormCheckbox
-              :is-disabled="guestContactIdsExisting?.includes(contact.rowId)"
-              :value="
-                guestContactIdsExisting?.includes(contact.rowId) ||
-                field.state.value.includes(contact.rowId)
-              "
-            />
-          </AppButton>
-          <div
-            v-if="apiData.data.allContacts?.pageInfo.hasNextPage"
-            class="flex justify-center"
-          >
-            <ButtonColored
-              :aria-label="t('globalShowMore')"
-              @click="after = apiData.data.allContacts?.pageInfo.endCursor"
+            </AppButton>
+            <div
+              v-if="apiData.data.allContacts?.pageInfo.hasNextPage"
+              class="flex justify-center"
             >
-              {{ t('globalShowMore') }}
-            </ButtonColored>
+              <ButtonColored
+                :aria-label="t('globalShowMore')"
+                @click="after = apiData.data.allContacts?.pageInfo.endCursor"
+              >
+                {{ t('globalShowMore') }}
+              </ButtonColored>
+            </div>
           </div>
+        </form.Field>
+        <div class="flex flex-col items-center">
+          <ButtonText
+            :aria-label="t('contactsAdd')"
+            :to="localePath('contact')"
+          >
+            {{ t('contactsAdd') }}
+            <template #suffix>
+              <AppIconArrowRight />
+            </template>
+          </ButtonText>
         </div>
-      </form.Field>
-      <div class="flex flex-col items-center">
-        <ButtonText :aria-label="t('contactsAdd')" :to="localePath('contact')">
-          {{ t('contactsAdd') }}
-          <template #suffix>
-            <AppIconArrowRight />
-          </template>
-        </ButtonText>
-      </div>
-      <div class="flex flex-col items-center">
-        <ButtonColored
-          :aria-label="t('select')"
-          class="w-full"
-          :loading="createGuestsMutation.fetching.value"
-          type="submit"
-        >
-          {{ t('select') }}
-        </ButtonColored>
-      </div>
-      <CardStateAlert v-if="errorMessages?.length">
-        <AppSpanList :span="errorMessages" />
-      </CardStateAlert>
+        <div class="flex flex-col items-center">
+          <ButtonColored
+            :aria-label="t('select')"
+            class="w-full"
+            :loading="createGuestsMutation.fetching.value"
+            type="submit"
+          >
+            {{ t('select') }}
+          </ButtonColored>
+        </div>
+        <CardStateAlert v-if="errorMessages?.length">
+          <AppSpanList :span="errorMessages" />
+        </CardStateAlert>
+      </form>
     </div>
-  </form>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -173,15 +168,15 @@ const contacts = computed(
 )
 
 // form
+const searchString = ref('')
+
 const formSchema = z.object({
   contactIds: z.array(z.string()).min(1),
-  searchString: z.string(),
 })
 
 const form = useForm({
   defaultValues: {
     contactIds: [] as string[],
-    searchString: '',
   },
   validators: {
     onSubmit: formSchema,
@@ -232,7 +227,6 @@ const selectToggle = (contactId: string, field: AnyFieldApi) => {
 }
 
 // computations
-const searchString = form.useStore((state) => state.values.searchString)
 const contactsFiltered = computed(() => {
   if (!contacts.value) {
     return undefined

@@ -68,6 +68,7 @@ export type AccountPasswordResetRequestInput = {
   clientMutationId?: string | null | undefined
   emailAddress: string
   language: string
+  timeZone?: string | null | undefined
 }
 
 /** Represents an update to a `Account`. Fields that are set will be updated. */
@@ -90,6 +91,7 @@ export type AccountRegistrationInput = {
   language: string
   legalTermId: string
   password: string
+  timeZone?: string | null | undefined
   username: string
 }
 

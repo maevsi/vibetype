@@ -16,6 +16,7 @@ const getDemoEmailProps = (locale: AppLocale) =>
       passwordResetVerificationLink:
         'https://example.com/reset-password?token=abcd1234',
       stackDomain: 'example.com',
+      timeZone: 'Europe/Berlin',
       username: 'john_doe',
       validUntil: '2024-12-31T23:59:59Z',
     },
@@ -26,6 +27,7 @@ const getDemoEmailProps = (locale: AppLocale) =>
       locale,
       logoSource,
       stackDomain: 'example.com',
+      timeZone: 'Europe/Berlin',
       username: 'john_doe',
       validUntil: '2024-12-31T23:59:59Z',
     },

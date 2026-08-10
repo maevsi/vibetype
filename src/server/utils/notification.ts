@@ -22,11 +22,12 @@ export type Account = {
 type Template = {
   language: AppLocale
   namespace: string
+  time_zone?: string | null
   variables: Record<string, unknown>
 }
 
 type Event = {
-  id: number
+  id: string
   createdBy: string
   description: string | null
   end: string | null // Date
@@ -194,6 +195,7 @@ export const processNotification = async ({
           }/account/password/reset?code=${
             payload.account.password_reset_verification
           }`,
+          timeZone: payload.template.time_zone ?? undefined,
           validUntil: payload.account.password_reset_verification_valid_until,
         },
         rateLimitPerDay,
@@ -216,6 +218,7 @@ export const processNotification = async ({
               : ''
           }/account/verify?code=${payload.account.email_address_verification}`,
           locale,
+          timeZone: payload.template.time_zone ?? undefined,
           username: payload.account.username,
           validUntil: payload.account.email_address_verification_valid_until,
         },
@@ -367,17 +370,21 @@ export const sendEventInvitationMail = async ({
   const icalFetch = await fetch(
     `http://${SITE_NAME}:3000/api/model/event/ical`,
     {
+      // `contact` is intentionally omitted here: this notification's payload only carries
+      // `emailAddress`/`timeZone`, not the guest's linked `Contact` record (`firstName`/`lastName`),
+      // so `{{contact.firstName}}`-style merge fields in the event description render blank in the
+      // emailed `.ics` attachment, unlike the guest-view page's manual download.
       body: JSON.stringify({
-        contact: { emailAddress },
         event: {
           ...event,
           accountByCreatedBy: {
             username: eventCreatorUsername,
           },
+          rowId: event.id,
           visibility: event.visibility,
         },
         guest: {
-          id: guestId,
+          rowId: guestId,
         },
       }),
       method: 'POST',
