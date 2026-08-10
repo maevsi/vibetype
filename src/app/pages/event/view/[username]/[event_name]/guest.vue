@@ -96,7 +96,7 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  title: Gäste
+  title: Gästeliste
 en:
-  title: Guests
+  title: Guest list
 </i18n>
