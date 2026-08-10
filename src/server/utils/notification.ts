@@ -467,7 +467,7 @@ export const sendEventInvitationMail = async ({
             icalEvent: {
               content: icalText,
               filename: eventCreatorUsername + '_' + event.slug + '.ics',
-              method: 'request',
+              method: 'publish',
             },
           }
         : {}),
