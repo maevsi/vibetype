@@ -10,6 +10,8 @@ allowBuilds:
   sharp: false
   unrs-resolver: false
   vue-demi: false
+overrides:
+  nuxt-og-image: 6.7.5
 packages:
   - src
   - tests
