@@ -449,9 +449,9 @@ const downloadIcal = async () => {
 
   const response = await $csrfFetch('/api/model/event/ical', {
     body: {
-      contact,
-      event,
-      guest,
+      contact: contact.value,
+      event: event.value,
+      guest: guest.value,
     },
     method: 'POST',
   })
