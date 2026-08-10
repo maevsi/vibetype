@@ -59,7 +59,6 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@sentry/nuxt/module',
     '@vite-pwa/nuxt',
-    'nuxt-gtag',
     'shadcn-nuxt',
     'nuxt-security',
   ],

@@ -1,47 +1,40 @@
+import { GTAG_COOKIE_ID, GTAG_MEASUREMENT_ID } from '~~/node/static'
+
 export const useAppGtag = () => {
-  const {
-    gtag,
-    initialize: initializeGtag,
-    disableAnalytics,
-    enableAnalytics,
-  } = useGtag()
+  if (import.meta.server) return
+
+  const runtimeConfig = useRuntimeConfig()
+
+  if (!runtimeConfig.public.vio.isInProduction) return
+
   const cookieControl = useCookieControl()
-  const updateConsent = ({ isGranted }: { isGranted: boolean }) => {
-    gtag('consent', 'update', {
-      // // the following are denied per default in the gtag module configuration
-      // ad_user_data: 'denied',
-      // ad_personalization: 'denied',
-      // ad_storage: 'denied',
-      analytics_storage: isGranted ? 'granted' : 'denied',
-    })
-  }
-  const enableGtag = () => {
-    updateConsent({ isGranted: true })
-    initializeGtag()
-    enableAnalytics()
-  }
-  const disableGtag = () => {
-    updateConsent({ isGranted: false })
-    disableAnalytics()
-  }
+  const isConsented = computed(() =>
+    Boolean(cookieControl.cookiesEnabledIds.value?.includes(GTAG_COOKIE_ID)),
+  )
 
-  if (cookieControl.cookiesEnabledIds.value?.includes(GTAG_COOKIE_ID)) {
-    enableGtag()
-  }
-
-  watch(cookieControl.cookiesEnabledIds, (current, previous) => {
-    if (
-      !previous?.includes(GTAG_COOKIE_ID) &&
-      current?.includes(GTAG_COOKIE_ID)
-    ) {
-      enableGtag()
-    }
-
-    if (
-      previous?.includes(GTAG_COOKIE_ID) &&
-      !current?.includes(GTAG_COOKIE_ID)
-    ) {
-      disableGtag()
-    }
+  const { consent } = useScriptGoogleAnalytics({
+    id: GTAG_MEASUREMENT_ID,
+    defaultConsent: {
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      ad_storage: 'denied',
+      analytics_storage: 'denied',
+      wait_for_update: 500,
+    },
+    onBeforeGtagStart: (gtag) => {
+      gtag('set', { cookie_flags: 'samesite=strict;secure' })
+    },
+    scriptOptions: {
+      trigger: useScriptTriggerConsent({ consent: isConsented }),
+    },
   })
+
+  watch(
+    isConsented,
+    (isGranted) => {
+      consent?.update({ analytics_storage: isGranted ? 'granted' : 'denied' })
+      window[`ga-disable-${GTAG_MEASUREMENT_ID}`] = !isGranted
+    },
+    { immediate: true },
+  )
 }

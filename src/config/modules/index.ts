@@ -32,26 +32,6 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
       remote: false,
     },
   },
-  gtag: {
-    config: {
-      cookie_flags: 'samesite=strict',
-    },
-    id: 'G-WMQ1JY99XH',
-    initCommands: [
-      [
-        'consent',
-        'default',
-        {
-          ad_user_data: 'denied',
-          ad_personalization: 'denied',
-          ad_storage: 'denied',
-          analytics_storage: 'denied',
-          wait_for_update: 500,
-        },
-      ],
-    ],
-    initMode: 'manual',
-  },
   htmlValidator: {
     failOnError: true,
     logLevel: 'warning',

@@ -15,6 +15,7 @@ export const CSRF_HEADER_NAME = 'x-csrf-token'
 export const FEATURE_FLAGS_COOKIE_ID = 'f'
 export const FEATURE_FLAGS_COOKIE_NAME = `${SITE_NAME}_feature-flags`
 export const GTAG_COOKIE_ID = 'ga'
+export const GTAG_MEASUREMENT_ID = 'G-WMQ1JY99XH'
 export const JWT_COOKIE_NAME = `${getIsSecure({ siteUrl: SITE_URL_TYPED }) ? '__Host-' : ''}jwt-v3`
 export const POLYFILLS = ['Promise', 'requestAnimationFrame']
 export const PRODUCTION_HOST = 'vibetype.app'
