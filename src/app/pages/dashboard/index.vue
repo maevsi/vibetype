@@ -5,41 +5,146 @@
   /> -->
   <AppLoaderLogo v-if="api.isFetching || eventRecommendationsPending" />
   <div v-else>
-    <LayoutPageTitle :title />
     <LayoutCallToAction
       v-if="!authentication.isSignedIn"
       :call-to-action="t('anonymousCta')"
       :call-to-action-description="t('anonymousCtaDescription')"
     />
-    <div v-else class="flex flex-col gap-8">
+    <div v-else class="flex flex-col gap-2 px-4 py-2">
+      <!-- Your next event -->
       <section
-        v-if="eventUpcoming"
         :aria-labelledby="templateIdUpcoming"
-        class="flex flex-col gap-4"
+        class="flex flex-col gap-2"
       >
-        <TypographyH3 :id="templateIdUpcoming" class="px-2">
-          {{ t('upcomingTitle') }}
-        </TypographyH3>
-        <EventCard :event="eventUpcoming" variant="highlight" />
+        <div class="flex items-center justify-between">
+          <TypographyH3 :id="templateIdUpcoming">
+            {{ t('upcomingTitle') }}
+          </TypographyH3>
+          <AppButton
+            v-if="store.signedInUsername"
+            :aria-label="t('seeAll')"
+            class="text-sm font-semibold text-(--accent-strong)"
+            :to="
+              localePath({
+                name: 'event-view-username',
+                params: { username: store.signedInUsername },
+              })
+            "
+          >
+            {{ t('seeAll') }}
+          </AppButton>
+        </div>
+        <div class="rounded-3xl bg-(--neutral-level-1) p-2">
+          <EventCard
+            v-if="eventUpcoming"
+            :event="eventUpcoming"
+            variant="compact"
+          />
+          <!-- TODO: DashboardEventUpcoming query fetches only events the user CREATED
+               (condition: createdBy). It should ideally include events they are attending.
+               This requires a custom DB function. See eventUpcomingQuery. -->
+          <p
+            v-else
+            class="py-2 text-center text-[15px] font-semibold text-(--semantic-base-text-secondary)"
+          >
+            {{ t('noUpcoming') }}
+          </p>
+        </div>
       </section>
+
+      <!-- Your top pick (first recommendation) -->
       <section
         v-if="eventRecommendations?.length"
-        :aria-labelledby="templateIdRecommendation"
-        class="flex flex-col gap-4"
+        :aria-labelledby="templateIdTopPick"
+        class="flex flex-col gap-2"
       >
-        <TypographyH3 :id="templateIdRecommendation" class="px-2">
-          {{ t('recommendationTitle') }}
+        <TypographyH3 :id="templateIdTopPick">
+          {{ t('topPickTitle') }}
         </TypographyH3>
-        <LoaderIndicatorPing v-if="eventRecommendationsPending" />
-        <template v-else>
-          <EventCard
-            v-for="event in eventRecommendations"
-            :key="event.rowId"
-            :event
-            variant="recommendation"
-          />
-        </template>
+        <EventCard :event="eventRecommendations[0]!" variant="recommendation" />
       </section>
+
+      <!-- No recommendations empty state -->
+      <section v-else class="flex flex-col gap-2">
+        <TypographyH3>{{ t('topPickTitle') }}</TypographyH3>
+        <div class="rounded-3xl bg-(--neutral-level-1) p-2">
+          <p
+            class="py-2 text-center text-[15px] font-semibold text-(--semantic-base-text-secondary)"
+          >
+            {{ t('noRecommendations') }}
+          </p>
+        </div>
+      </section>
+
+      <!-- You should not miss (recommendations 2+) -->
+      <section
+        v-if="(eventRecommendations?.length ?? 0) > 1"
+        :aria-labelledby="templateIdShouldNotMiss"
+        class="flex flex-col gap-2"
+      >
+        <TypographyH3 :id="templateIdShouldNotMiss">
+          {{ t('shouldNotMissTitle') }}
+        </TypographyH3>
+        <EventCard
+          v-for="event in eventRecommendations!.slice(1)"
+          :key="event.rowId"
+          :event
+          variant="recommendation"
+        />
+      </section>
+
+      <!-- Poster hunting card -->
+      <div
+        v-if="isFeatureEnabled('poster-hunt').value"
+        class="flex flex-col gap-2 rounded-3xl bg-(--neutral-level-1) p-2"
+      >
+        <div class="px-1 pt-1">
+          <p
+            class="text-[20px] leading-6.25 font-semibold tracking-[-0.4px] text-(--semantic-base-text-primary)"
+          >
+            {{ t('posterHuntingTitle') }}
+          </p>
+          <p class="text-[13px] text-(--semantic-base-text-secondary)">
+            {{ t('posterHuntingDescription') }}
+          </p>
+        </div>
+        <div class="flex gap-2">
+          <AppButton
+            :aria-label="t('takePhoto')"
+            class="flex flex-1 items-center justify-center gap-1.5 rounded-2xl bg-(--accent-strong) py-2.5 text-sm font-semibold text-white"
+            :to="localePath({ name: 'event-ingest-image' })"
+          >
+            <AppIconImage class="size-4" />
+            {{ t('takePhoto') }}
+          </AppButton>
+          <AppButton
+            :aria-label="t('uploadImage')"
+            class="flex flex-1 items-center justify-center gap-1.5 rounded-2xl bg-(--figma-neutral-level-2) py-2.5 text-sm font-semibold text-(--semantic-base-text-primary)"
+            :to="localePath({ name: 'event-ingest-image' })"
+          >
+            <AppIconArrowUpTray class="size-4" />
+            {{ t('uploadImage') }}
+          </AppButton>
+          <AppButton
+            :aria-label="t('provideLink')"
+            class="flex flex-1 items-center justify-center gap-1.5 rounded-2xl bg-(--figma-neutral-level-2) py-2.5 text-sm font-semibold text-(--semantic-base-text-primary)"
+            :to="localePath({ name: 'event-ingest-url' })"
+          >
+            <AppIconLink class="size-4" />
+            {{ t('provideLink') }}
+          </AppButton>
+        </div>
+      </div>
+
+      <!-- Discover new events -->
+      <AppButton
+        :aria-label="t('discoverEvents')"
+        class="flex w-full items-center justify-center rounded-2xl bg-(--accent-strong) py-3 text-[15px] font-semibold text-white"
+        :to="localePath({ name: 'event' })"
+      >
+        {{ t('discoverEvents') }}
+      </AppButton>
+
       <ButtonApp />
     </div>
   </div>
@@ -201,23 +306,49 @@ const title = t('title')
 useHeadDefault({ title })
 
 // template
-const templateIdRecommendation = useId()
+const localePath = useLocalePath()
+const store = useStore()
+const templateIdShouldNotMiss = useId()
+const templateIdTopPick = useId()
 const templateIdUpcoming = useId()
+
+// feature flags
+const { isFeatureEnabled } = useFeatureFlags()
 </script>
 
 <i18n lang="yaml">
 de:
   anonymousCta: Finde ihn auf {siteName}
+  shouldNotMissTitle: Das solltest du nicht verpassen
   anonymousCtaDescription: Dir fehlt der Überblick über Veranstaltungen?
+  discoverEvents: Neue Events entdecken
+  noRecommendations: Noch keine gefunden
+  noUpcoming: Noch nichts geplant
+  posterHuntingDescription: Siehst du ein interessantes Event außerhalb von Vibetype?
+  posterHuntingTitle: Auf Poster-Jagd
+  provideLink: Link eingeben
   # recommendationError: Event-Empfehlungen konnten nicht geladen werden
-  recommendationTitle: Das solltest Du nicht verpassen
+  seeAll: Alle anzeigen
+  takePhoto: Foto aufnehmen
   title: Dashboard
+  topPickTitle: Dein Top-Tipp
+  uploadImage: Bild hochladen
   upcomingTitle: Dein nächstes Event
 en:
   anonymousCta: Find it on {siteName}
+  shouldNotMissTitle: You should not miss
   anonymousCtaDescription: Are you missing an overview of events?
+  discoverEvents: Discover new events
+  noRecommendations: None discovered yet
+  noUpcoming: None planned yet
+  posterHuntingDescription: Saw an interesting event outside of Vibetype?
+  posterHuntingTitle: Poster hunting
+  provideLink: Provide link
   # recommendationError: Event recommendations could not be loaded
-  recommendationTitle: You Should Not Miss
+  seeAll: See all
+  takePhoto: Take photo
   title: Dashboard
-  upcomingTitle: Your upcoming event
+  topPickTitle: Your top pick
+  uploadImage: Upload image
+  upcomingTitle: Your next event
 </i18n>
