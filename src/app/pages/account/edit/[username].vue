@@ -45,9 +45,8 @@
           </ButtonColored>
           <ButtonColored
             :aria-label="t('remove')"
-            :loading="deleteProfilePictureByRowIdMutation.fetching.value"
             variant="secondary"
-            @click="removeProfilePicture"
+            @click="openProfilePictureRemoveDrawer"
           >
             <TypographyLabel v-slot="attributes">
               <div v-bind="attributes">
@@ -59,6 +58,11 @@
         <ModalUploadSelection
           v-model="isModalUploadSelectionOpen"
           @select="onUploadSelect"
+        />
+        <AccountProfilePictureRemoveDrawer
+          v-if="account?.profilePictureByAccountId?.rowId"
+          v-model:open="isProfilePictureRemoveDrawerOpen"
+          :profile-picture-row-id="account.profilePictureByAccountId.rowId"
         />
       </div>
       <AppInputTextarea
@@ -158,8 +162,12 @@ const account = computed(() => api.value.data.accountByUsername)
 
 // profile picture
 const isModalUploadSelectionOpen = ref<boolean>()
+const isProfilePictureRemoveDrawerOpen = ref(false)
 const showModalUploadSelection = () => {
   isModalUploadSelectionOpen.value = true
+}
+const openProfilePictureRemoveDrawer = () => {
+  isProfilePictureRemoveDrawerOpen.value = true
 }
 
 const createProfilePictureMutation = useMutation(

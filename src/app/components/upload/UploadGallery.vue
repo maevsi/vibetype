@@ -14,14 +14,16 @@
             :key="upload.rowId"
             class="relative box-border border-4"
             :class="[
-              ...(pending.deletions.includes(upload.rowId)
+              ...(isDeleteDrawerOpen && uploadToDelete?.rowId === upload.rowId
                 ? ['animate-pulse']
                 : []),
               ...(isSelectable && upload === selectedItem
                 ? ['border-red-600']
                 : ['border-transparent']),
             ]"
-            :disabled="pending.deletions.includes(upload.rowId)"
+            :disabled="
+              isDeleteDrawerOpen && uploadToDelete?.rowId === upload.rowId
+            "
             @click="toggleSelect(upload)"
           >
             <LoaderImage
@@ -40,7 +42,7 @@
               <AppButton
                 :aria-label="t('iconTrashLabel')"
                 class="flex h-full justify-center"
-                @click="deleteUpload(upload)"
+                @click="onDeleteSelect(upload)"
               >
                 <AppIconTrash
                   class="text-text-bright m-1"
@@ -111,6 +113,12 @@
       <template #header>{{ t('uploadNew') }}</template>
       <template #submit-icon><AppIconArrowUpTray /></template>
     </Modal>
+    <UploadDeleteDrawer
+      v-if="uploadToDelete"
+      v-model:open="isDeleteDrawerOpen"
+      :upload-row-id="uploadToDelete.rowId"
+      @success="onDeleteSuccess"
+    />
   </Loader>
 </template>
 
@@ -148,12 +156,13 @@ const templateInputProfilePicture = useTemplateRef('inputProfilePicture')
 const after = ref<string | null>()
 const fileSelectedUrl = ref<string>()
 const fileSelectedMimeType = ref<string>()
+const isDeleteDrawerOpen = ref(false)
 const isModalUploadGalleryOpen = ref<boolean>()
 const isUploadSubmitting = ref(false)
 const uploadSubmitErrors = ref()
-const pending = reactive({
-  deletions: ref<string[]>([]),
-})
+const uploadToDelete = ref<{
+  rowId: string
+}>()
 const selectedItem = ref<{
   rowId?: string | null
 }>()
@@ -194,15 +203,6 @@ const allUploadsQuery = useQuery({
     createdBy: store.signedInAccountId,
   })),
 })
-const deleteUploadByRowIdMutation = useMutation(
-  graphql(`
-    mutation DeleteUploadByRowId($input: DeleteUploadByRowIdInput!) {
-      deleteUploadByRowId(input: $input) {
-        clientMutationId
-      }
-    }
-  `),
-)
 const uploadCreateMutation = useMutation(
   graphql(`
     mutation CreateUpload($input: CreateUploadInput!) {
@@ -219,7 +219,6 @@ const uploadCreateMutation = useMutation(
 const api = await useApiData([
   accountUploadQuotaBytesQuery,
   allUploadsQuery,
-  deleteUploadByRowIdMutation,
   uploadCreateMutation,
 ])
 const uploads = computed(
@@ -262,25 +261,13 @@ const selectProfilePicture = async () => {
     await navigateTo(pathUpload)
   }
 }
-const executeUrqlRequest = useExecuteUrqlRequest()
-const deleteUpload = async (
+const onDeleteSelect = (
   upload: Pick<(typeof uploads.value)[number], 'rowId'>,
 ) => {
-  // pending.deletions.push(upload.rowId)
-  const result = await executeUrqlRequest({
-    errorMessageI18n: t('uploadDeleteFailed'),
-    progress: {
-      id: upload.rowId,
-      idArray: pending.deletions,
-    },
-    request: deleteUploadByRowIdMutation.executeMutation({
-      input: { rowId: upload.rowId },
-    }),
-  })
-  // pending.deletions.splice(pending.deletions.indexOf(upload.rowId), 1)
-
-  if (!result) return
-
+  uploadToDelete.value = upload
+  isDeleteDrawerOpen.value = true
+}
+const onDeleteSuccess = () => {
   allUploadsQuery.executeQuery()
 }
 const getMimeType = (file: ArrayBuffer, fallback?: string) => {
@@ -452,7 +439,6 @@ de:
   upload: Hochladen
   uploadAlt: Ein hochgeladenes Bild.
   uploadAltFailed: Ein Bild, das nicht vollständig hochgeladen wurde.
-  uploadDeleteFailed: Das Löschen des Elements ist fehlgeschlagen!
   uploadError: 'Fehler: Dateien wurden nicht erfolgreich hochgeladen!'
   uploadNew: Lade ein neues Bild hoch
   uploadSize: 'Größe: {size}'
@@ -464,7 +450,6 @@ en:
   upload: Upload
   uploadAlt: An uploaded image.
   uploadAltFailed: "An image which hasn't been fully uploaded."
-  uploadDeleteFailed: Deleting upload failed!
   uploadError: 'Error: Upload failed!'
   uploadNew: Upload a new image
   uploadSize: 'Size: {size}'

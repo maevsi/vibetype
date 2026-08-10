@@ -34,9 +34,8 @@
               :id="contact.rowId"
               :key="contact.rowId"
               :contact
-              :is-deleting="pending.deletions.includes(contact.rowId)"
               :is-editing="pending.edits.includes(contact.rowId)"
-              @delete="delete_(contact.rowId)"
+              @delete="onDeleteSelect(contact)"
               @edit="edit(contact)"
             />
           </LayoutTbody>
@@ -63,12 +62,18 @@
           {{ formContactHeading }}
         </template>
       </Modal>
+      <ContactDeleteDrawer
+        v-if="contactToDelete"
+        v-model:open="isDeleteDrawerOpen"
+        :contact="contactToDelete"
+        :contact-row-id="contactToDelete.rowId"
+      />
     </div>
   </Loader>
 </template>
 
 <script setup lang="ts">
-import { useMutation, useQuery } from '@urql/vue'
+import { useQuery } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
 import type {
@@ -82,10 +87,22 @@ const store = useStore()
 
 // data
 const after = ref<string | null>()
+const contactToDelete =
+  ref<
+    Pick<
+      ContactItemFragment,
+      | 'accountByAccountId'
+      | 'accountId'
+      | 'firstName'
+      | 'lastName'
+      | 'nickname'
+      | 'rowId'
+    >
+  >()
 const formContactHeading = ref<string>()
+const isDeleteDrawerOpen = ref(false)
 const isModalContactOpen = ref<boolean>()
 const pending = reactive({
-  deletions: ref<string[]>([]),
   edits: ref<string[]>([]),
 })
 const selectedContact = ref<
@@ -132,16 +149,7 @@ const contactsQuery = useQuery({
     first: ITEMS_PER_PAGE_LARGE,
   })),
 })
-const deleteContactByRowIdMutation = useMutation(
-  graphql(`
-    mutation DeleteContactByRowId($input: DeleteContactByRowIdInput!) {
-      deleteContactByRowId(input: $input) {
-        clientMutationId
-      }
-    }
-  `),
-)
-const api = await useApiData([contactsQuery, deleteContactByRowIdMutation])
+const api = await useApiData([contactsQuery])
 const contacts = computed(
   () =>
     api.value.data.allContacts?.nodes
@@ -156,10 +164,19 @@ const add = () => {
   selectedContact.value = undefined
   isModalContactOpen.value = true
 }
-const delete_ = async (rowId: string) => {
-  pending.deletions.push(rowId)
-  await deleteContactByRowIdMutation.executeMutation({ input: { rowId } })
-  pending.deletions.splice(pending.deletions.indexOf(rowId), 1)
+const onDeleteSelect = (
+  contact: Pick<
+    ContactItemFragment,
+    | 'accountByAccountId'
+    | 'accountId'
+    | 'firstName'
+    | 'lastName'
+    | 'nickname'
+    | 'rowId'
+  >,
+) => {
+  contactToDelete.value = contact
+  isDeleteDrawerOpen.value = true
   // TODO: update cache, especially pagination, or reset query (https://github.com/maevsi/vibetype/issues/720)
 }
 const edit = (
