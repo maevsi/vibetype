@@ -1,19 +1,32 @@
 <template>
   <LoaderImage
+    v-if="profilePictureUrl"
     :alt="t('profilePictureAlt', { username: account?.username })"
     :aspect
     :classes="classProps"
     :height
-    :src="profilePictureUrl || blankProfilePicture"
+    :src="profilePictureUrl"
     :width
   />
+  <div
+    v-else
+    :class="
+      cn(
+        'flex items-center justify-center overflow-hidden rounded-3xl bg-linear-to-br from-blue-400 to-purple-500',
+        classProps,
+      )
+    "
+    :style="{ height: `${height}px`, width: `${width}px` }"
+  >
+    <AppIconUser class="size-1/2 text-white" />
+  </div>
 </template>
 
 <script setup lang="ts">
 import { useQuery } from '@urql/vue'
 import type { HtmlHTMLAttributes } from 'vue'
 
-import blankProfilePicture from '~/assets/images/blank-profile-picture.svg'
+import { cn } from '@/utils/shadcn'
 import { graphql } from '~~/gql/generated'
 
 const {
