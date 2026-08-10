@@ -73,8 +73,15 @@
             class="absolute inset-x-0 top-0 flex items-center justify-between p-2"
           >
             <div />
-            <div>
-              <!-- TODO: share & favorite button -->
+            <div class="flex items-center gap-2">
+              <AppButton
+                :aria-label="t('share')"
+                class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                @click="onShare"
+              >
+                <AppIconShare class="size-5 text-(--figma-neutral-level-6)" />
+              </AppButton>
+              <!-- TODO: favorite button -->
               <template
                 v-if="
                   store.signedInAccountId &&
@@ -308,6 +315,27 @@ defineEvent({
   startDate: event.value?.start,
 })
 
+// share
+const onShare = async () => {
+  if (!event.value) return
+  const url = typeof window !== 'undefined' ? window.location.href : ''
+  if (typeof navigator !== 'undefined' && navigator.share) {
+    try {
+      await navigator.share({
+        text: description.value ?? '',
+        title: event.value.name,
+        url,
+      })
+      return
+    } catch (error) {
+      if ((error as DOMException)?.name === 'AbortError') return
+    }
+  }
+  if (typeof navigator !== 'undefined' && navigator.clipboard && url) {
+    await navigator.clipboard.writeText(url)
+  }
+}
+
 // map
 const positionInitial = computed(() =>
   event.value?.addressByAddressId?.location?.latitude &&
@@ -331,6 +359,7 @@ de:
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
   report: Veranstaltung melden
   settings: Bearbeiten
+  share: Teilen
 en:
   attendances: Check in
   errorAccountMissing: Account not available
@@ -340,4 +369,5 @@ en:
   ogImageAlt: The event's preview image.
   report: Report event
   settings: Edit
+  share: Share
 </i18n>
