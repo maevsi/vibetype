@@ -2,11 +2,41 @@
   <Loader :api>
     <div class="flex flex-col gap-4">
       <FormInputSearch v-model="searchQuery" />
-      <EventList
-        :events
-        :has-next-page="pageInfo?.hasNextPage"
-        @load-more="loadMore"
-      />
+
+      <!-- Category grid + all-events browse (no active search) -->
+      <template v-if="!searchQueryDebounced">
+        <div class="flex flex-col gap-3">
+          <EventCategoryGrid
+            :categories="visibleCategories"
+            @select="onCategorySelect"
+          />
+          <AppButton
+            v-if="categories.length > CATEGORIES_INITIAL_COUNT"
+            :aria-label="showAllCategories ? t('showFewer') : t('browseAll')"
+            class="self-center text-sm font-semibold text-(--accent-strong)"
+            @click="showAllCategories = !showAllCategories"
+          >
+            {{ showAllCategories ? t('showFewer') : t('browseAll') }}
+          </AppButton>
+        </div>
+
+        <EventList
+          :events
+          :has-next-page="pageInfo?.hasNextPage"
+          :loading="api.isFetching"
+          @load-more="loadMore"
+        />
+      </template>
+
+      <!-- Search results -->
+      <template v-else>
+        <EventList
+          :events
+          :has-next-page="pageInfo?.hasNextPage"
+          :loading="api.isFetching"
+          @load-more="loadMore"
+        />
+      </template>
     </div>
   </Loader>
 </template>
@@ -190,12 +220,31 @@ const searchResultsQuery = useQuery({
 const query = computed(() =>
   searchQueryVariable.value ? searchResultsQuery : allEventsQuery,
 )
+
+const allEventCategoriesQuery = useQuery({
+  query: graphql(`
+    query AllEventCategories {
+      allEventCategories {
+        nodes {
+          id
+          name
+          rowId
+        }
+      }
+    }
+  `),
+})
+
 // Both queries are passed here (rather than just `query.value` at setup
 // time) so `api.value.data`/`pageInfo` keep reflecting whichever one is
 // currently active - otherwise, once a search starts, `api` would stay
 // permanently frozen on `allEvents`'s data and `pageInfo` would always
 // read as `undefined` for search results.
-const api = await useApiData([allEventsQuery, searchResultsQuery])
+const api = await useApiData([
+  allEventCategoriesQuery,
+  allEventsQuery,
+  searchResultsQuery,
+])
 const pageInfo = computed(() =>
   searchQueryVariable.value
     ? api.value.data.eventSearch?.pageInfo
@@ -278,4 +327,44 @@ watch(searchQueryVariable, async () => {
   await query.value.executeQuery()
   await advanceUntilUpcomingEvent()
 })
+
+// categories
+const { t } = useI18n()
+
+const CATEGORIES_INITIAL_COUNT = 6
+
+const categories = computed(() =>
+  (allEventCategoriesQuery.data.value?.allEventCategories?.nodes ?? [])
+    .filter(isNeitherNullNorUndefined)
+    .sort((a, b) => {
+      if (a.name === 'other') return 1
+      if (b.name === 'other') return -1
+      return a.name.localeCompare(b.name)
+    }),
+)
+
+const showAllCategories = ref(false)
+const visibleCategories = computed(() =>
+  showAllCategories.value
+    ? categories.value
+    : categories.value.slice(0, CATEGORIES_INITIAL_COUNT),
+)
+
+// `eventSearch` has no dedicated category filter parameter yet, so a
+// selection falls back to a full-text search on the category name.
+const onCategorySelect = (categoryId: string) => {
+  const category = categories.value.find(
+    (item) => (item.id ?? item.rowId) === categoryId,
+  )
+  if (category) searchQuery.value = category.name.replace(/-/g, ' ')
+}
 </script>
+
+<i18n lang="yaml">
+de:
+  browseAll: Alle Kategorien
+  showFewer: Weniger anzeigen
+en:
+  browseAll: Browse all categories
+  showFewer: Show fewer
+</i18n>
