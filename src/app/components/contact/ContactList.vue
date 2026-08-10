@@ -162,10 +162,10 @@ const contacts = computed(
       .filter(isNeitherNullNorUndefined) || [],
 )
 const contactsFiltered = computed(() => {
-  if (!searchString.value) return contacts.value
+  const normalizedSearch = searchString.value.toLowerCase().trim()
+  if (!normalizedSearch) return contacts.value
 
-  const searchStringParts = searchString.value.toLowerCase().split(' ')
-
+  const searchStringParts = normalizedSearch.split(/\s+/).filter(Boolean)
   return contacts.value.filter((contact) => {
     const contactProperties = [
       ...(contact.firstName ? [contact.firstName.toLowerCase()] : []),
