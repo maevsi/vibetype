@@ -35,7 +35,6 @@ type Event = {
   isArchived: boolean
   isInPerson: boolean
   isRemote: boolean
-  location: string | null
   name: string
   slug: string
   start: string // Date
