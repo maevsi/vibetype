@@ -341,6 +341,9 @@ importers:
       '@tanstack/vue-form':
         specifier: 1.33.3
         version: 1.33.3(vue@3.5.41(typescript@6.0.3))
+      '@tanstack/vue-virtual':
+        specifier: 3.13.35
+        version: 3.13.35(vue@3.5.41(typescript@6.0.3))
       '@tiptap/core':
         specifier: 3.29.2
         version: 3.29.2(@tiptap/pm@3.29.2)

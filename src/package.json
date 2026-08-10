@@ -44,6 +44,7 @@
     "@tailwindcss/vite": "4.3.3",
     "@takumi-rs/core": "2.5.11",
     "@tanstack/vue-form": "1.33.3",
+    "@tanstack/vue-virtual": "3.13.35",
     "@tiptap/core": "3.29.2",
     "@tiptap/extension-text-align": "3.29.2",
     "@tiptap/pm": "3.29.2",
