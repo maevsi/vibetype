@@ -1,68 +1,88 @@
 <template>
-  <div>
-    <h1>
-      {{ t('title') }}
-    </h1>
-    <div v-if="!selectedFile" class="flex flex-col gap-4">
-      <button
-        class="rounded-xl border-2 border-dashed border-gray-300 p-12"
-        @click="triggerFileInput"
+  <div class="flex flex-col gap-2 p-2">
+    <div class="min-h-0 flex-1 p-2">
+      <div
+        class="relative flex h-64 w-full items-center justify-center overflow-hidden rounded-2xl bg-(--figma-neutral-level-1)"
       >
-        <div class="flex flex-col items-center gap-4">
+        <video
+          v-if="isCameraActive"
+          ref="videoEl"
+          autoplay
+          class="size-full object-cover"
+          muted
+          playsinline
+        />
+        <img
+          v-else-if="capturedDataUrl || previewUrl"
+          :alt="t('imagePreviewAlt')"
+          class="size-full object-cover"
+          :src="capturedDataUrl ?? previewUrl"
+        />
+        <div
+          v-else
+          class="flex flex-col items-center gap-2 p-4 text-center text-(--figma-neutral-level-4)"
+        >
           <svg
-            class="size-12 text-gray-400"
+            aria-hidden="true"
+            class="size-10"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
           >
-            <rect height="18" rx="2" ry="2" width="18" x="3" y="3" />
-            <circle cx="8.5" cy="8.5" r="1.5" />
-            <path d="M20.4 14.5L16 10 4 20" />
+            <path
+              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+            />
           </svg>
-          <div class="flex flex-col gap-2">
-            <h3 class="text-xl font-medium">{{ t('uploadFiles') }}</h3>
-            <p class="text-sm text-gray-500">{{ t('fileTypes') }}</p>
-          </div>
+          <p class="text-sm font-semibold">{{ t('cameraUnavailable') }}</p>
         </div>
-      </button>
-      <ButtonColored
-        :aria-label="t('selectFromDevice')"
-        class="self-end"
-        @click="triggerFileInput"
-      >
-        {{ t('selectFromDevice') }}
-      </ButtonColored>
-    </div>
-    <div v-else class="flex flex-col gap-4">
-      <img class="rounded-md" :src="previewUrl" />
-      <div class="flex items-center justify-between">
-        <div class="flex gap-4">
-          <ButtonColored
-            :aria-label="t('replaceImage')"
-            variant="secondary"
-            @click="triggerFileInput"
-          >
-            {{ t('replaceImage') }}
-          </ButtonColored>
-          <ButtonColored
-            :aria-label="t('clearAll')"
-            variant="secondary"
-            @click="removeFile"
-          >
-            {{ t('clearAll') }}
-          </ButtonColored>
-        </div>
-        <ButtonColored
-          :aria-label="t('uploadImage')"
-          :loading="isUploading"
-          @click="uploadFile"
-        >
-          {{ t('uploadImage') }}
-        </ButtonColored>
       </div>
     </div>
+    <div class="flex flex-col gap-2 p-2">
+      <ButtonColored
+        :aria-label="hasCapture ? t('submit') : t('takePhoto')"
+        class="w-full"
+        :disabled="isSubmitting || (!isCameraActive && !hasCapture)"
+        @click="hasCapture ? submit() : takePhoto()"
+      >
+        <template #prefix>
+          <IHeroiconsCamera aria-hidden="true" class="size-6" />
+        </template>
+        {{ hasCapture ? t('submit') : t('takePhoto') }}
+      </ButtonColored>
+      <ButtonColored
+        :aria-label="hasCapture ? t('retake') : t('uploadFromGallery')"
+        class="w-full"
+        variant="secondary"
+        @click="hasCapture ? retake() : triggerGalleryInput()"
+      >
+        {{ hasCapture ? t('retake') : t('uploadFromGallery') }}
+      </ButtonColored>
+    </div>
+    <div class="flex items-center px-2">
+      <div class="h-0.5 flex-1 rounded-full bg-(--figma-neutral-level-2)" />
+      <span
+        class="px-2 text-[13px] leading-4.5 font-semibold tracking-[-0.4px]"
+      >
+        {{ t('or') }}
+      </span>
+      <div class="h-0.5 flex-1 rounded-full bg-(--figma-neutral-level-2)" />
+    </div>
+    <div class="p-2">
+      <ButtonColored
+        :aria-label="t('provideLinkToWebsite')"
+        class="w-full"
+        :to="localePath('event-ingest-url')"
+        variant="secondary"
+      >
+        {{ t('provideLinkToWebsite') }}
+      </ButtonColored>
+    </div>
+    <canvas ref="canvasEl" class="hidden" />
     <input
-      ref="fileInput"
+      ref="galleryInput"
       accept="image/png,image/jpeg,image/gif"
       class="hidden"
       type="file"
@@ -72,104 +92,93 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: 'plain',
+})
+
 const { t } = useI18n()
 const alertError = useAlertError()
-const templateFileInput = useTemplateRef('fileInput')
+const localePath = useLocalePath()
+const { $csrfFetch } = useNuxtApp()
 
-// page
-useHeadDefault({ title: t('title') })
+const {
+  capturedBase64,
+  capturedDataUrl,
+  hasCapture,
+  isCameraActive,
+  previewUrl,
+  selectedFile,
+  handleFileSelect,
+  retake,
+  takePhoto,
+  triggerGalleryInput,
+} = useCamera()
 
-// data
-const isUploading = ref(false)
-const previewUrl = ref<string>()
-const selectedFile = ref<File>()
+const isSubmitting = ref(false)
 
-// methods
-const handleFileSelect = (event: Event) => {
-  const input = event.target as HTMLInputElement
-  if (!input.files?.length) return
+const submit = async () => {
+  if (isSubmitting.value) return
 
-  const file = input.files[0]
-  if (!file) return
+  let base64: string | undefined
 
-  if (!['image/png', 'image/jpeg', 'image/gif'].includes(file.type)) {
-    alert('Invalid file type or size')
-    return
+  if (capturedBase64.value) {
+    base64 = capturedBase64.value
+  } else if (selectedFile.value) {
+    base64 = await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(selectedFile.value!)
+      reader.onload = () => resolve((reader.result as string).split(',')[1]!)
+      reader.onerror = reject
+    })
   }
 
-  // avoid memory leaks
-  if (previewUrl.value) {
-    URL.revokeObjectURL(previewUrl.value)
-  }
+  if (!base64) return
 
-  selectedFile.value = file
-  previewUrl.value = URL.createObjectURL(file)
-}
-const removeFile = () => {
-  selectedFile.value = undefined
+  isSubmitting.value = true
 
-  if (previewUrl.value) {
-    URL.revokeObjectURL(previewUrl.value)
-  }
-
-  if (templateFileInput.value) {
-    templateFileInput.value.value = ''
-  }
-}
-const triggerFileInput = () => {
-  if (!templateFileInput.value) return
-
-  templateFileInput.value.value = ''
-  templateFileInput.value.click()
-}
-const uploadFile = async () => {
-  if (!selectedFile.value) return
-
-  const reader = new FileReader()
-  reader.readAsDataURL(selectedFile.value)
-  isUploading.value = true
-  reader.onload = async () => {
-    const base64Image = (reader.result as string).split(',')[1]
-
-    try {
-      await $fetch('/api/model/event/ingest/image', {
-        body: { base64Image },
+  try {
+    const { output } = await $csrfFetch<{ output: Record<string, unknown> }>(
+      '/api/model/event/ingest/image',
+      {
+        body: { base64Image: base64 },
         method: 'POST',
-      })
-      console.log('Upload success')
-    } catch (error) {
-      alertError({
-        ...(error instanceof Error ? { error } : {}),
-        messageI18n: t('uploadFailed'),
-      })
-    } finally {
-      isUploading.value = false
-    }
-  }
-  reader.onerror = () => {
-    console.error('Error reading file')
-    isUploading.value = false
+      },
+    )
+
+    await $csrfFetch('/api/service/zammad/ingest/image', {
+      body: output,
+      method: 'POST',
+    })
+  } catch (error) {
+    alertError({
+      ...(error instanceof Error ? { error } : {}),
+      messageI18n: t('submitFailed'),
+    })
+  } finally {
+    isSubmitting.value = false
   }
 }
 </script>
 
 <i18n lang="yaml">
 de:
-  clearAll: Löschen
-  fileTypes: PNG, JPG, GIF bis zu 10 MB
-  replaceImage: Bild ersetzen
-  selectFromDevice: Vom Gerät auswählen
-  title: Bild laden
-  uploadFailed: Hochladen fehlgeschlagen
-  uploadFiles: Datei hochladen
-  uploadImage: Bild hochladen
+  cameraUnavailable: Kamera nicht verfügbar. Bitte lade ein Bild hoch.
+  imagePreviewAlt: Bildvorschau
+  or: ODER
+  provideLinkToWebsite: Link zur Website angeben
+  retake: Erneut aufnehmen
+  submit: Absenden
+  submitFailed: Übermittlung fehlgeschlagen
+  takePhoto: Foto aufnehmen
+  uploadFromGallery: Aus Galerie hochladen
 en:
-  clearAll: Clear
-  fileTypes: PNG, JPG, GIF up to 10 MB
-  replaceImage: Replace image
-  selectFromDevice: Select from device
-  title: Ingest image
-  uploadFailed: Upload failed
-  uploadFiles: Upload file
-  uploadImage: Upload image
+  cameraUnavailable: Camera unavailable. Please upload an image instead.
+  imagePreviewAlt: Image preview
+  or: OR
+  provideLinkToWebsite: Provide link to website
+  retake: Retake
+  submit: Submit
+  submitFailed: Submission failed
+  takePhoto: Take photo
+  uploadFromGallery: Upload from gallery
 </i18n>
