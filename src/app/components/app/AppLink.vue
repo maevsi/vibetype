@@ -48,7 +48,9 @@ const emit = defineEmits<{
 const classComputed = computed(() =>
   [
     'rounded',
-    ...(isColored ? ['text-(--accent-strong) dark:text-link-bright'] : []),
+    ...(isColored
+      ? ['text-(--figma-primary-green-middle-dark) dark:text-link-bright']
+      : []),
     ...(isDisabled ? ['disabled'] : []),
     ...(isUnderlined ? ['underline'] : []),
   ].join(' '),

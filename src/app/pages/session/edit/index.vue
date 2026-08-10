@@ -3,10 +3,12 @@
     <LayoutPageTitle :title />
     <div class="flex flex-col gap-6">
       <section class="flex flex-col gap-4">
-        <span class="text-lg font-bold">{{ t('profile') }}</span>
+        <TypographyH4 class="text-(--figma-neutral-level-6)">{{
+          t('profile')
+        }}</TypographyH4>
         <div class="flex flex-col gap-3">
           <CardButton
-            class="bg-(--accent-strong) text-(--semantic-base-primary-button-text)"
+            class="bg-(--figma-primary-green-middle-dark) text-(--figma-base-white)"
             :title="t('aiSetup')"
             :to="
               localePath({
@@ -20,7 +22,7 @@
             </template> -->
           </CardButton>
           <CardButton
-            class="border-(--warning-strong) bg-(--warning-weak) text-(--warning-text)"
+            class="border-(--figma-warning-yellow-middle-dark) bg-(--figma-warning-yellow-light) text-(--figma-warning-yellow-dark)"
             :title="t('earlyBirdStart')"
             :to="localePath({ name: 'early-bird-create' })"
           >
@@ -33,7 +35,9 @@
         </div>
       </section>
       <section class="flex flex-col gap-4">
-        <span class="text-lg font-bold">{{ t('display') }}</span>
+        <TypographyH4 class="text-(--figma-neutral-level-6)">{{
+          t('display')
+        }}</TypographyH4>
         <div class="flex flex-col gap-3">
           <CardButton
             :title="t('colorScheme')"
@@ -58,9 +62,12 @@
         </div>
       </section>
       <section class="flex flex-col gap-4">
-        <span class="text-lg font-bold" @click="onDevelopmentModeTrigger">
+        <TypographyH4
+          class="text-(--figma-neutral-level-6)"
+          @click="onDevelopmentModeTrigger"
+        >
           {{ t('support') }}
-        </span>
+        </TypographyH4>
         <div class="flex flex-col gap-3">
           <CardButton
             v-if="isDevelopmentModeActive"
@@ -116,9 +123,9 @@
         </div>
       </section>
       <section class="flex flex-col gap-4">
-        <span class="text-lg font-bold">
+        <TypographyH4 class="text-(--figma-neutral-level-6)">
           {{ t('legal') }}
-        </span>
+        </TypographyH4>
         <div class="flex flex-col gap-3">
           <CardButton :title="t('terms')" :to="localePath('docs-legal-terms')">
             <AppIconContract />
@@ -145,9 +152,9 @@
         </div>
       </section>
       <section v-if="store.signedInUsername" class="flex flex-col gap-4">
-        <span class="text-lg font-bold">
+        <TypographyH4 class="text-(--figma-neutral-level-6)">
           {{ t('interactions') }}
-        </span>
+        </TypographyH4>
         <CardButton
           :title="t('accountBlock')"
           :to="
@@ -162,7 +169,7 @@
       </section>
       <section v-if="store.signedInUsername" class="flex flex-col">
         <CardButton
-          class="bg-(--critic-string) text-(--semantic-base-light-text-on-dark)"
+          class="bg-(--figma-critic-red-middle-dark) text-(--figma-base-white)"
           :title="t('logout')"
           @click="signOutToRoot"
         >

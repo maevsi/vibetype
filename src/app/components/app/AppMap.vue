@@ -89,7 +89,7 @@ onMounted(async () => {
 
   if (events && events.length) {
     const icon = L.divIcon({
-      className: 'text-(--critic-red-middle)',
+      className: 'text-(--figma-critic-red-middle)',
       html: markerIcon,
       iconAnchor: [15, 25],
       iconSize: [30, 30],

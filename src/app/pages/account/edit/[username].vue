@@ -80,7 +80,7 @@
         @save="saveImprint"
       />
       <CardButton
-        class="border-(--warning-strong) bg-(--warning-weak) text-(--warning-text)"
+        class="border-(--figma-warning-yellow-middle-dark) bg-(--figma-warning-yellow-light) text-(--figma-warning-yellow-dark)"
         :title="t('resetPassword')"
         :to="
           localePath({

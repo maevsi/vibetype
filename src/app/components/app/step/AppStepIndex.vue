@@ -6,9 +6,11 @@
       class="rounded-full p-1.5"
       :class="[
         ...(key === index
-          ? ['border-4 border-(--accent-weak-hover)']
+          ? ['border-4 border-(--figma-neutral-level-2)']
           : ['m-1']),
-        ...(key <= index ? ['bg-(--accent-strong)'] : ['bg-(--faint-mid)']),
+        ...(key <= index
+          ? ['bg-(--figma-primary-green-middle-dark)']
+          : ['bg-(--faint-mid)']),
       ]"
     />
   </div>
