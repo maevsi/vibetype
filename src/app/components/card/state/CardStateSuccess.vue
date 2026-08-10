@@ -2,7 +2,7 @@
   <CardState
     :class="
       cn(
-        'bg-(--accent-strong) text-(--semantic-base-primary-button-text)',
+        'bg-(--figma-primary-green-middle-dark) text-(--figma-base-white)',
         classProps,
       )
     "
