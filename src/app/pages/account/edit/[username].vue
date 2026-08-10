@@ -23,48 +23,50 @@
       <div />
     </div>
     <div class="flex flex-col gap-3">
-      <div
-        class="flex items-center justify-between gap-4 rounded-lg border border-(--semantic-base-background) bg-(--semantic-base-surface-1) p-3"
-      >
-        <AccountProfilePicture
-          :account-id="account.rowId"
-          class="size-15 shrink-0 rounded-full"
-          height="60"
-          width="60"
-        />
-        <div class="flex gap-3">
-          <ButtonColored
-            :aria-label="t('replace')"
-            @click="showModalUploadSelection"
-          >
-            <TypographyLabel v-slot="attributes">
-              <div v-bind="attributes">
-                {{ t('replace') }}
-              </div>
-            </TypographyLabel>
-          </ButtonColored>
-          <ButtonColored
-            :aria-label="t('remove')"
-            variant="secondary"
-            @click="openProfilePictureRemoveDrawer"
-          >
-            <TypographyLabel v-slot="attributes">
-              <div v-bind="attributes">
-                {{ t('remove') }}
-              </div>
-            </TypographyLabel>
-          </ButtonColored>
+      <AccountEditField :label="t('profilePicture')">
+        <div
+          class="flex items-center justify-between gap-4 rounded-lg border border-(--semantic-base-background) bg-(--semantic-base-surface-1) p-3"
+        >
+          <AccountProfilePicture
+            :account-id="account.rowId"
+            class="size-15 shrink-0 rounded-full"
+            height="60"
+            width="60"
+          />
+          <div class="flex gap-3">
+            <ButtonColored
+              :aria-label="t('replace')"
+              @click="showModalUploadSelection"
+            >
+              <TypographyLabel v-slot="attributes">
+                <div v-bind="attributes">
+                  {{ t('replace') }}
+                </div>
+              </TypographyLabel>
+            </ButtonColored>
+            <ButtonColored
+              :aria-label="t('remove')"
+              variant="secondary"
+              @click="openProfilePictureRemoveDrawer"
+            >
+              <TypographyLabel v-slot="attributes">
+                <div v-bind="attributes">
+                  {{ t('remove') }}
+                </div>
+              </TypographyLabel>
+            </ButtonColored>
+          </div>
+          <ModalUploadSelection
+            v-model="isModalUploadSelectionOpen"
+            @select="onUploadSelect"
+          />
+          <AccountProfilePictureRemoveDrawer
+            v-if="account?.profilePictureByAccountId?.rowId"
+            v-model:open="isProfilePictureRemoveDrawerOpen"
+            :profile-picture-row-id="account.profilePictureByAccountId.rowId"
+          />
         </div>
-        <ModalUploadSelection
-          v-model="isModalUploadSelectionOpen"
-          @select="onUploadSelect"
-        />
-        <AccountProfilePictureRemoveDrawer
-          v-if="account?.profilePictureByAccountId?.rowId"
-          v-model:open="isProfilePictureRemoveDrawerOpen"
-          :profile-picture-row-id="account.profilePictureByAccountId.rowId"
-        />
-      </div>
+      </AccountEditField>
       <AppInputTextarea
         :content-initial="account.description"
         :length-maximum="descriptionLengthMaximum"
@@ -301,6 +303,7 @@ de:
   errorUpdateDescription: Beim Speichern der Beschreibung ist ein Problem aufgetreten
   errorUpdateImprint: Beim Speichern des Impressums ist ein Problem aufgetreten
   imprint: Impressum
+  profilePicture: Profilbild
   remove: Bild entfernen
   replace: Bild ersetzen
   resetPassword: Passwort zurücksetzen
@@ -315,6 +318,7 @@ en:
   errorUpdateDescription: There was a problem saving the description
   errorUpdateImprint: There was a problem saving the imprint
   imprint: Imprint
+  profilePicture: Profile picture
   remove: Remove Image
   replace: Replace Image
   resetPassword: Reset Password
