@@ -5,8 +5,53 @@
 
 :root {
   --accent-line: #dcf9ea;
-  --accent-strong-hover: #2bb86d;
-  --accent-strong: #36db83;
+
+  /* === Figma color tokens (Colors/*.json — source of truth) === */
+
+  /* Base */
+  --figma-base-black: #000;
+  --figma-base-white: #fff;
+  --figma-base-background: #fff;
+  --figma-base-background-nav-bar: #eff0ef;
+
+  /* Primary (green) */
+  --figma-primary-green-dark: #10601d;
+  --figma-primary-green-middle-dark: #1ba732;
+  --figma-primary-green-middle: #35de51;
+  --figma-primary-green-middle-light: #7bea8e;
+  --figma-primary-green-light: #c2f5ca;
+
+  /* Neutral */
+  --figma-neutral-level-0: #fff;
+  --figma-neutral-level-1: #eff0ef;
+  --figma-neutral-level-2: #dbdcdb;
+  --figma-neutral-level-3: #9ca09d;
+  --figma-neutral-level-4: #878c88;
+  --figma-neutral-level-5: #737874;
+  --figma-neutral-level-6: #000;
+
+  /* Secondary (blue) */
+  --figma-secondary-blue-dark: #022f6f;
+  --figma-secondary-blue-middle-dark: #0351bf;
+  --figma-secondary-blue-middle: #1877fb;
+  --figma-secondary-blue-middle-light: #68a6fd;
+  --figma-secondary-blue-light: #b9d6fe;
+
+  /* Warning (yellow) */
+  --figma-warning-yellow-dark: #605810;
+  --figma-warning-yellow-middle-dark: #a7991b;
+  --figma-warning-yellow-middle: #decd35;
+  --figma-warning-yellow-middle-light: #eadf7b;
+  --figma-warning-yellow-light: #f5f0c2;
+
+  /* Critic (red) */
+  --figma-critic-red-dark: #70001e;
+  --figma-critic-red-middle-dark: #c20034;
+  --figma-critic-red-middle: #ff1453;
+  --figma-critic-red-middle-light: #ff668f;
+  --figma-critic-red-light: #ffb8cb;
+  --accent-strong-hover: #158a28;
+  --accent-strong: #1ba732;
   --accent-weak-hover: #c0e6d2;
   --accent-weak: #dcf9ea;
   --base-white: #fafafc;
@@ -35,7 +80,7 @@
   --semantic-base-secondary-button-text: #191911;
   --semantic-base-surface-1: #fafafc;
   --semantic-base-text-primary: #191911;
-  --semantic-base-text-secondary: #868679;
+  --semantic-base-text-secondary: #878c88;
   --semantic-base-text-tertiary: #505047;
   --semantic-critic-strong-hover: #8c1818;
   --semantic-critic-strong: #e00000;
@@ -48,10 +93,71 @@
   --warning-strong: #f9ae25;
   --warning-text: #9c5407;
   --warning-weak: #fdebd8;
+  --input-background: #f3f4f6;
+  --surface-active: #dbdcdb;
+  --surface-active-hover: #e5e6e5;
+  --radius-standard: 1.5rem; /* 24px */
+  --radius-large: 2rem; /* 32px */
+
+  /* Status badge tokens */
+  --status-going-bg: #c2f5ca;
+  --status-going-text: #1ba732;
+  --status-hosting-bg: #b9d6fe;
+  --status-hosting-text: #0351bf;
+  --status-saved-bg: #ffb8cb;
+  --status-saved-text: #c20034;
+  --status-draft-bg: #fff4d1;
+  --status-draft-text: #a7991b;
 }
 
 .dark {
   --accent-strong: #4dc762;
+
+  /* === Figma color tokens (Colors/*.json — source of truth) === */
+
+  /* Base */
+  --figma-base-black: #000;
+  --figma-base-white: #fff;
+  --figma-base-background: #000;
+  --figma-base-background-nav-bar: #191a19;
+
+  /* Primary (green) */
+  --figma-primary-green-dark: #0a3d13;
+  --figma-primary-green-middle-dark: #158428;
+  --figma-primary-green-middle: #21ca3d;
+  --figma-primary-green-middle-light: #58e470;
+  --figma-primary-green-light: #9fefac;
+
+  /* Neutral */
+  --figma-neutral-level-0: #000;
+  --figma-neutral-level-1: #191a19;
+  --figma-neutral-level-2: #282a28;
+  --figma-neutral-level-3: #555856;
+  --figma-neutral-level-4: #646865;
+  --figma-neutral-level-5: #737874;
+  --figma-neutral-level-6: #fff;
+
+  /* Secondary (blue) */
+  --figma-secondary-blue-dark: #011e46;
+  --figma-secondary-blue-middle-dark: #024097;
+  --figma-secondary-blue-middle: #0463e7;
+  --figma-secondary-blue-middle-light: #408efc;
+  --figma-secondary-blue-light: #90befd;
+
+  /* Warning (yellow) */
+  --figma-warning-yellow-dark: #847915;
+  --figma-warning-yellow-middle-dark: #cab921;
+  --figma-warning-yellow-middle: #e4d658;
+  --figma-warning-yellow-middle-light: #efe79f;
+  --figma-warning-yellow-light: #fbf9e5;
+
+  /* Critic (red) */
+  --figma-critic-red-dark: #70001e;
+  --figma-critic-red-middle-dark: #c20034;
+  --figma-critic-red-middle: #ff1453;
+  --figma-critic-red-middle-light: #ff668f;
+  --figma-critic-red-light: #ffb8cb;
+  --accent-strong-hover: #3da84f;
   --accent-weak-hover: #9cd0a6;
   --accent-weak: #c1dcc6;
   --base-white: #e4e4eb;
@@ -78,6 +184,19 @@
   --semantic-critic-text: #e67070;
   --semantic-critic-weak: #e67070;
   --surface: #3e3e38;
+  --input-background: #2a2a26;
+  --surface-active: #3a3a34;
+  --surface-active-hover: #444440;
+
+  /* Status tokens in dark mode — desaturated slightly */
+  --status-going-bg: #1a3d20;
+  --status-going-text: #4dc762;
+  --status-hosting-bg: #0d2a4a;
+  --status-hosting-text: #5ba3e8;
+  --status-saved-bg: #3d0d1a;
+  --status-saved-text: #ff7aa0;
+  --status-draft-bg: #2d2810;
+  --status-draft-text: #c8b84a;
 
   @apply scheme-dark;
 }
@@ -116,6 +235,7 @@
     }
   }
 
+  --default-border-radius: 16px;
   --default-font-family: var(--font-raleway);
   --font-raleway:
     'Raleway Variable', ui-sans-serif, system-ui, sans-serif,
