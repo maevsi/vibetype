@@ -88,16 +88,6 @@
         class="line-clamp-2 text-[20px] leading-[25px] font-semibold tracking-[-0.4px] wrap-break-word text-(--semantic-base-text-primary)"
         >{{ event.name }}</span
       >
-      <!-- Location -->
-      <div v-if="address?.name" class="flex items-center gap-1.5">
-        <AppIconMapPin
-          class="size-4 shrink-0 text-(--semantic-base-text-secondary)"
-        />
-        <span
-          class="truncate text-[13px] font-semibold text-(--semantic-base-text-secondary)"
-          >{{ address.name }}</span
-        >
-      </div>
       <!-- Footer row -->
       <div class="flex items-center gap-2.5 pt-1">
         <EventAttendeeAvatarStack
@@ -304,7 +294,6 @@ import { TypographyBodySmall, TypographySubtitleSmall } from '#components'
 
 // compiler
 export type EventCardProps = {
-  address?: { name?: string | null } | null
   event: DeepReadonly<{
     accountByCreatedBy?: {
       id?: string
@@ -352,11 +341,7 @@ export type EventCardProps = {
     // | 'invitation' // TODO: implement invitation
     | 'recommendation' // alias for 'large'
 }
-const {
-  address = undefined,
-  event,
-  variant = undefined,
-} = defineProps<EventCardProps>()
+const { event, variant = undefined } = defineProps<EventCardProps>()
 
 // template
 const localePath = useLocalePath()
