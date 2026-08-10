@@ -1,10 +1,13 @@
 export const FEATURE_FLAGS = [
   'developer-tools',
+  'event-gallery',
   'friends',
   'map',
   'notifications',
+  'organizer-analytics',
   'poster-hunt',
   'social-login',
+  'vouchers',
 ] as const
 export type FeatureFlag = (typeof FEATURE_FLAGS)[number]
 
