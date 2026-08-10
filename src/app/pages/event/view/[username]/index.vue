@@ -21,8 +21,47 @@
         </template>
       </i18n-t>
     </LayoutPageTitle>
+
+    <!-- Upcoming / Past tabs -->
+    <div
+      class="relative mx-4 mb-4 h-10 rounded-xl bg-(--figma-neutral-level-2) p-1"
+    >
+      <div class="relative z-10 flex h-full gap-1">
+        <button
+          class="flex-1 rounded-lg text-sm font-semibold transition-colors"
+          :class="
+            activeTab === 'upcoming'
+              ? 'text-white'
+              : 'text-(--semantic-base-text-secondary)'
+          "
+          @click="activeTab = 'upcoming'"
+        >
+          {{ t('upcoming') }}
+        </button>
+        <button
+          class="flex-1 rounded-lg text-sm font-semibold transition-colors"
+          :class="
+            activeTab === 'past'
+              ? 'text-white'
+              : 'text-(--semantic-base-text-secondary)'
+          "
+          @click="activeTab = 'past'"
+        >
+          {{ t('past') }}
+        </button>
+      </div>
+      <!-- Sliding indicator -->
+      <div
+        class="absolute top-1 bottom-1 rounded-lg bg-(--accent-strong) transition-all duration-300"
+        :style="{
+          width: 'calc(50% - 4px)',
+          left: activeTab === 'upcoming' ? '4px' : 'calc(50% + 2px)',
+        }"
+      />
+    </div>
+
     <EventList
-      :events
+      :events="filteredEvents"
       :has-next-page="
         api.data.accountByUsername?.eventsByCreatedBy.pageInfo.hasNextPage
       "
@@ -124,11 +163,27 @@ const events = computed(() =>
 
 // template
 const localePath = useLocalePath()
+
+// tabs
+const activeTab = ref<'past' | 'upcoming'>('upcoming')
+const now = useNow()
+const filteredEvents = computed(() => {
+  if (!events.value) return undefined
+  return events.value.filter((event) =>
+    activeTab.value === 'upcoming'
+      ? new Date(event.start) >= now.value
+      : new Date(event.start) < now.value,
+  )
+})
 </script>
 
 <i18n lang="yaml">
 de:
+  past: Vergangen
   title: Veranstaltungen von {name}
+  upcoming: Bevorstehend
 en:
+  past: Past
   title: Events by {name}
+  upcoming: Upcoming
 </i18n>
