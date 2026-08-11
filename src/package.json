@@ -105,7 +105,7 @@
     "nodemailer": "9.0.5",
     "nuxt": "4.5.2",
     "nuxt-gtag": "5.0.0",
-    "nuxt-og-image": "6.7.6",
+    "nuxt-og-image": "6.7.8",
     "nuxt-schema-org": "6.2.8",
     "nuxt-security": "2.6.0",
     "openai": "7.4.0",
