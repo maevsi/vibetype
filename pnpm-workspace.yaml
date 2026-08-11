@@ -11,7 +11,7 @@ allowBuilds:
   unrs-resolver: false
   vue-demi: false
 overrides:
-  nuxt-og-image: 6.7.5
+  nuxt-og-image: 6.7.6
 packages:
   - src
   - tests
