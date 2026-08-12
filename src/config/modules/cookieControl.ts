@@ -6,8 +6,15 @@ import {
   FEATURE_FLAGS_COOKIE_ID,
   FEATURE_FLAGS_COOKIE_NAME,
   GTAG_COOKIE_ID,
+  GTAG_MEASUREMENT_ID,
   TIMEZONE_COOKIE_NAME,
 } from '../../node/static'
+
+// reads the same environment variable `runtimeConfig.public.gtag.id` is overridden by
+// (see `nuxt.config.ts`), so the targeted cookie name below stays correct even when the
+// measurement id is overridden per deployment
+const GTAG_MEASUREMENT_ID_RESOLVED =
+  process.env.NUXT_PUBLIC_GTAG_ID || GTAG_MEASUREMENT_ID
 
 export const cookieControlConfig = {
   cookieControl: {
@@ -116,7 +123,10 @@ export const cookieControlConfig = {
             de: 'Analyse',
             en: 'Analytics',
           },
-          targetCookieIds: ['_ga', '_ga_WMQ1JY99XH'],
+          targetCookieIds: [
+            '_ga',
+            `_ga_${GTAG_MEASUREMENT_ID_RESOLVED.replace('G-', '')}`,
+          ],
         },
       ],
     },

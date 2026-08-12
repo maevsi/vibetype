@@ -9,6 +9,8 @@ export const useAppGtag = () => {
 
   const gtagId = runtimeConfig.public.gtag.id
 
+  if (!gtagId) return
+
   const cookieControl = useCookieControl()
   const isConsented = computed(() =>
     Boolean(cookieControl.cookiesEnabledIds.value?.includes(GTAG_COOKIE_ID)),
