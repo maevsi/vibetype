@@ -32,9 +32,6 @@ export const developmentConfig: ReturnType<DefineNuxtConfig> = {
     },
 
     // modules
-    gtag: {
-      enabled: false,
-    },
     security: {
       headers: {
         strictTransportSecurity: false, // prevent endless reload in Chrome
