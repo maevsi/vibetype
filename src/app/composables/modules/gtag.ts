@@ -1,4 +1,4 @@
-import { GTAG_COOKIE_ID, GTAG_MEASUREMENT_ID } from '~~/node/static'
+import { GTAG_COOKIE_ID } from '~~/node/static'
 
 export const useAppGtag = () => {
   if (import.meta.server) return
@@ -7,13 +7,15 @@ export const useAppGtag = () => {
 
   if (!runtimeConfig.public.vio.isInProduction) return
 
+  const gtagId = runtimeConfig.public.gtag.id
+
   const cookieControl = useCookieControl()
   const isConsented = computed(() =>
     Boolean(cookieControl.cookiesEnabledIds.value?.includes(GTAG_COOKIE_ID)),
   )
 
   const { consent } = useScriptGoogleAnalytics({
-    id: GTAG_MEASUREMENT_ID,
+    id: gtagId,
     defaultConsent: {
       ad_user_data: 'denied',
       ad_personalization: 'denied',
@@ -33,7 +35,7 @@ export const useAppGtag = () => {
     isConsented,
     (isGranted) => {
       consent?.update({ analytics_storage: isGranted ? 'granted' : 'denied' })
-      window[`ga-disable-${GTAG_MEASUREMENT_ID}`] = !isGranted
+      window[`ga-disable-${gtagId}`] = !isGranted
     },
     { immediate: true },
   )

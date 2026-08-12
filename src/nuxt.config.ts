@@ -10,6 +10,7 @@ import { environmentsConfig } from './config/environments'
 
 import { iconCollectionOptimization } from './node'
 import {
+  GTAG_MEASUREMENT_ID,
   IS_IN_FRONTEND_DEVELOPMENT,
   IS_NITRO_OPENAPI_ENABLED,
   NUXT_PUBLIC_SENTRY_HOST,
@@ -115,6 +116,9 @@ export default defineNuxtConfig({
             perSecond: '14',
           },
         },
+      },
+      gtag: {
+        id: GTAG_MEASUREMENT_ID,
       },
       i18n: {
         baseUrl: SITE_URL,

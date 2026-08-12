@@ -4,6 +4,7 @@ import { defineAddress, defineOrganization } from 'nuxt-schema-org/schema'
 import { cookieControlConfig } from './cookieControl'
 import { i18nConfig } from './i18n'
 import { pwaConfig } from './pwa'
+import { scriptsConfig } from './scripts'
 import { securityConfig } from './security'
 
 import { SITE_NAME } from '../../node/static'
@@ -49,6 +50,7 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   linkChecker: {
     failOnError: true,
   },
+  ...scriptsConfig,
   ...securityConfig,
   sentry: {
     org: 'maevsi',
