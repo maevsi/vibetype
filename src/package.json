@@ -5,7 +5,7 @@
     "@aws-sdk/credential-providers": "3.1106.0",
     "@comark/nuxt": "0.6.2",
     "@dargmuesli/nuxt-cookie-control": "9.3.2",
-    "@dargmuesli/nuxt-vio": "22.0.2",
+    "@dargmuesli/nuxt-vio": "22.0.3",
     "@fontsource-variable/raleway": "5.3.0",
     "@graphql-codegen/add": "7.1.0",
     "@graphql-codegen/cli": "7.2.0",
