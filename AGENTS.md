@@ -25,11 +25,11 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
 - Commit bodies are only to be filled in when necessary, e.g. to mention a resolved issue link
 
 ## NPM
-- Proposal of changes to installed dependencies are allowed
-- Use scripts from `package.json` to verify that the project's requirements are met
+- Ensure CI is green before completing work with the following commands:
   - `pnpm run lint` for formatting and type checks
   - `pnpm run build` as preparation for end-to-end testing
   - `pnpm run test:e2e:docker:server:node:update` for end-to-end testing with snapshot updates
+- Proposal of changes to installed dependencies are allowed
 - Pin development dependencies to an exact version, don't use caret-versioning
 
 ## Nuxt
@@ -45,3 +45,6 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
 
 ## GraphQL
 - Run `pnpm --dir src run gql:codegen` after any changes to GraphQL queries or mutations to update the generated types
+
+## Agents
+- If information that is relevant for agentic instructions is not yet covered in `AGENTS.md`, add it.
