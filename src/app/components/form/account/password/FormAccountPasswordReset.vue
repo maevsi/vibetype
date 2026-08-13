@@ -4,16 +4,16 @@
     @submit.prevent="handleSubmit"
   >
     <FormAuthPasswordPair
-      :password-error="passwordValidation.error.value"
+      :password-error="passwordPairValidation.password.error.value"
       :password-placeholder="t('passwordNew')"
       :password-value="form.getFieldValue('password')"
-      :repetition-error="passwordConfirmationValidation.error.value"
+      :repetition-error="passwordPairValidation.repetition.error.value"
       :repetition-placeholder="t('passwordConfirm')"
       :repetition-value="form.getFieldValue('passwordConfirm')"
-      @password-blur="handlePasswordBlur"
-      @repetition-blur="handlePasswordConfirmationBlur"
-      @update:password-value="handlePasswordInput"
-      @update:repetition-value="handlePasswordConfirmationInput"
+      @password-blur="passwordPairValidation.handlePasswordBlur"
+      @repetition-blur="passwordPairValidation.handleRepetitionBlur"
+      @update:password-value="passwordPairValidation.handlePasswordInput"
+      @update:repetition-value="passwordPairValidation.handleRepetitionInput"
     />
     <FormAuthButton :aria-label="t('save')" class="mt-4" type="submit">
       {{ t('save') }}
@@ -70,52 +70,16 @@ watch(
 const passwordMessages = computed(() => ({
   minimumLength: t('passwordMinLength'),
   passwordMismatch: t('passwordMismatch'),
-  specialCharacter: t('passwordSpecialChar'),
-  uppercase: t('passwordUppercase'),
+  tooWeak: t('passwordTooWeak'),
 }))
 
-const passwordValidation = useAuthFieldValidation({
-  validator: (value: string) =>
-    getStrongPasswordError({
-      messages: passwordMessages.value,
-      password: value,
-    }),
+const passwordPairValidation = usePasswordPairValidation({
+  getPassword: () => form.getFieldValue('password'),
+  getRepetition: () => form.getFieldValue('passwordConfirm'),
+  messages: () => passwordMessages.value,
+  setPassword: (value) => form.setFieldValue('password', value),
+  setRepetition: (value) => form.setFieldValue('passwordConfirm', value),
 })
-
-const passwordConfirmationValidation = useAuthFieldValidation({
-  validator: (value: string) =>
-    getPasswordConfirmationError({
-      messages: passwordMessages.value,
-      password: form.getFieldValue('password'),
-      repetition: value,
-    }),
-})
-
-const handlePasswordBlur = async () => {
-  await passwordValidation.handleBlur(form.getFieldValue('password'))
-}
-
-const handlePasswordInput = async (value: string) => {
-  form.setFieldValue('password', value)
-  await passwordValidation.handleInput(value)
-
-  if (passwordConfirmationValidation.touched.value) {
-    await passwordConfirmationValidation.validate(
-      form.getFieldValue('passwordConfirm'),
-    )
-  }
-}
-
-const handlePasswordConfirmationBlur = async () => {
-  await passwordConfirmationValidation.handleBlur(
-    form.getFieldValue('passwordConfirm'),
-  )
-}
-
-const handlePasswordConfirmationInput = async (value: string) => {
-  form.setFieldValue('passwordConfirm', value)
-  await passwordConfirmationValidation.handleInput(value)
-}
 
 // form
 const formSchema = z.object({
@@ -146,17 +110,9 @@ const form = useForm({
 })
 
 const handleSubmit = async () => {
-  passwordValidation.touched.value = true
-  passwordConfirmationValidation.touched.value = true
+  const isPasswordPairValid = await passwordPairValidation.validate()
 
-  const isPasswordValid = await passwordValidation.validate(
-    form.getFieldValue('password'),
-  )
-  const isConfirmationValid = await passwordConfirmationValidation.validate(
-    form.getFieldValue('passwordConfirm'),
-  )
-
-  if (!isPasswordValid || !isConfirmationValid) return
+  if (!isPasswordPairValid) return
 
   form.handleSubmit()
 }
@@ -168,8 +124,7 @@ de:
   passwordMinLength: Mindestens 12 Zeichen erforderlich
   passwordMismatch: Passwörter stimmen nicht überein
   passwordNew: Neues Passwort eingeben
-  passwordSpecialChar: Mindestens 1 Sonderzeichen erforderlich
-  passwordUppercase: Mindestens 1 Großbuchstabe erforderlich
+  passwordTooWeak: Dieses Passwort ist zu leicht zu erraten. Versuche es länger oder weniger vorhersehbar zu machen.
   postgres22023: Das Passwort ist zu kurz! Überlege dir ein längeres.
   postgresP0002: Unbekannter Zurücksetzungslink! Hast du dein Passwort vielleicht schon zurückgesetzt?
   postgres55000: Der Zurücksetzungslink ist abgelaufen!
@@ -179,8 +134,7 @@ en:
   passwordMinLength: Minimum 12 characters required
   passwordMismatch: Passwords do not match
   passwordNew: Enter new password
-  passwordSpecialChar: At least 1 special character required
-  passwordUppercase: At least 1 uppercase letter required
+  passwordTooWeak: This password is too easy to guess. Try making it longer or less predictable.
   postgres22023: This password is too short! Think of a longer one.
   postgresP0002: Invalid reset link! Have you perhaps already reset your password?
   postgres55000: Your reset link has expired!

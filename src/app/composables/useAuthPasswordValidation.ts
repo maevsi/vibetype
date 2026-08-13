@@ -1,8 +1,7 @@
 export interface AuthPasswordValidationMessages {
   minimumLength: string
   passwordMismatch: string
-  specialCharacter: string
-  uppercase: string
+  tooWeak: string
 }
 
 export const getStrongPasswordError = ({
@@ -16,12 +15,8 @@ export const getStrongPasswordError = ({
     return messages.minimumLength
   }
 
-  if (!/[A-Z]/.test(password)) {
-    return messages.uppercase
-  }
-
-  if (!VALIDATION_PASSWORD_SCHEMA.test(password)) {
-    return messages.specialCharacter
+  if (getPasswordStrengthScore(password) < PASSWORD_STRENGTH_SCORE_MINIMUM) {
+    return messages.tooWeak
   }
 
   return ''

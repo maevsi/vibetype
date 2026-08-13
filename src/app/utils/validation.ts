@@ -18,7 +18,6 @@ export const VALIDATION_NAME_NICK_LENGTH_MAXIMUM = 100
 export const VALIDATION_NOTE_LENGTH_MAXIMUM = 1000
 export const VALIDATION_PASSWORD_LENGTH_MINIMUM = 8
 export const VALIDATION_PASSWORD_LENGTH_MINIMUM_V2 = 12
-export const VALIDATION_PASSWORD_SCHEMA = /[!@#$%^&*(),.?":{}|<>]/
 export const VALIDATION_PHONE_NUMBER_LENGTH_MAXIMUM = 30 // rejects pathological input before parsing; real formatted numbers stay well under this
 export const VALIDATION_URL_LENGTH_MAXIMUM = 2000
 export const VALIDATION_USERNAME_LENGTH_MAXIMUM = 100
@@ -73,8 +72,10 @@ export const SCHEMA_PASSWORD = z
 export const SCHEMA_PASSWORD_V2 = z
   .string()
   .min(VALIDATION_PASSWORD_LENGTH_MINIMUM_V2)
-  .regex(/[A-Z]/)
-  .regex(VALIDATION_PASSWORD_SCHEMA)
+  .refine(
+    (password) =>
+      getPasswordStrengthScore(password) >= PASSWORD_STRENGTH_SCORE_MINIMUM,
+  )
 export const SCHEMA_PHONE_NUMBER_OPTIONAL = z
   .string()
   .max(VALIDATION_PHONE_NUMBER_LENGTH_MAXIMUM)
