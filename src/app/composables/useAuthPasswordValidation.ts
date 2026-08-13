@@ -8,7 +8,7 @@ export const getStrongPasswordError = ({
   messages,
   password,
 }: {
-  messages: AuthPasswordValidationMessages
+  messages: Pick<AuthPasswordValidationMessages, 'minimumLength' | 'tooWeak'>
   password: string
 }): string => {
   if (password.length < VALIDATION_PASSWORD_LENGTH_MINIMUM_V2) {
@@ -27,7 +27,7 @@ export const getPasswordConfirmationError = ({
   password,
   repetition,
 }: {
-  messages: AuthPasswordValidationMessages
+  messages: Pick<AuthPasswordValidationMessages, 'passwordMismatch'>
   password: string
   repetition: string
 }): string => {
