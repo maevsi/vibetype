@@ -46,7 +46,7 @@ export default defineNitroPlugin(async (nitroApp) => {
       return
     }
 
-    await processNotification({
+    await processMessage({
       channelEvent: { channel, payload },
       id,
       redis,

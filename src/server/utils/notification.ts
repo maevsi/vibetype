@@ -120,7 +120,7 @@ const locales = {
   },
 } as const
 
-export const processNotification = async ({
+export const processMessage = async ({
   channelEvent,
   id,
   redis,
