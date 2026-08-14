@@ -1,5 +1,4 @@
 import type Redis from 'ioredis'
-import camelcaseKeys from 'camelcase-keys'
 
 import { EventVisibility } from '~~/gql/generated/graphcache'
 
@@ -10,15 +9,6 @@ export const CHANNEL_NAME_ACCOUNT_PASSWORD_RESET =
 export const CHANNEL_NAME_ACCOUNT_REGISTRATION = 'account.registered'
 export const CHANNEL_NAME_EVENT_INVITATION = 'guest.invited'
 
-export type Account = {
-  email_address: string
-  email_address_verification: string
-  email_address_verification_valid_until: string
-  password_reset_verification: string
-  password_reset_verification_valid_until: string
-  username: string
-}
-
 type Template = {
   language: AppLocale
   namespace: string
@@ -26,25 +16,10 @@ type Template = {
   variables: Record<string, unknown>
 }
 
-type Event = {
-  id: string
-  createdBy: string
-  description: string | null
-  end: string | null // Date
-  guestCountMaximum: number | null
-  isArchived: boolean
-  isInPerson: boolean
-  isRemote: boolean
-  name: string
-  slug: string
-  start: string // Date
-  visibility: EventVisibility
-}
-
 type AccountPasswordResetRequestEvent = {
   channel: 'account.password_reset_requested'
   payload: {
-    account: Account
+    account_id: string
     template: Template
   }
 }
@@ -52,7 +27,7 @@ type AccountPasswordResetRequestEvent = {
 type AccountRegistrationEvent = {
   channel: 'account.registered'
   payload: {
-    account: Account
+    account_id: string
     template: Template
   }
 }
@@ -60,18 +35,7 @@ type AccountRegistrationEvent = {
 type EventInvitationEvent = {
   channel: 'guest.invited'
   payload: {
-    data: {
-      contact: {
-        emailAddress: string
-        timeZone: string | null
-      }
-      event: Event
-      eventCreatorProfilePictureUploadStorageKey: string
-      eventCreatorUsername: string
-      guest: {
-        id: string
-      }
-    }
+    guest_id: string
     template: Template
   }
 }
@@ -119,6 +83,63 @@ const locales = {
     },
   },
 } as const
+
+// Account data is fetched on demand by id rather than carried in the outbox payload, so personal
+// data such as the email address never reaches the CDC log.
+type AccountPayload = {
+  email_address: string
+  email_address_verification: string | null
+  email_address_verification_valid_until: Date | null
+  password_reset_verification: string | null
+  password_reset_verification_valid_until: Date | null
+  username: string
+}
+
+const fetchAccountPayload = async (
+  accountId: string,
+): Promise<AccountPayload | undefined> => {
+  const rows = await executeQuery<AccountPayload[]>(
+    sql`SELECT * FROM vibetype.outbox_payload_account(${accountId})`,
+  )
+  return rows[0]
+}
+
+// Guest invitation data is fetched on demand by id rather than carried in the outbox payload, so
+// personal data such as the contact's email address never reaches the CDC log.
+type GuestInvitationEvent = {
+  id: string
+  addressId: string | null
+  description: string | null
+  end: string | null
+  guestCountMaximum: number | null
+  isArchived: boolean
+  isInPerson: boolean | null
+  isRemote: boolean | null
+  name: string
+  slug: string
+  start: string
+  url: string | null
+  visibility: EventVisibility
+  createdAt: string
+  createdBy: string
+}
+
+type GuestInvitationPayload = {
+  contact_email_address: string | null
+  contact_time_zone: string | null
+  event: GuestInvitationEvent
+  event_creator_profile_picture_upload_storage_key: string | null
+  event_creator_username: string
+}
+
+const fetchGuestInvitationPayload = async (
+  guestId: string,
+): Promise<GuestInvitationPayload | undefined> => {
+  const rows = await executeQuery<GuestInvitationPayload[]>(
+    sql`SELECT * FROM vibetype.outbox_payload_guest_invitation(${guestId})`,
+  )
+  return rows[0]
+}
 
 export const processMessage = async ({
   channelEvent,
@@ -175,58 +196,90 @@ export const processMessage = async ({
   const locale = payload.template.language
 
   switch (channel) {
-    case CHANNEL_NAME_ACCOUNT_PASSWORD_RESET:
+    case CHANNEL_NAME_ACCOUNT_PASSWORD_RESET: {
+      const account = await fetchAccountPayload(payload.account_id)
+      if (
+        !account?.password_reset_verification ||
+        !account.password_reset_verification_valid_until
+      ) {
+        console.error(
+          `No pending password reset found for account ${payload.account_id}`,
+        )
+        break
+      }
+
       await sendEmail({
         mailOptions: {
           subject: locales[channel][locale].subject,
-          to: payload.account.email_address,
+          to: account.email_address,
         },
         name: channel,
         props: {
-          emailAddress: payload.account.email_address,
+          emailAddress: account.email_address,
           locale,
           passwordResetVerificationLink: `${siteUrl}${
-            payload.template.language !== LOCALE_DEFAULT
-              ? '/' + payload.template.language
-              : ''
-          }/account/password/reset?code=${
-            payload.account.password_reset_verification
-          }`,
+            locale !== LOCALE_DEFAULT ? '/' + locale : ''
+          }/account/password/reset?code=${account.password_reset_verification}`,
           timeZone: payload.template.time_zone ?? undefined,
-          validUntil: payload.account.password_reset_verification_valid_until,
+          validUntil:
+            account.password_reset_verification_valid_until.toISOString(),
         },
         rateLimitPerDay,
         rateLimitPerSecond,
         redis,
       })
       break
-    case CHANNEL_NAME_ACCOUNT_REGISTRATION:
+    }
+    case CHANNEL_NAME_ACCOUNT_REGISTRATION: {
+      const account = await fetchAccountPayload(payload.account_id)
+      if (
+        !account?.email_address_verification ||
+        !account.email_address_verification_valid_until
+      ) {
+        console.error(
+          `No pending email address verification found for account ${payload.account_id}`,
+        )
+        break
+      }
+
       await sendEmail({
         mailOptions: {
           subject: locales[channel][locale].subject,
-          to: payload.account.email_address,
+          to: account.email_address,
         },
         name: channel,
         props: {
-          emailAddress: payload.account.email_address,
+          emailAddress: account.email_address,
           emailAddressVerificationLink: `${siteUrl}${
-            payload.template.language !== LOCALE_DEFAULT
-              ? '/' + payload.template.language
-              : ''
-          }/account/verify?code=${payload.account.email_address_verification}`,
+            locale !== LOCALE_DEFAULT ? '/' + locale : ''
+          }/account/verify?code=${account.email_address_verification}`,
           locale,
           timeZone: payload.template.time_zone ?? undefined,
-          username: payload.account.username,
-          validUntil: payload.account.email_address_verification_valid_until,
+          username: account.username,
+          validUntil:
+            account.email_address_verification_valid_until.toISOString(),
         },
         rateLimitPerDay,
         rateLimitPerSecond,
         redis,
       })
       break
-    case CHANNEL_NAME_EVENT_INVITATION:
+    }
+    case CHANNEL_NAME_EVENT_INVITATION: {
+      const guestInvitation = await fetchGuestInvitationPayload(
+        payload.guest_id,
+      )
+      if (!guestInvitation) {
+        console.error(
+          `Could not find guest invitation data for guest ${payload.guest_id}`,
+        )
+        break
+      }
+
       await sendEventInvitationMail({
-        channelEvent,
+        guestId: payload.guest_id,
+        guestInvitation,
+        locale,
         rateLimitPerDay,
         rateLimitPerSecond,
         redis,
@@ -234,6 +287,7 @@ export const processMessage = async ({
         tusdFilesUrl,
       })
       break
+    }
     default:
       throw new Error(`Unexpected channel: ${channel}`)
   }
@@ -293,32 +347,37 @@ const getIsAcknowledged = async ({ id }: { id: string }): Promise<boolean> => {
 }
 
 export const sendEventInvitationMail = async ({
-  channelEvent,
+  guestId,
+  guestInvitation,
+  locale,
   rateLimitPerDay,
   rateLimitPerSecond,
   redis,
   siteUrl,
   tusdFilesUrl,
 }: {
-  channelEvent: EventInvitationEvent
+  guestId: string
+  guestInvitation: GuestInvitationPayload
+  locale: AppLocale
   rateLimitPerDay: number
   rateLimitPerSecond: number
   redis: Redis
   siteUrl: string
   tusdFilesUrl: string
 }) => {
-  const { channel, payload } = channelEvent
-  const payloadCamelCased = camelcaseKeys(payload, { deep: true })
-
   const {
-    contact,
+    contact_email_address: emailAddress,
+    contact_time_zone: timeZone,
     event,
-    guest,
-    eventCreatorProfilePictureUploadStorageKey,
-    eventCreatorUsername,
-  } = payloadCamelCased.data
-  const { emailAddress, timeZone } = contact
-  const guestId = guest.id
+    event_creator_profile_picture_upload_storage_key:
+      eventCreatorProfilePictureUploadStorageKey,
+    event_creator_username: eventCreatorUsername,
+  } = guestInvitation
+
+  if (!emailAddress) {
+    console.error(`Could not get email address for guest ${guestId}!`)
+    return
+  }
 
   const icalFetch = await fetch(
     `http://${SITE_NAME}:3000/api/model/event/ical`,
@@ -353,23 +412,7 @@ export const sendEventInvitationMail = async ({
 
   const icalText = icalFetch.ok ? await icalFetch.text() : undefined
 
-  if (!guestId) {
-    console.error(`Could not get guest id ${guestId}!`)
-    return
-  }
-
-  if (!emailAddress) {
-    console.error(`Could not get email address ${emailAddress}!`)
-    return
-  }
-
-  if (!event) {
-    console.error(`Could not get contact ${event}!`)
-    return
-  }
-
-  const language = payloadCamelCased.template.language
-  const t = locales[CHANNEL_NAME_EVENT_INVITATION][language]
+  const t = locales[CHANNEL_NAME_EVENT_INVITATION][locale]
 
   const eventAttendanceType = [
     ...(event.isInPerson ? [t.eventAttendanceTypeInPerson] : []),
@@ -428,7 +471,7 @@ export const sendEventInvitationMail = async ({
       subject: t.subject(event.name),
       to: emailAddress,
     },
-    name: channel,
+    name: CHANNEL_NAME_EVENT_INVITATION,
     props: {
       emailAddress,
       eventAttendanceType,
@@ -441,14 +484,12 @@ export const sendEventInvitationMail = async ({
       eventEnd: event.end || undefined,
       // TODO: add event group (https://github.com/maevsi/vibetype/issues/92)
       eventLink: `${siteUrl}${
-        payloadCamelCased.template.language !== LOCALE_DEFAULT
-          ? '/' + payloadCamelCased.template.language
-          : ''
+        locale !== LOCALE_DEFAULT ? '/' + locale : ''
       }/guest/view/${guestId}`,
       eventName: event.name,
       eventStart: event.start,
       eventVisibility,
-      locale: payloadCamelCased.template.language,
+      locale,
       timeZone: timeZone ?? undefined,
     },
     rateLimitPerSecond,
