@@ -37,28 +37,30 @@
           <div class="flex items-start gap-3">
             <FormCheckbox
               :aria-label="t('agreeCheckboxLabel')"
+              form-key="agree-to-terms"
               :value="agreedToTerms"
               @change="agreedToTerms = $event"
-            />
-            <span class="text-sm text-gray-500 dark:text-gray-400">
-              {{ t('agreePrefix') }}
-              <NuxtLinkLocale
-                class="font-semibold text-green-600"
-                to="docs-legal-terms"
-                >{{ t('termsOfService') }}</NuxtLinkLocale
-              >{{ t('legalComma') }}
-              <NuxtLinkLocale
-                class="font-semibold text-green-600"
-                to="docs-legal-imprint"
-                >{{ t('imprint') }}</NuxtLinkLocale
-              >
-              {{ t('and') }}
-              <NuxtLinkLocale
-                class="font-semibold text-green-600"
-                to="docs-legal-privacy"
-                >{{ t('privacyPolicy') }}</NuxtLinkLocale
-              >
-            </span>
+            >
+              <span class="text-sm text-gray-500 dark:text-gray-400">
+                {{ t('agreePrefix') }}
+                <NuxtLinkLocale
+                  class="font-semibold text-green-600"
+                  to="docs-legal-terms"
+                  >{{ t('termsOfService') }}</NuxtLinkLocale
+                >{{ t('legalComma') }}
+                <NuxtLinkLocale
+                  class="font-semibold text-green-600"
+                  to="docs-legal-imprint"
+                  >{{ t('imprint') }}</NuxtLinkLocale
+                >
+                {{ t('and') }}
+                <NuxtLinkLocale
+                  class="font-semibold text-green-600"
+                  to="docs-legal-privacy"
+                  >{{ t('privacyPolicy') }}</NuxtLinkLocale
+                >
+              </span>
+            </FormCheckbox>
           </div>
           <p v-if="termsError" class="text-sm text-red-600">
             {{ termsError }}
@@ -104,7 +106,6 @@
           <div class="relative">
             <FormAuthInput
               :aria-label="t('usernamePlaceholder')"
-              :disabled="usernameField.isLoading.value"
               :model-value="usernameField.value.value"
               :placeholder="t('usernamePlaceholder')"
               type="text"

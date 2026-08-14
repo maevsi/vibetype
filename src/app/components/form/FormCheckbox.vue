@@ -1,14 +1,14 @@
 <template>
-  <div>
+  <div class="flex items-start gap-4">
     <input
       :id="`input-${formKey}`"
       :checked="value"
-      class="rounded-sm"
+      class="mt-1.5 rounded-sm"
       :disabled="isDisabled"
       type="checkbox"
       @change="emit('change', ($event.target as HTMLInputElement).checked)"
     />
-    <label class="pl-2" :for="`input-${formKey}`"><slot /></label>
+    <label :for="`input-${formKey}`"><slot /></label>
   </div>
 </template>
 
