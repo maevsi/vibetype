@@ -123,7 +123,6 @@ const locales = {
 export const processNotification = async ({
   channelEvent,
   id,
-  isAcknowledged,
   redis,
   runtimeConfig,
   siteUrl,
@@ -131,13 +130,12 @@ export const processNotification = async ({
 }: {
   channelEvent: ChannelEvent
   id: string
-  isAcknowledged?: boolean
   redis: Redis
   runtimeConfig: ReturnType<typeof useRuntimeConfig>
   siteUrl: string
   tusdFilesUrl: string
 }) => {
-  if (isAcknowledged) return
+  if (await getIsAcknowledged({ id })) return
 
   // TODO(major): remove `limit24h` fallback in the next major version
   const limit24hLegacy =
@@ -249,7 +247,7 @@ const ack = async ({ id }: { id: string }) => {
   const baseURL = getServiceHrefPostgraphile()
   const response = await fetch(`${baseURL}/graphql`, {
     body: JSON.stringify({
-      query: `mutation ($id: UUID!) { notificationAcknowledge(input: { id: $id, isAcknowledged: true }) { clientMutationId } }`,
+      query: `mutation ($id: UUID!) { outboxAcknowledge(input: { id: $id, isAcknowledged: true }) { clientMutationId } }`,
       variables: { id },
     }),
     headers: {
@@ -266,76 +264,32 @@ const ack = async ({ id }: { id: string }) => {
     console.error(`Could not ack due to error: "${response.statusText}"`)
 }
 
-export type NotificationMessageKey = { payload: { id: string } }
-export type NotificationMessageValue = {
-  payload: {
-    after: {
-      channel:
-        | typeof CHANNEL_NAME_ACCOUNT_PASSWORD_RESET
-        | typeof CHANNEL_NAME_ACCOUNT_REGISTRATION
-        | typeof CHANNEL_NAME_EVENT_INVITATION
-      is_acknowledged: boolean | null
-      payload: string
-    }
-  }
-} | null
-
-export const processRawNotification = async ({
-  key,
-  redis,
-  runtimeConfig,
-  siteUrl,
-  tusdFilesUrl,
-  value,
-}: {
-  key: NotificationMessageKey | null
-  redis: Redis
-  runtimeConfig: ReturnType<typeof useRuntimeConfig>
-  siteUrl: string
-  tusdFilesUrl: string
-  value: NotificationMessageValue
-}) => {
-  if (!key) {
-    throw new PermanentProcessingError('Notification message missing key')
-  }
-
-  // a null value is a Debezium delete tombstone, nothing to process
-  if (!value) return
-
-  if (value.payload.after.payload === '__debezium_unavailable_value') {
-    return
-  }
-
-  const dedupeKey = `dedupe:notification:${key.payload.id}`
-  if (await hasBeenProcessed(redis, dedupeKey)) {
-    console.info(
-      `Notification ${key.payload.id} already processed, skipping duplicate delivery`,
-    )
-    return
-  }
-
-  await processNotification({
-    channelEvent: {
-      channel: value.payload.after.channel,
-      payload: JSON.parse(value.payload.after.payload),
+// Queried instead of read from the Kafka message, since the outbox event router SMT only forwards the payload column, not is_acknowledged.
+const getIsAcknowledged = async ({ id }: { id: string }): Promise<boolean> => {
+  const baseURL = getServiceHrefPostgraphile()
+  const response = await fetch(`${baseURL}/graphql`, {
+    body: JSON.stringify({
+      query: `query ($id: UUID!) { outboxIsAcknowledged(id: $id) }`,
+      variables: { id },
+    }),
+    headers: {
+      'Content-Type': 'application/json',
     },
-    id: key.payload.id,
-    isAcknowledged: !!value.payload.after.is_acknowledged,
-    redis,
-    runtimeConfig,
-    siteUrl,
-    tusdFilesUrl,
+    method: 'POST',
   })
 
-  // best-effort: the notification was already fully processed above, so a
-  // failure to record that shouldn't cause a (duplicate-sending) retry
-  try {
-    await markProcessed(redis, dedupeKey, EVENT_STREAM_DEDUPE_TTL_SECONDS)
-  } catch (error) {
-    console.warn(
-      `Failed to record notification ${key.payload.id} as processed: ${error}`,
+  if (!response.ok) {
+    console.error(
+      `Could not check acknowledgement due to error: "${response.statusText}"`,
     )
+    return false
   }
+
+  const { data } = (await response.json()) as {
+    data?: { outboxIsAcknowledged: boolean | null }
+  }
+
+  return !!data?.outboxIsAcknowledged
 }
 
 export const sendEventInvitationMail = async ({
