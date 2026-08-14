@@ -5,9 +5,9 @@ export const processUpload = async ({
   storageKey,
 }: {
   id: string
-  storageKey: string | null
+  storageKey?: string | null
 }) => {
-  if (storageKey === null) {
+  if (!storageKey) {
     console.debug(
       'Upload has no storage key, skipping deletion from file storage',
     )
