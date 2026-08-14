@@ -1,12 +1,9 @@
-const TOPICS = {
-  upload: `${SITE_NAME}.${SITE_NAME}.upload`,
-} as const
-
 // The outbox event router SMT routes each channel to its own topic instead of a single table topic.
 const TOPICS_OUTBOX = {
   [CHANNEL_NAME_ACCOUNT_PASSWORD_RESET]: `${SITE_NAME}.outbox.${CHANNEL_NAME_ACCOUNT_PASSWORD_RESET}`,
   [CHANNEL_NAME_ACCOUNT_REGISTRATION]: `${SITE_NAME}.outbox.${CHANNEL_NAME_ACCOUNT_REGISTRATION}`,
   [CHANNEL_NAME_EVENT_INVITATION]: `${SITE_NAME}.outbox.${CHANNEL_NAME_EVENT_INVITATION}`,
+  [CHANNEL_NAME_UPLOAD]: `${SITE_NAME}.outbox.${CHANNEL_NAME_UPLOAD}`,
 } as const
 
 export default defineNitroPlugin(async (nitroApp) => {
@@ -41,9 +38,17 @@ export default defineNitroPlugin(async (nitroApp) => {
       )
     }
 
+    const id = keyOutbox.payload
+    const payload = JSON.parse(valueOutbox.payload)
+
+    if (channel === CHANNEL_NAME_UPLOAD) {
+      await processUpload({ id, storageKey: payload.storage_key })
+      return
+    }
+
     await processNotification({
-      channelEvent: { channel, payload: JSON.parse(valueOutbox.payload) },
-      id: keyOutbox.payload,
+      channelEvent: { channel, payload },
+      id,
       redis,
       runtimeConfig,
       siteUrl,
@@ -54,12 +59,6 @@ export default defineNitroPlugin(async (nitroApp) => {
   const reliableConsumer = await createReliableConsumer({
     groupId: SITE_NAME,
     handlers: {
-      [TOPICS.upload]: (key, value) =>
-        processRawUpload({
-          key: parseJsonBuffer<UploadMessageKey>(key),
-          redis,
-          value: parseJsonBuffer<UploadMessageValue>(value),
-        }),
       [TOPICS_OUTBOX[CHANNEL_NAME_ACCOUNT_PASSWORD_RESET]]: (key, value) =>
         processRoutedOutboxMessage(
           CHANNEL_NAME_ACCOUNT_PASSWORD_RESET,
@@ -74,9 +73,11 @@ export default defineNitroPlugin(async (nitroApp) => {
         ),
       [TOPICS_OUTBOX[CHANNEL_NAME_EVENT_INVITATION]]: (key, value) =>
         processRoutedOutboxMessage(CHANNEL_NAME_EVENT_INVITATION, key, value),
+      [TOPICS_OUTBOX[CHANNEL_NAME_UPLOAD]]: (key, value) =>
+        processRoutedOutboxMessage(CHANNEL_NAME_UPLOAD, key, value),
     },
     kafka,
-    topics: [TOPICS.upload, ...Object.values(TOPICS_OUTBOX)],
+    topics: Object.values(TOPICS_OUTBOX),
   })
 
   nitroApp.hooks.hookOnce('close', reliableConsumer.close)
