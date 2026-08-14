@@ -1,8 +1,12 @@
-// The outbox event router SMT routes each channel to its own topic instead of a single table topic.
+// The outbox event router SMT routes by aggregate_type, so account_registration and
+// account_password_reset_request share one topic; the specific type travels in the payload.
+const AGGREGATE_TYPE_ACCOUNT = 'account'
+const AGGREGATE_TYPE_GUEST = 'guest'
+
 const TOPICS_OUTBOX = {
-  [CHANNEL_NAME_ACCOUNT_PASSWORD_RESET]: `${SITE_NAME}.outbox.${CHANNEL_NAME_ACCOUNT_PASSWORD_RESET}`,
-  [CHANNEL_NAME_ACCOUNT_REGISTRATION]: `${SITE_NAME}.outbox.${CHANNEL_NAME_ACCOUNT_REGISTRATION}`,
-  [CHANNEL_NAME_EVENT_INVITATION]: `${SITE_NAME}.outbox.${CHANNEL_NAME_EVENT_INVITATION}`,
+  [AGGREGATE_TYPE_ACCOUNT]: `${SITE_NAME}.outbox.${AGGREGATE_TYPE_ACCOUNT}`,
+  [AGGREGATE_TYPE_GUEST]: `${SITE_NAME}.outbox.${AGGREGATE_TYPE_GUEST}`,
+  // upload's channel name doubles as its aggregate_type, since it's the only type on that topic.
   [CHANNEL_NAME_UPLOAD]: `${SITE_NAME}.outbox.${CHANNEL_NAME_UPLOAD}`,
 } as const
 
@@ -25,7 +29,7 @@ export default defineNitroPlugin(async (nitroApp) => {
   // since Debezium maps jsonb columns to strings.
   // TODO: verify this against the actual connector output in redpanda-console once deployed.
   const processRoutedOutboxMessage = async (
-    channel: keyof typeof TOPICS_OUTBOX,
+    aggregateType: keyof typeof TOPICS_OUTBOX,
     key: Buffer | null,
     value: Buffer | null,
   ) => {
@@ -34,20 +38,22 @@ export default defineNitroPlugin(async (nitroApp) => {
 
     if (!keyOutbox || !valueOutbox) {
       throw new PermanentProcessingError(
-        `Missing key or value for outbox channel: ${channel}`,
+        `Missing key or value for outbox aggregate type: ${aggregateType}`,
       )
     }
 
     const id = keyOutbox.payload
     const payload = JSON.parse(valueOutbox.payload)
 
-    if (channel === CHANNEL_NAME_UPLOAD) {
+    if (aggregateType === CHANNEL_NAME_UPLOAD) {
       await processUpload({ id, storageKey: payload.storage_key })
       return
     }
 
+    // The account and guest topics each carry more than one type, so the specific channel
+    // comes from the payload rather than the topic.
     await processMessage({
-      channelEvent: { channel, payload },
+      channelEvent: { channel: payload.type, payload },
       id,
       redis,
       runtimeConfig,
@@ -59,20 +65,10 @@ export default defineNitroPlugin(async (nitroApp) => {
   const reliableConsumer = await createReliableConsumer({
     groupId: SITE_NAME,
     handlers: {
-      [TOPICS_OUTBOX[CHANNEL_NAME_ACCOUNT_PASSWORD_RESET]]: (key, value) =>
-        processRoutedOutboxMessage(
-          CHANNEL_NAME_ACCOUNT_PASSWORD_RESET,
-          key,
-          value,
-        ),
-      [TOPICS_OUTBOX[CHANNEL_NAME_ACCOUNT_REGISTRATION]]: (key, value) =>
-        processRoutedOutboxMessage(
-          CHANNEL_NAME_ACCOUNT_REGISTRATION,
-          key,
-          value,
-        ),
-      [TOPICS_OUTBOX[CHANNEL_NAME_EVENT_INVITATION]]: (key, value) =>
-        processRoutedOutboxMessage(CHANNEL_NAME_EVENT_INVITATION, key, value),
+      [TOPICS_OUTBOX[AGGREGATE_TYPE_ACCOUNT]]: (key, value) =>
+        processRoutedOutboxMessage(AGGREGATE_TYPE_ACCOUNT, key, value),
+      [TOPICS_OUTBOX[AGGREGATE_TYPE_GUEST]]: (key, value) =>
+        processRoutedOutboxMessage(AGGREGATE_TYPE_GUEST, key, value),
       [TOPICS_OUTBOX[CHANNEL_NAME_UPLOAD]]: (key, value) =>
         processRoutedOutboxMessage(CHANNEL_NAME_UPLOAD, key, value),
     },
