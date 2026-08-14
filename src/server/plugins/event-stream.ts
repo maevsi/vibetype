@@ -1,5 +1,5 @@
-// The outbox event router SMT routes by aggregate_type, so account_registration and
-// account_password_reset_request share one topic; the specific type travels in the payload.
+// The outbox event router SMT routes by aggregate_type, so account.registered and
+// account.password_reset_requested share one topic; the specific type travels in the payload.
 const AGGREGATE_TYPE_ACCOUNT = 'account'
 const AGGREGATE_TYPE_GUEST = 'guest'
 

@@ -6,9 +6,9 @@ import { EventVisibility } from '~~/gql/generated/graphcache'
 const EVENT_DESCRIPTION_TRIM_LENGTH = 250
 
 export const CHANNEL_NAME_ACCOUNT_PASSWORD_RESET =
-  'account_password_reset_request'
-export const CHANNEL_NAME_ACCOUNT_REGISTRATION = 'account_registration'
-export const CHANNEL_NAME_EVENT_INVITATION = 'event_invitation'
+  'account.password_reset_requested'
+export const CHANNEL_NAME_ACCOUNT_REGISTRATION = 'account.registered'
+export const CHANNEL_NAME_EVENT_INVITATION = 'guest.invited'
 
 export type Account = {
   email_address: string
@@ -42,7 +42,7 @@ type Event = {
 }
 
 type AccountPasswordResetRequestEvent = {
-  channel: 'account_password_reset_request'
+  channel: 'account.password_reset_requested'
   payload: {
     account: Account
     template: Template
@@ -50,7 +50,7 @@ type AccountPasswordResetRequestEvent = {
 }
 
 type AccountRegistrationEvent = {
-  channel: 'account_registration'
+  channel: 'account.registered'
   payload: {
     account: Account
     template: Template
@@ -58,7 +58,7 @@ type AccountRegistrationEvent = {
 }
 
 type EventInvitationEvent = {
-  channel: 'event_invitation'
+  channel: 'guest.invited'
   payload: {
     data: {
       contact: {
