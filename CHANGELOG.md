@@ -1,3 +1,5 @@
+## [16.0.0-beta.2](https://github.com/maevsi/vibetype/compare/16.0.0-beta.1...16.0.0-beta.2) (2026-08-14)
+
 ## [16.0.0-beta.1](https://github.com/maevsi/vibetype/compare/15.1.9...16.0.0-beta.1) (2026-06-26)
 
 ### ⚠ BREAKING CHANGES
