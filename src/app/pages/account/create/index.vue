@@ -106,7 +106,6 @@
           <div class="relative">
             <FormAuthInput
               :aria-label="t('usernamePlaceholder')"
-              :disabled="usernameField.isLoading.value"
               :model-value="usernameField.value.value"
               :placeholder="t('usernamePlaceholder')"
               type="text"
