@@ -25,6 +25,7 @@ type AccountPasswordResetRequestEvent = {
   payload: {
     account_id: string
     encrypted: string
+    password_reset_verification_valid_until: string
     template: Template
   }
 }
@@ -44,14 +45,17 @@ type EmailAddressVerificationEvent = {
     email_address_id: string
     encrypted: string
     template: Template
+    valid_until: string
   }
 }
 
 type EventInvitationEvent = {
   channel: 'guest.invited'
   payload: {
-    guest_id: string
+    contact_time_zone: string | null
     encrypted: string
+    event: GuestInvitationEvent
+    guest_id: string
     template: Template
   }
 }
@@ -192,37 +196,35 @@ type AccountRegisteredContent = {
 type AccountPasswordResetContent = {
   emailAddress: string
   passwordResetVerification: string
-  passwordResetVerificationValidUntil: string
 }
 
 type EmailAddressVerificationContent = {
   emailAddress: string
   code: string
-  validUntil: string
 }
 
+// Plaintext, not part of the encrypted content: the event is its own entity, not PII of the
+// invited contact, so keeping it out of encryption leaves it available for event-stream analytics.
 type GuestInvitationEvent = {
   id: string
-  addressId: string | null
+  address_id: string | null
   description: string | null
   end: string | null
-  guestCountMaximum: number | null
-  isArchived: boolean
-  isInPerson: boolean | null
-  isRemote: boolean | null
+  guest_count_maximum: number | null
+  is_archived: boolean
+  is_in_person: boolean | null
+  is_remote: boolean | null
   name: string
   slug: string
   start: string
   url: string | null
   visibility: EventVisibility
-  createdAt: string
-  createdBy: string
+  created_at: string
+  created_by: string
 }
 
 type GuestInvitationContent = {
   contactEmailAddress: string
-  contactTimeZone: string | null
-  event: GuestInvitationEvent
   eventCreatorProfilePictureUploadStorageKey: string | null
   eventCreatorUsername: string
 }
@@ -309,7 +311,7 @@ export const processMessage = async ({
             locale !== LOCALE_DEFAULT ? '/' + locale : ''
           }/account/password/reset?code=${content.passwordResetVerification}`,
           timeZone: payload.template.time_zone ?? undefined,
-          validUntil: content.passwordResetVerificationValidUntil,
+          validUntil: payload.password_reset_verification_valid_until,
         },
         rateLimitPerDay,
         rateLimitPerSecond,
@@ -376,7 +378,7 @@ export const processMessage = async ({
           }/account/registration/confirm?code=${content.code}`,
           locale,
           timeZone: payload.template.time_zone ?? undefined,
-          validUntil: content.validUntil,
+          validUntil: payload.valid_until,
         },
         rateLimitPerDay,
         rateLimitPerSecond,
@@ -399,6 +401,8 @@ export const processMessage = async ({
       )
 
       await sendEventInvitationMail({
+        contactTimeZone: payload.contact_time_zone,
+        event: payload.event,
         guestId: payload.guest_id,
         guestInvitation,
         locale,
@@ -469,6 +473,8 @@ const getIsAcknowledged = async ({ id }: { id: string }): Promise<boolean> => {
 }
 
 export const sendEventInvitationMail = async ({
+  contactTimeZone: timeZone,
+  event,
   guestId,
   guestInvitation,
   locale,
@@ -478,6 +484,8 @@ export const sendEventInvitationMail = async ({
   siteUrl,
   tusdFilesUrl,
 }: {
+  contactTimeZone: string | null
+  event: GuestInvitationEvent
   guestId: string
   guestInvitation: GuestInvitationContent
   locale: AppLocale
@@ -489,8 +497,6 @@ export const sendEventInvitationMail = async ({
 }) => {
   const {
     contactEmailAddress: emailAddress,
-    contactTimeZone: timeZone,
-    event,
     eventCreatorProfilePictureUploadStorageKey,
     eventCreatorUsername,
   } = guestInvitation
@@ -531,8 +537,8 @@ export const sendEventInvitationMail = async ({
   const t = locales[CHANNEL_NAME_EVENT_INVITATION][locale]
 
   const eventAttendanceType = [
-    ...(event.isInPerson ? [t.eventAttendanceTypeInPerson] : []),
-    ...(event.isRemote ? [t.eventAttendanceTypeRemote] : []),
+    ...(event.is_in_person ? [t.eventAttendanceTypeInPerson] : []),
+    ...(event.is_remote ? [t.eventAttendanceTypeRemote] : []),
   ].join(', ')
 
   let eventDescription
@@ -557,7 +563,7 @@ export const sendEventInvitationMail = async ({
 
   let eventVisibility
 
-  if (event.isArchived) {
+  if (event.is_archived) {
     eventVisibility = t.eventIsArchived
   } else if (event.visibility === EventVisibility.Public) {
     eventVisibility = t.eventVisibilityIsPublic
