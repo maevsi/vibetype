@@ -83,18 +83,8 @@ const queryEventList = graphql(`
   }
 `)
 const queryEventSearch = graphql(`
-  query EventSearch(
-    $after: Cursor
-    $first: Int
-    $language: Language
-    $query: String
-  ) {
-    eventSearch(
-      after: $after
-      first: $first
-      language: $language
-      query: $query
-    ) {
+  query EventSearch($after: Cursor, $first: Int, $query: String) {
+    eventSearch(after: $after, first: $first, query: $query) {
       nodes {
         accountByCreatedBy {
           id
@@ -175,9 +165,10 @@ const allEventsQuery = useQuery({
 
 const searchQuery = ref<string>()
 const searchQueryDebounced = refDebounced(searchQuery, 300)
-const searchQueryVariable = computed(() =>
-  searchQueryDebounced.value?.trim().split(/\s+/).join(' OR '),
-)
+// `eventSearch` already matches by prefix (so partial words work while
+// typing) and falls back to typo-tolerant matching on the name, so the raw
+// trimmed input is passed through as-is.
+const searchQueryVariable = computed(() => searchQueryDebounced.value?.trim())
 const searchResultsQueryAfter = ref<string | null>()
 const searchResultsQuery = useQuery({
   query: queryEventSearch,
