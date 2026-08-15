@@ -22,13 +22,18 @@ const getDemoEmailProps = (locale: AppLocale) =>
     },
     [EMAIL_NAMES.enum['account.registered']]: {
       emailAddress: 'newuser@example.com',
-      emailAddressVerificationLink:
-        'https://example.com/verify-email?token=verify5678',
       locale,
       logoSource,
-      stackDomain: 'example.com',
-      timeZone: 'Europe/Berlin',
+      siteUrl: 'https://example.com',
       username: 'john_doe',
+    },
+    [EMAIL_NAMES.enum['email_address_verification.requested']]: {
+      emailAddress: 'newuser@example.com',
+      emailAddressVerificationLink:
+        'https://example.com/account/registration/confirm?code=verify5678',
+      locale,
+      logoSource,
+      timeZone: 'Europe/Berlin',
       validUntil: '2024-12-31T23:59:59Z',
     },
     [EMAIL_NAMES.enum['guest.invited']]: {

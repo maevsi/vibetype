@@ -1,3 +1,5 @@
+import { createDecipheriv } from 'node:crypto'
+
 import type Redis from 'ioredis'
 
 import { EventVisibility } from '~~/gql/generated/graphcache'
@@ -7,6 +9,8 @@ const EVENT_DESCRIPTION_TRIM_LENGTH = 250
 export const CHANNEL_NAME_ACCOUNT_PASSWORD_RESET =
   'account.password_reset_requested'
 export const CHANNEL_NAME_ACCOUNT_REGISTRATION = 'account.registered'
+export const CHANNEL_NAME_EMAIL_ADDRESS_VERIFICATION =
+  'email_address_verification.requested'
 export const CHANNEL_NAME_EVENT_INVITATION = 'guest.invited'
 
 type Template = {
@@ -20,6 +24,7 @@ type AccountPasswordResetRequestEvent = {
   channel: 'account.password_reset_requested'
   payload: {
     account_id: string
+    encrypted: string
     template: Template
   }
 }
@@ -28,6 +33,16 @@ type AccountRegistrationEvent = {
   channel: 'account.registered'
   payload: {
     account_id: string
+    encrypted: string
+    template: Template
+  }
+}
+
+type EmailAddressVerificationEvent = {
+  channel: 'email_address_verification.requested'
+  payload: {
+    email_address_id: string
+    encrypted: string
     template: Template
   }
 }
@@ -36,6 +51,7 @@ type EventInvitationEvent = {
   channel: 'guest.invited'
   payload: {
     guest_id: string
+    encrypted: string
     template: Template
   }
 }
@@ -43,6 +59,7 @@ type EventInvitationEvent = {
 type ChannelEvent =
   | AccountPasswordResetRequestEvent
   | AccountRegistrationEvent
+  | EmailAddressVerificationEvent
   | EventInvitationEvent
 
 const locales = {
@@ -60,6 +77,14 @@ const locales = {
     },
     en: {
       subject: 'Complete registration',
+    },
+  },
+  [CHANNEL_NAME_EMAIL_ADDRESS_VERIFICATION]: {
+    de: {
+      subject: 'E-Mail-Adresse bestätigen',
+    },
+    en: {
+      subject: 'Confirm your email address',
     },
   },
   [CHANNEL_NAME_EVENT_INVITATION]: {
@@ -84,28 +109,98 @@ const locales = {
   },
 } as const
 
-// Account data is fetched on demand by id rather than carried in the outbox payload, so personal
-// data such as the email address never reaches the CDC log.
-type AccountPayload = {
-  email_address: string
-  email_address_verification: string | null
-  email_address_verification_valid_until: Date | null
-  password_reset_verification: string | null
-  password_reset_verification_valid_until: Date | null
+// Outbox payload content is encrypted under the subject's key rather than carried in plaintext,
+// so PII never reaches the CDC log even transiently (crypto-shredding). The key itself is fetched
+// on demand by resolving aggregate_id (account/guest/email_address id) to a subject, mirroring the
+// same resolution logic each sqitch outbox writer uses to pick which subject to encrypt under.
+//
+// TODO: verify this against a real outbox_encrypt-produced value once deployed. pgcrypto's
+// encrypt_iv('aes', ...) is assumed to be plain AES-256-CBC/PKCS7 given a 32-byte key, matching
+// Node's aes-256-cbc, but this cross-language byte-layout compatibility has not been exercised
+// end to end.
+const decryptOutboxPayload = <T>(encryptedBase64: string, key: Buffer): T => {
+  const bytes = Buffer.from(encryptedBase64, 'base64')
+  const iv = bytes.subarray(0, 16)
+  const ciphertext = bytes.subarray(16)
+
+  const decipher = createDecipheriv('aes-256-cbc', key, iv)
+  const decrypted = Buffer.concat([
+    decipher.update(ciphertext),
+    decipher.final(),
+  ])
+
+  return JSON.parse(decrypted.toString('utf8')) as T
+}
+
+const fetchAccountSubjectKey = async (
+  accountId: string,
+): Promise<Buffer | undefined> => {
+  const rows = await executeQuery<{ key: Buffer }[]>(
+    sql`
+      SELECT s.key
+      FROM vibetype_private.account_email_address aea
+      JOIN vibetype_private.email_address ea ON ea.id = aea.email_address_id
+      JOIN vibetype_private.subject s ON s.id = ea.subject_id
+      WHERE aea.account_id = ${accountId} AND aea.is_primary
+    `,
+  )
+  return rows[0]?.key
+}
+
+const fetchEmailAddressSubjectKey = async (
+  emailAddressId: string,
+): Promise<Buffer | undefined> => {
+  const rows = await executeQuery<{ key: Buffer }[]>(
+    sql`
+      SELECT s.key
+      FROM vibetype_private.email_address ea
+      JOIN vibetype_private.subject s ON s.id = ea.subject_id
+      WHERE ea.id = ${emailAddressId}
+    `,
+  )
+  return rows[0]?.key
+}
+
+// Mirrors invite()'s subject resolution: prefer the linked account's own verified email, falling
+// back to the contact's own listed email, since either could be the one PII was encrypted under.
+const fetchGuestSubjectKey = async (
+  guestId: string,
+): Promise<Buffer | undefined> => {
+  const rows = await executeQuery<{ key: Buffer }[]>(
+    sql`
+      SELECT s.key
+      FROM vibetype.guest g
+      JOIN vibetype.contact c ON c.id = g.contact_id
+      LEFT JOIN vibetype_private.account_email_address aea
+        ON aea.account_id = c.account_id AND aea.is_primary
+      LEFT JOIN vibetype.contact_email_address cea
+        ON cea.contact_id = c.id AND cea.is_primary
+      JOIN vibetype_private.email_address ea
+        ON ea.id = COALESCE(aea.email_address_id, cea.email_address_id)
+      JOIN vibetype_private.subject s ON s.id = ea.subject_id
+      WHERE g.id = ${guestId}
+    `,
+  )
+  return rows[0]?.key
+}
+
+type AccountRegisteredContent = {
+  emailAddress: string
   username: string
 }
 
-const fetchAccountPayload = async (
-  accountId: string,
-): Promise<AccountPayload | undefined> => {
-  const rows = await executeQuery<AccountPayload[]>(
-    sql`SELECT * FROM vibetype.outbox_payload_account(${accountId})`,
-  )
-  return rows[0]
+type AccountPasswordResetContent = {
+  emailAddress: string
+  passwordResetVerification: string
+  passwordResetVerificationValidUntil: string
 }
 
-// Guest invitation data is fetched on demand by id rather than carried in the outbox payload, so
-// personal data such as the contact's email address never reaches the CDC log.
+type EmailAddressVerificationContent = {
+  emailAddress: string
+  code: string
+  validUntil: string
+}
+
 type GuestInvitationEvent = {
   id: string
   addressId: string | null
@@ -124,21 +219,12 @@ type GuestInvitationEvent = {
   createdBy: string
 }
 
-type GuestInvitationPayload = {
-  contact_email_address: string | null
-  contact_time_zone: string | null
+type GuestInvitationContent = {
+  contactEmailAddress: string
+  contactTimeZone: string | null
   event: GuestInvitationEvent
-  event_creator_profile_picture_upload_storage_key: string | null
-  event_creator_username: string
-}
-
-const fetchGuestInvitationPayload = async (
-  guestId: string,
-): Promise<GuestInvitationPayload | undefined> => {
-  const rows = await executeQuery<GuestInvitationPayload[]>(
-    sql`SELECT * FROM vibetype.outbox_payload_guest_invitation(${guestId})`,
-  )
-  return rows[0]
+  eventCreatorProfilePictureUploadStorageKey: string | null
+  eventCreatorUsername: string
 }
 
 export const processMessage = async ({
@@ -197,32 +283,33 @@ export const processMessage = async ({
 
   switch (channel) {
     case CHANNEL_NAME_ACCOUNT_PASSWORD_RESET: {
-      const account = await fetchAccountPayload(payload.account_id)
-      if (
-        !account?.password_reset_verification ||
-        !account.password_reset_verification_valid_until
-      ) {
+      const key = await fetchAccountSubjectKey(payload.account_id)
+      if (!key) {
         console.error(
-          `No pending password reset found for account ${payload.account_id}`,
+          `Could not resolve subject key for account ${payload.account_id}`,
         )
         break
       }
 
+      const content = decryptOutboxPayload<AccountPasswordResetContent>(
+        payload.encrypted,
+        key,
+      )
+
       await sendEmail({
         mailOptions: {
           subject: locales[channel][locale].subject,
-          to: account.email_address,
+          to: content.emailAddress,
         },
         name: channel,
         props: {
-          emailAddress: account.email_address,
+          emailAddress: content.emailAddress,
           locale,
           passwordResetVerificationLink: `${siteUrl}${
             locale !== LOCALE_DEFAULT ? '/' + locale : ''
-          }/account/password/reset?code=${account.password_reset_verification}`,
+          }/account/password/reset?code=${content.passwordResetVerification}`,
           timeZone: payload.template.time_zone ?? undefined,
-          validUntil:
-            account.password_reset_verification_valid_until.toISOString(),
+          validUntil: content.passwordResetVerificationValidUntil,
         },
         rateLimitPerDay,
         rateLimitPerSecond,
@@ -231,33 +318,65 @@ export const processMessage = async ({
       break
     }
     case CHANNEL_NAME_ACCOUNT_REGISTRATION: {
-      const account = await fetchAccountPayload(payload.account_id)
-      if (
-        !account?.email_address_verification ||
-        !account.email_address_verification_valid_until
-      ) {
+      const key = await fetchAccountSubjectKey(payload.account_id)
+      if (!key) {
         console.error(
-          `No pending email address verification found for account ${payload.account_id}`,
+          `Could not resolve subject key for account ${payload.account_id}`,
         )
         break
       }
 
+      const content = decryptOutboxPayload<AccountRegisteredContent>(
+        payload.encrypted,
+        key,
+      )
+
       await sendEmail({
         mailOptions: {
           subject: locales[channel][locale].subject,
-          to: account.email_address,
+          to: content.emailAddress,
         },
         name: channel,
         props: {
-          emailAddress: account.email_address,
+          emailAddress: content.emailAddress,
+          locale,
+          siteUrl,
+          username: content.username,
+        },
+        rateLimitPerDay,
+        rateLimitPerSecond,
+        redis,
+      })
+      break
+    }
+    case CHANNEL_NAME_EMAIL_ADDRESS_VERIFICATION: {
+      const key = await fetchEmailAddressSubjectKey(payload.email_address_id)
+      if (!key) {
+        console.error(
+          `Could not resolve subject key for email address ${payload.email_address_id}`,
+        )
+        break
+      }
+
+      const content = decryptOutboxPayload<EmailAddressVerificationContent>(
+        payload.encrypted,
+        key,
+      )
+
+      await sendEmail({
+        mailOptions: {
+          subject: locales[channel][locale].subject,
+          to: content.emailAddress,
+        },
+        name: channel,
+        props: {
+          emailAddress: content.emailAddress,
           emailAddressVerificationLink: `${siteUrl}${
             locale !== LOCALE_DEFAULT ? '/' + locale : ''
-          }/account/verify?code=${account.email_address_verification}`,
+          }/account/registration/confirm?code=${content.code}`,
           locale,
           timeZone: payload.template.time_zone ?? undefined,
-          username: account.username,
-          validUntil:
-            account.email_address_verification_valid_until.toISOString(),
+          validUntil: content.validUntil,
         },
         rateLimitPerDay,
         rateLimitPerSecond,
@@ -266,15 +385,18 @@ export const processMessage = async ({
       break
     }
     case CHANNEL_NAME_EVENT_INVITATION: {
-      const guestInvitation = await fetchGuestInvitationPayload(
-        payload.guest_id,
-      )
-      if (!guestInvitation) {
+      const key = await fetchGuestSubjectKey(payload.guest_id)
+      if (!key) {
         console.error(
-          `Could not find guest invitation data for guest ${payload.guest_id}`,
+          `Could not resolve subject key for guest ${payload.guest_id}`,
         )
         break
       }
+
+      const guestInvitation = decryptOutboxPayload<GuestInvitationContent>(
+        payload.encrypted,
+        key,
+      )
 
       await sendEventInvitationMail({
         guestId: payload.guest_id,
@@ -289,7 +411,7 @@ export const processMessage = async ({
       break
     }
     default:
-      throw new Error(`Unexpected channel: ${channel}`)
+      throw new Error(`Unexpected channel: ${JSON.stringify(channel)}`)
   }
 
   await ack({
@@ -357,7 +479,7 @@ export const sendEventInvitationMail = async ({
   tusdFilesUrl,
 }: {
   guestId: string
-  guestInvitation: GuestInvitationPayload
+  guestInvitation: GuestInvitationContent
   locale: AppLocale
   rateLimitPerDay: number
   rateLimitPerSecond: number
@@ -366,18 +488,12 @@ export const sendEventInvitationMail = async ({
   tusdFilesUrl: string
 }) => {
   const {
-    contact_email_address: emailAddress,
-    contact_time_zone: timeZone,
+    contactEmailAddress: emailAddress,
+    contactTimeZone: timeZone,
     event,
-    event_creator_profile_picture_upload_storage_key:
-      eventCreatorProfilePictureUploadStorageKey,
-    event_creator_username: eventCreatorUsername,
+    eventCreatorProfilePictureUploadStorageKey,
+    eventCreatorUsername,
   } = guestInvitation
-
-  if (!emailAddress) {
-    console.error(`Could not get email address for guest ${guestId}!`)
-    return
-  }
 
   const icalFetch = await fetch(
     `http://${SITE_NAME}:3000/api/model/event/ical`,

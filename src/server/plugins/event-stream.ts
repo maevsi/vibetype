@@ -1,10 +1,12 @@
 // The outbox event router SMT routes by aggregate_type, so account.registered and
 // account.password_reset_requested share one topic; the specific type travels in the payload.
 const AGGREGATE_TYPE_ACCOUNT = 'account'
+const AGGREGATE_TYPE_EMAIL_ADDRESS = 'email_address'
 const AGGREGATE_TYPE_GUEST = 'guest'
 
 const TOPICS_OUTBOX = {
   [AGGREGATE_TYPE_ACCOUNT]: `${SITE_NAME}.outbox.${AGGREGATE_TYPE_ACCOUNT}`,
+  [AGGREGATE_TYPE_EMAIL_ADDRESS]: `${SITE_NAME}.outbox.${AGGREGATE_TYPE_EMAIL_ADDRESS}`,
   [AGGREGATE_TYPE_GUEST]: `${SITE_NAME}.outbox.${AGGREGATE_TYPE_GUEST}`,
   // upload's channel name doubles as its aggregate_type, since it's the only type on that topic.
   [CHANNEL_NAME_UPLOAD]: `${SITE_NAME}.outbox.${CHANNEL_NAME_UPLOAD}`,
@@ -28,30 +30,33 @@ export default defineNitroPlugin(async (nitroApp) => {
   // `{ schema, payload }`, with the outbox row's `payload` column itself still a JSON string,
   // since Debezium maps jsonb columns to strings.
   // TODO: verify this against the actual connector output in redpanda-console once deployed.
+  //
+  // `id` comes from the value's payload.id (the outbox row's own pk, used for ack), not from the
+  // Kafka message key: the key carries aggregate_id instead (stack's EventRouter partitions by
+  // aggregate_id to keep events about the same entity ordered), which is a different id entirely.
   const processRoutedOutboxMessage = async (
     aggregateType: keyof typeof TOPICS_OUTBOX,
     key: Buffer | null,
     value: Buffer | null,
   ) => {
-    const keyOutbox = parseJsonBuffer<{ payload: string }>(key)
     const valueOutbox = parseJsonBuffer<{ payload: string }>(value)
 
-    if (!keyOutbox || !valueOutbox) {
+    if (!valueOutbox) {
       throw new PermanentProcessingError(
-        `Missing key or value for outbox aggregate type: ${aggregateType}`,
+        `Missing value for outbox aggregate type: ${aggregateType}`,
       )
     }
 
-    const id = keyOutbox.payload
     const payload = JSON.parse(valueOutbox.payload)
+    const id = payload.id as string
 
     if (aggregateType === CHANNEL_NAME_UPLOAD) {
       await processUpload({ id, storageKey: payload.storage_key })
       return
     }
 
-    // The account and guest topics each carry more than one type, so the specific channel
-    // comes from the payload rather than the topic.
+    // The account, email_address, and guest topics each carry more than one type, so the
+    // specific channel comes from the payload rather than the topic.
     await processMessage({
       channelEvent: { channel: payload.type, payload },
       id,
@@ -67,6 +72,8 @@ export default defineNitroPlugin(async (nitroApp) => {
     handlers: {
       [TOPICS_OUTBOX[AGGREGATE_TYPE_ACCOUNT]]: (key, value) =>
         processRoutedOutboxMessage(AGGREGATE_TYPE_ACCOUNT, key, value),
+      [TOPICS_OUTBOX[AGGREGATE_TYPE_EMAIL_ADDRESS]]: (key, value) =>
+        processRoutedOutboxMessage(AGGREGATE_TYPE_EMAIL_ADDRESS, key, value),
       [TOPICS_OUTBOX[AGGREGATE_TYPE_GUEST]]: (key, value) =>
         processRoutedOutboxMessage(AGGREGATE_TYPE_GUEST, key, value),
       [TOPICS_OUTBOX[CHANNEL_NAME_UPLOAD]]: (key, value) =>
