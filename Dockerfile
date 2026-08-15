@@ -2,14 +2,14 @@
 # check=skip=SecretsUsedInArgOrEnv
 
 # <DEPENDENCIES>
-FROM ghcr.io/maevsi/postgraphile:2.1.5
-FROM ghcr.io/maevsi/sqitch:11.1
+FROM ghcr.io/maevsi/postgraphile:2.2.1
+FROM ghcr.io/maevsi/sqitch:12.2
 # </DEPENDENCIES>
 
 #############
 # Create base image.
 
-FROM node:24.17.0-alpine AS base-image
+FROM node:24.19.0-alpine AS base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -50,7 +50,7 @@ CMD ["pnpm", "run", "--dir", "src", "dev", "--host", "0.0.0.0"]
 EXPOSE 3000
 
 # TODO: support healthcheck while starting (https://github.com/nuxt/nuxt/issues/14697)
-HEALTHCHECK --start-period=60s CMD wget -O /dev/null http://0.0.0.0:3000/api/service/vibetype/healthcheck || exit 1
+HEALTHCHECK --start-period=300s CMD wget -O /dev/null http://127.0.0.1:3000/api/service/vibetype/healthcheck || exit 1
 
 
 ########################
@@ -123,7 +123,7 @@ RUN pnpm -r run test
 ########################
 # Nuxt: test (e2e, base-image)
 
-FROM mcr.microsoft.com/playwright:v1.61.0 AS test-e2e-base-image
+FROM mcr.microsoft.com/playwright:v1.62.1 AS test-e2e-base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -263,7 +263,7 @@ RUN corepack prepare
 
 ENTRYPOINT ["/srv/app/docker-entrypoint.sh"]
 CMD ["pnpm", "run", "start:node"]
-HEALTHCHECK --interval=10s CMD wget -O /dev/null http://localhost:3000/api/service/vibetype/healthcheck || exit 1
+HEALTHCHECK --interval=10s CMD wget -O /dev/null http://127.0.0.1:3000/api/service/vibetype/healthcheck || exit 1
 EXPOSE 3000
 LABEL org.opencontainers.image.source="https://github.com/maevsi/vibetype"
 LABEL org.opencontainers.image.description="Find events, guests and friends 💙❤️💚"

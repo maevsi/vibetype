@@ -10,7 +10,7 @@ export const GET_CSP = ({
   runtimeConfig?: RuntimeConfig
 }) => {
   const sharedOptions = {
-    isSsr: false,
+    allowInternal: false,
     stagingHost: runtimeConfig?.public.vio.stagingHost,
   }
   const hrefApp = getServiceHref({
@@ -95,6 +95,11 @@ export const GET_CSP = ({
         'https://firebaseinstallations.googleapis.com',
         'https://fcmregistrations.googleapis.com',
       ],
+      ...(process.env.NODE_ENV === 'development'
+        ? {
+            'worker-src': ["'self'"],
+          }
+        : {}),
     },
     {
       // Google Analytics 4 (https://developers.google.com/tag-platform/tag-manager/web/csp)

@@ -11,6 +11,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '~': r('../src'),
+      '~~': r('../src'),
       '#src': r('../src'),
     },
   },

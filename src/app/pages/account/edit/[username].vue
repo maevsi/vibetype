@@ -11,7 +11,7 @@
         :to="
           localePath({
             name: 'account-view-username',
-            params: { username: store.signedInUsername },
+            params: { username: route.params.username },
           })
         "
       >
@@ -46,7 +46,7 @@
           <ButtonColored
             :aria-label="t('remove')"
             variant="secondary"
-            @click="removeProfilePicture"
+            @click="openProfilePictureRemoveDrawer"
           >
             <TypographyLabel v-slot="attributes">
               <div v-bind="attributes">
@@ -55,17 +55,27 @@
             </TypographyLabel>
           </ButtonColored>
         </div>
-        <ModalUploadSelection @select="onUploadSelect" />
+        <ModalUploadSelection
+          v-model="isModalUploadSelectionOpen"
+          @select="onUploadSelect"
+        />
+        <AccountProfilePictureRemoveDrawer
+          v-if="account?.profilePictureByAccountId?.rowId"
+          v-model:open="isProfilePictureRemoveDrawerOpen"
+          :profile-picture-row-id="account.profilePictureByAccountId.rowId"
+        />
       </div>
       <AppInputTextarea
         :content-initial="account.description"
         :length-maximum="descriptionLengthMaximum"
+        :loading="updateAccountByRowIdMutation.fetching.value"
         :title="t('about')"
         @save="saveDescription"
       />
       <AppInputTextarea
         :content-initial="account.imprintUrl"
         :length-maximum="imprintLengthMaximum"
+        :loading="updateAccountByRowIdMutation.fetching.value"
         :title="t('imprint')"
         @save="saveImprint"
       />
@@ -151,8 +161,13 @@ const executeUrqlRequest = useExecuteUrqlRequest()
 const account = computed(() => api.value.data.accountByUsername)
 
 // profile picture
+const isModalUploadSelectionOpen = ref<boolean>()
+const isProfilePictureRemoveDrawerOpen = ref(false)
 const showModalUploadSelection = () => {
-  store.modals.push({ id: 'ModalUploadSelection' })
+  isModalUploadSelectionOpen.value = true
+}
+const openProfilePictureRemoveDrawer = () => {
+  isProfilePictureRemoveDrawerOpen.value = true
 }
 
 const createProfilePictureMutation = useMutation(

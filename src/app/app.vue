@@ -57,12 +57,13 @@
 import '@fontsource-variable/raleway/wght.css'
 import { isEqual } from 'ufo'
 
-const { $pwa } = useNuxtApp()
+const { $pwa, $urql } = useNuxtApp()
 const { isApp, isIos } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
 const timeZone = useTimeZone()
 const localePath = useLocalePath()
 const store = useStore()
+const notificationStore = useNotificationStore()
 const route = useRoute()
 
 // i18n
@@ -110,24 +111,50 @@ const saveTimeZoneAsCookie = () =>
   }).value = timeZone)
 
 // lifecycle
-if (!runtimeConfig.public.vio.isTesting && !isApp) {
+if (!runtimeConfig.public.vio.isTesting && !isApp && $pwa) {
   watch(
-    () => $pwa,
+    () => $pwa.showInstallPrompt,
     async (current, _previous) => {
-      if (current?.showInstallPrompt) {
+      if (!$pwa) {
+        console.error('PWA plugin is not available')
+        return
+      }
+
+      if (current) {
         toast(t('pwaTitle'), {
           action: {
             label: t('pwaConfirmButtonText'),
-            onClick: current.install,
+            onClick: $pwa.install,
           },
           description: t('pwaText'),
-          onDismiss: current.cancelInstall,
-          onAutoClose: current.cancelInstall,
+          onDismiss: $pwa.cancelInstall,
+          onAutoClose: $pwa.cancelInstall,
           duration: 10e3,
         })
       }
     },
-    { deep: true },
+  )
+}
+
+// notifications
+if (import.meta.client) {
+  // `notificationStore.fcmToken` is watched but not read here: `registerDevice`
+  // reads it directly off the store. It's a dependency so this watcher re-fires
+  // once the token arrives, which on iOS happens asynchronously via a native
+  // callback well after permission is granted and the account is signed in.
+  watch(
+    () =>
+      [
+        store.signedInAccountId,
+        notificationStore.permissionState,
+        notificationStore.fcmToken,
+      ] as const,
+    ([signedInAccountId, permissionState]) => {
+      if (signedInAccountId && permissionState === 'granted') {
+        notificationStore.registerDevice($urql.value, signedInAccountId)
+      }
+    },
+    { immediate: true },
   )
 }
 

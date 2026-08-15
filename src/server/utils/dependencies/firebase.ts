@@ -30,3 +30,15 @@ const getFirebaseAdminApp = () => {
 }
 
 export const firebaseAdminApp = getFirebaseAdminApp()
+
+export const useFirebase = () => {
+  if (!firebaseAdminApp)
+    throw createAppError({
+      status: 500,
+      statusText: 'Firebase uninitialized',
+    })
+
+  return {
+    adminApp: firebaseAdminApp,
+  }
+}

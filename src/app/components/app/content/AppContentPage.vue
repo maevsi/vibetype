@@ -1,11 +1,21 @@
 <template>
-  <AppContent :content />
+  <LoaderIndicatorPing v-if="content.pending.value" />
+  <AppError
+    v-else-if="content.error.value"
+    :error="{ message: content.error.value.message, status: 500 }"
+  />
+  <AppError
+    v-else-if="!content.data.value"
+    :error="{ data: { vibetype: t('errorContentMissing') }, status: 404 }"
+  />
+  <AppContent v-else :content />
 </template>
 
 <script setup lang="ts">
 import type { OgImageComponents } from '#og-image/components'
 
 // compiler
+const { t } = useI18n()
 const { path } = defineProps<{
   path: string
 }>()
@@ -23,3 +33,10 @@ if (content.data.value?.ogImage?.component) {
   )
 }
 </script>
+
+<i18n lang="yaml">
+de:
+  errorContentMissing: Der Inhalt ist nicht verfügbar.
+en:
+  errorContentMissing: The content is not available.
+</i18n>

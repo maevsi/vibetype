@@ -664,6 +664,7 @@ export type AccountPasswordResetRequestInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>
   emailAddress: Scalars['String']['input']
   language: Scalars['String']['input']
+  timeZone?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The output of our `accountPasswordResetRequest` mutation. */
@@ -698,6 +699,7 @@ export type AccountRegistrationInput = {
   language: Scalars['String']['input']
   legalTermId: Scalars['UUID']['input']
   password: Scalars['String']['input']
+  timeZone?: InputMaybe<Scalars['String']['input']>
   username: Scalars['String']['input']
 }
 

@@ -53,14 +53,23 @@
 
 <script setup lang="ts">
 import { useForm } from '@tanstack/vue-form'
+import { useMutation } from '@urql/vue'
 import { z } from 'zod'
 
-import { useAccountPasswordChangeMutation } from '~~/gql/documents/mutations/account/accountPasswordChange'
+import { graphql } from '~~/gql/generated'
 
 const { t } = useI18n()
 
 // api data
-const accountPasswordChangeMutation = useAccountPasswordChangeMutation()
+const accountPasswordChangeMutation = useMutation(
+  graphql(`
+    mutation AccountPasswordChange($input: AccountPasswordChangeInput!) {
+      accountPasswordChange(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
 const api = await useApiData([accountPasswordChangeMutation])
 
 const errorMessages = computed(() =>

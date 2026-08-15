@@ -14,14 +14,14 @@ on:
 jobs:
   ci-optimization:
     name: CI optimization
-    uses: dargmuesli/github-actions/.github/workflows/ci-optimization.yml@89c813758dd4c98d28fe3e8d0c8c13923524b4f0 # 5.5.1
+    uses: dargmuesli/github-actions/.github/workflows/ci-optimization.yml@e9c9cf391baeb261cf62c0af6c4af2245bae0662 # 5.9.2
     permissions:
       pull-requests: read
   release_semantic_dry:
     needs: ci-optimization
     if: needs.ci-optimization.outputs.continue == 'true'
     name: Release (semantic, dry)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@89c813758dd4c98d28fe3e8d0c8c13923524b4f0 # 5.5.1
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@e9c9cf391baeb261cf62c0af6c4af2245bae0662 # 5.9.2
     permissions:
       contents: write
       id-token: write
@@ -31,7 +31,7 @@ jobs:
       DRY_RUN: true
   build:
     name: Build
-    uses: dargmuesli/github-actions/.github/workflows/docker-caching.yml@89c813758dd4c98d28fe3e8d0c8c13923524b4f0 # 5.5.1
+    uses: dargmuesli/github-actions/.github/workflows/docker.yml@e9c9cf391baeb261cf62c0af6c4af2245bae0662 # 5.9.2
     needs: release_semantic_dry
     permissions:
       packages: write
@@ -39,13 +39,14 @@ jobs:
       BUILD_ADD_HOSTS: |
         app.localhost=127.0.0.1
       BUILD_ARGUMENTS: ${{ (needs.release_semantic_dry.outputs.new_release_version != null) && format('RELEASE_NAME={0}', needs.release_semantic_dry.outputs.new_release_version) || '' }}
+      SMOKE_TEST_SCRIPT: .github/smoke-test.sh
       TAG: ${{ (needs.release_semantic_dry.outputs.new_release_version != null) && needs.release_semantic_dry.outputs.new_release_version || '' }}
     secrets:
       BUILD_ARGUMENTS: SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
   release_semantic:
     needs: build
     name: Release (semantic)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@89c813758dd4c98d28fe3e8d0c8c13923524b4f0 # 5.5.1
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@e9c9cf391baeb261cf62c0af6c4af2245bae0662 # 5.9.2
     permissions:
       contents: write
       id-token: write

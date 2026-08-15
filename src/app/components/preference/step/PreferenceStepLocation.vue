@@ -33,10 +33,13 @@
 </template>
 
 <script setup lang="ts">
-import { useAllPreferenceEventLocationsQuery } from '~~/gql/documents/queries/preference/preferenceEventLocationsAll'
-import { useCreatePreferenceEventLocationMutation } from '~~/gql/documents/mutations/preference/preferenceEventLocationCreate'
-import { useDeletePreferenceEventLocationByRowIdMutation } from '~~/gql/documents/mutations/preference/preferenceEventLocationDeleteByRowId'
-import { getPreferenceEventLocationItem } from '~~/gql/documents/fragments/preferenceEventLocationItem'
+import { useMutation } from '@urql/vue'
+
+import { graphql } from '~~/gql/generated'
+import {
+  getPreferenceEventLocationItem,
+  useAllPreferenceEventLocationsQuery,
+} from '~~/shared/utils/preference/eventLocation'
 
 const { ariaHidden } = defineProps<{
   ariaHidden: boolean
@@ -50,10 +53,30 @@ const { t, locale } = useI18n()
 
 // api data
 const allPreferenceEventLocationsQuery = useAllPreferenceEventLocationsQuery()
-const createPreferenceEventLocationMutation =
-  useCreatePreferenceEventLocationMutation()
-const deletePreferenceEventLocationByRowIdMutation =
-  useDeletePreferenceEventLocationByRowIdMutation()
+const createPreferenceEventLocationMutation = useMutation(
+  graphql(`
+    mutation CreatePreferenceEventLocation(
+      $input: CreatePreferenceEventLocationInput!
+    ) {
+      createPreferenceEventLocation(input: $input) {
+        preferenceEventLocation {
+          ...PreferenceEventLocationItem
+        }
+      }
+    }
+  `),
+)
+const deletePreferenceEventLocationByRowIdMutation = useMutation(
+  graphql(`
+    mutation DeletePreferenceEventLocationByRowId(
+      $input: DeletePreferenceEventLocationByRowIdInput!
+    ) {
+      deletePreferenceEventLocationByRowId(input: $input) {
+        deletedPreferenceEventLocationId
+      }
+    }
+  `),
+)
 const api = await useApiData([
   allPreferenceEventLocationsQuery,
   createPreferenceEventLocationMutation,

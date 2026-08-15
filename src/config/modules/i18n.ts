@@ -4,9 +4,10 @@ export const i18nConfig: ReturnType<DefineNuxtConfig> = {
   i18n: {
     defaultLocale: 'en', // Must be set for the default prefix_except_default prefix strategy.
     detectBrowserLanguage: false,
-    // experimental: {
-    //   compactRoutes: true, // TODO: reenable (https://github.com/nuxt-modules/sitemap/issues/617)
-    // },
+    experimental: {
+      compactRoutes: true,
+      strictSeo: true,
+    },
     locales: [
       {
         code: 'de',

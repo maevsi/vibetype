@@ -157,7 +157,7 @@
                     name: contactName,
                   })
             "
-            :disabled="isUpdatingAccept"
+            :loading="isUpdatingAccept"
             @click="accept"
           >
             <span>
@@ -170,8 +170,7 @@
               }}
             </span>
             <template #prefix>
-              <LoaderIndicatorSpinner v-if="isUpdatingAccept" class="size-8" />
-              <AppIconCheckCircleSolid v-else class="shrink-0" />
+              <AppIconCheckCircleSolid class="shrink-0" />
             </template>
           </ButtonColored>
           <div
@@ -204,7 +203,7 @@
                     name: contactName,
                   })
             "
-            :disabled="isUpdatingCancel"
+            :loading="isUpdatingCancel"
             @click="cancel"
           >
             <span>
@@ -217,8 +216,7 @@
               }}
             </span>
             <template #prefix>
-              <LoaderIndicatorSpinner v-if="isUpdatingCancel" class="size-8" />
-              <AppIconXCircleSolid v-else class="shrink-0" />
+              <AppIconXCircleSolid class="shrink-0" />
             </template>
           </ButtonColored>
           <div
@@ -249,7 +247,7 @@
         <!-- eslint-enable vue/no-v-html -->
       </Card>
     </div>
-    <Modal id="ModalGuestQrCode">
+    <Modal v-model="isModalGuestQrCodeOpen">
       <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
         <div class="bg-white p-4">
           <QrcodeVue id="qrCode" :size="200" :value="guest.rowId" />
@@ -273,7 +271,7 @@
         </ButtonColored>
         <ButtonColored
           :aria-label="t('close')"
-          @click="store.modalRemove('ModalGuestQrCode')"
+          @click="isModalGuestQrCodeOpen = false"
         >
           {{ t('close') }}
           <template #prefix>
@@ -286,14 +284,13 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
+import { useMutation, useQuery } from '@urql/vue'
 import downloadJs from 'downloadjs'
 import { sanitize } from 'isomorphic-dompurify'
 import mustache from 'mustache'
 import prntr from 'prntr'
 import QrcodeVue from 'qrcode.vue'
 
-import { useUpdateGuestByRowIdMutation } from '~~/gql/documents/mutations/guest/guestUpdateByRowId'
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import type { GuestPatch } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
@@ -302,9 +299,21 @@ const { isApp } = usePlatform()
 const { t } = useI18n()
 const route = useRoute()
 const localePath = useLocalePath()
-const updateGuestByRowIdMutation = useUpdateGuestByRowIdMutation()
+const updateGuestByRowIdMutation = useMutation(
+  graphql(`
+    mutation UpdateGuestByRowId($input: UpdateGuestByRowIdInput!) {
+      updateGuestByRowId(input: $input) {
+        guest {
+          id
+          feedback
+        }
+      }
+    }
+  `),
+)
 const store = useStore()
 
+const isModalGuestQrCodeOpen = ref<boolean>()
 const isOpenReportDrawer = ref<boolean>()
 const alertError = useAlertError()
 
@@ -348,6 +357,24 @@ const eventQuery = useQuery({
           createdBy
           description
           end
+          eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+            nodes {
+              categoryId
+              eventCategoryByCategoryId {
+                name
+              }
+              id
+            }
+          }
+          eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+            nodes {
+              eventFormatByFormatId {
+                name
+              }
+              formatId
+              id
+            }
+          }
           id
           isArchived
           isInPerson
@@ -422,9 +449,9 @@ const downloadIcal = async () => {
 
   const response = await $csrfFetch('/api/model/event/ical', {
     body: {
-      contact,
-      event,
-      guest,
+      contact: contact.value,
+      event: event.value,
+      guest: guest.value,
     },
     method: 'POST',
   })
@@ -448,7 +475,7 @@ const print = () => {
   })
 }
 const qrCodeShow = () => {
-  store.modals.push({ id: 'ModalGuestQrCode' })
+  isModalGuestQrCodeOpen.value = true
 }
 const update = async (id: string, guestPatch: GuestPatch) => {
   const result = await updateGuestByRowIdMutation.executeMutation({

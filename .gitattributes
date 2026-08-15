@@ -1,0 +1,1 @@
+tests/e2e/specs/**/*-snapshots/*.png filter=lfs diff=lfs merge=lfs -text

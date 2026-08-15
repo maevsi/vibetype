@@ -1,5 +1,3 @@
-import type { Client } from '@urql/vue'
-
 export const jwtGet = async ({
   requestFetch,
   store,
@@ -17,7 +15,7 @@ export const jwtDelete = async ({
   requestFetch,
   store,
 }: {
-  $urqlReset: () => Client
+  $urqlReset: () => Promise<void>
   requestFetch: ReturnType<typeof useRequestFetch>
   store: ReturnType<typeof useStore>
 }) => {
@@ -25,5 +23,5 @@ export const jwtDelete = async ({
     method: 'DELETE',
   })
   store.jwtSet()
-  $urqlReset()
+  await $urqlReset()
 }

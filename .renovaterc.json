@@ -1,10 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>dargmuesli/renovate-config"],
-  "packageRules": [
-    {
-      "allowedVersions": "1.15.6",
-      "matchPackageNames": ["h3"]
-    }
-  ]
+  "extends": ["github>dargmuesli/renovate-config"]
 }

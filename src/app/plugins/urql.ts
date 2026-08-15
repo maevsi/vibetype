@@ -1,6 +1,5 @@
 import type { ClientOptions, SSRData } from '@urql/core'
-import type { DefaultStorage } from '@urql/exchange-graphcache/default-storage'
-import { provideClient, type Client } from '@urql/vue'
+import { provideClient } from '@urql/vue'
 
 const SSR_KEY = '__URQL_DATA__'
 
@@ -12,7 +11,6 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
   const baseUrl = getServiceHref({
     name: SITE_NAME,
-    port: 3000,
   })
   const clientOptions: Partial<ClientOptions> = {
     fetchOptions: {
@@ -58,11 +56,3 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     },
   }
 })
-
-declare module '#app' {
-  interface NuxtApp {
-    $urql: Ref<Client>
-    $urqlCache?: DefaultStorage
-    $urqlReset: () => Client
-  }
-}

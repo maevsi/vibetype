@@ -10,6 +10,7 @@ import { environmentsConfig } from './config/environments'
 
 import { iconCollectionOptimization } from './node'
 import {
+  GTAG_MEASUREMENT_ID,
   IS_IN_FRONTEND_DEVELOPMENT,
   IS_NITRO_OPENAPI_ENABLED,
   NUXT_PUBLIC_SENTRY_HOST,
@@ -38,9 +39,13 @@ export default defineNuxtConfig({
   css: ['~/assets/css/app.css'],
   experimental: {
     inlineRouteRules: true,
+    prefetchPreloadTags: true,
     typedPages: true,
+    typescriptPlugin: true,
+    watcher: 'builder',
   },
   modules: [
+    '@comark/nuxt',
     '@dargmuesli/nuxt-cookie-control',
     // '@nuxt/a11y',
     '@nuxt/eslint',
@@ -48,16 +53,13 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxtjs/color-mode',
     '@nuxtjs/html-validator',
-    'nuxt-zod-i18n', // most come before `@nuxtjs/i18n`
     '@nuxtjs/i18n',
-    '@nuxtjs/mdc',
     '@nuxtjs/seo',
     '@nuxt/content', // most come after `@nuxtjs/seo`
     '@nuxtjs/turnstile',
     '@pinia/nuxt',
     '@sentry/nuxt/module',
     '@vite-pwa/nuxt',
-    'nuxt-gtag',
     'shadcn-nuxt',
     'nuxt-security',
   ],
@@ -75,6 +77,7 @@ export default defineNuxtConfig({
       asyncContext: true,
       openAPI: IS_NITRO_OPENAPI_ENABLED,
     },
+    // @ts-expect-error environment type missing (https://github.com/nitrojs/nitro/issues/4482)
     rollupConfig: {
       plugins: [vue()],
     },
@@ -82,6 +85,9 @@ export default defineNuxtConfig({
   routeRules: {
     '/**': {
       headers: { 'Document-Policy': 'js-profiling' }, // Sentry's browser profiling (currently supported for Chromium-based browsers)
+    },
+    '/.well-known/apple-app-site-association': {
+      headers: { 'Content-Type': 'application/json' },
     },
     '/__nuxt_content/content/query': {
       csurf: false,
@@ -97,8 +103,16 @@ export default defineNuxtConfig({
     public: {
       [SITE_NAME]: {
         email: {
+          // TODO(major): remove deprecated `limit24h` in the next major version
           limit24h: '150',
+          rateLimit: {
+            perDay: '', // falls back to the deprecated `limit24h`, then to `MAEVSI_EMAIL_RATE_LIMIT_PER_DAY`
+            perSecond: '14',
+          },
         },
+      },
+      gtag: {
+        id: GTAG_MEASUREMENT_ID,
       },
       i18n: {
         baseUrl: SITE_URL,
@@ -138,14 +152,20 @@ export default defineNuxtConfig({
         stagingHost: IS_IN_FRONTEND_DEVELOPMENT ? PRODUCTION_HOST : undefined,
       },
     },
-    vibetype: {
+    [SITE_NAME]: {
       api: {
         notification: {
           secret: '',
         },
       },
+      kafka: {
+        brokers: 'redpanda:9092',
+      },
       openai: {
         apiKey: '',
+      },
+      redis: {
+        url: 'redis://redis:6379',
       },
       zammad: {
         apiToken: undefined,
@@ -155,6 +175,7 @@ export default defineNuxtConfig({
     },
   },
   sourcemap: true,
+  tracingChannel: true,
   typescript: {
     sharedTsConfig: typescriptConfig,
     nodeTsConfig: {
@@ -187,6 +208,7 @@ export default defineNuxtConfig({
         '@tiptap/extension-text-align',
         '@tiptap/starter-kit',
         '@tiptap/vue-3',
+        '@unhead/schema-org/vue',
         '@uppy/core',
         '@uppy/tus',
         '@urql/core',
@@ -223,7 +245,6 @@ export default defineNuxtConfig({
         'tailwind-merge',
         'tailwindcss/colors',
         'ua-parser-js',
-        'v-calendar',
         'vaul-vue',
         'vue-advanced-cropper',
         'vue-chartjs',
@@ -231,6 +252,7 @@ export default defineNuxtConfig({
         'vue-sonner',
         'workbox-precaching',
         'zod',
+        'zod/locales',
       ],
     },
     plugins: [
@@ -252,29 +274,6 @@ export default defineNuxtConfig({
         scale: 1.5,
       }),
       tailwindcss(),
-      {
-        // This plugin suppresses false-positive sourcemap warnings from Tailwind's Vite plugin
-        // TODO: remove once tailwind generates sourcemaps for their transforms (https://github.com/tailwindlabs/tailwindcss/discussions/16119)
-        apply: 'build',
-        name: 'vite-plugin-ignore-sourcemap-warnings',
-        configResolved(config) {
-          const originalOnWarn = config.build.rollupOptions.onwarn
-          config.build.rollupOptions.onwarn = (warning, warn) => {
-            if (
-              warning.code === 'SOURCEMAP_BROKEN' &&
-              warning.plugin === '@tailwindcss/vite:generate:build'
-            ) {
-              return
-            }
-
-            if (originalOnWarn) {
-              originalOnWarn(warning, warn)
-            } else {
-              warn(warning)
-            }
-          }
-        },
-      },
     ],
   },
   ...modulesConfig,

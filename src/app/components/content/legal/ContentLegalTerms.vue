@@ -1,21 +1,12 @@
 <template>
   <LoaderIndicatorPing v-if="pending" />
-  <!-- TODO: replace with model error -->
-  <AppError
-    v-else-if="error"
-    :error="{ message: error.message, status: 500 }"
-  />
-  <AppError
-    v-else-if="!data?.legalTerm"
-    :error="{ message: t('errorUnavailable'), status: 404 }"
-  />
-  <LayoutProse v-else>
-    <MDCRenderer v-if="data.ast" :body="data.ast.body" :data="data.ast.data" />
+  <LayoutProse v-else-if="data?.ast">
+    <MarkdownDocument :value="data.ast" />
   </LayoutProse>
 </template>
 
 <script setup lang="ts">
-import { parseMarkdown } from '@nuxtjs/mdc/runtime'
+import { parseMarkdown } from 'comark'
 import { useQuery } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
@@ -25,9 +16,10 @@ const emit = defineEmits<{
   id: [string]
 }>()
 
-// async data
-const { t, locale } = useI18n()
+const modelError = defineModel<Error>('error')
 
+// async data
+const { locale } = useI18n()
 const allLegalTermsQuery = graphql(`
   query AllLegalTerms($language: String) {
     allLegalTerms(condition: { language: $language }) {
@@ -45,8 +37,6 @@ const legalTermsQuery = useQuery({
     language: locale.value,
   },
 })
-
-const modelError = defineModel<Error>('error')
 
 const { data, error, pending } = await useAsyncData(
   'content-legal-terms',
@@ -69,18 +59,15 @@ const { data, error, pending } = await useAsyncData(
   },
 )
 
-if (error.value) {
-  modelError.value = error.value // TODO: watch?
-}
+watch(
+  error,
+  (current) => {
+    modelError.value = current ?? undefined
+  },
+  { immediate: true },
+)
 
 if (data.value?.legalTerm) {
   emit('id', data.value.legalTerm.rowId)
 }
 </script>
-
-<i18n lang="yaml">
-de:
-  errorUnavailable: Die Allgemeinen Geschäftsbedingungen sind nicht verfügbar. Bitte melde dies unserem Support.
-en:
-  errorUnavailable: The General Terms and Conditions are unavailable. Please report this to our support.
-</i18n>

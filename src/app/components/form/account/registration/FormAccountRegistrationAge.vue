@@ -97,7 +97,7 @@ const formSchema = z.object({
 
         return birthDate.compare(targetDate) <= 0
       },
-      { message: t('globalFormErrorAge18') },
+      { error: t('globalFormErrorAge18') },
     ),
 })
 

@@ -47,6 +47,7 @@
         <ButtonColored
           v-bind="attributes"
           :aria-label="t('confirmBlock')"
+          :loading="createAccountBlockMutation.fetching.value"
           variant="primary-critical"
           @click="blockUser"
         >
@@ -94,7 +95,9 @@
 </template>
 
 <script setup lang="ts">
-import { useCreateAccountBlockMutation } from '~~/gql/documents/mutations/accountBlock/accountBlockCreate'
+import { useMutation } from '@urql/vue'
+
+import { graphql } from '~~/gql/generated'
 
 // compiler
 const { blockedAccountId, blockedUsername, blockingAccountId } = defineProps<{
@@ -122,8 +125,16 @@ const onAnimationEnd = (isOpen: boolean) => {
 }
 
 // api data
-const createAccountBlockMutation = useCreateAccountBlockMutation()
-// const api = await useApiData([createAccountBlockMutation]) // TODO: show loading state, error details
+const createAccountBlockMutation = useMutation(
+  graphql(`
+    mutation CreateAccountBlock($input: CreateAccountBlockInput!) {
+      createAccountBlock(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
+// TODO: show error details
 const blockUser = async () => {
   const result = await createAccountBlockMutation.executeMutation({
     input: {
@@ -150,14 +161,18 @@ const toDashboard = async () =>
     }),
   )
 const store = useStore()
-const toBlockList = async () =>
+const toBlockList = async () => {
+  if (!store.signedInUsername) {
+    throw new Error('No signed in username found')
+  }
+
   await navigateTo(
     localePath({
       name: 'account-view-username-block',
       params: { username: store.signedInUsername },
     }),
   )
-
+}
 // template
 const { t } = useI18n()
 </script>

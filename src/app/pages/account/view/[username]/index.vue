@@ -18,7 +18,7 @@
               localePath({
                 name: 'account-edit-username',
                 params: {
-                  username: store.signedInUsername,
+                  username: route.params.username,
                 },
               })
             "
@@ -241,13 +241,36 @@ const queryAccount = graphql(`
         }
       }
       description
+      profilePictureByAccountId {
+        id
+        rowId
+        uploadByUploadId {
+          id
+          rowId
+          storageKey
+        }
+      }
       eventsByCreatedBy(first: 3, orderBy: START_DESC) {
         nodes {
+          eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+            nodes {
+              eventCategoryByCategoryId {
+                name
+              }
+            }
+          }
           eventFavoritesByEventId(first: 1) {
             nodes {
               createdBy
               id
               rowId
+            }
+          }
+          eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+            nodes {
+              eventFormatByFormatId {
+                name
+              }
             }
           }
           guestsByEventId(first: 1) {
@@ -286,11 +309,6 @@ const { t } = useI18n()
 const title = computed(() =>
   isOwnProfile.value ? t('myProfile') : t('profile'),
 )
-useHeadDefault({
-  ogType: 'profile',
-  profileUsername: route.params.username,
-  title,
-})
 
 // api data
 const query = useQuery({
@@ -311,6 +329,39 @@ const events = computed(() =>
     ...event,
     accountByCreatedBy: { ...account.value, username: route.params.username },
   })),
+)
+
+// page (post-fetch)
+const TUSD_FILES_URL = useTusdFilesUrl()
+const accountProfilePictureUrl = computed(() => {
+  const storageKey =
+    account.value?.profilePictureByAccountId?.uploadByUploadId?.storageKey
+
+  return storageKey ? TUSD_FILES_URL + storageKey : undefined
+})
+const { siteUrlTyped: siteUrl } = useSiteUrl()
+useHeadDefault({
+  description: accountDescription,
+  ogType: 'profile',
+  profileUsername: route.params.username,
+  title,
+})
+definePerson({
+  description: accountDescription,
+  image: accountProfilePictureUrl,
+  name: route.params.username,
+  url: `https://${siteUrl.host}${route.fullPath}`,
+})
+defineOgImage(
+  'Person.takumi',
+  {
+    description: accountDescription,
+    image: accountProfilePictureUrl,
+    username: route.params.username,
+  },
+  {
+    alt: t('ogImageAlt'),
+  },
 )
 
 // template
@@ -334,6 +385,7 @@ de:
   imprint: Impressum
   myProfile: Mein Profil
   newEvent: Neues Event
+  ogImageAlt: Das Profilbild des Kontos.
   profile: Profil
   uploads: Meine Dateien
   username: "{'@'}{username}"
@@ -352,6 +404,7 @@ en:
   imprint: Imprint
   myProfile: My Profile
   newEvent: New event
+  ogImageAlt: The account's profile picture.
   profile: Profile
   uploads: Uploads
   username: "{'@'}{username}"

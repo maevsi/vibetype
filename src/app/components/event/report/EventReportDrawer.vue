@@ -62,6 +62,7 @@
         <ButtonColored
           v-bind="attributes"
           :aria-label="t('buttonReportSubmit')"
+          :loading="templateForm?.isSubmitting"
           type="submit"
           variant="primary-critical"
           @click="templateForm?.submit"
@@ -81,6 +82,7 @@
         <ButtonColored
           v-bind="attributes"
           :aria-label="t('buttonReportConfirmationBlock')"
+          :loading="createAccountBlockMutation.fetching.value"
           variant="secondary-critical"
           @click="blockOrganizer"
         >
@@ -117,7 +119,9 @@
 </template>
 
 <script setup lang="ts">
-import { useCreateAccountBlockMutation } from '~~/gql/documents/mutations/accountBlock/accountBlockCreate'
+import { useMutation } from '@urql/vue'
+
+import { graphql } from '~~/gql/generated'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
 const localePath = useLocalePath()
@@ -150,7 +154,15 @@ const onAnimationEnd = (isOpen: boolean) => {
 }
 
 // block
-const createAccountBlockMutation = useCreateAccountBlockMutation()
+const createAccountBlockMutation = useMutation(
+  graphql(`
+    mutation CreateAccountBlock($input: CreateAccountBlockInput!) {
+      createAccountBlock(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
 const blockOrganizer = async () => {
   const result = await createAccountBlockMutation.executeMutation({
     input: {

@@ -10,6 +10,96 @@
 
 * **app:** drop outdated detection keys ([9eb7e4e](https://github.com/maevsi/vibetype/commit/9eb7e4efe1b94a489b94ccb7c1b2c92f53040531))
 
+## [15.15.1](https://github.com/maevsi/vibetype/compare/15.15.0...15.15.1) (2026-08-14)
+
+## [15.15.0](https://github.com/maevsi/vibetype/compare/15.14.0...15.15.0) (2026-08-14)
+
+## [15.14.0](https://github.com/maevsi/vibetype/compare/15.13.1...15.14.0) (2026-08-12)
+
+## [15.13.1](https://github.com/maevsi/vibetype/compare/15.13.0...15.13.1) (2026-08-10)
+
+## [15.13.0](https://github.com/maevsi/vibetype/compare/15.12.1...15.13.0) (2026-08-10)
+
+## [15.12.1](https://github.com/maevsi/vibetype/compare/15.12.0...15.12.1) (2026-08-10)
+
+## [15.12.0](https://github.com/maevsi/vibetype/compare/15.11.0...15.12.0) (2026-08-10)
+
+## [15.11.0](https://github.com/maevsi/vibetype/compare/15.10.3...15.11.0) (2026-08-09)
+
+## [15.10.3](https://github.com/maevsi/vibetype/compare/15.10.2...15.10.3) (2026-08-09)
+
+## [15.10.2](https://github.com/maevsi/vibetype/compare/15.10.1...15.10.2) (2026-08-09)
+
+## [15.10.1](https://github.com/maevsi/vibetype/compare/15.10.0...15.10.1) (2026-08-09)
+
+## [15.10.0](https://github.com/maevsi/vibetype/compare/15.9.4...15.10.0) (2026-08-09)
+
+## [15.9.4](https://github.com/maevsi/vibetype/compare/15.9.3...15.9.4) (2026-08-09)
+
+## [15.9.3](https://github.com/maevsi/vibetype/compare/15.9.2...15.9.3) (2026-08-09)
+
+## [15.9.2](https://github.com/maevsi/vibetype/compare/15.9.1...15.9.2) (2026-08-09)
+
+## [15.9.1](https://github.com/maevsi/vibetype/compare/15.9.0...15.9.1) (2026-08-07)
+
+## [15.9.0](https://github.com/maevsi/vibetype/compare/15.8.0...15.9.0) (2026-08-07)
+
+## [15.8.0](https://github.com/maevsi/vibetype/compare/15.7.0...15.8.0) (2026-08-07)
+
+## [15.7.0](https://github.com/maevsi/vibetype/compare/15.6.0...15.7.0) (2026-08-07)
+
+## [15.6.0](https://github.com/maevsi/vibetype/compare/15.5.0...15.6.0) (2026-08-06)
+
+## [15.5.0](https://github.com/maevsi/vibetype/compare/15.4.7...15.5.0) (2026-08-06)
+
+## [15.4.7](https://github.com/maevsi/vibetype/compare/15.4.6...15.4.7) (2026-08-06)
+
+## [15.4.6](https://github.com/maevsi/vibetype/compare/15.4.5...15.4.6) (2026-08-06)
+
+## [15.4.5](https://github.com/maevsi/vibetype/compare/15.4.4...15.4.5) (2026-08-06)
+
+## [15.4.4](https://github.com/maevsi/vibetype/compare/15.4.3...15.4.4) (2026-08-05)
+
+## [15.4.3](https://github.com/maevsi/vibetype/compare/15.4.2...15.4.3) (2026-08-05)
+
+## [15.4.2](https://github.com/maevsi/vibetype/compare/15.4.1...15.4.2) (2026-08-05)
+
+## [15.4.1](https://github.com/maevsi/vibetype/compare/15.4.0...15.4.1) (2026-08-05)
+
+## [15.4.0](https://github.com/maevsi/vibetype/compare/15.3.1...15.4.0) (2026-08-05)
+
+## [15.3.1](https://github.com/maevsi/vibetype/compare/15.3.0...15.3.1) (2026-08-04)
+
+## [15.3.0](https://github.com/maevsi/vibetype/compare/15.2.1...15.3.0) (2026-07-31)
+
+## [15.2.1](https://github.com/maevsi/vibetype/compare/15.2.0...15.2.1) (2026-07-30)
+
+## [15.2.0](https://github.com/maevsi/vibetype/compare/15.1.21...15.2.0) (2026-07-30)
+
+## [15.1.21](https://github.com/maevsi/vibetype/compare/15.1.20...15.1.21) (2026-07-30)
+
+## [15.1.20](https://github.com/maevsi/vibetype/compare/15.1.19...15.1.20) (2026-07-29)
+
+## [15.1.19](https://github.com/maevsi/vibetype/compare/15.1.18...15.1.19) (2026-07-29)
+
+## [15.1.18](https://github.com/maevsi/vibetype/compare/15.1.17...15.1.18) (2026-07-27)
+
+## [15.1.17](https://github.com/maevsi/vibetype/compare/15.1.16...15.1.17) (2026-07-26)
+
+## [15.1.16](https://github.com/maevsi/vibetype/compare/15.1.15...15.1.16) (2026-07-22)
+
+## [15.1.15](https://github.com/maevsi/vibetype/compare/15.1.14...15.1.15) (2026-07-22)
+
+## [15.1.14](https://github.com/maevsi/vibetype/compare/15.1.13...15.1.14) (2026-07-22)
+
+## [15.1.13](https://github.com/maevsi/vibetype/compare/15.1.12...15.1.13) (2026-07-21)
+
+## [15.1.12](https://github.com/maevsi/vibetype/compare/15.1.11...15.1.12) (2026-07-11)
+
+## [15.1.11](https://github.com/maevsi/vibetype/compare/15.1.10...15.1.11) (2026-07-11)
+
+## [15.1.10](https://github.com/maevsi/vibetype/compare/15.1.9...15.1.10) (2026-07-07)
+
 ## [15.1.9](https://github.com/maevsi/vibetype/compare/15.1.8...15.1.9) (2026-06-17)
 
 ### Performance Improvements

@@ -72,6 +72,7 @@
         <ButtonColored
           :aria-label="t('checkOut')"
           :disabled="!canCheckOut"
+          :loading="checkOutMutation.fetching.value"
           @click="onCheckOut"
         >
           {{ t('checkOut') }}

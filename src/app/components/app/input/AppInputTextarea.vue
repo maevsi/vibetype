@@ -64,6 +64,7 @@
       <div v-if="isEditing" class="flex flex-col items-end gap-2 text-right">
         <ButtonColored
           :aria-label="t('saveChanges')"
+          :loading
           variant="secondary"
           @click="save"
         >
@@ -81,10 +82,12 @@
 const {
   contentInitial = undefined,
   lengthMaximum: maxLength,
+  loading,
   title,
 } = defineProps<{
   contentInitial?: string | null
   lengthMaximum: number
+  loading?: boolean
   title: string
 }>()
 
@@ -103,10 +106,30 @@ const cancel = () => {
   content.value = contentInitial?.trim()
   isEditing.value = false
 }
-const save = () => {
+const isSaving = ref(false)
+const save = async () => {
+  isSaving.value = true
   emit('save', content.value?.trim())
-  isEditing.value = false
+
+  // the caller may not actually start a loading request (e.g. a guard
+  // clause returning early), in which case there is no loading
+  // transition to reset `isSaving` below
+  await nextTick()
+  if (!loading) {
+    isSaving.value = false
+  }
 }
+
+// closes editing once this instance's save request settles
+watch(
+  () => loading,
+  (loadingCurrent, loadingPrevious) => {
+    if (loadingPrevious && !loadingCurrent && isSaving.value) {
+      isEditing.value = false
+      isSaving.value = false
+    }
+  },
+)
 
 // template
 const { t } = useI18n()

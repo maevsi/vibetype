@@ -1,12 +1,10 @@
 import type { Client } from '@urql/core'
 import type { Ref } from 'vue'
 
+import { isValidPhoneNumber } from 'libphonenumber-js/min'
 import { z } from 'zod'
 
-import { accountByUsernameQuery } from '~~/gql/documents/queries/account/accountByUsername'
-import { eventByCreatedByAndSlugQuery } from '~~/gql/documents/queries/event/eventByCreatedByAndSlug'
-import { getAccountItem } from '~~/gql/documents/fragments/accountItem'
-import { getEventItem } from '~~/gql/documents/fragments/eventItem'
+import { graphql } from '~~/gql/generated'
 
 export const VALIDATION_ADDRESS_LENGTH_MAXIMUM = 300
 export const VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM = 254 // source: https://www.dominicsayers.com/isemail/
@@ -21,6 +19,7 @@ export const VALIDATION_NOTE_LENGTH_MAXIMUM = 1000
 export const VALIDATION_PASSWORD_LENGTH_MINIMUM = 8
 export const VALIDATION_PASSWORD_LENGTH_MINIMUM_V2 = 12
 export const VALIDATION_PASSWORD_SCHEMA = /[!@#$%^&*(),.?":{}|<>]/
+export const VALIDATION_PHONE_NUMBER_LENGTH_MAXIMUM = 30 // rejects pathological input before parsing; real formatted numbers stay well under this
 export const VALIDATION_URL_LENGTH_MAXIMUM = 2000
 export const VALIDATION_USERNAME_LENGTH_MAXIMUM = 100
 
@@ -28,14 +27,12 @@ export const VALIDATION_USERNAME_LENGTH_MAXIMUM = 100
 export const SCHEMA_CAPTCHA = z.string().min(1)
 export const SCHEMA_CONSENT_REQUIRED = z.boolean().refine((value) => value)
 export const SCHEMA_EMAIL_ADDRESS_OPTIONAL = z
-  .string()
   .email()
   .max(VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM)
   .or(z.literal(''))
 export const SCHEMA_EMAIL_ADDRESS_REQUIRED = z
-  .string()
-  .min(1)
   .email()
+  .min(1)
   .max(VALIDATION_EMAIL_ADDRESS_LENGTH_MAXIMUM)
 export const SCHEMA_EVENT_DESCRIPTION_OPTIONAL = z
   .string()
@@ -78,7 +75,11 @@ export const SCHEMA_PASSWORD_V2 = z
   .min(VALIDATION_PASSWORD_LENGTH_MINIMUM_V2)
   .regex(/[A-Z]/)
   .regex(VALIDATION_PASSWORD_SCHEMA)
-export const SCHEMA_PHONE_NUMBER_OPTIONAL = z.string().or(z.literal(''))
+export const SCHEMA_PHONE_NUMBER_OPTIONAL = z
+  .string()
+  .max(VALIDATION_PHONE_NUMBER_LENGTH_MAXIMUM)
+  .refine((value) => isValidPhoneNumber(value))
+  .or(z.literal(''))
 export const SCHEMA_URL_HTTPS_OPTIONAL = z
   .string()
   .regex(REGEX_URL_HTTPS)
@@ -102,6 +103,15 @@ export const SCHEMA_USER_NAME_REQUIRED = z
   .min(1)
   .max(VALIDATION_NAME_FIRST_LENGTH_MAXIMUM)
 
+const accountByUsernameQuery = graphql(`
+  query AccountByUsername($username: String!) {
+    accountByUsername(username: $username) {
+      id
+      rowId
+    }
+  }
+`)
+
 export const getAccountByUsername = async ({
   $urql,
   username,
@@ -119,8 +129,16 @@ export const getAccountByUsername = async ({
     throw new Error(getCombinedErrorMessages([accountByUsername.error]).join())
   }
 
-  return getAccountItem(accountByUsername.data?.accountByUsername)
+  return accountByUsername.data?.accountByUsername
 }
+
+const eventByCreatedByAndSlugQuery = graphql(`
+  query EventByCreatedByAndSlug($createdBy: UUID!, $slug: String!) {
+    eventByCreatedByAndSlug(createdBy: $createdBy, slug: $slug) {
+      id
+    }
+  }
+`)
 
 export const getEventByCreatedByAndSlug = async ({
   $urql,
@@ -144,7 +162,7 @@ export const getEventByCreatedByAndSlug = async ({
     )
   }
 
-  return getEventItem(eventByCreatedByAndSlug.data?.eventByCreatedByAndSlug)
+  return eventByCreatedByAndSlug.data?.eventByCreatedByAndSlug
 }
 
 export const validateUsername = (invert?: boolean) => async (value: string) => {

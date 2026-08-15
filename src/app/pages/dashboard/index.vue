@@ -49,6 +49,7 @@
 import { useQuery } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
+import { eventHasEnded } from '~~/shared/utils/event'
 
 // async data
 const eventQuery = graphql(`
@@ -67,11 +68,25 @@ const eventQuery = graphql(`
         }
         rowId
       }
+      eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+        nodes {
+          eventCategoryByCategoryId {
+            name
+          }
+        }
+      }
       eventFavoritesByEventId(first: 1) {
         nodes {
           createdBy
           id
           rowId
+        }
+      }
+      eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+        nodes {
+          eventFormatByFormatId {
+            name
+          }
         }
       }
       guestsByEventId(first: 1) {
@@ -107,11 +122,11 @@ const {
   const events = (
     await Promise.all(
       eventIds.map(
-        async (eventId) =>
+        async (recommendation) =>
           (
             await $urql.value
               .query(eventQuery, {
-                id: eventId,
+                id: recommendation.event_id,
               })
               .toPromise()
           ).data?.eventByRowId,
@@ -134,6 +149,20 @@ const eventUpcomingQuery = graphql(`
           username
         }
         end
+        eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+          nodes {
+            eventCategoryByCategoryId {
+              name
+            }
+          }
+        }
+        eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
+          nodes {
+            eventFormatByFormatId {
+              name
+            }
+          }
+        }
         id
         name
         rowId
@@ -156,21 +185,11 @@ const api = await useApiData([
 ])
 
 const now = useNow()
-const TWELVE_HOURS = 12 * 60 * 60 * 1000
 const eventUpcoming = computed(() => {
   if (!api.value.data.allEvents?.nodes) return undefined
 
   const upcomingEvents = api.value.data.allEvents.nodes
-    .filter((event) => {
-      if (event.end) {
-        return now.value < new Date(event.end)
-      }
-      const eventStart = new Date(event.start)
-      const eventStartPlusDuration = new Date(
-        eventStart.getTime() + TWELVE_HOURS,
-      )
-      return now.value < eventStartPlusDuration
-    })
+    .filter((event) => !eventHasEnded(event, now.value))
     .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
 
   return upcomingEvents.length ? upcomingEvents[0] : undefined

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 const emailGetQuerySchema = z.object({
-  locale: z.nativeEnum(AppLocale).default(AppLocale.EN),
+  locale: z.enum(AppLocale).default(AppLocale.EN),
   name: EMAIL_NAMES.optional(),
 })
 
@@ -16,6 +16,7 @@ const getDemoEmailProps = (locale: AppLocale) =>
       passwordResetVerificationLink:
         'https://example.com/reset-password?token=abcd1234',
       stackDomain: 'example.com',
+      timeZone: 'Europe/Berlin',
       username: 'john_doe',
       validUntil: '2024-12-31T23:59:59Z',
     },
@@ -26,6 +27,7 @@ const getDemoEmailProps = (locale: AppLocale) =>
       locale,
       logoSource,
       stackDomain: 'example.com',
+      timeZone: 'Europe/Berlin',
       username: 'john_doe',
       validUntil: '2024-12-31T23:59:59Z',
     },
@@ -46,6 +48,7 @@ const getDemoEmailProps = (locale: AppLocale) =>
       logoSource,
       locale,
       stackDomain: 'example.com',
+      timeZone: 'Europe/Berlin',
     },
   }) as const
 

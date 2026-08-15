@@ -61,7 +61,7 @@ const { t } = useI18n()
 
 const formSchema = z.object({
   agreement: z.literal(true, {
-    errorMap: () => ({ message: t('globalValidationRequired') }),
+    error: () => t('globalValidationRequired'),
   }),
 })
 

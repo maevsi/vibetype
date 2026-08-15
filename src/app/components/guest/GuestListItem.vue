@@ -80,7 +80,7 @@
           <AppDropdownItem
             :disabled="pending.deletions.includes(guest.rowId)"
             variant="destructive"
-            @select="delete_(guest.rowId)"
+            @select="onDeleteSelect(guest.rowId)"
           >
             <AppIconTrash />
             <span>
@@ -95,12 +95,20 @@
     </LayoutTd>
   </tr>
   <!-- </Loader> -->
+  <GuestDeleteDrawer
+    v-if="contact"
+    v-model:open="isDeleteDrawerOpen"
+    :contact
+    :guest-row-id="guest.rowId"
+  />
 </template>
 
 <script setup lang="ts">
-import { useDeleteGuestByRowIdMutation } from '~~/gql/documents/mutations/guest/guestDelete'
-import { useInviteMutation } from '~~/gql/documents/mutations/guest/invite'
-import { getContactItem } from '~~/gql/documents/fragments/contactItem'
+import { useMutation } from '@urql/vue'
+import { useMagicKeys } from '@vueuse/core'
+
+import { graphql } from '~~/gql/generated'
+import { getContactItem } from '~~/shared/utils/contact'
 import type {
   EventItemFragment,
   GuestItemFragment,
@@ -114,8 +122,10 @@ const { event, guest } = defineProps<{
 const { locale, t } = useI18n()
 const localePath = useLocalePath()
 const { copy } = useCopy()
+const { shift } = useMagicKeys()
 
 // data
+const isDeleteDrawerOpen = ref(false)
 const pending = reactive({
   deletions: ref<string[]>([]),
   edits: ref<string[]>([]),
@@ -123,8 +133,24 @@ const pending = reactive({
 })
 
 // api data
-const deleteGuestByRowIdMutation = useDeleteGuestByRowIdMutation()
-const inviteMutation = useInviteMutation()
+const deleteGuestByRowIdMutation = useMutation(
+  graphql(`
+    mutation DeleteGuestByRowId($input: DeleteGuestByRowIdInput!) {
+      deleteGuestByRowId(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
+const inviteMutation = useMutation(
+  graphql(`
+    mutation Invite($input: InviteInput!) {
+      invite(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
 // const api = await useApiData([deleteGuestByRowIdMutation, inviteMutation])
 
 // methods
@@ -146,6 +172,14 @@ const delete_ = async (id: string) => {
   pending.deletions.push(id)
   await deleteGuestByRowIdMutation.executeMutation({ input: { rowId: id } })
   pending.deletions.splice(pending.deletions.indexOf(id), 1)
+}
+const onDeleteSelect = (id: string) => {
+  if (shift?.value) {
+    delete_(id)
+    return
+  }
+
+  isDeleteDrawerOpen.value = true
 }
 const send = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
   pending.sends.push(guest.rowId)

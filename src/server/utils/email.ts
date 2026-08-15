@@ -1,4 +1,5 @@
 import type { ExtractComponentProps } from '@vue-email/render'
+import type Redis from 'ioredis'
 import { render } from '@vue-email/render'
 import { z } from 'zod'
 
@@ -11,6 +12,16 @@ import {
   CHANNEL_NAME_ACCOUNT_REGISTRATION as EMAIL_NAME_ACCOUNT_REGISTRATION,
   CHANNEL_NAME_EVENT_INVITATION as EMAIL_NAME_EVENT_INVITATION,
 } from '#server/utils/notification'
+
+const MAIL_RATE_LIMIT_MAX_WAIT_MS = 10_000
+
+const acquireMailRateSlot = (rateLimitPerSecond: number, redis: Redis) =>
+  acquireRateLimitSlot({
+    key: 'mail:rate',
+    limit: rateLimitPerSecond,
+    maxWaitMs: MAIL_RATE_LIMIT_MAX_WAIT_MS,
+    redis,
+  })
 
 const emailConfig = {
   [EMAIL_NAME_ACCOUNT_PASSWORD_RESET]: {
@@ -49,12 +60,13 @@ export const getEmail = async <T extends EmailName>({
   })
 
 export const sendEmail = async <T extends EmailName>({
-  limit24h,
   mailOptions,
   name,
   props,
+  rateLimitPerDay,
+  rateLimitPerSecond,
+  redis,
 }: {
-  limit24h: number
   mailOptions: {
     fromName?: string
     icalEvent?: Record<string, unknown> // https://nodemailer.com/message/calendar-events/
@@ -63,6 +75,9 @@ export const sendEmail = async <T extends EmailName>({
   }
   name: T
   props: EmailProps<T>
+  rateLimitPerDay: number
+  rateLimitPerSecond: number
+  redis: Redis
 }) => {
   const { html, text } = await getHtmlAndText({
     name,
@@ -83,6 +98,7 @@ export const sendEmail = async <T extends EmailName>({
     subject: mailOptions.subject,
     text,
     html,
+    ...(mailOptions.icalEvent ? { icalEvent: mailOptions.icalEvent } : {}),
     list: {
       // TODO: add https link (https://github.com/maevsi/vibetype/issues/326)
       unsubscribe: `mailto:contact+unsubscribe@maev.si?subject=Unsubscribe%20${mailOptions.to}`,
@@ -95,7 +111,7 @@ export const sendEmail = async <T extends EmailName>({
       },
       ...([
         EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
-        CHANNEL_NAME_ACCOUNT_REGISTRATION,
+        EMAIL_NAME_ACCOUNT_REGISTRATION,
       ].includes(name)
         ? [
             {
@@ -120,19 +136,24 @@ export const sendEmail = async <T extends EmailName>({
 
   // TODO: implement proper rate limiting
   const sentLast24Hours = await getMailsSentLast24Hours()
-  if (sentLast24Hours && sentLast24Hours > limit24h) {
+  if (sentLast24Hours && sentLast24Hours > rateLimitPerDay) {
     // TODO: notify admin
     throw new Error(
-      `More than ${limit24h} mails sent in the last 24 hours, not sending any more for now to prevent spamming.`,
+      `More than ${rateLimitPerDay} mails sent in the last day, not sending any more for now to prevent spamming.`,
     )
   }
 
-  transporter.sendMail(mailOptionsWithDefaults, (err, info) => {
-    if (err) {
-      console.error('Error sending email:', err)
-    } else {
-      console.log('Email sent:', info.response)
-    }
+  await acquireMailRateSlot(rateLimitPerSecond, redis)
+
+  await new Promise<void>((resolve, reject) => {
+    transporter.sendMail(mailOptionsWithDefaults, (err, info) => {
+      if (err) {
+        reject(err)
+      } else {
+        console.log('Email sent:', info.response)
+        resolve()
+      }
+    })
   })
 }
 

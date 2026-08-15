@@ -52,7 +52,11 @@
             {{ t('clearAll') }}
           </ButtonColored>
         </div>
-        <ButtonColored :aria-label="t('uploadImage')" @click="uploadFile">
+        <ButtonColored
+          :aria-label="t('uploadImage')"
+          :loading="isUploading"
+          @click="uploadFile"
+        >
           {{ t('uploadImage') }}
         </ButtonColored>
       </div>
@@ -72,7 +76,11 @@ const { t } = useI18n()
 const alertError = useAlertError()
 const templateFileInput = useTemplateRef('fileInput')
 
+// page
+useHeadDefault({ title: t('title') })
+
 // data
+const isUploading = ref(false)
 const previewUrl = ref<string>()
 const selectedFile = ref<File>()
 
@@ -119,6 +127,7 @@ const uploadFile = async () => {
 
   const reader = new FileReader()
   reader.readAsDataURL(selectedFile.value)
+  isUploading.value = true
   reader.onload = async () => {
     const base64Image = (reader.result as string).split(',')[1]
 
@@ -133,10 +142,13 @@ const uploadFile = async () => {
         ...(error instanceof Error ? { error } : {}),
         messageI18n: t('uploadFailed'),
       })
+    } finally {
+      isUploading.value = false
     }
   }
   reader.onerror = () => {
     console.error('Error reading file')
+    isUploading.value = false
   }
 }
 </script>

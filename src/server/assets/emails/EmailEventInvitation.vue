@@ -20,6 +20,7 @@ const {
   eventVisibility,
   locale,
   logoSource = undefined,
+  timeZone = undefined,
 } = defineProps<{
   emailAddress: string
   eventAttendanceType: string
@@ -34,9 +35,10 @@ const {
   eventVisibility: string
   locale: AppLocale
   logoSource?: string
+  timeZone?: string
 }>()
 
-const dateTimeFormatter = getEmailDateTimeFormatter(locale)
+const dateTimeFormatter = getEmailDateTimeFormatter(locale, timeZone)
 const durationFormatter = new Intl.DurationFormat(locale, {
   style: 'long',
 })

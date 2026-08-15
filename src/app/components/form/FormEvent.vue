@@ -86,6 +86,28 @@
             />
           </Field>
         </form.Field>
+        <form.Field v-slot="{ field }" name="categoryIds">
+          <Field>
+            <FieldLabel>{{ t('categories') }}</FieldLabel>
+            <FieldContent>
+              <FormEventCategorySelect
+                :model-value="field.state.value"
+                @update:model-value="field.handleChange($event)"
+              />
+            </FieldContent>
+          </Field>
+        </form.Field>
+        <form.Field v-slot="{ field }" name="formatIds">
+          <Field>
+            <FieldLabel>{{ t('formats') }}</FieldLabel>
+            <FieldContent>
+              <FormEventFormatSelect
+                :model-value="field.state.value"
+                @update:model-value="field.handleChange($event)"
+              />
+            </FieldContent>
+          </Field>
+        </form.Field>
         <form.Field
           v-if="form.getFieldValue('visibility') === EventVisibility.Public"
           v-slot="{ field }"
@@ -114,18 +136,60 @@
           </Field>
         </form.Field>
         <form.Field v-slot="{ field }" name="start">
-          <Field>
-            <FieldLabel for="input-start">{{ t('start') }}</FieldLabel>
+          <Field class="flex flex-col">
+            <FieldLabel for="button-start">{{ t('start') }}</FieldLabel>
             <FieldContent>
-              <Input
-                id="input-start"
-                :aria-invalid="isFieldInvalid(field)"
-                :model-value="dateTimeFormatter(field.state.value)"
-                :placeholder="dateTimeFormatter(now.toISOString())"
-                readonly
-                type="text"
-                @click="store.modals.push({ id: 'ModalDateTimeStart' })"
-              />
+              <Popover>
+                <PopoverTrigger as-child>
+                  <Button
+                    id="button-start"
+                    :aria-invalid="isFieldInvalid(field)"
+                    :class="
+                      cn(
+                        'justify-start text-start font-normal',
+                        !field.state.value && 'text-muted-foreground',
+                      )
+                    "
+                    variant="outline"
+                  >
+                    {{
+                      dateTimeFormatter(field.state.value) ??
+                      dateTimeFormatter(now.toISOString())
+                    }}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent class="w-auto p-0">
+                  <div
+                    class="flex max-h-(--reka-popover-content-available-height) flex-col items-center gap-3 overflow-y-auto p-3"
+                  >
+                    <AppCalendar
+                      :max-value="
+                        form.getFieldValue('end')
+                          ? isoToCalendarDateTime(form.getFieldValue('end'))
+                          : undefined
+                      "
+                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :week-starts-on="1"
+                      @update:model-value="
+                        (date) => applyDateSelection(field, date)
+                      "
+                    />
+                    <AppTimeField
+                      :locale
+                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :placeholder="
+                        isoToCalendarDateTime(field.state.value) ??
+                        nowCalendarDateTime
+                      "
+                      :step="{ minute: 5 }"
+                      step-snapping
+                      @update:model-value="
+                        (time) => applyTimeSelection(field, time)
+                      "
+                    />
+                  </div>
+                </PopoverContent>
+              </Popover>
             </FieldContent>
             <FieldError
               v-if="isFieldInvalid(field)"
@@ -140,17 +204,59 @@
           </Field>
         </form.Field>
         <form.Field v-slot="{ field }" name="end">
-          <Field>
-            <FieldLabel for="input-end">{{ t('end') }}</FieldLabel>
+          <Field class="flex flex-col">
+            <FieldLabel for="button-end">{{ t('end') }}</FieldLabel>
             <FieldContent>
-              <Input
-                id="input-end"
-                :model-value="dateTimeFormatter(field.state.value)"
-                :placeholder="dateTimeFormatter(now.toISOString())"
-                readonly
-                type="text"
-                @click="store.modals.push({ id: 'ModalDateTimeEnd' })"
-              />
+              <Popover>
+                <PopoverTrigger as-child>
+                  <Button
+                    id="button-end"
+                    :class="
+                      cn(
+                        'justify-start text-start font-normal',
+                        !field.state.value && 'text-muted-foreground',
+                      )
+                    "
+                    variant="outline"
+                  >
+                    {{
+                      dateTimeFormatter(field.state.value) ??
+                      dateTimeFormatter(now.toISOString())
+                    }}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent class="w-auto p-0">
+                  <div
+                    class="flex max-h-(--reka-popover-content-available-height) flex-col items-center gap-3 overflow-y-auto p-3"
+                  >
+                    <AppCalendar
+                      :min-value="
+                        form.getFieldValue('start')
+                          ? isoToCalendarDateTime(form.getFieldValue('start'))
+                          : undefined
+                      "
+                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :week-starts-on="1"
+                      @update:model-value="
+                        (date) => applyDateSelection(field, date)
+                      "
+                    />
+                    <AppTimeField
+                      :locale
+                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :placeholder="
+                        isoToCalendarDateTime(field.state.value) ??
+                        nowCalendarDateTime
+                      "
+                      :step="{ minute: 5 }"
+                      step-snapping
+                      @update:model-value="
+                        (time) => applyTimeSelection(field, time)
+                      "
+                    />
+                  </div>
+                </PopoverContent>
+              </Popover>
             </FieldContent>
           </Field>
         </form.Field>
@@ -222,6 +328,7 @@
               form.getFieldValue('rowId') ? t('eventUpdate') : t('eventCreate')
             "
             class="w-full"
+            :loading="api.isFetching"
             type="submit"
           >
             {{
@@ -234,49 +341,26 @@
         </CardStateAlert>
       </div>
     </form>
-    <Modal id="ModalDateTimeStart">
-      <div class="flex justify-center">
-        <DatePicker
-          :first-day-of-week="2"
-          :is-dark="colorMode.value === 'dark'"
-          :is24hr="locale !== 'en'"
-          :locale
-          :masks="{ input: 'YYYY-MM-DD h:mm A' }"
-          :max-date="form.getFieldValue('end')"
-          :minute-increment="5"
-          mode="dateTime"
-          :model-value="form.getFieldValue('start')"
-          @update:model-value="form.setFieldValue('start', $event as string)"
-        />
-      </div>
-    </Modal>
-    <Modal id="ModalDateTimeEnd">
-      <div class="flex justify-center">
-        <DatePicker
-          :first-day-of-week="2"
-          :is-dark="colorMode.value === 'dark'"
-          :is24hr="locale !== 'en'"
-          :locale
-          :masks="{ input: 'YYYY-MM-DD h:mm A' }"
-          :min-date="form.getFieldValue('start')"
-          :minute-increment="5"
-          mode="dateTime"
-          :model-value="form.getFieldValue('end')"
-          @update:model-value="form.setFieldValue('end', $event as string)"
-        />
-      </div>
-    </Modal>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { DateValue, TimeValue } from 'reka-ui'
+import {
+  fromDate,
+  getLocalTimeZone,
+  parseAbsoluteToLocal,
+  toCalendarDateTime,
+} from '@internationalized/date'
+import { toDate } from 'reka-ui/date'
 import { useForm } from '@tanstack/vue-form'
 import type { AnyFieldApi } from '@tanstack/vue-form'
+import { useMutation } from '@urql/vue'
 import { z } from 'zod'
-import { DatePicker } from 'v-calendar'
 
-import { useCreateEventMutation } from '~~/gql/documents/mutations/event/eventCreate'
-import { useUpdateEventByRowIdMutation } from '~~/gql/documents/mutations/event/eventUpdateByRowId'
+import { cn } from '@/utils/shadcn'
+
+import { graphql } from '~~/gql/generated'
 import { EventVisibility } from '~~/gql/generated/graphcache'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
@@ -294,22 +378,120 @@ const { event = undefined } = defineProps<{
     | 'url'
     | 'description'
     | 'rowId'
-  >
+  > & {
+    eventCategoryMappingsByEventId?: {
+      nodes: readonly { categoryId: string }[]
+    } | null
+    eventFormatMappingsByEventId?: {
+      nodes: readonly { formatId: string }[]
+    } | null
+  }
 }>()
 
 const localePath = useLocalePath()
 const { locale, t } = useI18n()
 const store = useStore()
-const colorMode = useColorMode()
 const timeZone = useTimeZone()
 
 // data
 const now = useNow()
 
 // api data
-const createEventMutation = useCreateEventMutation()
-const updateEventMutation = useUpdateEventByRowIdMutation()
-const api = await useApiData([createEventMutation, updateEventMutation])
+const createEventMutation = useMutation(
+  graphql(`
+    mutation CreateEvent($input: CreateEventInput!) {
+      createEvent(input: $input) {
+        event {
+          id
+          rowId
+        }
+      }
+    }
+  `),
+)
+const updateEventMutation = useMutation(
+  graphql(`
+    mutation updateEventByRowId($input: UpdateEventByRowIdInput!) {
+      updateEventByRowId(input: $input) {
+        event {
+          id
+        }
+      }
+    }
+  `),
+)
+const createEventCategoryMappingMutation = useMutation(
+  graphql(`
+    mutation CreateEventCategoryMapping(
+      $input: CreateEventCategoryMappingInput!
+    ) {
+      createEventCategoryMapping(input: $input) {
+        eventCategoryMapping {
+          categoryId
+          eventByEventId {
+            id
+          }
+          id
+        }
+      }
+    }
+  `),
+)
+const deleteEventCategoryMappingByEventIdAndCategoryIdMutation = useMutation(
+  graphql(`
+    mutation DeleteEventCategoryMappingByEventIdAndCategoryId(
+      $input: DeleteEventCategoryMappingByEventIdAndCategoryIdInput!
+    ) {
+      deleteEventCategoryMappingByEventIdAndCategoryId(input: $input) {
+        deletedEventCategoryMappingId
+        eventCategoryMapping {
+          eventByEventId {
+            id
+          }
+        }
+      }
+    }
+  `),
+)
+const createEventFormatMappingMutation = useMutation(
+  graphql(`
+    mutation CreateEventFormatMapping($input: CreateEventFormatMappingInput!) {
+      createEventFormatMapping(input: $input) {
+        eventFormatMapping {
+          eventByEventId {
+            id
+          }
+          formatId
+          id
+        }
+      }
+    }
+  `),
+)
+const deleteEventFormatMappingByEventIdAndFormatIdMutation = useMutation(
+  graphql(`
+    mutation DeleteEventFormatMappingByEventIdAndFormatId(
+      $input: DeleteEventFormatMappingByEventIdAndFormatIdInput!
+    ) {
+      deleteEventFormatMappingByEventIdAndFormatId(input: $input) {
+        deletedEventFormatMappingId
+        eventFormatMapping {
+          eventByEventId {
+            id
+          }
+        }
+      }
+    }
+  `),
+)
+const api = await useApiData([
+  createEventMutation,
+  updateEventMutation,
+  createEventCategoryMappingMutation,
+  deleteEventCategoryMappingByEventIdAndCategoryIdMutation,
+  createEventFormatMappingMutation,
+  deleteEventFormatMappingByEventIdAndFormatIdMutation,
+])
 
 // slug validation
 const validateEventSlugFn = async (value: string) => {
@@ -330,8 +512,10 @@ const validateEventSlugFn = async (value: string) => {
 
 // form
 const formSchema = z.object({
+  categoryIds: z.array(z.string()),
   description: SCHEMA_EVENT_DESCRIPTION_OPTIONAL,
   end: z.string(),
+  formatIds: z.array(z.string()),
   guestCountMaximum: z.string(),
   isInPerson: z.boolean(),
   isRemote: z.boolean(),
@@ -340,13 +524,78 @@ const formSchema = z.object({
   slug: SCHEMA_EVENT_SLUG_REQUIRED,
   start: z.string().min(1),
   url: SCHEMA_URL_HTTPS_OPTIONAL,
-  visibility: z.nativeEnum(EventVisibility),
+  visibility: z.enum(EventVisibility),
 })
+
+const syncEventCategoryMappings = async ({
+  eventId,
+  originalCategoryIds,
+  selectedCategoryIds,
+}: {
+  eventId: string
+  originalCategoryIds: string[]
+  selectedCategoryIds: string[]
+}) => {
+  const results = await Promise.all([
+    ...selectedCategoryIds
+      .filter((categoryId) => !originalCategoryIds.includes(categoryId))
+      .map((categoryId) =>
+        createEventCategoryMappingMutation.executeMutation({
+          input: { eventCategoryMapping: { categoryId, eventId } },
+        }),
+      ),
+    ...originalCategoryIds
+      .filter((categoryId) => !selectedCategoryIds.includes(categoryId))
+      .map((categoryId) =>
+        deleteEventCategoryMappingByEventIdAndCategoryIdMutation.executeMutation(
+          { input: { categoryId, eventId } },
+        ),
+      ),
+  ])
+
+  return results.every((result) => !result.error)
+}
+const syncEventFormatMappings = async ({
+  eventId,
+  originalFormatIds,
+  selectedFormatIds,
+}: {
+  eventId: string
+  originalFormatIds: string[]
+  selectedFormatIds: string[]
+}) => {
+  const results = await Promise.all([
+    ...selectedFormatIds
+      .filter((formatId) => !originalFormatIds.includes(formatId))
+      .map((formatId) =>
+        createEventFormatMappingMutation.executeMutation({
+          input: { eventFormatMapping: { eventId, formatId } },
+        }),
+      ),
+    ...originalFormatIds
+      .filter((formatId) => !selectedFormatIds.includes(formatId))
+      .map((formatId) =>
+        deleteEventFormatMappingByEventIdAndFormatIdMutation.executeMutation({
+          input: { eventId, formatId },
+        }),
+      ),
+  ])
+
+  return results.every((result) => !result.error)
+}
 
 const form = useForm({
   defaultValues: {
+    categoryIds:
+      event?.eventCategoryMappingsByEventId?.nodes
+        .filter(isNeitherNullNorUndefined)
+        .map((node) => node.categoryId) ?? [],
     description: (event?.description as string) ?? '',
     end: (event?.end as string) ?? '',
+    formatIds:
+      event?.eventFormatMappingsByEventId?.nodes
+        .filter(isNeitherNullNorUndefined)
+        .map((node) => node.formatId) ?? [],
     guestCountMaximum: event?.guestCountMaximum
       ? String(event.guestCountMaximum)
       : '',
@@ -391,6 +640,24 @@ const form = useForm({
 
       if (!getResultData(result)) return
 
+      const categoryMappingsSynced = await syncEventCategoryMappings({
+        eventId: value.rowId,
+        originalCategoryIds:
+          event?.eventCategoryMappingsByEventId?.nodes
+            .filter(isNeitherNullNorUndefined)
+            .map((node) => node.categoryId) ?? [],
+        selectedCategoryIds: value.categoryIds,
+      })
+      const formatMappingsSynced = await syncEventFormatMappings({
+        eventId: value.rowId,
+        originalFormatIds:
+          event?.eventFormatMappingsByEventId?.nodes
+            .filter(isNeitherNullNorUndefined)
+            .map((node) => node.formatId) ?? [],
+        selectedFormatIds: value.formatIds,
+      })
+      if (!categoryMappingsSynced || !formatMappingsSynced) return
+
       toast.success(t('eventUpdateSuccess'))
     } else {
       // Add
@@ -414,7 +681,23 @@ const form = useForm({
         },
       })
 
-      if (!getResultData(result)) return
+      const data = getResultData(result)
+      if (!data) return
+
+      const eventId = data.createEvent?.event?.rowId
+      if (eventId) {
+        const categoryMappingsSynced = await syncEventCategoryMappings({
+          eventId,
+          originalCategoryIds: [],
+          selectedCategoryIds: value.categoryIds,
+        })
+        const formatMappingsSynced = await syncEventFormatMappings({
+          eventId,
+          originalFormatIds: [],
+          selectedFormatIds: value.formatIds,
+        })
+        if (!categoryMappingsSynced || !formatMappingsSynced) return
+      }
 
       toast.success(t('eventCreateSuccess'))
 
@@ -445,6 +728,32 @@ const dateTimeFormatter = (x?: string) =>
         timeZone,
       })
     : undefined
+const isoToCalendarDateTime = (value?: string) =>
+  value ? toCalendarDateTime(parseAbsoluteToLocal(value)) : undefined
+const applyDateSelection = (field: AnyFieldApi, date?: DateValue) => {
+  if (!date) {
+    field.handleChange('')
+    return
+  }
+
+  const time =
+    isoToCalendarDateTime(field.state.value) ?? nowCalendarDateTime.value
+  field.handleChange(
+    toDate(toCalendarDateTime(date, time), getLocalTimeZone()).toISOString(),
+  )
+}
+const applyTimeSelection = (field: AnyFieldApi, time?: TimeValue) => {
+  if (!time) {
+    field.handleChange('')
+    return
+  }
+
+  const date =
+    isoToCalendarDateTime(field.state.value) ?? nowCalendarDateTime.value
+  field.handleChange(
+    toDate(toCalendarDateTime(date, time), getLocalTimeZone()).toISOString(),
+  )
+}
 const onInputName = async (value: string, nameField: AnyFieldApi) => {
   nameField.handleChange(value)
   await updateSlug()
@@ -462,6 +771,9 @@ const updateSlug = async () => {
 }
 
 // computations
+const nowCalendarDateTime = computed(() =>
+  toCalendarDateTime(fromDate(now.value, getLocalTimeZone())),
+)
 const isWarningStartPastShown = computed(() => {
   const start = form.getFieldValue('start')
   return !!start && new Date(start) < now.value
@@ -476,19 +788,17 @@ if (event?.rowId) {
 }
 </script>
 
-<style>
-@import url('~~/node_modules/v-calendar/dist/style.css');
-</style>
-
 <i18n lang="yaml">
 de:
   attendanceType: Anwesenheitstyp
+  categories: Kategorien
   description: Einladungstext
   end: Ende
   eventCreate: Veranstaltung erstellen
   eventCreateSuccess: Veranstaltung erfolgreich erstellt.
   eventUpdate: Änderungen speichern
   eventUpdateSuccess: Aktualisiert
+  formats: Formate
   # stateInfoLocation: Ein Suchbegriff für Google Maps.
   isInPerson: vor Ort
   isRemote: digital
@@ -506,12 +816,14 @@ de:
   url: Weblink
 en:
   attendanceType: Attendance type
+  categories: Categories
   description: Invitation text
   end: End
   eventCreate: Create event
   eventCreateSuccess: Event created successfully.
   eventUpdate: Save changes
   eventUpdateSuccess: Updated
+  formats: Formats
   # stateInfoLocation: A search phrase for Google Maps.
   isInPerson: in person
   isRemote: remote

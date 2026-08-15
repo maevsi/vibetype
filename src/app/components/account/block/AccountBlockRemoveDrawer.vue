@@ -57,6 +57,7 @@
         <ButtonColored
           v-bind="attributes"
           :aria-label="t('unblock')"
+          :loading="deleteAccountBlockMutation.fetching.value"
           @click="unblockUser"
         >
           {{ t('unblock') }}

@@ -2,33 +2,56 @@
   <AppLink
     v-if="to"
     v-bind="delegatedProps"
+    :aria-busy="loading"
     :aria-label
     :class="cn(classComputed, classProps)"
     :is-colored="false"
-    :is-disabled="disabled"
+    :is-disabled="disabled || loading"
     :to
-    @click="emit('click')"
+    @click="
+      (event: MouseEvent) => {
+        if (disabled || loading) {
+          event.preventDefault()
+          event.stopPropagation()
+          return
+        }
+        emit('click', event)
+      }
+    "
   >
-    <slot name="prefix" />
-    <!-- <div class="truncate-overflow"> -->
-    <slot />
-    <!-- </div> -->
-    <slot name="suffix" />
+    <template v-if="loading">
+      <AppButtonSpinner />
+      <slot name="loading">{{ t('globalLoading') }}</slot>
+    </template>
+    <template v-else>
+      <slot name="prefix" />
+      <!-- <div class="truncate-overflow"> -->
+      <slot />
+      <!-- </div> -->
+      <slot name="suffix" />
+    </template>
   </AppLink>
   <button
     v-else
+    :aria-busy="loading"
     :aria-label
     :class="cn(['rounded-sm', classComputed], classProps)"
-    :disabled
+    :disabled="disabled || loading"
     :title="ariaLabel"
     :type
-    @click="emit('click')"
+    @click="emit('click', $event)"
   >
-    <slot name="prefix" />
-    <!-- <span class="truncate-overflow"> -->
-    <slot />
-    <!-- </span> -->
-    <slot name="suffix" />
+    <template v-if="loading">
+      <AppButtonSpinner />
+      <slot name="loading">{{ t('globalLoading') }}</slot>
+    </template>
+    <template v-else>
+      <slot name="prefix" />
+      <!-- <span class="truncate-overflow"> -->
+      <slot />
+      <!-- </span> -->
+      <slot name="suffix" />
+    </template>
   </button>
 </template>
 
@@ -39,13 +62,13 @@ import type { RouteLocationRaw } from 'vue-router'
 import { cn } from '@/utils/shadcn'
 
 const {
-  // @ts-expect-error TODO: wait for sitemap to support compact routes (https://github.com/nuxt-modules/sitemap/issues/617)
   ariaLabel,
   class: classProps = undefined,
   disabled,
   isBlock,
   isExternal,
   isLinkColored,
+  loading,
   to = undefined,
   type = 'button',
 } = defineProps<
@@ -55,6 +78,7 @@ const {
     isBlock?: boolean
     isExternal?: boolean
     isLinkColored?: boolean
+    loading?: boolean
     to?: RouteLocationRaw
     type?: ButtonHTMLAttributes['type']
   } & { class?: HtmlHTMLAttributes['class'] }
@@ -65,8 +89,10 @@ const delegatedProps = computed(() => ({
 }))
 
 const emit = defineEmits<{
-  click: []
+  click: [event: MouseEvent]
 }>()
+
+const { t } = useI18n()
 
 // computations
 const classComputed = computed(() =>

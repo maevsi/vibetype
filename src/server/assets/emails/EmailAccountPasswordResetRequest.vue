@@ -12,16 +12,18 @@ const {
   locale,
   logoSource = undefined,
   passwordResetVerificationLink,
+  timeZone = undefined,
   validUntil,
 } = defineProps<{
   emailAddress: string
   locale: AppLocale
   logoSource?: string
   passwordResetVerificationLink: string
+  timeZone?: string
   validUntil: string
 }>()
 
-const dateTimeFormatter = getEmailDateTimeFormatter(locale)
+const dateTimeFormatter = getEmailDateTimeFormatter(locale, timeZone)
 const locales = {
   de: {
     button: 'Passwort zurücksetzen',

@@ -1,16 +1,13 @@
 import * as Sentry from '@sentry/nuxt'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { RouteNamedMap } from 'vue-router/auto-routes'
-
-import type { Modal } from '~/types/modal'
+import type { RouteNamedMapI18n } from 'vue-router/auto-routes'
 
 export const useStore = defineStore(SITE_NAME, () => {
   const localePath = useLocalePath()
 
   // const jwt = ref<string>() // we don't store the JWT itself for security reasons
   const jwtPayload = ref<Jwt>()
-  const modals = ref<Modal[]>([])
   const routeHistory = ref<string[]>([])
   const routeHistoryDisabled = ref<boolean>(false)
   const signedInAccountId = ref<string>()
@@ -44,30 +41,24 @@ export const useStore = defineStore(SITE_NAME, () => {
     }
   }
 
-  const modalRemove = (modalId: string) => {
-    modals.value = modals.value.filter((modal) => {
-      return modal.id !== modalId
-    })
-  }
-
   const navigateBack = async () => {
     routeHistoryDisabled.value = true
     await navigateTo(
-      localePath((routeHistory.value.pop() as keyof RouteNamedMap) || 'index'),
+      localePath(
+        (routeHistory.value.pop() as keyof RouteNamedMapI18n) || 'index',
+      ),
     )
     routeHistoryDisabled.value = false
   }
 
   return {
     jwtPayload,
-    modals,
     routeHistory,
     routeHistoryDisabled,
     signedInAccountId,
     signedInUsername,
     jwtRemove,
     jwtSet,
-    modalRemove,
     navigateBack,
   }
 })

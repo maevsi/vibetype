@@ -13,7 +13,11 @@
     <!-- Step: Email -->
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
-        <div class="flex flex-col gap-6">
+        <form
+          class="flex flex-col gap-6"
+          novalidate
+          @submit.prevent="handleEmailContinue"
+        >
           <FormAuthInput
             :aria-label="t('emailPlaceholder')"
             :model-value="emailField.value.value"
@@ -33,36 +37,35 @@
           <div class="flex items-start gap-3">
             <FormCheckbox
               :aria-label="t('agreeCheckboxLabel')"
+              form-key="agree-to-terms"
               :value="agreedToTerms"
               @change="agreedToTerms = $event"
-            />
-            <span class="text-sm text-gray-500 dark:text-gray-400">
-              {{ t('agreePrefix') }}
-              <NuxtLinkLocale
-                class="font-semibold text-green-600"
-                to="docs-legal-terms"
-                >{{ t('termsOfService') }}</NuxtLinkLocale
-              >{{ t('legalComma') }}
-              <NuxtLinkLocale
-                class="font-semibold text-green-600"
-                to="docs-legal-imprint"
-                >{{ t('imprint') }}</NuxtLinkLocale
-              >
-              {{ t('and') }}
-              <NuxtLinkLocale
-                class="font-semibold text-green-600"
-                to="docs-legal-privacy"
-                >{{ t('privacyPolicy') }}</NuxtLinkLocale
-              >
-            </span>
+            >
+              <span class="text-sm text-gray-500 dark:text-gray-400">
+                {{ t('agreePrefix') }}
+                <NuxtLinkLocale
+                  class="font-semibold text-green-600"
+                  to="docs-legal-terms"
+                  >{{ t('termsOfService') }}</NuxtLinkLocale
+                >{{ t('legalComma') }}
+                <NuxtLinkLocale
+                  class="font-semibold text-green-600"
+                  to="docs-legal-imprint"
+                  >{{ t('imprint') }}</NuxtLinkLocale
+                >
+                {{ t('and') }}
+                <NuxtLinkLocale
+                  class="font-semibold text-green-600"
+                  to="docs-legal-privacy"
+                  >{{ t('privacyPolicy') }}</NuxtLinkLocale
+                >
+              </span>
+            </FormCheckbox>
           </div>
           <p v-if="termsError" class="text-sm text-red-600">
             {{ termsError }}
           </p>
-          <FormAuthButton
-            :aria-label="t('continue')"
-            @click="handleEmailContinue"
-          >
+          <FormAuthButton :aria-label="t('continue')" type="submit">
             {{ t('continue') }}
           </FormAuthButton>
           <p class="text-center text-[15px] text-gray-500 dark:text-gray-400">
@@ -73,7 +76,7 @@
               >{{ t('signInLink') }}</NuxtLinkLocale
             >
           </p>
-        </div>
+        </form>
       </LayoutPage>
     </AppStep>
 
@@ -95,11 +98,14 @@
     <!-- Step: Username -->
     <AppStep v-slot="attributes" :is-active="step === 'username'">
       <LayoutPage v-bind="attributes">
-        <div class="flex flex-col gap-4">
+        <form
+          class="flex flex-col gap-4"
+          novalidate
+          @submit.prevent="handleUsernameContinue"
+        >
           <div class="relative">
             <FormAuthInput
               :aria-label="t('usernamePlaceholder')"
-              :disabled="usernameField.isLoading.value"
               :model-value="usernameField.value.value"
               :placeholder="t('usernamePlaceholder')"
               type="text"
@@ -127,11 +133,11 @@
             :disabled="
               !usernameField.value.value || !!usernameField.error.value
             "
-            @click="handleUsernameContinue"
+            type="submit"
           >
             {{ t('continue') }}
           </FormAuthButton>
-        </div>
+        </form>
       </LayoutPage>
     </AppStep>
 
@@ -197,9 +203,9 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
+import { useMutation, useQuery } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
-import { useAccountRegistrationMutation } from '~~/gql/documents/mutations/account/accountRegistration'
+import { accountRegistrationMutation as accountRegistrationDocument } from '~~/shared/utils/account'
 import {
   useValidationDedup,
   useValidationField,
@@ -218,7 +224,7 @@ const navigateBack = () => {
 }
 
 // api data
-const accountRegistrationMutation = useAccountRegistrationMutation()
+const accountRegistrationMutation = useMutation(accountRegistrationDocument)
 const api = await useApiData([accountRegistrationMutation])
 
 // TODO: move into api utility as `errorsTranslated`
@@ -351,6 +357,7 @@ const submit = async () => {
         language: locale.value,
         legalTermId: legalTermIdValue,
         password: passwordData.value.password,
+        timeZone: useTimeZone(),
         username: usernameField.value.value,
       },
     },

@@ -19,7 +19,30 @@
     <div
       :class="cn('relative w-1/3', variant === 'recommendation' && 'w-auto')"
     >
+      <div
+        v-if="categoryName || formatName"
+        :aria-label="t('heroImage')"
+        :class="
+          cn(
+            'flex h-24 w-full items-center justify-center gap-2 rounded-lg border border-(--faint-line)',
+            variant === 'recommendation' && 'h-44 rounded-b-none',
+          )
+        "
+        role="img"
+      >
+        <EventIconCategory
+          v-if="categoryName"
+          :class="cn('size-10', variant === 'recommendation' && 'size-16')"
+          :name="categoryName"
+        />
+        <EventIconFormat
+          v-if="formatName"
+          :class="cn('size-10', variant === 'recommendation' && 'size-16')"
+          :name="formatName"
+        />
+      </div>
       <LoaderImage
+        v-else
         :alt="t('heroImage')"
         :aspect="
           !variant || variant === 'highlight'
@@ -171,6 +194,16 @@ export type EventCardProps = {
         rowId: string
       }[]
     } | null
+    eventCategoryMappingsByEventId?: {
+      nodes: {
+        eventCategoryByCategoryId?: { name: string } | null
+      }[]
+    } | null
+    eventFormatMappingsByEventId?: {
+      nodes: {
+        eventFormatByFormatId?: { name: string } | null
+      }[]
+    } | null
     guestsByEventId?: {
       nodes: {
         contactByContactId?: {
@@ -200,6 +233,15 @@ const { event, variant = undefined } = defineProps<EventCardProps>()
 const localePath = useLocalePath()
 
 // event
+const categoryName = computed(
+  () =>
+    event.eventCategoryMappingsByEventId?.nodes[0]?.eventCategoryByCategoryId
+      ?.name,
+)
+const formatName = computed(
+  () =>
+    event.eventFormatMappingsByEventId?.nodes[0]?.eventFormatByFormatId?.name,
+)
 const store = useStore()
 const isCreator = computed(
   () =>
@@ -229,6 +271,9 @@ const createEventFavoriteMutation = useMutation(
       createEventFavorite(input: $input) {
         eventFavorite {
           createdBy
+          eventByEventId {
+            id
+          }
           eventId
           id
           rowId
@@ -253,31 +298,45 @@ const deleteEventFavoriteByRowIdMutation = useMutation(
 //   createEventFavoriteMutation,
 //   deleteEventFavoriteByRowIdMutation,
 // ])
+// `favoriteOverride` tracks the result of the latest toggle locally: some
+// callers (e.g. the dashboard recommendations) pass in an `event` snapshot
+// that never refreshes from the cache, so `isFavorite` can't rely on the
+// prop alone to reflect a toggle performed in this component instance.
+// `undefined` = defer to the prop, `null` = locally unfavorited.
+const favoriteOverride = ref<{ createdBy: string; rowId: string } | null>()
+const currentFavorite = computed(() =>
+  favoriteOverride.value === undefined
+    ? event.eventFavoritesByEventId?.nodes[0]
+    : favoriteOverride.value,
+)
 const isFavorite = computed(
   () =>
-    store.signedInAccountId &&
-    event.eventFavoritesByEventId?.nodes[0]?.createdBy &&
-    event.eventFavoritesByEventId?.nodes[0]?.createdBy ===
-      store.signedInAccountId,
+    !!(
+      store.signedInAccountId &&
+      currentFavorite.value?.createdBy &&
+      currentFavorite.value.createdBy === store.signedInAccountId
+    ),
 )
 const executeUrqlRequest = useExecuteUrqlRequest()
 const { t } = useI18n()
 const toggleEventFavorite = async () => {
   if (isFavorite.value) {
-    if (!event.eventFavoritesByEventId?.nodes[0]) return // TODO: error
+    const favorite = currentFavorite.value
+    if (!favorite) return // TODO: error
 
-    await executeUrqlRequest({
+    const result = await executeUrqlRequest({
       errorMessageI18n: t('favoriteDeleteError'),
       request: deleteEventFavoriteByRowIdMutation.executeMutation({
         input: {
-          rowId: event.eventFavoritesByEventId.nodes[0].rowId,
+          rowId: favorite.rowId,
         },
       }),
     })
+    if (result) favoriteOverride.value = null
   } else {
     if (!store.signedInAccountId) return // TODO: error
 
-    await executeUrqlRequest({
+    const result = await executeUrqlRequest({
       errorMessageI18n: t('favoriteCreateError'),
       request: createEventFavoriteMutation.executeMutation({
         input: {
@@ -288,6 +347,12 @@ const toggleEventFavorite = async () => {
         },
       }),
     })
+    const created = result?.data?.createEventFavorite?.eventFavorite
+    if (created)
+      favoriteOverride.value = {
+        createdBy: created.createdBy,
+        rowId: created.rowId,
+      }
   }
 }
 </script>

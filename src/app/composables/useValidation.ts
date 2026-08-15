@@ -8,10 +8,13 @@ export interface ValidationResult {
 }
 
 export interface UseValidationFieldOptions {
+  debounceMs?: number
   initialValue?: string
   onErrorChange?: (error: string) => void
   validator: (value: string) => ValidationResult | Promise<ValidationResult>
 }
+
+const DEFAULT_DEBOUNCE_MS = 300
 
 export interface UseValidationFieldReturn {
   error: Ref<string>
@@ -36,6 +39,7 @@ export const useValidationField = (
   const touched = ref(false)
   const isLoading = ref(false)
   let latestValidationRun = 0
+  let debounceTimer: ReturnType<typeof setTimeout> | undefined
 
   const validate = async (): Promise<boolean> => {
     const validationRun = ++latestValidationRun
@@ -70,23 +74,35 @@ export const useValidationField = (
 
   const handleBlur = async () => {
     touched.value = true
+    clearTimeout(debounceTimer)
     await validate()
   }
 
   const handleInput = (newValue: string) => {
     value.value = newValue
     if (touched.value) {
-      void validate()
+      // Invalidate any in-flight validation immediately so its result can't
+      // overwrite the state while this newer input awaits the debounce delay.
+      latestValidationRun += 1
+      clearTimeout(debounceTimer)
+      debounceTimer = setTimeout(() => {
+        void validate()
+      }, options.debounceMs ?? DEFAULT_DEBOUNCE_MS)
     }
   }
 
   const reset = () => {
+    clearTimeout(debounceTimer)
     latestValidationRun += 1
     value.value = options.initialValue || ''
     error.value = ''
     touched.value = false
     isLoading.value = false
   }
+
+  onUnmounted(() => {
+    clearTimeout(debounceTimer)
+  })
 
   return {
     error,

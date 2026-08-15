@@ -37,9 +37,10 @@
 
 <script setup lang="ts">
 import { useForm } from '@tanstack/vue-form'
+import { useMutation } from '@urql/vue'
 import { z } from 'zod'
 
-import { useAccountPasswordResetRequestMutation } from '~~/gql/documents/mutations/account/accountPasswordResetRequest'
+import { graphql } from '~~/gql/generated'
 
 const emit = defineEmits<{
   success: [emailAddress: string]
@@ -50,7 +51,17 @@ const modelError = defineModel<Error>('error')
 const { locale, t } = useI18n()
 
 // api data
-const passwordResetRequestMutation = useAccountPasswordResetRequestMutation()
+const passwordResetRequestMutation = useMutation(
+  graphql(`
+    mutation AccountPasswordResetRequest(
+      $input: AccountPasswordResetRequestInput!
+    ) {
+      accountPasswordResetRequest(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
 const api = await useApiData([passwordResetRequestMutation])
 watch(
   () => api.value.errors,
@@ -113,6 +124,7 @@ const form = useForm({
       input: {
         emailAddress: value.emailAddress,
         language: locale.value,
+        timeZone: useTimeZone(),
       },
     })
 

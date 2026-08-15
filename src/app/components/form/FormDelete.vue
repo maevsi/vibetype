@@ -13,6 +13,7 @@
               :model-value="field.state.value"
               @blur="field.handleBlur"
               @input="field.handleChange($event)"
+              @keydown.enter.prevent
             />
           </FieldContent>
           <FieldError
@@ -25,6 +26,7 @@
         <ButtonColored
           :aria-label="t('deletion', { item: itemNameDeletion })"
           class="w-full"
+          :loading="api.isFetching"
           type="submit"
           variant="primary-critical"
         >
