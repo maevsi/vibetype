@@ -121,7 +121,7 @@ const handleSubmit = async () => {
 <i18n lang="yaml">
 de:
   passwordConfirm: Neues Passwort bestätigen
-  passwordMinLength: Mindestens 12 Zeichen erforderlich
+  passwordMinLength: Mindestens 8 Zeichen erforderlich
   passwordMismatch: Passwörter stimmen nicht überein
   passwordNew: Neues Passwort eingeben
   passwordTooWeak: Dieses Passwort ist zu leicht zu erraten. Versuche es länger oder weniger vorhersehbar zu machen.
@@ -131,7 +131,7 @@ de:
   save: Neues Passwort speichern
 en:
   passwordConfirm: Confirm new password
-  passwordMinLength: Minimum 12 characters required
+  passwordMinLength: At least 8 characters required
   passwordMismatch: Passwords do not match
   passwordNew: Enter new password
   passwordTooWeak: This password is too easy to guess. Try making it longer or less predictable.

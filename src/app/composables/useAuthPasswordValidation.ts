@@ -11,7 +11,7 @@ export const getStrongPasswordError = ({
   messages: Pick<AuthPasswordValidationMessages, 'minimumLength' | 'tooWeak'>
   password: string
 }): string => {
-  if (password.length < VALIDATION_PASSWORD_LENGTH_MINIMUM_V2) {
+  if (password.length < VALIDATION_PASSWORD_LENGTH_MINIMUM) {
     return messages.minimumLength
   }
 

@@ -473,7 +473,7 @@ de:
   signInLink: Anmelden
   subtitleAge: Für den richtigen Vibe und deine Sicherheit zeigt dir Vibetype nur Events, die zu deinem Alter passen.
   subtitleEmail: Wir verwenden sie, um dir einen Bestätigungslink zu senden und dein Konto zu sichern.
-  subtitlePassword: Mindestens 12 Zeichen mit mindestens 1 Großbuchstaben und 1 Sonderzeichen.
+  subtitlePassword: Mindestens 8 Zeichen, die nicht leicht zu erraten sind.
   subtitleUsername: Dieser Name wird anderen Nutzern angezeigt.
   support: Support kontaktieren
   termsOfService: Nutzungsbedingungen
@@ -513,7 +513,7 @@ en:
   signInLink: Sign in
   subtitleAge: To keep things fun and safe, Vibetype curates just the right events for your age and vibe.
   subtitleEmail: We'll use it to send your verification link and keep your account secure.
-  subtitlePassword: Minimum 12 characters with at least 1 uppercase letter and 1 special character.
+  subtitlePassword: At least 8 characters that aren't easy to guess.
   subtitleUsername: This name will be visible to other users.
   support: Contact support
   termsOfService: Terms of Service

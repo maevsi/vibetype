@@ -100,7 +100,7 @@ const handleSubmit = async () => {
 de:
   accountDeletionNotice: Du wirst deinen Account jederzeit löschen können.
   password: Passwort
-  passwordMinLength: Mindestens 12 Zeichen erforderlich
+  passwordMinLength: Mindestens 8 Zeichen erforderlich
   passwordMismatch: Die Passwörter stimmen nicht überein
   passwordRepetition: Passwort bestätigen
   passwordTooWeak: Dieses Passwort ist zu leicht zu erraten. Versuche es länger oder weniger vorhersehbar zu machen.
@@ -108,7 +108,7 @@ de:
 en:
   accountDeletionNotice: "You'll be able to delete your account at any time."
   password: Password
-  passwordMinLength: At least 12 characters required
+  passwordMinLength: At least 8 characters required
   passwordMismatch: The passwords do not match
   passwordRepetition: Confirm password
   passwordTooWeak: This password is too easy to guess. Try making it longer or less predictable.

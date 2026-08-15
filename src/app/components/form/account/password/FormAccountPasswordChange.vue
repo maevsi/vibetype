@@ -151,7 +151,7 @@ de:
   passwordChange: Passwort ändern
   passwordChangeSuccess: Passwort erfolgreich geändert.
   passwordCurrent: Aktuelles Passwort
-  passwordMinLength: Mindestens 12 Zeichen erforderlich
+  passwordMinLength: Mindestens 8 Zeichen erforderlich
   passwordNew: Neues Passwort
   passwordTooWeak: Dieses Passwort ist zu leicht zu erraten. Versuche es länger oder weniger vorhersehbar zu machen.
   postgres22023: Das neue Passwort ist zu kurz! Überlege dir ein längeres.
@@ -160,7 +160,7 @@ en:
   passwordChange: Change password
   passwordChangeSuccess: Password changed successfully.
   passwordCurrent: Current password
-  passwordMinLength: At least 12 characters required
+  passwordMinLength: At least 8 characters required
   passwordNew: New password
   passwordTooWeak: This password is too easy to guess. Try making it longer or less predictable.
   postgres22023: Your new password is too short! Think of a longer one.
