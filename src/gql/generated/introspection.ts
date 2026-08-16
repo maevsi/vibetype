@@ -14672,7 +14672,7 @@ export default {
                 },
               },
               {
-                name: 'searchString',
+                name: 'query',
                 type: {
                   kind: 'SCALAR',
                   name: 'Any',
@@ -17605,13 +17605,6 @@ export default {
               },
               {
                 name: 'first',
-                type: {
-                  kind: 'SCALAR',
-                  name: 'Any',
-                },
-              },
-              {
-                name: 'language',
                 type: {
                   kind: 'SCALAR',
                   name: 'Any',

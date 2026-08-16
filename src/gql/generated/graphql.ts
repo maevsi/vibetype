@@ -849,14 +849,22 @@ export type AccountByRowIdQuery = {
   } | null
 }
 
+export type DeleteProfilePictureByRowIdMutationMutationVariables = Exact<{
+  input: DeleteProfilePictureByRowIdInput
+}>
+
+export type DeleteProfilePictureByRowIdMutationMutation = {
+  deleteProfilePictureByRowId: { clientMutationId: string | null } | null
+}
+
 export type AccountSearchQueryVariables = Exact<{
   after?: string | null | undefined
   first?: number | null | undefined
-  username?: string | null | undefined
+  query?: string | null | undefined
 }>
 
 export type AccountSearchQuery = {
-  allAccounts: {
+  accountSearch: {
     nodes: Array<{ id: string; rowId: string; username: string }>
     pageInfo: { endCursor: string | null; hasNextPage: boolean }
   } | null
@@ -907,6 +915,14 @@ export type AttendanceGuestQuery = {
   } | null
 }
 
+export type DeleteContactByRowIdMutationVariables = Exact<{
+  input: DeleteContactByRowIdInput
+}>
+
+export type DeleteContactByRowIdMutation = {
+  deleteContactByRowId: { clientMutationId: string | null } | null
+}
+
 export type AllContactsQueryVariables = Exact<{
   after?: string | null | undefined
   createdBy?: string | null | undefined
@@ -921,14 +937,6 @@ export type AllContactsQuery = {
     }>
     pageInfo: { hasNextPage: boolean; endCursor: string | null }
   } | null
-}
-
-export type DeleteContactByRowIdMutationVariables = Exact<{
-  input: DeleteContactByRowIdInput
-}>
-
-export type DeleteContactByRowIdMutation = {
-  deleteContactByRowId: { clientMutationId: string | null } | null
 }
 
 export type AllLegalTermsQueryVariables = Exact<{
@@ -990,7 +998,6 @@ export type EventListQuery = {
 export type EventSearchQueryVariables = Exact<{
   after?: string | null | undefined
   first?: number | null | undefined
-  language?: Language | null | undefined
   query?: string | null | undefined
 }>
 
@@ -1207,6 +1214,14 @@ export type AccountPasswordResetRequestMutation = {
   accountPasswordResetRequest: { clientMutationId: string | null } | null
 }
 
+export type DeleteGuestByRowIdMutationVariables = Exact<{
+  input: DeleteGuestByRowIdInput
+}>
+
+export type DeleteGuestByRowIdMutation = {
+  deleteGuestByRowId: { clientMutationId: string | null } | null
+}
+
 export type AllGuestsQueryVariables = Exact<{
   after?: string | null | undefined
   eventId: string
@@ -1221,14 +1236,6 @@ export type AllGuestsQuery = {
     }>
     pageInfo: { hasNextPage: boolean; endCursor: string | null }
   } | null
-}
-
-export type DeleteGuestByRowIdMutationVariables = Exact<{
-  input: DeleteGuestByRowIdInput
-}>
-
-export type DeleteGuestByRowIdMutation = {
-  deleteGuestByRowId: { clientMutationId: string | null } | null
 }
 
 export type InviteMutationVariables = Exact<{
@@ -1358,6 +1365,14 @@ export type DeletePreferenceEventLocationByRowIdMutation = {
   } | null
 }
 
+export type DeleteUploadByRowIdMutationVariables = Exact<{
+  input: DeleteUploadByRowIdInput
+}>
+
+export type DeleteUploadByRowIdMutation = {
+  deleteUploadByRowId: { clientMutationId: string | null } | null
+}
+
 export type AccountUploadQuotaBytesQueryVariables = Exact<{
   [key: string]: never
 }>
@@ -1383,14 +1398,6 @@ export type AllUploadsQuery = {
     }>
     pageInfo: { hasNextPage: boolean; endCursor: string | null }
   } | null
-}
-
-export type DeleteUploadByRowIdMutationVariables = Exact<{
-  input: DeleteUploadByRowIdInput
-}>
-
-export type DeleteUploadByRowIdMutation = {
-  deleteUploadByRowId: { clientMutationId: string | null } | null
 }
 
 export type CreateUploadMutationVariables = Exact<{
@@ -1452,14 +1459,6 @@ export type CreateProfilePictureMutation = {
       } | null
     } | null
   } | null
-}
-
-export type DeleteProfilePictureByRowIdMutationMutationVariables = Exact<{
-  input: DeleteProfilePictureByRowIdInput
-}>
-
-export type DeleteProfilePictureByRowIdMutationMutation = {
-  deleteProfilePictureByRowId: { clientMutationId: string | null } | null
 }
 
 export type UpdateAccountByRowIdMutationVariables = Exact<{
@@ -2646,6 +2645,63 @@ export const AccountByRowIdDocument = {
     },
   ],
 } as unknown as DocumentNode<AccountByRowIdQuery, AccountByRowIdQueryVariables>
+export const DeleteProfilePictureByRowIdMutationDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteProfilePictureByRowIdMutation' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteProfilePictureByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteProfilePictureByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteProfilePictureByRowIdMutationMutation,
+  DeleteProfilePictureByRowIdMutationMutationVariables
+>
 export const AccountSearchDocument = {
   kind: 'Document',
   definitions: [
@@ -2674,7 +2730,7 @@ export const AccountSearchDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'username' },
+            name: { kind: 'Name', value: 'query' },
           },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
@@ -2684,7 +2740,7 @@ export const AccountSearchDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'allAccounts' },
+            name: { kind: 'Name', value: 'accountSearch' },
             arguments: [
               {
                 kind: 'Argument',
@@ -2692,23 +2748,6 @@ export const AccountSearchDocument = {
                 value: {
                   kind: 'Variable',
                   name: { kind: 'Name', value: 'after' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'condition' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'username' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'username' },
-                      },
-                    },
-                  ],
                 },
               },
               {
@@ -2721,8 +2760,11 @@ export const AccountSearchDocument = {
               },
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'orderBy' },
-                value: { kind: 'EnumValue', value: 'USERNAME_ASC' },
+                name: { kind: 'Name', value: 'query' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'query' },
+                },
               },
             ],
             selectionSet: {
@@ -3005,6 +3047,63 @@ export const AttendanceGuestDocument = {
   AttendanceGuestQuery,
   AttendanceGuestQueryVariables
 >
+export const DeleteContactByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteContactByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteContactByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteContactByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteContactByRowIdMutation,
+  DeleteContactByRowIdMutationVariables
+>
 export const AllContactsDocument = {
   kind: 'Document',
   definitions: [
@@ -3184,63 +3283,6 @@ export const AllContactsDocument = {
     },
   ],
 } as unknown as DocumentNode<AllContactsQuery, AllContactsQueryVariables>
-export const DeleteContactByRowIdDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'DeleteContactByRowId' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'DeleteContactByRowIdInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'deleteContactByRowId' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  DeleteContactByRowIdMutation,
-  DeleteContactByRowIdMutationVariables
->
 export const AllLegalTermsDocument = {
   kind: 'Document',
   definitions: [
@@ -3697,17 +3739,6 @@ export const EventSearchDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'language' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'Language' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
             name: { kind: 'Name', value: 'query' },
           },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
@@ -3734,14 +3765,6 @@ export const EventSearchDocument = {
                 value: {
                   kind: 'Variable',
                   name: { kind: 'Name', value: 'first' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'language' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'language' },
                 },
               },
               {
@@ -5212,6 +5235,63 @@ export const AccountPasswordResetRequestDocument = {
   AccountPasswordResetRequestMutation,
   AccountPasswordResetRequestMutationVariables
 >
+export const DeleteGuestByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteGuestByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteGuestByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteGuestByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteGuestByRowIdMutation,
+  DeleteGuestByRowIdMutationVariables
+>
 export const AllGuestsDocument = {
   kind: 'Document',
   definitions: [
@@ -5413,63 +5493,6 @@ export const AllGuestsDocument = {
     },
   ],
 } as unknown as DocumentNode<AllGuestsQuery, AllGuestsQueryVariables>
-export const DeleteGuestByRowIdDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'DeleteGuestByRowId' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'DeleteGuestByRowIdInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'deleteGuestByRowId' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  DeleteGuestByRowIdMutation,
-  DeleteGuestByRowIdMutationVariables
->
 export const InviteDocument = {
   kind: 'Document',
   definitions: [
@@ -6242,6 +6265,63 @@ export const DeletePreferenceEventLocationByRowIdDocument = {
   DeletePreferenceEventLocationByRowIdMutation,
   DeletePreferenceEventLocationByRowIdMutationVariables
 >
+export const DeleteUploadByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteUploadByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteUploadByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteUploadByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteUploadByRowIdMutation,
+  DeleteUploadByRowIdMutationVariables
+>
 export const AccountUploadQuotaBytesDocument = {
   kind: 'Document',
   definitions: [
@@ -6389,63 +6469,6 @@ export const AllUploadsDocument = {
     },
   ],
 } as unknown as DocumentNode<AllUploadsQuery, AllUploadsQueryVariables>
-export const DeleteUploadByRowIdDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'DeleteUploadByRowId' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'DeleteUploadByRowIdInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'deleteUploadByRowId' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  DeleteUploadByRowIdMutation,
-  DeleteUploadByRowIdMutationVariables
->
 export const CreateUploadDocument = {
   kind: 'Document',
   definitions: [
@@ -6759,63 +6782,6 @@ export const CreateProfilePictureDocument = {
 } as unknown as DocumentNode<
   CreateProfilePictureMutation,
   CreateProfilePictureMutationVariables
->
-export const DeleteProfilePictureByRowIdMutationDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'DeleteProfilePictureByRowIdMutation' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'DeleteProfilePictureByRowIdInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'deleteProfilePictureByRowId' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  DeleteProfilePictureByRowIdMutationMutation,
-  DeleteProfilePictureByRowIdMutationMutationVariables
 >
 export const UpdateAccountByRowIdDocument = {
   kind: 'Document',

@@ -1,3 +1,19 @@
+## [16.0.0-beta.4](https://github.com/maevsi/vibetype/compare/16.0.0-beta.3...16.0.0-beta.4) (2026-08-16)
+
+## [16.0.0-beta.3](https://github.com/maevsi/vibetype/compare/16.0.0-beta.2...16.0.0-beta.3) (2026-08-15)
+
+## [16.0.0-beta.2](https://github.com/maevsi/vibetype/compare/16.0.0-beta.1...16.0.0-beta.2) (2026-08-14)
+
+## [16.0.0-beta.1](https://github.com/maevsi/vibetype/compare/15.1.9...16.0.0-beta.1) (2026-06-26)
+
+### ⚠ BREAKING CHANGES
+
+* **app:** drop outdated detection keys
+
+### Features
+
+* **app:** drop outdated detection keys ([9eb7e4e](https://github.com/maevsi/vibetype/commit/9eb7e4efe1b94a489b94ccb7c1b2c92f53040531))
+
 ## [15.15.1](https://github.com/maevsi/vibetype/compare/15.15.0...15.15.1) (2026-08-14)
 
 ## [15.15.0](https://github.com/maevsi/vibetype/compare/15.14.0...15.15.0) (2026-08-14)

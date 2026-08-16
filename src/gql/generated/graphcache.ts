@@ -3551,6 +3551,10 @@ export type EventCondition = {
   addressId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `createdBy` field. */
   createdBy?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `end` field. */
+  end?: InputMaybe<Scalars['Datetime']['input']>
+  /** Checks for equality with the object’s `name` field. */
+  name?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `rowId` field. */
   rowId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `slug` field. */
@@ -3872,6 +3876,8 @@ export enum EventOrderBy {
   AddressIdDesc = 'ADDRESS_ID_DESC',
   CreatedByAsc = 'CREATED_BY_ASC',
   CreatedByDesc = 'CREATED_BY_DESC',
+  NameAsc = 'NAME_ASC',
+  NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
@@ -4814,7 +4820,14 @@ export type Mutation = {
   accountPasswordReset?: Maybe<AccountPasswordResetPayload>
   /** Sets a new password reset verification code for an account. */
   accountPasswordResetRequest?: Maybe<AccountPasswordResetRequestPayload>
-  /** Creates a contact and registers an account referencing it.\n\nError codes:\n- **VTBDA** when the birth date is not at least 18 years old.\n- **VTPLL** when the password length does not reach its minimum.\n- **VTAUV** when an account with the given username already exists. */
+  /**
+   * Creates a contact and registers an account referencing it.
+   *
+   * Error codes:
+   * - **VTBDA** when the birth date is not at least 18 years old.
+   * - **VTPLL** when the password length does not reach its minimum.
+   * - **VTAUV** when an account with the given username already exists.
+   */
   accountRegistration?: Maybe<AccountRegistrationPayload>
   /** Refreshes an account's email address verification validity period.\n\nError codes:\n- **01P01** in all cases right now as refreshing registrations is currently not available due to missing rate limiting.\n- **22023** when an account with this account id does not exist. */
   accountRegistrationRefresh?: Maybe<AccountRegistrationRefreshPayload>
@@ -6117,7 +6130,10 @@ export type Query = Node & {
   accountByRowId?: Maybe<Account>
   /** Get a single `Account`. */
   accountByUsername?: Maybe<Account>
-  /** Returns all accounts with a username containing a given substring. */
+  /**
+   * Returns accounts with a username containing a given substring, closest matches first, capped at 50 results.
+   * Queries under 3 characters match few trigrams and so scan a larger share of the index; keep that in mind if this backs search-as-you-type.
+   */
   accountSearch?: Maybe<AccountConnection>
   /** Reads a single `AccountSocialNetwork` using its globally unique `ID`. */
   accountSocialNetwork?: Maybe<AccountSocialNetwork>
@@ -6267,7 +6283,7 @@ export type Query = Node & {
   eventRecommendation?: Maybe<EventRecommendation>
   /** Get a single `EventRecommendation`. */
   eventRecommendationByAccountIdAndEventId?: Maybe<EventRecommendation>
-  /** Performs a full-text search on the event table based on the provided query and language, returning event IDs ordered by relevance. */
+  /** Searches events by name and description. Matches by prefix so partial words match as the user types, and falls back to trigram similarity on the name for typo tolerance. Returns at most 50 events ordered by relevance. */
   eventSearch?: Maybe<EventConnection>
   /** Reads a single `EventUpload` using its globally unique `ID`. */
   eventUpload?: Maybe<EventUpload>
@@ -6403,7 +6419,7 @@ export type QueryAccountSearchArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  searchString?: InputMaybe<Scalars['String']['input']>
+  query?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6960,7 +6976,6 @@ export type QueryEventRecommendationByAccountIdAndEventIdArgs = {
 export type QueryEventSearchArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
-  language?: InputMaybe<Language>
   offset?: InputMaybe<Scalars['Int']['input']>
   query?: InputMaybe<Scalars['String']['input']>
 }
