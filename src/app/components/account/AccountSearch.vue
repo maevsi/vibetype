@@ -4,7 +4,7 @@
     <div v-if="accounts?.length" class="flex flex-col gap-2">
       <AccountCard v-for="account in accounts" :key="account.rowId" :account />
     </div>
-    <TypographyBodyMedium v-else>
+    <TypographyBodyMedium v-else-if="searchQueryDebouncedTrimmed">
       {{ t('errorNotFound') }}
       <br />
       {{ t('errorNotFoundHint') }}
@@ -37,8 +37,6 @@ const queryAccountSearch = graphql(`
 const after = ref<string | null>()
 const searchQuery = ref<string>()
 const searchQueryDebounced = refDebounced(searchQuery, 300)
-// An empty query matches every username (see `account_search`), so the full
-// directory shows up before anything has been typed.
 const searchQueryDebouncedTrimmed = computed(
   () => searchQueryDebounced.value?.trim() ?? '',
 )
@@ -47,6 +45,10 @@ watch(searchQueryDebouncedTrimmed, () => {
 })
 const accountSearchQuery = useQuery({
   query: queryAccountSearch,
+  // An empty query matches every username (see `account_search`), so the
+  // query is paused instead of running against the full directory before
+  // anything has been typed.
+  pause: computed(() => !searchQueryDebouncedTrimmed.value),
   variables: computed(() => ({
     after: after.value,
     first: ITEMS_PER_PAGE_LARGE,
