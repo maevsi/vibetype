@@ -4,18 +4,20 @@ export interface AuthPasswordValidationMessages {
   tooWeak: string
 }
 
-export const getStrongPasswordError = ({
+export const getStrongPasswordError = async ({
   messages,
   password,
 }: {
   messages: Pick<AuthPasswordValidationMessages, 'minimumLength' | 'tooWeak'>
   password: string
-}): string => {
+}): Promise<string> => {
   if (password.length < VALIDATION_PASSWORD_LENGTH_MINIMUM) {
     return messages.minimumLength
   }
 
-  if (getPasswordStrengthScore(password) < PASSWORD_STRENGTH_SCORE_MINIMUM) {
+  if (
+    (await getPasswordStrengthScore(password)) < PASSWORD_STRENGTH_SCORE_MINIMUM
+  ) {
     return messages.tooWeak
   }
 

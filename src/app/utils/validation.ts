@@ -72,8 +72,9 @@ export const SCHEMA_PASSWORD_V2 = z
   .string()
   .min(VALIDATION_PASSWORD_LENGTH_MINIMUM)
   .refine(
-    (password) =>
-      getPasswordStrengthScore(password) >= PASSWORD_STRENGTH_SCORE_MINIMUM,
+    async (password) =>
+      (await getPasswordStrengthScore(password)) >=
+      PASSWORD_STRENGTH_SCORE_MINIMUM,
   )
 export const SCHEMA_PHONE_NUMBER_OPTIONAL = z
   .string()

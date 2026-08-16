@@ -4,9 +4,7 @@
       <FormAuthPasswordPair
         :password-error="passwordPairValidation.password.error.value"
         :password-placeholder="t('password')"
-        :password-strength="
-          calculatePasswordStrength(form.getFieldValue('password'))
-        "
+        :password-strength="passwordStrength"
         :password-value="form.getFieldValue('password')"
         :repetition-error="passwordPairValidation.repetition.error.value"
         :repetition-placeholder="t('passwordRepetition')"
@@ -14,7 +12,7 @@
         show-strength
         @password-blur="passwordPairValidation.handlePasswordBlur"
         @repetition-blur="passwordPairValidation.handleRepetitionBlur"
-        @update:password-value="passwordPairValidation.handlePasswordInput"
+        @update:password-value="handlePasswordInput"
         @update:repetition-value="passwordPairValidation.handleRepetitionInput"
       />
       <FormFieldCaptcha v-model:captcha-is-used="captchaIsUsed" :form />
@@ -86,6 +84,15 @@ const form = useForm({
     })
   },
 })
+
+// zxcvbn is loaded on demand (see passwordStrength.ts), so the meter can only be updated once
+// the score for the current input resolves; driven from the same input event as validation
+// rather than a watch on the tanstack-form field, whose reads aren't tracked reactively.
+const passwordStrength = ref(0)
+const handlePasswordInput = async (value: string) => {
+  await passwordPairValidation.handlePasswordInput(value)
+  passwordStrength.value = await calculatePasswordStrength(value)
+}
 
 const handleSubmit = async () => {
   const isPasswordPairValid = await passwordPairValidation.validate()

@@ -1,7 +1,4 @@
-import { ZxcvbnFactory } from '@zxcvbn-ts/core'
-import * as zxcvbnCommonPackage from '@zxcvbn-ts/language-common'
-import * as zxcvbnDePackage from '@zxcvbn-ts/language-de'
-import * as zxcvbnEnPackage from '@zxcvbn-ts/language-en'
+import type { ZxcvbnFactory as ZxcvbnFactoryType } from '@zxcvbn-ts/core'
 
 // This configuration must match postgraphile's src/presets/passwordStrength.ts; see the
 // shared contract at stack:docs/password-strength.md.
@@ -11,19 +8,61 @@ import * as zxcvbnEnPackage from '@zxcvbn-ts/language-en'
 export const PASSWORD_STRENGTH_SCORE_MINIMUM = 3
 const PASSWORD_STRENGTH_SCORE_MAXIMUM = 4
 
-const zxcvbn = new ZxcvbnFactory({
-  dictionary: {
-    ...zxcvbnCommonPackage.dictionary,
-    ...zxcvbnDePackage.dictionary,
-    ...zxcvbnEnPackage.dictionary,
-  },
-  graphs: zxcvbnCommonPackage.adjacencyGraphs,
-  translations: zxcvbnEnPackage.translations,
-})
+// zxcvbn's dictionaries are multiple MB uncompressed; importing them eagerly would put that
+// weight in the bundle of every route, including ones that never touch a password field. This
+// loads them only once the first password actually needs scoring, and only once overall.
+let zxcvbnPromise: Promise<InstanceType<typeof ZxcvbnFactoryType>> | undefined
 
-export const getPasswordStrengthScore = (password: string): number =>
-  password ? zxcvbn.check(password).score : 0
+const getZxcvbn = () => {
+  zxcvbnPromise ??= (async () => {
+    const [
+      { ZxcvbnFactory },
+      zxcvbnCommonPackage,
+      zxcvbnDePackage,
+      zxcvbnEnPackage,
+    ] = await Promise.all([
+      import('@zxcvbn-ts/core'),
+      import('@zxcvbn-ts/language-common'),
+      import('@zxcvbn-ts/language-de'),
+      import('@zxcvbn-ts/language-en'),
+    ])
+
+    return new ZxcvbnFactory({
+      dictionary: {
+        ...zxcvbnCommonPackage.dictionary,
+        ...zxcvbnDePackage.dictionary,
+        ...zxcvbnEnPackage.dictionary,
+      },
+      graphs: zxcvbnCommonPackage.adjacencyGraphs,
+      translations: zxcvbnEnPackage.translations,
+    })
+  })()
+
+  return zxcvbnPromise
+}
+
+// The strength meter and the field validator both score the same in-flight password value on
+// every keystroke; caching the latest result avoids running zxcvbn's check twice per input.
+let lastPassword: string | undefined
+let lastScore = 0
+
+export const getPasswordStrengthScore = async (
+  password: string,
+): Promise<number> => {
+  if (!password) return 0
+  if (password === lastPassword) return lastScore
+
+  const zxcvbn = await getZxcvbn()
+  lastScore = zxcvbn.check(password).score
+  lastPassword = password
+
+  return lastScore
+}
 
 // Scales zxcvbn's 0-4 score to a 0-100 range for the strength meter.
-export const calculatePasswordStrength = (password: string): number =>
-  (getPasswordStrengthScore(password) / PASSWORD_STRENGTH_SCORE_MAXIMUM) * 100
+export const calculatePasswordStrength = async (
+  password: string,
+): Promise<number> =>
+  ((await getPasswordStrengthScore(password)) /
+    PASSWORD_STRENGTH_SCORE_MAXIMUM) *
+  100
