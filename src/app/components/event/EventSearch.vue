@@ -83,18 +83,8 @@ const queryEventList = graphql(`
   }
 `)
 const queryEventSearch = graphql(`
-  query EventSearch(
-    $after: Cursor
-    $first: Int
-    $language: Language
-    $query: String
-  ) {
-    eventSearch(
-      after: $after
-      first: $first
-      language: $language
-      query: $query
-    ) {
+  query EventSearch($after: Cursor, $first: Int, $query: String) {
+    eventSearch(after: $after, first: $first, query: $query) {
       nodes {
         accountByCreatedBy {
           id
@@ -175,10 +165,23 @@ const allEventsQuery = useQuery({
 
 const searchQuery = ref<string>()
 const searchQueryDebounced = refDebounced(searchQuery, 300)
-const searchQueryVariable = computed(() =>
-  searchQueryDebounced.value?.trim().split(/\s+/).join(' OR '),
-)
+// `eventSearch` already matches by prefix (so partial words work while
+// typing) and falls back to typo-tolerant matching on the name, so the raw
+// trimmed input is passed through as-is.
+const searchQueryVariable = computed(() => searchQueryDebounced.value?.trim())
 const searchResultsQueryAfter = ref<string | null>()
+// `flush: 'sync'` so the cursor is already cleared by the time the reactive
+// `variables` computed below is next read, otherwise `searchResultsQuery`'s
+// own reactive refetch (scheduled together with, but ahead of, the `watch`
+// further down) would fire once more with the old cursor and the new query,
+// skipping that query's first page.
+watch(
+  searchQueryVariable,
+  () => {
+    searchResultsQueryAfter.value = undefined
+  },
+  { flush: 'sync' },
+)
 const searchResultsQuery = useQuery({
   query: queryEventSearch,
   variables: computed(() => ({
@@ -268,7 +271,6 @@ await advanceUntilUpcomingEvent()
 allEventsQueryFirst.value = ITEMS_PER_PAGE
 
 watch(searchQueryVariable, async () => {
-  searchResultsQueryAfter.value = undefined
   // `query.value` already reflects the new search state by this point, so
   // this re-fetches whichever query just changed (a fresh search, or
   // `allEvents` again once the search is cleared) before re-running the

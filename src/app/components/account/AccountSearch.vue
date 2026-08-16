@@ -4,7 +4,7 @@
     <div v-if="accounts?.length" class="flex flex-col gap-2">
       <AccountCard v-for="account in accounts" :key="account.rowId" :account />
     </div>
-    <TypographyBodyMedium v-else>
+    <TypographyBodyMedium v-else-if="searchQueryDebouncedTrimmed">
       {{ t('errorNotFound') }}
       <br />
       {{ t('errorNotFoundHint') }}
@@ -20,13 +20,8 @@ import { graphql } from '~~/gql/generated'
 
 // api data
 const queryAccountSearch = graphql(`
-  query AccountSearch($after: Cursor, $first: Int, $username: String) {
-    allAccounts(
-      after: $after
-      condition: { username: $username }
-      first: $first
-      orderBy: USERNAME_ASC
-    ) {
+  query AccountSearch($after: Cursor, $first: Int, $query: String) {
+    accountSearch(after: $after, first: $first, query: $query) {
       nodes {
         id
         rowId
@@ -43,30 +38,34 @@ const after = ref<string | null>()
 const searchQuery = ref<string>()
 const searchQueryDebounced = refDebounced(searchQuery, 300)
 const searchQueryDebouncedTrimmed = computed(
-  () => searchQueryDebounced.value?.trim() || undefined,
+  () => searchQueryDebounced.value?.trim() ?? '',
 )
 watch(searchQueryDebouncedTrimmed, () => {
   after.value = undefined
 })
 const accountSearchQuery = useQuery({
   query: queryAccountSearch,
+  // An empty query matches every username (see `account_search`), so the
+  // query is paused instead of running against the full directory before
+  // anything has been typed.
+  pause: computed(() => !searchQueryDebouncedTrimmed.value),
   variables: computed(() => ({
     after: after.value,
     first: ITEMS_PER_PAGE_LARGE,
-    username: searchQueryDebouncedTrimmed.value,
+    query: searchQueryDebouncedTrimmed.value,
   })),
 })
 const api = await useApiData([accountSearchQuery])
-const accounts = computed(() => api.value.data.allAccounts?.nodes)
+const accounts = computed(() => api.value.data.accountSearch?.nodes)
 
 // template
 const { t } = useI18n()
 useInfiniteScroll({
   loadMore: () => {
-    after.value = api.value.data.allAccounts?.pageInfo.endCursor
+    after.value = api.value.data.accountSearch?.pageInfo.endCursor
   },
   canLoadMore: computed(
-    () => !!api.value.data.allAccounts?.pageInfo.hasNextPage,
+    () => !!api.value.data.accountSearch?.pageInfo.hasNextPage,
   ),
 })
 </script>
@@ -74,8 +73,8 @@ useInfiniteScroll({
 <i18n lang="yaml">
 de:
   errorNotFound: Niemand gefunden
-  errorNotFoundHint: ℹ️ Der Nutzername muss exakt angegeben werden, Buchstabe für Buchstabe. Aber bald wird es möglich sein, ohne diese Beschränkung zu suchen ✨
+  errorNotFoundHint: Versuche es mit einem anderen Suchbegriff.
 en:
   errorNotFound: No one found
-  errorNotFoundHint: ℹ️ The username must match exactly, character by character. A more relaxed search will be available shortly ✨
+  errorNotFoundHint: Try a different search term.
 </i18n>
