@@ -26,6 +26,7 @@ type AccountPasswordResetRequestEvent = {
     account_id: string
     encrypted: string
     password_reset_verification_valid_until: string
+    subject_id: string
     template: Template
   }
 }
@@ -35,6 +36,7 @@ type AccountRegistrationEvent = {
   payload: {
     account_id: string
     encrypted: string
+    subject_id: string
     template: Template
   }
 }
@@ -44,6 +46,7 @@ type EmailAddressVerificationEvent = {
   payload: {
     email_address_id: string
     encrypted: string
+    subject_id: string
     template: Template
     valid_until: string
   }
@@ -56,6 +59,7 @@ type EventInvitationEvent = {
     encrypted: string
     event: GuestInvitationEvent
     guest_id: string
+    subject_id: string
     template: Template
   }
 }
@@ -113,10 +117,9 @@ const locales = {
   },
 } as const
 
-// Outbox payload content is encrypted under the subject's key rather than carried in plaintext,
-// so PII never reaches the CDC log even transiently (crypto-shredding). The key itself is fetched
-// on demand by resolving aggregate_id (account/guest/email_address id) to a subject, mirroring the
-// same resolution logic each sqitch outbox writer uses to pick which subject to encrypt under.
+// Outbox payload content is encrypted under the subject's key rather than carried in plaintext, so PII never reaches the CDC log even transiently (crypto-shredding).
+// Each payload carries the id of the subject whose key it was encrypted under (`subject_id`), pinned by the sqitch writer at outbox-insert time rather than re-derived here at consumption time.
+// This keeps decryption correct even if, for example, the account's primary email address changes between outbox-write and Kafka delivery.
 //
 // TODO: verify this against a real outbox_encrypt-produced value once deployed. pgcrypto's
 // encrypt_iv('aes', ...) is assumed to be plain AES-256-CBC/PKCS7 given a 32-byte key, matching
@@ -136,53 +139,14 @@ const decryptOutboxPayload = <T>(encryptedBase64: string, key: Buffer): T => {
   return JSON.parse(decrypted.toString('utf8')) as T
 }
 
-const fetchAccountSubjectKey = async (
-  accountId: string,
+const fetchSubjectKey = async (
+  subjectId: string,
 ): Promise<Buffer | undefined> => {
   const rows = await executeQuery<{ key: Buffer }[]>(
     sql`
-      SELECT s.key
-      FROM vibetype_private.account_email_address aea
-      JOIN vibetype_private.email_address ea ON ea.id = aea.email_address_id
-      JOIN vibetype_private.subject s ON s.id = ea.subject_id
-      WHERE aea.account_id = ${accountId} AND aea.is_primary
-    `,
-  )
-  return rows[0]?.key
-}
-
-const fetchEmailAddressSubjectKey = async (
-  emailAddressId: string,
-): Promise<Buffer | undefined> => {
-  const rows = await executeQuery<{ key: Buffer }[]>(
-    sql`
-      SELECT s.key
-      FROM vibetype_private.email_address ea
-      JOIN vibetype_private.subject s ON s.id = ea.subject_id
-      WHERE ea.id = ${emailAddressId}
-    `,
-  )
-  return rows[0]?.key
-}
-
-// Mirrors invite()'s subject resolution: prefer the linked account's own verified email, falling
-// back to the contact's own listed email, since either could be the one PII was encrypted under.
-const fetchGuestSubjectKey = async (
-  guestId: string,
-): Promise<Buffer | undefined> => {
-  const rows = await executeQuery<{ key: Buffer }[]>(
-    sql`
-      SELECT s.key
-      FROM vibetype.guest g
-      JOIN vibetype.contact c ON c.id = g.contact_id
-      LEFT JOIN vibetype_private.account_email_address aea
-        ON aea.account_id = c.account_id AND aea.is_primary
-      LEFT JOIN vibetype.contact_email_address cea
-        ON cea.contact_id = c.id AND cea.is_primary
-      JOIN vibetype_private.email_address ea
-        ON ea.id = COALESCE(aea.email_address_id, cea.email_address_id)
-      JOIN vibetype_private.subject s ON s.id = ea.subject_id
-      WHERE g.id = ${guestId}
+      SELECT key
+      FROM vibetype_private.subject
+      WHERE id = ${subjectId}
     `,
   )
   return rows[0]?.key
@@ -285,10 +249,10 @@ export const processMessage = async ({
 
   switch (channel) {
     case CHANNEL_NAME_ACCOUNT_PASSWORD_RESET: {
-      const key = await fetchAccountSubjectKey(payload.account_id)
+      const key = await fetchSubjectKey(payload.subject_id)
       if (!key) {
         console.error(
-          `Could not resolve subject key for account ${payload.account_id}`,
+          `Could not resolve subject key for subject ${payload.subject_id}`,
         )
         break
       }
@@ -320,10 +284,10 @@ export const processMessage = async ({
       break
     }
     case CHANNEL_NAME_ACCOUNT_REGISTRATION: {
-      const key = await fetchAccountSubjectKey(payload.account_id)
+      const key = await fetchSubjectKey(payload.subject_id)
       if (!key) {
         console.error(
-          `Could not resolve subject key for account ${payload.account_id}`,
+          `Could not resolve subject key for subject ${payload.subject_id}`,
         )
         break
       }
@@ -352,10 +316,10 @@ export const processMessage = async ({
       break
     }
     case CHANNEL_NAME_EMAIL_ADDRESS_VERIFICATION: {
-      const key = await fetchEmailAddressSubjectKey(payload.email_address_id)
+      const key = await fetchSubjectKey(payload.subject_id)
       if (!key) {
         console.error(
-          `Could not resolve subject key for email address ${payload.email_address_id}`,
+          `Could not resolve subject key for subject ${payload.subject_id}`,
         )
         break
       }
@@ -387,10 +351,10 @@ export const processMessage = async ({
       break
     }
     case CHANNEL_NAME_EVENT_INVITATION: {
-      const key = await fetchGuestSubjectKey(payload.guest_id)
+      const key = await fetchSubjectKey(payload.subject_id)
       if (!key) {
         console.error(
-          `Could not resolve subject key for guest ${payload.guest_id}`,
+          `Could not resolve subject key for subject ${payload.subject_id}`,
         )
         break
       }
