@@ -208,7 +208,7 @@ export const processMessage = async ({
   siteUrl: string
   tusdFilesUrl: string
 }) => {
-  if (await getIsAcknowledged({ id })) return
+  if (await getIsProcessed({ id })) return
 
   // TODO(major): remove `limit24h` fallback in the next major version
   const limit24hLegacy =
@@ -382,16 +382,17 @@ export const processMessage = async ({
       throw new Error(`Unexpected channel: ${JSON.stringify(channel)}`)
   }
 
-  await ack({
+  await markProcessed({
     id,
   })
 }
 
-const ack = async ({ id }: { id: string }) => {
+// Marks the outbox event as processed in vibetype's own idempotency table, independent of any other outbox consumer (e.g. reccoom) tracking its own processing state on the same row.
+const markProcessed = async ({ id }: { id: string }) => {
   const baseURL = getServiceHrefPostgraphile()
   const response = await fetch(`${baseURL}/graphql`, {
     body: JSON.stringify({
-      query: `mutation ($id: UUID!) { outboxAcknowledge(input: { id: $id, isAcknowledged: true }) { clientMutationId } }`,
+      query: `mutation ($id: UUID!) { outboxMarkProcessed(input: { outboxId: $id }) { clientMutationId } }`,
       variables: { id },
     }),
     headers: {
@@ -400,20 +401,20 @@ const ack = async ({ id }: { id: string }) => {
     method: 'POST',
   })
 
-  // best-effort: the email was already sent above, so a failed ack must not
-  // throw here, that would trigger a retry and resend it. The Redis dedupe
-  // key is the actual guard against reprocessing; a lost ack only matters if
-  // that key expires (24h) before the notification row is touched again.
+  // best-effort: the email was already sent above, so a failed mark must not
+  // throw here, that would trigger a retry and resend it.
   if (!response.ok)
-    console.error(`Could not ack due to error: "${response.statusText}"`)
+    console.error(
+      `Could not mark outbox event as processed due to error: "${response.statusText}"`,
+    )
 }
 
-// Queried instead of read from the Kafka message, since the outbox event router SMT only forwards the payload column, not is_acknowledged.
-const getIsAcknowledged = async ({ id }: { id: string }): Promise<boolean> => {
+// Queried instead of read from the Kafka message, since the outbox event router SMT only forwards the payload column, not any processed-state column.
+const getIsProcessed = async ({ id }: { id: string }): Promise<boolean> => {
   const baseURL = getServiceHrefPostgraphile()
   const response = await fetch(`${baseURL}/graphql`, {
     body: JSON.stringify({
-      query: `query ($id: UUID!) { outboxIsAcknowledged(id: $id) }`,
+      query: `query ($id: UUID!) { outboxIsProcessed(outboxId: $id) }`,
       variables: { id },
     }),
     headers: {
@@ -424,16 +425,16 @@ const getIsAcknowledged = async ({ id }: { id: string }): Promise<boolean> => {
 
   if (!response.ok) {
     console.error(
-      `Could not check acknowledgement due to error: "${response.statusText}"`,
+      `Could not check processed state due to error: "${response.statusText}"`,
     )
     return false
   }
 
   const { data } = (await response.json()) as {
-    data?: { outboxIsAcknowledged: boolean | null }
+    data?: { outboxIsProcessed: boolean | null }
   }
 
-  return !!data?.outboxIsAcknowledged
+  return !!data?.outboxIsProcessed
 }
 
 export const sendEventInvitationMail = async ({
