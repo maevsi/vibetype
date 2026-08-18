@@ -388,6 +388,8 @@ export const processMessage = async ({
 }
 
 // Marks the outbox event as processed in vibetype's own idempotency table, independent of any other outbox consumer (e.g. reccoom) tracking its own processing state on the same row.
+// A failure here is not swallowed: the email was already sent above, so leaving this row unmarked risks a duplicate send on the next retry, and there is no way to make this atomic with the email send itself short of a two-phase commit pattern this codebase doesn't have.
+// Propagating the error lets the consumer's retry/dead-letter-queue mechanism surface it instead of silently accepting that residual risk.
 const markProcessed = async ({ id }: { id: string }) => {
   const baseURL = getServiceHrefPostgraphile()
   const response = await fetch(`${baseURL}/graphql`, {
@@ -401,15 +403,15 @@ const markProcessed = async ({ id }: { id: string }) => {
     method: 'POST',
   })
 
-  // best-effort: the email was already sent above, so a failed mark must not
-  // throw here, that would trigger a retry and resend it.
   if (!response.ok)
-    console.error(
+    throw new Error(
       `Could not mark outbox event as processed due to error: "${response.statusText}"`,
     )
 }
 
 // Queried instead of read from the Kafka message, since the outbox event router SMT only forwards the payload column, not any processed-state column.
+// A failed or malformed check does not default to "not processed": that would risk mass-resending real emails on a Kafka consumer replay.
+// Instead the error propagates so the message falls back to the consumer's retry/dead-letter-queue handling, the same as any other processing failure.
 const getIsProcessed = async ({ id }: { id: string }): Promise<boolean> => {
   const baseURL = getServiceHrefPostgraphile()
   const response = await fetch(`${baseURL}/graphql`, {
@@ -423,18 +425,19 @@ const getIsProcessed = async ({ id }: { id: string }): Promise<boolean> => {
     method: 'POST',
   })
 
-  if (!response.ok) {
-    console.error(
+  if (!response.ok)
+    throw new Error(
       `Could not check processed state due to error: "${response.statusText}"`,
     )
-    return false
-  }
 
   const { data } = (await response.json()) as {
     data?: { outboxIsProcessed: boolean | null }
   }
 
-  return !!data?.outboxIsProcessed
+  if (data?.outboxIsProcessed == null)
+    throw new Error('Could not check processed state: response had no data')
+
+  return data.outboxIsProcessed
 }
 
 export const sendEventInvitationMail = async ({
