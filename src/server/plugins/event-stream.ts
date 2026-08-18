@@ -51,7 +51,11 @@ export default defineNitroPlugin(async (nitroApp) => {
     const id = payload.id as string
 
     if (aggregateType === CHANNEL_NAME_UPLOAD) {
-      await processUpload({ id, storageKey: payload.storage_key })
+      await processUpload({
+        id,
+        storageKey: payload.storage_key,
+        type: payload.type,
+      })
       return
     }
 
