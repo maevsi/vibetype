@@ -4,6 +4,11 @@ const AGGREGATE_TYPE_ACCOUNT = 'account'
 const AGGREGATE_TYPE_EMAIL_ADDRESS = 'email_address'
 const AGGREGATE_TYPE_GUEST = 'guest'
 
+// Debezium substitutes this placeholder when a TOASTed column's value isn't available in a change event, e.g. an UPDATE that leaves `payload` untouched, as `outboxAcknowledge` does.
+// Without REPLICA IDENTITY FULL, pgoutput only decodes columns that actually changed, so an unchanged TOASTed column has no value to decode rather than merely being marked unchanged.
+// `outbox.payload` is capped at 16,000 bytes (see `table_outbox.sql`), well past Postgres' default TOAST threshold, so this is expected to occur regularly rather than being an edge case.
+const DEBEZIUM_UNAVAILABLE_VALUE_PLACEHOLDER = '__debezium_unavailable_value'
+
 const TOPICS_OUTBOX = {
   [AGGREGATE_TYPE_ACCOUNT]: `${SITE_NAME}.outbox.${AGGREGATE_TYPE_ACCOUNT}`,
   [AGGREGATE_TYPE_EMAIL_ADDRESS]: `${SITE_NAME}.outbox.${AGGREGATE_TYPE_EMAIL_ADDRESS}`,
@@ -45,6 +50,15 @@ export default defineNitroPlugin(async (nitroApp) => {
       throw new PermanentProcessingError(
         `Missing value for outbox aggregate type: ${aggregateType}`,
       )
+    }
+
+    // Not new information: the outbox row still has its original payload, only this particular change event doesn't carry it.
+    // Skip instead of attempting to parse the placeholder as JSON.
+    if (valueOutbox.payload === DEBEZIUM_UNAVAILABLE_VALUE_PLACEHOLDER) {
+      console.debug(
+        `Skipping outbox message with unavailable TOASTed payload for aggregate type: ${aggregateType}`,
+      )
+      return
     }
 
     const payload = JSON.parse(valueOutbox.payload)
