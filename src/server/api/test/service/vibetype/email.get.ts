@@ -9,7 +9,7 @@ const logoSource = `data:image/png;base64,${LOGO_BASE64}`
 
 const getDemoEmailProps = (locale: AppLocale) =>
   ({
-    [EMAIL_NAMES.enum.account_password_reset_request]: {
+    [EMAIL_NAMES.enum['account.password_reset_requested']]: {
       emailAddress: 'user@example.com',
       locale,
       logoSource,
@@ -20,18 +20,23 @@ const getDemoEmailProps = (locale: AppLocale) =>
       username: 'john_doe',
       validUntil: '2024-12-31T23:59:59Z',
     },
-    [EMAIL_NAMES.enum.account_registration]: {
+    [EMAIL_NAMES.enum['account.registered']]: {
       emailAddress: 'newuser@example.com',
-      emailAddressVerificationLink:
-        'https://example.com/verify-email?token=verify5678',
       locale,
       logoSource,
-      stackDomain: 'example.com',
-      timeZone: 'Europe/Berlin',
+      siteUrl: 'https://example.com',
       username: 'john_doe',
+    },
+    [EMAIL_NAMES.enum['email_address_verification.requested']]: {
+      emailAddress: 'newuser@example.com',
+      emailAddressVerificationLink:
+        'https://example.com/account/registration/confirm?code=verify5678',
+      locale,
+      logoSource,
+      timeZone: 'Europe/Berlin',
       validUntil: '2024-12-31T23:59:59Z',
     },
-    [EMAIL_NAMES.enum.event_invitation]: {
+    [EMAIL_NAMES.enum['guest.invited']]: {
       emailAddress: 'invitee@example.com',
       eventAttendanceType: 'in-person',
       eventAuthorProfileHref: 'https://example.com/profiles/author123',
