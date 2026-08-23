@@ -46,5 +46,9 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
 ## GraphQL
 - Run `pnpm --dir src run gql:codegen` after any changes to GraphQL queries or mutations to update the generated types
 
+## Sentry
+- The `nuxt-security` module enforces a content security policy, so client-side Sentry must not switch to CDN-based lazy loading via `Sentry.lazyLoadIntegration`, since it inserts a `browser.sentry-cdn.com` script tag and would require relaxing `script-src`/`connect-src` to an external host
+- To defer a heavy client-side Sentry integration, such as `browserProfilingIntegration` or `replayIntegration`, without the CDN loader, place its usage in a sibling module outside Nuxt's auto-import scan directories, next to `sentry.client.config.ts`, that statically imports only that integration from `@sentry/nuxt`. Reach the sibling module from `sentry.client.config.ts` through a dynamic `import()` and attach the integration with `Sentry.addIntegration()`. Referencing the integration through the already-eagerly-imported `Sentry` namespace object instead, e.g. `Sentry.replayIntegration()`, would keep its code in the eager bundle even though the call itself runs later, since the whole `@sentry/nuxt` module is already reachable statically
+
 ## Agents
 - If information that is relevant for agentic instructions is not yet covered in `AGENTS.md`, add it.
