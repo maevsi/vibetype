@@ -2,7 +2,7 @@
   <div>
     <LayoutPageTitle :title />
     <!-- "UploadGallery" must come after "ModalUploadSelection" for them to overlay properly! -->
-    <UploadGallery v-if="authentication.isSignedIn" />
+    <LazyUploadGallery v-if="authentication.isSignedIn" />
     <LayoutCallToAction
       v-else
       :call-to-action="t('anonymousCta')"
