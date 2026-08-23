@@ -37,6 +37,8 @@ export const useNotificationStore = defineStore('notification', () => {
     if (hasPushCapability) {
       window.webkit?.messageHandlers['push-token']?.postMessage('push-token')
     } else {
+      const { requestFcmToken } = await import('~/utils/dependencies/firebase')
+
       fcmToken.value = await requestFcmToken()
     }
   }
