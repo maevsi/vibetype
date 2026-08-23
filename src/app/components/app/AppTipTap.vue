@@ -313,6 +313,16 @@ const editor = useEditor({
   },
 })
 
+watch(
+  () => value,
+  (newValue) => {
+    if (!editor.value) return
+    if ((newValue ?? '') === editor.value.getHTML()) return
+
+    editor.value.commands.setContent(newValue ?? '', { emitUpdate: false })
+  },
+)
+
 // data
 const isActive = reactive({
   heading1: false,
@@ -387,7 +397,9 @@ const setLink = () => {
   }
 
   const location = getLocation(url)
-  const urlHost = `${location.hostname}:${location.port}`
+  const urlHost = location.port
+    ? `${location.hostname}:${location.port}`
+    : location.hostname
 
   // update link
   editor.value
@@ -400,11 +412,16 @@ const setLink = () => {
 const updateDebounced = debounce(
   () => {
     if (!editor.value) return
-    emit('input', editor.value?.getHTML())
+    emit('input', editor.value.isEmpty ? '' : editor.value.getHTML())
   },
   1000,
   { leading: true },
 )
+
+onBeforeUnmount(() => {
+  updateIsActive.cancel()
+  updateDebounced.cancel()
+})
 </script>
 
 <i18n lang="yaml">
