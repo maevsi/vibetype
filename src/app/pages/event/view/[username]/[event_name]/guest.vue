@@ -5,7 +5,7 @@
       class="flex flex-col gap-4"
     >
       <LayoutPageTitle :title="t('title')" />
-      <GuestList :event />
+      <LazyGuestList :event />
     </div>
     <AppError v-else :error="{ status: 403 }" />
   </Loader>
