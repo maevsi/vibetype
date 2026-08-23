@@ -358,7 +358,7 @@
             <FieldLabel>{{ t('description') }}</FieldLabel>
             <FieldContent>
               <client-only>
-                <AppTipTap
+                <LazyAppTipTap
                   :value="field.state.value"
                   @input="field.handleChange($event)"
                 />
