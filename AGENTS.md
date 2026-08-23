@@ -35,6 +35,7 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
 ## Nuxt
 - Nuxt auto-imports are active, so there is no need to import Nuxt components, composables and Vue.js APIs – run `pnpm exec nuxt prepare` instead to update the barrel files
 - Do not hardcode translatable strings, but use the i18n module instead
+- Run `pnpm --dir src run build:analyze` (`nuxt analyze`, built into the Nuxt CLI, no extra dependency needed) to build the app and generate an interactive treemap of the client and server bundles. The command prints the report location as "Build location" when the build finishes (it lands under the build directory's `analyze` folder, e.g. `.nuxt/analyze/client.html`, though it may resolve elsewhere under `node_modules` depending on the environment); it then serves the report on `http://localhost:3000` and blocks until stopped with <kbd>Ctrl</kbd>+<kbd>C</kbd> – the report files are already written to disk before the server starts, so the process can be killed once the location has been noted. This is the recommended way to verify bundle-size changes, replacing manual grepping through built output in `.output/public/_nuxt/*.js` for library-identifying strings
 
 ## Docker
 - The `Dockerfile` contains the full build pipeline, divided into multiple stages
