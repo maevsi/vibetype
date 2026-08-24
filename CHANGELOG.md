@@ -1,3 +1,9 @@
+## [15.16.1](https://github.com/maevsi/vibetype/compare/15.16.0...15.16.1) (2026-08-24)
+
+### Bug Fixes
+
+* **tiptap:** sync external value updates and empty-content emission ([#2381](https://github.com/maevsi/vibetype/issues/2381)) ([0528bcc](https://github.com/maevsi/vibetype/commit/0528bcc583daaacd920587afa401e61b2c7f37a0))
+
 ## [15.16.0](https://github.com/maevsi/vibetype/compare/15.15.1...15.16.0) (2026-08-17)
 
 ## [15.15.1](https://github.com/maevsi/vibetype/compare/15.15.0...15.15.1) (2026-08-14)
