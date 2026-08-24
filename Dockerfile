@@ -2,8 +2,8 @@
 # check=skip=SecretsUsedInArgOrEnv
 
 # <DEPENDENCIES>
-FROM ghcr.io/maevsi/postgraphile:2.2.1
-FROM ghcr.io/maevsi/sqitch:12.2
+FROM ghcr.io/maevsi/postgraphile:2.2.3
+FROM ghcr.io/maevsi/sqitch:12.3
 # </DEPENDENCIES>
 
 #############
