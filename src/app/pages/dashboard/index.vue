@@ -1,10 +1,10 @@
 <template>
-  <!-- <AppError
-    v-if="recommendationError"
-    :error="{ message: t('recommendationError'), status: 500 }"
-  /> -->
   <AppLoaderLogo v-if="api.isFetching || eventRecommendationsPending" />
   <div v-else>
+    <!-- <AppError
+      v-if="recommendationError"
+      :error="{ message: t('recommendationError'), status: 500 }"
+    /> -->
     <LayoutPageTitle :title />
     <LayoutCallToAction
       v-if="!authentication.isSignedIn"
