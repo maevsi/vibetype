@@ -5,7 +5,7 @@
       <TypographyH3 class="text-center">
         {{ t('title') }}
       </TypographyH3>
-      <div class="relative isolate -mx-6">
+      <div class="relative isolate -mx-3 lg:-mx-6">
         <AppMap v-if="!ariaHidden" ref="map" geocoder :position-initial />
         <div
           class="pointer-events-none absolute inset-0 z-400 bg-[#14132699] mask-[radial-gradient(circle_140px_at_center,transparent_0,transparent_139px,black_150px)]"
