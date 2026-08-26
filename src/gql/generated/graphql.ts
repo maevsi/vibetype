@@ -1253,7 +1253,11 @@ export type UpdateGuestByRowIdFeedbackMutationVariables = Exact<{
 
 export type UpdateGuestByRowIdFeedbackMutation = {
   updateGuestByRowId: {
-    guest: { feedback: InvitationFeedback | null; id: string } | null
+    guest: {
+      feedback: InvitationFeedback | null
+      id: string
+      rowId: string
+    } | null
   } | null
 }
 
@@ -5644,6 +5648,7 @@ export const UpdateGuestByRowIdFeedbackDocument = {
                         name: { kind: 'Name', value: 'feedback' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
                   },
                 },

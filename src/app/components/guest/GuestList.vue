@@ -26,21 +26,27 @@
         </p>
       </div>
       <template v-if="event && guests.length">
-        <Select v-model="feedbackFilter">
-          <SelectTrigger :aria-label="t('feedbackFilter')" class="w-full">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">{{ t('feedbackFilterAll') }}</SelectItem>
-            <SelectItem :value="InvitationFeedback.Accepted">
-              {{ t('accepted') }}
-            </SelectItem>
-            <SelectItem :value="InvitationFeedback.Canceled">
-              {{ t('canceled') }}
-            </SelectItem>
-            <SelectItem value="none">{{ t('noFeedback') }}</SelectItem>
-          </SelectContent>
-        </Select>
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+          <FormInputSearch v-model="searchString" class="flex-1" />
+          <Select v-model="feedbackFilter">
+            <SelectTrigger
+              :aria-label="t('feedbackFilter')"
+              class="w-full sm:w-56"
+            >
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{{ t('feedbackFilterAll') }}</SelectItem>
+              <SelectItem :value="InvitationFeedback.Accepted">
+                {{ t('accepted') }}
+              </SelectItem>
+              <SelectItem :value="InvitationFeedback.Canceled">
+                {{ t('canceled') }}
+              </SelectItem>
+              <SelectItem value="none">{{ t('noFeedback') }}</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
         <LayoutTable
           v-if="guestsFiltered.length"
           class="border border-neutral-300 dark:border-neutral-600"
@@ -138,7 +144,9 @@ import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import type {
   AllGuestsQueryVariables,
   EventItemFragment,
+  GuestItemFragment,
 } from '~~/gql/generated/graphql'
+import { getContactItem } from '~~/shared/utils/contact'
 import { getGuestItem } from '~~/shared/utils/guest'
 
 const { event } = defineProps<{
@@ -157,6 +165,7 @@ const templateDoughnut = useTemplateRef<DoughnutController>('doughnut')
 const after = ref<string | null>()
 const feedbackFilter = ref<string>('all')
 const isModalGuestOpen = ref<boolean>()
+const searchString = ref<string>('')
 const options = {
   plugins: {
     legend: {
@@ -254,22 +263,39 @@ const dataComputed = computed(() => {
     ],
   }
 })
+const getGuestContactName = (
+  guest: Pick<GuestItemFragment, 'contactByContactId'>,
+) => {
+  const contact = getContactItem(guest.contactByContactId)
+  return [contact?.firstName, contact?.lastName].filter(Boolean).join(' ')
+}
 const guests = computed(
   () =>
     api.value.data.allGuests?.nodes
       .map((x) => getGuestItem(x))
-      .filter(isNeitherNullNorUndefined) || [],
+      .filter(isNeitherNullNorUndefined)
+      .sort((a, b) =>
+        getGuestContactName(a).localeCompare(getGuestContactName(b)),
+      ) || [],
 )
 const guestsFiltered = computed(() => {
+  const normalizedSearch = searchString.value.toLowerCase().trim()
+  const searchStringParts = normalizedSearch.split(/\s+/).filter(Boolean)
+  const bySearch = searchStringParts.length
+    ? guests.value.filter((guest) =>
+        searchStringParts.some((searchStringPart) =>
+          getGuestContactName(guest).toLowerCase().includes(searchStringPart),
+        ),
+      )
+    : guests.value
+
   switch (feedbackFilter.value) {
     case 'all':
-      return guests.value
+      return bySearch
     case 'none':
-      return guests.value.filter((guest) => guest.feedback === null)
+      return bySearch.filter((guest) => guest.feedback === null)
     default:
-      return guests.value.filter(
-        (guest) => guest.feedback === feedbackFilter.value,
-      )
+      return bySearch.filter((guest) => guest.feedback === feedbackFilter.value)
   }
 })
 

@@ -186,6 +186,7 @@ const updateGuestByRowIdMutation = useMutation(
         guest {
           feedback
           id
+          rowId
         }
       }
     }
