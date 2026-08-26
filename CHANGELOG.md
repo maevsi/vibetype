@@ -1,3 +1,9 @@
+## [15.20.2](https://github.com/maevsi/vibetype/compare/15.20.1...15.20.2) (2026-08-26)
+
+### Bug Fixes
+
+* **redis:** log connection errors once per outage instead of once per retry ([cf74bcc](https://github.com/maevsi/vibetype/commit/cf74bcc6b3e786044beecf04ad16841caa446cb8))
+
 ## [15.20.1](https://github.com/maevsi/vibetype/compare/15.20.0...15.20.1) (2026-08-26)
 
 ### Bug Fixes
