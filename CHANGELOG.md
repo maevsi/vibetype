@@ -1,3 +1,10 @@
+## [15.18.0](https://github.com/maevsi/vibetype/compare/15.17.0...15.18.0) (2026-08-26)
+
+### Features
+
+* **guest:** submit on enter, show list loading state ([#2389](https://github.com/maevsi/vibetype/issues/2389)) ([6c4ec4a](https://github.com/maevsi/vibetype/commit/6c4ec4aa8e25db1a63b14ab858458842d54bba49))
+* **invitation:** move organizer feedback override to guest list ([#2388](https://github.com/maevsi/vibetype/issues/2388)) ([115bc8f](https://github.com/maevsi/vibetype/commit/115bc8fb1294d6224b0981293f418cc5e9f93290))
+
 ## [15.17.0](https://github.com/maevsi/vibetype/compare/15.16.1...15.17.0) (2026-08-26)
 
 ### Features
