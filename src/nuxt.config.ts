@@ -240,7 +240,6 @@ export default defineNuxtConfig({
         'leaflet',
         'leaflet-control-geocoder',
         'lodash-es',
-        'mustache',
         'pretty-bytes',
         'prntr',
         'qrcode.vue',

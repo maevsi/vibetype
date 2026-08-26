@@ -239,10 +239,10 @@
           </div>
         </div>
       </div>
-      <Card v-if="eventDescriptionTemplate">
+      <Card v-if="eventDescriptionHtml">
         <!-- eslint-disable vue/no-v-html -->
         <LayoutProse class="w-full">
-          <div v-html="eventDescriptionTemplate" />
+          <div v-html="eventDescriptionHtml" />
         </LayoutProse>
         <!-- eslint-enable vue/no-v-html -->
       </Card>
@@ -287,7 +287,6 @@
 import { useMutation, useQuery } from '@urql/vue'
 import downloadJs from 'downloadjs'
 import { sanitize } from 'isomorphic-dompurify'
-import mustache from 'mustache'
 import prntr from 'prntr'
 import QrcodeVue from 'qrcode.vue'
 
@@ -449,7 +448,6 @@ const downloadIcal = async () => {
 
   const response = await $csrfFetch('/api/model/event/ical', {
     body: {
-      contact: contact.value,
       event: event.value,
       guest: guest.value,
     },
@@ -488,17 +486,10 @@ const update = async (id: string, guestPatch: GuestPatch) => {
 }
 
 // computations
-const eventDescriptionTemplate = computed(() => {
+const eventDescriptionHtml = computed(() => {
   if (!event.value?.description) return
 
-  return sanitize(
-    mustache.render(event.value.description, {
-      contact: contact.value,
-      event,
-      invitation: guest.value,
-    }),
-    { ADD_ATTR: ['target'] },
-  )
+  return sanitize(event.value.description, { ADD_ATTR: ['target'] })
 })
 const contact = computed(() => guest.value?.contactByContactId)
 const contactAccount = computed(() => contact.value?.accountByAccountId)

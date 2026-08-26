@@ -4,12 +4,10 @@ import ical, {
   ICalEventClass,
   ICalEventStatus,
 } from 'ical-generator'
-import mustache from 'mustache'
 
 import { getTextFromHtml } from '../../shared/utils/text' // TODO: replace this with an e2e test (https://playwright.dev/docs/clock)
 import { EventVisibility } from '../../gql/generated/graphcache'
 import type {
-  ContactItemFragment,
   EventItemFragment,
   GuestItemFragment,
 } from '../../gql/generated/graphql'
@@ -21,12 +19,10 @@ const visibilityToClass = {
 }
 
 export const getIcalString = ({
-  contact,
   event,
   guest,
   siteUrl,
 }: {
-  contact?: Pick<ContactItemFragment, 'firstName' | 'lastName'>
   event: Pick<
     EventItemFragment,
     // | 'addressByAddressId' // TODO: update for address
@@ -46,14 +42,7 @@ export const getIcalString = ({
     ? `${siteUrl}/guest/view/${guest.rowId}`
     : `${siteUrl}/event/view/${userEventPath}`
   const eventDescriptionHtml = sanitize(
-    mustache.render(
-      event.description ? `${eventUrl}\n${event.description}` : '',
-      {
-        contact,
-        event,
-        guest,
-      },
-    ),
+    event.description ? `${eventUrl}\n${event.description}` : '',
   )
   const hostname = new URL(siteUrl).hostname
 
