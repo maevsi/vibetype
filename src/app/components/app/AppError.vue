@@ -89,11 +89,12 @@
                 <h2 :id="templateIdDetails">{{ t('details') }}</h2>
                 <div>
                   <span class="font-bold">
-                    {{ error.statusText }}
+                    {{ statusName }}
                   </span>
-                  <!-- eslint-disable vue/no-v-html -->
-                  <div v-if="error.stack" v-html="error.stack" />
-                  <!-- eslint-enable vue/no-v-html -->
+                  <pre
+                    v-if="isDev && error.stack"
+                    class="overflow-x-auto whitespace-pre-wrap"
+                    >{{ error.stack }}</pre>
                 </div>
               </section>
             </Card>
@@ -144,6 +145,7 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 const detailsIsOpen = ref<boolean>()
 const templateIdDetails = useId()
+const isDev = import.meta.dev
 </script>
 
 <i18n lang="yaml">
