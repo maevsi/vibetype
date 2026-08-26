@@ -39,6 +39,7 @@ const queryEventList = graphql(`
         eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventCategoryByCategoryId {
+              id
               name
             }
           }
@@ -53,6 +54,7 @@ const queryEventList = graphql(`
         eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventFormatByFormatId {
+              id
               name
             }
           }
@@ -113,6 +115,7 @@ const queryEventSearch = graphql(`
         eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventCategoryByCategoryId {
+              id
               name
             }
           }
@@ -127,6 +130,7 @@ const queryEventSearch = graphql(`
         eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventFormatByFormatId {
+              id
               name
             }
           }

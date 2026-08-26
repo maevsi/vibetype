@@ -185,6 +185,7 @@ const eventQuery = useQuery({
               nodes {
                 categoryId
                 eventCategoryByCategoryId {
+                  id
                   name
                 }
                 id
@@ -193,6 +194,7 @@ const eventQuery = useQuery({
             eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
               nodes {
                 eventFormatByFormatId {
+                  id
                   name
                 }
                 formatId
