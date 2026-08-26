@@ -13,14 +13,7 @@
     :error="{ message: t('errorAccountMissing'), status: 404 }"
   />
   <div v-else class="flex flex-col gap-4">
-    <CardStateInfo
-      v-if="
-        account.rowId === store.signedInAccountId &&
-        guest.contactByContactId?.accountByAccountId?.rowId !==
-          store.signedInAccountId
-      "
-      class="flex flex-col gap-2"
-    >
+    <CardStateInfo v-if="isOrganizerPreview" class="flex flex-col gap-2">
       {{ t('invitationViewFor', { name: contactName }) }}
       <ButtonColored
         :aria-label="t('invitationSelectionClear')"
@@ -144,31 +137,45 @@
             : 'col-span-6'
         "
       >
-        <div class="flex items-center justify-center gap-4">
+        <div
+          v-if="isOrganizerPreview"
+          class="flex items-center justify-center gap-4"
+        >
+          <div
+            v-if="guest.feedback === InvitationFeedback.Accepted"
+            class="flex items-center font-semibold text-green-600 dark:text-green-500"
+          >
+            <AppIconCheckCircleSolid class="mr-2 shrink-0" />
+            <span>
+              {{ t('invitationAcceptedAdmin', { name: contactName }) }}
+            </span>
+          </div>
+          <div
+            v-else-if="guest.feedback === InvitationFeedback.Canceled"
+            class="flex items-center font-semibold text-(--semantic-critic-text)"
+          >
+            <AppIconXCircleSolid class="mr-2 shrink-0" />
+            <span>
+              {{ t('invitationCanceledAdmin', { name: contactName }) }}
+            </span>
+          </div>
+          <div v-else class="flex items-center font-semibold">
+            <span>{{
+              t('invitationPendingAdmin', { name: contactName })
+            }}</span>
+          </div>
+        </div>
+        <div v-else class="flex items-center justify-center gap-4">
           <ButtonColored
             v-if="
               guest.feedback === null ||
               guest.feedback === InvitationFeedback.Canceled
             "
-            :aria-label="
-              event.accountByCreatedBy.username !== store.signedInUsername
-                ? t('invitationAccept')
-                : t('invitationAcceptAdmin', {
-                    name: contactName,
-                  })
-            "
+            :aria-label="t('invitationAccept')"
             :loading="isUpdatingAccept"
             @click="accept"
           >
-            <span>
-              {{
-                event.accountByCreatedBy.username !== store.signedInUsername
-                  ? t('invitationAccept')
-                  : t('invitationAcceptAdmin', {
-                      name: contactName,
-                    })
-              }}
-            </span>
+            <span>{{ t('invitationAccept') }}</span>
             <template #prefix>
               <AppIconCheckCircleSolid class="shrink-0" />
             </template>
@@ -181,40 +188,18 @@
               class="mr-2 shrink-0"
               :title="t('invitationAccepted')"
             />
-            <span>
-              {{
-                event.accountByCreatedBy.username !== store.signedInUsername
-                  ? t('invitationAccepted')
-                  : t('invitationAcceptedAdmin', {
-                      name: contactName,
-                    })
-              }}
-            </span>
+            <span>{{ t('invitationAccepted') }}</span>
           </div>
           <ButtonColored
             v-if="
               guest.feedback === null ||
               guest.feedback === InvitationFeedback.Accepted
             "
-            :aria-label="
-              event.accountByCreatedBy.username !== store.signedInUsername
-                ? t('invitationCancel')
-                : t('invitationCancelAdmin', {
-                    name: contactName,
-                  })
-            "
+            :aria-label="t('invitationCancel')"
             :loading="isUpdatingCancel"
             @click="cancel"
           >
-            <span>
-              {{
-                event.accountByCreatedBy.username !== store.signedInUsername
-                  ? t('invitationCancel')
-                  : t('invitationCancelAdmin', {
-                      name: contactName,
-                    })
-              }}
-            </span>
+            <span>{{ t('invitationCancel') }}</span>
             <template #prefix>
               <AppIconXCircleSolid class="shrink-0" />
             </template>
@@ -227,15 +212,7 @@
               class="mr-2 shrink-0"
               :title="t('invitationCanceled')"
             />
-            <span>
-              {{
-                event.accountByCreatedBy.username !== store.signedInUsername
-                  ? t('invitationCanceled')
-                  : t('invitationCanceledAdmin', {
-                      name: contactName,
-                    })
-              }}
-            </span>
+            <span>{{ t('invitationCanceled') }}</span>
           </div>
         </div>
       </div>
@@ -498,6 +475,12 @@ const contactName = computed(() =>
     ? getContactName({ account: contactAccount.value, contact: contact.value })
     : undefined,
 )
+const isOrganizerPreview = computed(
+  () =>
+    account.value?.rowId === store.signedInAccountId &&
+    guest.value?.contactByContactId?.accountByAccountId?.rowId !==
+      store.signedInAccountId,
+)
 
 // map
 const positionInitial = computed(() =>
@@ -558,13 +541,12 @@ de:
   # iCalHint: Die heruntergeladene Datei kann dann mit deiner Kalender-Anwendung geöffnet werden.
   iCalFetchError: iCal-Daten konnten nicht geladen werden!
   invitationAccept: Einladung annehmen
-  invitationAcceptAdmin: Einladung im Namen von {name} annehmen
   invitationAccepted: Einladung angenommen
   invitationAcceptedAdmin: Einladung im Namen von {name} angenommen
   invitationCancel: Einladung ablehnen
-  invitationCancelAdmin: Einladung im Namen von {name} ablehnen
   invitationCanceled: Einladung abgelehnt
   invitationCanceledAdmin: Einladung im Namen von {name} abgelehnt
+  invitationPendingAdmin: '{name} hat noch nicht geantwortet.'
   invitationSelectionClear: Zurück zur Einladungsübersicht
   invitationViewFor: Du schaust dir die Einladung für {name} an. Alle Personen, die den Link zu dieser Seite bzw. die ID dieser Einladung kennen, können auf diese Einladung zugreifen und mit ihr interagieren.
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
@@ -584,13 +566,12 @@ en:
   # iCalHint: You can open the downloaded file in your calendar app.
   iCalFetchError: Could not get iCal data!
   invitationAccept: Accept invitation
-  invitationAcceptAdmin: Accept invitation on behalf of {name}
   invitationAccepted: Invitation accepted
   invitationAcceptedAdmin: Invitation accepted on behalf of {name}
   invitationCancel: Decline invitation
-  invitationCancelAdmin: Decline invitation on behalf of {name}
   invitationCanceled: Invitation declined
   invitationCanceledAdmin: Invitation declined on behalf of {name}
+  invitationPendingAdmin: '{name} has not responded yet.'
   invitationSelectionClear: Back to the invitation overview
   invitationViewFor: You're viewing the invitation for {name}. Anyone knowing the link to this page or this invitation's id can access this invitation and interact with it.
   ogImageAlt: The event's preview image.

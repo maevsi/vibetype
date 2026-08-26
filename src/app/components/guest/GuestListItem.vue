@@ -78,6 +78,32 @@
             </span>
           </AppDropdownItem>
           <AppDropdownItem
+            v-if="
+              guest.feedback === null ||
+              guest.feedback === InvitationFeedback.Canceled
+            "
+            :disabled="pending.feedbacks.includes(guest.rowId)"
+            @select="setFeedback(guest.rowId, InvitationFeedback.Accepted)"
+          >
+            <AppIconCheckCircleSolid />
+            <span>
+              {{ t('guestFeedbackAccept') }}
+            </span>
+          </AppDropdownItem>
+          <AppDropdownItem
+            v-if="
+              guest.feedback === null ||
+              guest.feedback === InvitationFeedback.Accepted
+            "
+            :disabled="pending.feedbacks.includes(guest.rowId)"
+            @select="setFeedback(guest.rowId, InvitationFeedback.Canceled)"
+          >
+            <AppIconXCircleSolid />
+            <span>
+              {{ t('guestFeedbackCancel') }}
+            </span>
+          </AppDropdownItem>
+          <AppDropdownItem
             :disabled="pending.deletions.includes(guest.rowId)"
             variant="destructive"
             @select="onDeleteSelect(guest.rowId)"
@@ -107,6 +133,7 @@
 import { useMutation } from '@urql/vue'
 import { useMagicKeys } from '@vueuse/core'
 
+import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import { graphql } from '~~/gql/generated'
 import { getContactItem } from '~~/shared/utils/contact'
 import type {
@@ -129,6 +156,7 @@ const isDeleteDrawerOpen = ref(false)
 const pending = reactive({
   deletions: ref<string[]>([]),
   edits: ref<string[]>([]),
+  feedbacks: ref<string[]>([]),
   sends: ref<string[]>([]),
 })
 
@@ -147,6 +175,18 @@ const inviteMutation = useMutation(
     mutation Invite($input: InviteInput!) {
       invite(input: $input) {
         clientMutationId
+      }
+    }
+  `),
+)
+const updateGuestByRowIdMutation = useMutation(
+  graphql(`
+    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {
+      updateGuestByRowId(input: $input) {
+        guest {
+          feedback
+          id
+        }
       }
     }
   `),
@@ -181,6 +221,19 @@ const onDeleteSelect = (id: string) => {
 
   isDeleteDrawerOpen.value = true
 }
+const setFeedback = async (id: string, feedback: InvitationFeedback) => {
+  pending.feedbacks.push(id)
+
+  const result = await updateGuestByRowIdMutation.executeMutation({
+    input: { guestPatch: { feedback }, rowId: id },
+  })
+
+  pending.feedbacks.splice(pending.feedbacks.indexOf(id), 1)
+
+  if (!getResultData(result)) return
+
+  toast.success(t('guestFeedbackSuccess'))
+}
 const send = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
   pending.sends.push(guest.rowId)
 
@@ -207,6 +260,9 @@ de:
   copySuccess: Der Einladungslink wurde in die Zwischenablage kopiert.
   disabledReasonEmailAddressNone: Diesem Kontakt fehlt eine E-Mail-Adresse.
   guestDelete: Gast löschen
+  guestFeedbackAccept: Als zugesagt markieren
+  guestFeedbackCancel: Als abgesagt markieren
+  guestFeedbackSuccess: Der Rückmeldestatus wurde aktualisiert.
   guestLink: Einladungslink kopieren
   guestSend: Einladung versenden
   guestView: Einladung anzeigen
@@ -216,6 +272,9 @@ en:
   copySuccess: The guest link has been copied to the clipboard.
   disabledReasonEmailAddressNone: This contact does not have an associated email address.
   guestDelete: Delete guest
+  guestFeedbackAccept: Mark as accepted
+  guestFeedbackCancel: Mark as declined
+  guestFeedbackSuccess: The feedback status was updated.
   guestLink: Copy invitation link
   guestSend: Send invitation
   guestView: View invitation
