@@ -46,7 +46,7 @@ type Documents = {
   '\n    mutation DeleteGuestByRowId($input: DeleteGuestByRowIdInput!) {\n      deleteGuestByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteGuestByRowIdDocument
   '\n    query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n      allGuests(\n        after: $after\n        condition: { eventId: $eventId }\n        first: $first\n      ) {\n        nodes {\n          ...GuestItem\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n    }\n  ': typeof types.AllGuestsDocument
   '\n    mutation Invite($input: InviteInput!) {\n      invite(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.InviteDocument
-  '\n    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          feedback\n          id\n        }\n      }\n    }\n  ': typeof types.UpdateGuestByRowIdFeedbackDocument
+  '\n    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          feedback\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.UpdateGuestByRowIdFeedbackDocument
   '\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllPreferenceEventSizesDocument
   '\n    mutation CreatePreferenceEventSize(\n      $input: CreatePreferenceEventSizeInput!\n    ) {\n      createPreferenceEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.CreatePreferenceEventSizeDocument
   '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeletePreferenceEventSizeByAccountIdAndEventSizeDocument
@@ -170,7 +170,7 @@ const documents: Documents = {
     types.AllGuestsDocument,
   '\n    mutation Invite($input: InviteInput!) {\n      invite(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.InviteDocument,
-  '\n    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          feedback\n          id\n        }\n      }\n    }\n  ':
+  '\n    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          feedback\n          id\n          rowId\n        }\n      }\n    }\n  ':
     types.UpdateGuestByRowIdFeedbackDocument,
   '\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ':
     types.AllPreferenceEventSizesDocument,
@@ -498,8 +498,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          feedback\n          id\n        }\n      }\n    }\n  ',
-): (typeof documents)['\n    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          feedback\n          id\n        }\n      }\n    }\n  ']
+  source: '\n    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          feedback\n          id\n          rowId\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          feedback\n          id\n          rowId\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
