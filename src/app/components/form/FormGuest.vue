@@ -1,6 +1,10 @@
 <template>
   <div v-if="event" class="flex min-h-0 flex-1 flex-col">
-    <div class="flex min-h-0 flex-1 flex-col gap-4">
+    <form
+      class="flex min-h-0 flex-1 flex-col gap-4"
+      novalidate
+      @submit.prevent="form.handleSubmit"
+    >
       <Field>
         <FieldLabel for="input-contact-id">
           {{ t('contactBookSearch') }}
@@ -21,73 +25,74 @@
           </div>
         </FieldContent>
       </Field>
-      <form class="contents" novalidate @submit.prevent="form.handleSubmit">
-        <form.Field v-slot="{ field }" name="contactIds">
-          <FieldError
-            v-if="isFieldInvalid(field)"
-            :errors="field.state.meta.errors"
-          />
+      <form.Field v-slot="{ field }" name="contactIds">
+        <FieldError
+          v-if="isFieldInvalid(field)"
+          :errors="field.state.meta.errors"
+        />
+        <div
+          v-if="contacts"
+          class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto"
+        >
           <div
-            v-if="contacts"
-            class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto"
+            v-if="allContactsQuery.fetching.value"
+            class="flex justify-center"
           >
-            <AppButton
-              v-for="contact in contactsFiltered"
-              :key="contact.rowId"
-              :aria-label="t('buttonContact')"
-              class="flex w-full shrink-0 items-center gap-4 rounded-sm border-2 border-neutral-300 px-4 py-2 dark:border-neutral-600"
-              :disabled="guestContactIdsExisting?.includes(contact.rowId)"
-              type="button"
-              @click="selectToggle(contact.rowId, field)"
-            >
-              <ContactPreview :contact :is-username-linked="false" />
-              <FormCheckbox
-                :is-disabled="guestContactIdsExisting?.includes(contact.rowId)"
-                :value="
-                  guestContactIdsExisting?.includes(contact.rowId) ||
-                  field.state.value.includes(contact.rowId)
-                "
-              />
-            </AppButton>
-            <div
-              v-if="apiData.data.allContacts?.pageInfo.hasNextPage"
-              class="flex justify-center"
-            >
-              <ButtonColored
-                :aria-label="t('globalShowMore')"
-                @click="after = apiData.data.allContacts?.pageInfo.endCursor"
-              >
-                {{ t('globalShowMore') }}
-              </ButtonColored>
-            </div>
+            <LoaderIndicatorSpinner />
           </div>
-        </form.Field>
-        <div class="flex flex-col items-center">
-          <ButtonText
-            :aria-label="t('contactsAdd')"
-            :to="localePath('contact')"
+          <AppButton
+            v-for="contact in contactsFiltered"
+            :key="contact.rowId"
+            :aria-label="t('buttonContact')"
+            class="flex w-full shrink-0 items-center gap-4 rounded-sm border-2 border-neutral-300 px-4 py-2 dark:border-neutral-600"
+            :disabled="guestContactIdsExisting?.includes(contact.rowId)"
+            type="button"
+            @click="selectToggle(contact.rowId, field)"
           >
-            {{ t('contactsAdd') }}
-            <template #suffix>
-              <AppIconArrowRight />
-            </template>
-          </ButtonText>
-        </div>
-        <div class="flex flex-col items-center">
-          <ButtonColored
-            :aria-label="t('select')"
-            class="w-full"
-            :loading="createGuestsMutation.fetching.value"
-            type="submit"
+            <ContactPreview :contact :is-username-linked="false" />
+            <FormCheckbox
+              :is-disabled="guestContactIdsExisting?.includes(contact.rowId)"
+              :value="
+                guestContactIdsExisting?.includes(contact.rowId) ||
+                field.state.value.includes(contact.rowId)
+              "
+            />
+          </AppButton>
+          <div
+            v-if="apiData.data.allContacts?.pageInfo.hasNextPage"
+            class="flex justify-center"
           >
-            {{ t('select') }}
-          </ButtonColored>
+            <ButtonColored
+              :aria-label="t('globalShowMore')"
+              @click="after = apiData.data.allContacts?.pageInfo.endCursor"
+            >
+              {{ t('globalShowMore') }}
+            </ButtonColored>
+          </div>
         </div>
-        <CardStateAlert v-if="errorMessages?.length">
-          <AppSpanList :span="errorMessages" />
-        </CardStateAlert>
-      </form>
-    </div>
+      </form.Field>
+      <div class="flex flex-col items-center">
+        <ButtonText :aria-label="t('contactsAdd')" :to="localePath('contact')">
+          {{ t('contactsAdd') }}
+          <template #suffix>
+            <AppIconArrowRight />
+          </template>
+        </ButtonText>
+      </div>
+      <div class="flex flex-col items-center">
+        <ButtonColored
+          :aria-label="t('select')"
+          class="w-full"
+          :loading="createGuestsMutation.fetching.value"
+          type="submit"
+        >
+          {{ t('select') }}
+        </ButtonColored>
+      </div>
+      <CardStateAlert v-if="errorMessages?.length">
+        <AppSpanList :span="errorMessages" />
+      </CardStateAlert>
+    </form>
   </div>
 </template>
 
