@@ -1,3 +1,13 @@
+## [15.17.0](https://github.com/maevsi/vibetype/compare/15.16.1...15.17.0) (2026-08-26)
+
+### Features
+
+* **event:** drop templating from descriptions ([#2387](https://github.com/maevsi/vibetype/issues/2387)) ([2ffb1e5](https://github.com/maevsi/vibetype/commit/2ffb1e5f22051eec657158e3c52a076a1acc43d0))
+
+### Bug Fixes
+
+* **account:** noindex profiles without content ([#2386](https://github.com/maevsi/vibetype/issues/2386)) ([bce0a65](https://github.com/maevsi/vibetype/commit/bce0a6521d92ea632115b4bb8362352123c81a59))
+
 ## [15.16.1](https://github.com/maevsi/vibetype/compare/15.16.0...15.16.1) (2026-08-24)
 
 ### Bug Fixes
