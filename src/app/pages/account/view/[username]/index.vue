@@ -185,15 +185,7 @@
         <div
           class="flex justify-between rounded-xl border border-(--semantic-base-line) bg-(--semantic-base-surface-1) px-6 py-2"
         >
-          <div
-            v-if="
-              achievements?.filter(
-                (achievement) =>
-                  achievement.achievement === AchievementType.MeetTheTeam,
-              ).length
-            "
-            class="flex gap-2 text-center"
-          >
+          <div v-if="hasMeetTheTeamAchievement" class="flex gap-2 text-center">
             <div class="flex flex-1 flex-col items-center gap-2 py-2">
               <AppIconHandshake class="text-(--semantic-base-icon-primary)" />
               <TypographyLabelBold>
@@ -324,11 +316,26 @@ const accountImprintUrl = computed(() => account.value?.imprintUrl?.trim())
 const achievements = computed(
   () => account.value?.achievementsByAccountId.nodes,
 )
+const hasMeetTheTeamAchievement = computed(() =>
+  Boolean(
+    achievements.value?.filter(
+      (achievement) => achievement.achievement === AchievementType.MeetTheTeam,
+    ).length,
+  ),
+)
 const events = computed(() =>
   account.value?.eventsByCreatedBy.nodes.map((event) => ({
     ...event,
     accountByCreatedBy: { ...account.value, username: route.params.username },
   })),
+)
+const hasProfileContent = computed(() =>
+  Boolean(
+    accountDescription.value ||
+    accountImprintUrl.value ||
+    events.value?.length ||
+    hasMeetTheTeamAchievement.value,
+  ),
 )
 
 // page (post-fetch)
@@ -344,6 +351,9 @@ useHeadDefault({
   description: accountDescription,
   ogType: 'profile',
   profileUsername: route.params.username,
+  robots: computed(() =>
+    hasProfileContent.value ? undefined : { noindex: true },
+  ),
   title,
 })
 definePerson({
