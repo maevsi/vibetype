@@ -1,3 +1,13 @@
+## [15.19.0](https://github.com/maevsi/vibetype/compare/15.18.0...15.19.0) (2026-08-26)
+
+### Features
+
+* **guest:** add list search and alphabetical ordering ([d08968c](https://github.com/maevsi/vibetype/commit/d08968cdb4f8fd6e3ff031eeee78aed5ac91a372))
+
+### Bug Fixes
+
+* **guest:** reflect rsvp change in feedback icon ([205d3c4](https://github.com/maevsi/vibetype/commit/205d3c4de5ab81e51e7346ba0a8c3f6cf3ca1e88))
+
 ## [15.18.0](https://github.com/maevsi/vibetype/compare/15.17.0...15.18.0) (2026-08-26)
 
 ### Features
