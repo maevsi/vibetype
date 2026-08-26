@@ -42,6 +42,9 @@ const {
     zoomLevel: 6,
   },
 } = defineProps<AppMapProps & { class?: HtmlHTMLAttributes['class'] }>()
+const emit = defineEmits<{
+  geocode: [name: string]
+}>()
 const classComputed = computed(() =>
   cn('h-96 w-full text-[#191911]', classProps),
 )
@@ -74,6 +77,7 @@ onMounted(async () => {
     new Geocoder({ defaultMarkGeocode: false })
       .on('markgeocode', (markGeocodeEvent) => {
         map.value?.setView(markGeocodeEvent.geocode.center, 13)
+        emit('geocode', markGeocodeEvent.geocode.name)
       })
       .addTo(map.value)
   }

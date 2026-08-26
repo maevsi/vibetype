@@ -109,6 +109,48 @@ export type AchievementUnlockInput = {
   code: string
 }
 
+/** An input for mutations affecting `Address` */
+export type AddressInput = {
+  /** City of the address. Must be between 1 and 300 characters. */
+  city?: string | null | undefined
+  /** Country of the address. Must be between 1 and 300 characters. */
+  country?: string | null | undefined
+  /** Reference to the account that created the address. */
+  createdBy: string
+  /** First line of the address (e.g., street address). Must be between 1 and 300 characters. */
+  line1?: string | null | undefined
+  /** Second line of the address, if needed. Must be between 1 and 300 characters. */
+  line2?: string | null | undefined
+  /** The geographic location of the address. */
+  location?: GeoJSON | null | undefined
+  /** Person or company name. Must be between 1 and 300 characters. */
+  name: string
+  /** Postal or ZIP code for the address. Must be between 1 and 20 characters. */
+  postalCode?: string | null | undefined
+  /** Region of the address (e.g., state, province, county, department or territory). Must be between 1 and 300 characters. */
+  region?: string | null | undefined
+}
+
+/** Represents an update to a `Address`. Fields that are set will be updated. */
+export type AddressPatch = {
+  /** City of the address. Must be between 1 and 300 characters. */
+  city?: string | null | undefined
+  /** Country of the address. Must be between 1 and 300 characters. */
+  country?: string | null | undefined
+  /** First line of the address (e.g., street address). Must be between 1 and 300 characters. */
+  line1?: string | null | undefined
+  /** Second line of the address, if needed. Must be between 1 and 300 characters. */
+  line2?: string | null | undefined
+  /** The geographic location of the address. */
+  location?: GeoJSON | null | undefined
+  /** Person or company name. Must be between 1 and 300 characters. */
+  name?: string | null | undefined
+  /** Postal or ZIP code for the address. Must be between 1 and 20 characters. */
+  postalCode?: string | null | undefined
+  /** Region of the address (e.g., state, province, county, department or territory). Must be between 1 and 300 characters. */
+  region?: string | null | undefined
+}
+
 /** An input for mutations affecting `Attendance` */
 export type AttendanceInput = {
   /** The contact information available to anyone with access to this attendance entry. This may differ from the guest information if the guest provided different details at check-in. */
@@ -183,6 +225,17 @@ export type ContactPatch = {
 export type CreateAccountBlockInput = {
   /** The `AccountBlock` to be created by this mutation. */
   accountBlock: AccountBlockInput
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+}
+
+/** All input for the create `Address` mutation. */
+export type CreateAddressInput = {
+  /** The `Address` to be created by this mutation. */
+  address: AddressInput
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
@@ -771,6 +824,19 @@ export type UpdateAccountByRowIdInput = {
   rowId: string
 }
 
+/** All input for the `updateAddressByRowId` mutation. */
+export type UpdateAddressByRowIdInput = {
+  /** An object where the defined keys will be set on the `Address` being updated. */
+  addressPatch: AddressPatch
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** Primary key, uniquely identifies each address. */
+  rowId: string
+}
+
 /** All input for the `updateContactByRowId` mutation. */
 export type UpdateContactByRowIdInput = {
   /**
@@ -1109,6 +1175,22 @@ export type UpdateEventByRowIdMutationVariables = Exact<{
 
 export type UpdateEventByRowIdMutation = {
   updateEventByRowId: { event: { id: string } | null } | null
+}
+
+export type CreateAddressMutationVariables = Exact<{
+  input: CreateAddressInput
+}>
+
+export type CreateAddressMutation = {
+  createAddress: { address: { rowId: string } | null } | null
+}
+
+export type UpdateAddressByRowIdMutationVariables = Exact<{
+  input: UpdateAddressByRowIdInput
+}>
+
+export type UpdateAddressByRowIdMutation = {
+  updateAddressByRowId: { address: { rowId: string } | null } | null
 }
 
 export type CreateEventCategoryMappingMutationVariables = Exact<{
@@ -1705,6 +1787,11 @@ export type EventEditQuery = {
         start: string
         url: string | null
         visibility: EventVisibility
+        addressByAddressId: {
+          name: string
+          rowId: string
+          location: { latitude: number; longitude: number } | null
+        } | null
         eventCategoryMappingsByEventId: {
           nodes: Array<{ categoryId: string; id: string }>
         }
@@ -4626,6 +4713,132 @@ export const UpdateEventByRowIdDocument = {
 } as unknown as DocumentNode<
   UpdateEventByRowIdMutation,
   UpdateEventByRowIdMutationVariables
+>
+export const CreateAddressDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateAddress' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateAddressInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createAddress' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'address' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateAddressMutation,
+  CreateAddressMutationVariables
+>
+export const UpdateAddressByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateAddressByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateAddressByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateAddressByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'address' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateAddressByRowIdMutation,
+  UpdateAddressByRowIdMutationVariables
 >
 export const CreateEventCategoryMappingDocument = {
   kind: 'Document',
@@ -8324,6 +8537,49 @@ export const EventEditDocument = {
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'addressByAddressId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'location' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'latitude',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'longitude',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                ],
+                              },
+                            },
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'createdBy' },

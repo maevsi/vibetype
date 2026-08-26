@@ -36,6 +36,10 @@ export const SCHEMA_EVENT_DESCRIPTION_OPTIONAL = z
   .string()
   .max(VALIDATION_EVENT_DESCRIPTION_LENGTH_MAXIMUM)
   .or(z.literal(''))
+export const SCHEMA_EVENT_LOCATION_NAME_OPTIONAL = z
+  .string()
+  .max(VALIDATION_EVENT_LOCATION_LENGTH_MAXIMUM)
+  .or(z.literal(''))
 export const SCHEMA_EVENT_NAME_REQUIRED = z
   .string()
   .min(1)
