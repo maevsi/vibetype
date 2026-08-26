@@ -1,3 +1,9 @@
+## [15.20.1](https://github.com/maevsi/vibetype/compare/15.20.0...15.20.1) (2026-08-26)
+
+### Bug Fixes
+
+* **urql:** select id on eventCategoryByCategoryId and eventFormatByFormatId ([#2393](https://github.com/maevsi/vibetype/issues/2393)) ([745040c](https://github.com/maevsi/vibetype/commit/745040c5a57293be2e74647deddc203e5bd0934f))
+
 ## [15.20.0](https://github.com/maevsi/vibetype/compare/15.19.0...15.20.0) (2026-08-26)
 
 ### Features
