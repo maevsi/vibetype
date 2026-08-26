@@ -1,3 +1,9 @@
+## [15.21.2](https://github.com/maevsi/vibetype/compare/15.21.1...15.21.2) (2026-08-26)
+
+### Bug Fixes
+
+* **error:** show localized status and gate stack trace to dev ([#2399](https://github.com/maevsi/vibetype/issues/2399)) ([5b8b4c2](https://github.com/maevsi/vibetype/commit/5b8b4c21e4781d15f7fb9a64987c3d71982aa01c))
+
 ## [15.21.1](https://github.com/maevsi/vibetype/compare/15.21.0...15.21.1) (2026-08-26)
 
 ### Bug Fixes
