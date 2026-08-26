@@ -1,39 +1,38 @@
 <template>
-  <div v-if="api.isFetching" class="flex flex-1 items-center justify-center">
-    <AppLoaderLogo class="size-16" />
-  </div>
-  <AppError
-    v-else-if="!account"
-    :error="{ message: 'Account data missing', status: 404 }"
-  />
-  <div v-else>
-    <LayoutPageTitle title="-">
-      <i18n-t keypath="title" tag="h1">
-        <template #name>
-          <AppLink
-            :to="
-              localePath({
-                name: 'account-view-username',
-                params: { username: route.params.username },
-              })
-            "
-          >
-            {{ route.params.username }}
-          </AppLink>
-        </template>
-      </i18n-t>
-    </LayoutPageTitle>
-    <EventList
-      :events
-      :has-next-page="
-        api.data.accountByUsername?.eventsByCreatedBy.pageInfo.hasNextPage
-      "
-      @load-more="
-        queryAfter =
-          api.data.accountByUsername?.eventsByCreatedBy.pageInfo.endCursor
-      "
+  <Loader :api>
+    <AppError
+      v-if="!account"
+      :error="{ message: 'Account data missing', status: 404 }"
     />
-  </div>
+    <div v-else>
+      <LayoutPageTitle title="-">
+        <i18n-t keypath="title" tag="h1">
+          <template #name>
+            <AppLink
+              :to="
+                localePath({
+                  name: 'account-view-username',
+                  params: { username: route.params.username },
+                })
+              "
+            >
+              {{ route.params.username }}
+            </AppLink>
+          </template>
+        </i18n-t>
+      </LayoutPageTitle>
+      <EventList
+        :events
+        :has-next-page="
+          api.data.accountByUsername?.eventsByCreatedBy.pageInfo.hasNextPage
+        "
+        @load-more="
+          queryAfter =
+            api.data.accountByUsername?.eventsByCreatedBy.pageInfo.endCursor
+        "
+      />
+    </div>
+  </Loader>
 </template>
 
 <script setup lang="ts">
