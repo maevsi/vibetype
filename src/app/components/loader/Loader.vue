@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="api.isFetching"
+      v-if="api.isFetching && !hasData"
       :class="cn('flex flex-1 items-center justify-center', classProps)"
     >
       <AppLoaderLogo class="size-16" />
@@ -9,7 +9,7 @@
     <CardStateAlert v-if="errorMessages.length">
       <AppSpanList :span="errorMessages" />
     </CardStateAlert>
-    <slot v-if="api.data" /><!--  && Object.keys(api.data).length -->
+    <slot v-if="hasData" />
   </div>
 </template>
 
@@ -33,4 +33,8 @@ const {
 const errorMessages = computed(() =>
   getCombinedErrorMessages(api.errors, errorPgIds),
 )
+// `api.data` is always an object (`useApiData` merges responses into it
+// incrementally), so a plain truthiness check never reflects whether any
+// response has actually arrived yet.
+const hasData = computed(() => Object.keys(api.data).length > 0)
 </script>
