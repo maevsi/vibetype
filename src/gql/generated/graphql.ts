@@ -1788,6 +1788,7 @@ export type EventEditQuery = {
         url: string | null
         visibility: EventVisibility
         addressByAddressId: {
+          id: string
           name: string
           rowId: string
           location: { latitude: number; longitude: number } | null
@@ -8546,6 +8547,10 @@ export const EventEditDocument = {
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'location' },

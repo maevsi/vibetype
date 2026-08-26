@@ -49,6 +49,7 @@ const eventQuery = useQuery({
         eventsByCreatedBy(condition: { slug: $slug }) {
           nodes {
             addressByAddressId {
+              id
               location {
                 latitude
                 longitude

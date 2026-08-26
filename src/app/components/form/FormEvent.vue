@@ -283,47 +283,54 @@
             </form.Field>
           </FieldContent>
         </Field>
-        <AppFeature v-if="form.getFieldValue('isInPerson')" feature="map">
-          <form.Field v-slot="{ field: locationNameField }" name="locationName">
-            <Field>
-              <FieldLabel for="input-location-name">{{
-                t('location')
-              }}</FieldLabel>
-              <FieldContent>
-                <Input
-                  id="input-location-name"
-                  :aria-invalid="isFieldInvalid(locationNameField)"
-                  :model-value="locationNameField.state.value"
-                  :placeholder="t('locationPlaceholder')"
-                  type="text"
-                  @blur="locationNameField.handleBlur"
-                  @input="
-                    locationNameField.handleChange(
-                      ($event.target as HTMLInputElement).value,
-                    )
-                  "
+        <form.Field v-slot="{ field: isInPersonField }" name="isInPerson">
+          <template v-if="isInPersonField.state.value">
+            <form.Field
+              v-slot="{ field: locationNameField }"
+              name="locationName"
+            >
+              <Field>
+                <FieldLabel for="input-location-name">{{
+                  t('location')
+                }}</FieldLabel>
+                <FieldContent>
+                  <Input
+                    id="input-location-name"
+                    :aria-invalid="isFieldInvalid(locationNameField)"
+                    :model-value="locationNameField.state.value"
+                    :placeholder="t('locationPlaceholder')"
+                    type="text"
+                    @blur="locationNameField.handleBlur"
+                    @input="
+                      locationNameField.handleChange(
+                        ($event.target as HTMLInputElement).value,
+                      )
+                    "
+                  />
+                </FieldContent>
+                <FieldDescription>{{ t('locationHint') }}</FieldDescription>
+                <FieldError
+                  v-if="isFieldInvalid(locationNameField)"
+                  :errors="locationNameField.state.meta.errors"
                 />
-              </FieldContent>
-              <FieldDescription>{{ t('locationHint') }}</FieldDescription>
-              <FieldError
-                v-if="isFieldInvalid(locationNameField)"
-                :errors="locationNameField.state.meta.errors"
-              />
-            </Field>
-          </form.Field>
-          <div class="relative isolate -mx-6">
-            <AppMap
-              ref="map"
-              class="h-64"
-              geocoder
-              :position-initial="locationPositionInitial"
-              @geocode="onGeocode"
-            />
-            <AppIconMapPinSolid
-              class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-(--critic-red-middle)"
-            />
-          </div>
-        </AppFeature>
+              </Field>
+            </form.Field>
+            <AppFeature feature="map">
+              <div class="relative isolate">
+                <AppMap
+                  ref="map"
+                  class="h-64"
+                  geocoder
+                  :position-initial="locationPositionInitial"
+                  @geocode="onGeocode"
+                />
+                <AppIconMapPinSolid
+                  class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-(--critic-red-middle)"
+                />
+              </div>
+            </AppFeature>
+          </template>
+        </form.Field>
         <form.Field v-slot="{ field }" name="url">
           <Field>
             <FieldLabel for="input-url">{{ t('url') }}</FieldLabel>
