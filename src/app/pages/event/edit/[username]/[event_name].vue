@@ -48,6 +48,15 @@ const eventQuery = useQuery({
       accountByUsername(username: $username) {
         eventsByCreatedBy(condition: { slug: $slug }) {
           nodes {
+            addressByAddressId {
+              id
+              location {
+                latitude
+                longitude
+              }
+              name
+              rowId
+            }
             createdBy
             description
             end

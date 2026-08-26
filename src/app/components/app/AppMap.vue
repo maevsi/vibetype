@@ -42,6 +42,9 @@ const {
     zoomLevel: 6,
   },
 } = defineProps<AppMapProps & { class?: HtmlHTMLAttributes['class'] }>()
+const emit = defineEmits<{
+  geocode: [name: string]
+}>()
 const classComputed = computed(() =>
   cn('h-96 w-full text-[#191911]', classProps),
 )
@@ -71,9 +74,15 @@ onMounted(async () => {
 
   if (geocoder) {
     const { Geocoder } = await import('leaflet-control-geocoder')
-    new Geocoder({ defaultMarkGeocode: false })
+    new Geocoder({
+      defaultMarkGeocode: false,
+      // Nominatim's usage policy forbids autocomplete, so its `suggest()` call always rejects, and the control never clears its loading state when that happens, leaving the search permanently stuck.
+      // Suggest-as-you-type is disabled here so users submit a search via Enter or the search icon instead, which use the working, non-suggest code path.
+      suggestMinLength: Infinity,
+    })
       .on('markgeocode', (markGeocodeEvent) => {
         map.value?.setView(markGeocodeEvent.geocode.center, 13)
+        emit('geocode', markGeocodeEvent.geocode.name)
       })
       .addTo(map.value)
   }

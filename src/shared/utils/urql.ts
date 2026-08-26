@@ -162,6 +162,7 @@ export const getUrqlClient = async ({
     keys: {
       Contact: (data) => keyByRowId(data),
       EventFavorite: (data) => keyByRowId(data),
+      GeographyPoint: () => null,
       Guest: (data) => keyByRowId(data),
       ProfilePicture: (data) => keyByRowId(data),
     },
