@@ -1,5 +1,4 @@
 <template>
-  <!-- <Loader :api indicator="ping"> -->
   <tr
     v-if="contact"
     :class="{
@@ -120,7 +119,6 @@
       </div>
     </LayoutTd>
   </tr>
-  <!-- </Loader> -->
   <GuestDeleteDrawer
     v-if="contact"
     v-model:open="isDeleteDrawerOpen"
@@ -192,7 +190,6 @@ const updateGuestByRowIdMutation = useMutation(
     }
   `),
 )
-// const api = await useApiData([deleteGuestByRowIdMutation, inviteMutation])
 
 // methods
 const copyLink = async (guest: Pick<GuestItemFragment, 'rowId'>) => {

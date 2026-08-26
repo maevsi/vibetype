@@ -1,14 +1,16 @@
 <template>
-  <Loader :api>
-    <div class="flex flex-col gap-4">
-      <FormInputSearch v-model="searchQuery" />
-      <EventList
-        :events
-        :has-next-page="pageInfo?.hasNextPage"
-        @load-more="loadMore"
-      />
-    </div>
-  </Loader>
+  <div class="flex flex-1 flex-col gap-4">
+    <FormInputSearch v-model="searchQuery" />
+    <CardStateAlert v-if="errorMessages.length">
+      <AppSpanList :span="errorMessages" />
+    </CardStateAlert>
+    <EventList
+      :events
+      :has-next-page="pageInfo?.hasNextPage"
+      :is-loading="api.isFetching"
+      @load-more="loadMore"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -200,6 +202,7 @@ const query = computed(() =>
 // permanently frozen on `allEvents`'s data and `pageInfo` would always
 // read as `undefined` for search results.
 const api = await useApiData([allEventsQuery, searchResultsQuery])
+const errorMessages = computed(() => getCombinedErrorMessages(api.value.errors))
 const pageInfo = computed(() =>
   searchQueryVariable.value
     ? api.value.data.eventSearch?.pageInfo

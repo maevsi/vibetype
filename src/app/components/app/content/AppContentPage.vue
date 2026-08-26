@@ -1,5 +1,10 @@
 <template>
-  <LoaderIndicatorPing v-if="content.pending.value" />
+  <div
+    v-if="content.pending.value"
+    class="flex flex-1 items-center justify-center"
+  >
+    <AppLoaderLogo class="size-16" />
+  </div>
   <AppError
     v-else-if="content.error.value"
     :error="{ message: content.error.value.message, status: 500 }"
@@ -21,7 +26,7 @@ const { path } = defineProps<{
 }>()
 
 // content
-const content = await useContent(path)
+const content = useContent(path)
 
 // seo
 useHeadDefault({ title: computed(() => content.data.value?.title) })
