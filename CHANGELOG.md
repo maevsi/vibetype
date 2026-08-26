@@ -1,3 +1,9 @@
+## [15.21.1](https://github.com/maevsi/vibetype/compare/15.21.0...15.21.1) (2026-08-26)
+
+### Bug Fixes
+
+* **event:** avoid duplicate requests when opening the list ([#2397](https://github.com/maevsi/vibetype/issues/2397)) ([d720ad1](https://github.com/maevsi/vibetype/commit/d720ad1ff4978ff43bd6e002676a64f7dcee7e90))
+
 ## [15.21.0](https://github.com/maevsi/vibetype/compare/15.20.2...15.21.0) (2026-08-26)
 
 ### Features
