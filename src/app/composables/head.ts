@@ -92,10 +92,9 @@ export const useHeadDefault = (
       ? {
           description,
           ogDescription: description,
-          twitterDescription: description,
         }
       : {}),
-    ...(title ? { title, ogTitle: title, twitterTitle: title } : {}),
+    ...(title ? { title, ogTitle: title } : {}),
     ...input,
   })
   defineOgImage(
