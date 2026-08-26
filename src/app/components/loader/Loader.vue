@@ -1,14 +1,14 @@
 <template>
   <div>
+    <CardStateAlert v-if="errorMessages.length">
+      <AppSpanList :span="errorMessages" />
+    </CardStateAlert>
     <div
-      v-if="api.isFetching && !hasData"
+      v-if="api.isFetching"
       :class="cn('flex flex-1 items-center justify-center', classProps)"
     >
       <AppLoaderLogo class="size-16" />
     </div>
-    <CardStateAlert v-if="errorMessages.length">
-      <AppSpanList :span="errorMessages" />
-    </CardStateAlert>
     <slot v-if="hasData" />
   </div>
 </template>
