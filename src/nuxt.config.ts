@@ -232,6 +232,7 @@ export default defineNuxtConfig({
         'chart.js',
         'class-variance-authority',
         'clsx',
+        'comark',
         'css-element-queries',
         'downloadjs',
         'firebase/app',
