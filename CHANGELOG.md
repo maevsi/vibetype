@@ -1,3 +1,9 @@
+## [15.20.0](https://github.com/maevsi/vibetype/compare/15.19.0...15.20.0) (2026-08-26)
+
+### Features
+
+* **event:** allow selecting a location on a map ([#2390](https://github.com/maevsi/vibetype/issues/2390)) ([eeb58ef](https://github.com/maevsi/vibetype/commit/eeb58efa2b9fb6e8bec78ecc5e55f783036c390a))
+
 ## [15.19.0](https://github.com/maevsi/vibetype/compare/15.18.0...15.19.0) (2026-08-26)
 
 ### Features
