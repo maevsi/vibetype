@@ -247,6 +247,7 @@ const queryAccount = graphql(`
           eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
             nodes {
               eventCategoryByCategoryId {
+                id
                 name
               }
             }
@@ -261,6 +262,7 @@ const queryAccount = graphql(`
           eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
             nodes {
               eventFormatByFormatId {
+                id
                 name
               }
             }
