@@ -1,3 +1,9 @@
+## [15.21.0](https://github.com/maevsi/vibetype/compare/15.20.2...15.21.0) (2026-08-26)
+
+### Features
+
+* **loader:** use logo indicator for full-page loading states ([#2342](https://github.com/maevsi/vibetype/issues/2342)) ([ce66844](https://github.com/maevsi/vibetype/commit/ce66844404fc02efc80dcfad8ba24c4adf4edc77))
+
 ## [15.20.2](https://github.com/maevsi/vibetype/compare/15.20.1...15.20.2) (2026-08-26)
 
 ### Bug Fixes
