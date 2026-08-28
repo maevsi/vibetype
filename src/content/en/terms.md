@@ -76,8 +76,10 @@ These features include in particular:
   Participation is generally not open to everyone unless the person purchases a ticket.
   Participation in public events is generally open to everyone.
 - **Sharing Public Events**: Registered users can share public events they created with other users, meaning the event will be publicly announced on the platform and visible or searchable for all users.
-- **Inviting Users to a Private Event**: Registered users can invite other users to participate in private events they created using the invitation function.
+- **Inviting Users to a Private Event**: Registered users can invite other individuals to participate in private events they created, using the invitation function and an address book of contacts they maintain on the platform.
+  An invited individual does not need to be a registered user; they can access, accept, or decline the invitation via a personal link, without creating a user account.
   For private events, the invitation is a prerequisite for purchasing a ticket for the respective event.
+  Registered users who add a contact to their address book for this purpose are responsible for having the necessary rights or consent to share that person's data, as set out in § 4 and § 8 of these Terms of Use.
 - **Searching for Events**: The registered user has the option to browse events shared by other users and view their descriptions, etc.
 - **Offering Tickets for Events**: Registered users can offer tickets for the events they created.
   Tickets can be offered for a fee or free of charge.
@@ -190,6 +192,8 @@ Furthermore, the user agrees to reimburse the platform for all costs incurred du
 Reimbursable costs also include those for reasonable legal defense.
 
 (3) The user is obliged to support the platform in case the platform is involved in a claim due to alleged violations of rights by third parties, providing documents and evidence of their ownership of rights or rights acquisition, and submitting any necessary declarations.
+
+(4) Insofar as the user stores personal data of other individuals on the platform (e.g., as part of the contact or invitation functions described in § 3), the user guarantees that they possess all necessary rights, legal bases, or consents required under applicable data protection law, in particular the GDPR, to share this data with the platform. Paragraphs (2) and (3) above apply accordingly to a breach of this guarantee.
 
 **§ 9 Liability and Limitation of Liability**
 

@@ -206,6 +206,33 @@
 
             The data will be deleted as soon as the respective purpose ceases to apply and deletion is possible in accordance with legal requirements.
 
+        1. **Contacts and invitations**
+
+            Registered users can save personal data about other individuals ("contacts") in an address book built into the platform, for example to invite them as a guest to a private event. A contact does not need to be a registered user of the platform themselves; the invitation can be accepted or declined via a link, without creating a user account.
+
+            For this purpose, the following data about the contact may be stored:
+
+            - First and last name
+            - Nickname
+            - Email address
+            - Phone number
+            - Weblink
+            - Notes entered by the registered user
+
+            This data is provided to us by the registered user who creates the contact, not by the person it concerns. The legal basis for this processing is Art. 6 para. 1 lit. f GDPR. We have a legitimate interest, together with our registered users, in enabling them to organize and manage invitations to private events.
+
+            The registered user who creates or edits a contact assures us that they are entitled to share the respective person's data with us, in particular that a legal basis for doing so exists under applicable data protection law, and indemnifies us against claims and administrative fines arising from data shared without such authorization. Further details can be found in our Terms of Use.
+
+            The data is deleted once the registered user removes the contact, or, at the latest, when the registered user's own account is deleted in accordance with § 11 of the Terms of Use.
+
+            1. **Information for people who are not registered users**
+
+                If a registered user has stored your contact data with us, for example to invite you to an event, this section applies to you even if you never use the platform yourself.
+
+                We only process the data listed above for the purpose of enabling the invitation and any related communication about the respective event. The data does not originate from you, but from the registered user who created the contact; the legal basis for this processing is Art. 6 para. 1 lit. f GDPR, as explained above.
+
+                You can ask us at any time whether data about you is stored with us, and request its rectification or erasure, using the contact details given in the "The person in charge" section above. If you request erasure, we will additionally record the minimum data necessary to identify you (e.g., a hashed email address or phone number) on an internal block list, so that the same data cannot be stored about you again through another registered user's contacts. You can object to this block list entry at any time.
+
         1. **Contact**
 
             <ol type="a">

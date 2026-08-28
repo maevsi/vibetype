@@ -206,6 +206,33 @@
 
             Die Daten werden gelöscht, sobald der jeweilige Zweck entfällt und es gemäß den gesetzlichen Vorgaben möglich ist.
 
+        1. **Kontakte und Einladungen**
+
+            Registrierte Nutzer\*innen können personenbezogene Daten über andere Personen („Kontakte“) in einem in die Plattform integrierten Adressbuch speichern, zum Beispiel um sie als Gast zu einer privaten Veranstaltung einzuladen. Ein Kontakt muss dazu selbst kein registrierter Nutzer der Plattform sein; die Einladung kann über einen Link angenommen oder abgelehnt werden, ohne dass ein Nutzerkonto erstellt wird.
+
+            Zu diesem Zweck können folgende Daten über den Kontakt gespeichert werden:
+
+            - Vor- und Nachname
+            - Spitzname
+            - E-Mail-Adresse
+            - Telefonnummer
+            - Weblink
+            - von der registrierten Person eingegebene Notizen
+
+            Diese Daten werden uns von der registrierten Person mitgeteilt, die den Kontakt anlegt, nicht von der betroffenen Person selbst. Rechtsgrundlage für diese Datenverarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Wir haben gemeinsam mit unseren registrierten Nutzer\*innen ein berechtigtes Interesse daran, ihnen die Organisation und Verwaltung von Einladungen zu privaten Veranstaltungen zu ermöglichen.
+
+            Die registrierte Person, die einen Kontakt anlegt oder bearbeitet, sichert uns zu, zur Weitergabe der jeweiligen Daten berechtigt zu sein, insbesondere dass hierfür eine Rechtsgrundlage nach den anwendbaren Datenschutzgesetzen besteht, und stellt uns von Ansprüchen und behördlichen Bußgeldern frei, die aus einer ohne diese Berechtigung erfolgten Weitergabe entstehen. Weitere Einzelheiten findest Du in unseren Nutzungsbedingungen.
+
+            Die Daten werden gelöscht, sobald die registrierte Person den Kontakt entfernt, spätestens jedoch, wenn das Nutzerkonto der registrierten Person gemäß § 11 der Nutzungsbedingungen gelöscht wird.
+
+            1. **Hinweis für Personen, die nicht registrierte Nutzer\*innen sind**
+
+                Wenn eine registrierte Person Deine Kontaktdaten bei uns gespeichert hat, zum Beispiel um Dich zu einer Veranstaltung einzuladen, gilt dieser Abschnitt für Dich, auch wenn Du die Plattform selbst nie nutzt.
+
+                Wir verarbeiten die oben genannten Daten ausschließlich, um die Einladung sowie die damit verbundene Kommunikation zur jeweiligen Veranstaltung zu ermöglichen. Diese Daten stammen nicht von Dir, sondern von der registrierten Person, die den Kontakt angelegt hat; Rechtsgrundlage für diese Verarbeitung ist, wie oben erläutert, Art. 6 Abs. 1 lit. f DSGVO.
+
+                Du kannst jederzeit bei uns anfragen, ob Daten über Dich gespeichert sind, und deren Berichtigung oder Löschung verlangen; nutze dazu die oben unter „Die Verantwortliche“ genannten Kontaktdaten. Verlangst Du die Löschung, hinterlegen wir zusätzlich die dafür notwendigen Mindestdaten zu Deiner Identifizierung (z. B. eine gehashte E-Mail-Adresse oder Telefonnummer) auf einer internen Sperrliste, damit dieselben Daten nicht erneut über die Kontakte einer anderen registrierten Person bei uns gespeichert werden. Der Eintragung auf dieser Sperrliste kannst Du jederzeit widersprechen.
+
         1. **Kontaktaufnahme**
 
             <ol type="a">
