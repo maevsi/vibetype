@@ -1,3 +1,9 @@
+## [15.22.1](https://github.com/maevsi/vibetype/compare/15.22.0...15.22.1) (2026-08-28)
+
+### Bug Fixes
+
+* **urql:** reset client when clearing cache ([#2401](https://github.com/maevsi/vibetype/issues/2401)) ([1b42e13](https://github.com/maevsi/vibetype/commit/1b42e13d42d637c149ca56fed52951130c81e034))
+
 ## [15.22.0](https://github.com/maevsi/vibetype/compare/15.21.2...15.22.0) (2026-08-28)
 
 ### Features
