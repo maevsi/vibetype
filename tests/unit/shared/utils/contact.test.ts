@@ -1,6 +1,9 @@
 import { describe, expect, test } from 'vitest'
 
-import { getContactCreationCandidate } from '#src/shared/utils/contact'
+import {
+  getContactCreationCandidate,
+  getContactsSorted,
+} from '#src/shared/utils/contact'
 
 const CONTACTS = [
   {
@@ -56,5 +59,50 @@ describe('getContactCreationCandidate', () => {
         username: 'ada',
       }),
     ).toBeUndefined()
+  })
+})
+
+describe('getContactsSorted', () => {
+  // The server can only order contacts by their primary key, so a contact without a name has to find its place through whatever else identifies it.
+  const contactNamed = {
+    accountByAccountId: null,
+    emailAddress: null,
+    firstName: 'Mia',
+    lastName: 'Meyer',
+    nickname: null,
+  }
+  const contactWithUsername = {
+    accountByAccountId: { id: 'id', rowId: 'accountRowId', username: 'abcdee' },
+    emailAddress: null,
+    firstName: null,
+    lastName: null,
+    nickname: null,
+  }
+  const contactWithEmailAddress = {
+    accountByAccountId: null,
+    emailAddress: 'zoe@example.com',
+    firstName: null,
+    lastName: null,
+    nickname: null,
+  }
+
+  test('places contacts without a name among the others', () => {
+    const contactsSorted = getContactsSorted([
+      contactWithEmailAddress,
+      contactWithUsername,
+      contactNamed,
+    ])
+
+    expect(contactsSorted.indexOf(contactNamed)).toBeLessThan(
+      contactsSorted.indexOf(contactWithEmailAddress),
+    )
+    expect(contactsSorted).toContain(contactWithUsername)
+  })
+
+  test('leaves the given array untouched', () => {
+    const contacts = [contactWithEmailAddress, contactNamed]
+    getContactsSorted(contacts)
+
+    expect(contacts[0]).toBe(contactWithEmailAddress)
   })
 })

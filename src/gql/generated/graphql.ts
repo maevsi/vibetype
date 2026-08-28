@@ -3346,10 +3346,7 @@ export const AllContactsDocument = {
                 name: { kind: 'Name', value: 'orderBy' },
                 value: {
                   kind: 'ListValue',
-                  values: [
-                    { kind: 'EnumValue', value: 'FIRST_NAME_ASC' },
-                    { kind: 'EnumValue', value: 'LAST_NAME_ASC' },
-                  ],
+                  values: [{ kind: 'EnumValue', value: 'PRIMARY_KEY_ASC' }],
                 },
               },
             ],

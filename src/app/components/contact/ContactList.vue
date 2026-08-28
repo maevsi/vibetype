@@ -50,17 +50,6 @@
       <p v-else class="text-center">
         {{ t('noContactsFound') }}
       </p>
-      <div
-        v-if="api.data.allContacts?.pageInfo.hasNextPage"
-        class="flex justify-center"
-      >
-        <ButtonColored
-          :aria-label="t('globalShowMore')"
-          @click="after = api.data.allContacts?.pageInfo.endCursor"
-        >
-          {{ t('globalShowMore') }}
-        </ButtonColored>
-      </div>
       <Modal
         v-model="isModalContactOpen"
         is-footer-hidden
@@ -92,7 +81,7 @@ import type {
   AllContactsQueryVariables,
   ContactItemFragment,
 } from '~~/gql/generated/graphql'
-import { getContactItem } from '~~/shared/utils/contact'
+import { getContactItem, getContactsSorted } from '~~/shared/utils/contact'
 
 const { t } = useI18n()
 const store = useStore()
@@ -143,7 +132,7 @@ const contactsQuery = useQuery({
         after: $after
         condition: { createdBy: $createdBy }
         first: $first
-        orderBy: [FIRST_NAME_ASC, LAST_NAME_ASC]
+        orderBy: [PRIMARY_KEY_ASC]
       ) {
         nodes {
           ...ContactItem
@@ -163,11 +152,12 @@ const contactsQuery = useQuery({
   })),
 })
 const api = await useApiData([contactsQuery])
-const contacts = computed(
-  () =>
+const contacts = computed(() =>
+  getContactsSorted(
     api.value.data.allContacts?.nodes
       .map((x) => getContactItem(x))
       .filter(isNeitherNullNorUndefined) || [],
+  ),
 )
 const contactsFiltered = computed(() => {
   const normalizedSearch = searchString.value.toLowerCase().trim()
@@ -245,6 +235,17 @@ const onModalContactClose = () => {
 
   pending.edits.splice(pending.edits.indexOf(selectedContact.value.rowId), 1)
 }
+
+// lifecycle
+watch(
+  () => api.value.data.allContacts?.pageInfo,
+  (pageInfo) => {
+    // Sorting and searching happen in the client, which needs every page to be complete.
+    if (import.meta.client && pageInfo?.hasNextPage)
+      after.value = pageInfo.endCursor
+  },
+  { immediate: true },
+)
 </script>
 
 <i18n lang="yaml">

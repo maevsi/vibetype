@@ -95,17 +95,6 @@
               "
             />
           </AppButton>
-          <div
-            v-if="apiData.data.allContacts?.pageInfo.hasNextPage"
-            class="flex justify-center"
-          >
-            <ButtonColored
-              :aria-label="t('globalShowMore')"
-              @click="after = apiData.data.allContacts?.pageInfo.endCursor"
-            >
-              {{ t('globalShowMore') }}
-            </ButtonColored>
-          </div>
         </div>
       </form.Field>
       <AppFeature feature="account-management">
@@ -148,11 +137,13 @@ import { z } from 'zod'
 import { graphql } from '~~/gql/generated'
 import type {
   AllContactsQueryVariables,
+  ContactItemFragment,
   EventItemFragment,
 } from '~~/gql/generated/graphql'
 import {
   getContactCreationCandidate,
   getContactItem,
+  getContactsSorted,
 } from '~~/shared/utils/contact'
 
 const { event, guestContactIdsExisting = undefined } = defineProps<{
@@ -192,7 +183,7 @@ const allContactsQuery = useQuery({
         after: $after
         condition: { createdBy: $createdBy }
         first: $first
-        orderBy: [FIRST_NAME_ASC, LAST_NAME_ASC]
+        orderBy: [PRIMARY_KEY_ASC]
       ) {
         nodes {
           ...ContactItem
@@ -215,6 +206,21 @@ const accountByUsernameSearchQuery = useQuery({
   query: accountByUsernameQuery,
   pause: computed(() => !usernameSearched.value),
   variables: computed(() => ({ username: usernameSearched.value || '' })),
+})
+// Declared here rather than among the other computations because the query below reads it while it is being set up.
+const accountSearched = computed(() => {
+  const username = usernameSearched.value
+
+  // Results of an outdated search must not be shown for the current one.
+  if (
+    !username ||
+    accountByUsernameSearchQuery.operation.value?.variables.username !==
+      username
+  ) {
+    return undefined
+  }
+
+  return accountByUsernameSearchQuery.data.value?.accountByUsername
 })
 const createContactMutation = useMutation(
   graphql(`
@@ -250,6 +256,8 @@ const contacts = computed(
       .map((x) => getContactItem(x))
       .filter(isNeitherNullNorUndefined) || [],
 )
+// Contacts without a name sort to the very end of the contact book, far beyond the loaded page, so the ones this form is about are kept at hand separately.
+const contactsPinned = ref<ContactItemFragment[]>([])
 
 // form
 const formSchema = z.object({
@@ -321,11 +329,7 @@ const contactCreate = async () => {
     ...form.getFieldValue('contactIds'),
     contactCreated.rowId,
   ])
-
-  // The cache invalidation of `createContact` leaves this list unchanged, so the contacts are fetched again to let the new one take the offer's place.
-  // The search string stays as it is, which keeps that contact in view since the list matches usernames and email addresses too.
-  after.value = undefined
-  allContactsQuery.executeQuery({ requestPolicy: 'network-only' })
+  contactsPinned.value = [...contactsPinned.value, contactCreated]
 }
 const selectToggle = (contactId: string, field: AnyFieldApi) => {
   const currentIds = field.state.value as string[]
@@ -339,17 +343,30 @@ const selectToggle = (contactId: string, field: AnyFieldApi) => {
 }
 
 // computations
-const contactsFiltered = computed(() => {
-  if (!contacts.value) {
-    return undefined
-  }
+const isContactBookComplete = computed(
+  () =>
+    !allContactsQuery.fetching.value &&
+    !apiData.value.data.allContacts?.pageInfo.hasNextPage,
+)
+const contactsShown = computed(() => {
+  const contactsPinnedIds = new Set(
+    contactsPinned.value.map((contact) => contact.rowId),
+  )
 
+  return getContactsSorted([
+    ...contactsPinned.value,
+    ...contacts.value.filter(
+      (contact) => !contactsPinnedIds.has(contact.rowId),
+    ),
+  ])
+})
+const contactsFiltered = computed(() => {
   if (!searchString.value || searchString.value === '') {
-    return contacts.value
+    return contactsShown.value
   }
 
   const searchStringParts = searchString.value.split(' ')
-  const allContactsFiltered = contacts.value.filter((contact) => {
+  const allContactsFiltered = contactsShown.value.filter((contact) => {
     const contactProperties = [
       ...(contact.accountByAccountId?.username
         ? [contact.accountByAccountId.username.toLowerCase()]
@@ -373,27 +390,16 @@ const contactsFiltered = computed(() => {
   return allContactsFiltered
 })
 
-const accountSearched = computed(() => {
-  const username = usernameSearched.value
-
-  // Results of an outdated search must not be shown for the current one.
-  if (
-    !username ||
-    accountByUsernameSearchQuery.operation.value?.variables.username !==
-      username
-  ) {
-    return undefined
-  }
-
-  return accountByUsernameSearchQuery.data.value?.accountByUsername
-})
 const contactCreationCandidate = computed(() =>
-  getContactCreationCandidate({
-    accountId: accountSearched.value?.rowId,
-    contacts: contacts.value,
-    emailAddress: emailAddressSearched.value,
-    username: usernameSearched.value,
-  }),
+  // Offering to create a contact before the whole book is known would suggest a duplicate of a contact that is still being loaded.
+  isContactBookComplete.value
+    ? getContactCreationCandidate({
+        accountId: accountSearched.value?.rowId,
+        contacts: contactsShown.value,
+        emailAddress: emailAddressSearched.value,
+        username: usernameSearched.value,
+      })
+    : undefined,
 )
 const errorMessages = computed(() =>
   apiData.value.errors
@@ -401,6 +407,17 @@ const errorMessages = computed(() =>
         postgres23505: t('contactExisting'),
       })
     : undefined,
+)
+
+// lifecycle
+watch(
+  () => apiData.value.data.allContacts?.pageInfo,
+  (pageInfo) => {
+    // Sorting and searching happen in the client, which needs every page to be complete.
+    if (import.meta.client && pageInfo?.hasNextPage)
+      after.value = pageInfo.endCursor
+  },
+  { immediate: true },
 )
 </script>
 
