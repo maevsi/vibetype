@@ -44,6 +44,40 @@
             <LoaderIndicatorSpinner />
           </div>
           <AppButton
+            v-if="contactCreationCandidate"
+            :aria-label="t('contactCreate')"
+            class="flex w-full shrink-0 items-center gap-4 rounded-sm border-2 border-dashed border-neutral-300 px-4 py-2 dark:border-neutral-600"
+            :loading="createContactMutation.fetching.value"
+            type="button"
+            @click="contactCreate()"
+          >
+            <AccountProfilePicture
+              v-if="contactCreationCandidate.accountId"
+              :account-id="contactCreationCandidate.accountId"
+              class="size-12 rounded-full"
+              height="48"
+              width="48"
+            />
+            <ContactAvatar
+              v-else
+              classes="rounded-full size-12"
+              :email-address="contactCreationCandidate.emailAddress"
+              size="48"
+            />
+            <div class="flex min-w-0 flex-col items-start">
+              <span class="truncate font-medium">
+                {{
+                  contactCreationCandidate.emailAddress ||
+                  `@${contactCreationCandidate.username}`
+                }}
+              </span>
+              <span class="text-gray-500 dark:text-gray-400">
+                {{ t('contactCreate') }}
+              </span>
+            </div>
+            <AppIconPlus class="ml-auto shrink-0" />
+          </AppButton>
+          <AppButton
             v-for="contact in contactsFiltered"
             :key="contact.rowId"
             :aria-label="t('buttonContact')"
@@ -74,40 +108,6 @@
           </div>
         </div>
       </form.Field>
-      <AppButton
-        v-if="contactCreationCandidate"
-        :aria-label="t('contactCreate')"
-        class="flex w-full shrink-0 items-center gap-4 rounded-sm border-2 border-dashed border-neutral-300 px-4 py-2 dark:border-neutral-600"
-        :loading="createContactMutation.fetching.value"
-        type="button"
-        @click="contactCreate()"
-      >
-        <AccountProfilePicture
-          v-if="contactCreationCandidate.accountId"
-          :account-id="contactCreationCandidate.accountId"
-          class="size-12 rounded-full"
-          height="48"
-          width="48"
-        />
-        <ContactAvatar
-          v-else
-          classes="rounded-full size-12"
-          :email-address="contactCreationCandidate.emailAddress"
-          size="48"
-        />
-        <div class="flex min-w-0 flex-col items-start">
-          <span class="truncate font-medium">
-            {{
-              contactCreationCandidate.emailAddress ||
-              `@${contactCreationCandidate.username}`
-            }}
-          </span>
-          <span class="text-gray-500 dark:text-gray-400">
-            {{ t('contactCreate') }}
-          </span>
-        </div>
-        <AppIconPlus class="ml-auto shrink-0" />
-      </AppButton>
       <div class="flex flex-col items-center">
         <ButtonText :aria-label="t('contactsAdd')" :to="localePath('contact')">
           {{ t('contactsAdd') }}
@@ -316,7 +316,11 @@ const contactCreate = async () => {
     ...form.getFieldValue('contactIds'),
     contactCreated.rowId,
   ])
-  searchString.value = ''
+
+  // The cache invalidation of `createContact` leaves this list unchanged, so the contacts are fetched again to let the new one take the offer's place.
+  // The search string stays as it is, which keeps that contact in view since the list matches usernames and email addresses too.
+  after.value = undefined
+  allContactsQuery.executeQuery({ requestPolicy: 'network-only' })
 }
 const selectToggle = (contactId: string, field: AnyFieldApi) => {
   const currentIds = field.state.value as string[]
