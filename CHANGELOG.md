@@ -1,3 +1,9 @@
+## [15.22.0](https://github.com/maevsi/vibetype/compare/15.21.2...15.22.0) (2026-08-28)
+
+### Features
+
+* **legal:** define contacts and invitation privacy terms ([b21f036](https://github.com/maevsi/vibetype/commit/b21f03638cd0243284c8cea974ac69faa4e39965))
+
 ## [15.21.2](https://github.com/maevsi/vibetype/compare/15.21.1...15.21.2) (2026-08-26)
 
 ### Bug Fixes
