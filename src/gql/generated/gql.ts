@@ -41,6 +41,7 @@ type Documents = {
   '\n    mutation DeleteEventFormatMappingByEventIdAndFormatId(\n      $input: DeleteEventFormatMappingByEventIdAndFormatIdInput!\n    ) {\n      deleteEventFormatMappingByEventIdAndFormatId(input: $input) {\n        deletedEventFormatMappingId\n        eventFormatMapping {\n          eventByEventId {\n            id\n          }\n        }\n      }\n    }\n  ': typeof types.DeleteEventFormatMappingByEventIdAndFormatIdDocument
   '\n    query AllEventCategoriesFormEvent {\n      allEventCategories {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllEventCategoriesFormEventDocument
   '\n    query AllEventFormatsFormEvent {\n      allEventFormats {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllEventFormatsFormEventDocument
+  '\n    mutation CreateGuestContact($input: CreateContactInput!) {\n      createContact(input: $input) {\n        contact {\n          ...ContactItem\n        }\n      }\n    }\n  ': typeof types.CreateGuestContactDocument
   '\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.CreateGuestsDocument
   '\n    mutation AccountPasswordChange($input: AccountPasswordChangeInput!) {\n      accountPasswordChange(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountPasswordChangeDocument
   '\n    mutation AccountPasswordReset($input: AccountPasswordResetInput!) {\n      accountPasswordReset(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountPasswordResetDocument
@@ -162,6 +163,8 @@ const documents: Documents = {
     types.AllEventCategoriesFormEventDocument,
   '\n    query AllEventFormatsFormEvent {\n      allEventFormats {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ':
     types.AllEventFormatsFormEventDocument,
+  '\n    mutation CreateGuestContact($input: CreateContactInput!) {\n      createContact(input: $input) {\n        contact {\n          ...ContactItem\n        }\n      }\n    }\n  ':
+    types.CreateGuestContactDocument,
   '\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          id\n          rowId\n        }\n      }\n    }\n  ':
     types.CreateGuestsDocument,
   '\n    mutation AccountPasswordChange($input: AccountPasswordChangeInput!) {\n      accountPasswordChange(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
@@ -470,6 +473,12 @@ export function graphql(
 export function graphql(
   source: '\n    query AllEventFormatsFormEvent {\n      allEventFormats {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ',
 ): (typeof documents)['\n    query AllEventFormatsFormEvent {\n      allEventFormats {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    mutation CreateGuestContact($input: CreateContactInput!) {\n      createContact(input: $input) {\n        contact {\n          ...ContactItem\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation CreateGuestContact($input: CreateContactInput!) {\n      createContact(input: $input) {\n        contact {\n          ...ContactItem\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

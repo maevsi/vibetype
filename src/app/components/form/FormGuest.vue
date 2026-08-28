@@ -24,6 +24,9 @@
             />
           </div>
         </FieldContent>
+        <FieldDescription>
+          {{ t('contactBookSearchDescription') }}
+        </FieldDescription>
       </Field>
       <form.Field v-slot="{ field }" name="contactIds">
         <FieldError
@@ -71,6 +74,40 @@
           </div>
         </div>
       </form.Field>
+      <AppButton
+        v-if="contactCreationCandidate"
+        :aria-label="t('contactCreate')"
+        class="flex w-full shrink-0 items-center gap-4 rounded-sm border-2 border-dashed border-neutral-300 px-4 py-2 dark:border-neutral-600"
+        :loading="createContactMutation.fetching.value"
+        type="button"
+        @click="contactCreate()"
+      >
+        <AccountProfilePicture
+          v-if="contactCreationCandidate.accountId"
+          :account-id="contactCreationCandidate.accountId"
+          class="size-12 rounded-full"
+          height="48"
+          width="48"
+        />
+        <ContactAvatar
+          v-else
+          classes="rounded-full size-12"
+          :email-address="contactCreationCandidate.emailAddress"
+          size="48"
+        />
+        <div class="flex min-w-0 flex-col items-start">
+          <span class="truncate font-medium">
+            {{
+              contactCreationCandidate.emailAddress ||
+              `@${contactCreationCandidate.username}`
+            }}
+          </span>
+          <span class="text-gray-500 dark:text-gray-400">
+            {{ t('contactCreate') }}
+          </span>
+        </div>
+        <AppIconPlus class="ml-auto shrink-0" />
+      </AppButton>
       <div class="flex flex-col items-center">
         <ButtonText :aria-label="t('contactsAdd')" :to="localePath('contact')">
           {{ t('contactsAdd') }}
@@ -100,6 +137,7 @@
 import { useForm } from '@tanstack/vue-form'
 import type { AnyFieldApi } from '@tanstack/vue-form'
 import { useMutation, useQuery } from '@urql/vue'
+import { refDebounced } from '@vueuse/core'
 import { z } from 'zod'
 
 import { graphql } from '~~/gql/generated'
@@ -107,7 +145,10 @@ import type {
   AllContactsQueryVariables,
   EventItemFragment,
 } from '~~/gql/generated/graphql'
-import { getContactItem } from '~~/shared/utils/contact'
+import {
+  getContactCreationCandidate,
+  getContactItem,
+} from '~~/shared/utils/contact'
 
 const { event, guestContactIdsExisting = undefined } = defineProps<{
   event: Pick<EventItemFragment, 'rowId'>
@@ -124,6 +165,19 @@ const { t } = useI18n()
 
 // data
 const after = ref<string | null>()
+const searchString = ref('')
+const searchStringDebounced = refDebounced(searchString, 300)
+const searchStringTrimmed = computed(() => searchStringDebounced.value.trim())
+const emailAddressSearched = computed(() =>
+  SCHEMA_EMAIL_ADDRESS_REQUIRED.safeParse(searchStringTrimmed.value).success
+    ? searchStringTrimmed.value
+    : undefined,
+)
+const usernameSearched = computed(() =>
+  SCHEMA_USERNAME_REQUIRED.safeParse(searchStringTrimmed.value).success
+    ? searchStringTrimmed.value
+    : undefined,
+)
 
 // api data
 const allContactsQuery = useQuery({
@@ -152,6 +206,22 @@ const allContactsQuery = useQuery({
     first: ITEMS_PER_PAGE_LARGE,
   })),
 })
+const accountByUsernameSearchQuery = useQuery({
+  query: accountByUsernameQuery,
+  pause: computed(() => !usernameSearched.value),
+  variables: computed(() => ({ username: usernameSearched.value || '' })),
+})
+const createContactMutation = useMutation(
+  graphql(`
+    mutation CreateGuestContact($input: CreateContactInput!) {
+      createContact(input: $input) {
+        contact {
+          ...ContactItem
+        }
+      }
+    }
+  `),
+)
 const createGuestsMutation = useMutation(
   graphql(`
     mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {
@@ -164,7 +234,11 @@ const createGuestsMutation = useMutation(
     }
   `),
 )
-const apiData = await useApiData([allContactsQuery, createGuestsMutation])
+const apiData = await useApiData([
+  allContactsQuery,
+  createContactMutation,
+  createGuestsMutation,
+])
 const contacts = computed(
   () =>
     apiData.value.data.allContacts?.nodes
@@ -173,8 +247,6 @@ const contacts = computed(
 )
 
 // form
-const searchString = ref('')
-
 const formSchema = z.object({
   contactIds: z.array(z.string()).min(1),
 })
@@ -220,6 +292,32 @@ const form = useForm({
 })
 
 // methods
+const contactCreate = async () => {
+  const candidate = contactCreationCandidate.value
+
+  if (!candidate || !store.signedInAccountId) return
+
+  const result = await createContactMutation.executeMutation({
+    input: {
+      contact: {
+        accountId: candidate.accountId || null,
+        createdBy: store.signedInAccountId,
+        emailAddress: candidate.emailAddress || null,
+      },
+    },
+  })
+  const contactCreated = getContactItem(
+    getResultData(result)?.createContact?.contact,
+  )
+
+  if (!contactCreated) return
+
+  form.setFieldValue('contactIds', [
+    ...form.getFieldValue('contactIds'),
+    contactCreated.rowId,
+  ])
+  searchString.value = ''
+}
 const selectToggle = (contactId: string, field: AnyFieldApi) => {
   const currentIds = field.state.value as string[]
   const index = currentIds.indexOf(contactId)
@@ -244,6 +342,10 @@ const contactsFiltered = computed(() => {
   const searchStringParts = searchString.value.split(' ')
   const allContactsFiltered = contacts.value.filter((contact) => {
     const contactProperties = [
+      ...(contact.accountByAccountId?.username
+        ? [contact.accountByAccountId.username.toLowerCase()]
+        : []),
+      ...(contact.emailAddress ? [contact.emailAddress.toLowerCase()] : []),
       ...(contact.firstName ? [contact.firstName.toLowerCase()] : []),
       ...(contact.lastName ? [contact.lastName.toLowerCase()] : []),
     ]
@@ -262,9 +364,33 @@ const contactsFiltered = computed(() => {
   return allContactsFiltered
 })
 
+const accountSearched = computed(() => {
+  const username = usernameSearched.value
+
+  // Results of an outdated search must not be shown for the current one.
+  if (
+    !username ||
+    accountByUsernameSearchQuery.operation.value?.variables.username !==
+      username
+  ) {
+    return undefined
+  }
+
+  return accountByUsernameSearchQuery.data.value?.accountByUsername
+})
+const contactCreationCandidate = computed(() =>
+  getContactCreationCandidate({
+    accountId: accountSearched.value?.rowId,
+    contacts: contacts.value,
+    emailAddress: emailAddressSearched.value,
+    username: usernameSearched.value,
+  }),
+)
 const errorMessages = computed(() =>
   apiData.value.errors
-    ? getCombinedErrorMessages(apiData.value.errors)
+    ? getCombinedErrorMessages(apiData.value.errors, {
+        postgres23505: t('contactExisting'),
+      })
     : undefined,
 )
 </script>
@@ -273,12 +399,18 @@ const errorMessages = computed(() =>
 de:
   buttonContact: Ein Kontakt
   contactBookSearch: Kontaktbuch durchsuchen
+  contactBookSearchDescription: Gib einen Nutzernamen oder eine E-Mail-Adresse ein, um jemanden hinzuzufügen, der noch nicht in deinem Kontaktbuch steht.
+  contactCreate: Zum Kontaktbuch hinzufügen
+  contactExisting: Ein Kontakt für dieses Konto existiert bereits!
   contactsAdd: Zu meinem Kontaktbuch
   placeholderContact: Max Mustermann
   select: Zur Gästeliste hinzufügen
 en:
   buttonContact: A contact
   contactBookSearch: Search your contact book
+  contactBookSearchDescription: Enter a username or an email address to add someone who is not in your contact book yet.
+  contactCreate: Add to contact book
+  contactExisting: A contact for this account already exists!
   contactsAdd: To my contact book
   placeholderContact: John Doe
   select: Add to guest list

@@ -1273,6 +1273,18 @@ export type AllEventFormatsFormEventQuery = {
   } | null
 }
 
+export type CreateGuestContactMutationVariables = Exact<{
+  input: CreateContactInput
+}>
+
+export type CreateGuestContactMutation = {
+  createContact: {
+    contact: {
+      ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment }
+    } | null
+  } | null
+}
+
 export type CreateGuestsMutationVariables = Exact<{
   createGuestsInput: CreateGuestsInput
 }>
@@ -5309,6 +5321,121 @@ export const AllEventFormatsFormEventDocument = {
 } as unknown as DocumentNode<
   AllEventFormatsFormEventQuery,
   AllEventFormatsFormEventQueryVariables
+>
+export const CreateGuestContactDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateGuestContact' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateContactInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createContact' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'contact' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'ContactItem' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ContactItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Contact' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByAccountId' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByCreatedBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateGuestContactMutation,
+  CreateGuestContactMutationVariables
 >
 export const CreateGuestsDocument = {
   kind: 'Document',
