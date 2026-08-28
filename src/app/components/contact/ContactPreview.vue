@@ -47,12 +47,6 @@
           {{ `@${contact.accountByAccountId.username}` }}
         </div>
       </div>
-      <div
-        v-else-if="contact.emailAddress"
-        class="truncate text-gray-500 dark:text-gray-400"
-      >
-        {{ contact.emailAddress }}
-      </div>
     </div>
   </div>
 </template>
