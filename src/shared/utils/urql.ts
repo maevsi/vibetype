@@ -393,14 +393,28 @@ export const getUrqlClient = async ({
   const client = ref(createClient(initial.clientOptions))
   const clientTesting = ref(createClient(initial.clientOptionsTesting))
 
-  const urqlReset = async () => {
-    // Drop persisted entities first so the rebuilt exchange below starts
-    // from an empty store instead of rehydrating the previous session's data.
+  const urqlResetInThisTab = async () => {
+    // Drop persisted entities first so the rebuilt exchange below starts from an empty store instead of rehydrating the previous session's data.
     await cacheStorage?.clear()
 
     const next = buildClientOptions()
     client.value = createClient(next.clientOptions)
     clientTesting.value = createClient(next.clientOptionsTesting)
+  }
+
+  // Every tab holds its own in-memory store and writes it back to the shared storage on its next persist, so a reset that stops at the tab it was triggered in gets undone by the others.
+  const resetChannel = import.meta.client
+    ? new BroadcastChannel('urql-reset')
+    : undefined
+
+  resetChannel?.addEventListener('message', () => {
+    void urqlResetInThisTab()
+  })
+
+  const urqlReset = async () => {
+    // `postMessage` reaches the other tabs only, never the sender, so this tab still has to reset itself below.
+    resetChannel?.postMessage(undefined)
+    await urqlResetInThisTab()
   }
 
   return {
