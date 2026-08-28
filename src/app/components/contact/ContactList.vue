@@ -176,6 +176,9 @@ const contactsFiltered = computed(() => {
   const searchStringParts = normalizedSearch.split(/\s+/).filter(Boolean)
   return contacts.value.filter((contact) => {
     const contactProperties = [
+      ...(contact.accountByAccountId?.username
+        ? [contact.accountByAccountId.username.toLowerCase()]
+        : []),
       ...(contact.firstName ? [contact.firstName.toLowerCase()] : []),
       ...(contact.lastName ? [contact.lastName.toLowerCase()] : []),
       ...(contact.emailAddress ? [contact.emailAddress.toLowerCase()] : []),
