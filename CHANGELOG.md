@@ -1,3 +1,9 @@
+## [15.23.0](https://github.com/maevsi/vibetype/compare/15.22.1...15.23.0) (2026-08-28)
+
+### Features
+
+* **guest:** create contacts from the search ([#2400](https://github.com/maevsi/vibetype/issues/2400)) ([d9560cd](https://github.com/maevsi/vibetype/commit/d9560cd1048ea0468db0b4ecc5a5f6d3f5a2c8fb))
+
 ## [15.22.1](https://github.com/maevsi/vibetype/compare/15.22.0...15.22.1) (2026-08-28)
 
 ### Bug Fixes
