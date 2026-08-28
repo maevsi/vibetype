@@ -108,14 +108,19 @@
           </div>
         </div>
       </form.Field>
-      <div class="flex flex-col items-center">
-        <ButtonText :aria-label="t('contactsAdd')" :to="localePath('contact')">
-          {{ t('contactsAdd') }}
-          <template #suffix>
-            <AppIconArrowRight />
-          </template>
-        </ButtonText>
-      </div>
+      <AppFeature feature="account-management">
+        <div class="flex flex-col items-center">
+          <ButtonText
+            :aria-label="t('contactsAdd')"
+            :to="localePath('contact')"
+          >
+            {{ t('contactsAdd') }}
+            <template #suffix>
+              <AppIconArrowRight />
+            </template>
+          </ButtonText>
+        </div>
+      </AppFeature>
       <div class="flex flex-col items-center">
         <ButtonColored
           :aria-label="t('select')"
