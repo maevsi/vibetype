@@ -108,7 +108,7 @@ export const SCHEMA_USER_NAME_REQUIRED = z
   .min(1)
   .max(VALIDATION_NAME_FIRST_LENGTH_MAXIMUM)
 
-const accountByUsernameQuery = graphql(`
+export const accountByUsernameQuery = graphql(`
   query AccountByUsername($username: String!) {
     accountByUsername(username: $username) {
       id

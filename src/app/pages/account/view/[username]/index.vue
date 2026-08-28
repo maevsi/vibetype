@@ -107,38 +107,40 @@
             </div>
           </CardButton>
         </AppFeature>
-        <ButtonColored
-          v-if="isOwnProfile"
-          :aria-label="t('contactBook')"
-          class="data-[size=large]:gap-4.5 data-[type=secondary]:px-4.5"
-          :to="
-            localePath({
-              name: 'contact',
-            })
-          "
-          variant="secondary"
-        >
-          <AppIconContacts />
-          <TypographySubtitleMedium>
-            {{ t('contactBook') }}
-          </TypographySubtitleMedium>
-        </ButtonColored>
-        <ButtonColored
-          v-if="isOwnProfile"
-          :aria-label="t('uploads')"
-          class="data-[size=large]:gap-4.5 data-[type=secondary]:px-4.5"
-          :to="
-            localePath({
-              name: 'upload',
-            })
-          "
-          variant="secondary"
-        >
-          <AppIconFolder />
-          <TypographySubtitleMedium>
-            {{ t('uploads') }}
-          </TypographySubtitleMedium>
-        </ButtonColored>
+        <AppFeature v-if="isOwnProfile" feature="account-management">
+          <ButtonColored
+            :aria-label="t('contactBook')"
+            class="data-[size=large]:gap-4.5 data-[type=secondary]:px-4.5"
+            :to="
+              localePath({
+                name: 'contact',
+              })
+            "
+            variant="secondary"
+          >
+            <AppIconContacts />
+            <TypographySubtitleMedium>
+              {{ t('contactBook') }}
+            </TypographySubtitleMedium>
+          </ButtonColored>
+        </AppFeature>
+        <AppFeature v-if="isOwnProfile" feature="account-management">
+          <ButtonColored
+            :aria-label="t('uploads')"
+            class="data-[size=large]:gap-4.5 data-[type=secondary]:px-4.5"
+            :to="
+              localePath({
+                name: 'upload',
+              })
+            "
+            variant="secondary"
+          >
+            <AppIconFolder />
+            <TypographySubtitleMedium>
+              {{ t('uploads') }}
+            </TypographySubtitleMedium>
+          </ButtonColored>
+        </AppFeature>
         <div v-if="accountDescription" class="flex flex-col gap-2 p-1.5">
           <TypographyH3>
             {{ t('about') }}

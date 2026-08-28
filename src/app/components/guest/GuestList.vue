@@ -146,7 +146,7 @@ import type {
   EventItemFragment,
   GuestItemFragment,
 } from '~~/gql/generated/graphql'
-import { getContactItem } from '~~/shared/utils/contact'
+import { getContactItem, getContactSortKey } from '~~/shared/utils/contact'
 import { getGuestItem } from '~~/shared/utils/guest'
 
 const { event } = defineProps<{
@@ -263,11 +263,11 @@ const dataComputed = computed(() => {
     ],
   }
 })
-const getGuestContactName = (
+const getGuestContactSortKey = (
   guest: Pick<GuestItemFragment, 'contactByContactId'>,
 ) => {
   const contact = getContactItem(guest.contactByContactId)
-  return [contact?.firstName, contact?.lastName].filter(Boolean).join(' ')
+  return contact ? getContactSortKey(contact) : ''
 }
 const guests = computed(
   () =>
@@ -275,7 +275,7 @@ const guests = computed(
       .map((x) => getGuestItem(x))
       .filter(isNeitherNullNorUndefined)
       .sort((a, b) =>
-        getGuestContactName(a).localeCompare(getGuestContactName(b)),
+        getGuestContactSortKey(a).localeCompare(getGuestContactSortKey(b)),
       ) || [],
 )
 const guestsFiltered = computed(() => {
@@ -284,7 +284,9 @@ const guestsFiltered = computed(() => {
   const bySearch = searchStringParts.length
     ? guests.value.filter((guest) =>
         searchStringParts.some((searchStringPart) =>
-          getGuestContactName(guest).toLowerCase().includes(searchStringPart),
+          getGuestContactSortKey(guest)
+            .toLowerCase()
+            .includes(searchStringPart),
         ),
       )
     : guests.value
