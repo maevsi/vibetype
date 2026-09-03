@@ -317,7 +317,7 @@
             </form.Field>
             <AppFeature feature="map">
               <div class="relative isolate">
-                <AppMap
+                <LazyAppMap
                   ref="map"
                   class="h-64"
                   geocoder
@@ -358,7 +358,7 @@
             <FieldLabel>{{ t('description') }}</FieldLabel>
             <FieldContent>
               <client-only>
-                <AppTipTap
+                <LazyAppTipTap
                   :value="field.state.value"
                   @input="field.handleChange($event)"
                 />
