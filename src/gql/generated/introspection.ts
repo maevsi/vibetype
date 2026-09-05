@@ -1076,6 +1076,13 @@ export default {
                 },
               },
               {
+                name: 'filter',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
                 name: 'first',
                 type: {
                   kind: 'SCALAR',
@@ -3136,6 +3143,13 @@ export default {
                 },
               },
               {
+                name: 'filter',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
                 name: 'first',
                 type: {
                   kind: 'SCALAR',
@@ -4368,6 +4382,65 @@ export default {
       },
       {
         kind: 'OBJECT',
+        name: 'CreateAchievementPayload',
+        fields: [
+          {
+            name: 'achievement',
+            type: {
+              kind: 'OBJECT',
+              name: 'Achievement',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'achievementEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'AchievementEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
         name: 'CreateAddressPayload',
         fields: [
           {
@@ -4805,6 +4878,65 @@ export default {
             type: {
               kind: 'OBJECT',
               name: 'EventEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'CreateEventRecommendationPayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'eventRecommendation',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventRecommendation',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'eventRecommendationEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventRecommendationEdge',
               ofType: null,
             },
             args: [
@@ -5662,6 +5794,73 @@ export default {
       },
       {
         kind: 'OBJECT',
+        name: 'DeleteAchievementPayload',
+        fields: [
+          {
+            name: 'achievement',
+            type: {
+              kind: 'OBJECT',
+              name: 'Achievement',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'achievementEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'AchievementEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'deletedAchievementId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
         name: 'DeleteAddressPayload',
         fields: [
           {
@@ -6096,6 +6295,73 @@ export default {
             type: {
               kind: 'OBJECT',
               name: 'EventEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'DeleteEventRecommendationPayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'deletedEventRecommendationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'eventRecommendation',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventRecommendation',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'eventRecommendationEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventRecommendationEdge',
               ofType: null,
             },
             args: [
@@ -6980,6 +7246,14 @@ export default {
           },
           {
             name: 'description',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'effectiveEnd',
             type: {
               kind: 'SCALAR',
               name: 'Any',
@@ -9225,6 +9499,122 @@ export default {
       },
       {
         kind: 'OBJECT',
+        name: 'EventSearchRankConnection',
+        fields: [
+          {
+            name: 'edges',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'LIST',
+                ofType: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    name: 'EventSearchRankEdge',
+                    kind: 'OBJECT',
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'nodes',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'LIST',
+                ofType: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    name: 'EventSearchRankRecord',
+                    kind: 'OBJECT',
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'pageInfo',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                name: 'PageInfo',
+                kind: 'OBJECT',
+                ofType: null,
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'totalCount',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'EventSearchRankEdge',
+        fields: [
+          {
+            name: 'cursor',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'node',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                name: 'EventSearchRankRecord',
+                kind: 'OBJECT',
+                ofType: null,
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'EventSearchRankRecord',
+        fields: [
+          {
+            name: 'eventId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'rank',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
         name: 'EventUpload',
         fields: [
           {
@@ -11169,6 +11559,26 @@ export default {
             ],
           },
           {
+            name: 'createAchievement',
+            type: {
+              kind: 'OBJECT',
+              name: 'CreateAchievementPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
             name: 'createAddress',
             type: {
               kind: 'OBJECT',
@@ -11313,6 +11723,26 @@ export default {
             type: {
               kind: 'OBJECT',
               name: 'CreateEventFormatMappingPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'createEventRecommendation',
+            type: {
+              kind: 'OBJECT',
+              name: 'CreateEventRecommendationPayload',
               ofType: null,
             },
             args: [
@@ -11653,6 +12083,66 @@ export default {
             type: {
               kind: 'OBJECT',
               name: 'DeleteAccountSocialNetworkPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'deleteAchievement',
+            type: {
+              kind: 'OBJECT',
+              name: 'DeleteAchievementPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'deleteAchievementByAccountIdAndAchievement',
+            type: {
+              kind: 'OBJECT',
+              name: 'DeleteAchievementPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'deleteAchievementByRowId',
+            type: {
+              kind: 'OBJECT',
+              name: 'DeleteAchievementPayload',
               ofType: null,
             },
             args: [
@@ -12013,6 +12503,46 @@ export default {
             type: {
               kind: 'OBJECT',
               name: 'DeleteEventFormatMappingPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'deleteEventRecommendation',
+            type: {
+              kind: 'OBJECT',
+              name: 'DeleteEventRecommendationPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'deleteEventRecommendationByAccountIdAndEventId',
+            type: {
+              kind: 'OBJECT',
+              name: 'DeleteEventRecommendationPayload',
               ofType: null,
             },
             args: [
@@ -12849,6 +13379,66 @@ export default {
             ],
           },
           {
+            name: 'updateAchievement',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdateAchievementPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updateAchievementByAccountIdAndAchievement',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdateAchievementPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updateAchievementByRowId',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdateAchievementPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
             name: 'updateAddress',
             type: {
               kind: 'OBJECT',
@@ -13129,6 +13719,186 @@ export default {
             ],
           },
           {
+            name: 'updateEventCategoryMapping',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdateEventCategoryMappingPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updateEventCategoryMappingByEventIdAndCategoryId',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdateEventCategoryMappingPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updateEventFormatMapping',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdateEventFormatMappingPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updateEventFormatMappingByEventIdAndFormatId',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdateEventFormatMappingPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updateEventRecommendation',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdateEventRecommendationPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updateEventRecommendationByAccountIdAndEventId',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdateEventRecommendationPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updateEventUpload',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdateEventUploadPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updateEventUploadByEventIdAndUploadId',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdateEventUploadPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updateEventUploadByRowId',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdateEventUploadPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
             name: 'updateFriendship',
             type: {
               kind: 'OBJECT',
@@ -13233,6 +14003,246 @@ export default {
             type: {
               kind: 'OBJECT',
               name: 'UpdateGuestPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updatePreferenceEventCategory',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdatePreferenceEventCategoryPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updatePreferenceEventCategoryByAccountIdAndCategoryId',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdatePreferenceEventCategoryPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updatePreferenceEventCategoryByRowId',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdatePreferenceEventCategoryPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updatePreferenceEventFormat',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdatePreferenceEventFormatPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updatePreferenceEventFormatByAccountIdAndFormatId',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdatePreferenceEventFormatPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updatePreferenceEventFormatByRowId',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdatePreferenceEventFormatPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updatePreferenceEventLocation',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdatePreferenceEventLocationPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updatePreferenceEventLocationByCreatedByAndLocationAndRadius',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdatePreferenceEventLocationPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updatePreferenceEventLocationByRowId',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdatePreferenceEventLocationPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updatePreferenceEventSize',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdatePreferenceEventSizePayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updatePreferenceEventSizeByAccountIdAndEventSize',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdatePreferenceEventSizePayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'updatePreferenceEventSizeByRowId',
+            type: {
+              kind: 'OBJECT',
+              name: 'UpdatePreferenceEventSizePayload',
               ofType: null,
             },
             args: [
@@ -14672,7 +15682,7 @@ export default {
                 },
               },
               {
-                name: 'searchString',
+                name: 'query',
                 type: {
                   kind: 'SCALAR',
                   name: 'Any',
@@ -15977,6 +16987,13 @@ export default {
               },
               {
                 name: 'condition',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'filter',
                 type: {
                   kind: 'SCALAR',
                   name: 'Any',
@@ -17634,6 +18651,47 @@ export default {
             ],
           },
           {
+            name: 'eventSearchRank',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventSearchRankConnection',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'after',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'first',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'offset',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'query',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
             name: 'eventUpload',
             type: {
               kind: 'OBJECT',
@@ -18953,6 +20011,65 @@ export default {
       },
       {
         kind: 'OBJECT',
+        name: 'UpdateAchievementPayload',
+        fields: [
+          {
+            name: 'achievement',
+            type: {
+              kind: 'OBJECT',
+              name: 'Achievement',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'achievementEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'AchievementEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
         name: 'UpdateAddressPayload',
         fields: [
           {
@@ -19189,6 +20306,124 @@ export default {
       },
       {
         kind: 'OBJECT',
+        name: 'UpdateEventCategoryMappingPayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'eventCategoryMapping',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventCategoryMapping',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'eventCategoryMappingEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventCategoryMappingEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'UpdateEventFormatMappingPayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'eventFormatMapping',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventFormatMapping',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'eventFormatMappingEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventFormatMappingEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
         name: 'UpdateEventPayload',
         fields: [
           {
@@ -19213,6 +20448,124 @@ export default {
             type: {
               kind: 'OBJECT',
               name: 'EventEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'UpdateEventRecommendationPayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'eventRecommendation',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventRecommendation',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'eventRecommendationEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventRecommendationEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'UpdateEventUploadPayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'eventUpload',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventUpload',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'eventUploadEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'EventUploadEdge',
               ofType: null,
             },
             args: [
@@ -19331,6 +20684,242 @@ export default {
             type: {
               kind: 'OBJECT',
               name: 'GuestEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'UpdatePreferenceEventCategoryPayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'preferenceEventCategory',
+            type: {
+              kind: 'OBJECT',
+              name: 'PreferenceEventCategory',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'preferenceEventCategoryEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'PreferenceEventCategoryEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'UpdatePreferenceEventFormatPayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'preferenceEventFormat',
+            type: {
+              kind: 'OBJECT',
+              name: 'PreferenceEventFormat',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'preferenceEventFormatEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'PreferenceEventFormatEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'UpdatePreferenceEventLocationPayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'preferenceEventLocation',
+            type: {
+              kind: 'OBJECT',
+              name: 'PreferenceEventLocation',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'preferenceEventLocationEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'PreferenceEventLocationEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'UpdatePreferenceEventSizePayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'preferenceEventSize',
+            type: {
+              kind: 'OBJECT',
+              name: 'PreferenceEventSize',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'preferenceEventSizeEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'PreferenceEventSizeEdge',
               ofType: null,
             },
             args: [
