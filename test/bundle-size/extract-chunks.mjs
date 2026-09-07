@@ -8,6 +8,11 @@
 // brace/bracket scanning rather than parsed as a whole file or matched with a
 // greedy regex (which would overshoot into the trailing script content).
 //
+// The report also inlines the visualizer's own chart bundle in an earlier
+// `<script>` block, so the first occurrence of the marker is not guaranteed to
+// be the report data. Every occurrence is tried in turn and the first one that
+// parses into the expected shape wins, rather than trusting a fixed position.
+//
 // Usage: extract-chunks.mjs <client.html> <output.json>
 
 import { readFileSync, writeFileSync } from "node:fs";
@@ -22,13 +27,6 @@ if (!reportFile || !outputFile) {
 const html = readFileSync(reportFile, "utf8");
 
 const DATA_MARKER = "const data = ";
-const markerIndex = html.indexOf(DATA_MARKER);
-
-if (markerIndex === -1) {
-  throw new Error(`Could not find "${DATA_MARKER}" in ${reportFile}`);
-}
-
-const jsonStart = markerIndex + DATA_MARKER.length;
 
 function extractFirstJsonValue(text, start) {
   let depth = 0;
@@ -63,10 +61,38 @@ function extractFirstJsonValue(text, start) {
     }
   }
 
-  throw new Error("Could not find the end of the embedded JSON value");
+  return undefined;
 }
 
-const data = JSON.parse(extractFirstJsonValue(html, jsonStart));
+function parseJsonValue(text, start) {
+  const value = extractFirstJsonValue(text, start);
+
+  if (value === undefined) return undefined;
+
+  try {
+    return JSON.parse(value);
+  } catch {
+    return undefined;
+  }
+}
+
+function extractReportData(text) {
+  let markerIndex = text.indexOf(DATA_MARKER);
+
+  while (markerIndex !== -1) {
+    const candidate = parseJsonValue(text, markerIndex + DATA_MARKER.length);
+
+    if (candidate?.tree?.children && candidate.nodeParts) {
+      return candidate;
+    }
+
+    markerIndex = text.indexOf(DATA_MARKER, markerIndex + DATA_MARKER.length);
+  }
+
+  throw new Error(`Could not find the report data in ${reportFile}`);
+}
+
+const data = extractReportData(html);
 
 // Each top-level `tree.children` entry is a chunk, whose display name is
 // stable across builds in analyze mode (unlike production chunk filenames,
