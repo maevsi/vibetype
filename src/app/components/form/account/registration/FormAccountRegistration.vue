@@ -39,7 +39,7 @@ const emit = defineEmits<{
   ]
 }>()
 
-const { locale, t } = useI18n()
+const { t } = useI18n()
 const captchaIsUsed = defineModel<boolean>('captcha-is-used')
 
 const passwordMessages = computed(() => ({
@@ -60,7 +60,7 @@ const passwordPairValidation = usePasswordPairValidation({
 const formSchema = z
   .object({
     captcha: SCHEMA_CAPTCHA,
-    password: getSchemaPasswordV2(locale.value),
+    password: SCHEMA_PASSWORD_V2,
     passwordRepetition: z.string().min(1),
   })
   .refine((data) => data.password === data.passwordRepetition, {
@@ -91,7 +91,7 @@ const form = useForm({
 const passwordStrength = ref(0)
 const handlePasswordInput = async (value: string) => {
   await passwordPairValidation.handlePasswordInput(value)
-  passwordStrength.value = await calculatePasswordStrength(value, locale.value)
+  passwordStrength.value = await calculatePasswordStrength(value)
 }
 
 const handleSubmit = async () => {
