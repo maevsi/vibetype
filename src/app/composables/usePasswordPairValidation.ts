@@ -11,15 +11,9 @@ export const usePasswordPairValidation = ({
   setPassword: (value: string) => void
   setRepetition: (value: string) => void
 }) => {
-  const { locale } = useI18n()
-
   const password = useAuthFieldValidation({
     validator: (value: string) =>
-      getStrongPasswordError({
-        locale: locale.value,
-        messages: messages(),
-        password: value,
-      }),
+      getStrongPasswordError({ messages: messages(), password: value }),
   })
 
   const repetition = useAuthFieldValidation({

@@ -38,7 +38,7 @@ const emit = defineEmits<{
 
 const modelError = defineModel<Error>('error')
 
-const { locale, t } = useI18n()
+const { t } = useI18n()
 
 // api data
 const passwordResetMutation = useMutation(
@@ -83,7 +83,7 @@ const passwordPairValidation = usePasswordPairValidation({
 
 // form
 const formSchema = z.object({
-  password: getSchemaPasswordV2(locale.value),
+  password: SCHEMA_PASSWORD_V2,
   passwordConfirm: z.string(),
 })
 

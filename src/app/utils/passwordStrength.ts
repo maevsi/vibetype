@@ -6,74 +6,54 @@ import type { ZxcvbnFactory as ZxcvbnFactoryType } from '@zxcvbn-ts/core'
 export const PASSWORD_STRENGTH_SCORE_MINIMUM = 3
 const PASSWORD_STRENGTH_SCORE_MAXIMUM = 4
 
-// Must match the locales configured in `config/modules/i18n.ts`.
-const zxcvbnLanguagePackImporters = {
-  de: () => import('@zxcvbn-ts/language-de'),
-  en: () => import('@zxcvbn-ts/language-en'),
-}
+// zxcvbn's dictionaries are multiple MB uncompressed; importing them eagerly would put that weight in the bundle of every route, including ones that never touch a password field.
+// This loads them only once the first password actually needs scoring, and only once overall.
+// Both language dictionaries are loaded even though only one matches the visitor's locale, because the score has to agree with the server's, which checks the same union.
+// The server cannot narrow the same way: every signal carrying a locale is client-supplied, so scoring per locale would let a visitor pick the dictionary that misses their password.
+let zxcvbnPromise: Promise<InstanceType<typeof ZxcvbnFactoryType>> | undefined
 
-type ZxcvbnLocale = keyof typeof zxcvbnLanguagePackImporters
-
-const isZxcvbnLocale = (locale: string): locale is ZxcvbnLocale =>
-  Object.hasOwn(zxcvbnLanguagePackImporters, locale)
-
-// Falls back to English when the given locale has no matching zxcvbn language package.
-const getZxcvbnLocale = (locale: string): ZxcvbnLocale =>
-  isZxcvbnLocale(locale) ? locale : 'en'
-
-// zxcvbn's dictionaries are multiple MB uncompressed; importing them eagerly would put that weight in the bundle of every route, including ones that never touch a password field, and importing every language pack would waste bandwidth on locales a visitor never uses.
-// This loads only the active locale's package, only once the first password actually needs scoring, and only once per locale.
-const zxcvbnPromises = new Map<
-  ZxcvbnLocale,
-  Promise<InstanceType<typeof ZxcvbnFactoryType>>
->()
-
-const getZxcvbn = (locale: ZxcvbnLocale) => {
-  const cachedZxcvbnPromise = zxcvbnPromises.get(locale)
-  if (cachedZxcvbnPromise) return cachedZxcvbnPromise
-
-  const zxcvbnPromise = (async () => {
-    const [{ ZxcvbnFactory }, zxcvbnCommonPackage, zxcvbnLanguagePackage] =
-      await Promise.all([
-        import('@zxcvbn-ts/core'),
-        import('@zxcvbn-ts/language-common'),
-        zxcvbnLanguagePackImporters[locale](),
-      ])
+const getZxcvbn = () => {
+  zxcvbnPromise ??= (async () => {
+    const [
+      { ZxcvbnFactory },
+      zxcvbnCommonPackage,
+      zxcvbnDePackage,
+      zxcvbnEnPackage,
+    ] = await Promise.all([
+      import('@zxcvbn-ts/core'),
+      import('@zxcvbn-ts/language-common'),
+      import('@zxcvbn-ts/language-de'),
+      import('@zxcvbn-ts/language-en'),
+    ])
 
     return new ZxcvbnFactory({
       dictionary: {
         ...zxcvbnCommonPackage.dictionary,
-        ...zxcvbnLanguagePackage.dictionary,
+        ...zxcvbnDePackage.dictionary,
+        ...zxcvbnEnPackage.dictionary,
       },
       graphs: zxcvbnCommonPackage.adjacencyGraphs,
-      translations: zxcvbnLanguagePackage.translations,
+      translations: zxcvbnEnPackage.translations,
     })
   })()
-
-  zxcvbnPromises.set(locale, zxcvbnPromise)
 
   return zxcvbnPromise
 }
 
-// The strength meter and the field validator both score the same in-flight password value on
-// every keystroke; caching the latest result avoids running zxcvbn's check twice per input.
+// The strength meter and the field validator both score the same in-flight password value on every keystroke.
+// Caching the latest result avoids running zxcvbn's check twice per input.
 let lastPassword: string | undefined
-let lastLocale: ZxcvbnLocale | undefined
 let lastScore = 0
 
 export const getPasswordStrengthScore = async (
   password: string,
-  locale: string,
 ): Promise<number> => {
   if (!password) return 0
+  if (password === lastPassword) return lastScore
 
-  const zxcvbnLocale = getZxcvbnLocale(locale)
-  if (password === lastPassword && zxcvbnLocale === lastLocale) return lastScore
-
-  const zxcvbn = await getZxcvbn(zxcvbnLocale)
+  const zxcvbn = await getZxcvbn()
   lastScore = zxcvbn.check(password).score
   lastPassword = password
-  lastLocale = zxcvbnLocale
 
   return lastScore
 }
@@ -81,8 +61,7 @@ export const getPasswordStrengthScore = async (
 // Scales zxcvbn's 0-4 score to a 0-100 range for the strength meter.
 export const calculatePasswordStrength = async (
   password: string,
-  locale: string,
 ): Promise<number> =>
-  ((await getPasswordStrengthScore(password, locale)) /
+  ((await getPasswordStrengthScore(password)) /
     PASSWORD_STRENGTH_SCORE_MAXIMUM) *
   100
