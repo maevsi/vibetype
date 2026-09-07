@@ -36,7 +36,8 @@ if (sharedSentryConfig.dsn) {
   })
 
   // `browserProfilingIntegration` and `replayIntegration` are heavy (they pull in an rrweb-derived recorder and profiling code), so they are fetched via a dynamic import instead of being bundled into the chunk every visitor downloads upfront.
-  // The import is kicked off immediately (not deferred to idle time) so it fetches in parallel with the rest of the app instead of blocking it, without leaving a window where an early pageload transaction goes unprofiled or an early error is replayed without lead-up context.
+  // The import is kicked off immediately (not deferred to idle time) so it fetches in parallel with the rest of the app instead of blocking it, which keeps the window in which these two integrations are not yet recording as short as the fetch allows.
+  // That window cannot be closed entirely: the replay recorder only starts once `addIntegration` runs, so an error thrown during app boot can still produce a replay without lead-up context, or none at all.
   import('./sentry.client.integrations')
     .then(({ getDeferredSentryIntegrations }) => {
       for (const integration of getDeferredSentryIntegrations()) {
