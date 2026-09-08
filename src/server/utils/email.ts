@@ -5,13 +5,15 @@ import { z } from 'zod'
 
 import EmailAccountPasswordResetRequest from '../assets/emails/EmailAccountPasswordResetRequest.vue'
 import EmailAccountRegistration from '../assets/emails/EmailAccountRegistration.vue'
+import EmailAddressVerification from '../assets/emails/EmailAddressVerification.vue'
 import EmailEventInvitation from '../assets/emails/EmailEventInvitation.vue'
 
 import {
   CHANNEL_NAME_ACCOUNT_PASSWORD_RESET as EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
   CHANNEL_NAME_ACCOUNT_REGISTRATION as EMAIL_NAME_ACCOUNT_REGISTRATION,
+  CHANNEL_NAME_EMAIL_ADDRESS_VERIFICATION as EMAIL_NAME_EMAIL_ADDRESS_VERIFICATION,
   CHANNEL_NAME_EVENT_INVITATION as EMAIL_NAME_EVENT_INVITATION,
-} from '#server/utils/notification'
+} from '#server/utils/outbox'
 
 const MAIL_RATE_LIMIT_MAX_WAIT_MS = 10_000
 
@@ -32,6 +34,10 @@ const emailConfig = {
     component: EmailAccountRegistration,
     props: {} as ExtractComponentProps<typeof EmailAccountRegistration>,
   },
+  [EMAIL_NAME_EMAIL_ADDRESS_VERIFICATION]: {
+    component: EmailAddressVerification,
+    props: {} as ExtractComponentProps<typeof EmailAddressVerification>,
+  },
   [EMAIL_NAME_EVENT_INVITATION]: {
     component: EmailEventInvitation,
     props: {} as ExtractComponentProps<typeof EmailEventInvitation>,
@@ -43,6 +49,7 @@ export type EmailProps<T extends keyof EmailConfig> = EmailConfig[T]['props']
 export const EMAIL_NAMES = z.enum([
   EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
   EMAIL_NAME_ACCOUNT_REGISTRATION,
+  EMAIL_NAME_EMAIL_ADDRESS_VERIFICATION,
   EMAIL_NAME_EVENT_INVITATION,
 ])
 export type EmailName = z.infer<typeof EMAIL_NAMES>
@@ -112,6 +119,7 @@ export const sendEmail = async <T extends EmailName>({
       ...([
         EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
         EMAIL_NAME_ACCOUNT_REGISTRATION,
+        EMAIL_NAME_EMAIL_ADDRESS_VERIFICATION,
       ].includes(name)
         ? [
             {

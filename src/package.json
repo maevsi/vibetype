@@ -73,7 +73,6 @@
     "@vue-email/render": "0.0.9",
     "@vueuse/core": "14.4.0",
     "browserslist-useragent-regexp": "4.1.4",
-    "camelcase-keys": "10.0.2",
     "chart.js": "4.5.1",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",

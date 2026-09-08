@@ -42,7 +42,9 @@ const registerCrashLogger = (
 // more patient, retry loop) instead of blocking or dropping the partition
 export const createReliableConsumer = async ({
   deadLetterRetry = { attempts: 3, initialDelayMs: 30_000 },
-  fromBeginning = true,
+  // A brand-new consumer group (e.g. after a redeploy that changes the group id) starts from the latest offset rather than replaying the topic's entire retention window, which, combined with the fail-closed processed-state check in `outbox.ts`, closes off the main practical trigger for a mass email resend.
+  // A genuinely fresh environment can still miss messages published before it first connects; callers that need the old backfill behavior can pass `true`.
+  fromBeginning = false,
   groupId,
   handlers,
   kafka,

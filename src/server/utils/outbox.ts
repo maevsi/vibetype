@@ -1,23 +1,17 @@
+import { createDecipheriv } from 'node:crypto'
+
 import type Redis from 'ioredis'
-import camelcaseKeys from 'camelcase-keys'
 
 import { EventVisibility } from '~~/gql/generated/graphcache'
 
 const EVENT_DESCRIPTION_TRIM_LENGTH = 250
 
 export const CHANNEL_NAME_ACCOUNT_PASSWORD_RESET =
-  'account_password_reset_request'
-export const CHANNEL_NAME_ACCOUNT_REGISTRATION = 'account_registration'
-export const CHANNEL_NAME_EVENT_INVITATION = 'event_invitation'
-
-export type Account = {
-  email_address: string
-  email_address_verification: string
-  email_address_verification_valid_until: string
-  password_reset_verification: string
-  password_reset_verification_valid_until: string
-  username: string
-}
+  'account.password_reset_requested'
+export const CHANNEL_NAME_ACCOUNT_REGISTRATION = 'account.registered'
+export const CHANNEL_NAME_EMAIL_ADDRESS_VERIFICATION =
+  'email_address_verification.requested'
+export const CHANNEL_NAME_EVENT_INVITATION = 'guest.invited'
 
 type Template = {
   language: AppLocale
@@ -26,52 +20,46 @@ type Template = {
   variables: Record<string, unknown>
 }
 
-type Event = {
-  id: string
-  createdBy: string
-  description: string | null
-  end: string | null // Date
-  guestCountMaximum: number | null
-  isArchived: boolean
-  isInPerson: boolean
-  isRemote: boolean
-  name: string
-  slug: string
-  start: string // Date
-  visibility: EventVisibility
-}
-
 type AccountPasswordResetRequestEvent = {
-  channel: 'account_password_reset_request'
+  channel: 'account.password_reset_requested'
   payload: {
-    account: Account
+    account_id: string
+    encrypted: string
+    password_reset_verification_valid_until: string
+    subject_id: string
     template: Template
   }
 }
 
 type AccountRegistrationEvent = {
-  channel: 'account_registration'
+  channel: 'account.registered'
   payload: {
-    account: Account
+    account_id: string
+    encrypted: string
+    subject_id: string
     template: Template
   }
 }
 
-type EventInvitationEvent = {
-  channel: 'event_invitation'
+type EmailAddressVerificationEvent = {
+  channel: 'email_address_verification.requested'
   payload: {
-    data: {
-      contact: {
-        emailAddress: string
-        timeZone: string | null
-      }
-      event: Event
-      eventCreatorProfilePictureUploadStorageKey: string
-      eventCreatorUsername: string
-      guest: {
-        id: string
-      }
-    }
+    email_address_id: string
+    encrypted: string
+    subject_id: string
+    template: Template
+    valid_until: string
+  }
+}
+
+type EventInvitationEvent = {
+  channel: 'guest.invited'
+  payload: {
+    contact_time_zone: string | null
+    encrypted: string
+    event: GuestInvitationEvent
+    guest_id: string
+    subject_id: string
     template: Template
   }
 }
@@ -79,6 +67,7 @@ type EventInvitationEvent = {
 type ChannelEvent =
   | AccountPasswordResetRequestEvent
   | AccountRegistrationEvent
+  | EmailAddressVerificationEvent
   | EventInvitationEvent
 
 const locales = {
@@ -96,6 +85,14 @@ const locales = {
     },
     en: {
       subject: 'Complete registration',
+    },
+  },
+  [CHANNEL_NAME_EMAIL_ADDRESS_VERIFICATION]: {
+    de: {
+      subject: 'E-Mail-Adresse bestätigen',
+    },
+    en: {
+      subject: 'Confirm your email address',
     },
   },
   [CHANNEL_NAME_EVENT_INVITATION]: {
@@ -120,10 +117,85 @@ const locales = {
   },
 } as const
 
-export const processNotification = async ({
+// Outbox payload content is encrypted under the subject's key rather than carried in plaintext, so PII never reaches the CDC log even transiently (crypto-shredding).
+// Each payload carries the id of the subject whose key it was encrypted under (`subject_id`), pinned by the sqitch writer at outbox-insert time rather than re-derived here at consumption time.
+// This keeps decryption correct even if, for example, the account's primary email address changes between outbox-write and Kafka delivery.
+//
+// TODO: verify this against a real outbox_encrypt-produced value once deployed. pgcrypto's
+// encrypt_iv('aes', ...) is assumed to be plain AES-256-CBC/PKCS7 given a 32-byte key, matching
+// Node's aes-256-cbc, but this cross-language byte-layout compatibility has not been exercised
+// end to end.
+const decryptOutboxPayload = <T>(encryptedBase64: string, key: Buffer): T => {
+  const bytes = Buffer.from(encryptedBase64, 'base64')
+  const iv = bytes.subarray(0, 16)
+  const ciphertext = bytes.subarray(16)
+
+  const decipher = createDecipheriv('aes-256-cbc', key, iv)
+  const decrypted = Buffer.concat([
+    decipher.update(ciphertext),
+    decipher.final(),
+  ])
+
+  return JSON.parse(decrypted.toString('utf8')) as T
+}
+
+const fetchSubjectKey = async (
+  subjectId: string,
+): Promise<Buffer | undefined> => {
+  const rows = await executeQuery<{ key: Buffer }[]>(
+    sql`
+      SELECT key
+      FROM vibetype_private.subject
+      WHERE id = ${subjectId}
+    `,
+  )
+  return rows[0]?.key
+}
+
+type AccountRegisteredContent = {
+  emailAddress: string
+  username: string
+}
+
+type AccountPasswordResetContent = {
+  emailAddress: string
+  passwordResetVerification: string
+}
+
+type EmailAddressVerificationContent = {
+  emailAddress: string
+  code: string
+}
+
+// Plaintext, not part of the encrypted content: the event is its own entity, not PII of the
+// invited contact, so keeping it out of encryption leaves it available for event-stream analytics.
+type GuestInvitationEvent = {
+  id: string
+  address_id: string | null
+  description: string | null
+  end: string | null
+  guest_count_maximum: number | null
+  is_archived: boolean
+  is_in_person: boolean | null
+  is_remote: boolean | null
+  name: string
+  slug: string
+  start: string
+  url: string | null
+  visibility: EventVisibility
+  created_at: string
+  created_by: string
+}
+
+type GuestInvitationContent = {
+  contactEmailAddress: string
+  eventCreatorProfilePictureUploadStorageKey: string | null
+  eventCreatorUsername: string
+}
+
+export const processMessage = async ({
   channelEvent,
   id,
-  isAcknowledged,
   redis,
   runtimeConfig,
   siteUrl,
@@ -131,13 +203,12 @@ export const processNotification = async ({
 }: {
   channelEvent: ChannelEvent
   id: string
-  isAcknowledged?: boolean
   redis: Redis
   runtimeConfig: ReturnType<typeof useRuntimeConfig>
   siteUrl: string
   tusdFilesUrl: string
 }) => {
-  if (isAcknowledged) return
+  if (await getIsProcessed({ id })) return
 
   // TODO(major): remove `limit24h` fallback in the next major version
   const limit24hLegacy =
@@ -177,58 +248,128 @@ export const processNotification = async ({
   const locale = payload.template.language
 
   switch (channel) {
-    case CHANNEL_NAME_ACCOUNT_PASSWORD_RESET:
+    case CHANNEL_NAME_ACCOUNT_PASSWORD_RESET: {
+      const key = await fetchSubjectKey(payload.subject_id)
+      if (!key) {
+        console.error(
+          `Could not resolve subject key for subject ${payload.subject_id}`,
+        )
+        break
+      }
+
+      const content = decryptOutboxPayload<AccountPasswordResetContent>(
+        payload.encrypted,
+        key,
+      )
+
       await sendEmail({
         mailOptions: {
           subject: locales[channel][locale].subject,
-          to: payload.account.email_address,
+          to: content.emailAddress,
         },
         name: channel,
         props: {
-          emailAddress: payload.account.email_address,
+          emailAddress: content.emailAddress,
           locale,
           passwordResetVerificationLink: `${siteUrl}${
-            payload.template.language !== LOCALE_DEFAULT
-              ? '/' + payload.template.language
-              : ''
-          }/account/password/reset?code=${
-            payload.account.password_reset_verification
-          }`,
+            locale !== LOCALE_DEFAULT ? '/' + locale : ''
+          }/account/password/reset?code=${content.passwordResetVerification}`,
           timeZone: payload.template.time_zone ?? undefined,
-          validUntil: payload.account.password_reset_verification_valid_until,
+          validUntil: payload.password_reset_verification_valid_until,
         },
         rateLimitPerDay,
         rateLimitPerSecond,
         redis,
       })
       break
-    case CHANNEL_NAME_ACCOUNT_REGISTRATION:
+    }
+    case CHANNEL_NAME_ACCOUNT_REGISTRATION: {
+      const key = await fetchSubjectKey(payload.subject_id)
+      if (!key) {
+        console.error(
+          `Could not resolve subject key for subject ${payload.subject_id}`,
+        )
+        break
+      }
+
+      const content = decryptOutboxPayload<AccountRegisteredContent>(
+        payload.encrypted,
+        key,
+      )
+
       await sendEmail({
         mailOptions: {
           subject: locales[channel][locale].subject,
-          to: payload.account.email_address,
+          to: content.emailAddress,
         },
         name: channel,
         props: {
-          emailAddress: payload.account.email_address,
-          emailAddressVerificationLink: `${siteUrl}${
-            payload.template.language !== LOCALE_DEFAULT
-              ? '/' + payload.template.language
-              : ''
-          }/account/verify?code=${payload.account.email_address_verification}`,
+          emailAddress: content.emailAddress,
           locale,
-          timeZone: payload.template.time_zone ?? undefined,
-          username: payload.account.username,
-          validUntil: payload.account.email_address_verification_valid_until,
+          siteUrl,
+          username: content.username,
         },
         rateLimitPerDay,
         rateLimitPerSecond,
         redis,
       })
       break
-    case CHANNEL_NAME_EVENT_INVITATION:
+    }
+    case CHANNEL_NAME_EMAIL_ADDRESS_VERIFICATION: {
+      const key = await fetchSubjectKey(payload.subject_id)
+      if (!key) {
+        console.error(
+          `Could not resolve subject key for subject ${payload.subject_id}`,
+        )
+        break
+      }
+
+      const content = decryptOutboxPayload<EmailAddressVerificationContent>(
+        payload.encrypted,
+        key,
+      )
+
+      await sendEmail({
+        mailOptions: {
+          subject: locales[channel][locale].subject,
+          to: content.emailAddress,
+        },
+        name: channel,
+        props: {
+          emailAddress: content.emailAddress,
+          emailAddressVerificationLink: `${siteUrl}${
+            locale !== LOCALE_DEFAULT ? '/' + locale : ''
+          }/account/registration/confirm?code=${content.code}`,
+          locale,
+          timeZone: payload.template.time_zone ?? undefined,
+          validUntil: payload.valid_until,
+        },
+        rateLimitPerDay,
+        rateLimitPerSecond,
+        redis,
+      })
+      break
+    }
+    case CHANNEL_NAME_EVENT_INVITATION: {
+      const key = await fetchSubjectKey(payload.subject_id)
+      if (!key) {
+        console.error(
+          `Could not resolve subject key for subject ${payload.subject_id}`,
+        )
+        break
+      }
+
+      const guestInvitation = decryptOutboxPayload<GuestInvitationContent>(
+        payload.encrypted,
+        key,
+      )
+
       await sendEventInvitationMail({
-        channelEvent,
+        contactTimeZone: payload.contact_time_zone,
+        event: payload.event,
+        guestId: payload.guest_id,
+        guestInvitation,
+        locale,
         rateLimitPerDay,
         rateLimitPerSecond,
         redis,
@@ -236,20 +377,24 @@ export const processNotification = async ({
         tusdFilesUrl,
       })
       break
+    }
     default:
-      throw new Error(`Unexpected channel: ${channel}`)
+      throw new Error(`Unexpected channel: ${JSON.stringify(channel)}`)
   }
 
-  await ack({
+  await markProcessed({
     id,
   })
 }
 
-const ack = async ({ id }: { id: string }) => {
+// Marks the outbox event as processed in vibetype's own idempotency table, independent of any other outbox consumer (e.g. reccoom) tracking its own processing state on the same row.
+// A failure here is not swallowed: the email was already sent above, so leaving this row unmarked risks a duplicate send on the next retry, and there is no way to make this atomic with the email send itself short of a two-phase commit pattern this codebase doesn't have.
+// Propagating the error lets the consumer's retry/dead-letter-queue mechanism surface it instead of silently accepting that residual risk.
+const markProcessed = async ({ id }: { id: string }) => {
   const baseURL = getServiceHrefPostgraphile()
   const response = await fetch(`${baseURL}/graphql`, {
     body: JSON.stringify({
-      query: `mutation ($id: UUID!) { notificationAcknowledge(input: { id: $id, isAcknowledged: true }) { clientMutationId } }`,
+      query: `mutation ($id: UUID!) { outboxMarkProcessed(input: { outboxId: $id }) { clientMutationId } }`,
       variables: { id },
     }),
     headers: {
@@ -258,113 +403,71 @@ const ack = async ({ id }: { id: string }) => {
     method: 'POST',
   })
 
-  // best-effort: the email was already sent above, so a failed ack must not
-  // throw here, that would trigger a retry and resend it. The Redis dedupe
-  // key is the actual guard against reprocessing; a lost ack only matters if
-  // that key expires (24h) before the notification row is touched again.
   if (!response.ok)
-    console.error(`Could not ack due to error: "${response.statusText}"`)
+    throw new Error(
+      `Could not mark outbox event as processed due to error: "${response.statusText}"`,
+    )
 }
 
-export type NotificationMessageKey = { payload: { id: string } }
-export type NotificationMessageValue = {
-  payload: {
-    after: {
-      channel:
-        | typeof CHANNEL_NAME_ACCOUNT_PASSWORD_RESET
-        | typeof CHANNEL_NAME_ACCOUNT_REGISTRATION
-        | typeof CHANNEL_NAME_EVENT_INVITATION
-      is_acknowledged: boolean | null
-      payload: string
-    }
-  }
-} | null
-
-export const processRawNotification = async ({
-  key,
-  redis,
-  runtimeConfig,
-  siteUrl,
-  tusdFilesUrl,
-  value,
-}: {
-  key: NotificationMessageKey | null
-  redis: Redis
-  runtimeConfig: ReturnType<typeof useRuntimeConfig>
-  siteUrl: string
-  tusdFilesUrl: string
-  value: NotificationMessageValue
-}) => {
-  if (!key) {
-    throw new PermanentProcessingError('Notification message missing key')
-  }
-
-  // a null value is a Debezium delete tombstone, nothing to process
-  if (!value) return
-
-  if (value.payload.after.payload === '__debezium_unavailable_value') {
-    return
-  }
-
-  const dedupeKey = `dedupe:notification:${key.payload.id}`
-  if (await hasBeenProcessed(redis, dedupeKey)) {
-    console.info(
-      `Notification ${key.payload.id} already processed, skipping duplicate delivery`,
-    )
-    return
-  }
-
-  await processNotification({
-    channelEvent: {
-      channel: value.payload.after.channel,
-      payload: JSON.parse(value.payload.after.payload),
+// Queried instead of read from the Kafka message, since the outbox event router SMT only forwards the payload column, not any processed-state column.
+// A failed or malformed check does not default to "not processed": that would risk mass-resending real emails on a Kafka consumer replay.
+// Instead the error propagates so the message falls back to the consumer's retry/dead-letter-queue handling, the same as any other processing failure.
+const getIsProcessed = async ({ id }: { id: string }): Promise<boolean> => {
+  const baseURL = getServiceHrefPostgraphile()
+  const response = await fetch(`${baseURL}/graphql`, {
+    body: JSON.stringify({
+      query: `query ($id: UUID!) { outboxIsProcessed(outboxId: $id) }`,
+      variables: { id },
+    }),
+    headers: {
+      'Content-Type': 'application/json',
     },
-    id: key.payload.id,
-    isAcknowledged: !!value.payload.after.is_acknowledged,
-    redis,
-    runtimeConfig,
-    siteUrl,
-    tusdFilesUrl,
+    method: 'POST',
   })
 
-  // best-effort: the notification was already fully processed above, so a
-  // failure to record that shouldn't cause a (duplicate-sending) retry
-  try {
-    await markProcessed(redis, dedupeKey, EVENT_STREAM_DEDUPE_TTL_SECONDS)
-  } catch (error) {
-    console.warn(
-      `Failed to record notification ${key.payload.id} as processed: ${error}`,
+  if (!response.ok)
+    throw new Error(
+      `Could not check processed state due to error: "${response.statusText}"`,
     )
+
+  const { data } = (await response.json()) as {
+    data?: { outboxIsProcessed: boolean | null }
   }
+
+  if (data?.outboxIsProcessed == null)
+    throw new Error('Could not check processed state: response had no data')
+
+  return data.outboxIsProcessed
 }
 
 export const sendEventInvitationMail = async ({
-  channelEvent,
+  contactTimeZone: timeZone,
+  event,
+  guestId,
+  guestInvitation,
+  locale,
   rateLimitPerDay,
   rateLimitPerSecond,
   redis,
   siteUrl,
   tusdFilesUrl,
 }: {
-  channelEvent: EventInvitationEvent
+  contactTimeZone: string | null
+  event: GuestInvitationEvent
+  guestId: string
+  guestInvitation: GuestInvitationContent
+  locale: AppLocale
   rateLimitPerDay: number
   rateLimitPerSecond: number
   redis: Redis
   siteUrl: string
   tusdFilesUrl: string
 }) => {
-  const { channel, payload } = channelEvent
-  const payloadCamelCased = camelcaseKeys(payload, { deep: true })
-
   const {
-    contact,
-    event,
-    guest,
+    contactEmailAddress: emailAddress,
     eventCreatorProfilePictureUploadStorageKey,
     eventCreatorUsername,
-  } = payloadCamelCased.data
-  const { emailAddress, timeZone } = contact
-  const guestId = guest.id
+  } = guestInvitation
 
   const icalFetch = await fetch(
     `http://${SITE_NAME}:3000/api/model/event/ical`,
@@ -399,27 +502,11 @@ export const sendEventInvitationMail = async ({
 
   const icalText = icalFetch.ok ? await icalFetch.text() : undefined
 
-  if (!guestId) {
-    console.error(`Could not get guest id ${guestId}!`)
-    return
-  }
-
-  if (!emailAddress) {
-    console.error(`Could not get email address ${emailAddress}!`)
-    return
-  }
-
-  if (!event) {
-    console.error(`Could not get contact ${event}!`)
-    return
-  }
-
-  const language = payloadCamelCased.template.language
-  const t = locales[CHANNEL_NAME_EVENT_INVITATION][language]
+  const t = locales[CHANNEL_NAME_EVENT_INVITATION][locale]
 
   const eventAttendanceType = [
-    ...(event.isInPerson ? [t.eventAttendanceTypeInPerson] : []),
-    ...(event.isRemote ? [t.eventAttendanceTypeRemote] : []),
+    ...(event.is_in_person ? [t.eventAttendanceTypeInPerson] : []),
+    ...(event.is_remote ? [t.eventAttendanceTypeRemote] : []),
   ].join(', ')
 
   let eventDescription
@@ -444,7 +531,7 @@ export const sendEventInvitationMail = async ({
 
   let eventVisibility
 
-  if (event.isArchived) {
+  if (event.is_archived) {
     eventVisibility = t.eventIsArchived
   } else if (event.visibility === EventVisibility.Public) {
     eventVisibility = t.eventVisibilityIsPublic
@@ -474,7 +561,7 @@ export const sendEventInvitationMail = async ({
       subject: t.subject(event.name),
       to: emailAddress,
     },
-    name: channel,
+    name: CHANNEL_NAME_EVENT_INVITATION,
     props: {
       emailAddress,
       eventAttendanceType,
@@ -487,14 +574,12 @@ export const sendEventInvitationMail = async ({
       eventEnd: event.end || undefined,
       // TODO: add event group (https://github.com/maevsi/vibetype/issues/92)
       eventLink: `${siteUrl}${
-        payloadCamelCased.template.language !== LOCALE_DEFAULT
-          ? '/' + payloadCamelCased.template.language
-          : ''
+        locale !== LOCALE_DEFAULT ? '/' + locale : ''
       }/guest/view/${guestId}`,
       eventName: event.name,
       eventStart: event.start,
       eventVisibility,
-      locale: payloadCamelCased.template.language,
+      locale,
       timeZone: timeZone ?? undefined,
     },
     rateLimitPerSecond,

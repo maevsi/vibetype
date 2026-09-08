@@ -9,47 +9,36 @@ import Email from './Email.vue'
 
 const {
   emailAddress,
-  emailAddressVerificationLink,
   locale,
   logoSource = undefined,
-  timeZone = undefined,
+  siteUrl,
   username,
-  validUntil,
 } = defineProps<{
   emailAddress: string
-  emailAddressVerificationLink: string
   locale: AppLocale
   logoSource?: string
-  timeZone?: string
+  siteUrl: string
   username: string
-  validUntil: string
 }>()
 
-const dateTimeFormatter = getEmailDateTimeFormatter(locale, timeZone)
 const locales = {
   de: {
-    button: 'Registrierung abschließen',
+    button: 'Jetzt loslegen',
     header: (username: string) => `Willkommen, ${username}!`,
     paragraph1: (siteName: string) =>
-      `Vielen Dank für deine Anmeldung bei ${siteName} - wir freuen uns, dass du dabei bist!`,
-    paragraph2:
-      'Bitte klicke auf den unten stehenden Button, um die Registrierung abzuschließen und dein Profil einzurichten.',
+      `Vielen Dank für deine Anmeldung bei ${siteName}, wir freuen uns, dass du dabei bist!`,
+    paragraph2: 'Dein Konto ist eingerichtet und einsatzbereit.',
     siteName: 'Vibetype'.toUpperCase(),
     title: 'Willkommen',
-    validUntil: (validUntil: string) =>
-      `Diese Anfrage ist bis zum ${dateTimeFormatter.format(new Date(validUntil))} gültig.`,
   },
   en: {
-    button: 'Complete registration',
+    button: 'Get started',
     header: (username: string) => `Welcome, ${username}!`,
     paragraph1: (siteName: string) =>
-      `Thanks so much for joining ${siteName} — we're thrilled to have you!`,
-    paragraph2:
-      'Please click on the button below to complete your registration and set up your profile.',
+      `Thanks so much for joining ${siteName}, we're thrilled to have you!`,
+    paragraph2: 'Your account is set up and ready to go.',
     siteName: 'Vibetype'.toUpperCase(),
     title: 'Welcome',
-    validUntil: (validUntil: string) =>
-      `This request is valid until ${dateTimeFormatter.format(new Date(validUntil))}.`,
   },
 }
 const t = locales[locale]
@@ -83,19 +72,9 @@ const t = locales[locale]
             {{ t.paragraph2 }}
           </AppText>
           <AppText style="margin: 0; margin-top: 32px; text-align: center">
-            <AppButton :href="emailAddressVerificationLink">
+            <AppButton :href="siteUrl">
               {{ t.button }}
             </AppButton>
-          </AppText>
-          <AppText
-            style="
-              color: #555;
-              font-size: 13px;
-              margin-top: 8px;
-              text-align: center;
-            "
-          >
-            {{ t.validUntil(validUntil) }}
           </AppText>
         </Column>
       </Row>
