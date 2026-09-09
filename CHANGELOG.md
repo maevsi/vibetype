@@ -1,3 +1,9 @@
+## [15.23.2](https://github.com/maevsi/vibetype/compare/15.23.1...15.23.2) (2026-09-09)
+
+### Bug Fixes
+
+* **account:** validate the password asynchronously on submit ([#2407](https://github.com/maevsi/vibetype/issues/2407)) ([21f5670](https://github.com/maevsi/vibetype/commit/21f5670faa3f70d8dc4efc76262ab6b0f6d063a3))
+
 ## [15.23.1](https://github.com/maevsi/vibetype/compare/15.23.0...15.23.1) (2026-09-05)
 
 ### Bug Fixes
