@@ -93,7 +93,7 @@ const form = useForm({
     passwordConfirm: '',
   },
   validators: {
-    onSubmit: formSchema,
+    onSubmitAsync: formSchema,
   },
   onSubmit: async ({ value }) => {
     const result = await passwordResetMutation.executeMutation({
