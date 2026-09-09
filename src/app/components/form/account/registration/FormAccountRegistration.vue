@@ -75,7 +75,7 @@ const form = useForm({
     passwordRepetition: '',
   },
   validators: {
-    onSubmit: formSchema,
+    onSubmitAsync: formSchema,
   },
   onSubmit: async ({ value }) => {
     emit('submit', {

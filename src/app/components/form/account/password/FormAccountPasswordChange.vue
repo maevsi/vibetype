@@ -116,7 +116,7 @@ const form = useForm({
     passwordNew: '',
   },
   validators: {
-    onSubmit: formSchema,
+    onSubmitAsync: formSchema,
   },
   onSubmit: async ({ value }) => {
     const result = await accountPasswordChangeMutation.executeMutation({
