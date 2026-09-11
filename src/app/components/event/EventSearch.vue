@@ -1,14 +1,16 @@
 <template>
-  <Loader :api>
-    <div class="flex flex-col gap-4">
-      <FormInputSearch v-model="searchQuery" />
-      <EventList
-        :events
-        :has-next-page="pageInfo?.hasNextPage"
-        @load-more="loadMore"
-      />
-    </div>
-  </Loader>
+  <div class="flex flex-1 flex-col gap-4">
+    <FormInputSearch v-model="searchQuery" />
+    <CardStateAlert v-if="errorMessages.length">
+      <AppSpanList :span="errorMessages" />
+    </CardStateAlert>
+    <EventList
+      :events
+      :has-next-page="pageInfo?.hasNextPage"
+      :is-loading="api.isFetching"
+      @load-more="loadMore"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -39,6 +41,7 @@ const queryEventList = graphql(`
         eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventCategoryByCategoryId {
+              id
               name
             }
           }
@@ -53,6 +56,7 @@ const queryEventList = graphql(`
         eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventFormatByFormatId {
+              id
               name
             }
           }
@@ -113,6 +117,7 @@ const queryEventSearch = graphql(`
         eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventCategoryByCategoryId {
+              id
               name
             }
           }
@@ -127,6 +132,7 @@ const queryEventSearch = graphql(`
         eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventFormatByFormatId {
+              id
               name
             }
           }
@@ -186,6 +192,7 @@ const searchResultsQuery = useQuery({
     query: searchQueryVariable.value,
     first: ITEMS_PER_PAGE,
   })),
+  pause: computed(() => !searchQueryVariable.value),
 })
 const query = computed(() =>
   searchQueryVariable.value ? searchResultsQuery : allEventsQuery,
@@ -196,6 +203,7 @@ const query = computed(() =>
 // permanently frozen on `allEvents`'s data and `pageInfo` would always
 // read as `undefined` for search results.
 const api = await useApiData([allEventsQuery, searchResultsQuery])
+const errorMessages = computed(() => getCombinedErrorMessages(api.value.errors))
 const pageInfo = computed(() =>
   searchQueryVariable.value
     ? api.value.data.eventSearch?.pageInfo
@@ -219,10 +227,20 @@ const events = computed(() => {
   return undefined
 })
 
+// Tracks whether the initial `advanceUntilUpcomingEvent` catch-up has
+// finished, so `loadMore` only switches `allEventsQueryFirst` back down to
+// `ITEMS_PER_PAGE` once there's also a new `after` cursor to go with it -
+// changing `allEventsQueryFirst` on its own would re-execute `allEventsQuery`
+// with the same `after` cursor, refetching (and discarding) data it already
+// has.
+let allEventsCaughtUpOnUpcomingEvent = false
+
 const loadMore = () => {
   if (!query.value.data.value) return
 
   if ('allEvents' in query.value.data.value) {
+    if (allEventsCaughtUpOnUpcomingEvent)
+      allEventsQueryFirst.value = ITEMS_PER_PAGE
     allEventsQueryAfter.value =
       query.value.data.value?.allEvents?.pageInfo.endCursor
   }
@@ -248,6 +266,13 @@ const advanceUntilUpcomingEvent = async () => {
   let pages = 0
   let previousEndCursor: string | null | undefined
 
+  // On the client (unlike during SSR, see below), the query triggered by
+  // `useQuery` at setup is still in flight at this point, so `events.value`
+  // reads as `undefined` rather than an empty array; awaiting the query here
+  // lets the loop condition below see its actual result instead of exiting
+  // immediately.
+  await query.value
+
   while (events.value?.length === 0 && pageInfo.value?.hasNextPage) {
     if (pages >= ADVANCE_UNTIL_UPCOMING_EVENT_MAX_PAGES) break
     // `hasNextPage` being true with an `endCursor` that isn't moving would
@@ -265,7 +290,7 @@ const advanceUntilUpcomingEvent = async () => {
 // makes the initial catch-up finish during server-side rendering instead of
 // flashing an empty list on load.
 await advanceUntilUpcomingEvent()
-allEventsQueryFirst.value = ITEMS_PER_PAGE
+allEventsCaughtUpOnUpcomingEvent = true
 
 watch(searchQueryVariable, async () => {
   searchResultsQueryAfter.value = undefined

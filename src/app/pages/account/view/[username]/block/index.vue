@@ -1,6 +1,5 @@
 <template>
-  <LoaderIndicatorPing v-if="api.isFetching" />
-  <div v-else>
+  <Loader :api>
     <LayoutTopBar>
       <span>
         {{ title }}
@@ -59,7 +58,7 @@
       :account="blockRemoveAccount"
       @success="accountBlockAccountsQuery.executeQuery"
     />
-  </div>
+  </Loader>
 </template>
 
 <script setup lang="ts">

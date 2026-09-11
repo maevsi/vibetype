@@ -1,6 +1,7 @@
 <template>
-  <!-- TODO: remove this redirect placeholder after all links to the new page path are likely updated -->
-  <div />
+  <div>
+    <!-- TODO: remove this redirect placeholder after all links to the new page path are likely updated -->
+  </div>
 </template>
 
 <script setup lang="ts">

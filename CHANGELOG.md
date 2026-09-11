@@ -11,6 +11,100 @@
 ### Features
 
 * **app:** drop outdated detection keys ([9eb7e4e](https://github.com/maevsi/vibetype/commit/9eb7e4efe1b94a489b94ccb7c1b2c92f53040531))
+## [15.23.1](https://github.com/maevsi/vibetype/compare/15.23.0...15.23.1) (2026-09-05)
+
+### Bug Fixes
+
+* schedule release ([bca9716](https://github.com/maevsi/vibetype/commit/bca9716ae53bbb92b06b480ba976f15fa86d4304))
+
+## [15.23.0](https://github.com/maevsi/vibetype/compare/15.22.1...15.23.0) (2026-08-28)
+
+### Features
+
+* **guest:** create contacts from the search ([#2400](https://github.com/maevsi/vibetype/issues/2400)) ([d9560cd](https://github.com/maevsi/vibetype/commit/d9560cd1048ea0468db0b4ecc5a5f6d3f5a2c8fb))
+
+## [15.22.1](https://github.com/maevsi/vibetype/compare/15.22.0...15.22.1) (2026-08-28)
+
+### Bug Fixes
+
+* **urql:** reset client when clearing cache ([#2401](https://github.com/maevsi/vibetype/issues/2401)) ([1b42e13](https://github.com/maevsi/vibetype/commit/1b42e13d42d637c149ca56fed52951130c81e034))
+
+## [15.22.0](https://github.com/maevsi/vibetype/compare/15.21.2...15.22.0) (2026-08-28)
+
+### Features
+
+* **legal:** define contacts and invitation privacy terms ([b21f036](https://github.com/maevsi/vibetype/commit/b21f03638cd0243284c8cea974ac69faa4e39965))
+
+## [15.21.2](https://github.com/maevsi/vibetype/compare/15.21.1...15.21.2) (2026-08-26)
+
+### Bug Fixes
+
+* **error:** show localized status and gate stack trace to dev ([#2399](https://github.com/maevsi/vibetype/issues/2399)) ([5b8b4c2](https://github.com/maevsi/vibetype/commit/5b8b4c21e4781d15f7fb9a64987c3d71982aa01c))
+
+## [15.21.1](https://github.com/maevsi/vibetype/compare/15.21.0...15.21.1) (2026-08-26)
+
+### Bug Fixes
+
+* **event:** avoid duplicate requests when opening the list ([#2397](https://github.com/maevsi/vibetype/issues/2397)) ([d720ad1](https://github.com/maevsi/vibetype/commit/d720ad1ff4978ff43bd6e002676a64f7dcee7e90))
+
+## [15.21.0](https://github.com/maevsi/vibetype/compare/15.20.2...15.21.0) (2026-08-26)
+
+### Features
+
+* **loader:** use logo indicator for full-page loading states ([#2342](https://github.com/maevsi/vibetype/issues/2342)) ([ce66844](https://github.com/maevsi/vibetype/commit/ce66844404fc02efc80dcfad8ba24c4adf4edc77))
+
+## [15.20.2](https://github.com/maevsi/vibetype/compare/15.20.1...15.20.2) (2026-08-26)
+
+### Bug Fixes
+
+* **redis:** log connection errors once per outage instead of once per retry ([cf74bcc](https://github.com/maevsi/vibetype/commit/cf74bcc6b3e786044beecf04ad16841caa446cb8))
+
+## [15.20.1](https://github.com/maevsi/vibetype/compare/15.20.0...15.20.1) (2026-08-26)
+
+### Bug Fixes
+
+* **urql:** select id on eventCategoryByCategoryId and eventFormatByFormatId ([#2393](https://github.com/maevsi/vibetype/issues/2393)) ([745040c](https://github.com/maevsi/vibetype/commit/745040c5a57293be2e74647deddc203e5bd0934f))
+
+## [15.20.0](https://github.com/maevsi/vibetype/compare/15.19.0...15.20.0) (2026-08-26)
+
+### Features
+
+* **event:** allow selecting a location on a map ([#2390](https://github.com/maevsi/vibetype/issues/2390)) ([eeb58ef](https://github.com/maevsi/vibetype/commit/eeb58efa2b9fb6e8bec78ecc5e55f783036c390a))
+
+## [15.19.0](https://github.com/maevsi/vibetype/compare/15.18.0...15.19.0) (2026-08-26)
+
+### Features
+
+* **guest:** add list search and alphabetical ordering ([d08968c](https://github.com/maevsi/vibetype/commit/d08968cdb4f8fd6e3ff031eeee78aed5ac91a372))
+
+### Bug Fixes
+
+* **guest:** reflect rsvp change in feedback icon ([205d3c4](https://github.com/maevsi/vibetype/commit/205d3c4de5ab81e51e7346ba0a8c3f6cf3ca1e88))
+
+## [15.18.0](https://github.com/maevsi/vibetype/compare/15.17.0...15.18.0) (2026-08-26)
+
+### Features
+
+* **guest:** submit on enter, show list loading state ([#2389](https://github.com/maevsi/vibetype/issues/2389)) ([6c4ec4a](https://github.com/maevsi/vibetype/commit/6c4ec4aa8e25db1a63b14ab858458842d54bba49))
+* **invitation:** move organizer feedback override to guest list ([#2388](https://github.com/maevsi/vibetype/issues/2388)) ([115bc8f](https://github.com/maevsi/vibetype/commit/115bc8fb1294d6224b0981293f418cc5e9f93290))
+
+## [15.17.0](https://github.com/maevsi/vibetype/compare/15.16.1...15.17.0) (2026-08-26)
+
+### Features
+
+* **event:** drop templating from descriptions ([#2387](https://github.com/maevsi/vibetype/issues/2387)) ([2ffb1e5](https://github.com/maevsi/vibetype/commit/2ffb1e5f22051eec657158e3c52a076a1acc43d0))
+
+### Bug Fixes
+
+* **account:** noindex profiles without content ([#2386](https://github.com/maevsi/vibetype/issues/2386)) ([bce0a65](https://github.com/maevsi/vibetype/commit/bce0a6521d92ea632115b4bb8362352123c81a59))
+
+## [15.16.1](https://github.com/maevsi/vibetype/compare/15.16.0...15.16.1) (2026-08-24)
+
+### Bug Fixes
+
+* **tiptap:** sync external value updates and empty-content emission ([#2381](https://github.com/maevsi/vibetype/issues/2381)) ([0528bcc](https://github.com/maevsi/vibetype/commit/0528bcc583daaacd920587afa401e61b2c7f37a0))
+
+## [15.16.0](https://github.com/maevsi/vibetype/compare/15.15.1...15.16.0) (2026-08-17)
 
 ## [15.15.1](https://github.com/maevsi/vibetype/compare/15.15.0...15.15.1) (2026-08-14)
 

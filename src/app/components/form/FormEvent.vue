@@ -283,6 +283,54 @@
             </form.Field>
           </FieldContent>
         </Field>
+        <form.Field v-slot="{ field: isInPersonField }" name="isInPerson">
+          <template v-if="isInPersonField.state.value">
+            <form.Field
+              v-slot="{ field: locationNameField }"
+              name="locationName"
+            >
+              <Field>
+                <FieldLabel for="input-location-name">{{
+                  t('location')
+                }}</FieldLabel>
+                <FieldContent>
+                  <Input
+                    id="input-location-name"
+                    :aria-invalid="isFieldInvalid(locationNameField)"
+                    :model-value="locationNameField.state.value"
+                    :placeholder="t('locationPlaceholder')"
+                    type="text"
+                    @blur="locationNameField.handleBlur"
+                    @input="
+                      locationNameField.handleChange(
+                        ($event.target as HTMLInputElement).value,
+                      )
+                    "
+                  />
+                </FieldContent>
+                <FieldDescription>{{ t('locationHint') }}</FieldDescription>
+                <FieldError
+                  v-if="isFieldInvalid(locationNameField)"
+                  :errors="locationNameField.state.meta.errors"
+                />
+              </Field>
+            </form.Field>
+            <AppFeature feature="map">
+              <div class="relative isolate">
+                <AppMap
+                  ref="map"
+                  class="h-64"
+                  geocoder
+                  :position-initial="locationPositionInitial"
+                  @geocode="onGeocode"
+                />
+                <AppIconMapPinSolid
+                  class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-(--critic-red-middle)"
+                />
+              </div>
+            </AppFeature>
+          </template>
+        </form.Field>
         <form.Field v-slot="{ field }" name="url">
           <Field>
             <FieldLabel for="input-url">{{ t('url') }}</FieldLabel>
@@ -379,6 +427,11 @@ const { event = undefined } = defineProps<{
     | 'description'
     | 'rowId'
   > & {
+    addressByAddressId?: {
+      location?: { latitude: number; longitude: number } | null
+      name?: string | null
+      rowId?: string | null
+    } | null
     eventCategoryMappingsByEventId?: {
       nodes: readonly { categoryId: string }[]
     } | null
@@ -415,6 +468,28 @@ const updateEventMutation = useMutation(
       updateEventByRowId(input: $input) {
         event {
           id
+        }
+      }
+    }
+  `),
+)
+const createAddressMutation = useMutation(
+  graphql(`
+    mutation CreateAddress($input: CreateAddressInput!) {
+      createAddress(input: $input) {
+        address {
+          rowId
+        }
+      }
+    }
+  `),
+)
+const updateAddressByRowIdMutation = useMutation(
+  graphql(`
+    mutation UpdateAddressByRowId($input: UpdateAddressByRowIdInput!) {
+      updateAddressByRowId(input: $input) {
+        address {
+          rowId
         }
       }
     }
@@ -485,7 +560,9 @@ const deleteEventFormatMappingByEventIdAndFormatIdMutation = useMutation(
   `),
 )
 const api = await useApiData([
+  createAddressMutation,
   createEventMutation,
+  updateAddressByRowIdMutation,
   updateEventMutation,
   createEventCategoryMappingMutation,
   deleteEventCategoryMappingByEventIdAndCategoryIdMutation,
@@ -519,6 +596,7 @@ const formSchema = z.object({
   guestCountMaximum: z.string(),
   isInPerson: z.boolean(),
   isRemote: z.boolean(),
+  locationName: SCHEMA_EVENT_LOCATION_NAME_OPTIONAL,
   name: SCHEMA_EVENT_NAME_REQUIRED,
   rowId: z.string(),
   slug: SCHEMA_EVENT_SLUG_REQUIRED,
@@ -584,6 +662,56 @@ const syncEventFormatMappings = async ({
   return results.every((result) => !result.error)
 }
 
+// location
+const addressRowIdOriginal = event?.addressByAddressId?.rowId
+const locationPositionInitial = event?.addressByAddressId?.location
+  ? {
+      latitude: event.addressByAddressId.location.latitude,
+      longitude: event.addressByAddressId.location.longitude,
+      zoomLevel: 15,
+    }
+  : undefined
+const templateMap = useTemplateRef('map')
+const onGeocode = (name: string) => {
+  form.setFieldValue('locationName', name)
+}
+const syncAddress = async (
+  locationName: string,
+): Promise<string | null | undefined> => {
+  const trimmedLocationName = locationName.trim()
+
+  if (!form.getFieldValue('isInPerson') || !trimmedLocationName) return null
+
+  const mapCenter = templateMap.value?.mapCenter
+  if (!mapCenter) return addressRowIdOriginal ?? null
+
+  const location = {
+    type: 'Point' as const,
+    coordinates: [mapCenter.lng, mapCenter.lat],
+  }
+
+  if (addressRowIdOriginal) {
+    const result = await updateAddressByRowIdMutation.executeMutation({
+      input: {
+        addressPatch: { location, name: trimmedLocationName },
+        rowId: addressRowIdOriginal,
+      },
+    })
+    return getResultData(result) ? addressRowIdOriginal : undefined
+  }
+
+  const result = await createAddressMutation.executeMutation({
+    input: {
+      address: {
+        createdBy: store.signedInAccountId || '',
+        location,
+        name: trimmedLocationName,
+      },
+    },
+  })
+  return getResultData(result)?.createAddress?.address?.rowId
+}
+
 const form = useForm({
   defaultValues: {
     categoryIds:
@@ -601,6 +729,7 @@ const form = useForm({
       : '',
     isInPerson: event?.isInPerson ?? false,
     isRemote: event?.isRemote ?? false,
+    locationName: event?.addressByAddressId?.name ?? '',
     name: (event?.name as string) ?? '',
     rowId: '',
     slug: (event?.slug as string) ?? '',
@@ -617,10 +746,14 @@ const form = useForm({
 
     if (value.rowId) {
       // Edit
+      const addressId = await syncAddress(value.locationName)
+      if (addressId === undefined) return
+
       const result = await updateEventMutation.executeMutation({
         input: {
           rowId: value.rowId,
           eventPatch: {
+            addressId,
             createdBy: store.signedInAccountId,
             description: value.description || null,
             end: value.end || null,
@@ -661,9 +794,13 @@ const form = useForm({
       toast.success(t('eventUpdateSuccess'))
     } else {
       // Add
+      const addressId = await syncAddress(value.locationName)
+      if (addressId === undefined) return
+
       const result = await createEventMutation.executeMutation({
         input: {
           event: {
+            addressId,
             createdBy: store.signedInAccountId || '',
             description: value.description || null,
             end: value.end || null,
@@ -799,13 +936,14 @@ de:
   eventUpdate: Änderungen speichern
   eventUpdateSuccess: Aktualisiert
   formats: Formate
-  # stateInfoLocation: Ein Suchbegriff für Google Maps.
   isInPerson: vor Ort
   isRemote: digital
+  location: Ort
+  locationHint: Suche nach einer Adresse oder verschiebe die Karte, um den Ort zu bestimmen.
+  locationPlaceholder: Adresse oder Ort suchen
   maximumInviteeCount: Maximale Gästezahl
   name: Name
   namePlaceholder: Willkommensfeier
-  # location: Ort
   start: Beginn
   validationExistenceNone: Du hast bereits eine Veranstaltung mit der ID "{slug}" angelegt
   validationWarningNameChangeSlug: Wenn du den Namen änderst, funktionieren bestehende Links zur Veranstaltung möglicherweise nicht mehr
@@ -824,13 +962,14 @@ en:
   eventUpdate: Save changes
   eventUpdateSuccess: Updated
   formats: Formats
-  # stateInfoLocation: A search phrase for Google Maps.
   isInPerson: in person
   isRemote: remote
+  location: Location
+  locationHint: Search for an address or move the map to set the location.
+  locationPlaceholder: Search for an address or place
   maximumInviteeCount: Maximum guest count
   name: Name
   namePlaceholder: Welcome Party
-  # location: Location
   start: Start
   validationExistenceNone: You have already created an event with id "{slug}"
   validationWarningNameChangeSlug: If you change the name, existing links to the event may no longer work

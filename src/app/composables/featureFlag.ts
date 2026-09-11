@@ -1,4 +1,5 @@
 export const FEATURE_FLAGS = [
+  'account-management',
   'developer-tools',
   'friends',
   'map',

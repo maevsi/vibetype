@@ -344,7 +344,7 @@ defineRouteRules({
   robots: false,
 })
 
-const { $urqlCache } = useNuxtApp()
+const { $urqlCache, $urqlReset } = useNuxtApp()
 const { t } = useI18n()
 const requestEvent = useRequestEvent()
 const store = useStore()
@@ -371,7 +371,8 @@ const apiClientCacheClear = async () => {
     return
   }
 
-  toast.promise($urqlCache.clear(), {
+  // Resetting rebuilds the clients on a fresh in-memory store, whereas clearing the storage alone would leave the running offline exchange serving and re-persisting the entities it still holds.
+  toast.promise($urqlReset(), {
     error: () => t('apiClientCacheClearError'),
     success: () => t('apiClientCacheClearSuccess'),
   })

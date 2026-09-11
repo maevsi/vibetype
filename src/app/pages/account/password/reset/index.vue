@@ -163,7 +163,7 @@ de:
   instructionsSuccessHeading: Passwort erfolgreich zurückgesetzt
   returnBack: Zurück
   signIn: Einloggen
-  subtitle: Mindestens 12 Zeichen mit mindestens 1 Großbuchstaben und 1 Sonderzeichen.
+  subtitle: Mindestens 8 Zeichen, die nicht leicht zu erraten sind.
   title: Neues Passwort festlegen
   tryAgain: Erneut versuchen
 en:
@@ -177,7 +177,7 @@ en:
   instructionsSuccessHeading: Password reset successful
   returnBack: Return back
   signIn: Log in
-  subtitle: Minimum 12 characters with at least 1 uppercase letter and 1 special character.
+  subtitle: At least 8 characters that aren't easy to guess.
   title: Set your new password
   tryAgain: Try again
 </i18n>

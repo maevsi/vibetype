@@ -17,8 +17,6 @@ export const VALIDATION_NAME_LAST_LENGTH_MAXIMUM = 100
 export const VALIDATION_NAME_NICK_LENGTH_MAXIMUM = 100
 export const VALIDATION_NOTE_LENGTH_MAXIMUM = 1000
 export const VALIDATION_PASSWORD_LENGTH_MINIMUM = 8
-export const VALIDATION_PASSWORD_LENGTH_MINIMUM_V2 = 12
-export const VALIDATION_PASSWORD_SCHEMA = /[!@#$%^&*(),.?":{}|<>]/
 export const VALIDATION_PHONE_NUMBER_LENGTH_MAXIMUM = 30 // rejects pathological input before parsing; real formatted numbers stay well under this
 export const VALIDATION_URL_LENGTH_MAXIMUM = 2000
 export const VALIDATION_USERNAME_LENGTH_MAXIMUM = 100
@@ -37,6 +35,10 @@ export const SCHEMA_EMAIL_ADDRESS_REQUIRED = z
 export const SCHEMA_EVENT_DESCRIPTION_OPTIONAL = z
   .string()
   .max(VALIDATION_EVENT_DESCRIPTION_LENGTH_MAXIMUM)
+  .or(z.literal(''))
+export const SCHEMA_EVENT_LOCATION_NAME_OPTIONAL = z
+  .string()
+  .max(VALIDATION_EVENT_LOCATION_LENGTH_MAXIMUM)
   .or(z.literal(''))
 export const SCHEMA_EVENT_NAME_REQUIRED = z
   .string()
@@ -72,9 +74,12 @@ export const SCHEMA_PASSWORD = z
   .min(VALIDATION_PASSWORD_LENGTH_MINIMUM)
 export const SCHEMA_PASSWORD_V2 = z
   .string()
-  .min(VALIDATION_PASSWORD_LENGTH_MINIMUM_V2)
-  .regex(/[A-Z]/)
-  .regex(VALIDATION_PASSWORD_SCHEMA)
+  .min(VALIDATION_PASSWORD_LENGTH_MINIMUM)
+  .refine(
+    async (password) =>
+      (await getPasswordStrengthScore(password)) >=
+      PASSWORD_STRENGTH_SCORE_MINIMUM,
+  )
 export const SCHEMA_PHONE_NUMBER_OPTIONAL = z
   .string()
   .max(VALIDATION_PHONE_NUMBER_LENGTH_MAXIMUM)
@@ -103,7 +108,7 @@ export const SCHEMA_USER_NAME_REQUIRED = z
   .min(1)
   .max(VALIDATION_NAME_FIRST_LENGTH_MAXIMUM)
 
-const accountByUsernameQuery = graphql(`
+export const accountByUsernameQuery = graphql(`
   query AccountByUsername($username: String!) {
     accountByUsername(username: $username) {
       id

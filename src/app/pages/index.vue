@@ -182,7 +182,7 @@ const achievementUnlockMutation = useMutation(
     }
   `),
 )
-const { /* data, */ error, status } = await useAsyncData(
+const { /* data, */ error, status } = useAsyncData(
   computed(() => `achievement:${stringifyQuery(route.query)}`),
   async () => {
     if (!Object.keys(route.query).length)

@@ -2,14 +2,14 @@
 # check=skip=SecretsUsedInArgOrEnv
 
 # <DEPENDENCIES>
-FROM ghcr.io/maevsi/postgraphile:2.2.1
-FROM ghcr.io/maevsi/sqitch:12.2
+FROM ghcr.io/maevsi/postgraphile:2.2.4
+FROM ghcr.io/maevsi/sqitch:12.3
 # </DEPENDENCIES>
 
 #############
 # Create base image.
 
-FROM node:24.19.0-alpine AS base-image
+FROM node:24.20.0-alpine AS base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -123,7 +123,7 @@ RUN pnpm -r run test
 ########################
 # Nuxt: test (e2e, base-image)
 
-FROM mcr.microsoft.com/playwright:v1.62.1 AS test-e2e-base-image
+FROM mcr.microsoft.com/playwright:v1.63.0 AS test-e2e-base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true

@@ -1,5 +1,4 @@
 <template>
-  <!-- <Loader :api indicator="ping"> -->
   <header>
     <div class="flex items-center justify-between gap-4">
       <div class="flex items-center gap-4">
@@ -52,7 +51,6 @@
       </div>
     </div>
   </header>
-  <!-- </Loader> -->
 </template>
 
 <script setup lang="ts">

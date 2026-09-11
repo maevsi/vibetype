@@ -472,10 +472,6 @@ export const sendEventInvitationMail = async ({
   const icalFetch = await fetch(
     `http://${SITE_NAME}:3000/api/model/event/ical`,
     {
-      // `contact` is intentionally omitted here: this notification's payload only carries
-      // `emailAddress`/`timeZone`, not the guest's linked `Contact` record (`firstName`/`lastName`),
-      // so `{{contact.firstName}}`-style merge fields in the event description render blank in the
-      // emailed `.ics` attachment, unlike the guest-view page's manual download.
       body: JSON.stringify({
         event: {
           ...event,
@@ -512,16 +508,7 @@ export const sendEventInvitationMail = async ({
   let eventDescription
 
   if (event.description !== null) {
-    eventDescription = HTML_TO_TEXT(
-      event.description,
-      // handlebars.compile(event.description)({
-      //   contact: { emailAddress },
-      //   event,
-      //   invitation: {
-      //     id: guestId,
-      //   },
-      // }),
-    )
+    eventDescription = HTML_TO_TEXT(event.description)
 
     if (event.description.length > EVENT_DESCRIPTION_TRIM_LENGTH) {
       eventDescription =
