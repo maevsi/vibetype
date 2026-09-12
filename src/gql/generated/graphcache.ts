@@ -271,6 +271,7 @@ export type AccountEventsByCreatedByArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
   condition?: InputMaybe<EventCondition>
+  filter?: InputMaybe<EventFilter>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
@@ -867,6 +868,18 @@ export type AchievementEdge = {
   node: Achievement
 }
 
+/** An input for mutations affecting `Achievement` */
+export type AchievementInput = {
+  /** The account which unlocked the achievement. */
+  accountId: Scalars['UUID']['input']
+  /** The unlock's achievement. */
+  achievement: AchievementType
+  /** The achievement unlock's level. */
+  level?: InputMaybe<Scalars['Int']['input']>
+  /** The achievement unlock's internal id. */
+  rowId?: InputMaybe<Scalars['UUID']['input']>
+}
+
 /** Methods to use when ordering `Achievement`. */
 export enum AchievementOrderBy {
   AccountIdAsc = 'ACCOUNT_ID_ASC',
@@ -876,6 +889,18 @@ export enum AchievementOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   RowIdAsc = 'ROW_ID_ASC',
   RowIdDesc = 'ROW_ID_DESC',
+}
+
+/** Represents an update to a `Achievement`. Fields that are set will be updated. */
+export type AchievementPatch = {
+  /** The account which unlocked the achievement. */
+  accountId?: InputMaybe<Scalars['UUID']['input']>
+  /** The unlock's achievement. */
+  achievement?: InputMaybe<AchievementType>
+  /** The achievement unlock's level. */
+  level?: InputMaybe<Scalars['Int']['input']>
+  /** The achievement unlock's internal id. */
+  rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** Achievements that can be unlocked by users. */
@@ -965,6 +990,7 @@ export type AddressEventsByAddressIdArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
   condition?: InputMaybe<EventCondition>
+  filter?: InputMaybe<EventFilter>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
@@ -1478,6 +1504,38 @@ export type CreateAccountSocialNetworkPayloadAccountSocialNetworkEdgeArgs = {
   orderBy?: Array<AccountSocialNetworkOrderBy>
 }
 
+/** All input for the create `Achievement` mutation. */
+export type CreateAchievementInput = {
+  /** The `Achievement` to be created by this mutation. */
+  achievement: AchievementInput
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The output of our create `Achievement` mutation. */
+export type CreateAchievementPayload = {
+  __typename?: 'CreateAchievementPayload'
+  /** The `Achievement` that was created by this mutation. */
+  achievement?: Maybe<Achievement>
+  /** An edge for our `Achievement`. May be used by Relay 1. */
+  achievementEdge?: Maybe<AchievementEdge>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our create `Achievement` mutation. */
+export type CreateAchievementPayloadAchievementEdgeArgs = {
+  orderBy?: Array<AchievementOrderBy>
+}
+
 /** All input for the create `Address` mutation. */
 export type CreateAddressInput = {
   /** The `Address` to be created by this mutation. */
@@ -1732,6 +1790,38 @@ export type CreateEventPayload = {
 /** The output of our create `Event` mutation. */
 export type CreateEventPayloadEventEdgeArgs = {
   orderBy?: Array<EventOrderBy>
+}
+
+/** All input for the create `EventRecommendation` mutation. */
+export type CreateEventRecommendationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The `EventRecommendation` to be created by this mutation. */
+  eventRecommendation: EventRecommendationInput
+}
+
+/** The output of our create `EventRecommendation` mutation. */
+export type CreateEventRecommendationPayload = {
+  __typename?: 'CreateEventRecommendationPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `EventRecommendation` that was created by this mutation. */
+  eventRecommendation?: Maybe<EventRecommendation>
+  /** An edge for our `EventRecommendation`. May be used by Relay 1. */
+  eventRecommendationEdge?: Maybe<EventRecommendationEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our create `EventRecommendation` mutation. */
+export type CreateEventRecommendationPayloadEventRecommendationEdgeArgs = {
+  orderBy?: Array<EventRecommendationOrderBy>
 }
 
 /** All input for the create `EventUpload` mutation. */
@@ -2112,6 +2202,24 @@ export type CreateUploadPayloadUploadEdgeArgs = {
   orderBy?: Array<UploadOrderBy>
 }
 
+/** A filter to be used against Datetime fields. All fields are combined with a logical ‘and.’ */
+export type DatetimeFilter = {
+  /** Equal to the specified value. */
+  equalTo?: InputMaybe<Scalars['Datetime']['input']>
+  /** Greater than the specified value. */
+  greaterThan?: InputMaybe<Scalars['Datetime']['input']>
+  /** Greater than or equal to the specified value. */
+  greaterThanOrEqualTo?: InputMaybe<Scalars['Datetime']['input']>
+  /** Is null (if `true` is specified) or is not null (if `false` is specified). */
+  isNull?: InputMaybe<Scalars['Boolean']['input']>
+  /** Less than the specified value. */
+  lessThan?: InputMaybe<Scalars['Datetime']['input']>
+  /** Less than or equal to the specified value. */
+  lessThanOrEqualTo?: InputMaybe<Scalars['Datetime']['input']>
+  /** Not equal to the specified value. */
+  notEqualTo?: InputMaybe<Scalars['Datetime']['input']>
+}
+
 /** All input for the `deleteAccountBlockByCreatedByAndBlockedAccountId` mutation. */
 export type DeleteAccountBlockByCreatedByAndBlockedAccountIdInput = {
   /** The account id of the user who is blocked. */
@@ -2213,6 +2321,63 @@ export type DeleteAccountSocialNetworkPayload = {
 /** The output of our delete `AccountSocialNetwork` mutation. */
 export type DeleteAccountSocialNetworkPayloadAccountSocialNetworkEdgeArgs = {
   orderBy?: Array<AccountSocialNetworkOrderBy>
+}
+
+/** All input for the `deleteAchievementByAccountIdAndAchievement` mutation. */
+export type DeleteAchievementByAccountIdAndAchievementInput = {
+  /** The account which unlocked the achievement. */
+  accountId: Scalars['UUID']['input']
+  /** The unlock's achievement. */
+  achievement: AchievementType
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+}
+
+/** All input for the `deleteAchievementByRowId` mutation. */
+export type DeleteAchievementByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The achievement unlock's internal id. */
+  rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `deleteAchievement` mutation. */
+export type DeleteAchievementInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `Achievement` to be deleted. */
+  id: Scalars['ID']['input']
+}
+
+/** The output of our delete `Achievement` mutation. */
+export type DeleteAchievementPayload = {
+  __typename?: 'DeleteAchievementPayload'
+  /** The `Achievement` that was deleted by this mutation. */
+  achievement?: Maybe<Achievement>
+  /** An edge for our `Achievement`. May be used by Relay 1. */
+  achievementEdge?: Maybe<AchievementEdge>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  deletedAchievementId?: Maybe<Scalars['ID']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our delete `Achievement` mutation. */
+export type DeleteAchievementPayloadAchievementEdgeArgs = {
+  orderBy?: Array<AchievementOrderBy>
 }
 
 /** All input for the `deleteAddressByRowId` mutation. */
@@ -2577,6 +2742,52 @@ export type DeleteEventPayload = {
 /** The output of our delete `Event` mutation. */
 export type DeleteEventPayloadEventEdgeArgs = {
   orderBy?: Array<EventOrderBy>
+}
+
+/** All input for the `deleteEventRecommendationByAccountIdAndEventId` mutation. */
+export type DeleteEventRecommendationByAccountIdAndEventIdInput = {
+  /** A user account id. */
+  accountId: Scalars['UUID']['input']
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The predicted score of the recommendation. */
+  eventId: Scalars['UUID']['input']
+}
+
+/** All input for the `deleteEventRecommendation` mutation. */
+export type DeleteEventRecommendationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `EventRecommendation` to be deleted. */
+  id: Scalars['ID']['input']
+}
+
+/** The output of our delete `EventRecommendation` mutation. */
+export type DeleteEventRecommendationPayload = {
+  __typename?: 'DeleteEventRecommendationPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  deletedEventRecommendationId?: Maybe<Scalars['ID']['output']>
+  /** The `EventRecommendation` that was deleted by this mutation. */
+  eventRecommendation?: Maybe<EventRecommendation>
+  /** An edge for our `EventRecommendation`. May be used by Relay 1. */
+  eventRecommendationEdge?: Maybe<EventRecommendationEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our delete `EventRecommendation` mutation. */
+export type DeleteEventRecommendationPayloadEventRecommendationEdgeArgs = {
+  orderBy?: Array<EventRecommendationOrderBy>
 }
 
 /** All input for the `deleteEventUploadByEventIdAndUploadId` mutation. */
@@ -3191,6 +3402,8 @@ export type Event = Node & {
   createdBy: Scalars['UUID']['output']
   /** The event's description. Must be non-empty and not exceed 10,000 characters. */
   description?: Maybe<Scalars['String']['output']>
+  /** The event's end date and time, falling back to end of time when no explicit end is set. */
+  effectiveEnd?: Maybe<Scalars['Datetime']['output']>
   /** The event's end date and time, with time zone. */
   end?: Maybe<Scalars['Datetime']['output']>
   /** Reads and enables pagination through a set of `EventApp`. */
@@ -3534,6 +3747,14 @@ export enum EventCategoryMappingOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
 }
 
+/** Represents an update to a `EventCategoryMapping`. Fields that are set will be updated. */
+export type EventCategoryMappingPatch = {
+  /** A category id. */
+  categoryId?: InputMaybe<Scalars['UUID']['input']>
+  /** An event id. */
+  eventId?: InputMaybe<Scalars['UUID']['input']>
+}
+
 /** Methods to use when ordering `EventCategory`. */
 export enum EventCategoryOrderBy {
   NameAsc = 'NAME_ASC',
@@ -3551,6 +3772,12 @@ export type EventCondition = {
   addressId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `createdBy` field. */
   createdBy?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `effectiveEnd` field. */
+  effectiveEnd?: InputMaybe<Scalars['Datetime']['input']>
+  /** Checks for equality with the object’s `end` field. */
+  end?: InputMaybe<Scalars['Datetime']['input']>
+  /** Checks for equality with the object’s `name` field. */
+  name?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `rowId` field. */
   rowId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `slug` field. */
@@ -3685,6 +3912,16 @@ export enum EventFavoriteOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   RowIdAsc = 'ROW_ID_ASC',
   RowIdDesc = 'ROW_ID_DESC',
+}
+
+/** A filter to be used against `Event` object types. All fields are combined with a logical ‘and.’ */
+export type EventFilter = {
+  /** Filter by the object’s `effectiveEnd` field. */
+  effectiveEnd?: InputMaybe<DatetimeFilter>
+  /** Filter by the object’s `end` field. */
+  end?: InputMaybe<DatetimeFilter>
+  /** Filter by the object’s `start` field. */
+  start?: InputMaybe<DatetimeFilter>
 }
 
 /** Event formats. */
@@ -3824,6 +4061,14 @@ export enum EventFormatMappingOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
 }
 
+/** Represents an update to a `EventFormatMapping`. Fields that are set will be updated. */
+export type EventFormatMappingPatch = {
+  /** An event id. */
+  eventId?: InputMaybe<Scalars['UUID']['input']>
+  /** A format id. */
+  formatId?: InputMaybe<Scalars['UUID']['input']>
+}
+
 /** Methods to use when ordering `EventFormat`. */
 export enum EventFormatOrderBy {
   NameAsc = 'NAME_ASC',
@@ -3872,6 +4117,8 @@ export enum EventOrderBy {
   AddressIdDesc = 'ADDRESS_ID_DESC',
   CreatedByAsc = 'CREATED_BY_ASC',
   CreatedByDesc = 'CREATED_BY_DESC',
+  NameAsc = 'NAME_ASC',
+  NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
@@ -3966,6 +4213,18 @@ export type EventRecommendationEdge = {
   node: EventRecommendation
 }
 
+/** An input for mutations affecting `EventRecommendation` */
+export type EventRecommendationInput = {
+  /** A user account id. */
+  accountId: Scalars['UUID']['input']
+  /** The predicted score of the recommendation. */
+  eventId: Scalars['UUID']['input']
+  /** The score of the recommendation. */
+  predictedScore?: InputMaybe<Scalars['Float']['input']>
+  /** An event id. */
+  score?: InputMaybe<Scalars['Float']['input']>
+}
+
 /** Methods to use when ordering `EventRecommendation`. */
 export enum EventRecommendationOrderBy {
   AccountIdAsc = 'ACCOUNT_ID_ASC',
@@ -3975,6 +4234,46 @@ export enum EventRecommendationOrderBy {
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+}
+
+/** Represents an update to a `EventRecommendation`. Fields that are set will be updated. */
+export type EventRecommendationPatch = {
+  /** A user account id. */
+  accountId?: InputMaybe<Scalars['UUID']['input']>
+  /** The predicted score of the recommendation. */
+  eventId?: InputMaybe<Scalars['UUID']['input']>
+  /** The score of the recommendation. */
+  predictedScore?: InputMaybe<Scalars['Float']['input']>
+  /** An event id. */
+  score?: InputMaybe<Scalars['Float']['input']>
+}
+
+/** A connection to a list of `EventSearchRankRecord` values. */
+export type EventSearchRankConnection = {
+  __typename?: 'EventSearchRankConnection'
+  /** A list of edges which contains the `EventSearchRankRecord` and cursor to aid in pagination. */
+  edges: Array<EventSearchRankEdge>
+  /** A list of `EventSearchRankRecord` objects. */
+  nodes: Array<EventSearchRankRecord>
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo
+  /** The count of *all* `EventSearchRankRecord` you could get from the connection. */
+  totalCount: Scalars['Int']['output']
+}
+
+/** A `EventSearchRankRecord` edge in the connection. */
+export type EventSearchRankEdge = {
+  __typename?: 'EventSearchRankEdge'
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `EventSearchRankRecord` at the end of the edge. */
+  node: EventSearchRankRecord
+}
+
+export type EventSearchRankRecord = {
+  __typename?: 'EventSearchRankRecord'
+  eventId?: Maybe<Scalars['UUID']['output']>
+  rank?: Maybe<Scalars['Float']['output']>
 }
 
 /** Possible event sizes: small, medium, large, huge. */
@@ -4060,6 +4359,12 @@ export enum EventUploadOrderBy {
   RowIdDesc = 'ROW_ID_DESC',
   UploadIdAsc = 'UPLOAD_ID_ASC',
   UploadIdDesc = 'UPLOAD_ID_DESC',
+}
+
+/** Represents an update to a `EventUpload`. Fields that are set will be updated. */
+export type EventUploadPatch = {
+  /** Optional boolean flag indicating if the upload is the header image for the event. */
+  isHeaderImage?: InputMaybe<Scalars['Boolean']['input']>
 }
 
 /** Possible visibilities of events and event groups: public, private and unlisted. */
@@ -4807,14 +5112,18 @@ export type Mutation = {
   accountEmailAddressVerification?: Maybe<AccountEmailAddressVerificationPayload>
   /** Allows to change an account's password.\n\nError codes:\n- **22023** when the new password is too short.\n- **28P01** when an account with the given password is not found. */
   accountPasswordChange?: Maybe<AccountPasswordChangePayload>
-  /**
-   * Sets a new password for an account if there was a request to do so before that's still up to date.\n\nError codes:\n- **22023** when the password is too short.\n- **P0002** when the reset code is unknown.\n- **55000** when the reset code has expired.
-   *
-   */
+  /** Sets a new password for an account if there was a request to do so before that's still up to date.\n\nError codes:\n- **22023** when the password is too short.\n- **P0002** when the reset code is unknown.\n- **55000** when the reset code has expired. */
   accountPasswordReset?: Maybe<AccountPasswordResetPayload>
   /** Sets a new password reset verification code for an account. */
   accountPasswordResetRequest?: Maybe<AccountPasswordResetRequestPayload>
-  /** Creates a contact and registers an account referencing it.\n\nError codes:\n- **VTBDA** when the birth date is not at least 18 years old.\n- **VTPLL** when the password length does not reach its minimum.\n- **VTAUV** when an account with the given username already exists. */
+  /**
+   * Creates a contact and registers an account referencing it.
+   *
+   * Error codes:
+   * - **VTBDA** when the birth date is not at least 18 years old.
+   * - **VTPLL** when the password length does not reach its minimum.
+   * - **VTAUV** when an account with the given username already exists.
+   */
   accountRegistration?: Maybe<AccountRegistrationPayload>
   /** Refreshes an account's email address verification validity period.\n\nError codes:\n- **01P01** in all cases right now as refreshing registrations is currently not available due to missing rate limiting.\n- **22023** when an account with this account id does not exist. */
   accountRegistrationRefresh?: Maybe<AccountRegistrationRefreshPayload>
@@ -4824,6 +5133,8 @@ export type Mutation = {
   createAccountBlock?: Maybe<CreateAccountBlockPayload>
   /** Creates a single `AccountSocialNetwork`. */
   createAccountSocialNetwork?: Maybe<CreateAccountSocialNetworkPayload>
+  /** Creates a single `Achievement`. */
+  createAchievement?: Maybe<CreateAchievementPayload>
   /** Creates a single `Address`. */
   createAddress?: Maybe<CreateAddressPayload>
   /** Creates a single `Attendance`. */
@@ -4840,6 +5151,8 @@ export type Mutation = {
   createEventFavorite?: Maybe<CreateEventFavoritePayload>
   /** Creates a single `EventFormatMapping`. */
   createEventFormatMapping?: Maybe<CreateEventFormatMappingPayload>
+  /** Creates a single `EventRecommendation`. */
+  createEventRecommendation?: Maybe<CreateEventRecommendationPayload>
   /** Creates a single `EventUpload`. */
   createEventUpload?: Maybe<CreateEventUploadPayload>
   /** Creates a single `Friendship`. */
@@ -4874,6 +5187,12 @@ export type Mutation = {
   deleteAccountSocialNetwork?: Maybe<DeleteAccountSocialNetworkPayload>
   /** Deletes a single `AccountSocialNetwork` using a unique key. */
   deleteAccountSocialNetworkByAccountIdAndSocialNetwork?: Maybe<DeleteAccountSocialNetworkPayload>
+  /** Deletes a single `Achievement` using its globally unique id. */
+  deleteAchievement?: Maybe<DeleteAchievementPayload>
+  /** Deletes a single `Achievement` using a unique key. */
+  deleteAchievementByAccountIdAndAchievement?: Maybe<DeleteAchievementPayload>
+  /** Deletes a single `Achievement` using a unique key. */
+  deleteAchievementByRowId?: Maybe<DeleteAchievementPayload>
   /** Deletes a single `Address` using its globally unique id. */
   deleteAddress?: Maybe<DeleteAddressPayload>
   /** Deletes a single `Address` using a unique key. */
@@ -4910,6 +5229,10 @@ export type Mutation = {
   deleteEventFormatMapping?: Maybe<DeleteEventFormatMappingPayload>
   /** Deletes a single `EventFormatMapping` using a unique key. */
   deleteEventFormatMappingByEventIdAndFormatId?: Maybe<DeleteEventFormatMappingPayload>
+  /** Deletes a single `EventRecommendation` using its globally unique id. */
+  deleteEventRecommendation?: Maybe<DeleteEventRecommendationPayload>
+  /** Deletes a single `EventRecommendation` using a unique key. */
+  deleteEventRecommendationByAccountIdAndEventId?: Maybe<DeleteEventRecommendationPayload>
   /** Deletes a single `EventUpload` using its globally unique id. */
   deleteEventUpload?: Maybe<DeleteEventUploadPayload>
   /** Deletes a single `EventUpload` using a unique key. */
@@ -4997,6 +5320,12 @@ export type Mutation = {
   updateAccountSocialNetwork?: Maybe<UpdateAccountSocialNetworkPayload>
   /** Updates a single `AccountSocialNetwork` using a unique key and a patch. */
   updateAccountSocialNetworkByAccountIdAndSocialNetwork?: Maybe<UpdateAccountSocialNetworkPayload>
+  /** Updates a single `Achievement` using its globally unique id and a patch. */
+  updateAchievement?: Maybe<UpdateAchievementPayload>
+  /** Updates a single `Achievement` using a unique key and a patch. */
+  updateAchievementByAccountIdAndAchievement?: Maybe<UpdateAchievementPayload>
+  /** Updates a single `Achievement` using a unique key and a patch. */
+  updateAchievementByRowId?: Maybe<UpdateAchievementPayload>
   /** Updates a single `Address` using its globally unique id and a patch. */
   updateAddress?: Maybe<UpdateAddressPayload>
   /** Updates a single `Address` using a unique key and a patch. */
@@ -5025,6 +5354,24 @@ export type Mutation = {
   updateEventByCreatedByAndSlug?: Maybe<UpdateEventPayload>
   /** Updates a single `Event` using a unique key and a patch. */
   updateEventByRowId?: Maybe<UpdateEventPayload>
+  /** Updates a single `EventCategoryMapping` using its globally unique id and a patch. */
+  updateEventCategoryMapping?: Maybe<UpdateEventCategoryMappingPayload>
+  /** Updates a single `EventCategoryMapping` using a unique key and a patch. */
+  updateEventCategoryMappingByEventIdAndCategoryId?: Maybe<UpdateEventCategoryMappingPayload>
+  /** Updates a single `EventFormatMapping` using its globally unique id and a patch. */
+  updateEventFormatMapping?: Maybe<UpdateEventFormatMappingPayload>
+  /** Updates a single `EventFormatMapping` using a unique key and a patch. */
+  updateEventFormatMappingByEventIdAndFormatId?: Maybe<UpdateEventFormatMappingPayload>
+  /** Updates a single `EventRecommendation` using its globally unique id and a patch. */
+  updateEventRecommendation?: Maybe<UpdateEventRecommendationPayload>
+  /** Updates a single `EventRecommendation` using a unique key and a patch. */
+  updateEventRecommendationByAccountIdAndEventId?: Maybe<UpdateEventRecommendationPayload>
+  /** Updates a single `EventUpload` using its globally unique id and a patch. */
+  updateEventUpload?: Maybe<UpdateEventUploadPayload>
+  /** Updates a single `EventUpload` using a unique key and a patch. */
+  updateEventUploadByEventIdAndUploadId?: Maybe<UpdateEventUploadPayload>
+  /** Updates a single `EventUpload` using a unique key and a patch. */
+  updateEventUploadByRowId?: Maybe<UpdateEventUploadPayload>
   /** Updates a single `Friendship` using its globally unique id and a patch. */
   updateFriendship?: Maybe<UpdateFriendshipPayload>
   /** Updates a single `Friendship` using a unique key and a patch. */
@@ -5037,6 +5384,30 @@ export type Mutation = {
   updateGuestByEventIdAndContactId?: Maybe<UpdateGuestPayload>
   /** Updates a single `Guest` using a unique key and a patch. */
   updateGuestByRowId?: Maybe<UpdateGuestPayload>
+  /** Updates a single `PreferenceEventCategory` using its globally unique id and a patch. */
+  updatePreferenceEventCategory?: Maybe<UpdatePreferenceEventCategoryPayload>
+  /** Updates a single `PreferenceEventCategory` using a unique key and a patch. */
+  updatePreferenceEventCategoryByAccountIdAndCategoryId?: Maybe<UpdatePreferenceEventCategoryPayload>
+  /** Updates a single `PreferenceEventCategory` using a unique key and a patch. */
+  updatePreferenceEventCategoryByRowId?: Maybe<UpdatePreferenceEventCategoryPayload>
+  /** Updates a single `PreferenceEventFormat` using its globally unique id and a patch. */
+  updatePreferenceEventFormat?: Maybe<UpdatePreferenceEventFormatPayload>
+  /** Updates a single `PreferenceEventFormat` using a unique key and a patch. */
+  updatePreferenceEventFormatByAccountIdAndFormatId?: Maybe<UpdatePreferenceEventFormatPayload>
+  /** Updates a single `PreferenceEventFormat` using a unique key and a patch. */
+  updatePreferenceEventFormatByRowId?: Maybe<UpdatePreferenceEventFormatPayload>
+  /** Updates a single `PreferenceEventLocation` using its globally unique id and a patch. */
+  updatePreferenceEventLocation?: Maybe<UpdatePreferenceEventLocationPayload>
+  /** Updates a single `PreferenceEventLocation` using a unique key and a patch. */
+  updatePreferenceEventLocationByCreatedByAndLocationAndRadius?: Maybe<UpdatePreferenceEventLocationPayload>
+  /** Updates a single `PreferenceEventLocation` using a unique key and a patch. */
+  updatePreferenceEventLocationByRowId?: Maybe<UpdatePreferenceEventLocationPayload>
+  /** Updates a single `PreferenceEventSize` using its globally unique id and a patch. */
+  updatePreferenceEventSize?: Maybe<UpdatePreferenceEventSizePayload>
+  /** Updates a single `PreferenceEventSize` using a unique key and a patch. */
+  updatePreferenceEventSizeByAccountIdAndEventSize?: Maybe<UpdatePreferenceEventSizePayload>
+  /** Updates a single `PreferenceEventSize` using a unique key and a patch. */
+  updatePreferenceEventSizeByRowId?: Maybe<UpdatePreferenceEventSizePayload>
   /** Updates a single `ProfilePicture` using its globally unique id and a patch. */
   updateProfilePicture?: Maybe<UpdateProfilePicturePayload>
   /** Updates a single `ProfilePicture` using a unique key and a patch. */
@@ -5102,6 +5473,11 @@ export type MutationCreateAccountSocialNetworkArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateAchievementArgs = {
+  input: CreateAchievementInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateAddressArgs = {
   input: CreateAddressInput
 }
@@ -5139,6 +5515,11 @@ export type MutationCreateEventFavoriteArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateEventFormatMappingArgs = {
   input: CreateEventFormatMappingInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateEventRecommendationArgs = {
+  input: CreateEventRecommendationInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -5228,6 +5609,21 @@ export type MutationDeleteAccountSocialNetworkByAccountIdAndSocialNetworkArgs =
   }
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteAchievementArgs = {
+  input: DeleteAchievementInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteAchievementByAccountIdAndAchievementArgs = {
+  input: DeleteAchievementByAccountIdAndAchievementInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteAchievementByRowIdArgs = {
+  input: DeleteAchievementByRowIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteAddressArgs = {
   input: DeleteAddressInput
 }
@@ -5315,6 +5711,16 @@ export type MutationDeleteEventFormatMappingArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteEventFormatMappingByEventIdAndFormatIdArgs = {
   input: DeleteEventFormatMappingByEventIdAndFormatIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventRecommendationArgs = {
+  input: DeleteEventRecommendationInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteEventRecommendationByAccountIdAndEventIdArgs = {
+  input: DeleteEventRecommendationByAccountIdAndEventIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -5526,6 +5932,21 @@ export type MutationUpdateAccountSocialNetworkByAccountIdAndSocialNetworkArgs =
   }
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateAchievementArgs = {
+  input: UpdateAchievementInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateAchievementByAccountIdAndAchievementArgs = {
+  input: UpdateAchievementByAccountIdAndAchievementInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateAchievementByRowIdArgs = {
+  input: UpdateAchievementByRowIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateAddressArgs = {
   input: UpdateAddressInput
 }
@@ -5596,6 +6017,51 @@ export type MutationUpdateEventByRowIdArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventCategoryMappingArgs = {
+  input: UpdateEventCategoryMappingInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventCategoryMappingByEventIdAndCategoryIdArgs = {
+  input: UpdateEventCategoryMappingByEventIdAndCategoryIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventFormatMappingArgs = {
+  input: UpdateEventFormatMappingInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventFormatMappingByEventIdAndFormatIdArgs = {
+  input: UpdateEventFormatMappingByEventIdAndFormatIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventRecommendationArgs = {
+  input: UpdateEventRecommendationInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventRecommendationByAccountIdAndEventIdArgs = {
+  input: UpdateEventRecommendationByAccountIdAndEventIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventUploadArgs = {
+  input: UpdateEventUploadInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventUploadByEventIdAndUploadIdArgs = {
+  input: UpdateEventUploadByEventIdAndUploadIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateEventUploadByRowIdArgs = {
+  input: UpdateEventUploadByRowIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateFriendshipArgs = {
   input: UpdateFriendshipInput
 }
@@ -5623,6 +6089,68 @@ export type MutationUpdateGuestByEventIdAndContactIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateGuestByRowIdArgs = {
   input: UpdateGuestByRowIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventCategoryArgs = {
+  input: UpdatePreferenceEventCategoryInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventCategoryByAccountIdAndCategoryIdArgs =
+  {
+    input: UpdatePreferenceEventCategoryByAccountIdAndCategoryIdInput
+  }
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventCategoryByRowIdArgs = {
+  input: UpdatePreferenceEventCategoryByRowIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventFormatArgs = {
+  input: UpdatePreferenceEventFormatInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventFormatByAccountIdAndFormatIdArgs = {
+  input: UpdatePreferenceEventFormatByAccountIdAndFormatIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventFormatByRowIdArgs = {
+  input: UpdatePreferenceEventFormatByRowIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventLocationArgs = {
+  input: UpdatePreferenceEventLocationInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventLocationByCreatedByAndLocationAndRadiusArgs =
+  {
+    input: UpdatePreferenceEventLocationByCreatedByAndLocationAndRadiusInput
+  }
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventLocationByRowIdArgs = {
+  input: UpdatePreferenceEventLocationByRowIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventSizeArgs = {
+  input: UpdatePreferenceEventSizeInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventSizeByAccountIdAndEventSizeArgs = {
+  input: UpdatePreferenceEventSizeByAccountIdAndEventSizeInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceEventSizeByRowIdArgs = {
+  input: UpdatePreferenceEventSizeByRowIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -5772,6 +6300,16 @@ export enum PreferenceEventCategoryOrderBy {
   RowIdDesc = 'ROW_ID_DESC',
 }
 
+/** Represents an update to a `PreferenceEventCategory`. Fields that are set will be updated. */
+export type PreferenceEventCategoryPatch = {
+  /** A user account id. */
+  accountId?: InputMaybe<Scalars['UUID']['input']>
+  /** An event category id. */
+  categoryId?: InputMaybe<Scalars['UUID']['input']>
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  rowId?: InputMaybe<Scalars['UUID']['input']>
+}
+
 /** Event formats a user account is interested in (M:N relationship). */
 export type PreferenceEventFormat = Node & {
   __typename?: 'PreferenceEventFormat'
@@ -5847,6 +6385,17 @@ export enum PreferenceEventFormatOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   RowIdAsc = 'ROW_ID_ASC',
   RowIdDesc = 'ROW_ID_DESC',
+}
+
+/** Represents an update to a `PreferenceEventFormat`. Fields that are set will be updated. */
+export type PreferenceEventFormatPatch = {
+  /** A user account id. */
+  accountId?: InputMaybe<Scalars['UUID']['input']>
+  /** The timestammp when the record was created.. */
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  /** The id of an event format. */
+  formatId?: InputMaybe<Scalars['UUID']['input']>
+  rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** Stores preferred event locations for user accounts, including coordinates and search radius. */
@@ -5926,6 +6475,20 @@ export enum PreferenceEventLocationOrderBy {
   RowIdDesc = 'ROW_ID_DESC',
 }
 
+/** Represents an update to a `PreferenceEventLocation`. Fields that are set will be updated. */
+export type PreferenceEventLocationPatch = {
+  /** Timestamp of when the event location preference was created, defaults to the current timestamp. */
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  /** Reference to the account that created the location preference. */
+  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  /** Geographical point representing the preferred location, derived from latitude and longitude. */
+  location?: InputMaybe<Scalars['GeoJSON']['input']>
+  /** Search radius in meters around the location where events are preferred. Must be positive. */
+  radius?: InputMaybe<Scalars['Float']['input']>
+  /** Unique identifier for the preference record. */
+  rowId?: InputMaybe<Scalars['UUID']['input']>
+}
+
 /** Table for the user accounts' preferred event sizes (M:N relationship). */
 export type PreferenceEventSize = Node & {
   __typename?: 'PreferenceEventSize'
@@ -5995,6 +6558,15 @@ export enum PreferenceEventSizeOrderBy {
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   RowIdAsc = 'ROW_ID_ASC',
   RowIdDesc = 'ROW_ID_DESC',
+}
+
+/** Represents an update to a `PreferenceEventSize`. Fields that are set will be updated. */
+export type PreferenceEventSizePatch = {
+  /** The account's internal id. */
+  accountId?: InputMaybe<Scalars['UUID']['input']>
+  /** A preferred event size. */
+  eventSize?: InputMaybe<EventSize>
+  rowId?: InputMaybe<Scalars['UUID']['input']>
 }
 
 /** Mapping of account ids to upload ids. */
@@ -6117,7 +6689,11 @@ export type Query = Node & {
   accountByRowId?: Maybe<Account>
   /** Get a single `Account`. */
   accountByUsername?: Maybe<Account>
-  /** Returns all accounts with a username containing a given substring. */
+  /**
+   * Returns accounts with a username containing a given substring, closest matches first.
+   * Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size.
+   * Queries under 3 characters match few trigrams and so scan a larger share of the index; keep that in mind if this backs search-as-you-type.
+   */
   accountSearch?: Maybe<AccountConnection>
   /** Reads a single `AccountSocialNetwork` using its globally unique `ID`. */
   accountSocialNetwork?: Maybe<AccountSocialNetwork>
@@ -6267,8 +6843,10 @@ export type Query = Node & {
   eventRecommendation?: Maybe<EventRecommendation>
   /** Get a single `EventRecommendation`. */
   eventRecommendationByAccountIdAndEventId?: Maybe<EventRecommendation>
-  /** Performs a full-text search on the event table based on the provided query and language, returning event IDs ordered by relevance. */
+  /** Performs a full-text search on events that have not ended yet, based on the provided query and language, returning results ordered by relevance. */
   eventSearch?: Maybe<EventConnection>
+  /** Returns event ids matching the given query by prefix, across every text search configuration event_search_vector rows are stored in, with their relevance rank. */
+  eventSearchRank?: Maybe<EventSearchRankConnection>
   /** Reads a single `EventUpload` using its globally unique `ID`. */
   eventUpload?: Maybe<EventUpload>
   /** Get a single `EventUpload`. */
@@ -6403,7 +6981,7 @@ export type QueryAccountSearchArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  searchString?: InputMaybe<Scalars['String']['input']>
+  query?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6635,6 +7213,7 @@ export type QueryAllEventsArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
   condition?: InputMaybe<EventCondition>
+  filter?: InputMaybe<EventFilter>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
@@ -6963,6 +7542,14 @@ export type QueryEventSearchArgs = {
   language?: InputMaybe<Language>
   offset?: InputMaybe<Scalars['Int']['input']>
   query?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventSearchRankArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  query: Scalars['String']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -7411,6 +7998,68 @@ export type UpdateAccountSocialNetworkPayloadAccountSocialNetworkEdgeArgs = {
   orderBy?: Array<AccountSocialNetworkOrderBy>
 }
 
+/** All input for the `updateAchievementByAccountIdAndAchievement` mutation. */
+export type UpdateAchievementByAccountIdAndAchievementInput = {
+  /** The account which unlocked the achievement. */
+  accountId: Scalars['UUID']['input']
+  /** The unlock's achievement. */
+  achievement: AchievementType
+  /** An object where the defined keys will be set on the `Achievement` being updated. */
+  achievementPatch: AchievementPatch
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+}
+
+/** All input for the `updateAchievementByRowId` mutation. */
+export type UpdateAchievementByRowIdInput = {
+  /** An object where the defined keys will be set on the `Achievement` being updated. */
+  achievementPatch: AchievementPatch
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The achievement unlock's internal id. */
+  rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `updateAchievement` mutation. */
+export type UpdateAchievementInput = {
+  /** An object where the defined keys will be set on the `Achievement` being updated. */
+  achievementPatch: AchievementPatch
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `Achievement` to be updated. */
+  id: Scalars['ID']['input']
+}
+
+/** The output of our update `Achievement` mutation. */
+export type UpdateAchievementPayload = {
+  __typename?: 'UpdateAchievementPayload'
+  /** The `Achievement` that was updated by this mutation. */
+  achievement?: Maybe<Achievement>
+  /** An edge for our `Achievement`. May be used by Relay 1. */
+  achievementEdge?: Maybe<AchievementEdge>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `Achievement` mutation. */
+export type UpdateAchievementPayloadAchievementEdgeArgs = {
+  orderBy?: Array<AchievementOrderBy>
+}
+
 /** All input for the `updateAddressByRowId` mutation. */
 export type UpdateAddressByRowIdInput = {
   /** An object where the defined keys will be set on the `Address` being updated. */
@@ -7670,6 +8319,104 @@ export type UpdateEventByRowIdInput = {
   rowId: Scalars['UUID']['input']
 }
 
+/** All input for the `updateEventCategoryMappingByEventIdAndCategoryId` mutation. */
+export type UpdateEventCategoryMappingByEventIdAndCategoryIdInput = {
+  /** A category id. */
+  categoryId: Scalars['UUID']['input']
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `EventCategoryMapping` being updated. */
+  eventCategoryMappingPatch: EventCategoryMappingPatch
+  /** An event id. */
+  eventId: Scalars['UUID']['input']
+}
+
+/** All input for the `updateEventCategoryMapping` mutation. */
+export type UpdateEventCategoryMappingInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `EventCategoryMapping` being updated. */
+  eventCategoryMappingPatch: EventCategoryMappingPatch
+  /** The globally unique `ID` which will identify a single `EventCategoryMapping` to be updated. */
+  id: Scalars['ID']['input']
+}
+
+/** The output of our update `EventCategoryMapping` mutation. */
+export type UpdateEventCategoryMappingPayload = {
+  __typename?: 'UpdateEventCategoryMappingPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `EventCategoryMapping` that was updated by this mutation. */
+  eventCategoryMapping?: Maybe<EventCategoryMapping>
+  /** An edge for our `EventCategoryMapping`. May be used by Relay 1. */
+  eventCategoryMappingEdge?: Maybe<EventCategoryMappingEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `EventCategoryMapping` mutation. */
+export type UpdateEventCategoryMappingPayloadEventCategoryMappingEdgeArgs = {
+  orderBy?: Array<EventCategoryMappingOrderBy>
+}
+
+/** All input for the `updateEventFormatMappingByEventIdAndFormatId` mutation. */
+export type UpdateEventFormatMappingByEventIdAndFormatIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `EventFormatMapping` being updated. */
+  eventFormatMappingPatch: EventFormatMappingPatch
+  /** An event id. */
+  eventId: Scalars['UUID']['input']
+  /** A format id. */
+  formatId: Scalars['UUID']['input']
+}
+
+/** All input for the `updateEventFormatMapping` mutation. */
+export type UpdateEventFormatMappingInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `EventFormatMapping` being updated. */
+  eventFormatMappingPatch: EventFormatMappingPatch
+  /** The globally unique `ID` which will identify a single `EventFormatMapping` to be updated. */
+  id: Scalars['ID']['input']
+}
+
+/** The output of our update `EventFormatMapping` mutation. */
+export type UpdateEventFormatMappingPayload = {
+  __typename?: 'UpdateEventFormatMappingPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `EventFormatMapping` that was updated by this mutation. */
+  eventFormatMapping?: Maybe<EventFormatMapping>
+  /** An edge for our `EventFormatMapping`. May be used by Relay 1. */
+  eventFormatMappingEdge?: Maybe<EventFormatMappingEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `EventFormatMapping` mutation. */
+export type UpdateEventFormatMappingPayloadEventFormatMappingEdgeArgs = {
+  orderBy?: Array<EventFormatMappingOrderBy>
+}
+
 /** All input for the `updateEvent` mutation. */
 export type UpdateEventInput = {
   /**
@@ -7702,6 +8449,117 @@ export type UpdateEventPayload = {
 /** The output of our update `Event` mutation. */
 export type UpdateEventPayloadEventEdgeArgs = {
   orderBy?: Array<EventOrderBy>
+}
+
+/** All input for the `updateEventRecommendationByAccountIdAndEventId` mutation. */
+export type UpdateEventRecommendationByAccountIdAndEventIdInput = {
+  /** A user account id. */
+  accountId: Scalars['UUID']['input']
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The predicted score of the recommendation. */
+  eventId: Scalars['UUID']['input']
+  /** An object where the defined keys will be set on the `EventRecommendation` being updated. */
+  eventRecommendationPatch: EventRecommendationPatch
+}
+
+/** All input for the `updateEventRecommendation` mutation. */
+export type UpdateEventRecommendationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `EventRecommendation` being updated. */
+  eventRecommendationPatch: EventRecommendationPatch
+  /** The globally unique `ID` which will identify a single `EventRecommendation` to be updated. */
+  id: Scalars['ID']['input']
+}
+
+/** The output of our update `EventRecommendation` mutation. */
+export type UpdateEventRecommendationPayload = {
+  __typename?: 'UpdateEventRecommendationPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `EventRecommendation` that was updated by this mutation. */
+  eventRecommendation?: Maybe<EventRecommendation>
+  /** An edge for our `EventRecommendation`. May be used by Relay 1. */
+  eventRecommendationEdge?: Maybe<EventRecommendationEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `EventRecommendation` mutation. */
+export type UpdateEventRecommendationPayloadEventRecommendationEdgeArgs = {
+  orderBy?: Array<EventRecommendationOrderBy>
+}
+
+/** All input for the `updateEventUploadByEventIdAndUploadId` mutation. */
+export type UpdateEventUploadByEventIdAndUploadIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** Reference to the event associated with the upload. */
+  eventId: Scalars['UUID']['input']
+  /** An object where the defined keys will be set on the `EventUpload` being updated. */
+  eventUploadPatch: EventUploadPatch
+  /** Reference to the uploaded file. */
+  uploadId: Scalars['UUID']['input']
+}
+
+/** All input for the `updateEventUploadByRowId` mutation. */
+export type UpdateEventUploadByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `EventUpload` being updated. */
+  eventUploadPatch: EventUploadPatch
+  /** Primary key, uniquely identifies each event-upload association. */
+  rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `updateEventUpload` mutation. */
+export type UpdateEventUploadInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `EventUpload` being updated. */
+  eventUploadPatch: EventUploadPatch
+  /** The globally unique `ID` which will identify a single `EventUpload` to be updated. */
+  id: Scalars['ID']['input']
+}
+
+/** The output of our update `EventUpload` mutation. */
+export type UpdateEventUploadPayload = {
+  __typename?: 'UpdateEventUploadPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `EventUpload` that was updated by this mutation. */
+  eventUpload?: Maybe<EventUpload>
+  /** An edge for our `EventUpload`. May be used by Relay 1. */
+  eventUploadEdge?: Maybe<EventUploadEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `EventUpload` mutation. */
+export type UpdateEventUploadPayloadEventUploadEdgeArgs = {
+  orderBy?: Array<EventUploadOrderBy>
 }
 
 /** All input for the `updateFriendshipByAAccountIdAndBAccountId` mutation. */
@@ -7826,6 +8684,256 @@ export type UpdateGuestPayload = {
 /** The output of our update `Guest` mutation. */
 export type UpdateGuestPayloadGuestEdgeArgs = {
   orderBy?: Array<GuestOrderBy>
+}
+
+/** All input for the `updatePreferenceEventCategoryByAccountIdAndCategoryId` mutation. */
+export type UpdatePreferenceEventCategoryByAccountIdAndCategoryIdInput = {
+  /** A user account id. */
+  accountId: Scalars['UUID']['input']
+  /** An event category id. */
+  categoryId: Scalars['UUID']['input']
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `PreferenceEventCategory` being updated. */
+  preferenceEventCategoryPatch: PreferenceEventCategoryPatch
+}
+
+/** All input for the `updatePreferenceEventCategoryByRowId` mutation. */
+export type UpdatePreferenceEventCategoryByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `PreferenceEventCategory` being updated. */
+  preferenceEventCategoryPatch: PreferenceEventCategoryPatch
+  rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `updatePreferenceEventCategory` mutation. */
+export type UpdatePreferenceEventCategoryInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `PreferenceEventCategory` to be updated. */
+  id: Scalars['ID']['input']
+  /** An object where the defined keys will be set on the `PreferenceEventCategory` being updated. */
+  preferenceEventCategoryPatch: PreferenceEventCategoryPatch
+}
+
+/** The output of our update `PreferenceEventCategory` mutation. */
+export type UpdatePreferenceEventCategoryPayload = {
+  __typename?: 'UpdatePreferenceEventCategoryPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `PreferenceEventCategory` that was updated by this mutation. */
+  preferenceEventCategory?: Maybe<PreferenceEventCategory>
+  /** An edge for our `PreferenceEventCategory`. May be used by Relay 1. */
+  preferenceEventCategoryEdge?: Maybe<PreferenceEventCategoryEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `PreferenceEventCategory` mutation. */
+export type UpdatePreferenceEventCategoryPayloadPreferenceEventCategoryEdgeArgs =
+  {
+    orderBy?: Array<PreferenceEventCategoryOrderBy>
+  }
+
+/** All input for the `updatePreferenceEventFormatByAccountIdAndFormatId` mutation. */
+export type UpdatePreferenceEventFormatByAccountIdAndFormatIdInput = {
+  /** A user account id. */
+  accountId: Scalars['UUID']['input']
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The id of an event format. */
+  formatId: Scalars['UUID']['input']
+  /** An object where the defined keys will be set on the `PreferenceEventFormat` being updated. */
+  preferenceEventFormatPatch: PreferenceEventFormatPatch
+}
+
+/** All input for the `updatePreferenceEventFormatByRowId` mutation. */
+export type UpdatePreferenceEventFormatByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `PreferenceEventFormat` being updated. */
+  preferenceEventFormatPatch: PreferenceEventFormatPatch
+  rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `updatePreferenceEventFormat` mutation. */
+export type UpdatePreferenceEventFormatInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `PreferenceEventFormat` to be updated. */
+  id: Scalars['ID']['input']
+  /** An object where the defined keys will be set on the `PreferenceEventFormat` being updated. */
+  preferenceEventFormatPatch: PreferenceEventFormatPatch
+}
+
+/** The output of our update `PreferenceEventFormat` mutation. */
+export type UpdatePreferenceEventFormatPayload = {
+  __typename?: 'UpdatePreferenceEventFormatPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `PreferenceEventFormat` that was updated by this mutation. */
+  preferenceEventFormat?: Maybe<PreferenceEventFormat>
+  /** An edge for our `PreferenceEventFormat`. May be used by Relay 1. */
+  preferenceEventFormatEdge?: Maybe<PreferenceEventFormatEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `PreferenceEventFormat` mutation. */
+export type UpdatePreferenceEventFormatPayloadPreferenceEventFormatEdgeArgs = {
+  orderBy?: Array<PreferenceEventFormatOrderBy>
+}
+
+/** All input for the `updatePreferenceEventLocationByCreatedByAndLocationAndRadius` mutation. */
+export type UpdatePreferenceEventLocationByCreatedByAndLocationAndRadiusInput =
+  {
+    /**
+     * An arbitrary string value with no semantic meaning. Will be included in the
+     * payload verbatim. May be used to track mutations by the client.
+     */
+    clientMutationId?: InputMaybe<Scalars['String']['input']>
+    /** Reference to the account that created the location preference. */
+    createdBy: Scalars['UUID']['input']
+    /** Geographical point representing the preferred location, derived from latitude and longitude. */
+    location: Scalars['GeoJSON']['input']
+    /** An object where the defined keys will be set on the `PreferenceEventLocation` being updated. */
+    preferenceEventLocationPatch: PreferenceEventLocationPatch
+    /** Search radius in meters around the location where events are preferred. Must be positive. */
+    radius: Scalars['Float']['input']
+  }
+
+/** All input for the `updatePreferenceEventLocationByRowId` mutation. */
+export type UpdatePreferenceEventLocationByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `PreferenceEventLocation` being updated. */
+  preferenceEventLocationPatch: PreferenceEventLocationPatch
+  /** Unique identifier for the preference record. */
+  rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `updatePreferenceEventLocation` mutation. */
+export type UpdatePreferenceEventLocationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `PreferenceEventLocation` to be updated. */
+  id: Scalars['ID']['input']
+  /** An object where the defined keys will be set on the `PreferenceEventLocation` being updated. */
+  preferenceEventLocationPatch: PreferenceEventLocationPatch
+}
+
+/** The output of our update `PreferenceEventLocation` mutation. */
+export type UpdatePreferenceEventLocationPayload = {
+  __typename?: 'UpdatePreferenceEventLocationPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `PreferenceEventLocation` that was updated by this mutation. */
+  preferenceEventLocation?: Maybe<PreferenceEventLocation>
+  /** An edge for our `PreferenceEventLocation`. May be used by Relay 1. */
+  preferenceEventLocationEdge?: Maybe<PreferenceEventLocationEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `PreferenceEventLocation` mutation. */
+export type UpdatePreferenceEventLocationPayloadPreferenceEventLocationEdgeArgs =
+  {
+    orderBy?: Array<PreferenceEventLocationOrderBy>
+  }
+
+/** All input for the `updatePreferenceEventSizeByAccountIdAndEventSize` mutation. */
+export type UpdatePreferenceEventSizeByAccountIdAndEventSizeInput = {
+  /** The account's internal id. */
+  accountId: Scalars['UUID']['input']
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** A preferred event size. */
+  eventSize: EventSize
+  /** An object where the defined keys will be set on the `PreferenceEventSize` being updated. */
+  preferenceEventSizePatch: PreferenceEventSizePatch
+}
+
+/** All input for the `updatePreferenceEventSizeByRowId` mutation. */
+export type UpdatePreferenceEventSizeByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `PreferenceEventSize` being updated. */
+  preferenceEventSizePatch: PreferenceEventSizePatch
+  rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `updatePreferenceEventSize` mutation. */
+export type UpdatePreferenceEventSizeInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `PreferenceEventSize` to be updated. */
+  id: Scalars['ID']['input']
+  /** An object where the defined keys will be set on the `PreferenceEventSize` being updated. */
+  preferenceEventSizePatch: PreferenceEventSizePatch
+}
+
+/** The output of our update `PreferenceEventSize` mutation. */
+export type UpdatePreferenceEventSizePayload = {
+  __typename?: 'UpdatePreferenceEventSizePayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `PreferenceEventSize` that was updated by this mutation. */
+  preferenceEventSize?: Maybe<PreferenceEventSize>
+  /** An edge for our `PreferenceEventSize`. May be used by Relay 1. */
+  preferenceEventSizeEdge?: Maybe<PreferenceEventSizeEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `PreferenceEventSize` mutation. */
+export type UpdatePreferenceEventSizePayloadPreferenceEventSizeEdgeArgs = {
+  orderBy?: Array<PreferenceEventSizeOrderBy>
 }
 
 /** All input for the `updateProfilePictureByAccountId` mutation. */
@@ -8153,6 +9261,9 @@ export type GraphCacheKeysConfig = {
   CreateAccountSocialNetworkPayload?: (
     data: WithTypename<CreateAccountSocialNetworkPayload>,
   ) => null | string
+  CreateAchievementPayload?: (
+    data: WithTypename<CreateAchievementPayload>,
+  ) => null | string
   CreateAddressPayload?: (
     data: WithTypename<CreateAddressPayload>,
   ) => null | string
@@ -8175,6 +9286,9 @@ export type GraphCacheKeysConfig = {
     data: WithTypename<CreateEventFormatMappingPayload>,
   ) => null | string
   CreateEventPayload?: (data: WithTypename<CreateEventPayload>) => null | string
+  CreateEventRecommendationPayload?: (
+    data: WithTypename<CreateEventRecommendationPayload>,
+  ) => null | string
   CreateEventUploadPayload?: (
     data: WithTypename<CreateEventUploadPayload>,
   ) => null | string
@@ -8215,6 +9329,9 @@ export type GraphCacheKeysConfig = {
   DeleteAccountSocialNetworkPayload?: (
     data: WithTypename<DeleteAccountSocialNetworkPayload>,
   ) => null | string
+  DeleteAchievementPayload?: (
+    data: WithTypename<DeleteAchievementPayload>,
+  ) => null | string
   DeleteAddressPayload?: (
     data: WithTypename<DeleteAddressPayload>,
   ) => null | string
@@ -8234,6 +9351,9 @@ export type GraphCacheKeysConfig = {
     data: WithTypename<DeleteEventFormatMappingPayload>,
   ) => null | string
   DeleteEventPayload?: (data: WithTypename<DeleteEventPayload>) => null | string
+  DeleteEventRecommendationPayload?: (
+    data: WithTypename<DeleteEventRecommendationPayload>,
+  ) => null | string
   DeleteEventUploadPayload?: (
     data: WithTypename<DeleteEventUploadPayload>,
   ) => null | string
@@ -8308,6 +9428,15 @@ export type GraphCacheKeysConfig = {
   ) => null | string
   EventRecommendationEdge?: (
     data: WithTypename<EventRecommendationEdge>,
+  ) => null | string
+  EventSearchRankConnection?: (
+    data: WithTypename<EventSearchRankConnection>,
+  ) => null | string
+  EventSearchRankEdge?: (
+    data: WithTypename<EventSearchRankEdge>,
+  ) => null | string
+  EventSearchRankRecord?: (
+    data: WithTypename<EventSearchRankRecord>,
   ) => null | string
   EventUpload?: (data: WithTypename<EventUpload>) => null | string
   EventUploadConnection?: (
@@ -8417,6 +9546,9 @@ export type GraphCacheKeysConfig = {
   UpdateAccountSocialNetworkPayload?: (
     data: WithTypename<UpdateAccountSocialNetworkPayload>,
   ) => null | string
+  UpdateAchievementPayload?: (
+    data: WithTypename<UpdateAchievementPayload>,
+  ) => null | string
   UpdateAddressPayload?: (
     data: WithTypename<UpdateAddressPayload>,
   ) => null | string
@@ -8429,11 +9561,35 @@ export type GraphCacheKeysConfig = {
   UpdateDevicePayload?: (
     data: WithTypename<UpdateDevicePayload>,
   ) => null | string
+  UpdateEventCategoryMappingPayload?: (
+    data: WithTypename<UpdateEventCategoryMappingPayload>,
+  ) => null | string
+  UpdateEventFormatMappingPayload?: (
+    data: WithTypename<UpdateEventFormatMappingPayload>,
+  ) => null | string
   UpdateEventPayload?: (data: WithTypename<UpdateEventPayload>) => null | string
+  UpdateEventRecommendationPayload?: (
+    data: WithTypename<UpdateEventRecommendationPayload>,
+  ) => null | string
+  UpdateEventUploadPayload?: (
+    data: WithTypename<UpdateEventUploadPayload>,
+  ) => null | string
   UpdateFriendshipPayload?: (
     data: WithTypename<UpdateFriendshipPayload>,
   ) => null | string
   UpdateGuestPayload?: (data: WithTypename<UpdateGuestPayload>) => null | string
+  UpdatePreferenceEventCategoryPayload?: (
+    data: WithTypename<UpdatePreferenceEventCategoryPayload>,
+  ) => null | string
+  UpdatePreferenceEventFormatPayload?: (
+    data: WithTypename<UpdatePreferenceEventFormatPayload>,
+  ) => null | string
+  UpdatePreferenceEventLocationPayload?: (
+    data: WithTypename<UpdatePreferenceEventLocationPayload>,
+  ) => null | string
+  UpdatePreferenceEventSizePayload?: (
+    data: WithTypename<UpdatePreferenceEventSizePayload>,
+  ) => null | string
   UpdateProfilePicturePayload?: (
     data: WithTypename<UpdateProfilePicturePayload>,
   ) => null | string
@@ -8861,6 +10017,11 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       QueryEventSearchArgs,
       WithTypename<EventConnection> | string
+    >
+    eventSearchRank?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventSearchRankArgs,
+      WithTypename<EventSearchRankConnection> | string
     >
     eventUpload?: GraphCacheResolver<
       WithTypename<Query>,
@@ -10157,6 +11318,28 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
+  CreateAchievementPayload?: {
+    achievement?: GraphCacheResolver<
+      WithTypename<CreateAchievementPayload>,
+      Record<string, never>,
+      WithTypename<Achievement> | string
+    >
+    achievementEdge?: GraphCacheResolver<
+      WithTypename<CreateAchievementPayload>,
+      CreateAchievementPayloadAchievementEdgeArgs,
+      WithTypename<AchievementEdge> | string
+    >
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<CreateAchievementPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<CreateAchievementPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
   CreateAddressPayload?: {
     address?: GraphCacheResolver<
       WithTypename<CreateAddressPayload>,
@@ -10329,6 +11512,28 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<CreateEventPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  CreateEventRecommendationPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<CreateEventRecommendationPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    eventRecommendation?: GraphCacheResolver<
+      WithTypename<CreateEventRecommendationPayload>,
+      Record<string, never>,
+      WithTypename<EventRecommendation> | string
+    >
+    eventRecommendationEdge?: GraphCacheResolver<
+      WithTypename<CreateEventRecommendationPayload>,
+      CreateEventRecommendationPayloadEventRecommendationEdgeArgs,
+      WithTypename<EventRecommendationEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<CreateEventRecommendationPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -10646,6 +11851,33 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
+  DeleteAchievementPayload?: {
+    achievement?: GraphCacheResolver<
+      WithTypename<DeleteAchievementPayload>,
+      Record<string, never>,
+      WithTypename<Achievement> | string
+    >
+    achievementEdge?: GraphCacheResolver<
+      WithTypename<DeleteAchievementPayload>,
+      DeleteAchievementPayloadAchievementEdgeArgs,
+      WithTypename<AchievementEdge> | string
+    >
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<DeleteAchievementPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    deletedAchievementId?: GraphCacheResolver<
+      WithTypename<DeleteAchievementPayload>,
+      Record<string, never>,
+      Scalars['ID']['output'] | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<DeleteAchievementPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
   DeleteAddressPayload?: {
     address?: GraphCacheResolver<
       WithTypename<DeleteAddressPayload>,
@@ -10831,6 +12063,33 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<DeleteEventPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  DeleteEventRecommendationPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<DeleteEventRecommendationPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    deletedEventRecommendationId?: GraphCacheResolver<
+      WithTypename<DeleteEventRecommendationPayload>,
+      Record<string, never>,
+      Scalars['ID']['output'] | string
+    >
+    eventRecommendation?: GraphCacheResolver<
+      WithTypename<DeleteEventRecommendationPayload>,
+      Record<string, never>,
+      WithTypename<EventRecommendation> | string
+    >
+    eventRecommendationEdge?: GraphCacheResolver<
+      WithTypename<DeleteEventRecommendationPayload>,
+      DeleteEventRecommendationPayloadEventRecommendationEdgeArgs,
+      WithTypename<EventRecommendationEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<DeleteEventRecommendationPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -11189,6 +12448,11 @@ export type GraphCacheResolvers = {
       WithTypename<Event>,
       Record<string, never>,
       Scalars['String']['output'] | string
+    >
+    effectiveEnd?: GraphCacheResolver<
+      WithTypename<Event>,
+      Record<string, never>,
+      Scalars['Datetime']['output'] | string
     >
     end?: GraphCacheResolver<
       WithTypename<Event>,
@@ -11817,6 +13081,52 @@ export type GraphCacheResolvers = {
       WithTypename<EventRecommendationEdge>,
       Record<string, never>,
       WithTypename<EventRecommendation> | string
+    >
+  }
+  EventSearchRankConnection?: {
+    edges?: GraphCacheResolver<
+      WithTypename<EventSearchRankConnection>,
+      Record<string, never>,
+      Array<WithTypename<EventSearchRankEdge> | string>
+    >
+    nodes?: GraphCacheResolver<
+      WithTypename<EventSearchRankConnection>,
+      Record<string, never>,
+      Array<WithTypename<EventSearchRankRecord> | string>
+    >
+    pageInfo?: GraphCacheResolver<
+      WithTypename<EventSearchRankConnection>,
+      Record<string, never>,
+      WithTypename<PageInfo> | string
+    >
+    totalCount?: GraphCacheResolver<
+      WithTypename<EventSearchRankConnection>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
+    >
+  }
+  EventSearchRankEdge?: {
+    cursor?: GraphCacheResolver<
+      WithTypename<EventSearchRankEdge>,
+      Record<string, never>,
+      Scalars['Cursor']['output'] | string
+    >
+    node?: GraphCacheResolver<
+      WithTypename<EventSearchRankEdge>,
+      Record<string, never>,
+      WithTypename<EventSearchRankRecord> | string
+    >
+  }
+  EventSearchRankRecord?: {
+    eventId?: GraphCacheResolver<
+      WithTypename<EventSearchRankRecord>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    rank?: GraphCacheResolver<
+      WithTypename<EventSearchRankRecord>,
+      Record<string, never>,
+      Scalars['Float']['output'] | string
     >
   }
   EventUpload?: {
@@ -13094,6 +14404,28 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
+  UpdateAchievementPayload?: {
+    achievement?: GraphCacheResolver<
+      WithTypename<UpdateAchievementPayload>,
+      Record<string, never>,
+      WithTypename<Achievement> | string
+    >
+    achievementEdge?: GraphCacheResolver<
+      WithTypename<UpdateAchievementPayload>,
+      UpdateAchievementPayloadAchievementEdgeArgs,
+      WithTypename<AchievementEdge> | string
+    >
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdateAchievementPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<UpdateAchievementPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
   UpdateAddressPayload?: {
     address?: GraphCacheResolver<
       WithTypename<UpdateAddressPayload>,
@@ -13182,6 +14514,50 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
+  UpdateEventCategoryMappingPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdateEventCategoryMappingPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    eventCategoryMapping?: GraphCacheResolver<
+      WithTypename<UpdateEventCategoryMappingPayload>,
+      Record<string, never>,
+      WithTypename<EventCategoryMapping> | string
+    >
+    eventCategoryMappingEdge?: GraphCacheResolver<
+      WithTypename<UpdateEventCategoryMappingPayload>,
+      UpdateEventCategoryMappingPayloadEventCategoryMappingEdgeArgs,
+      WithTypename<EventCategoryMappingEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<UpdateEventCategoryMappingPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  UpdateEventFormatMappingPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdateEventFormatMappingPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    eventFormatMapping?: GraphCacheResolver<
+      WithTypename<UpdateEventFormatMappingPayload>,
+      Record<string, never>,
+      WithTypename<EventFormatMapping> | string
+    >
+    eventFormatMappingEdge?: GraphCacheResolver<
+      WithTypename<UpdateEventFormatMappingPayload>,
+      UpdateEventFormatMappingPayloadEventFormatMappingEdgeArgs,
+      WithTypename<EventFormatMappingEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<UpdateEventFormatMappingPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
   UpdateEventPayload?: {
     clientMutationId?: GraphCacheResolver<
       WithTypename<UpdateEventPayload>,
@@ -13200,6 +14576,50 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<UpdateEventPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  UpdateEventRecommendationPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdateEventRecommendationPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    eventRecommendation?: GraphCacheResolver<
+      WithTypename<UpdateEventRecommendationPayload>,
+      Record<string, never>,
+      WithTypename<EventRecommendation> | string
+    >
+    eventRecommendationEdge?: GraphCacheResolver<
+      WithTypename<UpdateEventRecommendationPayload>,
+      UpdateEventRecommendationPayloadEventRecommendationEdgeArgs,
+      WithTypename<EventRecommendationEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<UpdateEventRecommendationPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  UpdateEventUploadPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdateEventUploadPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    eventUpload?: GraphCacheResolver<
+      WithTypename<UpdateEventUploadPayload>,
+      Record<string, never>,
+      WithTypename<EventUpload> | string
+    >
+    eventUploadEdge?: GraphCacheResolver<
+      WithTypename<UpdateEventUploadPayload>,
+      UpdateEventUploadPayloadEventUploadEdgeArgs,
+      WithTypename<EventUploadEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<UpdateEventUploadPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -13244,6 +14664,94 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<UpdateGuestPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  UpdatePreferenceEventCategoryPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceEventCategoryPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    preferenceEventCategory?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceEventCategoryPayload>,
+      Record<string, never>,
+      WithTypename<PreferenceEventCategory> | string
+    >
+    preferenceEventCategoryEdge?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceEventCategoryPayload>,
+      UpdatePreferenceEventCategoryPayloadPreferenceEventCategoryEdgeArgs,
+      WithTypename<PreferenceEventCategoryEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceEventCategoryPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  UpdatePreferenceEventFormatPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceEventFormatPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    preferenceEventFormat?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceEventFormatPayload>,
+      Record<string, never>,
+      WithTypename<PreferenceEventFormat> | string
+    >
+    preferenceEventFormatEdge?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceEventFormatPayload>,
+      UpdatePreferenceEventFormatPayloadPreferenceEventFormatEdgeArgs,
+      WithTypename<PreferenceEventFormatEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceEventFormatPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  UpdatePreferenceEventLocationPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceEventLocationPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    preferenceEventLocation?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceEventLocationPayload>,
+      Record<string, never>,
+      WithTypename<PreferenceEventLocation> | string
+    >
+    preferenceEventLocationEdge?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceEventLocationPayload>,
+      UpdatePreferenceEventLocationPayloadPreferenceEventLocationEdgeArgs,
+      WithTypename<PreferenceEventLocationEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceEventLocationPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  UpdatePreferenceEventSizePayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceEventSizePayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    preferenceEventSize?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceEventSizePayload>,
+      Record<string, never>,
+      WithTypename<PreferenceEventSize> | string
+    >
+    preferenceEventSizeEdge?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceEventSizePayload>,
+      UpdatePreferenceEventSizePayloadPreferenceEventSizeEdgeArgs,
+      WithTypename<PreferenceEventSizeEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceEventSizePayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -13431,6 +14939,10 @@ export type GraphCacheOptimisticUpdaters = {
     MutationCreateAccountSocialNetworkArgs,
     Maybe<WithTypename<CreateAccountSocialNetworkPayload>>
   >
+  createAchievement?: GraphCacheOptimisticMutationResolver<
+    MutationCreateAchievementArgs,
+    Maybe<WithTypename<CreateAchievementPayload>>
+  >
   createAddress?: GraphCacheOptimisticMutationResolver<
     MutationCreateAddressArgs,
     Maybe<WithTypename<CreateAddressPayload>>
@@ -13462,6 +14974,10 @@ export type GraphCacheOptimisticUpdaters = {
   createEventFormatMapping?: GraphCacheOptimisticMutationResolver<
     MutationCreateEventFormatMappingArgs,
     Maybe<WithTypename<CreateEventFormatMappingPayload>>
+  >
+  createEventRecommendation?: GraphCacheOptimisticMutationResolver<
+    MutationCreateEventRecommendationArgs,
+    Maybe<WithTypename<CreateEventRecommendationPayload>>
   >
   createEventUpload?: GraphCacheOptimisticMutationResolver<
     MutationCreateEventUploadArgs,
@@ -13530,6 +15046,18 @@ export type GraphCacheOptimisticUpdaters = {
   deleteAccountSocialNetworkByAccountIdAndSocialNetwork?: GraphCacheOptimisticMutationResolver<
     MutationDeleteAccountSocialNetworkByAccountIdAndSocialNetworkArgs,
     Maybe<WithTypename<DeleteAccountSocialNetworkPayload>>
+  >
+  deleteAchievement?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteAchievementArgs,
+    Maybe<WithTypename<DeleteAchievementPayload>>
+  >
+  deleteAchievementByAccountIdAndAchievement?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteAchievementByAccountIdAndAchievementArgs,
+    Maybe<WithTypename<DeleteAchievementPayload>>
+  >
+  deleteAchievementByRowId?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteAchievementByRowIdArgs,
+    Maybe<WithTypename<DeleteAchievementPayload>>
   >
   deleteAddress?: GraphCacheOptimisticMutationResolver<
     MutationDeleteAddressArgs,
@@ -13602,6 +15130,14 @@ export type GraphCacheOptimisticUpdaters = {
   deleteEventFormatMappingByEventIdAndFormatId?: GraphCacheOptimisticMutationResolver<
     MutationDeleteEventFormatMappingByEventIdAndFormatIdArgs,
     Maybe<WithTypename<DeleteEventFormatMappingPayload>>
+  >
+  deleteEventRecommendation?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteEventRecommendationArgs,
+    Maybe<WithTypename<DeleteEventRecommendationPayload>>
+  >
+  deleteEventRecommendationByAccountIdAndEventId?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteEventRecommendationByAccountIdAndEventIdArgs,
+    Maybe<WithTypename<DeleteEventRecommendationPayload>>
   >
   deleteEventUpload?: GraphCacheOptimisticMutationResolver<
     MutationDeleteEventUploadArgs,
@@ -13767,6 +15303,18 @@ export type GraphCacheOptimisticUpdaters = {
     MutationUpdateAccountSocialNetworkByAccountIdAndSocialNetworkArgs,
     Maybe<WithTypename<UpdateAccountSocialNetworkPayload>>
   >
+  updateAchievement?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateAchievementArgs,
+    Maybe<WithTypename<UpdateAchievementPayload>>
+  >
+  updateAchievementByAccountIdAndAchievement?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateAchievementByAccountIdAndAchievementArgs,
+    Maybe<WithTypename<UpdateAchievementPayload>>
+  >
+  updateAchievementByRowId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateAchievementByRowIdArgs,
+    Maybe<WithTypename<UpdateAchievementPayload>>
+  >
   updateAddress?: GraphCacheOptimisticMutationResolver<
     MutationUpdateAddressArgs,
     Maybe<WithTypename<UpdateAddressPayload>>
@@ -13823,6 +15371,42 @@ export type GraphCacheOptimisticUpdaters = {
     MutationUpdateEventByRowIdArgs,
     Maybe<WithTypename<UpdateEventPayload>>
   >
+  updateEventCategoryMapping?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateEventCategoryMappingArgs,
+    Maybe<WithTypename<UpdateEventCategoryMappingPayload>>
+  >
+  updateEventCategoryMappingByEventIdAndCategoryId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateEventCategoryMappingByEventIdAndCategoryIdArgs,
+    Maybe<WithTypename<UpdateEventCategoryMappingPayload>>
+  >
+  updateEventFormatMapping?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateEventFormatMappingArgs,
+    Maybe<WithTypename<UpdateEventFormatMappingPayload>>
+  >
+  updateEventFormatMappingByEventIdAndFormatId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateEventFormatMappingByEventIdAndFormatIdArgs,
+    Maybe<WithTypename<UpdateEventFormatMappingPayload>>
+  >
+  updateEventRecommendation?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateEventRecommendationArgs,
+    Maybe<WithTypename<UpdateEventRecommendationPayload>>
+  >
+  updateEventRecommendationByAccountIdAndEventId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateEventRecommendationByAccountIdAndEventIdArgs,
+    Maybe<WithTypename<UpdateEventRecommendationPayload>>
+  >
+  updateEventUpload?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateEventUploadArgs,
+    Maybe<WithTypename<UpdateEventUploadPayload>>
+  >
+  updateEventUploadByEventIdAndUploadId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateEventUploadByEventIdAndUploadIdArgs,
+    Maybe<WithTypename<UpdateEventUploadPayload>>
+  >
+  updateEventUploadByRowId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateEventUploadByRowIdArgs,
+    Maybe<WithTypename<UpdateEventUploadPayload>>
+  >
   updateFriendship?: GraphCacheOptimisticMutationResolver<
     MutationUpdateFriendshipArgs,
     Maybe<WithTypename<UpdateFriendshipPayload>>
@@ -13846,6 +15430,54 @@ export type GraphCacheOptimisticUpdaters = {
   updateGuestByRowId?: GraphCacheOptimisticMutationResolver<
     MutationUpdateGuestByRowIdArgs,
     Maybe<WithTypename<UpdateGuestPayload>>
+  >
+  updatePreferenceEventCategory?: GraphCacheOptimisticMutationResolver<
+    MutationUpdatePreferenceEventCategoryArgs,
+    Maybe<WithTypename<UpdatePreferenceEventCategoryPayload>>
+  >
+  updatePreferenceEventCategoryByAccountIdAndCategoryId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdatePreferenceEventCategoryByAccountIdAndCategoryIdArgs,
+    Maybe<WithTypename<UpdatePreferenceEventCategoryPayload>>
+  >
+  updatePreferenceEventCategoryByRowId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdatePreferenceEventCategoryByRowIdArgs,
+    Maybe<WithTypename<UpdatePreferenceEventCategoryPayload>>
+  >
+  updatePreferenceEventFormat?: GraphCacheOptimisticMutationResolver<
+    MutationUpdatePreferenceEventFormatArgs,
+    Maybe<WithTypename<UpdatePreferenceEventFormatPayload>>
+  >
+  updatePreferenceEventFormatByAccountIdAndFormatId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdatePreferenceEventFormatByAccountIdAndFormatIdArgs,
+    Maybe<WithTypename<UpdatePreferenceEventFormatPayload>>
+  >
+  updatePreferenceEventFormatByRowId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdatePreferenceEventFormatByRowIdArgs,
+    Maybe<WithTypename<UpdatePreferenceEventFormatPayload>>
+  >
+  updatePreferenceEventLocation?: GraphCacheOptimisticMutationResolver<
+    MutationUpdatePreferenceEventLocationArgs,
+    Maybe<WithTypename<UpdatePreferenceEventLocationPayload>>
+  >
+  updatePreferenceEventLocationByCreatedByAndLocationAndRadius?: GraphCacheOptimisticMutationResolver<
+    MutationUpdatePreferenceEventLocationByCreatedByAndLocationAndRadiusArgs,
+    Maybe<WithTypename<UpdatePreferenceEventLocationPayload>>
+  >
+  updatePreferenceEventLocationByRowId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdatePreferenceEventLocationByRowIdArgs,
+    Maybe<WithTypename<UpdatePreferenceEventLocationPayload>>
+  >
+  updatePreferenceEventSize?: GraphCacheOptimisticMutationResolver<
+    MutationUpdatePreferenceEventSizeArgs,
+    Maybe<WithTypename<UpdatePreferenceEventSizePayload>>
+  >
+  updatePreferenceEventSizeByAccountIdAndEventSize?: GraphCacheOptimisticMutationResolver<
+    MutationUpdatePreferenceEventSizeByAccountIdAndEventSizeArgs,
+    Maybe<WithTypename<UpdatePreferenceEventSizePayload>>
+  >
+  updatePreferenceEventSizeByRowId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdatePreferenceEventSizeByRowIdArgs,
+    Maybe<WithTypename<UpdatePreferenceEventSizePayload>>
   >
   updateProfilePicture?: GraphCacheOptimisticMutationResolver<
     MutationUpdateProfilePictureArgs,
@@ -14271,6 +15903,10 @@ export type GraphCacheUpdaters = {
       { eventSearch: Maybe<WithTypename<EventConnection>> },
       QueryEventSearchArgs
     >
+    eventSearchRank?: GraphCacheUpdateResolver<
+      { eventSearchRank: Maybe<WithTypename<EventSearchRankConnection>> },
+      QueryEventSearchRankArgs
+    >
     eventUpload?: GraphCacheUpdateResolver<
       { eventUpload: Maybe<WithTypename<EventUpload>> },
       QueryEventUploadArgs
@@ -14568,6 +16204,10 @@ export type GraphCacheUpdaters = {
       },
       MutationCreateAccountSocialNetworkArgs
     >
+    createAchievement?: GraphCacheUpdateResolver<
+      { createAchievement: Maybe<WithTypename<CreateAchievementPayload>> },
+      MutationCreateAchievementArgs
+    >
     createAddress?: GraphCacheUpdateResolver<
       { createAddress: Maybe<WithTypename<CreateAddressPayload>> },
       MutationCreateAddressArgs
@@ -14607,6 +16247,14 @@ export type GraphCacheUpdaters = {
         >
       },
       MutationCreateEventFormatMappingArgs
+    >
+    createEventRecommendation?: GraphCacheUpdateResolver<
+      {
+        createEventRecommendation: Maybe<
+          WithTypename<CreateEventRecommendationPayload>
+        >
+      },
+      MutationCreateEventRecommendationArgs
     >
     createEventUpload?: GraphCacheUpdateResolver<
       { createEventUpload: Maybe<WithTypename<CreateEventUploadPayload>> },
@@ -14714,6 +16362,24 @@ export type GraphCacheUpdaters = {
       },
       MutationDeleteAccountSocialNetworkByAccountIdAndSocialNetworkArgs
     >
+    deleteAchievement?: GraphCacheUpdateResolver<
+      { deleteAchievement: Maybe<WithTypename<DeleteAchievementPayload>> },
+      MutationDeleteAchievementArgs
+    >
+    deleteAchievementByAccountIdAndAchievement?: GraphCacheUpdateResolver<
+      {
+        deleteAchievementByAccountIdAndAchievement: Maybe<
+          WithTypename<DeleteAchievementPayload>
+        >
+      },
+      MutationDeleteAchievementByAccountIdAndAchievementArgs
+    >
+    deleteAchievementByRowId?: GraphCacheUpdateResolver<
+      {
+        deleteAchievementByRowId: Maybe<WithTypename<DeleteAchievementPayload>>
+      },
+      MutationDeleteAchievementByRowIdArgs
+    >
     deleteAddress?: GraphCacheUpdateResolver<
       { deleteAddress: Maybe<WithTypename<DeleteAddressPayload>> },
       MutationDeleteAddressArgs
@@ -14819,6 +16485,22 @@ export type GraphCacheUpdaters = {
         >
       },
       MutationDeleteEventFormatMappingByEventIdAndFormatIdArgs
+    >
+    deleteEventRecommendation?: GraphCacheUpdateResolver<
+      {
+        deleteEventRecommendation: Maybe<
+          WithTypename<DeleteEventRecommendationPayload>
+        >
+      },
+      MutationDeleteEventRecommendationArgs
+    >
+    deleteEventRecommendationByAccountIdAndEventId?: GraphCacheUpdateResolver<
+      {
+        deleteEventRecommendationByAccountIdAndEventId: Maybe<
+          WithTypename<DeleteEventRecommendationPayload>
+        >
+      },
+      MutationDeleteEventRecommendationByAccountIdAndEventIdArgs
     >
     deleteEventUpload?: GraphCacheUpdateResolver<
       { deleteEventUpload: Maybe<WithTypename<DeleteEventUploadPayload>> },
@@ -15074,6 +16756,24 @@ export type GraphCacheUpdaters = {
       },
       MutationUpdateAccountSocialNetworkByAccountIdAndSocialNetworkArgs
     >
+    updateAchievement?: GraphCacheUpdateResolver<
+      { updateAchievement: Maybe<WithTypename<UpdateAchievementPayload>> },
+      MutationUpdateAchievementArgs
+    >
+    updateAchievementByAccountIdAndAchievement?: GraphCacheUpdateResolver<
+      {
+        updateAchievementByAccountIdAndAchievement: Maybe<
+          WithTypename<UpdateAchievementPayload>
+        >
+      },
+      MutationUpdateAchievementByAccountIdAndAchievementArgs
+    >
+    updateAchievementByRowId?: GraphCacheUpdateResolver<
+      {
+        updateAchievementByRowId: Maybe<WithTypename<UpdateAchievementPayload>>
+      },
+      MutationUpdateAchievementByRowIdArgs
+    >
     updateAddress?: GraphCacheUpdateResolver<
       { updateAddress: Maybe<WithTypename<UpdateAddressPayload>> },
       MutationUpdateAddressArgs
@@ -15142,6 +16842,72 @@ export type GraphCacheUpdaters = {
       { updateEventByRowId: Maybe<WithTypename<UpdateEventPayload>> },
       MutationUpdateEventByRowIdArgs
     >
+    updateEventCategoryMapping?: GraphCacheUpdateResolver<
+      {
+        updateEventCategoryMapping: Maybe<
+          WithTypename<UpdateEventCategoryMappingPayload>
+        >
+      },
+      MutationUpdateEventCategoryMappingArgs
+    >
+    updateEventCategoryMappingByEventIdAndCategoryId?: GraphCacheUpdateResolver<
+      {
+        updateEventCategoryMappingByEventIdAndCategoryId: Maybe<
+          WithTypename<UpdateEventCategoryMappingPayload>
+        >
+      },
+      MutationUpdateEventCategoryMappingByEventIdAndCategoryIdArgs
+    >
+    updateEventFormatMapping?: GraphCacheUpdateResolver<
+      {
+        updateEventFormatMapping: Maybe<
+          WithTypename<UpdateEventFormatMappingPayload>
+        >
+      },
+      MutationUpdateEventFormatMappingArgs
+    >
+    updateEventFormatMappingByEventIdAndFormatId?: GraphCacheUpdateResolver<
+      {
+        updateEventFormatMappingByEventIdAndFormatId: Maybe<
+          WithTypename<UpdateEventFormatMappingPayload>
+        >
+      },
+      MutationUpdateEventFormatMappingByEventIdAndFormatIdArgs
+    >
+    updateEventRecommendation?: GraphCacheUpdateResolver<
+      {
+        updateEventRecommendation: Maybe<
+          WithTypename<UpdateEventRecommendationPayload>
+        >
+      },
+      MutationUpdateEventRecommendationArgs
+    >
+    updateEventRecommendationByAccountIdAndEventId?: GraphCacheUpdateResolver<
+      {
+        updateEventRecommendationByAccountIdAndEventId: Maybe<
+          WithTypename<UpdateEventRecommendationPayload>
+        >
+      },
+      MutationUpdateEventRecommendationByAccountIdAndEventIdArgs
+    >
+    updateEventUpload?: GraphCacheUpdateResolver<
+      { updateEventUpload: Maybe<WithTypename<UpdateEventUploadPayload>> },
+      MutationUpdateEventUploadArgs
+    >
+    updateEventUploadByEventIdAndUploadId?: GraphCacheUpdateResolver<
+      {
+        updateEventUploadByEventIdAndUploadId: Maybe<
+          WithTypename<UpdateEventUploadPayload>
+        >
+      },
+      MutationUpdateEventUploadByEventIdAndUploadIdArgs
+    >
+    updateEventUploadByRowId?: GraphCacheUpdateResolver<
+      {
+        updateEventUploadByRowId: Maybe<WithTypename<UpdateEventUploadPayload>>
+      },
+      MutationUpdateEventUploadByRowIdArgs
+    >
     updateFriendship?: GraphCacheUpdateResolver<
       { updateFriendship: Maybe<WithTypename<UpdateFriendshipPayload>> },
       MutationUpdateFriendshipArgs
@@ -15173,6 +16939,102 @@ export type GraphCacheUpdaters = {
     updateGuestByRowId?: GraphCacheUpdateResolver<
       { updateGuestByRowId: Maybe<WithTypename<UpdateGuestPayload>> },
       MutationUpdateGuestByRowIdArgs
+    >
+    updatePreferenceEventCategory?: GraphCacheUpdateResolver<
+      {
+        updatePreferenceEventCategory: Maybe<
+          WithTypename<UpdatePreferenceEventCategoryPayload>
+        >
+      },
+      MutationUpdatePreferenceEventCategoryArgs
+    >
+    updatePreferenceEventCategoryByAccountIdAndCategoryId?: GraphCacheUpdateResolver<
+      {
+        updatePreferenceEventCategoryByAccountIdAndCategoryId: Maybe<
+          WithTypename<UpdatePreferenceEventCategoryPayload>
+        >
+      },
+      MutationUpdatePreferenceEventCategoryByAccountIdAndCategoryIdArgs
+    >
+    updatePreferenceEventCategoryByRowId?: GraphCacheUpdateResolver<
+      {
+        updatePreferenceEventCategoryByRowId: Maybe<
+          WithTypename<UpdatePreferenceEventCategoryPayload>
+        >
+      },
+      MutationUpdatePreferenceEventCategoryByRowIdArgs
+    >
+    updatePreferenceEventFormat?: GraphCacheUpdateResolver<
+      {
+        updatePreferenceEventFormat: Maybe<
+          WithTypename<UpdatePreferenceEventFormatPayload>
+        >
+      },
+      MutationUpdatePreferenceEventFormatArgs
+    >
+    updatePreferenceEventFormatByAccountIdAndFormatId?: GraphCacheUpdateResolver<
+      {
+        updatePreferenceEventFormatByAccountIdAndFormatId: Maybe<
+          WithTypename<UpdatePreferenceEventFormatPayload>
+        >
+      },
+      MutationUpdatePreferenceEventFormatByAccountIdAndFormatIdArgs
+    >
+    updatePreferenceEventFormatByRowId?: GraphCacheUpdateResolver<
+      {
+        updatePreferenceEventFormatByRowId: Maybe<
+          WithTypename<UpdatePreferenceEventFormatPayload>
+        >
+      },
+      MutationUpdatePreferenceEventFormatByRowIdArgs
+    >
+    updatePreferenceEventLocation?: GraphCacheUpdateResolver<
+      {
+        updatePreferenceEventLocation: Maybe<
+          WithTypename<UpdatePreferenceEventLocationPayload>
+        >
+      },
+      MutationUpdatePreferenceEventLocationArgs
+    >
+    updatePreferenceEventLocationByCreatedByAndLocationAndRadius?: GraphCacheUpdateResolver<
+      {
+        updatePreferenceEventLocationByCreatedByAndLocationAndRadius: Maybe<
+          WithTypename<UpdatePreferenceEventLocationPayload>
+        >
+      },
+      MutationUpdatePreferenceEventLocationByCreatedByAndLocationAndRadiusArgs
+    >
+    updatePreferenceEventLocationByRowId?: GraphCacheUpdateResolver<
+      {
+        updatePreferenceEventLocationByRowId: Maybe<
+          WithTypename<UpdatePreferenceEventLocationPayload>
+        >
+      },
+      MutationUpdatePreferenceEventLocationByRowIdArgs
+    >
+    updatePreferenceEventSize?: GraphCacheUpdateResolver<
+      {
+        updatePreferenceEventSize: Maybe<
+          WithTypename<UpdatePreferenceEventSizePayload>
+        >
+      },
+      MutationUpdatePreferenceEventSizeArgs
+    >
+    updatePreferenceEventSizeByAccountIdAndEventSize?: GraphCacheUpdateResolver<
+      {
+        updatePreferenceEventSizeByAccountIdAndEventSize: Maybe<
+          WithTypename<UpdatePreferenceEventSizePayload>
+        >
+      },
+      MutationUpdatePreferenceEventSizeByAccountIdAndEventSizeArgs
+    >
+    updatePreferenceEventSizeByRowId?: GraphCacheUpdateResolver<
+      {
+        updatePreferenceEventSizeByRowId: Maybe<
+          WithTypename<UpdatePreferenceEventSizePayload>
+        >
+      },
+      MutationUpdatePreferenceEventSizeByRowIdArgs
     >
     updateProfilePicture?: GraphCacheUpdateResolver<
       {
@@ -16064,6 +17926,24 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
+  CreateAchievementPayload?: {
+    achievement?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateAchievementPayload>>,
+      Record<string, never>
+    >
+    achievementEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateAchievementPayload>>,
+      CreateAchievementPayloadAchievementEdgeArgs
+    >
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateAchievementPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateAchievementPayload>>,
+      Record<string, never>
+    >
+  }
   CreateAddressPayload?: {
     address?: GraphCacheUpdateResolver<
       Maybe<WithTypename<CreateAddressPayload>>,
@@ -16205,6 +18085,24 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<CreateEventPayload>>,
+      Record<string, never>
+    >
+  }
+  CreateEventRecommendationPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventRecommendationPayload>>,
+      Record<string, never>
+    >
+    eventRecommendation?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventRecommendationPayload>>,
+      Record<string, never>
+    >
+    eventRecommendationEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventRecommendationPayload>>,
+      CreateEventRecommendationPayloadEventRecommendationEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateEventRecommendationPayload>>,
       Record<string, never>
     >
   }
@@ -16464,6 +18362,28 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
+  DeleteAchievementPayload?: {
+    achievement?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAchievementPayload>>,
+      Record<string, never>
+    >
+    achievementEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAchievementPayload>>,
+      DeleteAchievementPayloadAchievementEdgeArgs
+    >
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAchievementPayload>>,
+      Record<string, never>
+    >
+    deletedAchievementId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAchievementPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAchievementPayload>>,
+      Record<string, never>
+    >
+  }
   DeleteAddressPayload?: {
     address?: GraphCacheUpdateResolver<
       Maybe<WithTypename<DeleteAddressPayload>>,
@@ -16615,6 +18535,28 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<DeleteEventPayload>>,
+      Record<string, never>
+    >
+  }
+  DeleteEventRecommendationPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventRecommendationPayload>>,
+      Record<string, never>
+    >
+    deletedEventRecommendationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventRecommendationPayload>>,
+      Record<string, never>
+    >
+    eventRecommendation?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventRecommendationPayload>>,
+      Record<string, never>
+    >
+    eventRecommendationEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventRecommendationPayload>>,
+      DeleteEventRecommendationPayloadEventRecommendationEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteEventRecommendationPayload>>,
       Record<string, never>
     >
   }
@@ -16904,6 +18846,10 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
     description?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Event>>,
+      Record<string, never>
+    >
+    effectiveEnd?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
       Record<string, never>
     >
@@ -17417,6 +19363,44 @@ export type GraphCacheUpdaters = {
     >
     node?: GraphCacheUpdateResolver<
       Maybe<WithTypename<EventRecommendationEdge>>,
+      Record<string, never>
+    >
+  }
+  EventSearchRankConnection?: {
+    edges?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventSearchRankConnection>>,
+      Record<string, never>
+    >
+    nodes?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventSearchRankConnection>>,
+      Record<string, never>
+    >
+    pageInfo?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventSearchRankConnection>>,
+      Record<string, never>
+    >
+    totalCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventSearchRankConnection>>,
+      Record<string, never>
+    >
+  }
+  EventSearchRankEdge?: {
+    cursor?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventSearchRankEdge>>,
+      Record<string, never>
+    >
+    node?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventSearchRankEdge>>,
+      Record<string, never>
+    >
+  }
+  EventSearchRankRecord?: {
+    eventId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventSearchRankRecord>>,
+      Record<string, never>
+    >
+    rank?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventSearchRankRecord>>,
       Record<string, never>
     >
   }
@@ -18460,6 +20444,24 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
+  UpdateAchievementPayload?: {
+    achievement?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAchievementPayload>>,
+      Record<string, never>
+    >
+    achievementEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAchievementPayload>>,
+      UpdateAchievementPayloadAchievementEdgeArgs
+    >
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAchievementPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAchievementPayload>>,
+      Record<string, never>
+    >
+  }
   UpdateAddressPayload?: {
     address?: GraphCacheUpdateResolver<
       Maybe<WithTypename<UpdateAddressPayload>>,
@@ -18532,6 +20534,42 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
+  UpdateEventCategoryMappingPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventCategoryMappingPayload>>,
+      Record<string, never>
+    >
+    eventCategoryMapping?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventCategoryMappingPayload>>,
+      Record<string, never>
+    >
+    eventCategoryMappingEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventCategoryMappingPayload>>,
+      UpdateEventCategoryMappingPayloadEventCategoryMappingEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventCategoryMappingPayload>>,
+      Record<string, never>
+    >
+  }
+  UpdateEventFormatMappingPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventFormatMappingPayload>>,
+      Record<string, never>
+    >
+    eventFormatMapping?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventFormatMappingPayload>>,
+      Record<string, never>
+    >
+    eventFormatMappingEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventFormatMappingPayload>>,
+      UpdateEventFormatMappingPayloadEventFormatMappingEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventFormatMappingPayload>>,
+      Record<string, never>
+    >
+  }
   UpdateEventPayload?: {
     clientMutationId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<UpdateEventPayload>>,
@@ -18547,6 +20585,42 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<UpdateEventPayload>>,
+      Record<string, never>
+    >
+  }
+  UpdateEventRecommendationPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventRecommendationPayload>>,
+      Record<string, never>
+    >
+    eventRecommendation?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventRecommendationPayload>>,
+      Record<string, never>
+    >
+    eventRecommendationEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventRecommendationPayload>>,
+      UpdateEventRecommendationPayloadEventRecommendationEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventRecommendationPayload>>,
+      Record<string, never>
+    >
+  }
+  UpdateEventUploadPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventUploadPayload>>,
+      Record<string, never>
+    >
+    eventUpload?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventUploadPayload>>,
+      Record<string, never>
+    >
+    eventUploadEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventUploadPayload>>,
+      UpdateEventUploadPayloadEventUploadEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateEventUploadPayload>>,
       Record<string, never>
     >
   }
@@ -18583,6 +20657,78 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<UpdateGuestPayload>>,
+      Record<string, never>
+    >
+  }
+  UpdatePreferenceEventCategoryPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+    preferenceEventCategory?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+    preferenceEventCategoryEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceEventCategoryPayload>>,
+      UpdatePreferenceEventCategoryPayloadPreferenceEventCategoryEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceEventCategoryPayload>>,
+      Record<string, never>
+    >
+  }
+  UpdatePreferenceEventFormatPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceEventFormatPayload>>,
+      Record<string, never>
+    >
+    preferenceEventFormat?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceEventFormatPayload>>,
+      Record<string, never>
+    >
+    preferenceEventFormatEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceEventFormatPayload>>,
+      UpdatePreferenceEventFormatPayloadPreferenceEventFormatEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceEventFormatPayload>>,
+      Record<string, never>
+    >
+  }
+  UpdatePreferenceEventLocationPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceEventLocationPayload>>,
+      Record<string, never>
+    >
+    preferenceEventLocation?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceEventLocationPayload>>,
+      Record<string, never>
+    >
+    preferenceEventLocationEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceEventLocationPayload>>,
+      UpdatePreferenceEventLocationPayloadPreferenceEventLocationEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceEventLocationPayload>>,
+      Record<string, never>
+    >
+  }
+  UpdatePreferenceEventSizePayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceEventSizePayload>>,
+      Record<string, never>
+    >
+    preferenceEventSize?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceEventSizePayload>>,
+      Record<string, never>
+    >
+    preferenceEventSizeEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceEventSizePayload>>,
+      UpdatePreferenceEventSizePayloadPreferenceEventSizeEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceEventSizePayload>>,
       Record<string, never>
     >
   }
