@@ -125,7 +125,7 @@
               <EventDashletLocation :address :event />
               <EventDashletLink :event />
             </div>
-            <AppMap
+            <LazyAppMap
               v-if="positionInitial"
               class="h-42 rounded-xl"
               :events

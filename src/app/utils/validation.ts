@@ -72,14 +72,6 @@ export const SCHEMA_NOTE_OPTIONAL = z
 export const SCHEMA_PASSWORD = z
   .string()
   .min(VALIDATION_PASSWORD_LENGTH_MINIMUM)
-export const SCHEMA_PASSWORD_V2 = z
-  .string()
-  .min(VALIDATION_PASSWORD_LENGTH_MINIMUM)
-  .refine(
-    async (password) =>
-      (await getPasswordStrengthScore(password)) >=
-      PASSWORD_STRENGTH_SCORE_MINIMUM,
-  )
 export const SCHEMA_PHONE_NUMBER_OPTIONAL = z
   .string()
   .max(VALIDATION_PHONE_NUMBER_LENGTH_MAXIMUM)
@@ -169,6 +161,17 @@ export const getEventByCreatedByAndSlug = async ({
 
   return eventByCreatedByAndSlug.data?.eventByCreatedByAndSlug
 }
+
+// The strength check scores against the active locale's dictionary, so the locale has to come from the calling component instead of an ambient lookup.
+export const getSchemaPasswordV2 = (locale: string) =>
+  z
+    .string()
+    .min(VALIDATION_PASSWORD_LENGTH_MINIMUM)
+    .refine(
+      async (password) =>
+        (await getPasswordStrengthScore(password, locale)) >=
+        PASSWORD_STRENGTH_SCORE_MINIMUM,
+    )
 
 export const validateUsername = (invert?: boolean) => async (value: string) => {
   const { $urql } = useNuxtApp()
