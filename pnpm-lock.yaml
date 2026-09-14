@@ -210,11 +210,11 @@ importers:
   src:
     devDependencies:
       '@aws-sdk/client-sesv2':
-        specifier: 3.1130.0
-        version: 3.1130.0
+        specifier: 3.1131.0
+        version: 3.1131.0
       '@aws-sdk/credential-providers':
-        specifier: 3.1130.0
-        version: 3.1130.0
+        specifier: 3.1131.0
+        version: 3.1131.0
       '@comark/nuxt':
         specifier: 0.7.0
         version: 0.7.0(magicast@0.5.4)(nuxt@4.5.2(e4ead6805d59ca8037e1ef9d721bcc91))(shiki@4.4.3)(vue@3.5.42(typescript@6.0.3))
@@ -282,8 +282,8 @@ importers:
         specifier: 3.12.4
         version: 3.12.4
       '@lucide/vue':
-        specifier: 1.44.0
-        version: 1.44.0(vue@3.5.42(typescript@6.0.3))
+        specifier: 1.45.0
+        version: 1.45.0(vue@3.5.42(typescript@6.0.3))
       '@nuxt/a11y':
         specifier: 1.0.0-alpha.1
         version: 1.0.0-alpha.1(magic-string@1.2.3)(magicast@0.5.4)(oxc-parser@0.143.0)(rolldown@1.2.6)(unplugin@3.3.0(esbuild@0.28.2)(rolldown@1.2.6)(rollup@4.63.1)(vite@8.2.2(@types/node@24.13.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.0))(webpack@5.110.1(cssnano@8.0.10(postcss@8.5.26))(csso@5.0.5)(esbuild@0.28.2)(lightningcss@1.33.0)(postcss@8.5.26)))(vite@8.2.2(@types/node@24.13.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.0))
@@ -519,8 +519,8 @@ importers:
         specifier: 4.18.1
         version: 4.18.1
       nodemailer:
-        specifier: 10.0.3
-        version: 10.0.3
+        specifier: 10.0.8
+        version: 10.0.8
       nuxt:
         specifier: 4.5.2
         version: 4.5.2(e4ead6805d59ca8037e1ef9d721bcc91)
@@ -765,8 +765,8 @@ packages:
     resolution: {integrity: sha512-93Z1N+BQNXysodoicpOIyNh2drHfz/CTf9nnT0FEx72GJcIiwgydD7tGAr78j41LsYn3hlRn+LdGPuBLn1Bl8Q==}
     engines: {node: ^22.13.0 || >=24.0.0}
 
-  '@aws-sdk/client-sesv2@3.1130.0':
-    resolution: {integrity: sha512-VkGg0E5iDO79ByWUr1nGNyak8JRfRm9MWzXXO33rzy+v695Jk8gyau3JPt1Qsck/TOSPDlyMfhYeKPb/aUzUnw==}
+  '@aws-sdk/client-sesv2@3.1131.0':
+    resolution: {integrity: sha512-QSAsbzEoF5fEwXWM5AfcuFQsN8C0lDZkiIHHmKVmTWR+tCZDpOh9qtmW9heKVj2KQ6f4WwyM1ZLvUZTR0P3ujQ==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/core@3.978.0':
@@ -809,8 +809,8 @@ packages:
     resolution: {integrity: sha512-uylIQSUWpfLuH2LovxEEfwzJGM/SabLOfLMg6YXu/E8jJEKUdpdILCVCQCdFvHyu/7dLJOHPMfrSwduxO56NkQ==}
     engines: {node: '>=20.0.0'}
 
-  '@aws-sdk/credential-providers@3.1130.0':
-    resolution: {integrity: sha512-OBB/G+tXK3KcvoI7JjTRAfNZy2/Vmq75eU3bJG5IxVgC+dTpKEJi20w3EGJDFxQPDj7U6WD5zSB/9GDpnnZaqg==}
+  '@aws-sdk/credential-providers@3.1131.0':
+    resolution: {integrity: sha512-9AHwJuS5tmTUprvZcC5kQDsqiIp2N8Uu2vk9BlCM+koIn19/8VgKiZXVkResgbIvZ3nS0Km1T2wdpOA76Q7OYQ==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/nested-clients@3.997.45':
@@ -3204,8 +3204,8 @@ packages:
     peerDependencies:
       vue: '>=3.0.1'
 
-  '@lucide/vue@1.44.0':
-    resolution: {integrity: sha512-zPCTWyJnlhLPBqBSQ2EUQH03nmsJ/CVXb5Ht6k4Jk0Jn4+ojCqeRau86hGJt2Wv4FQmeoRHpIl1nadNGj7D6eA==}
+  '@lucide/vue@1.45.0':
+    resolution: {integrity: sha512-tbMlusqK6brViI1xj8nsXAgNDyJOvNeOdOQlBI0hOWCAbnBrPRlanoQ6EygDEMv3dqwXfCZPb4a0/ImtI5KAmQ==}
     peerDependencies:
       vue: '>=3.0.1'
 
@@ -9666,8 +9666,8 @@ packages:
     resolution: {integrity: sha512-YHs7BmmcsdAI5Ozuf8JZo6PT0mv2GIWC9vMfvUC3dp65M8hn7Ux8CPL+2oBI7juNuj9d0ndhTcznq2ODBps9cQ==}
     engines: {node: '>=18'}
 
-  nodemailer@10.0.3:
-    resolution: {integrity: sha512-h5c8ypcMoOIh44bIcVROvTDbjRdOJX8AXTkxMht2C92HlSjkG+/8kjoqmNPypfjQaVNaUHWyZ3tqs5I3K91F3g==}
+  nodemailer@10.0.8:
+    resolution: {integrity: sha512-uCZ0AtFDI46sHwJ6mhwNuIoA/KiTC0ZCzX7g01941+H9VMIXEiZjtgjQkzoBRTeQba0cIrKfwk31q99PfcIMRw==}
     engines: {node: '>=20.0.0'}
 
   nodemailer@9.0.6:
@@ -12629,7 +12629,7 @@ snapshots:
       is-potential-custom-element-name: 1.0.1
       lru-cache: 11.5.2
 
-  '@aws-sdk/client-sesv2@3.1130.0':
+  '@aws-sdk/client-sesv2@3.1131.0':
     dependencies:
       '@aws-sdk/core': 3.978.0
       '@aws-sdk/credential-provider-node': 3.972.83
@@ -12744,7 +12744,7 @@ snapshots:
       '@smithy/types': 4.17.2
       tslib: 2.8.1
 
-  '@aws-sdk/credential-providers@3.1130.0':
+  '@aws-sdk/credential-providers@3.1131.0':
     dependencies:
       '@aws-sdk/core': 3.978.0
       '@aws-sdk/credential-provider-cognito-identity': 3.972.70
@@ -15600,7 +15600,7 @@ snapshots:
     dependencies:
       vue: 3.5.42(typescript@6.0.3)
 
-  '@lucide/vue@1.44.0(vue@3.5.42(typescript@6.0.3))':
+  '@lucide/vue@1.45.0(vue@3.5.42(typescript@6.0.3))':
     dependencies:
       vue: 3.5.42(typescript@6.0.3)
 
@@ -23362,7 +23362,7 @@ snapshots:
 
   node-releases@2.0.54: {}
 
-  nodemailer@10.0.3: {}
+  nodemailer@10.0.8: {}
 
   nodemailer@9.0.6: {}
 
