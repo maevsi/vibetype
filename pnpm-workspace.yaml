@@ -10,6 +10,10 @@ allowBuilds:
   sharp: false
   unrs-resolver: false
   vue-demi: false
+overrides:
+  # `vue/require-default-prop` started flagging every optional `defineModel` in 10.11.0, and the suggested `default: undefined` does not type-check.
+  # A maintainer has agreed to revert that part, so drop this override once a release contains the revert: https://github.com/vuejs/eslint-plugin-vue/issues/3135
+  eslint-plugin-vue: 10.10.0
 packages:
   - src
   - tests
