@@ -31,6 +31,7 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
   - `pnpm run test:e2e:docker:server:node:update` for end-to-end testing with snapshot updates
 - Proposal of changes to installed dependencies are allowed
 - Pin development dependencies to an exact version, don't use caret-versioning
+- Hold a dependency back with a pnpm override in `pnpm-workspace.yaml`, and disable the package in `.renovaterc.json` too so Renovate does not raise the pin again
 
 ## Nuxt
 - Nuxt auto-imports are active, so there is no need to import Nuxt components, composables and Vue.js APIs – run `pnpm exec nuxt prepare` instead to update the barrel files
