@@ -1,4 +1,11 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>dargmuesli/renovate-config"]
+  "extends": ["github>dargmuesli/renovate-config"],
+  "packageRules": [
+    {
+      "description": "Held back by a pnpm override in `pnpm-workspace.yaml`, which explains when the pin can be dropped.",
+      "enabled": false,
+      "matchDepNames": ["eslint-plugin-vue"]
+    }
+  ]
 }
