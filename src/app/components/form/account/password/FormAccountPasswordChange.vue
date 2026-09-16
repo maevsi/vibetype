@@ -58,7 +58,7 @@ import { z } from 'zod'
 
 import { graphql } from '~~/gql/generated'
 
-const { t } = useI18n()
+const { locale, t } = useI18n()
 
 // api data
 const accountPasswordChangeMutation = useMutation(
@@ -90,6 +90,7 @@ const passwordMessages = computed(() => ({
 const passwordNewValidation = useAuthFieldValidation({
   validator: (value: string) =>
     getStrongPasswordError({
+      locale: locale.value,
       messages: passwordMessages.value,
       password: value,
     }),
@@ -107,7 +108,7 @@ const handlePasswordNewInput = async (value: string) => {
 // form
 const formSchema = z.object({
   passwordCurrent: SCHEMA_PASSWORD,
-  passwordNew: SCHEMA_PASSWORD_V2,
+  passwordNew: getSchemaPasswordV2(locale.value),
 })
 
 const form = useForm({
