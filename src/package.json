@@ -166,6 +166,7 @@
   "private": true,
   "scripts": {
     "build": "pnpm run build:node",
+    "build:analyze": "nuxt analyze",
     "build:node": "nuxt build",
     "build:static": "nuxt generate",
     "certificates": ".config/certificates/mkcert.sh",

@@ -5,7 +5,7 @@
     @close="selectedUploadId = undefined"
     @submit="onSubmit"
   >
-    <UploadGallery
+    <LazyUploadGallery
       is-readonly
       is-selectable
       @selection="selectProfilePictureUploadId"

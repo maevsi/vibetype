@@ -3,7 +3,7 @@
     <AppLoaderLogo class="size-16" />
   </div>
   <div v-else-if="events?.length" class="flex flex-col items-center gap-4">
-    <AppMap v-if="isMapVisible" :events />
+    <LazyAppMap v-if="isMapVisible" :events />
     <ul class="flex w-full flex-col gap-3">
       <li v-for="event in events" :key="event.rowId">
         <EventCard :event />
