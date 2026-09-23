@@ -131,38 +131,8 @@ export const testMetadata = async ({
       tag: 'meta',
       attributes: [
         {
-          key: 'name',
-          value: 'twitter:image',
-        },
-        // content is checked below
-      ],
-    },
-    {
-      tag: 'meta',
-      attributes: [
-        {
-          key: 'name',
-          value: 'twitter:image:src',
-        },
-        // content is checked below
-      ],
-    },
-    {
-      tag: 'meta',
-      attributes: [
-        {
           key: 'property',
           value: 'og:image:width',
-        },
-        { key: 'content', value: '1200' },
-      ],
-    },
-    {
-      tag: 'meta',
-      attributes: [
-        {
-          key: 'name',
-          value: 'twitter:image:width',
         },
         { key: 'content', value: '1200' },
       ],
@@ -181,28 +151,8 @@ export const testMetadata = async ({
       tag: 'meta',
       attributes: [
         {
-          key: 'name',
-          value: 'twitter:image:height',
-        },
-        { key: 'content', value: '600' },
-      ],
-    },
-    {
-      tag: 'meta',
-      attributes: [
-        {
           key: 'property',
           value: 'og:image:alt',
-        },
-        { key: 'content', value: "VIBETYPE's logo." },
-      ],
-    },
-    {
-      tag: 'meta',
-      attributes: [
-        {
-          key: 'name',
-          value: 'twitter:image:alt',
         },
         { key: 'content', value: "VIBETYPE's logo." },
       ],
@@ -479,16 +429,16 @@ export const testMetadata = async ({
   //   ).toMatchSnapshot(`content-security-policy.txt`)
   // }
 
-  for (const locator of [
-    'meta[property="og:image"]',
-    'meta[name="twitter:image"]',
-    'meta[name="twitter:image:src"]',
-  ]) {
-    const content = await page.locator(locator).getAttribute('content')
-    expect(content).toBeTruthy()
-    expect(content?.startsWith(SITE_URL)).toBeTruthy()
-    expect(content).toMatch(/(\/_og\/[ds]\/).+\.png$/)
-  }
+  const ogImageContent = await page
+    .locator('meta[property="og:image"]')
+    .getAttribute('content')
+  expect(ogImageContent).toBeTruthy()
+  expect(ogImageContent?.startsWith(SITE_URL)).toBeTruthy()
+  expect(ogImageContent).toMatch(/(\/_og\/[ds]\/).+\.png$/)
+
+  // X reads the image from the Open Graph tags, so the mirrored Twitter image
+  // tags are turned off
+  await expect(page.locator('meta[name^="twitter:image"]')).toHaveCount(0)
 }
 
 export const testOgImage = (paths: {
