@@ -1,3 +1,9 @@
+## [15.24.0](https://github.com/maevsi/vibetype/compare/15.23.3...15.24.0) (2026-09-23)
+
+### Features
+
+* **seo:** disable automatic twitter image tags ([0f008a1](https://github.com/maevsi/vibetype/commit/0f008a1c7072e89793a5eda358806d5fc5c65860))
+
 ## [15.23.3](https://github.com/maevsi/vibetype/compare/15.23.2...15.23.3) (2026-09-19)
 
 ### Bug Fixes
