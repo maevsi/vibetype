@@ -1,0 +1,74 @@
+name: Bundle Size
+
+permissions: {}
+
+on:
+  pull_request:
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+
+jobs:
+  bundle-size:
+    name: Client bundle size
+    runs-on: ubuntu-24.04
+    permissions:
+      pull-requests: write
+    timeout-minutes: 40
+    steps:
+      - name: Check out PR branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Check out base branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+          clean: false
+          path: base
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .nvmrc
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install PR dependencies
+        run: pnpm --dir src install
+
+      - name: Measure PR bundle size
+        run: ./test/bundle-size/measure.sh /tmp/bundle_size_pr.json
+
+      - name: Install base dependencies
+        run: pnpm --dir base/src install
+
+      # Uses the PR's own copy of the script (not `base/test/bundle-size/measure.sh`, which
+      # may not exist yet on the base branch) so both sides are measured identically.
+      - name: Measure base bundle size
+        run: ./test/bundle-size/measure.sh /tmp/bundle_size_base.json base
+
+      - name: Generate comparison
+        run: >-
+          ./test/bundle-size/compare.sh
+          /tmp/bundle_size_base.json
+          /tmp/bundle_size_pr.json
+          /tmp/bundle_size_comment.md
+          "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+      - name: Find comment
+        uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4
+        id: fc
+        with:
+          body-includes: Bundle Size
+          comment-author: 'github-actions[bot]'
+          issue-number: ${{ github.event.pull_request.number }}
+
+      - name: Post or update PR comment
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5
+        with:
+          body-path: /tmp/bundle_size_comment.md
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          edit-mode: replace
+          issue-number: ${{ github.event.pull_request.number }}
