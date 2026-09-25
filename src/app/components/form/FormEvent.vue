@@ -317,7 +317,7 @@
             </form.Field>
             <AppFeature feature="map">
               <div class="relative isolate">
-                <LazyAppMap
+                <AppMap
                   ref="map"
                   class="h-64"
                   geocoder
