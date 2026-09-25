@@ -15,6 +15,10 @@ set -euo pipefail
 #
 # `repo_directory` defaults to the current directory and lets the same script
 # measure a base-branch checkout placed in a sibling directory (e.g. `base`).
+#
+# Set `BUNDLE_SIZE_REUSE_BUILD` to a non-empty value to skip the build and read
+# the report an earlier build already wrote, which is how the `Dockerfile`
+# measures the image build instead of paying for a second one.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -22,16 +26,18 @@ OUTPUT_FILE="${1:?Usage: measure.sh <output_file> [repo_directory]}"
 REPO_DIR="${2:-.}"
 SRC_DIR="$REPO_DIR/src"
 
-echo "Building client in analyze mode..."
+if [ -z "${BUNDLE_SIZE_REUSE_BUILD:-}" ]; then
+  echo "Building client in analyze mode..."
 
-# `nuxi` is the same binary as `nuxt`, invoked directly rather than through the
-# `build:analyze` package script so this also works against a base-branch
-# checkout that predates that script. `--no-serve` skips the stats server the
-# command would otherwise start and block on; the CLI already skips it when
-# `CI` is set, so this only matters for local runs. There is no wall-clock
-# guard here because the workflow's job timeout already covers a hung build,
-# and `timeout` is not available on macOS by default.
-pnpm --dir "$SRC_DIR" exec nuxi analyze --no-serve
+  # `nuxi` is the same binary as `nuxt`, invoked directly rather than through the
+  # `build:analyze` package script so this also works against a base-branch
+  # checkout that predates that script. `--no-serve` skips the stats server the
+  # command would otherwise start and block on; the CLI already skips it when
+  # `CI` is set, so this only matters for local runs. There is no wall-clock
+  # guard here because the workflow's job timeout already covers a hung build,
+  # and `timeout` is not available on macOS by default.
+  pnpm --dir "$SRC_DIR" exec nuxi analyze --no-serve
+fi
 
 # `analyzeDir` resolves to `<buildDir>/analyze`, and `buildDir` is not
 # necessarily `<rootDir>/.nuxt`: this project's resolves under
