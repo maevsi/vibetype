@@ -74,7 +74,7 @@ jq -n \
   ([
     $pr.chunks[] |
     select($base_map[.key] != null) |
-    row(.name; $base_map[.key].gzipBytes; .gzipBytes)
+    row(.key; $base_map[.key].gzipBytes; .gzipBytes)
   ] | sort_by(-.deltaBytesAbs)) as $matched_rows |
 
   [$matched_rows[] | select(.icon != "")] as $significant_rows |
@@ -96,8 +96,8 @@ jq -n \
   ] as $summary_rows |
 
   def render_table($rows):
-    "| Chunk | Base (gzip) | PR (gzip) | Delta |\n" +
-    "|-------|-------------|-----------|-------|\n" +
+    "| Largest module | Base (gzip) | PR (gzip) | Delta |\n" +
+    "|----------------|-------------|-----------|-------|\n" +
     ([$rows[] | "| `\(.name)` | \(.base) | \(.pr) | \(.delta)\(.icon) |"] | join("\n"));
 
   def render_summary_table:
@@ -109,9 +109,9 @@ jq -n \
     if ($chunks | length) == 0 then
       "_none_\n"
     else
-      "| Chunk | \($column) |\n" +
-      "|-------|-----------|\n" +
-      ([$chunks[] | "| `\(.name)` | \(.gzipBytes | format_bytes) |"] | join("\n")) + "\n"
+      "| Largest module | \($column) |\n" +
+      "|----------------|-----------|\n" +
+      ([$chunks[] | "| `\(.key)` | \(.gzipBytes | format_bytes) |"] | join("\n")) + "\n"
     end;
 
   "## Bundle Size\n\n" +
@@ -138,7 +138,7 @@ jq -n \
   "- `All chunks` sums every chunk instead, including lazily-loaded ones. It stays roughly flat when code is deferred rather than deleted, so it answers a different question: whether the application as a whole grew\n" +
   "- Threshold for regression and improvement markers: >\($threshold)% AND >=\($min_abs / 1024)KiB absolute change\n" +
   "- Deltas in parentheses indicate that the absolute change is below the minimum threshold\n" +
-  "- Chunks are matched on the normalized module id of their largest module, not on their filename. A chunk whose source has a generic basename gets a numbered name (`_nuxt/dist2.js`) assigned in module-graph encounter order, which shifts when unrelated dependencies change, so the displayed name is not a stable identity across two builds\n" +
+  "- Chunks are identified by the normalized module id of their largest module rather than by their filename, which is either content-hashed or, in analyze mode, a name like `_nuxt/dist2.js` numbered in module-graph encounter order, so neither is a stable identity across two builds\n" +
   "- Per-module sizes come from the analyze build, which is not minified, so absolute figures run higher than what actually ships. Base and PR are measured identically, so the deltas between them stay meaningful\n" +
   "- Chunk count: \($base.chunks | length) -> \($pr.chunks | length)\n" +
   "- Runner: GitHub Actions\n" +
