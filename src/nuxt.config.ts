@@ -35,6 +35,14 @@ const typescriptConfig = {
 }
 
 export default defineNuxtConfig({
+  build: {
+    // Writes the bundle analysis report as a side effect of an ordinary production build, so measuring the bundle costs no second build.
+    // `nuxt analyze` would do the same, but it also strips the content hashes from chunk filenames, which makes its output undeployable.
+    // Keeping the hashes is fine because the bundle size scripts match chunks on module id rather than on filename.
+    analyze: {
+      enabled: !!process.env.NUXT_ANALYZE,
+    },
+  },
   compatibilityDate: '2025-07-20',
   css: ['~/assets/css/app.css'],
   experimental: {

@@ -78,10 +78,26 @@ FROM prepare AS build-node
 ARG RELEASE_NAME
 ENV RELEASE_NAME=${RELEASE_NAME}
 
+# Set to a non-empty value to also write the bundle size measurement to `/tmp/bundle_size.json`.
+# This only adds the analysis plugins to the client build, so the deployable output stays byte for byte identical and no second build is needed.
+ARG NUXT_ANALYZE=""
+ENV NUXT_ANALYZE=${NUXT_ANALYZE}
+
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=6144"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN \
-    pnpm --dir src run build:node
+    pnpm --dir src run build:node \
+    && if [ -n "$NUXT_ANALYZE" ]; then \
+      BUNDLE_SIZE_REUSE_BUILD=1 ./tests/scripts/bundle-size/measure.sh /tmp/bundle_size.json; \
+    fi
+
+
+########################
+# Export the bundle size measurement.
+
+FROM scratch AS bundle-size
+
+COPY --from=build-node /tmp/bundle_size.json /
 
 
 # ########################
