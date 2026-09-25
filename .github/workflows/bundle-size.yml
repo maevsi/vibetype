@@ -10,7 +10,15 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
 
 jobs:
+  ci-optimization:
+    name: CI optimization
+    uses: dargmuesli/github-actions/.github/workflows/ci-optimization.yml@c5ce66f1d49540c35f76c4876e0eaa083bc27739 # 5.9.7
+    permissions:
+      pull-requests: read
   bundle-size:
+    needs: ci-optimization
+    # Two full Nuxt builds are the most expensive thing this repository runs per pull request, so they are skipped for changes that cannot move a byte of the client bundle, the same gate the rest of CI uses.
+    if: needs.ci-optimization.outputs.continue == 'true'
     name: Client bundle size
     runs-on: ubuntu-24.04
     permissions:
@@ -27,31 +35,36 @@ jobs:
           clean: false
           path: base
 
+      # Corepack provides the `pnpm` binary that the dependency cache below keys on, so it has to be enabled before Node.js is set up.
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Set up Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
+          cache: pnpm
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            base/pnpm-lock.yaml
           node-version-file: .nvmrc
-
-      - name: Enable Corepack
-        run: corepack enable
 
       - name: Install PR dependencies
         run: pnpm --dir src install
 
       - name: Measure PR bundle size
-        run: ./test/bundle-size/measure.sh /tmp/bundle_size_pr.json
+        run: ./tests/scripts/bundle-size/measure.sh /tmp/bundle_size_pr.json
 
       - name: Install base dependencies
         run: pnpm --dir base/src install
 
-      # Uses the PR's own copy of the script (not `base/test/bundle-size/measure.sh`, which
+      # Uses the PR's own copy of the script (not `base/tests/scripts/bundle-size/measure.sh`, which
       # may not exist yet on the base branch) so both sides are measured identically.
       - name: Measure base bundle size
-        run: ./test/bundle-size/measure.sh /tmp/bundle_size_base.json base
+        run: ./tests/scripts/bundle-size/measure.sh /tmp/bundle_size_base.json base
 
       - name: Generate comparison
         run: |
-          ./test/bundle-size/compare.sh \
+          ./tests/scripts/bundle-size/compare.sh \
             /tmp/bundle_size_base.json \
             /tmp/bundle_size_pr.json \
             /tmp/bundle_size_comment.md \
