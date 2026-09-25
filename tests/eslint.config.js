@@ -13,4 +13,17 @@ export default defineConfig(
       'no-console': 'error',
     },
   },
+  {
+    // Standalone scripts run under Node.js rather than in the test runner, and reporting progress on stdout is their whole job.
+    files: ['scripts/**'],
+    languageOptions: {
+      globals: {
+        console: 'readonly',
+        process: 'readonly',
+      },
+    },
+    rules: {
+      'no-console': 'off',
+    },
+  },
 )
