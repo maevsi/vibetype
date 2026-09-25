@@ -8,7 +8,7 @@ set -euo pipefail
 # Unlike a normal production build, `nuxt analyze` keeps chunk filenames
 # readable instead of content-hashed (e.g. `_nuxt/AppTipTap.js`), which is
 # what makes it possible to match chunks by name across a base and a PR
-# build -- the same way sqitch's benchmark workflow matches rows by query
+# build, the same way sqitch's benchmark workflow matches rows by query
 # name. See `AGENTS.md` for more background.
 #
 # Usage: measure.sh <output_file> [repo_directory]
@@ -22,32 +22,34 @@ OUTPUT_FILE="${1:?Usage: measure.sh <output_file> [repo_directory]}"
 REPO_DIR="${2:-.}"
 SRC_DIR="$REPO_DIR/src"
 
-BUILD_TIMEOUT_SECONDS=600
-
-# A leftover report from a previous local run would otherwise be picked up
-# instead of the one this run is about to produce. Scoped to `.nuxt/analyze`
-# specifically (rather than any directory named `analyze`) so this can never
-# reach into an unrelated package under `node_modules` that happens to ship a
-# same-named folder.
-find "$SRC_DIR" -path "*/.nuxt/analyze" -type d -exec rm -rf {} + 2>/dev/null || true
-
 echo "Building client in analyze mode..."
 
-# The `nuxi` binary is invoked directly, instead of through the `build:analyze`
-# `package.json` script (which `AGENTS.md` still documents as the convenient
-# way to run this locally), so this keeps working even against a base-branch
-# checkout that predates that script. `--no-serve` skips the interactive
-# stats server `nuxi analyze` would otherwise start and block on once the
-# build finishes, so the command exits on its own once the report is
-# written -- no need to background it, poll for the report file, and kill it.
-timeout "$BUILD_TIMEOUT_SECONDS" pnpm --dir "$SRC_DIR" exec nuxi analyze --no-serve
+# `nuxi` is the same binary as `nuxt`, invoked directly rather than through the
+# `build:analyze` package script so this also works against a base-branch
+# checkout that predates that script. `--no-serve` skips the stats server the
+# command would otherwise start and block on; the CLI already skips it when
+# `CI` is set, so this only matters for local runs. There is no wall-clock
+# guard here because the workflow's job timeout already covers a hung build,
+# and `timeout` is not available on macOS by default.
+pnpm --dir "$SRC_DIR" exec nuxi analyze --no-serve
 
-REPORT_FILE="$(find "$SRC_DIR" -path "*/.nuxt/analyze/client.html" 2>/dev/null | head -n 1)"
+# `analyzeDir` resolves to `<buildDir>/analyze`, and `buildDir` is not
+# necessarily `<rootDir>/.nuxt`: this project's resolves under
+# `node_modules/.cache`, so the report is located by searching rather than by
+# assuming a path. The CLI clears `analyzeDir` itself before building, so a
+# stale report can only appear under a *different* build directory, which the
+# match count below turns into a loud failure instead of a silently wrong
+# measurement.
+REPORT_FILES="$(find "$SRC_DIR" -path '*/.nuxt/analyze/client.html' -type f)"
+REPORT_COUNT="$(printf '%s' "$REPORT_FILES" | grep -c . || true)"
 
-if [ -z "$REPORT_FILE" ]; then
-  echo "Analyze report not found after the build completed" >&2
+if [ "$REPORT_COUNT" -ne 1 ]; then
+  echo "Expected exactly one analyze report under $SRC_DIR, found $REPORT_COUNT:" >&2
+  echo "$REPORT_FILES" >&2
   exit 1
 fi
+
+REPORT_FILE="$REPORT_FILES"
 
 echo "Analyze report found at $REPORT_FILE"
 
