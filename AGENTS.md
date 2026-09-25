@@ -44,6 +44,12 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
   - The command then serves the report on `http://localhost:3000` and blocks until stopped with <kbd>Ctrl</kbd>+<kbd>C</kbd>.
   - Pass `--no-serve` to skip that server and let the command exit on its own, which is what the scripts below do and what the CLI already does when `CI` is set.
   - Prefer this over grepping built output in `.output/public/_nuxt/*.js` for library-identifying strings.
+- An ordinary `pnpm --dir src run build:node` also writes the analysis report when `NUXT_ANALYZE` is set to a non-empty value, which is how the `Dockerfile` measures the bundle without paying for a second build.
+  - `nuxt analyze` differs from `nuxt build` in only two ways: it enables the analysis plugins, and it strips the content hashes from chunk filenames.
+  - Only the second of those makes its output undeployable, so setting `build.analyze.enabled` directly keeps the hashes and leaves the deployable output byte for byte identical.
+  - The measured cost of the analysis plugins is roughly 15% of build wall time, against 100% for a second build.
+  - Pass `--build-arg NUXT_ANALYZE=1` and build the `bundle-size` target to get the measurement out of the image build, for example `docker build --target bundle-size --output type=local,dest=. .`.
+  - `tests/scripts/bundle-size/measure.sh` reads that report when `BUNDLE_SIZE_REUSE_BUILD` is set, instead of running its own build.
 - The `Bundle Size` GitHub Actions workflow (`.github/workflows/bundle-size.yml`) comments on pull requests with a client bundle size comparison between the base branch and the pull request branch.
   - It is built from `tests/scripts/bundle-size/measure.sh`, `tests/scripts/bundle-size/extract-chunks.mjs` and `tests/scripts/bundle-size/compare.sh`.
   - `measure.sh` builds in `nuxt analyze` mode because a normal production build content-hashes every chunk filename, which leaves nothing to match across two builds.
