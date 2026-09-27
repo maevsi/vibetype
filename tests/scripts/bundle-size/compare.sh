@@ -13,14 +13,21 @@ RUN_URL="${4:-}"
 
 REGRESSION_THRESHOLD_PERCENT=5
 MINIMUM_ABSOLUTE_BYTES=10240
+# A comment over GitHub's 64 KB limit is rejected outright, and the unchanged table is the only part that grows with the number of chunks.
+UNCHANGED_ROW_LIMIT=150
 
+# The measurements are passed as files rather than with `--argjson "$(cat ...)"`, because those blobs are hundreds of kilobytes and would otherwise have to fit in the argument list.
 jq -n \
-  --argjson base "$(cat "$BASE_FILE")" \
-  --argjson pr "$(cat "$PR_FILE")" \
+  --slurpfile base_in "$BASE_FILE" \
+  --slurpfile pr_in "$PR_FILE" \
   --argjson threshold "$REGRESSION_THRESHOLD_PERCENT" \
   --argjson min_abs "$MINIMUM_ABSOLUTE_BYTES" \
+  --argjson unchanged_row_limit "$UNCHANGED_ROW_LIMIT" \
   --arg run_url "$RUN_URL" \
   '
+  ($base_in[0]) as $base |
+  ($pr_in[0]) as $pr |
+
   def format_bytes:
     if (. | fabs) < 1024 then "\(.) B"
     else "\((. / 1024 * 10 | round / 10)) KiB"
@@ -131,7 +138,10 @@ jq -n \
   "**\($new_chunks | length) new chunk(s) in the PR**\n\n" + render_chunk_list($new_chunks; "PR (gzip)") + "\n" +
   "**\($removed_chunks | length) chunk(s) removed (present only in base)**\n\n" + render_chunk_list($removed_chunks; "Base (gzip)") + "\n" +
   "<details>\n<summary>\($insignificant_rows | length) chunk(s) without a significant delta</summary>\n\n" +
-  render_table($insignificant_rows) +
+  render_table($insignificant_rows[0:$unchanged_row_limit]) +
+  (if ($insignificant_rows | length) > $unchanged_row_limit then
+    "\n\n_\(($insignificant_rows | length) - $unchanged_row_limit) further unchanged chunk(s) omitted to keep the comment within the 64 KB GitHub comment limit._"
+  else "" end) +
   "\n\n</details>\n\n" +
   "<details>\n<summary>Details</summary>\n\n" +
   "- The headline verdict is the initial size: the modules reachable from the app entry without crossing a dynamic `import()`, which is what a visitor downloads before any lazily-loaded code is requested. Deferring a component moves this number, which is the point of code splitting\n" +

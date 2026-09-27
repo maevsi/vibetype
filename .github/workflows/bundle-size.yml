@@ -59,9 +59,24 @@ jobs:
           outputs: type=local,dest=/tmp/report-pr
           target: bundle-size
 
+      # The base branch moves rarely compared to how often pull requests are pushed, and its report depends only on its commit, so caching it by that commit removes one of the two builds from almost every run.
+      # The report is around 3 MB against a 10 GB budget, which is why this is worth caching even though the BuildKit layer cache is not.
+      - name: Restore base report
+        id: base-report-cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          key: bundle-size-report-${{ github.event.pull_request.base.sha }}
+          path: /tmp/report-base
+
       # The base branch's source tree is built with *this* branch's `Dockerfile`, so both sides are measured by identical tooling even when the base branch predates a change to it.
       # `file` is resolved against the workspace rather than against `context`, which is what makes that possible.
+      #
+      # That portability does not extend to `src/nuxt.config.ts`, which comes from the base tree and is where `NUXT_ANALYZE` is read.
+      # A base branch without that flag therefore produces no report, which is a property of the base branch and not a fault in the pull request, so the failure is tolerated here and reported as a comment rather than failing the check.
       - name: Build base report
+        id: base-report-build
+        if: steps.base-report-cache.outputs.cache-hit != 'true'
+        continue-on-error: true
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7
         with:
           build-args: |
@@ -72,6 +87,15 @@ jobs:
           outputs: type=local,dest=/tmp/report-base
           target: bundle-size
 
+      - name: Check whether the base branch could be measured
+        id: base-report
+        run: |
+          if [ -f /tmp/report-base/client.html ]; then
+            echo 'measured=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'measured=false' >> "$GITHUB_OUTPUT"
+          fi
+
       # `extract-chunks.mjs` imports nothing but `node:fs`, so running it needs no dependency installation.
       # Running it on the runner rather than inside the image is what keeps both reports on one version of the extraction logic.
       - name: Set up Node.js
@@ -79,18 +103,23 @@ jobs:
         with:
           node-version-file: .nvmrc
 
-      - name: Extract bundle size
-        run: |
-          node ./tests/scripts/bundle-size/extract-chunks.mjs /tmp/report-pr/client.html /tmp/bundle_size_pr.json
-          node ./tests/scripts/bundle-size/extract-chunks.mjs /tmp/report-base/client.html /tmp/bundle_size_base.json
-
       - name: Generate comparison
         run: |
-          ./tests/scripts/bundle-size/compare.sh \
-            /tmp/bundle_size_base.json \
-            /tmp/bundle_size_pr.json \
-            /tmp/bundle_size_comment.md \
-            "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          if [ '${{ steps.base-report.outputs.measured }}' = 'true' ]; then
+            node ./tests/scripts/bundle-size/extract-chunks.mjs /tmp/report-pr/client.html /tmp/bundle_size_pr.json
+            node ./tests/scripts/bundle-size/extract-chunks.mjs /tmp/report-base/client.html /tmp/bundle_size_base.json
+            ./tests/scripts/bundle-size/compare.sh \
+              /tmp/bundle_size_base.json \
+              /tmp/bundle_size_pr.json \
+              /tmp/bundle_size_comment.md \
+              "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          else
+            {
+              printf '## Bundle Size\n\n'
+              printf ':information_source: The base branch could not be measured, so there is nothing to compare against.\n\n'
+              printf 'This happens when `%s` does not yet read `NUXT_ANALYZE` in `src/nuxt.config.ts`, and resolves once that lands there.\n' '${{ github.event.pull_request.base.ref }}'
+            } > /tmp/bundle_size_comment.md
+          fi
           cat /tmp/bundle_size_comment.md >> "$GITHUB_STEP_SUMMARY"
 
       # A pull request from a fork runs with a read-only `GITHUB_TOKEN` regardless of the permissions declared above, so commenting would fail the job on every external contribution.
