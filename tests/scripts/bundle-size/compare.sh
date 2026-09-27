@@ -139,7 +139,7 @@ jq -n \
   "- Threshold for regression and improvement markers: >\($threshold)% AND >=\($min_abs / 1024)KiB absolute change\n" +
   "- Deltas in parentheses indicate that the absolute change is below the minimum threshold\n" +
   "- Chunks are identified by the normalized module id of their largest module rather than by their filename, which is either content-hashed or, in analyze mode, a name like `_nuxt/dist2.js` numbered in module-graph encounter order, so neither is a stable identity across two builds\n" +
-  "- Per-module sizes come from the analyze build, which is not minified, so absolute figures run higher than what actually ships. Base and PR are measured identically, so the deltas between them stay meaningful\n" +
+  "- Every module is minified and compressed on its own before being measured, which misses what a pass over the whole chunk saves, so absolute figures run higher than what actually ships. Base and PR are measured identically, so the deltas between them stay meaningful\n" +
   "- Chunk count: \($base.chunks | length) -> \($pr.chunks | length)\n" +
   "- Runner: GitHub Actions\n" +
   (if $run_url != "" then "- [Workflow run](\($run_url))\n" else "" end) +
