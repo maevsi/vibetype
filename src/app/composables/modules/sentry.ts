@@ -5,7 +5,6 @@ export const useSharedSentryConfig = () => {
   const runtimeConfig = useRuntimeConfig()
 
   return getSharedSentryConfig({
-    enableLogs: runtimeConfig.public.sentry.logs.enable,
     environment: runtimeConfig.public.vio.environment,
     host: runtimeConfig.public.sentry.host,
     isInProduction: runtimeConfig.public.vio.isInProduction,

@@ -9,7 +9,9 @@ if (sharedSentryConfig.dsn) {
     integrations: [
       Sentry.browserProfilingIntegration(),
       Sentry.captureConsoleIntegration(),
-      Sentry.consoleLoggingIntegration(),
+      ...(runtimeConfig.public.sentry.logs.enable
+        ? [Sentry.consoleLoggingIntegration()]
+        : []),
       Sentry.graphqlClientIntegration({ endpoints: [/\/graphql$/] }),
       Sentry.httpClientIntegration(),
       Sentry.piniaIntegration(usePinia()),

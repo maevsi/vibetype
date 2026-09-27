@@ -4,6 +4,7 @@ import { RELEASE_NAME } from './node'
 import {
   getSharedSentryConfig,
   NUXT_PUBLIC_SENTRY_HOST,
+  NUXT_PUBLIC_SENTRY_LOGS_ENABLE,
   NUXT_PUBLIC_SENTRY_PROJECT_ID,
   NUXT_PUBLIC_SENTRY_PROJECT_PUBLIC_KEY,
   NUXT_PUBLIC_VIO_ENVIRONMENT,
@@ -22,7 +23,9 @@ const sharedSentryConfig = getSharedSentryConfig({
 if (sharedSentryConfig.dsn) {
   Sentry.init({
     ...sharedSentryConfig,
-    integrations: [Sentry.consoleLoggingIntegration()],
+    integrations: NUXT_PUBLIC_SENTRY_LOGS_ENABLE
+      ? [Sentry.consoleLoggingIntegration({ levels: ['error', 'warn'] })]
+      : [],
   })
 } else {
   console.warn(
