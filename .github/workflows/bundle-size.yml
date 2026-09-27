@@ -35,32 +35,54 @@ jobs:
           clean: false
           path: base
 
-      # Corepack provides the `pnpm` binary that the dependency cache below keys on, so it has to be enabled before Node.js is set up.
-      - name: Enable Corepack
-        run: corepack enable
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4
 
+      # Both sides are built through the `Dockerfile` so that the numbers describe the artifact that actually ships, instead of a separately configured build on the runner.
+      #
+      # `NUXT_ANALYZE` only adds the analysis plugins to the client build and leaves the emitted chunks untouched, so this is the same build a release runs and no second one is needed.
+      # `RELEASE_NAME` is pinned to a constant so that neither side can pick up a branch-dependent release identifier.
+      # `SENTRY_AUTH_TOKEN` is deliberately not passed: source map upload would only slow the build down, and a pull request from a fork could not provide it anyway.
+      #
+      # There is no BuildKit cache here on purpose. Only the dependency layers are ever reusable, the layer that installs them is invalidated by any source change, and a `mode=max` export of an image this size would evict the repository's entire 10 GB Actions cache within a few pull requests.
+      #
+      # The `.git` directory stays in the build context because Sentry's bundler plugin resolves the release name by running `git rev-parse HEAD` and injects the result into the client bundle.
+      # The two sides therefore get different commit hashes, but both are 40 characters wide, so this cannot shift the comparison by a single byte.
+      - name: Build PR report
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7
+        with:
+          build-args: |
+            NUXT_ANALYZE=1
+            RELEASE_NAME=0.0.0-bundle-size
+          context: .
+          file: Dockerfile
+          outputs: type=local,dest=/tmp/report-pr
+          target: bundle-size
+
+      # The base branch's source tree is built with *this* branch's `Dockerfile`, so both sides are measured by identical tooling even when the base branch predates a change to it.
+      # `file` is resolved against the workspace rather than against `context`, which is what makes that possible.
+      - name: Build base report
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7
+        with:
+          build-args: |
+            NUXT_ANALYZE=1
+            RELEASE_NAME=0.0.0-bundle-size
+          context: base
+          file: Dockerfile
+          outputs: type=local,dest=/tmp/report-base
+          target: bundle-size
+
+      # `extract-chunks.mjs` imports nothing but `node:fs`, so running it needs no dependency installation.
+      # Running it on the runner rather than inside the image is what keeps both reports on one version of the extraction logic.
       - name: Set up Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
-          cache: pnpm
-          cache-dependency-path: |
-            pnpm-lock.yaml
-            base/pnpm-lock.yaml
           node-version-file: .nvmrc
 
-      - name: Install PR dependencies
-        run: pnpm --dir src install
-
-      - name: Measure PR bundle size
-        run: ./tests/scripts/bundle-size/measure.sh /tmp/bundle_size_pr.json
-
-      - name: Install base dependencies
-        run: pnpm --dir base/src install
-
-      # Uses the PR's own copy of the script (not `base/tests/scripts/bundle-size/measure.sh`, which
-      # may not exist yet on the base branch) so both sides are measured identically.
-      - name: Measure base bundle size
-        run: ./tests/scripts/bundle-size/measure.sh /tmp/bundle_size_base.json base
+      - name: Extract bundle size
+        run: |
+          node ./tests/scripts/bundle-size/extract-chunks.mjs /tmp/report-pr/client.html /tmp/bundle_size_pr.json
+          node ./tests/scripts/bundle-size/extract-chunks.mjs /tmp/report-base/client.html /tmp/bundle_size_base.json
 
       - name: Generate comparison
         run: |

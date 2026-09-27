@@ -78,26 +78,36 @@ FROM prepare AS build-node
 ARG RELEASE_NAME
 ENV RELEASE_NAME=${RELEASE_NAME}
 
-# Set to a non-empty value to also write the bundle size measurement to `/tmp/bundle_size.json`.
+# Set to a non-empty value to also write the client bundle analysis to `/tmp/client.html`.
 # This only adds the analysis plugins to the client build, so the deployable output stays byte for byte identical and no second build is needed.
 ARG NUXT_ANALYZE=""
 ENV NUXT_ANALYZE=${NUXT_ANALYZE}
 
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=6144"
+# The report is located by searching because `analyzeDir` resolves to `<buildDir>/analyze` and this project's `buildDir` sits under `node_modules/.cache`.
+# The search is inlined rather than delegated to `tests/scripts/bundle-size/`, because the bundle size workflow builds the base branch with this Dockerfile but the base branch's own build context, which need not carry those scripts yet.
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN \
     pnpm --dir src run build:node \
     && if [ -n "$NUXT_ANALYZE" ]; then \
-      BUNDLE_SIZE_REUSE_BUILD=1 ./tests/scripts/bundle-size/measure.sh /tmp/bundle_size.json; \
+      report="$(find src -path '*/.nuxt/analyze/client.html' -type f)"; \
+      if [ "$(printf '%s' "$report" | grep -c .)" -ne 1 ]; then \
+        echo "Expected exactly one analyze report, found: $report" >&2; \
+        exit 1; \
+      fi; \
+      cp "$report" /tmp/client.html; \
     fi
 
 
 ########################
-# Export the bundle size measurement.
+# Export the client bundle analysis.
+#
+# The report is exported unprocessed so that the bundle size workflow can run a single version of the extraction script over both the base branch's report and the pull request's, which is what makes the two measurements comparable.
+# Building this target requires `--build-arg NUXT_ANALYZE=1`; without it no report is written and the copy below fails.
 
 FROM scratch AS bundle-size
 
-COPY --from=build-node /tmp/bundle_size.json /
+COPY --from=build-node /tmp/client.html /
 
 
 # ########################
