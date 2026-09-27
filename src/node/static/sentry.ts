@@ -2,7 +2,7 @@ import type * as Sentry from '@sentry/nuxt'
 
 export const NUXT_PUBLIC_SENTRY_HOST = 'o4507213726154752.ingest.de.sentry.io'
 export const NUXT_PUBLIC_SENTRY_LOGS_ENABLE = true
-export const NUXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE = 1.0
+export const NUXT_PUBLIC_SENTRY_PROFILE_SESSION_SAMPLE_RATE = 0.1
 export const NUXT_PUBLIC_SENTRY_PROJECT_ID = '4507213736837200'
 export const NUXT_PUBLIC_SENTRY_PROJECT_PUBLIC_KEY =
   '5e253cec6a72a9eea44531e7205016ba'
@@ -21,6 +21,7 @@ export const getSharedSentryConfig = ({
   host,
   isInProduction,
   isTesting,
+  profileSessionSampleRate,
   projectId,
   projectPublicKey,
   release,
@@ -29,6 +30,7 @@ export const getSharedSentryConfig = ({
   host: string
   isInProduction: boolean
   isTesting?: boolean
+  profileSessionSampleRate: number
   projectId: string
   projectPublicKey: string
   release?: string
@@ -59,6 +61,8 @@ export const getSharedSentryConfig = ({
       : undefined,
   enabled: isInProduction && !isTesting,
   environment,
+  profileLifecycle: 'trace',
+  profileSessionSampleRate,
   release,
   tracesSampleRate: 1.0,
 })

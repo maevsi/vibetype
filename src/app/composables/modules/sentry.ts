@@ -9,6 +9,8 @@ export const useSharedSentryConfig = () => {
     host: runtimeConfig.public.sentry.host,
     isInProduction: runtimeConfig.public.vio.isInProduction,
     isTesting,
+    profileSessionSampleRate:
+      runtimeConfig.public.sentry.profile.sessionSampleRate,
     projectId: runtimeConfig.public.sentry.project.id,
     projectPublicKey: runtimeConfig.public.sentry.project.publicKey,
     release: runtimeConfig.public.vio.releaseName,
