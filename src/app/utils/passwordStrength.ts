@@ -1,15 +1,16 @@
 import type { ZxcvbnFactory as ZxcvbnFactoryType } from '@zxcvbn-ts/core'
 
-// This configuration must match postgraphile's src/presets/passwordStrength.ts; see the shared contract at stack:docs/password-strength.md.
+// This configuration must match postgraphile's src/presets/passwordStrength.ts; see the
+// shared contract at stack:docs/password-strength.md.
 // TODO: consider extracting this into a shared @maevsi package instead of duplicating it.
-// Score 3 ("safely unguessable") is zxcvbn's own threshold for resisting an offline, slow-hash attack; see https://github.com/zxcvbn-ts/zxcvbn
+// Score 3 ("safely unguessable") is zxcvbn's own threshold for resisting an
+// offline, slow-hash attack; see https://github.com/zxcvbn-ts/zxcvbn
 export const PASSWORD_STRENGTH_SCORE_MINIMUM = 3
 const PASSWORD_STRENGTH_SCORE_MAXIMUM = 4
 
-// zxcvbn's dictionaries are multiple MB uncompressed; importing them eagerly would put that weight in the bundle of every route, including ones that never touch a password field.
-// This loads them only once the first password actually needs scoring, and only once overall.
-// Both language dictionaries are loaded even though only one matches the visitor's locale, because the score has to agree with the server's, which checks the same union.
-// The server cannot narrow the same way: every signal carrying a locale is client-supplied, so scoring per locale would let a visitor pick the dictionary that misses their password.
+// zxcvbn's dictionaries are multiple MB uncompressed; importing them eagerly would put that
+// weight in the bundle of every route, including ones that never touch a password field. This
+// loads them only once the first password actually needs scoring, and only once overall.
 let zxcvbnPromise: Promise<InstanceType<typeof ZxcvbnFactoryType>> | undefined
 
 const getZxcvbn = () => {
@@ -40,8 +41,8 @@ const getZxcvbn = () => {
   return zxcvbnPromise
 }
 
-// The strength meter and the field validator both score the same in-flight password value on every keystroke.
-// Caching the latest result avoids running zxcvbn's check twice per input.
+// The strength meter and the field validator both score the same in-flight password value on
+// every keystroke; caching the latest result avoids running zxcvbn's check twice per input.
 let lastPassword: string | undefined
 let lastScore = 0
 
