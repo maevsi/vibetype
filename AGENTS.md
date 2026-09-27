@@ -29,6 +29,7 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
   - `pnpm run lint` for formatting and type checks
   - `pnpm run build` as preparation for end-to-end testing
   - `pnpm run test:e2e:docker:server:node:update` for end-to-end testing with snapshot updates
+    - The visual regression snapshots are stored in Git LFS, so fetch them in a fresh worktree first, as pointer files fail to decode as images
 - Proposal of changes to installed dependencies are allowed
 - Pin development dependencies to an exact version, don't use caret-versioning
 - Hold a dependency back with a pnpm override in `pnpm-workspace.yaml`, and disable the package in `.renovaterc.json` too so Renovate does not raise the pin again

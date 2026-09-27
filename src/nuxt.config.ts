@@ -14,7 +14,8 @@ import {
   IS_IN_FRONTEND_DEVELOPMENT,
   IS_NITRO_OPENAPI_ENABLED,
   NUXT_PUBLIC_SENTRY_HOST,
-  NUXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE,
+  NUXT_PUBLIC_SENTRY_LOGS_ENABLE,
+  NUXT_PUBLIC_SENTRY_PROFILE_SESSION_SAMPLE_RATE,
   NUXT_PUBLIC_SENTRY_PROJECT_ID,
   NUXT_PUBLIC_SENTRY_PROJECT_PUBLIC_KEY,
   NUXT_PUBLIC_VIO_ENVIRONMENT,
@@ -77,6 +78,10 @@ export default defineNuxtConfig({
       asyncContext: true,
       openAPI: IS_NITRO_OPENAPI_ENABLED,
     },
+    externals: {
+      // Sentry inlines Redis for its build-time instrumentation, but leaves these dependencies of it external, so the bundle receives a namespace object instead of each one's export (https://github.com/getsentry/sentry-javascript/issues/24775) // TODO: remove once Sentry inlines them alongside `standard-as-callback`
+      inline: ['cluster-key-slot', 'denque'],
+    },
     // @ts-expect-error environment type missing (https://github.com/nitrojs/nitro/issues/4482)
     rollupConfig: {
       plugins: [vue()],
@@ -126,10 +131,10 @@ export default defineNuxtConfig({
       sentry: {
         host: NUXT_PUBLIC_SENTRY_HOST,
         logs: {
-          enable: true,
+          enable: NUXT_PUBLIC_SENTRY_LOGS_ENABLE,
         },
-        profiles: {
-          sampleRate: NUXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE,
+        profile: {
+          sessionSampleRate: NUXT_PUBLIC_SENTRY_PROFILE_SESSION_SAMPLE_RATE,
         },
         project: {
           id: NUXT_PUBLIC_SENTRY_PROJECT_ID,
