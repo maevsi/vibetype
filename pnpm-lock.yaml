@@ -213,11 +213,11 @@ importers:
   src:
     devDependencies:
       '@aws-sdk/client-sesv2':
-        specifier: 3.1139.0
-        version: 3.1139.0
+        specifier: 3.1140.0
+        version: 3.1140.0
       '@aws-sdk/credential-providers':
-        specifier: 3.1139.0
-        version: 3.1139.0
+        specifier: 3.1140.0
+        version: 3.1140.0
       '@comark/nuxt':
         specifier: 0.7.0
         version: 0.7.0(magicast@0.5.5)(nuxt@4.5.2(070e7d86239e2886e9e3d28e4c968726))(shiki@4.4.3)(vue@3.5.43(typescript@6.0.3))
@@ -768,8 +768,8 @@ packages:
     resolution: {integrity: sha512-qKvLetaSd/OTWif9JT0eu1SHBg3H7Nvp9SoMwMxqT5tmYyrxea/P1A5pIfGbnIJlOtm3yVeqw+ORxDOkjN1aEw==}
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
-  '@aws-sdk/client-sesv2@3.1139.0':
-    resolution: {integrity: sha512-//zG+y7csEFji/EKqrNT6fN5kB77ifnoGGo32XfVqFO3ZhNP0OwbmBqMLqVaU1u/UOBNUWz5z20iZ4OrF5pcPA==}
+  '@aws-sdk/client-sesv2@3.1140.0':
+    resolution: {integrity: sha512-OoBlTS1W5+xRiN/vkXeP3vJBXbT/5Ms4a2eAdjoqhfyMR3UkbLAu6SdeIKWQld6XOYMk8bBcI/6DOKaeVaWYaQ==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/core@3.978.1':
@@ -812,8 +812,8 @@ packages:
     resolution: {integrity: sha512-/y9WvNtlcPBGLR0qc1a+9J/xtYZfVczvLUOuXaVWylzttH7ewsxwHtjmiJSolNrVSDorIxHGHMU61CbonRkmwA==}
     engines: {node: '>=20.0.0'}
 
-  '@aws-sdk/credential-providers@3.1139.0':
-    resolution: {integrity: sha512-vOLaAqhfk6v1WWgBdr5AgnPb4nvuifUzrqFaq6j5SLiGSJxYInS/1Qb6E+kFmKummdSvf7uzytGpgurQVvczdQ==}
+  '@aws-sdk/credential-providers@3.1140.0':
+    resolution: {integrity: sha512-0R0EevMhzsqDGWpBy6jR01NBgCQzizRibcESL0V7rs1yVwfv3zzZSJ8/ofpljyC/ZvCo5c/dMrKtm7hNKVMJMA==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/nested-clients@3.997.46':
@@ -12631,7 +12631,7 @@ snapshots:
       is-potential-custom-element-name: 1.0.1
       lru-cache: 11.5.3
 
-  '@aws-sdk/client-sesv2@3.1139.0':
+  '@aws-sdk/client-sesv2@3.1140.0':
     dependencies:
       '@aws-sdk/core': 3.978.1
       '@aws-sdk/credential-provider-node': 3.972.84
@@ -12746,7 +12746,7 @@ snapshots:
       '@smithy/types': 4.19.0
       tslib: 2.8.1
 
-  '@aws-sdk/credential-providers@3.1139.0':
+  '@aws-sdk/credential-providers@3.1140.0':
     dependencies:
       '@aws-sdk/core': 3.978.1
       '@aws-sdk/credential-provider-cognito-identity': 3.972.71
