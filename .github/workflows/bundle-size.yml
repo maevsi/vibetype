@@ -28,10 +28,12 @@ jobs:
       - name: Check out PR branch
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
+      # Checked out by commit rather than by branch name, so that the tree measured here is exactly the one the cache key below names.
+      # Resolving the branch instead would let the base tip move between the key being computed and the checkout happening.
       - name: Check out base branch
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          ref: ${{ github.event.pull_request.base.ref }}
+          ref: ${{ github.event.pull_request.base.sha }}
           clean: false
           path: base
 
@@ -59,13 +61,15 @@ jobs:
           outputs: type=local,dest=/tmp/report-pr
           target: bundle-size
 
-      # The base branch moves rarely compared to how often pull requests are pushed, and its report depends only on its commit, so caching it by that commit removes one of the two builds from almost every run.
-      # The report is around 3 MB against a 10 GB budget, which is why this is worth caching even though the BuildKit layer cache is not.
+      # The base tree does not change between pushes to a pull request, so caching its report removes the second build from every push after the first.
+      # Actions caches written in a `pull_request` run are scoped to that pull request, so this does not carry across pull requests; it is still most of the benefit, because a pull request is usually pushed to more than once.
+      # The key includes the `Dockerfile` because the base tree is deliberately built with this branch's copy of it, so a change here invalidates the stored report.
+      # Restore and save are separate steps so that the save can be skipped when the build produced nothing, which would otherwise poison the key with an empty directory for every later push.
       - name: Restore base report
         id: base-report-cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
-          key: bundle-size-report-${{ github.event.pull_request.base.sha }}
+          key: bundle-size-report-${{ github.event.pull_request.base.sha }}-${{ hashFiles('Dockerfile') }}
           path: /tmp/report-base
 
       # The base branch's source tree is built with *this* branch's `Dockerfile`, so both sides are measured by identical tooling even when the base branch predates a change to it.
@@ -87,14 +91,29 @@ jobs:
           outputs: type=local,dest=/tmp/report-base
           target: bundle-size
 
+      # A base branch that does not read `NUXT_ANALYZE` yet cannot produce a report, which is expected and harmless.
+      # Any other reason for a missing report means the base build actually broke, which must not be reported as the former, and must not overwrite a valid earlier comparison on the pull request.
       - name: Check whether the base branch could be measured
         id: base-report
         run: |
           if [ -f /tmp/report-base/client.html ]; then
             echo 'measured=true' >> "$GITHUB_OUTPUT"
+            echo 'reason=ok' >> "$GITHUB_OUTPUT"
+          elif ! grep -q 'NUXT_ANALYZE' base/src/nuxt.config.ts; then
+            echo 'measured=false' >> "$GITHUB_OUTPUT"
+            echo 'reason=unsupported-base' >> "$GITHUB_OUTPUT"
           else
             echo 'measured=false' >> "$GITHUB_OUTPUT"
+            echo 'reason=build-failed' >> "$GITHUB_OUTPUT"
+            echo "::warning::The base branch build failed, so no comparison could be produced. Any existing comparison comment is left untouched."
           fi
+
+      - name: Save base report
+        if: steps.base-report.outputs.measured == 'true' && steps.base-report-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          key: bundle-size-report-${{ github.event.pull_request.base.sha }}-${{ hashFiles('Dockerfile') }}
+          path: /tmp/report-base
 
       # `extract-chunks.mjs` imports nothing but `node:fs`, so running it needs no dependency installation.
       # Running it on the runner rather than inside the image is what keeps both reports on one version of the extraction logic.
@@ -113,19 +132,23 @@ jobs:
               /tmp/bundle_size_pr.json \
               /tmp/bundle_size_comment.md \
               "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          else
+          elif [ '${{ steps.base-report.outputs.reason }}' = 'unsupported-base' ]; then
             {
               printf '## Bundle Size\n\n'
               printf ':information_source: The base branch could not be measured, so there is nothing to compare against.\n\n'
               printf 'This happens when `%s` does not yet read `NUXT_ANALYZE` in `src/nuxt.config.ts`, and resolves once that lands there.\n' '${{ github.event.pull_request.base.ref }}'
             } > /tmp/bundle_size_comment.md
+          else
+            printf 'The base branch build failed, so no comparison could be produced.\n' >> "$GITHUB_STEP_SUMMARY"
           fi
-          cat /tmp/bundle_size_comment.md >> "$GITHUB_STEP_SUMMARY"
+          if [ -f /tmp/bundle_size_comment.md ]; then
+            cat /tmp/bundle_size_comment.md >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       # A pull request from a fork runs with a read-only `GITHUB_TOKEN` regardless of the permissions declared above, so commenting would fail the job on every external contribution.
       # Skipping the comment keeps those runs green, and the comparison is still readable in the job summary written above.
       - name: Find comment
-        if: github.event.pull_request.head.repo.full_name == github.repository
+        if: steps.base-report.outputs.reason != 'build-failed' && github.event.pull_request.head.repo.full_name == github.repository
         uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4
         id: fc
         with:
@@ -134,7 +157,7 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
 
       - name: Post or update PR comment
-        if: github.event.pull_request.head.repo.full_name == github.repository
+        if: steps.base-report.outputs.reason != 'build-failed' && github.event.pull_request.head.repo.full_name == github.repository
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5
         with:
           body-path: /tmp/bundle_size_comment.md

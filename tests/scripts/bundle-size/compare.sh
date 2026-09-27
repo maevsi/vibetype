@@ -1,8 +1,8 @@
 #!/bin/sh
 set -e
 
-# Compares two bundle-size JSON files (as produced by `measure.sh`) and
-# generates a Markdown report.
+# Compares two bundle-size JSON files (as produced by `extract-chunks.mjs`)
+# and generates a Markdown report.
 #
 # Usage: compare.sh <base.json> <pr.json> <output.md> [run_url]
 
@@ -121,6 +121,12 @@ jq -n \
       ([$chunks[] | "| `\(.key)` | \(.gzipBytes | format_bytes) |"] | join("\n")) + "\n"
     end;
 
+  def render_capped($chunks; $column):
+    render_chunk_list($chunks[0:$unchanged_row_limit]; $column) +
+    (if ($chunks | length) > $unchanged_row_limit then
+      "\n\n_\(($chunks | length) - $unchanged_row_limit) further chunk(s) omitted to keep the comment within the 64 KB GitHub comment limit._"
+    else "" end);
+
   "## Bundle Size\n\n" +
   (if $headline.icon == " :warning:" then
     ":warning: **Initial gzip size regressed** by \($headline.deltaBytesAbs | format_bytes) (+\($headline.deltaPercentAbs)%, threshold: >\($threshold)% and >=\($min_abs / 1024)KiB)\n\n"
@@ -135,8 +141,8 @@ jq -n \
   else
     ":white_check_mark: No chunk changed by more than the threshold\n\n"
   end) +
-  "**\($new_chunks | length) new chunk(s) in the PR**\n\n" + render_chunk_list($new_chunks; "PR (gzip)") + "\n" +
-  "**\($removed_chunks | length) chunk(s) removed (present only in base)**\n\n" + render_chunk_list($removed_chunks; "Base (gzip)") + "\n" +
+  "**\($new_chunks | length) new chunk(s) in the PR**\n\n" + render_capped($new_chunks; "PR (gzip)") + "\n" +
+  "**\($removed_chunks | length) chunk(s) removed (present only in base)**\n\n" + render_capped($removed_chunks; "Base (gzip)") + "\n" +
   "<details>\n<summary>\($insignificant_rows | length) chunk(s) without a significant delta</summary>\n\n" +
   render_table($insignificant_rows[0:$unchanged_row_limit]) +
   (if ($insignificant_rows | length) > $unchanged_row_limit then

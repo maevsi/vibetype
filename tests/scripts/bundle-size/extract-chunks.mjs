@@ -212,9 +212,9 @@ const chunks = data.tree.children
         const part = nodeParts[partUid]
 
         return {
-          renderedBytes: sum.renderedBytes + part.renderedLength,
-          gzipBytes: sum.gzipBytes + part.gzipLength,
-          brotliBytes: sum.brotliBytes + (part.brotliLength ?? 0),
+          renderedBytes: sum.renderedBytes + (part?.renderedLength ?? 0),
+          gzipBytes: sum.gzipBytes + (part?.gzipLength ?? 0),
+          brotliBytes: sum.brotliBytes + (part?.brotliLength ?? 0),
         }
       },
       { renderedBytes: 0, gzipBytes: 0, brotliBytes: 0 },
