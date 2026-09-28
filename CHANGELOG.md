@@ -1,3 +1,9 @@
+## [15.24.1](https://github.com/maevsi/vibetype/compare/15.24.0...15.24.1) (2026-09-28)
+
+### Performance Improvements
+
+* **upload:** load the gallery when the selection modal opens ([#2416](https://github.com/maevsi/vibetype/issues/2416)) ([b1f54a9](https://github.com/maevsi/vibetype/commit/b1f54a99ec8417ed79302e7c4fa6ffda3bc3c48c))
+
 ## [15.24.0](https://github.com/maevsi/vibetype/compare/15.23.3...15.24.0) (2026-09-23)
 
 ### Features
