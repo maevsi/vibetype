@@ -37,7 +37,7 @@ export const useNotificationStore = defineStore('notification', () => {
     if (hasPushCapability) {
       window.webkit?.messageHandlers['push-token']?.postMessage('push-token')
     } else {
-      // Caught here because callers don't await this.
+      // Must not reject: registerDevice's caller doesn't await it.
       const firebase = await import('~/utils/dependencies/firebase').catch(
         (error: unknown) => {
           console.warn('Failed to load the Firebase client.', error)
