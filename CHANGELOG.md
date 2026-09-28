@@ -1,3 +1,9 @@
+## [15.24.2](https://github.com/maevsi/vibetype/compare/15.24.1...15.24.2) (2026-09-28)
+
+### Performance Improvements
+
+* **firebase:** load messaging client on demand ([#2415](https://github.com/maevsi/vibetype/issues/2415)) ([ba24a23](https://github.com/maevsi/vibetype/commit/ba24a232b52c508be7720df40e0d3841f4383106))
+
 ## [15.24.1](https://github.com/maevsi/vibetype/compare/15.24.0...15.24.1) (2026-09-28)
 
 ### Performance Improvements
