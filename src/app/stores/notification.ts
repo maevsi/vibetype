@@ -37,16 +37,15 @@ export const useNotificationStore = defineStore('notification', () => {
     if (hasPushCapability) {
       window.webkit?.messageHandlers['push-token']?.postMessage('push-token')
     } else {
-      // Must not reject: registerDevice's caller doesn't await it.
-      const firebase = await import('~/utils/dependencies/firebase').catch(
-        (error: unknown) => {
-          console.warn('Failed to load the Firebase client.', error)
-        },
-      )
+      // Must not reject: Vue drops the promise its callers return.
+      try {
+        const { requestFcmToken } =
+          await import('~/utils/dependencies/firebase')
 
-      if (!firebase) return
-
-      fcmToken.value = await firebase.requestFcmToken()
+        fcmToken.value = await requestFcmToken()
+      } catch (error) {
+        console.warn('Failed to request the FCM token.', error)
+      }
     }
   }
 
