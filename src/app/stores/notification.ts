@@ -37,9 +37,17 @@ export const useNotificationStore = defineStore('notification', () => {
     if (hasPushCapability) {
       window.webkit?.messageHandlers['push-token']?.postMessage('push-token')
     } else {
-      const { requestFcmToken } = await import('~/utils/dependencies/firebase')
+      // Loading the client can fail the same way it can in the notification plugin, e.g. on a stale hashed chunk after a deploy.
+      // This is also reached from a watcher that does not await it, so the rejection has to stop here; registration then no-ops until a reload picks up the current chunk.
+      const firebase = await import('~/utils/dependencies/firebase').catch(
+        (error: unknown) => {
+          console.warn('Failed to load the Firebase client.', error)
+        },
+      )
 
-      fcmToken.value = await requestFcmToken()
+      if (!firebase) return
+
+      fcmToken.value = await firebase.requestFcmToken()
     }
   }
 

@@ -12,7 +12,7 @@ export default defineNuxtPlugin(() => {
         initializeFirebaseClient()
       })
       .catch((error: unknown) => {
-        console.warn('Failed to load the firebase client.', error)
+        console.warn('Failed to load the Firebase client.', error)
       })
   }
 
