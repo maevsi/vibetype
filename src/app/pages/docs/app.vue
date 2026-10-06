@@ -65,11 +65,6 @@ if (isApp) {
         replace: true,
       })
     }
-
-    console.debug(
-      'Not redirecting, neither Android nor iOS detected',
-      JSON.stringify({ os, userAgent }),
-    )
   }
 }
 
