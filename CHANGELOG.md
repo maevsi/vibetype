@@ -1,3 +1,9 @@
+## [15.24.3](https://github.com/maevsi/vibetype/compare/15.24.2...15.24.3) (2026-10-10)
+
+### Bug Fixes
+
+* schedule release ([4e65d55](https://github.com/maevsi/vibetype/commit/4e65d558a6fbd6827041ed6a244139b895ce4036))
+
 ## [15.24.2](https://github.com/maevsi/vibetype/compare/15.24.1...15.24.2) (2026-09-28)
 
 ### Performance Improvements
