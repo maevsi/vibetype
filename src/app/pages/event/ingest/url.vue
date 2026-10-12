@@ -32,7 +32,6 @@ definePageMeta({
 })
 
 const { t } = useI18n()
-const requestFetch = useRequestFetch() // the global `$fetch` is typed by nitro, which skips route-typed request bodies // TODO: use `$fetch` once Nuxt 4.6.1 is installed (https://github.com/nuxt/nuxt/pull/36492)
 
 const enteredURL = ref<string>()
 const isUploading = ref(false)
@@ -43,7 +42,7 @@ const uploadURL = async () => {
   isUploading.value = true
 
   try {
-    await requestFetch('/api/model/event/ingest/url', {
+    await $fetch('/api/model/event/ingest/url', {
       body: { url: enteredURL.value },
       method: 'POST',
     })

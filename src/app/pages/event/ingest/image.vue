@@ -74,7 +74,6 @@
 <script setup lang="ts">
 const { t } = useI18n()
 const alertError = useAlertError()
-const requestFetch = useRequestFetch() // the global `$fetch` is typed by nitro, which skips route-typed request bodies // TODO: use `$fetch` once Nuxt 4.6.1 is installed (https://github.com/nuxt/nuxt/pull/36492)
 const templateFileInput = useTemplateRef('fileInput')
 
 // page
@@ -135,7 +134,7 @@ const uploadFile = async () => {
     try {
       if (!base64Image) throw new Error('File could not be read as base64')
 
-      await requestFetch('/api/model/event/ingest/image', {
+      await $fetch('/api/model/event/ingest/image', {
         body: { base64Image },
         method: 'POST',
       })
