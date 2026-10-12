@@ -196,6 +196,11 @@ export default defineNuxtConfig({
   sourcemap: true,
   tracingChannel: true,
   typescript: {
+    appTsConfig: {
+      vueCompilerOptions: {
+        htmlAttributes: [], // https://github.com/johnsoncodehk/volar/issues/1970#issuecomment-1276994634
+      },
+    },
     nodeTsConfig: {
       include: [
         resolve('./.config'),
@@ -207,9 +212,6 @@ export default defineNuxtConfig({
     tsConfig: {
       compilerOptions: {
         allowImportingTsExtensions: true,
-      },
-      vueCompilerOptions: {
-        htmlAttributes: [], // https://github.com/johnsoncodehk/volar/issues/1970#issuecomment-1276994634
       },
     },
   },
