@@ -39,6 +39,12 @@ export default defineNuxtConfig({
     typescriptPlugin: true,
     watcher: 'builder',
   },
+  hooks: {
+    'prepare:types': ({ sharedReferences }) => {
+      // typed fetch makes shared types import server routes, which need server auto-imports // TODO: remove once Nuxt references them for the shared context itself
+      sharedReferences.push({ path: resolve('./.nuxt/types/nitro.d.ts') })
+    },
+  },
   modules: [
     '@comark/nuxt',
     '@dargmuesli/nuxt-cookie-control',
