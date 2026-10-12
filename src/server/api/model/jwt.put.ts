@@ -64,6 +64,7 @@ const getJwt = async ({
     })
     return getJwtFromResult({
       context: 'JWT update',
+      createAppError,
       extract: (data: JwtUpdateMutation) => data.jwtUpdate?.result,
       result: jwtUpdateMutation,
     })
@@ -83,6 +84,7 @@ const getJwt = async ({
     })
     return getJwtFromResult({
       context: 'JWT attendance add',
+      createAppError,
       extract: (data: JwtUpdateAttendanceAddMutation) =>
         data.jwtUpdateAttendanceAdd?.result,
       result: jwtUpdateAttendanceAddMutation,
@@ -103,6 +105,7 @@ const getJwt = async ({
     })
     return getJwtFromResult({
       context: 'JWT guest add',
+      createAppError,
       extract: (data: JwtUpdateGuestAddMutation) =>
         data.jwtUpdateGuestAdd?.result,
       result: jwtUpdateGuestAddMutation,
@@ -110,6 +113,7 @@ const getJwt = async ({
   }
 }
 
+// typing the event lets `$fetch` check the request body against the schema // TODO: switch to `defineValidatedHandler` from `nuxt/server` once available (https://github.com/nuxt/nuxt/issues/36475)
 type JwtPutEvent = H3Event<{ body: z.input<typeof jwtUpdateBodySchema> }>
 
 export default defineEventHandler(async (event: JwtPutEvent) => {

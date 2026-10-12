@@ -1,4 +1,3 @@
-import { createError } from 'h3'
 import type { NuxtError } from 'nuxt/app'
 
 export type AppErrorInput = Partial<NuxtError> &
@@ -6,10 +5,8 @@ export type AppErrorInput = Partial<NuxtError> &
     data?: { vibetype?: string }
   }
 
-export const createAppError = (
-  error: Partial<NuxtError> & Required<Pick<NuxtError, 'status'>>,
-) =>
-  createError({
-    ...error,
-    fatal: true,
-  })
+export type AppErrorCreateInput = Partial<NuxtError> &
+  Required<Pick<NuxtError, 'status'>>
+
+// `createError` differs between app and server and Nuxt allows importing neither in `shared/`, so callers pass their `createAppError` // TODO: import `createError` directly once Nuxt offers an isomorphic one for `shared/`
+export type AppErrorFactory = (error: AppErrorCreateInput) => Error

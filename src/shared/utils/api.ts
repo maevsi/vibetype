@@ -1,6 +1,7 @@
 import type { Client, OperationResult, OperationResultSource } from '@urql/core'
 
 import type { AppCombinedError, AppGraphQLError } from '#shared/types/api'
+import type { AppErrorFactory } from '#shared/utils/error'
 
 export const getCombinedErrorMessages = (
   errors: Readonly<AppCombinedError[]>,
@@ -38,14 +39,16 @@ export const getJwtFromResult = <
   Variables extends Parameters<Client['mutation']>[1],
 >({
   context,
+  createAppError,
   extract,
   result,
 }: {
   context: string
+  createAppError: AppErrorFactory
   extract: (data: Data) => string | null | undefined
   result: Awaited<OperationResultSource<OperationResult<Data, Variables>>>
 }) => {
-  const data = getResultDataOrThrow({ context, result })
+  const data = getResultDataOrThrow({ context, createAppError, result })
 
   const jwt = extract(data)
   if (!jwt) {
@@ -71,9 +74,11 @@ export const getResultDataOrThrow = <
   Variables extends Parameters<Client['mutation']>[1],
 >({
   context,
+  createAppError,
   result,
 }: {
   context: string
+  createAppError: AppErrorFactory
   result: Awaited<OperationResultSource<OperationResult<Data, Variables>>>
 }): Data => {
   if (result.error) {
