@@ -444,9 +444,6 @@ importers:
       graphql:
         specifier: 17.0.2
         version: 17.0.2
-      h3:
-        specifier: 1.15.11
-        version: 1.15.11
       html-to-text:
         specifier: 10.0.1
         version: 10.0.1
