@@ -5,12 +5,11 @@ export const usePageDeprecation = async ({
 }: {
   name: keyof RouteNamedMapI18n
 }) => {
-  const { ssrContext } = useNuxtApp()
   const route = useRoute()
 
-  if (ssrContext) {
+  if (import.meta.server) {
     console.warn(
-      `Deprecated link to ${route.name} used on ${ssrContext.event.node.req.headers.referer}`,
+      `Deprecated link to ${route.name} used on ${useRequestHeader('referer')}`,
     )
   }
 
