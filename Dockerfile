@@ -63,11 +63,12 @@ COPY ./pnpm-lock.yaml ./pnpm-workspace.yaml ./package.json ./
 
 # TODO: evaluate dropping libc arguments by running e2e tests separately
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
-    pnpm fetch --libc=musl --libc=glibc
+    pnpm fetch --config.supportedArchitectures='{"libc":["musl","glibc"]}'
 
 COPY ./ ./
 
-RUN pnpm install --offline
+RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
+    pnpm install --offline
 
 
 ########################
