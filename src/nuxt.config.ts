@@ -29,12 +29,6 @@ import {
 
 const { resolve } = createResolver(import.meta.url)
 
-const typescriptConfig = {
-  compilerOptions: {
-    allowImportingTsExtensions: true,
-  },
-}
-
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-20',
   css: ['~/assets/css/app.css'],
@@ -65,9 +59,6 @@ export default defineNuxtConfig({
     'nuxt-security',
   ],
   nitro: {
-    typescript: {
-      tsConfig: typescriptConfig,
-    },
     compressPublicAssets: true,
     esbuild: {
       options: {
@@ -188,9 +179,7 @@ export default defineNuxtConfig({
   sourcemap: true,
   tracingChannel: true,
   typescript: {
-    sharedTsConfig: typescriptConfig,
     nodeTsConfig: {
-      ...typescriptConfig,
       include: [
         resolve('./.config'),
         resolve('./config'),
@@ -199,7 +188,9 @@ export default defineNuxtConfig({
       ],
     },
     tsConfig: {
-      ...typescriptConfig,
+      compilerOptions: {
+        allowImportingTsExtensions: true,
+      },
       vueCompilerOptions: {
         htmlAttributes: [], // https://github.com/johnsoncodehk/volar/issues/1970#issuecomment-1276994634
       },
