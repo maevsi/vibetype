@@ -33,6 +33,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-20',
   css: ['~/assets/css/app.css'],
   experimental: {
+    inlineErrorRendering: true,
     inlineRouteRules: true,
     prefetchPreloadTags: true,
     typedPages: true,
