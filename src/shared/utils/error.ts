@@ -8,5 +8,5 @@ export type AppErrorInput = Partial<NuxtError> &
 export type AppErrorCreateInput = Partial<NuxtError> &
   Required<Pick<NuxtError, 'status'>>
 
-// `createError` differs between app and server and Nuxt allows importing neither in `shared/`, so callers pass their `createAppError` // TODO: import `createError` directly once Nuxt offers an isomorphic one for `shared/`
+// `createError` differs between app and server and `shared/` may import neither (https://nuxt.com/docs/directory-structure/shared), so callers pass their `createAppError`
 export type AppErrorFactory = (error: AppErrorCreateInput) => Error
