@@ -110,7 +110,9 @@ const getJwt = async ({
   }
 }
 
-export default defineEventHandler(async (event) => {
+type JwtPutEvent = H3Event<{ body: z.input<typeof jwtUpdateBodySchema> }>
+
+export default defineEventHandler(async (event: JwtPutEvent) => {
   const body = await getBodySafe({ event, schema: jwtUpdateBodySchema })
 
   const jwt = await getJwt({ event, body })

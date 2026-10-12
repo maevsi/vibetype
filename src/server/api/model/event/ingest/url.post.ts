@@ -1,3 +1,4 @@
+import type { H3Event } from 'h3'
 import { htmlToText } from 'html-to-text'
 import { zodResponseFormat } from 'openai/helpers/zod'
 import { z } from 'zod'
@@ -16,7 +17,11 @@ const eventSchema = z.object({
 const prompt = `You are a data extraction specialist responsible for identifying and cataloging event information.
 Only accept html. Only if the html contains event information, extract that information into JSON. For dates, use ISO 8601 and the current year (${new Date().getFullYear()}) if no year is given. In all other cases, set all fields to an empty string and \`is_event\` to \`false\`.`
 
-export default defineEventHandler(async (event) => {
+type EventIngestUrlPostEvent = H3Event<{
+  body: z.input<typeof eventIngestUrlPostBodySchema>
+}>
+
+export default defineEventHandler(async (event: EventIngestUrlPostEvent) => {
   if (!import.meta.dev) {
     throw createAppError({
       status: 503,

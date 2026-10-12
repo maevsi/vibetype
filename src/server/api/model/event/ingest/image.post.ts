@@ -1,3 +1,4 @@
+import type { H3Event } from 'h3'
 import { zodResponseFormat } from 'openai/helpers/zod'
 import sharp from 'sharp'
 import { z } from 'zod'
@@ -21,7 +22,11 @@ If the image contains event information:
 - output data exactly as given, i.e. in the same language
 - don't repeat the \`name\` in the \`description\``
 
-export default defineEventHandler(async (event) => {
+type EventIngestImagePostEvent = H3Event<{
+  body: z.input<typeof eventIngestImagePostBodySchema>
+}>
+
+export default defineEventHandler(async (event: EventIngestImagePostEvent) => {
   if (!import.meta.dev) {
     throw createAppError({
       status: 503,
