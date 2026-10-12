@@ -1,3 +1,5 @@
+import { defineEventHandler, useRuntimeConfig } from 'nuxt/server'
+
 export default defineEventHandler((event) => {
   const runtimeConfig = useRuntimeConfig()
 
@@ -10,13 +12,11 @@ export default defineEventHandler((event) => {
     .filter(Boolean)
     .join('&')
 
-  appendHeader(
-    event,
+  event.res.headers.append(
     'NEL',
     '\'{"report_to":"default","max_age":31536000,"include_subdomains":true}\'',
   )
-  appendHeader(
-    event,
+  event.res.headers.append(
     'Report-To',
     `'{"group":"default","max_age":31536000,"endpoints":[{"url":"https://${runtimeConfig.public.sentry.host}/api/${runtimeConfig.public.sentry.project.id}/security/?${securityEndpointParams}"}],"include_subdomains":true}'`,
   )
