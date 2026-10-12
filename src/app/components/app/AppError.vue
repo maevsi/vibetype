@@ -133,10 +133,13 @@ const { error } = defineProps<{
   error: AppErrorInput
 }>()
 
-// status code
-const { ssrContext } = useNuxtApp()
-if (ssrContext && error.status) {
-  ssrContext.event.node.res.statusCode = error.status
+// status code (prerendered error pages like `404.html` must answer with 200 to be written)
+if (
+  import.meta.server &&
+  error.status &&
+  !(import.meta.prerender && /^\/\d{3}\.html$/.test(useRequestURL().pathname))
+) {
+  setResponseStatus(error.status)
 }
 const { statusName } = await useHttpStatusCode({ status: error.status })
 
