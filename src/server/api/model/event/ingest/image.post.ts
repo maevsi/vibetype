@@ -22,6 +22,7 @@ If the image contains event information:
 - output data exactly as given, i.e. in the same language
 - don't repeat the \`name\` in the \`description\``
 
+// typing the event lets `$fetch` check the request body against the schema // TODO: switch to `defineValidatedHandler` from `nuxt/server` once available (https://github.com/nuxt/nuxt/issues/36475)
 type EventIngestImagePostEvent = H3Event<{
   body: z.input<typeof eventIngestImagePostBodySchema>
 }>
