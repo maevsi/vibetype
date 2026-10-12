@@ -74,6 +74,7 @@
 <script setup lang="ts">
 const { t } = useI18n()
 const alertError = useAlertError()
+const requestFetch = useRequestFetch()
 const templateFileInput = useTemplateRef('fileInput')
 
 // page
@@ -132,7 +133,9 @@ const uploadFile = async () => {
     const base64Image = (reader.result as string).split(',')[1]
 
     try {
-      await $fetch('/api/model/event/ingest/image', {
+      if (!base64Image) throw new Error('File could not be read as base64')
+
+      await requestFetch('/api/model/event/ingest/image', {
         body: { base64Image },
         method: 'POST',
       })
