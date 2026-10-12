@@ -1,3 +1,11 @@
+import {
+  defineEventHandler,
+  getRequestHost,
+  getRequestProtocol,
+  sendRedirect,
+  useRuntimeConfig,
+} from 'nuxt/server'
+
 /**
  * Development middleware that redirects requests from "localhost" to "app.localhost".
  *
@@ -10,16 +18,15 @@
  *   "localhost" as a special host and do not allow setting a cookie domain that covers subdomains.
  */
 export default defineEventHandler((event) => {
-  const runtimeConfig = useRuntimeConfig(event)
+  const runtimeConfig = useRuntimeConfig()
   if (!runtimeConfig.public.vio.stagingHost) return // only redirect in frontend-only development
 
   const host = getRequestHost(event)
-  if (host?.split(':')[0] !== 'localhost') return // only redirect hostname `localhost`
+  if (host.split(':')[0] !== 'localhost') return // only redirect hostname `localhost`
 
   const protocol = getRequestProtocol(event)
   const newHost = host.replace('localhost', 'app.localhost')
-  const url = event.node.req.url || ''
-  const newUrl = `${protocol}://${newHost}${url}`
+  const newUrl = `${protocol}://${newHost}${event.url.pathname}${event.url.search}`
 
   return sendRedirect(event, newUrl)
 })
