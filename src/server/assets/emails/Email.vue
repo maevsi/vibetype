@@ -12,12 +12,10 @@ const {
   logoSource?: string
   title: string
 }>()
-</script>
 
-<script lang="ts">
-export default {
+defineOptions({
   name: 'AppEmail',
-}
+})
 </script>
 
 <template>
