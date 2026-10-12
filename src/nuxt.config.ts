@@ -39,6 +39,7 @@ export default defineNuxtConfig({
     inlineRouteRules: true,
     navigateToEarlyReturn: true,
     prefetchPreloadTags: true,
+    routeTypedFetch: true,
     typedPages: true,
     typescriptPlugin: true,
     watcher: 'builder',
