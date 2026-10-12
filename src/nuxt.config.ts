@@ -48,7 +48,7 @@ export default defineNuxtConfig({
   },
   hooks: {
     'prepare:types': ({ sharedReferences }) => {
-      // typed fetch makes shared types import server routes, which need server auto-imports // TODO: remove once Nuxt references them for the shared context itself
+      // `nuxt/app` types import server routes, so the shared context type-checks handlers, which need server auto-imports // TODO: remove once Nuxt references them for the shared context itself (https://github.com/nuxt/nuxt/issues/36575)
       sharedReferences.push({ path: resolve('./.nuxt/types/nitro.d.ts') })
     },
   },
