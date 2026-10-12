@@ -29,12 +29,6 @@ import {
 
 const { resolve } = createResolver(import.meta.url)
 
-const typescriptConfig = {
-  compilerOptions: {
-    allowImportingTsExtensions: true,
-  },
-}
-
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-20',
   css: ['~/assets/css/app.css'],
@@ -44,6 +38,12 @@ export default defineNuxtConfig({
     typedPages: true,
     typescriptPlugin: true,
     watcher: 'builder',
+  },
+  hooks: {
+    'prepare:types': ({ sharedReferences }) => {
+      // typed fetch makes shared types import server routes, which need server auto-imports // TODO: remove once Nuxt references them for the shared context itself
+      sharedReferences.push({ path: resolve('./.nuxt/types/nitro.d.ts') })
+    },
   },
   modules: [
     '@comark/nuxt',
@@ -65,9 +65,6 @@ export default defineNuxtConfig({
     'nuxt-security',
   ],
   nitro: {
-    typescript: {
-      tsConfig: typescriptConfig,
-    },
     compressPublicAssets: true,
     esbuild: {
       options: {
@@ -188,9 +185,7 @@ export default defineNuxtConfig({
   sourcemap: true,
   tracingChannel: true,
   typescript: {
-    sharedTsConfig: typescriptConfig,
     nodeTsConfig: {
-      ...typescriptConfig,
       include: [
         resolve('./.config'),
         resolve('./config'),
@@ -199,7 +194,9 @@ export default defineNuxtConfig({
       ],
     },
     tsConfig: {
-      ...typescriptConfig,
+      compilerOptions: {
+        allowImportingTsExtensions: true,
+      },
       vueCompilerOptions: {
         htmlAttributes: [], // https://github.com/johnsoncodehk/volar/issues/1970#issuecomment-1276994634
       },
