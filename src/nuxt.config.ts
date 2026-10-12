@@ -111,6 +111,11 @@ export default defineNuxtConfig({
       },
     },
   },
+  router: {
+    options: {
+      sensitive: true,
+    },
+  },
   runtimeConfig: {
     public: {
       [SITE_NAME]: {
