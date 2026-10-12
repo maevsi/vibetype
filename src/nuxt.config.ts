@@ -34,6 +34,7 @@ export default defineNuxtConfig({
   css: ['~/assets/css/app.css'],
   experimental: {
     early404: true,
+    extractSerializablePageMeta: true,
     inlineErrorRendering: true,
     inlineRouteRules: true,
     navigateToEarlyReturn: true,
