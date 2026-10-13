@@ -92,7 +92,7 @@
     "firebase": "13.0.0",
     "firebase-admin": "14.5.0",
     "graphql": "17.0.2",
-    "h3": "1.15.11",
+    "h3": "2.0.2",
     "html-to-text": "10.0.1",
     "ical-generator": "11.1.2",
     "ioredis": "6.0.0",
