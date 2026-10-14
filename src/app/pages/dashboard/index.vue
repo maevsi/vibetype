@@ -119,27 +119,31 @@ const { $urql } = useNuxtApp()
 const requestFetch = useRequestFetch()
 const authentication = useAuthentication()
 const { data: eventRecommendations, pending: eventRecommendationsPending } =
-  useAsyncData('index-recommendations', async () => {
-    if (!authentication.value.isSignedIn) return []
-
-    const eventIds = await requestFetch('/api/service/reccoom/recommendations')
-    const events = (
-      await Promise.all(
-        eventIds.map(
-          async (recommendation) =>
-            (
-              await $urql.value
-                .query(eventQuery, {
-                  id: recommendation.event_id,
-                })
-                .toPromise()
-            ).data?.eventByRowId,
-        ),
+  useAsyncData(
+    'index-recommendations',
+    async () => {
+      const eventIds = await requestFetch(
+        '/api/service/reccoom/recommendations',
       )
-    ).filter(isNeitherNullNorUndefined)
+      const events = (
+        await Promise.all(
+          eventIds.map(
+            async (recommendation) =>
+              (
+                await $urql.value
+                  .query(eventQuery, {
+                    id: recommendation.event_id,
+                  })
+                  .toPromise()
+              ).data?.eventByRowId,
+          ),
+        )
+      ).filter(isNeitherNullNorUndefined)
 
-    return events
-  })
+      return events
+    },
+    { enabled: () => authentication.value.isSignedIn },
+  )
 
 // async data - upcoming
 // TODO: use custom and more precise database function instead of full fetch and client filtering
