@@ -3,11 +3,6 @@
   "extends": ["github>dargmuesli/renovate-config"],
   "packageRules": [
     {
-      "description": "Held back by a pnpm override in `pnpm-workspace.yaml`, which explains when the pin can be dropped.",
-      "enabled": false,
-      "matchDepNames": ["eslint-plugin-vue"]
-    },
-    {
       "allowedVersions": "<=3.3.11",
       "description": "https://github.com/vuejs/language-tools/issues/6240",
       "matchPackageNames": ["vue-tsc"]
