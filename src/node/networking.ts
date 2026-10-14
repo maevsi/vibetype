@@ -1,12 +1,13 @@
+import type { ServerResponse } from 'node:http'
+
 import { parseSetCookie } from 'cookie-es'
-import type { H3Event } from 'h3'
 
 import { SITE_NAME, SITE_URL_TYPED } from './static'
 import { SERVICES } from './services'
 import type { ServiceName } from './services'
 
-export const getHost = (event: H3Event) => {
-  const host = event.node.req.headers.host
+export const getHost = (event: { headers: Headers }) => {
+  const host = event.headers.get('host')
 
   if (!host) throw new Error('Host header is not given!')
 
@@ -76,7 +77,7 @@ export const getResponseCookie = ({
   requestEvent,
 }: {
   name: string
-  requestEvent?: H3Event
+  requestEvent?: { node: { res: Pick<ServerResponse, 'getHeader'> } }
 }) => {
   // if csrf cookie is not available already, it can only be available in a server response, not client side
   if (!requestEvent) {

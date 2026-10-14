@@ -132,6 +132,8 @@ const uploadFile = async () => {
     const base64Image = (reader.result as string).split(',')[1]
 
     try {
+      if (!base64Image) throw new Error('File could not be read as base64')
+
       await $fetch('/api/model/event/ingest/image', {
         body: { base64Image },
         method: 'POST',

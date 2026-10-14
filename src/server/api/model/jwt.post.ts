@@ -35,6 +35,7 @@ export default defineEventHandler(async (event) => {
     (typeof mutationJwtCreate)['operation']['variables']
   >({
     context: 'JWT creation',
+    createAppError,
     extract: (data: JwtCreateMutation) => data.jwtCreate?.result,
     result: mutationJwtCreate,
   })

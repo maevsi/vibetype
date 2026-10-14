@@ -8,6 +8,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const isTesting = useIsTesting()
   const getServiceHref = useGetServiceHref()
   const { csrf } = useCsrf()
+  const cookie = useRequestHeader('cookie')
 
   const baseUrl = getServiceHref({
     name: SITE_NAME,
@@ -16,10 +17,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     fetchOptions: {
       headers: {
         [CSRF_HEADER_NAME]: csrf,
-        ...(import.meta.server &&
-        nuxtApp.ssrContext?.event.node.req.headers.cookie
-          ? { cookie: nuxtApp.ssrContext.event.node.req.headers.cookie }
-          : {}),
+        ...(cookie ? { cookie } : {}),
       },
     },
   }

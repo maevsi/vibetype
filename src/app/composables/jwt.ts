@@ -150,6 +150,7 @@ export const useJwtUpdateGuestAdd = ({ guestId }: { guestId: uuid }) => {
 
     const jwt = getJwtFromResult({
       context: 'JWT guest add',
+      createAppError,
       extract: (data) => data.jwtUpdateGuestAdd?.result,
       result,
     })

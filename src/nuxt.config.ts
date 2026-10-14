@@ -33,15 +33,22 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-20',
   css: ['~/assets/css/app.css'],
   experimental: {
+    early404: true,
+    extractSerializablePageMeta: true,
+    inlineErrorRendering: true,
     inlineRouteRules: true,
+    navigateToEarlyReturn: true,
     prefetchPreloadTags: true,
+    prerenderErrorPages: true,
+    routeTypedFetch: true,
+    strictRouteTypes: true,
     typedPages: true,
     typescriptPlugin: true,
     watcher: 'builder',
   },
   hooks: {
     'prepare:types': ({ sharedReferences }) => {
-      // typed fetch makes shared types import server routes, which need server auto-imports // TODO: remove once Nuxt references them for the shared context itself
+      // `nuxt/app` types import server routes, so the shared context type-checks handlers, which need server auto-imports // TODO: remove once Nuxt references them for the shared context itself (https://github.com/nuxt/nuxt/issues/36575)
       sharedReferences.push({ path: resolve('./.nuxt/types/nitro.d.ts') })
     },
   },
@@ -105,6 +112,11 @@ export default defineNuxtConfig({
       security: {
         xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection on forward authentication (https://github.com/maevsi/vibetype/issues/1603)
       },
+    },
+  },
+  router: {
+    options: {
+      sensitive: true,
     },
   },
   runtimeConfig: {
@@ -185,6 +197,11 @@ export default defineNuxtConfig({
   sourcemap: true,
   tracingChannel: true,
   typescript: {
+    appTsConfig: {
+      vueCompilerOptions: {
+        htmlAttributes: [], // https://github.com/johnsoncodehk/volar/issues/1970#issuecomment-1276994634
+      },
+    },
     nodeTsConfig: {
       include: [
         resolve('./.config'),
@@ -196,9 +213,6 @@ export default defineNuxtConfig({
     tsConfig: {
       compilerOptions: {
         allowImportingTsExtensions: true,
-      },
-      vueCompilerOptions: {
-        htmlAttributes: [], // https://github.com/johnsoncodehk/volar/issues/1970#issuecomment-1276994634
       },
     },
   },
