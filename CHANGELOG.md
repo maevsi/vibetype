@@ -1,3 +1,9 @@
+## [15.25.1](https://github.com/maevsi/vibetype/compare/15.25.0...15.25.1) (2026-10-14)
+
+### Bug Fixes
+
+* **recommendation:** fetch only when signed in ([#2425](https://github.com/maevsi/vibetype/issues/2425)) ([8f71534](https://github.com/maevsi/vibetype/commit/8f7153430d792ee8d18fbf2b3819d4cac54e4fc4))
+
 ## [15.25.0](https://github.com/maevsi/vibetype/compare/15.24.3...15.25.0) (2026-10-14)
 
 ### Features
