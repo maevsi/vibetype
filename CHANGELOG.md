@@ -1,3 +1,9 @@
+## [15.25.0](https://github.com/maevsi/vibetype/compare/15.24.3...15.25.0) (2026-10-14)
+
+### Features
+
+* **nuxt:** adopt nuxt 4.6 features ([#2423](https://github.com/maevsi/vibetype/issues/2423)) ([2dbd27d](https://github.com/maevsi/vibetype/commit/2dbd27dc48e042870b2c1f2edf87f71c1f458537))
+
 ## [15.24.3](https://github.com/maevsi/vibetype/compare/15.24.2...15.24.3) (2026-10-10)
 
 ### Bug Fixes
