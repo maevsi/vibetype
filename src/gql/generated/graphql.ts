@@ -1018,13 +1018,13 @@ export type AllLegalTermsQuery = {
 export type EventListQueryVariables = Exact<{
   after?: string | null | undefined
   first: number
+  now: string
 }>
 
 export type EventListQuery = {
   allEvents: {
     totalCount: number
     nodes: Array<{
-      end: string | null
       id: string
       name: string
       rowId: string
@@ -1076,7 +1076,6 @@ export type EventSearchQuery = {
   eventSearch: {
     totalCount: number
     nodes: Array<{
-      end: string | null
       id: string
       name: string
       rowId: string
@@ -1771,12 +1770,12 @@ export type DashboardEventRecommendationsQuery = {
 
 export type DashboardEventUpcomingQueryVariables = Exact<{
   createdBy: string
+  now: string
 }>
 
 export type DashboardEventUpcomingQuery = {
   allEvents: {
     nodes: Array<{
-      end: string | null
       id: string
       name: string
       rowId: string
@@ -3533,6 +3532,17 @@ export const EventListDocument = {
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'now' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'Datetime' },
+            },
+          },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -3561,6 +3571,35 @@ export const EventListDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'orderBy' },
                 value: { kind: 'EnumValue', value: 'START_ASC' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'effectiveEnd' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: {
+                              kind: 'Name',
+                              value: 'greaterThanOrEqualTo',
+                            },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'now' },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
               },
             ],
             selectionSet: {
@@ -3627,7 +3666,6 @@ export const EventListDocument = {
                           ],
                         },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
                       {
                         kind: 'Field',
                         name: {
@@ -4025,7 +4063,6 @@ export const EventSearchDocument = {
                           ],
                         },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
                       {
                         kind: 'Field',
                         name: {
@@ -8473,6 +8510,17 @@ export const DashboardEventUpcomingDocument = {
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
           },
         },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'now' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'Datetime' },
+            },
+          },
+        },
       ],
       selectionSet: {
         kind: 'SelectionSet',
@@ -8497,6 +8545,45 @@ export const DashboardEventUpcomingDocument = {
                     },
                   ],
                 },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'effectiveEnd' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: {
+                              kind: 'Name',
+                              value: 'greaterThanOrEqualTo',
+                            },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'now' },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: { kind: 'EnumValue', value: 'START_ASC' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'IntValue', value: '1' },
               },
             ],
             selectionSet: {
@@ -8529,7 +8616,6 @@ export const DashboardEventUpcomingDocument = {
                           ],
                         },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
                       {
                         kind: 'Field',
                         name: {
