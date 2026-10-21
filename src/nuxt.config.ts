@@ -52,6 +52,9 @@ export default defineNuxtConfig({
       sharedReferences.push({ path: resolve('./.nuxt/types/nitro.d.ts') })
     },
   },
+  future: {
+    compatibilityVersion: 5,
+  },
   modules: [
     '@comark/nuxt',
     '@dargmuesli/nuxt-cookie-control',
