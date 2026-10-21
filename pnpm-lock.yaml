@@ -475,8 +475,8 @@ importers:
         specifier: 4.18.1
         version: 4.18.1
       nodemailer:
-        specifier: 10.1.2
-        version: 10.1.2
+        specifier: 10.1.7
+        version: 10.1.7
       nuxt:
         specifier: 4.6.2
         version: 4.6.2(454f661d1d0570d1b8349cea7d240490)
@@ -9488,8 +9488,8 @@ packages:
     resolution: {integrity: sha512-VL9xKErxN+el77o8eBOuYKUPMyEx7F9hfnDCuiUKJRp9v3wnWMOudYgP/SWbwSHy8rUL4cylobuXtki1LpQS7A==}
     engines: {node: '>=20.0.0'}
 
-  nodemailer@10.1.2:
-    resolution: {integrity: sha512-rnQn9Rzh8RAwcp42MVsIvxbsv6YZ2a2/av+uyJ/LPU1+2QSlrRgFsWWZTKenyRUqkIl8urOI0c4+CEcmFdsvQw==}
+  nodemailer@10.1.7:
+    resolution: {integrity: sha512-OQa6FDln5fLttmqSbjDiRYvFDOFNrBqfiOwHPlEbURil3b+vPB1v8xpi+Sp46drzNDlsTnNsS502vthmz56r4w==}
     engines: {node: '>=20.0.0'}
 
   nopt@7.2.1:
@@ -23097,7 +23097,7 @@ snapshots:
 
   nodemailer@10.0.16: {}
 
-  nodemailer@10.1.2: {}
+  nodemailer@10.1.7: {}
 
   nopt@7.2.1:
     dependencies:
