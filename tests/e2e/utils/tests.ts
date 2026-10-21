@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, type Page } from '@playwright/test'
-import { joinURL, withoutTrailingSlash } from 'ufo'
+import { withoutTrailingSlash } from 'ufo'
 
 import { TESTING_COOKIE_NAME } from '#src/node/static'
 import { appTest } from '#tests/e2e/fixtures/appTest'
@@ -441,6 +441,7 @@ export const testMetadata = async ({
   await expect(page.locator('meta[name^="twitter:image"]')).toHaveCount(0)
 }
 
+// the og image's url is signed with the app secret, so it cannot be hardcoded here - it is read from the page's og:image tag instead
 export const testOgImage = (paths: {
   static?: { en: string; de: string }
   dynamic?: { en: string; de: string }
@@ -458,13 +459,18 @@ export const testOgImage = (paths: {
         )
       }
 
-      const serverPrefix = isStaticServer ? 's' : 'd'
+      for (const path of [serverPaths.en, serverPaths.de]) {
+        await page.goto(path)
 
-      await page.goto(joinURL(`/_og/${serverPrefix}/${serverPaths.en}`))
-      await expect(page).toHaveScreenshot()
+        const ogImageUrl = await page
+          .locator('meta[property="og:image"]')
+          .getAttribute('content')
 
-      await page.goto(joinURL(`/_og/${serverPrefix}/${serverPaths.de}`))
-      await expect(page).toHaveScreenshot()
+        if (!ogImageUrl) throw new Error('The og:image url is not given.')
+
+        await page.goto(ogImageUrl)
+        await expect(page).toHaveScreenshot()
+      }
     })
   })
 
