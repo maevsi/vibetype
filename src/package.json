@@ -106,7 +106,7 @@
     "nodemailer": "10.1.1",
     "nuxt": "4.6.2",
     "nuxt-og-image": "6.10.4",
-    "nuxt-schema-org": "6.4.3",
+    "nuxt-schema-org": "7.0.1",
     "nuxt-security": "2.6.0",
     "openai": "7.34.0",
     "pinia": "4.1.0",
