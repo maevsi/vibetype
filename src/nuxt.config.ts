@@ -86,7 +86,6 @@ export default defineNuxtConfig({
       // Sentry inlines Redis for its build-time instrumentation, but leaves these dependencies of it external, so the bundle receives a namespace object instead of each one's export (https://github.com/getsentry/sentry-javascript/issues/24775) // TODO: remove once Sentry inlines them alongside `standard-as-callback`
       inline: ['cluster-key-slot', 'denque'],
     },
-    // @ts-expect-error environment type missing (https://github.com/nitrojs/nitro/issues/4482)
     rollupConfig: {
       plugins: [vue()],
     },
