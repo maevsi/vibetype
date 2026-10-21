@@ -117,9 +117,7 @@
   }
 
   --default-font-family: var(--font-raleway);
-  --font-raleway:
-    'Raleway Variable', ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-raleway: 'Raleway Variable', ui-sans-serif, system-ui, sans-serif;
   --color-background-bright: var(
     --color-white
   ); /* TODO: replace with new design variables */
