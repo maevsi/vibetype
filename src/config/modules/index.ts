@@ -34,6 +34,19 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
     npm: {
       remote: false,
     },
+    providers: {
+      // Only the local `npm` and `local` providers are used (Raleway ships via
+      // `@fontsource-variable/raleway`), so disable the remaining default
+      // providers. Each of them fetches font metadata from a remote CDN during
+      // the build, which makes the build depend on external network
+      // availability and fail when a CDN is unreachable (e.g. fonts.google.com)
+      adobe: false,
+      bunny: false,
+      fontshare: false,
+      fontsource: false,
+      google: false,
+      googleicons: false,
+    },
   },
   htmlValidator: {
     failOnError: true,

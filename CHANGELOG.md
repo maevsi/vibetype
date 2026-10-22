@@ -1,3 +1,9 @@
+## [15.26.0](https://github.com/maevsi/vibetype/compare/15.25.1...15.26.0) (2026-10-22)
+
+### Features
+
+* **sentry:** make the integrations and the security reporting configurable ([#2439](https://github.com/maevsi/vibetype/issues/2439)) ([2812f27](https://github.com/maevsi/vibetype/commit/2812f275b9abe24aeacb9b8afa258bc658d316ff))
+
 ## [15.25.1](https://github.com/maevsi/vibetype/compare/15.25.0...15.25.1) (2026-10-14)
 
 ### Bug Fixes

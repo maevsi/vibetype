@@ -75,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
 import {
@@ -121,7 +121,7 @@ const translate = (nameKey: string) => {
 }
 
 // api data
-const allCategoriesQuery = useQuery({
+const allCategoriesQuery = useApiQuery({
   query: graphql(`
     query AllEventCategories {
       allEventCategories {

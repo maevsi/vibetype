@@ -176,7 +176,7 @@ const usernameSearched = computed(() =>
 )
 
 // api data
-const allContactsQuery = useQuery({
+const allContactsQuery = useApiQuery({
   query: graphql(`
     query AllContacts($after: Cursor, $createdBy: UUID, $first: Int!) {
       allContacts(

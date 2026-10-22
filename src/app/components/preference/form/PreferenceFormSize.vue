@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 import { useForm } from '@tanstack/vue-form'
 import { z } from 'zod'
 
@@ -61,7 +61,7 @@ const submit = () => formRef.value?.requestSubmit()
 defineExpose({ submit })
 
 // api data
-const allPreferenceEventSizesQuery = useQuery({
+const allPreferenceEventSizesQuery = useApiQuery({
   query: graphql(`
     query AllPreferenceEventSizes {
       allPreferenceEventSizes {

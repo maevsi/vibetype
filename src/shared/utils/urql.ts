@@ -1,6 +1,8 @@
 import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core'
 import {
+  CombinedError,
   createClient,
+  createRequest,
   ssrExchange as getSsrExchange,
   fetchExchange,
 } from '@urql/core'
@@ -11,9 +13,11 @@ import { makeDefaultStorage } from '@urql/exchange-graphcache/default-storage'
 import { relayPagination } from '@urql/exchange-graphcache/extras'
 import { requestPolicyExchange } from '@urql/exchange-request-policy'
 import { devtoolsExchange } from '@urql/devtools'
+import type { AnyVariables, UseQueryArgs, UseQueryState } from '@urql/vue'
+import { useClientHandle, useQuery } from '@urql/vue'
 import type { DocumentNode } from 'graphql'
 import type { useRuntimeConfig } from 'nuxt/app'
-import { ref } from 'vue'
+import { ref, toValue } from 'vue'
 
 import type { FragmentType } from '~~/gql/generated'
 import type { GraphCacheConfig, Maybe } from '~~/gql/generated/graphcache'
@@ -30,6 +34,60 @@ import {
   allPreferenceEventLocationsQuery,
   getPreferenceEventLocationItem,
 } from '~~/shared/utils/preference/eventLocation'
+
+// A `useQuery` that settles on the server: the query is paused at creation,
+// and awaiting the response executes it exactly once and fills its state, so
+// the page and its head can be rendered with the data. The client behaves
+// like a plain `useQuery`
+export const useApiQuery = <S, V extends AnyVariables = AnyVariables>(
+  args: UseQueryArgs<S, V>,
+) => {
+  const response = useQuery({
+    ...args,
+    ...(import.meta.server ? { pause: true } : {}),
+  })
+
+  if (import.meta.server) {
+    const { client } = useClientHandle()
+    const request = createRequest(
+      toValue(args.query),
+      // `toValue` resolves the variables' ref, but the optional `variables`
+      // prop of the query args types them as `V | undefined`
+      toValue(args.variables) as V,
+    )
+    // A promise must never resolve to a thenable: the response itself is
+    // one, so the state is returned without its `then`, or the resolution
+    // would re-trigger it in an endless adoption loop
+    const settle = (): Promise<UseQueryState<S, V>> =>
+      client
+        .executeQuery(request)
+        .toPromise()
+        .then(
+          (result) => {
+            response.data.value = result.data ?? undefined
+            response.error.value = result.error ?? undefined
+            response.fetching.value = false
+            response.stale.value = false
+            const { then: _then, ...state } = response
+            return state
+          },
+          (error) => {
+            response.error.value = new CombinedError(error)
+            response.fetching.value = false
+            const { then: _then, ...state } = response
+            return state
+          },
+        )
+
+    let promise: Promise<UseQueryState<S, V>>
+    response.then = (onFulfilled, onRejected) => {
+      promise ??= settle()
+      return promise.then(onFulfilled, onRejected)
+    }
+  }
+
+  return response
+}
 
 type RelayConnection<T> = {
   nodes: T[]

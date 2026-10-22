@@ -22,7 +22,7 @@ const { path } = defineProps<{
 const modelError = defineModel<AppErrorInput>('error')
 
 // content
-const content = useContent(path)
+const content = await useContent(path)
 
 watch(
   () =>
@@ -45,7 +45,6 @@ watch(
 // seo
 useHeadDefault({ title: computed(() => content.data.value?.title) })
 if (content.data.value?.ogImage?.component) {
-  // TODO: ensure the content's og image does overrides the default from `useHeadDefault` properly
   defineOgImage(
     content.data.value.ogImage.component as keyof OgImageComponents,
     content.data.value.ogImage.props,

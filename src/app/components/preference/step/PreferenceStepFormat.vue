@@ -69,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
 import {
@@ -115,7 +115,7 @@ const translate = (nameKey: string) => {
 }
 
 // api data
-const allFormatsQuery = useQuery({
+const allFormatsQuery = useApiQuery({
   query: graphql(`
     query AllEventFormats {
       allEventFormats {
