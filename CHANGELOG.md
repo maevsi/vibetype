@@ -1,3 +1,9 @@
+## [16.1.0](https://github.com/maevsi/vibetype/compare/16.0.0...16.1.0) (2026-10-22)
+
+### Features
+
+* **seo:** enable skew protection ([#2442](https://github.com/maevsi/vibetype/issues/2442)) ([c18f6bc](https://github.com/maevsi/vibetype/commit/c18f6bccfb49fbaf1f41eddb8c2569e0c6f7f83c))
+
 ## [16.0.0](https://github.com/maevsi/vibetype/compare/15.26.1...16.0.0) (2026-10-22)
 
 ### ⚠ BREAKING CHANGES
