@@ -19,6 +19,7 @@ testOgImage({
 testVisualRegression(PAGE_PATH)
 
 appTest.describe('internationalization', () => {
+  // the plus that stands for a space is percent-encoded as %2B
   appTest(
     'renders the English title into the open graph image',
     async ({ defaultPage }) => {
@@ -27,7 +28,7 @@ appTest.describe('internationalization', () => {
       const ogImage = await defaultPage.page
         .locator('meta[property="og:image"]')
         .getAttribute('content')
-      expect(ogImage).toContain('title_Privacy+Policy')
+      expect(ogImage?.replaceAll('%2B', '+')).toContain('title_Privacy+Policy')
     },
   )
 
@@ -39,7 +40,9 @@ appTest.describe('internationalization', () => {
       const ogImage = await defaultPage.page
         .locator('meta[property="og:image"]')
         .getAttribute('content')
-      expect(ogImage).toContain('title_~RGF0ZW5zY2h1dHplcmtsw6RydW5n')
+      expect(ogImage?.replaceAll('%2B', '+')).toContain(
+        'title_~RGF0ZW5zY2h1dHplcmtsw6RydW5n',
+      )
     },
   )
 })
