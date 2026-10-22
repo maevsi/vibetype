@@ -131,6 +131,15 @@ export default defineNuxtConfig({
         baseUrl: SITE_URL,
       },
       sentry: {
+        // the flags mirror the integrations and the client security reporting, so each of them can be turned off without a code change
+        features: {
+          consoleCapture: true,
+          pinia: true,
+          profiling: true,
+          replay: true,
+          securityHeaders: true,
+          userTracking: true,
+        },
         host: NUXT_PUBLIC_SENTRY_HOST,
         logs: {
           enable: NUXT_PUBLIC_SENTRY_LOGS_ENABLE,
