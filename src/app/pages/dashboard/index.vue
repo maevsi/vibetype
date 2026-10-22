@@ -51,8 +51,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 import { eventHasEnded } from '~~/shared/utils/event'
 
@@ -183,7 +181,7 @@ const eventUpcomingQuery = graphql(`
   }
 `)
 const queryEventUpcoming = authentication.value.isSignedIn
-  ? useQuery({
+  ? useApiQuery({
       query: eventUpcomingQuery,
       variables: {
         createdBy: authentication.value.signedInAccountId,

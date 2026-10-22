@@ -129,7 +129,7 @@ import prettyBytes from 'pretty-bytes'
 import type { UnwrapRef } from 'vue'
 import { Cropper } from 'vue-advanced-cropper'
 import type { CropperResult, Size } from 'vue-advanced-cropper'
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
 import type { AllUploadsQueryVariables } from '~~/gql/generated/graphql'
@@ -168,14 +168,14 @@ const selectedItem = ref<{
 }>()
 
 // api data
-const accountUploadQuotaBytesQuery = useQuery({
+const accountUploadQuotaBytesQuery = useApiQuery({
   query: graphql(`
     query AccountUploadQuotaBytes {
       accountUploadQuotaBytes
     }
   `),
 })
-const allUploadsQuery = useQuery({
+const allUploadsQuery = useApiQuery({
   query: graphql(`
     query AllUploads($after: Cursor, $first: Int!, $createdBy: UUID) {
       allUploads(

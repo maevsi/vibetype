@@ -137,8 +137,6 @@ import {
 } from 'chart.js'
 import { Doughnut } from 'vue-chartjs'
 
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import type {
@@ -182,7 +180,7 @@ const options = {
 }
 
 // api data
-const guestsQuery = useQuery({
+const guestsQuery = useApiQuery({
   query: graphql(`
     query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {
       allGuests(

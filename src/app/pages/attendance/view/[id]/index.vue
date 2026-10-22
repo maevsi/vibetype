@@ -98,7 +98,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
 
@@ -127,7 +127,7 @@ try {
 }
 
 // api data
-const queryAttendance = useQuery({
+const queryAttendance = useApiQuery({
   query: graphql(`
     query Attendance($id: UUID!) {
       attendanceByRowId(rowId: $id) {

@@ -1,3 +1,6 @@
+import { expect } from '@playwright/test'
+
+import { appTest } from '#tests/e2e/fixtures/appTest'
 import {
   testOgImage,
   testPageLoad,
@@ -14,3 +17,29 @@ testOgImage({
   },
 })
 testVisualRegression(PAGE_PATH)
+
+appTest.describe('internationalization', () => {
+  appTest(
+    'renders the English title into the open graph image',
+    async ({ defaultPage }) => {
+      await defaultPage.goto(PAGE_PATH)
+
+      const ogImage = await defaultPage.page
+        .locator('meta[property="og:image"]')
+        .getAttribute('content')
+      expect(ogImage).toContain('title_Imprint+of+VIBETYPE')
+    },
+  )
+
+  appTest(
+    'renders the German title into the open graph image',
+    async ({ defaultPage }) => {
+      await defaultPage.goto(`/de${PAGE_PATH}`)
+
+      const ogImage = await defaultPage.page
+        .locator('meta[property="og:image"]')
+        .getAttribute('content')
+      expect(ogImage).toContain('title_Impressum+von+VIBETYPE')
+    },
+  )
+})

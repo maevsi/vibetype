@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
 
@@ -43,7 +43,7 @@ if (route.params.username !== store.signedInUsername) {
 }
 
 // api data
-const eventQuery = useQuery({
+const eventQuery = useApiQuery({
   query: graphql(`
     query EventEdit($slug: String!, $username: String!) {
       accountByUsername(username: $username) {

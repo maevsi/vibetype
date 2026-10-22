@@ -223,8 +223,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
-
 import { AchievementType } from '~~/gql/generated/graphcache'
 import { graphql } from '~~/gql/generated'
 
@@ -315,7 +313,7 @@ const title = computed(() =>
 )
 
 // api data
-const query = useQuery({
+const query = useApiQuery({
   query: queryAccount,
   variables: {
     username: route.params.username,

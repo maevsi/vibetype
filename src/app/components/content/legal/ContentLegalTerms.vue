@@ -9,8 +9,6 @@
 
 <script setup lang="ts">
 import { parseMarkdown } from 'comark'
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 
 // compiler
@@ -33,7 +31,7 @@ const allLegalTermsQuery = graphql(`
     }
   }
 `)
-const legalTermsQuery = useQuery({
+const legalTermsQuery = useApiQuery({
   query: allLegalTermsQuery,
   variables: {
     language: locale.value,
