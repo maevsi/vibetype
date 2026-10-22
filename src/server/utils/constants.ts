@@ -173,6 +173,11 @@ export const GET_CSP = ({
         ...(runtimeConfig
           ? [
               `https://${runtimeConfig.public.sentry.host}/api/${runtimeConfig.public.sentry.project.id}/envelope/`,
+              ...(runtimeConfig.public.sentry.features.securityHeaders
+                ? [
+                    `https://${runtimeConfig.public.sentry.host}/api/${runtimeConfig.public.sentry.project.id}/security/`,
+                  ]
+                : []),
             ]
           : []),
       ],

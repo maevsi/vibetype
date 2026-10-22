@@ -3,6 +3,10 @@ import { defineEventHandler, useRuntimeConfig } from 'nuxt/server'
 export default defineEventHandler((event) => {
   const runtimeConfig = useRuntimeConfig()
 
+  if (!runtimeConfig.public.sentry.features.securityHeaders) {
+    return
+  }
+
   const securityEndpointParams = [
     `sentry_key=${runtimeConfig.public.sentry.project.publicKey}`,
     `sentry_environment=${runtimeConfig.public.vio.environment}`,
