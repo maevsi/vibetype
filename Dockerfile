@@ -1,10 +1,15 @@
 # syntax=docker/dockerfile:1
 # check=skip=SecretsUsedInArgOrEnv
 
+# the image whose skew protection storage seeds this build
+ARG SKEW_PROTECTION_SOURCE_IMAGE=ghcr.io/maevsi/vibetype:latest
+
 # <DEPENDENCIES>
 FROM ghcr.io/maevsi/postgraphile:2.3.1
 FROM ghcr.io/maevsi/sqitch:12.3
 # </DEPENDENCIES>
+
+FROM ${SKEW_PROTECTION_SOURCE_IMAGE} AS skew-protection-source
 
 #############
 # Create base image.
@@ -81,8 +86,16 @@ ENV RELEASE_NAME=${RELEASE_NAME}
 
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=6144"
+
+# restore previous builds' assets from the source image and keep this build's assets for the next one
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN \
-    pnpm --dir src run build:node
+    --mount=type=bind,from=skew-protection-source,source=/srv/app,target=/tmp/skew-protection-source \
+    if [ -d /tmp/skew-protection-source/.skew-protection ]; then \
+      mkdir -p src/node_modules/.cache/nuxt-seo \
+      && cp -r /tmp/skew-protection-source/.skew-protection src/node_modules/.cache/nuxt-seo/skew-protection; \
+    fi \
+    && pnpm --dir src run build:node \
+    && mkdir -p src/node_modules/.cache/nuxt-seo/skew-protection
 
 
 # ########################
@@ -212,6 +225,7 @@ FROM base-image AS collect
 RUN chown node:node .
 
 COPY --from=build-node --chown=node /srv/app/src/.output ./src/.output
+COPY --from=build-node --chown=node /srv/app/src/node_modules/.cache/nuxt-seo/skew-protection ./.skew-protection
 COPY --from=build-node --chown=node /srv/app/src/node/server/node.mjs ./src/node/server/node.mjs
 COPY --from=build-node --chown=node /srv/app/src/package.json ./src/package.json
 COPY --from=build-node --chown=node /srv/app/package.json ./package.json

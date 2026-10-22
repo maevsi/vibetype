@@ -107,8 +107,12 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
     }),
     reactive: false, // for a strict trusted type policy the script may not change and it must be inlined / cannot be linked (https://github.com/harlan-zw/nuxt-schema-org/issues/96)
   },
-  // it needs storage that persists across builds (https://nuxtseo.com/docs/skew-protection/guides/storage-configuration), which docker builds in ci do not provide
-  skewProtection: false,
+  // the storage persists across builds because the dockerfile seeds it from the previously released image (see `SKEW_PROTECTION_SOURCE_IMAGE`) and carries it into the next one
+  skewProtection: {
+    // the retained assets are baked into every image, so keep the retention low to bound the image size
+    retentionDays: 7,
+    maxNumberOfVersions: 3,
+  },
   sitemap: {
     credits: false,
     sources: ['/api/__sitemap__/accounts', '/api/__sitemap__/events'],
