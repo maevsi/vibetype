@@ -1,3 +1,9 @@
+## [15.26.1](https://github.com/maevsi/vibetype/compare/15.26.0...15.26.1) (2026-10-22)
+
+### Bug Fixes
+
+* **urql:** block the server rendering on the page data ([#2440](https://github.com/maevsi/vibetype/issues/2440)) ([953e7f0](https://github.com/maevsi/vibetype/commit/953e7f0ec26b667fdcaefc2ea0833806b163e656))
+
 ## [15.26.0](https://github.com/maevsi/vibetype/compare/15.25.1...15.26.0) (2026-10-22)
 
 ### Features
