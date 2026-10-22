@@ -9,15 +9,13 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 
 const { guestId } = defineProps<{
   guestId: string
 }>()
 
-const query = await useQuery({
+const query = await useApiQuery({
   query: graphql(`
     query AttendanceGuest($id: UUID!) {
       guestByRowId(rowId: $id) {

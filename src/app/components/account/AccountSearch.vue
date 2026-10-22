@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
 import { refDebounced } from '@vueuse/core'
 
 import { graphql } from '~~/gql/generated'
@@ -48,7 +47,7 @@ const searchQueryDebouncedTrimmed = computed(
 watch(searchQueryDebouncedTrimmed, () => {
   after.value = undefined
 })
-const accountSearchQuery = useQuery({
+const accountSearchQuery = useApiQuery({
   query: queryAccountSearch,
   variables: computed(() => ({
     after: after.value,

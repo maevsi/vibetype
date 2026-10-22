@@ -12,8 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 
 // validation
@@ -27,7 +25,7 @@ if (route.params.username !== store.signedInUsername) {
 }
 
 // api data
-const queryEventGuests = useQuery({
+const queryEventGuests = useApiQuery({
   query: graphql(`
     query EventGuests($slug: String!, $username: String!) {
       accountByUsername(username: $username) {

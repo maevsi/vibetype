@@ -57,7 +57,7 @@
 import type { DetectedBarcode } from 'vue-qrcode-reader'
 
 import { graphql } from '~~/gql/generated'
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 </script>
 
 <script setup lang="ts">
@@ -74,7 +74,7 @@ if (route.params.username !== store.signedInUsername) {
 }
 
 // api data
-const queryEventAttendance = useQuery({
+const queryEventAttendance = useApiQuery({
   query: graphql(`
     query EventAttendance($slug: String!, $username: String!) {
       accountByUsername(username: $username) {

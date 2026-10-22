@@ -62,8 +62,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 import type { AccountBlockAccountsRecord } from '~~/gql/generated/graphcache'
 
@@ -88,7 +86,7 @@ const title = t('title')
 useHeadDefault({ title })
 
 // api data
-const accountBlockAccountsQuery = useQuery({
+const accountBlockAccountsQuery = useApiQuery({
   query: graphql(`
     query AccountBlockAccounts {
       accountBlockAccounts {

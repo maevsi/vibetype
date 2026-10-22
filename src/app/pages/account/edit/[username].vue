@@ -106,7 +106,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
 
@@ -131,7 +131,7 @@ if (route.params.username !== store.signedInUsername) {
 }
 
 // api data
-const query = useQuery({
+const query = useApiQuery({
   query: graphql(`
     query AccountEdit($username: String!) {
       accountByUsername(username: $username) {

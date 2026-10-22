@@ -146,7 +146,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
 import { sanitize } from 'isomorphic-dompurify'
 
 import { graphql } from '~~/gql/generated'
@@ -159,7 +158,7 @@ const localePath = useLocalePath()
 const isOpenReportDrawer = ref<boolean>()
 
 // api data
-const eventQuery = useQuery({
+const eventQuery = useApiQuery({
   query: graphql(`
     query Event($slug: String!, $username: String!) {
       accountByUsername(username: $username) {

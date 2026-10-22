@@ -14,7 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
 import { refDebounced } from '@vueuse/core'
 
 import { graphql } from '~~/gql/generated'
@@ -171,7 +170,7 @@ const now = useNow()
 // many round trips that takes to get through.
 const allEventsQueryAfter = ref<string | null>()
 const allEventsQueryFirst = ref(ITEMS_PER_PAGE_LARGE)
-const allEventsQuery = useQuery({
+const allEventsQuery = useApiQuery({
   query: queryEventList,
   variables: computed(() => ({
     after: allEventsQueryAfter.value,
@@ -185,7 +184,7 @@ const searchQueryVariable = computed(() =>
   searchQueryDebounced.value?.trim().split(/\s+/).join(' OR '),
 )
 const searchResultsQueryAfter = ref<string | null>()
-const searchResultsQuery = useQuery({
+const searchResultsQuery = useApiQuery({
   query: queryEventSearch,
   variables: computed(() => ({
     after: searchResultsQueryAfter.value,

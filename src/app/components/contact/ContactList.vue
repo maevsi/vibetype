@@ -74,8 +74,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 import type {
   AllContactsQueryVariables,
@@ -125,7 +123,7 @@ const selectedContact = ref<
 >()
 
 // api data
-const contactsQuery = useQuery({
+const contactsQuery = useApiQuery({
   query: graphql(`
     query AllContacts($after: Cursor, $createdBy: UUID, $first: Int!) {
       allContacts(

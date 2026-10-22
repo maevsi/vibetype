@@ -262,7 +262,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 import downloadJs from 'downloadjs'
 import { sanitize } from 'isomorphic-dompurify'
 import prntr from 'prntr'
@@ -299,7 +299,7 @@ const jwtUpdateGuestAdd = import.meta.server
   ? useJwtUpdateGuestAdd({ guestId: route.params.id })
   : undefined
 const jwt = jwtUpdateGuestAdd ? await jwtUpdateGuestAdd() : undefined
-const eventQuery = useQuery({
+const eventQuery = useApiQuery({
   query: graphql(`
     query GuestEvent($id: UUID!) {
       guestByRowId(rowId: $id) {

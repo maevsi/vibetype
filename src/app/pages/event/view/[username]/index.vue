@@ -36,7 +36,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
 const queryEventListAccount = graphql(`
@@ -108,7 +107,7 @@ useHeadDefault({
 
 // api data
 const queryAfter = ref<string | null>()
-const query = useQuery({
+const query = useApiQuery({
   query: queryEventListAccount,
   variables: computed(() => ({
     after: queryAfter.value,
