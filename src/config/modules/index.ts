@@ -10,6 +10,8 @@ import { securityConfig } from './security'
 import { SITE_NAME } from '../../node/static'
 
 export const modulesConfig: ReturnType<DefineNuxtConfig> = {
+  // the site exposes personal data (e.g. account profiles) that must not be served to AI crawlers
+  aiReady: false,
   content: {
     experimental: {
       sqliteConnector: 'native',
@@ -105,6 +107,8 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
     }),
     reactive: false, // for a strict trusted type policy the script may not change and it must be inlined / cannot be linked (https://github.com/harlan-zw/nuxt-schema-org/issues/96)
   },
+  // it needs storage that persists across builds (https://nuxtseo.com/docs/skew-protection/guides/storage-configuration), which docker builds in ci do not provide
+  skewProtection: false,
   sitemap: {
     credits: false,
     sources: ['/api/__sitemap__/accounts', '/api/__sitemap__/events'],

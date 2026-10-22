@@ -12,13 +12,14 @@ const PAGE_PATH = '/docs/legal/imprint'
 testPageLoad(PAGE_PATH)
 testOgImage({
   dynamic: {
-    de: 'a_VIBETYPEs+Logo.,c_Default.takumi,description_~RmluZGUgVmVyYW5zdGFsdHVuZ2VuLCBHw6RzdGUgdW5kIEZyZXVuZGUg8J-SmeKdpO-4j~Cfkpo,title_Impressum+von+VIBETYPE,p_Ii9kZS9kb2NzL2xlZ2FsL2ltcHJpbnQi,s_1WVpuMGt-F9PO3s1.png',
-    en: `a_VIBETYPE's+logo.,c_Default.takumi,description_~RmluZCBldmVudHMsIGd1ZXN0cyBhbmQgZnJpZW5kcyDwn5KZ4p2k77iP8J-Smg,title_Imprint+of+VIBETYPE,p_Ii9kb2NzL2xlZ2FsL2ltcHJpbnQi,s_ZQAizbvqpHLGkC2i.png`,
+    de: '/de/docs/legal/imprint',
+    en: PAGE_PATH,
   },
 })
 testVisualRegression(PAGE_PATH)
 
 appTest.describe('internationalization', () => {
+  // the plus that stands for a space is percent-encoded as %2B
   appTest(
     'renders the English title into the open graph image',
     async ({ defaultPage }) => {
@@ -27,7 +28,9 @@ appTest.describe('internationalization', () => {
       const ogImage = await defaultPage.page
         .locator('meta[property="og:image"]')
         .getAttribute('content')
-      expect(ogImage).toContain('title_Imprint+of+VIBETYPE')
+      expect(ogImage?.replaceAll('%2B', '+')).toContain(
+        'title_Imprint+of+VIBETYPE',
+      )
     },
   )
 
@@ -39,7 +42,9 @@ appTest.describe('internationalization', () => {
       const ogImage = await defaultPage.page
         .locator('meta[property="og:image"]')
         .getAttribute('content')
-      expect(ogImage).toContain('title_Impressum+von+VIBETYPE')
+      expect(ogImage?.replaceAll('%2B', '+')).toContain(
+        'title_Impressum+von+VIBETYPE',
+      )
     },
   )
 })
