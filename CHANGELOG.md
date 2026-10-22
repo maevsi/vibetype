@@ -1,3 +1,13 @@
+## [16.0.0](https://github.com/maevsi/vibetype/compare/15.26.1...16.0.0) (2026-10-22)
+
+### ⚠ BREAKING CHANGES
+
+* **deps:** update dependency @nuxtjs/seo to v6 (#2427)
+
+### Miscellaneous Chores
+
+* **deps:** update dependency @nuxtjs/seo to v6 ([#2427](https://github.com/maevsi/vibetype/issues/2427)) ([e6134a4](https://github.com/maevsi/vibetype/commit/e6134a40644964d7d9d31a10a1602b18eb069501))
+
 ## [15.26.1](https://github.com/maevsi/vibetype/compare/15.26.0...15.26.1) (2026-10-22)
 
 ### Bug Fixes
