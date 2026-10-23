@@ -8,7 +8,7 @@
     "eslint": "10.13.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.7",
-    "jose": "6.2.12",
+    "jose": "6.2.13",
     "typescript": "6.0.3",
     "typescript-eslint": "8.72.0",
     "ufo": "1.6.4",
