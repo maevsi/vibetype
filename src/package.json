@@ -110,7 +110,7 @@
     "nuxt-schema-org": "7.0.1",
     "nuxt-security": "2.6.0",
     "nuxtseo-devtools-host": "1.0.2",
-    "openai": "7.41.0",
+    "openai": "7.42.0",
     "pinia": "4.1.0",
     "postcss-html": "2.0.0",
     "postgres": "3.4.9",
