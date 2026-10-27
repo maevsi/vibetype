@@ -1,3 +1,9 @@
+## [16.1.1](https://github.com/maevsi/vibetype/compare/16.1.0...16.1.1) (2026-10-27)
+
+### Bug Fixes
+
+* **security:** extend security.txt expiration ([#2445](https://github.com/maevsi/vibetype/issues/2445)) ([d40c353](https://github.com/maevsi/vibetype/commit/d40c3534a0254507e54e8e9840bc98f07a5aa47a))
+
 ## [16.1.0](https://github.com/maevsi/vibetype/compare/16.0.0...16.1.0) (2026-10-22)
 
 ### Features
