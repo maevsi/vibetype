@@ -372,12 +372,45 @@ importers:
       '@vitejs/plugin-vue':
         specifier: 6.0.10
         version: 6.0.10(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/components':
-        specifier: 0.0.21
-        version: 0.0.21(typescript@6.0.3)(vue@3.5.44(typescript@6.0.3))
+      '@vue-email/body':
+        specifier: 0.0.3
+        version: 0.0.3(vue@3.5.44(typescript@6.0.3))
+      '@vue-email/button':
+        specifier: 0.0.3
+        version: 0.0.3(vue@3.5.44(typescript@6.0.3))
+      '@vue-email/column':
+        specifier: 0.0.3
+        version: 0.0.3(vue@3.5.44(typescript@6.0.3))
+      '@vue-email/container':
+        specifier: 0.0.3
+        version: 0.0.3(vue@3.5.44(typescript@6.0.3))
+      '@vue-email/font':
+        specifier: 0.0.3
+        version: 0.0.3(vue@3.5.44(typescript@6.0.3))
+      '@vue-email/head':
+        specifier: 0.0.3
+        version: 0.0.3(vue@3.5.44(typescript@6.0.3))
+      '@vue-email/html':
+        specifier: 0.0.3
+        version: 0.0.3(vue@3.5.44(typescript@6.0.3))
+      '@vue-email/img':
+        specifier: 0.0.3
+        version: 0.0.3(vue@3.5.44(typescript@6.0.3))
+      '@vue-email/link':
+        specifier: 0.0.3
+        version: 0.0.3(vue@3.5.44(typescript@6.0.3))
       '@vue-email/render':
         specifier: 0.0.9
         version: 0.0.9(typescript@6.0.3)
+      '@vue-email/row':
+        specifier: 0.0.3
+        version: 0.0.3(vue@3.5.44(typescript@6.0.3))
+      '@vue-email/section':
+        specifier: 0.0.3
+        version: 0.0.3(vue@3.5.44(typescript@6.0.3))
+      '@vue-email/text':
+        specifier: 0.0.3
+        version: 0.0.3(vue@3.5.44(typescript@6.0.3))
       '@vueuse/core':
         specifier: 15.0.0
         version: 15.0.0(vue@3.5.44(typescript@6.0.3))
@@ -5191,29 +5224,17 @@ packages:
       pinia:
         optional: true
 
-  '@shikijs/core@1.29.2':
-    resolution: {integrity: sha512-vju0lY9r27jJfOY4Z7+Rt/nIOjzJpZ3y+nYpqtUZInVoXQ/TJZcfGnNOGnKjFdVZb8qexiCuSlZRKcGfhhTTZQ==}
-
   '@shikijs/core@4.5.0':
     resolution: {integrity: sha512-6CIgwq+bt2JZ3OSjb/nBkkwEf/CfpHcbam+Mg5Pllco7HAGRQ2/EFhZrrJtbyNTgKwknfVS+llsXGygiDGwJWw==}
     engines: {node: '>=20'}
-
-  '@shikijs/engine-javascript@1.29.2':
-    resolution: {integrity: sha512-iNEZv4IrLYPv64Q6k7EPpOCE/nuvGiKl7zxdq0WFuRPF5PAE9PRo2JGq/d8crLusM59BRemJ4eOqrFrC4wiQ+A==}
 
   '@shikijs/engine-javascript@4.5.0':
     resolution: {integrity: sha512-Ed6UdEj84LyYkwnxM5CvSMWAD+id9ExTYri0/+x41U9zrgNifPSS9lZm0JqBP0VfYI8yr8tY5nbNq9+p9R0kFA==}
     engines: {node: '>=20'}
 
-  '@shikijs/engine-oniguruma@1.29.2':
-    resolution: {integrity: sha512-7iiOx3SG8+g1MnlzZVDYiaeHe7Ez2Kf2HrJzdmGwkRisT7r4rak0e655AcM/tF9JG/kg5fMNYlLLKglbN7gBqA==}
-
   '@shikijs/engine-oniguruma@4.5.0':
     resolution: {integrity: sha512-dKVmbJecVdB9recl8a/CU4jdpNXyjJQrIcesIkpS70s5HS02ohpnCSpMUbotPnEUzbAcLQ+S4hwZYbkBBiTcJw==}
     engines: {node: '>=20'}
-
-  '@shikijs/langs@1.29.2':
-    resolution: {integrity: sha512-FIBA7N3LZ+223U7cJDUYd5shmciFQlYkFXlkKVaHsCPgfVLiO+e12FmQE6Tf9vuyEsFe3dIl8qGWKXgEHL9wmQ==}
 
   '@shikijs/langs@4.5.0':
     resolution: {integrity: sha512-wwBTqwduXSz0X4v9Qa2EWeFaYJEw1clCncWjoRNQRbVDu3SPRTRWucnouYapKj3b8Q+sk/41Vbc4B5c8nuYzLA==}
@@ -5223,9 +5244,6 @@ packages:
     resolution: {integrity: sha512-UM7ShlA8oz0OWxLLO8BmO9Ip6fVqdkt8yF0EH7nOCqHfrx1eEAzF0ZUVK7L+I8NEgeu1PEWSRlxaiPPeCb4iDg==}
     engines: {node: '>=20'}
 
-  '@shikijs/themes@1.29.2':
-    resolution: {integrity: sha512-i9TNZlsq4uoyqSbluIcZkmPL9Bfi3djVxRnofUHwvx/h6SRW3cwgBC5SML7vsDcWyukY0eCzVN980rqP6qNl9g==}
-
   '@shikijs/themes@4.5.0':
     resolution: {integrity: sha512-zGb87H3UBbpuI4yoh5UguB1XbU+2BDU3kflM7UfZ+Cy2hWo9lBtqjSVK20gmLY6ukYl040hAypGXMgud9vul8Q==}
     engines: {node: '>=20'}
@@ -5233,9 +5251,6 @@ packages:
   '@shikijs/transformers@4.5.0':
     resolution: {integrity: sha512-LM7twi043qCC3gRyGQfjoC2/sowzbEltWuruyRtT3RlBlk1hKzWk9ETnU7RcDBoVWQBmC8Mebnr7p28W7kPoaA==}
     engines: {node: '>=20'}
-
-  '@shikijs/types@1.29.2':
-    resolution: {integrity: sha512-VJjK0eIijTZf0QSTODEXCqinjBn0joAHQ+aPSBzrv4O2d/QSbsMw+ZeSRx03kV34Hy7NzUvV/7NqfYGRLrASmw==}
 
   '@shikijs/types@4.5.0':
     resolution: {integrity: sha512-drtPrtD8N0DENyD2cyt6Ajy+IWsiCLgMxODwLTpvH1UsN6a9jf90tNTPjqwHvA+0Lzu9e0txk8DjfqH1p9UJRw==}
@@ -6275,26 +6290,10 @@ packages:
     peerDependencies:
       vue: ^3.4.27
 
-  '@vue-email/code-block@0.0.3':
-    resolution: {integrity: sha512-NuOAY3dhWCwnywQ9lguLWqh+2BDKr1UM7AkV/ejDJwfX/GLZnlN9EEJRYOVhFnGwXOcJnS27NmvjZHaRweZfWA==}
-    peerDependencies:
-      vue: ^3.4.27
-
-  '@vue-email/code-inline@0.0.3':
-    resolution: {integrity: sha512-FN9WPQBwWWumpPIAN/++oly9/hpUfioVokb7nfM/U0hEOS3mGsVjYPZNiX/oGOAHrAF83qOqgIFcd9ipVMtefg==}
-    peerDependencies:
-      vue: ^3.4.27
-
   '@vue-email/column@0.0.3':
     resolution: {integrity: sha512-L1tYu3ZqoqcSNa5GK8wEKQKuvUBlsWeSA3RqKlkLrc+dR+uitcyCcbYsoE/N2tgvzZ1poykE/S6VIcrqH/zL9A==}
     peerDependencies:
       vue: ^3.4.27
-
-  '@vue-email/components@0.0.21':
-    resolution: {integrity: sha512-xtL9vdWgBpq2B4OqbOvW9s9+5fF8bZamNHCBNYkFMzGg7Ne+SWk/vZI0LhCeMqWUkodnCvCoW/i7IYGjw5veHw==}
-    engines: {node: '>=18.0.0'}
-    peerDependencies:
-      vue: ^3.4.29
 
   '@vue-email/container@0.0.3':
     resolution: {integrity: sha512-L+9VZ3RbCgyPaV54QCQsOAe9lAvq549JULEmH3QRDgHsIaFE3Yaddc1zMJKdbwH7ugiaRPRFrM2paR57IS6sWw==}
@@ -6308,16 +6307,6 @@ packages:
 
   '@vue-email/head@0.0.3':
     resolution: {integrity: sha512-RobskTPhRQ18aHFcwOe1eorGDd3BCotXJy2YfZF9VRHvw1MtV5M/AQ0eqUUgnNuNrxFGobZtxZJMu4+EE2ToUQ==}
-    peerDependencies:
-      vue: ^3.4.27
-
-  '@vue-email/heading@0.0.3':
-    resolution: {integrity: sha512-cUxlLDuRHEdLn+CZWehsUuJjWNnDVC1LAK1iKtZl++J9xGE1l4lrxaBFdhIZctH2yoZZLGm8OHvUJiYrke9YIg==}
-    peerDependencies:
-      vue: ^3.4.27
-
-  '@vue-email/hr@0.0.3':
-    resolution: {integrity: sha512-DNSi4CrsgRJRstTIB8ILcCqg0rWIIMKZ1fmSVgHoEBfgiV9I4m/6wKv2Rzg1AxkYldy5w1YhwVx0NfBTCHlL7A==}
     peerDependencies:
       vue: ^3.4.27
 
@@ -6336,16 +6325,6 @@ packages:
     peerDependencies:
       vue: ^3.4.27
 
-  '@vue-email/markdown@0.0.7':
-    resolution: {integrity: sha512-AxMpxo0A20lFiED7l1nJy6Y+fDYHknYW6u1HZ7F2QbDUihtinwAWU9pBFDX9SSHg9Ihkf3KeitvGf4YHiYlXRA==}
-    peerDependencies:
-      vue: ^3.4.27
-
-  '@vue-email/preview@0.0.3':
-    resolution: {integrity: sha512-e9qLDsP5+f5KZQhiVGjI/d/x5NfLfYusjI9C4bewwXM6bYJo1i5WRRzX6SM7sygKEk0ZbKqnzPqbnSWtABuzDw==}
-    peerDependencies:
-      vue: ^3.4.27
-
   '@vue-email/render@0.0.9':
     resolution: {integrity: sha512-FShvnLSoys3y+30uIO4ZuBSsXKGaj/VOB+CfNxhgxLmFsLbwKwUZQgJVAmXviuuSC5xpWQCOEPQ8P7oEEYa0WA==}
     engines: {node: '>=18.0.0'}
@@ -6359,16 +6338,6 @@ packages:
     resolution: {integrity: sha512-DPvDBmf3jPZGw8ZoIgs/lS3yt8H0BXMLniR0aTa6FhBPWJsXXaaQHDPY6h7jfeCgppgAoDRLZqiMnZXfqSTUWw==}
     peerDependencies:
       vue: ^3.4.27
-
-  '@vue-email/style@0.0.3':
-    resolution: {integrity: sha512-1t1I1EFJ77N4AC0qb1WYUfSOsFXTUUR2gxnbg88dsXHiaMiBlyokqy50wnn4/FrubUqbOFmseCz+4nSZzGg5bA==}
-    peerDependencies:
-      vue: ^3.4.27
-
-  '@vue-email/tailwind@0.2.0':
-    resolution: {integrity: sha512-/DNEMhvEuZa9OptICLelwh4Rh4Lh54GtoTkQgCAV0/4qvAgbAmjUMr0f7GsincdxoPrFwpTofaKAxMFm6ZO0xA==}
-    peerDependencies:
-      vue: ^3.4.29
 
   '@vue-email/text@0.0.3':
     resolution: {integrity: sha512-xn6MYicnXyFeV72nNTDZylOL7ut60clYUR2bqMDKkW6+XD6qWp6LGAx4b8sE0kADgu7MTq23zbU9kA/cebhk8w==}
@@ -7698,9 +7667,6 @@ packages:
 
   embla-carousel@8.6.0:
     resolution: {integrity: sha512-SjWyZBHJPbqxHOzckOfo8lHisEaJWmwd23XppYFYVh10bU66/Pn5tkVkbkCMZVdbUE5eTCI2nD8OyIP4Z+uwkA==}
-
-  emoji-regex-xs@1.0.0:
-    resolution: {integrity: sha512-LRlerrMYoIDrT6jgpeZ2YYl/L8EulRTt5hQcYjy5AInh7HWXKimpqx68aknBFpGL2+/IcogTcaydJEgaTmOpDg==}
 
   emoji-regex@10.6.0:
     resolution: {integrity: sha512-toUI84YS5YmxW219erniWD0CIVOo46xGKColeNQRgOzDorgBi1v4D71/OFzgD9GO2UGKIv1C3Sp8DAn0+j5w7A==}
@@ -9649,11 +9615,6 @@ packages:
     engines: {node: '>= 20'}
     hasBin: true
 
-  marked@7.0.4:
-    resolution: {integrity: sha512-t8eP0dXRJMtMvBojtkcsA7n48BkauktUKzfkPSCq85ZMTJ0v76Rke4DYz01omYpPTUh4p/f7HePgRo3ebG8+QQ==}
-    engines: {node: '>= 16'}
-    hasBin: true
-
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
@@ -10397,9 +10358,6 @@ packages:
   oniguruma-parser@0.12.2:
     resolution: {integrity: sha512-6HVa5oIrgMC6aA6WF6XyyqbhRPJrKR02L20+2+zpDtO5QAzGHAUGw5TKQvwi5vctNnRHkJYmjAhRVQF2EKdTQw==}
 
-  oniguruma-to-es@2.3.0:
-    resolution: {integrity: sha512-bwALDxriqfKGfUufKGGepCzu9x7nJQuoRoAFp4AnwehhC2crqrDIAP/uN2qdlsAvSMpeRC3+Yzhqc7hLmle5+g==}
-
   oniguruma-to-es@4.3.6:
     resolution: {integrity: sha512-csuQ9x3Yr0cEIs/Zgx/OEt9iBw9vqIunAPQkx19R/fiMq2oGVTgcMqO/V3Ybqefr1TBvosI6jU539ksaBULJyA==}
 
@@ -11028,17 +10986,11 @@ packages:
   regenerate@1.5.0:
     resolution: {integrity: sha512-1s+CxXjJ71i7LNVy8nYwg47XV4y6lAnOEhsMtSKq3WpmPfhl9LuKlTqKIn/3yUpE8lBz+W+TT88Bxyhnr0U4yw==}
 
-  regex-recursion@5.1.1:
-    resolution: {integrity: sha512-ae7SBCbzVNrIjgSbh7wMznPcQel1DNlDtzensnFxpiNpXt1U2ju/bHugH422r+4LAVS1FpW1YCwilmnNsjum9w==}
-
   regex-recursion@6.0.2:
     resolution: {integrity: sha512-0YCaSCq2VRIebiaUviZNs0cBz1kg5kVS2UKUfNIx8YVs1cN3AV7NTctO5FOKBA+UT2BPJIWZauYHPqJODG50cg==}
 
   regex-utilities@2.3.0:
     resolution: {integrity: sha512-8VhliFJAWRaUiVvREIiW2NXXTmHs4vMNnSzuJVhscgmGav3g9VDxLrQndI3dZZVVdp0ZO/5v0xmX516/7M9cng==}
-
-  regex@5.1.1:
-    resolution: {integrity: sha512-dN5I359AVGPnwzJm2jN1k0W9LPZ+ePvoOeVMMfqIMFz53sSwXkxaJoxr50ptnsC771lK95BnTrVSZxq0b9yCGw==}
 
   regex@6.1.0:
     resolution: {integrity: sha512-6VwtthbV4o/7+OaAF9I5L5V3llLEsoPyq9P1JVXkedTP33c7MfCG0/5NOPcSJn0TzXcG9YUrR0gQSWioew3LDg==}
@@ -11368,9 +11320,6 @@ packages:
   shell-quote@1.12.0:
     resolution: {integrity: sha512-PcByqNyT/38F2kDNi006HAMRJaULuBzq/FOsw3qdZvX/GA9W/jamDaRskgHjubHiftXK5sIFxLNkvrXUwcof6Q==}
     engines: {node: '>= 0.4'}
-
-  shiki@1.29.2:
-    resolution: {integrity: sha512-njXuliz/cP+67jU2hukkxCNuH1yUi4QfdZZY+sMr5PPrIyXSu5iTb/qYC4BiWWB0vZ+7TbdvYUCeL23zpwCfbg==}
 
   shiki@4.5.0:
     resolution: {integrity: sha512-OcRW72ngQvc+MSVWBRIovC/BTW589iUE/Vxav7VeM4RcY9MUjqB+IR6ILG1k9nuW6LiG/nct9uma4/MBtnZbmQ==}
@@ -18630,15 +18579,6 @@ snapshots:
     optionalDependencies:
       pinia: 4.1.0(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.44(typescript@6.0.3))
 
-  '@shikijs/core@1.29.2':
-    dependencies:
-      '@shikijs/engine-javascript': 1.29.2
-      '@shikijs/engine-oniguruma': 1.29.2
-      '@shikijs/types': 1.29.2
-      '@shikijs/vscode-textmate': 10.1.0
-      '@types/hast': 3.0.5
-      hast-util-to-html: 9.0.5
-
   '@shikijs/core@4.5.0':
     dependencies:
       '@shikijs/primitive': 4.5.0
@@ -18647,31 +18587,16 @@ snapshots:
       '@types/hast': 3.0.5
       hast-util-to-html: 9.0.5
 
-  '@shikijs/engine-javascript@1.29.2':
-    dependencies:
-      '@shikijs/types': 1.29.2
-      '@shikijs/vscode-textmate': 10.1.0
-      oniguruma-to-es: 2.3.0
-
   '@shikijs/engine-javascript@4.5.0':
     dependencies:
       '@shikijs/types': 4.5.0
       '@shikijs/vscode-textmate': 10.1.0
       oniguruma-to-es: 4.3.6
 
-  '@shikijs/engine-oniguruma@1.29.2':
-    dependencies:
-      '@shikijs/types': 1.29.2
-      '@shikijs/vscode-textmate': 10.1.0
-
   '@shikijs/engine-oniguruma@4.5.0':
     dependencies:
       '@shikijs/types': 4.5.0
       '@shikijs/vscode-textmate': 10.1.0
-
-  '@shikijs/langs@1.29.2':
-    dependencies:
-      '@shikijs/types': 1.29.2
 
   '@shikijs/langs@4.5.0':
     dependencies:
@@ -18683,10 +18608,6 @@ snapshots:
       '@shikijs/vscode-textmate': 10.1.0
       '@types/hast': 3.0.5
 
-  '@shikijs/themes@1.29.2':
-    dependencies:
-      '@shikijs/types': 1.29.2
-
   '@shikijs/themes@4.5.0':
     dependencies:
       '@shikijs/types': 4.5.0
@@ -18695,11 +18616,6 @@ snapshots:
     dependencies:
       '@shikijs/core': 4.5.0
       '@shikijs/types': 4.5.0
-
-  '@shikijs/types@1.29.2':
-    dependencies:
-      '@shikijs/vscode-textmate': 10.1.0
-      '@types/hast': 3.0.5
 
   '@shikijs/types@4.5.0':
     dependencies:
@@ -19688,45 +19604,9 @@ snapshots:
     dependencies:
       vue: 3.5.44(typescript@6.0.3)
 
-  '@vue-email/code-block@0.0.3(vue@3.5.44(typescript@6.0.3))':
-    dependencies:
-      shiki: 1.29.2
-      vue: 3.5.44(typescript@6.0.3)
-
-  '@vue-email/code-inline@0.0.3(vue@3.5.44(typescript@6.0.3))':
-    dependencies:
-      vue: 3.5.44(typescript@6.0.3)
-
   '@vue-email/column@0.0.3(vue@3.5.44(typescript@6.0.3))':
     dependencies:
       vue: 3.5.44(typescript@6.0.3)
-
-  '@vue-email/components@0.0.21(typescript@6.0.3)(vue@3.5.44(typescript@6.0.3))':
-    dependencies:
-      '@vue-email/body': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/button': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/code-block': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/code-inline': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/column': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/container': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/font': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/head': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/heading': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/hr': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/html': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/img': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/link': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/markdown': 0.0.7(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/preview': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/render': 0.0.9(typescript@6.0.3)
-      '@vue-email/row': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/section': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/style': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/tailwind': 0.2.0(vue@3.5.44(typescript@6.0.3))
-      '@vue-email/text': 0.0.3(vue@3.5.44(typescript@6.0.3))
-      vue: 3.5.44(typescript@6.0.3)
-    transitivePeerDependencies:
-      - typescript
 
   '@vue-email/container@0.0.3(vue@3.5.44(typescript@6.0.3))':
     dependencies:
@@ -19740,14 +19620,6 @@ snapshots:
     dependencies:
       vue: 3.5.44(typescript@6.0.3)
 
-  '@vue-email/heading@0.0.3(vue@3.5.44(typescript@6.0.3))':
-    dependencies:
-      vue: 3.5.44(typescript@6.0.3)
-
-  '@vue-email/hr@0.0.3(vue@3.5.44(typescript@6.0.3))':
-    dependencies:
-      vue: 3.5.44(typescript@6.0.3)
-
   '@vue-email/html@0.0.3(vue@3.5.44(typescript@6.0.3))':
     dependencies:
       vue: 3.5.44(typescript@6.0.3)
@@ -19757,15 +19629,6 @@ snapshots:
       vue: 3.5.44(typescript@6.0.3)
 
   '@vue-email/link@0.0.3(vue@3.5.44(typescript@6.0.3))':
-    dependencies:
-      vue: 3.5.44(typescript@6.0.3)
-
-  '@vue-email/markdown@0.0.7(vue@3.5.44(typescript@6.0.3))':
-    dependencies:
-      marked: 7.0.4
-      vue: 3.5.44(typescript@6.0.3)
-
-  '@vue-email/preview@0.0.3(vue@3.5.44(typescript@6.0.3))':
     dependencies:
       vue: 3.5.44(typescript@6.0.3)
 
@@ -19782,14 +19645,6 @@ snapshots:
       vue: 3.5.44(typescript@6.0.3)
 
   '@vue-email/section@0.0.3(vue@3.5.44(typescript@6.0.3))':
-    dependencies:
-      vue: 3.5.44(typescript@6.0.3)
-
-  '@vue-email/style@0.0.3(vue@3.5.44(typescript@6.0.3))':
-    dependencies:
-      vue: 3.5.44(typescript@6.0.3)
-
-  '@vue-email/tailwind@0.2.0(vue@3.5.44(typescript@6.0.3))':
     dependencies:
       vue: 3.5.44(typescript@6.0.3)
 
@@ -21139,8 +20994,6 @@ snapshots:
       wheel-gestures: 2.3.0
 
   embla-carousel@8.6.0: {}
-
-  emoji-regex-xs@1.0.0: {}
 
   emoji-regex@10.6.0: {}
 
@@ -23494,8 +23347,6 @@ snapshots:
 
   marked@17.0.6: {}
 
-  marked@7.0.4: {}
-
   math-intrinsics@1.1.0: {}
 
   mathml-tag-names@4.0.0: {}
@@ -25088,12 +24939,6 @@ snapshots:
 
   oniguruma-parser@0.12.2: {}
 
-  oniguruma-to-es@2.3.0:
-    dependencies:
-      emoji-regex-xs: 1.0.0
-      regex: 5.1.1
-      regex-recursion: 5.1.1
-
   oniguruma-to-es@4.3.6:
     dependencies:
       oniguruma-parser: 0.12.2
@@ -25827,20 +25672,11 @@ snapshots:
 
   regenerate@1.5.0: {}
 
-  regex-recursion@5.1.1:
-    dependencies:
-      regex: 5.1.1
-      regex-utilities: 2.3.0
-
   regex-recursion@6.0.2:
     dependencies:
       regex-utilities: 2.3.0
 
   regex-utilities@2.3.0: {}
-
-  regex@5.1.1:
-    dependencies:
-      regex-utilities: 2.3.0
 
   regex@6.1.0:
     dependencies:
@@ -26326,17 +26162,6 @@ snapshots:
   shebang-regex@3.0.0: {}
 
   shell-quote@1.12.0: {}
-
-  shiki@1.29.2:
-    dependencies:
-      '@shikijs/core': 1.29.2
-      '@shikijs/engine-javascript': 1.29.2
-      '@shikijs/engine-oniguruma': 1.29.2
-      '@shikijs/langs': 1.29.2
-      '@shikijs/themes': 1.29.2
-      '@shikijs/types': 1.29.2
-      '@shikijs/vscode-textmate': 10.1.0
-      '@types/hast': 3.0.5
 
   shiki@4.5.0:
     dependencies:

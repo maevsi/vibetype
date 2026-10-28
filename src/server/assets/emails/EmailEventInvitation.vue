@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { Column, Row, Section, Link, Img } from '@vue-email/components'
+import { Column } from '@vue-email/column'
+import { Img } from '@vue-email/img'
+import { Link } from '@vue-email/link'
+import { Row } from '@vue-email/row'
+import { Section } from '@vue-email/section'
 
 import AppButton from './components/base/AppButton.vue'
 import AppText from './components/base/AppText.vue'

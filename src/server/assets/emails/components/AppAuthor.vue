@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { Column, Img, Row, Section } from '@vue-email/components'
+import { Column } from '@vue-email/column'
+import { Img } from '@vue-email/img'
+import { Row } from '@vue-email/row'
+import { Section } from '@vue-email/section'
 
 import { PROFILE_PICTURE_JONAS_CID } from '../../../utils/assets'
 import AppText from './base/AppText.vue'

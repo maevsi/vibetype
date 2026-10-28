@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Button } from '@vue-email/components'
+import { Button } from '@vue-email/button'
 </script>
 
 <template>
