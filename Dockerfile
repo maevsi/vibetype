@@ -27,7 +27,7 @@ RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
       git \
     && apk add --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
       mkcert \
-    && corepack enable
+    && npm i -g corepack && corepack enable
 
 
 #############

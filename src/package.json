@@ -160,7 +160,7 @@
     "zod": "4.6.7"
   },
   "engines": {
-    "node": "^24.15.0"
+    "node": "^26.0.0"
   },
   "name": "vibetype",
   "prettier": "./.config/prettier.js",
