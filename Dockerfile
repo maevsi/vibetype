@@ -14,7 +14,7 @@ FROM ${SKEW_PROTECTION_SOURCE_IMAGE} AS skew-protection-source
 #############
 # Create base image.
 
-FROM node:24.22.1-alpine AS base-image
+FROM node:26.12.1-alpine AS base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -27,7 +27,7 @@ RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
       git \
     && apk add --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
       mkcert \
-    && corepack enable
+    && npm i -g corepack && corepack enable
 
 
 #############
