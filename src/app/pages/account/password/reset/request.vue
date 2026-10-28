@@ -1,8 +1,8 @@
 <template>
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
-    <h1 :id="templateIdTitle" class="sr-only">
+    <span :id="templateIdTitle" class="sr-only">
       {{ title }}
-    </h1>
+    </span>
     <FormAuthPageHeader v-if="step === 'default'" @back="navigateBack">
       <template #title>{{ t('title') }}</template>
       <template #subtitle>{{ t('subtitle') }}</template>

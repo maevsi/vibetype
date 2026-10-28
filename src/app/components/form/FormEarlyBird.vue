@@ -1,9 +1,5 @@
 <template>
-  <form
-    ref="formRef"
-    class="flex flex-col gap-4"
-    @submit.prevent="form.handleSubmit"
-  >
+  <form class="flex flex-col gap-4" @submit.prevent="form.handleSubmit">
     <form.Field v-slot="{ field }" name="userName">
       <Field>
         <FieldLabel>
@@ -103,7 +99,6 @@ const emit = defineEmits<{
 
 // form
 const modelError = defineModel<Error>('error')
-const formRef = useTemplateRef<HTMLFormElement>('formRef')
 const captchaIsUsed = ref<boolean>()
 
 const formSchema = z.object({
@@ -140,11 +135,6 @@ const form = useForm({
       captchaIsUsed.value = true
     }
   },
-})
-
-const submit = () => formRef.value?.requestSubmit()
-defineExpose({
-  submit,
 })
 
 // template

@@ -35,7 +35,6 @@
           <!-- Terms checkbox -->
           <div class="flex items-start gap-3">
             <FormCheckbox
-              :aria-label="t('agreeCheckboxLabel')"
               form-key="agree-to-terms"
               :value="agreedToTerms"
               @change="agreedToTerms = $event"
@@ -144,12 +143,13 @@
       <LayoutPage v-bind="attributes">
         <div class="flex flex-col gap-4">
           <FormAccountRegistrationAge
-            ref="ageForm"
+            :id="templateIdAgeForm"
             @success="handleAgeSuccess"
           />
           <FormAuthButton
             :aria-label="t('confirmAge')"
-            @click="ageFormRef?.submit()"
+            :form="templateIdAgeForm"
+            type="submit"
           >
             {{ t('confirmAge') }}
           </FormAuthButton>
@@ -296,7 +296,7 @@ const handleUsernameInput = (newValue: string) => {
 }
 
 // age step
-const ageFormRef = useTemplateRef<{ submit: () => void }>('ageForm')
+const templateIdAgeForm = useId()
 const handleAgeSuccess = async (date: string) => {
   birthDate.value = date
   await submit()
@@ -450,7 +450,6 @@ useHeadDefault({ title: title.value })
 
 <i18n lang="yaml">
 de:
-  agreeCheckboxLabel: Ich stimme den Bedingungen zu
   agreePrefix: "Ich stimme Vibetype's "
   alreadyHaveAccount: 'Du hast bereits ein Konto?'
   and: ' und '
@@ -490,7 +489,6 @@ de:
   verificationOpenLink: Öffne den Link, um zu bestätigen, dass du es wirklich bist.
   verificationSentTo: 'Wir haben dir gerade einen Bestätigungslink gesendet an '
 en:
-  agreeCheckboxLabel: I agree to the terms
   agreePrefix: "I agree to Vibetype's "
   alreadyHaveAccount: 'Already have an account?'
   and: ' and '
