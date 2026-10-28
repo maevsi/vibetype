@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Column, Img, Row, Section } from '@vue-email/components'
-
 import { PROFILE_PICTURE_JONAS_CID } from '../../../utils/assets'
 import AppText from './base/AppText.vue'
 
@@ -27,25 +25,25 @@ const t = locales[locale]
 </script>
 
 <template>
-  <Section style="padding-top: 20px">
-    <Row>
-      <Column width="12%">
-        <Img
+  <ESection style="padding-top: 20px">
+    <ERow>
+      <EColumn width="12%">
+        <EImg
           :alt="t.profilePicture"
           height="50"
           :href="authorWebsite"
           :src="`cid:${PROFILE_PICTURE_JONAS_CID}`"
           width="50"
         />
-      </Column>
-      <Column width="88%">
+      </EColumn>
+      <EColumn width="88%">
         <AppText style="line-height: 9px">
           {{ authorName }}
         </AppText>
         <AppText style="font-style: italic; line-height: 9px">
           {{ t.author(t.siteName) }}
         </AppText>
-      </Column>
-    </Row>
-  </Section>
+      </EColumn>
+    </ERow>
+  </ESection>
 </template>

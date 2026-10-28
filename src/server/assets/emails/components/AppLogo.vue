@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Column, Img, Row, Section } from '@vue-email/components'
-
 import AppText from './base/AppText.vue'
 import { LOGO_CID } from '../../../utils/assets'
 
@@ -28,10 +26,10 @@ const t = locales[locale]
 </script>
 
 <template>
-  <Section padding-top="30px">
-    <Row>
-      <Column>
-        <Img
+  <ESection padding-top="30px">
+    <ERow>
+      <EColumn>
+        <EImg
           :alt="t.logo(t.siteName)"
           height="75"
           :href="siteUrl"
@@ -39,16 +37,16 @@ const t = locales[locale]
           style="margin: auto"
           width="300"
         />
-      </Column>
-    </Row>
-  </Section>
-  <Section>
-    <Row width="100%">
-      <Column>
+      </EColumn>
+    </ERow>
+  </ESection>
+  <ESection>
+    <ERow width="100%">
+      <EColumn>
         <AppText style="font-size: 14px; margin: 0; text-align: center">
           {{ t.subtitle }}
         </AppText>
-      </Column>
-    </Row>
-  </Section>
+      </EColumn>
+    </ERow>
+  </ESection>
 </template>

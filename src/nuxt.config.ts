@@ -1,5 +1,4 @@
 import tailwindcss from '@tailwindcss/vite'
-import vue from '@vitejs/plugin-vue'
 import { createResolver } from 'nuxt/kit'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
@@ -62,6 +61,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@sentry/nuxt/module',
     '@vite-pwa/nuxt',
+    'nuxt-email-renderer',
     'shadcn-nuxt',
     'nuxt-security',
   ],
@@ -79,9 +79,6 @@ export default defineNuxtConfig({
     externals: {
       // Sentry inlines Redis for its build-time instrumentation, but leaves these dependencies of it external, so the bundle receives a namespace object instead of each one's export (https://github.com/getsentry/sentry-javascript/issues/24775) // TODO: remove once Sentry inlines them alongside `standard-as-callback`
       inline: ['cluster-key-slot', 'denque'],
-    },
-    rollupConfig: {
-      plugins: [vue()],
     },
   },
   routeRules: {

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Column, Row, Section, Link, Img } from '@vue-email/components'
-
 import AppButton from './components/base/AppButton.vue'
 import AppText from './components/base/AppText.vue'
 import AppFooter from './components/AppFooter.vue'
@@ -102,9 +100,9 @@ const t = locales[locale]
 
 <template>
   <Email :locale :logo-source :title="t.title(eventName)">
-    <Section style="padding-top: 30px">
-      <Row style="width: 45%">
-        <Column>
+    <ESection style="padding-top: 30px">
+      <ERow style="width: 45%">
+        <EColumn>
           <AppText
             style="
               font-weight: 700;
@@ -115,12 +113,12 @@ const t = locales[locale]
           >
             {{ t.header(eventAuthorUsername) }}
           </AppText>
-        </Column>
-      </Row>
-    </Section>
-    <Section>
-      <Row>
-        <Column>
+        </EColumn>
+      </ERow>
+    </ESection>
+    <ESection>
+      <ERow>
+        <EColumn>
           <AppText
             style="
               line-height: 30px;
@@ -163,35 +161,35 @@ const t = locales[locale]
             <AppText>
               {{ eventDescription }}
               <br />
-              <Link :href="eventLink" style="text-decoration: underline">
+              <ELink :href="eventLink" style="text-decoration: underline">
                 {{ t.eventShow }}
-              </Link>
+              </ELink>
             </AppText>
           </template>
-        </Column>
-      </Row>
-    </Section>
-    <Section style="padding-top: 20px">
-      <Row>
-        <Column width="12%">
-          <Img
+        </EColumn>
+      </ERow>
+    </ESection>
+    <ESection style="padding-top: 20px">
+      <ERow>
+        <EColumn width="12%">
+          <EImg
             :alt="t.profilePicture"
             height="50"
             :href="eventAuthorProfileHref"
             :src="eventAuthorProfilePictureSrc"
             width="50"
           />
-        </Column>
-        <Column width="88%">
+        </EColumn>
+        <EColumn width="88%">
           <AppText style="font-style: italic; line-height: 9px">
             {{ t.createdBy }}
           </AppText>
           <AppText style="line-height: 9px">
             {{ eventAuthorUsername }}
           </AppText>
-        </Column>
-      </Row>
-    </Section>
+        </EColumn>
+      </ERow>
+    </ESection>
     <AppFooter :email-address :locale />
   </Email>
 </template>

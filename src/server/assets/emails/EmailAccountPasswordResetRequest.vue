@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Column, Row, Section, Link } from '@vue-email/components'
-
 import AppButton from './components/base/AppButton.vue'
 import AppText from './components/base/AppText.vue'
 import AppAuthor from './components/AppAuthor.vue'
@@ -59,9 +57,9 @@ const t = locales[locale]
 
 <template>
   <Email :locale :logo-source :title="t.title">
-    <Section style="padding-top: 30px">
-      <Row style="width: 45%">
-        <Column>
+    <ESection style="padding-top: 30px">
+      <ERow style="width: 45%">
+        <EColumn>
           <AppText
             style="
               font-weight: 700;
@@ -72,12 +70,12 @@ const t = locales[locale]
           >
             {{ t.header() }}
           </AppText>
-        </Column>
-      </Row>
-    </Section>
-    <Section>
-      <Row>
-        <Column>
+        </EColumn>
+      </ERow>
+    </ESection>
+    <ESection>
+      <ERow>
+        <EColumn>
           <AppText>
             {{ t.paragraph1(t.siteName) }}
           </AppText>
@@ -104,17 +102,17 @@ const t = locales[locale]
             {{ t.paragraph3 }}
           </AppText>
           <AppText>
-            <Link
+            <ELink
               href="mailto:contact+password-reset@maev.si"
               style="text-decoration: underline"
             >
               <!-- eslint-disable-next-line @intlify/vue-i18n/no-raw-text -->
               {{ 'contact+password-reset@maev.si' }}
-            </Link>
+            </ELink>
           </AppText>
-        </Column>
-      </Row>
-    </Section>
+        </EColumn>
+      </ERow>
+    </ESection>
     <AppAuthor :locale />
     <AppFooter :email-address :locale />
   </Email>
