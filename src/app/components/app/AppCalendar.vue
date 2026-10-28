@@ -26,6 +26,7 @@
           <SelectItem
             v-for="month in createYear({ dateObj: date })"
             :key="month.toString()"
+            :disabled="isMonthOutOfRange(month)"
             :value="month.month.toString()"
           >
             {{ formatter.custom(toDate(month), { month: 'long' }) }}
@@ -49,15 +50,11 @@
         </SelectTrigger>
         <SelectContent class="max-h-48">
           <SelectItem
-            v-for="yearValue in createDecade({
-              dateObj: calendarDateToday,
-              startIndex: -100,
-              endIndex: 0,
-            })"
-            :key="yearValue.toString()"
-            :value="yearValue.year.toString()"
+            v-for="year in years"
+            :key="year"
+            :value="year.toString()"
           >
-            {{ yearValue.year }}
+            {{ year }}
           </SelectItem>
         </SelectContent>
       </Select>
@@ -71,7 +68,7 @@ import type { DateValue } from '@internationalized/date'
 import { reactiveOmit, useVModel } from '@vueuse/core'
 import { useDateFormatter, useForwardPropsEmits } from 'reka-ui'
 import type { CalendarRootEmits, CalendarRootProps } from 'reka-ui'
-import { createDecade, createYear, toDate } from 'reka-ui/date'
+import { createYear, toDate } from 'reka-ui/date'
 import type { HTMLAttributes } from 'vue'
 
 import { cn } from '@/utils/shadcn'
@@ -100,6 +97,22 @@ const placeholder = useVModel(props, 'modelValue', emit, {
 
 const { locale, t } = useI18n()
 const formatter = useDateFormatter(locale.value)
+
+// without bounds, a century in both directions covers past and future dates
+const years = computed(() => {
+  const yearMinimum = props.minValue?.year ?? calendarDateToday.year - 100
+  const yearMaximum = props.maxValue?.year ?? calendarDateToday.year + 100
+
+  return Array.from(
+    { length: yearMaximum - yearMinimum + 1 },
+    (_, index) => yearMinimum + index,
+  )
+})
+
+const getMonthIndex = (date: DateValue) => date.year * 12 + date.month
+const isMonthOutOfRange = (month: DateValue) =>
+  (!!props.minValue && getMonthIndex(month) < getMonthIndex(props.minValue)) ||
+  (!!props.maxValue && getMonthIndex(month) > getMonthIndex(props.maxValue))
 </script>
 
 <i18n lang="yaml">
