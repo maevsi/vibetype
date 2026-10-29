@@ -61,7 +61,6 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   },
   nuxtEmailRenderer: {
     codeHighlighting: false,
-    emailsDir: 'server/assets/emails',
   },
   ogImage: {
     // X reads the image from the Open Graph tags, so mirroring them into

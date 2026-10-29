@@ -2,9 +2,9 @@ import type Redis from 'ioredis'
 import type { AllowedComponentProps, VNodeProps } from 'vue'
 import { z } from 'zod'
 
-import type EmailAccountPasswordResetRequest from '../assets/emails/EmailAccountPasswordResetRequest.vue'
-import type EmailAccountRegistration from '../assets/emails/EmailAccountRegistration.vue'
-import type EmailEventInvitation from '../assets/emails/EmailEventInvitation.vue'
+import type EmailAccountPasswordResetRequest from '../../app/emails/EmailAccountPasswordResetRequest.vue'
+import type EmailAccountRegistration from '../../app/emails/EmailAccountRegistration.vue'
+import type EmailEventInvitation from '../../app/emails/EmailEventInvitation.vue'
 
 import {
   CHANNEL_NAME_ACCOUNT_PASSWORD_RESET as EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
@@ -38,7 +38,7 @@ export type EmailProps<T extends keyof EmailComponents> = ExtractComponentProps<
   EmailComponents[T]
 >
 
-// file names in the `emailsDir` configured for `nuxt-email-renderer`
+// file names in `app/emails`, where `nuxt-email-renderer` looks for templates
 const emailTemplateNames = {
   [EMAIL_NAME_ACCOUNT_PASSWORD_RESET]: 'EmailAccountPasswordResetRequest',
   [EMAIL_NAME_ACCOUNT_REGISTRATION]: 'EmailAccountRegistration',

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AppText from './base/AppText.vue'
-import { LOGO_CID } from '../../../utils/assets'
+import { LOGO_CID } from '../../../server/utils/assets'
 
 const { logoSource = undefined, locale } = defineProps<{
   logoSource?: string
