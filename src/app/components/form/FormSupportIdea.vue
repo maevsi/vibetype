@@ -1,9 +1,5 @@
 <template>
-  <form
-    ref="formRef"
-    class="flex flex-col gap-4"
-    @submit.prevent="form.handleSubmit"
-  >
+  <form class="flex flex-col gap-4" @submit.prevent="form.handleSubmit">
     <FieldGroup>
       <form.Field v-slot="{ field }" name="itemDescription">
         <Field :data-invalid="isFieldInvalid(field)">
@@ -131,7 +127,6 @@ const emit = defineEmits<{
 
 // form
 const modelError = defineModel<Error>('error')
-const formRef = useTemplateRef<HTMLFormElement>('formRef')
 const captchaIsUsed = ref<boolean>()
 
 const formSchema = z.object({
@@ -175,9 +170,6 @@ const form = useForm({
     }
   },
 })
-
-const submit = () => formRef.value?.requestSubmit()
-defineExpose({ submit })
 
 // template
 const { t } = useI18n()

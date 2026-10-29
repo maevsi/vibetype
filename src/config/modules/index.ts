@@ -8,6 +8,7 @@ import { scriptsConfig } from './scripts'
 import { securityConfig } from './security'
 
 import { SITE_NAME } from '../../node/static'
+import { HTML_VALIDATE_CONFIG } from '../htmlValidate'
 
 export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   // the site exposes personal data (e.g. account profiles) that must not be served to AI crawlers
@@ -51,14 +52,7 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   htmlValidator: {
     failOnError: true,
     logLevel: 'warning',
-    options: {
-      rules: {
-        // combobox-style widgets (e.g. `Select`) correctly point `aria-controls`
-        // at a popup that only exists in the DOM once opened, which this rule
-        // can't distinguish from an actually broken reference
-        'no-missing-references': 'off',
-      },
-    },
+    options: HTML_VALIDATE_CONFIG,
   },
   ...i18nConfig,
   ...pwaConfig,

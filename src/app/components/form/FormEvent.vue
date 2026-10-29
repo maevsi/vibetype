@@ -163,12 +163,8 @@
                     class="flex max-h-(--reka-popover-content-available-height) flex-col items-center gap-3 overflow-y-auto p-3"
                   >
                     <AppCalendar
-                      :max-value="
-                        form.getFieldValue('end')
-                          ? isoToCalendarDateTime(form.getFieldValue('end'))
-                          : undefined
-                      "
-                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :max-value="isoToCalendarDate(form.getFieldValue('end'))"
+                      :model-value="isoToCalendarDate(field.state.value)"
                       :week-starts-on="1"
                       @update:model-value="
                         (date) => applyDateSelection(field, date)
@@ -231,11 +227,9 @@
                   >
                     <AppCalendar
                       :min-value="
-                        form.getFieldValue('start')
-                          ? isoToCalendarDateTime(form.getFieldValue('start'))
-                          : undefined
+                        isoToCalendarDate(form.getFieldValue('start'))
                       "
-                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :model-value="isoToCalendarDate(field.state.value)"
                       :week-starts-on="1"
                       @update:model-value="
                         (date) => applyDateSelection(field, date)
@@ -398,6 +392,7 @@ import {
   fromDate,
   getLocalTimeZone,
   parseAbsoluteToLocal,
+  toCalendarDate,
   toCalendarDateTime,
 } from '@internationalized/date'
 import { toDate } from 'reka-ui/date'
@@ -865,6 +860,9 @@ const dateTimeFormatter = (x?: string) =>
         timeZone,
       })
     : undefined
+// the calendars compare whole days, as their bounds' time of day would otherwise disable the bounding day itself
+const isoToCalendarDate = (value?: string) =>
+  value ? toCalendarDate(parseAbsoluteToLocal(value)) : undefined
 const isoToCalendarDateTime = (value?: string) =>
   value ? toCalendarDateTime(parseAbsoluteToLocal(value)) : undefined
 const applyDateSelection = (field: AnyFieldApi, date?: DateValue) => {

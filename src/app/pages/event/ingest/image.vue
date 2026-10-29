@@ -6,9 +6,10 @@
     <div v-if="!selectedFile" class="flex flex-col gap-4">
       <button
         class="rounded-xl border-2 border-dashed border-gray-300 p-12"
+        type="button"
         @click="triggerFileInput"
       >
-        <div class="flex flex-col items-center gap-4">
+        <span class="flex flex-col items-center gap-4">
           <svg
             class="size-12 text-gray-400"
             fill="none"
@@ -19,11 +20,11 @@
             <circle cx="8.5" cy="8.5" r="1.5" />
             <path d="M20.4 14.5L16 10 4 20" />
           </svg>
-          <div class="flex flex-col gap-2">
-            <h3 class="text-xl font-medium">{{ t('uploadFiles') }}</h3>
-            <p class="text-sm text-gray-500">{{ t('fileTypes') }}</p>
-          </div>
-        </div>
+          <span class="flex flex-col gap-2">
+            <span class="text-xl font-medium">{{ t('uploadFiles') }}</span>
+            <span class="text-sm text-gray-500">{{ t('fileTypes') }}</span>
+          </span>
+        </span>
       </button>
       <ButtonColored
         :aria-label="t('selectFromDevice')"
@@ -34,7 +35,7 @@
       </ButtonColored>
     </div>
     <div v-else class="flex flex-col gap-4">
-      <img class="rounded-md" :src="previewUrl" />
+      <img :alt="t('preview')" class="rounded-md" :src="previewUrl" />
       <div class="flex items-center justify-between">
         <div class="flex gap-4">
           <ButtonColored
@@ -64,7 +65,7 @@
     <input
       ref="fileInput"
       accept="image/png,image/jpeg,image/gif"
-      class="hidden"
+      hidden
       type="file"
       @change="handleFileSelect"
     />
@@ -159,6 +160,7 @@ const uploadFile = async () => {
 de:
   clearAll: Löschen
   fileTypes: PNG, JPG, GIF bis zu 10 MB
+  preview: Vorschau
   replaceImage: Bild ersetzen
   selectFromDevice: Vom Gerät auswählen
   title: Bild laden
@@ -168,6 +170,7 @@ de:
 en:
   clearAll: Clear
   fileTypes: PNG, JPG, GIF up to 10 MB
+  preview: Preview
   replaceImage: Replace image
   selectFromDevice: Select from device
   title: Ingest image

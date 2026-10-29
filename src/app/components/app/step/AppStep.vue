@@ -1,5 +1,5 @@
 <template>
-  <slot v-bind="{ 'aria-hidden': !isActive, class: 'aria-hidden:hidden' }" />
+  <slot v-bind="{ hidden: !isActive }" />
 </template>
 
 <script setup lang="ts">

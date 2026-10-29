@@ -16,6 +16,7 @@
     "dev": "pnpm --dir src run dev",
     "generate": "pnpm --dir src run generate",
     "lint": "pnpm -r lint",
+    "prepare": "git config core.hooksPath .githooks 2>/dev/null || true",
     "start": "pnpm --dir src run start",
     "start:development": "pnpm --dir src run start:development",
     "start:node": "pnpm --dir src run start:node",

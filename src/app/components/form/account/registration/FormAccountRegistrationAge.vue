@@ -1,9 +1,5 @@
 <template>
-  <form
-    ref="formRef"
-    class="flex flex-col gap-4"
-    @submit.prevent="form.handleSubmit"
-  >
+  <form class="flex flex-col gap-4" @submit.prevent="form.handleSubmit">
     <form.Field
       v-slot="{ field }"
       name="birthDate"
@@ -82,7 +78,6 @@ const emit = defineEmits<{
 
 // form
 const { t, locale } = useI18n()
-const formRef = useTemplateRef<HTMLFormElement>('formRef')
 
 const formSchema = z.object({
   birthDate: z
@@ -111,11 +106,6 @@ const form = useForm({
   onSubmit: async ({ value }) => {
     emit('success', value.birthDate)
   },
-})
-
-const submit = () => formRef.value?.requestSubmit()
-defineExpose({
-  submit,
 })
 
 // calendar

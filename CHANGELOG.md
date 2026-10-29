@@ -1,3 +1,9 @@
+## [16.1.2](https://github.com/maevsi/vibetype/compare/16.1.1...16.1.2) (2026-10-28)
+
+### Bug Fixes
+
+* **event:** align date picker range with start and end ([#2447](https://github.com/maevsi/vibetype/issues/2447)) ([c6ecd13](https://github.com/maevsi/vibetype/commit/c6ecd130fa595c0a354ef4e45e57ee9cab53668a))
+
 ## [16.1.1](https://github.com/maevsi/vibetype/compare/16.1.0...16.1.1) (2026-10-27)
 
 ### Bug Fixes

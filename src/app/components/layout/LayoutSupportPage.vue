@@ -27,12 +27,13 @@
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
-        <slot />
+        <slot :form-id="templateIdForm" />
         <template #bottom>
           <ButtonColored
             :aria-label="formButton"
             class="w-full max-w-md"
-            @click="emit('submit')"
+            :form="templateIdForm"
+            type="submit"
           >
             {{ formButton }}
           </ButtonColored>
@@ -74,13 +75,10 @@ defineProps<{
   title: string
 }>()
 
-const emit = defineEmits<{
-  submit: []
-}>()
-
 const error = defineModel<Error>('error')
 const step = defineModel<string>('step', { required: true })
 
 const store = useStore()
+const templateIdForm = useId()
 const templateIdTitle = useId()
 </script>
