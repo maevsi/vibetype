@@ -26,17 +26,18 @@ const t = locales[locale]
 </script>
 
 <template>
-  <ESection padding-top="30px">
+  <ESection style="padding-top: 30px">
     <ERow>
       <EColumn>
-        <EImg
-          :alt="t.logo(t.siteName)"
-          height="75"
-          :href="siteUrl"
-          :src="logoSource || `cid:${LOGO_CID}`"
-          style="margin: auto"
-          width="300"
-        />
+        <ELink :href="siteUrl">
+          <EImg
+            :alt="t.logo(t.siteName)"
+            height="75"
+            :src="logoSource || `cid:${LOGO_CID}`"
+            style="margin: auto"
+            width="300"
+          />
+        </ELink>
       </EColumn>
     </ERow>
   </ESection>

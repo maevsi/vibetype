@@ -172,13 +172,14 @@ const t = locales[locale]
     <ESection style="padding-top: 20px">
       <ERow>
         <EColumn width="12%">
-          <EImg
-            :alt="t.profilePicture"
-            height="50"
-            :href="eventAuthorProfileHref"
-            :src="eventAuthorProfilePictureSrc"
-            width="50"
-          />
+          <ELink :href="eventAuthorProfileHref">
+            <EImg
+              :alt="t.profilePicture"
+              height="50"
+              :src="eventAuthorProfilePictureSrc"
+              width="50"
+            />
+          </ELink>
         </EColumn>
         <EColumn width="88%">
           <AppText style="font-style: italic; line-height: 9px">

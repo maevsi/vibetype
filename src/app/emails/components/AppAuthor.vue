@@ -28,13 +28,14 @@ const t = locales[locale]
   <ESection style="padding-top: 20px">
     <ERow>
       <EColumn width="12%">
-        <EImg
-          :alt="t.profilePicture"
-          height="50"
-          :href="authorWebsite"
-          :src="`cid:${PROFILE_PICTURE_JONAS_CID}`"
-          width="50"
-        />
+        <ELink :href="authorWebsite">
+          <EImg
+            :alt="t.profilePicture"
+            height="50"
+            :src="`cid:${PROFILE_PICTURE_JONAS_CID}`"
+            width="50"
+          />
+        </ELink>
       </EColumn>
       <EColumn width="88%">
         <AppText style="line-height: 9px">
