@@ -28,6 +28,7 @@
           <FieldContent>
             <FormAuthInputPassword
               :aria-invalid="!!passwordValidation.error.value"
+              autocomplete="current-password"
               :model-value="field.state.value"
               :placeholder="t('password')"
               @blur="handlePasswordBlur(field)"
