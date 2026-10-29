@@ -12,12 +12,11 @@
     "
     :disabled="disabled || loading"
     :type
-    v-bind="$attrs"
     @click="$emit('click')"
   >
-    <div
+    <span
       v-if="loading"
-      class="size-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+      class="inline-block size-4 animate-spin rounded-full border-2 border-current border-t-transparent"
     />
     <span v-if="loading" class="inline">
       <slot name="loading">{{ t('globalLoading') }}</slot>

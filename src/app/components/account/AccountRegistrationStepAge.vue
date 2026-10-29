@@ -6,7 +6,7 @@
           {{ t('reason') }}
         </TypographyBodyMedium>
         <FormAccountRegistrationAge
-          ref="form"
+          :id="templateIdForm"
           @success="emit('success', $event)"
         />
       </div>
@@ -16,7 +16,8 @@
       <ButtonColored
         :aria-label="t('next')"
         class="w-full max-w-md"
-        @click="templateForm?.submit"
+        :form="templateIdForm"
+        type="submit"
       >
         {{ t('next') }}
       </ButtonColored>
@@ -31,7 +32,7 @@ const emit = defineEmits<{
 }>()
 
 // template
-const templateForm = useTemplateRef('form')
+const templateIdForm = useId()
 const { t } = useI18n()
 </script>
 

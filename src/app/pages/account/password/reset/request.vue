@@ -1,9 +1,9 @@
 <template>
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
-    <h1 :id="templateIdTitle" class="sr-only">
+    <h1 v-if="step !== 'default'" :id="templateIdTitle" class="sr-only">
       {{ title }}
     </h1>
-    <FormAuthPageHeader v-if="step === 'default'" @back="navigateBack">
+    <FormAuthPageHeader v-else :title-id="templateIdTitle" @back="navigateBack">
       <template #title>{{ t('title') }}</template>
       <template #subtitle>{{ t('subtitle') }}</template>
     </FormAuthPageHeader>
