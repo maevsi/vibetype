@@ -1,5 +1,6 @@
 <template>
   <div class="flex flex-col gap-4">
+    <h1 class="sr-only">{{ title }}</h1>
     <!-- TODO: fill page with content instead (https://github.com/maevsi/vibetype/issues/1266) -->
     <CardStateInfo>
       {{ t('soon') }}

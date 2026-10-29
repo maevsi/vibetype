@@ -42,18 +42,18 @@
               <span class="text-sm text-gray-500 dark:text-gray-400">
                 {{ t('agreePrefix') }}
                 <NuxtLinkLocale
-                  class="font-semibold text-green-600"
+                  class="font-semibold text-(--semantic-accent-text)"
                   to="docs-legal-terms"
                   >{{ t('termsOfService') }}</NuxtLinkLocale
                 >{{ t('legalComma') }}
                 <NuxtLinkLocale
-                  class="font-semibold text-green-600"
+                  class="font-semibold text-(--semantic-accent-text)"
                   to="docs-legal-imprint"
                   >{{ t('imprint') }}</NuxtLinkLocale
                 >
                 {{ t('and') }}
                 <NuxtLinkLocale
-                  class="font-semibold text-green-600"
+                  class="font-semibold text-(--semantic-accent-text)"
                   to="docs-legal-privacy"
                   >{{ t('privacyPolicy') }}</NuxtLinkLocale
                 >
@@ -69,7 +69,7 @@
           <p class="text-center text-[15px] text-gray-500 dark:text-gray-400">
             {{ t('alreadyHaveAccount') }}
             <NuxtLinkLocale
-              class="font-semibold text-green-600"
+              class="font-semibold text-(--semantic-accent-text)"
               to="session-create"
               >{{ t('signInLink') }}</NuxtLinkLocale
             >

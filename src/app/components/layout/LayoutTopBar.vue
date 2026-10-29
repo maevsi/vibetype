@@ -6,9 +6,11 @@
       <slot v-if="$slots.back" name="back" />
       <div v-else class="size-6" />
     </div>
-    <TypographyH6 class="flex-1 text-center">
-      <slot />
-    </TypographyH6>
+    <h1 class="flex-1 text-center">
+      <TypographyH6>
+        <slot />
+      </TypographyH6>
+    </h1>
     <div class="flex p-3">
       <slot v-if="$slots.close" name="close" />
       <div v-else class="size-6" />
