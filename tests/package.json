@@ -8,7 +8,7 @@
     "eslint": "10.13.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.7",
-    "html-validate": "9.4.2",
+    "html-validate": "11.17.0",
     "jose": "6.2.13",
     "typescript": "6.0.3",
     "typescript-eslint": "8.72.0",
