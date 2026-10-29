@@ -23,7 +23,6 @@ defineOptions({
       <title>
         {{ title }}
       </title>
-      <!-- TODO: fix style inclusion for fonts -->
       <!-- TODO: update font to Raleway -->
       <EFont
         :fallback-font-family="['Helvetica', 'Arial', 'sans-serif']"
@@ -33,21 +32,6 @@ defineOptions({
           format: 'woff2',
         }"
       />
-      <!-- eslint-disable-next-line @intlify/vue-i18n/no-raw-text -->
-      <!-- <style>
-        @font-face {
-          font-family: Manrope;
-          font-style: normal;
-          font-weight: 400;
-          mso-font-alt: Helvetica; /* stylelint-disable-line property-no-unknown */ /* stylelint-disable-line value-keyword-case */
-          src: url('https://fonts.gstatic.com/s/manrope/v15/xn7gYHE41ni1AdIRggexSg.woff2')
-            format(woff2);
-        }
-
-        * {
-          font-family: Manrope, Helvetica, Arial, sans-serif;
-        }
-      </style> -->
     </EHead>
     <EBody style="margin: 0">
       <EContainer
