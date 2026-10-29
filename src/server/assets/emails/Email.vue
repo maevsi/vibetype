@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { Container, Font, Head, Html, Body } from '@vue-email/components'
+import { Body } from '@vue-email/body'
+import { Container } from '@vue-email/container'
+import { Font } from '@vue-email/font'
+import { Head } from '@vue-email/head'
+import { Html } from '@vue-email/html'
 
 import AppLogo from './components/AppLogo.vue'
 
