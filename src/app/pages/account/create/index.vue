@@ -19,7 +19,6 @@
           @submit.prevent="handleEmailContinue"
         >
           <FormAuthInput
-            :aria-label="t('emailPlaceholder')"
             :model-value="emailField.value.value"
             :placeholder="t('emailPlaceholder')"
             type="email"
@@ -105,7 +104,6 @@
         >
           <div class="relative">
             <FormAuthInput
-              :aria-label="t('usernamePlaceholder')"
               :model-value="usernameField.value.value"
               :placeholder="t('usernamePlaceholder')"
               type="text"

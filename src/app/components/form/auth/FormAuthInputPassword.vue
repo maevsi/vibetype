@@ -3,6 +3,7 @@
     <Input
       :id
       :aria-invalid="ariaInvalid"
+      :aria-label="placeholder"
       :class="[
         cn(
           'h-13 rounded-2xl border-transparent bg-gray-100 pr-12 pl-12 text-[17px] dark:bg-gray-800',
