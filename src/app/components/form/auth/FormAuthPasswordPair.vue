@@ -3,6 +3,7 @@
     <div>
       <FormAuthInputPassword
         :aria-invalid="!!passwordError"
+        autocomplete="new-password"
         :model-value="passwordValue"
         :placeholder="passwordPlaceholder"
         @blur="$emit('password-blur')"
@@ -20,6 +21,7 @@
     <div>
       <FormAuthInputPassword
         :aria-invalid="!!repetitionError"
+        autocomplete="new-password"
         :model-value="repetitionValue"
         :placeholder="repetitionPlaceholder"
         @blur="$emit('repetition-blur')"
