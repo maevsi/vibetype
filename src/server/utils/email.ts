@@ -2,9 +2,9 @@ import type Redis from 'ioredis'
 import type { AllowedComponentProps, VNodeProps } from 'vue'
 import { z } from 'zod'
 
-import type EmailAccountPasswordResetRequest from '../../app/emails/EmailAccountPasswordResetRequest.vue'
-import type EmailAccountRegistration from '../../app/emails/EmailAccountRegistration.vue'
-import type EmailEventInvitation from '../../app/emails/EmailEventInvitation.vue'
+import type EmailAccountPasswordResetRequest from '~/emails/EmailAccountPasswordResetRequest.vue'
+import type EmailAccountRegistration from '~/emails/EmailAccountRegistration.vue'
+import type EmailEventInvitation from '~/emails/EmailEventInvitation.vue'
 
 import {
   CHANNEL_NAME_ACCOUNT_PASSWORD_RESET as EMAIL_NAME_ACCOUNT_PASSWORD_RESET,

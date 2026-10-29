@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PROFILE_PICTURE_JONAS_CID } from '../../../server/utils/assets'
+import { PROFILE_PICTURE_JONAS_CID } from '#shared/utils/assets'
 import AppText from './base/AppText.vue'
 
 const { locale } = defineProps<{

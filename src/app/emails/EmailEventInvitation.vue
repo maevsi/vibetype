@@ -2,7 +2,7 @@
 import AppButton from './components/base/AppButton.vue'
 import AppText from './components/base/AppText.vue'
 import AppFooter from './components/AppFooter.vue'
-import Email from './Email.vue'
+import Email from './components/Email.vue'
 
 const {
   emailAddress,
