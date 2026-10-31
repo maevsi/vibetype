@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import AppLogo from './AppLogo.vue'
 
-const {
-  locale,
-  logoSource = undefined,
-  title,
-} = defineProps<{
+const { locale, title } = defineProps<{
   locale: AppLocale
-  logoSource?: string
   title: string
 }>()
 
@@ -35,7 +30,7 @@ defineOptions({
       <EContainer
         style="background-color: #f0f0f0; max-width: 42.5em; padding: 0 2.5em"
       >
-        <AppLogo :locale :logo-source />
+        <AppLogo :locale />
         <slot />
       </EContainer>
     </EBody>

@@ -17,7 +17,6 @@ const {
   eventStart,
   eventVisibility,
   locale,
-  logoSource = undefined,
   timeZone = undefined,
 } = defineProps<{
   emailAddress: string
@@ -32,7 +31,6 @@ const {
   eventStart: string
   eventVisibility: string
   locale: AppLocale
-  logoSource?: string
   timeZone?: string
 }>()
 
@@ -99,7 +97,7 @@ const t = locales[locale]
 </script>
 
 <template>
-  <Email :locale :logo-source :title="t.title(eventName)">
+  <Email :locale :title="t.title(eventName)">
     <ESection style="padding-top: 30px">
       <ERow style="width: 45%">
         <EColumn>

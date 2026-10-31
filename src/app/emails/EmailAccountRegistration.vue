@@ -9,8 +9,6 @@ const {
   emailAddress,
   emailAddressVerificationLink,
   locale,
-  logoSource = undefined,
-  profilePictureSource = undefined,
   timeZone = undefined,
   username,
   validUntil,
@@ -18,8 +16,6 @@ const {
   emailAddress: string
   emailAddressVerificationLink: string
   locale: AppLocale
-  logoSource?: string
-  profilePictureSource?: string
   timeZone?: string
   username: string
   validUntil: string
@@ -56,7 +52,7 @@ const t = locales[locale]
 </script>
 
 <template>
-  <Email :locale :logo-source :title="t.title">
+  <Email :locale :title="t.title">
     <ESection style="padding-top: 30px">
       <ERow style="width: 45%">
         <EColumn>
@@ -100,7 +96,7 @@ const t = locales[locale]
         </EColumn>
       </ERow>
     </ESection>
-    <AppAuthor :locale :profile-picture-source />
+    <AppAuthor :locale />
     <AppFooter :email-address :locale />
   </Email>
 </template>

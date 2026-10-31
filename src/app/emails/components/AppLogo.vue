@@ -2,8 +2,7 @@
 import AppText from './base/AppText.vue'
 import { LOGO_CID } from '#shared/utils/assets'
 
-const { logoSource = undefined, locale } = defineProps<{
-  logoSource?: string
+const { locale } = defineProps<{
   locale: AppLocale
 }>()
 
@@ -33,7 +32,7 @@ const t = locales[locale]
           <EImg
             :alt="t.logo(t.siteName)"
             height="75"
-            :src="logoSource || `cid:${LOGO_CID}`"
+            :src="`cid:${LOGO_CID}`"
             style="margin: auto"
             width="300"
           />

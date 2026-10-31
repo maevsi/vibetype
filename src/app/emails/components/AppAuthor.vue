@@ -2,9 +2,8 @@
 import { PROFILE_PICTURE_JONAS_CID } from '#shared/utils/assets'
 import AppText from './base/AppText.vue'
 
-const { locale, profilePictureSource = undefined } = defineProps<{
+const { locale } = defineProps<{
   locale: AppLocale
-  profilePictureSource?: string
 }>()
 
 // data
@@ -33,7 +32,7 @@ const t = locales[locale]
           <EImg
             :alt="t.profilePicture"
             height="50"
-            :src="profilePictureSource || `cid:${PROFILE_PICTURE_JONAS_CID}`"
+            :src="`cid:${PROFILE_PICTURE_JONAS_CID}`"
             width="50"
           />
         </ELink>
