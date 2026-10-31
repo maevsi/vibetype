@@ -1,3 +1,9 @@
+## [16.3.2](https://github.com/maevsi/vibetype/compare/16.3.1...16.3.2) (2026-10-31)
+
+### Bug Fixes
+
+* **test:** check pages signed in, in dark mode and with dynamic segments ([#2462](https://github.com/maevsi/vibetype/issues/2462)) ([b40d3d6](https://github.com/maevsi/vibetype/commit/b40d3d644b3fad04d58ac4ad1bff08fcd8bbf186))
+
 ## [16.3.1](https://github.com/maevsi/vibetype/compare/16.3.0...16.3.1) (2026-10-31)
 
 ### Bug Fixes
