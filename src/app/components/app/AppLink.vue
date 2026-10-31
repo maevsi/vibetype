@@ -57,7 +57,7 @@ const classComputed = computed(() =>
   [
     'rounded',
     ...(isColored
-      ? ['text-(--semantic-accent-text) dark:text-link-bright']
+      ? ['text-(--semantic-accent-text) dark:text-(--accent-strong)']
       : []),
     ...(isDisabled ? ['disabled'] : []),
     ...(isUnderlined ? ['underline'] : []),

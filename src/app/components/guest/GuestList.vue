@@ -56,7 +56,9 @@
               <LayoutTh scope="col">
                 {{ t('contact') }}
               </LayoutTh>
-              <LayoutTh scope="col" />
+              <LayoutTh scope="col">
+                <span class="sr-only">{{ t('actions') }}</span>
+              </LayoutTh>
             </tr>
           </LayoutThead>
           <LayoutTbody>
@@ -324,6 +326,7 @@ Chart.register(
 <i18n lang="yaml">
 de:
   accepted: akzeptiert
+  actions: Aktionen
   canceled: abgelehnt
   contact: Kontakt
   contactSelect: Kontakt auswählen
@@ -339,6 +342,7 @@ de:
   noFeedback: keine Rückmeldung
 en:
   accepted: accepted
+  actions: Actions
   canceled: declined
   contact: Contact
   contactSelect: Select Contact

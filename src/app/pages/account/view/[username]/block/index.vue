@@ -14,7 +14,6 @@
         <ul
           v-if="blockedAccountsFiltered?.length"
           class="flex flex-col divide-y divide-(--faint-line)"
-          role="list"
         >
           <li
             v-for="blockedAccount in blockedAccountsFiltered"

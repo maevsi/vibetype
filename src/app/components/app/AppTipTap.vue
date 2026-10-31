@@ -38,10 +38,10 @@
           :title="t('heading1')"
           @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
         >
-          <div class="align-end flex">
+          <span class="align-end flex">
             <AppIconHeading />
             <span>{{ t('number1') }}</span>
-          </div>
+          </span>
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('heading2')"
@@ -54,10 +54,10 @@
           :title="t('heading2')"
           @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
         >
-          <div class="align-end flex">
+          <span class="align-end flex">
             <AppIconHeading />
             <span>{{ t('number2') }}</span>
-          </div>
+          </span>
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('heading3')"
@@ -70,10 +70,10 @@
           :title="t('heading3')"
           @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
         >
-          <div class="align-end flex">
+          <span class="align-end flex">
             <AppIconHeading />
             <span>{{ t('number3') }}</span>
-          </div>
+          </span>
         </ButtonIcon>
       </div>
       <div class="flex gap-1">
@@ -282,7 +282,8 @@ import { TextAlign } from '@tiptap/extension-text-align'
 import { StarterKit } from '@tiptap/starter-kit'
 import { debounce } from 'lodash-es'
 
-const { value } = defineProps<{
+const { ariaLabel, value } = defineProps<{
+  ariaLabel: string
   value: string | undefined
 }>()
 
@@ -296,6 +297,7 @@ const editor = useEditor({
   content: value,
   editorProps: {
     attributes: {
+      'aria-label': ariaLabel,
       class:
         'rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) flex-1 px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-none min-h-[100px]',
     },
@@ -433,9 +435,9 @@ de:
   formatAlignLeft: Links ausrichten
   formatAlignRight: Rechts ausrichten
   formatAlignJustify: Blocksatz
-  heading1: Überschrift (groß)
-  heading2: Überschrift (mittelgroß)
-  heading3: Überschrift (klein)
+  heading1: Überschrift 1 (groß)
+  heading2: Überschrift 2 (mittelgroß)
+  heading3: Überschrift 3 (klein)
   horizontalRule: Horizontaler Trennstrich
   italic: Kursiv
   link: Link
@@ -457,9 +459,9 @@ en:
   formatAlignLeft: Align left
   formatAlignRight: Align right
   formatAlignJustify: Justified
-  heading1: Heading (large)
-  heading2: Heading (medium)
-  heading3: Heading (small)
+  heading1: Heading 1 (large)
+  heading2: Heading 2 (medium)
+  heading3: Heading 3 (small)
   horizontalRule: Horizontal rule
   italic: Italic
   link: Link

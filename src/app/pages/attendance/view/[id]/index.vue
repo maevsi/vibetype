@@ -4,6 +4,7 @@
   </div>
   <AppError v-else-if="!attendance" :error="{ status: 404 }" />
   <div v-else class="flex flex-col gap-4">
+    <h1 class="sr-only">{{ title }}</h1>
     <section class="flex flex-col gap-4">
       <span class="text-3xl font-bold">
         {{ t('contact') }}

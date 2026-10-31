@@ -17,9 +17,11 @@
       >
         <AppIconBack />
       </AppButton>
-      <TypographyH3 class="justify-self-center">
-        {{ t('title') }}
-      </TypographyH3>
+      <h1 class="justify-self-center">
+        <TypographyH3>
+          {{ t('title') }}
+        </TypographyH3>
+      </h1>
       <div />
     </div>
     <div class="flex flex-col gap-3">
@@ -38,9 +40,9 @@
             @click="showModalUploadSelection"
           >
             <TypographyLabel v-slot="attributes">
-              <div v-bind="attributes">
+              <span v-bind="attributes">
                 {{ t('replace') }}
-              </div>
+              </span>
             </TypographyLabel>
           </ButtonColored>
           <ButtonColored
@@ -49,9 +51,9 @@
             @click="openProfilePictureRemoveDrawer"
           >
             <TypographyLabel v-slot="attributes">
-              <div v-bind="attributes">
+              <span v-bind="attributes">
                 {{ t('remove') }}
-              </div>
+              </span>
             </TypographyLabel>
           </ButtonColored>
         </div>

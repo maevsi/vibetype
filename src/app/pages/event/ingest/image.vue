@@ -22,7 +22,9 @@
           </svg>
           <span class="flex flex-col gap-2">
             <span class="text-xl font-medium">{{ t('uploadFiles') }}</span>
-            <span class="text-sm text-gray-500">{{ t('fileTypes') }}</span>
+            <span class="text-sm text-gray-500 dark:text-gray-400">{{
+              t('fileTypes')
+            }}</span>
           </span>
         </span>
       </button>
