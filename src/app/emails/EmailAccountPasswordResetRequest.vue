@@ -1,55 +1,53 @@
 <script setup lang="ts">
-import { Column } from '@vue-email/column'
-import { Row } from '@vue-email/row'
-import { Section } from '@vue-email/section'
-
 import AppButton from './components/base/AppButton.vue'
 import AppText from './components/base/AppText.vue'
 import AppAuthor from './components/AppAuthor.vue'
 import AppFooter from './components/AppFooter.vue'
-import Email from './Email.vue'
+import Email from './components/Email.vue'
 
 const {
   emailAddress,
-  emailAddressVerificationLink,
   locale,
   logoSource = undefined,
+  passwordResetVerificationLink,
   timeZone = undefined,
-  username,
   validUntil,
 } = defineProps<{
   emailAddress: string
-  emailAddressVerificationLink: string
   locale: AppLocale
   logoSource?: string
+  passwordResetVerificationLink: string
   timeZone?: string
-  username: string
   validUntil: string
 }>()
 
 const dateTimeFormatter = getEmailDateTimeFormatter(locale, timeZone)
 const locales = {
   de: {
-    button: 'Registrierung abschließen',
-    header: (username: string) => `Willkommen, ${username}!`,
+    button: 'Passwort zurücksetzen',
+    header: () => `Willkommen zurück!`,
     paragraph1: (siteName: string) =>
-      `Vielen Dank für deine Anmeldung bei ${siteName} - wir freuen uns, dass du dabei bist!`,
+      `Es wurde eine Anfrage zum Zurücksetzen des Kennworts für dein ${siteName}-Konto gestellt.`,
     paragraph2:
-      'Bitte klicke auf den unten stehenden Button, um die Registrierung abzuschließen und dein Profil einzurichten.',
+      'Wenn du das warst, klicke auf den unten stehenden Button, um ein neues Passwort zu vergeben.',
+    paragraph3:
+      'Wenn du das nicht warst, kontaktiere uns bitte so schnell wie möglich unter der folgenden E-Mail-Adresse.',
     siteName: 'Vibetype'.toUpperCase(),
-    title: 'Willkommen',
+    title: 'Passwort zurücksetzen',
     validUntil: (validUntil: string) =>
       `Diese Anfrage ist bis zum ${dateTimeFormatter.format(new Date(validUntil))} gültig.`,
   },
   en: {
-    button: 'Complete registration',
-    header: (username: string) => `Welcome, ${username}!`,
+    button: 'Reset password',
+    header: () => `Welcome back!`,
     paragraph1: (siteName: string) =>
-      `Thanks so much for joining ${siteName} — we're thrilled to have you!`,
+      `A request to reset the password for your ${siteName} account has been initiated.`,
     paragraph2:
-      'Please click on the button below to complete your registration and set up your profile.',
+      'If that was you, click on the button below to set a new password.',
+    paragraph3:
+      "If that hasn't been you, please contact us as soon as possible using the email address below.",
     siteName: 'Vibetype'.toUpperCase(),
-    title: 'Welcome',
+    title: 'Reset password',
     validUntil: (validUntil: string) =>
       `This request is valid until ${dateTimeFormatter.format(new Date(validUntil))}.`,
   },
@@ -59,9 +57,9 @@ const t = locales[locale]
 
 <template>
   <Email :locale :logo-source :title="t.title">
-    <Section style="padding-top: 30px">
-      <Row style="width: 45%">
-        <Column>
+    <ESection style="padding-top: 30px">
+      <ERow style="width: 45%">
+        <EColumn>
           <AppText
             style="
               font-weight: 700;
@@ -70,14 +68,14 @@ const t = locales[locale]
               text-align: center;
             "
           >
-            {{ t.header(username) }}
+            {{ t.header() }}
           </AppText>
-        </Column>
-      </Row>
-    </Section>
-    <Section>
-      <Row>
-        <Column>
+        </EColumn>
+      </ERow>
+    </ESection>
+    <ESection>
+      <ERow>
+        <EColumn>
           <AppText>
             {{ t.paragraph1(t.siteName) }}
           </AppText>
@@ -85,7 +83,7 @@ const t = locales[locale]
             {{ t.paragraph2 }}
           </AppText>
           <AppText style="margin: 0; margin-top: 32px; text-align: center">
-            <AppButton :href="emailAddressVerificationLink">
+            <AppButton :href="passwordResetVerificationLink">
               {{ t.button }}
             </AppButton>
           </AppText>
@@ -94,14 +92,27 @@ const t = locales[locale]
               color: #555;
               font-size: 13px;
               margin-top: 8px;
+              margin-bottom: 32px;
               text-align: center;
             "
           >
             {{ t.validUntil(validUntil) }}
           </AppText>
-        </Column>
-      </Row>
-    </Section>
+          <AppText>
+            {{ t.paragraph3 }}
+          </AppText>
+          <AppText>
+            <ELink
+              href="mailto:contact+password-reset@maev.si"
+              style="text-decoration: underline"
+            >
+              <!-- eslint-disable-next-line @intlify/vue-i18n/no-raw-text -->
+              {{ 'contact+password-reset@maev.si' }}
+            </ELink>
+          </AppText>
+        </EColumn>
+      </ERow>
+    </ESection>
     <AppAuthor :locale />
     <AppFooter :email-address :locale />
   </Email>

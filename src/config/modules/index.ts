@@ -59,6 +59,9 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
   linkChecker: {
     failOnError: true,
   },
+  nuxtEmailRenderer: {
+    codeHighlighting: false,
+  },
   ogImage: {
     // X reads the image from the Open Graph tags, so mirroring them into
     // `twitter:image` tags only grows every page's head

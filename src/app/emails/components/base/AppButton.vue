@@ -1,9 +1,5 @@
-<script setup lang="ts">
-import { Button } from '@vue-email/button'
-</script>
-
 <template>
-  <Button
+  <EButton
     style="
       background-color: #000;
       border-radius: 9999px;
@@ -13,5 +9,5 @@ import { Button } from '@vue-email/button'
     "
   >
     <slot />
-  </Button>
+  </EButton>
 </template>

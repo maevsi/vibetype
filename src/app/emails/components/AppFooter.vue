@@ -1,9 +1,4 @@
 <script setup lang="ts">
-import { Column } from '@vue-email/column'
-import { Link } from '@vue-email/link'
-import { Row } from '@vue-email/row'
-import { Section } from '@vue-email/section'
-
 import AppText from './base/AppText.vue'
 
 const { emailAddress, locale } = defineProps<{
@@ -24,18 +19,18 @@ const t = locales[locale]
 </script>
 
 <template>
-  <Section>
-    <Row>
-      <Column>
+  <ESection>
+    <ERow>
+      <EColumn>
         <AppText style="font-size: 13px; text-align: center">
-          <Link
+          <ELink
             :href="`mailto:contact+unsubscribe@maev.si?subject=Unsubscribe%20${emailAddress}`"
             style="color: #60a5fa; text-decoration: underline"
           >
             {{ t.unsubscribe }}
-          </Link>
+          </ELink>
         </AppText>
-      </Column>
-    </Row>
-  </Section>
+      </EColumn>
+    </ERow>
+  </ESection>
 </template>

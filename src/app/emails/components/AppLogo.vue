@@ -1,11 +1,6 @@
 <script setup lang="ts">
-import { Column } from '@vue-email/column'
-import { Img } from '@vue-email/img'
-import { Row } from '@vue-email/row'
-import { Section } from '@vue-email/section'
-
 import AppText from './base/AppText.vue'
-import { LOGO_CID } from '../../../utils/assets'
+import { LOGO_CID } from '#shared/utils/assets'
 
 const { logoSource = undefined, locale } = defineProps<{
   logoSource?: string
@@ -31,27 +26,28 @@ const t = locales[locale]
 </script>
 
 <template>
-  <Section padding-top="30px">
-    <Row>
-      <Column>
-        <Img
-          :alt="t.logo(t.siteName)"
-          height="75"
-          :href="siteUrl"
-          :src="logoSource || `cid:${LOGO_CID}`"
-          style="margin: auto"
-          width="300"
-        />
-      </Column>
-    </Row>
-  </Section>
-  <Section>
-    <Row width="100%">
-      <Column>
+  <ESection style="padding-top: 30px">
+    <ERow>
+      <EColumn>
+        <ELink :href="siteUrl">
+          <EImg
+            :alt="t.logo(t.siteName)"
+            height="75"
+            :src="logoSource || `cid:${LOGO_CID}`"
+            style="margin: auto"
+            width="300"
+          />
+        </ELink>
+      </EColumn>
+    </ERow>
+  </ESection>
+  <ESection>
+    <ERow width="100%">
+      <EColumn>
         <AppText style="font-size: 14px; margin: 0; text-align: center">
           {{ t.subtitle }}
         </AppText>
-      </Column>
-    </Row>
-  </Section>
+      </EColumn>
+    </ERow>
+  </ESection>
 </template>

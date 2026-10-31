@@ -2,7 +2,7 @@ export default {
   extends: ['stylelint-config-standard', 'stylelint-config-recommended-vue'],
   overrides: [
     {
-      files: ['server/assets/emails/**/*.vue'],
+      files: ['app/emails/**/*.vue'],
       rules: {
         'no-invalid-position-declaration': null,
       },
