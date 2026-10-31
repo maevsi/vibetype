@@ -103,6 +103,12 @@ export default defineNuxtConfig({
         xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection on forward authentication (https://github.com/maevsi/vibetype/issues/1603)
       },
     },
+    '/api/internal/service/tusd': {
+      csurf: false, // tusd's http hooks carry no csrf token
+    },
+    '/api/service/firebase/notification': {
+      csurf: false, // called by services, authenticated by secret
+    },
   },
   router: {
     options: {
