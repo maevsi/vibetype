@@ -191,11 +191,8 @@ export const GET_CSP = ({
       ...(process.env.NODE_ENV === 'development'
         ? {
             'connect-src': [
-              // TODO: use first two lines only once nuxt content fix is merged and released (https://github.com/nuxt/content/pull/3344)
               `ws://${siteUrl.hostname}:4000/ws`, // hot reload
               `wss://${siteUrl.hostname}:4000/ws`, // hot reload
-              `ws://0.0.0.0:4000/ws`, // hot reload
-              `wss://0.0.0.0:4000/ws`, // hot reload
             ],
           }
         : {}),
@@ -241,10 +238,10 @@ export const GET_CSP = ({
             // `${siteUrl}_nitro/openapi.json`,
             // `${siteUrl}_nitro/swagger`, */,
             // 'script-src-elem': [
-            //   'https://cdn.jsdelivr.net/npm/', // swagger // TODO: increase precision (https://github.com/unjs/nitro/issues/1757)
+            //   'https://cdn.jsdelivr.net/npm/', // swagger // TODO: increase precision (https://github.com/unjs/openapi-renderer/issues/4)
             // ],
             // 'style-src': [
-            //   'https://cdn.jsdelivr.net/npm/', // swagger // TODO: increase precision (https://github.com/unjs/nitro/issues/1757)
+            //   'https://cdn.jsdelivr.net/npm/', // swagger // TODO: increase precision (https://github.com/unjs/openapi-renderer/issues/4)
             // ],
           }
         : {}),

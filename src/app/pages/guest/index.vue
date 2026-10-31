@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-4">
     <h1 class="sr-only">{{ title }}</h1>
-    <!-- TODO: fill page with content instead (https://github.com/maevsi/vibetype/issues/1266) -->
+    <!-- TODO: fill page with content instead (https://github.com/maevsi/vibetype/issues/159) -->
     <CardStateInfo>
       {{ t('soon') }}
     </CardStateInfo>
@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 defineRouteRules({
-  robots: false, // TODO: reactive once page is filled with content (https://github.com/maevsi/vibetype/issues/1266)
+  robots: false, // TODO: reactive once page is filled with content (https://github.com/maevsi/vibetype/issues/159)
 })
 
 const { t } = useI18n()

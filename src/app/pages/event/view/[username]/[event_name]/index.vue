@@ -238,7 +238,7 @@ const eventDescriptionTemplate = computed(() => {
     ADD_ATTR: ['target'],
   })
 
-  // TODO: split event description and guest invitation texts (https://github.com/maevsi/vibetype/issues/211)
+  // TODO: split event description and guest invitation texts (https://github.com/maevsi/vibetype/issues/2385)
   const descriptionNoTemplates = descriptionSanitized.replace(
     /{{\s*[\w.]+\s*}}/g,
     `[${t('errorTemplate')}]`,
