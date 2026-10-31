@@ -17,12 +17,14 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
 - Work on branches other than the default branch
   - Use this branch naming pattern: `<type>/<scope>/<description>`
 - Git commit titles must follow the Conventional Commits specification and be lowercase only
+  - The commit type must be chosen by whether the change is worth a release, as the scheduled release bumps the version on `feat` (minor) and `fix` (patch) commits since the last release
+    - Use a non-releasing type, typically `chore`, for changes that do not alter what the user experiences, e.g. dependency maintenance, type-level fixes, refactors, and tooling, so they do not trigger a release
   - The commit scope should not be repeated in the commit description, e.g. `feat(event): add name` instead of `feat(event): add event name`
 - Git commit scopes must be chosen as follows (ordered by priority):
   1. model object name, e.g. `event`, `account`, `recommendation`
   2. simplified dependency name, e.g. `security` or `i18n` for Nuxt modules (`nuxt-security`, `@nuxtjs/i18n`); `sentry`, `urql` for libraries (`@sentry/nuxt`, `@urql/core`)
   3. technology, e.g. `typescript`, `docker`, `nuxt`
-- Commit bodies are only to be filled in when necessary, e.g. to mention a resolved issue link
+- Commit bodies are empty by default and only filled in when they carry information the title cannot, e.g. a resolved issue link or the reason behind a breaking change
 
 ## NPM
 - Ensure CI is green before completing work with the following commands:
