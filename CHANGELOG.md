@@ -1,3 +1,9 @@
+## [16.3.1](https://github.com/maevsi/vibetype/compare/16.3.0...16.3.1) (2026-10-31)
+
+### Bug Fixes
+
+* **security:** reenable csrf check ([#2463](https://github.com/maevsi/vibetype/issues/2463)) ([51546ce](https://github.com/maevsi/vibetype/commit/51546ce704afde8fc8408007b5f9e86519243edd))
+
 ## [16.3.0](https://github.com/maevsi/vibetype/compare/16.2.0...16.3.0) (2026-10-31)
 
 ### Features
