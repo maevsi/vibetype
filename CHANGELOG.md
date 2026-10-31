@@ -1,3 +1,9 @@
+## [16.2.0](https://github.com/maevsi/vibetype/compare/16.1.3...16.2.0) (2026-10-31)
+
+### Features
+
+* **email:** migrate to nuxt-email-renderer ([#2450](https://github.com/maevsi/vibetype/issues/2450)) ([5141a13](https://github.com/maevsi/vibetype/commit/5141a13b62bc5fecd6aa6429c69a60ad47fd8adc))
+
 ## [16.1.3](https://github.com/maevsi/vibetype/compare/16.1.2...16.1.3) (2026-10-29)
 
 ### Bug Fixes
