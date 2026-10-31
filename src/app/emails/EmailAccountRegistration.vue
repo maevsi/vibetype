@@ -84,6 +84,7 @@ const t = locales[locale]
             </AppButton>
           </AppText>
           <AppText
+            class="text-secondary"
             style="
               color: #555;
               font-size: 13px;

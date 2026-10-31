@@ -31,6 +31,7 @@ const t = locales[locale]
         <ELink :href="authorWebsite">
           <EImg
             :alt="t.profilePicture"
+            class="profile-picture"
             height="50"
             :src="`cid:${PROFILE_PICTURE_JONAS_CID}`"
             width="50"

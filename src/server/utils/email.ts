@@ -70,6 +70,11 @@ export const getEmailAttachments = (name: EmailName) => [
     content: LOGO,
     cid: LOGO_CID,
   },
+  {
+    filename: `${LOGO_DARK_CID}.png`,
+    content: LOGO_DARK,
+    cid: LOGO_DARK_CID,
+  },
   ...([
     EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
     EMAIL_NAME_ACCOUNT_REGISTRATION,
