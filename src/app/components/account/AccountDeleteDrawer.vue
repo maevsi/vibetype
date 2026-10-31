@@ -9,7 +9,6 @@
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'password'">
       <FormDelete
-        ref="deleteForm"
         v-bind="attributes"
         v-model:error="error"
         :errors-pg-ids="{

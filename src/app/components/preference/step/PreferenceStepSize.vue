@@ -6,7 +6,7 @@
         {{ t('title') }}
       </TypographyH3>
       <PreferenceFormSize
-        ref="form"
+        :id="templateIdForm"
         v-model:error="modelError"
         @success="emit('next')"
       />
@@ -15,7 +15,8 @@
       <ButtonColored
         :aria-label="t('button')"
         class="w-full max-w-md"
-        @click="templateForm?.submit"
+        :form="templateIdForm"
+        type="submit"
       >
         {{ t('button') }}
       </ButtonColored>
@@ -31,7 +32,7 @@ const emit = defineEmits<{
 
 // template
 const modelError = defineModel<Error>('error')
-const templateForm = useTemplateRef('form')
+const templateIdForm = useId()
 const { t } = useI18n()
 </script>
 
