@@ -67,6 +67,9 @@ export const GET_CSP = ({
       ],
       'script-src-elem': [
         'https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js', // ESLint plugin compat
+        ...(process.env.NODE_ENV === 'development'
+          ? [`${siteUrl}__devtools/`] // Nuxt DevTools
+          : []),
       ],
       'worker-src': [
         `${siteUrl}${process.env.NODE_ENV === 'development' ? 'dev-' : ''}sw.js`, // @vite-pwa/nuxt
