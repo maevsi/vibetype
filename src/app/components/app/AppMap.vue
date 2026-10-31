@@ -69,7 +69,7 @@ onMounted(async () => {
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution:
       '<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    referrerPolicy: 'strict-origin-when-cross-origin', // TODO: remove when open street map is auto-detected in leaflet (https://github.com/Leaflet/Leaflet/pull/9883)
+    referrerPolicy: 'strict-origin-when-cross-origin', // TODO: remove once on leaflet 2, which defaults to this (https://github.com/Leaflet/Leaflet/pull/9897)
   }).addTo(map.value)
 
   if (geocoder) {

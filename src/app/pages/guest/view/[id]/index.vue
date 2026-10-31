@@ -436,7 +436,7 @@ const downloadIcal = async () => {
   const fileName = `${event.value.accountByCreatedBy ? `${event.value.accountByCreatedBy.username}_` : ''}${event.value.slug}.ics`
 
   if (!response.data.value) {
-    alertError(t('iCalFetchError')) // TODO: add suggestion (https://github.com/maevsi/vibetype/issues/903) })
+    alertError(t('iCalFetchError'))
     return
   }
 

@@ -200,7 +200,6 @@ const onDeleteSelect = (
 ) => {
   contactToDelete.value = contact
   isDeleteDrawerOpen.value = true
-  // TODO: update cache, especially pagination, or reset query (https://github.com/maevsi/vibetype/issues/720)
 }
 const edit = (
   contact: Pick<
