@@ -10,6 +10,7 @@ const {
   locale,
   logoSource = undefined,
   passwordResetVerificationLink,
+  profilePictureSource = undefined,
   timeZone = undefined,
   validUntil,
 } = defineProps<{
@@ -17,6 +18,7 @@ const {
   locale: AppLocale
   logoSource?: string
   passwordResetVerificationLink: string
+  profilePictureSource?: string
   timeZone?: string
   validUntil: string
 }>()
@@ -113,7 +115,7 @@ const t = locales[locale]
         </EColumn>
       </ERow>
     </ESection>
-    <AppAuthor :locale />
+    <AppAuthor :locale :profile-picture-source />
     <AppFooter :email-address :locale />
   </Email>
 </template>

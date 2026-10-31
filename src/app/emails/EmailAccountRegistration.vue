@@ -10,6 +10,7 @@ const {
   emailAddressVerificationLink,
   locale,
   logoSource = undefined,
+  profilePictureSource = undefined,
   timeZone = undefined,
   username,
   validUntil,
@@ -18,6 +19,7 @@ const {
   emailAddressVerificationLink: string
   locale: AppLocale
   logoSource?: string
+  profilePictureSource?: string
   timeZone?: string
   username: string
   validUntil: string
@@ -98,7 +100,7 @@ const t = locales[locale]
         </EColumn>
       </ERow>
     </ESection>
-    <AppAuthor :locale />
+    <AppAuthor :locale :profile-picture-source />
     <AppFooter :email-address :locale />
   </Email>
 </template>
