@@ -1,3 +1,14 @@
+## [16.3.0](https://github.com/maevsi/vibetype/compare/16.2.0...16.3.0) (2026-10-31)
+
+### Features
+
+* **email:** support dark mode ([#2459](https://github.com/maevsi/vibetype/issues/2459)) ([b09ca95](https://github.com/maevsi/vibetype/commit/b09ca95e6163f50f3cabbb030f0f2a2596665ca1))
+
+### Bug Fixes
+
+* **accessibility:** submit remaining forms natively ([#2461](https://github.com/maevsi/vibetype/issues/2461)) ([dcd65d5](https://github.com/maevsi/vibetype/commit/dcd65d567707bb4dda0c77fb5f3a9027f22ccd6c))
+* **security:** allow nuxt devtools' script in development ([#2460](https://github.com/maevsi/vibetype/issues/2460)) ([ac8073c](https://github.com/maevsi/vibetype/commit/ac8073cc0c91a2e62956971081885f46504962e2))
+
 ## [16.2.0](https://github.com/maevsi/vibetype/compare/16.1.3...16.2.0) (2026-10-31)
 
 ### Features
