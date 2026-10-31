@@ -143,7 +143,7 @@
           >
             <div
               v-if="guest.feedback === InvitationFeedback.Accepted"
-              class="flex items-center font-semibold text-green-600 dark:text-green-500"
+              class="flex items-center font-semibold text-(--semantic-accent-text) dark:text-green-500"
             >
               <AppIconCheckCircleSolid class="mr-2 shrink-0" />
               <span>
@@ -182,7 +182,7 @@
             </ButtonColored>
             <div
               v-if="guest.feedback === InvitationFeedback.Accepted"
-              class="flex items-center font-semibold text-green-600 dark:text-green-500"
+              class="flex items-center font-semibold text-(--semantic-accent-text) dark:text-green-500"
             >
               <AppIconCheckCircleSolid
                 class="mr-2 shrink-0"

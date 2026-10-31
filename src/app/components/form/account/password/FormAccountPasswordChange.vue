@@ -10,6 +10,7 @@
         <FieldContent>
           <FormInputPassword
             :aria-invalid="isFieldInvalid(field)"
+            autocomplete="current-password"
             :model-value="field.state.value"
             @blur="field.handleBlur"
             @input="field.handleChange($event)"
@@ -31,6 +32,7 @@
         <FieldContent>
           <FormAuthInputPassword
             :aria-invalid="!!passwordNewValidation.error.value"
+            autocomplete="new-password"
             :model-value="field.state.value"
             @blur="handlePasswordNewBlur"
             @input="handlePasswordNewInput"

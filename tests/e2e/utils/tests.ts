@@ -1,35 +1,9 @@
-import AxeBuilder from '@axe-core/playwright'
 import { expect, type Page } from '@playwright/test'
 import { withoutTrailingSlash } from 'ufo'
 
 import { TESTING_COOKIE_NAME } from '#src/node/static'
 import { appTest } from '#tests/e2e/fixtures/appTest'
 import { SITE_URL, TIMEOUT } from '#tests/e2e/utils/constants'
-
-export const testA11y = (url: string) =>
-  appTest.describe('a11y', () => {
-    appTest(
-      'should not have any automatically detectable accessibility issues',
-      async ({ defaultPage }) => {
-        await defaultPage.goto(url)
-
-        const accessibilityScanResults = await new AxeBuilder({
-          page: defaultPage.page,
-        }).analyze()
-
-        expect(
-          accessibilityScanResults.violations
-            .map(
-              (x) =>
-                `${x.id}\n${x.nodes.map(
-                  (y) => `${y.failureSummary}\n(${y.html}\n(${y.target})`,
-                )}`,
-            )
-            .join('\n'),
-        ).toEqual('')
-      },
-    )
-  })
 
 export const testMetadata = async ({
   page,

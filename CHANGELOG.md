@@ -1,3 +1,10 @@
+## [16.1.3](https://github.com/maevsi/vibetype/compare/16.1.2...16.1.3) (2026-10-29)
+
+### Bug Fixes
+
+* **accessibility:** resolve html validation errors ([#2448](https://github.com/maevsi/vibetype/issues/2448)) ([fad95ad](https://github.com/maevsi/vibetype/commit/fad95ad7aff5f2f37e56bfddc725891a7e589e08))
+* **vue-email:** import components individually ([#2451](https://github.com/maevsi/vibetype/issues/2451)) ([c0a868d](https://github.com/maevsi/vibetype/commit/c0a868d093c7438c2470230dd4f6147f8eedef9d))
+
 ## [16.1.2](https://github.com/maevsi/vibetype/compare/16.1.1...16.1.2) (2026-10-28)
 
 ### Bug Fixes

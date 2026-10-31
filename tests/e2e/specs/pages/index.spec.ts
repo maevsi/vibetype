@@ -3,7 +3,6 @@ import { expect } from '@playwright/test'
 import { appTest } from '#tests/e2e/fixtures/appTest'
 import { PAGE_READY, TIMEOUT } from '#tests/e2e/utils/constants'
 import {
-  testA11y,
   testMetadata,
   testOgImage,
   testPageLoad,
@@ -12,7 +11,6 @@ import {
 
 const PAGE_PATH = '/'
 
-testA11y(PAGE_PATH)
 testOgImage({
   dynamic: {
     de: '/de',

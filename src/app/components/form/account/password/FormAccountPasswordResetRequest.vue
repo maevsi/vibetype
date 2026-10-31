@@ -26,7 +26,7 @@
     <p class="mt-6 text-center text-[15px] text-gray-500 dark:text-gray-400">
       {{ t('rememberPassword') }}
       <NuxtLinkLocale
-        class="font-semibold text-green-600 dark:text-green-400"
+        class="font-semibold text-(--semantic-accent-text) dark:text-green-400"
         to="session-create"
       >
         {{ t('signIn') }}
