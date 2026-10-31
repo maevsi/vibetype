@@ -7,9 +7,11 @@
     <LayoutPage v-else>
       <div class="flex flex-col gap-3">
         <div class="flex items-center justify-between">
-          <TypographyH2>
-            {{ title }}
-          </TypographyH2>
+          <h1>
+            <TypographyH2>
+              {{ title }}
+            </TypographyH2>
+          </h1>
           <template v-if="isOwnProfile">
             <AppButton
               v-if="isOwnProfile"

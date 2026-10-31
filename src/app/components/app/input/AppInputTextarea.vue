@@ -39,6 +39,7 @@
         >
           <textarea
             v-model="content"
+            :aria-label="title"
             class="h-full w-full resize-none bg-transparent focus:outline-none"
             :maxlength="maxLength"
             rows="5"
