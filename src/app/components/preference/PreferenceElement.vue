@@ -1,24 +1,25 @@
 <template>
-  <div
-    :aria-selected="selected.includes(id)"
+  <button
+    :aria-pressed="selected.includes(id)"
     class="group flex flex-col items-center gap-1 p-1"
+    type="button"
   >
-    <div
-      class="flex size-24 items-center justify-center rounded-full border-(--accent-strong) bg-(--semantic-base-surface-1) group-aria-selected:border-2"
+    <span
+      class="flex size-24 items-center justify-center rounded-full border-(--accent-strong) bg-(--semantic-base-surface-1) group-aria-pressed:border-2"
     >
       <slot>
         <AppIconImage class="size-12 text-(--faint-strong)" />
       </slot>
-    </div>
+    </span>
     <TypographyLabel v-slot="attributes">
-      <div
+      <span
         v-bind="attributes"
-        class="w-24 truncate group-aria-selected:text-(--semantic-accent-text)"
+        class="block w-24 truncate group-aria-pressed:text-(--semantic-accent-text)"
       >
         {{ name }}
-      </div>
+      </span>
     </TypographyLabel>
-  </div>
+  </button>
 </template>
 
 <script setup lang="ts">

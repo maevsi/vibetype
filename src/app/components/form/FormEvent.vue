@@ -73,7 +73,6 @@
                     value: EventVisibility.Unlisted,
                   },
                 ]"
-                name="visibility"
                 @update:model-value="
                   (value) =>
                     field.handleChange(String(value ?? '') as EventVisibility)
@@ -353,6 +352,7 @@
             <FieldContent>
               <client-only>
                 <AppTipTap
+                  :aria-label="t('description')"
                   :value="field.state.value"
                   @input="field.handleChange($event)"
                 />

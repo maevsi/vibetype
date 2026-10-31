@@ -67,7 +67,7 @@
           class="mb-8 text-center text-[15px] leading-5 font-semibold tracking-[-0.4px] text-gray-500 dark:text-gray-400"
         >
           {{ t('taglinePre') }}
-          <span class="text-green-700 line-through">{{
+          <span class="text-(--semantic-accent-text) line-through">{{
             t('taglineFomo')
           }}</span>
           {{ t('taglinePost') }}
@@ -130,21 +130,21 @@
         >
           {{ t('more') }}
         </ButtonColored>
-        <p class="text-center text-xs text-gray-500">
+        <p class="text-center text-xs text-gray-500 dark:text-gray-400">
           {{ t('legalPre') }}
           <NuxtLinkLocale
-            class="font-semibold text-green-700"
+            class="font-semibold text-(--semantic-accent-text)"
             to="docs-legal-terms"
             >{{ t('terms') }}</NuxtLinkLocale
           >{{ t('legalComma') }}
           <NuxtLinkLocale
-            class="font-semibold text-green-700"
+            class="font-semibold text-(--semantic-accent-text)"
             to="docs-legal-imprint"
             >{{ t('imprint') }}</NuxtLinkLocale
           >
           {{ t('legalAnd') }}
           <NuxtLinkLocale
-            class="font-semibold text-green-700"
+            class="font-semibold text-(--semantic-accent-text)"
             to="docs-legal-privacy"
           >
             {{ t('privacy') }}
