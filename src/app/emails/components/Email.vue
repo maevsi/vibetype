@@ -23,12 +23,11 @@ defineOptions({
       <title>
         {{ title }}
       </title>
-      <!-- TODO: update font to Raleway -->
       <EFont
         :fallback-font-family="['Helvetica', 'Arial', 'sans-serif']"
-        font-family="Manrope"
+        font-family="Raleway"
         :web-font="{
-          url: 'https://fonts.gstatic.com/s/manrope/v15/xn7gYHE41ni1AdIRggexSg.woff2',
+          url: 'https://fonts.gstatic.com/s/raleway/v37/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVvaorCIPrE.woff2',
           format: 'woff2',
         }"
       />
