@@ -2,7 +2,6 @@
   <LoaderIndicatorPing v-if="api.isFetching" />
   <form
     v-else-if="!error"
-    ref="formRef"
     class="flex flex-col gap-4"
     @submit.prevent="form.handleSubmit"
   >
@@ -55,10 +54,6 @@ const emit = defineEmits<{
   submit: []
   success: []
 }>()
-
-const formRef = useTemplateRef<HTMLFormElement>('formRef')
-const submit = () => formRef.value?.requestSubmit()
-defineExpose({ submit })
 
 // api data
 const allPreferenceEventSizesQuery = useApiQuery({

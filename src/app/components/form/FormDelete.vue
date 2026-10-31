@@ -1,5 +1,5 @@
 <template>
-  <form ref="formRef" novalidate @submit.prevent="form.handleSubmit">
+  <form novalidate @submit.prevent="form.handleSubmit">
     <div class="flex flex-col gap-4">
       <form.Field v-slot="{ field }" name="password">
         <Field>
@@ -69,9 +69,6 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const formRef = useTemplateRef<HTMLFormElement>('formRef')
-const submit = () => formRef.value?.requestSubmit()
-defineExpose({ submit })
 
 // api data
 const api = await useApiData([mutation])
