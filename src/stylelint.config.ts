@@ -5,6 +5,8 @@ export default {
       files: ['app/emails/**/*.vue'],
       rules: {
         'no-invalid-position-declaration': null,
+        // Outlook's Word engine shows elements hidden by `display: none` unless they carry its own property
+        'property-no-unknown': [true, { ignoreProperties: ['mso-hide'] }],
       },
     },
   ],

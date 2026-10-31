@@ -64,6 +64,31 @@ export const getEmail = async <T extends EmailName>({
     props,
   })
 
+export const getEmailAttachments = (name: EmailName) => [
+  {
+    filename: `${LOGO_CID}.png`,
+    content: LOGO,
+    cid: LOGO_CID,
+  },
+  {
+    filename: `${LOGO_DARK_CID}.png`,
+    content: LOGO_DARK,
+    cid: LOGO_DARK_CID,
+  },
+  ...([
+    EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
+    EMAIL_NAME_ACCOUNT_REGISTRATION,
+  ].includes(name)
+    ? [
+        {
+          filename: `${PROFILE_PICTURE_JONAS_CID}.png`,
+          content: PROFILE_PICTURE_JONAS,
+          cid: PROFILE_PICTURE_JONAS_CID,
+        },
+      ]
+    : []),
+]
+
 export const sendEmail = async <T extends EmailName>({
   mailOptions,
   name,
@@ -108,25 +133,7 @@ export const sendEmail = async <T extends EmailName>({
       // TODO: add https link (https://github.com/maevsi/vibetype/issues/326)
       unsubscribe: `mailto:contact+unsubscribe@maev.si?subject=Unsubscribe%20${mailOptions.to}`,
     },
-    attachments: [
-      {
-        filename: `${LOGO_CID}.png`,
-        content: LOGO,
-        cid: LOGO_CID,
-      },
-      ...([
-        EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
-        EMAIL_NAME_ACCOUNT_REGISTRATION,
-      ].includes(name)
-        ? [
-            {
-              filename: `${PROFILE_PICTURE_JONAS_CID}.png`,
-              content: PROFILE_PICTURE_JONAS,
-              cid: PROFILE_PICTURE_JONAS_CID,
-            },
-          ]
-        : []),
-    ],
+    attachments: getEmailAttachments(name),
   }
 
   if (

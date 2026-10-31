@@ -1,5 +1,6 @@
 <template>
   <EButton
+    class="button"
     style="
       background-color: #000;
       border-radius: 9999px;

@@ -8,17 +8,13 @@ import Email from './components/Email.vue'
 const {
   emailAddress,
   locale,
-  logoSource = undefined,
   passwordResetVerificationLink,
-  profilePictureSource = undefined,
   timeZone = undefined,
   validUntil,
 } = defineProps<{
   emailAddress: string
   locale: AppLocale
-  logoSource?: string
   passwordResetVerificationLink: string
-  profilePictureSource?: string
   timeZone?: string
   validUntil: string
 }>()
@@ -58,7 +54,7 @@ const t = locales[locale]
 </script>
 
 <template>
-  <Email :locale :logo-source :title="t.title">
+  <Email :locale :title="t.title">
     <ESection style="padding-top: 30px">
       <ERow style="width: 45%">
         <EColumn>
@@ -90,6 +86,7 @@ const t = locales[locale]
             </AppButton>
           </AppText>
           <AppText
+            class="text-secondary"
             style="
               color: #555;
               font-size: 13px;
@@ -115,7 +112,7 @@ const t = locales[locale]
         </EColumn>
       </ERow>
     </ESection>
-    <AppAuthor :locale :profile-picture-source />
+    <AppAuthor :locale />
     <AppFooter :email-address :locale />
   </Email>
 </template>
