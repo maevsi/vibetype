@@ -4,6 +4,12 @@ export const TESTING_ACCOUNT_ID =
 export const TESTING_ACCOUNT_USERNAME = 'e2e-test-account'
 export const TESTING_ACCOUNT_DESCRIPTION =
   'Building vibetype, one event at a time.'
+export const TESTING_ATTENDANCE_ROW_ID = 'e1f2a3b4-c5d6-4e7f-8a9b-0c1d2e3f4a5b'
+export const TESTING_CONTACT_ROW_ID = 'd9e0f1a2-b3c4-4d5e-8f6a-7b8c9d0e1f2a'
+export const TESTING_EVENT_NAME = 'Community Meetup'
+export const TESTING_EVENT_ROW_ID = 'b7e2c9a4-3d1f-4c8e-9a5b-6f0d2e8c1b3a'
+export const TESTING_EVENT_SLUG = 'community-meetup'
+export const TESTING_GUEST_ROW_ID = 'c4d8e1f2-5a6b-4c7d-8e9f-0a1b2c3d4e5f'
 
 // Test-only ES256 key pair used to sign and verify JSON web tokens while
 // `isTesting` is active, so e2e specs can sign in without a real
