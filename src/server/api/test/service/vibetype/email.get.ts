@@ -6,6 +6,7 @@ const emailGetQuerySchema = z.object({
 })
 
 const logoSource = `data:image/png;base64,${LOGO_BASE64}`
+const profilePictureSource = `data:image/png;base64,${PROFILE_PICTURE_JONAS_BASE64}`
 
 const getDemoEmailProps = (locale: AppLocale) =>
   ({
@@ -15,6 +16,7 @@ const getDemoEmailProps = (locale: AppLocale) =>
       logoSource,
       passwordResetVerificationLink:
         'https://example.com/reset-password?token=abcd1234',
+      profilePictureSource,
       stackDomain: 'example.com',
       timeZone: 'Europe/Berlin',
       username: 'john_doe',
@@ -26,6 +28,7 @@ const getDemoEmailProps = (locale: AppLocale) =>
         'https://example.com/verify-email?token=verify5678',
       locale,
       logoSource,
+      profilePictureSource,
       stackDomain: 'example.com',
       timeZone: 'Europe/Berlin',
       username: 'john_doe',
@@ -35,8 +38,7 @@ const getDemoEmailProps = (locale: AppLocale) =>
       emailAddress: 'invitee@example.com',
       eventAttendanceType: 'in-person',
       eventAuthorProfileHref: 'https://example.com/profiles/author123',
-      eventAuthorProfilePictureSrc:
-        'https://example.com/images/author-profile.jpg',
+      eventAuthorProfilePictureSrc: profilePictureSource,
       eventAuthorUsername: 'john_doe',
       eventDescription:
         'Join us for an exciting event on the future of technology and innovation.',
