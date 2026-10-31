@@ -19,7 +19,6 @@ defineOptions({
 <template>
   <EHtml :lang="locale">
     <EHead>
-      <!-- TODO: darkmode (https://www.litmus.com/blog/the-ultimate-guide-to-dark-mode-for-email-marketers) -->
       <title>
         {{ title }}
       </title>
