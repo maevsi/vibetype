@@ -1,3 +1,9 @@
+## [16.4.0](https://github.com/maevsi/vibetype/compare/16.3.2...16.4.0) (2026-11-02)
+
+### Features
+
+* **leaflet:** migrate to leaflet 2 ([#2472](https://github.com/maevsi/vibetype/issues/2472)) ([8063fad](https://github.com/maevsi/vibetype/commit/8063fadd502352883b695ef7415c6ddc827a4c8c))
+
 ## [16.3.2](https://github.com/maevsi/vibetype/compare/16.3.1...16.3.2) (2026-10-31)
 
 ### Bug Fixes
