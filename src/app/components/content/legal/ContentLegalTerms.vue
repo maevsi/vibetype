@@ -38,29 +38,30 @@ const legalTermsQuery = useApiQuery({
   },
 })
 
-const { data, error, pending } = useAsyncData(
-  'content-legal-terms',
-  async () => {
-    const legalTermsQueryResolved = await legalTermsQuery
+const {
+  data,
+  error: loadError,
+  pending,
+} = useAsyncData('content-legal-terms', async () => {
+  const legalTermsQueryResolved = await legalTermsQuery
 
-    if (legalTermsQueryResolved.error.value) {
-      throw legalTermsQueryResolved.error.value
-    }
+  if (legalTermsQueryResolved.error.value) {
+    throw legalTermsQueryResolved.error.value
+  }
 
-    const legalTermFirst =
-      legalTermsQueryResolved.data.value?.allLegalTerms?.nodes[0]
+  const legalTermFirst =
+    legalTermsQueryResolved.data.value?.allLegalTerms?.nodes[0]
 
-    if (!legalTermFirst) throw new Error('No legal terms available')
+  if (!legalTermFirst) throw new Error('No legal terms available')
 
-    return {
-      ast: await parseMarkdown(legalTermFirst.term.replace(/\r\n|\r/g, '\n')),
-      legalTerm: legalTermFirst,
-    }
-  },
-)
+  return {
+    ast: await parseMarkdown(legalTermFirst.term.replace(/\r\n|\r/g, '\n')),
+    legalTerm: legalTermFirst,
+  }
+})
 
 watch(
-  error,
+  loadError,
   (current) => {
     modelError.value = current ?? undefined
   },
