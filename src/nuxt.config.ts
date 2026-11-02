@@ -261,7 +261,7 @@ export default defineNuxtConfig({
         'jose',
         'js-confetti',
         'leaflet',
-        'leaflet-control-geocoder',
+        'leaflet-geosearch',
         'libphonenumber-js/min',
         'lodash-es',
         'pretty-bytes',
