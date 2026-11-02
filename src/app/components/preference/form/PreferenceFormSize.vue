@@ -1,7 +1,7 @@
 <template>
   <LoaderIndicatorPing v-if="api.isFetching" />
   <form
-    v-else-if="!error"
+    v-else-if="!apiError"
     class="flex flex-col gap-4"
     @submit.prevent="form.handleSubmit"
   >
@@ -185,7 +185,7 @@ const form = useForm({
   },
 })
 
-const error = computed(() =>
+const apiError = computed(() =>
   api.value.errors.length
     ? new Error(getCombinedErrorMessages(api.value.errors)[0])
     : undefined,
