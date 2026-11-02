@@ -147,7 +147,9 @@ ENV MKCERT_VERSION="1.4.4-1ubuntu3.2"
 
 WORKDIR /srv/app/
 
-RUN corepack enable \
+# The playwright image no longer ships corepack; `--force` overwrites the
+# yarn shims it does still ship, which collide with corepack's own stubs
+RUN npm i -g corepack --force && corepack enable \
     && apt-get update && apt-get install --no-install-recommends -y \
       mkcert="${MKCERT_VERSION}"
 
