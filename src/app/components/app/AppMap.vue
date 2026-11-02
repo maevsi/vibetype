@@ -56,8 +56,13 @@ const mapZoom = ref<number>()
 
 const isMounted = useMounted()
 onMounted(async () => {
-  const L = await import('leaflet')
-  map.value = L.map(templateIdMap, {
+  const {
+    DivIcon,
+    Map: LeafletMap,
+    Marker,
+    TileLayer,
+  } = await import('leaflet')
+  map.value = new LeafletMap(templateIdMap, {
     maxBounds: [
       [-90, -180],
       [90, 180],
@@ -66,25 +71,29 @@ onMounted(async () => {
     [positionInitial.latitude, positionInitial.longitude],
     positionInitial.zoomLevel,
   ) // Kassel: 51.3144643, 9.4957866
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  new TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution:
       '<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    referrerPolicy: 'strict-origin-when-cross-origin', // TODO: remove once on leaflet 2, which defaults to this (https://github.com/Leaflet/Leaflet/pull/9897)
   }).addTo(map.value)
 
   if (geocoder) {
-    const { Geocoder } = await import('leaflet-control-geocoder')
-    new Geocoder({
-      defaultMarkGeocode: false,
-      // Nominatim's usage policy forbids autocomplete, so its `suggest()` call always rejects, and the control never clears its loading state when that happens, leaving the search permanently stuck.
-      // Suggest-as-you-type is disabled here so users submit a search via Enter or the search icon instead, which use the working, non-suggest code path.
-      suggestMinLength: Infinity,
+    const { GeoSearchControl, OpenStreetMapProvider } =
+      await import('leaflet-geosearch')
+    new GeoSearchControl({
+      provider: new OpenStreetMapProvider(),
+      // Nominatim's usage policy forbids autocomplete, so the control only searches on submit instead of suggesting while the user types.
+      autoComplete: false,
+      notFoundMessage: 'Nothing found.',
+      position: 'topright',
+      showMarker: false,
+      showResultListOnSubmit: true,
+      updateMap: false,
+    }).addTo(map.value)
+    map.value.on('geosearch/showlocation', (showLocationEvent) => {
+      const { location } = showLocationEvent
+      map.value?.setView([location.y, location.x], 13)
+      emit('geocode', location.label)
     })
-      .on('markgeocode', (markGeocodeEvent) => {
-        map.value?.setView(markGeocodeEvent.geocode.center, 13)
-        emit('geocode', markGeocodeEvent.geocode.name)
-      })
-      .addTo(map.value)
   }
 
   mapCenter.value = map.value.getCenter()
@@ -97,7 +106,7 @@ onMounted(async () => {
   })
 
   if (events && events.length) {
-    const icon = L.divIcon({
+    const icon = new DivIcon({
       className: 'text-(--critic-red-middle)',
       html: markerIcon,
       iconAnchor: [15, 25],
@@ -108,7 +117,7 @@ onMounted(async () => {
     for (const event of events) {
       const location = event.addressByAddressId?.location
       if (!location) continue
-      L.marker([location.latitude, location.longitude], { icon }).addTo(
+      new Marker([location.latitude, location.longitude], { icon }).addTo(
         map.value,
       )
     }
@@ -119,5 +128,5 @@ defineExpose({ map, mapCenter, mapZoom })
 
 <style>
 @import url('leaflet/dist/leaflet.css');
-@import url('leaflet-control-geocoder/Control.Geocoder.css');
+@import url('leaflet-geosearch/assets/css/leaflet.css');
 </style>

@@ -3,6 +3,11 @@
   "extends": ["github>dargmuesli/renovate-config"],
   "packageRules": [
     {
+      "allowedVersions": "2.0.0-beta.1",
+      "description": "a pnpm override in pnpm-workspace.yaml pins leaflet to this version for the whole workspace, so update the override, the dependency and this rule together",
+      "matchPackageNames": ["leaflet"]
+    },
+    {
       "allowedVersions": "<=3.3.11",
       "description": "https://github.com/vuejs/language-tools/issues/6240",
       "matchPackageNames": ["vue-tsc"]
