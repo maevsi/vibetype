@@ -54,6 +54,7 @@ const map = ref<Map>()
 const mapCenter = ref<LatLng>()
 const mapZoom = ref<number>()
 
+const { t, locale } = useI18n()
 const isMounted = useMounted()
 onMounted(async () => {
   const {
@@ -79,16 +80,21 @@ onMounted(async () => {
   if (geocoder) {
     const { GeoSearchControl, OpenStreetMapProvider } =
       await import('leaflet-geosearch')
-    new GeoSearchControl({
+    const geosearch = new GeoSearchControl({
       provider: new OpenStreetMapProvider(),
       // Nominatim's usage policy forbids autocomplete, so the control only searches on submit instead of suggesting while the user types.
       autoComplete: false,
-      notFoundMessage: 'Nothing found.',
+      notFoundMessage: t('notFoundMessage'),
       position: 'topright',
       showMarker: false,
       showResultListOnSubmit: true,
       updateMap: false,
-    }).addTo(map.value)
+    })
+    geosearch.addTo(map.value)
+    // the control reads its texts when it is built, so refresh them when the locale changes
+    watch(locale, () =>
+      geosearch.setLabels({ notFoundMessage: t('notFoundMessage') }),
+    )
     map.value.on('geosearch/showlocation', (showLocationEvent) => {
       const { location } = showLocationEvent
       map.value?.setView([location.y, location.x], 13)
@@ -130,3 +136,10 @@ defineExpose({ map, mapCenter, mapZoom })
 @import url('leaflet/dist/leaflet.css');
 @import url('leaflet-geosearch/assets/css/leaflet.css');
 </style>
+
+<i18n lang="yaml">
+de:
+  notFoundMessage: Nichts gefunden.
+en:
+  notFoundMessage: Nothing found.
+</i18n>
