@@ -106,6 +106,5 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
   },
 
-  // half of the runner's four cores by default, while the browsers mostly wait on the server
-  workers: process.env.CI ? 3 : undefined,
+  workers: undefined,
 })

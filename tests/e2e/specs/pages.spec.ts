@@ -167,9 +167,10 @@ for (const [name, test] of [
 
             if (redirectTarget) {
               await defaultPage.page.waitForURL(redirectTarget)
+              // the target keeps its own loading state, during which it shows no level one heading yet
               await expect(
-                defaultPage.page.getByTestId('is-loading'),
-              ).toHaveAttribute('data-is-loading', 'false')
+                defaultPage.page.getByRole('heading', { level: 1 }),
+              ).toBeAttached()
             }
 
             const { violations } = await new AxeBuilder({
