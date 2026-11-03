@@ -1,15 +1,10 @@
 import { expect } from '@playwright/test'
 
 import { appTest } from '#tests/e2e/fixtures/appTest'
-import {
-  testOgImage,
-  testPageLoad,
-  testVisualRegression,
-} from '#tests/e2e/utils/tests'
+import { testOgImage, testVisualRegression } from '#tests/e2e/utils/tests'
 
 const PAGE_PATH = '/docs/legal/imprint'
 
-testPageLoad(PAGE_PATH)
 testOgImage({
   dynamic: {
     de: '/de/docs/legal/imprint',

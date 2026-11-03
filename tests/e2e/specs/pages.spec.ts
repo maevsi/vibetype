@@ -71,6 +71,19 @@ const PAGE_STATUSES_SIGNED_OUT: Record<string, number> = {
   [EVENT_EDIT_PATH]: 403,
 }
 
+// pages that redirect only once their client-side data settles, which can be after they report being loaded
+const PAGE_REDIRECTS_CLIENT_SIGNED_IN: Record<string, string> = {
+  '/': '**/dashboard',
+}
+
+// the testing GraphQL endpoint knows no other account or event
+const PAGE_PATHS_MISSING = [
+  '/account/view/e2e-missing-account',
+  '/event/view/e2e-missing-account',
+  `/event/view/e2e-missing-account/${TESTING_EVENT_SLUG}`,
+  `/event/view/${TESTING_ACCOUNT_USERNAME}/e2e-missing-event`,
+]
+
 // uses the browser context's cookies, so that signed in requests carry the session
 // redirect targets are checked on their own, external ones (e.g. app stores) not at all
 const requestPage = async (page: Page, path: string) => {
@@ -83,6 +96,16 @@ const requestPage = async (page: Page, path: string) => {
 }
 
 const htmlValidate = new HtmlValidate(HTML_VALIDATE_CONFIG)
+
+appTest.describe('missing data', () => {
+  for (const path of PAGE_PATHS_MISSING) {
+    appTest(path, async ({ defaultPage }) => {
+      const { response } = await requestPage(defaultPage.page, path)
+
+      expect(response.status()).toBe(404)
+    })
+  }
+})
 
 for (const [name, test] of [
   ['signed out', appTest],
@@ -136,11 +159,18 @@ for (const [name, test] of [
 
             await defaultPage.page.emulateMedia({ colorScheme })
             await defaultPage.goto(path)
-            // client-side redirects (e.g. to the dashboard when signed in) must settle before scanning
-            await defaultPage.page.waitForLoadState('networkidle')
-            await expect(
-              defaultPage.page.getByTestId('is-loading'),
-            ).toHaveAttribute('data-is-loading', 'false')
+
+            const redirectTarget =
+              name === 'signed in'
+                ? PAGE_REDIRECTS_CLIENT_SIGNED_IN[path]
+                : undefined
+
+            if (redirectTarget) {
+              await defaultPage.page.waitForURL(redirectTarget)
+              await expect(
+                defaultPage.page.getByTestId('is-loading'),
+              ).toHaveAttribute('data-is-loading', 'false')
+            }
 
             const { violations } = await new AxeBuilder({
               page: defaultPage.page,
