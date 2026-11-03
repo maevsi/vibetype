@@ -8,7 +8,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const isTesting = useIsTesting()
   const getServiceHref = useGetServiceHref()
   const { csrf } = useCsrf()
-  const cookie = useRequestHeader('cookie')
+  const cookie = import.meta.server ? useCsrfCookieHeader() : undefined
 
   const baseUrl = getServiceHref({
     name: SITE_NAME,
