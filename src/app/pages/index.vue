@@ -236,7 +236,7 @@ onMounted(async () => {
 
 // template
 const toProfile = () => {
-  if (!store.jwtPayload) return // TODO: error
+  if (!store.jwtPayload) return
 
   return navigateTo(
     localePath({
