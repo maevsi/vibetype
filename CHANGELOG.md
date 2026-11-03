@@ -1,3 +1,9 @@
+## [16.4.3](https://github.com/maevsi/vibetype/compare/16.4.2...16.4.3) (2026-11-03)
+
+### Bug Fixes
+
+* **security:** forward new csrf cookie on server graphql requests ([#2476](https://github.com/maevsi/vibetype/issues/2476)) ([40272e9](https://github.com/maevsi/vibetype/commit/40272e9a3576a725c35a60c781f2dc8d45c8aff2))
+
 ## [16.4.2](https://github.com/maevsi/vibetype/compare/16.4.1...16.4.2) (2026-11-03)
 
 ### Bug Fixes
