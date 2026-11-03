@@ -1,3 +1,9 @@
+## [16.4.2](https://github.com/maevsi/vibetype/compare/16.4.1...16.4.2) (2026-11-03)
+
+### Bug Fixes
+
+* **event:** disable favorite toggle while pending ([#2474](https://github.com/maevsi/vibetype/issues/2474)) ([7dff64a](https://github.com/maevsi/vibetype/commit/7dff64ae7e1590febe400a24ca1640c178c1f0e9))
+
 ## [16.4.1](https://github.com/maevsi/vibetype/compare/16.4.0...16.4.1) (2026-11-03)
 
 ### Bug Fixes
