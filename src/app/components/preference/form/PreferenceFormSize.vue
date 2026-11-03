@@ -190,14 +190,10 @@ const apiError = computed(() =>
     ? new Error(getCombinedErrorMessages(api.value.errors)[0])
     : undefined,
 )
-watch(
-  () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(getCombinedErrorMessages(current)[0])
-      : undefined
-  },
-)
+useApiErrorModel({
+  errorModel: modelError,
+  errors: () => api.value.errors,
+})
 </script>
 
 <i18n lang="yaml">

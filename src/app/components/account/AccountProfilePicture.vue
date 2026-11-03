@@ -2,7 +2,7 @@
   <LoaderImage
     :alt="t('profilePictureAlt', { username: account?.username })"
     :aspect
-    :classes="classProps"
+    :class="classProps"
     :height
     :src="profilePictureUrl || blankProfilePicture"
     :width

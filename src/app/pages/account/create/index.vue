@@ -225,22 +225,6 @@ const navigateBack = () => {
 const accountRegistrationMutation = useMutation(accountRegistrationDocument)
 const api = await useApiData([accountRegistrationMutation])
 
-// TODO: move into api utility as `errorsTranslated`
-watch(
-  () => api.value.errors,
-  (current) => {
-    error.value = current?.length
-      ? new Error(
-          getCombinedErrorMessages(current, {
-            postgresVTAUV: t('postgresVTAUV'),
-            postgresVTBDA: t('postgresVTBDA'),
-            postgresVTPLL: t('postgresVTPLL'),
-          })[0],
-        )
-      : undefined
-  },
-)
-
 // template
 const templateIdTitle = useId()
 const birthDate = ref<string>()
@@ -402,6 +386,15 @@ const { error, previous, restart, step, title } = useStepperPage<
       title: t('titleUsername'),
       previous: 'password',
     },
+  },
+})
+useApiErrorModel({
+  errorModel: error,
+  errors: () => api.value.errors,
+  postgresErrorMap: {
+    postgresVTAUV: t('postgresVTAUV'),
+    postgresVTBDA: t('postgresVTBDA'),
+    postgresVTPLL: t('postgresVTPLL'),
   },
 })
 
