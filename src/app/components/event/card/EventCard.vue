@@ -71,6 +71,7 @@
             variant === 'recommendation' && 'right-2 bottom-2 size-9',
           )
         "
+        :disabled="isFavoritePending"
         @click="toggleEventFavorite"
       >
         <AppIconFavoriteFilled
@@ -293,11 +294,11 @@ const deleteEventFavoriteByRowIdMutation = useMutation(
     }
   `),
 )
-// TODO: show loading state, error details
-// const api = await useApiData([
-//   createEventFavoriteMutation,
-//   deleteEventFavoriteByRowIdMutation,
-// ])
+const isFavoritePending = computed(
+  () =>
+    createEventFavoriteMutation.fetching.value ||
+    deleteEventFavoriteByRowIdMutation.fetching.value,
+)
 // `favoriteOverride` tracks the result of the latest toggle locally: some
 // callers (e.g. the dashboard recommendations) pass in an `event` snapshot
 // that never refreshes from the cache, so `isFavorite` can't rely on the
@@ -322,7 +323,7 @@ const { t } = useI18n()
 const toggleEventFavorite = async () => {
   if (isFavorite.value) {
     const favorite = currentFavorite.value
-    if (!favorite) return // TODO: error
+    if (!favorite) return
 
     const result = await executeUrqlRequest({
       errorMessageI18n: t('favoriteDeleteError'),
@@ -334,7 +335,7 @@ const toggleEventFavorite = async () => {
     })
     if (result) favoriteOverride.value = null
   } else {
-    if (!store.signedInAccountId) return // TODO: error
+    if (!store.signedInAccountId) return
 
     const result = await executeUrqlRequest({
       errorMessageI18n: t('favoriteCreateError'),
