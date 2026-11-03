@@ -73,7 +73,7 @@
                 >
                   <AppIconArrowDownTray :title="t('iCalDownload')" />
                 </ButtonIcon>
-                <!-- TODO: share & favorite button -->
+                <!-- TODO: share & favorite button (https://github.com/maevsi/vibetype/issues/2480) -->
                 <template
                   v-if="
                     store.signedInAccountId &&
@@ -234,7 +234,7 @@
           </p>
         </div>
         <template #footer>
-          <!-- TODO: check printing support in app -->
+          <!-- TODO: check printing support in app (https://github.com/maevsi/vibetype/issues/2481) -->
           <ButtonColored
             v-if="!isApp"
             :aria-label="t('print')"
