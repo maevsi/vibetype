@@ -35,16 +35,31 @@ jobs:
       PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
     with:
       DRY_RUN: true
+  # Pins `:latest` for both Docker builds of a run, as a push of it in between makes the second build start from scratch.
+  skew_protection_source:
+    needs: ci-optimization
+    if: needs.ci-optimization.outputs.continue == 'true'
+    name: Skew protection source
+    runs-on: ubuntu-latest
+    outputs:
+      digest: ${{ steps.digest.outputs.digest }}
+    steps:
+      - id: digest
+        run: |
+          digest=$(docker buildx imagetools inspect ghcr.io/maevsi/vibetype:latest --format '{{.Manifest.Digest}}')
+          echo "digest=$digest" >> "$GITHUB_OUTPUT"
   build:
     name: Build
     uses: dargmuesli/github-actions/.github/workflows/docker.yml@318a575af13dfd54dca497f6b190b0ac70ded4ed # 5.9.11
-    needs: release_semantic_dry
+    needs: [release_semantic_dry, skew_protection_source]
     permissions:
       packages: write
     with:
       BUILD_ADD_HOSTS: |
         app.localhost=127.0.0.1
-      BUILD_ARGUMENTS: ${{ (needs.release_semantic_dry.outputs.new_release_version != null) && format('RELEASE_NAME={0}', needs.release_semantic_dry.outputs.new_release_version) || '' }}
+      BUILD_ARGUMENTS: |
+        ${{ (needs.release_semantic_dry.outputs.new_release_version != null) && format('RELEASE_NAME={0}', needs.release_semantic_dry.outputs.new_release_version) || '' }}
+        SKEW_PROTECTION_SOURCE_IMAGE=ghcr.io/maevsi/vibetype@${{ needs.skew_protection_source.outputs.digest }}
       SMOKE_TEST_SCRIPT: .github/smoke-test.sh
       TAG: ${{ (needs.release_semantic_dry.outputs.new_release_version != null) && needs.release_semantic_dry.outputs.new_release_version || '' }}
     secrets:
