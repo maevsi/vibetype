@@ -25,7 +25,6 @@
             :to="localePath({ name: 'early-bird-create' })"
           >
             <AppIconEarlyBird />
-            <!-- TODO: implement early bird cancellation -->
             <template v-if="false" #iconSecondary>
               <AppIconClose />
             </template>

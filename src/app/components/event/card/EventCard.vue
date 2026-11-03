@@ -225,7 +225,6 @@ export type EventCardProps = {
   // TODO: turn javascript usage into attribute based styles
   variant?:
     | 'highlight'
-    // | 'invitation' // TODO: implement invitation
     | 'recommendation' // alias for 'large'
 }
 const { event, variant = undefined } = defineProps<EventCardProps>()
@@ -249,7 +248,7 @@ const isCreator = computed(
     event.accountByCreatedBy &&
     event.accountByCreatedBy.rowId === store.signedInAccountId,
 )
-const isDraft = false // TODO: implements event drafts
+const isDraft = false
 const isGuest = computed(() =>
   event.guestsByEventId?.nodes[0]
     ? event.guestsByEventId.nodes[0].contactByContactId &&
