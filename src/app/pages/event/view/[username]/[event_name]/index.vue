@@ -74,7 +74,7 @@
             >
               <div />
               <div>
-                <!-- TODO: share & favorite button -->
+                <!-- TODO: share & favorite button (https://github.com/maevsi/vibetype/issues/2480) -->
                 <template
                   v-if="
                     store.signedInAccountId &&

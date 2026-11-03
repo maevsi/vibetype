@@ -223,9 +223,7 @@ export type EventCardProps = {
     start: string
   }>
   // TODO: turn javascript usage into attribute based styles
-  variant?:
-    | 'highlight'
-    | 'recommendation' // alias for 'large'
+  variant?: 'highlight' | 'recommendation' // alias for 'large'
 }
 const { event, variant = undefined } = defineProps<EventCardProps>()
 
