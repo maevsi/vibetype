@@ -51,20 +51,15 @@ const passwordResetMutation = useMutation(
   `),
 )
 const api = await useApiData([passwordResetMutation])
-watch(
-  () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(
-          getCombinedErrorMessages(current, {
-            postgres22023: t('postgres22023'),
-            postgres55000: t('postgres55000'),
-            postgresP0002: t('postgresP0002'),
-          })[0],
-        )
-      : undefined
+useApiErrorModel({
+  errorModel: modelError,
+  errors: () => api.value.errors,
+  postgresErrorMap: {
+    postgres22023: t('postgres22023'),
+    postgres55000: t('postgres55000'),
+    postgresP0002: t('postgresP0002'),
   },
-)
+})
 
 // validation
 const passwordMessages = computed(() => ({

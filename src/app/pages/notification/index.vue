@@ -27,9 +27,23 @@
           <section class="flex flex-col gap-4">
             <!-- <h2>{{ t('general') }}</h2> -->
             <div class="flex flex-col gap-2">
-              <NotificationGeneral />
-              <NotificationGeneral2 />
-              <!-- <NotificationGeneral /> -->
+              <NotificationGeneral
+                :category="t('locationChangedCategory')"
+                is-unread
+                :message="t('locationChangedMessage')"
+              >
+                <template #icon>
+                  <AppIconMapPinSolid />
+                </template>
+              </NotificationGeneral>
+              <NotificationGeneral
+                :category="t('invitationCategory')"
+                :message="t('invitationMessage')"
+              >
+                <template #icon>
+                  <AppIconHeart />
+                </template>
+              </NotificationGeneral>
             </div>
           </section>
         </div>
@@ -54,9 +68,17 @@ useHeadDefault({ title })
 de:
   # friendRequests: Freundschaftsanfragen
   # general: Allgemein
+  invitationCategory: 'Du bist eingeladen:'
+  invitationMessage: TrapParty 23 von Jonas
+  locationChangedCategory: 'Neu:'
+  locationChangedMessage: Ortswechsel bei einer Veranstaltung
   notifications: Benachrichtigungen
 en:
   # friendRequests: Friend requests
   # general: General
+  invitationCategory: 'You are invited:'
+  invitationMessage: TrapParty 23 by Jonas
+  locationChangedCategory: 'News:'
+  locationChangedMessage: place changed for an event
   notifications: Notifications
 </i18n>

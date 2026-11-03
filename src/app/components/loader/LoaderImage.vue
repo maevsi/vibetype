@@ -1,5 +1,5 @@
 <template>
-  <div :class="cn(aspect, classes, classProps)">
+  <div :class="cn(aspect, classProps)">
     <LoaderIndicatorPing v-if="isLoading" />
     <CardStateAlert v-if="isError">
       {{ t('error') }}
@@ -7,7 +7,7 @@
     <img
       v-if="srcWhenLoaded"
       :alt
-      :class="cn(aspect, classes, classProps)"
+      :class="cn(aspect, classProps)"
       :crossorigin="crossOrigin"
       :height
       :src="srcWhenLoaded"
@@ -27,7 +27,6 @@ const {
   alt,
   aspect,
   class: classProps = undefined,
-  classes = undefined, // TODO: refactor to `class`
   crossOrigin = undefined,
   height,
   src,
@@ -36,7 +35,6 @@ const {
   alt: string
   aspect: string
   class?: HtmlHTMLAttributes['class']
-  classes?: HtmlHTMLAttributes['class']
   crossOrigin?: 'anonymous'
   height: string
   src: string

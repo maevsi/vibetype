@@ -9,7 +9,6 @@
     class="text-(--semantic-critic-text)"
     :title="t('feedbackCanceled')"
   />
-  <!-- TODO: check if can be replaced with `AppIconQuestionMarkCircle` -->
   <AppIconQuestionMarkCircleSolid
     v-else-if="feedback === null"
     class="text-gray-600"

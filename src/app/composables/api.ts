@@ -42,6 +42,21 @@ export const useApiData = async <
   return apiData
 }
 
+export const useApiErrorModel = ({
+  errorModel,
+  errors,
+  postgresErrorMap,
+}: {
+  errorModel: Ref<Error | undefined>
+  errors: () => Parameters<typeof getCombinedErrorMessages>[0]
+  postgresErrorMap?: Record<string, string>
+}) =>
+  watch(errors, (current) => {
+    errorModel.value = current.length
+      ? new Error(getCombinedErrorMessages(current, postgresErrorMap)[0])
+      : undefined
+  })
+
 export const useExecuteUrqlRequest = () =>
   // api: Awaited<ReturnType<typeof useApiData>>,
   {
