@@ -3,6 +3,7 @@ export default defineEventHandler(async (event) => {
 
   return await getTestingGraphqlResult({
     operationName,
-    variables: typeof variables === 'string' ? JSON.parse(variables) : undefined,
+    variables:
+      typeof variables === 'string' ? JSON.parse(variables) : undefined,
   })
 })
