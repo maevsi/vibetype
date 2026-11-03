@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/nuxt'
 import type Redis from 'ioredis'
 import type { AllowedComponentProps, VNodeProps } from 'vue'
 import { z } from 'zod'
@@ -146,13 +147,14 @@ export const sendEmail = async <T extends EmailName>({
     return
   }
 
-  // TODO: implement proper rate limiting
   const sentLast24Hours = await getMailsSentLast24Hours()
   if (sentLast24Hours && sentLast24Hours > rateLimitPerDay) {
-    // TODO: notify admin
-    throw new Error(
+    const error = new Error(
       `More than ${rateLimitPerDay} mails sent in the last day, not sending any more for now to prevent spamming.`,
     )
+    // the mail is eventually dropped after the event stream's retries, which only log to the console
+    Sentry.captureException(error, { level: 'fatal' })
+    throw error
   }
 
   await acquireMailRateSlot(rateLimitPerSecond, redis)
