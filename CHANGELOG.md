@@ -1,3 +1,10 @@
+## [16.4.4](https://github.com/maevsi/vibetype/compare/16.4.3...16.4.4) (2026-11-03)
+
+### Bug Fixes
+
+* **email:** report reaching the daily limit to sentry ([#2485](https://github.com/maevsi/vibetype/issues/2485)) ([28ce64a](https://github.com/maevsi/vibetype/commit/28ce64a6d9d12ecec9a90b9b1bd87929f6e23c13))
+* **session:** only redirect to paths on this site after sign-in ([#2486](https://github.com/maevsi/vibetype/issues/2486)) ([10fd7f9](https://github.com/maevsi/vibetype/commit/10fd7f9e0ad0ce0d3bf9305b43a5b99bb9bae9a2))
+
 ## [16.4.3](https://github.com/maevsi/vibetype/compare/16.4.2...16.4.3) (2026-11-03)
 
 ### Bug Fixes
