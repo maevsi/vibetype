@@ -10,7 +10,7 @@
     </LayoutTd>
     <LayoutTd class="max-w-0">
       <div
-        class="text-text-dark dark:text-text-bright flex items-center justify-evenly gap-4"
+        class="flex items-center justify-evenly gap-4 text-(--semantic-base-text-primary)"
       >
         <ButtonIcon
           :aria-label="

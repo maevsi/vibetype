@@ -118,16 +118,8 @@
 
   --default-font-family: var(--font-raleway);
   --font-raleway: 'Raleway Variable', ui-sans-serif, system-ui, sans-serif;
-  --color-background-bright: var(
-    --color-white
-  ); /* TODO: replace with new design variables */
-
   --color-background-brighten: var(
     --color-zinc-200
-  ); /* TODO: replace with new design variables */
-
-  --color-background-dark: var(
-    --color-zinc-800
   ); /* TODO: replace with new design variables */
 
   --color-background-darken: var(
