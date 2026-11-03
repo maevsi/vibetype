@@ -17,7 +17,7 @@
       />
       <GuestFeedbackIcon
         v-if="feedback"
-        class="bg-background-bright dark:bg-background-dark absolute right-0 bottom-0 rounded-full"
+        class="absolute right-0 bottom-0 rounded-full bg-(--semantic-base-background)"
         :feedback
       />
     </div>

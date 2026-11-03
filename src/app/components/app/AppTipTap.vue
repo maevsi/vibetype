@@ -31,9 +31,7 @@
           :aria-label="t('heading1')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.heading1
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.heading1 ? ['bg-(--semantic-base-background)'] : []),
           ]"
           :title="t('heading1')"
           @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
@@ -47,9 +45,7 @@
           :aria-label="t('heading2')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.heading2
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.heading2 ? ['bg-(--semantic-base-background)'] : []),
           ]"
           :title="t('heading2')"
           @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
@@ -63,9 +59,7 @@
           :aria-label="t('heading3')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.heading3
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.heading3 ? ['bg-(--semantic-base-background)'] : []),
           ]"
           :title="t('heading3')"
           @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
@@ -81,9 +75,7 @@
           :aria-label="t('bold')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.bold
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.bold ? ['bg-(--semantic-base-background)'] : []),
           ]"
           :title="t('bold')"
           @click="editor.chain().focus().toggleBold().run()"
@@ -94,9 +86,7 @@
           :aria-label="t('italic')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.italic
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.italic ? ['bg-(--semantic-base-background)'] : []),
           ]"
           :title="t('italic')"
           @click="editor.chain().focus().toggleItalic().run()"
@@ -107,9 +97,7 @@
           :aria-label="t('strike')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.strike
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.strike ? ['bg-(--semantic-base-background)'] : []),
           ]"
           :title="t('strike')"
           @click="editor.chain().focus().toggleStrike().run()"
@@ -123,7 +111,7 @@
           :class="[
             'rounded-sm p-1',
             ...(isActive.textAlignLeft
-              ? ['bg-background-bright dark:bg-background-dark']
+              ? ['bg-(--semantic-base-background)']
               : []),
           ]"
           :title="t('formatAlignLeft')"
@@ -136,7 +124,7 @@
           :class="[
             'rounded-sm p-1',
             ...(isActive.textAlignCenter
-              ? ['bg-background-bright dark:bg-background-dark']
+              ? ['bg-(--semantic-base-background)']
               : []),
           ]"
           :title="t('formatAlignCenter')"
@@ -149,7 +137,7 @@
           :class="[
             'rounded-sm p-1',
             ...(isActive.textAlignRight
-              ? ['bg-background-bright dark:bg-background-dark']
+              ? ['bg-(--semantic-base-background)']
               : []),
           ]"
           :title="t('formatAlignRight')"
@@ -162,7 +150,7 @@
           :class="[
             'rounded-sm p-1',
             ...(isActive.textAlignJustify
-              ? ['bg-background-bright dark:bg-background-dark']
+              ? ['bg-(--semantic-base-background)']
               : []),
           ]"
           :title="t('formatAlignJustify')"
@@ -176,9 +164,7 @@
           :aria-label="t('listUl')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.bulletList
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.bulletList ? ['bg-(--semantic-base-background)'] : []),
           ]"
           :title="t('listUl')"
           @click="editor.chain().focus().toggleBulletList().run()"
@@ -190,7 +176,7 @@
           :class="[
             'rounded-sm p-1',
             ...(isActive.orderedList
-              ? ['bg-background-bright dark:bg-background-dark']
+              ? ['bg-(--semantic-base-background)']
               : []),
           ]"
           :title="t('listOl')"
@@ -204,9 +190,7 @@
           :aria-label="t('link')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.link
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.link ? ['bg-(--semantic-base-background)'] : []),
           ]"
           :title="t('link')"
           @click="setLink"
@@ -226,9 +210,7 @@
           :aria-label="t('blockquote')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.blockquote
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.blockquote ? ['bg-(--semantic-base-background)'] : []),
           ]"
           :title="t('blockquote')"
           @click="editor.chain().focus().toggleBlockquote().run()"
@@ -239,9 +221,7 @@
           :aria-label="t('code')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.code
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.code ? ['bg-(--semantic-base-background)'] : []),
           ]"
           :title="t('code')"
           @click="editor.chain().focus().toggleCode().run()"
@@ -255,7 +235,7 @@
           :class="[
             'rounded-sm p-1',
             ...(isActive.horizontalRule
-              ? ['bg-background-bright dark:bg-background-dark']
+              ? ['bg-(--semantic-base-background)']
               : []),
           ]"
           :title="t('horizontalRule')"
@@ -266,7 +246,7 @@
       </div>
       <!--
       <AppButton
-        :class="{ 'bg-background-bright dark:bg-background-dark': isActive.codeBlock }"
+        :class="{ 'bg-(--semantic-base-background)': isActive.codeBlock }"
         @click="editor.chain().focus().toggleCodeBlock().run()"
       >
         code block
