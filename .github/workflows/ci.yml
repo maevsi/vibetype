@@ -11,6 +11,12 @@ on:
       - main
       - renovate/**
 
+# Release branches queue instead of overlapping, because the Dockerfile seeds skew protection from the
+# `:latest` image, and a concurrent push of it invalidates the build cache and drops the other run's assets.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ !contains(fromJSON('["refs/heads/alpha", "refs/heads/beta", "refs/heads/main"]'), github.ref) }}
+
 jobs:
   ci-optimization:
     name: CI optimization
