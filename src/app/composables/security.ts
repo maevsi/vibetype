@@ -36,20 +36,26 @@ export const useCsrfCookieHeader = () => {
   const cookie = useRequestHeader('cookie')
   if (cookie?.includes(`${CSRF_COOKIE_NAME}=`)) return cookie
 
-  const { csrfCookieValue } = useCsrfImmediately()
+  const csrfCookie = getResponseCookie({
+    name: CSRF_COOKIE_NAME,
+    requestEvent: useRequestEvent(),
+  })
+  if (!csrfCookie) return cookie
+
   return [
-    `${CSRF_COOKIE_NAME}=${csrfCookieValue}`,
+    `${CSRF_COOKIE_NAME}=${csrfCookie.value}`,
     ...(cookie ? [cookie] : []),
   ].join('; ')
 }
 
 export const useCsrfRequestFetch = createUseFetch((currentOptions) => {
   const { csrf } = useCsrf()
+  const cookie = import.meta.server ? useCsrfCookieHeader() : undefined
   return {
     headers: {
       ...toValue(currentOptions.headers),
       [CSRF_HEADER_NAME]: csrf,
-      ...(import.meta.server ? { cookie: useCsrfCookieHeader() } : {}),
+      ...(cookie ? { cookie } : {}),
     },
   }
 })
