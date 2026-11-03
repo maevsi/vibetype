@@ -63,14 +63,10 @@ const passwordResetRequestMutation = useMutation(
   `),
 )
 const api = await useApiData([passwordResetRequestMutation])
-watch(
-  () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(getCombinedErrorMessages(current)[0])
-      : undefined
-  },
-)
+useApiErrorModel({
+  errorModel: modelError,
+  errors: () => api.value.errors,
+})
 
 // validation
 const emailTouched = ref(false)

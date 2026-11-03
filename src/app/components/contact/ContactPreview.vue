@@ -10,7 +10,7 @@
       />
       <ContactAvatar
         v-else
-        classes="rounded-full size-12"
+        class="size-12 rounded-full"
         :email-address="contact.emailAddress"
         :email-address-hash="contact.emailAddressHash"
         size="48"

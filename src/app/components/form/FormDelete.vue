@@ -114,14 +114,11 @@ const errorMessages = computed(() =>
     : undefined,
 )
 
-watch(
-  () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(getCombinedErrorMessages(current, errorsPgIds)[0])
-      : undefined
-  },
-)
+useApiErrorModel({
+  errorModel: modelError,
+  errors: () => api.value.errors,
+  postgresErrorMap: errorsPgIds,
+})
 </script>
 
 <i18n lang="yaml">

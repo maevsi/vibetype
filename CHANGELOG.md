@@ -1,3 +1,9 @@
+## [16.4.1](https://github.com/maevsi/vibetype/compare/16.4.0...16.4.1) (2026-11-03)
+
+### Bug Fixes
+
+* **security:** forward new csrf cookie on server requests ([#2473](https://github.com/maevsi/vibetype/issues/2473)) ([9a0c75d](https://github.com/maevsi/vibetype/commit/9a0c75dd924554e4c6760e01d089f02fd1ea98ba))
+
 ## [16.4.0](https://github.com/maevsi/vibetype/compare/16.3.2...16.4.0) (2026-11-02)
 
 ### Features

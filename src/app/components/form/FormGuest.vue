@@ -60,7 +60,7 @@
             />
             <ContactAvatar
               v-else
-              classes="rounded-full size-12"
+              class="size-12 rounded-full"
               :email-address="contactCreationCandidate.emailAddress"
               size="48"
             />
