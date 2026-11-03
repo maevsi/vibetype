@@ -118,16 +118,10 @@ export const useJwtUpdateGuestAdd = ({ guestId }: { guestId: uuid }) => {
       }
     }
   `)
-  const { csrfToken, csrfCookieValue } = useCsrfImmediately()
-  const headers = requestEvent.headers
-  const cookieHeaderValue = [
-    ...(!headers.get('cookie')?.includes(`${CSRF_COOKIE_NAME}=`) &&
-    csrfCookieValue
-      ? [`${CSRF_COOKIE_NAME}=${csrfCookieValue}`]
-      : []),
-    ...(headers.get('cookie') ? [headers.get('cookie')] : []),
-  ].join('; ')
-  const csrfHeaderValue = headers.get(CSRF_HEADER_NAME) || csrfToken
+  const { csrfToken } = useCsrfImmediately()
+  const cookieHeaderValue = useCsrfCookieHeader()
+  const csrfHeaderValue =
+    requestEvent.headers.get(CSRF_HEADER_NAME) || csrfToken
   const jwtUpdateGuestAddMutation = useMutation(mutationJwtUpdateGuestAdd)
   const jwtCookie = useJwtCookie()
 

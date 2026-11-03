@@ -29,12 +29,27 @@ export const useCsrfImmediately = () => {
   )
 }
 
+// a csrf cookie created for the current request exists only in the response,
+// so server-side requests must add it to the forwarded cookies or the token
+// mismatches
+export const useCsrfCookieHeader = () => {
+  const cookie = useRequestHeader('cookie')
+  if (cookie?.includes(`${CSRF_COOKIE_NAME}=`)) return cookie
+
+  const { csrfCookieValue } = useCsrfImmediately()
+  return [
+    `${CSRF_COOKIE_NAME}=${csrfCookieValue}`,
+    ...(cookie ? [cookie] : []),
+  ].join('; ')
+}
+
 export const useCsrfRequestFetch = createUseFetch((currentOptions) => {
   const { csrf } = useCsrf()
   return {
     headers: {
       ...toValue(currentOptions.headers),
       [CSRF_HEADER_NAME]: csrf,
+      ...(import.meta.server ? { cookie: useCsrfCookieHeader() } : {}),
     },
   }
 })
