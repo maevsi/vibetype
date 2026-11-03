@@ -46,6 +46,8 @@ export default defineConfig({
 
     /* Test against mobile viewports. */
     {
+      // server-rendered html and colors do not depend on the viewport, so desktop checks them alone
+      grepInvert: /html validation|a11y dark|missing data/,
       name: 'Mobile Chrome',
       use: { ...devices['Pixel 5'] },
     },

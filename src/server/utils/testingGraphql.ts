@@ -196,6 +196,25 @@ export const getTestingGraphqlResult = async ({
     })
   }
 
+  // any other account or event does not exist, so that pages can be checked for missing data
+  const { slug, username } = (variables ?? {}) as {
+    slug?: unknown
+    username?: unknown
+  }
+
+  if (username !== undefined && username !== TESTING_ACCOUNT_USERNAME)
+    return { data: { accountByUsername: null } }
+
+  if (slug !== undefined && slug !== TESTING_EVENT_SLUG)
+    return {
+      data: {
+        accountByUsername: {
+          ...ACCOUNT,
+          eventsByCreatedBy: { nodes: [], __typename: 'EventConnection' },
+        },
+      },
+    }
+
   switch (operationName) {
     case 'Account':
       return {

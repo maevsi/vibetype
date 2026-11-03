@@ -5,7 +5,6 @@ import { PAGE_READY, TIMEOUT } from '#tests/e2e/utils/constants'
 import {
   testMetadata,
   testOgImage,
-  testPageLoad,
   testVisualRegression,
 } from '#tests/e2e/utils/tests'
 
@@ -17,7 +16,6 @@ testOgImage({
     en: PAGE_PATH,
   },
 })
-testPageLoad(PAGE_PATH)
 testVisualRegression(PAGE_PATH)
 
 appTest.describe('page', () => {
@@ -60,14 +58,6 @@ appTest.describe('internationalization', () => {
   //   },
   // )
 })
-
-// test.describe('page load', () => {
-// TODO: mock graphql server
-// it('sets the session cookie', () => {
-//   cy.visit('/')
-//   cy.getCookie('__Http-jwt').should('exist')
-// })
-// })
 
 appTest.describe('visual regression', () => {
   appTest('displays the cookie banner', async ({ page }) => {
