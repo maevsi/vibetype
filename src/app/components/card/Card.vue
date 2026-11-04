@@ -3,7 +3,7 @@
   <div
     :class="
       cn(
-        'overflow-x-hidden rounded-xl border border-(--faint-line) bg-(--surface) p-2 shadow-xs',
+        'overflow-x-hidden rounded-xl border border-(--semantic-base-line) bg-(--semantic-base-surface-1) p-2 shadow-xs',
         classProps,
       )
     "

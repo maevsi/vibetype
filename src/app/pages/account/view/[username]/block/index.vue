@@ -13,7 +13,7 @@
         <FormInputSearch v-model="searchQuery" />
         <ul
           v-if="blockedAccountsFiltered?.length"
-          class="flex flex-col divide-y divide-(--faint-line)"
+          class="flex flex-col divide-y divide-(--semantic-base-line)"
         >
           <li
             v-for="blockedAccount in blockedAccountsFiltered"

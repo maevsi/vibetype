@@ -113,7 +113,7 @@ onMounted(async () => {
 
   if (events && events.length) {
     const icon = new DivIcon({
-      className: 'text-(--critic-red-middle)',
+      className: 'text-(--semantic-error-strong)',
       html: markerIcon,
       iconAnchor: [15, 25],
       iconSize: [30, 30],
