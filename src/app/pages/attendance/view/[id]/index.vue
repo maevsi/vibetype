@@ -1,5 +1,8 @@
 <template>
-  <div v-if="api.isFetching" class="text-sm text-gray-500">
+  <div
+    v-if="api.isFetching"
+    class="text-sm text-(--semantic-base-text-secondary)"
+  >
     {{ t('loading') }}
   </div>
   <AppError v-else-if="!attendance" :error="{ status: 404 }" />

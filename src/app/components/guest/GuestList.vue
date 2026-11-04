@@ -16,7 +16,7 @@
             <AppIconPlus />
           </template>
         </ButtonColored>
-        <p class="text-center text-gray-500 dark:text-gray-400">
+        <p class="text-center text-(--semantic-base-text-secondary)">
           {{
             t('guestsUsed', {
               amountCurrent: api.data.allGuests?.totalCount,
@@ -49,7 +49,7 @@
         </div>
         <LayoutTable
           v-if="guestsFiltered.length"
-          class="border border-neutral-300 dark:border-neutral-600"
+          class="border border-(--semantic-base-line)"
         >
           <LayoutThead>
             <tr>
@@ -87,7 +87,7 @@
       </template>
       <div v-else class="flex flex-col items-center gap-2">
         {{ t('guestNone') }}
-        <p class="text-sm text-gray-500 dark:text-gray-400">
+        <p class="text-sm text-(--semantic-base-text-secondary)">
           {{ t('hintInviteSelf') }}
         </p>
       </div>

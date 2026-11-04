@@ -19,7 +19,7 @@
       <FormAuthButton :aria-label="t('register')" type="submit">
         {{ t('register') }}
       </FormAuthButton>
-      <p class="text-sm text-gray-500 dark:text-gray-400">
+      <p class="text-sm text-(--semantic-base-text-secondary)">
         {{ t('accountDeletionNotice') }}
       </p>
     </form>

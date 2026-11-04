@@ -1,7 +1,7 @@
 <template>
   <AppIconCheckCircleSolid
     v-if="feedback === InvitationFeedback.Accepted"
-    class="text-green-600"
+    class="text-(--semantic-accent-icon)"
     :title="t('feedbackAccepted')"
   />
   <AppIconXCircleSolid
@@ -11,7 +11,7 @@
   />
   <AppIconQuestionMarkCircleSolid
     v-else-if="feedback === null"
-    class="text-gray-600"
+    class="text-(--semantic-base-text-secondary)"
     :title="t('feedbackNone')"
   />
   <AppIconBugAnt v-else :title="t('bug')" />

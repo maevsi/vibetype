@@ -2,7 +2,9 @@
   <div v-if="guest" class="flex flex-col gap-4">
     <div class="rounded-md border p-4">
       <div class="mb-2">
-        <p class="text-sm text-gray-500">{{ t('guest') }}</p>
+        <p class="text-sm text-(--semantic-base-text-secondary)">
+          {{ t('guest') }}
+        </p>
         <p class="text-lg font-medium">
           {{
             guest.contactByContactId?.nickname ||
@@ -13,7 +15,9 @@
       </div>
 
       <div class="mt-3 border-t pt-3">
-        <p class="text-sm text-gray-500">{{ t('account') }}</p>
+        <p class="text-sm text-(--semantic-base-text-secondary)">
+          {{ t('account') }}
+        </p>
         <p class="text-base">
           {{
             guest.contactByContactId?.accountByAccountId?.username ||
@@ -23,14 +27,16 @@
       </div>
 
       <div class="mt-3 border-t pt-3">
-        <p class="text-sm text-gray-500">{{ t('status') }}</p>
+        <p class="text-sm text-(--semantic-base-text-secondary)">
+          {{ t('status') }}
+        </p>
         <p class="text-base">
           <span v-if="guest.attendanceByGuestId">
             <span v-if="guest.attendanceByGuestId.checkedOut">
               {{ t('checkedOut') }}
               <span
                 v-if="guest.attendanceByGuestId.updatedAt"
-                class="text-sm text-gray-500"
+                class="text-sm text-(--semantic-base-text-secondary)"
               >
                 {{ formatDateTime(guest.attendanceByGuestId.updatedAt) }}
               </span>
@@ -42,7 +48,9 @@
       </div>
 
       <div class="mt-3 border-t pt-3">
-        <p class="text-sm text-gray-500">{{ t('feedback') }}</p>
+        <p class="text-sm text-(--semantic-base-text-secondary)">
+          {{ t('feedback') }}
+        </p>
         <p class="text-base">{{ guest.feedback || t('noFeedback') }}</p>
       </div>
     </div>

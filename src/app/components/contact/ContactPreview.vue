@@ -28,7 +28,7 @@
       </span>
       <div
         v-if="contact.accountByAccountId?.username"
-        class="truncate text-gray-500 dark:text-gray-400"
+        class="truncate text-(--semantic-base-text-secondary)"
       >
         <AppLink
           v-if="isUsernameLinked"

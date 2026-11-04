@@ -19,8 +19,8 @@
         </i18n-t>
       </div>
       <div class="relative flex gap-1">
-        <AppIconXCircle class="size-10 text-gray-500 dark:text-gray-400" />
-        <AppIconCheckCircle class="size-10 text-green-500" />
+        <AppIconXCircle class="size-10 text-(--semantic-base-text-secondary)" />
+        <AppIconCheckCircle class="size-10 text-(--semantic-accent-icon)" />
       </div>
     </div>
   </Card>

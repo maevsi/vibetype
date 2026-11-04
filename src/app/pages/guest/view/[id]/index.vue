@@ -143,7 +143,7 @@
           >
             <div
               v-if="guest.feedback === InvitationFeedback.Accepted"
-              class="flex items-center font-semibold text-(--semantic-accent-text) dark:text-green-500"
+              class="flex items-center font-semibold text-(--semantic-accent-text)"
             >
               <AppIconCheckCircleSolid class="mr-2 shrink-0" />
               <span>
@@ -182,7 +182,7 @@
             </ButtonColored>
             <div
               v-if="guest.feedback === InvitationFeedback.Accepted"
-              class="flex items-center font-semibold text-(--semantic-accent-text) dark:text-green-500"
+              class="flex items-center font-semibold text-(--semantic-accent-text)"
             >
               <AppIconCheckCircleSolid
                 class="mr-2 shrink-0"
@@ -229,7 +229,7 @@
           <div class="bg-white p-4">
             <QrcodeVue id="qrCode" :size="200" :value="guest.rowId" />
           </div>
-          <p class="text-sm text-gray-500 dark:text-gray-400">
+          <p class="text-sm text-(--semantic-base-text-secondary)">
             {{ t('hintQrCode') }}
           </p>
         </div>
