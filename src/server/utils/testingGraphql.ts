@@ -150,25 +150,42 @@ const CONTACT = {
 }
 const GUEST_ID = getNodeId('Guest', TESTING_GUEST_ROW_ID)
 
-const getJwtGuestAdded = async ({ guestId }: { guestId: string }) => {
+const getJwtPayloadFromCookie = async () => {
   const { getJwtFromCookie, verifyJwt } = await useJsonWebToken()
-  const jwtPayload = await verifyJwt<Jwt>(getJwtFromCookie()).catch(
-    () => undefined,
-  )
+  return await verifyJwt<Jwt>(getJwtFromCookie()).catch(() => undefined)
+}
+
+// postgraphile's `jwt_update` returns the caller's claims with a renewed expiry
+const getJwtUpdated = async () => {
+  const jwtPayload = await getJwtPayloadFromCookie()
+  if (!jwtPayload) return null
+
+  const privateKey = await importPKCS8(TESTING_JWT_PRIVATE_KEY, JWT_ALGORITHM)
+  return await new SignJWT({ ...jwtPayload })
+    .setProtectedHeader({ alg: JWT_ALGORITHM })
+    .setExpirationTime('1h')
+    .sign(privateKey)
+}
+
+const getJwtAdded = async (
+  claims: Partial<Pick<Jwt, 'attendances' | 'guests'>>,
+) => {
+  const jwtPayload = await getJwtPayloadFromCookie()
   const privateKey = await importPKCS8(TESTING_JWT_PRIVATE_KEY, JWT_ALGORITHM)
 
   if (jwtPayload) {
     return await new SignJWT({
       ...jwtPayload,
-      guests: [...jwtPayload.guests, guestId],
+      attendances: [...jwtPayload.attendances, ...(claims.attendances ?? [])],
+      guests: [...jwtPayload.guests, ...(claims.guests ?? [])],
     })
       .setProtectedHeader({ alg: JWT_ALGORITHM })
       .sign(privateKey)
   }
 
   return await new SignJWT({
-    attendances: [],
-    guests: [guestId],
+    attendances: claims.attendances ?? [],
+    guests: claims.guests ?? [],
     role: `${SITE_NAME}_anonymous`,
   })
     .setProtectedHeader({ alg: JWT_ALGORITHM })
@@ -564,6 +581,31 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
+    // every server render with a jwt cookie refreshes it through `useJwtInitialize`
+    case 'JwtUpdate':
+      return {
+        data: {
+          jwtUpdate: {
+            clientMutationId: null,
+            result: await getJwtUpdated(),
+            __typename: 'JwtUpdatePayload',
+          },
+        },
+      }
+    case 'JwtUpdateAttendanceAdd': {
+      const { input } = z
+        .object({ input: z.object({ attendanceId: z.string() }) })
+        .parse(variables)
+
+      return {
+        data: {
+          jwtUpdateAttendanceAdd: {
+            result: await getJwtAdded({ attendances: [input.attendanceId] }),
+            __typename: 'JwtUpdateAttendanceAddPayload',
+          },
+        },
+      }
+    }
     // the guest page signs in as the guest while rendering on the server
     case 'JwtUpdateGuestAddGuest': {
       const { input } = z
@@ -573,7 +615,7 @@ export const getTestingGraphqlResult = async ({
       return {
         data: {
           jwtUpdateGuestAdd: {
-            result: await getJwtGuestAdded({ guestId: input.guestId }),
+            result: await getJwtAdded({ guests: [input.guestId] }),
             __typename: 'JwtUpdateGuestAddPayload',
           },
         },
