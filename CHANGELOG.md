@@ -1,3 +1,11 @@
+## [16.4.7](https://github.com/maevsi/vibetype/compare/16.4.6...16.4.7) (2026-11-04)
+
+### Bug Fixes
+
+* **nuxt:** log client errors shown to the user only for server errors ([#2494](https://github.com/maevsi/vibetype/issues/2494)) ([c9b0140](https://github.com/maevsi/vibetype/commit/c9b01409059dafb104e1aa2fe2276e12f352aa9f))
+* **style:** replace primitive color variables with semantic tokens ([#2496](https://github.com/maevsi/vibetype/issues/2496)) ([47cb53e](https://github.com/maevsi/vibetype/commit/47cb53e19dad393a2714de9ca90a000cfb8f470e))
+* **style:** replace raw tailwind palette colors with semantic tokens ([#2497](https://github.com/maevsi/vibetype/issues/2497)) ([c6d859d](https://github.com/maevsi/vibetype/commit/c6d859d8c683050f4d1fe2028f50dd9da62998e0))
+
 ## [16.4.6](https://github.com/maevsi/vibetype/compare/16.4.5...16.4.6) (2026-11-04)
 
 ### Bug Fixes
