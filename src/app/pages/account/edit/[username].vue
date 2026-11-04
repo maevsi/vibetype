@@ -82,7 +82,7 @@
         @save="saveImprint"
       />
       <CardButton
-        class="border-(--warning-strong) bg-(--warning-weak) text-(--warning-text)"
+        class="border-(--semantic-warning-strong) bg-(--semantic-warning-weak) text-(--semantic-base-text-primary)"
         :title="t('resetPassword')"
         :to="
           localePath({

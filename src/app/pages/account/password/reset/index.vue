@@ -36,7 +36,7 @@
     </FormAuthStepSuccess>
     <FormAuthStepError :error="error" :is-active="step === 'error'">
       <div
-        class="mb-6 flex size-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30"
+        class="mb-6 flex size-16 items-center justify-center rounded-full bg-(--semantic-critic-weak)"
       >
         <IHeroiconsExclamationCircle
           class="size-8 text-(--semantic-critic-text)"

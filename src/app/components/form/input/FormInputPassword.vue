@@ -7,7 +7,7 @@
       :class="[
         inputClass,
         ariaInvalid
-          ? 'border-(--semantic-error-strong) bg-red-50 dark:bg-red-950'
+          ? 'border-(--semantic-error-strong) bg-(--semantic-critic-weak)'
           : '',
       ]"
       :model-value="modelValue"

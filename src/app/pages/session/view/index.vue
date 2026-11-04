@@ -216,7 +216,7 @@
                 />
                 <AppIconQuestionMarkCircle
                   v-else-if="permissionState === 'prompt'"
-                  class="text-blue-600 dark:text-blue-400"
+                  class="text-(--semantic-info-text)"
                 />
                 <AppIconXCircle
                   v-else-if="permissionState === 'denied'"

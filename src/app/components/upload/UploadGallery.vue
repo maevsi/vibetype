@@ -18,7 +18,7 @@
                 ? ['animate-pulse']
                 : []),
               ...(isSelectable && upload === selectedItem
-                ? ['border-red-600']
+                ? ['border-(--semantic-critic-strong)']
                 : ['border-transparent']),
             ]"
             :disabled="
