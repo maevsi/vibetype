@@ -9,7 +9,7 @@ on:
 
 jobs:
   browserslist-regex:
-    uses: dargmuesli/github-actions/.github/workflows/browserslist-regex.yml@318a575af13dfd54dca497f6b190b0ac70ded4ed # 5.9.11
+    uses: dargmuesli/github-actions/.github/workflows/browserslist-regex.yml@a6f1094d5440ad0158a4c6f10d1c43109a4c983b # 5.9.12
     secrets:
       PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
     with:
