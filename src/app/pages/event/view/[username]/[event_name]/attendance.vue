@@ -24,7 +24,7 @@
         <div v-if="guestId" class="flex flex-col items-center gap-2">
           <ButtonColored
             :aria-label="t('nfcWrite')"
-            class="text-text-bright"
+            class="text-(--semantic-base-light-text-on-dark)"
             :disabled="isNfcError"
             @click="onClick"
           >

@@ -10,7 +10,7 @@
       <input
         id="url-input"
         v-model="enteredURL"
-        class="text-text-dark w-full rounded"
+        class="w-full rounded text-(--semantic-base-dark-text-on-light)"
         :placeholder="t('enterEventLink')"
         type="url"
       />
