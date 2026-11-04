@@ -1,3 +1,9 @@
+## [16.4.5](https://github.com/maevsi/vibetype/compare/16.4.4...16.4.5) (2026-11-04)
+
+### Bug Fixes
+
+* **style:** migrate the remaining legacy color tokens ([#2487](https://github.com/maevsi/vibetype/issues/2487)) ([9e13bdd](https://github.com/maevsi/vibetype/commit/9e13bddb08f93f8e2ae283b52032818f519a676c))
+
 ## [16.4.4](https://github.com/maevsi/vibetype/compare/16.4.3...16.4.4) (2026-11-03)
 
 ### Bug Fixes
