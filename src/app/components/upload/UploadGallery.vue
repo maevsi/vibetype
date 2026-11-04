@@ -45,7 +45,7 @@
                 @click="onDeleteSelect(upload)"
               >
                 <AppIconTrash
-                  class="text-text-bright m-1"
+                  class="m-1 text-(--semantic-base-light-text-on-dark)"
                   :title="t('iconTrash')"
                 />
               </AppButton>
