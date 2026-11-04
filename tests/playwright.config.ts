@@ -16,6 +16,8 @@ export default defineConfig({
   expect: {
     toHaveScreenshot: {
       maxDiffPixelRatio: 0.01,
+      // the default of 0.2 lets subtle color token changes, like #191911 to #000, pass unnoticed
+      threshold: 0.05,
     },
   },
 
