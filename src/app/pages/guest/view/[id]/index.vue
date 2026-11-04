@@ -510,7 +510,7 @@ const description = computed(() =>
 const title = computed(() => {
   if (api.value.isFetching) return t('globalLoading')
   if (!event.value) {
-    showAppError({ statusCode: 404, message: 'Event unavailable' })
+    showAppError({ status: 404, message: 'Event unavailable' })
     return
   }
 
