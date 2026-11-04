@@ -161,7 +161,7 @@
       </section>
       <section v-if="store.signedInUsername" class="flex flex-col">
         <CardButton
-          class="bg-(--critic-string) text-(--semantic-base-light-text-on-dark)"
+          class="bg-(--semantic-critic-strong) text-(--semantic-base-light-text-on-dark)"
           :title="t('logout')"
           @click="signOutToRoot"
         >

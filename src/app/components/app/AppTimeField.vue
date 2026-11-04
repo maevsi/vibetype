@@ -19,7 +19,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
     v-slot="{ segments }"
     :class="
       cn(
-        'border-input flex h-9 w-fit items-center gap-1 rounded-md border bg-(--neutral-level-1) px-3 py-1 text-base shadow-xs outline-none md:text-sm',
+        'border-input flex h-9 w-fit items-center gap-1 rounded-md border bg-(--semantic-base-surface-1) px-3 py-1 text-base shadow-xs outline-none md:text-sm',
         'focus-within:border-ring focus-within:ring-ring/50 focus-within:ring-[3px]',
         'data-[invalid]:ring-destructive/20 dark:data-[invalid]:ring-destructive/40 data-[invalid]:border-destructive',
         props.class,

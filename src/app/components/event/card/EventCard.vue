@@ -2,7 +2,7 @@
   <div
     :class="
       cn(
-        'has-focus-visible:focus-ring relative isolate flex items-center gap-3 rounded-lg border border-(--faint-line) bg-(--semantic-base-surface-1) p-3 shadow-xs',
+        'has-focus-visible:focus-ring relative isolate flex items-center gap-3 rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-surface-1) p-3 shadow-xs',
         !variant &&
           (isDraft
             ? 'border-(--semantic-warning-strong)'
@@ -24,7 +24,7 @@
         :aria-label="t('heroImage')"
         :class="
           cn(
-            'flex h-24 w-full items-center justify-center gap-2 rounded-lg border border-(--faint-line)',
+            'flex h-24 w-full items-center justify-center gap-2 rounded-lg border border-(--semantic-base-line)',
             variant === 'recommendation' && 'h-44 rounded-b-none',
           )
         "
@@ -66,7 +66,7 @@
         :aria-label="isFavorite ? t('favoriteDelete') : t('favoriteCreate')"
         :class="
           cn(
-            'absolute z-20 flex size-5 items-center justify-center rounded-full bg-(--base-white)',
+            'absolute z-20 flex size-5 items-center justify-center rounded-full bg-(--semantic-base-light-text-on-dark)',
             !variant && 'top-1 left-1',
             variant === 'recommendation' && 'right-2 bottom-2 size-9',
           )
@@ -151,7 +151,7 @@
             : isCreator
               ? 'bg-(--accent-strong)'
               : isGuest
-                ? 'bg-(--complement-strong) text-(--base-white)'
+                ? 'bg-(--complement-strong) text-(--semantic-base-light-text-on-dark)'
                 : undefined,
         )
       "

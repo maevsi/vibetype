@@ -8,7 +8,9 @@
         ...(key === index
           ? ['border-4 border-(--accent-weak-hover)']
           : ['m-1']),
-        ...(key <= index ? ['bg-(--accent-strong)'] : ['bg-(--faint-mid)']),
+        ...(key <= index
+          ? ['bg-(--accent-strong)']
+          : ['bg-(--semantic-base-line)']),
       ]"
     />
   </div>

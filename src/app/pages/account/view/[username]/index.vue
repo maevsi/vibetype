@@ -90,19 +90,19 @@
             <div class="isolate flex -space-x-2 overflow-hidden p-1">
               <AccountProfilePicture
                 account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                class="rounded-full ring-3 ring-(--surface)"
+                class="rounded-full ring-3 ring-(--semantic-base-surface-1)"
                 height="64"
                 width="64"
               />
               <AccountProfilePicture
                 account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                class="rounded-full ring-3 ring-(--surface)"
+                class="rounded-full ring-3 ring-(--semantic-base-surface-1)"
                 height="64"
                 width="64"
               />
               <AccountProfilePicture
                 account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                class="rounded-full ring-3 ring-(--surface)"
+                class="rounded-full ring-3 ring-(--semantic-base-surface-1)"
                 height="64"
                 width="64"
               />

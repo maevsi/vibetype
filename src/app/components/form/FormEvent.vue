@@ -318,7 +318,7 @@
                   @geocode="onGeocode"
                 />
                 <AppIconMapPinSolid
-                  class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-(--critic-red-middle)"
+                  class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-(--semantic-error-strong)"
                 />
               </div>
             </AppFeature>
