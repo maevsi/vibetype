@@ -11,6 +11,9 @@ export default defineEventHandler(async () => {
       statusText: 'This endpoint only available to registered users.',
     })
 
+  // the testing environment runs without reccoom
+  if (useIsTesting({ isCookieEnabled: false })) return []
+
   const { stagingHost } = runtimeConfig.public.vio
   const baseURL = getServiceHref({ name: 'reccoom' })
   // reccoom itself expects a plain `jwt` cookie, but when proxied through
