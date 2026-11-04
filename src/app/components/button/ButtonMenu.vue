@@ -3,7 +3,7 @@
     v-bind="delegatedProps"
     :class="[
       'p-4',
-      ...(route.fullPath === to ? ['bg-white dark:bg-gray-800'] : []),
+      ...(route.fullPath === to ? ['bg-(--semantic-base-background)'] : []),
     ]"
     @click="emit('onMenuHide')"
   >

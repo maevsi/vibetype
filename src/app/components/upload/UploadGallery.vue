@@ -37,7 +37,7 @@
             />
             <div
               v-if="!isReadonly"
-              class="absolute top-0 right-0 flex rounded-bl-lg bg-red-600/75"
+              class="absolute top-0 right-0 flex rounded-bl-lg bg-(--semantic-critic-strong)/75"
             >
               <AppButton
                 :aria-label="t('iconTrashLabel')"
@@ -60,7 +60,7 @@
                 sizeTotal: bytesToString(accountUploadQuotaBytes),
               })
             "
-            class="flex size-32 justify-center bg-gray-300 dark:bg-gray-200"
+            class="flex size-32 justify-center bg-(--semantic-base-surface-1)"
             :title="
               t('iconAdd', {
                 sizeUsed: bytesToString(sizeByteTotal),
@@ -69,7 +69,9 @@
             "
             @click="selectProfilePicture"
           >
-            <AppIconPlusSolid class="size-12 text-gray-500" />
+            <AppIconPlusSolid
+              class="size-12 text-(--semantic-base-text-secondary)"
+            />
           </AppButton>
           <input
             ref="inputProfilePicture"

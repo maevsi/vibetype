@@ -20,15 +20,15 @@
         {{ t('instructionsInboxHeading') }}
       </h2>
       <p
-        class="mt-2 text-[15px] leading-5 font-semibold text-gray-500 dark:text-gray-400"
+        class="mt-2 text-[15px] leading-5 font-semibold text-(--semantic-base-text-secondary)"
       >
         {{ t('sentResetLinkTo') }}
-        <span class="font-semibold text-gray-900 dark:text-gray-100">{{
+        <span class="font-semibold text-(--semantic-base-text-primary)">{{
           submittedEmail
         }}</span>
       </p>
       <p
-        class="mt-2 text-[15px] leading-5 font-semibold text-gray-500 dark:text-gray-400"
+        class="mt-2 text-[15px] leading-5 font-semibold text-(--semantic-base-text-secondary)"
       >
         {{ t('instructionsInboxDescription') }}
       </p>

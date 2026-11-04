@@ -46,7 +46,7 @@
           <AppButton
             v-if="contactCreationCandidate"
             :aria-label="t('contactCreate')"
-            class="flex w-full shrink-0 items-center gap-4 rounded-sm border-2 border-dashed border-neutral-300 px-4 py-2 dark:border-neutral-600"
+            class="flex w-full shrink-0 items-center gap-4 rounded-sm border-2 border-dashed border-(--semantic-base-line) px-4 py-2"
             :loading="createContactMutation.fetching.value"
             type="button"
             @click="contactCreate()"
@@ -71,7 +71,7 @@
                   `@${contactCreationCandidate.username}`
                 }}
               </span>
-              <span class="text-gray-500 dark:text-gray-400">
+              <span class="text-(--semantic-base-text-secondary)">
                 {{ t('contactCreate') }}
               </span>
             </div>
@@ -81,7 +81,7 @@
             v-for="contact in contactsFiltered"
             :key="contact.rowId"
             :aria-label="t('buttonContact')"
-            class="flex w-full shrink-0 items-center gap-4 rounded-sm border-2 border-neutral-300 px-4 py-2 dark:border-neutral-600"
+            class="flex w-full shrink-0 items-center gap-4 rounded-sm border-2 border-(--semantic-base-line) px-4 py-2"
             :disabled="guestContactIdsExisting?.includes(contact.rowId)"
             type="button"
             @click="selectToggle(contact.rowId, field)"

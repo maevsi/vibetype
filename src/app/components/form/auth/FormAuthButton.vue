@@ -6,7 +6,7 @@
         'flex items-center justify-center gap-2 rounded-2xl text-[17px] font-semibold transition-all focus:outline-none',
         variant === 'primary'
           ? 'h-13 w-full bg-(--accent-strong) text-(--semantic-base-primary-button-text) hover:bg-(--accent-strong-hover)'
-          : 'h-13 w-full bg-gray-100 text-gray-900 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700',
+          : 'h-13 w-full bg-(--semantic-base-surface-1) text-(--semantic-base-text-primary) hover:bg-(--semantic-base-line)',
         { 'cursor-not-allowed opacity-50': disabled || loading },
       )
     "

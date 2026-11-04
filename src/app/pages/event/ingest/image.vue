@@ -5,13 +5,13 @@
     </h1>
     <div v-if="!selectedFile" class="flex flex-col gap-4">
       <button
-        class="rounded-xl border-2 border-dashed border-gray-300 p-12"
+        class="rounded-xl border-2 border-dashed border-(--semantic-base-line) p-12"
         type="button"
         @click="triggerFileInput"
       >
         <span class="flex flex-col items-center gap-4">
           <svg
-            class="size-12 text-gray-400"
+            class="size-12 text-(--semantic-base-text-secondary)"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -22,7 +22,7 @@
           </svg>
           <span class="flex flex-col gap-2">
             <span class="text-xl font-medium">{{ t('uploadFiles') }}</span>
-            <span class="text-sm text-gray-500 dark:text-gray-400">{{
+            <span class="text-sm text-(--semantic-base-text-secondary)">{{
               t('fileTypes')
             }}</span>
           </span>

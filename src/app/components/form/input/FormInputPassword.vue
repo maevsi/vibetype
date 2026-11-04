@@ -6,7 +6,9 @@
       :autocomplete
       :class="[
         inputClass,
-        ariaInvalid ? 'border-red-500 bg-red-50 dark:bg-red-950' : '',
+        ariaInvalid
+          ? 'border-(--semantic-error-strong) bg-red-50 dark:bg-red-950'
+          : '',
       ]"
       :model-value="modelValue"
       :placeholder

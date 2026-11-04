@@ -44,7 +44,7 @@
       >
         <!-- Logo -->
         <div
-          class="mb-6 flex size-20 items-center justify-center rounded-3xl bg-gray-100 dark:bg-gray-800"
+          class="mb-6 flex size-20 items-center justify-center rounded-3xl bg-(--semantic-base-surface-1)"
         >
           <IconLogo v-if="dateToday.month !== 6" class="size-12" />
           <IconLogoPride v-else class="size-12" />
@@ -56,7 +56,7 @@
         </h1>
         <p
           aria-hidden="true"
-          class="mb-2 text-center text-[15px] leading-5 font-semibold tracking-[-0.4px] text-gray-500 dark:text-gray-400"
+          class="mb-2 text-center text-[15px] leading-5 font-semibold tracking-[-0.4px] text-(--semantic-base-text-secondary)"
         >
           {{ t('welcome') }}
         </p>
@@ -64,7 +64,7 @@
 
         <!-- Tagline -->
         <p
-          class="mb-8 text-center text-[15px] leading-5 font-semibold tracking-[-0.4px] text-gray-500 dark:text-gray-400"
+          class="mb-8 text-center text-[15px] leading-5 font-semibold tracking-[-0.4px] text-(--semantic-base-text-secondary)"
         >
           {{ t('taglinePre') }}
           <span class="text-(--semantic-accent-text) line-through">{{
@@ -85,7 +85,7 @@
 
           <ButtonColored
             :aria-label="t('signIn')"
-            class="h-13! w-full rounded-2xl! bg-gray-100! text-[17px]! font-semibold! text-black! no-underline! dark:bg-gray-800! dark:text-white!"
+            class="h-13! w-full rounded-2xl! bg-(--semantic-base-surface-1)! text-[17px]! font-semibold! text-(--semantic-base-text-primary)! no-underline!"
             :to="$localePath('session-create')"
             variant="tertiary"
           >
@@ -96,22 +96,26 @@
         <!-- Social login (behind feature flag) -->
         <AppFeature class="w-full" feature="social-login">
           <div class="my-6 flex w-full items-center">
-            <div class="h-px flex-1 bg-gray-300 dark:bg-gray-700" />
-            <span class="px-4 text-sm text-gray-400">{{ t('or') }}</span>
-            <div class="h-px flex-1 bg-gray-300 dark:bg-gray-700" />
+            <div class="h-px flex-1 bg-(--semantic-base-line)" />
+            <span class="px-4 text-sm text-(--semantic-base-text-secondary)">{{
+              t('or')
+            }}</span>
+            <div class="h-px flex-1 bg-(--semantic-base-line)" />
           </div>
 
           <div class="grid w-full grid-cols-2 gap-3">
             <button
               :aria-label="t('signInApple')"
-              class="flex h-13 items-center justify-center rounded-2xl bg-gray-100 dark:bg-gray-800"
+              class="flex h-13 items-center justify-center rounded-2xl bg-(--semantic-base-surface-1)"
               type="button"
             >
-              <IFa6BrandsApple class="size-6 text-black dark:text-white" />
+              <IFa6BrandsApple
+                class="size-6 text-(--semantic-base-text-primary)"
+              />
             </button>
             <button
               :aria-label="t('signInGoogle')"
-              class="flex h-13 items-center justify-center rounded-2xl bg-gray-100 dark:bg-gray-800"
+              class="flex h-13 items-center justify-center rounded-2xl bg-(--semantic-base-surface-1)"
               type="button"
             >
               <IFa6BrandsGoogle class="size-6" />
@@ -130,7 +134,7 @@
         >
           {{ t('more') }}
         </ButtonColored>
-        <p class="text-center text-xs text-gray-500 dark:text-gray-400">
+        <p class="text-center text-xs text-(--semantic-base-text-secondary)">
           {{ t('legalPre') }}
           <NuxtLinkLocale
             class="font-semibold text-(--semantic-accent-text)"

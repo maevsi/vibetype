@@ -1,5 +1,8 @@
 <template>
-  <div v-if="query.fetching" class="text-sm text-gray-500">
+  <div
+    v-if="query.fetching"
+    class="text-sm text-(--semantic-base-text-secondary)"
+  >
     {{ t('globalLoading') }}
   </div>
   <CardStateAlert v-else-if="!guest">

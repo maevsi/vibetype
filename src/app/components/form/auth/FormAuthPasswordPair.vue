@@ -14,7 +14,10 @@
         class="mt-2"
         :model-value="passwordStrength"
       />
-      <p v-if="passwordError" class="mt-1 text-sm text-red-600">
+      <p
+        v-if="passwordError"
+        class="mt-1 text-sm text-(--semantic-critic-text)"
+      >
         {{ passwordError }}
       </p>
     </div>
@@ -27,7 +30,10 @@
         @blur="$emit('repetition-blur')"
         @input="$emit('update:repetition-value', $event)"
       />
-      <p v-if="repetitionError" class="mt-1 text-sm text-red-600">
+      <p
+        v-if="repetitionError"
+        class="mt-1 text-sm text-(--semantic-critic-text)"
+      >
         {{ repetitionError }}
       </p>
     </div>

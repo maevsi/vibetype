@@ -18,7 +18,10 @@
               </template>
             </FormAuthInput>
           </FieldContent>
-          <p v-if="usernameValidation.error.value" class="text-sm text-red-600">
+          <p
+            v-if="usernameValidation.error.value"
+            class="text-sm text-(--semantic-critic-text)"
+          >
             {{ usernameValidation.error.value }}
           </p>
         </Field>
@@ -35,14 +38,17 @@
               @input="handlePasswordInput(field, $event)"
             />
           </FieldContent>
-          <p v-if="passwordValidation.error.value" class="text-sm text-red-600">
+          <p
+            v-if="passwordValidation.error.value"
+            class="text-sm text-(--semantic-critic-text)"
+          >
             {{ passwordValidation.error.value }}
           </p>
         </Field>
       </form.Field>
       <div class="text-right">
         <NuxtLinkLocale
-          class="text-sm font-medium text-gray-900 dark:text-gray-200"
+          class="text-sm font-medium text-(--semantic-base-text-primary)"
           to="account-password-reset-request"
         >
           {{ t('forgotPassword') }}
@@ -57,10 +63,10 @@
         {{ t('signIn') }}
       </FormAuthButton>
     </form>
-    <p class="text-center text-[15px] text-gray-500 dark:text-gray-400">
+    <p class="text-center text-[15px] text-(--semantic-base-text-secondary)">
       {{ t('newToVibetype') }}
       <NuxtLinkLocale
-        class="font-semibold text-(--semantic-accent-text) dark:text-green-400"
+        class="font-semibold text-(--semantic-accent-text)"
         to="account-create"
       >
         {{ t('register') }}
