@@ -1,3 +1,9 @@
+## [16.4.8](https://github.com/maevsi/vibetype/compare/16.4.7...16.4.8) (2026-11-04)
+
+### Bug Fixes
+
+* **style:** add info, tint and warning tokens from the design system ([#2498](https://github.com/maevsi/vibetype/issues/2498)) ([da8494d](https://github.com/maevsi/vibetype/commit/da8494db55c73bab0010354515e05ea55814b62b))
+
 ## [16.4.7](https://github.com/maevsi/vibetype/compare/16.4.6...16.4.7) (2026-11-04)
 
 ### Bug Fixes
