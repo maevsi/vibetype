@@ -1,3 +1,10 @@
+## [16.4.6](https://github.com/maevsi/vibetype/compare/16.4.5...16.4.6) (2026-11-04)
+
+### Bug Fixes
+
+* **nuxt:** log server errors only ([#2492](https://github.com/maevsi/vibetype/issues/2492)) ([82ac10e](https://github.com/maevsi/vibetype/commit/82ac10e2b4ec92a134d669a76fa5ad2d77d5e97b))
+* **style:** align the semantic color tokens with the design system ([#2493](https://github.com/maevsi/vibetype/issues/2493)) ([cc8fdb8](https://github.com/maevsi/vibetype/commit/cc8fdb8c7dd36a458ac3f11f4fade7680108033b))
+
 ## [16.4.5](https://github.com/maevsi/vibetype/compare/16.4.4...16.4.5) (2026-11-04)
 
 ### Bug Fixes
