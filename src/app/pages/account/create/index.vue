@@ -347,7 +347,6 @@ const submit = async () => {
         language: locale.value,
         legalTermId: legalTermIdValue,
         password: passwordData.value.password,
-        timeZone: useTimeZone(),
         username: usernameField.value.value,
       },
     },

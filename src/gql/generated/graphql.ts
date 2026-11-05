@@ -68,7 +68,6 @@ export type AccountPasswordResetRequestInput = {
   clientMutationId?: string | null | undefined
   emailAddress: string
   language: string
-  timeZone?: string | null | undefined
 }
 
 /** Represents an update to a `Account`. Fields that are set will be updated. */
@@ -91,7 +90,6 @@ export type AccountRegistrationInput = {
   language: string
   legalTermId: string
   password: string
-  timeZone?: string | null | undefined
   username: string
 }
 
@@ -1038,6 +1036,7 @@ export type EventListQuery = {
       } | null
       eventCategoryMappingsByEventId: {
         nodes: Array<{
+          id: string
           eventCategoryByCategoryId: { id: string; name: string } | null
         }>
       }
@@ -1046,6 +1045,7 @@ export type EventListQuery = {
       }
       eventFormatMappingsByEventId: {
         nodes: Array<{
+          id: string
           eventFormatByFormatId: { id: string; name: string } | null
         }>
       }
@@ -1090,6 +1090,7 @@ export type EventSearchQuery = {
       } | null
       eventCategoryMappingsByEventId: {
         nodes: Array<{
+          id: string
           eventCategoryByCategoryId: { id: string; name: string } | null
         }>
       }
@@ -1098,6 +1099,7 @@ export type EventSearchQuery = {
       }
       eventFormatMappingsByEventId: {
         nodes: Array<{
+          id: string
           eventFormatByFormatId: { id: string; name: string } | null
         }>
       }
@@ -1223,7 +1225,10 @@ export type DeleteEventCategoryMappingByEventIdAndCategoryIdMutationVariables =
 export type DeleteEventCategoryMappingByEventIdAndCategoryIdMutation = {
   deleteEventCategoryMappingByEventIdAndCategoryId: {
     deletedEventCategoryMappingId: string | null
-    eventCategoryMapping: { eventByEventId: { id: string } | null } | null
+    eventCategoryMapping: {
+      id: string
+      eventByEventId: { id: string } | null
+    } | null
   } | null
 }
 
@@ -1249,7 +1254,10 @@ export type DeleteEventFormatMappingByEventIdAndFormatIdMutationVariables =
 export type DeleteEventFormatMappingByEventIdAndFormatIdMutation = {
   deleteEventFormatMappingByEventIdAndFormatId: {
     deletedEventFormatMappingId: string | null
-    eventFormatMapping: { eventByEventId: { id: string } | null } | null
+    eventFormatMapping: {
+      id: string
+      eventByEventId: { id: string } | null
+    } | null
   } | null
 }
 
@@ -1645,6 +1653,7 @@ export type AccountQuery = {
         start: string
         eventCategoryMappingsByEventId: {
           nodes: Array<{
+            id: string
             eventCategoryByCategoryId: { id: string; name: string } | null
           }>
         }
@@ -1653,6 +1662,7 @@ export type AccountQuery = {
         }
         eventFormatMappingsByEventId: {
           nodes: Array<{
+            id: string
             eventFormatByFormatId: { id: string; name: string } | null
           }>
         }
@@ -1744,6 +1754,7 @@ export type DashboardEventRecommendationsQuery = {
     } | null
     eventCategoryMappingsByEventId: {
       nodes: Array<{
+        id: string
         eventCategoryByCategoryId: { id: string; name: string } | null
       }>
     }
@@ -1752,6 +1763,7 @@ export type DashboardEventRecommendationsQuery = {
     }
     eventFormatMappingsByEventId: {
       nodes: Array<{
+        id: string
         eventFormatByFormatId: { id: string; name: string } | null
       }>
     }
@@ -1785,11 +1797,13 @@ export type DashboardEventUpcomingQuery = {
       accountByCreatedBy: { id: string; rowId: string; username: string } | null
       eventCategoryMappingsByEventId: {
         nodes: Array<{
+          id: string
           eventCategoryByCategoryId: { id: string; name: string } | null
         }>
       }
       eventFormatMappingsByEventId: {
         nodes: Array<{
+          id: string
           eventFormatByFormatId: { id: string; name: string } | null
         }>
       }
@@ -1985,6 +1999,7 @@ export type EventListAccountQuery = {
         start: string
         eventCategoryMappingsByEventId: {
           nodes: Array<{
+            id: string
             eventCategoryByCategoryId: { id: string; name: string } | null
           }>
         }
@@ -1993,6 +2008,7 @@ export type EventListAccountQuery = {
         }
         eventFormatMappingsByEventId: {
           nodes: Array<{
+            id: string
             eventFormatByFormatId: { id: string; name: string } | null
           }>
         }
@@ -3678,6 +3694,10 @@ export const EventListDocument = {
                                       ],
                                     },
                                   },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
                                 ],
                               },
                             },
@@ -3773,6 +3793,10 @@ export const EventListDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
                                   },
                                 ],
                               },
@@ -4076,6 +4100,10 @@ export const EventSearchDocument = {
                                       ],
                                     },
                                   },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
                                 ],
                               },
                             },
@@ -4171,6 +4199,10 @@ export const EventSearchDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
                                   },
                                 ],
                               },
@@ -5059,6 +5091,7 @@ export const DeleteEventCategoryMappingByEventIdAndCategoryIdDocument = {
                           ],
                         },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                     ],
                   },
                 },
@@ -5227,6 +5260,7 @@ export const DeleteEventFormatMappingByEventIdAndFormatIdDocument = {
                           ],
                         },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                     ],
                   },
                 },
@@ -7654,6 +7688,10 @@ export const AccountDocument = {
                                             ],
                                           },
                                         },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
                                       ],
                                     },
                                   },
@@ -7761,6 +7799,10 @@ export const AccountDocument = {
                                               },
                                             ],
                                           },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
                                         },
                                       ],
                                     },
@@ -8288,6 +8330,10 @@ export const DashboardEventRecommendationsDocument = {
                                 ],
                               },
                             },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
                           ],
                         },
                       },
@@ -8374,6 +8420,10 @@ export const DashboardEventRecommendationsDocument = {
                                   },
                                 ],
                               },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
                             },
                           ],
                         },
@@ -8580,6 +8630,10 @@ export const DashboardEventUpcomingDocument = {
                                       ],
                                     },
                                   },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
                                 ],
                               },
                             },
@@ -8635,6 +8689,10 @@ export const DashboardEventUpcomingDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
                                   },
                                 ],
                               },
@@ -9930,6 +9988,10 @@ export const EventListAccountDocument = {
                                             ],
                                           },
                                         },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
                                       ],
                                     },
                                   },
@@ -10037,6 +10099,10 @@ export const EventListAccountDocument = {
                                               },
                                             ],
                                           },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
                                         },
                                       ],
                                     },

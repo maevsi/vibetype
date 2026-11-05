@@ -518,6 +518,7 @@ const deleteEventCategoryMappingByEventIdAndCategoryIdMutation = useMutation(
           eventByEventId {
             id
           }
+          id
         }
       }
     }
@@ -549,6 +550,7 @@ const deleteEventFormatMappingByEventIdAndFormatIdMutation = useMutation(
           eventByEventId {
             id
           }
+          id
         }
       }
     }

@@ -260,6 +260,7 @@ const queryAccount = graphql(`
                 id
                 name
               }
+              id
             }
           }
           eventFavoritesByEventId(first: 1) {
@@ -275,6 +276,7 @@ const queryAccount = graphql(`
                 id
                 name
               }
+              id
             }
           }
           guestsByEventId(first: 1) {

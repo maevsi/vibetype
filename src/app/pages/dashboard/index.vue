@@ -77,6 +77,7 @@ const eventQuery = graphql(`
             id
             name
           }
+          id
         }
       }
       eventFavoritesByEventId(first: 1) {
@@ -92,6 +93,7 @@ const eventQuery = graphql(`
             id
             name
           }
+          id
         }
       }
       guestsByEventId(first: 1) {
@@ -161,6 +163,7 @@ const eventUpcomingQuery = graphql(`
               id
               name
             }
+            id
           }
         }
         eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
@@ -169,6 +172,7 @@ const eventUpcomingQuery = graphql(`
               id
               name
             }
+            id
           }
         }
         id

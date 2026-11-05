@@ -664,7 +664,6 @@ export type AccountPasswordResetRequestInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>
   emailAddress: Scalars['String']['input']
   language: Scalars['String']['input']
-  timeZone?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The output of our `accountPasswordResetRequest` mutation. */
@@ -699,7 +698,6 @@ export type AccountRegistrationInput = {
   language: Scalars['String']['input']
   legalTermId: Scalars['UUID']['input']
   password: Scalars['String']['input']
-  timeZone?: InputMaybe<Scalars['String']['input']>
   username: Scalars['String']['input']
 }
 
@@ -3551,6 +3549,8 @@ export type EventCondition = {
   addressId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `createdBy` field. */
   createdBy?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `end` field. */
+  end?: InputMaybe<Scalars['Datetime']['input']>
   /** Checks for equality with the object’s `rowId` field. */
   rowId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `slug` field. */
@@ -4814,7 +4814,14 @@ export type Mutation = {
   accountPasswordReset?: Maybe<AccountPasswordResetPayload>
   /** Sets a new password reset verification code for an account. */
   accountPasswordResetRequest?: Maybe<AccountPasswordResetRequestPayload>
-  /** Creates a contact and registers an account referencing it.\n\nError codes:\n- **VTBDA** when the birth date is not at least 18 years old.\n- **VTPLL** when the password length does not reach its minimum.\n- **VTAUV** when an account with the given username already exists. */
+  /**
+   * Creates a contact and registers an account referencing it.
+   *
+   * Error codes:
+   * - **VTBDA** when the birth date is not at least 18 years old.
+   * - **VTPLL** when the password length does not reach its minimum.
+   * - **VTAUV** when an account with the given username already exists.
+   */
   accountRegistration?: Maybe<AccountRegistrationPayload>
   /** Refreshes an account's email address verification validity period.\n\nError codes:\n- **01P01** in all cases right now as refreshing registrations is currently not available due to missing rate limiting.\n- **22023** when an account with this account id does not exist. */
   accountRegistrationRefresh?: Maybe<AccountRegistrationRefreshPayload>

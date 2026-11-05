@@ -122,7 +122,6 @@ const form = useForm({
       input: {
         emailAddress: value.emailAddress,
         language: locale.value,
-        timeZone: useTimeZone(),
       },
     })
 

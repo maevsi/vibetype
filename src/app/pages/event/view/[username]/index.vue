@@ -49,6 +49,7 @@ const queryEventListAccount = graphql(`
                 id
                 name
               }
+              id
             }
           }
           eventFavoritesByEventId(first: 1) {
@@ -64,6 +65,7 @@ const queryEventListAccount = graphql(`
                 id
                 name
               }
+              id
             }
           }
           guestsByEventId(first: 1) {
