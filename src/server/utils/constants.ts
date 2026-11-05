@@ -206,6 +206,13 @@ export const GET_CSP = ({
         : {}),
       'connect-src': [
         "'self'", // e.g. `/_nuxt/builds/meta/`, `/_payload.json`, `/docs/legal/privacy/_payload.json`
+        ...(process.env.NODE_ENV === 'development'
+          ? [
+              `wss://${siteUrl.hostname}:9777`, // devtools hub (devframe sidecar; next free port if 9777 is busy)
+              `ws://${siteUrl.hostname}:9777`,
+              'https://api.iconify.design/', // devtools icons
+            ]
+          : []),
         // ...(process.env.NODE_ENV === 'development'
         //   ? [
         //       `http://${domainTldPort}/_nuxt/`, // hot reload
@@ -218,6 +225,12 @@ export const GET_CSP = ({
       'img-src': [
         "'self'", // e.g. favicon
         'data:', // external link icon
+        ...(process.env.NODE_ENV === 'development'
+          ? [
+              'https://cdn.jsdelivr.net/gh/nuxt/devtools@main/assets/', // devtools wordmark
+              'https://nuxt.com/assets/design-kit/', // devtools branding icon
+            ]
+          : []),
       ],
       'script-src-elem': [
         "'nonce-{{nonce}}'",
