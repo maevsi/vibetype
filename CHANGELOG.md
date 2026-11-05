@@ -1,3 +1,9 @@
+## [16.4.9](https://github.com/maevsi/vibetype/compare/16.4.8...16.4.9) (2026-11-05)
+
+### Bug Fixes
+
+* **security:** allow nuxt devtools' websocket and assets in development ([#2499](https://github.com/maevsi/vibetype/issues/2499)) ([61ae222](https://github.com/maevsi/vibetype/commit/61ae222cb91f3ab0d50937114fa54ec0947dfcd6))
+
 ## [16.4.8](https://github.com/maevsi/vibetype/compare/16.4.7...16.4.8) (2026-11-04)
 
 ### Bug Fixes
