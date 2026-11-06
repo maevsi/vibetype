@@ -11,9 +11,9 @@ allowBuilds:
   unrs-resolver: false
   vue-demi: false
 minimumReleaseAgeExclude:
-  - leaflet@2.0.0-beta.1
+  - leaflet@2.0.0-beta.2
 overrides:
-  leaflet: 2.0.0-beta.1
+  leaflet: 2.0.0-beta.2
 packages:
   - src
   - tests
