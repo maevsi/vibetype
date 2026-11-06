@@ -14672,7 +14672,7 @@ export default {
                 },
               },
               {
-                name: 'searchString',
+                name: 'query',
                 type: {
                   kind: 'SCALAR',
                   name: 'Any',
