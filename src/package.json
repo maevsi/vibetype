@@ -135,7 +135,7 @@
     "stylelint-config-html": "2.0.0",
     "stylelint-config-recommended": "18.0.0",
     "stylelint-config-recommended-vue": "2.0.0",
-    "stylelint-config-standard": "40.0.0",
+    "stylelint-config-standard": "41.0.0",
     "stylelint-no-unsupported-browser-features": "8.1.2",
     "tailwind-merge": "3.7.0",
     "tailwindcss": "4.3.4",
