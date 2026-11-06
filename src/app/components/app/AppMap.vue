@@ -8,7 +8,7 @@
 <script setup lang="ts">
 import { useMounted } from '@vueuse/core'
 
-import type { Map, LatLng } from 'leaflet'
+import type { FullscreenControl, Map, LatLng } from 'leaflet'
 import type { DeepReadonly, HtmlHTMLAttributes } from 'vue'
 
 import { cn } from '@/utils/shadcn'
@@ -56,9 +56,19 @@ const mapZoom = ref<number>()
 
 const { t, locale } = useI18n()
 const isMounted = useMounted()
+let fullscreenControl: FullscreenControl | undefined
+// leaflet translates its texts only when it renders them, so a locale change needs the controls re-added
+watch(locale, () => {
+  const mapLocal = map.value
+  if (!mapLocal) return
+  mapLocal.getContainer().setAttribute('aria-label', t('map'))
+  mapLocal.zoomControl?.remove().addTo(mapLocal)
+  fullscreenControl?.remove().addTo(mapLocal)
+})
 onMounted(async () => {
   const {
     DivIcon,
+    FullscreenControl,
     Map: LeafletMap,
     Marker,
     TileLayer,
@@ -68,6 +78,16 @@ onMounted(async () => {
       [-90, -180],
       [90, 180],
     ],
+    translate: (text) =>
+      (
+        ({
+          'Enter fullscreen': t('enterFullscreen'),
+          'Exit fullscreen': t('exitFullscreen'),
+          Map: t('map'),
+          'Zoom in': t('zoomIn'),
+          'Zoom out': t('zoomOut'),
+        }) as Record<string, string>
+      )[text] ?? text,
   }).setView(
     [positionInitial.latitude, positionInitial.longitude],
     positionInitial.zoomLevel,
@@ -76,6 +96,7 @@ onMounted(async () => {
     attribution:
       '<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map.value)
+  fullscreenControl = new FullscreenControl().addTo(map.value)
 
   if (geocoder) {
     const { GeoSearchControl, OpenStreetMapProvider } =
@@ -139,7 +160,17 @@ defineExpose({ map, mapCenter, mapZoom })
 
 <i18n lang="yaml">
 de:
+  enterFullscreen: Vollbild öffnen
+  exitFullscreen: Vollbild beenden
+  map: Karte
   notFoundMessage: Nichts gefunden.
+  zoomIn: Vergrößern
+  zoomOut: Verkleinern
 en:
+  enterFullscreen: Enter fullscreen
+  exitFullscreen: Exit fullscreen
+  map: Map
   notFoundMessage: Nothing found.
+  zoomIn: Zoom in
+  zoomOut: Zoom out
 </i18n>
