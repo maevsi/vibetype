@@ -207,10 +207,12 @@ export const getUrqlClient = async ({
   clientOptions,
   runtimeConfig,
   baseUrl,
+  isSsr = true,
 }: {
   clientOptions?: Partial<ClientOptions>
   runtimeConfig: ReturnType<typeof useRuntimeConfig>
   baseUrl: string
+  isSsr?: boolean
 }) => {
   const ssrExchange = getSsrExchange({
     isClient: import.meta.client,
@@ -432,7 +434,7 @@ export const getUrqlClient = async ({
         ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
         requestPolicyExchange({}),
         ...(cacheExchange ? [cacheExchange] : []),
-        ssrExchange, // `ssrExchange` must be before `fetchExchange`
+        ...(isSsr ? [ssrExchange] : []), // `ssrExchange` must be before `fetchExchange`
         fetchExchange,
       ],
       url: `${baseUrl}/api/service/postgraphile/graphql`,
