@@ -9,6 +9,7 @@ import type { AppErrorInput } from '~~/shared/utils/error'
 // External links to this page:
 // - App Store Connect (app privacy)
 // - Facebook (page info)
+// - Google Play Store (privacy policy)
 // - vibetype.de (footer)
 
 const error = ref<AppErrorInput>()

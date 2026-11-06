@@ -4,6 +4,9 @@
 </template>
 
 <script setup lang="ts">
+// External links to this page:
+// - Google Play Store (trader: app vibetype)
+
 const { t } = useI18n()
 useHeadDefault({ title: t('title') })
 
