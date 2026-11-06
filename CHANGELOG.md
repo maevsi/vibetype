@@ -1,3 +1,9 @@
+## [16.5.0](https://github.com/maevsi/vibetype/compare/16.4.9...16.5.0) (2026-11-06)
+
+### Features
+
+* **map:** translate controls and add fullscreen ([#2506](https://github.com/maevsi/vibetype/issues/2506)) ([bf4d619](https://github.com/maevsi/vibetype/commit/bf4d6194071baf9cdae235e0ae7d0bedd8694ea1))
+
 ## [16.4.9](https://github.com/maevsi/vibetype/compare/16.4.8...16.4.9) (2026-11-05)
 
 ### Bug Fixes
