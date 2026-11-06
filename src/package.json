@@ -131,7 +131,7 @@
     "shadcn-nuxt": "2.9.0",
     "sharp": "0.35.5",
     "slugify": "1.6.9",
-    "stylelint": "17.16.0",
+    "stylelint": "18.0.0",
     "stylelint-config-html": "2.0.0",
     "stylelint-config-recommended": "18.0.0",
     "stylelint-config-recommended-vue": "2.0.0",
