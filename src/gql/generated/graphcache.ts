@@ -664,6 +664,7 @@ export type AccountPasswordResetRequestInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>
   emailAddress: Scalars['String']['input']
   language: Scalars['String']['input']
+  timeZone?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The output of our `accountPasswordResetRequest` mutation. */
@@ -698,6 +699,7 @@ export type AccountRegistrationInput = {
   language: Scalars['String']['input']
   legalTermId: Scalars['UUID']['input']
   password: Scalars['String']['input']
+  timeZone?: InputMaybe<Scalars['String']['input']>
   username: Scalars['String']['input']
 }
 
@@ -4500,10 +4502,6 @@ export enum GuestOrderBy {
 
 /** Represents an update to a `Guest`. Fields that are set will be updated. */
 export type GuestPatch = {
-  /** The internal id of the guest's contact. */
-  contactId?: InputMaybe<Scalars['UUID']['input']>
-  /** The internal id of the guest's event. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
   /** The guest's general feedback status. */
   feedback?: InputMaybe<InvitationFeedback>
   /** The guest's paper feedback status. */
@@ -4807,10 +4805,7 @@ export type Mutation = {
   accountEmailAddressVerification?: Maybe<AccountEmailAddressVerificationPayload>
   /** Allows to change an account's password.\n\nError codes:\n- **22023** when the new password is too short.\n- **28P01** when an account with the given password is not found. */
   accountPasswordChange?: Maybe<AccountPasswordChangePayload>
-  /**
-   * Sets a new password for an account if there was a request to do so before that's still up to date.\n\nError codes:\n- **22023** when the password is too short.\n- **P0002** when the reset code is unknown.\n- **55000** when the reset code has expired.
-   *
-   */
+  /** Sets a new password for an account if there was a request to do so before that's still up to date.\n\nError codes:\n- **22023** when the password is too short.\n- **P0002** when the reset code is unknown.\n- **55000** when the reset code has expired. */
   accountPasswordReset?: Maybe<AccountPasswordResetPayload>
   /** Sets a new password reset verification code for an account. */
   accountPasswordResetRequest?: Maybe<AccountPasswordResetRequestPayload>
@@ -6124,7 +6119,11 @@ export type Query = Node & {
   accountByRowId?: Maybe<Account>
   /** Get a single `Account`. */
   accountByUsername?: Maybe<Account>
-  /** Returns all accounts with a username containing a given substring. */
+  /**
+   * Returns accounts with a username containing a given substring, closest matches first.
+   * Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size.
+   * Queries under 3 characters match few trigrams and so scan a larger share of the index; keep that in mind if this backs search-as-you-type.
+   */
   accountSearch?: Maybe<AccountConnection>
   /** Reads a single `AccountSocialNetwork` using its globally unique `ID`. */
   accountSocialNetwork?: Maybe<AccountSocialNetwork>
@@ -6410,7 +6409,7 @@ export type QueryAccountSearchArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  searchString?: InputMaybe<Scalars['String']['input']>
+  query?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The root query type which gives access points into the data universe. */
