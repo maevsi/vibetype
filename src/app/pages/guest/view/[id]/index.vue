@@ -65,7 +65,7 @@
               class="absolute inset-x-0 top-0 flex items-center justify-between p-2"
             >
               <div />
-              <div>
+              <div class="flex items-center gap-2">
                 <ButtonIcon
                   :aria-label="t('iCalDownload')"
                   class="flex size-12 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
@@ -73,7 +73,14 @@
                 >
                   <AppIconArrowDownTray :title="t('iCalDownload')" />
                 </ButtonIcon>
-                <!-- TODO: share & favorite button (https://github.com/maevsi/vibetype/issues/2480) -->
+                <EventShareButton
+                  class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                  :event
+                />
+                <EventFavoriteButton
+                  class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                  :event
+                />
                 <template
                   v-if="
                     store.signedInAccountId &&
@@ -343,6 +350,13 @@ const eventQuery = useApiQuery({
                 name
               }
               id
+            }
+          }
+          eventFavoritesByEventId(first: 1) {
+            nodes {
+              createdBy
+              id
+              rowId
             }
           }
           eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {

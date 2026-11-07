@@ -195,16 +195,17 @@ const updateGuestByRowIdMutation = useMutation(
 const copyLink = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
   if (!import.meta.client) return
 
-  await copy(
-    `${window.location.origin}${localePath({
-      name: 'guest-view-id',
-      params: {
-        id: guest.rowId,
-      },
-    })}`,
+  if (
+    await copy(
+      `${window.location.origin}${localePath({
+        name: 'guest-view-id',
+        params: {
+          id: guest.rowId,
+        },
+      })}`,
+    )
   )
-
-  toast.success(t('copySuccess'))
+    toast.success(t('copySuccess'))
 }
 const delete_ = async (id: string) => {
   pending.deletions.push(id)

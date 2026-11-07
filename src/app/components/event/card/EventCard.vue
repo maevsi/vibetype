@@ -59,11 +59,8 @@
         :src="`/assets/static/images/event/${getHeroImageName(event.name)}.jpg`"
         :width="!variant || variant === 'highlight' ? '130' : '366'"
       />
-      <AppButton
-        v-if="
-          (!variant || variant === 'recommendation') && store.signedInUsername
-        "
-        :aria-label="isFavorite ? t('favoriteDelete') : t('favoriteCreate')"
+      <EventFavoriteButton
+        v-if="!variant || variant === 'recommendation'"
         :class="
           cn(
             'absolute z-20 flex size-5 items-center justify-center rounded-full bg-(--semantic-base-light-text-on-dark)',
@@ -71,23 +68,9 @@
             variant === 'recommendation' && 'right-2 bottom-2 size-9',
           )
         "
-        :disabled="isFavoritePending"
-        @click="toggleEventFavorite"
-      >
-        <AppIconFavoriteFilled
-          v-if="isFavorite"
-          :class="cn('text-(--complement-strong)', !variant && 'size-3')"
-        />
-        <AppIconFavorite
-          v-else
-          :class="
-            cn(
-              'text-(--semantic-base-dark-text-on-light)' /*'text-(--semantic-base-icon-primary)'*/,
-              !variant && 'size-3',
-            )
-          "
-        />
-      </AppButton>
+        :event
+        :icon-class="!variant && 'size-3'"
+      />
       <div
         v-if="variant === 'recommendation'"
         class="absolute top-2 left-2 z-20 rounded-3xl bg-(--accent-strong) px-3 py-2"
@@ -172,11 +155,9 @@
 </template>
 
 <script setup lang="ts">
-import { useMutation } from '@urql/vue'
 import type { DeepReadonly } from 'vue'
 
 import { cn } from '@/utils/shadcn'
-import { graphql } from '~~/gql/generated'
 
 import { TypographyBodySmall, TypographySubtitleSmall } from '#components'
 
@@ -261,116 +242,17 @@ const isGuest = computed(() =>
         : undefined
     : undefined,
 )
-
-// event favorite
-const createEventFavoriteMutation = useMutation(
-  graphql(`
-    mutation CreateEventFavorite($input: CreateEventFavoriteInput!) {
-      createEventFavorite(input: $input) {
-        eventFavorite {
-          createdBy
-          eventByEventId {
-            id
-          }
-          eventId
-          id
-          rowId
-        }
-      }
-    }
-  `),
-)
-const deleteEventFavoriteByRowIdMutation = useMutation(
-  graphql(`
-    mutation DeleteEventFavoriteByRowId(
-      $input: DeleteEventFavoriteByRowIdInput!
-    ) {
-      deleteEventFavoriteByRowId(input: $input) {
-        clientMutationId
-      }
-    }
-  `),
-)
-const isFavoritePending = computed(
-  () =>
-    createEventFavoriteMutation.fetching.value ||
-    deleteEventFavoriteByRowIdMutation.fetching.value,
-)
-// `favoriteOverride` tracks the result of the latest toggle locally: some
-// callers (e.g. the dashboard recommendations) pass in an `event` snapshot
-// that never refreshes from the cache, so `isFavorite` can't rely on the
-// prop alone to reflect a toggle performed in this component instance.
-// `undefined` = defer to the prop, `null` = locally unfavorited.
-const favoriteOverride = ref<{ createdBy: string; rowId: string } | null>()
-const currentFavorite = computed(() =>
-  favoriteOverride.value === undefined
-    ? event.eventFavoritesByEventId?.nodes[0]
-    : favoriteOverride.value,
-)
-const isFavorite = computed(
-  () =>
-    !!(
-      store.signedInAccountId &&
-      currentFavorite.value?.createdBy &&
-      currentFavorite.value.createdBy === store.signedInAccountId
-    ),
-)
-const executeUrqlRequest = useExecuteUrqlRequest()
 const { t } = useI18n()
-const toggleEventFavorite = async () => {
-  if (isFavorite.value) {
-    const favorite = currentFavorite.value
-    if (!favorite) return
-
-    const result = await executeUrqlRequest({
-      errorMessageI18n: t('favoriteDeleteError'),
-      request: deleteEventFavoriteByRowIdMutation.executeMutation({
-        input: {
-          rowId: favorite.rowId,
-        },
-      }),
-    })
-    if (result) favoriteOverride.value = null
-  } else {
-    if (!store.signedInAccountId) return
-
-    const result = await executeUrqlRequest({
-      errorMessageI18n: t('favoriteCreateError'),
-      request: createEventFavoriteMutation.executeMutation({
-        input: {
-          eventFavorite: {
-            createdBy: store.signedInAccountId,
-            eventId: event.rowId,
-          },
-        },
-      }),
-    })
-    const created = result?.data?.createEventFavorite?.eventFavorite
-    if (created)
-      favoriteOverride.value = {
-        createdBy: created.createdBy,
-        rowId: created.rowId,
-      }
-  }
-}
 </script>
 
 <i18n lang="yaml">
 de:
-  favoriteCreate: Als Favorit markieren
-  favoriteCreateError: Favorit konnte nicht hinzugefügt werden
-  favoriteDelete: Nicht mehr als Favorit markieren
-  favoriteDeleteError: Favorit konnte nicht entfernt werden
   heroImage: Titelbild der Veranstaltung
   isCreator: Du organisierst
   isDraft: Im Entwurf
   isGuest: Du nimmst teil
   match: Match
 en:
-  favoriteCreate: Mark as favorite
-  favoriteCreateError: Favorite could not be added
-  favoriteDelete: Unmark as favorite
-  favoriteDeleteError: Favorite could not be removed
   heroImage: Title picture of the event
   isCreator: You're organizing
   isDraft: In Draft
