@@ -157,6 +157,24 @@ const getJwtPayloadFromCookie = async () => {
   return await verifyJwt<Jwt>(getJwtFromCookie()).catch(() => undefined)
 }
 
+const getJwtCreated = async () => {
+  const privateKey = await importPKCS8(TESTING_JWT_PRIVATE_KEY, JWT_ALGORITHM)
+
+  return await new SignJWT({
+    attendances: [],
+    guests: [],
+    role: `${SITE_NAME}_account`,
+    username: TESTING_ACCOUNT_USERNAME,
+  })
+    .setProtectedHeader({ alg: JWT_ALGORITHM })
+    .setSubject(TESTING_ACCOUNT_ROW_ID)
+    .setIssuer('postgraphile')
+    .setAudience('postgraphile')
+    .setJti(crypto.randomUUID())
+    .setExpirationTime('1h')
+    .sign(privateKey)
+}
+
 // postgraphile's `jwt_update` returns the caller's claims with a renewed expiry
 const getJwtUpdated = async () => {
   const jwtPayload = await getJwtPayloadFromCookie()
@@ -282,6 +300,17 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
+    // the testing account's username is taken, any other one is available (see above)
+    case 'AccountByUsername':
+      return {
+        data: {
+          accountByUsername: {
+            id: ACCOUNT.id,
+            rowId: ACCOUNT.rowId,
+            __typename: 'Account',
+          },
+        },
+      }
     case 'AccountEdit':
       return {
         data: {
@@ -290,6 +319,15 @@ export const getTestingGraphqlResult = async ({
             description: TESTING_ACCOUNT_DESCRIPTION,
             imprintUrl: null,
             profilePictureByAccountId: null,
+          },
+        },
+      }
+    case 'AccountRegistration':
+      return {
+        data: {
+          accountRegistration: {
+            clientMutationId: null,
+            __typename: 'AccountRegistrationPayload',
           },
         },
       }
@@ -374,6 +412,10 @@ export const getTestingGraphqlResult = async ({
           allLegalTerms: {
             nodes: [
               {
+                id: getNodeId(
+                  'LegalTerm',
+                  '858ab35b-0433-4698-902f-ff42a25ec94a',
+                ),
                 rowId: '858ab35b-0433-4698-902f-ff42a25ec94a',
                 term: '# Terms of Use',
                 __typename: 'LegalTerm',
@@ -583,6 +625,27 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
+    // like postgraphile's `jwt_create`, wrong credentials yield no token rather than an error
+    case 'JwtCreate': {
+      const { input } = z
+        .object({
+          input: z.object({ password: z.string(), username: z.string() }),
+        })
+        .parse(variables)
+      const isAuthenticated =
+        input.username === TESTING_ACCOUNT_USERNAME &&
+        input.password === TESTING_ACCOUNT_PASSWORD
+
+      return {
+        data: {
+          jwtCreate: {
+            clientMutationId: null,
+            result: isAuthenticated ? await getJwtCreated() : null,
+            __typename: 'JwtCreatePayload',
+          },
+        },
+      }
+    }
     // every server render with a jwt cookie refreshes it through `useJwtInitialize`
     case 'JwtUpdate':
       return {
