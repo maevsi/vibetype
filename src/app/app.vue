@@ -39,6 +39,7 @@
       <Modal
         v-if="!runtimeConfig.public.vio.isTesting"
         v-model="isLockdownModeLikely"
+        @close="isLockdownModeDismissed = true"
         @submit="isLockdownModeLikely = false"
       >
         <template #header>{{ t('lockdownModeTitle') }}</template>
@@ -102,9 +103,19 @@ onBeforeMount(async () => {
 const isOnline = useOnline()
 
 // lockdown mode
+const isLockdownModeDismissed = useCookie<boolean>(
+  LOCKDOWN_MODE_DISMISSED_COOKIE_NAME,
+  {
+    httpOnly: false,
+    maxAge: LOCKDOWN_MODE_DISMISSED_COOKIE_MAX_AGE,
+    sameSite: COOKIE_SAME_SITE,
+    secure: useIsSecure(),
+  },
+)
 const isLockdownModeLikely = ref(false)
 onBeforeMount(() => {
-  isLockdownModeLikely.value = getIsLockdownModeLikely(window)
+  isLockdownModeLikely.value =
+    !isLockdownModeDismissed.value && getIsLockdownModeLikely(window)
 })
 
 // methods

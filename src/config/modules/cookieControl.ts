@@ -7,6 +7,7 @@ import {
   FEATURE_FLAGS_COOKIE_NAME,
   GTAG_COOKIE_ID,
   GTAG_MEASUREMENT_ID,
+  LOCKDOWN_MODE_DISMISSED_COOKIE_NAME,
   TIMEZONE_COOKIE_NAME,
 } from '../../node/static'
 
@@ -82,6 +83,18 @@ export const cookieControlConfig = {
             en: 'Time Zone',
           },
           targetCookieIds: [TIMEZONE_COOKIE_NAME],
+        },
+        {
+          description: {
+            de: 'Dieser Cookie von uns speichert, dass der Hinweis zum Blockierungsmodus geschlossen wurde.',
+            en: 'This cookie of ours saves that the Lockdown Mode notice was closed.',
+          },
+          id: 'l',
+          name: {
+            de: 'Blockierungsmodus-Hinweis',
+            en: 'Lockdown Mode Notice',
+          },
+          targetCookieIds: [LOCKDOWN_MODE_DISMISSED_COOKIE_NAME],
         },
         {
           description: {
