@@ -15,6 +15,7 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -33,7 +34,10 @@ jobs:
       - name: Summarize
         if: steps.collect.outputs.total != '0'
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_FEDERATION_RULE_ID: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID }}
+          ANTHROPIC_ORGANIZATION_ID: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
+          ANTHROPIC_SERVICE_ACCOUNT_ID: ${{ vars.ANTHROPIC_SERVICE_ACCOUNT_ID }}
+          ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID }}
         # The summary is never printed: run logs of this public repository are public,
         # and with DIGEST_GH_TOKEN it describes private repositories.
         run: .github/weekly-digest.sh summarize < "$RUNNER_TEMP/context.json" > "$RUNNER_TEMP/summary.md"
