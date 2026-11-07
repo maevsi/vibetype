@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto'
+
 import type { DefineNuxtConfig } from 'nuxt/config'
 
 import { CACHE_VERSION, THEME_COLOR } from '../../node/static'
@@ -13,6 +15,12 @@ export const pwaConfig: ReturnType<DefineNuxtConfig> = {
       installPrompt: true,
     },
     filename: 'sw.ts',
+    injectManifest: {
+      // the `/offline` route rule's shell is rendered per request, so its csp carries the runtime site url, and it references this build's entry chunk
+      additionalManifestEntries: [{ revision: randomUUID(), url: '/offline' }],
+      // `@vite-pwa/nuxt` seeds `globPatterns` with only its build manifest json, which drops workbox's default
+      globPatterns: ['**/*.{css,js,woff2}'],
+    },
     manifest: {
       background_color: THEME_COLOR,
       categories: ['events'],

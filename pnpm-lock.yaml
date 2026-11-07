@@ -630,6 +630,12 @@ importers:
       workbox-precaching:
         specifier: 7.4.1
         version: 7.4.1
+      workbox-routing:
+        specifier: 7.4.1
+        version: 7.4.1
+      workbox-strategies:
+        specifier: 7.4.1
+        version: 7.4.1
       zod:
         specifier: 4.6.7
         version: 4.6.7
