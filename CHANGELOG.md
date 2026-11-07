@@ -1,3 +1,9 @@
+## [16.7.1](https://github.com/maevsi/vibetype/compare/16.7.0...16.7.1) (2026-11-07)
+
+### Bug Fixes
+
+* **turnstile:** harden mutation detection ([#2535](https://github.com/maevsi/vibetype/issues/2535)) ([3f8a5c2](https://github.com/maevsi/vibetype/commit/3f8a5c2634d0864f9d856bc58ad30a4146ddba54))
+
 ## [16.7.0](https://github.com/maevsi/vibetype/compare/16.6.1...16.7.0) (2026-11-07)
 
 ### Features
