@@ -29,6 +29,13 @@
           </template>
         </i18n-t>
       </CardStateInfo>
+      <CardStateWarn
+        v-if="!isOnline"
+        class="shrink-0 rounded-none"
+        role="status"
+      >
+        {{ t('offline') }}
+      </CardStateWarn>
     </ClientOnly>
     <NuxtLoadingIndicator />
     <NuxtAnnouncer />
@@ -54,6 +61,7 @@
 </template>
 
 <script setup lang="ts">
+import { useOnline } from '@vueuse/core'
 import { isEqual } from 'ufo'
 
 const { $pwa, $urql } = useNuxtApp()
@@ -80,6 +88,9 @@ onBeforeMount(async () => {
   const supportedBrowsers = (await import('~/supportedBrowsers')).default
   isBrowserSupported.value = supportedBrowsers.test(navigator.userAgent)
 })
+
+// network
+const isOnline = useOnline()
 
 // methods
 const initialize = async () => {
@@ -197,12 +208,14 @@ onMounted(() => {
 de:
   browserUnsupported: Du benutzt einen Browser, in dem nicht alle Funktionen von @.upper:{'globalSiteName'} unterstützt werden. {link}.
   browserUnsupportedLink: Mehr erfahren
+  offline: Du bist offline. Einige Funktionen sind erst wieder verfügbar, wenn deine Internetverbindung zurück ist.
   pwaConfirmButtonText: App nutzen
   pwaText: Erhalte Veranstaltungsempfehlungen direkt, sobald sie verfügbar sind!
   pwaTitle: "@.upper:{'globalSiteName'} installieren"
 en:
   browserUnsupported: You're using a browser which does not support all features @.upper:{'globalSiteName'} offers. {link}.
   browserUnsupportedLink: Learn more
+  offline: You're offline. Some features are unavailable until your internet connection is back.
   pwaConfirmButtonText: Get the app
   pwaText: Get event recommendations right when they become available!
   pwaTitle: Install @.upper:{'globalSiteName'}
