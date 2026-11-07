@@ -170,7 +170,7 @@ post() {
   jq -n --slurpfile ctx "$context" --rawfile text "$summary" '
     ($ctx[0].counts) as $c
     | {
-        username: "maevsi weekly",
+        username: "Team Software Engineering",
         allowed_mentions: {parse: []},
         embeds: [{
           title: "🚀 This week in code",
