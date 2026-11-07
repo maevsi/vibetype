@@ -137,6 +137,9 @@ export default defineNuxtConfig({
             perSecond: '14',
           },
         },
+        upload: {
+          maxSize: 10485760, // bytes, set from tusd's `TUSD_MAX_SIZE` in the stack so the client rejects what tusd would
+        },
       },
       gtag: {
         id: GTAG_MEASUREMENT_ID,
