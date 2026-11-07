@@ -36,7 +36,12 @@ const getZxcvbn = () => {
       graphs: zxcvbnCommonPackage.adjacencyGraphs,
       translations: zxcvbnEnPackage.translations,
     })
-  })()
+  })().catch((error: unknown) => {
+    // A failed chunk import, e.g. after a deploy, would otherwise stay cached
+    // and break password scoring until the page is reloaded
+    zxcvbnPromise = undefined
+    throw error
+  })
 
   return zxcvbnPromise
 }
