@@ -4,7 +4,10 @@ import { TESTING_COOKIE_NAME } from '#src/node/static'
 
 test.describe('headers middleware', () => {
   test('sets the correct headers', async ({ request }) => {
-    if (process.env.VIO_SERVER === 'static') return // TODO: use single snapshot and all servers
+    test.skip(
+      process.env.VIO_SERVER === 'static',
+      'the headers are set by the nitro server, which a static file server does not run',
+    )
 
     const HEADERS = {
       'access-control-allow-origin': '*',
