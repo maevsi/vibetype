@@ -34,6 +34,7 @@ import {
   allPreferenceEventLocationsQuery,
   getPreferenceEventLocationItem,
 } from '~~/shared/utils/preference/eventLocation'
+import { getSsrHydrationExchanges } from '~~/shared/utils/urqlSsrHydration'
 
 // A `useQuery` that settles on the server: the query is paused at creation,
 // and awaiting the response executes it exactly once and fills its state, so
@@ -124,6 +125,18 @@ const invalidateCache = (
         .forEach((field) => {
           cache.invalidate('Query', field.fieldKey)
         })
+
+// The database's row level security hides a blocked account's accounts,
+// contacts, events and guests, so every list of them changes with a block
+const invalidateAccountBlockDependents = (cache: Cache) =>
+  [
+    'accountBlockAccounts',
+    'allAccounts',
+    'allContacts',
+    'allEvents',
+    'allGuests',
+    'eventSearch',
+  ].forEach((name) => invalidateCache(cache, name))
 
 const cacheListAppend = <
   Fragment,
@@ -239,6 +252,8 @@ export const getUrqlClient = async ({
     updates: {
       Mutation: {
         // create
+        createAccountBlock: (_result, _args, cache, _info) =>
+          invalidateAccountBlockDependents(cache),
         createContact: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allContacts'),
         createEvent: (_result, _args, cache, _info) => {
@@ -306,8 +321,18 @@ export const getUrqlClient = async ({
             query: allPreferenceEventLocationsQuery,
             result,
           }),
+        createPreferenceEventSize: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allPreferenceEventSizes'),
+        createUpload: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allUploads'),
 
         // delete
+        deleteAccountBlockByCreatedByAndBlockedAccountId: (
+          _result,
+          _args,
+          cache,
+          _info,
+        ) => invalidateAccountBlockDependents(cache),
         deleteContactByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Contact', args),
         eventDelete: (_result, _args, cache, _info) => {
@@ -406,8 +431,16 @@ export const getUrqlClient = async ({
             query: allPreferenceEventLocationsQuery,
             result,
           }),
+        deletePreferenceEventSizeByAccountIdAndEventSize: (
+          _result,
+          _args,
+          cache,
+          _info,
+        ) => invalidateCache(cache, 'allPreferenceEventSizes'),
         deleteProfilePictureByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'ProfilePicture', args),
+        deleteUploadByRowId: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allUploads'),
       },
     },
   }
@@ -419,12 +452,22 @@ export const getUrqlClient = async ({
   // whenever the client is rebuilt - otherwise `urqlReset` recreates the
   // `Client`s but keeps serving normalized entities from the old store.
   const buildClientOptions = () => {
+    let isCacheHydrated = false
+    const ssrHydrationExchanges = getSsrHydrationExchanges({
+      isCacheHydrated: () => isCacheHydrated,
+      ssrExchange,
+    })
     const cacheExchange =
       import.meta.client && cacheStorage
         ? getOfflineExchange({
             ...graphCacheConfig,
             schema,
-            storage: cacheStorage,
+            storage: {
+              ...cacheStorage,
+              onCacheHydrated: () => {
+                isCacheHydrated = true
+              },
+            },
           })
         : undefined
 
@@ -433,7 +476,13 @@ export const getUrqlClient = async ({
       exchanges: [
         ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
         requestPolicyExchange({}),
-        ...(cacheExchange ? [cacheExchange] : []),
+        ...(cacheExchange
+          ? [
+              ssrHydrationExchanges.skipCacheRead,
+              cacheExchange,
+              ssrHydrationExchanges.answerFromSsr,
+            ]
+          : []),
         ...(isSsr ? [ssrExchange] : []), // `ssrExchange` must be before `fetchExchange`
         fetchExchange,
       ],

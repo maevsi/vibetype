@@ -55,7 +55,6 @@
       v-if="blockRemoveAccount"
       v-model:open="isBlockRemoveDrawerOpen"
       :account="blockRemoveAccount"
-      @success="accountBlockAccountsQuery.executeQuery"
     />
   </Loader>
 </template>
