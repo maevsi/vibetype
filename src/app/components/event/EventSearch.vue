@@ -43,6 +43,7 @@ const queryEventList = graphql(`
               id
               name
             }
+            id
           }
         }
         eventFavoritesByEventId(first: 1) {
@@ -58,6 +59,7 @@ const queryEventList = graphql(`
               id
               name
             }
+            id
           }
         }
         guestsByEventId(first: 1) {
@@ -119,6 +121,7 @@ const queryEventSearch = graphql(`
               id
               name
             }
+            id
           }
         }
         eventFavoritesByEventId(first: 1) {
@@ -134,6 +137,7 @@ const queryEventSearch = graphql(`
               id
               name
             }
+            id
           }
         }
         guestsByEventId(first: 1) {
