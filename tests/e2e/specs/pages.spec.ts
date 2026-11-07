@@ -146,6 +146,28 @@ for (const [name, test] of [
       }
     })
 
+    test.describe('page title', () => {
+      for (const path of PAGE_PATHS) {
+        test(path, async ({ defaultPage }) => {
+          const { isRedirect, response } = await requestPage(
+            defaultPage.page,
+            path,
+          )
+
+          if (isRedirect) return
+
+          const title = (await response.text()).match(
+            /<title>([^<]*)<\/title>/,
+          )?.[1]
+
+          // a page part that is missing, empty or just the site name again means the page sets no title of its own
+          expect(title).toMatch(
+            path === '/' ? /^Vibetype$/ : /^(?!Vibetype · ).+ · Vibetype$/,
+          )
+        })
+      }
+    })
+
     // the color scheme only changes styles, so checking it once per page is enough
     for (const colorScheme of name === 'signed out'
       ? (['light', 'dark'] as const)
