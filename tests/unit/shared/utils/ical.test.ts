@@ -92,4 +92,24 @@ describe('parseIcsEvent', () => {
       }),
     ).toBeUndefined()
   })
+
+  test('reads quoted parameters', () => {
+    expect(
+      parseIcsEvent({
+        ics: getIcs('DTSTART;TZID="America/New_York";X-A=";":20300615T180000'),
+        timeZone: 'UTC',
+      })?.start,
+    ).toBe('2030-06-15T22:00:00.000Z')
+  })
+
+  test('rejects malformed lines in linear time', () => {
+    const startedAt = performance.now()
+
+    parseIcsEvent({
+      ics: getIcs(`-${';'.repeat(50_000)}`),
+      timeZone: 'UTC',
+    })
+
+    expect(performance.now() - startedAt).toBeLessThan(1000)
+  })
 })

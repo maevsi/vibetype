@@ -67,7 +67,10 @@ export const parseIcsEvent = ({
   for (const line of lines.slice(eventStart + 1)) {
     if (line === 'END:VEVENT') break
 
-    const match = /^([A-Z-]+)((?:;[^:"]*(?:"[^"]*")?)*):(.*)$/i.exec(line)
+    // a parameter's unquoted part excludes `;`, so each `;` can only start the next parameter, which keeps lines like `-;;;…` from backtracking exponentially
+    const match = /^([A-Z-]+)((?:;[^:;"]*(?:"[^"]*"[^:;"]*)*)*):(.*)$/i.exec(
+      line,
+    )
     if (!match?.[1] || match[3] === undefined) continue
 
     const name = match[1].toUpperCase()
