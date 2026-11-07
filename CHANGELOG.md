@@ -1,3 +1,10 @@
+## [16.6.0](https://github.com/maevsi/vibetype/compare/16.5.2...16.6.0) (2026-11-07)
+
+### Features
+
+* **captcha:** show challenge only on required interaction ([#2518](https://github.com/maevsi/vibetype/issues/2518)) ([c3a3966](https://github.com/maevsi/vibetype/commit/c3a396630a68d688ab1f9cf20b786a58cb92e7a2))
+* **network:** display offline status ([#2517](https://github.com/maevsi/vibetype/issues/2517)) ([23d6297](https://github.com/maevsi/vibetype/commit/23d629721f505f9dd1e670290a128b84b69e9abc))
+
 ## [16.5.2](https://github.com/maevsi/vibetype/compare/16.5.1...16.5.2) (2026-11-07)
 
 ### Bug Fixes

@@ -29,6 +29,13 @@
           </template>
         </i18n-t>
       </CardStateInfo>
+      <CardStateWarn
+        v-if="!isOnline"
+        class="shrink-0 rounded-none"
+        role="status"
+      >
+        {{ t('offline') }}
+      </CardStateWarn>
       <Modal
         v-if="!runtimeConfig.public.vio.isTesting"
         v-model="isLockdownModeLikely"
@@ -64,6 +71,7 @@
 </template>
 
 <script setup lang="ts">
+import { useOnline } from '@vueuse/core'
 import { isEqual } from 'ufo'
 
 const { $pwa, $urql } = useNuxtApp()
@@ -106,6 +114,9 @@ onBeforeMount(() => {
   isLockdownModeLikely.value =
     !isLockdownModeDismissed.value && getIsLockdownModeLikely(window)
 })
+
+// network
+const isOnline = useOnline()
 
 // methods
 const initialize = async () => {
@@ -226,6 +237,7 @@ de:
   lockdownModeDescription: Der Blockierungsmodus ist aktiv und schaltet Funktionen ab, die @.upper:{'globalSiteName'} braucht, zum Beispiel das Speichern von Daten auf deinem Gerät.
   lockdownModeInstructions: "Nimm @.upper:{'globalSiteName'} vom Blockierungsmodus aus: für die App in der Einstellungen-App unter Datenschutz & Sicherheit › Blockierungsmodus › Web-Browsing konfigurieren, für Safari über das Seitenmenü › Website-Einstellungen."
   lockdownModeTitle: Blockierungsmodus erkannt
+  offline: Du bist offline. Einige Funktionen sind erst wieder verfügbar, wenn deine Internetverbindung zurück ist.
   pwaConfirmButtonText: App nutzen
   pwaText: Erhalte Veranstaltungsempfehlungen direkt, sobald sie verfügbar sind!
   pwaTitle: "@.upper:{'globalSiteName'} installieren"
@@ -235,6 +247,7 @@ en:
   lockdownModeDescription: Lockdown Mode is on and turns off features @.upper:{'globalSiteName'} needs, such as storing data on your device.
   lockdownModeInstructions: "Exclude @.upper:{'globalSiteName'} from Lockdown Mode: for the app, open the Settings app and go to Privacy & Security › Lockdown Mode › Configure Web Browsing; for Safari, use the page menu › Website Settings."
   lockdownModeTitle: Lockdown Mode detected
+  offline: You're offline. Some features are unavailable until your internet connection is back.
   pwaConfirmButtonText: Get the app
   pwaText: Get event recommendations right when they become available!
   pwaTitle: Install @.upper:{'globalSiteName'}
