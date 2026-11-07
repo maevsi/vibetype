@@ -224,7 +224,13 @@ export const getTestingGraphqlResult = async ({
   if (username !== undefined && username !== TESTING_ACCOUNT_USERNAME)
     return { data: { accountByUsername: null } }
 
-  if (slug !== undefined && slug !== TESTING_EVENT_SLUG)
+  // only operations that look an event up below `accountByUsername` take this
+  // shape, others with a slug (e.g. the slug availability check) have their own
+  if (
+    username !== undefined &&
+    slug !== undefined &&
+    slug !== TESTING_EVENT_SLUG
+  )
     return {
       data: {
         accountByUsername: {
@@ -446,6 +452,15 @@ export const getTestingGraphqlResult = async ({
             id: ACCOUNT.id,
             __typename: 'Account',
           },
+        },
+      }
+    case 'EventByCreatedByAndSlug':
+      return {
+        data: {
+          eventByCreatedByAndSlug:
+            slug === TESTING_EVENT_SLUG
+              ? { id: EVENT.id, __typename: 'Event' }
+              : null,
         },
       }
     case 'EventEdit':
