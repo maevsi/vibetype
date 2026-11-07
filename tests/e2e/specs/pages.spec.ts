@@ -84,6 +84,9 @@ const PAGE_PATHS_MISSING = [
   `/event/view/${TESTING_ACCOUNT_USERNAME}/e2e-missing-event`,
 ]
 
+// pages titled with the bare site name: the start page and the offline shell, which only redirects to it
+const PAGE_PATHS_TITLE_SITE_NAME = ['/', '/offline']
+
 // uses the browser context's cookies, so that signed in requests carry the session
 // redirect targets are checked on their own, external ones (e.g. app stores) not at all
 const requestPage = async (page: Page, path: string) => {
@@ -142,6 +145,30 @@ for (const [name, test] of [
               )
               .join('\n'),
           ).toEqual('')
+        })
+      }
+    })
+
+    test.describe('page title', () => {
+      for (const path of PAGE_PATHS) {
+        test(path, async ({ defaultPage }) => {
+          const { isRedirect, response } = await requestPage(
+            defaultPage.page,
+            path,
+          )
+
+          if (isRedirect) return
+
+          const title = (await response.text()).match(
+            /<title>([^<]*)<\/title>/,
+          )?.[1]
+
+          // a page part that is missing, empty or just the site name again means the page sets no title of its own
+          expect(title).toMatch(
+            PAGE_PATHS_TITLE_SITE_NAME.includes(path)
+              ? /^Vibetype$/
+              : /^(?!Vibetype · ).+ · Vibetype$/,
+          )
         })
       }
     })
