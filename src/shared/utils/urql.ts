@@ -34,6 +34,7 @@ import {
   allPreferenceEventLocationsQuery,
   getPreferenceEventLocationItem,
 } from '~~/shared/utils/preference/eventLocation'
+import { getSsrHydrationExchanges } from '~~/shared/utils/urqlSsrHydration'
 
 // A `useQuery` that settles on the server: the query is paused at creation,
 // and awaiting the response executes it exactly once and fills its state, so
@@ -229,6 +230,7 @@ export const getUrqlClient = async ({
   const ssrExchange = getSsrExchange({
     isClient: import.meta.client,
   })
+  const ssrHydrationExchanges = getSsrHydrationExchanges(ssrExchange)
 
   const graphCacheConfig: GraphCacheConfig = {
     keys: {
@@ -465,7 +467,13 @@ export const getUrqlClient = async ({
       exchanges: [
         ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
         requestPolicyExchange({}),
-        ...(cacheExchange ? [cacheExchange] : []),
+        ...(cacheExchange
+          ? [
+              ssrHydrationExchanges.skipCacheRead,
+              cacheExchange,
+              ssrHydrationExchanges.answerFromSsr,
+            ]
+          : []),
         ...(isSsr ? [ssrExchange] : []), // `ssrExchange` must be before `fetchExchange`
         fetchExchange,
       ],
