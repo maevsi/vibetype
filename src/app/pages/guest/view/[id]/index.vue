@@ -232,28 +232,31 @@
           </p>
         </div>
         <template #footer>
-          <!-- window.print is a no-op in the iOS app's WKWebView, unlike in the Android app's Chrome -->
           <ButtonColored
-            v-if="!isIos"
-            :aria-label="t('print')"
+            v-if="isTicketShareable"
+            :aria-label="t('ticketShare')"
+            :disabled="!ticketFile"
+            :loading="isTicketFetching"
             variant="secondary"
-            @click="print"
+            @click="ticketShare"
           >
-            {{ t('print') }}
-            <template #prefix>
-              <AppIconPrinter />
-            </template>
-          </ButtonColored>
-          <!-- on iOS, the share sheet offers printing in place of window.print -->
-          <ButtonColored
-            v-if="isQrCodeShareable"
-            :aria-label="t('share')"
-            variant="secondary"
-            @click="share"
-          >
-            {{ t('share') }}
+            {{ t('ticketShare') }}
             <template #prefix>
               <AppIconShare />
+            </template>
+          </ButtonColored>
+          <!-- the iOS app's share sheet covers saving and printing, whereas Android's usually lacks a print target -->
+          <ButtonColored
+            v-if="!isIos"
+            :aria-label="t('ticketDownload')"
+            :disabled="!ticketFile"
+            :loading="isTicketFetching"
+            variant="secondary"
+            @click="ticketDownload"
+          >
+            {{ t('ticketDownload') }}
+            <template #prefix>
+              <AppIconArrowDownTray />
             </template>
           </ButtonColored>
           <ButtonColored
@@ -275,7 +278,6 @@
 import { useMutation } from '@urql/vue'
 import downloadJs from 'downloadjs'
 import { sanitize } from 'isomorphic-dompurify'
-import prntr from 'prntr'
 import QrcodeVue from 'qrcode.vue'
 
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
@@ -283,7 +285,7 @@ import type { GuestPatch } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
 
 const { isIos } = usePlatform()
-const { t } = useI18n()
+const { locale, t } = useI18n()
 const route = useRoute()
 const localePath = useLocalePath()
 const updateGuestByRowIdMutation = useMutation(
@@ -457,42 +459,97 @@ const downloadIcal = async () => {
     'text/calendar',
   )
 }
-const print = () => {
-  prntr({
-    printable: 'qrCode',
-    type: 'html',
-  })
-}
-const isQrCodeShareable = ref<boolean>()
+const timeZone = useTimeZone()
+const isTicketShareable = ref<boolean>()
+const isTicketFetching = ref<boolean>()
+const ticketFile = ref<File>()
 onMounted(() => {
-  isQrCodeShareable.value = !!navigator.canShare?.({
-    files: [new File([], 'qr-code.png', { type: 'image/png' })],
+  isTicketShareable.value = !!navigator.canShare?.({
+    files: [new File([], 'ticket.pdf', { type: 'application/pdf' })],
   })
 })
-const share = async () => {
-  const canvas = document.getElementById('qrCode')
+const ticketFetch = async () => {
+  if (!event.value || !guest.value || ticketFile.value) return
 
-  if (!(canvas instanceof HTMLCanvasElement)) return
+  const dateTimeFormat = new Intl.DateTimeFormat(locale.value, {
+    dateStyle: 'full',
+    timeStyle: 'short',
+    timeZone,
+  })
+  const fileName = `${event.value.slug}.pdf`
 
-  // built synchronously, as iOS drops the user activation that
-  // navigator.share requires once an await (like canvas.toBlob) runs first
-  const base64 = canvas.toDataURL('image/png').split(',')[1] || ''
-  const file = new File(
-    [Uint8Array.from(atob(base64), (character) => character.charCodeAt(0))],
-    `${event.value?.slug || 'qr-code'}.png`,
-    { type: 'image/png' },
-  )
+  isTicketFetching.value = true
 
   try {
-    await navigator.share({ files: [file] })
+    const blob = await $csrfFetch('/api/model/guest/ticket', {
+      body: {
+        details: [
+          {
+            label: t('ticketDate'),
+            value: event.value.end
+              ? dateTimeFormat.formatRange(
+                  new Date(event.value.start),
+                  new Date(event.value.end),
+                )
+              : dateTimeFormat.format(new Date(event.value.start)),
+          },
+          ...(address.value?.name
+            ? [{ label: t('ticketLocation'), value: address.value.name }]
+            : []),
+          ...(event.value.accountByCreatedBy
+            ? [
+                {
+                  label: t('ticketOrganizer'),
+                  value: event.value.accountByCreatedBy.username,
+                },
+              ]
+            : []),
+          ...(contactName.value
+            ? [{ label: t('ticketGuest'), value: contactName.value }]
+            : []),
+        ],
+        fileName,
+        guestId: guest.value.rowId,
+        hint: t('hintQrCode'),
+        title: event.value.name,
+      },
+      method: 'POST',
+      responseType: 'blob',
+    })
+
+    ticketFile.value = new File([blob], fileName, { type: 'application/pdf' })
+  } catch (error) {
+    alertError({
+      error: error instanceof Error ? error : undefined,
+      messageI18n: t('ticketError'),
+    })
+  } finally {
+    isTicketFetching.value = false
+  }
+}
+watch(isModalGuestQrCodeOpen, (isOpen) => {
+  if (isOpen) ticketFetch()
+})
+// called without awaiting anything first, as iOS drops the user activation
+// that navigator.share requires once an await runs
+const ticketShare = async () => {
+  if (!ticketFile.value) return
+
+  try {
+    await navigator.share({ files: [ticketFile.value] })
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') return
 
     alertError({
       error: error instanceof Error ? error : undefined,
-      messageI18n: t('shareError'),
+      messageI18n: t('ticketShareError'),
     })
   }
+}
+const ticketDownload = () => {
+  if (!ticketFile.value) return
+
+  downloadJs(ticketFile.value, ticketFile.value.name, 'application/pdf')
 }
 const qrCodeShow = () => {
   isModalGuestQrCodeOpen.value = true
@@ -595,12 +652,17 @@ de:
   invitationSelectionClear: Zurück zur Einladungsübersicht
   invitationViewFor: Du schaust dir die Einladung für {name} an. Alle Personen, die den Link zu dieser Seite bzw. die ID dieser Einladung kennen, können auf diese Einladung zugreifen und mit ihr interagieren.
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
-  print: Drucken
   qrCodeShow: Check-in-Code anzeigen
   report: Veranstaltung melden
-  share: Teilen
-  shareError: Der Check-in-Code konnte nicht geteilt werden.
   success: Deine Eingabe wurde erfolgreich gespeichert.
+  ticketDate: Datum
+  ticketDownload: Ticket herunterladen
+  ticketError: Das Ticket konnte nicht erstellt werden.
+  ticketGuest: Gast
+  ticketLocation: Ort
+  ticketOrganizer: Veranstaltet von
+  ticketShare: Ticket teilen
+  ticketShareError: Das Ticket konnte nicht geteilt werden.
 en:
   close: Close
   errorAccountMissing: Account not available
@@ -622,10 +684,15 @@ en:
   invitationSelectionClear: Back to the invitation overview
   invitationViewFor: You're viewing the invitation for {name}. Anyone knowing the link to this page or this invitation's id can access this invitation and interact with it.
   ogImageAlt: The event's preview image.
-  print: Print
   qrCodeShow: Show check in code
   report: Report event
-  share: Share
-  shareError: The check in code could not be shared.
   success: Your input was saved succesfully.
+  ticketDate: Date
+  ticketDownload: Download ticket
+  ticketError: The ticket could not be created.
+  ticketGuest: Guest
+  ticketLocation: Location
+  ticketOrganizer: Organized by
+  ticketShare: Share ticket
+  ticketShareError: The ticket could not be shared.
 </i18n>
