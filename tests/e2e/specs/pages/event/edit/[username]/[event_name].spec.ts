@@ -14,7 +14,13 @@ authenticatedTest.describe('event edit', () => {
     const { page } = defaultPage
 
     await defaultPage.goto(PAGE_PATH)
+
+    // a new name yields a new slug, whose debounced availability check makes the form drop any submit until it settles
+    const slugCheck = page.waitForResponse((response) =>
+      response.url().includes('EventByCreatedByAndSlug'),
+    )
     await page.getByLabel('Name', { exact: true }).fill('Renamed Meetup')
+    await slugCheck
 
     const [request] = await Promise.all([
       page.waitForRequest(
