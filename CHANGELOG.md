@@ -1,3 +1,9 @@
+## [16.5.2](https://github.com/maevsi/vibetype/compare/16.5.1...16.5.2) (2026-11-07)
+
+### Bug Fixes
+
+* **urql:** keep the client cache in sync after mutations and on page load ([#2514](https://github.com/maevsi/vibetype/issues/2514)) ([4c36b36](https://github.com/maevsi/vibetype/commit/4c36b367fa38515b991daa59809dacb7dadf4ba8))
+
 ## [16.5.1](https://github.com/maevsi/vibetype/compare/16.5.0...16.5.1) (2026-11-07)
 
 ### Bug Fixes
