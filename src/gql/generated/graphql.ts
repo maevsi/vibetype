@@ -1534,6 +1534,14 @@ export type CreateUploadMutation = {
   } | null
 }
 
+export type DeleteFailedUploadMutationVariables = Exact<{
+  input: DeleteUploadByRowIdInput
+}>
+
+export type DeleteFailedUploadMutation = {
+  deleteUploadByRowId: { clientMutationId: string | null } | null
+}
+
 export type JwtUpdateGuestAddGuestMutationVariables = Exact<{
   input: JwtUpdateGuestAddInput
 }>
@@ -7074,6 +7082,63 @@ export const CreateUploadDocument = {
 } as unknown as DocumentNode<
   CreateUploadMutation,
   CreateUploadMutationVariables
+>
+export const DeleteFailedUploadDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteFailedUpload' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteUploadByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteUploadByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteFailedUploadMutation,
+  DeleteFailedUploadMutationVariables
 >
 export const JwtUpdateGuestAddGuestDocument = {
   kind: 'Document',
