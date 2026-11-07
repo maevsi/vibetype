@@ -115,6 +115,10 @@ const EVENT_VIEW = {
     ],
     __typename: 'EventCategoryMappingConnection',
   },
+  eventFavoritesByEventId: {
+    nodes: [],
+    __typename: 'EventFavoriteConnection',
+  },
   eventFormatMappingsByEventId: {
     nodes: [
       {
