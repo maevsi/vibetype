@@ -24,7 +24,7 @@ authenticatedTest.describe('file handling', () => {
           'END:VCALENDAR',
         ].join('\r\n')
 
-        Object.defineProperty(window, 'launchQueue', {
+        Object.defineProperty(globalThis, 'launchQueue', {
           value: {
             setConsumer: (consumer: (params: unknown) => unknown) =>
               consumer({
