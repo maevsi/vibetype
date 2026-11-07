@@ -31,22 +31,14 @@ export const pwaConfig: ReturnType<DefineNuxtConfig> = {
       edge_side_panel: {
         preferred_width: 400,
       },
-      // file_handlers: [
-      //   {
-      //     action: '/open-ics',
-      //     accept: {
-      //       'text/calendar': ['.ics'],
-      //     },
-      //     icons: [
-      //       {
-      //         src: 'ics-icon.png',
-      //         sizes: '256x256',
-      //         type: 'image/png',
-      //       },
-      //     ],
-      //     launch_type: 'single-client',
-      //   },
-      // ],
+      file_handlers: [
+        {
+          action: '/event/create', // prefills the event form from the file
+          accept: {
+            'text/calendar': ['.ics'],
+          },
+        },
+      ],
       handle_links: 'preferred',
       iarc_rating_id: '4bc30419-7452-4496-b02b-5feac10842dc',
       // https://vite-pwa-org.netlify.app/assets-generator/
@@ -121,12 +113,12 @@ export const pwaConfig: ReturnType<DefineNuxtConfig> = {
       ],
       start_url: '/?source=pwa',
       prefer_related_applications: false,
-      // protocol_handlers: [
-      //   {
-      //     protocol: `web+${SITE_NAME}`,
-      //     url: '/events/%s',
-      //   },
-      // ],
+      protocol_handlers: [
+        {
+          protocol: 'web+vibetype',
+          url: '/open?url=%s',
+        },
+      ],
       related_applications: [
         {
           platform: 'play',
