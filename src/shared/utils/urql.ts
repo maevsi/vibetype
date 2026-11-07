@@ -230,7 +230,6 @@ export const getUrqlClient = async ({
   const ssrExchange = getSsrExchange({
     isClient: import.meta.client,
   })
-  const ssrHydrationExchanges = getSsrHydrationExchanges(ssrExchange)
 
   const graphCacheConfig: GraphCacheConfig = {
     keys: {
@@ -453,12 +452,22 @@ export const getUrqlClient = async ({
   // whenever the client is rebuilt - otherwise `urqlReset` recreates the
   // `Client`s but keeps serving normalized entities from the old store.
   const buildClientOptions = () => {
+    let isCacheHydrated = false
+    const ssrHydrationExchanges = getSsrHydrationExchanges({
+      isCacheHydrated: () => isCacheHydrated,
+      ssrExchange,
+    })
     const cacheExchange =
       import.meta.client && cacheStorage
         ? getOfflineExchange({
             ...graphCacheConfig,
             schema,
-            storage: cacheStorage,
+            storage: {
+              ...cacheStorage,
+              onCacheHydrated: () => {
+                isCacheHydrated = true
+              },
+            },
           })
         : undefined
 
