@@ -1,3 +1,17 @@
+## [16.8.0](https://github.com/maevsi/vibetype/compare/16.7.1...16.8.0) (2026-11-07)
+
+### Features
+
+* **event:** share and favorite from the event page ([#2531](https://github.com/maevsi/vibetype/issues/2531)) ([66000d4](https://github.com/maevsi/vibetype/commit/66000d4baf865ac2b0cc84fa4f33e4ab0ba1327a))
+* **upload:** take the file size limit from the runtime config ([#2549](https://github.com/maevsi/vibetype/issues/2549)) ([bce4172](https://github.com/maevsi/vibetype/commit/bce417274689bee48669b3aedc0a2a45725a4429))
+
+### Bug Fixes
+
+* **early-bird:** label the form inputs ([#2546](https://github.com/maevsi/vibetype/issues/2546)) ([4a8fa28](https://github.com/maevsi/vibetype/commit/4a8fa2843a4991a89a294bc41d2e8651d6834575))
+* **event:** don't drop saves submitted right after a name change ([#2551](https://github.com/maevsi/vibetype/issues/2551)) ([5896beb](https://github.com/maevsi/vibetype/commit/5896beb37c631b5fff0ef9c744023bca1143a338))
+* **i18n:** precache the locale messages for offline use ([#2542](https://github.com/maevsi/vibetype/issues/2542)) ([13d4afd](https://github.com/maevsi/vibetype/commit/13d4afd3020812548ea3437af1ff6c43dcf64185))
+* **urql:** persist the results of server-rendered queries ([#2543](https://github.com/maevsi/vibetype/issues/2543)) ([ed57df1](https://github.com/maevsi/vibetype/commit/ed57df19d1e7ca1c215743bf55dcdfa69ba6f770))
+
 ## [16.7.1](https://github.com/maevsi/vibetype/compare/16.7.0...16.7.1) (2026-11-07)
 
 ### Bug Fixes
