@@ -16,6 +16,16 @@ describe('getServiceHref', () => {
     ).toBe(`${SITE_URL_TYPED.protocol}//${SITE_URL_TYPED.host}`)
   })
 
+  test('isTesting prefers the request host over the build-time site url', () => {
+    expect(
+      getServiceHref({
+        host: 'app.localhost:3001',
+        isTesting: true,
+        name: SITE_NAME,
+      }),
+    ).toBe(`${SITE_URL_TYPED.protocol}//app.localhost:3001`)
+  })
+
   test('stagingHost proxies a service with a public subdomain directly', () => {
     expect(
       getServiceHref({

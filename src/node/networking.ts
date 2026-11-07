@@ -45,8 +45,10 @@ export const getServiceHref = ({
   const isSelf = name === SITE_NAME
   const nameSubdomainString = isSelf ? '' : `${name.replaceAll('_', '-')}.`
 
+  // `SITE_URL_TYPED` is fixed at build time, so a build served on another port
+  // would send the browser's testing requests to the wrong origin
   if (isTesting) {
-    return `${SITE_URL_TYPED.protocol}//${nameSubdomainString}${SITE_URL_TYPED.host}`
+    return `${SITE_URL_TYPED.protocol}//${nameSubdomainString}${host ?? SITE_URL_TYPED.host}`
   }
 
   // the app itself always runs locally, even in frontend-only development -
