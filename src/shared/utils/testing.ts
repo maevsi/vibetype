@@ -1,6 +1,7 @@
 export const TESTING_ACCOUNT_ROW_ID = 'a3f8f6c2-6b1e-4b6a-9b9a-9f7d6a2e6c1a'
 export const TESTING_ACCOUNT_ID =
   'QWNjb3VudDphM2Y4ZjZjMi02YjFlLTRiNmEtOWI5YS05ZjdkNmEyZTZjMWE='
+export const TESTING_ACCOUNT_PASSWORD = 'e2e-test-password'
 export const TESTING_ACCOUNT_USERNAME = 'e2e-test-account'
 export const TESTING_ACCOUNT_DESCRIPTION =
   'Building vibetype, one event at a time.'
