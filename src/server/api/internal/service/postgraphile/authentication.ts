@@ -1,4 +1,4 @@
-import { parse } from 'graphql'
+import { BREAK, parse, visit } from 'graphql'
 import { z } from 'zod'
 
 import { jwtCreateMutation } from '~~/server/api/model/jwt.post'
@@ -15,6 +15,26 @@ const authProxyBodySchema = z.object({
     .nullable(),
 })
 
+// the root fields, not the operation name, which the client picks freely
+const PROTECTED_FIELD_NAMES = new Set(
+  [jwtCreateMutation, accountRegistrationMutation].map((document) => {
+    const definition = document.definitions[0]
+
+    if (
+      document.definitions.length !== 1 ||
+      definition?.kind !== 'OperationDefinition' ||
+      definition.selectionSet.selections.length !== 1 ||
+      definition.selectionSet.selections[0]?.kind !== 'Field'
+    )
+      throw createAppError({
+        status: 500,
+        statusText: 'Could not get root field of mutation.',
+      })
+
+    return definition.selectionSet.selections[0].name.value
+  }),
+)
+
 export default defineEventHandler(async (event) => {
   if (event.method !== 'POST') {
     console.debug("Skipping auth proxy as request wasn't POSTed.")
@@ -28,37 +48,15 @@ export default defineEventHandler(async (event) => {
     return
   }
 
-  const ast = parse(body.query)
+  // any field with a protected name counts, wherever it sits, so aliases, fragments and multiple operations can't hide it
+  let isProtected = false
+  visit(parse(body.query), {
+    Field: (node) => {
+      if (!PROTECTED_FIELD_NAMES.has(node.name.value)) return
+      isProtected = true
+      return BREAK
+    },
+  })
 
-  if (
-    // authentication
-    jwtCreateMutation.definitions.length !== 1 ||
-    !jwtCreateMutation.definitions[0] ||
-    !('name' in jwtCreateMutation.definitions[0]) ||
-    !jwtCreateMutation.definitions[0].name ||
-    // account registration
-    accountRegistrationMutation.definitions.length !== 1 ||
-    !accountRegistrationMutation.definitions[0] ||
-    !('name' in accountRegistrationMutation.definitions[0]) ||
-    !accountRegistrationMutation.definitions[0].name
-  )
-    throw createAppError({
-      status: 500,
-      statusText: 'Could not get name of mutation.',
-    })
-
-  for (const definition of ast.definitions) {
-    if (definition.kind !== 'OperationDefinition' || !definition.name) continue
-
-    switch (definition.name.value) {
-      case jwtCreateMutation.definitions[0].name.value:
-        await turnstileVerify(event)
-        break
-      case accountRegistrationMutation.definitions[0].name.value:
-        await turnstileVerify(event)
-        break
-      default:
-        return
-    }
-  }
+  if (isProtected) await turnstileVerify(event)
 })
