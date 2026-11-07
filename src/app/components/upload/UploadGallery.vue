@@ -29,7 +29,7 @@
             <LoaderImage
               :alt="upload.storageKey ? t('uploadAlt') : t('uploadAltFailed')"
               aspect="aspect-square"
-              class="size-32"
+              class="size-32 object-cover"
               height="128"
               :src="getUploadImageSrc(upload.storageKey || '')"
               :title="t('uploadSize', { size: bytesToString(upload.sizeByte) })"
@@ -103,11 +103,9 @@
     >
       <Cropper
         ref="cropper"
+        :default-size="({ imageSize }: { imageSize: Size }) => imageSize"
         :init-stretcher
         :src="fileSelectedUrl"
-        :stencil-props="{
-          aspectRatio: 1,
-        }"
       />
       <CardStateAlert v-if="uploadSubmitErrors" class="mb-4">
         <AppSpanList :span="uploadSubmitErrors" />
