@@ -29,6 +29,13 @@ import {
 const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
+  app: {
+    // the client only `/offline` shell renders no page head on the server, so this is all its html carries until the client takes over
+    head: {
+      htmlAttrs: { lang: 'en' },
+      title: 'Vibetype',
+    },
+  },
   compatibilityDate: '2025-07-20',
   css: ['~/assets/css/app.css'],
   experimental: {
