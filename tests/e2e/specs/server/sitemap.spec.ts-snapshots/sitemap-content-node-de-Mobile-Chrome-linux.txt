@@ -37,6 +37,12 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/notification" />
     </url>
     <url>
+        <loc>https://example.com/de/open</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/open" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/open" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/open" />
+    </url>
+    <url>
         <loc>https://example.com/de/upload</loc>
         <xhtml:link rel="alternate" hreflang="en" href="https://example.com/upload" />
         <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/upload" />
