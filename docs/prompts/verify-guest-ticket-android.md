@@ -1,4 +1,4 @@
-# Verify sharing and printing the check in code on Android
+# Verify the PDF ticket on Android
 
 Use this prompt to start an agent on a machine with the Android SDK (`adb`, `emulator`) to prove that https://github.com/maevsi/vibetype/issues/2481 is fixed on Android.
 The agent must report evidence, not opinions: every claim in the report needs a screenshot, a pulled file, or command output behind it.
@@ -7,9 +7,11 @@ The agent must report evidence, not opinions: every claim in the report needs a 
 
 The Android app (maevsi/android) is a Trusted Web Activity, so it renders vibetype in the device's Chrome and sends the request header `vibetype_platform: android`.
 The guest page `/guest/view/<guest id>` has a "Show check in code" button for accepted invitations, which opens a modal with a QR code.
-In that modal, Android must show both a "Print" and a "Share" button.
-"Print" opens Chrome's print dialog with only the QR code on the page.
-"Share" opens the system share sheet with a PNG of the QR code that has a white border around it.
+When the modal opens, the page fetches a one page A5 PDF ticket from `/api/model/guest/ticket`.
+On Android, the modal must show a "Share ticket" and a "Download ticket" button.
+"Share ticket" opens the system share sheet with the PDF.
+"Download ticket" saves the PDF, which can then be opened and printed, since Android's share sheet usually lacks a print target.
+The ticket shows the event name, date, location, organizer, guest name, a QR code, the guest id as text, and a hint.
 
 ## Inputs
 
@@ -31,24 +33,26 @@ Ask the human for whichever of these is missing before starting:
 Take a screenshot with `adb exec-out screencap -p > <name>.png` after every step and keep it for the report.
 
 1. Load `GUEST_URL` and accept the invitation if it is not accepted yet.
-1. Tap "Show check in code" and confirm the modal shows a QR code with a white border, a "Print" button, a "Share" button, and a "Close" button.
-1. Tap "Share" and confirm the system share sheet opens with an image preview.
-1. Save the image through the share sheet, e.g. with "Files" or a similar target, then find it with `adb shell find /sdcard -name '*.png' -newer /sdcard/Android -mmin -5` and pull it with `adb pull`.
-1. Decode the pulled PNG with `zbarimg` or an equivalent QR decoder and confirm it yields the guest id from `GUEST_URL`.
-1. Back in the modal, tap "Print", choose "Save as PDF", save the file, pull it with `adb pull`, and render it with `pdftoppm -png`.
-1. Confirm the rendered PDF shows the QR code and nothing else from the page, and that decoding it also yields the guest id.
-1. Cancel a share sheet without choosing a target and confirm no error toast appears.
+1. Tap "Show check in code" and confirm the modal shows a QR code with a white border, a "Share ticket" button, a "Download ticket" button, and a "Close" button, and that both ticket buttons become enabled.
+1. Tap "Download ticket", find the PDF with `adb shell find /sdcard/Download -name '*.pdf' -mmin -5`, and pull it with `adb pull`.
+1. Confirm with `pdfinfo` that the PDF has one page of 420 x 595 pt, then render it with `pdftoppm -png -r 150`.
+1. Confirm the rendered page shows the event name, date, location, organizer, guest name, QR code, guest id, and hint, all in the Raleway font and without missing glyphs.
+1. Decode the rendered page with `zbarimg` or an equivalent QR decoder and confirm it yields the guest id from `GUEST_URL`.
+1. Open the downloaded PDF on the device, print it through the viewer's "Print" option with "Save as PDF", pull that file, and confirm it shows the same ticket.
+1. Back in the modal, tap "Share ticket" and confirm the share sheet opens with the PDF attached.
+1. Cancel the share sheet without choosing a target and confirm no error toast appears.
 
 ## Pass criteria
 
-- The modal shows both "Print" and "Share".
-- The shared PNG decodes to the guest id and has a visible white border.
-- The printed PDF contains only the QR code, and it decodes to the guest id.
-- Cancelling the share sheet shows no error.
+- The modal shows "Share ticket" and "Download ticket", and both become enabled.
+- The downloaded PDF is one A5 page that shows every detail listed above in Raleway.
+- The QR code in the PDF decodes to the guest id.
+- The downloaded PDF can be printed on the device.
+- The share sheet receives the PDF, and cancelling it shows no error.
 
 ## Report
 
 Reply with a table of the pass criteria, each marked pass or fail with the evidence file name next to it.
-Attach the screenshots, the pulled PNG, and the rendered PDF page.
+Attach the screenshots, the pulled PDFs, and the rendered pages.
 Mention the emulator image or device model, the Android version, the Chrome version (`adb shell dumpsys package com.android.chrome | grep versionName`), and the `MODE`.
 If any step could not run, say which and why instead of guessing its outcome.
