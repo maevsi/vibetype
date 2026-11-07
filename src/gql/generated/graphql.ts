@@ -678,10 +678,6 @@ export type EventVisibility = 'private' | 'public' | 'unlisted'
 
 /** Represents an update to a `Guest`. Fields that are set will be updated. */
 export type GuestPatch = {
-  /** The internal id of the guest's contact. */
-  contactId?: string | null | undefined
-  /** The internal id of the guest's event. */
-  eventId?: string | null | undefined
   /** The guest's general feedback status. */
   feedback?: InvitationFeedback | null | undefined
   /** The guest's paper feedback status. */

@@ -3551,6 +3551,8 @@ export type EventCondition = {
   addressId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `createdBy` field. */
   createdBy?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `end` field. */
+  end?: InputMaybe<Scalars['Datetime']['input']>
   /** Checks for equality with the object’s `rowId` field. */
   rowId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `slug` field. */
@@ -4500,10 +4502,6 @@ export enum GuestOrderBy {
 
 /** Represents an update to a `Guest`. Fields that are set will be updated. */
 export type GuestPatch = {
-  /** The internal id of the guest's contact. */
-  contactId?: InputMaybe<Scalars['UUID']['input']>
-  /** The internal id of the guest's event. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
   /** The guest's general feedback status. */
   feedback?: InputMaybe<InvitationFeedback>
   /** The guest's paper feedback status. */
@@ -4807,14 +4805,18 @@ export type Mutation = {
   accountEmailAddressVerification?: Maybe<AccountEmailAddressVerificationPayload>
   /** Allows to change an account's password.\n\nError codes:\n- **22023** when the new password is too short.\n- **28P01** when an account with the given password is not found. */
   accountPasswordChange?: Maybe<AccountPasswordChangePayload>
-  /**
-   * Sets a new password for an account if there was a request to do so before that's still up to date.\n\nError codes:\n- **22023** when the password is too short.\n- **P0002** when the reset code is unknown.\n- **55000** when the reset code has expired.
-   *
-   */
+  /** Sets a new password for an account if there was a request to do so before that's still up to date.\n\nError codes:\n- **22023** when the password is too short.\n- **P0002** when the reset code is unknown.\n- **55000** when the reset code has expired. */
   accountPasswordReset?: Maybe<AccountPasswordResetPayload>
   /** Sets a new password reset verification code for an account. */
   accountPasswordResetRequest?: Maybe<AccountPasswordResetRequestPayload>
-  /** Creates a contact and registers an account referencing it.\n\nError codes:\n- **VTBDA** when the birth date is not at least 18 years old.\n- **VTPLL** when the password length does not reach its minimum.\n- **VTAUV** when an account with the given username already exists. */
+  /**
+   * Creates a contact and registers an account referencing it.
+   *
+   * Error codes:
+   * - **VTBDA** when the birth date is not at least 18 years old.
+   * - **VTPLL** when the password length does not reach its minimum.
+   * - **VTAUV** when an account with the given username already exists.
+   */
   accountRegistration?: Maybe<AccountRegistrationPayload>
   /** Refreshes an account's email address verification validity period.\n\nError codes:\n- **01P01** in all cases right now as refreshing registrations is currently not available due to missing rate limiting.\n- **22023** when an account with this account id does not exist. */
   accountRegistrationRefresh?: Maybe<AccountRegistrationRefreshPayload>
@@ -6117,7 +6119,11 @@ export type Query = Node & {
   accountByRowId?: Maybe<Account>
   /** Get a single `Account`. */
   accountByUsername?: Maybe<Account>
-  /** Returns all accounts with a username containing a given substring. */
+  /**
+   * Returns accounts with a username containing a given substring, closest matches first.
+   * Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size.
+   * Queries under 3 characters match few trigrams and so scan a larger share of the index; keep that in mind if this backs search-as-you-type.
+   */
   accountSearch?: Maybe<AccountConnection>
   /** Reads a single `AccountSocialNetwork` using its globally unique `ID`. */
   accountSocialNetwork?: Maybe<AccountSocialNetwork>
@@ -6403,7 +6409,7 @@ export type QueryAccountSearchArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  searchString?: InputMaybe<Scalars['String']['input']>
+  query?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The root query type which gives access points into the data universe. */
