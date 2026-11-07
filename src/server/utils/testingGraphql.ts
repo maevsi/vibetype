@@ -623,6 +623,39 @@ export const getTestingGraphqlResult = async ({
         },
       }
     }
+    // echoes the patch like the real api would
+    case 'UpdateGuestByRowId': {
+      const { input } = z
+        .object({
+          input: z.object({
+            guestPatch: z.object({ feedback: z.string().nullable() }),
+          }),
+        })
+        .parse(variables)
+
+      return {
+        data: {
+          updateGuestByRowId: {
+            guest: {
+              feedback: input.guestPatch.feedback,
+              id: GUEST_ID,
+              rowId: TESTING_GUEST_ROW_ID,
+              __typename: 'Guest',
+            },
+            __typename: 'UpdateGuestPayload',
+          },
+        },
+      }
+    }
+    case 'updateEventByRowId':
+      return {
+        data: {
+          updateEventByRowId: {
+            event: { id: EVENT.id, __typename: 'Event' },
+            __typename: 'UpdateEventPayload',
+          },
+        },
+      }
     default:
       return { data: {} }
   }
