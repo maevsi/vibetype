@@ -217,6 +217,15 @@ const uploadCreateMutation = useMutation(
     }
   `),
 )
+const uploadDeleteMutation = useMutation(
+  graphql(`
+    mutation DeleteFailedUpload($input: DeleteUploadByRowIdInput!) {
+      deleteUploadByRowId(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
 const api = await useApiData([
   accountUploadQuotaBytesQuery,
   allUploadsQuery,
@@ -339,19 +348,6 @@ const uploadBlobPromise = () =>
         )
           return
 
-        const result = await uploadCreateMutation.executeMutation({
-          input: {
-            upload: {
-              createdBy: store.signedInAccountId,
-              sizeByte: blob.size,
-            },
-          },
-        })
-
-        const data = getResultData(result)
-        if (!data)
-          return reject(result.error ?? new Error(t('globalErrorNoData')))
-
         const uppy = new Uppy({
           id: 'profile-picture',
           debug: !runtimeConfig.public.vio.isInProduction,
@@ -360,9 +356,6 @@ const uploadBlobPromise = () =>
             maxNumberOfFiles: 1,
             minNumberOfFiles: 1,
             allowedFileTypes: ['image/*'],
-          },
-          meta: {
-            id: data.createUpload?.upload?.rowId,
           },
           onBeforeUpload: (files) =>
             Object.fromEntries(
@@ -376,33 +369,53 @@ const uploadBlobPromise = () =>
             ),
         })
 
-        uppy.on('restriction-failed', (_file, error: Error) => {
-          return reject(error.message)
-        })
-
         uppy.use(Tus, {
           endpoint: TUSD_FILES_URL,
           limit: 1,
           removeFingerprintOnSuccess: true,
         })
 
-        uppy.addFile({
-          source: 'cropper',
-          name: templateInputProfilePicture.value.files[0].name,
-          type: blob.type,
-          data: blob,
+        // checks the restrictions before the upload row exists, as a rejected
+        // file would otherwise leave a row without stored file behind
+        try {
+          uppy.addFile({
+            source: 'cropper',
+            name: templateInputProfilePicture.value.files[0].name,
+            type: blob.type,
+            data: blob,
+          })
+        } catch (error) {
+          return reject(error)
+        }
+
+        const result = await uploadCreateMutation.executeMutation({
+          input: {
+            upload: {
+              createdBy: store.signedInAccountId,
+              sizeByte: blob.size,
+            },
+          },
         })
 
-        const uploadResult = await uppy.upload()
+        const uploadRowId = getResultData(result)?.createUpload?.upload?.rowId
+        if (!uploadRowId)
+          return reject(result.error ?? new Error(t('globalErrorNoData')))
+
+        uppy.setMeta({ id: uploadRowId })
+
+        const uploadResult = await uppy.upload().catch(() => undefined)
+
+        if (!uploadResult?.failed || uploadResult.failed.length > 0) {
+          await uploadDeleteMutation.executeMutation({
+            input: { rowId: uploadRowId },
+          })
+          return reject(t('uploadError'))
+        }
 
         // tusd sets `storageKey` behind GraphQL's back, so the cache can't know
         allUploadsQuery.executeQuery({ requestPolicy: 'network-only' })
 
-        if (!uploadResult?.failed || uploadResult.failed.length > 0) {
-          return reject(t('uploadError'))
-        } else {
-          return resolve()
-        }
+        return resolve()
       },
       'image/jpeg',
     )
