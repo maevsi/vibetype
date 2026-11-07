@@ -29,6 +29,13 @@ import {
 const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
+  app: {
+    // the client only `/offline` shell renders no page head on the server, so this is all its html carries until the client takes over
+    head: {
+      htmlAttrs: { lang: 'en' },
+      title: 'Vibetype',
+    },
+  },
   compatibilityDate: '2025-07-20',
   css: ['~/assets/css/app.css'],
   experimental: {
@@ -108,6 +115,10 @@ export default defineNuxtConfig({
     },
     '/api/service/firebase/notification': {
       csurf: false, // called by services, authenticated by secret
+    },
+    '/offline': {
+      robots: false,
+      ssr: false, // a user agnostic client app shell that the service worker serves for navigations when the network fails
     },
   },
   router: {
@@ -279,7 +290,10 @@ export default defineNuxtConfig({
         'vue-chartjs',
         'vue-qrcode-reader',
         'vue-sonner',
+        'workbox-navigation-preload',
         'workbox-precaching',
+        'workbox-routing',
+        'workbox-strategies',
         'zod',
         'zod/locales',
       ],

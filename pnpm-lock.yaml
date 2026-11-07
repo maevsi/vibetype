@@ -627,7 +627,16 @@ importers:
       vue-tsc:
         specifier: 3.3.12
         version: 3.3.12(typescript@6.0.3)
+      workbox-navigation-preload:
+        specifier: 7.4.1
+        version: 7.4.1
       workbox-precaching:
+        specifier: 7.4.1
+        version: 7.4.1
+      workbox-routing:
+        specifier: 7.4.1
+        version: 7.4.1
+      workbox-strategies:
         specifier: 7.4.1
         version: 7.4.1
       zod:
