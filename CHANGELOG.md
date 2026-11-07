@@ -1,3 +1,11 @@
+## [16.5.1](https://github.com/maevsi/vibetype/compare/16.5.0...16.5.1) (2026-11-07)
+
+### Bug Fixes
+
+* **i18n:** register zod locale config on the client only ([#2508](https://github.com/maevsi/vibetype/issues/2508)) ([b0f4a3a](https://github.com/maevsi/vibetype/commit/b0f4a3aa44f8d8a3bf90672fa658f231bd8af84b))
+* **password:** retry loading zxcvbn after a failed import ([#2510](https://github.com/maevsi/vibetype/issues/2510)) ([6bad098](https://github.com/maevsi/vibetype/commit/6bad0985bebb71786ba98cf78d2c01efc2e872c2))
+* **sitemap:** stop replaying stale query results ([#2509](https://github.com/maevsi/vibetype/issues/2509)) ([4c8692b](https://github.com/maevsi/vibetype/commit/4c8692b76584e371ebc7fd3bea6b111ec10acbdc))
+
 ## [16.5.0](https://github.com/maevsi/vibetype/compare/16.4.9...16.5.0) (2026-11-06)
 
 ### Features
