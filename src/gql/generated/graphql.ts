@@ -2033,7 +2033,11 @@ export type UpdateGuestByRowIdMutationVariables = Exact<{
 
 export type UpdateGuestByRowIdMutation = {
   updateGuestByRowId: {
-    guest: { id: string; feedback: InvitationFeedback | null } | null
+    guest: {
+      feedback: InvitationFeedback | null
+      id: string
+      rowId: string
+    } | null
   } | null
 }
 
@@ -10285,11 +10289,12 @@ export const UpdateGuestByRowIdDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'feedback' },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
                   },
                 },

@@ -281,8 +281,9 @@ const updateGuestByRowIdMutation = useMutation(
     mutation UpdateGuestByRowId($input: UpdateGuestByRowIdInput!) {
       updateGuestByRowId(input: $input) {
         guest {
-          id
           feedback
+          id
+          rowId
         }
       }
     }
