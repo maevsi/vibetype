@@ -1,5 +1,6 @@
 /// <reference lib="WebWorker" />
 import { getMessaging, onBackgroundMessage } from 'firebase/messaging/sw'
+import * as navigationPreload from 'workbox-navigation-preload'
 import {
   cleanupOutdatedCaches,
   precacheAndRoute,
@@ -25,6 +26,9 @@ class CustomPushEvent extends Event {
 cleanupOutdatedCaches()
 
 precacheAndRoute(self.__WB_MANIFEST)
+
+// lets the navigation request below start while the worker is still booting
+navigationPreload.enable()
 
 // the prerendered `/offline` route rule in `nuxt.config.ts`
 registerRoute(

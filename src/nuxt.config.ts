@@ -283,6 +283,7 @@ export default defineNuxtConfig({
         'vue-chartjs',
         'vue-qrcode-reader',
         'vue-sonner',
+        'workbox-navigation-preload',
         'workbox-precaching',
         'workbox-routing',
         'workbox-strategies',

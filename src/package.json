@@ -153,6 +153,7 @@
     "vue-router": "5.4.0",
     "vue-sonner": "2.0.9",
     "vue-tsc": "3.3.12",
+    "workbox-navigation-preload": "7.4.1",
     "workbox-precaching": "7.4.1",
     "workbox-routing": "7.4.1",
     "workbox-strategies": "7.4.1",
