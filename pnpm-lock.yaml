@@ -490,8 +490,8 @@ importers:
         specifier: 1.0.2
         version: 1.0.2(10e297b7e017c464cc5e78d64c0e44be)
       openai:
-        specifier: 7.49.0
-        version: 7.49.0(@aws-sdk/credential-provider-node@3.972.92)(@smithy/signature-v4@5.7.5)(google-auth-library@11.3.2(supports-color@10.2.2))(undici@8.12.3)(ws@8.22.1)(zod@4.6.7)
+        specifier: 7.50.0
+        version: 7.50.0(@aws-sdk/credential-provider-node@3.972.92)(@smithy/signature-v4@5.7.5)(google-auth-library@11.3.2(supports-color@10.2.2))(undici@8.12.3)(ws@8.22.1)(zod@4.6.7)
       pinia:
         specifier: 4.1.0
         version: 4.1.0(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.44(typescript@6.0.3))
@@ -11005,8 +11005,8 @@ packages:
     resolution: {integrity: sha512-++Zlftm0kVLPmzC06t6epuWmcRMDbI4z5P3NNX979WA/k23+NtSOynEGzsVfZwguKw2mi5umVgnBlJQMwRz4Pg==}
     engines: {node: '>=20'}
 
-  openai@7.49.0:
-    resolution: {integrity: sha512-YhdQC7GDlGc8wZHwysrEXIft5CuKkyiXX+3/bTbY7MfmHlt45BygYqOGT6pai60Ogyv/tIH4PBVyMZUbmADe1Q==}
+  openai@7.50.0:
+    resolution: {integrity: sha512-VFBqvO4pL3sXY1y3L1qo+9yUkE+sHOov044/mWAHThG+XUgUrMmQsigwY0ONfYBzLE7Rx4222mM6I+CTNw+Gsw==}
     engines: {node: '>=22.0.0'}
     peerDependencies:
       '@aws-sdk/credential-provider-node': '>=3.972.0 <4'
@@ -26470,7 +26470,7 @@ snapshots:
       powershell-utils: 0.2.1
       wsl-utils: 1.0.1
 
-  openai@7.49.0(@aws-sdk/credential-provider-node@3.972.92)(@smithy/signature-v4@5.7.5)(google-auth-library@11.3.2(supports-color@10.2.2))(undici@8.12.3)(ws@8.22.1)(zod@4.6.7):
+  openai@7.50.0(@aws-sdk/credential-provider-node@3.972.92)(@smithy/signature-v4@5.7.5)(google-auth-library@11.3.2(supports-color@10.2.2))(undici@8.12.3)(ws@8.22.1)(zod@4.6.7):
     optionalDependencies:
       '@aws-sdk/credential-provider-node': 3.972.92
       '@smithy/signature-v4': 5.7.5
