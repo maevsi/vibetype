@@ -119,7 +119,6 @@
       v-if="uploadToDelete"
       v-model:open="isDeleteDrawerOpen"
       :upload-row-id="uploadToDelete.rowId"
-      @success="onDeleteSuccess"
     />
   </Loader>
 </template>
@@ -269,9 +268,6 @@ const onDeleteSelect = (
   uploadToDelete.value = upload
   isDeleteDrawerOpen.value = true
 }
-const onDeleteSuccess = () => {
-  allUploadsQuery.executeQuery()
-}
 const getMimeType = (file: ArrayBuffer, fallback?: string) => {
   const byteArray = new Uint8Array(file).subarray(0, 4)
   const header = byteArray.reduce((p, c) => p + c.toString(16), '')
@@ -399,7 +395,8 @@ const uploadBlobPromise = () =>
 
         const uploadResult = await uppy.upload()
 
-        allUploadsQuery.executeQuery()
+        // tusd sets `storageKey` behind GraphQL's back, so the cache can't know
+        allUploadsQuery.executeQuery({ requestPolicy: 'network-only' })
 
         if (!uploadResult?.failed || uploadResult.failed.length > 0) {
           return reject(t('uploadError'))

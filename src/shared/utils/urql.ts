@@ -125,6 +125,18 @@ const invalidateCache = (
           cache.invalidate('Query', field.fieldKey)
         })
 
+// The database's row level security hides a blocked account's accounts,
+// contacts, events and guests, so every list of them changes with a block
+const invalidateAccountBlockDependents = (cache: Cache) =>
+  [
+    'accountBlockAccounts',
+    'allAccounts',
+    'allContacts',
+    'allEvents',
+    'allGuests',
+    'eventSearch',
+  ].forEach((name) => invalidateCache(cache, name))
+
 const cacheListAppend = <
   Fragment,
   FragmentRaw,
@@ -239,6 +251,8 @@ export const getUrqlClient = async ({
     updates: {
       Mutation: {
         // create
+        createAccountBlock: (_result, _args, cache, _info) =>
+          invalidateAccountBlockDependents(cache),
         createContact: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allContacts'),
         createEvent: (_result, _args, cache, _info) => {
@@ -306,8 +320,18 @@ export const getUrqlClient = async ({
             query: allPreferenceEventLocationsQuery,
             result,
           }),
+        createPreferenceEventSize: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allPreferenceEventSizes'),
+        createUpload: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allUploads'),
 
         // delete
+        deleteAccountBlockByCreatedByAndBlockedAccountId: (
+          _result,
+          _args,
+          cache,
+          _info,
+        ) => invalidateAccountBlockDependents(cache),
         deleteContactByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Contact', args),
         eventDelete: (_result, _args, cache, _info) => {
@@ -406,8 +430,16 @@ export const getUrqlClient = async ({
             query: allPreferenceEventLocationsQuery,
             result,
           }),
+        deletePreferenceEventSizeByAccountIdAndEventSize: (
+          _result,
+          _args,
+          cache,
+          _info,
+        ) => invalidateCache(cache, 'allPreferenceEventSizes'),
         deleteProfilePictureByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'ProfilePicture', args),
+        deleteUploadByRowId: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allUploads'),
       },
     },
   }
