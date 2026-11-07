@@ -1,3 +1,9 @@
+## [16.6.1](https://github.com/maevsi/vibetype/compare/16.6.0...16.6.1) (2026-11-07)
+
+### Bug Fixes
+
+* **seo:** fall back to a static site name ([#2495](https://github.com/maevsi/vibetype/issues/2495)) ([64c6945](https://github.com/maevsi/vibetype/commit/64c69455a2f4e1949cd5c9ec63400d66e40907ae))
+
 ## [16.6.0](https://github.com/maevsi/vibetype/compare/16.5.2...16.6.0) (2026-11-07)
 
 ### Features
