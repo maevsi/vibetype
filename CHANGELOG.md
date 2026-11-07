@@ -1,3 +1,14 @@
+## [16.7.0](https://github.com/maevsi/vibetype/compare/16.6.1...16.7.0) (2026-11-07)
+
+### Features
+
+* **upload:** allow any picture to be uploaded ([#2527](https://github.com/maevsi/vibetype/issues/2527)) ([6f92da4](https://github.com/maevsi/vibetype/commit/6f92da4c45fcbd2a3ea6414c35ad72baa7b6229f))
+
+### Bug Fixes
+
+* **pwa:** precache the app and serve an offline shell ([#2523](https://github.com/maevsi/vibetype/issues/2523)) ([324b4bb](https://github.com/maevsi/vibetype/commit/324b4bbb240aad998088039f946ff585dc003c2b))
+* **upload:** remove upload rows left behind by failed uploads ([#2529](https://github.com/maevsi/vibetype/issues/2529)) ([9c2c3ad](https://github.com/maevsi/vibetype/commit/9c2c3ad1533378b9c3d8dbeddc16d5687c2de5ae))
+
 ## [16.6.1](https://github.com/maevsi/vibetype/compare/16.6.0...16.6.1) (2026-11-07)
 
 ### Bug Fixes
