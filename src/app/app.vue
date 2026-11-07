@@ -36,6 +36,15 @@
       >
         {{ t('offline') }}
       </CardStateWarn>
+      <Modal
+        v-if="!runtimeConfig.public.vio.isTesting"
+        v-model="isLockdownModeLikely"
+        @submit="isLockdownModeLikely = false"
+      >
+        <template #header>{{ t('lockdownModeTitle') }}</template>
+        <p>{{ t('lockdownModeDescription') }}</p>
+        <p>{{ t('lockdownModeInstructions') }}</p>
+      </Modal>
     </ClientOnly>
     <NuxtLoadingIndicator />
     <NuxtAnnouncer />
@@ -91,6 +100,12 @@ onBeforeMount(async () => {
 
 // network
 const isOnline = useOnline()
+
+// lockdown mode
+const isLockdownModeLikely = ref(false)
+onBeforeMount(() => {
+  isLockdownModeLikely.value = getIsLockdownModeLikely(window)
+})
 
 // methods
 const initialize = async () => {
@@ -208,6 +223,9 @@ onMounted(() => {
 de:
   browserUnsupported: Du benutzt einen Browser, in dem nicht alle Funktionen von @.upper:{'globalSiteName'} unterstützt werden. {link}.
   browserUnsupportedLink: Mehr erfahren
+  lockdownModeDescription: Der Blockierungsmodus ist aktiv und schaltet Funktionen ab, die @.upper:{'globalSiteName'} braucht, zum Beispiel das Speichern von Daten auf deinem Gerät.
+  lockdownModeInstructions: "Nimm @.upper:{'globalSiteName'} vom Blockierungsmodus aus: für die App in der Einstellungen-App unter Datenschutz & Sicherheit › Blockierungsmodus › Web-Browsing konfigurieren, für Safari über das Seitenmenü › Website-Einstellungen."
+  lockdownModeTitle: Blockierungsmodus erkannt
   offline: Du bist offline. Einige Funktionen sind erst wieder verfügbar, wenn deine Internetverbindung zurück ist.
   pwaConfirmButtonText: App nutzen
   pwaText: Erhalte Veranstaltungsempfehlungen direkt, sobald sie verfügbar sind!
@@ -215,6 +233,9 @@ de:
 en:
   browserUnsupported: You're using a browser which does not support all features @.upper:{'globalSiteName'} offers. {link}.
   browserUnsupportedLink: Learn more
+  lockdownModeDescription: Lockdown Mode is on and turns off features @.upper:{'globalSiteName'} needs, such as storing data on your device.
+  lockdownModeInstructions: "Exclude @.upper:{'globalSiteName'} from Lockdown Mode: for the app, open the Settings app and go to Privacy & Security › Lockdown Mode › Configure Web Browsing; for Safari, use the page menu › Website Settings."
+  lockdownModeTitle: Lockdown Mode detected
   offline: You're offline. Some features are unavailable until your internet connection is back.
   pwaConfirmButtonText: Get the app
   pwaText: Get event recommendations right when they become available!
