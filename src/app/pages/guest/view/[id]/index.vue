@@ -226,17 +226,15 @@
       </div>
       <Modal v-model="isModalGuestQrCodeOpen">
         <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
-          <div class="bg-white p-4">
-            <QrcodeVue id="qrCode" :size="200" :value="guest.rowId" />
-          </div>
+          <QrcodeVue id="qrCode" :margin="4" :size="232" :value="guest.rowId" />
           <p class="text-sm text-(--semantic-base-text-secondary)">
             {{ t('hintQrCode') }}
           </p>
         </div>
         <template #footer>
-          <!-- TODO: check printing support in app (https://github.com/maevsi/vibetype/issues/2481) -->
+          <!-- window.print is a no-op in the iOS app's WKWebView, unlike in the Android app's Chrome -->
           <ButtonColored
-            v-if="!isApp"
+            v-if="!isIos"
             :aria-label="t('print')"
             variant="secondary"
             @click="print"
@@ -244,6 +242,18 @@
             {{ t('print') }}
             <template #prefix>
               <AppIconPrinter />
+            </template>
+          </ButtonColored>
+          <!-- on iOS, the share sheet offers printing in place of window.print -->
+          <ButtonColored
+            v-if="isQrCodeShareable"
+            :aria-label="t('share')"
+            variant="secondary"
+            @click="share"
+          >
+            {{ t('share') }}
+            <template #prefix>
+              <AppIconShare />
             </template>
           </ButtonColored>
           <ButtonColored
@@ -272,7 +282,7 @@ import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import type { GuestPatch } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
 
-const { isApp } = usePlatform()
+const { isIos } = usePlatform()
 const { t } = useI18n()
 const route = useRoute()
 const localePath = useLocalePath()
@@ -453,6 +463,37 @@ const print = () => {
     type: 'html',
   })
 }
+const isQrCodeShareable = ref<boolean>()
+onMounted(() => {
+  isQrCodeShareable.value = !!navigator.canShare?.({
+    files: [new File([], 'qr-code.png', { type: 'image/png' })],
+  })
+})
+const share = async () => {
+  const canvas = document.getElementById('qrCode')
+
+  if (!(canvas instanceof HTMLCanvasElement)) return
+
+  // built synchronously, as iOS drops the user activation that
+  // navigator.share requires once an await (like canvas.toBlob) runs first
+  const base64 = canvas.toDataURL('image/png').split(',')[1] || ''
+  const file = new File(
+    [Uint8Array.from(atob(base64), (character) => character.charCodeAt(0))],
+    `${event.value?.slug || 'qr-code'}.png`,
+    { type: 'image/png' },
+  )
+
+  try {
+    await navigator.share({ files: [file] })
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') return
+
+    alertError({
+      error: error instanceof Error ? error : undefined,
+      messageI18n: t('shareError'),
+    })
+  }
+}
 const qrCodeShow = () => {
   isModalGuestQrCodeOpen.value = true
 }
@@ -557,6 +598,8 @@ de:
   print: Drucken
   qrCodeShow: Check-in-Code anzeigen
   report: Veranstaltung melden
+  share: Teilen
+  shareError: Der Check-in-Code konnte nicht geteilt werden.
   success: Deine Eingabe wurde erfolgreich gespeichert.
 en:
   close: Close
@@ -582,5 +625,7 @@ en:
   print: Print
   qrCodeShow: Show check in code
   report: Report event
+  share: Share
+  shareError: The check in code could not be shared.
   success: Your input was saved succesfully.
 </i18n>
