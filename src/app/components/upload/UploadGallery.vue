@@ -354,7 +354,7 @@ const uploadBlob = async () => {
     id: 'profile-picture',
     debug: !runtimeConfig.public.vio.isInProduction,
     restrictions: {
-      maxFileSize: +runtimeConfig.public[SITE_NAME].upload.maxSize,
+      maxFileSize: +runtimeConfig.public[SITE_NAME].upload.sizeMax,
       maxNumberOfFiles: 1,
       minNumberOfFiles: 1,
       allowedFileTypes: ['image/*'],

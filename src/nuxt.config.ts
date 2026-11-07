@@ -138,7 +138,7 @@ export default defineNuxtConfig({
           },
         },
         upload: {
-          maxSize: 10485760, // bytes, set from tusd's `TUSD_MAX_SIZE` in the stack so the client rejects what tusd would
+          sizeMax: 10485760, // bytes, set from tusd's `TUSD_MAX_SIZE` in the stack so the client rejects what tusd would
         },
       },
       gtag: {
