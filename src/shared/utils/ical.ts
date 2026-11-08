@@ -64,8 +64,20 @@ export const parseIcsEvent = ({
     { parameters: Record<string, string>; value: string }
   > = {}
 
+  // components nested in the event, like an alarm, carry their own properties, e.g. its own `DESCRIPTION`
+  let depth = 0
+
   for (const line of lines.slice(eventStart + 1)) {
-    if (line === 'END:VEVENT') break
+    if (/^BEGIN:/i.test(line)) {
+      depth += 1
+      continue
+    }
+    if (/^END:/i.test(line)) {
+      if (depth === 0) break
+      depth -= 1
+      continue
+    }
+    if (depth > 0) continue
 
     // a parameter's unquoted part excludes `;`, so each `;` can only start the next parameter, which keeps lines like `-;;;…` from backtracking exponentially
     const match = /^([A-Z-]+)((?:;[^:;"]*(?:"[^"]*"[^:;"]*)*)*):(.*)$/i.exec(
@@ -73,10 +85,7 @@ export const parseIcsEvent = ({
     )
     if (!match?.[1] || match[3] === undefined) continue
 
-    const name = match[1].toUpperCase()
-    if (name in properties) continue // ignore the components nested in the event, like an alarm's description
-
-    properties[name] = {
+    properties[match[1].toUpperCase()] = {
       parameters: Object.fromEntries(
         (match[2] ?? '')
           .split(';')

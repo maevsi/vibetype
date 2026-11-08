@@ -74,14 +74,20 @@ describe('parseIcsEvent', () => {
     expect(
       parseIcsEvent({
         ics: getIcs(
-          'DESCRIPTION:Event',
           'BEGIN:VALARM',
           'DESCRIPTION:Alarm',
           'END:VALARM',
+          'DESCRIPTION:Event',
         ),
         timeZone: 'UTC',
       })?.description,
     ).toBe('Event')
+    expect(
+      parseIcsEvent({
+        ics: getIcs('BEGIN:VALARM', 'DESCRIPTION:Alarm', 'END:VALARM'),
+        timeZone: 'UTC',
+      })?.description,
+    ).toBeUndefined()
   })
 
   test('returns nothing without an event', () => {

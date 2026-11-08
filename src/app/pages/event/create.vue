@@ -3,7 +3,7 @@
     <LayoutPageTitle :is-button-event-create-shown="false" :title />
     <FormEvent
       v-if="authentication.isSignedIn"
-      :key="eventImported ? 'imported' : 'blank'"
+      :key="importCount"
       :event="eventImported"
     />
     <LayoutCallToAction
@@ -15,16 +15,22 @@
 </template>
 
 <script setup lang="ts">
+import { getLocalTimeZone } from '@internationalized/date'
+
 import { EventVisibility } from '~~/gql/generated/graphcache'
 import type FormEvent from '~/components/form/FormEvent.vue'
 
 const { t } = useI18n()
 const alertError = useAlertError()
 const authentication = useAuthentication()
-const timeZone = useTimeZone()
 
 // data
-const eventImported = ref<InstanceType<typeof FormEvent>['$props']['event']>()
+// kept in state, as signing in first leaves this page and the launch queue delivers a file only once
+const eventImported = useState<
+  InstanceType<typeof FormEvent>['$props']['event']
+>(STATE_KEY_EVENT_IMPORTED)
+// the form copies its event into its fields only when created, so each import needs a new one
+const importCount = ref(0)
 const title = t('title')
 
 // initialization
@@ -36,29 +42,41 @@ onMounted(() => {
     if (!fileHandle) return
 
     const file = await fileHandle.getFile()
-    const event = parseIcsEvent({ ics: await file.text(), timeZone })
+    const event = parseIcsEvent({
+      ics: await file.text(),
+      timeZone: getLocalTimeZone(),
+    })
 
     if (!event) {
       alertError({ messageI18n: t('importFailed') })
       return
     }
 
+    const name = event.name ?? ''
+    const slugify = (await import('slugify')).default
+
     // without a `rowId` the form still creates a new event
     eventImported.value = {
       addressByAddressId: { name: event.locationName },
-      description: event.description ?? null,
+      description: event.description
+        ? getHtmlFromText(event.description)
+        : null,
       end: event.end ?? null,
       guestCountMaximum: null,
       isInPerson: event.isInPerson,
       isRemote: false,
-      name: event.name ?? '',
+      name,
       rowId: '',
-      slug: '',
+      slug: slugify(name, { lower: true, strict: true }), // the form derives it only while the name is typed
       start: event.start ?? '',
       url: event.url ?? null,
       visibility: EventVisibility.Private,
     }
+    importCount.value += 1
   })
+})
+onBeforeUnmount(() => {
+  if (authentication.value.isSignedIn) eventImported.value = undefined
 })
 </script>
 

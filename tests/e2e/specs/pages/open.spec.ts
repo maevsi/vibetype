@@ -12,9 +12,17 @@ appTest.describe('protocol handling', () => {
     await expect(page).toHaveURL(`${SITE_URL}/event`)
   })
 
-  appTest('stays within the app', async ({ page }) => {
-    await page.goto(getOpenPath('web+vibetype:////example.com'))
+  for (const url of [
+    'web+vibetype:////example.com',
+    'web+vibetype:\t//example.com',
+    'web+vibetype:/\t/example.com',
+  ])
+    appTest(
+      `stays within the app for ${JSON.stringify(url)}`,
+      async ({ page }) => {
+        await page.goto(getOpenPath(url))
 
-    await expect(page).toHaveURL(new RegExp(`^${SITE_URL}/`))
-  })
+        await expect(page).toHaveURL(new RegExp(`^${SITE_URL}/`))
+      },
+    )
 })
