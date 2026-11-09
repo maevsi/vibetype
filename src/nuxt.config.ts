@@ -120,6 +120,9 @@ export default defineNuxtConfig({
       robots: false,
       ssr: false, // a user agnostic client app shell that the service worker serves for navigations when the network fails
     },
+    '/open': {
+      robots: false, // only redirects `web+vibetype:` links into the app
+    },
   },
   router: {
     options: {
