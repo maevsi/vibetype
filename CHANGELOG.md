@@ -1,3 +1,9 @@
+## [16.9.0](https://github.com/maevsi/vibetype/compare/16.8.0...16.9.0) (2026-11-09)
+
+### Features
+
+* **style:** adopt the design system's tokens, type scale and icons ([#2557](https://github.com/maevsi/vibetype/issues/2557)) ([03e9803](https://github.com/maevsi/vibetype/commit/03e980356ad5b43c72ae91e97653645dd8f45707))
+
 ## [16.8.0](https://github.com/maevsi/vibetype/compare/16.7.1...16.8.0) (2026-11-07)
 
 ### Features
