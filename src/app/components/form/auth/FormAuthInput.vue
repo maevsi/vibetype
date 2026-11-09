@@ -10,12 +10,7 @@
       :id
       :aria-invalid="ariaInvalid"
       :aria-label="placeholder"
-      :class="[
-        cn(
-          'h-13 rounded-2xl border-transparent bg-surface-raised pl-12 text-[17px]',
-          { 'border-error': ariaInvalid },
-        ),
-      ]"
+      :class="[cn('pl-12')]"
       :disabled
       :model-value="modelValue"
       :placeholder

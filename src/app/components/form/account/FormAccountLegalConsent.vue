@@ -4,7 +4,7 @@
     novalidate
     @submit.prevent="form.handleSubmit"
   >
-    <div class="rounded-xl border border-line bg-surface-raised px-3 py-4">
+    <div class="rounded-large bg-surface-raised px-3 py-4">
       <form.Field v-slot="{ field }" name="agreement">
         <div class="flex items-center gap-3 p-1">
           <AppCheckbox

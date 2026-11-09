@@ -16,14 +16,14 @@
       </LayoutPage>
     </AppStep>
     <FormAuthStepSuccess :is-active="step === 'success'">
-      <h2 class="text-[28px] leading-8.5 font-bold tracking-[-0.4px]">
+      <h2 class="text-heading-large">
         {{ t('instructionsInboxHeading') }}
       </h2>
-      <p class="mt-2 text-[15px] leading-5 font-semibold text-fg-2">
+      <p class="mt-2 text-body text-fg-2">
         {{ t('sentResetLinkTo') }}
         <span class="font-semibold text-fg-1">{{ submittedEmail }}</span>
       </p>
-      <p class="mt-2 text-[15px] leading-5 font-semibold text-fg-2">
+      <p class="mt-2 text-body text-fg-2">
         {{ t('instructionsInboxDescription') }}
       </p>
     </FormAuthStepSuccess>

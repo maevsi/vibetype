@@ -17,7 +17,7 @@
             <AppIconQrCode />
           </template>
         </ButtonColored>
-        <p v-if="!guestId" class="text-sm text-fg-2">
+        <p v-if="!guestId" class="text-body-small text-fg-2">
           {{ t('qrHint') }}
         </p>
         <AppAttendanceGuestDynamic v-if="guestId" :guest-id />

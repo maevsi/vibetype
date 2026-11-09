@@ -19,7 +19,7 @@
       <ButtonColored :aria-label="t('register')" class="w-full" type="submit">
         {{ t('register') }}
       </ButtonColored>
-      <p class="text-sm text-fg-2">
+      <p class="text-body-small text-fg-2">
         {{ t('accountDeletionNotice') }}
       </p>
     </form>

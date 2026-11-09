@@ -18,10 +18,10 @@
       </LayoutPage>
     </AppStep>
     <FormAuthStepSuccess :is-active="step === 'success'">
-      <h2 class="text-[28px] leading-8.5 font-bold tracking-[-0.4px]">
+      <h2 class="text-heading-large">
         {{ t('instructionsSuccessHeading') }}
       </h2>
-      <p class="mt-2 text-[15px] leading-5 font-semibold text-fg-2">
+      <p class="mt-2 text-body text-fg-2">
         {{ t('instructionsSuccessDescription') }}
       </p>
       <ButtonColored
@@ -38,25 +38,24 @@
       >
         <IHeroiconsExclamationCircle class="size-8 text-error" />
       </div>
-      <h2
-        class="mb-2 text-[28px] leading-8.5 font-bold tracking-tight text-fg-1"
-      >
+      <h2 class="mb-2 text-heading-large text-fg-1">
         {{ t('errorHeading') }}
       </h2>
-      <p
-        class="mb-6 text-[15px] leading-5 font-semibold tracking-tight text-fg-2"
-      >
+      <p class="mb-6 text-body text-fg-2">
         {{ t('errorDescription') }}
       </p>
-      <div v-if="error?.message" class="mb-6 rounded-2xl bg-surface-raised p-4">
-        <p class="mb-2 text-[15px] font-semibold text-fg-1">
+      <div
+        v-if="error?.message"
+        class="mb-6 rounded-medium bg-surface-raised p-4"
+      >
+        <p class="mb-2 text-body text-fg-1">
           {{ t('errorMessageLabel') }}
         </p>
-        <p class="mb-3 text-sm text-fg-2">
+        <p class="mb-3 text-body-small text-fg-2">
           {{ error.message }}
         </p>
         <button
-          class="text-sm font-medium text-fg-1 underline"
+          class="text-body text-fg-1 underline"
           type="button"
           @click="copyErrorToClipboard"
         >

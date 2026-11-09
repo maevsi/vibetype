@@ -37,7 +37,7 @@
             />
             <div
               v-if="!isReadonly"
-              class="absolute top-0 right-0 flex rounded-bl-lg bg-action-danger/75"
+              class="absolute top-0 right-0 flex rounded-bl-medium bg-action-danger/75"
             >
               <AppButton
                 :aria-label="t('iconTrashLabel')"

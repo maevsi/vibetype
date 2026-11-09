@@ -1,8 +1,6 @@
 <template>
   <div class="flex flex-col">
-    <div
-      class="flex flex-col gap-4 rounded-lg border border-surface bg-surface-raised p-4 shadow-xs"
-    >
+    <div class="flex flex-col gap-4 rounded-medium bg-surface-raised p-4">
       <div class="flex items-center justify-between">
         <TypographyH3>
           {{ title }}
@@ -35,7 +33,7 @@
       </div>
       <div class="flex flex-col gap-1.5" :class="{ hidden: !isEditing }">
         <TypographySubtitleSmall
-          class="rounded-lg border border-line bg-surface-raised px-4 py-3"
+          class="rounded-medium bg-surface-raised px-4 py-3"
         >
           <textarea
             v-model="content"

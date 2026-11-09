@@ -18,7 +18,10 @@
               </template>
             </FormAuthInput>
           </FieldContent>
-          <p v-if="usernameValidation.error.value" class="text-sm text-error">
+          <p
+            v-if="usernameValidation.error.value"
+            class="text-caption text-error"
+          >
             {{ usernameValidation.error.value }}
           </p>
         </Field>
@@ -35,14 +38,17 @@
               @input="handlePasswordInput(field, $event)"
             />
           </FieldContent>
-          <p v-if="passwordValidation.error.value" class="text-sm text-error">
+          <p
+            v-if="passwordValidation.error.value"
+            class="text-caption text-error"
+          >
             {{ passwordValidation.error.value }}
           </p>
         </Field>
       </form.Field>
       <div class="text-right">
         <NuxtLinkLocale
-          class="text-sm font-medium text-fg-1"
+          class="text-body text-fg-1"
           to="account-password-reset-request"
         >
           {{ t('forgotPassword') }}
@@ -58,7 +64,7 @@
         {{ t('signIn') }}
       </ButtonColored>
     </form>
-    <p class="text-center text-[15px] text-fg-2">
+    <p class="text-center text-body text-fg-2">
       {{ t('newToVibetype') }}
       <NuxtLinkLocale
         class="font-semibold text-link underline"

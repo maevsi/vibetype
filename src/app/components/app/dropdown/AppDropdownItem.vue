@@ -1,6 +1,6 @@
 <template>
   <DropdownMenuItem
-    :class="cn('rounded-lg px-4 py-3 font-semibold', classProps)"
+    :class="cn('rounded-medium px-4 py-3 font-semibold', classProps)"
   >
     <slot />
   </DropdownMenuItem>

@@ -36,7 +36,7 @@
       <div v-if="contact" class="flex flex-col gap-2">
         <div class="flex items-center justify-between gap-2">
           <div>
-            <p class="mb-2 text-2xl font-bold">
+            <p class="mb-2 text-heading-medium">
               {{
                 t('greeting', {
                   usernameString: contactName ? ' ' + contactName : '',
@@ -130,7 +130,7 @@
             </div>
             <AppMap
               v-if="positionInitial"
-              class="h-42 rounded-xl"
+              class="h-42 rounded-large"
               :events
               :position-initial
             />
@@ -234,7 +234,7 @@
       <Modal v-model="isModalGuestQrCodeOpen">
         <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
           <QrcodeVue id="qrCode" :margin="4" :size="232" :value="guest.rowId" />
-          <p class="text-sm text-fg-2">
+          <p class="text-body-small text-fg-2">
             {{ t('hintQrCode') }}
           </p>
         </div>

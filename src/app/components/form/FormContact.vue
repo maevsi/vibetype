@@ -44,7 +44,7 @@
               store.signedInUsername &&
               contact?.accountByAccountId?.username === store.signedInUsername
             "
-            class="text-sm text-muted-foreground"
+            class="text-body text-muted-foreground"
           >
             <i18n-t keypath="stateInfoUsernameDisabled" tag="span">
               <template #accountSettings>
@@ -66,7 +66,7 @@
       </form.Field>
       <p
         v-if="form.getFieldValue('accountUsername')"
-        class="text-sm text-muted-foreground"
+        class="text-body text-muted-foreground"
       >
         {{ t('accountOverride') }}
       </p>

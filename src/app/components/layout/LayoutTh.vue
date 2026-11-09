@@ -1,12 +1,5 @@
 <template>
-  <th
-    :class="
-      cn(
-        'px-3 py-6 text-left text-xs font-medium tracking-wider uppercase',
-        classProps,
-      )
-    "
-  >
+  <th :class="cn('px-3 py-6 text-left text-caption uppercase', classProps)">
     <slot />
   </th>
 </template>
