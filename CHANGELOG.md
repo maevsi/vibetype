@@ -1,3 +1,9 @@
+## [16.11.0](https://github.com/maevsi/vibetype/compare/16.10.0...16.11.0) (2026-11-09)
+
+### Features
+
+* **style:** restyle the shared components after the design system ([#2560](https://github.com/maevsi/vibetype/issues/2560)) ([ab83202](https://github.com/maevsi/vibetype/commit/ab832027f975fc8215079167f1c1ec122ba690b4))
+
 ## [16.10.0](https://github.com/maevsi/vibetype/compare/16.9.1...16.10.0) (2026-11-09)
 
 ### Features
