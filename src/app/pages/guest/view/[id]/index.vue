@@ -230,6 +230,30 @@
           <p class="text-sm text-(--semantic-base-text-secondary)">
             {{ t('hintQrCode') }}
           </p>
+          <!-- the iOS app hands downloads to a preview that offers adding the pass, whereas Safari opens Wallet on navigation -->
+          <a
+            v-if="isWalletAppleShown"
+            :download="isIos ? '' : undefined"
+            :href="`/api/model/guest/wallet/apple?guestId=${guest.rowId}`"
+          >
+            <img
+              :alt="t('walletApple')"
+              class="h-12"
+              :src="`/assets/static/wallet/apple-${locale}.svg`"
+            />
+          </a>
+          <a
+            v-if="isWalletGoogleShown"
+            :href="`/api/model/guest/wallet/google?guestId=${guest.rowId}`"
+            rel="noopener"
+            target="_blank"
+          >
+            <img
+              :alt="t('walletGoogle')"
+              class="h-12"
+              :src="`/assets/static/wallet/google-${locale}.svg`"
+            />
+          </a>
         </div>
         <template #footer>
           <ButtonColored
@@ -279,6 +303,7 @@ import { useMutation } from '@urql/vue'
 import downloadJs from 'downloadjs'
 import { sanitize } from 'isomorphic-dompurify'
 import QrcodeVue from 'qrcode.vue'
+import { UAParser } from 'ua-parser-js'
 
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import type { GuestPatch } from '~~/gql/generated/graphql'
@@ -551,6 +576,22 @@ const ticketDownload = () => {
 
   downloadJs(ticketFile.value, ticketFile.value.name, 'application/pdf')
 }
+const { data: walletAvailability } = await useFetch('/api/model/guest/wallet')
+const { ssrContext } = useNuxtApp()
+const userAgent = import.meta.server
+  ? ssrContext?.event.headers.get('user-agent')
+  : navigator.userAgent
+const operatingSystem = userAgent ? UAParser(userAgent).os : undefined
+// Apple Wallet only runs on Apple devices, and Google Wallet's save link works in any other browser
+const isWalletPlatformApple = !!(
+  operatingSystem?.is('iOS') || operatingSystem?.is('macOS')
+)
+const isWalletAppleShown = computed(
+  () => isWalletPlatformApple && !!walletAvailability.value?.apple,
+)
+const isWalletGoogleShown = computed(
+  () => !isWalletPlatformApple && !!walletAvailability.value?.google,
+)
 const qrCodeShow = () => {
   isModalGuestQrCodeOpen.value = true
 }
@@ -663,6 +704,8 @@ de:
   ticketOrganizer: Veranstaltet von
   ticketShare: Ticket teilen
   ticketShareError: Das Ticket konnte nicht geteilt werden.
+  walletApple: Zu Apple Wallet hinzufügen
+  walletGoogle: Zu Google Wallet hinzufügen
 en:
   close: Close
   errorAccountMissing: Account not available
@@ -695,4 +738,6 @@ en:
   ticketOrganizer: Organized by
   ticketShare: Share ticket
   ticketShareError: The ticket could not be shared.
+  walletApple: Add to Apple Wallet
+  walletGoogle: Add to Google Wallet
 </i18n>
