@@ -3,6 +3,10 @@
 </template>
 
 <script setup lang="ts">
+defineRouteRules({
+  robots: false,
+})
+
 // the manifest's `protocol_handlers` open `web+vibetype:` links here, e.g. `web+vibetype://event/view/username/slug`
 const route = useRoute()
 const url = typeof route.query.url === 'string' ? route.query.url : ''
