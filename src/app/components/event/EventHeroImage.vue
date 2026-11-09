@@ -2,7 +2,7 @@
   <div
     v-if="categoryName || formatName"
     :aria-label="t('heroImage')"
-    class="flex aspect-[3/2] h-48 w-full items-center justify-center gap-4 rounded-t-xl bg-surface-raised"
+    class="flex aspect-[3/2] h-48 w-full items-center justify-center gap-4 rounded-t-large bg-surface-raised"
     role="img"
   >
     <EventIconCategory
@@ -16,7 +16,7 @@
     v-else
     :alt="t('heroImage')"
     aspect="aspect-[3/2]"
-    class="h-48 w-full rounded-t-xl object-cover"
+    class="h-48 w-full rounded-t-large object-cover"
     height="2"
     :src="`/assets/static/images/event/${getHeroImageName(event.name)}.jpg`"
     width="3"

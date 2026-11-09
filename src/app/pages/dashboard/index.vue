@@ -219,13 +219,13 @@ const templateIdUpcoming = useId()
 
 <i18n lang="yaml">
 de:
-  anonymousCta: Finde ihn auf {siteName}
+  anonymousCta: Finde ihn auf @.upper:{'globalSiteName'}
   anonymousCtaDescription: Dir fehlt der Überblick über Veranstaltungen?
   recommendationTitle: Das solltest Du nicht verpassen
   title: Dashboard
   upcomingTitle: Dein nächstes Event
 en:
-  anonymousCta: Find it on {siteName}
+  anonymousCta: Find it on @.upper:{'globalSiteName'}
   anonymousCtaDescription: Are you missing an overview of events?
   recommendationTitle: You Should Not Miss
   title: Dashboard

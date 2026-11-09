@@ -5,7 +5,7 @@
     </h1>
     <div v-if="!selectedFile" class="flex flex-col gap-4">
       <button
-        class="rounded-xl border-2 border-dashed border-line p-12"
+        class="rounded-large border-2 border-dashed border-line p-12"
         type="button"
         @click="triggerFileInput"
       >
@@ -21,8 +21,8 @@
             <path d="M20.4 14.5L16 10 4 20" />
           </svg>
           <span class="flex flex-col gap-2">
-            <span class="text-xl font-medium">{{ t('uploadFiles') }}</span>
-            <span class="text-sm text-fg-2">{{ t('fileTypes') }}</span>
+            <span class="text-title3">{{ t('uploadFiles') }}</span>
+            <span class="text-body-small text-fg-2">{{ t('fileTypes') }}</span>
           </span>
         </span>
       </button>
@@ -35,7 +35,7 @@
       </ButtonColored>
     </div>
     <div v-else class="flex flex-col gap-4">
-      <img :alt="t('preview')" class="rounded-md" :src="previewUrl" />
+      <img :alt="t('preview')" class="rounded-medium" :src="previewUrl" />
       <div class="flex items-center justify-between">
         <div class="flex gap-4">
           <ButtonColored

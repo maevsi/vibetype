@@ -29,7 +29,7 @@
               <IHeroiconsEnvelope />
             </template>
           </FormAuthInput>
-          <p v-if="emailField.error.value" class="text-sm text-error">
+          <p v-if="emailField.error.value" class="text-caption text-error">
             {{ emailField.error.value }}
           </p>
           <!-- Terms checkbox -->
@@ -39,7 +39,7 @@
               :value="agreedToTerms"
               @change="agreedToTerms = $event"
             >
-              <span class="text-sm text-fg-2">
+              <span class="text-body-small text-fg-2">
                 {{ t('agreePrefix') }}
                 <NuxtLinkLocale
                   class="font-semibold text-link underline"
@@ -60,7 +60,7 @@
               </span>
             </FormCheckbox>
           </div>
-          <p v-if="termsError" class="text-sm text-error">
+          <p v-if="termsError" class="text-caption text-error">
             {{ termsError }}
           </p>
           <ButtonColored
@@ -70,7 +70,7 @@
           >
             {{ t('continue') }}
           </ButtonColored>
-          <p class="text-center text-[15px] text-fg-2">
+          <p class="text-center text-body text-fg-2">
             {{ t('alreadyHaveAccount') }}
             <NuxtLinkLocale
               class="font-semibold text-link underline"
@@ -126,7 +126,7 @@
               />
             </div>
           </div>
-          <p v-if="usernameField.error.value" class="text-sm text-error">
+          <p v-if="usernameField.error.value" class="text-caption text-error">
             {{ usernameField.error.value }}
           </p>
           <ButtonColored
@@ -166,20 +166,20 @@
     <!-- Step: Success -->
     <FormAuthStepSuccess :is-active="step === 'success'">
       <div class="flex flex-col gap-4">
-        <p class="text-[15px] leading-5 font-semibold text-fg-2">
+        <p class="text-body text-fg-2">
           {{ t('verificationSentTo') }}
           <span class="font-semibold text-fg-1">{{
             emailField.value.value
           }}</span>
         </p>
-        <p class="text-[15px] leading-5 font-semibold text-fg-2">
+        <p class="text-body text-fg-2">
           {{ t('verificationOpenLink') }}
         </p>
-        <p class="text-sm text-fg-2">
+        <p class="text-body-small text-fg-2">
           {{ t('verificationDescription') }}
         </p>
         <NuxtLinkLocale
-          class="flex items-center justify-center gap-2 text-[15px] text-fg-2"
+          class="flex items-center justify-center gap-2 text-body text-fg-2"
           to="support-contact"
         >
           <IHeroiconsQuestionMarkCircle class="size-5" />

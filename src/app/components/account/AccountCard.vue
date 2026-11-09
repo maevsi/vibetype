@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative isolate flex items-center gap-3 rounded-lg border border-line bg-surface-raised p-3 shadow-xs has-focus-visible:focus-ring dark:border-none"
+    class="relative isolate flex items-center gap-3 rounded-medium bg-surface-raised p-3 has-focus-visible:focus-ring"
   >
     <AccountProfilePicture
       :account-id="account.rowId"

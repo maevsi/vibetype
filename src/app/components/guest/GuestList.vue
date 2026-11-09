@@ -84,7 +84,7 @@
       </template>
       <div v-else class="flex flex-col items-center gap-2">
         {{ t('guestNone') }}
-        <p class="text-sm text-fg-2">
+        <p class="text-body-small text-fg-2">
           {{ t('hintInviteSelf') }}
         </p>
       </div>

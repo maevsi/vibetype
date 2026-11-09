@@ -1,3 +1,3 @@
 <template>
-  <div class="h-0.5 rounded-xl bg-line" />
+  <div class="h-0.5 rounded-large bg-line" />
 </template>

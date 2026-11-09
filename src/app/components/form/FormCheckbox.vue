@@ -3,7 +3,7 @@
     <input
       :id="`input-${formKey}`"
       :checked="value"
-      class="mt-1.5 rounded-sm"
+      class="mt-1.5 rounded-small"
       :disabled="isDisabled"
       type="checkbox"
       @change="emit('change', ($event.target as HTMLInputElement).checked)"

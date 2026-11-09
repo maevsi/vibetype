@@ -44,7 +44,7 @@
       >
         <!-- Logo -->
         <div
-          class="mb-6 flex size-20 items-center justify-center rounded-3xl bg-surface-raised"
+          class="mb-6 flex size-20 items-center justify-center rounded-large bg-surface-raised"
         >
           <IconLogo v-if="dateToday.month !== 6" class="size-12" />
           <IconLogoPride v-else class="size-12" />
@@ -54,28 +54,23 @@
         <h1 class="sr-only">
           {{ t('welcomeWithSiteName') }}
         </h1>
-        <p
-          aria-hidden="true"
-          class="mb-2 text-center text-[15px] leading-5 font-semibold tracking-[-0.4px] text-fg-2"
-        >
+        <p aria-hidden="true" class="mb-2 text-center text-body text-fg-2">
           {{ t('welcome') }}
         </p>
         <IconLogoText aria-hidden="true" class="mb-12 h-6.5" />
 
         <!-- Tagline -->
-        <p
-          class="mb-8 text-center text-[15px] leading-5 font-semibold tracking-[-0.4px] text-fg-2"
-        >
+        <p class="mb-8 text-center text-body text-fg-2">
           {{ t('taglinePre') }}
           <span class="text-link line-through">{{ t('taglineFomo') }}</span>
           {{ t('taglinePost') }}
         </p>
 
         <!-- Buttons -->
-        <div class="w-full space-y-3">
+        <div class="flex w-full flex-col gap-2">
           <ButtonColored
             :aria-label="t('register')"
-            class="h-13! w-full rounded-2xl! text-[17px]!"
+            class="w-full"
             :to="$localePath('account-create')"
           >
             {{ t('createAccount') }}
@@ -83,9 +78,9 @@
 
           <ButtonColored
             :aria-label="t('signIn')"
-            class="h-13! w-full rounded-2xl! bg-surface-raised! text-[17px]! font-semibold! text-fg-1! no-underline!"
+            class="w-full"
             :to="$localePath('session-create')"
-            variant="tertiary"
+            variant="secondary"
           >
             {{ t('signIn') }}
           </ButtonColored>
@@ -94,22 +89,22 @@
         <!-- Social login (behind feature flag) -->
         <AppFeature class="w-full" feature="social-login">
           <div class="my-6 flex w-full items-center">
-            <div class="h-px flex-1 bg-line" />
-            <span class="px-4 text-sm text-fg-2">{{ t('or') }}</span>
-            <div class="h-px flex-1 bg-line" />
+            <div class="h-0.5 flex-1 rounded-medium bg-line" />
+            <span class="px-4 text-body-small text-fg-2">{{ t('or') }}</span>
+            <div class="h-0.5 flex-1 rounded-medium bg-line" />
           </div>
 
           <div class="grid w-full grid-cols-2 gap-3">
             <button
               :aria-label="t('signInApple')"
-              class="flex h-13 items-center justify-center rounded-2xl bg-surface-raised"
+              class="flex h-13 items-center justify-center rounded-medium bg-surface-raised"
               type="button"
             >
               <IFa6BrandsApple class="size-6 text-fg-1" />
             </button>
             <button
               :aria-label="t('signInGoogle')"
-              class="flex h-13 items-center justify-center rounded-2xl bg-surface-raised"
+              class="flex h-13 items-center justify-center rounded-medium bg-surface-raised"
               type="button"
             >
               <IFa6BrandsGoogle class="size-6" />
@@ -128,7 +123,7 @@
         >
           {{ t('more') }}
         </ButtonColored>
-        <p class="text-center text-xs text-fg-2">
+        <p class="text-center text-caption text-fg-2">
           {{ t('legalPre') }}
           <NuxtLinkLocale
             class="font-semibold text-link underline"

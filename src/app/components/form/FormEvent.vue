@@ -27,7 +27,7 @@
             />
             <p
               v-if="event && event.name !== nameField.state.value"
-              class="text-sm text-yellow-600 dark:text-yellow-400"
+              class="rounded-small bg-warning-tint px-3 py-2 text-body-small text-fg-1"
             >
               {{ t('validationWarningNameChangeSlug') }}
             </p>
@@ -192,7 +192,7 @@
             />
             <p
               v-if="isWarningStartPastShown"
-              class="text-sm text-yellow-600 dark:text-yellow-400"
+              class="rounded-small bg-warning-tint px-3 py-2 text-body-small text-fg-1"
             >
               {{ t('globalValidationNowOrFuture') }}
             </p>
