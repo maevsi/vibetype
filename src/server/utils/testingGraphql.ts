@@ -706,6 +706,37 @@ export const getTestingGraphqlResult = async ({
       }
     }
     // echoes the patch like the real api would
+    case 'UpdateAccountByRowId': {
+      const { input } = z
+        .object({
+          input: z.object({
+            accountPatch: z.object({
+              description: z.string().nullish(),
+              imprintUrl: z.string().nullish(),
+            }),
+          }),
+        })
+        .parse(variables)
+
+      return {
+        data: {
+          updateAccountByRowId: {
+            account: {
+              description:
+                'description' in input.accountPatch
+                  ? input.accountPatch.description
+                  : TESTING_ACCOUNT_DESCRIPTION,
+              id: ACCOUNT.id,
+              imprintUrl: input.accountPatch.imprintUrl ?? null,
+              rowId: ACCOUNT.rowId,
+              __typename: 'Account',
+            },
+            __typename: 'UpdateAccountPayload',
+          },
+        },
+      }
+    }
+    // echoes the patch like the real api would
     case 'UpdateGuestByRowId': {
       const { input } = z
         .object({
