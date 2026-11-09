@@ -108,14 +108,42 @@ describe('parseIcsEvent', () => {
     ).toBe('2030-06-15T22:00:00.000Z')
   })
 
-  test('rejects malformed lines in linear time', () => {
-    const startedAt = performance.now()
+  test('reads times in a zone the file defines', () => {
+    expect(
+      parseIcsEvent({
+        ics: [
+          'BEGIN:VCALENDAR',
+          'VERSION:2.0',
+          'PRODID:-//test//test//EN',
+          'BEGIN:VTIMEZONE',
+          'TZID:W. Europe Standard Time',
+          'BEGIN:STANDARD',
+          'DTSTART:16010101T030000',
+          'TZOFFSETFROM:+0200',
+          'TZOFFSETTO:+0100',
+          'RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10',
+          'END:STANDARD',
+          'BEGIN:DAYLIGHT',
+          'DTSTART:16010101T020000',
+          'TZOFFSETFROM:+0100',
+          'TZOFFSETTO:+0200',
+          'RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3',
+          'END:DAYLIGHT',
+          'END:VTIMEZONE',
+          'BEGIN:VEVENT',
+          'UID:1',
+          'DTSTART;TZID=W. Europe Standard Time:20300615T180000',
+          'END:VEVENT',
+          'END:VCALENDAR',
+        ].join('\r\n'),
+        timeZone: 'UTC',
+      })?.start,
+    ).toBe('2030-06-15T16:00:00.000Z')
+  })
 
-    parseIcsEvent({
-      ics: getIcs(`-${';'.repeat(50_000)}`),
-      timeZone: 'UTC',
-    })
-
-    expect(performance.now() - startedAt).toBeLessThan(1000)
+  test('returns nothing for malformed files', () => {
+    expect(
+      parseIcsEvent({ ics: 'not a calendar', timeZone: 'UTC' }),
+    ).toBeUndefined()
   })
 })

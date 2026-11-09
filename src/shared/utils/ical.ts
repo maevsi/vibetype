@@ -1,40 +1,34 @@
 import { CalendarDateTime, toZoned } from '@internationalized/date'
+import ICAL from 'ical.js'
 
-const unescapeText = (value: string) =>
-  value.replace(/\\([\\;,nN])/g, (_, character: string) =>
-    character.toLowerCase() === 'n' ? '\n' : character,
-  )
-
-const parseDateTime = ({
-  parameters,
+const getIsoString = ({
+  time,
   timeZone,
-  value,
+  tzid,
 }: {
-  parameters: Record<string, string>
+  time: ICAL.Time
   timeZone: string
-  value: string
+  tzid?: unknown
 }) => {
-  const match = /^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})(\d{2})(Z)?)?$/.exec(
-    value,
-  )
-  if (!match) return
+  // utc and zones the file defines in a `VTIMEZONE`
+  if (time.zone && time.zone.tzid !== 'floating')
+    return time.toJSDate().toISOString()
 
-  const [, year, month, day, hour = '0', minute = '0', second = '0', utc] =
-    match
+  // floating and all-day values have no zone of their own, and a `TZID` without a `VTIMEZONE` may name a zone that `Intl` doesn't know, like Outlook's Windows zone names
   const dateTime = new CalendarDateTime(
-    Number(year),
-    Number(month),
-    Number(day),
-    Number(hour),
-    Number(minute),
-    Number(second),
+    time.year,
+    time.month,
+    time.day,
+    time.hour,
+    time.minute,
+    time.second,
   )
 
-  if (utc) return toZoned(dateTime, 'UTC').toAbsoluteString()
-
-  // floating and all-day values have no zone of their own, and a `TZID` may name a zone that `Intl` doesn't know, like Outlook's Windows zone names
   try {
-    return toZoned(dateTime, parameters.TZID ?? timeZone).toAbsoluteString()
+    return toZoned(
+      dateTime,
+      typeof tzid === 'string' ? tzid : timeZone,
+    ).toAbsoluteString()
   } catch {
     return toZoned(dateTime, timeZone).toAbsoluteString()
   }
@@ -45,7 +39,7 @@ const parseDateTime = ({
  *
  * @param ics - The file's content.
  * @param timeZone - The zone for times that carry none of their own.
- * @returns The event's fields, or `undefined` if the file contains no event.
+ * @returns The event's fields, or `undefined` if the file is malformed or contains no event.
  */
 export const parseIcsEvent = ({
   ics,
@@ -54,69 +48,41 @@ export const parseIcsEvent = ({
   ics: string
   timeZone: string
 }) => {
-  // long lines are folded by a line break followed by a space or tab
-  const lines = ics.replace(/\r?\n[ \t]/g, '').split(/\r?\n/)
-  const eventStart = lines.indexOf('BEGIN:VEVENT')
-  if (eventStart === -1) return
+  let vevent: ICAL.Component | null
 
-  const properties: Record<
-    string,
-    { parameters: Record<string, string>; value: string }
-  > = {}
-
-  // components nested in the event, like an alarm, carry their own properties, e.g. its own `DESCRIPTION`
-  let depth = 0
-
-  for (const line of lines.slice(eventStart + 1)) {
-    if (/^BEGIN:/i.test(line)) {
-      depth += 1
-      continue
-    }
-    if (/^END:/i.test(line)) {
-      if (depth === 0) break
-      depth -= 1
-      continue
-    }
-    if (depth > 0) continue
-
-    // a parameter's unquoted part excludes `;`, so each `;` can only start the next parameter, which keeps lines like `-;;;…` from backtracking exponentially
-    const match = /^([A-Z-]+)((?:;[^:;"]*(?:"[^"]*"[^:;"]*)*)*):(.*)$/i.exec(
-      line,
-    )
-    if (!match?.[1] || match[3] === undefined) continue
-
-    properties[match[1].toUpperCase()] = {
-      parameters: Object.fromEntries(
-        (match[2] ?? '')
-          .split(';')
-          .filter(Boolean)
-          .map((parameter) => {
-            const [key = '', parameterValue = ''] = parameter.split('=')
-            return [key.toUpperCase(), parameterValue.replace(/^"|"$/g, '')]
-          }),
-      ),
-      value: match[3],
-    }
+  try {
+    vevent = new ICAL.Component(ICAL.parse(ics)).getFirstSubcomponent('vevent')
+  } catch {
+    return
   }
 
-  const getText = (name: string) => {
-    const property = properties[name]
-    return property ? unescapeText(property.value).trim() : undefined
-  }
-  const getDateTime = (name: string) => {
-    const property = properties[name]
-    return property ? parseDateTime({ ...property, timeZone }) : undefined
-  }
+  if (!vevent) return
 
-  const locationName = getText('LOCATION')
+  const event = new ICAL.Event(vevent)
+  const getText = (value: unknown) =>
+    typeof value === 'string' ? value.trim() || undefined : undefined
+  const locationName = getText(event.location)
+  const startTzid = vevent.getFirstProperty('dtstart')?.getParameter('tzid')
 
   return {
-    description: getText('DESCRIPTION'),
-    end: getDateTime('DTEND'),
+    description: getText(event.description),
+    // without either, ical.js derives an end from the start
+    end:
+      vevent.hasProperty('dtend') || vevent.hasProperty('duration')
+        ? getIsoString({
+            time: event.endDate,
+            timeZone,
+            tzid:
+              vevent.getFirstProperty('dtend')?.getParameter('tzid') ??
+              startTzid,
+          })
+        : undefined,
     isInPerson: !!locationName,
     locationName,
-    name: getText('SUMMARY'),
-    start: getDateTime('DTSTART'),
-    url: properties.URL?.value.trim(),
+    name: getText(event.summary),
+    start: vevent.hasProperty('dtstart')
+      ? getIsoString({ time: event.startDate, timeZone, tzid: startTzid })
+      : undefined,
+    url: getText(vevent.getFirstPropertyValue('url')),
   }
 }

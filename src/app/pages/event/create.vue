@@ -42,6 +42,7 @@ onMounted(() => {
     if (!fileHandle) return
 
     const file = await fileHandle.getFile()
+    const { parseIcsEvent } = await import('#shared/utils/ical') // keeps the parser out of the page's bundle
     const event = parseIcsEvent({
       ics: await file.text(),
       timeZone: getLocalTimeZone(),
