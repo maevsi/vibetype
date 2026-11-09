@@ -17,7 +17,7 @@
       />
       <GuestFeedbackIcon
         v-if="feedback"
-        class="absolute right-0 bottom-0 rounded-full bg-(--semantic-base-background)"
+        class="absolute right-0 bottom-0 rounded-full bg-surface"
         :feedback
       />
     </div>
@@ -28,7 +28,7 @@
       </span>
       <div
         v-if="contact.accountByAccountId?.username"
-        class="truncate text-(--semantic-base-text-secondary)"
+        class="truncate text-fg-2"
       >
         <AppLink
           v-if="isUsernameLinked"

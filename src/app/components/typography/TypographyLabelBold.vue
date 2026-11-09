@@ -1,9 +1,5 @@
 <template>
-  <span
-    :class="
-      cn('text-[11px] leading-4 font-extrabold tracking-[0.5%]', classProps)
-    "
-  >
+  <span :class="cn('text-caption font-bold', classProps)">
     <slot />
   </span>
 </template>

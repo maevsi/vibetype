@@ -31,7 +31,7 @@
           :aria-label="t('heading1')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.heading1 ? ['bg-(--semantic-base-background)'] : []),
+            ...(isActive.heading1 ? ['bg-surface'] : []),
           ]"
           :title="t('heading1')"
           @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
@@ -45,7 +45,7 @@
           :aria-label="t('heading2')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.heading2 ? ['bg-(--semantic-base-background)'] : []),
+            ...(isActive.heading2 ? ['bg-surface'] : []),
           ]"
           :title="t('heading2')"
           @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
@@ -59,7 +59,7 @@
           :aria-label="t('heading3')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.heading3 ? ['bg-(--semantic-base-background)'] : []),
+            ...(isActive.heading3 ? ['bg-surface'] : []),
           ]"
           :title="t('heading3')"
           @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
@@ -73,10 +73,7 @@
       <div class="flex gap-1">
         <ButtonIcon
           :aria-label="t('bold')"
-          :class="[
-            'rounded-sm p-1',
-            ...(isActive.bold ? ['bg-(--semantic-base-background)'] : []),
-          ]"
+          :class="['rounded-sm p-1', ...(isActive.bold ? ['bg-surface'] : [])]"
           :title="t('bold')"
           @click="editor.chain().focus().toggleBold().run()"
         >
@@ -86,7 +83,7 @@
           :aria-label="t('italic')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.italic ? ['bg-(--semantic-base-background)'] : []),
+            ...(isActive.italic ? ['bg-surface'] : []),
           ]"
           :title="t('italic')"
           @click="editor.chain().focus().toggleItalic().run()"
@@ -97,7 +94,7 @@
           :aria-label="t('strike')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.strike ? ['bg-(--semantic-base-background)'] : []),
+            ...(isActive.strike ? ['bg-surface'] : []),
           ]"
           :title="t('strike')"
           @click="editor.chain().focus().toggleStrike().run()"
@@ -110,9 +107,7 @@
           :aria-label="t('formatAlignLeft')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.textAlignLeft
-              ? ['bg-(--semantic-base-background)']
-              : []),
+            ...(isActive.textAlignLeft ? ['bg-surface'] : []),
           ]"
           :title="t('formatAlignLeft')"
           @click="editor.chain().focus().setTextAlign('left').run()"
@@ -123,9 +118,7 @@
           :aria-label="t('formatAlignCenter')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.textAlignCenter
-              ? ['bg-(--semantic-base-background)']
-              : []),
+            ...(isActive.textAlignCenter ? ['bg-surface'] : []),
           ]"
           :title="t('formatAlignCenter')"
           @click="editor.chain().focus().setTextAlign('center').run()"
@@ -136,9 +129,7 @@
           :aria-label="t('formatAlignRight')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.textAlignRight
-              ? ['bg-(--semantic-base-background)']
-              : []),
+            ...(isActive.textAlignRight ? ['bg-surface'] : []),
           ]"
           :title="t('formatAlignRight')"
           @click="editor.chain().focus().setTextAlign('right').run()"
@@ -149,9 +140,7 @@
           :aria-label="t('formatAlignJustify')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.textAlignJustify
-              ? ['bg-(--semantic-base-background)']
-              : []),
+            ...(isActive.textAlignJustify ? ['bg-surface'] : []),
           ]"
           :title="t('formatAlignJustify')"
           @click="editor.chain().focus().setTextAlign('justify').run()"
@@ -164,7 +153,7 @@
           :aria-label="t('listUl')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.bulletList ? ['bg-(--semantic-base-background)'] : []),
+            ...(isActive.bulletList ? ['bg-surface'] : []),
           ]"
           :title="t('listUl')"
           @click="editor.chain().focus().toggleBulletList().run()"
@@ -175,9 +164,7 @@
           :aria-label="t('listOl')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.orderedList
-              ? ['bg-(--semantic-base-background)']
-              : []),
+            ...(isActive.orderedList ? ['bg-surface'] : []),
           ]"
           :title="t('listOl')"
           @click="editor.chain().focus().toggleOrderedList().run()"
@@ -188,10 +175,7 @@
       <div class="flex gap-1">
         <ButtonIcon
           :aria-label="t('link')"
-          :class="[
-            'rounded-sm p-1',
-            ...(isActive.link ? ['bg-(--semantic-base-background)'] : []),
-          ]"
+          :class="['rounded-sm p-1', ...(isActive.link ? ['bg-surface'] : [])]"
           :title="t('link')"
           @click="setLink"
         >
@@ -210,7 +194,7 @@
           :aria-label="t('blockquote')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.blockquote ? ['bg-(--semantic-base-background)'] : []),
+            ...(isActive.blockquote ? ['bg-surface'] : []),
           ]"
           :title="t('blockquote')"
           @click="editor.chain().focus().toggleBlockquote().run()"
@@ -219,10 +203,7 @@
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('code')"
-          :class="[
-            'rounded-sm p-1',
-            ...(isActive.code ? ['bg-(--semantic-base-background)'] : []),
-          ]"
+          :class="['rounded-sm p-1', ...(isActive.code ? ['bg-surface'] : [])]"
           :title="t('code')"
           @click="editor.chain().focus().toggleCode().run()"
         >
@@ -234,9 +215,7 @@
           :aria-label="t('horizontalRule')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.horizontalRule
-              ? ['bg-(--semantic-base-background)']
-              : []),
+            ...(isActive.horizontalRule ? ['bg-surface'] : []),
           ]"
           :title="t('horizontalRule')"
           @click="editor.chain().focus().setHorizontalRule().run()"
@@ -246,7 +225,7 @@
       </div>
       <!--
       <AppButton
-        :class="{ 'bg-(--semantic-base-background)': isActive.codeBlock }"
+        :class="{ 'bg-surface': isActive.codeBlock }"
         @click="editor.chain().focus().toggleCodeBlock().run()"
       >
         code block
@@ -279,7 +258,7 @@ const editor = useEditor({
     attributes: {
       'aria-label': ariaLabel,
       class:
-        'rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) flex-1 px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-none min-h-[100px]',
+        'rounded-lg border border-line bg-surface-raised flex-1 px-4 py-3 placeholder-fg-2 outline-none min-h-[100px]',
     },
   },
   extensions: [

@@ -332,6 +332,15 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
+    case 'AccountPasswordResetRequest':
+      return {
+        data: {
+          accountPasswordResetRequest: {
+            clientMutationId: null,
+            __typename: 'AccountPasswordResetRequestPayload',
+          },
+        },
+      }
     case 'AccountRegistration':
       return {
         data: {

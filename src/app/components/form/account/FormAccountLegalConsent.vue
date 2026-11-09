@@ -1,12 +1,10 @@
 <template>
   <form
-    class="sticky bottom-0 z-10 flex flex-col gap-3 border-t border-(--semantic-base-line) bg-(--semantic-base-background) p-3"
+    class="sticky bottom-0 z-10 flex flex-col gap-3 border-t border-line bg-surface p-3"
     novalidate
     @submit.prevent="form.handleSubmit"
   >
-    <div
-      class="rounded-xl border border-(--semantic-base-line) bg-(--semantic-base-surface-1) px-3 py-4"
-    >
+    <div class="rounded-xl border border-line bg-surface-raised px-3 py-4">
       <form.Field v-slot="{ field }" name="agreement">
         <div class="flex items-center gap-3 p-1">
           <AppCheckbox

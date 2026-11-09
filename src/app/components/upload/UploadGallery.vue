@@ -18,7 +18,7 @@
                 ? ['animate-pulse']
                 : []),
               ...(isSelectable && upload === selectedItem
-                ? ['border-(--semantic-critic-strong)']
+                ? ['border-action-danger']
                 : ['border-transparent']),
             ]"
             :disabled="
@@ -37,17 +37,14 @@
             />
             <div
               v-if="!isReadonly"
-              class="absolute top-0 right-0 flex rounded-bl-lg bg-(--semantic-critic-strong)/75"
+              class="absolute top-0 right-0 flex rounded-bl-lg bg-action-danger/75"
             >
               <AppButton
                 :aria-label="t('iconTrashLabel')"
                 class="flex h-full justify-center"
                 @click="onDeleteSelect(upload)"
               >
-                <AppIconTrash
-                  class="m-1 text-(--semantic-base-light-text-on-dark)"
-                  :title="t('iconTrash')"
-                />
+                <AppIconTrash class="m-1 text-white" :title="t('iconTrash')" />
               </AppButton>
             </div>
           </li>
@@ -60,7 +57,7 @@
                 sizeTotal: bytesToString(accountUploadQuotaBytes),
               })
             "
-            class="flex size-32 justify-center bg-(--semantic-base-surface-1)"
+            class="flex size-32 justify-center bg-surface-raised"
             :title="
               t('iconAdd', {
                 sizeUsed: bytesToString(sizeByteTotal),
@@ -69,9 +66,7 @@
             "
             @click="selectProfilePicture"
           >
-            <AppIconPlusSolid
-              class="size-12 text-(--semantic-base-text-secondary)"
-            />
+            <AppIconPlusSolid class="size-12 text-fg-2" />
           </AppButton>
           <input
             ref="inputProfilePicture"

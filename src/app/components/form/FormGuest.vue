@@ -12,7 +12,7 @@
         <FieldContent>
           <div class="relative">
             <AppIconMagnifyingGlass
-              class="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2"
+              class="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
             />
             <Input
               id="input-contact-id"
@@ -46,7 +46,7 @@
           <AppButton
             v-if="contactCreationCandidate"
             :aria-label="t('contactCreate')"
-            class="flex w-full shrink-0 items-center gap-4 rounded-sm border-2 border-dashed border-(--semantic-base-line) px-4 py-2"
+            class="flex w-full shrink-0 items-center gap-4 rounded-sm border-2 border-dashed border-line px-4 py-2"
             :loading="createContactMutation.fetching.value"
             type="button"
             @click="contactCreate()"
@@ -71,7 +71,7 @@
                   `@${contactCreationCandidate.username}`
                 }}
               </span>
-              <span class="text-(--semantic-base-text-secondary)">
+              <span class="text-fg-2">
                 {{ t('contactCreate') }}
               </span>
             </div>
@@ -81,7 +81,7 @@
             v-for="contact in contactsFiltered"
             :key="contact.rowId"
             :aria-label="t('buttonContact')"
-            class="flex w-full shrink-0 items-center gap-4 rounded-sm border-2 border-(--semantic-base-line) px-4 py-2"
+            class="flex w-full shrink-0 items-center gap-4 rounded-sm border-2 border-line px-4 py-2"
             :disabled="guestContactIdsExisting?.includes(contact.rowId)"
             type="button"
             @click="selectToggle(contact.rowId, field)"

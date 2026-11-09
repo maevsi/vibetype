@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <div
-      class="flex flex-col gap-4 rounded-lg border border-(--semantic-base-background) bg-(--semantic-base-surface-1) p-4 shadow-xs"
+      class="flex flex-col gap-4 rounded-lg border border-surface bg-surface-raised p-4 shadow-xs"
     >
       <div class="flex items-center justify-between">
         <TypographyH3>
@@ -35,7 +35,7 @@
       </div>
       <div class="flex flex-col gap-1.5" :class="{ hidden: !isEditing }">
         <TypographySubtitleSmall
-          class="rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) px-4 py-3"
+          class="rounded-lg border border-line bg-surface-raised px-4 py-3"
         >
           <textarea
             v-model="content"
@@ -45,9 +45,7 @@
             rows="5"
           />
         </TypographySubtitleSmall>
-        <TypographySubtitleSmall
-          class="self-end px-2 text-(--semantic-base-text-secondary)"
-        >
+        <TypographySubtitleSmall class="self-end px-2 text-fg-2">
           {{
             t('characterCount', {
               count: content?.length || 0,

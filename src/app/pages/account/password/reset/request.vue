@@ -19,17 +19,11 @@
       <h2 class="text-[28px] leading-8.5 font-bold tracking-[-0.4px]">
         {{ t('instructionsInboxHeading') }}
       </h2>
-      <p
-        class="mt-2 text-[15px] leading-5 font-semibold text-(--semantic-base-text-secondary)"
-      >
+      <p class="mt-2 text-[15px] leading-5 font-semibold text-fg-2">
         {{ t('sentResetLinkTo') }}
-        <span class="font-semibold text-(--semantic-base-text-primary)">{{
-          submittedEmail
-        }}</span>
+        <span class="font-semibold text-fg-1">{{ submittedEmail }}</span>
       </p>
-      <p
-        class="mt-2 text-[15px] leading-5 font-semibold text-(--semantic-base-text-secondary)"
-      >
+      <p class="mt-2 text-[15px] leading-5 font-semibold text-fg-2">
         {{ t('instructionsInboxDescription') }}
       </p>
     </FormAuthStepSuccess>

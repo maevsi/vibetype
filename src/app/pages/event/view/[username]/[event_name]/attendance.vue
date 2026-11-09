@@ -17,17 +17,14 @@
             <AppIconQrCode />
           </template>
         </ButtonColored>
-        <p
-          v-if="!guestId"
-          class="text-sm text-(--semantic-base-text-secondary)"
-        >
+        <p v-if="!guestId" class="text-sm text-fg-2">
           {{ t('qrHint') }}
         </p>
         <AppAttendanceGuestDynamic v-if="guestId" :guest-id />
         <div v-if="guestId" class="flex flex-col items-center gap-2">
           <ButtonColored
             :aria-label="t('nfcWrite')"
-            class="text-(--semantic-base-light-text-on-dark)"
+            class="text-on-action-primary"
             :disabled="isNfcError"
             @click="onClick"
           >

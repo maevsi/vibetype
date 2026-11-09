@@ -1,10 +1,7 @@
 <template>
   <AppButton
     v-bind="delegatedProps"
-    :class="[
-      'p-4',
-      ...(route.fullPath === to ? ['bg-(--semantic-base-background)'] : []),
-    ]"
+    :class="['p-4', ...(route.fullPath === to ? ['bg-surface'] : [])]"
     @click="emit('onMenuHide')"
   >
     <slot />

@@ -6,7 +6,7 @@
         <span class="text-lg font-bold">{{ t('profile') }}</span>
         <div class="flex flex-col gap-3">
           <CardButton
-            class="bg-(--accent-strong) text-(--semantic-base-primary-button-text)"
+            class="bg-action-primary text-on-action-primary"
             :title="t('aiSetup')"
             :to="
               localePath({
@@ -20,7 +20,7 @@
             </template> -->
           </CardButton>
           <CardButton
-            class="border-(--semantic-warning-strong) bg-(--semantic-warning-weak) text-(--semantic-base-text-primary)"
+            class="border-action-warning bg-warning-tint text-fg-1"
             :title="t('earlyBirdStart')"
             :to="localePath({ name: 'early-bird-create' })"
           >
@@ -161,7 +161,7 @@
       </section>
       <section v-if="store.signedInUsername" class="flex flex-col">
         <CardButton
-          class="bg-(--semantic-critic-strong) text-(--semantic-base-light-text-on-dark)"
+          class="bg-action-danger text-white"
           :title="t('logout')"
           @click="signOutToRoot"
         >
