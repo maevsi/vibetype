@@ -137,6 +137,7 @@ export default defineNuxtConfig({
         baseUrl: SITE_URL,
       },
       sentry: {
+        enabled: false, // set through `NUXT_PUBLIC_SENTRY_ENABLED` by deployments only, as a local production build would report to Sentry otherwise
         // the flags mirror the integrations and the client security reporting, so each of them can be turned off without a code change
         features: {
           consoleCapture: true,
