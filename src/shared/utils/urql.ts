@@ -59,12 +59,20 @@ export const useApiQuery = <S, V extends AnyVariables = AnyVariables>(
       // prop of the query args types them as `V | undefined`
       toValue(args.variables) as V,
     )
+    // Built like `useQuery` builds it, so per query options such as an
+    // `Authorization` header in `fetchOptions` reach the server request too
+    const context = {
+      ...('requestPolicy' in args
+        ? { requestPolicy: toValue(args.requestPolicy) }
+        : {}),
+      ...toValue(args.context),
+    }
     // A promise must never resolve to a thenable: the response itself is
     // one, so the state is returned without its `then`, or the resolution
     // would re-trigger it in an endless adoption loop
     const settle = (): Promise<UseQueryState<S, V>> =>
       client
-        .executeQuery(request)
+        .executeQuery(request, context)
         .toPromise()
         .then(
           (result) => {
