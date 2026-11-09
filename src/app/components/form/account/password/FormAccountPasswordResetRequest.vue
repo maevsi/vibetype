@@ -20,6 +20,7 @@
         {{ emailError }}
       </p>
     </form.Field>
+    <FormFieldCaptcha v-model:captcha-is-used="captchaIsUsed" :form />
     <FormAuthButton :aria-label="t('send')" class="mt-4" type="submit">
       {{ t('send') }}
     </FormAuthButton>
@@ -106,25 +107,43 @@ const handleEmailInput = (
 }
 
 // form
+const { csrf } = useCsrf()
+const captchaIsUsed = ref<boolean>()
+
 const formSchema = z.object({
+  captcha: SCHEMA_CAPTCHA,
   emailAddress: SCHEMA_EMAIL_ADDRESS_REQUIRED,
 })
 
 const form = useForm({
   defaultValues: {
+    captcha: '',
     emailAddress: '',
   },
   validators: {
     onSubmit: formSchema,
   },
   onSubmit: async ({ value }) => {
-    const result = await passwordResetRequestMutation.executeMutation({
-      input: {
-        emailAddress: value.emailAddress,
-        language: locale.value,
-        timeZone: useTimeZone(),
+    const result = await passwordResetRequestMutation.executeMutation(
+      {
+        input: {
+          emailAddress: value.emailAddress,
+          language: locale.value,
+          timeZone: useTimeZone(),
+        },
       },
-    })
+      {
+        // Replaces the client's fetch options, so the CSRF header has to be repeated.
+        fetchOptions: {
+          headers: {
+            [CSRF_HEADER_NAME]: csrf,
+            ...(value.captcha && { [TURNSTILE_HEADER_KEY]: value.captcha }),
+          },
+        },
+      },
+    )
+
+    captchaIsUsed.value = true
 
     if (!getResultData(result)) return
 

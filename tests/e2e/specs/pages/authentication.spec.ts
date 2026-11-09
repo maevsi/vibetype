@@ -108,6 +108,34 @@ appTest.describe('authentication', () => {
     ).toBeVisible()
   })
 
+  appTest(
+    'requests a password reset with a turnstile token',
+    async ({ defaultPage }) => {
+      const { page } = defaultPage
+
+      await goto({ defaultPage, path: '/account/password/reset/request' })
+      await waitForTurnstileToken(page)
+      await page
+        .getByRole('textbox', { name: 'Email address' })
+        .fill('reset@example.com')
+
+      const request = page.waitForRequest((request) =>
+        Boolean(request.postData()?.includes('AccountPasswordResetRequest')),
+      )
+      await page.getByRole('button', { name: 'Send reset link' }).click()
+
+      expect((await request).headers()['x-turnstile-key']).toBe(
+        'XXXX.DUMMY.TOKEN.XXXX',
+      )
+      await expect(
+        page.getByRole('heading', {
+          level: 2,
+          name: 'Check your inbox for a reset link',
+        }),
+      ).toBeVisible()
+    },
+  )
+
   appTest('rejects a taken username', async ({ defaultPage }) => {
     const { page } = defaultPage
 
