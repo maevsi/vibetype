@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex flex-1 flex-col">
     <LayoutPageTitle :title />
     <!-- "UploadGallery" must come after "ModalUploadSelection" for them to overlay properly! -->
     <UploadGallery v-if="authentication.isSignedIn" />

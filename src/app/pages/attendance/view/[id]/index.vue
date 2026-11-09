@@ -1,7 +1,5 @@
 <template>
-  <div v-if="api.isFetching" class="text-body-small text-fg-2">
-    {{ t('loading') }}
-  </div>
+  <LoaderPlaceholder v-if="api.isFetching && !attendance" />
   <AppError v-else-if="!attendance" :error="{ status: 404 }" />
   <div v-else class="flex flex-col gap-4">
     <h1 class="sr-only">{{ title }}</h1>
@@ -249,7 +247,7 @@ const friendAdd = async () => {
 
 // page
 const title = computed(() => {
-  if (api.value.isFetching) return t('globalLoading')
+  if (api.value.isFetching && !attendance.value) return t('globalLoading')
 
   if (contactName.value) {
     return t('title', { name: contactName.value })
@@ -274,7 +272,6 @@ de:
   event: Veranstaltung
   guest: Gast
   guestView: Einladung anzeigen
-  loading: Lädt…
   title: Anwesenheitsdetails für {name}
 en:
   addFriend: Add friend
@@ -289,6 +286,5 @@ en:
   event: Event
   guest: Guest
   guestView: Show invitation
-  loading: Loading…
   title: Attendance Details for {name}
 </i18n>

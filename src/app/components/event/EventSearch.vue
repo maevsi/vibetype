@@ -7,7 +7,7 @@
     <EventList
       :events
       :has-next-page="pageInfo?.hasNextPage"
-      :is-loading="api.isFetching"
+      :is-loading="api.isFetching || isAdvancingUntilUpcomingEvent"
       @load-more="loadMore"
     />
   </div>
@@ -268,6 +268,11 @@ const ADVANCE_UNTIL_UPCOMING_EVENT_MAX_PAGES = 50
 // (starting with a large batch, see `allEventsQueryFirst`/`ITEMS_PER_PAGE_LARGE`
 // above) until an upcoming event turns up, hasNextPage goes false, or one of
 // the guards below trips.
+// Keeps the list loading between the pages it skips, which are otherwise
+// briefly settled on no upcoming events and would flash the empty state.
+// Raised only once a skip is due rather than at the start, so hydration
+// renders the same state the server did
+const isAdvancingUntilUpcomingEvent = ref(false)
 const advanceUntilUpcomingEvent = async () => {
   let pages = 0
   let previousEndCursor: string | null | undefined
@@ -279,24 +284,33 @@ const advanceUntilUpcomingEvent = async () => {
   // immediately.
   await query.value
 
-  while (events.value?.length === 0 && pageInfo.value?.hasNextPage) {
-    if (pages >= ADVANCE_UNTIL_UPCOMING_EVENT_MAX_PAGES) break
-    // `hasNextPage` being true with an `endCursor` that isn't moving would
-    // otherwise refetch the same page forever.
-    if (pages > 0 && pageInfo.value.endCursor === previousEndCursor) break
+  try {
+    while (events.value?.length === 0 && pageInfo.value?.hasNextPage) {
+      isAdvancingUntilUpcomingEvent.value = true
+      if (pages >= ADVANCE_UNTIL_UPCOMING_EVENT_MAX_PAGES) break
+      // `hasNextPage` being true with an `endCursor` that isn't moving would
+      // otherwise refetch the same page forever.
+      if (pages > 0 && pageInfo.value.endCursor === previousEndCursor) break
 
-    previousEndCursor = pageInfo.value.endCursor
-    pages++
-    loadMore()
-    await query.value.executeQuery()
+      previousEndCursor = pageInfo.value.endCursor
+      pages++
+      loadMore()
+      await query.value.executeQuery()
+    }
+  } finally {
+    isAdvancingUntilUpcomingEvent.value = false
   }
 }
 
-// Awaiting this at setup (rather than only reacting to it in a watcher)
-// makes the initial catch-up finish during server-side rendering instead of
-// flashing an empty list on load.
-await advanceUntilUpcomingEvent()
-allEventsCaughtUpOnUpcomingEvent = true
+// Awaited on the server so the catch-up finishes during server-side
+// rendering, but not on the client, where awaiting the network at setup
+// would hold back the navigation until the events arrive
+const advanceUntilUpcomingEventInitially = advanceUntilUpcomingEvent().then(
+  () => {
+    allEventsCaughtUpOnUpcomingEvent = true
+  },
+)
+if (import.meta.server) await advanceUntilUpcomingEventInitially
 
 watch(searchQueryVariable, async () => {
   // `query.value` already reflects the new search state by this point, so
