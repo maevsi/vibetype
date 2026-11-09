@@ -38,6 +38,7 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
 
 ## Nuxt
 - Nuxt auto-imports are active, so there is no need to import Nuxt components, composables and Vue.js APIs – run `pnpm exec nuxt prepare` instead to update the barrel files
+  - The unit tests in `tests/unit` run without auto-imports, so a file they import must import its helpers explicitly, and the tests' type check fails on every file it reaches that relies on auto-imports
 - Do not hardcode translatable strings, but use the i18n module instead
 
 ## Docker

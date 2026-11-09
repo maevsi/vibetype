@@ -85,6 +85,12 @@ export default defineNuxtConfig({
     },
     serverAssets: [
       {
+        // the Apple Wallet pass icon, as the server cannot read `public` at runtime
+        baseName: 'favicon',
+        dir: resolve('./public/assets/static/favicon'),
+        pattern: 'apple-touch-icon-180x180.png',
+      },
+      {
         // bundled, as the server build does not trace font files in `node_modules`
         baseName: 'raleway',
         dir: resolve('./node_modules/@fontsource-variable/raleway/files'),

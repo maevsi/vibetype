@@ -109,6 +109,7 @@
     "nuxt-security": "2.7.0",
     "nuxtseo-devtools-host": "1.0.2",
     "openai": "7.50.0",
+    "passkit-generator": "3.7.0",
     "pinia": "4.1.0",
     "postcss-html": "2.0.0",
     "postgres": "4.0.0",

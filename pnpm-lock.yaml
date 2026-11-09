@@ -495,6 +495,9 @@ importers:
       openai:
         specifier: 7.50.0
         version: 7.50.0(@aws-sdk/credential-provider-node@3.972.92)(@smithy/signature-v4@5.7.5)(google-auth-library@11.3.2(supports-color@10.2.2))(undici@8.12.3)(ws@8.22.1)(zod@4.6.7)
+      passkit-generator:
+        specifier: 3.7.0
+        version: 3.7.0
       pinia:
         specifier: 4.1.0
         version: 4.1.0(@vue/devtools-api@8.2.1)(typescript@6.0.3)(vue@3.5.44(typescript@6.0.3))
@@ -2914,6 +2917,12 @@ packages:
     resolution: {integrity: sha512-wtF6h+DY6M3YaDBPAmvuuA6jV8Sif9MjtOI5euKFWRgCDl5PeDpPsHR9u2l6St5ceY8AZgoNDww5+HvEsXFsGg==}
     engines: {node: '>=6'}
     hasBin: true
+
+  '@hapi/hoek@9.3.0':
+    resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
+
+  '@hapi/topo@5.1.0':
+    resolution: {integrity: sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg==}
 
   '@heroicons/vue@2.2.0':
     resolution: {integrity: sha512-G3dbSxoeEKqbi/DFalhRxJU4mTXJn7GwZ7ae8NuEQzd1bqdd0jAbdaBZlHPcvPD2xI1iGzNVB4k20Un2AguYPw==}
@@ -5779,6 +5788,15 @@ packages:
   '@shikijs/vscode-textmate@10.1.0':
     resolution: {integrity: sha512-cVBuhDQjBZaNMTwBquYfPydrUP+E3hE6oYGasx8h6ZrODIM7/r+gxLDXdd66oszbrggZHEntdE6j+5gYIVyMWQ==}
 
+  '@sideway/address@4.1.5':
+    resolution: {integrity: sha512-IqO/DUQHUkPeixNQ8n0JA6102hT9CmaljNTPmQ1u8MEhBo/R4Q8eKLN/vGZxuebwOroDB4cbpjheD4+/sKFK4Q==}
+
+  '@sideway/formula@3.0.1':
+    resolution: {integrity: sha512-/poHZJJVjx3L+zVD6g9KgHfYnb443oi7wLu/XKojDviHy6HOEOA6z1Trk5aR1dGcmPenJEgb2sK2I80LeS3MIg==}
+
+  '@sideway/pinpoint@2.0.0':
+    resolution: {integrity: sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==}
+
   '@sidvind/better-ajv-errors@3.0.1':
     resolution: {integrity: sha512-++1mEYIeozfnwWI9P1ECvOPoacy+CgDASrmGvXPMCcqgx0YUzB01vZ78uHdQ443V6sTY+e9MzHqmN9DOls02aw==}
     engines: {node: '>= 16.14'}
@@ -8172,6 +8190,9 @@ packages:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
     engines: {node: '>=8'}
 
+  do-not-zip@1.0.0:
+    resolution: {integrity: sha512-Pgd81ET43bhAGaN2Hq1zluSX1FmD7kl7KcV9ER/lawiLsRUB9pRA5y8r6us29Xk6BrINZETO8TjhYwtwafWUww==}
+
   doiuse@6.0.6:
     resolution: {integrity: sha512-XuPRslcWHhQJ+WjCjimRUcNfhZvOiC0610FsY6WeSlzXvoZYtm6iOpR9K0N4wRoM/lP4i7LatT+IhltAzouSOw==}
     engines: {node: '>=16'}
@@ -9756,6 +9777,9 @@ packages:
     resolution: {integrity: sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ==}
     hasBin: true
 
+  joi@17.13.4:
+    resolution: {integrity: sha512-1RuuER6kmt8K8I3nIWvPZKi5RQCb568ZPyY4Pwjlua+yo+63ZTmIwxLZH0heBmiKN4uxjvCiarDrjaeH84xicQ==}
+
   jose@6.2.13:
     resolution: {integrity: sha512-7TIg10ZE1x82YediN+lcrPNvGMKge9yFHQD+Qho/b8y2adfugU3AsvvHfxV0fzyFllT6l9xCjf4RWY9g/Z9PJQ==}
 
@@ -11200,6 +11224,10 @@ packages:
 
   pascal-case@3.1.2:
     resolution: {integrity: sha512-uWlGT3YSnK9x3BQJaOdcZwrnV6hPpd8jFH1/ucpiLRPh/2zCVJKS19E4GvYHvaCcACn3foXZ0cLB9Wrx1KGe5g==}
+
+  passkit-generator@3.7.0:
+    resolution: {integrity: sha512-jeonV+XhPgmOEdrm19/sMxUJhOb5VfSLv1KKbENz8mtvInZ44a6LZNM8vduXaVCIZAxMTiP9VhrNs66Lwn7TKA==}
+    engines: {node: '>=14.21.3'}
 
   path-browserify@1.0.1:
     resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
@@ -16371,6 +16399,12 @@ snapshots:
       yargs: 17.7.3
     optional: true
 
+  '@hapi/hoek@9.3.0': {}
+
+  '@hapi/topo@5.1.0':
+    dependencies:
+      '@hapi/hoek': 9.3.0
+
   '@heroicons/vue@2.2.0(vue@3.5.44(typescript@6.0.3))':
     dependencies:
       vue: 3.5.44(typescript@6.0.3)
@@ -19936,6 +19970,14 @@ snapshots:
 
   '@shikijs/vscode-textmate@10.1.0': {}
 
+  '@sideway/address@4.1.5':
+    dependencies:
+      '@hapi/hoek': 9.3.0
+
+  '@sideway/formula@3.0.1': {}
+
+  '@sideway/pinpoint@2.0.0': {}
+
   '@sidvind/better-ajv-errors@3.0.1(ajv@8.20.0)':
     dependencies:
       ajv: 8.20.0
@@ -22341,6 +22383,8 @@ snapshots:
     dependencies:
       path-type: 4.0.0
 
+  do-not-zip@1.0.0: {}
+
   doiuse@6.0.6:
     dependencies:
       browserslist: 4.29.5
@@ -24371,6 +24415,14 @@ snapshots:
       supports-color: 8.1.1
 
   jiti@2.7.0: {}
+
+  joi@17.13.4:
+    dependencies:
+      '@hapi/hoek': 9.3.0
+      '@hapi/topo': 5.1.0
+      '@sideway/address': 4.1.5
+      '@sideway/formula': 3.0.1
+      '@sideway/pinpoint': 2.0.0
 
   jose@6.2.13: {}
 
@@ -26830,6 +26882,13 @@ snapshots:
   pascal-case@3.1.2:
     dependencies:
       no-case: 3.0.4
+      tslib: 2.9.1
+
+  passkit-generator@3.7.0:
+    dependencies:
+      do-not-zip: 1.0.0
+      joi: 17.13.4
+      node-forge: 1.4.2
       tslib: 2.9.1
 
   path-browserify@1.0.1: {}
