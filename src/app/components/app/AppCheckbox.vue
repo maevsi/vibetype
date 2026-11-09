@@ -1,8 +1,5 @@
 <template>
-  <Checkbox
-    v-bind="forwarded"
-    :class="cn('size-6 border-none bg-surface-raised', props.class)"
-  >
+  <Checkbox v-bind="forwarded" :class="cn('size-6', props.class)">
     <slot>
       <Check class="size-4" />
     </slot>

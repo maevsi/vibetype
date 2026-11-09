@@ -4,7 +4,7 @@
       :aria-label="t('nav')"
       :class="
         cn(
-          'sticky top-0 flex h-screen flex-col gap-4 border-r-1 border-line bg-surface p-8 shadow-xs',
+          'sticky top-0 flex h-screen flex-col gap-2 border-r border-line bg-surface p-6',
           classProps,
         )
       "

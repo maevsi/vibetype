@@ -7,6 +7,45 @@ const PAGE_PATH = '/event/create'
 
 testVisualRegression(PAGE_PATH)
 
+authenticatedTest.describe('file handling', () => {
+  authenticatedTest(
+    'prefills the form from a launched calendar file',
+    async ({ defaultPage }) => {
+      const { page } = defaultPage
+
+      // stands in for the browser, which hands an installed app the files it was opened with
+      await page.addInitScript(() => {
+        const ics = [
+          'BEGIN:VCALENDAR',
+          'BEGIN:VEVENT',
+          'SUMMARY:Imported Meetup',
+          'DTSTART:20300615T180000Z',
+          'END:VEVENT',
+          'END:VCALENDAR',
+        ].join('\r\n')
+
+        Object.defineProperty(globalThis, 'launchQueue', {
+          value: {
+            setConsumer: (consumer: (params: unknown) => unknown) =>
+              consumer({
+                files: [
+                  {
+                    getFile: async () =>
+                      new File([ics], 'event.ics', { type: 'text/calendar' }),
+                  },
+                ],
+              }),
+          },
+        })
+      })
+
+      await defaultPage.goto(PAGE_PATH)
+
+      await expect(page.locator('#input-name')).toHaveValue('Imported Meetup')
+    },
+  )
+})
+
 authenticatedTest.describe('date and time picker', () => {
   authenticatedTest(
     'selects a start date and time',

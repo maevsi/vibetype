@@ -109,10 +109,6 @@ export default defineNuxtConfig({
     '/api/service/firebase/notification': {
       csurf: false, // called by services, authenticated by secret
     },
-    '/offline': {
-      robots: false,
-      ssr: false, // a user agnostic client app shell that the service worker serves for navigations when the network fails
-    },
   },
   router: {
     options: {

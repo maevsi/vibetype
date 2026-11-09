@@ -1,8 +1,5 @@
 <template>
-  <CardState
-    :class="cn('bg-action-primary text-on-action-primary', classProps)"
-    role="alert"
-  >
+  <CardState :class="cn('bg-success-tint text-fg-1', classProps)" role="alert">
     <slot />
   </CardState>
 </template>

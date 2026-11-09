@@ -6,7 +6,7 @@
         {{ t('title') }}
       </TypographyH3>
       <div>
-        <ul class="flex flex-wrap justify-center gap-5">
+        <ul class="flex flex-wrap justify-center gap-2">
           <li
             v-for="eventCategory in eventCategories"
             :key="eventCategory.rowId"

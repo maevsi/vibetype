@@ -13,6 +13,23 @@
 ### Features
 
 * **app:** drop outdated detection keys ([9eb7e4e](https://github.com/maevsi/vibetype/commit/9eb7e4efe1b94a489b94ccb7c1b2c92f53040531))
+## [16.11.0](https://github.com/maevsi/vibetype/compare/16.10.0...16.11.0) (2026-11-09)
+
+### Features
+
+* **style:** restyle the shared components after the design system ([#2560](https://github.com/maevsi/vibetype/issues/2560)) ([ab83202](https://github.com/maevsi/vibetype/commit/ab832027f975fc8215079167f1c1ec122ba690b4))
+
+## [16.10.0](https://github.com/maevsi/vibetype/compare/16.9.1...16.10.0) (2026-11-09)
+
+### Features
+
+* **pwa:** open calendar files and web+vibetype links ([#2528](https://github.com/maevsi/vibetype/issues/2528)) ([1a494a1](https://github.com/maevsi/vibetype/commit/1a494a15550e60968de6ae1df92baa19ba762556))
+
+## [16.9.1](https://github.com/maevsi/vibetype/compare/16.9.0...16.9.1) (2026-11-09)
+
+### Bug Fixes
+
+* **account:** send a turnstile token on password reset request ([#2558](https://github.com/maevsi/vibetype/issues/2558)) ([2bccf93](https://github.com/maevsi/vibetype/commit/2bccf93f6921e321768778fbdba7ae0a3228dc0f))
 ## [16.9.0](https://github.com/maevsi/vibetype/compare/16.8.0...16.9.0) (2026-11-09)
 
 ### Features

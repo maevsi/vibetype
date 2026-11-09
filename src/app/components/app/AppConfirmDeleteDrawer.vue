@@ -1,7 +1,7 @@
 <template>
   <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
     <AppStep v-slot="attributes" :is-active="!error">
-      <div v-bind="attributes" class="text-center">
+      <div v-bind="attributes" class="text-fg-2">
         <TypographySubtitleSmall>
           <slot />
         </TypographySubtitleSmall>
@@ -28,20 +28,20 @@
       <AppStep v-slot="attributes" :is-active="!error">
         <ButtonColored
           v-bind="attributes"
-          :aria-label="cancelLabel"
-          variant="secondary"
-          @click="isOpen = false"
-        >
-          {{ cancelLabel }}
-        </ButtonColored>
-        <ButtonColored
-          v-bind="attributes"
           :aria-label="confirmLabel"
           :loading="isPending"
           variant="primary-critical"
           @click="emit('confirm')"
         >
           {{ confirmLabel }}
+        </ButtonColored>
+        <ButtonColored
+          v-bind="attributes"
+          :aria-label="cancelLabel"
+          variant="tertiary"
+          @click="isOpen = false"
+        >
+          {{ cancelLabel }}
         </ButtonColored>
       </AppStep>
       <AppStep v-slot="attributes" :is-active="!!error">

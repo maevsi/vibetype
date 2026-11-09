@@ -16,9 +16,9 @@
         @update:repetition-value="passwordPairValidation.handleRepetitionInput"
       />
       <FormFieldCaptcha v-model:captcha-is-used="captchaIsUsed" :form />
-      <FormAuthButton :aria-label="t('register')" type="submit">
+      <ButtonColored :aria-label="t('register')" class="w-full" type="submit">
         {{ t('register') }}
-      </FormAuthButton>
+      </ButtonColored>
       <p class="text-sm text-fg-2">
         {{ t('accountDeletionNotice') }}
       </p>
