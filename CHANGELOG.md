@@ -1,3 +1,21 @@
+## [17.0.0](https://github.com/maevsi/vibetype/compare/16.13.0...17.0.0) (2026-11-09)
+
+### ⚠ BREAKING CHANGES
+
+* **sentry:** enable only when deployment sets flag (#2562)
+* **turnstile:** drop postgraphile auth proxy (#2375)
+* **app:** drop outdated detection keys
+
+### Features
+
+* **app:** drop outdated detection keys ([9eb7e4e](https://github.com/maevsi/vibetype/commit/9eb7e4efe1b94a489b94ccb7c1b2c92f53040531))
+* **search:** match the sqitch backend rework ([#2379](https://github.com/maevsi/vibetype/issues/2379)) ([c17e95a](https://github.com/maevsi/vibetype/commit/c17e95a62969d6f1d83a421f70aadd1d72c2f92e))
+* **turnstile:** drop postgraphile auth proxy ([#2375](https://github.com/maevsi/vibetype/issues/2375)) ([c464d5b](https://github.com/maevsi/vibetype/commit/c464d5bbc9d13d51b67ad886095068ea48e081e2))
+
+### Bug Fixes
+
+* **sentry:** enable only when deployment sets flag ([#2562](https://github.com/maevsi/vibetype/issues/2562)) ([d0b0c4f](https://github.com/maevsi/vibetype/commit/d0b0c4f20e17dc401dc71a93946763649b1e47db))
+
 ## [17.0.0-beta.3](https://github.com/maevsi/vibetype/compare/17.0.0-beta.2...17.0.0-beta.3) (2026-11-09)
 
 ### Features
