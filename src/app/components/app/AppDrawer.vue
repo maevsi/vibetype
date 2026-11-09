@@ -1,21 +1,20 @@
 <template>
   <Drawer v-model:open="isOpen" :direction no-body-styles>
     <DrawerContent class="gap-4" :class="classProps">
-      <DrawerHeader class="py-0">
-        <DrawerTitle class="pb-2 text-center leading-7">
-          <TypographyH6>
+      <DrawerHeader class="px-3 pt-4 pb-0">
+        <DrawerTitle>
+          <TypographyH3>
             <slot name="title" />
-          </TypographyH6>
+          </TypographyH3>
         </DrawerTitle>
         <DrawerDescription class="sr-only">
           <slot name="description" />
         </DrawerDescription>
-        <AppHr />
       </DrawerHeader>
       <div class="flex min-h-0 flex-1 flex-col overflow-y-auto px-3">
         <slot />
       </div>
-      <DrawerFooter v-if="$slots.footer" class="p-0 px-3 py-2">
+      <DrawerFooter v-if="$slots.footer" class="gap-2 p-2">
         <slot name="footer" />
       </DrawerFooter>
     </DrawerContent>

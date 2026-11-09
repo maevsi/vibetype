@@ -24,13 +24,13 @@
       <p class="mt-2 text-[15px] leading-5 font-semibold text-fg-2">
         {{ t('instructionsSuccessDescription') }}
       </p>
-      <FormAuthButton
+      <ButtonColored
         :aria-label="t('signIn')"
-        class="mt-6"
+        class="mt-6 w-full"
         @click="navigateTo(localePath('session-create'))"
       >
         {{ t('signIn') }}
-      </FormAuthButton>
+      </ButtonColored>
     </FormAuthStepSuccess>
     <FormAuthStepError :error="error" :is-active="step === 'error'">
       <div
@@ -63,21 +63,22 @@
           {{ t('copyToClipboard') }}
         </button>
       </div>
-      <FormAuthButton
+      <ButtonColored
         :aria-label="t('tryAgain')"
-        class="mb-3"
+        class="mb-3 w-full"
         variant="primary"
         @click="restart"
       >
         {{ t('tryAgain') }}
-      </FormAuthButton>
-      <FormAuthButton
+      </ButtonColored>
+      <ButtonColored
         :aria-label="t('returnBack')"
+        class="w-full"
         variant="secondary"
         @click="navigateBack"
       >
         {{ t('returnBack') }}
-      </FormAuthButton>
+      </ButtonColored>
     </FormAuthStepError>
   </section>
 </template>

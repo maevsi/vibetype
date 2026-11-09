@@ -7,7 +7,7 @@
     </div>
     <div v-if="$slots.bottom" class="sticky bottom-0 flex flex-col justify-end">
       <div
-        class="flex flex-col items-center gap-3 border-t border-line bg-surface p-3"
+        class="flex flex-col items-center gap-2 bg-glass-raised p-4 backdrop-blur-xl"
       >
         <slot name="bottom" />
       </div>

@@ -4,7 +4,7 @@
       :id
       :aria-invalid="ariaInvalid"
       :autocomplete
-      :class="[inputClass, ariaInvalid ? 'border-error bg-danger-tint' : '']"
+      :class="[inputClass, 'pr-14']"
       :model-value="modelValue"
       :placeholder
       :type="isVisible ? 'text' : 'password'"

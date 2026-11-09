@@ -2,29 +2,37 @@
   <div
     :class="
       cn(
-        'relative isolate flex items-center gap-3 rounded-lg border border-line bg-surface-raised p-3 shadow-xs has-focus-visible:focus-ring',
-        !variant &&
-          (isDraft
-            ? 'border-action-warning'
-            : isCreator
-              ? 'border-action-primary'
-              : undefined),
-        variant === 'highlight' && 'bg-accent-pink text-white',
-        variant === 'recommendation' &&
-          'flex-col items-stretch gap-1.5 px-0 pt-0 pb-2',
+        'relative isolate flex items-center gap-4 rounded-large p-2 has-focus-visible:focus-ring',
+        variant !== 'recommendation' && variant !== 'highlight'
+          ? 'bg-transparent'
+          : 'bg-surface-raised',
+        variant === 'recommendation' && 'flex-col items-stretch gap-2',
       )
     "
   >
     <div
-      :class="cn('relative w-1/3', variant === 'recommendation' && 'w-auto')"
+      :class="
+        cn(
+          'relative shrink-0',
+          variant === 'recommendation'
+            ? 'w-auto'
+            : variant === 'highlight'
+              ? 'w-40'
+              : 'w-24',
+        )
+      "
     >
       <div
         v-if="categoryName || formatName"
         :aria-label="t('heroImage')"
         :class="
           cn(
-            'flex h-24 w-full items-center justify-center gap-2 rounded-lg border border-line',
-            variant === 'recommendation' && 'h-44 rounded-b-none',
+            'flex w-full items-center justify-center gap-2 rounded-medium bg-surface-raised',
+            variant === 'recommendation'
+              ? 'h-64 bg-surface'
+              : variant === 'highlight'
+                ? 'h-30 bg-surface'
+                : 'h-24',
           )
         "
         role="img"
@@ -44,53 +52,71 @@
         v-else
         :alt="t('heroImage')"
         :aspect="
-          !variant || variant === 'highlight'
-            ? 'aspect-[130/94]'
-            : 'aspect-[366/173]'
+          variant === 'recommendation'
+            ? 'aspect-[345/259]'
+            : variant === 'highlight'
+              ? 'aspect-[4/3]'
+              : 'aspect-square'
         "
         :class="
           cn(
-            'h-24 w-full rounded-lg object-cover',
-            variant === 'recommendation' && 'h-44 rounded-b-none',
+            'w-full rounded-medium object-cover',
+            variant === 'recommendation'
+              ? 'h-64'
+              : variant === 'highlight'
+                ? 'h-30'
+                : 'h-24',
           )
         "
-        :height="!variant || variant === 'highlight' ? '94' : '173'"
+        :height="
+          variant === 'recommendation'
+            ? '259'
+            : variant === 'highlight'
+              ? '120'
+              : '96'
+        "
         :src="`/assets/static/images/event/${getHeroImageName(event.name)}.jpg`"
-        :width="!variant || variant === 'highlight' ? '130' : '366'"
+        :width="
+          variant === 'recommendation'
+            ? '345'
+            : variant === 'highlight'
+              ? '160'
+              : '96'
+        "
       />
       <EventFavoriteButton
         v-if="!variant || variant === 'recommendation'"
         :class="
           cn(
-            'absolute z-20 flex size-5 items-center justify-center rounded-full bg-white',
-            !variant && 'top-1 left-1',
-            variant === 'recommendation' && 'right-2 bottom-2 size-9',
+            'absolute z-20 flex items-center justify-center rounded-full bg-surface-raised',
+            variant === 'recommendation'
+              ? 'top-2 right-2 size-10'
+              : 'top-1 left-1 size-7',
           )
         "
         :event
-        :icon-class="!variant && 'size-3'"
+        :icon-class="variant === 'recommendation' ? 'size-5' : 'size-4'"
       />
       <div
         v-if="variant === 'recommendation'"
-        class="absolute top-2 left-2 z-20 rounded-3xl bg-action-primary px-3 py-2"
+        class="absolute top-2 left-2 z-20 flex h-10 items-center gap-2 rounded-pill bg-action-primary px-4 text-body text-on-action-primary"
       >
-        <TypographySubtitleSmall class="text-on-action-primary">
-          {{ t('match') }}
-        </TypographySubtitleSmall>
+        <AppIconNetworkIntelligence class="size-5" />
+        {{ t('match') }}
       </div>
     </div>
     <div
       :class="
         cn(
-          'flex min-w-0 flex-1 flex-col gap-2 px-1 py-3.5',
-          variant === 'recommendation' && 'gap-1 px-2 py-0',
+          'flex min-w-0 flex-1 flex-col gap-1',
+          variant === 'recommendation' && 'px-1 pb-1',
         )
       "
     >
       <AppButton
         v-if="event.accountByCreatedBy"
         :aria-label="event.name"
-        class="focus-visible:ring-0"
+        class="focus-visible:outline-0"
         is-block
         :to="
           localePath({
@@ -103,50 +129,33 @@
         "
       >
         <span class="absolute inset-0 z-10" />
-        <EventCardTitle :variant>
+        <EventCardTitle>
           {{ event.name }}
         </EventCardTitle>
       </AppButton>
-      <EventCardTitle v-else :variant>
+      <EventCardTitle v-else>
         {{ event.name }}
       </EventCardTitle>
-      <Component
-        :is="
-          variant === 'highlight'
-            ? TypographyBodySmall
-            : TypographySubtitleSmall
-        "
-        class="truncate"
-      >
+      <span class="truncate text-body-small text-fg-3">
         <AppTime :datetime="event.start" />
-      </Component>
-    </div>
-    <div
-      v-if="!variant && (isDraft || isCreator || isGuest)"
-      :class="
-        cn(
-          'absolute top-1 right-1 rounded-sm px-1.5 py-0.5 text-on-action-primary',
-          isDraft
-            ? 'bg-action-warning text-on-action-warning'
-            : isCreator
-              ? 'bg-action-primary'
-              : isGuest
-                ? 'bg-accent-pink text-white'
-                : undefined,
-        )
-      "
-    >
-      <TypographyLabel v-slot="attributes">
-        <div v-if="isDraft" v-bind="attributes">
-          {{ t('isDraft') }}
-        </div>
-        <div v-else-if="isCreator" v-bind="attributes">
-          {{ t('isCreator') }}
-        </div>
-        <div v-else-if="isGuest" v-bind="attributes">
-          {{ t('isGuest') }}
-        </div>
-      </TypographyLabel>
+      </span>
+      <span
+        v-if="!variant && (isDraft || isCreator || isGuest)"
+        :class="
+          cn(
+            'mt-1 inline-flex h-6.25 items-center self-start rounded-medium px-3 text-caption text-fg-1',
+            isDraft
+              ? 'bg-warning-tint'
+              : isCreator
+                ? 'bg-info-tint'
+                : 'bg-success-tint',
+          )
+        "
+      >
+        <template v-if="isDraft">{{ t('isDraft') }}</template>
+        <template v-else-if="isCreator">{{ t('isCreator') }}</template>
+        <template v-else>{{ t('isGuest') }}</template>
+      </span>
     </div>
   </div>
 </template>
@@ -155,8 +164,6 @@
 import type { DeepReadonly } from 'vue'
 
 import { cn } from '@/utils/shadcn'
-
-import { TypographyBodySmall, TypographySubtitleSmall } from '#components'
 
 // compiler
 export type EventCardProps = {
