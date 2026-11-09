@@ -602,15 +602,7 @@ useHeadDefault({
   description,
   title,
 })
-defineOgImage(
-  'Event.takumi',
-  {
-    description,
-  },
-  {
-    alt: t('ogImageAlt'),
-  },
-)
+defineEventOgImage({ alt: t('ogImageAlt'), event: event.value })
 </script>
 
 <i18n lang="yaml">

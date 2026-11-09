@@ -1,56 +1,53 @@
 <template>
-  <div
-    class="flex flex-col bg-white px-16 py-8 text-gray-900"
-    style="font-family: 'Raleway Variable', sans-serif"
-  >
-    <div class="flex flex-1 items-center">
-      <div class="flex flex-col gap-32">
-        <span class="text-7xl font-bold" :style="titleLineClamp">
-          {{ title }}
-        </span>
-        <span
-          v-if="description"
-          class="items-center gap-2 text-4xl"
-          :style="descriptionLineClamp"
-        >
-          {{ description }}
-        </span>
+  <OgFrame>
+    <img
+      alt=""
+      class="absolute"
+      height="560"
+      src="/assets/static/logos/app_icon.svg"
+      style="
+        top: -40px;
+        right: -70px;
+        transform: rotate(-12deg);
+        filter: drop-shadow(0 30px 80px rgb(0 0 0 / 60%));
+      "
+      width="560"
+    />
+    <div
+      class="relative flex max-w-[720px] flex-1 flex-col justify-center gap-8"
+    >
+      <div class="flex gap-2">
+        <div class="h-2.5 w-16 rounded-full bg-[#0467f1]" />
+        <div class="h-2.5 w-10 rounded-full bg-[#ff3167]" />
+        <div class="h-2.5 w-6 rounded-full bg-[#ffe504]" />
+        <div class="h-2.5 w-3 rounded-full bg-[#70e884]" />
       </div>
+      <span
+        class="font-extrabold tracking-tight"
+        :style="[
+          getOgImageLineClamp(2),
+          {
+            fontSize: `${getOgImageTitleSize({ text: title, width: 720 })}px`,
+            lineHeight: 1.05,
+          },
+        ]"
+      >
+        {{ title }}
+      </span>
+      <span
+        v-if="description"
+        class="text-[34px] leading-snug text-white/70"
+        :style="getOgImageLineClamp(2)"
+      >
+        {{ description }}
+      </span>
     </div>
-    <div class="flex justify-center">
-      <img height="60" src="/assets/static/logos/app_logo.svg" />
-    </div>
-  </div>
+  </OgFrame>
 </template>
 
 <script setup lang="ts">
-import type { StyleValue } from 'vue'
-
 const { title, description = undefined } = defineProps<{
   title: string
   description?: string
 }>()
-
-const lineClampStyle: (value: string, maxLines: number) => StyleValue = (
-  value: string,
-  maxLines: number,
-) => {
-  if (!value)
-    return {
-      display: 'flex',
-      'text-overflow': 'ellipsis',
-    }
-
-  const wordCount = value.trim().split(/\s+/).length
-  return {
-    display: 'flex',
-    'line-clamp': Math.min(wordCount, maxLines),
-    'text-overflow': 'ellipsis',
-  }
-}
-
-const descriptionLineClamp = description
-  ? lineClampStyle(description, 3)
-  : undefined
-const titleLineClamp = lineClampStyle(title, 1)
 </script>

@@ -1,40 +1,77 @@
 <template>
-  <div
-    class="relative isolate flex items-center gap-16 bg-[linear-gradient(to_bottom,#dbf4ff,#fff1f1)] px-16 py-8"
-    style="font-family: 'Raleway Variable', sans-serif"
-  >
-    <img
-      alt=""
-      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10"
-      height="1000"
-      src="/assets/static/logos/app_icon.svg"
-      width="1000"
-    />
-    <img
-      alt="Profile picture."
-      class="rounded-full border-8 border-white object-cover"
-      height="360"
-      :src="image || '/assets/static/images/blank-profile-picture.svg'"
-      width="360"
-    />
-    <span class="flex flex-col justify-center gap-16">
-      <span class="text-7xl font-bold" :style="usernameLineClamp">
-        {{ `@${username}` }}
-      </span>
-      <div
-        v-if="description"
-        class="text-4xl text-gray-600"
-        :style="descriptionLineClamp"
-      >
-        {{ description }}
+  <OgFrame>
+    <div class="relative flex flex-1 items-center gap-16">
+      <div class="relative flex">
+        <div
+          class="absolute rounded-full"
+          style="
+            inset: -40px;
+            background: conic-gradient(
+              #0467f1,
+              #70e884,
+              #ffe504,
+              #ff3167,
+              #0467f1
+            );
+            filter: blur(60px);
+            opacity: 0.55;
+          "
+        />
+        <div
+          class="relative flex rounded-full p-2.5"
+          style="
+            background: conic-gradient(
+              from 210deg,
+              #0467f1,
+              #70e884,
+              #ffe504,
+              #ff3167,
+              #0467f1
+            );
+          "
+        >
+          <div class="flex rounded-full bg-[#0b0c0b] p-2">
+            <img
+              alt=""
+              class="rounded-full object-cover"
+              height="300"
+              :src="image || '/assets/static/images/blank-profile-picture.svg'"
+              width="300"
+            />
+          </div>
+        </div>
       </div>
-    </span>
-  </div>
+      <div class="flex w-[640px] flex-col justify-center gap-6">
+        <span
+          class="font-extrabold tracking-tight"
+          :style="[
+            getOgImageLineClamp(1),
+            {
+              fontSize: `${getOgImageTitleSize({
+                max: 88,
+                text: `@${username}`,
+                width: 640,
+              })}px`,
+              lineHeight: 1.1,
+            },
+          ]"
+        >
+          <!-- eslint-disable-next-line @intlify/vue-i18n/no-raw-text -->
+          <span class="text-[#ff3167]">@</span>{{ username }}
+        </span>
+        <span
+          v-if="description"
+          class="text-[34px] leading-snug text-white/70"
+          :style="getOgImageLineClamp(3)"
+        >
+          {{ description }}
+        </span>
+      </div>
+    </div>
+  </OgFrame>
 </template>
 
 <script setup lang="ts">
-import type { StyleValue } from 'vue'
-
 const {
   description = undefined,
   image = undefined,
@@ -44,29 +81,6 @@ const {
   image?: string
   username: string
 }>()
-
-const lineClampStyle: (value: string, maxLines: number) => StyleValue = (
-  value: string,
-  maxLines: number,
-) => {
-  if (!value)
-    return {
-      display: 'block',
-      'text-overflow': 'ellipsis',
-    }
-
-  const wordCount = value.trim().split(/\s+/).length
-  return {
-    display: 'block',
-    'line-clamp': Math.min(wordCount, maxLines),
-    'text-overflow': 'ellipsis',
-  }
-}
-
-const descriptionLineClamp = description
-  ? lineClampStyle(description, 3)
-  : undefined
-const usernameLineClamp = lineClampStyle(username, 1)
 </script>
 
 <script lang="ts">
