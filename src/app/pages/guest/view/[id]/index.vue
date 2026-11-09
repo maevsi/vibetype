@@ -459,7 +459,6 @@ const downloadIcal = async () => {
     'text/calendar',
   )
 }
-const timeZone = useTimeZone()
 const isTicketShareable = ref<boolean>()
 const isTicketFetching = ref<boolean>()
 const ticketFile = ref<File>()
@@ -471,53 +470,18 @@ onMounted(() => {
 const ticketFetch = async () => {
   if (!event.value || !guest.value || ticketFile.value) return
 
-  const dateTimeFormat = new Intl.DateTimeFormat(locale.value, {
-    dateStyle: 'full',
-    timeStyle: 'short',
-    timeZone,
-  })
-  const fileName = `${event.value.slug}.pdf`
-
   isTicketFetching.value = true
 
   try {
     const blob = await $csrfFetch('/api/model/guest/ticket', {
-      body: {
-        details: [
-          {
-            label: t('ticketDate'),
-            value: event.value.end
-              ? dateTimeFormat.formatRange(
-                  new Date(event.value.start),
-                  new Date(event.value.end),
-                )
-              : dateTimeFormat.format(new Date(event.value.start)),
-          },
-          ...(address.value?.name
-            ? [{ label: t('ticketLocation'), value: address.value.name }]
-            : []),
-          ...(event.value.accountByCreatedBy
-            ? [
-                {
-                  label: t('ticketOrganizer'),
-                  value: event.value.accountByCreatedBy.username,
-                },
-              ]
-            : []),
-          ...(contactName.value
-            ? [{ label: t('ticketGuest'), value: contactName.value }]
-            : []),
-        ],
-        fileName,
-        guestId: guest.value.rowId,
-        hint: t('hintQrCode'),
-        title: event.value.name,
-      },
+      body: { guestId: guest.value.rowId, locale: locale.value },
       method: 'POST',
       responseType: 'blob',
     })
 
-    ticketFile.value = new File([blob], fileName, { type: 'application/pdf' })
+    ticketFile.value = new File([blob], `${event.value.slug}.pdf`, {
+      type: 'application/pdf',
+    })
   } catch (error) {
     alertError({
       error: error instanceof Error ? error : undefined,
@@ -655,12 +619,8 @@ de:
   qrCodeShow: Check-in-Code anzeigen
   report: Veranstaltung melden
   success: Deine Eingabe wurde erfolgreich gespeichert.
-  ticketDate: Datum
   ticketDownload: Ticket herunterladen
   ticketError: Das Ticket konnte nicht erstellt werden.
-  ticketGuest: Gast
-  ticketLocation: Ort
-  ticketOrganizer: Veranstaltet von
   ticketShare: Ticket teilen
   ticketShareError: Das Ticket konnte nicht geteilt werden.
 en:
@@ -687,12 +647,8 @@ en:
   qrCodeShow: Show check in code
   report: Report event
   success: Your input was saved succesfully.
-  ticketDate: Date
   ticketDownload: Download ticket
   ticketError: The ticket could not be created.
-  ticketGuest: Guest
-  ticketLocation: Location
-  ticketOrganizer: Organized by
   ticketShare: Share ticket
   ticketShareError: The ticket could not be shared.
 </i18n>
