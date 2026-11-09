@@ -1,7 +1,13 @@
 <template>
   <AppButton
     v-bind="delegatedProps"
-    :class="cn('justify-center', classProps)"
+    :class="
+      cn(
+        'justify-center',
+        isRound && 'size-12 rounded-large bg-surface-raised',
+        classProps,
+      )
+    "
     @click="emit('click')"
   >
     <slot />
@@ -18,12 +24,14 @@ const {
   ariaLabel,
   class: classProps = undefined,
   disabled,
+  isRound,
   to = undefined,
   type = 'button',
 } = defineProps<
   {
     ariaLabel: string
     disabled?: boolean
+    isRound?: boolean
     to?: RouteLocationRaw
     type?: ButtonHTMLAttributes['type']
   } & { class?: HtmlHTMLAttributes['class'] }

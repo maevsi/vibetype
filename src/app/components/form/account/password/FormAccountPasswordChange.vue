@@ -44,9 +44,13 @@
         />
       </Field>
     </form.Field>
-    <FormAuthButton :aria-label="t('passwordChange')" type="submit">
+    <ButtonColored
+      :aria-label="t('passwordChange')"
+      class="w-full"
+      type="submit"
+    >
       {{ t('passwordChange') }}
-    </FormAuthButton>
+    </ButtonColored>
     <CardStateAlert v-if="errorMessages?.length">
       <AppSpanList :span="errorMessages" />
     </CardStateAlert>

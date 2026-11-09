@@ -3,15 +3,15 @@
     v-bind="delegatedProps"
     :class="
       cn(
-        'justify-center',
-        'data-[size=large]:gap-2 data-[size=large]:rounded-xl data-[size=large]:px-6 data-[size=large]:py-3 data-[size=large]:font-bold',
-        'data-[size=small]:gap-1 data-[size=small]:rounded-[4px] data-[size=small]:px-3 data-[size=small]:py-1 data-[size=small]:text-[11px] data-[size=small]:font-semibold',
-        'data-[type=primary]:bg-action-primary data-[type=primary]:text-on-action-primary data-[type=primary]:hover:bg-action-primary-hover data-[type=primary]:focus-visible:ring-action-primary/50 data-[type=primary]:active:bg-action-primary-hover',
-        'data-[type=primary-critical]:bg-action-danger data-[type=primary-critical]:text-white data-[type=primary-critical]:hover:bg-action-danger-hover data-[type=primary-critical]:focus-visible:ring-action-danger/50 data-[type=primary-critical]:active:bg-action-danger-hover',
-        'data-[type=secondary]:bg-success-tint data-[type=secondary]:text-fg-1 data-[type=secondary]:hover:bg-success-tint data-[type=secondary]:focus-visible:ring-success-tint/50 data-[type=secondary]:active:bg-success-tint',
-        'data-[type=secondary-critical]:border-2 data-[type=secondary-critical]:border-error data-[type=secondary-critical]:text-error data-[type=secondary-critical]:hover:bg-surface-raised data-[type=secondary-critical]:active:bg-surface-raised',
-        'data-[type=tertiary]:text-fg-3 data-[type=tertiary]:underline data-[type=tertiary]:hover:bg-surface-raised data-[type=tertiary]:active:bg-surface-raised data-[type=tertiary]:data-[size=small]:no-underline',
-        'data-[type=tertiary]:data-[size=small]:no-underline data-[type=tertiary-critical]:text-error data-[type=tertiary-critical]:underline data-[type=tertiary-critical]:hover:bg-surface-raised data-[type=tertiary-critical]:active:bg-surface-raised',
+        'justify-center gap-4 rounded-medium text-body transition-transform active:scale-[0.97]',
+        'data-[size=large]:h-13 data-[size=large]:px-6',
+        'data-[size=small]:h-10 data-[size=small]:px-6',
+        'data-[type=primary]:bg-action-primary data-[type=primary]:text-on-action-primary data-[type=primary]:hover:bg-action-primary-hover',
+        'data-[type=primary-critical]:rounded-[12px] data-[type=primary-critical]:bg-action-warning data-[type=primary-critical]:text-on-action-warning data-[type=primary-critical]:hover:brightness-95',
+        'data-[type=secondary]:bg-surface-raised data-[type=secondary]:text-fg-1 data-[type=secondary]:hover:bg-line',
+        'data-[type=secondary-critical]:bg-surface-raised data-[type=secondary-critical]:text-error data-[type=secondary-critical]:hover:bg-line',
+        'data-[type=tertiary]:text-link data-[type=tertiary]:hover:text-link-hover',
+        'data-[type=tertiary-critical]:text-error',
         classProps,
       )
     "

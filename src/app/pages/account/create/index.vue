@@ -63,9 +63,13 @@
           <p v-if="termsError" class="text-sm text-error">
             {{ termsError }}
           </p>
-          <FormAuthButton :aria-label="t('continue')" type="submit">
+          <ButtonColored
+            :aria-label="t('continue')"
+            class="w-full"
+            type="submit"
+          >
             {{ t('continue') }}
-          </FormAuthButton>
+          </ButtonColored>
           <p class="text-center text-[15px] text-fg-2">
             {{ t('alreadyHaveAccount') }}
             <NuxtLinkLocale
@@ -125,15 +129,16 @@
           <p v-if="usernameField.error.value" class="text-sm text-error">
             {{ usernameField.error.value }}
           </p>
-          <FormAuthButton
+          <ButtonColored
             :aria-label="t('continue')"
+            class="w-full"
             :disabled="
               !usernameField.value.value || !!usernameField.error.value
             "
             type="submit"
           >
             {{ t('continue') }}
-          </FormAuthButton>
+          </ButtonColored>
         </form>
       </LayoutPage>
     </AppStep>
@@ -146,13 +151,14 @@
             :id="templateIdAgeForm"
             @success="handleAgeSuccess"
           />
-          <FormAuthButton
+          <ButtonColored
             :aria-label="t('confirmAge')"
+            class="w-full"
             :form="templateIdAgeForm"
             type="submit"
           >
             {{ t('confirmAge') }}
-          </FormAuthButton>
+          </ButtonColored>
         </div>
       </LayoutPage>
     </AppStep>

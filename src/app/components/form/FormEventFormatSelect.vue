@@ -1,5 +1,5 @@
 <template>
-  <ul class="flex flex-wrap gap-5">
+  <ul class="flex flex-wrap gap-2">
     <li v-for="eventFormat in eventFormats" :key="eventFormat.rowId">
       <PreferenceElement
         v-if="eventFormat.label"

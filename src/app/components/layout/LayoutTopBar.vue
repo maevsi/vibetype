@@ -1,8 +1,8 @@
 <template>
   <div
-    class="sticky top-0 z-10 flex h-15 items-center border-b border-line bg-surface px-3 py-1.5 shadow-xs"
+    class="sticky top-0 z-10 flex h-16 items-center gap-3 bg-glass px-4 py-2 backdrop-blur-xl"
   >
-    <div class="flex p-3">
+    <div class="flex size-12 items-center justify-center">
       <slot v-if="$slots.back" name="back" />
       <div v-else class="size-6" />
     </div>
@@ -11,7 +11,7 @@
         <slot />
       </TypographyH6>
     </h1>
-    <div class="flex p-3">
+    <div class="flex size-12 items-center justify-center">
       <slot v-if="$slots.close" name="close" />
       <div v-else class="size-6" />
     </div>

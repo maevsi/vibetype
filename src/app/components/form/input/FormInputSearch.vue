@@ -1,21 +1,21 @@
 <template>
   <div
-    class="flex items-center gap-4 rounded-lg border-1 border-line bg-surface-raised px-4 py-3 shadow hover:bg-surface-raised has-focus:border-success-tint"
+    class="flex h-13 items-center gap-4 rounded-medium bg-surface-raised pr-2 pl-6 has-focus-visible:ring-2 has-focus-visible:ring-action-primary has-focus-visible:ring-inset"
   >
-    <div class="shrink-0 text-link">
+    <div class="shrink-0 text-fg-3">
       <AppIconSearch />
     </div>
     <label class="sr-only" :for="templateIdInput">{{ t('search') }}</label>
     <input
       :id="templateIdInput"
       v-model="model"
-      class="peer flex-1 border-none bg-transparent text-sm font-semibold placeholder-fg-2 outline-none"
+      class="peer flex-1 border-none bg-transparent text-body placeholder-fg-3 outline-none"
       :placeholder="t('search')"
       type="text"
     />
     <ButtonIcon
       :aria-label="t('close')"
-      class="hidden shrink-0 text-link peer-not-placeholder-shown:block"
+      class="hidden shrink-0 text-fg-2 peer-not-placeholder-shown:block"
       @click="model = ''"
     >
       <AppIconClose />

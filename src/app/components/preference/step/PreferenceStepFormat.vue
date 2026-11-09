@@ -6,7 +6,7 @@
         {{ t('title') }}
       </TypographyH3>
       <div>
-        <ul class="flex flex-wrap justify-center gap-5">
+        <ul class="flex flex-wrap justify-center gap-2">
           <li v-for="eventFormat in eventFormats" :key="eventFormat.rowId">
             <PreferenceElement
               v-if="eventFormat.label && eventFormat.label !== eventFormat.name"
