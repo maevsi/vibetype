@@ -45,9 +45,7 @@ const {
 const emit = defineEmits<{
   geocode: [name: string]
 }>()
-const classComputed = computed(() =>
-  cn('h-96 w-full text-[#191911]', classProps),
-)
+const classComputed = computed(() => cn('h-96 w-full text-fg-1', classProps))
 
 const templateIdMap = useId()
 const map = ref<Map>()

@@ -26,7 +26,7 @@
     </div>
     <div class="flex flex-col gap-3">
       <div
-        class="flex items-center justify-between gap-4 rounded-lg border border-surface bg-surface-raised p-3"
+        class="flex items-center justify-between gap-4 rounded-medium bg-surface-raised p-3"
       >
         <AccountProfilePicture
           :account-id="account.rowId"

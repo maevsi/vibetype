@@ -16,6 +16,7 @@ export const FEATURE_FLAGS_COOKIE_ID = 'f'
 export const FEATURE_FLAGS_COOKIE_NAME = `${SITE_NAME}_feature-flags`
 export const GTAG_COOKIE_ID = 'ga'
 export const GTAG_MEASUREMENT_ID = 'G-WMQ1JY99XH'
+export const LOCKDOWN_MODE_DISMISSED_COOKIE_NAME = `${SITE_NAME}_lockdown-mode-dismissed`
 export const POLYFILLS = ['Promise', 'requestAnimationFrame']
 export const PRODUCTION_HOST = 'vibetype.app'
 // suffixed in fullstack development so its cookie can't collide with frontend-only development's, since both run on the same local host;

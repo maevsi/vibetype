@@ -55,7 +55,7 @@
           </template>
         </div>
         <div
-          class="flex items-center gap-3 rounded-xl border border-line bg-surface-raised p-3 dark:border-none"
+          class="flex items-center gap-3 rounded-large bg-surface-raised p-3"
         >
           <!-- TODO: pass in data to make subcomponent api requests unnecessary -->
           <AccountProfilePicture
@@ -78,7 +78,7 @@
           </ButtonColored>
         </AppFeature>
         <AppFeature feature="friends">
-          <span class="text-xl font-bold">
+          <span class="text-title3">
             {{ t('friends') }}
           </span>
           <!-- @vue-ignore -->
@@ -191,7 +191,7 @@
             {{ t('achievements') }}
           </TypographyH3>
           <div
-            class="flex justify-between rounded-xl border border-line bg-surface-raised px-6 py-2"
+            class="flex justify-between rounded-large bg-surface-raised px-6 py-2"
           >
             <div
               v-if="hasMeetTheTeamAchievement"

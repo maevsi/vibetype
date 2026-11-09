@@ -1,11 +1,11 @@
 <template>
   <div v-if="guest" class="flex flex-col gap-4">
-    <div class="rounded-md border p-4">
+    <div class="rounded-medium border p-4">
       <div class="mb-2">
-        <p class="text-sm text-fg-2">
+        <p class="text-body-small text-fg-2">
           {{ t('guest') }}
         </p>
-        <p class="text-lg font-medium">
+        <p class="text-headline">
           {{
             guest.contactByContactId?.nickname ||
             `${guest.contactByContactId?.firstName || ''} ${guest.contactByContactId?.lastName || ''}`.trim() ||
@@ -15,10 +15,10 @@
       </div>
 
       <div class="mt-3 border-t pt-3">
-        <p class="text-sm text-fg-2">
+        <p class="text-body-small text-fg-2">
           {{ t('account') }}
         </p>
-        <p class="text-base">
+        <p class="text-body">
           {{
             guest.contactByContactId?.accountByAccountId?.username ||
             t('noAccount')
@@ -27,16 +27,16 @@
       </div>
 
       <div class="mt-3 border-t pt-3">
-        <p class="text-sm text-fg-2">
+        <p class="text-body-small text-fg-2">
           {{ t('status') }}
         </p>
-        <p class="text-base">
+        <p class="text-body">
           <span v-if="guest.attendanceByGuestId">
             <span v-if="guest.attendanceByGuestId.checkedOut">
               {{ t('checkedOut') }}
               <span
                 v-if="guest.attendanceByGuestId.updatedAt"
-                class="text-sm text-fg-2"
+                class="text-body-small text-fg-2"
               >
                 {{ formatDateTime(guest.attendanceByGuestId.updatedAt) }}
               </span>
@@ -48,10 +48,10 @@
       </div>
 
       <div class="mt-3 border-t pt-3">
-        <p class="text-sm text-fg-2">
+        <p class="text-body-small text-fg-2">
           {{ t('feedback') }}
         </p>
-        <p class="text-base">{{ guest.feedback || t('noFeedback') }}</p>
+        <p class="text-body">{{ guest.feedback || t('noFeedback') }}</p>
       </div>
     </div>
   </div>

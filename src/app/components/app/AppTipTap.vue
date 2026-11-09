@@ -4,7 +4,7 @@
       <div class="flex gap-1">
         <ButtonIcon
           :aria-label="t('undo')"
-          class="rounded-sm p-1"
+          class="rounded-small p-1"
           :title="t('undo')"
           @click="editor.chain().focus().undo().run()"
         >
@@ -12,7 +12,7 @@
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('redo')"
-          class="rounded-sm p-1"
+          class="rounded-small p-1"
           :title="t('redo')"
           @click="editor.chain().focus().redo().run()"
         >
@@ -30,7 +30,7 @@
         <ButtonIcon
           :aria-label="t('heading1')"
           :class="[
-            'rounded-sm p-1',
+            'rounded-small p-1',
             ...(isActive.heading1 ? ['bg-surface'] : []),
           ]"
           :title="t('heading1')"
@@ -44,7 +44,7 @@
         <ButtonIcon
           :aria-label="t('heading2')"
           :class="[
-            'rounded-sm p-1',
+            'rounded-small p-1',
             ...(isActive.heading2 ? ['bg-surface'] : []),
           ]"
           :title="t('heading2')"
@@ -58,7 +58,7 @@
         <ButtonIcon
           :aria-label="t('heading3')"
           :class="[
-            'rounded-sm p-1',
+            'rounded-small p-1',
             ...(isActive.heading3 ? ['bg-surface'] : []),
           ]"
           :title="t('heading3')"
@@ -73,7 +73,10 @@
       <div class="flex gap-1">
         <ButtonIcon
           :aria-label="t('bold')"
-          :class="['rounded-sm p-1', ...(isActive.bold ? ['bg-surface'] : [])]"
+          :class="[
+            'rounded-small p-1',
+            ...(isActive.bold ? ['bg-surface'] : []),
+          ]"
           :title="t('bold')"
           @click="editor.chain().focus().toggleBold().run()"
         >
@@ -82,7 +85,7 @@
         <ButtonIcon
           :aria-label="t('italic')"
           :class="[
-            'rounded-sm p-1',
+            'rounded-small p-1',
             ...(isActive.italic ? ['bg-surface'] : []),
           ]"
           :title="t('italic')"
@@ -93,7 +96,7 @@
         <ButtonIcon
           :aria-label="t('strike')"
           :class="[
-            'rounded-sm p-1',
+            'rounded-small p-1',
             ...(isActive.strike ? ['bg-surface'] : []),
           ]"
           :title="t('strike')"
@@ -106,7 +109,7 @@
         <ButtonIcon
           :aria-label="t('formatAlignLeft')"
           :class="[
-            'rounded-sm p-1',
+            'rounded-small p-1',
             ...(isActive.textAlignLeft ? ['bg-surface'] : []),
           ]"
           :title="t('formatAlignLeft')"
@@ -117,7 +120,7 @@
         <ButtonIcon
           :aria-label="t('formatAlignCenter')"
           :class="[
-            'rounded-sm p-1',
+            'rounded-small p-1',
             ...(isActive.textAlignCenter ? ['bg-surface'] : []),
           ]"
           :title="t('formatAlignCenter')"
@@ -128,7 +131,7 @@
         <ButtonIcon
           :aria-label="t('formatAlignRight')"
           :class="[
-            'rounded-sm p-1',
+            'rounded-small p-1',
             ...(isActive.textAlignRight ? ['bg-surface'] : []),
           ]"
           :title="t('formatAlignRight')"
@@ -139,7 +142,7 @@
         <ButtonIcon
           :aria-label="t('formatAlignJustify')"
           :class="[
-            'rounded-sm p-1',
+            'rounded-small p-1',
             ...(isActive.textAlignJustify ? ['bg-surface'] : []),
           ]"
           :title="t('formatAlignJustify')"
@@ -152,7 +155,7 @@
         <ButtonIcon
           :aria-label="t('listUl')"
           :class="[
-            'rounded-sm p-1',
+            'rounded-small p-1',
             ...(isActive.bulletList ? ['bg-surface'] : []),
           ]"
           :title="t('listUl')"
@@ -163,7 +166,7 @@
         <ButtonIcon
           :aria-label="t('listOl')"
           :class="[
-            'rounded-sm p-1',
+            'rounded-small p-1',
             ...(isActive.orderedList ? ['bg-surface'] : []),
           ]"
           :title="t('listOl')"
@@ -175,7 +178,10 @@
       <div class="flex gap-1">
         <ButtonIcon
           :aria-label="t('link')"
-          :class="['rounded-sm p-1', ...(isActive.link ? ['bg-surface'] : [])]"
+          :class="[
+            'rounded-small p-1',
+            ...(isActive.link ? ['bg-surface'] : []),
+          ]"
           :title="t('link')"
           @click="setLink"
         >
@@ -183,7 +189,7 @@
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('linkRemove')"
-          class="rounded-sm p-1"
+          class="rounded-small p-1"
           :disabled="!isActive.link"
           :title="t('linkRemove')"
           @click="editor.chain().focus().unsetLink().run()"
@@ -193,7 +199,7 @@
         <ButtonIcon
           :aria-label="t('blockquote')"
           :class="[
-            'rounded-sm p-1',
+            'rounded-small p-1',
             ...(isActive.blockquote ? ['bg-surface'] : []),
           ]"
           :title="t('blockquote')"
@@ -203,7 +209,10 @@
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('code')"
-          :class="['rounded-sm p-1', ...(isActive.code ? ['bg-surface'] : [])]"
+          :class="[
+            'rounded-small p-1',
+            ...(isActive.code ? ['bg-surface'] : []),
+          ]"
           :title="t('code')"
           @click="editor.chain().focus().toggleCode().run()"
         >
@@ -214,7 +223,7 @@
         <ButtonIcon
           :aria-label="t('horizontalRule')"
           :class="[
-            'rounded-sm p-1',
+            'rounded-small p-1',
             ...(isActive.horizontalRule ? ['bg-surface'] : []),
           ]"
           :title="t('horizontalRule')"
@@ -258,7 +267,7 @@ const editor = useEditor({
     attributes: {
       'aria-label': ariaLabel,
       class:
-        'rounded-lg border border-line bg-surface-raised flex-1 px-4 py-3 placeholder-fg-2 outline-none min-h-[100px]',
+        'min-h-28 flex-1 rounded-medium bg-surface-raised px-6 py-4 text-body placeholder-fg-3 outline-none',
     },
   },
   extensions: [

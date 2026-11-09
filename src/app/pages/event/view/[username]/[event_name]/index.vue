@@ -134,7 +134,7 @@
             </div>
             <AppMap
               v-if="positionInitial"
-              class="h-42 rounded-xl"
+              class="h-42 rounded-large"
               :events
               :position-initial
             />

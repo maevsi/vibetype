@@ -35,7 +35,7 @@
     v-else
     :aria-busy="loading"
     :aria-label
-    :class="cn(['rounded-sm', classComputed], classProps)"
+    :class="cn(['rounded-small', classComputed], classProps)"
     :disabled="disabled || loading"
     :title="ariaLabel"
     :type

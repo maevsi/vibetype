@@ -9,6 +9,7 @@ export {
   IS_IN_FRONTEND_DEVELOPMENT,
   IS_IN_STACK,
   IS_NITRO_OPENAPI_ENABLED,
+  LOCKDOWN_MODE_DISMISSED_COOKIE_NAME,
   POLYFILLS,
   PRODUCTION_HOST,
   SITE_NAME,
@@ -38,6 +39,7 @@ export const STATE_KEY_EVENT_IMPORTED = 'eventImported'
 export const STATE_KEY_NOW = 'dateTimeNow'
 export const STATE_LOADING_IDS_NAME = 'loadingIds'
 export const FEATURE_FLAGS_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year
+export const LOCKDOWN_MODE_DISMISSED_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year
 export const THEME_COLOR_DARK = '#191911'
 export const TITLE_TEMPLATE = ({
   siteName,

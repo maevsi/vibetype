@@ -1,12 +1,12 @@
 <template>
-  <div v-if="api.isFetching" class="text-sm text-fg-2">
+  <div v-if="api.isFetching" class="text-body-small text-fg-2">
     {{ t('loading') }}
   </div>
   <AppError v-else-if="!attendance" :error="{ status: 404 }" />
   <div v-else class="flex flex-col gap-4">
     <h1 class="sr-only">{{ title }}</h1>
     <section class="flex flex-col gap-4">
-      <span class="text-3xl font-bold">
+      <span class="text-heading-large">
         {{ t('contact') }}
       </span>
       <ContactPreview v-if="contact" :contact />
@@ -27,11 +27,11 @@
       </div>
     </section>
     <section v-if="eventApps.length" class="flex flex-col gap-4">
-      <span class="text-3xl font-bold">
+      <span class="text-heading-large">
         {{ t('event') }}
       </span>
       <section v-if="eventApps.length" class="flex flex-col gap-4">
-        <span class="text-2xl font-bold">
+        <span class="text-heading-medium">
           {{ t('apps') }}
         </span>
         <ul>
@@ -66,7 +66,7 @@
       </section>
     </section>
     <section v-if="guest?.rowId" class="flex flex-col gap-4">
-      <span class="text-3xl font-bold">
+      <span class="text-heading-large">
         {{ t('attendance') }}
       </span>
       <div class="flex gap-2">
@@ -81,7 +81,7 @@
       </div>
     </section>
     <section v-if="guest" class="flex flex-col gap-4">
-      <span class="text-3xl font-bold">
+      <span class="text-heading-large">
         {{ t('guest') }}
       </span>
       <div class="flex">

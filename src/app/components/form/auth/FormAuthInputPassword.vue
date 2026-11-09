@@ -5,12 +5,7 @@
       :aria-invalid="ariaInvalid"
       :aria-label="placeholder"
       :autocomplete
-      :class="[
-        cn(
-          'h-13 rounded-2xl border-transparent bg-surface-raised pr-12 pl-12 text-[17px]',
-          { 'border-error': ariaInvalid },
-        ),
-      ]"
+      :class="[cn('pr-12 pl-12')]"
       :model-value="modelValue"
       :placeholder
       :type="isVisible ? 'text' : 'password'"

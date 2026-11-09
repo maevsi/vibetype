@@ -16,7 +16,7 @@
           <IHeroiconsEnvelope />
         </template>
       </FormAuthInput>
-      <p v-if="emailError" class="mt-1 text-sm text-error">
+      <p v-if="emailError" class="mt-1 text-caption text-error">
         {{ emailError }}
       </p>
     </form.Field>
@@ -24,7 +24,7 @@
     <ButtonColored :aria-label="t('send')" class="mt-4 w-full" type="submit">
       {{ t('send') }}
     </ButtonColored>
-    <p class="mt-6 text-center text-[15px] text-fg-2">
+    <p class="mt-6 text-center text-body text-fg-2">
       {{ t('rememberPassword') }}
       <NuxtLinkLocale
         class="font-semibold text-link underline"

@@ -3,7 +3,7 @@
     v-slot="{ date }"
     v-model:placeholder="placeholder"
     v-bind="forwarded"
-    :class="cn('rounded-md border p-3', props.class)"
+    :class="cn('rounded-medium border p-3', props.class)"
     :locale
   >
     <CalendarHeading class="flex w-full items-center justify-between gap-2">

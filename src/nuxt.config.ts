@@ -82,6 +82,14 @@ export default defineNuxtConfig({
       asyncContext: true,
       openAPI: IS_NITRO_OPENAPI_ENABLED,
     },
+    serverAssets: [
+      {
+        // bundled, as the server build does not trace font files in `node_modules`
+        baseName: 'raleway',
+        dir: resolve('./node_modules/@fontsource-variable/raleway/files'),
+        pattern: 'raleway-latin*-wght-normal.woff2',
+      },
+    ],
     externals: {
       // Sentry inlines Redis for its build-time instrumentation, but leaves these dependencies of it external, so the bundle receives a namespace object instead of each one's export (https://github.com/getsentry/sentry-javascript/issues/24775) // TODO: remove once Sentry inlines them alongside `standard-as-callback`
       inline: ['cluster-key-slot', 'denque'],
@@ -269,7 +277,6 @@ export default defineNuxtConfig({
         'libphonenumber-js/min',
         'lodash-es',
         'pretty-bytes',
-        'prntr',
         'qrcode.vue',
         'reka-ui',
         'reka-ui/date',
