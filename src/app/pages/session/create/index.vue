@@ -83,20 +83,25 @@ const to = computed(() =>
   route.query.to && !Array.isArray(route.query.to) ? route.query.to : undefined,
 )
 const verified = computed(() => route.query.verified === null)
-const onSignIn = async (username: string) => {
+const store = useStore()
+const getSignInTarget = (username: string) => {
   // A link that allows users to delete their account is required by the Google Play Store (https://support.google.com/googleplay/android-developer/answer/13316080#account_deletion)
   if (to.value === 'account-deletion') {
-    return await navigateTo(
-      localePath({
-        name: 'account-edit-username',
-        params: { username: username },
-      }),
-    )
+    return localePath({
+      name: 'account-edit-username',
+      params: { username: username },
+    })
   }
 
-  if (to.value && getIsSitePath(to.value)) return await navigateTo(to.value)
+  if (to.value && getIsSitePath(to.value)) return to.value
 
-  return await navigateTo(localePath(`dashboard`))
+  return localePath(`dashboard`)
+}
+const onSignIn = async (username: string) => {
+  await navigateTo(getSignInTarget(username), { replace: true })
+
+  // otherwise the header's back button leads to the sign-in page, as the route history still holds it and the pages before it
+  store.routeHistory = []
 }
 </script>
 

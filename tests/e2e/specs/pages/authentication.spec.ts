@@ -75,6 +75,28 @@ appTest.describe('authentication', () => {
     await signIn({ page: defaultPage.page, password: TESTING_ACCOUNT_PASSWORD })
 
     await expect(defaultPage.page).toHaveURL(/\/dashboard$/)
+    await expect(
+      defaultPage.page.getByRole('link', { name: 'Settings' }),
+    ).toBeVisible()
+    await expect(
+      defaultPage.page.getByRole('button', { name: 'back', exact: true }),
+    ).toHaveCount(0)
+  })
+
+  appTest('opens the dashboard when signed in', async ({ defaultPage }) => {
+    await goto({ defaultPage, path: '/session/create' })
+    await signIn({ page: defaultPage.page, password: TESTING_ACCOUNT_PASSWORD })
+    await expect(defaultPage.page).toHaveURL(/\/dashboard$/)
+
+    // the pwa manifest's `start_url` carries `?source=pwa`
+    for (const path of ['/', '/?source=pwa']) {
+      const response = await defaultPage.page.request.get(path, {
+        maxRedirects: 0,
+      })
+
+      expect(response.status()).toBe(302)
+      expect(response.headers().location).toMatch(/\/dashboard$/)
+    }
   })
 
   appTest('rejects incorrect credentials', async ({ defaultPage }) => {
