@@ -1,3 +1,9 @@
+## [17.1.0](https://github.com/maevsi/vibetype/compare/17.0.0...17.1.0) (2026-11-09)
+
+### Features
+
+* **seo:** redesign the open graph images ([#2569](https://github.com/maevsi/vibetype/issues/2569)) ([0a52af3](https://github.com/maevsi/vibetype/commit/0a52af31fcb3c21ab540618daf414b4b64a4b624))
+
 ## [17.0.0](https://github.com/maevsi/vibetype/compare/16.13.0...17.0.0) (2026-11-09)
 
 ### ⚠ BREAKING CHANGES
