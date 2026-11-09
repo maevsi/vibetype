@@ -6,9 +6,9 @@
       class="flex items-center gap-2"
     >
       <div
-        class="border-background-darken dark:border-background-brighten flex size-8 items-center justify-center rounded-full border font-bold"
+        class="flex size-8 items-center justify-center rounded-full border border-(--semantic-base-text-primary) font-bold"
         :class="{
-          'bg-background-darken text-text-bright dark:bg-background-brighten dark:text-text-dark':
+          'bg-(--semantic-base-text-primary) text-(--semantic-base-background)':
             step === active,
         }"
       >

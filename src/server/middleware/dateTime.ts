@@ -1,9 +1,13 @@
-export default defineEventHandler(async (event) => {
-  const timeZone = await useTimeZone()
+import { defineEventHandler } from 'nuxt/server'
 
-  event.context.$timeZone = timeZone
+export default defineEventHandler(async (event) => {
+  event.context.$timeZone = await getTimeZone({
+    event,
+    isTesting: useIsTesting(),
+  })
 })
 
+// h3 handlers and the app's `ssrContext.event` still see h3's context
 declare module 'h3' {
   interface H3EventContext {
     $timeZone?: string

@@ -1,12 +1,11 @@
 <template>
   <div
-    class="flex items-center gap-4 rounded-lg border-1 border-(--faint-line) bg-(--semantic-base-input-field-fill) px-4 py-3 shadow hover:bg-(--faint-weak) has-focus:border-(--semantic-accent-line)"
+    class="flex items-center gap-4 rounded-lg border-1 border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) px-4 py-3 shadow hover:bg-(--semantic-base-surface-1) has-focus:border-(--semantic-accent-line)"
   >
     <div class="shrink-0 text-(--semantic-accent-icon)">
       <AppIconSearch />
     </div>
     <label class="sr-only" :for="templateIdInput">{{ t('search') }}</label>
-    <!-- TODO: extract input component, e.g. to set placeholder color in one place only -->
     <input
       :id="templateIdInput"
       v-model="model"

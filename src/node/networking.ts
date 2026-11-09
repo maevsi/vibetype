@@ -1,12 +1,13 @@
+import type { ServerResponse } from 'node:http'
+
 import { parseSetCookie } from 'cookie-es'
-import type { H3Event } from 'h3'
 
 import { SITE_NAME, SITE_URL_TYPED } from './static'
 import { SERVICES } from './services'
 import type { ServiceName } from './services'
 
-export const getHost = (event: H3Event) => {
-  const host = event.node.req.headers.host
+export const getHost = (event: { headers: Headers }) => {
+  const host = event.headers.get('host')
 
   if (!host) throw new Error('Host header is not given!')
 
@@ -44,8 +45,10 @@ export const getServiceHref = ({
   const isSelf = name === SITE_NAME
   const nameSubdomainString = isSelf ? '' : `${name.replaceAll('_', '-')}.`
 
+  // `SITE_URL_TYPED` is fixed at build time, so a build served on another port
+  // would send the browser's testing requests to the wrong origin
   if (isTesting) {
-    return `${SITE_URL_TYPED.protocol}//${nameSubdomainString}${SITE_URL_TYPED.host}`
+    return `${SITE_URL_TYPED.protocol}//${nameSubdomainString}${host ?? SITE_URL_TYPED.host}`
   }
 
   // the app itself always runs locally, even in frontend-only development -
@@ -76,7 +79,7 @@ export const getResponseCookie = ({
   requestEvent,
 }: {
   name: string
-  requestEvent?: H3Event
+  requestEvent?: { node: { res: Pick<ServerResponse, 'getHeader'> } }
 }) => {
   // if csrf cookie is not available already, it can only be available in a server response, not client side
   if (!requestEvent) {

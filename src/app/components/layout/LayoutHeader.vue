@@ -1,5 +1,4 @@
 <template>
-  <!-- <Loader :api indicator="ping"> -->
   <header>
     <div class="flex items-center justify-between gap-4">
       <div class="flex items-center gap-4">
@@ -15,7 +14,7 @@
       <div class="flex items-center gap-2 whitespace-nowrap lg:gap-4">
         <ButtonEventNew />
         <div
-          class="my-1 hidden w-px flex-none self-stretch bg-gray-300 2xl:flex dark:bg-gray-600"
+          class="my-1 hidden w-px flex-none self-stretch bg-(--semantic-base-line) 2xl:flex"
         />
         <ButtonIcon
           v-if="store.signedInAccountId"
@@ -52,7 +51,6 @@
       </div>
     </div>
   </header>
-  <!-- </Loader> -->
 </template>
 
 <script setup lang="ts">

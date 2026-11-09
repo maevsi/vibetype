@@ -16,7 +16,7 @@
     v-else
     :alt="t('heroImage')"
     aspect="aspect-[3/2]"
-    classes="rounded-t-xl h-48 object-cover w-full"
+    class="h-48 w-full rounded-t-xl object-cover"
     height="2"
     :src="`/assets/static/images/event/${getHeroImageName(event.name)}.jpg`"
     width="3"

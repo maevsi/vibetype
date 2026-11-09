@@ -1,5 +1,5 @@
 <template>
-  <form class="flex flex-col gap-4" @submit.prevent="form.handleSubmit">
+  <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
     <form.Field v-slot="{ field }" name="passwordCurrent">
       <Field>
         <FieldLabel>
@@ -10,6 +10,7 @@
         <FieldContent>
           <FormInputPassword
             :aria-invalid="isFieldInvalid(field)"
+            autocomplete="current-password"
             :model-value="field.state.value"
             @blur="field.handleBlur"
             @input="field.handleChange($event)"
@@ -30,15 +31,16 @@
         </FieldLabel>
         <FieldContent>
           <FormAuthInputPassword
-            :aria-invalid="isFieldInvalid(field)"
+            :aria-invalid="!!passwordNewValidation.error.value"
+            autocomplete="new-password"
             :model-value="field.state.value"
-            @blur="field.handleBlur"
-            @input="field.handleChange($event)"
+            @blur="handlePasswordNewBlur"
+            @input="handlePasswordNewInput"
           />
         </FieldContent>
         <FieldError
-          v-if="isFieldInvalid(field)"
-          :errors="field.state.meta.errors"
+          v-if="passwordNewValidation.error.value"
+          :errors="[{ message: passwordNewValidation.error.value }]"
         />
       </Field>
     </form.Field>
@@ -81,10 +83,33 @@ const errorMessages = computed(() =>
     : undefined,
 )
 
+// validation
+const passwordMessages = computed(() => ({
+  minimumLength: t('passwordMinLength'),
+  tooWeak: t('passwordTooWeak'),
+}))
+
+const passwordNewValidation = useAuthFieldValidation({
+  validator: (value: string) =>
+    getStrongPasswordError({
+      messages: passwordMessages.value,
+      password: value,
+    }),
+})
+
+const handlePasswordNewBlur = async () => {
+  await passwordNewValidation.handleBlur(form.getFieldValue('passwordNew'))
+}
+
+const handlePasswordNewInput = async (value: string) => {
+  form.setFieldValue('passwordNew', value)
+  await passwordNewValidation.handleInput(value)
+}
+
 // form
 const formSchema = z.object({
   passwordCurrent: SCHEMA_PASSWORD,
-  passwordNew: SCHEMA_PASSWORD,
+  passwordNew: SCHEMA_PASSWORD_V2,
 })
 
 const form = useForm({
@@ -93,7 +118,7 @@ const form = useForm({
     passwordNew: '',
   },
   validators: {
-    onSubmit: formSchema,
+    onSubmitAsync: formSchema,
   },
   onSubmit: async ({ value }) => {
     const result = await accountPasswordChangeMutation.executeMutation({
@@ -109,6 +134,18 @@ const form = useForm({
     form.reset()
   },
 })
+
+const handleSubmit = async () => {
+  passwordNewValidation.touched.value = true
+
+  const isPasswordNewValid = await passwordNewValidation.validate(
+    form.getFieldValue('passwordNew'),
+  )
+
+  if (!isPasswordNewValid) return
+
+  form.handleSubmit()
+}
 </script>
 
 <i18n lang="yaml">
@@ -116,14 +153,18 @@ de:
   passwordChange: Passwort ändern
   passwordChangeSuccess: Passwort erfolgreich geändert.
   passwordCurrent: Aktuelles Passwort
+  passwordMinLength: Mindestens 8 Zeichen erforderlich
   passwordNew: Neues Passwort
+  passwordTooWeak: Dieses Passwort ist zu leicht zu erraten. Versuche es länger oder weniger vorhersehbar zu machen.
   postgres22023: Das neue Passwort ist zu kurz! Überlege dir ein längeres.
   postgres28P01: Aktuelles Passwort falsch! Überprüfe, ob du alles richtig geschrieben hast.
 en:
   passwordChange: Change password
   passwordChangeSuccess: Password changed successfully.
   passwordCurrent: Current password
+  passwordMinLength: At least 8 characters required
   passwordNew: New password
+  passwordTooWeak: This password is too easy to guess. Try making it longer or less predictable.
   postgres22023: Your new password is too short! Think of a longer one.
   postgres28P01: Current password incorrect! Check for spelling mistakes.
 </i18n>

@@ -20,12 +20,11 @@
             </template> -->
           </CardButton>
           <CardButton
-            class="border-(--warning-strong) bg-(--warning-weak) text-(--warning-text)"
+            class="border-(--semantic-warning-strong) bg-(--semantic-warning-weak) text-(--semantic-base-text-primary)"
             :title="t('earlyBirdStart')"
             :to="localePath({ name: 'early-bird-create' })"
           >
             <AppIconEarlyBird />
-            <!-- TODO: implement early bird cancellation -->
             <template v-if="false" #iconSecondary>
               <AppIconClose />
             </template>
@@ -162,7 +161,7 @@
       </section>
       <section v-if="store.signedInUsername" class="flex flex-col">
         <CardButton
-          class="bg-(--critic-string) text-(--semantic-base-light-text-on-dark)"
+          class="bg-(--semantic-critic-strong) text-(--semantic-base-light-text-on-dark)"
           :title="t('logout')"
           @click="signOutToRoot"
         >

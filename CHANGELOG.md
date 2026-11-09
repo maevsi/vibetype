@@ -13,6 +13,352 @@
 ### Features
 
 * **app:** drop outdated detection keys ([9eb7e4e](https://github.com/maevsi/vibetype/commit/9eb7e4efe1b94a489b94ccb7c1b2c92f53040531))
+## [16.8.0](https://github.com/maevsi/vibetype/compare/16.7.1...16.8.0) (2026-11-07)
+
+### Features
+
+* **event:** share and favorite from the event page ([#2531](https://github.com/maevsi/vibetype/issues/2531)) ([66000d4](https://github.com/maevsi/vibetype/commit/66000d4baf865ac2b0cc84fa4f33e4ab0ba1327a))
+* **upload:** take the file size limit from the runtime config ([#2549](https://github.com/maevsi/vibetype/issues/2549)) ([bce4172](https://github.com/maevsi/vibetype/commit/bce417274689bee48669b3aedc0a2a45725a4429))
+
+### Bug Fixes
+
+* **early-bird:** label the form inputs ([#2546](https://github.com/maevsi/vibetype/issues/2546)) ([4a8fa28](https://github.com/maevsi/vibetype/commit/4a8fa2843a4991a89a294bc41d2e8651d6834575))
+* **event:** don't drop saves submitted right after a name change ([#2551](https://github.com/maevsi/vibetype/issues/2551)) ([5896beb](https://github.com/maevsi/vibetype/commit/5896beb37c631b5fff0ef9c744023bca1143a338))
+* **i18n:** precache the locale messages for offline use ([#2542](https://github.com/maevsi/vibetype/issues/2542)) ([13d4afd](https://github.com/maevsi/vibetype/commit/13d4afd3020812548ea3437af1ff6c43dcf64185))
+* **urql:** persist the results of server-rendered queries ([#2543](https://github.com/maevsi/vibetype/issues/2543)) ([ed57df1](https://github.com/maevsi/vibetype/commit/ed57df19d1e7ca1c215743bf55dcdfa69ba6f770))
+
+## [16.7.1](https://github.com/maevsi/vibetype/compare/16.7.0...16.7.1) (2026-11-07)
+
+### Bug Fixes
+
+* **turnstile:** harden mutation detection ([#2535](https://github.com/maevsi/vibetype/issues/2535)) ([3f8a5c2](https://github.com/maevsi/vibetype/commit/3f8a5c2634d0864f9d856bc58ad30a4146ddba54))
+
+## [16.7.0](https://github.com/maevsi/vibetype/compare/16.6.1...16.7.0) (2026-11-07)
+
+### Features
+
+* **upload:** allow any picture to be uploaded ([#2527](https://github.com/maevsi/vibetype/issues/2527)) ([6f92da4](https://github.com/maevsi/vibetype/commit/6f92da4c45fcbd2a3ea6414c35ad72baa7b6229f))
+
+### Bug Fixes
+
+* **pwa:** precache the app and serve an offline shell ([#2523](https://github.com/maevsi/vibetype/issues/2523)) ([324b4bb](https://github.com/maevsi/vibetype/commit/324b4bbb240aad998088039f946ff585dc003c2b))
+* **upload:** remove upload rows left behind by failed uploads ([#2529](https://github.com/maevsi/vibetype/issues/2529)) ([9c2c3ad](https://github.com/maevsi/vibetype/commit/9c2c3ad1533378b9c3d8dbeddc16d5687c2de5ae))
+
+## [16.6.1](https://github.com/maevsi/vibetype/compare/16.6.0...16.6.1) (2026-11-07)
+
+### Bug Fixes
+
+* **seo:** fall back to a static site name ([#2495](https://github.com/maevsi/vibetype/issues/2495)) ([64c6945](https://github.com/maevsi/vibetype/commit/64c69455a2f4e1949cd5c9ec63400d66e40907ae))
+
+## [16.6.0](https://github.com/maevsi/vibetype/compare/16.5.2...16.6.0) (2026-11-07)
+
+### Features
+
+* **captcha:** show challenge only on required interaction ([#2518](https://github.com/maevsi/vibetype/issues/2518)) ([c3a3966](https://github.com/maevsi/vibetype/commit/c3a396630a68d688ab1f9cf20b786a58cb92e7a2))
+* **network:** display offline status ([#2517](https://github.com/maevsi/vibetype/issues/2517)) ([23d6297](https://github.com/maevsi/vibetype/commit/23d629721f505f9dd1e670290a128b84b69e9abc))
+
+## [16.5.2](https://github.com/maevsi/vibetype/compare/16.5.1...16.5.2) (2026-11-07)
+
+### Bug Fixes
+
+* **urql:** keep the client cache in sync after mutations and on page load ([#2514](https://github.com/maevsi/vibetype/issues/2514)) ([4c36b36](https://github.com/maevsi/vibetype/commit/4c36b367fa38515b991daa59809dacb7dadf4ba8))
+
+## [16.5.1](https://github.com/maevsi/vibetype/compare/16.5.0...16.5.1) (2026-11-07)
+
+### Bug Fixes
+
+* **i18n:** register zod locale config on the client only ([#2508](https://github.com/maevsi/vibetype/issues/2508)) ([b0f4a3a](https://github.com/maevsi/vibetype/commit/b0f4a3aa44f8d8a3bf90672fa658f231bd8af84b))
+* **password:** retry loading zxcvbn after a failed import ([#2510](https://github.com/maevsi/vibetype/issues/2510)) ([6bad098](https://github.com/maevsi/vibetype/commit/6bad0985bebb71786ba98cf78d2c01efc2e872c2))
+* **sitemap:** stop replaying stale query results ([#2509](https://github.com/maevsi/vibetype/issues/2509)) ([4c8692b](https://github.com/maevsi/vibetype/commit/4c8692b76584e371ebc7fd3bea6b111ec10acbdc))
+
+## [16.5.0](https://github.com/maevsi/vibetype/compare/16.4.9...16.5.0) (2026-11-06)
+
+### Features
+
+* **map:** translate controls and add fullscreen ([#2506](https://github.com/maevsi/vibetype/issues/2506)) ([bf4d619](https://github.com/maevsi/vibetype/commit/bf4d6194071baf9cdae235e0ae7d0bedd8694ea1))
+
+## [16.4.9](https://github.com/maevsi/vibetype/compare/16.4.8...16.4.9) (2026-11-05)
+
+### Bug Fixes
+
+* **security:** allow nuxt devtools' websocket and assets in development ([#2499](https://github.com/maevsi/vibetype/issues/2499)) ([61ae222](https://github.com/maevsi/vibetype/commit/61ae222cb91f3ab0d50937114fa54ec0947dfcd6))
+
+## [16.4.8](https://github.com/maevsi/vibetype/compare/16.4.7...16.4.8) (2026-11-04)
+
+### Bug Fixes
+
+* **style:** add info, tint and warning tokens from the design system ([#2498](https://github.com/maevsi/vibetype/issues/2498)) ([da8494d](https://github.com/maevsi/vibetype/commit/da8494db55c73bab0010354515e05ea55814b62b))
+
+## [16.4.7](https://github.com/maevsi/vibetype/compare/16.4.6...16.4.7) (2026-11-04)
+
+### Bug Fixes
+
+* **nuxt:** log client errors shown to the user only for server errors ([#2494](https://github.com/maevsi/vibetype/issues/2494)) ([c9b0140](https://github.com/maevsi/vibetype/commit/c9b01409059dafb104e1aa2fe2276e12f352aa9f))
+* **style:** replace primitive color variables with semantic tokens ([#2496](https://github.com/maevsi/vibetype/issues/2496)) ([47cb53e](https://github.com/maevsi/vibetype/commit/47cb53e19dad393a2714de9ca90a000cfb8f470e))
+* **style:** replace raw tailwind palette colors with semantic tokens ([#2497](https://github.com/maevsi/vibetype/issues/2497)) ([c6d859d](https://github.com/maevsi/vibetype/commit/c6d859d8c683050f4d1fe2028f50dd9da62998e0))
+
+## [16.4.6](https://github.com/maevsi/vibetype/compare/16.4.5...16.4.6) (2026-11-04)
+
+### Bug Fixes
+
+* **nuxt:** log server errors only ([#2492](https://github.com/maevsi/vibetype/issues/2492)) ([82ac10e](https://github.com/maevsi/vibetype/commit/82ac10e2b4ec92a134d669a76fa5ad2d77d5e97b))
+* **style:** align the semantic color tokens with the design system ([#2493](https://github.com/maevsi/vibetype/issues/2493)) ([cc8fdb8](https://github.com/maevsi/vibetype/commit/cc8fdb8c7dd36a458ac3f11f4fade7680108033b))
+
+## [16.4.5](https://github.com/maevsi/vibetype/compare/16.4.4...16.4.5) (2026-11-04)
+
+### Bug Fixes
+
+* **style:** migrate the remaining legacy color tokens ([#2487](https://github.com/maevsi/vibetype/issues/2487)) ([9e13bdd](https://github.com/maevsi/vibetype/commit/9e13bddb08f93f8e2ae283b52032818f519a676c))
+
+## [16.4.4](https://github.com/maevsi/vibetype/compare/16.4.3...16.4.4) (2026-11-03)
+
+### Bug Fixes
+
+* **email:** report reaching the daily limit to sentry ([#2485](https://github.com/maevsi/vibetype/issues/2485)) ([28ce64a](https://github.com/maevsi/vibetype/commit/28ce64a6d9d12ecec9a90b9b1bd87929f6e23c13))
+* **session:** only redirect to paths on this site after sign-in ([#2486](https://github.com/maevsi/vibetype/issues/2486)) ([10fd7f9](https://github.com/maevsi/vibetype/commit/10fd7f9e0ad0ce0d3bf9305b43a5b99bb9bae9a2))
+
+## [16.4.3](https://github.com/maevsi/vibetype/compare/16.4.2...16.4.3) (2026-11-03)
+
+### Bug Fixes
+
+* **security:** forward new csrf cookie on server graphql requests ([#2476](https://github.com/maevsi/vibetype/issues/2476)) ([40272e9](https://github.com/maevsi/vibetype/commit/40272e9a3576a725c35a60c781f2dc8d45c8aff2))
+
+## [16.4.2](https://github.com/maevsi/vibetype/compare/16.4.1...16.4.2) (2026-11-03)
+
+### Bug Fixes
+
+* **event:** disable favorite toggle while pending ([#2474](https://github.com/maevsi/vibetype/issues/2474)) ([7dff64a](https://github.com/maevsi/vibetype/commit/7dff64ae7e1590febe400a24ca1640c178c1f0e9))
+
+## [16.4.1](https://github.com/maevsi/vibetype/compare/16.4.0...16.4.1) (2026-11-03)
+
+### Bug Fixes
+
+* **security:** forward new csrf cookie on server requests ([#2473](https://github.com/maevsi/vibetype/issues/2473)) ([9a0c75d](https://github.com/maevsi/vibetype/commit/9a0c75dd924554e4c6760e01d089f02fd1ea98ba))
+
+## [16.4.0](https://github.com/maevsi/vibetype/compare/16.3.2...16.4.0) (2026-11-02)
+
+### Features
+
+* **leaflet:** migrate to leaflet 2 ([#2472](https://github.com/maevsi/vibetype/issues/2472)) ([8063fad](https://github.com/maevsi/vibetype/commit/8063fadd502352883b695ef7415c6ddc827a4c8c))
+
+## [16.3.2](https://github.com/maevsi/vibetype/compare/16.3.1...16.3.2) (2026-10-31)
+
+### Bug Fixes
+
+* **test:** check pages signed in, in dark mode and with dynamic segments ([#2462](https://github.com/maevsi/vibetype/issues/2462)) ([b40d3d6](https://github.com/maevsi/vibetype/commit/b40d3d644b3fad04d58ac4ad1bff08fcd8bbf186))
+
+## [16.3.1](https://github.com/maevsi/vibetype/compare/16.3.0...16.3.1) (2026-10-31)
+
+### Bug Fixes
+
+* **security:** reenable csrf check ([#2463](https://github.com/maevsi/vibetype/issues/2463)) ([51546ce](https://github.com/maevsi/vibetype/commit/51546ce704afde8fc8408007b5f9e86519243edd))
+
+## [16.3.0](https://github.com/maevsi/vibetype/compare/16.2.0...16.3.0) (2026-10-31)
+
+### Features
+
+* **email:** support dark mode ([#2459](https://github.com/maevsi/vibetype/issues/2459)) ([b09ca95](https://github.com/maevsi/vibetype/commit/b09ca95e6163f50f3cabbb030f0f2a2596665ca1))
+
+### Bug Fixes
+
+* **accessibility:** submit remaining forms natively ([#2461](https://github.com/maevsi/vibetype/issues/2461)) ([dcd65d5](https://github.com/maevsi/vibetype/commit/dcd65d567707bb4dda0c77fb5f3a9027f22ccd6c))
+* **security:** allow nuxt devtools' script in development ([#2460](https://github.com/maevsi/vibetype/issues/2460)) ([ac8073c](https://github.com/maevsi/vibetype/commit/ac8073cc0c91a2e62956971081885f46504962e2))
+
+## [16.2.0](https://github.com/maevsi/vibetype/compare/16.1.3...16.2.0) (2026-10-31)
+
+### Features
+
+* **email:** migrate to nuxt-email-renderer ([#2450](https://github.com/maevsi/vibetype/issues/2450)) ([5141a13](https://github.com/maevsi/vibetype/commit/5141a13b62bc5fecd6aa6429c69a60ad47fd8adc))
+
+## [16.1.3](https://github.com/maevsi/vibetype/compare/16.1.2...16.1.3) (2026-10-29)
+
+### Bug Fixes
+
+* **accessibility:** resolve html validation errors ([#2448](https://github.com/maevsi/vibetype/issues/2448)) ([fad95ad](https://github.com/maevsi/vibetype/commit/fad95ad7aff5f2f37e56bfddc725891a7e589e08))
+* **vue-email:** import components individually ([#2451](https://github.com/maevsi/vibetype/issues/2451)) ([c0a868d](https://github.com/maevsi/vibetype/commit/c0a868d093c7438c2470230dd4f6147f8eedef9d))
+
+## [16.1.2](https://github.com/maevsi/vibetype/compare/16.1.1...16.1.2) (2026-10-28)
+
+### Bug Fixes
+
+* **event:** align date picker range with start and end ([#2447](https://github.com/maevsi/vibetype/issues/2447)) ([c6ecd13](https://github.com/maevsi/vibetype/commit/c6ecd130fa595c0a354ef4e45e57ee9cab53668a))
+
+## [16.1.1](https://github.com/maevsi/vibetype/compare/16.1.0...16.1.1) (2026-10-27)
+
+### Bug Fixes
+
+* **security:** extend security.txt expiration ([#2445](https://github.com/maevsi/vibetype/issues/2445)) ([d40c353](https://github.com/maevsi/vibetype/commit/d40c3534a0254507e54e8e9840bc98f07a5aa47a))
+
+## [16.1.0](https://github.com/maevsi/vibetype/compare/16.0.0...16.1.0) (2026-10-22)
+
+### Features
+
+* **seo:** enable skew protection ([#2442](https://github.com/maevsi/vibetype/issues/2442)) ([c18f6bc](https://github.com/maevsi/vibetype/commit/c18f6bccfb49fbaf1f41eddb8c2569e0c6f7f83c))
+
+## [16.0.0](https://github.com/maevsi/vibetype/compare/15.26.1...16.0.0) (2026-10-22)
+
+### ⚠ BREAKING CHANGES
+
+* **deps:** update dependency @nuxtjs/seo to v6 (#2427)
+
+### Miscellaneous Chores
+
+* **deps:** update dependency @nuxtjs/seo to v6 ([#2427](https://github.com/maevsi/vibetype/issues/2427)) ([e6134a4](https://github.com/maevsi/vibetype/commit/e6134a40644964d7d9d31a10a1602b18eb069501))
+
+## [15.26.1](https://github.com/maevsi/vibetype/compare/15.26.0...15.26.1) (2026-10-22)
+
+### Bug Fixes
+
+* **urql:** block the server rendering on the page data ([#2440](https://github.com/maevsi/vibetype/issues/2440)) ([953e7f0](https://github.com/maevsi/vibetype/commit/953e7f0ec26b667fdcaefc2ea0833806b163e656))
+
+## [15.26.0](https://github.com/maevsi/vibetype/compare/15.25.1...15.26.0) (2026-10-22)
+
+### Features
+
+* **sentry:** make the integrations and the security reporting configurable ([#2439](https://github.com/maevsi/vibetype/issues/2439)) ([2812f27](https://github.com/maevsi/vibetype/commit/2812f275b9abe24aeacb9b8afa258bc658d316ff))
+
+## [15.25.1](https://github.com/maevsi/vibetype/compare/15.25.0...15.25.1) (2026-10-14)
+
+### Bug Fixes
+
+* **recommendation:** fetch only when signed in ([#2425](https://github.com/maevsi/vibetype/issues/2425)) ([8f71534](https://github.com/maevsi/vibetype/commit/8f7153430d792ee8d18fbf2b3819d4cac54e4fc4))
+
+## [15.25.0](https://github.com/maevsi/vibetype/compare/15.24.3...15.25.0) (2026-10-14)
+
+### Features
+
+* **nuxt:** adopt nuxt 4.6 features ([#2423](https://github.com/maevsi/vibetype/issues/2423)) ([2dbd27d](https://github.com/maevsi/vibetype/commit/2dbd27dc48e042870b2c1f2edf87f71c1f458537))
+
+## [15.24.3](https://github.com/maevsi/vibetype/compare/15.24.2...15.24.3) (2026-10-10)
+
+### Bug Fixes
+
+* schedule release ([4e65d55](https://github.com/maevsi/vibetype/commit/4e65d558a6fbd6827041ed6a244139b895ce4036))
+
+## [15.24.2](https://github.com/maevsi/vibetype/compare/15.24.1...15.24.2) (2026-09-28)
+
+### Performance Improvements
+
+* **firebase:** load messaging client on demand ([#2415](https://github.com/maevsi/vibetype/issues/2415)) ([ba24a23](https://github.com/maevsi/vibetype/commit/ba24a232b52c508be7720df40e0d3841f4383106))
+
+## [15.24.1](https://github.com/maevsi/vibetype/compare/15.24.0...15.24.1) (2026-09-28)
+
+### Performance Improvements
+
+* **upload:** load the gallery when the selection modal opens ([#2416](https://github.com/maevsi/vibetype/issues/2416)) ([b1f54a9](https://github.com/maevsi/vibetype/commit/b1f54a99ec8417ed79302e7c4fa6ffda3bc3c48c))
+
+## [15.24.0](https://github.com/maevsi/vibetype/compare/15.23.3...15.24.0) (2026-09-23)
+
+### Features
+
+* **seo:** disable automatic twitter image tags ([0f008a1](https://github.com/maevsi/vibetype/commit/0f008a1c7072e89793a5eda358806d5fc5c65860))
+
+## [15.23.3](https://github.com/maevsi/vibetype/compare/15.23.2...15.23.3) (2026-09-19)
+
+### Bug Fixes
+
+* schedule release ([8614a97](https://github.com/maevsi/vibetype/commit/8614a97cdb5259f89dc7040b213ca0da29810577))
+
+## [15.23.2](https://github.com/maevsi/vibetype/compare/15.23.1...15.23.2) (2026-09-09)
+
+### Bug Fixes
+
+* **account:** validate the password asynchronously on submit ([#2407](https://github.com/maevsi/vibetype/issues/2407)) ([21f5670](https://github.com/maevsi/vibetype/commit/21f5670faa3f70d8dc4efc76262ab6b0f6d063a3))
+
+## [15.23.1](https://github.com/maevsi/vibetype/compare/15.23.0...15.23.1) (2026-09-05)
+
+### Bug Fixes
+
+* schedule release ([bca9716](https://github.com/maevsi/vibetype/commit/bca9716ae53bbb92b06b480ba976f15fa86d4304))
+
+## [15.23.0](https://github.com/maevsi/vibetype/compare/15.22.1...15.23.0) (2026-08-28)
+
+### Features
+
+* **guest:** create contacts from the search ([#2400](https://github.com/maevsi/vibetype/issues/2400)) ([d9560cd](https://github.com/maevsi/vibetype/commit/d9560cd1048ea0468db0b4ecc5a5f6d3f5a2c8fb))
+
+## [15.22.1](https://github.com/maevsi/vibetype/compare/15.22.0...15.22.1) (2026-08-28)
+
+### Bug Fixes
+
+* **urql:** reset client when clearing cache ([#2401](https://github.com/maevsi/vibetype/issues/2401)) ([1b42e13](https://github.com/maevsi/vibetype/commit/1b42e13d42d637c149ca56fed52951130c81e034))
+
+## [15.22.0](https://github.com/maevsi/vibetype/compare/15.21.2...15.22.0) (2026-08-28)
+
+### Features
+
+* **legal:** define contacts and invitation privacy terms ([b21f036](https://github.com/maevsi/vibetype/commit/b21f03638cd0243284c8cea974ac69faa4e39965))
+
+## [15.21.2](https://github.com/maevsi/vibetype/compare/15.21.1...15.21.2) (2026-08-26)
+
+### Bug Fixes
+
+* **error:** show localized status and gate stack trace to dev ([#2399](https://github.com/maevsi/vibetype/issues/2399)) ([5b8b4c2](https://github.com/maevsi/vibetype/commit/5b8b4c21e4781d15f7fb9a64987c3d71982aa01c))
+
+## [15.21.1](https://github.com/maevsi/vibetype/compare/15.21.0...15.21.1) (2026-08-26)
+
+### Bug Fixes
+
+* **event:** avoid duplicate requests when opening the list ([#2397](https://github.com/maevsi/vibetype/issues/2397)) ([d720ad1](https://github.com/maevsi/vibetype/commit/d720ad1ff4978ff43bd6e002676a64f7dcee7e90))
+
+## [15.21.0](https://github.com/maevsi/vibetype/compare/15.20.2...15.21.0) (2026-08-26)
+
+### Features
+
+* **loader:** use logo indicator for full-page loading states ([#2342](https://github.com/maevsi/vibetype/issues/2342)) ([ce66844](https://github.com/maevsi/vibetype/commit/ce66844404fc02efc80dcfad8ba24c4adf4edc77))
+
+## [15.20.2](https://github.com/maevsi/vibetype/compare/15.20.1...15.20.2) (2026-08-26)
+
+### Bug Fixes
+
+* **redis:** log connection errors once per outage instead of once per retry ([cf74bcc](https://github.com/maevsi/vibetype/commit/cf74bcc6b3e786044beecf04ad16841caa446cb8))
+
+## [15.20.1](https://github.com/maevsi/vibetype/compare/15.20.0...15.20.1) (2026-08-26)
+
+### Bug Fixes
+
+* **urql:** select id on eventCategoryByCategoryId and eventFormatByFormatId ([#2393](https://github.com/maevsi/vibetype/issues/2393)) ([745040c](https://github.com/maevsi/vibetype/commit/745040c5a57293be2e74647deddc203e5bd0934f))
+
+## [15.20.0](https://github.com/maevsi/vibetype/compare/15.19.0...15.20.0) (2026-08-26)
+
+### Features
+
+* **event:** allow selecting a location on a map ([#2390](https://github.com/maevsi/vibetype/issues/2390)) ([eeb58ef](https://github.com/maevsi/vibetype/commit/eeb58efa2b9fb6e8bec78ecc5e55f783036c390a))
+
+## [15.19.0](https://github.com/maevsi/vibetype/compare/15.18.0...15.19.0) (2026-08-26)
+
+### Features
+
+* **guest:** add list search and alphabetical ordering ([d08968c](https://github.com/maevsi/vibetype/commit/d08968cdb4f8fd6e3ff031eeee78aed5ac91a372))
+
+### Bug Fixes
+
+* **guest:** reflect rsvp change in feedback icon ([205d3c4](https://github.com/maevsi/vibetype/commit/205d3c4de5ab81e51e7346ba0a8c3f6cf3ca1e88))
+
+## [15.18.0](https://github.com/maevsi/vibetype/compare/15.17.0...15.18.0) (2026-08-26)
+
+### Features
+
+* **guest:** submit on enter, show list loading state ([#2389](https://github.com/maevsi/vibetype/issues/2389)) ([6c4ec4a](https://github.com/maevsi/vibetype/commit/6c4ec4aa8e25db1a63b14ab858458842d54bba49))
+* **invitation:** move organizer feedback override to guest list ([#2388](https://github.com/maevsi/vibetype/issues/2388)) ([115bc8f](https://github.com/maevsi/vibetype/commit/115bc8fb1294d6224b0981293f418cc5e9f93290))
+
+## [15.17.0](https://github.com/maevsi/vibetype/compare/15.16.1...15.17.0) (2026-08-26)
+
+### Features
+
+* **event:** drop templating from descriptions ([#2387](https://github.com/maevsi/vibetype/issues/2387)) ([2ffb1e5](https://github.com/maevsi/vibetype/commit/2ffb1e5f22051eec657158e3c52a076a1acc43d0))
+
+### Bug Fixes
+
+* **account:** noindex profiles without content ([#2386](https://github.com/maevsi/vibetype/issues/2386)) ([bce0a65](https://github.com/maevsi/vibetype/commit/bce0a6521d92ea632115b4bb8362352123c81a59))
+
+## [15.16.1](https://github.com/maevsi/vibetype/compare/15.16.0...15.16.1) (2026-08-24)
+
+### Bug Fixes
+
+* **tiptap:** sync external value updates and empty-content emission ([#2381](https://github.com/maevsi/vibetype/issues/2381)) ([0528bcc](https://github.com/maevsi/vibetype/commit/0528bcc583daaacd920587afa401e61b2c7f37a0))
+
+## [15.16.0](https://github.com/maevsi/vibetype/compare/15.15.1...15.16.0) (2026-08-17)
 
 ## [15.15.1](https://github.com/maevsi/vibetype/compare/15.15.0...15.15.1) (2026-08-14)
 

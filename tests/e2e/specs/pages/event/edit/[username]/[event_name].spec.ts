@@ -1,36 +1,40 @@
-import { test } from '@playwright/test'
+import { expect } from '@playwright/test'
 
-test.describe('event username eventname settings page', () => {
-  // context('page load', () => {
-  //   // TODO: mock data
-  //   it('forbids access when not signed in', () => {
-  //     cy.request({
-  //       url: '/events/username-that-exists/public-event/settings',
-  //       failOnStatusCode: false,
-  //     }).then((resp) => {
-  //       expect(resp.status).to.equal(403)
-  //       expect(resp.redirectedToUrl).to.equal(undefined)
-  //     })
-  //   })
-  //
-  //   it('does not find page if user does not exists', () => {
-  //     cy.request({
-  //       url: '/events/username-that-does-not-exist/event-that-exists',
-  //       failOnStatusCode: false,
-  //     }).then((resp) => {
-  //       expect(resp.status).to.equal(404)
-  //       expect(resp.redirectedToUrl).to.equal(undefined)
-  //     })
-  //   })
-  //
-  //   it('does not find page if event does not exists', () => {
-  //     cy.request({
-  //       url: '/events/username-that-exists/event-that-does-not-exist',
-  //       failOnStatusCode: false,
-  //     }).then((resp) => {
-  //       expect(resp.status).to.equal(404)
-  //       expect(resp.redirectedToUrl).to.equal(undefined)
-  //     })
-  //   })
-  // })
+import {
+  TESTING_ACCOUNT_USERNAME,
+  TESTING_EVENT_ROW_ID,
+  TESTING_EVENT_SLUG,
+} from '#src/shared/utils/testing'
+import { authenticatedTest } from '#tests/e2e/fixtures/authenticatedTest'
+
+const PAGE_PATH = `/event/edit/${TESTING_ACCOUNT_USERNAME}/${TESTING_EVENT_SLUG}`
+
+authenticatedTest.describe('event edit', () => {
+  authenticatedTest('saves a changed name', async ({ defaultPage }) => {
+    const { page } = defaultPage
+
+    await defaultPage.goto(PAGE_PATH)
+
+    // a new name yields a new slug, whose debounced availability check makes the form drop any submit until it settles
+    const slugCheck = page.waitForResponse((response) =>
+      response.url().includes('EventByCreatedByAndSlug'),
+    )
+    await page.getByLabel('Name', { exact: true }).fill('Renamed Meetup')
+    await slugCheck
+
+    const [request] = await Promise.all([
+      page.waitForRequest(
+        (request) =>
+          request.method() === 'POST' &&
+          request.postDataJSON()?.operationName === 'updateEventByRowId',
+      ),
+      page.getByRole('button', { name: 'Save changes' }).click(),
+    ])
+
+    expect(request.postDataJSON().variables.input).toMatchObject({
+      eventPatch: { name: 'Renamed Meetup' },
+      rowId: TESTING_EVENT_ROW_ID,
+    })
+    await expect(page.getByText('Updated', { exact: true })).toBeVisible()
+  })
 })

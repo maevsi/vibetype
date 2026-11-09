@@ -11,17 +11,23 @@ on:
       - main
       - renovate/**
 
+# Release branches queue instead of overlapping, because the Dockerfile seeds skew protection from the
+# `:latest` image, and a concurrent push of it invalidates the build cache and drops the other run's assets.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ !contains(fromJSON('["refs/heads/alpha", "refs/heads/beta", "refs/heads/main"]'), github.ref) }}
+
 jobs:
   ci-optimization:
     name: CI optimization
-    uses: dargmuesli/github-actions/.github/workflows/ci-optimization.yml@e9c9cf391baeb261cf62c0af6c4af2245bae0662 # 5.9.2
+    uses: dargmuesli/github-actions/.github/workflows/ci-optimization.yml@f32c68d81ab8d97c55392d02c3639d15bdf7efb4 # 6.0.0-beta.3
     permissions:
       pull-requests: read
   release_semantic_dry:
     needs: ci-optimization
     if: needs.ci-optimization.outputs.continue == 'true'
     name: Release (semantic, dry)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@e9c9cf391baeb261cf62c0af6c4af2245bae0662 # 5.9.2
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@f32c68d81ab8d97c55392d02c3639d15bdf7efb4 # 6.0.0-beta.3
     permissions:
       contents: write
       id-token: write
@@ -29,16 +35,33 @@ jobs:
       PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
     with:
       DRY_RUN: true
+  # Pins `:latest` for both Docker builds of a run, as a push of it in between makes the second build start from scratch.
+  skew_protection_source:
+    needs: ci-optimization
+    if: needs.ci-optimization.outputs.continue == 'true'
+    name: Skew protection source
+    runs-on: ubuntu-latest
+    outputs:
+      digest: ${{ steps.digest.outputs.digest }}
+    steps:
+      - id: digest
+        run: |
+          digest=$(docker buildx imagetools inspect ghcr.io/maevsi/vibetype:latest --format '{{.Manifest.Digest}}')
+          echo "digest=$digest" >> "$GITHUB_OUTPUT"
   build:
     name: Build
-    uses: dargmuesli/github-actions/.github/workflows/docker.yml@e9c9cf391baeb261cf62c0af6c4af2245bae0662 # 5.9.2
-    needs: release_semantic_dry
+    uses: dargmuesli/github-actions/.github/workflows/docker.yml@f32c68d81ab8d97c55392d02c3639d15bdf7efb4 # 6.0.0-beta.3
+    needs: [release_semantic_dry, skew_protection_source]
     permissions:
+      attestations: write
+      id-token: write
       packages: write
     with:
       BUILD_ADD_HOSTS: |
         app.localhost=127.0.0.1
-      BUILD_ARGUMENTS: ${{ (needs.release_semantic_dry.outputs.new_release_version != null) && format('RELEASE_NAME={0}', needs.release_semantic_dry.outputs.new_release_version) || '' }}
+      BUILD_ARGUMENTS: |
+        ${{ (needs.release_semantic_dry.outputs.new_release_version != null) && format('RELEASE_NAME={0}', needs.release_semantic_dry.outputs.new_release_version) || '' }}
+        SKEW_PROTECTION_SOURCE_IMAGE=ghcr.io/maevsi/vibetype@${{ needs.skew_protection_source.outputs.digest }}
       SMOKE_TEST_SCRIPT: .github/smoke-test.sh
       TAG: ${{ (needs.release_semantic_dry.outputs.new_release_version != null) && needs.release_semantic_dry.outputs.new_release_version || '' }}
     secrets:
@@ -46,7 +69,7 @@ jobs:
   release_semantic:
     needs: build
     name: Release (semantic)
-    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@e9c9cf391baeb261cf62c0af6c4af2245bae0662 # 5.9.2
+    uses: dargmuesli/github-actions/.github/workflows/release-semantic.yml@f32c68d81ab8d97c55392d02c3639d15bdf7efb4 # 6.0.0-beta.3
     permissions:
       contents: write
       id-token: write

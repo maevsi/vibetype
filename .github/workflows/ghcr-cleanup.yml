@@ -1,0 +1,21 @@
+name: GHCR Cleanup
+
+permissions: {}
+
+on:
+  schedule:
+    - cron: "0 1 * * 0" # Every Sunday at 01:00 AM UTC
+  workflow_dispatch:
+    inputs:
+      DRY_RUN:
+        default: true
+        type: boolean
+
+jobs:
+  ghcr-cleanup:
+    name: GHCR cleanup
+    uses: dargmuesli/github-actions/.github/workflows/ghcr-cleanup.yml@f32c68d81ab8d97c55392d02c3639d15bdf7efb4 # 6.0.0-beta.3
+    permissions:
+      packages: write
+    with:
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.DRY_RUN }}

@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 
 import { SITE_NAME, SITE_URL_TYPED } from '#src/node/static'
-import { getServiceHref } from '#src/shared/utils/networking'
+import { getIsSitePath, getServiceHref } from '#src/shared/utils/networking'
 
 describe('getServiceHref', () => {
   test('isTesting takes priority and targets the test site for a service with a subdomain', () => {
@@ -14,6 +14,16 @@ describe('getServiceHref', () => {
     expect(
       getServiceHref({ isServer: true, isTesting: true, name: SITE_NAME }),
     ).toBe(`${SITE_URL_TYPED.protocol}//${SITE_URL_TYPED.host}`)
+  })
+
+  test('isTesting prefers the request host over the build-time site url', () => {
+    expect(
+      getServiceHref({
+        host: 'app.localhost:3001',
+        isTesting: true,
+        name: SITE_NAME,
+      }),
+    ).toBe(`${SITE_URL_TYPED.protocol}//app.localhost:3001`)
   })
 
   test('stagingHost proxies a service with a public subdomain directly', () => {
@@ -105,5 +115,19 @@ describe('getServiceHref', () => {
     expect(() =>
       getServiceHref({ isServer: false, name: 'postgraphile' }),
     ).toThrowError('Could not get service href!')
+  })
+})
+
+describe('getIsSitePath', () => {
+  test('accepts paths on this site', () => {
+    expect(getIsSitePath('/')).toBe(true)
+    expect(getIsSitePath('/event/view/username/slug?ic=code')).toBe(true)
+  })
+
+  test('rejects targets that lead to other sites', () => {
+    expect(getIsSitePath('//example.com')).toBe(false)
+    expect(getIsSitePath('/\\example.com')).toBe(false)
+    expect(getIsSitePath('https://example.com')).toBe(false)
+    expect(getIsSitePath('javascript:alert(1)')).toBe(false)
   })
 })

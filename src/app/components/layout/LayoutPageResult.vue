@@ -21,7 +21,7 @@
       />
       <AppIconStateWarning
         v-else-if="type === 'warning'"
-        class="size-12 text-(--semantic-warning-strong)"
+        class="size-12 text-(--semantic-warning-icon)"
       />
       <AppIconBugAnt v-else class="size-12 text-(--semantic-error-strong)" />
     </div>

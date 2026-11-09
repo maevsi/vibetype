@@ -5,7 +5,7 @@
     @submit.prevent="form.handleSubmit"
   >
     <div
-      class="rounded-xl border border-(--semantic-base-line) bg-(--faint-weak) px-3 py-4"
+      class="rounded-xl border border-(--semantic-base-line) bg-(--semantic-base-surface-1) px-3 py-4"
     >
       <form.Field v-slot="{ field }" name="agreement">
         <div class="flex items-center gap-3 p-1">

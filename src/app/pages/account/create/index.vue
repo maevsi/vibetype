@@ -19,7 +19,6 @@
           @submit.prevent="handleEmailContinue"
         >
           <FormAuthInput
-            :aria-label="t('emailPlaceholder')"
             :model-value="emailField.value.value"
             :placeholder="t('emailPlaceholder')"
             type="email"
@@ -30,48 +29,52 @@
               <IHeroiconsEnvelope />
             </template>
           </FormAuthInput>
-          <p v-if="emailField.error.value" class="text-sm text-red-600">
+          <p
+            v-if="emailField.error.value"
+            class="text-sm text-(--semantic-critic-text)"
+          >
             {{ emailField.error.value }}
           </p>
           <!-- Terms checkbox -->
           <div class="flex items-start gap-3">
             <FormCheckbox
-              :aria-label="t('agreeCheckboxLabel')"
               form-key="agree-to-terms"
               :value="agreedToTerms"
               @change="agreedToTerms = $event"
             >
-              <span class="text-sm text-gray-500 dark:text-gray-400">
+              <span class="text-sm text-(--semantic-base-text-secondary)">
                 {{ t('agreePrefix') }}
                 <NuxtLinkLocale
-                  class="font-semibold text-green-600"
+                  class="font-semibold text-(--semantic-accent-text)"
                   to="docs-legal-terms"
                   >{{ t('termsOfService') }}</NuxtLinkLocale
                 >{{ t('legalComma') }}
                 <NuxtLinkLocale
-                  class="font-semibold text-green-600"
+                  class="font-semibold text-(--semantic-accent-text)"
                   to="docs-legal-imprint"
                   >{{ t('imprint') }}</NuxtLinkLocale
                 >
                 {{ t('and') }}
                 <NuxtLinkLocale
-                  class="font-semibold text-green-600"
+                  class="font-semibold text-(--semantic-accent-text)"
                   to="docs-legal-privacy"
                   >{{ t('privacyPolicy') }}</NuxtLinkLocale
                 >
               </span>
             </FormCheckbox>
           </div>
-          <p v-if="termsError" class="text-sm text-red-600">
+          <p v-if="termsError" class="text-sm text-(--semantic-critic-text)">
             {{ termsError }}
           </p>
           <FormAuthButton :aria-label="t('continue')" type="submit">
             {{ t('continue') }}
           </FormAuthButton>
-          <p class="text-center text-[15px] text-gray-500 dark:text-gray-400">
+          <p
+            class="text-center text-[15px] text-(--semantic-base-text-secondary)"
+          >
             {{ t('alreadyHaveAccount') }}
             <NuxtLinkLocale
-              class="font-semibold text-green-600"
+              class="font-semibold text-(--semantic-accent-text)"
               to="session-create"
               >{{ t('signInLink') }}</NuxtLinkLocale
             >
@@ -105,7 +108,6 @@
         >
           <div class="relative">
             <FormAuthInput
-              :aria-label="t('usernamePlaceholder')"
               :model-value="usernameField.value.value"
               :placeholder="t('usernamePlaceholder')"
               type="text"
@@ -121,11 +123,14 @@
               class="absolute top-1/2 right-4 -translate-y-1/2"
             >
               <div
-                class="size-5 animate-spin rounded-full border-2 border-gray-300 border-t-green-600"
+                class="size-5 animate-spin rounded-full border-2 border-(--semantic-base-line) border-t-green-600"
               />
             </div>
           </div>
-          <p v-if="usernameField.error.value" class="text-sm text-red-600">
+          <p
+            v-if="usernameField.error.value"
+            class="text-sm text-(--semantic-critic-text)"
+          >
             {{ usernameField.error.value }}
           </p>
           <FormAuthButton
@@ -146,12 +151,13 @@
       <LayoutPage v-bind="attributes">
         <div class="flex flex-col gap-4">
           <FormAccountRegistrationAge
-            ref="ageForm"
+            :id="templateIdAgeForm"
             @success="handleAgeSuccess"
           />
           <FormAuthButton
             :aria-label="t('confirmAge')"
-            @click="ageFormRef?.submit()"
+            :form="templateIdAgeForm"
+            type="submit"
           >
             {{ t('confirmAge') }}
           </FormAuthButton>
@@ -163,23 +169,23 @@
     <FormAuthStepSuccess :is-active="step === 'success'">
       <div class="flex flex-col gap-4">
         <p
-          class="text-[15px] leading-5 font-semibold text-gray-500 dark:text-gray-400"
+          class="text-[15px] leading-5 font-semibold text-(--semantic-base-text-secondary)"
         >
           {{ t('verificationSentTo') }}
-          <span class="font-semibold text-gray-900 dark:text-gray-100">{{
+          <span class="font-semibold text-(--semantic-base-text-primary)">{{
             emailField.value.value
           }}</span>
         </p>
         <p
-          class="text-[15px] leading-5 font-semibold text-gray-500 dark:text-gray-400"
+          class="text-[15px] leading-5 font-semibold text-(--semantic-base-text-secondary)"
         >
           {{ t('verificationOpenLink') }}
         </p>
-        <p class="text-sm text-gray-500 dark:text-gray-400">
+        <p class="text-sm text-(--semantic-base-text-secondary)">
           {{ t('verificationDescription') }}
         </p>
         <NuxtLinkLocale
-          class="flex items-center justify-center gap-2 text-[15px] text-gray-500 dark:text-gray-400"
+          class="flex items-center justify-center gap-2 text-[15px] text-(--semantic-base-text-secondary)"
           to="support-contact"
         >
           <IHeroiconsQuestionMarkCircle class="size-5" />
@@ -226,22 +232,6 @@ const navigateBack = () => {
 // api data
 const accountRegistrationMutation = useMutation(accountRegistrationDocument)
 const api = await useApiData([accountRegistrationMutation])
-
-// TODO: move into api utility as `errorsTranslated`
-watch(
-  () => api.value.errors,
-  (current) => {
-    error.value = current?.length
-      ? new Error(
-          getCombinedErrorMessages(current, {
-            postgresVTAUV: t('postgresVTAUV'),
-            postgresVTBDA: t('postgresVTBDA'),
-            postgresVTPLL: t('postgresVTPLL'),
-          })[0],
-        )
-      : undefined
-  },
-)
 
 // template
 const templateIdTitle = useId()
@@ -298,7 +288,7 @@ const handleUsernameInput = (newValue: string) => {
 }
 
 // age step
-const ageFormRef = useTemplateRef<{ submit: () => void }>('ageForm')
+const templateIdAgeForm = useId()
 const handleAgeSuccess = async (date: string) => {
   birthDate.value = date
   await submit()
@@ -406,6 +396,15 @@ const { error, previous, restart, step, title } = useStepperPage<
     },
   },
 })
+useApiErrorModel({
+  errorModel: error,
+  errors: () => api.value.errors,
+  postgresErrorMap: {
+    postgresVTAUV: t('postgresVTAUV'),
+    postgresVTBDA: t('postgresVTBDA'),
+    postgresVTPLL: t('postgresVTPLL'),
+  },
+})
 
 // subtitle (only shown on email step)
 const subtitle = computed(() => {
@@ -452,7 +451,6 @@ useHeadDefault({ title: title.value })
 
 <i18n lang="yaml">
 de:
-  agreeCheckboxLabel: Ich stimme den Bedingungen zu
   agreePrefix: "Ich stimme Vibetype's "
   alreadyHaveAccount: 'Du hast bereits ein Konto?'
   and: ' und '
@@ -474,7 +472,7 @@ de:
   signInLink: Anmelden
   subtitleAge: Für den richtigen Vibe und deine Sicherheit zeigt dir Vibetype nur Events, die zu deinem Alter passen.
   subtitleEmail: Wir verwenden sie, um dir einen Bestätigungslink zu senden und dein Konto zu sichern.
-  subtitlePassword: Mindestens 12 Zeichen mit mindestens 1 Großbuchstaben und 1 Sonderzeichen.
+  subtitlePassword: Mindestens 8 Zeichen, die nicht leicht zu erraten sind.
   subtitleUsername: Dieser Name wird anderen Nutzern angezeigt.
   support: Support kontaktieren
   termsOfService: Nutzungsbedingungen
@@ -492,7 +490,6 @@ de:
   verificationOpenLink: Öffne den Link, um zu bestätigen, dass du es wirklich bist.
   verificationSentTo: 'Wir haben dir gerade einen Bestätigungslink gesendet an '
 en:
-  agreeCheckboxLabel: I agree to the terms
   agreePrefix: "I agree to Vibetype's "
   alreadyHaveAccount: 'Already have an account?'
   and: ' and '
@@ -514,7 +511,7 @@ en:
   signInLink: Sign in
   subtitleAge: To keep things fun and safe, Vibetype curates just the right events for your age and vibe.
   subtitleEmail: We'll use it to send your verification link and keep your account secure.
-  subtitlePassword: Minimum 12 characters with at least 1 uppercase letter and 1 special character.
+  subtitlePassword: At least 8 characters that aren't easy to guess.
   subtitleUsername: This name will be visible to other users.
   support: Contact support
   termsOfService: Terms of Service

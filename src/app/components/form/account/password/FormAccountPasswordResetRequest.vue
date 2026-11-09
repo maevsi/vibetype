@@ -16,17 +16,19 @@
           <IHeroiconsEnvelope />
         </template>
       </FormAuthInput>
-      <p v-if="emailError" class="mt-1 text-sm text-red-500 dark:text-red-400">
+      <p v-if="emailError" class="mt-1 text-sm text-(--semantic-critic-text)">
         {{ emailError }}
       </p>
     </form.Field>
     <FormAuthButton :aria-label="t('send')" class="mt-4" type="submit">
       {{ t('send') }}
     </FormAuthButton>
-    <p class="mt-6 text-center text-[15px] text-gray-500 dark:text-gray-400">
+    <p
+      class="mt-6 text-center text-[15px] text-(--semantic-base-text-secondary)"
+    >
       {{ t('rememberPassword') }}
       <NuxtLinkLocale
-        class="font-semibold text-green-600 dark:text-green-400"
+        class="font-semibold text-(--semantic-accent-text)"
         to="session-create"
       >
         {{ t('signIn') }}
@@ -63,14 +65,10 @@ const passwordResetRequestMutation = useMutation(
   `),
 )
 const api = await useApiData([passwordResetRequestMutation])
-watch(
-  () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(getCombinedErrorMessages(current)[0])
-      : undefined
-  },
-)
+useApiErrorModel({
+  errorModel: modelError,
+  errors: () => api.value.errors,
+})
 
 // validation
 const emailTouched = ref(false)

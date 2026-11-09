@@ -2,17 +2,18 @@
   <div class="relative">
     <div
       v-if="$slots.icon"
-      class="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-gray-500 dark:text-gray-400"
+      class="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-(--semantic-base-text-secondary)"
     >
       <slot name="icon" />
     </div>
     <Input
       :id
       :aria-invalid="ariaInvalid"
+      :aria-label="placeholder"
       :class="[
         cn(
-          'h-13 rounded-2xl border-transparent bg-gray-100 pl-12 text-[17px] dark:bg-gray-800',
-          { 'border-red-500': ariaInvalid },
+          'h-13 rounded-2xl border-transparent bg-(--semantic-base-surface-1) pl-12 text-[17px]',
+          { 'border-(--semantic-error-strong)': ariaInvalid },
         ),
       ]"
       :disabled

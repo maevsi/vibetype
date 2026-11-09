@@ -2,7 +2,7 @@
   <LoaderImage
     :alt="t('profilePictureAlt', { username: account?.username })"
     :aspect
-    :classes="classProps"
+    :class="['object-cover', classProps]"
     :height
     :src="profilePictureUrl || blankProfilePicture"
     :width
@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
 import type { HtmlHTMLAttributes } from 'vue'
 
 import blankProfilePicture from '~/assets/images/blank-profile-picture.svg'
@@ -35,7 +34,7 @@ const { t } = useI18n()
 const TUSD_FILES_URL = useTusdFilesUrl()
 
 // api data
-const query = useQuery({
+const query = useApiQuery({
   query: graphql(`
     query AccountByRowId($id: UUID!) {
       accountByRowId(rowId: $id) {

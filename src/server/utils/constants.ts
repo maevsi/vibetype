@@ -67,6 +67,9 @@ export const GET_CSP = ({
       ],
       'script-src-elem': [
         'https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js', // ESLint plugin compat
+        ...(process.env.NODE_ENV === 'development'
+          ? [`${siteUrl}__devtools/`] // Nuxt DevTools
+          : []),
       ],
       'worker-src': [
         `${siteUrl}${process.env.NODE_ENV === 'development' ? 'dev-' : ''}sw.js`, // @vite-pwa/nuxt
@@ -173,6 +176,11 @@ export const GET_CSP = ({
         ...(runtimeConfig
           ? [
               `https://${runtimeConfig.public.sentry.host}/api/${runtimeConfig.public.sentry.project.id}/envelope/`,
+              ...(runtimeConfig.public.sentry.features.securityHeaders
+                ? [
+                    `https://${runtimeConfig.public.sentry.host}/api/${runtimeConfig.public.sentry.project.id}/security/`,
+                  ]
+                : []),
             ]
           : []),
       ],
@@ -183,11 +191,8 @@ export const GET_CSP = ({
       ...(process.env.NODE_ENV === 'development'
         ? {
             'connect-src': [
-              // TODO: use first two lines only once nuxt content fix is merged and released (https://github.com/nuxt/content/pull/3344)
               `ws://${siteUrl.hostname}:4000/ws`, // hot reload
               `wss://${siteUrl.hostname}:4000/ws`, // hot reload
-              `ws://0.0.0.0:4000/ws`, // hot reload
-              `wss://0.0.0.0:4000/ws`, // hot reload
             ],
           }
         : {}),
@@ -201,6 +206,13 @@ export const GET_CSP = ({
         : {}),
       'connect-src': [
         "'self'", // e.g. `/_nuxt/builds/meta/`, `/_payload.json`, `/docs/legal/privacy/_payload.json`
+        ...(process.env.NODE_ENV === 'development'
+          ? [
+              `wss://${siteUrl.hostname}:9777`, // devtools hub (devframe sidecar; next free port if 9777 is busy)
+              `ws://${siteUrl.hostname}:9777`,
+              'https://api.iconify.design/', // devtools icons
+            ]
+          : []),
         // ...(process.env.NODE_ENV === 'development'
         //   ? [
         //       `http://${domainTldPort}/_nuxt/`, // hot reload
@@ -213,6 +225,12 @@ export const GET_CSP = ({
       'img-src': [
         "'self'", // e.g. favicon
         'data:', // external link icon
+        ...(process.env.NODE_ENV === 'development'
+          ? [
+              'https://cdn.jsdelivr.net/gh/nuxt/devtools@main/assets/', // devtools wordmark
+              'https://nuxt.com/assets/design-kit/', // devtools branding icon
+            ]
+          : []),
       ],
       'script-src-elem': [
         "'nonce-{{nonce}}'",
@@ -233,10 +251,10 @@ export const GET_CSP = ({
             // `${siteUrl}_nitro/openapi.json`,
             // `${siteUrl}_nitro/swagger`, */,
             // 'script-src-elem': [
-            //   'https://cdn.jsdelivr.net/npm/', // swagger // TODO: increase precision (https://github.com/unjs/nitro/issues/1757)
+            //   'https://cdn.jsdelivr.net/npm/', // swagger // TODO: increase precision (https://github.com/unjs/openapi-renderer/issues/4)
             // ],
             // 'style-src': [
-            //   'https://cdn.jsdelivr.net/npm/', // swagger // TODO: increase precision (https://github.com/unjs/nitro/issues/1757)
+            //   'https://cdn.jsdelivr.net/npm/', // swagger // TODO: increase precision (https://github.com/unjs/openapi-renderer/issues/4)
             // ],
           }
         : {}),

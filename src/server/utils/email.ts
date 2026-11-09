@@ -1,11 +1,11 @@
-import type { ExtractComponentProps } from '@vue-email/render'
+import * as Sentry from '@sentry/nuxt'
 import type Redis from 'ioredis'
-import { render } from '@vue-email/render'
+import type { AllowedComponentProps, VNodeProps } from 'vue'
 import { z } from 'zod'
 
-import EmailAccountPasswordResetRequest from '../assets/emails/EmailAccountPasswordResetRequest.vue'
-import EmailAccountRegistration from '../assets/emails/EmailAccountRegistration.vue'
-import EmailEventInvitation from '../assets/emails/EmailEventInvitation.vue'
+import type EmailAccountPasswordResetRequest from '~/emails/EmailAccountPasswordResetRequest.vue'
+import type EmailAccountRegistration from '~/emails/EmailAccountRegistration.vue'
+import type EmailEventInvitation from '~/emails/EmailEventInvitation.vue'
 
 import {
   CHANNEL_NAME_ACCOUNT_PASSWORD_RESET as EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
@@ -23,22 +23,28 @@ const acquireMailRateSlot = (rateLimitPerSecond: number, redis: Redis) =>
     redis,
   })
 
-const emailConfig = {
-  [EMAIL_NAME_ACCOUNT_PASSWORD_RESET]: {
-    component: EmailAccountPasswordResetRequest,
-    props: {} as ExtractComponentProps<typeof EmailAccountPasswordResetRequest>,
-  },
-  [EMAIL_NAME_ACCOUNT_REGISTRATION]: {
-    component: EmailAccountRegistration,
-    props: {} as ExtractComponentProps<typeof EmailAccountRegistration>,
-  },
-  [EMAIL_NAME_EVENT_INVITATION]: {
-    component: EmailEventInvitation,
-    props: {} as ExtractComponentProps<typeof EmailEventInvitation>,
-  },
-} as const
-type EmailConfig = typeof emailConfig
-export type EmailProps<T extends keyof EmailConfig> = EmailConfig[T]['props']
+// the same shape as `nuxt-email-renderer`'s own type, which the module does not export
+type ExtractComponentProps<TComponent> = TComponent extends new () => {
+  $props: infer P
+}
+  ? Omit<P, keyof VNodeProps | keyof AllowedComponentProps>
+  : never
+
+type EmailComponents = {
+  [EMAIL_NAME_ACCOUNT_PASSWORD_RESET]: typeof EmailAccountPasswordResetRequest
+  [EMAIL_NAME_ACCOUNT_REGISTRATION]: typeof EmailAccountRegistration
+  [EMAIL_NAME_EVENT_INVITATION]: typeof EmailEventInvitation
+}
+export type EmailProps<T extends keyof EmailComponents> = ExtractComponentProps<
+  EmailComponents[T]
+>
+
+// file names in `app/emails`, where `nuxt-email-renderer` looks for templates
+const emailTemplateNames = {
+  [EMAIL_NAME_ACCOUNT_PASSWORD_RESET]: 'EmailAccountPasswordResetRequest',
+  [EMAIL_NAME_ACCOUNT_REGISTRATION]: 'EmailAccountRegistration',
+  [EMAIL_NAME_EVENT_INVITATION]: 'EmailEventInvitation',
+} as const satisfies Record<keyof EmailComponents, string>
 
 export const EMAIL_NAMES = z.enum([
   EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
@@ -58,6 +64,31 @@ export const getEmail = async <T extends EmailName>({
     name,
     props,
   })
+
+export const getEmailAttachments = (name: EmailName) => [
+  {
+    filename: `${LOGO_CID}.png`,
+    content: LOGO,
+    cid: LOGO_CID,
+  },
+  {
+    filename: `${LOGO_DARK_CID}.png`,
+    content: LOGO_DARK,
+    cid: LOGO_DARK_CID,
+  },
+  ...([
+    EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
+    EMAIL_NAME_ACCOUNT_REGISTRATION,
+  ].includes(name)
+    ? [
+        {
+          filename: `${PROFILE_PICTURE_JONAS_CID}.png`,
+          content: PROFILE_PICTURE_JONAS,
+          cid: PROFILE_PICTURE_JONAS_CID,
+        },
+      ]
+    : []),
+]
 
 export const sendEmail = async <T extends EmailName>({
   mailOptions,
@@ -103,25 +134,7 @@ export const sendEmail = async <T extends EmailName>({
       // TODO: add https link (https://github.com/maevsi/vibetype/issues/326)
       unsubscribe: `mailto:contact+unsubscribe@maev.si?subject=Unsubscribe%20${mailOptions.to}`,
     },
-    attachments: [
-      {
-        filename: `${LOGO_CID}.png`,
-        content: LOGO,
-        cid: LOGO_CID,
-      },
-      ...([
-        EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
-        EMAIL_NAME_ACCOUNT_REGISTRATION,
-      ].includes(name)
-        ? [
-            {
-              filename: `${PROFILE_PICTURE_JONAS_CID}.png`,
-              content: PROFILE_PICTURE_JONAS,
-              cid: PROFILE_PICTURE_JONAS_CID,
-            },
-          ]
-        : []),
-    ],
+    attachments: getEmailAttachments(name),
   }
 
   if (
@@ -134,13 +147,14 @@ export const sendEmail = async <T extends EmailName>({
     return
   }
 
-  // TODO: implement proper rate limiting
   const sentLast24Hours = await getMailsSentLast24Hours()
   if (sentLast24Hours && sentLast24Hours > rateLimitPerDay) {
-    // TODO: notify admin
-    throw new Error(
+    const error = new Error(
       `More than ${rateLimitPerDay} mails sent in the last day, not sending any more for now to prevent spamming.`,
     )
+    // the mail is eventually dropped after the event stream's retries, which only log to the console
+    Sentry.captureException(error, { level: 'fatal' })
+    throw error
   }
 
   await acquireMailRateSlot(rateLimitPerSecond, redis)
@@ -164,17 +178,22 @@ export const getHtmlAndText = async <T extends EmailName>({
   name: T
   props: EmailProps<T>
 }) => {
-  const component = emailConfig[name].component
+  const templateName = emailTemplateNames[name]
 
-  const html = await render(component, props, {
-    pretty: import.meta.dev,
-  })
-  const text = await render(component, props, {
-    plainText: true,
-  })
+  const html = await renderEmailComponent<EmailComponents[T]>(
+    templateName,
+    props,
+    { pretty: import.meta.dev },
+  )
+  const text = await renderEmailComponent<EmailComponents[T]>(
+    templateName,
+    props,
+    { plainText: true },
+  )
 
+  // the renderer only returns an object when a template sets a subject, which none does
   return {
-    html,
-    text,
+    html: typeof html === 'string' ? html : html.html,
+    text: typeof text === 'string' ? text : text.html,
   }
 }

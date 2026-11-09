@@ -7,6 +7,7 @@ import {
 } from '#src/node/static'
 import {
   COOKIE_CONTROL_CONSENT_COOKIE_DEFAULT_VALUE,
+  HYDRATION_TIMEOUT,
   TIMEZONE_DEFAULT,
 } from '#tests/e2e/utils/constants'
 
@@ -32,6 +33,7 @@ const createDefaultPage = (page: Page) => {
         await expect(page.getByTestId('is-loading')).toHaveAttribute(
           'data-is-loading',
           'false',
+          { timeout: HYDRATION_TIMEOUT },
         )
       }
     },

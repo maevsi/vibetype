@@ -16,5 +16,4 @@ if (fs.existsSync(certPath) && fs.existsSync(keyPath)) {
   process.env.NITRO_SSL_KEY = fs.readFileSync(keyPath, 'utf8')
 }
 
-await import(path.join(root, '.output/server/sentry.server.config.mjs'))
 await import(path.join(root, '.output/server/index.mjs'))

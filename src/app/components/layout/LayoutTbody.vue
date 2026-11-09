@@ -1,7 +1,5 @@
 <template>
-  <tbody
-    class="divide-background-brighten dark:divide-background-darken divide-y"
-  >
+  <tbody class="divide-y divide-(--semantic-base-line)">
     <slot />
   </tbody>
 </template>

@@ -4,24 +4,12 @@
 /* stylelint-disable plugin/no-unsupported-browser-features */
 
 :root {
-  --accent-line: #dcf9ea;
   --accent-strong-hover: #2bb86d;
   --accent-strong: #36db83;
   --accent-weak-hover: #c0e6d2;
   --accent-weak: #dcf9ea;
-  --base-white: #fafafc;
-  --critic-red-middle: #ff1453;
-  --critic-red-middle-dark: #c20034;
-  --critic-string: #e00000;
-  --critic-weak: #ffebeb;
   --complement-fancy: #ff3167;
   --complement-strong: #f52d62;
-  --faint-line: #f2f2f2;
-  --faint-mid: #e6e6e6;
-  --faint-strong: #d8d4d5;
-  --faint-weak: #f2f2f2;
-  --neutral-level-1: #eff0ef;
-  --neutral-level-5: #737874;
   --semantic-accent-icon: #12683a;
   --semantic-accent-line: #dcf9ea;
   --semantic-accent-text: #12683a;
@@ -30,54 +18,52 @@
   --semantic-base-icon-primary: #5d665f;
   --semantic-base-input-field-fill: #fff;
   --semantic-base-light-text-on-dark: #fafafc;
-  --semantic-base-line: #f2f2f2;
+  --semantic-base-line: #dbdcdb;
   --semantic-base-primary-button-text: #191911;
   --semantic-base-secondary-button-text: #191911;
-  --semantic-base-surface-1: #fafafc;
-  --semantic-base-text-primary: #191911;
-  --semantic-base-text-secondary: #868679;
+  --semantic-base-surface-1: #eff0ef;
+  --semantic-base-text-primary: #000;
+  --semantic-base-text-secondary: #5f6461;
   --semantic-base-text-tertiary: #505047;
   --semantic-critic-strong-hover: #8c1818;
-  --semantic-critic-strong: #e00000;
+  --semantic-critic-strong: #c20034;
   --semantic-critic-text: #8c1818;
-  --semantic-critic-weak: #ffebeb;
-  --semantic-error-strong: #e00000;
+  --semantic-critic-weak: #ffb8cb;
+  --semantic-error-strong: #ff1453;
+  --semantic-info-strong: #0351bf;
+  --semantic-info-text: #0351bf;
   --semantic-success-strong: #1ae4aa;
-  --semantic-warning-strong: #f9ae25;
-  --surface: #fafafc;
-  --warning-strong: #f9ae25;
-  --warning-text: #9c5407;
-  --warning-weak: #fdebd8;
+  --semantic-success-weak: #c2f5ca;
+  --semantic-warning-icon: #a7991b;
+  --semantic-warning-strong: #decd35;
+  --semantic-warning-weak: #f5f0c2;
 }
 
 .dark {
   --accent-strong: #4dc762;
   --accent-weak-hover: #9cd0a6;
   --accent-weak: #c1dcc6;
-  --base-white: #e4e4eb;
-  --critic-weak: #e67070;
   --complement-strong: #d7456b;
-  --faint-line: #2d2d2c;
-  --faint-mid: #898284;
-  --faint-strong: #b6afb1;
-  --faint-weak: #3e3e38;
-  --neutral-level-1: #191a19;
   --semantic-accent-icon: #0a841e;
   --semantic-accent-line: #044a0f;
   --semantic-accent-text: #129f2a;
-  --semantic-base-background: #191911;
+  --semantic-base-background: #000;
   --semantic-base-icon-primary: #e4e4eb;
   --semantic-base-input-field-fill: #505047;
-  --semantic-base-line: #3e3e38;
-  --semantic-base-surface-1: #3e3e38;
-  --semantic-base-text-primary: #e4e4eb;
-  --semantic-base-text-secondary: #868679;
+  --semantic-base-line: #282a28;
+  --semantic-base-surface-1: #191a19;
+  --semantic-base-text-primary: #fff;
+  --semantic-base-text-secondary: #9ca09d;
   --semantic-base-text-tertiary: #e4e4eb;
   --semantic-critic-strong-hover: #e67070;
-  --semantic-critic-strong: #ca3737;
   --semantic-critic-text: #e67070;
-  --semantic-critic-weak: #e67070;
-  --surface: #3e3e38;
+  --semantic-critic-weak: #450a0a;
+  --semantic-info-strong: #024097;
+  --semantic-info-text: #68a6fd;
+  --semantic-success-weak: #12361a;
+  --semantic-warning-icon: #cab921;
+  --semantic-warning-strong: #e4d658;
+  --semantic-warning-weak: #36320f;
 
   @apply scheme-dark;
 }
@@ -117,41 +103,7 @@
   }
 
   --default-font-family: var(--font-raleway);
-  --font-raleway:
-    'Raleway Variable', ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --color-background-bright: var(
-    --color-white
-  ); /* TODO: replace with new design variables */
-
-  --color-background-brighten: var(
-    --color-zinc-200
-  ); /* TODO: replace with new design variables */
-
-  --color-background-dark: var(
-    --color-zinc-800
-  ); /* TODO: replace with new design variables */
-
-  --color-background-darken: var(
-    --color-zinc-700
-  ); /* TODO: replace with new design variables */
-
-  --color-link-bright: var(
-    --color-blue-400
-  ); /* TODO: replace with new design variables */
-
-  --color-link-dark: var(
-    --color-blue-600
-  ); /* TODO: replace with new design variables */
-
-  --color-text-bright: var(
-    --color-zinc-50
-  ); /* TODO: replace with new design variables */
-
-  --color-text-dark: var(
-    --color-zinc-900
-  ); /* TODO: replace with new design variables */
-
+  --font-raleway: 'Raleway Variable', ui-sans-serif, system-ui, sans-serif;
   --text-3xl--line-height: calc(2.5 / 1.875);
   --text-4xl--line-height: calc(3 / 2.25);
   --text-5xl--line-height: calc(4 / 3);

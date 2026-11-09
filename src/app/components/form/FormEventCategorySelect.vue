@@ -48,8 +48,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 
 const modelValue = defineModel<string[]>({ default: () => [] })
@@ -88,7 +86,7 @@ const translate = (nameKey: string) => {
 }
 
 // api data
-const allEventCategoriesQuery = useQuery({
+const allEventCategoriesQuery = useApiQuery({
   query: graphql(`
     query AllEventCategoriesFormEvent {
       allEventCategories {

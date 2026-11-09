@@ -1,41 +1,41 @@
 <template>
-  <LoaderIndicatorPing v-if="api.isFetching" />
-  <AppError
-    v-else-if="!account"
-    :error="{ message: 'Account data missing', status: 404 }"
-  />
-  <div v-else>
-    <LayoutPageTitle title="-">
-      <i18n-t keypath="title" tag="h1">
-        <template #name>
-          <AppLink
-            :to="
-              localePath({
-                name: 'account-view-username',
-                params: { username: route.params.username },
-              })
-            "
-          >
-            {{ route.params.username }}
-          </AppLink>
-        </template>
-      </i18n-t>
-    </LayoutPageTitle>
-    <EventList
-      :events
-      :has-next-page="
-        api.data.accountByUsername?.eventsByCreatedBy.pageInfo.hasNextPage
-      "
-      @load-more="
-        queryAfter =
-          api.data.accountByUsername?.eventsByCreatedBy.pageInfo.endCursor
-      "
+  <Loader :api>
+    <AppError
+      v-if="!account"
+      :error="{ message: 'Account data missing', status: 404 }"
     />
-  </div>
+    <div v-else>
+      <LayoutPageTitle title="-">
+        <i18n-t keypath="title" tag="h1">
+          <template #name>
+            <AppLink
+              :to="
+                localePath({
+                  name: 'account-view-username',
+                  params: { username: route.params.username },
+                })
+              "
+            >
+              {{ route.params.username }}
+            </AppLink>
+          </template>
+        </i18n-t>
+      </LayoutPageTitle>
+      <EventList
+        :events
+        :has-next-page="
+          api.data.accountByUsername?.eventsByCreatedBy.pageInfo.hasNextPage
+        "
+        @load-more="
+          queryAfter =
+            api.data.accountByUsername?.eventsByCreatedBy.pageInfo.endCursor
+        "
+      />
+    </div>
+  </Loader>
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
 const queryEventListAccount = graphql(`
@@ -46,8 +46,10 @@ const queryEventListAccount = graphql(`
           eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
             nodes {
               eventCategoryByCategoryId {
+                id
                 name
               }
+              id
             }
           }
           eventFavoritesByEventId(first: 1) {
@@ -60,8 +62,10 @@ const queryEventListAccount = graphql(`
           eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
             nodes {
               eventFormatByFormatId {
+                id
                 name
               }
+              id
             }
           }
           guestsByEventId(first: 1) {
@@ -105,7 +109,7 @@ useHeadDefault({
 
 // api data
 const queryAfter = ref<string | null>()
-const query = useQuery({
+const query = useApiQuery({
   query: queryEventListAccount,
   variables: computed(() => ({
     after: queryAfter.value,

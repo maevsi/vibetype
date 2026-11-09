@@ -10,14 +10,14 @@
       />
       <ContactAvatar
         v-else
-        classes="rounded-full size-12"
+        class="size-12 rounded-full"
         :email-address="contact.emailAddress"
         :email-address-hash="contact.emailAddressHash"
         size="48"
       />
       <GuestFeedbackIcon
         v-if="feedback"
-        class="bg-background-bright dark:bg-background-dark absolute right-0 bottom-0 rounded-full"
+        class="absolute right-0 bottom-0 rounded-full bg-(--semantic-base-background)"
         :feedback
       />
     </div>
@@ -28,7 +28,7 @@
       </span>
       <div
         v-if="contact.accountByAccountId?.username"
-        class="truncate text-gray-500 dark:text-gray-400"
+        class="truncate text-(--semantic-base-text-secondary)"
       >
         <AppLink
           v-if="isUsernameLinked"

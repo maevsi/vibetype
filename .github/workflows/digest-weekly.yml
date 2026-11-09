@@ -1,0 +1,49 @@
+name: "Digest: Weekly"
+
+permissions: {}
+
+on:
+  schedule:
+    - cron: "45 16 * * 1" # Every Monday at 16:45 in Germany on the default branch
+      timezone: Europe/Berlin
+  workflow_dispatch:
+
+jobs:
+  digest-weekly:
+    name: "Digest: Weekly"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: .github
+
+      - name: Collect merged pull requests
+        id: collect
+        env:
+          # Optional fine-grained token to include private repositories.
+          GH_TOKEN: ${{ secrets.DIGEST_GH_TOKEN || github.token }}
+        run: |
+          .github/weekly-digest.sh collect > "$RUNNER_TEMP/context.json"
+          echo "total=$(jq .counts.total "$RUNNER_TEMP/context.json")" >> "$GITHUB_OUTPUT"
+
+      - name: Summarize
+        if: steps.collect.outputs.total != '0'
+        env:
+          ANTHROPIC_FEDERATION_RULE_ID: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID }}
+          ANTHROPIC_ORGANIZATION_ID: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
+          ANTHROPIC_SERVICE_ACCOUNT_ID: ${{ vars.ANTHROPIC_SERVICE_ACCOUNT_ID }}
+          ANTHROPIC_WORKSPACE_ID: ${{ vars.ANTHROPIC_WORKSPACE_ID }}
+        # The summary is never printed: run logs of this public repository are public,
+        # and with DIGEST_GH_TOKEN it describes private repositories.
+        run: .github/weekly-digest.sh summarize < "$RUNNER_TEMP/context.json" > "$RUNNER_TEMP/summary.md"
+
+      - name: Post to Discord
+        if: steps.collect.outputs.total != '0'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: .github/weekly-digest.sh post "$RUNNER_TEMP/context.json" "$RUNNER_TEMP/summary.md"

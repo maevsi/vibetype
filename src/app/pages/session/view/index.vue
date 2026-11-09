@@ -14,11 +14,11 @@
                     <div class="flex items-center gap-2">
                       <AppIconCheckCircle
                         v-if="isFeatureEnabled(feature).value"
-                        class="text-green-600 dark:text-green-500"
+                        class="text-(--semantic-accent-icon)"
                       />
                       <AppIconXCircle
                         v-else
-                        class="text-(--semantic-critic-text) dark:text-red-500"
+                        class="text-(--semantic-critic-text)"
                       />
                       <span class="font-mono">
                         {{ feature }}
@@ -133,12 +133,9 @@
                 <AppIconQuestionMarkCircle v-if="isApp === undefined" />
                 <AppIconCheckCircle
                   v-else-if="isApp"
-                  class="text-green-600 dark:text-green-500"
+                  class="text-(--semantic-accent-icon)"
                 />
-                <AppIconXCircle
-                  v-else
-                  class="text-(--semantic-critic-text) dark:text-red-500"
-                />
+                <AppIconXCircle v-else class="text-(--semantic-critic-text)" />
                 <span>
                   {{ t('appIs') }}
                 </span>
@@ -163,12 +160,9 @@
                 />
                 <AppIconCheckCircle
                   v-else-if="isNavigatorHavingPermissions"
-                  class="text-green-600 dark:text-green-500"
+                  class="text-(--semantic-accent-icon)"
                 />
-                <AppIconXCircle
-                  v-else
-                  class="text-(--semantic-critic-text) dark:text-red-500"
-                />
+                <AppIconXCircle v-else class="text-(--semantic-critic-text)" />
                 <span>
                   {{ t('hasNavigatorPermissions') }}
                 </span>
@@ -179,12 +173,9 @@
                 />
                 <AppIconCheckCircle
                   v-else-if="isNavigatorHavingServiceWorker"
-                  class="text-green-600 dark:text-green-500"
+                  class="text-(--semantic-accent-icon)"
                 />
-                <AppIconXCircle
-                  v-else
-                  class="text-(--semantic-critic-text) dark:text-red-500"
-                />
+                <AppIconXCircle v-else class="text-(--semantic-critic-text)" />
                 <span>
                   {{ t('hasNavigatorServiceWorkers') }}
                 </span>
@@ -195,12 +186,9 @@
                 />
                 <AppIconCheckCircle
                   v-else-if="isWindowHavingNotification"
-                  class="text-green-600 dark:text-green-500"
+                  class="text-(--semantic-accent-icon)"
                 />
-                <AppIconXCircle
-                  v-else
-                  class="text-(--semantic-critic-text) dark:text-red-500"
-                />
+                <AppIconXCircle v-else class="text-(--semantic-critic-text)" />
                 <span>
                   {{ t('hasWindowNotification') }}
                 </span>
@@ -211,12 +199,9 @@
                 />
                 <AppIconCheckCircle
                   v-else-if="isIosHavingPushCapability"
-                  class="text-green-600 dark:text-green-500"
+                  class="text-(--semantic-accent-icon)"
                 />
-                <AppIconXCircle
-                  v-else
-                  class="text-(--semantic-critic-text) dark:text-red-500"
-                />
+                <AppIconXCircle v-else class="text-(--semantic-critic-text)" />
                 <span>
                   {{ t('hasIosPushCapability') }}
                 </span>
@@ -227,17 +212,17 @@
                 />
                 <AppIconCheckCircle
                   v-else-if="permissionState === 'granted'"
-                  class="text-green-600 dark:text-green-500"
+                  class="text-(--semantic-accent-icon)"
                 />
                 <AppIconQuestionMarkCircle
                   v-else-if="permissionState === 'prompt'"
-                  class="text-blue-600 dark:text-blue-400"
+                  class="text-(--semantic-info-text)"
                 />
                 <AppIconXCircle
                   v-else-if="permissionState === 'denied'"
-                  class="text-(--semantic-critic-text) dark:text-red-500"
+                  class="text-(--semantic-critic-text)"
                 />
-                <AppIconBugAnt v-else class="text-red-500" />
+                <AppIconBugAnt v-else class="text-(--semantic-critic-text)" />
                 <span>
                   {{ t('notificationPermitted') }}
                 </span>
@@ -290,11 +275,11 @@
                 <ClientOnly>
                   <AppIconCheckCircle
                     v-if="$urqlCache"
-                    class="text-green-600 dark:text-green-500"
+                    class="text-(--semantic-accent-icon)"
                   />
                   <AppIconXCircle
                     v-else
-                    class="text-(--semantic-critic-text) dark:text-red-500"
+                    class="text-(--semantic-critic-text)"
                   />
                   <template #fallback>
                     <AppIconQuestionMarkCircle />
@@ -344,7 +329,7 @@ defineRouteRules({
   robots: false,
 })
 
-const { $urqlCache } = useNuxtApp()
+const { $urqlCache, $urqlReset } = useNuxtApp()
 const { t } = useI18n()
 const requestEvent = useRequestEvent()
 const store = useStore()
@@ -371,7 +356,8 @@ const apiClientCacheClear = async () => {
     return
   }
 
-  toast.promise($urqlCache.clear(), {
+  // Resetting rebuilds the clients on a fresh in-memory store, whereas clearing the storage alone would leave the running offline exchange serving and re-persisting the entities it still holds.
+  toast.promise($urqlReset(), {
     error: () => t('apiClientCacheClearError'),
     success: () => t('apiClientCacheClearSuccess'),
   })

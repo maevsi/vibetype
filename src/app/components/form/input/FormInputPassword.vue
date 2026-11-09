@@ -3,9 +3,12 @@
     <Input
       :id
       :aria-invalid="ariaInvalid"
+      :autocomplete
       :class="[
         inputClass,
-        ariaInvalid ? 'border-red-500 bg-red-50 dark:bg-red-950' : '',
+        ariaInvalid
+          ? 'border-(--semantic-error-strong) bg-(--semantic-critic-weak)'
+          : '',
       ]"
       :model-value="modelValue"
       :placeholder
@@ -29,6 +32,7 @@ import type { HTMLAttributes } from 'vue'
 
 defineProps<{
   ariaInvalid?: boolean
+  autocomplete: 'current-password' | 'new-password'
   id?: string
   inputClass?: HTMLAttributes['class']
   modelValue?: string

@@ -22,7 +22,7 @@
         {{ t('instructionsSuccessHeading') }}
       </h2>
       <p
-        class="mt-2 text-[15px] leading-5 font-semibold text-gray-500 dark:text-gray-400"
+        class="mt-2 text-[15px] leading-5 font-semibold text-(--semantic-base-text-secondary)"
       >
         {{ t('instructionsSuccessDescription') }}
       </p>
@@ -36,34 +36,36 @@
     </FormAuthStepSuccess>
     <FormAuthStepError :error="error" :is-active="step === 'error'">
       <div
-        class="mb-6 flex size-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30"
+        class="mb-6 flex size-16 items-center justify-center rounded-full bg-(--semantic-critic-weak)"
       >
         <IHeroiconsExclamationCircle
-          class="size-8 text-red-600 dark:text-red-400"
+          class="size-8 text-(--semantic-critic-text)"
         />
       </div>
       <h2
-        class="mb-2 text-[28px] leading-8.5 font-bold tracking-tight text-gray-900 dark:text-white"
+        class="mb-2 text-[28px] leading-8.5 font-bold tracking-tight text-(--semantic-base-text-primary)"
       >
         {{ t('errorHeading') }}
       </h2>
       <p
-        class="mb-6 text-[15px] leading-5 font-semibold tracking-tight text-gray-500 dark:text-gray-400"
+        class="mb-6 text-[15px] leading-5 font-semibold tracking-tight text-(--semantic-base-text-secondary)"
       >
         {{ t('errorDescription') }}
       </p>
       <div
         v-if="error?.message"
-        class="mb-6 rounded-2xl bg-gray-100 p-4 dark:bg-gray-800"
+        class="mb-6 rounded-2xl bg-(--semantic-base-surface-1) p-4"
       >
-        <p class="mb-2 text-[15px] font-semibold text-gray-900 dark:text-white">
+        <p
+          class="mb-2 text-[15px] font-semibold text-(--semantic-base-text-primary)"
+        >
           {{ t('errorMessageLabel') }}
         </p>
-        <p class="mb-3 text-sm text-gray-600 dark:text-gray-400">
+        <p class="mb-3 text-sm text-(--semantic-base-text-secondary)">
           {{ error.message }}
         </p>
         <button
-          class="text-sm font-medium text-gray-900 underline dark:text-white"
+          class="text-sm font-medium text-(--semantic-base-text-primary) underline"
           type="button"
           @click="copyErrorToClipboard"
         >
@@ -163,7 +165,7 @@ de:
   instructionsSuccessHeading: Passwort erfolgreich zurückgesetzt
   returnBack: Zurück
   signIn: Einloggen
-  subtitle: Mindestens 12 Zeichen mit mindestens 1 Großbuchstaben und 1 Sonderzeichen.
+  subtitle: Mindestens 8 Zeichen, die nicht leicht zu erraten sind.
   title: Neues Passwort festlegen
   tryAgain: Erneut versuchen
 en:
@@ -177,7 +179,7 @@ en:
   instructionsSuccessHeading: Password reset successful
   returnBack: Return back
   signIn: Log in
-  subtitle: Minimum 12 characters with at least 1 uppercase letter and 1 special character.
+  subtitle: At least 8 characters that aren't easy to guess.
   title: Set your new password
   tryAgain: Try again
 </i18n>

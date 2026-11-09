@@ -134,7 +134,6 @@ const createAccountBlockMutation = useMutation(
     }
   `),
 )
-// TODO: show error details
 const blockUser = async () => {
   const result = await createAccountBlockMutation.executeMutation({
     input: {

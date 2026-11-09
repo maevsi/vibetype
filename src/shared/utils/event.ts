@@ -30,6 +30,7 @@ export const EventItem = graphql(`
       nodes {
         categoryId
         eventCategoryByCategoryId {
+          id
           name
         }
         id
@@ -38,6 +39,7 @@ export const EventItem = graphql(`
     eventFormatMappingsByEventId {
       nodes {
         eventFormatByFormatId {
+          id
           name
         }
         formatId

@@ -8,8 +8,11 @@ import { scriptsConfig } from './scripts'
 import { securityConfig } from './security'
 
 import { SITE_NAME } from '../../node/static'
+import { HTML_VALIDATE_CONFIG } from '../htmlValidate'
 
 export const modulesConfig: ReturnType<DefineNuxtConfig> = {
+  // the site exposes personal data (e.g. account profiles) that must not be served to AI crawlers
+  aiReady: false,
   content: {
     experimental: {
       sqliteConnector: 'native',
@@ -32,23 +35,37 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
     npm: {
       remote: false,
     },
+    providers: {
+      // Only the local `npm` and `local` providers are used (Raleway ships via
+      // `@fontsource-variable/raleway`), so disable the remaining default
+      // providers. Each of them fetches font metadata from a remote CDN during
+      // the build, which makes the build depend on external network
+      // availability and fail when a CDN is unreachable (e.g. fonts.google.com)
+      adobe: false,
+      bunny: false,
+      fontshare: false,
+      fontsource: false,
+      google: false,
+      googleicons: false,
+    },
   },
   htmlValidator: {
     failOnError: true,
     logLevel: 'warning',
-    options: {
-      rules: {
-        // combobox-style widgets (e.g. `Select`) correctly point `aria-controls`
-        // at a popup that only exists in the DOM once opened, which this rule
-        // can't distinguish from an actually broken reference
-        'no-missing-references': 'off',
-      },
-    },
+    options: HTML_VALIDATE_CONFIG,
   },
   ...i18nConfig,
   ...pwaConfig,
   linkChecker: {
     failOnError: true,
+  },
+  nuxtEmailRenderer: {
+    codeHighlighting: false,
+  },
+  ogImage: {
+    // X reads the image from the Open Graph tags, so mirroring them into
+    // `twitter:image` tags only grows every page's head
+    includeTwitter: false,
   },
   ...scriptsConfig,
   ...securityConfig,
@@ -86,6 +103,16 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
       ],
     }),
     reactive: false, // for a strict trusted type policy the script may not change and it must be inlined / cannot be linked (https://github.com/harlan-zw/nuxt-schema-org/issues/96)
+  },
+  site: {
+    // the i18n plugin leaves the name undefined while the current locale's messages are not loaded, which would break the page titles
+    name: 'Vibetype',
+  },
+  // the storage persists across builds because the dockerfile seeds it from the previously released image (see `SKEW_PROTECTION_SOURCE_IMAGE`) and carries it into the next one
+  skewProtection: {
+    // the retained assets are baked into every image, so keep the retention low to bound the image size
+    retentionDays: 7,
+    maxNumberOfVersions: 3,
   },
   sitemap: {
     credits: false,

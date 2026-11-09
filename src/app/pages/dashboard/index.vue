@@ -1,10 +1,18 @@
 <template>
-  <!-- <AppError
-    v-if="recommendationError"
-    :error="{ message: t('recommendationError'), status: 500 }"
-  /> -->
-  <AppLoaderLogo v-if="api.isFetching || eventRecommendationsPending" />
+  <div
+    v-if="
+      api.isFetching ||
+      (authentication.isSignedIn && eventRecommendationsPending)
+    "
+    class="flex flex-1 items-center justify-center"
+  >
+    <AppLoaderLogo class="size-16" />
+  </div>
   <div v-else>
+    <!-- <AppError
+      v-if="recommendationError"
+      :error="{ message: t('recommendationError'), status: 500 }"
+    /> -->
     <LayoutPageTitle :title />
     <LayoutCallToAction
       v-if="!authentication.isSignedIn"
@@ -30,15 +38,12 @@
         <TypographyH3 :id="templateIdRecommendation" class="px-2">
           {{ t('recommendationTitle') }}
         </TypographyH3>
-        <LoaderIndicatorPing v-if="eventRecommendationsPending" />
-        <template v-else>
-          <EventCard
-            v-for="event in eventRecommendations"
-            :key="event.rowId"
-            :event
-            variant="recommendation"
-          />
-        </template>
+        <EventCard
+          v-for="event in eventRecommendations"
+          :key="event.rowId"
+          :event
+          variant="recommendation"
+        />
       </section>
       <ButtonApp />
     </div>
@@ -46,8 +51,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 import { eventHasEnded } from '~~/shared/utils/event'
 
@@ -71,8 +74,10 @@ const eventQuery = graphql(`
       eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
         nodes {
           eventCategoryByCategoryId {
+            id
             name
           }
+          id
         }
       }
       eventFavoritesByEventId(first: 1) {
@@ -85,8 +90,10 @@ const eventQuery = graphql(`
       eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
         nodes {
           eventFormatByFormatId {
+            id
             name
           }
+          id
         }
       }
       guestsByEventId(first: 1) {
@@ -111,31 +118,32 @@ const eventQuery = graphql(`
 const { $urql } = useNuxtApp()
 const requestFetch = useRequestFetch()
 const authentication = useAuthentication()
-const {
-  data: eventRecommendations,
-  // error: recommendationError,
-  pending: eventRecommendationsPending,
-} = await useAsyncData('index-recommendations', async () => {
-  if (!authentication.value.isSignedIn) return []
+const { data: eventRecommendations, pending: eventRecommendationsPending } =
+  useAsyncData(
+    'index-recommendations',
+    async () => {
+      const eventIds = await requestFetch(
+        '/api/service/reccoom/recommendations',
+      )
+      const events = (
+        await Promise.all(
+          eventIds.map(
+            async (recommendation) =>
+              (
+                await $urql.value
+                  .query(eventQuery, {
+                    id: recommendation.event_id,
+                  })
+                  .toPromise()
+              ).data?.eventByRowId,
+          ),
+        )
+      ).filter(isNeitherNullNorUndefined)
 
-  const eventIds = await requestFetch('/api/service/reccoom/recommendations')
-  const events = (
-    await Promise.all(
-      eventIds.map(
-        async (recommendation) =>
-          (
-            await $urql.value
-              .query(eventQuery, {
-                id: recommendation.event_id,
-              })
-              .toPromise()
-          ).data?.eventByRowId,
-      ),
-    )
-  ).filter(isNeitherNullNorUndefined)
-
-  return events
-})
+      return events
+    },
+    { enabled: () => authentication.value.isSignedIn },
+  )
 
 // async data - upcoming
 // TODO: use custom and more precise database function instead of full fetch and client filtering
@@ -152,15 +160,19 @@ const eventUpcomingQuery = graphql(`
         eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventCategoryByCategoryId {
+              id
               name
             }
+            id
           }
         }
         eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventFormatByFormatId {
+              id
               name
             }
+            id
           }
         }
         id
@@ -173,7 +185,7 @@ const eventUpcomingQuery = graphql(`
   }
 `)
 const queryEventUpcoming = authentication.value.isSignedIn
-  ? useQuery({
+  ? useApiQuery({
       query: eventUpcomingQuery,
       variables: {
         createdBy: authentication.value.signedInAccountId,
@@ -209,14 +221,12 @@ const templateIdUpcoming = useId()
 de:
   anonymousCta: Finde ihn auf {siteName}
   anonymousCtaDescription: Dir fehlt der Überblick über Veranstaltungen?
-  # recommendationError: Event-Empfehlungen konnten nicht geladen werden
   recommendationTitle: Das solltest Du nicht verpassen
   title: Dashboard
   upcomingTitle: Dein nächstes Event
 en:
   anonymousCta: Find it on {siteName}
   anonymousCtaDescription: Are you missing an overview of events?
-  # recommendationError: Event recommendations could not be loaded
   recommendationTitle: You Should Not Miss
   title: Dashboard
   upcomingTitle: Your upcoming event

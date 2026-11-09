@@ -1,5 +1,4 @@
 import tailwindcss from '@tailwindcss/vite'
-import vue from '@vitejs/plugin-vue'
 import { createResolver } from 'nuxt/kit'
 import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
@@ -14,7 +13,8 @@ import {
   IS_IN_FRONTEND_DEVELOPMENT,
   IS_NITRO_OPENAPI_ENABLED,
   NUXT_PUBLIC_SENTRY_HOST,
-  NUXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE,
+  NUXT_PUBLIC_SENTRY_LOGS_ENABLE,
+  NUXT_PUBLIC_SENTRY_PROFILE_SESSION_SAMPLE_RATE,
   NUXT_PUBLIC_SENTRY_PROJECT_ID,
   NUXT_PUBLIC_SENTRY_PROJECT_PUBLIC_KEY,
   NUXT_PUBLIC_VIO_ENVIRONMENT,
@@ -28,18 +28,25 @@ import {
 
 const { resolve } = createResolver(import.meta.url)
 
-const typescriptConfig = {
-  compilerOptions: {
-    allowImportingTsExtensions: true,
-  },
-}
-
 export default defineNuxtConfig({
+  app: {
+    // the client only `/offline` shell renders no page head on the server, so this is its title until the client takes over
+    head: {
+      title: 'Vibetype',
+    },
+  },
   compatibilityDate: '2025-07-20',
   css: ['~/assets/css/app.css'],
   experimental: {
+    early404: true,
+    extractSerializablePageMeta: true,
+    inlineErrorRendering: true,
     inlineRouteRules: true,
+    navigateToEarlyReturn: true,
     prefetchPreloadTags: true,
+    prerenderErrorPages: true,
+    routeTypedFetch: true,
+    strictRouteTypes: true,
     typedPages: true,
     typescriptPlugin: true,
     watcher: 'builder',
@@ -60,13 +67,11 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@sentry/nuxt/module',
     '@vite-pwa/nuxt',
+    'nuxt-email-renderer',
     'shadcn-nuxt',
     'nuxt-security',
   ],
   nitro: {
-    typescript: {
-      tsConfig: typescriptConfig,
-    },
     compressPublicAssets: true,
     esbuild: {
       options: {
@@ -77,9 +82,9 @@ export default defineNuxtConfig({
       asyncContext: true,
       openAPI: IS_NITRO_OPENAPI_ENABLED,
     },
-    // @ts-expect-error environment type missing (https://github.com/nitrojs/nitro/issues/4482)
-    rollupConfig: {
-      plugins: [vue()],
+    externals: {
+      // Sentry inlines Redis for its build-time instrumentation, but leaves these dependencies of it external, so the bundle receives a namespace object instead of each one's export (https://github.com/getsentry/sentry-javascript/issues/24775) // TODO: remove once Sentry inlines them alongside `standard-as-callback`
+      inline: ['cluster-key-slot', 'denque'],
     },
   },
   routeRules: {
@@ -98,6 +103,21 @@ export default defineNuxtConfig({
         xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection here (https://github.com/maevsi/vibetype/issues/1603)
       },
     },
+    '/api/internal/service/tusd': {
+      csurf: false, // tusd's http hooks carry no csrf token
+    },
+    '/api/service/firebase/notification': {
+      csurf: false, // called by services, authenticated by secret
+    },
+    '/offline': {
+      robots: false,
+      ssr: false, // a user agnostic client app shell that the service worker serves for navigations when the network fails
+    },
+  },
+  router: {
+    options: {
+      sensitive: true,
+    },
   },
   runtimeConfig: {
     public: {
@@ -110,6 +130,9 @@ export default defineNuxtConfig({
             perSecond: '14',
           },
         },
+        upload: {
+          sizeMax: 10485760, // bytes, set from tusd's `TUSD_MAX_SIZE` in the stack so the client rejects what tusd would
+        },
       },
       gtag: {
         id: GTAG_MEASUREMENT_ID,
@@ -118,12 +141,21 @@ export default defineNuxtConfig({
         baseUrl: SITE_URL,
       },
       sentry: {
+        // the flags mirror the integrations and the client security reporting, so each of them can be turned off without a code change
+        features: {
+          consoleCapture: true,
+          pinia: true,
+          profiling: true,
+          replay: true,
+          securityHeaders: true,
+          userTracking: true,
+        },
         host: NUXT_PUBLIC_SENTRY_HOST,
         logs: {
-          enable: true,
+          enable: NUXT_PUBLIC_SENTRY_LOGS_ENABLE,
         },
-        profiles: {
-          sampleRate: NUXT_PUBLIC_SENTRY_PROFILES_SAMPLE_RATE,
+        profile: {
+          sessionSampleRate: NUXT_PUBLIC_SENTRY_PROFILE_SESSION_SAMPLE_RATE,
         },
         project: {
           id: NUXT_PUBLIC_SENTRY_PROJECT_ID,
@@ -137,9 +169,6 @@ export default defineNuxtConfig({
             sampleRate: 0.0,
           },
         },
-      },
-      security: {
-        isRateLimiterDisabled: true, // TODO: disable once api requests are optimized (https://github.com/maevsi/vibetype/issues/1654)
       },
       vio: {
         auth: {
@@ -177,9 +206,12 @@ export default defineNuxtConfig({
   sourcemap: true,
   tracingChannel: true,
   typescript: {
-    sharedTsConfig: typescriptConfig,
+    appTsConfig: {
+      vueCompilerOptions: {
+        htmlAttributes: [], // https://github.com/johnsoncodehk/volar/issues/1970#issuecomment-1276994634
+      },
+    },
     nodeTsConfig: {
-      ...typescriptConfig,
       include: [
         resolve('./.config'),
         resolve('./config'),
@@ -188,9 +220,8 @@ export default defineNuxtConfig({
       ],
     },
     tsConfig: {
-      ...typescriptConfig,
-      vueCompilerOptions: {
-        htmlAttributes: [], // https://github.com/johnsoncodehk/volar/issues/1970#issuecomment-1276994634
+      compilerOptions: {
+        allowImportingTsExtensions: true,
       },
     },
   },
@@ -219,9 +250,14 @@ export default defineNuxtConfig({
         '@urql/exchange-request-policy',
         '@urql/vue',
         '@vueuse/core',
+        '@zxcvbn-ts/core',
+        '@zxcvbn-ts/language-common',
+        '@zxcvbn-ts/language-de',
+        '@zxcvbn-ts/language-en',
         'chart.js',
         'class-variance-authority',
         'clsx',
+        'comark',
         'css-element-queries',
         'downloadjs',
         'firebase/app',
@@ -232,9 +268,9 @@ export default defineNuxtConfig({
         'jose',
         'js-confetti',
         'leaflet',
-        'leaflet-control-geocoder',
+        'leaflet-geosearch',
+        'libphonenumber-js/min',
         'lodash-es',
-        'mustache',
         'pretty-bytes',
         'prntr',
         'qrcode.vue',
@@ -250,7 +286,10 @@ export default defineNuxtConfig({
         'vue-chartjs',
         'vue-qrcode-reader',
         'vue-sonner',
+        'workbox-navigation-preload',
         'workbox-precaching',
+        'workbox-routing',
+        'workbox-strategies',
         'zod',
         'zod/locales',
       ],

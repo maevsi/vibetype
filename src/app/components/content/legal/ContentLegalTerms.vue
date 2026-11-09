@@ -1,5 +1,7 @@
 <template>
-  <LoaderIndicatorPing v-if="pending" />
+  <div v-if="pending" class="flex flex-1 items-center justify-center">
+    <AppLoaderLogo class="size-16" />
+  </div>
   <LayoutProse v-else-if="data?.ast">
     <MarkdownDocument :value="data.ast" />
   </LayoutProse>
@@ -7,8 +9,6 @@
 
 <script setup lang="ts">
 import { parseMarkdown } from 'comark'
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 
 // compiler
@@ -31,36 +31,37 @@ const allLegalTermsQuery = graphql(`
     }
   }
 `)
-const legalTermsQuery = useQuery({
+const legalTermsQuery = useApiQuery({
   query: allLegalTermsQuery,
   variables: {
     language: locale.value,
   },
 })
 
-const { data, error, pending } = await useAsyncData(
-  'content-legal-terms',
-  async () => {
-    const legalTermsQueryResolved = await legalTermsQuery
+const {
+  data,
+  error: loadError,
+  pending,
+} = useAsyncData('content-legal-terms', async () => {
+  const legalTermsQueryResolved = await legalTermsQuery
 
-    if (legalTermsQueryResolved.error.value) {
-      throw legalTermsQueryResolved.error.value
-    }
+  if (legalTermsQueryResolved.error.value) {
+    throw legalTermsQueryResolved.error.value
+  }
 
-    const legalTermFirst =
-      legalTermsQueryResolved.data.value?.allLegalTerms?.nodes[0]
+  const legalTermFirst =
+    legalTermsQueryResolved.data.value?.allLegalTerms?.nodes[0]
 
-    if (!legalTermFirst) throw new Error('No legal terms available')
+  if (!legalTermFirst) throw new Error('No legal terms available')
 
-    return {
-      ast: await parseMarkdown(legalTermFirst.term.replace(/\r\n|\r/g, '\n')),
-      legalTerm: legalTermFirst,
-    }
-  },
-)
+  return {
+    ast: await parseMarkdown(legalTermFirst.term.replace(/\r\n|\r/g, '\n')),
+    legalTerm: legalTermFirst,
+  }
+})
 
 watch(
-  error,
+  loadError,
   (current) => {
     modelError.value = current ?? undefined
   },

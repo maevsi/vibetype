@@ -76,8 +76,10 @@ Zu diesen Funktionen gehört insbesondere:
   Grundsätzlich nicht für jedermann, sondern sofern die Person ein Ticket dafür erwirbt.
   Die Teilnahme an öffentlichen Veranstaltungen ist grundsätzlich für jedermann möglich.
 - **Öffentliche Veranstaltungen teilen**: Registrierte Nutzer können von ihnen erstellte öffentliche Veranstaltungen mit anderen Nutzern teilen, d. h. die Veranstaltung wird dadurch auf der Plattform öffentlich angekündigt und für alle Nutzer sichtbar bzw. auffindbar.
-- **Nutzer zu einer privaten Veranstaltung einladen**: Registrierte Nutzer können zu von ihnen erstellten privaten Veranstaltungen mit der sog. Einladefunktion andere Nutzer zur Teilnahme an der Veranstaltung einladen.
+- **Personen zu einer privaten Veranstaltung einladen**: Registrierte Nutzer können zu von ihnen erstellten privaten Veranstaltungen mit der sog. Einladefunktion und einem von ihnen auf der Plattform geführten Adressbuch andere Personen zur Teilnahme an der Veranstaltung einladen.
+  Eine eingeladene Person muss dazu kein registrierter Nutzer sein; sie kann über einen persönlichen Link auf die Einladung zugreifen und diese annehmen oder ablehnen, ohne ein Nutzerkonto zu erstellen.
   Bei privaten Veranstaltungen ist die Einladung Voraussetzung für den Erwerb eines Tickets für die betreffende Veranstaltung.
+  Registrierte Nutzer, die zu diesem Zweck einen Kontakt in ihrem Adressbuch anlegen, sind dafür verantwortlich, über die hierfür erforderlichen Rechte oder Einwilligungen zu verfügen; Einzelheiten ergeben sich aus § 4 und § 8 dieser Nutzungsbedingungen.
 - **Veranstaltungen suchen**: Der registrierte Nutzer hat die Möglichkeit, die von anderen Nutzern geteilten Veranstaltungen zu durchsuchen und deren Beschreibung etc. einzusehen.
 - **Anbieten von Tickets für Veranstaltungen**: Registrierte Nutzer können bezüglich der von ihnen erstellten Veranstaltungen Tickets anbieten.
   Die Tickets können entgeltlich oder unentgeltlich angeboten werden.
@@ -203,6 +205,8 @@ Darüber hinaus verpflichtet sich der Nutzer, der Plattform alle Kosten zu erset
 Zu den erstattungsfähigen Kosten zählen auch die Kosten einer angemessenen Rechtsverteidigung.
 
 (3) Der Nutzer ist verpflichtet, die Plattform bei einer Inanspruchnahme der Plattform wegen angeblicher Verletzungen von Rechten durch Dritte zu unterstützen und Dokumente und Nachweise über seine Rechteinhaberschaft bzw. seinen Rechteerwerb vorzulegen sowie erforderliche Erklärungen dazu abzugeben.
+
+(4) Soweit der Nutzer personenbezogene Daten anderer Personen auf der Plattform speichert (z. B. im Rahmen der in § 3 beschriebenen Kontakt- und Einladefunktionen), garantiert der Nutzer, dass er über alle nach dem anwendbaren Datenschutzrecht, insbesondere der DSGVO, erforderlichen Rechte, Rechtsgrundlagen oder Einwilligungen verfügt, um diese Daten der Plattform mitzuteilen. Die Absätze (2) und (3) gelten für eine Verletzung dieser Garantie entsprechend.
 
 **§ 9 Haftung und Haftungsbeschränkung**
 

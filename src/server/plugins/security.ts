@@ -44,14 +44,5 @@ export default defineNitroPlugin((nitroApp) => {
         routeRules['/**'],
       ),
     )
-
-    if (runtimeConfig.public.security.isRateLimiterDisabled) {
-      routeRules['/**'] = defu(
-        {
-          rateLimiter: false,
-        },
-        routeRules['/**'],
-      )
-    }
   })
 })
