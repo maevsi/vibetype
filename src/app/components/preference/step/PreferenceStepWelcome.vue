@@ -7,9 +7,7 @@
       <TypographyBodyMedium>
         {{ t('description1') }}
       </TypographyBodyMedium>
-      <TypographyBodyMedium
-        class="text-center text-(--semantic-base-text-secondary)"
-      >
+      <TypographyBodyMedium class="text-center text-fg-2">
         {{ t('description2') }}
       </TypographyBodyMedium>
     </div>

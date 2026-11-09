@@ -9,9 +9,7 @@
       <ContactPreview :contact :feedback="guest.feedback" />
     </LayoutTd>
     <LayoutTd class="max-w-0">
-      <div
-        class="flex items-center justify-evenly gap-4 text-(--semantic-base-text-primary)"
-      >
+      <div class="flex items-center justify-evenly gap-4 text-fg-1">
         <ButtonIcon
           :aria-label="
             contact.accountId || contact.emailAddress

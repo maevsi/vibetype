@@ -75,11 +75,11 @@
               <div />
               <div class="flex items-center gap-2">
                 <EventShareButton
-                  class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
                   :event
                 />
                 <EventFavoriteButton
-                  class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
                   :event
                 />
                 <template
@@ -97,7 +97,7 @@
                     </AppDropdownItem>
                     <template #trigger>
                       <span
-                        class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                        class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
                       >
                         <AppIconMoreVertical />
                       </span>

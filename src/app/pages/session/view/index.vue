@@ -14,12 +14,9 @@
                     <div class="flex items-center gap-2">
                       <AppIconCheckCircle
                         v-if="isFeatureEnabled(feature).value"
-                        class="text-(--semantic-accent-icon)"
+                        class="text-link"
                       />
-                      <AppIconXCircle
-                        v-else
-                        class="text-(--semantic-critic-text)"
-                      />
+                      <AppIconXCircle v-else class="text-error" />
                       <span class="font-mono">
                         {{ feature }}
                       </span>
@@ -131,11 +128,8 @@
             <Card class="flex flex-col gap-1">
               <div class="flex gap-2">
                 <AppIconQuestionMarkCircle v-if="isApp === undefined" />
-                <AppIconCheckCircle
-                  v-else-if="isApp"
-                  class="text-(--semantic-accent-icon)"
-                />
-                <AppIconXCircle v-else class="text-(--semantic-critic-text)" />
+                <AppIconCheckCircle v-else-if="isApp" class="text-link" />
+                <AppIconXCircle v-else class="text-error" />
                 <span>
                   {{ t('appIs') }}
                 </span>
@@ -160,9 +154,9 @@
                 />
                 <AppIconCheckCircle
                   v-else-if="isNavigatorHavingPermissions"
-                  class="text-(--semantic-accent-icon)"
+                  class="text-link"
                 />
-                <AppIconXCircle v-else class="text-(--semantic-critic-text)" />
+                <AppIconXCircle v-else class="text-error" />
                 <span>
                   {{ t('hasNavigatorPermissions') }}
                 </span>
@@ -173,9 +167,9 @@
                 />
                 <AppIconCheckCircle
                   v-else-if="isNavigatorHavingServiceWorker"
-                  class="text-(--semantic-accent-icon)"
+                  class="text-link"
                 />
-                <AppIconXCircle v-else class="text-(--semantic-critic-text)" />
+                <AppIconXCircle v-else class="text-error" />
                 <span>
                   {{ t('hasNavigatorServiceWorkers') }}
                 </span>
@@ -186,9 +180,9 @@
                 />
                 <AppIconCheckCircle
                   v-else-if="isWindowHavingNotification"
-                  class="text-(--semantic-accent-icon)"
+                  class="text-link"
                 />
-                <AppIconXCircle v-else class="text-(--semantic-critic-text)" />
+                <AppIconXCircle v-else class="text-error" />
                 <span>
                   {{ t('hasWindowNotification') }}
                 </span>
@@ -199,9 +193,9 @@
                 />
                 <AppIconCheckCircle
                   v-else-if="isIosHavingPushCapability"
-                  class="text-(--semantic-accent-icon)"
+                  class="text-link"
                 />
-                <AppIconXCircle v-else class="text-(--semantic-critic-text)" />
+                <AppIconXCircle v-else class="text-error" />
                 <span>
                   {{ t('hasIosPushCapability') }}
                 </span>
@@ -212,17 +206,17 @@
                 />
                 <AppIconCheckCircle
                   v-else-if="permissionState === 'granted'"
-                  class="text-(--semantic-accent-icon)"
+                  class="text-link"
                 />
                 <AppIconQuestionMarkCircle
                   v-else-if="permissionState === 'prompt'"
-                  class="text-(--semantic-info-text)"
+                  class="text-info"
                 />
                 <AppIconXCircle
                   v-else-if="permissionState === 'denied'"
-                  class="text-(--semantic-critic-text)"
+                  class="text-error"
                 />
-                <AppIconBugAnt v-else class="text-(--semantic-critic-text)" />
+                <AppIconBugAnt v-else class="text-error" />
                 <span>
                   {{ t('notificationPermitted') }}
                 </span>
@@ -273,14 +267,8 @@
             <Card class="flex flex-col gap-1">
               <div class="flex gap-2">
                 <ClientOnly>
-                  <AppIconCheckCircle
-                    v-if="$urqlCache"
-                    class="text-(--semantic-accent-icon)"
-                  />
-                  <AppIconXCircle
-                    v-else
-                    class="text-(--semantic-critic-text)"
-                  />
+                  <AppIconCheckCircle v-if="$urqlCache" class="text-link" />
+                  <AppIconXCircle v-else class="text-error" />
                   <template #fallback>
                     <AppIconQuestionMarkCircle />
                   </template>

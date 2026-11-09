@@ -1,6 +1,9 @@
 <template>
   <AppIcon v-slot="attributes">
-    <IVibetypeStateWarning v-bind="attributes" :aria-label="t('ariaLabel')" />
+    <IHeroiconsExclamationTriangle
+      v-bind="attributes"
+      :aria-label="t('ariaLabel')"
+    />
   </AppIcon>
 </template>
 

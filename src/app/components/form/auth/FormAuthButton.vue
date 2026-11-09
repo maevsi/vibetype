@@ -5,8 +5,8 @@
       cn(
         'flex items-center justify-center gap-2 rounded-2xl text-[17px] font-semibold transition-all focus:outline-none',
         variant === 'primary'
-          ? 'h-13 w-full bg-(--accent-strong) text-(--semantic-base-primary-button-text) hover:bg-(--accent-strong-hover)'
-          : 'h-13 w-full bg-(--semantic-base-surface-1) text-(--semantic-base-text-primary) hover:bg-(--semantic-base-line)',
+          ? 'h-13 w-full bg-action-primary text-on-action-primary hover:bg-action-primary-hover'
+          : 'h-13 w-full bg-surface-raised text-fg-1 hover:bg-line',
         { 'cursor-not-allowed opacity-50': disabled || loading },
       )
     "

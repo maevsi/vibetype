@@ -14,9 +14,17 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
+  * {
+    font-variant-numeric: lining-nums proportional-nums;
+  }
+
+  body {
+    @apply text-body;
+  }
+
   :disabled {
     /* cursor-not-allowed */
-    @apply pointer-events-none opacity-75;
+    @apply pointer-events-none opacity-40;
   }
 
   a,
@@ -44,19 +52,19 @@
   }
 
   h1 {
-    @apply heading my-4 text-4xl;
+    @apply heading text-heading-large my-4;
   }
 
   h2 {
-    @apply heading text-3xl;
+    @apply heading text-heading-large;
   }
 
   h3 {
-    @apply heading text-2xl;
+    @apply heading text-heading-medium;
   }
 
   h4 {
-    @apply heading text-xl;
+    @apply heading text-title3;
   }
 
   image::before {
@@ -66,15 +74,15 @@
 
 @utility disabled {
   /* cursor-not-allowed */
-  @apply pointer-events-none opacity-75;
+  @apply pointer-events-none opacity-40;
 }
 
 @utility focus-ring {
-  @apply ring-3 ring-current/50 outline-none;
+  @apply outline-link outline-3 outline-offset-2;
 }
 
 @utility heading {
-  @apply max-w-full overflow-hidden font-bold text-ellipsis;
+  @apply max-w-full overflow-hidden text-ellipsis;
 }
 
 @utility truncate-overflow {

@@ -7,16 +7,11 @@
   >
     <AppIconFavoriteFilled
       v-if="isFavorite"
-      :class="cn('text-(--complement-strong)', iconClass)"
+      :class="cn('text-accent-pink', iconClass)"
     />
     <AppIconFavorite
       v-else
-      :class="
-        cn(
-          'text-(--semantic-base-dark-text-on-light)' /*'text-(--semantic-base-icon-primary)'*/,
-          iconClass,
-        )
-      "
+      :class="cn('text-fg-1' /*'text-fg-2'*/, iconClass)"
     />
   </AppButton>
 </template>

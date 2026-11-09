@@ -1,6 +1,6 @@
 <template>
   <div
-    class="sticky top-0 z-10 flex h-15 items-center border-b border-(--semantic-base-line) bg-(--semantic-base-background) px-3 py-1.5 shadow-xs"
+    class="sticky top-0 z-10 flex h-15 items-center border-b border-line bg-surface px-3 py-1.5 shadow-xs"
   >
     <div class="flex p-3">
       <slot v-if="$slots.back" name="back" />

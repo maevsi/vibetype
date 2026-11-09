@@ -5,16 +5,16 @@
     type="button"
   >
     <span
-      class="flex size-24 items-center justify-center rounded-full border-(--accent-strong) bg-(--semantic-base-surface-1) group-aria-pressed:border-2"
+      class="flex size-24 items-center justify-center rounded-full border-action-primary bg-surface-raised group-aria-pressed:border-2"
     >
       <slot>
-        <AppIconImage class="size-12 text-(--semantic-base-line)" />
+        <AppIconImage class="size-12 text-line" />
       </slot>
     </span>
     <TypographyLabel v-slot="attributes">
       <span
         v-bind="attributes"
-        class="block w-24 truncate group-aria-pressed:text-(--semantic-accent-text)"
+        class="block w-24 truncate group-aria-pressed:text-link"
       >
         {{ name }}
       </span>

@@ -20,8 +20,7 @@ export const useAppLayout = () => {
     // style
     useHeadSafe({
       bodyAttrs: {
-        class:
-          'bg-(--semantic-base-background) text-(--semantic-base-text-primary) max-lg:select-none',
+        class: 'bg-surface text-fg-1 max-lg:select-none',
       },
     })
 

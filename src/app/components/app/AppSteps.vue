@@ -6,10 +6,9 @@
       class="flex items-center gap-2"
     >
       <div
-        class="flex size-8 items-center justify-center rounded-full border border-(--semantic-base-text-primary) font-bold"
+        class="flex size-8 items-center justify-center rounded-full border border-fg-1 font-bold"
         :class="{
-          'bg-(--semantic-base-text-primary) text-(--semantic-base-background)':
-            step === active,
+          'bg-fg-1 text-surface': step === active,
         }"
       >
         {{ index + 1 }}

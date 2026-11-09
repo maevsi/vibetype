@@ -16,7 +16,7 @@ const { part, value = undefined } = defineProps<{
         'rounded-sm p-0.5 text-center tabular-nums outline-none',
         'focus:bg-accent focus:text-accent-foreground',
         'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
-        part === 'literal' ? 'text-muted-foreground px-0' : 'min-w-6',
+        part === 'literal' ? 'px-0 text-muted-foreground' : 'min-w-6',
       )
     "
     data-slot="time-field-input"

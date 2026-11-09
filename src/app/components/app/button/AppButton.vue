@@ -99,7 +99,7 @@ const classComputed = computed(() =>
   [
     'overflow-hidden',
     ...(isBlock ? ['block'] : ['inline-flex items-center gap-2']),
-    ...(isLinkColored ? ['text-(--semantic-accent-text)'] : []),
+    ...(isLinkColored ? ['text-link'] : []),
   ].join(' '),
 )
 </script>

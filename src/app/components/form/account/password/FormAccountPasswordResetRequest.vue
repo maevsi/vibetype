@@ -16,19 +16,17 @@
           <IHeroiconsEnvelope />
         </template>
       </FormAuthInput>
-      <p v-if="emailError" class="mt-1 text-sm text-(--semantic-critic-text)">
+      <p v-if="emailError" class="mt-1 text-sm text-error">
         {{ emailError }}
       </p>
     </form.Field>
     <FormAuthButton :aria-label="t('send')" class="mt-4" type="submit">
       {{ t('send') }}
     </FormAuthButton>
-    <p
-      class="mt-6 text-center text-[15px] text-(--semantic-base-text-secondary)"
-    >
+    <p class="mt-6 text-center text-[15px] text-fg-2">
       {{ t('rememberPassword') }}
       <NuxtLinkLocale
-        class="font-semibold text-(--semantic-accent-text)"
+        class="font-semibold text-link underline"
         to="session-create"
       >
         {{ t('signIn') }}

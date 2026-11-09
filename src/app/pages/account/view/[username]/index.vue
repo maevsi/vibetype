@@ -39,7 +39,7 @@
                 </AppDropdownItem>
                 <template #trigger>
                   <span
-                    class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                    class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
                   >
                     <AppIconMoreVertical />
                   </span>
@@ -55,7 +55,7 @@
           </template>
         </div>
         <div
-          class="flex items-center gap-3 rounded-xl border border-(--semantic-base-line) bg-(--semantic-base-surface-1) p-3 dark:border-none"
+          class="flex items-center gap-3 rounded-xl border border-line bg-surface-raised p-3 dark:border-none"
         >
           <!-- TODO: pass in data to make subcomponent api requests unnecessary -->
           <AccountProfilePicture
@@ -90,19 +90,19 @@
             <div class="isolate flex -space-x-2 overflow-hidden p-1">
               <AccountProfilePicture
                 account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                class="rounded-full ring-3 ring-(--semantic-base-surface-1)"
+                class="rounded-full ring-3 ring-surface-raised"
                 height="64"
                 width="64"
               />
               <AccountProfilePicture
                 account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                class="rounded-full ring-3 ring-(--semantic-base-surface-1)"
+                class="rounded-full ring-3 ring-surface-raised"
                 height="64"
                 width="64"
               />
               <AccountProfilePicture
                 account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                class="rounded-full ring-3 ring-(--semantic-base-surface-1)"
+                class="rounded-full ring-3 ring-surface-raised"
                 height="64"
                 width="64"
               />
@@ -191,14 +191,14 @@
             {{ t('achievements') }}
           </TypographyH3>
           <div
-            class="flex justify-between rounded-xl border border-(--semantic-base-line) bg-(--semantic-base-surface-1) px-6 py-2"
+            class="flex justify-between rounded-xl border border-line bg-surface-raised px-6 py-2"
           >
             <div
               v-if="hasMeetTheTeamAchievement"
               class="flex gap-2 text-center"
             >
               <div class="flex flex-1 flex-col items-center gap-2 py-2">
-                <AppIconHandshake class="text-(--semantic-base-icon-primary)" />
+                <AppIconHandshake class="text-fg-2" />
                 <TypographyLabelBold>
                   {{ t('achievementMeetTheTeam') }}
                 </TypographyLabelBold>

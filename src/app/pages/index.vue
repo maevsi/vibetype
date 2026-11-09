@@ -44,7 +44,7 @@
       >
         <!-- Logo -->
         <div
-          class="mb-6 flex size-20 items-center justify-center rounded-3xl bg-(--semantic-base-surface-1)"
+          class="mb-6 flex size-20 items-center justify-center rounded-3xl bg-surface-raised"
         >
           <IconLogo v-if="dateToday.month !== 6" class="size-12" />
           <IconLogoPride v-else class="size-12" />
@@ -56,7 +56,7 @@
         </h1>
         <p
           aria-hidden="true"
-          class="mb-2 text-center text-[15px] leading-5 font-semibold tracking-[-0.4px] text-(--semantic-base-text-secondary)"
+          class="mb-2 text-center text-[15px] leading-5 font-semibold tracking-[-0.4px] text-fg-2"
         >
           {{ t('welcome') }}
         </p>
@@ -64,12 +64,10 @@
 
         <!-- Tagline -->
         <p
-          class="mb-8 text-center text-[15px] leading-5 font-semibold tracking-[-0.4px] text-(--semantic-base-text-secondary)"
+          class="mb-8 text-center text-[15px] leading-5 font-semibold tracking-[-0.4px] text-fg-2"
         >
           {{ t('taglinePre') }}
-          <span class="text-(--semantic-accent-text) line-through">{{
-            t('taglineFomo')
-          }}</span>
+          <span class="text-link line-through">{{ t('taglineFomo') }}</span>
           {{ t('taglinePost') }}
         </p>
 
@@ -85,7 +83,7 @@
 
           <ButtonColored
             :aria-label="t('signIn')"
-            class="h-13! w-full rounded-2xl! bg-(--semantic-base-surface-1)! text-[17px]! font-semibold! text-(--semantic-base-text-primary)! no-underline!"
+            class="h-13! w-full rounded-2xl! bg-surface-raised! text-[17px]! font-semibold! text-fg-1! no-underline!"
             :to="$localePath('session-create')"
             variant="tertiary"
           >
@@ -96,26 +94,22 @@
         <!-- Social login (behind feature flag) -->
         <AppFeature class="w-full" feature="social-login">
           <div class="my-6 flex w-full items-center">
-            <div class="h-px flex-1 bg-(--semantic-base-line)" />
-            <span class="px-4 text-sm text-(--semantic-base-text-secondary)">{{
-              t('or')
-            }}</span>
-            <div class="h-px flex-1 bg-(--semantic-base-line)" />
+            <div class="h-px flex-1 bg-line" />
+            <span class="px-4 text-sm text-fg-2">{{ t('or') }}</span>
+            <div class="h-px flex-1 bg-line" />
           </div>
 
           <div class="grid w-full grid-cols-2 gap-3">
             <button
               :aria-label="t('signInApple')"
-              class="flex h-13 items-center justify-center rounded-2xl bg-(--semantic-base-surface-1)"
+              class="flex h-13 items-center justify-center rounded-2xl bg-surface-raised"
               type="button"
             >
-              <IFa6BrandsApple
-                class="size-6 text-(--semantic-base-text-primary)"
-              />
+              <IFa6BrandsApple class="size-6 text-fg-1" />
             </button>
             <button
               :aria-label="t('signInGoogle')"
-              class="flex h-13 items-center justify-center rounded-2xl bg-(--semantic-base-surface-1)"
+              class="flex h-13 items-center justify-center rounded-2xl bg-surface-raised"
               type="button"
             >
               <IFa6BrandsGoogle class="size-6" />
@@ -134,21 +128,21 @@
         >
           {{ t('more') }}
         </ButtonColored>
-        <p class="text-center text-xs text-(--semantic-base-text-secondary)">
+        <p class="text-center text-xs text-fg-2">
           {{ t('legalPre') }}
           <NuxtLinkLocale
-            class="font-semibold text-(--semantic-accent-text)"
+            class="font-semibold text-link underline"
             to="docs-legal-terms"
             >{{ t('terms') }}</NuxtLinkLocale
           >{{ t('legalComma') }}
           <NuxtLinkLocale
-            class="font-semibold text-(--semantic-accent-text)"
+            class="font-semibold text-link underline"
             to="docs-legal-imprint"
             >{{ t('imprint') }}</NuxtLinkLocale
           >
           {{ t('legalAnd') }}
           <NuxtLinkLocale
-            class="font-semibold text-(--semantic-accent-text)"
+            class="font-semibold text-link underline"
             to="docs-legal-privacy"
           >
             {{ t('privacy') }}

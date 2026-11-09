@@ -3,67 +3,69 @@
 /* stylelint-disable custom-property-pattern */
 /* stylelint-disable plugin/no-unsupported-browser-features */
 
+/*
+  Design system tokens. Light follows the Figma variables of the redesigned
+  app, dark follows the prototype theme layer, where lightness is elevation.
+  Text and link colors use the WCAG-audited values instead of Figma's raw
+  neutral-4 and neutral-5, and the action green is darkened from #1ba732 to
+  #15852a so white 15px labels reach 4.5:1.
+*/
 :root {
-  --accent-strong-hover: #2bb86d;
-  --accent-strong: #36db83;
-  --accent-weak-hover: #c0e6d2;
-  --accent-weak: #dcf9ea;
-  --complement-fancy: #ff3167;
-  --complement-strong: #f52d62;
-  --semantic-accent-icon: #12683a;
-  --semantic-accent-line: #dcf9ea;
-  --semantic-accent-text: #12683a;
-  --semantic-base-background: #fff;
-  --semantic-base-dark-text-on-light: #191911;
-  --semantic-base-icon-primary: #5d665f;
-  --semantic-base-input-field-fill: #fff;
-  --semantic-base-light-text-on-dark: #fafafc;
-  --semantic-base-line: #dbdcdb;
-  --semantic-base-primary-button-text: #191911;
-  --semantic-base-secondary-button-text: #191911;
-  --semantic-base-surface-1: #eff0ef;
-  --semantic-base-text-primary: #000;
-  --semantic-base-text-secondary: #5f6461;
-  --semantic-base-text-tertiary: #505047;
-  --semantic-critic-strong-hover: #8c1818;
-  --semantic-critic-strong: #c20034;
-  --semantic-critic-text: #8c1818;
-  --semantic-critic-weak: #ffb8cb;
-  --semantic-error-strong: #ff1453;
-  --semantic-info-strong: #0351bf;
-  --semantic-info-text: #0351bf;
-  --semantic-success-strong: #1ae4aa;
-  --semantic-success-weak: #c2f5ca;
-  --semantic-warning-icon: #a7991b;
-  --semantic-warning-strong: #decd35;
-  --semantic-warning-weak: #f5f0c2;
+  --accent-pink: #ff3167;
+  --action-danger-hover: #a3002c;
+  --action-danger: #c20034;
+  --action-primary-hover: #117a23;
+  --action-primary: #15852a;
+  --action-warning: #decd35;
+  --danger-tint: #ffb8cb;
+  --error: #c20034;
+  --fg-1: #000;
+  --fg-2: #5f6461;
+  --fg-3: #646965;
+  --glass-raised: rgb(239 240 239 / 90%);
+  --glass: rgb(255 255 255 / 90%);
+  --handle: #9ca09d;
+  --info-tint: #b9d6fe;
+  --info: #0351bf;
+  --inverse: #000;
+  --line: #dbdcdb;
+  --link-hover: #0f6a1e;
+  --link: #117a23;
+  --on-action-primary: #fff;
+  --on-action-warning: #000;
+  --on-inverse: #fff;
+  --success-tint: #c2f5ca;
+  --surface-overlay: #fff;
+  --surface-raised: #eff0ef;
+  --surface: #fff;
+  --warning-tint: #f5f0c2;
+  --warning: #a7991b;
 }
 
 .dark {
-  --accent-strong: #4dc762;
-  --accent-weak-hover: #9cd0a6;
-  --accent-weak: #c1dcc6;
-  --complement-strong: #d7456b;
-  --semantic-accent-icon: #0a841e;
-  --semantic-accent-line: #044a0f;
-  --semantic-accent-text: #129f2a;
-  --semantic-base-background: #000;
-  --semantic-base-icon-primary: #e4e4eb;
-  --semantic-base-input-field-fill: #505047;
-  --semantic-base-line: #282a28;
-  --semantic-base-surface-1: #191a19;
-  --semantic-base-text-primary: #fff;
-  --semantic-base-text-secondary: #9ca09d;
-  --semantic-base-text-tertiary: #e4e4eb;
-  --semantic-critic-strong-hover: #e67070;
-  --semantic-critic-text: #e67070;
-  --semantic-critic-weak: #450a0a;
-  --semantic-info-strong: #024097;
-  --semantic-info-text: #68a6fd;
-  --semantic-success-weak: #12361a;
-  --semantic-warning-icon: #cab921;
-  --semantic-warning-strong: #e4d658;
-  --semantic-warning-weak: #36320f;
+  --action-primary-hover: #117a23;
+  --action-warning: #e4d658;
+  --danger-tint: #450a0a;
+  --error: #ff1453;
+  --fg-1: #fff;
+  --fg-2: #9ca09d;
+  --fg-3: #9ca09d;
+  --glass-raised: rgb(31 33 31 / 90%);
+  --glass: rgb(18 19 18 / 88%);
+  --handle: #555856;
+  --info-tint: #0d2b57;
+  --info: #68a6fd;
+  --inverse: #fff;
+  --line: #2e302e;
+  --link-hover: #70e884;
+  --link: #35de51;
+  --on-inverse: #000;
+  --success-tint: #12361a;
+  --surface-overlay: #2c2e2c;
+  --surface-raised: #1f211f;
+  --surface: #121312;
+  --warning-tint: #36320f;
+  --warning: #cab921;
 
   @apply scheme-dark;
 }
@@ -102,8 +104,71 @@
     }
   }
 
+  --color-accent-pink: var(--accent-pink);
+  --color-action-danger: var(--action-danger);
+  --color-action-danger-hover: var(--action-danger-hover);
+  --color-action-primary: var(--action-primary);
+  --color-action-primary-hover: var(--action-primary-hover);
+  --color-action-warning: var(--action-warning);
+  --color-danger-tint: var(--danger-tint);
+  --color-error: var(--error);
+  --color-fg-1: var(--fg-1);
+  --color-fg-2: var(--fg-2);
+  --color-fg-3: var(--fg-3);
+  --color-glass: var(--glass);
+  --color-glass-raised: var(--glass-raised);
+  --color-handle: var(--handle);
+  --color-info: var(--info);
+  --color-info-tint: var(--info-tint);
+  --color-inverse: var(--inverse);
+  --color-line: var(--line);
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
+  --color-on-action-primary: var(--on-action-primary);
+  --color-on-action-warning: var(--on-action-warning);
+  --color-on-inverse: var(--on-inverse);
+  --color-success-tint: var(--success-tint);
+  --color-surface: var(--surface);
+  --color-surface-overlay: var(--surface-overlay);
+  --color-surface-raised: var(--surface-raised);
+  --color-warning: var(--warning);
+  --color-warning-tint: var(--warning-tint);
   --default-font-family: var(--font-raleway);
   --font-raleway: 'Raleway Variable', ui-sans-serif, system-ui, sans-serif;
+  --radius-full: 9999px;
+  --radius-large: 24px;
+  --radius-medium: 16px;
+  --radius-pill: 20px;
+  --radius-small: 8px;
+  --shadow-bubble: 0 4px 12px rgb(0 0 0 / 16%);
+  --text-body: 15px;
+  --text-body--font-weight: 600;
+  --text-body--letter-spacing: -0.4px;
+  --text-body--line-height: 20px;
+  --text-body-small: 13px;
+  --text-body-small--font-weight: 600;
+  --text-body-small--letter-spacing: -0.4px;
+  --text-body-small--line-height: 18px;
+  --text-caption: 11px;
+  --text-caption--font-weight: 600;
+  --text-caption--letter-spacing: -0.4px;
+  --text-caption--line-height: 13px;
+  --text-heading-large: 28px;
+  --text-heading-large--font-weight: 700;
+  --text-heading-large--letter-spacing: -0.4px;
+  --text-heading-large--line-height: 34px;
+  --text-heading-medium: 22px;
+  --text-heading-medium--font-weight: 700;
+  --text-heading-medium--letter-spacing: -0.4px;
+  --text-heading-medium--line-height: 28px;
+  --text-headline: 17px;
+  --text-headline--font-weight: 600;
+  --text-headline--letter-spacing: -0.4px;
+  --text-headline--line-height: 22px;
+  --text-title3: 20px;
+  --text-title3--font-weight: 600;
+  --text-title3--letter-spacing: -0.4px;
+  --text-title3--line-height: 25px;
   --text-3xl--line-height: calc(2.5 / 1.875);
   --text-4xl--line-height: calc(3 / 2.25);
   --text-5xl--line-height: calc(4 / 3);
