@@ -89,11 +89,12 @@
                 <h2 :id="templateIdDetails">{{ t('details') }}</h2>
                 <div>
                   <span class="font-bold">
-                    {{ error.statusText }}
+                    {{ statusName }}
                   </span>
-                  <!-- eslint-disable vue/no-v-html -->
-                  <div v-if="error.stack" v-html="error.stack" />
-                  <!-- eslint-enable vue/no-v-html -->
+                  <pre
+                    v-if="isDev && error.stack"
+                    class="overflow-x-auto whitespace-pre-wrap"
+                    >{{ error.stack }}</pre>
                 </div>
               </section>
             </Card>
@@ -126,19 +127,19 @@
 </template>
 
 <script setup lang="ts">
-import type { NuxtError } from '#app'
+import type { AppErrorInput } from '~~/shared/utils/error'
 
 const { error } = defineProps<{
-  error: Partial<NuxtError> &
-    Required<Pick<NuxtError, 'status'>> & {
-      data?: { vibetype?: string }
-    }
+  error: AppErrorInput
 }>()
 
-// status code
-const { ssrContext } = useNuxtApp()
-if (ssrContext && error.status) {
-  ssrContext.event.node.res.statusCode = error.status
+// status code (prerendered error pages like `404.html` must answer with 200 to be written)
+if (
+  import.meta.server &&
+  error.status &&
+  !(import.meta.prerender && /^\/\d{3}\.html$/.test(useRequestURL().pathname))
+) {
+  setResponseStatus(error.status)
 }
 const { statusName } = await useHttpStatusCode({ status: error.status })
 
@@ -147,6 +148,7 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 const detailsIsOpen = ref<boolean>()
 const templateIdDetails = useId()
+const isDev = import.meta.dev
 </script>
 
 <i18n lang="yaml">

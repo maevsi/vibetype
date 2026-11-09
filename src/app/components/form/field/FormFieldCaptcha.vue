@@ -9,11 +9,10 @@
     >
       <NuxtTurnstile
         :key="`${themeColor}-${resetCount}`"
-        :class="{
-          'flex justify-center': true,
-          'h-16.25': isCaptchaVisible,
-        }"
+        class="flex justify-center"
         :options="{
+          // stays hidden like invisible mode, but falls back to a visible challenge when Cloudflare needs interaction
+          appearance: 'interaction-only',
           'error-callback': () => (isCaptchaLoading = false),
           'expired-callback': () => field.handleChange(''),
           theme: themeColor,

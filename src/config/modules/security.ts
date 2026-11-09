@@ -15,7 +15,6 @@ export const securityConfig: ReturnType<DefineNuxtConfig> = {
         sameSite: 'strict',
         secure: getIsSecure({ siteUrl: SITE_URL_TYPED }),
       },
-      enabled: false, // TODO: reenable
       headerName: CSRF_HEADER_NAME,
       https: getIsSecure({ siteUrl: SITE_URL_TYPED }),
     },
@@ -50,9 +49,11 @@ export const securityConfig: ReturnType<DefineNuxtConfig> = {
       },
       permissionsPolicy: {
         camera: ['self'], // can't be set per route and must be set globally as users can navigate routes client side
+        'web-share': ['self'], // the default `()` makes `navigator.share` reject, so events could only be shared by copying their link
       },
       xXSSProtection: '1; mode=block', // TODO: set back to `0` once CSP does not use `unsafe-*` anymore (https://github.com/maevsi/vibetype/issues/1047)
     },
+    rateLimiter: false, // done by the reverse proxy, which sees the client ip
     ssg: {
       hashStyles: true,
     },

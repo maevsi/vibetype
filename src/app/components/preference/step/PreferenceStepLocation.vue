@@ -1,12 +1,12 @@
 <template>
-  <LayoutPage :aria-hidden>
+  <LayoutPage :hidden>
     <div class="flex flex-col gap-4">
       <AppStepIndex :count="4" :index="4" />
       <TypographyH3 class="text-center">
         {{ t('title') }}
       </TypographyH3>
-      <div class="relative isolate -mx-6">
-        <AppMap v-if="!ariaHidden" ref="map" geocoder :position-initial />
+      <div class="relative isolate -mx-3 lg:-mx-6">
+        <AppMap v-if="!hidden" ref="map" geocoder :position-initial />
         <div
           class="pointer-events-none absolute inset-0 z-400 bg-[#14132699] mask-[radial-gradient(circle_140px_at_center,transparent_0,transparent_139px,black_150px)]"
         />
@@ -14,9 +14,7 @@
       <TypographyBodyMedium v-if="mapCutoutRadiusInMeters" class="text-center">
         {{ t('radius', { radius: formattedRadius }) }}
       </TypographyBodyMedium>
-      <TypographyBodyMedium
-        class="text-center text-(--semantic-base-text-secondary)"
-      >
+      <TypographyBodyMedium class="text-center text-fg-2">
         {{ t('description') }}
       </TypographyBodyMedium>
     </div>
@@ -41,8 +39,8 @@ import {
   useAllPreferenceEventLocationsQuery,
 } from '~~/shared/utils/preference/eventLocation'
 
-const { ariaHidden } = defineProps<{
-  ariaHidden: boolean
+const { hidden } = defineProps<{
+  hidden: boolean
 }>()
 
 const emit = defineEmits<{
@@ -233,14 +231,10 @@ const save = async () => {
 }
 
 const modelError = defineModel<Error>('error')
-watch(
-  () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(getCombinedErrorMessages(current)[0])
-      : undefined
-  },
-)
+useApiErrorModel({
+  errorModel: modelError,
+  errors: () => api.value.errors,
+})
 </script>
 
 <i18n lang="yaml">

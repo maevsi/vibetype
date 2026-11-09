@@ -1,5 +1,5 @@
 import type { Client, DocumentInput } from '@urql/core'
-import type { H3Event, RequestHeaders } from 'h3'
+import type { H3Event } from 'h3'
 
 export const urqlMutate = async <
   Data,
@@ -32,18 +32,4 @@ export const urqlMutate = async <
       }),
     })
     .toPromise()
-}
-
-export function toHeadersInit(requestHeaders: RequestHeaders): Headers {
-  const headers = new Headers()
-
-  for (const [key, value] of Object.entries(requestHeaders)) {
-    if (Array.isArray(value)) {
-      headers.set(key, value.join(', '))
-    } else if (typeof value === 'string') {
-      headers.set(key, value)
-    }
-  }
-
-  return headers
 }

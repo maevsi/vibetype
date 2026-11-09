@@ -3,6 +3,7 @@
     <div>
       <FormAuthInputPassword
         :aria-invalid="!!passwordError"
+        autocomplete="new-password"
         :model-value="passwordValue"
         :placeholder="passwordPlaceholder"
         @blur="$emit('password-blur')"
@@ -13,19 +14,20 @@
         class="mt-2"
         :model-value="passwordStrength"
       />
-      <p v-if="passwordError" class="mt-1 text-sm text-red-600">
+      <p v-if="passwordError" class="mt-1 text-sm text-error">
         {{ passwordError }}
       </p>
     </div>
     <div>
       <FormAuthInputPassword
         :aria-invalid="!!repetitionError"
+        autocomplete="new-password"
         :model-value="repetitionValue"
         :placeholder="repetitionPlaceholder"
         @blur="$emit('repetition-blur')"
         @input="$emit('update:repetition-value', $event)"
       />
-      <p v-if="repetitionError" class="mt-1 text-sm text-red-600">
+      <p v-if="repetitionError" class="mt-1 text-sm text-error">
         {{ repetitionError }}
       </p>
     </div>

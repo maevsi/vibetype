@@ -1,5 +1,4 @@
 <template>
-  <!-- <Loader :api indicator="ping"> -->
   <tr
     v-if="contact"
     :class="{
@@ -10,9 +9,7 @@
       <ContactPreview :contact :feedback="guest.feedback" />
     </LayoutTd>
     <LayoutTd class="max-w-0">
-      <div
-        class="text-text-dark dark:text-text-bright flex items-center justify-evenly gap-4"
-      >
+      <div class="flex items-center justify-evenly gap-4 text-fg-1">
         <ButtonIcon
           :aria-label="
             contact.accountId || contact.emailAddress
@@ -78,6 +75,32 @@
             </span>
           </AppDropdownItem>
           <AppDropdownItem
+            v-if="
+              guest.feedback === null ||
+              guest.feedback === InvitationFeedback.Canceled
+            "
+            :disabled="pending.feedbacks.includes(guest.rowId)"
+            @select="setFeedback(guest.rowId, InvitationFeedback.Accepted)"
+          >
+            <AppIconCheckCircleSolid />
+            <span>
+              {{ t('guestFeedbackAccept') }}
+            </span>
+          </AppDropdownItem>
+          <AppDropdownItem
+            v-if="
+              guest.feedback === null ||
+              guest.feedback === InvitationFeedback.Accepted
+            "
+            :disabled="pending.feedbacks.includes(guest.rowId)"
+            @select="setFeedback(guest.rowId, InvitationFeedback.Canceled)"
+          >
+            <AppIconXCircleSolid />
+            <span>
+              {{ t('guestFeedbackCancel') }}
+            </span>
+          </AppDropdownItem>
+          <AppDropdownItem
             :disabled="pending.deletions.includes(guest.rowId)"
             variant="destructive"
             @select="onDeleteSelect(guest.rowId)"
@@ -94,7 +117,6 @@
       </div>
     </LayoutTd>
   </tr>
-  <!-- </Loader> -->
   <GuestDeleteDrawer
     v-if="contact"
     v-model:open="isDeleteDrawerOpen"
@@ -107,6 +129,7 @@
 import { useMutation } from '@urql/vue'
 import { useMagicKeys } from '@vueuse/core'
 
+import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import { graphql } from '~~/gql/generated'
 import { getContactItem } from '~~/shared/utils/contact'
 import type {
@@ -129,6 +152,7 @@ const isDeleteDrawerOpen = ref(false)
 const pending = reactive({
   deletions: ref<string[]>([]),
   edits: ref<string[]>([]),
+  feedbacks: ref<string[]>([]),
   sends: ref<string[]>([]),
 })
 
@@ -151,22 +175,35 @@ const inviteMutation = useMutation(
     }
   `),
 )
-// const api = await useApiData([deleteGuestByRowIdMutation, inviteMutation])
+const updateGuestByRowIdMutation = useMutation(
+  graphql(`
+    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {
+      updateGuestByRowId(input: $input) {
+        guest {
+          feedback
+          id
+          rowId
+        }
+      }
+    }
+  `),
+)
 
 // methods
 const copyLink = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
   if (!import.meta.client) return
 
-  await copy(
-    `${window.location.origin}${localePath({
-      name: 'guest-view-id',
-      params: {
-        id: guest.rowId,
-      },
-    })}`,
+  if (
+    await copy(
+      `${window.location.origin}${localePath({
+        name: 'guest-view-id',
+        params: {
+          id: guest.rowId,
+        },
+      })}`,
+    )
   )
-
-  toast.success(t('copySuccess'))
+    toast.success(t('copySuccess'))
 }
 const delete_ = async (id: string) => {
   pending.deletions.push(id)
@@ -180,6 +217,19 @@ const onDeleteSelect = (id: string) => {
   }
 
   isDeleteDrawerOpen.value = true
+}
+const setFeedback = async (id: string, feedback: InvitationFeedback) => {
+  pending.feedbacks.push(id)
+
+  const result = await updateGuestByRowIdMutation.executeMutation({
+    input: { guestPatch: { feedback }, rowId: id },
+  })
+
+  pending.feedbacks.splice(pending.feedbacks.indexOf(id), 1)
+
+  if (!getResultData(result)) return
+
+  toast.success(t('guestFeedbackSuccess'))
 }
 const send = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
   pending.sends.push(guest.rowId)
@@ -207,6 +257,9 @@ de:
   copySuccess: Der Einladungslink wurde in die Zwischenablage kopiert.
   disabledReasonEmailAddressNone: Diesem Kontakt fehlt eine E-Mail-Adresse.
   guestDelete: Gast löschen
+  guestFeedbackAccept: Als zugesagt markieren
+  guestFeedbackCancel: Als abgesagt markieren
+  guestFeedbackSuccess: Der Rückmeldestatus wurde aktualisiert.
   guestLink: Einladungslink kopieren
   guestSend: Einladung versenden
   guestView: Einladung anzeigen
@@ -216,6 +269,9 @@ en:
   copySuccess: The guest link has been copied to the clipboard.
   disabledReasonEmailAddressNone: This contact does not have an associated email address.
   guestDelete: Delete guest
+  guestFeedbackAccept: Mark as accepted
+  guestFeedbackCancel: Mark as declined
+  guestFeedbackSuccess: The feedback status was updated.
   guestLink: Copy invitation link
   guestSend: Send invitation
   guestView: View invitation

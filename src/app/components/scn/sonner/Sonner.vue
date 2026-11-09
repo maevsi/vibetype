@@ -19,9 +19,9 @@ const props = defineProps<ToasterProps>()
         cancelButton:
           'group-[.toast]:bg-muted group-[.toast]:text-muted-foreground',
         success:
-          'group-[.toaster]:!bg-green-50 group-[.toaster]:!text-green-800 group-[.toaster]:!border-green-200 dark:group-[.toaster]:!bg-green-950 dark:group-[.toaster]:!text-green-200 dark:group-[.toaster]:!border-green-800',
+          'group-[.toaster]:!bg-success-tint group-[.toaster]:!text-fg-1 group-[.toaster]:!border-success-tint',
         error:
-          'group-[.toaster]:!bg-red-50 group-[.toaster]:!text-red-800 group-[.toaster]:!border-red-200 dark:group-[.toaster]:!bg-red-950 dark:group-[.toaster]:!text-red-200 dark:group-[.toaster]:!border-red-800',
+          'group-[.toaster]:!bg-danger-tint group-[.toaster]:!text-fg-1 group-[.toaster]:!border-danger-tint',
       },
     }"
   />

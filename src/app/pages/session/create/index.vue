@@ -85,7 +85,6 @@ const to = computed(() =>
 const verified = computed(() => route.query.verified === null)
 const onSignIn = async (username: string) => {
   // A link that allows users to delete their account is required by the Google Play Store (https://support.google.com/googleplay/android-developer/answer/13316080#account_deletion)
-  // TODO: generalize, potentially whitelist valid redirection targets
   if (to.value === 'account-deletion') {
     return await navigateTo(
       localePath({
@@ -95,7 +94,7 @@ const onSignIn = async (username: string) => {
     )
   }
 
-  if (to.value) return await navigateTo(to.value)
+  if (to.value && getIsSitePath(to.value)) return await navigateTo(to.value)
 
   return await navigateTo(localePath(`dashboard`))
 }

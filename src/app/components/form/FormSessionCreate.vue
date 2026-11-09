@@ -18,7 +18,7 @@
               </template>
             </FormAuthInput>
           </FieldContent>
-          <p v-if="usernameValidation.error.value" class="text-sm text-red-600">
+          <p v-if="usernameValidation.error.value" class="text-sm text-error">
             {{ usernameValidation.error.value }}
           </p>
         </Field>
@@ -28,38 +28,40 @@
           <FieldContent>
             <FormAuthInputPassword
               :aria-invalid="!!passwordValidation.error.value"
+              autocomplete="current-password"
               :model-value="field.state.value"
               :placeholder="t('password')"
               @blur="handlePasswordBlur(field)"
               @input="handlePasswordInput(field, $event)"
             />
           </FieldContent>
-          <p v-if="passwordValidation.error.value" class="text-sm text-red-600">
+          <p v-if="passwordValidation.error.value" class="text-sm text-error">
             {{ passwordValidation.error.value }}
           </p>
         </Field>
       </form.Field>
       <div class="text-right">
         <NuxtLinkLocale
-          class="text-sm font-medium text-gray-900 dark:text-gray-200"
+          class="text-sm font-medium text-fg-1"
           to="account-password-reset-request"
         >
           {{ t('forgotPassword') }}
         </NuxtLinkLocale>
       </div>
       <FormFieldCaptcha v-model:captcha-is-used="captchaIsUsed" :form />
-      <FormAuthButton
+      <ButtonColored
         :aria-label="t('signIn')"
+        class="w-full"
         :loading="loading"
         type="submit"
       >
         {{ t('signIn') }}
-      </FormAuthButton>
+      </ButtonColored>
     </form>
-    <p class="text-center text-[15px] text-gray-500 dark:text-gray-400">
+    <p class="text-center text-[15px] text-fg-2">
       {{ t('newToVibetype') }}
       <NuxtLinkLocale
-        class="font-semibold text-green-600 dark:text-green-400"
+        class="font-semibold text-link underline"
         to="account-create"
       >
         {{ t('register') }}

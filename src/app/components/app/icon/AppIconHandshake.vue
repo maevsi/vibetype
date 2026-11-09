@@ -1,6 +1,6 @@
 <template>
   <AppIcon v-slot="attributes">
-    <IFa6SolidHandshake v-bind="attributes" :aria-label="t('ariaLabel')" />
+    <IHeroiconsTrophy v-bind="attributes" :aria-label="t('ariaLabel')" />
   </AppIcon>
 </template>
 

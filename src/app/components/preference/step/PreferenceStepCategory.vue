@@ -6,7 +6,7 @@
         {{ t('title') }}
       </TypographyH3>
       <div>
-        <ul class="flex flex-wrap justify-center gap-5">
+        <ul class="flex flex-wrap justify-center gap-2">
           <li
             v-for="eventCategory in eventCategories"
             :key="eventCategory.rowId"
@@ -75,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
 import {
@@ -121,7 +121,7 @@ const translate = (nameKey: string) => {
 }
 
 // api data
-const allCategoriesQuery = useQuery({
+const allCategoriesQuery = useApiQuery({
   query: graphql(`
     query AllEventCategories {
       allEventCategories {
@@ -211,14 +211,10 @@ const togglePreferenceSelection = async (categoryId: string) => {
 }
 
 const modelError = defineModel<Error>('error')
-watch(
-  () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(getCombinedErrorMessages(current)[0])
-      : undefined
-  },
-)
+useApiErrorModel({
+  errorModel: modelError,
+  errors: () => api.value.errors,
+})
 </script>
 
 <i18n lang="yaml">

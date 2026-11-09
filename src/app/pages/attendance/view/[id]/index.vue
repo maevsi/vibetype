@@ -1,9 +1,10 @@
 <template>
-  <div v-if="api.isFetching" class="text-sm text-gray-500">
+  <div v-if="api.isFetching" class="text-sm text-fg-2">
     {{ t('loading') }}
   </div>
   <AppError v-else-if="!attendance" :error="{ status: 404 }" />
   <div v-else class="flex flex-col gap-4">
+    <h1 class="sr-only">{{ title }}</h1>
     <section class="flex flex-col gap-4">
       <span class="text-3xl font-bold">
         {{ t('contact') }}
@@ -98,7 +99,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
 
@@ -127,7 +128,7 @@ try {
 }
 
 // api data
-const queryAttendance = useQuery({
+const queryAttendance = useApiQuery({
   query: graphql(`
     query Attendance($id: UUID!) {
       attendanceByRowId(rowId: $id) {

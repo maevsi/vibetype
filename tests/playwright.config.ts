@@ -16,6 +16,8 @@ export default defineConfig({
   expect: {
     toHaveScreenshot: {
       maxDiffPixelRatio: 0.01,
+      // the default of 0.2 lets subtle color token changes, like #191911 to #000, pass unnoticed
+      threshold: 0.05,
     },
   },
 
@@ -46,6 +48,8 @@ export default defineConfig({
 
     /* Test against mobile viewports. */
     {
+      // server-rendered html and colors do not depend on the viewport, so desktop checks them alone
+      grepInvert: /html validation|a11y dark|missing data|page title/,
       name: 'Mobile Chrome',
       use: { ...devices['Pixel 5'] },
     },
@@ -94,7 +98,12 @@ export default defineConfig({
   webServer: {
     command: `pnpm --dir ../src run certificates && pnpm --dir ../src run start:${process.env.VIO_SERVER || 'development'}`,
     env: {
+      // nuxt-og-image v7 derives its url signing key from the app secret, so the test server needs a root secret of its own (at least 32 characters)
+      NUXT_APP_SECRET: 'e2e-nuxt-app-signing-secret-0123456789',
       NUXT_PUBLIC_VIO_IS_TESTING: 'true',
+      // Cloudflare's always-pass testing keys (https://developers.cloudflare.com/turnstile/troubleshooting/testing/), so captcha tests don't depend on a local `.env` or the build mode
+      NUXT_PUBLIC_TURNSTILE_SITE_KEY: '1x00000000000000000000AA',
+      NUXT_TURNSTILE_SECRET_KEY: '1x0000000000000000000000000000000AA',
     },
     ignoreHTTPSErrors: true, // TODO: remove once tests run without it
     timeout: TIMEOUT,

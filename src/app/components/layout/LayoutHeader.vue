@@ -1,9 +1,8 @@
 <template>
-  <!-- <Loader :api indicator="ping"> -->
   <header>
     <div class="flex items-center justify-between gap-4">
       <div class="flex items-center gap-4">
-        <ButtonIconBackRoute />
+        <ButtonIconBackRoute is-round />
         <AppButton
           :aria-label="t('home')"
           class="hidden 2xl:block"
@@ -14,9 +13,7 @@
       </div>
       <div class="flex items-center gap-2 whitespace-nowrap lg:gap-4">
         <ButtonEventNew />
-        <div
-          class="my-1 hidden w-px flex-none self-stretch bg-gray-300 2xl:flex dark:bg-gray-600"
-        />
+        <div class="my-1 hidden w-px flex-none self-stretch bg-line 2xl:flex" />
         <ButtonIcon
           v-if="store.signedInAccountId"
           :aria-label="t('dashboard')"
@@ -41,18 +38,18 @@
         </ButtonText>
         <ButtonIcon
           :aria-label="t('settings')"
+          is-round
           :to="
             localePath({
               name: 'session-edit',
             })
           "
         >
-          <AppIconBars3 class="size-8" />
+          <AppIconBars3 />
         </ButtonIcon>
       </div>
     </div>
   </header>
-  <!-- </Loader> -->
 </template>
 
 <script setup lang="ts">

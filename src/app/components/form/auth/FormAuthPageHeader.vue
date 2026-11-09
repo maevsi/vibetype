@@ -3,6 +3,7 @@
     <button
       :aria-label="t('back')"
       class="flex size-10 items-center justify-center"
+      type="button"
       @click="$emit('back')"
     >
       <AppIconArrowLeft class="size-6" />

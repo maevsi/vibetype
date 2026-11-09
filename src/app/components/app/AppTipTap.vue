@@ -31,60 +31,49 @@
           :aria-label="t('heading1')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.heading1
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.heading1 ? ['bg-surface'] : []),
           ]"
           :title="t('heading1')"
           @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
         >
-          <div class="align-end flex">
+          <span class="align-end flex">
             <AppIconHeading />
             <span>{{ t('number1') }}</span>
-          </div>
+          </span>
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('heading2')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.heading2
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.heading2 ? ['bg-surface'] : []),
           ]"
           :title="t('heading2')"
           @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
         >
-          <div class="align-end flex">
+          <span class="align-end flex">
             <AppIconHeading />
             <span>{{ t('number2') }}</span>
-          </div>
+          </span>
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('heading3')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.heading3
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.heading3 ? ['bg-surface'] : []),
           ]"
           :title="t('heading3')"
           @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
         >
-          <div class="align-end flex">
+          <span class="align-end flex">
             <AppIconHeading />
             <span>{{ t('number3') }}</span>
-          </div>
+          </span>
         </ButtonIcon>
       </div>
       <div class="flex gap-1">
         <ButtonIcon
           :aria-label="t('bold')"
-          :class="[
-            'rounded-sm p-1',
-            ...(isActive.bold
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
-          ]"
+          :class="['rounded-sm p-1', ...(isActive.bold ? ['bg-surface'] : [])]"
           :title="t('bold')"
           @click="editor.chain().focus().toggleBold().run()"
         >
@@ -94,9 +83,7 @@
           :aria-label="t('italic')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.italic
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.italic ? ['bg-surface'] : []),
           ]"
           :title="t('italic')"
           @click="editor.chain().focus().toggleItalic().run()"
@@ -107,9 +94,7 @@
           :aria-label="t('strike')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.strike
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.strike ? ['bg-surface'] : []),
           ]"
           :title="t('strike')"
           @click="editor.chain().focus().toggleStrike().run()"
@@ -122,9 +107,7 @@
           :aria-label="t('formatAlignLeft')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.textAlignLeft
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.textAlignLeft ? ['bg-surface'] : []),
           ]"
           :title="t('formatAlignLeft')"
           @click="editor.chain().focus().setTextAlign('left').run()"
@@ -135,9 +118,7 @@
           :aria-label="t('formatAlignCenter')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.textAlignCenter
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.textAlignCenter ? ['bg-surface'] : []),
           ]"
           :title="t('formatAlignCenter')"
           @click="editor.chain().focus().setTextAlign('center').run()"
@@ -148,9 +129,7 @@
           :aria-label="t('formatAlignRight')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.textAlignRight
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.textAlignRight ? ['bg-surface'] : []),
           ]"
           :title="t('formatAlignRight')"
           @click="editor.chain().focus().setTextAlign('right').run()"
@@ -161,9 +140,7 @@
           :aria-label="t('formatAlignJustify')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.textAlignJustify
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.textAlignJustify ? ['bg-surface'] : []),
           ]"
           :title="t('formatAlignJustify')"
           @click="editor.chain().focus().setTextAlign('justify').run()"
@@ -176,9 +153,7 @@
           :aria-label="t('listUl')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.bulletList
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.bulletList ? ['bg-surface'] : []),
           ]"
           :title="t('listUl')"
           @click="editor.chain().focus().toggleBulletList().run()"
@@ -189,9 +164,7 @@
           :aria-label="t('listOl')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.orderedList
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.orderedList ? ['bg-surface'] : []),
           ]"
           :title="t('listOl')"
           @click="editor.chain().focus().toggleOrderedList().run()"
@@ -202,12 +175,7 @@
       <div class="flex gap-1">
         <ButtonIcon
           :aria-label="t('link')"
-          :class="[
-            'rounded-sm p-1',
-            ...(isActive.link
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
-          ]"
+          :class="['rounded-sm p-1', ...(isActive.link ? ['bg-surface'] : [])]"
           :title="t('link')"
           @click="setLink"
         >
@@ -226,9 +194,7 @@
           :aria-label="t('blockquote')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.blockquote
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.blockquote ? ['bg-surface'] : []),
           ]"
           :title="t('blockquote')"
           @click="editor.chain().focus().toggleBlockquote().run()"
@@ -237,12 +203,7 @@
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('code')"
-          :class="[
-            'rounded-sm p-1',
-            ...(isActive.code
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
-          ]"
+          :class="['rounded-sm p-1', ...(isActive.code ? ['bg-surface'] : [])]"
           :title="t('code')"
           @click="editor.chain().focus().toggleCode().run()"
         >
@@ -254,9 +215,7 @@
           :aria-label="t('horizontalRule')"
           :class="[
             'rounded-sm p-1',
-            ...(isActive.horizontalRule
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            ...(isActive.horizontalRule ? ['bg-surface'] : []),
           ]"
           :title="t('horizontalRule')"
           @click="editor.chain().focus().setHorizontalRule().run()"
@@ -266,7 +225,7 @@
       </div>
       <!--
       <AppButton
-        :class="{ 'bg-background-bright dark:bg-background-dark': isActive.codeBlock }"
+        :class="{ 'bg-surface': isActive.codeBlock }"
         @click="editor.chain().focus().toggleCodeBlock().run()"
       >
         code block
@@ -282,7 +241,8 @@ import { TextAlign } from '@tiptap/extension-text-align'
 import { StarterKit } from '@tiptap/starter-kit'
 import { debounce } from 'lodash-es'
 
-const { value } = defineProps<{
+const { ariaLabel, value } = defineProps<{
+  ariaLabel: string
   value: string | undefined
 }>()
 
@@ -296,8 +256,9 @@ const editor = useEditor({
   content: value,
   editorProps: {
     attributes: {
+      'aria-label': ariaLabel,
       class:
-        'rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) flex-1 px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-none min-h-[100px]',
+        'rounded-lg border border-line bg-surface-raised flex-1 px-4 py-3 placeholder-fg-2 outline-none min-h-[100px]',
     },
   },
   extensions: [
@@ -312,6 +273,16 @@ const editor = useEditor({
     updateIsActive()
   },
 })
+
+watch(
+  () => value,
+  (newValue) => {
+    if (!editor.value) return
+    if ((newValue ?? '') === editor.value.getHTML()) return
+
+    editor.value.commands.setContent(newValue ?? '', { emitUpdate: false })
+  },
+)
 
 // data
 const isActive = reactive({
@@ -387,7 +358,9 @@ const setLink = () => {
   }
 
   const location = getLocation(url)
-  const urlHost = `${location.hostname}:${location.port}`
+  const urlHost = location.port
+    ? `${location.hostname}:${location.port}`
+    : location.hostname
 
   // update link
   editor.value
@@ -400,11 +373,16 @@ const setLink = () => {
 const updateDebounced = debounce(
   () => {
     if (!editor.value) return
-    emit('input', editor.value?.getHTML())
+    emit('input', editor.value.isEmpty ? '' : editor.value.getHTML())
   },
   1000,
   { leading: true },
 )
+
+onBeforeUnmount(() => {
+  updateIsActive.cancel()
+  updateDebounced.cancel()
+})
 </script>
 
 <i18n lang="yaml">
@@ -416,9 +394,9 @@ de:
   formatAlignLeft: Links ausrichten
   formatAlignRight: Rechts ausrichten
   formatAlignJustify: Blocksatz
-  heading1: Überschrift (groß)
-  heading2: Überschrift (mittelgroß)
-  heading3: Überschrift (klein)
+  heading1: Überschrift 1 (groß)
+  heading2: Überschrift 2 (mittelgroß)
+  heading3: Überschrift 3 (klein)
   horizontalRule: Horizontaler Trennstrich
   italic: Kursiv
   link: Link
@@ -440,9 +418,9 @@ en:
   formatAlignLeft: Align left
   formatAlignRight: Align right
   formatAlignJustify: Justified
-  heading1: Heading (large)
-  heading2: Heading (medium)
-  heading3: Heading (small)
+  heading1: Heading 1 (large)
+  heading2: Heading 2 (medium)
+  heading3: Heading 3 (small)
   horizontalRule: Horizontal rule
   italic: Italic
   link: Link

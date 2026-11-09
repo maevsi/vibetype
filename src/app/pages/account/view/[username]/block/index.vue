@@ -1,6 +1,5 @@
 <template>
-  <LoaderIndicatorPing v-if="api.isFetching" />
-  <div v-else>
+  <Loader :api>
     <LayoutTopBar>
       <span>
         {{ title }}
@@ -14,8 +13,7 @@
         <FormInputSearch v-model="searchQuery" />
         <ul
           v-if="blockedAccountsFiltered?.length"
-          class="flex flex-col divide-y divide-(--faint-line)"
-          role="list"
+          class="flex flex-col divide-y divide-line"
         >
           <li
             v-for="blockedAccount in blockedAccountsFiltered"
@@ -57,14 +55,11 @@
       v-if="blockRemoveAccount"
       v-model:open="isBlockRemoveDrawerOpen"
       :account="blockRemoveAccount"
-      @success="accountBlockAccountsQuery.executeQuery"
     />
-  </div>
+  </Loader>
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 import type { AccountBlockAccountsRecord } from '~~/gql/generated/graphcache'
 
@@ -89,7 +84,7 @@ const title = t('title')
 useHeadDefault({ title })
 
 // api data
-const accountBlockAccountsQuery = useQuery({
+const accountBlockAccountsQuery = useApiQuery({
   query: graphql(`
     query AccountBlockAccounts {
       accountBlockAccounts {

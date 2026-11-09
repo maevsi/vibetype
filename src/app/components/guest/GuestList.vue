@@ -16,7 +16,7 @@
             <AppIconPlus />
           </template>
         </ButtonColored>
-        <p class="text-center text-gray-500 dark:text-gray-400">
+        <p class="text-center text-fg-2">
           {{
             t('guestsUsed', {
               amountCurrent: api.data.allGuests?.totalCount,
@@ -26,31 +26,36 @@
         </p>
       </div>
       <template v-if="event && guests.length">
-        <Select v-model="feedbackFilter">
-          <SelectTrigger :aria-label="t('feedbackFilter')" class="w-full">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">{{ t('feedbackFilterAll') }}</SelectItem>
-            <SelectItem :value="InvitationFeedback.Accepted">
-              {{ t('accepted') }}
-            </SelectItem>
-            <SelectItem :value="InvitationFeedback.Canceled">
-              {{ t('canceled') }}
-            </SelectItem>
-            <SelectItem value="none">{{ t('noFeedback') }}</SelectItem>
-          </SelectContent>
-        </Select>
-        <LayoutTable
-          v-if="guestsFiltered.length"
-          class="border border-neutral-300 dark:border-neutral-600"
-        >
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+          <FormInputSearch v-model="searchString" class="flex-1" />
+          <Select v-model="feedbackFilter">
+            <SelectTrigger
+              :aria-label="t('feedbackFilter')"
+              class="w-full sm:w-56"
+            >
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{{ t('feedbackFilterAll') }}</SelectItem>
+              <SelectItem :value="InvitationFeedback.Accepted">
+                {{ t('accepted') }}
+              </SelectItem>
+              <SelectItem :value="InvitationFeedback.Canceled">
+                {{ t('canceled') }}
+              </SelectItem>
+              <SelectItem value="none">{{ t('noFeedback') }}</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <LayoutTable v-if="guestsFiltered.length" class="border border-line">
           <LayoutThead>
             <tr>
               <LayoutTh scope="col">
                 {{ t('contact') }}
               </LayoutTh>
-              <LayoutTh scope="col" />
+              <LayoutTh scope="col">
+                <span class="sr-only">{{ t('actions') }}</span>
+              </LayoutTh>
             </tr>
           </LayoutThead>
           <LayoutTbody>
@@ -79,7 +84,7 @@
       </template>
       <div v-else class="flex flex-col items-center gap-2">
         {{ t('guestNone') }}
-        <p class="text-sm text-gray-500 dark:text-gray-400">
+        <p class="text-sm text-fg-2">
           {{ t('hintInviteSelf') }}
         </p>
       </div>
@@ -131,14 +136,14 @@ import {
 } from 'chart.js'
 import { Doughnut } from 'vue-chartjs'
 
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import type {
   AllGuestsQueryVariables,
   EventItemFragment,
+  GuestItemFragment,
 } from '~~/gql/generated/graphql'
+import { getContactItem, getContactSortKey } from '~~/shared/utils/contact'
 import { getGuestItem } from '~~/shared/utils/guest'
 
 const { event } = defineProps<{
@@ -157,6 +162,7 @@ const templateDoughnut = useTemplateRef<DoughnutController>('doughnut')
 const after = ref<string | null>()
 const feedbackFilter = ref<string>('all')
 const isModalGuestOpen = ref<boolean>()
+const searchString = ref<string>('')
 const options = {
   plugins: {
     legend: {
@@ -173,7 +179,7 @@ const options = {
 }
 
 // api data
-const guestsQuery = useQuery({
+const guestsQuery = useApiQuery({
   query: graphql(`
     query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {
       allGuests(
@@ -254,22 +260,41 @@ const dataComputed = computed(() => {
     ],
   }
 })
+const getGuestContactSortKey = (
+  guest: Pick<GuestItemFragment, 'contactByContactId'>,
+) => {
+  const contact = getContactItem(guest.contactByContactId)
+  return contact ? getContactSortKey(contact) : ''
+}
 const guests = computed(
   () =>
     api.value.data.allGuests?.nodes
       .map((x) => getGuestItem(x))
-      .filter(isNeitherNullNorUndefined) || [],
+      .filter(isNeitherNullNorUndefined)
+      .sort((a, b) =>
+        getGuestContactSortKey(a).localeCompare(getGuestContactSortKey(b)),
+      ) || [],
 )
 const guestsFiltered = computed(() => {
+  const normalizedSearch = searchString.value.toLowerCase().trim()
+  const searchStringParts = normalizedSearch.split(/\s+/).filter(Boolean)
+  const bySearch = searchStringParts.length
+    ? guests.value.filter((guest) =>
+        searchStringParts.some((searchStringPart) =>
+          getGuestContactSortKey(guest)
+            .toLowerCase()
+            .includes(searchStringPart),
+        ),
+      )
+    : guests.value
+
   switch (feedbackFilter.value) {
     case 'all':
-      return guests.value
+      return bySearch
     case 'none':
-      return guests.value.filter((guest) => guest.feedback === null)
+      return bySearch.filter((guest) => guest.feedback === null)
     default:
-      return guests.value.filter(
-        (guest) => guest.feedback === feedbackFilter.value,
-      )
+      return bySearch.filter((guest) => guest.feedback === feedbackFilter.value)
   }
 })
 
@@ -298,6 +323,7 @@ Chart.register(
 <i18n lang="yaml">
 de:
   accepted: akzeptiert
+  actions: Aktionen
   canceled: abgelehnt
   contact: Kontakt
   contactSelect: Kontakt auswählen
@@ -313,6 +339,7 @@ de:
   noFeedback: keine Rückmeldung
 en:
   accepted: accepted
+  actions: Actions
   canceled: declined
   contact: Contact
   contactSelect: Select Contact

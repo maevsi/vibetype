@@ -17,14 +17,16 @@
       >
         <AppIconBack />
       </AppButton>
-      <TypographyH3 class="justify-self-center">
-        {{ t('title') }}
-      </TypographyH3>
+      <h1 class="justify-self-center">
+        <TypographyH3>
+          {{ t('title') }}
+        </TypographyH3>
+      </h1>
       <div />
     </div>
     <div class="flex flex-col gap-3">
       <div
-        class="flex items-center justify-between gap-4 rounded-lg border border-(--semantic-base-background) bg-(--semantic-base-surface-1) p-3"
+        class="flex items-center justify-between gap-4 rounded-lg border border-surface bg-surface-raised p-3"
       >
         <AccountProfilePicture
           :account-id="account.rowId"
@@ -38,9 +40,9 @@
             @click="showModalUploadSelection"
           >
             <TypographyLabel v-slot="attributes">
-              <div v-bind="attributes">
+              <span v-bind="attributes">
                 {{ t('replace') }}
-              </div>
+              </span>
             </TypographyLabel>
           </ButtonColored>
           <ButtonColored
@@ -49,9 +51,9 @@
             @click="openProfilePictureRemoveDrawer"
           >
             <TypographyLabel v-slot="attributes">
-              <div v-bind="attributes">
+              <span v-bind="attributes">
                 {{ t('remove') }}
-              </div>
+              </span>
             </TypographyLabel>
           </ButtonColored>
         </div>
@@ -80,7 +82,7 @@
         @save="saveImprint"
       />
       <CardButton
-        class="border-(--warning-strong) bg-(--warning-weak) text-(--warning-text)"
+        class="border-action-warning bg-warning-tint text-fg-1"
         :title="t('resetPassword')"
         :to="
           localePath({
@@ -106,7 +108,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
 
@@ -131,7 +133,7 @@ if (route.params.username !== store.signedInUsername) {
 }
 
 // api data
-const query = useQuery({
+const query = useApiQuery({
   query: graphql(`
     query AccountEdit($username: String!) {
       accountByUsername(username: $username) {

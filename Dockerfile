@@ -1,15 +1,20 @@
 # syntax=docker/dockerfile:1
 # check=skip=SecretsUsedInArgOrEnv
 
+# the image whose skew protection storage seeds this build
+ARG SKEW_PROTECTION_SOURCE_IMAGE=ghcr.io/maevsi/vibetype:latest
+
 # <DEPENDENCIES>
-FROM ghcr.io/maevsi/postgraphile:2.2.1
-FROM ghcr.io/maevsi/sqitch:12.2
+FROM ghcr.io/maevsi/postgraphile:2.3.3
+FROM ghcr.io/maevsi/sqitch:12.3
 # </DEPENDENCIES>
+
+FROM ${SKEW_PROTECTION_SOURCE_IMAGE} AS skew-protection-source
 
 #############
 # Create base image.
 
-FROM node:24.19.0-alpine AS base-image
+FROM node:26.13.0-alpine AS base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -22,7 +27,7 @@ RUN --mount=type=cache,id=apk-cache,target=/var/cache/apk \
       git \
     && apk add --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing \
       mkcert \
-    && corepack enable
+    && npm i -g corepack && corepack enable
 
 
 #############
@@ -49,7 +54,6 @@ ENTRYPOINT ["/srv/app/docker-entrypoint.sh"]
 CMD ["pnpm", "run", "--dir", "src", "dev", "--host", "0.0.0.0"]
 EXPOSE 3000
 
-# TODO: support healthcheck while starting (https://github.com/nuxt/nuxt/issues/14697)
 HEALTHCHECK --start-period=300s CMD wget -O /dev/null http://127.0.0.1:3000/api/service/vibetype/healthcheck || exit 1
 
 
@@ -63,11 +67,12 @@ COPY ./pnpm-lock.yaml ./pnpm-workspace.yaml ./package.json ./
 
 # TODO: evaluate dropping libc arguments by running e2e tests separately
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
-    pnpm fetch --libc=musl --libc=glibc
+    pnpm fetch --config.supportedArchitectures='{"libc":["musl","glibc"]}'
 
 COPY ./ ./
 
-RUN pnpm install --offline
+RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
+    pnpm install --offline
 
 
 ########################
@@ -80,8 +85,16 @@ ENV RELEASE_NAME=${RELEASE_NAME}
 
 ENV NODE_ENV=production
 ENV NODE_OPTIONS="--max-old-space-size=6144"
+
+# restore previous builds' assets from the source image and keep this build's assets for the next one
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN \
-    pnpm --dir src run build:node
+    --mount=type=bind,from=skew-protection-source,source=/srv/app,target=/tmp/skew-protection-source \
+    if [ -d /tmp/skew-protection-source/.skew-protection ]; then \
+      mkdir -p src/node_modules/.cache/nuxt-seo \
+      && cp -r /tmp/skew-protection-source/.skew-protection src/node_modules/.cache/nuxt-seo/skew-protection; \
+    fi \
+    && pnpm --dir src run build:node \
+    && mkdir -p src/node_modules/.cache/nuxt-seo/skew-protection
 
 
 # ########################
@@ -123,7 +136,7 @@ RUN pnpm -r run test
 ########################
 # Nuxt: test (e2e, base-image)
 
-FROM mcr.microsoft.com/playwright:v1.62.1 AS test-e2e-base-image
+FROM mcr.microsoft.com/playwright:v1.65.0 AS test-e2e-base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
@@ -134,7 +147,9 @@ ENV MKCERT_VERSION="1.4.4-1ubuntu3.2"
 
 WORKDIR /srv/app/
 
-RUN corepack enable \
+# The playwright image no longer ships corepack; `--force` overwrites the
+# yarn shims it does still ship, which collide with corepack's own stubs
+RUN npm i -g corepack --force && corepack enable \
     && apt-get update && apt-get install --no-install-recommends -y \
       mkcert="${MKCERT_VERSION}"
 
@@ -211,6 +226,7 @@ FROM base-image AS collect
 RUN chown node:node .
 
 COPY --from=build-node --chown=node /srv/app/src/.output ./src/.output
+COPY --from=build-node --chown=node /srv/app/src/node_modules/.cache/nuxt-seo/skew-protection ./.skew-protection
 COPY --from=build-node --chown=node /srv/app/src/node/server/node.mjs ./src/node/server/node.mjs
 COPY --from=build-node --chown=node /srv/app/src/package.json ./src/package.json
 COPY --from=build-node --chown=node /srv/app/package.json ./package.json

@@ -6,7 +6,7 @@
         <span class="text-lg font-bold">{{ t('profile') }}</span>
         <div class="flex flex-col gap-3">
           <CardButton
-            class="bg-(--accent-strong) text-(--semantic-base-primary-button-text)"
+            class="bg-action-primary text-on-action-primary"
             :title="t('aiSetup')"
             :to="
               localePath({
@@ -20,12 +20,11 @@
             </template> -->
           </CardButton>
           <CardButton
-            class="border-(--warning-strong) bg-(--warning-weak) text-(--warning-text)"
+            class="border-action-warning bg-warning-tint text-fg-1"
             :title="t('earlyBirdStart')"
             :to="localePath({ name: 'early-bird-create' })"
           >
             <AppIconEarlyBird />
-            <!-- TODO: implement early bird cancellation -->
             <template v-if="false" #iconSecondary>
               <AppIconClose />
             </template>
@@ -162,7 +161,7 @@
       </section>
       <section v-if="store.signedInUsername" class="flex flex-col">
         <CardButton
-          class="bg-(--critic-string) text-(--semantic-base-light-text-on-dark)"
+          class="bg-action-danger text-white"
           :title="t('logout')"
           @click="signOutToRoot"
         >

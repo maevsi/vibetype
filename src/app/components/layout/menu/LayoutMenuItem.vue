@@ -1,18 +1,18 @@
 <template>
   <AppLink
     v-bind="delegatedProps"
-    class="group rounded-xl text-(--semantic-base-text-secondary) aria-[current=page]:bg-(--accent-weak) aria-[current=page]:text-(--semantic-accent-text) lg:text-(--semantic-base-text-primary)"
+    class="group rounded-medium text-fg-3 aria-[current=page]:bg-line aria-[current=page]:text-fg-1 lg:text-fg-1"
     :is-colored="false"
   >
-    <div class="mx-4.5 my-3 flex items-center gap-1.5">
+    <div
+      class="flex h-12 w-20 flex-col items-center justify-center gap-0.5 lg:h-auto lg:w-auto lg:flex-row lg:justify-start lg:gap-2 lg:px-4 lg:py-3"
+    >
       <div class="shrink-0">
         <slot />
       </div>
-      <TypographySubtitleSmall
-        class="truncate group-aria-[current=page]:block max-lg:hidden"
-      >
+      <span class="max-w-full truncate text-caption lg:text-body">
         {{ title }}
-      </TypographySubtitleSmall>
+      </span>
     </div>
   </AppLink>
 </template>

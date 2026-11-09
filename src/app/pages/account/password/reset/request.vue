@@ -1,9 +1,9 @@
 <template>
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
-    <h1 :id="templateIdTitle" class="sr-only">
+    <h1 v-if="step !== 'default'" :id="templateIdTitle" class="sr-only">
       {{ title }}
     </h1>
-    <FormAuthPageHeader v-if="step === 'default'" @back="navigateBack">
+    <FormAuthPageHeader v-else :title-id="templateIdTitle" @back="navigateBack">
       <template #title>{{ t('title') }}</template>
       <template #subtitle>{{ t('subtitle') }}</template>
     </FormAuthPageHeader>
@@ -19,17 +19,11 @@
       <h2 class="text-[28px] leading-8.5 font-bold tracking-[-0.4px]">
         {{ t('instructionsInboxHeading') }}
       </h2>
-      <p
-        class="mt-2 text-[15px] leading-5 font-semibold text-gray-500 dark:text-gray-400"
-      >
+      <p class="mt-2 text-[15px] leading-5 font-semibold text-fg-2">
         {{ t('sentResetLinkTo') }}
-        <span class="font-semibold text-gray-900 dark:text-gray-100">{{
-          submittedEmail
-        }}</span>
+        <span class="font-semibold text-fg-1">{{ submittedEmail }}</span>
       </p>
-      <p
-        class="mt-2 text-[15px] leading-5 font-semibold text-gray-500 dark:text-gray-400"
-      >
+      <p class="mt-2 text-[15px] leading-5 font-semibold text-fg-2">
         {{ t('instructionsInboxDescription') }}
       </p>
     </FormAuthStepSuccess>

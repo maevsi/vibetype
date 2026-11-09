@@ -1,33 +1,34 @@
 <template>
-  <LoaderIndicatorPing v-if="api.isFetching" />
-  <AppError v-else-if="!event" :error="{ status: 404 }" />
-  <div v-else class="flex flex-col gap-4">
-    <section>
-      <LayoutPageTitle :title="t('title')" />
-      <FormEvent :event />
-    </section>
-    <section>
-      <h2>{{ t('titleDelete') }}</h2>
-      <FormDelete
-        id="deleteEvent"
-        :error-pg-ids="{
-          postgres28P01: t('postgres28P01'),
-          postgresP0002: t('postgresP0002'),
-        }"
-        :item-name-deletion="t('formDeleteItemNameDeletion')"
-        :item-name-success="t('formDeleteItemNameSuccess')"
-        :mutation="eventDeleteMutation"
-        :variables="{
-          id: event.rowId,
-        }"
-        @success="navigateTo(localePath(`dashboard`))"
-      />
-    </section>
-  </div>
+  <Loader :api>
+    <AppError v-if="!event" :error="{ status: 404 }" />
+    <div v-else class="flex flex-col gap-4">
+      <section>
+        <LayoutPageTitle :title="t('title')" />
+        <FormEvent :event />
+      </section>
+      <section>
+        <h2>{{ t('titleDelete') }}</h2>
+        <FormDelete
+          id="deleteEvent"
+          :error-pg-ids="{
+            postgres28P01: t('postgres28P01'),
+            postgresP0002: t('postgresP0002'),
+          }"
+          :item-name-deletion="t('formDeleteItemNameDeletion')"
+          :item-name-success="t('formDeleteItemNameSuccess')"
+          :mutation="eventDeleteMutation"
+          :variables="{
+            id: event.rowId,
+          }"
+          @success="navigateTo(localePath(`dashboard`))"
+        />
+      </section>
+    </div>
+  </Loader>
 </template>
 
 <script setup lang="ts">
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
 
@@ -42,12 +43,21 @@ if (route.params.username !== store.signedInUsername) {
 }
 
 // api data
-const eventQuery = useQuery({
+const eventQuery = useApiQuery({
   query: graphql(`
     query EventEdit($slug: String!, $username: String!) {
       accountByUsername(username: $username) {
         eventsByCreatedBy(condition: { slug: $slug }) {
           nodes {
+            addressByAddressId {
+              id
+              location {
+                latitude
+                longitude
+              }
+              name
+              rowId
+            }
             createdBy
             description
             end

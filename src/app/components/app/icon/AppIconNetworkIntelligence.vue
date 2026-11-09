@@ -1,9 +1,6 @@
 <template>
   <AppIcon v-slot="attributes">
-    <IVibetypeNetworkIntelligence
-      v-bind="attributes"
-      :aria-label="t('ariaLabel')"
-    />
+    <IHeroiconsSparkles v-bind="attributes" :aria-label="t('ariaLabel')" />
   </AppIcon>
 </template>
 

@@ -1,20 +1,18 @@
 <template>
-  <form
-    ref="formRef"
-    class="flex flex-col gap-4"
-    @submit.prevent="form.handleSubmit"
-  >
+  <form class="flex flex-col gap-4" @submit.prevent="form.handleSubmit">
     <form.Field v-slot="{ field }" name="userName">
       <Field>
-        <FieldLabel>
+        <FieldLabel :for="field.name">
           <TypographySubtitleSmall>
             {{ t('userName') }}
           </TypographySubtitleSmall>
         </FieldLabel>
         <FieldContent>
           <Input
+            :id="field.name"
             :aria-invalid="isFieldInvalid(field)"
             :model-value="field.state.value"
+            :name="field.name"
             type="text"
             @blur="field.handleBlur"
             @input="
@@ -30,15 +28,17 @@
     </form.Field>
     <form.Field v-slot="{ field }" name="userEmailAddress">
       <Field>
-        <FieldLabel>
+        <FieldLabel :for="field.name">
           <TypographySubtitleSmall>
             {{ t('userEmailAddress') }}
           </TypographySubtitleSmall>
         </FieldLabel>
         <FieldContent>
           <Input
+            :id="field.name"
             :aria-invalid="isFieldInvalid(field)"
             :model-value="field.state.value"
+            :name="field.name"
             type="email"
             @blur="field.handleBlur"
             @input="
@@ -57,6 +57,7 @@
         <div class="flex gap-3">
           <FieldContent class="mt-1">
             <AppCheckbox
+              :id="field.name"
               :aria-invalid="isFieldInvalid(field)"
               :model-value="field.state.value"
               required
@@ -65,7 +66,7 @@
               "
             />
           </FieldContent>
-          <FieldLabel>
+          <FieldLabel :for="field.name">
             <TypographySubtitleSmall>
               <i18n-t keypath="userConsent">
                 <template #contactForm>
@@ -103,7 +104,6 @@ const emit = defineEmits<{
 
 // form
 const modelError = defineModel<Error>('error')
-const formRef = useTemplateRef<HTMLFormElement>('formRef')
 const captchaIsUsed = ref<boolean>()
 
 const formSchema = z.object({
@@ -140,11 +140,6 @@ const form = useForm({
       captchaIsUsed.value = true
     }
   },
-})
-
-const submit = () => formRef.value?.requestSubmit()
-defineExpose({
-  submit,
 })
 
 // template
