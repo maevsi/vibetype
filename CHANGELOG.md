@@ -1,3 +1,13 @@
+## [17.0.0-beta.2](https://github.com/maevsi/vibetype/compare/17.0.0-beta.1...17.0.0-beta.2) (2026-11-09)
+
+### ⚠ BREAKING CHANGES
+
+* **sentry:** enable only when deployment sets flag (#2562)
+
+### Bug Fixes
+
+* **sentry:** enable only when deployment sets flag ([#2562](https://github.com/maevsi/vibetype/issues/2562)) ([d0b0c4f](https://github.com/maevsi/vibetype/commit/d0b0c4f20e17dc401dc71a93946763649b1e47db))
+
 ## [17.0.0-beta.1](https://github.com/maevsi/vibetype/compare/16.11.0...17.0.0-beta.1) (2026-11-09)
 
 ### ⚠ BREAKING CHANGES
