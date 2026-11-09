@@ -1,3 +1,9 @@
+## [16.10.0](https://github.com/maevsi/vibetype/compare/16.9.1...16.10.0) (2026-11-09)
+
+### Features
+
+* **pwa:** open calendar files and web+vibetype links ([#2528](https://github.com/maevsi/vibetype/issues/2528)) ([1a494a1](https://github.com/maevsi/vibetype/commit/1a494a15550e60968de6ae1df92baa19ba762556))
+
 ## [16.9.1](https://github.com/maevsi/vibetype/compare/16.9.0...16.9.1) (2026-11-09)
 
 ### Bug Fixes
