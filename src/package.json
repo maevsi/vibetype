@@ -3,7 +3,7 @@
   "devDependencies": {
     "@aws-sdk/client-sesv2": "3.1163.0",
     "@aws-sdk/credential-providers": "3.1163.0",
-    "@comark/nuxt": "0.8.1",
+    "@comark/nuxt": "0.9.0",
     "@dargmuesli/nuxt-cookie-control": "9.3.12",
     "@dargmuesli/nuxt-vio": "23.1.6",
     "@fontsource-variable/raleway": "5.3.0",
@@ -76,7 +76,7 @@
     "chart.js": "4.6.1",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
-    "comark": "0.8.1",
+    "comark": "0.9.0",
     "consola": "3.4.2",
     "cookie-es": "3.1.1",
     "css-element-queries": "1.2.3",
