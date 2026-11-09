@@ -1,3 +1,13 @@
+## [16.12.0](https://github.com/maevsi/vibetype/compare/16.11.0...16.12.0) (2026-11-09)
+
+### Features
+
+* **guest:** offer the check in code as a pdf ticket ([#2530](https://github.com/maevsi/vibetype/issues/2530)) ([527e323](https://github.com/maevsi/vibetype/commit/527e323c154f900250b57ed008426f27b8f1a970))
+
+### Bug Fixes
+
+* **urql:** forward the query context during server rendering ([#2563](https://github.com/maevsi/vibetype/issues/2563)) ([93434c9](https://github.com/maevsi/vibetype/commit/93434c97bc3acf4ee6e194cc70e6023d228350fb))
+
 ## [16.11.0](https://github.com/maevsi/vibetype/compare/16.10.0...16.11.0) (2026-11-09)
 
 ### Features
