@@ -922,11 +922,11 @@ export type DeleteProfilePictureByRowIdMutationMutation = {
 export type AccountSearchQueryVariables = Exact<{
   after?: string | null | undefined
   first?: number | null | undefined
-  username?: string | null | undefined
+  query?: string | null | undefined
 }>
 
 export type AccountSearchQuery = {
-  allAccounts: {
+  accountSearch: {
     nodes: Array<{ id: string; rowId: string; username: string }>
     pageInfo: { endCursor: string | null; hasNextPage: boolean }
   } | null
@@ -1090,7 +1090,6 @@ export type EventListQuery = {
 export type EventSearchQueryVariables = Exact<{
   after?: string | null | undefined
   first?: number | null | undefined
-  language?: Language | null | undefined
   query?: string | null | undefined
 }>
 
@@ -2937,7 +2936,7 @@ export const AccountSearchDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'username' },
+            name: { kind: 'Name', value: 'query' },
           },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
@@ -2947,7 +2946,7 @@ export const AccountSearchDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'allAccounts' },
+            name: { kind: 'Name', value: 'accountSearch' },
             arguments: [
               {
                 kind: 'Argument',
@@ -2955,23 +2954,6 @@ export const AccountSearchDocument = {
                 value: {
                   kind: 'Variable',
                   name: { kind: 'Name', value: 'after' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'condition' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'username' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'username' },
-                      },
-                    },
-                  ],
                 },
               },
               {
@@ -2984,8 +2966,11 @@ export const AccountSearchDocument = {
               },
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'orderBy' },
-                value: { kind: 'EnumValue', value: 'USERNAME_ASC' },
+                name: { kind: 'Name', value: 'query' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'query' },
+                },
               },
             ],
             selectionSet: {
@@ -4115,17 +4100,6 @@ export const EventSearchDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'language' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'Language' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
             name: { kind: 'Name', value: 'query' },
           },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
@@ -4152,14 +4126,6 @@ export const EventSearchDocument = {
                 value: {
                   kind: 'Variable',
                   name: { kind: 'Name', value: 'first' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'language' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'language' },
                 },
               },
               {

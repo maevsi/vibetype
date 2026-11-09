@@ -1,3 +1,53 @@
+## [17.0.0-beta.3](https://github.com/maevsi/vibetype/compare/17.0.0-beta.2...17.0.0-beta.3) (2026-11-09)
+
+### Features
+
+* **app:** show dialog when lockdown mode is enabled on ios ([#2519](https://github.com/maevsi/vibetype/issues/2519)) ([2ad2951](https://github.com/maevsi/vibetype/commit/2ad29515cf786c28353cde3b163e8522839575ff))
+* **guest:** offer the check in code as a pdf ticket ([#2530](https://github.com/maevsi/vibetype/issues/2530)) ([527e323](https://github.com/maevsi/vibetype/commit/527e323c154f900250b57ed008426f27b8f1a970))
+* **style:** align the pages with the design system ([#2564](https://github.com/maevsi/vibetype/issues/2564)) ([22d8910](https://github.com/maevsi/vibetype/commit/22d891053659143e78fe27f4de8c2a12f01080cf))
+
+### Bug Fixes
+
+* **urql:** forward the query context during server rendering ([#2563](https://github.com/maevsi/vibetype/issues/2563)) ([93434c9](https://github.com/maevsi/vibetype/commit/93434c97bc3acf4ee6e194cc70e6023d228350fb))
+
+## [17.0.0-beta.2](https://github.com/maevsi/vibetype/compare/17.0.0-beta.1...17.0.0-beta.2) (2026-11-09)
+
+### ⚠ BREAKING CHANGES
+
+* **sentry:** enable only when deployment sets flag (#2562)
+
+### Bug Fixes
+
+* **sentry:** enable only when deployment sets flag ([#2562](https://github.com/maevsi/vibetype/issues/2562)) ([d0b0c4f](https://github.com/maevsi/vibetype/commit/d0b0c4f20e17dc401dc71a93946763649b1e47db))
+
+## [17.0.0-beta.1](https://github.com/maevsi/vibetype/compare/16.11.0...17.0.0-beta.1) (2026-11-09)
+
+### ⚠ BREAKING CHANGES
+
+* **turnstile:** drop postgraphile auth proxy (#2375)
+* **app:** drop outdated detection keys
+
+### Features
+
+* **app:** drop outdated detection keys ([9eb7e4e](https://github.com/maevsi/vibetype/commit/9eb7e4efe1b94a489b94ccb7c1b2c92f53040531))
+* **search:** match the sqitch backend rework ([#2379](https://github.com/maevsi/vibetype/issues/2379)) ([c17e95a](https://github.com/maevsi/vibetype/commit/c17e95a62969d6f1d83a421f70aadd1d72c2f92e))
+* **turnstile:** drop postgraphile auth proxy ([#2375](https://github.com/maevsi/vibetype/issues/2375)) ([c464d5b](https://github.com/maevsi/vibetype/commit/c464d5bbc9d13d51b67ad886095068ea48e081e2))
+
+## [16.0.0-beta.4](https://github.com/maevsi/vibetype/compare/16.0.0-beta.3...16.0.0-beta.4) (2026-08-16)
+
+## [16.0.0-beta.3](https://github.com/maevsi/vibetype/compare/16.0.0-beta.2...16.0.0-beta.3) (2026-08-15)
+
+## [16.0.0-beta.2](https://github.com/maevsi/vibetype/compare/16.0.0-beta.1...16.0.0-beta.2) (2026-08-14)
+
+## [16.0.0-beta.1](https://github.com/maevsi/vibetype/compare/15.1.9...16.0.0-beta.1) (2026-06-26)
+
+### ⚠ BREAKING CHANGES
+
+* **app:** drop outdated detection keys
+
+### Features
+
+* **app:** drop outdated detection keys ([9eb7e4e](https://github.com/maevsi/vibetype/commit/9eb7e4efe1b94a489b94ccb7c1b2c92f53040531))
 ## [16.13.0](https://github.com/maevsi/vibetype/compare/16.12.0...16.13.0) (2026-11-09)
 
 ### Features
@@ -32,7 +82,6 @@
 ### Bug Fixes
 
 * **account:** send a turnstile token on password reset request ([#2558](https://github.com/maevsi/vibetype/issues/2558)) ([2bccf93](https://github.com/maevsi/vibetype/commit/2bccf93f6921e321768778fbdba7ae0a3228dc0f))
-
 ## [16.9.0](https://github.com/maevsi/vibetype/compare/16.8.0...16.9.0) (2026-11-09)
 
 ### Features

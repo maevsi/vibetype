@@ -15,7 +15,7 @@ import {
 const sharedSentryConfig = getSharedSentryConfig({
   environment: NUXT_PUBLIC_VIO_ENVIRONMENT,
   host: NUXT_PUBLIC_SENTRY_HOST,
-  isInProduction: NUXT_PUBLIC_VIO_ENVIRONMENT === 'production',
+  isEnabled: process.env.NUXT_PUBLIC_SENTRY_ENABLED === 'true',
   isTesting: !!process.env.NUXT_PUBLIC_VIO_IS_TESTING,
   profileSessionSampleRate: NUXT_PUBLIC_SENTRY_PROFILE_SESSION_SAMPLE_RATE,
   projectId: NUXT_PUBLIC_SENTRY_PROJECT_ID,
