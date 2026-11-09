@@ -1,7 +1,7 @@
 import { expect } from '@playwright/test'
 import type { Page } from 'playwright-core'
 
-export const COOKIE_CONTROL_CONSENT_COOKIE_DEFAULT_VALUE = 'acstccfga'
+export const COOKIE_CONTROL_CONSENT_COOKIE_DEFAULT_VALUE = 'acstlccfga'
 export const TIMEOUT = 60000
 // hydration regularly takes longer than the default 5 second expect timeout on the dev server or a busy runner; stays below the 30 second test timeout so a page that never hydrates still fails here
 export const HYDRATION_TIMEOUT = 20000
