@@ -1,3 +1,15 @@
+## [17.0.0-beta.3](https://github.com/maevsi/vibetype/compare/17.0.0-beta.2...17.0.0-beta.3) (2026-11-09)
+
+### Features
+
+* **app:** show dialog when lockdown mode is enabled on ios ([#2519](https://github.com/maevsi/vibetype/issues/2519)) ([2ad2951](https://github.com/maevsi/vibetype/commit/2ad29515cf786c28353cde3b163e8522839575ff))
+* **guest:** offer the check in code as a pdf ticket ([#2530](https://github.com/maevsi/vibetype/issues/2530)) ([527e323](https://github.com/maevsi/vibetype/commit/527e323c154f900250b57ed008426f27b8f1a970))
+* **style:** align the pages with the design system ([#2564](https://github.com/maevsi/vibetype/issues/2564)) ([22d8910](https://github.com/maevsi/vibetype/commit/22d891053659143e78fe27f4de8c2a12f01080cf))
+
+### Bug Fixes
+
+* **urql:** forward the query context during server rendering ([#2563](https://github.com/maevsi/vibetype/issues/2563)) ([93434c9](https://github.com/maevsi/vibetype/commit/93434c97bc3acf4ee6e194cc70e6023d228350fb))
+
 ## [17.0.0-beta.2](https://github.com/maevsi/vibetype/compare/17.0.0-beta.1...17.0.0-beta.2) (2026-11-09)
 
 ### ⚠ BREAKING CHANGES
