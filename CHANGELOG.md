@@ -1,3 +1,9 @@
+## [16.9.1](https://github.com/maevsi/vibetype/compare/16.9.0...16.9.1) (2026-11-09)
+
+### Bug Fixes
+
+* **account:** send a turnstile token on password reset request ([#2558](https://github.com/maevsi/vibetype/issues/2558)) ([2bccf93](https://github.com/maevsi/vibetype/commit/2bccf93f6921e321768778fbdba7ae0a3228dc0f))
+
 ## [16.9.0](https://github.com/maevsi/vibetype/compare/16.8.0...16.9.0) (2026-11-09)
 
 ### Features
