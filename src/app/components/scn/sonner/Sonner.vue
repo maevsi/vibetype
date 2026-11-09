@@ -19,9 +19,9 @@ const props = defineProps<ToasterProps>()
         cancelButton:
           'group-[.toast]:bg-muted group-[.toast]:text-muted-foreground',
         success:
-          'group-[.toaster]:!bg-(--semantic-success-weak) group-[.toaster]:!text-(--semantic-base-text-primary) group-[.toaster]:!border-(--semantic-success-weak)',
+          'group-[.toaster]:!bg-success-tint group-[.toaster]:!text-fg-1 group-[.toaster]:!border-success-tint',
         error:
-          'group-[.toaster]:!bg-(--semantic-critic-weak) group-[.toaster]:!text-(--semantic-base-text-primary) group-[.toaster]:!border-(--semantic-critic-weak)',
+          'group-[.toaster]:!bg-danger-tint group-[.toaster]:!text-fg-1 group-[.toaster]:!border-danger-tint',
       },
     }"
   />

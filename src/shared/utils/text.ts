@@ -18,6 +18,15 @@ export const getStringTruncated = ({
   )
 }
 
+export const getHtmlFromText = (text: string) =>
+  text
+    .split('\n')
+    .map(
+      (line) =>
+        `<p>${line.replace(/[&<>]/g, (character) => `&#${character.charCodeAt(0)};`)}</p>`,
+    )
+    .join('')
+
 export const getTextFromHtml = (html: string) =>
   htmlToText(html, {
     selectors: [

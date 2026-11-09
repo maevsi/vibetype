@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form novalidate @submit.prevent="form.handleSubmit">
+    <form novalidate @submit.prevent="submit">
       <div class="flex flex-col gap-4">
         <form.Field v-slot="{ field: nameField }" name="name">
           <Field>
@@ -318,7 +318,7 @@
                   @geocode="onGeocode"
                 />
                 <AppIconMapPinSolid
-                  class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-(--semantic-error-strong)"
+                  class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-error"
                 />
               </div>
             </AppFeature>
@@ -399,6 +399,7 @@ import { toDate } from 'reka-ui/date'
 import { useForm } from '@tanstack/vue-form'
 import type { AnyFieldApi } from '@tanstack/vue-form'
 import { useMutation } from '@urql/vue'
+import slugify from 'slugify'
 import { z } from 'zod'
 
 import { cn } from '@/utils/shadcn'
@@ -891,13 +892,13 @@ const applyTimeSelection = (field: AnyFieldApi, time?: TimeValue) => {
     toDate(toCalendarDateTime(date, time), getLocalTimeZone()).toISOString(),
   )
 }
-const onInputName = async (value: string, nameField: AnyFieldApi) => {
+// stays synchronous: lazily importing `slugify` here let a submit right after
+// typing race the slug update, which silently dropped the save
+const onInputName = (value: string, nameField: AnyFieldApi) => {
   nameField.handleChange(value)
-  await updateSlug()
+  updateSlug()
 }
-const updateSlug = async () => {
-  const slugify = (await import('slugify')).default
-
+const updateSlug = () => {
   form.setFieldValue(
     'slug',
     slugify(form.getFieldValue('name') ?? '', {
@@ -918,6 +919,13 @@ const isWarningStartPastShown = computed(() => {
 const errorMessages = computed(() =>
   api.value.errors ? getCombinedErrorMessages(api.value.errors) : undefined,
 )
+
+// `handleSubmit` silently drops a first attempt while a field is still
+// validating, as the debounced slug check is right after the name changes
+const submit = async () => {
+  await form.validateAllFields('change')
+  await form.handleSubmit()
+}
 
 // initialization — set rowId for edit mode
 if (event?.rowId) {

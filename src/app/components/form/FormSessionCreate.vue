@@ -18,10 +18,7 @@
               </template>
             </FormAuthInput>
           </FieldContent>
-          <p
-            v-if="usernameValidation.error.value"
-            class="text-sm text-(--semantic-critic-text)"
-          >
+          <p v-if="usernameValidation.error.value" class="text-sm text-error">
             {{ usernameValidation.error.value }}
           </p>
         </Field>
@@ -38,35 +35,33 @@
               @input="handlePasswordInput(field, $event)"
             />
           </FieldContent>
-          <p
-            v-if="passwordValidation.error.value"
-            class="text-sm text-(--semantic-critic-text)"
-          >
+          <p v-if="passwordValidation.error.value" class="text-sm text-error">
             {{ passwordValidation.error.value }}
           </p>
         </Field>
       </form.Field>
       <div class="text-right">
         <NuxtLinkLocale
-          class="text-sm font-medium text-(--semantic-base-text-primary)"
+          class="text-sm font-medium text-fg-1"
           to="account-password-reset-request"
         >
           {{ t('forgotPassword') }}
         </NuxtLinkLocale>
       </div>
       <FormFieldCaptcha v-model:captcha-is-used="captchaIsUsed" :form />
-      <FormAuthButton
+      <ButtonColored
         :aria-label="t('signIn')"
+        class="w-full"
         :loading="loading"
         type="submit"
       >
         {{ t('signIn') }}
-      </FormAuthButton>
+      </ButtonColored>
     </form>
-    <p class="text-center text-[15px] text-(--semantic-base-text-secondary)">
+    <p class="text-center text-[15px] text-fg-2">
       {{ t('newToVibetype') }}
       <NuxtLinkLocale
-        class="font-semibold text-(--semantic-accent-text)"
+        class="font-semibold text-link underline"
         to="account-create"
       >
         {{ t('register') }}

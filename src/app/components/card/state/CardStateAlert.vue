@@ -1,13 +1,5 @@
 <template>
-  <CardState
-    :class="
-      cn(
-        'bg-(--semantic-critic-strong) text-(--semantic-base-light-text-on-dark)',
-        classProps,
-      )
-    "
-    role="alert"
-  >
+  <CardState :class="cn('bg-danger-tint text-fg-1', classProps)" role="alert">
     <slot />
   </CardState>
 </template>

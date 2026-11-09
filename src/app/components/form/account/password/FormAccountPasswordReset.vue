@@ -15,9 +15,9 @@
       @update:password-value="passwordPairValidation.handlePasswordInput"
       @update:repetition-value="passwordPairValidation.handleRepetitionInput"
     />
-    <FormAuthButton :aria-label="t('save')" class="mt-4" type="submit">
+    <ButtonColored :aria-label="t('save')" class="mt-4 w-full" type="submit">
       {{ t('save') }}
-    </FormAuthButton>
+    </ButtonColored>
   </form>
 </template>
 

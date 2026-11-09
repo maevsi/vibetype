@@ -15,7 +15,10 @@ import { requestPolicyExchange } from '@urql/exchange-request-policy'
 import { parse } from 'graphql'
 import { describe, expect, test } from 'vitest'
 
-import { getSsrHydrationExchanges } from '#src/shared/utils/urqlSsrHydration'
+import {
+  getRefetchBeforeHydrationExchange,
+  getSsrHydrationExchanges,
+} from '#src/shared/utils/urqlSsrHydration'
 
 const accountQuery = parse('query Account { account { __typename id name } }')
 const eventQuery = parse(
@@ -41,10 +44,12 @@ const storedEntries: SerializedEntries = {
 }
 
 const hydrate = ({
+  isRefetching = false,
   isWrapped = true,
   readDelay = 0,
   ssrData,
 }: {
+  isRefetching?: boolean
   isWrapped?: boolean
   readDelay?: number
   ssrData: [DocumentNode, unknown][]
@@ -64,10 +69,12 @@ const hydrate = ({
     isCacheHydrated: () => isCacheHydrated,
     ssrExchange,
   })
+  const refetchBeforeHydration = getRefetchBeforeHydrationExchange()
   const cacheExchange = offlineExchange({
     storage: {
       onCacheHydrated: () => {
         isCacheHydrated = true
+        refetchBeforeHydration.refetch()
       },
       onOnline: () => {},
       readData: async () => {
@@ -96,6 +103,7 @@ const hydrate = ({
   const client = createClient({
     exchanges: [
       requestPolicyExchange({}),
+      ...(isRefetching ? [refetchBeforeHydration.exchange] : []),
       ...(isWrapped
         ? [skipCacheRead, cacheExchange, answerFromSsr]
         : [cacheExchange]),
@@ -205,5 +213,37 @@ describe('getSsrHydrationExchanges', () => {
 
     expect(result.data?.account.name).toBe('network')
     expect(getRequestCount()).toBe(1)
+  })
+})
+
+describe('getRefetchBeforeHydrationExchange', () => {
+  test('refetch queries answered before the storage loaded', async () => {
+    const { client, getRequestCount } = hydrate({
+      isRefetching: true,
+      readDelay: 20,
+      ssrData: [[accountQuery, getAccountData('server')]],
+    })
+
+    const names = getAccountNames(client)
+    await wait(50)
+
+    expect(names[0]).toBe('server')
+    expect(names.at(-1)).toBe('network')
+    expect(names).not.toContain('stored')
+    expect(getRequestCount()).toBe(1)
+  })
+
+  test('stay idle for queries made after the storage loaded', async () => {
+    const { client, getRequestCount } = hydrate({
+      isRefetching: true,
+      ssrData: [[accountQuery, getAccountData('server')]],
+    })
+    await wait(10)
+
+    const names = getAccountNames(client)
+    await wait(50)
+
+    expect(names).toEqual(['server'])
+    expect(getRequestCount()).toBe(0)
   })
 })

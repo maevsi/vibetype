@@ -1,7 +1,7 @@
 <template>
   <section
     :aria-labelledby="$slots.title ? templateIdTitle : undefined"
-    class="flex flex-col gap-10"
+    class="flex flex-col gap-6"
   >
     <TypographyH3
       v-if="$slots.title"
@@ -10,20 +10,19 @@
     >
       <slot name="title" />
     </TypographyH3>
-    <div class="flex justify-center">
-      <AppIconStateError
-        v-if="type === 'error'"
-        class="size-12 text-(--semantic-error-strong)"
-      />
+    <div
+      class="flex size-14 items-center justify-center self-center rounded-medium bg-surface-raised"
+    >
+      <AppIconStateError v-if="type === 'error'" class="size-8 text-error" />
       <AppIconStateSuccess
         v-else-if="type === 'success'"
-        class="size-12 text-(--semantic-success-strong)"
+        class="size-8 text-link"
       />
       <AppIconStateWarning
         v-else-if="type === 'warning'"
-        class="size-12 text-(--semantic-warning-icon)"
+        class="size-8 text-warning"
       />
-      <AppIconBugAnt v-else class="size-12 text-(--semantic-error-strong)" />
+      <AppIconBugAnt v-else class="size-8 text-error" />
     </div>
     <div class="flex flex-col gap-8">
       <TypographySubtitleLarge

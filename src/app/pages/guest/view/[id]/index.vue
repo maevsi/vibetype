@@ -65,15 +65,22 @@
               class="absolute inset-x-0 top-0 flex items-center justify-between p-2"
             >
               <div />
-              <div>
+              <div class="flex items-center gap-2">
                 <ButtonIcon
                   :aria-label="t('iCalDownload')"
-                  class="flex size-12 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                  class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
                   @click="downloadIcal"
                 >
                   <AppIconArrowDownTray :title="t('iCalDownload')" />
                 </ButtonIcon>
-                <!-- TODO: share & favorite button (https://github.com/maevsi/vibetype/issues/2480) -->
+                <EventShareButton
+                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
+                  :event
+                />
+                <EventFavoriteButton
+                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
+                  :event
+                />
                 <template
                   v-if="
                     store.signedInAccountId &&
@@ -89,7 +96,7 @@
                     </AppDropdownItem>
                     <template #trigger>
                       <span
-                        class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                        class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
                       >
                         <AppIconMoreVertical />
                       </span>
@@ -143,7 +150,7 @@
           >
             <div
               v-if="guest.feedback === InvitationFeedback.Accepted"
-              class="flex items-center font-semibold text-(--semantic-accent-text)"
+              class="flex items-center font-semibold text-link"
             >
               <AppIconCheckCircleSolid class="mr-2 shrink-0" />
               <span>
@@ -152,7 +159,7 @@
             </div>
             <div
               v-else-if="guest.feedback === InvitationFeedback.Canceled"
-              class="flex items-center font-semibold text-(--semantic-critic-text)"
+              class="flex items-center font-semibold text-error"
             >
               <AppIconXCircleSolid class="mr-2 shrink-0" />
               <span>
@@ -182,7 +189,7 @@
             </ButtonColored>
             <div
               v-if="guest.feedback === InvitationFeedback.Accepted"
-              class="flex items-center font-semibold text-(--semantic-accent-text)"
+              class="flex items-center font-semibold text-link"
             >
               <AppIconCheckCircleSolid
                 class="mr-2 shrink-0"
@@ -206,7 +213,7 @@
             </ButtonColored>
             <div
               v-if="guest.feedback === InvitationFeedback.Canceled"
-              class="flex items-center font-semibold text-(--semantic-critic-text)"
+              class="flex items-center font-semibold text-error"
             >
               <AppIconXCircleSolid
                 class="mr-2 shrink-0"
@@ -227,7 +234,7 @@
       <Modal v-model="isModalGuestQrCodeOpen">
         <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
           <QrcodeVue id="qrCode" :margin="4" :size="232" :value="guest.rowId" />
-          <p class="text-sm text-(--semantic-base-text-secondary)">
+          <p class="text-sm text-fg-2">
             {{ t('hintQrCode') }}
           </p>
         </div>
@@ -355,6 +362,13 @@ const eventQuery = useApiQuery({
                 name
               }
               id
+            }
+          }
+          eventFavoritesByEventId(first: 1) {
+            nodes {
+              createdBy
+              id
+              rowId
             }
           }
           eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {

@@ -2,10 +2,7 @@
   <!-- TODO: hide or show overflow completely -->
   <div
     :class="
-      cn(
-        'overflow-x-hidden rounded-xl border border-(--semantic-base-line) bg-(--semantic-base-surface-1) p-2 shadow-xs',
-        classProps,
-      )
+      cn('overflow-x-hidden rounded-large bg-surface-raised p-2', classProps)
     "
   >
     <slot />

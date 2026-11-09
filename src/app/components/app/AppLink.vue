@@ -56,9 +56,7 @@ const isModalExternalLinkOpen = ref(false)
 const classComputed = computed(() =>
   [
     'rounded',
-    ...(isColored
-      ? ['text-(--semantic-accent-text) dark:text-(--accent-strong)']
-      : []),
+    ...(isColored ? ['text-link'] : []),
     ...(isDisabled ? ['disabled'] : []),
     ...(isUnderlined ? ['underline'] : []),
   ].join(' '),

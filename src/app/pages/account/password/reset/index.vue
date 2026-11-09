@@ -21,72 +21,64 @@
       <h2 class="text-[28px] leading-8.5 font-bold tracking-[-0.4px]">
         {{ t('instructionsSuccessHeading') }}
       </h2>
-      <p
-        class="mt-2 text-[15px] leading-5 font-semibold text-(--semantic-base-text-secondary)"
-      >
+      <p class="mt-2 text-[15px] leading-5 font-semibold text-fg-2">
         {{ t('instructionsSuccessDescription') }}
       </p>
-      <FormAuthButton
+      <ButtonColored
         :aria-label="t('signIn')"
-        class="mt-6"
+        class="mt-6 w-full"
         @click="navigateTo(localePath('session-create'))"
       >
         {{ t('signIn') }}
-      </FormAuthButton>
+      </ButtonColored>
     </FormAuthStepSuccess>
     <FormAuthStepError :error="error" :is-active="step === 'error'">
       <div
-        class="mb-6 flex size-16 items-center justify-center rounded-full bg-(--semantic-critic-weak)"
+        class="mb-6 flex size-16 items-center justify-center rounded-full bg-danger-tint"
       >
-        <IHeroiconsExclamationCircle
-          class="size-8 text-(--semantic-critic-text)"
-        />
+        <IHeroiconsExclamationCircle class="size-8 text-error" />
       </div>
       <h2
-        class="mb-2 text-[28px] leading-8.5 font-bold tracking-tight text-(--semantic-base-text-primary)"
+        class="mb-2 text-[28px] leading-8.5 font-bold tracking-tight text-fg-1"
       >
         {{ t('errorHeading') }}
       </h2>
       <p
-        class="mb-6 text-[15px] leading-5 font-semibold tracking-tight text-(--semantic-base-text-secondary)"
+        class="mb-6 text-[15px] leading-5 font-semibold tracking-tight text-fg-2"
       >
         {{ t('errorDescription') }}
       </p>
-      <div
-        v-if="error?.message"
-        class="mb-6 rounded-2xl bg-(--semantic-base-surface-1) p-4"
-      >
-        <p
-          class="mb-2 text-[15px] font-semibold text-(--semantic-base-text-primary)"
-        >
+      <div v-if="error?.message" class="mb-6 rounded-2xl bg-surface-raised p-4">
+        <p class="mb-2 text-[15px] font-semibold text-fg-1">
           {{ t('errorMessageLabel') }}
         </p>
-        <p class="mb-3 text-sm text-(--semantic-base-text-secondary)">
+        <p class="mb-3 text-sm text-fg-2">
           {{ error.message }}
         </p>
         <button
-          class="text-sm font-medium text-(--semantic-base-text-primary) underline"
+          class="text-sm font-medium text-fg-1 underline"
           type="button"
           @click="copyErrorToClipboard"
         >
           {{ t('copyToClipboard') }}
         </button>
       </div>
-      <FormAuthButton
+      <ButtonColored
         :aria-label="t('tryAgain')"
-        class="mb-3"
+        class="mb-3 w-full"
         variant="primary"
         @click="restart"
       >
         {{ t('tryAgain') }}
-      </FormAuthButton>
-      <FormAuthButton
+      </ButtonColored>
+      <ButtonColored
         :aria-label="t('returnBack')"
+        class="w-full"
         variant="secondary"
         @click="navigateBack"
       >
         {{ t('returnBack') }}
-      </FormAuthButton>
+      </ButtonColored>
     </FormAuthStepError>
   </section>
 </template>

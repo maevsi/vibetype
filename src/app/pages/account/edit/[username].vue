@@ -26,7 +26,7 @@
     </div>
     <div class="flex flex-col gap-3">
       <div
-        class="flex items-center justify-between gap-4 rounded-lg border border-(--semantic-base-background) bg-(--semantic-base-surface-1) p-3"
+        class="flex items-center justify-between gap-4 rounded-lg border border-surface bg-surface-raised p-3"
       >
         <AccountProfilePicture
           :account-id="account.rowId"
@@ -82,7 +82,7 @@
         @save="saveImprint"
       />
       <CardButton
-        class="border-(--semantic-warning-strong) bg-(--semantic-warning-weak) text-(--semantic-base-text-primary)"
+        class="border-action-warning bg-warning-tint text-fg-1"
         :title="t('resetPassword')"
         :to="
           localePath({

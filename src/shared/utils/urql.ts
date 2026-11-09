@@ -34,7 +34,10 @@ import {
   allPreferenceEventLocationsQuery,
   getPreferenceEventLocationItem,
 } from '~~/shared/utils/preference/eventLocation'
-import { getSsrHydrationExchanges } from '~~/shared/utils/urqlSsrHydration'
+import {
+  getRefetchBeforeHydrationExchange,
+  getSsrHydrationExchanges,
+} from '~~/shared/utils/urqlSsrHydration'
 
 // A `useQuery` that settles on the server: the query is paused at creation,
 // and awaiting the response executes it exactly once and fills its state, so
@@ -457,6 +460,7 @@ export const getUrqlClient = async ({
       isCacheHydrated: () => isCacheHydrated,
       ssrExchange,
     })
+    const refetchBeforeHydration = getRefetchBeforeHydrationExchange()
     const cacheExchange =
       import.meta.client && cacheStorage
         ? getOfflineExchange({
@@ -466,6 +470,7 @@ export const getUrqlClient = async ({
               ...cacheStorage,
               onCacheHydrated: () => {
                 isCacheHydrated = true
+                refetchBeforeHydration.refetch()
               },
             },
           })
@@ -478,6 +483,7 @@ export const getUrqlClient = async ({
         requestPolicyExchange({}),
         ...(cacheExchange
           ? [
+              refetchBeforeHydration.exchange,
               ssrHydrationExchanges.skipCacheRead,
               cacheExchange,
               ssrHydrationExchanges.answerFromSsr,

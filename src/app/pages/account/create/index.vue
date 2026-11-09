@@ -29,10 +29,7 @@
               <IHeroiconsEnvelope />
             </template>
           </FormAuthInput>
-          <p
-            v-if="emailField.error.value"
-            class="text-sm text-(--semantic-critic-text)"
-          >
+          <p v-if="emailField.error.value" class="text-sm text-error">
             {{ emailField.error.value }}
           </p>
           <!-- Terms checkbox -->
@@ -42,39 +39,41 @@
               :value="agreedToTerms"
               @change="agreedToTerms = $event"
             >
-              <span class="text-sm text-(--semantic-base-text-secondary)">
+              <span class="text-sm text-fg-2">
                 {{ t('agreePrefix') }}
                 <NuxtLinkLocale
-                  class="font-semibold text-(--semantic-accent-text)"
+                  class="font-semibold text-link underline"
                   to="docs-legal-terms"
                   >{{ t('termsOfService') }}</NuxtLinkLocale
                 >{{ t('legalComma') }}
                 <NuxtLinkLocale
-                  class="font-semibold text-(--semantic-accent-text)"
+                  class="font-semibold text-link underline"
                   to="docs-legal-imprint"
                   >{{ t('imprint') }}</NuxtLinkLocale
                 >
                 {{ t('and') }}
                 <NuxtLinkLocale
-                  class="font-semibold text-(--semantic-accent-text)"
+                  class="font-semibold text-link underline"
                   to="docs-legal-privacy"
                   >{{ t('privacyPolicy') }}</NuxtLinkLocale
                 >
               </span>
             </FormCheckbox>
           </div>
-          <p v-if="termsError" class="text-sm text-(--semantic-critic-text)">
+          <p v-if="termsError" class="text-sm text-error">
             {{ termsError }}
           </p>
-          <FormAuthButton :aria-label="t('continue')" type="submit">
-            {{ t('continue') }}
-          </FormAuthButton>
-          <p
-            class="text-center text-[15px] text-(--semantic-base-text-secondary)"
+          <ButtonColored
+            :aria-label="t('continue')"
+            class="w-full"
+            type="submit"
           >
+            {{ t('continue') }}
+          </ButtonColored>
+          <p class="text-center text-[15px] text-fg-2">
             {{ t('alreadyHaveAccount') }}
             <NuxtLinkLocale
-              class="font-semibold text-(--semantic-accent-text)"
+              class="font-semibold text-link underline"
               to="session-create"
               >{{ t('signInLink') }}</NuxtLinkLocale
             >
@@ -123,25 +122,23 @@
               class="absolute top-1/2 right-4 -translate-y-1/2"
             >
               <div
-                class="size-5 animate-spin rounded-full border-2 border-(--semantic-base-line) border-t-green-600"
+                class="size-5 animate-spin rounded-full border-2 border-line border-t-green-600"
               />
             </div>
           </div>
-          <p
-            v-if="usernameField.error.value"
-            class="text-sm text-(--semantic-critic-text)"
-          >
+          <p v-if="usernameField.error.value" class="text-sm text-error">
             {{ usernameField.error.value }}
           </p>
-          <FormAuthButton
+          <ButtonColored
             :aria-label="t('continue')"
+            class="w-full"
             :disabled="
               !usernameField.value.value || !!usernameField.error.value
             "
             type="submit"
           >
             {{ t('continue') }}
-          </FormAuthButton>
+          </ButtonColored>
         </form>
       </LayoutPage>
     </AppStep>
@@ -154,13 +151,14 @@
             :id="templateIdAgeForm"
             @success="handleAgeSuccess"
           />
-          <FormAuthButton
+          <ButtonColored
             :aria-label="t('confirmAge')"
+            class="w-full"
             :form="templateIdAgeForm"
             type="submit"
           >
             {{ t('confirmAge') }}
-          </FormAuthButton>
+          </ButtonColored>
         </div>
       </LayoutPage>
     </AppStep>
@@ -168,24 +166,20 @@
     <!-- Step: Success -->
     <FormAuthStepSuccess :is-active="step === 'success'">
       <div class="flex flex-col gap-4">
-        <p
-          class="text-[15px] leading-5 font-semibold text-(--semantic-base-text-secondary)"
-        >
+        <p class="text-[15px] leading-5 font-semibold text-fg-2">
           {{ t('verificationSentTo') }}
-          <span class="font-semibold text-(--semantic-base-text-primary)">{{
+          <span class="font-semibold text-fg-1">{{
             emailField.value.value
           }}</span>
         </p>
-        <p
-          class="text-[15px] leading-5 font-semibold text-(--semantic-base-text-secondary)"
-        >
+        <p class="text-[15px] leading-5 font-semibold text-fg-2">
           {{ t('verificationOpenLink') }}
         </p>
-        <p class="text-sm text-(--semantic-base-text-secondary)">
+        <p class="text-sm text-fg-2">
           {{ t('verificationDescription') }}
         </p>
         <NuxtLinkLocale
-          class="flex items-center justify-center gap-2 text-[15px] text-(--semantic-base-text-secondary)"
+          class="flex items-center justify-center gap-2 text-[15px] text-fg-2"
           to="support-contact"
         >
           <IHeroiconsQuestionMarkCircle class="size-5" />

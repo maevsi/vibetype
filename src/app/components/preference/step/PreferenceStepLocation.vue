@@ -14,9 +14,7 @@
       <TypographyBodyMedium v-if="mapCutoutRadiusInMeters" class="text-center">
         {{ t('radius', { radius: formattedRadius }) }}
       </TypographyBodyMedium>
-      <TypographyBodyMedium
-        class="text-center text-(--semantic-base-text-secondary)"
-      >
+      <TypographyBodyMedium class="text-center text-fg-2">
         {{ t('description') }}
       </TypographyBodyMedium>
     </div>

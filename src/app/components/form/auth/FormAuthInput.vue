@@ -2,7 +2,7 @@
   <div class="relative">
     <div
       v-if="$slots.icon"
-      class="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-(--semantic-base-text-secondary)"
+      class="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-fg-2"
     >
       <slot name="icon" />
     </div>
@@ -12,8 +12,8 @@
       :aria-label="placeholder"
       :class="[
         cn(
-          'h-13 rounded-2xl border-transparent bg-(--semantic-base-surface-1) pl-12 text-[17px]',
-          { 'border-(--semantic-error-strong)': ariaInvalid },
+          'h-13 rounded-2xl border-transparent bg-surface-raised pl-12 text-[17px]',
+          { 'border-error': ariaInvalid },
         ),
       ]"
       :disabled

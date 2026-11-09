@@ -1,3 +1,41 @@
+## [16.10.0](https://github.com/maevsi/vibetype/compare/16.9.1...16.10.0) (2026-11-09)
+
+### Features
+
+* **pwa:** open calendar files and web+vibetype links ([#2528](https://github.com/maevsi/vibetype/issues/2528)) ([1a494a1](https://github.com/maevsi/vibetype/commit/1a494a15550e60968de6ae1df92baa19ba762556))
+
+## [16.9.1](https://github.com/maevsi/vibetype/compare/16.9.0...16.9.1) (2026-11-09)
+
+### Bug Fixes
+
+* **account:** send a turnstile token on password reset request ([#2558](https://github.com/maevsi/vibetype/issues/2558)) ([2bccf93](https://github.com/maevsi/vibetype/commit/2bccf93f6921e321768778fbdba7ae0a3228dc0f))
+
+## [16.9.0](https://github.com/maevsi/vibetype/compare/16.8.0...16.9.0) (2026-11-09)
+
+### Features
+
+* **style:** adopt the design system's tokens, type scale and icons ([#2557](https://github.com/maevsi/vibetype/issues/2557)) ([03e9803](https://github.com/maevsi/vibetype/commit/03e980356ad5b43c72ae91e97653645dd8f45707))
+
+## [16.8.0](https://github.com/maevsi/vibetype/compare/16.7.1...16.8.0) (2026-11-07)
+
+### Features
+
+* **event:** share and favorite from the event page ([#2531](https://github.com/maevsi/vibetype/issues/2531)) ([66000d4](https://github.com/maevsi/vibetype/commit/66000d4baf865ac2b0cc84fa4f33e4ab0ba1327a))
+* **upload:** take the file size limit from the runtime config ([#2549](https://github.com/maevsi/vibetype/issues/2549)) ([bce4172](https://github.com/maevsi/vibetype/commit/bce417274689bee48669b3aedc0a2a45725a4429))
+
+### Bug Fixes
+
+* **early-bird:** label the form inputs ([#2546](https://github.com/maevsi/vibetype/issues/2546)) ([4a8fa28](https://github.com/maevsi/vibetype/commit/4a8fa2843a4991a89a294bc41d2e8651d6834575))
+* **event:** don't drop saves submitted right after a name change ([#2551](https://github.com/maevsi/vibetype/issues/2551)) ([5896beb](https://github.com/maevsi/vibetype/commit/5896beb37c631b5fff0ef9c744023bca1143a338))
+* **i18n:** precache the locale messages for offline use ([#2542](https://github.com/maevsi/vibetype/issues/2542)) ([13d4afd](https://github.com/maevsi/vibetype/commit/13d4afd3020812548ea3437af1ff6c43dcf64185))
+* **urql:** persist the results of server-rendered queries ([#2543](https://github.com/maevsi/vibetype/issues/2543)) ([ed57df1](https://github.com/maevsi/vibetype/commit/ed57df19d1e7ca1c215743bf55dcdfa69ba6f770))
+
+## [16.7.1](https://github.com/maevsi/vibetype/compare/16.7.0...16.7.1) (2026-11-07)
+
+### Bug Fixes
+
+* **turnstile:** harden mutation detection ([#2535](https://github.com/maevsi/vibetype/issues/2535)) ([3f8a5c2](https://github.com/maevsi/vibetype/commit/3f8a5c2634d0864f9d856bc58ad30a4146ddba54))
+
 ## [16.7.0](https://github.com/maevsi/vibetype/compare/16.6.1...16.7.0) (2026-11-07)
 
 ### Features

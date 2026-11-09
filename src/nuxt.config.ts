@@ -30,9 +30,8 @@ const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
   app: {
-    // the client only `/offline` shell renders no page head on the server, so this is all its html carries until the client takes over
+    // the client only `/offline` shell renders no page head on the server, so this is its title until the client takes over
     head: {
-      htmlAttrs: { lang: 'en' },
       title: 'Vibetype',
     },
   },
@@ -124,10 +123,6 @@ export default defineNuxtConfig({
     '/api/service/firebase/notification': {
       csurf: false, // called by services, authenticated by secret
     },
-    '/offline': {
-      robots: false,
-      ssr: false, // a user agnostic client app shell that the service worker serves for navigations when the network fails
-    },
   },
   router: {
     options: {
@@ -144,6 +139,9 @@ export default defineNuxtConfig({
             perDay: '', // falls back to the deprecated `limit24h`, then to `MAEVSI_EMAIL_RATE_LIMIT_PER_DAY`
             perSecond: '14',
           },
+        },
+        upload: {
+          sizeMax: 10485760, // bytes, set from tusd's `TUSD_MAX_SIZE` in the stack so the client rejects what tusd would
         },
       },
       gtag: {
