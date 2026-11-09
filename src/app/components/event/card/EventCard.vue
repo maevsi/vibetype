@@ -2,15 +2,14 @@
   <div
     :class="
       cn(
-        'has-focus-visible:focus-ring relative isolate flex items-center gap-3 rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-surface-1) p-3 shadow-xs',
+        'relative isolate flex items-center gap-3 rounded-lg border border-line bg-surface-raised p-3 shadow-xs has-focus-visible:focus-ring',
         !variant &&
           (isDraft
-            ? 'border-(--semantic-warning-strong)'
+            ? 'border-action-warning'
             : isCreator
-              ? 'border-(--accent-strong)'
+              ? 'border-action-primary'
               : undefined),
-        variant === 'highlight' &&
-          'bg-(--complement-fancy) text-(--semantic-base-light-text-on-dark)',
+        variant === 'highlight' && 'bg-accent-pink text-white',
         variant === 'recommendation' &&
           'flex-col items-stretch gap-1.5 px-0 pt-0 pb-2',
       )
@@ -24,7 +23,7 @@
         :aria-label="t('heroImage')"
         :class="
           cn(
-            'flex h-24 w-full items-center justify-center gap-2 rounded-lg border border-(--semantic-base-line)',
+            'flex h-24 w-full items-center justify-center gap-2 rounded-lg border border-line',
             variant === 'recommendation' && 'h-44 rounded-b-none',
           )
         "
@@ -63,7 +62,7 @@
         v-if="!variant || variant === 'recommendation'"
         :class="
           cn(
-            'absolute z-20 flex size-5 items-center justify-center rounded-full bg-(--semantic-base-light-text-on-dark)',
+            'absolute z-20 flex size-5 items-center justify-center rounded-full bg-white',
             !variant && 'top-1 left-1',
             variant === 'recommendation' && 'right-2 bottom-2 size-9',
           )
@@ -73,11 +72,9 @@
       />
       <div
         v-if="variant === 'recommendation'"
-        class="absolute top-2 left-2 z-20 rounded-3xl bg-(--accent-strong) px-3 py-2"
+        class="absolute top-2 left-2 z-20 rounded-3xl bg-action-primary px-3 py-2"
       >
-        <TypographySubtitleSmall
-          class="text-(--semantic-base-primary-button-text)"
-        >
+        <TypographySubtitleSmall class="text-on-action-primary">
           {{ t('match') }}
         </TypographySubtitleSmall>
       </div>
@@ -128,13 +125,13 @@
       v-if="!variant && (isDraft || isCreator || isGuest)"
       :class="
         cn(
-          'absolute top-1 right-1 rounded-sm px-1.5 py-0.5 text-(--semantic-base-primary-button-text)',
+          'absolute top-1 right-1 rounded-sm px-1.5 py-0.5 text-on-action-primary',
           isDraft
-            ? 'bg-(--semantic-warning-strong)'
+            ? 'bg-action-warning text-on-action-warning'
             : isCreator
-              ? 'bg-(--accent-strong)'
+              ? 'bg-action-primary'
               : isGuest
-                ? 'bg-(--complement-strong) text-(--semantic-base-light-text-on-dark)'
+                ? 'bg-accent-pink text-white'
                 : undefined,
         )
       "

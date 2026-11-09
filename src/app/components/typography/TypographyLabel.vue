@@ -1,3 +1,3 @@
 <template>
-  <slot class="text-[11px] leading-4 font-semibold tracking-[0.5%]" />
+  <slot class="text-caption" />
 </template>

@@ -1,7 +1,7 @@
 <template>
   <AppLink
     v-bind="delegatedProps"
-    class="group rounded-xl text-(--semantic-base-text-secondary) aria-[current=page]:bg-(--accent-weak) aria-[current=page]:text-(--semantic-accent-text) lg:text-(--semantic-base-text-primary) dark:aria-[current=page]:text-(--semantic-base-secondary-button-text)"
+    class="group rounded-xl text-fg-2 aria-[current=page]:bg-line aria-[current=page]:text-fg-1 lg:text-fg-1"
     :is-colored="false"
   >
     <div class="mx-4.5 my-3 flex items-center gap-1.5">

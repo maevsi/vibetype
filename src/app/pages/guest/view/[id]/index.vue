@@ -68,17 +68,17 @@
               <div class="flex items-center gap-2">
                 <ButtonIcon
                   :aria-label="t('iCalDownload')"
-                  class="flex size-12 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                  class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
                   @click="downloadIcal"
                 >
                   <AppIconArrowDownTray :title="t('iCalDownload')" />
                 </ButtonIcon>
                 <EventShareButton
-                  class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
                   :event
                 />
                 <EventFavoriteButton
-                  class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
                   :event
                 />
                 <template
@@ -96,7 +96,7 @@
                     </AppDropdownItem>
                     <template #trigger>
                       <span
-                        class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                        class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
                       >
                         <AppIconMoreVertical />
                       </span>
@@ -150,7 +150,7 @@
           >
             <div
               v-if="guest.feedback === InvitationFeedback.Accepted"
-              class="flex items-center font-semibold text-(--semantic-accent-text)"
+              class="flex items-center font-semibold text-link"
             >
               <AppIconCheckCircleSolid class="mr-2 shrink-0" />
               <span>
@@ -159,7 +159,7 @@
             </div>
             <div
               v-else-if="guest.feedback === InvitationFeedback.Canceled"
-              class="flex items-center font-semibold text-(--semantic-critic-text)"
+              class="flex items-center font-semibold text-error"
             >
               <AppIconXCircleSolid class="mr-2 shrink-0" />
               <span>
@@ -189,7 +189,7 @@
             </ButtonColored>
             <div
               v-if="guest.feedback === InvitationFeedback.Accepted"
-              class="flex items-center font-semibold text-(--semantic-accent-text)"
+              class="flex items-center font-semibold text-link"
             >
               <AppIconCheckCircleSolid
                 class="mr-2 shrink-0"
@@ -213,7 +213,7 @@
             </ButtonColored>
             <div
               v-if="guest.feedback === InvitationFeedback.Canceled"
-              class="flex items-center font-semibold text-(--semantic-critic-text)"
+              class="flex items-center font-semibold text-error"
             >
               <AppIconXCircleSolid
                 class="mr-2 shrink-0"
@@ -236,7 +236,7 @@
           <div class="bg-white p-4">
             <QrcodeVue id="qrCode" :size="200" :value="guest.rowId" />
           </div>
-          <p class="text-sm text-(--semantic-base-text-secondary)">
+          <p class="text-sm text-fg-2">
             {{ t('hintQrCode') }}
           </p>
         </div>

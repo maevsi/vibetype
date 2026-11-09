@@ -13,7 +13,7 @@ import type { DeepReadonly, HtmlHTMLAttributes } from 'vue'
 
 import { cn } from '@/utils/shadcn'
 
-import markerIcon from '~/assets/icons/location-on.svg?raw'
+import markerIcon from '~/assets/icons/map-pin.svg?raw'
 
 export type AppMapEvent = {
   addressByAddressId?: {
@@ -134,7 +134,7 @@ onMounted(async () => {
 
   if (events && events.length) {
     const icon = new DivIcon({
-      className: 'text-(--semantic-error-strong)',
+      className: 'text-error',
       html: markerIcon,
       iconAnchor: [15, 25],
       iconSize: [30, 30],

@@ -1,5 +1,5 @@
 <template>
-  <tbody class="divide-y divide-(--semantic-base-line)">
+  <tbody class="divide-y divide-line">
     <slot />
   </tbody>
 </template>

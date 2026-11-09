@@ -4,12 +4,7 @@
       :id
       :aria-invalid="ariaInvalid"
       :autocomplete
-      :class="[
-        inputClass,
-        ariaInvalid
-          ? 'border-(--semantic-error-strong) bg-(--semantic-critic-weak)'
-          : '',
-      ]"
+      :class="[inputClass, ariaInvalid ? 'border-error bg-danger-tint' : '']"
       :model-value="modelValue"
       :placeholder
       :type="isVisible ? 'text' : 'password'"

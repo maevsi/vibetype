@@ -1,9 +1,6 @@
 <template>
   <AppIcon v-slot="attributes">
-    <ISolarCalendarAddOutline
-      v-bind="attributes"
-      :aria-label="t('ariaLabel')"
-    />
+    <IHeroiconsCalendarDays v-bind="attributes" :aria-label="t('ariaLabel')" />
   </AppIcon>
 </template>
 

@@ -11,19 +11,16 @@
       <slot name="title" />
     </TypographyH3>
     <div class="flex justify-center">
-      <AppIconStateError
-        v-if="type === 'error'"
-        class="size-12 text-(--semantic-error-strong)"
-      />
+      <AppIconStateError v-if="type === 'error'" class="size-12 text-error" />
       <AppIconStateSuccess
         v-else-if="type === 'success'"
-        class="size-12 text-(--semantic-success-strong)"
+        class="size-12 text-link"
       />
       <AppIconStateWarning
         v-else-if="type === 'warning'"
-        class="size-12 text-(--semantic-warning-icon)"
+        class="size-12 text-warning"
       />
-      <AppIconBugAnt v-else class="size-12 text-(--semantic-error-strong)" />
+      <AppIconBugAnt v-else class="size-12 text-error" />
     </div>
     <div class="flex flex-col gap-8">
       <TypographySubtitleLarge

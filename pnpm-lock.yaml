@@ -216,9 +216,6 @@ importers:
       '@iconify-json/fa6-brands':
         specifier: 1.2.6
         version: 1.2.6
-      '@iconify-json/fa6-regular':
-        specifier: 1.2.4
-        version: 1.2.4
       '@iconify-json/fa6-solid':
         specifier: 1.2.4
         version: 1.2.4
@@ -231,9 +228,6 @@ importers:
       '@iconify-json/material-symbols':
         specifier: 1.2.97
         version: 1.2.97
-      '@iconify-json/solar':
-        specifier: 1.2.13
-        version: 1.2.13
       '@iconify/tools':
         specifier: 5.0.14
         version: 5.0.14
@@ -2871,9 +2865,6 @@ packages:
   '@iconify-json/fa6-brands@1.2.6':
     resolution: {integrity: sha512-twL3X4KWcxAhbc1vz/mIDsVr+CAItk1/EIfxKUVQtpv6O4eydk5KNYqTZWdvJNHGInUgd6vKg21aWfVgb5DXEg==}
 
-  '@iconify-json/fa6-regular@1.2.4':
-    resolution: {integrity: sha512-fnUS/MLj3ZAp29oRsC8/aY8Wau7NIg7VesTz3jCcE6VJBzcz95Yxp/Dl5yHvkP+aQxrNw5Lj3nrOXB4nQh+oNA==}
-
   '@iconify-json/fa6-solid@1.2.4':
     resolution: {integrity: sha512-LmDNNdJVyvF5mPm1yxWvL8KjCc/E8LzoqnF1LNTVpyY2ZJRUlGOWuPIThdbuFBF2IovgttkIyumhyqfmlHdwKg==}
 
@@ -2885,9 +2876,6 @@ packages:
 
   '@iconify-json/material-symbols@1.2.97':
     resolution: {integrity: sha512-MbE4QHrH4Z4eoerBFrzFSPqHw2NwVGwwOwGZdJym5l5N5loqEUThimlQpK9VJA6mvgWvj5jl43b8bZnqzOxNRQ==}
-
-  '@iconify-json/solar@1.2.13':
-    resolution: {integrity: sha512-/ZWb6xRib6pzxD/qTkKWYhuzSU2yu0bY+EN0spgtz1NM3d5f4eYueQZpL3PfCdsg5uVfm4Ldtt3cAyQL+YI8/Q==}
 
   '@iconify/collections@1.0.762':
     resolution: {integrity: sha512-YKx0whVsIbWMZRjyVHxhBrobnRFSAa1Sb1u6cL0herB99ZrTQ/D9BqI7fVCb70Xkdv/oOuyi3luG6hOtKTkY5A==}
@@ -16290,10 +16278,6 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/fa6-regular@1.2.4':
-    dependencies:
-      '@iconify/types': 2.0.0
-
   '@iconify-json/fa6-solid@1.2.4':
     dependencies:
       '@iconify/types': 2.0.0
@@ -16307,10 +16291,6 @@ snapshots:
       '@iconify/types': 2.0.0
 
   '@iconify-json/material-symbols@1.2.97':
-    dependencies:
-      '@iconify/types': 2.0.0
-
-  '@iconify-json/solar@1.2.13':
     dependencies:
       '@iconify/types': 2.0.0
 

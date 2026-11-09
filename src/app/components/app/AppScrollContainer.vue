@@ -1,7 +1,7 @@
 <template>
   <div
     ref="scroll-container"
-    class="overflow-y-auto rounded-lg border border-(--semantic-base-line)"
+    class="overflow-y-auto rounded-lg border border-line"
     @scroll.passive="onScroll"
   >
     <slot />
