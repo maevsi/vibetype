@@ -165,6 +165,15 @@ const store = useStore()
 const authentication = useAuthentication()
 const { t } = useI18n()
 const localePath = useLocalePath()
+
+// awaited before rendering so signed-in accounts never see the welcome page flash; other query parameters than the pwa manifest's `source` are achievement codes that this page still has to unlock
+if (
+  store.signedInAccountId &&
+  Object.keys(route.query).every((key) => key === 'source')
+) {
+  await store.navigateWithoutHistory(localePath('dashboard'), { replace: true })
+}
+
 const achievementUnlockMutation = useMutation(
   graphql(`
     mutation AchievementUnlock($input: AchievementUnlockInput!) {
@@ -204,7 +213,9 @@ if (error.value) {
   console.debug(error.value.message) // there's no way to be certain that a user tried to unlock an achievement here, so no error is thrown
 
   if (store.signedInAccountId) {
-    await navigateTo(localePath('dashboard'))
+    await store.navigateWithoutHistory(localePath('dashboard'), {
+      replace: true,
+    })
   }
 }
 

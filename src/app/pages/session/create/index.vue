@@ -83,20 +83,35 @@ const to = computed(() =>
   route.query.to && !Array.isArray(route.query.to) ? route.query.to : undefined,
 )
 const verified = computed(() => route.query.verified === null)
-const onSignIn = async (username: string) => {
+const store = useStore()
+const getSignInTarget = (username: string) => {
   // A link that allows users to delete their account is required by the Google Play Store (https://support.google.com/googleplay/android-developer/answer/13316080#account_deletion)
   if (to.value === 'account-deletion') {
-    return await navigateTo(
-      localePath({
-        name: 'account-edit-username',
-        params: { username: username },
-      }),
-    )
+    return localePath({
+      name: 'account-edit-username',
+      params: { username: username },
+    })
   }
 
-  if (to.value && getIsSitePath(to.value)) return await navigateTo(to.value)
+  if (to.value && getIsSitePath(to.value)) return to.value
 
-  return await navigateTo(localePath(`dashboard`))
+  return localePath(`dashboard`)
+}
+const getRouteBaseName = useRouteBaseName()
+const onSignIn = async (username: string) => {
+  // the welcome page redirects signed-in accounts to the dashboard (see `pages/index.vue`), so going back there would only loop
+  store.routeHistory = store.routeHistory.filter((path) => {
+    const routeResolved = router.resolve(path)
+
+    return !(
+      getRouteBaseName(routeResolved) === 'index' &&
+      Object.keys(routeResolved.query).every((key) => key === 'source')
+    )
+  })
+
+  await store.navigateWithoutHistory(getSignInTarget(username), {
+    replace: true,
+  })
 }
 </script>
 
