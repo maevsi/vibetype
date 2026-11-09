@@ -2,8 +2,16 @@ import { expect } from '@playwright/test'
 
 import { TESTING_GUEST_ROW_ID } from '#src/shared/utils/testing'
 import { appTest } from '#tests/e2e/fixtures/appTest'
+import { testOgImage } from '#tests/e2e/utils/tests'
 
 const PAGE_PATH = `/guest/view/${TESTING_GUEST_ROW_ID}`
+
+testOgImage({
+  dynamic: {
+    de: `/de${PAGE_PATH}`,
+    en: PAGE_PATH,
+  },
+})
 
 // the testing api keeps no state, so a refetch after saving shows the original feedback again
 // and only the request and the confirmation can be checked
