@@ -307,6 +307,7 @@ const jwtUpdateGuestAdd = import.meta.server
   ? useJwtUpdateGuestAdd({ guestId: route.params.id })
   : undefined
 const jwt = jwtUpdateGuestAdd ? await jwtUpdateGuestAdd() : undefined
+const cookie = jwt ? useCsrfCookieHeader() : undefined
 const eventQuery = useApiQuery({
   query: graphql(`
     query GuestEvent($id: UUID!) {
@@ -392,9 +393,13 @@ const eventQuery = useApiQuery({
   ...(jwt
     ? {
         context: {
+          // Replaces the client's fetch options, so the CSRF header and
+          // cookie have to be repeated for a query sent by POST
           fetchOptions: {
             headers: {
               Authorization: `Bearer ${jwt}`,
+              [CSRF_HEADER_NAME]: useCsrf().csrf,
+              ...(cookie ? { cookie } : {}),
             },
           },
         },
