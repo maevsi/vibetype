@@ -1,3 +1,10 @@
+## [16.13.0](https://github.com/maevsi/vibetype/compare/16.12.0...16.13.0) (2026-11-09)
+
+### Features
+
+* **app:** show dialog when lockdown mode is enabled on ios ([#2519](https://github.com/maevsi/vibetype/issues/2519)) ([2ad2951](https://github.com/maevsi/vibetype/commit/2ad29515cf786c28353cde3b163e8522839575ff))
+* **style:** align the pages with the design system ([#2564](https://github.com/maevsi/vibetype/issues/2564)) ([22d8910](https://github.com/maevsi/vibetype/commit/22d891053659143e78fe27f4de8c2a12f01080cf))
+
 ## [16.12.0](https://github.com/maevsi/vibetype/compare/16.11.0...16.12.0) (2026-11-09)
 
 ### Features
