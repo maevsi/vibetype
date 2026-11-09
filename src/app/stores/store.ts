@@ -45,14 +45,24 @@ export const useStore = defineStore(SITE_NAME, () => {
     }
   }
 
-  const navigateBack = async () => {
-    routeHistoryDisabled.value = true
-    await navigateTo(
+  const navigateBack = () =>
+    navigateWithoutHistory(
       localePath(
         (routeHistory.value.pop() as keyof RouteNamedMapI18n) || 'index',
       ),
     )
-    routeHistoryDisabled.value = false
+
+  // for navigations the user did not cause, like redirects, which must not become a back button target
+  const navigateWithoutHistory = async (
+    ...parameters: Parameters<typeof navigateTo>
+  ) => {
+    routeHistoryDisabled.value = true
+
+    try {
+      return await navigateTo(...parameters)
+    } finally {
+      routeHistoryDisabled.value = false
+    }
   }
 
   return {
@@ -64,5 +74,6 @@ export const useStore = defineStore(SITE_NAME, () => {
     jwtRemove,
     jwtSet,
     navigateBack,
+    navigateWithoutHistory,
   }
 })

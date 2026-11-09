@@ -83,6 +83,31 @@ appTest.describe('authentication', () => {
     ).toHaveCount(0)
   })
 
+  appTest(
+    'keeps the back button for navigations before signing in',
+    async ({ defaultPage, isMobile }) => {
+      appTest.skip(
+        isMobile,
+        'the sidebar with the account link is desktop only',
+      )
+
+      await goto({ defaultPage, path: '/contact' })
+      await defaultPage.page
+        .getByRole('link', { name: 'Account', exact: true })
+        .click()
+      await signIn({
+        page: defaultPage.page,
+        password: TESTING_ACCOUNT_PASSWORD,
+      })
+      await expect(defaultPage.page).toHaveURL(/\/dashboard$/)
+
+      await defaultPage.page
+        .getByRole('button', { name: 'back', exact: true })
+        .click()
+      await expect(defaultPage.page).toHaveURL(/\/contact$/)
+    },
+  )
+
   appTest('opens the dashboard when signed in', async ({ defaultPage }) => {
     await goto({ defaultPage, path: '/session/create' })
     await signIn({ page: defaultPage.page, password: TESTING_ACCOUNT_PASSWORD })

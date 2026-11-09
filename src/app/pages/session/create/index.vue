@@ -97,11 +97,21 @@ const getSignInTarget = (username: string) => {
 
   return localePath(`dashboard`)
 }
+const getRouteBaseName = useRouteBaseName()
 const onSignIn = async (username: string) => {
-  await navigateTo(getSignInTarget(username), { replace: true })
+  // the welcome page redirects signed-in accounts to the dashboard (see `pages/index.vue`), so going back there would only loop
+  store.routeHistory = store.routeHistory.filter((path) => {
+    const routeResolved = router.resolve(path)
 
-  // otherwise the header's back button leads to the sign-in page, as the route history still holds it and the pages before it
-  store.routeHistory = []
+    return !(
+      getRouteBaseName(routeResolved) === 'index' &&
+      Object.keys(routeResolved.query).every((key) => key === 'source')
+    )
+  })
+
+  await store.navigateWithoutHistory(getSignInTarget(username), {
+    replace: true,
+  })
 }
 </script>
 
