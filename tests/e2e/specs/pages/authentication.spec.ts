@@ -92,9 +92,7 @@ appTest.describe('authentication', () => {
       )
 
       await goto({ defaultPage, path: '/contact' })
-      await defaultPage.page
-        .getByRole('link', { name: 'Account', exact: true })
-        .click()
+      await defaultPage.page.getByRole('link', { name: 'Account' }).click()
       await signIn({
         page: defaultPage.page,
         password: TESTING_ACCOUNT_PASSWORD,
