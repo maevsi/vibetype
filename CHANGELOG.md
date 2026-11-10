@@ -1,3 +1,11 @@
+## [17.1.1](https://github.com/maevsi/vibetype/compare/17.1.0...17.1.1) (2026-11-10)
+
+### Bug Fixes
+
+* **auth:** skip welcome page and back button after sign-in ([#2571](https://github.com/maevsi/vibetype/issues/2571)) ([c966b04](https://github.com/maevsi/vibetype/commit/c966b04cd605ecc1a4a2138a0214bc1acada41e9))
+* **notification:** initialize firebase before requesting the fcm token ([#2570](https://github.com/maevsi/vibetype/issues/2570)) ([8e1429f](https://github.com/maevsi/vibetype/commit/8e1429f59e9d36449a5b32fe28dd816a31344476))
+* **nuxt:** load page data without blocking navigation ([#2572](https://github.com/maevsi/vibetype/issues/2572)) ([e0386ca](https://github.com/maevsi/vibetype/commit/e0386ca496ae05a66599b016a18894cf409f8aa0))
+
 ## [17.1.0](https://github.com/maevsi/vibetype/compare/17.0.0...17.1.0) (2026-11-09)
 
 ### Features
