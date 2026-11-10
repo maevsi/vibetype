@@ -1,14 +1,5 @@
 <template>
-  <div
-    v-if="
-      api.isFetching ||
-      (authentication.isSignedIn && eventRecommendationsPending)
-    "
-    class="flex flex-1 items-center justify-center"
-  >
-    <AppLoaderLogo class="size-16" />
-  </div>
-  <div v-else>
+  <div class="flex flex-1 flex-col">
     <!-- <AppError
       v-if="recommendationError"
       :error="{ message: t('recommendationError'), status: 500 }"
@@ -19,6 +10,7 @@
       :call-to-action="t('anonymousCta')"
       :call-to-action-description="t('anonymousCtaDescription')"
     />
+    <LoaderPlaceholder v-else-if="isLoading" />
     <div v-else class="flex flex-col gap-8">
       <section
         v-if="eventUpcoming"
@@ -195,6 +187,14 @@ const queryEventUpcoming = authentication.value.isSignedIn
 const api = await useApiData([
   ...(queryEventUpcoming ? [queryEventUpcoming] : []),
 ])
+
+// Only data that is still missing counts, so refreshing cached data keeps
+// showing it instead of a loader
+const isLoading = computed(
+  () =>
+    (api.value.isFetching && !api.value.data.allEvents) ||
+    (eventRecommendationsPending.value && !eventRecommendations.value),
+)
 
 const now = useNow()
 const eventUpcoming = computed(() => {

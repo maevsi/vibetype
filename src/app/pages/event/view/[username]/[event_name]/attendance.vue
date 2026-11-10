@@ -101,7 +101,7 @@ const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
 
 // page
 const title = computed(() => {
-  if (api.value.isFetching) return t('globalLoading')
+  if (api.value.isFetching && !event.value) return t('globalLoading')
   if (route.params.username !== store.signedInUsername) {
     showAppError({ status: 403, message: 'Permission denied' })
     return

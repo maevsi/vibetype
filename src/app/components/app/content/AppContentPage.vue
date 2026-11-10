@@ -1,11 +1,6 @@
 <template>
-  <div
-    v-if="content.pending.value"
-    class="flex flex-1 items-center justify-center"
-  >
-    <AppLoaderLogo class="size-16" />
-  </div>
-  <AppContent v-else-if="content.data.value" :content />
+  <AppContent v-if="content.data.value" :content />
+  <LoaderPlaceholder v-else-if="content.pending.value" />
 </template>
 
 <script setup lang="ts">
@@ -22,7 +17,10 @@ const { path } = defineProps<{
 const modelError = defineModel<AppErrorInput>('error')
 
 // content
-const content = await useContent(path)
+// Awaited on the server only, so client navigations show the page right away
+// instead of waiting for the content query
+const content = useContent(path)
+if (import.meta.server) await content
 
 watch(
   () =>
