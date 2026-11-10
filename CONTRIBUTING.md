@@ -13,6 +13,14 @@ To get started with open-source contributions and to ensure a structured approac
 
 Whenever switching branches, it makes sense to run `pnpm install` while the development server is stopped. This prevents issues with dependencies as they tend to differ between all branches.
 
+### Dependencies
+
+Occasionally a dependency has to be held back, for example when a new release breaks the lint run over code that is actually fine.
+Pin it with a [pnpm override](https://pnpm.io/settings#overrides) in `pnpm-workspace.yaml` and add a comment naming the upstream issue and the condition under which the pin can be dropped again.
+
+An override on its own does not hold, though.
+Renovate reads `pnpm-workspace.yaml` and will open a pull request that raises the pinned version straight back up, so disable the package in `.renovaterc.json` as well.
+
 ### Semantic Versioning
 
 Read [@dargmuesli's guide on Semantic Versioning](https://gist.github.com/dargmuesli/430b7d902a22df02d88d1969a22a81b5#file-semantic-versioning-md) to find out how to correctly format pull request, issue and commit titles and how this necessity speeds up our development.

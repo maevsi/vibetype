@@ -1,14 +1,5 @@
 <template>
-  <div
-    v-if="
-      api.isFetching ||
-      (authentication.isSignedIn && eventRecommendationsPending)
-    "
-    class="flex flex-1 items-center justify-center"
-  >
-    <AppLoaderLogo class="size-16" />
-  </div>
-  <div v-else>
+  <div class="flex flex-1 flex-col">
     <!-- <AppError
       v-if="recommendationError"
       :error="{ message: t('recommendationError'), status: 500 }"
@@ -19,6 +10,7 @@
       :call-to-action="t('anonymousCta')"
       :call-to-action-description="t('anonymousCtaDescription')"
     />
+    <LoaderPlaceholder v-else-if="isLoading" />
     <div v-else class="flex flex-col gap-8">
       <section
         v-if="eventUpcoming"
@@ -51,8 +43,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 import { eventHasEnded } from '~~/shared/utils/event'
 
@@ -79,6 +69,7 @@ const eventQuery = graphql(`
             id
             name
           }
+          id
         }
       }
       eventFavoritesByEventId(first: 1) {
@@ -94,6 +85,7 @@ const eventQuery = graphql(`
             id
             name
           }
+          id
         }
       }
       guestsByEventId(first: 1) {
@@ -119,27 +111,31 @@ const { $urql } = useNuxtApp()
 const requestFetch = useRequestFetch()
 const authentication = useAuthentication()
 const { data: eventRecommendations, pending: eventRecommendationsPending } =
-  useAsyncData('index-recommendations', async () => {
-    if (!authentication.value.isSignedIn) return []
-
-    const eventIds = await requestFetch('/api/service/reccoom/recommendations')
-    const events = (
-      await Promise.all(
-        eventIds.map(
-          async (recommendation) =>
-            (
-              await $urql.value
-                .query(eventQuery, {
-                  id: recommendation.event_id,
-                })
-                .toPromise()
-            ).data?.eventByRowId,
-        ),
+  useAsyncData(
+    'index-recommendations',
+    async () => {
+      const eventIds = await requestFetch(
+        '/api/service/reccoom/recommendations',
       )
-    ).filter(isNeitherNullNorUndefined)
+      const events = (
+        await Promise.all(
+          eventIds.map(
+            async (recommendation) =>
+              (
+                await $urql.value
+                  .query(eventQuery, {
+                    id: recommendation.event_id,
+                  })
+                  .toPromise()
+              ).data?.eventByRowId,
+          ),
+        )
+      ).filter(isNeitherNullNorUndefined)
 
-    return events
-  })
+      return events
+    },
+    { enabled: () => authentication.value.isSignedIn },
+  )
 
 // async data - upcoming
 // TODO: use custom and more precise database function instead of full fetch and client filtering
@@ -159,6 +155,7 @@ const eventUpcomingQuery = graphql(`
               id
               name
             }
+            id
           }
         }
         eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
@@ -167,6 +164,7 @@ const eventUpcomingQuery = graphql(`
               id
               name
             }
+            id
           }
         }
         id
@@ -179,7 +177,7 @@ const eventUpcomingQuery = graphql(`
   }
 `)
 const queryEventUpcoming = authentication.value.isSignedIn
-  ? useQuery({
+  ? useApiQuery({
       query: eventUpcomingQuery,
       variables: {
         createdBy: authentication.value.signedInAccountId,
@@ -189,6 +187,14 @@ const queryEventUpcoming = authentication.value.isSignedIn
 const api = await useApiData([
   ...(queryEventUpcoming ? [queryEventUpcoming] : []),
 ])
+
+// Only data that is still missing counts, so refreshing cached data keeps
+// showing it instead of a loader
+const isLoading = computed(
+  () =>
+    (api.value.isFetching && !api.value.data.allEvents) ||
+    (eventRecommendationsPending.value && !eventRecommendations.value),
+)
 
 const now = useNow()
 const eventUpcoming = computed(() => {
@@ -213,13 +219,13 @@ const templateIdUpcoming = useId()
 
 <i18n lang="yaml">
 de:
-  anonymousCta: Finde ihn auf {siteName}
+  anonymousCta: Finde ihn auf @.upper:{'globalSiteName'}
   anonymousCtaDescription: Dir fehlt der Überblick über Veranstaltungen?
   recommendationTitle: Das solltest Du nicht verpassen
   title: Dashboard
   upcomingTitle: Dein nächstes Event
 en:
-  anonymousCta: Find it on {siteName}
+  anonymousCta: Find it on @.upper:{'globalSiteName'}
   anonymousCtaDescription: Are you missing an overview of events?
   recommendationTitle: You Should Not Miss
   title: Dashboard

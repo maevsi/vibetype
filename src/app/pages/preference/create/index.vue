@@ -46,7 +46,7 @@
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'location'">
       <PreferenceStepLocation
-        v-bind="{ ariaHidden: attributes['aria-hidden'], ...attributes }"
+        v-bind="attributes"
         v-model:error="error"
         @next="step = 'done'"
       />

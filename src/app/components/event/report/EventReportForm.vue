@@ -1,5 +1,5 @@
 <template>
-  <form ref="formRef" @submit.prevent="form.handleSubmit">
+  <form @submit.prevent="form.handleSubmit">
     <form.Field v-slot="{ field }" name="reason">
       <Field>
         <FieldLabel class="justify-center">
@@ -57,11 +57,7 @@ const reasons = [
   { label: t('drawerRadioDrugs'), value: 'drugs' },
   { label: t('drawerRadioOther'), value: 'other' },
 ]
-const formRef = useTemplateRef<HTMLFormElement>('formRef')
-
 // form
-const submit = () => formRef.value?.requestSubmit()
-
 const formSchema = z.object({
   reason: z.string().min(1).max(2000),
 })
@@ -79,7 +75,6 @@ const createReportMutation = useMutation(
 
 defineExpose({
   isSubmitting: computed(() => createReportMutation.fetching.value),
-  submit,
 })
 
 const form = useForm({

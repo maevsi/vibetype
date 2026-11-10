@@ -3,15 +3,15 @@
     v-bind="delegatedProps"
     :class="
       cn(
-        'justify-center',
-        'data-[size=large]:gap-2 data-[size=large]:rounded-xl data-[size=large]:px-6 data-[size=large]:py-3 data-[size=large]:font-bold',
-        'data-[size=small]:gap-1 data-[size=small]:rounded-[4px] data-[size=small]:px-3 data-[size=small]:py-1 data-[size=small]:text-[11px] data-[size=small]:font-semibold',
-        'data-[type=primary]:bg-(--accent-strong) data-[type=primary]:text-(--semantic-base-primary-button-text) data-[type=primary]:hover:bg-(--accent-strong-hover) data-[type=primary]:focus-visible:ring-(--accent-strong)/50 data-[type=primary]:active:bg-(--accent-strong-hover)',
-        'data-[type=primary-critical]:bg-(--semantic-critic-strong) data-[type=primary-critical]:text-(--base-white) data-[type=primary-critical]:hover:bg-(--semantic-critic-strong-hover) data-[type=primary-critical]:focus-visible:ring-(--semantic-critic-strong)/50 data-[type=primary-critical]:active:bg-(--semantic-critic-strong-hover)',
-        'data-[type=secondary]:bg-(--accent-weak) data-[type=secondary]:text-(--semantic-base-secondary-button-text) data-[type=secondary]:hover:bg-(--accent-weak-hover) data-[type=secondary]:focus-visible:ring-(--accent-weak)/50 data-[type=secondary]:active:bg-(--accent-weak-hover)',
-        'data-[type=secondary-critical]:border-2 data-[type=secondary-critical]:border-(--semantic-critic-text) data-[type=secondary-critical]:text-(--semantic-critic-text) data-[type=secondary-critical]:hover:bg-(--semantic-base-surface-1) data-[type=secondary-critical]:active:bg-(--semantic-base-surface-1)',
-        'data-[type=tertiary]:text-(--semantic-base-text-tertiary) data-[type=tertiary]:underline data-[type=tertiary]:hover:bg-(--semantic-base-surface-1) data-[type=tertiary]:active:bg-(--semantic-base-surface-1) data-[type=tertiary]:data-[size=small]:no-underline',
-        'data-[type=tertiary]:data-[size=small]:no-underline data-[type=tertiary-critical]:text-(--semantic-critic-text) data-[type=tertiary-critical]:underline data-[type=tertiary-critical]:hover:bg-(--semantic-base-surface-1) data-[type=tertiary-critical]:active:bg-(--semantic-base-surface-1)',
+        'justify-center gap-4 rounded-medium text-body transition-transform active:scale-[0.97]',
+        'data-[size=large]:h-13 data-[size=large]:px-6',
+        'data-[size=small]:h-10 data-[size=small]:px-6',
+        'data-[type=primary]:bg-action-primary data-[type=primary]:text-on-action-primary data-[type=primary]:hover:bg-action-primary-hover',
+        'data-[type=primary-critical]:rounded-[12px] data-[type=primary-critical]:bg-action-warning data-[type=primary-critical]:text-on-action-warning data-[type=primary-critical]:hover:brightness-95',
+        'data-[type=secondary]:bg-surface-raised data-[type=secondary]:text-fg-1 data-[type=secondary]:hover:bg-line',
+        'data-[type=secondary-critical]:bg-surface-raised data-[type=secondary-critical]:text-error data-[type=secondary-critical]:hover:bg-line',
+        'data-[type=tertiary]:text-link data-[type=tertiary]:hover:text-link-hover',
+        'data-[type=tertiary-critical]:text-error',
         classProps,
       )
     "

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="query.fetching" class="text-sm text-gray-500">
+  <div v-if="api.isFetching && !guest" class="text-body-small text-fg-2">
     {{ t('globalLoading') }}
   </div>
   <CardStateAlert v-else-if="!guest">
@@ -9,15 +9,13 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 
 const { guestId } = defineProps<{
   guestId: string
 }>()
 
-const query = await useQuery({
+const query = useApiQuery({
   query: graphql(`
     query AttendanceGuest($id: UUID!) {
       guestByRowId(rowId: $id) {
@@ -51,7 +49,8 @@ const query = await useQuery({
   },
 })
 
-const guest = computed(() => query.data.value?.guestByRowId)
+const api = await useApiData([query])
+const guest = computed(() => api.value.data.guestByRowId)
 
 const { t } = useI18n()
 </script>

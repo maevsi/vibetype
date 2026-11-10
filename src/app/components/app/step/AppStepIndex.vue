@@ -5,10 +5,8 @@
       :key
       class="rounded-full p-1.5"
       :class="[
-        ...(key === index
-          ? ['border-4 border-(--accent-weak-hover)']
-          : ['m-1']),
-        ...(key <= index ? ['bg-(--accent-strong)'] : ['bg-(--faint-mid)']),
+        ...(key === index ? ['border-4 border-success-tint'] : ['m-1']),
+        ...(key <= index ? ['bg-action-primary'] : ['bg-line']),
       ]"
     />
   </div>

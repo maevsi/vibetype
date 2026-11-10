@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form novalidate @submit.prevent="form.handleSubmit">
+    <form novalidate @submit.prevent="submit">
       <div class="flex flex-col gap-4">
         <form.Field v-slot="{ field: nameField }" name="name">
           <Field>
@@ -27,7 +27,7 @@
             />
             <p
               v-if="event && event.name !== nameField.state.value"
-              class="text-sm text-yellow-600 dark:text-yellow-400"
+              class="rounded-small bg-warning-tint px-3 py-2 text-body-small text-fg-1"
             >
               {{ t('validationWarningNameChangeSlug') }}
             </p>
@@ -73,7 +73,6 @@
                     value: EventVisibility.Unlisted,
                   },
                 ]"
-                name="visibility"
                 @update:model-value="
                   (value) =>
                     field.handleChange(String(value ?? '') as EventVisibility)
@@ -163,12 +162,8 @@
                     class="flex max-h-(--reka-popover-content-available-height) flex-col items-center gap-3 overflow-y-auto p-3"
                   >
                     <AppCalendar
-                      :max-value="
-                        form.getFieldValue('end')
-                          ? isoToCalendarDateTime(form.getFieldValue('end'))
-                          : undefined
-                      "
-                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :max-value="isoToCalendarDate(form.getFieldValue('end'))"
+                      :model-value="isoToCalendarDate(field.state.value)"
                       :week-starts-on="1"
                       @update:model-value="
                         (date) => applyDateSelection(field, date)
@@ -197,7 +192,7 @@
             />
             <p
               v-if="isWarningStartPastShown"
-              class="text-sm text-yellow-600 dark:text-yellow-400"
+              class="rounded-small bg-warning-tint px-3 py-2 text-body-small text-fg-1"
             >
               {{ t('globalValidationNowOrFuture') }}
             </p>
@@ -231,11 +226,9 @@
                   >
                     <AppCalendar
                       :min-value="
-                        form.getFieldValue('start')
-                          ? isoToCalendarDateTime(form.getFieldValue('start'))
-                          : undefined
+                        isoToCalendarDate(form.getFieldValue('start'))
                       "
-                      :model-value="isoToCalendarDateTime(field.state.value)"
+                      :model-value="isoToCalendarDate(field.state.value)"
                       :week-starts-on="1"
                       @update:model-value="
                         (date) => applyDateSelection(field, date)
@@ -325,7 +318,7 @@
                   @geocode="onGeocode"
                 />
                 <AppIconMapPinSolid
-                  class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-(--critic-red-middle)"
+                  class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-error"
                 />
               </div>
             </AppFeature>
@@ -359,6 +352,7 @@
             <FieldContent>
               <client-only>
                 <AppTipTap
+                  :aria-label="t('description')"
                   :value="field.state.value"
                   @input="field.handleChange($event)"
                 />
@@ -398,12 +392,14 @@ import {
   fromDate,
   getLocalTimeZone,
   parseAbsoluteToLocal,
+  toCalendarDate,
   toCalendarDateTime,
 } from '@internationalized/date'
 import { toDate } from 'reka-ui/date'
 import { useForm } from '@tanstack/vue-form'
 import type { AnyFieldApi } from '@tanstack/vue-form'
 import { useMutation } from '@urql/vue'
+import slugify from 'slugify'
 import { z } from 'zod'
 
 import { cn } from '@/utils/shadcn'
@@ -523,6 +519,7 @@ const deleteEventCategoryMappingByEventIdAndCategoryIdMutation = useMutation(
           eventByEventId {
             id
           }
+          id
         }
       }
     }
@@ -554,6 +551,7 @@ const deleteEventFormatMappingByEventIdAndFormatIdMutation = useMutation(
           eventByEventId {
             id
           }
+          id
         }
       }
     }
@@ -865,6 +863,9 @@ const dateTimeFormatter = (x?: string) =>
         timeZone,
       })
     : undefined
+// the calendars compare whole days, as their bounds' time of day would otherwise disable the bounding day itself
+const isoToCalendarDate = (value?: string) =>
+  value ? toCalendarDate(parseAbsoluteToLocal(value)) : undefined
 const isoToCalendarDateTime = (value?: string) =>
   value ? toCalendarDateTime(parseAbsoluteToLocal(value)) : undefined
 const applyDateSelection = (field: AnyFieldApi, date?: DateValue) => {
@@ -891,13 +892,13 @@ const applyTimeSelection = (field: AnyFieldApi, time?: TimeValue) => {
     toDate(toCalendarDateTime(date, time), getLocalTimeZone()).toISOString(),
   )
 }
-const onInputName = async (value: string, nameField: AnyFieldApi) => {
+// stays synchronous: lazily importing `slugify` here let a submit right after
+// typing race the slug update, which silently dropped the save
+const onInputName = (value: string, nameField: AnyFieldApi) => {
   nameField.handleChange(value)
-  await updateSlug()
+  updateSlug()
 }
-const updateSlug = async () => {
-  const slugify = (await import('slugify')).default
-
+const updateSlug = () => {
   form.setFieldValue(
     'slug',
     slugify(form.getFieldValue('name') ?? '', {
@@ -918,6 +919,13 @@ const isWarningStartPastShown = computed(() => {
 const errorMessages = computed(() =>
   api.value.errors ? getCombinedErrorMessages(api.value.errors) : undefined,
 )
+
+// `handleSubmit` silently drops a first attempt while a field is still
+// validating, as the debounced slug check is right after the name changes
+const submit = async () => {
+  await form.validateAllFields('change')
+  await form.handleSubmit()
+}
 
 // initialization — set rowId for edit mode
 if (event?.rowId) {

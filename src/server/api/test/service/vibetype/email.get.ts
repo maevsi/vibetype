@@ -5,14 +5,11 @@ const emailGetQuerySchema = z.object({
   name: EMAIL_NAMES.optional(),
 })
 
-const logoSource = `data:image/png;base64,${LOGO_BASE64}`
-
 const getDemoEmailProps = (locale: AppLocale) =>
   ({
     [EMAIL_NAMES.enum['account.password_reset_requested']]: {
       emailAddress: 'user@example.com',
       locale,
-      logoSource,
       passwordResetVerificationLink:
         'https://example.com/reset-password?token=abcd1234',
       stackDomain: 'example.com',
@@ -22,26 +19,19 @@ const getDemoEmailProps = (locale: AppLocale) =>
     },
     [EMAIL_NAMES.enum['account.registered']]: {
       emailAddress: 'newuser@example.com',
-      locale,
-      logoSource,
-      siteUrl: 'https://example.com',
-      username: 'john_doe',
-    },
-    [EMAIL_NAMES.enum['email_address_verification.requested']]: {
-      emailAddress: 'newuser@example.com',
       emailAddressVerificationLink:
-        'https://example.com/account/registration/confirm?code=verify5678',
+        'https://example.com/verify-email?token=verify5678',
       locale,
-      logoSource,
+      stackDomain: 'example.com',
       timeZone: 'Europe/Berlin',
+      username: 'john_doe',
       validUntil: '2024-12-31T23:59:59Z',
     },
     [EMAIL_NAMES.enum['guest.invited']]: {
       emailAddress: 'invitee@example.com',
       eventAttendanceType: 'in-person',
       eventAuthorProfileHref: 'https://example.com/profiles/author123',
-      eventAuthorProfilePictureSrc:
-        'https://example.com/images/author-profile.jpg',
+      eventAuthorProfilePictureSrc: `data:image/png;base64,${PROFILE_PICTURE_JONAS.toString('base64')}`,
       eventAuthorUsername: 'john_doe',
       eventDescription:
         'Join us for an exciting event on the future of technology and innovation.',
@@ -50,7 +40,6 @@ const getDemoEmailProps = (locale: AppLocale) =>
       eventName: 'Future of Tech 2024',
       eventStart: '2024-10-15T14:00:00Z',
       eventVisibility: 'public',
-      logoSource,
       locale,
       stackDomain: 'example.com',
       timeZone: 'Europe/Berlin',
@@ -66,7 +55,17 @@ const generateEmailContent = async (
     emailNames.map(async (name) => {
       const demoProps = demoEmailProps[name]
       const email = await getEmail({ name, props: demoProps })
-      return `<h2>${name}</h2>${email.html}<hr/><span style="white-space: pre;">${email.text}</span><hr/>`
+      // browsers cannot resolve the `cid:` sources that reference email attachments
+      const attachments = getEmailAttachments(name)
+      const html = email.html.replaceAll(/cid:([\w-]+)/g, (source, cid) => {
+        const attachment = attachments.find(
+          (attachment) => attachment.cid === cid,
+        )
+        return attachment
+          ? `data:image/png;base64,${attachment.content.toString('base64')}`
+          : source
+      })
+      return `<h2>${name}</h2>${html}<hr/><span style="white-space: pre;">${email.text}</span><hr/>`
     }),
   )
   return `<h1>Email preview</h1>${allEmails.join()}`

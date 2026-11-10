@@ -1,11 +1,10 @@
 <template>
-  <div v-if="api.isFetching" class="text-sm text-gray-500">
-    {{ t('loading') }}
-  </div>
+  <LoaderPlaceholder v-if="api.isFetching && !attendance" />
   <AppError v-else-if="!attendance" :error="{ status: 404 }" />
   <div v-else class="flex flex-col gap-4">
+    <h1 class="sr-only">{{ title }}</h1>
     <section class="flex flex-col gap-4">
-      <span class="text-3xl font-bold">
+      <span class="text-heading-large">
         {{ t('contact') }}
       </span>
       <ContactPreview v-if="contact" :contact />
@@ -26,11 +25,11 @@
       </div>
     </section>
     <section v-if="eventApps.length" class="flex flex-col gap-4">
-      <span class="text-3xl font-bold">
+      <span class="text-heading-large">
         {{ t('event') }}
       </span>
       <section v-if="eventApps.length" class="flex flex-col gap-4">
-        <span class="text-2xl font-bold">
+        <span class="text-heading-medium">
           {{ t('apps') }}
         </span>
         <ul>
@@ -65,7 +64,7 @@
       </section>
     </section>
     <section v-if="guest?.rowId" class="flex flex-col gap-4">
-      <span class="text-3xl font-bold">
+      <span class="text-heading-large">
         {{ t('attendance') }}
       </span>
       <div class="flex gap-2">
@@ -80,7 +79,7 @@
       </div>
     </section>
     <section v-if="guest" class="flex flex-col gap-4">
-      <span class="text-3xl font-bold">
+      <span class="text-heading-large">
         {{ t('guest') }}
       </span>
       <div class="flex">
@@ -98,7 +97,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
 
@@ -127,7 +126,7 @@ try {
 }
 
 // api data
-const queryAttendance = useQuery({
+const queryAttendance = useApiQuery({
   query: graphql(`
     query Attendance($id: UUID!) {
       attendanceByRowId(rowId: $id) {
@@ -248,7 +247,7 @@ const friendAdd = async () => {
 
 // page
 const title = computed(() => {
-  if (api.value.isFetching) return t('globalLoading')
+  if (api.value.isFetching && !attendance.value) return t('globalLoading')
 
   if (contactName.value) {
     return t('title', { name: contactName.value })
@@ -273,7 +272,6 @@ de:
   event: Veranstaltung
   guest: Gast
   guestView: Einladung anzeigen
-  loading: Lädt…
   title: Anwesenheitsdetails für {name}
 en:
   addFriend: Add friend
@@ -288,6 +286,5 @@ en:
   event: Event
   guest: Guest
   guestView: Show invitation
-  loading: Loading…
   title: Attendance Details for {name}
 </i18n>

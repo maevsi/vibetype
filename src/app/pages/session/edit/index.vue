@@ -3,10 +3,10 @@
     <LayoutPageTitle :title />
     <div class="flex flex-col gap-6">
       <section class="flex flex-col gap-4">
-        <span class="text-lg font-bold">{{ t('profile') }}</span>
+        <span class="text-headline">{{ t('profile') }}</span>
         <div class="flex flex-col gap-3">
           <CardButton
-            class="bg-(--accent-strong) text-(--semantic-base-primary-button-text)"
+            class="bg-action-primary text-on-action-primary"
             :title="t('aiSetup')"
             :to="
               localePath({
@@ -20,12 +20,11 @@
             </template> -->
           </CardButton>
           <CardButton
-            class="border-(--warning-strong) bg-(--warning-weak) text-(--warning-text)"
+            class="border-action-warning bg-warning-tint text-fg-1"
             :title="t('earlyBirdStart')"
             :to="localePath({ name: 'early-bird-create' })"
           >
             <AppIconEarlyBird />
-            <!-- TODO: implement early bird cancellation -->
             <template v-if="false" #iconSecondary>
               <AppIconClose />
             </template>
@@ -33,7 +32,7 @@
         </div>
       </section>
       <section class="flex flex-col gap-4">
-        <span class="text-lg font-bold">{{ t('display') }}</span>
+        <span class="text-headline">{{ t('display') }}</span>
         <div class="flex flex-col gap-3">
           <CardButton
             :title="t('colorScheme')"
@@ -58,7 +57,7 @@
         </div>
       </section>
       <section class="flex flex-col gap-4">
-        <span class="text-lg font-bold" @click="onDevelopmentModeTrigger">
+        <span class="text-headline" @click="onDevelopmentModeTrigger">
           {{ t('support') }}
         </span>
         <div class="flex flex-col gap-3">
@@ -116,7 +115,7 @@
         </div>
       </section>
       <section class="flex flex-col gap-4">
-        <span class="text-lg font-bold">
+        <span class="text-headline">
           {{ t('legal') }}
         </span>
         <div class="flex flex-col gap-3">
@@ -145,7 +144,7 @@
         </div>
       </section>
       <section v-if="store.signedInUsername" class="flex flex-col gap-4">
-        <span class="text-lg font-bold">
+        <span class="text-headline">
           {{ t('interactions') }}
         </span>
         <CardButton
@@ -162,7 +161,7 @@
       </section>
       <section v-if="store.signedInUsername" class="flex flex-col">
         <CardButton
-          class="bg-(--critic-string) text-(--semantic-base-light-text-on-dark)"
+          class="bg-action-danger text-white"
           :title="t('logout')"
           @click="signOutToRoot"
         >

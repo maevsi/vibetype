@@ -36,7 +36,7 @@
       <div v-if="contact" class="flex flex-col gap-2">
         <div class="flex items-center justify-between gap-2">
           <div>
-            <p class="mb-2 text-2xl font-bold">
+            <p class="mb-2 text-heading-medium">
               {{
                 t('greeting', {
                   usernameString: contactName ? ' ' + contactName : '',
@@ -65,15 +65,22 @@
               class="absolute inset-x-0 top-0 flex items-center justify-between p-2"
             >
               <div />
-              <div>
+              <div class="flex items-center gap-2">
                 <ButtonIcon
                   :aria-label="t('iCalDownload')"
-                  class="flex size-12 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                  class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
                   @click="downloadIcal"
                 >
                   <AppIconArrowDownTray :title="t('iCalDownload')" />
                 </ButtonIcon>
-                <!-- TODO: share & favorite button -->
+                <EventShareButton
+                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
+                  :event
+                />
+                <EventFavoriteButton
+                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
+                  :event
+                />
                 <template
                   v-if="
                     store.signedInAccountId &&
@@ -89,7 +96,7 @@
                     </AppDropdownItem>
                     <template #trigger>
                       <span
-                        class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                        class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
                       >
                         <AppIconMoreVertical />
                       </span>
@@ -123,7 +130,7 @@
             </div>
             <AppMap
               v-if="positionInitial"
-              class="h-42 rounded-xl"
+              class="h-42 rounded-large"
               :events
               :position-initial
             />
@@ -143,7 +150,7 @@
           >
             <div
               v-if="guest.feedback === InvitationFeedback.Accepted"
-              class="flex items-center font-semibold text-green-600 dark:text-green-500"
+              class="flex items-center font-semibold text-link"
             >
               <AppIconCheckCircleSolid class="mr-2 shrink-0" />
               <span>
@@ -152,7 +159,7 @@
             </div>
             <div
               v-else-if="guest.feedback === InvitationFeedback.Canceled"
-              class="flex items-center font-semibold text-(--semantic-critic-text)"
+              class="flex items-center font-semibold text-error"
             >
               <AppIconXCircleSolid class="mr-2 shrink-0" />
               <span>
@@ -182,7 +189,7 @@
             </ButtonColored>
             <div
               v-if="guest.feedback === InvitationFeedback.Accepted"
-              class="flex items-center font-semibold text-green-600 dark:text-green-500"
+              class="flex items-center font-semibold text-link"
             >
               <AppIconCheckCircleSolid
                 class="mr-2 shrink-0"
@@ -206,7 +213,7 @@
             </ButtonColored>
             <div
               v-if="guest.feedback === InvitationFeedback.Canceled"
-              class="flex items-center font-semibold text-(--semantic-critic-text)"
+              class="flex items-center font-semibold text-error"
             >
               <AppIconXCircleSolid
                 class="mr-2 shrink-0"
@@ -226,24 +233,37 @@
       </div>
       <Modal v-model="isModalGuestQrCodeOpen">
         <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
-          <div class="bg-white p-4">
-            <QrcodeVue id="qrCode" :size="200" :value="guest.rowId" />
-          </div>
-          <p class="text-sm text-gray-500 dark:text-gray-400">
+          <QrcodeVue id="qrCode" :margin="4" :size="232" :value="guest.rowId" />
+          <p class="text-body-small text-fg-2">
             {{ t('hintQrCode') }}
           </p>
         </div>
         <template #footer>
-          <!-- TODO: check printing support in app -->
           <ButtonColored
-            v-if="!isApp"
-            :aria-label="t('print')"
+            v-if="isTicketShareable"
+            :aria-label="t('ticketShare')"
+            :disabled="!ticketFile"
+            :loading="isTicketFetching"
             variant="secondary"
-            @click="print"
+            @click="ticketShare"
           >
-            {{ t('print') }}
+            {{ t('ticketShare') }}
             <template #prefix>
-              <AppIconPrinter />
+              <AppIconShare />
+            </template>
+          </ButtonColored>
+          <!-- the iOS app's share sheet covers saving and printing, whereas Android's usually lacks a print target -->
+          <ButtonColored
+            v-if="!isIos"
+            :aria-label="t('ticketDownload')"
+            :disabled="!ticketFile"
+            :loading="isTicketFetching"
+            variant="secondary"
+            @click="ticketDownload"
+          >
+            {{ t('ticketDownload') }}
+            <template #prefix>
+              <AppIconArrowDownTray />
             </template>
           </ButtonColored>
           <ButtonColored
@@ -262,18 +282,17 @@
 </template>
 
 <script setup lang="ts">
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 import downloadJs from 'downloadjs'
 import { sanitize } from 'isomorphic-dompurify'
-import prntr from 'prntr'
 import QrcodeVue from 'qrcode.vue'
 
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import type { GuestPatch } from '~~/gql/generated/graphql'
 import { graphql } from '~~/gql/generated'
 
-const { isApp } = usePlatform()
-const { t } = useI18n()
+const { isIos } = usePlatform()
+const { locale, t } = useI18n()
 const route = useRoute()
 const localePath = useLocalePath()
 const updateGuestByRowIdMutation = useMutation(
@@ -281,8 +300,9 @@ const updateGuestByRowIdMutation = useMutation(
     mutation UpdateGuestByRowId($input: UpdateGuestByRowIdInput!) {
       updateGuestByRowId(input: $input) {
         guest {
-          id
           feedback
+          id
+          rowId
         }
       }
     }
@@ -299,7 +319,8 @@ const jwtUpdateGuestAdd = import.meta.server
   ? useJwtUpdateGuestAdd({ guestId: route.params.id })
   : undefined
 const jwt = jwtUpdateGuestAdd ? await jwtUpdateGuestAdd() : undefined
-const eventQuery = useQuery({
+const cookie = jwt ? useCsrfCookieHeader() : undefined
+const eventQuery = useApiQuery({
   query: graphql(`
     query GuestEvent($id: UUID!) {
       guestByRowId(rowId: $id) {
@@ -344,6 +365,13 @@ const eventQuery = useQuery({
               id
             }
           }
+          eventFavoritesByEventId(first: 1) {
+            nodes {
+              createdBy
+              id
+              rowId
+            }
+          }
           eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
             nodes {
               eventFormatByFormatId {
@@ -377,9 +405,13 @@ const eventQuery = useQuery({
   ...(jwt
     ? {
         context: {
+          // Replaces the client's fetch options, so the CSRF header and
+          // cookie have to be repeated for a query sent by POST
           fetchOptions: {
             headers: {
               Authorization: `Bearer ${jwt}`,
+              [CSRF_HEADER_NAME]: useCsrf().csrf,
+              ...(cookie ? { cookie } : {}),
             },
           },
         },
@@ -436,7 +468,7 @@ const downloadIcal = async () => {
   const fileName = `${event.value.accountByCreatedBy ? `${event.value.accountByCreatedBy.username}_` : ''}${event.value.slug}.ics`
 
   if (!response.data.value) {
-    alertError(t('iCalFetchError')) // TODO: add suggestion (https://github.com/maevsi/vibetype/issues/903) })
+    alertError(t('iCalFetchError'))
     return
   }
 
@@ -446,11 +478,61 @@ const downloadIcal = async () => {
     'text/calendar',
   )
 }
-const print = () => {
-  prntr({
-    printable: 'qrCode',
-    type: 'html',
+const isTicketShareable = ref<boolean>()
+const isTicketFetching = ref<boolean>()
+const ticketFile = ref<File>()
+onMounted(() => {
+  isTicketShareable.value = !!navigator.canShare?.({
+    files: [new File([], 'ticket.pdf', { type: 'application/pdf' })],
   })
+})
+const ticketFetch = async () => {
+  if (!event.value || !guest.value || ticketFile.value) return
+
+  isTicketFetching.value = true
+
+  try {
+    const blob = await $csrfFetch('/api/model/guest/ticket', {
+      body: { guestId: guest.value.rowId, locale: locale.value },
+      method: 'POST',
+      responseType: 'blob',
+    })
+
+    ticketFile.value = new File([blob], `${event.value.slug}.pdf`, {
+      type: 'application/pdf',
+    })
+  } catch (error) {
+    alertError({
+      error: error instanceof Error ? error : undefined,
+      messageI18n: t('ticketError'),
+    })
+  } finally {
+    isTicketFetching.value = false
+  }
+}
+watch(isModalGuestQrCodeOpen, (isOpen) => {
+  if (isOpen) ticketFetch()
+})
+// called without awaiting anything first, as iOS drops the user activation
+// that navigator.share requires once an await runs
+const ticketShare = async () => {
+  if (!ticketFile.value) return
+
+  try {
+    await navigator.share({ files: [ticketFile.value] })
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') return
+
+    alertError({
+      error: error instanceof Error ? error : undefined,
+      messageI18n: t('ticketShareError'),
+    })
+  }
+}
+const ticketDownload = () => {
+  if (!ticketFile.value) return
+
+  downloadJs(ticketFile.value, ticketFile.value.name, 'application/pdf')
 }
 const qrCodeShow = () => {
   isModalGuestQrCodeOpen.value = true
@@ -508,9 +590,9 @@ const description = computed(() =>
     : undefined,
 )
 const title = computed(() => {
-  if (api.value.isFetching) return t('globalLoading')
+  if (api.value.isFetching && !event.value) return t('globalLoading')
   if (!event.value) {
-    showAppError({ statusCode: 404, message: 'Event unavailable' })
+    showAppError({ status: 404, message: 'Event unavailable' })
     return
   }
 
@@ -520,15 +602,7 @@ useHeadDefault({
   description,
   title,
 })
-defineOgImage(
-  'Event.takumi',
-  {
-    description,
-  },
-  {
-    alt: t('ogImageAlt'),
-  },
-)
+defineEventOgImage({ alt: t('ogImageAlt'), event: event.value })
 </script>
 
 <i18n lang="yaml">
@@ -553,10 +627,13 @@ de:
   invitationSelectionClear: Zurück zur Einladungsübersicht
   invitationViewFor: Du schaust dir die Einladung für {name} an. Alle Personen, die den Link zu dieser Seite bzw. die ID dieser Einladung kennen, können auf diese Einladung zugreifen und mit ihr interagieren.
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
-  print: Drucken
   qrCodeShow: Check-in-Code anzeigen
   report: Veranstaltung melden
   success: Deine Eingabe wurde erfolgreich gespeichert.
+  ticketDownload: Ticket herunterladen
+  ticketError: Das Ticket konnte nicht erstellt werden.
+  ticketShare: Ticket teilen
+  ticketShareError: Das Ticket konnte nicht geteilt werden.
 en:
   close: Close
   errorAccountMissing: Account not available
@@ -578,8 +655,11 @@ en:
   invitationSelectionClear: Back to the invitation overview
   invitationViewFor: You're viewing the invitation for {name}. Anyone knowing the link to this page or this invitation's id can access this invitation and interact with it.
   ogImageAlt: The event's preview image.
-  print: Print
   qrCodeShow: Show check in code
   report: Report event
   success: Your input was saved succesfully.
+  ticketDownload: Download ticket
+  ticketError: The ticket could not be created.
+  ticketShare: Share ticket
+  ticketShareError: The ticket could not be shared.
 </i18n>

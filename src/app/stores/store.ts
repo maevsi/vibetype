@@ -5,6 +5,7 @@ import type { RouteNamedMapI18n } from 'vue-router/auto-routes'
 
 export const useStore = defineStore(SITE_NAME, () => {
   const localePath = useLocalePath()
+  const runtimeConfig = useRuntimeConfig()
 
   // const jwt = ref<string>() // we don't store the JWT itself for security reasons
   const jwtPayload = ref<Jwt>()
@@ -28,10 +29,13 @@ export const useStore = defineStore(SITE_NAME, () => {
       signedInAccountId.value = jwtPayloadNew.sub as string | undefined
       signedInUsername.value = jwtPayloadNew.username as string | undefined
 
-      Sentry.setUser({
-        id: jwtPayloadNew.sub as string | undefined,
-        username: jwtPayloadNew.username as string | undefined,
-      })
+      // the sign-out keeps clearing the user, so a disabled tracking never leaves stale user data on the sentry project
+      if (runtimeConfig.public.sentry.features.userTracking) {
+        Sentry.setUser({
+          id: jwtPayloadNew.sub as string | undefined,
+          username: jwtPayloadNew.username as string | undefined,
+        })
+      }
     } else {
       jwtPayload.value = undefined
       signedInAccountId.value = undefined
@@ -41,14 +45,24 @@ export const useStore = defineStore(SITE_NAME, () => {
     }
   }
 
-  const navigateBack = async () => {
-    routeHistoryDisabled.value = true
-    await navigateTo(
+  const navigateBack = () =>
+    navigateWithoutHistory(
       localePath(
         (routeHistory.value.pop() as keyof RouteNamedMapI18n) || 'index',
       ),
     )
-    routeHistoryDisabled.value = false
+
+  // for navigations the user did not cause, like redirects, which must not become a back button target
+  const navigateWithoutHistory = async (
+    ...parameters: Parameters<typeof navigateTo>
+  ) => {
+    routeHistoryDisabled.value = true
+
+    try {
+      return await navigateTo(...parameters)
+    } finally {
+      routeHistoryDisabled.value = false
+    }
   }
 
   return {
@@ -60,5 +74,6 @@ export const useStore = defineStore(SITE_NAME, () => {
     jwtRemove,
     jwtSet,
     navigateBack,
+    navigateWithoutHistory,
   }
 })

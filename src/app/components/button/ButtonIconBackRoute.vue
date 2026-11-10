@@ -29,7 +29,11 @@ const route = useRoute()
 const isVisible = computed(
   () =>
     store.routeHistory.length ||
-    !isEqual(route.path, localePath('index').toString()),
+    !isEqual(
+      route.path,
+      // signed-in accounts are redirected from the index to the dashboard, so going back from there only loops
+      localePath(store.signedInAccountId ? 'dashboard' : 'index').toString(),
+    ),
 )
 
 defineExpose({

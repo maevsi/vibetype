@@ -3551,6 +3551,10 @@ export type EventCondition = {
   addressId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `createdBy` field. */
   createdBy?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `end` field. */
+  end?: InputMaybe<Scalars['Datetime']['input']>
+  /** Checks for equality with the object’s `name` field. */
+  name?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `rowId` field. */
   rowId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `slug` field. */
@@ -3872,6 +3876,8 @@ export enum EventOrderBy {
   AddressIdDesc = 'ADDRESS_ID_DESC',
   CreatedByAsc = 'CREATED_BY_ASC',
   CreatedByDesc = 'CREATED_BY_DESC',
+  NameAsc = 'NAME_ASC',
+  NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
@@ -3975,6 +3981,34 @@ export enum EventRecommendationOrderBy {
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+}
+
+/** A connection to a list of `EventSearchRankRecord` values. */
+export type EventSearchRankConnection = {
+  __typename?: 'EventSearchRankConnection'
+  /** A list of edges which contains the `EventSearchRankRecord` and cursor to aid in pagination. */
+  edges: Array<EventSearchRankEdge>
+  /** A list of `EventSearchRankRecord` objects. */
+  nodes: Array<EventSearchRankRecord>
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo
+  /** The count of *all* `EventSearchRankRecord` you could get from the connection. */
+  totalCount: Scalars['Int']['output']
+}
+
+/** A `EventSearchRankRecord` edge in the connection. */
+export type EventSearchRankEdge = {
+  __typename?: 'EventSearchRankEdge'
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `EventSearchRankRecord` at the end of the edge. */
+  node: EventSearchRankRecord
+}
+
+export type EventSearchRankRecord = {
+  __typename?: 'EventSearchRankRecord'
+  eventId?: Maybe<Scalars['UUID']['output']>
+  rank?: Maybe<Scalars['Float']['output']>
 }
 
 /** Possible event sizes: small, medium, large, huge. */
@@ -4500,10 +4534,6 @@ export enum GuestOrderBy {
 
 /** Represents an update to a `Guest`. Fields that are set will be updated. */
 export type GuestPatch = {
-  /** The internal id of the guest's contact. */
-  contactId?: InputMaybe<Scalars['UUID']['input']>
-  /** The internal id of the guest's event. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
   /** The guest's general feedback status. */
   feedback?: InputMaybe<InvitationFeedback>
   /** The guest's paper feedback status. */
@@ -4807,14 +4837,18 @@ export type Mutation = {
   accountEmailAddressVerification?: Maybe<AccountEmailAddressVerificationPayload>
   /** Allows to change an account's password.\n\nError codes:\n- **22023** when the new password is too short.\n- **28P01** when an account with the given password is not found. */
   accountPasswordChange?: Maybe<AccountPasswordChangePayload>
-  /**
-   * Sets a new password for an account if there was a request to do so before that's still up to date.\n\nError codes:\n- **22023** when the password is too short.\n- **P0002** when the reset code is unknown.\n- **55000** when the reset code has expired.
-   *
-   */
+  /** Sets a new password for an account if there was a request to do so before that's still up to date.\n\nError codes:\n- **22023** when the password is too short.\n- **P0002** when the reset code is unknown.\n- **55000** when the reset code has expired. */
   accountPasswordReset?: Maybe<AccountPasswordResetPayload>
   /** Sets a new password reset verification code for an account. */
   accountPasswordResetRequest?: Maybe<AccountPasswordResetRequestPayload>
-  /** Creates a contact and registers an account referencing it.\n\nError codes:\n- **VTBDA** when the birth date is not at least 18 years old.\n- **VTPLL** when the password length does not reach its minimum.\n- **VTAUV** when an account with the given username already exists. */
+  /**
+   * Creates a contact and registers an account referencing it.
+   *
+   * Error codes:
+   * - **VTBDA** when the birth date is not at least 18 years old.
+   * - **VTPLL** when the password length does not reach its minimum.
+   * - **VTAUV** when an account with the given username already exists.
+   */
   accountRegistration?: Maybe<AccountRegistrationPayload>
   /** Refreshes an account's email address verification validity period.\n\nError codes:\n- **01P01** in all cases right now as refreshing registrations is currently not available due to missing rate limiting.\n- **22023** when an account with this account id does not exist. */
   accountRegistrationRefresh?: Maybe<AccountRegistrationRefreshPayload>
@@ -4986,13 +5020,6 @@ export type Mutation = {
   updateAccountByRowId?: Maybe<UpdateAccountPayload>
   /** Updates a single `Account` using a unique key and a patch. */
   updateAccountByUsername?: Maybe<UpdateAccountPayload>
-  /**
-   * Sets the location for the invoker's account.
-   *
-   * Error codes:
-   * - **P0002** when the account is not found.
-   */
-  updateAccountLocation?: Maybe<UpdateAccountLocationPayload>
   /** Updates a single `AccountSocialNetwork` using its globally unique id and a patch. */
   updateAccountSocialNetwork?: Maybe<UpdateAccountSocialNetworkPayload>
   /** Updates a single `AccountSocialNetwork` using a unique key and a patch. */
@@ -5507,11 +5534,6 @@ export type MutationUpdateAccountByRowIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateAccountByUsernameArgs = {
   input: UpdateAccountByUsernameInput
-}
-
-/** The root mutation type which contains root level fields which mutate data. */
-export type MutationUpdateAccountLocationArgs = {
-  input: UpdateAccountLocationInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -6117,7 +6139,11 @@ export type Query = Node & {
   accountByRowId?: Maybe<Account>
   /** Get a single `Account`. */
   accountByUsername?: Maybe<Account>
-  /** Returns all accounts with a username containing a given substring. */
+  /**
+   * Returns accounts with a username containing a given substring, closest matches first.
+   * Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size.
+   * Queries under 3 characters match few trigrams and so scan a larger share of the index; keep that in mind if this backs search-as-you-type.
+   */
   accountSearch?: Maybe<AccountConnection>
   /** Reads a single `AccountSocialNetwork` using its globally unique `ID`. */
   accountSocialNetwork?: Maybe<AccountSocialNetwork>
@@ -6267,8 +6293,10 @@ export type Query = Node & {
   eventRecommendation?: Maybe<EventRecommendation>
   /** Get a single `EventRecommendation`. */
   eventRecommendationByAccountIdAndEventId?: Maybe<EventRecommendation>
-  /** Performs a full-text search on the event table based on the provided query and language, returning event IDs ordered by relevance. */
+  /** Searches events by name and description. Matches by prefix so partial words match as the user types, and falls back to trigram similarity on the name for typo tolerance. Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size. */
   eventSearch?: Maybe<EventConnection>
+  /** Returns event ids matching the given query by prefix, across every text search configuration event_search_vector rows are stored in, with their relevance rank. */
+  eventSearchRank?: Maybe<EventSearchRankConnection>
   /** Reads a single `EventUpload` using its globally unique `ID`. */
   eventUpload?: Maybe<EventUpload>
   /** Get a single `EventUpload`. */
@@ -6403,7 +6431,7 @@ export type QueryAccountSearchArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
-  searchString?: InputMaybe<Scalars['String']['input']>
+  query?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6960,9 +6988,16 @@ export type QueryEventRecommendationByAccountIdAndEventIdArgs = {
 export type QueryEventSearchArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
-  language?: InputMaybe<Language>
   offset?: InputMaybe<Scalars['Int']['input']>
   query?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryEventSearchRankArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  query: Scalars['String']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -7316,29 +7351,6 @@ export type UpdateAccountInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `Account` to be updated. */
   id: Scalars['ID']['input']
-}
-
-/** All input for the `updateAccountLocation` mutation. */
-export type UpdateAccountLocationInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: InputMaybe<Scalars['String']['input']>
-  latitude: Scalars['Float']['input']
-  longitude: Scalars['Float']['input']
-}
-
-/** The output of our `updateAccountLocation` mutation. */
-export type UpdateAccountLocationPayload = {
-  __typename?: 'UpdateAccountLocationPayload'
-  /**
-   * The exact same `clientMutationId` that was provided in the mutation input,
-   * unchanged and unused. May be used by a client to track mutations.
-   */
-  clientMutationId?: Maybe<Scalars['String']['output']>
-  /** Our root query field type. Allows us to run any query from our mutation payload. */
-  query?: Maybe<Query>
 }
 
 /** The output of our update `Account` mutation. */
@@ -8309,6 +8321,15 @@ export type GraphCacheKeysConfig = {
   EventRecommendationEdge?: (
     data: WithTypename<EventRecommendationEdge>,
   ) => null | string
+  EventSearchRankConnection?: (
+    data: WithTypename<EventSearchRankConnection>,
+  ) => null | string
+  EventSearchRankEdge?: (
+    data: WithTypename<EventSearchRankEdge>,
+  ) => null | string
+  EventSearchRankRecord?: (
+    data: WithTypename<EventSearchRankRecord>,
+  ) => null | string
   EventUpload?: (data: WithTypename<EventUpload>) => null | string
   EventUploadConnection?: (
     data: WithTypename<EventUploadConnection>,
@@ -8408,9 +8429,6 @@ export type GraphCacheKeysConfig = {
   Report?: (data: WithTypename<Report>) => null | string
   ReportConnection?: (data: WithTypename<ReportConnection>) => null | string
   ReportEdge?: (data: WithTypename<ReportEdge>) => null | string
-  UpdateAccountLocationPayload?: (
-    data: WithTypename<UpdateAccountLocationPayload>,
-  ) => null | string
   UpdateAccountPayload?: (
     data: WithTypename<UpdateAccountPayload>,
   ) => null | string
@@ -8861,6 +8879,11 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       QueryEventSearchArgs,
       WithTypename<EventConnection> | string
+    >
+    eventSearchRank?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryEventSearchRankArgs,
+      WithTypename<EventSearchRankConnection> | string
     >
     eventUpload?: GraphCacheResolver<
       WithTypename<Query>,
@@ -11819,6 +11842,52 @@ export type GraphCacheResolvers = {
       WithTypename<EventRecommendation> | string
     >
   }
+  EventSearchRankConnection?: {
+    edges?: GraphCacheResolver<
+      WithTypename<EventSearchRankConnection>,
+      Record<string, never>,
+      Array<WithTypename<EventSearchRankEdge> | string>
+    >
+    nodes?: GraphCacheResolver<
+      WithTypename<EventSearchRankConnection>,
+      Record<string, never>,
+      Array<WithTypename<EventSearchRankRecord> | string>
+    >
+    pageInfo?: GraphCacheResolver<
+      WithTypename<EventSearchRankConnection>,
+      Record<string, never>,
+      WithTypename<PageInfo> | string
+    >
+    totalCount?: GraphCacheResolver<
+      WithTypename<EventSearchRankConnection>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
+    >
+  }
+  EventSearchRankEdge?: {
+    cursor?: GraphCacheResolver<
+      WithTypename<EventSearchRankEdge>,
+      Record<string, never>,
+      Scalars['Cursor']['output'] | string
+    >
+    node?: GraphCacheResolver<
+      WithTypename<EventSearchRankEdge>,
+      Record<string, never>,
+      WithTypename<EventSearchRankRecord> | string
+    >
+  }
+  EventSearchRankRecord?: {
+    eventId?: GraphCacheResolver<
+      WithTypename<EventSearchRankRecord>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    rank?: GraphCacheResolver<
+      WithTypename<EventSearchRankRecord>,
+      Record<string, never>,
+      Scalars['Float']['output'] | string
+    >
+  }
   EventUpload?: {
     eventByEventId?: GraphCacheResolver<
       WithTypename<EventUpload>,
@@ -13038,18 +13107,6 @@ export type GraphCacheResolvers = {
       WithTypename<Report> | string
     >
   }
-  UpdateAccountLocationPayload?: {
-    clientMutationId?: GraphCacheResolver<
-      WithTypename<UpdateAccountLocationPayload>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    query?: GraphCacheResolver<
-      WithTypename<UpdateAccountLocationPayload>,
-      Record<string, never>,
-      WithTypename<Query> | string
-    >
-  }
   UpdateAccountPayload?: {
     account?: GraphCacheResolver<
       WithTypename<UpdateAccountPayload>,
@@ -13755,10 +13812,6 @@ export type GraphCacheOptimisticUpdaters = {
     MutationUpdateAccountByUsernameArgs,
     Maybe<WithTypename<UpdateAccountPayload>>
   >
-  updateAccountLocation?: GraphCacheOptimisticMutationResolver<
-    MutationUpdateAccountLocationArgs,
-    Maybe<WithTypename<UpdateAccountLocationPayload>>
-  >
   updateAccountSocialNetwork?: GraphCacheOptimisticMutationResolver<
     MutationUpdateAccountSocialNetworkArgs,
     Maybe<WithTypename<UpdateAccountSocialNetworkPayload>>
@@ -14270,6 +14323,10 @@ export type GraphCacheUpdaters = {
     eventSearch?: GraphCacheUpdateResolver<
       { eventSearch: Maybe<WithTypename<EventConnection>> },
       QueryEventSearchArgs
+    >
+    eventSearchRank?: GraphCacheUpdateResolver<
+      { eventSearchRank: Maybe<WithTypename<EventSearchRankConnection>> },
+      QueryEventSearchRankArgs
     >
     eventUpload?: GraphCacheUpdateResolver<
       { eventUpload: Maybe<WithTypename<EventUpload>> },
@@ -15051,12 +15108,6 @@ export type GraphCacheUpdaters = {
     updateAccountByUsername?: GraphCacheUpdateResolver<
       { updateAccountByUsername: Maybe<WithTypename<UpdateAccountPayload>> },
       MutationUpdateAccountByUsernameArgs
-    >
-    updateAccountLocation?: GraphCacheUpdateResolver<
-      {
-        updateAccountLocation: Maybe<WithTypename<UpdateAccountLocationPayload>>
-      },
-      MutationUpdateAccountLocationArgs
     >
     updateAccountSocialNetwork?: GraphCacheUpdateResolver<
       {
@@ -17420,6 +17471,44 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
+  EventSearchRankConnection?: {
+    edges?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventSearchRankConnection>>,
+      Record<string, never>
+    >
+    nodes?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventSearchRankConnection>>,
+      Record<string, never>
+    >
+    pageInfo?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventSearchRankConnection>>,
+      Record<string, never>
+    >
+    totalCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventSearchRankConnection>>,
+      Record<string, never>
+    >
+  }
+  EventSearchRankEdge?: {
+    cursor?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventSearchRankEdge>>,
+      Record<string, never>
+    >
+    node?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventSearchRankEdge>>,
+      Record<string, never>
+    >
+  }
+  EventSearchRankRecord?: {
+    eventId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventSearchRankRecord>>,
+      Record<string, never>
+    >
+    rank?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<EventSearchRankRecord>>,
+      Record<string, never>
+    >
+  }
   EventUpload?: {
     eventByEventId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<EventUpload>>,
@@ -18411,16 +18500,6 @@ export type GraphCacheUpdaters = {
     >
     node?: GraphCacheUpdateResolver<
       Maybe<WithTypename<ReportEdge>>,
-      Record<string, never>
-    >
-  }
-  UpdateAccountLocationPayload?: {
-    clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateAccountLocationPayload>>,
-      Record<string, never>
-    >
-    query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<UpdateAccountLocationPayload>>,
       Record<string, never>
     >
   }

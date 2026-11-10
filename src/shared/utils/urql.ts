@@ -1,6 +1,8 @@
 import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core'
 import {
+  CombinedError,
   createClient,
+  createRequest,
   ssrExchange as getSsrExchange,
   fetchExchange,
 } from '@urql/core'
@@ -11,9 +13,11 @@ import { makeDefaultStorage } from '@urql/exchange-graphcache/default-storage'
 import { relayPagination } from '@urql/exchange-graphcache/extras'
 import { requestPolicyExchange } from '@urql/exchange-request-policy'
 import { devtoolsExchange } from '@urql/devtools'
+import type { AnyVariables, UseQueryArgs, UseQueryState } from '@urql/vue'
+import { useClientHandle, useQuery } from '@urql/vue'
 import type { DocumentNode } from 'graphql'
 import type { useRuntimeConfig } from 'nuxt/app'
-import { ref } from 'vue'
+import { ref, toValue } from 'vue'
 
 import type { FragmentType } from '~~/gql/generated'
 import type { GraphCacheConfig, Maybe } from '~~/gql/generated/graphcache'
@@ -30,6 +34,72 @@ import {
   allPreferenceEventLocationsQuery,
   getPreferenceEventLocationItem,
 } from '~~/shared/utils/preference/eventLocation'
+import {
+  getRefetchBeforeHydrationExchange,
+  getSsrHydrationExchanges,
+} from '~~/shared/utils/urqlSsrHydration'
+
+// A `useQuery` that settles on the server: the query is paused at creation,
+// and awaiting the response executes it exactly once and fills its state, so
+// the page and its head can be rendered with the data. The client behaves
+// like a plain `useQuery`
+export const useApiQuery = <S, V extends AnyVariables = AnyVariables>(
+  args: UseQueryArgs<S, V>,
+) => {
+  const response = useQuery({
+    ...args,
+    ...(import.meta.server ? { pause: true } : {}),
+  })
+
+  if (import.meta.server) {
+    const { client } = useClientHandle()
+    const request = createRequest(
+      toValue(args.query),
+      // `toValue` resolves the variables' ref, but the optional `variables`
+      // prop of the query args types them as `V | undefined`
+      toValue(args.variables) as V,
+    )
+    // Built like `useQuery` builds it, so per query options such as an
+    // `Authorization` header in `fetchOptions` reach the server request too
+    const context = {
+      ...('requestPolicy' in args
+        ? { requestPolicy: toValue(args.requestPolicy) }
+        : {}),
+      ...toValue(args.context),
+    }
+    // A promise must never resolve to a thenable: the response itself is
+    // one, so the state is returned without its `then`, or the resolution
+    // would re-trigger it in an endless adoption loop
+    const settle = (): Promise<UseQueryState<S, V>> =>
+      client
+        .executeQuery(request, context)
+        .toPromise()
+        .then(
+          (result) => {
+            response.data.value = result.data ?? undefined
+            response.error.value = result.error ?? undefined
+            response.fetching.value = false
+            response.stale.value = false
+            const { then: _then, ...state } = response
+            return state
+          },
+          (error) => {
+            response.error.value = new CombinedError(error)
+            response.fetching.value = false
+            const { then: _then, ...state } = response
+            return state
+          },
+        )
+
+    let promise: Promise<UseQueryState<S, V>>
+    response.then = (onFulfilled, onRejected) => {
+      promise ??= settle()
+      return promise.then(onFulfilled, onRejected)
+    }
+  }
+
+  return response
+}
 
 type RelayConnection<T> = {
   nodes: T[]
@@ -66,6 +136,18 @@ const invalidateCache = (
         .forEach((field) => {
           cache.invalidate('Query', field.fieldKey)
         })
+
+// The database's row level security hides a blocked account's accounts,
+// contacts, events and guests, so every list of them changes with a block
+const invalidateAccountBlockDependents = (cache: Cache) =>
+  [
+    'accountBlockAccounts',
+    'allAccounts',
+    'allContacts',
+    'allEvents',
+    'allGuests',
+    'eventSearch',
+  ].forEach((name) => invalidateCache(cache, name))
 
 const cacheListAppend = <
   Fragment,
@@ -149,10 +231,12 @@ export const getUrqlClient = async ({
   clientOptions,
   runtimeConfig,
   baseUrl,
+  isSsr = true,
 }: {
   clientOptions?: Partial<ClientOptions>
   runtimeConfig: ReturnType<typeof useRuntimeConfig>
   baseUrl: string
+  isSsr?: boolean
 }) => {
   const ssrExchange = getSsrExchange({
     isClient: import.meta.client,
@@ -179,6 +263,8 @@ export const getUrqlClient = async ({
     updates: {
       Mutation: {
         // create
+        createAccountBlock: (_result, _args, cache, _info) =>
+          invalidateAccountBlockDependents(cache),
         createContact: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allContacts'),
         createEvent: (_result, _args, cache, _info) => {
@@ -246,8 +332,18 @@ export const getUrqlClient = async ({
             query: allPreferenceEventLocationsQuery,
             result,
           }),
+        createPreferenceEventSize: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allPreferenceEventSizes'),
+        createUpload: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allUploads'),
 
         // delete
+        deleteAccountBlockByCreatedByAndBlockedAccountId: (
+          _result,
+          _args,
+          cache,
+          _info,
+        ) => invalidateAccountBlockDependents(cache),
         deleteContactByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Contact', args),
         eventDelete: (_result, _args, cache, _info) => {
@@ -346,8 +442,16 @@ export const getUrqlClient = async ({
             query: allPreferenceEventLocationsQuery,
             result,
           }),
+        deletePreferenceEventSizeByAccountIdAndEventSize: (
+          _result,
+          _args,
+          cache,
+          _info,
+        ) => invalidateCache(cache, 'allPreferenceEventSizes'),
         deleteProfilePictureByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'ProfilePicture', args),
+        deleteUploadByRowId: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allUploads'),
       },
     },
   }
@@ -359,12 +463,24 @@ export const getUrqlClient = async ({
   // whenever the client is rebuilt - otherwise `urqlReset` recreates the
   // `Client`s but keeps serving normalized entities from the old store.
   const buildClientOptions = () => {
+    let isCacheHydrated = false
+    const ssrHydrationExchanges = getSsrHydrationExchanges({
+      isCacheHydrated: () => isCacheHydrated,
+      ssrExchange,
+    })
+    const refetchBeforeHydration = getRefetchBeforeHydrationExchange()
     const cacheExchange =
       import.meta.client && cacheStorage
         ? getOfflineExchange({
             ...graphCacheConfig,
             schema,
-            storage: cacheStorage,
+            storage: {
+              ...cacheStorage,
+              onCacheHydrated: () => {
+                isCacheHydrated = true
+                refetchBeforeHydration.refetch()
+              },
+            },
           })
         : undefined
 
@@ -373,8 +489,15 @@ export const getUrqlClient = async ({
       exchanges: [
         ...(runtimeConfig.public.vio.isInProduction ? [] : [devtoolsExchange]),
         requestPolicyExchange({}),
-        ...(cacheExchange ? [cacheExchange] : []),
-        ssrExchange, // `ssrExchange` must be before `fetchExchange`
+        ...(cacheExchange
+          ? [
+              refetchBeforeHydration.exchange,
+              ssrHydrationExchanges.skipCacheRead,
+              cacheExchange,
+              ssrHydrationExchanges.answerFromSsr,
+            ]
+          : []),
+        ...(isSsr ? [ssrExchange] : []), // `ssrExchange` must be before `fetchExchange`
         fetchExchange,
       ],
       url: `${baseUrl}/api/service/postgraphile/graphql`,

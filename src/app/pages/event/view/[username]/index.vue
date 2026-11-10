@@ -36,7 +36,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
 const queryEventListAccount = graphql(`
@@ -50,6 +49,7 @@ const queryEventListAccount = graphql(`
                 id
                 name
               }
+              id
             }
           }
           eventFavoritesByEventId(first: 1) {
@@ -65,6 +65,7 @@ const queryEventListAccount = graphql(`
                 id
                 name
               }
+              id
             }
           }
           guestsByEventId(first: 1) {
@@ -108,7 +109,7 @@ useHeadDefault({
 
 // api data
 const queryAfter = ref<string | null>()
-const query = useQuery({
+const query = useApiQuery({
   query: queryEventListAccount,
   variables: computed(() => ({
     after: queryAfter.value,

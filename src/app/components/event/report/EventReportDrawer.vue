@@ -2,6 +2,7 @@
   <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <EventReportForm
+        :id="templateIdForm"
         ref="form"
         v-bind="attributes"
         v-model:error="error"
@@ -62,10 +63,10 @@
         <ButtonColored
           v-bind="attributes"
           :aria-label="t('buttonReportSubmit')"
+          :form="templateIdForm"
           :loading="templateForm?.isSubmitting"
           type="submit"
           variant="primary-critical"
-          @click="templateForm?.submit"
         >
           {{ t('buttonReportSubmit') }}
         </ButtonColored>
@@ -134,6 +135,7 @@ const { accountId, event } = defineProps<{
 
 // template
 const templateForm = useTemplateRef('form')
+const templateIdForm = useId()
 
 // drawer
 const isOpen = defineModel<boolean>('open')

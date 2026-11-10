@@ -19,7 +19,6 @@
           @submit.prevent="handleEmailContinue"
         >
           <FormAuthInput
-            :aria-label="t('emailPlaceholder')"
             :model-value="emailField.value.value"
             :placeholder="t('emailPlaceholder')"
             type="email"
@@ -30,48 +29,51 @@
               <IHeroiconsEnvelope />
             </template>
           </FormAuthInput>
-          <p v-if="emailField.error.value" class="text-sm text-red-600">
+          <p v-if="emailField.error.value" class="text-caption text-error">
             {{ emailField.error.value }}
           </p>
           <!-- Terms checkbox -->
           <div class="flex items-start gap-3">
             <FormCheckbox
-              :aria-label="t('agreeCheckboxLabel')"
               form-key="agree-to-terms"
               :value="agreedToTerms"
               @change="agreedToTerms = $event"
             >
-              <span class="text-sm text-gray-500 dark:text-gray-400">
+              <span class="text-body-small text-fg-2">
                 {{ t('agreePrefix') }}
                 <NuxtLinkLocale
-                  class="font-semibold text-green-600"
+                  class="font-semibold text-link underline"
                   to="docs-legal-terms"
                   >{{ t('termsOfService') }}</NuxtLinkLocale
                 >{{ t('legalComma') }}
                 <NuxtLinkLocale
-                  class="font-semibold text-green-600"
+                  class="font-semibold text-link underline"
                   to="docs-legal-imprint"
                   >{{ t('imprint') }}</NuxtLinkLocale
                 >
                 {{ t('and') }}
                 <NuxtLinkLocale
-                  class="font-semibold text-green-600"
+                  class="font-semibold text-link underline"
                   to="docs-legal-privacy"
                   >{{ t('privacyPolicy') }}</NuxtLinkLocale
                 >
               </span>
             </FormCheckbox>
           </div>
-          <p v-if="termsError" class="text-sm text-red-600">
+          <p v-if="termsError" class="text-caption text-error">
             {{ termsError }}
           </p>
-          <FormAuthButton :aria-label="t('continue')" type="submit">
+          <ButtonColored
+            :aria-label="t('continue')"
+            class="w-full"
+            type="submit"
+          >
             {{ t('continue') }}
-          </FormAuthButton>
-          <p class="text-center text-[15px] text-gray-500 dark:text-gray-400">
+          </ButtonColored>
+          <p class="text-center text-body text-fg-2">
             {{ t('alreadyHaveAccount') }}
             <NuxtLinkLocale
-              class="font-semibold text-green-600"
+              class="font-semibold text-link underline"
               to="session-create"
               >{{ t('signInLink') }}</NuxtLinkLocale
             >
@@ -105,7 +107,6 @@
         >
           <div class="relative">
             <FormAuthInput
-              :aria-label="t('usernamePlaceholder')"
               :model-value="usernameField.value.value"
               :placeholder="t('usernamePlaceholder')"
               type="text"
@@ -121,22 +122,23 @@
               class="absolute top-1/2 right-4 -translate-y-1/2"
             >
               <div
-                class="size-5 animate-spin rounded-full border-2 border-gray-300 border-t-green-600"
+                class="size-5 animate-spin rounded-full border-2 border-line border-t-green-600"
               />
             </div>
           </div>
-          <p v-if="usernameField.error.value" class="text-sm text-red-600">
+          <p v-if="usernameField.error.value" class="text-caption text-error">
             {{ usernameField.error.value }}
           </p>
-          <FormAuthButton
+          <ButtonColored
             :aria-label="t('continue')"
+            class="w-full"
             :disabled="
               !usernameField.value.value || !!usernameField.error.value
             "
             type="submit"
           >
             {{ t('continue') }}
-          </FormAuthButton>
+          </ButtonColored>
         </form>
       </LayoutPage>
     </AppStep>
@@ -146,15 +148,17 @@
       <LayoutPage v-bind="attributes">
         <div class="flex flex-col gap-4">
           <FormAccountRegistrationAge
-            ref="ageForm"
+            :id="templateIdAgeForm"
             @success="handleAgeSuccess"
           />
-          <FormAuthButton
+          <ButtonColored
             :aria-label="t('confirmAge')"
-            @click="ageFormRef?.submit()"
+            class="w-full"
+            :form="templateIdAgeForm"
+            type="submit"
           >
             {{ t('confirmAge') }}
-          </FormAuthButton>
+          </ButtonColored>
         </div>
       </LayoutPage>
     </AppStep>
@@ -162,24 +166,20 @@
     <!-- Step: Success -->
     <FormAuthStepSuccess :is-active="step === 'success'">
       <div class="flex flex-col gap-4">
-        <p
-          class="text-[15px] leading-5 font-semibold text-gray-500 dark:text-gray-400"
-        >
+        <p class="text-body text-fg-2">
           {{ t('verificationSentTo') }}
-          <span class="font-semibold text-gray-900 dark:text-gray-100">{{
+          <span class="font-semibold text-fg-1">{{
             emailField.value.value
           }}</span>
         </p>
-        <p
-          class="text-[15px] leading-5 font-semibold text-gray-500 dark:text-gray-400"
-        >
+        <p class="text-body text-fg-2">
           {{ t('verificationOpenLink') }}
         </p>
-        <p class="text-sm text-gray-500 dark:text-gray-400">
+        <p class="text-body-small text-fg-2">
           {{ t('verificationDescription') }}
         </p>
         <NuxtLinkLocale
-          class="flex items-center justify-center gap-2 text-[15px] text-gray-500 dark:text-gray-400"
+          class="flex items-center justify-center gap-2 text-body text-fg-2"
           to="support-contact"
         >
           <IHeroiconsQuestionMarkCircle class="size-5" />
@@ -226,22 +226,6 @@ const navigateBack = () => {
 // api data
 const accountRegistrationMutation = useMutation(accountRegistrationDocument)
 const api = await useApiData([accountRegistrationMutation])
-
-// TODO: move into api utility as `errorsTranslated`
-watch(
-  () => api.value.errors,
-  (current) => {
-    error.value = current?.length
-      ? new Error(
-          getCombinedErrorMessages(current, {
-            postgresVTAUV: t('postgresVTAUV'),
-            postgresVTBDA: t('postgresVTBDA'),
-            postgresVTPLL: t('postgresVTPLL'),
-          })[0],
-        )
-      : undefined
-  },
-)
 
 // template
 const templateIdTitle = useId()
@@ -298,7 +282,7 @@ const handleUsernameInput = (newValue: string) => {
 }
 
 // age step
-const ageFormRef = useTemplateRef<{ submit: () => void }>('ageForm')
+const templateIdAgeForm = useId()
 const handleAgeSuccess = async (date: string) => {
   birthDate.value = date
   await submit()
@@ -406,6 +390,15 @@ const { error, previous, restart, step, title } = useStepperPage<
     },
   },
 })
+useApiErrorModel({
+  errorModel: error,
+  errors: () => api.value.errors,
+  postgresErrorMap: {
+    postgresVTAUV: t('postgresVTAUV'),
+    postgresVTBDA: t('postgresVTBDA'),
+    postgresVTPLL: t('postgresVTPLL'),
+  },
+})
 
 // subtitle (only shown on email step)
 const subtitle = computed(() => {
@@ -452,7 +445,6 @@ useHeadDefault({ title: title.value })
 
 <i18n lang="yaml">
 de:
-  agreeCheckboxLabel: Ich stimme den Bedingungen zu
   agreePrefix: "Ich stimme Vibetype's "
   alreadyHaveAccount: 'Du hast bereits ein Konto?'
   and: ' und '
@@ -492,7 +484,6 @@ de:
   verificationOpenLink: Öffne den Link, um zu bestätigen, dass du es wirklich bist.
   verificationSentTo: 'Wir haben dir gerade einen Bestätigungslink gesendet an '
 en:
-  agreeCheckboxLabel: I agree to the terms
   agreePrefix: "I agree to Vibetype's "
   alreadyHaveAccount: 'Already have an account?'
   and: ' and '

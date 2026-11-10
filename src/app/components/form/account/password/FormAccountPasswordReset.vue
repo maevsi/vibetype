@@ -15,9 +15,9 @@
       @update:password-value="passwordPairValidation.handlePasswordInput"
       @update:repetition-value="passwordPairValidation.handleRepetitionInput"
     />
-    <FormAuthButton :aria-label="t('save')" class="mt-4" type="submit">
+    <ButtonColored :aria-label="t('save')" class="mt-4 w-full" type="submit">
       {{ t('save') }}
-    </FormAuthButton>
+    </ButtonColored>
   </form>
 </template>
 
@@ -51,20 +51,15 @@ const passwordResetMutation = useMutation(
   `),
 )
 const api = await useApiData([passwordResetMutation])
-watch(
-  () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(
-          getCombinedErrorMessages(current, {
-            postgres22023: t('postgres22023'),
-            postgres55000: t('postgres55000'),
-            postgresP0002: t('postgresP0002'),
-          })[0],
-        )
-      : undefined
+useApiErrorModel({
+  errorModel: modelError,
+  errors: () => api.value.errors,
+  postgresErrorMap: {
+    postgres22023: t('postgres22023'),
+    postgres55000: t('postgres55000'),
+    postgresP0002: t('postgresP0002'),
   },
-)
+})
 
 // validation
 const passwordMessages = computed(() => ({
@@ -93,7 +88,7 @@ const form = useForm({
     passwordConfirm: '',
   },
   validators: {
-    onSubmit: formSchema,
+    onSubmitAsync: formSchema,
   },
   onSubmit: async ({ value }) => {
     const result = await passwordResetMutation.executeMutation({

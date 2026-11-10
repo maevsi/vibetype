@@ -73,8 +73,15 @@
               class="absolute inset-x-0 top-0 flex items-center justify-between p-2"
             >
               <div />
-              <div>
-                <!-- TODO: share & favorite button -->
+              <div class="flex items-center gap-2">
+                <EventShareButton
+                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
+                  :event
+                />
+                <EventFavoriteButton
+                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
+                  :event
+                />
                 <template
                   v-if="
                     store.signedInAccountId &&
@@ -90,7 +97,7 @@
                     </AppDropdownItem>
                     <template #trigger>
                       <span
-                        class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                        class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
                       >
                         <AppIconMoreVertical />
                       </span>
@@ -127,7 +134,7 @@
             </div>
             <AppMap
               v-if="positionInitial"
-              class="h-42 rounded-xl"
+              class="h-42 rounded-large"
               :events
               :position-initial
             />
@@ -146,7 +153,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
 import { sanitize } from 'isomorphic-dompurify'
 
 import { graphql } from '~~/gql/generated'
@@ -159,7 +165,7 @@ const localePath = useLocalePath()
 const isOpenReportDrawer = ref<boolean>()
 
 // api data
-const eventQuery = useQuery({
+const eventQuery = useApiQuery({
   query: graphql(`
     query Event($slug: String!, $username: String!) {
       accountByUsername(username: $username) {
@@ -190,6 +196,13 @@ const eventQuery = useQuery({
                   name
                 }
                 id
+              }
+            }
+            eventFavoritesByEventId(first: 1) {
+              nodes {
+                createdBy
+                id
+                rowId
               }
             }
             eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
@@ -239,7 +252,7 @@ const eventDescriptionTemplate = computed(() => {
     ADD_ATTR: ['target'],
   })
 
-  // TODO: split event description and guest invitation texts (https://github.com/maevsi/vibetype/issues/211)
+  // TODO: split event description and guest invitation texts (https://github.com/maevsi/vibetype/issues/2385)
   const descriptionNoTemplates = descriptionSanitized.replace(
     /{{\s*[\w.]+\s*}}/g,
     `[${t('errorTemplate')}]`,
@@ -260,7 +273,7 @@ const description = computed(() =>
     : undefined,
 )
 const title = computed(() => {
-  if (api.value.isFetching) return t('globalLoading')
+  if (api.value.isFetching && !event.value) return t('globalLoading')
   if (!event.value) {
     showAppError({ status: 404, message: 'Event unavailable' })
     return
@@ -272,17 +285,7 @@ useHeadDefault({
   description,
   title,
 })
-defineOgImage(
-  'Event.takumi',
-  {
-    description: event.value?.description
-      ? getTextFromHtml(event.value.description)
-      : undefined,
-  },
-  {
-    alt: t('ogImageAlt'),
-  },
-)
+defineEventOgImage({ alt: t('ogImageAlt'), event: event.value })
 defineEvent({
   description,
   endDate: event.value?.end,

@@ -44,7 +44,7 @@
       >
         <!-- Logo -->
         <div
-          class="mb-6 flex size-20 items-center justify-center rounded-3xl bg-gray-100 dark:bg-gray-800"
+          class="mb-6 flex size-20 items-center justify-center rounded-large bg-surface-raised"
         >
           <IconLogo v-if="dateToday.month !== 6" class="size-12" />
           <IconLogoPride v-else class="size-12" />
@@ -54,30 +54,23 @@
         <h1 class="sr-only">
           {{ t('welcomeWithSiteName') }}
         </h1>
-        <p
-          aria-hidden="true"
-          class="mb-2 text-center text-[15px] leading-5 font-semibold tracking-[-0.4px] text-gray-500 dark:text-gray-400"
-        >
+        <p aria-hidden="true" class="mb-2 text-center text-body text-fg-2">
           {{ t('welcome') }}
         </p>
         <IconLogoText aria-hidden="true" class="mb-12 h-6.5" />
 
         <!-- Tagline -->
-        <p
-          class="mb-8 text-center text-[15px] leading-5 font-semibold tracking-[-0.4px] text-gray-500 dark:text-gray-400"
-        >
+        <p class="mb-8 text-center text-body text-fg-2">
           {{ t('taglinePre') }}
-          <span class="text-green-700 line-through">{{
-            t('taglineFomo')
-          }}</span>
+          <span class="text-link line-through">{{ t('taglineFomo') }}</span>
           {{ t('taglinePost') }}
         </p>
 
         <!-- Buttons -->
-        <div class="w-full space-y-3">
+        <div class="flex w-full flex-col gap-2">
           <ButtonColored
             :aria-label="t('register')"
-            class="h-13! w-full rounded-2xl! text-[17px]!"
+            class="w-full"
             :to="$localePath('account-create')"
           >
             {{ t('createAccount') }}
@@ -85,9 +78,9 @@
 
           <ButtonColored
             :aria-label="t('signIn')"
-            class="h-13! w-full rounded-2xl! bg-gray-100! text-[17px]! font-semibold! text-black! no-underline! dark:bg-gray-800! dark:text-white!"
+            class="w-full"
             :to="$localePath('session-create')"
-            variant="tertiary"
+            variant="secondary"
           >
             {{ t('signIn') }}
           </ButtonColored>
@@ -96,22 +89,22 @@
         <!-- Social login (behind feature flag) -->
         <AppFeature class="w-full" feature="social-login">
           <div class="my-6 flex w-full items-center">
-            <div class="h-px flex-1 bg-gray-300 dark:bg-gray-700" />
-            <span class="px-4 text-sm text-gray-400">{{ t('or') }}</span>
-            <div class="h-px flex-1 bg-gray-300 dark:bg-gray-700" />
+            <div class="h-0.5 flex-1 rounded-medium bg-line" />
+            <span class="px-4 text-body-small text-fg-2">{{ t('or') }}</span>
+            <div class="h-0.5 flex-1 rounded-medium bg-line" />
           </div>
 
           <div class="grid w-full grid-cols-2 gap-3">
             <button
               :aria-label="t('signInApple')"
-              class="flex h-13 items-center justify-center rounded-2xl bg-gray-100 dark:bg-gray-800"
+              class="flex h-13 items-center justify-center rounded-medium bg-surface-raised"
               type="button"
             >
-              <IFa6BrandsApple class="size-6 text-black dark:text-white" />
+              <IFa6BrandsApple class="size-6 text-fg-1" />
             </button>
             <button
               :aria-label="t('signInGoogle')"
-              class="flex h-13 items-center justify-center rounded-2xl bg-gray-100 dark:bg-gray-800"
+              class="flex h-13 items-center justify-center rounded-medium bg-surface-raised"
               type="button"
             >
               <IFa6BrandsGoogle class="size-6" />
@@ -130,21 +123,21 @@
         >
           {{ t('more') }}
         </ButtonColored>
-        <p class="text-center text-xs text-gray-500">
+        <p class="text-center text-caption text-fg-2">
           {{ t('legalPre') }}
           <NuxtLinkLocale
-            class="font-semibold text-green-700"
+            class="font-semibold text-link underline"
             to="docs-legal-terms"
             >{{ t('terms') }}</NuxtLinkLocale
           >{{ t('legalComma') }}
           <NuxtLinkLocale
-            class="font-semibold text-green-700"
+            class="font-semibold text-link underline"
             to="docs-legal-imprint"
             >{{ t('imprint') }}</NuxtLinkLocale
           >
           {{ t('legalAnd') }}
           <NuxtLinkLocale
-            class="font-semibold text-green-700"
+            class="font-semibold text-link underline"
             to="docs-legal-privacy"
           >
             {{ t('privacy') }}
@@ -172,6 +165,15 @@ const store = useStore()
 const authentication = useAuthentication()
 const { t } = useI18n()
 const localePath = useLocalePath()
+
+// awaited before rendering so signed-in accounts never see the welcome page flash; other query parameters than the pwa manifest's `source` are achievement codes that this page still has to unlock
+if (
+  store.signedInAccountId &&
+  Object.keys(route.query).every((key) => key === 'source')
+) {
+  await store.navigateWithoutHistory(localePath('dashboard'), { replace: true })
+}
+
 const achievementUnlockMutation = useMutation(
   graphql(`
     mutation AchievementUnlock($input: AchievementUnlockInput!) {
@@ -211,7 +213,9 @@ if (error.value) {
   console.debug(error.value.message) // there's no way to be certain that a user tried to unlock an achievement here, so no error is thrown
 
   if (store.signedInAccountId) {
-    await navigateTo(localePath('dashboard'))
+    await store.navigateWithoutHistory(localePath('dashboard'), {
+      replace: true,
+    })
   }
 }
 
@@ -236,7 +240,7 @@ onMounted(async () => {
 
 // template
 const toProfile = () => {
-  if (!store.jwtPayload) return // TODO: error
+  if (!store.jwtPayload) return
 
   return navigateTo(
     localePath({

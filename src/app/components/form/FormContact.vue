@@ -44,7 +44,7 @@
               store.signedInUsername &&
               contact?.accountByAccountId?.username === store.signedInUsername
             "
-            class="text-muted-foreground text-sm"
+            class="text-body text-muted-foreground"
           >
             <i18n-t keypath="stateInfoUsernameDisabled" tag="span">
               <template #accountSettings>
@@ -66,7 +66,7 @@
       </form.Field>
       <p
         v-if="form.getFieldValue('accountUsername')"
-        class="text-muted-foreground text-sm"
+        class="text-body text-muted-foreground"
       >
         {{ t('accountOverride') }}
       </p>
@@ -216,7 +216,7 @@
             <Textarea
               id="input-note"
               :aria-invalid="isFieldInvalid(field)"
-              class="bg-(--semantic-base-input-field-fill) dark:bg-(--semantic-base-input-field-fill)"
+              class="bg-surface-raised dark:bg-surface-raised"
               :model-value="field.state.value"
               rows="3"
               @blur="field.handleBlur"

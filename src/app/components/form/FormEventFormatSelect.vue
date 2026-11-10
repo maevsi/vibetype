@@ -1,5 +1,5 @@
 <template>
-  <ul class="flex flex-wrap gap-5">
+  <ul class="flex flex-wrap gap-2">
     <li v-for="eventFormat in eventFormats" :key="eventFormat.rowId">
       <PreferenceElement
         v-if="eventFormat.label"
@@ -48,8 +48,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 
 const modelValue = defineModel<string[]>({ default: () => [] })
@@ -88,7 +86,7 @@ const translate = (nameKey: string) => {
 }
 
 // api data
-const allEventFormatsQuery = useQuery({
+const allEventFormatsQuery = useApiQuery({
   query: graphql(`
     query AllEventFormatsFormEvent {
       allEventFormats {

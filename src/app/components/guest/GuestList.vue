@@ -16,7 +16,7 @@
             <AppIconPlus />
           </template>
         </ButtonColored>
-        <p class="text-center text-gray-500 dark:text-gray-400">
+        <p class="text-center text-fg-2">
           {{
             t('guestsUsed', {
               amountCurrent: api.data.allGuests?.totalCount,
@@ -47,16 +47,15 @@
             </SelectContent>
           </Select>
         </div>
-        <LayoutTable
-          v-if="guestsFiltered.length"
-          class="border border-neutral-300 dark:border-neutral-600"
-        >
+        <LayoutTable v-if="guestsFiltered.length" class="border border-line">
           <LayoutThead>
             <tr>
               <LayoutTh scope="col">
                 {{ t('contact') }}
               </LayoutTh>
-              <LayoutTh scope="col" />
+              <LayoutTh scope="col">
+                <span class="sr-only">{{ t('actions') }}</span>
+              </LayoutTh>
             </tr>
           </LayoutThead>
           <LayoutTbody>
@@ -85,7 +84,7 @@
       </template>
       <div v-else class="flex flex-col items-center gap-2">
         {{ t('guestNone') }}
-        <p class="text-sm text-gray-500 dark:text-gray-400">
+        <p class="text-body-small text-fg-2">
           {{ t('hintInviteSelf') }}
         </p>
       </div>
@@ -137,8 +136,6 @@ import {
 } from 'chart.js'
 import { Doughnut } from 'vue-chartjs'
 
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
 import type {
@@ -182,7 +179,7 @@ const options = {
 }
 
 // api data
-const guestsQuery = useQuery({
+const guestsQuery = useApiQuery({
   query: graphql(`
     query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {
       allGuests(
@@ -326,6 +323,7 @@ Chart.register(
 <i18n lang="yaml">
 de:
   accepted: akzeptiert
+  actions: Aktionen
   canceled: abgelehnt
   contact: Kontakt
   contactSelect: Kontakt auswählen
@@ -341,6 +339,7 @@ de:
   noFeedback: keine Rückmeldung
 en:
   accepted: accepted
+  actions: Actions
   canceled: declined
   contact: Contact
   contactSelect: Select Contact

@@ -3,7 +3,7 @@
     <AppRadioGroupItem
       v-for="item in props.items"
       :key="item.value"
-      class="flex items-center gap-3 p-1"
+      class="flex items-center gap-4 p-2 text-body"
       :value="item.value"
     >
       {{ item.label }}

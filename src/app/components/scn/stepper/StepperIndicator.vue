@@ -24,7 +24,7 @@ const forwarded = useForwardProps(delegatedProps)
     v-bind="forwarded"
     :class="
       cn(
-        'text-muted-foreground/50 inline-flex h-10 w-10 items-center justify-center rounded-full',
+        'inline-flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground/50',
         // Disabled
         'group-data-[disabled]:text-muted-foreground group-data-[disabled]:opacity-50',
         // Active

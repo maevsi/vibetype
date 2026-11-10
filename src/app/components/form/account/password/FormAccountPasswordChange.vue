@@ -10,6 +10,7 @@
         <FieldContent>
           <FormInputPassword
             :aria-invalid="isFieldInvalid(field)"
+            autocomplete="current-password"
             :model-value="field.state.value"
             @blur="field.handleBlur"
             @input="field.handleChange($event)"
@@ -31,6 +32,7 @@
         <FieldContent>
           <FormAuthInputPassword
             :aria-invalid="!!passwordNewValidation.error.value"
+            autocomplete="new-password"
             :model-value="field.state.value"
             @blur="handlePasswordNewBlur"
             @input="handlePasswordNewInput"
@@ -42,9 +44,13 @@
         />
       </Field>
     </form.Field>
-    <FormAuthButton :aria-label="t('passwordChange')" type="submit">
+    <ButtonColored
+      :aria-label="t('passwordChange')"
+      class="w-full"
+      type="submit"
+    >
       {{ t('passwordChange') }}
-    </FormAuthButton>
+    </ButtonColored>
     <CardStateAlert v-if="errorMessages?.length">
       <AppSpanList :span="errorMessages" />
     </CardStateAlert>
@@ -116,7 +122,7 @@ const form = useForm({
     passwordNew: '',
   },
   validators: {
-    onSubmit: formSchema,
+    onSubmitAsync: formSchema,
   },
   onSubmit: async ({ value }) => {
     const result = await accountPasswordChangeMutation.executeMutation({

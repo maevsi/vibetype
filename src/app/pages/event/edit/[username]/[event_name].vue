@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
 
@@ -43,7 +43,7 @@ if (route.params.username !== store.signedInUsername) {
 }
 
 // api data
-const eventQuery = useQuery({
+const eventQuery = useApiQuery({
   query: graphql(`
     query EventEdit($slug: String!, $username: String!) {
       accountByUsername(username: $username) {
@@ -113,7 +113,7 @@ const eventDeleteMutation = useMutation(
 // page
 const { t } = useI18n()
 const title = computed(() => {
-  if (api.value.isFetching) return t('globalLoading')
+  if (api.value.isFetching && !event.value) return t('globalLoading')
   if (!event.value) {
     showAppError({ status: 404, message: 'Event unavailable' })
     return

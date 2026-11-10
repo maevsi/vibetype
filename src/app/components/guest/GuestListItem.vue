@@ -9,9 +9,7 @@
       <ContactPreview :contact :feedback="guest.feedback" />
     </LayoutTd>
     <LayoutTd class="max-w-0">
-      <div
-        class="text-text-dark dark:text-text-bright flex items-center justify-evenly gap-4"
-      >
+      <div class="flex items-center justify-evenly gap-4 text-fg-1">
         <ButtonIcon
           :aria-label="
             contact.accountId || contact.emailAddress
@@ -195,16 +193,17 @@ const updateGuestByRowIdMutation = useMutation(
 const copyLink = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
   if (!import.meta.client) return
 
-  await copy(
-    `${window.location.origin}${localePath({
-      name: 'guest-view-id',
-      params: {
-        id: guest.rowId,
-      },
-    })}`,
+  if (
+    await copy(
+      `${window.location.origin}${localePath({
+        name: 'guest-view-id',
+        params: {
+          id: guest.rowId,
+        },
+      })}`,
+    )
   )
-
-  toast.success(t('copySuccess'))
+    toast.success(t('copySuccess'))
 }
 const delete_ = async (id: string) => {
   pending.deletions.push(id)

@@ -9,7 +9,7 @@
       </TypographyBodyMedium>
     </div>
     <FormEarlyBird
-      ref="form"
+      :id="templateIdForm"
       v-model:error="modelError"
       @success="emit('next')"
     />
@@ -17,7 +17,8 @@
       <ButtonColored
         :aria-label="t('button')"
         class="w-full max-w-md"
-        @click="templateForm?.submit"
+        :form="templateIdForm"
+        type="submit"
       >
         {{ t('button') }}
       </ButtonColored>
@@ -32,7 +33,7 @@ const emit = defineEmits<{
 
 const modelError = defineModel<Error>('error')
 const { t } = useI18n()
-const templateForm = useTemplateRef('form')
+const templateIdForm = useId()
 </script>
 
 <i18n lang="yaml">

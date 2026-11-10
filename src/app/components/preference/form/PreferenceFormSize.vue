@@ -1,8 +1,7 @@
 <template>
   <LoaderIndicatorPing v-if="api.isFetching" />
   <form
-    v-else-if="!error"
-    ref="formRef"
+    v-else-if="!apiError"
     class="flex flex-col gap-4"
     @submit.prevent="form.handleSubmit"
   >
@@ -43,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 import { useForm } from '@tanstack/vue-form'
 import { z } from 'zod'
 
@@ -56,12 +55,8 @@ const emit = defineEmits<{
   success: []
 }>()
 
-const formRef = useTemplateRef<HTMLFormElement>('formRef')
-const submit = () => formRef.value?.requestSubmit()
-defineExpose({ submit })
-
 // api data
-const allPreferenceEventSizesQuery = useQuery({
+const allPreferenceEventSizesQuery = useApiQuery({
   query: graphql(`
     query AllPreferenceEventSizes {
       allPreferenceEventSizes {
@@ -190,19 +185,15 @@ const form = useForm({
   },
 })
 
-const error = computed(() =>
+const apiError = computed(() =>
   api.value.errors.length
     ? new Error(getCombinedErrorMessages(api.value.errors)[0])
     : undefined,
 )
-watch(
-  () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(getCombinedErrorMessages(current)[0])
-      : undefined
-  },
-)
+useApiErrorModel({
+  errorModel: modelError,
+  errors: () => api.value.errors,
+})
 </script>
 
 <i18n lang="yaml">

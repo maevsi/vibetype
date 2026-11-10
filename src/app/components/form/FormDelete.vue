@@ -1,5 +1,5 @@
 <template>
-  <form ref="formRef" novalidate @submit.prevent="form.handleSubmit">
+  <form novalidate @submit.prevent="form.handleSubmit">
     <div class="flex flex-col gap-4">
       <form.Field v-slot="{ field }" name="password">
         <Field>
@@ -10,6 +10,7 @@
             <FormInputPassword
               id="input-password"
               :aria-invalid="isFieldInvalid(field)"
+              autocomplete="current-password"
               :model-value="field.state.value"
               @blur="field.handleBlur"
               @input="field.handleChange($event)"
@@ -68,9 +69,6 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const formRef = useTemplateRef<HTMLFormElement>('formRef')
-const submit = () => formRef.value?.requestSubmit()
-defineExpose({ submit })
 
 // api data
 const api = await useApiData([mutation])
@@ -116,14 +114,11 @@ const errorMessages = computed(() =>
     : undefined,
 )
 
-watch(
-  () => api.value.errors,
-  (current) => {
-    modelError.value = current?.length
-      ? new Error(getCombinedErrorMessages(current, errorsPgIds)[0])
-      : undefined
-  },
-)
+useApiErrorModel({
+  errorModel: modelError,
+  errors: () => api.value.errors,
+  postgresErrorMap: errorsPgIds,
+})
 </script>
 
 <i18n lang="yaml">

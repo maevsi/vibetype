@@ -14,13 +14,11 @@ import blankProfilePicture from '~/assets/images/blank-profile-picture.svg'
 
 const {
   aspect = 'aspect-square',
-  classes = undefined,
   emailAddress = undefined,
   emailAddressHash = undefined,
   size,
 } = defineProps<{
   aspect?: string
-  classes?: string
   emailAddress?: string | null
   emailAddressHash?: string | null
   size: string
@@ -42,7 +40,6 @@ const crossOrigin = computed(() => {
 })
 const delegatedProps = computed(() => ({
   aspect,
-  classes,
 }))
 </script>
 

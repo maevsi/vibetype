@@ -678,10 +678,6 @@ export type EventVisibility = 'private' | 'public' | 'unlisted'
 
 /** Represents an update to a `Guest`. Fields that are set will be updated. */
 export type GuestPatch = {
-  /** The internal id of the guest's contact. */
-  contactId?: string | null | undefined
-  /** The internal id of the guest's event. */
-  eventId?: string | null | undefined
   /** The guest's general feedback status. */
   feedback?: InvitationFeedback | null | undefined
   /** The guest's paper feedback status. */
@@ -926,11 +922,11 @@ export type DeleteProfilePictureByRowIdMutationMutation = {
 export type AccountSearchQueryVariables = Exact<{
   after?: string | null | undefined
   first?: number | null | undefined
-  username?: string | null | undefined
+  query?: string | null | undefined
 }>
 
 export type AccountSearchQuery = {
-  allAccounts: {
+  accountSearch: {
     nodes: Array<{ id: string; rowId: string; username: string }>
     pageInfo: { endCursor: string | null; hasNextPage: boolean }
   } | null
@@ -1015,6 +1011,30 @@ export type AllLegalTermsQuery = {
   } | null
 }
 
+export type CreateEventFavoriteMutationVariables = Exact<{
+  input: CreateEventFavoriteInput
+}>
+
+export type CreateEventFavoriteMutation = {
+  createEventFavorite: {
+    eventFavorite: {
+      createdBy: string
+      eventId: string
+      id: string
+      rowId: string
+      eventByEventId: { id: string } | null
+    } | null
+  } | null
+}
+
+export type DeleteEventFavoriteByRowIdMutationVariables = Exact<{
+  input: DeleteEventFavoriteByRowIdInput
+}>
+
+export type DeleteEventFavoriteByRowIdMutation = {
+  deleteEventFavoriteByRowId: { clientMutationId: string | null } | null
+}
+
 export type EventListQueryVariables = Exact<{
   after?: string | null | undefined
   first: number
@@ -1038,6 +1058,7 @@ export type EventListQuery = {
       } | null
       eventCategoryMappingsByEventId: {
         nodes: Array<{
+          id: string
           eventCategoryByCategoryId: { id: string; name: string } | null
         }>
       }
@@ -1046,6 +1067,7 @@ export type EventListQuery = {
       }
       eventFormatMappingsByEventId: {
         nodes: Array<{
+          id: string
           eventFormatByFormatId: { id: string; name: string } | null
         }>
       }
@@ -1068,7 +1090,6 @@ export type EventListQuery = {
 export type EventSearchQueryVariables = Exact<{
   after?: string | null | undefined
   first?: number | null | undefined
-  language?: Language | null | undefined
   query?: string | null | undefined
 }>
 
@@ -1090,6 +1111,7 @@ export type EventSearchQuery = {
       } | null
       eventCategoryMappingsByEventId: {
         nodes: Array<{
+          id: string
           eventCategoryByCategoryId: { id: string; name: string } | null
         }>
       }
@@ -1098,6 +1120,7 @@ export type EventSearchQuery = {
       }
       eventFormatMappingsByEventId: {
         nodes: Array<{
+          id: string
           eventFormatByFormatId: { id: string; name: string } | null
         }>
       }
@@ -1115,30 +1138,6 @@ export type EventSearchQuery = {
     }>
     pageInfo: { hasNextPage: boolean; endCursor: string | null }
   } | null
-}
-
-export type CreateEventFavoriteMutationVariables = Exact<{
-  input: CreateEventFavoriteInput
-}>
-
-export type CreateEventFavoriteMutation = {
-  createEventFavorite: {
-    eventFavorite: {
-      createdBy: string
-      eventId: string
-      id: string
-      rowId: string
-      eventByEventId: { id: string } | null
-    } | null
-  } | null
-}
-
-export type DeleteEventFavoriteByRowIdMutationVariables = Exact<{
-  input: DeleteEventFavoriteByRowIdInput
-}>
-
-export type DeleteEventFavoriteByRowIdMutation = {
-  deleteEventFavoriteByRowId: { clientMutationId: string | null } | null
 }
 
 export type CreateReportMutationVariables = Exact<{
@@ -1223,7 +1222,10 @@ export type DeleteEventCategoryMappingByEventIdAndCategoryIdMutationVariables =
 export type DeleteEventCategoryMappingByEventIdAndCategoryIdMutation = {
   deleteEventCategoryMappingByEventIdAndCategoryId: {
     deletedEventCategoryMappingId: string | null
-    eventCategoryMapping: { eventByEventId: { id: string } | null } | null
+    eventCategoryMapping: {
+      id: string
+      eventByEventId: { id: string } | null
+    } | null
   } | null
 }
 
@@ -1249,7 +1251,10 @@ export type DeleteEventFormatMappingByEventIdAndFormatIdMutationVariables =
 export type DeleteEventFormatMappingByEventIdAndFormatIdMutation = {
   deleteEventFormatMappingByEventIdAndFormatId: {
     deletedEventFormatMappingId: string | null
-    eventFormatMapping: { eventByEventId: { id: string } | null } | null
+    eventFormatMapping: {
+      id: string
+      eventByEventId: { id: string } | null
+    } | null
   } | null
 }
 
@@ -1528,6 +1533,14 @@ export type CreateUploadMutation = {
   } | null
 }
 
+export type DeleteFailedUploadMutationVariables = Exact<{
+  input: DeleteUploadByRowIdInput
+}>
+
+export type DeleteFailedUploadMutation = {
+  deleteUploadByRowId: { clientMutationId: string | null } | null
+}
+
 export type JwtUpdateGuestAddGuestMutationVariables = Exact<{
   input: JwtUpdateGuestAddInput
 }>
@@ -1645,6 +1658,7 @@ export type AccountQuery = {
         start: string
         eventCategoryMappingsByEventId: {
           nodes: Array<{
+            id: string
             eventCategoryByCategoryId: { id: string; name: string } | null
           }>
         }
@@ -1653,6 +1667,7 @@ export type AccountQuery = {
         }
         eventFormatMappingsByEventId: {
           nodes: Array<{
+            id: string
             eventFormatByFormatId: { id: string; name: string } | null
           }>
         }
@@ -1744,6 +1759,7 @@ export type DashboardEventRecommendationsQuery = {
     } | null
     eventCategoryMappingsByEventId: {
       nodes: Array<{
+        id: string
         eventCategoryByCategoryId: { id: string; name: string } | null
       }>
     }
@@ -1752,6 +1768,7 @@ export type DashboardEventRecommendationsQuery = {
     }
     eventFormatMappingsByEventId: {
       nodes: Array<{
+        id: string
         eventFormatByFormatId: { id: string; name: string } | null
       }>
     }
@@ -1785,11 +1802,13 @@ export type DashboardEventUpcomingQuery = {
       accountByCreatedBy: { id: string; rowId: string; username: string } | null
       eventCategoryMappingsByEventId: {
         nodes: Array<{
+          id: string
           eventCategoryByCategoryId: { id: string; name: string } | null
         }>
       }
       eventFormatMappingsByEventId: {
         nodes: Array<{
+          id: string
           eventFormatByFormatId: { id: string; name: string } | null
         }>
       }
@@ -1953,6 +1972,9 @@ export type EventQuery = {
             eventCategoryByCategoryId: { id: string; name: string } | null
           }>
         }
+        eventFavoritesByEventId: {
+          nodes: Array<{ createdBy: string; id: string; rowId: string }>
+        }
         eventFormatMappingsByEventId: {
           nodes: Array<{
             formatId: string
@@ -1985,6 +2007,7 @@ export type EventListAccountQuery = {
         start: string
         eventCategoryMappingsByEventId: {
           nodes: Array<{
+            id: string
             eventCategoryByCategoryId: { id: string; name: string } | null
           }>
         }
@@ -1993,6 +2016,7 @@ export type EventListAccountQuery = {
         }
         eventFormatMappingsByEventId: {
           nodes: Array<{
+            id: string
             eventFormatByFormatId: { id: string; name: string } | null
           }>
         }
@@ -2019,7 +2043,11 @@ export type UpdateGuestByRowIdMutationVariables = Exact<{
 
 export type UpdateGuestByRowIdMutation = {
   updateGuestByRowId: {
-    guest: { id: string; feedback: InvitationFeedback | null } | null
+    guest: {
+      feedback: InvitationFeedback | null
+      id: string
+      rowId: string
+    } | null
   } | null
 }
 
@@ -2068,6 +2096,9 @@ export type GuestEventQuery = {
           id: string
           eventCategoryByCategoryId: { id: string; name: string } | null
         }>
+      }
+      eventFavoritesByEventId: {
+        nodes: Array<{ createdBy: string; id: string; rowId: string }>
       }
       eventFormatMappingsByEventId: {
         nodes: Array<{
@@ -2158,6 +2189,34 @@ export type EventsSitemapQuery = {
       accountByCreatedBy: { username: string } | null
     }>
     pageInfo: { endCursor: string | null; hasNextPage: boolean }
+  } | null
+}
+
+export type TicketGuestQueryVariables = Exact<{
+  id: string
+}>
+
+export type TicketGuestQuery = {
+  guestByRowId: {
+    id: string
+    rowId: string
+    contactByContactId: {
+      accountId: string | null
+      firstName: string | null
+      id: string
+      lastName: string | null
+      nickname: string | null
+      accountByAccountId: { id: string; username: string } | null
+    } | null
+    eventByEventId: {
+      end: string | null
+      id: string
+      name: string
+      slug: string
+      start: string
+      accountByCreatedBy: { id: string; username: string } | null
+      addressByAddressId: { id: string; name: string } | null
+    } | null
   } | null
 }
 
@@ -2877,7 +2936,7 @@ export const AccountSearchDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'username' },
+            name: { kind: 'Name', value: 'query' },
           },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
         },
@@ -2887,7 +2946,7 @@ export const AccountSearchDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'allAccounts' },
+            name: { kind: 'Name', value: 'accountSearch' },
             arguments: [
               {
                 kind: 'Argument',
@@ -2895,23 +2954,6 @@ export const AccountSearchDocument = {
                 value: {
                   kind: 'Variable',
                   name: { kind: 'Name', value: 'after' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'condition' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'username' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'username' },
-                      },
-                    },
-                  ],
                 },
               },
               {
@@ -2924,8 +2966,11 @@ export const AccountSearchDocument = {
               },
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'orderBy' },
-                value: { kind: 'EnumValue', value: 'USERNAME_ASC' },
+                name: { kind: 'Name', value: 'query' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'query' },
+                },
               },
             ],
             selectionSet: {
@@ -3506,6 +3551,148 @@ export const AllLegalTermsDocument = {
     },
   ],
 } as unknown as DocumentNode<AllLegalTermsQuery, AllLegalTermsQueryVariables>
+export const CreateEventFavoriteDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateEventFavorite' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateEventFavoriteInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createEventFavorite' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventFavorite' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateEventFavoriteMutation,
+  CreateEventFavoriteMutationVariables
+>
+export const DeleteEventFavoriteByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteEventFavoriteByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteEventFavoriteByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteEventFavoriteByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteEventFavoriteByRowIdMutation,
+  DeleteEventFavoriteByRowIdMutationVariables
+>
 export const EventListDocument = {
   kind: 'Document',
   definitions: [
@@ -3678,6 +3865,10 @@ export const EventListDocument = {
                                       ],
                                     },
                                   },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
                                 ],
                               },
                             },
@@ -3773,6 +3964,10 @@ export const EventListDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
                                   },
                                 ],
                               },
@@ -3905,17 +4100,6 @@ export const EventSearchDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'language' },
-          },
-          type: {
-            kind: 'NamedType',
-            name: { kind: 'Name', value: 'Language' },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
             name: { kind: 'Name', value: 'query' },
           },
           type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
@@ -3942,14 +4126,6 @@ export const EventSearchDocument = {
                 value: {
                   kind: 'Variable',
                   name: { kind: 'Name', value: 'first' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'language' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'language' },
                 },
               },
               {
@@ -4076,6 +4252,10 @@ export const EventSearchDocument = {
                                       ],
                                     },
                                   },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
                                 ],
                               },
                             },
@@ -4171,6 +4351,10 @@ export const EventSearchDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
                                   },
                                 ],
                               },
@@ -4275,148 +4459,6 @@ export const EventSearchDocument = {
     },
   ],
 } as unknown as DocumentNode<EventSearchQuery, EventSearchQueryVariables>
-export const CreateEventFavoriteDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateEventFavorite' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateEventFavoriteInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createEventFavorite' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'eventFavorite' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'createdBy' },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'eventByEventId' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' },
-                            },
-                          ],
-                        },
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'eventId' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  CreateEventFavoriteMutation,
-  CreateEventFavoriteMutationVariables
->
-export const DeleteEventFavoriteByRowIdDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'DeleteEventFavoriteByRowId' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'DeleteEventFavoriteByRowIdInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'deleteEventFavoriteByRowId' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  DeleteEventFavoriteByRowIdMutation,
-  DeleteEventFavoriteByRowIdMutationVariables
->
 export const CreateReportDocument = {
   kind: 'Document',
   definitions: [
@@ -5059,6 +5101,7 @@ export const DeleteEventCategoryMappingByEventIdAndCategoryIdDocument = {
                           ],
                         },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                     ],
                   },
                 },
@@ -5227,6 +5270,7 @@ export const DeleteEventFormatMappingByEventIdAndFormatIdDocument = {
                           ],
                         },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                     ],
                   },
                 },
@@ -7039,6 +7083,63 @@ export const CreateUploadDocument = {
   CreateUploadMutation,
   CreateUploadMutationVariables
 >
+export const DeleteFailedUploadDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteFailedUpload' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteUploadByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteUploadByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteFailedUploadMutation,
+  DeleteFailedUploadMutationVariables
+>
 export const JwtUpdateGuestAddGuestDocument = {
   kind: 'Document',
   definitions: [
@@ -7654,6 +7755,10 @@ export const AccountDocument = {
                                             ],
                                           },
                                         },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
                                       ],
                                     },
                                   },
@@ -7761,6 +7866,10 @@ export const AccountDocument = {
                                               },
                                             ],
                                           },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
                                         },
                                       ],
                                     },
@@ -8288,6 +8397,10 @@ export const DashboardEventRecommendationsDocument = {
                                 ],
                               },
                             },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
                           ],
                         },
                       },
@@ -8374,6 +8487,10 @@ export const DashboardEventRecommendationsDocument = {
                                   },
                                 ],
                               },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
                             },
                           ],
                         },
@@ -8580,6 +8697,10 @@ export const DashboardEventUpcomingDocument = {
                                       ],
                                     },
                                   },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
                                 ],
                               },
                             },
@@ -8635,6 +8756,10 @@ export const DashboardEventUpcomingDocument = {
                                         },
                                       ],
                                     },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
                                   },
                                 ],
                               },
@@ -9652,6 +9777,52 @@ export const EventDocument = {
                               kind: 'Field',
                               name: {
                                 kind: 'Name',
+                                value: 'eventFavoritesByEventId',
+                              },
+                              arguments: [
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'first' },
+                                  value: { kind: 'IntValue', value: '1' },
+                                },
+                              ],
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'createdBy',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
                                 value: 'eventFormatMappingsByEventId',
                               },
                               arguments: [
@@ -9930,6 +10101,10 @@ export const EventListAccountDocument = {
                                             ],
                                           },
                                         },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
                                       ],
                                     },
                                   },
@@ -10037,6 +10212,10 @@ export const EventListAccountDocument = {
                                               },
                                             ],
                                           },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
                                         },
                                       ],
                                     },
@@ -10221,11 +10400,12 @@ export const UpdateGuestByRowIdDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'feedback' },
                       },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
                   },
                 },
@@ -10455,6 +10635,46 @@ export const GuestEventDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'id' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: {
+                          kind: 'Name',
+                          value: 'eventFavoritesByEventId',
+                        },
+                        arguments: [
+                          {
+                            kind: 'Argument',
+                            name: { kind: 'Name', value: 'first' },
+                            value: { kind: 'IntValue', value: '1' },
+                          },
+                        ],
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'createdBy' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
                                   },
                                 ],
                               },
@@ -11148,6 +11368,143 @@ export const EventsSitemapDocument = {
     },
   ],
 } as unknown as DocumentNode<EventsSitemapQuery, EventsSitemapQueryVariables>
+export const TicketGuestDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'TicketGuest' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'guestByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'rowId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'contactByContactId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountByAccountId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'username' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'firstName' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastName' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nickname' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventByEventId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountByCreatedBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'username' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'addressByAddressId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'start' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<TicketGuestQuery, TicketGuestQueryVariables>
 export const JwtCreateDocument = {
   kind: 'Document',
   definitions: [

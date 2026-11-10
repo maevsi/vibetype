@@ -2,7 +2,7 @@
   <Loader :api>
     <div
       v-if="event && route.params.username === store.signedInUsername"
-      class="flex flex-col gap-4"
+      class="flex flex-1 flex-col gap-4"
     >
       <LayoutPageTitle :title="t('title')" />
       <GuestList :event />
@@ -12,8 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 
 // validation
@@ -27,7 +25,7 @@ if (route.params.username !== store.signedInUsername) {
 }
 
 // api data
-const queryEventGuests = useQuery({
+const queryEventGuests = useApiQuery({
   query: graphql(`
     query EventGuests($slug: String!, $username: String!) {
       accountByUsername(username: $username) {
@@ -79,7 +77,7 @@ const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
 // page
 const { t } = useI18n()
 const title = computed(() => {
-  if (api.value.isFetching) return t('globalLoading')
+  if (api.value.isFetching && !event.value) return t('globalLoading')
   if (route.params.username !== store.signedInUsername) {
     showAppError({ status: 403, message: 'Permission denied' })
     return

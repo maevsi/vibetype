@@ -4,8 +4,8 @@
     :aria-label="t('nav')"
     :class="
       cn(
-        'sticky bottom-0 z-1000 flex items-center justify-center gap-1 border-t border-(--semantic-base-line) bg-(--semantic-base-background) p-2 shadow-xs',
-        isIos && 'pb-6',
+        'sticky bottom-0 z-1000 flex h-16 items-center justify-center bg-glass-raised px-4 py-2 backdrop-blur-xl',
+        isIos && 'h-21 pb-[calc(0.5rem+21px)]',
         classProps,
       )
     "

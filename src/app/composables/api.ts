@@ -42,50 +42,57 @@ export const useApiData = async <
   return apiData
 }
 
-export const useExecuteUrqlRequest = () =>
-  // api: Awaited<ReturnType<typeof useApiData>>,
-  {
-    const { t } = useI18n({ useScope: 'global' })
-    const alertError = useAlertError()
+export const useApiErrorModel = ({
+  errorModel,
+  errors,
+  postgresErrorMap,
+}: {
+  errorModel: Ref<Error | undefined>
+  errors: () => Parameters<typeof getCombinedErrorMessages>[0]
+  postgresErrorMap?: Record<string, string>
+}) =>
+  watch(errors, (current) => {
+    errorModel.value = current.length
+      ? new Error(getCombinedErrorMessages(current, postgresErrorMap)[0])
+      : undefined
+  })
 
-    //   // TODO: details
-    //   // const apiErrorMessages = computed(() =>
-    //   //   getCombinedErrorMessages(api.value.errors),
-    //   // )
-    //   // apiErrorMessages.value.join('\n'),
+export const useExecuteUrqlRequest = () => {
+  const { t } = useI18n({ useScope: 'global' })
+  const alertError = useAlertError()
 
-    return async <S, V extends AnyVariables = AnyVariables>({
-      errorMessageI18n,
-      progress,
-      request,
-    }: {
-      errorMessageI18n: string
-      progress?: {
-        id: string
-        idArray: string[]
-      } // TODO: evaluate turning this non-optional
-      request: Promise<OperationResult<S, V>>
-    }) => {
-      if (progress) progress.idArray.push(progress.id)
+  return async <S, V extends AnyVariables = AnyVariables>({
+    errorMessageI18n,
+    progress,
+    request,
+  }: {
+    errorMessageI18n: string
+    progress?: {
+      id: string
+      idArray: string[]
+    } // TODO: evaluate turning this non-optional
+    request: Promise<OperationResult<S, V>>
+  }) => {
+    if (progress) progress.idArray.push(progress.id)
 
-      const result = await request
+    const result = await request
 
-      if (progress)
-        progress.idArray.splice(progress.idArray.indexOf(progress.id), 1)
+    if (progress)
+      progress.idArray.splice(progress.idArray.indexOf(progress.id), 1)
 
-      if (result.error) {
-        alertError({
-          error: result.error,
-          messageI18n: errorMessageI18n,
-        })
-        return
-      }
-
-      if (!result.data) {
-        alertError(t('globalErrorNoData'))
-        return
-      }
-
-      return result
+    if (result.error) {
+      alertError({
+        error: result.error,
+        messageI18n: errorMessageI18n,
+      })
+      return
     }
+
+    if (!result.data) {
+      alertError(t('globalErrorNoData'))
+      return
+    }
+
+    return result
   }
+}

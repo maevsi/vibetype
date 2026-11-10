@@ -16,10 +16,10 @@
         @update:repetition-value="passwordPairValidation.handleRepetitionInput"
       />
       <FormFieldCaptcha v-model:captcha-is-used="captchaIsUsed" :form />
-      <FormAuthButton :aria-label="t('register')" type="submit">
+      <ButtonColored :aria-label="t('register')" class="w-full" type="submit">
         {{ t('register') }}
-      </FormAuthButton>
-      <p class="text-sm text-gray-500 dark:text-gray-400">
+      </ButtonColored>
+      <p class="text-body-small text-fg-2">
         {{ t('accountDeletionNotice') }}
       </p>
     </form>
@@ -75,7 +75,7 @@ const form = useForm({
     passwordRepetition: '',
   },
   validators: {
-    onSubmit: formSchema,
+    onSubmitAsync: formSchema,
   },
   onSubmit: async ({ value }) => {
     emit('submit', {

@@ -3,12 +3,9 @@
     <Input
       :id
       :aria-invalid="ariaInvalid"
-      :class="[
-        cn(
-          'h-13 rounded-2xl border-transparent bg-gray-100 pr-12 pl-12 text-[17px] dark:bg-gray-800',
-          { 'border-red-500': ariaInvalid },
-        ),
-      ]"
+      :aria-label="placeholder"
+      :autocomplete
+      :class="[cn('pr-12 pl-12')]"
       :model-value="modelValue"
       :placeholder
       :type="isVisible ? 'text' : 'password'"
@@ -16,7 +13,7 @@
       @input="emit('input', ($event.target as HTMLInputElement).value)"
     />
     <div
-      class="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-gray-500 dark:text-gray-400"
+      class="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-fg-2"
     >
       <slot name="icon">
         <IHeroiconsKey />
@@ -38,6 +35,7 @@ import { cn } from '@/utils/shadcn'
 
 defineProps<{
   ariaInvalid?: boolean
+  autocomplete: 'current-password' | 'new-password'
   id?: string
   modelValue?: string
   placeholder?: string

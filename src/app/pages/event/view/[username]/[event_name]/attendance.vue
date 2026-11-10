@@ -17,14 +17,14 @@
             <AppIconQrCode />
           </template>
         </ButtonColored>
-        <p v-if="!guestId" class="text-sm text-gray-500 dark:text-gray-400">
+        <p v-if="!guestId" class="text-body-small text-fg-2">
           {{ t('qrHint') }}
         </p>
         <AppAttendanceGuestDynamic v-if="guestId" :guest-id />
         <div v-if="guestId" class="flex flex-col items-center gap-2">
           <ButtonColored
             :aria-label="t('nfcWrite')"
-            class="text-text-bright"
+            class="text-on-action-primary"
             :disabled="isNfcError"
             @click="onClick"
           >
@@ -57,7 +57,7 @@
 import type { DetectedBarcode } from 'vue-qrcode-reader'
 
 import { graphql } from '~~/gql/generated'
-import { useMutation, useQuery } from '@urql/vue'
+import { useMutation } from '@urql/vue'
 </script>
 
 <script setup lang="ts">
@@ -74,7 +74,7 @@ if (route.params.username !== store.signedInUsername) {
 }
 
 // api data
-const queryEventAttendance = useQuery({
+const queryEventAttendance = useApiQuery({
   query: graphql(`
     query EventAttendance($slug: String!, $username: String!) {
       accountByUsername(username: $username) {
@@ -101,7 +101,7 @@ const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
 
 // page
 const title = computed(() => {
-  if (api.value.isFetching) return t('globalLoading')
+  if (api.value.isFetching && !event.value) return t('globalLoading')
   if (route.params.username !== store.signedInUsername) {
     showAppError({ status: 403, message: 'Permission denied' })
     return

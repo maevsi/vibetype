@@ -4,7 +4,7 @@
       <div class="flex gap-1">
         <ButtonIcon
           :aria-label="t('undo')"
-          class="rounded-sm p-1"
+          class="rounded-small p-1"
           :title="t('undo')"
           @click="editor.chain().focus().undo().run()"
         >
@@ -12,7 +12,7 @@
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('redo')"
-          class="rounded-sm p-1"
+          class="rounded-small p-1"
           :title="t('redo')"
           @click="editor.chain().focus().redo().run()"
         >
@@ -30,60 +30,52 @@
         <ButtonIcon
           :aria-label="t('heading1')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.heading1
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.heading1 ? ['bg-surface'] : []),
           ]"
           :title="t('heading1')"
           @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
         >
-          <div class="align-end flex">
+          <span class="align-end flex">
             <AppIconHeading />
             <span>{{ t('number1') }}</span>
-          </div>
+          </span>
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('heading2')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.heading2
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.heading2 ? ['bg-surface'] : []),
           ]"
           :title="t('heading2')"
           @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
         >
-          <div class="align-end flex">
+          <span class="align-end flex">
             <AppIconHeading />
             <span>{{ t('number2') }}</span>
-          </div>
+          </span>
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('heading3')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.heading3
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.heading3 ? ['bg-surface'] : []),
           ]"
           :title="t('heading3')"
           @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
         >
-          <div class="align-end flex">
+          <span class="align-end flex">
             <AppIconHeading />
             <span>{{ t('number3') }}</span>
-          </div>
+          </span>
         </ButtonIcon>
       </div>
       <div class="flex gap-1">
         <ButtonIcon
           :aria-label="t('bold')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.bold
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.bold ? ['bg-surface'] : []),
           ]"
           :title="t('bold')"
           @click="editor.chain().focus().toggleBold().run()"
@@ -93,10 +85,8 @@
         <ButtonIcon
           :aria-label="t('italic')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.italic
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.italic ? ['bg-surface'] : []),
           ]"
           :title="t('italic')"
           @click="editor.chain().focus().toggleItalic().run()"
@@ -106,10 +96,8 @@
         <ButtonIcon
           :aria-label="t('strike')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.strike
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.strike ? ['bg-surface'] : []),
           ]"
           :title="t('strike')"
           @click="editor.chain().focus().toggleStrike().run()"
@@ -121,10 +109,8 @@
         <ButtonIcon
           :aria-label="t('formatAlignLeft')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.textAlignLeft
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.textAlignLeft ? ['bg-surface'] : []),
           ]"
           :title="t('formatAlignLeft')"
           @click="editor.chain().focus().setTextAlign('left').run()"
@@ -134,10 +120,8 @@
         <ButtonIcon
           :aria-label="t('formatAlignCenter')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.textAlignCenter
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.textAlignCenter ? ['bg-surface'] : []),
           ]"
           :title="t('formatAlignCenter')"
           @click="editor.chain().focus().setTextAlign('center').run()"
@@ -147,10 +131,8 @@
         <ButtonIcon
           :aria-label="t('formatAlignRight')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.textAlignRight
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.textAlignRight ? ['bg-surface'] : []),
           ]"
           :title="t('formatAlignRight')"
           @click="editor.chain().focus().setTextAlign('right').run()"
@@ -160,10 +142,8 @@
         <ButtonIcon
           :aria-label="t('formatAlignJustify')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.textAlignJustify
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.textAlignJustify ? ['bg-surface'] : []),
           ]"
           :title="t('formatAlignJustify')"
           @click="editor.chain().focus().setTextAlign('justify').run()"
@@ -175,10 +155,8 @@
         <ButtonIcon
           :aria-label="t('listUl')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.bulletList
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.bulletList ? ['bg-surface'] : []),
           ]"
           :title="t('listUl')"
           @click="editor.chain().focus().toggleBulletList().run()"
@@ -188,10 +166,8 @@
         <ButtonIcon
           :aria-label="t('listOl')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.orderedList
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.orderedList ? ['bg-surface'] : []),
           ]"
           :title="t('listOl')"
           @click="editor.chain().focus().toggleOrderedList().run()"
@@ -203,10 +179,8 @@
         <ButtonIcon
           :aria-label="t('link')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.link
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.link ? ['bg-surface'] : []),
           ]"
           :title="t('link')"
           @click="setLink"
@@ -215,7 +189,7 @@
         </ButtonIcon>
         <ButtonIcon
           :aria-label="t('linkRemove')"
-          class="rounded-sm p-1"
+          class="rounded-small p-1"
           :disabled="!isActive.link"
           :title="t('linkRemove')"
           @click="editor.chain().focus().unsetLink().run()"
@@ -225,10 +199,8 @@
         <ButtonIcon
           :aria-label="t('blockquote')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.blockquote
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.blockquote ? ['bg-surface'] : []),
           ]"
           :title="t('blockquote')"
           @click="editor.chain().focus().toggleBlockquote().run()"
@@ -238,10 +210,8 @@
         <ButtonIcon
           :aria-label="t('code')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.code
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.code ? ['bg-surface'] : []),
           ]"
           :title="t('code')"
           @click="editor.chain().focus().toggleCode().run()"
@@ -253,10 +223,8 @@
         <ButtonIcon
           :aria-label="t('horizontalRule')"
           :class="[
-            'rounded-sm p-1',
-            ...(isActive.horizontalRule
-              ? ['bg-background-bright dark:bg-background-dark']
-              : []),
+            'rounded-small p-1',
+            ...(isActive.horizontalRule ? ['bg-surface'] : []),
           ]"
           :title="t('horizontalRule')"
           @click="editor.chain().focus().setHorizontalRule().run()"
@@ -266,7 +234,7 @@
       </div>
       <!--
       <AppButton
-        :class="{ 'bg-background-bright dark:bg-background-dark': isActive.codeBlock }"
+        :class="{ 'bg-surface': isActive.codeBlock }"
         @click="editor.chain().focus().toggleCodeBlock().run()"
       >
         code block
@@ -282,7 +250,8 @@ import { TextAlign } from '@tiptap/extension-text-align'
 import { StarterKit } from '@tiptap/starter-kit'
 import { debounce } from 'lodash-es'
 
-const { value } = defineProps<{
+const { ariaLabel, value } = defineProps<{
+  ariaLabel: string
   value: string | undefined
 }>()
 
@@ -296,8 +265,9 @@ const editor = useEditor({
   content: value,
   editorProps: {
     attributes: {
+      'aria-label': ariaLabel,
       class:
-        'rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-input-field-fill) flex-1 px-4 py-3 placeholder-(--semantic-base-text-secondary) outline-none min-h-[100px]',
+        'min-h-28 flex-1 rounded-medium bg-surface-raised px-6 py-4 text-body placeholder-fg-3 outline-none',
     },
   },
   extensions: [
@@ -433,9 +403,9 @@ de:
   formatAlignLeft: Links ausrichten
   formatAlignRight: Rechts ausrichten
   formatAlignJustify: Blocksatz
-  heading1: Überschrift (groß)
-  heading2: Überschrift (mittelgroß)
-  heading3: Überschrift (klein)
+  heading1: Überschrift 1 (groß)
+  heading2: Überschrift 2 (mittelgroß)
+  heading3: Überschrift 3 (klein)
   horizontalRule: Horizontaler Trennstrich
   italic: Kursiv
   link: Link
@@ -457,9 +427,9 @@ en:
   formatAlignLeft: Align left
   formatAlignRight: Align right
   formatAlignJustify: Justified
-  heading1: Heading (large)
-  heading2: Heading (medium)
-  heading3: Heading (small)
+  heading1: Heading 1 (large)
+  heading2: Heading 2 (medium)
+  heading3: Heading 3 (small)
   horizontalRule: Horizontal rule
   italic: Italic
   link: Link

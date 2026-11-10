@@ -6,6 +6,7 @@ export const i18nConfig: ReturnType<DefineNuxtConfig> = {
     detectBrowserLanguage: false,
     experimental: {
       compactRoutes: true,
+      prerenderMessages: true, // static files the service worker precaches, as the offline app shell has no server to load messages from
       strictSeo: true,
     },
     locales: [
