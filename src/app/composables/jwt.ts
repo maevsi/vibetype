@@ -102,6 +102,9 @@ export const useJwtInitialize = async () => {
   } catch (error) {
     console.error('JWT update failed:', error)
   }
+
+  // an existing session opens in the language of the account
+  await syncLocaleToOwnContactLanguage()
 }
 
 export const useJwtUpdateGuestAdd = ({ guestId }: { guestId: uuid }) => {

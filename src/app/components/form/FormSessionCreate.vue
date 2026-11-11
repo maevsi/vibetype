@@ -192,6 +192,8 @@ const form = useForm({
 
       store.jwtSet(jwtPayload)
       await $urqlReset()
+      // the session opens in the language of the account, so the sign-in target below is computed in it
+      await syncLocaleToOwnContactLanguage()
       emit('signed-in', value.username)
     } catch (error) {
       alertError({

@@ -1541,6 +1541,16 @@ export type DeleteFailedUploadMutation = {
   deleteUploadByRowId: { clientMutationId: string | null } | null
 }
 
+export type OwnContactQueryVariables = Exact<{
+  createdBy: string
+}>
+
+export type OwnContactQuery = {
+  allContacts: {
+    nodes: Array<{ language: Language | null; rowId: string }>
+  } | null
+}
+
 export type JwtUpdateGuestAddGuestMutationVariables = Exact<{
   input: JwtUpdateGuestAddInput
 }>
@@ -7140,6 +7150,81 @@ export const DeleteFailedUploadDocument = {
   DeleteFailedUploadMutation,
   DeleteFailedUploadMutationVariables
 >
+export const OwnContactDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'OwnContact' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'createdBy' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allContacts' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'createdBy' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'IntValue', value: '1' },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'language' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<OwnContactQuery, OwnContactQueryVariables>
 export const JwtUpdateGuestAddGuestDocument = {
   kind: 'Document',
   definitions: [
