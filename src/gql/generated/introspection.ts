@@ -12805,10 +12805,10 @@ export default {
             ],
           },
           {
-            name: 'notificationAcknowledge',
+            name: 'outboxMarkProcessed',
             type: {
               kind: 'OBJECT',
-              name: 'NotificationAcknowledgePayload',
+              name: 'OutboxMarkProcessedPayload',
               ofType: null,
             },
             args: [
@@ -13609,7 +13609,7 @@ export default {
       },
       {
         kind: 'OBJECT',
-        name: 'NotificationAcknowledgePayload',
+        name: 'OutboxMarkProcessedPayload',
         fields: [
           {
             name: 'clientMutationId',
@@ -18189,6 +18189,25 @@ export default {
             args: [
               {
                 name: 'id',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'outboxIsProcessed',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [
+              {
+                name: 'outboxId',
                 type: {
                   kind: 'NON_NULL',
                   ofType: {

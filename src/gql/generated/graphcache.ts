@@ -5000,7 +5000,7 @@ export type Mutation = {
   deleteUploadByStorageKey?: Maybe<DeleteUploadPayload>
   /** Allows to delete an event.\n\nError codes:\n- **P0002** when the event was not found.\n- **28P01** when the account with the given password was not found. */
   eventDelete?: Maybe<EventDeletePayload>
-  /** Adds a notification for the invitation channel.\n\nError codes:\n- **P0002** when the guest, event, contact, the contact email address, or the account email address is not accessible. */
+  /** Adds an outbox event of type `guest.invited`.\n\nError codes:\n- **P0002** when the guest, contact, the contact email address, or the account email address is not accessible. */
   invite?: Maybe<InvitePayload>
   /** Creates a JWT token that will securely identify an account and give it certain permissions. */
   jwtCreate?: Maybe<JwtCreatePayload>
@@ -5010,8 +5010,8 @@ export type Mutation = {
   jwtUpdateAttendanceAdd?: Maybe<JwtUpdateAttendanceAddPayload>
   /** Adds a guest claim to the current session. */
   jwtUpdateGuestAdd?: Maybe<JwtUpdateGuestAddPayload>
-  /** Allows to set the acknowledgement state of a notification.\n\nError codes:\n- **P0002** when no notification with the given id is found. */
-  notificationAcknowledge?: Maybe<NotificationAcknowledgePayload>
+  /** Marks an outbox event as processed. Marking an already processed event again has no effect. */
+  outboxMarkProcessed?: Maybe<OutboxMarkProcessedPayload>
   /** Sets the picture with the given upload id as the invoker's profile picture. */
   profilePictureSet?: Maybe<ProfilePictureSetPayload>
   /** Updates a single `Account` using its globally unique id and a patch. */
@@ -5512,8 +5512,8 @@ export type MutationJwtUpdateGuestAddArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationNotificationAcknowledgeArgs = {
-  input: NotificationAcknowledgeInput
+export type MutationOutboxMarkProcessedArgs = {
+  input: OutboxMarkProcessedInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -5683,20 +5683,19 @@ export type Node = {
   id: Scalars['ID']['output']
 }
 
-/** All input for the `notificationAcknowledge` mutation. */
-export type NotificationAcknowledgeInput = {
+/** All input for the `outboxMarkProcessed` mutation. */
+export type OutboxMarkProcessedInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>
-  id: Scalars['UUID']['input']
-  isAcknowledged: Scalars['Boolean']['input']
+  outboxId: Scalars['UUID']['input']
 }
 
-/** The output of our `notificationAcknowledge` mutation. */
-export type NotificationAcknowledgePayload = {
-  __typename?: 'NotificationAcknowledgePayload'
+/** The output of our `outboxMarkProcessed` mutation. */
+export type OutboxMarkProcessedPayload = {
+  __typename?: 'OutboxMarkProcessedPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -6339,6 +6338,8 @@ export type Query = Node & {
   legalTermByRowId?: Maybe<LegalTerm>
   /** Fetches an object given its globally unique `ID`. */
   node?: Maybe<Node>
+  /** Returns whether an outbox event was marked as processed. */
+  outboxIsProcessed?: Maybe<Scalars['Boolean']['output']>
   /** Reads a single `PreferenceEventCategory` using its globally unique `ID`. */
   preferenceEventCategory?: Maybe<PreferenceEventCategory>
   /** Get a single `PreferenceEventCategory`. */
@@ -7094,6 +7095,11 @@ export type QueryLegalTermByRowIdArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryNodeArgs = {
   id: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOutboxIsProcessedArgs = {
+  outboxId: Scalars['UUID']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -8378,8 +8384,8 @@ export type GraphCacheKeysConfig = {
     data: WithTypename<LegalTermConnection>,
   ) => null | string
   LegalTermEdge?: (data: WithTypename<LegalTermEdge>) => null | string
-  NotificationAcknowledgePayload?: (
-    data: WithTypename<NotificationAcknowledgePayload>,
+  OutboxMarkProcessedPayload?: (
+    data: WithTypename<OutboxMarkProcessedPayload>,
   ) => null | string
   PageInfo?: (data: WithTypename<PageInfo>) => null | string
   PreferenceEventCategory?: (
@@ -9019,6 +9025,11 @@ export type GraphCacheResolvers = {
       | WithTypename<Report>
       | WithTypename<Upload>
       | string
+    >
+    outboxIsProcessed?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryOutboxIsProcessedArgs,
+      Scalars['Boolean']['output'] | string
     >
     preferenceEventCategory?: GraphCacheResolver<
       WithTypename<Query>,
@@ -12620,14 +12631,14 @@ export type GraphCacheResolvers = {
       WithTypename<LegalTerm> | string
     >
   }
-  NotificationAcknowledgePayload?: {
+  OutboxMarkProcessedPayload?: {
     clientMutationId?: GraphCacheResolver<
-      WithTypename<NotificationAcknowledgePayload>,
+      WithTypename<OutboxMarkProcessedPayload>,
       Record<string, never>,
       Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
-      WithTypename<NotificationAcknowledgePayload>,
+      WithTypename<OutboxMarkProcessedPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -13792,9 +13803,9 @@ export type GraphCacheOptimisticUpdaters = {
     MutationJwtUpdateGuestAddArgs,
     Maybe<WithTypename<JwtUpdateGuestAddPayload>>
   >
-  notificationAcknowledge?: GraphCacheOptimisticMutationResolver<
-    MutationNotificationAcknowledgeArgs,
-    Maybe<WithTypename<NotificationAcknowledgePayload>>
+  outboxMarkProcessed?: GraphCacheOptimisticMutationResolver<
+    MutationOutboxMarkProcessedArgs,
+    Maybe<WithTypename<OutboxMarkProcessedPayload>>
   >
   profilePictureSet?: GraphCacheOptimisticMutationResolver<
     MutationProfilePictureSetArgs,
@@ -14445,6 +14456,10 @@ export type GraphCacheUpdaters = {
       },
       QueryNodeArgs
     >
+    outboxIsProcessed?: GraphCacheUpdateResolver<
+      { outboxIsProcessed: Maybe<Scalars['Boolean']['output']> },
+      QueryOutboxIsProcessedArgs
+    >
     preferenceEventCategory?: GraphCacheUpdateResolver<
       { preferenceEventCategory: Maybe<WithTypename<PreferenceEventCategory>> },
       QueryPreferenceEventCategoryArgs
@@ -15085,13 +15100,9 @@ export type GraphCacheUpdaters = {
       { jwtUpdateGuestAdd: Maybe<WithTypename<JwtUpdateGuestAddPayload>> },
       MutationJwtUpdateGuestAddArgs
     >
-    notificationAcknowledge?: GraphCacheUpdateResolver<
-      {
-        notificationAcknowledge: Maybe<
-          WithTypename<NotificationAcknowledgePayload>
-        >
-      },
-      MutationNotificationAcknowledgeArgs
+    outboxMarkProcessed?: GraphCacheUpdateResolver<
+      { outboxMarkProcessed: Maybe<WithTypename<OutboxMarkProcessedPayload>> },
+      MutationOutboxMarkProcessedArgs
     >
     profilePictureSet?: GraphCacheUpdateResolver<
       { profilePictureSet: Maybe<WithTypename<ProfilePictureSetPayload>> },
@@ -18105,13 +18116,13 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
-  NotificationAcknowledgePayload?: {
+  OutboxMarkProcessedPayload?: {
     clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<NotificationAcknowledgePayload>>,
+      Maybe<WithTypename<OutboxMarkProcessedPayload>>,
       Record<string, never>
     >
     query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<NotificationAcknowledgePayload>>,
+      Maybe<WithTypename<OutboxMarkProcessedPayload>>,
       Record<string, never>
     >
   }
