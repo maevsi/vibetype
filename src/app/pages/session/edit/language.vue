@@ -32,14 +32,16 @@ const languages = locales.value
   .filter(isNeitherNullNorUndefined)
 
 // i18n – set
-const switchLocalePath = useSwitchLocalePath()
+const nuxtApp = useNuxtApp()
 const router = useRouter()
+const store = useStore()
+const switchLocalePath = useSwitchLocalePath()
 const onI18nChange = async (value: AcceptableValue) => {
   const language = value as Language
   await router.push({
     path: switchLocalePath(language),
   })
-  await persistOwnContactLanguage(language)
+  await persistOwnContactLanguage({ language, nuxtApp, store })
 }
 </script>
 

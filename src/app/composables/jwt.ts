@@ -104,7 +104,7 @@ export const useJwtInitialize = async () => {
   }
 
   // an existing session opens in the language of the account
-  await syncLocaleToOwnContactLanguage()
+  await syncLocaleToOwnContactLanguage({ nuxtApp, store })
 }
 
 export const useJwtUpdateGuestAdd = ({ guestId }: { guestId: uuid }) => {
