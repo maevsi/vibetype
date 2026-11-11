@@ -91,11 +91,17 @@ describe('processOutboxMessage', () => {
     expect(sqlMock).not.toHaveBeenCalled()
   })
 
-  test.each([
-    ['an unknown type', { type: 'account.unknown' }],
-    ['an unsupported version', { version: 2 }],
-  ])('skips %s without marking it processed', async (_, overrides) => {
-    await processPayload(createEnvelope(overrides))
+  test('skips an unknown type without marking it processed', async () => {
+    await processPayload(createEnvelope({ type: 'account.unknown' }))
+
+    expect(sqlMock).not.toHaveBeenCalled()
+    expect(sendEmailMock).not.toHaveBeenCalled()
+  })
+
+  test('fails on an unsupported version without marking it processed', async () => {
+    await expect(
+      processPayload(createEnvelope({ version: 2 })),
+    ).rejects.toThrow('Unsupported version 2')
 
     expect(sqlMock).not.toHaveBeenCalled()
     expect(sendEmailMock).not.toHaveBeenCalled()
@@ -145,7 +151,13 @@ describe('processOutboxMessage', () => {
     ])
 
     await processPayload(
-      createEnvelope({ type: 'account.registration_refreshed' }),
+      createEnvelope({
+        data: {
+          account_id: ACCOUNT_ID,
+          language: 'en',
+          time_zone: 'Europe/Berlin',
+        },
+      }),
     )
 
     expect(sendEmailMock).toHaveBeenCalledWith(
@@ -154,6 +166,7 @@ describe('processOutboxMessage', () => {
         props: expect.objectContaining({
           emailAddressVerificationLink:
             'https://example.com/account/verify?code=code',
+          timeZone: 'Europe/Berlin',
           validUntil: '2026-11-11T12:00:00.000Z',
         }),
       }),

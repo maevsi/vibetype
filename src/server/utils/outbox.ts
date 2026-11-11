@@ -24,6 +24,7 @@ type OutboxEnvelope = z.infer<typeof outboxEnvelopeSchema>
 const accountDataSchema = z.object({
   account_id: z.uuid(),
   language: LocaleSchema,
+  time_zone: z.string().nullish(),
 })
 const guestInvitedDataSchema = z.object({
   guest_id: z.uuid(),
@@ -189,10 +190,11 @@ const sendAccountRegistrationMail = async (
   envelope: OutboxEnvelope,
   { redis, runtimeConfig, siteUrl }: OutboxContext,
 ) => {
-  const { account_id: accountId, language: locale } = parseData(
-    accountDataSchema,
-    envelope,
-  )
+  const {
+    account_id: accountId,
+    language: locale,
+    time_zone: timeZone,
+  } = parseData(accountDataSchema, envelope)
   const account = await resolveAccount(accountId)
 
   if (
@@ -215,6 +217,7 @@ const sendAccountRegistrationMail = async (
       emailAddress: account.email_address,
       emailAddressVerificationLink: `${siteUrl}${getLocalePrefix(locale)}/account/verify?code=${account.email_address_verification}`,
       locale,
+      timeZone: timeZone ?? undefined,
       username: account.username,
       validUntil: account.email_address_verification_valid_until.toISOString(),
     },
@@ -227,10 +230,11 @@ const sendAccountPasswordResetMail = async (
   envelope: OutboxEnvelope,
   { redis, runtimeConfig, siteUrl }: OutboxContext,
 ) => {
-  const { account_id: accountId, language: locale } = parseData(
-    accountDataSchema,
-    envelope,
-  )
+  const {
+    account_id: accountId,
+    language: locale,
+    time_zone: timeZone,
+  } = parseData(accountDataSchema, envelope)
   const account = await resolveAccount(accountId)
 
   if (
@@ -253,6 +257,7 @@ const sendAccountPasswordResetMail = async (
       emailAddress: account.email_address,
       locale,
       passwordResetVerificationLink: `${siteUrl}${getLocalePrefix(locale)}/account/password/reset?code=${account.password_reset_verification}`,
+      timeZone: timeZone ?? undefined,
       validUntil: account.password_reset_verification_valid_until.toISOString(),
     },
     ...getEmailRateLimits(runtimeConfig),
@@ -337,12 +342,17 @@ export const processOutboxMessage = async ({
   const envelope = envelopeResult.data
   const handler = outboxHandlers[envelope.type]
 
-  if (!handler || handler.version !== envelope.version) {
+  if (!handler) {
     console.warn(
-      `Skipping outbox event ${envelope.id} with unsupported type ${envelope.type} or version ${envelope.version}`,
+      `Skipping outbox event ${envelope.id} with unsupported type ${envelope.type}`,
     )
     return
   }
+
+  if (handler.version !== envelope.version)
+    throw new Error(
+      `Unsupported version ${envelope.version} of outbox event ${envelope.id} of type ${envelope.type}, expected ${handler.version}`,
+    )
 
   if (!handler.handle) return
 

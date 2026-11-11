@@ -23,19 +23,46 @@ export default defineNitroPlugin(async (nitroApp) => {
     _key: Buffer | null,
     value: Buffer | null,
   ) => {
-    const valueOutbox = parseJsonBuffer<{ payload: string }>(value)
+    const valueOutbox = parseJsonBuffer<{ payload: unknown }>(value)
 
     if (!valueOutbox) {
       throw new PermanentProcessingError('Missing value for outbox message')
     }
 
+    if (typeof valueOutbox.payload !== 'string') {
+      throw new PermanentProcessingError(
+        'Outbox message payload is not a string',
+      )
+    }
+
+    let payload: unknown
+
+    try {
+      payload = JSON.parse(valueOutbox.payload)
+    } catch {
+      throw new PermanentProcessingError(
+        'Outbox message payload is not valid JSON',
+      )
+    }
+
     await processOutboxMessage({
-      payload: JSON.parse(valueOutbox.payload),
+      payload,
       redis,
       runtimeConfig,
       siteUrl,
       tusdFilesUrl,
     })
+  }
+
+  // The connector only creates a routed topic with its first event, and a broker without topic auto-creation would otherwise reject the subscription.
+  const admin = kafka.admin()
+  await admin.connect()
+  try {
+    await admin.createTopics({
+      topics: TOPICS_OUTBOX.map((topic) => ({ topic })),
+    })
+  } finally {
+    await admin.disconnect()
   }
 
   const reliableConsumer = await createReliableConsumer({
