@@ -67,6 +67,7 @@ type Documents = {
   '\n    mutation CreateUpload($input: CreateUploadInput!) {\n      createUpload(input: $input) {\n        clientMutationId\n        upload {\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.CreateUploadDocument
   '\n    mutation DeleteFailedUpload($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteFailedUploadDocument
   '\n  query OwnContact($createdBy: UUID!) {\n    allContacts(condition: { createdBy: $createdBy }, first: 1) {\n      nodes {\n        language\n        rowId\n      }\n    }\n  }\n': typeof types.OwnContactDocument
+  '\n  mutation UpdateOwnContactLanguage($input: UpdateContactByRowIdInput!) {\n    updateContactByRowId(input: $input) {\n      contact {\n        language\n        rowId\n      }\n    }\n  }\n': typeof types.UpdateOwnContactLanguageDocument
   '\n    mutation JwtUpdateGuestAddGuest($input: JwtUpdateGuestAddInput!) {\n      jwtUpdateGuestAdd(input: $input) {\n        result\n      }\n    }\n  ': typeof types.JwtUpdateGuestAddGuestDocument
   '\n    query AccountEdit($username: String!) {\n      accountByUsername(username: $username) {\n        description\n        id\n        imprintUrl\n        profilePictureByAccountId {\n          id\n          rowId\n          uploadByUploadId {\n            id\n            rowId\n            storageKey\n          }\n        }\n        rowId\n        username\n      }\n    }\n  ': typeof types.AccountEditDocument
   '\n    mutation CreateProfilePicture($input: CreateProfilePictureInput!) {\n      createProfilePicture(input: $input) {\n        profilePicture {\n          accountByAccountId {\n            id\n            profilePictureByAccountId {\n              id\n              rowId\n            }\n            rowId\n          }\n          id\n          rowId\n          uploadId\n        }\n      }\n    }\n  ': typeof types.CreateProfilePictureDocument
@@ -218,6 +219,8 @@ const documents: Documents = {
     types.DeleteFailedUploadDocument,
   '\n  query OwnContact($createdBy: UUID!) {\n    allContacts(condition: { createdBy: $createdBy }, first: 1) {\n      nodes {\n        language\n        rowId\n      }\n    }\n  }\n':
     types.OwnContactDocument,
+  '\n  mutation UpdateOwnContactLanguage($input: UpdateContactByRowIdInput!) {\n    updateContactByRowId(input: $input) {\n      contact {\n        language\n        rowId\n      }\n    }\n  }\n':
+    types.UpdateOwnContactLanguageDocument,
   '\n    mutation JwtUpdateGuestAddGuest($input: JwtUpdateGuestAddInput!) {\n      jwtUpdateGuestAdd(input: $input) {\n        result\n      }\n    }\n  ':
     types.JwtUpdateGuestAddGuestDocument,
   '\n    query AccountEdit($username: String!) {\n      accountByUsername(username: $username) {\n        description\n        id\n        imprintUrl\n        profilePictureByAccountId {\n          id\n          rowId\n          uploadByUploadId {\n            id\n            rowId\n            storageKey\n          }\n        }\n        rowId\n        username\n      }\n    }\n  ':
@@ -638,6 +641,12 @@ export function graphql(
 export function graphql(
   source: '\n  query OwnContact($createdBy: UUID!) {\n    allContacts(condition: { createdBy: $createdBy }, first: 1) {\n      nodes {\n        language\n        rowId\n      }\n    }\n  }\n',
 ): (typeof documents)['\n  query OwnContact($createdBy: UUID!) {\n    allContacts(condition: { createdBy: $createdBy }, first: 1) {\n      nodes {\n        language\n        rowId\n      }\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  mutation UpdateOwnContactLanguage($input: UpdateContactByRowIdInput!) {\n    updateContactByRowId(input: $input) {\n      contact {\n        language\n        rowId\n      }\n    }\n  }\n',
+): (typeof documents)['\n  mutation UpdateOwnContactLanguage($input: UpdateContactByRowIdInput!) {\n    updateContactByRowId(input: $input) {\n      contact {\n        language\n        rowId\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

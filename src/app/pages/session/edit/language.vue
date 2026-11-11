@@ -10,8 +10,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Locale } from '@intlify/core-base'
 import type { AcceptableValue } from 'reka-ui'
+
+import type { Language } from '~~/gql/generated/graphql'
 
 // page
 const { t, locale, locales } = useI18n()
@@ -33,10 +34,13 @@ const languages = locales.value
 // i18n – set
 const switchLocalePath = useSwitchLocalePath()
 const router = useRouter()
-const onI18nChange = async (value: AcceptableValue) =>
+const onI18nChange = async (value: AcceptableValue) => {
+  const language = value as Language
   await router.push({
-    path: switchLocalePath(value as Locale),
+    path: switchLocalePath(language),
   })
+  await persistOwnContactLanguage(language)
+}
 </script>
 
 <i18n lang="yaml">

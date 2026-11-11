@@ -1,13 +1,26 @@
 import type { Client } from '@urql/core'
+import { createRequest } from '@urql/core'
 import type { Ref } from 'vue'
 import { isEqual } from 'ufo'
 
 import { graphql } from '~~/gql/generated'
+import type { Language } from '~~/gql/generated/graphql'
 
 const ownContactQuery = graphql(`
   query OwnContact($createdBy: UUID!) {
     allContacts(condition: { createdBy: $createdBy }, first: 1) {
       nodes {
+        language
+        rowId
+      }
+    }
+  }
+`)
+
+const updateOwnContactLanguageMutation = graphql(`
+  mutation UpdateOwnContactLanguage($input: UpdateContactByRowIdInput!) {
+    updateContactByRowId(input: $input) {
+      contact {
         language
         rowId
       }
@@ -68,5 +81,45 @@ export const syncLocaleToOwnContactLanguage = async () => {
     await navigateTo(targetPath, { replace: true })
   } catch (error) {
     console.error('Syncing the locale to the account language failed:', error)
+  }
+}
+
+// the language chosen on the settings page becomes the account's language;
+// best-effort, as the locale is already switched and a failure must not undo it
+export const persistOwnContactLanguage = async (language: Language) => {
+  const store = useStore()
+  const { $urql } = useNuxtApp()
+  const signedInAccountId = store.signedInAccountId
+
+  if (!signedInAccountId) {
+    return
+  }
+
+  try {
+    const ownContact = await getOwnContact({
+      $urql,
+      accountId: signedInAccountId,
+    })
+
+    if (!ownContact) {
+      return
+    }
+
+    const updated = await $urql.value
+      .executeMutation(
+        createRequest(updateOwnContactLanguageMutation, {
+          input: {
+            contactPatch: { language },
+            rowId: ownContact.rowId,
+          },
+        }),
+      )
+      .toPromise()
+
+    if (updated.error) {
+      throw new Error(getCombinedErrorMessages([updated.error]).join())
+    }
+  } catch (error) {
+    console.error('Persisting the language to the contact failed:', error)
   }
 }
