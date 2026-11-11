@@ -53,13 +53,3 @@ export default defineEventHandler(async (event) => {
     ),
   )
 })
-
-const getFcmTokensByAccountId = async (accountId: string) => {
-  const rows = await executeQuery(
-    sql`SELECT fcm_token FROM vibetype.device WHERE created_by = ${accountId}`,
-  )
-
-  return rows
-    .map((row) => row.fcm_token as string | null)
-    .filter((fcmToken) => fcmToken !== null)
-}

@@ -44,6 +44,12 @@ const getDemoEmailProps = (locale: AppLocale) =>
       stackDomain: 'example.com',
       timeZone: 'Europe/Berlin',
     },
+    [EMAIL_NAMES.enum['friendship.requested']]: {
+      emailAddress: 'user@example.com',
+      friendshipRequestLink: 'https://example.com/account/view/john_doe/friend',
+      locale,
+      senderUsername: 'jane_doe',
+    },
   }) as const
 
 const generateEmailContent = async (
