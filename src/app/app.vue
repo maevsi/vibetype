@@ -54,7 +54,6 @@
       <NuxtPage />
     </NuxtLayout>
     <AppSonner />
-    <VitePwaManifest />
     <ClientOnly>
       <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->
       <CookieControl v-if="!isIos" :locale />
@@ -85,6 +84,20 @@ const route = useRoute()
 
 // i18n
 const { t, locale } = useI18n()
+
+// the pwa plugin only writes the manifest of the default locale to the build, so the german one is served from a route rule
+useHead({
+  link: [
+    {
+      rel: 'manifest',
+      href: computed(() =>
+        locale.value === 'de'
+          ? '/de/manifest.webmanifest'
+          : '/manifest.webmanifest',
+      ),
+    },
+  ],
+})
 
 // loading
 const loadingId = Math.random()
