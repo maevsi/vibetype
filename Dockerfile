@@ -6,7 +6,7 @@ ARG SKEW_PROTECTION_SOURCE_IMAGE=ghcr.io/maevsi/vibetype:latest
 
 # <DEPENDENCIES>
 FROM ghcr.io/maevsi/postgraphile:3.0.0
-FROM ghcr.io/maevsi/sqitch:13.0
+FROM ghcr.io/maevsi/sqitch:13.1
 # </DEPENDENCIES>
 
 FROM ${SKEW_PROTECTION_SOURCE_IMAGE} AS skew-protection-source
