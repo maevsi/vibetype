@@ -155,6 +155,7 @@ const CONTACT = {
   __typename: 'Contact',
 }
 const GUEST_ID = getNodeId('Guest', TESTING_GUEST_ROW_ID)
+const OWN_CONTACT_ID = getNodeId('Contact', TESTING_OWN_CONTACT_ROW_ID)
 
 const getJwtPayloadFromCookie = async () => {
   const { getJwtFromCookie, verifyJwt } = await useJsonWebToken()
@@ -714,6 +715,18 @@ export const getTestingGraphqlResult = async ({
         },
       }
     }
+    // without a language the session keeps the locale of the visited url
+    case 'OwnContact':
+      return {
+        data: {
+          contactByCreatedByAndAccountId: {
+            id: OWN_CONTACT_ID,
+            language: null,
+            rowId: TESTING_OWN_CONTACT_ROW_ID,
+            __typename: 'Contact',
+          },
+        },
+      }
     // echoes the patch like the real api would
     case 'UpdateAccountByRowId': {
       const { input } = z
@@ -765,6 +778,31 @@ export const getTestingGraphqlResult = async ({
               __typename: 'Guest',
             },
             __typename: 'UpdateGuestPayload',
+          },
+        },
+      }
+    }
+    // echoes the patch like the real api would
+    case 'UpdateOwnContactLanguage': {
+      const { input } = z
+        .object({
+          input: z.object({
+            contactPatch: z.object({ language: z.enum(['de', 'en']) }),
+            rowId: z.literal(TESTING_OWN_CONTACT_ROW_ID),
+          }),
+        })
+        .parse(variables)
+
+      return {
+        data: {
+          updateContactByRowId: {
+            contact: {
+              id: OWN_CONTACT_ID,
+              language: input.contactPatch.language,
+              rowId: TESTING_OWN_CONTACT_ROW_ID,
+              __typename: 'Contact',
+            },
+            __typename: 'UpdateContactPayload',
           },
         },
       }
