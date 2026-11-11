@@ -8,6 +8,7 @@ const EVENT_DESCRIPTION_TRIM_LENGTH = 250
 export const CHANNEL_NAME_ACCOUNT_PASSWORD_RESET =
   'account.password_reset_requested'
 export const CHANNEL_NAME_ACCOUNT_REGISTRATION = 'account.registered'
+const CHANNEL_NAME_EVENT_ACCEPTANCE = 'guest.accepted'
 export const CHANNEL_NAME_EVENT_INVITATION = 'guest.invited'
 const CHANNEL_NAME_FRIENDSHIP_ACCEPTANCE = 'friendship.accepted'
 export const CHANNEL_NAME_FRIENDSHIP_REQUEST = 'friendship.requested'
@@ -27,6 +28,9 @@ const accountDataSchema = z.object({
   account_id: z.uuid(),
   language: LocaleSchema,
   time_zone: z.string().nullish(),
+})
+const guestAcceptedDataSchema = z.object({
+  guest_id: z.uuid(),
 })
 const guestInvitedDataSchema = z.object({
   guest_id: z.uuid(),
@@ -52,6 +56,15 @@ type FriendshipResolved = {
   recipient_username: string
   sender_username: string
   status: 'accepted' | 'requested'
+}
+
+type GuestAcceptanceResolved = {
+  attendee_username: string
+  event_creator_username: string
+  event_name: string
+  event_slug: string
+  recipient_account_id: string
+  recipient_language: string | null
 }
 
 type GuestInvitationResolved = {
@@ -126,6 +139,18 @@ const locales = {
       pushTitle: 'New friend request',
       subject: (senderUsername: string) =>
         `Friend request from ${senderUsername}`,
+    },
+  },
+  [CHANNEL_NAME_EVENT_ACCEPTANCE]: {
+    de: {
+      pushBody: (attendeeUsername: string, eventName: string) =>
+        `${attendeeUsername} nimmt an ${eventName} teil.`,
+      pushTitle: 'Neue Zusage',
+    },
+    en: {
+      pushBody: (attendeeUsername: string, eventName: string) =>
+        `${attendeeUsername} is attending ${eventName}.`,
+      pushTitle: 'New attendance',
     },
   },
   [CHANNEL_NAME_EVENT_INVITATION]: {
@@ -229,10 +254,21 @@ const resolveFriendship = async (
   return friendship?.status === status ? friendship : undefined
 }
 
-// Friendships are requested and accepted without a language, so the recipient's own preference decides.
-const getFriendshipLocale = (friendship: FriendshipResolved) =>
-  LocaleSchema.safeParse(friendship.recipient_language).data ??
-  LocaleSchema.parse(LOCALE_DEFAULT)
+// Friendships and attendances are not announced with a language, so the recipient's own preference decides.
+const getRecipientLocale = ({
+  recipient_language: language,
+}: {
+  recipient_language: string | null
+}) =>
+  LocaleSchema.safeParse(language).data ?? LocaleSchema.parse(LOCALE_DEFAULT)
+
+// The recipients are the attendee's close friends, so an acceptance of a ghost, of a non-public event or between blocked accounts yields none.
+const resolveGuestAcceptance = (guestId: string) =>
+  executeQuery(
+    sql<GuestAcceptanceResolved[]>`
+      SELECT * FROM vibetype_private.outbox_guest_acceptance_resolve(${guestId})
+    `,
+  )
 
 const resolveGuestInvitation = async (guestId: string) => {
   const [guestInvitation] = await executeQuery(
@@ -348,6 +384,29 @@ const sendGuestInvitationMail = async (
   })
 }
 
+const sendGuestAcceptanceNotifications = async (envelope: OutboxEnvelope) => {
+  const { guest_id: guestId } = parseData(guestAcceptedDataSchema, envelope)
+  const recipients = await resolveGuestAcceptance(guestId)
+
+  if (!recipients.length)
+    console.info(
+      `Skipping acceptance notifications for outbox event ${envelope.id}: no close friend to notify`,
+    )
+
+  for (const recipient of recipients) {
+    const t =
+      locales[CHANNEL_NAME_EVENT_ACCEPTANCE][getRecipientLocale(recipient)]
+
+    await sendPushNotification({
+      accountId: recipient.recipient_account_id,
+      notification: {
+        body: t.pushBody(recipient.attendee_username, recipient.event_name),
+        title: t.pushTitle,
+      },
+    })
+  }
+}
+
 const sendFriendshipAcceptanceNotification = async (
   envelope: OutboxEnvelope,
 ) => {
@@ -361,7 +420,7 @@ const sendFriendshipAcceptanceNotification = async (
   }
 
   const t =
-    locales[CHANNEL_NAME_FRIENDSHIP_ACCEPTANCE][getFriendshipLocale(friendship)]
+    locales[CHANNEL_NAME_FRIENDSHIP_ACCEPTANCE][getRecipientLocale(friendship)]
 
   await sendPushNotification({
     accountId: friendship.recipient_account_id,
@@ -385,7 +444,7 @@ const sendFriendshipRequestNotifications = async (
     return
   }
 
-  const locale = getFriendshipLocale(friendship)
+  const locale = getRecipientLocale(friendship)
   const t = locales[CHANNEL_NAME_FRIENDSHIP_REQUEST][locale]
 
   await sendEmail({
@@ -439,6 +498,10 @@ const outboxHandlers: Record<
   },
   [CHANNEL_NAME_FRIENDSHIP_REQUEST]: {
     handle: sendFriendshipRequestNotifications,
+    version: 1,
+  },
+  [CHANNEL_NAME_EVENT_ACCEPTANCE]: {
+    handle: sendGuestAcceptanceNotifications,
     version: 1,
   },
   [CHANNEL_NAME_EVENT_INVITATION]: {

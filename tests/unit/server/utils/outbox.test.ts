@@ -269,4 +269,69 @@ describe('processOutboxMessage', () => {
       })
     })
   })
+
+  describe('guest acceptance', () => {
+    const recipient = {
+      attendee_username: 'friend',
+      event_creator_username: 'host',
+      event_name: 'Party',
+      event_slug: 'party',
+      recipient_account_id: ACCOUNT_ID,
+      recipient_language: 'de',
+    }
+    const envelope = createEnvelope({
+      aggregate_type: 'guest',
+      data: { guest_id: ACCOUNT_ID },
+      type: 'guest.accepted',
+    })
+
+    test('sends every close friend a push notification in their language', async () => {
+      queryRows.set('outbox_guest_acceptance_resolve', [
+        recipient,
+        {
+          ...recipient,
+          recipient_account_id: OUTBOX_ID,
+          recipient_language: null,
+        },
+      ])
+
+      await processPayload(envelope)
+
+      expect(
+        sqlMock.mock.calls.find(([strings]) =>
+          strings.join('$').includes('outbox_guest_acceptance_resolve'),
+        ),
+      ).toEqual([expect.anything(), ACCOUNT_ID])
+      expect(sendEmailMock).not.toHaveBeenCalled()
+      expect(sendPushNotificationMock).toHaveBeenCalledTimes(2)
+      expect(sendPushNotificationMock).toHaveBeenCalledWith({
+        accountId: ACCOUNT_ID,
+        notification: {
+          body: 'friend nimmt an Party teil.',
+          title: 'Neue Zusage',
+        },
+      })
+      expect(sendPushNotificationMock).toHaveBeenCalledWith({
+        accountId: OUTBOX_ID,
+        notification: {
+          body: 'friend is attending Party.',
+          title: 'New attendance',
+        },
+      })
+      expect(getQueries().at(-1)).toContain('outbox_mark_processed')
+    })
+
+    test('notifies nobody without a close friend but marks processed', async () => {
+      await processPayload(envelope)
+
+      expect(sendPushNotificationMock).not.toHaveBeenCalled()
+      expect(getQueries().at(-1)).toContain('outbox_mark_processed')
+    })
+
+    test('fails permanently without a guest id', async () => {
+      await expect(
+        processPayload({ ...envelope, data: {} }),
+      ).rejects.toBeInstanceOf(PermanentProcessingError)
+    })
+  })
 })
