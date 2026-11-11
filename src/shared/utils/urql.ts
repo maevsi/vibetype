@@ -9,7 +9,6 @@ import {
 import type { ClientOptions } from '@urql/core'
 import { offlineExchange as getOfflineExchange } from '@urql/exchange-graphcache'
 import type { Cache } from '@urql/exchange-graphcache'
-import { makeDefaultStorage } from '@urql/exchange-graphcache/default-storage'
 import { relayPagination } from '@urql/exchange-graphcache/extras'
 import { requestPolicyExchange } from '@urql/exchange-request-policy'
 import { devtoolsExchange } from '@urql/devtools'
@@ -38,6 +37,7 @@ import {
   getRefetchBeforeHydrationExchange,
   getSsrHydrationExchanges,
 } from '~~/shared/utils/urqlSsrHydration'
+import { makeUrqlStorage } from '~~/shared/utils/urqlStorage'
 
 // A `useQuery` that settles on the server: the query is paused at creation,
 // and awaiting the response executes it exactly once and fills its state, so
@@ -456,7 +456,7 @@ export const getUrqlClient = async ({
     },
   }
 
-  const cacheStorage = import.meta.client ? makeDefaultStorage() : undefined
+  const cacheStorage = import.meta.client ? makeUrqlStorage() : undefined
 
   // `getOfflineExchange` binds a fresh in-memory store to whichever `storage`
   // it's given at call time, so this has to be re-invoked (not just reused)

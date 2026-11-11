@@ -11,6 +11,7 @@
     "eslint": "10.14.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.7",
+    "fake-indexeddb": "6.2.8",
     "graphql": "17.1.0",
     "html-validate": "11.19.0",
     "jose": "6.2.15",
