@@ -12,6 +12,8 @@ allowBuilds:
   vue-demi: false
 minimumReleaseAgeExclude:
   - leaflet@2.0.0-beta.2
+  - '@graphql-codegen/typescript-urql-graphcache@5.0.0'
+  - '@graphql-codegen/urql-introspection@5.0.0'
 overrides:
   leaflet: 2.0.0-beta.2
 packages:
