@@ -11,6 +11,57 @@ const ACCOUNT = {
   username: TESTING_ACCOUNT_USERNAME,
   __typename: 'Account',
 }
+const FRIENDSHIP_ACCOUNTS = Object.entries(TESTING_FRIENDSHIP_ACCOUNTS).map(
+  ([friendshipState, account]) => ({
+    ...account,
+    friendshipState,
+    id: getNodeId('Account', account.rowId),
+    __typename: 'Account',
+  }),
+)
+// the testing account requested every friendship but the one it received
+const getFriendship = (account: (typeof FRIENDSHIP_ACCOUNTS)[number]) => {
+  if (account.friendshipState === 'none') return null
+
+  const isAccepted = account.friendshipState === 'accepted'
+  const isReceived = account.friendshipState === 'requestReceived'
+
+  return {
+    accountByCreatedBy: isReceived ? account : ACCOUNT,
+    accountByUpdatedBy: isAccepted ? account : null,
+    createdBy: isReceived ? account.rowId : ACCOUNT.rowId,
+    id: getNodeId('Friendship', account.rowId),
+    status: isAccepted ? 'accepted' : 'requested',
+    __typename: 'Friendship',
+  }
+}
+// every friendship is between the testing account and another account
+const getFriendshipsOfAccount = (accountId: unknown) =>
+  FRIENDSHIP_ACCOUNTS.filter(
+    (account) => accountId === ACCOUNT.rowId || accountId === account.rowId,
+  )
+    .map(getFriendship)
+    .filter((friendship) => friendship !== null)
+const getFriendshipsCreatedBy = (accountId: unknown) =>
+  getFriendshipsOfAccount(accountId).filter(
+    (friendship) => friendship.createdBy === accountId,
+  )
+const getFriendshipsUpdatedBy = (accountId: unknown) =>
+  getFriendshipsOfAccount(accountId).filter(
+    (friendship) => friendship.accountByUpdatedBy?.rowId === accountId,
+  )
+const getFriendshipConnection = (
+  nodes: ReturnType<typeof getFriendshipsOfAccount> = [],
+) => ({
+  nodes,
+  pageInfo: {
+    endCursor: null,
+    hasNextPage: false,
+    __typename: 'PageInfo',
+  },
+  totalCount: nodes.length,
+  __typename: 'FriendshipConnection',
+})
 const EVENT_CATEGORY = {
   id: getNodeId('EventCategory', '11111111-1111-1111-1111-111111111111'),
   name: 'music-and-entertainment',
@@ -239,12 +290,23 @@ export const getTestingGraphqlResult = async ({
   }
 
   // any other account or event does not exist, so that pages can be checked for missing data
-  const { slug, username } = (variables ?? {}) as {
+  const { accountAId, accountBId, accountId, slug, username } = (variables ??
+    {}) as {
+    accountAId?: unknown
+    accountBId?: unknown
+    accountId?: unknown
     slug?: unknown
     username?: unknown
   }
+  // the accounts with a friendship state exist for the profile and its friends only
+  const account =
+    (['Account', 'AccountByUsername'].includes(String(operationName)) &&
+      FRIENDSHIP_ACCOUNTS.find(
+        (friendshipAccount) => friendshipAccount.username === username,
+      )) ||
+    ACCOUNT
 
-  if (username !== undefined && username !== TESTING_ACCOUNT_USERNAME)
+  if (username !== undefined && username !== account.username)
     return { data: { accountByUsername: null } }
 
   // only operations that look an event up below `accountByUsername` take this
@@ -278,10 +340,10 @@ export const getTestingGraphqlResult = async ({
               totalCount: 1,
               __typename: 'EventConnection',
             },
-            id: ACCOUNT.id,
+            id: account.id,
             imprintUrl: null,
             profilePictureByAccountId: null,
-            rowId: ACCOUNT.rowId,
+            rowId: account.rowId,
             __typename: 'Account',
           },
         },
@@ -316,10 +378,22 @@ export const getTestingGraphqlResult = async ({
       return {
         data: {
           accountByUsername: {
-            id: ACCOUNT.id,
-            rowId: ACCOUNT.rowId,
+            id: account.id,
+            rowId: account.rowId,
             __typename: 'Account',
           },
+        },
+      }
+    // the testing account requested the accepted friendship, so the friend accepted it
+    case 'AccountFriendships':
+      return {
+        data: {
+          friendshipsAccepted: getFriendshipConnection(
+            getFriendshipsUpdatedBy(accountId),
+          ),
+          friendshipsCreated: getFriendshipConnection(
+            getFriendshipsCreatedBy(accountId),
+          ),
         },
       }
     case 'AccountEdit':
@@ -474,6 +548,24 @@ export const getTestingGraphqlResult = async ({
             name: EVENT.name,
             rowId: EVENT.rowId,
             __typename: 'Event',
+          },
+        },
+      }
+    case 'CreateFriendship':
+      return {
+        data: {
+          createFriendship: {
+            clientMutationId: null,
+            __typename: 'CreateFriendshipPayload',
+          },
+        },
+      }
+    case 'DeleteFriendshipByAccountAIdAndAccountBId':
+      return {
+        data: {
+          deleteFriendshipByAccountAIdAndAccountBId: {
+            clientMutationId: null,
+            __typename: 'DeleteFriendshipPayload',
           },
         },
       }
@@ -637,6 +729,45 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
+    case 'Friendship': {
+      const friendshipAccount = FRIENDSHIP_ACCOUNTS.find((friendshipAccount) =>
+        [accountAId, accountBId].includes(friendshipAccount.rowId),
+      )
+
+      return {
+        data: {
+          friendshipByAccountAIdAndAccountBId: friendshipAccount
+            ? getFriendship(friendshipAccount)
+            : null,
+        },
+      }
+    }
+    case 'FriendshipCount':
+      return {
+        data: {
+          friendshipsAccepted: getFriendshipConnection(
+            getFriendshipsUpdatedBy(accountId),
+          ),
+          friendshipsCreated: getFriendshipConnection(
+            getFriendshipsCreatedBy(accountId),
+          ),
+          friendshipsPending: getFriendshipConnection(
+            getFriendshipsCreatedBy(accountId).filter(
+              (friendship) => friendship.accountByUpdatedBy === null,
+            ),
+          ),
+        },
+      }
+    case 'FriendshipRequests':
+      return {
+        data: {
+          friendshipRequests: getFriendshipConnection(
+            getFriendshipsOfAccount(ACCOUNT.rowId).filter(
+              (friendship) => friendship.accountByUpdatedBy === null,
+            ),
+          ),
+        },
+      }
     case 'GuestEvent':
       return {
         data: {
@@ -758,6 +889,15 @@ export const getTestingGraphqlResult = async ({
         },
       }
     }
+    case 'UpdateFriendshipByAccountAIdAndAccountBId':
+      return {
+        data: {
+          updateFriendshipByAccountAIdAndAccountBId: {
+            clientMutationId: null,
+            __typename: 'UpdateFriendshipPayload',
+          },
+        },
+      }
     // echoes the patch like the real api would
     case 'UpdateGuestByRowId': {
       const { input } = z

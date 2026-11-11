@@ -20,6 +20,10 @@ type Documents = {
   '\n  query AccountSearch($after: Cursor, $first: Int, $query: String) {\n    accountSearch(after: $after, first: $first, query: $query) {\n      nodes {\n        id\n        rowId\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n': typeof types.AccountSearchDocument
   '\n    mutation CreateAccountBlock($input: CreateAccountBlockInput!) {\n      createAccountBlock(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.CreateAccountBlockDocument
   '\n    mutation DeleteAccountBlock(\n      $input: DeleteAccountBlockByCreatedByAndBlockedAccountIdInput!\n    ) {\n      deleteAccountBlockByCreatedByAndBlockedAccountId(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteAccountBlockDocument
+  '\n    query Friendship($accountAId: UUID!, $accountBId: UUID!) {\n      friendshipByAccountAIdAndAccountBId(\n        accountAId: $accountAId\n        accountBId: $accountBId\n      ) {\n        createdBy\n        id\n        status\n      }\n    }\n  ': typeof types.FriendshipDocument
+  '\n    query FriendshipCount($accountId: UUID!) {\n      friendshipsAccepted: allFriendships(\n        condition: { updatedBy: $accountId }\n      ) {\n        totalCount\n      }\n      friendshipsCreated: allFriendships(condition: { createdBy: $accountId }) {\n        totalCount\n      }\n      friendshipsPending: allFriendships(\n        condition: { createdBy: $accountId, updatedBy: null }\n      ) {\n        totalCount\n      }\n    }\n  ': typeof types.FriendshipCountDocument
+  '\n    query AccountFriendships(\n      $accountId: UUID!\n      $afterAccepted: Cursor\n      $afterCreated: Cursor\n      $first: Int!\n    ) {\n      friendshipsAccepted: allFriendships(\n        after: $afterAccepted\n        condition: { updatedBy: $accountId }\n        first: $first\n      ) {\n        nodes {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          id\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n      friendshipsCreated: allFriendships(\n        after: $afterCreated\n        condition: { createdBy: $accountId }\n        first: $first\n      ) {\n        nodes {\n          accountByUpdatedBy {\n            id\n            rowId\n            username\n          }\n          id\n          status\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n    }\n  ': typeof types.AccountFriendshipsDocument
+  '\n    query FriendshipRequests($after: Cursor, $first: Int!) {\n      friendshipRequests: allFriendships(\n        after: $after\n        condition: { updatedBy: null }\n        first: $first\n      ) {\n        nodes {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          createdBy\n          id\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n    }\n  ': typeof types.FriendshipRequestsDocument
   '\n    query AttendanceGuest($id: UUID!) {\n      guestByRowId(rowId: $id) {\n        contactByContactId {\n          accountByAccountId {\n            id\n            rowId\n            username\n          }\n          firstName\n          id\n          lastName\n          language\n          nickname\n          rowId\n        }\n        attendanceByGuestId {\n          checkedOut\n          id\n          rowId\n          updatedAt\n        }\n        feedback\n        id\n        rowId\n      }\n    }\n  ': typeof types.AttendanceGuestDocument
   '\n    mutation DeleteContactByRowId($input: DeleteContactByRowIdInput!) {\n      deleteContactByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteContactByRowIdDocument
   '\n    query AllContacts($after: Cursor, $createdBy: UUID, $first: Int!) {\n      allContacts(\n        after: $after\n        condition: { createdBy: $createdBy }\n        first: $first\n        orderBy: [PRIMARY_KEY_ASC]\n      ) {\n        nodes {\n          ...ContactItem\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n    }\n  ': typeof types.AllContactsDocument
@@ -43,16 +47,12 @@ type Documents = {
   '\n    query AllEventFormatsFormEvent {\n      allEventFormats {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllEventFormatsFormEventDocument
   '\n    mutation CreateGuestContact($input: CreateContactInput!) {\n      createContact(input: $input) {\n        contact {\n          ...ContactItem\n        }\n      }\n    }\n  ': typeof types.CreateGuestContactDocument
   '\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.CreateGuestsDocument
-  '\n    mutation AccountPasswordChange($input: AccountPasswordChangeInput!) {\n      accountPasswordChange(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountPasswordChangeDocument
   '\n    mutation AccountPasswordReset($input: AccountPasswordResetInput!) {\n      accountPasswordReset(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountPasswordResetDocument
   '\n    mutation AccountPasswordResetRequest(\n      $input: AccountPasswordResetRequestInput!\n    ) {\n      accountPasswordResetRequest(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountPasswordResetRequestDocument
   '\n    mutation DeleteGuestByRowId($input: DeleteGuestByRowIdInput!) {\n      deleteGuestByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteGuestByRowIdDocument
   '\n    query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n      allGuests(\n        after: $after\n        condition: { eventId: $eventId }\n        first: $first\n      ) {\n        nodes {\n          ...GuestItem\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n    }\n  ': typeof types.AllGuestsDocument
   '\n    mutation Invite($input: InviteInput!) {\n      invite(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.InviteDocument
   '\n    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          feedback\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.UpdateGuestByRowIdFeedbackDocument
-  '\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllPreferenceEventSizesDocument
-  '\n    mutation CreatePreferenceEventSize(\n      $input: CreatePreferenceEventSizeInput!\n    ) {\n      createPreferenceEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.CreatePreferenceEventSizeDocument
-  '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeletePreferenceEventSizeByAccountIdAndEventSizeDocument
   '\n    query AllEventCategories {\n      allEventCategories {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllEventCategoriesDocument
   '\n    mutation CreatePreferenceEventCategory(\n      $input: CreatePreferenceEventCategoryInput!\n    ) {\n      createPreferenceEventCategory(input: $input) {\n        preferenceEventCategory {\n          ...PreferenceEventCategoryItem\n        }\n      }\n    }\n  ': typeof types.CreatePreferenceEventCategoryDocument
   '\n      mutation DeletePreferenceEventCategoryByAccountIdAndCategoryId(\n        $input: DeletePreferenceEventCategoryByAccountIdAndCategoryIdInput!\n      ) {\n        deletePreferenceEventCategoryByAccountIdAndCategoryId(input: $input) {\n          deletedPreferenceEventCategoryId\n        }\n      }\n    ': typeof types.DeletePreferenceEventCategoryByAccountIdAndCategoryIdDocument
@@ -61,11 +61,17 @@ type Documents = {
   '\n    mutation DeletePreferenceEventFormatByAccountIdAndFormatId(\n      $input: DeletePreferenceEventFormatByAccountIdAndFormatIdInput!\n    ) {\n      deletePreferenceEventFormatByAccountIdAndFormatId(input: $input) {\n        deletedPreferenceEventFormatId\n      }\n    }\n  ': typeof types.DeletePreferenceEventFormatByAccountIdAndFormatIdDocument
   '\n    mutation CreatePreferenceEventLocation(\n      $input: CreatePreferenceEventLocationInput!\n    ) {\n      createPreferenceEventLocation(input: $input) {\n        preferenceEventLocation {\n          ...PreferenceEventLocationItem\n        }\n      }\n    }\n  ': typeof types.CreatePreferenceEventLocationDocument
   '\n    mutation DeletePreferenceEventLocationByRowId(\n      $input: DeletePreferenceEventLocationByRowIdInput!\n    ) {\n      deletePreferenceEventLocationByRowId(input: $input) {\n        deletedPreferenceEventLocationId\n      }\n    }\n  ': typeof types.DeletePreferenceEventLocationByRowIdDocument
+  '\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllPreferenceEventSizesDocument
+  '\n    mutation CreatePreferenceEventSize(\n      $input: CreatePreferenceEventSizeInput!\n    ) {\n      createPreferenceEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.CreatePreferenceEventSizeDocument
+  '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeletePreferenceEventSizeByAccountIdAndEventSizeDocument
   '\n    mutation DeleteUploadByRowId($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteUploadByRowIdDocument
   '\n    query AccountUploadQuotaBytes {\n      accountUploadQuotaBytes\n    }\n  ': typeof types.AccountUploadQuotaBytesDocument
   '\n    query AllUploads($after: Cursor, $first: Int!, $createdBy: UUID) {\n      allUploads(\n        after: $after\n        condition: { createdBy: $createdBy }\n        first: $first\n      ) {\n        nodes {\n          id\n          rowId\n          sizeByte\n          storageKey\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n    }\n  ': typeof types.AllUploadsDocument
   '\n    mutation CreateUpload($input: CreateUploadInput!) {\n      createUpload(input: $input) {\n        clientMutationId\n        upload {\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.CreateUploadDocument
   '\n    mutation DeleteFailedUpload($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteFailedUploadDocument
+  '\n      mutation CreateFriendship($input: CreateFriendshipInput!) {\n        createFriendship(input: $input) {\n          clientMutationId\n        }\n      }\n    ': typeof types.CreateFriendshipDocument
+  '\n      mutation DeleteFriendshipByAccountAIdAndAccountBId(\n        $input: DeleteFriendshipByAccountAIdAndAccountBIdInput!\n      ) {\n        deleteFriendshipByAccountAIdAndAccountBId(input: $input) {\n          clientMutationId\n        }\n      }\n    ': typeof types.DeleteFriendshipByAccountAIdAndAccountBIdDocument
+  '\n      mutation UpdateFriendshipByAccountAIdAndAccountBId(\n        $input: UpdateFriendshipByAccountAIdAndAccountBIdInput!\n      ) {\n        updateFriendshipByAccountAIdAndAccountBId(input: $input) {\n          clientMutationId\n        }\n      }\n    ': typeof types.UpdateFriendshipByAccountAIdAndAccountBIdDocument
   '\n  query OwnContact($accountId: UUID!) {\n    contactByCreatedByAndAccountId(\n      accountId: $accountId\n      createdBy: $accountId\n    ) {\n      id\n      language\n      rowId\n    }\n  }\n': typeof types.OwnContactDocument
   '\n  mutation UpdateOwnContactLanguage($input: UpdateContactByRowIdInput!) {\n    updateContactByRowId(input: $input) {\n      contact {\n        id\n        language\n        rowId\n      }\n    }\n  }\n': typeof types.UpdateOwnContactLanguageDocument
   '\n    mutation JwtUpdateGuestAddGuest($input: JwtUpdateGuestAddInput!) {\n      jwtUpdateGuestAdd(input: $input) {\n        result\n      }\n    }\n  ': typeof types.JwtUpdateGuestAddGuestDocument
@@ -125,6 +131,14 @@ const documents: Documents = {
     types.CreateAccountBlockDocument,
   '\n    mutation DeleteAccountBlock(\n      $input: DeleteAccountBlockByCreatedByAndBlockedAccountIdInput!\n    ) {\n      deleteAccountBlockByCreatedByAndBlockedAccountId(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.DeleteAccountBlockDocument,
+  '\n    query Friendship($accountAId: UUID!, $accountBId: UUID!) {\n      friendshipByAccountAIdAndAccountBId(\n        accountAId: $accountAId\n        accountBId: $accountBId\n      ) {\n        createdBy\n        id\n        status\n      }\n    }\n  ':
+    types.FriendshipDocument,
+  '\n    query FriendshipCount($accountId: UUID!) {\n      friendshipsAccepted: allFriendships(\n        condition: { updatedBy: $accountId }\n      ) {\n        totalCount\n      }\n      friendshipsCreated: allFriendships(condition: { createdBy: $accountId }) {\n        totalCount\n      }\n      friendshipsPending: allFriendships(\n        condition: { createdBy: $accountId, updatedBy: null }\n      ) {\n        totalCount\n      }\n    }\n  ':
+    types.FriendshipCountDocument,
+  '\n    query AccountFriendships(\n      $accountId: UUID!\n      $afterAccepted: Cursor\n      $afterCreated: Cursor\n      $first: Int!\n    ) {\n      friendshipsAccepted: allFriendships(\n        after: $afterAccepted\n        condition: { updatedBy: $accountId }\n        first: $first\n      ) {\n        nodes {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          id\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n      friendshipsCreated: allFriendships(\n        after: $afterCreated\n        condition: { createdBy: $accountId }\n        first: $first\n      ) {\n        nodes {\n          accountByUpdatedBy {\n            id\n            rowId\n            username\n          }\n          id\n          status\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n    }\n  ':
+    types.AccountFriendshipsDocument,
+  '\n    query FriendshipRequests($after: Cursor, $first: Int!) {\n      friendshipRequests: allFriendships(\n        after: $after\n        condition: { updatedBy: null }\n        first: $first\n      ) {\n        nodes {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          createdBy\n          id\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n    }\n  ':
+    types.FriendshipRequestsDocument,
   '\n    query AttendanceGuest($id: UUID!) {\n      guestByRowId(rowId: $id) {\n        contactByContactId {\n          accountByAccountId {\n            id\n            rowId\n            username\n          }\n          firstName\n          id\n          lastName\n          language\n          nickname\n          rowId\n        }\n        attendanceByGuestId {\n          checkedOut\n          id\n          rowId\n          updatedAt\n        }\n        feedback\n        id\n        rowId\n      }\n    }\n  ':
     types.AttendanceGuestDocument,
   '\n    mutation DeleteContactByRowId($input: DeleteContactByRowIdInput!) {\n      deleteContactByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
@@ -171,8 +185,6 @@ const documents: Documents = {
     types.CreateGuestContactDocument,
   '\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          id\n          rowId\n        }\n      }\n    }\n  ':
     types.CreateGuestsDocument,
-  '\n    mutation AccountPasswordChange($input: AccountPasswordChangeInput!) {\n      accountPasswordChange(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
-    types.AccountPasswordChangeDocument,
   '\n    mutation AccountPasswordReset($input: AccountPasswordResetInput!) {\n      accountPasswordReset(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.AccountPasswordResetDocument,
   '\n    mutation AccountPasswordResetRequest(\n      $input: AccountPasswordResetRequestInput!\n    ) {\n      accountPasswordResetRequest(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
@@ -185,12 +197,6 @@ const documents: Documents = {
     types.InviteDocument,
   '\n    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          feedback\n          id\n          rowId\n        }\n      }\n    }\n  ':
     types.UpdateGuestByRowIdFeedbackDocument,
-  '\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ':
-    types.AllPreferenceEventSizesDocument,
-  '\n    mutation CreatePreferenceEventSize(\n      $input: CreatePreferenceEventSizeInput!\n    ) {\n      createPreferenceEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
-    types.CreatePreferenceEventSizeDocument,
-  '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
-    types.DeletePreferenceEventSizeByAccountIdAndEventSizeDocument,
   '\n    query AllEventCategories {\n      allEventCategories {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ':
     types.AllEventCategoriesDocument,
   '\n    mutation CreatePreferenceEventCategory(\n      $input: CreatePreferenceEventCategoryInput!\n    ) {\n      createPreferenceEventCategory(input: $input) {\n        preferenceEventCategory {\n          ...PreferenceEventCategoryItem\n        }\n      }\n    }\n  ':
@@ -207,6 +213,12 @@ const documents: Documents = {
     types.CreatePreferenceEventLocationDocument,
   '\n    mutation DeletePreferenceEventLocationByRowId(\n      $input: DeletePreferenceEventLocationByRowIdInput!\n    ) {\n      deletePreferenceEventLocationByRowId(input: $input) {\n        deletedPreferenceEventLocationId\n      }\n    }\n  ':
     types.DeletePreferenceEventLocationByRowIdDocument,
+  '\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ':
+    types.AllPreferenceEventSizesDocument,
+  '\n    mutation CreatePreferenceEventSize(\n      $input: CreatePreferenceEventSizeInput!\n    ) {\n      createPreferenceEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
+    types.CreatePreferenceEventSizeDocument,
+  '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
+    types.DeletePreferenceEventSizeByAccountIdAndEventSizeDocument,
   '\n    mutation DeleteUploadByRowId($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.DeleteUploadByRowIdDocument,
   '\n    query AccountUploadQuotaBytes {\n      accountUploadQuotaBytes\n    }\n  ':
@@ -217,6 +229,12 @@ const documents: Documents = {
     types.CreateUploadDocument,
   '\n    mutation DeleteFailedUpload($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.DeleteFailedUploadDocument,
+  '\n      mutation CreateFriendship($input: CreateFriendshipInput!) {\n        createFriendship(input: $input) {\n          clientMutationId\n        }\n      }\n    ':
+    types.CreateFriendshipDocument,
+  '\n      mutation DeleteFriendshipByAccountAIdAndAccountBId(\n        $input: DeleteFriendshipByAccountAIdAndAccountBIdInput!\n      ) {\n        deleteFriendshipByAccountAIdAndAccountBId(input: $input) {\n          clientMutationId\n        }\n      }\n    ':
+    types.DeleteFriendshipByAccountAIdAndAccountBIdDocument,
+  '\n      mutation UpdateFriendshipByAccountAIdAndAccountBId(\n        $input: UpdateFriendshipByAccountAIdAndAccountBIdInput!\n      ) {\n        updateFriendshipByAccountAIdAndAccountBId(input: $input) {\n          clientMutationId\n        }\n      }\n    ':
+    types.UpdateFriendshipByAccountAIdAndAccountBIdDocument,
   '\n  query OwnContact($accountId: UUID!) {\n    contactByCreatedByAndAccountId(\n      accountId: $accountId\n      createdBy: $accountId\n    ) {\n      id\n      language\n      rowId\n    }\n  }\n':
     types.OwnContactDocument,
   '\n  mutation UpdateOwnContactLanguage($input: UpdateContactByRowIdInput!) {\n    updateContactByRowId(input: $input) {\n      contact {\n        id\n        language\n        rowId\n      }\n    }\n  }\n':
@@ -363,6 +381,30 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+  source: '\n    query Friendship($accountAId: UUID!, $accountBId: UUID!) {\n      friendshipByAccountAIdAndAccountBId(\n        accountAId: $accountAId\n        accountBId: $accountBId\n      ) {\n        createdBy\n        id\n        status\n      }\n    }\n  ',
+): (typeof documents)['\n    query Friendship($accountAId: UUID!, $accountBId: UUID!) {\n      friendshipByAccountAIdAndAccountBId(\n        accountAId: $accountAId\n        accountBId: $accountBId\n      ) {\n        createdBy\n        id\n        status\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query FriendshipCount($accountId: UUID!) {\n      friendshipsAccepted: allFriendships(\n        condition: { updatedBy: $accountId }\n      ) {\n        totalCount\n      }\n      friendshipsCreated: allFriendships(condition: { createdBy: $accountId }) {\n        totalCount\n      }\n      friendshipsPending: allFriendships(\n        condition: { createdBy: $accountId, updatedBy: null }\n      ) {\n        totalCount\n      }\n    }\n  ',
+): (typeof documents)['\n    query FriendshipCount($accountId: UUID!) {\n      friendshipsAccepted: allFriendships(\n        condition: { updatedBy: $accountId }\n      ) {\n        totalCount\n      }\n      friendshipsCreated: allFriendships(condition: { createdBy: $accountId }) {\n        totalCount\n      }\n      friendshipsPending: allFriendships(\n        condition: { createdBy: $accountId, updatedBy: null }\n      ) {\n        totalCount\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query AccountFriendships(\n      $accountId: UUID!\n      $afterAccepted: Cursor\n      $afterCreated: Cursor\n      $first: Int!\n    ) {\n      friendshipsAccepted: allFriendships(\n        after: $afterAccepted\n        condition: { updatedBy: $accountId }\n        first: $first\n      ) {\n        nodes {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          id\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n      friendshipsCreated: allFriendships(\n        after: $afterCreated\n        condition: { createdBy: $accountId }\n        first: $first\n      ) {\n        nodes {\n          accountByUpdatedBy {\n            id\n            rowId\n            username\n          }\n          id\n          status\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    query AccountFriendships(\n      $accountId: UUID!\n      $afterAccepted: Cursor\n      $afterCreated: Cursor\n      $first: Int!\n    ) {\n      friendshipsAccepted: allFriendships(\n        after: $afterAccepted\n        condition: { updatedBy: $accountId }\n        first: $first\n      ) {\n        nodes {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          id\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n      friendshipsCreated: allFriendships(\n        after: $afterCreated\n        condition: { createdBy: $accountId }\n        first: $first\n      ) {\n        nodes {\n          accountByUpdatedBy {\n            id\n            rowId\n            username\n          }\n          id\n          status\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    query FriendshipRequests($after: Cursor, $first: Int!) {\n      friendshipRequests: allFriendships(\n        after: $after\n        condition: { updatedBy: null }\n        first: $first\n      ) {\n        nodes {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          createdBy\n          id\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    query FriendshipRequests($after: Cursor, $first: Int!) {\n      friendshipRequests: allFriendships(\n        after: $after\n        condition: { updatedBy: null }\n        first: $first\n      ) {\n        nodes {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          createdBy\n          id\n        }\n        pageInfo {\n          endCursor\n          hasNextPage\n        }\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
   source: '\n    query AttendanceGuest($id: UUID!) {\n      guestByRowId(rowId: $id) {\n        contactByContactId {\n          accountByAccountId {\n            id\n            rowId\n            username\n          }\n          firstName\n          id\n          lastName\n          language\n          nickname\n          rowId\n        }\n        attendanceByGuestId {\n          checkedOut\n          id\n          rowId\n          updatedAt\n        }\n        feedback\n        id\n        rowId\n      }\n    }\n  ',
 ): (typeof documents)['\n    query AttendanceGuest($id: UUID!) {\n      guestByRowId(rowId: $id) {\n        contactByContactId {\n          accountByAccountId {\n            id\n            rowId\n            username\n          }\n          firstName\n          id\n          lastName\n          language\n          nickname\n          rowId\n        }\n        attendanceByGuestId {\n          checkedOut\n          id\n          rowId\n          updatedAt\n        }\n        feedback\n        id\n        rowId\n      }\n    }\n  ']
 /**
@@ -501,12 +543,6 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    mutation AccountPasswordChange($input: AccountPasswordChangeInput!) {\n      accountPasswordChange(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
-): (typeof documents)['\n    mutation AccountPasswordChange($input: AccountPasswordChangeInput!) {\n      accountPasswordChange(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
   source: '\n    mutation AccountPasswordReset($input: AccountPasswordResetInput!) {\n      accountPasswordReset(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
 ): (typeof documents)['\n    mutation AccountPasswordReset($input: AccountPasswordResetInput!) {\n      accountPasswordReset(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
 /**
@@ -539,24 +575,6 @@ export function graphql(
 export function graphql(
   source: '\n    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          feedback\n          id\n          rowId\n        }\n      }\n    }\n  ',
 ): (typeof documents)['\n    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          feedback\n          id\n          rowId\n        }\n      }\n    }\n  ']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ',
-): (typeof documents)['\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n    mutation CreatePreferenceEventSize(\n      $input: CreatePreferenceEventSizeInput!\n    ) {\n      createPreferenceEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
-): (typeof documents)['\n    mutation CreatePreferenceEventSize(\n      $input: CreatePreferenceEventSizeInput!\n    ) {\n      createPreferenceEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
-): (typeof documents)['\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -609,6 +627,24 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+  source: '\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    mutation CreatePreferenceEventSize(\n      $input: CreatePreferenceEventSizeInput!\n    ) {\n      createPreferenceEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation CreatePreferenceEventSize(\n      $input: CreatePreferenceEventSizeInput!\n    ) {\n      createPreferenceEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
   source: '\n    mutation DeleteUploadByRowId($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
 ): (typeof documents)['\n    mutation DeleteUploadByRowId($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
 /**
@@ -635,6 +671,24 @@ export function graphql(
 export function graphql(
   source: '\n    mutation DeleteFailedUpload($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
 ): (typeof documents)['\n    mutation DeleteFailedUpload($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation CreateFriendship($input: CreateFriendshipInput!) {\n        createFriendship(input: $input) {\n          clientMutationId\n        }\n      }\n    ',
+): (typeof documents)['\n      mutation CreateFriendship($input: CreateFriendshipInput!) {\n        createFriendship(input: $input) {\n          clientMutationId\n        }\n      }\n    ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation DeleteFriendshipByAccountAIdAndAccountBId(\n        $input: DeleteFriendshipByAccountAIdAndAccountBIdInput!\n      ) {\n        deleteFriendshipByAccountAIdAndAccountBId(input: $input) {\n          clientMutationId\n        }\n      }\n    ',
+): (typeof documents)['\n      mutation DeleteFriendshipByAccountAIdAndAccountBId(\n        $input: DeleteFriendshipByAccountAIdAndAccountBIdInput!\n      ) {\n        deleteFriendshipByAccountAIdAndAccountBId(input: $input) {\n          clientMutationId\n        }\n      }\n    ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n      mutation UpdateFriendshipByAccountAIdAndAccountBId(\n        $input: UpdateFriendshipByAccountAIdAndAccountBIdInput!\n      ) {\n        updateFriendshipByAccountAIdAndAccountBId(input: $input) {\n          clientMutationId\n        }\n      }\n    ',
+): (typeof documents)['\n      mutation UpdateFriendshipByAccountAIdAndAccountBId(\n        $input: UpdateFriendshipByAccountAIdAndAccountBIdInput!\n      ) {\n        updateFriendshipByAccountAIdAndAccountBId(input: $input) {\n          clientMutationId\n        }\n      }\n    ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

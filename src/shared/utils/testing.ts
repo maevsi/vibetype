@@ -10,6 +10,25 @@ export const TESTING_CONTACT_ROW_ID = 'd9e0f1a2-b3c4-4d5e-8f6a-7b8c9d0e1f2a'
 export const TESTING_EVENT_NAME = 'Community Meetup'
 export const TESTING_EVENT_ROW_ID = 'b7e2c9a4-3d1f-4c8e-9a5b-6f0d2e8c1b3a'
 export const TESTING_EVENT_SLUG = 'community-meetup'
+// one account per state its friendship with the testing account is in, as seen by the testing account
+export const TESTING_FRIENDSHIP_ACCOUNTS = {
+  accepted: {
+    rowId: '0b6f3c1e-7a2d-4e5f-9c8b-1a2b3c4d5e6f',
+    username: 'e2e-friend-account',
+  },
+  none: {
+    rowId: '3e9a1d7c-2b4f-4a6e-8d0c-5f6a7b8c9d0e',
+    username: 'e2e-stranger-account',
+  },
+  requestReceived: {
+    rowId: 'c8d2e4f6-1a3b-4c5d-9e7f-2b4c6d8e0f1a',
+    username: 'e2e-requesting-account',
+  },
+  requestSent: {
+    rowId: 'e7f1a3b5-9c2d-4e6f-8a0b-4d6e8f0a2c3b',
+    username: 'e2e-requested-account',
+  },
+}
 export const TESTING_GUEST_ROW_ID = 'c4d8e1f2-5a6b-4c7d-8e9f-0a1b2c3d4e5f'
 export const TESTING_OWN_CONTACT_ROW_ID = 'f6a7b8c9-d0e1-4f2a-9b3c-4d5e6f7a8b9c'
 
