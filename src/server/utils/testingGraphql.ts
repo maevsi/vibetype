@@ -31,6 +31,8 @@ const getFriendship = (account: (typeof FRIENDSHIP_ACCOUNTS)[number]) => {
     accountByUpdatedBy: isAccepted ? account : null,
     createdBy: isReceived ? account.rowId : ACCOUNT.rowId,
     id: getNodeId('Friendship', account.rowId),
+    // the friend's row id stands in for the friendship's, as there is one per friend
+    rowId: account.rowId,
     status: isAccepted ? 'accepted' : 'requested',
     __typename: 'Friendship',
   }
@@ -551,12 +553,44 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
+    case 'CloseFriends':
+      return {
+        data: {
+          allCloseFriends: {
+            nodes: [],
+            pageInfo: {
+              endCursor: null,
+              hasNextPage: false,
+              __typename: 'PageInfo',
+            },
+            __typename: 'CloseFriendConnection',
+          },
+        },
+      }
+    case 'CreateCloseFriend':
+      return {
+        data: {
+          createCloseFriend: {
+            clientMutationId: null,
+            __typename: 'CreateCloseFriendPayload',
+          },
+        },
+      }
     case 'CreateFriendship':
       return {
         data: {
           createFriendship: {
             clientMutationId: null,
             __typename: 'CreateFriendshipPayload',
+          },
+        },
+      }
+    case 'DeleteCloseFriendByRowId':
+      return {
+        data: {
+          deleteCloseFriendByRowId: {
+            clientMutationId: null,
+            __typename: 'DeleteCloseFriendPayload',
           },
         },
       }
@@ -602,6 +636,56 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
+    // two pages, to be able to check loading more
+    case 'EventAttendees': {
+      // like postgraphile, only a signed in account may execute the field
+      if (!(await getJwtPayloadFromCookie())?.username)
+        return {
+          data: null,
+          errors: [
+            { message: 'permission denied for function event_attendees' },
+          ],
+        }
+
+      const { after, eventId } = (variables ?? {}) as {
+        after?: unknown
+        eventId?: unknown
+      }
+      const isFirstPage = !after
+      const attendee = FRIENDSHIP_ACCOUNTS.find(
+        ({ friendshipState }) =>
+          friendshipState === (isFirstPage ? 'accepted' : 'requestReceived'),
+      )
+
+      return {
+        data: {
+          eventByRowId:
+            eventId === EVENT.rowId && attendee
+              ? {
+                  attendees: {
+                    nodes: [
+                      {
+                        id: attendee.id,
+                        rowId: attendee.rowId,
+                        username: attendee.username,
+                        __typename: 'Account',
+                      },
+                    ],
+                    pageInfo: {
+                      endCursor: isFirstPage ? TESTING_ATTENDEES_CURSOR : null,
+                      hasNextPage: isFirstPage,
+                      __typename: 'PageInfo',
+                    },
+                    totalCount: 2,
+                    __typename: 'AccountConnection',
+                  },
+                  id: EVENT.id,
+                  __typename: 'Event',
+                }
+              : null,
+        },
+      }
+    }
     case 'EventByCreatedByAndSlug':
       return {
         data: {
@@ -768,23 +852,29 @@ export const getTestingGraphqlResult = async ({
           ),
         },
       }
-    case 'GuestEvent':
+    case 'GuestEvent': {
+      const isOwn =
+        (variables as { id?: unknown } | undefined)?.id ===
+        TESTING_GUEST_OWN_ROW_ID
+
       return {
         data: {
           guestByRowId: {
             contactByContactId: {
               ...CONTACT,
-              accountByAccountId: null,
+              accountByAccountId: isOwn ? ACCOUNT : null,
               createdBy: ACCOUNT.rowId,
             },
             eventByEventId: EVENT_VIEW,
-            feedback: null,
+            feedback: isOwn ? 'accepted' : null,
             id: GUEST_ID,
-            rowId: TESTING_GUEST_ROW_ID,
+            isGhost: false,
+            rowId: isOwn ? TESTING_GUEST_OWN_ROW_ID : TESTING_GUEST_ROW_ID,
             __typename: 'Guest',
           },
         },
       }
+    }
     // like postgraphile's `jwt_create`, wrong credentials yield no token rather than an error
     case 'JwtCreate': {
       const { input } = z
@@ -903,7 +993,11 @@ export const getTestingGraphqlResult = async ({
       const { input } = z
         .object({
           input: z.object({
-            guestPatch: z.object({ feedback: z.string().nullable() }),
+            guestPatch: z.object({
+              feedback: z.string().nullable().optional(),
+              isGhost: z.boolean().optional(),
+            }),
+            rowId: z.string(),
           }),
         })
         .parse(variables)
@@ -912,9 +1006,11 @@ export const getTestingGraphqlResult = async ({
         data: {
           updateGuestByRowId: {
             guest: {
-              feedback: input.guestPatch.feedback,
+              eventByEventId: { id: EVENT.id, __typename: 'Event' },
+              feedback: input.guestPatch.feedback ?? null,
               id: GUEST_ID,
-              rowId: TESTING_GUEST_ROW_ID,
+              isGhost: input.guestPatch.isGhost ?? false,
+              rowId: input.rowId,
               __typename: 'Guest',
             },
             __typename: 'UpdateGuestPayload',

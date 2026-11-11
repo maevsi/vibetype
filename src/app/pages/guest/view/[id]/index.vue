@@ -146,6 +146,25 @@
               : 'col-span-6'
           "
         >
+          <!-- Above the feedback buttons, as accepting notifies close friends right away. -->
+          <div v-if="isOwnGuest" class="flex flex-col gap-1">
+            <label class="flex items-center gap-3" :for="ghostModeId">
+              <input
+                :id="ghostModeId"
+                :aria-describedby="ghostModeDescriptionId"
+                :checked="guest.isGhost"
+                class="size-5"
+                :disabled="updateGuestByRowIdMutation.fetching.value"
+                role="switch"
+                type="checkbox"
+                @change="ghostModeSet"
+              />
+              {{ t('ghostMode') }}
+            </label>
+            <p :id="ghostModeDescriptionId" class="text-body-small text-fg-2">
+              {{ t('ghostModeDescription') }}
+            </p>
+          </div>
           <div
             v-if="isOrganizerPreview"
             class="flex items-center justify-center gap-4"
@@ -302,8 +321,12 @@ const updateGuestByRowIdMutation = useMutation(
     mutation UpdateGuestByRowId($input: UpdateGuestByRowIdInput!) {
       updateGuestByRowId(input: $input) {
         guest {
+          eventByEventId {
+            id
+          }
           feedback
           id
+          isGhost
           rowId
         }
       }
@@ -397,6 +420,7 @@ const eventQuery = useApiQuery({
         }
         feedback
         id
+        isGhost
         rowId
       }
     }
@@ -544,9 +568,22 @@ const update = async (id: string, guestPatch: GuestPatch) => {
     input: { rowId: id, guestPatch },
   })
 
-  if (!getResultData(result)) return
+  if (!getResultData(result)) return false
 
   toast.success(t('success'))
+  return true
+}
+
+const ghostModeId = useId()
+const ghostModeDescriptionId = useId()
+const ghostModeSet = async (event: Event) => {
+  if (!guest.value || !(event.target instanceof HTMLInputElement)) return
+
+  const isGhost = event.target.checked
+
+  // a failed update puts the switch back to the saved state
+  if (!(await update(guest.value.rowId, { isGhost })))
+    event.target.checked = !isGhost
 }
 
 // computations
@@ -561,6 +598,11 @@ const contactName = computed(() =>
   contact.value
     ? getContactName({ account: contactAccount.value, contact: contact.value })
     : undefined,
+)
+const isOwnGuest = computed(
+  () =>
+    !!store.signedInAccountId &&
+    contactAccount.value?.rowId === store.signedInAccountId,
 )
 const isOrganizerPreview = computed(
   () =>
@@ -613,6 +655,8 @@ de:
   errorAccountMissing: Nutzerkonto nicht verfügbar
   errorEventMissing: Veranstaltung nicht verfügbar
   errorGuestMissing: Gast nicht verfügbar
+  ghostMode: Geistermodus
+  ghostModeDescription: Verbirgt deine Zusage in der Liste der Zusagen dieser Veranstaltung und benachrichtigt deine engen Freunde nicht, wenn du zusagst.
   greeting: Hey{usernameString}!
   greetingDescription: Du wurdest zu folgender Veranstaltung eingeladen.
   hintQrCode: Dieses Bild ist deine Zugangsberechtigung für die Veranstaltung
@@ -641,6 +685,8 @@ en:
   errorAccountMissing: Account not available
   errorEventMissing: Event not available
   errorGuestMissing: Guest not available
+  ghostMode: Ghost mode
+  ghostModeDescription: Hides your attendance from the event's attendee list and does not notify your close friends when you accept.
   greeting: Hey{usernameString}!
   greetingDescription: "You've been invited to the following event."
   hintQrCode: This picture is your access authorization for the event
