@@ -1,3 +1,9 @@
+## [17.2.0](https://github.com/maevsi/vibetype/compare/17.1.1...17.2.0) (2026-11-12)
+
+### Features
+
+* **app:** open Android notification settings from the session page ([#2583](https://github.com/maevsi/vibetype/issues/2583)) ([481b6b2](https://github.com/maevsi/vibetype/commit/481b6b20b178b4fc41b1f467ccef0d11f2bee7cf))
+
 ## [17.1.1](https://github.com/maevsi/vibetype/compare/17.1.0...17.1.1) (2026-11-10)
 
 ### Bug Fixes
