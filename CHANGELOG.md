@@ -1,3 +1,9 @@
+## [17.2.1](https://github.com/maevsi/vibetype/compare/17.2.0...17.2.1) (2026-11-12)
+
+### Bug Fixes
+
+* **security:** allow angle brackets in graphql requests ([#2585](https://github.com/maevsi/vibetype/issues/2585)) ([91bb31a](https://github.com/maevsi/vibetype/commit/91bb31a40db7360e98a6692a1e94e78fc386f99d))
+
 ## [17.2.0](https://github.com/maevsi/vibetype/compare/17.1.1...17.2.0) (2026-11-12)
 
 ### Features
