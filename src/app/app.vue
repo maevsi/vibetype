@@ -73,7 +73,8 @@
 import { useOnline } from '@vueuse/core'
 import { isEqual } from 'ufo'
 
-const { $pwa, $urql } = useNuxtApp()
+const nuxtApp = useNuxtApp()
+const { $pwa, $urql } = nuxtApp
 const { isApp, isIos } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
 const timeZone = useTimeZone()
@@ -211,7 +212,9 @@ if (import.meta.client) {
 useAppLayout()
 usePolyfills()
 useAppGtag()
-await useJwtInitialize()
+if (!(await useJwtInitialize())) {
+  await detectLanguageFromQuery({ nuxtApp, route })
+}
 await initialize()
 
 onMounted(() => {
