@@ -7,7 +7,7 @@
     </LayoutTopBar>
     <AppStep v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
-        <LayoutPageResult type="error">
+        <LayoutPageResult :message="error?.message" type="error">
           <slot name="error" />
           <template #description>
             {{ errorDescription }}
