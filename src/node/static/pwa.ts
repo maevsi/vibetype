@@ -8,7 +8,7 @@ import { CACHE_VERSION, THEME_COLOR } from './index.ts'
 type PwaManifest = Exclude<NonNullable<PwaModuleOptions['manifest']>, false>
 
 // the localized members of the web app manifest spec, which the pwa plugin does not type yet
-// (https://github.com/vite-pwa/vite-plugin-pwa/issues/773)
+// (https://github.com/maevsi/vibetype/issues/2577)
 type PwaLocalizedManifest = PwaManifest & {
   description_localized?: Record<PwaManifestLocale, string>
   name_localized?: Record<PwaManifestLocale, string>
@@ -22,10 +22,10 @@ const LOCALE_MESSAGES = {
 
 type PwaManifestLocale = keyof typeof LOCALE_MESSAGES
 
-// the manifest the plugin writes to the build for the default locale and the one the `de` route rule serves,
+// the manifest the plugin writes to the build for the default locale and the one the `de` server route serves,
 // which share every identity-carrying member (the `id`, the `scope`, the icons, ...) so the browser keeps the
 // installed app when it switches languages, differ in the language of their text members, and carry the localized
-// members of the spec so the browsers that parse them (Chrome and Edge 148 and up) display the app in the user's
+// members of the spec so the browsers that parse them display the app in the user's
 // language regardless of the locale the app was installed from
 export const getPwaManifest = ({
   locale,
@@ -160,7 +160,7 @@ export const getPwaManifest = ({
       },
     ],
     // the installed app opens in the locale it was installed in, and the detection of the root route then keeps it there
-    start_url: localePath('/?source=pwa'),
+    start_url: `${locale === 'de' ? '/de' : '/'}?source=pwa`,
     scope_extensions: [
       { origin: 'https://maev.si', type: 'origin' },
       { origin: 'https://vibetype.app', type: 'origin' },

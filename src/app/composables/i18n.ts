@@ -8,13 +8,17 @@ import { isEqual } from 'ufo'
 import { graphql } from '~~/gql/generated'
 import type { Language } from '~~/gql/generated/graphql'
 
+// an account's own contact is the one it created for itself, unlike the
+// contacts it created for others, which only share the creator
 const ownContactQuery = graphql(`
-  query OwnContact($createdBy: UUID!) {
-    allContacts(condition: { createdBy: $createdBy }, first: 1) {
-      nodes {
-        language
-        rowId
-      }
+  query OwnContact($accountId: UUID!) {
+    contactByCreatedByAndAccountId(
+      accountId: $accountId
+      createdBy: $accountId
+    ) {
+      id
+      language
+      rowId
     }
   }
 `)
@@ -23,6 +27,7 @@ const updateOwnContactLanguageMutation = graphql(`
   mutation UpdateOwnContactLanguage($input: UpdateContactByRowIdInput!) {
     updateContactByRowId(input: $input) {
       contact {
+        id
         language
         rowId
       }
@@ -38,25 +43,20 @@ export const getOwnContact = async ({
   accountId: string
 }) => {
   const ownContact = await $urql.value
-    .query(ownContactQuery, {
-      createdBy: accountId,
-    })
+    .query(ownContactQuery, { accountId })
     .toPromise()
 
   if (ownContact.error) {
     throw new Error(getCombinedErrorMessages([ownContact.error]).join())
   }
 
-  return ownContact.data?.allContacts?.nodes[0]
+  return ownContact.data?.contactByCreatedByAndAccountId
 }
 
-// the app should open in the language of the signed-in account, so every page
-// load moves the session onto it; best-effort, as a failure must never block
-// the page load; the caller passes the nuxt app and store, as this runs after
-// the caller's awaits, where neither can be resolved from the current context;
-// resolves to whether the account has a language, which then wins over the
-// one `detectLanguageFromQuery` would detect
-export const syncLocaleToOwnContactLanguage = async ({
+// best-effort, as a failure must never block the page load or the sign-in;
+// the caller passes the nuxt app and store, as this runs after the caller's
+// awaits, where neither can be resolved from the current context
+export const getOwnContactLanguage = async ({
   nuxtApp,
   store,
 }: {
@@ -66,7 +66,7 @@ export const syncLocaleToOwnContactLanguage = async ({
   const signedInAccountId = store.signedInAccountId
 
   if (!signedInAccountId) {
-    return false
+    return
   }
 
   try {
@@ -74,12 +74,30 @@ export const syncLocaleToOwnContactLanguage = async ({
       $urql: nuxtApp.$urql,
       accountId: signedInAccountId,
     })
-    const language = ownContact?.language
 
-    if (!language) {
-      return false
-    }
+    return ownContact?.language ?? undefined
+  } catch (error) {
+    console.error('Fetching the account language failed:', error)
+  }
+}
 
+// the app should open in the language of the signed-in account, so every page
+// load moves the session onto it; resolves to whether the account has a
+// language, which then wins over the one `detectLanguageFromQuery` would detect
+export const syncLocaleToOwnContactLanguage = async ({
+  nuxtApp,
+  store,
+}: {
+  nuxtApp: NuxtApp
+  store: ReturnType<typeof useStore>
+}) => {
+  const language = await getOwnContactLanguage({ nuxtApp, store })
+
+  if (!language) {
+    return false
+  }
+
+  try {
     // the navigation composables resolve the nuxt instance themselves, so they
     // need to run within an active nuxt context
     await nuxtApp.runWithContext(async () => {
@@ -106,7 +124,8 @@ export const syncLocaleToOwnContactLanguage = async ({
 }
 
 // the language chosen on the settings page becomes the account's language;
-// best-effort, as the locale is already switched and a failure must not undo it
+// throws on failure, as the next page load would otherwise silently move the
+// session back onto the previous language
 export const persistOwnContactLanguage = async ({
   language,
   nuxtApp,
@@ -122,32 +141,28 @@ export const persistOwnContactLanguage = async ({
     return
   }
 
-  try {
-    const ownContact = await getOwnContact({
-      $urql: nuxtApp.$urql,
-      accountId: signedInAccountId,
-    })
+  const ownContact = await getOwnContact({
+    $urql: nuxtApp.$urql,
+    accountId: signedInAccountId,
+  })
 
-    if (!ownContact) {
-      return
-    }
+  if (!ownContact) {
+    throw new Error('The account has no contact of its own')
+  }
 
-    const updated = await nuxtApp.$urql.value
-      .executeMutation(
-        createRequest(updateOwnContactLanguageMutation, {
-          input: {
-            contactPatch: { language },
-            rowId: ownContact.rowId,
-          },
-        }),
-      )
-      .toPromise()
+  const updated = await nuxtApp.$urql.value
+    .executeMutation(
+      createRequest(updateOwnContactLanguageMutation, {
+        input: {
+          contactPatch: { language },
+          rowId: ownContact.rowId,
+        },
+      }),
+    )
+    .toPromise()
 
-    if (updated.error) {
-      throw new Error(getCombinedErrorMessages([updated.error]).join())
-    }
-  } catch (error) {
-    console.error('Persisting the language to the contact failed:', error)
+  if (updated.error) {
+    throw new Error(getCombinedErrorMessages([updated.error]).join())
   }
 }
 

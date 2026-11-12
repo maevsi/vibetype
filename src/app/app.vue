@@ -86,7 +86,7 @@ const route = useRoute()
 // i18n
 const { t, locale } = useI18n()
 
-// the pwa plugin only writes the manifest of the default locale to the build, so the german one is served from a route rule
+// the pwa plugin only writes the manifest of the default locale to the build, so the german one is served from a server route
 useHead({
   link: [
     {

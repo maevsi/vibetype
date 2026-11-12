@@ -1542,12 +1542,14 @@ export type DeleteFailedUploadMutation = {
 }
 
 export type OwnContactQueryVariables = Exact<{
-  createdBy: string
+  accountId: string
 }>
 
 export type OwnContactQuery = {
-  allContacts: {
-    nodes: Array<{ language: Language | null; rowId: string }>
+  contactByCreatedByAndAccountId: {
+    id: string
+    language: Language | null
+    rowId: string
   } | null
 }
 
@@ -1557,7 +1559,7 @@ export type UpdateOwnContactLanguageMutationVariables = Exact<{
 
 export type UpdateOwnContactLanguageMutation = {
   updateContactByRowId: {
-    contact: { language: Language | null; rowId: string } | null
+    contact: { id: string; language: Language | null; rowId: string } | null
   } | null
 }
 
@@ -7172,7 +7174,7 @@ export const OwnContactDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'createdBy' },
+            name: { kind: 'Name', value: 'accountId' },
           },
           type: {
             kind: 'NonNullType',
@@ -7185,48 +7187,31 @@ export const OwnContactDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'allContacts' },
+            name: { kind: 'Name', value: 'contactByCreatedByAndAccountId' },
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'condition' },
+                name: { kind: 'Name', value: 'accountId' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'createdBy' },
-                      value: {
-                        kind: 'Variable',
-                        name: { kind: 'Name', value: 'createdBy' },
-                      },
-                    },
-                  ],
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'accountId' },
                 },
               },
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'first' },
-                value: { kind: 'IntValue', value: '1' },
+                name: { kind: 'Name', value: 'createdBy' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'accountId' },
+                },
               },
             ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'language' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
-                    ],
-                  },
-                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'language' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
               ],
             },
           },
@@ -7283,6 +7268,7 @@ export const UpdateOwnContactLanguageDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'language' },

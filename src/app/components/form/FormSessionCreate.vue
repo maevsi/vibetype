@@ -155,8 +155,7 @@ const handlePasswordInput = async (
 const loading = ref<boolean>()
 const alertError = useAlertError()
 const store = useStore()
-const nuxtApp = useNuxtApp()
-const { $csrfFetch, $urqlReset } = nuxtApp
+const { $csrfFetch, $urqlReset } = useNuxtApp()
 
 const formSchema = z.object({
   captcha: SCHEMA_CAPTCHA,
@@ -193,8 +192,6 @@ const form = useForm({
 
       store.jwtSet(jwtPayload)
       await $urqlReset()
-      // the session opens in the language of the account, so the sign-in target below is computed in it
-      await syncLocaleToOwnContactLanguage({ nuxtApp, store })
       emit('signed-in', value.username)
     } catch (error) {
       alertError({
