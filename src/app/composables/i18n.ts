@@ -1,14 +1,12 @@
 import type { NuxtApp } from '#app'
 import type { Client } from '@urql/core'
 import { createRequest } from '@urql/core'
-import { parse } from 'cookie-es'
 import type { Ref } from 'vue'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 import { isEqual } from 'ufo'
 
 import { graphql } from '~~/gql/generated'
 import type { Language } from '~~/gql/generated/graphql'
-import { I18N_COOKIE_NAME } from '~~/node/static'
 
 const ownContactQuery = graphql(`
   query OwnContact($createdBy: UUID!) {
@@ -55,7 +53,9 @@ export const getOwnContact = async ({
 // the app should open in the language of the signed-in account, so every page
 // load moves the session onto it; best-effort, as a failure must never block
 // the page load; the caller passes the nuxt app and store, as this runs after
-// the caller's awaits, where neither can be resolved from the current context
+// the caller's awaits, where neither can be resolved from the current context;
+// resolves to whether the account has a language, which then wins over the
+// one `detectLanguageFromQuery` would detect
 export const syncLocaleToOwnContactLanguage = async ({
   nuxtApp,
   store,
@@ -66,7 +66,7 @@ export const syncLocaleToOwnContactLanguage = async ({
   const signedInAccountId = store.signedInAccountId
 
   if (!signedInAccountId) {
-    return
+    return false
   }
 
   try {
@@ -77,7 +77,7 @@ export const syncLocaleToOwnContactLanguage = async ({
     const language = ownContact?.language
 
     if (!language) {
-      return
+      return false
     }
 
     // the navigation composables resolve the nuxt instance themselves, so they
@@ -85,7 +85,11 @@ export const syncLocaleToOwnContactLanguage = async ({
     await nuxtApp.runWithContext(async () => {
       const route = useRoute()
       const switchLocalePath = useSwitchLocalePath()
-      const targetPath = switchLocalePath(language)
+      // without dropping the mark here, `detectLanguageFromQuery` would have
+      // to redirect a second time
+      const targetPath = getPathWithoutLanguageDetection(
+        switchLocalePath(language),
+      )
 
       if (!targetPath || isEqual(targetPath, route.fullPath)) {
         return
@@ -93,8 +97,11 @@ export const syncLocaleToOwnContactLanguage = async ({
 
       await navigateTo(targetPath, { replace: true })
     })
+
+    return true
   } catch (error) {
     console.error('Syncing the locale to the account language failed:', error)
+    return false
   }
 }
 
@@ -144,11 +151,11 @@ export const persistOwnContactLanguage = async ({
   }
 }
 
-// a link that carries the `language=auto` query (e.g. a QR code on a conference banner)
-// opens in the visitor's language, whatever the locale of the encoded url is; the module's
-// own detection only redirects at the root (see `src/config/modules/i18n.ts`), so this runs
-// it on every url. The mark is consumed by the redirect, so it does not survive in the url
-// of the target page.
+// a link that carries the `language=auto` query (e.g. a QR code on a conference
+// banner) opens in the visitor's language, whatever the locale of the encoded
+// url is; the module's own detection only redirects at the root (see
+// `src/config/modules/i18n.ts`), so this runs it on every url; the redirect
+// drops the mark from the url
 export const detectLanguageFromQuery = async ({
   nuxtApp,
   route,
@@ -157,55 +164,34 @@ export const detectLanguageFromQuery = async ({
   route: RouteLocationNormalizedLoaded
 }) => {
   await nuxtApp.runWithContext(async () => {
-    const languageQuery = Array.isArray(route.query.language)
-      ? route.query.language[0]
-      : route.query.language
-    if (languageQuery !== 'auto') {
+    const { language: languageQuery, ...remainingQuery } = route.query
+
+    if ([languageQuery].flat()[0] !== 'auto') {
       return
     }
 
-    const i18nConfig = nuxtApp.$config.public.i18n
-    // the i18n module writes the current locale into its cookie during this very request, so the stored language is read from the request, which carries only what the visitor sent
-    const storedLanguage = import.meta.server
-      ? parse(useRequestHeaders(['cookie']).cookie ?? '')[I18N_COOKIE_NAME]
-      : useCookie(I18N_COOKIE_NAME).value
-    const configuredLocales = (i18nConfig?.locales ?? []).map(
-      (configuredLocale) =>
-        typeof configuredLocale === 'string'
-          ? configuredLocale
-          : configuredLocale.code,
-    )
-    // the same precedence as the i18n module's own detection: the stored language, then the browser language, then the default locale
-    const detected =
-      (storedLanguage && configuredLocales.includes(storedLanguage)
-        ? storedLanguage
-        : undefined) ||
-      useBrowserLocale() ||
-      i18nConfig?.defaultLocale
-
-    if (!detected) {
-      return
-    }
-
-    const { language: _languageQuery, ...remainingQuery } = route.query
-    // all three sources only ever yield a configured locale: the stored language is checked against the configured locales above, the browser locale against the supported ones by the module, and the default locale is one of them
-    // the localized route keeps the query and hash of the explicit route object, so the mark does not survive into the target url
+    const { $i18n } = nuxtApp
+    // the same precedence as the module's own detection; on the server the
+    // module reads the stored language from the request's cookie header, so
+    // the locale it writes into the cookie during this request is not read
+    // back here
+    // the module only returns a stored or browser language that is one of the
+    // configured locales
+    const detected = ($i18n.getLocaleCookie() ||
+      $i18n.getBrowserLocale() ||
+      $i18n.defaultLocale) as LOCALE_CODES
     const targetPath = useLocalePath()(
       { hash: route.hash, path: route.path, query: remainingQuery },
-      detected as LOCALE_CODES,
+      detected,
     )
+
     if (!targetPath) {
       return
     }
 
-    // the detected language is remembered in the module's own cookie, with the same options as its detection (keep `cookieSecure` in `src/config/modules/i18n.ts` in sync); the nuxt cookie write goes straight to the request's response, which the redirect is built from, so it survives the skipped render
-    const languageCookieOptions = {
-      maxAge: 60 * 60 * 24 * 365,
-      path: '/',
-      sameSite: COOKIE_SAME_SITE,
-      secure: process.env.NODE_ENV === 'production',
-    }
-    useCookie(I18N_COOKIE_NAME, languageCookieOptions).value = detected
+    // a later visit to the root or the language switcher continues from the
+    // detected language
+    $i18n.setLocaleCookie(detected)
 
     await navigateTo(targetPath, { replace: true })
   })
