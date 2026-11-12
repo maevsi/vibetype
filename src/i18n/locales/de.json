@@ -35,6 +35,13 @@
   "globalValidationShortness": "Zu kurz",
   "nuxtSiteConfig": {
     "description": "Finde Veranstaltungen, Gäste und Freunde 💙❤️💚",
-    "name": "Vibetype"
+    "name": "Vibetype",
+    "pwa": {
+      "screenshotLabelEvents": "Veranstaltungen",
+      "screenshotLabelRoot": "Startseite",
+      "shortcutDescription": "Zeigt eine Liste von Veranstaltungen.",
+      "shortcutName": "Veranstaltungen entdecken",
+      "shortcutShortName": "Events"
+    }
   }
 }

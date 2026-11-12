@@ -1541,6 +1541,28 @@ export type DeleteFailedUploadMutation = {
   deleteUploadByRowId: { clientMutationId: string | null } | null
 }
 
+export type OwnContactQueryVariables = Exact<{
+  accountId: string
+}>
+
+export type OwnContactQuery = {
+  contactByCreatedByAndAccountId: {
+    id: string
+    language: Language | null
+    rowId: string
+  } | null
+}
+
+export type UpdateOwnContactLanguageMutationVariables = Exact<{
+  input: UpdateContactByRowIdInput
+}>
+
+export type UpdateOwnContactLanguageMutation = {
+  updateContactByRowId: {
+    contact: { id: string; language: Language | null; rowId: string } | null
+  } | null
+}
+
 export type JwtUpdateGuestAddGuestMutationVariables = Exact<{
   input: JwtUpdateGuestAddInput
 }>
@@ -7139,6 +7161,132 @@ export const DeleteFailedUploadDocument = {
 } as unknown as DocumentNode<
   DeleteFailedUploadMutation,
   DeleteFailedUploadMutationVariables
+>
+export const OwnContactDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'OwnContact' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'accountId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'contactByCreatedByAndAccountId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'accountId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'accountId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'createdBy' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'accountId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'language' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<OwnContactQuery, OwnContactQueryVariables>
+export const UpdateOwnContactLanguageDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateOwnContactLanguage' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'UpdateContactByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateContactByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'contact' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'language' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateOwnContactLanguageMutation,
+  UpdateOwnContactLanguageMutationVariables
 >
 export const JwtUpdateGuestAddGuestDocument = {
   kind: 'Document',

@@ -11,6 +11,7 @@ export const TESTING_EVENT_NAME = 'Community Meetup'
 export const TESTING_EVENT_ROW_ID = 'b7e2c9a4-3d1f-4c8e-9a5b-6f0d2e8c1b3a'
 export const TESTING_EVENT_SLUG = 'community-meetup'
 export const TESTING_GUEST_ROW_ID = 'c4d8e1f2-5a6b-4c7d-8e9f-0a1b2c3d4e5f'
+export const TESTING_OWN_CONTACT_ROW_ID = 'f6a7b8c9-d0e1-4f2a-9b3c-4d5e6f7a8b9c'
 
 // Test-only ES256 key pair used to sign and verify JSON web tokens while
 // `isTesting` is active, so e2e specs can sign in without a real
