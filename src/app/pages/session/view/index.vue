@@ -236,6 +236,19 @@
                   <AppIconShieldCheck />
                 </template>
               </ButtonColored>
+              <ClientOnly>
+                <ButtonColored
+                  v-if="isAndroid"
+                  :aria-label="t('notificationAppSettings')"
+                  variant="secondary"
+                  @click="openTrustedWebActivitySettings"
+                >
+                  {{ t('notificationAppSettings') }}
+                  <template #prefix>
+                    <AppIconSettings />
+                  </template>
+                </ButtonColored>
+              </ClientOnly>
               <ButtonColored
                 :aria-label="t('notificationSend')"
                 variant="secondary"
@@ -313,6 +326,8 @@
 </template>
 
 <script setup lang="ts">
+import { UAParser } from 'ua-parser-js'
+
 defineRouteRules({
   robots: false,
 })
@@ -359,6 +374,12 @@ const sendNotification = async () => {
     tag: 'test',
   })
 }
+const trustedWebActivityPackageName = 'si.maev.twa'
+const openTrustedWebActivitySettings = () => {
+  // The notification-settings action needs an intent extra that a web `intent:` URI cannot carry, so open the app's details page instead, where the user reaches the notification switch.
+  const fallbackUrl = `https://play.google.com/store/apps/details?id=${trustedWebActivityPackageName}`
+  window.location.href = `intent:#Intent;action=android.settings.APPLICATION_DETAILS_SETTINGS;data=package:${trustedWebActivityPackageName};S.browser_fallback_url=${fallbackUrl};end`
+}
 const { copy } = useCopy()
 const showFcmToken = async () => {
   if (!notificationStore.fcmToken) {
@@ -382,6 +403,9 @@ const showFcmToken = async () => {
 }
 
 // computations
+const isAndroid = computed(() => {
+  return import.meta.client && UAParser(navigator.userAgent).os.is('Android')
+})
 const isNotificationPermissionRequestPossible = computed(
   () =>
     (import.meta.client &&
@@ -463,6 +487,7 @@ de:
   hasNavigatorServiceWorkers: Navigator hat Service Worker
   hasWindowNotification: Fenster hat Benachrichtigung
   notification: Benachrichtigungen
+  notificationAppSettings: App-Einstellungen öffnen
   notificationPermit: Benachrichtigungen erlauben
   notificationPermitted: Benachrichtigungen sind erlaubt
   notificationSend: Benachrichtigung senden
@@ -497,6 +522,7 @@ en:
   hasNavigatorServiceWorkers: Navigator has service workers
   hasWindowNotification: Window has notification
   notification: Notifications
+  notificationAppSettings: Open app settings
   notificationPermit: Permit notifications
   notificationPermitted: Notifications are permitted
   notificationSend: Send notification
