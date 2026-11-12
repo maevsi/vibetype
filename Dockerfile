@@ -6,7 +6,7 @@ ARG SKEW_PROTECTION_SOURCE_IMAGE=ghcr.io/maevsi/vibetype:latest
 
 # <DEPENDENCIES>
 FROM ghcr.io/maevsi/postgraphile:3.0.0
-FROM ghcr.io/maevsi/sqitch:13.1
+FROM ghcr.io/maevsi/sqitch:13.2
 # </DEPENDENCIES>
 
 FROM ${SKEW_PROTECTION_SOURCE_IMAGE} AS skew-protection-source
@@ -14,7 +14,7 @@ FROM ${SKEW_PROTECTION_SOURCE_IMAGE} AS skew-protection-source
 #############
 # Create base image.
 
-FROM node:26.13.0-alpine AS base-image
+FROM node:26.13.1-alpine AS base-image
 
 # The `CI` environment variable must be set for pnpm to run in headless mode
 ENV CI=true
