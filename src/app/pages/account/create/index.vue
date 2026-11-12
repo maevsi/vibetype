@@ -218,9 +218,9 @@ definePageMeta({
 const { locale, t } = useI18n()
 
 // navigation
-const router = useRouter()
+const store = useStore()
 const navigateBack = () => {
-  router.back()
+  store.navigateBack()
 }
 
 // api data
