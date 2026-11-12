@@ -2,7 +2,7 @@
   <AppStep v-slot="attributes" :is-active="isActive">
     <LayoutPage v-bind="attributes">
       <LayoutPageResult type="error">
-        <span v-if="error?.message">
+        <span v-if="error?.message" class="text-center text-pretty">
           {{ error.message }}
         </span>
         <template #description>
