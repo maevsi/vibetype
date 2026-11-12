@@ -1,3 +1,15 @@
+## [17.3.0](https://github.com/maevsi/vibetype/compare/17.2.1...17.3.0) (2026-11-12)
+
+### Features
+
+* **i18n:** detect the browser language on marked links ([#2582](https://github.com/maevsi/vibetype/issues/2582)) ([30eba5d](https://github.com/maevsi/vibetype/commit/30eba5d5affe9d1294cd7b3e1a5cbcf43265be88))
+* **i18n:** open the app in the correct language ([#2578](https://github.com/maevsi/vibetype/issues/2578)) ([f29a5ff](https://github.com/maevsi/vibetype/commit/f29a5ff5a037a58678030b3360d2eb21bd9e7a87))
+
+### Bug Fixes
+
+* **layout:** unify error and result screens ([#2586](https://github.com/maevsi/vibetype/issues/2586)) ([9d3bdf0](https://github.com/maevsi/vibetype/commit/9d3bdf04e18278affede2fe14ddc550d87733cbf))
+* **security:** allow angle brackets in all requests ([#2588](https://github.com/maevsi/vibetype/issues/2588)) ([d925de4](https://github.com/maevsi/vibetype/commit/d925de47bf73f1d7152313cb3308041ad0a08421))
+
 ## [17.2.1](https://github.com/maevsi/vibetype/compare/17.2.0...17.2.1) (2026-11-12)
 
 ### Bug Fixes
