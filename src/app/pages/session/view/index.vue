@@ -237,6 +237,17 @@
                 </template>
               </ButtonColored>
               <ButtonColored
+                v-if="isAndroid"
+                :aria-label="t('notificationAppSettings')"
+                variant="secondary"
+                @click="openNotificationSettings"
+              >
+                {{ t('notificationAppSettings') }}
+                <template #prefix>
+                  <AppIconSettings />
+                </template>
+              </ButtonColored>
+              <ButtonColored
                 :aria-label="t('notificationSend')"
                 variant="secondary"
                 @click="sendNotification"
@@ -323,7 +334,7 @@ const requestEvent = useRequestEvent()
 const store = useStore()
 const notificationStore = useNotificationStore()
 const jwtDelete = useJwtDelete()
-const { isApp, platform } = usePlatform()
+const { isAndroid, isApp, platform } = usePlatform()
 const alertError = useAlertError()
 
 // feature flags
@@ -358,6 +369,12 @@ const sendNotification = async () => {
     icon: '/assets/static/logos/app_icon.svg',
     tag: 'test',
   })
+}
+const trustedWebActivityPackageName = 'si.maev.twa'
+const openNotificationSettings = () => {
+  // Chrome only launches browsable activities from `intent:` URIs, so the app's `NotificationSettingsActivity` forwards to the system settings; app versions without it land on the store page to update.
+  const fallbackUrl = `https://play.google.com/store/apps/details?id=${trustedWebActivityPackageName}`
+  window.location.href = `intent://notification-settings#Intent;scheme=vibetype;package=${trustedWebActivityPackageName};S.browser_fallback_url=${encodeURIComponent(fallbackUrl)};end`
 }
 const { copy } = useCopy()
 const showFcmToken = async () => {
@@ -463,6 +480,7 @@ de:
   hasNavigatorServiceWorkers: Navigator hat Service Worker
   hasWindowNotification: Fenster hat Benachrichtigung
   notification: Benachrichtigungen
+  notificationAppSettings: Benachrichtigungseinstellungen öffnen
   notificationPermit: Benachrichtigungen erlauben
   notificationPermitted: Benachrichtigungen sind erlaubt
   notificationSend: Benachrichtigung senden
@@ -497,6 +515,7 @@ en:
   hasNavigatorServiceWorkers: Navigator has service workers
   hasWindowNotification: Window has notification
   notification: Notifications
+  notificationAppSettings: Open notification settings
   notificationPermit: Permit notifications
   notificationPermitted: Notifications are permitted
   notificationSend: Send notification
