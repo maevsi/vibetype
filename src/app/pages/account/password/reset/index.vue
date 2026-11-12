@@ -33,50 +33,13 @@
       </ButtonColored>
     </FormAuthStepSuccess>
     <FormAuthStepError :error="error" :is-active="step === 'error'">
-      <div
-        class="mb-6 flex size-16 items-center justify-center rounded-full bg-danger-tint"
-      >
-        <IHeroiconsExclamationCircle class="size-8 text-error" />
-      </div>
-      <h2 class="mb-2 text-heading-large text-fg-1">
-        {{ t('errorHeading') }}
-      </h2>
-      <p class="mb-6 text-body text-fg-2">
-        {{ t('errorDescription') }}
-      </p>
-      <div
-        v-if="error?.message"
-        class="mb-6 rounded-medium bg-surface-raised p-4"
-      >
-        <p class="mb-2 text-body text-fg-1">
-          {{ t('errorMessageLabel') }}
-        </p>
-        <p class="mb-3 text-body-small text-fg-2">
-          {{ error.message }}
-        </p>
-        <button
-          class="text-body text-fg-1 underline"
-          type="button"
-          @click="copyErrorToClipboard"
-        >
-          {{ t('copyToClipboard') }}
-        </button>
-      </div>
       <ButtonColored
         :aria-label="t('tryAgain')"
-        class="mb-3 w-full"
+        class="w-full max-w-md"
         variant="primary"
         @click="restart"
       >
         {{ t('tryAgain') }}
-      </ButtonColored>
-      <ButtonColored
-        :aria-label="t('returnBack')"
-        class="w-full"
-        variant="secondary"
-        @click="navigateBack"
-      >
-        {{ t('returnBack') }}
       </ButtonColored>
     </FormAuthStepError>
   </section>
@@ -130,45 +93,19 @@ const router = useRouter()
 const navigateBack = () => {
   router.back()
 }
-
-// error
-const copyErrorToClipboard = async () => {
-  if (!error.value?.message) return
-
-  try {
-    await navigator.clipboard.writeText(error.value.message)
-    toast.success(t('copiedToClipboard'))
-  } catch {
-    toast.error(t('copyFailed'))
-  }
-}
 </script>
 
 <i18n lang="yaml">
 de:
-  copiedToClipboard: In Zwischenablage kopiert
-  copyFailed: Kopieren fehlgeschlagen
-  copyToClipboard: In Zwischenablage kopieren
-  errorDescription: Etwas ist schiefgelaufen. Bitte versuche es später erneut.
-  errorHeading: Ein Fehler ist aufgetreten
-  errorMessageLabel: 'Fehlermeldung:'
   instructionsSuccessDescription: Du kannst dich jetzt mit deinem neuen Passwort anmelden.
   instructionsSuccessHeading: Passwort erfolgreich zurückgesetzt
-  returnBack: Zurück
   signIn: Einloggen
   subtitle: Mindestens 8 Zeichen, die nicht leicht zu erraten sind.
   title: Neues Passwort festlegen
   tryAgain: Erneut versuchen
 en:
-  copiedToClipboard: Copied to clipboard
-  copyFailed: Failed to copy
-  copyToClipboard: Copy to clipboard
-  errorDescription: Oops! Something went wrong. Please try again later.
-  errorHeading: Something went wrong
-  errorMessageLabel: 'Error message:'
   instructionsSuccessDescription: You can now log in using your new password.
   instructionsSuccessHeading: Password reset successful
-  returnBack: Return back
   signIn: Log in
   subtitle: At least 8 characters that aren't easy to guess.
   title: Set your new password

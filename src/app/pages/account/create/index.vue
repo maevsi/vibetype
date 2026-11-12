@@ -192,7 +192,7 @@
     <FormAuthStepError :error="error" :is-active="step === 'error'">
       <ButtonColored
         :aria-label="t('backToRegistration')"
-        class="w-full max-w-sm"
+        class="w-full max-w-md"
         variant="primary"
         @click="restart"
       >

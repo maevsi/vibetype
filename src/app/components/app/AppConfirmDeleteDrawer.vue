@@ -9,9 +9,9 @@
     </AppStep>
     <AppStep v-slot="attributes" :is-active="!!error">
       <div v-bind="attributes">
-        <LayoutPageResult type="error">
-          <template v-if="error" #description>
-            {{ error.message }}
+        <LayoutPageResult :message="error?.message" type="error">
+          <template #description>
+            {{ t('globalTryAgain') }}
           </template>
         </LayoutPageResult>
       </div>
