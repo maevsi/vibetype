@@ -13,7 +13,7 @@
           {{ t('heading') }}
         </h2>
         <p class="text-body text-pretty text-fg-2">
-          {{ description || t('globalTryAgain') }}
+          {{ t('globalTryAgain') }}
         </p>
         <div
           v-if="error?.message"
@@ -42,8 +42,7 @@
 </template>
 
 <script setup lang="ts">
-const { description, error = null } = defineProps<{
-  description?: string
+const { error = null } = defineProps<{
   error?: Error | null
   isActive?: boolean
 }>()
