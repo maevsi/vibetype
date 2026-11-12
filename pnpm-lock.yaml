@@ -163,7 +163,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  leaflet: 2.0.0-beta.3
+  leaflet: 2.0.0-beta.4
 
 importers:
 
@@ -457,8 +457,8 @@ importers:
         specifier: 2.2.4
         version: 2.2.4
       leaflet:
-        specifier: 2.0.0-beta.3
-        version: 2.0.0-beta.3
+        specifier: 2.0.0-beta.4
+        version: 2.0.0-beta.4
       leaflet-geosearch:
         specifier: 5.2.0
         version: 5.2.0
@@ -9686,8 +9686,8 @@ packages:
   leaflet-geosearch@5.2.0:
     resolution: {integrity: sha512-odgQ0E9SmnCFGjvwOiZHzfqlQgo/A3mJ4f3zeT1RBrVBDAKwP3MYrNre3k9x4/m5yhFA8wNrRfVQ8mIMm9RrLg==}
 
-  leaflet@2.0.0-beta.3:
-    resolution: {integrity: sha512-O2GqmXQCVcM/YQao8oltXyIrFqq6jTGUbeC5OB0kSJR6dAYr7jZEUaPShPsjUhJRG/GQH4JKElzywU4bqqvbfQ==}
+  leaflet@2.0.0-beta.4:
+    resolution: {integrity: sha512-l+3bBeiDgUYGCc4ZWbmjIxfog+dgtd7cdUIINgc1MQtRuWIzxmNM+GF6TL0tA1+/oTEe+4md/neywDfNeIQLlw==}
 
   leven@3.1.0:
     resolution: {integrity: sha512-qsda+H8jTaUaN/x5vzW2rzc+8Rw4TAQ/4KjB46IwK5VH+IlVeeeje/EoZRpiXvIqjFgK84QffqPztGI3VBLG1A==}
@@ -23847,9 +23847,9 @@ snapshots:
       '@types/google.maps': 3.66.10
     optionalDependencies:
       '@googlemaps/js-api-loader': 2.1.3
-      leaflet: 2.0.0-beta.3
+      leaflet: 2.0.0-beta.4
 
-  leaflet@2.0.0-beta.3:
+  leaflet@2.0.0-beta.4:
     dependencies:
       '@types/geojson': 7946.0.16
 
