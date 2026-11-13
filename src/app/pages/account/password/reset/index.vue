@@ -89,9 +89,9 @@ useHeadDefault({ title })
 const templateIdTitle = useId()
 
 // navigation
-const router = useRouter()
+const store = useStore()
 const navigateBack = () => {
-  router.back()
+  store.navigateBack()
 }
 </script>
 

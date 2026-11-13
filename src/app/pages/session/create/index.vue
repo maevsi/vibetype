@@ -60,7 +60,7 @@ const templateIdTitle = useId()
 // navigation
 const router = useRouter()
 const navigateBack = () => {
-  router.back()
+  store.navigateBack()
 }
 
 // sign in

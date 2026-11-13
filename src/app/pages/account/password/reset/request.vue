@@ -74,9 +74,9 @@ const handleSuccess = (emailAddress: string) => {
 }
 
 // navigation
-const router = useRouter()
+const store = useStore()
 const navigateBack = () => {
-  router.back()
+  store.navigateBack()
 }
 </script>
 
