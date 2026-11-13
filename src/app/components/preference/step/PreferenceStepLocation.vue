@@ -2,21 +2,21 @@
   <LayoutPage :hidden>
     <div class="flex flex-col gap-4">
       <AppStepIndex :count="4" :index="4" />
-      <TypographyH3 class="text-center">
+      <span class="text-center text-heading-medium text-balance">
         {{ t('title') }}
-      </TypographyH3>
+      </span>
       <div class="relative isolate -mx-3 lg:-mx-6">
         <AppMap v-if="!hidden" ref="map" geocoder :position-initial />
         <div
           class="pointer-events-none absolute inset-0 z-400 bg-[#14132699] mask-[radial-gradient(circle_140px_at_center,transparent_0,transparent_139px,black_150px)]"
         />
       </div>
-      <TypographyBodyMedium v-if="mapCutoutRadiusInMeters" class="text-center">
+      <span v-if="mapCutoutRadiusInMeters" class="text-center text-body">
         {{ t('radius', { radius: formattedRadius }) }}
-      </TypographyBodyMedium>
-      <TypographyBodyMedium class="text-center text-fg-2">
+      </span>
+      <span class="text-center text-body text-fg-2">
         {{ t('description') }}
-      </TypographyBodyMedium>
+      </span>
     </div>
     <template #bottom>
       <AppButton

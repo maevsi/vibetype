@@ -34,9 +34,9 @@
   </div>
   <div v-else class="flex flex-1 flex-col">
     <AppAlert v-if="querySignOut" class="rounded-none">
-      <TypographySubtitleMedium>
+      <span class="text-headline">
         {{ t('signedOut') }}
-      </TypographySubtitleMedium>
+      </span>
     </AppAlert>
     <div class="flex flex-1 flex-col items-center justify-between px-6 py-8">
       <div

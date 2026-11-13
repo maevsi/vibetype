@@ -2,9 +2,9 @@
   <div>
     <RadioGroupItem :id="templateIdLabel" :value />
     <Label :for="templateIdLabel">
-      <TypographySubtitleSmall>
+      <span class="text-body">
         <slot />
-      </TypographySubtitleSmall>
+      </span>
     </Label>
   </div>
 </template>

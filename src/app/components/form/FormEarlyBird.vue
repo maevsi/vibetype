@@ -3,9 +3,9 @@
     <form.Field v-slot="{ field }" name="userName">
       <Field>
         <FieldLabel :for="field.name">
-          <TypographySubtitleSmall>
+          <span class="text-body">
             {{ t('userName') }}
-          </TypographySubtitleSmall>
+          </span>
         </FieldLabel>
         <FieldContent>
           <Input
@@ -29,9 +29,9 @@
     <form.Field v-slot="{ field }" name="userEmailAddress">
       <Field>
         <FieldLabel :for="field.name">
-          <TypographySubtitleSmall>
+          <span class="text-body">
             {{ t('userEmailAddress') }}
-          </TypographySubtitleSmall>
+          </span>
         </FieldLabel>
         <FieldContent>
           <Input
@@ -67,7 +67,7 @@
             />
           </FieldContent>
           <FieldLabel :for="field.name">
-            <TypographySubtitleSmall>
+            <span class="text-body">
               <i18n-t keypath="userConsent">
                 <template #contactForm>
                   <AppLink is-underlined :to="localePath('support-contact')">
@@ -80,7 +80,7 @@
                   </AppLink>
                 </template>
               </i18n-t>
-            </TypographySubtitleSmall>
+            </span>
           </FieldLabel>
         </div>
         <FieldError

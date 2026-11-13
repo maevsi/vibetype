@@ -3,9 +3,9 @@
     <DrawerContent class="gap-4" :class="classProps">
       <DrawerHeader class="px-3 pt-4 pb-0">
         <DrawerTitle>
-          <TypographyH3>
+          <span class="text-heading-medium text-balance">
             <slot name="title" />
-          </TypographyH3>
+          </span>
         </DrawerTitle>
         <DrawerDescription class="sr-only">
           <slot name="description" />

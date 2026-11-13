@@ -2,9 +2,9 @@
   <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <div v-bind="attributes" class="text-center">
-        <TypographySubtitleSmall>
+        <span class="text-body">
           {{ t('deleteAccountQuestion') }}
-        </TypographySubtitleSmall>
+        </span>
       </div>
     </AppStep>
     <AppStep v-slot="attributes" :is-active="step === 'password'">

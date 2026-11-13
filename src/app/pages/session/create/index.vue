@@ -7,9 +7,9 @@
       <template #subtitle>{{ t('subtitle') }}</template>
     </FormAuthPageHeader>
     <AppAlert v-if="verified" class="mt-4 rounded-none" variant="success">
-      <TypographySubtitleMedium>
+      <span class="text-headline">
         {{ t('accountVerified') }}
-      </TypographySubtitleMedium>
+      </span>
     </AppAlert>
     <AppAlert v-if="to" class="mt-4 rounded-none">
       {{ t('accountRequired') }}

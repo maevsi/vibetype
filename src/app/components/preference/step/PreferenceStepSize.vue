@@ -2,9 +2,9 @@
   <LayoutPage>
     <div class="flex flex-col gap-4 text-center">
       <AppStepIndex :count="4" :index="1" />
-      <TypographyH3>
+      <span class="text-heading-medium text-balance">
         {{ t('title') }}
-      </TypographyH3>
+      </span>
       <AppLoaderPing v-if="api.isFetching" :id="templateIdForm" />
       <form
         v-else-if="!apiError"
@@ -33,12 +33,12 @@
                 />
               </div>
               <div class="flex flex-col items-start gap-1">
-                <TypographySubtitleMedium>
+                <span class="text-headline">
                   {{ item.labelName }}
-                </TypographySubtitleMedium>
-                <TypographyCaption>
+                </span>
+                <span class="text-caption">
                   {{ item.labelDescription }}
-                </TypographyCaption>
+                </span>
               </div>
             </div>
             <FieldError

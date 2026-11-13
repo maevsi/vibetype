@@ -51,6 +51,7 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
   - Let attributes and native events fall through instead of redeclaring and re-emitting them
   - Use `defineModel` for two-way bindings
   - Express variants as `data-variant` and `data-size` attributes styled with `data-[variant=…]:` utilities instead of conditional class lists
+- Apply the type scale with its utilities from `src/app/assets/css/vibetype.css`, e.g. `text-body` or `text-heading-medium`, on the element itself instead of wrapping text in a component
 - Add or update components in `src/app/components/scn/` with the shadcn-vue CLI rather than by hand, as Nuxt registers each name exported by their `index.ts`
 - A component tag that resolves to no component renders nothing without failing lint or build, so `pnpm --dir tests run test` checks every template tag against the component registry
 

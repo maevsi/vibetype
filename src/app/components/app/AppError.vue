@@ -62,9 +62,7 @@
               size="small"
               variant="tertiary"
             >
-              <TypographyLabel>
-                {{ t('detailsMore') }}
-              </TypographyLabel>
+              {{ t('detailsMore') }}
               <AppIconChevronDown class="size-4" />
             </AppButton>
             <AppButton
@@ -74,9 +72,7 @@
               size="small"
               variant="tertiary"
             >
-              <TypographyLabel>
-                {{ t('detailsLess') }}
-              </TypographyLabel>
+              {{ t('detailsLess') }}
               <AppIconChevronUp class="size-4" />
             </AppButton>
           </CollapsibleTrigger>
