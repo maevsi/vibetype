@@ -77,24 +77,22 @@
             </div>
             <AppIconPlus class="ml-auto shrink-0" />
           </AppButton>
-          <AppButton
+          <label
             v-for="contact in contactsFiltered"
             :key="contact.rowId"
-            :aria-label="t('buttonContact')"
-            class="flex w-full shrink-0 items-center gap-4 rounded-small border-2 border-line px-4 py-2"
-            :disabled="guestContactIdsExisting?.includes(contact.rowId)"
-            type="button"
-            @click="selectToggle(contact.rowId, field)"
+            class="flex w-full shrink-0 cursor-pointer items-center gap-4 rounded-small border-2 border-line px-4 py-2 has-disabled:cursor-not-allowed has-disabled:opacity-40"
           >
             <ContactPreview :contact :is-username-linked="false" />
-            <FormCheckbox
-              :is-disabled="guestContactIdsExisting?.includes(contact.rowId)"
-              :value="
+            <AppCheckbox
+              class="ml-auto shrink-0"
+              :disabled="guestContactIdsExisting?.includes(contact.rowId)"
+              :model-value="
                 guestContactIdsExisting?.includes(contact.rowId) ||
                 field.state.value.includes(contact.rowId)
               "
+              @update:model-value="selectToggle(contact.rowId, field)"
             />
-          </AppButton>
+          </label>
         </div>
       </form.Field>
       <AppFeature feature="account-management">
@@ -423,7 +421,6 @@ watch(
 
 <i18n lang="yaml">
 de:
-  buttonContact: Ein Kontakt
   contactBookSearch: Kontaktbuch durchsuchen
   contactBookSearchDescription: Gib einen Nutzernamen oder eine E-Mail-Adresse ein, um jemanden hinzuzufügen, der noch nicht in deinem Kontaktbuch steht.
   contactCreate: Zum Kontaktbuch hinzufügen
@@ -432,7 +429,6 @@ de:
   placeholderContact: Max Mustermann
   select: Zur Gästeliste hinzufügen
 en:
-  buttonContact: A contact
   contactBookSearch: Search your contact book
   contactBookSearchDescription: Enter a username or an email address to add someone who is not in your contact book yet.
   contactCreate: Add to contact book
