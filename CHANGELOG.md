@@ -1,3 +1,10 @@
+## [17.3.2](https://github.com/maevsi/vibetype/compare/17.3.1...17.3.2) (2026-11-13)
+
+### Bug Fixes
+
+* **app:** name lost features and safari switch in lockdown dialog ([#2594](https://github.com/maevsi/vibetype/issues/2594)) ([242fdfa](https://github.com/maevsi/vibetype/commit/242fdfa06909f0e5788574ab9741838e1fa3bb0f))
+* **upload:** keep the crop dialog within the viewport ([#2593](https://github.com/maevsi/vibetype/issues/2593)) ([348090b](https://github.com/maevsi/vibetype/commit/348090b957c81831f7f81bdaaf9a893055b88839))
+
 ## [17.3.1](https://github.com/maevsi/vibetype/compare/17.3.0...17.3.1) (2026-11-13)
 
 ### Bug Fixes
