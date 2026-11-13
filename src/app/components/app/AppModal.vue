@@ -22,8 +22,11 @@
       >
         <slot />
         <!-- TODO: show submitting state on button, not whole modal -->
-        <div v-if="isSubmitting" class="absolute inset-0">
-          <LoaderIndicatorSpinner class="m-auto size-8" />
+        <div
+          v-if="isSubmitting"
+          class="absolute inset-0 flex items-center justify-center"
+        >
+          <AppSpinner class="size-8" />
         </div>
       </div>
       <DialogFooter v-if="!isFooterHidden" class="gap-8 sm:justify-center">

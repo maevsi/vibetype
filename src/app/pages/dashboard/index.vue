@@ -10,7 +10,7 @@
       :call-to-action="t('anonymousCta')"
       :call-to-action-description="t('anonymousCtaDescription')"
     />
-    <LoaderPlaceholder v-else-if="isLoading" />
+    <AppLoaderPlaceholder v-else-if="isLoading" />
     <div v-else class="flex flex-col gap-8">
       <section
         v-if="eventUpcoming"

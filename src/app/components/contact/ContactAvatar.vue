@@ -1,5 +1,5 @@
 <template>
-  <LoaderImage
+  <AppImage
     v-bind="delegatedProps"
     :alt="t('profilePictureAlt', { emailAddress })"
     :cross-origin

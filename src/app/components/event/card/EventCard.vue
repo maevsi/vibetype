@@ -48,7 +48,7 @@
           :name="formatName"
         />
       </div>
-      <LoaderImage
+      <AppImage
         v-else
         :alt="t('heroImage')"
         :aspect="

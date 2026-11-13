@@ -1,5 +1,5 @@
 <template>
-  <LoaderPlaceholder v-if="api.isFetching && !attendance" />
+  <AppLoaderPlaceholder v-if="api.isFetching && !attendance" />
   <AppError v-else-if="!attendance" :error="{ status: 404 }" />
   <div v-else class="flex flex-col gap-4">
     <h1 class="sr-only">{{ title }}</h1>

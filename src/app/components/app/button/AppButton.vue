@@ -26,7 +26,7 @@
     :title="ariaLabel"
   >
     <template v-if="loading">
-      <AppButtonSpinner />
+      <AppSpinner aria-hidden="true" />
       <slot name="loading">{{ t('globalLoading') }}</slot>
     </template>
     <template v-else>

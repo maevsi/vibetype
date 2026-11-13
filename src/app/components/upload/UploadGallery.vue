@@ -26,7 +26,7 @@
             "
             @click="toggleSelect(upload)"
           >
-            <LoaderImage
+            <AppImage
               :alt="upload.storageKey ? t('uploadAlt') : t('uploadAltFailed')"
               aspect="aspect-square"
               class="size-32 object-cover"

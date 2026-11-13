@@ -1,6 +1,6 @@
 <template>
-  <div :class="cn(aspect, classProps)">
-    <LoaderIndicatorPing v-if="isLoading" />
+  <div :class="cn(aspect, classProps)" data-slot="image">
+    <AppLoaderPing v-if="isLoading" />
     <AppAlert v-if="isError" variant="error">
       {{ t('error') }}
     </AppAlert>
@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { debounce } from 'lodash-es'
-import type { HtmlHTMLAttributes } from 'vue'
+import type { HTMLAttributes } from 'vue'
 
 import { cn } from '@/utils/shadcn'
 
@@ -34,7 +34,7 @@ const {
 } = defineProps<{
   alt: string
   aspect: string
-  class?: HtmlHTMLAttributes['class']
+  class?: HTMLAttributes['class']
   crossOrigin?: 'anonymous'
   height: string
   src: string
