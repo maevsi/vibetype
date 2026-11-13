@@ -42,6 +42,8 @@
               <AppButton
                 :aria-label="t('iconTrashLabel')"
                 class="flex h-full justify-center"
+                size="none"
+                variant="ghost"
                 @click="onDeleteSelect(upload)"
               >
                 <AppIconTrash class="m-1 text-white" :title="t('iconTrash')" />
@@ -58,12 +60,14 @@
               })
             "
             class="flex size-32 justify-center bg-surface-raised"
+            size="none"
             :title="
               t('iconAdd', {
                 sizeUsed: bytesToString(sizeByteTotal),
                 sizeTotal: bytesToString(accountUploadQuotaBytes),
               })
             "
+            variant="ghost"
             @click="selectProfilePicture"
           >
             <AppIconPlusSolid class="size-12 text-fg-2" />
@@ -82,12 +86,12 @@
         v-if="api.data.allUploads?.pageInfo.hasNextPage"
         class="flex justify-center"
       >
-        <ButtonColored
+        <AppButton
           :aria-label="t('globalShowMore')"
           @click="after = api.data.allUploads.pageInfo.endCursor"
         >
           {{ t('globalShowMore') }}
-        </ButtonColored>
+        </AppButton>
       </div>
     </Card>
     <Modal

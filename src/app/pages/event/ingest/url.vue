@@ -15,14 +15,14 @@
         type="url"
       />
     </div>
-    <ButtonColored
+    <AppButton
       :aria-label="t('process')"
       class="self-end"
       :loading="isUploading"
       @click="uploadURL"
     >
       {{ t('process') }}
-    </ButtonColored>
+    </AppButton>
   </div>
 </template>
 

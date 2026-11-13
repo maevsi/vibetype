@@ -14,14 +14,14 @@
       @success="emit('next')"
     />
     <template #bottom>
-      <ButtonColored
+      <AppButton
         :aria-label="t('button')"
         class="w-full max-w-md"
         :form="templateIdForm"
         type="submit"
       >
         {{ t('button') }}
-      </ButtonColored>
+      </AppButton>
     </template>
   </LayoutPage>
 </template>

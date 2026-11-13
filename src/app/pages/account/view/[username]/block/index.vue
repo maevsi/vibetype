@@ -31,14 +31,14 @@
                 {{ blockedAccount.username }}
               </TypographySubtitleLarge>
             </div>
-            <ButtonColored
+            <AppButton
               :aria-label="t('unblock')"
               size="small"
               variant="secondary"
               @click="openUnblockDrawer(blockedAccount)"
             >
               {{ t('unblock') }}
-            </ButtonColored>
+            </AppButton>
           </li>
         </ul>
         <TypographyBodyMedium

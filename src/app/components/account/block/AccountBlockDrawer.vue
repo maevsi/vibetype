@@ -44,7 +44,7 @@
     </template>
     <template #footer>
       <AppStep v-slot="attributes" :is-active="step === 'default'">
-        <ButtonColored
+        <AppButton
           v-bind="attributes"
           :aria-label="t('confirmBlock')"
           :loading="createAccountBlockMutation.fetching.value"
@@ -52,43 +52,43 @@
           @click="blockUser"
         >
           {{ t('confirmBlock') }}
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           v-bind="attributes"
           :aria-label="t('cancel')"
           variant="secondary-critical"
           @click="closeDrawer"
         >
           {{ t('cancel') }}
-        </ButtonColored>
+        </AppButton>
       </AppStep>
       <AppStep v-slot="attributes" :is-active="step === 'success'">
-        <ButtonColored
+        <AppButton
           v-bind="attributes"
           :aria-label="t('toDashboard')"
           variant="primary"
           @click="toDashboard"
         >
           {{ t('toDashboard') }}
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           v-bind="attributes"
           :aria-label="t('accountsBlocked')"
           variant="secondary"
           @click="toBlockList"
         >
           {{ t('accountsBlocked') }}
-        </ButtonColored>
+        </AppButton>
       </AppStep>
       <AppStep v-slot="attributes" :is-active="step === 'error'">
-        <ButtonColored
+        <AppButton
           v-bind="attributes"
           :aria-label="t('restart')"
           variant="tertiary"
           @click="restart"
         >
           {{ t('restart') }}
-        </ButtonColored>
+        </AppButton>
       </AppStep>
     </template>
   </AppDrawer>

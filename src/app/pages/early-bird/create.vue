@@ -5,9 +5,14 @@
         {{ title }}
       </span>
       <template v-if="previous" #back>
-        <ButtonIcon :aria-label="t('back')" @click="step = previous">
+        <AppButton
+          :aria-label="t('back')"
+          size="none"
+          variant="ghost"
+          @click="step = previous"
+        >
           <AppIconBack />
-        </ButtonIcon>
+        </AppButton>
       </template>
       <template v-if="!error && ['default', 'form'].includes(step)" #close>
         <ButtonIconBackRoute :aria-label="t('iconAltClose')">
@@ -36,14 +41,14 @@
           </template>
         </LayoutPageResult>
         <template #bottom>
-          <ButtonColored
+          <AppButton
             :aria-label="t('backToForm')"
             class="w-full max-w-md"
             variant="primary"
             @click="restart"
           >
             {{ t('backToForm') }}
-          </ButtonColored>
+          </AppButton>
         </template>
       </LayoutPage>
     </AppStep>

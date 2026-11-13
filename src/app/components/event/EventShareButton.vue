@@ -1,11 +1,13 @@
 <template>
-  <ButtonIcon
+  <AppButton
     v-if="event.visibility === EventVisibility.Public"
     :aria-label="t('share')"
+    size="none"
+    variant="ghost"
     @click="share"
   >
     <AppIconShare :title="t('share')" />
-  </ButtonIcon>
+  </AppButton>
 </template>
 
 <script setup lang="ts">

@@ -5,20 +5,20 @@
   >
     <LayoutPageResult type="success">
       <div class="flex justify-center gap-4">
-        <ButtonColored
+        <AppButton
           :aria-label="t('unlockDeny')"
           variant="secondary"
           @click="navigateTo(localePath('dashboard'))"
         >
           {{ t('unlockDeny') }}
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           :aria-label="t('unlockConfirm')"
           variant="primary"
           @click="toProfile"
         >
           {{ t('unlockConfirm') }}
-        </ButtonColored>
+        </AppButton>
       </div>
       <template #description>
         {{ t('unlockText') }}
@@ -68,22 +68,22 @@
 
         <!-- Buttons -->
         <div class="flex w-full flex-col gap-2">
-          <ButtonColored
+          <AppButton
             :aria-label="t('register')"
             class="w-full"
             :to="$localePath('account-create')"
           >
             {{ t('createAccount') }}
-          </ButtonColored>
+          </AppButton>
 
-          <ButtonColored
+          <AppButton
             :aria-label="t('signIn')"
             class="w-full"
             :to="$localePath('session-create')"
             variant="secondary"
           >
             {{ t('signIn') }}
-          </ButtonColored>
+          </AppButton>
         </div>
 
         <!-- Social login (behind feature flag) -->
@@ -115,14 +115,14 @@
 
       <!-- Footer -->
       <div class="mt-6 flex flex-col gap-4">
-        <ButtonColored
+        <AppButton
           v-if="!isApp"
           :aria-label="t('more')"
           to="https://vibetype.de"
           variant="tertiary"
         >
           {{ t('more') }}
-        </ButtonColored>
+        </AppButton>
         <p class="text-center text-caption text-fg-2">
           {{ t('legalPre') }}
           <NuxtLinkLocale

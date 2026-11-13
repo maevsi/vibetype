@@ -56,14 +56,14 @@
         </NuxtLinkLocale>
       </div>
       <FormFieldCaptcha v-model:captcha-is-used="captchaIsUsed" :form />
-      <ButtonColored
+      <AppButton
         :aria-label="t('signIn')"
         class="w-full"
         :loading="loading"
         type="submit"
       >
         {{ t('signIn') }}
-      </ButtonColored>
+      </AppButton>
     </form>
     <p class="text-center text-body text-fg-2">
       {{ t('newToVibetype') }}
