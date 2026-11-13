@@ -15,7 +15,7 @@
         </DialogTitle>
       </DialogHeader>
       <div
-        class="flex min-h-0 flex-col"
+        class="flex min-h-0 min-w-0 flex-col"
         :class="{
           'disabled pointer-events-none relative': isSubmitting,
         }"
