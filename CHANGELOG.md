@@ -1,3 +1,9 @@
+## [17.3.1](https://github.com/maevsi/vibetype/compare/17.3.0...17.3.1) (2026-11-13)
+
+### Bug Fixes
+
+* **auth:** use the app's back navigation on auth pages ([#2592](https://github.com/maevsi/vibetype/issues/2592)) ([0d44f19](https://github.com/maevsi/vibetype/commit/0d44f191047adb6df08ecf6a4bb82e1baac58b96))
+
 ## [17.3.0](https://github.com/maevsi/vibetype/compare/17.2.1...17.3.0) (2026-11-12)
 
 ### Features
