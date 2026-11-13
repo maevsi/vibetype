@@ -14,14 +14,14 @@
           </template>
         </LayoutPageResult>
         <template #bottom>
-          <ButtonColored
+          <AppButton
             :aria-label="errorButton"
             class="w-full max-w-md"
             variant="primary-critical"
             @click="error = undefined"
           >
             {{ errorButton }}
-          </ButtonColored>
+          </AppButton>
         </template>
       </LayoutPage>
     </AppStep>
@@ -29,14 +29,14 @@
       <LayoutPage v-bind="attributes">
         <slot :form-id="templateIdForm" />
         <template #bottom>
-          <ButtonColored
+          <AppButton
             :aria-label="formButton"
             class="w-full max-w-md"
             :form="templateIdForm"
             type="submit"
           >
             {{ formButton }}
-          </ButtonColored>
+          </AppButton>
         </template>
       </LayoutPage>
     </AppStep>
@@ -51,13 +51,13 @@
           </template>
         </LayoutPageResult>
         <template #bottom>
-          <ButtonColored
+          <AppButton
             :aria-label="successButton"
             class="w-full max-w-md"
             @click="store.navigateBack"
           >
             {{ successButton }}
-          </ButtonColored>
+          </AppButton>
         </template>
       </LayoutPage>
     </AppStep>

@@ -8,12 +8,14 @@
       <AppButton
         :aria-label="t('back')"
         class="flex size-12 justify-center justify-self-start"
+        size="none"
         :to="
           localePath({
             name: 'account-view-username',
             params: { username: route.params.username },
           })
         "
+        variant="ghost"
       >
         <AppIconBack />
       </AppButton>
@@ -35,7 +37,7 @@
           width="60"
         />
         <div class="flex gap-3">
-          <ButtonColored
+          <AppButton
             :aria-label="t('replace')"
             @click="showModalUploadSelection"
           >
@@ -44,8 +46,8 @@
                 {{ t('replace') }}
               </span>
             </TypographyLabel>
-          </ButtonColored>
-          <ButtonColored
+          </AppButton>
+          <AppButton
             :aria-label="t('remove')"
             variant="secondary"
             @click="openProfilePictureRemoveDrawer"
@@ -55,7 +57,7 @@
                 {{ t('remove') }}
               </span>
             </TypographyLabel>
-          </ButtonColored>
+          </AppButton>
         </div>
         <ModalUploadSelection
           v-model="isModalUploadSelectionOpen"
@@ -95,13 +97,13 @@
           <AppIconRestartAlt />
         </template>
       </CardButton>
-      <ButtonColored
+      <AppButton
         :aria-label="t('deleteAccount')"
         variant="tertiary-critical"
         @click="openDeleteDrawer"
       >
         {{ t('deleteAccount') }}
-      </ButtonColored>
+      </AppButton>
       <AccountDeleteDrawer v-model:is-open="isDeleteDrawerOpen" />
     </div>
   </LayoutPage>

@@ -55,7 +55,7 @@
         </LayoutPageResult>
         <Collapsible v-model:open="detailsIsOpen" class="flex flex-col gap-2">
           <CollapsibleTrigger as-child>
-            <ButtonColored
+            <AppButton
               v-if="!detailsIsOpen"
               :aria-label="t('detailsMore')"
               class="w-full"
@@ -66,8 +66,8 @@
                 {{ t('detailsMore') }}
               </TypographyLabel>
               <AppIconChevronDown class="size-4" />
-            </ButtonColored>
-            <ButtonColored
+            </AppButton>
+            <AppButton
               v-else
               :aria-label="t('detailsLess')"
               class="w-full"
@@ -78,7 +78,7 @@
                 {{ t('detailsLess') }}
               </TypographyLabel>
               <AppIconChevronUp class="size-4" />
-            </ButtonColored>
+            </AppButton>
           </CollapsibleTrigger>
           <CollapsibleContent>
             <Card>
@@ -100,7 +100,7 @@
             </Card>
           </CollapsibleContent>
         </Collapsible>
-        <ButtonColored
+        <AppButton
           :aria-label="t('support')"
           size="small"
           :to="
@@ -114,7 +114,7 @@
           <template #prefix>
             <AppIconHelp class="size-4" />
           </template>
-        </ButtonColored>
+        </AppButton>
       </div>
       <template #bottom>
         <ButtonList>

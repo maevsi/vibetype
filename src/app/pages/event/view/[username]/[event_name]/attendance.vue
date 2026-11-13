@@ -11,18 +11,18 @@
       />
       <AppHr />
       <div class="flex flex-col items-center justify-center gap-4">
-        <ButtonColored :aria-label="t('qrCodeScan')" @click="qrCodeScan">
+        <AppButton :aria-label="t('qrCodeScan')" @click="qrCodeScan">
           {{ t('qrCodeScan') }}
           <template #prefix>
             <AppIconQrCode />
           </template>
-        </ButtonColored>
+        </AppButton>
         <p v-if="!guestId" class="text-body-small text-fg-2">
           {{ t('qrHint') }}
         </p>
         <AppAttendanceGuestDynamic v-if="guestId" :guest-id />
         <div v-if="guestId" class="flex flex-col items-center gap-2">
-          <ButtonColored
+          <AppButton
             :aria-label="t('nfcWrite')"
             class="text-on-action-primary"
             :disabled="isNfcError"
@@ -32,7 +32,7 @@
             <template #prefix>
               <AppIconUserTag />
             </template>
-          </ButtonColored>
+          </AppButton>
           <CardStateAlert v-if="isNfcError">
             {{ isNfcWritableErrorMessage }}
           </CardStateAlert>

@@ -23,7 +23,7 @@
     </LayoutTd>
     <LayoutTd>
       <div class="flex items-center justify-evenly gap-2">
-        <ButtonIcon
+        <AppButton
           :aria-label="
             contact.createdBy !== store.signedInAccountId
               ? t('disabledReasonCreatorNot', {
@@ -32,19 +32,23 @@
               : t('contactEdit')
           "
           :disabled="contact.createdBy !== store.signedInAccountId || isEditing"
+          size="none"
+          variant="ghost"
           @click="emit('edit')"
         >
           <AppIconPencil />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('contactDelete')"
           :disabled="
             isDeleting || contact.accountId === store.signedInAccountId
           "
+          size="none"
+          variant="ghost"
           @click="emit('delete')"
         >
           <AppIconTrash />
-        </ButtonIcon>
+        </AppButton>
       </div>
     </LayoutTd>
   </tr>

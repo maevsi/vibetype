@@ -1,5 +1,5 @@
 <template>
-  <ButtonColored
+  <AppButton
     :aria-label="t('signIn')"
     :to="
       localePath({
@@ -13,7 +13,7 @@
     <template #prefix>
       <AppIconUser />
     </template>
-  </ButtonColored>
+  </AppButton>
 </template>
 
 <script setup lang="ts">

@@ -46,50 +46,50 @@
     </template>
     <template #footer>
       <AppStep v-slot="attributes" :is-active="step === 'default'">
-        <ButtonColored
+        <AppButton
           v-bind="attributes"
           :aria-label="t('keepBlocked')"
           variant="secondary"
           @click="closeDrawer"
         >
           {{ t('keepBlocked') }}
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           v-bind="attributes"
           :aria-label="t('unblock')"
           :loading="deleteAccountBlockMutation.fetching.value"
           @click="unblockUser"
         >
           {{ t('unblock') }}
-        </ButtonColored>
+        </AppButton>
       </AppStep>
       <AppStep v-slot="attributes" :is-active="step === 'success'">
-        <ButtonColored
+        <AppButton
           v-bind="attributes"
           :aria-label="t('ok')"
           variant="primary"
           @click="closeDrawer"
         >
           {{ t('ok') }}
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           v-bind="attributes"
           :aria-label="t('toProfile')"
           variant="secondary"
           @click="toProfile"
         >
           {{ t('toProfile') }}
-        </ButtonColored>
+        </AppButton>
       </AppStep>
       <AppStep v-slot="attributes" :is-active="step === 'error'">
-        <ButtonColored
+        <AppButton
           v-bind="attributes"
           :aria-label="t('restart')"
           variant="tertiary"
           @click="restart"
         >
           {{ t('restart') }}
-        </ButtonColored>
+        </AppButton>
       </AppStep>
     </template>
   </AppDrawer>

@@ -3,6 +3,8 @@
     v-if="store.signedInAccountId"
     :aria-label="isFavorite ? t('favoriteDelete') : t('favoriteCreate')"
     :disabled="isFavoritePending"
+    size="none"
+    variant="ghost"
     @click="toggleEventFavorite"
   >
     <AppIconFavoriteFilled

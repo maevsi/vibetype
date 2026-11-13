@@ -26,7 +26,7 @@
     </template>
     <template #footer>
       <AppStep v-slot="attributes" :is-active="!error">
-        <ButtonColored
+        <AppButton
           v-bind="attributes"
           :aria-label="confirmLabel"
           :loading="isPending"
@@ -34,25 +34,25 @@
           @click="emit('confirm')"
         >
           {{ confirmLabel }}
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           v-bind="attributes"
           :aria-label="cancelLabel"
           variant="tertiary"
           @click="isOpen = false"
         >
           {{ cancelLabel }}
-        </ButtonColored>
+        </AppButton>
       </AppStep>
       <AppStep v-slot="attributes" :is-active="!!error">
-        <ButtonColored
+        <AppButton
           v-bind="attributes"
           :aria-label="t('globalTryAgain')"
           variant="tertiary"
           @click="emit('restart')"
         >
           {{ t('globalTryAgain') }}
-        </ButtonColored>
+        </AppButton>
       </AppStep>
     </template>
   </AppDrawer>

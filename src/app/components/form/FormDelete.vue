@@ -24,7 +24,7 @@
         </Field>
       </form.Field>
       <div class="flex flex-col items-center">
-        <ButtonColored
+        <AppButton
           :aria-label="t('deletion', { item: itemNameDeletion })"
           class="w-full"
           :loading="api.isFetching"
@@ -32,7 +32,7 @@
           variant="primary-critical"
         >
           {{ t('deletion', { item: itemNameDeletion }) }}
-        </ButtonColored>
+        </AppButton>
       </div>
       <CardStateAlert v-if="errorMessages?.length">
         <AppSpanList :span="errorMessages" />

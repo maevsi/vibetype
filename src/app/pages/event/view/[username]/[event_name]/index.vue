@@ -13,7 +13,7 @@
         v-if="!routeQueryIc && event.createdBy === store.signedInAccountId"
         class="justify-center"
       >
-        <ButtonColored
+        <AppButton
           :aria-label="t('guests')"
           :to="
             localePath({
@@ -29,8 +29,8 @@
           <template #prefix>
             <AppIconUsers />
           </template>
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           :aria-label="t('attendances')"
           :to="
             localePath({
@@ -46,8 +46,8 @@
           <template #prefix>
             <AppIconUserCheckBroken />
           </template>
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           :aria-label="t('settings')"
           :to="
             localePath({
@@ -63,7 +63,7 @@
           <template #prefix>
             <AppIconPencil />
           </template>
-        </ButtonColored>
+        </AppButton>
       </ButtonList>
       <div class="flex flex-col gap-4">
         <div>

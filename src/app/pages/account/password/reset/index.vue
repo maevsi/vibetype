@@ -24,23 +24,23 @@
       <p class="mt-2 text-body text-fg-2">
         {{ t('instructionsSuccessDescription') }}
       </p>
-      <ButtonColored
+      <AppButton
         :aria-label="t('signIn')"
         class="mt-6 w-full"
         @click="navigateTo(localePath('session-create'))"
       >
         {{ t('signIn') }}
-      </ButtonColored>
+      </AppButton>
     </FormAuthStepSuccess>
     <FormAuthStepError :error="error" :is-active="step === 'error'">
-      <ButtonColored
+      <AppButton
         :aria-label="t('tryAgain')"
         class="w-full max-w-md"
         variant="primary"
         @click="restart"
       >
         {{ t('tryAgain') }}
-      </ButtonColored>
+      </AppButton>
     </FormAuthStepError>
   </section>
 </template>
