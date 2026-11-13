@@ -1,3 +1,9 @@
+## [17.3.4](https://github.com/maevsi/vibetype/compare/17.3.3...17.3.4) (2026-11-13)
+
+### Bug Fixes
+
+* **style:** use the design system checkbox everywhere ([#2600](https://github.com/maevsi/vibetype/issues/2600)) ([6a94036](https://github.com/maevsi/vibetype/commit/6a94036efedea07996d9adb7c92ee3d78378b681))
+
 ## [17.3.3](https://github.com/maevsi/vibetype/compare/17.3.2...17.3.3) (2026-11-13)
 
 ### Bug Fixes
