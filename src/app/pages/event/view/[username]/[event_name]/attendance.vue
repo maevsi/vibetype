@@ -20,7 +20,7 @@
         <p v-if="!guestId" class="text-body-small text-fg-2">
           {{ t('qrHint') }}
         </p>
-        <AppAttendanceGuestDynamic v-if="guestId" :guest-id />
+        <EventAttendanceGuestDynamic v-if="guestId" :guest-id />
         <div v-if="guestId" class="flex flex-col items-center gap-2">
           <ButtonColored
             :aria-label="t('nfcWrite')"
@@ -43,7 +43,10 @@
         :submit-name="t('close')"
         @submit="modalClose"
       >
-        <LazyAppQrCodeStream @detect="onDetect" @error="modalClose" />
+        <LazyEventAttendanceQrCodeStream
+          @detect="onDetect"
+          @error="modalClose"
+        />
         <template #submit-icon>
           <AppIconXCircleSolid />
         </template>
