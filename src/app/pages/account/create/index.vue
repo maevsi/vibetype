@@ -18,17 +18,18 @@
           novalidate
           @submit.prevent="handleEmailContinue"
         >
-          <FormAuthInput
+          <AppInput
+            :aria-label="t('emailPlaceholder')"
             :model-value="emailField.value.value"
             :placeholder="t('emailPlaceholder')"
             type="email"
             @blur="emailField.handleBlur"
-            @input="emailField.handleInput($event)"
+            @update:model-value="emailField.handleInput"
           >
-            <template #icon>
+            <template #prefix>
               <IHeroiconsEnvelope />
             </template>
-          </FormAuthInput>
+          </AppInput>
           <p v-if="emailField.error.value" class="text-caption text-error">
             {{ emailField.error.value }}
           </p>
@@ -106,17 +107,18 @@
           @submit.prevent="handleUsernameContinue"
         >
           <div class="relative">
-            <FormAuthInput
+            <AppInput
+              :aria-label="t('usernamePlaceholder')"
               :model-value="usernameField.value.value"
               :placeholder="t('usernamePlaceholder')"
               type="text"
               @blur="usernameField.handleBlur"
-              @input="handleUsernameInput($event)"
+              @update:model-value="handleUsernameInput"
             >
-              <template #icon>
+              <template #prefix>
                 <IHeroiconsUser />
               </template>
-            </FormAuthInput>
+            </AppInput>
             <div
               v-if="usernameField.isLoading.value"
               class="absolute top-1/2 right-4 -translate-y-1/2"

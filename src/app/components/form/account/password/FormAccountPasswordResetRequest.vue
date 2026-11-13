@@ -4,18 +4,19 @@
     @submit.prevent="handleSubmit"
   >
     <form.Field v-slot="{ field }" name="emailAddress">
-      <FormAuthInput
+      <AppInput
         :aria-invalid="!!emailError"
+        :aria-label="t('emailAddress')"
         :model-value="field.state.value"
         :placeholder="t('emailAddress')"
         type="email"
         @blur="handleEmailBlur(field)"
-        @input="handleEmailInput(field, $event)"
+        @update:model-value="handleEmailInput(field, $event)"
       >
-        <template #icon>
+        <template #prefix>
           <IHeroiconsEnvelope />
         </template>
-      </FormAuthInput>
+      </AppInput>
       <p v-if="emailError" class="mt-1 text-caption text-error">
         {{ emailError }}
       </p>

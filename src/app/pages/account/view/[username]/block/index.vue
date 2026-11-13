@@ -10,7 +10,7 @@
     </LayoutTopBar>
     <LayoutPage>
       <div class="flex flex-col gap-3">
-        <FormInputSearch v-model="searchQuery" />
+        <AppInputSearch v-model="searchQuery" />
         <ul
           v-if="blockedAccountsFiltered?.length"
           class="flex flex-col divide-y divide-line"
