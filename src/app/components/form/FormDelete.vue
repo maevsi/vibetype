@@ -7,14 +7,14 @@
             t('passwordAccount')
           }}</FieldLabel>
           <FieldContent>
-            <FormInputPassword
+            <AppInputPassword
               id="input-password"
               :aria-invalid="isFieldInvalid(field)"
               autocomplete="current-password"
               :model-value="field.state.value"
               @blur="field.handleBlur"
-              @input="field.handleChange($event)"
               @keydown.enter.prevent
+              @update:model-value="field.handleChange($event)"
             />
           </FieldContent>
           <FieldError
