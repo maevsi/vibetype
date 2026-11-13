@@ -1,8 +1,10 @@
 <template>
   <svg
-    aria-hidden="true"
-    class="size-4 shrink-0 animate-spin"
+    :aria-label="t('globalLoading')"
+    :class="cn('size-4 shrink-0 animate-spin', classProps)"
+    data-slot="spinner"
     fill="none"
+    role="status"
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -21,3 +23,15 @@
     />
   </svg>
 </template>
+
+<script setup lang="ts">
+import type { HTMLAttributes } from 'vue'
+
+import { cn } from '@/utils/shadcn'
+
+const { class: classProps = undefined } = defineProps<{
+  class?: HTMLAttributes['class']
+}>()
+
+const { t } = useI18n()
+</script>

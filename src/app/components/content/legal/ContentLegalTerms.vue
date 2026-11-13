@@ -2,7 +2,7 @@
   <LayoutProse v-if="data?.ast">
     <MarkdownDocument :value="data.ast" />
   </LayoutProse>
-  <LoaderPlaceholder v-else-if="pending" />
+  <AppLoaderPlaceholder v-else-if="pending" />
 </template>
 
 <script setup lang="ts">
