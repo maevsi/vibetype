@@ -2,9 +2,9 @@
   <div v-if="api.isFetching && !guest" class="text-body-small text-fg-2">
     {{ t('globalLoading') }}
   </div>
-  <CardStateAlert v-else-if="!guest">
+  <AppAlert v-else-if="!guest" variant="error">
     {{ t('globalErrorNoData') }}
-  </CardStateAlert>
+  </AppAlert>
   <AppAttendanceGuest v-else :guest />
 </template>
 

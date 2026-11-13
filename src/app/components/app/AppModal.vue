@@ -77,12 +77,6 @@ watch(open, (newValue) => {
 })
 </script>
 
-<script lang="ts">
-export default {
-  name: 'AppModal',
-}
-</script>
-
 <i18n lang="yaml">
 de:
   dialog: Dialog

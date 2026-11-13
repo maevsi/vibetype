@@ -1,5 +1,5 @@
 <template>
-  <Card>
+  <AppCard>
     <div class="flex items-center gap-4">
       <div class="px-2">
         <AccountProfilePicture
@@ -23,7 +23,7 @@
         <AppIconCheckCircle class="size-10 text-link" />
       </div>
     </div>
-  </Card>
+  </AppCard>
 </template>
 
 <script setup lang="ts">

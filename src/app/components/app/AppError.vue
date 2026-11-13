@@ -81,7 +81,7 @@
             </AppButton>
           </CollapsibleTrigger>
           <CollapsibleContent>
-            <Card>
+            <AppCard>
               <section
                 :aria-labelledby="templateIdDetails"
                 class="flex flex-col gap-4 p-2"
@@ -97,7 +97,7 @@
                     >{{ error.stack }}</pre>
                 </div>
               </section>
-            </Card>
+            </AppCard>
           </CollapsibleContent>
         </Collapsible>
         <AppButton

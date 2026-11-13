@@ -1,9 +1,9 @@
 <template>
   <div class="flex flex-1 flex-col gap-4">
     <FormInputSearch v-model="searchQuery" />
-    <CardStateAlert v-if="errorMessages.length">
+    <AppAlert v-if="errorMessages.length" variant="error">
       <AppSpanList :span="errorMessages" />
-    </CardStateAlert>
+    </AppAlert>
     <EventList
       :events
       :has-next-page="pageInfo?.hasNextPage"

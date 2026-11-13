@@ -1,5 +1,5 @@
 <template>
-  <Modal v-model="open">
+  <AppModal v-model="open">
     <template #header>{{ t('header') }}</template>
     <p class="break-all">{{ t('description') }}</p>
     <p class="mt-2 break-all opacity-60">{{ url }}</p>
@@ -21,7 +21,7 @@
         </template>
       </AppButton>
     </template>
-  </Modal>
+  </AppModal>
 </template>
 
 <script setup lang="ts">

@@ -33,11 +33,11 @@
     />
   </div>
   <div v-else class="flex flex-1 flex-col">
-    <CardStateInfo v-if="querySignOut" class="rounded-none">
+    <AppAlert v-if="querySignOut" class="rounded-none">
       <TypographySubtitleMedium>
         {{ t('signedOut') }}
       </TypographySubtitleMedium>
-    </CardStateInfo>
+    </AppAlert>
     <div class="flex flex-1 flex-col items-center justify-between px-6 py-8">
       <div
         class="flex w-full max-w-md flex-1 flex-col items-center justify-center"
@@ -46,8 +46,8 @@
         <div
           class="mb-6 flex size-20 items-center justify-center rounded-large bg-surface-raised"
         >
-          <IconLogo v-if="dateToday.month !== 6" class="size-12" />
-          <IconLogoPride v-else class="size-12" />
+          <AppIconLogo v-if="dateToday.month !== 6" class="size-12" />
+          <AppIconLogoPride v-else class="size-12" />
         </div>
 
         <!-- Welcome text -->
@@ -57,7 +57,7 @@
         <p aria-hidden="true" class="mb-2 text-center text-body text-fg-2">
           {{ t('welcome') }}
         </p>
-        <IconLogoText aria-hidden="true" class="mb-12 h-6.5" />
+        <AppIconLogoText aria-hidden="true" class="mb-12 h-6.5" />
 
         <!-- Tagline -->
         <p class="mb-8 text-center text-body text-fg-2">
