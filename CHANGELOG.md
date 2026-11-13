@@ -1,3 +1,9 @@
+## [17.3.3](https://github.com/maevsi/vibetype/compare/17.3.2...17.3.3) (2026-11-13)
+
+### Bug Fixes
+
+* **sonner:** render toasts in the app shell ([#2599](https://github.com/maevsi/vibetype/issues/2599)) ([9a51847](https://github.com/maevsi/vibetype/commit/9a51847568824a3413b286b95a5c3629e560cc58))
+
 ## [17.3.2](https://github.com/maevsi/vibetype/compare/17.3.1...17.3.2) (2026-11-13)
 
 ### Bug Fixes
