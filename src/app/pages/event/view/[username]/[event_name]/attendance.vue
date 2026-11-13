@@ -33,9 +33,9 @@
               <AppIconUserTag />
             </template>
           </AppButton>
-          <CardStateAlert v-if="isNfcError">
+          <AppAlert v-if="isNfcError" variant="error">
             {{ isNfcWritableErrorMessage }}
-          </CardStateAlert>
+          </AppAlert>
         </div>
       </div>
       <Modal

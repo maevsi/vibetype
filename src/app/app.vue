@@ -6,7 +6,7 @@
     vaul-drawer-wrapper
   >
     <ClientOnly>
-      <CardStateInfo
+      <AppAlert
         v-if="!isBrowserSupported && !runtimeConfig.public.vio.isTesting"
         class="shrink-0 rounded-none"
       >
@@ -28,14 +28,15 @@
             {{ t('globalSiteName') }}
           </template>
         </i18n-t>
-      </CardStateInfo>
-      <CardStateWarn
+      </AppAlert>
+      <AppAlert
         v-if="!isOnline"
         class="shrink-0 rounded-none"
         role="status"
+        variant="warning"
       >
         {{ t('offline') }}
-      </CardStateWarn>
+      </AppAlert>
       <Modal
         v-if="!runtimeConfig.public.vio.isTesting"
         v-model="isLockdownModeLikely"

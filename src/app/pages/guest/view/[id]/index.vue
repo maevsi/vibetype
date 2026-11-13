@@ -13,7 +13,7 @@
       :error="{ message: t('errorAccountMissing'), status: 404 }"
     />
     <div v-else class="flex flex-col gap-4">
-      <CardStateInfo v-if="isOrganizerPreview" class="flex flex-col gap-2">
+      <AppAlert v-if="isOrganizerPreview" class="flex flex-col gap-2">
         {{ t('invitationViewFor', { name: contactName }) }}
         <AppButton
           :aria-label="t('invitationSelectionClear')"
@@ -32,7 +32,7 @@
             <AppIconArrowLeft />
           </template>
         </AppButton>
-      </CardStateInfo>
+      </AppAlert>
       <div v-if="contact" class="flex flex-col gap-2">
         <div class="flex items-center justify-between gap-2">
           <div>
@@ -113,7 +113,7 @@
               </div>
             </div>
           </div>
-          <Card class="flex flex-col items-stretch gap-6 rounded-t-none">
+          <AppCard class="flex flex-col items-stretch gap-6 rounded-t-none">
             <div
               class="flex flex-col items-baseline justify-center md:flex-row md:gap-2"
             >
@@ -136,7 +136,7 @@
               :events
               :position-initial
             />
-          </Card>
+          </AppCard>
         </div>
         <div
           class="flex flex-col items-center gap-2"
@@ -225,13 +225,13 @@
             </div>
           </div>
         </div>
-        <Card v-if="eventDescriptionHtml">
+        <AppCard v-if="eventDescriptionHtml">
           <!-- eslint-disable vue/no-v-html -->
           <LayoutProse class="w-full">
             <div v-html="eventDescriptionHtml" />
           </LayoutProse>
           <!-- eslint-enable vue/no-v-html -->
-        </Card>
+        </AppCard>
       </div>
       <Modal v-model="isModalGuestQrCodeOpen">
         <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">

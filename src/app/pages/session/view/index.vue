@@ -7,7 +7,7 @@
         <!-- lg:grid-cols-2 -->
         <div class="flex gap-4">
           <div class="flex-1">
-            <Card>
+            <AppCard>
               <ul class="flex flex-col gap-2">
                 <template v-for="feature in FEATURE_FLAGS" :key="feature">
                   <li class="flex items-center justify-between">
@@ -42,7 +42,7 @@
                   </li>
                 </template>
               </ul>
-            </Card>
+            </AppCard>
           </div>
         </div>
       </section>
@@ -50,7 +50,7 @@
         <h2>{{ t('end') }}</h2>
         <div class="grid gap-4 lg:grid-cols-2">
           <div class="flex-1">
-            <Card>
+            <AppCard>
               <template v-if="store.jwtPayload?.exp">
                 <i18n-t keypath="sessionExpiry">
                   <template #exp>
@@ -64,7 +64,7 @@
               <template v-else>
                 {{ t('sessionExpiryNone') }}
               </template>
-            </Card>
+            </AppCard>
           </div>
           <div class="flex-1">
             <div class="flex flex-col gap-2">
@@ -87,7 +87,7 @@
         <h2>{{ t('codes') }}</h2>
         <div class="grid gap-4 lg:grid-cols-2">
           <div class="flex-1">
-            <Card>
+            <AppCard>
               <div v-if="store.jwtPayload?.guests">
                 <p>
                   {{ t('codesEntered') }}
@@ -104,7 +104,7 @@
               <p v-else>
                 {{ t('codesEnteredNone') }}
               </p>
-            </Card>
+            </AppCard>
           </div>
           <div class="flex-1">
             <!-- TODO: implement guest code management (https://github.com/maevsi/vibetype/issues/61) -->
@@ -115,9 +115,9 @@
         <h2>{{ t('userAgentString') }}</h2>
         <div class="grid gap-4 lg:grid-cols-2">
           <div class="flex-1">
-            <Card>
+            <AppCard>
               {{ userAgentString }}
-            </Card>
+            </AppCard>
           </div>
         </div>
       </section>
@@ -125,7 +125,7 @@
         <h2>{{ t('app') }}</h2>
         <div class="grid gap-4 lg:grid-cols-2">
           <div class="flex flex-1 flex-col gap-2">
-            <Card class="flex flex-col gap-1">
+            <AppCard class="flex flex-col gap-1">
               <div class="flex gap-2">
                 <AppIconQuestionMarkCircle v-if="isApp === undefined" />
                 <AppIconCheckCircle v-else-if="isApp" class="text-link" />
@@ -134,12 +134,12 @@
                   {{ t('appIs') }}
                 </span>
               </div>
-            </Card>
-            <Card v-if="isApp" class="flex flex-col gap-1">
+            </AppCard>
+            <AppCard v-if="isApp" class="flex flex-col gap-1">
               <span>
                 {{ t('appPlatform', { platform }) }}
               </span>
-            </Card>
+            </AppCard>
           </div>
         </div>
       </section>
@@ -147,7 +147,7 @@
         <h2>{{ t('notification') }}</h2>
         <div class="flex flex-col gap-4 lg:flex-row">
           <section class="flex-1">
-            <Card class="flex flex-col gap-1">
+            <AppCard class="flex flex-col gap-1">
               <div class="flex gap-2">
                 <AppIconQuestionMarkCircle
                   v-if="isNavigatorHavingPermissions === undefined"
@@ -221,7 +221,7 @@
                   {{ t('notificationPermitted') }}
                 </span>
               </div>
-            </Card>
+            </AppCard>
           </section>
           <section class="flex-1">
             <div class="flex flex-col gap-2">
@@ -275,7 +275,7 @@
         <h2>{{ t('data') }}</h2>
         <div class="grid gap-4 lg:grid-cols-2">
           <div class="flex flex-1 flex-col gap-2">
-            <Card class="flex flex-col gap-1">
+            <AppCard class="flex flex-col gap-1">
               <div class="flex gap-2">
                 <ClientOnly>
                   <AppIconCheckCircle v-if="$urqlCache" class="text-link" />
@@ -288,7 +288,7 @@
                   {{ t('apiClient') }}
                 </span>
               </div>
-            </Card>
+            </AppCard>
           </div>
           <div class="flex flex-1 flex-col gap-2">
             <ClientOnly>

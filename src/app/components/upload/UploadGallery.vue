@@ -5,7 +5,7 @@
       postgres53100: t('postgres53100'),
     }"
   >
-    <Card>
+    <AppCard>
       <ul class="flex flex-wrap items-center justify-center">
         <template v-if="uploads?.length">
           <li
@@ -93,7 +93,7 @@
           {{ t('globalShowMore') }}
         </AppButton>
       </div>
-    </Card>
+    </AppCard>
     <Modal
       v-model="isModalUploadGalleryOpen"
       :is-submitting="isUploadSubmitting"
@@ -107,9 +107,9 @@
         :init-stretcher
         :src="fileSelectedUrl"
       />
-      <CardStateAlert v-if="uploadSubmitErrors" class="mb-4">
+      <AppAlert v-if="uploadSubmitErrors" class="mb-4" variant="error">
         <AppSpanList :span="uploadSubmitErrors" />
-      </CardStateAlert>
+      </AppAlert>
       <template #header>{{ t('uploadNew') }}</template>
       <template #submit-icon><AppIconArrowUpTray /></template>
     </Modal>

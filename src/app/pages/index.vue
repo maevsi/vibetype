@@ -33,11 +33,11 @@
     />
   </div>
   <div v-else class="flex flex-1 flex-col">
-    <CardStateInfo v-if="querySignOut" class="rounded-none">
+    <AppAlert v-if="querySignOut" class="rounded-none">
       <TypographySubtitleMedium>
         {{ t('signedOut') }}
       </TypographySubtitleMedium>
-    </CardStateInfo>
+    </AppAlert>
     <div class="flex flex-1 flex-col items-center justify-between px-6 py-8">
       <div
         class="flex w-full max-w-md flex-1 flex-col items-center justify-center"

@@ -1,9 +1,9 @@
 <template>
   <div :class="cn(aspect, classProps)">
     <LoaderIndicatorPing v-if="isLoading" />
-    <CardStateAlert v-if="isError">
+    <AppAlert v-if="isError" variant="error">
       {{ t('error') }}
-    </CardStateAlert>
+    </AppAlert>
     <img
       v-if="srcWhenLoaded"
       :alt
