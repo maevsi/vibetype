@@ -34,11 +34,15 @@
           </p>
           <!-- Terms checkbox -->
           <div class="flex items-start gap-3">
-            <FormCheckbox
-              form-key="agree-to-terms"
-              :value="agreedToTerms"
-              @change="agreedToTerms = $event"
-            >
+            <AppCheckbox
+              id="agree-to-terms"
+              class="mt-0.5 shrink-0"
+              :model-value="agreedToTerms"
+              @update:model-value="
+                (checked) => (agreedToTerms = checked === true)
+              "
+            />
+            <label for="agree-to-terms">
               <span class="text-body-small text-fg-2">
                 {{ t('agreePrefix') }}
                 <NuxtLinkLocale
@@ -58,7 +62,7 @@
                   >{{ t('privacyPolicy') }}</NuxtLinkLocale
                 >
               </span>
-            </FormCheckbox>
+            </label>
           </div>
           <p v-if="termsError" class="text-caption text-error">
             {{ termsError }}
