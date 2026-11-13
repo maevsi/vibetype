@@ -1,9 +1,10 @@
 <template>
   <div class="flex flex-col gap-3">
     <div>
-      <FormAuthInputPassword
+      <FormInputPassword
         :aria-invalid="!!passwordError"
         autocomplete="new-password"
+        has-icon
         :model-value="passwordValue"
         :placeholder="passwordPlaceholder"
         @blur="$emit('password-blur')"
@@ -19,9 +20,10 @@
       </p>
     </div>
     <div>
-      <FormAuthInputPassword
+      <FormInputPassword
         :aria-invalid="!!repetitionError"
         autocomplete="new-password"
+        has-icon
         :model-value="repetitionValue"
         :placeholder="repetitionPlaceholder"
         @blur="$emit('repetition-blur')"

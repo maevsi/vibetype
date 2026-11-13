@@ -29,9 +29,10 @@
       <form.Field v-slot="{ field }" name="password">
         <Field>
           <FieldContent>
-            <FormAuthInputPassword
+            <FormInputPassword
               :aria-invalid="!!passwordValidation.error.value"
               autocomplete="current-password"
+              has-icon
               :model-value="field.state.value"
               :placeholder="t('password')"
               @blur="handlePasswordBlur(field)"
