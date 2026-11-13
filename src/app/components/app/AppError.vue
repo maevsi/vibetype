@@ -113,10 +113,10 @@
         </AppButton>
       </div>
       <template #bottom>
-        <ButtonList>
+        <AppButtonGroup>
           <ButtonSignIn v-if="[403, 404].includes(error.status)" />
           <ButtonHome />
-        </ButtonList>
+        </AppButtonGroup>
       </template>
     </LayoutPage>
   </div>
