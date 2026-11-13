@@ -5,7 +5,7 @@
   <CardStateAlert v-else-if="!guest">
     {{ t('globalErrorNoData') }}
   </CardStateAlert>
-  <EventAttendanceGuest v-else :guest />
+  <AppAttendanceGuest v-else :guest />
 </template>
 
 <script setup lang="ts">
