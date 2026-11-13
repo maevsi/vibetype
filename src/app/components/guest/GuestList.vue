@@ -47,26 +47,26 @@
             </SelectContent>
           </Select>
         </div>
-        <LayoutTable v-if="guestsFiltered.length" class="border border-line">
-          <LayoutThead>
+        <AppTable v-if="guestsFiltered.length" class="border border-line">
+          <AppTableHeader>
             <tr>
-              <LayoutTh scope="col">
+              <AppTableHead scope="col">
                 {{ t('contact') }}
-              </LayoutTh>
-              <LayoutTh scope="col">
+              </AppTableHead>
+              <AppTableHead scope="col">
                 <span class="sr-only">{{ t('actions') }}</span>
-              </LayoutTh>
+              </AppTableHead>
             </tr>
-          </LayoutThead>
-          <LayoutTbody>
+          </AppTableHeader>
+          <AppTableBody>
             <GuestListItem
               v-for="guest in guestsFiltered"
               :key="guest.rowId"
               :event
               :guest
             />
-          </LayoutTbody>
-        </LayoutTable>
+          </AppTableBody>
+        </AppTable>
         <p v-else class="text-center">
           {{ t('guestNoneFiltered') }}
         </p>

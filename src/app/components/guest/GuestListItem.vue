@@ -5,10 +5,10 @@
       'animate-pulse': pending.deletions.includes(guest.rowId),
     }"
   >
-    <LayoutTd class="max-w-0">
+    <AppTableCell class="max-w-0">
       <ContactPreview :contact :feedback="guest.feedback" />
-    </LayoutTd>
-    <LayoutTd class="max-w-0">
+    </AppTableCell>
+    <AppTableCell class="max-w-0">
       <div class="flex items-center justify-evenly gap-4 text-fg-1">
         <AppButton
           :aria-label="
@@ -119,7 +119,7 @@
           </template>
         </AppDropdown>
       </div>
-    </LayoutTd>
+    </AppTableCell>
   </tr>
   <GuestDeleteDrawer
     v-if="contact"
