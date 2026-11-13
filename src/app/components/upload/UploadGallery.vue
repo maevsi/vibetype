@@ -98,6 +98,7 @@
     >
       <Cropper
         ref="cropper"
+        class="h-[60dvh]"
         :default-size="({ imageSize }: { imageSize: Size }) => imageSize"
         :init-stretcher
         :src="fileSelectedUrl"
