@@ -10,10 +10,10 @@
         </template>
       </LayoutPageResult>
       <template #bottom>
-        <ButtonList>
+        <AppButtonGroup>
           <ButtonSignIn />
           <ButtonHome />
-        </ButtonList>
+        </AppButtonGroup>
       </template>
     </LayoutPage>
   </div>

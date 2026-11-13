@@ -1,9 +1,9 @@
 <template>
   <LayoutPage>
     <LayoutPageResult type="success">
-      <TypographyBodySmall>
+      <span class="text-body-small">
         {{ t('description2') }}
-      </TypographyBodySmall>
+      </span>
       <template #description>
         {{ t('description1') }}
       </template>

@@ -17,9 +17,12 @@
         :aria-labelledby="templateIdUpcoming"
         class="flex flex-col gap-4"
       >
-        <TypographyH3 :id="templateIdUpcoming" class="px-2">
+        <span
+          :id="templateIdUpcoming"
+          class="px-2 text-heading-medium text-balance"
+        >
           {{ t('upcomingTitle') }}
-        </TypographyH3>
+        </span>
         <EventCard :event="eventUpcoming" variant="highlight" />
       </section>
       <section
@@ -27,9 +30,12 @@
         :aria-labelledby="templateIdRecommendation"
         class="flex flex-col gap-4"
       >
-        <TypographyH3 :id="templateIdRecommendation" class="px-2">
+        <span
+          :id="templateIdRecommendation"
+          class="px-2 text-heading-medium text-balance"
+        >
           {{ t('recommendationTitle') }}
-        </TypographyH3>
+        </span>
         <EventCard
           v-for="event in eventRecommendations"
           :key="event.rowId"

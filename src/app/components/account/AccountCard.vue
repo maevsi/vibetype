@@ -22,9 +22,9 @@
       variant="ghost"
     >
       <span class="absolute inset-0 z-10" />
-      <TypographyH3>
+      <span class="text-heading-medium text-balance">
         {{ account.username }}
-      </TypographyH3>
+      </span>
     </AppButton>
   </div>
 </template>

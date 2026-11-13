@@ -4,11 +4,11 @@
     <div v-if="accounts?.length" class="flex flex-col gap-2">
       <AccountCard v-for="account in accounts" :key="account.rowId" :account />
     </div>
-    <TypographyBodyMedium v-else-if="searchQueryDebouncedTrimmed">
+    <span v-else-if="searchQueryDebouncedTrimmed" class="text-body">
       {{ t('errorNotFound') }}
       <br />
       {{ t('errorNotFoundHint') }}
-    </TypographyBodyMedium>
+    </span>
   </div>
 </template>
 

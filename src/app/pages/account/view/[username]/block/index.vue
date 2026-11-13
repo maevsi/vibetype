@@ -27,9 +27,9 @@
                 height="48"
                 width="48"
               />
-              <TypographySubtitleLarge>
+              <span class="text-headline">
                 {{ blockedAccount.username }}
-              </TypographySubtitleLarge>
+              </span>
             </div>
             <AppButton
               :aria-label="t('unblock')"
@@ -41,14 +41,15 @@
             </AppButton>
           </li>
         </ul>
-        <TypographyBodyMedium
+        <span
           v-else-if="searchQuery && !blockedAccountsFiltered?.length"
+          class="text-body"
         >
           {{ t('errorNotFound') }}
-        </TypographyBodyMedium>
-        <TypographyBodyMedium v-else>
+        </span>
+        <span v-else class="text-body">
           {{ t('noBlockedAccounts') }}
-        </TypographyBodyMedium>
+        </span>
       </div>
     </LayoutPage>
     <AccountBlockRemoveDrawer

@@ -7,9 +7,9 @@
       <div v-else class="size-6" />
     </div>
     <h1 class="flex-1 text-center">
-      <TypographyH6>
+      <span class="text-title3 text-balance">
         <slot />
-      </TypographyH6>
+      </span>
     </h1>
     <div class="flex size-12 items-center justify-center">
       <slot v-if="$slots.close" name="close" />

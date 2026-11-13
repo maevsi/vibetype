@@ -4,9 +4,9 @@
       <form.Field v-slot="{ field }" name="itemDescription">
         <Field :data-invalid="isFieldInvalid(field)">
           <FieldLabel :for="field.name">
-            <TypographySubtitleSmall>
+            <span class="text-body">
               {{ t('itemDescription') }}
-            </TypographySubtitleSmall>
+            </span>
           </FieldLabel>
           <Textarea
             :id="field.name"
@@ -28,9 +28,9 @@
       <form.Field v-slot="{ field }" name="userName">
         <Field :data-invalid="isFieldInvalid(field)">
           <FieldLabel :for="field.name">
-            <TypographySubtitleSmall>
+            <span class="text-body">
               {{ t('userName') }}
-            </TypographySubtitleSmall>
+            </span>
           </FieldLabel>
           <AppInput
             :id="field.name"
@@ -50,9 +50,9 @@
       <form.Field v-slot="{ field }" name="userEmailAddress">
         <Field :data-invalid="isFieldInvalid(field)">
           <FieldLabel :for="field.name">
-            <TypographySubtitleSmall>
+            <span class="text-body">
               {{ t('userEmailAddress') }}
-            </TypographySubtitleSmall>
+            </span>
           </FieldLabel>
           <AppInput
             :id="field.name"
@@ -85,7 +85,7 @@
           />
           <div class="flex flex-col gap-1">
             <FieldLabel :for="field.name">
-              <TypographySubtitleSmall>
+              <span class="text-body">
                 <i18n-t keypath="userConsent">
                   <template #privacyPolicy>
                     <AppLink
@@ -96,7 +96,7 @@
                     </AppLink>
                   </template>
                 </i18n-t>
-              </TypographySubtitleSmall>
+              </span>
             </FieldLabel>
             <FieldError
               v-if="isFieldInvalid(field)"

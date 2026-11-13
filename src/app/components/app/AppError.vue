@@ -62,9 +62,7 @@
               size="small"
               variant="tertiary"
             >
-              <TypographyLabel>
-                {{ t('detailsMore') }}
-              </TypographyLabel>
+              {{ t('detailsMore') }}
               <AppIconChevronDown class="size-4" />
             </AppButton>
             <AppButton
@@ -74,9 +72,7 @@
               size="small"
               variant="tertiary"
             >
-              <TypographyLabel>
-                {{ t('detailsLess') }}
-              </TypographyLabel>
+              {{ t('detailsLess') }}
               <AppIconChevronUp class="size-4" />
             </AppButton>
           </CollapsibleTrigger>
@@ -117,10 +113,10 @@
         </AppButton>
       </div>
       <template #bottom>
-        <ButtonList>
+        <AppButtonGroup>
           <ButtonSignIn v-if="[403, 404].includes(error.status)" />
           <ButtonHome />
-        </ButtonList>
+        </AppButtonGroup>
       </template>
     </LayoutPage>
   </div>
