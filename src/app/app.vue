@@ -250,8 +250,8 @@ onMounted(() => {
 de:
   browserUnsupported: Du benutzt einen Browser, in dem nicht alle Funktionen von @.upper:{'globalSiteName'} unterstützt werden. {link}.
   browserUnsupportedLink: Mehr erfahren
-  lockdownModeDescription: Der Blockierungsmodus ist aktiv und schaltet Funktionen ab, die @.upper:{'globalSiteName'} braucht, zum Beispiel das Speichern von Daten auf deinem Gerät.
-  lockdownModeInstructions: "Nimm @.upper:{'globalSiteName'} vom Blockierungsmodus aus: für die App in der Einstellungen-App unter Datenschutz & Sicherheit › Blockierungsmodus › Web-Browsing konfigurieren, für Safari über das Seitenmenü › Website-Einstellungen."
+  lockdownModeDescription: Der Blockierungsmodus ist aktiv und schaltet Funktionen ab, die @.upper:{'globalSiteName'} braucht, zum Beispiel den QR-Code-Scanner und Push-Benachrichtigungen.
+  lockdownModeInstructions: "Nimm @.upper:{'globalSiteName'} vom Blockierungsmodus aus: für die App in der Einstellungen-App unter Datenschutz & Sicherheit › Blockierungsmodus › Web-Browsing konfigurieren, für Safari über Seitenmenü › Website-Einstellungen › Blockierungsmodus ausschalten."
   lockdownModeTitle: Blockierungsmodus erkannt
   offline: Du bist offline. Einige Funktionen sind erst wieder verfügbar, wenn deine Internetverbindung zurück ist.
   pwaConfirmButtonText: App nutzen
@@ -260,8 +260,8 @@ de:
 en:
   browserUnsupported: You're using a browser which does not support all features @.upper:{'globalSiteName'} offers. {link}.
   browserUnsupportedLink: Learn more
-  lockdownModeDescription: Lockdown Mode is on and turns off features @.upper:{'globalSiteName'} needs, such as storing data on your device.
-  lockdownModeInstructions: "Exclude @.upper:{'globalSiteName'} from Lockdown Mode: for the app, open the Settings app and go to Privacy & Security › Lockdown Mode › Configure Web Browsing; for Safari, use the page menu › Website Settings."
+  lockdownModeDescription: Lockdown Mode is on and turns off features @.upper:{'globalSiteName'} needs, such as the QR code scanner and push notifications.
+  lockdownModeInstructions: "Exclude @.upper:{'globalSiteName'} from Lockdown Mode: for the app, open the Settings app and go to Privacy & Security › Lockdown Mode › Configure Web Browsing; for Safari, use page menu › Website Settings › turn off Lockdown Mode."
   lockdownModeTitle: Lockdown Mode detected
   offline: You're offline. Some features are unavailable until your internet connection is back.
   pwaConfirmButtonText: Get the app
