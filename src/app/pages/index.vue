@@ -46,8 +46,8 @@
         <div
           class="mb-6 flex size-20 items-center justify-center rounded-large bg-surface-raised"
         >
-          <IconLogo v-if="dateToday.month !== 6" class="size-12" />
-          <IconLogoPride v-else class="size-12" />
+          <AppIconLogo v-if="dateToday.month !== 6" class="size-12" />
+          <AppIconLogoPride v-else class="size-12" />
         </div>
 
         <!-- Welcome text -->
@@ -57,7 +57,7 @@
         <p aria-hidden="true" class="mb-2 text-center text-body text-fg-2">
           {{ t('welcome') }}
         </p>
-        <IconLogoText aria-hidden="true" class="mb-12 h-6.5" />
+        <AppIconLogoText aria-hidden="true" class="mb-12 h-6.5" />
 
         <!-- Tagline -->
         <p class="mb-8 text-center text-body text-fg-2">

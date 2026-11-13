@@ -233,7 +233,7 @@
           <!-- eslint-enable vue/no-v-html -->
         </AppCard>
       </div>
-      <Modal v-model="isModalGuestQrCodeOpen">
+      <AppModal v-model="isModalGuestQrCodeOpen">
         <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
           <QrcodeVue id="qrCode" :margin="4" :size="232" :value="guest.rowId" />
           <p class="text-body-small text-fg-2">
@@ -278,7 +278,7 @@
             </template>
           </AppButton>
         </template>
-      </Modal>
+      </AppModal>
     </div>
   </Loader>
 </template>

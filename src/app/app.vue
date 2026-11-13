@@ -37,7 +37,7 @@
       >
         {{ t('offline') }}
       </AppAlert>
-      <Modal
+      <AppModal
         v-if="!runtimeConfig.public.vio.isTesting"
         v-model="isLockdownModeLikely"
         @close="isLockdownModeDismissed = true"
@@ -46,7 +46,7 @@
         <template #header>{{ t('lockdownModeTitle') }}</template>
         <p>{{ t('lockdownModeDescription') }}</p>
         <p>{{ t('lockdownModeInstructions') }}</p>
-      </Modal>
+      </AppModal>
     </ClientOnly>
     <NuxtLoadingIndicator />
     <NuxtAnnouncer />

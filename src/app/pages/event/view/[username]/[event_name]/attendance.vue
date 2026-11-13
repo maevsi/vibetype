@@ -38,7 +38,7 @@
           </AppAlert>
         </div>
       </div>
-      <Modal
+      <AppModal
         v-model="isModalAttendanceScanQrCodeOpen"
         :submit-name="t('close')"
         @submit="modalClose"
@@ -47,7 +47,7 @@
         <template #submit-icon>
           <AppIconXCircleSolid />
         </template>
-      </Modal>
+      </AppModal>
     </div>
     <AppError v-else :error="{ status: 403 }" />
   </Loader>

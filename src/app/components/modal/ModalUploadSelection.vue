@@ -1,5 +1,5 @@
 <template>
-  <Modal
+  <AppModal
     v-model="open"
     :is-submit-disabled="!selectedUploadId"
     @close="selectedUploadId = undefined"
@@ -11,7 +11,7 @@
       @selection="selectProfilePictureUploadId"
     />
     <template #header>{{ t('header') }}</template>
-  </Modal>
+  </AppModal>
 </template>
 
 <script setup lang="ts">

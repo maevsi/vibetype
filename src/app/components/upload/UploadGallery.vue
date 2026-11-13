@@ -94,7 +94,7 @@
         </AppButton>
       </div>
     </AppCard>
-    <Modal
+    <AppModal
       v-model="isModalUploadGalleryOpen"
       :is-submitting="isUploadSubmitting"
       :submit-name="t('upload')"
@@ -112,7 +112,7 @@
       </AppAlert>
       <template #header>{{ t('uploadNew') }}</template>
       <template #submit-icon><AppIconArrowUpTray /></template>
-    </Modal>
+    </AppModal>
     <UploadDeleteDrawer
       v-if="uploadToDelete"
       v-model:open="isDeleteDrawerOpen"
