@@ -23,7 +23,7 @@
     "@iconify/tools": "5.0.14",
     "@iconify/utils": "3.1.7",
     "@internationalized/date": "3.12.4",
-    "@lucide/vue": "1.71.0",
+    "@lucide/vue": "1.72.0",
     "@nuxt/a11y": "1.0.0-alpha.1",
     "@nuxt/content": "3.16.2",
     "@nuxt/devtools": "4.1.0",
