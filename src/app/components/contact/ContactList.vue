@@ -50,7 +50,7 @@
       <p v-else class="text-center">
         {{ t('noContactsFound') }}
       </p>
-      <Modal
+      <AppModal
         v-model="isModalContactOpen"
         is-footer-hidden
         @close="onModalContactClose"
@@ -62,7 +62,7 @@
         <template #header>
           {{ formContactHeading }}
         </template>
-      </Modal>
+      </AppModal>
       <ContactDeleteDrawer
         v-if="contactToDelete"
         v-model:open="isDeleteDrawerOpen"

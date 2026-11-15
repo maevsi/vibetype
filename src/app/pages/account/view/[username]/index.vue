@@ -84,9 +84,9 @@
             {{ t('friends') }}
           </span>
           <!-- @vue-ignore -->
-          <CardButton
+          <AppCardButton
             class="relative"
-            is-disabled
+            disabled
             :to="`/friend/view/$username`"
           >
             <div class="isolate flex -space-x-2 overflow-hidden p-1">
@@ -109,7 +109,7 @@
                 width="64"
               />
             </div>
-          </CardButton>
+          </AppCardButton>
         </AppFeature>
         <AppFeature v-if="isOwnProfile" feature="account-management">
           <AppButton

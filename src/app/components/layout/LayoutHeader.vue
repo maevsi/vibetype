@@ -10,7 +10,7 @@
           :to="localePath('index')"
           variant="ghost"
         >
-          <IconLogoWithText class="h-10" />
+          <AppIconLogoWithText class="h-10" />
         </AppButton>
       </div>
       <div class="flex items-center gap-2 whitespace-nowrap lg:gap-4">

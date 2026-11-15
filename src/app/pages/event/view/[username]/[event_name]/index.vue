@@ -112,7 +112,7 @@
               </div>
             </div>
           </div>
-          <Card
+          <AppCard
             v-if="event?.accountByCreatedBy"
             class="flex flex-col items-stretch gap-6 rounded-t-none"
           >
@@ -138,15 +138,15 @@
               :events
               :position-initial
             />
-          </Card>
+          </AppCard>
         </div>
-        <Card v-if="eventDescriptionTemplate">
+        <AppCard v-if="eventDescriptionTemplate">
           <!-- eslint-disable vue/no-v-html -->
           <LayoutProse class="w-full">
             <div v-html="eventDescriptionTemplate" />
           </LayoutProse>
           <!-- eslint-enable vue/no-v-html -->
-        </Card>
+        </AppCard>
       </div>
     </div>
   </Loader>

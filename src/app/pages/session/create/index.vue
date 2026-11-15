@@ -6,14 +6,14 @@
       </template>
       <template #subtitle>{{ t('subtitle') }}</template>
     </FormAuthPageHeader>
-    <CardStateSuccess v-if="verified" class="mt-4 rounded-none">
+    <AppAlert v-if="verified" class="mt-4 rounded-none" variant="success">
       <TypographySubtitleMedium>
         {{ t('accountVerified') }}
       </TypographySubtitleMedium>
-    </CardStateSuccess>
-    <CardStateInfo v-if="to" class="mt-4 rounded-none">
+    </AppAlert>
+    <AppAlert v-if="to" class="mt-4 rounded-none">
       {{ t('accountRequired') }}
-    </CardStateInfo>
+    </AppAlert>
     <AppStep v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <FormSessionCreate v-model:error="error" @signed-in="onSignIn" />

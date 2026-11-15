@@ -83,7 +83,7 @@
         :title="t('imprint')"
         @save="saveImprint"
       />
-      <CardButton
+      <AppCardButton
         class="border-action-warning bg-warning-tint text-fg-1"
         :title="t('resetPassword')"
         :to="
@@ -96,7 +96,7 @@
         <template #iconSecondary>
           <AppIconRestartAlt />
         </template>
-      </CardButton>
+      </AppCardButton>
       <AppButton
         :aria-label="t('deleteAccount')"
         variant="tertiary-critical"

@@ -8,9 +8,9 @@
         {{ t('contact') }}
       </span>
       <ContactPreview v-if="contact" :contact />
-      <CardStateInfo v-else>
+      <AppAlert v-else>
         {{ t('errorContactNone') }}
-      </CardStateInfo>
+      </AppAlert>
       <div class="flex">
         <AppFeature feature="friends">
           <AppButton

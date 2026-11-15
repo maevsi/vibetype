@@ -123,9 +123,9 @@
           {{ t('select') }}
         </AppButton>
       </div>
-      <CardStateAlert v-if="errorMessages?.length">
+      <AppAlert v-if="errorMessages?.length" variant="error">
         <AppSpanList :span="errorMessages" />
-      </CardStateAlert>
+      </AppAlert>
     </form>
   </div>
 </template>

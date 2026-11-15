@@ -1,8 +1,8 @@
 <template>
   <div :class="cn('flex flex-1 flex-col', classProps)">
-    <CardStateAlert v-if="errorMessages.length">
+    <AppAlert v-if="errorMessages.length" variant="error">
       <AppSpanList :span="errorMessages" />
-    </CardStateAlert>
+    </AppAlert>
     <slot v-if="hasData" />
     <LoaderPlaceholder v-else-if="api.isFetching" />
   </div>

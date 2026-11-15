@@ -6,7 +6,7 @@
     vaul-drawer-wrapper
   >
     <ClientOnly>
-      <CardStateInfo
+      <AppAlert
         v-if="!isBrowserSupported && !runtimeConfig.public.vio.isTesting"
         class="shrink-0 rounded-none"
       >
@@ -28,15 +28,16 @@
             {{ t('globalSiteName') }}
           </template>
         </i18n-t>
-      </CardStateInfo>
-      <CardStateWarn
+      </AppAlert>
+      <AppAlert
         v-if="!isOnline"
         class="shrink-0 rounded-none"
         role="status"
+        variant="warning"
       >
         {{ t('offline') }}
-      </CardStateWarn>
-      <Modal
+      </AppAlert>
+      <AppModal
         v-if="!runtimeConfig.public.vio.isTesting"
         v-model="isLockdownModeLikely"
         @close="isLockdownModeDismissed = true"
@@ -45,7 +46,7 @@
         <template #header>{{ t('lockdownModeTitle') }}</template>
         <p>{{ t('lockdownModeDescription') }}</p>
         <p>{{ t('lockdownModeInstructions') }}</p>
-      </Modal>
+      </AppModal>
     </ClientOnly>
     <NuxtLoadingIndicator />
     <NuxtAnnouncer />

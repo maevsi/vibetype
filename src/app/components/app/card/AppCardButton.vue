@@ -1,20 +1,22 @@
 <template>
-  <Card
+  <AppCard
     :class="
       cn(
         'relative isolate flex items-center gap-3 p-2 has-focus-visible:focus-ring',
         classProps,
       )
     "
+    data-slot="card-button"
   >
     <div class="flex items-center p-2">
       <slot />
     </div>
     <div class="flex flex-1 flex-col">
+      <!-- the overlay stretches the link over the whole card, so the card is clickable while its text stays a single link -->
       <AppButton
         :aria-label="title"
         class="focus-visible:ring-0"
-        :disabled="isDisabled"
+        :disabled
         :is-external
         is-external-icon-disabled
         size="none"
@@ -31,33 +33,37 @@
       </span>
     </div>
     <div class="p-2">
-      <slot v-if="$slots.iconSecondary" name="iconSecondary" />
+      <slot v-if="$slots.suffix" name="suffix" />
       <div v-else-if="to">
         <AppIconArrowForward />
       </div>
     </div>
-  </Card>
+  </AppCard>
 </template>
 
 <script setup lang="ts">
+import type { HTMLAttributes } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
-import type { HtmlHTMLAttributes } from 'vue'
 
 import { cn } from '@/utils/shadcn'
 
 const {
   class: classProps = undefined,
   description = undefined,
-  isDisabled,
+  disabled,
   isExternal,
   to = undefined,
-} = defineProps<
-  {
-    description?: string
-    isDisabled?: boolean
-    isExternal?: boolean
-    title: string
-    to?: RouteLocationRaw
-  } & { class?: HtmlHTMLAttributes['class'] }
->()
+} = defineProps<{
+  class?: HTMLAttributes['class']
+  description?: string
+  disabled?: boolean
+  isExternal?: boolean
+  title: string
+  to?: RouteLocationRaw
+}>()
+
+defineSlots<{
+  default?: () => unknown
+  suffix?: () => unknown
+}>()
 </script>
