@@ -163,7 +163,11 @@ describe('sendPush', () => {
     })
 
     expect(result).toEqual({ failureCount: 3, successCount: 1 })
-    const deletes = sqlMock.mock.calls.filter(([strings]) =>
+    const calls = sqlMock.mock.calls as unknown as [
+      TemplateStringsArray,
+      ...unknown[],
+    ][]
+    const deletes = calls.filter(([strings]) =>
       strings.join('$').includes('DELETE FROM vibetype.device'),
     )
     expect(deletes.map(([, token]) => token)).toEqual(['a', 'b'])
