@@ -5,7 +5,7 @@
         {{ title }}
       </span>
     </LayoutTopBar>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult :message="error?.message" type="error">
           <slot name="error" />
@@ -24,8 +24,8 @@
           </AppButton>
         </template>
       </LayoutPage>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <slot :form-id="templateIdForm" />
         <template #bottom>
@@ -39,8 +39,8 @@
           </AppButton>
         </template>
       </LayoutPage>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'success'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'success'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="success">
           <template #description>
@@ -60,7 +60,7 @@
           </AppButton>
         </template>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
   </section>
 </template>
 

@@ -5,11 +5,11 @@
       class="flex flex-col gap-4"
     >
       <LayoutPageTitle :title="t('title')" />
-      <AppSteps
+      <AppStepList
         :active="t('qrCodeScan')"
         :steps="[t('qrCodeScan'), t('nfcWrite')]"
       />
-      <AppHr />
+      <AppSeparator />
       <div class="flex flex-col items-center justify-center gap-4">
         <AppButton :aria-label="t('qrCodeScan')" @click="qrCodeScan">
           {{ t('qrCodeScan') }}

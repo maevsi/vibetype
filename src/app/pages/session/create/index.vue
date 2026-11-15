@@ -14,11 +14,11 @@
     <AppAlert v-if="to" class="mt-4 rounded-none">
       {{ t('accountRequired') }}
     </AppAlert>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <FormSessionCreate v-model:error="error" @signed-in="onSignIn" />
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
     <FormAuthStepError :error="error" :is-active="step === 'error'">
       <AppButton
         :aria-label="t('contactSupport')"

@@ -1,6 +1,6 @@
 <template>
   <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <EventReportForm
         :id="templateIdForm"
         ref="form"
@@ -10,8 +10,11 @@
         :event
         @submit-success="step = 'reportConfirmation'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'reportConfirmation'">
+    </AppStepPanel>
+    <AppStepPanel
+      v-slot="attributes"
+      :is-active="step === 'reportConfirmation'"
+    >
       <div v-bind="attributes" class="text-center">
         {{
           t('contentReportConfirmation', {
@@ -19,8 +22,8 @@
           })
         }}
       </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'blockConfirmation'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'blockConfirmation'">
       <div v-bind="attributes" class="text-center">
         {{
           t('contentBlockConfirmation', {
@@ -28,38 +31,44 @@
           })
         }}
       </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <div v-bind="attributes" class="text-center">
         <span v-if="error && error.message">
           {{ error.message }}
         </span>
       </div>
-    </AppStep>
+    </AppStepPanel>
     <template #title>
-      <AppStep v-slot="attributes" :is-active="step === 'default'">
+      <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
         <span v-bind="attributes">
           {{ t('titleReport') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'reportConfirmation'">
+      </AppStepPanel>
+      <AppStepPanel
+        v-slot="attributes"
+        :is-active="step === 'reportConfirmation'"
+      >
         <span v-bind="attributes">
           {{ t('titleReportConfirmation') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'blockConfirmation'">
+      </AppStepPanel>
+      <AppStepPanel
+        v-slot="attributes"
+        :is-active="step === 'blockConfirmation'"
+      >
         <span v-bind="attributes">
           {{ t('titleBlockConfirmation') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'error'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
         <span v-bind="attributes">
           {{ t('globalError') }}
         </span>
-      </AppStep>
+      </AppStepPanel>
     </template>
     <template #footer>
-      <AppStep v-slot="attributes" :is-active="step === 'default'">
+      <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
         <AppButton
           v-bind="attributes"
           :aria-label="t('buttonReportSubmit')"
@@ -78,8 +87,11 @@
             {{ t('buttonReportCancel') }}
           </AppButton>
         </DrawerClose>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'reportConfirmation'">
+      </AppStepPanel>
+      <AppStepPanel
+        v-slot="attributes"
+        :is-active="step === 'reportConfirmation'"
+      >
         <AppButton
           v-bind="attributes"
           :aria-label="t('buttonReportConfirmationBlock')"
@@ -94,8 +106,11 @@
             {{ t('buttonReportConfirmationClose') }}
           </AppButton>
         </DrawerClose>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'blockConfirmation'">
+      </AppStepPanel>
+      <AppStepPanel
+        v-slot="attributes"
+        :is-active="step === 'blockConfirmation'"
+      >
         <DrawerClose v-bind="attributes" as-child>
           <AppButton
             :aria-label="t('buttonBlockConfirmation')"
@@ -104,8 +119,8 @@
             {{ t('buttonBlockConfirmation') }}
           </AppButton>
         </DrawerClose>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'error'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
         <AppButton
           v-bind="attributes"
           :aria-label="t('globalTryAgain')"
@@ -114,7 +129,7 @@
         >
           {{ t('globalTryAgain') }}
         </AppButton>
-      </AppStep>
+      </AppStepPanel>
     </template>
   </AppDrawer>
 </template>

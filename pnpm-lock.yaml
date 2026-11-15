@@ -423,9 +423,6 @@ importers:
       downloadjs:
         specifier: 1.4.7
         version: 1.4.7
-      embla-carousel-vue:
-        specifier: 8.6.0
-        version: 8.6.0(vue@3.5.45(typescript@6.0.3))
       eslint:
         specifier: 10.14.0
         version: 10.14.0(jiti@2.7.0)(supports-color@10.2.2)
