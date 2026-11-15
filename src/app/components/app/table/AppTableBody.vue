@@ -1,15 +1,15 @@
 <template>
-  <table :class="cn('w-full', classProps)">
+  <tbody :class="cn('divide-y divide-line', classProps)" data-slot="table-body">
     <slot />
-  </table>
+  </tbody>
 </template>
 
 <script setup lang="ts">
-import type { HtmlHTMLAttributes } from 'vue'
+import type { HTMLAttributes } from 'vue'
 
 import { cn } from '@/utils/shadcn'
 
 const { class: classProps = undefined } = defineProps<{
-  class?: HtmlHTMLAttributes['class']
+  class?: HTMLAttributes['class']
 }>()
 </script>
