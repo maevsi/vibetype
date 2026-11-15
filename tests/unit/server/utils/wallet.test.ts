@@ -1,11 +1,8 @@
-import { execFileSync } from 'node:child_process'
 import { createHash, generateKeyPairSync } from 'node:crypto'
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
-import { tmpdir } from 'node:os'
-import { join } from 'node:path'
 
 import { decodeJwt } from 'jose'
-import { afterAll, beforeAll, expect, test } from 'vitest'
+import forge from 'node-forge'
+import { beforeAll, expect, test } from 'vitest'
 
 import { LOGO } from '#src/server/utils/assets'
 import {
@@ -26,39 +23,25 @@ const TICKET: WalletTicket = {
   url: 'https://localhost/guest/view/00000000-0000-4000-8000-000000000002',
 }
 
-let directory: string
 let certificate: string
 let key: string
 
 beforeAll(() => {
   // a throwaway self-signed certificate, as signing needs a certificate but
   // not one that Apple issued
-  directory = mkdtempSync(join(tmpdir(), 'wallet-'))
-  execFileSync(
-    'openssl',
-    [
-      'req',
-      '-x509',
-      '-newkey',
-      'rsa:2048',
-      '-nodes',
-      '-subj',
-      '/CN=test',
-      '-days',
-      '1',
-      '-keyout',
-      join(directory, 'key.pem'),
-      '-out',
-      join(directory, 'certificate.pem'),
-    ],
-    { stdio: 'ignore' },
-  )
-  certificate = readFileSync(join(directory, 'certificate.pem'), 'utf8')
-  key = readFileSync(join(directory, 'key.pem'), 'utf8')
-})
+  const { privateKey, publicKey } = forge.pki.rsa.generateKeyPair(2048)
+  const x509 = forge.pki.createCertificate()
 
-afterAll(() => {
-  rmSync(directory, { force: true, recursive: true })
+  x509.publicKey = publicKey
+  x509.serialNumber = '01'
+  x509.validity.notBefore = new Date()
+  x509.validity.notAfter = new Date(Date.now() + 24 * 60 * 60 * 1000)
+  x509.setSubject([{ name: 'commonName', value: 'test' }])
+  x509.setIssuer([{ name: 'commonName', value: 'test' }])
+  x509.sign(privateKey, forge.md.sha256.create())
+
+  certificate = forge.pki.certificateToPem(x509)
+  key = forge.pki.privateKeyToPem(privateKey)
 })
 
 test('gets apple pass with a manifest matching its files', () => {
