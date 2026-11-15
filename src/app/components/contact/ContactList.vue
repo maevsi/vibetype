@@ -2,7 +2,7 @@
   <Loader :api>
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
-        <FormInputSearch
+        <AppInputSearch
           v-if="contacts.length"
           v-model="searchString"
           class="flex-1"

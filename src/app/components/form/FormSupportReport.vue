@@ -39,9 +39,7 @@
             :name="field.name"
             type="text"
             @blur="field.handleBlur"
-            @input="
-              field.handleChange(($event.target as HTMLInputElement).value)
-            "
+            @update:model-value="field.handleChange"
           />
           <FieldError
             v-if="isFieldInvalid(field)"
@@ -63,9 +61,7 @@
             :name="field.name"
             type="email"
             @blur="field.handleBlur"
-            @input="
-              field.handleChange(($event.target as HTMLInputElement).value)
-            "
+            @update:model-value="field.handleChange"
           />
           <FieldError
             v-if="isFieldInvalid(field)"

@@ -4,19 +4,20 @@
       <form.Field v-slot="{ field }" name="username">
         <Field>
           <FieldContent>
-            <FormAuthInput
+            <AppInput
               :aria-invalid="!!usernameValidation.error.value"
+              :aria-label="t('emailAddressOrUsername')"
               autocomplete="username"
               :model-value="field.state.value"
               :placeholder="t('emailAddressOrUsername')"
               type="text"
               @blur="handleUsernameBlur(field)"
-              @input="handleUsernameInput(field, $event)"
+              @update:model-value="handleUsernameInput(field, $event)"
             >
-              <template #icon>
+              <template #prefix>
                 <IHeroiconsEnvelope />
               </template>
-            </FormAuthInput>
+            </AppInput>
           </FieldContent>
           <p
             v-if="usernameValidation.error.value"
@@ -29,15 +30,19 @@
       <form.Field v-slot="{ field }" name="password">
         <Field>
           <FieldContent>
-            <FormInputPassword
+            <AppInputPassword
               :aria-invalid="!!passwordValidation.error.value"
+              :aria-label="t('password')"
               autocomplete="current-password"
-              has-icon
               :model-value="field.state.value"
               :placeholder="t('password')"
               @blur="handlePasswordBlur(field)"
-              @input="handlePasswordInput(field, $event)"
-            />
+              @update:model-value="handlePasswordInput(field, $event)"
+            >
+              <template #prefix>
+                <IHeroiconsKey />
+              </template>
+            </AppInputPassword>
           </FieldContent>
           <p
             v-if="passwordValidation.error.value"

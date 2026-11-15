@@ -27,7 +27,7 @@
       </div>
       <template v-if="event && guests.length">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
-          <FormInputSearch v-model="searchString" class="flex-1" />
+          <AppInputSearch v-model="searchString" class="flex-1" />
           <Select v-model="feedbackFilter">
             <SelectTrigger
               :aria-label="t('feedbackFilter')"

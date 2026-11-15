@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-1 flex-col gap-4">
-    <FormInputSearch v-model="searchQuery" />
+    <AppInputSearch v-model="searchQuery" />
     <AppAlert v-if="errorMessages.length" variant="error">
       <AppSpanList :span="errorMessages" />
     </AppAlert>
