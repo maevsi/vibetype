@@ -137,7 +137,10 @@ const onSignIn = async (username: string) => {
     )
   })
 
-  const language = await getOwnContactLanguage({ nuxtApp, store })
+  const language = await syncLocaleCookieToOwnContactLanguage({
+    nuxtApp,
+    store,
+  })
 
   await store.navigateWithoutHistory(getSignInTarget({ language, username }), {
     replace: true,
