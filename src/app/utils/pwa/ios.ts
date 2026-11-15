@@ -61,10 +61,16 @@ const parseIosPushDetail = (detail: unknown) => {
       : {}
   const getString = (value: unknown) =>
     typeof value === 'string' && value ? value : undefined
+  const getRecord = (value: unknown): Record<string, unknown> =>
+    value && typeof value === 'object'
+      ? Object.fromEntries(Object.entries(value))
+      : {}
+  // the app forwards the raw APNs `userInfo`, which nests the visible text in `aps.alert`
+  const alert = getRecord(getRecord(source.aps).alert)
 
   return {
-    body: getString(source.body),
-    title: getString(source.title),
+    body: getString(source.body) ?? getString(alert.body),
+    title: getString(source.title) ?? getString(alert.title),
     url: getString(source.url),
   }
 }
