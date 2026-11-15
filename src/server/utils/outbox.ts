@@ -186,6 +186,36 @@ const resolveGuestInvitation = async (guestId: string) => {
   return guestInvitation
 }
 
+const resolveAccountNotification = async (accountNotificationId: string) => {
+  const [accountNotification] = await executeQuery(
+    sql<AccountNotificationResolved[]>`
+      SELECT * FROM vibetype_private.outbox_account_notification_resolve(${accountNotificationId})
+    `,
+  )
+  return accountNotification
+}
+
+const sendAccountNotification = async (
+  envelope: OutboxEnvelope,
+  { siteUrl }: OutboxContext,
+) => {
+  const accountNotification = await resolveAccountNotification(
+    envelope.aggregate_id,
+  )
+
+  if (!accountNotification?.is_push_enabled) {
+    console.info(
+      `Skipping push for outbox event ${envelope.id}: notification is gone or push is disabled`,
+    )
+    return
+  }
+
+  await sendAccountNotificationPush({
+    notification: accountNotification,
+    siteUrl,
+  })
+}
+
 const sendAccountRegistrationMail = async (
   envelope: OutboxEnvelope,
   { redis, runtimeConfig, siteUrl }: OutboxContext,
@@ -300,6 +330,10 @@ const outboxHandlers: Record<
 > = {
   // only the lakehouse acts on deletions
   'account.deleted': { version: 1 },
+  [CHANNEL_NAME_ACCOUNT_NOTIFICATION]: {
+    handle: sendAccountNotification,
+    version: 1,
+  },
   [CHANNEL_NAME_ACCOUNT_PASSWORD_RESET]: {
     handle: sendAccountPasswordResetMail,
     version: 1,
