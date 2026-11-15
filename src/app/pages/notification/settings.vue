@@ -20,6 +20,7 @@
           </span>
           <NotificationPermission />
         </section>
+        <NotificationDeviceList />
         <section :aria-labelledby="templateIdTypes" class="flex flex-col gap-3">
           <span
             :id="templateIdTypes"

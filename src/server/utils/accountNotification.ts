@@ -296,7 +296,7 @@ export const sendAccountNotificationPush = async ({
 
 const getFcmTokensByAccountId = async (accountId: string) => {
   const rows = await executeQuery(
-    sql`SELECT fcm_token FROM vibetype.device WHERE created_by = ${accountId}`,
+    sql`SELECT fcm_token FROM vibetype.device WHERE created_by = ${accountId} AND last_seen_at > CURRENT_TIMESTAMP - INTERVAL '90 days'`,
   )
 
   return rows

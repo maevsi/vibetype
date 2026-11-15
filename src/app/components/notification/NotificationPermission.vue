@@ -5,7 +5,7 @@
     >
       <AppIconQuestionMarkCircle v-if="state === 'loading'" />
       <AppIconCheckCircle v-else-if="state === 'granted'" class="text-link" />
-      <AppIconBellAlert v-else-if="state === 'prompt'" />
+      <AppIconBellAlert v-else-if="state === 'prompt' || state === 'removed'" />
       <AppIconNoSymbol v-else />
     </div>
     <div class="flex flex-1 flex-col gap-3" role="status">
@@ -21,7 +21,7 @@
           {{ deniedInstruction }}
         </p>
       </div>
-      <div v-if="state === 'prompt'">
+      <div v-if="state === 'prompt' || state === 'removed'">
         <AppButton
           :aria-label="t('turnOn')"
           :loading="isRequesting"
@@ -80,6 +80,12 @@ const state = computed(() => {
 
   if (!isSupported.value) return 'unsupported'
 
+  if (
+    notificationStore.permissionState === 'granted' &&
+    notificationStore.isDeviceRemoved
+  )
+    return 'removed'
+
   return notificationStore.permissionState
 })
 const texts = computed(() => {
@@ -90,6 +96,11 @@ const texts = computed(() => {
       return { description: t('grantedDescription'), title: t('grantedTitle') }
     case 'prompt':
       return { description: t('promptDescription'), title: t('promptTitle') }
+    case 'removed':
+      return {
+        description: t('removedDescription'),
+        title: t('removedTitle'),
+      }
     case 'unsupported':
       return {
         description: t('unsupportedDescription'),
@@ -109,6 +120,11 @@ const deniedInstruction = computed(() => {
 
 const refresh = () => requestNotificationPermissionState(notificationStore)
 const turnOn = async () => {
+  if (state.value === 'removed') {
+    notificationStore.deviceRestore()
+    return
+  }
+
   isRequesting.value = true
 
   try {
@@ -147,6 +163,8 @@ de:
   openSystemSettings: Einstellungen öffnen
   promptDescription: Schalte sie ein, um Einladungen, Antworten und Freundschaftsanfragen sofort zu erhalten.
   promptTitle: Push-Benachrichtigungen sind aus
+  removedDescription: Du hast dieses Gerät entfernt. Schalte Benachrichtigungen wieder ein, um sie hier zu erhalten.
+  removedTitle: Push-Benachrichtigungen sind auf diesem Gerät aus
   turnOn: Benachrichtigungen einschalten
   unsupportedDescription: Dein Browser unterstützt keine Push-Benachrichtigungen. Neue Benachrichtigungen findest du weiterhin hier in der App.
   unsupportedTitle: Push-Benachrichtigungen nicht verfügbar
@@ -164,6 +182,8 @@ en:
   openSystemSettings: Open settings
   promptDescription: Turn them on to get invitations, replies and friend requests right away.
   promptTitle: Push notifications are off
+  removedDescription: You removed this device. Turn notifications on again to get them here.
+  removedTitle: Push notifications are off on this device
   turnOn: Turn on notifications
   unsupportedDescription: Your browser does not support push notifications. You still find new notifications here in the app.
   unsupportedTitle: Push notifications are unavailable

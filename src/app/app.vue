@@ -194,6 +194,7 @@ if (import.meta.client) {
   // reads it directly off the store. It's a dependency so this watcher re-fires
   // once the token arrives, which on iOS happens asynchronously via a native
   // callback well after permission is granted and the account is signed in.
+  // `isDeviceRemoved` is one too, so turning notifications on again registers.
   const isNotificationsEnabled = isFeatureEnabled('notifications')
 
   watch(
@@ -202,9 +203,10 @@ if (import.meta.client) {
         store.signedInAccountId,
         notificationStore.permissionState,
         notificationStore.fcmToken,
+        notificationStore.isDeviceRemoved,
         isNotificationsEnabled.value,
       ] as const,
-    ([signedInAccountId, permissionState, , isEnabled]) => {
+    ([signedInAccountId, permissionState, , , isEnabled]) => {
       if (isEnabled && signedInAccountId && permissionState === 'granted') {
         notificationStore.registerDevice($urql.value, signedInAccountId)
       }

@@ -52,17 +52,6 @@ export type AccountNotificationReadAllInput = {
   clientMutationId?: string | null | undefined
 }
 
-/** All input for the `accountPasswordChange` mutation. */
-export type AccountPasswordChangeInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: string | null | undefined
-  passwordCurrent: string
-  passwordNew: string
-}
-
 /** All input for the `accountPasswordReset` mutation. */
 export type AccountPasswordResetInput = {
   /**
@@ -280,17 +269,6 @@ export type CreateContactInput = {
   contact: ContactInput
 }
 
-/** All input for the create `Device` mutation. */
-export type CreateDeviceInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: string | null | undefined
-  /** The `Device` to be created by this mutation. */
-  device: DeviceInput
-}
-
 /** All input for the create `EventCategoryMapping` mutation. */
 export type CreateEventCategoryMappingInput = {
   /**
@@ -458,17 +436,26 @@ export type DeleteContactByRowIdInput = {
   rowId: string
 }
 
-/** All input for the `deleteDeviceByCreatedByAndFcmToken` mutation. */
-export type DeleteDeviceByCreatedByAndFcmTokenInput = {
+/** All input for the `deleteDeviceByFcmToken` mutation. */
+export type DeleteDeviceByFcmTokenInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: string | null | undefined
-  /** Reference to the account that created the device. */
-  createdBy: string
-  /** The Firebase Cloud Messaging token of the device that's used to deliver notifications. Must be non-empty and not exceed 300 characters. */
+  /** The Firebase Cloud Messaging token that is used to deliver notifications. Unique across all accounts. */
   fcmToken: string
+}
+
+/** All input for the `deleteDeviceByRowId` mutation. */
+export type DeleteDeviceByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** The internal id of the device. */
+  rowId: string
 }
 
 /** All input for the `deleteEventCategoryMappingByEventIdAndCategoryId` mutation. */
@@ -602,12 +589,19 @@ export type DeleteUploadByRowIdInput = {
   rowId: string
 }
 
-/** An input for mutations affecting `Device` */
-export type DeviceInput = {
-  /** Reference to the account that created the device. */
-  createdBy: string
-  /** The Firebase Cloud Messaging token of the device that's used to deliver notifications. Must be non-empty and not exceed 300 characters. */
-  fcmToken: string
+/** Platforms a push registration is made on: android, ios, web. */
+export type DevicePlatform = 'android' | 'ios' | 'web'
+
+/** All input for the `deviceRegister` mutation. */
+export type DeviceRegisterInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  fcmToken?: string | null | undefined
+  label?: string | null | undefined
+  platform?: DevicePlatform | null | undefined
 }
 
 /** An input for mutations affecting `EventCategoryMapping` */
@@ -1414,14 +1408,6 @@ export type CreateGuestsMutation = {
   createGuests: { result: Array<{ id: string; rowId: string }> | null } | null
 }
 
-export type AccountPasswordChangeMutationVariables = Exact<{
-  input: AccountPasswordChangeInput
-}>
-
-export type AccountPasswordChangeMutation = {
-  accountPasswordChange: { clientMutationId: string | null } | null
-}
-
 export type AccountPasswordResetMutationVariables = Exact<{
   input: AccountPasswordResetInput
 }>
@@ -1500,35 +1486,6 @@ export type DeclineFriendshipMutationVariables = Exact<{
 
 export type DeclineFriendshipMutation = {
   deleteFriendshipByRowId: { clientMutationId: string | null } | null
-}
-
-export type AllPreferenceEventSizesQueryVariables = Exact<{
-  [key: string]: never
-}>
-
-export type AllPreferenceEventSizesQuery = {
-  allPreferenceEventSizes: {
-    nodes: Array<{ eventSize: EventSize; id: string; rowId: string }>
-  } | null
-}
-
-export type CreatePreferenceEventSizeMutationVariables = Exact<{
-  input: CreatePreferenceEventSizeInput
-}>
-
-export type CreatePreferenceEventSizeMutation = {
-  createPreferenceEventSize: { clientMutationId: string | null } | null
-}
-
-export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables =
-  Exact<{
-    input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput
-  }>
-
-export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutation = {
-  deletePreferenceEventSizeByAccountIdAndEventSize: {
-    clientMutationId: string | null
-  } | null
 }
 
 export type AllEventCategoriesQueryVariables = Exact<{ [key: string]: never }>
@@ -1621,6 +1578,35 @@ export type DeletePreferenceEventLocationByRowIdMutation = {
   } | null
 }
 
+export type AllPreferenceEventSizesQueryVariables = Exact<{
+  [key: string]: never
+}>
+
+export type AllPreferenceEventSizesQuery = {
+  allPreferenceEventSizes: {
+    nodes: Array<{ eventSize: EventSize; id: string; rowId: string }>
+  } | null
+}
+
+export type CreatePreferenceEventSizeMutationVariables = Exact<{
+  input: CreatePreferenceEventSizeInput
+}>
+
+export type CreatePreferenceEventSizeMutation = {
+  createPreferenceEventSize: { clientMutationId: string | null } | null
+}
+
+export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables =
+  Exact<{
+    input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput
+  }>
+
+export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutation = {
+  deletePreferenceEventSizeByAccountIdAndEventSize: {
+    clientMutationId: string | null
+  } | null
+}
+
 export type DeleteUploadByRowIdMutationVariables = Exact<{
   input: DeleteUploadByRowIdInput
 }>
@@ -1703,6 +1689,29 @@ export type JwtUpdateGuestAddGuestMutationVariables = Exact<{
 
 export type JwtUpdateGuestAddGuestMutation = {
   jwtUpdateGuestAdd: { result: string | null } | null
+}
+
+export type AllDevicesQueryVariables = Exact<{ [key: string]: never }>
+
+export type AllDevicesQuery = {
+  allDevices: {
+    nodes: Array<{
+      fcmToken: string
+      id: string
+      label: string | null
+      lastSeenAt: string
+      platform: DevicePlatform
+      rowId: string
+    }>
+  } | null
+}
+
+export type DeleteDeviceByRowIdMutationVariables = Exact<{
+  input: DeleteDeviceByRowIdInput
+}>
+
+export type DeleteDeviceByRowIdMutation = {
+  deleteDeviceByRowId: { clientMutationId: string | null } | null
 }
 
 export type AllAccountNotificationsQueryVariables = Exact<{
@@ -2379,29 +2388,20 @@ export type AchievementUnlockMutation = {
   } | null
 }
 
-export type DeviceByCreatedByAndFcmTokenQueryVariables = Exact<{
-  createdBy: string
-  fcmToken: string
+export type DeviceRegisterMutationVariables = Exact<{
+  input: DeviceRegisterInput
 }>
 
-export type DeviceByCreatedByAndFcmTokenQuery = {
-  deviceByCreatedByAndFcmToken: { id: string } | null
+export type DeviceRegisterMutation = {
+  deviceRegister: { result: { id: string } | null } | null
 }
 
-export type CreateDeviceMutationVariables = Exact<{
-  input: CreateDeviceInput
+export type DeleteDeviceByFcmTokenMutationVariables = Exact<{
+  input: DeleteDeviceByFcmTokenInput
 }>
 
-export type CreateDeviceMutation = {
-  createDevice: { clientMutationId: string | null } | null
-}
-
-export type DeleteDeviceByCreatedByAndFcmTokenMutationVariables = Exact<{
-  input: DeleteDeviceByCreatedByAndFcmTokenInput
-}>
-
-export type DeleteDeviceByCreatedByAndFcmTokenMutation = {
-  deleteDeviceByCreatedByAndFcmToken: { clientMutationId: string | null } | null
+export type DeleteDeviceByFcmTokenMutation = {
+  deleteDeviceByFcmToken: { clientMutationId: string | null } | null
 }
 
 export type AccountByUsernameQueryVariables = Exact<{
@@ -5799,63 +5799,6 @@ export const CreateGuestsDocument = {
   CreateGuestsMutation,
   CreateGuestsMutationVariables
 >
-export const AccountPasswordChangeDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'AccountPasswordChange' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'AccountPasswordChangeInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accountPasswordChange' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  AccountPasswordChangeMutation,
-  AccountPasswordChangeMutationVariables
->
 export const AccountPasswordResetDocument = {
   kind: 'Document',
   definitions: [
@@ -6475,171 +6418,6 @@ export const DeclineFriendshipDocument = {
   DeclineFriendshipMutation,
   DeclineFriendshipMutationVariables
 >
-export const AllPreferenceEventSizesDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'AllPreferenceEventSizes' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'allPreferenceEventSizes' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'eventSize' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  AllPreferenceEventSizesQuery,
-  AllPreferenceEventSizesQueryVariables
->
-export const CreatePreferenceEventSizeDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'CreatePreferenceEventSize' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreatePreferenceEventSizeInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createPreferenceEventSize' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  CreatePreferenceEventSizeMutation,
-  CreatePreferenceEventSizeMutationVariables
->
-export const DeletePreferenceEventSizeByAccountIdAndEventSizeDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: {
-        kind: 'Name',
-        value: 'DeletePreferenceEventSizeByAccountIdAndEventSize',
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: {
-                kind: 'Name',
-                value: 'DeletePreferenceEventSizeByAccountIdAndEventSizeInput',
-              },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: {
-              kind: 'Name',
-              value: 'deletePreferenceEventSizeByAccountIdAndEventSize',
-            },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  DeletePreferenceEventSizeByAccountIdAndEventSizeMutation,
-  DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables
->
 export const AllEventCategoriesDocument = {
   kind: 'Document',
   definitions: [
@@ -7193,6 +6971,171 @@ export const DeletePreferenceEventLocationByRowIdDocument = {
   DeletePreferenceEventLocationByRowIdMutation,
   DeletePreferenceEventLocationByRowIdMutationVariables
 >
+export const AllPreferenceEventSizesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllPreferenceEventSizes' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allPreferenceEventSizes' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventSize' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllPreferenceEventSizesQuery,
+  AllPreferenceEventSizesQueryVariables
+>
+export const CreatePreferenceEventSizeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreatePreferenceEventSize' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreatePreferenceEventSizeInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createPreferenceEventSize' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreatePreferenceEventSizeMutation,
+  CreatePreferenceEventSizeMutationVariables
+>
+export const DeletePreferenceEventSizeByAccountIdAndEventSizeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: {
+        kind: 'Name',
+        value: 'DeletePreferenceEventSizeByAccountIdAndEventSize',
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'DeletePreferenceEventSizeByAccountIdAndEventSizeInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'deletePreferenceEventSizeByAccountIdAndEventSize',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeletePreferenceEventSizeByAccountIdAndEventSizeMutation,
+  DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables
+>
 export const DeleteUploadByRowIdDocument = {
   kind: 'Document',
   definitions: [
@@ -7701,6 +7644,118 @@ export const JwtUpdateGuestAddGuestDocument = {
 } as unknown as DocumentNode<
   JwtUpdateGuestAddGuestMutation,
   JwtUpdateGuestAddGuestMutationVariables
+>
+export const AllDevicesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllDevices' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allDevices' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: { kind: 'EnumValue', value: 'LAST_SEEN_AT_DESC' },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'fcmToken' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'label' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastSeenAt' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'platform' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AllDevicesQuery, AllDevicesQueryVariables>
+export const DeleteDeviceByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteDeviceByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteDeviceByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteDeviceByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteDeviceByRowIdMutation,
+  DeleteDeviceByRowIdMutationVariables
 >
 export const AllAccountNotificationsDocument = {
   kind: 'Document',
@@ -11825,86 +11880,13 @@ export const AchievementUnlockDocument = {
   AchievementUnlockMutation,
   AchievementUnlockMutationVariables
 >
-export const DeviceByCreatedByAndFcmTokenDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'DeviceByCreatedByAndFcmToken' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'createdBy' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
-          },
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'fcmToken' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'String' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'deviceByCreatedByAndFcmToken' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'createdBy' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'createdBy' },
-                },
-              },
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'fcmToken' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'fcmToken' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  DeviceByCreatedByAndFcmTokenQuery,
-  DeviceByCreatedByAndFcmTokenQueryVariables
->
-export const CreateDeviceDocument = {
+export const DeviceRegisterDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'CreateDevice' },
+      name: { kind: 'Name', value: 'DeviceRegister' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -11916,7 +11898,7 @@ export const CreateDeviceDocument = {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreateDeviceInput' },
+              name: { kind: 'Name', value: 'DeviceRegisterInput' },
             },
           },
         },
@@ -11926,7 +11908,70 @@ export const CreateDeviceDocument = {
         selections: [
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'createDevice' },
+            name: { kind: 'Name', value: 'deviceRegister' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'result' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeviceRegisterMutation,
+  DeviceRegisterMutationVariables
+>
+export const DeleteDeviceByFcmTokenDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteDeviceByFcmToken' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteDeviceByFcmTokenInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteDeviceByFcmToken' },
             arguments: [
               {
                 kind: 'Argument',
@@ -11952,68 +11997,8 @@ export const CreateDeviceDocument = {
     },
   ],
 } as unknown as DocumentNode<
-  CreateDeviceMutation,
-  CreateDeviceMutationVariables
->
-export const DeleteDeviceByCreatedByAndFcmTokenDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'DeleteDeviceByCreatedByAndFcmToken' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: {
-                kind: 'Name',
-                value: 'DeleteDeviceByCreatedByAndFcmTokenInput',
-              },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'deleteDeviceByCreatedByAndFcmToken' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  DeleteDeviceByCreatedByAndFcmTokenMutation,
-  DeleteDeviceByCreatedByAndFcmTokenMutationVariables
+  DeleteDeviceByFcmTokenMutation,
+  DeleteDeviceByFcmTokenMutationVariables
 >
 export const AccountByUsernameDocument = {
   kind: 'Document',
