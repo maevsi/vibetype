@@ -79,7 +79,7 @@ export const useJwtInitialize = async () => {
   const { data: initialData } = await useFetch('/api/model/jwt')
   store.jwtSet(initialData.value?.jwtPayload)
 
-  if (!store.jwtPayload) return
+  if (!store.jwtPayload) return false
 
   const jwtId = store.jwtPayload.jti
 
@@ -102,6 +102,9 @@ export const useJwtInitialize = async () => {
   } catch (error) {
     console.error('JWT update failed:', error)
   }
+
+  // an existing session opens in the language of the account
+  return await syncLocaleToOwnContactLanguage({ nuxtApp, store })
 }
 
 export const useJwtUpdateGuestAdd = ({ guestId }: { guestId: uuid }) => {

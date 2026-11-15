@@ -1,13 +1,15 @@
 <template>
-  <ButtonIcon
+  <AppButton
     v-if="isVisible"
     v-bind="delegatedProps"
-    @click="store.navigateBack"
+    :size="isRound ? 'icon' : 'none'"
+    :variant="isRound ? 'secondary' : 'ghost'"
+    @click="store.navigateBack()"
   >
     <slot>
       <AppIconBack />
     </slot>
-  </ButtonIcon>
+  </AppButton>
 </template>
 
 <script setup lang="ts">
@@ -15,8 +17,9 @@ import { isEqual } from 'ufo'
 
 const { t } = useI18n()
 
-const { ariaLabel = undefined } = defineProps<{
+const { ariaLabel = undefined, isRound = false } = defineProps<{
   ariaLabel?: string
+  isRound?: boolean
 }>()
 const delegatedProps = computed(() => ({
   ariaLabel: ariaLabel || t('back'),

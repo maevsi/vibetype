@@ -7,7 +7,7 @@
         <!-- lg:grid-cols-2 -->
         <div class="flex gap-4">
           <div class="flex-1">
-            <Card>
+            <AppCard>
               <ul class="flex flex-col gap-2">
                 <template v-for="feature in FEATURE_FLAGS" :key="feature">
                   <li class="flex items-center justify-between">
@@ -22,7 +22,7 @@
                       </span>
                     </div>
                     <div>
-                      <ButtonColored
+                      <AppButton
                         :aria-label="
                           isFeatureEnabled(feature).value
                             ? t('featureFlagsDisable')
@@ -37,12 +37,12 @@
                         <span v-else>
                           {{ t('featureFlagsEnable') }}
                         </span>
-                      </ButtonColored>
+                      </AppButton>
                     </div>
                   </li>
                 </template>
               </ul>
-            </Card>
+            </AppCard>
           </div>
         </div>
       </section>
@@ -50,7 +50,7 @@
         <h2>{{ t('end') }}</h2>
         <div class="grid gap-4 lg:grid-cols-2">
           <div class="flex-1">
-            <Card>
+            <AppCard>
               <template v-if="store.jwtPayload?.exp">
                 <i18n-t keypath="sessionExpiry">
                   <template #exp>
@@ -64,11 +64,11 @@
               <template v-else>
                 {{ t('sessionExpiryNone') }}
               </template>
-            </Card>
+            </AppCard>
           </div>
           <div class="flex-1">
             <div class="flex flex-col gap-2">
-              <ButtonColored
+              <AppButton
                 :aria-label="t('endNow')"
                 :disabled="!store.jwtPayload"
                 variant="secondary"
@@ -78,7 +78,7 @@
                 <template #prefix>
                   <AppIconOutlineLogout />
                 </template>
-              </ButtonColored>
+              </AppButton>
             </div>
           </div>
         </div>
@@ -87,7 +87,7 @@
         <h2>{{ t('codes') }}</h2>
         <div class="grid gap-4 lg:grid-cols-2">
           <div class="flex-1">
-            <Card>
+            <AppCard>
               <div v-if="store.jwtPayload?.guests">
                 <p>
                   {{ t('codesEntered') }}
@@ -104,7 +104,7 @@
               <p v-else>
                 {{ t('codesEnteredNone') }}
               </p>
-            </Card>
+            </AppCard>
           </div>
           <div class="flex-1">
             <!-- TODO: implement guest code management (https://github.com/maevsi/vibetype/issues/61) -->
@@ -115,9 +115,9 @@
         <h2>{{ t('userAgentString') }}</h2>
         <div class="grid gap-4 lg:grid-cols-2">
           <div class="flex-1">
-            <Card>
+            <AppCard>
               {{ userAgentString }}
-            </Card>
+            </AppCard>
           </div>
         </div>
       </section>
@@ -125,7 +125,7 @@
         <h2>{{ t('app') }}</h2>
         <div class="grid gap-4 lg:grid-cols-2">
           <div class="flex flex-1 flex-col gap-2">
-            <Card class="flex flex-col gap-1">
+            <AppCard class="flex flex-col gap-1">
               <div class="flex gap-2">
                 <AppIconQuestionMarkCircle v-if="isApp === undefined" />
                 <AppIconCheckCircle v-else-if="isApp" class="text-link" />
@@ -134,12 +134,12 @@
                   {{ t('appIs') }}
                 </span>
               </div>
-            </Card>
-            <Card v-if="isApp" class="flex flex-col gap-1">
+            </AppCard>
+            <AppCard v-if="isApp" class="flex flex-col gap-1">
               <span>
                 {{ t('appPlatform', { platform }) }}
               </span>
-            </Card>
+            </AppCard>
           </div>
         </div>
       </section>
@@ -147,7 +147,7 @@
         <h2>{{ t('notification') }}</h2>
         <div class="flex flex-col gap-4 lg:flex-row">
           <section class="flex-1">
-            <Card class="flex flex-col gap-1">
+            <AppCard class="flex flex-col gap-1">
               <div class="flex gap-2">
                 <AppIconQuestionMarkCircle
                   v-if="isNavigatorHavingPermissions === undefined"
@@ -221,11 +221,11 @@
                   {{ t('notificationPermitted') }}
                 </span>
               </div>
-            </Card>
+            </AppCard>
           </section>
           <section class="flex-1">
             <div class="flex flex-col gap-2">
-              <ButtonColored
+              <AppButton
                 :aria-label="t('notificationPermit')"
                 :disabled="!isNotificationPermissionRequestPossible"
                 variant="secondary"
@@ -235,8 +235,19 @@
                 <template #prefix>
                   <AppIconShieldCheck />
                 </template>
-              </ButtonColored>
-              <ButtonColored
+              </AppButton>
+              <AppButton
+                v-if="isAndroid"
+                :aria-label="t('notificationAppSettings')"
+                variant="secondary"
+                @click="openNotificationSettings"
+              >
+                {{ t('notificationAppSettings') }}
+                <template #prefix>
+                  <AppIconSettings />
+                </template>
+              </AppButton>
+              <AppButton
                 :aria-label="t('notificationSend')"
                 variant="secondary"
                 @click="sendNotification"
@@ -245,8 +256,8 @@
                 <template #prefix>
                   <AppIconBellAlert />
                 </template>
-              </ButtonColored>
-              <ButtonColored
+              </AppButton>
+              <AppButton
                 :aria-label="t('showFcmToken')"
                 variant="secondary"
                 @click="showFcmToken"
@@ -255,7 +266,7 @@
                 <template #prefix>
                   <AppIconClipboard />
                 </template>
-              </ButtonColored>
+              </AppButton>
             </div>
           </section>
         </div>
@@ -264,7 +275,7 @@
         <h2>{{ t('data') }}</h2>
         <div class="grid gap-4 lg:grid-cols-2">
           <div class="flex flex-1 flex-col gap-2">
-            <Card class="flex flex-col gap-1">
+            <AppCard class="flex flex-col gap-1">
               <div class="flex gap-2">
                 <ClientOnly>
                   <AppIconCheckCircle v-if="$urqlCache" class="text-link" />
@@ -277,11 +288,11 @@
                   {{ t('apiClient') }}
                 </span>
               </div>
-            </Card>
+            </AppCard>
           </div>
           <div class="flex flex-1 flex-col gap-2">
             <ClientOnly>
-              <ButtonColored
+              <AppButton
                 :aria-label="t('apiClientCacheClear')"
                 :disabled="!$urqlCache"
                 variant="secondary"
@@ -291,9 +302,9 @@
                 <template #prefix>
                   <AppIconTrash />
                 </template>
-              </ButtonColored>
+              </AppButton>
               <template #fallback>
-                <ButtonColored
+                <AppButton
                   :aria-label="t('apiClientCacheClear')"
                   disabled
                   variant="secondary"
@@ -302,7 +313,7 @@
                   <template #prefix>
                     <AppIconTrash />
                   </template>
-                </ButtonColored>
+                </AppButton>
               </template>
             </ClientOnly>
           </div>
@@ -323,7 +334,7 @@ const requestEvent = useRequestEvent()
 const store = useStore()
 const notificationStore = useNotificationStore()
 const jwtDelete = useJwtDelete()
-const { isApp, platform } = usePlatform()
+const { isAndroid, isApp, platform } = usePlatform()
 const alertError = useAlertError()
 
 // feature flags
@@ -358,6 +369,12 @@ const sendNotification = async () => {
     icon: '/assets/static/logos/app_icon.svg',
     tag: 'test',
   })
+}
+const trustedWebActivityPackageName = 'si.maev.twa'
+const openNotificationSettings = () => {
+  // Chrome only launches browsable activities from `intent:` URIs, so the app's `NotificationSettingsActivity` forwards to the system settings; app versions without it land on the store page to update.
+  const fallbackUrl = `https://play.google.com/store/apps/details?id=${trustedWebActivityPackageName}`
+  window.location.href = `intent://notification-settings#Intent;scheme=vibetype;package=${trustedWebActivityPackageName};S.browser_fallback_url=${encodeURIComponent(fallbackUrl)};end`
 }
 const { copy } = useCopy()
 const showFcmToken = async () => {
@@ -463,6 +480,7 @@ de:
   hasNavigatorServiceWorkers: Navigator hat Service Worker
   hasWindowNotification: Fenster hat Benachrichtigung
   notification: Benachrichtigungen
+  notificationAppSettings: Benachrichtigungseinstellungen öffnen
   notificationPermit: Benachrichtigungen erlauben
   notificationPermitted: Benachrichtigungen sind erlaubt
   notificationSend: Benachrichtigung senden
@@ -497,6 +515,7 @@ en:
   hasNavigatorServiceWorkers: Navigator has service workers
   hasWindowNotification: Window has notification
   notification: Notifications
+  notificationAppSettings: Open notification settings
   notificationPermit: Permit notifications
   notificationPermitted: Notifications are permitted
   notificationSend: Send notification

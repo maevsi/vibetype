@@ -55,33 +55,29 @@
         </LayoutPageResult>
         <Collapsible v-model:open="detailsIsOpen" class="flex flex-col gap-2">
           <CollapsibleTrigger as-child>
-            <ButtonColored
+            <AppButton
               v-if="!detailsIsOpen"
               :aria-label="t('detailsMore')"
               class="w-full"
               size="small"
               variant="tertiary"
             >
-              <TypographyLabel>
-                {{ t('detailsMore') }}
-              </TypographyLabel>
+              {{ t('detailsMore') }}
               <AppIconChevronDown class="size-4" />
-            </ButtonColored>
-            <ButtonColored
+            </AppButton>
+            <AppButton
               v-else
               :aria-label="t('detailsLess')"
               class="w-full"
               size="small"
               variant="tertiary"
             >
-              <TypographyLabel>
-                {{ t('detailsLess') }}
-              </TypographyLabel>
+              {{ t('detailsLess') }}
               <AppIconChevronUp class="size-4" />
-            </ButtonColored>
+            </AppButton>
           </CollapsibleTrigger>
           <CollapsibleContent>
-            <Card>
+            <AppCard>
               <section
                 :aria-labelledby="templateIdDetails"
                 class="flex flex-col gap-4 p-2"
@@ -97,10 +93,10 @@
                     >{{ error.stack }}</pre>
                 </div>
               </section>
-            </Card>
+            </AppCard>
           </CollapsibleContent>
         </Collapsible>
-        <ButtonColored
+        <AppButton
           :aria-label="t('support')"
           size="small"
           :to="
@@ -114,13 +110,13 @@
           <template #prefix>
             <AppIconHelp class="size-4" />
           </template>
-        </ButtonColored>
+        </AppButton>
       </div>
       <template #bottom>
-        <ButtonList>
+        <AppButtonGroup>
           <ButtonSignIn v-if="[403, 404].includes(error.status)" />
           <ButtonHome />
-        </ButtonList>
+        </AppButtonGroup>
       </template>
     </LayoutPage>
   </div>

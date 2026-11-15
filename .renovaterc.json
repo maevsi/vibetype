@@ -3,7 +3,7 @@
   "extends": ["github>dargmuesli/renovate-config"],
   "packageRules": [
     {
-      "allowedVersions": "2.0.0-beta.1",
+      "allowedVersions": "2.0.0-beta.4",
       "description": "a pnpm override in pnpm-workspace.yaml pins leaflet to this version for the whole workspace, so update the override, the dependency and this rule together",
       "matchPackageNames": ["leaflet"]
     },

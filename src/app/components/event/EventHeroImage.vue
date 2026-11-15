@@ -12,7 +12,7 @@
     />
     <EventIconFormat v-if="formatName" class="size-20" :name="formatName" />
   </div>
-  <LoaderImage
+  <AppImage
     v-else
     :alt="t('heroImage')"
     aspect="aspect-[3/2]"

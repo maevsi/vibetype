@@ -14,9 +14,9 @@ const { part, value = undefined } = defineProps<{
     :class="
       cn(
         'rounded-small p-0.5 text-center tabular-nums outline-none',
-        'focus:bg-accent focus:text-accent-foreground',
-        'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
-        part === 'literal' ? 'px-0 text-muted-foreground' : 'min-w-6',
+        'focus:bg-line focus:text-fg-1',
+        'data-[disabled]:pointer-events-none data-[disabled]:opacity-40',
+        part === 'literal' ? 'px-0 text-fg-2' : 'min-w-6',
       )
     "
     data-slot="time-field-input"

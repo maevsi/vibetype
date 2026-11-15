@@ -6,16 +6,16 @@
         <EventCard :event />
       </li>
     </ul>
-    <ButtonColored
+    <AppButton
       v-if="hasNextPage"
       :aria-label="t('globalShowMore')"
       :loading="isLoading"
       @click="emit('loadMore')"
     >
       {{ t('globalShowMore') }}
-    </ButtonColored>
+    </AppButton>
   </div>
-  <LoaderPlaceholder v-else-if="isLoading" />
+  <AppLoaderPlaceholder v-else-if="isLoading" />
   <p v-else class="text-center">{{ t('noEvents') }}</p>
 </template>
 

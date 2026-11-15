@@ -1,9 +1,9 @@
 <template>
   <LayoutPage>
     <LayoutPageResult type="success">
-      <TypographyBodySmall>
+      <span class="text-body-small">
         {{ t('description2') }}
-      </TypographyBodySmall>
+      </span>
       <template #description>
         {{ t('description1') }}
       </template>
@@ -12,13 +12,13 @@
       </template>
     </LayoutPageResult>
     <template #bottom>
-      <ButtonColored
+      <AppButton
         :aria-label="t('button')"
         class="w-full max-w-md"
         @click="store.navigateBack"
       >
         {{ t('button') }}
-      </ButtonColored>
+      </AppButton>
     </template>
   </LayoutPage>
 </template>

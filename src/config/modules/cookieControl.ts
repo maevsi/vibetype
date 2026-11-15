@@ -7,6 +7,7 @@ import {
   FEATURE_FLAGS_COOKIE_NAME,
   GTAG_COOKIE_ID,
   GTAG_MEASUREMENT_ID,
+  I18N_COOKIE_NAME,
   LOCKDOWN_MODE_DISMISSED_COOKIE_NAME,
   TIMEZONE_COOKIE_NAME,
 } from '../../node/static'
@@ -59,6 +60,18 @@ export const cookieControlConfig = {
             en: 'Cookie Preferences',
           },
           targetCookieIds: ['ncc_c', 'ncc_e'],
+        },
+        {
+          description: {
+            de: 'Dieser Cookie von uns speichert die Sprache, in der sich diese Webseite anzeigen soll.',
+            en: 'This cookie of ours stores the language in which this website should be displayed.',
+          },
+          id: 'i',
+          name: {
+            de: 'Sprache',
+            en: 'Language',
+          },
+          targetCookieIds: [I18N_COOKIE_NAME],
         },
         {
           description: {

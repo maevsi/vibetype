@@ -5,24 +5,24 @@
       class="flex flex-col gap-4"
     >
       <LayoutPageTitle :title="t('title')" />
-      <AppSteps
+      <AppStepList
         :active="t('qrCodeScan')"
         :steps="[t('qrCodeScan'), t('nfcWrite')]"
       />
-      <AppHr />
+      <AppSeparator />
       <div class="flex flex-col items-center justify-center gap-4">
-        <ButtonColored :aria-label="t('qrCodeScan')" @click="qrCodeScan">
+        <AppButton :aria-label="t('qrCodeScan')" @click="qrCodeScan">
           {{ t('qrCodeScan') }}
           <template #prefix>
             <AppIconQrCode />
           </template>
-        </ButtonColored>
+        </AppButton>
         <p v-if="!guestId" class="text-body-small text-fg-2">
           {{ t('qrHint') }}
         </p>
         <AppAttendanceGuestDynamic v-if="guestId" :guest-id />
         <div v-if="guestId" class="flex flex-col items-center gap-2">
-          <ButtonColored
+          <AppButton
             :aria-label="t('nfcWrite')"
             class="text-on-action-primary"
             :disabled="isNfcError"
@@ -32,13 +32,13 @@
             <template #prefix>
               <AppIconUserTag />
             </template>
-          </ButtonColored>
-          <CardStateAlert v-if="isNfcError">
+          </AppButton>
+          <AppAlert v-if="isNfcError" variant="error">
             {{ isNfcWritableErrorMessage }}
-          </CardStateAlert>
+          </AppAlert>
         </div>
       </div>
-      <Modal
+      <AppModal
         v-model="isModalAttendanceScanQrCodeOpen"
         :submit-name="t('close')"
         @submit="modalClose"
@@ -47,7 +47,7 @@
         <template #submit-icon>
           <AppIconXCircleSolid />
         </template>
-      </Modal>
+      </AppModal>
     </div>
     <AppError v-else :error="{ status: 403 }" />
   </Loader>

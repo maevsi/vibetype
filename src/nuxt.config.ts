@@ -107,9 +107,6 @@ export default defineNuxtConfig({
     },
     '/api/model/event/ical': {
       csurf: false,
-      security: {
-        xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection here (https://github.com/maevsi/vibetype/issues/1603)
-      },
     },
     '/api/internal/service/tusd': {
       csurf: false, // tusd's http hooks carry no csrf token

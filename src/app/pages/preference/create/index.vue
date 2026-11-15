@@ -5,9 +5,14 @@
         {{ title }}
       </span>
       <template v-if="previous" #back>
-        <ButtonIcon :aria-label="t('back')" @click="step = previous">
+        <AppButton
+          :aria-label="t('back')"
+          size="none"
+          variant="ghost"
+          @click="step = previous"
+        >
           <AppIconBack />
-        </ButtonIcon>
+        </AppButton>
       </template>
       <template
         v-if="
@@ -20,64 +25,62 @@
         </ButtonIconBackRoute>
       </template>
     </LayoutTopBar>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <PreferenceStepWelcome v-bind="attributes" @next="step = 'size'" />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'size'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'size'">
       <PreferenceStepSize
         v-bind="attributes"
         v-model:error="error"
         @next="step = 'format'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'format'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'format'">
       <PreferenceStepFormat
         v-bind="attributes"
         v-model:error="error"
         @next="step = 'category'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'category'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'category'">
       <PreferenceStepCategory
         v-bind="attributes"
         v-model:error="error"
         @next="step = 'location'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'location'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'location'">
       <PreferenceStepLocation
         v-bind="attributes"
         v-model:error="error"
         @next="step = 'done'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'done'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'done'">
       <PreferenceStepDone
         v-bind="attributes"
         @next="navigateTo(localePath({ name: 'dashboard' }))"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
-        <LayoutPageResult type="error">
+        <LayoutPageResult :message="error?.message" type="error">
           <template #description>
-            <span v-if="error && error.message">
-              {{ error.message }}
-            </span>
+            {{ t('globalTryAgain') }}
           </template>
         </LayoutPageResult>
         <template #bottom>
-          <ButtonColored
+          <AppButton
             :aria-label="t('errorBack')"
             class="w-full max-w-sm"
             variant="primary"
             @click="error = undefined"
           >
             {{ t('errorBack') }}
-          </ButtonColored>
+          </AppButton>
         </template>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
   </section>
 </template>
 

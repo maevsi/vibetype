@@ -1,7 +1,11 @@
 import { describe, expect, test } from 'vitest'
 
 import { SITE_NAME, SITE_URL_TYPED } from '#src/node/static'
-import { getIsSitePath, getServiceHref } from '#src/shared/utils/networking'
+import {
+  getIsSitePath,
+  getPathWithoutLanguageDetection,
+  getServiceHref,
+} from '#src/shared/utils/networking'
 
 describe('getServiceHref', () => {
   test('isTesting takes priority and targets the test site for a service with a subdomain', () => {
@@ -129,5 +133,23 @@ describe('getIsSitePath', () => {
     expect(getIsSitePath('/\\example.com')).toBe(false)
     expect(getIsSitePath('https://example.com')).toBe(false)
     expect(getIsSitePath('javascript:alert(1)')).toBe(false)
+  })
+})
+
+describe('getPathWithoutLanguageDetection', () => {
+  test('drops the mark and keeps the remaining query and the hash', () => {
+    expect(
+      getPathWithoutLanguageDetection('/de/event?language=auto&page=2#top'),
+    ).toBe('/de/event?page=2#top')
+    expect(getPathWithoutLanguageDetection('/event?language=auto')).toBe(
+      '/event',
+    )
+  })
+
+  test('returns a path without the mark as is', () => {
+    expect(getPathWithoutLanguageDetection('/event?language=de&q=a+b')).toBe(
+      '/event?language=de&q=a+b',
+    )
+    expect(getPathWithoutLanguageDetection('')).toBe('')
   })
 })
