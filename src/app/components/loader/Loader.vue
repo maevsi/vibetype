@@ -4,7 +4,7 @@
       <AppSpanList :span="errorMessages" />
     </AppAlert>
     <slot v-if="hasData" />
-    <LoaderPlaceholder v-else-if="api.isFetching" />
+    <AppLoaderPlaceholder v-else-if="api.isFetching" />
   </div>
 </template>
 

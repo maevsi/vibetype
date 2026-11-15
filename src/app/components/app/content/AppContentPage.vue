@@ -1,6 +1,6 @@
 <template>
   <AppContent v-if="content.data.value" :content />
-  <LoaderPlaceholder v-else-if="content.pending.value" />
+  <AppLoaderPlaceholder v-else-if="content.pending.value" />
 </template>
 
 <script setup lang="ts">

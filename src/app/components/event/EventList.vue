@@ -15,7 +15,7 @@
       {{ t('globalShowMore') }}
     </AppButton>
   </div>
-  <LoaderPlaceholder v-else-if="isLoading" />
+  <AppLoaderPlaceholder v-else-if="isLoading" />
   <p v-else class="text-center">{{ t('noEvents') }}</p>
 </template>
 

@@ -5,7 +5,7 @@
       <TypographyH3>
         {{ t('title') }}
       </TypographyH3>
-      <LoaderIndicatorPing v-if="api.isFetching" :id="templateIdForm" />
+      <AppLoaderPing v-if="api.isFetching" :id="templateIdForm" />
       <form
         v-else-if="!apiError"
         :id="templateIdForm"

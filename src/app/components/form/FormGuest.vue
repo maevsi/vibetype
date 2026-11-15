@@ -41,7 +41,7 @@
             v-if="allContactsQuery.fetching.value"
             class="flex justify-center"
           >
-            <LoaderIndicatorSpinner />
+            <AppSpinner class="size-8" />
           </div>
           <AppButton
             v-if="contactCreationCandidate"
