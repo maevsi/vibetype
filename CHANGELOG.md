@@ -1,3 +1,9 @@
+## [17.3.5-beta.1](https://github.com/maevsi/vibetype/compare/17.3.4...17.3.5-beta.1) (2026-11-15)
+
+### Bug Fixes
+
+* **style:** style the time field with the design system tokens ([#2614](https://github.com/maevsi/vibetype/issues/2614)) ([e64620e](https://github.com/maevsi/vibetype/commit/e64620e12f5bbb81d719d384186241614a2f5de6))
+
 ## [17.3.4](https://github.com/maevsi/vibetype/compare/17.3.3...17.3.4) (2026-11-13)
 
 ### Bug Fixes
