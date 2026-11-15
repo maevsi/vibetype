@@ -1,3 +1,9 @@
+## [17.3.6](https://github.com/maevsi/vibetype/compare/17.3.5...17.3.6) (2026-11-15)
+
+### Bug Fixes
+
+* **push:** report every failed FCM send ([c943dad](https://github.com/maevsi/vibetype/commit/c943dad9b648694e9e3048a8197ff04227a8711b))
+
 ## [17.3.5](https://github.com/maevsi/vibetype/compare/17.3.4...17.3.5) (2026-11-15)
 
 ### Bug Fixes
