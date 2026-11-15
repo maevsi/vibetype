@@ -5,12 +5,12 @@
       'animate-pulse': pending.deletions.includes(guest.rowId),
     }"
   >
-    <LayoutTd class="max-w-0">
+    <AppTableCell class="max-w-0">
       <ContactPreview :contact :feedback="guest.feedback" />
-    </LayoutTd>
-    <LayoutTd class="max-w-0">
+    </AppTableCell>
+    <AppTableCell class="max-w-0">
       <div class="flex items-center justify-evenly gap-4 text-fg-1">
-        <ButtonIcon
+        <AppButton
           :aria-label="
             contact.accountId || contact.emailAddress
               ? t('guestSend')
@@ -21,17 +21,21 @@
             (!contact.accountId && !contact.emailAddress) ||
             pending.sends.includes(guest.rowId)
           "
+          size="none"
+          variant="ghost"
           @click="send(guest)"
         >
           <AppIconPaperAirplane />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('guestLink')"
           class="hidden md:block"
+          size="none"
+          variant="ghost"
           @click="copyLink(guest)"
         >
           <AppIconLink />
-        </ButtonIcon>
+        </AppButton>
         <AppDropdown>
           <AppDropdownItem
             class="md:hidden"
@@ -115,7 +119,7 @@
           </template>
         </AppDropdown>
       </div>
-    </LayoutTd>
+    </AppTableCell>
   </tr>
   <GuestDeleteDrawer
     v-if="contact"

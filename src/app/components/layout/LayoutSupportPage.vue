@@ -5,7 +5,7 @@
         {{ title }}
       </span>
     </LayoutTopBar>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult :message="error?.message" type="error">
           <slot name="error" />
@@ -14,33 +14,33 @@
           </template>
         </LayoutPageResult>
         <template #bottom>
-          <ButtonColored
+          <AppButton
             :aria-label="errorButton"
             class="w-full max-w-md"
             variant="primary-critical"
             @click="error = undefined"
           >
             {{ errorButton }}
-          </ButtonColored>
+          </AppButton>
         </template>
       </LayoutPage>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <slot :form-id="templateIdForm" />
         <template #bottom>
-          <ButtonColored
+          <AppButton
             :aria-label="formButton"
             class="w-full max-w-md"
             :form="templateIdForm"
             type="submit"
           >
             {{ formButton }}
-          </ButtonColored>
+          </AppButton>
         </template>
       </LayoutPage>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'success'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'success'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult type="success">
           <template #description>
@@ -51,16 +51,16 @@
           </template>
         </LayoutPageResult>
         <template #bottom>
-          <ButtonColored
+          <AppButton
             :aria-label="successButton"
             class="w-full max-w-md"
             @click="store.navigateBack"
           >
             {{ successButton }}
-          </ButtonColored>
+          </AppButton>
         </template>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
   </section>
 </template>
 

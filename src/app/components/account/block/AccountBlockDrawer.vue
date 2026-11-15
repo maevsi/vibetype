@@ -1,13 +1,13 @@
 <template>
   <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <div v-bind="attributes" class="text-center">
-        <TypographySubtitleSmall>
+        <span class="text-body">
           {{ t('blockAccountQuestion', { username: blockedUsername }) }}
-        </TypographySubtitleSmall>
+        </span>
       </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'success'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'success'">
       <div v-bind="attributes">
         <LayoutPageResult type="success">
           <template #description>
@@ -15,8 +15,8 @@
           </template>
         </LayoutPageResult>
       </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <div v-bind="attributes">
         <LayoutPageResult :message="error?.message" type="error">
           <template #description>
@@ -24,27 +24,27 @@
           </template>
         </LayoutPageResult>
       </div>
-    </AppStep>
+    </AppStepPanel>
     <template #title>
-      <AppStep v-slot="attributes" :is-active="step === 'default'">
+      <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
         <span v-bind="attributes">
           {{ t('blockAccount') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'success'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'success'">
         <span v-bind="attributes">
           {{ t('userBlocked') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'error'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
         <span v-bind="attributes">
           {{ t('error') }}
         </span>
-      </AppStep>
+      </AppStepPanel>
     </template>
     <template #footer>
-      <AppStep v-slot="attributes" :is-active="step === 'default'">
-        <ButtonColored
+      <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
+        <AppButton
           v-bind="attributes"
           :aria-label="t('confirmBlock')"
           :loading="createAccountBlockMutation.fetching.value"
@@ -52,44 +52,44 @@
           @click="blockUser"
         >
           {{ t('confirmBlock') }}
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           v-bind="attributes"
           :aria-label="t('cancel')"
           variant="secondary-critical"
           @click="closeDrawer"
         >
           {{ t('cancel') }}
-        </ButtonColored>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'success'">
-        <ButtonColored
+        </AppButton>
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'success'">
+        <AppButton
           v-bind="attributes"
           :aria-label="t('toDashboard')"
           variant="primary"
           @click="toDashboard"
         >
           {{ t('toDashboard') }}
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           v-bind="attributes"
           :aria-label="t('accountsBlocked')"
           variant="secondary"
           @click="toBlockList"
         >
           {{ t('accountsBlocked') }}
-        </ButtonColored>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'error'">
-        <ButtonColored
+        </AppButton>
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
+        <AppButton
           v-bind="attributes"
           :aria-label="t('restart')"
           variant="tertiary"
           @click="restart"
         >
           {{ t('restart') }}
-        </ButtonColored>
-      </AppStep>
+        </AppButton>
+      </AppStepPanel>
     </template>
   </AppDrawer>
 </template>

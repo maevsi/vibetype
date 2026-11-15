@@ -5,20 +5,20 @@
   >
     <LayoutPageResult type="success">
       <div class="flex justify-center gap-4">
-        <ButtonColored
+        <AppButton
           :aria-label="t('unlockDeny')"
           variant="secondary"
           @click="navigateTo(localePath('dashboard'))"
         >
           {{ t('unlockDeny') }}
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           :aria-label="t('unlockConfirm')"
           variant="primary"
           @click="toProfile"
         >
           {{ t('unlockConfirm') }}
-        </ButtonColored>
+        </AppButton>
       </div>
       <template #description>
         {{ t('unlockText') }}
@@ -33,11 +33,11 @@
     />
   </div>
   <div v-else class="flex flex-1 flex-col">
-    <CardStateInfo v-if="querySignOut" class="rounded-none">
-      <TypographySubtitleMedium>
+    <AppAlert v-if="querySignOut" class="rounded-none">
+      <span class="text-headline">
         {{ t('signedOut') }}
-      </TypographySubtitleMedium>
-    </CardStateInfo>
+      </span>
+    </AppAlert>
     <div class="flex flex-1 flex-col items-center justify-between px-6 py-8">
       <div
         class="flex w-full max-w-md flex-1 flex-col items-center justify-center"
@@ -46,8 +46,8 @@
         <div
           class="mb-6 flex size-20 items-center justify-center rounded-large bg-surface-raised"
         >
-          <IconLogo v-if="dateToday.month !== 6" class="size-12" />
-          <IconLogoPride v-else class="size-12" />
+          <AppIconLogo v-if="dateToday.month !== 6" class="size-12" />
+          <AppIconLogoPride v-else class="size-12" />
         </div>
 
         <!-- Welcome text -->
@@ -57,7 +57,7 @@
         <p aria-hidden="true" class="mb-2 text-center text-body text-fg-2">
           {{ t('welcome') }}
         </p>
-        <IconLogoText aria-hidden="true" class="mb-12 h-6.5" />
+        <AppIconLogoText aria-hidden="true" class="mb-12 h-6.5" />
 
         <!-- Tagline -->
         <p class="mb-8 text-center text-body text-fg-2">
@@ -68,22 +68,22 @@
 
         <!-- Buttons -->
         <div class="flex w-full flex-col gap-2">
-          <ButtonColored
+          <AppButton
             :aria-label="t('register')"
             class="w-full"
             :to="$localePath('account-create')"
           >
             {{ t('createAccount') }}
-          </ButtonColored>
+          </AppButton>
 
-          <ButtonColored
+          <AppButton
             :aria-label="t('signIn')"
             class="w-full"
             :to="$localePath('session-create')"
             variant="secondary"
           >
             {{ t('signIn') }}
-          </ButtonColored>
+          </AppButton>
         </div>
 
         <!-- Social login (behind feature flag) -->
@@ -115,21 +115,20 @@
 
       <!-- Footer -->
       <div class="mt-6 flex flex-col gap-4">
-        <ButtonColored
+        <AppButton
           v-if="!isApp"
           :aria-label="t('more')"
           to="https://vibetype.de"
           variant="tertiary"
         >
           {{ t('more') }}
-        </ButtonColored>
+        </AppButton>
         <p class="text-center text-caption text-fg-2">
           {{ t('legalPre') }}
           <NuxtLinkLocale
             class="font-semibold text-link underline"
             to="docs-legal-terms"
-            >{{ t('terms') }}</NuxtLinkLocale
-          >{{ t('legalComma') }}
+            >{{ t('terms') }}</NuxtLinkLocale>{{ t('legalComma') }}
           <NuxtLinkLocale
             class="font-semibold text-link underline"
             to="docs-legal-imprint"

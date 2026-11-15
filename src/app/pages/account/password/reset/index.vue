@@ -7,7 +7,7 @@
       <template #title>{{ t('title') }}</template>
       <template #subtitle>{{ t('subtitle') }}</template>
     </FormAuthPageHeader>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <FormAccountPasswordReset
           v-if="route.query.code && !Array.isArray(route.query.code)"
@@ -16,7 +16,7 @@
           @success="step = 'success'"
         />
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
     <FormAuthStepSuccess :is-active="step === 'success'">
       <h2 class="text-heading-large">
         {{ t('instructionsSuccessHeading') }}
@@ -24,23 +24,23 @@
       <p class="mt-2 text-body text-fg-2">
         {{ t('instructionsSuccessDescription') }}
       </p>
-      <ButtonColored
+      <AppButton
         :aria-label="t('signIn')"
         class="mt-6 w-full"
         @click="navigateTo(localePath('session-create'))"
       >
         {{ t('signIn') }}
-      </ButtonColored>
+      </AppButton>
     </FormAuthStepSuccess>
     <FormAuthStepError :error="error" :is-active="step === 'error'">
-      <ButtonColored
+      <AppButton
         :aria-label="t('tryAgain')"
         class="w-full max-w-md"
         variant="primary"
         @click="restart"
       >
         {{ t('tryAgain') }}
-      </ButtonColored>
+      </AppButton>
     </FormAuthStepError>
   </section>
 </template>

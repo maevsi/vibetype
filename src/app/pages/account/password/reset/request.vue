@@ -7,14 +7,14 @@
       <template #title>{{ t('title') }}</template>
       <template #subtitle>{{ t('subtitle') }}</template>
     </FormAuthPageHeader>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <FormAccountPasswordResetRequest
           v-model:error="error"
           @success="handleSuccess"
         />
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
     <FormAuthStepSuccess :is-active="step === 'success'">
       <h2 class="text-heading-large">
         {{ t('instructionsInboxHeading') }}
@@ -28,14 +28,14 @@
       </p>
     </FormAuthStepSuccess>
     <FormAuthStepError :error="error" :is-active="step === 'error'">
-      <ButtonColored
+      <AppButton
         :aria-label="t('backToRequest')"
         class="w-full max-w-md"
         variant="primary"
         @click="restart"
       >
         {{ t('backToRequest') }}
-      </ButtonColored>
+      </AppButton>
     </FormAuthStepError>
   </section>
 </template>

@@ -26,40 +26,40 @@
           </span>
         </span>
       </button>
-      <ButtonColored
+      <AppButton
         :aria-label="t('selectFromDevice')"
         class="self-end"
         @click="triggerFileInput"
       >
         {{ t('selectFromDevice') }}
-      </ButtonColored>
+      </AppButton>
     </div>
     <div v-else class="flex flex-col gap-4">
       <img :alt="t('preview')" class="rounded-medium" :src="previewUrl" />
       <div class="flex items-center justify-between">
         <div class="flex gap-4">
-          <ButtonColored
+          <AppButton
             :aria-label="t('replaceImage')"
             variant="secondary"
             @click="triggerFileInput"
           >
             {{ t('replaceImage') }}
-          </ButtonColored>
-          <ButtonColored
+          </AppButton>
+          <AppButton
             :aria-label="t('clearAll')"
             variant="secondary"
             @click="removeFile"
           >
             {{ t('clearAll') }}
-          </ButtonColored>
+          </AppButton>
         </div>
-        <ButtonColored
+        <AppButton
           :aria-label="t('uploadImage')"
           :loading="isUploading"
           @click="uploadFile"
         >
           {{ t('uploadImage') }}
-        </ButtonColored>
+        </AppButton>
       </div>
     </div>
     <input

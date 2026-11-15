@@ -6,21 +6,21 @@
       </template>
       <template #subtitle>{{ t('subtitle') }}</template>
     </FormAuthPageHeader>
-    <CardStateSuccess v-if="verified" class="mt-4 rounded-none">
-      <TypographySubtitleMedium>
+    <AppAlert v-if="verified" class="mt-4 rounded-none" variant="success">
+      <span class="text-headline">
         {{ t('accountVerified') }}
-      </TypographySubtitleMedium>
-    </CardStateSuccess>
-    <CardStateInfo v-if="to" class="mt-4 rounded-none">
+      </span>
+    </AppAlert>
+    <AppAlert v-if="to" class="mt-4 rounded-none">
       {{ t('accountRequired') }}
-    </CardStateInfo>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    </AppAlert>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <FormSessionCreate v-model:error="error" @signed-in="onSignIn" />
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
     <FormAuthStepError :error="error" :is-active="step === 'error'">
-      <ButtonColored
+      <AppButton
         :aria-label="t('contactSupport')"
         class="w-full max-w-md"
         :to="
@@ -31,15 +31,15 @@
         variant="secondary"
       >
         {{ t('contactSupport') }}
-      </ButtonColored>
-      <ButtonColored
+      </AppButton>
+      <AppButton
         :aria-label="t('backToLogin')"
         class="w-full max-w-md"
         variant="primary"
         @click="restart"
       >
         {{ t('backToLogin') }}
-      </ButtonColored>
+      </AppButton>
     </FormAuthStepError>
   </section>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <EventReportForm
         :id="templateIdForm"
         ref="form"
@@ -10,8 +10,11 @@
         :event
         @submit-success="step = 'reportConfirmation'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'reportConfirmation'">
+    </AppStepPanel>
+    <AppStepPanel
+      v-slot="attributes"
+      :is-active="step === 'reportConfirmation'"
+    >
       <div v-bind="attributes" class="text-center">
         {{
           t('contentReportConfirmation', {
@@ -19,8 +22,8 @@
           })
         }}
       </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'blockConfirmation'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'blockConfirmation'">
       <div v-bind="attributes" class="text-center">
         {{
           t('contentBlockConfirmation', {
@@ -28,39 +31,45 @@
           })
         }}
       </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <div v-bind="attributes" class="text-center">
         <span v-if="error && error.message">
           {{ error.message }}
         </span>
       </div>
-    </AppStep>
+    </AppStepPanel>
     <template #title>
-      <AppStep v-slot="attributes" :is-active="step === 'default'">
+      <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
         <span v-bind="attributes">
           {{ t('titleReport') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'reportConfirmation'">
+      </AppStepPanel>
+      <AppStepPanel
+        v-slot="attributes"
+        :is-active="step === 'reportConfirmation'"
+      >
         <span v-bind="attributes">
           {{ t('titleReportConfirmation') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'blockConfirmation'">
+      </AppStepPanel>
+      <AppStepPanel
+        v-slot="attributes"
+        :is-active="step === 'blockConfirmation'"
+      >
         <span v-bind="attributes">
           {{ t('titleBlockConfirmation') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'error'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
         <span v-bind="attributes">
           {{ t('globalError') }}
         </span>
-      </AppStep>
+      </AppStepPanel>
     </template>
     <template #footer>
-      <AppStep v-slot="attributes" :is-active="step === 'default'">
-        <ButtonColored
+      <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
+        <AppButton
           v-bind="attributes"
           :aria-label="t('buttonReportSubmit')"
           :form="templateIdForm"
@@ -69,18 +78,21 @@
           variant="primary-critical"
         >
           {{ t('buttonReportSubmit') }}
-        </ButtonColored>
+        </AppButton>
         <DrawerClose v-bind="attributes" as-child>
-          <ButtonColored
+          <AppButton
             :aria-label="t('buttonReportCancel')"
             variant="secondary-critical"
           >
             {{ t('buttonReportCancel') }}
-          </ButtonColored>
+          </AppButton>
         </DrawerClose>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'reportConfirmation'">
-        <ButtonColored
+      </AppStepPanel>
+      <AppStepPanel
+        v-slot="attributes"
+        :is-active="step === 'reportConfirmation'"
+      >
+        <AppButton
           v-bind="attributes"
           :aria-label="t('buttonReportConfirmationBlock')"
           :loading="createAccountBlockMutation.fetching.value"
@@ -88,33 +100,36 @@
           @click="blockOrganizer"
         >
           {{ t('buttonReportConfirmationBlock') }}
-        </ButtonColored>
+        </AppButton>
         <DrawerClose v-bind="attributes" as-child>
-          <ButtonColored :aria-label="t('buttonReportConfirmationClose')">
+          <AppButton :aria-label="t('buttonReportConfirmationClose')">
             {{ t('buttonReportConfirmationClose') }}
-          </ButtonColored>
+          </AppButton>
         </DrawerClose>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'blockConfirmation'">
+      </AppStepPanel>
+      <AppStepPanel
+        v-slot="attributes"
+        :is-active="step === 'blockConfirmation'"
+      >
         <DrawerClose v-bind="attributes" as-child>
-          <ButtonColored
+          <AppButton
             :aria-label="t('buttonBlockConfirmation')"
             @click="backToDashboard"
           >
             {{ t('buttonBlockConfirmation') }}
-          </ButtonColored>
+          </AppButton>
         </DrawerClose>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'error'">
-        <ButtonColored
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
+        <AppButton
           v-bind="attributes"
           :aria-label="t('globalTryAgain')"
           variant="primary"
           @click="restart"
         >
           {{ t('globalTryAgain') }}
-        </ButtonColored>
-      </AppStep>
+        </AppButton>
+      </AppStepPanel>
     </template>
   </AppDrawer>
 </template>

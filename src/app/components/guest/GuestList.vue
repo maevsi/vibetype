@@ -2,7 +2,7 @@
   <Loader :api>
     <div class="flex flex-col gap-4">
       <div class="flex flex-col items-center gap-1">
-        <ButtonColored
+        <AppButton
           :aria-label="t('guestAdd')"
           :disabled="
             event.guestCountMaximum && api.data.allGuests?.totalCount
@@ -15,7 +15,7 @@
           <template #prefix>
             <AppIconPlus />
           </template>
-        </ButtonColored>
+        </AppButton>
         <p class="text-center text-fg-2">
           {{
             t('guestsUsed', {
@@ -27,7 +27,7 @@
       </div>
       <template v-if="event && guests.length">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
-          <FormInputSearch v-model="searchString" class="flex-1" />
+          <AppInputSearch v-model="searchString" class="flex-1" />
           <Select v-model="feedbackFilter">
             <SelectTrigger
               :aria-label="t('feedbackFilter')"
@@ -47,26 +47,26 @@
             </SelectContent>
           </Select>
         </div>
-        <LayoutTable v-if="guestsFiltered.length" class="border border-line">
-          <LayoutThead>
+        <AppTable v-if="guestsFiltered.length" class="border border-line">
+          <AppTableHeader>
             <tr>
-              <LayoutTh scope="col">
+              <AppTableHead scope="col">
                 {{ t('contact') }}
-              </LayoutTh>
-              <LayoutTh scope="col">
+              </AppTableHead>
+              <AppTableHead scope="col">
                 <span class="sr-only">{{ t('actions') }}</span>
-              </LayoutTh>
+              </AppTableHead>
             </tr>
-          </LayoutThead>
-          <LayoutTbody>
+          </AppTableHeader>
+          <AppTableBody>
             <GuestListItem
               v-for="guest in guestsFiltered"
               :key="guest.rowId"
               :event
               :guest
             />
-          </LayoutTbody>
-        </LayoutTable>
+          </AppTableBody>
+        </AppTable>
         <p v-else class="text-center">
           {{ t('guestNoneFiltered') }}
         </p>
@@ -74,12 +74,12 @@
           v-if="api.data.allGuests?.pageInfo.hasNextPage"
           class="flex justify-center"
         >
-          <ButtonColored
+          <AppButton
             :aria-label="t('globalShowMore')"
             @click="after = api.data.allGuests?.pageInfo.endCursor"
           >
             {{ t('globalShowMore') }}
-          </ButtonColored>
+          </AppButton>
         </div>
       </template>
       <div v-else class="flex flex-col items-center gap-2">

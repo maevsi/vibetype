@@ -41,14 +41,16 @@
             v-if="allContactsQuery.fetching.value"
             class="flex justify-center"
           >
-            <LoaderIndicatorSpinner />
+            <AppSpinner class="size-8" />
           </div>
           <AppButton
             v-if="contactCreationCandidate"
             :aria-label="t('contactCreate')"
             class="flex w-full shrink-0 items-center gap-4 rounded-small border-2 border-dashed border-line px-4 py-2"
             :loading="createContactMutation.fetching.value"
+            size="none"
             type="button"
+            variant="ghost"
             @click="contactCreate()"
           >
             <AccountProfilePicture
@@ -97,30 +99,33 @@
       </form.Field>
       <AppFeature feature="account-management">
         <div class="flex flex-col items-center">
-          <ButtonText
+          <AppButton
             :aria-label="t('contactsAdd')"
+            class="px-4 py-2 font-medium whitespace-nowrap"
+            size="none"
             :to="localePath('contact')"
+            variant="ghost"
           >
             {{ t('contactsAdd') }}
             <template #suffix>
               <AppIconArrowRight />
             </template>
-          </ButtonText>
+          </AppButton>
         </div>
       </AppFeature>
       <div class="flex flex-col items-center">
-        <ButtonColored
+        <AppButton
           :aria-label="t('select')"
           class="w-full"
           :loading="createGuestsMutation.fetching.value"
           type="submit"
         >
           {{ t('select') }}
-        </ButtonColored>
+        </AppButton>
       </div>
-      <CardStateAlert v-if="errorMessages?.length">
+      <AppAlert v-if="errorMessages?.length" variant="error">
         <AppSpanList :span="errorMessages" />
-      </CardStateAlert>
+      </AppAlert>
     </form>
   </div>
 </template>

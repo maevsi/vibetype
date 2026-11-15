@@ -371,7 +371,7 @@
           </Field>
         </form.Field>
         <div class="flex flex-col items-center justify-between">
-          <ButtonColored
+          <AppButton
             :aria-label="
               form.getFieldValue('rowId') ? t('eventUpdate') : t('eventCreate')
             "
@@ -382,11 +382,11 @@
             {{
               form.getFieldValue('rowId') ? t('eventUpdate') : t('eventCreate')
             }}
-          </ButtonColored>
+          </AppButton>
         </div>
-        <CardStateAlert v-if="errorMessages?.length">
+        <AppAlert v-if="errorMessages?.length" variant="error">
           <AppSpanList :span="errorMessages" />
-        </CardStateAlert>
+        </AppAlert>
       </div>
     </form>
   </div>

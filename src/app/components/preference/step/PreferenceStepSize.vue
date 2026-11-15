@@ -1,11 +1,11 @@
 <template>
   <LayoutPage>
     <div class="flex flex-col gap-4 text-center">
-      <AppStepIndex :count="4" :index="1" />
-      <TypographyH3>
+      <AppStepProgress :count="4" :index="1" />
+      <span class="text-heading-medium text-balance">
         {{ t('title') }}
-      </TypographyH3>
-      <LoaderIndicatorPing v-if="api.isFetching" :id="templateIdForm" />
+      </span>
+      <AppLoaderPing v-if="api.isFetching" :id="templateIdForm" />
       <form
         v-else-if="!apiError"
         :id="templateIdForm"
@@ -33,12 +33,12 @@
                 />
               </div>
               <div class="flex flex-col items-start gap-1">
-                <TypographySubtitleMedium>
+                <span class="text-headline">
                   {{ item.labelName }}
-                </TypographySubtitleMedium>
-                <TypographyCaption>
+                </span>
+                <span class="text-caption">
                   {{ item.labelDescription }}
-                </TypographyCaption>
+                </span>
               </div>
             </div>
             <FieldError
@@ -50,14 +50,14 @@
       </form>
     </div>
     <template #bottom>
-      <ButtonColored
+      <AppButton
         :aria-label="t('button')"
         class="w-full max-w-md"
         :form="templateIdForm"
         type="submit"
       >
         {{ t('button') }}
-      </ButtonColored>
+      </AppButton>
     </template>
   </LayoutPage>
 </template>

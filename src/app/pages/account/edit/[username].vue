@@ -8,19 +8,21 @@
       <AppButton
         :aria-label="t('back')"
         class="flex size-12 justify-center justify-self-start"
+        size="none"
         :to="
           localePath({
             name: 'account-view-username',
             params: { username: route.params.username },
           })
         "
+        variant="ghost"
       >
         <AppIconBack />
       </AppButton>
       <h1 class="justify-self-center">
-        <TypographyH3>
+        <span class="text-heading-medium text-balance">
           {{ t('title') }}
-        </TypographyH3>
+        </span>
       </h1>
       <div />
     </div>
@@ -35,27 +37,23 @@
           width="60"
         />
         <div class="flex gap-3">
-          <ButtonColored
+          <AppButton
             :aria-label="t('replace')"
             @click="showModalUploadSelection"
           >
-            <TypographyLabel v-slot="attributes">
-              <span v-bind="attributes">
-                {{ t('replace') }}
-              </span>
-            </TypographyLabel>
-          </ButtonColored>
-          <ButtonColored
+            <span class="text-caption">
+              {{ t('replace') }}
+            </span>
+          </AppButton>
+          <AppButton
             :aria-label="t('remove')"
             variant="secondary"
             @click="openProfilePictureRemoveDrawer"
           >
-            <TypographyLabel v-slot="attributes">
-              <span v-bind="attributes">
-                {{ t('remove') }}
-              </span>
-            </TypographyLabel>
-          </ButtonColored>
+            <span class="text-caption">
+              {{ t('remove') }}
+            </span>
+          </AppButton>
         </div>
         <ModalUploadSelection
           v-model="isModalUploadSelectionOpen"
@@ -81,7 +79,7 @@
         :title="t('imprint')"
         @save="saveImprint"
       />
-      <CardButton
+      <AppCardButton
         class="border-action-warning bg-warning-tint text-fg-1"
         :title="t('resetPassword')"
         :to="
@@ -94,14 +92,14 @@
         <template #iconSecondary>
           <AppIconRestartAlt />
         </template>
-      </CardButton>
-      <ButtonColored
+      </AppCardButton>
+      <AppButton
         :aria-label="t('deleteAccount')"
         variant="tertiary-critical"
         @click="openDeleteDrawer"
       >
         {{ t('deleteAccount') }}
-      </ButtonColored>
+      </AppButton>
       <AccountDeleteDrawer v-model:is-open="isDeleteDrawerOpen" />
     </div>
   </LayoutPage>

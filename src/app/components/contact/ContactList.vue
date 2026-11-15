@@ -2,40 +2,40 @@
   <Loader :api>
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
-        <FormInputSearch
+        <AppInputSearch
           v-if="contacts.length"
           v-model="searchString"
           class="flex-1"
         />
-        <ButtonColored :aria-label="t('contactAdd')" @click="add()">
+        <AppButton :aria-label="t('contactAdd')" @click="add()">
           {{ t('contactAdd') }}
           <template #prefix>
             <AppIconPlus />
           </template>
-        </ButtonColored>
+        </AppButton>
       </div>
-      <LayoutTable v-if="contactsFiltered.length">
-        <LayoutThead>
+      <AppTable v-if="contactsFiltered.length">
+        <AppTableHeader>
           <tr>
-            <LayoutTh scope="col">
+            <AppTableHead scope="col">
               {{ t('contact') }}
-            </LayoutTh>
-            <LayoutTh class="hidden xl:table-cell" scope="col">
+            </AppTableHead>
+            <AppTableHead class="hidden xl:table-cell" scope="col">
               {{ t('emailAddress') }}
-            </LayoutTh>
-            <!-- <LayoutTh class="hidden xl:table-cell" scope="col">
+            </AppTableHead>
+            <!-- <AppTableHead class="hidden xl:table-cell" scope="col">
               {{ t('address') }}
-            </LayoutTh> -->
-            <LayoutTh class="hidden xl:table-cell" scope="col">
+            </AppTableHead> -->
+            <AppTableHead class="hidden xl:table-cell" scope="col">
               {{ t('phoneNumber') }}
-            </LayoutTh>
-            <LayoutTh class="hidden xl:table-cell" scope="col">
+            </AppTableHead>
+            <AppTableHead class="hidden xl:table-cell" scope="col">
               {{ t('url') }}
-            </LayoutTh>
-            <LayoutTh scope="col" />
+            </AppTableHead>
+            <AppTableHead scope="col" />
           </tr>
-        </LayoutThead>
-        <LayoutTbody>
+        </AppTableHeader>
+        <AppTableBody>
           <ContactListItem
             v-for="contact in contactsFiltered"
             :id="contact.rowId"
@@ -45,12 +45,12 @@
             @delete="onDeleteSelect(contact)"
             @edit="edit(contact)"
           />
-        </LayoutTbody>
-      </LayoutTable>
+        </AppTableBody>
+      </AppTable>
       <p v-else class="text-center">
         {{ t('noContactsFound') }}
       </p>
-      <Modal
+      <AppModal
         v-model="isModalContactOpen"
         is-footer-hidden
         @close="onModalContactClose"
@@ -62,7 +62,7 @@
         <template #header>
           {{ formContactHeading }}
         </template>
-      </Modal>
+      </AppModal>
       <ContactDeleteDrawer
         v-if="contactToDelete"
         v-model:open="isDeleteDrawerOpen"
