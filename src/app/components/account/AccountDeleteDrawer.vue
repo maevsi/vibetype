@@ -1,13 +1,13 @@
 <template>
   <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <div v-bind="attributes" class="text-center">
         <span class="text-body">
           {{ t('deleteAccountQuestion') }}
         </span>
       </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'password'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'password'">
       <FormDelete
         v-bind="attributes"
         v-model:error="error"
@@ -21,8 +21,8 @@
         :mutation="accountDeleteMutation"
         @success="step = 'success'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'success'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'success'">
       <div v-bind="attributes">
         <LayoutPageResult type="success">
           <template #description>
@@ -30,8 +30,8 @@
           </template>
         </LayoutPageResult>
       </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <div v-bind="attributes">
         <LayoutPageResult :message="error?.message" type="error">
           <template #description>
@@ -39,31 +39,31 @@
           </template>
         </LayoutPageResult>
       </div>
-    </AppStep>
+    </AppStepPanel>
     <template #title>
-      <AppStep v-slot="attributes" :is-active="step === 'default'">
+      <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
         <span v-bind="attributes">
           {{ t('deleteAccount') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'password'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'password'">
         <span v-bind="attributes">
           {{ t('confirmPassword') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'success'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'success'">
         <span v-bind="attributes">
           {{ t('accountDeleted') }}
         </span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'error'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
         <span v-bind="attributes">
           {{ t('error') }}
         </span>
-      </AppStep>
+      </AppStepPanel>
     </template>
     <template #footer>
-      <AppStep v-slot="attributes" :is-active="step === 'default'">
+      <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
         <AppButton
           v-bind="attributes"
           :aria-label="t('stay')"
@@ -80,8 +80,8 @@
         >
           {{ t('confirmDelete') }}
         </AppButton>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'success'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'success'">
         <AppButton
           v-bind="attributes"
           :aria-label="t('toHomepage')"
@@ -90,8 +90,8 @@
         >
           {{ t('toHomepage') }}
         </AppButton>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="step === 'error'">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
         <AppButton
           v-bind="attributes"
           :aria-label="t('restart')"
@@ -100,7 +100,7 @@
         >
           {{ t('restart') }}
         </AppButton>
-      </AppStep>
+      </AppStepPanel>
     </template>
   </AppDrawer>
 </template>

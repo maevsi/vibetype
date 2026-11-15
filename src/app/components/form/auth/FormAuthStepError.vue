@@ -1,5 +1,5 @@
 <template>
-  <AppStep v-slot="attributes" :is-active="isActive">
+  <AppStepPanel v-slot="attributes" :is-active="isActive">
     <LayoutPage v-bind="attributes">
       <LayoutPageResult :message="error?.message" type="error">
         <template #description>
@@ -10,7 +10,7 @@
         <slot />
       </template>
     </LayoutPage>
-  </AppStep>
+  </AppStepPanel>
 </template>
 
 <script setup lang="ts">

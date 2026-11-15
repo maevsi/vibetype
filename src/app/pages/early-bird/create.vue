@@ -20,20 +20,20 @@
         </ButtonIconBackRoute>
       </template>
     </LayoutTopBar>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <EarlyBirdWelcome v-bind="attributes" @next="step = 'form'" />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'form'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'form'">
       <EarlyBirdForm
         v-bind="attributes"
         v-model:error="error"
         @next="step = 'submission'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'submission'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'submission'">
       <EarlyBirdSubmission v-bind="attributes" />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult :message="error?.message" type="error">
           <template #description>
@@ -51,7 +51,7 @@
           </AppButton>
         </template>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
   </section>
 </template>
 
