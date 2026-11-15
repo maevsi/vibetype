@@ -1,15 +1,15 @@
 <template>
   <LayoutPage>
     <div class="flex flex-col gap-4">
-      <TypographyH3 class="text-center">
+      <span class="text-center text-heading-medium text-balance">
         {{ t('title') }}
-      </TypographyH3>
-      <TypographyBodyMedium>
+      </span>
+      <span class="text-body">
         {{ t('description1') }}
-      </TypographyBodyMedium>
-      <TypographyBodyMedium class="text-center text-fg-2">
+      </span>
+      <span class="text-center text-body text-fg-2">
         {{ t('description2') }}
-      </TypographyBodyMedium>
+      </span>
     </div>
     <template #bottom>
       <AppButton

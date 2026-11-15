@@ -2,9 +2,9 @@
   <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
     <AppStep v-slot="attributes" :is-active="!error">
       <div v-bind="attributes" class="text-fg-2">
-        <TypographySubtitleSmall>
+        <span class="text-body">
           <slot />
-        </TypographySubtitleSmall>
+        </span>
       </div>
     </AppStep>
     <AppStep v-slot="attributes" :is-active="!!error">

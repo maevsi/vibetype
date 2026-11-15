@@ -1,12 +1,12 @@
 <template>
   <LayoutPage>
     <div class="flex flex-col gap-3">
-      <TypographyH6 class="text-center">
+      <span class="text-center text-title3 text-balance">
         {{ t('title') }}
-      </TypographyH6>
-      <TypographyBodyMedium>
+      </span>
+      <span class="text-body">
         {{ t('description') }}
-      </TypographyBodyMedium>
+      </span>
     </div>
     <FormEarlyBird
       :id="templateIdForm"

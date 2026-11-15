@@ -1,42 +1,42 @@
 <template>
   <LayoutPage>
     <div class="flex flex-col gap-2">
-      <TypographyH6 class="text-center">
+      <span class="text-center text-title3 text-balance">
         {{ t('title1', { username: store.signedInUsername }) }}
-      </TypographyH6>
-      <TypographyBodyMedium>
+      </span>
+      <span class="text-body">
         {{ t('description1') }}
-      </TypographyBodyMedium>
+      </span>
     </div>
     <div class="flex flex-col gap-5">
       <div class="flex flex-col gap-2">
-        <TypographySubtitleMedium>
+        <span class="text-headline">
           {{ t('title2') }}
-        </TypographySubtitleMedium>
-        <TypographyBodySmall>
+        </span>
+        <span class="text-body-small">
           {{ t('description2') }}
-        </TypographyBodySmall>
+        </span>
       </div>
       <div class="flex flex-col gap-2">
-        <TypographySubtitleMedium>
+        <span class="text-headline">
           {{ t('title3') }}
-        </TypographySubtitleMedium>
+        </span>
         <i18n-t keypath="description3">
-          <TypographyBodySmall>
+          <span class="text-body-small">
             {{ t('description3') }}
-          </TypographyBodySmall>
+          </span>
           <template #br>
             <br />
           </template>
         </i18n-t>
       </div>
       <div class="flex flex-col gap-2">
-        <TypographySubtitleMedium>
+        <span class="text-headline">
           {{ t('title4') }}
-        </TypographySubtitleMedium>
-        <TypographyBodySmall>
+        </span>
+        <span class="text-body-small">
           {{ t('description4') }}
-        </TypographyBodySmall>
+        </span>
       </div>
     </div>
     <template #bottom>

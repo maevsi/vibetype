@@ -20,9 +20,9 @@
         <AppIconBack />
       </AppButton>
       <h1 class="justify-self-center">
-        <TypographyH3>
+        <span class="text-heading-medium text-balance">
           {{ t('title') }}
-        </TypographyH3>
+        </span>
       </h1>
       <div />
     </div>
@@ -41,22 +41,18 @@
             :aria-label="t('replace')"
             @click="showModalUploadSelection"
           >
-            <TypographyLabel v-slot="attributes">
-              <span v-bind="attributes">
-                {{ t('replace') }}
-              </span>
-            </TypographyLabel>
+            <span class="text-caption">
+              {{ t('replace') }}
+            </span>
           </AppButton>
           <AppButton
             :aria-label="t('remove')"
             variant="secondary"
             @click="openProfilePictureRemoveDrawer"
           >
-            <TypographyLabel v-slot="attributes">
-              <span v-bind="attributes">
-                {{ t('remove') }}
-              </span>
-            </TypographyLabel>
+            <span class="text-caption">
+              {{ t('remove') }}
+            </span>
           </AppButton>
         </div>
         <ModalUploadSelection
