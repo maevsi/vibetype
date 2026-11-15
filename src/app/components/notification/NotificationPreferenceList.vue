@@ -1,17 +1,21 @@
 <template>
-  <CardStateAlert v-if="error" class="flex flex-col items-center gap-2">
+  <AppAlert
+    v-if="error"
+    class="flex flex-col items-center gap-2"
+    variant="error"
+  >
     {{ t('loadError') }}
-    <ButtonColored
+    <AppButton
       :aria-label="t('retry')"
       size="small"
       variant="secondary"
       @click="load"
     >
       {{ t('retry') }}
-    </ButtonColored>
-  </CardStateAlert>
-  <LoaderPlaceholder v-else-if="!hasLoaded" />
-  <Card v-else>
+    </AppButton>
+  </AppAlert>
+  <AppLoaderPlaceholder v-else-if="!hasLoaded" />
+  <AppCard v-else>
     <ul class="flex flex-col divide-y divide-line">
       <li
         v-for="{ description, title, type } in types"
@@ -43,7 +47,7 @@
         </SwitchRoot>
       </li>
     </ul>
-  </Card>
+  </AppCard>
 </template>
 
 <script setup lang="ts">

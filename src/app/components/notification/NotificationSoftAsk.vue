@@ -1,5 +1,5 @@
 <template>
-  <Card
+  <AppCard
     v-if="isShown"
     :aria-labelledby="templateIdTitle"
     class="flex items-start gap-3 p-4"
@@ -12,7 +12,9 @@
     </div>
     <div class="flex flex-1 flex-col gap-3">
       <div class="flex flex-col gap-1">
-        <TypographyH6 :id="templateIdTitle">{{ t('title') }}</TypographyH6>
+        <span :id="templateIdTitle" class="text-title3 text-balance">{{
+          t('title')
+        }}</span>
         <p class="text-body-small font-normal text-fg-2">
           {{
             context === 'event' ? t('descriptionEvent') : t('descriptionGuest')
@@ -20,7 +22,7 @@
         </p>
       </div>
       <div class="flex gap-2">
-        <ButtonColored
+        <AppButton
           :aria-label="t('dismiss')"
           class="flex-1"
           size="small"
@@ -28,8 +30,8 @@
           @click="dismissSoftAsk"
         >
           {{ t('dismiss') }}
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           :aria-label="t('confirm')"
           class="flex-1"
           :loading="isRequesting"
@@ -37,10 +39,10 @@
           @click="confirm"
         >
           {{ t('confirm') }}
-        </ButtonColored>
+        </AppButton>
       </div>
     </div>
-  </Card>
+  </AppCard>
 </template>
 
 <script setup lang="ts">

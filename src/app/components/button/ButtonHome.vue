@@ -1,5 +1,5 @@
 <template>
-  <ButtonColored
+  <AppButton
     :aria-label="t('home')"
     :to="localePath('index')"
     @click="emit('click')"
@@ -8,7 +8,7 @@
     <template #prefix>
       <AppIconHome />
     </template>
-  </ButtonColored>
+  </AppButton>
 </template>
 
 <script setup lang="ts">

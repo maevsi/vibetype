@@ -1,3 +1,52 @@
+## [17.3.4](https://github.com/maevsi/vibetype/compare/17.3.3...17.3.4) (2026-11-13)
+
+### Bug Fixes
+
+* **style:** use the design system checkbox everywhere ([#2600](https://github.com/maevsi/vibetype/issues/2600)) ([6a94036](https://github.com/maevsi/vibetype/commit/6a94036efedea07996d9adb7c92ee3d78378b681))
+
+## [17.3.3](https://github.com/maevsi/vibetype/compare/17.3.2...17.3.3) (2026-11-13)
+
+### Bug Fixes
+
+* **sonner:** render toasts in the app shell ([#2599](https://github.com/maevsi/vibetype/issues/2599)) ([9a51847](https://github.com/maevsi/vibetype/commit/9a51847568824a3413b286b95a5c3629e560cc58))
+
+## [17.3.2](https://github.com/maevsi/vibetype/compare/17.3.1...17.3.2) (2026-11-13)
+
+### Bug Fixes
+
+* **app:** name lost features and safari switch in lockdown dialog ([#2594](https://github.com/maevsi/vibetype/issues/2594)) ([242fdfa](https://github.com/maevsi/vibetype/commit/242fdfa06909f0e5788574ab9741838e1fa3bb0f))
+* **upload:** keep the crop dialog within the viewport ([#2593](https://github.com/maevsi/vibetype/issues/2593)) ([348090b](https://github.com/maevsi/vibetype/commit/348090b957c81831f7f81bdaaf9a893055b88839))
+
+## [17.3.1](https://github.com/maevsi/vibetype/compare/17.3.0...17.3.1) (2026-11-13)
+
+### Bug Fixes
+
+* **auth:** use the app's back navigation on auth pages ([#2592](https://github.com/maevsi/vibetype/issues/2592)) ([0d44f19](https://github.com/maevsi/vibetype/commit/0d44f191047adb6df08ecf6a4bb82e1baac58b96))
+
+## [17.3.0](https://github.com/maevsi/vibetype/compare/17.2.1...17.3.0) (2026-11-12)
+
+### Features
+
+* **i18n:** detect the browser language on marked links ([#2582](https://github.com/maevsi/vibetype/issues/2582)) ([30eba5d](https://github.com/maevsi/vibetype/commit/30eba5d5affe9d1294cd7b3e1a5cbcf43265be88))
+* **i18n:** open the app in the correct language ([#2578](https://github.com/maevsi/vibetype/issues/2578)) ([f29a5ff](https://github.com/maevsi/vibetype/commit/f29a5ff5a037a58678030b3360d2eb21bd9e7a87))
+
+### Bug Fixes
+
+* **layout:** unify error and result screens ([#2586](https://github.com/maevsi/vibetype/issues/2586)) ([9d3bdf0](https://github.com/maevsi/vibetype/commit/9d3bdf04e18278affede2fe14ddc550d87733cbf))
+* **security:** allow angle brackets in all requests ([#2588](https://github.com/maevsi/vibetype/issues/2588)) ([d925de4](https://github.com/maevsi/vibetype/commit/d925de47bf73f1d7152313cb3308041ad0a08421))
+
+## [17.2.1](https://github.com/maevsi/vibetype/compare/17.2.0...17.2.1) (2026-11-12)
+
+### Bug Fixes
+
+* **security:** allow angle brackets in graphql requests ([#2585](https://github.com/maevsi/vibetype/issues/2585)) ([91bb31a](https://github.com/maevsi/vibetype/commit/91bb31a40db7360e98a6692a1e94e78fc386f99d))
+
+## [17.2.0](https://github.com/maevsi/vibetype/compare/17.1.1...17.2.0) (2026-11-12)
+
+### Features
+
+* **app:** open Android notification settings from the session page ([#2583](https://github.com/maevsi/vibetype/issues/2583)) ([481b6b2](https://github.com/maevsi/vibetype/commit/481b6b20b178b4fc41b1f467ccef0d11f2bee7cf))
+
 ## [17.1.1](https://github.com/maevsi/vibetype/compare/17.1.0...17.1.1) (2026-11-10)
 
 ### Bug Fixes

@@ -10,11 +10,11 @@
     />
     <div v-else class="flex flex-col gap-4">
       <NotificationSoftAsk context="event" />
-      <ButtonList
+      <AppButtonGroup
         v-if="!routeQueryIc && event.createdBy === store.signedInAccountId"
         class="justify-center"
       >
-        <ButtonColored
+        <AppButton
           :aria-label="t('guests')"
           :to="
             localePath({
@@ -30,8 +30,8 @@
           <template #prefix>
             <AppIconUsers />
           </template>
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           :aria-label="t('attendances')"
           :to="
             localePath({
@@ -47,8 +47,8 @@
           <template #prefix>
             <AppIconUserCheckBroken />
           </template>
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           :aria-label="t('settings')"
           :to="
             localePath({
@@ -64,8 +64,8 @@
           <template #prefix>
             <AppIconPencil />
           </template>
-        </ButtonColored>
-      </ButtonList>
+        </AppButton>
+      </AppButtonGroup>
       <div class="flex flex-col gap-4">
         <div>
           <div class="relative">
@@ -113,7 +113,7 @@
               </div>
             </div>
           </div>
-          <Card
+          <AppCard
             v-if="event?.accountByCreatedBy"
             class="flex flex-col items-stretch gap-6 rounded-t-none"
           >
@@ -139,15 +139,15 @@
               :events
               :position-initial
             />
-          </Card>
+          </AppCard>
         </div>
-        <Card v-if="eventDescriptionTemplate">
+        <AppCard v-if="eventDescriptionTemplate">
           <!-- eslint-disable vue/no-v-html -->
           <LayoutProse class="w-full">
             <div v-html="eventDescriptionTemplate" />
           </LayoutProse>
           <!-- eslint-enable vue/no-v-html -->
-        </Card>
+        </AppCard>
       </div>
     </div>
   </Loader>

@@ -257,22 +257,28 @@
           <FieldLabel>{{ t('attendanceType') }}</FieldLabel>
           <FieldContent>
             <form.Field v-slot="{ field }" name="isInPerson">
-              <FormCheckbox
-                form-key="is-in-person"
-                :value="field.state.value"
-                @change="field.handleChange($event)"
-              >
-                {{ t('isInPerson') }}
-              </FormCheckbox>
+              <div class="flex items-center gap-4">
+                <AppCheckbox
+                  id="is-in-person"
+                  :model-value="field.state.value"
+                  @update:model-value="
+                    (checked) => field.handleChange(checked === true)
+                  "
+                />
+                <label for="is-in-person">{{ t('isInPerson') }}</label>
+              </div>
             </form.Field>
             <form.Field v-slot="{ field }" name="isRemote">
-              <FormCheckbox
-                form-key="is-remote"
-                :value="field.state.value"
-                @change="field.handleChange($event)"
-              >
-                {{ t('isRemote') }}
-              </FormCheckbox>
+              <div class="flex items-center gap-4">
+                <AppCheckbox
+                  id="is-remote"
+                  :model-value="field.state.value"
+                  @update:model-value="
+                    (checked) => field.handleChange(checked === true)
+                  "
+                />
+                <label for="is-remote">{{ t('isRemote') }}</label>
+              </div>
             </form.Field>
           </FieldContent>
         </Field>
@@ -365,7 +371,7 @@
           </Field>
         </form.Field>
         <div class="flex flex-col items-center justify-between">
-          <ButtonColored
+          <AppButton
             :aria-label="
               form.getFieldValue('rowId') ? t('eventUpdate') : t('eventCreate')
             "
@@ -376,11 +382,11 @@
             {{
               form.getFieldValue('rowId') ? t('eventUpdate') : t('eventCreate')
             }}
-          </ButtonColored>
+          </AppButton>
         </div>
-        <CardStateAlert v-if="errorMessages?.length">
+        <AppAlert v-if="errorMessages?.length" variant="error">
           <AppSpanList :span="errorMessages" />
-        </CardStateAlert>
+        </AppAlert>
       </div>
     </form>
   </div>

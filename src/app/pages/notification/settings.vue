@@ -12,15 +12,21 @@
           :aria-labelledby="templateIdDevice"
           class="flex flex-col gap-3"
         >
-          <TypographyH3 :id="templateIdDevice" class="px-2">
+          <span
+            :id="templateIdDevice"
+            class="px-2 text-heading-medium text-balance"
+          >
             {{ t('device') }}
-          </TypographyH3>
+          </span>
           <NotificationPermission />
         </section>
         <section :aria-labelledby="templateIdTypes" class="flex flex-col gap-3">
-          <TypographyH3 :id="templateIdTypes" class="px-2">
+          <span
+            :id="templateIdTypes"
+            class="px-2 text-heading-medium text-balance"
+          >
             {{ t('types') }}
-          </TypographyH3>
+          </span>
           <p class="px-2 text-body-small font-normal text-fg-2">
             {{ t('typesDescription') }}
           </p>

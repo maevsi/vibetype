@@ -68,6 +68,8 @@ type Documents = {
   '\n    query AllUploads($after: Cursor, $first: Int!, $createdBy: UUID) {\n      allUploads(\n        after: $after\n        condition: { createdBy: $createdBy }\n        first: $first\n      ) {\n        nodes {\n          id\n          rowId\n          sizeByte\n          storageKey\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n    }\n  ': typeof types.AllUploadsDocument
   '\n    mutation CreateUpload($input: CreateUploadInput!) {\n      createUpload(input: $input) {\n        clientMutationId\n        upload {\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.CreateUploadDocument
   '\n    mutation DeleteFailedUpload($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteFailedUploadDocument
+  '\n  query OwnContact($accountId: UUID!) {\n    contactByCreatedByAndAccountId(\n      accountId: $accountId\n      createdBy: $accountId\n    ) {\n      id\n      language\n      rowId\n    }\n  }\n': typeof types.OwnContactDocument
+  '\n  mutation UpdateOwnContactLanguage($input: UpdateContactByRowIdInput!) {\n    updateContactByRowId(input: $input) {\n      contact {\n        id\n        language\n        rowId\n      }\n    }\n  }\n': typeof types.UpdateOwnContactLanguageDocument
   '\n    mutation JwtUpdateGuestAddGuest($input: JwtUpdateGuestAddInput!) {\n      jwtUpdateGuestAdd(input: $input) {\n        result\n      }\n    }\n  ': typeof types.JwtUpdateGuestAddGuestDocument
   '\n  query AllAccountNotifications($after: Cursor, $first: Int!) {\n    allAccountNotifications(\n      after: $after\n      first: $first\n      orderBy: CREATED_AT_DESC\n    ) {\n      nodes {\n        actorAccountId\n        createdAt\n        eventId\n        friendshipId\n        guestId\n        id\n        payload\n        readAt\n        rowId\n        type\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n': typeof types.AllAccountNotificationsDocument
   '\n  query AccountNotificationUnreadCount {\n    accountNotificationUnreadCount\n  }\n': typeof types.AccountNotificationUnreadCountDocument
@@ -228,6 +230,10 @@ const documents: Documents = {
     types.CreateUploadDocument,
   '\n    mutation DeleteFailedUpload($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.DeleteFailedUploadDocument,
+  '\n  query OwnContact($accountId: UUID!) {\n    contactByCreatedByAndAccountId(\n      accountId: $accountId\n      createdBy: $accountId\n    ) {\n      id\n      language\n      rowId\n    }\n  }\n':
+    types.OwnContactDocument,
+  '\n  mutation UpdateOwnContactLanguage($input: UpdateContactByRowIdInput!) {\n    updateContactByRowId(input: $input) {\n      contact {\n        id\n        language\n        rowId\n      }\n    }\n  }\n':
+    types.UpdateOwnContactLanguageDocument,
   '\n    mutation JwtUpdateGuestAddGuest($input: JwtUpdateGuestAddInput!) {\n      jwtUpdateGuestAdd(input: $input) {\n        result\n      }\n    }\n  ':
     types.JwtUpdateGuestAddGuestDocument,
   '\n  query AllAccountNotifications($after: Cursor, $first: Int!) {\n    allAccountNotifications(\n      after: $after\n      first: $first\n      orderBy: CREATED_AT_DESC\n    ) {\n      nodes {\n        actorAccountId\n        createdAt\n        eventId\n        friendshipId\n        guestId\n        id\n        payload\n        readAt\n        rowId\n        type\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n':
@@ -668,6 +674,18 @@ export function graphql(
 export function graphql(
   source: '\n    mutation DeleteFailedUpload($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
 ): (typeof documents)['\n    mutation DeleteFailedUpload($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query OwnContact($accountId: UUID!) {\n    contactByCreatedByAndAccountId(\n      accountId: $accountId\n      createdBy: $accountId\n    ) {\n      id\n      language\n      rowId\n    }\n  }\n',
+): (typeof documents)['\n  query OwnContact($accountId: UUID!) {\n    contactByCreatedByAndAccountId(\n      accountId: $accountId\n      createdBy: $accountId\n    ) {\n      id\n      language\n      rowId\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  mutation UpdateOwnContactLanguage($input: UpdateContactByRowIdInput!) {\n    updateContactByRowId(input: $input) {\n      contact {\n        id\n        language\n        rowId\n      }\n    }\n  }\n',
+): (typeof documents)['\n  mutation UpdateOwnContactLanguage($input: UpdateContactByRowIdInput!) {\n    updateContactByRowId(input: $input) {\n      contact {\n        id\n        language\n        rowId\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -4,13 +4,14 @@
       <div class="flex items-center justify-between gap-4">
         <h1>{{ title }}</h1>
         <AppFeature v-if="store.signedInAccountId" feature="notifications">
-          <ButtonIcon
+          <AppButton
             :aria-label="t('settings')"
-            is-round
+            size="icon"
             :to="localePath('notification-settings')"
+            variant="secondary"
           >
             <AppIconSettings />
-          </ButtonIcon>
+          </AppButton>
         </AppFeature>
       </div>
     </LayoutPageTitle>
@@ -20,21 +21,22 @@
       :call-to-action-description="t('anonymousCtaDescription')"
     />
     <AppFeature v-else class="flex flex-1 flex-col" feature="notifications">
-      <CardStateAlert
+      <AppAlert
         v-if="error && !items.length"
         class="flex flex-col items-center gap-2"
+        variant="error"
       >
         {{ t('loadError') }}
-        <ButtonColored
+        <AppButton
           :aria-label="t('retry')"
           size="small"
           variant="secondary"
           @click="load"
         >
           {{ t('retry') }}
-        </ButtonColored>
-      </CardStateAlert>
-      <LoaderPlaceholder v-else-if="!hasLoaded" />
+        </AppButton>
+      </AppAlert>
+      <AppLoaderPlaceholder v-else-if="!hasLoaded" />
       <div
         v-else-if="!items.length"
         class="flex flex-1 flex-col items-center justify-center gap-4 p-6 text-center"
@@ -42,15 +44,17 @@
         <div
           class="flex size-16 items-center justify-center rounded-full bg-surface-raised text-fg-1"
         >
-          <AppIconBell class="size-8" />
+          <AppIconBellAlert class="size-8" />
         </div>
         <div class="flex flex-col gap-1">
-          <TypographyH3>{{ t('emptyTitle') }}</TypographyH3>
+          <span class="text-heading-medium text-balance">{{
+            t('emptyTitle')
+          }}</span>
           <p class="text-body-small font-normal text-fg-2">
             {{ t('emptyDescription') }}
           </p>
         </div>
-        <ButtonColored
+        <AppButton
           :aria-label="t('settings')"
           :to="localePath('notification-settings')"
           variant="secondary"
@@ -59,12 +63,16 @@
           <template #prefix>
             <AppIconSettings />
           </template>
-        </ButtonColored>
+        </AppButton>
       </div>
       <div v-else class="flex flex-col gap-4">
-        <CardStateAlert v-if="error" class="flex flex-col items-center gap-2">
+        <AppAlert
+          v-if="error"
+          class="flex flex-col items-center gap-2"
+          variant="error"
+        >
           {{ t('refreshError') }}
-        </CardStateAlert>
+        </AppAlert>
         <ul class="flex flex-col gap-1">
           <NotificationListItem
             v-for="notification in items"
@@ -75,14 +83,14 @@
           />
         </ul>
         <div v-if="hasNextPage" class="flex justify-center">
-          <ButtonColored
+          <AppButton
             :aria-label="t('loadMore')"
             :loading="isLoadingMore"
             variant="secondary"
             @click="loadMore"
           >
             {{ t('loadMore') }}
-          </ButtonColored>
+          </AppButton>
         </div>
       </div>
     </AppFeature>

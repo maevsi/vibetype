@@ -1,5 +1,5 @@
 <template>
-  <LoaderImage
+  <AppImage
     :alt="t('profilePictureAlt', { username: account?.username })"
     :aspect
     :class="['object-cover', classProps]"

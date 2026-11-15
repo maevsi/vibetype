@@ -4,11 +4,11 @@
       <div
         class="flex size-16 items-center justify-center rounded-full bg-surface-raised text-link"
       >
-        <AppIconBell class="size-8" />
+        <AppIconBellAlert class="size-8" />
       </div>
       <div class="flex flex-col gap-3">
         <h1>
-          <TypographyH3>{{ t('title') }}</TypographyH3>
+          <span class="text-heading-medium text-balance">{{ t('title') }}</span>
         </h1>
         <p class="text-body font-normal text-fg-2">
           {{ t('description') }}
@@ -19,15 +19,15 @@
       </div>
     </div>
     <template #bottom>
-      <ButtonColored
+      <AppButton
         :aria-label="t('turnOn')"
         class="w-full max-w-md"
         :loading="isRequesting"
         @click="turnOn"
       >
         {{ t('turnOn') }}
-      </ButtonColored>
-      <ButtonColored
+      </AppButton>
+      <AppButton
         :aria-label="t('skip')"
         class="w-full max-w-md"
         :disabled="isRequesting"
@@ -35,7 +35,7 @@
         @click="skip"
       >
         {{ t('skip') }}
-      </ButtonColored>
+      </AppButton>
     </template>
   </LayoutPage>
 </template>

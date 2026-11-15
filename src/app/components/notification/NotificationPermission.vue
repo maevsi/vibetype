@@ -1,16 +1,16 @@
 <template>
-  <Card class="flex items-start gap-3 p-4">
+  <AppCard class="flex items-start gap-3 p-4">
     <div
       class="flex size-10 shrink-0 items-center justify-center rounded-full bg-line text-fg-1"
     >
       <AppIconQuestionMarkCircle v-if="state === 'loading'" />
       <AppIconCheckCircle v-else-if="state === 'granted'" class="text-link" />
-      <AppIconBell v-else-if="state === 'prompt'" />
+      <AppIconBellAlert v-else-if="state === 'prompt'" />
       <AppIconNoSymbol v-else />
     </div>
     <div class="flex flex-1 flex-col gap-3" role="status">
       <div class="flex flex-col gap-1">
-        <TypographyH6>{{ texts.title }}</TypographyH6>
+        <span class="text-title3 text-balance">{{ texts.title }}</span>
         <p class="text-body-small font-normal text-fg-2">
           {{ texts.description }}
         </p>
@@ -22,7 +22,7 @@
         </p>
       </div>
       <div v-if="state === 'prompt'">
-        <ButtonColored
+        <AppButton
           :aria-label="t('turnOn')"
           :loading="isRequesting"
           size="small"
@@ -32,10 +32,10 @@
           <template #prefix>
             <AppIconBellAlert />
           </template>
-        </ButtonColored>
+        </AppButton>
       </div>
       <div v-else-if="state === 'denied'" class="flex flex-wrap gap-2">
-        <ButtonColored
+        <AppButton
           v-if="isAndroid"
           :aria-label="t('openSystemSettings')"
           size="small"
@@ -45,8 +45,8 @@
           <template #prefix>
             <AppIconSettings />
           </template>
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           :aria-label="t('checkAgain')"
           size="small"
           variant="secondary"
@@ -54,12 +54,12 @@
         >
           {{ t('checkAgain') }}
           <template #prefix>
-            <AppIconArrowPath />
+            <AppIconArrowRotateRight />
           </template>
-        </ButtonColored>
+        </AppButton>
       </div>
     </div>
-  </Card>
+  </AppCard>
 </template>
 
 <script setup lang="ts">

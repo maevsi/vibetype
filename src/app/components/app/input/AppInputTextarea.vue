@@ -2,39 +2,37 @@
   <div class="flex flex-col">
     <div class="flex flex-col gap-4 rounded-medium bg-surface-raised p-4">
       <div class="flex items-center justify-between">
-        <TypographyH3>
+        <span class="text-heading-medium text-balance">
           {{ title }}
-        </TypographyH3>
-        <ButtonColored
+        </span>
+        <AppButton
           v-if="!isEditing"
           :aria-label="t('edit')"
           class="h-8 data-[size=large]:p-1"
           variant="tertiary"
           @click="edit"
         >
-          <TypographySubtitleMedium>
+          <span class="text-headline">
             {{ t('edit') }}
-          </TypographySubtitleMedium>
+          </span>
           <template #prefix>
             <AppIconEdit />
           </template>
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           v-else
           :aria-label="t('cancel')"
           class="h-8 data-[size=large]:p-1"
           variant="tertiary"
           @click="cancel"
         >
-          <TypographySubtitleMedium>
+          <span class="text-headline">
             {{ t('cancel') }}
-          </TypographySubtitleMedium>
-        </ButtonColored>
+          </span>
+        </AppButton>
       </div>
       <div class="flex flex-col gap-1.5" :class="{ hidden: !isEditing }">
-        <TypographySubtitleSmall
-          class="rounded-medium bg-surface-raised px-4 py-3"
-        >
+        <span class="rounded-medium bg-surface-raised px-4 py-3 text-body">
           <textarea
             v-model="content"
             :aria-label="title"
@@ -42,33 +40,33 @@
             :maxlength="maxLength"
             rows="5"
           />
-        </TypographySubtitleSmall>
-        <TypographySubtitleSmall class="self-end px-2 text-fg-2">
+        </span>
+        <span class="self-end px-2 text-body text-fg-2">
           {{
             t('characterCount', {
               count: content?.length || 0,
               maximum: maxLength,
             })
           }}
-        </TypographySubtitleSmall>
+        </span>
       </div>
-      <TypographyBodyMedium
-        class="whitespace-pre-line"
+      <span
+        class="text-body whitespace-pre-line"
         :class="{ hidden: isEditing || !contentInitial }"
       >
         {{ contentInitial }}
-      </TypographyBodyMedium>
+      </span>
       <div v-if="isEditing" class="flex flex-col items-end gap-2 text-right">
-        <ButtonColored
+        <AppButton
           :aria-label="t('saveChanges')"
           :loading
           variant="secondary"
           @click="save"
         >
-          <TypographySubtitleMedium>
+          <span class="text-headline">
             {{ t('saveChanges') }}
-          </TypographySubtitleMedium>
-        </ButtonColored>
+          </span>
+        </AppButton>
       </div>
     </div>
   </div>

@@ -2,238 +2,278 @@
   <div v-if="editor" class="flex flex-col gap-2">
     <div class="flex flex-wrap gap-x-4 gap-y-2 xl:gap-6">
       <div class="flex gap-1">
-        <ButtonIcon
+        <AppButton
           :aria-label="t('undo')"
           class="rounded-small p-1"
+          size="none"
           :title="t('undo')"
+          variant="ghost"
           @click="editor.chain().focus().undo().run()"
         >
           <AppIconArrowRotateLeft />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('redo')"
           class="rounded-small p-1"
+          size="none"
           :title="t('redo')"
+          variant="ghost"
           @click="editor.chain().focus().redo().run()"
         >
           <AppIconArrowRotateRight />
-        </ButtonIcon>
+        </AppButton>
       </div>
       <div class="flex gap-1">
-        <!-- <ButtonIcon
+        <!-- <AppButton
+          size="none" variant="ghost"
           :aria-label="t('paragraph')"
           :title="t('paragraph')"
           @click="editor.chain().focus().setParagraph().run()"
         >
           <AppIconParagraph />
         </ButtonIcon /> -->
-        <ButtonIcon
+        <AppButton
           :aria-label="t('heading1')"
           :class="[
             'rounded-small p-1',
             ...(isActive.heading1 ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('heading1')"
+          variant="ghost"
           @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
         >
           <span class="align-end flex">
             <AppIconHeading />
             <span>{{ t('number1') }}</span>
           </span>
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('heading2')"
           :class="[
             'rounded-small p-1',
             ...(isActive.heading2 ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('heading2')"
+          variant="ghost"
           @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
         >
           <span class="align-end flex">
             <AppIconHeading />
             <span>{{ t('number2') }}</span>
           </span>
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('heading3')"
           :class="[
             'rounded-small p-1',
             ...(isActive.heading3 ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('heading3')"
+          variant="ghost"
           @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
         >
           <span class="align-end flex">
             <AppIconHeading />
             <span>{{ t('number3') }}</span>
           </span>
-        </ButtonIcon>
+        </AppButton>
       </div>
       <div class="flex gap-1">
-        <ButtonIcon
+        <AppButton
           :aria-label="t('bold')"
           :class="[
             'rounded-small p-1',
             ...(isActive.bold ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('bold')"
+          variant="ghost"
           @click="editor.chain().focus().toggleBold().run()"
         >
           <AppIconBold />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('italic')"
           :class="[
             'rounded-small p-1',
             ...(isActive.italic ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('italic')"
+          variant="ghost"
           @click="editor.chain().focus().toggleItalic().run()"
         >
           <AppIconItalic />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('strike')"
           :class="[
             'rounded-small p-1',
             ...(isActive.strike ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('strike')"
+          variant="ghost"
           @click="editor.chain().focus().toggleStrike().run()"
         >
           <AppIconStrikethrough />
-        </ButtonIcon>
+        </AppButton>
       </div>
       <div class="flex gap-1">
-        <ButtonIcon
+        <AppButton
           :aria-label="t('formatAlignLeft')"
           :class="[
             'rounded-small p-1',
             ...(isActive.textAlignLeft ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('formatAlignLeft')"
+          variant="ghost"
           @click="editor.chain().focus().setTextAlign('left').run()"
         >
           <AppIconAlignLeft />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('formatAlignCenter')"
           :class="[
             'rounded-small p-1',
             ...(isActive.textAlignCenter ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('formatAlignCenter')"
+          variant="ghost"
           @click="editor.chain().focus().setTextAlign('center').run()"
         >
           <AppIconAlignCenter />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('formatAlignRight')"
           :class="[
             'rounded-small p-1',
             ...(isActive.textAlignRight ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('formatAlignRight')"
+          variant="ghost"
           @click="editor.chain().focus().setTextAlign('right').run()"
         >
           <AppIconAlignRight />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('formatAlignJustify')"
           :class="[
             'rounded-small p-1',
             ...(isActive.textAlignJustify ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('formatAlignJustify')"
+          variant="ghost"
           @click="editor.chain().focus().setTextAlign('justify').run()"
         >
           <AppIconAlignJustify />
-        </ButtonIcon>
+        </AppButton>
       </div>
       <div class="flex gap-1">
-        <ButtonIcon
+        <AppButton
           :aria-label="t('listUl')"
           :class="[
             'rounded-small p-1',
             ...(isActive.bulletList ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('listUl')"
+          variant="ghost"
           @click="editor.chain().focus().toggleBulletList().run()"
         >
           <AppIconListUl />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('listOl')"
           :class="[
             'rounded-small p-1',
             ...(isActive.orderedList ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('listOl')"
+          variant="ghost"
           @click="editor.chain().focus().toggleOrderedList().run()"
         >
           <AppIconListOl />
-        </ButtonIcon>
+        </AppButton>
       </div>
       <div class="flex gap-1">
-        <ButtonIcon
+        <AppButton
           :aria-label="t('link')"
           :class="[
             'rounded-small p-1',
             ...(isActive.link ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('link')"
+          variant="ghost"
           @click="setLink"
         >
           <IFa6SolidLink />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('linkRemove')"
           class="rounded-small p-1"
           :disabled="!isActive.link"
+          size="none"
           :title="t('linkRemove')"
+          variant="ghost"
           @click="editor.chain().focus().unsetLink().run()"
         >
           <AppIconLinkSlash />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('blockquote')"
           :class="[
             'rounded-small p-1',
             ...(isActive.blockquote ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('blockquote')"
+          variant="ghost"
           @click="editor.chain().focus().toggleBlockquote().run()"
         >
           <AppIconQuoteLeft />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('code')"
           :class="[
             'rounded-small p-1',
             ...(isActive.code ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('code')"
+          variant="ghost"
           @click="editor.chain().focus().toggleCode().run()"
         >
           <AppIconCode />
-        </ButtonIcon>
+        </AppButton>
       </div>
       <div class="flex gap-1">
-        <ButtonIcon
+        <AppButton
           :aria-label="t('horizontalRule')"
           :class="[
             'rounded-small p-1',
             ...(isActive.horizontalRule ? ['bg-surface'] : []),
           ]"
+          size="none"
           :title="t('horizontalRule')"
+          variant="ghost"
           @click="editor.chain().focus().setHorizontalRule().run()"
         >
           <AppIconMinus />
-        </ButtonIcon>
+        </AppButton>
       </div>
       <!--
       <AppButton
+        size="none" variant="ghost"
         :class="{ 'bg-surface': isActive.codeBlock }"
         @click="editor.chain().focus().toggleCodeBlock().run()"
       >

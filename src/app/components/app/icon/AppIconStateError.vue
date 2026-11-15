@@ -1,6 +1,9 @@
 <template>
   <AppIcon v-slot="attributes">
-    <IHeroiconsXCircle v-bind="attributes" :aria-label="t('ariaLabel')" />
+    <IHeroiconsExclamationCircle
+      v-bind="attributes"
+      :aria-label="t('ariaLabel')"
+    />
   </AppIcon>
 </template>
 
@@ -10,7 +13,7 @@ const { t } = useI18n()
 
 <i18n lang="yaml">
 de:
-  ariaLabel: X in einem Kreis
+  ariaLabel: Ausrufezeichen in einem Kreis
 en:
-  ariaLabel: X inside a circle
+  ariaLabel: Exclamation mark inside a circle
 </i18n>

@@ -1,12 +1,13 @@
 <template>
   <div class="relative">
-    <ButtonIcon
+    <AppButton
       :aria-label="count ? t('labelUnread', { count }, count) : t('label')"
-      is-round
+      size="icon"
       :to="localePath('notification')"
+      variant="secondary"
     >
-      <AppIconBell />
-    </ButtonIcon>
+      <AppIconBellAlert />
+    </AppButton>
     <span
       v-if="count"
       aria-hidden="true"

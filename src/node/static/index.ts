@@ -16,6 +16,8 @@ export const FEATURE_FLAGS_COOKIE_ID = 'f'
 export const FEATURE_FLAGS_COOKIE_NAME = `${SITE_NAME}_feature-flags`
 export const GTAG_COOKIE_ID = 'ga'
 export const GTAG_MEASUREMENT_ID = 'G-WMQ1JY99XH'
+// the default cookie key of the i18n module, shared with the cookie dialog
+export const I18N_COOKIE_NAME = 'i18n_redirected'
 export const LOCKDOWN_MODE_DISMISSED_COOKIE_NAME = `${SITE_NAME}_lockdown-mode-dismissed`
 export const POLYFILLS = ['Promise', 'requestAnimationFrame']
 export const PRODUCTION_HOST = 'vibetype.app'

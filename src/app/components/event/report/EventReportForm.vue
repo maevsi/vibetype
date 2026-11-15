@@ -3,9 +3,9 @@
     <form.Field v-slot="{ field }" name="reason">
       <Field>
         <FieldLabel class="justify-center">
-          <TypographySubtitleSmall>
+          <span class="text-body">
             {{ t('drawerDescription') }}
-          </TypographySubtitleSmall>
+          </span>
         </FieldLabel>
         <FieldContent>
           <AppRadioGroup

@@ -157,7 +157,7 @@
           }}
         </p>
         <div v-else-if="notification.friendshipId" class="mt-1 flex gap-2">
-          <ButtonColored
+          <AppButton
             :aria-label="t('declineLabel', { name: actorName })"
             class="flex-1"
             :disabled="isResolving"
@@ -166,8 +166,8 @@
             @click="decline"
           >
             {{ t('decline') }}
-          </ButtonColored>
-          <ButtonColored
+          </AppButton>
+          <AppButton
             :aria-label="t('acceptLabel', { name: actorName })"
             class="flex-1"
             :loading="isResolving"
@@ -175,7 +175,7 @@
             @click="accept"
           >
             {{ t('accept') }}
-          </ButtonColored>
+          </AppButton>
         </div>
       </template>
     </div>
