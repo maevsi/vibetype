@@ -4,7 +4,7 @@ permissions: {}
 
 on:
   schedule:
-    - cron: "45 16 * * 1" # Every Monday at 16:45 in Germany on the default branch
+    - cron: "0 12 * * 1" # Every Monday at 12:00 in Germany on the default branch, hours ahead of the 17:00 meeting because scheduled runs start late
       timezone: Europe/Berlin
   workflow_dispatch:
 

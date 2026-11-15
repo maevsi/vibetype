@@ -30,9 +30,8 @@ const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
   app: {
-    // the client only `/offline` shell renders no page head on the server, so this is all its html carries until the client takes over
+    // the client only `/offline` shell renders no page head on the server, so this is its title until the client takes over
     head: {
-      htmlAttrs: { lang: 'en' },
       title: 'Vibetype',
     },
   },
@@ -114,25 +113,12 @@ export default defineNuxtConfig({
     },
     '/api/model/event/ical': {
       csurf: false,
-      security: {
-        xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection here (https://github.com/maevsi/vibetype/issues/1603)
-      },
-    },
-    '/api/internal/service/postgraphile/authentication': {
-      csurf: false,
-      security: {
-        xssValidator: false, // TipTap's HTML is stored unescaped (is escaped when displayed) so api requests would trigger the xss protection on forward authentication (https://github.com/maevsi/vibetype/issues/1603)
-      },
     },
     '/api/internal/service/tusd': {
       csurf: false, // tusd's http hooks carry no csrf token
     },
     '/api/service/firebase/notification': {
       csurf: false, // called by services, authenticated by secret
-    },
-    '/offline': {
-      robots: false,
-      ssr: false, // a user agnostic client app shell that the service worker serves for navigations when the network fails
     },
   },
   router: {
@@ -151,6 +137,9 @@ export default defineNuxtConfig({
             perSecond: '14',
           },
         },
+        upload: {
+          sizeMax: 10485760, // bytes, set from tusd's `TUSD_MAX_SIZE` in the stack so the client rejects what tusd would
+        },
       },
       gtag: {
         id: GTAG_MEASUREMENT_ID,
@@ -159,6 +148,7 @@ export default defineNuxtConfig({
         baseUrl: SITE_URL,
       },
       sentry: {
+        enabled: false, // set through `NUXT_PUBLIC_SENTRY_ENABLED` by deployments only, as a local production build would report to Sentry otherwise
         // the flags mirror the integrations and the client security reporting, so each of them can be turned off without a code change
         features: {
           consoleCapture: true,

@@ -1,6 +1,6 @@
 <template>
   <AppIcon v-slot="attributes">
-    <IVibetypeStateSuccess v-bind="attributes" :aria-label="t('ariaLabel')" />
+    <IHeroiconsCheckCircle v-bind="attributes" :aria-label="t('ariaLabel')" />
   </AppIcon>
 </template>
 

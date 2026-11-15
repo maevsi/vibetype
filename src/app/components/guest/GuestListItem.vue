@@ -5,14 +5,12 @@
       'animate-pulse': pending.deletions.includes(guest.rowId),
     }"
   >
-    <LayoutTd class="max-w-0">
+    <AppTableCell class="max-w-0">
       <ContactPreview :contact :feedback="guest.feedback" />
-    </LayoutTd>
-    <LayoutTd class="max-w-0">
-      <div
-        class="flex items-center justify-evenly gap-4 text-(--semantic-base-text-primary)"
-      >
-        <ButtonIcon
+    </AppTableCell>
+    <AppTableCell class="max-w-0">
+      <div class="flex items-center justify-evenly gap-4 text-fg-1">
+        <AppButton
           :aria-label="
             contact.accountId || contact.emailAddress
               ? t('guestSend')
@@ -23,17 +21,21 @@
             (!contact.accountId && !contact.emailAddress) ||
             pending.sends.includes(guest.rowId)
           "
+          size="none"
+          variant="ghost"
           @click="send(guest)"
         >
           <AppIconPaperAirplane />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('guestLink')"
           class="hidden md:block"
+          size="none"
+          variant="ghost"
           @click="copyLink(guest)"
         >
           <AppIconLink />
-        </ButtonIcon>
+        </AppButton>
         <AppDropdown>
           <AppDropdownItem
             class="md:hidden"
@@ -117,7 +119,7 @@
           </template>
         </AppDropdown>
       </div>
-    </LayoutTd>
+    </AppTableCell>
   </tr>
   <GuestDeleteDrawer
     v-if="contact"
@@ -195,16 +197,17 @@ const updateGuestByRowIdMutation = useMutation(
 const copyLink = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
   if (!import.meta.client) return
 
-  await copy(
-    `${window.location.origin}${localePath({
-      name: 'guest-view-id',
-      params: {
-        id: guest.rowId,
-      },
-    })}`,
+  if (
+    await copy(
+      `${window.location.origin}${localePath({
+        name: 'guest-view-id',
+        params: {
+          id: guest.rowId,
+        },
+      })}`,
+    )
   )
-
-  toast.success(t('copySuccess'))
+    toast.success(t('copySuccess'))
 }
 const delete_ = async (id: string) => {
   pending.deletions.push(id)

@@ -180,20 +180,11 @@ export const getHtmlAndText = async <T extends EmailName>({
 }) => {
   const templateName = emailTemplateNames[name]
 
-  const html = await renderEmailComponent<EmailComponents[T]>(
+  const { html, text } = await renderEmailComponent<EmailComponents[T]>(
     templateName,
     props,
-    { pretty: import.meta.dev },
-  )
-  const text = await renderEmailComponent<EmailComponents[T]>(
-    templateName,
-    props,
-    { plainText: true },
+    { plainText: true, pretty: import.meta.dev },
   )
 
-  // the renderer only returns an object when a template sets a subject, which none does
-  return {
-    html: typeof html === 'string' ? html : html.html,
-    text: typeof text === 'string' ? text : text.html,
-  }
+  return { html, text }
 }

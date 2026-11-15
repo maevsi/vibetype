@@ -41,6 +41,21 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
   - The unit tests in `tests/unit` run without auto-imports, so a file they import must import its helpers explicitly, and the tests' type check fails on every file it reaches that relies on auto-imports
 - Do not hardcode translatable strings, but use the i18n module instead
 
+## Components
+- Generic components without domain logic live in `src/app/components/app/` and carry the `App` prefix, as that folder holds the components already migrated to the design system
+  - Migrate a generic component that lives elsewhere into that folder instead of extending it in place
+  - Domain components stay in their domain folder, e.g. `event/` or `guest/`, and compose `App` components
+- Write `App` components like the shadcn-vue components in `src/app/components/scn/`
+  - Wrap the shadcn-vue or reka-ui primitive if one exists
+  - Accept a `class` prop and merge it last with `cn`
+  - Set `data-slot` to the component's role, e.g. `button`
+  - Let attributes and native events fall through instead of redeclaring and re-emitting them
+  - Use `defineModel` for two-way bindings
+  - Express variants as `data-variant` and `data-size` attributes styled with `data-[variant=…]:` utilities instead of conditional class lists
+- Apply the type scale with its utilities from `src/app/assets/css/vibetype.css`, e.g. `text-body` or `text-heading-medium`, on the element itself instead of wrapping text in a component
+- Add or update components in `src/app/components/scn/` with the shadcn-vue CLI rather than by hand, as Nuxt registers each name exported by their `index.ts`
+- A component tag that resolves to no component renders nothing without failing lint or build, so `pnpm --dir tests run test` checks every template tag against the component registry
+
 ## Docker
 - The `Dockerfile` contains the full build pipeline, divided into multiple stages
 

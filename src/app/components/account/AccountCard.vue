@@ -1,6 +1,6 @@
 <template>
   <div
-    class="has-focus-visible:focus-ring relative isolate flex items-center gap-3 rounded-lg border border-(--semantic-base-line) bg-(--semantic-base-surface-1) p-3 shadow-xs dark:border-none"
+    class="relative isolate flex items-center gap-3 rounded-medium bg-surface-raised p-3 has-focus-visible:focus-ring"
   >
     <AccountProfilePicture
       :account-id="account.rowId"
@@ -11,19 +11,20 @@
 
     <AppButton
       :aria-label="t('link', { username: account.username })"
-      class="focus-visible:ring-0"
-      is-block
+      class="block focus-visible:ring-0"
+      size="none"
       :to="
         localePath({
           name: 'account-view-username',
           params: { username: account.username },
         })
       "
+      variant="ghost"
     >
       <span class="absolute inset-0 z-10" />
-      <TypographyH3>
+      <span class="text-heading-medium text-balance">
         {{ account.username }}
-      </TypographyH3>
+      </span>
     </AppButton>
   </div>
 </template>

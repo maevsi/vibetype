@@ -2,26 +2,28 @@
   <header>
     <div class="flex items-center justify-between gap-4">
       <div class="flex items-center gap-4">
-        <ButtonIconBackRoute />
+        <ButtonIconBackRoute is-round />
         <AppButton
           :aria-label="t('home')"
           class="hidden 2xl:block"
+          size="none"
           :to="localePath('index')"
+          variant="ghost"
         >
-          <IconLogoWithText class="h-10" />
+          <AppIconLogoWithText class="h-10" />
         </AppButton>
       </div>
       <div class="flex items-center gap-2 whitespace-nowrap lg:gap-4">
         <ButtonEventNew />
-        <div
-          class="my-1 hidden w-px flex-none self-stretch bg-(--semantic-base-line) 2xl:flex"
-        />
-        <ButtonIcon
+        <div class="my-1 hidden w-px flex-none self-stretch bg-line 2xl:flex" />
+        <AppButton
           v-if="store.signedInAccountId"
           :aria-label="t('dashboard')"
           class="hidden rounded-full 2xl:block"
+          size="none"
           :title="t('dashboard')"
           :to="localePath(`dashboard`)"
+          variant="ghost"
         >
           <AccountProfilePicture
             :account-id="store.signedInAccountId"
@@ -29,25 +31,29 @@
             height="40"
             width="40"
           />
-        </ButtonIcon>
-        <ButtonText
+        </AppButton>
+        <AppButton
           v-else
           :aria-label="t('signIn')"
-          class="hidden 2xl:inline-block"
+          class="hidden px-4 py-2 font-medium whitespace-nowrap 2xl:inline-block"
+          size="none"
           :to="localePath('session-create')"
+          variant="ghost"
         >
           {{ t('signIn') }}
-        </ButtonText>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('settings')"
+          size="icon"
           :to="
             localePath({
               name: 'session-edit',
             })
           "
+          variant="secondary"
         >
-          <AppIconBars3 class="size-8" />
-        </ButtonIcon>
+          <AppIconBars3 />
+        </AppButton>
       </div>
     </div>
   </header>

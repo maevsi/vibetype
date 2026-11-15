@@ -5,13 +5,13 @@
     </h1>
     <div v-if="!selectedFile" class="flex flex-col gap-4">
       <button
-        class="rounded-xl border-2 border-dashed border-(--semantic-base-line) p-12"
+        class="rounded-large border-2 border-dashed border-line p-12"
         type="button"
         @click="triggerFileInput"
       >
         <span class="flex flex-col items-center gap-4">
           <svg
-            class="size-12 text-(--semantic-base-text-secondary)"
+            class="size-12 text-fg-2"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -21,47 +21,45 @@
             <path d="M20.4 14.5L16 10 4 20" />
           </svg>
           <span class="flex flex-col gap-2">
-            <span class="text-xl font-medium">{{ t('uploadFiles') }}</span>
-            <span class="text-sm text-(--semantic-base-text-secondary)">{{
-              t('fileTypes')
-            }}</span>
+            <span class="text-title3">{{ t('uploadFiles') }}</span>
+            <span class="text-body-small text-fg-2">{{ t('fileTypes') }}</span>
           </span>
         </span>
       </button>
-      <ButtonColored
+      <AppButton
         :aria-label="t('selectFromDevice')"
         class="self-end"
         @click="triggerFileInput"
       >
         {{ t('selectFromDevice') }}
-      </ButtonColored>
+      </AppButton>
     </div>
     <div v-else class="flex flex-col gap-4">
-      <img :alt="t('preview')" class="rounded-md" :src="previewUrl" />
+      <img :alt="t('preview')" class="rounded-medium" :src="previewUrl" />
       <div class="flex items-center justify-between">
         <div class="flex gap-4">
-          <ButtonColored
+          <AppButton
             :aria-label="t('replaceImage')"
             variant="secondary"
             @click="triggerFileInput"
           >
             {{ t('replaceImage') }}
-          </ButtonColored>
-          <ButtonColored
+          </AppButton>
+          <AppButton
             :aria-label="t('clearAll')"
             variant="secondary"
             @click="removeFile"
           >
             {{ t('clearAll') }}
-          </ButtonColored>
+          </AppButton>
         </div>
-        <ButtonColored
+        <AppButton
           :aria-label="t('uploadImage')"
           :loading="isUploading"
           @click="uploadFile"
         >
           {{ t('uploadImage') }}
-        </ButtonColored>
+        </AppButton>
       </div>
     </div>
     <input

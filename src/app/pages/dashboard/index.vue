@@ -1,14 +1,5 @@
 <template>
-  <div
-    v-if="
-      api.isFetching ||
-      (authentication.isSignedIn && eventRecommendationsPending)
-    "
-    class="flex flex-1 items-center justify-center"
-  >
-    <AppLoaderLogo class="size-16" />
-  </div>
-  <div v-else>
+  <div class="flex flex-1 flex-col">
     <!-- <AppError
       v-if="recommendationError"
       :error="{ message: t('recommendationError'), status: 500 }"
@@ -19,15 +10,19 @@
       :call-to-action="t('anonymousCta')"
       :call-to-action-description="t('anonymousCtaDescription')"
     />
+    <AppLoaderPlaceholder v-else-if="isLoading" />
     <div v-else class="flex flex-col gap-8">
       <section
         v-if="eventUpcoming"
         :aria-labelledby="templateIdUpcoming"
         class="flex flex-col gap-4"
       >
-        <TypographyH3 :id="templateIdUpcoming" class="px-2">
+        <span
+          :id="templateIdUpcoming"
+          class="px-2 text-heading-medium text-balance"
+        >
           {{ t('upcomingTitle') }}
-        </TypographyH3>
+        </span>
         <EventCard :event="eventUpcoming" variant="highlight" />
       </section>
       <section
@@ -35,9 +30,12 @@
         :aria-labelledby="templateIdRecommendation"
         class="flex flex-col gap-4"
       >
-        <TypographyH3 :id="templateIdRecommendation" class="px-2">
+        <span
+          :id="templateIdRecommendation"
+          class="px-2 text-heading-medium text-balance"
+        >
           {{ t('recommendationTitle') }}
-        </TypographyH3>
+        </span>
         <EventCard
           v-for="event in eventRecommendations"
           :key="event.rowId"
@@ -196,6 +194,14 @@ const api = await useApiData([
   ...(queryEventUpcoming ? [queryEventUpcoming] : []),
 ])
 
+// Only data that is still missing counts, so refreshing cached data keeps
+// showing it instead of a loader
+const isLoading = computed(
+  () =>
+    (api.value.isFetching && !api.value.data.allEvents) ||
+    (eventRecommendationsPending.value && !eventRecommendations.value),
+)
+
 const now = useNow()
 const eventUpcoming = computed(() => {
   if (!api.value.data.allEvents?.nodes) return undefined
@@ -219,13 +225,13 @@ const templateIdUpcoming = useId()
 
 <i18n lang="yaml">
 de:
-  anonymousCta: Finde ihn auf {siteName}
+  anonymousCta: Finde ihn auf @.upper:{'globalSiteName'}
   anonymousCtaDescription: Dir fehlt der Überblick über Veranstaltungen?
   recommendationTitle: Das solltest Du nicht verpassen
   title: Dashboard
   upcomingTitle: Dein nächstes Event
 en:
-  anonymousCta: Find it on {siteName}
+  anonymousCta: Find it on @.upper:{'globalSiteName'}
   anonymousCtaDescription: Are you missing an overview of events?
   recommendationTitle: You Should Not Miss
   title: Dashboard

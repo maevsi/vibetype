@@ -10,10 +10,10 @@
     </LayoutTopBar>
     <LayoutPage>
       <div class="flex flex-col gap-3">
-        <FormInputSearch v-model="searchQuery" />
+        <AppInputSearch v-model="searchQuery" />
         <ul
           v-if="blockedAccountsFiltered?.length"
-          class="flex flex-col divide-y divide-(--semantic-base-line)"
+          class="flex flex-col divide-y divide-line"
         >
           <li
             v-for="blockedAccount in blockedAccountsFiltered"
@@ -27,28 +27,29 @@
                 height="48"
                 width="48"
               />
-              <TypographySubtitleLarge>
+              <span class="text-headline">
                 {{ blockedAccount.username }}
-              </TypographySubtitleLarge>
+              </span>
             </div>
-            <ButtonColored
+            <AppButton
               :aria-label="t('unblock')"
               size="small"
               variant="secondary"
               @click="openUnblockDrawer(blockedAccount)"
             >
               {{ t('unblock') }}
-            </ButtonColored>
+            </AppButton>
           </li>
         </ul>
-        <TypographyBodyMedium
+        <span
           v-else-if="searchQuery && !blockedAccountsFiltered?.length"
+          class="text-body"
         >
           {{ t('errorNotFound') }}
-        </TypographyBodyMedium>
-        <TypographyBodyMedium v-else>
+        </span>
+        <span v-else class="text-body">
           {{ t('noBlockedAccounts') }}
-        </TypographyBodyMedium>
+        </span>
       </div>
     </LayoutPage>
     <AccountBlockRemoveDrawer

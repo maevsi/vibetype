@@ -9,11 +9,11 @@
       :error="{ message: t('errorEventMissing'), status: 404 }"
     />
     <div v-else class="flex flex-col gap-4">
-      <ButtonList
+      <AppButtonGroup
         v-if="!routeQueryIc && event.createdBy === store.signedInAccountId"
         class="justify-center"
       >
-        <ButtonColored
+        <AppButton
           :aria-label="t('guests')"
           :to="
             localePath({
@@ -29,8 +29,8 @@
           <template #prefix>
             <AppIconUsers />
           </template>
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           :aria-label="t('attendances')"
           :to="
             localePath({
@@ -46,8 +46,8 @@
           <template #prefix>
             <AppIconUserCheckBroken />
           </template>
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           :aria-label="t('settings')"
           :to="
             localePath({
@@ -63,8 +63,8 @@
           <template #prefix>
             <AppIconPencil />
           </template>
-        </ButtonColored>
-      </ButtonList>
+        </AppButton>
+      </AppButtonGroup>
       <div class="flex flex-col gap-4">
         <div>
           <div class="relative">
@@ -73,8 +73,15 @@
               class="absolute inset-x-0 top-0 flex items-center justify-between p-2"
             >
               <div />
-              <div>
-                <!-- TODO: share & favorite button (https://github.com/maevsi/vibetype/issues/2480) -->
+              <div class="flex items-center gap-2">
+                <EventShareButton
+                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
+                  :event
+                />
+                <EventFavoriteButton
+                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
+                  :event
+                />
                 <template
                   v-if="
                     store.signedInAccountId &&
@@ -90,7 +97,7 @@
                     </AppDropdownItem>
                     <template #trigger>
                       <span
-                        class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                        class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
                       >
                         <AppIconMoreVertical />
                       </span>
@@ -105,7 +112,7 @@
               </div>
             </div>
           </div>
-          <Card
+          <AppCard
             v-if="event?.accountByCreatedBy"
             class="flex flex-col items-stretch gap-6 rounded-t-none"
           >
@@ -127,19 +134,19 @@
             </div>
             <AppMap
               v-if="positionInitial"
-              class="h-42 rounded-xl"
+              class="h-42 rounded-large"
               :events
               :position-initial
             />
-          </Card>
+          </AppCard>
         </div>
-        <Card v-if="eventDescriptionTemplate">
+        <AppCard v-if="eventDescriptionTemplate">
           <!-- eslint-disable vue/no-v-html -->
           <LayoutProse class="w-full">
             <div v-html="eventDescriptionTemplate" />
           </LayoutProse>
           <!-- eslint-enable vue/no-v-html -->
-        </Card>
+        </AppCard>
       </div>
     </div>
   </Loader>
@@ -189,6 +196,13 @@ const eventQuery = useApiQuery({
                   name
                 }
                 id
+              }
+            }
+            eventFavoritesByEventId(first: 1) {
+              nodes {
+                createdBy
+                id
+                rowId
               }
             }
             eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
@@ -259,7 +273,7 @@ const description = computed(() =>
     : undefined,
 )
 const title = computed(() => {
-  if (api.value.isFetching) return t('globalLoading')
+  if (api.value.isFetching && !event.value) return t('globalLoading')
   if (!event.value) {
     showAppError({ status: 404, message: 'Event unavailable' })
     return
@@ -271,17 +285,7 @@ useHeadDefault({
   description,
   title,
 })
-defineOgImage(
-  'Event.takumi',
-  {
-    description: event.value?.description
-      ? getTextFromHtml(event.value.description)
-      : undefined,
-  },
-  {
-    alt: t('ogImageAlt'),
-  },
-)
+defineEventOgImage({ alt: t('ogImageAlt'), event: event.value })
 defineEvent({
   description,
   endDate: event.value?.end,

@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-1 flex-col justify-center">
-    <div class="flex flex-col gap-8 rounded-lg p-8 text-center">
+    <div class="flex flex-col gap-8 rounded-medium p-8 text-center">
       <div class="flex flex-col gap-4">
-        <h1 class="text-4xl leading-tight font-bold tracking-tight">
+        <h1 class="text-heading-large">
           {{ t('descriptionTitle') }}
         </h1>
         <div>
@@ -10,21 +10,21 @@
         </div>
       </div>
       <div class="flex flex-col justify-center gap-4 lg:flex-row lg:gap-8">
-        <CardButton
+        <AppCardButton
           is-external
           :title="t('appStore')"
           to="https://testflight.apple.com/join/kkStPDoc"
         >
           <AppIconAppStore />
-        </CardButton>
-        <CardButton
+        </AppCardButton>
+        <AppCardButton
           class="lg:h-32"
           is-external
           :title="t('googlePlay')"
           to="https://play.google.com/store/apps/details?id=si.maev.twa"
         >
           <AppIconGooglePlay />
-        </CardButton>
+        </AppCardButton>
       </div>
     </div>
   </div>

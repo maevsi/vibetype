@@ -19,7 +19,7 @@ const USER_IDENTIFYING_KEY_DENY_LIST = [
 export const getSharedSentryConfig = ({
   environment,
   host,
-  isInProduction,
+  isEnabled,
   isTesting,
   profileSessionSampleRate,
   projectId,
@@ -28,7 +28,7 @@ export const getSharedSentryConfig = ({
 }: {
   environment?: string
   host: string
-  isInProduction: boolean
+  isEnabled: boolean
   isTesting?: boolean
   profileSessionSampleRate: number
   projectId: string
@@ -59,7 +59,7 @@ export const getSharedSentryConfig = ({
     projectPublicKey && host && projectId
       ? `https://${projectPublicKey}@${host}/${projectId}`
       : undefined,
-  enabled: isInProduction && !isTesting,
+  enabled: isEnabled && !isTesting,
   environment,
   profileLifecycle: 'trace',
   profileSessionSampleRate,

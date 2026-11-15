@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex flex-1 flex-col">
     <LayoutPageTitle :title />
     <ContactList v-if="authentication.isSignedIn" />
     <LayoutCallToAction

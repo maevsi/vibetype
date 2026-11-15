@@ -5,20 +5,20 @@
   >
     <LayoutPageResult type="success">
       <div class="flex justify-center gap-4">
-        <ButtonColored
+        <AppButton
           :aria-label="t('unlockDeny')"
           variant="secondary"
           @click="navigateTo(localePath('dashboard'))"
         >
           {{ t('unlockDeny') }}
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           :aria-label="t('unlockConfirm')"
           variant="primary"
           @click="toProfile"
         >
           {{ t('unlockConfirm') }}
-        </ButtonColored>
+        </AppButton>
       </div>
       <template #description>
         {{ t('unlockText') }}
@@ -33,89 +33,78 @@
     />
   </div>
   <div v-else class="flex flex-1 flex-col">
-    <CardStateInfo v-if="querySignOut" class="rounded-none">
-      <TypographySubtitleMedium>
+    <AppAlert v-if="querySignOut" class="rounded-none">
+      <span class="text-headline">
         {{ t('signedOut') }}
-      </TypographySubtitleMedium>
-    </CardStateInfo>
+      </span>
+    </AppAlert>
     <div class="flex flex-1 flex-col items-center justify-between px-6 py-8">
       <div
         class="flex w-full max-w-md flex-1 flex-col items-center justify-center"
       >
         <!-- Logo -->
         <div
-          class="mb-6 flex size-20 items-center justify-center rounded-3xl bg-(--semantic-base-surface-1)"
+          class="mb-6 flex size-20 items-center justify-center rounded-large bg-surface-raised"
         >
-          <IconLogo v-if="dateToday.month !== 6" class="size-12" />
-          <IconLogoPride v-else class="size-12" />
+          <AppIconLogo v-if="dateToday.month !== 6" class="size-12" />
+          <AppIconLogoPride v-else class="size-12" />
         </div>
 
         <!-- Welcome text -->
         <h1 class="sr-only">
           {{ t('welcomeWithSiteName') }}
         </h1>
-        <p
-          aria-hidden="true"
-          class="mb-2 text-center text-[15px] leading-5 font-semibold tracking-[-0.4px] text-(--semantic-base-text-secondary)"
-        >
+        <p aria-hidden="true" class="mb-2 text-center text-body text-fg-2">
           {{ t('welcome') }}
         </p>
-        <IconLogoText aria-hidden="true" class="mb-12 h-6.5" />
+        <AppIconLogoText aria-hidden="true" class="mb-12 h-6.5" />
 
         <!-- Tagline -->
-        <p
-          class="mb-8 text-center text-[15px] leading-5 font-semibold tracking-[-0.4px] text-(--semantic-base-text-secondary)"
-        >
+        <p class="mb-8 text-center text-body text-fg-2">
           {{ t('taglinePre') }}
-          <span class="text-(--semantic-accent-text) line-through">{{
-            t('taglineFomo')
-          }}</span>
+          <span class="text-link line-through">{{ t('taglineFomo') }}</span>
           {{ t('taglinePost') }}
         </p>
 
         <!-- Buttons -->
-        <div class="w-full space-y-3">
-          <ButtonColored
+        <div class="flex w-full flex-col gap-2">
+          <AppButton
             :aria-label="t('register')"
-            class="h-13! w-full rounded-2xl! text-[17px]!"
+            class="w-full"
             :to="$localePath('account-create')"
           >
             {{ t('createAccount') }}
-          </ButtonColored>
+          </AppButton>
 
-          <ButtonColored
+          <AppButton
             :aria-label="t('signIn')"
-            class="h-13! w-full rounded-2xl! bg-(--semantic-base-surface-1)! text-[17px]! font-semibold! text-(--semantic-base-text-primary)! no-underline!"
+            class="w-full"
             :to="$localePath('session-create')"
-            variant="tertiary"
+            variant="secondary"
           >
             {{ t('signIn') }}
-          </ButtonColored>
+          </AppButton>
         </div>
 
         <!-- Social login (behind feature flag) -->
         <AppFeature class="w-full" feature="social-login">
           <div class="my-6 flex w-full items-center">
-            <div class="h-px flex-1 bg-(--semantic-base-line)" />
-            <span class="px-4 text-sm text-(--semantic-base-text-secondary)">{{
-              t('or')
-            }}</span>
-            <div class="h-px flex-1 bg-(--semantic-base-line)" />
+            <div class="h-0.5 flex-1 rounded-medium bg-line" />
+            <span class="px-4 text-body-small text-fg-2">{{ t('or') }}</span>
+            <div class="h-0.5 flex-1 rounded-medium bg-line" />
           </div>
 
           <div class="grid w-full grid-cols-2 gap-3">
             <button
               :aria-label="t('signInApple')"
-              class="flex h-13 items-center justify-center rounded-2xl bg-(--semantic-base-surface-1)"
+              class="flex h-13 items-center justify-center rounded-medium bg-surface-raised"
               type="button"
             >
-              <IFa6BrandsApple
-                class="size-6 text-(--semantic-base-text-primary)"
-              />
+              <IFa6BrandsApple class="size-6 text-fg-1" />
             </button>
             <button
               :aria-label="t('signInGoogle')"
-              class="flex h-13 items-center justify-center rounded-2xl bg-(--semantic-base-surface-1)"
+              class="flex h-13 items-center justify-center rounded-medium bg-surface-raised"
               type="button"
             >
               <IFa6BrandsGoogle class="size-6" />
@@ -126,29 +115,28 @@
 
       <!-- Footer -->
       <div class="mt-6 flex flex-col gap-4">
-        <ButtonColored
+        <AppButton
           v-if="!isApp"
           :aria-label="t('more')"
           to="https://vibetype.de"
           variant="tertiary"
         >
           {{ t('more') }}
-        </ButtonColored>
-        <p class="text-center text-xs text-(--semantic-base-text-secondary)">
+        </AppButton>
+        <p class="text-center text-caption text-fg-2">
           {{ t('legalPre') }}
           <NuxtLinkLocale
-            class="font-semibold text-(--semantic-accent-text)"
+            class="font-semibold text-link underline"
             to="docs-legal-terms"
-            >{{ t('terms') }}</NuxtLinkLocale
-          >{{ t('legalComma') }}
+            >{{ t('terms') }}</NuxtLinkLocale>{{ t('legalComma') }}
           <NuxtLinkLocale
-            class="font-semibold text-(--semantic-accent-text)"
+            class="font-semibold text-link underline"
             to="docs-legal-imprint"
             >{{ t('imprint') }}</NuxtLinkLocale
           >
           {{ t('legalAnd') }}
           <NuxtLinkLocale
-            class="font-semibold text-(--semantic-accent-text)"
+            class="font-semibold text-link underline"
             to="docs-legal-privacy"
           >
             {{ t('privacy') }}
@@ -176,6 +164,15 @@ const store = useStore()
 const authentication = useAuthentication()
 const { t } = useI18n()
 const localePath = useLocalePath()
+
+// awaited before rendering so signed-in accounts never see the welcome page flash; other query parameters than the pwa manifest's `source` are achievement codes that this page still has to unlock
+if (
+  store.signedInAccountId &&
+  Object.keys(route.query).every((key) => key === 'source')
+) {
+  await store.navigateWithoutHistory(localePath('dashboard'), { replace: true })
+}
+
 const achievementUnlockMutation = useMutation(
   graphql(`
     mutation AchievementUnlock($input: AchievementUnlockInput!) {
@@ -215,7 +212,9 @@ if (error.value) {
   console.debug(error.value.message) // there's no way to be certain that a user tried to unlock an achievement here, so no error is thrown
 
   if (store.signedInAccountId) {
-    await navigateTo(localePath('dashboard'))
+    await store.navigateWithoutHistory(localePath('dashboard'), {
+      replace: true,
+    })
   }
 }
 

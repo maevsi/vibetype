@@ -1,39 +1,43 @@
 <template>
   <div class="flex flex-col gap-3">
     <div>
-      <FormAuthInputPassword
+      <AppInputPassword
         :aria-invalid="!!passwordError"
+        :aria-label="passwordPlaceholder"
         autocomplete="new-password"
         :model-value="passwordValue"
         :placeholder="passwordPlaceholder"
         @blur="$emit('password-blur')"
-        @input="$emit('update:password-value', $event)"
-      />
+        @update:model-value="$emit('update:password-value', $event)"
+      >
+        <template #prefix>
+          <IHeroiconsKey />
+        </template>
+      </AppInputPassword>
       <Progress
         v-if="showStrength"
         class="mt-2"
         :model-value="passwordStrength"
       />
-      <p
-        v-if="passwordError"
-        class="mt-1 text-sm text-(--semantic-critic-text)"
-      >
+      <p v-if="passwordError" class="mt-1 text-caption text-error">
         {{ passwordError }}
       </p>
     </div>
     <div>
-      <FormAuthInputPassword
+      <AppInputPassword
         :aria-invalid="!!repetitionError"
+        :aria-label="repetitionPlaceholder"
         autocomplete="new-password"
         :model-value="repetitionValue"
         :placeholder="repetitionPlaceholder"
         @blur="$emit('repetition-blur')"
-        @input="$emit('update:repetition-value', $event)"
-      />
-      <p
-        v-if="repetitionError"
-        class="mt-1 text-sm text-(--semantic-critic-text)"
+        @update:model-value="$emit('update:repetition-value', $event)"
       >
+        <template #prefix>
+          <IHeroiconsKey />
+        </template>
+      </AppInputPassword>
+      <p v-if="repetitionError" class="mt-1 text-caption text-error">
         {{ repetitionError }}
       </p>
     </div>

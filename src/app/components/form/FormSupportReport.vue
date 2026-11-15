@@ -4,9 +4,9 @@
       <form.Field v-slot="{ field }" name="itemDescription">
         <Field :data-invalid="isFieldInvalid(field)">
           <FieldLabel :for="field.name">
-            <TypographySubtitleSmall>
+            <span class="text-body">
               {{ t('itemDescription') }}
-            </TypographySubtitleSmall>
+            </span>
           </FieldLabel>
           <Textarea
             :id="field.name"
@@ -28,9 +28,9 @@
       <form.Field v-slot="{ field }" name="userName">
         <Field :data-invalid="isFieldInvalid(field)">
           <FieldLabel :for="field.name">
-            <TypographySubtitleSmall>
+            <span class="text-body">
               {{ t('userName') }}
-            </TypographySubtitleSmall>
+            </span>
           </FieldLabel>
           <AppInput
             :id="field.name"
@@ -39,9 +39,7 @@
             :name="field.name"
             type="text"
             @blur="field.handleBlur"
-            @input="
-              field.handleChange(($event.target as HTMLInputElement).value)
-            "
+            @update:model-value="field.handleChange"
           />
           <FieldError
             v-if="isFieldInvalid(field)"
@@ -52,9 +50,9 @@
       <form.Field v-slot="{ field }" name="userEmailAddress">
         <Field :data-invalid="isFieldInvalid(field)">
           <FieldLabel :for="field.name">
-            <TypographySubtitleSmall>
+            <span class="text-body">
               {{ t('userEmailAddress') }}
-            </TypographySubtitleSmall>
+            </span>
           </FieldLabel>
           <AppInput
             :id="field.name"
@@ -63,9 +61,7 @@
             :name="field.name"
             type="email"
             @blur="field.handleBlur"
-            @input="
-              field.handleChange(($event.target as HTMLInputElement).value)
-            "
+            @update:model-value="field.handleChange"
           />
           <FieldError
             v-if="isFieldInvalid(field)"
@@ -86,9 +82,9 @@
           />
           <div class="flex flex-col gap-1">
             <FieldLabel :for="field.name">
-              <TypographySubtitleSmall>
+              <span class="text-body">
                 {{ t('userConsentAccuracy') }}
-              </TypographySubtitleSmall>
+              </span>
             </FieldLabel>
             <FieldError
               v-if="isFieldInvalid(field)"
@@ -110,7 +106,7 @@
           />
           <div class="flex flex-col gap-1">
             <FieldLabel :for="field.name">
-              <TypographySubtitleSmall>
+              <span class="text-body">
                 <i18n-t keypath="userConsentProcessing">
                   <template #contactForm>
                     <AppLink is-underlined :to="localePath('support-contact')">
@@ -126,7 +122,7 @@
                     </AppLink>
                   </template>
                 </i18n-t>
-              </TypographySubtitleSmall>
+              </span>
             </FieldLabel>
             <FieldError
               v-if="isFieldInvalid(field)"

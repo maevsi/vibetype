@@ -38,6 +38,21 @@ appTest.describe('internationalization', () => {
     expect(defaultPage.page.getByText(textGerman)).toBeDefined()
   })
 
+  appTest.describe('with a German browser', () => {
+    appTest.use({ locale: 'de-DE' })
+
+    appTest('redirects the root route to German', async ({ defaultPage }) => {
+      await defaultPage.goto('/')
+      await expect(defaultPage.page).toHaveURL(/\/de$/)
+    })
+
+    // the search engines' crawl of the deep links must stay free of language redirects
+    appTest('leaves deep links untouched', async ({ defaultPage }) => {
+      await defaultPage.goto('/session/create')
+      await expect(defaultPage.page).toHaveURL(/\/session\/create$/)
+    })
+  })
+
   // appTest(
   //   'switches between English and German translations',
   //   async ({ defaultPage }) => {

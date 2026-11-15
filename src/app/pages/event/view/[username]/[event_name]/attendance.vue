@@ -5,29 +5,26 @@
       class="flex flex-col gap-4"
     >
       <LayoutPageTitle :title="t('title')" />
-      <AppSteps
+      <AppStepList
         :active="t('qrCodeScan')"
         :steps="[t('qrCodeScan'), t('nfcWrite')]"
       />
-      <AppHr />
+      <AppSeparator />
       <div class="flex flex-col items-center justify-center gap-4">
-        <ButtonColored :aria-label="t('qrCodeScan')" @click="qrCodeScan">
+        <AppButton :aria-label="t('qrCodeScan')" @click="qrCodeScan">
           {{ t('qrCodeScan') }}
           <template #prefix>
             <AppIconQrCode />
           </template>
-        </ButtonColored>
-        <p
-          v-if="!guestId"
-          class="text-sm text-(--semantic-base-text-secondary)"
-        >
+        </AppButton>
+        <p v-if="!guestId" class="text-body-small text-fg-2">
           {{ t('qrHint') }}
         </p>
         <AppAttendanceGuestDynamic v-if="guestId" :guest-id />
         <div v-if="guestId" class="flex flex-col items-center gap-2">
-          <ButtonColored
+          <AppButton
             :aria-label="t('nfcWrite')"
-            class="text-(--semantic-base-light-text-on-dark)"
+            class="text-on-action-primary"
             :disabled="isNfcError"
             @click="onClick"
           >
@@ -35,13 +32,13 @@
             <template #prefix>
               <AppIconUserTag />
             </template>
-          </ButtonColored>
-          <CardStateAlert v-if="isNfcError">
+          </AppButton>
+          <AppAlert v-if="isNfcError" variant="error">
             {{ isNfcWritableErrorMessage }}
-          </CardStateAlert>
+          </AppAlert>
         </div>
       </div>
-      <Modal
+      <AppModal
         v-model="isModalAttendanceScanQrCodeOpen"
         :submit-name="t('close')"
         @submit="modalClose"
@@ -50,7 +47,7 @@
         <template #submit-icon>
           <AppIconXCircleSolid />
         </template>
-      </Modal>
+      </AppModal>
     </div>
     <AppError v-else :error="{ status: 403 }" />
   </Loader>
@@ -104,7 +101,7 @@ const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
 
 // page
 const title = computed(() => {
-  if (api.value.isFetching) return t('globalLoading')
+  if (api.value.isFetching && !event.value) return t('globalLoading')
   if (route.params.username !== store.signedInUsername) {
     showAppError({ status: 403, message: 'Permission denied' })
     return

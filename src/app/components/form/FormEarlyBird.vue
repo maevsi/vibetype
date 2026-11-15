@@ -2,15 +2,17 @@
   <form class="flex flex-col gap-4" @submit.prevent="form.handleSubmit">
     <form.Field v-slot="{ field }" name="userName">
       <Field>
-        <FieldLabel>
-          <TypographySubtitleSmall>
+        <FieldLabel :for="field.name">
+          <span class="text-body">
             {{ t('userName') }}
-          </TypographySubtitleSmall>
+          </span>
         </FieldLabel>
         <FieldContent>
           <Input
+            :id="field.name"
             :aria-invalid="isFieldInvalid(field)"
             :model-value="field.state.value"
+            :name="field.name"
             type="text"
             @blur="field.handleBlur"
             @input="
@@ -26,15 +28,17 @@
     </form.Field>
     <form.Field v-slot="{ field }" name="userEmailAddress">
       <Field>
-        <FieldLabel>
-          <TypographySubtitleSmall>
+        <FieldLabel :for="field.name">
+          <span class="text-body">
             {{ t('userEmailAddress') }}
-          </TypographySubtitleSmall>
+          </span>
         </FieldLabel>
         <FieldContent>
           <Input
+            :id="field.name"
             :aria-invalid="isFieldInvalid(field)"
             :model-value="field.state.value"
+            :name="field.name"
             type="email"
             @blur="field.handleBlur"
             @input="
@@ -53,6 +57,7 @@
         <div class="flex gap-3">
           <FieldContent class="mt-1">
             <AppCheckbox
+              :id="field.name"
               :aria-invalid="isFieldInvalid(field)"
               :model-value="field.state.value"
               required
@@ -61,8 +66,8 @@
               "
             />
           </FieldContent>
-          <FieldLabel>
-            <TypographySubtitleSmall>
+          <FieldLabel :for="field.name">
+            <span class="text-body">
               <i18n-t keypath="userConsent">
                 <template #contactForm>
                   <AppLink is-underlined :to="localePath('support-contact')">
@@ -75,7 +80,7 @@
                   </AppLink>
                 </template>
               </i18n-t>
-            </TypographySubtitleSmall>
+            </span>
           </FieldLabel>
         </div>
         <FieldError

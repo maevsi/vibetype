@@ -13,9 +13,9 @@
       :error="{ message: t('errorAccountMissing'), status: 404 }"
     />
     <div v-else class="flex flex-col gap-4">
-      <CardStateInfo v-if="isOrganizerPreview" class="flex flex-col gap-2">
+      <AppAlert v-if="isOrganizerPreview" class="flex flex-col gap-2">
         {{ t('invitationViewFor', { name: contactName }) }}
-        <ButtonColored
+        <AppButton
           :aria-label="t('invitationSelectionClear')"
           :to="
             localePath({
@@ -31,12 +31,12 @@
           <template #prefix>
             <AppIconArrowLeft />
           </template>
-        </ButtonColored>
-      </CardStateInfo>
+        </AppButton>
+      </AppAlert>
       <div v-if="contact" class="flex flex-col gap-2">
         <div class="flex items-center justify-between gap-2">
           <div>
-            <p class="mb-2 text-2xl font-bold">
+            <p class="mb-2 text-heading-medium">
               {{
                 t('greeting', {
                   usernameString: contactName ? ' ' + contactName : '',
@@ -45,7 +45,7 @@
             </p>
             <p>{{ t('greetingDescription') }}</p>
           </div>
-          <ButtonColored
+          <AppButton
             v-if="guest.feedback === InvitationFeedback.Accepted"
             :aria-label="t('qrCodeShow')"
             @click="qrCodeShow"
@@ -54,7 +54,7 @@
             <template #prefix>
               <AppIconQrCode />
             </template>
-          </ButtonColored>
+          </AppButton>
         </div>
       </div>
       <div class="flex flex-col gap-4">
@@ -65,15 +65,24 @@
               class="absolute inset-x-0 top-0 flex items-center justify-between p-2"
             >
               <div />
-              <div>
-                <ButtonIcon
+              <div class="flex items-center gap-2">
+                <AppButton
                   :aria-label="t('iCalDownload')"
-                  class="flex size-12 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                  class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
+                  size="none"
+                  variant="ghost"
                   @click="downloadIcal"
                 >
                   <AppIconArrowDownTray :title="t('iCalDownload')" />
-                </ButtonIcon>
-                <!-- TODO: share & favorite button (https://github.com/maevsi/vibetype/issues/2480) -->
+                </AppButton>
+                <EventShareButton
+                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
+                  :event
+                />
+                <EventFavoriteButton
+                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
+                  :event
+                />
                 <template
                   v-if="
                     store.signedInAccountId &&
@@ -89,7 +98,7 @@
                     </AppDropdownItem>
                     <template #trigger>
                       <span
-                        class="flex size-10.5 items-center justify-center rounded-full bg-(--semantic-base-surface-1)"
+                        class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
                       >
                         <AppIconMoreVertical />
                       </span>
@@ -104,7 +113,7 @@
               </div>
             </div>
           </div>
-          <Card class="flex flex-col items-stretch gap-6 rounded-t-none">
+          <AppCard class="flex flex-col items-stretch gap-6 rounded-t-none">
             <div
               class="flex flex-col items-baseline justify-center md:flex-row md:gap-2"
             >
@@ -123,11 +132,11 @@
             </div>
             <AppMap
               v-if="positionInitial"
-              class="h-42 rounded-xl"
+              class="h-42 rounded-large"
               :events
               :position-initial
             />
-          </Card>
+          </AppCard>
         </div>
         <div
           class="flex flex-col items-center gap-2"
@@ -143,7 +152,7 @@
           >
             <div
               v-if="guest.feedback === InvitationFeedback.Accepted"
-              class="flex items-center font-semibold text-(--semantic-accent-text)"
+              class="flex items-center font-semibold text-link"
             >
               <AppIconCheckCircleSolid class="mr-2 shrink-0" />
               <span>
@@ -152,7 +161,7 @@
             </div>
             <div
               v-else-if="guest.feedback === InvitationFeedback.Canceled"
-              class="flex items-center font-semibold text-(--semantic-critic-text)"
+              class="flex items-center font-semibold text-error"
             >
               <AppIconXCircleSolid class="mr-2 shrink-0" />
               <span>
@@ -166,7 +175,7 @@
             </div>
           </div>
           <div v-else class="flex items-center justify-center gap-4">
-            <ButtonColored
+            <AppButton
               v-if="
                 guest.feedback === null ||
                 guest.feedback === InvitationFeedback.Canceled
@@ -179,10 +188,10 @@
               <template #prefix>
                 <AppIconCheckCircleSolid class="shrink-0" />
               </template>
-            </ButtonColored>
+            </AppButton>
             <div
               v-if="guest.feedback === InvitationFeedback.Accepted"
-              class="flex items-center font-semibold text-(--semantic-accent-text)"
+              class="flex items-center font-semibold text-link"
             >
               <AppIconCheckCircleSolid
                 class="mr-2 shrink-0"
@@ -190,7 +199,7 @@
               />
               <span>{{ t('invitationAccepted') }}</span>
             </div>
-            <ButtonColored
+            <AppButton
               v-if="
                 guest.feedback === null ||
                 guest.feedback === InvitationFeedback.Accepted
@@ -203,10 +212,10 @@
               <template #prefix>
                 <AppIconXCircleSolid class="shrink-0" />
               </template>
-            </ButtonColored>
+            </AppButton>
             <div
               v-if="guest.feedback === InvitationFeedback.Canceled"
-              class="flex items-center font-semibold text-(--semantic-critic-text)"
+              class="flex items-center font-semibold text-error"
             >
               <AppIconXCircleSolid
                 class="mr-2 shrink-0"
@@ -216,18 +225,18 @@
             </div>
           </div>
         </div>
-        <Card v-if="eventDescriptionHtml">
+        <AppCard v-if="eventDescriptionHtml">
           <!-- eslint-disable vue/no-v-html -->
           <LayoutProse class="w-full">
             <div v-html="eventDescriptionHtml" />
           </LayoutProse>
           <!-- eslint-enable vue/no-v-html -->
-        </Card>
+        </AppCard>
       </div>
-      <Modal v-model="isModalGuestQrCodeOpen">
+      <AppModal v-model="isModalGuestQrCodeOpen">
         <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
           <QrcodeVue id="qrCode" :margin="4" :size="232" :value="guest.rowId" />
-          <p class="text-sm text-(--semantic-base-text-secondary)">
+          <p class="text-body-small text-fg-2">
             {{ t('hintQrCode') }}
           </p>
           <!-- the iOS app hands downloads to a preview that offers adding the pass, whereas Safari opens Wallet on navigation -->
@@ -256,7 +265,7 @@
           </a>
         </div>
         <template #footer>
-          <ButtonColored
+          <AppButton
             v-if="isTicketShareable"
             :aria-label="t('ticketShare')"
             :disabled="!ticketFile"
@@ -268,9 +277,9 @@
             <template #prefix>
               <AppIconShare />
             </template>
-          </ButtonColored>
+          </AppButton>
           <!-- the iOS app's share sheet covers saving and printing, whereas Android's usually lacks a print target -->
-          <ButtonColored
+          <AppButton
             v-if="!isIos"
             :aria-label="t('ticketDownload')"
             :disabled="!ticketFile"
@@ -282,8 +291,8 @@
             <template #prefix>
               <AppIconArrowDownTray />
             </template>
-          </ButtonColored>
-          <ButtonColored
+          </AppButton>
+          <AppButton
             :aria-label="t('close')"
             @click="isModalGuestQrCodeOpen = false"
           >
@@ -291,9 +300,9 @@
             <template #prefix>
               <AppIconXMark />
             </template>
-          </ButtonColored>
+          </AppButton>
         </template>
-      </Modal>
+      </AppModal>
     </div>
   </Loader>
 </template>
@@ -337,6 +346,7 @@ const jwtUpdateGuestAdd = import.meta.server
   ? useJwtUpdateGuestAdd({ guestId: route.params.id })
   : undefined
 const jwt = jwtUpdateGuestAdd ? await jwtUpdateGuestAdd() : undefined
+const cookie = jwt ? useCsrfCookieHeader() : undefined
 const eventQuery = useApiQuery({
   query: graphql(`
     query GuestEvent($id: UUID!) {
@@ -382,6 +392,13 @@ const eventQuery = useApiQuery({
               id
             }
           }
+          eventFavoritesByEventId(first: 1) {
+            nodes {
+              createdBy
+              id
+              rowId
+            }
+          }
           eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
             nodes {
               eventFormatByFormatId {
@@ -415,9 +432,13 @@ const eventQuery = useApiQuery({
   ...(jwt
     ? {
         context: {
+          // Replaces the client's fetch options, so the CSRF header and
+          // cookie have to be repeated for a query sent by POST
           fetchOptions: {
             headers: {
               Authorization: `Bearer ${jwt}`,
+              [CSRF_HEADER_NAME]: useCsrf().csrf,
+              ...(cookie ? { cookie } : {}),
             },
           },
         },
@@ -484,7 +505,6 @@ const downloadIcal = async () => {
     'text/calendar',
   )
 }
-const timeZone = useTimeZone()
 const isTicketShareable = ref<boolean>()
 const isTicketFetching = ref<boolean>()
 const ticketFile = ref<File>()
@@ -496,53 +516,18 @@ onMounted(() => {
 const ticketFetch = async () => {
   if (!event.value || !guest.value || ticketFile.value) return
 
-  const dateTimeFormat = new Intl.DateTimeFormat(locale.value, {
-    dateStyle: 'full',
-    timeStyle: 'short',
-    timeZone,
-  })
-  const fileName = `${event.value.slug}.pdf`
-
   isTicketFetching.value = true
 
   try {
     const blob = await $csrfFetch('/api/model/guest/ticket', {
-      body: {
-        details: [
-          {
-            label: t('ticketDate'),
-            value: event.value.end
-              ? dateTimeFormat.formatRange(
-                  new Date(event.value.start),
-                  new Date(event.value.end),
-                )
-              : dateTimeFormat.format(new Date(event.value.start)),
-          },
-          ...(address.value?.name
-            ? [{ label: t('ticketLocation'), value: address.value.name }]
-            : []),
-          ...(event.value.accountByCreatedBy
-            ? [
-                {
-                  label: t('ticketOrganizer'),
-                  value: event.value.accountByCreatedBy.username,
-                },
-              ]
-            : []),
-          ...(contactName.value
-            ? [{ label: t('ticketGuest'), value: contactName.value }]
-            : []),
-        ],
-        fileName,
-        guestId: guest.value.rowId,
-        hint: t('hintQrCode'),
-        title: event.value.name,
-      },
+      body: { guestId: guest.value.rowId, locale: locale.value },
       method: 'POST',
       responseType: 'blob',
     })
 
-    ticketFile.value = new File([blob], fileName, { type: 'application/pdf' })
+    ticketFile.value = new File([blob], `${event.value.slug}.pdf`, {
+      type: 'application/pdf',
+    })
   } catch (error) {
     alertError({
       error: error instanceof Error ? error : undefined,
@@ -648,7 +633,7 @@ const description = computed(() =>
     : undefined,
 )
 const title = computed(() => {
-  if (api.value.isFetching) return t('globalLoading')
+  if (api.value.isFetching && !event.value) return t('globalLoading')
   if (!event.value) {
     showAppError({ status: 404, message: 'Event unavailable' })
     return
@@ -660,15 +645,7 @@ useHeadDefault({
   description,
   title,
 })
-defineOgImage(
-  'Event.takumi',
-  {
-    description,
-  },
-  {
-    alt: t('ogImageAlt'),
-  },
-)
+defineEventOgImage({ alt: t('ogImageAlt'), event: event.value })
 </script>
 
 <i18n lang="yaml">
@@ -696,12 +673,8 @@ de:
   qrCodeShow: Check-in-Code anzeigen
   report: Veranstaltung melden
   success: Deine Eingabe wurde erfolgreich gespeichert.
-  ticketDate: Datum
   ticketDownload: Ticket herunterladen
   ticketError: Das Ticket konnte nicht erstellt werden.
-  ticketGuest: Gast
-  ticketLocation: Ort
-  ticketOrganizer: Veranstaltet von
   ticketShare: Ticket teilen
   ticketShareError: Das Ticket konnte nicht geteilt werden.
   walletApple: Zu Apple Wallet hinzufügen
@@ -730,12 +703,8 @@ en:
   qrCodeShow: Show check in code
   report: Report event
   success: Your input was saved succesfully.
-  ticketDate: Date
   ticketDownload: Download ticket
   ticketError: The ticket could not be created.
-  ticketGuest: Guest
-  ticketLocation: Location
-  ticketOrganizer: Organized by
   ticketShare: Share ticket
   ticketShareError: The ticket could not be shared.
   walletApple: Add to Apple Wallet

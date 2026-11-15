@@ -44,7 +44,7 @@
               store.signedInUsername &&
               contact?.accountByAccountId?.username === store.signedInUsername
             "
-            class="text-muted-foreground text-sm"
+            class="text-body text-muted-foreground"
           >
             <i18n-t keypath="stateInfoUsernameDisabled" tag="span">
               <template #accountSettings>
@@ -66,7 +66,7 @@
       </form.Field>
       <p
         v-if="form.getFieldValue('accountUsername')"
-        class="text-muted-foreground text-sm"
+        class="text-body text-muted-foreground"
       >
         {{ t('accountOverride') }}
       </p>
@@ -216,7 +216,7 @@
             <Textarea
               id="input-note"
               :aria-invalid="isFieldInvalid(field)"
-              class="bg-(--semantic-base-input-field-fill) dark:bg-(--semantic-base-input-field-fill)"
+              class="bg-surface-raised dark:bg-surface-raised"
               :model-value="field.state.value"
               rows="3"
               @blur="field.handleBlur"
@@ -232,18 +232,18 @@
         </Field>
       </form.Field>
       <div class="flex flex-col items-center">
-        <ButtonColored
+        <AppButton
           :aria-label="t('save')"
           class="w-full"
           :loading="api.isFetching"
           type="submit"
         >
           {{ t('save') }}
-        </ButtonColored>
+        </AppButton>
       </div>
-      <CardStateAlert v-if="errorMessages?.length">
+      <AppAlert v-if="errorMessages?.length" variant="error">
         <AppSpanList :span="errorMessages" />
-      </CardStateAlert>
+      </AppAlert>
     </div>
   </form>
 </template>

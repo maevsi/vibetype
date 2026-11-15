@@ -7,6 +7,8 @@ import {
   FEATURE_FLAGS_COOKIE_NAME,
   GTAG_COOKIE_ID,
   GTAG_MEASUREMENT_ID,
+  I18N_COOKIE_NAME,
+  LOCKDOWN_MODE_DISMISSED_COOKIE_NAME,
   TIMEZONE_COOKIE_NAME,
 } from '../../node/static'
 
@@ -61,6 +63,18 @@ export const cookieControlConfig = {
         },
         {
           description: {
+            de: 'Dieser Cookie von uns speichert die Sprache, in der sich diese Webseite anzeigen soll.',
+            en: 'This cookie of ours stores the language in which this website should be displayed.',
+          },
+          id: 'i',
+          name: {
+            de: 'Sprache',
+            en: 'Language',
+          },
+          targetCookieIds: [I18N_COOKIE_NAME],
+        },
+        {
+          description: {
             de: 'Dieser Cookie von uns speichert Sicherheitsinformationen für den Schutz vor Angriffen.',
             en: 'This cookie of ours stores security information for protection against attacks.',
           },
@@ -82,6 +96,18 @@ export const cookieControlConfig = {
             en: 'Time Zone',
           },
           targetCookieIds: [TIMEZONE_COOKIE_NAME],
+        },
+        {
+          description: {
+            de: 'Dieser Cookie von uns speichert, dass der Hinweis zum Blockierungsmodus geschlossen wurde.',
+            en: 'This cookie of ours saves that the Lockdown Mode notice was closed.',
+          },
+          id: 'l',
+          name: {
+            de: 'Blockierungsmodus-Hinweis',
+            en: 'Lockdown Mode Notice',
+          },
+          targetCookieIds: [LOCKDOWN_MODE_DISMISSED_COOKIE_NAME],
         },
         {
           description: {

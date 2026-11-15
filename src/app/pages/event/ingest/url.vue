@@ -10,19 +10,19 @@
       <input
         id="url-input"
         v-model="enteredURL"
-        class="w-full rounded text-(--semantic-base-dark-text-on-light)"
+        class="w-full rounded-small text-fg-1"
         :placeholder="t('enterEventLink')"
         type="url"
       />
     </div>
-    <ButtonColored
+    <AppButton
       :aria-label="t('process')"
       class="self-end"
       :loading="isUploading"
       @click="uploadURL"
     >
       {{ t('process') }}
-    </ButtonColored>
+    </AppButton>
   </div>
 </template>
 

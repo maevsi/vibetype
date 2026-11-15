@@ -3,7 +3,10 @@ import { defineEventHandler, useRuntimeConfig } from 'nuxt/server'
 export default defineEventHandler((event) => {
   const runtimeConfig = useRuntimeConfig()
 
-  if (!runtimeConfig.public.sentry.features.securityHeaders) {
+  if (
+    !runtimeConfig.public.sentry.enabled ||
+    !runtimeConfig.public.sentry.features.securityHeaders
+  ) {
     return
   }
 

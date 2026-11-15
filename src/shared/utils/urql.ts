@@ -34,7 +34,10 @@ import {
   allPreferenceEventLocationsQuery,
   getPreferenceEventLocationItem,
 } from '~~/shared/utils/preference/eventLocation'
-import { getSsrHydrationExchanges } from '~~/shared/utils/urqlSsrHydration'
+import {
+  getRefetchBeforeHydrationExchange,
+  getSsrHydrationExchanges,
+} from '~~/shared/utils/urqlSsrHydration'
 
 // A `useQuery` that settles on the server: the query is paused at creation,
 // and awaiting the response executes it exactly once and fills its state, so
@@ -56,12 +59,20 @@ export const useApiQuery = <S, V extends AnyVariables = AnyVariables>(
       // prop of the query args types them as `V | undefined`
       toValue(args.variables) as V,
     )
+    // Built like `useQuery` builds it, so per query options such as an
+    // `Authorization` header in `fetchOptions` reach the server request too
+    const context = {
+      ...('requestPolicy' in args
+        ? { requestPolicy: toValue(args.requestPolicy) }
+        : {}),
+      ...toValue(args.context),
+    }
     // A promise must never resolve to a thenable: the response itself is
     // one, so the state is returned without its `then`, or the resolution
     // would re-trigger it in an endless adoption loop
     const settle = (): Promise<UseQueryState<S, V>> =>
       client
-        .executeQuery(request)
+        .executeQuery(request, context)
         .toPromise()
         .then(
           (result) => {
@@ -457,6 +468,7 @@ export const getUrqlClient = async ({
       isCacheHydrated: () => isCacheHydrated,
       ssrExchange,
     })
+    const refetchBeforeHydration = getRefetchBeforeHydrationExchange()
     const cacheExchange =
       import.meta.client && cacheStorage
         ? getOfflineExchange({
@@ -466,6 +478,7 @@ export const getUrqlClient = async ({
               ...cacheStorage,
               onCacheHydrated: () => {
                 isCacheHydrated = true
+                refetchBeforeHydration.refetch()
               },
             },
           })
@@ -478,6 +491,7 @@ export const getUrqlClient = async ({
         requestPolicyExchange({}),
         ...(cacheExchange
           ? [
+              refetchBeforeHydration.exchange,
               ssrHydrationExchanges.skipCacheRead,
               cacheExchange,
               ssrHydrationExchanges.answerFromSsr,

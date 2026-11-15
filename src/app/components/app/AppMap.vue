@@ -13,7 +13,7 @@ import type { DeepReadonly, HtmlHTMLAttributes } from 'vue'
 
 import { cn } from '@/utils/shadcn'
 
-import markerIcon from '~/assets/icons/location-on.svg?raw'
+import markerIcon from '~/assets/icons/map-pin.svg?raw'
 
 export type AppMapEvent = {
   addressByAddressId?: {
@@ -45,9 +45,7 @@ const {
 const emit = defineEmits<{
   geocode: [name: string]
 }>()
-const classComputed = computed(() =>
-  cn('h-96 w-full text-[#191911]', classProps),
-)
+const classComputed = computed(() => cn('h-96 w-full text-fg-1', classProps))
 
 const templateIdMap = useId()
 const map = ref<Map>()
@@ -134,7 +132,7 @@ onMounted(async () => {
 
   if (events && events.length) {
     const icon = new DivIcon({
-      className: 'text-(--semantic-error-strong)',
+      className: 'text-error',
       html: markerIcon,
       iconAnchor: [15, 25],
       iconSize: [30, 30],

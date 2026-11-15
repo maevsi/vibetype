@@ -1,12 +1,12 @@
 <template>
   <LayoutPage>
     <div class="flex flex-col gap-4 text-center">
-      <AppStepIndex :count="4" :index="2" />
-      <TypographyH3>
+      <AppStepProgress :count="4" :index="2" />
+      <span class="text-heading-medium text-balance">
         {{ t('title') }}
-      </TypographyH3>
+      </span>
       <div>
-        <ul class="flex flex-wrap justify-center gap-5">
+        <ul class="flex flex-wrap justify-center gap-2">
           <li v-for="eventFormat in eventFormats" :key="eventFormat.rowId">
             <PreferenceElement
               v-if="eventFormat.label && eventFormat.label !== eventFormat.name"
@@ -57,13 +57,13 @@
       </div>
     </div>
     <template #bottom>
-      <ButtonColored
+      <AppButton
         :aria-label="t('button')"
         class="w-full max-w-md"
         @click="emit('next')"
       >
         {{ t('button') }}
-      </ButtonColored>
+      </AppButton>
     </template>
   </LayoutPage>
 </template>

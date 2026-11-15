@@ -1,22 +1,21 @@
 <template>
-  <div v-if="isLoading" class="flex flex-1 items-center justify-center">
-    <AppLoaderLogo class="size-16" />
-  </div>
-  <div v-else-if="events?.length" class="flex flex-col items-center gap-4">
+  <div v-if="events?.length" class="flex flex-col items-center gap-4">
     <AppMap v-if="isMapVisible" :events />
     <ul class="flex w-full flex-col gap-3">
       <li v-for="event in events" :key="event.rowId">
         <EventCard :event />
       </li>
     </ul>
-    <ButtonColored
+    <AppButton
       v-if="hasNextPage"
       :aria-label="t('globalShowMore')"
+      :loading="isLoading"
       @click="emit('loadMore')"
     >
       {{ t('globalShowMore') }}
-    </ButtonColored>
+    </AppButton>
   </div>
+  <AppLoaderPlaceholder v-else-if="isLoading" />
   <p v-else class="text-center">{{ t('noEvents') }}</p>
 </template>
 

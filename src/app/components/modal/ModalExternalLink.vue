@@ -1,10 +1,10 @@
 <template>
-  <Modal v-model="open">
+  <AppModal v-model="open">
     <template #header>{{ t('header') }}</template>
     <p class="break-all">{{ t('description') }}</p>
     <p class="mt-2 break-all opacity-60">{{ url }}</p>
     <template #footer>
-      <ButtonColored
+      <AppButton
         :aria-label="t('cancel')"
         variant="secondary"
         @click="onCancel"
@@ -13,15 +13,15 @@
         <template #prefix>
           <AppIconXMark />
         </template>
-      </ButtonColored>
-      <ButtonColored :aria-label="t('continue')" @click="onSubmit">
+      </AppButton>
+      <AppButton :aria-label="t('continue')" @click="onSubmit">
         {{ t('continue') }}
         <template #prefix>
           <AppIconCheckCircleSolid />
         </template>
-      </ButtonColored>
+      </AppButton>
     </template>
-  </Modal>
+  </AppModal>
 </template>
 
 <script setup lang="ts">

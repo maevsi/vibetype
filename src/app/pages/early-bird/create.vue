@@ -5,9 +5,14 @@
         {{ title }}
       </span>
       <template v-if="previous" #back>
-        <ButtonIcon :aria-label="t('back')" @click="step = previous">
+        <AppButton
+          :aria-label="t('back')"
+          size="none"
+          variant="ghost"
+          @click="step = previous"
+        >
           <AppIconBack />
-        </ButtonIcon>
+        </AppButton>
       </template>
       <template v-if="!error && ['default', 'form'].includes(step)" #close>
         <ButtonIconBackRoute :aria-label="t('iconAltClose')">
@@ -15,41 +20,38 @@
         </ButtonIconBackRoute>
       </template>
     </LayoutTopBar>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <EarlyBirdWelcome v-bind="attributes" @next="step = 'form'" />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'form'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'form'">
       <EarlyBirdForm
         v-bind="attributes"
         v-model:error="error"
         @next="step = 'submission'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'submission'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'submission'">
       <EarlyBirdSubmission v-bind="attributes" />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
-        <LayoutPageResult type="error">
-          <span v-if="error && error.message">
-            {{ error.message }}
-          </span>
+        <LayoutPageResult :message="error?.message" type="error">
           <template #description>
             {{ t('globalTryAgain') }}
           </template>
         </LayoutPageResult>
         <template #bottom>
-          <ButtonColored
+          <AppButton
             :aria-label="t('backToForm')"
             class="w-full max-w-md"
             variant="primary"
             @click="restart"
           >
             {{ t('backToForm') }}
-          </ButtonColored>
+          </AppButton>
         </template>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
   </section>
 </template>
 

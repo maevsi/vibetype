@@ -1,40 +1,35 @@
 <template>
-  <div
-    v-if="api.isFetching"
-    class="text-sm text-(--semantic-base-text-secondary)"
-  >
-    {{ t('loading') }}
-  </div>
+  <AppLoaderPlaceholder v-if="api.isFetching && !attendance" />
   <AppError v-else-if="!attendance" :error="{ status: 404 }" />
   <div v-else class="flex flex-col gap-4">
     <h1 class="sr-only">{{ title }}</h1>
     <section class="flex flex-col gap-4">
-      <span class="text-3xl font-bold">
+      <span class="text-heading-large">
         {{ t('contact') }}
       </span>
       <ContactPreview v-if="contact" :contact />
-      <CardStateInfo v-else>
+      <AppAlert v-else>
         {{ t('errorContactNone') }}
-      </CardStateInfo>
+      </AppAlert>
       <div class="flex">
         <AppFeature feature="friends">
-          <ButtonColored
+          <AppButton
             v-if="authentication.isSignedIn"
             :aria-label="t('addFriend')"
             :title="t('addFriend')"
             @click="friendAdd"
           >
             {{ t('addFriend') }}
-          </ButtonColored>
+          </AppButton>
         </AppFeature>
       </div>
     </section>
     <section v-if="eventApps.length" class="flex flex-col gap-4">
-      <span class="text-3xl font-bold">
+      <span class="text-heading-large">
         {{ t('event') }}
       </span>
       <section v-if="eventApps.length" class="flex flex-col gap-4">
-        <span class="text-2xl font-bold">
+        <span class="text-heading-medium">
           {{ t('apps') }}
         </span>
         <ul>
@@ -46,7 +41,7 @@
                 eventApp.appByAppId.iconSvg
               "
             >
-              <ButtonColored
+              <AppButton
                 :aria-label="eventApp.appByAppId.name"
                 :to="
                   eventApp.appByAppId?.urlAttendance.replace(
@@ -62,40 +57,40 @@
                     {{ eventApp.appByAppId.name }}
                   </span>
                 </span>
-              </ButtonColored>
+              </AppButton>
             </li>
           </template>
         </ul>
       </section>
     </section>
     <section v-if="guest?.rowId" class="flex flex-col gap-4">
-      <span class="text-3xl font-bold">
+      <span class="text-heading-large">
         {{ t('attendance') }}
       </span>
       <div class="flex gap-2">
-        <ButtonColored
+        <AppButton
           :aria-label="t('checkOut')"
           :disabled="!canCheckOut"
           :loading="checkOutMutation.fetching.value"
           @click="onCheckOut"
         >
           {{ t('checkOut') }}
-        </ButtonColored>
+        </AppButton>
       </div>
     </section>
     <section v-if="guest" class="flex flex-col gap-4">
-      <span class="text-3xl font-bold">
+      <span class="text-heading-large">
         {{ t('guest') }}
       </span>
       <div class="flex">
-        <ButtonColored
+        <AppButton
           :aria-label="t('guestView')"
           :to="
             localePath({ name: 'guest-view-id', params: { id: guest.rowId } })
           "
         >
           {{ t('guestView') }}
-        </ButtonColored>
+        </AppButton>
       </div>
     </section>
   </div>
@@ -252,7 +247,7 @@ const friendAdd = async () => {
 
 // page
 const title = computed(() => {
-  if (api.value.isFetching) return t('globalLoading')
+  if (api.value.isFetching && !attendance.value) return t('globalLoading')
 
   if (contactName.value) {
     return t('title', { name: contactName.value })
@@ -277,7 +272,6 @@ de:
   event: Veranstaltung
   guest: Gast
   guestView: Einladung anzeigen
-  loading: Lädt…
   title: Anwesenheitsdetails für {name}
 en:
   addFriend: Add friend
@@ -292,6 +286,5 @@ en:
   event: Event
   guest: Guest
   guestView: Show invitation
-  loading: Loading…
   title: Attendance Details for {name}
 </i18n>

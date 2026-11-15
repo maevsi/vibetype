@@ -7,41 +7,35 @@
       <template #title>{{ t('title') }}</template>
       <template #subtitle>{{ t('subtitle') }}</template>
     </FormAuthPageHeader>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <FormAccountPasswordResetRequest
           v-model:error="error"
           @success="handleSuccess"
         />
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
     <FormAuthStepSuccess :is-active="step === 'success'">
-      <h2 class="text-[28px] leading-8.5 font-bold tracking-[-0.4px]">
+      <h2 class="text-heading-large">
         {{ t('instructionsInboxHeading') }}
       </h2>
-      <p
-        class="mt-2 text-[15px] leading-5 font-semibold text-(--semantic-base-text-secondary)"
-      >
+      <p class="mt-2 text-body text-fg-2">
         {{ t('sentResetLinkTo') }}
-        <span class="font-semibold text-(--semantic-base-text-primary)">{{
-          submittedEmail
-        }}</span>
+        <span class="font-semibold text-fg-1">{{ submittedEmail }}</span>
       </p>
-      <p
-        class="mt-2 text-[15px] leading-5 font-semibold text-(--semantic-base-text-secondary)"
-      >
+      <p class="mt-2 text-body text-fg-2">
         {{ t('instructionsInboxDescription') }}
       </p>
     </FormAuthStepSuccess>
     <FormAuthStepError :error="error" :is-active="step === 'error'">
-      <ButtonColored
+      <AppButton
         :aria-label="t('backToRequest')"
         class="w-full max-w-md"
         variant="primary"
         @click="restart"
       >
         {{ t('backToRequest') }}
-      </ButtonColored>
+      </AppButton>
     </FormAuthStepError>
   </section>
 </template>
@@ -80,9 +74,9 @@ const handleSuccess = (emailAddress: string) => {
 }
 
 // navigation
-const router = useRouter()
+const store = useStore()
 const navigateBack = () => {
-  router.back()
+  store.navigateBack()
 }
 </script>
 

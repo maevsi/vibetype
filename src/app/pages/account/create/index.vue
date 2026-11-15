@@ -11,80 +11,81 @@
     </FormAuthPageHeader>
 
     <!-- Step: Email -->
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <form
           class="flex flex-col gap-6"
           novalidate
           @submit.prevent="handleEmailContinue"
         >
-          <FormAuthInput
+          <AppInput
+            :aria-label="t('emailPlaceholder')"
             :model-value="emailField.value.value"
             :placeholder="t('emailPlaceholder')"
             type="email"
             @blur="emailField.handleBlur"
-            @input="emailField.handleInput($event)"
+            @update:model-value="emailField.handleInput"
           >
-            <template #icon>
+            <template #prefix>
               <IHeroiconsEnvelope />
             </template>
-          </FormAuthInput>
-          <p
-            v-if="emailField.error.value"
-            class="text-sm text-(--semantic-critic-text)"
-          >
+          </AppInput>
+          <p v-if="emailField.error.value" class="text-caption text-error">
             {{ emailField.error.value }}
           </p>
           <!-- Terms checkbox -->
           <div class="flex items-start gap-3">
-            <FormCheckbox
-              form-key="agree-to-terms"
-              :value="agreedToTerms"
-              @change="agreedToTerms = $event"
-            >
-              <span class="text-sm text-(--semantic-base-text-secondary)">
+            <AppCheckbox
+              id="agree-to-terms"
+              class="mt-0.5 shrink-0"
+              :model-value="agreedToTerms"
+              @update:model-value="
+                (checked) => (agreedToTerms = checked === true)
+              "
+            />
+            <label for="agree-to-terms">
+              <span class="text-body-small text-fg-2">
                 {{ t('agreePrefix') }}
                 <NuxtLinkLocale
-                  class="font-semibold text-(--semantic-accent-text)"
+                  class="font-semibold text-link underline"
                   to="docs-legal-terms"
-                  >{{ t('termsOfService') }}</NuxtLinkLocale
-                >{{ t('legalComma') }}
+                  >{{ t('termsOfService') }}</NuxtLinkLocale>{{
+                  t('legalComma')
+                }}
                 <NuxtLinkLocale
-                  class="font-semibold text-(--semantic-accent-text)"
+                  class="font-semibold text-link underline"
                   to="docs-legal-imprint"
                   >{{ t('imprint') }}</NuxtLinkLocale
                 >
                 {{ t('and') }}
                 <NuxtLinkLocale
-                  class="font-semibold text-(--semantic-accent-text)"
+                  class="font-semibold text-link underline"
                   to="docs-legal-privacy"
                   >{{ t('privacyPolicy') }}</NuxtLinkLocale
                 >
               </span>
-            </FormCheckbox>
+            </label>
           </div>
-          <p v-if="termsError" class="text-sm text-(--semantic-critic-text)">
+          <p v-if="termsError" class="text-caption text-error">
             {{ termsError }}
           </p>
-          <FormAuthButton :aria-label="t('continue')" type="submit">
+          <AppButton :aria-label="t('continue')" class="w-full" type="submit">
             {{ t('continue') }}
-          </FormAuthButton>
-          <p
-            class="text-center text-[15px] text-(--semantic-base-text-secondary)"
-          >
+          </AppButton>
+          <p class="text-center text-body text-fg-2">
             {{ t('alreadyHaveAccount') }}
             <NuxtLinkLocale
-              class="font-semibold text-(--semantic-accent-text)"
+              class="font-semibold text-link underline"
               to="session-create"
               >{{ t('signInLink') }}</NuxtLinkLocale
             >
           </p>
         </form>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
 
     <!-- Step: Password -->
-    <AppStep v-slot="attributes" :is-active="step === 'password'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'password'">
       <LayoutPage v-bind="attributes">
         <FormAccountRegistration
           v-model:captcha-is-used="captchaIsUsed"
@@ -96,10 +97,10 @@
           "
         />
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
 
     <!-- Step: Username -->
-    <AppStep v-slot="attributes" :is-active="step === 'username'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'username'">
       <LayoutPage v-bind="attributes">
         <form
           class="flex flex-col gap-4"
@@ -107,85 +108,81 @@
           @submit.prevent="handleUsernameContinue"
         >
           <div class="relative">
-            <FormAuthInput
+            <AppInput
+              :aria-label="t('usernamePlaceholder')"
               :model-value="usernameField.value.value"
               :placeholder="t('usernamePlaceholder')"
               type="text"
               @blur="usernameField.handleBlur"
-              @input="handleUsernameInput($event)"
+              @update:model-value="handleUsernameInput"
             >
-              <template #icon>
+              <template #prefix>
                 <IHeroiconsUser />
               </template>
-            </FormAuthInput>
+            </AppInput>
             <div
               v-if="usernameField.isLoading.value"
               class="absolute top-1/2 right-4 -translate-y-1/2"
             >
               <div
-                class="size-5 animate-spin rounded-full border-2 border-(--semantic-base-line) border-t-green-600"
+                class="size-5 animate-spin rounded-full border-2 border-line border-t-green-600"
               />
             </div>
           </div>
-          <p
-            v-if="usernameField.error.value"
-            class="text-sm text-(--semantic-critic-text)"
-          >
+          <p v-if="usernameField.error.value" class="text-caption text-error">
             {{ usernameField.error.value }}
           </p>
-          <FormAuthButton
+          <AppButton
             :aria-label="t('continue')"
+            class="w-full"
             :disabled="
               !usernameField.value.value || !!usernameField.error.value
             "
             type="submit"
           >
             {{ t('continue') }}
-          </FormAuthButton>
+          </AppButton>
         </form>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
 
     <!-- Step: Age -->
-    <AppStep v-slot="attributes" :is-active="step === 'age'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'age'">
       <LayoutPage v-bind="attributes">
         <div class="flex flex-col gap-4">
           <FormAccountRegistrationAge
             :id="templateIdAgeForm"
             @success="handleAgeSuccess"
           />
-          <FormAuthButton
+          <AppButton
             :aria-label="t('confirmAge')"
+            class="w-full"
             :form="templateIdAgeForm"
             type="submit"
           >
             {{ t('confirmAge') }}
-          </FormAuthButton>
+          </AppButton>
         </div>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
 
     <!-- Step: Success -->
     <FormAuthStepSuccess :is-active="step === 'success'">
       <div class="flex flex-col gap-4">
-        <p
-          class="text-[15px] leading-5 font-semibold text-(--semantic-base-text-secondary)"
-        >
+        <p class="text-body text-fg-2">
           {{ t('verificationSentTo') }}
-          <span class="font-semibold text-(--semantic-base-text-primary)">{{
+          <span class="font-semibold text-fg-1">{{
             emailField.value.value
           }}</span>
         </p>
-        <p
-          class="text-[15px] leading-5 font-semibold text-(--semantic-base-text-secondary)"
-        >
+        <p class="text-body text-fg-2">
           {{ t('verificationOpenLink') }}
         </p>
-        <p class="text-sm text-(--semantic-base-text-secondary)">
+        <p class="text-body-small text-fg-2">
           {{ t('verificationDescription') }}
         </p>
         <NuxtLinkLocale
-          class="flex items-center justify-center gap-2 text-[15px] text-(--semantic-base-text-secondary)"
+          class="flex items-center justify-center gap-2 text-body text-fg-2"
           to="support-contact"
         >
           <IHeroiconsQuestionMarkCircle class="size-5" />
@@ -196,14 +193,14 @@
 
     <!-- Step: Error -->
     <FormAuthStepError :error="error" :is-active="step === 'error'">
-      <ButtonColored
+      <AppButton
         :aria-label="t('backToRegistration')"
-        class="w-full max-w-sm"
+        class="w-full max-w-md"
         variant="primary"
         @click="restart"
       >
         {{ t('backToRegistration') }}
-      </ButtonColored>
+      </AppButton>
     </FormAuthStepError>
   </section>
 </template>
@@ -224,9 +221,9 @@ definePageMeta({
 const { locale, t } = useI18n()
 
 // navigation
-const router = useRouter()
+const store = useStore()
 const navigateBack = () => {
-  router.back()
+  store.navigateBack()
 }
 
 // api data
