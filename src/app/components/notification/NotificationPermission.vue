@@ -65,8 +65,8 @@
 <script setup lang="ts">
 import { useEventListener } from '@vueuse/core'
 
-const ANDROID_SETTINGS_URL =
-  'intent://notification-settings#Intent;scheme=vibetype;package=si.maev.twa;end'
+const TRUSTED_WEB_ACTIVITY_PACKAGE_NAME = 'si.maev.twa'
+const ANDROID_SETTINGS_URL = `intent://notification-settings#Intent;scheme=vibetype;package=${TRUSTED_WEB_ACTIVITY_PACKAGE_NAME};S.browser_fallback_url=${encodeURIComponent(`https://play.google.com/store/apps/details?id=${TRUSTED_WEB_ACTIVITY_PACKAGE_NAME}`)};end`
 
 const { t } = useI18n()
 const { isAndroid } = usePlatform()
