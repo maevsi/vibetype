@@ -15,7 +15,7 @@
     <div v-else class="flex flex-col gap-4">
       <CardStateInfo v-if="isOrganizerPreview" class="flex flex-col gap-2">
         {{ t('invitationViewFor', { name: contactName }) }}
-        <ButtonColored
+        <AppButton
           :aria-label="t('invitationSelectionClear')"
           :to="
             localePath({
@@ -31,7 +31,7 @@
           <template #prefix>
             <AppIconArrowLeft />
           </template>
-        </ButtonColored>
+        </AppButton>
       </CardStateInfo>
       <div v-if="contact" class="flex flex-col gap-2">
         <div class="flex items-center justify-between gap-2">
@@ -45,7 +45,7 @@
             </p>
             <p>{{ t('greetingDescription') }}</p>
           </div>
-          <ButtonColored
+          <AppButton
             v-if="guest.feedback === InvitationFeedback.Accepted"
             :aria-label="t('qrCodeShow')"
             @click="qrCodeShow"
@@ -54,7 +54,7 @@
             <template #prefix>
               <AppIconQrCode />
             </template>
-          </ButtonColored>
+          </AppButton>
         </div>
       </div>
       <div class="flex flex-col gap-4">
@@ -66,13 +66,15 @@
             >
               <div />
               <div class="flex items-center gap-2">
-                <ButtonIcon
+                <AppButton
                   :aria-label="t('iCalDownload')"
                   class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
+                  size="none"
+                  variant="ghost"
                   @click="downloadIcal"
                 >
                   <AppIconArrowDownTray :title="t('iCalDownload')" />
-                </ButtonIcon>
+                </AppButton>
                 <EventShareButton
                   class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
                   :event
@@ -173,7 +175,7 @@
             </div>
           </div>
           <div v-else class="flex items-center justify-center gap-4">
-            <ButtonColored
+            <AppButton
               v-if="
                 guest.feedback === null ||
                 guest.feedback === InvitationFeedback.Canceled
@@ -186,7 +188,7 @@
               <template #prefix>
                 <AppIconCheckCircleSolid class="shrink-0" />
               </template>
-            </ButtonColored>
+            </AppButton>
             <div
               v-if="guest.feedback === InvitationFeedback.Accepted"
               class="flex items-center font-semibold text-link"
@@ -197,7 +199,7 @@
               />
               <span>{{ t('invitationAccepted') }}</span>
             </div>
-            <ButtonColored
+            <AppButton
               v-if="
                 guest.feedback === null ||
                 guest.feedback === InvitationFeedback.Accepted
@@ -210,7 +212,7 @@
               <template #prefix>
                 <AppIconXCircleSolid class="shrink-0" />
               </template>
-            </ButtonColored>
+            </AppButton>
             <div
               v-if="guest.feedback === InvitationFeedback.Canceled"
               class="flex items-center font-semibold text-error"
@@ -239,7 +241,7 @@
           </p>
         </div>
         <template #footer>
-          <ButtonColored
+          <AppButton
             v-if="isTicketShareable"
             :aria-label="t('ticketShare')"
             :disabled="!ticketFile"
@@ -251,9 +253,9 @@
             <template #prefix>
               <AppIconShare />
             </template>
-          </ButtonColored>
+          </AppButton>
           <!-- the iOS app's share sheet covers saving and printing, whereas Android's usually lacks a print target -->
-          <ButtonColored
+          <AppButton
             v-if="!isIos"
             :aria-label="t('ticketDownload')"
             :disabled="!ticketFile"
@@ -265,8 +267,8 @@
             <template #prefix>
               <AppIconArrowDownTray />
             </template>
-          </ButtonColored>
-          <ButtonColored
+          </AppButton>
+          <AppButton
             :aria-label="t('close')"
             @click="isModalGuestQrCodeOpen = false"
           >
@@ -274,7 +276,7 @@
             <template #prefix>
               <AppIconXMark />
             </template>
-          </ButtonColored>
+          </AppButton>
         </template>
       </Modal>
     </div>

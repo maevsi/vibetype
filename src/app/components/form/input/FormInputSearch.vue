@@ -13,13 +13,15 @@
       :placeholder="t('search')"
       type="text"
     />
-    <ButtonIcon
+    <AppButton
       :aria-label="t('close')"
       class="hidden shrink-0 text-fg-2 peer-not-placeholder-shown:block"
+      size="none"
+      variant="ghost"
       @click="model = ''"
     >
       <AppIconClose />
-    </ButtonIcon>
+    </AppButton>
   </div>
 </template>
 

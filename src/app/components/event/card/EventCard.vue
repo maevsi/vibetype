@@ -116,8 +116,8 @@
       <AppButton
         v-if="event.accountByCreatedBy"
         :aria-label="event.name"
-        class="focus-visible:outline-0"
-        is-block
+        class="block focus-visible:outline-0"
+        size="none"
         :to="
           localePath({
             name: 'event-view-username-event_name',
@@ -127,6 +127,7 @@
             },
           })
         "
+        variant="ghost"
       >
         <span class="absolute inset-0 z-10" />
         <EventCardTitle>

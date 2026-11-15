@@ -20,14 +20,16 @@
         <IHeroiconsKey />
       </slot>
     </div>
-    <ButtonIcon
+    <AppButton
       :aria-label="t('visibilityToggle')"
       class="absolute top-1/2 right-2 -translate-y-1/2"
+      size="none"
+      variant="ghost"
       @click="isVisible = !isVisible"
     >
       <AppIconEye v-if="!isVisible" />
       <AppIconEyeSlash v-else />
-    </ButtonIcon>
+    </AppButton>
   </div>
 </template>
 

@@ -5,9 +5,14 @@
         {{ title }}
       </span>
       <template v-if="previous" #back>
-        <ButtonIcon :aria-label="t('back')" @click="step = previous">
+        <AppButton
+          :aria-label="t('back')"
+          size="none"
+          variant="ghost"
+          @click="step = previous"
+        >
           <AppIconBack />
-        </ButtonIcon>
+        </AppButton>
       </template>
       <template
         v-if="
@@ -65,14 +70,14 @@
           </template>
         </LayoutPageResult>
         <template #bottom>
-          <ButtonColored
+          <AppButton
             :aria-label="t('errorBack')"
             class="w-full max-w-sm"
             variant="primary"
             @click="error = undefined"
           >
             {{ t('errorBack') }}
-          </ButtonColored>
+          </AppButton>
         </template>
       </LayoutPage>
     </AppStep>

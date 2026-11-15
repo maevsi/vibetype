@@ -64,42 +64,42 @@
     </template>
     <template #footer>
       <AppStep v-slot="attributes" :is-active="step === 'default'">
-        <ButtonColored
+        <AppButton
           v-bind="attributes"
           :aria-label="t('stay')"
           variant="secondary"
           @click="closeDrawer"
         >
           {{ t('stay') }}
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           v-bind="attributes"
           :aria-label="t('confirmDelete')"
           variant="primary-critical"
           @click="step = 'password'"
         >
           {{ t('confirmDelete') }}
-        </ButtonColored>
+        </AppButton>
       </AppStep>
       <AppStep v-slot="attributes" :is-active="step === 'success'">
-        <ButtonColored
+        <AppButton
           v-bind="attributes"
           :aria-label="t('toHomepage')"
           variant="primary"
           @click="navigateToRoot"
         >
           {{ t('toHomepage') }}
-        </ButtonColored>
+        </AppButton>
       </AppStep>
       <AppStep v-slot="attributes" :is-active="step === 'error'">
-        <ButtonColored
+        <AppButton
           v-bind="attributes"
           :aria-label="t('restart')"
           variant="tertiary"
           @click="restart"
         >
           {{ t('restart') }}
-        </ButtonColored>
+        </AppButton>
       </AppStep>
     </template>
   </AppDrawer>

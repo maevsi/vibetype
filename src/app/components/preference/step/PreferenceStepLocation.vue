@@ -19,13 +19,13 @@
       </TypographyBodyMedium>
     </div>
     <template #bottom>
-      <ButtonColored
+      <AppButton
         :aria-label="t('button')"
         class="w-full max-w-md"
         @click="save"
       >
         {{ t('button') }}
-      </ButtonColored>
+      </AppButton>
     </template>
   </LayoutPage>
 </template>

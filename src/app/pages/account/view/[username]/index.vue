@@ -16,6 +16,7 @@
             <AppButton
               v-if="isOwnProfile"
               :aria-label="t('edit')"
+              size="none"
               :to="
                 localePath({
                   name: 'account-edit-username',
@@ -24,6 +25,7 @@
                   },
                 })
               "
+              variant="ghost"
             >
               <AppIconSettings class="size-8" />
             </AppButton>
@@ -69,13 +71,13 @@
           </TypographyH3>
         </div>
         <AppFeature feature="friends">
-          <ButtonColored
+          <AppButton
             v-if="store.signedInUsername !== route.params.username"
             :aria-label="t('friendAdd')"
             disabled
           >
             {{ t('friendAdd') }}
-          </ButtonColored>
+          </AppButton>
         </AppFeature>
         <AppFeature feature="friends">
           <span class="text-title3">
@@ -110,7 +112,7 @@
           </CardButton>
         </AppFeature>
         <AppFeature v-if="isOwnProfile" feature="account-management">
-          <ButtonColored
+          <AppButton
             :aria-label="t('contactBook')"
             class="data-[size=large]:gap-4.5 data-[type=secondary]:px-4.5"
             :to="
@@ -124,10 +126,10 @@
             <TypographySubtitleMedium>
               {{ t('contactBook') }}
             </TypographySubtitleMedium>
-          </ButtonColored>
+          </AppButton>
         </AppFeature>
         <AppFeature v-if="isOwnProfile" feature="account-management">
-          <ButtonColored
+          <AppButton
             :aria-label="t('uploads')"
             class="data-[size=large]:gap-4.5 data-[type=secondary]:px-4.5"
             :to="
@@ -141,7 +143,7 @@
             <TypographySubtitleMedium>
               {{ t('uploads') }}
             </TypographySubtitleMedium>
-          </ButtonColored>
+          </AppButton>
         </AppFeature>
         <div v-if="accountDescription" class="flex flex-col gap-2 p-1.5">
           <TypographyH3>
@@ -156,7 +158,7 @@
             <TypographyH3>
               {{ t('events') }}
             </TypographyH3>
-            <ButtonColored
+            <AppButton
               v-if="isOwnProfile"
               :aria-label="t('newEvent')"
               class="data-[size=large]:gap-2 data-[type=primary]:px-4.5 data-[type=primary]:py-2"
@@ -166,10 +168,10 @@
                 {{ t('newEvent') }}
               </TypographySubtitleSmall>
               <AppIconAdd />
-            </ButtonColored>
+            </AppButton>
           </div>
           <EventCard v-for="event in events" :key="event.rowId" :event />
-          <ButtonColored
+          <AppButton
             v-if="account.eventsByCreatedBy.totalCount > 3"
             :aria-label="t('eventMore')"
             :to="
@@ -184,7 +186,7 @@
             <template #suffix>
               <AppIconChevronDown />
             </template>
-          </ButtonColored>
+          </AppButton>
         </div>
         <div class="flex flex-col gap-3">
           <TypographyH3 class="px-2">

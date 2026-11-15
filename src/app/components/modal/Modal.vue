@@ -28,7 +28,7 @@
       </div>
       <DialogFooter v-if="!isFooterHidden" class="gap-8 sm:justify-center">
         <slot name="footer">
-          <ButtonColored
+          <AppButton
             :aria-label="submitName || t('ok')"
             :disabled="isSubmitDisabled"
             :loading="isSubmitting"
@@ -41,7 +41,7 @@
                 <AppIconCheckCircleSolid />
               </slot>
             </template>
-          </ButtonColored>
+          </AppButton>
         </slot>
       </DialogFooter>
     </DialogContent>

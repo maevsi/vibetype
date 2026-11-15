@@ -28,14 +28,14 @@
       </p>
     </FormAuthStepSuccess>
     <FormAuthStepError :error="error" :is-active="step === 'error'">
-      <ButtonColored
+      <AppButton
         :aria-label="t('backToRequest')"
         class="w-full max-w-md"
         variant="primary"
         @click="restart"
       >
         {{ t('backToRequest') }}
-      </ButtonColored>
+      </AppButton>
     </FormAuthStepError>
   </section>
 </template>

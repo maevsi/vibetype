@@ -13,14 +13,14 @@
       </CardStateInfo>
       <div class="flex">
         <AppFeature feature="friends">
-          <ButtonColored
+          <AppButton
             v-if="authentication.isSignedIn"
             :aria-label="t('addFriend')"
             :title="t('addFriend')"
             @click="friendAdd"
           >
             {{ t('addFriend') }}
-          </ButtonColored>
+          </AppButton>
         </AppFeature>
       </div>
     </section>
@@ -41,7 +41,7 @@
                 eventApp.appByAppId.iconSvg
               "
             >
-              <ButtonColored
+              <AppButton
                 :aria-label="eventApp.appByAppId.name"
                 :to="
                   eventApp.appByAppId?.urlAttendance.replace(
@@ -57,7 +57,7 @@
                     {{ eventApp.appByAppId.name }}
                   </span>
                 </span>
-              </ButtonColored>
+              </AppButton>
             </li>
           </template>
         </ul>
@@ -68,14 +68,14 @@
         {{ t('attendance') }}
       </span>
       <div class="flex gap-2">
-        <ButtonColored
+        <AppButton
           :aria-label="t('checkOut')"
           :disabled="!canCheckOut"
           :loading="checkOutMutation.fetching.value"
           @click="onCheckOut"
         >
           {{ t('checkOut') }}
-        </ButtonColored>
+        </AppButton>
       </div>
     </section>
     <section v-if="guest" class="flex flex-col gap-4">
@@ -83,14 +83,14 @@
         {{ t('guest') }}
       </span>
       <div class="flex">
-        <ButtonColored
+        <AppButton
           :aria-label="t('guestView')"
           :to="
             localePath({ name: 'guest-view-id', params: { id: guest.rowId } })
           "
         >
           {{ t('guestView') }}
-        </ButtonColored>
+        </AppButton>
       </div>
     </section>
   </div>

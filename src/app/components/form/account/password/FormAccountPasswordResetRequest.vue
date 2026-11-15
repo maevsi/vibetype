@@ -21,9 +21,9 @@
       </p>
     </form.Field>
     <FormFieldCaptcha v-model:captcha-is-used="captchaIsUsed" :form />
-    <ButtonColored :aria-label="t('send')" class="mt-4 w-full" type="submit">
+    <AppButton :aria-label="t('send')" class="mt-4 w-full" type="submit">
       {{ t('send') }}
-    </ButtonColored>
+    </AppButton>
     <p class="mt-6 text-center text-body text-fg-2">
       {{ t('rememberPassword') }}
       <NuxtLinkLocale

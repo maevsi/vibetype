@@ -2,8 +2,9 @@
   <AppButton
     v-if="!isApp"
     :aria-label="t('appInstall')"
+    size="none"
     :to="localePath('docs-app')"
-    variant="secondary"
+    variant="ghost"
   >
     {{ t('appInstall') }}
     <template #suffix>

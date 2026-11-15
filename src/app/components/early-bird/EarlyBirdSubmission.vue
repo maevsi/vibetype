@@ -12,13 +12,13 @@
       </template>
     </LayoutPageResult>
     <template #bottom>
-      <ButtonColored
+      <AppButton
         :aria-label="t('button')"
         class="w-full max-w-md"
         @click="store.navigateBack"
       >
         {{ t('button') }}
-      </ButtonColored>
+      </AppButton>
     </template>
   </LayoutPage>
 </template>

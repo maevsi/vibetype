@@ -63,13 +63,13 @@
       </div>
     </div>
     <template #bottom>
-      <ButtonColored
+      <AppButton
         :aria-label="t('button')"
         class="w-full max-w-md"
         @click="emit('next')"
       >
         {{ t('button') }}
-      </ButtonColored>
+      </AppButton>
     </template>
   </LayoutPage>
 </template>

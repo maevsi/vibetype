@@ -60,7 +60,7 @@
     </template>
     <template #footer>
       <AppStep v-slot="attributes" :is-active="step === 'default'">
-        <ButtonColored
+        <AppButton
           v-bind="attributes"
           :aria-label="t('buttonReportSubmit')"
           :form="templateIdForm"
@@ -69,18 +69,18 @@
           variant="primary-critical"
         >
           {{ t('buttonReportSubmit') }}
-        </ButtonColored>
+        </AppButton>
         <DrawerClose v-bind="attributes" as-child>
-          <ButtonColored
+          <AppButton
             :aria-label="t('buttonReportCancel')"
             variant="secondary-critical"
           >
             {{ t('buttonReportCancel') }}
-          </ButtonColored>
+          </AppButton>
         </DrawerClose>
       </AppStep>
       <AppStep v-slot="attributes" :is-active="step === 'reportConfirmation'">
-        <ButtonColored
+        <AppButton
           v-bind="attributes"
           :aria-label="t('buttonReportConfirmationBlock')"
           :loading="createAccountBlockMutation.fetching.value"
@@ -88,32 +88,32 @@
           @click="blockOrganizer"
         >
           {{ t('buttonReportConfirmationBlock') }}
-        </ButtonColored>
+        </AppButton>
         <DrawerClose v-bind="attributes" as-child>
-          <ButtonColored :aria-label="t('buttonReportConfirmationClose')">
+          <AppButton :aria-label="t('buttonReportConfirmationClose')">
             {{ t('buttonReportConfirmationClose') }}
-          </ButtonColored>
+          </AppButton>
         </DrawerClose>
       </AppStep>
       <AppStep v-slot="attributes" :is-active="step === 'blockConfirmation'">
         <DrawerClose v-bind="attributes" as-child>
-          <ButtonColored
+          <AppButton
             :aria-label="t('buttonBlockConfirmation')"
             @click="backToDashboard"
           >
             {{ t('buttonBlockConfirmation') }}
-          </ButtonColored>
+          </AppButton>
         </DrawerClose>
       </AppStep>
       <AppStep v-slot="attributes" :is-active="step === 'error'">
-        <ButtonColored
+        <AppButton
           v-bind="attributes"
           :aria-label="t('globalTryAgain')"
           variant="primary"
           @click="restart"
         >
           {{ t('globalTryAgain') }}
-        </ButtonColored>
+        </AppButton>
       </AppStep>
     </template>
   </AppDrawer>

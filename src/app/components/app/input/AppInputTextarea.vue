@@ -5,7 +5,7 @@
         <TypographyH3>
           {{ title }}
         </TypographyH3>
-        <ButtonColored
+        <AppButton
           v-if="!isEditing"
           :aria-label="t('edit')"
           class="h-8 data-[size=large]:p-1"
@@ -18,8 +18,8 @@
           <template #prefix>
             <AppIconEdit />
           </template>
-        </ButtonColored>
-        <ButtonColored
+        </AppButton>
+        <AppButton
           v-else
           :aria-label="t('cancel')"
           class="h-8 data-[size=large]:p-1"
@@ -29,7 +29,7 @@
           <TypographySubtitleMedium>
             {{ t('cancel') }}
           </TypographySubtitleMedium>
-        </ButtonColored>
+        </AppButton>
       </div>
       <div class="flex flex-col gap-1.5" :class="{ hidden: !isEditing }">
         <TypographySubtitleSmall
@@ -59,7 +59,7 @@
         {{ contentInitial }}
       </TypographyBodyMedium>
       <div v-if="isEditing" class="flex flex-col items-end gap-2 text-right">
-        <ButtonColored
+        <AppButton
           :aria-label="t('saveChanges')"
           :loading
           variant="secondary"
@@ -68,7 +68,7 @@
           <TypographySubtitleMedium>
             {{ t('saveChanges') }}
           </TypographySubtitleMedium>
-        </ButtonColored>
+        </AppButton>
       </div>
     </div>
   </div>

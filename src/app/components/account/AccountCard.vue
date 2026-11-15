@@ -11,14 +11,15 @@
 
     <AppButton
       :aria-label="t('link', { username: account.username })"
-      class="focus-visible:ring-0"
-      is-block
+      class="block focus-visible:ring-0"
+      size="none"
       :to="
         localePath({
           name: 'account-view-username',
           params: { username: account.username },
         })
       "
+      variant="ghost"
     >
       <span class="absolute inset-0 z-10" />
       <TypographyH3>

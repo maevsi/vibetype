@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center gap-2">
     <span>{{ callToActionDescription }}</span>
-    <ButtonColored
+    <AppButton
       :aria-label="callToAction"
       :to="
         localePath({
@@ -13,7 +13,7 @@
       "
     >
       {{ callToAction }}
-    </ButtonColored>
+    </AppButton>
   </div>
 </template>
 

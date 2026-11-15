@@ -2,7 +2,7 @@
   <Loader :api>
     <div class="flex flex-col gap-4">
       <div class="flex flex-col items-center gap-1">
-        <ButtonColored
+        <AppButton
           :aria-label="t('guestAdd')"
           :disabled="
             event.guestCountMaximum && api.data.allGuests?.totalCount
@@ -15,7 +15,7 @@
           <template #prefix>
             <AppIconPlus />
           </template>
-        </ButtonColored>
+        </AppButton>
         <p class="text-center text-fg-2">
           {{
             t('guestsUsed', {
@@ -74,12 +74,12 @@
           v-if="api.data.allGuests?.pageInfo.hasNextPage"
           class="flex justify-center"
         >
-          <ButtonColored
+          <AppButton
             :aria-label="t('globalShowMore')"
             @click="after = api.data.allGuests?.pageInfo.endCursor"
           >
             {{ t('globalShowMore') }}
-          </ButtonColored>
+          </AppButton>
         </div>
       </template>
       <div v-else class="flex flex-col items-center gap-2">

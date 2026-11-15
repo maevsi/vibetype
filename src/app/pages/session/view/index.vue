@@ -22,7 +22,7 @@
                       </span>
                     </div>
                     <div>
-                      <ButtonColored
+                      <AppButton
                         :aria-label="
                           isFeatureEnabled(feature).value
                             ? t('featureFlagsDisable')
@@ -37,7 +37,7 @@
                         <span v-else>
                           {{ t('featureFlagsEnable') }}
                         </span>
-                      </ButtonColored>
+                      </AppButton>
                     </div>
                   </li>
                 </template>
@@ -68,7 +68,7 @@
           </div>
           <div class="flex-1">
             <div class="flex flex-col gap-2">
-              <ButtonColored
+              <AppButton
                 :aria-label="t('endNow')"
                 :disabled="!store.jwtPayload"
                 variant="secondary"
@@ -78,7 +78,7 @@
                 <template #prefix>
                   <AppIconOutlineLogout />
                 </template>
-              </ButtonColored>
+              </AppButton>
             </div>
           </div>
         </div>
@@ -225,7 +225,7 @@
           </section>
           <section class="flex-1">
             <div class="flex flex-col gap-2">
-              <ButtonColored
+              <AppButton
                 :aria-label="t('notificationPermit')"
                 :disabled="!isNotificationPermissionRequestPossible"
                 variant="secondary"
@@ -235,8 +235,8 @@
                 <template #prefix>
                   <AppIconShieldCheck />
                 </template>
-              </ButtonColored>
-              <ButtonColored
+              </AppButton>
+              <AppButton
                 v-if="isAndroid"
                 :aria-label="t('notificationAppSettings')"
                 variant="secondary"
@@ -246,8 +246,8 @@
                 <template #prefix>
                   <AppIconSettings />
                 </template>
-              </ButtonColored>
-              <ButtonColored
+              </AppButton>
+              <AppButton
                 :aria-label="t('notificationSend')"
                 variant="secondary"
                 @click="sendNotification"
@@ -256,8 +256,8 @@
                 <template #prefix>
                   <AppIconBellAlert />
                 </template>
-              </ButtonColored>
-              <ButtonColored
+              </AppButton>
+              <AppButton
                 :aria-label="t('showFcmToken')"
                 variant="secondary"
                 @click="showFcmToken"
@@ -266,7 +266,7 @@
                 <template #prefix>
                   <AppIconClipboard />
                 </template>
-              </ButtonColored>
+              </AppButton>
             </div>
           </section>
         </div>
@@ -292,7 +292,7 @@
           </div>
           <div class="flex flex-1 flex-col gap-2">
             <ClientOnly>
-              <ButtonColored
+              <AppButton
                 :aria-label="t('apiClientCacheClear')"
                 :disabled="!$urqlCache"
                 variant="secondary"
@@ -302,9 +302,9 @@
                 <template #prefix>
                   <AppIconTrash />
                 </template>
-              </ButtonColored>
+              </AppButton>
               <template #fallback>
-                <ButtonColored
+                <AppButton
                   :aria-label="t('apiClientCacheClear')"
                   disabled
                   variant="secondary"
@@ -313,7 +313,7 @@
                   <template #prefix>
                     <AppIconTrash />
                   </template>
-                </ButtonColored>
+                </AppButton>
               </template>
             </ClientOnly>
           </div>

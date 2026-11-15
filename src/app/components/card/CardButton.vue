@@ -17,7 +17,9 @@
         :disabled="isDisabled"
         :is-external
         is-external-icon-disabled
+        size="none"
         :to
+        variant="ghost"
       >
         <span class="absolute inset-0 z-10" />
         <span class="font-bold">

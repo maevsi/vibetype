@@ -7,12 +7,12 @@
           v-model="searchString"
           class="flex-1"
         />
-        <ButtonColored :aria-label="t('contactAdd')" @click="add()">
+        <AppButton :aria-label="t('contactAdd')" @click="add()">
           {{ t('contactAdd') }}
           <template #prefix>
             <AppIconPlus />
           </template>
-        </ButtonColored>
+        </AppButton>
       </div>
       <LayoutTable v-if="contactsFiltered.length">
         <LayoutThead>

@@ -1,45 +1,29 @@
 <template>
-  <AppLink
-    v-if="to"
-    v-bind="delegatedProps"
-    :aria-busy="loading"
+  <component
+    :is="to ? AppLink : 'button'"
+    v-bind="to ? linkAttributes : buttonAttributes"
+    :aria-busy="loading || undefined"
     :aria-label
-    :class="cn(classComputed, classProps)"
-    :is-colored="false"
-    :is-disabled="disabled || loading"
-    :to
-    @click="
-      (event: MouseEvent) => {
-        if (disabled || loading) {
-          event.preventDefault()
-          event.stopPropagation()
-          return
-        }
-        emit('click', event)
-      }
+    :class="
+      cn(
+        'inline-flex items-center gap-2 overflow-hidden rounded-small',
+        'data-[size=large]:h-13 data-[size=large]:justify-center data-[size=large]:gap-4 data-[size=large]:rounded-medium data-[size=large]:px-6 data-[size=large]:text-body data-[size=large]:transition-transform data-[size=large]:active:scale-[0.97]',
+        'data-[size=small]:h-10 data-[size=small]:justify-center data-[size=small]:gap-4 data-[size=small]:rounded-medium data-[size=small]:px-6 data-[size=small]:text-body data-[size=small]:transition-transform data-[size=small]:active:scale-[0.97]',
+        'data-[size=icon]:size-12 data-[size=icon]:justify-center data-[size=icon]:rounded-large',
+        'data-[variant=primary]:bg-action-primary data-[variant=primary]:text-on-action-primary data-[variant=primary]:hover:bg-action-primary-hover',
+        // the doubled attribute selector outranks the size's radius, which has the same specificity otherwise
+        'data-[variant=primary-critical]:bg-action-warning data-[variant=primary-critical]:text-on-action-warning data-[variant=primary-critical]:hover:brightness-95 data-[variant=primary-critical]:data-[size]:rounded-[12px]',
+        'data-[variant=secondary]:bg-surface-raised data-[variant=secondary]:text-fg-1 data-[variant=secondary]:hover:bg-line',
+        'data-[variant=secondary-critical]:bg-surface-raised data-[variant=secondary-critical]:text-error data-[variant=secondary-critical]:hover:bg-line',
+        'data-[variant=tertiary]:text-link data-[variant=tertiary]:hover:text-link-hover',
+        'data-[variant=tertiary-critical]:text-error',
+        classProps,
+      )
     "
-  >
-    <template v-if="loading">
-      <AppButtonSpinner />
-      <slot name="loading">{{ t('globalLoading') }}</slot>
-    </template>
-    <template v-else>
-      <slot name="prefix" />
-      <!-- <div class="truncate-overflow"> -->
-      <slot />
-      <!-- </div> -->
-      <slot name="suffix" />
-    </template>
-  </AppLink>
-  <button
-    v-else
-    :aria-busy="loading"
-    :aria-label
-    :class="cn(['rounded-small', classComputed], classProps)"
-    :disabled="disabled || loading"
+    :data-size="size"
+    data-slot="button"
+    :data-variant="variant"
     :title="ariaLabel"
-    :type
-    @click="emit('click', $event)"
   >
     <template v-if="loading">
       <AppButtonSpinner />
@@ -47,59 +31,73 @@
     </template>
     <template v-else>
       <slot name="prefix" />
-      <!-- <span class="truncate-overflow"> -->
       <slot />
-      <!-- </span> -->
       <slot name="suffix" />
     </template>
-  </button>
+  </component>
 </template>
 
 <script setup lang="ts">
-import type { ButtonHTMLAttributes, HtmlHTMLAttributes } from 'vue'
+import type { ButtonHTMLAttributes, HTMLAttributes } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
+import { AppLink } from '#components'
 import { cn } from '@/utils/shadcn'
+
+export type AppButtonSize = 'icon' | 'large' | 'none' | 'small'
+export type AppButtonVariant =
+  | 'ghost'
+  | 'primary'
+  | 'primary-critical'
+  | 'secondary'
+  | 'secondary-critical'
+  | 'tertiary'
+  | 'tertiary-critical'
 
 const {
   ariaLabel,
   class: classProps = undefined,
   disabled,
-  isBlock,
   isExternal,
-  isLinkColored,
   loading,
+  size = 'large',
   to = undefined,
   type = 'button',
-} = defineProps<
-  {
-    ariaLabel: string
-    disabled?: boolean
-    isBlock?: boolean
-    isExternal?: boolean
-    isLinkColored?: boolean
-    loading?: boolean
-    to?: RouteLocationRaw
-    type?: ButtonHTMLAttributes['type']
-  } & { class?: HtmlHTMLAttributes['class'] }
->()
-const delegatedProps = computed(() => ({
-  ariaLabel,
-  isExternal,
-}))
+  variant = 'primary',
+} = defineProps<{
+  ariaLabel: string
+  class?: HTMLAttributes['class']
+  disabled?: boolean
+  isExternal?: boolean
+  loading?: boolean
+  size?: AppButtonSize
+  to?: RouteLocationRaw
+  type?: ButtonHTMLAttributes['type']
+  variant?: AppButtonVariant
+}>()
 
-const emit = defineEmits<{
-  click: [event: MouseEvent]
+defineSlots<{
+  default?: () => unknown
+  loading?: () => unknown
+  prefix?: () => unknown
+  suffix?: () => unknown
 }>()
 
 const { t } = useI18n()
 
-// computations
-const classComputed = computed(() =>
-  [
-    'overflow-hidden',
-    ...(isBlock ? ['block'] : ['inline-flex items-center gap-2']),
-    ...(isLinkColored ? ['text-link'] : []),
-  ].join(' '),
-)
+const isDisabled = computed(() => disabled || loading)
+
+// a link cannot be disabled natively, so it is taken out of the tab order and `AppLink` blocks its clicks
+const linkAttributes = computed(() => ({
+  'aria-disabled': isDisabled.value || undefined,
+  isColored: false,
+  isDisabled: isDisabled.value,
+  isExternal,
+  tabindex: isDisabled.value ? -1 : undefined,
+  to,
+}))
+const buttonAttributes = computed(() => ({
+  disabled: isDisabled.value,
+  type,
+}))
 </script>

@@ -67,13 +67,9 @@
           <p v-if="termsError" class="text-caption text-error">
             {{ termsError }}
           </p>
-          <ButtonColored
-            :aria-label="t('continue')"
-            class="w-full"
-            type="submit"
-          >
+          <AppButton :aria-label="t('continue')" class="w-full" type="submit">
             {{ t('continue') }}
-          </ButtonColored>
+          </AppButton>
           <p class="text-center text-body text-fg-2">
             {{ t('alreadyHaveAccount') }}
             <NuxtLinkLocale
@@ -133,7 +129,7 @@
           <p v-if="usernameField.error.value" class="text-caption text-error">
             {{ usernameField.error.value }}
           </p>
-          <ButtonColored
+          <AppButton
             :aria-label="t('continue')"
             class="w-full"
             :disabled="
@@ -142,7 +138,7 @@
             type="submit"
           >
             {{ t('continue') }}
-          </ButtonColored>
+          </AppButton>
         </form>
       </LayoutPage>
     </AppStep>
@@ -155,14 +151,14 @@
             :id="templateIdAgeForm"
             @success="handleAgeSuccess"
           />
-          <ButtonColored
+          <AppButton
             :aria-label="t('confirmAge')"
             class="w-full"
             :form="templateIdAgeForm"
             type="submit"
           >
             {{ t('confirmAge') }}
-          </ButtonColored>
+          </AppButton>
         </div>
       </LayoutPage>
     </AppStep>
@@ -194,14 +190,14 @@
 
     <!-- Step: Error -->
     <FormAuthStepError :error="error" :is-active="step === 'error'">
-      <ButtonColored
+      <AppButton
         :aria-label="t('backToRegistration')"
         class="w-full max-w-md"
         variant="primary"
         @click="restart"
       >
         {{ t('backToRegistration') }}
-      </ButtonColored>
+      </AppButton>
     </FormAuthStepError>
   </section>
 </template>

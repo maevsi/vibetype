@@ -20,7 +20,7 @@
       </LayoutPage>
     </AppStep>
     <FormAuthStepError :error="error" :is-active="step === 'error'">
-      <ButtonColored
+      <AppButton
         :aria-label="t('contactSupport')"
         class="w-full max-w-md"
         :to="
@@ -31,15 +31,15 @@
         variant="secondary"
       >
         {{ t('contactSupport') }}
-      </ButtonColored>
-      <ButtonColored
+      </AppButton>
+      <AppButton
         :aria-label="t('backToLogin')"
         class="w-full max-w-md"
         variant="primary"
         @click="restart"
       >
         {{ t('backToLogin') }}
-      </ButtonColored>
+      </AppButton>
     </FormAuthStepError>
   </section>
 </template>

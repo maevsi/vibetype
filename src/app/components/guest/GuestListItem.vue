@@ -10,7 +10,7 @@
     </LayoutTd>
     <LayoutTd class="max-w-0">
       <div class="flex items-center justify-evenly gap-4 text-fg-1">
-        <ButtonIcon
+        <AppButton
           :aria-label="
             contact.accountId || contact.emailAddress
               ? t('guestSend')
@@ -21,17 +21,21 @@
             (!contact.accountId && !contact.emailAddress) ||
             pending.sends.includes(guest.rowId)
           "
+          size="none"
+          variant="ghost"
           @click="send(guest)"
         >
           <AppIconPaperAirplane />
-        </ButtonIcon>
-        <ButtonIcon
+        </AppButton>
+        <AppButton
           :aria-label="t('guestLink')"
           class="hidden md:block"
+          size="none"
+          variant="ghost"
           @click="copyLink(guest)"
         >
           <AppIconLink />
-        </ButtonIcon>
+        </AppButton>
         <AppDropdown>
           <AppDropdownItem
             class="md:hidden"
