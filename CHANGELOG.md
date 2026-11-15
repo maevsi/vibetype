@@ -1,4 +1,4 @@
-## [17.3.5-beta.1](https://github.com/maevsi/vibetype/compare/17.3.4...17.3.5-beta.1) (2026-11-15)
+## [17.3.5](https://github.com/maevsi/vibetype/compare/17.3.4...17.3.5) (2026-11-15)
 
 ### Bug Fixes
 
