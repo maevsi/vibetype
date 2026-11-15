@@ -73,6 +73,12 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/event/create" />
     </url>
     <url>
+        <loc>https://example.com/notification/settings</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/notification/settings" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/notification/settings" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/notification/settings" />
+    </url>
+    <url>
         <loc>https://example.com/session/create</loc>
         <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/session/create" />
         <xhtml:link rel="alternate" hreflang="en" href="https://example.com/session/create" />
