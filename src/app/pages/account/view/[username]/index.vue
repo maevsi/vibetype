@@ -8,14 +8,15 @@
       <div class="flex flex-col gap-3">
         <div class="flex items-center justify-between">
           <h1>
-            <TypographyH2>
+            <span class="text-heading-large">
               {{ title }}
-            </TypographyH2>
+            </span>
           </h1>
           <template v-if="isOwnProfile">
             <AppButton
               v-if="isOwnProfile"
               :aria-label="t('edit')"
+              size="none"
               :to="
                 localePath({
                   name: 'account-edit-username',
@@ -24,6 +25,7 @@
                   },
                 })
               "
+              variant="ghost"
             >
               <AppIconSettings class="size-8" />
             </AppButton>
@@ -64,27 +66,27 @@
             height="60"
             width="60"
           />
-          <TypographyH3>
+          <span class="text-heading-medium text-balance">
             {{ t('username', { username: route.params.username }) }}
-          </TypographyH3>
+          </span>
         </div>
         <AppFeature feature="friends">
-          <ButtonColored
+          <AppButton
             v-if="store.signedInUsername !== route.params.username"
             :aria-label="t('friendAdd')"
             disabled
           >
             {{ t('friendAdd') }}
-          </ButtonColored>
+          </AppButton>
         </AppFeature>
         <AppFeature feature="friends">
           <span class="text-title3">
             {{ t('friends') }}
           </span>
           <!-- @vue-ignore -->
-          <CardButton
+          <AppCardButton
             class="relative"
-            is-disabled
+            disabled
             :to="`/friend/view/$username`"
           >
             <div class="isolate flex -space-x-2 overflow-hidden p-1">
@@ -107,10 +109,10 @@
                 width="64"
               />
             </div>
-          </CardButton>
+          </AppCardButton>
         </AppFeature>
         <AppFeature v-if="isOwnProfile" feature="account-management">
-          <ButtonColored
+          <AppButton
             :aria-label="t('contactBook')"
             class="data-[size=large]:gap-4.5 data-[type=secondary]:px-4.5"
             :to="
@@ -121,13 +123,13 @@
             variant="secondary"
           >
             <AppIconContacts />
-            <TypographySubtitleMedium>
+            <span class="text-headline">
               {{ t('contactBook') }}
-            </TypographySubtitleMedium>
-          </ButtonColored>
+            </span>
+          </AppButton>
         </AppFeature>
         <AppFeature v-if="isOwnProfile" feature="account-management">
-          <ButtonColored
+          <AppButton
             :aria-label="t('uploads')"
             class="data-[size=large]:gap-4.5 data-[type=secondary]:px-4.5"
             :to="
@@ -138,38 +140,38 @@
             variant="secondary"
           >
             <AppIconFolder />
-            <TypographySubtitleMedium>
+            <span class="text-headline">
               {{ t('uploads') }}
-            </TypographySubtitleMedium>
-          </ButtonColored>
+            </span>
+          </AppButton>
         </AppFeature>
         <div v-if="accountDescription" class="flex flex-col gap-2 p-1.5">
-          <TypographyH3>
+          <span class="text-heading-medium text-balance">
             {{ t('about') }}
-          </TypographyH3>
-          <TypographyBodyMedium>
+          </span>
+          <span class="text-body">
             {{ accountDescription }}
-          </TypographyBodyMedium>
+          </span>
         </div>
         <div v-if="events?.length" class="flex flex-col gap-3 py-1.5">
           <div class="flex justify-between pl-2">
-            <TypographyH3>
+            <span class="text-heading-medium text-balance">
               {{ t('events') }}
-            </TypographyH3>
-            <ButtonColored
+            </span>
+            <AppButton
               v-if="isOwnProfile"
               :aria-label="t('newEvent')"
               class="data-[size=large]:gap-2 data-[type=primary]:px-4.5 data-[type=primary]:py-2"
               :to="localePath('event-create')"
             >
-              <TypographySubtitleSmall>
+              <span class="text-body">
                 {{ t('newEvent') }}
-              </TypographySubtitleSmall>
+              </span>
               <AppIconAdd />
-            </ButtonColored>
+            </AppButton>
           </div>
           <EventCard v-for="event in events" :key="event.rowId" :event />
-          <ButtonColored
+          <AppButton
             v-if="account.eventsByCreatedBy.totalCount > 3"
             :aria-label="t('eventMore')"
             :to="
@@ -184,12 +186,12 @@
             <template #suffix>
               <AppIconChevronDown />
             </template>
-          </ButtonColored>
+          </AppButton>
         </div>
         <div class="flex flex-col gap-3">
-          <TypographyH3 class="px-2">
+          <span class="px-2 text-heading-medium text-balance">
             {{ t('achievements') }}
-          </TypographyH3>
+          </span>
           <div
             class="flex justify-between rounded-large bg-surface-raised px-6 py-2"
           >
@@ -199,25 +201,28 @@
             >
               <div class="flex flex-1 flex-col items-center gap-2 py-2">
                 <AppIconHandshake class="text-fg-2" />
-                <TypographyLabelBold>
+                <span class="text-caption font-bold">
                   {{ t('achievementMeetTheTeam') }}
-                </TypographyLabelBold>
+                </span>
               </div>
             </div>
-            <TypographyLabelBold v-else class="flex-1 px-6 py-2 text-center">
+            <span
+              v-else
+              class="flex-1 px-6 py-2 text-center text-caption font-bold"
+            >
               {{ t('achievementsNone') }}
-            </TypographyLabelBold>
+            </span>
           </div>
         </div>
         <div v-if="accountImprintUrl" class="flex flex-col gap-2 p-1.5">
-          <TypographyH3>
+          <span class="text-heading-medium text-balance">
             {{ t('imprint') }}
-          </TypographyH3>
-          <TypographyBodyMedium>
+          </span>
+          <span class="text-body">
             <AppLink :to="accountImprintUrl">
               {{ accountImprintUrl }}
             </AppLink>
-          </TypographyBodyMedium>
+          </span>
         </div>
       </div>
     </LayoutPage>

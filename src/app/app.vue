@@ -6,7 +6,7 @@
     vaul-drawer-wrapper
   >
     <ClientOnly>
-      <CardStateInfo
+      <AppAlert
         v-if="!isBrowserSupported && !runtimeConfig.public.vio.isTesting"
         class="shrink-0 rounded-none"
       >
@@ -28,15 +28,16 @@
             {{ t('globalSiteName') }}
           </template>
         </i18n-t>
-      </CardStateInfo>
-      <CardStateWarn
+      </AppAlert>
+      <AppAlert
         v-if="!isOnline"
         class="shrink-0 rounded-none"
         role="status"
+        variant="warning"
       >
         {{ t('offline') }}
-      </CardStateWarn>
-      <Modal
+      </AppAlert>
+      <AppModal
         v-if="!runtimeConfig.public.vio.isTesting"
         v-model="isLockdownModeLikely"
         @close="isLockdownModeDismissed = true"
@@ -45,7 +46,7 @@
         <template #header>{{ t('lockdownModeTitle') }}</template>
         <p>{{ t('lockdownModeDescription') }}</p>
         <p>{{ t('lockdownModeInstructions') }}</p>
-      </Modal>
+      </AppModal>
     </ClientOnly>
     <NuxtLoadingIndicator />
     <NuxtAnnouncer />
@@ -54,7 +55,6 @@
       <NuxtPage />
     </NuxtLayout>
     <AppSonner />
-    <VitePwaManifest />
     <ClientOnly>
       <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->
       <CookieControl v-if="!isIos" :locale />
@@ -74,7 +74,8 @@
 import { useOnline } from '@vueuse/core'
 import { isEqual } from 'ufo'
 
-const { $pwa, $urql } = useNuxtApp()
+const nuxtApp = useNuxtApp()
+const { $pwa, $urql } = nuxtApp
 const { isApp, isIos } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
 const timeZone = useTimeZone()
@@ -85,6 +86,20 @@ const route = useRoute()
 
 // i18n
 const { t, locale } = useI18n()
+
+// the pwa plugin only writes the manifest of the default locale to the build, so the german one is served from a server route
+useHead({
+  link: [
+    {
+      rel: 'manifest',
+      href: computed(() =>
+        locale.value === 'de'
+          ? '/de/manifest.webmanifest'
+          : '/manifest.webmanifest',
+      ),
+    },
+  ],
+})
 
 // loading
 const loadingId = Math.random()
@@ -198,7 +213,9 @@ if (import.meta.client) {
 useAppLayout()
 usePolyfills()
 useAppGtag()
-await useJwtInitialize()
+if (!(await useJwtInitialize())) {
+  await detectLanguageFromQuery({ nuxtApp, route })
+}
 await initialize()
 
 onMounted(() => {
@@ -234,8 +251,8 @@ onMounted(() => {
 de:
   browserUnsupported: Du benutzt einen Browser, in dem nicht alle Funktionen von @.upper:{'globalSiteName'} unterstützt werden. {link}.
   browserUnsupportedLink: Mehr erfahren
-  lockdownModeDescription: Der Blockierungsmodus ist aktiv und schaltet Funktionen ab, die @.upper:{'globalSiteName'} braucht, zum Beispiel das Speichern von Daten auf deinem Gerät.
-  lockdownModeInstructions: "Nimm @.upper:{'globalSiteName'} vom Blockierungsmodus aus: für die App in der Einstellungen-App unter Datenschutz & Sicherheit › Blockierungsmodus › Web-Browsing konfigurieren, für Safari über das Seitenmenü › Website-Einstellungen."
+  lockdownModeDescription: Der Blockierungsmodus ist aktiv und schaltet Funktionen ab, die @.upper:{'globalSiteName'} braucht, zum Beispiel den QR-Code-Scanner und Push-Benachrichtigungen.
+  lockdownModeInstructions: "Nimm @.upper:{'globalSiteName'} vom Blockierungsmodus aus: für die App in der Einstellungen-App unter Datenschutz & Sicherheit › Blockierungsmodus › Web-Browsing konfigurieren, für Safari über Seitenmenü › Website-Einstellungen › Blockierungsmodus ausschalten."
   lockdownModeTitle: Blockierungsmodus erkannt
   offline: Du bist offline. Einige Funktionen sind erst wieder verfügbar, wenn deine Internetverbindung zurück ist.
   pwaConfirmButtonText: App nutzen
@@ -244,8 +261,8 @@ de:
 en:
   browserUnsupported: You're using a browser which does not support all features @.upper:{'globalSiteName'} offers. {link}.
   browserUnsupportedLink: Learn more
-  lockdownModeDescription: Lockdown Mode is on and turns off features @.upper:{'globalSiteName'} needs, such as storing data on your device.
-  lockdownModeInstructions: "Exclude @.upper:{'globalSiteName'} from Lockdown Mode: for the app, open the Settings app and go to Privacy & Security › Lockdown Mode › Configure Web Browsing; for Safari, use the page menu › Website Settings."
+  lockdownModeDescription: Lockdown Mode is on and turns off features @.upper:{'globalSiteName'} needs, such as the QR code scanner and push notifications.
+  lockdownModeInstructions: "Exclude @.upper:{'globalSiteName'} from Lockdown Mode: for the app, open the Settings app and go to Privacy & Security › Lockdown Mode › Configure Web Browsing; for Safari, use page menu › Website Settings › turn off Lockdown Mode."
   lockdownModeTitle: Lockdown Mode detected
   offline: You're offline. Some features are unavailable until your internet connection is back.
   pwaConfirmButtonText: Get the app

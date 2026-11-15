@@ -13,9 +13,9 @@
       :error="{ message: t('errorAccountMissing'), status: 404 }"
     />
     <div v-else class="flex flex-col gap-4">
-      <CardStateInfo v-if="isOrganizerPreview" class="flex flex-col gap-2">
+      <AppAlert v-if="isOrganizerPreview" class="flex flex-col gap-2">
         {{ t('invitationViewFor', { name: contactName }) }}
-        <ButtonColored
+        <AppButton
           :aria-label="t('invitationSelectionClear')"
           :to="
             localePath({
@@ -31,8 +31,8 @@
           <template #prefix>
             <AppIconArrowLeft />
           </template>
-        </ButtonColored>
-      </CardStateInfo>
+        </AppButton>
+      </AppAlert>
       <div v-if="contact" class="flex flex-col gap-2">
         <div class="flex items-center justify-between gap-2">
           <div>
@@ -45,7 +45,7 @@
             </p>
             <p>{{ t('greetingDescription') }}</p>
           </div>
-          <ButtonColored
+          <AppButton
             v-if="guest.feedback === InvitationFeedback.Accepted"
             :aria-label="t('qrCodeShow')"
             @click="qrCodeShow"
@@ -54,7 +54,7 @@
             <template #prefix>
               <AppIconQrCode />
             </template>
-          </ButtonColored>
+          </AppButton>
         </div>
       </div>
       <div class="flex flex-col gap-4">
@@ -66,13 +66,15 @@
             >
               <div />
               <div class="flex items-center gap-2">
-                <ButtonIcon
+                <AppButton
                   :aria-label="t('iCalDownload')"
                   class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
+                  size="none"
+                  variant="ghost"
                   @click="downloadIcal"
                 >
                   <AppIconArrowDownTray :title="t('iCalDownload')" />
-                </ButtonIcon>
+                </AppButton>
                 <EventShareButton
                   class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
                   :event
@@ -111,7 +113,7 @@
               </div>
             </div>
           </div>
-          <Card class="flex flex-col items-stretch gap-6 rounded-t-none">
+          <AppCard class="flex flex-col items-stretch gap-6 rounded-t-none">
             <div
               class="flex flex-col items-baseline justify-center md:flex-row md:gap-2"
             >
@@ -134,7 +136,7 @@
               :events
               :position-initial
             />
-          </Card>
+          </AppCard>
         </div>
         <div
           class="flex flex-col items-center gap-2"
@@ -173,7 +175,7 @@
             </div>
           </div>
           <div v-else class="flex items-center justify-center gap-4">
-            <ButtonColored
+            <AppButton
               v-if="
                 guest.feedback === null ||
                 guest.feedback === InvitationFeedback.Canceled
@@ -186,7 +188,7 @@
               <template #prefix>
                 <AppIconCheckCircleSolid class="shrink-0" />
               </template>
-            </ButtonColored>
+            </AppButton>
             <div
               v-if="guest.feedback === InvitationFeedback.Accepted"
               class="flex items-center font-semibold text-link"
@@ -197,7 +199,7 @@
               />
               <span>{{ t('invitationAccepted') }}</span>
             </div>
-            <ButtonColored
+            <AppButton
               v-if="
                 guest.feedback === null ||
                 guest.feedback === InvitationFeedback.Accepted
@@ -210,7 +212,7 @@
               <template #prefix>
                 <AppIconXCircleSolid class="shrink-0" />
               </template>
-            </ButtonColored>
+            </AppButton>
             <div
               v-if="guest.feedback === InvitationFeedback.Canceled"
               class="flex items-center font-semibold text-error"
@@ -223,15 +225,15 @@
             </div>
           </div>
         </div>
-        <Card v-if="eventDescriptionHtml">
+        <AppCard v-if="eventDescriptionHtml">
           <!-- eslint-disable vue/no-v-html -->
           <LayoutProse class="w-full">
             <div v-html="eventDescriptionHtml" />
           </LayoutProse>
           <!-- eslint-enable vue/no-v-html -->
-        </Card>
+        </AppCard>
       </div>
-      <Modal v-model="isModalGuestQrCodeOpen">
+      <AppModal v-model="isModalGuestQrCodeOpen">
         <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
           <QrcodeVue id="qrCode" :margin="4" :size="232" :value="guest.rowId" />
           <p class="text-body-small text-fg-2">
@@ -239,7 +241,7 @@
           </p>
         </div>
         <template #footer>
-          <ButtonColored
+          <AppButton
             v-if="isTicketShareable"
             :aria-label="t('ticketShare')"
             :disabled="!ticketFile"
@@ -251,9 +253,9 @@
             <template #prefix>
               <AppIconShare />
             </template>
-          </ButtonColored>
+          </AppButton>
           <!-- the iOS app's share sheet covers saving and printing, whereas Android's usually lacks a print target -->
-          <ButtonColored
+          <AppButton
             v-if="!isIos"
             :aria-label="t('ticketDownload')"
             :disabled="!ticketFile"
@@ -265,8 +267,8 @@
             <template #prefix>
               <AppIconArrowDownTray />
             </template>
-          </ButtonColored>
-          <ButtonColored
+          </AppButton>
+          <AppButton
             :aria-label="t('close')"
             @click="isModalGuestQrCodeOpen = false"
           >
@@ -274,9 +276,9 @@
             <template #prefix>
               <AppIconXMark />
             </template>
-          </ButtonColored>
+          </AppButton>
         </template>
-      </Modal>
+      </AppModal>
     </div>
   </Loader>
 </template>

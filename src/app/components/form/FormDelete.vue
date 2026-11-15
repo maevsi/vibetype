@@ -7,14 +7,14 @@
             t('passwordAccount')
           }}</FieldLabel>
           <FieldContent>
-            <FormInputPassword
+            <AppInputPassword
               id="input-password"
               :aria-invalid="isFieldInvalid(field)"
               autocomplete="current-password"
               :model-value="field.state.value"
               @blur="field.handleBlur"
-              @input="field.handleChange($event)"
               @keydown.enter.prevent
+              @update:model-value="field.handleChange($event)"
             />
           </FieldContent>
           <FieldError
@@ -24,7 +24,7 @@
         </Field>
       </form.Field>
       <div class="flex flex-col items-center">
-        <ButtonColored
+        <AppButton
           :aria-label="t('deletion', { item: itemNameDeletion })"
           class="w-full"
           :loading="api.isFetching"
@@ -32,11 +32,11 @@
           variant="primary-critical"
         >
           {{ t('deletion', { item: itemNameDeletion }) }}
-        </ButtonColored>
+        </AppButton>
       </div>
-      <CardStateAlert v-if="errorMessages?.length">
+      <AppAlert v-if="errorMessages?.length" variant="error">
         <AppSpanList :span="errorMessages" />
-      </CardStateAlert>
+      </AppAlert>
     </div>
   </form>
 </template>

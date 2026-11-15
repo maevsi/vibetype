@@ -6,21 +6,21 @@
       </template>
       <template #subtitle>{{ t('subtitle') }}</template>
     </FormAuthPageHeader>
-    <CardStateSuccess v-if="verified" class="mt-4 rounded-none">
-      <TypographySubtitleMedium>
+    <AppAlert v-if="verified" class="mt-4 rounded-none" variant="success">
+      <span class="text-headline">
         {{ t('accountVerified') }}
-      </TypographySubtitleMedium>
-    </CardStateSuccess>
-    <CardStateInfo v-if="to" class="mt-4 rounded-none">
+      </span>
+    </AppAlert>
+    <AppAlert v-if="to" class="mt-4 rounded-none">
       {{ t('accountRequired') }}
-    </CardStateInfo>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    </AppAlert>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <FormSessionCreate v-model:error="error" @signed-in="onSignIn" />
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
     <FormAuthStepError :error="error" :is-active="step === 'error'">
-      <ButtonColored
+      <AppButton
         :aria-label="t('contactSupport')"
         class="w-full max-w-md"
         :to="
@@ -31,20 +31,22 @@
         variant="secondary"
       >
         {{ t('contactSupport') }}
-      </ButtonColored>
-      <ButtonColored
+      </AppButton>
+      <AppButton
         :aria-label="t('backToLogin')"
         class="w-full max-w-md"
         variant="primary"
         @click="restart"
       >
         {{ t('backToLogin') }}
-      </ButtonColored>
+      </AppButton>
     </FormAuthStepError>
   </section>
 </template>
 
 <script setup lang="ts">
+import type { Language } from '~~/gql/generated/graphql'
+
 definePageMeta({
   layout: 'plain',
 })
@@ -58,7 +60,7 @@ const templateIdTitle = useId()
 // navigation
 const router = useRouter()
 const navigateBack = () => {
-  router.back()
+  store.navigateBack()
 }
 
 // sign in
@@ -83,21 +85,47 @@ const to = computed(() =>
   route.query.to && !Array.isArray(route.query.to) ? route.query.to : undefined,
 )
 const verified = computed(() => route.query.verified === null)
+const nuxtApp = useNuxtApp()
 const store = useStore()
-const getSignInTarget = (username: string) => {
+const getRouteBaseName = useRouteBaseName()
+// the session opens in the language of the account, which may differ from the one the sign-in page was opened in
+const getSignInTarget = ({
+  language,
+  username,
+}: {
+  language?: Language
+  username: string
+}) => {
   // A link that allows users to delete their account is required by the Google Play Store (https://support.google.com/googleplay/android-developer/answer/13316080#account_deletion)
   if (to.value === 'account-deletion') {
-    return localePath({
-      name: 'account-edit-username',
-      params: { username: username },
-    })
+    return localePath(
+      {
+        name: 'account-edit-username',
+        params: { username: username },
+      },
+      language,
+    )
   }
 
-  if (to.value && getIsSitePath(to.value)) return to.value
+  if (to.value && getIsSitePath(to.value)) {
+    const target = router.resolve(to.value)
+    const name = getRouteBaseName(target)
 
-  return localePath(`dashboard`)
+    if (!name) return to.value
+
+    return localePath(
+      {
+        hash: target.hash,
+        name,
+        params: target.params,
+        query: target.query,
+      },
+      language,
+    )
+  }
+
+  return localePath(`dashboard`, language)
 }
-const getRouteBaseName = useRouteBaseName()
 const onSignIn = async (username: string) => {
   // the welcome page redirects signed-in accounts to the dashboard (see `pages/index.vue`), so going back there would only loop
   store.routeHistory = store.routeHistory.filter((path) => {
@@ -109,7 +137,9 @@ const onSignIn = async (username: string) => {
     )
   })
 
-  await store.navigateWithoutHistory(getSignInTarget(username), {
+  const language = await getOwnContactLanguage({ nuxtApp, store })
+
+  await store.navigateWithoutHistory(getSignInTarget({ language, username }), {
     replace: true,
   })
 }

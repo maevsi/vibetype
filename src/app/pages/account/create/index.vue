@@ -11,41 +11,47 @@
     </FormAuthPageHeader>
 
     <!-- Step: Email -->
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <form
           class="flex flex-col gap-6"
           novalidate
           @submit.prevent="handleEmailContinue"
         >
-          <FormAuthInput
+          <AppInput
+            :aria-label="t('emailPlaceholder')"
             :model-value="emailField.value.value"
             :placeholder="t('emailPlaceholder')"
             type="email"
             @blur="emailField.handleBlur"
-            @input="emailField.handleInput($event)"
+            @update:model-value="emailField.handleInput"
           >
-            <template #icon>
+            <template #prefix>
               <IHeroiconsEnvelope />
             </template>
-          </FormAuthInput>
+          </AppInput>
           <p v-if="emailField.error.value" class="text-caption text-error">
             {{ emailField.error.value }}
           </p>
           <!-- Terms checkbox -->
           <div class="flex items-start gap-3">
-            <FormCheckbox
-              form-key="agree-to-terms"
-              :value="agreedToTerms"
-              @change="agreedToTerms = $event"
-            >
+            <AppCheckbox
+              id="agree-to-terms"
+              class="mt-0.5 shrink-0"
+              :model-value="agreedToTerms"
+              @update:model-value="
+                (checked) => (agreedToTerms = checked === true)
+              "
+            />
+            <label for="agree-to-terms">
               <span class="text-body-small text-fg-2">
                 {{ t('agreePrefix') }}
                 <NuxtLinkLocale
                   class="font-semibold text-link underline"
                   to="docs-legal-terms"
-                  >{{ t('termsOfService') }}</NuxtLinkLocale
-                >{{ t('legalComma') }}
+                  >{{ t('termsOfService') }}</NuxtLinkLocale>{{
+                  t('legalComma')
+                }}
                 <NuxtLinkLocale
                   class="font-semibold text-link underline"
                   to="docs-legal-imprint"
@@ -58,18 +64,14 @@
                   >{{ t('privacyPolicy') }}</NuxtLinkLocale
                 >
               </span>
-            </FormCheckbox>
+            </label>
           </div>
           <p v-if="termsError" class="text-caption text-error">
             {{ termsError }}
           </p>
-          <ButtonColored
-            :aria-label="t('continue')"
-            class="w-full"
-            type="submit"
-          >
+          <AppButton :aria-label="t('continue')" class="w-full" type="submit">
             {{ t('continue') }}
-          </ButtonColored>
+          </AppButton>
           <p class="text-center text-body text-fg-2">
             {{ t('alreadyHaveAccount') }}
             <NuxtLinkLocale
@@ -80,10 +82,10 @@
           </p>
         </form>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
 
     <!-- Step: Password -->
-    <AppStep v-slot="attributes" :is-active="step === 'password'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'password'">
       <LayoutPage v-bind="attributes">
         <FormAccountRegistration
           v-model:captcha-is-used="captchaIsUsed"
@@ -95,10 +97,10 @@
           "
         />
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
 
     <!-- Step: Username -->
-    <AppStep v-slot="attributes" :is-active="step === 'username'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'username'">
       <LayoutPage v-bind="attributes">
         <form
           class="flex flex-col gap-4"
@@ -106,17 +108,18 @@
           @submit.prevent="handleUsernameContinue"
         >
           <div class="relative">
-            <FormAuthInput
+            <AppInput
+              :aria-label="t('usernamePlaceholder')"
               :model-value="usernameField.value.value"
               :placeholder="t('usernamePlaceholder')"
               type="text"
               @blur="usernameField.handleBlur"
-              @input="handleUsernameInput($event)"
+              @update:model-value="handleUsernameInput"
             >
-              <template #icon>
+              <template #prefix>
                 <IHeroiconsUser />
               </template>
-            </FormAuthInput>
+            </AppInput>
             <div
               v-if="usernameField.isLoading.value"
               class="absolute top-1/2 right-4 -translate-y-1/2"
@@ -129,7 +132,7 @@
           <p v-if="usernameField.error.value" class="text-caption text-error">
             {{ usernameField.error.value }}
           </p>
-          <ButtonColored
+          <AppButton
             :aria-label="t('continue')"
             class="w-full"
             :disabled="
@@ -138,30 +141,30 @@
             type="submit"
           >
             {{ t('continue') }}
-          </ButtonColored>
+          </AppButton>
         </form>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
 
     <!-- Step: Age -->
-    <AppStep v-slot="attributes" :is-active="step === 'age'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'age'">
       <LayoutPage v-bind="attributes">
         <div class="flex flex-col gap-4">
           <FormAccountRegistrationAge
             :id="templateIdAgeForm"
             @success="handleAgeSuccess"
           />
-          <ButtonColored
+          <AppButton
             :aria-label="t('confirmAge')"
             class="w-full"
             :form="templateIdAgeForm"
             type="submit"
           >
             {{ t('confirmAge') }}
-          </ButtonColored>
+          </AppButton>
         </div>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
 
     <!-- Step: Success -->
     <FormAuthStepSuccess :is-active="step === 'success'">
@@ -190,14 +193,14 @@
 
     <!-- Step: Error -->
     <FormAuthStepError :error="error" :is-active="step === 'error'">
-      <ButtonColored
+      <AppButton
         :aria-label="t('backToRegistration')"
-        class="w-full max-w-sm"
+        class="w-full max-w-md"
         variant="primary"
         @click="restart"
       >
         {{ t('backToRegistration') }}
-      </ButtonColored>
+      </AppButton>
     </FormAuthStepError>
   </section>
 </template>
@@ -218,9 +221,9 @@ definePageMeta({
 const { locale, t } = useI18n()
 
 // navigation
-const router = useRouter()
+const store = useStore()
 const navigateBack = () => {
-  router.back()
+  store.navigateBack()
 }
 
 // api data

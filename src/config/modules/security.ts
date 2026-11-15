@@ -58,5 +58,6 @@ export const securityConfig: ReturnType<DefineNuxtConfig> = {
       hashStyles: true,
     },
     strict: true,
+    xssValidator: false, // answers any request containing `<` or `>` with a 400, which blocks passwords and other free text using these characters; markup is sanitized where it is rendered instead
   },
 }
