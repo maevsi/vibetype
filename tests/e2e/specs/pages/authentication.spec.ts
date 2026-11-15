@@ -143,12 +143,10 @@ appTest.describe('authentication', () => {
     await page.getByRole('button', { name: 'Pick a date' }).click()
     await page.getByRole('combobox', { name: 'Select year' }).click()
     await page.getByRole('option', { name: '1990' }).click()
-    // picking the year keeps today's day selected, and clicking a selected day deselects it
-    const day = new Date().getDate() === 15 ? 16 : 15
-    await page
-      .getByRole('dialog')
-      .getByRole('button', { name: new RegExp(`${day}, 1990$`) })
-      .click()
+    // the trigger also reads "November 15, 1990" on the 15th, so match the calendar cell's weekday prefix
+    // the picker preselects today's month and day, and clicking a selected cell deselects it (reka-ui)
+    const day = page.getByRole('button', { name: /^\w+, \w+ 15, 1990$/ })
+    if ((await day.getAttribute('data-selected')) !== 'true') await day.click()
     // the calendar popover stays open after picking a date and covers the button below
     await page.keyboard.press('Escape')
     await page.getByRole('button', { name: 'Confirm age' }).click()
