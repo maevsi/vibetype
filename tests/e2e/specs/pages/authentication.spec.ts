@@ -143,7 +143,10 @@ appTest.describe('authentication', () => {
     await page.getByRole('button', { name: 'Pick a date' }).click()
     await page.getByRole('combobox', { name: 'Select year' }).click()
     await page.getByRole('option', { name: '1990' }).click()
-    await page.getByRole('button', { name: /15, 1990$/ }).click()
+    await page
+      .getByRole('dialog')
+      .getByRole('button', { name: /15, 1990$/ })
+      .click()
     // the calendar popover stays open after picking a date and covers the button below
     await page.keyboard.press('Escape')
     await page.getByRole('button', { name: 'Confirm age' }).click()
