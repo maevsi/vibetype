@@ -36,6 +36,9 @@
         >
           {{ t('signIn') }}
         </ButtonText>
+        <AppFeature v-if="store.signedInAccountId" feature="notifications">
+          <NotificationBell />
+        </AppFeature>
         <ButtonIcon
           :aria-label="t('settings')"
           is-round

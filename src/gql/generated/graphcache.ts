@@ -21,6 +21,7 @@ export type Scalars = {
   Date: { input: string; output: string }
   Datetime: { input: string; output: string }
   GeoJSON: { input: GeoJSON; output: GeoJSON }
+  JSON: { input: unknown; output: unknown }
   Jwt: { input: string; output: string }
   RegConfig: { input: unknown; output: unknown }
   UUID: { input: string; output: string }
@@ -33,6 +34,10 @@ export type Account = Node & {
   accountBlocksByBlockedAccountId: AccountBlockConnection
   /** Reads and enables pagination through a set of `AccountBlock`. */
   accountBlocksByCreatedBy: AccountBlockConnection
+  /** Reads and enables pagination through a set of `AccountNotification`. */
+  accountNotificationsByAccountId: AccountNotificationConnection
+  /** Reads and enables pagination through a set of `AccountNotification`. */
+  accountNotificationsByActorAccountId: AccountNotificationConnection
   /** Reads and enables pagination through a set of `AccountSocialNetwork`. */
   accountSocialNetworksByAccountId: AccountSocialNetworkConnection
   /** Reads and enables pagination through a set of `Achievement`. */
@@ -87,6 +92,8 @@ export type Account = Node & {
   preferenceEventLocationsByCreatedBy: PreferenceEventLocationConnection
   /** Reads and enables pagination through a set of `PreferenceEventSize`. */
   preferenceEventSizesByAccountId: PreferenceEventSizeConnection
+  /** Reads and enables pagination through a set of `PreferenceNotification`. */
+  preferenceNotificationsByAccountId: PreferenceNotificationConnection
   /** Reads a single `ProfilePicture` that is related to this `Account`. */
   profilePictureByAccountId?: Maybe<ProfilePicture>
   /** Reads and enables pagination through a set of `Report`. */
@@ -121,6 +128,28 @@ export type AccountAccountBlocksByCreatedByArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<AccountBlockOrderBy>>
+}
+
+/** Public account data. */
+export type AccountAccountNotificationsByAccountIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<AccountNotificationCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<AccountNotificationOrderBy>>
+}
+
+/** Public account data. */
+export type AccountAccountNotificationsByActorAccountIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<AccountNotificationCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<AccountNotificationOrderBy>>
 }
 
 /** Public account data. */
@@ -388,6 +417,17 @@ export type AccountPreferenceEventSizesByAccountIdArgs = {
 }
 
 /** Public account data. */
+export type AccountPreferenceNotificationsByAccountIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<PreferenceNotificationCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<PreferenceNotificationOrderBy>>
+}
+
+/** Public account data. */
 export type AccountReportsByCreatedByArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
@@ -596,6 +636,135 @@ export type AccountEmailAddressVerificationPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>
   /** Our root query field type. Allows us to run any query from our mutation payload. */
   query?: Maybe<Query>
+}
+
+/** A notification in the inbox of an account. Rows are created by database triggers only. */
+export type AccountNotification = Node & {
+  __typename?: 'AccountNotification'
+  /** Reads a single `Account` that is related to this `AccountNotification`. */
+  accountByAccountId?: Maybe<Account>
+  /** Reads a single `Account` that is related to this `AccountNotification`. */
+  accountByActorAccountId?: Maybe<Account>
+  /** The account that receives the notification. */
+  accountId: Scalars['UUID']['output']
+  /** The account that caused the notification. `NULL` if an anonymous guest caused it. */
+  actorAccountId?: Maybe<Scalars['UUID']['output']>
+  /** The timestamp when the notification was created. */
+  createdAt: Scalars['Datetime']['output']
+  /** Reads a single `Event` that is related to this `AccountNotification`. */
+  eventByEventId?: Maybe<Event>
+  /** The event the notification is about. `NULL` for deleted events and friendships. */
+  eventId?: Maybe<Scalars['UUID']['output']>
+  /** Reads a single `Friendship` that is related to this `AccountNotification`. */
+  friendshipByFriendshipId?: Maybe<Friendship>
+  /** The friendship the notification is about. The notification is removed with the friendship, e.g. when a request is declined. */
+  friendshipId?: Maybe<Scalars['UUID']['output']>
+  /** Reads a single `Guest` that is related to this `AccountNotification`. */
+  guestByGuestId?: Maybe<Guest>
+  /** The guest the notification is about. */
+  guestId?: Maybe<Scalars['UUID']['output']>
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  id: Scalars['ID']['output']
+  /** A snapshot of what is needed to render the notification. Possible keys: `actor_username`, `changes`, `event_creator_username`, `event_name`, `event_slug`, `event_start`, `feedback`, `guest_name`. */
+  payload: Scalars['JSON']['output']
+  /** The timestamp when the recipient read the notification. `NULL` while unread. */
+  readAt?: Maybe<Scalars['Datetime']['output']>
+  /** The notification's internal id. */
+  rowId: Scalars['UUID']['output']
+  /** The kind of the notification. */
+  type: NotificationType
+}
+
+/**
+ * A condition to be used against `AccountNotification` object types. All fields
+ * are tested for equality and combined with a logical ‘and.’
+ */
+export type AccountNotificationCondition = {
+  /** Checks for equality with the object’s `accountId` field. */
+  accountId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `actorAccountId` field. */
+  actorAccountId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `createdAt` field. */
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>
+  /** Checks for equality with the object’s `eventId` field. */
+  eventId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `friendshipId` field. */
+  friendshipId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `guestId` field. */
+  guestId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `rowId` field. */
+  rowId?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** A connection to a list of `AccountNotification` values. */
+export type AccountNotificationConnection = {
+  __typename?: 'AccountNotificationConnection'
+  /** A list of edges which contains the `AccountNotification` and cursor to aid in pagination. */
+  edges: Array<AccountNotificationEdge>
+  /** A list of `AccountNotification` objects. */
+  nodes: Array<AccountNotification>
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo
+  /** The count of *all* `AccountNotification` you could get from the connection. */
+  totalCount: Scalars['Int']['output']
+}
+
+/** A `AccountNotification` edge in the connection. */
+export type AccountNotificationEdge = {
+  __typename?: 'AccountNotificationEdge'
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `AccountNotification` at the end of the edge. */
+  node: AccountNotification
+}
+
+/** Methods to use when ordering `AccountNotification`. */
+export enum AccountNotificationOrderBy {
+  AccountIdAsc = 'ACCOUNT_ID_ASC',
+  AccountIdDesc = 'ACCOUNT_ID_DESC',
+  ActorAccountIdAsc = 'ACTOR_ACCOUNT_ID_ASC',
+  ActorAccountIdDesc = 'ACTOR_ACCOUNT_ID_DESC',
+  CreatedAtAsc = 'CREATED_AT_ASC',
+  CreatedAtDesc = 'CREATED_AT_DESC',
+  EventIdAsc = 'EVENT_ID_ASC',
+  EventIdDesc = 'EVENT_ID_DESC',
+  FriendshipIdAsc = 'FRIENDSHIP_ID_ASC',
+  FriendshipIdDesc = 'FRIENDSHIP_ID_DESC',
+  GuestIdAsc = 'GUEST_ID_ASC',
+  GuestIdDesc = 'GUEST_ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RowIdAsc = 'ROW_ID_ASC',
+  RowIdDesc = 'ROW_ID_DESC',
+}
+
+/** Represents an update to a `AccountNotification`. Fields that are set will be updated. */
+export type AccountNotificationPatch = {
+  /** The timestamp when the recipient read the notification. `NULL` while unread. */
+  readAt?: InputMaybe<Scalars['Datetime']['input']>
+}
+
+/** All input for the `accountNotificationReadAll` mutation. */
+export type AccountNotificationReadAllInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+}
+
+/** The output of our `accountNotificationReadAll` mutation. */
+export type AccountNotificationReadAllPayload = {
+  __typename?: 'AccountNotificationReadAllPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+  result?: Maybe<Scalars['Int']['output']>
 }
 
 /** Methods to use when ordering `Account`. */
@@ -2016,6 +2185,39 @@ export type CreatePreferenceEventSizePayloadPreferenceEventSizeEdgeArgs = {
   orderBy?: Array<PreferenceEventSizeOrderBy>
 }
 
+/** All input for the create `PreferenceNotification` mutation. */
+export type CreatePreferenceNotificationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The `PreferenceNotification` to be created by this mutation. */
+  preferenceNotification: PreferenceNotificationInput
+}
+
+/** The output of our create `PreferenceNotification` mutation. */
+export type CreatePreferenceNotificationPayload = {
+  __typename?: 'CreatePreferenceNotificationPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `PreferenceNotification` that was created by this mutation. */
+  preferenceNotification?: Maybe<PreferenceNotification>
+  /** An edge for our `PreferenceNotification`. May be used by Relay 1. */
+  preferenceNotificationEdge?: Maybe<PreferenceNotificationEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our create `PreferenceNotification` mutation. */
+export type CreatePreferenceNotificationPayloadPreferenceNotificationEdgeArgs =
+  {
+    orderBy?: Array<PreferenceNotificationOrderBy>
+  }
+
 /** All input for the create `ProfilePicture` mutation. */
 export type CreateProfilePictureInput = {
   /**
@@ -2167,6 +2369,50 @@ export type DeleteAccountBlockPayload = {
 /** The output of our delete `AccountBlock` mutation. */
 export type DeleteAccountBlockPayloadAccountBlockEdgeArgs = {
   orderBy?: Array<AccountBlockOrderBy>
+}
+
+/** All input for the `deleteAccountNotificationByRowId` mutation. */
+export type DeleteAccountNotificationByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The notification's internal id. */
+  rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `deleteAccountNotification` mutation. */
+export type DeleteAccountNotificationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `AccountNotification` to be deleted. */
+  id: Scalars['ID']['input']
+}
+
+/** The output of our delete `AccountNotification` mutation. */
+export type DeleteAccountNotificationPayload = {
+  __typename?: 'DeleteAccountNotificationPayload'
+  /** The `AccountNotification` that was deleted by this mutation. */
+  accountNotification?: Maybe<AccountNotification>
+  /** An edge for our `AccountNotification`. May be used by Relay 1. */
+  accountNotificationEdge?: Maybe<AccountNotificationEdge>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  deletedAccountNotificationId?: Maybe<Scalars['ID']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our delete `AccountNotification` mutation. */
+export type DeleteAccountNotificationPayloadAccountNotificationEdgeArgs = {
+  orderBy?: Array<AccountNotificationOrderBy>
 }
 
 /** All input for the `deleteAccountSocialNetworkByAccountIdAndSocialNetwork` mutation. */
@@ -2980,6 +3226,64 @@ export type DeletePreferenceEventSizePayloadPreferenceEventSizeEdgeArgs = {
   orderBy?: Array<PreferenceEventSizeOrderBy>
 }
 
+/** All input for the `deletePreferenceNotificationByAccountIdAndType` mutation. */
+export type DeletePreferenceNotificationByAccountIdAndTypeInput = {
+  /** The account the preference belongs to. */
+  accountId: Scalars['UUID']['input']
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The notification type the preference applies to. */
+  type: NotificationType
+}
+
+/** All input for the `deletePreferenceNotificationByRowId` mutation. */
+export type DeletePreferenceNotificationByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The preference's internal id. */
+  rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `deletePreferenceNotification` mutation. */
+export type DeletePreferenceNotificationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `PreferenceNotification` to be deleted. */
+  id: Scalars['ID']['input']
+}
+
+/** The output of our delete `PreferenceNotification` mutation. */
+export type DeletePreferenceNotificationPayload = {
+  __typename?: 'DeletePreferenceNotificationPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  deletedPreferenceNotificationId?: Maybe<Scalars['ID']['output']>
+  /** The `PreferenceNotification` that was deleted by this mutation. */
+  preferenceNotification?: Maybe<PreferenceNotification>
+  /** An edge for our `PreferenceNotification`. May be used by Relay 1. */
+  preferenceNotificationEdge?: Maybe<PreferenceNotificationEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our delete `PreferenceNotification` mutation. */
+export type DeletePreferenceNotificationPayloadPreferenceNotificationEdgeArgs =
+  {
+    orderBy?: Array<PreferenceNotificationOrderBy>
+  }
+
 /** All input for the `deleteProfilePictureByAccountId` mutation. */
 export type DeleteProfilePictureByAccountIdInput = {
   /** The account's id. */
@@ -3181,6 +3485,8 @@ export type Event = Node & {
   __typename?: 'Event'
   /** Reads a single `Account` that is related to this `Event`. */
   accountByCreatedBy?: Maybe<Account>
+  /** Reads and enables pagination through a set of `AccountNotification`. */
+  accountNotificationsByEventId: AccountNotificationConnection
   /** Reads a single `Address` that is related to this `Event`. */
   addressByAddressId?: Maybe<Address>
   /** Optional reference to the physical address of the event. */
@@ -3232,6 +3538,17 @@ export type Event = Node & {
   url?: Maybe<Scalars['String']['output']>
   /** The event's visibility. */
   visibility: EventVisibility
+}
+
+/** An event. */
+export type EventAccountNotificationsByEventIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<AccountNotificationCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<AccountNotificationOrderBy>>
 }
 
 /** An event. */
@@ -4116,6 +4433,8 @@ export type Friendship = Node & {
   accountByCreatedBy?: Maybe<Account>
   /** Reads a single `Account` that is related to this `Friendship`. */
   accountByUpdatedBy?: Maybe<Account>
+  /** Reads and enables pagination through a set of `AccountNotification`. */
+  accountNotificationsByFriendshipId: AccountNotificationConnection
   /** The 'right' side of the friend relation. It must be lexically greater than the 'left' side. */
   bAccountId: Scalars['UUID']['output']
   /** The timestamp when the friend relation was created. */
@@ -4132,6 +4451,17 @@ export type Friendship = Node & {
   updatedAt?: Maybe<Scalars['Datetime']['output']>
   /** The account that updated the friend relation's status. */
   updatedBy?: Maybe<Scalars['UUID']['output']>
+}
+
+/** A friend relation together with its status. */
+export type FriendshipAccountNotificationsByFriendshipIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<AccountNotificationCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<AccountNotificationOrderBy>>
 }
 
 /**
@@ -4245,6 +4575,8 @@ export type Guest = Node & {
   __typename?: 'Guest'
   /** Reads a single `Account` that is related to this `Guest`. */
   accountByUpdatedBy?: Maybe<Account>
+  /** Reads and enables pagination through a set of `AccountNotification`. */
+  accountNotificationsByGuestId: AccountNotificationConnection
   /** Reads a single `Attendance` that is related to this `Guest`. */
   attendanceByGuestId?: Maybe<Attendance>
   /** Reads a single `Contact` that is related to this `Guest`. */
@@ -4269,6 +4601,17 @@ export type Guest = Node & {
   updatedAt?: Maybe<Scalars['Datetime']['output']>
   /** The id of the account which last updated the guest. `NULL` if the guest was updated by an anonymous user. */
   updatedBy?: Maybe<Scalars['UUID']['output']>
+}
+
+/** A guest for a contact. A bidirectional mapping between an event and a contact. */
+export type GuestAccountNotificationsByGuestIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<AccountNotificationCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<AccountNotificationOrderBy>>
 }
 
 /** A condition to be used against `Guest` object types. All fields are tested for equality and combined with a logical ‘and.’ */
@@ -4835,6 +5178,8 @@ export type Mutation = {
   accountDelete?: Maybe<AccountDeletePayload>
   /** Sets the account's email address verification code to `NULL` for which the email address verification code equals the one passed and is up to date.\n\nError codes:\n- **P0002** when the verification code is unknown.\n- **55000** when the verification code has expired. */
   accountEmailAddressVerification?: Maybe<AccountEmailAddressVerificationPayload>
+  /** Marks all unread notifications of the invoker as read and returns their number. */
+  accountNotificationReadAll?: Maybe<AccountNotificationReadAllPayload>
   /** Allows to change an account's password.\n\nError codes:\n- **22023** when the new password is too short.\n- **28P01** when an account with the given password is not found. */
   accountPasswordChange?: Maybe<AccountPasswordChangePayload>
   /** Sets a new password for an account if there was a request to do so before that's still up to date.\n\nError codes:\n- **22023** when the password is too short.\n- **P0002** when the reset code is unknown.\n- **55000** when the reset code has expired. */
@@ -4892,6 +5237,8 @@ export type Mutation = {
   createPreferenceEventLocation?: Maybe<CreatePreferenceEventLocationPayload>
   /** Creates a single `PreferenceEventSize`. */
   createPreferenceEventSize?: Maybe<CreatePreferenceEventSizePayload>
+  /** Creates a single `PreferenceNotification`. */
+  createPreferenceNotification?: Maybe<CreatePreferenceNotificationPayload>
   /** Creates a single `ProfilePicture`. */
   createProfilePicture?: Maybe<CreateProfilePicturePayload>
   /** Creates a single `Report`. */
@@ -4904,6 +5251,10 @@ export type Mutation = {
   deleteAccountBlockByCreatedByAndBlockedAccountId?: Maybe<DeleteAccountBlockPayload>
   /** Deletes a single `AccountBlock` using a unique key. */
   deleteAccountBlockByRowId?: Maybe<DeleteAccountBlockPayload>
+  /** Deletes a single `AccountNotification` using its globally unique id. */
+  deleteAccountNotification?: Maybe<DeleteAccountNotificationPayload>
+  /** Deletes a single `AccountNotification` using a unique key. */
+  deleteAccountNotificationByRowId?: Maybe<DeleteAccountNotificationPayload>
   /** Deletes a single `AccountSocialNetwork` using its globally unique id. */
   deleteAccountSocialNetwork?: Maybe<DeleteAccountSocialNetworkPayload>
   /** Deletes a single `AccountSocialNetwork` using a unique key. */
@@ -4986,6 +5337,12 @@ export type Mutation = {
   deletePreferenceEventSizeByAccountIdAndEventSize?: Maybe<DeletePreferenceEventSizePayload>
   /** Deletes a single `PreferenceEventSize` using a unique key. */
   deletePreferenceEventSizeByRowId?: Maybe<DeletePreferenceEventSizePayload>
+  /** Deletes a single `PreferenceNotification` using its globally unique id. */
+  deletePreferenceNotification?: Maybe<DeletePreferenceNotificationPayload>
+  /** Deletes a single `PreferenceNotification` using a unique key. */
+  deletePreferenceNotificationByAccountIdAndType?: Maybe<DeletePreferenceNotificationPayload>
+  /** Deletes a single `PreferenceNotification` using a unique key. */
+  deletePreferenceNotificationByRowId?: Maybe<DeletePreferenceNotificationPayload>
   /** Deletes a single `ProfilePicture` using its globally unique id. */
   deleteProfilePicture?: Maybe<DeleteProfilePicturePayload>
   /** Deletes a single `ProfilePicture` using a unique key. */
@@ -5000,7 +5357,7 @@ export type Mutation = {
   deleteUploadByStorageKey?: Maybe<DeleteUploadPayload>
   /** Allows to delete an event.\n\nError codes:\n- **P0002** when the event was not found.\n- **28P01** when the account with the given password was not found. */
   eventDelete?: Maybe<EventDeletePayload>
-  /** Adds a notification for the invitation channel.\n\nError codes:\n- **P0002** when the guest, event, contact, the contact email address, or the account email address is not accessible. */
+  /** Adds an outbox event of type `guest.invited`.\n\nError codes:\n- **P0002** when the guest, contact, the contact email address, or the account email address is not accessible. */
   invite?: Maybe<InvitePayload>
   /** Creates a JWT token that will securely identify an account and give it certain permissions. */
   jwtCreate?: Maybe<JwtCreatePayload>
@@ -5010,8 +5367,8 @@ export type Mutation = {
   jwtUpdateAttendanceAdd?: Maybe<JwtUpdateAttendanceAddPayload>
   /** Adds a guest claim to the current session. */
   jwtUpdateGuestAdd?: Maybe<JwtUpdateGuestAddPayload>
-  /** Allows to set the acknowledgement state of a notification.\n\nError codes:\n- **P0002** when no notification with the given id is found. */
-  notificationAcknowledge?: Maybe<NotificationAcknowledgePayload>
+  /** Marks an outbox event as processed. Marking an already processed event again has no effect. Markers older than 30 days are deleted along the way. */
+  outboxMarkProcessed?: Maybe<OutboxMarkProcessedPayload>
   /** Sets the picture with the given upload id as the invoker's profile picture. */
   profilePictureSet?: Maybe<ProfilePictureSetPayload>
   /** Updates a single `Account` using its globally unique id and a patch. */
@@ -5020,6 +5377,10 @@ export type Mutation = {
   updateAccountByRowId?: Maybe<UpdateAccountPayload>
   /** Updates a single `Account` using a unique key and a patch. */
   updateAccountByUsername?: Maybe<UpdateAccountPayload>
+  /** Updates a single `AccountNotification` using its globally unique id and a patch. */
+  updateAccountNotification?: Maybe<UpdateAccountNotificationPayload>
+  /** Updates a single `AccountNotification` using a unique key and a patch. */
+  updateAccountNotificationByRowId?: Maybe<UpdateAccountNotificationPayload>
   /** Updates a single `AccountSocialNetwork` using its globally unique id and a patch. */
   updateAccountSocialNetwork?: Maybe<UpdateAccountSocialNetworkPayload>
   /** Updates a single `AccountSocialNetwork` using a unique key and a patch. */
@@ -5064,6 +5425,12 @@ export type Mutation = {
   updateGuestByEventIdAndContactId?: Maybe<UpdateGuestPayload>
   /** Updates a single `Guest` using a unique key and a patch. */
   updateGuestByRowId?: Maybe<UpdateGuestPayload>
+  /** Updates a single `PreferenceNotification` using its globally unique id and a patch. */
+  updatePreferenceNotification?: Maybe<UpdatePreferenceNotificationPayload>
+  /** Updates a single `PreferenceNotification` using a unique key and a patch. */
+  updatePreferenceNotificationByAccountIdAndType?: Maybe<UpdatePreferenceNotificationPayload>
+  /** Updates a single `PreferenceNotification` using a unique key and a patch. */
+  updatePreferenceNotificationByRowId?: Maybe<UpdatePreferenceNotificationPayload>
   /** Updates a single `ProfilePicture` using its globally unique id and a patch. */
   updateProfilePicture?: Maybe<UpdateProfilePicturePayload>
   /** Updates a single `ProfilePicture` using a unique key and a patch. */
@@ -5086,6 +5453,11 @@ export type MutationAccountDeleteArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationAccountEmailAddressVerificationArgs = {
   input: AccountEmailAddressVerificationInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationAccountNotificationReadAllArgs = {
+  input: AccountNotificationReadAllInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -5214,6 +5586,11 @@ export type MutationCreatePreferenceEventSizeArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePreferenceNotificationArgs = {
+  input: CreatePreferenceNotificationInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateProfilePictureArgs = {
   input: CreateProfilePictureInput
 }
@@ -5241,6 +5618,16 @@ export type MutationDeleteAccountBlockByCreatedByAndBlockedAccountIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteAccountBlockByRowIdArgs = {
   input: DeleteAccountBlockByRowIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteAccountNotificationArgs = {
+  input: DeleteAccountNotificationInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteAccountNotificationByRowIdArgs = {
+  input: DeleteAccountNotificationByRowIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -5452,6 +5839,21 @@ export type MutationDeletePreferenceEventSizeByRowIdArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePreferenceNotificationArgs = {
+  input: DeletePreferenceNotificationInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePreferenceNotificationByAccountIdAndTypeArgs = {
+  input: DeletePreferenceNotificationByAccountIdAndTypeInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePreferenceNotificationByRowIdArgs = {
+  input: DeletePreferenceNotificationByRowIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteProfilePictureArgs = {
   input: DeleteProfilePictureInput
 }
@@ -5512,8 +5914,8 @@ export type MutationJwtUpdateGuestAddArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
-export type MutationNotificationAcknowledgeArgs = {
-  input: NotificationAcknowledgeInput
+export type MutationOutboxMarkProcessedArgs = {
+  input: OutboxMarkProcessedInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -5534,6 +5936,16 @@ export type MutationUpdateAccountByRowIdArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateAccountByUsernameArgs = {
   input: UpdateAccountByUsernameInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateAccountNotificationArgs = {
+  input: UpdateAccountNotificationInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateAccountNotificationByRowIdArgs = {
+  input: UpdateAccountNotificationByRowIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -5648,6 +6060,21 @@ export type MutationUpdateGuestByRowIdArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceNotificationArgs = {
+  input: UpdatePreferenceNotificationInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceNotificationByAccountIdAndTypeArgs = {
+  input: UpdatePreferenceNotificationByAccountIdAndTypeInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePreferenceNotificationByRowIdArgs = {
+  input: UpdatePreferenceNotificationByRowIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateProfilePictureArgs = {
   input: UpdateProfilePictureInput
 }
@@ -5683,20 +6110,32 @@ export type Node = {
   id: Scalars['ID']['output']
 }
 
-/** All input for the `notificationAcknowledge` mutation. */
-export type NotificationAcknowledgeInput = {
+/**
+ * Kinds of notifications an account receives: event_deleted, event_invitation,
+ * event_updated, friendship_accepted, friendship_requested, guest_feedback.
+ */
+export enum NotificationType {
+  EventDeleted = 'event_deleted',
+  EventInvitation = 'event_invitation',
+  EventUpdated = 'event_updated',
+  FriendshipAccepted = 'friendship_accepted',
+  FriendshipRequested = 'friendship_requested',
+  GuestFeedback = 'guest_feedback',
+}
+
+/** All input for the `outboxMarkProcessed` mutation. */
+export type OutboxMarkProcessedInput = {
   /**
    * An arbitrary string value with no semantic meaning. Will be included in the
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: InputMaybe<Scalars['String']['input']>
-  id: Scalars['UUID']['input']
-  isAcknowledged: Scalars['Boolean']['input']
+  outboxId: Scalars['UUID']['input']
 }
 
-/** The output of our `notificationAcknowledge` mutation. */
-export type NotificationAcknowledgePayload = {
-  __typename?: 'NotificationAcknowledgePayload'
+/** The output of our `outboxMarkProcessed` mutation. */
+export type OutboxMarkProcessedPayload = {
+  __typename?: 'OutboxMarkProcessedPayload'
   /**
    * The exact same `clientMutationId` that was provided in the mutation input,
    * unchanged and unused. May be used by a client to track mutations.
@@ -6019,6 +6458,87 @@ export enum PreferenceEventSizeOrderBy {
   RowIdDesc = 'ROW_ID_DESC',
 }
 
+/** Whether an account wants push notifications per notification type. A missing row means push is enabled. */
+export type PreferenceNotification = Node & {
+  __typename?: 'PreferenceNotification'
+  /** Reads a single `Account` that is related to this `PreferenceNotification`. */
+  accountByAccountId?: Maybe<Account>
+  /** The account the preference belongs to. */
+  accountId: Scalars['UUID']['output']
+  /** The timestamp when the preference was created. */
+  createdAt: Scalars['Datetime']['output']
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  id: Scalars['ID']['output']
+  /** Whether push notifications of the type are delivered. */
+  isPushEnabled: Scalars['Boolean']['output']
+  /** The preference's internal id. */
+  rowId: Scalars['UUID']['output']
+  /** The notification type the preference applies to. */
+  type: NotificationType
+}
+
+/**
+ * A condition to be used against `PreferenceNotification` object types. All fields
+ * are tested for equality and combined with a logical ‘and.’
+ */
+export type PreferenceNotificationCondition = {
+  /** Checks for equality with the object’s `accountId` field. */
+  accountId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `rowId` field. */
+  rowId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `type` field. */
+  type?: InputMaybe<NotificationType>
+}
+
+/** A connection to a list of `PreferenceNotification` values. */
+export type PreferenceNotificationConnection = {
+  __typename?: 'PreferenceNotificationConnection'
+  /** A list of edges which contains the `PreferenceNotification` and cursor to aid in pagination. */
+  edges: Array<PreferenceNotificationEdge>
+  /** A list of `PreferenceNotification` objects. */
+  nodes: Array<PreferenceNotification>
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo
+  /** The count of *all* `PreferenceNotification` you could get from the connection. */
+  totalCount: Scalars['Int']['output']
+}
+
+/** A `PreferenceNotification` edge in the connection. */
+export type PreferenceNotificationEdge = {
+  __typename?: 'PreferenceNotificationEdge'
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `PreferenceNotification` at the end of the edge. */
+  node: PreferenceNotification
+}
+
+/** An input for mutations affecting `PreferenceNotification` */
+export type PreferenceNotificationInput = {
+  /** The account the preference belongs to. */
+  accountId: Scalars['UUID']['input']
+  /** Whether push notifications of the type are delivered. */
+  isPushEnabled: Scalars['Boolean']['input']
+  /** The notification type the preference applies to. */
+  type: NotificationType
+}
+
+/** Methods to use when ordering `PreferenceNotification`. */
+export enum PreferenceNotificationOrderBy {
+  AccountIdAsc = 'ACCOUNT_ID_ASC',
+  AccountIdDesc = 'ACCOUNT_ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RowIdAsc = 'ROW_ID_ASC',
+  RowIdDesc = 'ROW_ID_DESC',
+}
+
+/** Represents an update to a `PreferenceNotification`. Fields that are set will be updated. */
+export type PreferenceNotificationPatch = {
+  /** Whether push notifications of the type are delivered. */
+  isPushEnabled?: InputMaybe<Scalars['Boolean']['input']>
+}
+
 /** Mapping of account ids to upload ids. */
 export type ProfilePicture = Node & {
   __typename?: 'ProfilePicture'
@@ -6139,6 +6659,12 @@ export type Query = Node & {
   accountByRowId?: Maybe<Account>
   /** Get a single `Account`. */
   accountByUsername?: Maybe<Account>
+  /** Reads a single `AccountNotification` using its globally unique `ID`. */
+  accountNotification?: Maybe<AccountNotification>
+  /** Get a single `AccountNotification`. */
+  accountNotificationByRowId?: Maybe<AccountNotification>
+  /** Returns the number of unread notifications of the invoker. */
+  accountNotificationUnreadCount?: Maybe<Scalars['Int']['output']>
   /**
    * Returns accounts with a username containing a given substring, closest matches first.
    * Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size.
@@ -6163,6 +6689,8 @@ export type Query = Node & {
   addressByRowId?: Maybe<Address>
   /** Reads and enables pagination through a set of `AccountBlock`. */
   allAccountBlocks?: Maybe<AccountBlockConnection>
+  /** Reads and enables pagination through a set of `AccountNotification`. */
+  allAccountNotifications?: Maybe<AccountNotificationConnection>
   /** Reads and enables pagination through a set of `AccountSocialNetwork`. */
   allAccountSocialNetworks?: Maybe<AccountSocialNetworkConnection>
   /** Reads and enables pagination through a set of `Account`. */
@@ -6215,6 +6743,8 @@ export type Query = Node & {
   allPreferenceEventLocations?: Maybe<PreferenceEventLocationConnection>
   /** Reads and enables pagination through a set of `PreferenceEventSize`. */
   allPreferenceEventSizes?: Maybe<PreferenceEventSizeConnection>
+  /** Reads and enables pagination through a set of `PreferenceNotification`. */
+  allPreferenceNotifications?: Maybe<PreferenceNotificationConnection>
   /** Reads and enables pagination through a set of `ProfilePicture`. */
   allProfilePictures?: Maybe<ProfilePictureConnection>
   /** Reads and enables pagination through a set of `Report`. */
@@ -6339,6 +6869,8 @@ export type Query = Node & {
   legalTermByRowId?: Maybe<LegalTerm>
   /** Fetches an object given its globally unique `ID`. */
   node?: Maybe<Node>
+  /** Returns whether an outbox event was marked as processed. */
+  outboxIsProcessed?: Maybe<Scalars['Boolean']['output']>
   /** Reads a single `PreferenceEventCategory` using its globally unique `ID`. */
   preferenceEventCategory?: Maybe<PreferenceEventCategory>
   /** Get a single `PreferenceEventCategory`. */
@@ -6363,6 +6895,12 @@ export type Query = Node & {
   preferenceEventSizeByAccountIdAndEventSize?: Maybe<PreferenceEventSize>
   /** Get a single `PreferenceEventSize`. */
   preferenceEventSizeByRowId?: Maybe<PreferenceEventSize>
+  /** Reads a single `PreferenceNotification` using its globally unique `ID`. */
+  preferenceNotification?: Maybe<PreferenceNotification>
+  /** Get a single `PreferenceNotification`. */
+  preferenceNotificationByAccountIdAndType?: Maybe<PreferenceNotification>
+  /** Get a single `PreferenceNotification`. */
+  preferenceNotificationByRowId?: Maybe<PreferenceNotification>
   /** Reads a single `ProfilePicture` using its globally unique `ID`. */
   profilePicture?: Maybe<ProfilePicture>
   /** Get a single `ProfilePicture`. */
@@ -6427,6 +6965,16 @@ export type QueryAccountByUsernameArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
+export type QueryAccountNotificationArgs = {
+  id: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAccountNotificationByRowIdArgs = {
+  rowId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
 export type QueryAccountSearchArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
@@ -6480,6 +7028,17 @@ export type QueryAllAccountBlocksArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<AccountBlockOrderBy>>
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAllAccountNotificationsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<AccountNotificationCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<AccountNotificationOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -6766,6 +7325,17 @@ export type QueryAllPreferenceEventSizesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<PreferenceEventSizeOrderBy>>
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryAllPreferenceNotificationsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<PreferenceNotificationCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<PreferenceNotificationOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -7097,6 +7667,11 @@ export type QueryNodeArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
+export type QueryOutboxIsProcessedArgs = {
+  outboxId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
 export type QueryPreferenceEventCategoryArgs = {
   id: Scalars['ID']['input']
 }
@@ -7158,6 +7733,22 @@ export type QueryPreferenceEventSizeByAccountIdAndEventSizeArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPreferenceEventSizeByRowIdArgs = {
+  rowId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPreferenceNotificationArgs = {
+  id: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPreferenceNotificationByAccountIdAndTypeArgs = {
+  accountId: Scalars['UUID']['input']
+  type: NotificationType
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPreferenceNotificationByRowIdArgs = {
   rowId: Scalars['UUID']['input']
 }
 
@@ -7351,6 +7942,53 @@ export type UpdateAccountInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>
   /** The globally unique `ID` which will identify a single `Account` to be updated. */
   id: Scalars['ID']['input']
+}
+
+/** All input for the `updateAccountNotificationByRowId` mutation. */
+export type UpdateAccountNotificationByRowIdInput = {
+  /** An object where the defined keys will be set on the `AccountNotification` being updated. */
+  accountNotificationPatch: AccountNotificationPatch
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The notification's internal id. */
+  rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `updateAccountNotification` mutation. */
+export type UpdateAccountNotificationInput = {
+  /** An object where the defined keys will be set on the `AccountNotification` being updated. */
+  accountNotificationPatch: AccountNotificationPatch
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `AccountNotification` to be updated. */
+  id: Scalars['ID']['input']
+}
+
+/** The output of our update `AccountNotification` mutation. */
+export type UpdateAccountNotificationPayload = {
+  __typename?: 'UpdateAccountNotificationPayload'
+  /** The `AccountNotification` that was updated by this mutation. */
+  accountNotification?: Maybe<AccountNotification>
+  /** An edge for our `AccountNotification`. May be used by Relay 1. */
+  accountNotificationEdge?: Maybe<AccountNotificationEdge>
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `AccountNotification` mutation. */
+export type UpdateAccountNotificationPayloadAccountNotificationEdgeArgs = {
+  orderBy?: Array<AccountNotificationOrderBy>
 }
 
 /** The output of our update `Account` mutation. */
@@ -7840,6 +8478,69 @@ export type UpdateGuestPayloadGuestEdgeArgs = {
   orderBy?: Array<GuestOrderBy>
 }
 
+/** All input for the `updatePreferenceNotificationByAccountIdAndType` mutation. */
+export type UpdatePreferenceNotificationByAccountIdAndTypeInput = {
+  /** The account the preference belongs to. */
+  accountId: Scalars['UUID']['input']
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `PreferenceNotification` being updated. */
+  preferenceNotificationPatch: PreferenceNotificationPatch
+  /** The notification type the preference applies to. */
+  type: NotificationType
+}
+
+/** All input for the `updatePreferenceNotificationByRowId` mutation. */
+export type UpdatePreferenceNotificationByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** An object where the defined keys will be set on the `PreferenceNotification` being updated. */
+  preferenceNotificationPatch: PreferenceNotificationPatch
+  /** The preference's internal id. */
+  rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `updatePreferenceNotification` mutation. */
+export type UpdatePreferenceNotificationInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `PreferenceNotification` to be updated. */
+  id: Scalars['ID']['input']
+  /** An object where the defined keys will be set on the `PreferenceNotification` being updated. */
+  preferenceNotificationPatch: PreferenceNotificationPatch
+}
+
+/** The output of our update `PreferenceNotification` mutation. */
+export type UpdatePreferenceNotificationPayload = {
+  __typename?: 'UpdatePreferenceNotificationPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `PreferenceNotification` that was updated by this mutation. */
+  preferenceNotification?: Maybe<PreferenceNotification>
+  /** An edge for our `PreferenceNotification`. May be used by Relay 1. */
+  preferenceNotificationEdge?: Maybe<PreferenceNotificationEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our update `PreferenceNotification` mutation. */
+export type UpdatePreferenceNotificationPayloadPreferenceNotificationEdgeArgs =
+  {
+    orderBy?: Array<PreferenceNotificationOrderBy>
+  }
+
 /** All input for the `updateProfilePictureByAccountId` mutation. */
 export type UpdateProfilePictureByAccountIdInput = {
   /** The account's id. */
@@ -8113,6 +8814,18 @@ export type GraphCacheKeysConfig = {
   AccountEmailAddressVerificationPayload?: (
     data: WithTypename<AccountEmailAddressVerificationPayload>,
   ) => null | string
+  AccountNotification?: (
+    data: WithTypename<AccountNotification>,
+  ) => null | string
+  AccountNotificationConnection?: (
+    data: WithTypename<AccountNotificationConnection>,
+  ) => null | string
+  AccountNotificationEdge?: (
+    data: WithTypename<AccountNotificationEdge>,
+  ) => null | string
+  AccountNotificationReadAllPayload?: (
+    data: WithTypename<AccountNotificationReadAllPayload>,
+  ) => null | string
   AccountPasswordChangePayload?: (
     data: WithTypename<AccountPasswordChangePayload>,
   ) => null | string
@@ -8212,6 +8925,9 @@ export type GraphCacheKeysConfig = {
   CreatePreferenceEventSizePayload?: (
     data: WithTypename<CreatePreferenceEventSizePayload>,
   ) => null | string
+  CreatePreferenceNotificationPayload?: (
+    data: WithTypename<CreatePreferenceNotificationPayload>,
+  ) => null | string
   CreateProfilePicturePayload?: (
     data: WithTypename<CreateProfilePicturePayload>,
   ) => null | string
@@ -8223,6 +8939,9 @@ export type GraphCacheKeysConfig = {
   ) => null | string
   DeleteAccountBlockPayload?: (
     data: WithTypename<DeleteAccountBlockPayload>,
+  ) => null | string
+  DeleteAccountNotificationPayload?: (
+    data: WithTypename<DeleteAccountNotificationPayload>,
   ) => null | string
   DeleteAccountSocialNetworkPayload?: (
     data: WithTypename<DeleteAccountSocialNetworkPayload>,
@@ -8264,6 +8983,9 @@ export type GraphCacheKeysConfig = {
   ) => null | string
   DeletePreferenceEventSizePayload?: (
     data: WithTypename<DeletePreferenceEventSizePayload>,
+  ) => null | string
+  DeletePreferenceNotificationPayload?: (
+    data: WithTypename<DeletePreferenceNotificationPayload>,
   ) => null | string
   DeleteProfilePicturePayload?: (
     data: WithTypename<DeleteProfilePicturePayload>,
@@ -8378,8 +9100,8 @@ export type GraphCacheKeysConfig = {
     data: WithTypename<LegalTermConnection>,
   ) => null | string
   LegalTermEdge?: (data: WithTypename<LegalTermEdge>) => null | string
-  NotificationAcknowledgePayload?: (
-    data: WithTypename<NotificationAcknowledgePayload>,
+  OutboxMarkProcessedPayload?: (
+    data: WithTypename<OutboxMarkProcessedPayload>,
   ) => null | string
   PageInfo?: (data: WithTypename<PageInfo>) => null | string
   PreferenceEventCategory?: (
@@ -8418,6 +9140,15 @@ export type GraphCacheKeysConfig = {
   PreferenceEventSizeEdge?: (
     data: WithTypename<PreferenceEventSizeEdge>,
   ) => null | string
+  PreferenceNotification?: (
+    data: WithTypename<PreferenceNotification>,
+  ) => null | string
+  PreferenceNotificationConnection?: (
+    data: WithTypename<PreferenceNotificationConnection>,
+  ) => null | string
+  PreferenceNotificationEdge?: (
+    data: WithTypename<PreferenceNotificationEdge>,
+  ) => null | string
   ProfilePicture?: (data: WithTypename<ProfilePicture>) => null | string
   ProfilePictureConnection?: (
     data: WithTypename<ProfilePictureConnection>,
@@ -8429,6 +9160,9 @@ export type GraphCacheKeysConfig = {
   Report?: (data: WithTypename<Report>) => null | string
   ReportConnection?: (data: WithTypename<ReportConnection>) => null | string
   ReportEdge?: (data: WithTypename<ReportEdge>) => null | string
+  UpdateAccountNotificationPayload?: (
+    data: WithTypename<UpdateAccountNotificationPayload>,
+  ) => null | string
   UpdateAccountPayload?: (
     data: WithTypename<UpdateAccountPayload>,
   ) => null | string
@@ -8452,6 +9186,9 @@ export type GraphCacheKeysConfig = {
     data: WithTypename<UpdateFriendshipPayload>,
   ) => null | string
   UpdateGuestPayload?: (data: WithTypename<UpdateGuestPayload>) => null | string
+  UpdatePreferenceNotificationPayload?: (
+    data: WithTypename<UpdatePreferenceNotificationPayload>,
+  ) => null | string
   UpdateProfilePicturePayload?: (
     data: WithTypename<UpdateProfilePicturePayload>,
   ) => null | string
@@ -8499,6 +9236,21 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       QueryAccountByUsernameArgs,
       WithTypename<Account> | string
+    >
+    accountNotification?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryAccountNotificationArgs,
+      WithTypename<AccountNotification> | string
+    >
+    accountNotificationByRowId?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryAccountNotificationByRowIdArgs,
+      WithTypename<AccountNotification> | string
+    >
+    accountNotificationUnreadCount?: GraphCacheResolver<
+      WithTypename<Query>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
     >
     accountSearch?: GraphCacheResolver<
       WithTypename<Query>,
@@ -8549,6 +9301,11 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       QueryAllAccountBlocksArgs,
       WithTypename<AccountBlockConnection> | string
+    >
+    allAccountNotifications?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryAllAccountNotificationsArgs,
+      WithTypename<AccountNotificationConnection> | string
     >
     allAccountSocialNetworks?: GraphCacheResolver<
       WithTypename<Query>,
@@ -8679,6 +9436,11 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       QueryAllPreferenceEventSizesArgs,
       WithTypename<PreferenceEventSizeConnection> | string
+    >
+    allPreferenceNotifications?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryAllPreferenceNotificationsArgs,
+      WithTypename<PreferenceNotificationConnection> | string
     >
     allProfilePictures?: GraphCacheResolver<
       WithTypename<Query>,
@@ -8990,6 +9752,7 @@ export type GraphCacheResolvers = {
       QueryNodeArgs,
       | WithTypename<Account>
       | WithTypename<AccountBlock>
+      | WithTypename<AccountNotification>
       | WithTypename<AccountSocialNetwork>
       | WithTypename<Achievement>
       | WithTypename<Address>
@@ -9014,11 +9777,17 @@ export type GraphCacheResolvers = {
       | WithTypename<PreferenceEventFormat>
       | WithTypename<PreferenceEventLocation>
       | WithTypename<PreferenceEventSize>
+      | WithTypename<PreferenceNotification>
       | WithTypename<ProfilePicture>
       | WithTypename<Query>
       | WithTypename<Report>
       | WithTypename<Upload>
       | string
+    >
+    outboxIsProcessed?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryOutboxIsProcessedArgs,
+      Scalars['Boolean']['output'] | string
     >
     preferenceEventCategory?: GraphCacheResolver<
       WithTypename<Query>,
@@ -9079,6 +9848,21 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       QueryPreferenceEventSizeByRowIdArgs,
       WithTypename<PreferenceEventSize> | string
+    >
+    preferenceNotification?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryPreferenceNotificationArgs,
+      WithTypename<PreferenceNotification> | string
+    >
+    preferenceNotificationByAccountIdAndType?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryPreferenceNotificationByAccountIdAndTypeArgs,
+      WithTypename<PreferenceNotification> | string
+    >
+    preferenceNotificationByRowId?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryPreferenceNotificationByRowIdArgs,
+      WithTypename<PreferenceNotification> | string
     >
     profilePicture?: GraphCacheResolver<
       WithTypename<Query>,
@@ -9141,6 +9925,16 @@ export type GraphCacheResolvers = {
       WithTypename<Account>,
       AccountAccountBlocksByCreatedByArgs,
       WithTypename<AccountBlockConnection> | string
+    >
+    accountNotificationsByAccountId?: GraphCacheResolver<
+      WithTypename<Account>,
+      AccountAccountNotificationsByAccountIdArgs,
+      WithTypename<AccountNotificationConnection> | string
+    >
+    accountNotificationsByActorAccountId?: GraphCacheResolver<
+      WithTypename<Account>,
+      AccountAccountNotificationsByActorAccountIdArgs,
+      WithTypename<AccountNotificationConnection> | string
     >
     accountSocialNetworksByAccountId?: GraphCacheResolver<
       WithTypename<Account>,
@@ -9276,6 +10070,11 @@ export type GraphCacheResolvers = {
       WithTypename<Account>,
       AccountPreferenceEventSizesByAccountIdArgs,
       WithTypename<PreferenceEventSizeConnection> | string
+    >
+    preferenceNotificationsByAccountId?: GraphCacheResolver<
+      WithTypename<Account>,
+      AccountPreferenceNotificationsByAccountIdArgs,
+      WithTypename<PreferenceNotificationConnection> | string
     >
     profilePictureByAccountId?: GraphCacheResolver<
       WithTypename<Account>,
@@ -9486,6 +10285,139 @@ export type GraphCacheResolvers = {
       WithTypename<AccountEmailAddressVerificationPayload>,
       Record<string, never>,
       WithTypename<Query> | string
+    >
+  }
+  AccountNotification?: {
+    accountByAccountId?: GraphCacheResolver<
+      WithTypename<AccountNotification>,
+      Record<string, never>,
+      WithTypename<Account> | string
+    >
+    accountByActorAccountId?: GraphCacheResolver<
+      WithTypename<AccountNotification>,
+      Record<string, never>,
+      WithTypename<Account> | string
+    >
+    accountId?: GraphCacheResolver<
+      WithTypename<AccountNotification>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    actorAccountId?: GraphCacheResolver<
+      WithTypename<AccountNotification>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    createdAt?: GraphCacheResolver<
+      WithTypename<AccountNotification>,
+      Record<string, never>,
+      Scalars['Datetime']['output'] | string
+    >
+    eventByEventId?: GraphCacheResolver<
+      WithTypename<AccountNotification>,
+      Record<string, never>,
+      WithTypename<Event> | string
+    >
+    eventId?: GraphCacheResolver<
+      WithTypename<AccountNotification>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    friendshipByFriendshipId?: GraphCacheResolver<
+      WithTypename<AccountNotification>,
+      Record<string, never>,
+      WithTypename<Friendship> | string
+    >
+    friendshipId?: GraphCacheResolver<
+      WithTypename<AccountNotification>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    guestByGuestId?: GraphCacheResolver<
+      WithTypename<AccountNotification>,
+      Record<string, never>,
+      WithTypename<Guest> | string
+    >
+    guestId?: GraphCacheResolver<
+      WithTypename<AccountNotification>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    id?: GraphCacheResolver<
+      WithTypename<AccountNotification>,
+      Record<string, never>,
+      Scalars['ID']['output'] | string
+    >
+    payload?: GraphCacheResolver<
+      WithTypename<AccountNotification>,
+      Record<string, never>,
+      Scalars['JSON']['output'] | string
+    >
+    readAt?: GraphCacheResolver<
+      WithTypename<AccountNotification>,
+      Record<string, never>,
+      Scalars['Datetime']['output'] | string
+    >
+    rowId?: GraphCacheResolver<
+      WithTypename<AccountNotification>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    type?: GraphCacheResolver<
+      WithTypename<AccountNotification>,
+      Record<string, never>,
+      NotificationType | string
+    >
+  }
+  AccountNotificationConnection?: {
+    edges?: GraphCacheResolver<
+      WithTypename<AccountNotificationConnection>,
+      Record<string, never>,
+      Array<WithTypename<AccountNotificationEdge> | string>
+    >
+    nodes?: GraphCacheResolver<
+      WithTypename<AccountNotificationConnection>,
+      Record<string, never>,
+      Array<WithTypename<AccountNotification> | string>
+    >
+    pageInfo?: GraphCacheResolver<
+      WithTypename<AccountNotificationConnection>,
+      Record<string, never>,
+      WithTypename<PageInfo> | string
+    >
+    totalCount?: GraphCacheResolver<
+      WithTypename<AccountNotificationConnection>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
+    >
+  }
+  AccountNotificationEdge?: {
+    cursor?: GraphCacheResolver<
+      WithTypename<AccountNotificationEdge>,
+      Record<string, never>,
+      Scalars['Cursor']['output'] | string
+    >
+    node?: GraphCacheResolver<
+      WithTypename<AccountNotificationEdge>,
+      Record<string, never>,
+      WithTypename<AccountNotification> | string
+    >
+  }
+  AccountNotificationReadAllPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<AccountNotificationReadAllPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<AccountNotificationReadAllPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+    result?: GraphCacheResolver<
+      WithTypename<AccountNotificationReadAllPayload>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
     >
   }
   AccountPasswordChangePayload?: {
@@ -10549,6 +11481,28 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
+  CreatePreferenceNotificationPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<CreatePreferenceNotificationPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    preferenceNotification?: GraphCacheResolver<
+      WithTypename<CreatePreferenceNotificationPayload>,
+      Record<string, never>,
+      WithTypename<PreferenceNotification> | string
+    >
+    preferenceNotificationEdge?: GraphCacheResolver<
+      WithTypename<CreatePreferenceNotificationPayload>,
+      CreatePreferenceNotificationPayloadPreferenceNotificationEdgeArgs,
+      WithTypename<PreferenceNotificationEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<CreatePreferenceNotificationPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
   CreateProfilePicturePayload?: {
     clientMutationId?: GraphCacheResolver<
       WithTypename<CreateProfilePicturePayload>,
@@ -10638,6 +11592,33 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<DeleteAccountBlockPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  DeleteAccountNotificationPayload?: {
+    accountNotification?: GraphCacheResolver<
+      WithTypename<DeleteAccountNotificationPayload>,
+      Record<string, never>,
+      WithTypename<AccountNotification> | string
+    >
+    accountNotificationEdge?: GraphCacheResolver<
+      WithTypename<DeleteAccountNotificationPayload>,
+      DeleteAccountNotificationPayloadAccountNotificationEdgeArgs,
+      WithTypename<AccountNotificationEdge> | string
+    >
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<DeleteAccountNotificationPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    deletedAccountNotificationId?: GraphCacheResolver<
+      WithTypename<DeleteAccountNotificationPayload>,
+      Record<string, never>,
+      Scalars['ID']['output'] | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<DeleteAccountNotificationPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -11047,6 +12028,33 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
+  DeletePreferenceNotificationPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<DeletePreferenceNotificationPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    deletedPreferenceNotificationId?: GraphCacheResolver<
+      WithTypename<DeletePreferenceNotificationPayload>,
+      Record<string, never>,
+      Scalars['ID']['output'] | string
+    >
+    preferenceNotification?: GraphCacheResolver<
+      WithTypename<DeletePreferenceNotificationPayload>,
+      Record<string, never>,
+      WithTypename<PreferenceNotification> | string
+    >
+    preferenceNotificationEdge?: GraphCacheResolver<
+      WithTypename<DeletePreferenceNotificationPayload>,
+      DeletePreferenceNotificationPayloadPreferenceNotificationEdgeArgs,
+      WithTypename<PreferenceNotificationEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<DeletePreferenceNotificationPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
   DeleteProfilePicturePayload?: {
     clientMutationId?: GraphCacheResolver<
       WithTypename<DeleteProfilePicturePayload>,
@@ -11187,6 +12195,11 @@ export type GraphCacheResolvers = {
       WithTypename<Event>,
       Record<string, never>,
       WithTypename<Account> | string
+    >
+    accountNotificationsByEventId?: GraphCacheResolver<
+      WithTypename<Event>,
+      EventAccountNotificationsByEventIdArgs,
+      WithTypename<AccountNotificationConnection> | string
     >
     addressByAddressId?: GraphCacheResolver<
       WithTypename<Event>,
@@ -11985,6 +12998,11 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       WithTypename<Account> | string
     >
+    accountNotificationsByFriendshipId?: GraphCacheResolver<
+      WithTypename<Friendship>,
+      FriendshipAccountNotificationsByFriendshipIdArgs,
+      WithTypename<AccountNotificationConnection> | string
+    >
     bAccountId?: GraphCacheResolver<
       WithTypename<Friendship>,
       Record<string, never>,
@@ -12087,6 +13105,11 @@ export type GraphCacheResolvers = {
       WithTypename<Guest>,
       Record<string, never>,
       WithTypename<Account> | string
+    >
+    accountNotificationsByGuestId?: GraphCacheResolver<
+      WithTypename<Guest>,
+      GuestAccountNotificationsByGuestIdArgs,
+      WithTypename<AccountNotificationConnection> | string
     >
     attendanceByGuestId?: GraphCacheResolver<
       WithTypename<Guest>,
@@ -12620,14 +13643,14 @@ export type GraphCacheResolvers = {
       WithTypename<LegalTerm> | string
     >
   }
-  NotificationAcknowledgePayload?: {
+  OutboxMarkProcessedPayload?: {
     clientMutationId?: GraphCacheResolver<
-      WithTypename<NotificationAcknowledgePayload>,
+      WithTypename<OutboxMarkProcessedPayload>,
       Record<string, never>,
       Scalars['String']['output'] | string
     >
     query?: GraphCacheResolver<
-      WithTypename<NotificationAcknowledgePayload>,
+      WithTypename<OutboxMarkProcessedPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -12933,6 +13956,77 @@ export type GraphCacheResolvers = {
       WithTypename<PreferenceEventSize> | string
     >
   }
+  PreferenceNotification?: {
+    accountByAccountId?: GraphCacheResolver<
+      WithTypename<PreferenceNotification>,
+      Record<string, never>,
+      WithTypename<Account> | string
+    >
+    accountId?: GraphCacheResolver<
+      WithTypename<PreferenceNotification>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    createdAt?: GraphCacheResolver<
+      WithTypename<PreferenceNotification>,
+      Record<string, never>,
+      Scalars['Datetime']['output'] | string
+    >
+    id?: GraphCacheResolver<
+      WithTypename<PreferenceNotification>,
+      Record<string, never>,
+      Scalars['ID']['output'] | string
+    >
+    isPushEnabled?: GraphCacheResolver<
+      WithTypename<PreferenceNotification>,
+      Record<string, never>,
+      Scalars['Boolean']['output'] | string
+    >
+    rowId?: GraphCacheResolver<
+      WithTypename<PreferenceNotification>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    type?: GraphCacheResolver<
+      WithTypename<PreferenceNotification>,
+      Record<string, never>,
+      NotificationType | string
+    >
+  }
+  PreferenceNotificationConnection?: {
+    edges?: GraphCacheResolver<
+      WithTypename<PreferenceNotificationConnection>,
+      Record<string, never>,
+      Array<WithTypename<PreferenceNotificationEdge> | string>
+    >
+    nodes?: GraphCacheResolver<
+      WithTypename<PreferenceNotificationConnection>,
+      Record<string, never>,
+      Array<WithTypename<PreferenceNotification> | string>
+    >
+    pageInfo?: GraphCacheResolver<
+      WithTypename<PreferenceNotificationConnection>,
+      Record<string, never>,
+      WithTypename<PageInfo> | string
+    >
+    totalCount?: GraphCacheResolver<
+      WithTypename<PreferenceNotificationConnection>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
+    >
+  }
+  PreferenceNotificationEdge?: {
+    cursor?: GraphCacheResolver<
+      WithTypename<PreferenceNotificationEdge>,
+      Record<string, never>,
+      Scalars['Cursor']['output'] | string
+    >
+    node?: GraphCacheResolver<
+      WithTypename<PreferenceNotificationEdge>,
+      Record<string, never>,
+      WithTypename<PreferenceNotification> | string
+    >
+  }
   ProfilePicture?: {
     accountByAccountId?: GraphCacheResolver<
       WithTypename<ProfilePicture>,
@@ -13105,6 +14199,28 @@ export type GraphCacheResolvers = {
       WithTypename<ReportEdge>,
       Record<string, never>,
       WithTypename<Report> | string
+    >
+  }
+  UpdateAccountNotificationPayload?: {
+    accountNotification?: GraphCacheResolver<
+      WithTypename<UpdateAccountNotificationPayload>,
+      Record<string, never>,
+      WithTypename<AccountNotification> | string
+    >
+    accountNotificationEdge?: GraphCacheResolver<
+      WithTypename<UpdateAccountNotificationPayload>,
+      UpdateAccountNotificationPayloadAccountNotificationEdgeArgs,
+      WithTypename<AccountNotificationEdge> | string
+    >
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdateAccountNotificationPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<UpdateAccountNotificationPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
     >
   }
   UpdateAccountPayload?: {
@@ -13305,6 +14421,28 @@ export type GraphCacheResolvers = {
       WithTypename<Query> | string
     >
   }
+  UpdatePreferenceNotificationPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceNotificationPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    preferenceNotification?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceNotificationPayload>,
+      Record<string, never>,
+      WithTypename<PreferenceNotification> | string
+    >
+    preferenceNotificationEdge?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceNotificationPayload>,
+      UpdatePreferenceNotificationPayloadPreferenceNotificationEdgeArgs,
+      WithTypename<PreferenceNotificationEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<UpdatePreferenceNotificationPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
   UpdateProfilePicturePayload?: {
     clientMutationId?: GraphCacheResolver<
       WithTypename<UpdateProfilePicturePayload>,
@@ -13456,6 +14594,10 @@ export type GraphCacheOptimisticUpdaters = {
     MutationAccountEmailAddressVerificationArgs,
     Maybe<WithTypename<AccountEmailAddressVerificationPayload>>
   >
+  accountNotificationReadAll?: GraphCacheOptimisticMutationResolver<
+    MutationAccountNotificationReadAllArgs,
+    Maybe<WithTypename<AccountNotificationReadAllPayload>>
+  >
   accountPasswordChange?: GraphCacheOptimisticMutationResolver<
     MutationAccountPasswordChangeArgs,
     Maybe<WithTypename<AccountPasswordChangePayload>>
@@ -13556,6 +14698,10 @@ export type GraphCacheOptimisticUpdaters = {
     MutationCreatePreferenceEventSizeArgs,
     Maybe<WithTypename<CreatePreferenceEventSizePayload>>
   >
+  createPreferenceNotification?: GraphCacheOptimisticMutationResolver<
+    MutationCreatePreferenceNotificationArgs,
+    Maybe<WithTypename<CreatePreferenceNotificationPayload>>
+  >
   createProfilePicture?: GraphCacheOptimisticMutationResolver<
     MutationCreateProfilePictureArgs,
     Maybe<WithTypename<CreateProfilePicturePayload>>
@@ -13579,6 +14725,14 @@ export type GraphCacheOptimisticUpdaters = {
   deleteAccountBlockByRowId?: GraphCacheOptimisticMutationResolver<
     MutationDeleteAccountBlockByRowIdArgs,
     Maybe<WithTypename<DeleteAccountBlockPayload>>
+  >
+  deleteAccountNotification?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteAccountNotificationArgs,
+    Maybe<WithTypename<DeleteAccountNotificationPayload>>
+  >
+  deleteAccountNotificationByRowId?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteAccountNotificationByRowIdArgs,
+    Maybe<WithTypename<DeleteAccountNotificationPayload>>
   >
   deleteAccountSocialNetwork?: GraphCacheOptimisticMutationResolver<
     MutationDeleteAccountSocialNetworkArgs,
@@ -13744,6 +14898,18 @@ export type GraphCacheOptimisticUpdaters = {
     MutationDeletePreferenceEventSizeByRowIdArgs,
     Maybe<WithTypename<DeletePreferenceEventSizePayload>>
   >
+  deletePreferenceNotification?: GraphCacheOptimisticMutationResolver<
+    MutationDeletePreferenceNotificationArgs,
+    Maybe<WithTypename<DeletePreferenceNotificationPayload>>
+  >
+  deletePreferenceNotificationByAccountIdAndType?: GraphCacheOptimisticMutationResolver<
+    MutationDeletePreferenceNotificationByAccountIdAndTypeArgs,
+    Maybe<WithTypename<DeletePreferenceNotificationPayload>>
+  >
+  deletePreferenceNotificationByRowId?: GraphCacheOptimisticMutationResolver<
+    MutationDeletePreferenceNotificationByRowIdArgs,
+    Maybe<WithTypename<DeletePreferenceNotificationPayload>>
+  >
   deleteProfilePicture?: GraphCacheOptimisticMutationResolver<
     MutationDeleteProfilePictureArgs,
     Maybe<WithTypename<DeleteProfilePicturePayload>>
@@ -13792,9 +14958,9 @@ export type GraphCacheOptimisticUpdaters = {
     MutationJwtUpdateGuestAddArgs,
     Maybe<WithTypename<JwtUpdateGuestAddPayload>>
   >
-  notificationAcknowledge?: GraphCacheOptimisticMutationResolver<
-    MutationNotificationAcknowledgeArgs,
-    Maybe<WithTypename<NotificationAcknowledgePayload>>
+  outboxMarkProcessed?: GraphCacheOptimisticMutationResolver<
+    MutationOutboxMarkProcessedArgs,
+    Maybe<WithTypename<OutboxMarkProcessedPayload>>
   >
   profilePictureSet?: GraphCacheOptimisticMutationResolver<
     MutationProfilePictureSetArgs,
@@ -13811,6 +14977,14 @@ export type GraphCacheOptimisticUpdaters = {
   updateAccountByUsername?: GraphCacheOptimisticMutationResolver<
     MutationUpdateAccountByUsernameArgs,
     Maybe<WithTypename<UpdateAccountPayload>>
+  >
+  updateAccountNotification?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateAccountNotificationArgs,
+    Maybe<WithTypename<UpdateAccountNotificationPayload>>
+  >
+  updateAccountNotificationByRowId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdateAccountNotificationByRowIdArgs,
+    Maybe<WithTypename<UpdateAccountNotificationPayload>>
   >
   updateAccountSocialNetwork?: GraphCacheOptimisticMutationResolver<
     MutationUpdateAccountSocialNetworkArgs,
@@ -13900,6 +15074,18 @@ export type GraphCacheOptimisticUpdaters = {
     MutationUpdateGuestByRowIdArgs,
     Maybe<WithTypename<UpdateGuestPayload>>
   >
+  updatePreferenceNotification?: GraphCacheOptimisticMutationResolver<
+    MutationUpdatePreferenceNotificationArgs,
+    Maybe<WithTypename<UpdatePreferenceNotificationPayload>>
+  >
+  updatePreferenceNotificationByAccountIdAndType?: GraphCacheOptimisticMutationResolver<
+    MutationUpdatePreferenceNotificationByAccountIdAndTypeArgs,
+    Maybe<WithTypename<UpdatePreferenceNotificationPayload>>
+  >
+  updatePreferenceNotificationByRowId?: GraphCacheOptimisticMutationResolver<
+    MutationUpdatePreferenceNotificationByRowIdArgs,
+    Maybe<WithTypename<UpdatePreferenceNotificationPayload>>
+  >
   updateProfilePicture?: GraphCacheOptimisticMutationResolver<
     MutationUpdateProfilePictureArgs,
     Maybe<WithTypename<UpdateProfilePicturePayload>>
@@ -13964,6 +15150,18 @@ export type GraphCacheUpdaters = {
       { accountByUsername: Maybe<WithTypename<Account>> },
       QueryAccountByUsernameArgs
     >
+    accountNotification?: GraphCacheUpdateResolver<
+      { accountNotification: Maybe<WithTypename<AccountNotification>> },
+      QueryAccountNotificationArgs
+    >
+    accountNotificationByRowId?: GraphCacheUpdateResolver<
+      { accountNotificationByRowId: Maybe<WithTypename<AccountNotification>> },
+      QueryAccountNotificationByRowIdArgs
+    >
+    accountNotificationUnreadCount?: GraphCacheUpdateResolver<
+      { accountNotificationUnreadCount: Maybe<Scalars['Int']['output']> },
+      Record<string, never>
+    >
     accountSearch?: GraphCacheUpdateResolver<
       { accountSearch: Maybe<WithTypename<AccountConnection>> },
       QueryAccountSearchArgs
@@ -14009,6 +15207,14 @@ export type GraphCacheUpdaters = {
     allAccountBlocks?: GraphCacheUpdateResolver<
       { allAccountBlocks: Maybe<WithTypename<AccountBlockConnection>> },
       QueryAllAccountBlocksArgs
+    >
+    allAccountNotifications?: GraphCacheUpdateResolver<
+      {
+        allAccountNotifications: Maybe<
+          WithTypename<AccountNotificationConnection>
+        >
+      },
+      QueryAllAccountNotificationsArgs
     >
     allAccountSocialNetworks?: GraphCacheUpdateResolver<
       {
@@ -14149,6 +15355,14 @@ export type GraphCacheUpdaters = {
         >
       },
       QueryAllPreferenceEventSizesArgs
+    >
+    allPreferenceNotifications?: GraphCacheUpdateResolver<
+      {
+        allPreferenceNotifications: Maybe<
+          WithTypename<PreferenceNotificationConnection>
+        >
+      },
+      QueryAllPreferenceNotificationsArgs
     >
     allProfilePictures?: GraphCacheUpdateResolver<
       { allProfilePictures: Maybe<WithTypename<ProfilePictureConnection>> },
@@ -14413,6 +15627,7 @@ export type GraphCacheUpdaters = {
         node: Maybe<
           | WithTypename<Account>
           | WithTypename<AccountBlock>
+          | WithTypename<AccountNotification>
           | WithTypename<AccountSocialNetwork>
           | WithTypename<Achievement>
           | WithTypename<Address>
@@ -14437,6 +15652,7 @@ export type GraphCacheUpdaters = {
           | WithTypename<PreferenceEventFormat>
           | WithTypename<PreferenceEventLocation>
           | WithTypename<PreferenceEventSize>
+          | WithTypename<PreferenceNotification>
           | WithTypename<ProfilePicture>
           | WithTypename<Query>
           | WithTypename<Report>
@@ -14444,6 +15660,10 @@ export type GraphCacheUpdaters = {
         >
       },
       QueryNodeArgs
+    >
+    outboxIsProcessed?: GraphCacheUpdateResolver<
+      { outboxIsProcessed: Maybe<Scalars['Boolean']['output']> },
+      QueryOutboxIsProcessedArgs
     >
     preferenceEventCategory?: GraphCacheUpdateResolver<
       { preferenceEventCategory: Maybe<WithTypename<PreferenceEventCategory>> },
@@ -14519,6 +15739,26 @@ export type GraphCacheUpdaters = {
       { preferenceEventSizeByRowId: Maybe<WithTypename<PreferenceEventSize>> },
       QueryPreferenceEventSizeByRowIdArgs
     >
+    preferenceNotification?: GraphCacheUpdateResolver<
+      { preferenceNotification: Maybe<WithTypename<PreferenceNotification>> },
+      QueryPreferenceNotificationArgs
+    >
+    preferenceNotificationByAccountIdAndType?: GraphCacheUpdateResolver<
+      {
+        preferenceNotificationByAccountIdAndType: Maybe<
+          WithTypename<PreferenceNotification>
+        >
+      },
+      QueryPreferenceNotificationByAccountIdAndTypeArgs
+    >
+    preferenceNotificationByRowId?: GraphCacheUpdateResolver<
+      {
+        preferenceNotificationByRowId: Maybe<
+          WithTypename<PreferenceNotification>
+        >
+      },
+      QueryPreferenceNotificationByRowIdArgs
+    >
     profilePicture?: GraphCacheUpdateResolver<
       { profilePicture: Maybe<WithTypename<ProfilePicture>> },
       QueryProfilePictureArgs
@@ -14576,6 +15816,14 @@ export type GraphCacheUpdaters = {
         >
       },
       MutationAccountEmailAddressVerificationArgs
+    >
+    accountNotificationReadAll?: GraphCacheUpdateResolver<
+      {
+        accountNotificationReadAll: Maybe<
+          WithTypename<AccountNotificationReadAllPayload>
+        >
+      },
+      MutationAccountNotificationReadAllArgs
     >
     accountPasswordChange?: GraphCacheUpdateResolver<
       {
@@ -14721,6 +15969,14 @@ export type GraphCacheUpdaters = {
       },
       MutationCreatePreferenceEventSizeArgs
     >
+    createPreferenceNotification?: GraphCacheUpdateResolver<
+      {
+        createPreferenceNotification: Maybe<
+          WithTypename<CreatePreferenceNotificationPayload>
+        >
+      },
+      MutationCreatePreferenceNotificationArgs
+    >
     createProfilePicture?: GraphCacheUpdateResolver<
       {
         createProfilePicture: Maybe<WithTypename<CreateProfilePicturePayload>>
@@ -14754,6 +16010,22 @@ export type GraphCacheUpdaters = {
         >
       },
       MutationDeleteAccountBlockByRowIdArgs
+    >
+    deleteAccountNotification?: GraphCacheUpdateResolver<
+      {
+        deleteAccountNotification: Maybe<
+          WithTypename<DeleteAccountNotificationPayload>
+        >
+      },
+      MutationDeleteAccountNotificationArgs
+    >
+    deleteAccountNotificationByRowId?: GraphCacheUpdateResolver<
+      {
+        deleteAccountNotificationByRowId: Maybe<
+          WithTypename<DeleteAccountNotificationPayload>
+        >
+      },
+      MutationDeleteAccountNotificationByRowIdArgs
     >
     deleteAccountSocialNetwork?: GraphCacheUpdateResolver<
       {
@@ -15023,6 +16295,30 @@ export type GraphCacheUpdaters = {
       },
       MutationDeletePreferenceEventSizeByRowIdArgs
     >
+    deletePreferenceNotification?: GraphCacheUpdateResolver<
+      {
+        deletePreferenceNotification: Maybe<
+          WithTypename<DeletePreferenceNotificationPayload>
+        >
+      },
+      MutationDeletePreferenceNotificationArgs
+    >
+    deletePreferenceNotificationByAccountIdAndType?: GraphCacheUpdateResolver<
+      {
+        deletePreferenceNotificationByAccountIdAndType: Maybe<
+          WithTypename<DeletePreferenceNotificationPayload>
+        >
+      },
+      MutationDeletePreferenceNotificationByAccountIdAndTypeArgs
+    >
+    deletePreferenceNotificationByRowId?: GraphCacheUpdateResolver<
+      {
+        deletePreferenceNotificationByRowId: Maybe<
+          WithTypename<DeletePreferenceNotificationPayload>
+        >
+      },
+      MutationDeletePreferenceNotificationByRowIdArgs
+    >
     deleteProfilePicture?: GraphCacheUpdateResolver<
       {
         deleteProfilePicture: Maybe<WithTypename<DeleteProfilePicturePayload>>
@@ -15085,13 +16381,9 @@ export type GraphCacheUpdaters = {
       { jwtUpdateGuestAdd: Maybe<WithTypename<JwtUpdateGuestAddPayload>> },
       MutationJwtUpdateGuestAddArgs
     >
-    notificationAcknowledge?: GraphCacheUpdateResolver<
-      {
-        notificationAcknowledge: Maybe<
-          WithTypename<NotificationAcknowledgePayload>
-        >
-      },
-      MutationNotificationAcknowledgeArgs
+    outboxMarkProcessed?: GraphCacheUpdateResolver<
+      { outboxMarkProcessed: Maybe<WithTypename<OutboxMarkProcessedPayload>> },
+      MutationOutboxMarkProcessedArgs
     >
     profilePictureSet?: GraphCacheUpdateResolver<
       { profilePictureSet: Maybe<WithTypename<ProfilePictureSetPayload>> },
@@ -15108,6 +16400,22 @@ export type GraphCacheUpdaters = {
     updateAccountByUsername?: GraphCacheUpdateResolver<
       { updateAccountByUsername: Maybe<WithTypename<UpdateAccountPayload>> },
       MutationUpdateAccountByUsernameArgs
+    >
+    updateAccountNotification?: GraphCacheUpdateResolver<
+      {
+        updateAccountNotification: Maybe<
+          WithTypename<UpdateAccountNotificationPayload>
+        >
+      },
+      MutationUpdateAccountNotificationArgs
+    >
+    updateAccountNotificationByRowId?: GraphCacheUpdateResolver<
+      {
+        updateAccountNotificationByRowId: Maybe<
+          WithTypename<UpdateAccountNotificationPayload>
+        >
+      },
+      MutationUpdateAccountNotificationByRowIdArgs
     >
     updateAccountSocialNetwork?: GraphCacheUpdateResolver<
       {
@@ -15225,6 +16533,30 @@ export type GraphCacheUpdaters = {
       { updateGuestByRowId: Maybe<WithTypename<UpdateGuestPayload>> },
       MutationUpdateGuestByRowIdArgs
     >
+    updatePreferenceNotification?: GraphCacheUpdateResolver<
+      {
+        updatePreferenceNotification: Maybe<
+          WithTypename<UpdatePreferenceNotificationPayload>
+        >
+      },
+      MutationUpdatePreferenceNotificationArgs
+    >
+    updatePreferenceNotificationByAccountIdAndType?: GraphCacheUpdateResolver<
+      {
+        updatePreferenceNotificationByAccountIdAndType: Maybe<
+          WithTypename<UpdatePreferenceNotificationPayload>
+        >
+      },
+      MutationUpdatePreferenceNotificationByAccountIdAndTypeArgs
+    >
+    updatePreferenceNotificationByRowId?: GraphCacheUpdateResolver<
+      {
+        updatePreferenceNotificationByRowId: Maybe<
+          WithTypename<UpdatePreferenceNotificationPayload>
+        >
+      },
+      MutationUpdatePreferenceNotificationByRowIdArgs
+    >
     updateProfilePicture?: GraphCacheUpdateResolver<
       {
         updateProfilePicture: Maybe<WithTypename<UpdateProfilePicturePayload>>
@@ -15269,6 +16601,14 @@ export type GraphCacheUpdaters = {
     accountBlocksByCreatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
       AccountAccountBlocksByCreatedByArgs
+    >
+    accountNotificationsByAccountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Account>>,
+      AccountAccountNotificationsByAccountIdArgs
+    >
+    accountNotificationsByActorAccountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Account>>,
+      AccountAccountNotificationsByActorAccountIdArgs
     >
     accountSocialNetworksByAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
@@ -15377,6 +16717,10 @@ export type GraphCacheUpdaters = {
     preferenceEventSizesByAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
       AccountPreferenceEventSizesByAccountIdArgs
+    >
+    preferenceNotificationsByAccountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Account>>,
+      AccountPreferenceNotificationsByAccountIdArgs
     >
     profilePictureByAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
@@ -15548,6 +16892,114 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<AccountEmailAddressVerificationPayload>>,
+      Record<string, never>
+    >
+  }
+  AccountNotification?: {
+    accountByAccountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotification>>,
+      Record<string, never>
+    >
+    accountByActorAccountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotification>>,
+      Record<string, never>
+    >
+    accountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotification>>,
+      Record<string, never>
+    >
+    actorAccountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotification>>,
+      Record<string, never>
+    >
+    createdAt?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotification>>,
+      Record<string, never>
+    >
+    eventByEventId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotification>>,
+      Record<string, never>
+    >
+    eventId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotification>>,
+      Record<string, never>
+    >
+    friendshipByFriendshipId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotification>>,
+      Record<string, never>
+    >
+    friendshipId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotification>>,
+      Record<string, never>
+    >
+    guestByGuestId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotification>>,
+      Record<string, never>
+    >
+    guestId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotification>>,
+      Record<string, never>
+    >
+    id?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotification>>,
+      Record<string, never>
+    >
+    payload?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotification>>,
+      Record<string, never>
+    >
+    readAt?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotification>>,
+      Record<string, never>
+    >
+    rowId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotification>>,
+      Record<string, never>
+    >
+    type?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotification>>,
+      Record<string, never>
+    >
+  }
+  AccountNotificationConnection?: {
+    edges?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotificationConnection>>,
+      Record<string, never>
+    >
+    nodes?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotificationConnection>>,
+      Record<string, never>
+    >
+    pageInfo?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotificationConnection>>,
+      Record<string, never>
+    >
+    totalCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotificationConnection>>,
+      Record<string, never>
+    >
+  }
+  AccountNotificationEdge?: {
+    cursor?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotificationEdge>>,
+      Record<string, never>
+    >
+    node?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotificationEdge>>,
+      Record<string, never>
+    >
+  }
+  AccountNotificationReadAllPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotificationReadAllPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotificationReadAllPayload>>,
+      Record<string, never>
+    >
+    result?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<AccountNotificationReadAllPayload>>,
       Record<string, never>
     >
   }
@@ -16417,6 +17869,24 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
+  CreatePreferenceNotificationPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreatePreferenceNotificationPayload>>,
+      Record<string, never>
+    >
+    preferenceNotification?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreatePreferenceNotificationPayload>>,
+      Record<string, never>
+    >
+    preferenceNotificationEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreatePreferenceNotificationPayload>>,
+      CreatePreferenceNotificationPayloadPreferenceNotificationEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreatePreferenceNotificationPayload>>,
+      Record<string, never>
+    >
+  }
   CreateProfilePicturePayload?: {
     clientMutationId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<CreateProfilePicturePayload>>,
@@ -16490,6 +17960,28 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<DeleteAccountBlockPayload>>,
+      Record<string, never>
+    >
+  }
+  DeleteAccountNotificationPayload?: {
+    accountNotification?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountNotificationPayload>>,
+      Record<string, never>
+    >
+    accountNotificationEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountNotificationPayload>>,
+      DeleteAccountNotificationPayloadAccountNotificationEdgeArgs
+    >
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountNotificationPayload>>,
+      Record<string, never>
+    >
+    deletedAccountNotificationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountNotificationPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteAccountNotificationPayload>>,
       Record<string, never>
     >
   }
@@ -16823,6 +18315,28 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
+  DeletePreferenceNotificationPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeletePreferenceNotificationPayload>>,
+      Record<string, never>
+    >
+    deletedPreferenceNotificationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeletePreferenceNotificationPayload>>,
+      Record<string, never>
+    >
+    preferenceNotification?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeletePreferenceNotificationPayload>>,
+      Record<string, never>
+    >
+    preferenceNotificationEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeletePreferenceNotificationPayload>>,
+      DeletePreferenceNotificationPayloadPreferenceNotificationEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeletePreferenceNotificationPayload>>,
+      Record<string, never>
+    >
+  }
   DeleteProfilePicturePayload?: {
     clientMutationId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<DeleteProfilePicturePayload>>,
@@ -16937,6 +18451,10 @@ export type GraphCacheUpdaters = {
     accountByCreatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
       Record<string, never>
+    >
+    accountNotificationsByEventId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Event>>,
+      EventAccountNotificationsByEventIdArgs
     >
     addressByAddressId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
@@ -17588,6 +19106,10 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Friendship>>,
       Record<string, never>
     >
+    accountNotificationsByFriendshipId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Friendship>>,
+      FriendshipAccountNotificationsByFriendshipIdArgs
+    >
     bAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Friendship>>,
       Record<string, never>
@@ -17671,6 +19193,10 @@ export type GraphCacheUpdaters = {
     accountByUpdatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Guest>>,
       Record<string, never>
+    >
+    accountNotificationsByGuestId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Guest>>,
+      GuestAccountNotificationsByGuestIdArgs
     >
     attendanceByGuestId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Guest>>,
@@ -18105,13 +19631,13 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
-  NotificationAcknowledgePayload?: {
+  OutboxMarkProcessedPayload?: {
     clientMutationId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<NotificationAcknowledgePayload>>,
+      Maybe<WithTypename<OutboxMarkProcessedPayload>>,
       Record<string, never>
     >
     query?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<NotificationAcknowledgePayload>>,
+      Maybe<WithTypename<OutboxMarkProcessedPayload>>,
       Record<string, never>
     >
   }
@@ -18361,6 +19887,64 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
+  PreferenceNotification?: {
+    accountByAccountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<PreferenceNotification>>,
+      Record<string, never>
+    >
+    accountId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<PreferenceNotification>>,
+      Record<string, never>
+    >
+    createdAt?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<PreferenceNotification>>,
+      Record<string, never>
+    >
+    id?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<PreferenceNotification>>,
+      Record<string, never>
+    >
+    isPushEnabled?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<PreferenceNotification>>,
+      Record<string, never>
+    >
+    rowId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<PreferenceNotification>>,
+      Record<string, never>
+    >
+    type?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<PreferenceNotification>>,
+      Record<string, never>
+    >
+  }
+  PreferenceNotificationConnection?: {
+    edges?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<PreferenceNotificationConnection>>,
+      Record<string, never>
+    >
+    nodes?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<PreferenceNotificationConnection>>,
+      Record<string, never>
+    >
+    pageInfo?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<PreferenceNotificationConnection>>,
+      Record<string, never>
+    >
+    totalCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<PreferenceNotificationConnection>>,
+      Record<string, never>
+    >
+  }
+  PreferenceNotificationEdge?: {
+    cursor?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<PreferenceNotificationEdge>>,
+      Record<string, never>
+    >
+    node?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<PreferenceNotificationEdge>>,
+      Record<string, never>
+    >
+  }
   ProfilePicture?: {
     accountByAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<ProfilePicture>>,
@@ -18500,6 +20084,24 @@ export type GraphCacheUpdaters = {
     >
     node?: GraphCacheUpdateResolver<
       Maybe<WithTypename<ReportEdge>>,
+      Record<string, never>
+    >
+  }
+  UpdateAccountNotificationPayload?: {
+    accountNotification?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountNotificationPayload>>,
+      Record<string, never>
+    >
+    accountNotificationEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountNotificationPayload>>,
+      UpdateAccountNotificationPayloadAccountNotificationEdgeArgs
+    >
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountNotificationPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdateAccountNotificationPayload>>,
       Record<string, never>
     >
   }
@@ -18662,6 +20264,24 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<UpdateGuestPayload>>,
+      Record<string, never>
+    >
+  }
+  UpdatePreferenceNotificationPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceNotificationPayload>>,
+      Record<string, never>
+    >
+    preferenceNotification?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceNotificationPayload>>,
+      Record<string, never>
+    >
+    preferenceNotificationEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceNotificationPayload>>,
+      UpdatePreferenceNotificationPayloadPreferenceNotificationEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<UpdatePreferenceNotificationPayload>>,
       Record<string, never>
     >
   }

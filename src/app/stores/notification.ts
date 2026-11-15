@@ -29,8 +29,57 @@ const deleteDeviceByCreatedByAndFcmTokenMutation = graphql(`
 `)
 
 export const useNotificationStore = defineStore('notification', () => {
+  const nuxtApp = useNuxtApp()
+
   const fcmToken = ref<string>()
   const permissionState = ref<PermissionState>()
+  // Bumped when notifications may have arrived, so the bell and the inbox page fetch again.
+  const inboxRevision = ref(0)
+  // Bumped when notifications were read, which only the bell needs to know about.
+  const readRevision = ref(0)
+
+  const inboxRefresh = () => {
+    inboxRevision.value++
+  }
+
+  const readRefresh = () => {
+    readRevision.value++
+  }
+
+  // Opens a notification's deep link, which arrives from outside the app and so must stay on this site.
+  const notificationOpened = (url?: string) => {
+    if (!url || !getIsSitePath(url)) return
+
+    inboxRefresh()
+    nuxtApp.runWithContext(() => navigateTo(url))
+  }
+
+  // A foreground notification is shown as a toast, as the operating system only shows one while the app is in the background.
+  const notificationReceived = ({
+    body,
+    title,
+    url,
+  }: {
+    body?: string
+    title?: string
+    url?: string
+  }) => {
+    inboxRefresh()
+
+    if (!title) return
+
+    toast(title, {
+      ...(body ? { description: body } : {}),
+      ...(url && getIsSitePath(url)
+        ? {
+            action: {
+              label: nuxtApp.$i18n.t('globalNotificationOpen'),
+              onClick: () => notificationOpened(url),
+            },
+          }
+        : {}),
+    })
+  }
 
   // Initializes the FCM token, should only be called after a user gave notification permission
   const fcmTokenInitialize = async () => {
@@ -111,7 +160,13 @@ export const useNotificationStore = defineStore('notification', () => {
   return {
     fcmToken,
     fcmTokenInitialize,
+    inboxRefresh,
+    inboxRevision,
+    notificationOpened,
+    notificationReceived,
     permissionState,
+    readRefresh,
+    readRevision,
     registerDevice,
     unregisterDevice,
   }

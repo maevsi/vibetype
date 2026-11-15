@@ -81,6 +81,7 @@ const timeZone = useTimeZone()
 const localePath = useLocalePath()
 const store = useStore()
 const notificationStore = useNotificationStore()
+const { isFeatureEnabled } = useFeatureFlags()
 const route = useRoute()
 
 // i18n
@@ -178,15 +179,18 @@ if (import.meta.client) {
   // reads it directly off the store. It's a dependency so this watcher re-fires
   // once the token arrives, which on iOS happens asynchronously via a native
   // callback well after permission is granted and the account is signed in.
+  const isNotificationsEnabled = isFeatureEnabled('notifications')
+
   watch(
     () =>
       [
         store.signedInAccountId,
         notificationStore.permissionState,
         notificationStore.fcmToken,
+        isNotificationsEnabled.value,
       ] as const,
-    ([signedInAccountId, permissionState]) => {
-      if (signedInAccountId && permissionState === 'granted') {
+    ([signedInAccountId, permissionState, , isEnabled]) => {
+      if (isEnabled && signedInAccountId && permissionState === 'granted') {
         notificationStore.registerDevice($urql.value, signedInAccountId)
       }
     },

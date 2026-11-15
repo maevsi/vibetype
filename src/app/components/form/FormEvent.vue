@@ -440,6 +440,7 @@ const { event = undefined } = defineProps<{
 const localePath = useLocalePath()
 const { locale, t } = useI18n()
 const store = useStore()
+const { requestSoftAsk } = useNotificationPrompt()
 const timeZone = useTimeZone()
 
 // data
@@ -835,6 +836,7 @@ const form = useForm({
       }
 
       toast.success(t('eventCreateSuccess'))
+      requestSoftAsk()
 
       if (!store.signedInUsername || !value.slug)
         throw new Error(
