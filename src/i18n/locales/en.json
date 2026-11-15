@@ -6,6 +6,7 @@
   "globalErrorClipboard": "Your browser does not support modern copying to the clipboard.",
   "globalFormErrorAge18": "You must be 18 years old.",
   "globalLoading": "Loading...",
+  "globalNotificationOpen": "Open",
   "globalPlaceholderAddress": "Eventstreet 1,\n12345 Guestcity",
   "globalPlaceholderFirstName": "Firstname",
   "globalPlaceholderLastName": "Lastname",

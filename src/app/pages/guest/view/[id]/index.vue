@@ -13,6 +13,7 @@
       :error="{ message: t('errorAccountMissing'), status: 404 }"
     />
     <div v-else class="flex flex-col gap-4">
+      <NotificationSoftAsk context="guest" />
       <AppAlert v-if="isOrganizerPreview" class="flex flex-col gap-2">
         {{ t('invitationViewFor', { name: contactName }) }}
         <AppButton
@@ -311,6 +312,7 @@ const updateGuestByRowIdMutation = useMutation(
   `),
 )
 const store = useStore()
+const { requestSoftAsk } = useNotificationPrompt()
 
 const isModalGuestQrCodeOpen = ref<boolean>()
 const isOpenReportDrawer = ref<boolean>()
@@ -547,6 +549,8 @@ const update = async (id: string, guestPatch: GuestPatch) => {
   if (!getResultData(result)) return
 
   toast.success(t('success'))
+
+  if (guestPatch.feedback === InvitationFeedback.Accepted) requestSoftAsk()
 }
 
 // computations

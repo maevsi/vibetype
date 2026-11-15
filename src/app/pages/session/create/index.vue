@@ -126,6 +126,9 @@ const getSignInTarget = ({
 
   return localePath(`dashboard`, language)
 }
+const notificationStore = useNotificationStore()
+const { isFeatureEnabled } = useFeatureFlags()
+const { isOnboardingSeen } = useNotificationPrompt()
 const onSignIn = async (username: string) => {
   // the welcome page redirects signed-in accounts to the dashboard (see `pages/index.vue`), so going back there would only loop
   store.routeHistory = store.routeHistory.filter((path) => {
@@ -138,10 +141,21 @@ const onSignIn = async (username: string) => {
   })
 
   const language = await getOwnContactLanguage({ nuxtApp, store })
+  const target = getSignInTarget({ language, username })
 
-  await store.navigateWithoutHistory(getSignInTarget({ language, username }), {
-    replace: true,
-  })
+  // The first sign-in after the email address was verified follows the registration, which is when notifications are worth asking for.
+  const isOnboardingDue =
+    verified.value &&
+    isFeatureEnabled('notifications').value &&
+    notificationStore.permissionState === 'prompt' &&
+    !isOnboardingSeen()
+
+  await store.navigateWithoutHistory(
+    isOnboardingDue
+      ? localePath({ name: 'notification-enable', query: { to: target } })
+      : target,
+    { replace: true },
+  )
 }
 </script>
 

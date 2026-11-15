@@ -9,6 +9,7 @@
       :error="{ message: t('errorEventMissing'), status: 404 }"
     />
     <div v-else class="flex flex-col gap-4">
+      <NotificationSoftAsk context="event" />
       <AppButtonGroup
         v-if="!routeQueryIc && event.createdBy === store.signedInAccountId"
         class="justify-center"

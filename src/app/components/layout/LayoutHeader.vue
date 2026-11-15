@@ -42,6 +42,9 @@
         >
           {{ t('signIn') }}
         </AppButton>
+        <AppFeature v-if="store.signedInAccountId" feature="notifications">
+          <NotificationBell />
+        </AppFeature>
         <AppButton
           :aria-label="t('settings')"
           size="icon"

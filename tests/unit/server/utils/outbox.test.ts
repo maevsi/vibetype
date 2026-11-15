@@ -10,6 +10,7 @@ const sqlMock = vi.fn((strings: TemplateStringsArray) => {
   return Promise.resolve(match ? queryRows.get(match) : [])
 })
 const sendEmailMock = vi.fn()
+const sendAccountNotificationPushMock = vi.fn()
 
 vi.stubGlobal('executeQuery', (query: Promise<unknown>) => query)
 vi.stubGlobal('LOCALE_DEFAULT', 'en')
@@ -18,6 +19,11 @@ vi.stubGlobal('MAEVSI_EMAIL_RATE_LIMIT_PER_DAY', 150)
 vi.stubGlobal('MAEVSI_EMAIL_RATE_LIMIT_PER_SECOND', 14)
 vi.stubGlobal('PermanentProcessingError', PermanentProcessingError)
 vi.stubGlobal('SITE_NAME', 'vibetype')
+vi.stubGlobal(
+  'CHANNEL_NAME_ACCOUNT_NOTIFICATION',
+  'account_notification.created',
+)
+vi.stubGlobal('sendAccountNotificationPush', sendAccountNotificationPushMock)
 vi.stubGlobal('sendEmail', sendEmailMock)
 vi.stubGlobal('sql', sqlMock)
 
@@ -80,6 +86,7 @@ describe('processOutboxMessage', () => {
     queryRows.set('outbox_is_processed', [{ is_processed: false }])
     sqlMock.mockClear()
     sendEmailMock.mockReset()
+    sendAccountNotificationPushMock.mockReset()
     vi.spyOn(console, 'info').mockImplementation(() => {})
     vi.spyOn(console, 'warn').mockImplementation(() => {})
   })
@@ -172,5 +179,48 @@ describe('processOutboxMessage', () => {
       }),
     )
     expect(getQueries().at(-1)).toContain('outbox_mark_processed')
+  })
+
+  describe('account_notification.created', () => {
+    const envelope = createEnvelope({
+      aggregate_type: 'account_notification',
+      data: {},
+      type: 'account_notification.created',
+    })
+
+    test('skips but marks processed when the notification is gone', async () => {
+      await processPayload(envelope)
+
+      expect(sendAccountNotificationPushMock).not.toHaveBeenCalled()
+      expect(getQueries()).toEqual([
+        expect.stringContaining('outbox_is_processed'),
+        expect.stringContaining('outbox_account_notification_resolve'),
+        expect.stringContaining('outbox_mark_processed'),
+      ])
+    })
+
+    test('skips but marks processed when push is disabled', async () => {
+      queryRows.set('outbox_account_notification_resolve', [
+        { is_push_enabled: false },
+      ])
+
+      await processPayload(envelope)
+
+      expect(sendAccountNotificationPushMock).not.toHaveBeenCalled()
+      expect(getQueries().at(-1)).toContain('outbox_mark_processed')
+    })
+
+    test('sends the push and then marks processed', async () => {
+      const row = { is_push_enabled: true, fcm_tokens: ['a'] }
+      queryRows.set('outbox_account_notification_resolve', [row])
+
+      await processPayload(envelope)
+
+      expect(sendAccountNotificationPushMock).toHaveBeenCalledWith({
+        notification: row,
+        siteUrl: 'https://example.com',
+      })
+      expect(getQueries().at(-1)).toContain('outbox_mark_processed')
+    })
   })
 })

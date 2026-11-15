@@ -43,16 +43,14 @@ type Documents = {
   '\n    query AllEventFormatsFormEvent {\n      allEventFormats {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllEventFormatsFormEventDocument
   '\n    mutation CreateGuestContact($input: CreateContactInput!) {\n      createContact(input: $input) {\n        contact {\n          ...ContactItem\n        }\n      }\n    }\n  ': typeof types.CreateGuestContactDocument
   '\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.CreateGuestsDocument
-  '\n    mutation AccountPasswordChange($input: AccountPasswordChangeInput!) {\n      accountPasswordChange(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountPasswordChangeDocument
   '\n    mutation AccountPasswordReset($input: AccountPasswordResetInput!) {\n      accountPasswordReset(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountPasswordResetDocument
   '\n    mutation AccountPasswordResetRequest(\n      $input: AccountPasswordResetRequestInput!\n    ) {\n      accountPasswordResetRequest(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountPasswordResetRequestDocument
   '\n    mutation DeleteGuestByRowId($input: DeleteGuestByRowIdInput!) {\n      deleteGuestByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteGuestByRowIdDocument
   '\n    query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n      allGuests(\n        after: $after\n        condition: { eventId: $eventId }\n        first: $first\n      ) {\n        nodes {\n          ...GuestItem\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n    }\n  ': typeof types.AllGuestsDocument
   '\n    mutation Invite($input: InviteInput!) {\n      invite(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.InviteDocument
   '\n    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          feedback\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.UpdateGuestByRowIdFeedbackDocument
-  '\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllPreferenceEventSizesDocument
-  '\n    mutation CreatePreferenceEventSize(\n      $input: CreatePreferenceEventSizeInput!\n    ) {\n      createPreferenceEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.CreatePreferenceEventSizeDocument
-  '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeletePreferenceEventSizeByAccountIdAndEventSizeDocument
+  '\n    mutation AcceptFriendship($input: UpdateFriendshipByRowIdInput!) {\n      updateFriendshipByRowId(input: $input) {\n        friendship {\n          id\n          rowId\n          status\n        }\n      }\n    }\n  ': typeof types.AcceptFriendshipDocument
+  '\n    mutation DeclineFriendship($input: DeleteFriendshipByRowIdInput!) {\n      deleteFriendshipByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeclineFriendshipDocument
   '\n    query AllEventCategories {\n      allEventCategories {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllEventCategoriesDocument
   '\n    mutation CreatePreferenceEventCategory(\n      $input: CreatePreferenceEventCategoryInput!\n    ) {\n      createPreferenceEventCategory(input: $input) {\n        preferenceEventCategory {\n          ...PreferenceEventCategoryItem\n        }\n      }\n    }\n  ': typeof types.CreatePreferenceEventCategoryDocument
   '\n      mutation DeletePreferenceEventCategoryByAccountIdAndCategoryId(\n        $input: DeletePreferenceEventCategoryByAccountIdAndCategoryIdInput!\n      ) {\n        deletePreferenceEventCategoryByAccountIdAndCategoryId(input: $input) {\n          deletedPreferenceEventCategoryId\n        }\n      }\n    ': typeof types.DeletePreferenceEventCategoryByAccountIdAndCategoryIdDocument
@@ -61,6 +59,9 @@ type Documents = {
   '\n    mutation DeletePreferenceEventFormatByAccountIdAndFormatId(\n      $input: DeletePreferenceEventFormatByAccountIdAndFormatIdInput!\n    ) {\n      deletePreferenceEventFormatByAccountIdAndFormatId(input: $input) {\n        deletedPreferenceEventFormatId\n      }\n    }\n  ': typeof types.DeletePreferenceEventFormatByAccountIdAndFormatIdDocument
   '\n    mutation CreatePreferenceEventLocation(\n      $input: CreatePreferenceEventLocationInput!\n    ) {\n      createPreferenceEventLocation(input: $input) {\n        preferenceEventLocation {\n          ...PreferenceEventLocationItem\n        }\n      }\n    }\n  ': typeof types.CreatePreferenceEventLocationDocument
   '\n    mutation DeletePreferenceEventLocationByRowId(\n      $input: DeletePreferenceEventLocationByRowIdInput!\n    ) {\n      deletePreferenceEventLocationByRowId(input: $input) {\n        deletedPreferenceEventLocationId\n      }\n    }\n  ': typeof types.DeletePreferenceEventLocationByRowIdDocument
+  '\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllPreferenceEventSizesDocument
+  '\n    mutation CreatePreferenceEventSize(\n      $input: CreatePreferenceEventSizeInput!\n    ) {\n      createPreferenceEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.CreatePreferenceEventSizeDocument
+  '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeletePreferenceEventSizeByAccountIdAndEventSizeDocument
   '\n    mutation DeleteUploadByRowId($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteUploadByRowIdDocument
   '\n    query AccountUploadQuotaBytes {\n      accountUploadQuotaBytes\n    }\n  ': typeof types.AccountUploadQuotaBytesDocument
   '\n    query AllUploads($after: Cursor, $first: Int!, $createdBy: UUID) {\n      allUploads(\n        after: $after\n        condition: { createdBy: $createdBy }\n        first: $first\n      ) {\n        nodes {\n          id\n          rowId\n          sizeByte\n          storageKey\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n    }\n  ': typeof types.AllUploadsDocument
@@ -69,6 +70,15 @@ type Documents = {
   '\n  query OwnContact($accountId: UUID!) {\n    contactByCreatedByAndAccountId(\n      accountId: $accountId\n      createdBy: $accountId\n    ) {\n      id\n      language\n      rowId\n    }\n  }\n': typeof types.OwnContactDocument
   '\n  mutation UpdateOwnContactLanguage($input: UpdateContactByRowIdInput!) {\n    updateContactByRowId(input: $input) {\n      contact {\n        id\n        language\n        rowId\n      }\n    }\n  }\n': typeof types.UpdateOwnContactLanguageDocument
   '\n    mutation JwtUpdateGuestAddGuest($input: JwtUpdateGuestAddInput!) {\n      jwtUpdateGuestAdd(input: $input) {\n        result\n      }\n    }\n  ': typeof types.JwtUpdateGuestAddGuestDocument
+  '\n  query AllDevices {\n    allDevices(orderBy: LAST_SEEN_AT_DESC) {\n      nodes {\n        fcmToken\n        id\n        label\n        lastSeenAt\n        platform\n        rowId\n      }\n    }\n  }\n': typeof types.AllDevicesDocument
+  '\n  mutation DeleteDeviceByRowId($input: DeleteDeviceByRowIdInput!) {\n    deleteDeviceByRowId(input: $input) {\n      clientMutationId\n    }\n  }\n': typeof types.DeleteDeviceByRowIdDocument
+  '\n  query AllAccountNotifications($after: Cursor, $first: Int!) {\n    allAccountNotifications(\n      after: $after\n      first: $first\n      orderBy: CREATED_AT_DESC\n    ) {\n      nodes {\n        actorAccountId\n        createdAt\n        eventId\n        friendshipId\n        guestId\n        id\n        payload\n        readAt\n        rowId\n        type\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n': typeof types.AllAccountNotificationsDocument
+  '\n  query AccountNotificationUnreadCount {\n    accountNotificationUnreadCount\n  }\n': typeof types.AccountNotificationUnreadCountDocument
+  '\n  mutation UpdateAccountNotificationReadAt(\n    $input: UpdateAccountNotificationByRowIdInput!\n  ) {\n    updateAccountNotificationByRowId(input: $input) {\n      accountNotification {\n        id\n        readAt\n        rowId\n      }\n    }\n  }\n': typeof types.UpdateAccountNotificationReadAtDocument
+  '\n  mutation AccountNotificationReadAll(\n    $input: AccountNotificationReadAllInput!\n  ) {\n    accountNotificationReadAll(input: $input) {\n      result\n    }\n  }\n': typeof types.AccountNotificationReadAllDocument
+  '\n  query AllPreferenceNotifications {\n    allPreferenceNotifications {\n      nodes {\n        accountId\n        id\n        isPushEnabled\n        rowId\n        type\n      }\n    }\n  }\n': typeof types.AllPreferenceNotificationsDocument
+  '\n  mutation CreatePreferenceNotification(\n    $input: CreatePreferenceNotificationInput!\n  ) {\n    createPreferenceNotification(input: $input) {\n      preferenceNotification {\n        accountId\n        id\n        isPushEnabled\n        rowId\n        type\n      }\n    }\n  }\n': typeof types.CreatePreferenceNotificationDocument
+  '\n  mutation UpdatePreferenceNotificationByRowId(\n    $input: UpdatePreferenceNotificationByRowIdInput!\n  ) {\n    updatePreferenceNotificationByRowId(input: $input) {\n      preferenceNotification {\n        accountId\n        id\n        isPushEnabled\n        rowId\n        type\n      }\n    }\n  }\n': typeof types.UpdatePreferenceNotificationByRowIdDocument
   '\n    query AccountEdit($username: String!) {\n      accountByUsername(username: $username) {\n        description\n        id\n        imprintUrl\n        profilePictureByAccountId {\n          id\n          rowId\n          uploadByUploadId {\n            id\n            rowId\n            storageKey\n          }\n        }\n        rowId\n        username\n      }\n    }\n  ': typeof types.AccountEditDocument
   '\n    mutation CreateProfilePicture($input: CreateProfilePictureInput!) {\n      createProfilePicture(input: $input) {\n        profilePicture {\n          accountByAccountId {\n            id\n            profilePictureByAccountId {\n              id\n              rowId\n            }\n            rowId\n          }\n          id\n          rowId\n          uploadId\n        }\n      }\n    }\n  ': typeof types.CreateProfilePictureDocument
   '\n    mutation UpdateAccountByRowId($input: UpdateAccountByRowIdInput!) {\n      updateAccountByRowId(input: $input) {\n        account {\n          description\n          id\n          imprintUrl\n          rowId\n        }\n      }\n    }\n  ': typeof types.UpdateAccountByRowIdDocument
@@ -89,9 +99,8 @@ type Documents = {
   '\n    mutation UpdateGuestByRowId($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          feedback\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.UpdateGuestByRowIdDocument
   '\n    query GuestEvent($id: UUID!) {\n      guestByRowId(rowId: $id) {\n        contactByContactId {\n          accountByAccountId {\n            id\n            rowId\n            username\n          }\n          createdBy\n          firstName\n          id\n          lastName\n          nickname\n          rowId\n        }\n        eventByEventId {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          addressByAddressId {\n            id\n            location {\n              latitude\n              longitude\n            }\n            name\n            rowId\n          }\n          createdBy\n          description\n          end\n          eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {\n            nodes {\n              categoryId\n              eventCategoryByCategoryId {\n                id\n                name\n              }\n              id\n            }\n          }\n          eventFavoritesByEventId(first: 1) {\n            nodes {\n              createdBy\n              id\n              rowId\n            }\n          }\n          eventFormatMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {\n            nodes {\n              eventFormatByFormatId {\n                id\n                name\n              }\n              formatId\n              id\n            }\n          }\n          id\n          isArchived\n          isInPerson\n          isRemote\n          name\n          rowId\n          slug\n          start\n          url\n          visibility\n        }\n        feedback\n        id\n        rowId\n      }\n    }\n  ': typeof types.GuestEventDocument
   '\n    mutation AchievementUnlock($input: AchievementUnlockInput!) {\n      achievementUnlock(input: $input) {\n        clientMutationId\n        result\n      }\n    }\n  ': typeof types.AchievementUnlockDocument
-  '\n  query DeviceByCreatedByAndFcmToken($createdBy: UUID!, $fcmToken: String!) {\n    deviceByCreatedByAndFcmToken(createdBy: $createdBy, fcmToken: $fcmToken) {\n      id\n    }\n  }\n': typeof types.DeviceByCreatedByAndFcmTokenDocument
-  '\n  mutation CreateDevice($input: CreateDeviceInput!) {\n    createDevice(input: $input) {\n      clientMutationId\n    }\n  }\n': typeof types.CreateDeviceDocument
-  '\n  mutation DeleteDeviceByCreatedByAndFcmToken(\n    $input: DeleteDeviceByCreatedByAndFcmTokenInput!\n  ) {\n    deleteDeviceByCreatedByAndFcmToken(input: $input) {\n      clientMutationId\n    }\n  }\n': typeof types.DeleteDeviceByCreatedByAndFcmTokenDocument
+  '\n  mutation DeviceRegister($input: DeviceRegisterInput!) {\n    deviceRegister(input: $input) {\n      result {\n        id\n      }\n    }\n  }\n': typeof types.DeviceRegisterDocument
+  '\n  mutation DeleteDeviceByFcmToken($input: DeleteDeviceByFcmTokenInput!) {\n    deleteDeviceByFcmToken(input: $input) {\n      clientMutationId\n    }\n  }\n': typeof types.DeleteDeviceByFcmTokenDocument
   '\n  query AccountByUsername($username: String!) {\n    accountByUsername(username: $username) {\n      id\n      rowId\n    }\n  }\n': typeof types.AccountByUsernameDocument
   '\n  query EventByCreatedByAndSlug($createdBy: UUID!, $slug: String!) {\n    eventByCreatedByAndSlug(createdBy: $createdBy, slug: $slug) {\n      id\n    }\n  }\n': typeof types.EventByCreatedByAndSlugDocument
   '\n  query AccountsSitemap($after: Cursor, $first: Int!) {\n    allAccounts(after: $after, first: $first, orderBy: ROW_ID_ASC) {\n      nodes {\n        username\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n': typeof types.AccountsSitemapDocument
@@ -171,8 +180,6 @@ const documents: Documents = {
     types.CreateGuestContactDocument,
   '\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          id\n          rowId\n        }\n      }\n    }\n  ':
     types.CreateGuestsDocument,
-  '\n    mutation AccountPasswordChange($input: AccountPasswordChangeInput!) {\n      accountPasswordChange(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
-    types.AccountPasswordChangeDocument,
   '\n    mutation AccountPasswordReset($input: AccountPasswordResetInput!) {\n      accountPasswordReset(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.AccountPasswordResetDocument,
   '\n    mutation AccountPasswordResetRequest(\n      $input: AccountPasswordResetRequestInput!\n    ) {\n      accountPasswordResetRequest(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
@@ -185,12 +192,10 @@ const documents: Documents = {
     types.InviteDocument,
   '\n    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          feedback\n          id\n          rowId\n        }\n      }\n    }\n  ':
     types.UpdateGuestByRowIdFeedbackDocument,
-  '\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ':
-    types.AllPreferenceEventSizesDocument,
-  '\n    mutation CreatePreferenceEventSize(\n      $input: CreatePreferenceEventSizeInput!\n    ) {\n      createPreferenceEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
-    types.CreatePreferenceEventSizeDocument,
-  '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
-    types.DeletePreferenceEventSizeByAccountIdAndEventSizeDocument,
+  '\n    mutation AcceptFriendship($input: UpdateFriendshipByRowIdInput!) {\n      updateFriendshipByRowId(input: $input) {\n        friendship {\n          id\n          rowId\n          status\n        }\n      }\n    }\n  ':
+    types.AcceptFriendshipDocument,
+  '\n    mutation DeclineFriendship($input: DeleteFriendshipByRowIdInput!) {\n      deleteFriendshipByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
+    types.DeclineFriendshipDocument,
   '\n    query AllEventCategories {\n      allEventCategories {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ':
     types.AllEventCategoriesDocument,
   '\n    mutation CreatePreferenceEventCategory(\n      $input: CreatePreferenceEventCategoryInput!\n    ) {\n      createPreferenceEventCategory(input: $input) {\n        preferenceEventCategory {\n          ...PreferenceEventCategoryItem\n        }\n      }\n    }\n  ':
@@ -207,6 +212,12 @@ const documents: Documents = {
     types.CreatePreferenceEventLocationDocument,
   '\n    mutation DeletePreferenceEventLocationByRowId(\n      $input: DeletePreferenceEventLocationByRowIdInput!\n    ) {\n      deletePreferenceEventLocationByRowId(input: $input) {\n        deletedPreferenceEventLocationId\n      }\n    }\n  ':
     types.DeletePreferenceEventLocationByRowIdDocument,
+  '\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ':
+    types.AllPreferenceEventSizesDocument,
+  '\n    mutation CreatePreferenceEventSize(\n      $input: CreatePreferenceEventSizeInput!\n    ) {\n      createPreferenceEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
+    types.CreatePreferenceEventSizeDocument,
+  '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
+    types.DeletePreferenceEventSizeByAccountIdAndEventSizeDocument,
   '\n    mutation DeleteUploadByRowId($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.DeleteUploadByRowIdDocument,
   '\n    query AccountUploadQuotaBytes {\n      accountUploadQuotaBytes\n    }\n  ':
@@ -223,6 +234,24 @@ const documents: Documents = {
     types.UpdateOwnContactLanguageDocument,
   '\n    mutation JwtUpdateGuestAddGuest($input: JwtUpdateGuestAddInput!) {\n      jwtUpdateGuestAdd(input: $input) {\n        result\n      }\n    }\n  ':
     types.JwtUpdateGuestAddGuestDocument,
+  '\n  query AllDevices {\n    allDevices(orderBy: LAST_SEEN_AT_DESC) {\n      nodes {\n        fcmToken\n        id\n        label\n        lastSeenAt\n        platform\n        rowId\n      }\n    }\n  }\n':
+    types.AllDevicesDocument,
+  '\n  mutation DeleteDeviceByRowId($input: DeleteDeviceByRowIdInput!) {\n    deleteDeviceByRowId(input: $input) {\n      clientMutationId\n    }\n  }\n':
+    types.DeleteDeviceByRowIdDocument,
+  '\n  query AllAccountNotifications($after: Cursor, $first: Int!) {\n    allAccountNotifications(\n      after: $after\n      first: $first\n      orderBy: CREATED_AT_DESC\n    ) {\n      nodes {\n        actorAccountId\n        createdAt\n        eventId\n        friendshipId\n        guestId\n        id\n        payload\n        readAt\n        rowId\n        type\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n':
+    types.AllAccountNotificationsDocument,
+  '\n  query AccountNotificationUnreadCount {\n    accountNotificationUnreadCount\n  }\n':
+    types.AccountNotificationUnreadCountDocument,
+  '\n  mutation UpdateAccountNotificationReadAt(\n    $input: UpdateAccountNotificationByRowIdInput!\n  ) {\n    updateAccountNotificationByRowId(input: $input) {\n      accountNotification {\n        id\n        readAt\n        rowId\n      }\n    }\n  }\n':
+    types.UpdateAccountNotificationReadAtDocument,
+  '\n  mutation AccountNotificationReadAll(\n    $input: AccountNotificationReadAllInput!\n  ) {\n    accountNotificationReadAll(input: $input) {\n      result\n    }\n  }\n':
+    types.AccountNotificationReadAllDocument,
+  '\n  query AllPreferenceNotifications {\n    allPreferenceNotifications {\n      nodes {\n        accountId\n        id\n        isPushEnabled\n        rowId\n        type\n      }\n    }\n  }\n':
+    types.AllPreferenceNotificationsDocument,
+  '\n  mutation CreatePreferenceNotification(\n    $input: CreatePreferenceNotificationInput!\n  ) {\n    createPreferenceNotification(input: $input) {\n      preferenceNotification {\n        accountId\n        id\n        isPushEnabled\n        rowId\n        type\n      }\n    }\n  }\n':
+    types.CreatePreferenceNotificationDocument,
+  '\n  mutation UpdatePreferenceNotificationByRowId(\n    $input: UpdatePreferenceNotificationByRowIdInput!\n  ) {\n    updatePreferenceNotificationByRowId(input: $input) {\n      preferenceNotification {\n        accountId\n        id\n        isPushEnabled\n        rowId\n        type\n      }\n    }\n  }\n':
+    types.UpdatePreferenceNotificationByRowIdDocument,
   '\n    query AccountEdit($username: String!) {\n      accountByUsername(username: $username) {\n        description\n        id\n        imprintUrl\n        profilePictureByAccountId {\n          id\n          rowId\n          uploadByUploadId {\n            id\n            rowId\n            storageKey\n          }\n        }\n        rowId\n        username\n      }\n    }\n  ':
     types.AccountEditDocument,
   '\n    mutation CreateProfilePicture($input: CreateProfilePictureInput!) {\n      createProfilePicture(input: $input) {\n        profilePicture {\n          accountByAccountId {\n            id\n            profilePictureByAccountId {\n              id\n              rowId\n            }\n            rowId\n          }\n          id\n          rowId\n          uploadId\n        }\n      }\n    }\n  ':
@@ -263,12 +292,10 @@ const documents: Documents = {
     types.GuestEventDocument,
   '\n    mutation AchievementUnlock($input: AchievementUnlockInput!) {\n      achievementUnlock(input: $input) {\n        clientMutationId\n        result\n      }\n    }\n  ':
     types.AchievementUnlockDocument,
-  '\n  query DeviceByCreatedByAndFcmToken($createdBy: UUID!, $fcmToken: String!) {\n    deviceByCreatedByAndFcmToken(createdBy: $createdBy, fcmToken: $fcmToken) {\n      id\n    }\n  }\n':
-    types.DeviceByCreatedByAndFcmTokenDocument,
-  '\n  mutation CreateDevice($input: CreateDeviceInput!) {\n    createDevice(input: $input) {\n      clientMutationId\n    }\n  }\n':
-    types.CreateDeviceDocument,
-  '\n  mutation DeleteDeviceByCreatedByAndFcmToken(\n    $input: DeleteDeviceByCreatedByAndFcmTokenInput!\n  ) {\n    deleteDeviceByCreatedByAndFcmToken(input: $input) {\n      clientMutationId\n    }\n  }\n':
-    types.DeleteDeviceByCreatedByAndFcmTokenDocument,
+  '\n  mutation DeviceRegister($input: DeviceRegisterInput!) {\n    deviceRegister(input: $input) {\n      result {\n        id\n      }\n    }\n  }\n':
+    types.DeviceRegisterDocument,
+  '\n  mutation DeleteDeviceByFcmToken($input: DeleteDeviceByFcmTokenInput!) {\n    deleteDeviceByFcmToken(input: $input) {\n      clientMutationId\n    }\n  }\n':
+    types.DeleteDeviceByFcmTokenDocument,
   '\n  query AccountByUsername($username: String!) {\n    accountByUsername(username: $username) {\n      id\n      rowId\n    }\n  }\n':
     types.AccountByUsernameDocument,
   '\n  query EventByCreatedByAndSlug($createdBy: UUID!, $slug: String!) {\n    eventByCreatedByAndSlug(createdBy: $createdBy, slug: $slug) {\n      id\n    }\n  }\n':
@@ -501,12 +528,6 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    mutation AccountPasswordChange($input: AccountPasswordChangeInput!) {\n      accountPasswordChange(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
-): (typeof documents)['\n    mutation AccountPasswordChange($input: AccountPasswordChangeInput!) {\n      accountPasswordChange(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
   source: '\n    mutation AccountPasswordReset($input: AccountPasswordResetInput!) {\n      accountPasswordReset(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
 ): (typeof documents)['\n    mutation AccountPasswordReset($input: AccountPasswordResetInput!) {\n      accountPasswordReset(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
 /**
@@ -543,20 +564,14 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ',
-): (typeof documents)['\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ']
+  source: '\n    mutation AcceptFriendship($input: UpdateFriendshipByRowIdInput!) {\n      updateFriendshipByRowId(input: $input) {\n        friendship {\n          id\n          rowId\n          status\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation AcceptFriendship($input: UpdateFriendshipByRowIdInput!) {\n      updateFriendshipByRowId(input: $input) {\n        friendship {\n          id\n          rowId\n          status\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    mutation CreatePreferenceEventSize(\n      $input: CreatePreferenceEventSizeInput!\n    ) {\n      createPreferenceEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
-): (typeof documents)['\n    mutation CreatePreferenceEventSize(\n      $input: CreatePreferenceEventSizeInput!\n    ) {\n      createPreferenceEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
-): (typeof documents)['\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
+  source: '\n    mutation DeclineFriendship($input: DeleteFriendshipByRowIdInput!) {\n      deleteFriendshipByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation DeclineFriendship($input: DeleteFriendshipByRowIdInput!) {\n      deleteFriendshipByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -609,6 +624,24 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
+  source: '\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    query AllPreferenceEventSizes {\n      allPreferenceEventSizes {\n        nodes {\n          eventSize\n          id\n          rowId\n        }\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    mutation CreatePreferenceEventSize(\n      $input: CreatePreferenceEventSizeInput!\n    ) {\n      createPreferenceEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation CreatePreferenceEventSize(\n      $input: CreatePreferenceEventSizeInput!\n    ) {\n      createPreferenceEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation DeletePreferenceEventSizeByAccountIdAndEventSize(\n      $input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput!\n    ) {\n      deletePreferenceEventSizeByAccountIdAndEventSize(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
   source: '\n    mutation DeleteUploadByRowId($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
 ): (typeof documents)['\n    mutation DeleteUploadByRowId($input: DeleteUploadByRowIdInput!) {\n      deleteUploadByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
 /**
@@ -653,6 +686,60 @@ export function graphql(
 export function graphql(
   source: '\n    mutation JwtUpdateGuestAddGuest($input: JwtUpdateGuestAddInput!) {\n      jwtUpdateGuestAdd(input: $input) {\n        result\n      }\n    }\n  ',
 ): (typeof documents)['\n    mutation JwtUpdateGuestAddGuest($input: JwtUpdateGuestAddInput!) {\n      jwtUpdateGuestAdd(input: $input) {\n        result\n      }\n    }\n  ']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query AllDevices {\n    allDevices(orderBy: LAST_SEEN_AT_DESC) {\n      nodes {\n        fcmToken\n        id\n        label\n        lastSeenAt\n        platform\n        rowId\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query AllDevices {\n    allDevices(orderBy: LAST_SEEN_AT_DESC) {\n      nodes {\n        fcmToken\n        id\n        label\n        lastSeenAt\n        platform\n        rowId\n      }\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  mutation DeleteDeviceByRowId($input: DeleteDeviceByRowIdInput!) {\n    deleteDeviceByRowId(input: $input) {\n      clientMutationId\n    }\n  }\n',
+): (typeof documents)['\n  mutation DeleteDeviceByRowId($input: DeleteDeviceByRowIdInput!) {\n    deleteDeviceByRowId(input: $input) {\n      clientMutationId\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query AllAccountNotifications($after: Cursor, $first: Int!) {\n    allAccountNotifications(\n      after: $after\n      first: $first\n      orderBy: CREATED_AT_DESC\n    ) {\n      nodes {\n        actorAccountId\n        createdAt\n        eventId\n        friendshipId\n        guestId\n        id\n        payload\n        readAt\n        rowId\n        type\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query AllAccountNotifications($after: Cursor, $first: Int!) {\n    allAccountNotifications(\n      after: $after\n      first: $first\n      orderBy: CREATED_AT_DESC\n    ) {\n      nodes {\n        actorAccountId\n        createdAt\n        eventId\n        friendshipId\n        guestId\n        id\n        payload\n        readAt\n        rowId\n        type\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query AccountNotificationUnreadCount {\n    accountNotificationUnreadCount\n  }\n',
+): (typeof documents)['\n  query AccountNotificationUnreadCount {\n    accountNotificationUnreadCount\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  mutation UpdateAccountNotificationReadAt(\n    $input: UpdateAccountNotificationByRowIdInput!\n  ) {\n    updateAccountNotificationByRowId(input: $input) {\n      accountNotification {\n        id\n        readAt\n        rowId\n      }\n    }\n  }\n',
+): (typeof documents)['\n  mutation UpdateAccountNotificationReadAt(\n    $input: UpdateAccountNotificationByRowIdInput!\n  ) {\n    updateAccountNotificationByRowId(input: $input) {\n      accountNotification {\n        id\n        readAt\n        rowId\n      }\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  mutation AccountNotificationReadAll(\n    $input: AccountNotificationReadAllInput!\n  ) {\n    accountNotificationReadAll(input: $input) {\n      result\n    }\n  }\n',
+): (typeof documents)['\n  mutation AccountNotificationReadAll(\n    $input: AccountNotificationReadAllInput!\n  ) {\n    accountNotificationReadAll(input: $input) {\n      result\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  query AllPreferenceNotifications {\n    allPreferenceNotifications {\n      nodes {\n        accountId\n        id\n        isPushEnabled\n        rowId\n        type\n      }\n    }\n  }\n',
+): (typeof documents)['\n  query AllPreferenceNotifications {\n    allPreferenceNotifications {\n      nodes {\n        accountId\n        id\n        isPushEnabled\n        rowId\n        type\n      }\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  mutation CreatePreferenceNotification(\n    $input: CreatePreferenceNotificationInput!\n  ) {\n    createPreferenceNotification(input: $input) {\n      preferenceNotification {\n        accountId\n        id\n        isPushEnabled\n        rowId\n        type\n      }\n    }\n  }\n',
+): (typeof documents)['\n  mutation CreatePreferenceNotification(\n    $input: CreatePreferenceNotificationInput!\n  ) {\n    createPreferenceNotification(input: $input) {\n      preferenceNotification {\n        accountId\n        id\n        isPushEnabled\n        rowId\n        type\n      }\n    }\n  }\n']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: '\n  mutation UpdatePreferenceNotificationByRowId(\n    $input: UpdatePreferenceNotificationByRowIdInput!\n  ) {\n    updatePreferenceNotificationByRowId(input: $input) {\n      preferenceNotification {\n        accountId\n        id\n        isPushEnabled\n        rowId\n        type\n      }\n    }\n  }\n',
+): (typeof documents)['\n  mutation UpdatePreferenceNotificationByRowId(\n    $input: UpdatePreferenceNotificationByRowIdInput!\n  ) {\n    updatePreferenceNotificationByRowId(input: $input) {\n      preferenceNotification {\n        accountId\n        id\n        isPushEnabled\n        rowId\n        type\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -777,20 +864,14 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  query DeviceByCreatedByAndFcmToken($createdBy: UUID!, $fcmToken: String!) {\n    deviceByCreatedByAndFcmToken(createdBy: $createdBy, fcmToken: $fcmToken) {\n      id\n    }\n  }\n',
-): (typeof documents)['\n  query DeviceByCreatedByAndFcmToken($createdBy: UUID!, $fcmToken: String!) {\n    deviceByCreatedByAndFcmToken(createdBy: $createdBy, fcmToken: $fcmToken) {\n      id\n    }\n  }\n']
+  source: '\n  mutation DeviceRegister($input: DeviceRegisterInput!) {\n    deviceRegister(input: $input) {\n      result {\n        id\n      }\n    }\n  }\n',
+): (typeof documents)['\n  mutation DeviceRegister($input: DeviceRegisterInput!) {\n    deviceRegister(input: $input) {\n      result {\n        id\n      }\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n  mutation CreateDevice($input: CreateDeviceInput!) {\n    createDevice(input: $input) {\n      clientMutationId\n    }\n  }\n',
-): (typeof documents)['\n  mutation CreateDevice($input: CreateDeviceInput!) {\n    createDevice(input: $input) {\n      clientMutationId\n    }\n  }\n']
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
-  source: '\n  mutation DeleteDeviceByCreatedByAndFcmToken(\n    $input: DeleteDeviceByCreatedByAndFcmTokenInput!\n  ) {\n    deleteDeviceByCreatedByAndFcmToken(input: $input) {\n      clientMutationId\n    }\n  }\n',
-): (typeof documents)['\n  mutation DeleteDeviceByCreatedByAndFcmToken(\n    $input: DeleteDeviceByCreatedByAndFcmTokenInput!\n  ) {\n    deleteDeviceByCreatedByAndFcmToken(input: $input) {\n      clientMutationId\n    }\n  }\n']
+  source: '\n  mutation DeleteDeviceByFcmToken($input: DeleteDeviceByFcmTokenInput!) {\n    deleteDeviceByFcmToken(input: $input) {\n      clientMutationId\n    }\n  }\n',
+): (typeof documents)['\n  mutation DeleteDeviceByFcmToken($input: DeleteDeviceByFcmTokenInput!) {\n    deleteDeviceByFcmToken(input: $input) {\n      clientMutationId\n    }\n  }\n']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

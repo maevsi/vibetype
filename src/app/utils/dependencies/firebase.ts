@@ -1,5 +1,5 @@
 import { getApps, initializeApp } from 'firebase/app'
-import { getMessaging, getToken } from 'firebase/messaging'
+import { getMessaging, getToken, onMessage } from 'firebase/messaging'
 
 // Idempotent: `requestFcmToken` initializes on demand, so it cannot run before
 // the default app exists (`app/no-app`).
@@ -27,3 +27,15 @@ export const requestFcmToken = async () => {
 
   return token
 }
+
+// Resolves with the unsubscribe function. While a window is focused, Firebase hands pushes to it instead of the service worker, which is why no operating system notification shows then.
+export const onForegroundMessage = (
+  callback: (message: { body?: string; title?: string; url?: string }) => void,
+) =>
+  onMessage(getMessaging(initializeFirebaseClient()), (payload) =>
+    callback({
+      body: payload.notification?.body ?? payload.data?.body,
+      title: payload.notification?.title ?? payload.data?.title,
+      url: payload.data?.url ?? payload.fcmOptions?.link,
+    }),
+  )

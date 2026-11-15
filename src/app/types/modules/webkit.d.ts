@@ -6,6 +6,8 @@ declare global {
   }
 
   interface WindowEventMap {
+    'push-notification': CustomEvent<unknown>
+    'push-notification-click': CustomEvent<unknown>
     'push-permission-request': CustomEvent<string>
     'push-permission-state': CustomEvent<string>
     'push-token': CustomEvent<string>
