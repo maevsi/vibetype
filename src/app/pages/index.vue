@@ -128,8 +128,7 @@
           <NuxtLinkLocale
             class="font-semibold text-link underline"
             to="docs-legal-terms"
-            >{{ t('terms') }}</NuxtLinkLocale
-          >{{ t('legalComma') }}
+            >{{ t('terms') }}</NuxtLinkLocale>{{ t('legalComma') }}
           <NuxtLinkLocale
             class="font-semibold text-link underline"
             to="docs-legal-imprint"
