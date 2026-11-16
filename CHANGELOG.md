@@ -1,3 +1,9 @@
+## [17.4.0](https://github.com/maevsi/vibetype/compare/17.3.6...17.4.0) (2026-11-16)
+
+### Features
+
+* **layout:** add a create button to the bottom navigation ([#2625](https://github.com/maevsi/vibetype/issues/2625)) ([334db0d](https://github.com/maevsi/vibetype/commit/334db0d617a8001ef8e3c828940e99a6e19796f9))
+
 ## [17.3.6](https://github.com/maevsi/vibetype/compare/17.3.5...17.3.6) (2026-11-15)
 
 ### Bug Fixes
