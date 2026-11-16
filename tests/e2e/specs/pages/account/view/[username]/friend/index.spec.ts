@@ -13,6 +13,7 @@ import { waitForGraphqlOperation } from '#tests/e2e/utils/tests'
 
 const PAGE_PATH = `/account/view/${TESTING_ACCOUNT_USERNAME}/friend`
 const { accepted, requestReceived, requestSent } = TESTING_FRIENDSHIP_ACCOUNTS
+const CLOSE_FRIEND_ROW_ID = '9a8b7c6d-5e4f-4a3b-8c2d-1e0f9a8b7c6d'
 
 appTest.describe('signed out', () => {
   appTest('asks to sign in', async ({ defaultPage }) => {
@@ -134,6 +135,85 @@ authenticatedTest.describe('own friends', () => {
   )
 })
 
+// the testing api keeps no state, so the marking it returns once a friend is marked is made up here
+authenticatedTest.describe('close friends', () => {
+  authenticatedTest(
+    'marks a friend as close and unmarks them again',
+    async ({ defaultPage }) => {
+      const { page } = defaultPage
+
+      await defaultPage.goto(PAGE_PATH)
+
+      const toggle = page.getByRole('button', {
+        name: `Mark ${accepted.username} as a close friend`,
+      })
+
+      await expect(toggle).toHaveAttribute('aria-pressed', 'false')
+      const closeFriends = [
+        {
+          friendshipId: accepted.rowId,
+          id: 'e2e-close-friend-id',
+          rowId: CLOSE_FRIEND_ROW_ID,
+          __typename: 'CloseFriend',
+        },
+      ]
+
+      await page.route('**/graphql?*', (route) =>
+        new URL(route.request().url()).searchParams
+          .get('query')
+          ?.startsWith('query CloseFriends')
+          ? route.fulfill({
+              json: {
+                data: {
+                  allCloseFriends: {
+                    nodes: closeFriends,
+                    pageInfo: {
+                      endCursor: null,
+                      hasNextPage: false,
+                      __typename: 'PageInfo',
+                    },
+                    __typename: 'CloseFriendConnection',
+                  },
+                },
+              },
+            })
+          : route.fallback(),
+      )
+      // the marking is gone once the delete request went out
+      page.on('request', (request) => {
+        if (
+          request.method() === 'POST' &&
+          request.postDataJSON()?.operationName === 'DeleteCloseFriendByRowId'
+        )
+          closeFriends.length = 0
+      })
+
+      const [createRequest] = await Promise.all([
+        waitForGraphqlOperation(page, 'CreateCloseFriend'),
+        toggle.click(),
+      ])
+
+      expect(createRequest.postDataJSON().variables.input).toEqual({
+        closeFriend: {
+          createdBy: TESTING_ACCOUNT_ROW_ID,
+          friendshipId: accepted.rowId,
+        },
+      })
+      await expect(toggle).toHaveAttribute('aria-pressed', 'true')
+
+      const [deleteRequest] = await Promise.all([
+        waitForGraphqlOperation(page, 'DeleteCloseFriendByRowId'),
+        toggle.click(),
+      ])
+
+      expect(deleteRequest.postDataJSON().variables.input).toEqual({
+        rowId: CLOSE_FRIEND_ROW_ID,
+      })
+      await expect(toggle).toHaveAttribute('aria-pressed', 'false')
+    },
+  )
+})
+
 authenticatedTest.describe("another account's friends", () => {
   authenticatedTest(
     'lists the friends they accepted without actions',
@@ -155,6 +235,9 @@ authenticatedTest.describe("another account's friends", () => {
       ).toHaveCount(0)
       await expect(
         page.getByRole('region', { name: 'Friend requests' }),
+      ).toHaveCount(0)
+      await expect(
+        page.getByRole('button', { name: /as a close friend$/ }),
       ).toHaveCount(0)
     },
   )

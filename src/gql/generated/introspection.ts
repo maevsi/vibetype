@@ -560,6 +560,74 @@ export default {
             ],
           },
           {
+            name: 'closeFriendsByCreatedBy',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                name: 'CloseFriendConnection',
+                kind: 'OBJECT',
+                ofType: null,
+              },
+            },
+            args: [
+              {
+                name: 'after',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'before',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'condition',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'first',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'last',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'offset',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'LIST',
+                  ofType: {
+                    kind: 'NON_NULL',
+                    ofType: {
+                      kind: 'SCALAR',
+                      name: 'Any',
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
             name: 'contactsByAccountId',
             type: {
               kind: 'NON_NULL',
@@ -3842,6 +3910,184 @@ export default {
       },
       {
         kind: 'OBJECT',
+        name: 'CloseFriend',
+        fields: [
+          {
+            name: 'accountByCreatedBy',
+            type: {
+              kind: 'OBJECT',
+              name: 'Account',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'createdAt',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'createdBy',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'friendshipByFriendshipId',
+            type: {
+              kind: 'OBJECT',
+              name: 'Friendship',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'friendshipId',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'id',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'rowId',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [
+          {
+            kind: 'INTERFACE',
+            name: 'Node',
+          },
+        ],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'CloseFriendConnection',
+        fields: [
+          {
+            name: 'edges',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'LIST',
+                ofType: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    name: 'CloseFriendEdge',
+                    kind: 'OBJECT',
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'nodes',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'LIST',
+                ofType: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    name: 'CloseFriend',
+                    kind: 'OBJECT',
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'pageInfo',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                name: 'PageInfo',
+                kind: 'OBJECT',
+                ofType: null,
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'totalCount',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'CloseFriendEdge',
+        fields: [
+          {
+            name: 'cursor',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'node',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                name: 'CloseFriend',
+                kind: 'OBJECT',
+                ofType: null,
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
         name: 'Contact',
         fields: [
           {
@@ -4471,6 +4717,65 @@ export default {
               name: 'Any',
             },
             args: [],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
+        name: 'CreateCloseFriendPayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'closeFriend',
+            type: {
+              kind: 'OBJECT',
+              name: 'CloseFriend',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'closeFriendEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'CloseFriendEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
           },
           {
             name: 'query',
@@ -5729,6 +6034,73 @@ export default {
       },
       {
         kind: 'OBJECT',
+        name: 'DeleteCloseFriendPayload',
+        fields: [
+          {
+            name: 'clientMutationId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'closeFriend',
+            type: {
+              kind: 'OBJECT',
+              name: 'CloseFriend',
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: 'closeFriendEdge',
+            type: {
+              kind: 'OBJECT',
+              name: 'CloseFriendEdge',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'LIST',
+                    ofType: {
+                      kind: 'NON_NULL',
+                      ofType: {
+                        kind: 'SCALAR',
+                        name: 'Any',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'deletedCloseFriendId',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
+            name: 'query',
+            type: {
+              kind: 'OBJECT',
+              name: 'Query',
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: 'OBJECT',
         name: 'DeleteContactPayload',
         fields: [
           {
@@ -6955,6 +7327,40 @@ export default {
               name: 'Any',
             },
             args: [],
+          },
+          {
+            name: 'attendees',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                name: 'AccountConnection',
+                kind: 'OBJECT',
+                ofType: null,
+              },
+            },
+            args: [
+              {
+                name: 'after',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'first',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'offset',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+            ],
           },
           {
             name: 'createdAt',
@@ -9472,6 +9878,74 @@ export default {
             args: [],
           },
           {
+            name: 'closeFriendsByFriendshipId',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                name: 'CloseFriendConnection',
+                kind: 'OBJECT',
+                ofType: null,
+              },
+            },
+            args: [
+              {
+                name: 'after',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'before',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'condition',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'first',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'last',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'offset',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'LIST',
+                  ofType: {
+                    kind: 'NON_NULL',
+                    ofType: {
+                      kind: 'SCALAR',
+                      name: 'Any',
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
             name: 'createdAt',
             type: {
               kind: 'NON_NULL',
@@ -9855,6 +10329,17 @@ export default {
           },
           {
             name: 'id',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+          {
+            name: 'isGhost',
             type: {
               kind: 'NON_NULL',
               ofType: {
@@ -10888,6 +11373,26 @@ export default {
             ],
           },
           {
+            name: 'createCloseFriend',
+            type: {
+              kind: 'OBJECT',
+              name: 'CreateCloseFriendPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
             name: 'createContact',
             type: {
               kind: 'OBJECT',
@@ -11372,6 +11877,66 @@ export default {
             type: {
               kind: 'OBJECT',
               name: 'DeleteAddressPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'deleteCloseFriend',
+            type: {
+              kind: 'OBJECT',
+              name: 'DeleteCloseFriendPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'deleteCloseFriendByCreatedByAndFriendshipId',
+            type: {
+              kind: 'OBJECT',
+              name: 'DeleteCloseFriendPayload',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'input',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'deleteCloseFriendByRowId',
+            type: {
+              kind: 'OBJECT',
+              name: 'DeleteCloseFriendPayload',
               ofType: null,
             },
             args: [
@@ -13075,6 +13640,10 @@ export default {
           {
             kind: 'OBJECT',
             name: 'Attendance',
+          },
+          {
+            kind: 'OBJECT',
+            name: 'CloseFriend',
           },
           {
             kind: 'OBJECT',
@@ -14963,6 +15532,71 @@ export default {
             ],
           },
           {
+            name: 'allCloseFriends',
+            type: {
+              kind: 'OBJECT',
+              name: 'CloseFriendConnection',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'after',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'before',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'condition',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'first',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'last',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'offset',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'orderBy',
+                type: {
+                  kind: 'LIST',
+                  ofType: {
+                    kind: 'NON_NULL',
+                    ofType: {
+                      kind: 'SCALAR',
+                      name: 'Any',
+                    },
+                  },
+                },
+              },
+            ],
+          },
+          {
             name: 'allContacts',
             type: {
               kind: 'OBJECT',
@@ -16522,6 +17156,76 @@ export default {
               },
             },
             args: [],
+          },
+          {
+            name: 'closeFriend',
+            type: {
+              kind: 'OBJECT',
+              name: 'CloseFriend',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'id',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'closeFriendByCreatedByAndFriendshipId',
+            type: {
+              kind: 'OBJECT',
+              name: 'CloseFriend',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'createdBy',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+              {
+                name: 'friendshipId',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: 'closeFriendByRowId',
+            type: {
+              kind: 'OBJECT',
+              name: 'CloseFriend',
+              ofType: null,
+            },
+            args: [
+              {
+                name: 'rowId',
+                type: {
+                  kind: 'NON_NULL',
+                  ofType: {
+                    kind: 'SCALAR',
+                    name: 'Any',
+                  },
+                },
+              },
+            ],
           },
           {
             name: 'contact',

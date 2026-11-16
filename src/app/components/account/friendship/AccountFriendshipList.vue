@@ -58,6 +58,24 @@
             <AccountCard :account class="min-w-0 flex-1" />
             <AppButton
               v-if="isOwnList"
+              :aria-label="t('closeFriend', { username: account.username })"
+              :aria-pressed="closeFriendRowIds.has(account.friendshipId)"
+              :disabled="isPending || closeFriendsQuery.fetching.value"
+              size="small"
+              :variant="
+                closeFriendRowIds.has(account.friendshipId)
+                  ? 'primary'
+                  : 'secondary'
+              "
+              @click="toggleCloseFriend(account)"
+            >
+              <AppIconHeartSolid
+                v-if="closeFriendRowIds.has(account.friendshipId)"
+              />
+              <AppIconHeart v-else />
+            </AppButton>
+            <AppButton
+              v-if="isOwnList"
               :aria-label="t('friendRemove', { username: account.username })"
               :disabled="isPending"
               size="small"
@@ -93,10 +111,13 @@
 </template>
 
 <script setup lang="ts">
+import { useMutation } from '@urql/vue'
+
 import { graphql } from '~~/gql/generated'
 import { FriendshipStatus } from '~~/gql/generated/graphcache'
 
 type FriendAccount = { rowId: string; username: string }
+type Friend = FriendAccount & { friendshipId: string }
 
 // compiler
 const { accountId, signedInAccountId, username } = defineProps<{
@@ -133,6 +154,7 @@ const friendshipsQuery = useApiQuery({
             username
           }
           id
+          rowId
         }
         pageInfo {
           endCursor
@@ -151,6 +173,7 @@ const friendshipsQuery = useApiQuery({
             username
           }
           id
+          rowId
           status
         }
         pageInfo {
@@ -208,9 +231,44 @@ watch(
     if (pageInfo?.hasNextPage) afterRequests.value = pageInfo.endCursor
   },
 )
+// The markings are only visible to the account that made them, so there is
+// nothing to query on another account's list. As with the requests, all pages
+// are loaded one after another to know every marked friend.
+// A refetch from the current cursor drops the earlier pages, so more than one
+// page (100) of markings is the ceiling; upgrade by appending the created
+// marking to the cache from the mutation's payload instead of refetching.
+const afterCloseFriends = ref<string | null>()
+const closeFriendsQuery = useApiQuery({
+  pause: computed(() => !isOwnList.value),
+  query: graphql(`
+    query CloseFriends($after: Cursor, $first: Int!) {
+      allCloseFriends(after: $after, first: $first) {
+        nodes {
+          friendshipId
+          id
+          rowId
+        }
+        pageInfo {
+          endCursor
+          hasNextPage
+        }
+      }
+    }
+  `),
+  variables: computed(() => ({
+    after: afterCloseFriends.value,
+    first: ITEMS_PER_PAGE_LARGE,
+  })),
+})
+watch(
+  () => closeFriendsQuery.data.value?.allCloseFriends?.pageInfo,
+  (pageInfo) => {
+    if (pageInfo?.hasNextPage) afterCloseFriends.value = pageInfo.endCursor
+  },
+)
 const api = await useApiData([
   friendshipsQuery,
-  ...(isOwnList.value ? [friendshipRequestsQuery] : []),
+  ...(isOwnList.value ? [friendshipRequestsQuery, closeFriendsQuery] : []),
 ])
 const friendshipsAccepted = computed(
   () => friendshipsQuery.data.value?.friendshipsAccepted,
@@ -222,15 +280,29 @@ const friendshipsCreated = computed(
 // loading more only ever appends to the list.
 const friends = computed(() =>
   [
-    ...(friendshipsAccepted.value?.nodes.map(
-      (friendship) => friendship.accountByCreatedBy,
-    ) ?? []),
+    ...(friendshipsAccepted.value?.nodes.map((friendship) => ({
+      account: friendship.accountByCreatedBy,
+      friendshipId: friendship.rowId,
+    })) ?? []),
     ...((!friendshipsAccepted.value?.pageInfo.hasNextPage &&
       friendshipsCreated.value?.nodes
         .filter((friendship) => friendship.status === FriendshipStatus.Accepted)
-        .map((friendship) => friendship.accountByUpdatedBy)) ||
+        .map((friendship) => ({
+          account: friendship.accountByUpdatedBy,
+          friendshipId: friendship.rowId,
+        }))) ||
       []),
-  ].filter(isNeitherNullNorUndefined),
+  ].flatMap<Friend>(({ account, friendshipId }) =>
+    account ? [{ ...account, friendshipId }] : [],
+  ),
+)
+const closeFriendRowIds = computed(
+  () =>
+    new Map(
+      closeFriendsQuery.data.value?.allCloseFriends?.nodes.map(
+        (closeFriend) => [closeFriend.friendshipId, closeFriend.rowId],
+      ),
+    ),
 )
 const friendshipRequests = computed(() =>
   isOwnList.value
@@ -266,8 +338,35 @@ watchEffect(() => {
 })
 
 // mutations
-const { acceptFriendship, deleteFriendship, isPending } =
-  useFriendshipMutations()
+const {
+  acceptFriendship,
+  deleteFriendship,
+  isPending: isFriendshipPending,
+} = useFriendshipMutations()
+const createCloseFriendMutation = useMutation(
+  graphql(`
+    mutation CreateCloseFriend($input: CreateCloseFriendInput!) {
+      createCloseFriend(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
+const deleteCloseFriendMutation = useMutation(
+  graphql(`
+    mutation DeleteCloseFriendByRowId($input: DeleteCloseFriendByRowIdInput!) {
+      deleteCloseFriendByRowId(input: $input) {
+        clientMutationId
+      }
+    }
+  `),
+)
+const isPending = computed(
+  () =>
+    isFriendshipPending.value ||
+    createCloseFriendMutation.fetching.value ||
+    deleteCloseFriendMutation.fetching.value,
+)
 const { t } = useI18n()
 const executeUrqlRequest = useExecuteUrqlRequest()
 const { polite } = useAnnouncer()
@@ -281,6 +380,7 @@ const refetch = () =>
           friendshipRequestsQuery.executeQuery({
             requestPolicy: 'network-only',
           }),
+          closeFriendsQuery.executeQuery({ requestPolicy: 'network-only' }),
         ]
       : []),
   ])
@@ -311,6 +411,40 @@ const decline = async (account: FriendAccount) => {
   polite(t('declined', { username: account.username }))
 }
 
+const toggleCloseFriend = async (friend: Friend) => {
+  const closeFriendRowId = closeFriendRowIds.value.get(friend.friendshipId)
+  const errorMessageI18n = t('errorCloseFriend')
+  const result = closeFriendRowId
+    ? await executeUrqlRequest({
+        errorMessageI18n,
+        request: deleteCloseFriendMutation.executeMutation({
+          input: { rowId: closeFriendRowId },
+        }),
+      })
+    : await executeUrqlRequest({
+        errorMessageI18n,
+        request: createCloseFriendMutation.executeMutation({
+          input: {
+            closeFriend: {
+              createdBy: signedInAccountId,
+              friendshipId: friend.friendshipId,
+            },
+          },
+        }),
+      })
+
+  if (!result) {
+    await refetch()
+    return
+  }
+
+  polite(
+    closeFriendRowId
+      ? t('closeFriendRemoved', { username: friend.username })
+      : t('closeFriendAdded', { username: friend.username }),
+  )
+}
+
 // drawer
 const isRemoveDrawerOpen = ref<boolean>()
 const friendRemoveAccount = ref<FriendAccount>()
@@ -327,9 +461,13 @@ const localePath = useLocalePath()
 de:
   accept: Annehmen
   accepted: Du bist jetzt mit {username} befreundet.
+  closeFriend: '{username} als engen Freund markieren'
+  closeFriendAdded: '{username} wird benachrichtigt, wenn du zu einer öffentlichen Veranstaltung zusagst.'
+  closeFriendRemoved: '{username} ist kein enger Freund mehr.'
   decline: Ablehnen
   declined: Die Freundschaftsanfrage von {username} wurde abgelehnt.
   errorAccept: Die Freundschaftsanfrage konnte nicht angenommen werden!
+  errorCloseFriend: Die Markierung als enger Freund konnte nicht geändert werden!
   errorDecline: Die Freundschaftsanfrage konnte nicht abgelehnt werden!
   friendRemove: '{username} als Freund entfernen'
   friends: Freunde
@@ -343,9 +481,13 @@ de:
 en:
   accept: Accept
   accepted: You are now friends with {username}.
+  closeFriend: Mark {username} as a close friend
+  closeFriendAdded: '{username} will be notified when you attend a public event.'
+  closeFriendRemoved: '{username} is no longer a close friend.'
   decline: Decline
   declined: The friend request from {username} was declined.
   errorAccept: The friend request could not be accepted!
+  errorCloseFriend: The close friend marking could not be changed!
   errorDecline: The friend request could not be declined!
   friendRemove: Remove {username} from your friends
   friends: Friends

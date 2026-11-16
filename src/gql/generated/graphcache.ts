@@ -45,6 +45,8 @@ export type Account = Node & {
   appsByCreatedBy: AppConnection
   /** Reads and enables pagination through a set of `Attendance`. */
   attendancesByUpdatedBy: AttendanceConnection
+  /** Reads and enables pagination through a set of `CloseFriend`. */
+  closeFriendsByCreatedBy: CloseFriendConnection
   /** Reads and enables pagination through a set of `Contact`. */
   contactsByAccountId: ContactConnection
   /** Reads and enables pagination through a set of `Contact`. */
@@ -187,6 +189,17 @@ export type AccountAttendancesByUpdatedByArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<AttendanceOrderBy>>
+}
+
+/** Public account data. */
+export type AccountCloseFriendsByCreatedByArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<CloseFriendCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<CloseFriendOrderBy>>
 }
 
 /** Public account data. */
@@ -1232,6 +1245,81 @@ export type AttendancePatch = {
   checkedOut?: InputMaybe<Scalars['Boolean']['input']>
 }
 
+/** An account's marking of a friend as close. The marking is private: the friend cannot see it, and each of the two friends marks the other independently. It ends together with the friendship. */
+export type CloseFriend = Node & {
+  __typename?: 'CloseFriend'
+  /** Reads a single `Account` that is related to this `CloseFriend`. */
+  accountByCreatedBy?: Maybe<Account>
+  /** Timestamp of when the close friend marking was created. */
+  createdAt: Scalars['Datetime']['output']
+  /** The account that marked the friend as close. */
+  createdBy: Scalars['UUID']['output']
+  /** Reads a single `Friendship` that is related to this `CloseFriend`. */
+  friendshipByFriendshipId?: Maybe<Friendship>
+  /** The friendship whose other account is marked as close. */
+  friendshipId: Scalars['UUID']['output']
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  id: Scalars['ID']['output']
+  /** The close friend marking's internal id. */
+  rowId: Scalars['UUID']['output']
+}
+
+/**
+ * A condition to be used against `CloseFriend` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type CloseFriendCondition = {
+  /** Checks for equality with the object’s `createdBy` field. */
+  createdBy?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `friendshipId` field. */
+  friendshipId?: InputMaybe<Scalars['UUID']['input']>
+  /** Checks for equality with the object’s `rowId` field. */
+  rowId?: InputMaybe<Scalars['UUID']['input']>
+}
+
+/** A connection to a list of `CloseFriend` values. */
+export type CloseFriendConnection = {
+  __typename?: 'CloseFriendConnection'
+  /** A list of edges which contains the `CloseFriend` and cursor to aid in pagination. */
+  edges: Array<CloseFriendEdge>
+  /** A list of `CloseFriend` objects. */
+  nodes: Array<CloseFriend>
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo
+  /** The count of *all* `CloseFriend` you could get from the connection. */
+  totalCount: Scalars['Int']['output']
+}
+
+/** A `CloseFriend` edge in the connection. */
+export type CloseFriendEdge = {
+  __typename?: 'CloseFriendEdge'
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>
+  /** The `CloseFriend` at the end of the edge. */
+  node: CloseFriend
+}
+
+/** An input for mutations affecting `CloseFriend` */
+export type CloseFriendInput = {
+  /** The account that marked the friend as close. */
+  createdBy: Scalars['UUID']['input']
+  /** The friendship whose other account is marked as close. */
+  friendshipId: Scalars['UUID']['input']
+}
+
+/** Methods to use when ordering `CloseFriend`. */
+export enum CloseFriendOrderBy {
+  CreatedByAsc = 'CREATED_BY_ASC',
+  CreatedByDesc = 'CREATED_BY_DESC',
+  FriendshipIdAsc = 'FRIENDSHIP_ID_ASC',
+  FriendshipIdDesc = 'FRIENDSHIP_ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RowIdAsc = 'ROW_ID_ASC',
+  RowIdDesc = 'ROW_ID_DESC',
+}
+
 /** Stores contact information related to accounts, including personal details, communication preferences, and metadata. */
 export type Contact = Node & {
   __typename?: 'Contact'
@@ -1540,6 +1628,38 @@ export type CreateAttendancePayload = {
 /** The output of our create `Attendance` mutation. */
 export type CreateAttendancePayloadAttendanceEdgeArgs = {
   orderBy?: Array<AttendanceOrderBy>
+}
+
+/** All input for the create `CloseFriend` mutation. */
+export type CreateCloseFriendInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The `CloseFriend` to be created by this mutation. */
+  closeFriend: CloseFriendInput
+}
+
+/** The output of our create `CloseFriend` mutation. */
+export type CreateCloseFriendPayload = {
+  __typename?: 'CreateCloseFriendPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `CloseFriend` that was created by this mutation. */
+  closeFriend?: Maybe<CloseFriend>
+  /** An edge for our `CloseFriend`. May be used by Relay 1. */
+  closeFriendEdge?: Maybe<CloseFriendEdge>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our create `CloseFriend` mutation. */
+export type CreateCloseFriendPayloadCloseFriendEdgeArgs = {
+  orderBy?: Array<CloseFriendOrderBy>
 }
 
 /** All input for the create `Contact` mutation. */
@@ -2257,6 +2377,63 @@ export type DeleteAddressPayload = {
 /** The output of our delete `Address` mutation. */
 export type DeleteAddressPayloadAddressEdgeArgs = {
   orderBy?: Array<AddressOrderBy>
+}
+
+/** All input for the `deleteCloseFriendByCreatedByAndFriendshipId` mutation. */
+export type DeleteCloseFriendByCreatedByAndFriendshipIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The account that marked the friend as close. */
+  createdBy: Scalars['UUID']['input']
+  /** The friendship whose other account is marked as close. */
+  friendshipId: Scalars['UUID']['input']
+}
+
+/** All input for the `deleteCloseFriendByRowId` mutation. */
+export type DeleteCloseFriendByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The close friend marking's internal id. */
+  rowId: Scalars['UUID']['input']
+}
+
+/** All input for the `deleteCloseFriend` mutation. */
+export type DeleteCloseFriendInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>
+  /** The globally unique `ID` which will identify a single `CloseFriend` to be deleted. */
+  id: Scalars['ID']['input']
+}
+
+/** The output of our delete `CloseFriend` mutation. */
+export type DeleteCloseFriendPayload = {
+  __typename?: 'DeleteCloseFriendPayload'
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>
+  /** The `CloseFriend` that was deleted by this mutation. */
+  closeFriend?: Maybe<CloseFriend>
+  /** An edge for our `CloseFriend`. May be used by Relay 1. */
+  closeFriendEdge?: Maybe<CloseFriendEdge>
+  deletedCloseFriendId?: Maybe<Scalars['ID']['output']>
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>
+}
+
+/** The output of our delete `CloseFriend` mutation. */
+export type DeleteCloseFriendPayloadCloseFriendEdgeArgs = {
+  orderBy?: Array<CloseFriendOrderBy>
 }
 
 /** All input for the `deleteContactByCreatedByAndAccountId` mutation. */
@@ -3185,6 +3362,8 @@ export type Event = Node & {
   addressByAddressId?: Maybe<Address>
   /** Optional reference to the physical address of the event. */
   addressId?: Maybe<Scalars['UUID']['output']>
+  /** The accounts that accepted to take part in the event and are not in ghost mode. Visible to every account that can see the event. */
+  attendees: AccountConnection
   /** Timestamp of when the event was created, defaults to the current timestamp. */
   createdAt: Scalars['Datetime']['output']
   /** The event creator's id. */
@@ -3234,6 +3413,13 @@ export type Event = Node & {
   url?: Maybe<Scalars['String']['output']>
   /** The event's visibility. */
   visibility: EventVisibility
+}
+
+/** An event. */
+export type EventAttendeesArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
 }
 
 /** An event. */
@@ -4092,6 +4278,8 @@ export type Friendship = Node & {
   accountByCreatedBy?: Maybe<Account>
   /** Reads a single `Account` that is related to this `Friendship`. */
   accountByUpdatedBy?: Maybe<Account>
+  /** Reads and enables pagination through a set of `CloseFriend`. */
+  closeFriendsByFriendshipId: CloseFriendConnection
   /** Timestamp of when the friendship was requested. */
   createdAt: Scalars['Datetime']['output']
   /** The account that requested the friendship. */
@@ -4106,6 +4294,17 @@ export type Friendship = Node & {
   updatedAt?: Maybe<Scalars['Datetime']['output']>
   /** The account that accepted the friendship. */
   updatedBy?: Maybe<Scalars['UUID']['output']>
+}
+
+/** A friendship between two accounts. A row with status `requested` is a pending friend request by `created_by`, which the other account accepts by setting the status to `accepted`. Deleting the row withdraws or rejects a request, or ends the friendship. */
+export type FriendshipCloseFriendsByFriendshipIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<CloseFriendCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<CloseFriendOrderBy>>
 }
 
 /**
@@ -4237,6 +4436,8 @@ export type Guest = Node & {
   feedbackPaper?: Maybe<InvitationFeedbackPaper>
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   id: Scalars['ID']['output']
+  /** Whether the guest takes part without appearing among the event's attendees. Only the guest's own account can change it. */
+  isGhost: Scalars['Boolean']['output']
   /** The guest's internal id. */
   rowId: Scalars['UUID']['output']
   /** Timestamp of when the guest was last updated. */
@@ -4334,6 +4535,8 @@ export type GuestPatch = {
   feedback?: InputMaybe<InvitationFeedback>
   /** The guest's paper feedback status. */
   feedbackPaper?: InputMaybe<InvitationFeedbackPaper>
+  /** Whether the guest takes part without appearing among the event's attendees. Only the guest's own account can change it. */
+  isGhost?: InputMaybe<Scalars['Boolean']['input']>
 }
 
 /** Possible answers to an invitation: accepted, canceled. */
@@ -4665,6 +4868,8 @@ export type Mutation = {
   createAddress?: Maybe<CreateAddressPayload>
   /** Creates a single `Attendance`. */
   createAttendance?: Maybe<CreateAttendancePayload>
+  /** Creates a single `CloseFriend`. */
+  createCloseFriend?: Maybe<CreateCloseFriendPayload>
   /** Creates a single `Contact`. */
   createContact?: Maybe<CreateContactPayload>
   /** Creates a single `Device`. */
@@ -4715,6 +4920,12 @@ export type Mutation = {
   deleteAddress?: Maybe<DeleteAddressPayload>
   /** Deletes a single `Address` using a unique key. */
   deleteAddressByRowId?: Maybe<DeleteAddressPayload>
+  /** Deletes a single `CloseFriend` using its globally unique id. */
+  deleteCloseFriend?: Maybe<DeleteCloseFriendPayload>
+  /** Deletes a single `CloseFriend` using a unique key. */
+  deleteCloseFriendByCreatedByAndFriendshipId?: Maybe<DeleteCloseFriendPayload>
+  /** Deletes a single `CloseFriend` using a unique key. */
+  deleteCloseFriendByRowId?: Maybe<DeleteCloseFriendPayload>
   /** Deletes a single `Contact` using its globally unique id. */
   deleteContact?: Maybe<DeleteContactPayload>
   /** Deletes a single `Contact` using a unique key. */
@@ -4942,6 +5153,11 @@ export type MutationCreateAttendanceArgs = {
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateCloseFriendArgs = {
+  input: CreateCloseFriendInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateContactArgs = {
   input: CreateContactInput
 }
@@ -5065,6 +5281,21 @@ export type MutationDeleteAddressArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteAddressByRowIdArgs = {
   input: DeleteAddressByRowIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCloseFriendArgs = {
+  input: DeleteCloseFriendInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCloseFriendByCreatedByAndFriendshipIdArgs = {
+  input: DeleteCloseFriendByCreatedByAndFriendshipIdInput
+}
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCloseFriendByRowIdArgs = {
+  input: DeleteCloseFriendByRowIdInput
 }
 
 /** The root mutation type which contains root level fields which mutate data. */
@@ -5977,6 +6208,8 @@ export type Query = Node & {
   allApps?: Maybe<AppConnection>
   /** Reads and enables pagination through a set of `Attendance`. */
   allAttendances?: Maybe<AttendanceConnection>
+  /** Reads and enables pagination through a set of `CloseFriend`. */
+  allCloseFriends?: Maybe<CloseFriendConnection>
   /** Reads and enables pagination through a set of `Contact`. */
   allContacts?: Maybe<ContactConnection>
   /** Reads and enables pagination through a set of `Device`. */
@@ -6035,6 +6268,12 @@ export type Query = Node & {
   attendanceByRowId?: Maybe<Attendance>
   /** Returns the current attendance claims as UUID array. */
   attendanceClaimArray?: Maybe<Array<Maybe<Scalars['UUID']['output']>>>
+  /** Reads a single `CloseFriend` using its globally unique `ID`. */
+  closeFriend?: Maybe<CloseFriend>
+  /** Get a single `CloseFriend`. */
+  closeFriendByCreatedByAndFriendshipId?: Maybe<CloseFriend>
+  /** Get a single `CloseFriend`. */
+  closeFriendByRowId?: Maybe<CloseFriend>
   /** Reads a single `Contact` using its globally unique `ID`. */
   contact?: Maybe<Contact>
   /** Get a single `Contact`. */
@@ -6349,6 +6588,17 @@ export type QueryAllAttendancesArgs = {
 }
 
 /** The root query type which gives access points into the data universe. */
+export type QueryAllCloseFriendsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  condition?: InputMaybe<CloseFriendCondition>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<CloseFriendOrderBy>>
+}
+
+/** The root query type which gives access points into the data universe. */
 export type QueryAllContactsArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   before?: InputMaybe<Scalars['Cursor']['input']>
@@ -6617,6 +6867,22 @@ export type QueryAttendanceByGuestIdArgs = {
 
 /** The root query type which gives access points into the data universe. */
 export type QueryAttendanceByRowIdArgs = {
+  rowId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryCloseFriendArgs = {
+  id: Scalars['ID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryCloseFriendByCreatedByAndFriendshipIdArgs = {
+  createdBy: Scalars['UUID']['input']
+  friendshipId: Scalars['UUID']['input']
+}
+
+/** The root query type which gives access points into the data universe. */
+export type QueryCloseFriendByRowIdArgs = {
   rowId: Scalars['UUID']['input']
 }
 
@@ -7942,6 +8208,11 @@ export type GraphCacheKeysConfig = {
     data: WithTypename<AttendanceConnection>,
   ) => null | string
   AttendanceEdge?: (data: WithTypename<AttendanceEdge>) => null | string
+  CloseFriend?: (data: WithTypename<CloseFriend>) => null | string
+  CloseFriendConnection?: (
+    data: WithTypename<CloseFriendConnection>,
+  ) => null | string
+  CloseFriendEdge?: (data: WithTypename<CloseFriendEdge>) => null | string
   Contact?: (data: WithTypename<Contact>) => null | string
   ContactConnection?: (data: WithTypename<ContactConnection>) => null | string
   ContactEdge?: (data: WithTypename<ContactEdge>) => null | string
@@ -7956,6 +8227,9 @@ export type GraphCacheKeysConfig = {
   ) => null | string
   CreateAttendancePayload?: (
     data: WithTypename<CreateAttendancePayload>,
+  ) => null | string
+  CreateCloseFriendPayload?: (
+    data: WithTypename<CreateCloseFriendPayload>,
   ) => null | string
   CreateContactPayload?: (
     data: WithTypename<CreateContactPayload>,
@@ -8015,6 +8289,9 @@ export type GraphCacheKeysConfig = {
   ) => null | string
   DeleteAddressPayload?: (
     data: WithTypename<DeleteAddressPayload>,
+  ) => null | string
+  DeleteCloseFriendPayload?: (
+    data: WithTypename<DeleteCloseFriendPayload>,
   ) => null | string
   DeleteContactPayload?: (
     data: WithTypename<DeleteContactPayload>,
@@ -8352,6 +8629,11 @@ export type GraphCacheResolvers = {
       QueryAllAttendancesArgs,
       WithTypename<AttendanceConnection> | string
     >
+    allCloseFriends?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryAllCloseFriendsArgs,
+      WithTypename<CloseFriendConnection> | string
+    >
     allContacts?: GraphCacheResolver<
       WithTypename<Query>,
       QueryAllContactsArgs,
@@ -8496,6 +8778,21 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       Record<string, never>,
       Array<Scalars['UUID']['output'] | string>
+    >
+    closeFriend?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryCloseFriendArgs,
+      WithTypename<CloseFriend> | string
+    >
+    closeFriendByCreatedByAndFriendshipId?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryCloseFriendByCreatedByAndFriendshipIdArgs,
+      WithTypename<CloseFriend> | string
+    >
+    closeFriendByRowId?: GraphCacheResolver<
+      WithTypename<Query>,
+      QueryCloseFriendByRowIdArgs,
+      WithTypename<CloseFriend> | string
     >
     contact?: GraphCacheResolver<
       WithTypename<Query>,
@@ -8757,6 +9054,7 @@ export type GraphCacheResolvers = {
       | WithTypename<Address>
       | WithTypename<App>
       | WithTypename<Attendance>
+      | WithTypename<CloseFriend>
       | WithTypename<Contact>
       | WithTypename<Device>
       | WithTypename<Event>
@@ -8938,6 +9236,11 @@ export type GraphCacheResolvers = {
       WithTypename<Account>,
       AccountAttendancesByUpdatedByArgs,
       WithTypename<AttendanceConnection> | string
+    >
+    closeFriendsByCreatedBy?: GraphCacheResolver<
+      WithTypename<Account>,
+      AccountCloseFriendsByCreatedByArgs,
+      WithTypename<CloseFriendConnection> | string
     >
     contactsByAccountId?: GraphCacheResolver<
       WithTypename<Account>,
@@ -9762,6 +10065,77 @@ export type GraphCacheResolvers = {
       WithTypename<Attendance> | string
     >
   }
+  CloseFriend?: {
+    accountByCreatedBy?: GraphCacheResolver<
+      WithTypename<CloseFriend>,
+      Record<string, never>,
+      WithTypename<Account> | string
+    >
+    createdAt?: GraphCacheResolver<
+      WithTypename<CloseFriend>,
+      Record<string, never>,
+      Scalars['Datetime']['output'] | string
+    >
+    createdBy?: GraphCacheResolver<
+      WithTypename<CloseFriend>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    friendshipByFriendshipId?: GraphCacheResolver<
+      WithTypename<CloseFriend>,
+      Record<string, never>,
+      WithTypename<Friendship> | string
+    >
+    friendshipId?: GraphCacheResolver<
+      WithTypename<CloseFriend>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+    id?: GraphCacheResolver<
+      WithTypename<CloseFriend>,
+      Record<string, never>,
+      Scalars['ID']['output'] | string
+    >
+    rowId?: GraphCacheResolver<
+      WithTypename<CloseFriend>,
+      Record<string, never>,
+      Scalars['UUID']['output'] | string
+    >
+  }
+  CloseFriendConnection?: {
+    edges?: GraphCacheResolver<
+      WithTypename<CloseFriendConnection>,
+      Record<string, never>,
+      Array<WithTypename<CloseFriendEdge> | string>
+    >
+    nodes?: GraphCacheResolver<
+      WithTypename<CloseFriendConnection>,
+      Record<string, never>,
+      Array<WithTypename<CloseFriend> | string>
+    >
+    pageInfo?: GraphCacheResolver<
+      WithTypename<CloseFriendConnection>,
+      Record<string, never>,
+      WithTypename<PageInfo> | string
+    >
+    totalCount?: GraphCacheResolver<
+      WithTypename<CloseFriendConnection>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
+    >
+  }
+  CloseFriendEdge?: {
+    cursor?: GraphCacheResolver<
+      WithTypename<CloseFriendEdge>,
+      Record<string, never>,
+      Scalars['Cursor']['output'] | string
+    >
+    node?: GraphCacheResolver<
+      WithTypename<CloseFriendEdge>,
+      Record<string, never>,
+      WithTypename<CloseFriend> | string
+    >
+  }
   Contact?: {
     accountByAccountId?: GraphCacheResolver<
       WithTypename<Contact>,
@@ -9987,6 +10361,28 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<CreateAttendancePayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  CreateCloseFriendPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<CreateCloseFriendPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    closeFriend?: GraphCacheResolver<
+      WithTypename<CreateCloseFriendPayload>,
+      Record<string, never>,
+      WithTypename<CloseFriend> | string
+    >
+    closeFriendEdge?: GraphCacheResolver<
+      WithTypename<CreateCloseFriendPayload>,
+      CreateCloseFriendPayloadCloseFriendEdgeArgs,
+      WithTypename<CloseFriendEdge> | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<CreateCloseFriendPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -10459,6 +10855,33 @@ export type GraphCacheResolvers = {
     >
     query?: GraphCacheResolver<
       WithTypename<DeleteAddressPayload>,
+      Record<string, never>,
+      WithTypename<Query> | string
+    >
+  }
+  DeleteCloseFriendPayload?: {
+    clientMutationId?: GraphCacheResolver<
+      WithTypename<DeleteCloseFriendPayload>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
+    closeFriend?: GraphCacheResolver<
+      WithTypename<DeleteCloseFriendPayload>,
+      Record<string, never>,
+      WithTypename<CloseFriend> | string
+    >
+    closeFriendEdge?: GraphCacheResolver<
+      WithTypename<DeleteCloseFriendPayload>,
+      DeleteCloseFriendPayloadCloseFriendEdgeArgs,
+      WithTypename<CloseFriendEdge> | string
+    >
+    deletedCloseFriendId?: GraphCacheResolver<
+      WithTypename<DeleteCloseFriendPayload>,
+      Record<string, never>,
+      Scalars['ID']['output'] | string
+    >
+    query?: GraphCacheResolver<
+      WithTypename<DeleteCloseFriendPayload>,
       Record<string, never>,
       WithTypename<Query> | string
     >
@@ -10964,6 +11387,11 @@ export type GraphCacheResolvers = {
       WithTypename<Event>,
       Record<string, never>,
       Scalars['UUID']['output'] | string
+    >
+    attendees?: GraphCacheResolver<
+      WithTypename<Event>,
+      EventAttendeesArgs,
+      WithTypename<AccountConnection> | string
     >
     createdAt?: GraphCacheResolver<
       WithTypename<Event>,
@@ -11716,6 +12144,11 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       WithTypename<Account> | string
     >
+    closeFriendsByFriendshipId?: GraphCacheResolver<
+      WithTypename<Friendship>,
+      FriendshipCloseFriendsByFriendshipIdArgs,
+      WithTypename<CloseFriendConnection> | string
+    >
     createdAt?: GraphCacheResolver<
       WithTypename<Friendship>,
       Record<string, never>,
@@ -11858,6 +12291,11 @@ export type GraphCacheResolvers = {
       WithTypename<Guest>,
       Record<string, never>,
       Scalars['ID']['output'] | string
+    >
+    isGhost?: GraphCacheResolver<
+      WithTypename<Guest>,
+      Record<string, never>,
+      Scalars['Boolean']['output'] | string
     >
     rowId?: GraphCacheResolver<
       WithTypename<Guest>,
@@ -13041,6 +13479,10 @@ export type GraphCacheOptimisticUpdaters = {
     MutationCreateAttendanceArgs,
     Maybe<WithTypename<CreateAttendancePayload>>
   >
+  createCloseFriend?: GraphCacheOptimisticMutationResolver<
+    MutationCreateCloseFriendArgs,
+    Maybe<WithTypename<CreateCloseFriendPayload>>
+  >
   createContact?: GraphCacheOptimisticMutationResolver<
     MutationCreateContactArgs,
     Maybe<WithTypename<CreateContactPayload>>
@@ -13140,6 +13582,18 @@ export type GraphCacheOptimisticUpdaters = {
   deleteAddressByRowId?: GraphCacheOptimisticMutationResolver<
     MutationDeleteAddressByRowIdArgs,
     Maybe<WithTypename<DeleteAddressPayload>>
+  >
+  deleteCloseFriend?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteCloseFriendArgs,
+    Maybe<WithTypename<DeleteCloseFriendPayload>>
+  >
+  deleteCloseFriendByCreatedByAndFriendshipId?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteCloseFriendByCreatedByAndFriendshipIdArgs,
+    Maybe<WithTypename<DeleteCloseFriendPayload>>
+  >
+  deleteCloseFriendByRowId?: GraphCacheOptimisticMutationResolver<
+    MutationDeleteCloseFriendByRowIdArgs,
+    Maybe<WithTypename<DeleteCloseFriendPayload>>
   >
   deleteContact?: GraphCacheOptimisticMutationResolver<
     MutationDeleteContactArgs,
@@ -13583,6 +14037,10 @@ export type GraphCacheUpdaters = {
       { allAttendances: Maybe<WithTypename<AttendanceConnection>> },
       QueryAllAttendancesArgs
     >
+    allCloseFriends?: GraphCacheUpdateResolver<
+      { allCloseFriends: Maybe<WithTypename<CloseFriendConnection>> },
+      QueryAllCloseFriendsArgs
+    >
     allContacts?: GraphCacheUpdateResolver<
       { allContacts: Maybe<WithTypename<ContactConnection>> },
       QueryAllContactsArgs
@@ -13730,6 +14188,20 @@ export type GraphCacheUpdaters = {
     attendanceClaimArray?: GraphCacheUpdateResolver<
       { attendanceClaimArray: Maybe<Array<Scalars['UUID']['output']>> },
       Record<string, never>
+    >
+    closeFriend?: GraphCacheUpdateResolver<
+      { closeFriend: Maybe<WithTypename<CloseFriend>> },
+      QueryCloseFriendArgs
+    >
+    closeFriendByCreatedByAndFriendshipId?: GraphCacheUpdateResolver<
+      {
+        closeFriendByCreatedByAndFriendshipId: Maybe<WithTypename<CloseFriend>>
+      },
+      QueryCloseFriendByCreatedByAndFriendshipIdArgs
+    >
+    closeFriendByRowId?: GraphCacheUpdateResolver<
+      { closeFriendByRowId: Maybe<WithTypename<CloseFriend>> },
+      QueryCloseFriendByRowIdArgs
     >
     contact?: GraphCacheUpdateResolver<
       { contact: Maybe<WithTypename<Contact>> },
@@ -13955,6 +14427,7 @@ export type GraphCacheUpdaters = {
           | WithTypename<Address>
           | WithTypename<App>
           | WithTypename<Attendance>
+          | WithTypename<CloseFriend>
           | WithTypename<Contact>
           | WithTypename<Device>
           | WithTypename<Event>
@@ -14174,6 +14647,10 @@ export type GraphCacheUpdaters = {
       { createAttendance: Maybe<WithTypename<CreateAttendancePayload>> },
       MutationCreateAttendanceArgs
     >
+    createCloseFriend?: GraphCacheUpdateResolver<
+      { createCloseFriend: Maybe<WithTypename<CreateCloseFriendPayload>> },
+      MutationCreateCloseFriendArgs
+    >
     createContact?: GraphCacheUpdateResolver<
       { createContact: Maybe<WithTypename<CreateContactPayload>> },
       MutationCreateContactArgs
@@ -14319,6 +14796,24 @@ export type GraphCacheUpdaters = {
     deleteAddressByRowId?: GraphCacheUpdateResolver<
       { deleteAddressByRowId: Maybe<WithTypename<DeleteAddressPayload>> },
       MutationDeleteAddressByRowIdArgs
+    >
+    deleteCloseFriend?: GraphCacheUpdateResolver<
+      { deleteCloseFriend: Maybe<WithTypename<DeleteCloseFriendPayload>> },
+      MutationDeleteCloseFriendArgs
+    >
+    deleteCloseFriendByCreatedByAndFriendshipId?: GraphCacheUpdateResolver<
+      {
+        deleteCloseFriendByCreatedByAndFriendshipId: Maybe<
+          WithTypename<DeleteCloseFriendPayload>
+        >
+      },
+      MutationDeleteCloseFriendByCreatedByAndFriendshipIdArgs
+    >
+    deleteCloseFriendByRowId?: GraphCacheUpdateResolver<
+      {
+        deleteCloseFriendByRowId: Maybe<WithTypename<DeleteCloseFriendPayload>>
+      },
+      MutationDeleteCloseFriendByRowIdArgs
     >
     deleteContact?: GraphCacheUpdateResolver<
       { deleteContact: Maybe<WithTypename<DeleteContactPayload>> },
@@ -14830,6 +15325,10 @@ export type GraphCacheUpdaters = {
     attendancesByUpdatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
       AccountAttendancesByUpdatedByArgs
+    >
+    closeFriendsByCreatedBy?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Account>>,
+      AccountCloseFriendsByCreatedByArgs
     >
     contactsByAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
@@ -15502,6 +16001,64 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
   }
+  CloseFriend?: {
+    accountByCreatedBy?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CloseFriend>>,
+      Record<string, never>
+    >
+    createdAt?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CloseFriend>>,
+      Record<string, never>
+    >
+    createdBy?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CloseFriend>>,
+      Record<string, never>
+    >
+    friendshipByFriendshipId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CloseFriend>>,
+      Record<string, never>
+    >
+    friendshipId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CloseFriend>>,
+      Record<string, never>
+    >
+    id?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CloseFriend>>,
+      Record<string, never>
+    >
+    rowId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CloseFriend>>,
+      Record<string, never>
+    >
+  }
+  CloseFriendConnection?: {
+    edges?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CloseFriendConnection>>,
+      Record<string, never>
+    >
+    nodes?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CloseFriendConnection>>,
+      Record<string, never>
+    >
+    pageInfo?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CloseFriendConnection>>,
+      Record<string, never>
+    >
+    totalCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CloseFriendConnection>>,
+      Record<string, never>
+    >
+  }
+  CloseFriendEdge?: {
+    cursor?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CloseFriendEdge>>,
+      Record<string, never>
+    >
+    node?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CloseFriendEdge>>,
+      Record<string, never>
+    >
+  }
   Contact?: {
     accountByAccountId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Contact>>,
@@ -15685,6 +16242,24 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<CreateAttendancePayload>>,
+      Record<string, never>
+    >
+  }
+  CreateCloseFriendPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateCloseFriendPayload>>,
+      Record<string, never>
+    >
+    closeFriend?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateCloseFriendPayload>>,
+      Record<string, never>
+    >
+    closeFriendEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateCloseFriendPayload>>,
+      CreateCloseFriendPayloadCloseFriendEdgeArgs
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<CreateCloseFriendPayload>>,
       Record<string, never>
     >
   }
@@ -16071,6 +16646,28 @@ export type GraphCacheUpdaters = {
     >
     query?: GraphCacheUpdateResolver<
       Maybe<WithTypename<DeleteAddressPayload>>,
+      Record<string, never>
+    >
+  }
+  DeleteCloseFriendPayload?: {
+    clientMutationId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteCloseFriendPayload>>,
+      Record<string, never>
+    >
+    closeFriend?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteCloseFriendPayload>>,
+      Record<string, never>
+    >
+    closeFriendEdge?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteCloseFriendPayload>>,
+      DeleteCloseFriendPayloadCloseFriendEdgeArgs
+    >
+    deletedCloseFriendId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteCloseFriendPayload>>,
+      Record<string, never>
+    >
+    query?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<DeleteCloseFriendPayload>>,
       Record<string, never>
     >
   }
@@ -16482,6 +17079,10 @@ export type GraphCacheUpdaters = {
     addressId?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
       Record<string, never>
+    >
+    attendees?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Event>>,
+      EventAttendeesArgs
     >
     createdAt?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
@@ -17095,6 +17696,10 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Friendship>>,
       Record<string, never>
     >
+    closeFriendsByFriendshipId?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Friendship>>,
+      FriendshipCloseFriendsByFriendshipIdArgs
+    >
     createdAt?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Friendship>>,
       Record<string, never>
@@ -17208,6 +17813,10 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
     id?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Guest>>,
+      Record<string, never>
+    >
+    isGhost?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Guest>>,
       Record<string, never>
     >

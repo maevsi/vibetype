@@ -147,6 +147,10 @@
           </LayoutProse>
           <!-- eslint-enable vue/no-v-html -->
         </AppCard>
+        <EventAttendeeList
+          v-if="store.signedInAccountId"
+          :event-id="event.rowId"
+        />
       </div>
     </div>
   </Loader>

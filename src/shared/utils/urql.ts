@@ -8,7 +8,7 @@ import {
 } from '@urql/core'
 import type { ClientOptions } from '@urql/core'
 import { offlineExchange as getOfflineExchange } from '@urql/exchange-graphcache'
-import type { Cache } from '@urql/exchange-graphcache'
+import type { Cache, Entity } from '@urql/exchange-graphcache'
 import { makeDefaultStorage } from '@urql/exchange-graphcache/default-storage'
 import { relayPagination } from '@urql/exchange-graphcache/extras'
 import { requestPolicyExchange } from '@urql/exchange-request-policy'
@@ -137,24 +137,44 @@ const invalidateCache = (
           cache.invalidate('Query', field.fieldKey)
         })
 
+// Close friend markings end together with their friendship
 const FRIENDSHIP_QUERY_NAMES = [
+  'allCloseFriends',
   'allFriendships',
   'friendshipByAccountAIdAndAccountBId',
 ]
 
+// Cached fields carry their arguments in their keys, e.g. `attendees({"first":10})`
+const invalidateEventAttendees = (cache: Cache, event: Entity) =>
+  cache
+    .inspectFields(event)
+    .filter((field) => field.fieldName === 'attendees')
+    .forEach((field) => cache.invalidate(event, field.fieldKey))
+
 // The database's row level security hides a blocked account's accounts,
 // contacts, events, friendships and guests, so every list of them changes
 // with a block
-const invalidateAccountBlockDependents = (cache: Cache) =>
-  [
-    'accountBlockAccounts',
-    'allAccounts',
-    'allContacts',
-    'allEvents',
-    'allGuests',
-    'eventSearch',
-    ...FRIENDSHIP_QUERY_NAMES,
-  ].forEach((name) => invalidateCache(cache, name))
+const ACCOUNT_BLOCK_QUERY_NAMES = [
+  'accountBlockAccounts',
+  'allAccounts',
+  'allContacts',
+  'allEvents',
+  'allGuests',
+  'eventSearch',
+  ...FRIENDSHIP_QUERY_NAMES,
+]
+const invalidateAccountBlockDependents = (cache: Cache) => {
+  ACCOUNT_BLOCK_QUERY_NAMES.forEach((name) => invalidateCache(cache, name))
+
+  cache
+    .inspectFields('Query')
+    .filter((field) => field.fieldName === 'eventByRowId')
+    .forEach((field) => {
+      const event = cache.resolve('Query', field.fieldName, field.arguments)
+
+      if (typeof event === 'string') invalidateEventAttendees(cache, event)
+    })
+}
 
 // A friendship shows up in the lists and counts of both of its accounts, so
 // every query for friendships changes with one of them
@@ -264,8 +284,12 @@ export const getUrqlClient = async ({
     },
     schema,
     resolvers: {
+      Event: {
+        attendees: relayPagination(),
+      },
       Query: {
         allAccounts: relayPagination(),
+        allCloseFriends: relayPagination(),
         allContacts: relayPagination(),
         allEvents: relayPagination(),
         allFriendships: relayPagination(),
@@ -278,6 +302,8 @@ export const getUrqlClient = async ({
         // create
         createAccountBlock: (_result, _args, cache, _info) =>
           invalidateAccountBlockDependents(cache),
+        createCloseFriend: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allCloseFriends'),
         createContact: (_result, _args, cache, _info) =>
           invalidateCache(cache, 'allContacts'),
         createEvent: (_result, _args, cache, _info) => {
@@ -359,6 +385,8 @@ export const getUrqlClient = async ({
           cache,
           _info,
         ) => invalidateAccountBlockDependents(cache),
+        deleteCloseFriendByRowId: (_result, _args, cache, _info) =>
+          invalidateCache(cache, 'allCloseFriends'),
         deleteContactByRowId: (_result, args, cache, _info) =>
           invalidateCache(cache, 'Contact', args),
         eventDelete: (_result, _args, cache, _info) => {
@@ -481,6 +509,13 @@ export const getUrqlClient = async ({
           cache,
           _info,
         ) => invalidateFriendships(cache),
+        // a guest's feedback or ghost mode decides whether it is listed as an attendee
+        updateGuestByRowId: (result, _args, cache, _info) => {
+          const eventId = result.updateGuestByRowId?.guest?.eventByEventId?.id
+          if (!eventId) return
+
+          invalidateEventAttendees(cache, { __typename: 'Event', id: eventId })
+        },
       },
     },
   }

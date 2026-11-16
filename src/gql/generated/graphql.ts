@@ -154,6 +154,14 @@ export type AttendancePatch = {
   checkedOut?: boolean | null | undefined
 }
 
+/** An input for mutations affecting `CloseFriend` */
+export type CloseFriendInput = {
+  /** The account that marked the friend as close. */
+  createdBy: string
+  /** The friendship whose other account is marked as close. */
+  friendshipId: string
+}
+
 /** An input for mutations affecting `Contact` */
 export type ContactInput = {
   /** Optional reference to an associated account. */
@@ -241,6 +249,17 @@ export type CreateAttendanceInput = {
    * payload verbatim. May be used to track mutations by the client.
    */
   clientMutationId?: string | null | undefined
+}
+
+/** All input for the create `CloseFriend` mutation. */
+export type CreateCloseFriendInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** The `CloseFriend` to be created by this mutation. */
+  closeFriend: CloseFriendInput
 }
 
 /** All input for the create `Contact` mutation. */
@@ -419,6 +438,17 @@ export type DeleteAccountBlockByCreatedByAndBlockedAccountIdInput = {
   clientMutationId?: string | null | undefined
   /** The account id of the user who created the account block. */
   createdBy: string
+}
+
+/** All input for the `deleteCloseFriendByRowId` mutation. */
+export type DeleteCloseFriendByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** The close friend marking's internal id. */
+  rowId: string
 }
 
 /** All input for the `deleteContactByRowId` mutation. */
@@ -717,6 +747,8 @@ export type GuestPatch = {
   feedback?: InvitationFeedback | null | undefined
   /** The guest's paper feedback status. */
   feedbackPaper?: InvitationFeedbackPaper | null | undefined
+  /** Whether the guest takes part without appearing among the event's attendees. Only the guest's own account can change it. */
+  isGhost?: boolean | null | undefined
 }
 
 /** Possible answers to an invitation: accepted, canceled. */
@@ -1034,6 +1066,7 @@ export type AccountFriendshipsQuery = {
   friendshipsAccepted: {
     nodes: Array<{
       id: string
+      rowId: string
       accountByCreatedBy: { id: string; rowId: string; username: string } | null
     }>
     pageInfo: { endCursor: string | null; hasNextPage: boolean }
@@ -1041,6 +1074,7 @@ export type AccountFriendshipsQuery = {
   friendshipsCreated: {
     nodes: Array<{
       id: string
+      rowId: string
       status: FriendshipStatus
       accountByUpdatedBy: { id: string; rowId: string; username: string } | null
     }>
@@ -1062,6 +1096,34 @@ export type FriendshipRequestsQuery = {
     }>
     pageInfo: { endCursor: string | null; hasNextPage: boolean }
   } | null
+}
+
+export type CloseFriendsQueryVariables = Exact<{
+  after?: string | null | undefined
+  first: number
+}>
+
+export type CloseFriendsQuery = {
+  allCloseFriends: {
+    nodes: Array<{ friendshipId: string; id: string; rowId: string }>
+    pageInfo: { endCursor: string | null; hasNextPage: boolean }
+  } | null
+}
+
+export type CreateCloseFriendMutationVariables = Exact<{
+  input: CreateCloseFriendInput
+}>
+
+export type CreateCloseFriendMutation = {
+  createCloseFriend: { clientMutationId: string | null } | null
+}
+
+export type DeleteCloseFriendByRowIdMutationVariables = Exact<{
+  input: DeleteCloseFriendByRowIdInput
+}>
+
+export type DeleteCloseFriendByRowIdMutation = {
+  deleteCloseFriendByRowId: { clientMutationId: string | null } | null
 }
 
 export type AttendanceGuestQueryVariables = Exact<{
@@ -1122,6 +1184,23 @@ export type AllLegalTermsQueryVariables = Exact<{
 export type AllLegalTermsQuery = {
   allLegalTerms: {
     nodes: Array<{ id: string; rowId: string; term: string }>
+  } | null
+}
+
+export type EventAttendeesQueryVariables = Exact<{
+  after?: string | null | undefined
+  eventId: string
+  first: number
+}>
+
+export type EventAttendeesQuery = {
+  eventByRowId: {
+    id: string
+    attendees: {
+      totalCount: number
+      nodes: Array<{ id: string; rowId: string; username: string }>
+      pageInfo: { endCursor: string | null; hasNextPage: boolean }
+    }
   } | null
 }
 
@@ -2202,7 +2281,9 @@ export type UpdateGuestByRowIdMutation = {
     guest: {
       feedback: InvitationFeedback | null
       id: string
+      isGhost: boolean
       rowId: string
+      eventByEventId: { id: string } | null
     } | null
   } | null
 }
@@ -2215,6 +2296,7 @@ export type GuestEventQuery = {
   guestByRowId: {
     feedback: InvitationFeedback | null
     id: string
+    isGhost: boolean
     rowId: string
     contactByContactId: {
       createdBy: string
@@ -3610,6 +3692,7 @@ export const AccountFriendshipsDocument = {
                         },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
                   },
                 },
@@ -3703,6 +3786,7 @@ export const AccountFriendshipsDocument = {
                         },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'status' },
@@ -3870,6 +3954,215 @@ export const FriendshipRequestsDocument = {
 } as unknown as DocumentNode<
   FriendshipRequestsQuery,
   FriendshipRequestsQueryVariables
+>
+export const CloseFriendsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'CloseFriends' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allCloseFriends' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'friendshipId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CloseFriendsQuery, CloseFriendsQueryVariables>
+export const CreateCloseFriendDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateCloseFriend' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateCloseFriendInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createCloseFriend' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateCloseFriendMutation,
+  CreateCloseFriendMutationVariables
+>
+export const DeleteCloseFriendByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteCloseFriendByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteCloseFriendByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteCloseFriendByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteCloseFriendByRowIdMutation,
+  DeleteCloseFriendByRowIdMutationVariables
 >
 export const AttendanceGuestDocument = {
   kind: 'Document',
@@ -4286,6 +4579,142 @@ export const AllLegalTermsDocument = {
     },
   ],
 } as unknown as DocumentNode<AllLegalTermsQuery, AllLegalTermsQueryVariables>
+export const EventAttendeesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'EventAttendees' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'eventId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'eventByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'rowId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'eventId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'attendees' },
+                  arguments: [
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'after' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'after' },
+                      },
+                    },
+                    {
+                      kind: 'Argument',
+                      name: { kind: 'Name', value: 'first' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'first' },
+                      },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rowId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'username' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pageInfo' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'endCursor' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'hasNextPage' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'totalCount' },
+                      },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<EventAttendeesQuery, EventAttendeesQueryVariables>
 export const CreateEventFavoriteDocument = {
   kind: 'Document',
   definitions: [
@@ -11395,9 +11824,26 @@ export const UpdateGuestByRowIdDocument = {
                     selections: [
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'feedback' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isGhost' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
                   },
@@ -11766,6 +12212,7 @@ export const GuestEventDocument = {
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'feedback' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'isGhost' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
               ],
             },
