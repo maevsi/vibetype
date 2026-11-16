@@ -1,4 +1,4 @@
-const TOPICS_OUTBOX = ['account', 'guest', 'upload'].map(
+const TOPICS_OUTBOX = ['account', 'friendship', 'guest', 'upload'].map(
   (aggregateType) => `${SITE_NAME}.outbox.${aggregateType}`,
 )
 

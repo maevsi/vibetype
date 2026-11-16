@@ -9,6 +9,8 @@ export const CHANNEL_NAME_ACCOUNT_PASSWORD_RESET =
   'account.password_reset_requested'
 export const CHANNEL_NAME_ACCOUNT_REGISTRATION = 'account.registered'
 export const CHANNEL_NAME_EVENT_INVITATION = 'guest.invited'
+const CHANNEL_NAME_FRIENDSHIP_ACCEPTANCE = 'friendship.accepted'
+export const CHANNEL_NAME_FRIENDSHIP_REQUEST = 'friendship.requested'
 
 export const outboxEnvelopeSchema = z.object({
   aggregate_id: z.uuid(),
@@ -41,6 +43,15 @@ type AccountResolved = {
   password_reset_verification: string | null
   password_reset_verification_valid_until: Date | null
   username: string
+}
+
+type FriendshipResolved = {
+  recipient_account_id: string
+  recipient_email_address: string
+  recipient_language: string | null
+  recipient_username: string
+  sender_username: string
+  status: 'accepted' | 'requested'
 }
 
 type GuestInvitationResolved = {
@@ -87,6 +98,34 @@ const locales = {
     },
     en: {
       subject: 'Complete registration',
+    },
+  },
+  [CHANNEL_NAME_FRIENDSHIP_ACCEPTANCE]: {
+    de: {
+      pushBody: (senderUsername: string) =>
+        `${senderUsername} hat deine Freundschaftsanfrage angenommen.`,
+      pushTitle: 'Freundschaftsanfrage angenommen',
+    },
+    en: {
+      pushBody: (senderUsername: string) =>
+        `${senderUsername} accepted your friend request.`,
+      pushTitle: 'Friend request accepted',
+    },
+  },
+  [CHANNEL_NAME_FRIENDSHIP_REQUEST]: {
+    de: {
+      pushBody: (senderUsername: string) =>
+        `${senderUsername} möchte mit dir befreundet sein.`,
+      pushTitle: 'Neue Freundschaftsanfrage',
+      subject: (senderUsername: string) =>
+        `Freundschaftsanfrage von ${senderUsername}`,
+    },
+    en: {
+      pushBody: (senderUsername: string) =>
+        `${senderUsername} wants to be your friend.`,
+      pushTitle: 'New friend request',
+      subject: (senderUsername: string) =>
+        `Friend request from ${senderUsername}`,
     },
   },
   [CHANNEL_NAME_EVENT_INVITATION]: {
@@ -176,6 +215,24 @@ const resolveAccount = async (accountId: string) => {
   )
   return account
 }
+
+// The friendship's current status decides who is notified, so an event is only acted on while the friendship is still in the status the event announced.
+const resolveFriendship = async (
+  friendshipId: string,
+  status: FriendshipResolved['status'],
+) => {
+  const [friendship] = await executeQuery(
+    sql<FriendshipResolved[]>`
+      SELECT * FROM vibetype_private.outbox_friendship_resolve(${friendshipId})
+    `,
+  )
+  return friendship?.status === status ? friendship : undefined
+}
+
+// Friendships are requested and accepted without a language, so the recipient's own preference decides.
+const getFriendshipLocale = (friendship: FriendshipResolved) =>
+  LocaleSchema.safeParse(friendship.recipient_language).data ??
+  LocaleSchema.parse(LOCALE_DEFAULT)
 
 const resolveGuestInvitation = async (guestId: string) => {
   const [guestInvitation] = await executeQuery(
@@ -291,6 +348,70 @@ const sendGuestInvitationMail = async (
   })
 }
 
+const sendFriendshipAcceptanceNotification = async (
+  envelope: OutboxEnvelope,
+) => {
+  const friendship = await resolveFriendship(envelope.aggregate_id, 'accepted')
+
+  if (!friendship) {
+    console.info(
+      `Skipping acceptance notification for outbox event ${envelope.id}: friendship is gone or blocked`,
+    )
+    return
+  }
+
+  const t =
+    locales[CHANNEL_NAME_FRIENDSHIP_ACCEPTANCE][getFriendshipLocale(friendship)]
+
+  await sendPushNotification({
+    accountId: friendship.recipient_account_id,
+    notification: {
+      body: t.pushBody(friendship.sender_username),
+      title: t.pushTitle,
+    },
+  })
+}
+
+const sendFriendshipRequestNotifications = async (
+  envelope: OutboxEnvelope,
+  { redis, runtimeConfig, siteUrl }: OutboxContext,
+) => {
+  const friendship = await resolveFriendship(envelope.aggregate_id, 'requested')
+
+  if (!friendship) {
+    console.info(
+      `Skipping request notifications for outbox event ${envelope.id}: friendship is gone, blocked or already accepted`,
+    )
+    return
+  }
+
+  const locale = getFriendshipLocale(friendship)
+  const t = locales[CHANNEL_NAME_FRIENDSHIP_REQUEST][locale]
+
+  await sendEmail({
+    mailOptions: {
+      subject: t.subject(friendship.sender_username),
+      to: friendship.recipient_email_address,
+    },
+    name: CHANNEL_NAME_FRIENDSHIP_REQUEST,
+    props: {
+      emailAddress: friendship.recipient_email_address,
+      friendshipRequestLink: `${siteUrl}${getLocalePrefix(locale)}/account/view/${friendship.recipient_username}/friend`,
+      locale,
+      senderUsername: friendship.sender_username,
+    },
+    ...getEmailRateLimits(runtimeConfig),
+    redis,
+  })
+  await sendPushNotification({
+    accountId: friendship.recipient_account_id,
+    notification: {
+      body: t.pushBody(friendship.sender_username),
+      title: t.pushTitle,
+    },
+  })
+}
+
 const outboxHandlers: Record<
   string,
   {
@@ -310,6 +431,14 @@ const outboxHandlers: Record<
   },
   'account.registration_refreshed': {
     handle: sendAccountRegistrationMail,
+    version: 1,
+  },
+  [CHANNEL_NAME_FRIENDSHIP_ACCEPTANCE]: {
+    handle: sendFriendshipAcceptanceNotification,
+    version: 1,
+  },
+  [CHANNEL_NAME_FRIENDSHIP_REQUEST]: {
+    handle: sendFriendshipRequestNotifications,
     version: 1,
   },
   [CHANNEL_NAME_EVENT_INVITATION]: {
