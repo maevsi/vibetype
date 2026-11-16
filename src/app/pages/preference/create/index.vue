@@ -90,7 +90,7 @@ defineRouteRules({
 })
 
 definePageMeta({
-  layout: 'default-no-header',
+  layout: 'focused',
 })
 
 const { t } = useI18n()
