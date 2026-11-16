@@ -1,3 +1,9 @@
+## [17.10.0](https://github.com/maevsi/vibetype/compare/17.9.2...17.10.0) (2026-11-16)
+
+### Features
+
+* **layout:** give subpages a top bar ([#2654](https://github.com/maevsi/vibetype/issues/2654)) ([61d6c71](https://github.com/maevsi/vibetype/commit/61d6c71acd2c6f1dc8cf8bff768d6ae7e95f8850))
+
 ## [17.9.2](https://github.com/maevsi/vibetype/compare/17.9.1...17.9.2) (2026-11-16)
 
 ### Bug Fixes
