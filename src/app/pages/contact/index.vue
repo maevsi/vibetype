@@ -1,18 +1,30 @@
 <template>
   <div class="flex flex-1 flex-col">
-    <LayoutPageTitle :title />
-    <ContactList v-if="authentication.isSignedIn" />
-    <LayoutCallToAction
-      v-else
-      :call-to-action="t('anonymousCta')"
-      :call-to-action-description="t('anonymousCtaDescription')"
-    />
+    <LayoutTopBar>
+      {{ title }}
+      <template #back>
+        <ButtonIconBackRoute />
+      </template>
+    </LayoutTopBar>
+    <div class="flex flex-1 flex-col gap-4 p-4 md:px-8">
+      <ContactList v-if="authentication.isSignedIn" />
+      <LayoutCallToAction
+        v-else
+        :call-to-action="t('anonymousCta')"
+        :call-to-action-description="t('anonymousCtaDescription')"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 const authentication = useAuthentication()
 const { t } = useI18n()
+
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
 
 // data
 const title = t('title')
