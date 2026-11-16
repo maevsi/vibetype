@@ -66,7 +66,7 @@ import type { AccountBlockAccountsRecord } from '~~/gql/generated/graphcache'
 
 // compiler
 definePageMeta({
-  layout: 'default-no-header',
+  layout: 'focused',
 })
 
 // validation
