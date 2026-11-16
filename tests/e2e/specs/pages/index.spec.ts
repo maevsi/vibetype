@@ -1,7 +1,9 @@
 import { expect } from '@playwright/test'
 
+import { I18N_COOKIE_NAME } from '#src/node/static'
 import { appTest } from '#tests/e2e/fixtures/appTest'
-import { PAGE_READY, TIMEOUT } from '#tests/e2e/utils/constants'
+import { authenticatedTest } from '#tests/e2e/fixtures/authenticatedTest'
+import { PAGE_READY, SITE_URL, TIMEOUT } from '#tests/e2e/utils/constants'
 import {
   testMetadata,
   testOgImage,
@@ -72,6 +74,26 @@ appTest.describe('internationalization', () => {
   //     expect(defaultPage.page.getByText(textEnglish)).toBeDefined()
   //   },
   // )
+})
+
+authenticatedTest.describe('account language', () => {
+  authenticatedTest.use({ language: 'de', locale: 'en-US' })
+
+  authenticatedTest(
+    'opens the root in the account language despite another stored language',
+    async ({ context, defaultPage }) => {
+      await context.addCookies([
+        {
+          name: I18N_COOKIE_NAME,
+          url: SITE_URL,
+          value: 'en',
+        },
+      ])
+      await defaultPage.goto('/')
+
+      await expect(defaultPage.page).toHaveURL(/\/de(\/|$)/)
+    },
+  )
 })
 
 appTest.describe('visual regression', () => {
