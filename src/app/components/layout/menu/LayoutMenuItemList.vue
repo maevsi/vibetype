@@ -8,6 +8,14 @@
   <LayoutMenuItem :title="t('discover')" :to="localePath('event')">
     <AppIconSearch />
   </LayoutMenuItem>
+  <AppLink
+    :aria-label="t('create')"
+    class="mx-2 flex size-10 shrink-0 items-center justify-center rounded-medium bg-action-primary text-on-action-primary lg:hidden"
+    :is-colored="false"
+    :to="localePath('event-create')"
+  >
+    <AppIconPlus />
+  </AppLink>
   <LayoutMenuItem
     v-if="store.signedInUsername"
     :title="t('events')"
@@ -55,11 +63,13 @@ const localePath = useLocalePath()
 <i18n lang="yaml">
 de:
   account: Account
+  create: Veranstaltung erstellen
   discover: Entdecken
   events: Veranstaltungen
   home: Dashboard
 en:
   account: Account
+  create: Create event
   discover: Discover
   events: Events
   home: Dashboard
