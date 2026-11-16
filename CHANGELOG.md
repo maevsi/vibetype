@@ -1,3 +1,9 @@
+## [17.12.0](https://github.com/maevsi/vibetype/compare/17.11.0...17.12.0) (2026-11-16)
+
+### Features
+
+* **layout:** link to the settings from the menu ([#2657](https://github.com/maevsi/vibetype/issues/2657)) ([a92d7b1](https://github.com/maevsi/vibetype/commit/a92d7b1948b093ccf15a44a22baa8accbb358807))
+
 ## [17.11.0](https://github.com/maevsi/vibetype/compare/17.10.0...17.11.0) (2026-11-16)
 
 ### Features
