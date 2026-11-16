@@ -18,7 +18,7 @@
             ? 'w-auto'
             : variant === 'highlight'
               ? 'w-40'
-              : 'w-24',
+              : 'w-20',
         )
       "
     >
@@ -27,24 +27,36 @@
         :aria-label="t('heroImage')"
         :class="
           cn(
-            'flex w-full items-center justify-center gap-2 rounded-medium bg-surface-raised',
+            'flex w-full items-center justify-center gap-2 bg-surface-raised',
             variant === 'recommendation'
-              ? 'h-64 bg-surface'
+              ? 'aspect-[4/3] rounded-medium bg-surface'
               : variant === 'highlight'
-                ? 'h-30 bg-surface'
-                : 'h-24',
+                ? 'h-30 rounded-pill bg-surface'
+                : 'h-20 gap-1 rounded-pill',
           )
         "
         role="img"
       >
         <EventIconCategory
           v-if="categoryName"
-          :class="cn('size-10', variant === 'recommendation' && 'size-16')"
+          :class="
+            cn(
+              'size-10',
+              !variant && 'size-8',
+              variant === 'recommendation' && 'size-16',
+            )
+          "
           :name="categoryName"
         />
         <EventIconFormat
           v-if="formatName"
-          :class="cn('size-10', variant === 'recommendation' && 'size-16')"
+          :class="
+            cn(
+              'size-10',
+              !variant && 'size-8',
+              variant === 'recommendation' && 'size-16',
+            )
+          "
           :name="formatName"
         />
       </div>
@@ -52,36 +64,34 @@
         v-else
         :alt="t('heroImage')"
         :aspect="
-          variant === 'recommendation'
-            ? 'aspect-[345/259]'
-            : variant === 'highlight'
-              ? 'aspect-[4/3]'
-              : 'aspect-square'
+          variant === 'recommendation' || variant === 'highlight'
+            ? 'aspect-[4/3]'
+            : 'aspect-square'
         "
         :class="
           cn(
-            'w-full rounded-medium object-cover',
+            'w-full object-cover',
             variant === 'recommendation'
-              ? 'h-64'
+              ? 'rounded-medium'
               : variant === 'highlight'
-                ? 'h-30'
-                : 'h-24',
+                ? 'h-30 rounded-pill'
+                : 'h-20 rounded-pill',
           )
         "
         :height="
           variant === 'recommendation'
-            ? '259'
+            ? '300'
             : variant === 'highlight'
               ? '120'
-              : '96'
+              : '80'
         "
         :src="`/assets/static/images/event/${getHeroImageName(event.name)}.jpg`"
         :width="
           variant === 'recommendation'
-            ? '345'
+            ? '400'
             : variant === 'highlight'
               ? '160'
-              : '96'
+              : '80'
         "
       />
       <EventFavoriteButton
@@ -104,6 +114,39 @@
         <AppIconNetworkIntelligence class="size-5" />
         {{ t('match') }}
       </div>
+      <div
+        v-if="variant === 'recommendation'"
+        aria-hidden="true"
+        class="absolute bottom-3 left-3 flex flex-col items-center rounded-medium bg-surface px-4 py-2"
+      >
+        <AppTime
+          class="text-body-small text-link"
+          :datetime="event.start"
+          :options="{ month: 'short' }"
+        />
+        <AppTime
+          class="text-headline text-fg-1"
+          :datetime="event.start"
+          :options="{ day: 'numeric' }"
+        />
+      </div>
+      <span
+        v-if="!variant && (isDraft || isCreator || isGuest)"
+        :class="
+          cn(
+            'absolute bottom-1.5 left-1/2 -translate-x-1/2 rounded-small px-2 py-0.5 text-caption whitespace-nowrap text-fg-1',
+            isDraft
+              ? 'bg-warning-tint'
+              : isCreator
+                ? 'bg-info-tint'
+                : 'bg-success-tint',
+          )
+        "
+      >
+        <template v-if="isDraft">{{ t('isDraft') }}</template>
+        <template v-else-if="isCreator">{{ t('isCreator') }}</template>
+        <template v-else>{{ t('isGuest') }}</template>
+      </span>
     </div>
     <div
       :class="
@@ -130,32 +173,15 @@
         variant="ghost"
       >
         <span class="absolute inset-0 z-10" />
-        <EventCardTitle>
+        <EventCardTitle :class="!variant && 'text-headline'">
           {{ event.name }}
         </EventCardTitle>
       </AppButton>
-      <EventCardTitle v-else>
+      <EventCardTitle v-else :class="!variant && 'text-headline'">
         {{ event.name }}
       </EventCardTitle>
       <span class="truncate text-body-small text-fg-3">
         <AppTime :datetime="event.start" />
-      </span>
-      <span
-        v-if="!variant && (isDraft || isCreator || isGuest)"
-        :class="
-          cn(
-            'mt-1 inline-flex h-6.25 items-center self-start rounded-medium px-3 text-caption text-fg-1',
-            isDraft
-              ? 'bg-warning-tint'
-              : isCreator
-                ? 'bg-info-tint'
-                : 'bg-success-tint',
-          )
-        "
-      >
-        <template v-if="isDraft">{{ t('isDraft') }}</template>
-        <template v-else-if="isCreator">{{ t('isCreator') }}</template>
-        <template v-else>{{ t('isGuest') }}</template>
       </span>
     </div>
   </div>
@@ -253,14 +279,14 @@ const { t } = useI18n()
 <i18n lang="yaml">
 de:
   heroImage: Titelbild der Veranstaltung
-  isCreator: Du organisierst
-  isDraft: Im Entwurf
-  isGuest: Du nimmst teil
+  isCreator: Von dir
+  isDraft: Entwurf
+  isGuest: Dabei
   match: Match
 en:
   heroImage: Title picture of the event
-  isCreator: You're organizing
-  isDraft: In Draft
-  isGuest: You're attending
+  isCreator: Hosting
+  isDraft: Draft
+  isGuest: Going
   match: Match
 </i18n>
