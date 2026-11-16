@@ -52,46 +52,20 @@ export const getOwnContact = async ({
   return ownContact.data?.contactByCreatedByAndAccountId
 }
 
-// best-effort, as a failure must never block the page load or the sign-in;
-// the caller passes the nuxt app and store, as this runs after the caller's
-// awaits, where neither can be resolved from the current context
-export const getOwnContactLanguage = async ({
+// the account's language is the token's `language` claim, which the sign-in
+// and every token refresh set; it becomes the stored language, which the
+// module's detection at the root and `detectLanguageFromQuery` follow, while a
+// url that names its locale keeps it, as redirecting it would break shared
+// links and drop the files a launched app receives; a token without the claim
+// leaves the stored language as it is
+export const syncLocaleCookieToTokenLanguage = ({
   nuxtApp,
   store,
 }: {
   nuxtApp: NuxtApp
   store: ReturnType<typeof useStore>
 }) => {
-  const signedInAccountId = store.signedInAccountId
-
-  if (!signedInAccountId) {
-    return
-  }
-
-  try {
-    const ownContact = await getOwnContact({
-      $urql: nuxtApp.$urql,
-      accountId: signedInAccountId,
-    })
-
-    return ownContact?.language ?? undefined
-  } catch (error) {
-    console.error('Fetching the account language failed:', error)
-  }
-}
-
-// the account's language becomes the stored language, which the module's
-// detection at the root and `detectLanguageFromQuery` follow, while a url that
-// names its locale keeps it, as redirecting it would break shared links and
-// drop the files a launched app receives
-export const syncLocaleCookieToOwnContactLanguage = async ({
-  nuxtApp,
-  store,
-}: {
-  nuxtApp: NuxtApp
-  store: ReturnType<typeof useStore>
-}) => {
-  const language = await getOwnContactLanguage({ nuxtApp, store })
+  const language = store.jwtPayload?.language ?? undefined
 
   if (language) nuxtApp.$i18n.setLocaleCookie(language)
 

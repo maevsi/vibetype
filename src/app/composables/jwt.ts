@@ -103,7 +103,7 @@ export const useJwtInitialize = async () => {
     console.error('JWT update failed:', error)
   }
 
-  return await syncLocaleCookieToOwnContactLanguage({ nuxtApp, store })
+  return syncLocaleCookieToTokenLanguage({ nuxtApp, store })
 }
 
 export const useJwtUpdateGuestAdd = ({ guestId }: { guestId: uuid }) => {
