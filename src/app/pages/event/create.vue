@@ -36,7 +36,7 @@ const title = t('title')
 // initialization
 useHeadDefault({ title })
 
-// the manifest's `file_handlers` open calendar files here
+// the manifest's `file_handlers` open calendar files here through the import page
 onMounted(() => {
   window.launchQueue?.setConsumer(async ({ files: [fileHandle] }) => {
     if (!fileHandle) return

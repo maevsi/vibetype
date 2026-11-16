@@ -213,9 +213,11 @@ if (import.meta.client) {
 useAppLayout()
 usePolyfills()
 useAppGtag()
-if (!(await useJwtInitialize())) {
-  await detectLanguageFromQuery({ nuxtApp, route })
-}
+await detectLanguageFromQuery({
+  language: await useJwtInitialize(),
+  nuxtApp,
+  route,
+})
 await initialize()
 
 onMounted(() => {

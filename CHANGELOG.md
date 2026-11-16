@@ -1,14 +1,25 @@
-## [18.0.0-beta.1](https://github.com/maevsi/vibetype/compare/17.3.6-beta.1...18.0.0-beta.1) (2026-11-16)
+## [17.5.0](https://github.com/maevsi/vibetype/compare/17.4.0...17.5.0) (2026-11-16)
 
-### ⚠ BREAKING CHANGES
+### Features
 
-* **notification:** acknowledge over the database connection (#2603)
+* **dashboard:** arrange the sections after the design mockup ([#2628](https://github.com/maevsi/vibetype/issues/2628)) ([663b096](https://github.com/maevsi/vibetype/commit/663b09698783529bcb515af32d246bab09d63b0e))
+* **event:** restyle the card after the design mockup ([#2627](https://github.com/maevsi/vibetype/issues/2627)) ([64578e8](https://github.com/maevsi/vibetype/commit/64578e86101f266c12b88b32849a30c580dfc4d2))
+* **layout:** hide the bottom navigation on focused subpages ([#2630](https://github.com/maevsi/vibetype/issues/2630)) ([a2c9ad0](https://github.com/maevsi/vibetype/commit/a2c9ad0dd6ae5cd0eee3f1f1ba6075afd722484c))
+* **session:** restyle the settings menu after the design mockup ([#2629](https://github.com/maevsi/vibetype/issues/2629)) ([17932b6](https://github.com/maevsi/vibetype/commit/17932b6e6236d7bc4d548a5abc9361876154cd97))
 
 ### Bug Fixes
 
-* **notification:** acknowledge over the database connection ([#2603](https://github.com/maevsi/vibetype/issues/2603)) ([5928ea5](https://github.com/maevsi/vibetype/commit/5928ea5ccf7c9c60d29a919f4bb942a2de9ab77f))
+* **layout:** center the create button for signed-out visitors ([#2632](https://github.com/maevsi/vibetype/issues/2632)) ([e55c38d](https://github.com/maevsi/vibetype/commit/e55c38d1e7bdb6f3d101bd3d33ece4539ddd6e6d))
+* **pwa:** keep launched calendar files through the locale redirect ([#2616](https://github.com/maevsi/vibetype/issues/2616)) ([a7a27f1](https://github.com/maevsi/vibetype/commit/a7a27f1f8987f22c7271be97f7a5b00123e8f1ba))
+* **registration:** keep the preselected birth date on reselect ([#2633](https://github.com/maevsi/vibetype/issues/2633)) ([c473f3b](https://github.com/maevsi/vibetype/commit/c473f3bcf7ef4f7fc43811c5d0b473cf21bf4c17))
 
-## [17.3.6-beta.1](https://github.com/maevsi/vibetype/compare/17.3.5...17.3.6-beta.1) (2026-11-15)
+## [17.4.0](https://github.com/maevsi/vibetype/compare/17.3.6...17.4.0) (2026-11-16)
+
+### Features
+
+* **layout:** add a create button to the bottom navigation ([#2625](https://github.com/maevsi/vibetype/issues/2625)) ([334db0d](https://github.com/maevsi/vibetype/commit/334db0d617a8001ef8e3c828940e99a6e19796f9))
+
+## [17.3.6](https://github.com/maevsi/vibetype/compare/17.3.5...17.3.6) (2026-11-15)
 
 ### Bug Fixes
 
