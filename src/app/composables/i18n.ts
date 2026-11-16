@@ -113,6 +113,20 @@ export const persistOwnContactLanguage = async ({
   if (updated.error) {
     throw new Error(getCombinedErrorMessages([updated.error]).join())
   }
+
+  // the token's `language` claim only changes at a refresh, and the server
+  // picks the root's language from it; best-effort, as the language is saved
+  // and the next session restore refreshes the token anyway
+  try {
+    const { jwtPayload } = await nuxtApp.$csrfFetch('/api/model/jwt', {
+      body: { id: store.jwtPayload?.jti },
+      method: 'PUT',
+    })
+
+    if (jwtPayload) store.jwtSet(jwtPayload)
+  } catch (error) {
+    console.error('JWT update failed:', error)
+  }
 }
 
 // a link that carries the `language=auto` query (e.g. a QR code on a conference
