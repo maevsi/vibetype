@@ -12,7 +12,7 @@ if (sharedSentryConfig.dsn) {
         ? [Sentry.browserProfilingIntegration()]
         : []),
       ...(sentryFeatures.consoleCapture
-        ? [Sentry.captureConsoleIntegration()]
+        ? [Sentry.captureConsoleIntegration({ levels: ['error', 'warn'] })]
         : []),
       ...(runtimeConfig.public.sentry.logs.enable
         ? [Sentry.consoleLoggingIntegration()]
