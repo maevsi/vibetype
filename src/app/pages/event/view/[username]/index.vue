@@ -26,6 +26,7 @@
         :has-next-page="
           api.data.accountByUsername?.eventsByCreatedBy.pageInfo.hasNextPage
         "
+        is-grouped-by-day
         @load-more="
           queryAfter =
             api.data.accountByUsername?.eventsByCreatedBy.pageInfo.endCursor
