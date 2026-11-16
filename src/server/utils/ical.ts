@@ -11,6 +11,7 @@ import type {
   EventItemFragment,
   GuestItemFragment,
 } from '../../gql/generated/graphql'
+import { LOCALE_DEFAULT, type AppLocale } from './i18n'
 
 const visibilityToClass = {
   [EventVisibility.Public]: ICalEventClass.PUBLIC,
@@ -21,6 +22,7 @@ const visibilityToClass = {
 export const getIcalString = ({
   event,
   guest,
+  language,
   siteUrl,
 }: {
   event: Pick<
@@ -34,13 +36,16 @@ export const getIcalString = ({
     >
   }
   guest?: Pick<GuestItemFragment, 'rowId'>
+  language?: AppLocale
   siteUrl: string
 }) => {
   const eventAuthorUsername = event.accountByCreatedBy?.username
   const userEventPath = `${eventAuthorUsername}/${event.slug}`
+  const localePrefix =
+    language && language !== LOCALE_DEFAULT ? '/' + language : ''
   const eventUrl = guest
-    ? `${siteUrl}/guest/view/${guest.rowId}`
-    : `${siteUrl}/event/view/${userEventPath}`
+    ? `${siteUrl}${localePrefix}/guest/view/${guest.rowId}`
+    : `${siteUrl}${localePrefix}/event/view/${userEventPath}`
   const eventDescriptionHtml = sanitize(
     event.description ? `${eventUrl}\n${event.description}` : '',
   )

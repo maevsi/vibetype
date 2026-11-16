@@ -364,6 +364,7 @@ export const sendEventInvitationMail = async ({
   } = payloadCamelCased.data
   const { emailAddress, timeZone } = contact
   const guestId = guest.id
+  const language = payloadCamelCased.template.language
 
   const icalFetch = await fetch(
     `http://${SITE_NAME}:3000/api/model/event/ical`,
@@ -380,6 +381,7 @@ export const sendEventInvitationMail = async ({
         guest: {
           rowId: guestId,
         },
+        language,
       }),
       method: 'POST',
       headers: {
@@ -409,7 +411,6 @@ export const sendEventInvitationMail = async ({
     return
   }
 
-  const language = payloadCamelCased.template.language
   const t = locales[CHANNEL_NAME_EVENT_INVITATION][language]
 
   const eventAttendanceType = [
