@@ -139,8 +139,6 @@ export const persistOwnContactLanguage = async ({
   if (updated.error) {
     throw new Error(getCombinedErrorMessages([updated.error]).join())
   }
-
-  nuxtApp.$i18n.setLocaleCookie(language)
 }
 
 // a link that carries the `language=auto` query (e.g. a QR code on a conference
