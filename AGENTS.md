@@ -24,6 +24,7 @@ Detail and rationale live in [CONTRIBUTING.md](CONTRIBUTING.md): read the named 
   - no scope repeated in the description: `feat(event): add name`
   - body only for what the title cannot carry
 - needing something new from another service of the stack is a breaking change: `!` and `beta`, even when users notice nothing; steps in CONTRIBUTING.md, "Breaking changes"
+  - breaking changes wait on `beta` until the stack releases the majors of its services together: [`stack`'s release bundle document](https://github.com/maevsi/stack/blob/main/docs/release-bundle.md)
 - after merging the target into a branch stacked on a squash-merged pull request, compare the branch against the target, as that merge can silently restore what the branch removed
 
 ## verification
