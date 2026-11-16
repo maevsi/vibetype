@@ -29,7 +29,7 @@
           cn(
             'flex w-full items-center justify-center gap-2 bg-surface-raised',
             variant === 'recommendation'
-              ? 'aspect-[4/3] rounded-medium bg-surface'
+              ? 'aspect-[4/3] max-h-64 rounded-medium bg-surface'
               : variant === 'highlight'
                 ? 'h-30 rounded-pill bg-surface'
                 : 'h-20 gap-1 rounded-pill',
@@ -72,7 +72,7 @@
           cn(
             'w-full object-cover',
             variant === 'recommendation'
-              ? 'rounded-medium'
+              ? 'max-h-64 rounded-medium'
               : variant === 'highlight'
                 ? 'h-30 rounded-pill'
                 : 'h-20 rounded-pill',
@@ -117,7 +117,7 @@
       <div
         v-if="variant === 'recommendation'"
         aria-hidden="true"
-        class="absolute bottom-3 left-3 flex flex-col items-center rounded-medium bg-surface px-4 py-2"
+        class="absolute bottom-3 left-3 flex flex-col items-center rounded-medium bg-surface-raised px-4 py-2"
       >
         <AppTime
           class="text-body-small text-link"

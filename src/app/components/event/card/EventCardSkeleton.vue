@@ -5,7 +5,7 @@
     :data-variant="variant"
   >
     <div
-      class="size-20 shrink-0 rounded-pill bg-surface-raised group-data-[variant=highlight]:h-30 group-data-[variant=highlight]:w-40 group-data-[variant=highlight]:bg-surface group-data-[variant=recommendation]:aspect-[4/3] group-data-[variant=recommendation]:size-auto group-data-[variant=recommendation]:rounded-medium group-data-[variant=recommendation]:bg-surface"
+      class="size-20 shrink-0 rounded-pill bg-surface-raised group-data-[variant=highlight]:h-30 group-data-[variant=highlight]:w-40 group-data-[variant=highlight]:bg-surface group-data-[variant=recommendation]:aspect-[4/3] group-data-[variant=recommendation]:size-auto group-data-[variant=recommendation]:max-h-64 group-data-[variant=recommendation]:rounded-medium group-data-[variant=recommendation]:bg-surface"
     />
     <div
       class="flex min-w-0 flex-1 flex-col gap-2 group-data-[variant=recommendation]:px-1 group-data-[variant=recommendation]:pb-1"
