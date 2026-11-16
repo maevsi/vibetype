@@ -21,6 +21,7 @@ const icalPostBodySchema = z.object({
       rowId: z.string(),
     })
     .optional(),
+  language: LocaleSchema.optional(),
 })
 
 export default defineEventHandler(async (h3Event) => {
@@ -35,5 +36,10 @@ export default defineEventHandler(async (h3Event) => {
     'Content-Disposition': `attachment; filename="${eventAuthorUsername}_${event.slug}.ics"`,
   })
 
-  return getIcalString({ event, guest, siteUrl: SITE_URL })
+  return getIcalString({
+    event,
+    guest,
+    language: body.language,
+    siteUrl: SITE_URL,
+  })
 })
