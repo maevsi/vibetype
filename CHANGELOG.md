@@ -1,3 +1,9 @@
+## [17.9.2](https://github.com/maevsi/vibetype/compare/17.9.1...17.9.2) (2026-11-16)
+
+### Bug Fixes
+
+* **layout:** offer the create button in the sidebar ([#2653](https://github.com/maevsi/vibetype/issues/2653)) ([100cbd7](https://github.com/maevsi/vibetype/commit/100cbd74ae96aaa273006e8bc88af5c2ea9b3271))
+
 ## [17.9.1](https://github.com/maevsi/vibetype/compare/17.9.0...17.9.1) (2026-11-16)
 
 ### Bug Fixes
