@@ -1076,6 +1076,13 @@ export default {
                 },
               },
               {
+                name: 'filter',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
                 name: 'first',
                 type: {
                   kind: 'SCALAR',
@@ -3130,6 +3137,13 @@ export default {
               },
               {
                 name: 'condition',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'filter',
                 type: {
                   kind: 'SCALAR',
                   name: 'Any',
@@ -6987,6 +7001,14 @@ export default {
             args: [],
           },
           {
+            name: 'effectiveEnd',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
             name: 'end',
             type: {
               kind: 'SCALAR',
@@ -7401,6 +7423,17 @@ export default {
                 },
               },
             ],
+          },
+          {
+            name: 'guestCount',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
           },
           {
             name: 'guestCountMaximum',
@@ -9217,122 +9250,6 @@ export default {
                 kind: 'OBJECT',
                 ofType: null,
               },
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: 'OBJECT',
-        name: 'EventSearchRankConnection',
-        fields: [
-          {
-            name: 'edges',
-            type: {
-              kind: 'NON_NULL',
-              ofType: {
-                kind: 'LIST',
-                ofType: {
-                  kind: 'NON_NULL',
-                  ofType: {
-                    name: 'EventSearchRankEdge',
-                    kind: 'OBJECT',
-                    ofType: null,
-                  },
-                },
-              },
-            },
-            args: [],
-          },
-          {
-            name: 'nodes',
-            type: {
-              kind: 'NON_NULL',
-              ofType: {
-                kind: 'LIST',
-                ofType: {
-                  kind: 'NON_NULL',
-                  ofType: {
-                    name: 'EventSearchRankRecord',
-                    kind: 'OBJECT',
-                    ofType: null,
-                  },
-                },
-              },
-            },
-            args: [],
-          },
-          {
-            name: 'pageInfo',
-            type: {
-              kind: 'NON_NULL',
-              ofType: {
-                name: 'PageInfo',
-                kind: 'OBJECT',
-                ofType: null,
-              },
-            },
-            args: [],
-          },
-          {
-            name: 'totalCount',
-            type: {
-              kind: 'NON_NULL',
-              ofType: {
-                kind: 'SCALAR',
-                name: 'Any',
-              },
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: 'OBJECT',
-        name: 'EventSearchRankEdge',
-        fields: [
-          {
-            name: 'cursor',
-            type: {
-              kind: 'SCALAR',
-              name: 'Any',
-            },
-            args: [],
-          },
-          {
-            name: 'node',
-            type: {
-              kind: 'NON_NULL',
-              ofType: {
-                name: 'EventSearchRankRecord',
-                kind: 'OBJECT',
-                ofType: null,
-              },
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: 'OBJECT',
-        name: 'EventSearchRankRecord',
-        fields: [
-          {
-            name: 'eventId',
-            type: {
-              kind: 'SCALAR',
-              name: 'Any',
-            },
-            args: [],
-          },
-          {
-            name: 'rank',
-            type: {
-              kind: 'SCALAR',
-              name: 'Any',
             },
             args: [],
           },
@@ -16079,6 +15996,13 @@ export default {
                 },
               },
               {
+                name: 'filter',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
                 name: 'first',
                 type: {
                   kind: 'SCALAR',
@@ -17718,47 +17642,6 @@ export default {
                 type: {
                   kind: 'SCALAR',
                   name: 'Any',
-                },
-              },
-            ],
-          },
-          {
-            name: 'eventSearchRank',
-            type: {
-              kind: 'OBJECT',
-              name: 'EventSearchRankConnection',
-              ofType: null,
-            },
-            args: [
-              {
-                name: 'after',
-                type: {
-                  kind: 'SCALAR',
-                  name: 'Any',
-                },
-              },
-              {
-                name: 'first',
-                type: {
-                  kind: 'SCALAR',
-                  name: 'Any',
-                },
-              },
-              {
-                name: 'offset',
-                type: {
-                  kind: 'SCALAR',
-                  name: 'Any',
-                },
-              },
-              {
-                name: 'query',
-                type: {
-                  kind: 'NON_NULL',
-                  ofType: {
-                    kind: 'SCALAR',
-                    name: 'Any',
-                  },
                 },
               },
             ],
