@@ -2,6 +2,7 @@ import { expect } from '@playwright/test'
 
 import { JWT_COOKIE_NAME } from '#src/node/static'
 import { authenticatedTest } from '#tests/e2e/fixtures/authenticatedTest'
+import { testVisualRegression } from '#tests/e2e/utils/tests'
 
 authenticatedTest.describe('sign out', () => {
   authenticatedTest(
@@ -21,3 +22,5 @@ authenticatedTest.describe('sign out', () => {
     },
   )
 })
+
+testVisualRegression('/session/edit')

@@ -2,6 +2,7 @@
   <div>
     <LayoutPageTitle :title />
     <AppRadioGroup
+      class="gap-0 *:min-h-12"
       :default-value="locale"
       :items="languages"
       @update:model-value="onI18nChange"
