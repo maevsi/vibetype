@@ -40,8 +40,11 @@
         >
           {{ t('signIn') }}
         </AppButton>
+        <!-- everywhere else, the menu links to the settings -->
         <AppButton
+          v-if="store.signedInUsername"
           :aria-label="t('settings')"
+          class="lg:hidden"
           size="icon"
           :to="
             localePath({

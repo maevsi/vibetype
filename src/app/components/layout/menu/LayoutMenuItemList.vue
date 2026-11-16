@@ -31,9 +31,15 @@
   >
     <AppIconToday />
   </LayoutMenuItem>
-  <!-- signed out, the account item takes the width of two so that the create button stays centered -->
+  <!-- signed in, the bottom bar leaves settings to the profile so that the create button stays centered -->
   <LayoutMenuItem
-    :class="!store.signedInUsername && 'max-lg:max-w-40 max-lg:flex-2'"
+    :class="store.signedInUsername && 'max-lg:hidden'"
+    :title="t('settings')"
+    :to="localePath('session-edit')"
+  >
+    <AppIconSettings />
+  </LayoutMenuItem>
+  <LayoutMenuItem
     :title="t('account')"
     :to="
       store.signedInUsername
@@ -71,6 +77,7 @@ de:
   discover: Entdecken
   events: Veranstaltungen
   home: Dashboard
+  settings: Einstellungen
 en:
   account: Account
   create: Create event
@@ -78,4 +85,5 @@ en:
   discover: Discover
   events: Events
   home: Dashboard
+  settings: Settings
 </i18n>
