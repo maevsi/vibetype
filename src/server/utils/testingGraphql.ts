@@ -94,6 +94,48 @@ const EVENT_LIST_ITEM = {
   start: EVENT.start,
   __typename: 'Event',
 }
+const EVENT_RECOMMENDATIONS = [
+  {
+    name: 'Summer Rooftop Party',
+    rowId: TESTING_EVENT_RECOMMENDATION_ROW_IDS[0],
+    slug: 'summer-rooftop-party',
+    start: '2030-07-20T19:00:00+00:00',
+  },
+  {
+    name: 'Board Game Night',
+    rowId: TESTING_EVENT_RECOMMENDATION_ROW_IDS[1],
+    slug: 'board-game-night',
+    start: '2030-08-10T17:30:00+00:00',
+  },
+].map((event) => ({
+  ...EVENT_LIST_ITEM,
+  accountByCreatedBy: ACCOUNT,
+  addressByAddressId: null,
+  eventCategoryMappingsByEventId: {
+    ...EVENT_LIST_ITEM.eventCategoryMappingsByEventId,
+    nodes: [
+      {
+        ...EVENT_LIST_ITEM.eventCategoryMappingsByEventId.nodes[0],
+        id: getNodeId(
+          'EventCategoryMapping',
+          event.rowId,
+          EVENT_CATEGORY.rowId,
+        ),
+      },
+    ],
+  },
+  eventFormatMappingsByEventId: {
+    ...EVENT_LIST_ITEM.eventFormatMappingsByEventId,
+    nodes: [
+      {
+        ...EVENT_LIST_ITEM.eventFormatMappingsByEventId.nodes[0],
+        id: getNodeId('EventFormatMapping', event.rowId, EVENT_FORMAT.rowId),
+      },
+    ],
+  },
+  id: getNodeId('Event', event.rowId),
+  ...event,
+}))
 const EVENT_VIEW = {
   accountByCreatedBy: ACCOUNT,
   addressByAddressId: null,
@@ -474,6 +516,39 @@ export const getTestingGraphqlResult = async ({
             name: EVENT.name,
             rowId: EVENT.rowId,
             __typename: 'Event',
+          },
+        },
+      }
+    case 'DashboardEventRecommendations':
+      return {
+        data: {
+          eventByRowId:
+            EVENT_RECOMMENDATIONS.find(
+              (event) => event.rowId === (variables as { id?: unknown })?.id,
+            ) ?? null,
+        },
+      }
+    case 'DashboardEventUpcoming':
+      return {
+        data: {
+          allEvents: {
+            nodes: [
+              {
+                accountByCreatedBy: ACCOUNT,
+                end: EVENT.end,
+                eventCategoryMappingsByEventId:
+                  EVENT_LIST_ITEM.eventCategoryMappingsByEventId,
+                eventFormatMappingsByEventId:
+                  EVENT_LIST_ITEM.eventFormatMappingsByEventId,
+                id: EVENT.id,
+                name: EVENT.name,
+                rowId: EVENT.rowId,
+                slug: EVENT.slug,
+                start: EVENT.start,
+                __typename: 'Event',
+              },
+            ],
+            __typename: 'EventConnection',
           },
         },
       }

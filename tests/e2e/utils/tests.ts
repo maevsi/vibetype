@@ -460,12 +460,20 @@ export const testPageLoad = (url: string, status = 200) =>
     })
   })
 
-export const testVisualRegression = (url: string, plain?: boolean) =>
-  appTest.describe('visual regression', () => {
-    appTest('looks as before', async ({ defaultPage, page }) => {
+export const testVisualRegression = (
+  url: string,
+  plain?: boolean,
+  {
+    fullPage,
+    test = appTest,
+  }: { fullPage?: boolean; test?: typeof appTest } = {},
+) =>
+  test.describe('visual regression', () => {
+    test('looks as before', async ({ defaultPage, page }) => {
       await (plain ? page : defaultPage).goto(url)
 
       await expect(plain ? page : defaultPage.page).toHaveScreenshot({
+        fullPage,
         timeout: TIMEOUT,
       })
     })
