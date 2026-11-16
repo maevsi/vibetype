@@ -1,3 +1,9 @@
+## [17.9.1](https://github.com/maevsi/vibetype/compare/17.9.0...17.9.1) (2026-11-16)
+
+### Bug Fixes
+
+* **sentry:** capture only console errors and warnings ([#2652](https://github.com/maevsi/vibetype/issues/2652)) ([70eaa01](https://github.com/maevsi/vibetype/commit/70eaa014dd3a77983a1f539635efce3ff4c8fcf8))
+
 ## [17.9.0](https://github.com/maevsi/vibetype/compare/17.8.0...17.9.0) (2026-11-16)
 
 ### Features
