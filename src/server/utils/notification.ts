@@ -246,24 +246,15 @@ export const processNotification = async ({
 }
 
 const ack = async ({ id }: { id: string }) => {
-  const baseURL = getServiceHrefPostgraphile()
-  const response = await fetch(`${baseURL}/graphql`, {
-    body: JSON.stringify({
-      query: `mutation ($id: UUID!) { notificationAcknowledge(input: { id: $id, isAcknowledged: true }) { clientMutationId } }`,
-      variables: { id },
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-  })
-
   // best-effort: the email was already sent above, so a failed ack must not
   // throw here, that would trigger a retry and resend it. The Redis dedupe
   // key is the actual guard against reprocessing; a lost ack only matters if
   // that key expires (24h) before the notification row is touched again.
-  if (!response.ok)
-    console.error(`Could not ack due to error: "${response.statusText}"`)
+  try {
+    await sql`SELECT vibetype.notification_acknowledge(${id}::uuid, true)`
+  } catch (error) {
+    console.error(`Could not ack due to error: "${error}"`)
+  }
 }
 
 export type NotificationMessageKey = { payload: { id: string } }
