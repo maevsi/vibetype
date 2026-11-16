@@ -1,3 +1,9 @@
+## [17.11.0](https://github.com/maevsi/vibetype/compare/17.10.0...17.11.0) (2026-11-16)
+
+### Features
+
+* **layout:** give the contact book and image gallery a top bar ([#2655](https://github.com/maevsi/vibetype/issues/2655)) ([ff76757](https://github.com/maevsi/vibetype/commit/ff767572dce9e0acb1edcc5369605f0c9011f8ae))
+
 ## [17.10.0](https://github.com/maevsi/vibetype/compare/17.9.2...17.10.0) (2026-11-16)
 
 ### Features
