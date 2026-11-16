@@ -1,12 +1,11 @@
 <template>
   <div>
     <LayoutPageTitle :title />
-    <div class="flex flex-col gap-6">
+    <div class="flex flex-col gap-4">
       <section class="flex flex-col gap-4">
         <span class="text-headline">{{ t('profile') }}</span>
-        <div class="flex flex-col gap-3">
-          <AppCardButton
-            class="bg-action-primary text-on-action-primary"
+        <div class="flex flex-col">
+          <AppMenuItem
             :title="t('aiSetup')"
             :to="
               localePath({
@@ -18,9 +17,8 @@
             <!-- <template #suffix>
               <AppIconRestartAlt />
             </template> -->
-          </AppCardButton>
-          <AppCardButton
-            class="border-action-warning bg-warning-tint text-fg-1"
+          </AppMenuItem>
+          <AppMenuItem
             :title="t('earlyBirdStart')"
             :to="localePath({ name: 'early-bird-create' })"
           >
@@ -28,13 +26,14 @@
             <template v-if="false" #suffix>
               <AppIconClose />
             </template>
-          </AppCardButton>
+          </AppMenuItem>
         </div>
       </section>
       <section class="flex flex-col gap-4">
+        <AppSeparator />
         <span class="text-headline">{{ t('display') }}</span>
-        <div class="flex flex-col gap-3">
-          <AppCardButton
+        <div class="flex flex-col">
+          <AppMenuItem
             :title="t('colorScheme')"
             :to="
               localePath({
@@ -43,8 +42,8 @@
             "
           >
             <AppIconSun />
-          </AppCardButton>
-          <AppCardButton
+          </AppMenuItem>
+          <AppMenuItem
             :title="t('language')"
             :to="
               localePath({
@@ -53,15 +52,16 @@
             "
           >
             <AppIconLanguage />
-          </AppCardButton>
+          </AppMenuItem>
         </div>
       </section>
       <section class="flex flex-col gap-4">
+        <AppSeparator />
         <span class="text-headline" @click="onDevelopmentModeTrigger">
           {{ t('support') }}
         </span>
-        <div class="flex flex-col gap-3">
-          <AppCardButton
+        <div class="flex flex-col">
+          <AppMenuItem
             v-if="isDevelopmentModeActive"
             :title="t('developerInformation')"
             :to="
@@ -71,8 +71,8 @@
             "
           >
             <AppIconWrench />
-          </AppCardButton>
-          <AppCardButton
+          </AppMenuItem>
+          <AppMenuItem
             :title="t('featureSuggestion')"
             :to="
               localePath({
@@ -81,8 +81,8 @@
             "
           >
             <AppIconIdea />
-          </AppCardButton>
-          <AppCardButton
+          </AppMenuItem>
+          <AppMenuItem
             :title="t('bugReport')"
             :to="
               localePath({
@@ -91,8 +91,8 @@
             "
           >
             <AppIconBug />
-          </AppCardButton>
-          <AppCardButton
+          </AppMenuItem>
+          <AppMenuItem
             :title="t('contact')"
             :to="
               localePath({
@@ -101,8 +101,8 @@
             "
           >
             <AppIconMail />
-          </AppCardButton>
-          <AppCardButton
+          </AppMenuItem>
+          <AppMenuItem
             :title="t('report')"
             :to="
               localePath({
@@ -111,46 +111,45 @@
             "
           >
             <AppIconReport />
-          </AppCardButton>
+          </AppMenuItem>
         </div>
       </section>
       <section class="flex flex-col gap-4">
+        <AppSeparator />
         <span class="text-headline">
           {{ t('legal') }}
         </span>
-        <div class="flex flex-col gap-3">
-          <AppCardButton
-            :title="t('terms')"
-            :to="localePath('docs-legal-terms')"
-          >
+        <div class="flex flex-col">
+          <AppMenuItem :title="t('terms')" :to="localePath('docs-legal-terms')">
             <AppIconContract />
-          </AppCardButton>
-          <AppCardButton
+          </AppMenuItem>
+          <AppMenuItem
             v-if="!isIos"
             :title="t('cookies')"
             @click="cookieControl.isModalActive.value = true"
           >
             <AppIconCookieOutline />
-          </AppCardButton>
-          <AppCardButton
+          </AppMenuItem>
+          <AppMenuItem
             :title="t('legalNotice')"
             :to="localePath('docs-legal-imprint')"
           >
             <AppIconLegal />
-          </AppCardButton>
-          <AppCardButton
+          </AppMenuItem>
+          <AppMenuItem
             :title="t('privacy')"
             :to="localePath('docs-legal-privacy')"
           >
             <AppIconVerifiedUser />
-          </AppCardButton>
+          </AppMenuItem>
         </div>
       </section>
       <section v-if="store.signedInUsername" class="flex flex-col gap-4">
+        <AppSeparator />
         <span class="text-headline">
           {{ t('interactions') }}
         </span>
-        <AppCardButton
+        <AppMenuItem
           :title="t('accountBlock')"
           :to="
             localePath({
@@ -160,17 +159,18 @@
           "
         >
           <AppIconNoSymbol />
-        </AppCardButton>
+        </AppMenuItem>
       </section>
-      <section v-if="store.signedInUsername" class="flex flex-col">
-        <AppCardButton
-          class="bg-action-danger text-white"
+      <section v-if="store.signedInUsername" class="flex flex-col gap-4">
+        <AppSeparator />
+        <AppMenuItem
           :title="t('logout')"
+          variant="critical"
           @click="signOutToRoot"
         >
           <template #suffix />
           <AppIconLogout />
-        </AppCardButton>
+        </AppMenuItem>
       </section>
     </div>
   </div>
