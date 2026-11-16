@@ -1,3 +1,21 @@
+## [18.0.0-beta.4](https://github.com/maevsi/vibetype/compare/18.0.0-beta.3...18.0.0-beta.4) (2026-11-16)
+
+### Features
+
+* **account:** hide the bottom navigation while editing the profile ([#2644](https://github.com/maevsi/vibetype/issues/2644)) ([976d34c](https://github.com/maevsi/vibetype/commit/976d34c4e62a4671b2b195fff39ea3eb7b685ba6))
+* **account:** restyle the profile after the design mockup ([#2647](https://github.com/maevsi/vibetype/issues/2647)) ([6ff03b4](https://github.com/maevsi/vibetype/commit/6ff03b46e296459e7cdc509bebbda35ab38c0bcc))
+* **event:** group an account's events by day ([#2634](https://github.com/maevsi/vibetype/issues/2634)) ([b80d7b7](https://github.com/maevsi/vibetype/commit/b80d7b7bc885c1cc1e2481c9c1c6d9ae7c2669a1))
+* **event:** preview the category grid behind a feature flag ([#2643](https://github.com/maevsi/vibetype/issues/2643)) ([c5ce4a8](https://github.com/maevsi/vibetype/commit/c5ce4a874e92efacfbed13ac7d09407dd8c2927e))
+* **event:** restyle the event page after the design mockup ([#2649](https://github.com/maevsi/vibetype/issues/2649)) ([8571ee1](https://github.com/maevsi/vibetype/commit/8571ee1947759ad462978126ebd74f63618f4f0d))
+
+### Bug Fixes
+
+* **head:** skip pages unmounted by their own redirect ([#2641](https://github.com/maevsi/vibetype/issues/2641)) ([ce4a81c](https://github.com/maevsi/vibetype/commit/ce4a81c807a774ea0cdbe120be855e5cce64d9d3))
+
+### Performance Improvements
+
+* **app:** migrate to unplugin-pwa ([#2650](https://github.com/maevsi/vibetype/issues/2650)) ([55c3313](https://github.com/maevsi/vibetype/commit/55c3313143b6057587df7000bb98da01b3be569f))
+
 ## [17.8.0](https://github.com/maevsi/vibetype/compare/17.7.0...17.8.0) (2026-11-16)
 
 ### Features
