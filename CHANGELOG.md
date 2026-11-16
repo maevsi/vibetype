@@ -1,3 +1,9 @@
+## [17.8.0](https://github.com/maevsi/vibetype/compare/17.7.0...17.8.0) (2026-11-16)
+
+### Features
+
+* **account:** restyle the profile after the design mockup ([#2647](https://github.com/maevsi/vibetype/issues/2647)) ([6ff03b4](https://github.com/maevsi/vibetype/commit/6ff03b46e296459e7cdc509bebbda35ab38c0bcc))
+
 ## [17.7.0](https://github.com/maevsi/vibetype/compare/17.6.1...17.7.0) (2026-11-16)
 
 ### Features
