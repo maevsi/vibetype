@@ -1,3 +1,9 @@
+## [17.6.1](https://github.com/maevsi/vibetype/compare/17.6.0...17.6.1) (2026-11-16)
+
+### Bug Fixes
+
+* **head:** skip pages unmounted by their own redirect ([#2641](https://github.com/maevsi/vibetype/issues/2641)) ([ce4a81c](https://github.com/maevsi/vibetype/commit/ce4a81c807a774ea0cdbe120be855e5cce64d9d3))
+
 ## [17.6.0](https://github.com/maevsi/vibetype/compare/17.5.1...17.6.0) (2026-11-16)
 
 ### Features
