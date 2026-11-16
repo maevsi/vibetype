@@ -464,6 +464,7 @@ const downloadIcal = async () => {
     body: {
       event: event.value,
       guest: guest.value,
+      language: locale.value,
     },
     method: 'POST',
   })

@@ -1,3 +1,5 @@
+export const TESTING_ACCOUNT_GERMAN_ROW_ID =
+  '7d2c4e8a-91b3-4f5d-a6e0-3b8c1d9f2a47'
 export const TESTING_ACCOUNT_ROW_ID = 'a3f8f6c2-6b1e-4b6a-9b9a-9f7d6a2e6c1a'
 export const TESTING_ACCOUNT_ID =
   'QWNjb3VudDphM2Y4ZjZjMi02YjFlLTRiNmEtOWI5YS05ZjdkNmEyZTZjMWE='
