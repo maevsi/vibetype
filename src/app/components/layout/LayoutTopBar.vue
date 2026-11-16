@@ -6,12 +6,13 @@
       <slot v-if="$slots.back" name="back" />
       <div v-else class="size-6" />
     </div>
-    <h1 class="flex-1 text-center">
+    <h1 v-if="$slots.default" class="flex-1 text-center">
       <span class="text-title3 text-balance">
         <slot />
       </span>
     </h1>
-    <div class="flex size-12 items-center justify-center">
+    <div v-else class="flex-1" />
+    <div class="flex h-12 min-w-12 items-center justify-center">
       <slot v-if="$slots.close" name="close" />
       <div v-else class="size-6" />
     </div>

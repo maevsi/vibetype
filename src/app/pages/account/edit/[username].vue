@@ -112,7 +112,7 @@ import { graphql } from '~~/gql/generated'
 
 // compiler
 definePageMeta({
-  layout: 'default-no-header',
+  layout: 'focused',
 })
 
 // page

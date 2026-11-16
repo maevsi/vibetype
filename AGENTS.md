@@ -3,73 +3,57 @@ applyTo: '**'
 ---
 # Project Instructions
 
-This project is a Nuxt v4 application that serves as the client for `vibetype`, an event community platform. It is one of many services defined in the `stack` repository and is closely related to the `postgraphile` and `sqitch` repositories.
+Nuxt v4 client of `vibetype`, an event community platform.
+One of the services of the `stack` repository, closely tied to `postgraphile` and `sqitch`.
+Detail and rationale live in [CONTRIBUTING.md](CONTRIBUTING.md): read the named section before working in its area.
 
-## Code style
-- Do not use abbreviations in naming, except for instances where it would be weird not to abbreviate
-- Prefer descriptive syntax for naming and only add comments where additional context is necessary
-- Use natural language in any non-code text (code comments, git commit titles, ...) instead of referring to code, e.g. "the event's name" instead of "the `event.name`", except when a code reference is needed
-- Use backticks in any non-code text to refer to code, e.g. "`eventName`" instead of "eventName"
-- Sort elements lexicographically except where it does not make sense
-- Code formatting is done using Prettier
+## code
+- no abbreviations in names, except where spelling it out would be odd
+- descriptive names over comments; comment only where context is missing
+- prose (comments, commit titles) says "the event's name", not "the `event.name`", unless the code reference is needed; code in prose goes in backticks
+- sort elements lexicographically where the order carries no meaning
+- TypeScript: `const` over `let`; no typecasts unless there is no other way
+- Vue and Tailwind: CONTRIBUTING.md, "Vue" and "Tailwind CSS"
+- Prettier formats
 
-## Git
-- Work on branches other than the default branch
-  - Use this branch naming pattern: `<type>/<scope>/<description>`
-- Git commit titles must follow the Conventional Commits specification and be lowercase only
-  - The commit type must be chosen by whether the change is worth a release, as the scheduled release bumps the version on `feat` (minor) and `fix` (patch) commits since the last release
-    - Use a non-releasing type, typically `chore`, for changes that do not alter what the user experiences, e.g. dependency maintenance, type-level fixes, refactors, and tooling, so they do not trigger a release
-  - The commit scope should not be repeated in the commit description, e.g. `feat(event): add name` instead of `feat(event): add event name`
-- Git commit scopes must be chosen as follows (ordered by priority):
-  1. model object name, e.g. `event`, `account`, `recommendation`
-  2. simplified dependency name, e.g. `security` or `i18n` for Nuxt modules (`nuxt-security`, `@nuxtjs/i18n`); `sentry`, `urql` for libraries (`@sentry/nuxt`, `@urql/core`)
-  3. technology, e.g. `typescript`, `docker`, `nuxt`
-- Commit bodies are empty by default and only filled in when they carry information the title cannot, e.g. a resolved issue link or the reason behind a breaking change
+## git
+- branch `<type>/<scope>/<description>`, never the default branch
+- commit titles: Conventional Commits, lowercase
+  - type by whether the change is worth a release: `feat` (minor) and `fix` (patch) release, so take `chore` or another non-releasing type when users notice nothing
+  - scope, by priority: model object (`event`), simplified dependency name (`i18n`, `urql`), technology (`docker`)
+  - no scope repeated in the description: `feat(event): add name`
+  - body only for what the title cannot carry
+- needing something new from another service of the stack is a breaking change: `!` and `beta`, even when users notice nothing; steps in CONTRIBUTING.md, "Breaking changes"
+- after merging the target into a branch stacked on a squash-merged pull request, compare the branch against the target, as that merge can silently restore what the branch removed
 
-## NPM
-- Ensure CI is green before completing work with the following commands:
-  - `pnpm run lint` for formatting and type checks
-  - `pnpm run build` as preparation for end-to-end testing
-  - `pnpm run test:e2e:docker:server:node:update` for end-to-end testing with snapshot updates
-    - The visual regression snapshots are stored in Git LFS, so fetch them in a fresh worktree first, as pointer files fail to decode as images
-- Proposal of changes to installed dependencies are allowed
-- Pin development dependencies to an exact version, don't use caret-versioning
-- Hold a dependency back with a pnpm override in `pnpm-workspace.yaml`, and disable the package in `.renovaterc.json` too so Renovate does not raise the pin again
+## verification
+- before calling work done: `pnpm run lint`, `pnpm run build`, `pnpm run test:e2e:docker:server:node:update`
+  - fetch the Git LFS snapshots first in a fresh worktree, as pointer files fail to decode as images
+- `pnpm --dir tests run test` checks every template tag against the component registry, as an unresolved tag renders nothing without failing lint or build
+- e2e pages get their GraphQL data from fixed responses per operation name: CONTRIBUTING.md, "Playwright"
 
-## Nuxt
-- Nuxt auto-imports are active, so there is no need to import Nuxt components, composables and Vue.js APIs – run `pnpm exec nuxt prepare` instead to update the barrel files
-- Do not hardcode translatable strings, but use the i18n module instead
+## dependencies
+- proposing changes to dependencies is allowed
+- pin development dependencies to an exact version
+- holding one back: CONTRIBUTING.md, "Dependencies"
 
-## Internationalization
-- A url that names a locale keeps it, for everyone, signed in or not
-- A url that names none, i.e. the root or a link marked with the `language=auto` query, resolves in this order: the account's language, the stored i18n cookie, the browser language, the default locale
-- Links the product itself sends to a specific person must carry that person's locale prefix or the `language=auto` query
-  - With the `prefix_except_default` strategy an English url cannot be told apart from one that names no locale
+## nuxt
+- auto-imports are active: `pnpm exec nuxt prepare` updates them, no manual imports of components, composables or Vue APIs
+- no hardcoded translatable strings, use the i18n module
+- `pnpm --dir src run gql:codegen` after any change to a GraphQL query or mutation
+- the `Dockerfile` holds the whole build pipeline in stages
 
-## Components
-- Generic components without domain logic live in `src/app/components/app/` and carry the `App` prefix, as that folder holds the components already migrated to the design system
-  - Migrate a generic component that lives elsewhere into that folder instead of extending it in place
-  - Domain components stay in their domain folder, e.g. `event/` or `guest/`, and compose `App` components
-- Write `App` components like the shadcn-vue components in `src/app/components/scn/`
-  - Wrap the shadcn-vue or reka-ui primitive if one exists
-  - Accept a `class` prop and merge it last with `cn`
-  - Set `data-slot` to the component's role, e.g. `button`
-  - Let attributes and native events fall through instead of redeclaring and re-emitting them
-  - Use `defineModel` for two-way bindings
-  - Express variants as `data-variant` and `data-size` attributes styled with `data-[variant=…]:` utilities instead of conditional class lists
-- Apply the type scale with its utilities from `src/app/assets/css/vibetype.css`, e.g. `text-body` or `text-heading-medium`, on the element itself instead of wrapping text in a component
-- Add or update components in `src/app/components/scn/` with the shadcn-vue CLI rather than by hand, as Nuxt registers each name exported by their `index.ts`
-- A component tag that resolves to no component renders nothing without failing lint or build, so `pnpm --dir tests run test` checks every template tag against the component registry
+## i18n
+- a url that names a locale keeps it, for everyone, signed in or not
+- a url that names none (the root, or a link marked with the `language=auto` query) resolves to the account's language, then the stored i18n cookie, the browser language, the default locale
+- links sent to a specific person carry that person's locale prefix or `language=auto`, as an English url cannot be told apart from one that names no locale
 
-## Docker
-- The `Dockerfile` contains the full build pipeline, divided into multiple stages
+## components
+- generic components without domain logic: `src/app/components/app/`, `App` prefix; migrate one that lives elsewhere instead of extending it in place
+- domain components stay in their domain folder and compose `App` components
+- write `App` components like the shadcn-vue ones in `src/app/components/scn/`: CONTRIBUTING.md, "Components"
+- apply the type scale utilities from `src/app/assets/css/vibetype.css` on the element itself, no wrapper component
+- add or update `scn/` components with the shadcn-vue CLI, as Nuxt registers each name their `index.ts` exports
 
-## Typescript
-- Do not use typecasts, except when there is no other way
-- Use `const` over `let`
-
-## GraphQL
-- Run `pnpm --dir src run gql:codegen` after any changes to GraphQL queries or mutations to update the generated types
-
-## Agents
-- If information that is relevant for agentic instructions is not yet covered in `AGENTS.md`, add it.
+## agents
+- add what agents need and this file lacks: the rule here, its detail in CONTRIBUTING.md

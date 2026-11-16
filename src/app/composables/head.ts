@@ -76,6 +76,12 @@ export const useHeadDefault = (
   input: Parameters<typeof useSeoMeta>[0],
   ogImageProps?: Parameters<typeof defineOgImage>[1],
 ) => {
+  // a page whose setup resumes after an await that navigated away, like the
+  // index page's redirect to the dashboard, is already unmounted: its stopped
+  // scope never runs the watcher that fills `useSiteConfig`, so the site name
+  // is undefined, and head entries added now would never be disposed
+  if (getCurrentScope()?.active === false) return
+
   const { t } = useI18n({ useScope: 'global' })
   const siteConfig = useSiteConfig()
 

@@ -5,17 +5,15 @@
       :error="{ message: 'Account data missing', status: 404 }"
     />
     <LayoutPage v-else>
-      <div class="flex flex-col gap-3">
-        <div class="flex items-center justify-between">
-          <h1>
-            <span class="text-heading-large">
-              {{ title }}
-            </span>
-          </h1>
+      <div class="flex flex-col gap-4">
+        <div
+          class="relative flex flex-col items-center gap-4 rounded-large bg-surface-raised p-6"
+        >
           <template v-if="isOwnProfile">
             <AppButton
               v-if="isOwnProfile"
               :aria-label="t('edit')"
+              class="absolute top-4 right-4 size-11 justify-center rounded-full bg-surface hover:bg-line"
               size="none"
               :to="
                 localePath({
@@ -27,11 +25,14 @@
               "
               variant="ghost"
             >
-              <AppIconSettings class="size-8" />
+              <AppIconEdit class="size-5" />
             </AppButton>
           </template>
           <template v-else>
-            <div v-if="store.signedInAccountId" class="flex justify-center">
+            <div
+              v-if="store.signedInAccountId"
+              class="absolute top-4 right-4 flex justify-center"
+            >
               <AppDropdown>
                 <AppDropdownItem
                   variant="destructive"
@@ -41,7 +42,7 @@
                 </AppDropdownItem>
                 <template #trigger>
                   <span
-                    class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
+                    class="flex size-11 items-center justify-center rounded-full bg-surface hover:bg-line"
                   >
                     <AppIconMoreVertical />
                   </span>
@@ -55,34 +56,31 @@
               />
             </div>
           </template>
-        </div>
-        <div
-          class="flex items-center gap-3 rounded-large bg-surface-raised p-3"
-        >
           <!-- TODO: pass in data to make subcomponent api requests unnecessary -->
           <AccountProfilePicture
             :account-id="account.rowId"
-            class="size-15 rounded-full"
-            height="60"
-            width="60"
+            class="size-32 rounded-large"
+            height="128"
+            width="128"
           />
-          <span class="text-heading-medium text-balance">
+          <h1 class="text-center text-heading-medium text-balance">
             {{ t('username', { username: route.params.username }) }}
-          </span>
+          </h1>
         </div>
         <AppFeature feature="friends">
           <AppButton
             v-if="store.signedInUsername !== route.params.username"
             :aria-label="t('friendAdd')"
             disabled
+            variant="secondary"
           >
             {{ t('friendAdd') }}
           </AppButton>
         </AppFeature>
         <AppFeature feature="friends">
-          <span class="text-title3">
+          <h2 class="text-title3">
             {{ t('friends') }}
-          </span>
+          </h2>
           <!-- @vue-ignore -->
           <AppCardButton
             class="relative"
@@ -146,18 +144,18 @@
           </AppButton>
         </AppFeature>
         <div v-if="accountDescription" class="flex flex-col gap-2 p-1.5">
-          <span class="text-heading-medium text-balance">
+          <h2 class="text-title3 text-balance">
             {{ t('about') }}
-          </span>
+          </h2>
           <span class="text-body">
             {{ accountDescription }}
           </span>
         </div>
         <div v-if="events?.length" class="flex flex-col gap-3 py-1.5">
-          <div class="flex justify-between pl-2">
-            <span class="text-heading-medium text-balance">
+          <div class="flex items-center justify-between pl-2">
+            <h2 class="text-title3 text-balance">
               {{ t('events') }}
-            </span>
+            </h2>
             <AppButton
               v-if="isOwnProfile"
               :aria-label="t('newEvent')"
@@ -189,9 +187,9 @@
           </AppButton>
         </div>
         <div class="flex flex-col gap-3">
-          <span class="px-2 text-heading-medium text-balance">
+          <h2 class="px-2 text-title3 text-balance">
             {{ t('achievements') }}
-          </span>
+          </h2>
           <div
             class="flex justify-between rounded-large bg-surface-raised px-6 py-2"
           >
@@ -215,15 +213,24 @@
           </div>
         </div>
         <div v-if="accountImprintUrl" class="flex flex-col gap-2 p-1.5">
-          <span class="text-heading-medium text-balance">
+          <h2 class="text-title3 text-balance">
             {{ t('imprint') }}
-          </span>
+          </h2>
           <span class="text-body">
             <AppLink :to="accountImprintUrl">
               {{ accountImprintUrl }}
             </AppLink>
           </span>
         </div>
+        <template v-if="isOwnProfile">
+          <AppSeparator />
+          <AppMenuItem
+            :title="t('settings')"
+            :to="localePath({ name: 'session-edit' })"
+          >
+            <AppIconSettings />
+          </AppMenuItem>
+        </template>
       </div>
     </LayoutPage>
   </Loader>
@@ -416,6 +423,7 @@ de:
   newEvent: Neues Event
   ogImageAlt: Das Profilbild des Kontos.
   profile: Profil
+  settings: Einstellungen
   uploads: Meine Dateien
   username: "{'@'}{username}"
 en:
@@ -435,6 +443,7 @@ en:
   newEvent: New event
   ogImageAlt: The account's profile picture.
   profile: Profile
+  settings: Settings
   uploads: Uploads
   username: "{'@'}{username}"
 </i18n>

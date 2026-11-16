@@ -8,145 +8,171 @@
       v-else-if="!event"
       :error="{ message: t('errorEventMissing'), status: 404 }"
     />
-    <div v-else class="flex flex-col gap-4">
-      <AppButtonGroup
-        v-if="!routeQueryIc && event.createdBy === store.signedInAccountId"
-        class="justify-center"
-      >
-        <AppButton
-          :aria-label="t('guests')"
-          :to="
-            localePath({
-              name: 'event-view-username-event_name-guest',
-              params: {
-                event_name: route.params.event_name,
-                username: route.params.username,
-              },
-            })
-          "
-        >
-          {{ t('guests') }}
-          <template #prefix>
-            <AppIconUsers />
-          </template>
-        </AppButton>
-        <AppButton
-          :aria-label="t('attendances')"
-          :to="
-            localePath({
-              name: 'event-view-username-event_name-attendance',
-              params: {
-                event_name: route.params.event_name,
-                username: route.params.username,
-              },
-            })
-          "
-        >
-          {{ t('attendances') }}
-          <template #prefix>
-            <AppIconUserCheckBroken />
-          </template>
-        </AppButton>
-        <AppButton
-          :aria-label="t('settings')"
-          :to="
-            localePath({
-              name: 'event-edit-username-event_name',
-              params: {
-                event_name: route.params.event_name,
-                username: route.params.username,
-              },
-            })
-          "
-        >
-          {{ t('settings') }}
-          <template #prefix>
-            <AppIconPencil />
-          </template>
-        </AppButton>
-      </AppButtonGroup>
-      <div class="flex flex-col gap-4">
-        <div>
-          <div class="relative">
-            <EventHeroImage :event />
-            <div
-              class="absolute inset-x-0 top-0 flex items-center justify-between p-2"
+    <div v-else class="flex flex-col">
+      <LayoutTopBar>
+        <template #back>
+          <ButtonIconBackRoute is-round />
+        </template>
+        <template #close>
+          <div class="flex items-center gap-2">
+            <EventShareButton
+              class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
+              :event
+            />
+            <EventFavoriteButton
+              class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
+              :event
+            />
+            <template
+              v-if="
+                store.signedInAccountId &&
+                event.createdBy !== store.signedInAccountId
+              "
             >
-              <div />
-              <div class="flex items-center gap-2">
-                <EventShareButton
-                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
-                  :event
-                />
-                <EventFavoriteButton
-                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
-                  :event
-                />
-                <template
-                  v-if="
-                    store.signedInAccountId &&
-                    event.createdBy !== store.signedInAccountId
-                  "
+              <AppDropdown>
+                <AppDropdownItem
+                  variant="destructive"
+                  @select="isOpenReportDrawer = true"
                 >
-                  <AppDropdown>
-                    <AppDropdownItem
-                      variant="destructive"
-                      @select="isOpenReportDrawer = true"
-                    >
-                      {{ t('report') }}
-                    </AppDropdownItem>
-                    <template #trigger>
-                      <span
-                        class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
-                      >
-                        <AppIconMoreVertical />
-                      </span>
-                    </template>
-                  </AppDropdown>
-                  <EventReportDrawer
-                    v-model:open="isOpenReportDrawer"
-                    :account-id="store.signedInAccountId"
-                    :event
-                  />
+                  {{ t('report') }}
+                </AppDropdownItem>
+                <template #trigger>
+                  <span
+                    class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
+                  >
+                    <AppIconMoreVertical />
+                  </span>
                 </template>
-              </div>
-            </div>
+              </AppDropdown>
+              <EventReportDrawer
+                v-model:open="isOpenReportDrawer"
+                :account-id="store.signedInAccountId"
+                :event
+              />
+            </template>
           </div>
-          <AppCard
-            v-if="event?.accountByCreatedBy"
-            class="flex flex-col items-stretch gap-6 rounded-t-none"
+        </template>
+      </LayoutTopBar>
+      <div class="flex w-full max-w-2xl flex-col gap-6 self-center p-4 md:px-8">
+        <div class="relative">
+          <EventHeroImage class="h-64 rounded-large" :event />
+          <div
+            aria-hidden="true"
+            class="absolute bottom-3 left-3 flex flex-col items-center rounded-medium bg-surface px-4 py-2"
           >
-            <div
-              class="flex flex-col items-baseline justify-center md:flex-row md:gap-2"
-            >
-              <h1 class="m-0">
-                {{ event.name }}
-              </h1>
-              <EventOwner link :username="event.accountByCreatedBy.username" />
-            </div>
-            <div class="flex flex-col gap-2">
+            <AppTime
+              class="text-body-small text-link"
+              :datetime="event.start"
+              :options="{ month: 'short' }"
+            />
+            <AppTime
+              class="text-headline text-fg-1"
+              :datetime="event.start"
+              :options="{ day: 'numeric' }"
+            />
+          </div>
+        </div>
+        <div v-if="event?.accountByCreatedBy" class="flex flex-col gap-1">
+          <h1 class="m-0 text-title3">
+            {{ event.name }}
+          </h1>
+          <EventOwner link :username="event.accountByCreatedBy.username" />
+        </div>
+        <AppButtonGroup
+          v-if="!routeQueryIc && event.createdBy === store.signedInAccountId"
+          class="grid grid-cols-3 gap-2 lg:gap-2"
+        >
+          <AppButton
+            :aria-label="t('guests')"
+            class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+            size="none"
+            :to="
+              localePath({
+                name: 'event-view-username-event_name-guest',
+                params: {
+                  event_name: route.params.event_name,
+                  username: route.params.username,
+                },
+              })
+            "
+            variant="secondary"
+          >
+            {{ t('guests') }}
+            <template #prefix>
+              <AppIconUsers />
+            </template>
+          </AppButton>
+          <AppButton
+            :aria-label="t('attendances')"
+            class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+            size="none"
+            :to="
+              localePath({
+                name: 'event-view-username-event_name-attendance',
+                params: {
+                  event_name: route.params.event_name,
+                  username: route.params.username,
+                },
+              })
+            "
+            variant="secondary"
+          >
+            {{ t('attendances') }}
+            <template #prefix>
+              <AppIconUserCheckBroken />
+            </template>
+          </AppButton>
+          <AppButton
+            :aria-label="t('settings')"
+            class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+            size="none"
+            :to="
+              localePath({
+                name: 'event-edit-username-event_name',
+                params: {
+                  event_name: route.params.event_name,
+                  username: route.params.username,
+                },
+              })
+            "
+            variant="secondary"
+          >
+            {{ t('settings') }}
+            <template #prefix>
+              <AppIconPencil />
+            </template>
+          </AppButton>
+        </AppButtonGroup>
+        <div v-if="event?.accountByCreatedBy" class="flex flex-col gap-6">
+          <section class="flex flex-col gap-2">
+            <h2 class="text-headline">{{ t('details') }}</h2>
+            <div class="flex flex-col gap-2 text-fg-2">
               <EventDashletStart :event />
               <EventDashletDuration :event />
               <EventDashletVisibility :event with-text />
               <EventDashletAttendanceType :event />
-              <EventDashletLocation :address :event />
               <EventDashletLink :event />
             </div>
+          </section>
+          <section v-if="isLocationVisible" class="flex flex-col gap-2">
+            <h2 class="text-headline">{{ t('location') }}</h2>
+            <EventDashletLocation :address class="text-fg-2" :event />
             <AppMap
               v-if="positionInitial"
-              class="h-42 rounded-large"
+              class="isolate h-48 rounded-medium"
               :events
               :position-initial
             />
-          </AppCard>
+          </section>
         </div>
-        <AppCard v-if="eventDescriptionTemplate">
+        <section v-if="eventDescriptionTemplate" class="flex flex-col gap-2">
+          <h2 class="text-headline">{{ t('about') }}</h2>
           <!-- eslint-disable vue/no-v-html -->
           <LayoutProse class="w-full">
             <div v-html="eventDescriptionTemplate" />
           </LayoutProse>
           <!-- eslint-enable vue/no-v-html -->
-        </AppCard>
+        </section>
       </div>
     </div>
   </Loader>
@@ -156,6 +182,10 @@
 import { sanitize } from 'isomorphic-dompurify'
 
 import { graphql } from '~~/gql/generated'
+
+definePageMeta({
+  layout: 'default-no-header',
+})
 
 const { t } = useI18n()
 const store = useStore()
@@ -325,24 +355,35 @@ const positionInitial = computed(() =>
       }
     : undefined,
 )
+const isLocationVisible = computed(
+  () =>
+    (event.value?.isInPerson && !!address.value?.name) ||
+    !!positionInitial.value,
+)
 </script>
 
 <i18n lang="yaml">
 de:
+  about: Über die Veranstaltung
   attendances: Check-in
+  details: Details
   errorAccountMissing: Nutzerkonto nicht verfügbar
   errorEventMissing: Veranstaltung nicht verfügbar
   errorTemplate: Wert nur in der Einladung verfügbar
   guests: Gäste
+  location: Ort
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
   report: Veranstaltung melden
   settings: Bearbeiten
 en:
+  about: About the event
   attendances: Check in
+  details: Details
   errorAccountMissing: Account not available
   errorEventMissing: Event not available
   errorTemplate: value available in invitation only
   guests: Guests
+  location: Location
   ogImageAlt: The event's preview image.
   report: Report event
   settings: Edit
