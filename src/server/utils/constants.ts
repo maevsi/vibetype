@@ -72,7 +72,7 @@ export const GET_CSP = ({
           : []),
       ],
       'worker-src': [
-        `${siteUrl}${process.env.NODE_ENV === 'development' ? 'dev-' : ''}sw.js`, // @vite-pwa/nuxt
+        `${siteUrl}sw.js`, // @vite-pwa/nuxt
       ],
     },
     {

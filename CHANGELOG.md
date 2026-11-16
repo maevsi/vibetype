@@ -1,34 +1,34 @@
-## [18.0.0-beta.3](https://github.com/maevsi/vibetype/compare/18.0.0-beta.2...18.0.0-beta.3) (2026-11-16)
-
-### ⚠ BREAKING CHANGES
-
-* **i18n:** read the account language from the session token (#2635)
-
-### Bug Fixes
-
-* **i18n:** open the root in the account language on the first load ([#2637](https://github.com/maevsi/vibetype/issues/2637)) ([a39ff77](https://github.com/maevsi/vibetype/commit/a39ff77f7fdaffba44c04f67111c4c84a96193f0))
-
-### Performance Improvements
-
-* **i18n:** read the account language from the session token ([#2635](https://github.com/maevsi/vibetype/issues/2635)) ([a5efeb9](https://github.com/maevsi/vibetype/commit/a5efeb963ee923c86487b005ae69a73bcaef2f21))
-
-## [18.0.0-beta.2](https://github.com/maevsi/vibetype/compare/18.0.0-beta.1...18.0.0-beta.2) (2026-11-16)
+## [17.8.0](https://github.com/maevsi/vibetype/compare/17.7.0...17.8.0) (2026-11-16)
 
 ### Features
 
-* **dashboard:** arrange the sections after the design mockup ([#2628](https://github.com/maevsi/vibetype/issues/2628)) ([663b096](https://github.com/maevsi/vibetype/commit/663b09698783529bcb515af32d246bab09d63b0e))
-* **event:** restyle the card after the design mockup ([#2627](https://github.com/maevsi/vibetype/issues/2627)) ([64578e8](https://github.com/maevsi/vibetype/commit/64578e86101f266c12b88b32849a30c580dfc4d2))
-* **layout:** add a create button to the bottom navigation ([#2625](https://github.com/maevsi/vibetype/issues/2625)) ([334db0d](https://github.com/maevsi/vibetype/commit/334db0d617a8001ef8e3c828940e99a6e19796f9))
-* **layout:** hide the bottom navigation on focused subpages ([#2630](https://github.com/maevsi/vibetype/issues/2630)) ([a2c9ad0](https://github.com/maevsi/vibetype/commit/a2c9ad0dd6ae5cd0eee3f1f1ba6075afd722484c))
-* **session:** restyle the settings menu after the design mockup ([#2629](https://github.com/maevsi/vibetype/issues/2629)) ([17932b6](https://github.com/maevsi/vibetype/commit/17932b6e6236d7bc4d548a5abc9361876154cd97))
+* **account:** restyle the profile after the design mockup ([#2647](https://github.com/maevsi/vibetype/issues/2647)) ([6ff03b4](https://github.com/maevsi/vibetype/commit/6ff03b46e296459e7cdc509bebbda35ab38c0bcc))
+
+## [17.7.0](https://github.com/maevsi/vibetype/compare/17.6.1...17.7.0) (2026-11-16)
+
+### Features
+
+* **account:** hide the bottom navigation while editing the profile ([#2644](https://github.com/maevsi/vibetype/issues/2644)) ([976d34c](https://github.com/maevsi/vibetype/commit/976d34c4e62a4671b2b195fff39ea3eb7b685ba6))
+* **event:** preview the category grid behind a feature flag ([#2643](https://github.com/maevsi/vibetype/issues/2643)) ([c5ce4a8](https://github.com/maevsi/vibetype/commit/c5ce4a874e92efacfbed13ac7d09407dd8c2927e))
+
+## [17.6.1](https://github.com/maevsi/vibetype/compare/17.6.0...17.6.1) (2026-11-16)
+
+### Bug Fixes
+
+* **head:** skip pages unmounted by their own redirect ([#2641](https://github.com/maevsi/vibetype/issues/2641)) ([ce4a81c](https://github.com/maevsi/vibetype/commit/ce4a81c807a774ea0cdbe120be855e5cce64d9d3))
+
+## [17.6.0](https://github.com/maevsi/vibetype/compare/17.5.1...17.6.0) (2026-11-16)
+
+### Features
+
+* **event:** group an account's events by day ([#2634](https://github.com/maevsi/vibetype/issues/2634)) ([b80d7b7](https://github.com/maevsi/vibetype/commit/b80d7b7bc885c1cc1e2481c9c1c6d9ae7c2669a1))
+
+## [17.5.1](https://github.com/maevsi/vibetype/compare/17.5.0...17.5.1) (2026-11-16)
 
 ### Bug Fixes
 
 * **i18n:** keep the locale a url names for signed-in accounts ([#2619](https://github.com/maevsi/vibetype/issues/2619)) ([4cabc5f](https://github.com/maevsi/vibetype/commit/4cabc5f729840918dff63fed7a147fa7256ebcfb))
 * **i18n:** keep the recipient's language in the links sent to them ([#2636](https://github.com/maevsi/vibetype/issues/2636)) ([952f52a](https://github.com/maevsi/vibetype/commit/952f52a243330bf9d2e69f582dac760e0be89710))
-* **layout:** center the create button for signed-out visitors ([#2632](https://github.com/maevsi/vibetype/issues/2632)) ([e55c38d](https://github.com/maevsi/vibetype/commit/e55c38d1e7bdb6f3d101bd3d33ece4539ddd6e6d))
-* **pwa:** keep launched calendar files through the locale redirect ([#2616](https://github.com/maevsi/vibetype/issues/2616)) ([a7a27f1](https://github.com/maevsi/vibetype/commit/a7a27f1f8987f22c7271be97f7a5b00123e8f1ba))
-* **registration:** keep the preselected birth date on reselect ([#2633](https://github.com/maevsi/vibetype/issues/2633)) ([c473f3b](https://github.com/maevsi/vibetype/commit/c473f3bcf7ef4f7fc43811c5d0b473cf21bf4c17))
 
 ## [17.5.0](https://github.com/maevsi/vibetype/compare/17.4.0...17.5.0) (2026-11-16)
 

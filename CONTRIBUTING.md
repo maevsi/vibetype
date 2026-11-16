@@ -25,6 +25,26 @@ Renovate reads `pnpm-workspace.yaml` and will open a pull request that raises th
 
 Read [@dargmuesli's guide on Semantic Versioning](https://gist.github.com/dargmuesli/430b7d902a22df02d88d1969a22a81b5#file-semantic-versioning-md) to find out how to correctly format pull request, issue and commit titles and how this necessity speeds up our development.
 
+### Breaking changes
+
+A change is breaking when it only works with something new from another service of the stack, for example a database function, a token claim or an environment variable that only a newer `sqitch`, `postgraphile` or `stack` release provides.
+A new major release is how the stack learns that it has to deploy the other service first, so the change is breaking even when nothing changes for users.
+
+1. Mark the pull request title with `!` and target `beta`.
+1. State the requirement in the pull request body: the service, its minimum version, and what happens when it is missing.
+1. Once merged, add the pull request to the draft release pull request from `beta` to `main` and extend its upgrade instructions.
+
+### Components
+
+Components in `src/app/components/app/` follow the shadcn-vue components in `src/app/components/scn/`.
+
+1. Wrap the shadcn-vue or reka-ui primitive if one exists.
+1. Accept a `class` prop and merge it last with `cn`.
+1. Set `data-slot` to the component's role, for example `button`.
+1. Let attributes and native events fall through instead of redeclaring and re-emitting them.
+1. Use `defineModel` for two-way bindings.
+1. Express variants as `data-variant` and `data-size` attributes styled with `data-[variant=…]:` utilities instead of conditional class lists.
+
 ### Vue
 
 To allow you and other developers to quickly navigate through Vue Single-File Components many `pages` and `components` in this repository share a common structure in `script setup` that's inspired by [Vue's Options API](https://vueschool.io/articles/vuejs-tutorials/options-api-vs-composition-api/).
