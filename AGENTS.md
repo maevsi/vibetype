@@ -40,6 +40,12 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
 - Nuxt auto-imports are active, so there is no need to import Nuxt components, composables and Vue.js APIs – run `pnpm exec nuxt prepare` instead to update the barrel files
 - Do not hardcode translatable strings, but use the i18n module instead
 
+## Internationalization
+- A url that names a locale keeps it, for everyone, signed in or not
+- A url that names none, i.e. the root or a link marked with the `language=auto` query, resolves in this order: the account's language, the stored i18n cookie, the browser language, the default locale
+- Links the product itself sends to a specific person must carry that person's locale prefix or the `language=auto` query
+  - With the `prefix_except_default` strategy an English url cannot be told apart from one that names no locale
+
 ## Components
 - Generic components without domain logic live in `src/app/components/app/` and carry the `App` prefix, as that folder holds the components already migrated to the design system
   - Migrate a generic component that lives elsewhere into that folder instead of extending it in place
