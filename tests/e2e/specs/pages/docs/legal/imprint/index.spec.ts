@@ -1,7 +1,6 @@
 import { type BrowserContext, expect } from '@playwright/test'
 
 import { I18N_COOKIE_NAME } from '#src/node/static'
-import { TESTING_ACCOUNT_GERMAN_ROW_ID } from '#src/shared/utils/testing'
 import { authenticatedTest } from '#tests/e2e/fixtures/authenticatedTest'
 import { appTest } from '#tests/e2e/fixtures/appTest'
 import { SITE_URL } from '#tests/e2e/utils/constants'
@@ -111,7 +110,7 @@ const getI18nCookieValue = async (context: BrowserContext) =>
 
 authenticatedTest.describe('account language with an english browser', () => {
   authenticatedTest.use({
-    accountRowId: TESTING_ACCOUNT_GERMAN_ROW_ID,
+    language: 'de',
     locale: 'en-US',
   })
 
