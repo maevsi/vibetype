@@ -120,7 +120,6 @@
 
 <script setup lang="ts">
 import { graphql } from '~~/gql/generated'
-import { eventHasEnded } from '~~/shared/utils/event'
 
 // async data
 const eventQuery = graphql(`
@@ -214,17 +213,19 @@ const { data: eventRecommendations, pending: eventRecommendationsPending } =
   )
 
 // async data - upcoming
-// TODO: use custom and more precise database function instead of full fetch and client filtering
 const eventUpcomingQuery = graphql(`
   query DashboardEventUpcoming($createdBy: UUID!) {
-    allEvents(condition: { createdBy: $createdBy }) {
+    allEvents(
+      condition: { createdBy: $createdBy, hasEnded: false }
+      first: 1
+      orderBy: START_ASC
+    ) {
       nodes {
         accountByCreatedBy {
           id
           rowId
           username
         }
-        end
         eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
             eventCategoryByCategoryId {
@@ -272,16 +273,7 @@ const isLoading = computed(
     (eventRecommendationsPending.value && !eventRecommendations.value),
 )
 
-const now = useNow()
-const eventUpcoming = computed(() => {
-  if (!api.value.data.allEvents?.nodes) return undefined
-
-  const upcomingEvents = api.value.data.allEvents.nodes
-    .filter((event) => !eventHasEnded(event, now.value))
-    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime())
-
-  return upcomingEvents.length ? upcomingEvents[0] : undefined
-})
+const eventUpcoming = computed(() => api.value.data.allEvents?.nodes[0])
 
 const eventTopPick = computed(() => eventRecommendations.value?.[0])
 const eventRecommendationsOther = computed(

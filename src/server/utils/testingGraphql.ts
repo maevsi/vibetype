@@ -535,7 +535,6 @@ export const getTestingGraphqlResult = async ({
             nodes: [
               {
                 accountByCreatedBy: ACCOUNT,
-                end: EVENT.end,
                 eventCategoryMappingsByEventId:
                   EVENT_LIST_ITEM.eventCategoryMappingsByEventId,
                 eventFormatMappingsByEventId:
