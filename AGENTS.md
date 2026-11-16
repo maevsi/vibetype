@@ -25,6 +25,12 @@ This project is a Nuxt v4 application that serves as the client for `vibetype`, 
   2. simplified dependency name, e.g. `security` or `i18n` for Nuxt modules (`nuxt-security`, `@nuxtjs/i18n`); `sentry`, `urql` for libraries (`@sentry/nuxt`, `@urql/core`)
   3. technology, e.g. `typescript`, `docker`, `nuxt`
 - Commit bodies are empty by default and only filled in when they carry information the title cannot, e.g. a resolved issue link or the reason behind a breaking change
+- A change that requires something new from another service of the stack is a breaking change, e.g. a database function, a token claim or an environment variable that only a newer `sqitch`, `postgraphile` or `stack` release provides
+  - A new major release is how the stack learns that it has to deploy the other service first, so such a change goes to `beta` with the `!` mark even when nothing changes for users
+  - State the requirement in the pull request body, naming the service and its minimum version and what happens when it is missing
+  - Add the pull request to the draft release pull request from `beta` to `main` once it is merged, and extend its upgrade instructions
+- A branch stacked on a pull request that was squash-merged shares no history with the squashed commit, so merging the target branch into it can silently restore what the branch removed
+  - Compare the branch against its target afterwards and check that only its own changes remain
 
 ## NPM
 - Ensure CI is green before completing work with the following commands:
