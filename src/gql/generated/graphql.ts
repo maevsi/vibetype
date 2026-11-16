@@ -37,17 +37,6 @@ export type AccountEmailAddressVerificationInput = {
   code: string
 }
 
-/** All input for the `accountPasswordChange` mutation. */
-export type AccountPasswordChangeInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: string | null | undefined
-  passwordCurrent: string
-  passwordNew: string
-}
-
 /** All input for the `accountPasswordReset` mutation. */
 export type AccountPasswordResetInput = {
   /**
@@ -320,6 +309,17 @@ export type CreateEventInput = {
   event: EventInput
 }
 
+/** All input for the create `Friendship` mutation. */
+export type CreateFriendshipInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** The `Friendship` to be created by this mutation. */
+  friendship: FriendshipInput
+}
+
 /** All input for the `createGuests` mutation. */
 export type CreateGuestsInput = {
   /**
@@ -480,6 +480,19 @@ export type DeleteEventFormatMappingByEventIdAndFormatIdInput = {
   eventId: string
   /** A format id. */
   formatId: string
+}
+
+/** All input for the `deleteFriendshipByAccountAIdAndAccountBId` mutation. */
+export type DeleteFriendshipByAccountAIdAndAccountBIdInput = {
+  /** The friendship's account with the lexically smaller id. */
+  accountAId: string
+  /** The friendship's account with the lexically greater id. */
+  accountBId: string
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
 }
 
 /** All input for the `deleteGuestByRowId` mutation. */
@@ -676,6 +689,28 @@ export type EventSize = 'huge' | 'large' | 'medium' | 'small'
 /** Possible visibilities of events and event groups: public, private and unlisted. */
 export type EventVisibility = 'private' | 'public' | 'unlisted'
 
+/** An input for mutations affecting `Friendship` */
+export type FriendshipInput = {
+  /** The friendship's account with the lexically smaller id. */
+  accountAId: string
+  /** The friendship's account with the lexically greater id. */
+  accountBId: string
+  /** The account that requested the friendship. */
+  createdBy: string
+}
+
+/** Represents an update to a `Friendship`. Fields that are set will be updated. */
+export type FriendshipPatch = {
+  /** The friendship's status. */
+  status?: FriendshipStatus | null | undefined
+}
+
+/**
+ * Possible status values of a friendship.
+ * There is no status `rejected` because the friendship is deleted when its request is rejected.
+ */
+export type FriendshipStatus = 'accepted' | 'requested'
+
 /** Represents an update to a `Guest`. Fields that are set will be updated. */
 export type GuestPatch = {
   /** The guest's general feedback status. */
@@ -859,6 +894,21 @@ export type UpdateEventByRowIdInput = {
   rowId: string
 }
 
+/** All input for the `updateFriendshipByAccountAIdAndAccountBId` mutation. */
+export type UpdateFriendshipByAccountAIdAndAccountBIdInput = {
+  /** The friendship's account with the lexically smaller id. */
+  accountAId: string
+  /** The friendship's account with the lexically greater id. */
+  accountBId: string
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** An object where the defined keys will be set on the `Friendship` being updated. */
+  friendshipPatch: FriendshipPatch
+}
+
 /** All input for the `updateGuestByRowId` mutation. */
 export type UpdateGuestByRowIdInput = {
   /**
@@ -947,6 +997,70 @@ export type DeleteAccountBlockMutationVariables = Exact<{
 export type DeleteAccountBlockMutation = {
   deleteAccountBlockByCreatedByAndBlockedAccountId: {
     clientMutationId: string | null
+  } | null
+}
+
+export type FriendshipQueryVariables = Exact<{
+  accountAId: string
+  accountBId: string
+}>
+
+export type FriendshipQuery = {
+  friendshipByAccountAIdAndAccountBId: {
+    createdBy: string
+    id: string
+    status: FriendshipStatus
+  } | null
+}
+
+export type FriendshipCountQueryVariables = Exact<{
+  accountId: string
+}>
+
+export type FriendshipCountQuery = {
+  friendshipsAccepted: { totalCount: number } | null
+  friendshipsCreated: { totalCount: number } | null
+  friendshipsPending: { totalCount: number } | null
+}
+
+export type AccountFriendshipsQueryVariables = Exact<{
+  accountId: string
+  afterAccepted?: string | null | undefined
+  afterCreated?: string | null | undefined
+  first: number
+}>
+
+export type AccountFriendshipsQuery = {
+  friendshipsAccepted: {
+    nodes: Array<{
+      id: string
+      accountByCreatedBy: { id: string; rowId: string; username: string } | null
+    }>
+    pageInfo: { endCursor: string | null; hasNextPage: boolean }
+  } | null
+  friendshipsCreated: {
+    nodes: Array<{
+      id: string
+      status: FriendshipStatus
+      accountByUpdatedBy: { id: string; rowId: string; username: string } | null
+    }>
+    pageInfo: { endCursor: string | null; hasNextPage: boolean }
+  } | null
+}
+
+export type FriendshipRequestsQueryVariables = Exact<{
+  after?: string | null | undefined
+  first: number
+}>
+
+export type FriendshipRequestsQuery = {
+  friendshipRequests: {
+    nodes: Array<{
+      createdBy: string
+      id: string
+      accountByCreatedBy: { id: string; rowId: string; username: string } | null
+    }>
+    pageInfo: { endCursor: string | null; hasNextPage: boolean }
   } | null
 }
 
@@ -1298,14 +1412,6 @@ export type CreateGuestsMutation = {
   createGuests: { result: Array<{ id: string; rowId: string }> | null } | null
 }
 
-export type AccountPasswordChangeMutationVariables = Exact<{
-  input: AccountPasswordChangeInput
-}>
-
-export type AccountPasswordChangeMutation = {
-  accountPasswordChange: { clientMutationId: string | null } | null
-}
-
 export type AccountPasswordResetMutationVariables = Exact<{
   input: AccountPasswordResetInput
 }>
@@ -1365,35 +1471,6 @@ export type UpdateGuestByRowIdFeedbackMutation = {
       id: string
       rowId: string
     } | null
-  } | null
-}
-
-export type AllPreferenceEventSizesQueryVariables = Exact<{
-  [key: string]: never
-}>
-
-export type AllPreferenceEventSizesQuery = {
-  allPreferenceEventSizes: {
-    nodes: Array<{ eventSize: EventSize; id: string; rowId: string }>
-  } | null
-}
-
-export type CreatePreferenceEventSizeMutationVariables = Exact<{
-  input: CreatePreferenceEventSizeInput
-}>
-
-export type CreatePreferenceEventSizeMutation = {
-  createPreferenceEventSize: { clientMutationId: string | null } | null
-}
-
-export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables =
-  Exact<{
-    input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput
-  }>
-
-export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutation = {
-  deletePreferenceEventSizeByAccountIdAndEventSize: {
-    clientMutationId: string | null
   } | null
 }
 
@@ -1487,6 +1564,35 @@ export type DeletePreferenceEventLocationByRowIdMutation = {
   } | null
 }
 
+export type AllPreferenceEventSizesQueryVariables = Exact<{
+  [key: string]: never
+}>
+
+export type AllPreferenceEventSizesQuery = {
+  allPreferenceEventSizes: {
+    nodes: Array<{ eventSize: EventSize; id: string; rowId: string }>
+  } | null
+}
+
+export type CreatePreferenceEventSizeMutationVariables = Exact<{
+  input: CreatePreferenceEventSizeInput
+}>
+
+export type CreatePreferenceEventSizeMutation = {
+  createPreferenceEventSize: { clientMutationId: string | null } | null
+}
+
+export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables =
+  Exact<{
+    input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput
+  }>
+
+export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutation = {
+  deletePreferenceEventSizeByAccountIdAndEventSize: {
+    clientMutationId: string | null
+  } | null
+}
+
 export type DeleteUploadByRowIdMutationVariables = Exact<{
   input: DeleteUploadByRowIdInput
 }>
@@ -1539,6 +1645,34 @@ export type DeleteFailedUploadMutationVariables = Exact<{
 
 export type DeleteFailedUploadMutation = {
   deleteUploadByRowId: { clientMutationId: string | null } | null
+}
+
+export type CreateFriendshipMutationVariables = Exact<{
+  input: CreateFriendshipInput
+}>
+
+export type CreateFriendshipMutation = {
+  createFriendship: { clientMutationId: string | null } | null
+}
+
+export type DeleteFriendshipByAccountAIdAndAccountBIdMutationVariables = Exact<{
+  input: DeleteFriendshipByAccountAIdAndAccountBIdInput
+}>
+
+export type DeleteFriendshipByAccountAIdAndAccountBIdMutation = {
+  deleteFriendshipByAccountAIdAndAccountBId: {
+    clientMutationId: string | null
+  } | null
+}
+
+export type UpdateFriendshipByAccountAIdAndAccountBIdMutationVariables = Exact<{
+  input: UpdateFriendshipByAccountAIdAndAccountBIdInput
+}>
+
+export type UpdateFriendshipByAccountAIdAndAccountBIdMutation = {
+  updateFriendshipByAccountAIdAndAccountBId: {
+    clientMutationId: string | null
+  } | null
 }
 
 export type OwnContactQueryVariables = Exact<{
@@ -3157,6 +3291,585 @@ export const DeleteAccountBlockDocument = {
 } as unknown as DocumentNode<
   DeleteAccountBlockMutation,
   DeleteAccountBlockMutationVariables
+>
+export const FriendshipDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'Friendship' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'accountAId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'accountBId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'friendshipByAccountAIdAndAccountBId',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'accountAId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'accountAId' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'accountBId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'accountBId' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<FriendshipQuery, FriendshipQueryVariables>
+export const FriendshipCountDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'FriendshipCount' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'accountId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'friendshipsAccepted' },
+            name: { kind: 'Name', value: 'allFriendships' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'updatedBy' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'friendshipsCreated' },
+            name: { kind: 'Name', value: 'allFriendships' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'createdBy' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'friendshipsPending' },
+            name: { kind: 'Name', value: 'allFriendships' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'createdBy' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'updatedBy' },
+                      value: { kind: 'NullValue' },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  FriendshipCountQuery,
+  FriendshipCountQueryVariables
+>
+export const AccountFriendshipsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AccountFriendships' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'accountId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'afterAccepted' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'afterCreated' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'friendshipsAccepted' },
+            name: { kind: 'Name', value: 'allFriendships' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'afterAccepted' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'updatedBy' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountByCreatedBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rowId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'username' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'friendshipsCreated' },
+            name: { kind: 'Name', value: 'allFriendships' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'afterCreated' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'createdBy' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountByUpdatedBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rowId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'username' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'status' },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AccountFriendshipsQuery,
+  AccountFriendshipsQueryVariables
+>
+export const FriendshipRequestsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'FriendshipRequests' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            alias: { kind: 'Name', value: 'friendshipRequests' },
+            name: { kind: 'Name', value: 'allFriendships' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' },
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'updatedBy' },
+                      value: { kind: 'NullValue' },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'accountByCreatedBy' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rowId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'username' },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'createdBy' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  FriendshipRequestsQuery,
+  FriendshipRequestsQueryVariables
 >
 export const AttendanceGuestDocument = {
   kind: 'Document',
@@ -5564,63 +6277,6 @@ export const CreateGuestsDocument = {
   CreateGuestsMutation,
   CreateGuestsMutationVariables
 >
-export const AccountPasswordChangeDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'AccountPasswordChange' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'AccountPasswordChangeInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accountPasswordChange' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  AccountPasswordChangeMutation,
-  AccountPasswordChangeMutationVariables
->
 export const AccountPasswordResetDocument = {
   kind: 'Document',
   definitions: [
@@ -6114,171 +6770,6 @@ export const UpdateGuestByRowIdFeedbackDocument = {
 } as unknown as DocumentNode<
   UpdateGuestByRowIdFeedbackMutation,
   UpdateGuestByRowIdFeedbackMutationVariables
->
-export const AllPreferenceEventSizesDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'AllPreferenceEventSizes' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'allPreferenceEventSizes' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'eventSize' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  AllPreferenceEventSizesQuery,
-  AllPreferenceEventSizesQueryVariables
->
-export const CreatePreferenceEventSizeDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'CreatePreferenceEventSize' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreatePreferenceEventSizeInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createPreferenceEventSize' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  CreatePreferenceEventSizeMutation,
-  CreatePreferenceEventSizeMutationVariables
->
-export const DeletePreferenceEventSizeByAccountIdAndEventSizeDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: {
-        kind: 'Name',
-        value: 'DeletePreferenceEventSizeByAccountIdAndEventSize',
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: {
-                kind: 'Name',
-                value: 'DeletePreferenceEventSizeByAccountIdAndEventSizeInput',
-              },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: {
-              kind: 'Name',
-              value: 'deletePreferenceEventSizeByAccountIdAndEventSize',
-            },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  DeletePreferenceEventSizeByAccountIdAndEventSizeMutation,
-  DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables
 >
 export const AllEventCategoriesDocument = {
   kind: 'Document',
@@ -6833,6 +7324,171 @@ export const DeletePreferenceEventLocationByRowIdDocument = {
   DeletePreferenceEventLocationByRowIdMutation,
   DeletePreferenceEventLocationByRowIdMutationVariables
 >
+export const AllPreferenceEventSizesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllPreferenceEventSizes' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allPreferenceEventSizes' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventSize' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllPreferenceEventSizesQuery,
+  AllPreferenceEventSizesQueryVariables
+>
+export const CreatePreferenceEventSizeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreatePreferenceEventSize' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreatePreferenceEventSizeInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createPreferenceEventSize' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreatePreferenceEventSizeMutation,
+  CreatePreferenceEventSizeMutationVariables
+>
+export const DeletePreferenceEventSizeByAccountIdAndEventSizeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: {
+        kind: 'Name',
+        value: 'DeletePreferenceEventSizeByAccountIdAndEventSize',
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'DeletePreferenceEventSizeByAccountIdAndEventSizeInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'deletePreferenceEventSizeByAccountIdAndEventSize',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeletePreferenceEventSizeByAccountIdAndEventSizeMutation,
+  DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables
+>
 export const DeleteUploadByRowIdDocument = {
   kind: 'Document',
   definitions: [
@@ -7161,6 +7817,195 @@ export const DeleteFailedUploadDocument = {
 } as unknown as DocumentNode<
   DeleteFailedUploadMutation,
   DeleteFailedUploadMutationVariables
+>
+export const CreateFriendshipDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateFriendship' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateFriendshipInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createFriendship' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateFriendshipMutation,
+  CreateFriendshipMutationVariables
+>
+export const DeleteFriendshipByAccountAIdAndAccountBIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: {
+        kind: 'Name',
+        value: 'DeleteFriendshipByAccountAIdAndAccountBId',
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'DeleteFriendshipByAccountAIdAndAccountBIdInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'deleteFriendshipByAccountAIdAndAccountBId',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteFriendshipByAccountAIdAndAccountBIdMutation,
+  DeleteFriendshipByAccountAIdAndAccountBIdMutationVariables
+>
+export const UpdateFriendshipByAccountAIdAndAccountBIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: {
+        kind: 'Name',
+        value: 'UpdateFriendshipByAccountAIdAndAccountBId',
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'UpdateFriendshipByAccountAIdAndAccountBIdInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'updateFriendshipByAccountAIdAndAccountBId',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateFriendshipByAccountAIdAndAccountBIdMutation,
+  UpdateFriendshipByAccountAIdAndAccountBIdMutationVariables
 >
 export const OwnContactDocument = {
   kind: 'Document',

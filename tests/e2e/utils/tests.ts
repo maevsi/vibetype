@@ -470,3 +470,23 @@ export const testVisualRegression = (url: string, plain?: boolean) =>
       })
     })
   })
+
+// urql sends short queries as `GET` requests with the document in the URL and everything else as `POST` requests with the operation's name in the body
+export const waitForGraphqlOperation = (page: Page, operationName: string) =>
+  page.waitForRequest((request) => {
+    const { pathname, searchParams } = new URL(request.url())
+
+    if (!pathname.endsWith('/graphql')) return false
+
+    if (request.method() === 'POST') {
+      try {
+        return request.postDataJSON()?.operationName === operationName
+      } catch {
+        return false
+      }
+    }
+
+    return new RegExp(`^\\s*(query|mutation) ${operationName}\\b`).test(
+      searchParams.get('query') ?? '',
+    )
+  })

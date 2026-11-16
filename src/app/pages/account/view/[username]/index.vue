@@ -70,47 +70,18 @@
             {{ t('username', { username: route.params.username }) }}
           </span>
         </div>
-        <AppFeature feature="friends">
-          <AppButton
-            v-if="store.signedInUsername !== route.params.username"
-            :aria-label="t('friendAdd')"
-            disabled
-          >
-            {{ t('friendAdd') }}
-          </AppButton>
-        </AppFeature>
-        <AppFeature feature="friends">
-          <span class="text-title3">
-            {{ t('friends') }}
-          </span>
-          <!-- @vue-ignore -->
-          <AppCardButton
-            class="relative"
-            disabled
-            :to="`/friend/view/$username`"
-          >
-            <div class="isolate flex -space-x-2 overflow-hidden p-1">
-              <AccountProfilePicture
-                account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                class="rounded-full ring-3 ring-surface-raised"
-                height="64"
-                width="64"
-              />
-              <AccountProfilePicture
-                account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                class="rounded-full ring-3 ring-surface-raised"
-                height="64"
-                width="64"
-              />
-              <AccountProfilePicture
-                account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                class="rounded-full ring-3 ring-surface-raised"
-                height="64"
-                width="64"
-              />
-            </div>
-          </AppCardButton>
-        </AppFeature>
+        <template v-if="store.signedInAccountId">
+          <AccountFriendshipAction
+            v-if="!isOwnProfile"
+            :account-id="account.rowId"
+            :signed-in-account-id="store.signedInAccountId"
+            :username="route.params.username"
+          />
+          <AccountFriendshipCard
+            :account-id="account.rowId"
+            :username="route.params.username"
+          />
+        </template>
         <AppFeature v-if="isOwnProfile" feature="account-management">
           <AppButton
             :aria-label="t('contactBook')"
@@ -409,8 +380,6 @@ de:
   edit: Profil bearbeiten
   eventMore: Mehr…
   events: Events
-  friendAdd: Freundschaftsanfrage senden
-  friends: Freunde
   imprint: Impressum
   myProfile: Mein Profil
   newEvent: Neues Event
@@ -428,8 +397,6 @@ en:
   edit: Edit profile
   eventMore: Show more
   events: Events
-  friendAdd: Send friend request
-  friends: Friends
   imprint: Imprint
   myProfile: My Profile
   newEvent: New event
