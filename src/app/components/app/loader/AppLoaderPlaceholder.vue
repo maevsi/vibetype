@@ -9,7 +9,9 @@
     data-slot="loader-placeholder"
     role="status"
   >
-    <AppLoaderLogo class="size-16" />
+    <slot>
+      <AppLoaderLogo class="size-16" />
+    </slot>
     <span class="sr-only">{{ t('globalLoading') }}</span>
   </div>
 </template>

@@ -84,8 +84,8 @@ const PAGE_PATHS_MISSING = [
   `/event/view/${TESTING_ACCOUNT_USERNAME}/e2e-missing-event`,
 ]
 
-// pages titled with the bare site name: the start page and the offline shell, which only redirects to it
-const PAGE_PATHS_TITLE_SITE_NAME = ['/', '/offline']
+// pages titled with the bare site name: the start page and the client only shells, which only redirect
+const PAGE_PATHS_TITLE_SITE_NAME = ['/', '/event/import', '/offline']
 
 // uses the browser context's cookies, so that signed in requests carry the session
 // redirect targets are checked on their own, external ones (e.g. app stores) not at all

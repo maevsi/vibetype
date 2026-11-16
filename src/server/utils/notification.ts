@@ -187,11 +187,9 @@ export const processNotification = async ({
         props: {
           emailAddress: payload.account.email_address,
           locale,
-          passwordResetVerificationLink: `${siteUrl}${
-            payload.template.language !== LOCALE_DEFAULT
-              ? '/' + payload.template.language
-              : ''
-          }/account/password/reset?code=${
+          passwordResetVerificationLink: `${siteUrl}${getLocalePrefix(
+            payload.template.language,
+          )}/account/password/reset?code=${
             payload.account.password_reset_verification
           }`,
           timeZone: payload.template.time_zone ?? undefined,
@@ -211,11 +209,9 @@ export const processNotification = async ({
         name: channel,
         props: {
           emailAddress: payload.account.email_address,
-          emailAddressVerificationLink: `${siteUrl}${
-            payload.template.language !== LOCALE_DEFAULT
-              ? '/' + payload.template.language
-              : ''
-          }/account/verify?code=${payload.account.email_address_verification}`,
+          emailAddressVerificationLink: `${siteUrl}${getLocalePrefix(
+            payload.template.language,
+          )}/account/verify?code=${payload.account.email_address_verification}`,
           locale,
           timeZone: payload.template.time_zone ?? undefined,
           username: payload.account.username,
@@ -356,6 +352,7 @@ export const sendEventInvitationMail = async ({
   } = payloadCamelCased.data
   const { emailAddress, timeZone } = contact
   const guestId = guest.id
+  const language = payloadCamelCased.template.language
 
   const icalFetch = await fetch(
     `http://${SITE_NAME}:3000/api/model/event/ical`,
@@ -372,6 +369,7 @@ export const sendEventInvitationMail = async ({
         guest: {
           rowId: guestId,
         },
+        language,
       }),
       method: 'POST',
       headers: {
@@ -401,7 +399,6 @@ export const sendEventInvitationMail = async ({
     return
   }
 
-  const language = payloadCamelCased.template.language
   const t = locales[CHANNEL_NAME_EVENT_INVITATION][language]
 
   const eventAttendanceType = [
@@ -456,7 +453,7 @@ export const sendEventInvitationMail = async ({
     props: {
       emailAddress,
       eventAttendanceType,
-      eventAuthorProfileHref: `${siteUrl}/accounts/${eventCreatorUsername}`,
+      eventAuthorProfileHref: `${siteUrl}${getLocalePrefix(language)}/account/view/${eventCreatorUsername}`,
       eventAuthorProfilePictureSrc: eventCreatorProfilePictureUploadStorageKey
         ? tusdFilesUrl + eventCreatorProfilePictureUploadStorageKey
         : 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyAgUFVCTElDICctLy9XM0MvL0RURCBTVkcgMS4xLy9FTicgICdodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQnPgo8c3ZnIHdpZHRoPSI0MDFweCIgaGVpZ2h0PSI0MDFweCIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAzMTIuODA5IDAgNDAxIDQwMSIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIzMTIuODA5IDAgNDAxIDQwMSIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgdHJhbnNmb3JtPSJtYXRyaXgoMS4yMjMgMCAwIDEuMjIzIC00NjcuNSAtODQzLjQ0KSI+Cgk8cmVjdCB4PSI2MDEuNDUiIHk9IjY1My4wNyIgd2lkdGg9IjQwMSIgaGVpZ2h0PSI0MDEiIGZpbGw9IiNFNEU2RTciLz4KCTxwYXRoIGQ9Im04MDIuMzggOTA4LjA4Yy04NC41MTUgMC0xNTMuNTIgNDguMTg1LTE1Ny4zOCAxMDguNjJoMzE0Ljc5Yy0zLjg3LTYwLjQ0LTcyLjktMTA4LjYyLTE1Ny40MS0xMDguNjJ6IiBmaWxsPSIjQUVCNEI3Ii8+Cgk8cGF0aCBkPSJtODgxLjM3IDgxOC44NmMwIDQ2Ljc0Ni0zNS4xMDYgODQuNjQxLTc4LjQxIDg0LjY0MXMtNzguNDEtMzcuODk1LTc4LjQxLTg0LjY0MSAzNS4xMDYtODQuNjQxIDc4LjQxLTg0LjY0MWM0My4zMSAwIDc4LjQxIDM3LjkgNzguNDEgODQuNjR6IiBmaWxsPSIjQUVCNEI3Ii8+CjwvZz4KPC9zdmc+Cg==',
@@ -464,11 +461,7 @@ export const sendEventInvitationMail = async ({
       eventDescription,
       eventEnd: event.end || undefined,
       // TODO: add event group (https://github.com/maevsi/vibetype/issues/92)
-      eventLink: `${siteUrl}${
-        payloadCamelCased.template.language !== LOCALE_DEFAULT
-          ? '/' + payloadCamelCased.template.language
-          : ''
-      }/guest/view/${guestId}`,
+      eventLink: `${siteUrl}${getLocalePrefix(language)}/guest/view/${guestId}`,
       eventName: event.name,
       eventStart: event.start,
       eventVisibility,

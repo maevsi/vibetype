@@ -4,6 +4,9 @@
       <span :id="templateIdTitle">
         {{ title }}
       </span>
+      <template #back>
+        <ButtonIconBackRoute />
+      </template>
     </LayoutTopBar>
     <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
