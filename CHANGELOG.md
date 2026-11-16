@@ -1,3 +1,10 @@
+## [17.5.1](https://github.com/maevsi/vibetype/compare/17.5.0...17.5.1) (2026-11-16)
+
+### Bug Fixes
+
+* **i18n:** keep the locale a url names for signed-in accounts ([#2619](https://github.com/maevsi/vibetype/issues/2619)) ([4cabc5f](https://github.com/maevsi/vibetype/commit/4cabc5f729840918dff63fed7a147fa7256ebcfb))
+* **i18n:** keep the recipient's language in the links sent to them ([#2636](https://github.com/maevsi/vibetype/issues/2636)) ([952f52a](https://github.com/maevsi/vibetype/commit/952f52a243330bf9d2e69f582dac760e0be89710))
+
 ## [17.5.0](https://github.com/maevsi/vibetype/compare/17.4.0...17.5.0) (2026-11-16)
 
 ### Features
