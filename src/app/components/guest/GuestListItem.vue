@@ -146,7 +146,7 @@ const { event, guest } = defineProps<{
   guest: Pick<GuestItemFragment, 'contactByContactId' | 'feedback' | 'rowId'>
 }>()
 
-const { locale, t } = useI18n()
+const { defaultLocale, locale, t } = useI18n()
 const localePath = useLocalePath()
 const { copy } = useCopy()
 const { shift } = useMagicKeys()
@@ -199,12 +199,17 @@ const copyLink = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
 
   if (
     await copy(
-      `${window.location.origin}${localePath({
-        name: 'guest-view-id',
-        params: {
-          id: guest.rowId,
+      // the guest's language is unknown here, so the mark lets the server pick it
+      `${window.location.origin}${localePath(
+        {
+          name: 'guest-view-id',
+          params: {
+            id: guest.rowId,
+          },
+          query: { language: 'auto' },
         },
-      })}`,
+        defaultLocale,
+      )}`,
     )
   )
     toast.success(t('copySuccess'))
