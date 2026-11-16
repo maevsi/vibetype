@@ -1,3 +1,13 @@
+## [18.0.0-beta.5](https://github.com/maevsi/vibetype/compare/18.0.0-beta.4...18.0.0-beta.5) (2026-11-16)
+
+### ⚠ BREAKING CHANGES
+
+* **event:** filter ended events via the backend condition instead of client-side (#2648)
+
+### Features
+
+* **event:** filter ended events via the backend condition instead of client-side ([#2648](https://github.com/maevsi/vibetype/issues/2648)) ([8bebe71](https://github.com/maevsi/vibetype/commit/8bebe7124dbe7c24d3a65f9578988417400c63fe))
+
 ## [18.0.0-beta.4](https://github.com/maevsi/vibetype/compare/18.0.0-beta.3...18.0.0-beta.4) (2026-11-16)
 
 ### Features
