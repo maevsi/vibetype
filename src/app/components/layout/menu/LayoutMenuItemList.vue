@@ -30,7 +30,9 @@
   >
     <AppIconToday />
   </LayoutMenuItem>
+  <!-- signed out, the account item takes the width of two so that the create button stays centered -->
   <LayoutMenuItem
+    :class="!store.signedInUsername && 'max-lg:max-w-40 max-lg:flex-2'"
     :title="t('account')"
     :to="
       store.signedInUsername
