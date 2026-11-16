@@ -1,6 +1,9 @@
 <template>
   <div class="flex flex-1 flex-col gap-4">
     <AppInputSearch v-model="searchQuery" class="h-12" />
+    <AppFeature v-if="!searchQueryVariable" feature="category-browse">
+      <EventCategoryBrowse />
+    </AppFeature>
     <AppAlert v-if="errorMessages.length" variant="error">
       <AppSpanList :span="errorMessages" />
     </AppAlert>
