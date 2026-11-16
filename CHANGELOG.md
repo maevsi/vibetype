@@ -1,3 +1,21 @@
+## [17.4.0](https://github.com/maevsi/vibetype/compare/17.3.6...17.4.0) (2026-11-16)
+
+### Features
+
+* **layout:** add a create button to the bottom navigation ([#2625](https://github.com/maevsi/vibetype/issues/2625)) ([334db0d](https://github.com/maevsi/vibetype/commit/334db0d617a8001ef8e3c828940e99a6e19796f9))
+
+## [17.3.6](https://github.com/maevsi/vibetype/compare/17.3.5...17.3.6) (2026-11-15)
+
+### Bug Fixes
+
+* **push:** report every failed FCM send ([c943dad](https://github.com/maevsi/vibetype/commit/c943dad9b648694e9e3048a8197ff04227a8711b))
+
+## [17.3.5](https://github.com/maevsi/vibetype/compare/17.3.4...17.3.5) (2026-11-15)
+
+### Bug Fixes
+
+* **style:** style the time field with the design system tokens ([#2614](https://github.com/maevsi/vibetype/issues/2614)) ([e64620e](https://github.com/maevsi/vibetype/commit/e64620e12f5bbb81d719d384186241614a2f5de6))
+
 ## [17.3.4](https://github.com/maevsi/vibetype/compare/17.3.3...17.3.4) (2026-11-13)
 
 ### Bug Fixes

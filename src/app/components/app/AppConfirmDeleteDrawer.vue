@@ -1,13 +1,13 @@
 <template>
   <AppDrawer v-model:open="isOpen" @animation-end="onAnimationEnd">
-    <AppStep v-slot="attributes" :is-active="!error">
+    <AppStepPanel v-slot="attributes" :is-active="!error">
       <div v-bind="attributes" class="text-fg-2">
         <span class="text-body">
           <slot />
         </span>
       </div>
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="!!error">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="!!error">
       <div v-bind="attributes">
         <LayoutPageResult :message="error?.message" type="error">
           <template #description>
@@ -15,17 +15,17 @@
           </template>
         </LayoutPageResult>
       </div>
-    </AppStep>
+    </AppStepPanel>
     <template #title>
-      <AppStep v-slot="attributes" :is-active="!error">
+      <AppStepPanel v-slot="attributes" :is-active="!error">
         <span v-bind="attributes">{{ title }}</span>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="!!error">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="!!error">
         <span v-bind="attributes">{{ t('globalError') }}</span>
-      </AppStep>
+      </AppStepPanel>
     </template>
     <template #footer>
-      <AppStep v-slot="attributes" :is-active="!error">
+      <AppStepPanel v-slot="attributes" :is-active="!error">
         <AppButton
           v-bind="attributes"
           :aria-label="confirmLabel"
@@ -43,8 +43,8 @@
         >
           {{ cancelLabel }}
         </AppButton>
-      </AppStep>
-      <AppStep v-slot="attributes" :is-active="!!error">
+      </AppStepPanel>
+      <AppStepPanel v-slot="attributes" :is-active="!!error">
         <AppButton
           v-bind="attributes"
           :aria-label="t('globalTryAgain')"
@@ -53,7 +53,7 @@
         >
           {{ t('globalTryAgain') }}
         </AppButton>
-      </AppStep>
+      </AppStepPanel>
     </template>
   </AppDrawer>
 </template>

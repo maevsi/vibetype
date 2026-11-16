@@ -10,39 +10,109 @@
       :call-to-action="t('anonymousCta')"
       :call-to-action-description="t('anonymousCtaDescription')"
     />
-    <AppLoaderPlaceholder v-else-if="isLoading" />
-    <div v-else class="flex flex-col gap-8">
+    <AppLoaderPlaceholder
+      v-else-if="isLoading"
+      class="flex-col items-stretch justify-start gap-4"
+    >
+      <EventCardSkeleton variant="highlight" />
+      <EventCardSkeleton
+        v-for="index in 2"
+        :key="index"
+        variant="recommendation"
+      />
+    </AppLoaderPlaceholder>
+    <div v-else class="flex flex-col gap-4">
       <section
-        v-if="eventUpcoming"
         :aria-labelledby="templateIdUpcoming"
-        class="flex flex-col gap-4"
+        class="flex flex-col gap-2"
       >
-        <span
-          :id="templateIdUpcoming"
-          class="px-2 text-heading-medium text-balance"
-        >
+        <h2 :id="templateIdUpcoming" class="py-1 text-title3 text-balance">
           {{ t('upcomingTitle') }}
-        </span>
-        <EventCard :event="eventUpcoming" variant="highlight" />
+        </h2>
+        <EventCard
+          v-if="eventUpcoming"
+          :event="eventUpcoming"
+          variant="highlight"
+        />
+        <p
+          v-else
+          class="rounded-medium bg-surface-raised p-12 text-center text-fg-2"
+        >
+          {{ t('upcomingEmpty') }}
+        </p>
       </section>
       <section
-        v-if="eventRecommendations?.length"
-        :aria-labelledby="templateIdRecommendation"
-        class="flex flex-col gap-4"
+        v-if="eventTopPick"
+        :aria-labelledby="templateIdTopPick"
+        class="flex flex-col gap-2"
       >
-        <span
+        <h2 :id="templateIdTopPick" class="py-1 text-title3 text-balance">
+          {{ t('topPickTitle') }}
+        </h2>
+        <EventCard :event="eventTopPick" variant="recommendation" />
+      </section>
+      <section
+        v-if="!eventTopPick || eventRecommendationsOther.length"
+        :aria-labelledby="templateIdRecommendation"
+        class="flex flex-col gap-2"
+      >
+        <h2
           :id="templateIdRecommendation"
-          class="px-2 text-heading-medium text-balance"
+          class="py-1 text-title3 text-balance"
         >
           {{ t('recommendationTitle') }}
-        </span>
-        <EventCard
-          v-for="event in eventRecommendations"
-          :key="event.rowId"
-          :event
-          variant="recommendation"
-        />
+        </h2>
+        <div
+          v-if="eventRecommendationsOther.length"
+          class="flex flex-col gap-4"
+        >
+          <EventCard
+            v-for="event in eventRecommendationsOther"
+            :key="event.rowId"
+            :event
+            variant="recommendation"
+          />
+        </div>
+        <p
+          v-else
+          class="rounded-medium bg-surface-raised p-12 text-center text-fg-2"
+        >
+          {{ t('recommendationEmpty') }}
+        </p>
       </section>
+      <AppFeature feature="poster-hunt">
+        <section
+          :aria-labelledby="templateIdPosterHunt"
+          class="flex flex-col gap-4 rounded-medium bg-surface-raised p-2"
+        >
+          <div class="flex flex-col gap-1 px-2 pt-2">
+            <h2 :id="templateIdPosterHunt" class="text-headline">
+              {{ t('posterHuntTitle') }}
+            </h2>
+            <p class="text-body-small text-fg-2">
+              {{ t('posterHuntDescription') }}
+            </p>
+          </div>
+          <AppButton
+            :aria-label="t('posterHuntImage')"
+            class="h-15 flex-col justify-center gap-1 rounded-small bg-surface p-2 text-caption text-fg-1"
+            size="none"
+            :to="localePath('event-ingest-image')"
+            variant="ghost"
+          >
+            <AppIconArrowUpTray />
+            {{ t('posterHuntImage') }}
+          </AppButton>
+        </section>
+      </AppFeature>
+      <AppButton
+        v-if="!eventUpcoming"
+        :aria-label="t('discover')"
+        class="w-full"
+        :to="localePath('event')"
+      >
+        {{ t('discover') }}
+      </AppButton>
       <ButtonApp />
     </div>
   </div>
@@ -213,13 +283,21 @@ const eventUpcoming = computed(() => {
   return upcomingEvents.length ? upcomingEvents[0] : undefined
 })
 
+const eventTopPick = computed(() => eventRecommendations.value?.[0])
+const eventRecommendationsOther = computed(
+  () => eventRecommendations.value?.slice(1) ?? [],
+)
+
 // page
 const { t } = useI18n()
 const title = t('title')
 useHeadDefault({ title })
 
 // template
+const localePath = useLocalePath()
+const templateIdPosterHunt = useId()
 const templateIdRecommendation = useId()
+const templateIdTopPick = useId()
 const templateIdUpcoming = useId()
 </script>
 
@@ -227,13 +305,27 @@ const templateIdUpcoming = useId()
 de:
   anonymousCta: Finde ihn auf @.upper:{'globalSiteName'}
   anonymousCtaDescription: Dir fehlt der Überblick über Veranstaltungen?
+  discover: Neue Veranstaltungen entdecken
+  posterHuntDescription: Du hast eine spannende Veranstaltung außerhalb von @.upper:{'globalSiteName'} gesehen?
+  posterHuntImage: Bild hochladen
+  posterHuntTitle: Plakatjagd
+  recommendationEmpty: Noch nichts entdeckt
   recommendationTitle: Das solltest Du nicht verpassen
   title: Dashboard
+  topPickTitle: Dein Top-Tipp
+  upcomingEmpty: Noch nichts geplant
   upcomingTitle: Dein nächstes Event
 en:
   anonymousCta: Find it on @.upper:{'globalSiteName'}
   anonymousCtaDescription: Are you missing an overview of events?
-  recommendationTitle: You Should Not Miss
+  discover: Discover new events
+  posterHuntDescription: Saw an interesting event outside of @.upper:{'globalSiteName'}?
+  posterHuntImage: Upload image
+  posterHuntTitle: Poster hunting
+  recommendationEmpty: None discovered yet
+  recommendationTitle: You should not miss
   title: Dashboard
-  upcomingTitle: Your upcoming event
+  topPickTitle: Your top pick
+  upcomingEmpty: None planned yet
+  upcomingTitle: Your next event
 </i18n>

@@ -11,7 +11,7 @@
     </FormAuthPageHeader>
 
     <!-- Step: Email -->
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <form
           class="flex flex-col gap-6"
@@ -82,10 +82,10 @@
           </p>
         </form>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
 
     <!-- Step: Password -->
-    <AppStep v-slot="attributes" :is-active="step === 'password'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'password'">
       <LayoutPage v-bind="attributes">
         <FormAccountRegistration
           v-model:captcha-is-used="captchaIsUsed"
@@ -97,10 +97,10 @@
           "
         />
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
 
     <!-- Step: Username -->
-    <AppStep v-slot="attributes" :is-active="step === 'username'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'username'">
       <LayoutPage v-bind="attributes">
         <form
           class="flex flex-col gap-4"
@@ -144,10 +144,10 @@
           </AppButton>
         </form>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
 
     <!-- Step: Age -->
-    <AppStep v-slot="attributes" :is-active="step === 'age'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'age'">
       <LayoutPage v-bind="attributes">
         <div class="flex flex-col gap-4">
           <FormAccountRegistrationAge
@@ -164,7 +164,7 @@
           </AppButton>
         </div>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
 
     <!-- Step: Success -->
     <FormAuthStepSuccess :is-active="step === 'success'">

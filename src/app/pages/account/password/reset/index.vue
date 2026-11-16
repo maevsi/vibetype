@@ -7,7 +7,7 @@
       <template #title>{{ t('title') }}</template>
       <template #subtitle>{{ t('subtitle') }}</template>
     </FormAuthPageHeader>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <FormAccountPasswordReset
           v-if="route.query.code && !Array.isArray(route.query.code)"
@@ -16,7 +16,7 @@
           @success="step = 'success'"
         />
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
     <FormAuthStepSuccess :is-active="step === 'success'">
       <h2 class="text-heading-large">
         {{ t('instructionsSuccessHeading') }}

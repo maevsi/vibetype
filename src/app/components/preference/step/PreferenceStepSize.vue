@@ -1,7 +1,7 @@
 <template>
   <LayoutPage>
     <div class="flex flex-col gap-4 text-center">
-      <AppStepIndex :count="4" :index="1" />
+      <AppStepProgress :count="4" :index="1" />
       <span class="text-heading-medium text-balance">
         {{ t('title') }}
       </span>

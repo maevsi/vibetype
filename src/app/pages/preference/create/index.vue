@@ -25,44 +25,44 @@
         </ButtonIconBackRoute>
       </template>
     </LayoutTopBar>
-    <AppStep v-slot="attributes" :is-active="step === 'default'">
+    <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <PreferenceStepWelcome v-bind="attributes" @next="step = 'size'" />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'size'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'size'">
       <PreferenceStepSize
         v-bind="attributes"
         v-model:error="error"
         @next="step = 'format'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'format'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'format'">
       <PreferenceStepFormat
         v-bind="attributes"
         v-model:error="error"
         @next="step = 'category'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'category'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'category'">
       <PreferenceStepCategory
         v-bind="attributes"
         v-model:error="error"
         @next="step = 'location'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'location'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'location'">
       <PreferenceStepLocation
         v-bind="attributes"
         v-model:error="error"
         @next="step = 'done'"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'done'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'done'">
       <PreferenceStepDone
         v-bind="attributes"
         @next="navigateTo(localePath({ name: 'dashboard' }))"
       />
-    </AppStep>
-    <AppStep v-slot="attributes" :is-active="step === 'error'">
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'error'">
       <LayoutPage v-bind="attributes">
         <LayoutPageResult :message="error?.message" type="error">
           <template #description>
@@ -80,7 +80,7 @@
           </AppButton>
         </template>
       </LayoutPage>
-    </AppStep>
+    </AppStepPanel>
   </section>
 </template>
 
@@ -90,7 +90,7 @@ defineRouteRules({
 })
 
 definePageMeta({
-  layout: 'default-no-header',
+  layout: 'focused',
 })
 
 const { t } = useI18n()

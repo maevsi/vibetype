@@ -15,7 +15,12 @@
       {{ t('globalShowMore') }}
     </AppButton>
   </div>
-  <AppLoaderPlaceholder v-else-if="isLoading" />
+  <AppLoaderPlaceholder
+    v-else-if="isLoading"
+    class="flex-col items-stretch justify-start gap-3"
+  >
+    <EventCardSkeleton v-for="index in 3" :key="index" />
+  </AppLoaderPlaceholder>
   <p v-else class="text-center">{{ t('noEvents') }}</p>
 </template>
 

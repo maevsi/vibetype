@@ -32,7 +32,7 @@
 <script setup lang="ts">
 // compiler
 definePageMeta({
-  layout: 'default-no-header',
+  layout: 'focused',
 })
 
 // page
