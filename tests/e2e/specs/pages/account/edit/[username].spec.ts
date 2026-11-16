@@ -5,6 +5,7 @@ import {
   TESTING_ACCOUNT_USERNAME,
 } from '#src/shared/utils/testing'
 import { authenticatedTest } from '#tests/e2e/fixtures/authenticatedTest'
+import { testVisualRegression } from '#tests/e2e/utils/tests'
 
 const PAGE_PATH = `/account/edit/${TESTING_ACCOUNT_USERNAME}`
 
@@ -46,4 +47,10 @@ authenticatedTest.describe('account edit', () => {
       },
     )
   }
+})
+
+authenticatedTest.describe('with data', () => {
+  // the page only differs between viewports by the sidebar
+  authenticatedTest.skip(({ isMobile }) => !isMobile)
+  testVisualRegression(PAGE_PATH, false, { test: authenticatedTest })
 })
