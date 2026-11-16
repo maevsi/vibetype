@@ -1,3 +1,17 @@
+## [18.0.0-beta.3](https://github.com/maevsi/vibetype/compare/18.0.0-beta.2...18.0.0-beta.3) (2026-11-16)
+
+### ⚠ BREAKING CHANGES
+
+* **i18n:** read the account language from the session token (#2635)
+
+### Bug Fixes
+
+* **i18n:** open the root in the account language on the first load ([#2637](https://github.com/maevsi/vibetype/issues/2637)) ([a39ff77](https://github.com/maevsi/vibetype/commit/a39ff77f7fdaffba44c04f67111c4c84a96193f0))
+
+### Performance Improvements
+
+* **i18n:** read the account language from the session token ([#2635](https://github.com/maevsi/vibetype/issues/2635)) ([a5efeb9](https://github.com/maevsi/vibetype/commit/a5efeb963ee923c86487b005ae69a73bcaef2f21))
+
 ## [18.0.0-beta.2](https://github.com/maevsi/vibetype/compare/18.0.0-beta.1...18.0.0-beta.2) (2026-11-16)
 
 ### Features
