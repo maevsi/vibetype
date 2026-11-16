@@ -1,3 +1,10 @@
+## [17.7.0](https://github.com/maevsi/vibetype/compare/17.6.1...17.7.0) (2026-11-16)
+
+### Features
+
+* **account:** hide the bottom navigation while editing the profile ([#2644](https://github.com/maevsi/vibetype/issues/2644)) ([976d34c](https://github.com/maevsi/vibetype/commit/976d34c4e62a4671b2b195fff39ea3eb7b685ba6))
+* **event:** preview the category grid behind a feature flag ([#2643](https://github.com/maevsi/vibetype/issues/2643)) ([c5ce4a8](https://github.com/maevsi/vibetype/commit/c5ce4a874e92efacfbed13ac7d09407dd8c2927e))
+
 ## [17.6.1](https://github.com/maevsi/vibetype/compare/17.6.0...17.6.1) (2026-11-16)
 
 ### Bug Fixes
