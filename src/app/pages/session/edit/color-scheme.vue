@@ -1,24 +1,36 @@
 <template>
-  <div>
-    <LayoutPageTitle :title />
-    <ColorScheme>
-      <AppRadioGroup
-        class="gap-0 *:min-h-12"
-        :default-value="colorMode.preference"
-        :items="colorSchemes"
-        @update:model-value="
-          (value: AcceptableValue) => (colorMode.preference = String(value))
-        "
-      />
-      <template #placeholder>
-        <AppRadioGroup class="gap-0 *:min-h-12" :items="colorSchemes" />
+  <div class="flex flex-1 flex-col">
+    <LayoutTopBar>
+      {{ title }}
+      <template #back>
+        <ButtonIconBackRoute />
       </template>
-    </ColorScheme>
+    </LayoutTopBar>
+    <LayoutPage>
+      <ColorScheme>
+        <AppRadioGroup
+          class="gap-0 *:min-h-12"
+          :default-value="colorMode.preference"
+          :items="colorSchemes"
+          @update:model-value="
+            (value: AcceptableValue) => (colorMode.preference = String(value))
+          "
+        />
+        <template #placeholder>
+          <AppRadioGroup class="gap-0 *:min-h-12" :items="colorSchemes" />
+        </template>
+      </ColorScheme>
+    </LayoutPage>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { AcceptableValue } from 'reka-ui'
+
+// compiler
+definePageMeta({
+  layout: 'default-no-header',
+})
 
 // page
 const { t } = useI18n()
