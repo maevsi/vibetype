@@ -37,17 +37,6 @@ export type AccountEmailAddressVerificationInput = {
   code: string
 }
 
-/** All input for the `accountPasswordChange` mutation. */
-export type AccountPasswordChangeInput = {
-  /**
-   * An arbitrary string value with no semantic meaning. Will be included in the
-   * payload verbatim. May be used to track mutations by the client.
-   */
-  clientMutationId?: string | null | undefined
-  passwordCurrent: string
-  passwordNew: string
-}
-
 /** All input for the `accountPasswordReset` mutation. */
 export type AccountPasswordResetInput = {
   /**
@@ -1044,7 +1033,6 @@ export type EventListQuery = {
   allEvents: {
     totalCount: number
     nodes: Array<{
-      end: string | null
       id: string
       name: string
       rowId: string
@@ -1097,7 +1085,6 @@ export type EventSearchQuery = {
   eventSearch: {
     totalCount: number
     nodes: Array<{
-      end: string | null
       id: string
       name: string
       rowId: string
@@ -1298,14 +1285,6 @@ export type CreateGuestsMutation = {
   createGuests: { result: Array<{ id: string; rowId: string }> | null } | null
 }
 
-export type AccountPasswordChangeMutationVariables = Exact<{
-  input: AccountPasswordChangeInput
-}>
-
-export type AccountPasswordChangeMutation = {
-  accountPasswordChange: { clientMutationId: string | null } | null
-}
-
 export type AccountPasswordResetMutationVariables = Exact<{
   input: AccountPasswordResetInput
 }>
@@ -1365,35 +1344,6 @@ export type UpdateGuestByRowIdFeedbackMutation = {
       id: string
       rowId: string
     } | null
-  } | null
-}
-
-export type AllPreferenceEventSizesQueryVariables = Exact<{
-  [key: string]: never
-}>
-
-export type AllPreferenceEventSizesQuery = {
-  allPreferenceEventSizes: {
-    nodes: Array<{ eventSize: EventSize; id: string; rowId: string }>
-  } | null
-}
-
-export type CreatePreferenceEventSizeMutationVariables = Exact<{
-  input: CreatePreferenceEventSizeInput
-}>
-
-export type CreatePreferenceEventSizeMutation = {
-  createPreferenceEventSize: { clientMutationId: string | null } | null
-}
-
-export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables =
-  Exact<{
-    input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput
-  }>
-
-export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutation = {
-  deletePreferenceEventSizeByAccountIdAndEventSize: {
-    clientMutationId: string | null
   } | null
 }
 
@@ -1484,6 +1434,35 @@ export type DeletePreferenceEventLocationByRowIdMutationVariables = Exact<{
 export type DeletePreferenceEventLocationByRowIdMutation = {
   deletePreferenceEventLocationByRowId: {
     deletedPreferenceEventLocationId: string | null
+  } | null
+}
+
+export type AllPreferenceEventSizesQueryVariables = Exact<{
+  [key: string]: never
+}>
+
+export type AllPreferenceEventSizesQuery = {
+  allPreferenceEventSizes: {
+    nodes: Array<{ eventSize: EventSize; id: string; rowId: string }>
+  } | null
+}
+
+export type CreatePreferenceEventSizeMutationVariables = Exact<{
+  input: CreatePreferenceEventSizeInput
+}>
+
+export type CreatePreferenceEventSizeMutation = {
+  createPreferenceEventSize: { clientMutationId: string | null } | null
+}
+
+export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables =
+  Exact<{
+    input: DeletePreferenceEventSizeByAccountIdAndEventSizeInput
+  }>
+
+export type DeletePreferenceEventSizeByAccountIdAndEventSizeMutation = {
+  deletePreferenceEventSizeByAccountIdAndEventSize: {
+    clientMutationId: string | null
   } | null
 }
 
@@ -1815,7 +1794,6 @@ export type DashboardEventUpcomingQueryVariables = Exact<{
 export type DashboardEventUpcomingQuery = {
   allEvents: {
     nodes: Array<{
-      end: string | null
       id: string
       name: string
       rowId: string
@@ -3760,6 +3738,20 @@ export const EventListDocument = {
               },
               {
                 kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'hasEnded' },
+                      value: { kind: 'BooleanValue', value: false },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
                 name: { kind: 'Name', value: 'first' },
                 value: {
                   kind: 'Variable',
@@ -3836,7 +3828,6 @@ export const EventListDocument = {
                           ],
                         },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
                       {
                         kind: 'Field',
                         name: {
@@ -4223,7 +4214,6 @@ export const EventSearchDocument = {
                           ],
                         },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
                       {
                         kind: 'Field',
                         name: {
@@ -5564,63 +5554,6 @@ export const CreateGuestsDocument = {
   CreateGuestsMutation,
   CreateGuestsMutationVariables
 >
-export const AccountPasswordChangeDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'AccountPasswordChange' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'AccountPasswordChangeInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'accountPasswordChange' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  AccountPasswordChangeMutation,
-  AccountPasswordChangeMutationVariables
->
 export const AccountPasswordResetDocument = {
   kind: 'Document',
   definitions: [
@@ -6114,171 +6047,6 @@ export const UpdateGuestByRowIdFeedbackDocument = {
 } as unknown as DocumentNode<
   UpdateGuestByRowIdFeedbackMutation,
   UpdateGuestByRowIdFeedbackMutationVariables
->
-export const AllPreferenceEventSizesDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'AllPreferenceEventSizes' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'allPreferenceEventSizes' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'nodes' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'eventSize' },
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  AllPreferenceEventSizesQuery,
-  AllPreferenceEventSizesQueryVariables
->
-export const CreatePreferenceEventSizeDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'CreatePreferenceEventSize' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'CreatePreferenceEventSizeInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'createPreferenceEventSize' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  CreatePreferenceEventSizeMutation,
-  CreatePreferenceEventSizeMutationVariables
->
-export const DeletePreferenceEventSizeByAccountIdAndEventSizeDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: {
-        kind: 'Name',
-        value: 'DeletePreferenceEventSizeByAccountIdAndEventSize',
-      },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: {
-                kind: 'Name',
-                value: 'DeletePreferenceEventSizeByAccountIdAndEventSizeInput',
-              },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: {
-              kind: 'Name',
-              value: 'deletePreferenceEventSizeByAccountIdAndEventSize',
-            },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  DeletePreferenceEventSizeByAccountIdAndEventSizeMutation,
-  DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables
 >
 export const AllEventCategoriesDocument = {
   kind: 'Document',
@@ -6832,6 +6600,171 @@ export const DeletePreferenceEventLocationByRowIdDocument = {
 } as unknown as DocumentNode<
   DeletePreferenceEventLocationByRowIdMutation,
   DeletePreferenceEventLocationByRowIdMutationVariables
+>
+export const AllPreferenceEventSizesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'AllPreferenceEventSizes' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allPreferenceEventSizes' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventSize' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AllPreferenceEventSizesQuery,
+  AllPreferenceEventSizesQueryVariables
+>
+export const CreatePreferenceEventSizeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreatePreferenceEventSize' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreatePreferenceEventSizeInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createPreferenceEventSize' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreatePreferenceEventSizeMutation,
+  CreatePreferenceEventSizeMutationVariables
+>
+export const DeletePreferenceEventSizeByAccountIdAndEventSizeDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: {
+        kind: 'Name',
+        value: 'DeletePreferenceEventSizeByAccountIdAndEventSize',
+      },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: {
+                kind: 'Name',
+                value: 'DeletePreferenceEventSizeByAccountIdAndEventSizeInput',
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'deletePreferenceEventSizeByAccountIdAndEventSize',
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeletePreferenceEventSizeByAccountIdAndEventSizeMutation,
+  DeletePreferenceEventSizeByAccountIdAndEventSizeMutationVariables
 >
 export const DeleteUploadByRowIdDocument = {
   kind: 'Document',
@@ -8760,8 +8693,23 @@ export const DashboardEventUpcomingDocument = {
                         name: { kind: 'Name', value: 'createdBy' },
                       },
                     },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'hasEnded' },
+                      value: { kind: 'BooleanValue', value: false },
+                    },
                   ],
                 },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'IntValue', value: '1' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: { kind: 'EnumValue', value: 'START_ASC' },
               },
             ],
             selectionSet: {
@@ -8794,7 +8742,6 @@ export const DashboardEventUpcomingDocument = {
                           ],
                         },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
                       {
                         kind: 'Field',
                         name: {

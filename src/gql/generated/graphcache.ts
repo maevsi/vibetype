@@ -3205,6 +3205,8 @@ export type Event = Node & {
   eventRecommendationsByEventId: EventRecommendationConnection
   /** Reads and enables pagination through a set of `EventUpload`. */
   eventUploadsByEventId: EventUploadConnection
+  /** The number of guests of the event, maintained by triggers on the guest table. */
+  guestCount: Scalars['Int']['output']
   /** The event's maximum guest count. Must be greater than 0. */
   guestCountMaximum?: Maybe<Scalars['Int']['output']>
   /** Reads and enables pagination through a set of `Guest`. */
@@ -3553,6 +3555,12 @@ export type EventCondition = {
   createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `end` field. */
   end?: InputMaybe<Scalars['Datetime']['input']>
+  /** Events ending before this instant, exclusive, where an event without an end ends at its start. */
+  endsBefore?: InputMaybe<Scalars['Datetime']['input']>
+  /** Events ending at or after this instant, inclusive, where an event without an end ends at its start. */
+  endsFrom?: InputMaybe<Scalars['Datetime']['input']>
+  /** Whether the event has ended, judged by its end, or by its start if it has no end, against the database clock. */
+  hasEnded?: InputMaybe<Scalars['Boolean']['input']>
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `rowId` field. */
@@ -3561,6 +3569,10 @@ export type EventCondition = {
   slug?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `start` field. */
   start?: InputMaybe<Scalars['Datetime']['input']>
+  /** Events starting before this instant, exclusive. */
+  startsBefore?: InputMaybe<Scalars['Datetime']['input']>
+  /** Events starting at or after this instant, inclusive. */
+  startsFrom?: InputMaybe<Scalars['Datetime']['input']>
 }
 
 /** A connection to a list of `Event` values. */
@@ -3981,34 +3993,6 @@ export enum EventRecommendationOrderBy {
   Natural = 'NATURAL',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
-}
-
-/** A connection to a list of `EventSearchRankRecord` values. */
-export type EventSearchRankConnection = {
-  __typename?: 'EventSearchRankConnection'
-  /** A list of edges which contains the `EventSearchRankRecord` and cursor to aid in pagination. */
-  edges: Array<EventSearchRankEdge>
-  /** A list of `EventSearchRankRecord` objects. */
-  nodes: Array<EventSearchRankRecord>
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo
-  /** The count of *all* `EventSearchRankRecord` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
-}
-
-/** A `EventSearchRankRecord` edge in the connection. */
-export type EventSearchRankEdge = {
-  __typename?: 'EventSearchRankEdge'
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
-  /** The `EventSearchRankRecord` at the end of the edge. */
-  node: EventSearchRankRecord
-}
-
-export type EventSearchRankRecord = {
-  __typename?: 'EventSearchRankRecord'
-  eventId?: Maybe<Scalars['UUID']['output']>
-  rank?: Maybe<Scalars['Float']['output']>
 }
 
 /** Possible event sizes: small, medium, large, huge. */
@@ -4831,7 +4815,14 @@ export enum LegalTermOrderBy {
 /** The root mutation type which contains root level fields which mutate data. */
 export type Mutation = {
   __typename?: 'Mutation'
-  /** Allows to delete an account.\n\nError codes:\n- **23503** when the account still has events.\n- **28P01** when the password is invalid. */
+  /**
+   * Allows to delete an account.
+   *
+   * Error codes:
+   * - **28P01** when the password is invalid.
+   *
+   * Deleting an account that organizes many events can take several seconds.
+   */
   accountDelete?: Maybe<AccountDeletePayload>
   /** Sets the account's email address verification code to `NULL` for which the email address verification code equals the one passed and is up to date.\n\nError codes:\n- **P0002** when the verification code is unknown.\n- **55000** when the verification code has expired. */
   accountEmailAddressVerification?: Maybe<AccountEmailAddressVerificationPayload>
@@ -6293,10 +6284,8 @@ export type Query = Node & {
   eventRecommendation?: Maybe<EventRecommendation>
   /** Get a single `EventRecommendation`. */
   eventRecommendationByAccountIdAndEventId?: Maybe<EventRecommendation>
-  /** Searches events by name and description. Matches by prefix so partial words match as the user types, and falls back to trigram similarity on the name for typo tolerance. Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size. */
+  /** Searches events by name and description. Matches by prefix so partial words match as the user types, and falls back to trigram similarity on the name for typo tolerance. Events that have ended are left out unless `include_ended` is true. Following RFC 5545, an event without an end ends at its start. Ordering is fully deterministic, so paginate through results via the GraphQL connection arguments rather than assuming a fixed result size. */
   eventSearch?: Maybe<EventConnection>
-  /** Returns event ids matching the given query by prefix, across every text search configuration event_search_vector rows are stored in, with their relevance rank. */
-  eventSearchRank?: Maybe<EventSearchRankConnection>
   /** Reads a single `EventUpload` using its globally unique `ID`. */
   eventUpload?: Maybe<EventUpload>
   /** Get a single `EventUpload`. */
@@ -6988,16 +6977,9 @@ export type QueryEventRecommendationByAccountIdAndEventIdArgs = {
 export type QueryEventSearchArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
+  includeEnded?: InputMaybe<Scalars['Boolean']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   query?: InputMaybe<Scalars['String']['input']>
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryEventSearchRankArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  first?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  query: Scalars['String']['input']
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -8321,15 +8303,6 @@ export type GraphCacheKeysConfig = {
   EventRecommendationEdge?: (
     data: WithTypename<EventRecommendationEdge>,
   ) => null | string
-  EventSearchRankConnection?: (
-    data: WithTypename<EventSearchRankConnection>,
-  ) => null | string
-  EventSearchRankEdge?: (
-    data: WithTypename<EventSearchRankEdge>,
-  ) => null | string
-  EventSearchRankRecord?: (
-    data: WithTypename<EventSearchRankRecord>,
-  ) => null | string
   EventUpload?: (data: WithTypename<EventUpload>) => null | string
   EventUploadConnection?: (
     data: WithTypename<EventUploadConnection>,
@@ -8879,11 +8852,6 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       QueryEventSearchArgs,
       WithTypename<EventConnection> | string
-    >
-    eventSearchRank?: GraphCacheResolver<
-      WithTypename<Query>,
-      QueryEventSearchRankArgs,
-      WithTypename<EventSearchRankConnection> | string
     >
     eventUpload?: GraphCacheResolver<
       WithTypename<Query>,
@@ -11248,6 +11216,11 @@ export type GraphCacheResolvers = {
       EventEventUploadsByEventIdArgs,
       WithTypename<EventUploadConnection> | string
     >
+    guestCount?: GraphCacheResolver<
+      WithTypename<Event>,
+      Record<string, never>,
+      Scalars['Int']['output'] | string
+    >
     guestCountMaximum?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
@@ -11840,52 +11813,6 @@ export type GraphCacheResolvers = {
       WithTypename<EventRecommendationEdge>,
       Record<string, never>,
       WithTypename<EventRecommendation> | string
-    >
-  }
-  EventSearchRankConnection?: {
-    edges?: GraphCacheResolver<
-      WithTypename<EventSearchRankConnection>,
-      Record<string, never>,
-      Array<WithTypename<EventSearchRankEdge> | string>
-    >
-    nodes?: GraphCacheResolver<
-      WithTypename<EventSearchRankConnection>,
-      Record<string, never>,
-      Array<WithTypename<EventSearchRankRecord> | string>
-    >
-    pageInfo?: GraphCacheResolver<
-      WithTypename<EventSearchRankConnection>,
-      Record<string, never>,
-      WithTypename<PageInfo> | string
-    >
-    totalCount?: GraphCacheResolver<
-      WithTypename<EventSearchRankConnection>,
-      Record<string, never>,
-      Scalars['Int']['output'] | string
-    >
-  }
-  EventSearchRankEdge?: {
-    cursor?: GraphCacheResolver<
-      WithTypename<EventSearchRankEdge>,
-      Record<string, never>,
-      Scalars['Cursor']['output'] | string
-    >
-    node?: GraphCacheResolver<
-      WithTypename<EventSearchRankEdge>,
-      Record<string, never>,
-      WithTypename<EventSearchRankRecord> | string
-    >
-  }
-  EventSearchRankRecord?: {
-    eventId?: GraphCacheResolver<
-      WithTypename<EventSearchRankRecord>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    rank?: GraphCacheResolver<
-      WithTypename<EventSearchRankRecord>,
-      Record<string, never>,
-      Scalars['Float']['output'] | string
     >
   }
   EventUpload?: {
@@ -14323,10 +14250,6 @@ export type GraphCacheUpdaters = {
     eventSearch?: GraphCacheUpdateResolver<
       { eventSearch: Maybe<WithTypename<EventConnection>> },
       QueryEventSearchArgs
-    >
-    eventSearchRank?: GraphCacheUpdateResolver<
-      { eventSearchRank: Maybe<WithTypename<EventSearchRankConnection>> },
-      QueryEventSearchRankArgs
     >
     eventUpload?: GraphCacheUpdateResolver<
       { eventUpload: Maybe<WithTypename<EventUpload>> },
@@ -16986,6 +16909,10 @@ export type GraphCacheUpdaters = {
       Maybe<WithTypename<Event>>,
       EventEventUploadsByEventIdArgs
     >
+    guestCount?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Event>>,
+      Record<string, never>
+    >
     guestCountMaximum?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
       Record<string, never>
@@ -17468,44 +17395,6 @@ export type GraphCacheUpdaters = {
     >
     node?: GraphCacheUpdateResolver<
       Maybe<WithTypename<EventRecommendationEdge>>,
-      Record<string, never>
-    >
-  }
-  EventSearchRankConnection?: {
-    edges?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventSearchRankConnection>>,
-      Record<string, never>
-    >
-    nodes?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventSearchRankConnection>>,
-      Record<string, never>
-    >
-    pageInfo?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventSearchRankConnection>>,
-      Record<string, never>
-    >
-    totalCount?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventSearchRankConnection>>,
-      Record<string, never>
-    >
-  }
-  EventSearchRankEdge?: {
-    cursor?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventSearchRankEdge>>,
-      Record<string, never>
-    >
-    node?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventSearchRankEdge>>,
-      Record<string, never>
-    >
-  }
-  EventSearchRankRecord?: {
-    eventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventSearchRankRecord>>,
-      Record<string, never>
-    >
-    rank?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<EventSearchRankRecord>>,
       Record<string, never>
     >
   }
