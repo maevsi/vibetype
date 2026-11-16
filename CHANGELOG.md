@@ -1,3 +1,13 @@
+## [18.0.0-beta.1](https://github.com/maevsi/vibetype/compare/17.3.6-beta.1...18.0.0-beta.1) (2026-11-16)
+
+### ⚠ BREAKING CHANGES
+
+* **notification:** acknowledge over the database connection (#2603)
+
+### Bug Fixes
+
+* **notification:** acknowledge over the database connection ([#2603](https://github.com/maevsi/vibetype/issues/2603)) ([5928ea5](https://github.com/maevsi/vibetype/commit/5928ea5ccf7c9c60d29a919f4bb942a2de9ab77f))
+
 ## [17.3.6-beta.1](https://github.com/maevsi/vibetype/compare/17.3.5...17.3.6-beta.1) (2026-11-15)
 
 ### Bug Fixes
