@@ -1,3 +1,19 @@
+## [17.9.1](https://github.com/maevsi/vibetype/compare/17.9.0...17.9.1) (2026-11-16)
+
+### Bug Fixes
+
+* **sentry:** capture only console errors and warnings ([#2652](https://github.com/maevsi/vibetype/issues/2652)) ([70eaa01](https://github.com/maevsi/vibetype/commit/70eaa014dd3a77983a1f539635efce3ff4c8fcf8))
+
+## [17.9.0](https://github.com/maevsi/vibetype/compare/17.8.0...17.9.0) (2026-11-16)
+
+### Features
+
+* **event:** restyle the event page after the design mockup ([#2649](https://github.com/maevsi/vibetype/issues/2649)) ([8571ee1](https://github.com/maevsi/vibetype/commit/8571ee1947759ad462978126ebd74f63618f4f0d))
+
+### Performance Improvements
+
+* **app:** migrate to unplugin-pwa ([#2650](https://github.com/maevsi/vibetype/issues/2650)) ([55c3313](https://github.com/maevsi/vibetype/commit/55c3313143b6057587df7000bb98da01b3be569f))
+
 ## [17.8.0](https://github.com/maevsi/vibetype/compare/17.7.0...17.8.0) (2026-11-16)
 
 ### Features
