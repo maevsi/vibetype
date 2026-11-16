@@ -10,11 +10,12 @@
   </LayoutMenuItem>
   <AppLink
     :aria-label="t('create')"
-    class="mx-2 flex size-10 shrink-0 items-center justify-center rounded-medium bg-action-primary text-on-action-primary lg:hidden"
+    class="flex shrink-0 items-center justify-center rounded-medium bg-action-primary text-on-action-primary hover:bg-action-primary-hover max-lg:mx-2 max-lg:size-10 lg:order-last lg:mt-2 lg:gap-2 lg:px-4 lg:py-3"
     :is-colored="false"
     :to="localePath('event-create')"
   >
     <AppIconPlus />
+    <span class="text-body max-lg:hidden">{{ t('createShort') }}</span>
   </AppLink>
   <LayoutMenuItem
     v-if="store.signedInUsername"
@@ -66,12 +67,14 @@ const localePath = useLocalePath()
 de:
   account: Account
   create: Veranstaltung erstellen
+  createShort: Erstellen
   discover: Entdecken
   events: Veranstaltungen
   home: Dashboard
 en:
   account: Account
   create: Create event
+  createShort: Create
   discover: Discover
   events: Events
   home: Dashboard
