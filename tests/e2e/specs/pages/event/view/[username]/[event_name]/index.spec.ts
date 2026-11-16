@@ -8,11 +8,7 @@ import {
 } from '#src/shared/utils/testing'
 import { appTest } from '#tests/e2e/fixtures/appTest'
 import { authenticatedTest } from '#tests/e2e/fixtures/authenticatedTest'
-import {
-  testOgImage,
-  testVisualRegression,
-  waitForGraphqlOperation,
-} from '#tests/e2e/utils/tests'
+import { testOgImage, testVisualRegression } from '#tests/e2e/utils/tests'
 
 const PAGE_PATH = `/event/view/${TESTING_ACCOUNT_USERNAME}/${TESTING_EVENT_SLUG}`
 
@@ -73,16 +69,20 @@ authenticatedTest.describe('attendees', () => {
         `/account/view/${TESTING_FRIENDSHIP_ACCOUNTS.accepted.username}`,
       )
 
-      const [request] = await Promise.all([
-        waitForGraphqlOperation(page, 'EventAttendees'),
+      // queries are sent by GET, and the first page may be fetched again meanwhile
+      await Promise.all([
+        page.waitForRequest((request) => {
+          const { searchParams } = new URL(request.url())
+
+          return (
+            !!searchParams.get('query')?.startsWith('query EventAttendees') &&
+            JSON.parse(searchParams.get('variables') ?? '{}').after ===
+              TESTING_ATTENDEES_CURSOR
+          )
+        }),
         attendees.getByRole('button', { name: 'Show more' }).click(),
       ])
 
-      // queries are sent by GET
-      expect(
-        JSON.parse(new URL(request.url()).searchParams.get('variables') ?? '{}')
-          .after,
-      ).toBe(TESTING_ATTENDEES_CURSOR)
       await expect(attendees.getByRole('listitem')).toHaveCount(2)
       await expect(attendees).toContainText(
         TESTING_FRIENDSHIP_ACCOUNTS.requestReceived.username,
