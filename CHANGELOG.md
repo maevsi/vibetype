@@ -1,3 +1,9 @@
+## [17.6.0](https://github.com/maevsi/vibetype/compare/17.5.1...17.6.0) (2026-11-16)
+
+### Features
+
+* **event:** group an account's events by day ([#2634](https://github.com/maevsi/vibetype/issues/2634)) ([b80d7b7](https://github.com/maevsi/vibetype/commit/b80d7b7bc885c1cc1e2481c9c1c6d9ae7c2669a1))
+
 ## [17.5.1](https://github.com/maevsi/vibetype/compare/17.5.0...17.5.1) (2026-11-16)
 
 ### Bug Fixes
