@@ -5,9 +5,6 @@ import { EventVisibility } from '~~/gql/generated/graphcache'
 
 const EVENT_DESCRIPTION_TRIM_LENGTH = 250
 
-const getLocalePrefix = (language: AppLocale) =>
-  language !== LOCALE_DEFAULT ? '/' + language : ''
-
 export const CHANNEL_NAME_ACCOUNT_PASSWORD_RESET =
   'account_password_reset_request'
 export const CHANNEL_NAME_ACCOUNT_REGISTRATION = 'account_registration'
