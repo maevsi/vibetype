@@ -3555,6 +3555,10 @@ export type EventCondition = {
   createdBy?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `end` field. */
   end?: InputMaybe<Scalars['Datetime']['input']>
+  /** Events ending before this instant, exclusive, where an event without an end ends at its start. */
+  endsBefore?: InputMaybe<Scalars['Datetime']['input']>
+  /** Events ending at or after this instant, inclusive, where an event without an end ends at its start. */
+  endsFrom?: InputMaybe<Scalars['Datetime']['input']>
   /** Whether the event has ended, judged by its end, or by its start if it has no end, against the database clock. */
   hasEnded?: InputMaybe<Scalars['Boolean']['input']>
   /** Checks for equality with the object’s `name` field. */
@@ -3565,6 +3569,10 @@ export type EventCondition = {
   slug?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `start` field. */
   start?: InputMaybe<Scalars['Datetime']['input']>
+  /** Events starting before this instant, exclusive. */
+  startsBefore?: InputMaybe<Scalars['Datetime']['input']>
+  /** Events starting at or after this instant, inclusive. */
+  startsFrom?: InputMaybe<Scalars['Datetime']['input']>
 }
 
 /** A connection to a list of `Event` values. */
