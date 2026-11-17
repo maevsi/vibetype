@@ -4,15 +4,10 @@
       v-if="event && route.params.username === store.signedInUsername"
       class="flex flex-1 flex-col"
     >
-      <LayoutTopBar>
-        {{ t('title') }}
-        <template #back>
-          <ButtonIconBackRoute />
-        </template>
-      </LayoutTopBar>
-      <div class="flex flex-col gap-4 p-4 md:px-8">
+      <LayoutTopBar>{{ t('title') }}</LayoutTopBar>
+      <LayoutPage>
         <GuestList :event />
-      </div>
+      </LayoutPage>
     </div>
     <AppError v-else :error="{ status: 403 }" />
   </Loader>
@@ -20,11 +15,6 @@
 
 <script setup lang="ts">
 import { graphql } from '~~/gql/generated'
-
-// compiler
-definePageMeta({
-  layout: 'default-no-header',
-})
 
 // validation
 const route = useRoute()

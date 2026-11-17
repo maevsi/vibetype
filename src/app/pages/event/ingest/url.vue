@@ -1,28 +1,30 @@
 <template>
-  <div class="flex flex-col gap-4">
-    <h1>
-      {{ t('title') }}
-    </h1>
-    <div>
-      <label for="url-input">
-        {{ t('addURL') }}
-      </label>
-      <input
-        id="url-input"
-        v-model="enteredURL"
-        class="w-full rounded-small text-fg-1"
-        :placeholder="t('enterEventLink')"
-        type="url"
-      />
-    </div>
-    <AppButton
-      :aria-label="t('process')"
-      class="self-end"
-      :loading="isUploading"
-      @click="uploadURL"
-    >
-      {{ t('process') }}
-    </AppButton>
+  <div class="flex flex-1 flex-col">
+    <LayoutTopBar>{{ t('title') }}</LayoutTopBar>
+    <LayoutPage>
+      <div class="flex flex-col gap-4">
+        <div>
+          <label for="url-input">
+            {{ t('addURL') }}
+          </label>
+          <input
+            id="url-input"
+            v-model="enteredURL"
+            class="w-full rounded-small text-fg-1"
+            :placeholder="t('enterEventLink')"
+            type="url"
+          />
+        </div>
+        <AppButton
+          :aria-label="t('process')"
+          class="self-end"
+          :loading="isUploading"
+          @click="uploadURL"
+        >
+          {{ t('process') }}
+        </AppButton>
+      </div>
+    </LayoutPage>
   </div>
 </template>
 

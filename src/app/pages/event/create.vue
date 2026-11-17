@@ -1,11 +1,13 @@
 <template>
-  <div>
-    <LayoutPageTitle :is-button-event-create-shown="false" :title />
-    <FormEvent
-      v-if="authentication.isSignedIn"
-      :key="importCount"
-      :event="eventImported"
-    />
+  <div class="flex flex-1 flex-col">
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutPage>
+      <FormEvent
+        v-if="authentication.isSignedIn"
+        :key="importCount"
+        :event="eventImported"
+      />
+    </LayoutPage>
   </div>
 </template>
 

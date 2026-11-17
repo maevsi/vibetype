@@ -1,16 +1,18 @@
 <template>
-  <div>
-    <LayoutPageTitle :title />
-    <LayoutProse>
-      <section>
-        <p>
-          {{ t('description1') }}
-        </p>
-        <p>
-          {{ t('description2') }}
-        </p>
-      </section>
-    </LayoutProse>
+  <div class="flex flex-1 flex-col">
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutPage>
+      <LayoutProse>
+        <section>
+          <p>
+            {{ t('description1') }}
+          </p>
+          <p>
+            {{ t('description2') }}
+          </p>
+        </section>
+      </LayoutProse>
+    </LayoutPage>
   </div>
 </template>
 

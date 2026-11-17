@@ -84,13 +84,11 @@ appTest.describe('visual regression', () => {
 })
 
 authenticatedTest.describe('signed in', () => {
-  // the home link only shows on wide screens
-  authenticatedTest.use({ viewport: { height: 900, width: 1600 } })
-
   authenticatedTest(
     'redirects a client side navigation to the dashboard without errors',
     async ({ defaultPage }) => {
-      await defaultPage.goto('/docs/browser-support')
+      // the error page links home
+      await defaultPage.goto('/account/view/e2e-missing-account')
 
       // vue reports a failing setup to the console rather than as a page error;
       // listening only from here skips the dev server's unrelated hydration mismatches

@@ -1,13 +1,6 @@
 <template>
   <Loader :api>
-    <LayoutTopBar>
-      <span>
-        {{ title }}
-      </span>
-      <template #back>
-        <ButtonIconBackRoute />
-      </template>
-    </LayoutTopBar>
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
     <LayoutPage>
       <div class="flex flex-col gap-3">
         <AppInputSearch v-model="searchQuery" />
@@ -63,11 +56,6 @@
 <script setup lang="ts">
 import { graphql } from '~~/gql/generated'
 import type { AccountBlockAccountsRecord } from '~~/gql/generated/graphcache'
-
-// compiler
-definePageMeta({
-  layout: 'focused',
-})
 
 // validation
 const store = useStore()

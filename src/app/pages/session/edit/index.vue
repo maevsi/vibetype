@@ -1,178 +1,183 @@
 <template>
-  <div>
-    <LayoutPageTitle :title />
-    <div class="flex flex-col gap-4">
-      <section class="flex flex-col gap-4">
-        <span class="text-headline">{{ t('profile') }}</span>
-        <div class="flex flex-col">
-          <AppMenuItem
-            :title="t('aiSetup')"
-            :to="
-              localePath({
-                name: 'preference-create',
-              })
-            "
-          >
-            <AppIconNetworkIntelligence />
-            <!-- <template #suffix>
+  <div class="flex flex-1 flex-col">
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutPage>
+      <div class="flex flex-col gap-4">
+        <section class="flex flex-col gap-4">
+          <span class="text-headline">{{ t('profile') }}</span>
+          <div class="flex flex-col">
+            <AppMenuItem
+              :title="t('aiSetup')"
+              :to="
+                localePath({
+                  name: 'preference-create',
+                })
+              "
+            >
+              <AppIconNetworkIntelligence />
+              <!-- <template #suffix>
               <AppIconRestartAlt />
             </template> -->
-          </AppMenuItem>
+            </AppMenuItem>
+            <AppMenuItem
+              :title="t('earlyBirdStart')"
+              :to="localePath({ name: 'early-bird-create' })"
+            >
+              <AppIconEarlyBird />
+              <template v-if="false" #suffix>
+                <AppIconClose />
+              </template>
+            </AppMenuItem>
+          </div>
+        </section>
+        <section class="flex flex-col gap-4">
+          <AppSeparator />
+          <span class="text-headline">{{ t('display') }}</span>
+          <div class="flex flex-col">
+            <AppMenuItem
+              :title="t('colorScheme')"
+              :to="
+                localePath({
+                  name: 'session-edit-color-scheme',
+                })
+              "
+            >
+              <AppIconSun />
+            </AppMenuItem>
+            <AppMenuItem
+              :title="t('language')"
+              :to="
+                localePath({
+                  name: 'session-edit-language',
+                })
+              "
+            >
+              <AppIconLanguage />
+            </AppMenuItem>
+          </div>
+        </section>
+        <section class="flex flex-col gap-4">
+          <AppSeparator />
+          <span class="text-headline" @click="onDevelopmentModeTrigger">
+            {{ t('support') }}
+          </span>
+          <div class="flex flex-col">
+            <AppMenuItem
+              v-if="isDevelopmentModeActive"
+              :title="t('developerInformation')"
+              :to="
+                localePath({
+                  name: 'session-view',
+                })
+              "
+            >
+              <AppIconWrench />
+            </AppMenuItem>
+            <AppMenuItem
+              :title="t('featureSuggestion')"
+              :to="
+                localePath({
+                  name: 'support-idea',
+                })
+              "
+            >
+              <AppIconIdea />
+            </AppMenuItem>
+            <AppMenuItem
+              :title="t('bugReport')"
+              :to="
+                localePath({
+                  name: 'support-issue',
+                })
+              "
+            >
+              <AppIconBug />
+            </AppMenuItem>
+            <AppMenuItem
+              :title="t('contact')"
+              :to="
+                localePath({
+                  name: 'support-contact',
+                })
+              "
+            >
+              <AppIconMail />
+            </AppMenuItem>
+            <AppMenuItem
+              :title="t('report')"
+              :to="
+                localePath({
+                  name: 'support-report',
+                })
+              "
+            >
+              <AppIconReport />
+            </AppMenuItem>
+          </div>
+        </section>
+        <section class="flex flex-col gap-4">
+          <AppSeparator />
+          <span class="text-headline">
+            {{ t('legal') }}
+          </span>
+          <div class="flex flex-col">
+            <AppMenuItem
+              :title="t('terms')"
+              :to="localePath('docs-legal-terms')"
+            >
+              <AppIconContract />
+            </AppMenuItem>
+            <AppMenuItem
+              v-if="!isIos"
+              :title="t('cookies')"
+              @click="cookieControl.isModalActive.value = true"
+            >
+              <AppIconCookieOutline />
+            </AppMenuItem>
+            <AppMenuItem
+              :title="t('legalNotice')"
+              :to="localePath('docs-legal-imprint')"
+            >
+              <AppIconLegal />
+            </AppMenuItem>
+            <AppMenuItem
+              :title="t('privacy')"
+              :to="localePath('docs-legal-privacy')"
+            >
+              <AppIconVerifiedUser />
+            </AppMenuItem>
+          </div>
+        </section>
+        <section v-if="store.signedInUsername" class="flex flex-col gap-4">
+          <AppSeparator />
+          <span class="text-headline">
+            {{ t('interactions') }}
+          </span>
           <AppMenuItem
-            :title="t('earlyBirdStart')"
-            :to="localePath({ name: 'early-bird-create' })"
-          >
-            <AppIconEarlyBird />
-            <template v-if="false" #suffix>
-              <AppIconClose />
-            </template>
-          </AppMenuItem>
-        </div>
-      </section>
-      <section class="flex flex-col gap-4">
-        <AppSeparator />
-        <span class="text-headline">{{ t('display') }}</span>
-        <div class="flex flex-col">
-          <AppMenuItem
-            :title="t('colorScheme')"
+            :title="t('accountBlock')"
             :to="
               localePath({
-                name: 'session-edit-color-scheme',
+                name: 'account-view-username-block',
+                params: { username: store.signedInUsername },
               })
             "
           >
-            <AppIconSun />
+            <AppIconNoSymbol />
           </AppMenuItem>
+        </section>
+        <section v-if="store.signedInUsername" class="flex flex-col gap-4">
+          <AppSeparator />
           <AppMenuItem
-            :title="t('language')"
-            :to="
-              localePath({
-                name: 'session-edit-language',
-              })
-            "
+            :title="t('logout')"
+            variant="critical"
+            @click="signOutToRoot"
           >
-            <AppIconLanguage />
+            <template #suffix />
+            <AppIconLogout />
           </AppMenuItem>
-        </div>
-      </section>
-      <section class="flex flex-col gap-4">
-        <AppSeparator />
-        <span class="text-headline" @click="onDevelopmentModeTrigger">
-          {{ t('support') }}
-        </span>
-        <div class="flex flex-col">
-          <AppMenuItem
-            v-if="isDevelopmentModeActive"
-            :title="t('developerInformation')"
-            :to="
-              localePath({
-                name: 'session-view',
-              })
-            "
-          >
-            <AppIconWrench />
-          </AppMenuItem>
-          <AppMenuItem
-            :title="t('featureSuggestion')"
-            :to="
-              localePath({
-                name: 'support-idea',
-              })
-            "
-          >
-            <AppIconIdea />
-          </AppMenuItem>
-          <AppMenuItem
-            :title="t('bugReport')"
-            :to="
-              localePath({
-                name: 'support-issue',
-              })
-            "
-          >
-            <AppIconBug />
-          </AppMenuItem>
-          <AppMenuItem
-            :title="t('contact')"
-            :to="
-              localePath({
-                name: 'support-contact',
-              })
-            "
-          >
-            <AppIconMail />
-          </AppMenuItem>
-          <AppMenuItem
-            :title="t('report')"
-            :to="
-              localePath({
-                name: 'support-report',
-              })
-            "
-          >
-            <AppIconReport />
-          </AppMenuItem>
-        </div>
-      </section>
-      <section class="flex flex-col gap-4">
-        <AppSeparator />
-        <span class="text-headline">
-          {{ t('legal') }}
-        </span>
-        <div class="flex flex-col">
-          <AppMenuItem :title="t('terms')" :to="localePath('docs-legal-terms')">
-            <AppIconContract />
-          </AppMenuItem>
-          <AppMenuItem
-            v-if="!isIos"
-            :title="t('cookies')"
-            @click="cookieControl.isModalActive.value = true"
-          >
-            <AppIconCookieOutline />
-          </AppMenuItem>
-          <AppMenuItem
-            :title="t('legalNotice')"
-            :to="localePath('docs-legal-imprint')"
-          >
-            <AppIconLegal />
-          </AppMenuItem>
-          <AppMenuItem
-            :title="t('privacy')"
-            :to="localePath('docs-legal-privacy')"
-          >
-            <AppIconVerifiedUser />
-          </AppMenuItem>
-        </div>
-      </section>
-      <section v-if="store.signedInUsername" class="flex flex-col gap-4">
-        <AppSeparator />
-        <span class="text-headline">
-          {{ t('interactions') }}
-        </span>
-        <AppMenuItem
-          :title="t('accountBlock')"
-          :to="
-            localePath({
-              name: 'account-view-username-block',
-              params: { username: store.signedInUsername },
-            })
-          "
-        >
-          <AppIconNoSymbol />
-        </AppMenuItem>
-      </section>
-      <section v-if="store.signedInUsername" class="flex flex-col gap-4">
-        <AppSeparator />
-        <AppMenuItem
-          :title="t('logout')"
-          variant="critical"
-          @click="signOutToRoot"
-        >
-          <template #suffix />
-          <AppIconLogout />
-        </AppMenuItem>
-      </section>
-    </div>
+        </section>
+      </div>
+    </LayoutPage>
   </div>
 </template>
 

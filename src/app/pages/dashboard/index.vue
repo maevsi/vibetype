@@ -4,112 +4,114 @@
       v-if="recommendationError"
       :error="{ message: t('recommendationError'), status: 500 }"
     /> -->
-    <LayoutPageTitle :title />
-    <AppLoaderPlaceholder
-      v-if="!authentication.isSignedIn || isLoading"
-      class="flex-col items-stretch justify-start gap-4"
-    >
-      <EventCardSkeleton variant="highlight" />
-      <EventCardSkeleton
-        v-for="index in 2"
-        :key="index"
-        variant="recommendation"
-      />
-    </AppLoaderPlaceholder>
-    <div v-else class="flex flex-col gap-4">
-      <section
-        :aria-labelledby="templateIdUpcoming"
-        class="flex flex-col gap-2"
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutPage>
+      <AppLoaderPlaceholder
+        v-if="!authentication.isSignedIn || isLoading"
+        class="flex-col items-stretch justify-start gap-4"
       >
-        <h2 :id="templateIdUpcoming" class="py-1 text-title3 text-balance">
-          {{ t('upcomingTitle') }}
-        </h2>
-        <EventCard
-          v-if="eventUpcoming"
-          :event="eventUpcoming"
-          variant="highlight"
+        <EventCardSkeleton variant="highlight" />
+        <EventCardSkeleton
+          v-for="index in 2"
+          :key="index"
+          variant="recommendation"
         />
-        <p
-          v-else
-          class="rounded-medium bg-surface-raised p-12 text-center text-fg-2"
-        >
-          {{ t('upcomingEmpty') }}
-        </p>
-      </section>
-      <section
-        v-if="eventTopPick"
-        :aria-labelledby="templateIdTopPick"
-        class="flex flex-col gap-2"
-      >
-        <h2 :id="templateIdTopPick" class="py-1 text-title3 text-balance">
-          {{ t('topPickTitle') }}
-        </h2>
-        <EventCard :event="eventTopPick" variant="recommendation" />
-      </section>
-      <section
-        v-if="!eventTopPick || eventRecommendationsOther.length"
-        :aria-labelledby="templateIdRecommendation"
-        class="flex flex-col gap-2"
-      >
-        <h2
-          :id="templateIdRecommendation"
-          class="py-1 text-title3 text-balance"
-        >
-          {{ t('recommendationTitle') }}
-        </h2>
-        <div
-          v-if="eventRecommendationsOther.length"
-          class="flex flex-col gap-4"
-        >
-          <EventCard
-            v-for="event in eventRecommendationsOther"
-            :key="event.rowId"
-            :event
-            variant="recommendation"
-          />
-        </div>
-        <p
-          v-else
-          class="rounded-medium bg-surface-raised p-12 text-center text-fg-2"
-        >
-          {{ t('recommendationEmpty') }}
-        </p>
-      </section>
-      <AppFeature feature="poster-hunt">
+      </AppLoaderPlaceholder>
+      <div v-else class="flex flex-col gap-4">
         <section
-          :aria-labelledby="templateIdPosterHunt"
-          class="flex flex-col gap-4 rounded-medium bg-surface-raised p-2"
+          :aria-labelledby="templateIdUpcoming"
+          class="flex flex-col gap-2"
         >
-          <div class="flex flex-col gap-1 px-2 pt-2">
-            <h2 :id="templateIdPosterHunt" class="text-headline">
-              {{ t('posterHuntTitle') }}
-            </h2>
-            <p class="text-body-small text-fg-2">
-              {{ t('posterHuntDescription') }}
-            </p>
-          </div>
-          <AppButton
-            :aria-label="t('posterHuntImage')"
-            class="h-15 flex-col justify-center gap-1 rounded-small bg-surface p-2 text-caption text-fg-1"
-            size="none"
-            :to="localePath('event-ingest-image')"
-            variant="ghost"
+          <h2 :id="templateIdUpcoming" class="py-1 text-title3 text-balance">
+            {{ t('upcomingTitle') }}
+          </h2>
+          <EventCard
+            v-if="eventUpcoming"
+            :event="eventUpcoming"
+            variant="highlight"
+          />
+          <p
+            v-else
+            class="rounded-medium bg-surface-raised p-12 text-center text-fg-2"
           >
-            <AppIconArrowUpTray />
-            {{ t('posterHuntImage') }}
-          </AppButton>
+            {{ t('upcomingEmpty') }}
+          </p>
         </section>
-      </AppFeature>
-      <AppButton
-        v-if="!eventUpcoming"
-        :aria-label="t('discover')"
-        class="w-full"
-        :to="localePath('event')"
-      >
-        {{ t('discover') }}
-      </AppButton>
-      <ButtonApp />
-    </div>
+        <section
+          v-if="eventTopPick"
+          :aria-labelledby="templateIdTopPick"
+          class="flex flex-col gap-2"
+        >
+          <h2 :id="templateIdTopPick" class="py-1 text-title3 text-balance">
+            {{ t('topPickTitle') }}
+          </h2>
+          <EventCard :event="eventTopPick" variant="recommendation" />
+        </section>
+        <section
+          v-if="!eventTopPick || eventRecommendationsOther.length"
+          :aria-labelledby="templateIdRecommendation"
+          class="flex flex-col gap-2"
+        >
+          <h2
+            :id="templateIdRecommendation"
+            class="py-1 text-title3 text-balance"
+          >
+            {{ t('recommendationTitle') }}
+          </h2>
+          <div
+            v-if="eventRecommendationsOther.length"
+            class="flex flex-col gap-4"
+          >
+            <EventCard
+              v-for="event in eventRecommendationsOther"
+              :key="event.rowId"
+              :event
+              variant="recommendation"
+            />
+          </div>
+          <p
+            v-else
+            class="rounded-medium bg-surface-raised p-12 text-center text-fg-2"
+          >
+            {{ t('recommendationEmpty') }}
+          </p>
+        </section>
+        <AppFeature feature="poster-hunt">
+          <section
+            :aria-labelledby="templateIdPosterHunt"
+            class="flex flex-col gap-4 rounded-medium bg-surface-raised p-2"
+          >
+            <div class="flex flex-col gap-1 px-2 pt-2">
+              <h2 :id="templateIdPosterHunt" class="text-headline">
+                {{ t('posterHuntTitle') }}
+              </h2>
+              <p class="text-body-small text-fg-2">
+                {{ t('posterHuntDescription') }}
+              </p>
+            </div>
+            <AppButton
+              :aria-label="t('posterHuntImage')"
+              class="h-15 flex-col justify-center gap-1 rounded-small bg-surface p-2 text-caption text-fg-1"
+              size="none"
+              :to="localePath('event-ingest-image')"
+              variant="ghost"
+            >
+              <AppIconArrowUpTray />
+              {{ t('posterHuntImage') }}
+            </AppButton>
+          </section>
+        </AppFeature>
+        <AppButton
+          v-if="!eventUpcoming"
+          :aria-label="t('discover')"
+          class="w-full"
+          :to="localePath('event')"
+        >
+          {{ t('discover') }}
+        </AppButton>
+        <ButtonApp />
+      </div>
+    </LayoutPage>
   </div>
 </template>
 

@@ -1,325 +1,327 @@
 <template>
-  <div>
-    <LayoutPageTitle :title />
-    <div class="flex flex-col gap-8">
-      <section class="flex flex-col gap-4">
-        <h2>{{ t('featureFlags') }}</h2>
-        <!-- lg:grid-cols-2 -->
-        <div class="flex gap-4">
-          <div class="flex-1">
-            <AppCard>
-              <ul class="flex flex-col gap-2">
-                <template v-for="feature in FEATURE_FLAGS" :key="feature">
-                  <li class="flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                      <AppIconCheckCircle
-                        v-if="isFeatureEnabled(feature).value"
-                        class="text-link"
-                      />
-                      <AppIconXCircle v-else class="text-error" />
-                      <span class="font-mono">
-                        {{ feature }}
-                      </span>
-                    </div>
-                    <div>
-                      <AppButton
-                        :aria-label="
-                          isFeatureEnabled(feature).value
-                            ? t('featureFlagsDisable')
-                            : t('featureFlagsEnable')
-                        "
-                        variant="secondary"
-                        @click="toggleFeature(feature)"
-                      >
-                        <span v-if="isFeatureEnabled(feature).value">
-                          {{ t('featureFlagsDisable') }}
+  <div class="flex flex-1 flex-col">
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutPage>
+      <div class="flex flex-col gap-8">
+        <section class="flex flex-col gap-4">
+          <h2>{{ t('featureFlags') }}</h2>
+          <!-- lg:grid-cols-2 -->
+          <div class="flex gap-4">
+            <div class="flex-1">
+              <AppCard>
+                <ul class="flex flex-col gap-2">
+                  <template v-for="feature in FEATURE_FLAGS" :key="feature">
+                    <li class="flex items-center justify-between">
+                      <div class="flex items-center gap-2">
+                        <AppIconCheckCircle
+                          v-if="isFeatureEnabled(feature).value"
+                          class="text-link"
+                        />
+                        <AppIconXCircle v-else class="text-error" />
+                        <span class="font-mono">
+                          {{ feature }}
                         </span>
-                        <span v-else>
-                          {{ t('featureFlagsEnable') }}
-                        </span>
-                      </AppButton>
-                    </div>
-                  </li>
-                </template>
-              </ul>
-            </AppCard>
-          </div>
-        </div>
-      </section>
-      <section class="flex flex-col gap-4">
-        <h2>{{ t('end') }}</h2>
-        <div class="grid gap-4 lg:grid-cols-2">
-          <div class="flex-1">
-            <AppCard>
-              <template v-if="store.jwtPayload?.exp">
-                <i18n-t keypath="sessionExpiry">
-                  <template #exp>
-                    <AppTime
-                      :datetime="store.jwtPayload.exp * 1000"
-                      :options="{ weekday: 'short' }"
-                    />
+                      </div>
+                      <div>
+                        <AppButton
+                          :aria-label="
+                            isFeatureEnabled(feature).value
+                              ? t('featureFlagsDisable')
+                              : t('featureFlagsEnable')
+                          "
+                          variant="secondary"
+                          @click="toggleFeature(feature)"
+                        >
+                          <span v-if="isFeatureEnabled(feature).value">
+                            {{ t('featureFlagsDisable') }}
+                          </span>
+                          <span v-else>
+                            {{ t('featureFlagsEnable') }}
+                          </span>
+                        </AppButton>
+                      </div>
+                    </li>
                   </template>
-                </i18n-t>
-              </template>
-              <template v-else>
-                {{ t('sessionExpiryNone') }}
-              </template>
-            </AppCard>
-          </div>
-          <div class="flex-1">
-            <div class="flex flex-col gap-2">
-              <AppButton
-                :aria-label="t('endNow')"
-                :disabled="!store.jwtPayload"
-                variant="secondary"
-                @click="jwtDelete"
-              >
-                {{ t('endNow') }}
-                <template #prefix>
-                  <AppIconOutlineLogout />
-                </template>
-              </AppButton>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="flex flex-col gap-4">
-        <h2>{{ t('codes') }}</h2>
-        <div class="grid gap-4 lg:grid-cols-2">
-          <div class="flex-1">
-            <AppCard>
-              <div v-if="store.jwtPayload?.guests">
-                <p>
-                  {{ t('codesEntered') }}
-                </p>
-                <ul class="list-disc">
-                  <li
-                    v-for="guestId in store.jwtPayload?.guests"
-                    :key="guestId"
-                  >
-                    {{ guestId }}
-                  </li>
                 </ul>
-              </div>
-              <p v-else>
-                {{ t('codesEnteredNone') }}
-              </p>
-            </AppCard>
-          </div>
-          <div class="flex-1">
-            <!-- TODO: implement guest code management (https://github.com/maevsi/vibetype/issues/61) -->
-          </div>
-        </div>
-      </section>
-      <section class="flex flex-col gap-4">
-        <h2>{{ t('userAgentString') }}</h2>
-        <div class="grid gap-4 lg:grid-cols-2">
-          <div class="flex-1">
-            <AppCard>
-              {{ userAgentString }}
-            </AppCard>
-          </div>
-        </div>
-      </section>
-      <section class="flex flex-col gap-4">
-        <h2>{{ t('app') }}</h2>
-        <div class="grid gap-4 lg:grid-cols-2">
-          <div class="flex flex-1 flex-col gap-2">
-            <AppCard class="flex flex-col gap-1">
-              <div class="flex gap-2">
-                <AppIconQuestionMarkCircle v-if="isApp === undefined" />
-                <AppIconCheckCircle v-else-if="isApp" class="text-link" />
-                <AppIconXCircle v-else class="text-error" />
-                <span>
-                  {{ t('appIs') }}
-                </span>
-              </div>
-            </AppCard>
-            <AppCard v-if="isApp" class="flex flex-col gap-1">
-              <span>
-                {{ t('appPlatform', { platform }) }}
-              </span>
-            </AppCard>
-          </div>
-        </div>
-      </section>
-      <section class="flex flex-col gap-4">
-        <h2>{{ t('notification') }}</h2>
-        <div class="flex flex-col gap-4 lg:flex-row">
-          <section class="flex-1">
-            <AppCard class="flex flex-col gap-1">
-              <div class="flex gap-2">
-                <AppIconQuestionMarkCircle
-                  v-if="isNavigatorHavingPermissions === undefined"
-                />
-                <AppIconCheckCircle
-                  v-else-if="isNavigatorHavingPermissions"
-                  class="text-link"
-                />
-                <AppIconXCircle v-else class="text-error" />
-                <span>
-                  {{ t('hasNavigatorPermissions') }}
-                </span>
-              </div>
-              <div class="flex gap-2">
-                <AppIconQuestionMarkCircle
-                  v-if="isNavigatorHavingServiceWorker === undefined"
-                />
-                <AppIconCheckCircle
-                  v-else-if="isNavigatorHavingServiceWorker"
-                  class="text-link"
-                />
-                <AppIconXCircle v-else class="text-error" />
-                <span>
-                  {{ t('hasNavigatorServiceWorkers') }}
-                </span>
-              </div>
-              <div class="flex gap-2">
-                <AppIconQuestionMarkCircle
-                  v-if="isWindowHavingNotification === undefined"
-                />
-                <AppIconCheckCircle
-                  v-else-if="isWindowHavingNotification"
-                  class="text-link"
-                />
-                <AppIconXCircle v-else class="text-error" />
-                <span>
-                  {{ t('hasWindowNotification') }}
-                </span>
-              </div>
-              <div class="flex gap-2">
-                <AppIconQuestionMarkCircle
-                  v-if="isIosHavingPushCapability === undefined"
-                />
-                <AppIconCheckCircle
-                  v-else-if="isIosHavingPushCapability"
-                  class="text-link"
-                />
-                <AppIconXCircle v-else class="text-error" />
-                <span>
-                  {{ t('hasIosPushCapability') }}
-                </span>
-              </div>
-              <div class="flex gap-2">
-                <AppIconQuestionMarkCircle
-                  v-if="permissionState === undefined"
-                />
-                <AppIconCheckCircle
-                  v-else-if="permissionState === 'granted'"
-                  class="text-link"
-                />
-                <AppIconQuestionMarkCircle
-                  v-else-if="permissionState === 'prompt'"
-                  class="text-info"
-                />
-                <AppIconXCircle
-                  v-else-if="permissionState === 'denied'"
-                  class="text-error"
-                />
-                <AppIconBugAnt v-else class="text-error" />
-                <span>
-                  {{ t('notificationPermitted') }}
-                </span>
-              </div>
-            </AppCard>
-          </section>
-          <section class="flex-1">
-            <div class="flex flex-col gap-2">
-              <AppButton
-                :aria-label="t('notificationPermit')"
-                :disabled="!isNotificationPermissionRequestPossible"
-                variant="secondary"
-                @click="requestNotificationPermission(notificationStore)"
-              >
-                {{ t('notificationPermit') }}
-                <template #prefix>
-                  <AppIconShieldCheck />
-                </template>
-              </AppButton>
-              <AppButton
-                v-if="isAndroid"
-                :aria-label="t('notificationAppSettings')"
-                variant="secondary"
-                @click="openNotificationSettings"
-              >
-                {{ t('notificationAppSettings') }}
-                <template #prefix>
-                  <AppIconSettings />
-                </template>
-              </AppButton>
-              <AppButton
-                :aria-label="t('notificationSend')"
-                variant="secondary"
-                @click="sendNotification"
-              >
-                {{ t('notificationSend') }}
-                <template #prefix>
-                  <AppIconBellAlert />
-                </template>
-              </AppButton>
-              <AppButton
-                :aria-label="t('showFcmToken')"
-                variant="secondary"
-                @click="showFcmToken"
-              >
-                {{ t('showFcmToken') }}
-                <template #prefix>
-                  <AppIconClipboard />
-                </template>
-              </AppButton>
+              </AppCard>
             </div>
-          </section>
-        </div>
-      </section>
-      <section class="flex flex-col gap-4">
-        <h2>{{ t('data') }}</h2>
-        <div class="grid gap-4 lg:grid-cols-2">
-          <div class="flex flex-1 flex-col gap-2">
-            <AppCard class="flex flex-col gap-1">
-              <div class="flex gap-2">
-                <ClientOnly>
-                  <AppIconCheckCircle v-if="$urqlCache" class="text-link" />
-                  <AppIconXCircle v-else class="text-error" />
-                  <template #fallback>
-                    <AppIconQuestionMarkCircle />
-                  </template>
-                </ClientOnly>
-                <span>
-                  {{ t('apiClient') }}
-                </span>
-              </div>
-            </AppCard>
           </div>
-          <div class="flex flex-1 flex-col gap-2">
-            <ClientOnly>
-              <AppButton
-                :aria-label="t('apiClientCacheClear')"
-                :disabled="!$urqlCache"
-                variant="secondary"
-                @click="apiClientCacheClear"
-              >
-                {{ t('apiClientCacheClear') }}
-                <template #prefix>
-                  <AppIconTrash />
+        </section>
+        <section class="flex flex-col gap-4">
+          <h2>{{ t('end') }}</h2>
+          <div class="grid gap-4 lg:grid-cols-2">
+            <div class="flex-1">
+              <AppCard>
+                <template v-if="store.jwtPayload?.exp">
+                  <i18n-t keypath="sessionExpiry">
+                    <template #exp>
+                      <AppTime
+                        :datetime="store.jwtPayload.exp * 1000"
+                        :options="{ weekday: 'short' }"
+                      />
+                    </template>
+                  </i18n-t>
                 </template>
-              </AppButton>
-              <template #fallback>
+                <template v-else>
+                  {{ t('sessionExpiryNone') }}
+                </template>
+              </AppCard>
+            </div>
+            <div class="flex-1">
+              <div class="flex flex-col gap-2">
+                <AppButton
+                  :aria-label="t('endNow')"
+                  :disabled="!store.jwtPayload"
+                  variant="secondary"
+                  @click="jwtDelete"
+                >
+                  {{ t('endNow') }}
+                  <template #prefix>
+                    <AppIconOutlineLogout />
+                  </template>
+                </AppButton>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="flex flex-col gap-4">
+          <h2>{{ t('codes') }}</h2>
+          <div class="grid gap-4 lg:grid-cols-2">
+            <div class="flex-1">
+              <AppCard>
+                <div v-if="store.jwtPayload?.guests">
+                  <p>
+                    {{ t('codesEntered') }}
+                  </p>
+                  <ul class="list-disc">
+                    <li
+                      v-for="guestId in store.jwtPayload?.guests"
+                      :key="guestId"
+                    >
+                      {{ guestId }}
+                    </li>
+                  </ul>
+                </div>
+                <p v-else>
+                  {{ t('codesEnteredNone') }}
+                </p>
+              </AppCard>
+            </div>
+            <div class="flex-1">
+              <!-- TODO: implement guest code management (https://github.com/maevsi/vibetype/issues/61) -->
+            </div>
+          </div>
+        </section>
+        <section class="flex flex-col gap-4">
+          <h2>{{ t('userAgentString') }}</h2>
+          <div class="grid gap-4 lg:grid-cols-2">
+            <div class="flex-1">
+              <AppCard>
+                {{ userAgentString }}
+              </AppCard>
+            </div>
+          </div>
+        </section>
+        <section class="flex flex-col gap-4">
+          <h2>{{ t('app') }}</h2>
+          <div class="grid gap-4 lg:grid-cols-2">
+            <div class="flex flex-1 flex-col gap-2">
+              <AppCard class="flex flex-col gap-1">
+                <div class="flex gap-2">
+                  <AppIconQuestionMarkCircle v-if="isApp === undefined" />
+                  <AppIconCheckCircle v-else-if="isApp" class="text-link" />
+                  <AppIconXCircle v-else class="text-error" />
+                  <span>
+                    {{ t('appIs') }}
+                  </span>
+                </div>
+              </AppCard>
+              <AppCard v-if="isApp" class="flex flex-col gap-1">
+                <span>
+                  {{ t('appPlatform', { platform }) }}
+                </span>
+              </AppCard>
+            </div>
+          </div>
+        </section>
+        <section class="flex flex-col gap-4">
+          <h2>{{ t('notification') }}</h2>
+          <div class="flex flex-col gap-4 lg:flex-row">
+            <section class="flex-1">
+              <AppCard class="flex flex-col gap-1">
+                <div class="flex gap-2">
+                  <AppIconQuestionMarkCircle
+                    v-if="isNavigatorHavingPermissions === undefined"
+                  />
+                  <AppIconCheckCircle
+                    v-else-if="isNavigatorHavingPermissions"
+                    class="text-link"
+                  />
+                  <AppIconXCircle v-else class="text-error" />
+                  <span>
+                    {{ t('hasNavigatorPermissions') }}
+                  </span>
+                </div>
+                <div class="flex gap-2">
+                  <AppIconQuestionMarkCircle
+                    v-if="isNavigatorHavingServiceWorker === undefined"
+                  />
+                  <AppIconCheckCircle
+                    v-else-if="isNavigatorHavingServiceWorker"
+                    class="text-link"
+                  />
+                  <AppIconXCircle v-else class="text-error" />
+                  <span>
+                    {{ t('hasNavigatorServiceWorkers') }}
+                  </span>
+                </div>
+                <div class="flex gap-2">
+                  <AppIconQuestionMarkCircle
+                    v-if="isWindowHavingNotification === undefined"
+                  />
+                  <AppIconCheckCircle
+                    v-else-if="isWindowHavingNotification"
+                    class="text-link"
+                  />
+                  <AppIconXCircle v-else class="text-error" />
+                  <span>
+                    {{ t('hasWindowNotification') }}
+                  </span>
+                </div>
+                <div class="flex gap-2">
+                  <AppIconQuestionMarkCircle
+                    v-if="isIosHavingPushCapability === undefined"
+                  />
+                  <AppIconCheckCircle
+                    v-else-if="isIosHavingPushCapability"
+                    class="text-link"
+                  />
+                  <AppIconXCircle v-else class="text-error" />
+                  <span>
+                    {{ t('hasIosPushCapability') }}
+                  </span>
+                </div>
+                <div class="flex gap-2">
+                  <AppIconQuestionMarkCircle
+                    v-if="permissionState === undefined"
+                  />
+                  <AppIconCheckCircle
+                    v-else-if="permissionState === 'granted'"
+                    class="text-link"
+                  />
+                  <AppIconQuestionMarkCircle
+                    v-else-if="permissionState === 'prompt'"
+                    class="text-info"
+                  />
+                  <AppIconXCircle
+                    v-else-if="permissionState === 'denied'"
+                    class="text-error"
+                  />
+                  <AppIconBugAnt v-else class="text-error" />
+                  <span>
+                    {{ t('notificationPermitted') }}
+                  </span>
+                </div>
+              </AppCard>
+            </section>
+            <section class="flex-1">
+              <div class="flex flex-col gap-2">
+                <AppButton
+                  :aria-label="t('notificationPermit')"
+                  :disabled="!isNotificationPermissionRequestPossible"
+                  variant="secondary"
+                  @click="requestNotificationPermission(notificationStore)"
+                >
+                  {{ t('notificationPermit') }}
+                  <template #prefix>
+                    <AppIconShieldCheck />
+                  </template>
+                </AppButton>
+                <AppButton
+                  v-if="isAndroid"
+                  :aria-label="t('notificationAppSettings')"
+                  variant="secondary"
+                  @click="openNotificationSettings"
+                >
+                  {{ t('notificationAppSettings') }}
+                  <template #prefix>
+                    <AppIconSettings />
+                  </template>
+                </AppButton>
+                <AppButton
+                  :aria-label="t('notificationSend')"
+                  variant="secondary"
+                  @click="sendNotification"
+                >
+                  {{ t('notificationSend') }}
+                  <template #prefix>
+                    <AppIconBellAlert />
+                  </template>
+                </AppButton>
+                <AppButton
+                  :aria-label="t('showFcmToken')"
+                  variant="secondary"
+                  @click="showFcmToken"
+                >
+                  {{ t('showFcmToken') }}
+                  <template #prefix>
+                    <AppIconClipboard />
+                  </template>
+                </AppButton>
+              </div>
+            </section>
+          </div>
+        </section>
+        <section class="flex flex-col gap-4">
+          <h2>{{ t('data') }}</h2>
+          <div class="grid gap-4 lg:grid-cols-2">
+            <div class="flex flex-1 flex-col gap-2">
+              <AppCard class="flex flex-col gap-1">
+                <div class="flex gap-2">
+                  <ClientOnly>
+                    <AppIconCheckCircle v-if="$urqlCache" class="text-link" />
+                    <AppIconXCircle v-else class="text-error" />
+                    <template #fallback>
+                      <AppIconQuestionMarkCircle />
+                    </template>
+                  </ClientOnly>
+                  <span>
+                    {{ t('apiClient') }}
+                  </span>
+                </div>
+              </AppCard>
+            </div>
+            <div class="flex flex-1 flex-col gap-2">
+              <ClientOnly>
                 <AppButton
                   :aria-label="t('apiClientCacheClear')"
-                  disabled
+                  :disabled="!$urqlCache"
                   variant="secondary"
+                  @click="apiClientCacheClear"
                 >
                   {{ t('apiClientCacheClear') }}
                   <template #prefix>
                     <AppIconTrash />
                   </template>
                 </AppButton>
-              </template>
-            </ClientOnly>
+                <template #fallback>
+                  <AppButton
+                    :aria-label="t('apiClientCacheClear')"
+                    disabled
+                    variant="secondary"
+                  >
+                    {{ t('apiClientCacheClear') }}
+                    <template #prefix>
+                      <AppIconTrash />
+                    </template>
+                  </AppButton>
+                </template>
+              </ClientOnly>
+            </div>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </LayoutPage>
   </div>
 </template>
 

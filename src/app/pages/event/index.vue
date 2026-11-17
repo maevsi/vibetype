@@ -1,9 +1,9 @@
 <template>
   <div class="flex flex-1 flex-col">
-    <h1>
-      {{ title }}
-    </h1>
-    <EventSearch />
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutPage>
+      <EventSearch />
+    </LayoutPage>
   </div>
 </template>
 

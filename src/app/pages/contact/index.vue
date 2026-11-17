@@ -1,14 +1,9 @@
 <template>
   <div class="flex flex-1 flex-col">
-    <LayoutTopBar>
-      {{ title }}
-      <template #back>
-        <ButtonIconBackRoute />
-      </template>
-    </LayoutTopBar>
-    <div class="flex flex-1 flex-col gap-4 p-4 md:px-8">
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutPage>
       <ContactList v-if="authentication.isSignedIn" />
-    </div>
+    </LayoutPage>
   </div>
 </template>
 
@@ -18,11 +13,6 @@ const { t } = useI18n()
 
 // validation
 await useSignInRequired()
-
-// compiler
-definePageMeta({
-  layout: 'default-no-header',
-})
 
 // data
 const title = t('title')

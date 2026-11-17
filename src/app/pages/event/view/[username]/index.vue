@@ -4,9 +4,9 @@
       v-if="!account"
       :error="{ message: 'Account data missing', status: 404 }"
     />
-    <div v-else>
-      <LayoutPageTitle title="-">
-        <i18n-t keypath="title" tag="h1">
+    <div v-else class="flex flex-1 flex-col">
+      <LayoutTopBar>
+        <i18n-t keypath="title">
           <template #name>
             <AppLink
               :to="
@@ -20,18 +20,20 @@
             </AppLink>
           </template>
         </i18n-t>
-      </LayoutPageTitle>
-      <EventList
-        :events
-        :has-next-page="
-          api.data.accountByUsername?.eventsByCreatedBy.pageInfo.hasNextPage
-        "
-        is-grouped-by-day
-        @load-more="
-          queryAfter =
-            api.data.accountByUsername?.eventsByCreatedBy.pageInfo.endCursor
-        "
-      />
+      </LayoutTopBar>
+      <LayoutPage>
+        <EventList
+          :events
+          :has-next-page="
+            api.data.accountByUsername?.eventsByCreatedBy.pageInfo.hasNextPage
+          "
+          is-grouped-by-day
+          @load-more="
+            queryAfter =
+              api.data.accountByUsername?.eventsByCreatedBy.pageInfo.endCursor
+          "
+        />
+      </LayoutPage>
     </div>
   </Loader>
 </template>

@@ -1,42 +1,42 @@
 <template>
-  <div class="flex flex-1 flex-col justify-center">
-    <div class="flex flex-col gap-8 rounded-medium p-8 text-center">
-      <div class="flex flex-col gap-4">
-        <h1 class="text-heading-large">
-          {{ t('descriptionTitle') }}
-        </h1>
-        <div>
-          {{ t('descriptionContent') }}
+  <div class="flex flex-1 flex-col">
+    <LayoutTopBar />
+    <LayoutPage>
+      <div
+        class="flex flex-1 flex-col justify-center gap-8 rounded-medium p-8 text-center"
+      >
+        <div class="flex flex-col gap-4">
+          <h1 class="text-heading-large">
+            {{ t('descriptionTitle') }}
+          </h1>
+          <div>
+            {{ t('descriptionContent') }}
+          </div>
+        </div>
+        <div class="flex flex-col justify-center gap-4 lg:flex-row lg:gap-8">
+          <AppCardButton
+            is-external
+            :title="t('appStore')"
+            to="https://testflight.apple.com/join/kkStPDoc"
+          >
+            <AppIconAppStore />
+          </AppCardButton>
+          <AppCardButton
+            class="lg:h-32"
+            is-external
+            :title="t('googlePlay')"
+            to="https://play.google.com/store/apps/details?id=si.maev.twa"
+          >
+            <AppIconGooglePlay />
+          </AppCardButton>
         </div>
       </div>
-      <div class="flex flex-col justify-center gap-4 lg:flex-row lg:gap-8">
-        <AppCardButton
-          is-external
-          :title="t('appStore')"
-          to="https://testflight.apple.com/join/kkStPDoc"
-        >
-          <AppIconAppStore />
-        </AppCardButton>
-        <AppCardButton
-          class="lg:h-32"
-          is-external
-          :title="t('googlePlay')"
-          to="https://play.google.com/store/apps/details?id=si.maev.twa"
-        >
-          <AppIconGooglePlay />
-        </AppCardButton>
-      </div>
-    </div>
+    </LayoutPage>
   </div>
 </template>
 
 <script setup lang="ts">
 import { UAParser } from 'ua-parser-js'
-
-// compiler
-definePageMeta({
-  layout: 'plain',
-})
 
 // redirect
 const { isApp } = usePlatform()

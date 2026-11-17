@@ -1,5 +1,8 @@
 <template>
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
+    <LayoutTopBar>
+      <span :id="templateIdTitle">{{ title }}</span>
+    </LayoutTopBar>
     <AppAlert v-if="verified" class="rounded-none" variant="success">
       <span class="text-headline">
         {{ t('accountVerified') }}
@@ -8,14 +11,14 @@
     <AppAlert v-if="to" class="rounded-none">
       {{ t('accountRequired') }}
     </AppAlert>
-    <FormAuthPageHeader :title-id="templateIdTitle" @back="navigateBack">
-      <template #title>
-        {{ t('welcomeBack') }}<br />{{ t('goodToSeeYou') }}
-      </template>
-      <template #subtitle>{{ t('subtitle') }}</template>
-    </FormAuthPageHeader>
     <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
+        <FormAuthHeader>
+          <template #title>
+            {{ t('welcomeBack') }}<br />{{ t('goodToSeeYou') }}
+          </template>
+          <template #subtitle>{{ t('subtitle') }}</template>
+        </FormAuthHeader>
         <FormSessionCreate v-model:error="error" @signed-in="onSignIn" />
       </LayoutPage>
     </AppStepPanel>
@@ -47,10 +50,6 @@
 <script setup lang="ts">
 import type { Language } from '~~/gql/generated/graphql'
 
-definePageMeta({
-  layout: 'plain',
-})
-
 // page
 const { t } = useI18n()
 
@@ -59,9 +58,6 @@ const templateIdTitle = useId()
 
 // navigation
 const router = useRouter()
-const navigateBack = () => {
-  store.navigateBack()
-}
 
 // sign in
 const localePath = useLocalePath()

@@ -52,12 +52,7 @@ appTest.describe('settings', () => {
 
   authenticatedTest(
     'is linked from the profile only when signed in',
-    async ({ defaultPage, isMobile }) => {
-      authenticatedTest.skip(
-        isMobile,
-        'the header keeps its link until it is removed',
-      )
-
+    async ({ defaultPage }) => {
       await defaultPage.goto('/event')
 
       await expect(

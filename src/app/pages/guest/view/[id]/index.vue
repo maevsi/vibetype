@@ -12,8 +12,13 @@
       v-else-if="!account"
       :error="{ message: t('errorAccountMissing'), status: 404 }"
     />
-    <div v-else class="flex flex-col gap-4">
-      <AppAlert v-if="isOrganizerPreview" class="flex flex-col gap-2">
+    <div v-else class="flex flex-1 flex-col">
+      <!-- the event's name below is the page's heading -->
+      <LayoutTopBar />
+      <AppAlert
+        v-if="isOrganizerPreview"
+        class="flex flex-col gap-2 rounded-none"
+      >
         {{ t('invitationViewFor', { name: contactName }) }}
         <AppButton
           :aria-label="t('invitationSelectionClear')"
@@ -33,252 +38,264 @@
           </template>
         </AppButton>
       </AppAlert>
-      <div v-if="contact" class="flex flex-col gap-2">
-        <div class="flex items-center justify-between gap-2">
-          <div>
-            <p class="mb-2 text-heading-medium">
-              {{
-                t('greeting', {
-                  usernameString: contactName ? ' ' + contactName : '',
-                })
-              }}
-            </p>
-            <p>{{ t('greetingDescription') }}</p>
-          </div>
-          <AppButton
-            v-if="guest.feedback === InvitationFeedback.Accepted"
-            :aria-label="t('qrCodeShow')"
-            @click="qrCodeShow"
-          >
-            {{ t('qrCodeShow') }}
-            <template #prefix>
-              <AppIconQrCode />
-            </template>
-          </AppButton>
-        </div>
-      </div>
-      <div class="flex flex-col gap-4">
-        <div>
-          <div class="relative">
-            <EventHeroImage :event />
-            <div
-              class="absolute inset-x-0 top-0 flex items-center justify-between p-2"
-            >
-              <div />
-              <div class="flex items-center gap-2">
-                <AppButton
-                  :aria-label="t('iCalDownload')"
-                  class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
-                  size="none"
-                  variant="ghost"
-                  @click="downloadIcal"
-                >
-                  <AppIconArrowDownTray :title="t('iCalDownload')" />
-                </AppButton>
-                <EventShareButton
-                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
-                  :event
-                />
-                <EventFavoriteButton
-                  class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
-                  :event
-                />
-                <template
-                  v-if="
-                    store.signedInAccountId &&
-                    event.createdBy !== store.signedInAccountId
-                  "
-                >
-                  <AppDropdown>
-                    <AppDropdownItem
-                      variant="destructive"
-                      @select="isOpenReportDrawer = true"
-                    >
-                      {{ t('report') }}
-                    </AppDropdownItem>
-                    <template #trigger>
-                      <span
-                        class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
-                      >
-                        <AppIconMoreVertical />
-                      </span>
-                    </template>
-                  </AppDropdown>
-                  <EventReportDrawer
-                    v-model:open="isOpenReportDrawer"
-                    :account-id="store.signedInAccountId"
-                    :event
-                  />
+      <LayoutPage>
+        <div class="flex flex-col gap-4">
+          <div v-if="contact" class="flex flex-col gap-2">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <p class="mb-2 text-heading-medium">
+                  {{
+                    t('greeting', {
+                      usernameString: contactName ? ' ' + contactName : '',
+                    })
+                  }}
+                </p>
+                <p>{{ t('greetingDescription') }}</p>
+              </div>
+              <AppButton
+                v-if="guest.feedback === InvitationFeedback.Accepted"
+                :aria-label="t('qrCodeShow')"
+                @click="qrCodeShow"
+              >
+                {{ t('qrCodeShow') }}
+                <template #prefix>
+                  <AppIconQrCode />
                 </template>
+              </AppButton>
+            </div>
+          </div>
+          <div class="flex flex-col gap-4">
+            <div>
+              <div class="relative">
+                <EventHeroImage :event />
+                <div
+                  class="absolute inset-x-0 top-0 flex items-center justify-between p-2"
+                >
+                  <div />
+                  <div class="flex items-center gap-2">
+                    <AppButton
+                      :aria-label="t('iCalDownload')"
+                      class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
+                      size="none"
+                      variant="ghost"
+                      @click="downloadIcal"
+                    >
+                      <AppIconArrowDownTray :title="t('iCalDownload')" />
+                    </AppButton>
+                    <EventShareButton
+                      class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
+                      :event
+                    />
+                    <EventFavoriteButton
+                      class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
+                      :event
+                    />
+                    <template
+                      v-if="
+                        store.signedInAccountId &&
+                        event.createdBy !== store.signedInAccountId
+                      "
+                    >
+                      <AppDropdown>
+                        <AppDropdownItem
+                          variant="destructive"
+                          @select="isOpenReportDrawer = true"
+                        >
+                          {{ t('report') }}
+                        </AppDropdownItem>
+                        <template #trigger>
+                          <span
+                            class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
+                          >
+                            <AppIconMoreVertical />
+                          </span>
+                        </template>
+                      </AppDropdown>
+                      <EventReportDrawer
+                        v-model:open="isOpenReportDrawer"
+                        :account-id="store.signedInAccountId"
+                        :event
+                      />
+                    </template>
+                  </div>
+                </div>
+              </div>
+              <AppCard class="flex flex-col items-stretch gap-6 rounded-t-none">
+                <div
+                  class="flex flex-col items-baseline justify-center md:flex-row md:gap-2"
+                >
+                  <h1 class="m-0">
+                    {{ event.name }}
+                  </h1>
+                  <EventOwner
+                    link
+                    :username="event.accountByCreatedBy.username"
+                  />
+                </div>
+                <div class="flex flex-col gap-2">
+                  <EventDashletStart :contact :event :guest />
+                  <EventDashletDuration :event />
+                  <EventDashletLocation :address :event />
+                  <EventDashletVisibility :event with-text />
+                  <!-- <EventDashletAttendanceType :event />
+              <EventDashletLink :event /> -->
+                </div>
+                <AppMap
+                  v-if="positionInitial"
+                  class="h-42 rounded-large"
+                  :events
+                  :position-initial
+                />
+              </AppCard>
+            </div>
+            <div
+              class="flex flex-col items-center gap-2"
+              :class="
+                guest.feedback === InvitationFeedback.Accepted
+                  ? 'col-span-3'
+                  : 'col-span-6'
+              "
+            >
+              <div
+                v-if="isOrganizerPreview"
+                class="flex items-center justify-center gap-4"
+              >
+                <div
+                  v-if="guest.feedback === InvitationFeedback.Accepted"
+                  class="flex items-center font-semibold text-link"
+                >
+                  <AppIconCheckCircleSolid class="mr-2 shrink-0" />
+                  <span>
+                    {{ t('invitationAcceptedAdmin', { name: contactName }) }}
+                  </span>
+                </div>
+                <div
+                  v-else-if="guest.feedback === InvitationFeedback.Canceled"
+                  class="flex items-center font-semibold text-error"
+                >
+                  <AppIconXCircleSolid class="mr-2 shrink-0" />
+                  <span>
+                    {{ t('invitationCanceledAdmin', { name: contactName }) }}
+                  </span>
+                </div>
+                <div v-else class="flex items-center font-semibold">
+                  <span>{{
+                    t('invitationPendingAdmin', { name: contactName })
+                  }}</span>
+                </div>
+              </div>
+              <div v-else class="flex items-center justify-center gap-4">
+                <AppButton
+                  v-if="
+                    guest.feedback === null ||
+                    guest.feedback === InvitationFeedback.Canceled
+                  "
+                  :aria-label="t('invitationAccept')"
+                  :loading="isUpdatingAccept"
+                  @click="accept"
+                >
+                  <span>{{ t('invitationAccept') }}</span>
+                  <template #prefix>
+                    <AppIconCheckCircleSolid class="shrink-0" />
+                  </template>
+                </AppButton>
+                <div
+                  v-if="guest.feedback === InvitationFeedback.Accepted"
+                  class="flex items-center font-semibold text-link"
+                >
+                  <AppIconCheckCircleSolid
+                    class="mr-2 shrink-0"
+                    :title="t('invitationAccepted')"
+                  />
+                  <span>{{ t('invitationAccepted') }}</span>
+                </div>
+                <AppButton
+                  v-if="
+                    guest.feedback === null ||
+                    guest.feedback === InvitationFeedback.Accepted
+                  "
+                  :aria-label="t('invitationCancel')"
+                  :loading="isUpdatingCancel"
+                  @click="cancel"
+                >
+                  <span>{{ t('invitationCancel') }}</span>
+                  <template #prefix>
+                    <AppIconXCircleSolid class="shrink-0" />
+                  </template>
+                </AppButton>
+                <div
+                  v-if="guest.feedback === InvitationFeedback.Canceled"
+                  class="flex items-center font-semibold text-error"
+                >
+                  <AppIconXCircleSolid
+                    class="mr-2 shrink-0"
+                    :title="t('invitationCanceled')"
+                  />
+                  <span>{{ t('invitationCanceled') }}</span>
+                </div>
               </div>
             </div>
+            <AppCard v-if="eventDescriptionHtml">
+              <!-- eslint-disable vue/no-v-html -->
+              <LayoutProse class="w-full">
+                <div v-html="eventDescriptionHtml" />
+              </LayoutProse>
+              <!-- eslint-enable vue/no-v-html -->
+            </AppCard>
           </div>
-          <AppCard class="flex flex-col items-stretch gap-6 rounded-t-none">
-            <div
-              class="flex flex-col items-baseline justify-center md:flex-row md:gap-2"
-            >
-              <h1 class="m-0">
-                {{ event.name }}
-              </h1>
-              <EventOwner link :username="event.accountByCreatedBy.username" />
-            </div>
-            <div class="flex flex-col gap-2">
-              <EventDashletStart :contact :event :guest />
-              <EventDashletDuration :event />
-              <EventDashletLocation :address :event />
-              <EventDashletVisibility :event with-text />
-              <!-- <EventDashletAttendanceType :event />
-              <EventDashletLink :event /> -->
-            </div>
-            <AppMap
-              v-if="positionInitial"
-              class="h-42 rounded-large"
-              :events
-              :position-initial
-            />
-          </AppCard>
-        </div>
-        <div
-          class="flex flex-col items-center gap-2"
-          :class="
-            guest.feedback === InvitationFeedback.Accepted
-              ? 'col-span-3'
-              : 'col-span-6'
-          "
-        >
-          <div
-            v-if="isOrganizerPreview"
-            class="flex items-center justify-center gap-4"
-          >
-            <div
-              v-if="guest.feedback === InvitationFeedback.Accepted"
-              class="flex items-center font-semibold text-link"
-            >
-              <AppIconCheckCircleSolid class="mr-2 shrink-0" />
-              <span>
-                {{ t('invitationAcceptedAdmin', { name: contactName }) }}
-              </span>
-            </div>
-            <div
-              v-else-if="guest.feedback === InvitationFeedback.Canceled"
-              class="flex items-center font-semibold text-error"
-            >
-              <AppIconXCircleSolid class="mr-2 shrink-0" />
-              <span>
-                {{ t('invitationCanceledAdmin', { name: contactName }) }}
-              </span>
-            </div>
-            <div v-else class="flex items-center font-semibold">
-              <span>{{
-                t('invitationPendingAdmin', { name: contactName })
-              }}</span>
-            </div>
-          </div>
-          <div v-else class="flex items-center justify-center gap-4">
-            <AppButton
-              v-if="
-                guest.feedback === null ||
-                guest.feedback === InvitationFeedback.Canceled
-              "
-              :aria-label="t('invitationAccept')"
-              :loading="isUpdatingAccept"
-              @click="accept"
-            >
-              <span>{{ t('invitationAccept') }}</span>
-              <template #prefix>
-                <AppIconCheckCircleSolid class="shrink-0" />
-              </template>
-            </AppButton>
-            <div
-              v-if="guest.feedback === InvitationFeedback.Accepted"
-              class="flex items-center font-semibold text-link"
-            >
-              <AppIconCheckCircleSolid
-                class="mr-2 shrink-0"
-                :title="t('invitationAccepted')"
+          <AppModal v-model="isModalGuestQrCodeOpen">
+            <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
+              <QrcodeVue
+                id="qrCode"
+                :margin="4"
+                :size="232"
+                :value="guest.rowId"
               />
-              <span>{{ t('invitationAccepted') }}</span>
+              <p class="text-body-small text-fg-2">
+                {{ t('hintQrCode') }}
+              </p>
             </div>
-            <AppButton
-              v-if="
-                guest.feedback === null ||
-                guest.feedback === InvitationFeedback.Accepted
-              "
-              :aria-label="t('invitationCancel')"
-              :loading="isUpdatingCancel"
-              @click="cancel"
-            >
-              <span>{{ t('invitationCancel') }}</span>
-              <template #prefix>
-                <AppIconXCircleSolid class="shrink-0" />
-              </template>
-            </AppButton>
-            <div
-              v-if="guest.feedback === InvitationFeedback.Canceled"
-              class="flex items-center font-semibold text-error"
-            >
-              <AppIconXCircleSolid
-                class="mr-2 shrink-0"
-                :title="t('invitationCanceled')"
-              />
-              <span>{{ t('invitationCanceled') }}</span>
-            </div>
-          </div>
+            <template #footer>
+              <AppButton
+                v-if="isTicketShareable"
+                :aria-label="t('ticketShare')"
+                :disabled="!ticketFile"
+                :loading="isTicketFetching"
+                variant="secondary"
+                @click="ticketShare"
+              >
+                {{ t('ticketShare') }}
+                <template #prefix>
+                  <AppIconShare />
+                </template>
+              </AppButton>
+              <!-- the iOS app's share sheet covers saving and printing, whereas Android's usually lacks a print target -->
+              <AppButton
+                v-if="!isIos"
+                :aria-label="t('ticketDownload')"
+                :disabled="!ticketFile"
+                :loading="isTicketFetching"
+                variant="secondary"
+                @click="ticketDownload"
+              >
+                {{ t('ticketDownload') }}
+                <template #prefix>
+                  <AppIconArrowDownTray />
+                </template>
+              </AppButton>
+              <AppButton
+                :aria-label="t('close')"
+                @click="isModalGuestQrCodeOpen = false"
+              >
+                {{ t('close') }}
+                <template #prefix>
+                  <AppIconXMark />
+                </template>
+              </AppButton>
+            </template>
+          </AppModal>
         </div>
-        <AppCard v-if="eventDescriptionHtml">
-          <!-- eslint-disable vue/no-v-html -->
-          <LayoutProse class="w-full">
-            <div v-html="eventDescriptionHtml" />
-          </LayoutProse>
-          <!-- eslint-enable vue/no-v-html -->
-        </AppCard>
-      </div>
-      <AppModal v-model="isModalGuestQrCodeOpen">
-        <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
-          <QrcodeVue id="qrCode" :margin="4" :size="232" :value="guest.rowId" />
-          <p class="text-body-small text-fg-2">
-            {{ t('hintQrCode') }}
-          </p>
-        </div>
-        <template #footer>
-          <AppButton
-            v-if="isTicketShareable"
-            :aria-label="t('ticketShare')"
-            :disabled="!ticketFile"
-            :loading="isTicketFetching"
-            variant="secondary"
-            @click="ticketShare"
-          >
-            {{ t('ticketShare') }}
-            <template #prefix>
-              <AppIconShare />
-            </template>
-          </AppButton>
-          <!-- the iOS app's share sheet covers saving and printing, whereas Android's usually lacks a print target -->
-          <AppButton
-            v-if="!isIos"
-            :aria-label="t('ticketDownload')"
-            :disabled="!ticketFile"
-            :loading="isTicketFetching"
-            variant="secondary"
-            @click="ticketDownload"
-          >
-            {{ t('ticketDownload') }}
-            <template #prefix>
-              <AppIconArrowDownTray />
-            </template>
-          </AppButton>
-          <AppButton
-            :aria-label="t('close')"
-            @click="isModalGuestQrCodeOpen = false"
-          >
-            {{ t('close') }}
-            <template #prefix>
-              <AppIconXMark />
-            </template>
-          </AppButton>
-        </template>
-      </AppModal>
+      </LayoutPage>
     </div>
   </Loader>
 </template>
