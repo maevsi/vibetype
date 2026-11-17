@@ -40,7 +40,7 @@ export const useSignInRequired = async () => {
   const route = useRoute()
 
   // without history, as the back button would return to the current page otherwise, which only redirects again
-  await store.navigateWithoutHistory(
+  await navigateTo(
     {
       path: localePath('session-create'),
       query: { to: route.fullPath },

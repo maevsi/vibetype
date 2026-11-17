@@ -150,6 +150,7 @@ const initialize = async () => {
       localePath({
         name: 'index',
       }),
+      { replace: true },
     )
   }
 }

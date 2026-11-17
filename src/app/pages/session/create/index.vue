@@ -123,22 +123,12 @@ const getSignInTarget = ({
   return localePath(`dashboard`, language)
 }
 const onSignIn = async (username: string) => {
-  // the welcome page redirects signed-in accounts to the dashboard (see `pages/index.vue`), so going back there would only loop
-  store.routeHistory = store.routeHistory.filter((path) => {
-    const routeResolved = router.resolve(path)
-
-    return !(
-      getRouteBaseName(routeResolved) === 'index' &&
-      Object.keys(routeResolved.query).every((key) => key === 'source')
-    )
-  })
-
   const language = await syncLocaleCookieToOwnContactLanguage({
     nuxtApp,
     store,
   })
 
-  await store.navigateWithoutHistory(getSignInTarget({ language, username }), {
+  await navigateTo(getSignInTarget({ language, username }), {
     replace: true,
   })
 }

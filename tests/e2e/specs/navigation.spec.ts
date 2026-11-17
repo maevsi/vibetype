@@ -41,6 +41,40 @@ appTest.describe('sign-in gate', () => {
   )
 })
 
+appTest.describe('back button', () => {
+  appTest(
+    'follows the browser history after its own back button',
+    async ({ defaultPage }) => {
+      const { page } = defaultPage
+
+      await defaultPage.goto('/event')
+      await page.getByRole('link', { name: 'Settings' }).click()
+      await expect(page).toHaveURL(/\/session\/edit$/)
+      await page.getByRole('link', { name: 'Language' }).click()
+      await expect(page).toHaveURL(/\/session\/edit\/language$/)
+
+      await page.goBack()
+      await expect(page).toHaveURL(/\/session\/edit$/)
+      await page.getByRole('link', { name: 'Language' }).click()
+      await expect(page).toHaveURL(/\/session\/edit\/language$/)
+      await page.getByRole('button', BACK).click()
+      await expect(page).toHaveURL(/\/session\/edit$/)
+
+      await page.goBack()
+      await expect(page).toHaveURL(/\/event$/)
+    },
+  )
+
+  appTest('leads home without a previous page', async ({ defaultPage }) => {
+    const { page } = defaultPage
+
+    await defaultPage.goto('/session/edit/language')
+    await page.getByRole('button', BACK).click()
+
+    await expect(page).toHaveURL(/\/$/)
+  })
+})
+
 appTest.describe('settings', () => {
   appTest('is linked once when signed out', async ({ defaultPage }) => {
     await defaultPage.goto('/event')
