@@ -97,20 +97,8 @@ const { t } = useI18n()
 const templateIdTitle = useId()
 
 // validation
-const store = useStore()
 const localePath = useLocalePath()
-const route = useRoute()
-if (!store.signedInUsername) {
-  await navigateTo({
-    path: localePath({
-      name: 'session-create',
-    }),
-    query: {
-      to: route.fullPath,
-    },
-    replace: true,
-  })
-}
+await useSignInRequired()
 
 // stepper
 const { error, step, previous, title } = useStepperPage<

@@ -1,19 +1,19 @@
 <template>
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
+    <AppAlert v-if="verified" class="rounded-none" variant="success">
+      <span class="text-headline">
+        {{ t('accountVerified') }}
+      </span>
+    </AppAlert>
+    <AppAlert v-if="to" class="rounded-none">
+      {{ t('accountRequired') }}
+    </AppAlert>
     <FormAuthPageHeader :title-id="templateIdTitle" @back="navigateBack">
       <template #title>
         {{ t('welcomeBack') }}<br />{{ t('goodToSeeYou') }}
       </template>
       <template #subtitle>{{ t('subtitle') }}</template>
     </FormAuthPageHeader>
-    <AppAlert v-if="verified" class="mt-4 rounded-none" variant="success">
-      <span class="text-headline">
-        {{ t('accountVerified') }}
-      </span>
-    </AppAlert>
-    <AppAlert v-if="to" class="mt-4 rounded-none">
-      {{ t('accountRequired') }}
-    </AppAlert>
     <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
         <FormSessionCreate v-model:error="error" @signed-in="onSignIn" />

@@ -76,7 +76,7 @@ appTest.describe('authentication', () => {
 
     await expect(defaultPage.page).toHaveURL(/\/dashboard$/)
     await expect(
-      defaultPage.page.getByRole('link', { name: 'Settings' }),
+      defaultPage.page.getByRole('link', { name: 'Events' }),
     ).toBeVisible()
     await expect(
       defaultPage.page.getByRole('button', { name: 'back', exact: true }),
@@ -91,7 +91,7 @@ appTest.describe('authentication', () => {
         'the sidebar with the account link is desktop only',
       )
 
-      await goto({ defaultPage, path: '/contact' })
+      await goto({ defaultPage, path: '/event' })
       await defaultPage.page.getByRole('link', { name: 'Account' }).click()
       await signIn({
         page: defaultPage.page,
@@ -102,7 +102,7 @@ appTest.describe('authentication', () => {
       await defaultPage.page
         .getByRole('button', { name: 'back', exact: true })
         .click()
-      await expect(defaultPage.page).toHaveURL(/\/contact$/)
+      await expect(defaultPage.page).toHaveURL(/\/event$/)
     },
   )
 
