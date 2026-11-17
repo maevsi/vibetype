@@ -142,6 +142,32 @@
               </template>
             </AppButton>
           </AppButtonGroup>
+          <AppFeature v-else-if="!routeQueryIc" feature="participation">
+            <!-- The tiles are inert, as an event can only be joined through an invitation yet; once guests can join by themselves, bind the actions and remove `inert` -->
+            <AppButtonGroup class="grid grid-cols-2 gap-2 lg:gap-2" inert>
+              <AppButton
+                :aria-label="t('participate')"
+                class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+                size="none"
+              >
+                {{ t('participate') }}
+                <template #prefix>
+                  <AppIconTicket />
+                </template>
+              </AppButton>
+              <AppButton
+                :aria-label="t('participants')"
+                class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+                size="none"
+                variant="secondary"
+              >
+                {{ t('participants') }}
+                <template #prefix>
+                  <AppIconUsers />
+                </template>
+              </AppButton>
+            </AppButtonGroup>
+          </AppFeature>
           <div v-if="event?.accountByCreatedBy" class="flex flex-col gap-6">
             <section class="flex flex-col gap-2">
               <h2 class="text-headline">{{ t('details') }}</h2>
@@ -367,6 +393,8 @@ de:
   guests: Gäste
   location: Ort
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
+  participants: Teilnehmende
+  participate: Teilnehmen
   report: Veranstaltung melden
   settings: Bearbeiten
 en:
@@ -379,6 +407,8 @@ en:
   guests: Guests
   location: Location
   ogImageAlt: The event's preview image.
+  participants: Participants
+  participate: Participate
   report: Report event
   settings: Edit
 </i18n>

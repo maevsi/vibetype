@@ -5,6 +5,7 @@ export const FEATURE_FLAGS = [
   'friends',
   'map',
   'notifications',
+  'participation',
   'poster-hunt',
   'social-login',
 ] as const
