@@ -35,21 +35,6 @@ jobs:
       PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
     with:
       DRY_RUN: true
-  test_scripts:
-    needs: ci-optimization
-    if: needs.ci-optimization.outputs.continue == 'true'
-    name: Test scripts
-    runs-on: ubuntu-26.04
-    timeout-minutes: 5
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-          sparse-checkout: .github
-      - name: Test the weekly digest script
-        run: .github/weekly-digest.test.sh
   # Pins `:latest` for both Docker builds of a run, as a push of it in between makes the second build start from scratch.
   skew_protection_source:
     needs: ci-optimization
@@ -67,7 +52,7 @@ jobs:
   build:
     name: Build
     uses: dargmuesli/github-actions/.github/workflows/docker.yml@ec1208db30dfa20f05c0d273ae10772bd3184e0c # 6.0.0-beta.4
-    needs: [release_semantic_dry, skew_protection_source, test_scripts]
+    needs: [release_semantic_dry, skew_protection_source]
     permissions:
       attestations: write
       id-token: write

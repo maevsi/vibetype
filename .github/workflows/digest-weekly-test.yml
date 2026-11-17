@@ -1,0 +1,29 @@
+name: "Digest: Weekly: Test"
+
+permissions: {}
+
+on:
+  pull_request:
+    paths:
+      - .github/weekly-digest.sh
+      - .github/weekly-digest.test.sh
+      - .github/workflows/digest-weekly-test.yml
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+
+jobs:
+  test:
+    name: Test the weekly digest script
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: .github
+      - name: Test the weekly digest script
+        run: .github/weekly-digest.test.sh
