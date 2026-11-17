@@ -1,3 +1,11 @@
+## [17.13.1](https://github.com/maevsi/vibetype/compare/17.13.0...17.13.1) (2026-11-17)
+
+### Bug Fixes
+
+* **head:** keep the twitter card after hydration ([#2679](https://github.com/maevsi/vibetype/issues/2679)) ([4bbe20d](https://github.com/maevsi/vibetype/commit/4bbe20d8e9f61491029719acc63c19d1a7764b30))
+* **navigation:** go back through the browser history ([#2676](https://github.com/maevsi/vibetype/issues/2676)) ([dacb5f5](https://github.com/maevsi/vibetype/commit/dacb5f5a5088371c7f28cf325df5042d1729a5b2))
+* **navigation:** polish labels, focus, widths, settings, and unsaved changes ([#2680](https://github.com/maevsi/vibetype/issues/2680)) ([049bd16](https://github.com/maevsi/vibetype/commit/049bd164e514d7a95bf7d0e11a90661cc1a523f6))
+
 ## [17.13.0](https://github.com/maevsi/vibetype/compare/17.12.5...17.13.0) (2026-11-17)
 
 ### Features
