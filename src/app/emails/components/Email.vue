@@ -29,6 +29,10 @@ const colorSchemeStyle = `
       background-color: ${THEME_COLOR_DARK} !important;
     }
 
+    .link {
+      color: #35de51 !important;
+    }
+
     .logo-dark {
       display: block !important;
     }
@@ -73,7 +77,7 @@ const colorSchemeStyle = `
     <EBody style="margin: 0">
       <EContainer
         class="container"
-        style="background-color: #f0f0f0; max-width: 42.5em; padding: 0 2.5em"
+        style="background-color: #eff0ef; max-width: 42.5em; padding: 0 2.5em"
       >
         <AppLogo :locale />
         <slot />

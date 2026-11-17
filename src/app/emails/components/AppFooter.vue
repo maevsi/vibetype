@@ -24,8 +24,9 @@ const t = locales[locale]
       <EColumn>
         <AppText style="font-size: 13px; text-align: center">
           <ELink
+            class="link"
             :href="`mailto:contact+unsubscribe@maev.si?subject=Unsubscribe%20${emailAddress}`"
-            style="color: #60a5fa; text-decoration: underline"
+            style="color: #117a23; text-decoration: underline"
           >
             {{ t.unsubscribe }}
           </ELink>
