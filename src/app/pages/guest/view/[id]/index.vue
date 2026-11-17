@@ -236,11 +236,9 @@
               </div>
             </div>
             <AppCard v-if="eventDescriptionHtml">
-              <!-- eslint-disable vue/no-v-html -->
               <LayoutProse class="w-full">
-                <div v-html="eventDescriptionHtml" />
+                <AppHtml :html="eventDescriptionHtml" />
               </LayoutProse>
-              <!-- eslint-enable vue/no-v-html -->
             </AppCard>
           </div>
           <AppModal v-model="isModalGuestQrCodeOpen">

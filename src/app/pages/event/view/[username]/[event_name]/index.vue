@@ -166,11 +166,9 @@
           </div>
           <section v-if="eventDescriptionTemplate" class="flex flex-col gap-2">
             <h2 class="text-headline">{{ t('about') }}</h2>
-            <!-- eslint-disable vue/no-v-html -->
             <LayoutProse class="w-full">
-              <div v-html="eventDescriptionTemplate" />
+              <AppHtml :html="eventDescriptionTemplate" />
             </LayoutProse>
-            <!-- eslint-enable vue/no-v-html -->
           </section>
         </div>
       </LayoutPage>
