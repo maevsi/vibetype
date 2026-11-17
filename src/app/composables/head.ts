@@ -100,7 +100,7 @@ export const useHeadDefault = (
         }
       : {}),
     ...(title ? { title, ogTitle: title } : {}),
-    // `defineOgImage` adds no image tags on the client while hydrating, so the card nuxt-seo-utils infers there would replace the server's `summary_large_image` with `summary`
+    // `defineOgImage` adds no image tags on the client while hydrating, so the card nuxt-seo-utils infers there would replace the server's `summary_large_image` with `summary` (https://github.com/nuxt-modules/og-image/issues/791)
     twitterCard: 'summary_large_image',
     ...input,
   })
