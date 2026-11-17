@@ -79,7 +79,7 @@ appTest.describe('authentication', () => {
       defaultPage.page.getByRole('link', { name: 'Events' }),
     ).toBeVisible()
     await expect(
-      defaultPage.page.getByRole('button', { name: 'back', exact: true }),
+      defaultPage.page.getByRole('button', { name: 'Back', exact: true }),
     ).toHaveCount(0)
   })
 
@@ -87,11 +87,11 @@ appTest.describe('authentication', () => {
     'returns from the sign-in page with the back button',
     async ({ defaultPage }) => {
       await goto({ defaultPage, path: '/event' })
-      await defaultPage.page.getByRole('link', { name: 'Account' }).click()
+      await defaultPage.page.getByRole('link', { name: 'Log in' }).click()
       await expect(defaultPage.page).toHaveURL(/\/session\/create$/)
 
       await defaultPage.page
-        .getByRole('button', { name: 'back', exact: true })
+        .getByRole('button', { name: 'Back', exact: true })
         .click()
       await expect(defaultPage.page).toHaveURL(/\/event$/)
     },

@@ -5,6 +5,7 @@
   "globalFeatureFlagsCookieRequired": "Um Feature-Flags zu aktivieren, muss das zugehörige Cookie erlaubt werden.",
   "globalErrorClipboard": "Dein Browser unterstützt das moderne Kopieren in die Zwischenablage nicht.",
   "globalFormErrorAge18": "Du musst 18 Jahre alt sein.",
+  "globalLeaveConfirm": "Ungespeicherte Änderungen verwerfen?",
   "globalLoading": "Lade...",
   "globalPlaceholderAddress": "Veranstaltungsstraße 1,\n12345 Gaststadt",
   "globalPlaceholderFirstName": "Vorname",

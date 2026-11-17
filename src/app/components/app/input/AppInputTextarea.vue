@@ -101,6 +101,9 @@ const cancel = () => {
   content.value = contentInitial?.trim()
   isEditing.value = false
 }
+useLeaveConfirmation(
+  () => !!isEditing.value && content.value !== contentInitial?.trim(),
+)
 const isSaving = ref(false)
 const save = async () => {
   isSaving.value = true

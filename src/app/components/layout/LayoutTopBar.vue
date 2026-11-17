@@ -8,26 +8,27 @@
     <h1 v-if="$slots.default" class="m-0 flex-1 text-heading-large">
       <slot />
     </h1>
-    <slot name="close" />
+    <slot name="actions" />
   </div>
-  <div
-    v-else
-    class="sticky top-0 z-10 flex h-16 items-center gap-3 bg-glass px-4 py-2 backdrop-blur-xl"
-    data-slot="top-bar"
-  >
-    <div class="flex size-12 items-center justify-center">
-      <slot name="back">
-        <ButtonIconBackRoute />
-      </slot>
-    </div>
-    <h1 v-if="$slots.default" class="m-0 flex-1 text-center">
-      <span class="text-title3 text-balance">
-        <slot />
-      </span>
-    </h1>
-    <div v-else class="flex-1" />
-    <div class="flex h-12 min-w-12 items-center justify-center">
-      <slot name="close" />
+  <div v-else class="sticky top-0 z-10 bg-glass backdrop-blur-xl">
+    <div
+      class="mx-auto flex h-16 w-full max-w-2xl items-center gap-3 px-4 py-2"
+      data-slot="top-bar"
+    >
+      <div class="flex size-12 items-center justify-center">
+        <slot name="back">
+          <ButtonIconBackRoute />
+        </slot>
+      </div>
+      <h1 v-if="$slots.default" class="m-0 flex-1 text-center">
+        <span class="text-title3 text-balance">
+          <slot />
+        </span>
+      </h1>
+      <div v-else class="flex-1" />
+      <div class="flex h-12 min-w-12 items-center justify-center">
+        <slot name="actions" />
+      </div>
     </div>
   </div>
 </template>

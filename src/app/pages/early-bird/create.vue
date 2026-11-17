@@ -17,7 +17,7 @@
         </AppButton>
         <div v-else />
       </template>
-      <template v-if="!error && ['default', 'form'].includes(step)" #close>
+      <template v-if="!error && ['default', 'form'].includes(step)" #actions>
         <ButtonIconBackRoute :aria-label="t('iconAltClose')">
           <AppIconClose />
         </ButtonIconBackRoute>
@@ -86,12 +86,12 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  back: zurück
+  back: Zurück
   backToForm: Zurück zum Formular
   iconAltClose: Schließen
   title: Früher Vogel Programm
 en:
-  back: back
+  back: Back
   backToForm: Back to Form
   iconAltClose: Close
   title: Early Bird Program

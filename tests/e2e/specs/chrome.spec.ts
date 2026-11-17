@@ -63,7 +63,7 @@ for (const [name, test, routes] of [
           }),
         ).toHaveCount(isTitleInContent ? 0 : 1)
         await expect(
-          page.getByRole('button', { exact: true, name: 'back' }),
+          page.getByRole('button', { exact: true, name: 'Back' }),
         ).toHaveCount(isMenuRoute ? 0 : 1)
 
         if (isMobile) {
@@ -99,7 +99,7 @@ authenticatedTest.describe('chrome of a multi-step page', () => {
   for (const path of ['/early-bird/create', '/preference/create']) {
     authenticatedTest(path, async ({ defaultPage }) => {
       const { page } = defaultPage
-      const back = page.getByRole('button', { exact: true, name: 'back' })
+      const back = page.getByRole('button', { exact: true, name: 'Back' })
       const close = page.getByRole('button', { exact: true, name: 'Close' })
 
       await defaultPage.goto(path)

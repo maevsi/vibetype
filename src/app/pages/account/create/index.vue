@@ -448,7 +448,7 @@ de:
   agreePrefix: "Ich stimme Vibetype's "
   alreadyHaveAccount: 'Du hast bereits ein Konto?'
   and: ' und '
-  back: zurück
+  back: Zurück
   backToRegistration: Zurück zur Registrierung
   birthDateUnavailable: Das Geburtsdatum ist nicht verfügbar. Bitte versuche es erneut.
   confirmAge: Alter bestätigen
@@ -489,7 +489,7 @@ en:
   agreePrefix: "I agree to Vibetype's "
   alreadyHaveAccount: 'Already have an account?'
   and: ' and '
-  back: back
+  back: Back
   backToRegistration: Back to Registration
   birthDateUnavailable: Birth date is unavailable. Please try again.
   confirmAge: Confirm age

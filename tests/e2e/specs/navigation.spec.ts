@@ -1,9 +1,10 @@
 import { expect } from '@playwright/test'
 
+import { TESTING_ACCOUNT_USERNAME } from '#src/shared/utils/testing'
 import { appTest } from '#tests/e2e/fixtures/appTest'
 import { authenticatedTest } from '#tests/e2e/fixtures/authenticatedTest'
 
-const BACK = { exact: true, name: /^back$/i } as const
+const BACK = { exact: true, name: 'Back' } as const
 
 appTest.describe('sign-in gate', () => {
   for (const path of [
@@ -58,6 +59,29 @@ appTest.describe('settings', () => {
       await expect(
         defaultPage.page.getByRole('link', { name: 'Settings' }),
       ).toHaveCount(0)
+      await defaultPage.goto(`/account/view/${TESTING_ACCOUNT_USERNAME}`)
+
+      await expect(
+        defaultPage.page.getByRole('link', { name: 'Settings' }),
+      ).toHaveCount(1)
     },
   )
 })
+
+authenticatedTest(
+  'asks before discarding unsaved changes',
+  async ({ defaultPage }) => {
+    const { page } = defaultPage
+
+    await defaultPage.goto('/event/create')
+    await page.getByLabel('Name', { exact: true }).fill('Unsaved')
+
+    page.once('dialog', (dialog) => dialog.dismiss())
+    await page.getByRole('button', BACK).click()
+    await expect(page).toHaveURL(/\/event\/create$/)
+
+    page.once('dialog', (dialog) => dialog.accept())
+    await page.getByRole('button', BACK).click()
+    await expect(page).not.toHaveURL(/\/event\/create$/)
+  },
+)
