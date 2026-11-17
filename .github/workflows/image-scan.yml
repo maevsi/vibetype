@@ -10,7 +10,7 @@ on:
 jobs:
   image-scan:
     name: Image scan
-    uses: dargmuesli/github-actions/.github/workflows/image-scan.yml@06e5b9e1b82fcef0e4920efa3e1f642f42763e7c # 5.11.0
+    uses: dargmuesli/github-actions/.github/workflows/image-scan.yml@ab8e226263168a9aab8c98d6db89ce707f77497e # 5.11.0
     permissions:
       contents: read
       packages: read
