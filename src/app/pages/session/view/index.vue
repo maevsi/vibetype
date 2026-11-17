@@ -404,7 +404,7 @@ const isNotificationPermissionRequestPossible = computed(
     (import.meta.client &&
       isWindowHavingNotification.value &&
       permissionState.value === 'prompt') ||
-    isIosHavingPushCapability,
+    isIosHavingPushCapability.value,
 )
 const userAgentString = computed(() =>
   requestEvent ? requestEvent.headers.get('user-agent') : navigator.userAgent,
