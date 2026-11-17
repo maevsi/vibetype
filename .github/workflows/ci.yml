@@ -40,7 +40,8 @@ jobs:
     needs: ci-optimization
     if: needs.ci-optimization.outputs.continue == 'true'
     name: Skew protection source
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
     outputs:
       digest: ${{ steps.digest.outputs.digest }}
     steps:
