@@ -194,9 +194,14 @@ for (const [name, test] of [
                 /(^|\s)dark(\s|$)/,
               )
               // axe would otherwise measure contrast on colors that are still fading between the schemes
-              await defaultPage.page.waitForFunction(
-                "document.getAnimations().every((animation) => !(animation instanceof CSSTransition) || animation.playState !== 'running')",
-              )
+              // polled from outside the page, as `waitForFunction` falls back to an `eval` that the content security policy blocks
+              await expect
+                .poll(() =>
+                  defaultPage.page.evaluate(
+                    "document.getAnimations().every((animation) => !(animation instanceof CSSTransition) || animation.playState !== 'running')",
+                  ),
+                )
+                .toBe(true)
             }
 
             const { violations } = await new AxeBuilder({
