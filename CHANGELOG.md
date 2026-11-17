@@ -1,3 +1,9 @@
+## [17.12.5](https://github.com/maevsi/vibetype/compare/17.12.4...17.12.5) (2026-11-17)
+
+### Bug Fixes
+
+* **email:** align the light mode colors with the design system ([#2670](https://github.com/maevsi/vibetype/issues/2670)) ([e834a17](https://github.com/maevsi/vibetype/commit/e834a1763adde5fd62f7389d4cfebfe9023e79c8))
+
 ## [17.12.4](https://github.com/maevsi/vibetype/compare/17.12.3...17.12.4) (2026-11-17)
 
 ### Bug Fixes
