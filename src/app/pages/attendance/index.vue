@@ -11,6 +11,8 @@
 </template>
 
 <script setup lang="ts">
+useFeatureRequired('participation')
+
 defineRouteRules({
   robots: false, // TODO: reactive once page is filled with content (https://github.com/maevsi/vibetype/issues/773)
 })

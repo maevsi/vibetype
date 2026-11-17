@@ -56,6 +56,8 @@
 </template>
 
 <script setup lang="ts">
+useFeatureRequired('notifications')
+
 const { t } = useI18n()
 const store = useStore()
 

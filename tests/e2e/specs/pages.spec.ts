@@ -58,17 +58,11 @@ const PAGE_PATHS = globSync('**/*.vue', {
 const PAGE_STATUSES: Record<string, number> = {
   '/account/password/reset': 400, // requires a reset code
   '/account/verify': 400, // requires a verification code
+  '/attendance': 404, // behind the `participation` feature flag
   '/event/ingest/url': process.env.VIO_SERVER === 'development' ? 200 : 404, // development only
+  '/guest': 404, // behind the `invitations` feature flag
+  '/notification': 404, // behind the `notifications` feature flag
   '/🫖': 418,
-}
-
-// pages that only the testing account itself may see
-const PAGE_STATUSES_SIGNED_OUT: Record<string, number> = {
-  [`${ACCOUNT_VIEW_PATH}/block`]: 403,
-  [`${EVENT_VIEW_PATH}/attendance`]: 403,
-  [`${EVENT_VIEW_PATH}/guest`]: 403,
-  [ACCOUNT_EDIT_PATH]: 403,
-  [EVENT_EDIT_PATH]: 403,
 }
 
 // pages that redirect only once their client-side data settles, which can be after they report being loaded
@@ -114,11 +108,6 @@ for (const [name, test] of [
   ['signed out', appTest],
   ['signed in', authenticatedTest],
 ] as const) {
-  const pageStatuses =
-    name === 'signed out'
-      ? { ...PAGE_STATUSES, ...PAGE_STATUSES_SIGNED_OUT }
-      : PAGE_STATUSES
-
   test.describe(name, () => {
     // one request per page for both checks, as each check alone costs a full server render
     test.describe('server-rendered html', () => {
@@ -131,7 +120,7 @@ for (const [name, test] of [
 
           if (isRedirect) return
 
-          expect(response.status()).toBe(pageStatuses[path] ?? 200)
+          expect(response.status()).toBe(PAGE_STATUSES[path] ?? 200)
 
           const html = await response.text()
           const report = await htmlValidate.validateString(html)

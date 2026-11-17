@@ -58,10 +58,14 @@ import { graphql } from '~~/gql/generated'
 import type { AccountBlockAccountsRecord } from '~~/gql/generated/graphcache'
 
 // validation
+await useSignInRequired()
 const store = useStore()
 const route = useRoute()
 const { createA11yError } = useA11yError()
-if (route.params.username !== store.signedInUsername) {
+if (
+  store.signedInUsername &&
+  route.params.username !== store.signedInUsername
+) {
   throw createA11yError({
     status: 403,
   })

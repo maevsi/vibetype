@@ -3,13 +3,19 @@ import { expect } from '@playwright/test'
 import { TESTING_ACCOUNT_USERNAME } from '#src/shared/utils/testing'
 import { appTest } from '#tests/e2e/fixtures/appTest'
 import { authenticatedTest } from '#tests/e2e/fixtures/authenticatedTest'
+import { getFeatureTest } from '#tests/e2e/fixtures/featureTest'
 
 const BACK = { exact: true, name: 'Back' } as const
 
 appTest.describe('sign-in gate', () => {
   for (const path of [
+    '/account/edit/someone',
+    '/account/view/someone/block',
     '/contact',
     '/dashboard',
+    '/event/edit/someone/some-event',
+    '/event/view/someone/some-event/attendance',
+    '/event/view/someone/some-event/guest',
     '/early-bird/create',
     '/event/create',
     '/preference/create',
@@ -119,3 +125,20 @@ authenticatedTest(
     await expect(page).not.toHaveURL(/\/event\/create$/)
   },
 )
+
+appTest.describe('unfinished pages', () => {
+  for (const [path, feature] of [
+    ['/attendance', 'participation'],
+    ['/guest', 'invitations'],
+    ['/notification', 'notifications'],
+  ] as const) {
+    getFeatureTest([feature])(
+      `opens ${path} with its feature flag`,
+      async ({ defaultPage }) => {
+        const response = await defaultPage.page.goto(path)
+
+        expect(response?.status()).toBe(200)
+      },
+    )
+  }
+})

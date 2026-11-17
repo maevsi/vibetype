@@ -69,9 +69,13 @@ const { t } = useI18n()
 const store = useStore()
 
 // validation
+await useSignInRequired()
 const route = useRoute()
 const { createA11yError } = useA11yError()
-if (route.params.username !== store.signedInUsername) {
+if (
+  store.signedInUsername &&
+  route.params.username !== store.signedInUsername
+) {
   throw createA11yError({
     status: 403,
   })
@@ -106,7 +110,10 @@ const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
 // page
 const title = computed(() => {
   if (api.value.isFetching && !event.value) return t('globalLoading')
-  if (route.params.username !== store.signedInUsername) {
+  if (
+    store.signedInUsername &&
+    route.params.username !== store.signedInUsername
+  ) {
     showAppError({ status: 403, message: 'Permission denied' })
     return
   }
