@@ -65,14 +65,16 @@ FROM base-image AS prepare
 COPY ./pnpm-lock.yaml ./pnpm-workspace.yaml ./package.json ./
 # COPY ./patches ./patches
 
+# glibc builds of native dependencies are for the e2e stage, which runs these `node_modules` on Ubuntu
 # TODO: evaluate dropping libc arguments by running e2e tests separately
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
     pnpm fetch --config.supportedArchitectures='{"libc":["musl","glibc"]}'
 
 COPY ./ ./
 
+# BuildKit can prune the cache mount while the fetch layer above stays cached, so missing tarballs are downloaded instead of failing the build
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
-    pnpm install --offline
+    pnpm install --prefer-offline
 
 
 ########################
