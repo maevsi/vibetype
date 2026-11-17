@@ -22,7 +22,7 @@ const { t } = useI18n()
 
 <i18n lang="yaml">
 de:
-  back: zurück
+  back: Zurück
 en:
-  back: back
+  back: Back
 </i18n>

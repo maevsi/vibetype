@@ -796,6 +796,8 @@ const form = useForm({
       if (!categoryMappingsSynced || !formatMappingsSynced) return
 
       toast.success(t('eventUpdateSuccess'))
+      // the saved values are the new baseline for unsaved changes
+      form.reset(value)
     } else {
       // Add
       const addressId = await syncAddress(value.locationName)
@@ -847,6 +849,7 @@ const form = useForm({
           'Aborting navigation: required data for path templating is missing!',
         )
 
+      form.reset(value)
       await navigateTo(
         localePath({
           name: 'event-view-username-event_name',
@@ -859,6 +862,8 @@ const form = useForm({
     }
   },
 })
+
+useLeaveConfirmation(form.useStore((state) => state.isDirty))
 
 // methods
 const dateTimeFormatter = (x?: string) =>

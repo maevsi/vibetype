@@ -32,7 +32,7 @@
     <AppIconSettings />
   </LayoutMenuItem>
   <LayoutMenuItem
-    :title="t('account')"
+    :title="store.signedInUsername ? t('account') : t('signIn')"
     :to="menuTargets.account ?? localePath('session-create')"
   >
     <AccountProfilePicture
@@ -63,6 +63,7 @@ de:
   events: Veranstaltungen
   home: Start
   settings: Einstellungen
+  signIn: Einloggen
 en:
   account: Account
   create: Create event
@@ -72,4 +73,5 @@ en:
   events: Events
   home: Home
   settings: Settings
+  signIn: Log in
 </i18n>

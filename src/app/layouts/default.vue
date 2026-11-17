@@ -12,4 +12,17 @@
 
 <script setup lang="ts">
 const isMenuRoute = useIsMenuRoute()
+const nuxtApp = useNuxtApp()
+const route = useRoute()
+
+// once the new page rendered, as a route watcher would focus the previous page's heading; a query change keeps the page, so only a path change moves focus
+let path = route.path
+onBeforeUnmount(
+  nuxtApp.hook('page:finish', () => {
+    if (route.path === path) return
+
+    path = route.path
+    focusHeading()
+  }),
+)
 </script>

@@ -11,7 +11,7 @@
     <div v-else class="flex flex-1 flex-col">
       <!-- the event's name below is the page's heading -->
       <LayoutTopBar>
-        <template #close>
+        <template #actions>
           <div class="flex items-center gap-2">
             <EventShareButton
               class="flex size-12 items-center justify-center rounded-full bg-surface-raised"

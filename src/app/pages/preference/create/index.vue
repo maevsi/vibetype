@@ -21,7 +21,7 @@
         v-if="
           ['default', 'size', 'format', 'category', 'location'].includes(step)
         "
-        #close
+        #actions
       >
         <ButtonIconBackRoute :aria-label="t('iconAltClose')">
           <AppIconClose />
@@ -131,13 +131,13 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  back: zurück
+  back: Zurück
   errorBack: Zurück zum KI-Setup
   iconAltClose: Schließen
-  title: Fühl den Vibe, finde dein Event!
+  title: KI einrichten
 en:
-  back: back
+  back: Back
   errorBack: Back to AI setup
   iconAltClose: Close
-  title: Feel the Vibe, find your event!
+  title: Set up AI
 </i18n>
