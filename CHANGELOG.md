@@ -1,3 +1,9 @@
+## [17.12.3](https://github.com/maevsi/vibetype/compare/17.12.2...17.12.3) (2026-11-17)
+
+### Bug Fixes
+
+* **navigation:** frame every page the same way ([#2659](https://github.com/maevsi/vibetype/issues/2659)) ([0a0f518](https://github.com/maevsi/vibetype/commit/0a0f5188b7acb6628db859e17be879d9589167f9))
+
 ## [17.12.2](https://github.com/maevsi/vibetype/compare/17.12.1...17.12.2) (2026-11-17)
 
 ### Bug Fixes
