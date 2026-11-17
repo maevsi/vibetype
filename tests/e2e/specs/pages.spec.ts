@@ -120,7 +120,8 @@ for (const [name, test] of [
       : PAGE_STATUSES
 
   test.describe(name, () => {
-    test.describe('html validation', () => {
+    // one request per page for both checks, as each check alone costs a full server render
+    test.describe('server-rendered html', () => {
       for (const path of PAGE_PATHS) {
         test(path, async ({ defaultPage }) => {
           const { isRedirect, response } = await requestPage(
@@ -132,72 +133,75 @@ for (const [name, test] of [
 
           expect(response.status()).toBe(pageStatuses[path] ?? 200)
 
-          const report = await htmlValidate.validateString(
-            await response.text(),
-          )
+          const html = await response.text()
+          const report = await htmlValidate.validateString(html)
 
-          expect(
-            report.results
-              .flatMap((result) => result.messages)
-              .map(
-                (message) =>
-                  `${message.ruleId}: ${message.message}\n(${message.selector})`,
-              )
-              .join('\n'),
-          ).toEqual('')
+          expect
+            .soft(
+              report.results
+                .flatMap((result) => result.messages)
+                .map(
+                  (message) =>
+                    `${message.ruleId}: ${message.message}\n(${message.selector})`,
+                )
+                .join('\n'),
+              'html validation',
+            )
+            .toEqual('')
+
+          // a page part that is missing, empty or just the site name again means the page sets no title of its own
+          expect
+            .soft(html.match(/<title>([^<]*)<\/title>/)?.[1], 'page title')
+            .toMatch(
+              PAGE_PATHS_TITLE_SITE_NAME.includes(path)
+                ? /^Vibetype$/
+                : /^(?!Vibetype · ).+ · Vibetype$/,
+            )
         })
       }
     })
 
-    test.describe('page title', () => {
+    test.describe('a11y', () => {
       for (const path of PAGE_PATHS) {
-        test(path, async ({ defaultPage }) => {
-          const { isRedirect, response } = await requestPage(
-            defaultPage.page,
-            path,
-          )
+        test(path, async ({ defaultPage, isMobile }) => {
+          const { isRedirect } = await requestPage(defaultPage.page, path)
 
           if (isRedirect) return
 
-          const title = (await response.text()).match(
-            /<title>([^<]*)<\/title>/,
-          )?.[1]
+          await defaultPage.page.emulateMedia({ colorScheme: 'light' })
+          await defaultPage.goto(path)
 
-          // a page part that is missing, empty or just the site name again means the page sets no title of its own
-          expect(title).toMatch(
-            PAGE_PATHS_TITLE_SITE_NAME.includes(path)
-              ? /^Vibetype$/
-              : /^(?!Vibetype · ).+ · Vibetype$/,
-          )
-        })
-      }
-    })
+          const redirectTarget =
+            name === 'signed in'
+              ? PAGE_REDIRECTS_CLIENT_SIGNED_IN[path]
+              : undefined
 
-    // the color scheme only changes styles, so checking it once per page is enough
-    for (const colorScheme of name === 'signed out'
-      ? (['light', 'dark'] as const)
-      : (['light'] as const)) {
-      test.describe(`a11y ${colorScheme}`, () => {
-        for (const path of PAGE_PATHS) {
-          test(path, async ({ defaultPage }) => {
-            const { isRedirect } = await requestPage(defaultPage.page, path)
+          if (redirectTarget) {
+            await defaultPage.page.waitForURL(redirectTarget)
+            // the target keeps its own loading state, during which it shows no level one heading yet
+            await expect(
+              defaultPage.page.getByRole('heading', { level: 1 }),
+            ).toBeAttached()
+          }
 
-            if (isRedirect) return
-
-            await defaultPage.page.emulateMedia({ colorScheme })
-            await defaultPage.goto(path)
-
-            const redirectTarget =
-              name === 'signed in'
-                ? PAGE_REDIRECTS_CLIENT_SIGNED_IN[path]
-                : undefined
-
-            if (redirectTarget) {
-              await defaultPage.page.waitForURL(redirectTarget)
-              // the target keeps its own loading state, during which it shows no level one heading yet
-              await expect(
-                defaultPage.page.getByRole('heading', { level: 1 }),
-              ).toBeAttached()
+          // the color scheme only changes styles, so the desktop viewport checks the dark one once per page, on the already loaded page
+          for (const colorScheme of name === 'signed out' && !isMobile
+            ? (['light', 'dark'] as const)
+            : (['light'] as const)) {
+            if (colorScheme === 'dark') {
+              await defaultPage.page.emulateMedia({ colorScheme })
+              await expect(defaultPage.page.locator('html')).toHaveClass(
+                /(^|\s)dark(\s|$)/,
+              )
+              // axe would otherwise measure contrast on colors that are still fading between the schemes
+              // polled from outside the page, as `waitForFunction` falls back to an `eval` that the content security policy blocks
+              await expect
+                .poll(() =>
+                  defaultPage.page.evaluate(
+                    "document.getAnimations().every((animation) => !(animation instanceof CSSTransition) || animation.playState !== 'running')",
+                  ),
+                )
+                .toBe(true)
             }
 
             const { violations } = await new AxeBuilder({
@@ -206,19 +210,22 @@ for (const [name, test] of [
               .exclude('nuxt-devtools-frame') // only present on the development server
               .analyze()
 
-            expect(
-              violations
-                .map(
-                  (violation) =>
-                    `${violation.id}: ${violation.help}\n${violation.nodes
-                      .map((node) => `(${node.target})`)
-                      .join('\n')}`,
-                )
-                .join('\n'),
-            ).toEqual('')
-          })
-        }
-      })
-    }
+            expect
+              .soft(
+                violations
+                  .map(
+                    (violation) =>
+                      `${violation.id}: ${violation.help}\n${violation.nodes
+                        .map((node) => `(${node.target})`)
+                        .join('\n')}`,
+                  )
+                  .join('\n'),
+                colorScheme,
+              )
+              .toEqual('')
+          }
+        })
+      }
+    })
   })
 }
