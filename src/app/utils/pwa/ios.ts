@@ -22,6 +22,9 @@ export const requestNotificationPermission = (
   }
 }
 
+// Chrome may garbage collect a `PermissionStatus` that nothing references, listener included, and the store would then miss a permission granted through the system settings.
+let notificationPermissionStatus: PermissionStatus | undefined
+
 // Requests the current notification permission state
 export const requestNotificationPermissionState = async (
   notificationStore: ReturnType<typeof useNotificationStore>,
@@ -31,10 +34,13 @@ export const requestNotificationPermissionState = async (
       'push-permission-state',
     )
   } else {
-    const permissionStatus = await navigator.permissions.query({
+    notificationPermissionStatus = await navigator.permissions.query({
       name: 'notifications',
     })
-    notificationStore.permissionState = permissionStatus.state
+    notificationPermissionStatus.onchange = function () {
+      notificationStore.permissionState = this.state
+    }
+    notificationStore.permissionState = notificationPermissionStatus.state
   }
 }
 
