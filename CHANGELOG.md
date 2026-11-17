@@ -1,3 +1,9 @@
+## [17.12.2](https://github.com/maevsi/vibetype/compare/17.12.1...17.12.2) (2026-11-17)
+
+### Bug Fixes
+
+* **session:** disable the notification permit button when no request is possible ([#2660](https://github.com/maevsi/vibetype/issues/2660)) ([cfb3c61](https://github.com/maevsi/vibetype/commit/cfb3c613ff1ac8e913583384ecc924715e21a989))
+
 ## [17.12.1](https://github.com/maevsi/vibetype/compare/17.12.0...17.12.1) (2026-11-17)
 
 ### Bug Fixes
