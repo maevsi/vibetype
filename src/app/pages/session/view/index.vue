@@ -347,7 +347,6 @@ const isNavigatorHavingPermissions = ref<boolean>()
 const isNavigatorHavingServiceWorker = ref<boolean>()
 const isWindowHavingNotification = ref<boolean>()
 const isIosHavingPushCapability = ref<boolean>()
-const permissionState = ref<PermissionState>()
 const title = t('title')
 
 // methods
@@ -401,6 +400,7 @@ const showFcmToken = async () => {
 }
 
 // computations
+const permissionState = computed(() => notificationStore.permissionState)
 const isNotificationPermissionRequestPossible = computed(
   () =>
     (import.meta.client &&
@@ -429,24 +429,8 @@ onMounted(async () => {
     )
   })()
 
-  if (isNavigatorHavingPermissions.value) {
-    const permissionStatus = await navigator.permissions.query({
-      name: 'notifications',
-    })
-
-    permissionStatus.addEventListener('change', async () => {
-      console.log(
-        'User decided to change his settings. New permission: ' +
-          permissionStatus.state,
-      )
-      permissionState.value = permissionStatus.state
-    })
-
-    permissionState.value = permissionStatus.state
-  }
-
-  if (!permissionState.value && isWindowHavingNotification.value) {
-    permissionState.value =
+  if (!notificationStore.permissionState && isWindowHavingNotification.value) {
+    notificationStore.permissionState =
       Notification.permission === 'default' ? 'prompt' : Notification.permission
   }
 })
