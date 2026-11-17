@@ -3,7 +3,7 @@ import { withoutTrailingSlash } from 'ufo'
 
 import { TESTING_COOKIE_NAME } from '#src/node/static'
 import { appTest } from '#tests/e2e/fixtures/appTest'
-import { SITE_URL, TIMEOUT } from '#tests/e2e/utils/constants'
+import { PAGE_READY, SITE_URL, TIMEOUT } from '#tests/e2e/utils/constants'
 
 export const testMetadata = async ({
   page,
@@ -14,10 +14,6 @@ export const testMetadata = async ({
   path: string
   title: string
 }) => {
-  await page.goto(path)
-
-  expect(await page.title()).toStrictEqual(title)
-
   const meta = [
     {
       tag: 'html',
@@ -315,6 +311,8 @@ export const testMetadata = async ({
         },
         { key: 'content', value: '#ffffff' },
       ],
+      // the color mode is only known on the client, see `useAppLayout`
+      isClientOnly: true,
     },
     {
       tag: 'meta',
@@ -378,16 +376,37 @@ export const testMetadata = async ({
     },
   ]
 
-  for (const object of meta) {
-    await expect(
-      page.locator(
-        object.tag +
-          object.attributes
-            ?.map((attribute) => `[${attribute.key}="${attribute.value}"]`)
-            .join(''),
-      ),
-    ).toBeAttached()
+  const expectMeta = async (target: Page, { isServer = false } = {}) => {
+    expect(await target.title()).toStrictEqual(title)
+
+    for (const object of meta) {
+      if (isServer && 'isClientOnly' in object) continue
+
+      await expect(
+        target.locator(
+          object.tag +
+            object.attributes
+              ?.map((attribute) => `[${attribute.key}="${attribute.value}"]`)
+              .join(''),
+        ),
+      ).toBeAttached()
+    }
   }
+
+  // crawlers read the server's html without running scripts, while the hydrated head can still differ from it, so both are checked
+  const serverContext = await page.context().browser()!.newContext({
+    baseURL: SITE_URL,
+    ignoreHTTPSErrors: true,
+    javaScriptEnabled: false,
+  })
+  const serverPage = await serverContext.newPage()
+  await serverPage.goto(path)
+  await expectMeta(serverPage, { isServer: true })
+  await serverContext.close()
+
+  await page.goto(path)
+  await PAGE_READY({ page, options: { cookieControl: false } })
+  await expectMeta(page)
 
   expect(
     await page.locator('script[data-hid="schema-org-graph"]').innerText(),
