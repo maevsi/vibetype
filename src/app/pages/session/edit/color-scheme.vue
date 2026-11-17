@@ -1,11 +1,6 @@
 <template>
   <div class="flex flex-1 flex-col">
-    <LayoutTopBar>
-      {{ title }}
-      <template #back>
-        <ButtonIconBackRoute />
-      </template>
-    </LayoutTopBar>
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
     <LayoutPage>
       <ColorScheme>
         <AppRadioGroup
@@ -26,11 +21,6 @@
 
 <script setup lang="ts">
 import type { AcceptableValue } from 'reka-ui'
-
-// compiler
-definePageMeta({
-  layout: 'default-no-header',
-})
 
 // page
 const { t } = useI18n()

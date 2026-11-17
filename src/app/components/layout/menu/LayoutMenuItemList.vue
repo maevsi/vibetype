@@ -1,11 +1,11 @@
 <template>
   <LayoutMenuItem
-    :title="t('home')"
-    :to="store.signedInUsername ? localePath('dashboard') : localePath('index')"
+    :title="store.signedInUsername ? t('dashboard') : t('home')"
+    :to="menuTargets.home"
   >
     <AppIconHome />
   </LayoutMenuItem>
-  <LayoutMenuItem :title="t('discover')" :to="localePath('event')">
+  <LayoutMenuItem :title="t('discover')" :to="menuTargets.discover">
     <AppIconSearch />
   </LayoutMenuItem>
   <AppLink
@@ -18,39 +18,22 @@
     <span class="text-body max-lg:hidden">{{ t('createShort') }}</span>
   </AppLink>
   <LayoutMenuItem
-    v-if="store.signedInUsername"
+    v-if="menuTargets.events"
     :title="t('events')"
-    :to="
-      localePath({
-        name: 'event-view-username',
-        params: {
-          username: store.signedInUsername,
-        },
-      })
-    "
+    :to="menuTargets.events"
   >
     <AppIconToday />
   </LayoutMenuItem>
-  <!-- signed in, the profile links to the settings -->
   <LayoutMenuItem
-    v-if="!store.signedInUsername"
+    v-if="menuTargets.settings"
     :title="t('settings')"
-    :to="localePath('session-edit')"
+    :to="menuTargets.settings"
   >
     <AppIconSettings />
   </LayoutMenuItem>
   <LayoutMenuItem
     :title="t('account')"
-    :to="
-      store.signedInUsername
-        ? localePath({
-            name: 'account-view-username',
-            params: {
-              username: store.signedInUsername,
-            },
-          })
-        : localePath('session-create')
-    "
+    :to="menuTargets.account ?? localePath('session-create')"
   >
     <AccountProfilePicture
       v-if="store.signedInAccountId"
@@ -67,6 +50,7 @@
 const store = useStore()
 const { t } = useI18n()
 const localePath = useLocalePath()
+const menuTargets = useMenuTargets()
 </script>
 
 <i18n lang="yaml">
@@ -74,16 +58,18 @@ de:
   account: Account
   create: Veranstaltung erstellen
   createShort: Erstellen
+  dashboard: Dashboard
   discover: Entdecken
   events: Veranstaltungen
-  home: Dashboard
+  home: Start
   settings: Einstellungen
 en:
   account: Account
   create: Create event
   createShort: Create
+  dashboard: Dashboard
   discover: Discover
   events: Events
-  home: Dashboard
+  home: Home
   settings: Settings
 </i18n>

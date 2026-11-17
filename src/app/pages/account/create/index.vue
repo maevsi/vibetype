@@ -1,18 +1,26 @@
 <template>
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
-    <!-- Header -->
-    <FormAuthPageHeader
-      :header-key="step"
-      :title-id="templateIdTitle"
-      @back="handleBackClick"
-    >
-      <template #title>{{ title }}</template>
-      <template v-if="subtitle" #subtitle>{{ subtitle }}</template>
-    </FormAuthPageHeader>
+    <LayoutTopBar>
+      <span :id="templateIdTitle">{{ t('titleShort') }}</span>
+      <template v-if="previous" #back>
+        <AppButton
+          :aria-label="t('back')"
+          size="none"
+          variant="ghost"
+          @click="step = previous"
+        >
+          <AppIconBack />
+        </AppButton>
+      </template>
+    </LayoutTopBar>
 
     <!-- Step: Email -->
     <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
+        <FormAuthHeader>
+          <template #title>{{ t('titleEmail') }}</template>
+          <template #subtitle>{{ t('subtitleEmail') }}</template>
+        </FormAuthHeader>
         <form
           class="flex flex-col gap-6"
           novalidate
@@ -87,6 +95,10 @@
     <!-- Step: Password -->
     <AppStepPanel v-slot="attributes" :is-active="step === 'password'">
       <LayoutPage v-bind="attributes">
+        <FormAuthHeader>
+          <template #title>{{ t('titlePassword') }}</template>
+          <template #subtitle>{{ t('subtitlePassword') }}</template>
+        </FormAuthHeader>
         <FormAccountRegistration
           v-model:captcha-is-used="captchaIsUsed"
           @submit="
@@ -102,6 +114,10 @@
     <!-- Step: Username -->
     <AppStepPanel v-slot="attributes" :is-active="step === 'username'">
       <LayoutPage v-bind="attributes">
+        <FormAuthHeader>
+          <template #title>{{ t('titleUsername') }}</template>
+          <template #subtitle>{{ t('subtitleUsername') }}</template>
+        </FormAuthHeader>
         <form
           class="flex flex-col gap-4"
           novalidate
@@ -149,6 +165,10 @@
     <!-- Step: Age -->
     <AppStepPanel v-slot="attributes" :is-active="step === 'age'">
       <LayoutPage v-bind="attributes">
+        <FormAuthHeader>
+          <template #title>{{ t('titleAge') }}</template>
+          <template #subtitle>{{ t('subtitleAge') }}</template>
+        </FormAuthHeader>
         <div class="flex flex-col gap-4">
           <FormAccountRegistrationAge
             :id="templateIdAgeForm"
@@ -169,6 +189,9 @@
     <!-- Step: Success -->
     <FormAuthStepSuccess :is-active="step === 'success'">
       <div class="flex flex-col gap-4">
+        <FormAuthHeader>
+          <template #title>{{ t('titleVerification') }}</template>
+        </FormAuthHeader>
         <p class="text-body text-fg-2">
           {{ t('verificationSentTo') }}
           <span class="font-semibold text-fg-1">{{
@@ -214,17 +237,7 @@ import {
   useValidationField,
 } from '~/composables/useValidation'
 
-definePageMeta({
-  layout: 'plain',
-})
-
 const { locale, t } = useI18n()
-
-// navigation
-const store = useStore()
-const navigateBack = () => {
-  store.navigateBack()
-}
 
 // api data
 const accountRegistrationMutation = useMutation(accountRegistrationDocument)
@@ -369,7 +382,7 @@ const submit = async () => {
 }
 
 // stepper
-const { error, previous, restart, step, title } = useStepperPage<
+const { error, previous, restart, step } = useStepperPage<
   'age' | 'password' | 'success' | 'username'
 >({
   steps: {
@@ -403,24 +416,7 @@ useApiErrorModel({
   },
 })
 
-// subtitle (only shown on email step)
-const subtitle = computed(() => {
-  if (step.value === 'age') return t('subtitleAge')
-  if (step.value === 'default') return t('subtitleEmail')
-  if (step.value === 'password') return t('subtitlePassword')
-  if (step.value === 'username') return t('subtitleUsername')
-  return undefined
-})
-
 // handlers
-const handleBackClick = () => {
-  if (step.value === 'default') {
-    navigateBack()
-  } else {
-    step.value = previous.value || 'default'
-  }
-}
-
 const handleEmailContinue = async () => {
   if (!emailField.value.value) {
     emailField.error.value = t('emailRequired')
@@ -443,7 +439,8 @@ const handleUsernameContinue = async () => {
 }
 
 // page
-useHeadDefault({ title: title.value })
+const titlePage = t('titleEmail')
+useHeadDefault({ title: titlePage })
 </script>
 
 <i18n lang="yaml">
@@ -451,6 +448,7 @@ de:
   agreePrefix: "Ich stimme Vibetype's "
   alreadyHaveAccount: 'Du hast bereits ein Konto?'
   and: ' und '
+  back: zurück
   backToRegistration: Zurück zur Registrierung
   birthDateUnavailable: Das Geburtsdatum ist nicht verfügbar. Bitte versuche es erneut.
   confirmAge: Alter bestätigen
@@ -477,6 +475,7 @@ de:
   titleAge: Alter bestätigen
   titleEmail: Registriere dich mit deiner E-Mail
   titlePassword: Erstelle dein Passwort
+  titleShort: Registrieren
   titleUsername: Wähle deinen Nutzernamen
   titleVerification: Überprüfe dein Postfach
   usernameAlreadyTaken: Dieser Nutzername ist bereits vergeben
@@ -490,6 +489,7 @@ en:
   agreePrefix: "I agree to Vibetype's "
   alreadyHaveAccount: 'Already have an account?'
   and: ' and '
+  back: back
   backToRegistration: Back to Registration
   birthDateUnavailable: Birth date is unavailable. Please try again.
   confirmAge: Confirm age
@@ -516,6 +516,7 @@ en:
   titleAge: Confirm your age
   titleEmail: Sign up using your email
   titlePassword: Create your password
+  titleShort: Sign up
   titleUsername: Choose your username
   titleVerification: Check your inbox for a verification link
   usernameAlreadyTaken: This username is already taken

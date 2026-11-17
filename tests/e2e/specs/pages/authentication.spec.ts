@@ -84,20 +84,11 @@ appTest.describe('authentication', () => {
   })
 
   appTest(
-    'keeps the back button for navigations before signing in',
-    async ({ defaultPage, isMobile }) => {
-      appTest.skip(
-        isMobile,
-        'the sidebar with the account link is desktop only',
-      )
-
+    'returns from the sign-in page with the back button',
+    async ({ defaultPage }) => {
       await goto({ defaultPage, path: '/event' })
       await defaultPage.page.getByRole('link', { name: 'Account' }).click()
-      await signIn({
-        page: defaultPage.page,
-        password: TESTING_ACCOUNT_PASSWORD,
-      })
-      await expect(defaultPage.page).toHaveURL(/\/dashboard$/)
+      await expect(defaultPage.page).toHaveURL(/\/session\/create$/)
 
       await defaultPage.page
         .getByRole('button', { name: 'back', exact: true })

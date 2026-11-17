@@ -4,8 +4,10 @@
       <span :id="templateIdTitle">
         {{ title }}
       </span>
-      <template v-if="previous" #back>
+      <template #back>
+        <!-- a slot holding only a false `v-if` falls back to the default back button, which would duplicate the close button -->
         <AppButton
+          v-if="previous"
           :aria-label="t('back')"
           size="none"
           variant="ghost"
@@ -13,6 +15,7 @@
         >
           <AppIconBack />
         </AppButton>
+        <div v-else />
       </template>
       <template v-if="!error && ['default', 'form'].includes(step)" #close>
         <ButtonIconBackRoute :aria-label="t('iconAltClose')">
@@ -56,10 +59,6 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: 'focused',
-})
-
 const { t } = useI18n()
 const templateIdTitle = useId()
 

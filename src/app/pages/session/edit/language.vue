@@ -1,11 +1,6 @@
 <template>
   <div class="flex flex-1 flex-col">
-    <LayoutTopBar>
-      {{ title }}
-      <template #back>
-        <ButtonIconBackRoute />
-      </template>
-    </LayoutTopBar>
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
     <LayoutPage>
       <AppRadioGroup
         class="gap-0 *:min-h-12"
@@ -21,11 +16,6 @@
 import type { AcceptableValue } from 'reka-ui'
 
 import type { Language } from '~~/gql/generated/graphql'
-
-// compiler
-definePageMeta({
-  layout: 'default-no-header',
-})
 
 // page
 const { t, locale, locales } = useI18n()

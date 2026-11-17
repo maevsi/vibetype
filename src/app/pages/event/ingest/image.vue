@@ -1,74 +1,76 @@
 <template>
-  <div>
-    <h1>
-      {{ t('title') }}
-    </h1>
-    <div v-if="!selectedFile" class="flex flex-col gap-4">
-      <button
-        class="rounded-large border-2 border-dashed border-line p-12"
-        type="button"
-        @click="triggerFileInput"
-      >
-        <span class="flex flex-col items-center gap-4">
-          <svg
-            class="size-12 text-fg-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <rect height="18" rx="2" ry="2" width="18" x="3" y="3" />
-            <circle cx="8.5" cy="8.5" r="1.5" />
-            <path d="M20.4 14.5L16 10 4 20" />
-          </svg>
-          <span class="flex flex-col gap-2">
-            <span class="text-title3">{{ t('uploadFiles') }}</span>
-            <span class="text-body-small text-fg-2">{{ t('fileTypes') }}</span>
-          </span>
-        </span>
-      </button>
-      <AppButton
-        :aria-label="t('selectFromDevice')"
-        class="self-end"
-        @click="triggerFileInput"
-      >
-        {{ t('selectFromDevice') }}
-      </AppButton>
-    </div>
-    <div v-else class="flex flex-col gap-4">
-      <img :alt="t('preview')" class="rounded-medium" :src="previewUrl" />
-      <div class="flex items-center justify-between">
-        <div class="flex gap-4">
-          <AppButton
-            :aria-label="t('replaceImage')"
-            variant="secondary"
-            @click="triggerFileInput"
-          >
-            {{ t('replaceImage') }}
-          </AppButton>
-          <AppButton
-            :aria-label="t('clearAll')"
-            variant="secondary"
-            @click="removeFile"
-          >
-            {{ t('clearAll') }}
-          </AppButton>
-        </div>
-        <AppButton
-          :aria-label="t('uploadImage')"
-          :loading="isUploading"
-          @click="uploadFile"
+  <div class="flex flex-1 flex-col">
+    <LayoutTopBar>{{ t('title') }}</LayoutTopBar>
+    <LayoutPage>
+      <div v-if="!selectedFile" class="flex flex-col gap-4">
+        <button
+          class="rounded-large border-2 border-dashed border-line p-12"
+          type="button"
+          @click="triggerFileInput"
         >
-          {{ t('uploadImage') }}
+          <span class="flex flex-col items-center gap-4">
+            <svg
+              class="size-12 text-fg-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <rect height="18" rx="2" ry="2" width="18" x="3" y="3" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <path d="M20.4 14.5L16 10 4 20" />
+            </svg>
+            <span class="flex flex-col gap-2">
+              <span class="text-title3">{{ t('uploadFiles') }}</span>
+              <span class="text-body-small text-fg-2">{{
+                t('fileTypes')
+              }}</span>
+            </span>
+          </span>
+        </button>
+        <AppButton
+          :aria-label="t('selectFromDevice')"
+          class="self-end"
+          @click="triggerFileInput"
+        >
+          {{ t('selectFromDevice') }}
         </AppButton>
       </div>
-    </div>
-    <input
-      ref="fileInput"
-      accept="image/png,image/jpeg,image/gif"
-      hidden
-      type="file"
-      @change="handleFileSelect"
-    />
+      <div v-else class="flex flex-col gap-4">
+        <img :alt="t('preview')" class="rounded-medium" :src="previewUrl" />
+        <div class="flex items-center justify-between">
+          <div class="flex gap-4">
+            <AppButton
+              :aria-label="t('replaceImage')"
+              variant="secondary"
+              @click="triggerFileInput"
+            >
+              {{ t('replaceImage') }}
+            </AppButton>
+            <AppButton
+              :aria-label="t('clearAll')"
+              variant="secondary"
+              @click="removeFile"
+            >
+              {{ t('clearAll') }}
+            </AppButton>
+          </div>
+          <AppButton
+            :aria-label="t('uploadImage')"
+            :loading="isUploading"
+            @click="uploadFile"
+          >
+            {{ t('uploadImage') }}
+          </AppButton>
+        </div>
+      </div>
+      <input
+        ref="fileInput"
+        accept="image/png,image/jpeg,image/gif"
+        hidden
+        type="file"
+        @change="handleFileSelect"
+      />
+    </LayoutPage>
   </div>
 </template>
 

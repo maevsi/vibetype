@@ -8,11 +8,9 @@
       v-else-if="!event"
       :error="{ message: t('errorEventMissing'), status: 404 }"
     />
-    <div v-else class="flex flex-col">
+    <div v-else class="flex flex-1 flex-col">
+      <!-- the event's name below is the page's heading -->
       <LayoutTopBar>
-        <template #back>
-          <ButtonIconBackRoute is-round />
-        </template>
         <template #close>
           <div class="flex items-center gap-2">
             <EventShareButton
@@ -53,127 +51,129 @@
           </div>
         </template>
       </LayoutTopBar>
-      <div class="flex w-full max-w-2xl flex-col gap-6 self-center p-4 md:px-8">
-        <div class="relative">
-          <EventHeroImage class="h-64 rounded-large" :event />
-          <div
-            aria-hidden="true"
-            class="absolute bottom-3 left-3 flex flex-col items-center rounded-medium bg-surface px-4 py-2"
-          >
-            <AppTime
-              class="text-body-small text-link"
-              :datetime="event.start"
-              :options="{ month: 'short' }"
-            />
-            <AppTime
-              class="text-headline text-fg-1"
-              :datetime="event.start"
-              :options="{ day: 'numeric' }"
-            />
-          </div>
-        </div>
-        <div v-if="event?.accountByCreatedBy" class="flex flex-col gap-1">
-          <h1 class="m-0 text-title3">
-            {{ event.name }}
-          </h1>
-          <EventOwner link :username="event.accountByCreatedBy.username" />
-        </div>
-        <AppButtonGroup
-          v-if="!routeQueryIc && event.createdBy === store.signedInAccountId"
-          class="grid grid-cols-3 gap-2 lg:gap-2"
-        >
-          <AppButton
-            :aria-label="t('guests')"
-            class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
-            size="none"
-            :to="
-              localePath({
-                name: 'event-view-username-event_name-guest',
-                params: {
-                  event_name: route.params.event_name,
-                  username: route.params.username,
-                },
-              })
-            "
-            variant="secondary"
-          >
-            {{ t('guests') }}
-            <template #prefix>
-              <AppIconUsers />
-            </template>
-          </AppButton>
-          <AppButton
-            :aria-label="t('attendances')"
-            class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
-            size="none"
-            :to="
-              localePath({
-                name: 'event-view-username-event_name-attendance',
-                params: {
-                  event_name: route.params.event_name,
-                  username: route.params.username,
-                },
-              })
-            "
-            variant="secondary"
-          >
-            {{ t('attendances') }}
-            <template #prefix>
-              <AppIconUserCheckBroken />
-            </template>
-          </AppButton>
-          <AppButton
-            :aria-label="t('settings')"
-            class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
-            size="none"
-            :to="
-              localePath({
-                name: 'event-edit-username-event_name',
-                params: {
-                  event_name: route.params.event_name,
-                  username: route.params.username,
-                },
-              })
-            "
-            variant="secondary"
-          >
-            {{ t('settings') }}
-            <template #prefix>
-              <AppIconPencil />
-            </template>
-          </AppButton>
-        </AppButtonGroup>
-        <div v-if="event?.accountByCreatedBy" class="flex flex-col gap-6">
-          <section class="flex flex-col gap-2">
-            <h2 class="text-headline">{{ t('details') }}</h2>
-            <div class="flex flex-col gap-2 text-fg-2">
-              <EventDashletStart :event />
-              <EventDashletDuration :event />
-              <EventDashletVisibility :event with-text />
-              <EventDashletAttendanceType :event />
-              <EventDashletLink :event />
+      <LayoutPage>
+        <div class="flex flex-col gap-6">
+          <div class="relative">
+            <EventHeroImage class="h-64 rounded-large" :event />
+            <div
+              aria-hidden="true"
+              class="absolute bottom-3 left-3 flex flex-col items-center rounded-medium bg-surface px-4 py-2"
+            >
+              <AppTime
+                class="text-body-small text-link"
+                :datetime="event.start"
+                :options="{ month: 'short' }"
+              />
+              <AppTime
+                class="text-headline text-fg-1"
+                :datetime="event.start"
+                :options="{ day: 'numeric' }"
+              />
             </div>
-          </section>
-          <section v-if="isLocationVisible" class="flex flex-col gap-2">
-            <h2 class="text-headline">{{ t('location') }}</h2>
-            <EventDashletLocation :address class="text-fg-2" :event />
-            <AppMap
-              v-if="positionInitial"
-              class="isolate h-48 rounded-medium"
-              :events
-              :position-initial
-            />
+          </div>
+          <div v-if="event?.accountByCreatedBy" class="flex flex-col gap-1">
+            <h1 class="m-0 text-title3">
+              {{ event.name }}
+            </h1>
+            <EventOwner link :username="event.accountByCreatedBy.username" />
+          </div>
+          <AppButtonGroup
+            v-if="!routeQueryIc && event.createdBy === store.signedInAccountId"
+            class="grid grid-cols-3 gap-2 lg:gap-2"
+          >
+            <AppButton
+              :aria-label="t('guests')"
+              class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+              size="none"
+              :to="
+                localePath({
+                  name: 'event-view-username-event_name-guest',
+                  params: {
+                    event_name: route.params.event_name,
+                    username: route.params.username,
+                  },
+                })
+              "
+              variant="secondary"
+            >
+              {{ t('guests') }}
+              <template #prefix>
+                <AppIconUsers />
+              </template>
+            </AppButton>
+            <AppButton
+              :aria-label="t('attendances')"
+              class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+              size="none"
+              :to="
+                localePath({
+                  name: 'event-view-username-event_name-attendance',
+                  params: {
+                    event_name: route.params.event_name,
+                    username: route.params.username,
+                  },
+                })
+              "
+              variant="secondary"
+            >
+              {{ t('attendances') }}
+              <template #prefix>
+                <AppIconUserCheckBroken />
+              </template>
+            </AppButton>
+            <AppButton
+              :aria-label="t('settings')"
+              class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+              size="none"
+              :to="
+                localePath({
+                  name: 'event-edit-username-event_name',
+                  params: {
+                    event_name: route.params.event_name,
+                    username: route.params.username,
+                  },
+                })
+              "
+              variant="secondary"
+            >
+              {{ t('settings') }}
+              <template #prefix>
+                <AppIconPencil />
+              </template>
+            </AppButton>
+          </AppButtonGroup>
+          <div v-if="event?.accountByCreatedBy" class="flex flex-col gap-6">
+            <section class="flex flex-col gap-2">
+              <h2 class="text-headline">{{ t('details') }}</h2>
+              <div class="flex flex-col gap-2 text-fg-2">
+                <EventDashletStart :event />
+                <EventDashletDuration :event />
+                <EventDashletVisibility :event with-text />
+                <EventDashletAttendanceType :event />
+                <EventDashletLink :event />
+              </div>
+            </section>
+            <section v-if="isLocationVisible" class="flex flex-col gap-2">
+              <h2 class="text-headline">{{ t('location') }}</h2>
+              <EventDashletLocation :address class="text-fg-2" :event />
+              <AppMap
+                v-if="positionInitial"
+                class="isolate h-48 rounded-medium"
+                :events
+                :position-initial
+              />
+            </section>
+          </div>
+          <section v-if="eventDescriptionTemplate" class="flex flex-col gap-2">
+            <h2 class="text-headline">{{ t('about') }}</h2>
+            <!-- eslint-disable vue/no-v-html -->
+            <LayoutProse class="w-full">
+              <div v-html="eventDescriptionTemplate" />
+            </LayoutProse>
+            <!-- eslint-enable vue/no-v-html -->
           </section>
         </div>
-        <section v-if="eventDescriptionTemplate" class="flex flex-col gap-2">
-          <h2 class="text-headline">{{ t('about') }}</h2>
-          <!-- eslint-disable vue/no-v-html -->
-          <LayoutProse class="w-full">
-            <div v-html="eventDescriptionTemplate" />
-          </LayoutProse>
-          <!-- eslint-enable vue/no-v-html -->
-        </section>
-      </div>
+      </LayoutPage>
     </div>
   </Loader>
 </template>
@@ -182,10 +182,6 @@
 import { sanitize } from 'isomorphic-dompurify'
 
 import { graphql } from '~~/gql/generated'
-
-definePageMeta({
-  layout: 'default-no-header',
-})
 
 const { t } = useI18n()
 const store = useStore()

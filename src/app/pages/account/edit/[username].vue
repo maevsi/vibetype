@@ -3,117 +3,93 @@
     v-if="!account"
     :error="{ message: t('errorAccountMissing'), status: 404 }"
   />
-  <LayoutPage v-else>
-    <div class="grid grid-cols-3 items-center">
-      <AppButton
-        :aria-label="t('back')"
-        class="flex size-12 justify-center justify-self-start"
-        size="none"
-        :to="
-          localePath({
-            name: 'account-view-username',
-            params: { username: route.params.username },
-          })
-        "
-        variant="ghost"
-      >
-        <AppIconBack />
-      </AppButton>
-      <h1 class="justify-self-center">
-        <span class="text-heading-medium text-balance">
-          {{ t('title') }}
-        </span>
-      </h1>
-      <div />
-    </div>
-    <div class="flex flex-col gap-3">
-      <div
-        class="flex items-center justify-between gap-4 rounded-medium bg-surface-raised p-3"
-      >
-        <AccountProfilePicture
-          :account-id="account.rowId"
-          class="size-15 shrink-0 rounded-full"
-          height="60"
-          width="60"
-        />
-        <div class="flex gap-3">
-          <AppButton
-            :aria-label="t('replace')"
-            @click="showModalUploadSelection"
-          >
-            <span class="text-caption">
-              {{ t('replace') }}
-            </span>
-          </AppButton>
-          <AppButton
-            :aria-label="t('remove')"
-            variant="secondary"
-            @click="openProfilePictureRemoveDrawer"
-          >
-            <span class="text-caption">
-              {{ t('remove') }}
-            </span>
-          </AppButton>
+  <div v-else class="flex flex-1 flex-col">
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutPage>
+      <div class="flex flex-col gap-3">
+        <div
+          class="flex items-center justify-between gap-4 rounded-medium bg-surface-raised p-3"
+        >
+          <AccountProfilePicture
+            :account-id="account.rowId"
+            class="size-15 shrink-0 rounded-full"
+            height="60"
+            width="60"
+          />
+          <div class="flex gap-3">
+            <AppButton
+              :aria-label="t('replace')"
+              @click="showModalUploadSelection"
+            >
+              <span class="text-caption">
+                {{ t('replace') }}
+              </span>
+            </AppButton>
+            <AppButton
+              :aria-label="t('remove')"
+              variant="secondary"
+              @click="openProfilePictureRemoveDrawer"
+            >
+              <span class="text-caption">
+                {{ t('remove') }}
+              </span>
+            </AppButton>
+          </div>
+          <ModalUploadSelection
+            v-model="isModalUploadSelectionOpen"
+            @select="onUploadSelect"
+          />
+          <AccountProfilePictureRemoveDrawer
+            v-if="account?.profilePictureByAccountId?.rowId"
+            v-model:open="isProfilePictureRemoveDrawerOpen"
+            :profile-picture-row-id="account.profilePictureByAccountId.rowId"
+          />
         </div>
-        <ModalUploadSelection
-          v-model="isModalUploadSelectionOpen"
-          @select="onUploadSelect"
+        <AppInputTextarea
+          :content-initial="account.description"
+          :length-maximum="descriptionLengthMaximum"
+          :loading="updateAccountByRowIdMutation.fetching.value"
+          :title="t('about')"
+          @save="saveDescription"
         />
-        <AccountProfilePictureRemoveDrawer
-          v-if="account?.profilePictureByAccountId?.rowId"
-          v-model:open="isProfilePictureRemoveDrawerOpen"
-          :profile-picture-row-id="account.profilePictureByAccountId.rowId"
+        <AppInputTextarea
+          :content-initial="account.imprintUrl"
+          :length-maximum="imprintLengthMaximum"
+          :loading="updateAccountByRowIdMutation.fetching.value"
+          :title="t('imprint')"
+          @save="saveImprint"
         />
+        <AppCardButton
+          class="border-action-warning bg-warning-tint text-fg-1"
+          :title="t('resetPassword')"
+          :to="
+            localePath({
+              name: 'account-password-reset-request',
+            })
+          "
+        >
+          <AppIconVerifiedUser />
+          <template #iconSecondary>
+            <AppIconRestartAlt />
+          </template>
+        </AppCardButton>
+        <AppButton
+          :aria-label="t('deleteAccount')"
+          variant="tertiary-critical"
+          @click="openDeleteDrawer"
+        >
+          {{ t('deleteAccount') }}
+        </AppButton>
+        <AccountDeleteDrawer v-model:is-open="isDeleteDrawerOpen" />
       </div>
-      <AppInputTextarea
-        :content-initial="account.description"
-        :length-maximum="descriptionLengthMaximum"
-        :loading="updateAccountByRowIdMutation.fetching.value"
-        :title="t('about')"
-        @save="saveDescription"
-      />
-      <AppInputTextarea
-        :content-initial="account.imprintUrl"
-        :length-maximum="imprintLengthMaximum"
-        :loading="updateAccountByRowIdMutation.fetching.value"
-        :title="t('imprint')"
-        @save="saveImprint"
-      />
-      <AppCardButton
-        class="border-action-warning bg-warning-tint text-fg-1"
-        :title="t('resetPassword')"
-        :to="
-          localePath({
-            name: 'account-password-reset-request',
-          })
-        "
-      >
-        <AppIconVerifiedUser />
-        <template #iconSecondary>
-          <AppIconRestartAlt />
-        </template>
-      </AppCardButton>
-      <AppButton
-        :aria-label="t('deleteAccount')"
-        variant="tertiary-critical"
-        @click="openDeleteDrawer"
-      >
-        {{ t('deleteAccount') }}
-      </AppButton>
-      <AccountDeleteDrawer v-model:is-open="isDeleteDrawerOpen" />
-    </div>
-  </LayoutPage>
+    </LayoutPage>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
-
-// compiler
-definePageMeta({
-  layout: 'focused',
-})
 
 // page
 const { t } = useI18n()
@@ -293,7 +269,6 @@ const localePath = useLocalePath()
 <i18n lang="yaml">
 de:
   about: Über
-  back: Zurück
   deleteAccount: Konto löschen
   errorAccountMissing: Konto nicht verfügbar
   errorProfilePictureCreate: Beim Speichern des Profilbildes ist ein Problem aufgetreten
@@ -307,7 +282,6 @@ de:
   title: Mein Profil
 en:
   about: About
-  back: Back
   deleteAccount: Delete Account
   errorAccountMissing: Account unavailable
   errorProfilePictureCreate: There was a problem saving the profile picture
