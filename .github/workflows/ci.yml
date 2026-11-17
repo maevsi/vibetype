@@ -50,7 +50,7 @@ jobs:
           echo "digest=$digest" >> "$GITHUB_OUTPUT"
   build:
     name: Build
-    uses: dargmuesli/github-actions/.github/workflows/docker.yml@f32c68d81ab8d97c55392d02c3639d15bdf7efb4 # 6.0.0-beta.3
+    uses: dargmuesli/github-actions/.github/workflows/docker.yml@247a1e8711f93716a7952d8493032440dacca501 # experiment
     needs: [release_semantic_dry, skew_protection_source]
     permissions:
       attestations: write
