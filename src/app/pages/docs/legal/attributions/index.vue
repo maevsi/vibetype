@@ -1,10 +1,11 @@
 <template>
   <div class="flex flex-1 flex-col">
-    <LayoutTopBar />
+    <LayoutTopBar>
+      <span :id="templateIdTitle">{{ title }}</span>
+    </LayoutTopBar>
     <LayoutPage>
       <LayoutProse>
         <section :aria-labelledby="templateIdTitle">
-          <h1 :id="templateIdTitle">{{ title }}</h1>
           <p>
             <i18n-t keypath="attributionDescription">
               <template #author>

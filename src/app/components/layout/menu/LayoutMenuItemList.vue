@@ -1,5 +1,8 @@
 <template>
-  <LayoutMenuItem :title="t('home')" :to="menuTargets.home">
+  <LayoutMenuItem
+    :title="store.signedInUsername ? t('dashboard') : t('home')"
+    :to="menuTargets.home"
+  >
     <AppIconHome />
   </LayoutMenuItem>
   <LayoutMenuItem :title="t('discover')" :to="menuTargets.discover">
@@ -55,16 +58,18 @@ de:
   account: Account
   create: Veranstaltung erstellen
   createShort: Erstellen
+  dashboard: Dashboard
   discover: Entdecken
   events: Veranstaltungen
-  home: Dashboard
+  home: Start
   settings: Einstellungen
 en:
   account: Account
   create: Create event
   createShort: Create
+  dashboard: Dashboard
   discover: Discover
   events: Events
-  home: Dashboard
+  home: Home
   settings: Settings
 </i18n>

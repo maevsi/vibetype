@@ -1,14 +1,11 @@
 <template>
   <div class="flex flex-1 flex-col">
-    <LayoutTopBar />
+    <LayoutTopBar>{{ t('descriptionTitle') }}</LayoutTopBar>
     <LayoutPage>
       <div
         class="flex flex-1 flex-col justify-center gap-8 rounded-medium p-8 text-center"
       >
         <div class="flex flex-col gap-4">
-          <h1 class="text-heading-large">
-            {{ t('descriptionTitle') }}
-          </h1>
           <div>
             {{ t('descriptionContent') }}
           </div>

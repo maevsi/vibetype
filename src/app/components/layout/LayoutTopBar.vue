@@ -3,6 +3,7 @@
   <div
     v-if="isMenuRoute"
     class="flex w-full max-w-2xl items-center gap-3 self-center px-4 pt-6 empty:hidden"
+    data-slot="top-bar"
   >
     <h1 v-if="$slots.default" class="m-0 flex-1 text-heading-large">
       <slot />
@@ -12,6 +13,7 @@
   <div
     v-else
     class="sticky top-0 z-10 flex h-16 items-center gap-3 bg-glass px-4 py-2 backdrop-blur-xl"
+    data-slot="top-bar"
   >
     <div class="flex size-12 items-center justify-center">
       <slot name="back">
