@@ -1,3 +1,13 @@
+## [17.12.4](https://github.com/maevsi/vibetype/compare/17.12.3...17.12.4) (2026-11-17)
+
+### Bug Fixes
+
+* **email:** align the dark mode colors with the design system ([#2663](https://github.com/maevsi/vibetype/issues/2663)) ([12057f8](https://github.com/maevsi/vibetype/commit/12057f8f16ef0340b9f56362d162d9c604ec42d2))
+* **event:** confirm external description links ([#2667](https://github.com/maevsi/vibetype/issues/2667)) ([b9c4657](https://github.com/maevsi/vibetype/commit/b9c4657ad8e6deb02aa43964ea5c263dee557a11))
+* **notification:** follow permission changes made outside the app ([#2665](https://github.com/maevsi/vibetype/issues/2665)) ([6f82915](https://github.com/maevsi/vibetype/commit/6f82915474732ec7d1867f587a07f5e5e1b8a571))
+* **pwa:** keep the service worker from being cached ([#2664](https://github.com/maevsi/vibetype/issues/2664)) ([3e23d06](https://github.com/maevsi/vibetype/commit/3e23d06148c8dbd270f297a7345eb36e6882c151))
+* **pwa:** match the dark theme color to the surface token ([#2662](https://github.com/maevsi/vibetype/issues/2662)) ([da662cb](https://github.com/maevsi/vibetype/commit/da662cb1980d514341c4adcee17e97f0ede1973f))
+
 ## [17.12.3](https://github.com/maevsi/vibetype/compare/17.12.2...17.12.3) (2026-11-17)
 
 ### Bug Fixes
