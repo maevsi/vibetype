@@ -1,3 +1,9 @@
+## [17.13.0](https://github.com/maevsi/vibetype/compare/17.12.5...17.13.0) (2026-11-17)
+
+### Features
+
+* **event:** add a flagged participation stub ([#2675](https://github.com/maevsi/vibetype/issues/2675)) ([b240cad](https://github.com/maevsi/vibetype/commit/b240cad6b40329815cc18392cde6ffb9a6fe6a7d))
+
 ## [17.12.5](https://github.com/maevsi/vibetype/compare/17.12.4...17.12.5) (2026-11-17)
 
 ### Bug Fixes
