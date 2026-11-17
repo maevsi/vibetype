@@ -31,9 +31,9 @@
   >
     <AppIconToday />
   </LayoutMenuItem>
-  <!-- signed in, the bottom bar leaves settings to the profile so that the create button stays centered -->
+  <!-- signed in, the profile links to the settings -->
   <LayoutMenuItem
-    :class="store.signedInUsername && 'max-lg:hidden'"
+    v-if="!store.signedInUsername"
     :title="t('settings')"
     :to="localePath('session-edit')"
   >

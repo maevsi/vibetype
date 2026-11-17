@@ -4,8 +4,6 @@ import { testVisualRegression } from '#tests/e2e/utils/tests'
 
 const PAGE_PATH = '/dashboard'
 
-testVisualRegression(PAGE_PATH)
-
 authenticatedTest.describe('with data', () => {
   testVisualRegression(PAGE_PATH, false, {
     fullPage: true,

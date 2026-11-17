@@ -393,6 +393,23 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
+    case 'AccountUploadQuotaBytes':
+      return { data: { accountUploadQuotaBytes: 10485760 } }
+    case 'AllContacts':
+      return {
+        data: {
+          allContacts: {
+            nodes: [],
+            pageInfo: {
+              endCursor: null,
+              hasNextPage: false,
+              __typename: 'PageInfo',
+            },
+            totalCount: 0,
+            __typename: 'ContactConnection',
+          },
+        },
+      }
     case 'AllEventCategoriesFormEvent':
       return {
         data: {
@@ -484,6 +501,21 @@ export const getTestingGraphqlResult = async ({
               },
             ],
             __typename: 'LegalTermConnection',
+          },
+        },
+      }
+    case 'AllUploads':
+      return {
+        data: {
+          allUploads: {
+            nodes: [],
+            pageInfo: {
+              endCursor: null,
+              hasNextPage: false,
+              __typename: 'PageInfo',
+            },
+            totalCount: 0,
+            __typename: 'UploadConnection',
           },
         },
       }

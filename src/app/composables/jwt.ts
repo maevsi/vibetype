@@ -30,6 +30,25 @@ export const useAuthentication = () => {
   })
 }
 
+/** Sends visitors who are not signed in to the sign-in page, which returns them to the current page afterwards. */
+export const useSignInRequired = async () => {
+  const store = useStore()
+
+  if (store.signedInUsername) return
+
+  const localePath = useLocalePath()
+  const route = useRoute()
+
+  // without history, as the back button would return to the current page otherwise, which only redirects again
+  await store.navigateWithoutHistory(
+    {
+      path: localePath('session-create'),
+      query: { to: route.fullPath },
+    },
+    { replace: true },
+  )
+}
+
 export const useJwtCookie = (
   options:
     { options: CookieOptions & { readonly: false } } | undefined = undefined,

@@ -5,13 +5,8 @@
       :error="{ message: t('recommendationError'), status: 500 }"
     /> -->
     <LayoutPageTitle :title />
-    <LayoutCallToAction
-      v-if="!authentication.isSignedIn"
-      :call-to-action="t('anonymousCta')"
-      :call-to-action-description="t('anonymousCtaDescription')"
-    />
     <AppLoaderPlaceholder
-      v-else-if="isLoading"
+      v-if="!authentication.isSignedIn || isLoading"
       class="flex-col items-stretch justify-start gap-4"
     >
       <EventCardSkeleton variant="highlight" />
@@ -186,6 +181,10 @@ const eventQuery = graphql(`
 const { $urql } = useNuxtApp()
 const requestFetch = useRequestFetch()
 const authentication = useAuthentication()
+
+// validation
+await useSignInRequired()
+
 const { data: eventRecommendations, pending: eventRecommendationsPending } =
   useAsyncData(
     'index-recommendations',
@@ -303,8 +302,6 @@ const templateIdUpcoming = useId()
 
 <i18n lang="yaml">
 de:
-  anonymousCta: Finde ihn auf @.upper:{'globalSiteName'}
-  anonymousCtaDescription: Dir fehlt der Überblick über Veranstaltungen?
   discover: Neue Veranstaltungen entdecken
   posterHuntDescription: Du hast eine spannende Veranstaltung außerhalb von @.upper:{'globalSiteName'} gesehen?
   posterHuntImage: Bild hochladen
@@ -316,8 +313,6 @@ de:
   upcomingEmpty: Noch nichts geplant
   upcomingTitle: Dein nächstes Event
 en:
-  anonymousCta: Find it on @.upper:{'globalSiteName'}
-  anonymousCtaDescription: Are you missing an overview of events?
   discover: Discover new events
   posterHuntDescription: Saw an interesting event outside of @.upper:{'globalSiteName'}?
   posterHuntImage: Upload image
