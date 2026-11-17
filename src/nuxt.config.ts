@@ -114,6 +114,10 @@ export default defineNuxtConfig({
     '/api/service/firebase/notification': {
       csurf: false, // called by services, authenticated by secret
     },
+    '/sw.js': {
+      // `@vite-pwa/nuxt` 2 sets this only when it knows the worker's file name at setup, which the `buildSW` strategy does not provide, and without it a CDN keeps serving a previous build's worker whose precache 404s, so the worker never installs
+      headers: { 'Cache-Control': 'public, max-age=0, must-revalidate' },
+    },
   },
   router: {
     options: {
