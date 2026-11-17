@@ -1,6 +1,13 @@
 import { z } from 'zod'
 import { getMessaging } from 'firebase-admin/messaging'
 
+// FCM codes that mean the token itself is gone, so the device row is pruned
+// and the failure is treated as expected churn rather than a request error.
+const DEAD_TOKEN_CODES = new Set([
+  'messaging/registration-token-not-registered',
+  'messaging/invalid-registration-token',
+])
+
 const fcmMessageSchema = z
   .object({
     payload: z.object({
@@ -44,37 +51,91 @@ export default defineEventHandler(async (event) => {
 
   const messaging = getMessaging(adminApp)
 
-  // `allSettled` so one failing token does not hide the others' results, and
-  // so every failure code is logged. Failures still fail the request, so
-  // monitoring sees them as 500s.
-  const results = await Promise.allSettled(
-    fcmTokens.map((token) =>
-      messaging.send({
-        notification: body.payload.notification,
-        token,
-      }),
-    ),
+  // Send to every token and keep each token paired with its own outcome, so
+  // one failing token never hides the others' results and every failure is
+  // logged.
+  const outcomes = await Promise.all(
+    fcmTokens.map(async (token) => {
+      try {
+        return {
+          token,
+          messageId: await messaging.send({
+            notification: body.payload.notification,
+            token,
+          }),
+        }
+      } catch (error) {
+        return { token, error }
+      }
+    }),
   )
 
-  const failures = results.filter(
-    (result): result is PromiseRejectedResult => result.status === 'rejected',
+  const failures = outcomes.filter(
+    (outcome): outcome is { token: string; error: unknown } =>
+      'error' in outcome,
   )
 
-  if (failures.length > 0) {
-    const codes = failures.map(({ reason }) => reason?.code ?? 'unknown')
+  // A dead-token failure is expected churn: the device uninstalled, cleared
+  // its data, revoked permission, or rotated the token. It is pruned below,
+  // and it must not 500 the request, because that would mask the tokens that
+  // did deliver.
+  const deadTokens = failures.filter((outcome) =>
+    DEAD_TOKEN_CODES.has(errorCode(outcome.error) ?? ''),
+  )
 
-    for (const { reason } of failures) console.error('FCM send failed:', reason)
+  // Real failures still fail the request, so monitoring sees them as 500s.
+  const realFailures = failures.filter(
+    (outcome) => !DEAD_TOKEN_CODES.has(errorCode(outcome.error) ?? ''),
+  )
+
+  if (deadTokens.length > 0) {
+    const pruned = await Promise.allSettled(
+      deadTokens.map(({ token }) =>
+        executeQuery(
+          sql`DELETE FROM vibetype.device WHERE fcm_token = ${token}`,
+        ),
+      ),
+    )
+
+    for (const failure of pruned) {
+      if (failure.status === 'rejected')
+        console.error('Failed to prune a dead device row:', failure.reason)
+    }
+  }
+
+  if (realFailures.length > 0) {
+    const codes = realFailures.map(
+      (outcome) => errorCode(outcome.error) ?? 'unknown',
+    )
+
+    for (const { error } of realFailures)
+      console.error('FCM send failed:', error)
 
     throw createAppError({
       status: 500,
-      statusText: `FCM send failed for ${failures.length} of ${results.length} token(s): ${[...new Set(codes)].join(', ')}`,
+      statusText: `FCM send failed for ${realFailures.length} of ${outcomes.length} token(s): ${[...new Set(codes)].join(', ')}`,
     })
   }
 
-  return results.map(
-    (result) => (result as PromiseFulfilledResult<string>).value,
-  )
+  // A request whose only failures were dead tokens that got pruned succeeds,
+  // returning the message ids of the tokens that actually delivered.
+  return outcomes
+    .filter(
+      (outcome): outcome is { token: string; messageId: string } =>
+        'messageId' in outcome,
+    )
+    .map(({ messageId }) => messageId)
 })
+
+// Reads the FCM error code off a rejected send, returning undefined for
+// errors that carry no code.
+const errorCode = (error: unknown): string | undefined =>
+  typeof error === 'object' &&
+  error !== null &&
+  'code' in error &&
+  typeof error.code === 'string'
+    ? error.code
+    : undefined
 
 const getFcmTokensByAccountId = async (accountId: string) => {
   const rows = await executeQuery(
