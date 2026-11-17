@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { THEME_COLOR_DARK } from '#shared/utils/constants'
+
 import AppLogo from './AppLogo.vue'
 
 const { locale, title } = defineProps<{
@@ -19,12 +21,12 @@ const colorSchemeStyle = `
 
   @media (prefers-color-scheme: dark) {
     .button {
-      background-color: #e4e4eb !important;
-      color: #191911 !important;
+      background-color: #fff !important;
+      color: #000 !important;
     }
 
     .container {
-      background-color: #191911 !important;
+      background-color: ${THEME_COLOR_DARK} !important;
     }
 
     .logo-dark {
@@ -40,11 +42,11 @@ const colorSchemeStyle = `
     }
 
     .text {
-      color: #e4e4eb !important;
+      color: #fff !important;
     }
 
     .text-secondary {
-      color: #868679 !important;
+      color: #9ca09d !important;
     }
   }
 `
