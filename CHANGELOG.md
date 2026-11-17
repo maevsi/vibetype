@@ -1,3 +1,9 @@
+## [17.12.1](https://github.com/maevsi/vibetype/compare/17.12.0...17.12.1) (2026-11-17)
+
+### Bug Fixes
+
+* **navigation:** unify the sign-in gate and its back navigation ([#2658](https://github.com/maevsi/vibetype/issues/2658)) ([854f2ad](https://github.com/maevsi/vibetype/commit/854f2ad76e1087b92cf35999dc24732efcb6f573))
+
 ## [17.12.0](https://github.com/maevsi/vibetype/compare/17.11.0...17.12.0) (2026-11-16)
 
 ### Features
