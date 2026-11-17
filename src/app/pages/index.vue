@@ -163,7 +163,7 @@ if (
   store.signedInAccountId &&
   Object.keys(route.query).every((key) => key === 'source')
 ) {
-  await store.navigateWithoutHistory(localePath('dashboard'), { replace: true })
+  await navigateTo(localePath('dashboard'), { replace: true })
 }
 
 const achievementUnlockMutation = useMutation(
@@ -205,7 +205,7 @@ if (error.value) {
   console.debug(error.value.message) // there's no way to be certain that a user tried to unlock an achievement here, so no error is thrown
 
   if (store.signedInAccountId) {
-    await store.navigateWithoutHistory(localePath('dashboard'), {
+    await navigateTo(localePath('dashboard'), {
       replace: true,
     })
   }
