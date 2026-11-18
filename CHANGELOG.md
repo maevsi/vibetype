@@ -1,3 +1,9 @@
+## [17.14.3](https://github.com/maevsi/vibetype/compare/17.14.2...17.14.3) (2026-11-18)
+
+### Bug Fixes
+
+* **event:** report a missing event as not found ([#2691](https://github.com/maevsi/vibetype/issues/2691)) ([03fdce9](https://github.com/maevsi/vibetype/commit/03fdce92075964667ed8a976ae07f5901cf86979))
+
 ## [17.14.2](https://github.com/maevsi/vibetype/compare/17.14.1...17.14.2) (2026-11-18)
 
 ### Bug Fixes
