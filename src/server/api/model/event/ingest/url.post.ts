@@ -1,18 +1,9 @@
 import type { H3Event } from 'h3'
 import { htmlToText } from 'html-to-text'
-import { zodResponseFormat } from 'openai/helpers/zod'
 import { z } from 'zod'
 
 const eventIngestUrlPostBodySchema = z.object({
   url: z.url({ protocol: /^https?$/ }),
-})
-const eventSchema = z.object({
-  description: z.string(),
-  end: z.string().optional(),
-  is_event: z.boolean(),
-  location: z.string().optional(),
-  name: z.string().optional(),
-  start: z.string().optional(),
 })
 const getPrompt =
   () => `You are a data extraction specialist responsible for identifying and cataloging event information.
@@ -82,7 +73,7 @@ ${htmlText}
       },
     ],
     model,
-    response_format: zodResponseFormat(eventSchema, 'event'),
+    response_format: eventIngestResponseFormat,
   })
 
   return {

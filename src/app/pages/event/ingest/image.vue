@@ -131,7 +131,7 @@ const readPoster = async () => {
     }
 
     // the model answers without a time zone, which the browser takes as local time
-    const getIsoString = (value?: string) => {
+    const getIsoString = (value: string | null) => {
       const date = value ? new Date(value) : undefined
 
       return date && !Number.isNaN(date.getTime())
