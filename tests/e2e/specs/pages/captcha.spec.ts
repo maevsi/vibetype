@@ -21,6 +21,9 @@ const fillSupportForm = async (page: Page) => {
   await page.locator('textarea[name="itemDescription"]').fill('description')
   await page.locator('input[name="userEmailAddress"]').fill('test@example.com')
 
+  const itemUrl = page.locator('input[name="itemUrl"]')
+  if (await itemUrl.count()) await itemUrl.fill('https://vibetype.app/')
+
   for (const checkbox of await page.getByRole('checkbox').all()) {
     await checkbox.check()
   }
