@@ -1,3 +1,9 @@
+## [17.15.1](https://github.com/maevsi/vibetype/compare/17.15.0...17.15.1) (2026-11-18)
+
+### Bug Fixes
+
+* **app:** keep the sign-in page for signed-out app users ([#2693](https://github.com/maevsi/vibetype/issues/2693)) ([4207e86](https://github.com/maevsi/vibetype/commit/4207e862b83152e232c776a9b8e8a51ce865554b))
+
 ## [17.15.0](https://github.com/maevsi/vibetype/compare/17.14.3...17.15.0) (2026-11-18)
 
 ### Features
