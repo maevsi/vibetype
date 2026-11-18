@@ -1,3 +1,10 @@
+## [17.14.1](https://github.com/maevsi/vibetype/compare/17.14.0...17.14.1) (2026-11-18)
+
+### Bug Fixes
+
+* **event:** send the csrf token when reading posters ([#2688](https://github.com/maevsi/vibetype/issues/2688)) ([99d789f](https://github.com/maevsi/vibetype/commit/99d789f27a2def7c359de5d4574d40c5cc5eb071))
+* **session:** require the csrf token to sign out ([#2689](https://github.com/maevsi/vibetype/issues/2689)) ([82bd74a](https://github.com/maevsi/vibetype/commit/82bd74aa72beefb048cdb99d51ee53af7aa93c6a))
+
 ## [17.14.0](https://github.com/maevsi/vibetype/compare/17.13.2...17.14.0) (2026-11-18)
 
 ### Features
