@@ -1,3 +1,9 @@
+## [17.15.4](https://github.com/maevsi/vibetype/compare/17.15.3...17.15.4) (2026-11-18)
+
+### Bug Fixes
+
+* **imprint:** update legal representatives ([#2699](https://github.com/maevsi/vibetype/issues/2699)) ([9173059](https://github.com/maevsi/vibetype/commit/917305926511e33a2db99aa6e381a4cb363a1e43))
+
 ## [17.15.3](https://github.com/maevsi/vibetype/compare/17.15.2...17.15.3) (2026-11-18)
 
 ### Bug Fixes
