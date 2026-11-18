@@ -1,3 +1,9 @@
+## [17.15.3](https://github.com/maevsi/vibetype/compare/17.15.2...17.15.3) (2026-11-18)
+
+### Bug Fixes
+
+* **legal:** separate terms acceptance from privacy information and fix imprint ([#2696](https://github.com/maevsi/vibetype/issues/2696)) ([9acb501](https://github.com/maevsi/vibetype/commit/9acb5017ab8af6ddddacf596cb16d24991d17149))
+
 ## [17.15.2](https://github.com/maevsi/vibetype/compare/17.15.1...17.15.2) (2026-11-18)
 
 ### Bug Fixes
