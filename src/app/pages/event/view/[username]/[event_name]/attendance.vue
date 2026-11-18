@@ -118,7 +118,7 @@ const title = computed(() => {
     return
   }
   if (!event.value) {
-    showAppError({ status: 500, message: 'Event unavailable' })
+    showAppError({ status: 404, message: 'Event unavailable' })
     return
   }
 
