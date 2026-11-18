@@ -910,17 +910,18 @@
 
             We integrate the functions of the OpenAI API on our website. This service is offered by OpenAI Inc., 3180 18th Street, San Francisco, California 94110, USA.
 
-            OpenAI specializes in artificial intelligence and machine learning. With the OpenAI API, we can develop AI tools based on the databases and capabilities of ChatGPT/OpenAI.
+            We use the OpenAI API for poster hunting: when you upload a photo of an event poster, an AI model reads the event's details from it, which we use to prefill the form for creating the event.
+            Before that, OpenAI checks the photo for prohibited content.
 
-            All inputs in our tool are processed. These inputs — such as natural language, images, or other data formats — are processed by OpenAI to develop machine learning models. This data is then used to improve or train the respective tool.
+            The photo is sent to OpenAI from our server, not from your device.
+            OpenAI therefore neither receives your IP address nor sets cookies on your device, and we don't send any details of your account.
+            OpenAI receives personal data only where the photo itself shows some, such as people or names on the poster.
 
-            OpenAI collects the IP address when the tool is used. If the tool is not used to process personal data, no personal data other than the IP address is collected.
+            OpenAI doesn't use data sent through the API to train its models.
+            OpenAI keeps it for up to 30 days to detect abuse and deletes it afterwards.
 
-            OpenAI may set cookies, but only with prior consent. The legal basis for this is Art. 6 para. 1 lit. a GDPR.
-
-            Otherwise, the legal basis for data processing is Art. 6 para. 1 lit. f GDPR. We have a legitimate interest in using AI and ML models in our tools and integrating them into our website to optimize our service both technically and economically.
-
-            If the function to automatically delete the chat history is not activated, the data entered will remain with OpenAI for 30 days for model training purposes.
+            The legal basis for this processing is Art. 6 para. 1 lit. f GDPR.
+            We have a legitimate interest in making it easier for you to create events from posters.
 
             In the case of data transfer to the USA, the standard contractual clauses (SCCs) of the EU Commission apply.
 

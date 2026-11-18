@@ -926,17 +926,18 @@
               USA
             </address>
 
-            OpenAI hat sich auf die Entwicklung von Künstlicher Intelligenz und Maschinellem Lernen fokussiert. Mit Hilfe der OpenAI API ist es uns möglich, eigene KI-Tools zu entwickeln, welche auf den Datenbanken und Fähigkeiten von ChatGPT/OpenAI basieren.
+            Wir nutzen die OpenAI API für die Plakatjagd: Wenn Du ein Foto eines Veranstaltungsplakats hochlädst, liest ein KI-Modell daraus die Angaben zur Veranstaltung, mit denen wir das Formular zum Erstellen der Veranstaltung vorausfüllen.
+            Zuvor prüft OpenAI das Foto auf unzulässige Inhalte.
 
-            Alle Eingaben in unserem Tool werden verarbeitet. Grundsätzlich werden diese Eingaben, z. B. natürliche Sprache, Bilder oder andere Datenformate, durch OpenAI verarbeitet, um Machine-Learning-Modelle entwickeln zu können. Diese Daten werden dann dafür verwendet, um das jeweilige Tool zu verbessern bzw. zu trainieren.
+            Das Foto wird von unserem Server an OpenAI übermittelt, nicht von Deinem Gerät.
+            OpenAI erhält daher weder Deine IP-Adresse noch setzt OpenAI Cookies auf Deinem Gerät, und wir übermitteln keine Angaben zu Deinem Konto.
+            Personenbezogene Daten erhält OpenAI nur, soweit das Foto selbst welche zeigt, etwa Personen oder Namen auf dem Plakat.
 
-            OpenAI erfasst bei der Nutzung eines Tools die IP-Adresse. Sofern das jeweilige Tool nicht mit personenbezogenen Daten gefüllt wird, werden auch keine personenbezogenen Daten, neben der IP-Adresse, erfasst.
+            OpenAI verwendet über die API übermittelte Daten nicht zum Training seiner Modelle.
+            OpenAI speichert sie bis zu 30 Tage, um Missbrauch zu erkennen, und löscht sie danach.
 
-            OpenAI kann Cookies setzen. Dies geschieht nur nach vorheriger Einwilligung. Rechtsgrundlage hierfür ist Art. 6 Abs. 1 lit. a DSGVO.
-
-            Im Übrigen ist Rechtsgrundlage für die Verarbeitung von Daten Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse daran, die Möglichkeiten von KI und ML-Modellen in unseren Tools zu verwenden und diese auf unserer Website einzubinden, um so unseren Service technisch und wirtschaftlich zu optimieren.
-
-            Sofern die Funktion, den Chatverlauf automatisch zu löschen, nicht aktiviert ist, verbleiben die eingegebenen Daten 30 Tage bei OpenAI, um die Modelle zu trainieren.
+            Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO.
+            Wir haben ein berechtigtes Interesse daran, Dir das Erstellen von Veranstaltungen aus Plakaten zu erleichtern.
 
             Bei der Datenübertragung in die USA greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
 
