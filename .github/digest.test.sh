@@ -14,13 +14,18 @@ export ACTIONS_ID_TOKEN_REQUEST_URL='https://oidc.example/token?a=1'
 export ANTHROPIC_FEDERATION_RULE_ID=rule ANTHROPIC_ORGANIZATION_ID=org
 export ANTHROPIC_SERVICE_ACCOUNT_ID=svc ANTHROPIC_WORKSPACE_ID=ws
 
-# gh prints the pull request nodes for graphql (as --jq would) and the releases for the REST call.
+# gh prints what the real one would after applying --jq: pull request nodes, releases,
+# the production compose file, the latest release tag, and compare statuses from compare.txt.
 cat >bin/gh <<'STUB'
 #!/usr/bin/env bash
 printf '%s\n' "$*" >>gh.args
 case "$*" in
   *graphql*) cat nodes.json ;;
+  *releases/latest*) echo v2 ;;
   *releases*) cat releases.json ;;
+  *contents/src/production/app/compose.yaml*) cat compose.yaml ;;
+  *compare/*) c="$*"; c=${c#*compare/}; awk -v c="${c%% *}" '$1 == c {print $2; f = 1} END {if (!f) print "behind"}' compare.txt ;;
+  *) exit 1 ;;
 esac
 STUB
 # curl answers by URL, replies from files, and keeps what it was sent on stdin.
@@ -37,21 +42,25 @@ esac
 STUB
 chmod +x bin/gh bin/curl
 
-node() { # title author-type author-login
-  jq -nc --arg t "$1" --arg ty "$2" --arg l "$3" '{
-    title: $t, body: "body", repository: {name: "app", description: null},
+node() { # title author-type author-login base-branch merge-commit
+  jq -nc --arg t "$1" --arg ty "$2" --arg l "$3" --arg b "$4" --arg c "$5" '{
+    title: $t, body: "body", baseRefName: $b, mergeCommit: {oid: $c},
+    repository: {name: "app", description: null, defaultBranchRef: {name: "main"}},
     author: {__typename: $ty, login: $l}, labels: {nodes: []},
     closingIssuesReferences: {nodes: []}}'
 }
 {
-  node 'feat(ui): add a thing' User alice
-  node 'fix(security): patch it' User alice
-  node 'fix(ui): repair it' User alice
-  node 'docs: explain' User alice
-  node 'chore(deps): update foo to v5' Bot 'renovate[bot]'
-  node 'chore(deps): update bar to v1.2.3' Bot 'renovate[bot]'
-  node 'chore(deps): update baz [SECURITY]' Bot 'renovate[bot]'
+  node 'feat(ui): add a thing' User alice main c1
+  node 'fix(security): patch it' User alice main c2
+  node 'fix(ui): repair it' User alice main c3
+  node 'docs: explain' User alice beta c4
+  node 'chore(deps): update foo to v5' Bot 'renovate[bot]' feat/x c5
+  node 'chore(deps): update bar to v1.2.3' Bot 'renovate[bot]' main c6
+  node 'chore(deps): update baz [SECURITY]' Bot 'renovate[bot]' main c7
 } >nodes.json
+# Production runs v1, which has c1, the latest release v2 also has c3, and c2 and c7 are not released.
+printf '    image: ghcr.io/maevsi/app:v1\n  # image: ghcr.io/maevsi/app:v0\n' >compose.yaml
+printf 'c1...v1 ahead\nc1...v2 ahead\nc3...v2 identical\nc4...v1 diverged\n' >compare.txt
 echo '[
   {"tag_name":"v5","published_at":"2026-01-09T00:00:00Z","draft":false,"prerelease":false},
   {"tag_name":"v2","published_at":"2026-01-02T00:00:00Z","draft":false,"prerelease":false},
@@ -68,7 +77,10 @@ SINCE=2026-01-01 UNTIL='2026-01-08 12:00' "$script" collect >context.json
 check counts '.counts == {total: 7, product: 2, upkeep: 4, quality: 1,
   by_category: {"product-feature": 1, "security-fix": 1, "product-fix": 1, "quality-and-docs": 1,
                 "dependency-major": 1, "dependency-minor": 1, "dependency-security": 1},
+  by_stage: {live: 1, released: 1, unreleased: 2, beta: 1, "in-progress": 1},
   releases: 1}' context.json
+check stages '[.prs[].stage] == ["live", "unreleased", "released", "beta", "in-progress", "unreleased"]
+  and ([.prs[] | has("sha") or has("base")] | any | not)' context.json
 check prs '(.prs | length) == 6 and ([.prs[].category] | index("dependency-minor")) == null' context.json
 check releases '[.releases[].tag] == ["v2", "v3-beta"]' context.json
 check span '.since == "2026-01-01T00:00:00Z" and .until == "2026-01-08T12:00:00Z"' context.json
@@ -83,7 +95,7 @@ grep -q 'org:other ' gh.args || { echo 'ORG ignored'; exit 1; }
 # A quiet time span still yields valid zero counts for the workflow gate.
 : >nodes.json
 "$script" collect >empty.json
-check empty '.counts == {total: 0, product: 0, upkeep: 0, quality: 0, by_category: {}, releases: 0}
+check empty '.counts == {total: 0, product: 0, upkeep: 0, quality: 0, by_category: {}, by_stage: {}, releases: 0}
   and .prs == [] and .releases == []' empty.json
 
 # The summary reaches stdout only, and a failed run leaks neither it nor the tokens.
