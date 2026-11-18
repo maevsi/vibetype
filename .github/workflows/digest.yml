@@ -1,6 +1,6 @@
 name: Digest
-# Runs with inputs get their own title, so only runs without inputs mark the start of the next default time span.
-run-name: ${{ (inputs.since || inputs.until) && format('Digest from {0} to {1}', inputs.since || 'the last run', inputs.until || 'now') || 'Digest' }}
+# Runs ending before now get their own title, so only runs ending now mark the start of the next default time span.
+run-name: ${{ inputs.until && format('Digest from {0} to {1}', inputs.since || 'the last run', inputs.until) || 'Digest' }}
 
 permissions: {}
 
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       since:
-        description: Start of the time span, in any format `date -d` reads, by default the start of the last successful run without inputs, else 7 days ago
+        description: Start of the time span, in any format `date -d` reads, by default the start of the last successful run without `until`, else 7 days ago
         required: false
       until:
         description: End of the time span, in any format `date -d` reads, by default now
