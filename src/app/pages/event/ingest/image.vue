@@ -21,7 +21,7 @@
           <AppButton
             :aria-label="t('takePhoto')"
             :variant="selectedFile ? 'secondary' : 'primary'"
-            @click="triggerFileInput(templateInputCamera)"
+            @click="takePhoto"
           >
             <AppIconImage />
             {{ t('takePhoto') }}
@@ -65,6 +65,7 @@
 </template>
 
 <script setup lang="ts">
+import { useEventListener } from '@vueuse/core'
 import { FetchError } from 'ofetch'
 
 const { t } = useI18n()
@@ -83,22 +84,28 @@ useHeadDefault({ title: t('title') })
 // data
 const eventImported = useState<EventImported>(STATE_KEY_EVENT_IMPORTED)
 const isNoEvent = ref(false)
+const isPosterScanAvailable = ref(false)
 const isReading = ref(false)
 const previewUrl = ref<string>()
 const selectedFile = ref<File>()
 
 // methods
+const getFileFromDataUrl = (dataUrl: string) => {
+  const binary = atob(dataUrl.split(',')[1] ?? '')
+
+  return new File(
+    [Uint8Array.from(binary, (character) => character.charCodeAt(0))],
+    'poster.jpg',
+    { type: 'image/jpeg' },
+  )
+}
 const handleFileSelect = (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0]
 
-  if (!file) return
-
-  // avoid memory leaks
-  if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
-
-  isNoEvent.value = false
-  previewUrl.value = URL.createObjectURL(file)
-  selectedFile.value = file
+  if (file) selectFile(file)
+}
+const handlePosterFromApp = ({ detail }: CustomEvent<string>) => {
+  if (detail) selectFile(getFileFromDataUrl(detail))
 }
 const readFileAsBase64 = (file: File) =>
   new Promise<string>((resolve, reject) => {
@@ -165,12 +172,42 @@ const readPoster = async () => {
     isReading.value = false
   }
 }
+const selectFile = (file: File) => {
+  // avoid memory leaks
+  if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
+
+  isNoEvent.value = false
+  previewUrl.value = URL.createObjectURL(file)
+  selectedFile.value = file
+}
+const takePhoto = () => {
+  if (isPosterScanAvailable.value) {
+    window.webkit?.messageHandlers['poster-scan']?.postMessage('poster-scan')
+  } else {
+    triggerFileInput(templateInputCamera.value)
+  }
+}
 const triggerFileInput = (input: HTMLInputElement | null) => {
   if (!input) return
 
   input.value = ''
   input.click()
 }
+
+// lifecycle
+// the iOS app scans posters with its document camera and hands over posters shared to it from other apps
+onMounted(() => {
+  isPosterScanAvailable.value =
+    window.webkit?.messageHandlers?.['poster-scan'] !== undefined
+  window.webkit?.messageHandlers?.['poster-shared-request']?.postMessage(
+    'poster-shared-request',
+  )
+})
+useEventListener('poster-scan-error', () =>
+  alertError({ messageI18n: t('errorScanFailed') }),
+)
+useEventListener('poster-scan-result', handlePosterFromApp)
+useEventListener('poster-shared', handlePosterFromApp)
 </script>
 
 <i18n lang="yaml">
@@ -180,6 +217,7 @@ de:
   errorLimitReached: Du hast heute die maximale Anzahl an Plakaten gelesen. Versuche es morgen erneut.
   errorModerated: Das Foto enthält Inhalte, die nicht verarbeitet werden können.
   errorReadFailed: Das Plakat konnte nicht gelesen werden.
+  errorScanFailed: Das Plakat konnte nicht gescannt werden.
   noEvent: Auf diesem Foto wurde keine Veranstaltung gefunden. Probiere ein anderes Foto.
   preview: Vorschau
   readPoster: Plakat lesen
@@ -191,6 +229,7 @@ en:
   errorLimitReached: You have reached today's maximum number of poster readings. Try again tomorrow.
   errorModerated: The photo contains content that cannot be processed.
   errorReadFailed: The poster could not be read.
+  errorScanFailed: The poster could not be scanned.
   noEvent: No event found on this photo. Try another photo.
   preview: Preview
   readPoster: Read poster
