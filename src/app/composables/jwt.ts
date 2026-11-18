@@ -67,8 +67,7 @@ export const useJwtCookie = (
 }
 
 export const useJwtDelete = () => {
-  const { $urql, $urqlReset } = useNuxtApp()
-  const requestFetch = useRequestFetch()
+  const { $csrfFetch, $urql, $urqlReset } = useNuxtApp()
   const store = useStore()
   const notificationStore = useNotificationStore()
 
@@ -85,7 +84,7 @@ export const useJwtDelete = () => {
 
     await jwtDelete({
       $urqlReset,
-      requestFetch,
+      requestFetch: $csrfFetch,
       store,
     })
   }

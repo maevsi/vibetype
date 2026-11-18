@@ -17,6 +17,7 @@ export const securityConfig: ReturnType<DefineNuxtConfig> = {
       },
       headerName: CSRF_HEADER_NAME,
       https: getIsSecure({ siteUrl: SITE_URL_TYPED }),
+      methodsToProtect: ['DELETE', 'PATCH', 'POST', 'PUT'], // the default leaves out `DELETE`, which would let other sites sign visitors out
     },
     headers: {
       contentSecurityPolicy: {
