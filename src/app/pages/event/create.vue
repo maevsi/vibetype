@@ -14,9 +14,6 @@
 <script setup lang="ts">
 import { getLocalTimeZone } from '@internationalized/date'
 
-import { EventVisibility } from '~~/gql/generated/graphcache'
-import type FormEvent from '~/components/form/FormEvent.vue'
-
 const { t } = useI18n()
 const alertError = useAlertError()
 const authentication = useAuthentication()
@@ -26,9 +23,7 @@ await useSignInRequired()
 
 // data
 // kept in state, as signing in first leaves this page and the launch queue delivers a file only once
-const eventImported = useState<
-  InstanceType<typeof FormEvent>['$props']['event']
->(STATE_KEY_EVENT_IMPORTED)
+const eventImported = useState<EventImported>(STATE_KEY_EVENT_IMPORTED)
 // the form copies its event into its fields only when created, so each import needs a new one
 const importCount = ref(0)
 const title = t('title')
@@ -53,26 +48,15 @@ onMounted(() => {
       return
     }
 
-    const name = event.name ?? ''
-    const slugify = (await import('slugify')).default
-
-    // without a `rowId` the form still creates a new event
-    eventImported.value = {
-      addressByAddressId: { name: event.locationName },
-      description: event.description
-        ? getHtmlFromText(event.description)
-        : null,
-      end: event.end ?? null,
-      guestCountMaximum: null,
+    eventImported.value = await getEventImported({
+      description: event.description,
+      end: event.end,
       isInPerson: event.isInPerson,
-      isRemote: false,
-      name,
-      rowId: '',
-      slug: slugify(name, { lower: true, strict: true }), // the form derives it only while the name is typed
-      start: event.start ?? '',
-      url: event.url ?? null,
-      visibility: EventVisibility.Private,
-    }
+      locationName: event.locationName,
+      name: event.name ?? '',
+      start: event.start,
+      url: event.url,
+    })
     importCount.value += 1
   })
 })
