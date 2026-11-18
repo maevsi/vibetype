@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Weekly non-technical digest of merged pull requests across the organization.
+# Non-technical digest of pull requests merged across the organization in a time span.
 #
-#   weekly-digest.sh collect    > context.json   needs GH_TOKEN
-#   weekly-digest.sh summarize  < context.json > summary.md   needs a GitHub Actions OIDC token and ANTHROPIC_* federation IDs
-#   weekly-digest.sh post context.json summary.md              needs DISCORD_WEBHOOK_URL
+#   digest.sh collect    > context.json   needs GH_TOKEN, reads SINCE (default 7 days ago) and UNTIL (default now)
+#   digest.sh summarize  < context.json > summary.md   needs a GitHub Actions OIDC token and ANTHROPIC_* federation IDs
+#   digest.sh post context.json summary.md              needs DISCORD_WEBHOOK_URL
 #
 # Untrusted text (pull request and issue content) only ever flows through files
 # and jq arguments, never through shell expansion or workflow expressions.
@@ -11,16 +11,15 @@ set -euo pipefail
 shopt -s inherit_errexit
 
 ORG="${ORG:-maevsi}"
-DAYS="${DAYS:-7}"
-
 collect() {
-  local since
-  since=$(date -u -d "$DAYS days ago" +%Y-%m-%dT%H:%M:%SZ)
+  local since until
+  since=$(date -u -d "${SINCE:-7 days ago}" +%Y-%m-%dT%H:%M:%SZ)
+  until=$(date -u -d "${UNTIL:-now}" +%Y-%m-%dT%H:%M:%SZ)
 
-  # Search caps at 1000 results, far above a week of activity.
+  # Search caps at 1000 results, far above a few months of activity.
   # shellcheck disable=SC2016
   gh api graphql --paginate \
-    -f q="org:$ORG is:pr is:merged merged:>=$since" \
+    -f q="org:$ORG is:pr is:merged merged:$since..$until" \
     -f query='
       query($q: String!, $endCursor: String) {
         search(query: $q, type: ISSUE, first: 50, after: $endCursor) {
@@ -68,6 +67,7 @@ collect() {
       | map(.group = (.category | group))
       | {
           since: $since,
+          until: $until,
           counts: {
             total: length,
             product: map(select(.group == "product")) | length,
@@ -79,15 +79,15 @@ collect() {
             # Routine dependency bumps are only counted, not listed, to keep the prompt small.
             map(select(.category != "dependency-minor"))
           )
-        }' --arg since "$since" > "$tmp/prs.json"
+        }' --arg since "$since" --arg until "$until" > "$tmp/prs.json"
 
   local repos
   repos=$(jq -r '[.prs[].repo] | unique | .[]' "$tmp/prs.json")
   {
     for repo in $repos; do
-      gh api "repos/$ORG/$repo/releases?per_page=30" \
-      | jq --arg since "$since" --arg repo "$repo" \
-          '.[] | select(.published_at >= $since and (.draft | not)) | {repo: $repo, tag: .tag_name, prerelease}'
+      gh api "repos/$ORG/$repo/releases?per_page=100" \
+      | jq --arg since "$since" --arg until "$until" --arg repo "$repo" \
+          '.[] | select(.published_at >= $since and .published_at <= $until and (.draft | not)) | {repo: $repo, tag: .tag_name, prerelease}'
     done
   } | jq -s '.' > "$tmp/releases.json"
 
@@ -97,12 +97,12 @@ collect() {
 }
 
 read -r -d '' SYSTEM <<'PROMPT' || true
-You write the weekly progress update for the team of a small startup. The readers are business people, designers and marketing, not developers.
+You write the progress update for the team of a small startup. The readers are business people, designers and marketing, not developers.
 
-You receive JSON describing the code changes merged in the past week across all repositories, with deterministic counts, categories, pull request descriptions, the issues they closed, and the releases published. Repository descriptions tell you which product each repository belongs to.
+You receive JSON describing the code changes merged between `since` and `until` across all repositories, with deterministic counts, categories, pull request descriptions, the issues they closed, and the releases published. Repository descriptions tell you which product each repository belongs to.
 
 Write a short, upbeat, plain-language update in Discord markdown:
-- Open with one sentence that captures the week.
+- Open with one sentence that captures the period.
 - "What's new": user-facing features and fixes, grouped by what users or the business gain. Merge related changes into one bullet.
 - "Keeping the engine healthy": the upkeep work. Make it visible and valued. Name notable major upgrades and security updates, and explain in one plain phrase each why they matter (security, staying supported, speed, fewer future surprises). Mention how many routine dependency updates were absorbed, using the counts given.
 - "Quality": tests, accessibility, documentation, if any. One or two bullets.
@@ -173,7 +173,7 @@ post() {
         username: "Team Software Engineering",
         allowed_mentions: {parse: []},
         embeds: [{
-          title: "🚀 This week in code",
+          title: "🚀 Lately in code",
           description: (
             $text
             | gsub("\\[(?<label>[^\\]]*)\\]\\([^)]*\\)"; "\(.label)")
@@ -190,7 +190,7 @@ post() {
             {name: "🛡️ Security updates", value: "\(($c.by_category["dependency-security"] // 0) + ($c.by_category["security-fix"] // 0))", inline: true},
             {name: "⬆️ Major upgrades", value: "\($c.by_category["dependency-major"] // 0)", inline: true}
           ],
-          footer: {text: "Merged pull requests since \($ctx[0].since[0:10]) · summarized by Claude"}
+          footer: {text: "Merged pull requests from \($ctx[0].since[0:10]) to \($ctx[0].until[0:10]) · summarized by Claude"}
         }]
       }' \
   | curl -sS --fail-with-body -H "content-type: application/json" -d @- "$DISCORD_WEBHOOK_URL"

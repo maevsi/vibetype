@@ -1,13 +1,13 @@
-name: "Digest: Weekly: Test"
+name: "Digest: Test"
 
 permissions: {}
 
 on:
   pull_request:
     paths:
-      - .github/weekly-digest.sh
-      - .github/weekly-digest.test.sh
-      - .github/workflows/digest-weekly-test.yml
+      - .github/digest.sh
+      - .github/digest.test.sh
+      - .github/workflows/digest-test.yml
 
 concurrency:
   cancel-in-progress: true
@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   test:
-    name: Test the weekly digest script
+    name: Test the digest script
     runs-on: ubuntu-26.04
     timeout-minutes: 5
     permissions:
@@ -25,5 +25,5 @@ jobs:
         with:
           persist-credentials: false
           sparse-checkout: .github
-      - name: Test the weekly digest script
-        run: .github/weekly-digest.test.sh
+      - name: Test the digest script
+        run: .github/digest.test.sh
