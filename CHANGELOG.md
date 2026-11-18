@@ -1,3 +1,13 @@
+## [17.14.0](https://github.com/maevsi/vibetype/compare/17.13.2...17.14.0) (2026-11-18)
+
+### Features
+
+* **event:** fill the event form from a photographed poster ([#2683](https://github.com/maevsi/vibetype/issues/2683)) ([435e599](https://github.com/maevsi/vibetype/commit/435e59922b26a467221e098a9e8063930ce170fd))
+
+### Bug Fixes
+
+* **event:** fetch only public addresses on url ingestion ([#2684](https://github.com/maevsi/vibetype/issues/2684)) ([587ee59](https://github.com/maevsi/vibetype/commit/587ee59785077acefb7827b4ad42b6430ab9a19d))
+
 ## [17.13.2](https://github.com/maevsi/vibetype/compare/17.13.1...17.13.2) (2026-11-18)
 
 ### Bug Fixes
