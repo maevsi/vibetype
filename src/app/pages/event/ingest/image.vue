@@ -69,6 +69,7 @@ import { FetchError } from 'ofetch'
 
 const { t } = useI18n()
 const alertError = useAlertError()
+const { $csrfFetch } = useNuxtApp()
 const localePath = useLocalePath()
 const templateInputCamera = useTemplateRef('inputCamera')
 const templateInputLibrary = useTemplateRef('inputLibrary')
@@ -119,7 +120,7 @@ const readPoster = async () => {
   isNoEvent.value = false
 
   try {
-    const { output } = await $fetch('/api/model/event/ingest/image', {
+    const { output } = await $csrfFetch('/api/model/event/ingest/image', {
       body: { base64Image: await readFileAsBase64(selectedFile.value) },
       method: 'POST',
     })
