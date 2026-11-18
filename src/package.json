@@ -65,7 +65,7 @@
     "@urql/exchange-graphcache": "9.0.2",
     "@urql/exchange-request-policy": "2.0.0",
     "@urql/vue": "2.1.1",
-    "@vite-pwa/nuxt": "2.0.1",
+    "@vite-pwa/nuxt": "2.0.2",
     "@vite-pwa/workbox-swkit": "8.0.15",
     "@vueuse/core": "15.0.0",
     "@zxcvbn-ts/core": "4.2.0",
