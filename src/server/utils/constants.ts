@@ -66,7 +66,6 @@ export const GET_CSP = ({
         "'wasm-unsafe-eval'", // vue-qrcode-reader
       ],
       'script-src-elem': [
-        'https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js', // ESLint plugin compat
         ...(process.env.NODE_ENV === 'development'
           ? [`${siteUrl}__devtools/`] // Nuxt DevTools
           : []),

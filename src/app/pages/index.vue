@@ -138,6 +138,14 @@
               {{ t('privacy') }}
             </NuxtLinkLocale>
           </p>
+          <AppButton
+            v-if="!isIos"
+            :aria-label="t('cookies')"
+            variant="tertiary"
+            @click="cookieControl.isModalActive.value = true"
+          >
+            {{ t('cookies') }}
+          </AppButton>
         </div>
       </div>
     </LayoutPage>
@@ -247,7 +255,8 @@ const toProfile = () => {
     }),
   )
 }
-const { isApp } = usePlatform()
+const { isApp, isIos } = usePlatform()
+const cookieControl = useCookieControl()
 const dateToday = today(getLocalTimeZone())
 const querySignOut = computed(() => route.query.signOut === null)
 
@@ -258,6 +267,7 @@ useHeadDefault({ title: siteConfig.name })
 
 <i18n lang="yaml">
 de:
+  cookies: Cookie-Einstellungen
   createAccount: Konto erstellen
   imprint: Impressum
   legalAnd: und
@@ -265,7 +275,7 @@ de:
   legalPre: 'Mit der Nutzung von Vibetype stimmst du unseren'
   more: Webseite besuchen, um mehr zu erfahren
   or: ODER
-  privacy: Datenschutzrichtlinie
+  privacy: Datenschutzerklärung
   register: Konto erstellen
   signIn: Einloggen
   signInApple: Mit Apple anmelden
@@ -282,6 +292,7 @@ de:
   welcome: Willkommen bei
   welcomeWithSiteName: Willkommen bei @.upper:{'globalSiteName'}
 en:
+  cookies: Cookie settings
   createAccount: Create account
   imprint: Imprint
   legalAnd: and

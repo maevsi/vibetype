@@ -116,32 +116,3 @@ export const useHeadDefault = (
     },
   )
 }
-
-const POLYFILLS_URL = `https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=${POLYFILLS.join(
-  '%2C',
-)}&flags=gated`
-
-export const usePolyfills = () => {
-  if (!POLYFILLS.length) return
-
-  if (import.meta.server) {
-    useHead({
-      link: [
-        {
-          rel: 'preload',
-          href: POLYFILLS_URL,
-          crossorigin: 'anonymous',
-          as: 'script',
-          'data-testid': 'polyfill-preload',
-        },
-      ],
-      script: [
-        {
-          src: POLYFILLS_URL,
-          crossorigin: 'anonymous',
-          'data-testid': 'polyfill-script',
-        },
-      ],
-    })
-  }
-}

@@ -23,29 +23,6 @@ export const testMetadata = async ({
       ],
     },
     {
-      tag: 'link',
-      attributes: [
-        {
-          key: 'data-testid',
-          value: 'polyfill-preload',
-        },
-        { key: 'rel', value: 'preload' },
-        {
-          key: 'href',
-          value:
-            'https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=Promise%2CrequestAnimationFrame&flags=gated',
-        },
-        {
-          key: 'crossorigin',
-          value: 'anonymous',
-        },
-        {
-          key: 'as',
-          value: 'script',
-        },
-      ],
-    },
-    {
       tag: 'meta',
       attributes: [
         {

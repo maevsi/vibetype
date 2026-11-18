@@ -36,6 +36,7 @@ export const schemaFormIssue = z.object({
 })
 export const schemaFormReport = z.object({
   itemDescription,
+  itemUrl: z.url().min(1).max(2000),
   userConsentAccuracy: userConsent,
   userConsentProcessing: userConsent,
   userEmailAddress: userEmailAddressOptional,

@@ -27,6 +27,10 @@
           @submit.prevent="handleEmailContinue"
         >
           <AppInput
+            :aria-describedby="
+              emailField.error.value ? templateIdEmailError : undefined
+            "
+            :aria-invalid="!!emailField.error.value"
             :aria-label="t('emailPlaceholder')"
             :model-value="emailField.value.value"
             :placeholder="t('emailPlaceholder')"
@@ -38,13 +42,19 @@
               <IHeroiconsEnvelope />
             </template>
           </AppInput>
-          <p v-if="emailField.error.value" class="text-caption text-error">
+          <p
+            v-if="emailField.error.value"
+            :id="templateIdEmailError"
+            class="text-caption text-error"
+          >
             {{ emailField.error.value }}
           </p>
           <!-- Terms checkbox -->
           <div class="flex items-start gap-3">
             <AppCheckbox
               id="agree-to-terms"
+              :aria-describedby="termsError ? templateIdTermsError : undefined"
+              :aria-invalid="!!termsError"
               class="mt-0.5 shrink-0"
               :model-value="agreedToTerms"
               @update:model-value="
@@ -57,25 +67,26 @@
                 <NuxtLinkLocale
                   class="font-semibold text-link underline"
                   to="docs-legal-terms"
-                  >{{ t('termsOfService') }}</NuxtLinkLocale>{{
-                  t('legalComma')
-                }}
-                <NuxtLinkLocale
-                  class="font-semibold text-link underline"
-                  to="docs-legal-imprint"
-                  >{{ t('imprint') }}</NuxtLinkLocale
-                >
-                {{ t('and') }}
-                <NuxtLinkLocale
-                  class="font-semibold text-link underline"
-                  to="docs-legal-privacy"
-                  >{{ t('privacyPolicy') }}</NuxtLinkLocale
+                  >{{ t('termsOfUse') }}</NuxtLinkLocale
                 >
               </span>
             </label>
           </div>
-          <p v-if="termsError" class="text-caption text-error">
+          <p
+            v-if="termsError"
+            :id="templateIdTermsError"
+            class="text-caption text-error"
+          >
             {{ termsError }}
+          </p>
+          <p class="text-body-small text-fg-2">
+            {{ t('privacyNoticePrefix') }}
+            <NuxtLinkLocale
+              class="font-semibold text-link underline"
+              to="docs-legal-privacy"
+              >{{ t('privacyPolicy') }}</NuxtLinkLocale>{{
+              t('privacyNoticeSuffix')
+            }}
           </p>
           <AppButton :aria-label="t('continue')" class="w-full" type="submit">
             {{ t('continue') }}
@@ -108,6 +119,15 @@
             }
           "
         />
+        <p class="text-body-small text-fg-2">
+          {{ t('privacyNoticePrefix') }}
+          <NuxtLinkLocale
+            class="font-semibold text-link underline"
+            to="docs-legal-privacy"
+            >{{ t('privacyPolicy') }}</NuxtLinkLocale>{{
+            t('privacyNoticeSuffix')
+          }}
+        </p>
       </LayoutPage>
     </AppStepPanel>
 
@@ -125,6 +145,10 @@
         >
           <div class="relative">
             <AppInput
+              :aria-describedby="
+                usernameField.error.value ? templateIdUsernameError : undefined
+              "
+              :aria-invalid="!!usernameField.error.value"
               :aria-label="t('usernamePlaceholder')"
               :model-value="usernameField.value.value"
               :placeholder="t('usernamePlaceholder')"
@@ -145,7 +169,11 @@
               />
             </div>
           </div>
-          <p v-if="usernameField.error.value" class="text-caption text-error">
+          <p
+            v-if="usernameField.error.value"
+            :id="templateIdUsernameError"
+            class="text-caption text-error"
+          >
             {{ usernameField.error.value }}
           </p>
           <AppButton
@@ -158,6 +186,15 @@
           >
             {{ t('continue') }}
           </AppButton>
+          <p class="text-body-small text-fg-2">
+            {{ t('privacyNoticePrefix') }}
+            <NuxtLinkLocale
+              class="font-semibold text-link underline"
+              to="docs-legal-privacy"
+              >{{ t('privacyPolicy') }}</NuxtLinkLocale>{{
+              t('privacyNoticeSuffix')
+            }}
+          </p>
         </form>
       </LayoutPage>
     </AppStepPanel>
@@ -182,6 +219,15 @@
           >
             {{ t('confirmAge') }}
           </AppButton>
+          <p class="text-body-small text-fg-2">
+            {{ t('privacyNoticePrefix') }}
+            <NuxtLinkLocale
+              class="font-semibold text-link underline"
+              to="docs-legal-privacy"
+              >{{ t('privacyPolicy') }}</NuxtLinkLocale>{{
+              t('privacyNoticeSuffix')
+            }}
+          </p>
         </div>
       </LayoutPage>
     </AppStepPanel>
@@ -245,6 +291,9 @@ const api = await useApiData([accountRegistrationMutation])
 
 // template
 const templateIdTitle = useId()
+const templateIdEmailError = useId()
+const templateIdTermsError = useId()
+const templateIdUsernameError = useId()
 const birthDate = ref<string>()
 const agreedToTerms = ref(false)
 const termsError = ref('')
@@ -445,9 +494,8 @@ useHeadDefault({ title: titlePage })
 
 <i18n lang="yaml">
 de:
-  agreePrefix: "Ich stimme Vibetype's "
+  agreePrefix: 'Ich akzeptiere die '
   alreadyHaveAccount: 'Du hast bereits ein Konto?'
-  and: ' und '
   back: Zurück
   backToRegistration: Zurück zur Registrierung
   birthDateUnavailable: Das Geburtsdatum ist nicht verfügbar. Bitte versuche es erneut.
@@ -456,22 +504,22 @@ de:
   emailInvalid: Bitte gib eine gültige E-Mail-Adresse ein
   emailPlaceholder: E-Mail-Adresse eingeben
   emailRequired: Bitte gib eine E-Mail-Adresse ein
-  imprint: Impressum
-  legalComma: ', '
   legalTermsUnavailable: Die rechtlichen Bedingungen konnten nicht geladen werden. Bitte versuche es später erneut.
   passwordUnavailable: Das Passwort ist nicht verfügbar. Bitte versuche es erneut.
   postgresVTAUV: Es gibt bereits einen Account mit diesem Nutzernamen! Überlege dir einen neuen Namen oder versuche dich anzumelden.
   postgresVTBDA: Du musst mindestens 18 Jahre alt sein, um dich zu registrieren.
   postgresVTPLL: Das Passwort ist zu kurz! Überlege dir ein längeres.
-  privacyPolicy: Datenschutzrichtlinie
+  privacyNoticePrefix: 'Informationen dazu, wie wir deine Daten verarbeiten, findest du in unserer '
+  privacyNoticeSuffix: .
+  privacyPolicy: Datenschutzerklärung
   signInLink: Anmelden
   subtitleAge: Für den richtigen Vibe und deine Sicherheit zeigt dir Vibetype nur Events, die zu deinem Alter passen.
   subtitleEmail: Wir verwenden sie, um dir einen Bestätigungslink zu senden und dein Konto zu sichern.
   subtitlePassword: Mindestens 8 Zeichen, die nicht leicht zu erraten sind.
   subtitleUsername: Dieser Name wird anderen Nutzern angezeigt.
   support: Support kontaktieren
-  termsOfService: Nutzungsbedingungen
-  termsRequired: Bitte stimme den Bedingungen zu
+  termsOfUse: Nutzungsbedingungen
+  termsRequired: Bitte akzeptiere die Nutzungsbedingungen
   titleAge: Alter bestätigen
   titleEmail: Registriere dich mit deiner E-Mail
   titlePassword: Erstelle dein Passwort
@@ -486,9 +534,8 @@ de:
   verificationOpenLink: Öffne den Link, um zu bestätigen, dass du es wirklich bist.
   verificationSentTo: 'Wir haben dir gerade einen Bestätigungslink gesendet an '
 en:
-  agreePrefix: "I agree to Vibetype's "
+  agreePrefix: 'I accept the '
   alreadyHaveAccount: 'Already have an account?'
-  and: ' and '
   back: Back
   backToRegistration: Back to Registration
   birthDateUnavailable: Birth date is unavailable. Please try again.
@@ -497,13 +544,13 @@ en:
   emailInvalid: Please enter a valid email address
   emailPlaceholder: Enter your email
   emailRequired: Please enter an email address
-  imprint: Imprint
-  legalComma: ', '
   legalTermsUnavailable: We could not load the legal terms. Please try again later.
   passwordUnavailable: Password is unavailable. Please try again.
   postgresVTAUV: This username is already in use! Think of a new name or try signing in instead.
   postgresVTBDA: You must be at least 18 years old to register.
   postgresVTPLL: Your password is too short! Think of a longer one.
+  privacyNoticePrefix: 'Information on how we process your data can be found in our '
+  privacyNoticeSuffix: .
   privacyPolicy: Privacy Policy
   signInLink: Sign in
   subtitleAge: To keep things fun and safe, Vibetype curates just the right events for your age and vibe.
@@ -511,8 +558,8 @@ en:
   subtitlePassword: At least 8 characters that aren't easy to guess.
   subtitleUsername: This name will be visible to other users.
   support: Contact support
-  termsOfService: Terms of Service
-  termsRequired: Please agree to the terms
+  termsOfUse: Terms of Use
+  termsRequired: Please accept the Terms of Use
   titleAge: Confirm your age
   titleEmail: Sign up using your email
   titlePassword: Create your password

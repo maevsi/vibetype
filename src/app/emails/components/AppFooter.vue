@@ -6,12 +6,20 @@ const { emailAddress, locale } = defineProps<{
   locale: AppLocale
 }>()
 
+const { siteUrl } = useSiteUrl()
+const legalUrl = (name: string) =>
+  `${new URL(siteUrl).origin}${locale === 'de' ? '/de' : ''}/docs/legal/${name}`
+
 // data
 const locales = {
   de: {
+    imprint: 'Impressum',
+    privacy: 'Datenschutz',
     unsubscribe: 'E-Mails abbestellen',
   },
   en: {
+    imprint: 'Imprint',
+    privacy: 'Privacy',
     unsubscribe: 'Unsubscribe from emails',
   },
 }
@@ -29,6 +37,22 @@ const t = locales[locale]
             style="color: #117a23; text-decoration: underline"
           >
             {{ t.unsubscribe }}
+          </ELink>
+          <br />
+          <ELink
+            class="link"
+            :href="legalUrl('imprint')"
+            style="color: #117a23; text-decoration: underline"
+          >
+            {{ t.imprint }}
+          </ELink>
+          <br />
+          <ELink
+            class="link"
+            :href="legalUrl('privacy')"
+            style="color: #117a23; text-decoration: underline"
+          >
+            {{ t.privacy }}
           </ELink>
         </AppText>
       </EColumn>

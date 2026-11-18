@@ -113,6 +113,7 @@
           </AppButton>
         </div>
       </AppFeature>
+      <FormPrivacyNotice />
       <div class="flex flex-col items-center">
         <AppButton
           :aria-label="t('select')"
