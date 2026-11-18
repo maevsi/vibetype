@@ -192,6 +192,17 @@ export const cookieControlConfig: Pick<
       ],
     },
     isControlButtonEnabled: false,
+    // the default text promises a floating cookie button, which is disabled above
+    localeTexts: {
+      de: {
+        bannerDescription:
+          'Wir verwenden notwendige Cookies für den Betrieb dieser Webseite und, mit deiner Einwilligung, optionale Cookies und externe Inhalte für Analyse, Karten, Profilbilder und Fehleranalyse. Du kannst deine Auswahl jederzeit über „Cookie-Einstellungen“ unten auf der Startseite oder unter Einstellungen > Cookies ändern.',
+      },
+      en: {
+        bannerDescription:
+          'We use necessary cookies to run this website and, with your consent, optional cookies and external content for analytics, maps, profile pictures and error analysis. You can change your choice at any time via "Cookie settings" at the bottom of the start page or under Settings > Cookies.',
+      },
+    },
     locales: ['en', 'de'],
   },
 }
