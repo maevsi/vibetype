@@ -20,7 +20,7 @@ Kontaktformular: https://vibetype.app/de/support/contact
 
 **Gesetzliche Vertretungsberechtigte**
 <br />
-Jonas Thelemann, Tony Krieger, Alexander Gensicke
+Jonas Thelemann, Tony Krieger
 <br />
 (Geschäftsführer)
 
