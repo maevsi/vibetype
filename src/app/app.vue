@@ -144,9 +144,7 @@ const initialize = async () => {
     !store.signedInAccountId &&
     !isEqual(route.path, localePath('account-password-reset').toString()) &&
     !isEqual(route.path, localePath('guest-view-id').toString()) &&
-    !isEqual(route.path, localePath('index').toString()) &&
-    // pages that require signing in send visitors here with the page to return to, which the app opens directly, e.g. for a poster shared to it
-    !isEqual(route.path, localePath('session-create').toString())
+    !isEqual(route.path, localePath('index').toString())
   ) {
     return await navigateTo(
       localePath({
@@ -214,7 +212,6 @@ if (import.meta.client) {
 
 // initialization
 useAppLayout()
-usePolyfills()
 useAppGtag()
 await detectLanguageFromQuery({
   language: await useJwtInitialize(),

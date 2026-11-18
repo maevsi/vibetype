@@ -10,6 +10,8 @@
 </template>
 
 <script setup lang="ts">
+import { EXTERNAL_MEDIA_COOKIE_ID } from '~~/node/static'
+
 import blankProfilePicture from '~/assets/images/blank-profile-picture.svg'
 
 const {
@@ -27,14 +29,18 @@ const {
 const { t } = useI18n()
 
 // computations
+const isConsented = useIsCookieConsented(EXTERNAL_MEDIA_COOKIE_ID)
+const isGravatarUsed = computed(
+  () => isConsented.value && emailAddress && emailAddressHash,
+)
 const imageSrc = computed(() => {
-  if (emailAddress && emailAddressHash)
+  if (isGravatarUsed.value)
     return `https://www.gravatar.com/avatar/${emailAddressHash}?d=mp&s=${size}`
 
   return blankProfilePicture
 })
 const crossOrigin = computed(() => {
-  if (emailAddress && emailAddressHash) return 'anonymous'
+  if (isGravatarUsed.value) return 'anonymous'
 
   return undefined
 })

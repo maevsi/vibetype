@@ -12,6 +12,12 @@ defineOptions({
   name: 'AppEmail',
 })
 
+const { siteUrl } = useSiteUrl()
+const fontUrl = new URL(
+  '/assets/static/fonts/raleway-latin-wght-normal.woff2',
+  siteUrl,
+).href
+
 // inline styles stay the light default for clients that ignore this media query
 const colorSchemeStyle = `
   :root {
@@ -69,7 +75,7 @@ const colorSchemeStyle = `
         :fallback-font-family="['Helvetica', 'Arial', 'sans-serif']"
         font-family="Raleway"
         :web-font="{
-          url: 'https://fonts.gstatic.com/s/raleway/v37/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVvaorCIPrE.woff2',
+          url: fontUrl,
           format: 'woff2',
         }"
       />

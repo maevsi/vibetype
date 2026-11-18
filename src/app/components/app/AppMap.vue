@@ -2,6 +2,25 @@
   <div v-if="!isMounted" :class="cn('flex justify-center', classComputed)">
     <AppLoaderLogo class="size-8" />
   </div>
+  <div
+    v-else-if="!isConsented"
+    :class="
+      cn(
+        'flex flex-col items-center justify-center gap-4 p-6 text-center',
+        classComputed,
+      )
+    "
+  >
+    <p>{{ t('consentRequired') }}</p>
+    <AppButton
+      v-if="!isIos"
+      :aria-label="t('consentOpen')"
+      variant="tertiary"
+      @click="openCookieControl"
+    >
+      {{ t('consentOpen') }}
+    </AppButton>
+  </div>
   <div v-else :id="templateIdMap" :class="classComputed" />
 </template>
 
@@ -10,6 +29,8 @@ import { useMounted } from '@vueuse/core'
 
 import type { FullscreenControl, Map, LatLng } from 'leaflet'
 import type { DeepReadonly, HtmlHTMLAttributes } from 'vue'
+
+import { EXTERNAL_MEDIA_COOKIE_ID } from '~~/node/static'
 
 import { cn } from '@/utils/shadcn'
 
@@ -53,6 +74,10 @@ const mapCenter = ref<LatLng>()
 const mapZoom = ref<number>()
 
 const { t, locale } = useI18n()
+const { isIos } = usePlatform()
+const cookieControl = useCookieControl()
+const isConsented = useIsCookieConsented(EXTERNAL_MEDIA_COOKIE_ID)
+const openCookieControl = () => (cookieControl.isModalActive.value = true)
 const isMounted = useMounted()
 let fullscreenControl: FullscreenControl | undefined
 // leaflet translates its texts only when it renders them, so a locale change needs the controls re-added
@@ -63,7 +88,7 @@ watch(locale, () => {
   mapLocal.zoomControl?.remove().addTo(mapLocal)
   fullscreenControl?.remove().addTo(mapLocal)
 })
-onMounted(async () => {
+const initialize = async () => {
   const {
     DivIcon,
     FullscreenControl,
@@ -147,7 +172,22 @@ onMounted(async () => {
       )
     }
   }
-})
+}
+
+// the tiles and the geocoder reach third parties, so the map only exists while consent is given
+watch(
+  [isMounted, isConsented],
+  async ([mounted, consented]) => {
+    if (mounted && consented) {
+      await nextTick()
+      if (!map.value) await initialize()
+    } else if (map.value) {
+      map.value.remove()
+      map.value = undefined
+    }
+  },
+  { immediate: true },
+)
 defineExpose({ map, mapCenter, mapZoom })
 </script>
 
@@ -158,6 +198,8 @@ defineExpose({ map, mapCenter, mapZoom })
 
 <i18n lang="yaml">
 de:
+  consentOpen: Cookie-Einstellungen öffnen
+  consentRequired: Zum Anzeigen der Karte werden Daten vom Drittanbieter OpenStreetMap geladen, wobei deine IP-Adresse übertragen wird. Bitte stimme dem dafür in den Cookie-Einstellungen unter externe Inhalte zu.
   enterFullscreen: Vollbild öffnen
   exitFullscreen: Vollbild beenden
   map: Karte
@@ -165,6 +207,8 @@ de:
   zoomIn: Vergrößern
   zoomOut: Verkleinern
 en:
+  consentOpen: Open cookie settings
+  consentRequired: Displaying the map loads data from the third party OpenStreetMap and transfers your IP address. Please consent to this under external content in the cookie settings.
   enterFullscreen: Enter fullscreen
   exitFullscreen: Exit fullscreen
   map: Map
