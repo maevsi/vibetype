@@ -103,7 +103,9 @@ authenticatedTest.describe('poster reading', () => {
       await page.getByRole('button', { name: 'Read poster' }).click()
       await expect(page.getByText('No event found on this photo')).toBeVisible()
 
+      // selecting the scanned poster clears the previous result, which the shared poster staying selected would not
       await page.getByRole('button', { name: 'Take photo' }).click()
+      await expect(page.getByText('No event found on this photo')).toBeHidden()
       await page.getByRole('button', { name: 'Read poster' }).click()
       await expect.poll(() => base64Images.length).toBe(2)
 
