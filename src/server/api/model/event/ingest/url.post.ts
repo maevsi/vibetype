@@ -4,7 +4,7 @@ import { zodResponseFormat } from 'openai/helpers/zod'
 import { z } from 'zod'
 
 const eventIngestUrlPostBodySchema = z.object({
-  url: z.string(),
+  url: z.url({ protocol: /^https?$/ }),
 })
 const eventSchema = z.object({
   description: z.string(),
@@ -48,7 +48,18 @@ export default defineEventHandler(async (event: EventIngestUrlPostEvent) => {
     schema: eventIngestUrlPostBodySchema,
   })
 
-  const html = await $fetch<string>(body.url)
+  await requirePublicUrl(body.url)
+
+  // a redirect could lead to a non-public address, so none is followed
+  const response = await $fetch.raw<string>(body.url, { redirect: 'manual' })
+
+  if (response.status >= 300)
+    throw createAppError({
+      status: 400,
+      statusText: 'The URL must not redirect.',
+    })
+
+  const html = response._data ?? ''
   const htmlText = htmlToText(html)
 
   const completion = await openAiClient.chat.completions.parse({
