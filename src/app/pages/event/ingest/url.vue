@@ -34,6 +34,7 @@ definePageMeta({
 })
 
 const { t } = useI18n()
+const { $csrfFetch } = useNuxtApp()
 
 const enteredURL = ref<string>()
 const isUploading = ref(false)
@@ -44,7 +45,7 @@ const uploadURL = async () => {
   isUploading.value = true
 
   try {
-    await $fetch('/api/model/event/ingest/url', {
+    await $csrfFetch('/api/model/event/ingest/url', {
       body: { url: enteredURL.value },
       method: 'POST',
     })

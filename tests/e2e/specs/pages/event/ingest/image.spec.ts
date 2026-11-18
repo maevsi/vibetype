@@ -15,9 +15,13 @@ authenticatedTest.describe('poster reading', () => {
     'prefills the event form from a poster',
     async ({ defaultPage }) => {
       const { page } = defaultPage
+      let csrfToken: string | undefined
 
-      await page.route(ROUTE, (route) =>
-        route.fulfill({
+      await page.route(ROUTE, (route) => {
+        // the mock bypasses the server's CSRF check, which rejects requests without this header
+        csrfToken = route.request().headers()['x-csrf-token']
+
+        return route.fulfill({
           json: {
             output: {
               description: 'Desc',
@@ -27,8 +31,8 @@ authenticatedTest.describe('poster reading', () => {
               start: '2026-12-24T18:00:00',
             },
           },
-        }),
-      )
+        })
+      })
       await defaultPage.goto(PAGE_PATH)
       await page.locator('input[type="file"]:not([capture])').setInputFiles({
         buffer: IMAGE_PNG,
@@ -39,6 +43,7 @@ authenticatedTest.describe('poster reading', () => {
 
       await expect(page).toHaveURL(/\/event\/create$/)
       await expect(page.locator('#input-name')).toHaveValue('Test')
+      expect(csrfToken).toBeTruthy()
     },
   )
 
