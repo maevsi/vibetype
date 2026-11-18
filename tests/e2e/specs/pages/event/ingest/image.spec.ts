@@ -69,4 +69,48 @@ authenticatedTest.describe('poster reading', () => {
       await expect(page).toHaveURL(new RegExp(`${PAGE_PATH}$`))
     },
   )
+
+  authenticatedTest(
+    'reads posters handed over by the iOS app',
+    async ({ defaultPage }) => {
+      const { page } = defaultPage
+      const base64Images: string[] = []
+
+      // stands in for the app, which answers the scan and the shared poster request with the image as a data url
+      await page.addInitScript(`
+        const answerWith = (eventName) => ({
+          postMessage: () =>
+            window.dispatchEvent(new CustomEvent(eventName, { detail: ${JSON.stringify(`data:image/png;base64,${IMAGE_PNG.toString('base64')}`)} })),
+        })
+
+        window.webkit = {
+          messageHandlers: {
+            'poster-scan': answerWith('poster-scan-result'),
+            'poster-shared-request': answerWith('poster-shared'),
+          },
+        }
+      `)
+      await page.route(ROUTE, (route) => {
+        base64Images.push(route.request().postDataJSON().base64Image)
+
+        return route.fulfill({
+          json: { output: { description: '', is_event: false } },
+        })
+      })
+      await defaultPage.goto(PAGE_PATH)
+
+      // the shared poster arrives on its own once the page is mounted
+      await page.getByRole('button', { name: 'Read poster' }).click()
+      await expect(page.getByText('No event found on this photo')).toBeVisible()
+
+      await page.getByRole('button', { name: 'Take photo' }).click()
+      await page.getByRole('button', { name: 'Read poster' }).click()
+      await expect.poll(() => base64Images.length).toBe(2)
+
+      expect(base64Images).toEqual([
+        IMAGE_PNG.toString('base64'),
+        IMAGE_PNG.toString('base64'),
+      ])
+    },
+  )
 })
