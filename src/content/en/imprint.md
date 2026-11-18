@@ -22,7 +22,7 @@ Contact form: https://vibetype.app/support/contact
 
 **Legally Authorized Representatives**
 <br />
-Jonas Thelemann, Tony Krieger, Alexander Gensicke
+Jonas Thelemann, Tony Krieger
 <br />
 (Managing Directors)
 
