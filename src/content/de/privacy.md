@@ -38,6 +38,9 @@
 
         E-Mail: contact+privacy-policy@maev.si
 
+        Wir haben keinen Datenschutzbeauftragten benannt, da wir dazu gesetzlich nicht verpflichtet sind.
+        Bitte nutze für alle Datenschutzanliegen die oben genannte Adresse.
+
     1. **So werden Daten auf dieser Website grundsätzlich verarbeitet**
 
         Wie wir bereits festgestellt haben, gibt es Daten (z. B. IP-Adresse), die automatisch erhoben werden. Diese Daten werden überwiegend für die technische Bereitstellung der Homepage benötigt. Soweit wir darüber hinaus personenbezogene Daten verwenden oder andere Daten erheben, klären wir Dich darüber auf bzw. fragen nach einer Einwilligung.
@@ -72,7 +75,7 @@
 
         Das externe Hosting erfolgt zum Zwecke einer sicheren, schnellen und zuverlässigen Bereitstellung unserer Website und dient in diesem Zusammenhang der Vertragserfüllung gegenüber unseren potenziellen und bestehenden Kund\*innen.
 
-        Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a, b und f DSGVO sowie § 25 Abs. 1 TDDDG, soweit eine Einwilligung die Speicherung von Cookies oder den Zugriff auf Informationen im Endgerät des Website-Besuchers oder Users im Sinne des TDDDG umfasst.
+        Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. b und f DSGVO.
 
         Unser Hoster verarbeitet nur solche Daten, die zur Erfüllung seiner Leistungspflicht erforderlich sind und agiert als unser Auftragsverarbeiter, das heißt, er unterliegt unseren Weisungen. Wir haben einen entsprechenden Vertrag über die Auftragsverarbeitung mit unserem Hoster geschlossen.
 
@@ -91,6 +94,11 @@
         E-Mail: info@hetzner.com
 
         https://www.hetzner.com/de/rechtliches/datenschutz.
+
+        <!-- TODO: confirm the Hetzner data center location. -->
+
+        Der Produktivdienst ist nur über einen Cloudflare Tunnel erreichbar.
+        Alle Anfragen daran laufen daher über das Netzwerk von Cloudflare, das als unser Auftragsverarbeiter agiert (siehe „Cloudflare Netzwerk und DNS“ unten).
 
     1. **Rechtsgrundlagen**
 
@@ -145,7 +153,9 @@
 
         Soweit die Server-Log-Dateien die Identifizierung der betroffenen Person ermöglichen, werden die Daten maximal für einen Zeitraum von 14 Tagen gespeichert. Eine Ausnahme besteht dann, wenn ein sicherheitsrelevantes Ereignis auftritt. In diesem Fall werden die Server-Log-Dateien bis zur Beseitigung und abschließenden Aufklärung des sicherheitsrelevanten Ereignisses gespeichert.
 
-        Im Übrigen findet eine Zusammenführung mit anderen Daten findet nicht statt.
+        Im Übrigen findet eine Zusammenführung mit anderen Daten nicht statt.
+
+        <!-- TODO: confirm the 14-day retention, the stack only rotates container logs by size (three files of 20 MB per service), and confirm the retention of reverse proxy and Cloudflare logs. -->
 
     1. **Cookies**
 
@@ -172,37 +182,98 @@
 
             Wir müssen Dich allerdings darauf hinweisen, dass eine umfassende Blockierung/Löschung von Cookies zu Beeinträchtigungen bei der Nutzung der Website führen kann.
 
-        1. **Technisch notwendige Cookies**
+        1. **Technisch notwendige Cookies und Gerätespeicher**
 
-            Wir setzen auf dieser Website technisch notwendige Cookies ein, damit unsere Website fehlerfrei und gemäß den geltenden Gesetzen funktioniert. Sie helfen dabei, die Website nutzerfreundlich zu gestalten. Einige Funktionen unserer Website können ohne den Einsatz von Cookies nicht dargestellt werden.
+            Wir setzen auf dieser Website technisch notwendige Cookies und ähnlichen Gerätespeicher ein, damit unsere Website fehlerfrei und gemäß den geltenden Gesetzen funktioniert.
+            Sie benötigen keine Einwilligung (§ 25 Abs. 2 Nr. 2 TDDDG).
+            Rechtsgrundlage für die anschließende Verarbeitung ist je nach Einzelfall Art. 6 Abs. 1 lit. b, c und/oder f DSGVO.
 
-            Rechtsgrundlage hierfür ist je nach Einzelfall Art. 6 Abs. 1 lit. b, c und/oder f DSGVO.
+            Wir verwenden Folgendes:
+
+            - `__Host-jwt-v3`: speichert Deine Anmeldesitzung
+            - `ncc_c` und `ncc_e`: speichern die Einstellungen aus dem Cookie-Dialog
+            - `i18n_redirected`: speichert die Anzeigesprache
+            - `__Host-csrf`: schützt vor Cross-Site-Request-Forgery
+            - `m_tz`: speichert die Zeitzone Deines Geräts
+            - `vibetype_lockdown-mode-dismissed`: speichert, dass Du den Hinweis zum Blockierungsmodus geschlossen hast
+            - `cf_clearance` (Drittanbieter Cloudflare): speichert eine erfolgreiche Sicherheitsüberprüfung des Zugriffs
+            - GraphQL-Cache in der IndexedDB Deines Browsers: enthält Deine Daten für die Offline-Nutzung und wird bei der Abmeldung gelöscht
+            - Cache des Service Workers: enthält App-Dateien für die Offline-Nutzung und schnelles Laden
+            - Firebase-Messaging-Token: wird erst gespeichert, nachdem Du Push-Benachrichtigungen aktivierst
 
         1. **Technisch nicht notwendige Cookies**
 
-            Außerdem verwenden wir auf unserer Website auch solche Cookies, die technisch nicht notwendig sind. Diese Cookies dienen unter anderem dazu, das Surfverhalten des Website-Besuchers zu analysieren oder Funktionen der Website anzubieten, die jedoch technisch nicht zwingend notwendig sind.
+            Außerdem verwenden wir auf unserer Website Speicher und externe Inhalte, die technisch nicht notwendig sind.
+            Sie dienen unter anderem dazu, das Surfverhalten der Website-Besucher\*innen zu analysieren, externe Inhalte anzuzeigen oder Funktionen der Website anzubieten, die jedoch technisch nicht zwingend notwendig sind.
 
-            Rechtsgrundlage hierfür ist Deine Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO.
+            Rechtsgrundlage hierfür ist Deine Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG.
+            Jede der folgenden Kategorien wird getrennt eingeschaltet, und vor Deiner Einwilligung wird nichts davon geladen oder gespeichert:
 
-            Technisch nicht notwendige Cookies werden nur mit Deiner Einwilligung gesetzt, die Du jederzeit im Cookie-Consent-Tool widerrufen kannst.
+            - Analyse: Google Analytics (`_ga` und `_ga_*`)
+            - Feature-Flags: `vibetype_feature-flags` speichert die von Dir aktivierten experimentellen Funktionen
+            - Externe Inhalte: Kartenkacheln von OpenStreetMap, die Adresssuche von Nominatim und Profilbilder von Gravatar
+            - Sitzungsaufzeichnung und Profiling: Aufzeichnungen von Sitzungen mit Fehlern und Leistungsprofile durch Sentry
+
+        1. **Cookie-Einstellungen ändern**
+
+            Du kannst Deine Einwilligung jederzeit mit Wirkung für die Zukunft ändern oder widerrufen, über den Link „Cookie-Einstellungen“ in der Fußzeile oder unter Einstellungen, Cookies.
+            Der Widerruf berührt die Rechtmäßigkeit der bis dahin erfolgten Verarbeitung nicht.
+            In der iOS-App folgen die optionalen Kategorien Deiner Auswahl in der Abfrage zur App-Tracking-Transparenz.
 
     1. **Datenverarbeitung durch Nutzereingabe**
 
-        1. **Eigene Datenerhebung**
+        1. **Kontoregistrierung und Nutzung**
 
-            Wir bieten folgende (Dienst-)Leistung auf unserer Website an: Personalisierte Veranstaltungsempfehlungen und Early Bird-Programm.
+            Um die Plattform zu nutzen, legst Du ein Konto an.
+            Dazu verarbeiten wir folgende Daten:
 
-            Dazu erheben wir folgende Daten:
-
-            - **Personalisierte Veranstaltungsempfehlungen**
-              - E-Mail-Adresse
-              - Alter
-              - Präferenzen: Veranstaltungsgröße, <span style="white-space: nowrap;">-format</span>, <span style="white-space: nowrap;">-kategorie</span> und <span style="white-space: nowrap;">-gegend</span>
-            - **Early-Bird-Programm**
-              - E-Mail-Adresse
-              - Name
+            - E-Mail-Adresse
+            - Benutzername
+            - Passwort (nur als Hash gespeichert)
+            - Geburtsdatum: Du musst mindestens 18 Jahre alt sein, und Dein Alter dient dazu, Dir nur altersgerechte Veranstaltungen anzuzeigen
+            - Annahme der Rechtstexte mit dem Zeitpunkt der Annahme
+            - Sprache und Zeitzone
+            - von Dir erstellte Inhalte, etwa Veranstaltungen, Adressen, Uploads (zum Beispiel ein Profilbild), Kontakte, Favoriten und Präferenzen
+            - Anmeldesitzung (ein Token mit einem Tag Gültigkeit) und den Zeitpunkt Deiner letzten Aktivität
 
             Rechtsgrundlage für diese Datenverarbeitung ist Art. 6 Abs. 1 lit. b DSGVO.
+            Den Nachweis Deiner Annahme der Rechtstexte bewahren wir auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO auf, da wir ein berechtigtes Interesse am Nachweis des Vertrags haben.
+
+            Die Bereitstellung dieser Daten ist für das Anlegen eines Kontos erforderlich, da wir Dir den Vertrag ohne sie nicht anbieten können.
+            Empfänger sind unser Hoster und der unten beschriebene E-Mail-Dienst.
+
+            Die Daten werden gespeichert, bis Du Dein Konto löschst (siehe „Konto löschen“ am Ende dieser Datenschutzerklärung).
+            Mit der Löschung werden Deine Kontodaten und die von Dir erstellten Inhalte entfernt.
+            Sie ist gesperrt, solange Du noch Veranstaltungen besitzt.
+
+            <!-- TODO: confirm how long audit log entries and database backups keep data after an account was deleted. -->
+
+        1. **Veranstaltungsempfehlungen**
+
+            Wir zeigen Dir personalisierte Veranstaltungsempfehlungen.
+            Dazu verarbeiten wir Deine Favoriten und Deine Präferenzen: Veranstaltungsgröße, -format, -kategorie und -gegend.
+            Für jede Kombination aus Konto und Veranstaltung werden Scores gespeichert.
+
+            Rechtsgrundlage für diese Datenverarbeitung ist Art. 6 Abs. 1 lit. b DSGVO.
+            Die Bereitstellung dieser Daten ist nicht erforderlich, die Empfehlungen sind dann aber nicht personalisiert.
+
+            Dies ist Profiling im Sinne der DSGVO: Ein Algorithmus sortiert Veranstaltungen nach ihrer geschätzten Relevanz für Dich.
+            Die Reihenfolge ändert nur, was zuerst angezeigt wird, und schränkt den Zugang zu keiner Veranstaltung ein, sodass sie Dir gegenüber weder rechtliche Wirkung entfaltet noch Dich in ähnlicher Weise erheblich beeinträchtigt.
+            Der Empfehlungsdienst wird von uns auf eigenen Servern betrieben, daher werden dafür keine Daten an Dritte gesendet.
+
+            Die Daten werden gelöscht, wenn Du Dein Konto oder die zugrunde liegenden Präferenzen löschst.
+
+            <!-- TODO: confirm the retention of scores and event vectors. -->
+
+        1. **Early-Bird-Programm**
+
+            Angemeldete Nutzer\*innen können sich für das Early-Bird-Programm bewerben.
+            Dazu verarbeiten wir Deinen Namen und Deine E-Mail-Adresse.
+            Es ist kein Newsletter, und wir versenden darüber keine Werbe-E-Mails.
+
+            Rechtsgrundlage für diese Datenverarbeitung ist Art. 6 Abs. 1 lit. b DSGVO, da die Daten für das Programm benötigt werden, für das Du Dich bewirbst.
+            Die Bereitstellung dieser Daten ist nicht erforderlich.
+            Die Bewerbung erstellt ein Ticket in unserem Ticketsystem, das wir selbst betreiben (siehe „Kontaktaufnahme“ unten).
 
             Die Daten werden gelöscht, sobald der jeweilige Zweck entfällt und es gemäß den gesetzlichen Vorgaben möglich ist.
 
@@ -225,6 +296,10 @@
 
             Die Daten werden gelöscht, sobald die registrierte Person den Kontakt entfernt, spätestens jedoch, wenn das Nutzerkonto der registrierten Person gemäß § 11 der Nutzungsbedingungen gelöscht wird.
 
+            Die Einladung wird über den unten beschriebenen Mailingdienst per E-Mail versendet.
+            Hat der Kontakt eine E-Mail-Adresse, wird ein Profilbild nur dann bei Gravatar angefragt, wenn die betrachtende Person in externe Inhalte eingewilligt hat (siehe „Gravatar“ unten).
+            Die Bereitstellung dieser Daten ist für Dich nicht erforderlich.
+
             1. **Hinweis für Personen, die nicht registrierte Nutzer\*innen sind**
 
                 Wenn eine registrierte Person Deine Kontaktdaten bei uns gespeichert hat, zum Beispiel um Dich zu einer Veranstaltung einzuladen, gilt dieser Abschnitt für Dich, auch wenn Du die Plattform selbst nie nutzt.
@@ -244,36 +319,29 @@
 
             <li>
 
-            **Kontaktformular**
+                        **Kontakt-, Support-, Ideen-, Problem- und Meldeformulare**
 
-            Wir bieten ein Kontaktformular an. Dieses dient der Kontaktaufnahme zu unserem Unternehmen.
+            Wir bieten Formulare an, um uns zu kontaktieren, Support anzufragen, Ideen vorzuschlagen, Probleme zu melden und Inhalte zu melden.
 
-            In diesem Formular verarbeiten wir in der Regel
+            In diesen Formularen verarbeiten wir in der Regel
 
-            - Deinen Vor- und Nachnamen,
+            - Deinen Namen,
             - Deine E-Mail-Adresse,
-            - Deine Telefonnummer,
-            - sowie den Inhalt der Nachricht.
+            - den Inhalt der Nachricht,
+            - bei Meldungen den von Dir genannten Grund und das gemeldete Konto, die gemeldete Veranstaltung oder den gemeldeten Upload.
 
-            Die Daten werden auf unserem Webserver gespeichert und an die jeweils zuständigen E-Mail-Adressen intern weitergeleitet.
+            Jede Übermittlung erstellt ein Ticket in unserem Ticketsystem Zammad.
+            Wir betreiben Zammad selbst auf eigenen Servern, daher erhält kein externer Anbieter die Daten.
+            Die Formulare sind durch Cloudflare Turnstile geschützt (siehe unten).
 
-            Die Rechtsgrundlage für die Datenverarbeitung ist Art. 6 Abs. 1 lit. f DSGVO, da wir ein berechtigtes Interesse an der Beantwortung Deines Anliegens und an einer unkomplizierten Kontaktaufnahme-Möglichkeit haben. Zielt die Kontaktaufnahme auf den Abschluss eines Vertrages ab, so ist zusätzliche Rechtsgrundlage für die Verarbeitung Art. 6 Abs. 1 lit. b DSGVO.
+            Die Rechtsgrundlage für die Datenverarbeitung ist Art. 6 Abs. 1 lit. f DSGVO, da wir ein berechtigtes Interesse an der Beantwortung Deines Anliegens, an einer unkomplizierten Kontaktaufnahme und an der Durchsetzung unserer Bedingungen haben.
+            Zielt der Kontakt auf den Abschluss eines Vertrags ab, ist zusätzliche Rechtsgrundlage für die Verarbeitung Art. 6 Abs. 1 lit. b DSGVO.
+            Die Bereitstellung der Daten ist nicht erforderlich, ohne E-Mail-Adresse können wir aber nicht antworten.
 
             Wir löschen diese Daten spätestens 3 Monate nach Erhalt, es sei denn, sie werden für eine entstandene Vertragsbeziehung benötigt.
 
-            Wir nutzen Zammad
-
-            <address>
-              Zammad Foundation
-              <br />
-              Marienstraße 18
-              <br />
-              10117 Berlin
-              <br />
-              Deutschland
-            </address>
-
-            als unser Ticketsystem zur Bearbeitung von Kontaktanfragen. Weitere Details: https://zammad.com/de/unternehmen/datenschutz.</li>
+            <!-- TODO: confirm the three-month retention for tickets in Zammad. -->
+            </li>
             </ol>
 
         1. **Fragebögen/Formulare**
@@ -284,11 +352,9 @@
             **Eigenentwicklung**
 
             Wir integrieren selbst entwickelte Formulare auf unserer Website.
-
             Die eingegebenen Daten werden auf unseren Servern gespeichert.
 
-            Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG. Die Einwilligung ist jederzeit widerrufbar. Die Rechtmäßigkeit der bereits erfolgten Verarbeitungen bleibt von einem ggf. erfolgten Widerruf unberührt.
-
+            Die Rechtsgrundlage für die Verarbeitung ist beim jeweiligen Formular angegeben, zum Beispiel oben unter „Kontaktaufnahme“.
             Die gespeicherten Daten können jederzeit per E-Mail zur Verfügung gestellt werden oder es kann eine Aufforderung zur Löschung der Daten abgegeben werden.</li>
             </ol>
 
@@ -296,29 +362,37 @@
 
         1. **Amazon SES**
 
-            Wir verwenden Amazon Simple Email Service (SES) als Mailingdienst. Dieser Dienst wird angeboten von:
+            Wir nutzen Amazon Simple Email Service (SES), um Transaktions-E-Mails zu versenden: die Bestätigung Deiner Registrierung, das Zurücksetzen Deines Passworts und Einladungen zu Veranstaltungen.
+            Wir nutzen ihn nicht für Werbe-E-Mails oder Newsletter.
+            Der Dienst wird angeboten von der:
 
             <address>
-              Amazon Web Services, Inc.
+              Amazon Web Services EMEA SARL
               <br />
-              410 Terry Avenue North
+              38 Avenue John F. Kennedy
               <br />
-              Seattle, WA 98109
+              1855 Luxemburg
               <br />
-              United States
+              Luxemburg
             </address>
 
-            Amazon SES ist ein cloudbasierter E-Mail-Dienst, der sich in jede Anwendung zur Automatisierung großer E-Mail-Volumen integrieren lässt. Mit Amazon SES können Unternehmen eine Vielzahl von E-Mails versenden, darunter Transaktions-E-Mails, Marketing-E-Mails und Newsletter-E-Mails.
+            Die Amazon Web Services EMEA SARL ist eine Tochtergesellschaft der Amazon Web Services, Inc., Seattle, USA.
+            Standardmäßig versenden wir über die Region EU (Frankfurt).
 
-            Die Verarbeitung beruht auf einer Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO, soweit wir den Mailingdienst zur Kontaktaufnahme mit unseren Leads einsetzen. Die Einwilligung ist jederzeit widerrufbar.
+            Wir verarbeiten Deine E-Mail-Adresse, Deinen Namen und den Inhalt der Nachricht.
+            Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO für Registrierung und Passwort-Zurücksetzung, da die E-Mails der Erfüllung unserer vertraglichen Pflichten dienen.
+            Für Einladungen ist die Rechtsgrundlage Art. 6 Abs. 1 lit. f DSGVO, wie im Abschnitt „Kontakte und Einladungen“ erläutert.
+            Die Bereitstellung der E-Mail-Adresse ist erforderlich, um die Registrierung und das Zurücksetzen des Passworts abzuschließen.
 
-            Bei dem Versand von E-Mails zur konkreten Vertragsanbahnung oder im bestehenden Vertragsverhältnis, ist Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. b DSGVO, da die in Anspruch genommenen Dienste der Kundenverwaltung und der Erfüllung unserer vertragsmäßigen Leistung dienen.
+            Um keine Einladungen mehr zu erhalten, schreibe an contact+unsubscribe@maev.si.
 
-            Die Daten werden bei Vertragsende zwischen uns und Amazon Web Services gelöscht.
+            Versendete E-Mails bewahren wir über technische Logs hinaus nicht auf.
 
             Bei der Datenübertragung in die USA greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
 
-            Weitere Details: https://d1.awsstatic.com/legal/privacypolicy/AWS_Privacy_Notice_German_2023-08-11.pdf.
+            Nähere Details: https://d1.awsstatic.com/legal/privacypolicy/AWS_Privacy_Notice_German_2023-08-11.pdf.
+
+            <!-- TODO: confirm the production SES region, the data processing agreement and the retention at SES. -->
 
     1. **Analyse- und Trackingtools**
 
@@ -344,7 +418,9 @@
 
             Die hier gesammelten Informationen werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert. Am 10. Juli 2023 hat die Europäische Kommission einen Angemessenheitsbeschluss für die USA angenommen. Google LLC ist nach dem EU-US-Privacy Framework zertifiziert. Da die Google Server jedoch weltweit stationiert sind und eine Datenübertragung in Drittländer (z. B. Singapur) nicht ausgeschlossen werden kann, greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
 
-            Durch die Nutzung von Google Analytics greift eine IP-Anonymisierung. Die IP-Adresse des jeweiligen Nutzers wird innerhalb der Mitgliedstaaten der EU (bzw. des Europäischen Wirtschaftsraums) so auf Servern innerhalb der EU gekürzt, dass eine Rückverfolgung zu einer natürlichen Person nicht mehr möglich ist. Darüber hinaus verpflichtet sich Google über die Google Ads-Datenverarbeitungsbedingungen zu einem angemessenen Datenschutz, erstellt eine Auswertung der Websitenutzung und der Websiteaktivität und erbringt die mit der Nutzung verbundenen Dienstleistungen. Die Google Ads-Datenverarbeitungsbedingungen gelten für Unternehmen, die der EU-Datenschutz-Grundverordnung (DSGVO) des Europäischen Wirtschaftsraums (EWR), dem kalifornischen Gesetz zum Schutz der Privatsphäre von Verbrauchern (California Consumer Privacy Act, CCPA) oder ähnlichen Regelungen unterliegen. 
+            Anfragen von Google Analytics laufen über unseren eigenen Server, der IP-Adresse, User-Agent, Sprache, Bildschirmgröße, Zeitzone und Hardwareinformationen entfernt, bevor sie Google erreichen.
+            Google Analytics wird erst nach Deiner Einwilligung und nur in der Produktivumgebung geladen.
+            Zudem verpflichtet sich Google über die Datenverarbeitungsbedingungen für Google Ads zu einem angemessenen Datenschutz, erstellt eine Auswertung der Websitenutzung und der Websiteaktivität und erbringt die mit der Nutzung verbundenen Dienstleistungen.
 
             Durch ein zusätzliches Browser-Plugin kann verhindert werden, dass die gesammelten Informationen (wie z. B. die IP-Adresse) an Google versendet und durch Google genutzt werden. Das Plugin und weitere Informationen dazu findest Du unter https://tools.google.com/dlpage/gaoptout?hl=de.
 
@@ -375,22 +451,34 @@
               <br />
               Hawthorne St
               <br />
-              San Francisco,
-              <br />
-              CA 94107
+              San Francisco, CA 94107
               <br />
               USA
             </address>
 
-            Sentry erhebt und speichert Daten, die aus anonymisierten Nutzungsprofilen erstellt werden, um die technische Stabilität unserer Website durch Überwachung der Systemstabilität und Ermittlung von Codefehlern zu verbessern. Nach Angaben des Dienstes werden die Daten der Nutzer, wie z. B. Angaben zum Gerät oder Fehlerzeitpunkt, anonym erhoben und nicht personenbezogen genutzt sowie anschließend gelöscht.
+            Sentry hilft uns, die technische Stabilität unserer Website durch Überwachung der Systemstabilität und Ermittlung von Codefehlern zu verbessern.
 
-            Sentry kann Cookies setzen, um die Aktivität auf unserer Website zu verfolgen und bestimmte Informationen zu speichern. Diese Cookies helfen uns, den Service zu betreiben, deine Präferenzen zu speichern und unsere Website sicher zu halten.
+            Ohne Deine Einwilligung nutzen wir Sentry zur Fehlererfassung und Leistungsüberwachung.
+            Dazu werden Fehlermeldungen und Stacktraces, die Art von Browser und Gerät, die Seitenadresse, das Release, Leistungsmessungen von Anfragen, Konsolenwarnungen und -fehler sowie der Zustand der Anwendung übermittelt.
+            Bist Du angemeldet, werden Deine Konto-ID und Dein Benutzername angehängt.
+            Cookies, Anfrageinhalte und GraphQL-Variablen werden nicht übermittelt, und auf Deinem Gerät wird nichts gespeichert.
+            Deine IP-Adresse wird mit jeder Anfrage technisch übermittelt.
+            Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.
+            Wir haben ein berechtigtes Interesse an der technischen Stabilität und Sicherheit unserer Website, die wir ohne Kenntnis von Fehlern nicht gewährleisten können.
+            Du kannst dieser Verarbeitung jederzeit widersprechen.
 
-            Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG, soweit diese Einwilligung den Zugriff auf Informationen im Endgerät des/der Nutzer\*in oder die Speicherung von Cookies im Sinne des TDDDG umfasst.
+            Nur mit Deiner Einwilligung in der Kategorie „Sitzungsaufzeichnung und Profiling“ nutzen wir zusätzlich die Sitzungsaufzeichnung und das Browser-Profiling von Sentry.
+            Tritt dann ein Fehler auf, wird die Sitzung aufgezeichnet, wobei Texte und Eingaben standardmäßig maskiert sind, und 10 % der Sitzungen werden profiliert.
+            Sitzungen ohne Fehler werden nicht aufgezeichnet.
+            Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG.
 
-            Im Übrigen ist die Rechtsgrundlage für die Verarbeitung Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der anonymisierten Analyse zur Sicherstellung der technischen Stabilität unseres Internetauftritts.
+            Die Daten werden in der EU (Frankfurt) gespeichert.
+            Da Sentry ein Unternehmen der USA ist, kann ein Zugriff von dort nicht ausgeschlossen werden.
+            Die Functional Software, Inc. ist nach dem EU-US Data Privacy Framework zertifiziert, zusätzlich greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
 
-            Weitere Informationen: https://sentry.io/privacy/.
+            <!-- TODO: confirm the Sentry organization region, the data processing agreement and the retention period. -->
+
+            Nähere Informationen: https://sentry.io/privacy/.
 
         1. **Cloudflare Web Analytics**
 
@@ -411,6 +499,8 @@
             Es werden keine clientseitigen Informationen, die etwa mithilfe von Cookies oder `localStorage` erfasst werden, durch Cloudflare verwendet. Cloudflare Web Analytics setzt keine Cookies, sammelt keine personenbezogenen Informationen und verfolgt die Besucher nicht über verschiedene Websites hinweg. Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der anonymisierten Analyse zur Sicherstellung der technischen Stabilität unseres Internetauftritts. Sollte es zu einer Datenübertragung in die USA kommen, greifen die Standardvertragsklauseln (SCC) der EU-Kommission, um ein geeignetes Datenschutzniveau zu gewährleisten. 
 
             Weitere Informationen: https://www.cloudflare.com/de-de/trust-hub/gdpr/.
+
+        <!-- TODO: confirm whether Cloudflare Web Analytics is enabled, as the content security policy allows its script but our code does not load it. -->
 
         1. **Google Search Console**
 
@@ -439,6 +529,8 @@
             Die Daten werden so lange gespeichert, wie sie für den jeweiligen Verarbeitungszweck notwendig sind oder bis der/die Nutzer\*in eine Löschung beantragt.
 
             Weitere Informationen zur Datenverarbeitung finden sich unter: https://policies.google.com/privacy.
+
+        <!-- TODO: confirm that Google Search Console is used, as nothing in the code refers to it. -->
 
     1. **Social Media Profile**
 
@@ -752,42 +844,6 @@
 
             Weitere Informationen zur Verarbeitung der Daten durch TikTok finden sich hier: https://www.tiktok.com/legal/page/eea/privacy-policy/de.
 
-    1. **Google Unternehmensprofil**
-
-        Wir verfügen über ein sogenanntes Google Unternehmensprofil. Dabei greifen wir auf den von Google angebotenen Informationsdienst und die Dienste der
-
-        <address>
-          Google Ireland Limited
-          <br />
-          Gordon House
-          <br />
-          Barrow Street
-          <br />
-          Dublin 4
-          <br />
-          Ireland
-        </address>
-
-        („Google“) zurück.
-
-        1. **Datenverarbeitung durch Google**
-
-            Die Google-Seite und ihre Funktionen werden in eigener Verantwortung genutzt. Dies gilt insbesondere für die Nutzung der sozialen und interaktiven Funktionen (z. B. Kommentieren, Teilen, Bewerten, Direktnachrichten). Beim Besuch und der Interaktion mit unserem Google Unternehmensprofil Eintrag erfasst Google auch deine IP-Adresse sowie weitere Informationen, die in Form von sog. Cookies auf dem Endgerät vorhanden sind. Gegebenenfalls ist Google damit eine Zuordnung von IP-Adressen zu einzelnen Nutzern oder Nutzerkonten möglich. Diese Informationen werden verwendet, um uns als Betreiber des Google Unternehmensprofil Eintrags statistische Informationen über die Inanspruchnahme der Google-Dienste zur Verfügung zu stellen. Die in diesem Zusammenhang erhobenen Daten werden von Google verarbeitet und dabei gegebenenfalls in Länder außerhalb der Europäischen Union übertragen. Welche Informationen Google erhält und wie diese verwendet werden, beschreibt Google allgemein in der Datenschutzerklärung.
-
-            Solltest Du uns über unseren Google Unternehmensprofil Eintrag oder andere Google-Dienste per Direktnachricht kontaktieren, können wir nicht ausschließen, dass diese Nachrichten auch von Google (sowohl von Mitarbeiterinnen und Mitarbeitern als auch automatisiert) mitgelesen und ausgewertet werden können. Wir raten daher davon ab, uns dort personenbezogene Daten mitzuteilen. Stattdessen sollte so früh wie möglich eine andere Form der Kommunikation gewählt werden.
-
-            Die Nutzung dieses Dienstes unterliegt der Google Datenschutzerklärung, der Du – mit Nutzung – bereits zugestimmt hast.
-
-            Nähere Informationen finden sich in der Datenschutzerklärung unter folgendem Link: https://policies.google.com/privacy?hl=de.
-
-        1. **Datenverarbeitung durch uns**
-
-            Wir als Anbieter unseres Google Unternehmensprofil Eintrags erheben und verarbeiten keine weiteren Daten aus der Nutzung dieses Google-Angebotes.
-
-            Wenn Du mit uns in Kontakt trittst, oder eine Bewertung über uns veröffentlichst, verarbeiten wir deine veröffentlichten Profildaten sowie den Inhalt der Bewertung/des Kommentars.
-
-            Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der Darstellung unseres Unternehmens und der Ermöglichung der Bewertung unserer Leistungen, um unser Unternehmen und unsere Leistungen zu präsentieren und nach außen gut zu präsentieren.
-
     1. **Drittinhalte**
 
         1. **Google Fonts**
@@ -796,7 +852,8 @@
 
         1. **OpenStreetMap**
 
-            Wir nutzen auf dieser Website OpenStreetMap. OpenStreetMap ist ein Plugin, welches die Einbindung von Kartenmaterial auf dieser Website ermöglicht. Dieser Dienst wird angeboten von der:
+            Wir nutzen OpenStreetMap auf dieser Website, um Karten anzuzeigen und beim Erstellen einer Veranstaltung Adressen zu suchen.
+            Dieser Dienst wird angeboten von der:
 
             <address>
               OpenStreetMap Foundation
@@ -807,20 +864,29 @@
               <br />
               Cambridge, CB4 0WS
               <br />
-              Großbritannien
+              Vereinigtes Königreich
             </address>
 
-            Dabei handelt es sich um ein kollaboratives Projekt, das darauf abzielt, frei nutzbare geografische Daten wie Straßenkarten zu erstellen und anzubieten. Da es sich um ein Open-Source-Projekt handelt, werden die Daten von einer Community von Kartographen aus der ganzen Welt beigetragen und aktualisiert. Diese Daten können für verschiedene Zwecke verwendet werden, von der Anzeige von Karten auf Websites bis hin zur Nutzung in GIS-Anwendungen, mobilen Apps und mehr.
+            Wird eine Karte angezeigt, lädt Dein Browser Kartenkacheln von den Servern der OpenStreetMap Foundation.
+            Suchst Du eine Adresse, wird Dein Suchtext an den Geocoding-Dienst Nominatim der OpenStreetMap Foundation gesendet.
+            In beiden Fällen wird Deine IP-Adresse übermittelt.
+            Es werden keine Tracking-Cookies verwendet.
 
-            Bei der Nutzung der Karten wird eine Verbindung zu den Servern der OpenStreetMap Foundation hergestellt. Dabei sind keine Cookies beteiligt, die für das Tracking der Website-Besucher verwendet werden, sondern allenfalls solche, die auf die Funktionalität der Website beschränkt sind.
+            Die Karten und die Adresssuche werden erst nach Deiner Einwilligung in der Kategorie „Externe Inhalte“ geladen.
+            Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG.
+            Ohne Einwilligung stehen die Karten und die Adresssuche nicht zur Verfügung.
 
-            Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse daran, Standorte zu zeigen oder geografische Informationen bereitzustellen.
+            Die Daten werden in das Vereinigte Königreich übermittelt, für das ein Angemessenheitsbeschluss der EU-Kommission besteht.
+
+            <!-- TODO: confirm that the adequacy decision for the United Kingdom is still in force. -->
 
             Nähere Informationen: https://wiki.osmfoundation.org/wiki/Privacy_Policy.
 
-        1. **Cloudflare DNS**
+        1. **Cloudflare Netzwerk und DNS**
 
-            Wir verwenden den Dienst Cloudflare DNS. Dieser Dienst wird angeboten von der:
+            Wir nutzen das Netzwerk und den DNS-Dienst von Cloudflare.
+            Unser Produktivdienst ist nur über einen Cloudflare Tunnel erreichbar, sodass alle Anfragen das Netzwerk von Cloudflare passieren, das sie an unsere Server weiterleitet.
+            Dieser Dienst wird angeboten von der:
 
             <address>
               Cloudflare Germany GmbH
@@ -830,19 +896,29 @@
               c/o Mindspace
               <br />
               80331 München
+              <br />
+              Deutschland
             </address>
 
-            Cloudflare DNS bietet Schutz vor DDoS-Angriffen und Bot-Attacken und hilft bei der Verbesserung der Sicherheit und Leistung von Websites durch globales Caching und eine Reihe von Optimierungsfunktionen. Hierzu erhält Cloudflare Daten zu der abgerufenen Website, dem verwendeten Browsertyp, dem Betriebssystem, der Referrer-URL, der IP-Adresse und dem anfragenden Provider.
+            Die Muttergesellschaft ist die Cloudflare, Inc., San Francisco, USA.
 
-            Um diese Daten zu erheben, holen wir eine Einwilligung ein. Rechtsgrundlage ist dann Art. 6 Abs. 1 lit. a DSGVO. Diese Einwilligung kann jederzeit widerrufen werden.
+            Cloudflare schützt vor DDoS-Angriffen und Bot-Angriffen und trägt zur Verbesserung der Sicherheit und Leistung von Websites bei.
+            Dafür erhält Cloudflare Daten zur aufgerufenen Website, zum verwendeten Browsertyp, zum Betriebssystem, zur Referrer-URL, zur IP-Adresse und zum anfragenden Provider.
 
-            Ansonsten ist Rechtsgrundlage für die Verarbeitung der personenbezogenen Daten Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der Optimierung und Sicherstellung der Inhalte auf unserer Website, um uns so effektiv gegen DDoS-Angriffe und Bot-Attacken zu schützen.
+            Rechtsgrundlage für die Verarbeitung personenbezogener Daten ist Art. 6 Abs. 1 lit. f DSGVO.
+            Wir haben ein berechtigtes Interesse an der sicheren und zuverlässigen Bereitstellung unserer Website und daran, uns wirksam vor DDoS-Angriffen und Bot-Angriffen zu schützen.
+            Cloudflare agiert als unser Auftragsverarbeiter.
 
-            Weitere Informationen: https://www.cloudflare.com/de-de/trust-hub/gdpr/ und https://www.cloudflare.com/de-de/privacypolicy/.
+            Bei der Datenübertragung in die USA ist die Cloudflare, Inc. nach dem EU-US Data Privacy Framework zertifiziert, zusätzlich greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
+
+            <!-- TODO: confirm whether Cloudflare caches content (CDN) or applies a web application firewall, and the retention of Cloudflare logs. -->
+
+            Nähere Informationen: https://www.cloudflare.com/de-de/trust-hub/gdpr/ und https://www.cloudflare.com/de-de/privacypolicy/.
 
         1. **Cloudflare Turnstile**
 
-            Wir verwenden den Dienst Cloudflare Turnstile. Dieser Dienst wird angeboten von der:
+            Wir nutzen den Dienst Cloudflare Turnstile, um unsere Formulare und die Anmeldung zu schützen.
+            Dieser Dienst wird angeboten von der:
 
             <address>
               Cloudflare Germany GmbH
@@ -852,63 +928,83 @@
               c/o Mindspace
               <br />
               80331 München
+              <br />
+              Deutschland
             </address>
 
-            Cloudflare Turnstile ermöglicht ein CAPTCHA-freies Erlebnis auf der Website. Darüber hinaus verhindert Turnstile missbräuchliche Verwendung und bestätigt, dass die Aufrufe der Website echt sind. Hierbei werden keine Daten für das Retargeting von Werbeanzeigen gesammelt. Bei Apple-Geräten mit neuesten macOS- oder iOS-Versionen wird über Private Access Tokens validiert, ohne persönliche Daten außer User-Agent und Browser-Eigenschaften zu erfassen oder zu speichern, wodurch keine Daten an Cloudflare oder Dritte weitergegeben werden. Bei Nutzern anderer Endgeräte sammelt Cloudflare Turnstile jedoch persönliche Daten wie die IP-Adresse und teilt diese mit dem Anbieter in den USA.
+            Cloudflare Turnstile ermöglicht ein CAPTCHA-freies Erlebnis auf der Website.
+            Zudem verhindert Turnstile Missbrauch und bestätigt, dass Website-Besuche echt sind.
+            Es werden keine Daten für das Retargeting von Werbung erhoben.
+            Bei Apple-Geräten mit aktuellen macOS- oder iOS-Versionen erfolgt die Validierung über Private Access Tokens, ohne dass außer dem User-Agent und den Browsereigenschaften personenbezogene Daten erhoben oder gespeichert werden, sodass keine Daten an Cloudflare oder Dritte weitergegeben werden.
+            Bei Nutzer\*innen anderer Geräte erhebt Cloudflare Turnstile jedoch personenbezogene Daten wie die IP-Adresse und Browsermerkmale und teilt sie mit dem Anbieter in den USA.
+            Eine erfolgreiche Prüfung wird im Cookie `cf_clearance` gespeichert.
 
-            Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG. Die Einwilligung ist jederzeit widerrufbar.
+            Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. f DSGVO und für das Cookie § 25 Abs. 2 Nr. 2 TDDDG.
+            Wir haben ein berechtigtes Interesse daran, unsere Formulare und unsere Nutzer\*innen vor automatisiertem Missbrauch zu schützen.
+            Das Absenden eines geschützten Formulars setzt die Prüfung voraus.
 
-            Bei der Datenübertragung in die USA greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
+            Bei der Datenübertragung in die USA ist die Cloudflare, Inc. nach dem EU-US Data Privacy Framework zertifiziert, zusätzlich greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
 
-            Weitere Details: https://www.cloudflare.com/de-de/trust-hub/gdpr/ und https://www.cloudflare.com/de-de/privacypolicy/.
-
-        1. **Polyfill**
-
-            Wir nutzen die Funktionen von Polyfill, einem Open Source Community Projekt. Wir nutzen die alternative Bereitstellung durch
-
-            <address>
-              Cloudflare Germany GmbH
-              <br />
-              Rosental 7
-              <br />
-              c/o Mindspace
-              <br />
-              80331 München
-            </address>
-
-            seitdem es auf Seiten des ursprünglichen Betreibers zu einem Sicherheitsvorfall kam.
-
-            Der Polyfill Service stellt Code-Snippets, sogenannte "Polyfills", zur Verfügung. Ein Polyfill dient dazu, in älteren Webbrowsern moderne Funktionen, die sie ursprünglich nicht unterstützen, durch alternative Lösungen zu implementieren. Dadurch wird ein einheitliches Erlebnis bei dem Besuch der Website über verschiedene Browser hinweg geboten.
-
-            Wenn unsere Website aufgerufen wird, lädt der Browser alle Polyfills herunter, die erforderlich sind, um die Webseite erfolgreich in dem entsprechenden Browser darzustellen.
-
-            Hierzu werden technische Informationen über den benutzten Browser erfasst. Außerdem werden Verbindungsinformationen erfasst (IP-Adresse) und die URL der Website, welche den Service beansprucht hat. Diese Informationen werden nicht aufbewahrt. Aufbewahrt werden aber eine anonymisierte Version ihrer IP-Adresse, die Domain der Seite, welche den Service angefragt hat, der User-Agent-String des benutzen Browsers, die angefragten Polyfills und die URL/HTTP Methode, welche verwendet wird, um den Service zu beanspruchen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse daran die Seite auch für ältere Webbrowser aufrufbar zu gestalten. Weitere Informationen: https://www.cloudflare.com/de-de/trust-hub/gdpr/ und https://www.cloudflare.com/de-de/privacypolicy/.
+            Nähere Details: https://www.cloudflare.com/de-de/trust-hub/gdpr/ und https://www.cloudflare.com/de-de/privacypolicy/.
 
         1. **Gravatar**
 
-            Wir binden die Funktionen von Gravatar auf unserer Website ein. Dieser Dienst wird angeboten von der:
+            Wir binden auf unserer Website die Funktionen von Gravatar ein, um Profilbilder von Kontakten anzuzeigen.
+            Dieser Dienst wird angeboten von der:
 
             <address>
               Automattic Inc.
               <br />
               60 29th Street #343
               <br />
-              San Francisco
-              <br />
-              CA 94110
+              San Francisco, CA 94110
               <br />
               USA
             </address>
 
-            Gravatar ist ein Dienst, der es Nutzer\*innen ermöglicht, ein einziges Avatar-Bild zu erstellen und dieses mit ihrer E-Mail-Adresse zu verknüpfen. Dieses Avatar-Bild wird dann automatisch neben dem Namen angezeigt, wenn auf Gravatar-fähigen Websites, Foren und Blogs Kommentare gepostet oder Artikel geschrieben werden. Die Hauptfunktionen von Gravatar umfassen die einfache Erstellung und Verwaltung eines universellen Avatars, der auf verschiedenen Webplattformen konsistent verwendet wird, wodurch Nutzer\*innen leichter identifizierbar sind und eine einheitliche Online-Identität über mehrere Seiten hinweg pflegen können.
+            Gravatar ist ein Dienst, mit dem Nutzer\*innen ein einziges Avatarbild erstellen und mit ihrer E-Mail-Adresse verknüpfen können.
+            Dazu werden ein Hash der E-Mail-Adresse des Kontakts und Deine IP-Adresse an die Server von Automattic in den USA übermittelt.
+            Die Anfrage erfolgt nur für Kontakte, die eine E-Mail-Adresse haben.
 
-            Hierzu werden ein Hash der E-Mail-Adresse und die IP-Adresse an die Server von Automattic in den USA übertragen. Gravatar setzt sowohl technisch notwendige Cookies als auch solche zur Analyse, Leistungsmessung und Werbung. Letztere werden nur mit Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO gesetzt. Die Einwilligung ist jederzeit widerrufbar.
-
-            Im Übrigen beruht die Datenverarbeitung auf Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse daran, den Nutzer\*innen die Möglichkeit zu geben, die Funktionen von Gravatar auf unserer Website zu verwenden, um so ein uneingeschränktes Nutzungserlebnis zu gewährleisten.
+            Die Profilbilder werden erst nach Deiner Einwilligung in der Kategorie „Externe Inhalte“ geladen.
+            Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG.
+            Ohne Einwilligung wird ein Platzhalterbild angezeigt.
 
             Bei der Datenübertragung in die USA greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
 
-            Nähere Informationen: https://automattic.com/privacy/ und https://automattic.com/cookies/.
+            <!-- TODO: confirm whether Automattic is certified under the EU-US Data Privacy Framework. -->
+
+            Weitere Informationen: https://automattic.com/privacy/ und https://automattic.com/cookies/.
+
+        1. **Firebase Cloud Messaging**
+
+            Wir nutzen Firebase Cloud Messaging, um Dir Push-Benachrichtigungen zu senden.
+            Dieser Dienst wird angeboten von der:
+
+            <address>
+              Google Ireland Limited
+              <br />
+              Gordon House
+              <br />
+              Barrow Street
+              <br />
+              Dublin 4
+              <br />
+              Irland
+            </address>
+
+            Push-Benachrichtigungen werden nur genutzt, wenn Du Benachrichtigungen in Deinem Browser oder auf Deinem Gerät erlaubst.
+            Dann wird ein Geräte-Token bis zur Löschung Deines Kontos bei Deinem Konto gespeichert, und der Text jeder Benachrichtigung läuft über die Server von Google.
+            Du kannst Deine Einwilligung jederzeit in den Einstellungen Deines Browsers oder Geräts widerrufen.
+
+            Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO.
+            Die Bereitstellung dieser Daten ist nicht erforderlich.
+
+            Bei der Datenübertragung in die USA ist die Google LLC nach dem EU-US Data Privacy Framework zertifiziert, zusätzlich greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
+
+            <!-- TODO: confirm whether device tokens are removed on sign-out or expiry. -->
+
+            Weitere Informationen: https://policies.google.com/privacy?hl=de.
 
         1. **OpenAI API**
 
@@ -928,6 +1024,8 @@
 
             Wir nutzen die OpenAI API für die Plakatjagd: Wenn Du ein Foto eines Veranstaltungsplakats hochlädst, liest ein KI-Modell daraus die Angaben zur Veranstaltung, mit denen wir das Formular zum Erstellen der Veranstaltung vorausfüllen.
             Zuvor prüft OpenAI das Foto auf unzulässige Inhalte.
+            Gibst Du stattdessen eine Webadresse ein, lädt unser Server diese Seite und übermittelt ihren Text auf dieselbe Weise an OpenAI.
+            Die Nutzung dieser Funktionen ist nicht erforderlich.
 
             Das Foto wird von unserem Server an OpenAI übermittelt, nicht von Deinem Gerät.
             OpenAI erhält daher weder Deine IP-Adresse noch setzt OpenAI Cookies auf Deinem Gerät, und wir übermitteln keine Angaben zu Deinem Konto.
@@ -965,6 +1063,11 @@
 
         Nähere Informationen: https://www.cloudflare.com/de-de/developer-platform/products/r2/.
 
+        Die Backups enthalten die Daten der gesamten Datenbank und werden nur begrenzte Zeit aufbewahrt, danach werden sie überschrieben.
+        Daten gelöschter Konten können daher noch kurze Zeit in Backups enthalten sein.
+
+        <!-- TODO: confirm the backup service and region (the stack's backup job uses the AWS command line client with a bucket secret named "jobber-aws-bucket", while this section names Cloudflare R2), the backup rotation and the encryption. -->
+
 1. **Das ist sonst noch wichtig**
 
     Zum Abschluss möchten wir Dich ausführlich und detailliert über Deine Rechte informieren und Dir mitteilen, wie Du über Veränderungen der datenschutzrechtlichen Anforderungen informiert werden wirst.
@@ -999,6 +1102,9 @@
 
             Du hast grundsätzlich das Recht, nicht einer ausschließlich auf einer automatisierten Verarbeitung (einschließlich Profiling) beruhenden Entscheidung unterworfen zu werden, die Dir gegenüber rechtliche Wirkung entfaltet oder Dich in ähnlicher Weise erheblich beeinträchtigt. Auch dieses Recht findet allerdings Einschränkungen und Ergänzungen in Art. 22 Abs. 2 und 4 DSGVO.
 
+            Wir treffen keine Entscheidungen dieser Art.
+            Unsere Veranstaltungsempfehlungen sind Profiling ohne rechtliche oder ähnlich erhebliche Wirkung, wie im Abschnitt „Veranstaltungsempfehlungen“ beschrieben.
+
         1. **Weitere Rechte**
 
             Die DSGVO beinhaltet umfassende Rechte der Unterrichtung von Dritten darüber, ob oder wie Du Rechte nach Art. 16, 17, 18 DSGVO geltend gemacht haben. Dies allerdings nur, insoweit dies auch möglich bzw. mit einem angemessenen Aufwand durchführbar ist.
@@ -1011,6 +1117,28 @@
 
             Du hast auch das Recht, Dich bei einer Datenschutzaufsichtsbehörde zu beschweren, wenn Du der Ansicht bist, dass eine Verarbeitung der Dich betreffenden personenbezogenen Daten gegen diese Verordnung verstößt.
 
+            Die für uns zuständige Aufsichtsbehörde ist:
+
+            <address>
+              Der Hessische Beauftragte für Datenschutz und Informationsfreiheit
+              <br />
+              Gustav-Stresemann-Ring 1
+              <br />
+              65189 Wiesbaden
+              <br />
+              Deutschland
+            </address>
+
+            https://datenschutz.hessen.de
+
 1. **Was ist, wenn morgen die DSGVO abgeschafft wird oder andere Veränderungen stattfinden?**
 
-    Der aktuelle Stand dieser Datenschutzerklärung ist der 31.03.2025. Von Zeit zu Zeit ist es erforderlich, den Inhalt der Datenschutzerklärung anzupassen, um auf tatsächliche und rechtliche Veränderungen zu reagieren. Wir behalten uns daher vor, diese Datenschutzerklärung jederzeit zu ändern. Wir werden die geänderte Version an gleicher Stelle veröffentlichen und empfehlen Dir, die Datenschutzerklärung regelmäßig zu lesen.
+    Der aktuelle Stand dieser Datenschutzerklärung ist der 18.11.2026. Von Zeit zu Zeit ist es erforderlich, den Inhalt der Datenschutzerklärung anzupassen, um auf tatsächliche und rechtliche Veränderungen zu reagieren. Wir behalten uns daher vor, diese Datenschutzerklärung jederzeit zu ändern. Wir werden die geänderte Version an gleicher Stelle veröffentlichen und empfehlen Dir, die Datenschutzerklärung regelmäßig zu lesen.
+
+## Konto löschen
+
+Du kannst Dein Konto jederzeit löschen.
+Öffne in der App Konto, dann Bearbeiten, dann Konto löschen, und bestätige mit Deinem Passwort.
+Alternativ schreibe an contact+privacy-policy@maev.si, wir löschen Dein Konto dann.
+Mit der Löschung werden Deine Kontodaten und die von Dir erstellten Inhalte entfernt, wie im Abschnitt „Kontoregistrierung und Nutzung“ beschrieben.
+Die Löschung ist gesperrt, solange Du noch Veranstaltungen besitzt, lösche diese daher zuerst.
