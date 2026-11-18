@@ -114,11 +114,6 @@ export default defineNuxtConfig({
     '/api/service/firebase/notification': {
       csurf: false, // called by services, authenticated by secret
     },
-    '/sw.js': {
-      // `@vite-pwa/nuxt` 2 sets this too late, so the route rules that `experimental.inlineRouteRules` rebuilds drop it, and without it a CDN keeps serving a previous build's worker whose precache 404s, so the worker never installs
-      // TODO(upstream): remove once https://github.com/vite-pwa/nuxt/pull/241 is released
-      headers: { 'Cache-Control': 'public, max-age=0, must-revalidate' },
-    },
   },
   router: {
     options: {
