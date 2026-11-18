@@ -1,3 +1,9 @@
+## [17.15.2](https://github.com/maevsi/vibetype/compare/17.15.1...17.15.2) (2026-11-18)
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([d87b653](https://github.com/maevsi/vibetype/commit/d87b65376278b27e3d87203989688c92a0a3e738))
+
 ## [17.15.1](https://github.com/maevsi/vibetype/compare/17.15.0...17.15.1) (2026-11-18)
 
 ### Bug Fixes
