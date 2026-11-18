@@ -35,10 +35,14 @@ import { useMutation } from '@urql/vue'
 import { graphql } from '~~/gql/generated'
 
 // validation
+await useSignInRequired()
 const route = useRoute()
 const store = useStore()
 const { createA11yError } = useA11yError()
-if (route.params.username !== store.signedInUsername) {
+if (
+  store.signedInUsername &&
+  route.params.username !== store.signedInUsername
+) {
   throw createA11yError({
     status: 403,
   })

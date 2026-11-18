@@ -3,6 +3,7 @@ export const FEATURE_FLAGS = [
   'category-browse',
   'developer-tools',
   'friends',
+  'invitations',
   'map',
   'notifications',
   'participation',
@@ -127,4 +128,17 @@ export const useFeatureFlags = () => {
     isFeatureEnabled,
     toggleFeature,
   }
+}
+
+/** Answers a page whose feature is unfinished with a 404 in production unless its flag is enabled, as `AppFeature` does for parts of a page. */
+export const useFeatureRequired = (feature: FeatureFlag) => {
+  const { createA11yError } = useA11yError()
+  const { isFeatureEnabled } = useFeatureFlags()
+  const runtimeConfig = useRuntimeConfig()
+
+  if (
+    !isFeatureEnabled(feature).value &&
+    runtimeConfig.public.vio.environment === 'production'
+  )
+    throw createA11yError({ status: 404 })
 }
