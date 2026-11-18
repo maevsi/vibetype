@@ -1,3 +1,9 @@
+## [17.14.2](https://github.com/maevsi/vibetype/compare/17.14.1...17.14.2) (2026-11-18)
+
+### Bug Fixes
+
+* **event:** send ingestion fields as nullable to openai ([#2690](https://github.com/maevsi/vibetype/issues/2690)) ([20c21db](https://github.com/maevsi/vibetype/commit/20c21db5bd5705d1513dc0804b724f7de252f056))
+
 ## [17.14.1](https://github.com/maevsi/vibetype/compare/17.14.0...17.14.1) (2026-11-18)
 
 ### Bug Fixes
