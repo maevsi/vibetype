@@ -1,3 +1,9 @@
+## [17.15.0](https://github.com/maevsi/vibetype/compare/17.14.3...17.15.0) (2026-11-18)
+
+### Features
+
+* **event:** take poster photos from the ios app's document camera and share sheet ([#2692](https://github.com/maevsi/vibetype/issues/2692)) ([3f948d9](https://github.com/maevsi/vibetype/commit/3f948d9aca54740e0063f553332040574f32fb77))
+
 ## [17.14.3](https://github.com/maevsi/vibetype/compare/17.14.2...17.14.3) (2026-11-18)
 
 ### Bug Fixes
