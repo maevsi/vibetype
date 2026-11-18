@@ -1,3 +1,9 @@
+## [17.13.2](https://github.com/maevsi/vibetype/compare/17.13.1...17.13.2) (2026-11-18)
+
+### Bug Fixes
+
+* **navigation:** ask to sign in on owner pages and flag unfinished pages ([#2678](https://github.com/maevsi/vibetype/issues/2678)) ([338f83d](https://github.com/maevsi/vibetype/commit/338f83d515ef7026d2f599707f1e56e0fa751764))
+
 ## [17.13.1](https://github.com/maevsi/vibetype/compare/17.13.0...17.13.1) (2026-11-17)
 
 ### Bug Fixes
