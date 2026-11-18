@@ -7,7 +7,6 @@ export const FEATURE_FLAGS = [
   'map',
   'notifications',
   'participation',
-  'poster-hunt',
   'social-login',
 ] as const
 export type FeatureFlag = (typeof FEATURE_FLAGS)[number]

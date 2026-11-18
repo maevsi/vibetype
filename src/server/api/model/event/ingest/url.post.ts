@@ -14,8 +14,9 @@ const eventSchema = z.object({
   name: z.string().optional(),
   start: z.string().optional(),
 })
-const prompt = `You are a data extraction specialist responsible for identifying and cataloging event information.
-Only accept html. Only if the html contains event information, extract that information into JSON. For dates, use ISO 8601 and the current year (${new Date().getFullYear()}) if no year is given. In all other cases, set all fields to an empty string and \`is_event\` to \`false\`.`
+const getPrompt =
+  () => `You are a data extraction specialist responsible for identifying and cataloging event information.
+Only accept html. Only if the html contains event information, extract that information into JSON. For dates, use ISO 8601 and, if no year is given, the year of the next occurrence on or after today (${new Date().toISOString().slice(0, 10)}). In all other cases, set all fields to an empty string and \`is_event\` to \`false\`.`
 
 // typing the event lets `$fetch` check the request body against the schema // TODO: switch to `defineValidatedHandler` from `nuxt/server` once available (https://github.com/nuxt/nuxt/issues/36475)
 type EventIngestUrlPostEvent = H3Event<{
@@ -31,7 +32,7 @@ export default defineEventHandler(async (event: EventIngestUrlPostEvent) => {
     })
   }
 
-  const { client: openAiClient, getCompletionCost } = useOpenAi()
+  const { client: openAiClient, getCompletionCost, model } = useOpenAi()
   const { getJwtFromCookie, verifyJwt } = await useJsonWebToken()
 
   const jwt = getJwtFromCookie()
@@ -66,7 +67,7 @@ export default defineEventHandler(async (event: EventIngestUrlPostEvent) => {
     messages: [
       {
         role: 'system',
-        content: prompt,
+        content: getPrompt(),
       },
       {
         role: 'user',
@@ -80,7 +81,7 @@ ${htmlText}
         ],
       },
     ],
-    model: 'gpt-4o-mini',
+    model,
     response_format: zodResponseFormat(eventSchema, 'event'),
   })
 

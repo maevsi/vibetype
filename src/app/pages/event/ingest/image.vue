@@ -2,70 +2,60 @@
   <div class="flex flex-1 flex-col">
     <LayoutTopBar>{{ t('title') }}</LayoutTopBar>
     <LayoutPage>
-      <div v-if="!selectedFile" class="flex flex-col gap-4">
-        <button
-          class="rounded-large border-2 border-dashed border-line p-12"
-          type="button"
-          @click="triggerFileInput"
+      <div class="flex flex-col gap-4">
+        <p class="text-body-small text-fg-2">{{ t('description') }}</p>
+        <img
+          v-if="previewUrl"
+          :alt="t('preview')"
+          class="rounded-medium"
+          :src="previewUrl"
+        />
+        <p
+          v-if="isNoEvent"
+          class="rounded-medium bg-surface-raised p-4 text-center text-fg-2"
+          role="status"
         >
-          <span class="flex flex-col items-center gap-4">
-            <svg
-              class="size-12 text-fg-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <rect height="18" rx="2" ry="2" width="18" x="3" y="3" />
-              <circle cx="8.5" cy="8.5" r="1.5" />
-              <path d="M20.4 14.5L16 10 4 20" />
-            </svg>
-            <span class="flex flex-col gap-2">
-              <span class="text-title3">{{ t('uploadFiles') }}</span>
-              <span class="text-body-small text-fg-2">{{
-                t('fileTypes')
-              }}</span>
-            </span>
-          </span>
-        </button>
-        <AppButton
-          :aria-label="t('selectFromDevice')"
-          class="self-end"
-          @click="triggerFileInput"
-        >
-          {{ t('selectFromDevice') }}
-        </AppButton>
-      </div>
-      <div v-else class="flex flex-col gap-4">
-        <img :alt="t('preview')" class="rounded-medium" :src="previewUrl" />
-        <div class="flex items-center justify-between">
-          <div class="flex gap-4">
-            <AppButton
-              :aria-label="t('replaceImage')"
-              variant="secondary"
-              @click="triggerFileInput"
-            >
-              {{ t('replaceImage') }}
-            </AppButton>
-            <AppButton
-              :aria-label="t('clearAll')"
-              variant="secondary"
-              @click="removeFile"
-            >
-              {{ t('clearAll') }}
-            </AppButton>
-          </div>
+          {{ t('noEvent') }}
+        </p>
+        <div class="flex flex-wrap gap-4">
           <AppButton
-            :aria-label="t('uploadImage')"
-            :loading="isUploading"
-            @click="uploadFile"
+            :aria-label="t('takePhoto')"
+            :variant="selectedFile ? 'secondary' : 'primary'"
+            @click="triggerFileInput(templateInputCamera)"
           >
-            {{ t('uploadImage') }}
+            <AppIconImage />
+            {{ t('takePhoto') }}
+          </AppButton>
+          <AppButton
+            :aria-label="t('chooseFromLibrary')"
+            variant="secondary"
+            @click="triggerFileInput(templateInputLibrary)"
+          >
+            <AppIconArrowUpTray />
+            {{ t('chooseFromLibrary') }}
           </AppButton>
         </div>
+        <AppButton
+          v-if="selectedFile"
+          :aria-label="t('readPoster')"
+          class="self-end"
+          :loading="isReading"
+          @click="readPoster"
+        >
+          {{ t('readPoster') }}
+        </AppButton>
       </div>
       <input
-        ref="fileInput"
-        accept="image/png,image/jpeg,image/gif"
+        ref="inputCamera"
+        accept="image/jpeg,image/png"
+        capture="environment"
+        hidden
+        type="file"
+        @change="handleFileSelect"
+      />
+      <input
+        ref="inputLibrary"
+        accept="image/jpeg,image/png"
         hidden
         type="file"
         @change="handleFileSelect"
@@ -75,108 +65,134 @@
 </template>
 
 <script setup lang="ts">
+import { FetchError } from 'ofetch'
+
 const { t } = useI18n()
 const alertError = useAlertError()
-const templateFileInput = useTemplateRef('fileInput')
+const localePath = useLocalePath()
+const templateInputCamera = useTemplateRef('inputCamera')
+const templateInputLibrary = useTemplateRef('inputLibrary')
+
+// validation
+await useSignInRequired()
 
 // page
 useHeadDefault({ title: t('title') })
 
 // data
-const isUploading = ref(false)
+const eventImported = useState<EventImported>(STATE_KEY_EVENT_IMPORTED)
+const isNoEvent = ref(false)
+const isReading = ref(false)
 const previewUrl = ref<string>()
 const selectedFile = ref<File>()
 
 // methods
 const handleFileSelect = (event: Event) => {
-  const input = event.target as HTMLInputElement
-  if (!input.files?.length) return
+  const file = (event.target as HTMLInputElement).files?.[0]
 
-  const file = input.files[0]
   if (!file) return
 
-  if (!['image/png', 'image/jpeg', 'image/gif'].includes(file.type)) {
-    alert('Invalid file type or size')
-    return
-  }
-
   // avoid memory leaks
-  if (previewUrl.value) {
-    URL.revokeObjectURL(previewUrl.value)
-  }
+  if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
 
-  selectedFile.value = file
+  isNoEvent.value = false
   previewUrl.value = URL.createObjectURL(file)
+  selectedFile.value = file
 }
-const removeFile = () => {
-  selectedFile.value = undefined
+const readFileAsBase64 = (file: File) =>
+  new Promise<string>((resolve, reject) => {
+    const reader = new FileReader()
 
-  if (previewUrl.value) {
-    URL.revokeObjectURL(previewUrl.value)
-  }
+    reader.onload = () => {
+      const base64Image = (reader.result as string).split(',')[1]
 
-  if (templateFileInput.value) {
-    templateFileInput.value.value = ''
-  }
-}
-const triggerFileInput = () => {
-  if (!templateFileInput.value) return
-
-  templateFileInput.value.value = ''
-  templateFileInput.value.click()
-}
-const uploadFile = async () => {
+      if (base64Image) resolve(base64Image)
+      else reject(new Error('File could not be read as base64'))
+    }
+    reader.onerror = () => reject(reader.error)
+    reader.readAsDataURL(file)
+  })
+const readPoster = async () => {
   if (!selectedFile.value) return
 
-  const reader = new FileReader()
-  reader.readAsDataURL(selectedFile.value)
-  isUploading.value = true
-  reader.onload = async () => {
-    const base64Image = (reader.result as string).split(',')[1]
+  isReading.value = true
+  isNoEvent.value = false
 
-    try {
-      if (!base64Image) throw new Error('File could not be read as base64')
+  try {
+    const { output } = await $fetch('/api/model/event/ingest/image', {
+      body: { base64Image: await readFileAsBase64(selectedFile.value) },
+      method: 'POST',
+    })
 
-      await $fetch('/api/model/event/ingest/image', {
-        body: { base64Image },
-        method: 'POST',
-      })
-      console.log('Upload success')
-    } catch (error) {
-      alertError({
-        ...(error instanceof Error ? { error } : {}),
-        messageI18n: t('uploadFailed'),
-      })
-    } finally {
-      isUploading.value = false
+    if (!output?.is_event) {
+      isNoEvent.value = true
+      return
     }
+
+    // the model answers without a time zone, which the browser takes as local time
+    const getIsoString = (value?: string) => {
+      const date = value ? new Date(value) : undefined
+
+      return date && !Number.isNaN(date.getTime())
+        ? date.toISOString()
+        : undefined
+    }
+
+    eventImported.value = await getEventImported({
+      description: output.description,
+      end: getIsoString(output.end),
+      isInPerson: !!output.location,
+      locationName: output.location,
+      name: output.name ?? '',
+      start: getIsoString(output.start),
+      url: output.url,
+    })
+    await navigateTo(localePath('event-create'))
+  } catch (error) {
+    const status = error instanceof FetchError ? error.statusCode : undefined
+
+    alertError({
+      ...(error instanceof Error ? { error } : {}),
+      messageI18n:
+        status === 422
+          ? t('errorModerated')
+          : status === 429
+            ? t('errorLimitReached')
+            : t('errorReadFailed'),
+    })
+  } finally {
+    isReading.value = false
   }
-  reader.onerror = () => {
-    console.error('Error reading file')
-    isUploading.value = false
-  }
+}
+const triggerFileInput = (input: HTMLInputElement | null) => {
+  if (!input) return
+
+  input.value = ''
+  input.click()
 }
 </script>
 
 <i18n lang="yaml">
 de:
-  clearAll: Löschen
-  fileTypes: PNG, JPG, GIF bis zu 10 MB
+  chooseFromLibrary: Aus der Mediathek wählen
+  description: Fotografiere ein Veranstaltungsplakat oder wähle ein Foto aus. Aus dem Plakat erstellen wir einen Entwurf, den Du vor dem Speichern prüfen kannst.
+  errorLimitReached: Du hast heute die maximale Anzahl an Plakaten gelesen. Versuche es morgen erneut.
+  errorModerated: Das Foto enthält Inhalte, die nicht verarbeitet werden können.
+  errorReadFailed: Das Plakat konnte nicht gelesen werden.
+  noEvent: Auf diesem Foto wurde keine Veranstaltung gefunden. Probiere ein anderes Foto.
   preview: Vorschau
-  replaceImage: Bild ersetzen
-  selectFromDevice: Vom Gerät auswählen
-  title: Bild laden
-  uploadFailed: Hochladen fehlgeschlagen
-  uploadFiles: Datei hochladen
-  uploadImage: Bild hochladen
+  readPoster: Plakat lesen
+  takePhoto: Foto aufnehmen
+  title: Plakatjagd
 en:
-  clearAll: Clear
-  fileTypes: PNG, JPG, GIF up to 10 MB
+  chooseFromLibrary: Choose from library
+  description: Take a photo of an event poster or choose one. We create a draft from it that you can review before saving.
+  errorLimitReached: You have reached today's maximum number of poster readings. Try again tomorrow.
+  errorModerated: The photo contains content that cannot be processed.
+  errorReadFailed: The poster could not be read.
+  noEvent: No event found on this photo. Try another photo.
   preview: Preview
-  replaceImage: Replace image
-  selectFromDevice: Select from device
-  title: Ingest image
-  uploadFailed: Upload failed
-  uploadFiles: Upload file
-  uploadImage: Upload image
+  readPoster: Read poster
+  takePhoto: Take photo
+  title: Poster hunting
 </i18n>
