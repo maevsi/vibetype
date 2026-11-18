@@ -1,19 +1,9 @@
 import type { H3Event } from 'h3'
-import { zodResponseFormat } from 'openai/helpers/zod'
 import sharp from 'sharp'
 import { z } from 'zod'
 
 const eventIngestImagePostBodySchema = z.object({
   base64Image: z.string().max(14_000_000), // about 10 MB of image data
-})
-const eventSchema = z.object({
-  description: z.string(),
-  end: z.string().optional(),
-  is_event: z.boolean(),
-  location: z.string().optional(),
-  name: z.string().optional(),
-  start: z.string().optional(),
-  url: z.string().optional(),
 })
 const REQUESTS_PER_ACCOUNT_PER_DAY = 10
 // deliberate shortcut: counted in memory, so it resets on restart and is not shared across replicas; the upgrade path is a persistent per-account cost quota
@@ -136,7 +126,7 @@ export default defineEventHandler(async (event: EventIngestImagePostEvent) => {
       },
     ],
     model,
-    response_format: zodResponseFormat(eventSchema, 'event'),
+    response_format: eventIngestResponseFormat,
   })
 
   console.info('Poster reading', {
