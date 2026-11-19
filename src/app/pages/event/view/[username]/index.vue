@@ -1,7 +1,7 @@
 <template>
   <Loader :api>
     <AppError
-      v-if="!account"
+      v-if="!isOwn && !account"
       :error="{ message: 'Account data missing', status: 404 }"
     />
     <div v-else class="flex flex-1 flex-col">
@@ -22,7 +22,9 @@
         </i18n-t>
       </LayoutTopBar>
       <LayoutPage>
+        <EventListMine v-if="isOwn" />
         <EventList
+          v-else
           :events
           :has-next-page="
             api.data.accountByUsername?.eventsByCreatedBy.pageInfo.hasNextPage
@@ -112,7 +114,10 @@ useHeadDefault({
 
 // api data
 const queryAfter = ref<string | null>()
+const store = useStore()
+const isOwn = computed(() => route.params.username === store.signedInUsername)
 const query = useApiQuery({
+  pause: isOwn,
   query: queryEventListAccount,
   variables: computed(() => ({
     after: queryAfter.value,

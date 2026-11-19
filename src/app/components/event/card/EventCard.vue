@@ -131,21 +131,31 @@
         />
       </div>
       <span
-        v-if="!variant && (isDraft || isCreator || isGuest)"
+        v-if="!variant && badgeKind"
         :class="
           cn(
-            'absolute bottom-1.5 left-1/2 -translate-x-1/2 rounded-small px-2 py-0.5 text-caption whitespace-nowrap text-fg-1',
-            isDraft
+            'absolute bottom-1.5 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-small px-2 py-0.5 text-caption whitespace-nowrap text-fg-1',
+            badgeKind === 'draft'
               ? 'bg-warning-tint'
-              : isCreator
-                ? 'bg-info-tint'
-                : 'bg-success-tint',
+              : badgeKind === 'going'
+                ? 'bg-success-tint'
+                : badgeKind === 'saved'
+                  ? 'bg-surface-raised'
+                  : 'bg-info-tint',
           )
         "
       >
-        <template v-if="isDraft">{{ t('isDraft') }}</template>
-        <template v-else-if="isCreator">{{ t('isCreator') }}</template>
-        <template v-else>{{ t('isGuest') }}</template>
+        <AppIconUsers
+          v-if="badgeKind === 'hosting'"
+          aria-hidden="true"
+          class="size-3"
+        />
+        <AppIconHeart
+          v-else-if="badgeKind === 'saved'"
+          aria-hidden="true"
+          class="size-3"
+        />
+        {{ badgeLabel }}
       </span>
     </div>
     <div
@@ -193,6 +203,7 @@ import type { DeepReadonly } from 'vue'
 import { cn } from '@/utils/shadcn'
 
 // compiler
+export type EventCardBadge = 'draft' | 'going' | 'hosting' | 'saved'
 export type EventCardProps = {
   event: DeepReadonly<{
     accountByCreatedBy?: {
@@ -234,10 +245,16 @@ export type EventCardProps = {
     slug: string
     start: string
   }>
+  // replaces the badge derived from the viewer's relation to the event
+  badge?: EventCardBadge
   // TODO: turn javascript usage into attribute based styles
   variant?: 'highlight' | 'recommendation' // alias for 'large'
 }
-const { event, variant = undefined } = defineProps<EventCardProps>()
+const {
+  badge = undefined,
+  event,
+  variant = undefined,
+} = defineProps<EventCardProps>()
 
 // template
 const localePath = useLocalePath()
@@ -273,20 +290,42 @@ const isGuest = computed(() =>
         : undefined
     : undefined,
 )
+const badgeKind = computed<EventCardBadge | undefined>(
+  () =>
+    badge ??
+    (isDraft
+      ? 'draft'
+      : isCreator.value
+        ? 'hosting'
+        : isGuest.value
+          ? 'going'
+          : undefined),
+)
 const { t } = useI18n()
+const badgeLabel = computed(() =>
+  badgeKind.value === 'draft'
+    ? t('draft')
+    : badgeKind.value === 'going'
+      ? t('going')
+      : badgeKind.value === 'hosting'
+        ? t('hosting')
+        : t('saved'),
+)
 </script>
 
 <i18n lang="yaml">
 de:
+  draft: Entwurf
+  going: Dabei
   heroImage: Titelbild der Veranstaltung
-  isCreator: Von dir
-  isDraft: Entwurf
-  isGuest: Dabei
+  hosting: Von dir
   match: Match
+  saved: Gemerkt
 en:
+  draft: Draft
+  going: Going
   heroImage: Title picture of the event
-  isCreator: Hosting
-  isDraft: Draft
-  isGuest: Going
+  hosting: Hosting
   match: Match
+  saved: Saved
 </i18n>
