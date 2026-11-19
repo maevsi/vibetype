@@ -14,15 +14,6 @@
           >
             <div v-if="isOwnProfile" class="absolute top-4 right-4 flex gap-2">
               <AppButton
-                :aria-label="t('settings')"
-                class="size-11 justify-center rounded-full bg-surface hover:bg-line"
-                size="none"
-                :to="localePath({ name: 'session-edit' })"
-                variant="ghost"
-              >
-                <AppIconSettings class="size-5" />
-              </AppButton>
-              <AppButton
                 :aria-label="t('edit')"
                 class="size-11 justify-center rounded-full bg-surface hover:bg-line"
                 size="none"
@@ -37,6 +28,15 @@
                 variant="ghost"
               >
                 <AppIconEdit class="size-5" />
+              </AppButton>
+              <AppButton
+                :aria-label="t('settings')"
+                class="size-11 justify-center rounded-full bg-surface hover:bg-line"
+                size="none"
+                :to="localePath({ name: 'session-edit' })"
+                variant="ghost"
+              >
+                <AppIconSettings class="size-5" />
               </AppButton>
             </div>
             <template v-else>
