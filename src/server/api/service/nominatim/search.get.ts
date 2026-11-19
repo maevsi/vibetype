@@ -18,7 +18,9 @@ const search = defineCachedFunction(
 
     // after the cache lookup, so that cached answers do not consume slots of the policy's 1 request per second for the whole application
     try {
+      // fail closed, as an unavailable limiter could otherwise let several instances exceed the policy's limit together
       await acquireRateLimitSlot({
+        isFailOpen: false,
         key: 'nominatim:rate',
         limit: 1,
         maxWaitMs: NOMINATIM_RATE_LIMIT_MAX_WAIT_MS,
@@ -60,7 +62,7 @@ export default defineEventHandler(async (event) => {
   if (!(jwtPayload?.role === `${SITE_NAME}_account`))
     throw createAppError({
       status: 403,
-      statusText: 'This endpoint only available to registered users.',
+      statusText: 'This endpoint is only available to registered users.',
     })
 
   const query = await getQuerySafe({ event, schema: querySchema })
