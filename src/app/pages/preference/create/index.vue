@@ -17,28 +17,30 @@
         </AppButton>
         <div v-else />
       </template>
-      <template
-        v-if="
-          [
-            'default',
-            'notification',
-            'size',
-            'format',
-            'category',
-            'location',
-          ].includes(step)
-        "
-        #actions
-      >
+      <template v-if="step === 'notification'" #actions>
         <ButtonIconBackRoute :aria-label="t('iconAltClose')">
           <AppIconClose />
         </ButtonIconBackRoute>
+      </template>
+      <template
+        v-else-if="['size', 'format', 'category', 'location'].includes(step)"
+        #actions
+      >
+        <AppButton
+          :aria-label="t('skip')"
+          size="small"
+          variant="secondary"
+          @click="isSkipOpen = true"
+        >
+          {{ t('skip') }}
+        </AppButton>
       </template>
     </LayoutTopBar>
     <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <PreferenceStepWelcome
         v-bind="attributes"
         @next="step = isNotificationStepRequired ? 'notification' : 'size'"
+        @skip="isSkipOpen = true"
       />
     </AppStepPanel>
     <AppStepPanel v-slot="attributes" :is-active="step === 'notification'">
@@ -97,6 +99,30 @@
         </template>
       </LayoutPage>
     </AppStepPanel>
+    <AppDrawer v-model="isSkipOpen">
+      <template #title>{{ t('skipTitle') }}</template>
+      <template #description>{{ t('skipDescription1') }}</template>
+      <div class="flex flex-col gap-2 text-fg-2">
+        <p class="text-body">{{ t('skipDescription1') }}</p>
+        <p class="text-body">{{ t('skipDescription2') }}</p>
+      </div>
+      <template #footer>
+        <AppButton
+          :aria-label="t('skipConfirm')"
+          variant="primary-critical"
+          @click="navigateTo(localePath({ name: 'dashboard' }))"
+        >
+          {{ t('skipConfirm') }}
+        </AppButton>
+        <AppButton
+          :aria-label="t('skipCancel')"
+          variant="tertiary"
+          @click="isSkipOpen = false"
+        >
+          {{ t('skipCancel') }}
+        </AppButton>
+      </template>
+    </AppDrawer>
   </section>
 </template>
 
@@ -107,6 +133,7 @@ defineRouteRules({
 
 const { t } = useI18n()
 const templateIdTitle = useId()
+const isSkipOpen = ref(false)
 
 // validation
 const localePath = useLocalePath()
@@ -154,10 +181,22 @@ de:
   back: Zurück
   errorBack: Zurück zum KI-Setup
   iconAltClose: Schließen
+  skip: Überspringen
+  skipCancel: Abbrechen
+  skipConfirm: KI-Einrichtung überspringen
+  skipDescription1: Ohne deine Angaben zeigen wir dir eine breite Auswahl an Events. Vielleicht findest du trotzdem deinen perfekten Vibe!
+  skipDescription2: Du kannst deine Präferenzen jederzeit später anpassen.
+  skipTitle: Willst du die KI-Einrichtung wirklich überspringen?
   title: KI einrichten
 en:
   back: Back
   errorBack: Back to AI setup
   iconAltClose: Close
+  skip: Skip
+  skipCancel: Cancel
+  skipConfirm: Skip AI setup
+  skipDescription1: Without your details, we'll show you a wide selection of events. Maybe you'll still find your perfect vibe!
+  skipDescription2: You can adjust your preferences anytime later.
+  skipTitle: Do you really want to skip the AI setup?
   title: Set up AI
 </i18n>

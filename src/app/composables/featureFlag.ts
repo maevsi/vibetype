@@ -6,6 +6,7 @@ export const FEATURE_FLAGS = [
   'invitations',
   'notifications',
   'participation',
+  'preference-location-live',
   'social-login',
 ] as const
 export type FeatureFlag = (typeof FEATURE_FLAGS)[number]
