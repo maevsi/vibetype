@@ -137,24 +137,7 @@ const readPoster = async () => {
       return
     }
 
-    // the model answers without a time zone, which the browser takes as local time
-    const getIsoString = (value: string | null) => {
-      const date = value ? new Date(value) : undefined
-
-      return date && !Number.isNaN(date.getTime())
-        ? date.toISOString()
-        : undefined
-    }
-
-    eventImported.value = await getEventImported({
-      description: output.description,
-      end: getIsoString(output.end),
-      isInPerson: !!output.location,
-      locationName: output.location,
-      name: output.name ?? '',
-      start: getIsoString(output.start),
-      url: output.url,
-    })
+    eventImported.value = await getEventImportedFromIngest(output)
     await navigateTo(localePath('event-create'))
   } catch (error) {
     const status = error instanceof FetchError ? error.statusCode : undefined

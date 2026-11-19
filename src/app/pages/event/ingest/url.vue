@@ -2,70 +2,122 @@
   <div class="flex flex-1 flex-col">
     <LayoutTopBar>{{ t('title') }}</LayoutTopBar>
     <LayoutPage>
-      <div class="flex flex-col gap-4">
-        <div>
-          <label for="url-input">
-            {{ t('addURL') }}
-          </label>
+      <form class="flex flex-col gap-4" @submit.prevent="readLink">
+        <p class="text-body-small text-fg-2">{{ t('description') }}</p>
+        <p
+          v-if="isNoEvent"
+          class="rounded-medium bg-surface-raised p-4 text-center text-fg-2"
+          role="status"
+        >
+          {{ t('noEvent') }}
+        </p>
+        <div class="flex flex-col gap-1">
+          <label :for="templateIdInput">{{ t('link') }}</label>
           <input
-            id="url-input"
-            v-model="enteredURL"
+            :id="templateIdInput"
+            v-model="enteredUrl"
             class="w-full rounded-small text-fg-1"
-            :placeholder="t('enterEventLink')"
+            :placeholder="t('linkPlaceholder')"
+            required
             type="url"
           />
+          <p class="text-caption text-fg-2">{{ t('hint') }}</p>
         </div>
         <AppButton
-          :aria-label="t('process')"
+          :aria-label="t('readLink')"
           class="self-end"
-          :loading="isUploading"
-          @click="uploadURL"
+          :loading="isReading"
+          type="submit"
         >
-          {{ t('process') }}
+          {{ t('readLink') }}
         </AppButton>
-      </div>
+      </form>
     </LayoutPage>
   </div>
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  validate: () => import.meta.dev,
-})
+import { FetchError } from 'ofetch'
 
 const { t } = useI18n()
+const alertError = useAlertError()
 const { $csrfFetch } = useNuxtApp()
+const localePath = useLocalePath()
 
-const enteredURL = ref<string>()
-const isUploading = ref(false)
+// validation
+await useSignInRequired()
 
-const uploadURL = async () => {
-  if (!enteredURL.value) return
+// page
+useHeadDefault({ title: t('title') })
 
-  isUploading.value = true
+// data
+const enteredUrl = ref<string>()
+const eventImported = useState<EventImported>(STATE_KEY_EVENT_IMPORTED)
+const isNoEvent = ref(false)
+const isReading = ref(false)
+
+// methods
+const readLink = async () => {
+  if (!enteredUrl.value) return
+
+  isReading.value = true
+  isNoEvent.value = false
 
   try {
-    await $csrfFetch('/api/model/event/ingest/url', {
-      body: { url: enteredURL.value },
+    const { output } = await $csrfFetch('/api/model/event/ingest/url', {
+      body: { url: enteredUrl.value },
       method: 'POST',
     })
+
+    if (!output?.is_event) {
+      isNoEvent.value = true
+      return
+    }
+
+    eventImported.value = await getEventImportedFromIngest(output)
+    await navigateTo(localePath('event-create'))
   } catch (error) {
-    console.error('Upload failed:', error)
+    const status = error instanceof FetchError ? error.statusCode : undefined
+
+    alertError({
+      ...(error instanceof Error ? { error } : {}),
+      messageI18n:
+        status === 429
+          ? t('errorLimitReached')
+          : status === 400
+            ? t('errorUnreadable')
+            : t('errorReadFailed'),
+    })
   } finally {
-    isUploading.value = false
+    isReading.value = false
   }
 }
+
+// template
+const templateIdInput = useId()
 </script>
 
 <i18n lang="yaml">
 de:
-  addURL: URL hinzufügen
-  enterEventLink: Veranstaltungslink eingeben
-  process: Verarbeiten
+  description: Gib den Link zu einer Veranstaltungsseite ein. Daraus erstellen wir einen Entwurf, den Du vor dem Speichern prüfen kannst.
+  errorLimitReached: Du hast heute die maximale Anzahl an Importen erreicht. Versuche es morgen erneut.
+  errorReadFailed: Der Link konnte nicht gelesen werden.
+  errorUnreadable: Der Link ist ungültig, nicht erreichbar, leitet auf eine nicht öffentliche Seite weiter oder führt nicht zu einer Webseite.
+  hint: Seiten, die eine Anmeldung erfordern oder nur mit JavaScript angezeigt werden, etwa Instagram oder Facebook, können nicht gelesen werden.
+  link: Link
+  linkPlaceholder: https://example.com/veranstaltung
+  noEvent: Auf dieser Seite wurde keine Veranstaltung gefunden. Probiere einen anderen Link.
+  readLink: Link lesen
   title: Link laden
 en:
-  addURL: Add URL
-  enterEventLink: Enter event link
-  process: Process
+  description: Enter the link to an event page. We create a draft from it that you can review before saving.
+  errorLimitReached: You have reached today's maximum number of imports. Try again tomorrow.
+  errorReadFailed: The link could not be read.
+  errorUnreadable: The link is invalid, unreachable, redirects to a non-public page or does not lead to a web page.
+  hint: Pages that require a login or only render with JavaScript, such as Instagram or Facebook, cannot be read.
+  link: Link
+  linkPlaceholder: https://example.com/event
+  noEvent: No event found on this page. Try another link.
+  readLink: Read link
   title: Ingest URL
 </i18n>
