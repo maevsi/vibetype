@@ -1,3 +1,12 @@
+## [17.19.0](https://github.com/maevsi/vibetype/compare/17.18.0...17.19.0) (2026-11-19)
+
+### Features
+
+* **dashboard:** suggest the ai setup until preferences exist ([#2711](https://github.com/maevsi/vibetype/issues/2711)) ([2d64b73](https://github.com/maevsi/vibetype/commit/2d64b73ee5e71cb9186cb2d1be9ff923904059ea))
+* **event:** delete from the event page ([#2708](https://github.com/maevsi/vibetype/issues/2708)) ([95a58ac](https://github.com/maevsi/vibetype/commit/95a58acc83cd68102187759d3517465f1a265dff))
+* **map:** enable ([#2706](https://github.com/maevsi/vibetype/issues/2706)) ([7e19aeb](https://github.com/maevsi/vibetype/commit/7e19aeb78b77f045e35cbfeeb727d0a82b044c07))
+* **notification:** ask for notifications during onboarding ([#2710](https://github.com/maevsi/vibetype/issues/2710)) ([7f1a01e](https://github.com/maevsi/vibetype/commit/7f1a01e9908f0599933503af828bb0b077ed6072))
+
 ## [17.18.0](https://github.com/maevsi/vibetype/compare/17.17.0...17.18.0) (2026-11-19)
 
 ### Features
