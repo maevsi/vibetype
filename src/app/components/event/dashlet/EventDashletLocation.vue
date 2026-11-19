@@ -33,15 +33,11 @@ const { t } = useI18n()
 const lines = computed(() =>
   getAddressLines(address).filter((line) => line !== address?.name),
 )
-const mapsUrl = computed(
-  () =>
-    `https://www.google.com/maps/search/?api=1&query=${
-      address?.location
-        ? `${address.location.latitude},${address.location.longitude}`
-        : encodeURIComponent(
-            [address?.name, getAddressText(address)].filter(Boolean).join(', '),
-          )
-    }`,
+const mapsUrl = computed(() =>
+  getMapsUrl({
+    location: address?.location,
+    text: [address?.name, getAddressText(address)].filter(Boolean).join(', '),
+  }),
 )
 </script>
 
