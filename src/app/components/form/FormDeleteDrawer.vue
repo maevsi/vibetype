@@ -1,6 +1,7 @@
 <template>
   <div>
     <AppButton
+      v-if="!isTriggerHidden"
       :aria-label="t('deletion', { item: itemNameDeletion })"
       class="w-full"
       variant="tertiary-critical"
@@ -27,12 +28,14 @@ import type { AnyVariables, UseMutationResponse } from '@urql/vue'
 
 const {
   errorsPgIds = undefined,
+  isTriggerHidden = false,
   itemNameDeletion,
   itemNameSuccess,
   mutation,
   variables = undefined,
 } = defineProps<{
   errorsPgIds?: Record<string, string>
+  isTriggerHidden?: boolean
   itemNameDeletion: string
   itemNameSuccess: string
   mutation: UseMutationResponse<unknown, AnyVariables>
@@ -44,7 +47,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const isOpen = ref(false)
+const isOpen = defineModel<boolean>('open', { default: false })
 
 const onSuccess = () => {
   isOpen.value = false
