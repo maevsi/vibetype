@@ -3,12 +3,16 @@
   <section
     v-if="isVisible"
     :aria-label="t('title')"
-    class="fixed inset-x-4 bottom-20 z-1000 mx-auto flex max-w-md items-center gap-3 rounded-large border border-line bg-surface-raised p-4 shadow-lg lg:right-4 lg:bottom-4 lg:left-auto lg:mx-0 lg:w-full"
+    :class="[
+      'fixed inset-x-4 z-1000 mx-auto flex max-w-md items-center gap-3 rounded-large border border-line bg-surface-raised p-4 shadow-lg lg:right-4 lg:bottom-4 lg:left-auto lg:mx-0 lg:w-full',
+      isMenuRoute ? 'bottom-20' : 'bottom-4',
+    ]"
   >
     <div
-      class="flex size-12 shrink-0 items-center justify-center rounded-medium bg-action-primary text-on-action-primary"
+      aria-hidden="true"
+      class="flex size-12 shrink-0 items-center justify-center rounded-large border border-line bg-surface"
     >
-      <AppIconPlus aria-hidden="true" />
+      <AppIconLogo class="size-8" />
     </div>
     <div class="min-w-0 flex-1">
       <p class="font-bold">{{ t('title') }}</p>
@@ -46,17 +50,17 @@
 </template>
 
 <script setup lang="ts">
+import { useLocalStorage } from '@vueuse/core'
+
 const { $pwa } = useNuxtApp()
 const { isApp } = usePlatform()
 const { t } = useI18n()
 const runtimeConfig = useRuntimeConfig()
 
-const isDismissed = useCookie<boolean>(PWA_INSTALL_DISMISSED_COOKIE_NAME, {
-  httpOnly: false,
-  maxAge: PWA_INSTALL_DISMISSED_COOKIE_MAX_AGE,
-  sameSite: COOKIE_SAME_SITE,
-  secure: useIsSecure(),
-})
+const isMenuRoute = useIsMenuRoute()
+
+// `useLocalStorage` only touches the storage on the client, and the card only shows there
+const isDismissed = useLocalStorage(`${SITE_NAME}-pwa-install-dismissed`, false)
 
 // client-only facts, resolved after mount to keep hydration stable
 const isIosBrowser = ref(false)
@@ -79,7 +83,11 @@ const isVisible = computed(
 
 const dismiss = () => {
   $pwa?.cancelInstall()
-  isDismissed.value = true
+  try {
+    isDismissed.value = true
+  } catch {
+    // storage unavailable (e.g. private mode), so the dismissal only lasts until reload
+  }
 }
 </script>
 

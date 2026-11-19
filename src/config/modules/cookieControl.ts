@@ -10,8 +10,6 @@ import {
   GTAG_MEASUREMENT_ID,
   I18N_COOKIE_NAME,
   LOCKDOWN_MODE_DISMISSED_COOKIE_NAME,
-  PWA_INSTALL_DISMISSED_COOKIE_ID,
-  PWA_INSTALL_DISMISSED_COOKIE_NAME,
   SENTRY_COOKIE_ID,
   TIMEZONE_COOKIE_NAME,
 } from '../../node/static'
@@ -111,18 +109,6 @@ export const cookieControlConfig: Pick<
             en: 'Lockdown Mode Notice',
           },
           targetCookieIds: [LOCKDOWN_MODE_DISMISSED_COOKIE_NAME],
-        },
-        {
-          description: {
-            de: 'Dieser Cookie von uns speichert, dass der Hinweis zur Installation der App geschlossen wurde.',
-            en: 'This cookie of ours saves that the app installation notice was closed.',
-          },
-          id: PWA_INSTALL_DISMISSED_COOKIE_ID,
-          name: {
-            de: 'App-Installationshinweis',
-            en: 'App Installation Notice',
-          },
-          targetCookieIds: [PWA_INSTALL_DISMISSED_COOKIE_NAME],
         },
         {
           description: {
