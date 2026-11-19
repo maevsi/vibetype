@@ -30,7 +30,7 @@
       <ConsentSettings @decided="isConsentOpen = false" />
     </AppModal>
   </div>
-  <div v-else :class="cn('relative', classComputed)">
+  <div v-else :class="cn('relative isolate', classComputed)">
     <div :id="templateIdMap" class="size-full" />
     <div
       class="pointer-events-none absolute inset-0 z-1000 flex items-center justify-center bg-black/60 p-4 text-center text-white transition-opacity duration-300"

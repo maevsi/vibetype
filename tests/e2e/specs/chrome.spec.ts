@@ -14,7 +14,7 @@ const PAGE_CONTENT_WIDTH_MAXIMUM = 672 // tailwind's `max-w-2xl`
 // the pages the menu leads to depend on whether an account is signed in
 const ROUTES_SIGNED_OUT = [
   { isMenuRoute: true, isTitleInContent: true, path: '/' },
-  { isMenuRoute: true, path: '/event' },
+  { isMenuRoute: true, isTitleInContent: true, path: '/event' },
   { isMenuRoute: true, path: '/session/edit' },
   { isMenuRoute: false, path: '/account/create' },
   { isMenuRoute: false, path: '/docs/legal/attributions' },
@@ -26,7 +26,7 @@ const ROUTES_SIGNED_OUT = [
 ]
 const ROUTES_SIGNED_IN = [
   { isMenuRoute: true, path: '/dashboard' },
-  { isMenuRoute: true, path: '/event' },
+  { isMenuRoute: true, isTitleInContent: true, path: '/event' },
   {
     isMenuRoute: true,
     isTitleInContent: true,
