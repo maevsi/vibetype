@@ -19,7 +19,14 @@
       </template>
       <template
         v-if="
-          ['default', 'size', 'format', 'category', 'location'].includes(step)
+          [
+            'default',
+            'notification',
+            'size',
+            'format',
+            'category',
+            'location',
+          ].includes(step)
         "
         #actions
       >
@@ -29,7 +36,13 @@
       </template>
     </LayoutTopBar>
     <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
-      <PreferenceStepWelcome v-bind="attributes" @next="step = 'size'" />
+      <PreferenceStepWelcome
+        v-bind="attributes"
+        @next="step = isNotificationStepRequired ? 'notification' : 'size'"
+      />
+    </AppStepPanel>
+    <AppStepPanel v-slot="attributes" :is-active="step === 'notification'">
+      <PreferenceStepNotification v-bind="attributes" @next="step = 'size'" />
     </AppStepPanel>
     <AppStepPanel v-slot="attributes" :is-active="step === 'size'">
       <PreferenceStepSize
@@ -99,13 +112,20 @@ const templateIdTitle = useId()
 const localePath = useLocalePath()
 await useSignInRequired()
 
+// notifications
+const { isStepRequired: isNotificationStepRequired } =
+  useNotificationOnboarding()
+
 // stepper
 const { error, step, previous, title } = useStepperPage<
-  'size' | 'format' | 'category' | 'location' | 'done'
+  'notification' | 'size' | 'format' | 'category' | 'location' | 'done'
 >({
   steps: {
     default: {
       title: t('title'),
+    },
+    notification: {
+      previous: 'default',
     },
     size: {
       previous: 'default',
