@@ -1,3 +1,10 @@
+## [17.24.0](https://github.com/maevsi/vibetype/compare/17.23.0...17.24.0) (2026-11-19)
+
+### Features
+
+* **address:** store and show the structured address of event locations ([#2723](https://github.com/maevsi/vibetype/issues/2723)) ([b3c75b1](https://github.com/maevsi/vibetype/commit/b3c75b1bdc413c711c3c585c867fb73e4543d695))
+* **event:** show distance and guests in list items ([#2724](https://github.com/maevsi/vibetype/issues/2724)) ([4fa7ef6](https://github.com/maevsi/vibetype/commit/4fa7ef61243ff86d7d7f798e02bff6ab2ad26855))
+
 ## [17.23.0](https://github.com/maevsi/vibetype/compare/17.22.0...17.23.0) (2026-11-19)
 
 ### Features
