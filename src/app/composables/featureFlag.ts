@@ -2,6 +2,8 @@ export const FEATURE_FLAGS = [
   'account-management',
   'category-browse',
   'developer-tools',
+  'event-attending',
+  'event-drafts',
   'friends',
   'invitations',
   'notifications',

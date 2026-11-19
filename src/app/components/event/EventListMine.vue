@@ -23,8 +23,18 @@
       </ul>
     </nav>
     <nav :aria-label="t('filterLabel')">
-      <!-- more tiles (going, drafts) join once their data is available, then widen the columns -->
-      <ul class="grid grid-cols-2 gap-3">
+      <ul
+        :class="
+          cn(
+            'grid gap-3',
+            filterOptions.length > 3
+              ? 'grid-cols-4'
+              : filterOptions.length === 3
+                ? 'grid-cols-3'
+                : 'grid-cols-2',
+          )
+        "
+      >
         <li v-for="option in filterOptions" :key="option.value">
           <AppButton
             :aria-current="filter === option.value ? 'page' : undefined"
@@ -39,18 +49,22 @@
             :to="{ query: getQuery({ filter: option.value }) }"
             variant="secondary"
           >
-            <component :is="option.icon" aria-hidden="true" class="size-5" />
+            <component
+              :is="option.icon"
+              aria-hidden="true"
+              :class="cn('size-5', option.color)"
+            />
             {{ option.label }}
           </AppButton>
         </li>
       </ul>
     </nav>
     <EventList
-      :badge="filter"
+      :badge="badge"
       :events
       :has-next-page
       is-grouped-by-day
-      :is-loading="api.isFetching && !events"
+      :is-loading="!isWithoutData && api.isFetching && !events"
       @load-more="loadMore"
     />
   </div>
@@ -200,14 +214,45 @@ const querySaved = graphql(`
 `)
 
 // data
-const filterOptions = [
+const { isFeatureEnabled } = useFeatureFlags()
+const isAttendingEnabled = isFeatureEnabled('event-attending')
+const isDraftsEnabled = isFeatureEnabled('event-drafts')
+// `AppFeature` would show an unflagged tile with a striped overlay in
+// development, which a tile in a grid cannot carry, so the flags decide here
+const filterOptions = computed(() => [
+  ...(isAttendingEnabled.value
+    ? [
+        {
+          color: 'text-green-600',
+          icon: resolveComponent('AppIconCheckCircle'),
+          label: t('attending'),
+          value: 'attending',
+        } as const,
+      ]
+    : []),
   {
+    color: 'text-accent-pink',
+    icon: resolveComponent('AppIconHeart'),
+    label: t('saved'),
+    value: 'saved',
+  } as const,
+  {
+    color: 'text-info',
     icon: resolveComponent('AppIconUsers'),
     label: t('hosting'),
     value: 'hosting',
-  },
-  { icon: resolveComponent('AppIconHeart'), label: t('saved'), value: 'saved' },
-] as const
+  } as const,
+  ...(isDraftsEnabled.value
+    ? [
+        {
+          color: 'text-warning',
+          icon: resolveComponent('AppIconEdit'),
+          label: t('drafts'),
+          value: 'drafts',
+        } as const,
+      ]
+    : []),
+])
 const timeOptions = [
   { label: t('upcoming'), value: 'upcoming' },
   { label: t('past'), value: 'past' },
@@ -217,8 +262,22 @@ const store = useStore()
 const now = useNow()
 
 // the filter and the time live in the URL, so a reload or a shared link keeps them
-const filter = computed(() =>
-  route.query.filter === 'saved' ? 'saved' : 'hosting',
+const filter = computed(() => {
+  const value = route.query.filter
+  return filterOptions.value.some((option) => option.value === value)
+    ? (value as (typeof filterOptions.value)[number]['value'])
+    : 'hosting'
+})
+// Going and drafts have no data yet (going waits on a separate backend change,
+// drafts on a schema change), so they show the empty state without a query.
+// Upgrade path: a query per filter next to the two below
+const isWithoutData = computed(
+  () => filter.value === 'attending' || filter.value === 'drafts',
+)
+const badge = computed(() =>
+  filter.value === 'hosting' || filter.value === 'saved'
+    ? filter.value
+    : undefined,
 )
 const time = computed(() => (route.query.time === 'past' ? 'past' : 'upcoming'))
 const getQuery = (override: { filter?: string; time?: string }) => {
@@ -288,14 +347,18 @@ const savedEvents = computed(() => {
     )
 })
 const events = computed(() =>
-  filter.value === 'saved'
-    ? savedEvents.value?.slice(0, savedVisibleCount.value)
-    : hostingApi.data.value?.allEvents?.nodes,
+  isWithoutData.value
+    ? []
+    : filter.value === 'saved'
+      ? savedEvents.value?.slice(0, savedVisibleCount.value)
+      : hostingApi.data.value?.allEvents?.nodes,
 )
 const hasNextPage = computed(() =>
-  filter.value === 'saved'
-    ? (savedEvents.value?.length ?? 0) > savedVisibleCount.value
-    : hostingApi.data.value?.allEvents?.pageInfo.hasNextPage,
+  isWithoutData.value
+    ? false
+    : filter.value === 'saved'
+      ? (savedEvents.value?.length ?? 0) > savedVisibleCount.value
+      : hostingApi.data.value?.allEvents?.pageInfo.hasNextPage,
 )
 
 // methods
@@ -311,6 +374,8 @@ const loadMore = () => {
 
 <i18n lang="yaml">
 de:
+  attending: Dabei
+  drafts: Entwürfe
   filterLabel: Filter
   hosting: Von dir
   past: Vergangen
@@ -318,6 +383,8 @@ de:
   timeLabel: Zeitraum
   upcoming: Bevorstehend
 en:
+  attending: Going
+  drafts: Drafts
   filterLabel: Filter
   hosting: Hosting
   past: Past
