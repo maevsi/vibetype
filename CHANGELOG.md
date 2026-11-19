@@ -1,3 +1,9 @@
+## [17.22.0](https://github.com/maevsi/vibetype/compare/17.21.0...17.22.0) (2026-11-19)
+
+### Features
+
+* **map:** ask for consent where the map appears ([#2715](https://github.com/maevsi/vibetype/issues/2715)) ([1e05bcd](https://github.com/maevsi/vibetype/commit/1e05bcd634a44dba60e07faf4b3a56d89ae0f074))
+
 ## [17.21.0](https://github.com/maevsi/vibetype/compare/17.20.0...17.21.0) (2026-11-19)
 
 ### Features
