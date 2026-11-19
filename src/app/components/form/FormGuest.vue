@@ -349,10 +349,12 @@ const invite = async (guests: { contactId: string; rowId: string }[]) => {
     ),
   )
   const sentCount = results.filter((result) => getResultData(result)).length
+  const skippedCount = guests.length - guestsReachable.length
+  const failedCount = guestsReachable.length - sentCount
 
   if (sentCount) toast.success(t('sendSuccess', { count: sentCount }))
-  if (sentCount < guests.length)
-    toast.warning(t('sendSkipped', { count: guests.length - sentCount }))
+  if (skippedCount) toast.warning(t('sendSkipped', { count: skippedCount }))
+  if (failedCount) toast.error(t('sendFailed', { count: failedCount }))
 }
 const contactCreate = async () => {
   const candidate = contactCreationCandidate.value
@@ -480,7 +482,8 @@ de:
   placeholderContact: Max Mustermann
   select: Zur Gästeliste hinzufügen
   selectAndSend: Einladung senden
-  sendSkipped: Für {count} Kontakt fehlt ein Konto oder eine E-Mail-Adresse, sie wurden nur zur Gästeliste hinzugefügt. | Für {count} Kontakte fehlt ein Konto oder eine E-Mail-Adresse, sie wurden nur zur Gästeliste hinzugefügt.
+  sendFailed: Eine Einladung konnte nicht versandt werden, der Gast steht aber auf der Gästeliste. | {count} Einladungen konnten nicht versandt werden, die Gäste stehen aber auf der Gästeliste.
+  sendSkipped: Einem Kontakt fehlt ein Konto oder eine E-Mail-Adresse, er wurde nur zur Gästeliste hinzugefügt. | Für {count} Kontakte fehlt ein Konto oder eine E-Mail-Adresse, sie wurden nur zur Gästeliste hinzugefügt.
   sendSuccess: Eine Einladung wurde versandt. | {count} Einladungen wurden versandt.
 en:
   contactBookSearch: Search your contact book
@@ -491,6 +494,7 @@ en:
   placeholderContact: John Doe
   select: Add to guest list
   selectAndSend: Send invitation
+  sendFailed: One invitation could not be sent, but the guest is on the guest list. | {count} invitations could not be sent, but the guests are on the guest list.
   sendSkipped: One contact has no account or email address and was only added to the guest list. | {count} contacts have no account or email address and were only added to the guest list.
   sendSuccess: One invitation was sent. | {count} invitations were sent.
 </i18n>
