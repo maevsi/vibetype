@@ -249,12 +249,6 @@
             <AppSeparator />
             <div class="flex flex-col">
               <AppMenuItem
-                :title="t('settings')"
-                :to="localePath({ name: 'session-edit' })"
-              >
-                <AppIconSettings />
-              </AppMenuItem>
-              <AppMenuItem
                 :title="t('support')"
                 :to="localePath({ name: 'support-contact' })"
               >
