@@ -321,7 +321,7 @@
 
             <li>
 
-                        **Kontakt-, Support-, Ideen-, Problem- und Meldeformulare**
+            **Kontakt-, Support-, Ideen-, Problem- und Meldeformulare**
 
             Wir bieten Formulare an, um uns zu kontaktieren, Support anzufragen, Ideen vorzuschlagen, Probleme zu melden und Inhalte zu melden.
 

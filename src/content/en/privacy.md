@@ -321,7 +321,7 @@
 
             <li>
 
-                        **Contact, support, idea, issue and report forms**
+            **Contact, support, idea, issue and report forms**
 
             We offer forms to contact us, to ask for support, to suggest ideas, to report issues and to report content.
 
