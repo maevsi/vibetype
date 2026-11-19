@@ -259,6 +259,15 @@ defineExpose({ isPositionSet, map, mapCenter, mapZoom })
 <style>
 @import url('leaflet/dist/leaflet.css');
 @import url('leaflet-geosearch/assets/css/leaflet.css');
+
+/* mutes the saturated OpenStreetMap tiles, leaving markers, controls and attribution untouched */
+.leaflet-tile-pane {
+  filter: saturate(0.6) contrast(0.92) brightness(1.03);
+}
+
+.dark .leaflet-tile-pane {
+  filter: saturate(0.5) contrast(0.9) brightness(0.65);
+}
 </style>
 
 <i18n lang="yaml">
