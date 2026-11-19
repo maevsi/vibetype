@@ -1,3 +1,9 @@
+## [17.19.1](https://github.com/maevsi/vibetype/compare/17.19.0...17.19.1) (2026-11-19)
+
+### Bug Fixes
+
+* **consent:** gate third-party requests and session replay behind consent ([#2695](https://github.com/maevsi/vibetype/issues/2695)) ([c623451](https://github.com/maevsi/vibetype/commit/c623451cf2577954698cda6b40df0b34145b2a5f))
+
 ## [17.19.0](https://github.com/maevsi/vibetype/compare/17.18.0...17.19.0) (2026-11-19)
 
 ### Features
