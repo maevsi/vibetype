@@ -117,7 +117,6 @@ const queryAfter = ref<string | null>()
 const store = useStore()
 const isOwn = computed(() => route.params.username === store.signedInUsername)
 const query = useApiQuery({
-  pause: isOwn,
   query: queryEventListAccount,
   variables: computed(() => ({
     after: queryAfter.value,
