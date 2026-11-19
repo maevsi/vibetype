@@ -1,3 +1,11 @@
+## [17.25.0](https://github.com/maevsi/vibetype/compare/17.24.0...17.25.0) (2026-11-19)
+
+### Features
+
+* **event:** read event pages from links ([#2727](https://github.com/maevsi/vibetype/issues/2727)) ([6c98b91](https://github.com/maevsi/vibetype/commit/6c98b91eb066a5f49f476379814854fb5d848d68))
+* **map:** align location picking and event map previews with the design ([#2725](https://github.com/maevsi/vibetype/issues/2725)) ([adb8ef3](https://github.com/maevsi/vibetype/commit/adb8ef38b259ab6c4528035c4db135099b554934))
+* **session:** color the settings menu icons ([#2728](https://github.com/maevsi/vibetype/issues/2728)) ([a60ab83](https://github.com/maevsi/vibetype/commit/a60ab836ecede24f470eb715cf8e3f510aaa7b54))
+
 ## [17.24.0](https://github.com/maevsi/vibetype/compare/17.23.0...17.24.0) (2026-11-19)
 
 ### Features
