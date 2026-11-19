@@ -24,7 +24,7 @@ const icalPostBodySchema = z.object({
       .nullish(),
     description: z.string().nullable(),
     end: z.string().nullable(),
-    isInPerson: z.boolean(),
+    isInPerson: z.boolean().nullish(),
     name: z.string(),
     rowId: z.string(),
     start: z.string(),

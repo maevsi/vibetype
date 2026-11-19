@@ -28,15 +28,9 @@ export const getIcalString = ({
 }: {
   event: Pick<
     EventItemFragment,
-    | 'description'
-    | 'end'
-    | 'isInPerson'
-    | 'name'
-    | 'rowId'
-    | 'slug'
-    | 'start'
-    | 'visibility'
+    'description' | 'end' | 'name' | 'rowId' | 'slug' | 'start' | 'visibility'
   > & {
+    isInPerson?: boolean | null
     addressByAddressId?:
       | (AddressFields & {
           location?: { latitude: number; longitude: number } | null
