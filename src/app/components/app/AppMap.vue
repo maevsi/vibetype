@@ -2,11 +2,20 @@
   <div v-if="!isMounted" :class="cn('flex justify-center', classComputed)">
     <AppLoaderLogo class="size-8" />
   </div>
-  <div v-else :id="templateIdMap" :class="classComputed" />
+  <div v-else :class="cn('relative', classComputed)">
+    <div :id="templateIdMap" class="size-full" />
+    <div
+      class="pointer-events-none absolute inset-0 z-1000 flex items-center justify-center bg-black/60 p-4 text-center text-white transition-opacity duration-300"
+      :class="hint ? 'opacity-100' : 'opacity-0'"
+      role="status"
+    >
+      {{ hint }}
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { useMounted } from '@vueuse/core'
+import { useMediaQuery, useMounted, useTimeoutFn } from '@vueuse/core'
 
 import type { FullscreenControl, Map, LatLng } from 'leaflet'
 import type { DeepReadonly, HtmlHTMLAttributes } from 'vue'
@@ -54,6 +63,30 @@ const mapZoom = ref<number>()
 
 const { t, locale } = useI18n()
 const isMounted = useMounted()
+
+// two-finger and ctrl gestures keep the page scrollable, except in fullscreen where the map is the whole page
+const isTouchDevice = useMediaQuery('(hover: none) and (pointer: coarse)')
+const isFullscreen = ref(false)
+const hint = ref<string>()
+const { start: startHintTimeout, stop: stopHintTimeout } = useTimeoutFn(
+  () => {
+    hint.value = undefined
+  },
+  1500,
+  { immediate: false },
+)
+const showHint = (message: string) => {
+  hint.value = message
+  stopHintTimeout()
+  startHintTimeout()
+}
+const applyGestureHandling = () => {
+  const mapLocal = map.value
+  if (!mapLocal) return
+  if (isTouchDevice.value && !isFullscreen.value) mapLocal.dragging.disable()
+  else mapLocal.dragging.enable()
+}
+watch([isFullscreen, isTouchDevice], applyGestureHandling)
 let fullscreenControl: FullscreenControl | undefined
 // leaflet translates its texts only when it renders them, so a locale change needs the controls re-added
 watch(locale, () => {
@@ -121,6 +154,42 @@ onMounted(async () => {
     })
   }
 
+  // with one-finger dragging disabled, leaflet leaves `touch-action: pan-x pan-y` on the container, so the page scrolls and pinching still zooms and pans the map
+  const container = map.value.getContainer()
+  container.addEventListener(
+    'wheel',
+    (wheelEvent) => {
+      if (isFullscreen.value || wheelEvent.ctrlKey || wheelEvent.metaKey) return
+      // stopping only leaflet's zoom, not the default action, keeps the page scrolling
+      wheelEvent.stopImmediatePropagation()
+      showHint(
+        t('hintWheel', {
+          key: /Mac|iPhone|iPad/.test(navigator.userAgent) ? '⌘' : 'Ctrl',
+        }),
+      )
+    },
+    { capture: true, passive: true },
+  )
+  container.addEventListener(
+    'touchmove',
+    (touchEvent) => {
+      if (
+        !isFullscreen.value &&
+        touchEvent.touches.length === 1 &&
+        isTouchDevice.value
+      )
+        showHint(t('hintTouch'))
+    },
+    { passive: true },
+  )
+  map.value.on('enterfullscreen', () => {
+    isFullscreen.value = true
+  })
+  map.value.on('exitfullscreen', () => {
+    isFullscreen.value = false
+  })
+  applyGestureHandling()
+
   mapCenter.value = map.value.getCenter()
   mapZoom.value = map.value.getZoom()
   map.value.on('move', () => {
@@ -160,6 +229,8 @@ defineExpose({ map, mapCenter, mapZoom })
 de:
   enterFullscreen: Vollbild öffnen
   exitFullscreen: Vollbild beenden
+  hintTouch: Verschiebe die Karte mit zwei Fingern.
+  hintWheel: Zoome die Karte mit {key} + Scrollen.
   map: Karte
   notFoundMessage: Nichts gefunden.
   zoomIn: Vergrößern
@@ -167,6 +238,8 @@ de:
 en:
   enterFullscreen: Enter fullscreen
   exitFullscreen: Exit fullscreen
+  hintTouch: Use two fingers to move the map.
+  hintWheel: Hold {key} and scroll to zoom the map.
   map: Map
   notFoundMessage: Nothing found.
   zoomIn: Zoom in
