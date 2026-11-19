@@ -52,7 +52,6 @@ export const GET_CSP = ({
         'https://tile.openstreetmap.org/', // map
         hrefTusd, // users' image uploads
         'https://media3.giphy.com/', // gifs
-        'https://www.gravatar.com/avatar/', // profile picture fallback
       ],
       'manifest-src': ["'self'"],
       // 'prefetch-src': ["'self'"],
