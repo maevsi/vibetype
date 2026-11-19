@@ -2,7 +2,6 @@
   <AppImage
     v-bind="delegatedProps"
     :alt="t('profilePictureAlt', { emailAddress })"
-    :cross-origin
     :height="size"
     :src="imageSrc"
     :width="size"
@@ -10,8 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import { EXTERNAL_MEDIA_COOKIE_ID } from '~~/node/static'
-
 import blankProfilePicture from '~/assets/images/blank-profile-picture.svg'
 
 const {
@@ -29,20 +26,11 @@ const {
 const { t } = useI18n()
 
 // computations
-const isConsented = useIsCookieConsented(EXTERNAL_MEDIA_COOKIE_ID)
-const isGravatarUsed = computed(
-  () => isConsented.value && emailAddress && emailAddressHash,
-)
 const imageSrc = computed(() => {
-  if (isGravatarUsed.value)
-    return `https://www.gravatar.com/avatar/${emailAddressHash}?d=mp&s=${size}`
+  if (emailAddress && emailAddressHash)
+    return `/api/service/gravatar/${emailAddressHash}?s=${size}`
 
   return blankProfilePicture
-})
-const crossOrigin = computed(() => {
-  if (isGravatarUsed.value) return 'anonymous'
-
-  return undefined
 })
 const delegatedProps = computed(() => ({
   aspect,
