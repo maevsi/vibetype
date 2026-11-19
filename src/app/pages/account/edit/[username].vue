@@ -59,6 +59,67 @@
           :title="t('imprint')"
           @save="saveImprint"
         />
+        <section class="flex flex-col gap-4">
+          <AppSeparator />
+          <span class="text-headline">{{ t('profile') }}</span>
+          <div class="flex flex-col">
+            <AppMenuItem
+              :title="t('aiSetup')"
+              :to="
+                localePath({
+                  name: 'preference-create',
+                })
+              "
+            >
+              <AppIconNetworkIntelligence />
+              <!-- <template #suffix>
+              <AppIconRestartAlt />
+            </template> -->
+            </AppMenuItem>
+            <AppMenuItem
+              :title="t('earlyBirdStart')"
+              :to="localePath({ name: 'early-bird-create' })"
+            >
+              <AppIconEarlyBird />
+              <template v-if="false" #suffix>
+                <AppIconClose />
+              </template>
+            </AppMenuItem>
+          </div>
+        </section>
+        <section class="flex flex-col gap-4">
+          <AppSeparator />
+          <span class="text-headline">{{ t('display') }}</span>
+          <div class="flex flex-col">
+            <AppMenuItem
+              :title="t('language')"
+              :to="
+                localePath({
+                  name: 'session-edit-language',
+                })
+              "
+            >
+              <AppIconLanguage />
+            </AppMenuItem>
+          </div>
+        </section>
+        <section class="flex flex-col gap-4">
+          <AppSeparator />
+          <span class="text-headline">
+            {{ t('interactions') }}
+          </span>
+          <AppMenuItem
+            :title="t('accountBlock')"
+            :to="
+              localePath({
+                name: 'account-view-username-block',
+                params: { username: route.params.username },
+              })
+            "
+          >
+            <AppIconNoSymbol />
+          </AppMenuItem>
+        </section>
         <AppCardButton
           class="border-action-warning bg-warning-tint text-fg-1"
           :title="t('resetPassword')"
@@ -273,26 +334,40 @@ const localePath = useLocalePath()
 <i18n lang="yaml">
 de:
   about: Über
+  accountBlock: Blockierte Benutzer
+  aiSetup: KI einrichten
   deleteAccount: Konto löschen
+  display: Anzeige
+  earlyBirdStart: Early Bird beitreten
   errorAccountMissing: Konto nicht verfügbar
   errorProfilePictureCreate: Beim Speichern des Profilbildes ist ein Problem aufgetreten
   errorProfilePictureDelete: Beim Entfernen des Profilbildes ist ein Problem aufgetreten
   errorUpdateDescription: Beim Speichern der Beschreibung ist ein Problem aufgetreten
   errorUpdateImprint: Beim Speichern des Impressums ist ein Problem aufgetreten
   imprint: Impressum
+  interactions: Interaktionen mit dir
+  language: Sprache
+  profile: Profil
   remove: Bild entfernen
   replace: Bild ersetzen
   resetPassword: Passwort zurücksetzen
   title: Mein Profil
 en:
   about: About
+  accountBlock: Blocked Users
+  aiSetup: Set up AI
   deleteAccount: Delete Account
+  display: Display
+  earlyBirdStart: Join Early Bird
   errorAccountMissing: Account unavailable
   errorProfilePictureCreate: There was a problem saving the profile picture
   errorProfilePictureDelete: There was a problem removing the profile picture
   errorUpdateDescription: There was a problem saving the description
   errorUpdateImprint: There was a problem saving the imprint
   imprint: Imprint
+  interactions: Interactions with you
+  language: Language
+  profile: Profile
   remove: Remove Image
   replace: Replace Image
   resetPassword: Reset Password

@@ -1,3 +1,27 @@
+## [17.18.0](https://github.com/maevsi/vibetype/compare/17.17.0...17.18.0) (2026-11-19)
+
+### Features
+
+* **account:** move account settings to the account edit page ([#2702](https://github.com/maevsi/vibetype/issues/2702)) ([e3ed30f](https://github.com/maevsi/vibetype/commit/e3ed30f4e553ea02ddabfe8eaa2938ba1a42177c))
+
+## [17.17.0](https://github.com/maevsi/vibetype/compare/17.16.0...17.17.0) (2026-11-19)
+
+### Features
+
+* **dashboard:** move poster hunt below top pick and remove app install button ([#2700](https://github.com/maevsi/vibetype/issues/2700)) ([2d4d9d2](https://github.com/maevsi/vibetype/commit/2d4d9d2adc73cf25506c29895de9a3549132b5d7))
+
+## [17.16.0](https://github.com/maevsi/vibetype/compare/17.15.4...17.16.0) (2026-11-19)
+
+### Features
+
+* **form:** confirm password protected deletions in a drawer ([#2701](https://github.com/maevsi/vibetype/issues/2701)) ([d03e3df](https://github.com/maevsi/vibetype/commit/d03e3df700caee6338cca656aa7dbe133e0909cc))
+* **map:** require two fingers or ctrl to move the map ([#2705](https://github.com/maevsi/vibetype/issues/2705)) ([b5f57b3](https://github.com/maevsi/vibetype/commit/b5f57b30bdd3efb31257681931cb61782d4cb3a7))
+* **session:** reorder developer information and clarify notifications ([#2704](https://github.com/maevsi/vibetype/issues/2704)) ([acc6255](https://github.com/maevsi/vibetype/commit/acc625501423f107c5e427fea5222d9f2c89a6fa))
+
+### Bug Fixes
+
+* **guest:** fix check-in code dialog and calendar download ([#2703](https://github.com/maevsi/vibetype/issues/2703)) ([35b0d25](https://github.com/maevsi/vibetype/commit/35b0d2593681b5ac8b5af8b14cf4aacba46c4994))
+
 ## [17.15.4](https://github.com/maevsi/vibetype/compare/17.15.3...17.15.4) (2026-11-18)
 
 ### Bug Fixes

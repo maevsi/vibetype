@@ -39,8 +39,8 @@ appTest.describe('sign-in gate', () => {
       const { page } = defaultPage
 
       await defaultPage.goto('/session/edit')
-      await page.getByRole('link', { name: 'Join Early Bird' }).click()
-      await expect(page).toHaveURL(/\/session\/create\?to=/)
+      await page.getByRole('link', { name: 'Color scheme' }).click()
+      await expect(page).toHaveURL(/\/session\/edit\/color-scheme$/)
 
       await page.getByRole('button', BACK).click()
       await expect(page).toHaveURL(/\/session\/edit$/)
@@ -57,13 +57,13 @@ appTest.describe('back button', () => {
       await defaultPage.goto('/event')
       await page.getByRole('link', { name: 'Settings' }).click()
       await expect(page).toHaveURL(/\/session\/edit$/)
-      await page.getByRole('link', { name: 'Language' }).click()
-      await expect(page).toHaveURL(/\/session\/edit\/language$/)
+      await page.getByRole('link', { name: 'Color scheme' }).click()
+      await expect(page).toHaveURL(/\/session\/edit\/color-scheme$/)
 
       await page.goBack()
       await expect(page).toHaveURL(/\/session\/edit$/)
-      await page.getByRole('link', { name: 'Language' }).click()
-      await expect(page).toHaveURL(/\/session\/edit\/language$/)
+      await page.getByRole('link', { name: 'Color scheme' }).click()
+      await expect(page).toHaveURL(/\/session\/edit\/color-scheme$/)
       await page.getByRole('button', BACK).click()
       await expect(page).toHaveURL(/\/session\/edit$/)
 
