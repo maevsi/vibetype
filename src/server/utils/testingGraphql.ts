@@ -504,6 +504,15 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
+    case 'AllPreferenceEventLocations':
+      return {
+        data: {
+          allPreferenceEventLocations: {
+            nodes: [],
+            __typename: 'PreferenceEventLocationConnection',
+          },
+        },
+      }
     case 'AllUploads':
       return {
         data: {

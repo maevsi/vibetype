@@ -183,6 +183,29 @@
       <span class="truncate text-body-small text-fg-3">
         <AppTime :datetime="event.start" />
       </span>
+      <div
+        v-if="distanceText || event.guestCount !== undefined"
+        class="flex items-center gap-3 text-body-small text-fg-3"
+      >
+        <span
+          v-if="distanceText"
+          :aria-label="t('distanceAway', { distance: distanceText })"
+          class="flex min-w-0 items-center gap-1"
+          role="img"
+        >
+          <AppIconMapPin aria-hidden="true" class="size-4 shrink-0" />
+          <span class="truncate">{{ distanceText }}</span>
+        </span>
+        <span
+          v-if="event.guestCount !== undefined"
+          :aria-label="t('guestCountLabel', event.guestCount)"
+          class="flex items-center gap-1"
+          role="img"
+        >
+          <AppIconUsers aria-hidden="true" class="size-4 shrink-0" />
+          <span>{{ event.guestCount }}</span>
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -217,6 +240,7 @@ export type EventCardProps = {
         eventFormatByFormatId?: { name: string } | null
       }[]
     } | null
+    guestCount?: number
     guestsByEventId?: {
       nodes: {
         contactByContactId?: {
@@ -229,15 +253,21 @@ export type EventCardProps = {
       }[]
     } | null
     id: string
+    isInPerson?: boolean | null
     name: string
     rowId: string
     slug: string
     start: string
   }>
+  distanceKilometers?: number
   // TODO: turn javascript usage into attribute based styles
   variant?: 'highlight' | 'recommendation' // alias for 'large'
 }
-const { event, variant = undefined } = defineProps<EventCardProps>()
+const {
+  distanceKilometers = undefined,
+  event,
+  variant = undefined,
+} = defineProps<EventCardProps>()
 
 // template
 const localePath = useLocalePath()
@@ -273,17 +303,40 @@ const isGuest = computed(() =>
         : undefined
     : undefined,
 )
-const { t } = useI18n()
+const { locale, t } = useI18n()
+
+// distance
+const distanceText = computed(() => {
+  if (distanceKilometers === undefined) return
+
+  const format = (kilometers: number) =>
+    new Intl.NumberFormat(locale.value, {
+      maximumFractionDigits: kilometers < 10 ? 1 : 0,
+      style: 'unit',
+      unit: 'kilometer',
+      unitDisplay: 'short',
+    }).format(kilometers)
+
+  return distanceKilometers < 1
+    ? t('distanceLessThanOneKilometer', { distance: format(1) })
+    : format(distanceKilometers)
+})
 </script>
 
 <i18n lang="yaml">
 de:
+  distanceAway: '{distance} entfernt'
+  distanceLessThanOneKilometer: Weniger als {distance}
+  guestCountLabel: Kein Gast | 1 Gast | {count} Gäste
   heroImage: Titelbild der Veranstaltung
   isCreator: Von dir
   isDraft: Entwurf
   isGuest: Dabei
   match: Match
 en:
+  distanceAway: '{distance} away'
+  distanceLessThanOneKilometer: Less than {distance}
+  guestCountLabel: No guests | 1 guest | {count} guests
   heroImage: Title picture of the event
   isCreator: Hosting
   isDraft: Draft
