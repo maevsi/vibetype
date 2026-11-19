@@ -239,12 +239,18 @@ const eventQuery = useApiQuery({
               username
             }
             addressByAddressId {
+              city
+              country
               id
+              line1
+              line2
               location {
                 latitude
                 longitude
               }
               name
+              postalCode
+              region
               rowId
             }
             createdBy
@@ -348,6 +354,24 @@ useHeadDefault({
   title,
 })
 defineEventOgImage({ alt: t('ogImageAlt'), event: event.value })
+const postalAddress = computed(() =>
+  address.value?.line1 ||
+  address.value?.postalCode ||
+  address.value?.city ||
+  address.value?.country
+    ? {
+        '@type': 'PostalAddress' as const,
+        addressCountry: address.value.country ?? undefined,
+        addressLocality: address.value.city ?? undefined,
+        addressRegion: address.value.region ?? undefined,
+        postalCode: address.value.postalCode ?? undefined,
+        streetAddress:
+          [address.value.line1, address.value.line2]
+            .filter(Boolean)
+            .join(', ') || undefined,
+      }
+    : address.value?.name,
+)
 defineEvent({
   description,
   endDate: event.value?.end,
@@ -361,7 +385,7 @@ defineEvent({
   location:
     event.value?.isInPerson && address.value?.name
       ? definePlace({
-          address: address.value.name,
+          address: postalAddress.value,
           latitude: address.value.location?.latitude ?? undefined,
           longitude: address.value.location?.longitude ?? undefined,
           name: address.value.name,

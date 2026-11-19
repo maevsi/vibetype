@@ -48,6 +48,7 @@ import { useMediaQuery, useMounted, useTimeoutFn } from '@vueuse/core'
 import type { FullscreenControl, Map, LatLng } from 'leaflet'
 import type { DeepReadonly, HtmlHTMLAttributes, WatchStopHandle } from 'vue'
 
+import type { GeocodeResult } from '#shared/utils/address'
 import { EXTERNAL_MEDIA_COOKIE_ID } from '~~/node/static'
 
 import { cn } from '@/utils/shadcn'
@@ -82,7 +83,7 @@ const {
   },
 } = defineProps<AppMapProps & { class?: HtmlHTMLAttributes['class'] }>()
 const emit = defineEmits<{
-  geocode: [name: string]
+  geocode: [result: GeocodeResult]
 }>()
 const classComputed = computed(() => cn('h-96 w-full text-fg-1', classProps))
 
@@ -212,7 +213,10 @@ const initialize = async () => {
     map.value.on('geosearch/showlocation', (showLocationEvent) => {
       const { location } = showLocationEvent
       map.value?.setView([location.y, location.x], 13)
-      emit('geocode', location.label)
+      emit('geocode', {
+        ...getAddressFromNominatim(location.raw),
+        label: location.label,
+      })
     })
   }
 

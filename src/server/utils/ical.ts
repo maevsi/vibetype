@@ -5,6 +5,7 @@ import ical, {
   ICalEventStatus,
 } from 'ical-generator'
 
+import { type AddressFields, getAddressText } from '../../shared/utils/address'
 import { getTextFromHtml } from '../../shared/utils/text' // TODO: replace this with an e2e test (https://playwright.dev/docs/clock)
 import { EventVisibility } from '../../gql/generated/graphcache'
 import type {
@@ -27,9 +28,15 @@ export const getIcalString = ({
 }: {
   event: Pick<
     EventItemFragment,
-    // | 'addressByAddressId' // TODO: update for address
     'description' | 'end' | 'name' | 'rowId' | 'slug' | 'start' | 'visibility'
   > & {
+    isInPerson?: boolean | null
+    addressByAddressId?:
+      | (AddressFields & {
+          location?: { latitude: number; longitude: number } | null
+          name?: string | null
+        })
+      | null
     accountByCreatedBy: Omit<
       NonNullable<EventItemFragment['accountByCreatedBy']>,
       'id' | 'rowId'
@@ -49,6 +56,20 @@ export const getIcalString = ({
     event.description ? `${eventUrl}\n${event.description}` : '',
   )
   const hostname = new URL(siteUrl).hostname
+  const address = event.isInPerson ? event.addressByAddressId : undefined
+  const addressText = getAddressText(address)
+  const icalLocation = address?.name
+    ? {
+        title: address.name,
+        ...(addressText && { address: addressText }),
+        ...(address.location && {
+          geo: {
+            lat: address.location.latitude,
+            lon: address.location.longitude,
+          },
+        }),
+      }
+    : undefined
 
   return ical({
     // `prodId` is generated automatically.
@@ -90,7 +111,7 @@ export const getIcalString = ({
           },
           // description: getTextFromHtml(DOMPurify.sanitize(eventDescriptionHtml)),
         }),
-        // location: event.location, // TODO: update for address
+        ...(icalLocation && { location: icalLocation }),
         organizer: {
           name: eventAuthorUsername,
           email: eventAuthorUsername + '@' + hostname,

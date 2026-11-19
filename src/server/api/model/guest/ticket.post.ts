@@ -27,8 +27,14 @@ const ticketGuestQuery = graphql(`
           username
         }
         addressByAddressId {
+          city
+          country
           id
+          line1
+          line2
           name
+          postalCode
+          region
         }
         end
         id
@@ -109,7 +115,17 @@ export default defineEventHandler(async (h3Event) => {
           : dateTimeFormat.format(new Date(event.start)),
       },
       ...(event.addressByAddressId?.name
-        ? [{ label: labels.location, value: event.addressByAddressId.name }]
+        ? [
+            {
+              label: labels.location,
+              value: [
+                event.addressByAddressId.name,
+                ...getAddressLines(event.addressByAddressId),
+              ]
+                .filter((line, index, lines) => lines.indexOf(line) === index)
+                .join(', '),
+            },
+          ]
         : []),
       ...(event.accountByCreatedBy
         ? [
