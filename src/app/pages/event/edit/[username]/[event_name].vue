@@ -8,20 +8,7 @@
           <FormEvent :event />
           <section>
             <h2>{{ t('titleDelete') }}</h2>
-            <FormDeleteDrawer
-              id="deleteEvent"
-              :errors-pg-ids="{
-                postgres28P01: t('postgres28P01'),
-                postgresP0002: t('postgresP0002'),
-              }"
-              :item-name-deletion="t('formDeleteItemNameDeletion')"
-              :item-name-success="t('formDeleteItemNameSuccess')"
-              :mutation="eventDeleteMutation"
-              :variables="{
-                id: event.rowId,
-              }"
-              @success="navigateTo(localePath(`dashboard`))"
-            />
+            <EventDeleteDrawer :event-id="event.rowId" />
           </section>
         </div>
       </LayoutPage>
@@ -30,8 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import { useMutation } from '@urql/vue'
-
 import { graphql } from '~~/gql/generated'
 
 // validation
@@ -106,15 +91,6 @@ const eventQuery = useApiQuery({
 const api = await useApiData([eventQuery])
 const account = computed(() => api.value.data?.accountByUsername)
 const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
-const eventDeleteMutation = useMutation(
-  graphql(`
-    mutation EventDelete($input: EventDeleteInput!) {
-      eventDelete(input: $input) {
-        clientMutationId
-      }
-    }
-  `),
-)
 
 // page
 const { t } = useI18n()
@@ -130,22 +106,13 @@ const title = computed(() => {
 useHeadDefault({ title })
 
 // template
-const localePath = useLocalePath()
 </script>
 
 <i18n lang="yaml">
 de:
-  formDeleteItemNameDeletion: Veranstaltung
-  formDeleteItemNameSuccess: Veranstaltung
-  postgres28P01: Passwort falsch! Überprüfe, ob du alles richtig geschrieben hast.
-  postgresP0002: Die Veranstaltung wurde nicht gefunden!
   title: Veranstaltung bearbeiten
   titleDelete: Veranstaltung löschen
 en:
-  formDeleteItemNameDeletion: event
-  formDeleteItemNameSuccess: Event
-  postgres28P01: Password incorrect! Check for spelling mistakes.
-  postgresP0002: Event could not be found!
   title: Edit event
   titleDelete: Delete event
 </i18n>
