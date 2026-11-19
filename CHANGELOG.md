@@ -1,3 +1,9 @@
+## [17.20.0](https://github.com/maevsi/vibetype/compare/17.19.1...17.20.0) (2026-11-19)
+
+### Features
+
+* **account:** load profile pictures through our server ([#2713](https://github.com/maevsi/vibetype/issues/2713)) ([ef3f0be](https://github.com/maevsi/vibetype/commit/ef3f0be682d815babfb940d6cd87d1a4e4f5426d))
+
 ## [17.19.1](https://github.com/maevsi/vibetype/compare/17.19.0...17.19.1) (2026-11-19)
 
 ### Bug Fixes
