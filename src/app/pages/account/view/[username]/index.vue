@@ -78,6 +78,18 @@
               {{ t('username', { username: route.params.username }) }}
             </h1>
           </div>
+          <AppCardButton
+            :description="t('events')"
+            :title="String(account.eventsByCreatedBy.totalCount)"
+            :to="
+              localePath({
+                name: 'event-view-username',
+                params: { username: route.params.username },
+              })
+            "
+          >
+            <AppIconToday />
+          </AppCardButton>
           <AppFeature feature="friends">
             <AppButton
               v-if="store.signedInUsername !== route.params.username"
@@ -232,6 +244,50 @@
                 {{ accountImprintUrl }}
               </AppLink>
             </span>
+          </div>
+          <div v-if="isOwnProfile" class="flex flex-col gap-2">
+            <AppSeparator />
+            <div class="flex flex-col">
+              <AppMenuItem
+                :title="t('preferences')"
+                :to="localePath({ name: 'session-edit' })"
+              >
+                <AppIconSettings />
+              </AppMenuItem>
+              <AppMenuItem
+                :title="t('support')"
+                :to="localePath({ name: 'support-contact' })"
+              >
+                <AppIconMail />
+              </AppMenuItem>
+              <AppMenuItem
+                :title="t('terms')"
+                :to="localePath('docs-legal-terms')"
+              >
+                <AppIconContract />
+              </AppMenuItem>
+              <AppMenuItem
+                :title="t('legalNotice')"
+                :to="localePath('docs-legal-imprint')"
+              >
+                <AppIconLegal />
+              </AppMenuItem>
+              <AppMenuItem
+                :title="t('privacy')"
+                :to="localePath('docs-legal-privacy')"
+              >
+                <AppIconVerifiedUser />
+              </AppMenuItem>
+            </div>
+            <AppSeparator />
+            <AppMenuItem
+              :title="t('logout')"
+              variant="critical"
+              @click="signOutToRoot"
+            >
+              <template #suffix />
+              <AppIconLogout />
+            </AppMenuItem>
           </div>
         </div>
       </LayoutPage>
@@ -402,6 +458,7 @@ defineOgImage(
 // template
 const localePath = useLocalePath()
 const isBlockDrawerOpen = ref<boolean>()
+const signOutToRoot = useSignOutToRoot()
 </script>
 
 <i18n lang="yaml">
@@ -418,11 +475,17 @@ de:
   friendAdd: Freundschaftsanfrage senden
   friends: Freunde
   imprint: Impressum
+  legalNotice: Impressum
+  logout: Abmelden
   myProfile: Mein Profil
   newEvent: Neues Event
   ogImageAlt: Das Profilbild des Kontos.
+  preferences: Einstellungen
+  privacy: Datenschutzerklärung
   profile: Profil
   settings: Einstellungen
+  support: Hilfe
+  terms: Allgemeine Geschäftsbedingungen
   uploads: Meine Dateien
   username: "{'@'}{username}"
 en:
@@ -438,11 +501,17 @@ en:
   friendAdd: Send friend request
   friends: Friends
   imprint: Imprint
+  legalNotice: Legal Notice
+  logout: Log Out
   myProfile: My Profile
   newEvent: New event
   ogImageAlt: The account's profile picture.
+  preferences: Settings
+  privacy: Privacy Policy
   profile: Profile
   settings: Settings
+  support: Support
+  terms: General Terms and Conditions
   uploads: Uploads
   username: "{'@'}{username}"
 </i18n>

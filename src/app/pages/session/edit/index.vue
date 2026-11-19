@@ -144,22 +144,10 @@
 const { t } = useI18n()
 const localePath = useLocalePath()
 const store = useStore()
-const jwtDelete = useJwtDelete()
 const { isDevelopmentModeActive, onDevelopmentModeTrigger } =
   useDevelopmentModeTrigger()
 
-// sign out
-const signOutToRoot = async () => {
-  await jwtDelete()
-  return navigateTo(
-    localePath({
-      name: 'index',
-      query: {
-        signOut: null,
-      },
-    }),
-  )
-}
+const signOutToRoot = useSignOutToRoot()
 
 // page
 const title = t('preferences')
