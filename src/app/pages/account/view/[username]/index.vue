@@ -249,7 +249,7 @@
             <AppSeparator />
             <div class="flex flex-col">
               <AppMenuItem
-                :title="t('preferences')"
+                :title="t('settings')"
                 :to="localePath({ name: 'session-edit' })"
               >
                 <AppIconSettings />
@@ -267,7 +267,7 @@
                 <AppIconContract />
               </AppMenuItem>
               <AppMenuItem
-                :title="t('legalNotice')"
+                :title="t('imprint')"
                 :to="localePath('docs-legal-imprint')"
               >
                 <AppIconLegal />
@@ -475,12 +475,10 @@ de:
   friendAdd: Freundschaftsanfrage senden
   friends: Freunde
   imprint: Impressum
-  legalNotice: Impressum
   logout: Abmelden
   myProfile: Mein Profil
   newEvent: Neues Event
   ogImageAlt: Das Profilbild des Kontos.
-  preferences: Einstellungen
   privacy: Datenschutzerklärung
   profile: Profil
   settings: Einstellungen
@@ -501,12 +499,10 @@ en:
   friendAdd: Send friend request
   friends: Friends
   imprint: Imprint
-  legalNotice: Legal Notice
   logout: Log Out
   myProfile: My Profile
   newEvent: New event
   ogImageAlt: The account's profile picture.
-  preferences: Settings
   privacy: Privacy Policy
   profile: Profile
   settings: Settings
