@@ -95,11 +95,14 @@
           </span>
           <div class="flex flex-col">
             <AppMenuItem
-              v-if="!isIos"
-              :title="t('cookies')"
-              @click="cookieControl.isModalActive.value = true"
+              :title="t('privacySettings')"
+              :to="
+                localePath({
+                  name: 'session-edit-privacy',
+                })
+              "
             >
-              <AppIconCookieOutline />
+              <AppIconShieldCheck />
             </AppMenuItem>
             <AppMenuItem
               :title="t('terms')"
@@ -139,8 +142,6 @@
 
 <script setup lang="ts">
 const { t } = useI18n()
-const cookieControl = useCookieControl()
-const { isIos } = usePlatform()
 const localePath = useLocalePath()
 const store = useStore()
 const jwtDelete = useJwtDelete()
@@ -170,7 +171,6 @@ de:
   bugReport: Fehler
   colorScheme: Farbschema
   contact: Kontakt
-  cookies: Cookies
   developerInformation: Entwicklerinformationen
   display: Anzeige
   featureSuggestion: Idee
@@ -180,6 +180,7 @@ de:
   logout: Abmelden
   preferences: Einstellungen
   privacy: Datenschutzerklärung
+  privacySettings: Datenschutz-Einstellungen
   report: Meldung von Inhalten
   support: Hilfe
   terms: Allgemeine Geschäftsbedingungen
@@ -187,7 +188,6 @@ en:
   bugReport: Issue
   colorScheme: Color scheme
   contact: Contact
-  cookies: Cookies
   developerInformation: Developer information
   display: Display
   featureSuggestion: Idea
@@ -197,6 +197,7 @@ en:
   logout: Log Out
   preferences: Settings
   privacy: Privacy Policy
+  privacySettings: Privacy settings
   report: Content Report
   support: Support
   terms: General Terms and Conditions

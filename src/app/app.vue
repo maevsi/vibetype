@@ -56,8 +56,9 @@
     </NuxtLayout>
     <AppSonner />
     <ClientOnly>
-      <!-- TODO: render server side too when styling is improved (https://github.com/dargmuesli/nuxt-cookie-control/discussions/228)  -->
-      <CookieControl v-if="!isIos" :locale />
+      <!-- hidden, as it only persists the choices made in `ConsentScreen` and the privacy settings to its cookies and removes the cookies of withdrawn purposes -->
+      <CookieControl class="hidden" :locale />
+      <ConsentScreen />
     </ClientOnly>
     <!-- <div
       class="absolute inset-x-0 -top-16 -z-10 flex max-h-screen transform-gpu items-start justify-center overflow-hidden blur-3xl"
@@ -76,7 +77,7 @@ import { isEqual } from 'ufo'
 
 const nuxtApp = useNuxtApp()
 const { $pwa, $urql } = nuxtApp
-const { isApp, isIos } = usePlatform()
+const { isApp } = usePlatform()
 const runtimeConfig = useRuntimeConfig()
 const timeZone = useTimeZone()
 const localePath = useLocalePath()
@@ -221,10 +222,6 @@ await detectLanguageFromQuery({
   route,
 })
 await initialize()
-
-onMounted(() => {
-  requestTrackingPermission()
-})
 </script>
 
 <style scoped>

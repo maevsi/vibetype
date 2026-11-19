@@ -76,9 +76,9 @@ appTest.describe('internationalization', () => {
 })
 
 appTest.describe('visual regression', () => {
-  appTest('displays the cookie banner', async ({ page }) => {
+  appTest('displays the privacy screen', async ({ page }) => {
     await page.goto('/')
-    await PAGE_READY({ page, options: { cookieControl: false } })
+    await PAGE_READY({ page })
     await expect(page).toHaveScreenshot({ timeout: TIMEOUT })
   })
 })

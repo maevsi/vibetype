@@ -2,7 +2,6 @@
   "globalError": "Error",
   "globalErrorMessage": "An error occurred.",
   "globalErrorNoData": "Response without data",
-  "globalFeatureFlagsCookieRequired": "Enabling feature flags requires allowing their cookie.",
   "globalErrorClipboard": "Your browser does not support modern copying to the clipboard.",
   "globalErrorDetailsCopy": "Copy details",
   "globalErrorDetailsCopySuccess": "Details copied to the clipboard.",

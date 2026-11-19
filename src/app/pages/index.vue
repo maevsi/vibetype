@@ -139,12 +139,11 @@
             </NuxtLinkLocale>
           </p>
           <AppButton
-            v-if="!isIos"
-            :aria-label="t('cookies')"
+            :aria-label="t('privacySettings')"
+            :to="localePath('session-edit-privacy')"
             variant="tertiary"
-            @click="cookieControl.isModalActive.value = true"
           >
-            {{ t('cookies') }}
+            {{ t('privacySettings') }}
           </AppButton>
         </div>
       </div>
@@ -255,8 +254,7 @@ const toProfile = () => {
     }),
   )
 }
-const { isApp, isIos } = usePlatform()
-const cookieControl = useCookieControl()
+const { isApp } = usePlatform()
 const dateToday = today(getLocalTimeZone())
 const querySignOut = computed(() => route.query.signOut === null)
 
@@ -267,7 +265,6 @@ useHeadDefault({ title: siteConfig.name })
 
 <i18n lang="yaml">
 de:
-  cookies: Cookie-Einstellungen
   createAccount: Konto erstellen
   imprint: Impressum
   legalAnd: und
@@ -276,6 +273,7 @@ de:
   more: Webseite besuchen, um mehr zu erfahren
   or: ODER
   privacy: Datenschutzerklärung
+  privacySettings: Datenschutz-Einstellungen
   register: Konto erstellen
   signIn: Einloggen
   signInApple: Mit Apple anmelden
@@ -292,7 +290,6 @@ de:
   welcome: Willkommen bei
   welcomeWithSiteName: Willkommen bei @.upper:{'globalSiteName'}
 en:
-  cookies: Cookie settings
   createAccount: Create account
   imprint: Imprint
   legalAnd: and
@@ -301,6 +298,7 @@ en:
   more: Visit website to find out more
   or: OR
   privacy: Privacy Policy
+  privacySettings: Privacy settings
   register: Create account
   signIn: Sign in
   signInApple: Sign in with Apple
