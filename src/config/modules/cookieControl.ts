@@ -10,7 +10,6 @@ import {
   GTAG_MEASUREMENT_ID,
   I18N_COOKIE_NAME,
   LOCKDOWN_MODE_DISMISSED_COOKIE_NAME,
-  POSTER_HUNT_SEEN_COOKIE_NAME,
   SENTRY_COOKIE_ID,
   TIMEZONE_COOKIE_NAME,
 } from '../../node/static'
@@ -110,18 +109,6 @@ export const cookieControlConfig: Pick<
             en: 'Lockdown Mode Notice',
           },
           targetCookieIds: [LOCKDOWN_MODE_DISMISSED_COOKIE_NAME],
-        },
-        {
-          description: {
-            de: 'Dieser Cookie von uns speichert, dass die Plakatjagd bereits besucht wurde.',
-            en: 'This cookie of ours saves that the poster hunt has already been visited.',
-          },
-          id: 'p',
-          name: {
-            de: 'Plakatjagd',
-            en: 'Poster Hunt',
-          },
-          targetCookieIds: [POSTER_HUNT_SEEN_COOKIE_NAME],
         },
         {
           description: {

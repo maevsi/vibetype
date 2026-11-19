@@ -10,7 +10,6 @@ export {
   IS_IN_STACK,
   IS_NITRO_OPENAPI_ENABLED,
   LOCKDOWN_MODE_DISMISSED_COOKIE_NAME,
-  POSTER_HUNT_SEEN_COOKIE_NAME,
   PRODUCTION_HOST,
   SITE_NAME,
   TESTING_COOKIE_NAME,
@@ -41,7 +40,6 @@ export const STATE_KEY_TIME_ZONE = 'dateTimeTimeZone'
 export const STATE_LOADING_IDS_NAME = 'loadingIds'
 export const FEATURE_FLAGS_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year
 export const LOCKDOWN_MODE_DISMISSED_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year
-export const POSTER_HUNT_SEEN_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year
 export const THEME_COLOR_DARK = '#121312'
 export const TITLE_TEMPLATE = ({
   siteName,

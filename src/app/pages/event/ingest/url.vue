@@ -36,8 +36,6 @@ definePageMeta({
 const { t } = useI18n()
 const { $csrfFetch } = useNuxtApp()
 
-usePosterHuntSeen().value = true
-
 const enteredURL = ref<string>()
 const isUploading = ref(false)
 

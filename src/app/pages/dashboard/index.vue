@@ -12,7 +12,6 @@
       </span>
       <template #actions>
         <AppButton
-          v-if="isPosterHuntSeen"
           :aria-label="t('hunt')"
           class="px-4 py-2 text-body-small font-semibold"
           size="none"
@@ -46,7 +45,6 @@
         />
       </AppLoaderPlaceholder>
       <div v-else class="flex flex-col gap-4">
-        <EventPosterHunt v-if="!isPosterHuntSeen" />
         <section
           :aria-labelledby="templateIdUpcoming"
           class="flex flex-col gap-2"
@@ -146,7 +144,54 @@
             </AppButton>
           </div>
         </section>
-        <EventPosterHunt v-if="isPosterHuntSeen" />
+        <section
+          :aria-labelledby="templateIdPosterHunt"
+          class="flex flex-col gap-4 rounded-medium bg-surface-raised p-2"
+        >
+          <div class="flex flex-col gap-1 px-2 pt-2">
+            <h2 :id="templateIdPosterHunt" class="text-headline">
+              {{ t('posterHuntTitle') }}
+            </h2>
+            <p class="text-body-small text-fg-2">
+              {{ t('posterHuntDescription') }}
+            </p>
+          </div>
+          <div
+            class="grid gap-2"
+            :class="isLinkAvailable ? 'grid-cols-3' : 'grid-cols-2'"
+          >
+            <AppButton
+              :aria-label="t('posterHuntPhoto')"
+              class="h-15 flex-col justify-center gap-1 rounded-small p-2 text-caption"
+              size="none"
+              :to="localePath('event-ingest-image')"
+            >
+              <AppIconCamera />
+              {{ t('posterHuntPhoto') }}
+            </AppButton>
+            <AppButton
+              :aria-label="t('posterHuntImage')"
+              class="h-15 flex-col justify-center gap-1 rounded-small bg-surface p-2 text-caption text-fg-1"
+              size="none"
+              :to="localePath('event-ingest-image')"
+              variant="ghost"
+            >
+              <AppIconArrowUpTray />
+              {{ t('posterHuntImage') }}
+            </AppButton>
+            <AppButton
+              v-if="isLinkAvailable"
+              :aria-label="t('posterHuntLink')"
+              class="h-15 flex-col justify-center gap-1 rounded-small bg-surface p-2 text-caption text-fg-1"
+              size="none"
+              :to="localePath('event-ingest-url')"
+              variant="ghost"
+            >
+              <AppIconLink />
+              {{ t('posterHuntLink') }}
+            </AppButton>
+          </div>
+        </section>
         <AppButton
           v-if="!eventUpcoming"
           :aria-label="t('discover')"
@@ -369,8 +414,8 @@ const eventRecommendationsOther = computed(
   () => eventRecommendations.value?.slice(1) ?? [],
 )
 
-// poster hunt
-const isPosterHuntSeen = usePosterHuntSeen()
+// the link page only exists in development
+const isLinkAvailable = import.meta.dev
 
 // page
 const { t } = useI18n()
@@ -380,6 +425,7 @@ useHeadDefault({ title })
 // template
 const localePath = useLocalePath()
 const menuTargets = useMenuTargets()
+const templateIdPosterHunt = useId()
 const templateIdPreference = useId()
 const templateIdRecommendation = useId()
 const templateIdTopPick = useId()
@@ -391,6 +437,11 @@ de:
   discover: Neue Veranstaltungen entdecken
   hunt: Jagd
   notifications: Benachrichtigungen
+  posterHuntDescription: Du hast eine spannende Veranstaltung außerhalb von @.upper:{'globalSiteName'} gesehen?
+  posterHuntImage: Bild hochladen
+  posterHuntLink: Link angeben
+  posterHuntPhoto: Foto aufnehmen
+  posterHuntTitle: Plakatjagd
   preferenceAction: KI einrichten
   preferenceDescription: Sag uns, was Dir gefällt, und Du bekommst Veranstaltungen, die zu Dir passen.
   preferenceTitle: Stell Deinen Vibe ein
@@ -405,6 +456,11 @@ en:
   discover: Discover new events
   hunt: Hunt
   notifications: Notifications
+  posterHuntDescription: Saw an interesting event outside of @.upper:{'globalSiteName'}?
+  posterHuntImage: Upload image
+  posterHuntLink: Provide link
+  posterHuntPhoto: Take photo
+  posterHuntTitle: Poster hunting
   preferenceAction: Set up AI
   preferenceDescription: Tell us what you like and get events that fit you.
   preferenceTitle: Set up your vibe

@@ -79,7 +79,6 @@ const templateInputLibrary = useTemplateRef('inputLibrary')
 await useSignInRequired()
 
 // page
-usePosterHuntSeen().value = true
 useHeadDefault({ title: t('title') })
 
 // data
