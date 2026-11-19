@@ -314,20 +314,18 @@
                 />
               </Field>
             </form.Field>
-            <AppFeature feature="map">
-              <div class="relative isolate">
-                <AppMap
-                  ref="map"
-                  class="h-64"
-                  geocoder
-                  :position-initial="locationPositionInitial"
-                  @geocode="onGeocode"
-                />
-                <AppIconMapPinSolid
-                  class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-error"
-                />
-              </div>
-            </AppFeature>
+            <div class="relative isolate">
+              <AppMap
+                ref="map"
+                class="h-64"
+                geocoder
+                :position-initial="locationPositionInitial"
+                @geocode="onGeocode"
+              />
+              <AppIconMapPinSolid
+                class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-error"
+              />
+            </div>
           </template>
         </form.Field>
         <form.Field v-slot="{ field }" name="url">
@@ -689,10 +687,14 @@ const syncAddress = async (
   const mapCenter = templateMap.value?.mapCenter
   if (!mapCenter) return addressRowIdOriginal ?? null
 
-  const location = {
-    type: 'Point' as const,
-    coordinates: [mapCenter.lng, mapCenter.lat],
-  }
+  // an untouched map would store its default centre as the location
+  const location =
+    locationPositionInitial || templateMap.value?.isPositionSet
+      ? {
+          type: 'Point' as const,
+          coordinates: [mapCenter.lng, mapCenter.lat],
+        }
+      : null
 
   if (addressRowIdOriginal) {
     const result = await updateAddressByRowIdMutation.executeMutation({

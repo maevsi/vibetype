@@ -60,8 +60,11 @@ const templateIdMap = useId()
 const map = ref<Map>()
 const mapCenter = ref<LatLng>()
 const mapZoom = ref<number>()
+// stays false until the view differs from the initial one, so programmatic initial centring never counts as input
+const isPositionSet = ref(false)
 
 const { t, locale } = useI18n()
+const colorMode = useColorMode()
 const isMounted = useMounted()
 
 // two-finger and ctrl gestures keep the page scrollable, except in fullscreen where the map is the whole page
@@ -100,6 +103,7 @@ onMounted(async () => {
   const {
     DivIcon,
     FullscreenControl,
+    LayerGroup,
     Map: LeafletMap,
     Marker,
     TileLayer,
@@ -125,28 +129,50 @@ onMounted(async () => {
   ) // Kassel: 51.3144643, 9.4957866
   new TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution:
-      '<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map.value)
   fullscreenControl = new FullscreenControl().addTo(map.value)
 
   if (geocoder) {
     const { GeoSearchControl, OpenStreetMapProvider } =
       await import('leaflet-geosearch')
+    // the app's own endpoint caches and rate limits requests to the geocoding service, as its usage policy demands
+    const provider = new OpenStreetMapProvider({
+      params: { 'accept-language': locale.value },
+      searchUrl: '/api/service/nominatim/search',
+    })
     const geosearch = new GeoSearchControl({
-      provider: new OpenStreetMapProvider(),
+      provider,
       // Nominatim's usage policy forbids autocomplete, so the control only searches on submit instead of suggesting while the user types.
       autoComplete: false,
+      clearSearchLabel: t('clearSearch'),
       notFoundMessage: t('notFoundMessage'),
       position: 'topright',
+      searchLabel: t('searchLabel'),
       showMarker: false,
       showResultListOnSubmit: true,
+      theme: colorMode.value === 'dark' ? 'dark' : 'light',
       updateMap: false,
     })
     geosearch.addTo(map.value)
     // the control reads its texts when it is built, so refresh them when the locale changes
-    watch(locale, () =>
-      geosearch.setLabels({ notFoundMessage: t('notFoundMessage') }),
+    watch(locale, (localeValue) => {
+      provider.options.params = { 'accept-language': localeValue }
+      geosearch.setLabels({
+        clearSearchLabel: t('clearSearch'),
+        notFoundMessage: t('notFoundMessage'),
+        searchLabel: t('searchLabel'),
+      })
+    })
+    watch(
+      () => colorMode.value,
+      (colorModeValue) =>
+        geosearch.searchElement.container.classList.toggle(
+          'leaflet-geosearch-theme-dark',
+          colorModeValue === 'dark',
+        ),
     )
+    map.value.on('geosearch/error', () => toast.error(t('geocodeError')))
     map.value.on('geosearch/showlocation', (showLocationEvent) => {
       const { location } = showLocationEvent
       map.value?.setView([location.y, location.x], 13)
@@ -192,56 +218,87 @@ onMounted(async () => {
 
   mapCenter.value = map.value.getCenter()
   mapZoom.value = map.value.getZoom()
+  const centerInitial = map.value.getCenter()
+  let isFitting = false
   map.value.on('move', () => {
     mapCenter.value = map.value?.getCenter()
+    if (!isFitting && mapCenter.value && !mapCenter.value.equals(centerInitial))
+      isPositionSet.value = true
   })
   map.value.on('zoomend', () => {
     mapZoom.value = map.value?.getZoom()
   })
 
-  if (events && events.length) {
-    const icon = new DivIcon({
-      className: 'text-error',
-      html: markerIcon,
-      iconAnchor: [15, 25],
-      iconSize: [30, 30],
-      popupAnchor: [15, 2],
-    })
-
-    for (const event of events) {
-      const location = event.addressByAddressId?.location
-      if (!location) continue
-      new Marker([location.latitude, location.longitude], { icon }).addTo(
-        map.value,
-      )
-    }
-  }
+  const icon = new DivIcon({
+    className: 'text-error',
+    html: markerIcon,
+    iconAnchor: [15, 25],
+    iconSize: [30, 30],
+    popupAnchor: [15, 2],
+  })
+  const markerLayer = new LayerGroup().addTo(map.value)
+  // events load page by page, so the markers follow the prop
+  watch(
+    () => events,
+    (eventsCurrent) => {
+      markerLayer.clearLayers()
+      const positions: [number, number][] = []
+      for (const event of eventsCurrent ?? []) {
+        const location = event.addressByAddressId?.location
+        if (!location) continue
+        positions.push([location.latitude, location.longitude])
+        new Marker([location.latitude, location.longitude], { icon }).addTo(
+          markerLayer,
+        )
+      }
+      if (!positions.length) return
+      isFitting = true
+      map.value?.fitBounds(positions, { maxZoom: 15, padding: [30, 30] })
+      isFitting = false
+    },
+    { immediate: true },
+  )
 })
-defineExpose({ map, mapCenter, mapZoom })
+defineExpose({ isPositionSet, map, mapCenter, mapZoom })
 </script>
 
 <style>
 @import url('leaflet/dist/leaflet.css');
 @import url('leaflet-geosearch/assets/css/leaflet.css');
+
+/* mutes the saturated OpenStreetMap tiles, leaving markers, controls and attribution untouched */
+.leaflet-tile-pane {
+  filter: saturate(0.6) contrast(0.92) brightness(1.03);
+}
+
+.dark .leaflet-tile-pane {
+  filter: saturate(0.5) contrast(0.9) brightness(0.65);
+}
 </style>
 
 <i18n lang="yaml">
 de:
+  clearSearch: Suche leeren
   enterFullscreen: Vollbild öffnen
   exitFullscreen: Vollbild beenden
+  geocodeError: Die Adresssuche ist fehlgeschlagen. Bitte versuche es später erneut.
   hintTouch: Verschiebe die Karte mit zwei Fingern.
   hintWheel: Zoome die Karte mit {key} + Scrollen.
   map: Karte
   notFoundMessage: Nichts gefunden.
+  searchLabel: Adresse eingeben
   zoomIn: Vergrößern
   zoomOut: Verkleinern
 en:
+  clearSearch: Clear search
   enterFullscreen: Enter fullscreen
   exitFullscreen: Exit fullscreen
+  geocodeError: The address search failed. Please try again later.
   hintTouch: Use two fingers to move the map.
   hintWheel: Hold {key} and scroll to zoom the map.
   map: Map
   notFoundMessage: Nothing found.
+  searchLabel: Enter address
   zoomIn: Zoom in
   zoomOut: Zoom out
 </i18n>

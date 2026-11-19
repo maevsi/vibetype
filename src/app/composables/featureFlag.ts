@@ -4,7 +4,6 @@ export const FEATURE_FLAGS = [
   'developer-tools',
   'friends',
   'invitations',
-  'map',
   'notifications',
   'participation',
   'social-login',
@@ -36,8 +35,8 @@ const parseFeatureFlags = (value?: unknown | null): FeatureFlag[] => {
  *
  * @example
  * const { enableFeature, isFeatureEnabled } = useFeatureFlags()
- * enableFeature('map')
- * if (isFeatureEnabled('map').value) { ... }
+ * enableFeature('friends')
+ * if (isFeatureEnabled('friends').value) { ... }
  */
 export const useFeatureFlags = () => {
   const cookieControl = useCookieControl()
