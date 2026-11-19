@@ -1,6 +1,6 @@
 <template>
   <label
-    class="group relative flex min-h-25 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-medium bg-surface-raised p-3 has-checked:inset-ring-3 has-checked:inset-ring-action-primary has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-action-primary"
+    class="group relative flex h-full min-h-25 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-medium bg-surface-raised p-3 has-checked:inset-ring-3 has-checked:inset-ring-action-primary has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-action-primary"
   >
     <input
       :checked="selected.includes(id)"
