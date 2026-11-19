@@ -83,11 +83,8 @@ const isVisible = computed(
 
 const dismiss = () => {
   $pwa?.cancelInstall()
-  try {
-    isDismissed.value = true
-  } catch {
-    // storage unavailable (e.g. private mode), so the dismissal only lasts until reload
-  }
+  // without storage (e.g. blocked site data) `useLocalStorage` keeps the value in memory, so the dismissal lasts until reload
+  isDismissed.value = true
 }
 </script>
 
