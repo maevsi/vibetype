@@ -1042,7 +1042,9 @@ export type EventListQuery = {
     totalCount: number
     nodes: Array<{
       end: string | null
+      guestCount: number
       id: string
+      isInPerson: boolean | null
       name: string
       rowId: string
       slug: string
@@ -1095,7 +1097,9 @@ export type EventSearchQuery = {
     totalCount: number
     nodes: Array<{
       end: string | null
+      guestCount: number
       id: string
+      isInPerson: boolean | null
       name: string
       rowId: string
       slug: string
@@ -4072,6 +4076,10 @@ export const EventListDocument = {
                       },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'guestCount' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'guestsByEventId' },
                         arguments: [
                           {
@@ -4134,6 +4142,10 @@ export const EventListDocument = {
                         },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isInPerson' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
@@ -4459,6 +4471,10 @@ export const EventSearchDocument = {
                       },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'guestCount' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'guestsByEventId' },
                         arguments: [
                           {
@@ -4521,6 +4537,10 @@ export const EventSearchDocument = {
                         },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isInPerson' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
