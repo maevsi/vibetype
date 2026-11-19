@@ -2,6 +2,55 @@
   <div>
     <form novalidate @submit.prevent="submit">
       <div class="flex flex-col gap-4">
+        <Field>
+          <FieldLabel>{{ t('headerImage') }}</FieldLabel>
+          <FieldContent>
+            <div
+              class="flex items-center justify-between gap-4 rounded-medium bg-surface-raised p-3"
+            >
+              <AppImage
+                v-if="headerImage?.storageKey"
+                :alt="t('headerImage')"
+                aspect="aspect-[3/2]"
+                class="h-15 rounded-small object-cover"
+                height="2"
+                :src="TUSD_FILES_URL + headerImage.storageKey"
+                width="3"
+              />
+              <span v-else class="text-body-small text-fg-2">
+                {{ t('headerImageNone') }}
+              </span>
+              <div class="flex gap-3">
+                <AppButton
+                  :aria-label="
+                    headerImage
+                      ? t('headerImageReplace')
+                      : t('headerImageSelect')
+                  "
+                  @click="isModalUploadSelectionOpen = true"
+                >
+                  <span class="text-caption">
+                    {{
+                      headerImage
+                        ? t('headerImageReplace')
+                        : t('headerImageSelect')
+                    }}
+                  </span>
+                </AppButton>
+                <AppButton
+                  v-if="headerImage"
+                  :aria-label="t('headerImageRemove')"
+                  variant="secondary"
+                  @click="headerImage = undefined"
+                >
+                  <span class="text-caption">
+                    {{ t('headerImageRemove') }}
+                  </span>
+                </AppButton>
+              </div>
+            </div>
+          </FieldContent>
+        </Field>
         <form.Field v-slot="{ field: nameField }" name="name">
           <Field>
             <FieldLabel for="input-name">{{ t('name') }}</FieldLabel>
@@ -389,6 +438,13 @@
         </AppAlert>
       </div>
     </form>
+    <ModalUploadSelection
+      v-model="isModalUploadSelectionOpen"
+      :aspect-ratio="3 / 2"
+      @select="onHeaderImageSelect"
+    >
+      <template #header>{{ t('headerImageSelect') }}</template>
+    </ModalUploadSelection>
   </div>
 </template>
 
@@ -440,6 +496,16 @@ const { event = undefined } = defineProps<{
     eventFormatMappingsByEventId?: {
       nodes: readonly { formatId: string }[]
     } | null
+    eventUploadsByEventId?: {
+      nodes: readonly {
+        isHeaderImage?: boolean | null
+        rowId: string
+        uploadByUploadId?: {
+          rowId: string
+          storageKey?: string | null
+        } | null
+      }[]
+    } | null
   }
 }>()
 
@@ -447,6 +513,7 @@ const localePath = useLocalePath()
 const { locale, t } = useI18n()
 const store = useStore()
 const timeZone = useTimeZone()
+const TUSD_FILES_URL = useTusdFilesUrl()
 
 // data
 const now = useNow()
@@ -563,6 +630,35 @@ const deleteEventFormatMappingByEventIdAndFormatIdMutation = useMutation(
     }
   `),
 )
+const createEventUploadMutation = useMutation(
+  graphql(`
+    mutation CreateEventUpload($input: CreateEventUploadInput!) {
+      createEventUpload(input: $input) {
+        eventUpload {
+          eventByEventId {
+            id
+          }
+          id
+        }
+      }
+    }
+  `),
+)
+const deleteEventUploadByRowIdMutation = useMutation(
+  graphql(`
+    mutation DeleteEventUploadByRowId($input: DeleteEventUploadByRowIdInput!) {
+      deleteEventUploadByRowId(input: $input) {
+        deletedEventUploadId
+        eventUpload {
+          eventByEventId {
+            id
+          }
+          id
+        }
+      }
+    }
+  `),
+)
 const api = await useApiData([
   createAddressMutation,
   createEventMutation,
@@ -572,6 +668,8 @@ const api = await useApiData([
   deleteEventCategoryMappingByEventIdAndCategoryIdMutation,
   createEventFormatMappingMutation,
   deleteEventFormatMappingByEventIdAndFormatIdMutation,
+  createEventUploadMutation,
+  deleteEventUploadByRowIdMutation,
 ])
 
 // slug validation
@@ -664,6 +762,48 @@ const syncEventFormatMappings = async ({
   ])
 
   return results.every((result) => !result.error)
+}
+
+// header image
+const headerImageOriginal = computed(() =>
+  event?.eventUploadsByEventId?.nodes.find((node) => node.isHeaderImage),
+)
+const headerImage = ref<{ storageKey?: string | null; uploadId: string }>()
+if (headerImageOriginal.value?.uploadByUploadId) {
+  headerImage.value = {
+    storageKey: headerImageOriginal.value.uploadByUploadId.storageKey,
+    uploadId: headerImageOriginal.value.uploadByUploadId.rowId,
+  }
+}
+const isModalUploadSelectionOpen = ref<boolean>()
+const onHeaderImageSelect = (
+  uploadId?: string | null,
+  storageKey?: string | null,
+) => {
+  if (!uploadId) return
+
+  headerImage.value = { storageKey, uploadId }
+}
+// the original is deleted first, as an event can have one header image only
+const syncHeaderImage = async (eventId: string) => {
+  const original = headerImageOriginal.value
+  const uploadId = headerImage.value?.uploadId
+
+  if (uploadId === original?.uploadByUploadId?.rowId) return true
+
+  if (original) {
+    const result = await deleteEventUploadByRowIdMutation.executeMutation({
+      input: { rowId: original.rowId },
+    })
+    if (result.error) return false
+  }
+
+  if (!uploadId) return true
+
+  const result = await createEventUploadMutation.executeMutation({
+    input: { eventUpload: { eventId, isHeaderImage: true, uploadId } },
+  })
+  return !result.error
 }
 
 // location
@@ -793,7 +933,13 @@ const form = useForm({
             .map((node) => node.formatId) ?? [],
         selectedFormatIds: value.formatIds,
       })
-      if (!categoryMappingsSynced || !formatMappingsSynced) return
+      const headerImageSynced = await syncHeaderImage(value.rowId)
+      if (
+        !categoryMappingsSynced ||
+        !formatMappingsSynced ||
+        !headerImageSynced
+      )
+        return
 
       toast.success(t('eventUpdateSuccess'))
     } else {
@@ -837,7 +983,13 @@ const form = useForm({
           originalFormatIds: [],
           selectedFormatIds: value.formatIds,
         })
-        if (!categoryMappingsSynced || !formatMappingsSynced) return
+        const headerImageSynced = await syncHeaderImage(eventId)
+        if (
+          !categoryMappingsSynced ||
+          !formatMappingsSynced ||
+          !headerImageSynced
+        )
+          return
       }
 
       toast.success(t('eventCreateSuccess'))
@@ -950,6 +1102,11 @@ de:
   eventUpdate: Änderungen speichern
   eventUpdateSuccess: Aktualisiert
   formats: Formate
+  headerImage: Titelbild
+  headerImageNone: Kein Titelbild ausgewählt
+  headerImageRemove: Entfernen
+  headerImageReplace: Ersetzen
+  headerImageSelect: Titelbild auswählen
   isInPerson: vor Ort
   isRemote: digital
   location: Ort
@@ -976,6 +1133,11 @@ en:
   eventUpdate: Save changes
   eventUpdateSuccess: Updated
   formats: Formats
+  headerImage: Cover image
+  headerImageNone: No cover image selected
+  headerImageRemove: Remove
+  headerImageReplace: Replace
+  headerImageSelect: Select a cover image
   isInPerson: in person
   isRemote: remote
   location: Location

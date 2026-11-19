@@ -384,6 +384,18 @@ const eventQuery = useApiQuery({
               id
             }
           }
+          eventUploadsByEventId {
+            nodes {
+              id
+              isHeaderImage
+              rowId
+              uploadByUploadId {
+                id
+                rowId
+                storageKey
+              }
+            }
+          }
           id
           isArchived
           isInPerson

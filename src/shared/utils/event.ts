@@ -33,6 +33,18 @@ export const EventItem = graphql(`
         id
       }
     }
+    eventUploadsByEventId {
+      nodes {
+        id
+        isHeaderImage
+        rowId
+        uploadByUploadId {
+          id
+          rowId
+          storageKey
+        }
+      }
+    }
     guestCountMaximum
     id
     isArchived
@@ -46,3 +58,14 @@ export const EventItem = graphql(`
     visibility
   }
 `)
+
+export const getEventHeaderImageStorageKey = (event: {
+  eventUploadsByEventId?: {
+    nodes: readonly {
+      isHeaderImage?: boolean | null
+      uploadByUploadId?: { storageKey?: string | null } | null
+    }[]
+  } | null
+}) =>
+  event.eventUploadsByEventId?.nodes.find((node) => node.isHeaderImage)
+    ?.uploadByUploadId?.storageKey

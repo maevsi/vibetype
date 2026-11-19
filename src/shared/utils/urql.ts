@@ -305,6 +305,16 @@ export const getUrqlClient = async ({
             'eventFormatMappingsByEventId',
           )
         },
+        createEventUpload: (result, _args, cache, _info) => {
+          const eventId =
+            result.createEventUpload?.eventUpload?.eventByEventId?.id
+          if (!eventId) return
+
+          cache.invalidate(
+            { __typename: 'Event', id: eventId },
+            'eventUploadsByEventId',
+          )
+        },
         createPreferenceEventCategory: (result, _args, cache, _info) =>
           cacheListAppend({
             cache,
@@ -397,6 +407,23 @@ export const getUrqlClient = async ({
             cache.invalidate(
               { __typename: 'Event', id: eventId },
               'eventFormatMappingsByEventId',
+            )
+        },
+        deleteEventUploadByRowId: (result, _args, cache, _info) => {
+          const payload = result.deleteEventUploadByRowId
+          if (!payload) return
+
+          if (payload.deletedEventUploadId)
+            cache.invalidate({
+              __typename: 'EventUpload',
+              id: payload.deletedEventUploadId,
+            })
+
+          const eventId = payload.eventUpload?.eventByEventId?.id
+          if (eventId)
+            cache.invalidate(
+              { __typename: 'Event', id: eventId },
+              'eventUploadsByEventId',
             )
         },
         deletePreferenceEventCategoryByAccountIdAndCategoryId: (

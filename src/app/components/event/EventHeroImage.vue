@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="categoryName || formatName"
+    v-if="!headerImageSrc && (categoryName || formatName)"
     :aria-label="t('heroImage')"
     :class="
       cn(
@@ -23,7 +23,10 @@
     aspect="aspect-[3/2]"
     :class="cn('h-48 w-full rounded-t-large object-cover', classProps)"
     height="2"
-    :src="`/assets/static/images/event/${getHeroImageName(event.name)}.jpg`"
+    :src="
+      headerImageSrc ||
+      `/assets/static/images/event/${getHeroImageName(event.name)}.jpg`
+    "
     width="3"
   />
 </template>
@@ -38,7 +41,10 @@ const { class: classProps = undefined, event } = defineProps<{
   class?: HTMLAttributes['class']
   event: Pick<
     EventItemFragment,
-    'eventCategoryMappingsByEventId' | 'eventFormatMappingsByEventId' | 'name'
+    | 'eventCategoryMappingsByEventId'
+    | 'eventFormatMappingsByEventId'
+    | 'eventUploadsByEventId'
+    | 'name'
   >
 }>()
 
@@ -51,6 +57,12 @@ const formatName = computed(
   () =>
     event.eventFormatMappingsByEventId?.nodes[0]?.eventFormatByFormatId?.name,
 )
+
+const TUSD_FILES_URL = useTusdFilesUrl()
+const headerImageSrc = computed(() => {
+  const storageKey = getEventHeaderImageStorageKey(event)
+  return storageKey ? TUSD_FILES_URL + storageKey : undefined
+})
 
 const { t } = useI18n()
 </script>
