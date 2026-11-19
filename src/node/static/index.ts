@@ -20,6 +20,7 @@ export const GTAG_MEASUREMENT_ID = 'G-WMQ1JY99XH'
 // the default cookie key of the i18n module, shared with the cookie dialog
 export const I18N_COOKIE_NAME = 'i18n_redirected'
 export const LOCKDOWN_MODE_DISMISSED_COOKIE_NAME = `${SITE_NAME}_lockdown-mode-dismissed`
+export const POSTER_HUNT_SEEN_COOKIE_NAME = `${SITE_NAME}_poster-hunt-seen`
 export const PRODUCTION_HOST = 'vibetype.app'
 // suffixed in fullstack development so its cookie can't collide with frontend-only development's, since both run on the same local host;
 // keyed off the site's hostname rather than `NODE_ENV` because Nitro bakes `NODE_ENV` into the built server bundle at build time, so it would otherwise stay `production` forever regardless of where that build later runs

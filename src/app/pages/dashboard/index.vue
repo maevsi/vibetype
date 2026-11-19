@@ -4,7 +4,35 @@
       v-if="recommendationError"
       :error="{ message: t('recommendationError'), status: 500 }"
     /> -->
-    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutTopBar>
+      <span class="inline-flex items-center gap-2">
+        <AppIconLogo aria-hidden="true" class="size-8" />
+        <AppIconLogoText aria-hidden="true" class="h-4.5" />
+        <span class="sr-only">{{ title }}</span>
+      </span>
+      <template #actions>
+        <AppButton
+          v-if="isPosterHuntSeen"
+          :aria-label="t('hunt')"
+          class="px-4 py-2 text-body-small font-semibold"
+          size="none"
+          :to="localePath('event-ingest-image')"
+        >
+          <AppIconCamera class="size-4" />
+          {{ t('hunt') }}
+        </AppButton>
+        <AppFeature feature="notifications">
+          <AppButton
+            :aria-label="t('notifications')"
+            size="icon"
+            :to="localePath('notification')"
+            variant="secondary"
+          >
+            <AppIconBellAlert />
+          </AppButton>
+        </AppFeature>
+      </template>
+    </LayoutTopBar>
     <LayoutPage>
       <AppLoaderPlaceholder
         v-if="!authentication.isSignedIn || isLoading"
@@ -18,13 +46,23 @@
         />
       </AppLoaderPlaceholder>
       <div v-else class="flex flex-col gap-4">
+        <EventPosterHunt v-if="!isPosterHuntSeen" />
         <section
           :aria-labelledby="templateIdUpcoming"
           class="flex flex-col gap-2"
         >
-          <h2 :id="templateIdUpcoming" class="py-1 text-title3 text-balance">
-            {{ t('upcomingTitle') }}
-          </h2>
+          <div class="flex items-center justify-between gap-2">
+            <h2 :id="templateIdUpcoming" class="py-1 text-title3 text-balance">
+              {{ t('upcomingTitle') }}
+            </h2>
+            <AppLink
+              v-if="menuTargets.events"
+              class="text-body-small text-link hover:text-link-hover"
+              :to="menuTargets.events"
+            >
+              {{ t('seeAll') }}
+            </AppLink>
+          </div>
           <EventCard
             v-if="eventUpcoming"
             :event="eventUpcoming"
@@ -71,29 +109,6 @@
           <EventCard :event="eventTopPick" variant="recommendation" />
         </section>
         <section
-          :aria-labelledby="templateIdPosterHunt"
-          class="flex flex-col gap-4 rounded-medium bg-surface-raised p-2"
-        >
-          <div class="flex flex-col gap-1 px-2 pt-2">
-            <h2 :id="templateIdPosterHunt" class="text-headline">
-              {{ t('posterHuntTitle') }}
-            </h2>
-            <p class="text-body-small text-fg-2">
-              {{ t('posterHuntDescription') }}
-            </p>
-          </div>
-          <AppButton
-            :aria-label="t('posterHuntImage')"
-            class="h-15 flex-col justify-center gap-1 rounded-small bg-surface p-2 text-caption text-fg-1"
-            size="none"
-            :to="localePath('event-ingest-image')"
-            variant="ghost"
-          >
-            <AppIconArrowUpTray />
-            {{ t('posterHuntImage') }}
-          </AppButton>
-        </section>
-        <section
           v-if="!eventTopPick || eventRecommendationsOther.length"
           :aria-labelledby="templateIdRecommendation"
           class="flex flex-col gap-2"
@@ -131,6 +146,7 @@
             </AppButton>
           </div>
         </section>
+        <EventPosterHunt v-if="isPosterHuntSeen" />
         <AppButton
           v-if="!eventUpcoming"
           :aria-label="t('discover')"
@@ -353,6 +369,9 @@ const eventRecommendationsOther = computed(
   () => eventRecommendations.value?.slice(1) ?? [],
 )
 
+// poster hunt
+const isPosterHuntSeen = usePosterHuntSeen()
+
 // page
 const { t } = useI18n()
 const title = t('title')
@@ -360,7 +379,7 @@ useHeadDefault({ title })
 
 // template
 const localePath = useLocalePath()
-const templateIdPosterHunt = useId()
+const menuTargets = useMenuTargets()
 const templateIdPreference = useId()
 const templateIdRecommendation = useId()
 const templateIdTopPick = useId()
@@ -370,28 +389,28 @@ const templateIdUpcoming = useId()
 <i18n lang="yaml">
 de:
   discover: Neue Veranstaltungen entdecken
-  posterHuntDescription: Du hast eine spannende Veranstaltung außerhalb von @.upper:{'globalSiteName'} gesehen?
-  posterHuntImage: Bild hochladen
-  posterHuntTitle: Plakatjagd
+  hunt: Jagd
+  notifications: Benachrichtigungen
   preferenceAction: KI einrichten
   preferenceDescription: Sag uns, was Dir gefällt, und Du bekommst Veranstaltungen, die zu Dir passen.
   preferenceTitle: Stell Deinen Vibe ein
   recommendationEmpty: Noch nichts entdeckt
   recommendationTitle: Das solltest Du nicht verpassen
+  seeAll: Alle ansehen
   title: Dashboard
   topPickTitle: Dein Top-Tipp
   upcomingEmpty: Noch nichts geplant
   upcomingTitle: Dein nächstes Event
 en:
   discover: Discover new events
-  posterHuntDescription: Saw an interesting event outside of @.upper:{'globalSiteName'}?
-  posterHuntImage: Upload image
-  posterHuntTitle: Poster hunting
+  hunt: Hunt
+  notifications: Notifications
   preferenceAction: Set up AI
   preferenceDescription: Tell us what you like and get events that fit you.
   preferenceTitle: Set up your vibe
   recommendationEmpty: None discovered yet
   recommendationTitle: You should not miss
+  seeAll: See all
   title: Dashboard
   topPickTitle: Your top pick
   upcomingEmpty: None planned yet
