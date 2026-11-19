@@ -1,3 +1,9 @@
+## [17.18.0](https://github.com/maevsi/vibetype/compare/17.17.0...17.18.0) (2026-11-19)
+
+### Features
+
+* **account:** move account settings to the account edit page ([#2702](https://github.com/maevsi/vibetype/issues/2702)) ([e3ed30f](https://github.com/maevsi/vibetype/commit/e3ed30f4e553ea02ddabfe8eaa2938ba1a42177c))
+
 ## [17.17.0](https://github.com/maevsi/vibetype/compare/17.16.0...17.17.0) (2026-11-19)
 
 ### Features
