@@ -52,13 +52,11 @@ import type { EventCardProps } from './card/EventCard.vue'
 // compiler
 const {
   isGroupedByDay = false,
-  isMapVisible = undefined,
   isLoading = false,
   events = undefined,
   hasNextPage,
 } = defineProps<{
   isGroupedByDay?: boolean
-  isMapVisible?: boolean
   isLoading?: boolean
   events?: DeepReadonly<(EventCardProps['event'] & AppMapEvent)[]>
   hasNextPage?: boolean
@@ -67,6 +65,11 @@ const {
 const emit = defineEmits<{
   loadMore: []
 }>()
+
+// map
+const isMapVisible = computed(() =>
+  events?.some((event) => event.addressByAddressId?.location),
+)
 
 // grouping
 const { locale, t } = useI18n()

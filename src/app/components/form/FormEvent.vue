@@ -314,20 +314,18 @@
                 />
               </Field>
             </form.Field>
-            <AppFeature feature="map">
-              <div class="relative isolate">
-                <AppMap
-                  ref="map"
-                  class="h-64"
-                  geocoder
-                  :position-initial="locationPositionInitial"
-                  @geocode="onGeocode"
-                />
-                <AppIconMapPinSolid
-                  class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-error"
-                />
-              </div>
-            </AppFeature>
+            <div class="relative isolate">
+              <AppMap
+                ref="map"
+                class="h-64"
+                geocoder
+                :position-initial="locationPositionInitial"
+                @geocode="onGeocode"
+              />
+              <AppIconMapPinSolid
+                class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-error"
+              />
+            </div>
           </template>
         </form.Field>
         <form.Field v-slot="{ field }" name="url">
