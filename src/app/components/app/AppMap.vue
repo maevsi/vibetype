@@ -62,6 +62,7 @@ const mapCenter = ref<LatLng>()
 const mapZoom = ref<number>()
 
 const { t, locale } = useI18n()
+const colorMode = useColorMode()
 const isMounted = useMounted()
 
 // two-finger and ctrl gestures keep the page scrollable, except in fullscreen where the map is the whole page
@@ -100,6 +101,7 @@ onMounted(async () => {
   const {
     DivIcon,
     FullscreenControl,
+    LayerGroup,
     Map: LeafletMap,
     Marker,
     TileLayer,
@@ -125,7 +127,7 @@ onMounted(async () => {
   ) // Kassel: 51.3144643, 9.4957866
   new TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution:
-      '<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map.value)
   fullscreenControl = new FullscreenControl().addTo(map.value)
 
@@ -136,17 +138,33 @@ onMounted(async () => {
       provider: new OpenStreetMapProvider(),
       // Nominatim's usage policy forbids autocomplete, so the control only searches on submit instead of suggesting while the user types.
       autoComplete: false,
+      clearSearchLabel: t('clearSearch'),
       notFoundMessage: t('notFoundMessage'),
       position: 'topright',
+      searchLabel: t('searchLabel'),
       showMarker: false,
       showResultListOnSubmit: true,
+      theme: colorMode.value === 'dark' ? 'dark' : 'light',
       updateMap: false,
     })
     geosearch.addTo(map.value)
     // the control reads its texts when it is built, so refresh them when the locale changes
     watch(locale, () =>
-      geosearch.setLabels({ notFoundMessage: t('notFoundMessage') }),
+      geosearch.setLabels({
+        clearSearchLabel: t('clearSearch'),
+        notFoundMessage: t('notFoundMessage'),
+        searchLabel: t('searchLabel'),
+      }),
     )
+    watch(
+      () => colorMode.value,
+      (colorModeValue) =>
+        geosearch.searchElement.container.classList.toggle(
+          'leaflet-geosearch-theme-dark',
+          colorModeValue === 'dark',
+        ),
+    )
+    map.value.on('geosearch/error', () => toast.error(t('geocodeError')))
     map.value.on('geosearch/showlocation', (showLocationEvent) => {
       const { location } = showLocationEvent
       map.value?.setView([location.y, location.x], 13)
@@ -199,23 +217,29 @@ onMounted(async () => {
     mapZoom.value = map.value?.getZoom()
   })
 
-  if (events && events.length) {
-    const icon = new DivIcon({
-      className: 'text-error',
-      html: markerIcon,
-      iconAnchor: [15, 25],
-      iconSize: [30, 30],
-      popupAnchor: [15, 2],
-    })
-
-    for (const event of events) {
-      const location = event.addressByAddressId?.location
-      if (!location) continue
-      new Marker([location.latitude, location.longitude], { icon }).addTo(
-        map.value,
-      )
-    }
-  }
+  const icon = new DivIcon({
+    className: 'text-error',
+    html: markerIcon,
+    iconAnchor: [15, 25],
+    iconSize: [30, 30],
+    popupAnchor: [15, 2],
+  })
+  const markerLayer = new LayerGroup().addTo(map.value)
+  // events load page by page, so the markers follow the prop
+  watch(
+    () => events,
+    (eventsCurrent) => {
+      markerLayer.clearLayers()
+      for (const event of eventsCurrent ?? []) {
+        const location = event.addressByAddressId?.location
+        if (!location) continue
+        new Marker([location.latitude, location.longitude], { icon }).addTo(
+          markerLayer,
+        )
+      }
+    },
+    { immediate: true },
+  )
 })
 defineExpose({ map, mapCenter, mapZoom })
 </script>
@@ -227,21 +251,27 @@ defineExpose({ map, mapCenter, mapZoom })
 
 <i18n lang="yaml">
 de:
+  clearSearch: Suche leeren
   enterFullscreen: Vollbild öffnen
   exitFullscreen: Vollbild beenden
+  geocodeError: Die Adresssuche ist fehlgeschlagen. Bitte versuche es später erneut.
   hintTouch: Verschiebe die Karte mit zwei Fingern.
   hintWheel: Zoome die Karte mit {key} + Scrollen.
   map: Karte
   notFoundMessage: Nichts gefunden.
+  searchLabel: Adresse eingeben
   zoomIn: Vergrößern
   zoomOut: Verkleinern
 en:
+  clearSearch: Clear search
   enterFullscreen: Enter fullscreen
   exitFullscreen: Exit fullscreen
+  geocodeError: The address search failed. Please try again later.
   hintTouch: Use two fingers to move the map.
   hintWheel: Hold {key} and scroll to zoom the map.
   map: Map
   notFoundMessage: Nothing found.
+  searchLabel: Enter address
   zoomIn: Zoom in
   zoomOut: Zoom out
 </i18n>
