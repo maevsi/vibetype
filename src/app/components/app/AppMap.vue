@@ -11,14 +11,20 @@
       )
     "
   >
+    <AppIconMap class="size-10 text-fg-2" />
     <p>{{ t('consentRequired') }}</p>
-    <AppButton
-      :aria-label="t('consentOpen')"
-      variant="tertiary"
-      @click="isConsentOpen = true"
-    >
-      {{ t('consentOpen') }}
-    </AppButton>
+    <div class="flex flex-col items-center gap-2">
+      <AppButton :aria-label="t('consentShow')" @click="showMap">
+        {{ t('consentShow') }}
+      </AppButton>
+      <AppButton
+        :aria-label="t('consentOpen')"
+        variant="tertiary"
+        @click="isConsentOpen = true"
+      >
+        {{ t('consentOpen') }}
+      </AppButton>
+    </div>
     <AppModal v-model="isConsentOpen" is-footer-hidden>
       <template #header>{{ t('consentTitle') }}</template>
       <ConsentSettings @decided="isConsentOpen = false" />
@@ -92,6 +98,9 @@ const colorMode = useColorMode()
 const isMounted = useMounted()
 const isConsented = useIsCookieConsented(EXTERNAL_MEDIA_COOKIE_ID)
 const isConsentOpen = ref(false)
+const { enabledPurposeIds, save } = usePrivacyConsent()
+const showMap = () =>
+  save([...enabledPurposeIds.value, EXTERNAL_MEDIA_COOKIE_ID])
 
 // two-finger and ctrl gestures keep the page scrollable, except in fullscreen where the map is the whole page
 const isTouchDevice = useMediaQuery('(hover: none) and (pointer: coarse)')
@@ -322,8 +331,9 @@ defineExpose({ isPositionSet, map, mapCenter, mapZoom })
 <i18n lang="yaml">
 de:
   clearSearch: Suche leeren
-  consentOpen: Datenschutz-Einstellungen öffnen
-  consentRequired: Zum Anzeigen der Karte werden Daten vom Drittanbieter OpenStreetMap geladen, wobei deine IP-Adresse übertragen wird. Bitte erlaube dies in den Datenschutz-Einstellungen unter Karten.
+  consentOpen: Datenschutz-Einstellungen
+  consentRequired: 'Karte anzeigen: OpenStreetMap erhält deine IP-Adresse.'
+  consentShow: Karte anzeigen
   consentTitle: Datenschutz-Einstellungen
   enterFullscreen: Vollbild öffnen
   exitFullscreen: Vollbild beenden
@@ -337,8 +347,9 @@ de:
   zoomOut: Verkleinern
 en:
   clearSearch: Clear search
-  consentOpen: Open privacy settings
-  consentRequired: Displaying the map loads data from the third party OpenStreetMap and transfers your IP address. Please allow this under maps in the privacy settings.
+  consentOpen: Privacy settings
+  consentRequired: 'Show map: OpenStreetMap receives your IP address.'
+  consentShow: Show map
   consentTitle: Privacy settings
   enterFullscreen: Enter fullscreen
   exitFullscreen: Exit fullscreen
