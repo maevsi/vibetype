@@ -136,8 +136,13 @@ onMounted(async () => {
   if (geocoder) {
     const { GeoSearchControl, OpenStreetMapProvider } =
       await import('leaflet-geosearch')
+    // the app's own endpoint caches and rate limits requests to the geocoding service, as its usage policy demands
+    const provider = new OpenStreetMapProvider({
+      params: { 'accept-language': locale.value },
+      searchUrl: '/api/service/nominatim/search',
+    })
     const geosearch = new GeoSearchControl({
-      provider: new OpenStreetMapProvider(),
+      provider,
       // Nominatim's usage policy forbids autocomplete, so the control only searches on submit instead of suggesting while the user types.
       autoComplete: false,
       clearSearchLabel: t('clearSearch'),
@@ -151,13 +156,14 @@ onMounted(async () => {
     })
     geosearch.addTo(map.value)
     // the control reads its texts when it is built, so refresh them when the locale changes
-    watch(locale, () =>
+    watch(locale, (localeValue) => {
+      provider.options.params = { 'accept-language': localeValue }
       geosearch.setLabels({
         clearSearchLabel: t('clearSearch'),
         notFoundMessage: t('notFoundMessage'),
         searchLabel: t('searchLabel'),
-      }),
-    )
+      })
+    })
     watch(
       () => colorMode.value,
       (colorModeValue) =>

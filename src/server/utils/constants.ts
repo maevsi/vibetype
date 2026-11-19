@@ -41,7 +41,6 @@ export const GET_CSP = ({
         hrefApp, // `/api` requests
         hrefPostgraphile, // backend requests
         hrefTusd, // image upload requests
-        'https://nominatim.openstreetmap.org/search', // map's geocoder
       ],
       'font-src': [
         "'self'", // @fontsource/raleway, @nuxt/fonts / nuxt-og-image
