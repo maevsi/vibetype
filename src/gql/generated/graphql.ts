@@ -1062,12 +1062,19 @@ export type EventListMineHostingQuery = {
   allEvents: {
     nodes: Array<{
       end: string | null
+      guestCount: number
       id: string
+      isInPerson: boolean | null
       name: string
       rowId: string
       slug: string
       start: string
       accountByCreatedBy: { id: string; rowId: string; username: string } | null
+      addressByAddressId: {
+        id: string
+        rowId: string
+        location: { latitude: number; longitude: number } | null
+      } | null
       eventCategoryMappingsByEventId: {
         nodes: Array<{
           id: string
@@ -1110,7 +1117,9 @@ export type EventListMineSavedQuery = {
       id: string
       eventByEventId: {
         end: string | null
+        guestCount: number
         id: string
+        isInPerson: boolean | null
         name: string
         rowId: string
         slug: string
@@ -1119,6 +1128,11 @@ export type EventListMineSavedQuery = {
           id: string
           rowId: string
           username: string
+        } | null
+        addressByAddressId: {
+          id: string
+          rowId: string
+          location: { latitude: number; longitude: number } | null
         } | null
         eventCategoryMappingsByEventId: {
           nodes: Array<{
@@ -1161,7 +1175,9 @@ export type EventListQuery = {
     totalCount: number
     nodes: Array<{
       end: string | null
+      guestCount: number
       id: string
+      isInPerson: boolean | null
       name: string
       rowId: string
       slug: string
@@ -1214,7 +1230,9 @@ export type EventSearchQuery = {
     totalCount: number
     nodes: Array<{
       end: string | null
+      guestCount: number
       id: string
+      isInPerson: boolean | null
       name: string
       rowId: string
       slug: string
@@ -1984,8 +2002,14 @@ export type EventEditQuery = {
         url: string | null
         visibility: EventVisibility
         addressByAddressId: {
+          city: string | null
+          country: string | null
           id: string
+          line1: string | null
+          line2: string | null
           name: string
+          postalCode: string | null
+          region: string | null
           rowId: string
           location: { latitude: number; longitude: number } | null
         } | null
@@ -2093,8 +2117,14 @@ export type EventQuery = {
           username: string
         } | null
         addressByAddressId: {
+          city: string | null
+          country: string | null
           id: string
+          line1: string | null
+          line2: string | null
           name: string
+          postalCode: string | null
+          region: string | null
           rowId: string
           location: { latitude: number; longitude: number } | null
         } | null
@@ -2218,8 +2248,14 @@ export type GuestEventQuery = {
       visibility: EventVisibility
       accountByCreatedBy: { id: string; rowId: string; username: string } | null
       addressByAddressId: {
+        city: string | null
+        country: string | null
         id: string
+        line1: string | null
+        line2: string | null
         name: string
+        postalCode: string | null
+        region: string | null
         rowId: string
         location: { latitude: number; longitude: number } | null
       } | null
@@ -2348,7 +2384,16 @@ export type TicketGuestQuery = {
       slug: string
       start: string
       accountByCreatedBy: { id: string; username: string } | null
-      addressByAddressId: { id: string; name: string } | null
+      addressByAddressId: {
+        city: string | null
+        country: string | null
+        id: string
+        line1: string | null
+        line2: string | null
+        name: string
+        postalCode: string | null
+        region: string | null
+      } | null
     } | null
   } | null
 }
@@ -4037,6 +4082,40 @@ export const EventListMineHostingDocument = {
                           ],
                         },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'addressByAddressId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'location' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'latitude' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'longitude' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rowId' },
+                            },
+                          ],
+                        },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'end' } },
                       {
                         kind: 'Field',
@@ -4200,6 +4279,10 @@ export const EventListMineHostingDocument = {
                       },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'guestCount' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'guestsByEventId' },
                         arguments: [
                           {
@@ -4262,6 +4345,10 @@ export const EventListMineHostingDocument = {
                         },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isInPerson' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
@@ -4396,6 +4483,49 @@ export const EventListMineSavedDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'username' },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'addressByAddressId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'location' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'latitude',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'longitude',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
                                   },
                                 ],
                               },
@@ -4584,6 +4714,10 @@ export const EventListMineSavedDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'guestCount' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'guestsByEventId' },
                               arguments: [
                                 {
@@ -4654,6 +4788,10 @@ export const EventListMineSavedDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'isInPerson' },
                             },
                             {
                               kind: 'Field',
@@ -4973,6 +5111,10 @@ export const EventListDocument = {
                       },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'guestCount' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'guestsByEventId' },
                         arguments: [
                           {
@@ -5035,6 +5177,10 @@ export const EventListDocument = {
                         },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isInPerson' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
@@ -5360,6 +5506,10 @@ export const EventSearchDocument = {
                       },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'guestCount' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'guestsByEventId' },
                         arguments: [
                           {
@@ -5422,6 +5572,10 @@ export const EventSearchDocument = {
                         },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isInPerson' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
@@ -10004,7 +10158,23 @@ export const EventEditDocument = {
                                 selections: [
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'city' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'country' },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'line1' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'line2' },
                                   },
                                   {
                                     kind: 'Field',
@@ -10032,6 +10202,14 @@ export const EventEditDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'name' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'postalCode' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'region' },
                                   },
                                   {
                                     kind: 'Field',
@@ -10721,7 +10899,23 @@ export const EventDocument = {
                                 selections: [
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'city' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'country' },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'line1' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'line2' },
                                   },
                                   {
                                     kind: 'Field',
@@ -10749,6 +10943,14 @@ export const EventDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'name' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'postalCode' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'region' },
                                   },
                                   {
                                     kind: 'Field',
@@ -11608,7 +11810,23 @@ export const GuestEventDocument = {
                           selections: [
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'city' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'country' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'line1' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'line2' },
                             },
                             {
                               kind: 'Field',
@@ -11630,6 +11848,14 @@ export const GuestEventDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'postalCode' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'region' },
                             },
                             {
                               kind: 'Field',
@@ -12547,11 +12773,35 @@ export const TicketGuestDocument = {
                           selections: [
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'city' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'country' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'line1' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'line2' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'postalCode' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'region' },
                             },
                           ],
                         },

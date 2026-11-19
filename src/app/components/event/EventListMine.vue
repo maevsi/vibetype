@@ -98,6 +98,14 @@ const queryHosting = graphql(`
           rowId
           username
         }
+        addressByAddressId {
+          id
+          location {
+            latitude
+            longitude
+          }
+          rowId
+        }
         end
         eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
           nodes {
@@ -124,6 +132,7 @@ const queryHosting = graphql(`
             id
           }
         }
+        guestCount
         guestsByEventId(first: 1) {
           nodes {
             contactByContactId {
@@ -136,6 +145,7 @@ const queryHosting = graphql(`
           }
         }
         id
+        isInPerson
         name
         rowId
         slug
@@ -164,6 +174,14 @@ const querySaved = graphql(`
             rowId
             username
           }
+          addressByAddressId {
+            id
+            location {
+              latitude
+              longitude
+            }
+            rowId
+          }
           end
           eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
             nodes {
@@ -190,6 +208,7 @@ const querySaved = graphql(`
               id
             }
           }
+          guestCount
           guestsByEventId(first: 1) {
             nodes {
               contactByContactId {
@@ -202,6 +221,7 @@ const querySaved = graphql(`
             }
           }
           id
+          isInPerson
           name
           rowId
           slug

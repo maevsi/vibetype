@@ -13,6 +13,7 @@
                   name: 'session-edit-color-scheme',
                 })
               "
+              tone="info"
             >
               <AppIconSun />
             </AppMenuItem>
@@ -24,6 +25,7 @@
                   name: 'session-edit-language',
                 })
               "
+              tone="warning"
             >
               <AppIconLanguage />
             </AppMenuItem>
@@ -43,6 +45,7 @@
                   name: 'session-view',
                 })
               "
+              tone="success"
             >
               <AppIconWrench />
             </AppMenuItem>
@@ -53,6 +56,7 @@
                   name: 'support-idea',
                 })
               "
+              tone="success"
             >
               <AppIconIdea />
             </AppMenuItem>
@@ -63,6 +67,7 @@
                   name: 'support-issue',
                 })
               "
+              tone="danger"
             >
               <AppIconBug />
             </AppMenuItem>
@@ -73,6 +78,7 @@
                   name: 'support-contact',
                 })
               "
+              tone="warning"
             >
               <AppIconMail />
             </AppMenuItem>
@@ -83,6 +89,7 @@
                   name: 'support-report',
                 })
               "
+              tone="danger"
             >
               <AppIconReport />
             </AppMenuItem>
@@ -101,24 +108,28 @@
                   name: 'session-edit-privacy',
                 })
               "
+              tone="success"
             >
               <AppIconShieldCheck />
             </AppMenuItem>
             <AppMenuItem
               :title="t('terms')"
               :to="localePath('docs-legal-terms')"
+              tone="success"
             >
               <AppIconContract />
             </AppMenuItem>
             <AppMenuItem
               :title="t('legalNotice')"
               :to="localePath('docs-legal-imprint')"
+              tone="success"
             >
               <AppIconLegal />
             </AppMenuItem>
             <AppMenuItem
               :title="t('privacy')"
               :to="localePath('docs-legal-privacy')"
+              tone="success"
             >
               <AppIconVerifiedUser />
             </AppMenuItem>

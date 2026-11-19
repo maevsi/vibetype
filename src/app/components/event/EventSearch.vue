@@ -1,6 +1,8 @@
 <template>
   <div class="flex flex-1 flex-col gap-4">
-    <div class="flex gap-2">
+    <div
+      class="sticky top-0 z-10 -mx-4 -mt-4 flex gap-2 bg-glass px-4 py-4 backdrop-blur-xl"
+    >
       <AppInputSearch v-model="searchQuery" class="h-12 flex-1" />
       <AppButton
         :aria-label="t('map')"
@@ -77,6 +79,7 @@ const queryEventList = graphql(`
             id
           }
         }
+        guestCount
         guestsByEventId(first: 1) {
           nodes {
             contactByContactId {
@@ -89,6 +92,7 @@ const queryEventList = graphql(`
           }
         }
         id
+        isInPerson
         name
         rowId
         slug
@@ -145,6 +149,7 @@ const queryEventSearch = graphql(`
             id
           }
         }
+        guestCount
         guestsByEventId(first: 1) {
           nodes {
             contactByContactId {
@@ -157,6 +162,7 @@ const queryEventSearch = graphql(`
           }
         }
         id
+        isInPerson
         name
         rowId
         slug

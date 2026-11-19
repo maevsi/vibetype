@@ -30,8 +30,17 @@
       <ConsentSettings @decided="isConsentOpen = false" />
     </AppModal>
   </div>
-  <div v-else :class="cn('relative', classComputed)">
+  <div v-else :class="cn('relative isolate', classComputed)">
     <div :id="templateIdMap" class="size-full" />
+    <!-- above the map panes and below the controls, so the attribution stays clickable -->
+    <a
+      v-if="isStatic && staticUrl"
+      :aria-label="t('openInMaps')"
+      class="absolute inset-0 z-700 focus-visible:outline-2 focus-visible:-outline-offset-2"
+      :href="staticUrl"
+      rel="noopener noreferrer"
+      target="_blank"
+    />
     <div
       class="pointer-events-none absolute inset-0 z-1000 flex items-center justify-center bg-black/60 p-4 text-center text-white transition-opacity duration-300"
       :class="hint ? 'opacity-100' : 'opacity-0'"
@@ -45,14 +54,18 @@
 <script setup lang="ts">
 import { useMediaQuery, useMounted, useTimeoutFn } from '@vueuse/core'
 
-import type { FullscreenControl, Map, LatLng } from 'leaflet'
+import type { Control, FullscreenControl, Map, LatLng } from 'leaflet'
 import type { DeepReadonly, HtmlHTMLAttributes, WatchStopHandle } from 'vue'
 
+import type { GeocodeResult } from '#shared/utils/address'
 import { EXTERNAL_MEDIA_COOKIE_ID } from '~~/node/static'
 
 import { cn } from '@/utils/shadcn'
 
 import markerIcon from '~/assets/icons/map-pin.svg?raw'
+
+const locateIcon =
+  '<svg aria-hidden="true" class="size-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><circle cx="12" cy="12" r="8"/></svg>'
 
 export type AppMapEvent = {
   addressByAddressId?: {
@@ -65,6 +78,8 @@ export type AppMapEvent = {
 export type AppMapProps = {
   events?: readonly DeepReadonly<AppMapEvent>[]
   geocoder?: boolean
+  isStatic?: boolean
+  isZoomControlHidden?: boolean
   positionInitial?: {
     latitude: number
     longitude: number
@@ -75,6 +90,8 @@ const {
   class: classProps = undefined,
   events = undefined,
   geocoder = undefined,
+  isStatic = false,
+  isZoomControlHidden = false,
   positionInitial = {
     latitude: 51.12421275782688,
     longitude: 10.283203125000002,
@@ -82,8 +99,9 @@ const {
   },
 } = defineProps<AppMapProps & { class?: HtmlHTMLAttributes['class'] }>()
 const emit = defineEmits<{
-  geocode: [name: string]
+  geocode: [result: GeocodeResult]
 }>()
+const isGeocodeListened = !!getCurrentInstance()?.vnode.props?.onGeocode
 const classComputed = computed(() => cn('h-96 w-full text-fg-1', classProps))
 
 const templateIdMap = useId()
@@ -92,6 +110,13 @@ const mapCenter = ref<LatLng>()
 const mapZoom = ref<number>()
 // stays false until the view differs from the initial one, so programmatic initial centring never counts as input
 const isPositionSet = ref(false)
+
+const staticUrl = computed(() => {
+  const location = events?.find((event) => event.addressByAddressId?.location)
+    ?.addressByAddressId?.location
+
+  return location ? getMapsUrl({ location, text: '' }) : undefined
+})
 
 const { t, locale } = useI18n()
 const colorMode = useColorMode()
@@ -120,12 +145,14 @@ const showHint = (message: string) => {
 }
 const applyGestureHandling = () => {
   const mapLocal = map.value
-  if (!mapLocal) return
+  if (!mapLocal || isStatic) return
   if (isTouchDevice.value && !isFullscreen.value) mapLocal.dragging.disable()
   else mapLocal.dragging.enable()
 }
 watch([isFullscreen, isTouchDevice], applyGestureHandling)
 let fullscreenControl: FullscreenControl | undefined
+let locateControl: Control | undefined
+let locateButton: HTMLAnchorElement | undefined
 // leaflet translates its texts only when it renders them, so a locale change needs the controls re-added
 watch(locale, () => {
   const mapLocal = map.value
@@ -133,11 +160,65 @@ watch(locale, () => {
   mapLocal.getContainer().setAttribute('aria-label', t('map'))
   mapLocal.zoomControl?.remove().addTo(mapLocal)
   fullscreenControl?.remove().addTo(mapLocal)
+  if (locateButton) {
+    locateButton.title = t('locate')
+    locateButton.setAttribute('aria-label', t('locate'))
+  }
 })
+const locate = () => {
+  const mapLocal = map.value
+  if (!mapLocal) return
+
+  navigator.geolocation.getCurrentPosition(
+    async ({ coords: { latitude, longitude } }) => {
+      mapLocal.setView([latitude, longitude], 16)
+      // the position may equal the initial centre, which the move handler would not count as input
+      isPositionSet.value = true
+
+      // without a listener the lookup would only spend a slot of the rate limit shared by all users
+      if (!isGeocodeListened) return
+
+      try {
+        const result = await $fetch<{
+          address?: Record<string, unknown>
+          display_name?: string
+          name?: string
+        }>('/api/service/nominatim/reverse', {
+          query: {
+            'accept-language': locale.value,
+            lat: latitude,
+            lon: longitude,
+          },
+        })
+
+        if (!result.display_name) throw new Error('no address found')
+
+        emit('geocode', {
+          ...getAddressFromNominatim(result),
+          label: result.display_name,
+        })
+      } catch {
+        toast.error(t('geocodeError'))
+      }
+    },
+    ({ code, PERMISSION_DENIED, POSITION_UNAVAILABLE }) =>
+      toast.error(
+        code === PERMISSION_DENIED
+          ? t('locateDenied')
+          : code === POSITION_UNAVAILABLE
+            ? t('locateUnavailable')
+            : t('locateTimeout'),
+      ),
+    { timeout: 10000 },
+  )
+}
 let stopMarkerWatch: WatchStopHandle | undefined
 const initialize = async () => {
   const {
+    Control,
     DivIcon,
+    DomEvent,
+    DomUtil,
     FullscreenControl,
     LayerGroup,
     Map: LeafletMap,
@@ -159,6 +240,17 @@ const initialize = async () => {
           'Zoom out': t('zoomOut'),
         }) as Record<string, string>
       )[text] ?? text,
+    ...(isStatic
+      ? {
+          boxZoom: false,
+          doubleClickZoom: false,
+          dragging: false,
+          keyboard: false,
+          scrollWheelZoom: false,
+          touchZoom: false,
+          zoomControl: false,
+        }
+      : { zoomControl: !isZoomControlHidden }),
   }).setView(
     [positionInitial.latitude, positionInitial.longitude],
     positionInitial.zoomLevel,
@@ -167,7 +259,7 @@ const initialize = async () => {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map.value)
-  fullscreenControl = new FullscreenControl().addTo(map.value)
+  if (!isStatic) fullscreenControl = new FullscreenControl().addTo(map.value)
 
   if (geocoder) {
     const { GeoSearchControl, OpenStreetMapProvider } =
@@ -208,11 +300,43 @@ const initialize = async () => {
           colorModeValue === 'dark',
         ),
     )
+    if ('geolocation' in navigator) {
+      locateControl = new Control({ position: 'topleft' })
+      locateControl.onAdd = () => {
+        const container = DomUtil.create('div', 'leaflet-bar')
+        const button = DomUtil.create(
+          'a',
+          'flex! items-center justify-center',
+          container,
+        )
+        button.href = '#'
+        button.role = 'button'
+        button.title = t('locate')
+        button.setAttribute('aria-label', t('locate'))
+        button.innerHTML = locateIcon
+        const onActivate = (activateEvent: Event) => {
+          activateEvent.preventDefault()
+          locate()
+        }
+        DomEvent.on(button, 'click', onActivate)
+        DomEvent.on(button, 'keydown', (keyboardEvent) => {
+          if ((keyboardEvent as KeyboardEvent).key === ' ')
+            onActivate(keyboardEvent)
+        })
+        DomEvent.disableClickPropagation(container)
+        locateButton = button
+        return container
+      }
+      locateControl.addTo(map.value)
+    }
     map.value.on('geosearch/error', () => toast.error(t('geocodeError')))
     map.value.on('geosearch/showlocation', (showLocationEvent) => {
       const { location } = showLocationEvent
       map.value?.setView([location.y, location.x], 13)
-      emit('geocode', location.label)
+      emit('geocode', {
+        ...getAddressFromNominatim(location.raw),
+        label: location.label,
+      })
     })
   }
 
@@ -221,7 +345,13 @@ const initialize = async () => {
   container.addEventListener(
     'wheel',
     (wheelEvent) => {
-      if (isFullscreen.value || wheelEvent.ctrlKey || wheelEvent.metaKey) return
+      if (
+        isStatic ||
+        isFullscreen.value ||
+        wheelEvent.ctrlKey ||
+        wheelEvent.metaKey
+      )
+        return
       // stopping only leaflet's zoom, not the default action, keeps the page scrolling
       wheelEvent.stopImmediatePropagation()
       showHint(
@@ -236,6 +366,7 @@ const initialize = async () => {
     'touchmove',
     (touchEvent) => {
       if (
+        !isStatic &&
         !isFullscreen.value &&
         touchEvent.touches.length === 1 &&
         isTouchDevice.value
@@ -340,8 +471,13 @@ de:
   geocodeError: Die Adresssuche ist fehlgeschlagen. Bitte versuche es später erneut.
   hintTouch: Verschiebe die Karte mit zwei Fingern.
   hintWheel: Zoome die Karte mit {key} + Scrollen.
+  locate: Meinen Standort verwenden
+  locateDenied: Der Zugriff auf deinen Standort wurde verweigert. Erlaube ihn in den Einstellungen deines Browsers.
+  locateTimeout: Dein Standort konnte nicht rechtzeitig ermittelt werden. Bitte versuche es erneut.
+  locateUnavailable: Dein Standort ist derzeit nicht verfügbar.
   map: Karte
   notFoundMessage: Nichts gefunden.
+  openInMaps: Ort in der Karten-App öffnen
   searchLabel: Adresse eingeben
   zoomIn: Vergrößern
   zoomOut: Verkleinern
@@ -356,8 +492,13 @@ en:
   geocodeError: The address search failed. Please try again later.
   hintTouch: Use two fingers to move the map.
   hintWheel: Hold {key} and scroll to zoom the map.
+  locate: Use my current location
+  locateDenied: Access to your location was denied. Allow it in your browser settings.
+  locateTimeout: Your location could not be determined in time. Please try again.
+  locateUnavailable: Your location is currently unavailable.
   map: Map
   notFoundMessage: Nothing found.
+  openInMaps: Open location in maps app
   searchLabel: Enter address
   zoomIn: Zoom in
   zoomOut: Zoom out

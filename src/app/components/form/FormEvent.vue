@@ -392,6 +392,7 @@
 </template>
 
 <script setup lang="ts">
+import type { AddressFields, GeocodeResult } from '#shared/utils/address'
 import type { DateValue, TimeValue } from 'reka-ui'
 import {
   fromDate,
@@ -429,11 +430,13 @@ const { event = undefined } = defineProps<{
     | 'description'
     | 'rowId'
   > & {
-    addressByAddressId?: {
-      location?: { latitude: number; longitude: number } | null
-      name?: string | null
-      rowId?: string | null
-    } | null
+    addressByAddressId?:
+      | (AddressFields & {
+          location?: { latitude: number; longitude: number } | null
+          name?: string | null
+          rowId?: string | null
+        })
+      | null
     eventCategoryMappingsByEventId?: {
       nodes: readonly { categoryId: string }[]
     } | null
@@ -677,8 +680,26 @@ const locationPositionInitial = event?.addressByAddressId?.location
   : undefined
 const isMapConsented = useIsCookieConsented(EXTERNAL_MEDIA_COOKIE_ID)
 const templateMap = useTemplateRef('map')
-const onGeocode = (name: string) => {
-  form.setFieldValue('locationName', name)
+// a geocode replaces the stored fields, so they only change with a new search
+const addressFields = ref<AddressFields>({
+  city: event?.addressByAddressId?.city,
+  country: event?.addressByAddressId?.country,
+  line1: event?.addressByAddressId?.line1,
+  line2: event?.addressByAddressId?.line2,
+  postalCode: event?.addressByAddressId?.postalCode,
+  region: event?.addressByAddressId?.region,
+})
+const onGeocode = (result: GeocodeResult) => {
+  form.setFieldValue('locationName', result.name ?? result.label)
+  // missing fields are null so that they clear what an earlier place left behind
+  addressFields.value = {
+    city: result.address.city ?? null,
+    country: result.address.country ?? null,
+    line1: result.address.line1 ?? null,
+    line2: null,
+    postalCode: result.address.postalCode ?? null,
+    region: result.address.region ?? null,
+  }
 }
 const syncAddress = async (
   locationName: string,
@@ -702,7 +723,11 @@ const syncAddress = async (
   if (addressRowIdOriginal) {
     const result = await updateAddressByRowIdMutation.executeMutation({
       input: {
-        addressPatch: { location, name: trimmedLocationName },
+        addressPatch: {
+          ...addressFields.value,
+          location,
+          name: trimmedLocationName,
+        },
         rowId: addressRowIdOriginal,
       },
     })
@@ -712,6 +737,7 @@ const syncAddress = async (
   const result = await createAddressMutation.executeMutation({
     input: {
       address: {
+        ...addressFields.value,
         createdBy: store.signedInAccountId || '',
         location,
         name: trimmedLocationName,

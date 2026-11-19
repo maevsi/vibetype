@@ -15,14 +15,22 @@
         </h2>
         <ul class="flex flex-col gap-3">
           <li v-for="event in eventGroup.events" :key="event.rowId">
-            <EventCard :badge :event />
+            <EventCard
+              :badge
+              :distance-kilometers="getDistanceKilometersEvent(event)"
+              :event
+            />
           </li>
         </ul>
       </section>
     </div>
     <ul v-else class="flex w-full flex-col gap-3">
       <li v-for="event in events" :key="event.rowId">
-        <EventCard :badge :event />
+        <EventCard
+          :badge
+          :distance-kilometers="getDistanceKilometersEvent(event)"
+          :event
+        />
       </li>
     </ul>
     <AppButton
@@ -50,9 +58,15 @@
 import type { DeepReadonly } from 'vue'
 
 import type { AppMapEvent } from '~/components/app/AppMap.vue'
+import { getDistanceKilometersNearest } from '~~/shared/utils/distance'
+import {
+  getPreferenceEventLocationItem,
+  useAllPreferenceEventLocationsQuery,
+} from '~~/shared/utils/preference/eventLocation'
 import type { EventCardBadge, EventCardProps } from './card/EventCard.vue'
 
 // compiler
+type EventListEvent = DeepReadonly<EventCardProps['event'] & AppMapEvent>
 const {
   badge = undefined,
   isGroupedByDay = false,
@@ -65,7 +79,7 @@ const {
   isGroupedByDay?: boolean
   isLoading?: boolean
   isMapVisible?: boolean
-  events?: DeepReadonly<(EventCardProps['event'] & AppMapEvent)[]>
+  events?: EventListEvent[]
   hasNextPage?: boolean
 }>()
 
@@ -78,6 +92,28 @@ const isMapShown = computed(
   () =>
     isMapVisible && events?.some((event) => event.addressByAddressId?.location),
 )
+
+// distance
+const store = useStore()
+// preferences are readable by accounts only
+const preferenceEventLocationsQuery = store.signedInAccountId
+  ? useAllPreferenceEventLocationsQuery()
+  : undefined
+const preferenceEventLocations = computed(
+  () =>
+    preferenceEventLocationsQuery?.data.value?.allPreferenceEventLocations?.nodes.flatMap(
+      (node) => {
+        const location = getPreferenceEventLocationItem(node)?.location
+        return location ? [location] : []
+      },
+    ) ?? [],
+)
+const getDistanceKilometersEvent = (event: EventListEvent) => {
+  const location = event.addressByAddressId?.location
+  return event.isInPerson && location
+    ? getDistanceKilometersNearest(preferenceEventLocations.value, location)
+    : undefined
+}
 
 // grouping
 const { locale, t } = useI18n()
