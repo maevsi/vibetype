@@ -5,6 +5,7 @@
       <main class="flex flex-1 flex-col">
         <slot />
       </main>
+      <PwaInstallCard />
       <LayoutMenuBottomNavigation v-if="isMenuRoute" class="lg:hidden" />
     </div>
   </div>
