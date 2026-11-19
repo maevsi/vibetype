@@ -352,12 +352,18 @@ const eventQuery = useApiQuery({
             username
           }
           addressByAddressId {
+            city
+            country
             id
+            line1
+            line2
             location {
               latitude
               longitude
             }
             name
+            postalCode
+            region
             rowId
           }
           createdBy
