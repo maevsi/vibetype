@@ -1,3 +1,9 @@
+## [17.17.0](https://github.com/maevsi/vibetype/compare/17.16.0...17.17.0) (2026-11-19)
+
+### Features
+
+* **dashboard:** move poster hunt below top pick and remove app install button ([#2700](https://github.com/maevsi/vibetype/issues/2700)) ([2d4d9d2](https://github.com/maevsi/vibetype/commit/2d4d9d2adc73cf25506c29895de9a3549132b5d7))
+
 ## [17.16.0](https://github.com/maevsi/vibetype/compare/17.15.4...17.16.0) (2026-11-19)
 
 ### Features
