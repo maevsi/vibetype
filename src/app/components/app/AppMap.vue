@@ -31,19 +31,35 @@
     </AppModal>
   </div>
   <div v-else :class="cn('relative isolate', classComputed)">
-    <div :id="templateIdMap" class="size-full" />
-    <div
-      class="pointer-events-none absolute inset-0 z-1000 flex items-center justify-center bg-black/60 p-4 text-center text-white transition-opacity duration-300"
-      :class="hint ? 'opacity-100' : 'opacity-0'"
-      role="status"
-    >
-      {{ hint }}
-    </div>
+    <!-- while fullscreen, the map moves to the body: in place, an ancestor's stacking context would keep it below the bottom navigation and the sticky bars -->
+    <Teleport :disabled="!isFullscreen" to="body">
+      <div
+        :class="
+          isFullscreen
+            ? 'fixed inset-0 z-1500 bg-surface'
+            : 'relative size-full'
+        "
+      >
+        <div :id="templateIdMap" class="size-full" />
+        <div
+          class="pointer-events-none absolute inset-0 z-1000 flex items-center justify-center bg-black/60 p-4 text-center text-white transition-opacity duration-300"
+          :class="hint ? 'opacity-100' : 'opacity-0'"
+          role="status"
+        >
+          {{ hint }}
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useMediaQuery, useMounted, useTimeoutFn } from '@vueuse/core'
+import {
+  useMediaQuery,
+  useMounted,
+  useScrollLock,
+  useTimeoutFn,
+} from '@vueuse/core'
 
 import type { FullscreenControl, Map, LatLng } from 'leaflet'
 import type { DeepReadonly, HtmlHTMLAttributes, WatchStopHandle } from 'vue'
@@ -127,6 +143,14 @@ const applyGestureHandling = () => {
 }
 watch([isFullscreen, isTouchDevice], applyGestureHandling)
 let fullscreenControl: FullscreenControl | undefined
+const isScrollLocked = useScrollLock(import.meta.client ? document.body : null)
+watch(isFullscreen, async (isFullscreenValue) => {
+  isScrollLocked.value = isFullscreenValue
+  // moving the map in the document drops its focus and leaves leaflet with the size of the old place
+  await nextTick()
+  map.value?.invalidateSize()
+  fullscreenControl?.getContainer()?.querySelector('a')?.focus()
+})
 // leaflet translates its texts only when it renders them, so a locale change needs the controls re-added
 watch(locale, () => {
   const mapLocal = map.value
@@ -168,7 +192,8 @@ const initialize = async () => {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map.value)
-  fullscreenControl = new FullscreenControl().addTo(map.value)
+  // the native fullscreen API cannot keep the map while it moves to the body, so leaflet only fills the window
+  fullscreenControl = new FullscreenControl({ pseudo: true }).addTo(map.value)
 
   if (geocoder) {
     const { GeoSearchControl, OpenStreetMapProvider } =
@@ -311,6 +336,7 @@ watch(
       stopMarkerWatch?.()
       map.value.remove()
       map.value = undefined
+      isFullscreen.value = false
     }
   },
   { immediate: true },
