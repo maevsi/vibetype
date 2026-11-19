@@ -59,7 +59,6 @@ const PAGE_STATUSES: Record<string, number> = {
   '/account/password/reset': 400, // requires a reset code
   '/account/verify': 400, // requires a verification code
   '/attendance': 404, // behind the `participation` feature flag
-  '/event/ingest/url': process.env.VIO_SERVER === 'development' ? 200 : 404, // development only
   '/guest': 404, // behind the `invitations` feature flag
   '/notification': 404, // behind the `notifications` feature flag
   '/🫖': 418,
