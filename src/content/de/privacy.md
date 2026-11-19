@@ -1029,7 +1029,7 @@
 
             Wir nutzen die OpenAI API für die Plakatjagd: Wenn Du ein Foto eines Veranstaltungsplakats hochlädst, liest ein KI-Modell daraus die Angaben zur Veranstaltung, mit denen wir das Formular zum Erstellen der Veranstaltung vorausfüllen.
             Zuvor prüft OpenAI das Foto auf unzulässige Inhalte.
-            Gibst Du stattdessen eine Webadresse ein, lädt unser Server diese Seite und übermittelt ihren Text auf dieselbe Weise an OpenAI.
+            Gibst Du stattdessen eine Webadresse ein, lädt unser Server diese Seite und übermittelt ihren Text auf dieselbe Weise an OpenAI, sofern die Seite ihre Veranstaltung nicht bereits maschinenlesbar beschreibt.
             Die Nutzung dieser Funktionen ist nicht erforderlich.
 
             Das Foto wird von unserem Server an OpenAI übermittelt, nicht von Deinem Gerät.

@@ -1013,7 +1013,7 @@
 
             We use the OpenAI API for poster hunting: when you upload a photo of an event poster, an AI model reads the event's details from it, which we use to prefill the form for creating the event.
             Before that, OpenAI checks the photo for prohibited content.
-            If you enter a web address instead, our server loads that page and sends its text to OpenAI in the same way.
+            If you enter a web address instead, our server loads that page and sends its text to OpenAI in the same way, unless the page already describes its event in a machine-readable format.
             Using these functions is not required.
 
             The photo is sent to OpenAI from our server, not from your device.
