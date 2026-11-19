@@ -211,7 +211,7 @@
 
             - Analytics: Google Analytics (`_ga` and `_ga_*`)
             - Feature flags: `vibetype_feature-flags` stores the experimental features you enabled
-            - External content: map tiles of OpenStreetMap, the address search of Nominatim and profile pictures of Gravatar
+            - External content: map tiles of OpenStreetMap and profile pictures of Gravatar
             - Session replay and profiling: recordings of sessions with errors and performance profiles through Sentry
 
         1. **Changing your cookie settings**
@@ -863,12 +863,14 @@
               United Kingdom
             </address>
 
-            When a map is shown, your browser loads map tiles from the servers of the OpenStreetMap Foundation.
-            When you search for an address, your search text is sent to the geocoding service Nominatim of the OpenStreetMap Foundation.
-            In both cases, your IP address is transmitted.
+            When a map is shown, your browser loads map tiles from the servers of the OpenStreetMap Foundation, which transmits your IP address.
             No tracking cookies are used.
 
-            The maps and the address search are loaded only after your consent in the category "External content".
+            When you search for an address on a map, our server sends only your search text and the language of the website to the geocoding service Nominatim of the OpenStreetMap Foundation.
+            Your IP address and other data about you are not transmitted.
+            We store the search results on our server for up to seven days, so that repeated searches for the same text are not sent again.
+
+            The maps, and with them the address search, are loaded only after your consent in the category "External content".
             The legal basis is Art. 6 para. 1 lit. a GDPR and § 25 para. 1 TDDDG.
             Without consent, the maps and the address search are not available.
 

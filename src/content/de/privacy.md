@@ -211,7 +211,7 @@
 
             - Analyse: Google Analytics (`_ga` und `_ga_*`)
             - Feature-Flags: `vibetype_feature-flags` speichert die von Dir aktivierten experimentellen Funktionen
-            - Externe Inhalte: Kartenkacheln von OpenStreetMap, die Adresssuche von Nominatim und Profilbilder von Gravatar
+            - Externe Inhalte: Kartenkacheln von OpenStreetMap und Profilbilder von Gravatar
             - Sitzungsaufzeichnung und Profiling: Aufzeichnungen von Sitzungen mit Fehlern und Leistungsprofile durch Sentry
 
         1. **Cookie-Einstellungen ändern**
@@ -867,12 +867,14 @@
               Vereinigtes Königreich
             </address>
 
-            Wird eine Karte angezeigt, lädt Dein Browser Kartenkacheln von den Servern der OpenStreetMap Foundation.
-            Suchst Du eine Adresse, wird Dein Suchtext an den Geocoding-Dienst Nominatim der OpenStreetMap Foundation gesendet.
-            In beiden Fällen wird Deine IP-Adresse übermittelt.
+            Wird eine Karte angezeigt, lädt Dein Browser Kartenkacheln von den Servern der OpenStreetMap Foundation, wobei Deine IP-Adresse übermittelt wird.
             Es werden keine Tracking-Cookies verwendet.
 
-            Die Karten und die Adresssuche werden erst nach Deiner Einwilligung in der Kategorie „Externe Inhalte“ geladen.
+            Suchst Du auf einer Karte eine Adresse, sendet unser Server nur Deinen Suchtext und die Sprache der Website an den Geocoding-Dienst Nominatim der OpenStreetMap Foundation.
+            Deine IP-Adresse und andere Daten über Dich werden dabei nicht übermittelt.
+            Die Suchergebnisse speichern wir bis zu sieben Tage auf unserem Server, damit wiederholte Suchen nach demselben Text nicht erneut gesendet werden.
+
+            Die Karten und mit ihnen die Adresssuche werden erst nach Deiner Einwilligung in der Kategorie „Externe Inhalte“ geladen.
             Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG.
             Ohne Einwilligung stehen die Karten und die Adresssuche nicht zur Verfügung.
 
