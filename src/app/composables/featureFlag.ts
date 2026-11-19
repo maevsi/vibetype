@@ -29,9 +29,9 @@ const parseFeatureFlags = (value?: unknown | null): FeatureFlag[] => {
 /**
  * Manages feature flags via a cookie. The cookie is the single source of
  * truth: enabled flags are always derived from it, never mirrored into a
- * second reactive state, so nothing can drift out of sync with it. Flags
- * read as disabled whenever consent for `${SITE_NAME}_feature-flags` is
- * withheld, and the cookie is dropped the moment consent is revoked.
+ * second reactive state, so nothing can drift out of sync with it. The
+ * cookie needs no consent, as users request flags themselves (§ 25 (2) no. 2
+ * TDDDG).
  *
  * @example
  * const { enableFeature, isFeatureEnabled } = useFeatureFlags()
@@ -39,9 +39,7 @@ const parseFeatureFlags = (value?: unknown | null): FeatureFlag[] => {
  * if (isFeatureEnabled('friends').value) { ... }
  */
 export const useFeatureFlags = () => {
-  const cookieControl = useCookieControl()
   const isSecure = useIsSecure()
-  const { t } = useI18n({ useScope: 'global' })
 
   const cookie = useCookie<string | null>(FEATURE_FLAGS_COOKIE_NAME, {
     maxAge: FEATURE_FLAGS_COOKIE_MAX_AGE,
@@ -49,45 +47,22 @@ export const useFeatureFlags = () => {
     secure: isSecure,
   })
 
-  const isCookieAllowed = computed(
-    () =>
-      cookieControl.cookiesEnabledIds.value?.includes(
-        FEATURE_FLAGS_COOKIE_ID,
-      ) ?? false,
+  const enabledFlags = computed<Set<FeatureFlag>>(
+    () => new Set(parseFeatureFlags(cookie.value)),
   )
-
-  const enabledFlags = computed<Set<FeatureFlag>>(() =>
-    isCookieAllowed.value
-      ? new Set(parseFeatureFlags(cookie.value))
-      : new Set(),
-  )
-
-  // Consent has just one side effect to enforce: a withdrawn consent
-  // must not leave flags lingering in a cookie we're no longer allowed to
-  // read from or write to.
-  watch(isCookieAllowed, (isAllowed) => {
-    if (!isAllowed) cookie.value = null
-  })
 
   const writeFlags = (flags: Set<FeatureFlag>): void => {
-    if (!isCookieAllowed.value) return
-
     cookie.value = flags.size ? Array.from(flags).join(',') : null
   }
 
   const enableFeature = (feature: FeatureFlag): void => {
-    if (!isCookieAllowed.value) {
-      toast.warning(t('globalFeatureFlagsCookieRequired'))
-      return
-    }
-
     if (enabledFlags.value.has(feature)) return
 
     writeFlags(new Set(enabledFlags.value).add(feature))
   }
 
   const disableFeature = (feature: FeatureFlag): void => {
-    if (!isCookieAllowed.value || !enabledFlags.value.has(feature)) return
+    if (!enabledFlags.value.has(feature)) return
 
     const next = new Set(enabledFlags.value)
     next.delete(feature)

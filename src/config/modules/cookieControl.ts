@@ -25,10 +25,6 @@ export const cookieControlConfig: Pick<
   'cookieControl'
 > = {
   cookieControl: {
-    colors: {
-      checkboxActiveBackground: '#00A34A', // text-green-600
-    },
-
     /**
      * "The Cookie Law does not require that you list cookies one by one, only that you state their type, usage and purpose.
      * The cookie policy must:
@@ -126,18 +122,29 @@ export const cookieControlConfig: Pick<
           },
           targetCookieIds: ['cf_clearance'],
         },
+        {
+          description: {
+            de: 'Dieser Cookie von uns speichert die Feature-Flags, die du für experimentelle Funktionen aktivierst. Er wird nur auf deinen Wunsch gesetzt.',
+            en: 'This cookie of ours stores the feature flags you enable for experimental features. It is only set at your request.',
+          },
+          id: FEATURE_FLAGS_COOKIE_ID,
+          name: {
+            de: 'Feature-Flags',
+            en: 'Feature Flags',
+          },
+          targetCookieIds: [FEATURE_FLAGS_COOKIE_NAME],
+        },
       ],
       optional: [
         {
           description: {
-            de: 'Zum Anzeigen von Karten werden Kartenkacheln vom Drittanbieter OpenStreetMap Foundation geladen, und für Profilbilder wird der Drittanbieter Gravatar kontaktiert. Dabei wird deine IP-Adresse an diese übertragen. Ohne Zustimmung werden Karten und Gravatar-Profilbilder nicht angezeigt.',
-            en: 'To display maps, map tiles are loaded from the third party OpenStreetMap Foundation, and the third party Gravatar is contacted for profile pictures. Your IP address is transferred to them in the process. Without consent, maps and Gravatar profile pictures are not displayed.',
+            de: 'Zum Anzeigen von Karten werden Kartenkacheln vom Drittanbieter OpenStreetMap Foundation geladen. Dabei wird deine IP-Adresse an diese übertragen. Ohne Zustimmung werden Karten nicht angezeigt.',
+            en: 'To display maps, map tiles are loaded from the third party OpenStreetMap Foundation. Your IP address is transferred to them in the process. Without consent, maps are not displayed.',
           },
           id: EXTERNAL_MEDIA_COOKIE_ID,
           links: {
             'https://osmfoundation.org/wiki/Privacy_Policy':
               'OpenStreetMap Privacy Policy',
-            'https://automattic.com/privacy/': 'Gravatar Privacy Policy',
           },
           name: {
             de: 'Externe Inhalte',
@@ -160,18 +167,6 @@ export const cookieControlConfig: Pick<
         },
         {
           description: {
-            de: 'Dieser Cookie von uns speichert aktivierte Feature-Flags für experimentelle Funktionen.',
-            en: 'This cookie of ours stores enabled feature flags for experimental features.',
-          },
-          id: FEATURE_FLAGS_COOKIE_ID,
-          name: {
-            de: 'Feature-Flags',
-            en: 'Feature Flags',
-          },
-          targetCookieIds: [FEATURE_FLAGS_COOKIE_NAME],
-        },
-        {
-          description: {
             de: 'Die Cookies vom Drittanbieter Google ermöglichen die Analyse von Nutzerverhalten. Diese Analyse hilft uns unsere Dienste zu verbessern, indem wir verstehen, wie diese Webseite genutzt wird.',
             en: 'The third-party cookies by Google enable the analysis of user behavior. This analysis helps us to improve our services by understanding how this website is used.',
           },
@@ -191,18 +186,9 @@ export const cookieControlConfig: Pick<
         },
       ],
     },
+    // the module only stores the choices, its dialogs are replaced by the app's own privacy screen and settings
     isControlButtonEnabled: false,
-    // the default text promises a floating cookie button, which is disabled above
-    localeTexts: {
-      de: {
-        bannerDescription:
-          'Wir verwenden notwendige Cookies für den Betrieb dieser Webseite und, mit deiner Einwilligung, optionale Cookies und externe Inhalte für Analyse, Karten, Profilbilder und Fehleranalyse. Du kannst deine Auswahl jederzeit über „Cookie-Einstellungen“ unten auf der Startseite oder unter Einstellungen > Cookies ändern.',
-      },
-      en: {
-        bannerDescription:
-          'We use necessary cookies to run this website and, with your consent, optional cookies and external content for analytics, maps, profile pictures and error analysis. You can change your choice at any time via "Cookie settings" at the bottom of the start page or under Settings > Cookies.',
-      },
-    },
+    isCssEnabled: false,
     locales: ['en', 'de'],
   },
 }

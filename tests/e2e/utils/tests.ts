@@ -382,7 +382,7 @@ export const testMetadata = async ({
   await serverContext.close()
 
   await page.goto(path)
-  await PAGE_READY({ page, options: { cookieControl: false } })
+  await PAGE_READY({ page })
   await expectMeta(page)
 
   expect(
