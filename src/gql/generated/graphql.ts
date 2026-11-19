@@ -1000,6 +1000,14 @@ export type AllLegalTermsQuery = {
   } | null
 }
 
+export type EventDeleteMutationVariables = Exact<{
+  input: EventDeleteInput
+}>
+
+export type EventDeleteMutation = {
+  eventDelete: { clientMutationId: string | null } | null
+}
+
 export type CreateEventFavoriteMutationVariables = Exact<{
   input: CreateEventFavoriteInput
 }>
@@ -1871,14 +1879,6 @@ export type EventEditQuery = {
       }>
     }
   } | null
-}
-
-export type EventDeleteMutationVariables = Exact<{
-  input: EventDeleteInput
-}>
-
-export type EventDeleteMutation = {
-  eventDelete: { clientMutationId: string | null } | null
 }
 
 export type EventAttendanceQueryVariables = Exact<{
@@ -3565,6 +3565,60 @@ export const AllLegalTermsDocument = {
     },
   ],
 } as unknown as DocumentNode<AllLegalTermsQuery, AllLegalTermsQueryVariables>
+export const EventDeleteDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'EventDelete' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'EventDeleteInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'eventDelete' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<EventDeleteMutation, EventDeleteMutationVariables>
 export const CreateEventFavoriteDocument = {
   kind: 'Document',
   definitions: [
@@ -9198,60 +9252,6 @@ export const EventEditDocument = {
     },
   ],
 } as unknown as DocumentNode<EventEditQuery, EventEditQueryVariables>
-export const EventDeleteDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'EventDelete' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'input' },
-          },
-          type: {
-            kind: 'NonNullType',
-            type: {
-              kind: 'NamedType',
-              name: { kind: 'Name', value: 'EventDeleteInput' },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'eventDelete' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'input' },
-                value: {
-                  kind: 'Variable',
-                  name: { kind: 'Name', value: 'input' },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<EventDeleteMutation, EventDeleteMutationVariables>
 export const EventAttendanceDocument = {
   kind: 'Document',
   definitions: [
