@@ -117,7 +117,7 @@ const decide = (action: () => void) => {
 de:
   allowAll: Alle erlauben
   allowNecessaryOnly: Nur Notwendiges
-  analyticsDescription: Zeigt uns, wie Vibetype genutzt wird, damit wir es verbessern können. Die Daten gehen an Google, ohne Werbefunktionen.
+  analyticsDescription: "Zeigt uns, wie @.upper:{'globalSiteName'} genutzt wird, damit wir es verbessern können. Die Daten gehen an Google, ohne Werbefunktionen."
   analyticsTitle: Nutzungsanalyse (Google Analytics)
   errorAnalysisDescription: Zeichnet Bedienschritte und Bildschirminhalte deiner Sitzung auf und misst die Leistung, um Fehler zu beheben. Die Daten gehen an Sentry.
   errorAnalysisTitle: Fehleranalyse (Sentry)
@@ -128,7 +128,7 @@ de:
 en:
   allowAll: Allow all
   allowNecessaryOnly: Only necessary
-  analyticsDescription: Shows us how Vibetype is used so we can improve it. The data goes to Google, without advertising features.
+  analyticsDescription: "Shows us how @.upper:{'globalSiteName'} is used so we can improve it. The data goes to Google, without advertising features."
   analyticsTitle: Usage analytics (Google Analytics)
   errorAnalysisDescription: Records interaction steps and screen contents of your session and measures performance to fix errors. The data goes to Sentry.
   errorAnalysisTitle: Error analysis (Sentry)

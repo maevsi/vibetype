@@ -7,26 +7,29 @@
     data-testid="consent-screen"
     role="dialog"
   >
-    <LayoutPage>
-      <div class="flex flex-col items-start gap-3">
-        <div
-          class="flex size-16 items-center justify-center rounded-full bg-surface-raised text-action-primary"
-        >
-          <AppIconShieldCheck class="size-8" />
+    <FocusScope as-child loop trapped>
+      <LayoutPage>
+        <div class="flex flex-col items-start gap-3">
+          <div
+            class="flex size-16 items-center justify-center rounded-full bg-surface-raised text-action-primary"
+          >
+            <AppIconShieldCheck class="size-8" />
+          </div>
+          <h1 :id="titleId" class="text-heading-medium">
+            {{ t('title') }}
+          </h1>
+          <p class="text-body text-fg-2">
+            {{ t('description') }}
+          </p>
         </div>
-        <h1 :id="titleId" class="text-heading-medium">
-          {{ t('title') }}
-        </h1>
-        <p class="text-body text-fg-2">
-          {{ t('description') }}
-        </p>
-      </div>
-      <ConsentSettings />
-    </LayoutPage>
+        <ConsentSettings />
+      </LayoutPage>
+    </FocusScope>
   </div>
 </template>
 
 <script setup lang="ts">
+import { FocusScope } from 'reka-ui'
 import { isEqual } from 'ufo'
 
 const { t } = useI18n()
@@ -46,9 +49,9 @@ const isVisible = computed(
 
 <i18n lang="yaml">
 de:
-  description: Vibetype verfolgt dich nicht über Apps oder Webseiten hinweg und zeigt keine Werbung. Entscheide, welche optionalen Funktionen du erlaubst. Das kannst du jederzeit in den Datenschutz-Einstellungen ändern.
+  description: "@.upper:{'globalSiteName'} verfolgt dich nicht über Apps oder Webseiten hinweg und zeigt keine Werbung. Entscheide, welche optionalen Funktionen du erlaubst. Das kannst du jederzeit in den Datenschutz-Einstellungen ändern."
   title: Deine Privatsphäre
 en:
-  description: Vibetype does not track you across apps or websites and shows no ads. Choose which optional features you allow. You can change this at any time in the privacy settings.
+  description: "@.upper:{'globalSiteName'} does not track you across apps or websites and shows no ads. Choose which optional features you allow. You can change this at any time in the privacy settings."
   title: Your privacy
 </i18n>
