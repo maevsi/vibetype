@@ -5,7 +5,9 @@
       <span class="text-heading-large text-balance">
         {{ t('title') }}
       </span>
-      <div class="relative isolate overflow-hidden rounded-large">
+      <div
+        class="relative isolate overflow-hidden rounded-large bg-surface-raised"
+      >
         <AppMap v-if="!hidden" ref="map" geocoder :position-initial />
         <div
           v-if="isMapConsented"

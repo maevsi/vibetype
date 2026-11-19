@@ -27,7 +27,7 @@
       </AppButton>
       <AppButton
         :aria-label="t('skip')"
-        class="w-full max-w-md"
+        class="w-full max-w-md data-[variant=secondary]:bg-surface"
         variant="secondary"
         @click="emit('skip')"
       >

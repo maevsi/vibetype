@@ -8,10 +8,7 @@
       type="checkbox"
       @change="emit('toggle')"
     />
-    <span
-      aria-hidden="true"
-      class="flex size-12 items-center justify-center rounded-small bg-surface"
-    >
+    <span aria-hidden="true" class="flex size-16 items-center justify-center">
       <slot>
         <AppIconImage class="size-8 text-fg-3" />
       </slot>
