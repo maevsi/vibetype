@@ -6,7 +6,13 @@
         {{ t('title') }}
       </span>
       <div class="relative isolate -mx-3 lg:-mx-6">
-        <AppMap v-if="!hidden" ref="map" geocoder :position-initial />
+        <AppMap
+          v-if="!hidden"
+          ref="map"
+          geocoder
+          is-zoom-control-hidden
+          :position-initial
+        />
         <div
           v-if="isMapConsented"
           class="pointer-events-none absolute inset-0 z-400 bg-[#14132699] mask-[radial-gradient(circle_140px_at_center,transparent_0,transparent_139px,black_150px)]"

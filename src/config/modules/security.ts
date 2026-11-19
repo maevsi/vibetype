@@ -50,6 +50,7 @@ export const securityConfig: ReturnType<DefineNuxtConfig> = {
       },
       permissionsPolicy: {
         camera: ['self'], // can't be set per route and must be set globally as users can navigate routes client side
+        geolocation: ['self'], // the location picker asks for the current position
         'web-share': ['self'], // the default `()` makes `navigator.share` reject, so events could only be shared by copying their link
       },
       xXSSProtection: '1; mode=block', // TODO: set back to `0` once CSP does not use `unsafe-*` anymore (https://github.com/maevsi/vibetype/issues/1047)
