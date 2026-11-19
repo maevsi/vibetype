@@ -78,18 +78,61 @@
               {{ t('username', { username: route.params.username }) }}
             </h1>
           </div>
-          <AppCardButton
-            :description="t('events')"
-            :title="String(account.eventsByCreatedBy.totalCount)"
-            :to="
-              localePath({
-                name: 'event-view-username',
-                params: { username: route.params.username },
-              })
-            "
+          <div
+            class="grid grid-cols-[repeat(auto-fit,minmax(10rem,1fr))] gap-4"
           >
-            <AppIconToday />
-          </AppCardButton>
+            <AppFeature feature="friends">
+              <!-- no friendship count exists in the API yet, so the count is omitted and the avatars are the same placeholders as before -->
+              <AppCard
+                class="flex h-full flex-col items-center gap-1 p-5"
+                data-testid="friends-card"
+              >
+                <div class="relative mb-3 h-16 w-20">
+                  <AccountProfilePicture
+                    v-for="(avatar, index) in friendAvatars"
+                    :key="index"
+                    account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
+                    class="absolute size-10 rounded-medium border-2 border-surface-raised"
+                    height="40"
+                    :style="avatar"
+                    width="40"
+                  />
+                </div>
+                <span class="text-body-small text-link">
+                  {{ t('friends') }}
+                </span>
+              </AppCard>
+            </AppFeature>
+            <AppCard
+              class="relative flex flex-col items-center gap-1 p-5 has-focus-visible:focus-ring"
+              data-testid="events-card"
+            >
+              <div class="mb-3 flex h-16 items-center justify-center">
+                <AppIconToday class="size-10 text-fg-2" />
+              </div>
+              <span class="text-heading-large">
+                {{ account.eventsByCreatedBy.totalCount }}
+              </span>
+              <AppButton
+                :aria-label="t('events')"
+                class="focus-visible:ring-0"
+                size="none"
+                :to="
+                  localePath({
+                    name: 'event-view-username',
+                    params: { username: route.params.username },
+                  })
+                "
+                variant="ghost"
+              >
+                <!-- the overlay stretches the link over the whole card -->
+                <span class="absolute inset-0 z-10" />
+                <span class="text-body-small text-link">
+                  {{ t('events') }}
+                </span>
+              </AppButton>
+            </AppCard>
+          </div>
           <AppFeature feature="friends">
             <AppButton
               v-if="store.signedInUsername !== route.params.username"
@@ -99,38 +142,6 @@
             >
               {{ t('friendAdd') }}
             </AppButton>
-          </AppFeature>
-          <AppFeature feature="friends">
-            <h2 class="text-title3">
-              {{ t('friends') }}
-            </h2>
-            <!-- @vue-ignore -->
-            <AppCardButton
-              class="relative"
-              disabled
-              :to="`/friend/view/$username`"
-            >
-              <div class="isolate flex -space-x-2 overflow-hidden p-1">
-                <AccountProfilePicture
-                  account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                  class="rounded-full ring-3 ring-surface-raised"
-                  height="64"
-                  width="64"
-                />
-                <AccountProfilePicture
-                  account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                  class="rounded-full ring-3 ring-surface-raised"
-                  height="64"
-                  width="64"
-                />
-                <AccountProfilePicture
-                  account-id="d3d7f2d0-bbf5-46aa-84ba-82ccf3c6af6b"
-                  class="rounded-full ring-3 ring-surface-raised"
-                  height="64"
-                  width="64"
-                />
-              </div>
-            </AppCardButton>
           </AppFeature>
           <AppFeature v-if="isOwnProfile" feature="account-management">
             <AppButton
@@ -244,44 +255,6 @@
                 {{ accountImprintUrl }}
               </AppLink>
             </span>
-          </div>
-          <div v-if="isOwnProfile" class="flex flex-col gap-2">
-            <AppSeparator />
-            <div class="flex flex-col">
-              <AppMenuItem
-                :title="t('support')"
-                :to="localePath({ name: 'support-contact' })"
-              >
-                <AppIconMail />
-              </AppMenuItem>
-              <AppMenuItem
-                :title="t('terms')"
-                :to="localePath('docs-legal-terms')"
-              >
-                <AppIconContract />
-              </AppMenuItem>
-              <AppMenuItem
-                :title="t('imprint')"
-                :to="localePath('docs-legal-imprint')"
-              >
-                <AppIconLegal />
-              </AppMenuItem>
-              <AppMenuItem
-                :title="t('privacy')"
-                :to="localePath('docs-legal-privacy')"
-              >
-                <AppIconVerifiedUser />
-              </AppMenuItem>
-            </div>
-            <AppSeparator />
-            <AppMenuItem
-              :title="t('logout')"
-              variant="critical"
-              @click="signOutToRoot"
-            >
-              <template #suffix />
-              <AppIconLogout />
-            </AppMenuItem>
           </div>
         </div>
       </LayoutPage>
@@ -452,7 +425,11 @@ defineOgImage(
 // template
 const localePath = useLocalePath()
 const isBlockDrawerOpen = ref<boolean>()
-const signOutToRoot = useSignOutToRoot()
+const friendAvatars = [
+  { left: '10px', top: '0px', transform: 'rotate(-8deg)' },
+  { left: '28px', top: '5px', transform: 'rotate(5deg)' },
+  { left: '0px', top: '24px', transform: 'rotate(12deg)' },
+]
 </script>
 
 <i18n lang="yaml">
@@ -469,15 +446,11 @@ de:
   friendAdd: Freundschaftsanfrage senden
   friends: Freunde
   imprint: Impressum
-  logout: Abmelden
   myProfile: Mein Profil
   newEvent: Neues Event
   ogImageAlt: Das Profilbild des Kontos.
-  privacy: Datenschutzerklärung
   profile: Profil
   settings: Einstellungen
-  support: Hilfe
-  terms: Allgemeine Geschäftsbedingungen
   uploads: Meine Dateien
   username: "{'@'}{username}"
 en:
@@ -493,15 +466,11 @@ en:
   friendAdd: Send friend request
   friends: Friends
   imprint: Imprint
-  logout: Log Out
   myProfile: My Profile
   newEvent: New event
   ogImageAlt: The account's profile picture.
-  privacy: Privacy Policy
   profile: Profile
   settings: Settings
-  support: Support
-  terms: General Terms and Conditions
   uploads: Uploads
   username: "{'@'}{username}"
 </i18n>
