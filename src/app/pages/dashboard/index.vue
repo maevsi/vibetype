@@ -38,6 +38,29 @@
           </p>
         </section>
         <section
+          v-if="hasNoPreferences"
+          :aria-labelledby="templateIdPreference"
+          class="flex flex-col gap-4 rounded-medium bg-surface-raised p-2"
+        >
+          <div class="flex flex-col gap-1 px-2 pt-2">
+            <h2 :id="templateIdPreference" class="text-headline">
+              {{ t('preferenceTitle') }}
+            </h2>
+            <p class="text-body-small text-fg-2">
+              {{ t('preferenceDescription') }}
+            </p>
+          </div>
+          <AppButton
+            :aria-label="t('preferenceAction')"
+            class="w-full"
+            :to="localePath('preference-create')"
+            variant="primary"
+          >
+            <AppIconNetworkIntelligence />
+            {{ t('preferenceAction') }}
+          </AppButton>
+        </section>
+        <section
           v-if="eventTopPick"
           :aria-labelledby="templateIdTopPick"
           class="flex flex-col gap-2"
@@ -46,35 +69,6 @@
             {{ t('topPickTitle') }}
           </h2>
           <EventCard :event="eventTopPick" variant="recommendation" />
-        </section>
-        <section
-          v-if="!eventTopPick || eventRecommendationsOther.length"
-          :aria-labelledby="templateIdRecommendation"
-          class="flex flex-col gap-2"
-        >
-          <h2
-            :id="templateIdRecommendation"
-            class="py-1 text-title3 text-balance"
-          >
-            {{ t('recommendationTitle') }}
-          </h2>
-          <div
-            v-if="eventRecommendationsOther.length"
-            class="flex flex-col gap-4"
-          >
-            <EventCard
-              v-for="event in eventRecommendationsOther"
-              :key="event.rowId"
-              :event
-              variant="recommendation"
-            />
-          </div>
-          <p
-            v-else
-            class="rounded-medium bg-surface-raised p-12 text-center text-fg-2"
-          >
-            {{ t('recommendationEmpty') }}
-          </p>
         </section>
         <section
           :aria-labelledby="templateIdPosterHunt"
@@ -99,6 +93,44 @@
             {{ t('posterHuntImage') }}
           </AppButton>
         </section>
+        <section
+          v-if="!eventTopPick || eventRecommendationsOther.length"
+          :aria-labelledby="templateIdRecommendation"
+          class="flex flex-col gap-2"
+        >
+          <h2
+            :id="templateIdRecommendation"
+            class="py-1 text-title3 text-balance"
+          >
+            {{ t('recommendationTitle') }}
+          </h2>
+          <div
+            v-if="eventRecommendationsOther.length"
+            class="flex flex-col gap-4"
+          >
+            <EventCard
+              v-for="event in eventRecommendationsOther"
+              :key="event.rowId"
+              :event
+              variant="recommendation"
+            />
+          </div>
+          <div
+            v-else
+            class="flex flex-col items-center gap-4 rounded-medium bg-surface-raised p-12 text-center text-fg-2"
+          >
+            <p>{{ t('recommendationEmpty') }}</p>
+            <AppButton
+              v-if="hasNoPreferences"
+              :aria-label="t('preferenceAction')"
+              :to="localePath('preference-create')"
+              variant="primary"
+            >
+              <AppIconNetworkIntelligence />
+              {{ t('preferenceAction') }}
+            </AppButton>
+          </div>
+        </section>
         <AppButton
           v-if="!eventUpcoming"
           :aria-label="t('discover')"
@@ -107,7 +139,6 @@
         >
           {{ t('discover') }}
         </AppButton>
-        <ButtonApp />
       </div>
     </LayoutPage>
   </div>
@@ -259,8 +290,32 @@ const queryEventUpcoming = authentication.value.isSignedIn
       },
     })
   : undefined
+
+// async data - preferences
+// The setup flow starts with the size step and each step may be left empty,
+// so any stored preference counts as set up
+const preferenceCountQuery = graphql(`
+  query DashboardPreferenceCount {
+    allPreferenceEventCategories {
+      totalCount
+    }
+    allPreferenceEventFormats {
+      totalCount
+    }
+    allPreferenceEventLocations {
+      totalCount
+    }
+    allPreferenceEventSizes {
+      totalCount
+    }
+  }
+`)
+const queryPreferenceCount = authentication.value.isSignedIn
+  ? useApiQuery({ query: preferenceCountQuery })
+  : undefined
 const api = await useApiData([
   ...(queryEventUpcoming ? [queryEventUpcoming] : []),
+  ...(queryPreferenceCount ? [queryPreferenceCount] : []),
 ])
 
 // Only data that is still missing counts, so refreshing cached data keeps
@@ -269,6 +324,17 @@ const isLoading = computed(
   () =>
     (api.value.isFetching && !api.value.data.allEvents) ||
     (eventRecommendationsPending.value && !eventRecommendations.value),
+)
+
+const hasNoPreferences = computed(
+  () =>
+    api.value.data.allPreferenceEventCategories !== undefined &&
+    [
+      api.value.data.allPreferenceEventCategories,
+      api.value.data.allPreferenceEventFormats,
+      api.value.data.allPreferenceEventLocations,
+      api.value.data.allPreferenceEventSizes,
+    ].every((connection) => connection?.totalCount === 0),
 )
 
 const now = useNow()
@@ -295,6 +361,7 @@ useHeadDefault({ title })
 // template
 const localePath = useLocalePath()
 const templateIdPosterHunt = useId()
+const templateIdPreference = useId()
 const templateIdRecommendation = useId()
 const templateIdTopPick = useId()
 const templateIdUpcoming = useId()
@@ -306,6 +373,9 @@ de:
   posterHuntDescription: Du hast eine spannende Veranstaltung außerhalb von @.upper:{'globalSiteName'} gesehen?
   posterHuntImage: Bild hochladen
   posterHuntTitle: Plakatjagd
+  preferenceAction: KI einrichten
+  preferenceDescription: Sag uns, was Dir gefällt, und Du bekommst Veranstaltungen, die zu Dir passen.
+  preferenceTitle: Stell Deinen Vibe ein
   recommendationEmpty: Noch nichts entdeckt
   recommendationTitle: Das solltest Du nicht verpassen
   title: Dashboard
@@ -317,6 +387,9 @@ en:
   posterHuntDescription: Saw an interesting event outside of @.upper:{'globalSiteName'}?
   posterHuntImage: Upload image
   posterHuntTitle: Poster hunting
+  preferenceAction: Set up AI
+  preferenceDescription: Tell us what you like and get events that fit you.
+  preferenceTitle: Set up your vibe
   recommendationEmpty: None discovered yet
   recommendationTitle: You should not miss
   title: Dashboard

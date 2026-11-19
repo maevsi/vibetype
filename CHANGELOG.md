@@ -1,3 +1,45 @@
+## [17.18.0](https://github.com/maevsi/vibetype/compare/17.17.0...17.18.0) (2026-11-19)
+
+### Features
+
+* **account:** move account settings to the account edit page ([#2702](https://github.com/maevsi/vibetype/issues/2702)) ([e3ed30f](https://github.com/maevsi/vibetype/commit/e3ed30f4e553ea02ddabfe8eaa2938ba1a42177c))
+
+## [17.17.0](https://github.com/maevsi/vibetype/compare/17.16.0...17.17.0) (2026-11-19)
+
+### Features
+
+* **dashboard:** move poster hunt below top pick and remove app install button ([#2700](https://github.com/maevsi/vibetype/issues/2700)) ([2d4d9d2](https://github.com/maevsi/vibetype/commit/2d4d9d2adc73cf25506c29895de9a3549132b5d7))
+
+## [17.16.0](https://github.com/maevsi/vibetype/compare/17.15.4...17.16.0) (2026-11-19)
+
+### Features
+
+* **form:** confirm password protected deletions in a drawer ([#2701](https://github.com/maevsi/vibetype/issues/2701)) ([d03e3df](https://github.com/maevsi/vibetype/commit/d03e3df700caee6338cca656aa7dbe133e0909cc))
+* **map:** require two fingers or ctrl to move the map ([#2705](https://github.com/maevsi/vibetype/issues/2705)) ([b5f57b3](https://github.com/maevsi/vibetype/commit/b5f57b30bdd3efb31257681931cb61782d4cb3a7))
+* **session:** reorder developer information and clarify notifications ([#2704](https://github.com/maevsi/vibetype/issues/2704)) ([acc6255](https://github.com/maevsi/vibetype/commit/acc625501423f107c5e427fea5222d9f2c89a6fa))
+
+### Bug Fixes
+
+* **guest:** fix check-in code dialog and calendar download ([#2703](https://github.com/maevsi/vibetype/issues/2703)) ([35b0d25](https://github.com/maevsi/vibetype/commit/35b0d2593681b5ac8b5af8b14cf4aacba46c4994))
+
+## [17.15.4](https://github.com/maevsi/vibetype/compare/17.15.3...17.15.4) (2026-11-18)
+
+### Bug Fixes
+
+* **imprint:** update legal representatives ([#2699](https://github.com/maevsi/vibetype/issues/2699)) ([9173059](https://github.com/maevsi/vibetype/commit/917305926511e33a2db99aa6e381a4cb363a1e43))
+
+## [17.15.3](https://github.com/maevsi/vibetype/compare/17.15.2...17.15.3) (2026-11-18)
+
+### Bug Fixes
+
+* **legal:** separate terms acceptance from privacy information and fix imprint ([#2696](https://github.com/maevsi/vibetype/issues/2696)) ([9acb501](https://github.com/maevsi/vibetype/commit/9acb5017ab8af6ddddacf596cb16d24991d17149))
+
+## [17.15.2](https://github.com/maevsi/vibetype/compare/17.15.1...17.15.2) (2026-11-18)
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([d87b653](https://github.com/maevsi/vibetype/commit/d87b65376278b27e3d87203989688c92a0a3e738))
+
 ## [17.15.1](https://github.com/maevsi/vibetype/compare/17.15.0...17.15.1) (2026-11-18)
 
 ### Bug Fixes

@@ -4,6 +4,8 @@
   "globalErrorNoData": "Antwort ohne Daten",
   "globalFeatureFlagsCookieRequired": "Um Feature-Flags zu aktivieren, muss das zugehörige Cookie erlaubt werden.",
   "globalErrorClipboard": "Dein Browser unterstützt das moderne Kopieren in die Zwischenablage nicht.",
+  "globalErrorDetailsCopy": "Details kopieren",
+  "globalErrorDetailsCopySuccess": "Details in die Zwischenablage kopiert.",
   "globalFormErrorAge18": "Du musst 18 Jahre alt sein.",
   "globalLeaveConfirm": "Ungespeicherte Änderungen verwerfen?",
   "globalLoading": "Lade...",

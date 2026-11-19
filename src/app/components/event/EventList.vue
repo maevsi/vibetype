@@ -1,6 +1,6 @@
 <template>
   <div v-if="events?.length" class="flex flex-col items-center gap-4">
-    <AppMap v-if="isMapVisible" :events />
+    <AppMap v-if="isMapShown" :events />
     <div v-if="isGroupedByDay" class="flex w-full flex-col gap-8">
       <section
         v-for="eventGroup in eventGroups"
@@ -52,14 +52,14 @@ import type { EventCardProps } from './card/EventCard.vue'
 // compiler
 const {
   isGroupedByDay = false,
-  isMapVisible = undefined,
   isLoading = false,
+  isMapVisible = false,
   events = undefined,
   hasNextPage,
 } = defineProps<{
   isGroupedByDay?: boolean
-  isMapVisible?: boolean
   isLoading?: boolean
+  isMapVisible?: boolean
   events?: DeepReadonly<(EventCardProps['event'] & AppMapEvent)[]>
   hasNextPage?: boolean
 }>()
@@ -67,6 +67,12 @@ const {
 const emit = defineEmits<{
   loadMore: []
 }>()
+
+// map
+const isMapShown = computed(
+  () =>
+    isMapVisible && events?.some((event) => event.addressByAddressId?.location),
+)
 
 // grouping
 const { locale, t } = useI18n()
