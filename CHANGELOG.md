@@ -1,3 +1,9 @@
+## [17.21.0](https://github.com/maevsi/vibetype/compare/17.20.0...17.21.0) (2026-11-19)
+
+### Features
+
+* **consent:** ask for privacy choices in an app-like way ([#2714](https://github.com/maevsi/vibetype/issues/2714)) ([02a1928](https://github.com/maevsi/vibetype/commit/02a1928da8e7d174db59c308d070529d13fa7f18))
+
 ## [17.20.0](https://github.com/maevsi/vibetype/compare/17.19.1...17.20.0) (2026-11-19)
 
 ### Features
