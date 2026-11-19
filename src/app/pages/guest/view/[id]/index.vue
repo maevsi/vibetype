@@ -281,15 +281,6 @@
                   <AppIconArrowDownTray />
                 </template>
               </AppButton>
-              <AppButton
-                :aria-label="t('close')"
-                @click="isModalGuestQrCodeOpen = false"
-              >
-                {{ t('close') }}
-                <template #prefix>
-                  <AppIconXMark />
-                </template>
-              </AppButton>
             </template>
           </AppModal>
         </div>
@@ -475,26 +466,27 @@ const { $csrfFetch } = useNuxtApp()
 const downloadIcal = async () => {
   if (!event.value) return
 
-  const response = await $csrfFetch('/api/model/event/ical', {
-    body: {
-      event: event.value,
-      guest: guest.value,
-      language: locale.value,
-    },
-    method: 'POST',
-  })
   const fileName = `${event.value.accountByCreatedBy ? `${event.value.accountByCreatedBy.username}_` : ''}${event.value.slug}.ics`
 
-  if (!response.data.value) {
-    alertError(t('iCalFetchError'))
-    return
-  }
+  try {
+    // `$csrfFetch` wraps `$fetch`, which resolves to the response body itself
+    const ical = await $csrfFetch<string>('/api/model/event/ical', {
+      body: {
+        event: event.value,
+        guest: guest.value,
+        language: locale.value,
+      },
+      method: 'POST',
+    })
 
-  downloadJs(
-    new Blob([response.data.value]), // Blob necessary for charset utf-8
-    fileName,
-    'text/calendar',
-  )
+    downloadJs(
+      new Blob([ical]), // Blob necessary for charset utf-8
+      fileName,
+      'text/calendar',
+    )
+  } catch {
+    alertError(t('iCalFetchError'))
+  }
 }
 const isTicketShareable = ref<boolean>()
 const isTicketFetching = ref<boolean>()
@@ -625,7 +617,6 @@ defineEventOgImage({ alt: t('ogImageAlt'), event: event.value })
 
 <i18n lang="yaml">
 de:
-  close: Schließen
   errorAccountMissing: Nutzerkonto nicht verfügbar
   errorEventMissing: Veranstaltung nicht verfügbar
   errorGuestMissing: Gast nicht verfügbar
@@ -653,7 +644,6 @@ de:
   ticketShare: Ticket teilen
   ticketShareError: Das Ticket konnte nicht geteilt werden.
 en:
-  close: Close
   errorAccountMissing: Account not available
   errorEventMissing: Event not available
   errorGuestMissing: Guest not available
