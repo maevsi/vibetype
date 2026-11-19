@@ -60,6 +60,8 @@ const templateIdMap = useId()
 const map = ref<Map>()
 const mapCenter = ref<LatLng>()
 const mapZoom = ref<number>()
+// stays false until the view differs from the initial one, so programmatic initial centring never counts as input
+const isPositionSet = ref(false)
 
 const { t, locale } = useI18n()
 const colorMode = useColorMode()
@@ -210,8 +212,12 @@ onMounted(async () => {
 
   mapCenter.value = map.value.getCenter()
   mapZoom.value = map.value.getZoom()
+  const centerInitial = map.value.getCenter()
+  let isFitting = false
   map.value.on('move', () => {
     mapCenter.value = map.value?.getCenter()
+    if (!isFitting && mapCenter.value && !mapCenter.value.equals(centerInitial))
+      isPositionSet.value = true
   })
   map.value.on('zoomend', () => {
     mapZoom.value = map.value?.getZoom()
@@ -230,18 +236,24 @@ onMounted(async () => {
     () => events,
     (eventsCurrent) => {
       markerLayer.clearLayers()
+      const positions: [number, number][] = []
       for (const event of eventsCurrent ?? []) {
         const location = event.addressByAddressId?.location
         if (!location) continue
+        positions.push([location.latitude, location.longitude])
         new Marker([location.latitude, location.longitude], { icon }).addTo(
           markerLayer,
         )
       }
+      if (!positions.length) return
+      isFitting = true
+      map.value?.fitBounds(positions, { maxZoom: 15, padding: [30, 30] })
+      isFitting = false
     },
     { immediate: true },
   )
 })
-defineExpose({ map, mapCenter, mapZoom })
+defineExpose({ isPositionSet, map, mapCenter, mapZoom })
 </script>
 
 <style>

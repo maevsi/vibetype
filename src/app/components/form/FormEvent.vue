@@ -689,10 +689,14 @@ const syncAddress = async (
   const mapCenter = templateMap.value?.mapCenter
   if (!mapCenter) return addressRowIdOriginal ?? null
 
-  const location = {
-    type: 'Point' as const,
-    coordinates: [mapCenter.lng, mapCenter.lat],
-  }
+  // an untouched map would store its default centre as the location
+  const location =
+    locationPositionInitial || templateMap.value?.isPositionSet
+      ? {
+          type: 'Point' as const,
+          coordinates: [mapCenter.lng, mapCenter.lat],
+        }
+      : null
 
   if (addressRowIdOriginal) {
     const result = await updateAddressByRowIdMutation.executeMutation({
