@@ -200,6 +200,7 @@
             - GraphQL-Cache in der IndexedDB Deines Browsers: enthält Deine Daten für die Offline-Nutzung und wird bei der Abmeldung gelöscht
             - Cache des Service Workers: enthält App-Dateien für die Offline-Nutzung und schnelles Laden
             - Firebase-Messaging-Token: wird erst gespeichert, nachdem Du Push-Benachrichtigungen aktivierst
+            - `vibetype_feature-flags`: speichert die von Dir aktivierten experimentellen Funktionen und wird erst gesetzt, wenn Du eine aktivierst
 
         1. **Technisch nicht notwendige Cookies**
 
@@ -210,15 +211,16 @@
             Jede der folgenden Kategorien wird getrennt eingeschaltet, und vor Deiner Einwilligung wird nichts davon geladen oder gespeichert:
 
             - Analyse: Google Analytics (`_ga` und `_ga_*`)
-            - Feature-Flags: `vibetype_feature-flags` speichert die von Dir aktivierten experimentellen Funktionen
-            - Externe Inhalte: Kartenkacheln von OpenStreetMap und Profilbilder von Gravatar
+            - Karten: Kartenkacheln von OpenStreetMap
             - Sitzungsaufzeichnung und Profiling: Aufzeichnungen von Sitzungen mit Fehlern und Leistungsprofile durch Sentry
 
-        1. **Cookie-Einstellungen ändern**
+        1. **Datenschutz-Einstellungen ändern**
 
-            Du kannst Deine Einwilligung jederzeit mit Wirkung für die Zukunft ändern oder widerrufen, über den Link „Cookie-Einstellungen“ in der Fußzeile oder unter Einstellungen, Cookies.
+            Bei Deinem ersten Besuch fragt Dich der Bildschirm „Deine Privatsphäre“ nach Deiner Auswahl, wobei jede Kategorie ausgeschaltet bleibt, bis Du sie erlaubst.
+            Du kannst Deine Einwilligung jederzeit mit Wirkung für die Zukunft unter Einstellungen, Datenschutz-Einstellungen ändern oder widerrufen.
             Der Widerruf berührt die Rechtmäßigkeit der bis dahin erfolgten Verarbeitung nicht.
-            In der iOS-App folgen die optionalen Kategorien Deiner Auswahl in der Abfrage zur App-Tracking-Transparenz.
+            Die Apps fragen dieselbe Auswahl auf demselben Bildschirm ab.
+            Wir verfolgen Dich nicht über Apps oder Websites anderer Unternehmen hinweg und zeigen keine Werbung, daher nutzt die iOS-App keine App-Tracking-Transparenz.
 
     1. **Datenverarbeitung durch Nutzereingabe**
 
@@ -297,7 +299,7 @@
             Die Daten werden gelöscht, sobald die registrierte Person den Kontakt entfernt, spätestens jedoch, wenn das Nutzerkonto der registrierten Person gemäß § 11 der Nutzungsbedingungen gelöscht wird.
 
             Die Einladung wird über den unten beschriebenen Mailingdienst per E-Mail versendet.
-            Hat der Kontakt eine E-Mail-Adresse, wird ein Profilbild nur dann bei Gravatar angefragt, wenn die betrachtende Person in externe Inhalte eingewilligt hat (siehe „Gravatar“ unten).
+            Hat der Kontakt eine E-Mail-Adresse, fragt unser Server ein Profilbild bei Gravatar an (siehe „Gravatar“ unten).
             Die Bereitstellung dieser Daten ist für Dich nicht erforderlich.
 
             1. **Hinweis für Personen, die nicht registrierte Nutzer\*innen sind**
@@ -412,7 +414,7 @@
               Ireland
             </address>
 
-            Google Analytics verwendet Cookies, um den/die Nutzer\*in wiederzuerkennen und somit das Nutzungsverhalten zu analysieren. Diese Cookies werden nur mit Einwilligung gesetzt. Die Einwilligung kann jederzeit widerrufen und in unserem Cookie-Consent-Tool verwaltet werden.
+            Google Analytics verwendet Cookies, um den/die Nutzer\*in wiederzuerkennen und somit das Nutzungsverhalten zu analysieren. Diese Cookies werden nur mit Einwilligung gesetzt. Die Einwilligung kann jederzeit in den Datenschutz-Einstellungen widerrufen werden. Google Signals und personalisierte Werbung sind ausgeschaltet.
 
             Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG.
 
@@ -874,7 +876,7 @@
             Deine IP-Adresse und andere Daten über Dich werden dabei nicht übermittelt.
             Die Suchergebnisse speichern wir bis zu sieben Tage auf unserem Server, damit wiederholte Suchen nach demselben Text nicht erneut gesendet werden.
 
-            Die Karten und mit ihnen die Adresssuche werden erst nach Deiner Einwilligung in der Kategorie „Externe Inhalte“ geladen.
+            Die Karten und mit ihnen die Adresssuche werden erst nach Deiner Einwilligung in der Kategorie „Karten“ geladen, die Du in den Datenschutz-Einstellungen oder direkt auf einer Karte mit „Karte anzeigen“ erteilst.
             Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG.
             Ohne Einwilligung stehen die Karten und die Adresssuche nicht zur Verfügung.
 
@@ -965,12 +967,13 @@
             </address>
 
             Gravatar ist ein Dienst, mit dem Nutzer\*innen ein einziges Avatarbild erstellen und mit ihrer E-Mail-Adresse verknüpfen können.
-            Dazu werden ein Hash der E-Mail-Adresse des Kontakts und Deine IP-Adresse an die Server von Automattic in den USA übermittelt.
+            Dazu übermittelt unser Server einen Hash der E-Mail-Adresse des Kontakts und die gewünschte Bildgröße an die Server von Automattic in den USA.
+            Deine IP-Adresse und andere Daten über Dein Gerät werden nicht übermittelt, da Dein Browser nur unseren Server kontaktiert.
             Die Anfrage erfolgt nur für Kontakte, die eine E-Mail-Adresse haben.
+            Das erhaltene Bild speichern wir bis zu einen Tag auf unserem Server, damit wiederholte Aufrufe keine neuen Anfragen auslösen.
 
-            Die Profilbilder werden erst nach Deiner Einwilligung in der Kategorie „Externe Inhalte“ geladen.
-            Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG.
-            Ohne Einwilligung wird ein Platzhalterbild angezeigt.
+            Rechtsgrundlage ist unser berechtigtes Interesse, Kontakte erkennbar darzustellen, Art. 6 Abs. 1 lit. f DSGVO.
+            Gibt es zu der E-Mail-Adresse kein Profilbild, wird ein Platzhalterbild angezeigt.
 
             Bei der Datenübertragung in die USA greifen die Standardvertragsklauseln (SCC) der EU-Kommission.
 

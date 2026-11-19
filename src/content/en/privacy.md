@@ -200,6 +200,7 @@
             - GraphQL cache in your browser's IndexedDB: holds your data for offline use and is cleared when you sign out
             - Cache of the service worker: holds app files for offline use and fast loading
             - Firebase messaging token: stored only after you enable push notifications
+            - `vibetype_feature-flags`: stores the experimental features you enabled, set only when you enable one
 
         1. **Technically unnecessary cookies**
 
@@ -210,15 +211,16 @@
             Each of the following categories is switched on separately, and nothing in it is loaded or stored before your consent:
 
             - Analytics: Google Analytics (`_ga` and `_ga_*`)
-            - Feature flags: `vibetype_feature-flags` stores the experimental features you enabled
-            - External content: map tiles of OpenStreetMap and profile pictures of Gravatar
+            - Maps: map tiles of OpenStreetMap
             - Session replay and profiling: recordings of sessions with errors and performance profiles through Sentry
 
-        1. **Changing your cookie settings**
+        1. **Changing your privacy settings**
 
-            You can change or withdraw your consent at any time, with effect for the future, via the link "Cookie settings" in the footer or under Settings, Cookies.
+            On your first visit, the screen "Your privacy" asks for your choice, with every category switched off until you allow it.
+            You can change or withdraw your consent at any time, with effect for the future, under Settings, Privacy settings.
             The withdrawal does not affect the lawfulness of the processing carried out until then.
-            In the iOS app, the optional categories follow your choice in the App Tracking Transparency prompt.
+            The apps ask for the same choices on the same screen.
+            We do not track you across apps or websites of other companies and show no advertising, so the iOS app does not use App Tracking Transparency.
 
     1. **Data processing through user input**
 
@@ -297,7 +299,7 @@
             The data is deleted once the registered user removes the contact, or, at the latest, when the registered user's own account is deleted in accordance with § 11 of the Terms of Use.
 
             The invitation is sent by email through the mailing service described below.
-            If the contact has an email address, a profile picture is requested from Gravatar only if the viewer has consented to external content (see "Gravatar" below).
+            If the contact has an email address, our server requests a profile picture from Gravatar (see "Gravatar" below).
             Providing this data is not required for you.
 
             1. **Information for people who are not registered users**
@@ -412,7 +414,7 @@
               Ireland
             </address>
 
-            Google Analytics uses cookies to recognize the user and thus analyze usage behavior. These cookies are only set with consent. Consent can be revoked at any time and managed in our cookie consent tool.
+            Google Analytics uses cookies to recognize the user and thus analyze usage behavior. These cookies are only set with consent. Consent can be revoked at any time in the privacy settings. Google signals and ad personalization are switched off.
 
             The legal basis for the processing is Art. 6 para. 1 lit. a GDPR and § 25 para. 1 TDDDG.
 
@@ -870,7 +872,7 @@
             Your IP address and other data about you are not transmitted.
             We store the search results on our server for up to seven days, so that repeated searches for the same text are not sent again.
 
-            The maps, and with them the address search, are loaded only after your consent in the category "External content".
+            The maps, and with them the address search, are loaded only after your consent in the category "Maps", which you give in the privacy settings or directly on a map with "Show map".
             The legal basis is Art. 6 para. 1 lit. a GDPR and § 25 para. 1 TDDDG.
             Without consent, the maps and the address search are not available.
 
@@ -961,12 +963,13 @@
             </address>
 
             Gravatar is a service that allows users to create a single avatar image and link it to their email address.
-            For this purpose, a hash of the email address of the contact and your IP address are transmitted to Automattic's servers in the USA.
+            For this purpose, our server transmits a hash of the email address of the contact and the requested picture size to Automattic's servers in the USA.
+            Your IP address and other data about your device are not transmitted, as your browser only contacts our server.
             The request is made only for contacts that have an email address.
+            We store the received picture on our server for up to one day, so that repeated views do not cause new requests.
 
-            The profile pictures are loaded only after your consent in the category "External content".
-            The legal basis is Art. 6 para. 1 lit. a GDPR and § 25 para. 1 TDDDG.
-            Without consent, a placeholder picture is shown.
+            The legal basis is our legitimate interest in showing recognizable contacts, Art. 6 para. 1 lit. f GDPR.
+            If no profile picture exists for the email address, a placeholder picture is shown.
 
             In the case of data transfer to the USA, the standard contractual clauses (SCCs) of the EU Commission apply.
 
