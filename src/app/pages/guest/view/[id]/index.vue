@@ -281,15 +281,6 @@
                   <AppIconArrowDownTray />
                 </template>
               </AppButton>
-              <AppButton
-                :aria-label="t('close')"
-                @click="isModalGuestQrCodeOpen = false"
-              >
-                {{ t('close') }}
-                <template #prefix>
-                  <AppIconXMark />
-                </template>
-              </AppButton>
             </template>
           </AppModal>
         </div>
@@ -625,7 +616,6 @@ defineEventOgImage({ alt: t('ogImageAlt'), event: event.value })
 
 <i18n lang="yaml">
 de:
-  close: Schließen
   errorAccountMissing: Nutzerkonto nicht verfügbar
   errorEventMissing: Veranstaltung nicht verfügbar
   errorGuestMissing: Gast nicht verfügbar
@@ -653,7 +643,6 @@ de:
   ticketShare: Ticket teilen
   ticketShareError: Das Ticket konnte nicht geteilt werden.
 en:
-  close: Close
   errorAccountMissing: Account not available
   errorEventMissing: Event not available
   errorGuestMissing: Guest not available
