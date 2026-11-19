@@ -8,9 +8,9 @@
           <FormEvent :event />
           <section>
             <h2>{{ t('titleDelete') }}</h2>
-            <FormDelete
+            <FormDeleteDrawer
               id="deleteEvent"
-              :error-pg-ids="{
+              :errors-pg-ids="{
                 postgres28P01: t('postgres28P01'),
                 postgresP0002: t('postgresP0002'),
               }"
