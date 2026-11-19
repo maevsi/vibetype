@@ -120,6 +120,9 @@ export default defineEventHandler(async (event: EventIngestUrlPostEvent) => {
 
   assertBelowLimit()
 
+  // structured data pages and failed loads never reach OpenAI, so loading itself needs its own bound
+  useEventIngestPageLoadQuota(jwtPayload.sub).count()
+
   const { response, url } = await fetchPage(body.url)
 
   if (!response.ok) throw createBadRequest('The URL could not be loaded.')
