@@ -214,7 +214,6 @@ if (import.meta.client) {
 
 // initialization
 useAppLayout()
-usePolyfills()
 useAppGtag()
 await detectLanguageFromQuery({
   language: await useJwtInitialize(),

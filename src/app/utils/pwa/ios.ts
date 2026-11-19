@@ -1,3 +1,5 @@
+import { SENTRY_COOKIE_ID } from '~~/node/static'
+
 export const hasPushCapability =
   window &&
   window.webkit?.messageHandlers?.['push-permission-state'] !== undefined &&
@@ -102,9 +104,14 @@ export const registerIosTrackingCallbackHandler = (
   window.addEventListener('att-permission-response', (event: Event) => {
     const { detail } = event as CustomEvent<string>
     if (detail === 'authorized') {
+      // session recording is no tracking in Apple's sense, so ATT cannot stand in for its consent
       cookieControl.cookiesEnabledIds.value =
-        cookieControl.moduleOptions.cookies.optional.map((cookie) => cookie.id)
+        cookieControl.moduleOptions.cookies.optional
+          .map((cookie) => cookie.id)
+          .filter((id) => id !== SENTRY_COOKIE_ID)
       cookieControl.isConsentGiven.value = true
+    } else {
+      cookieControl.cookiesEnabledIds.value = []
     }
   })
 }

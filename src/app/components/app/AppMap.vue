@@ -2,6 +2,25 @@
   <div v-if="!isMounted" :class="cn('flex justify-center', classComputed)">
     <AppLoaderLogo class="size-8" />
   </div>
+  <div
+    v-else-if="!isConsented"
+    :class="
+      cn(
+        'flex flex-col items-center justify-center gap-4 p-6 text-center',
+        classComputed,
+      )
+    "
+  >
+    <p>{{ t('consentRequired') }}</p>
+    <AppButton
+      v-if="!isIos"
+      :aria-label="t('consentOpen')"
+      variant="tertiary"
+      @click="openCookieControl"
+    >
+      {{ t('consentOpen') }}
+    </AppButton>
+  </div>
   <div v-else :class="cn('relative', classComputed)">
     <div :id="templateIdMap" class="size-full" />
     <div
@@ -18,7 +37,9 @@
 import { useMediaQuery, useMounted, useTimeoutFn } from '@vueuse/core'
 
 import type { FullscreenControl, Map, LatLng } from 'leaflet'
-import type { DeepReadonly, HtmlHTMLAttributes } from 'vue'
+import type { DeepReadonly, HtmlHTMLAttributes, WatchStopHandle } from 'vue'
+
+import { EXTERNAL_MEDIA_COOKIE_ID } from '~~/node/static'
 
 import { cn } from '@/utils/shadcn'
 
@@ -66,6 +87,10 @@ const isPositionSet = ref(false)
 const { t, locale } = useI18n()
 const colorMode = useColorMode()
 const isMounted = useMounted()
+const { isIos } = usePlatform()
+const cookieControl = useCookieControl()
+const isConsented = useIsCookieConsented(EXTERNAL_MEDIA_COOKIE_ID)
+const openCookieControl = () => (cookieControl.isModalActive.value = true)
 
 // two-finger and ctrl gestures keep the page scrollable, except in fullscreen where the map is the whole page
 const isTouchDevice = useMediaQuery('(hover: none) and (pointer: coarse)')
@@ -99,7 +124,8 @@ watch(locale, () => {
   mapLocal.zoomControl?.remove().addTo(mapLocal)
   fullscreenControl?.remove().addTo(mapLocal)
 })
-onMounted(async () => {
+let stopMarkerWatch: WatchStopHandle | undefined
+const initialize = async () => {
   const {
     DivIcon,
     FullscreenControl,
@@ -238,7 +264,7 @@ onMounted(async () => {
   })
   const markerLayer = new LayerGroup().addTo(map.value)
   // events load page by page, so the markers follow the prop
-  watch(
+  stopMarkerWatch = watch(
     () => events,
     (eventsCurrent) => {
       markerLayer.clearLayers()
@@ -258,7 +284,23 @@ onMounted(async () => {
     },
     { immediate: true },
   )
-})
+}
+
+// the tiles reach a third party, so the map only exists while consent is given
+watch(
+  [isMounted, isConsented],
+  async ([mounted, consented]) => {
+    if (mounted && consented) {
+      await nextTick()
+      if (!map.value) await initialize()
+    } else if (map.value) {
+      stopMarkerWatch?.()
+      map.value.remove()
+      map.value = undefined
+    }
+  },
+  { immediate: true },
+)
 defineExpose({ isPositionSet, map, mapCenter, mapZoom })
 </script>
 
@@ -279,6 +321,8 @@ defineExpose({ isPositionSet, map, mapCenter, mapZoom })
 <i18n lang="yaml">
 de:
   clearSearch: Suche leeren
+  consentOpen: Cookie-Einstellungen öffnen
+  consentRequired: Zum Anzeigen der Karte werden Daten vom Drittanbieter OpenStreetMap geladen, wobei deine IP-Adresse übertragen wird. Bitte stimme dem dafür in den Cookie-Einstellungen unter externe Inhalte zu.
   enterFullscreen: Vollbild öffnen
   exitFullscreen: Vollbild beenden
   geocodeError: Die Adresssuche ist fehlgeschlagen. Bitte versuche es später erneut.
@@ -291,6 +335,8 @@ de:
   zoomOut: Verkleinern
 en:
   clearSearch: Clear search
+  consentOpen: Open cookie settings
+  consentRequired: Displaying the map loads data from the third party OpenStreetMap and transfers your IP address. Please consent to this under external content in the cookie settings.
   enterFullscreen: Enter fullscreen
   exitFullscreen: Exit fullscreen
   geocodeError: The address search failed. Please try again later.
