@@ -21,14 +21,18 @@
               class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
               :event
             />
-            <template
-              v-if="
-                store.signedInAccountId &&
-                event.createdBy !== store.signedInAccountId
-              "
-            >
+            <template v-if="store.signedInAccountId">
               <AppDropdown>
                 <AppDropdownItem
+                  v-if="event.createdBy === store.signedInAccountId"
+                  variant="destructive"
+                  @select="isOpenDeleteDrawer = true"
+                >
+                  <AppIconTrash />
+                  <span>{{ t('delete') }}</span>
+                </AppDropdownItem>
+                <AppDropdownItem
+                  v-else
                   variant="destructive"
                   @select="isOpenReportDrawer = true"
                 >
@@ -42,7 +46,14 @@
                   </span>
                 </template>
               </AppDropdown>
+              <EventDeleteDrawer
+                v-if="event.createdBy === store.signedInAccountId"
+                v-model:open="isOpenDeleteDrawer"
+                :event-id="event.rowId"
+                is-trigger-hidden
+              />
               <EventReportDrawer
+                v-else
                 v-model:open="isOpenReportDrawer"
                 :account-id="store.signedInAccountId"
                 :event
@@ -212,6 +223,7 @@ const store = useStore()
 const route = useRoute()
 const localePath = useLocalePath()
 
+const isOpenDeleteDrawer = ref<boolean>()
 const isOpenReportDrawer = ref<boolean>()
 
 // api data
@@ -386,6 +398,7 @@ const isLocationVisible = computed(
 de:
   about: Über die Veranstaltung
   attendances: Check-in
+  delete: Veranstaltung löschen
   details: Details
   errorAccountMissing: Nutzerkonto nicht verfügbar
   errorEventMissing: Veranstaltung nicht verfügbar
@@ -400,6 +413,7 @@ de:
 en:
   about: About the event
   attendances: Check in
+  delete: Delete event
   details: Details
   errorAccountMissing: Account not available
   errorEventMissing: Event not available

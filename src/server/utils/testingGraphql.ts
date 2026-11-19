@@ -584,6 +584,27 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
+    case 'DashboardPreferenceCount':
+      return {
+        data: {
+          allPreferenceEventCategories: {
+            totalCount: 1,
+            __typename: 'PreferenceEventCategoryConnection',
+          },
+          allPreferenceEventFormats: {
+            totalCount: 1,
+            __typename: 'PreferenceEventFormatConnection',
+          },
+          allPreferenceEventLocations: {
+            totalCount: 1,
+            __typename: 'PreferenceEventLocationConnection',
+          },
+          allPreferenceEventSizes: {
+            totalCount: 1,
+            __typename: 'PreferenceEventSizeConnection',
+          },
+        },
+      }
     case 'Event':
       return {
         data: {

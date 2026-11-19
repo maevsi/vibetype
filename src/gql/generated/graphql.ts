@@ -1819,6 +1819,17 @@ export type DashboardEventUpcomingQuery = {
   } | null
 }
 
+export type DashboardPreferenceCountQueryVariables = Exact<{
+  [key: string]: never
+}>
+
+export type DashboardPreferenceCountQuery = {
+  allPreferenceEventCategories: { totalCount: number } | null
+  allPreferenceEventFormats: { totalCount: number } | null
+  allPreferenceEventLocations: { totalCount: number } | null
+  allPreferenceEventSizes: { totalCount: number } | null
+}
+
 export type EventEditQueryVariables = Exact<{
   slug: string
   username: string
@@ -8857,6 +8868,64 @@ export const DashboardEventUpcomingDocument = {
 } as unknown as DocumentNode<
   DashboardEventUpcomingQuery,
   DashboardEventUpcomingQueryVariables
+>
+export const DashboardPreferenceCountDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'DashboardPreferenceCount' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allPreferenceEventCategories' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allPreferenceEventFormats' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allPreferenceEventLocations' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allPreferenceEventSizes' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'totalCount' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DashboardPreferenceCountQuery,
+  DashboardPreferenceCountQueryVariables
 >
 export const EventEditDocument = {
   kind: 'Document',
