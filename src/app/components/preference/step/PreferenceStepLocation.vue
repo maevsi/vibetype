@@ -8,26 +8,18 @@
       <div
         class="relative isolate overflow-hidden rounded-large bg-surface-raised"
       >
-        <AppMap v-if="!hidden" ref="map" geocoder :position-initial />
+        <AppMap
+          v-if="!hidden"
+          ref="map"
+          geocoder
+          is-zoom-control-hidden
+          :position-initial
+        />
         <div
           v-if="isMapConsented"
           class="pointer-events-none absolute inset-0 z-400 bg-[#14132699] mask-[radial-gradient(circle_140px_at_center,transparent_0,transparent_139px,black_150px)]"
         />
       </div>
-      <AppFeature feature="preference-location-live">
-        <div
-          class="flex items-center justify-between gap-4 rounded-medium bg-surface-raised p-4"
-        >
-          <label class="text-headline" :for="templateIdLocationLive">
-            {{ t('locationLive') }}
-          </label>
-          <Switch
-            :id="templateIdLocationLive"
-            :model-value="isLocationLive"
-            @update:model-value="toggleLocationLive"
-          />
-        </div>
-      </AppFeature>
       <span v-if="mapCutoutRadiusInMeters" class="text-body">
         {{ t('radius', { radius: formattedRadius }) }}
       </span>
@@ -66,7 +58,6 @@ const emit = defineEmits<{
 }>()
 
 const { t, locale } = useI18n()
-const templateIdLocationLive = useId()
 
 // api data
 const allPreferenceEventLocationsQuery = useAllPreferenceEventLocationsQuery()
@@ -199,28 +190,6 @@ const formattedRadius = computed(() => {
   }
 })
 
-// map - live location
-const isLocationLive = ref(false)
-const toggleLocationLive = (isEnabled: boolean) => {
-  if (!isEnabled) {
-    isLocationLive.value = false
-    return
-  }
-
-  navigator.geolocation.getCurrentPosition(
-    ({ coords }) => {
-      isLocationLive.value = true
-      templateMap.value?.map?.setView([coords.latitude, coords.longitude], 12)
-    },
-    () => {
-      isLocationLive.value = false
-      toast.error(t('locationLiveError'))
-    },
-    // an approximate position suffices, as only the area is stored
-    { enableHighAccuracy: false, timeout: 10000 },
-  )
-}
-
 const store = useStore()
 const save = async () => {
   if (!store.signedInAccountId) return
@@ -286,16 +255,12 @@ useApiErrorModel({
 de:
   button: Weiter
   description: "@.upper:{'globalSiteName'} schlägt dir gelegentlich auch Events außerhalb dieses Gebiets vor, wenn sie für dich relevant sind."
-  locationLive: Meinen Standort verwenden
-  locationLiveError: Dein Standort konnte nicht ermittelt werden.
   radius: 'Umkreis: {radius}'
   title: Wo sollen wir nach Events für dich suchen?
   # title: Finde lokale Events, die zu deinem Vibe passen.
 en:
   button: Next
   description: "@.upper:{'globalSiteName'} suggests events outside of this area from time to time too when they're relevant for you."
-  locationLive: Use my location
-  locationLiveError: Your location could not be determined.
   radius: 'Radius: {radius}'
   title: Where should we look for events for you?
   # title: Find local events that match your vibe.

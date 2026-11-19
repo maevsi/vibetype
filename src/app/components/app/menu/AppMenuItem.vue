@@ -14,7 +14,12 @@
   >
     <!-- the icon keeps the default foreground, as the dark error color reaches only 4.23:1 on the raised surface -->
     <span
-      class="flex size-10 shrink-0 items-center justify-center rounded-medium bg-surface-raised text-fg-1 [&>svg]:size-5"
+      :class="
+        cn(
+          'flex size-10 shrink-0 items-center justify-center rounded-medium bg-surface-raised [&>svg]:size-5',
+          tone ? toneClasses[tone] : 'text-fg-1',
+        )
+      "
     >
       <slot />
     </span>
@@ -33,13 +38,22 @@ import { cn } from '@/utils/shadcn'
 const {
   class: classProps = undefined,
   to = undefined,
+  tone = undefined,
   variant = 'default',
 } = defineProps<{
   class?: HTMLAttributes['class']
   title: string
   to?: RouteLocationRaw
+  tone?: 'danger' | 'info' | 'success' | 'warning'
   variant?: 'critical' | 'default'
 }>()
+
+const toneClasses = {
+  danger: 'text-error',
+  info: 'text-info',
+  success: 'text-link',
+  warning: 'text-warning',
+} as const
 
 defineSlots<{
   default?: () => unknown

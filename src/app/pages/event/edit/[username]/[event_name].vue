@@ -41,12 +41,18 @@ const eventQuery = useApiQuery({
         eventsByCreatedBy(condition: { slug: $slug }) {
           nodes {
             addressByAddressId {
+              city
+              country
               id
+              line1
+              line2
               location {
                 latitude
                 longitude
               }
               name
+              postalCode
+              region
               rowId
             }
             createdBy

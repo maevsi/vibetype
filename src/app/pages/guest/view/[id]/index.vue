@@ -144,6 +144,7 @@
                   v-if="positionInitial"
                   class="h-42 rounded-large"
                   :events
+                  is-static
                   :position-initial
                 />
               </AppCard>
@@ -352,12 +353,18 @@ const eventQuery = useApiQuery({
             username
           }
           addressByAddressId {
+            city
+            country
             id
+            line1
+            line2
             location {
               latitude
               longitude
             }
             name
+            postalCode
+            region
             rowId
           }
           createdBy
