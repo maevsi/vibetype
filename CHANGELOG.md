@@ -1,3 +1,15 @@
+## [17.23.0](https://github.com/maevsi/vibetype/compare/17.22.0...17.23.0) (2026-11-19)
+
+### Features
+
+* **dashboard:** add header actions and poster hunt tiles ([#2722](https://github.com/maevsi/vibetype/issues/2722)) ([fa0b6ca](https://github.com/maevsi/vibetype/commit/fa0b6ca41c4690a9b54deee757ecb84060c5cb76))
+* **discover:** lead with a sticky search bar ([#2720](https://github.com/maevsi/vibetype/issues/2720)) ([07159b9](https://github.com/maevsi/vibetype/commit/07159b9fe818a336c55db0123b62d5e2b9c458c9))
+* **pwa:** show an install card ([#2716](https://github.com/maevsi/vibetype/issues/2716)) ([e5c6445](https://github.com/maevsi/vibetype/commit/e5c644539c9022e46c48dfbd6e4edc4fd39dd1b4))
+
+### Bug Fixes
+
+* **terms:** describe content moderation and remove invalid clauses ([#2698](https://github.com/maevsi/vibetype/issues/2698)) ([31bafbd](https://github.com/maevsi/vibetype/commit/31bafbda9b379448549cf312df607b7c0c447748))
+
 ## [17.22.0](https://github.com/maevsi/vibetype/compare/17.21.0...17.22.0) (2026-11-19)
 
 ### Features
