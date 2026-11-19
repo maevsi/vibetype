@@ -94,11 +94,11 @@ Zu diesen Funktionen gehört insbesondere:
 
 (2) Die unter § 3 (1) dieser Nutzungsbedingungen genannten Funktionen von „VIBETYPE“ stehen dem registrierten Nutzer sowohl auf der Internetseite der Plattform als auch über die mobile App kostenlos zur Verfügung.
 Es besteht kein Anspruch des Nutzers auf Aufrechterhaltung einzelner Funktionalitäten der Plattform.
-Hinsichtlich des Funktionsumfangs der mobilen App und der Webseite steht es ausschließlich im Ermessen der Plattform, diesen zu beschränken und zu erweitern.
+Die Plattform darf den Funktionsumfang der mobilen App und der Webseite beschränken und erweitern, wenn dies für den Nutzer unter Berücksichtigung der Interessen der Plattform zumutbar ist.
 
 (3) Die Plattform behält sich vor, künftig auch kostenpflichtige Zusatzfunktionen und Dienste (z. B. Abonnements) anzubieten.
 
-(4) Die Plattform ist jederzeit berechtigt, einzelne Funktionen zu sperren oder zu löschen, zum Beispiel wenn der Verdacht besteht, dass diese gegen geltendes Recht oder Rechte Dritter verstoßen oder in einer missbräuchlichen Weise oder in einer Weise genutzt werden, die gegen geltendes Recht verstößt.
+(4) Die Plattform ist berechtigt, einzelne Funktionen zu sperren oder zu löschen, zum Beispiel wenn konkrete Anhaltspunkte dafür bestehen, dass diese gegen geltendes Recht oder Rechte Dritter verstoßen oder in einer missbräuchlichen Weise oder in einer Weise genutzt werden, die gegen geltendes Recht verstößt.
 
 (5) Die Plattform ist um einen störungsfreien Betrieb der mobilen App sowie der Webseite bemüht.
 Dies beschränkt sich naturgemäß auf Leistungen, auf die die Plattform einen Einfluss hat.
@@ -130,7 +130,6 @@ Insbesondere verpflichtet sich der Nutzer, beim Hochladen, Einstellen, Teilen od
 - urheberrechtsverletzende Inhalte oder andere Immaterialgüterrechte verletzende Inhalte,
 - sexuelle Belästigung von Nutzer*innen und Dritten,
 - Pornografie und jugendgefährdende Inhalte oder anstößige, sexistische, obszöne, vulgäre, abscheuliche oder ekelerregende Inhalte und Ausdrucksweisen darstellen, betreffen oder beinhalten.
-Das Verbot solcher Inhalte gilt auch dann, wenn im Einzelfall durch die jeweiligen Inhalte ausnahmsweise nicht gegen geltendes Recht, Rechte Dritter, die guten Sitten oder unsere Verhaltensrichtlinien verstoßen wird.
 
 (4) Unsere Verhaltensrichtlinien haben wir in einem Verhaltenskodex zusammengefasst.
 Der Verhaltenskodex ist unter https://vibetype.app/de/docs/legal/conduct einsehbar.
@@ -150,17 +149,31 @@ Dazu zählen insbesondere:
 
 (8) Sollte es bei der Nutzung der Plattform bzw. ihrer Funktionalitäten in der App oder auf der Webseite zu Störungen kommen, wird der Nutzer die Plattform von dieser Störung unverzüglich in Kenntnis setzen.
 
-**§ 5 Maßnahmen der Plattform bei rechtswidrigen Inhalten, Richtlinienverstößen und Missbrauch**
+**§ 5 Moderation von Inhalten, Maßnahmen und Rechtsbehelfe**
 
-(1) Die Plattform ist nicht dazu verpflichtet, die von Nutzern auf der Plattform geteilten Inhalte sowie das Nutzerverhalten auf eine mögliche Rechtswidrigkeit hin zu überwachen oder aktiv nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hindeuten.
-Dennoch behält es sich die Plattform vor, die von den Nutzern auf der Plattform hochgeladenen, eingestellten, geteilten oder zugänglich gemachten Inhalte freiwillig und nach ihrem pflichtgemäßen Ermessen stichprobenartig auf deren Rechtmäßigkeit und auf etwaige Verstöße gegen die Richtlinien der Plattform (insb. den Verhaltenskodex) hin zu überprüfen und erforderlichenfalls zu sperren oder zu entfernen.
-Es liegt im Ermessen der Plattform, Inhalte von Nutzern im Falle einer festgestellten Rechtswidrigkeit oder im Falle eines Richtlinienverstoßes ganz oder teilweise zu sperren oder endgültig zu entfernen.
-Zudem kann die Plattform die Nutzer in einem solchen Fall verwarnen und/oder das Nutzerkonto vorübergehend oder dauerhaft einschränken oder sperren.
+(1) Beschränkungen von Inhalten: Inhalte und Verhalten auf der Plattform werden durch diese Nutzungsbedingungen (insbesondere § 4) und den Verhaltenskodex (https://vibetype.app/de/docs/legal/conduct) beschränkt.
+Inhalte, die gegen geltendes Recht verstoßen, sind in keinem Fall zulässig.
 
-(2) Ferner ist die Plattform befugt, alle erforderlichen Maßnahmen zu ergreifen, insbesondere von Nutzern, hochgeladene, eingestellte, geteilte oder zugänglich gemachte Inhalte (einschließlich Bewertungen und Äußerungen in Kommentaren, Bewertungen, Nachrichten, Chats etc.) und sonstige Informationen sowie Nutzerkonten als solche einzuschränken, vorübergehend zu sperren und/oder dauerhaft zu entfernen, wenn eine entsprechende behördliche Anordnung, eine gerichtliche Entscheidung, das Gesetz oder eine sonstige hoheitliche Maßnahme die Plattform dazu verpflichtet.
-Dies gilt auch dann, wenn die Plattform die Einschränkung oder Entfernung von Inhalten oder Nutzerkonten aus Gründen der Abwehr von Gefahren nach eigenem Ermessen als notwendig erachtet.
+(2) Die Plattform ist nicht dazu verpflichtet, die von Nutzern auf der Plattform geteilten Inhalte sowie das Nutzerverhalten auf eine mögliche Rechtswidrigkeit hin zu überwachen oder aktiv nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hindeuten.
+Die Plattform kann Inhalte jedoch auf Rechtmäßigkeit und auf die Einhaltung dieser Nutzungsbedingungen und des Verhaltenskodex überprüfen, insbesondere nach einer Meldung (§ 6), aus eigenem Antrieb oder aufgrund einer Anordnung einer Behörde oder eines Gerichts.
+Bei festgestellter Rechtswidrigkeit oder festgestellten Richtlinienverstößen kann die Plattform Inhalte von Nutzern sperren, einschränken, herabstufen oder entfernen, den Nutzer verwarnen, das Nutzerkonto vorübergehend einschränken oder sperren oder es dauerhaft kündigen.
+Die Plattform entscheidet im Einzelfall, welche Maßnahme angemessen ist, und berücksichtigt dabei Schwere und Folgen des Verstoßes, eine etwaige Wiederholung und die berechtigten Interessen des betroffenen Nutzers.
 
-(3) Schließlich ist die Plattform auch dann berechtigt, alle erforderlichen Maßnahmen zu ergreifen, insbesondere von Nutzern, hochgeladene, eingestellte, geteilte oder zugänglich gemachte Inhalte (einschließlich Bewertungen und Äußerungen in Kommentaren, Bewertungen, Nachrichten, Chats etc.) und sonstige Informationen sowie Nutzerkonten als solche einzuschränken, vorübergehend zu sperren und/oder dauerhaft zu entfernen, wenn die Plattform oder die Funktionen und Dienste, die von der Plattform zur Verfügung gestellt werden, zu anderen Zwecken als denen, die unter § 1 dieser Nutzungsbedingungen („Übersicht über die Dienste und Zwecke der Plattform VIBETYPE“) genannt werden, genutzt werden oder anderweitig missbraucht werden.
+(3) Die Plattform kann diese Maßnahmen auch ergreifen, wenn eine behördliche Anordnung, eine gerichtliche Entscheidung oder das Gesetz sie dazu verpflichtet, wenn dies zur Abwehr von Gefahren erforderlich ist oder wenn die Plattform oder ihre Funktionen zu anderen als den in § 1 genannten Zwecken genutzt oder anderweitig missbraucht werden.
+
+(4) Verfahren und Werkzeuge: Meldungen und Moderationsentscheidungen werden von Menschen bearbeitet und entschieden.
+Die Plattform setzt derzeit keine automatisierten Mittel ein, um über die Entfernung oder Einschränkung von Inhalten oder Konten zu entscheiden.
+Sollte sich dies ändern, wird die Plattform dies hier und in der Begründung nach Absatz (5) angeben.
+
+(5) Begründung: Entfernt oder beschränkt die Plattform Inhalte, sperrt oder kündigt sie ein Konto oder setzt sie den Dienst ganz oder teilweise aus oder beendet ihn, informiert sie den betroffenen Nutzer unverzüglich und spätestens mit Wirksamwerden der Maßnahme per E-Mail oder in der App und teilt Folgendes mit: die Maßnahme samt Umfang und Dauer, die zugrunde gelegten Tatsachen und Umstände, die rechtliche oder vertragliche Grundlage, ob automatisierte Mittel eingesetzt wurden, sowie die Rechtsbehelfe nach den Absätzen (6) und (7).
+Dies gilt nicht, wenn der Plattform keine elektronischen Kontaktdaten des Nutzers vorliegen oder wenn eine Behörde angeordnet hat, keine Informationen zu erteilen.
+
+(6) Beschwerde: Der Nutzer kann gegen eine solche Entscheidung über das Kontaktformular (https://vibetype.app/de/support/contact) oder per E-Mail (contact+legal-notice@maev.si) mindestens sechs Monate nach der Information über die Entscheidung Beschwerde einlegen.
+Die Beschwerde wird von einer Person geprüft, die an der ursprünglichen Entscheidung nicht beteiligt war.
+Die Plattform teilt dem Beschwerdeführer das Ergebnis und die verbleibenden Rechtsbehelfe unverzüglich mit und hebt die Maßnahme auf, wenn die Beschwerde ergibt, dass sie nicht gerechtfertigt war.
+
+(7) Außergerichtliche Streitbeilegung und Gerichte: Der Nutzer kann eine Streitigkeit über eine solche Entscheidung, soweit verfügbar, vor eine zertifizierte außergerichtliche Streitbeilegungsstelle nach Art. 21 der Verordnung (EU) 2022/2065 oder vor die zuständigen Gerichte bringen.
+Die vorherige Nutzung des Beschwerdeverfahrens ist nicht erforderlich.
 
 **§ 6 Meldeverfahren bezüglich rechtswidriger Inhalte**
 
@@ -168,14 +181,16 @@ Dies gilt auch dann, wenn die Plattform die Einschränkung oder Entfernung von I
 Das Meldeverfahren kann von dem Nutzer einfach über die App und/oder über die Webseite über ein entsprechendes Formular eingeleitet werden.
 Ein entsprechendes Meldeformular wird von der Plattform bereitgestellt (Meldeformular).
 
-(2) Der meldende Nutzer muss die Meldung der Rechtswidrigkeit des Inhalts hinreichend begründen und diesen Inhalt der Plattform, beispielsweise durch Übermittlung der präzisen URL, unter der der Inhalt abrufbar ist, zur Verfügung stellen.
-Gleichzeitig muss die Meldung eine Erklärung des meldenden Nutzers über die Richtigkeit und Vollständigkeit der in der Meldung enthaltenen Angaben enthalten.
+(2) Die meldende Person muss begründen, warum der Inhalt rechtswidrig ist, und den genauen Ort des Inhalts (insbesondere die präzise URL) angeben.
+Die Meldung muss außerdem die Erklärung enthalten, dass die meldende Person in gutem Glauben davon überzeugt ist, dass die darin enthaltenen Angaben und Behauptungen richtig und vollständig sind.
+Die meldende Person wird gebeten, ihren Namen und ihre E-Mail-Adresse anzugeben, dies ist jedoch freiwillig.
+Ohne E-Mail-Adresse kann die Plattform weder eine Empfangsbestätigung noch die Entscheidung übermitteln.
 
-(3) Enthält die Meldung die elektronische Kontaktangabe des meldenden Nutzers, so wird die Plattform dem meldenden Nutzer unverzüglich eine Empfangsbestätigung bezüglich der Meldung zuschicken.
+(3) Enthält die Meldung die elektronische Kontaktangabe der meldenden Person, so schickt die Plattform unverzüglich eine Empfangsbestätigung.
 
 (4) Die Plattform bearbeitet alle Meldungen und entscheidet zeitnah, sorgfältig, frei von Willkür und objektiv über die gemeldeten Informationen.
 
-(5) Nach Entscheidungsfindung teilt die Plattform dem betreffenden Nutzer unverzüglich ihre Entscheidung in Bezug auf die gemeldeten Informationen mit und weist dabei auf die Möglichkeit der außergerichtlichen Streitbeilegung (§ 15 (5) dieser Nutzungsbedingungen) und über etwaige andere mögliche Rechtsbehelfe gegen die Entscheidung hin.
+(5) Nach Entscheidungsfindung teilt die Plattform der meldenden Person und dem betroffenen Nutzer unverzüglich ihre Entscheidung in Bezug auf die gemeldeten Informationen mit, begründet sie gemäß § 5 (5) und weist auf die Rechtsbehelfe nach § 5 (6) und (7) hin.
 
 (6) Folgende Entscheidungsmöglichkeiten können sich für die Plattform nach Prüfung der gemeldeten Inhalte ergeben:
 
@@ -185,13 +200,13 @@ Gleichzeitig muss die Meldung eine Erklärung des meldenden Nutzers über die Ri
 
 **§ 7 Nutzungsrechte und geistiges Eigentum**
 
-(1) Der Nutzer räumt der Plattform ein räumlich, zeitlich und inhaltlich unbeschränktes, unwiderrufliches, auf Dritte übertragbares, einfaches (d. h. nicht exklusives), unentgeltliches Nutzungsrecht an den von ihm eingestellten Inhalten in Bezug auf Urheberrechte, geistige Eigentumsrechte, gewerbliche Schutzrechte, Persönlichkeitsrechtliche Befugnisse und sonstige Rechte ein.
-Die Plattform ist jederzeit berechtigt, die Inhalte unbeschränkt im Rahmen der Plattform, der zugehörigen App und im Rahmen von Werbemaßnahmen zu verwenden, zu bearbeiten und zu verwerten.
-Das schließt insbesondere das digitale Vervielfältigungsrecht, das Online-Verbreitungsrecht und das Recht der öffentlichen Wiedergabe sowie das Recht der öffentlichen Zugänglichmachung mit ein.
+(1) Der Nutzer räumt der Plattform ein einfaches (d. h. nicht exklusives), unentgeltliches Nutzungsrecht an den von ihm eingestellten Inhalten ein, beschränkt auf das, was zum Betrieb, zur Darstellung und zur Bewerbung der Plattform und ihrer App erforderlich ist, insbesondere das digitale Vervielfältigungsrecht, das Online-Verbreitungsrecht, das Recht der öffentlichen Wiedergabe sowie das Recht der öffentlichen Zugänglichmachung.
+Das Recht endet mit der Löschung des Inhalts oder des Nutzerkontos, außer für technisch für begrenzte Zeit erforderliche Kopien (z. B. Backups) und für Inhalte, die andere Nutzer bereits geteilt haben oder die für laufende Veranstaltungen erforderlich sind.
 
-(2) Der Nutzer verzichtet auf das Recht zur Urhebernennung.
+(2) Das Recht des Nutzers auf Urhebernennung bleibt unberührt.
+Die Plattform darf Inhalte unter dem Profilnamen des Nutzers anzeigen.
 
-(3) Sämtliche Rechte an den eigenen Inhalten der App, der Webseite und der Plattform an sich liegen bei der Plattform.
+(3) Sämtliche Rechte an den von der Plattform selbst bereitgestellten Inhalten der App, der Webseite und der Plattform an sich liegen bei der Plattform.
 Dem Nutzer ist die Verwendung, Vervielfältigung, Verbreitung und/oder Veröffentlichung einschließlich der Bearbeitung von Inhalten und von Teilen von Inhalten untersagt, die die Plattform, andere Nutzer oder Dritte auf die Plattform hochgeladen oder dort eingestellt oder abrufbar gemacht haben.
 Jegliche Vervielfältigung, Verbreitung, öffentliche Wiedergabe, öffentliche Zugänglichmachung und/oder sonstige Nutzung (einschließlich der Bearbeitung) von jedweden Inhalten der Plattform (oder von Teilen oder Bearbeitungen davon) ohne vorherige ausdrückliche Einwilligung der Plattform ist untersagt.
 
@@ -212,7 +227,7 @@ Zu den erstattungsfähigen Kosten zählen auch die Kosten einer angemessenen Rec
 
 (1) Die in der App oder auf der Webseite veröffentlichten Inhalte von Nutzern sind nicht Ausdruck der Meinung der Plattform und werden von der Plattform ohne Anlass auch grundsätzlich nicht auf ihre Rechtmäßigkeit, Richtigkeit und Vollständigkeit überprüft.
 
-(2) Die Plattform übernimmt in Bezug auf Angaben, die Nutzer bezogen auf erstellte bzw. geteilte Veranstaltungen machen (z. B. Ort, Datum, Uhrzeit, Kosten, Line-Up, Teilnahmebedingungen, Ticketpreise etc.) keinerlei Haftung, insbesondere übernimmt die Plattform keine Gewähr für die Richtigkeit und Vollständigkeit der Angaben sowie für die Durchführung der Veranstaltung.
+(2) Vorbehaltlich der Absätze (5) bis (7) übernimmt die Plattform in Bezug auf Angaben, die Nutzer bezogen auf erstellte bzw. geteilte Veranstaltungen machen (z. B. Ort, Datum, Uhrzeit, Kosten, Line-Up, Teilnahmebedingungen, Ticketpreise etc.) keinerlei Haftung, insbesondere übernimmt die Plattform keine Gewähr für die Richtigkeit und Vollständigkeit der Angaben sowie für die Durchführung der Veranstaltung.
 Insbesondere übernimmt die Plattform auch keine Haftung für kurzfristige Änderungen und/oder Absagen von Veranstaltungen sowie für die Teilnahmeberechtigung des Nutzers.
 
 (3) Sämtliche eine Veranstaltung sowie die Teilnahme daran betreffenden Rechte und Pflichten bestehen ausschließlich im Verhältnis zwischen veranstaltendem Nutzer und den sonstigen Nutzern.
@@ -220,12 +235,12 @@ Dies gilt insbesondere auch für sämtliche Haftungsfragen, Gewährleistungsfrag
 
 (4) Die Plattform haftet nicht für vertragliche Ansprüche, die sich aus Veranstaltungsverträgen zwischen veranstaltenden Nutzern und teilnehmenden Nutzern ergeben.
 
-(5) Die Plattform haftet nach den gesetzlichen Vorschriften unbeschränkt nur für Vorsatz und grobe Fahrlässigkeit sowie nach Maßgabe des Produkthaftungsgesetzes.
-Für leichte Fahrlässigkeit haftet die Plattform bei Schäden aus der Verletzung des Lebens, des Körpers und der Gesundheit von Personen.
+(5) Die Plattform haftet unbeschränkt für Vorsatz und grobe Fahrlässigkeit, für Schäden aus der Verletzung des Lebens, des Körpers und der Gesundheit (auch bei leichter Fahrlässigkeit), nach dem Produkthaftungsgesetz sowie für arglistig verschwiegene Mängel und übernommene Garantien.
 
 (6) Im Übrigen gilt folgende beschränkte Haftung: Bei leichter Fahrlässigkeit haftet die Plattform nur im Falle der Verletzung einer wesentlichen Vertragspflicht, deren Erfüllung die ordnungsgemäße Durchführung des Vertrags überhaupt erst ermöglicht und auf deren Einhaltung der Nutzer regelmäßig vertrauen darf.
 Die Haftung für leichte Fahrlässigkeit ist der Höhe nach beschränkt auf die bei Vertragsschluss vorhersehbaren Schäden, mit deren Entstehung typischerweise gerechnet werden muss.
 Diese Haftungsbeschränkung gilt auch zugunsten der Erfüllungsgehilfen der Plattform.
+
 (7) Sofern dem Nutzer als Verbraucher gesetzliche Mängelgewährleistungsrechte gegenüber der Plattform, insbesondere in Bezug auf eine etwaige Mangelhaftigkeit von digitalen Produkten, zustehen, bleiben diese Rechte von den Haftungsbeschränkungen unberührt.
 
 **§ 10 Datenschutz**
@@ -244,7 +259,7 @@ Hat der Nutzer künftige Veranstaltungen eingestellt, bedarf es zunächst einer 
 
 (3) Im Falle einer wirksamen Kündigung hat der Nutzer keinen Zugriff mehr auf sein Nutzer-Profil und auf die von ihm hochgeladenen Inhalte, von ihm erstellte Veranstaltungen sowie auf die in seinem Nutzer-Profil gespeicherten Daten und Informationen etc.
 Das Nutzerkonto wird mit der Vornahme der Kündigung deaktiviert und der Nutzer kann auf das Nutzerkonto nicht mehr zugreifen.
-Die Nutzerdaten, Inhalte und Einstellungen des Nutzerprofils werden von VIBTYPE sodann für einen Monat aufbewahrt.
+Die Nutzerdaten, Inhalte und Einstellungen des Nutzerprofils werden von VIBETYPE sodann für einen Monat aufbewahrt.
 Innerhalb dieses Zeitraums hat der Nutzer die Möglichkeit zur Reaktivierung seines Nutzer-Kontos mit allen Nutzerdaten, Inhalten und Einstellungen.
 Reaktiviert der Nutzer sein Konto nicht binnen dieses Zeitraums, erfolgt eine unwiederbringliche Löschung aller Profil- und Nutzerkontodaten einschließlich der Inhalte und Einstellungen.
 
@@ -255,16 +270,18 @@ Anschließend, d. h. nach rechtzeitiger und erfolgreicher Reaktivierung, kann 
 
 **§ 12 Widerrufsrecht**
 
-Ein Widerrufsrecht des Verbrauchers besteht vorliegend gemäß § 312 Abs. 1a BGB nicht.
+Die Plattform ist für Nutzer unentgeltlich, und personenbezogene Daten werden ausschließlich zu ihrer Bereitstellung verarbeitet (siehe § 14 (3)).
+Daher finden die Vorschriften über Verbraucherverträge der §§ 312 ff. BGB einschließlich des Widerrufsrechts gemäß § 312 Abs. 1a Satz 2 BGB keine Anwendung.
 
 **§ 13 Änderung der Nutzungsbedingungen**
 
-(1) Der Plattformbetreiber ist berechtigt, jederzeit Bestimmungen dieser Nutzungsbedingungen mit Wirkung für die Zukunft zu ändern oder zu ergänzen, insbesondere dann, sofern dies aufgrund von gesetzlichen oder inhaltlichen bzw. funktionalen Anpassungen der Plattform (Webseite und/oder App) geboten ist, zum Beispiel bei technischen Änderungen oder Anpassungen der Funktionen.
+(1) Der Plattformbetreiber kann Änderungen oder Ergänzungen dieser Nutzungsbedingungen mit Wirkung für die Zukunft vorschlagen, wenn ein triftiger Grund vorliegt, insbesondere bei Gesetzesänderungen, Anordnungen von Behörden oder Gerichten oder bei technischen oder funktionalen Anpassungen der Plattform (Webseite und/oder App), und die Änderung für den Nutzer zumutbar ist.
 
-(2) Eine Änderung oder Ergänzung wird dem Nutzer mindestens 30 Tage vor ihrem Wirksamwerden per E-Mail angekündigt, ohne dass die geänderten oder ergänzten Bedingungen im Einzelnen oder die Neufassung der Bedingungen insgesamt übersandt werden müssten; es genügt die Unterrichtung über die vorgenommenen Änderungen oder Ergänzungen.
-Die Plattform wird in der Ankündigung einen Link mitteilen, unter dem die Neufassung der Nutzungsbedingungen insgesamt vom Nutzer eingesehen werden kann.
+(2) Eine vorgeschlagene Änderung oder Ergänzung wird dem Nutzer mindestens 30 Tage vor ihrem geplanten Wirksamwerden per E-Mail unter Angabe der Änderungen und mit einem Link zur Neufassung der Nutzungsbedingungen insgesamt angekündigt.
 
-(3) Sofern der Nutzer der Änderung oder Ergänzung nicht innerhalb von 30 Tagen nach Ankündigung der Änderung oder Ergänzung widerspricht und die Dienste weiterhin nutzt, gilt dies als Einverständnis mit der Änderung oder Ergänzung; hierauf wird die Plattform in der Ankündigung gesondert hinweisen.
+(3) Eine Änderung wird nur wirksam, wenn der Nutzer ihr zustimmt, zum Beispiel durch Bestätigung auf der Webseite oder in der App.
+Schweigen gilt nicht als Zustimmung.
+Stimmt der Nutzer nicht zu, gelten die bisherigen Nutzungsbedingungen fort, und das Kündigungsrecht beider Seiten nach § 11 bleibt unberührt.
 
 **§ 14 Bereitstellung von digitalen Produkten**
 
@@ -273,7 +290,8 @@ Die App kann in den einschlägigen App-Stores kostenlos heruntergeladen und auf 
 
 (2) Die Verwendung der App ist nicht zwingend erforderlich, da die Plattform auch über die Webseite besucht und genutzt werden kann.
 
-(3) Die zur Registrierung bei VIBETYPE oder in der App erhobenen personenbezogenen Daten des Nutzers werden ausschließlich zu den unter § 1 genannten Zwecken genutzt und nicht weitergegeben, sodass die §§ 327 ff. BGB gemäß § 327 Abs. 3 i.V.m. § 312 Abs. 1a S. 2 BGB keine Anwendung finden.
+(3) Die zur Registrierung bei VIBETYPE oder in der App erhobenen personenbezogenen Daten des Nutzers werden ausschließlich zur Bereitstellung der Plattform gemäß § 1 und nicht zu anderen Zwecken verarbeitet; Dienstleister, die die Plattform dafür einsetzt, handeln in ihrem Auftrag.
+Daher finden die §§ 327 ff. BGB gemäß § 327 Abs. 3 i.V.m. § 312 Abs. 1a S. 2 BGB keine Anwendung.
 
 (4) Die Plattform behält sich vor, Änderungen an der App vorzunehmen, um deren Funktionalität anzupassen, zu verbessern und gesetzliche Anforderungen sowie rechtliche Verpflichtungen zu erfüllen.
 
@@ -285,11 +303,12 @@ Die App kann in den einschlägigen App-Stores kostenlos heruntergeladen und auf 
 
 (2) Die Leistungen der Plattform und die Bereitstellung der Plattform und der dortigen Funktionen erfolgen ausschließlich auf der Grundlage dieser Nutzungsbedingungen.
 
-(3) Mündliche Nebenabreden bestehen nicht. Änderungen und Ergänzungen der Nutzungsbedingungen bedürfen zu ihrer Wirksamkeit der Schriftform.
-Das Schriftformerfordernis kann nur schriftlich aufgehoben werden.
+(3) Änderungen und Ergänzungen der Nutzungsbedingungen bedürfen zu ihrer Wirksamkeit der Textform, sofern nicht eine individuelle Vereinbarung Vorrang hat (§ 305b BGB).
 
-(4) Auf die Nutzungsbedingungen und das Vertragsverhältnis zwischen der Plattform und den Nutzern ist ausschließlich deutsches Recht anwendbar.
+(4) Auf die Nutzungsbedingungen und das Vertragsverhältnis zwischen der Plattform und den Nutzern ist deutsches Recht anwendbar.
+Bei Verbrauchern gilt dies nur insoweit, als ihnen nicht der Schutz entzogen wird, den zwingende Bestimmungen des Rechts des Staates gewähren, in dem sie ihren gewöhnlichen Aufenthalt haben.
 
-(5) Ausschließlicher Gerichtsstand für alle sich aus dem oder im Zusammenhang mit dem Vertrag ergebenden Streitigkeiten ist – sofern zwischen den Parteien vereinbar – der Sitz der Plattform, sofern nicht ein anderer Gerichtsstand gesetzlich zwingend vorgeschrieben ist.
+(5) Ist der Nutzer Unternehmer, juristische Person des öffentlichen Rechts oder öffentlich-rechtliches Sondervermögen, ist Gerichtsstand für alle sich aus dem oder im Zusammenhang mit dem Vertrag ergebenden Streitigkeiten der Sitz der Plattform.
+Für Verbraucher gelten die gesetzlichen Gerichtsstände.
 
-Stand: 03.04.2025
+Stand: 18.11.2026
