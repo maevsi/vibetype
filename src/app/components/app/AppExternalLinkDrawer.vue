@@ -1,6 +1,6 @@
 <template>
-  <AppModal v-model="open">
-    <template #header>{{ t('header') }}</template>
+  <AppDrawer v-model="open">
+    <template #title>{{ t('header') }}</template>
     <p class="break-all">{{ t('description') }}</p>
     <p class="mt-2 break-all opacity-60">{{ url }}</p>
     <template #footer>
@@ -21,7 +21,7 @@
         </template>
       </AppButton>
     </template>
-  </AppModal>
+  </AppDrawer>
 </template>
 
 <script setup lang="ts">
