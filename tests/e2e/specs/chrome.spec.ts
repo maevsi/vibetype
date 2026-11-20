@@ -10,7 +10,7 @@ import { authenticatedTest } from '#tests/e2e/fixtures/authenticatedTest'
 const EVENT_VIEW_PATH = `/event/view/${TESTING_ACCOUNT_USERNAME}/${TESTING_EVENT_SLUG}`
 const PAGE_CONTENT_WIDTH_MAXIMUM = 672 // tailwind's `max-w-2xl`
 
-// `isTitleInContent` marks the pages whose title is content and not a fixed name, so it is not shown in the top bar: a document's own heading, an event's name, an account's name and the welcome page's logo
+// `isTitleInContent` marks the pages whose title is content and not a fixed name, so it is not shown in the top bar: a document's own heading, an event's name, an account's name, the welcome page's logo and the search bar that replaces the top bar on event lists
 // the pages the menu leads to depend on whether an account is signed in
 const ROUTES_SIGNED_OUT = [
   { isMenuRoute: true, isTitleInContent: true, path: '/' },
@@ -32,7 +32,11 @@ const ROUTES_SIGNED_IN = [
     isTitleInContent: true,
     path: `/account/view/${TESTING_ACCOUNT_USERNAME}`,
   },
-  { isMenuRoute: true, path: `/event/view/${TESTING_ACCOUNT_USERNAME}` },
+  {
+    isMenuRoute: true,
+    isTitleInContent: true,
+    path: `/event/view/${TESTING_ACCOUNT_USERNAME}`,
+  },
   { isMenuRoute: false, path: '/contact' },
   { isMenuRoute: false, path: '/contact/import' },
   { isMenuRoute: false, path: '/event/create' },
