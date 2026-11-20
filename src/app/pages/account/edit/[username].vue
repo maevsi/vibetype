@@ -70,17 +70,23 @@
             <FieldLabel for="imprintUrl">
               <span class="text-headline">{{ t('imprint') }}</span>
             </FieldLabel>
-            <Textarea
+            <Input
               id="imprintUrl"
               v-model="imprintUrl"
-              :maxlength="imprintLengthMaximum"
+              :aria-invalid="isImprintUrlInvalid || undefined"
+              :maxlength="VALIDATION_URL_LENGTH_MAXIMUM"
               name="imprintUrl"
-              :placeholder="t('imprintPlaceholder')"
+              :placeholder="t('globalPlaceholderUrl')"
+              type="url"
+            />
+            <FieldError
+              v-if="isImprintUrlInvalid"
+              :errors="[{ message: t('imprintInvalid') }]"
             />
           </Field>
           <AppButton
             :aria-label="t('save')"
-            :disabled="!isDirty"
+            :disabled="!isDirty || isImprintUrlInvalid"
             :loading="updateAccountByRowIdMutation.fetching.value"
             type="submit"
           >
@@ -304,7 +310,6 @@ const removeProfilePicture = async () => {
 
 // description and imprint
 const descriptionLengthMaximum = 500
-const imprintLengthMaximum = 500
 
 const updateAccountByRowIdMutation = useMutation(
   graphql(`
@@ -328,10 +333,15 @@ const isDirty = computed(
     description.value.trim() !== (account.value?.description?.trim() ?? '') ||
     imprintUrl.value.trim() !== (account.value?.imprintUrl?.trim() ?? ''),
 )
+const isImprintUrlInvalid = computed(
+  () =>
+    !SCHEMA_URL_HTTPS_OPTIONAL.safeParse(imprintUrl.value.trim()).success ||
+    /\s/.test(imprintUrl.value.trim()),
+)
 useLeaveConfirmation(isDirty)
 
 const save = async () => {
-  if (!account.value || !isDirty.value) return
+  if (!account.value || !isDirty.value || isImprintUrlInvalid.value) return
 
   const result = await executeUrqlRequest({
     errorMessageI18n: t('errorUpdate'),
@@ -340,7 +350,8 @@ const save = async () => {
         rowId: account.value.rowId,
         accountPatch: {
           description: description.value.trim(),
-          imprintUrl: imprintUrl.value.trim(),
+          // the database rejects an empty string, so clearing the field stores no imprint
+          imprintUrl: imprintUrl.value.trim() || null,
         },
       },
     }),
@@ -373,7 +384,7 @@ de:
   errorProfilePictureDelete: Beim Entfernen des Profilbildes ist ein Problem aufgetreten
   errorUpdate: Beim Speichern des Profils ist ein Problem aufgetreten
   imprint: Impressum
-  imprintPlaceholder: Link zu deinem Impressum
+  imprintInvalid: Gib einen Link an, der mit https:// beginnt und keine Leerzeichen enthält.
   interactions: Interaktionen mit dir
   language: Sprache
   profile: Profil
@@ -398,7 +409,7 @@ en:
   errorProfilePictureDelete: There was a problem removing the profile picture
   errorUpdate: There was a problem saving the profile
   imprint: Imprint
-  imprintPlaceholder: Link to your imprint
+  imprintInvalid: Enter a link that starts with https:// and contains no spaces.
   interactions: Interactions with you
   language: Language
   profile: Profile
