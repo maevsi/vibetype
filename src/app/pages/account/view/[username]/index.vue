@@ -195,7 +195,11 @@
               {{ accountDescription }}
             </span>
           </div>
-          <div v-if="events?.length" class="flex flex-col gap-3 py-1.5">
+          <!-- with friends on, the events card above links to the same list -->
+          <div
+            v-if="events?.length && !isFeatureEnabled('friends').value"
+            class="flex flex-col gap-3 py-1.5"
+          >
             <div class="flex items-center justify-between pl-2">
               <h2 class="text-title3 text-balance">
                 {{ t('events') }}
@@ -341,6 +345,7 @@ const isOwnProfile = computed(
   () => store.signedInUsername === route.params.username,
 )
 const { t } = useI18n()
+const { isFeatureEnabled } = useFeatureFlags()
 const title = computed(() =>
   isOwnProfile.value ? t('myProfile') : t('profile'),
 )
