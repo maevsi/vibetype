@@ -1,9 +1,10 @@
 <template>
-  <ul class="grid grid-cols-[repeat(auto-fill,minmax(7rem,1fr))] gap-2">
+  <ul class="flex flex-wrap gap-2">
     <li v-for="eventCategory in eventCategories" :key="eventCategory.rowId">
       <PreferenceElement
         v-if="eventCategory.label"
         :id="eventCategory.rowId"
+        is-compact
         :name="eventCategory.label"
         :selected="modelValue"
         @toggle="toggle(eventCategory.rowId)"

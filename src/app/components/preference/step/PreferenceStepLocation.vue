@@ -5,19 +5,18 @@
       <span class="text-heading-large text-balance">
         {{ t('title') }}
       </span>
-      <div
-        class="relative isolate overflow-hidden rounded-large bg-surface-raised"
-      >
+      <div class="overflow-hidden rounded-large bg-surface-raised">
         <AppMap
           v-if="!hidden"
           ref="map"
           geocoder
           is-zoom-control-hidden
           :position-initial
-        />
-        <div
-          class="pointer-events-none absolute inset-0 z-400 bg-[#14132699] mask-[radial-gradient(circle_140px_at_center,transparent_0,transparent_139px,black_150px)]"
-        />
+        >
+          <div
+            class="absolute inset-0 bg-[#14132699] mask-[radial-gradient(circle_140px_at_center,transparent_0,transparent_139px,black_150px)]"
+          />
+        </AppMap>
       </div>
       <span v-if="mapCutoutRadiusInMeters" class="text-body">
         {{ t('radius', { radius: formattedRadius }) }}

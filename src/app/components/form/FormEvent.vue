@@ -314,18 +314,17 @@
                 />
               </Field>
             </form.Field>
-            <div class="relative isolate">
-              <AppMap
-                ref="map"
-                class="h-64"
-                geocoder
-                :position-initial="locationPositionInitial"
-                @geocode="onGeocode"
-              />
+            <AppMap
+              ref="map"
+              class="h-64"
+              geocoder
+              :position-initial="locationPositionInitial"
+              @geocode="onGeocode"
+            >
               <AppIconMapPinSolid
-                class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-error"
+                class="absolute top-1/2 left-1/2 size-8 -translate-x-1/2 -translate-y-full text-error"
               />
-            </div>
+            </AppMap>
           </template>
         </form.Field>
         <form.Field v-slot="{ field }" name="url">
@@ -697,6 +696,36 @@ const onGeocode = (result: GeocodeResult) => {
     postalCode: result.address.postalCode ?? null,
     region: result.address.region ?? null,
   }
+}
+// an import names the place without its position, so the pin would stay on the default centre
+const locationNameImported = event?.rowId
+  ? undefined
+  : !event?.addressByAddressId?.location &&
+    event?.addressByAddressId?.name?.trim()
+if (locationNameImported) {
+  watch(
+    () => templateMap.value?.map,
+    async (map) => {
+      if (!map) return
+
+      try {
+        const [result] = await $fetch<
+          ({ lat: string; lon: string } & Parameters<
+            typeof getAddressFromNominatim
+          >[0])[]
+        >('/api/service/nominatim/search', {
+          query: { 'accept-language': locale.value, q: locationNameImported },
+        })
+        if (!result) return
+
+        map.setView([Number(result.lat), Number(result.lon)], 15)
+        addressFields.value = getAddressFromNominatim(result).address
+      } catch {
+        // the search control still lets the place be found by hand
+      }
+    },
+    { once: true },
+  )
 }
 const syncAddress = async (
   locationName: string,

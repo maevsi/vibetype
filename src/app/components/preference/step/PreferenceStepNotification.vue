@@ -28,14 +28,6 @@
       >
         {{ t('turnOn') }}
       </AppButton>
-      <AppButton
-        :aria-label="t('skip')"
-        class="w-full max-w-md data-[variant=secondary]:bg-surface"
-        variant="secondary"
-        @click="emit('next')"
-      >
-        {{ t('skip') }}
-      </AppButton>
     </template>
   </LayoutPage>
 </template>
@@ -70,14 +62,12 @@ de:
   description: Aktiviere Benachrichtigungen und verpasse keine passenden Events und neuen Einladungen mehr. Keine Sorge, wir schicken dir keinen Spam.
   iosInstall: Auf dem iPhone und iPad funktionieren Benachrichtigungen erst, wenn du die Seite zum Home-Bildschirm hinzufügst. Tippe auf „Teilen“ und dann auf „Zum Home-Bildschirm“.
   settingsNote: Das kannst du jederzeit später in den Einstellungen ändern.
-  skip: Überspringen
   title: Bleib auf dem Laufenden
   turnOn: Einschalten
 en:
   description: Turn on notifications to catch top event matches, new invitations, and more. Don't worry, we won't send you spam.
   iosInstall: On iPhone and iPad, notifications only work once you add this site to your Home Screen. Tap "Share", then "Add to Home Screen".
   settingsNote: You can change this anytime later in the settings.
-  skip: Skip
   title: Stay updated
   turnOn: Turn on
 </i18n>
