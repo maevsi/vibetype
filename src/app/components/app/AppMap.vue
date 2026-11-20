@@ -139,6 +139,7 @@ const colorMode = useColorMode()
 const isMounted = useMounted()
 const isConsented = useIsCookieConsented(EXTERNAL_MEDIA_COOKIE_ID)
 const isConsentOpen = ref(false)
+const { isFeatureEnabled } = useFeatureFlags()
 const { enabledPurposeIds, save } = usePrivacyConsent()
 const showMap = () =>
   save([...enabledPurposeIds.value, EXTERNAL_MEDIA_COOKIE_ID])
@@ -326,7 +327,8 @@ const initialize = async () => {
           colorModeValue === 'dark',
         ),
     )
-    if ('geolocation' in navigator) {
+    // the privacy policy does not cover reading the device position and sending it to the reverse geocoder yet
+    if ('geolocation' in navigator && isFeatureEnabled('location-live').value) {
       locateControl = new Control({ position: 'topleft' })
       locateControl.onAdd = () => {
         const container = DomUtil.create('div', 'leaflet-bar')
