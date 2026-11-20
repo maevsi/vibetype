@@ -1,5 +1,5 @@
 <template>
-  <form class="flex flex-col gap-4" @submit.prevent="form.handleSubmit">
+  <form class="flex flex-col gap-5" @submit.prevent="form.handleSubmit">
     <form.Field v-slot="{ field }" name="userName">
       <Field>
         <FieldLabel :for="field.name">
