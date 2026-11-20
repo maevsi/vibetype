@@ -4,7 +4,10 @@
       <AppSpanList :span="errorMessages" />
     </AppAlert>
     <slot v-if="hasData" />
-    <AppLoaderPlaceholder v-else-if="api.isFetching" />
+    <template v-else-if="api.isFetching">
+      <LoaderPage v-if="isPage" />
+      <AppLoaderPlaceholder v-else />
+    </template>
   </div>
 </template>
 
@@ -17,10 +20,12 @@ const {
   api,
   class: classProps = undefined,
   errorPgIds = undefined,
+  isPage = false,
 } = defineProps<
   {
     api: UnwrapRef<Awaited<ReturnType<typeof useApiData>>>
     errorPgIds?: Record<string, string>
+    isPage?: boolean
   } & { class?: HtmlHTMLAttributes['class'] }
 >()
 

@@ -1,5 +1,5 @@
 <template>
-  <Loader :api>
+  <Loader :api is-page>
     <AppError
       v-if="!guest"
       :error="{ message: t('errorGuestMissing'), status: 404 }"

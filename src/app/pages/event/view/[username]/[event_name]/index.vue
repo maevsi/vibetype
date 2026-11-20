@@ -1,5 +1,5 @@
 <template>
-  <Loader :api>
+  <Loader :api is-page>
     <AppError
       v-if="!account"
       :error="{ message: t('errorAccountMissing'), status: 404 }"
