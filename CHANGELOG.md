@@ -1,3 +1,15 @@
+## [17.27.0](https://github.com/maevsi/vibetype/compare/17.26.0...17.27.0) (2026-11-20)
+
+### Features
+
+* **account:** edit the profile in one form ([#2731](https://github.com/maevsi/vibetype/issues/2731)) ([4fc1700](https://github.com/maevsi/vibetype/commit/4fc1700339a8baf66408c11aa296e3a81a201241))
+* **event:** move edit to the menu and add an invite action ([#2730](https://github.com/maevsi/vibetype/issues/2730)) ([2f52fd2](https://github.com/maevsi/vibetype/commit/2f52fd22307a7f61b71c0c471b309946cc802590))
+
+### Bug Fixes
+
+* **consent:** lock the page scroll behind the consent screen ([#2729](https://github.com/maevsi/vibetype/issues/2729)) ([220b3e0](https://github.com/maevsi/vibetype/commit/220b3e05a4cf4cd92fb1367585e7d7b9eff54c02))
+* **map:** lift the fullscreen map above all stacking contexts ([#2732](https://github.com/maevsi/vibetype/issues/2732)) ([4eca7f6](https://github.com/maevsi/vibetype/commit/4eca7f67ead1c696bc5049ef8e53a80be8654c72))
+
 ## [17.26.0](https://github.com/maevsi/vibetype/compare/17.25.0...17.26.0) (2026-11-20)
 
 ### Features
