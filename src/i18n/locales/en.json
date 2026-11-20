@@ -13,6 +13,7 @@
   "globalPlaceholderLastName": "Lastname",
   "globalPlaceholderPhoneNumber": "+12345678901",
   "globalPlaceholderUrl": "https://websi.te",
+  "globalPosterScanFailed": "The poster could not be scanned.",
   "globalSeoOgImageAlt": "@.upper:{'globalSiteName'}'s logo.",
   "globalShowMore": "Show more",
   "globalSiteName": "Vibetype",

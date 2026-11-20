@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test'
+import { expect, type Page } from '@playwright/test'
 
 import { authenticatedTest } from '#tests/e2e/fixtures/authenticatedTest'
 
@@ -9,6 +9,20 @@ const IMAGE_PNG = Buffer.from(
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==',
   'base64',
 )
+
+// the picker's file input only exists while the file chooser is open
+const pickPoster = async (page: Page) => {
+  const fileChooserPromise = page.waitForEvent('filechooser')
+
+  await page.getByRole('button', { name: 'Choose from library' }).click()
+  await (
+    await fileChooserPromise
+  ).setFiles({
+    buffer: IMAGE_PNG,
+    mimeType: 'image/png',
+    name: 'poster.png',
+  })
+}
 
 authenticatedTest.describe('poster reading', () => {
   authenticatedTest(
@@ -34,12 +48,7 @@ authenticatedTest.describe('poster reading', () => {
         })
       })
       await defaultPage.goto(PAGE_PATH)
-      await page.locator('input[type="file"]:not([capture])').setInputFiles({
-        buffer: IMAGE_PNG,
-        mimeType: 'image/png',
-        name: 'poster.png',
-      })
-      await page.getByRole('button', { name: 'Read poster' }).click()
+      await pickPoster(page)
 
       await expect(page).toHaveURL(/\/event\/create$/)
       await expect(page.locator('#input-name')).toHaveValue('Test')
@@ -58,12 +67,7 @@ authenticatedTest.describe('poster reading', () => {
         }),
       )
       await defaultPage.goto(PAGE_PATH)
-      await page.locator('input[type="file"]:not([capture])').setInputFiles({
-        buffer: IMAGE_PNG,
-        mimeType: 'image/png',
-        name: 'poster.png',
-      })
-      await page.getByRole('button', { name: 'Read poster' }).click()
+      await pickPoster(page)
 
       await expect(page.getByText('No event found on this photo')).toBeVisible()
       await expect(page).toHaveURL(new RegExp(`${PAGE_PATH}$`))
@@ -99,14 +103,11 @@ authenticatedTest.describe('poster reading', () => {
       })
       await defaultPage.goto(PAGE_PATH)
 
-      // the shared poster arrives on its own once the page is mounted
-      await page.getByRole('button', { name: 'Read poster' }).click()
+      // the shared poster arrives and is read on its own once the page is mounted
       await expect(page.getByText('No event found on this photo')).toBeVisible()
 
-      // selecting the scanned poster clears the previous result, which the shared poster staying selected would not
+      // scanning reads the poster again
       await page.getByRole('button', { name: 'Take photo' }).click()
-      await expect(page.getByText('No event found on this photo')).toBeHidden()
-      await page.getByRole('button', { name: 'Read poster' }).click()
       await expect.poll(() => base64Images.length).toBe(2)
 
       expect(base64Images).toEqual([
