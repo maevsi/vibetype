@@ -323,7 +323,6 @@
                 @geocode="onGeocode"
               />
               <AppIconMapPinSolid
-                v-if="isMapConsented"
                 class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-error"
               />
             </div>
@@ -411,7 +410,6 @@ import { z } from 'zod'
 import { cn } from '@/utils/shadcn'
 
 import { graphql } from '~~/gql/generated'
-import { EXTERNAL_MEDIA_COOKIE_ID } from '~~/node/static'
 import { EventVisibility } from '~~/gql/generated/graphcache'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
@@ -678,7 +676,6 @@ const locationPositionInitial = event?.addressByAddressId?.location
       zoomLevel: 15,
     }
   : undefined
-const isMapConsented = useIsCookieConsented(EXTERNAL_MEDIA_COOKIE_ID)
 const templateMap = useTemplateRef('map')
 // a geocode replaces the stored fields, so they only change with a new search
 const addressFields = ref<AddressFields>({

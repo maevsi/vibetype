@@ -2,7 +2,6 @@ import type { DefineNuxtConfig } from 'nuxt/config'
 
 import {
   CSRF_COOKIE_NAME,
-  EXTERNAL_MEDIA_COOKIE_ID,
   JWT_COOKIE_NAME,
   FEATURE_FLAGS_COOKIE_ID,
   FEATURE_FLAGS_COOKIE_NAME,
@@ -136,21 +135,6 @@ export const cookieControlConfig: Pick<
         },
       ],
       optional: [
-        {
-          description: {
-            de: 'Zum Anzeigen von Karten werden Kartenkacheln vom Drittanbieter OpenStreetMap Foundation geladen. Dabei wird deine IP-Adresse an diese übertragen. Ohne Zustimmung werden Karten nicht angezeigt.',
-            en: 'To display maps, map tiles are loaded from the third party OpenStreetMap Foundation. Your IP address is transferred to them in the process. Without consent, maps are not displayed.',
-          },
-          id: EXTERNAL_MEDIA_COOKIE_ID,
-          links: {
-            'https://osmfoundation.org/wiki/Privacy_Policy':
-              'OpenStreetMap Privacy Policy',
-          },
-          name: {
-            de: 'Externe Inhalte',
-            en: 'External Content',
-          },
-        },
         {
           description: {
             de: 'Zeichnet zur Fehleranalyse Bedienschritte und Bildschirminhalte der Sitzung auf (Sentry Session Replay, unter Verwendung des sessionStorage) und misst die Leistung der Webseite im Browser (Profiling). Die Daten werden an unseren Dienstleister Sentry übertragen. Ohne Zustimmung findet beides nicht statt. Das Widerrufen beendet die Aufzeichnung sofort, das Profiling endet beim nächsten Seitenaufruf.',
