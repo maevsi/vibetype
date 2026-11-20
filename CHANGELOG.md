@@ -1,3 +1,14 @@
+## [17.28.0](https://github.com/maevsi/vibetype/compare/17.27.0...17.28.0) (2026-11-20)
+
+### Features
+
+* **early-bird:** adapt the flow to the b4 design ([#2734](https://github.com/maevsi/vibetype/issues/2734)) ([15711d4](https://github.com/maevsi/vibetype/commit/15711d4cd26a8227730fdca4cf3fbfcee866799d))
+* **event:** act on poster hunt choices right away ([#2735](https://github.com/maevsi/vibetype/issues/2735)) ([14e1469](https://github.com/maevsi/vibetype/commit/14e1469275efb49e0e274f4619d34742374a91e8))
+
+### Bug Fixes
+
+* **event:** hide the guest count when nobody has joined ([#2733](https://github.com/maevsi/vibetype/issues/2733)) ([d5b8d28](https://github.com/maevsi/vibetype/commit/d5b8d2822d8955ceb85e57ddc4198c7ce3a84650))
+
 ## [17.27.0](https://github.com/maevsi/vibetype/compare/17.26.0...17.27.0) (2026-11-20)
 
 ### Features
