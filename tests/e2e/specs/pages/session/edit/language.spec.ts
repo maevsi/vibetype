@@ -1,6 +1,7 @@
 import { expect } from '@playwright/test'
 
 import { authenticatedTest } from '#tests/e2e/fixtures/authenticatedTest'
+import { testVisualRegression } from '#tests/e2e/utils/tests'
 
 authenticatedTest.describe('language', () => {
   authenticatedTest(
@@ -21,3 +22,5 @@ authenticatedTest.describe('language', () => {
     },
   )
 })
+
+testVisualRegression('/session/edit/language')

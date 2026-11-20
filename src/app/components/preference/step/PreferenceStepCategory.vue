@@ -1,12 +1,15 @@
 <template>
   <LayoutPage>
-    <div class="flex flex-col gap-4 text-center">
-      <AppStepProgress :count="4" :index="3" />
-      <span class="text-heading-medium text-balance">
+    <div class="flex flex-col gap-4">
+      <AppStepProgress class="justify-start" :count="4" :index="3" />
+      <span class="text-heading-large text-balance">
         {{ t('title') }}
       </span>
+      <span class="text-body text-fg-2">
+        {{ t('description') }}
+      </span>
       <div>
-        <ul class="flex flex-wrap justify-center gap-2">
+        <ul class="grid grid-cols-3 gap-3">
           <li
             v-for="eventCategory in eventCategories"
             :key="eventCategory.rowId"
@@ -19,7 +22,7 @@
               :id="eventCategory.rowId"
               :name="eventCategory.label"
               :selected="preferenceEventCategoryIds"
-              @click="togglePreferenceSelection(eventCategory.rowId)"
+              @toggle="togglePreferenceSelection(eventCategory.rowId)"
             >
               <AppIconPreferenceCategoryArtAndCulture
                 v-if="eventCategory.name === 'art-and-culture'"
@@ -220,6 +223,7 @@ useApiErrorModel({
 <i18n lang="yaml">
 de:
   button: Weiter
+  description: Wir möchten wissen, welche Genres dich begeistern! Teile deine Favoriten, von Kunst bis Sport.
   formatArtAndCulture: Kunst & Kultur
   formatBusiness: Wirtschaft
   formatComedy: Komödie
@@ -235,6 +239,7 @@ de:
   title: Welches Genre spricht dich an?
 en:
   button: Next
+  description: We want to know what genres excite you! Share your favorites, from art to sports.
   formatArtAndCulture: Art & Culture
   formatBusiness: Business
   formatComedy: Comedy

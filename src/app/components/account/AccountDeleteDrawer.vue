@@ -15,6 +15,7 @@
           postgres23503: t('postgres23503'),
           postgres28P01: t('postgres28P01'),
         }"
+        is-error-toast-hidden
         is-toast-hidden
         :item-name-deletion="t('account')"
         :item-name-success="t('account')"

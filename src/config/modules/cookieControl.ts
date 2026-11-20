@@ -2,6 +2,7 @@ import type { DefineNuxtConfig } from 'nuxt/config'
 
 import {
   CSRF_COOKIE_NAME,
+  EXTERNAL_MEDIA_COOKIE_ID,
   JWT_COOKIE_NAME,
   FEATURE_FLAGS_COOKIE_ID,
   FEATURE_FLAGS_COOKIE_NAME,
@@ -9,6 +10,7 @@ import {
   GTAG_MEASUREMENT_ID,
   I18N_COOKIE_NAME,
   LOCKDOWN_MODE_DISMISSED_COOKIE_NAME,
+  SENTRY_COOKIE_ID,
   TIMEZONE_COOKIE_NAME,
 } from '../../node/static'
 
@@ -18,12 +20,11 @@ import {
 const GTAG_MEASUREMENT_ID_RESOLVED =
   process.env.NUXT_PUBLIC_GTAG_ID || GTAG_MEASUREMENT_ID
 
-export const cookieControlConfig = {
+export const cookieControlConfig: Pick<
+  ReturnType<DefineNuxtConfig>,
+  'cookieControl'
+> = {
   cookieControl: {
-    colors: {
-      checkboxActiveBackground: '#00A34A', // text-green-600
-    },
-
     /**
      * "The Cookie Law does not require that you list cookies one by one, only that you state their type, usage and purpose.
      * The cookie policy must:
@@ -121,12 +122,10 @@ export const cookieControlConfig = {
           },
           targetCookieIds: ['cf_clearance'],
         },
-      ],
-      optional: [
         {
           description: {
-            de: 'Dieser Cookie von uns speichert aktivierte Feature-Flags für experimentelle Funktionen.',
-            en: 'This cookie of ours stores enabled feature flags for experimental features.',
+            de: 'Dieser Cookie von uns speichert die Feature-Flags, die du für experimentelle Funktionen aktivierst. Er wird nur auf deinen Wunsch gesetzt.',
+            en: 'This cookie of ours stores the feature flags you enable for experimental features. It is only set at your request.',
           },
           id: FEATURE_FLAGS_COOKIE_ID,
           name: {
@@ -134,6 +133,37 @@ export const cookieControlConfig = {
             en: 'Feature Flags',
           },
           targetCookieIds: [FEATURE_FLAGS_COOKIE_NAME],
+        },
+      ],
+      optional: [
+        {
+          description: {
+            de: 'Zum Anzeigen von Karten werden Kartenkacheln vom Drittanbieter OpenStreetMap Foundation geladen. Dabei wird deine IP-Adresse an diese übertragen. Ohne Zustimmung werden Karten nicht angezeigt.',
+            en: 'To display maps, map tiles are loaded from the third party OpenStreetMap Foundation. Your IP address is transferred to them in the process. Without consent, maps are not displayed.',
+          },
+          id: EXTERNAL_MEDIA_COOKIE_ID,
+          links: {
+            'https://osmfoundation.org/wiki/Privacy_Policy':
+              'OpenStreetMap Privacy Policy',
+          },
+          name: {
+            de: 'Externe Inhalte',
+            en: 'External Content',
+          },
+        },
+        {
+          description: {
+            de: 'Zeichnet zur Fehleranalyse Bedienschritte und Bildschirminhalte der Sitzung auf (Sentry Session Replay, unter Verwendung des sessionStorage) und misst die Leistung der Webseite im Browser (Profiling). Die Daten werden an unseren Dienstleister Sentry übertragen. Ohne Zustimmung findet beides nicht statt. Das Widerrufen beendet die Aufzeichnung sofort, das Profiling endet beim nächsten Seitenaufruf.',
+            en: 'Records interaction steps and screen contents of the session for error analysis (Sentry Session Replay, using sessionStorage) and measures the performance of the website in the browser (profiling). The data is transferred to our service provider Sentry. Without consent, neither takes place. Withdrawing consent stops the recording immediately, profiling ends with the next page load.',
+          },
+          id: SENTRY_COOKIE_ID,
+          links: {
+            'https://sentry.io/privacy/': 'Sentry Privacy Policy',
+          },
+          name: {
+            de: 'Sitzungsaufzeichnung und Profiling',
+            en: 'Session Replay and Profiling',
+          },
         },
         {
           description: {
@@ -156,7 +186,9 @@ export const cookieControlConfig = {
         },
       ],
     },
+    // the module only stores the choices, its dialogs are replaced by the app's own privacy screen and settings
     isControlButtonEnabled: false,
+    isCssEnabled: false,
     locales: ['en', 'de'],
   },
-} satisfies ReturnType<DefineNuxtConfig>
+}

@@ -159,7 +159,11 @@ const t = locales[locale]
             <AppText>
               {{ eventDescription }}
               <br />
-              <ELink :href="eventLink" style="text-decoration: underline">
+              <ELink
+                class="link"
+                :href="eventLink"
+                style="color: #117a23; text-decoration: underline"
+              >
                 {{ t.eventShow }}
               </ELink>
             </AppText>

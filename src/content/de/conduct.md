@@ -196,6 +196,7 @@ Jede\*r kann dazu beitragen, die Community sicher zu halten, indem problematisch
 - **Prüfung & Moderation:** Das VIBETYPE-Team überprüft Meldungen und behält sich vor, bei Verstößen geeignete Maßnahmen zu ergreifen.
 **Inhalte können entfernt** oder bearbeitet werden, wenn sie gegen die Richtlinien verstoßen.
 Ebenso können Events abgesagt oder Profilelemente angepasst werden, um die Community zu schützen.
+Betroffene Nutzer erhalten eine Begründung und können Beschwerde einlegen, siehe § 5 der Nutzungsbedingungen.
 
 - **Verwarnungen & Sperrungen:** Je nach Schwere eines Verstoßes kann es Verwarnungen geben oder es werden **sofortige Konsequenzen** gezogen.
 Bei leichten Verstößen erhält der\*die betroffene Nutzer\*in unter Umständen zunächst eine Verwarnung oder Aufforderung, das Verhalten zu ändern.

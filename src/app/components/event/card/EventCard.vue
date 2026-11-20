@@ -134,21 +134,31 @@
         />
       </div>
       <span
-        v-if="!variant && (isDraft || isCreator || isGuest)"
+        v-if="!variant && badgeKind"
         :class="
           cn(
-            'absolute bottom-1.5 left-1/2 -translate-x-1/2 rounded-small px-2 py-0.5 text-caption whitespace-nowrap text-fg-1',
-            isDraft
+            'absolute bottom-1.5 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-small px-2 py-0.5 text-caption whitespace-nowrap text-fg-1',
+            badgeKind === 'draft'
               ? 'bg-warning-tint'
-              : isCreator
-                ? 'bg-info-tint'
-                : 'bg-success-tint',
+              : badgeKind === 'going'
+                ? 'bg-success-tint'
+                : badgeKind === 'saved'
+                  ? 'bg-surface-raised'
+                  : 'bg-info-tint',
           )
         "
       >
-        <template v-if="isDraft">{{ t('isDraft') }}</template>
-        <template v-else-if="isCreator">{{ t('isCreator') }}</template>
-        <template v-else>{{ t('isGuest') }}</template>
+        <AppIconUsers
+          v-if="badgeKind === 'hosting'"
+          aria-hidden="true"
+          class="size-3"
+        />
+        <AppIconHeart
+          v-else-if="badgeKind === 'saved'"
+          aria-hidden="true"
+          class="size-3"
+        />
+        {{ badgeLabel }}
       </span>
     </div>
     <div
@@ -186,6 +196,29 @@
       <span class="truncate text-body-small text-fg-3">
         <AppTime :datetime="event.start" />
       </span>
+      <div
+        v-if="distanceText || event.guestCount"
+        class="flex items-center gap-3 text-body-small text-fg-3"
+      >
+        <span
+          v-if="distanceText"
+          :aria-label="t('distanceAway', { distance: distanceText })"
+          class="flex min-w-0 items-center gap-1"
+          role="img"
+        >
+          <AppIconMapPin aria-hidden="true" class="size-4 shrink-0" />
+          <span class="truncate">{{ distanceText }}</span>
+        </span>
+        <span
+          v-if="event.guestCount"
+          :aria-label="t('guestCountLabel', event.guestCount)"
+          class="flex items-center gap-1"
+          role="img"
+        >
+          <AppIconUsers aria-hidden="true" class="size-4 shrink-0" />
+          <span>{{ event.guestCount }}</span>
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -196,6 +229,7 @@ import type { DeepReadonly } from 'vue'
 import { cn } from '@/utils/shadcn'
 
 // compiler
+export type EventCardBadge = 'draft' | 'going' | 'hosting' | 'saved'
 export type EventCardProps = {
   event: DeepReadonly<{
     accountByCreatedBy?: {
@@ -226,6 +260,7 @@ export type EventCardProps = {
         uploadByUploadId?: { storageKey?: string | null } | null
       }[]
     } | null
+    guestCount?: number
     guestsByEventId?: {
       nodes: {
         contactByContactId?: {
@@ -238,15 +273,24 @@ export type EventCardProps = {
       }[]
     } | null
     id: string
+    isInPerson?: boolean | null
     name: string
     rowId: string
     slug: string
     start: string
   }>
+  // replaces the badge derived from the viewer's relation to the event
+  badge?: EventCardBadge
+  distanceKilometers?: number
   // TODO: turn javascript usage into attribute based styles
   variant?: 'highlight' | 'recommendation' // alias for 'large'
 }
-const { event, variant = undefined } = defineProps<EventCardProps>()
+const {
+  badge = undefined,
+  distanceKilometers = undefined,
+  event,
+  variant = undefined,
+} = defineProps<EventCardProps>()
 
 // template
 const localePath = useLocalePath()
@@ -287,20 +331,65 @@ const isGuest = computed(() =>
         : undefined
     : undefined,
 )
-const { t } = useI18n()
+const badgeKind = computed<EventCardBadge | undefined>(
+  () =>
+    badge ??
+    (isDraft
+      ? 'draft'
+      : isCreator.value
+        ? 'hosting'
+        : isGuest.value
+          ? 'going'
+          : undefined),
+)
+const { locale, t } = useI18n()
+const badgeLabel = computed(() =>
+  badgeKind.value === 'draft'
+    ? t('draft')
+    : badgeKind.value === 'going'
+      ? t('going')
+      : badgeKind.value === 'hosting'
+        ? t('hosting')
+        : t('saved'),
+)
+
+// distance
+const distanceText = computed(() => {
+  if (distanceKilometers === undefined) return
+
+  const format = (kilometers: number) =>
+    new Intl.NumberFormat(locale.value, {
+      maximumFractionDigits: kilometers < 10 ? 1 : 0,
+      style: 'unit',
+      unit: 'kilometer',
+      unitDisplay: 'short',
+    }).format(kilometers)
+
+  return distanceKilometers < 1
+    ? t('distanceLessThanOneKilometer', { distance: format(1) })
+    : format(distanceKilometers)
+})
 </script>
 
 <i18n lang="yaml">
 de:
+  distanceAway: '{distance} entfernt'
+  distanceLessThanOneKilometer: Weniger als {distance}
+  draft: Entwurf
+  going: Dabei
+  guestCountLabel: Kein Gast | 1 Gast | {count} Gäste
   heroImage: Titelbild der Veranstaltung
-  isCreator: Von dir
-  isDraft: Entwurf
-  isGuest: Dabei
+  hosting: Von dir
   match: Match
+  saved: Gemerkt
 en:
+  distanceAway: '{distance} away'
+  distanceLessThanOneKilometer: Less than {distance}
+  draft: Draft
+  going: Going
+  guestCountLabel: No guests | 1 guest | {count} guests
   heroImage: Title picture of the event
-  isCreator: Hosting
-  isDraft: Draft
-  isGuest: Going
+  hosting: Hosting
   match: Match
+  saved: Saved
 </i18n>

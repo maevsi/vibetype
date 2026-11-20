@@ -34,9 +34,6 @@
           {{ t('deletion', { item: itemNameDeletion }) }}
         </AppButton>
       </div>
-      <AppAlert v-if="errorMessages?.length" variant="error">
-        <AppSpanList :span="errorMessages" />
-      </AppAlert>
     </div>
   </form>
 </template>
@@ -48,6 +45,7 @@ import { z } from 'zod'
 
 const {
   errorsPgIds = undefined,
+  isErrorToastHidden = undefined,
   isToastHidden = undefined,
   itemNameDeletion,
   itemNameSuccess,
@@ -55,6 +53,7 @@ const {
   variables = undefined,
 } = defineProps<{
   errorsPgIds?: Record<string, string>
+  isErrorToastHidden?: boolean
   isToastHidden?: boolean
   itemNameDeletion: string
   itemNameSuccess: string
@@ -107,11 +106,15 @@ const form = useForm({
   },
 })
 
-// computations
-const errorMessages = computed(() =>
-  api.value.errors
-    ? getCombinedErrorMessages(api.value.errors, errorsPgIds)
-    : undefined,
+// errors
+const alertErrorDetails = useAlertErrorDetails()
+
+watch(
+  () => api.value.errors,
+  (errors) => {
+    if (errors.length && !isErrorToastHidden)
+      alertErrorDetails({ errors, postgresErrorMap: errorsPgIds })
+  },
 )
 
 useApiErrorModel({

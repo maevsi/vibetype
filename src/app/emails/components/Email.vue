@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { THEME_COLOR_DARK } from '#shared/utils/constants'
+
 import AppLogo from './AppLogo.vue'
 
 const { locale, title } = defineProps<{
@@ -10,6 +12,12 @@ defineOptions({
   name: 'AppEmail',
 })
 
+const { siteUrl } = useSiteUrl()
+const fontUrl = new URL(
+  '/assets/static/fonts/raleway-latin-wght-normal.woff2',
+  siteUrl,
+).href
+
 // inline styles stay the light default for clients that ignore this media query
 const colorSchemeStyle = `
   :root {
@@ -19,12 +27,16 @@ const colorSchemeStyle = `
 
   @media (prefers-color-scheme: dark) {
     .button {
-      background-color: #e4e4eb !important;
-      color: #191911 !important;
+      background-color: #fff !important;
+      color: #000 !important;
     }
 
     .container {
-      background-color: #191911 !important;
+      background-color: ${THEME_COLOR_DARK} !important;
+    }
+
+    .link {
+      color: #35de51 !important;
     }
 
     .logo-dark {
@@ -40,11 +52,11 @@ const colorSchemeStyle = `
     }
 
     .text {
-      color: #e4e4eb !important;
+      color: #fff !important;
     }
 
     .text-secondary {
-      color: #868679 !important;
+      color: #9ca09d !important;
     }
   }
 `
@@ -63,7 +75,7 @@ const colorSchemeStyle = `
         :fallback-font-family="['Helvetica', 'Arial', 'sans-serif']"
         font-family="Raleway"
         :web-font="{
-          url: 'https://fonts.gstatic.com/s/raleway/v37/1Ptxg8zYS_SKggPN4iEgvnHyvveLxVvaorCIPrE.woff2',
+          url: fontUrl,
           format: 'woff2',
         }"
       />
@@ -71,7 +83,7 @@ const colorSchemeStyle = `
     <EBody style="margin: 0">
       <EContainer
         class="container"
-        style="background-color: #f0f0f0; max-width: 42.5em; padding: 0 2.5em"
+        style="background-color: #eff0ef; max-width: 42.5em; padding: 0 2.5em"
       >
         <AppLogo :locale />
         <slot />

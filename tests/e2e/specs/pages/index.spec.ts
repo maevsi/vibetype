@@ -97,21 +97,19 @@ authenticatedTest.describe('account language', () => {
 })
 
 appTest.describe('visual regression', () => {
-  appTest('displays the cookie banner', async ({ page }) => {
+  appTest('displays the privacy screen', async ({ page }) => {
     await page.goto('/')
-    await PAGE_READY({ page, options: { cookieControl: false } })
+    await PAGE_READY({ page })
     await expect(page).toHaveScreenshot({ timeout: TIMEOUT })
   })
 })
 
 authenticatedTest.describe('signed in', () => {
-  // the home link only shows on wide screens
-  authenticatedTest.use({ viewport: { height: 900, width: 1600 } })
-
   authenticatedTest(
     'redirects a client side navigation to the dashboard without errors',
     async ({ defaultPage }) => {
-      await defaultPage.goto('/docs/browser-support')
+      // the error page links home
+      await defaultPage.goto('/account/view/e2e-missing-account')
 
       // vue reports a failing setup to the console rather than as a page error;
       // listening only from here skips the dev server's unrelated hydration mismatches

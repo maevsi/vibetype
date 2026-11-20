@@ -1,12 +1,12 @@
 <template>
-  <ul class="flex flex-wrap gap-2">
+  <ul class="grid grid-cols-[repeat(auto-fill,minmax(7rem,1fr))] gap-2">
     <li v-for="eventCategory in eventCategories" :key="eventCategory.rowId">
       <PreferenceElement
         v-if="eventCategory.label"
         :id="eventCategory.rowId"
         :name="eventCategory.label"
         :selected="modelValue"
-        @click="toggle(eventCategory.rowId)"
+        @toggle="toggle(eventCategory.rowId)"
       >
         <AppIconPreferenceCategoryArtAndCulture
           v-if="eventCategory.name === 'art-and-culture'"

@@ -1,98 +1,109 @@
 <template>
   <AppLoaderPlaceholder v-if="api.isFetching && !attendance" />
   <AppError v-else-if="!attendance" :error="{ status: 404 }" />
-  <div v-else class="flex flex-col gap-4">
-    <h1 class="sr-only">{{ title }}</h1>
-    <section class="flex flex-col gap-4">
-      <span class="text-heading-large">
-        {{ t('contact') }}
-      </span>
-      <ContactPreview v-if="contact" :contact />
-      <AppAlert v-else>
-        {{ t('errorContactNone') }}
-      </AppAlert>
-      <div class="flex">
-        <AppFeature feature="friends">
-          <AppButton
-            v-if="authentication.isSignedIn"
-            :aria-label="t('addFriend')"
-            :title="t('addFriend')"
-            @click="friendAdd"
-          >
-            {{ t('addFriend') }}
-          </AppButton>
-        </AppFeature>
-      </div>
-    </section>
-    <section v-if="eventApps.length" class="flex flex-col gap-4">
-      <span class="text-heading-large">
-        {{ t('event') }}
-      </span>
-      <section v-if="eventApps.length" class="flex flex-col gap-4">
-        <span class="text-heading-medium">
-          {{ t('apps') }}
-        </span>
-        <ul>
-          <template v-for="eventApp in eventApps" :key="eventApp.rowId">
-            <li
-              v-if="
-                eventApp.appByAppId?.urlAttendance &&
-                eventApp.appByAppId.name &&
-                eventApp.appByAppId.iconSvg
+  <div v-else class="flex flex-1 flex-col">
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutPage>
+      <div class="flex flex-col gap-4">
+        <section class="flex flex-col gap-4">
+          <span class="text-heading-large">
+            {{ t('contact') }}
+          </span>
+          <ContactPreview v-if="contact" :contact />
+          <AppAlert v-else>
+            {{ t('errorContactNone') }}
+          </AppAlert>
+          <div class="flex">
+            <AppFeature feature="friends">
+              <AppButton
+                v-if="authentication.isSignedIn"
+                :aria-label="t('addFriend')"
+                :title="t('addFriend')"
+                @click="friendAdd"
+              >
+                {{ t('addFriend') }}
+              </AppButton>
+            </AppFeature>
+          </div>
+        </section>
+        <section v-if="eventApps.length" class="flex flex-col gap-4">
+          <span class="text-heading-large">
+            {{ t('event') }}
+          </span>
+          <section v-if="eventApps.length" class="flex flex-col gap-4">
+            <span class="text-heading-medium">
+              {{ t('apps') }}
+            </span>
+            <ul>
+              <template v-for="eventApp in eventApps" :key="eventApp.rowId">
+                <li
+                  v-if="
+                    eventApp.appByAppId?.urlAttendance &&
+                    eventApp.appByAppId.name &&
+                    eventApp.appByAppId.iconSvg
+                  "
+                >
+                  <AppButton
+                    :aria-label="eventApp.appByAppId.name"
+                    :to="
+                      eventApp.appByAppId?.urlAttendance.replace(
+                        '{attendance.rowId}',
+                        attendance.rowId,
+                      )
+                    "
+                  >
+                    <span class="flex flex-col items-center gap-2">
+                      <!-- eslint-disable vue/no-v-html -->
+                      <span
+                        class="size-32"
+                        v-html="eventApp.appByAppId.iconSvg"
+                      />
+                      <!-- eslint-enable vue/no-v-html -->
+                      <span class="font-bold">
+                        {{ eventApp.appByAppId.name }}
+                      </span>
+                    </span>
+                  </AppButton>
+                </li>
+              </template>
+            </ul>
+          </section>
+        </section>
+        <section v-if="guest?.rowId" class="flex flex-col gap-4">
+          <span class="text-heading-large">
+            {{ t('attendance') }}
+          </span>
+          <div class="flex gap-2">
+            <AppButton
+              :aria-label="t('checkOut')"
+              :disabled="!canCheckOut"
+              :loading="checkOutMutation.fetching.value"
+              @click="onCheckOut"
+            >
+              {{ t('checkOut') }}
+            </AppButton>
+          </div>
+        </section>
+        <section v-if="guest" class="flex flex-col gap-4">
+          <span class="text-heading-large">
+            {{ t('guest') }}
+          </span>
+          <div class="flex">
+            <AppButton
+              :aria-label="t('guestView')"
+              :to="
+                localePath({
+                  name: 'guest-view-id',
+                  params: { id: guest.rowId },
+                })
               "
             >
-              <AppButton
-                :aria-label="eventApp.appByAppId.name"
-                :to="
-                  eventApp.appByAppId?.urlAttendance.replace(
-                    '{attendance.rowId}',
-                    attendance.rowId,
-                  )
-                "
-              >
-                <span class="flex flex-col items-center gap-2">
-                  <!-- eslint-disable-next-line vue/no-v-html -->
-                  <span class="size-32" v-html="eventApp.appByAppId.iconSvg" />
-                  <span class="font-bold">
-                    {{ eventApp.appByAppId.name }}
-                  </span>
-                </span>
-              </AppButton>
-            </li>
-          </template>
-        </ul>
-      </section>
-    </section>
-    <section v-if="guest?.rowId" class="flex flex-col gap-4">
-      <span class="text-heading-large">
-        {{ t('attendance') }}
-      </span>
-      <div class="flex gap-2">
-        <AppButton
-          :aria-label="t('checkOut')"
-          :disabled="!canCheckOut"
-          :loading="checkOutMutation.fetching.value"
-          @click="onCheckOut"
-        >
-          {{ t('checkOut') }}
-        </AppButton>
+              {{ t('guestView') }}
+            </AppButton>
+          </div>
+        </section>
       </div>
-    </section>
-    <section v-if="guest" class="flex flex-col gap-4">
-      <span class="text-heading-large">
-        {{ t('guest') }}
-      </span>
-      <div class="flex">
-        <AppButton
-          :aria-label="t('guestView')"
-          :to="
-            localePath({ name: 'guest-view-id', params: { id: guest.rowId } })
-          "
-        >
-          {{ t('guestView') }}
-        </AppButton>
-      </div>
-    </section>
+    </LayoutPage>
   </div>
 </template>
 

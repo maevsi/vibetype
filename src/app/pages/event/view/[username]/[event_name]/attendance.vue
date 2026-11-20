@@ -2,52 +2,56 @@
   <Loader :api>
     <div
       v-if="event && route.params.username === store.signedInUsername"
-      class="flex flex-col gap-4"
+      class="flex flex-1 flex-col"
     >
-      <LayoutPageTitle :title="t('title')" />
-      <AppStepList
-        :active="t('qrCodeScan')"
-        :steps="[t('qrCodeScan'), t('nfcWrite')]"
-      />
-      <AppSeparator />
-      <div class="flex flex-col items-center justify-center gap-4">
-        <AppButton :aria-label="t('qrCodeScan')" @click="qrCodeScan">
-          {{ t('qrCodeScan') }}
-          <template #prefix>
-            <AppIconQrCode />
-          </template>
-        </AppButton>
-        <p v-if="!guestId" class="text-body-small text-fg-2">
-          {{ t('qrHint') }}
-        </p>
-        <AppAttendanceGuestDynamic v-if="guestId" :guest-id />
-        <div v-if="guestId" class="flex flex-col items-center gap-2">
-          <AppButton
-            :aria-label="t('nfcWrite')"
-            class="text-on-action-primary"
-            :disabled="isNfcError"
-            @click="onClick"
+      <LayoutTopBar>{{ t('title') }}</LayoutTopBar>
+      <LayoutPage>
+        <div class="flex flex-col gap-4">
+          <AppStepList
+            :active="t('qrCodeScan')"
+            :steps="[t('qrCodeScan'), t('nfcWrite')]"
+          />
+          <AppSeparator />
+          <div class="flex flex-col items-center justify-center gap-4">
+            <AppButton :aria-label="t('qrCodeScan')" @click="qrCodeScan">
+              {{ t('qrCodeScan') }}
+              <template #prefix>
+                <AppIconQrCode />
+              </template>
+            </AppButton>
+            <p v-if="!guestId" class="text-body-small text-fg-2">
+              {{ t('qrHint') }}
+            </p>
+            <AppAttendanceGuestDynamic v-if="guestId" :guest-id />
+            <div v-if="guestId" class="flex flex-col items-center gap-2">
+              <AppButton
+                :aria-label="t('nfcWrite')"
+                class="text-on-action-primary"
+                :disabled="isNfcError"
+                @click="onClick"
+              >
+                {{ t('nfcWrite') }}
+                <template #prefix>
+                  <AppIconUserTag />
+                </template>
+              </AppButton>
+              <AppAlert v-if="isNfcError" variant="error">
+                {{ isNfcWritableErrorMessage }}
+              </AppAlert>
+            </div>
+          </div>
+          <AppModal
+            v-model="isModalAttendanceScanQrCodeOpen"
+            :submit-name="t('close')"
+            @submit="modalClose"
           >
-            {{ t('nfcWrite') }}
-            <template #prefix>
-              <AppIconUserTag />
+            <LazyAppQrCodeStream @detect="onDetect" @error="modalClose" />
+            <template #submit-icon>
+              <AppIconXCircleSolid />
             </template>
-          </AppButton>
-          <AppAlert v-if="isNfcError" variant="error">
-            {{ isNfcWritableErrorMessage }}
-          </AppAlert>
+          </AppModal>
         </div>
-      </div>
-      <AppModal
-        v-model="isModalAttendanceScanQrCodeOpen"
-        :submit-name="t('close')"
-        @submit="modalClose"
-      >
-        <LazyAppQrCodeStream @detect="onDetect" @error="modalClose" />
-        <template #submit-icon>
-          <AppIconXCircleSolid />
-        </template>
-      </AppModal>
+      </LayoutPage>
     </div>
     <AppError v-else :error="{ status: 403 }" />
   </Loader>
@@ -65,9 +69,13 @@ const { t } = useI18n()
 const store = useStore()
 
 // validation
+await useSignInRequired()
 const route = useRoute()
 const { createA11yError } = useA11yError()
-if (route.params.username !== store.signedInUsername) {
+if (
+  store.signedInUsername &&
+  route.params.username !== store.signedInUsername
+) {
   throw createA11yError({
     status: 403,
   })
@@ -102,12 +110,15 @@ const event = computed(() => account.value?.eventsByCreatedBy.nodes[0])
 // page
 const title = computed(() => {
   if (api.value.isFetching && !event.value) return t('globalLoading')
-  if (route.params.username !== store.signedInUsername) {
+  if (
+    store.signedInUsername &&
+    route.params.username !== store.signedInUsername
+  ) {
     showAppError({ status: 403, message: 'Permission denied' })
     return
   }
   if (!event.value) {
-    showAppError({ status: 500, message: 'Event unavailable' })
+    showAppError({ status: 404, message: 'Event unavailable' })
     return
   }
 

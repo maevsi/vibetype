@@ -16,34 +16,13 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean }
   Int: { input: number; output: number }
   Float: { input: number; output: number }
-  /**
-   * A signed eight-byte integer. The upper big integer values are greater than the
-   * max value for a JavaScript number. Therefore all big integers will be output as
-   * strings and not numbers.
-   */
   BigInt: { input: number; output: number }
-  /** A location in a connection that can be used for resuming pagination. */
   Cursor: { input: string; output: string }
-  /** A calendar date in YYYY-MM-DD format. */
   Date: { input: string; output: string }
-  /**
-   * A point in time as described by the [ISO
-   * 8601](https://en.wikipedia.org/wiki/ISO_8601) and, if it has a timezone, [RFC
-   * 3339](https://datatracker.ietf.org/doc/html/rfc3339) standards. Input values
-   * that do not conform to both ISO 8601 and RFC 3339 may be coerced, which may lead
-   * to unexpected results.
-   */
   Datetime: { input: string; output: string }
-  /** The `GeoJSON` scalar type represents GeoJSON values as specified by[RFC 7946](https://tools.ietf.org/html/rfc7946). */
   GeoJSON: { input: GeoJSON; output: GeoJSON }
-  /**
-   * A JSON Web Token defined by [RFC 7519](https://tools.ietf.org/html/rfc7519)
-   * which securely represents claims between two parties.
-   */
   Jwt: { input: string; output: string }
-  /** A builtin object identifier type for a text search configuration */
   RegConfig: { input: unknown; output: unknown }
-  /** A universally unique identifier as defined by [RFC 4122](https://tools.ietf.org/html/rfc4122). */
   UUID: { input: string; output: string }
 }
 
@@ -3580,6 +3559,10 @@ export type EventCondition = {
   endsFrom?: InputMaybe<Scalars['Datetime']['input']>
   /** Whether the event has ended, judged by its end, or by its start if it has no end, against the database clock. */
   hasEnded?: InputMaybe<Scalars['Boolean']['input']>
+  /** Whether the invoker attends the event, that is whether one of their contacts accepted a guest invitation to it. Combine with `hasEnded` to split upcoming from past events. */
+  isAttending?: InputMaybe<Scalars['Boolean']['input']>
+  /** Whether the invoker is invited to the event, that is whether they claimed one of its guest invitations or one of their contacts was invited to it, whatever the feedback. Combine with `hasEnded` to split upcoming from past invitations. */
+  isInvited?: InputMaybe<Scalars['Boolean']['input']>
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `rowId` field. */
