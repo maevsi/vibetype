@@ -16,6 +16,7 @@
         <ul class="flex flex-col gap-3">
           <li v-for="event in eventGroup.events" :key="event.rowId">
             <EventCard
+              :badge
               :distance-kilometers="getDistanceKilometersEvent(event)"
               :event
             />
@@ -26,6 +27,7 @@
     <ul v-else class="flex w-full flex-col gap-3">
       <li v-for="event in events" :key="event.rowId">
         <EventCard
+          :badge
           :distance-kilometers="getDistanceKilometersEvent(event)"
           :event
         />
@@ -46,7 +48,10 @@
   >
     <EventCardSkeleton v-for="index in 3" :key="index" />
   </AppLoaderPlaceholder>
-  <p v-else class="text-center">{{ t('noEvents') }}</p>
+  <div v-else class="flex flex-col items-center gap-3 py-12 text-center">
+    <AppIconCalendar aria-hidden="true" class="size-12 text-fg-3" />
+    <p class="text-fg-2">{{ t('noEvents') }}</p>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -58,17 +63,19 @@ import {
   getPreferenceEventLocationItem,
   useAllPreferenceEventLocationsQuery,
 } from '~~/shared/utils/preference/eventLocation'
-import type { EventCardProps } from './card/EventCard.vue'
+import type { EventCardBadge, EventCardProps } from './card/EventCard.vue'
 
 // compiler
 type EventListEvent = DeepReadonly<EventCardProps['event'] & AppMapEvent>
 const {
+  badge = undefined,
   isGroupedByDay = false,
   isLoading = false,
   isMapVisible = false,
   events = undefined,
   hasNextPage,
 } = defineProps<{
+  badge?: EventCardBadge
   isGroupedByDay?: boolean
   isLoading?: boolean
   isMapVisible?: boolean
