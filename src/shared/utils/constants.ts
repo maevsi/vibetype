@@ -36,6 +36,7 @@ export const REGEX_UUID =
 export const SEO_META_TWITTER_SITE = '@maev_si'
 export const STATE_KEY_EVENT_IMPORTED = 'eventImported'
 export const STATE_KEY_NOW = 'dateTimeNow'
+export const STATE_KEY_POSTER_PICKED = 'posterPicked'
 export const STATE_KEY_TIME_ZONE = 'dateTimeTimeZone'
 export const STATE_LOADING_IDS_NAME = 'loadingIds'
 export const FEATURE_FLAGS_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year

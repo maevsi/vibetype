@@ -156,12 +156,13 @@
               {{ t('posterHuntDescription') }}
             </p>
           </div>
-          <div class="grid grid-cols-3 gap-2">
+          <div class="grid auto-cols-fr grid-flow-col gap-2">
             <AppButton
+              v-if="isCameraAvailable"
               :aria-label="t('posterHuntPhoto')"
               class="h-15 flex-col justify-center gap-1 rounded-small p-2 text-caption"
               size="none"
-              :to="localePath('event-ingest-image')"
+              @click="pickFromCamera"
             >
               <AppIconCamera />
               {{ t('posterHuntPhoto') }}
@@ -170,8 +171,8 @@
               :aria-label="t('posterHuntImage')"
               class="h-15 flex-col justify-center gap-1 rounded-small bg-surface p-2 text-caption text-fg-1"
               size="none"
-              :to="localePath('event-ingest-image')"
               variant="ghost"
+              @click="pickFromLibrary"
             >
               <AppIconArrowUpTray />
               {{ t('posterHuntImage') }}
@@ -414,6 +415,15 @@ const eventRecommendationsOther = computed(
 const { t } = useI18n()
 const title = t('title')
 useHeadDefault({ title })
+
+// poster hunt
+const posterPicked = usePosterPicked()
+const { isCameraAvailable, pickFromCamera, pickFromLibrary } = usePosterPicker(
+  async (file) => {
+    posterPicked.value = file
+    await navigateTo(localePath('event-ingest-image'))
+  },
+)
 
 // template
 const localePath = useLocalePath()

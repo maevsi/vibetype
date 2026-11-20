@@ -17,63 +17,60 @@
         >
           {{ t('noEvent') }}
         </p>
-        <div class="flex flex-wrap gap-4">
+        <div
+          v-if="isReading"
+          class="flex items-center justify-center gap-2 py-4 text-fg-2"
+          role="status"
+        >
+          <AppSpinner aria-hidden="true" />
+          {{ t('reading') }}
+        </div>
+        <template v-else>
           <AppButton
+            v-if="isCameraAvailable"
             :aria-label="t('takePhoto')"
-            :variant="selectedFile ? 'secondary' : 'primary'"
-            @click="takePhoto"
+            class="w-full justify-center"
+            @click="pickFromCamera"
           >
-            <AppIconImage />
+            <AppIconCamera />
             {{ t('takePhoto') }}
           </AppButton>
           <AppButton
             :aria-label="t('chooseFromLibrary')"
-            variant="secondary"
-            @click="triggerFileInput(templateInputLibrary)"
+            class="w-full justify-center"
+            :variant="isCameraAvailable ? 'secondary' : 'primary'"
+            @click="pickFromLibrary"
           >
             <AppIconArrowUpTray />
             {{ t('chooseFromLibrary') }}
           </AppButton>
-        </div>
-        <AppButton
-          v-if="selectedFile"
-          :aria-label="t('readPoster')"
-          class="self-end"
-          :loading="isReading"
-          @click="readPoster"
-        >
-          {{ t('readPoster') }}
-        </AppButton>
+          <div class="flex items-center gap-4 text-body-small text-fg-2">
+            <AppSeparator class="flex-1" />
+            {{ t('or') }}
+            <AppSeparator class="flex-1" />
+          </div>
+          <AppButton
+            :aria-label="t('provideLink')"
+            class="w-full justify-center"
+            :to="localePath('event-ingest-url')"
+            variant="secondary"
+          >
+            <AppIconLink />
+            {{ t('provideLink') }}
+          </AppButton>
+        </template>
       </div>
-      <input
-        ref="inputCamera"
-        accept="image/jpeg,image/png"
-        capture="environment"
-        hidden
-        type="file"
-        @change="handleFileSelect"
-      />
-      <input
-        ref="inputLibrary"
-        accept="image/jpeg,image/png"
-        hidden
-        type="file"
-        @change="handleFileSelect"
-      />
     </LayoutPage>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useEventListener } from '@vueuse/core'
 import { FetchError } from 'ofetch'
 
 const { t } = useI18n()
 const alertError = useAlertError()
 const { $csrfFetch } = useNuxtApp()
 const localePath = useLocalePath()
-const templateInputCamera = useTemplateRef('inputCamera')
-const templateInputLibrary = useTemplateRef('inputLibrary')
 
 // validation
 await useSignInRequired()
@@ -84,29 +81,11 @@ useHeadDefault({ title: t('title') })
 // data
 const eventImported = useState<EventImported>(STATE_KEY_EVENT_IMPORTED)
 const isNoEvent = ref(false)
-const isPosterScanAvailable = ref(false)
 const isReading = ref(false)
+const posterPicked = usePosterPicked()
 const previewUrl = ref<string>()
-const selectedFile = ref<File>()
 
 // methods
-const getFileFromDataUrl = (dataUrl: string) => {
-  const binary = atob(dataUrl.split(',')[1] ?? '')
-
-  return new File(
-    [Uint8Array.from(binary, (character) => character.charCodeAt(0))],
-    'poster.jpg',
-    { type: 'image/jpeg' },
-  )
-}
-const handleFileSelect = (event: Event) => {
-  const file = (event.target as HTMLInputElement).files?.[0]
-
-  if (file) selectFile(file)
-}
-const handlePosterFromApp = ({ detail }: CustomEvent<string>) => {
-  if (detail) selectFile(getFileFromDataUrl(detail))
-}
 const readFileAsBase64 = (file: File) =>
   new Promise<string>((resolve, reject) => {
     const reader = new FileReader()
@@ -120,15 +99,17 @@ const readFileAsBase64 = (file: File) =>
     reader.onerror = () => reject(reader.error)
     reader.readAsDataURL(file)
   })
-const readPoster = async () => {
-  if (!selectedFile.value) return
+const readPoster = async (file: File) => {
+  // avoid memory leaks
+  if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
 
+  previewUrl.value = URL.createObjectURL(file)
   isReading.value = true
   isNoEvent.value = false
 
   try {
     const { output } = await $csrfFetch('/api/model/event/ingest/image', {
-      body: { base64Image: await readFileAsBase64(selectedFile.value) },
+      body: { base64Image: await readFileAsBase64(file) },
       method: 'POST',
     })
 
@@ -155,42 +136,28 @@ const readPoster = async () => {
     isReading.value = false
   }
 }
-const selectFile = (file: File) => {
-  // avoid memory leaks
-  if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
-
-  isNoEvent.value = false
-  previewUrl.value = URL.createObjectURL(file)
-  selectedFile.value = file
-}
-const takePhoto = () => {
-  if (isPosterScanAvailable.value) {
-    window.webkit?.messageHandlers['poster-scan']?.postMessage('poster-scan')
-  } else {
-    triggerFileInput(templateInputCamera.value)
-  }
-}
-const triggerFileInput = (input: HTMLInputElement | null) => {
-  if (!input) return
-
-  input.value = ''
-  input.click()
-}
 
 // lifecycle
-// the iOS app scans posters with its document camera and hands over posters shared to it from other apps
+const { isCameraAvailable, pickFromCamera, pickFromLibrary } =
+  usePosterPicker(readPoster)
+
+// the iOS app hands over posters shared to it from other apps
 onMounted(() => {
-  isPosterScanAvailable.value =
-    window.webkit?.messageHandlers?.['poster-scan'] !== undefined
   window.webkit?.messageHandlers?.['poster-shared-request']?.postMessage(
     'poster-shared-request',
   )
+
+  // a poster picked on the dashboard is read right away
+  const file = posterPicked.value
+
+  if (file) {
+    posterPicked.value = undefined
+    readPoster(file)
+  }
 })
-useEventListener('poster-scan-error', () =>
-  alertError({ messageI18n: t('errorScanFailed') }),
-)
-useEventListener('poster-scan-result', handlePosterFromApp)
-useEventListener('poster-shared', handlePosterFromApp)
+onBeforeUnmount(() => {
+  if (previewUrl.value) URL.revokeObjectURL(previewUrl.value)
+})
 </script>
 
 <i18n lang="yaml">
@@ -200,10 +167,11 @@ de:
   errorLimitReached: Du hast heute die maximale Anzahl an Plakaten gelesen. Versuche es morgen erneut.
   errorModerated: Das Foto enthält Inhalte, die nicht verarbeitet werden können.
   errorReadFailed: Das Plakat konnte nicht gelesen werden.
-  errorScanFailed: Das Plakat konnte nicht gescannt werden.
   noEvent: Auf diesem Foto wurde keine Veranstaltung gefunden. Probiere ein anderes Foto.
+  or: ODER
   preview: Vorschau
-  readPoster: Plakat lesen
+  provideLink: Link zu einer Webseite angeben
+  reading: Plakat wird gelesen…
   takePhoto: Foto aufnehmen
   title: Plakatjagd
 en:
@@ -212,10 +180,11 @@ en:
   errorLimitReached: You have reached today's maximum number of poster readings. Try again tomorrow.
   errorModerated: The photo contains content that cannot be processed.
   errorReadFailed: The poster could not be read.
-  errorScanFailed: The poster could not be scanned.
   noEvent: No event found on this photo. Try another photo.
+  or: OR
   preview: Preview
-  readPoster: Read poster
+  provideLink: Provide link to website
+  reading: Reading poster…
   takePhoto: Take photo
   title: Poster hunting
 </i18n>
