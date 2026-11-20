@@ -30,6 +30,7 @@ const PAGE_PATHS_DYNAMIC: Record<string, string> = {
   '/event/view/[username]': `/event/view/${TESTING_ACCOUNT_USERNAME}`,
   '/event/view/[username]/[event_name]': EVENT_VIEW_PATH,
   '/event/view/[username]/[event_name]/attendance': `${EVENT_VIEW_PATH}/attendance`,
+  '/event/view/[username]/[event_name]/attendance/scan': `${EVENT_VIEW_PATH}/attendance/scan`,
   '/event/view/[username]/[event_name]/guest': `${EVENT_VIEW_PATH}/guest`,
   '/guest/view/[id]': `/guest/view/${TESTING_GUEST_ROW_ID}`,
 }
