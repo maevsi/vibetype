@@ -1,9 +1,10 @@
 <template>
   <div
     v-if="isVisible"
+    ref="screenElement"
     :aria-labelledby="titleId"
     aria-modal="true"
-    class="fixed inset-0 z-2000 flex flex-col overflow-y-auto bg-surface"
+    class="fixed inset-0 z-2000 flex flex-col overflow-y-auto overscroll-contain bg-surface"
     data-testid="consent-screen"
     role="dialog"
   >
@@ -29,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { FocusScope } from 'reka-ui'
+import { FocusScope, useBodyScrollLock } from 'reka-ui'
 import { isEqual } from 'ufo'
 
 const { t } = useI18n()
@@ -44,6 +45,39 @@ const isVisible = computed(
     !isDecided.value &&
     !isEqual(route.path, localePath('docs-legal-imprint').toString()) &&
     !isEqual(route.path, localePath('docs-legal-privacy').toString()),
+)
+
+const screenElement = useTemplateRef<HTMLElement>('screenElement')
+const isScrollLocked = useBodyScrollLock()
+
+// the page underneath neither scrolls nor takes focus or assistive technology's attention
+watch(
+  [isVisible, screenElement],
+  ([isVisibleCurrent, screenElementCurrent], _previous, onCleanup) => {
+    isScrollLocked.value = isVisibleCurrent
+
+    if (!isVisibleCurrent || !screenElementCurrent) return
+
+    const siblings: Element[] = []
+
+    for (
+      let node: Element | null = screenElementCurrent;
+      node && node !== document.body;
+      node = node.parentElement
+    ) {
+      for (const sibling of node.parentElement?.children ?? []) {
+        if (sibling !== node && !sibling.hasAttribute('inert')) {
+          sibling.setAttribute('inert', '')
+          siblings.push(sibling)
+        }
+      }
+    }
+
+    onCleanup(() => {
+      for (const sibling of siblings) sibling.removeAttribute('inert')
+    })
+  },
+  { flush: 'post' },
 )
 </script>
 
