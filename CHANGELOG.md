@@ -1,3 +1,9 @@
+## [17.26.0](https://github.com/maevsi/vibetype/compare/17.25.0...17.26.0) (2026-11-20)
+
+### Features
+
+* **preference:** adapt the setup flow to the b4 design ([#2726](https://github.com/maevsi/vibetype/issues/2726)) ([b8bbbe9](https://github.com/maevsi/vibetype/commit/b8bbbe9a5342721026e403f20493d7a97edc2efd))
+
 ## [17.25.0](https://github.com/maevsi/vibetype/compare/17.24.0...17.25.0) (2026-11-19)
 
 ### Features
