@@ -1,3 +1,13 @@
+## [18.0.0-beta.9](https://github.com/maevsi/vibetype/compare/18.0.0-beta.8...18.0.0-beta.9) (2026-11-20)
+
+### ⚠ BREAKING CHANGES
+
+* **event:** list attended events (#2758)
+
+### Features
+
+* **event:** list attended events ([#2758](https://github.com/maevsi/vibetype/issues/2758)) ([7f1cb11](https://github.com/maevsi/vibetype/commit/7f1cb11608cef895fa8623c4733197bda2b93851))
+
 ## [18.0.0-beta.8](https://github.com/maevsi/vibetype/compare/18.0.0-beta.7...18.0.0-beta.8) (2026-11-20)
 
 ### ⚠ BREAKING CHANGES
