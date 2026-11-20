@@ -90,9 +90,9 @@ const { t } = useI18n()
 de:
   contactEdit: Kontakt bearbeiten
   contactDelete: Kontakt löschen
-  disabledReasonCreatorNot: 'Dieser Kontakt wird von {creatorUsername} verwaltet.'
+  disabledReasonCreatorNot: "Dieser Kontakt wird von {'@'}{creatorUsername} verwaltet."
 en:
   contactEdit: Edit contact
   contactDelete: Delete contact
-  disabledReasonCreatorNot: This contact is managed by {creatorUsername}.
+  disabledReasonCreatorNot: This contact is managed by {'@'}{creatorUsername}.
 </i18n>

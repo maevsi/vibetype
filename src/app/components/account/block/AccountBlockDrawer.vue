@@ -180,8 +180,8 @@ const { t } = useI18n()
 de:
   accountsBlocked: Zur Blockliste
   blockAccount: Benutzer blockieren
-  blockAccountConfirmation: Der Benutzer {username} wurde blockiert.
-  blockAccountQuestion: Möchtest du {username} wirklich blockieren? Du wirst keine Einladungen mehr von diesem Benutzer erhalten.
+  blockAccountConfirmation: Der Benutzer {'@'}{username} wurde blockiert.
+  blockAccountQuestion: Möchtest du {'@'}{username} wirklich blockieren? Du wirst keine Einladungen mehr von diesem Benutzer erhalten.
   cancel: Abbrechen
   confirmBlock: Ja, blockieren
   error: Fehler
@@ -191,8 +191,8 @@ de:
 en:
   accountsBlocked: To blocklist
   blockAccount: Block User
-  blockAccountConfirmation: The user {username} has been blocked.
-  blockAccountQuestion: Do you really want to block {username}? You will no longer get invitations from this user.
+  blockAccountConfirmation: The user {'@'}{username} has been blocked.
+  blockAccountQuestion: Do you really want to block {'@'}{username}? You will no longer get invitations from this user.
   cancel: Cancel
   confirmBlock: Yes, block user
   error: Error

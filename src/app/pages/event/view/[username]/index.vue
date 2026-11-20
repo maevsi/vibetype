@@ -16,7 +16,7 @@
                 })
               "
             >
-              {{ route.params.username }}
+              {{ `@${route.params.username}` }}
             </AppLink>
           </template>
         </i18n-t>
@@ -105,7 +105,7 @@ const queryEventListAccount = graphql(`
 // page
 const { t } = useI18n()
 const route = useRoute()
-const title = t('title', { name: route.params.username })
+const title = t('title', { name: `@${route.params.username}` })
 useHeadDefault({
   ogType: 'profile',
   profileUsername: route.params.username,

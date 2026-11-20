@@ -21,7 +21,7 @@
                 width="48"
               />
               <span class="text-headline">
-                {{ blockedAccount.username }}
+                {{ `@${blockedAccount.username}` }}
               </span>
             </div>
             <AppButton
