@@ -187,7 +187,7 @@ de:
   title: Benutzer entsperren
   toProfile: Zum Profil
   unblock: Ja, entsperren
-  unblockAccountConfirmation: Der Benutzer {username} wurde entsperrt.
+  unblockAccountConfirmation: Der Benutzer {'@'}{username} wurde entsperrt.
   unblockAccountQuestion: Möchtest du den Nutzer wirklich entsperren? Er wird dir wieder Einladungen senden können.
   userUnblocked: Benutzer entsperrt
 en:
@@ -200,7 +200,7 @@ en:
   title: Unblock user
   toProfile: To profile
   unblock: Yes, unblock
-  unblockAccountConfirmation: The user {username} has been unblocked.
+  unblockAccountConfirmation: The user {'@'}{username} has been unblocked.
   unblockAccountQuestion: Do you really want to unblock the user? They will be able to send you invitations again.
   userUnblocked: User unblocked
 </i18n>
