@@ -221,6 +221,12 @@
 
             This data is provided to us by the registered user who creates the contact, not by the person it concerns. The legal basis for this processing is Art. 6 para. 1 lit. f GDPR. We have a legitimate interest, together with our registered users, in enabling them to organize and manage invitations to private events.
 
+            Registered users can enter a contact manually or import contacts, either by selecting them in their device's address book through the contact picker of the operating system or browser, or by choosing a contact file (vCard).
+            In both cases, the selection and the reading of the file take place on the registered user's device.
+            Only the contacts the registered user confirms are transmitted to us, and of those only the name, email address, and phone number.
+            We receive no ongoing access to the address book, and contact files are not uploaded to us.
+            Contacts without an email address are not imported.
+
             The registered user who creates or edits a contact assures us that they are entitled to share the respective person's data with us, in particular that a legal basis for doing so exists under applicable data protection law, and indemnifies us against claims and administrative fines arising from data shared without such authorization. Further details can be found in our Terms of Use.
 
             The data is deleted once the registered user removes the contact, or, at the latest, when the registered user's own account is deleted in accordance with § 11 of the Terms of Use.
