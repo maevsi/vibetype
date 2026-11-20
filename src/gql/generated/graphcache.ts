@@ -55,6 +55,8 @@ export type Account = Node & {
   devicesByCreatedBy: DeviceConnection
   /** Reads and enables pagination through a set of `Device`. */
   devicesByUpdatedBy: DeviceConnection
+  /** The account's display name, shown in place of the username where set. Must be between 1 and 100 characters. */
+  displayName?: Maybe<Scalars['String']['output']>
   /** Reads and enables pagination through a set of `EventApp`. */
   eventAppsByCreatedBy: EventAppConnection
   /** Reads and enables pagination through a set of `EventFavorite`. */
@@ -683,6 +685,8 @@ export type AccountPasswordResetRequestPayload = {
 export type AccountPatch = {
   /** The account's description. Must not exceed 1,000 characters. */
   description?: InputMaybe<Scalars['String']['input']>
+  /** The account's display name, shown in place of the username where set. Must be between 1 and 100 characters. */
+  displayName?: InputMaybe<Scalars['String']['input']>
   /** The account's imprint URL. Must start with "https://" and not exceed 2,000 characters. */
   imprintUrl?: InputMaybe<Scalars['String']['input']>
 }
@@ -8966,6 +8970,11 @@ export type GraphCacheResolvers = {
       AccountDevicesByUpdatedByArgs,
       WithTypename<DeviceConnection> | string
     >
+    displayName?: GraphCacheResolver<
+      WithTypename<Account>,
+      Record<string, never>,
+      Scalars['String']['output'] | string
+    >
     eventAppsByCreatedBy?: GraphCacheResolver<
       WithTypename<Account>,
       AccountEventAppsByCreatedByArgs,
@@ -14852,6 +14861,10 @@ export type GraphCacheUpdaters = {
     devicesByUpdatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,
       AccountDevicesByUpdatedByArgs
+    >
+    displayName?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Account>>,
+      Record<string, never>
     >
     eventAppsByCreatedBy?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Account>>,

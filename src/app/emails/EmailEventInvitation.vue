@@ -7,6 +7,7 @@ import Email from './components/Email.vue'
 const {
   emailAddress,
   eventAttendanceType,
+  eventAuthorDisplayName = undefined,
   eventAuthorProfileHref,
   eventAuthorProfilePictureSrc,
   eventAuthorUsername,
@@ -21,6 +22,7 @@ const {
 } = defineProps<{
   emailAddress: string
   eventAttendanceType: string
+  eventAuthorDisplayName?: string
   eventAuthorProfileHref: string
   eventAuthorProfilePictureSrc: string
   eventAuthorUsername: string
@@ -33,6 +35,8 @@ const {
   locale: AppLocale
   timeZone?: string
 }>()
+
+const eventAuthorName = eventAuthorDisplayName || eventAuthorUsername
 
 const dateTimeFormatter = getEmailDateTimeFormatter(locale, timeZone)
 const durationFormatter = new Intl.DurationFormat(locale, {
@@ -109,7 +113,7 @@ const t = locales[locale]
               text-align: center;
             "
           >
-            {{ t.header(eventAuthorUsername) }}
+            {{ t.header(eventAuthorName) }}
           </AppText>
         </EColumn>
       </ERow>
@@ -188,7 +192,7 @@ const t = locales[locale]
             {{ t.createdBy }}
           </AppText>
           <AppText style="line-height: 9px">
-            {{ eventAuthorUsername }}
+            {{ eventAuthorName }}
           </AppText>
         </EColumn>
       </ERow>

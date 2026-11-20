@@ -64,6 +64,8 @@ export type AccountPasswordResetRequestInput = {
 export type AccountPatch = {
   /** The account's description. Must not exceed 1,000 characters. */
   description?: string | null | undefined
+  /** The account's display name, shown in place of the username where set. Must be between 1 and 100 characters. */
+  displayName?: string | null | undefined
   /** The account's imprint URL. Must start with "https://" and not exceed 2,000 characters. */
   imprintUrl?: string | null | undefined
 }
@@ -966,7 +968,12 @@ export type AccountSearchQueryVariables = Exact<{
 
 export type AccountSearchQuery = {
   accountSearch: {
-    nodes: Array<{ id: string; rowId: string; username: string }>
+    nodes: Array<{
+      displayName: string | null
+      id: string
+      rowId: string
+      username: string
+    }>
     pageInfo: { endCursor: string | null; hasNextPage: boolean }
   } | null
 }
@@ -1818,12 +1825,14 @@ export type JwtUpdateGuestAddGuestMutation = {
 }
 
 export type AccountEditQueryVariables = Exact<{
+  accountId?: string | null | undefined
   username: string
 }>
 
 export type AccountEditQuery = {
   accountByUsername: {
     description: string | null
+    displayName: string | null
     id: string
     imprintUrl: string | null
     rowId: string
@@ -1837,6 +1846,13 @@ export type AccountEditQuery = {
         storageKey: string | null
       } | null
     } | null
+  } | null
+  allContacts: {
+    nodes: Array<{
+      firstName: string | null
+      id: string
+      lastName: string | null
+    }>
   } | null
 }
 
@@ -1867,6 +1883,7 @@ export type UpdateAccountByRowIdMutation = {
   updateAccountByRowId: {
     account: {
       description: string | null
+      displayName: string | null
       id: string
       imprintUrl: string | null
       rowId: string
@@ -1901,6 +1918,7 @@ export type AccountQueryVariables = Exact<{
 export type AccountQuery = {
   accountByUsername: {
     description: string | null
+    displayName: string | null
     id: string
     imprintUrl: string | null
     rowId: string
@@ -2279,6 +2297,7 @@ export type EventQuery = {
         url: string | null
         visibility: EventVisibility
         accountByCreatedBy: {
+          displayName: string | null
           id: string
           rowId: string
           username: string
@@ -2437,7 +2456,12 @@ export type GuestEventQuery = {
       start: string
       url: string | null
       visibility: EventVisibility
-      accountByCreatedBy: { id: string; rowId: string; username: string } | null
+      accountByCreatedBy: {
+        displayName: string | null
+        id: string
+        rowId: string
+        username: string
+      } | null
       addressByAddressId: {
         city: string | null
         country: string | null
@@ -3420,6 +3444,10 @@ export const AccountSearchDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'displayName' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                       {
@@ -9256,6 +9284,14 @@ export const AccountEditDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
+            name: { kind: 'Name', value: 'accountId' },
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
             name: { kind: 'Name', value: 'username' },
           },
           type: {
@@ -9287,6 +9323,7 @@ export const AccountEditDocument = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'imprintUrl' } },
                 {
@@ -9323,6 +9360,65 @@ export const AccountEditDocument = {
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allContacts' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'accountId' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'createdBy' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'accountId' },
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'IntValue', value: '1' },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'firstName' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lastName' },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -9487,6 +9583,10 @@ export const UpdateAccountByRowIdDocument = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'description' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'displayName' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
@@ -9693,6 +9793,7 @@ export const AccountDocument = {
                   },
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'displayName' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'profilePictureByAccountId' },
@@ -11978,6 +12079,13 @@ export const EventDocument = {
                                 selections: [
                                   {
                                     kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'displayName',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'id' },
                                   },
                                   {
@@ -13034,6 +13142,10 @@ export const GuestEventDocument = {
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'displayName' },
+                            },
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
