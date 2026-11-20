@@ -29,15 +29,24 @@
               >
                 <AppIconEdit class="size-5" />
               </AppButton>
-              <AppButton
-                :aria-label="t('settings')"
-                class="size-11 justify-center rounded-full bg-surface hover:bg-line"
-                size="none"
-                :to="localePath({ name: 'session-edit' })"
-                variant="ghost"
-              >
-                <AppIconSettings class="size-5" />
-              </AppButton>
+              <AppDropdown>
+                <AppDropdownItem
+                  @select="navigateTo(localePath({ name: 'session-edit' }))"
+                >
+                  {{ t('settings') }}
+                </AppDropdownItem>
+                <AppDropdownItem variant="destructive" @select="signOutToRoot">
+                  {{ t('logout') }}
+                </AppDropdownItem>
+                <template #trigger>
+                  <span
+                    class="flex size-11 items-center justify-center rounded-full bg-surface hover:bg-line"
+                  >
+                    <span class="sr-only">{{ t('more') }}</span>
+                    <AppIconMoreVertical />
+                  </span>
+                </template>
+              </AppDropdown>
             </div>
             <template v-else>
               <div
@@ -190,35 +199,20 @@
               <h2 class="text-title3 text-balance">
                 {{ t('events') }}
               </h2>
-              <AppButton
-                v-if="isOwnProfile"
-                :aria-label="t('newEvent')"
-                class="data-[size=large]:gap-2 data-[type=primary]:px-4.5 data-[type=primary]:py-2"
-                :to="localePath('event-create')"
+              <AppLink
+                v-if="account.eventsByCreatedBy.totalCount > 3"
+                class="text-body-small text-link hover:text-link-hover"
+                :to="
+                  localePath({
+                    name: 'event-view-username',
+                    params: { username: route.params.username },
+                  })
+                "
               >
-                <span class="text-body">
-                  {{ t('newEvent') }}
-                </span>
-                <AppIconAdd />
-              </AppButton>
+                {{ t('eventMore') }}
+              </AppLink>
             </div>
             <EventCard v-for="event in events" :key="event.rowId" :event />
-            <AppButton
-              v-if="account.eventsByCreatedBy.totalCount > 3"
-              :aria-label="t('eventMore')"
-              :to="
-                localePath({
-                  name: 'event-view-username',
-                  params: { username: route.params.username },
-                })
-              "
-              variant="tertiary"
-            >
-              {{ t('eventMore') }}
-              <template #suffix>
-                <AppIconChevronDown />
-              </template>
-            </AppButton>
           </div>
           <div class="flex flex-col gap-3">
             <h2 class="px-2 text-title3 text-balance">
@@ -425,6 +419,7 @@ defineOgImage(
 // template
 const localePath = useLocalePath()
 const isBlockDrawerOpen = ref<boolean>()
+const signOutToRoot = useSignOutToRoot()
 const friendAvatars = [
   { left: '10px', top: '0px', transform: 'rotate(-8deg)' },
   { left: '28px', top: '5px', transform: 'rotate(5deg)' },
@@ -441,13 +436,14 @@ de:
   blockAccount: Konto blockieren
   contactBook: Kontaktbuch
   edit: Profil bearbeiten
-  eventMore: Mehr…
+  eventMore: Alle ansehen
   events: Events
   friendAdd: Freundschaftsanfrage senden
   friends: Freunde
   imprint: Impressum
+  logout: Abmelden
+  more: Mehr
   myProfile: Mein Profil
-  newEvent: Neues Event
   ogImageAlt: Das Profilbild des Kontos.
   profile: Profil
   settings: Einstellungen
@@ -461,13 +457,14 @@ en:
   blockAccount: Block Account
   contactBook: Contact Book
   edit: Edit profile
-  eventMore: Show more
+  eventMore: See all
   events: Events
   friendAdd: Send friend request
   friends: Friends
   imprint: Imprint
+  logout: Log Out
+  more: More
   myProfile: My Profile
-  newEvent: New event
   ogImageAlt: The account's profile picture.
   profile: Profile
   settings: Settings
