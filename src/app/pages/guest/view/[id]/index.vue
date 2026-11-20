@@ -128,6 +128,7 @@
                     {{ event.name }}
                   </h1>
                   <EventOwner
+                    :display-name="event.accountByCreatedBy.displayName"
                     link
                     :username="event.accountByCreatedBy.username"
                   />
@@ -348,6 +349,7 @@ const eventQuery = useApiQuery({
         }
         eventByEventId {
           accountByCreatedBy {
+            displayName
             id
             rowId
             username

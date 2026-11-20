@@ -108,7 +108,11 @@
             <h1 class="m-0 text-title3">
               {{ event.name }}
             </h1>
-            <EventOwner link :username="event.accountByCreatedBy.username" />
+            <EventOwner
+              :display-name="event.accountByCreatedBy.displayName"
+              link
+              :username="event.accountByCreatedBy.username"
+            />
           </div>
           <AppButtonGroup
             v-if="!routeQueryIc && event.createdBy === store.signedInAccountId"
@@ -250,6 +254,7 @@ const eventQuery = useApiQuery({
         eventsByCreatedBy(condition: { slug: $slug }) {
           nodes {
             accountByCreatedBy {
+              displayName
               id
               rowId
               username
@@ -423,7 +428,11 @@ defineEvent({
         : undefined,
   name: event.value?.name,
   organizer: event.value?.accountByCreatedBy
-    ? definePerson({ name: event.value.accountByCreatedBy.username })
+    ? definePerson({
+        name:
+          event.value.accountByCreatedBy.displayName ||
+          event.value.accountByCreatedBy.username,
+      })
     : undefined,
   startDate: event.value?.start,
 })

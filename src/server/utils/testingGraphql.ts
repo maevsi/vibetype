@@ -6,6 +6,7 @@ const getNodeId = (typeName: string, ...keys: string[]) =>
   btoa([typeName, ...keys].join(':'))
 
 const ACCOUNT = {
+  displayName: null,
   id: TESTING_ACCOUNT_ID,
   rowId: TESTING_ACCOUNT_ROW_ID,
   username: TESTING_ACCOUNT_USERNAME,
@@ -321,6 +322,7 @@ export const getTestingGraphqlResult = async ({
               __typename: 'AchievementConnection',
             },
             description: TESTING_ACCOUNT_DESCRIPTION,
+            displayName: ACCOUNT.displayName,
             eventsByCreatedBy: {
               nodes: [EVENT_LIST_ITEM],
               totalCount: 1,
@@ -378,6 +380,10 @@ export const getTestingGraphqlResult = async ({
             description: TESTING_ACCOUNT_DESCRIPTION,
             imprintUrl: null,
             profilePictureByAccountId: null,
+          },
+          allContacts: {
+            nodes: [],
+            __typename: 'ContactConnection',
           },
         },
       }
@@ -878,6 +884,7 @@ export const getTestingGraphqlResult = async ({
           input: z.object({
             accountPatch: z.object({
               description: z.string().nullish(),
+              displayName: z.string().nullish(),
               imprintUrl: z.string().nullish(),
             }),
           }),
@@ -892,6 +899,10 @@ export const getTestingGraphqlResult = async ({
                 'description' in input.accountPatch
                   ? input.accountPatch.description
                   : TESTING_ACCOUNT_DESCRIPTION,
+              displayName:
+                'displayName' in input.accountPatch
+                  ? input.accountPatch.displayName
+                  : ACCOUNT.displayName,
               id: ACCOUNT.id,
               imprintUrl: input.accountPatch.imprintUrl ?? null,
               rowId: ACCOUNT.rowId,

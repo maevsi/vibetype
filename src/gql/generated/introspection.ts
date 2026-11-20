@@ -840,6 +840,14 @@ export default {
             ],
           },
           {
+            name: 'displayName',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
             name: 'eventAppsByCreatedBy',
             type: {
               kind: 'NON_NULL',

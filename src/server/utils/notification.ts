@@ -66,6 +66,7 @@ type EventInvitationEvent = {
         timeZone: string | null
       }
       event: Event
+      eventCreatorDisplayName?: string | null
       eventCreatorProfilePictureUploadStorageKey: string
       eventCreatorUsername: string
       guest: {
@@ -347,6 +348,7 @@ export const sendEventInvitationMail = async ({
     contact,
     event,
     guest,
+    eventCreatorDisplayName,
     eventCreatorProfilePictureUploadStorageKey,
     eventCreatorUsername,
   } = payloadCamelCased.data
@@ -436,7 +438,7 @@ export const sendEventInvitationMail = async ({
   await sendEmail({
     rateLimitPerDay,
     mailOptions: {
-      fromName: eventCreatorUsername,
+      fromName: eventCreatorDisplayName || eventCreatorUsername,
       ...(icalText
         ? {
             icalEvent: {
@@ -453,6 +455,7 @@ export const sendEventInvitationMail = async ({
     props: {
       emailAddress,
       eventAttendanceType,
+      eventAuthorDisplayName: eventCreatorDisplayName ?? undefined,
       eventAuthorProfileHref: `${siteUrl}${getLocalePrefix(language)}/account/view/${eventCreatorUsername}`,
       eventAuthorProfilePictureSrc: eventCreatorProfilePictureUploadStorageKey
         ? tusdFilesUrl + eventCreatorProfilePictureUploadStorageKey
