@@ -52,34 +52,28 @@
           </li>
         </template>
         <li class="relative box-border border-4 border-transparent">
-          <AppButton
-            :aria-label="
-              t('iconAdd', {
-                sizeUsed: bytesToString(sizeByteTotal),
-                sizeTotal: bytesToString(accountUploadQuotaBytes),
-              })
-            "
-            class="flex size-32 justify-center bg-surface-raised"
-            size="none"
+          <AppInputFile
+            accept="image/*"
+            class="size-32 rounded-medium p-0"
             :title="
               t('iconAdd', {
                 sizeUsed: bytesToString(sizeByteTotal),
                 sizeTotal: bytesToString(accountUploadQuotaBytes),
               })
             "
-            variant="ghost"
-            @click="selectProfilePicture"
+            @click="onProfilePictureClick"
+            @select="onProfilePictureSelect"
           >
             <AppIconPlusSolid class="size-12 text-fg-2" />
-          </AppButton>
-          <input
-            ref="inputProfilePicture"
-            accept="image/*"
-            hidden
-            name="input-profile-picture"
-            type="file"
-            @change="loadProfilePicture"
-          />
+            <span class="sr-only">
+              {{
+                t('iconAdd', {
+                  sizeUsed: bytesToString(sizeByteTotal),
+                  sizeTotal: bytesToString(accountUploadQuotaBytes),
+                })
+              }}
+            </span>
+          </AppInputFile>
         </li>
       </ul>
       <div
@@ -149,10 +143,10 @@ const runtimeConfig = useRuntimeConfig()
 const TUSD_FILES_URL = useTusdFilesUrl()
 const localePath = useLocalePath()
 const templateCropper = useTemplateRef('cropper')
-const templateInputProfilePicture = useTemplateRef('inputProfilePicture')
 
 // data
 const after = ref<string | null>()
+const fileSelected = ref<File>()
 const fileSelectedUrl = ref<string>()
 const fileSelectedMimeType = ref<string>()
 const isDeleteDrawerOpen = ref(false)
@@ -260,14 +254,26 @@ const initStretcher = ({
   stretcher.style.height = `${cropper.parentElement?.clientHeight}px`
   stretcher.style.width = `${cropper.parentElement?.clientWidth}px`
 }
-const selectProfilePicture = async () => {
-  const pathUpload = localePath('upload')
+const redirectToUpload = async () => {
+  await navigateTo(localePath('upload'))
+}
+const isOnUploadPage = () => route.path === localePath('upload').toString()
+// the picker only opens on the upload page, elsewhere the tile navigates there
+const onProfilePictureClick = async (event: Event) => {
+  if (isOnUploadPage()) return
 
-  if (route.path === pathUpload.toString()) {
-    templateInputProfilePicture.value?.click()
-  } else {
-    await navigateTo(pathUpload)
+  event.preventDefault()
+  await redirectToUpload()
+}
+const onProfilePictureSelect = async ([file]: File[]) => {
+  if (!file) return
+
+  if (!isOnUploadPage()) {
+    await redirectToUpload()
+    return
   }
+
+  loadProfilePicture(file)
 }
 const onDeleteSelect = (
   upload: Pick<(typeof uploads.value)[number], 'rowId'>,
@@ -296,15 +302,8 @@ const getMimeType = (file: ArrayBuffer, fallback?: string) => {
 }
 const getUploadImageSrc = (uploadStorageKey: string) =>
   TUSD_FILES_URL + uploadStorageKey
-const loadProfilePicture = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  const files = Array.from(target.files ?? [])
-
-  if (files.length !== 1) return
-
-  const file = files[0]
-
-  if (!file) return
+const loadProfilePicture = (file: File) => {
+  fileSelected.value = file
 
   if (fileSelectedUrl.value) {
     URL.revokeObjectURL(fileSelectedUrl.value)
@@ -339,7 +338,7 @@ const uploadBlob = async () => {
   const canvas = (
     templateCropper.value?.getResult() as CropperResult | undefined
   )?.canvas
-  const file = templateInputProfilePicture.value?.files?.[0]
+  const file = fileSelected.value
 
   if (!store.signedInAccountId || !canvas || !file)
     throw new Error(t('globalErrorNoData'))
