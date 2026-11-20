@@ -1,3 +1,9 @@
+## [17.29.0](https://github.com/maevsi/vibetype/compare/17.28.0...17.29.0) (2026-11-20)
+
+### Features
+
+* **event:** show my events with upcoming, past, hosting and saved views ([#2719](https://github.com/maevsi/vibetype/issues/2719)) ([10334bb](https://github.com/maevsi/vibetype/commit/10334bb41d58ee611525af4dc6c94bacd301f2a1))
+
 ## [17.28.0](https://github.com/maevsi/vibetype/compare/17.27.0...17.28.0) (2026-11-20)
 
 ### Features
