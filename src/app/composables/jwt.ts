@@ -90,6 +90,24 @@ export const useJwtDelete = () => {
   }
 }
 
+/** Deletes the session and sends the visitor to the home page. */
+export const useSignOutToRoot = () => {
+  const jwtDelete = useJwtDelete()
+  const localePath = useLocalePath()
+
+  return async () => {
+    await jwtDelete()
+    return navigateTo(
+      localePath({
+        name: 'index',
+        query: {
+          signOut: null,
+        },
+      }),
+    )
+  }
+}
+
 export const useJwtInitialize = async () => {
   const nuxtApp = useNuxtApp()
   const store = useStore()
