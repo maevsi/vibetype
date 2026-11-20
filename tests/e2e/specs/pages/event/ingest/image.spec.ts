@@ -146,13 +146,14 @@ authenticatedTest.describe('poster reading', () => {
       await expect.poll(() => base64Image).toBeTruthy()
 
       expect(
+        // decoded by an image element, as the content security policy forbids fetching data urls
         await page.locator('body').evaluate(async (body, image) => {
-          const bitmap =
-            await body.ownerDocument.defaultView?.createImageBitmap(
-              await (await fetch(`data:image/jpeg;base64,${image}`)).blob(),
-            )
+          const imageElement = body.ownerDocument.createElement('img')
 
-          return [bitmap?.width, bitmap?.height]
+          imageElement.src = `data:image/jpeg;base64,${image}`
+          await imageElement.decode()
+
+          return [imageElement.naturalWidth, imageElement.naturalHeight]
         }, base64Image),
       ).toEqual([2048, 512])
     },
