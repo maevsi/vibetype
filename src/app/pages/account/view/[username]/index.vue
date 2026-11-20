@@ -87,39 +87,42 @@
               {{ t('username', { username: route.params.username }) }}
             </h1>
           </div>
-          <div
-            class="grid grid-cols-[repeat(auto-fit,minmax(10rem,1fr))] gap-4"
-          >
-            <AppCard
-              class="relative flex flex-col items-center gap-1 p-5 has-focus-visible:focus-ring"
-              data-testid="events-card"
+          <!-- the stat cards only fill the row once friends exist, before that the event list below covers the same -->
+          <AppFeature feature="friends">
+            <div
+              class="grid grid-cols-[repeat(auto-fit,minmax(10rem,1fr))] gap-4"
             >
-              <div class="mb-3 flex h-16 items-center justify-center">
-                <AppIconToday class="size-10 text-fg-2" />
-              </div>
-              <span class="text-heading-large">
-                {{ account.eventsByCreatedBy.totalCount }}
-              </span>
-              <AppButton
-                :aria-label="t('events')"
-                class="focus-visible:ring-0"
-                size="none"
-                :to="
-                  localePath({
-                    name: 'event-view-username',
-                    params: { username: route.params.username },
-                  })
-                "
-                variant="ghost"
+              <AppCard
+                class="relative flex flex-col items-center gap-1 p-5 has-focus-visible:focus-ring"
+                data-testid="events-card"
               >
-                <!-- the overlay stretches the link over the whole card -->
-                <span class="absolute inset-0 z-10" />
-                <span class="text-body-small text-link">
-                  {{ t('events') }}
+                <div class="mb-3 flex h-16 items-center justify-center">
+                  <AppIconToday class="size-10 text-fg-2" />
+                </div>
+                <span class="text-heading-large">
+                  {{ account.eventsByCreatedBy.totalCount }}
                 </span>
-              </AppButton>
-            </AppCard>
-          </div>
+                <AppButton
+                  :aria-label="t('events')"
+                  class="focus-visible:ring-0"
+                  size="none"
+                  :to="
+                    localePath({
+                      name: 'event-view-username',
+                      params: { username: route.params.username },
+                    })
+                  "
+                  variant="ghost"
+                >
+                  <!-- the overlay stretches the link over the whole card -->
+                  <span class="absolute inset-0 z-10" />
+                  <span class="text-body-small text-link">
+                    {{ t('events') }}
+                  </span>
+                </AppButton>
+              </AppCard>
+            </div>
+          </AppFeature>
           <AppFeature feature="friends">
             <AppButton
               v-if="store.signedInUsername !== route.params.username"
