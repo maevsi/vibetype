@@ -88,15 +88,11 @@
         </AppButton>
       </div>
     </AppCard>
-    <AppModal
-      v-model="isModalUploadGalleryOpen"
-      :is-submitting="isUploadSubmitting"
-      :submit-name="t('upload')"
-      @submit="onUploadSubmit"
-    >
+    <AppDrawer v-model="isDrawerUploadGalleryOpen">
       <Cropper
         ref="cropper"
         class="h-[60dvh]"
+        data-vaul-no-drag
         :default-size="({ imageSize }: { imageSize: Size }) => imageSize"
         :init-stretcher
         :src="fileSelectedUrl"
@@ -104,9 +100,18 @@
       <AppAlert v-if="uploadSubmitErrors" class="mb-4" variant="error">
         <AppSpanList :span="uploadSubmitErrors" />
       </AppAlert>
-      <template #header>{{ t('uploadNew') }}</template>
-      <template #submit-icon><AppIconArrowUpTray /></template>
-    </AppModal>
+      <template #title>{{ t('uploadNew') }}</template>
+      <template #footer>
+        <AppButton
+          :aria-label="t('upload')"
+          :loading="isUploadSubmitting"
+          @click="onUploadSubmit"
+        >
+          {{ t('upload') }}
+          <template #prefix><AppIconArrowUpTray /></template>
+        </AppButton>
+      </template>
+    </AppDrawer>
     <UploadDeleteDrawer
       v-if="uploadToDelete"
       v-model:open="isDeleteDrawerOpen"
@@ -150,7 +155,7 @@ const fileSelected = ref<File>()
 const fileSelectedUrl = ref<string>()
 const fileSelectedMimeType = ref<string>()
 const isDeleteDrawerOpen = ref(false)
-const isModalUploadGalleryOpen = ref<boolean>()
+const isDrawerUploadGalleryOpen = ref<boolean>()
 const isUploadSubmitting = ref(false)
 const uploadSubmitErrors = ref()
 const uploadToDelete = ref<{
@@ -318,7 +323,7 @@ const loadProfilePicture = (file: File) => {
         e.target?.result as ArrayBuffer,
         file.type,
       )
-      isModalUploadGalleryOpen.value = true
+      isDrawerUploadGalleryOpen.value = true
     }
     fileReader.readAsDataURL(file)
   } catch (error) {
@@ -417,7 +422,7 @@ const onUploadSubmit = async () => {
 
   try {
     await uploadBlob()
-    isModalUploadGalleryOpen.value = false
+    isDrawerUploadGalleryOpen.value = false
   } catch (errorsLocal) {
     uploadSubmitErrors.value = [
       errorsLocal instanceof Error ? errorsLocal.message : String(errorsLocal),
