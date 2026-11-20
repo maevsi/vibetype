@@ -5,7 +5,10 @@
     class="flex w-full max-w-2xl items-center gap-3 self-center px-4 pt-6 empty:hidden"
     data-slot="top-bar"
   >
-    <h1 v-if="$slots.default" class="m-0 flex-1 text-heading-large">
+    <h1
+      v-if="$slots.default"
+      class="m-0 min-w-0 flex-1 text-heading-large wrap-anywhere"
+    >
       <slot />
     </h1>
     <slot name="actions" />
@@ -20,7 +23,10 @@
           <ButtonIconBackRoute />
         </slot>
       </div>
-      <h1 v-if="$slots.default" class="m-0 flex-1 text-center">
+      <h1
+        v-if="$slots.default"
+        class="m-0 min-w-0 flex-1 text-center wrap-anywhere"
+      >
         <span class="text-title3 text-balance">
           <slot />
         </span>

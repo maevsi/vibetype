@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex h-screen flex-col"
+    class="flex h-full flex-col"
     :data-is-loading="isLoading"
     data-testid="is-loading"
     vaul-drawer-wrapper

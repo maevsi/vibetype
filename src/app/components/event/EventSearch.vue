@@ -3,10 +3,13 @@
     <div
       class="sticky top-0 z-10 -mx-4 -mt-4 flex gap-2 bg-glass px-4 py-4 backdrop-blur-xl"
     >
-      <AppInputSearch v-model="searchQuery" class="h-12 flex-1" />
+      <div class="min-w-0 flex-1">
+        <AppInputSearch v-model="searchQuery" class="h-12" />
+      </div>
       <AppButton
         :aria-label="t('map')"
         :aria-pressed="isMapVisible"
+        class="shrink-0"
         size="icon"
         :variant="isMapVisible ? 'primary' : 'secondary'"
         @click="isMapVisible = !isMapVisible"
