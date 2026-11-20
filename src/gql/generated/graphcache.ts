@@ -3553,14 +3553,16 @@ export type EventCondition = {
   addressId?: InputMaybe<Scalars['UUID']['input']>
   /** Checks for equality with the object’s `createdBy` field. */
   createdBy?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `end` field. */
-  end?: InputMaybe<Scalars['Datetime']['input']>
   /** Events ending before this instant, exclusive, where an event without an end ends at its start. */
   endsBefore?: InputMaybe<Scalars['Datetime']['input']>
   /** Events ending at or after this instant, inclusive, where an event without an end ends at its start. */
   endsFrom?: InputMaybe<Scalars['Datetime']['input']>
   /** Whether the event has ended, judged by its end, or by its start if it has no end, against the database clock. */
   hasEnded?: InputMaybe<Scalars['Boolean']['input']>
+  /** Whether the invoker attends the event, that is whether one of their contacts accepted a guest invitation to it. Combine with `hasEnded` to split upcoming from past events. */
+  isAttending?: InputMaybe<Scalars['Boolean']['input']>
+  /** Whether the invoker is invited to the event, that is whether they claimed one of its guest invitations or one of their contacts was invited to it, whatever the feedback. Combine with `hasEnded` to split upcoming from past invitations. */
+  isInvited?: InputMaybe<Scalars['Boolean']['input']>
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `rowId` field. */
@@ -4309,184 +4311,6 @@ export type GuestEdge = {
   cursor?: Maybe<Scalars['Cursor']['output']>
   /** The `Guest` at the end of the edge. */
   node: Guest
-}
-
-/** View returning flattened guests. */
-export type GuestFlat = {
-  __typename?: 'GuestFlat'
-  contactAccountId?: Maybe<Scalars['UUID']['output']>
-  contactAddressId?: Maybe<Scalars['UUID']['output']>
-  contactCreatedBy?: Maybe<Scalars['UUID']['output']>
-  contactEmailAddress?: Maybe<Scalars['String']['output']>
-  contactEmailAddressHash?: Maybe<Scalars['String']['output']>
-  contactFirstName?: Maybe<Scalars['String']['output']>
-  contactId?: Maybe<Scalars['UUID']['output']>
-  contactLastName?: Maybe<Scalars['String']['output']>
-  contactPhoneNumber?: Maybe<Scalars['String']['output']>
-  contactUrl?: Maybe<Scalars['String']['output']>
-  eventAddressId?: Maybe<Scalars['UUID']['output']>
-  eventCreatedBy?: Maybe<Scalars['UUID']['output']>
-  eventDescription?: Maybe<Scalars['String']['output']>
-  eventEnd?: Maybe<Scalars['Datetime']['output']>
-  eventGuestCountMaximum?: Maybe<Scalars['Int']['output']>
-  eventId?: Maybe<Scalars['UUID']['output']>
-  eventIsArchived?: Maybe<Scalars['Boolean']['output']>
-  eventIsInPerson?: Maybe<Scalars['Boolean']['output']>
-  eventIsRemote?: Maybe<Scalars['Boolean']['output']>
-  eventName?: Maybe<Scalars['String']['output']>
-  eventSlug?: Maybe<Scalars['String']['output']>
-  eventStart?: Maybe<Scalars['Datetime']['output']>
-  eventUrl?: Maybe<Scalars['String']['output']>
-  eventVisibility?: Maybe<EventVisibility>
-  guestContactId?: Maybe<Scalars['UUID']['output']>
-  guestEventId?: Maybe<Scalars['UUID']['output']>
-  guestFeedback?: Maybe<InvitationFeedback>
-  guestFeedbackPaper?: Maybe<InvitationFeedbackPaper>
-  guestId?: Maybe<Scalars['UUID']['output']>
-}
-
-/**
- * A condition to be used against `GuestFlat` object types. All fields are tested
- * for equality and combined with a logical ‘and.’
- */
-export type GuestFlatCondition = {
-  /** Checks for equality with the object’s `contactAccountId` field. */
-  contactAccountId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `contactAddressId` field. */
-  contactAddressId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `contactCreatedBy` field. */
-  contactCreatedBy?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `contactEmailAddress` field. */
-  contactEmailAddress?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `contactEmailAddressHash` field. */
-  contactEmailAddressHash?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `contactFirstName` field. */
-  contactFirstName?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `contactId` field. */
-  contactId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `contactLastName` field. */
-  contactLastName?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `contactPhoneNumber` field. */
-  contactPhoneNumber?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `contactUrl` field. */
-  contactUrl?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `eventAddressId` field. */
-  eventAddressId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `eventCreatedBy` field. */
-  eventCreatedBy?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `eventDescription` field. */
-  eventDescription?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `eventEnd` field. */
-  eventEnd?: InputMaybe<Scalars['Datetime']['input']>
-  /** Checks for equality with the object’s `eventGuestCountMaximum` field. */
-  eventGuestCountMaximum?: InputMaybe<Scalars['Int']['input']>
-  /** Checks for equality with the object’s `eventId` field. */
-  eventId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `eventIsArchived` field. */
-  eventIsArchived?: InputMaybe<Scalars['Boolean']['input']>
-  /** Checks for equality with the object’s `eventIsInPerson` field. */
-  eventIsInPerson?: InputMaybe<Scalars['Boolean']['input']>
-  /** Checks for equality with the object’s `eventIsRemote` field. */
-  eventIsRemote?: InputMaybe<Scalars['Boolean']['input']>
-  /** Checks for equality with the object’s `eventName` field. */
-  eventName?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `eventSlug` field. */
-  eventSlug?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `eventStart` field. */
-  eventStart?: InputMaybe<Scalars['Datetime']['input']>
-  /** Checks for equality with the object’s `eventUrl` field. */
-  eventUrl?: InputMaybe<Scalars['String']['input']>
-  /** Checks for equality with the object’s `eventVisibility` field. */
-  eventVisibility?: InputMaybe<EventVisibility>
-  /** Checks for equality with the object’s `guestContactId` field. */
-  guestContactId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `guestEventId` field. */
-  guestEventId?: InputMaybe<Scalars['UUID']['input']>
-  /** Checks for equality with the object’s `guestFeedback` field. */
-  guestFeedback?: InputMaybe<InvitationFeedback>
-  /** Checks for equality with the object’s `guestFeedbackPaper` field. */
-  guestFeedbackPaper?: InputMaybe<InvitationFeedbackPaper>
-  /** Checks for equality with the object’s `guestId` field. */
-  guestId?: InputMaybe<Scalars['UUID']['input']>
-}
-
-/** A connection to a list of `GuestFlat` values. */
-export type GuestFlatConnection = {
-  __typename?: 'GuestFlatConnection'
-  /** A list of edges which contains the `GuestFlat` and cursor to aid in pagination. */
-  edges: Array<GuestFlatEdge>
-  /** A list of `GuestFlat` objects. */
-  nodes: Array<GuestFlat>
-  /** Information to aid in pagination. */
-  pageInfo: PageInfo
-  /** The count of *all* `GuestFlat` you could get from the connection. */
-  totalCount: Scalars['Int']['output']
-}
-
-/** A `GuestFlat` edge in the connection. */
-export type GuestFlatEdge = {
-  __typename?: 'GuestFlatEdge'
-  /** A cursor for use in pagination. */
-  cursor?: Maybe<Scalars['Cursor']['output']>
-  /** The `GuestFlat` at the end of the edge. */
-  node: GuestFlat
-}
-
-/** Methods to use when ordering `GuestFlat`. */
-export enum GuestFlatOrderBy {
-  ContactAccountIdAsc = 'CONTACT_ACCOUNT_ID_ASC',
-  ContactAccountIdDesc = 'CONTACT_ACCOUNT_ID_DESC',
-  ContactAddressIdAsc = 'CONTACT_ADDRESS_ID_ASC',
-  ContactAddressIdDesc = 'CONTACT_ADDRESS_ID_DESC',
-  ContactCreatedByAsc = 'CONTACT_CREATED_BY_ASC',
-  ContactCreatedByDesc = 'CONTACT_CREATED_BY_DESC',
-  ContactEmailAddressAsc = 'CONTACT_EMAIL_ADDRESS_ASC',
-  ContactEmailAddressDesc = 'CONTACT_EMAIL_ADDRESS_DESC',
-  ContactEmailAddressHashAsc = 'CONTACT_EMAIL_ADDRESS_HASH_ASC',
-  ContactEmailAddressHashDesc = 'CONTACT_EMAIL_ADDRESS_HASH_DESC',
-  ContactFirstNameAsc = 'CONTACT_FIRST_NAME_ASC',
-  ContactFirstNameDesc = 'CONTACT_FIRST_NAME_DESC',
-  ContactIdAsc = 'CONTACT_ID_ASC',
-  ContactIdDesc = 'CONTACT_ID_DESC',
-  ContactLastNameAsc = 'CONTACT_LAST_NAME_ASC',
-  ContactLastNameDesc = 'CONTACT_LAST_NAME_DESC',
-  ContactPhoneNumberAsc = 'CONTACT_PHONE_NUMBER_ASC',
-  ContactPhoneNumberDesc = 'CONTACT_PHONE_NUMBER_DESC',
-  ContactUrlAsc = 'CONTACT_URL_ASC',
-  ContactUrlDesc = 'CONTACT_URL_DESC',
-  EventAddressIdAsc = 'EVENT_ADDRESS_ID_ASC',
-  EventAddressIdDesc = 'EVENT_ADDRESS_ID_DESC',
-  EventCreatedByAsc = 'EVENT_CREATED_BY_ASC',
-  EventCreatedByDesc = 'EVENT_CREATED_BY_DESC',
-  EventDescriptionAsc = 'EVENT_DESCRIPTION_ASC',
-  EventDescriptionDesc = 'EVENT_DESCRIPTION_DESC',
-  EventEndAsc = 'EVENT_END_ASC',
-  EventEndDesc = 'EVENT_END_DESC',
-  EventGuestCountMaximumAsc = 'EVENT_GUEST_COUNT_MAXIMUM_ASC',
-  EventGuestCountMaximumDesc = 'EVENT_GUEST_COUNT_MAXIMUM_DESC',
-  EventIdAsc = 'EVENT_ID_ASC',
-  EventIdDesc = 'EVENT_ID_DESC',
-  EventIsArchivedAsc = 'EVENT_IS_ARCHIVED_ASC',
-  EventIsArchivedDesc = 'EVENT_IS_ARCHIVED_DESC',
-  EventIsInPersonAsc = 'EVENT_IS_IN_PERSON_ASC',
-  EventIsInPersonDesc = 'EVENT_IS_IN_PERSON_DESC',
-  EventIsRemoteAsc = 'EVENT_IS_REMOTE_ASC',
-  EventIsRemoteDesc = 'EVENT_IS_REMOTE_DESC',
-  EventNameAsc = 'EVENT_NAME_ASC',
-  EventNameDesc = 'EVENT_NAME_DESC',
-  EventSlugAsc = 'EVENT_SLUG_ASC',
-  EventSlugDesc = 'EVENT_SLUG_DESC',
-  EventStartAsc = 'EVENT_START_ASC',
-  EventStartDesc = 'EVENT_START_DESC',
-  EventUrlAsc = 'EVENT_URL_ASC',
-  EventUrlDesc = 'EVENT_URL_DESC',
-  GuestContactIdAsc = 'GUEST_CONTACT_ID_ASC',
-  GuestContactIdDesc = 'GUEST_CONTACT_ID_DESC',
-  GuestEventIdAsc = 'GUEST_EVENT_ID_ASC',
-  GuestEventIdDesc = 'GUEST_EVENT_ID_DESC',
-  GuestIdAsc = 'GUEST_ID_ASC',
-  GuestIdDesc = 'GUEST_ID_DESC',
-  Natural = 'NATURAL',
 }
 
 /** An input for mutations affecting `Guest` */
@@ -6190,8 +6014,6 @@ export type Query = Node & {
   allEvents?: Maybe<EventConnection>
   /** Reads and enables pagination through a set of `Friendship`. */
   allFriendships?: Maybe<FriendshipConnection>
-  /** Reads and enables pagination through a set of `GuestFlat`. */
-  allGuestFlats?: Maybe<GuestFlatConnection>
   /** Reads and enables pagination through a set of `Guest`. */
   allGuests?: Maybe<GuestConnection>
   /** Reads and enables pagination through a set of `LegalTermAcceptance`. */
@@ -6667,17 +6489,6 @@ export type QueryAllFriendshipsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
   offset?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<FriendshipOrderBy>>
-}
-
-/** The root query type which gives access points into the data universe. */
-export type QueryAllGuestFlatsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  condition?: InputMaybe<GuestFlatCondition>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  offset?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<GuestFlatOrderBy>>
 }
 
 /** The root query type which gives access points into the data universe. */
@@ -8323,11 +8134,6 @@ export type GraphCacheKeysConfig = {
     data: WithTypename<GuestContactIdsEdge>,
   ) => null | string
   GuestEdge?: (data: WithTypename<GuestEdge>) => null | string
-  GuestFlat?: (data: WithTypename<GuestFlat>) => null | string
-  GuestFlatConnection?: (
-    data: WithTypename<GuestFlatConnection>,
-  ) => null | string
-  GuestFlatEdge?: (data: WithTypename<GuestFlatEdge>) => null | string
   InvitePayload?: (data: WithTypename<InvitePayload>) => null | string
   JwtCreatePayload?: (data: WithTypename<JwtCreatePayload>) => null | string
   JwtUpdateAttendanceAddPayload?: (
@@ -8612,11 +8418,6 @@ export type GraphCacheResolvers = {
       WithTypename<Query>,
       QueryAllFriendshipsArgs,
       WithTypename<FriendshipConnection> | string
-    >
-    allGuestFlats?: GraphCacheResolver<
-      WithTypename<Query>,
-      QueryAllGuestFlatsArgs,
-      WithTypename<GuestFlatConnection> | string
     >
     allGuests?: GraphCacheResolver<
       WithTypename<Query>,
@@ -12144,187 +11945,6 @@ export type GraphCacheResolvers = {
       WithTypename<Guest> | string
     >
   }
-  GuestFlat?: {
-    contactAccountId?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    contactAddressId?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    contactCreatedBy?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    contactEmailAddress?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    contactEmailAddressHash?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    contactFirstName?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    contactId?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    contactLastName?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    contactPhoneNumber?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    contactUrl?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    eventAddressId?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    eventCreatedBy?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    eventDescription?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    eventEnd?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['Datetime']['output'] | string
-    >
-    eventGuestCountMaximum?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['Int']['output'] | string
-    >
-    eventId?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    eventIsArchived?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['Boolean']['output'] | string
-    >
-    eventIsInPerson?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['Boolean']['output'] | string
-    >
-    eventIsRemote?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['Boolean']['output'] | string
-    >
-    eventName?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    eventSlug?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    eventStart?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['Datetime']['output'] | string
-    >
-    eventUrl?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['String']['output'] | string
-    >
-    eventVisibility?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      EventVisibility | string
-    >
-    guestContactId?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    guestEventId?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-    guestFeedback?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      InvitationFeedback | string
-    >
-    guestFeedbackPaper?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      InvitationFeedbackPaper | string
-    >
-    guestId?: GraphCacheResolver<
-      WithTypename<GuestFlat>,
-      Record<string, never>,
-      Scalars['UUID']['output'] | string
-    >
-  }
-  GuestFlatConnection?: {
-    edges?: GraphCacheResolver<
-      WithTypename<GuestFlatConnection>,
-      Record<string, never>,
-      Array<WithTypename<GuestFlatEdge> | string>
-    >
-    nodes?: GraphCacheResolver<
-      WithTypename<GuestFlatConnection>,
-      Record<string, never>,
-      Array<WithTypename<GuestFlat> | string>
-    >
-    pageInfo?: GraphCacheResolver<
-      WithTypename<GuestFlatConnection>,
-      Record<string, never>,
-      WithTypename<PageInfo> | string
-    >
-    totalCount?: GraphCacheResolver<
-      WithTypename<GuestFlatConnection>,
-      Record<string, never>,
-      Scalars['Int']['output'] | string
-    >
-  }
-  GuestFlatEdge?: {
-    cursor?: GraphCacheResolver<
-      WithTypename<GuestFlatEdge>,
-      Record<string, never>,
-      Scalars['Cursor']['output'] | string
-    >
-    node?: GraphCacheResolver<
-      WithTypename<GuestFlatEdge>,
-      Record<string, never>,
-      WithTypename<GuestFlat> | string
-    >
-  }
   InvitePayload?: {
     clientMutationId?: GraphCacheResolver<
       WithTypename<InvitePayload>,
@@ -14024,10 +13644,6 @@ export type GraphCacheUpdaters = {
     allFriendships?: GraphCacheUpdateResolver<
       { allFriendships: Maybe<WithTypename<FriendshipConnection>> },
       QueryAllFriendshipsArgs
-    >
-    allGuestFlats?: GraphCacheUpdateResolver<
-      { allGuestFlats: Maybe<WithTypename<GuestFlatConnection>> },
-      QueryAllGuestFlatsArgs
     >
     allGuests?: GraphCacheUpdateResolver<
       { allGuests: Maybe<WithTypename<GuestConnection>> },
@@ -17663,152 +17279,6 @@ export type GraphCacheUpdaters = {
     >
     node?: GraphCacheUpdateResolver<
       Maybe<WithTypename<GuestEdge>>,
-      Record<string, never>
-    >
-  }
-  GuestFlat?: {
-    contactAccountId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactAddressId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactCreatedBy?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactEmailAddress?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactEmailAddressHash?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactFirstName?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactLastName?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactPhoneNumber?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    contactUrl?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventAddressId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventCreatedBy?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventDescription?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventEnd?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventGuestCountMaximum?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventIsArchived?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventIsInPerson?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventIsRemote?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventName?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventSlug?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventStart?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventUrl?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    eventVisibility?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    guestContactId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    guestEventId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    guestFeedback?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    guestFeedbackPaper?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-    guestId?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlat>>,
-      Record<string, never>
-    >
-  }
-  GuestFlatConnection?: {
-    edges?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlatConnection>>,
-      Record<string, never>
-    >
-    nodes?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlatConnection>>,
-      Record<string, never>
-    >
-    pageInfo?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlatConnection>>,
-      Record<string, never>
-    >
-    totalCount?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlatConnection>>,
-      Record<string, never>
-    >
-  }
-  GuestFlatEdge?: {
-    cursor?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlatEdge>>,
-      Record<string, never>
-    >
-    node?: GraphCacheUpdateResolver<
-      Maybe<WithTypename<GuestFlatEdge>>,
       Record<string, never>
     >
   }

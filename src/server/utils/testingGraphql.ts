@@ -50,6 +50,10 @@ const EVENT = {
   visibility: 'public',
   __typename: 'Event',
 }
+const EVENT_UPLOADS = {
+  nodes: [],
+  __typename: 'EventUploadConnection',
+}
 const EVENT_LIST_ITEM = {
   eventCategoryMappingsByEventId: {
     nodes: [
@@ -83,6 +87,7 @@ const EVENT_LIST_ITEM = {
     ],
     __typename: 'EventFormatMappingConnection',
   },
+  eventUploadsByEventId: EVENT_UPLOADS,
   guestsByEventId: {
     nodes: [],
     __typename: 'GuestConnection',
@@ -176,6 +181,7 @@ const EVENT_VIEW = {
     ],
     __typename: 'EventFormatMappingConnection',
   },
+  eventUploadsByEventId: EVENT_UPLOADS,
   id: EVENT.id,
   isArchived: EVENT.isArchived,
   isInPerson: EVENT.isInPerson,
@@ -576,11 +582,11 @@ export const getTestingGraphqlResult = async ({
             nodes: [
               {
                 accountByCreatedBy: ACCOUNT,
-                end: EVENT.end,
                 eventCategoryMappingsByEventId:
                   EVENT_LIST_ITEM.eventCategoryMappingsByEventId,
                 eventFormatMappingsByEventId:
                   EVENT_LIST_ITEM.eventFormatMappingsByEventId,
+                eventUploadsByEventId: EVENT_UPLOADS,
                 id: EVENT.id,
                 name: EVENT.name,
                 rowId: EVENT.rowId,
@@ -688,6 +694,7 @@ export const getTestingGraphqlResult = async ({
                     ],
                     __typename: 'EventFormatMappingConnection',
                   },
+                  eventUploadsByEventId: EVENT_UPLOADS,
                   guestCountMaximum: EVENT.guestCountMaximum,
                   id: EVENT.id,
                   isArchived: EVENT.isArchived,
@@ -852,22 +859,18 @@ export const getTestingGraphqlResult = async ({
         },
       }
     }
-    // only the german account has a language, so the default account covers
-    // sessions without one
-    case 'OwnContact': {
-      const { accountId } = (variables ?? {}) as { accountId?: unknown }
-
+    // without a language the session keeps the locale of the visited url
+    case 'OwnContact':
       return {
         data: {
           contactByCreatedByAndAccountId: {
             id: OWN_CONTACT_ID,
-            language: accountId === TESTING_ACCOUNT_GERMAN_ROW_ID ? 'de' : null,
+            language: null,
             rowId: TESTING_OWN_CONTACT_ROW_ID,
             __typename: 'Contact',
           },
         },
       }
-    }
     // echoes the patch like the real api would
     case 'UpdateAccountByRowId': {
       const { input } = z

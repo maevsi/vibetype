@@ -123,10 +123,7 @@ const getSignInTarget = ({
   return localePath(`dashboard`, language)
 }
 const onSignIn = async (username: string) => {
-  const language = await syncLocaleCookieToOwnContactLanguage({
-    nuxtApp,
-    store,
-  })
+  const language = syncLocaleCookieToTokenLanguage({ nuxtApp, store })
 
   await navigateTo(getSignInTarget({ language, username }), {
     replace: true,

@@ -309,6 +309,17 @@ export type CreateEventInput = {
   event: EventInput
 }
 
+/** All input for the create `EventUpload` mutation. */
+export type CreateEventUploadInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** The `EventUpload` to be created by this mutation. */
+  eventUpload: EventUploadInput
+}
+
 /** All input for the `createGuests` mutation. */
 export type CreateGuestsInput = {
   /**
@@ -469,6 +480,17 @@ export type DeleteEventFormatMappingByEventIdAndFormatIdInput = {
   eventId: string
   /** A format id. */
   formatId: string
+}
+
+/** All input for the `deleteEventUploadByRowId` mutation. */
+export type DeleteEventUploadByRowIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** Primary key, uniquely identifies each event-upload association. */
+  rowId: string
 }
 
 /** All input for the `deleteGuestByRowId` mutation. */
@@ -679,6 +701,16 @@ export type EventPatch = {
 
 /** Possible event sizes: small, medium, large, huge. */
 export type EventSize = 'huge' | 'large' | 'medium' | 'small'
+
+/** An input for mutations affecting `EventUpload` */
+export type EventUploadInput = {
+  /** Reference to the event associated with the upload. */
+  eventId: string
+  /** Optional boolean flag indicating if the upload is the header image for the event. */
+  isHeaderImage?: boolean | null | undefined
+  /** Reference to the uploaded file. */
+  uploadId: string
+}
 
 /** Possible visibilities of events and event groups: public, private and unlisted. */
 export type EventVisibility = 'private' | 'public' | 'unlisted'
@@ -1183,7 +1215,6 @@ export type EventListQuery = {
   allEvents: {
     totalCount: number
     nodes: Array<{
-      end: string | null
       guestCount: number
       id: string
       isInPerson: boolean | null
@@ -1212,6 +1243,18 @@ export type EventListQuery = {
           eventFormatByFormatId: { id: string; name: string } | null
         }>
       }
+      eventUploadsByEventId: {
+        nodes: Array<{
+          id: string
+          isHeaderImage: boolean | null
+          rowId: string
+          uploadByUploadId: {
+            id: string
+            rowId: string
+            storageKey: string | null
+          } | null
+        }>
+      }
       guestsByEventId: {
         nodes: Array<{
           id: string
@@ -1238,7 +1281,6 @@ export type EventSearchQuery = {
   eventSearch: {
     totalCount: number
     nodes: Array<{
-      end: string | null
       guestCount: number
       id: string
       isInPerson: boolean | null
@@ -1265,6 +1307,18 @@ export type EventSearchQuery = {
         nodes: Array<{
           id: string
           eventFormatByFormatId: { id: string; name: string } | null
+        }>
+      }
+      eventUploadsByEventId: {
+        nodes: Array<{
+          id: string
+          isHeaderImage: boolean | null
+          rowId: string
+          uploadByUploadId: {
+            id: string
+            rowId: string
+            storageKey: string | null
+          } | null
         }>
       }
       guestsByEventId: {
@@ -1398,6 +1452,27 @@ export type DeleteEventFormatMappingByEventIdAndFormatIdMutation = {
       id: string
       eventByEventId: { id: string } | null
     } | null
+  } | null
+}
+
+export type CreateEventUploadMutationVariables = Exact<{
+  input: CreateEventUploadInput
+}>
+
+export type CreateEventUploadMutation = {
+  createEventUpload: {
+    eventUpload: { id: string; eventByEventId: { id: string } | null } | null
+  } | null
+}
+
+export type DeleteEventUploadByRowIdMutationVariables = Exact<{
+  input: DeleteEventUploadByRowIdInput
+}>
+
+export type DeleteEventUploadByRowIdMutation = {
+  deleteEventUploadByRowId: {
+    deletedEventUploadId: string | null
+    eventUpload: { id: string; eventByEventId: { id: string } | null } | null
   } | null
 }
 
@@ -1864,6 +1939,18 @@ export type AccountQuery = {
             eventFormatByFormatId: { id: string; name: string } | null
           }>
         }
+        eventUploadsByEventId: {
+          nodes: Array<{
+            id: string
+            isHeaderImage: boolean | null
+            rowId: string
+            uploadByUploadId: {
+              id: string
+              rowId: string
+              storageKey: string | null
+            } | null
+          }>
+        }
         guestsByEventId: {
           nodes: Array<{
             id: string
@@ -1965,6 +2052,18 @@ export type DashboardEventRecommendationsQuery = {
         eventFormatByFormatId: { id: string; name: string } | null
       }>
     }
+    eventUploadsByEventId: {
+      nodes: Array<{
+        id: string
+        isHeaderImage: boolean | null
+        rowId: string
+        uploadByUploadId: {
+          id: string
+          rowId: string
+          storageKey: string | null
+        } | null
+      }>
+    }
     guestsByEventId: {
       nodes: Array<{
         id: string
@@ -1986,7 +2085,6 @@ export type DashboardEventUpcomingQueryVariables = Exact<{
 export type DashboardEventUpcomingQuery = {
   allEvents: {
     nodes: Array<{
-      end: string | null
       id: string
       name: string
       rowId: string
@@ -2003,6 +2101,18 @@ export type DashboardEventUpcomingQuery = {
         nodes: Array<{
           id: string
           eventFormatByFormatId: { id: string; name: string } | null
+        }>
+      }
+      eventUploadsByEventId: {
+        nodes: Array<{
+          id: string
+          isHeaderImage: boolean | null
+          rowId: string
+          uploadByUploadId: {
+            id: string
+            rowId: string
+            storageKey: string | null
+          } | null
         }>
       }
     }>
@@ -2063,6 +2173,18 @@ export type EventEditQuery = {
         }
         eventFormatMappingsByEventId: {
           nodes: Array<{ formatId: string; id: string }>
+        }
+        eventUploadsByEventId: {
+          nodes: Array<{
+            id: string
+            isHeaderImage: boolean | null
+            rowId: string
+            uploadByUploadId: {
+              id: string
+              rowId: string
+              storageKey: string | null
+            } | null
+          }>
         }
       }>
     }
@@ -2190,6 +2312,18 @@ export type EventQuery = {
             eventFormatByFormatId: { id: string; name: string } | null
           }>
         }
+        eventUploadsByEventId: {
+          nodes: Array<{
+            id: string
+            isHeaderImage: boolean | null
+            rowId: string
+            uploadByUploadId: {
+              id: string
+              rowId: string
+              storageKey: string | null
+            } | null
+          }>
+        }
       }>
     }
   } | null
@@ -2226,6 +2360,18 @@ export type EventListAccountQuery = {
           nodes: Array<{
             id: string
             eventFormatByFormatId: { id: string; name: string } | null
+          }>
+        }
+        eventUploadsByEventId: {
+          nodes: Array<{
+            id: string
+            isHeaderImage: boolean | null
+            rowId: string
+            uploadByUploadId: {
+              id: string
+              rowId: string
+              storageKey: string | null
+            } | null
           }>
         }
         guestsByEventId: {
@@ -2319,6 +2465,18 @@ export type GuestEventQuery = {
           formatId: string
           id: string
           eventFormatByFormatId: { id: string; name: string } | null
+        }>
+      }
+      eventUploadsByEventId: {
+        nodes: Array<{
+          id: string
+          isHeaderImage: boolean | null
+          rowId: string
+          uploadByUploadId: {
+            id: string
+            rowId: string
+            storageKey: string | null
+          } | null
         }>
       }
     } | null
@@ -2530,6 +2688,18 @@ export type EventItemFragment = {
       eventFormatByFormatId: { id: string; name: string } | null
     }>
   }
+  eventUploadsByEventId: {
+    nodes: Array<{
+      id: string
+      isHeaderImage: boolean | null
+      rowId: string
+      uploadByUploadId: {
+        id: string
+        rowId: string
+        storageKey: string | null
+      } | null
+    }>
+  }
 } & { ' $fragmentName'?: 'EventItemFragment' }
 
 export type GuestItemFragment = {
@@ -2706,6 +2876,51 @@ export const EventItemFragmentDoc = {
                         name: { kind: 'Name', value: 'formatId' },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'eventUploadsByEventId' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isHeaderImage' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'uploadByUploadId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rowId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'storageKey' },
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                 },
@@ -5009,6 +5224,20 @@ export const EventListDocument = {
               },
               {
                 kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'hasEnded' },
+                      value: { kind: 'BooleanValue', value: false },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
                 name: { kind: 'Name', value: 'first' },
                 value: {
                   kind: 'Variable',
@@ -5085,7 +5314,6 @@ export const EventListDocument = {
                           ],
                         },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
                       {
                         kind: 'Field',
                         name: {
@@ -5239,6 +5467,69 @@ export const EventListDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'id' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventUploadsByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'isHeaderImage',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'uploadByUploadId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'storageKey',
+                                          },
+                                        },
+                                      ],
+                                    },
                                   },
                                 ],
                               },
@@ -5480,7 +5771,6 @@ export const EventSearchDocument = {
                           ],
                         },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
                       {
                         kind: 'Field',
                         name: {
@@ -5634,6 +5924,69 @@ export const EventSearchDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'id' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventUploadsByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'isHeaderImage',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'uploadByUploadId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'storageKey',
+                                          },
+                                        },
+                                      ],
+                                    },
                                   },
                                 ],
                               },
@@ -6571,6 +6924,162 @@ export const DeleteEventFormatMappingByEventIdAndFormatIdDocument = {
 } as unknown as DocumentNode<
   DeleteEventFormatMappingByEventIdAndFormatIdMutation,
   DeleteEventFormatMappingByEventIdAndFormatIdMutationVariables
+>
+export const CreateEventUploadDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateEventUpload' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateEventUploadInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createEventUpload' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventUpload' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  CreateEventUploadMutation,
+  CreateEventUploadMutationVariables
+>
+export const DeleteEventUploadByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteEventUploadByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'DeleteEventUploadByRowIdInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteEventUploadByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'deletedEventUploadId' },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'eventUpload' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteEventUploadByRowIdMutation,
+  DeleteEventUploadByRowIdMutationVariables
 >
 export const AllEventCategoriesFormEventDocument = {
   kind: 'Document',
@@ -9420,6 +9929,78 @@ export const AccountDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'eventUploadsByEventId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'isHeaderImage',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'uploadByUploadId',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'rowId',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'storageKey',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'guestsByEventId' },
                               arguments: [
                                 {
@@ -10041,6 +10622,57 @@ export const DashboardEventRecommendationsDocument = {
                 },
                 {
                   kind: 'Field',
+                  name: { kind: 'Name', value: 'eventUploadsByEventId' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nodes' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'isHeaderImage' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'rowId' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'uploadByUploadId' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'storageKey' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
                   name: { kind: 'Name', value: 'guestsByEventId' },
                   arguments: [
                     {
@@ -10153,8 +10785,23 @@ export const DashboardEventUpcomingDocument = {
                         name: { kind: 'Name', value: 'createdBy' },
                       },
                     },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'hasEnded' },
+                      value: { kind: 'BooleanValue', value: false },
+                    },
                   ],
                 },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: { kind: 'IntValue', value: '1' },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: { kind: 'EnumValue', value: 'START_ASC' },
               },
             ],
             selectionSet: {
@@ -10187,7 +10834,6 @@ export const DashboardEventUpcomingDocument = {
                           ],
                         },
                       },
-                      { kind: 'Field', name: { kind: 'Name', value: 'end' } },
                       {
                         kind: 'Field',
                         name: {
@@ -10301,6 +10947,69 @@ export const DashboardEventUpcomingDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'id' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventUploadsByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'isHeaderImage',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'uploadByUploadId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'storageKey',
+                                          },
+                                        },
+                                      ],
+                                    },
                                   },
                                 ],
                               },
@@ -10609,6 +11318,78 @@ export const EventEditDocument = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'id' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'eventUploadsByEventId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'isHeaderImage',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'uploadByUploadId',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'rowId',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'storageKey',
+                                                },
+                                              },
+                                            ],
+                                          },
                                         },
                                       ],
                                     },
@@ -11487,6 +12268,78 @@ export const EventDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'eventUploadsByEventId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'isHeaderImage',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'uploadByUploadId',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'rowId',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'storageKey',
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
                             },
                             {
@@ -11809,6 +12662,78 @@ export const EventListAccountDocument = {
                                         {
                                           kind: 'Field',
                                           name: { kind: 'Name', value: 'id' },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'eventUploadsByEventId',
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'isHeaderImage',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'uploadByUploadId',
+                                          },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'rowId',
+                                                },
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'storageKey',
+                                                },
+                                              },
+                                            ],
+                                          },
                                         },
                                       ],
                                     },
@@ -12356,6 +13281,69 @@ export const GuestEventDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'id' },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventUploadsByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'nodes' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'isHeaderImage',
+                                    },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'rowId' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'uploadByUploadId',
+                                    },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'storageKey',
+                                          },
+                                        },
+                                      ],
+                                    },
                                   },
                                 ],
                               },
