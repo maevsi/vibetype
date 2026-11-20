@@ -3,11 +3,8 @@ import sharp from 'sharp'
 import { z } from 'zod'
 
 const eventIngestImagePostBodySchema = z.object({
-  base64Image: z.string().max(14_000_000), // about 10 MB of image data
+  base64Image: z.string().max(EVENT_INGEST_IMAGE_REQUEST_SIZE_MAXIMUM),
 })
-
-// OpenAI's high detail scales the shorter side to 768 pixels, which a portrait poster within 2048 pixels still reaches
-const IMAGE_SIZE_MAXIMUM = 2048
 
 const getPrompt =
   () => `You are a data extraction specialist responsible for identifying and accurately cataloging event information.
@@ -48,8 +45,8 @@ export default defineEventHandler(async (event: EventIngestImagePostEvent) => {
   const sharpBuffer = await sharp(base64Buffer)
     .rotate() // applies the orientation phone cameras store as metadata, which the resize would drop
     .resize({
-      width: IMAGE_SIZE_MAXIMUM,
-      height: IMAGE_SIZE_MAXIMUM,
+      width: POSTER_SIZE_MAXIMUM,
+      height: POSTER_SIZE_MAXIMUM,
       fit: 'inside',
       withoutEnlargement: true,
     })
