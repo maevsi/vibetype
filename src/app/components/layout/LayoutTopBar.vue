@@ -7,7 +7,7 @@
   >
     <h1
       v-if="$slots.default"
-      class="m-0 min-w-0 flex-1 text-heading-large wrap-anywhere"
+      class="m-0 min-w-0 flex-1 truncate text-heading-large"
     >
       <slot />
     </h1>
@@ -25,11 +25,9 @@
       </div>
       <h1
         v-if="$slots.default"
-        class="m-0 min-w-0 flex-1 text-center wrap-anywhere"
+        class="m-0 min-w-0 flex-1 truncate text-center text-title3"
       >
-        <span class="text-title3 text-balance">
-          <slot />
-        </span>
+        <slot />
       </h1>
       <div v-else class="flex-1" />
       <div class="flex h-12 min-w-12 items-center justify-center">
