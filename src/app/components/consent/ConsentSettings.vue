@@ -55,11 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  EXTERNAL_MEDIA_COOKIE_ID,
-  GTAG_COOKIE_ID,
-  SENTRY_COOKIE_ID,
-} from '~~/node/static'
+import { GTAG_COOKIE_ID, SENTRY_COOKIE_ID } from '~~/node/static'
 
 const emit = defineEmits<{
   decided: []
@@ -76,11 +72,6 @@ const purposes = computed(() => [
     description: t('analyticsDescription'),
     id: GTAG_COOKIE_ID,
     title: t('analyticsTitle'),
-  },
-  {
-    description: t('mapsDescription'),
-    id: EXTERNAL_MEDIA_COOKIE_ID,
-    title: t('mapsTitle'),
   },
   {
     description: t('errorAnalysisDescription'),
@@ -121,8 +112,6 @@ de:
   analyticsTitle: Nutzungsanalyse
   errorAnalysisDescription: Zeichnet Bedienschritte und Bildschirminhalte deiner Sitzung auf und misst die Leistung, um Fehler zu beheben. Die Daten gehen an Sentry.
   errorAnalysisTitle: Fehleranalyse
-  mapsDescription: Lädt Kartenkacheln von OpenStreetMap. Der Anbieter erhält dabei deine IP-Adresse.
-  mapsTitle: Karten
   privacyPolicy: Datenschutzerklärung
   save: Auswahl speichern
 en:
@@ -132,8 +121,6 @@ en:
   analyticsTitle: Usage analytics
   errorAnalysisDescription: Records interaction steps and screen contents of your session and measures performance to fix errors. The data goes to Sentry.
   errorAnalysisTitle: Error analysis
-  mapsDescription: Loads map tiles from OpenStreetMap. The provider receives your IP address.
-  mapsTitle: Maps
   privacyPolicy: Privacy policy
   save: Save selection
 </i18n>
