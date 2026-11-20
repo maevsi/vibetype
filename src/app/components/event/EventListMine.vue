@@ -78,17 +78,16 @@ const { t } = useI18n()
 
 // compiler
 
-const queryHosting = graphql(`
-  query EventListMineHosting(
+const queryEvents = graphql(`
+  query EventListMineEvents(
     $after: Cursor
-    $createdBy: UUID!
+    $condition: EventCondition!
     $first: Int!
-    $hasEnded: Boolean!
     $orderBy: [EventOrderBy!]
   ) {
     allEvents(
       after: $after
-      condition: { createdBy: $createdBy, hasEnded: $hasEnded }
+      condition: $condition
       first: $first
       orderBy: $orderBy
     ) {
@@ -288,16 +287,18 @@ const filter = computed(() => {
     ? (value as (typeof filterOptions.value)[number]['value'])
     : 'hosting'
 })
-// Going and drafts have no data yet (going waits on a separate backend change,
-// drafts on a schema change), so they show the empty state without a query.
-// Upgrade path: a query per filter next to the two below
-const isWithoutData = computed(
-  () => filter.value === 'attending' || filter.value === 'drafts',
+// drafts have no data until the schema has them, so they show the empty state
+// without a query
+const isWithoutData = computed(() => filter.value === 'drafts')
+const isEventsFilter = computed(
+  () => filter.value === 'attending' || filter.value === 'hosting',
 )
 const badge = computed(() =>
-  filter.value === 'hosting' || filter.value === 'saved'
-    ? filter.value
-    : undefined,
+  filter.value === 'attending'
+    ? 'going'
+    : filter.value === 'hosting' || filter.value === 'saved'
+      ? filter.value
+      : undefined,
 )
 const time = computed(() => (route.query.time === 'past' ? 'past' : 'upcoming'))
 const getQuery = (override: { filter?: string; time?: string }) => {
@@ -312,26 +313,31 @@ const getQuery = (override: { filter?: string; time?: string }) => {
 }
 
 // api data
-const hostingAfter = ref<string | null>()
+const eventsAfter = ref<string | null>()
 const savedVisibleCount = ref(ITEMS_PER_PAGE)
-// resets the paging with the time, synchronously so the query never runs with
-// the new time and the old cursor
+// resets the paging with the filter and the time, synchronously so the query
+// never runs with the new condition and the old cursor
 watch(
-  time,
+  [filter, time],
   () => {
-    hostingAfter.value = undefined
+    eventsAfter.value = undefined
     savedVisibleCount.value = ITEMS_PER_PAGE
   },
   { flush: 'sync' },
 )
-const hostingApi = useApiQuery({
-  pause: computed(() => filter.value !== 'hosting'),
-  query: queryHosting,
+const eventsApi = useApiQuery({
+  pause: computed(() => !isEventsFilter.value),
+  query: queryEvents,
   variables: computed(() => ({
-    after: hostingAfter.value,
-    createdBy: store.signedInAccountId ?? '',
+    after: eventsAfter.value,
+    condition:
+      filter.value === 'attending'
+        ? { hasEnded: time.value === 'past', isAttending: true }
+        : {
+            createdBy: store.signedInAccountId ?? '',
+            hasEnded: time.value === 'past',
+          },
     first: ITEMS_PER_PAGE,
-    hasEnded: time.value === 'past',
     orderBy:
       time.value === 'past' ? ('START_DESC' as const) : ('START_ASC' as const),
   })),
@@ -344,7 +350,7 @@ const savedApi = useApiQuery({
     first: ITEMS_PER_PAGE_LARGE,
   })),
 })
-const api = await useApiData([hostingApi, savedApi])
+const api = await useApiData([eventsApi, savedApi])
 
 // computations
 const savedEvents = computed(() => {
@@ -371,14 +377,14 @@ const events = computed(() =>
     ? []
     : filter.value === 'saved'
       ? savedEvents.value?.slice(0, savedVisibleCount.value)
-      : hostingApi.data.value?.allEvents?.nodes,
+      : eventsApi.data.value?.allEvents?.nodes,
 )
 const hasNextPage = computed(() =>
   isWithoutData.value
     ? false
     : filter.value === 'saved'
       ? (savedEvents.value?.length ?? 0) > savedVisibleCount.value
-      : hostingApi.data.value?.allEvents?.pageInfo.hasNextPage,
+      : eventsApi.data.value?.allEvents?.pageInfo.hasNextPage,
 )
 
 // methods
@@ -388,7 +394,7 @@ const loadMore = () => {
     return
   }
 
-  hostingAfter.value = hostingApi.data.value?.allEvents?.pageInfo.endCursor
+  eventsAfter.value = eventsApi.data.value?.allEvents?.pageInfo.endCursor
 }
 </script>
 
