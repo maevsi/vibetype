@@ -701,6 +701,36 @@ const onGeocode = (result: GeocodeResult) => {
     region: result.address.region ?? null,
   }
 }
+// an import names the place without its position, so the pin would stay on the default centre
+const locationNameImported = event?.rowId
+  ? undefined
+  : !event?.addressByAddressId?.location &&
+    event?.addressByAddressId?.name?.trim()
+if (locationNameImported) {
+  watch(
+    () => templateMap.value?.map,
+    async (map) => {
+      if (!map) return
+
+      try {
+        const [result] = await $fetch<
+          ({ lat: string; lon: string } & Parameters<
+            typeof getAddressFromNominatim
+          >[0])[]
+        >('/api/service/nominatim/search', {
+          query: { 'accept-language': locale.value, q: locationNameImported },
+        })
+        if (!result) return
+
+        map.setView([Number(result.lat), Number(result.lon)], 15)
+        addressFields.value = getAddressFromNominatim(result).address
+      } catch {
+        // the search control still lets the place be found by hand
+      }
+    },
+    { once: true },
+  )
+}
 const syncAddress = async (
   locationName: string,
 ): Promise<string | null | undefined> => {
