@@ -1,9 +1,10 @@
 <template>
-  <ul class="grid grid-cols-[repeat(auto-fill,minmax(7rem,1fr))] gap-2">
+  <ul class="flex flex-wrap gap-2">
     <li v-for="eventFormat in eventFormats" :key="eventFormat.rowId">
       <PreferenceElement
         v-if="eventFormat.label"
         :id="eventFormat.rowId"
+        is-compact
         :name="eventFormat.label"
         :selected="modelValue"
         @toggle="toggle(eventFormat.rowId)"
