@@ -33,13 +33,18 @@ export const usePosterPicker = (onPicked: (file: File) => void) => {
     const input = document.createElement('input')
 
     input.accept = ACCEPT
+    input.hidden = true
     input.type = 'file'
     if (capture) input.capture = capture
+    input.addEventListener('cancel', () => input.remove())
     input.addEventListener('change', () => {
       const file = input.files?.[0]
 
+      input.remove()
       if (file) onPicked(file)
     })
+    // iOS Safari may not fire `change` on a file input outside the document
+    document.body.append(input)
     input.click()
   }
   const pickFromCamera = () => {
