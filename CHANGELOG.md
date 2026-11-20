@@ -1,3 +1,13 @@
+## [18.0.0-beta.10](https://github.com/maevsi/vibetype/compare/18.0.0-beta.9...18.0.0-beta.10) (2026-11-20)
+
+### ⚠ BREAKING CHANGES
+
+* **account:** show the display name (#2748)
+
+### Features
+
+* **account:** show the display name ([#2748](https://github.com/maevsi/vibetype/issues/2748)) ([b0f3d74](https://github.com/maevsi/vibetype/commit/b0f3d741d0e919cf9d5ad18a62c7385087658893))
+
 ## [18.0.0-beta.9](https://github.com/maevsi/vibetype/compare/18.0.0-beta.8...18.0.0-beta.9) (2026-11-20)
 
 ### ⚠ BREAKING CHANGES
