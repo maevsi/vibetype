@@ -1,3 +1,19 @@
+## [17.35.0](https://github.com/maevsi/vibetype/compare/17.34.0...17.35.0) (2026-11-20)
+
+### Features
+
+* **csp:** enforce trusted types in production ([#2770](https://github.com/maevsi/vibetype/issues/2770)) ([f212e2b](https://github.com/maevsi/vibetype/commit/f212e2bbad5e87f6476697fd69a405e0164f711e))
+* **event:** add to google calendar ([#2768](https://github.com/maevsi/vibetype/issues/2768)) ([12146f9](https://github.com/maevsi/vibetype/commit/12146f9e5be38520267a1138e9f0f1c66a354b48))
+* **map:** proxy tiles ([#2766](https://github.com/maevsi/vibetype/issues/2766)) ([719be16](https://github.com/maevsi/vibetype/commit/719be16092c9ef76062e497f49d9130f7cae6453))
+* **modal:** replace short dialogs with drawers ([#2771](https://github.com/maevsi/vibetype/issues/2771)) ([86bdcc9](https://github.com/maevsi/vibetype/commit/86bdcc988e5f3659ae2b81c2f71caf71b83b5dea))
+* **upload:** show cropper in drawer ([#2774](https://github.com/maevsi/vibetype/issues/2774)) ([bcedaa5](https://github.com/maevsi/vibetype/commit/bcedaa54d7daf62cbfb5d2c730945d6f45302605))
+
+### Bug Fixes
+
+* **account:** hide events section with friends enabled ([#2773](https://github.com/maevsi/vibetype/issues/2773)) ([d4523f9](https://github.com/maevsi/vibetype/commit/d4523f9b010f77fbeb246d4d97aaf07c70e5a5a1))
+* **map:** style the controls for dark mode ([#2769](https://github.com/maevsi/vibetype/issues/2769)) ([788f1e5](https://github.com/maevsi/vibetype/commit/788f1e5d308d89a973f3f6eec9f9d521a8638081))
+* **session:** hide ios push bridge on other platforms ([#2772](https://github.com/maevsi/vibetype/issues/2772)) ([717ad73](https://github.com/maevsi/vibetype/commit/717ad737312e139636cab957026b1a7d1d8bda2e))
+
 ## [17.34.0](https://github.com/maevsi/vibetype/compare/17.33.0...17.34.0) (2026-11-20)
 
 ### Features
