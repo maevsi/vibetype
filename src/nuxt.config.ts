@@ -114,6 +114,27 @@ export default defineNuxtConfig({
     '/api/service/firebase/notification': {
       csurf: false, // called by services, authenticated by secret
     },
+    '/contact/**': {
+      robots: false, // pages for signed-in users only have nothing for search engines to index
+    },
+    '/dashboard': {
+      robots: false,
+    },
+    '/early-bird/create': {
+      robots: false,
+    },
+    '/event/create': {
+      robots: false,
+    },
+    '/event/ingest/**': {
+      robots: false,
+    },
+    '/notification': {
+      robots: false,
+    },
+    '/upload/**': {
+      robots: false,
+    },
   },
   router: {
     options: {
