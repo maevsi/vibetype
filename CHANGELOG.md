@@ -1,3 +1,19 @@
+## [17.31.0](https://github.com/maevsi/vibetype/compare/17.30.0...17.31.0) (2026-11-20)
+
+### Features
+
+* **loader:** keep the page frame while loading ([#2752](https://github.com/maevsi/vibetype/issues/2752)) ([df5259d](https://github.com/maevsi/vibetype/commit/df5259d80e92d0150b44dd8541874761ea4ce54e))
+
+### Bug Fixes
+
+* **account:** prefix usernames with an at sign ([#2744](https://github.com/maevsi/vibetype/issues/2744)) ([6824050](https://github.com/maevsi/vibetype/commit/6824050c9b1446afa3130b7eb44496bb77aca519))
+* **account:** validate the imprint as a single https link ([#2743](https://github.com/maevsi/vibetype/issues/2743)) ([c4f0e46](https://github.com/maevsi/vibetype/commit/c4f0e461717922cf575d7d21492b77fd55b45e7e))
+* **event:** state plainly that no events were found ([#2751](https://github.com/maevsi/vibetype/issues/2751)) ([ecdc9fb](https://github.com/maevsi/vibetype/commit/ecdc9fbc7bd551241de9822af7d4a6f80f43fada))
+* **layout:** keep content inside narrow and safe-area-bounded screens ([#2750](https://github.com/maevsi/vibetype/issues/2750)) ([fe3c7df](https://github.com/maevsi/vibetype/commit/fe3c7dfd5f5e87f7979ff232a847bb17b8b25ff6))
+* **legal:** replace implied agreement on the start page with plain links ([#2741](https://github.com/maevsi/vibetype/issues/2741)) ([b044ff6](https://github.com/maevsi/vibetype/commit/b044ff6f5828605668863d98b516381187cba5e7))
+* **map:** offer the locate button only behind a feature flag ([#2742](https://github.com/maevsi/vibetype/issues/2742)) ([57a341d](https://github.com/maevsi/vibetype/commit/57a341d6adc5306cda22115fbe8151fb245147bb))
+* **sitemap:** exclude pages for signed-in users ([#2740](https://github.com/maevsi/vibetype/issues/2740)) ([dc2836e](https://github.com/maevsi/vibetype/commit/dc2836e423daec28dcf0fd249e2f6c38630b7c0f))
+
 ## [17.30.0](https://github.com/maevsi/vibetype/compare/17.29.0...17.30.0) (2026-11-20)
 
 ### Features
