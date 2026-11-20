@@ -57,6 +57,7 @@
               <AppTableHead class="w-0" scope="col">
                 <AppCheckbox
                   :aria-label="t('guestSelectAll')"
+                  class="bg-surface"
                   :model-value="
                     guestsSelected.length === guestsFiltered.length
                       ? true
