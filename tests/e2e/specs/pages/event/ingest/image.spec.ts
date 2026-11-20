@@ -11,14 +11,14 @@ const IMAGE_PNG = Buffer.from(
 )
 
 // the picker's file input only exists while the file chooser is open
-const pickPoster = async (page: Page) => {
+const pickPoster = async (page: Page, buffer = IMAGE_PNG) => {
   const fileChooserPromise = page.waitForEvent('filechooser')
 
   await page.getByRole('button', { name: 'Choose from library' }).click()
   await (
     await fileChooserPromise
   ).setFiles({
-    buffer: IMAGE_PNG,
+    buffer,
     mimeType: 'image/png',
     name: 'poster.png',
   })
@@ -110,10 +110,51 @@ authenticatedTest.describe('poster reading', () => {
       await page.getByRole('button', { name: 'Take photo' }).click()
       await expect.poll(() => base64Images.length).toBe(2)
 
-      expect(base64Images).toEqual([
-        IMAGE_PNG.toString('base64'),
-        IMAGE_PNG.toString('base64'),
-      ])
+      // a JPEG's base64 starts with its encoded magic bytes
+      expect(base64Images.every((image) => image.startsWith('/9j/'))).toBe(true)
+    },
+  )
+
+  authenticatedTest(
+    'shrinks large posters to the size the server reads',
+    async ({ defaultPage }) => {
+      const { page } = defaultPage
+      let base64Image: string | undefined
+
+      await page.route(ROUTE, (route) => {
+        base64Image = route.request().postDataJSON().base64Image
+
+        return route.fulfill({
+          json: { output: { description: '', is_event: false } },
+        })
+      })
+      await defaultPage.goto(PAGE_PATH)
+
+      const imageLarge = Buffer.from(
+        await page.locator('body').evaluate((body) => {
+          const canvas = body.ownerDocument.createElement('canvas')
+
+          canvas.width = 4096
+          canvas.height = 1024
+
+          return canvas.toDataURL('image/png').split(',')[1] ?? ''
+        }),
+        'base64',
+      )
+
+      await pickPoster(page, imageLarge)
+      await expect.poll(() => base64Image).toBeTruthy()
+
+      expect(
+        await page.locator('body').evaluate(async (body, image) => {
+          const bitmap =
+            await body.ownerDocument.defaultView?.createImageBitmap(
+              await (await fetch(`data:image/jpeg;base64,${image}`)).blob(),
+            )
+
+          return [bitmap?.width, bitmap?.height]
+        }, base64Image),
+      ).toEqual([2048, 512])
     },
   )
 })
