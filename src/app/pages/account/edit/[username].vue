@@ -7,34 +7,42 @@
     <LayoutTopBar>{{ title }}</LayoutTopBar>
     <LayoutPage>
       <div class="flex flex-col gap-3">
-        <div
-          class="flex items-center justify-between gap-4 rounded-medium bg-surface-raised p-3"
-        >
-          <AccountProfilePicture
-            :account-id="account.rowId"
-            class="size-15 shrink-0 rounded-full"
-            height="60"
-            width="60"
-          />
-          <div class="flex gap-3">
-            <AppButton
+        <div class="flex flex-col gap-2">
+          <span class="text-headline">{{ t('profilePicture') }}</span>
+          <div class="relative size-42 self-start">
+            <AccountProfilePicture
+              :account-id="account.rowId"
+              class="size-full overflow-hidden rounded-medium"
+              height="168"
+              width="168"
+            />
+            <button
               :aria-label="t('replace')"
+              class="group absolute inset-0 rounded-medium"
+              :title="t('replace')"
+              type="button"
               @click="showModalUploadSelection"
             >
-              <span class="text-caption">
-                {{ t('replace') }}
+              <span
+                class="absolute right-2 bottom-2 flex size-10 items-center justify-center rounded-full bg-action-primary text-on-action-primary group-hover:bg-action-primary-hover"
+              >
+                <AppIconCamera aria-hidden="true" />
               </span>
-            </AppButton>
-            <AppButton
+            </button>
+            <button
+              v-if="account.profilePictureByAccountId?.rowId"
               :aria-label="t('remove')"
-              variant="secondary"
+              class="absolute -top-2 -right-2 flex size-8 items-center justify-center rounded-full bg-fg-1 text-surface"
+              :title="t('remove')"
+              type="button"
               @click="openProfilePictureRemoveDrawer"
             >
-              <span class="text-caption">
-                {{ t('remove') }}
-              </span>
-            </AppButton>
+              <AppIconClose aria-hidden="true" />
+            </button>
           </div>
+          <span class="text-body text-fg-2">{{
+            t('usernameHandle', { username: account.username })
+          }}</span>
           <ModalUploadSelection
             v-model="isModalUploadSelectionOpen"
             @select="onUploadSelect"
@@ -45,20 +53,40 @@
             :profile-picture-row-id="account.profilePictureByAccountId.rowId"
           />
         </div>
-        <AppInputTextarea
-          :content-initial="account.description"
-          :length-maximum="descriptionLengthMaximum"
-          :loading="updateAccountByRowIdMutation.fetching.value"
-          :title="t('about')"
-          @save="saveDescription"
-        />
-        <AppInputTextarea
-          :content-initial="account.imprintUrl"
-          :length-maximum="imprintLengthMaximum"
-          :loading="updateAccountByRowIdMutation.fetching.value"
-          :title="t('imprint')"
-          @save="saveImprint"
-        />
+        <form class="flex flex-col gap-4" @submit.prevent="save">
+          <Field>
+            <FieldLabel for="description">
+              <span class="text-headline">{{ t('about') }}</span>
+            </FieldLabel>
+            <Textarea
+              id="description"
+              v-model="description"
+              :maxlength="descriptionLengthMaximum"
+              name="description"
+              :placeholder="t('aboutPlaceholder')"
+            />
+          </Field>
+          <Field>
+            <FieldLabel for="imprintUrl">
+              <span class="text-headline">{{ t('imprint') }}</span>
+            </FieldLabel>
+            <Textarea
+              id="imprintUrl"
+              v-model="imprintUrl"
+              :maxlength="imprintLengthMaximum"
+              name="imprintUrl"
+              :placeholder="t('imprintPlaceholder')"
+            />
+          </Field>
+          <AppButton
+            :aria-label="t('save')"
+            :disabled="!isDirty"
+            :loading="updateAccountByRowIdMutation.fetching.value"
+            type="submit"
+          >
+            <span class="text-headline">{{ t('save') }}</span>
+          </AppButton>
+        </form>
         <section class="flex flex-col gap-4">
           <AppSeparator />
           <span class="text-headline">{{ t('profile') }}</span>
@@ -293,32 +321,32 @@ const updateAccountByRowIdMutation = useMutation(
   `),
 )
 
-const saveDescription = async (content?: string) => {
-  if (!account.value) return
+const description = ref(account.value?.description?.trim() ?? '')
+const imprintUrl = ref(account.value?.imprintUrl?.trim() ?? '')
+const isDirty = computed(
+  () =>
+    description.value.trim() !== (account.value?.description?.trim() ?? '') ||
+    imprintUrl.value.trim() !== (account.value?.imprintUrl?.trim() ?? ''),
+)
+useLeaveConfirmation(isDirty)
 
-  await executeUrqlRequest({
-    errorMessageI18n: t('errorUpdateDescription'),
+const save = async () => {
+  if (!account.value || !isDirty.value) return
+
+  const result = await executeUrqlRequest({
+    errorMessageI18n: t('errorUpdate'),
     request: updateAccountByRowIdMutation.executeMutation({
       input: {
         rowId: account.value.rowId,
-        accountPatch: { description: content },
+        accountPatch: {
+          description: description.value.trim(),
+          imprintUrl: imprintUrl.value.trim(),
+        },
       },
     }),
   })
-}
 
-const saveImprint = async (content?: string) => {
-  if (!account.value) return
-
-  await executeUrqlRequest({
-    errorMessageI18n: t('errorUpdateImprint'),
-    request: updateAccountByRowIdMutation.executeMutation({
-      input: {
-        rowId: account.value.rowId,
-        accountPatch: { imprintUrl: content },
-      },
-    }),
-  })
+  if (result) toast.success(t('saved'))
 }
 
 // account
@@ -333,7 +361,8 @@ const localePath = useLocalePath()
 
 <i18n lang="yaml">
 de:
-  about: Über
+  about: Über dich
+  aboutPlaceholder: Erzähl ein wenig von dir! Was inspiriert dich, was machst du gern, oder verrate einfach eine lustige Tatsache.
   accountBlock: Blockierte Benutzer
   aiSetup: KI einrichten
   deleteAccount: Konto löschen
@@ -342,18 +371,23 @@ de:
   errorAccountMissing: Konto nicht verfügbar
   errorProfilePictureCreate: Beim Speichern des Profilbildes ist ein Problem aufgetreten
   errorProfilePictureDelete: Beim Entfernen des Profilbildes ist ein Problem aufgetreten
-  errorUpdateDescription: Beim Speichern der Beschreibung ist ein Problem aufgetreten
-  errorUpdateImprint: Beim Speichern des Impressums ist ein Problem aufgetreten
+  errorUpdate: Beim Speichern des Profils ist ein Problem aufgetreten
   imprint: Impressum
+  imprintPlaceholder: Link zu deinem Impressum
   interactions: Interaktionen mit dir
   language: Sprache
   profile: Profil
-  remove: Bild entfernen
-  replace: Bild ersetzen
+  profilePicture: Profilbild
+  remove: Profilbild entfernen
+  replace: Profilbild ändern
   resetPassword: Passwort zurücksetzen
+  save: Profil speichern
+  saved: Profil gespeichert
   title: Mein Profil
+  usernameHandle: "{'@'}{username}"
 en:
-  about: About
+  about: About you
+  aboutPlaceholder: Share a bit about yourself! What inspires you, what you love doing, or just a fun fact.
   accountBlock: Blocked Users
   aiSetup: Set up AI
   deleteAccount: Delete Account
@@ -362,14 +396,18 @@ en:
   errorAccountMissing: Account unavailable
   errorProfilePictureCreate: There was a problem saving the profile picture
   errorProfilePictureDelete: There was a problem removing the profile picture
-  errorUpdateDescription: There was a problem saving the description
-  errorUpdateImprint: There was a problem saving the imprint
+  errorUpdate: There was a problem saving the profile
   imprint: Imprint
+  imprintPlaceholder: Link to your imprint
   interactions: Interactions with you
   language: Language
   profile: Profile
-  remove: Remove Image
-  replace: Replace Image
+  profilePicture: Profile picture
+  remove: Remove profile picture
+  replace: Change profile picture
   resetPassword: Reset Password
+  save: Save profile
+  saved: Profile saved
   title: My Profile
+  usernameHandle: "{'@'}{username}"
 </i18n>
