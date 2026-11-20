@@ -4,12 +4,9 @@
   >
     <slot name="back" />
     <div class="min-w-0 flex-1">
-      <AppInputSearch
-        v-model="searchQuery"
-        class="h-12"
-        :disabled
-        :placeholder
-      />
+      <slot>
+        <AppInputSearch v-model="searchQuery" class="h-12" :placeholder />
+      </slot>
     </div>
     <AppButton
       :aria-label="t('map')"
@@ -25,13 +22,13 @@
 </template>
 
 <script setup lang="ts">
-const { disabled = false, placeholder = undefined } = defineProps<{
-  disabled?: boolean
+const { placeholder = undefined } = defineProps<{
   placeholder?: string
 }>()
 
 defineSlots<{
   back?: () => unknown
+  default?: () => unknown
 }>()
 
 const isMapVisible = defineModel<boolean>('isMapVisible', { default: false })

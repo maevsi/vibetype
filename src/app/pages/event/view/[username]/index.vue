@@ -6,33 +6,37 @@
     />
     <div v-else class="flex flex-1 flex-col">
       <LayoutPage>
-        <h1 class="sr-only">
-          <i18n-t keypath="title">
-            <template #name>
-              <AppLink
-                :to="
-                  localePath({
-                    name: 'account-view-username',
-                    params: { username: route.params.username },
-                  })
-                "
-              >
-                {{ `@${route.params.username}` }}
-              </AppLink>
-            </template>
-          </i18n-t>
-        </h1>
         <div class="flex flex-1 flex-col gap-4">
-          <EventSearchBar
-            v-model:is-map-visible="isMapVisible"
-            v-model:search-query="searchQuery"
-            disabled
-            :placeholder="
-              isOwn
-                ? t('searchPlaceholderOwn')
-                : t('searchPlaceholderOther', { name: route.params.username })
-            "
-          >
+          <EventSearchBar v-model:is-map-visible="isMapVisible">
+            <h1 :class="isSearchEnabled ? 'sr-only' : 'truncate text-title3'">
+              <i18n-t keypath="title">
+                <template #name>
+                  <AppLink
+                    :to="
+                      localePath({
+                        name: 'account-view-username',
+                        params: { username: route.params.username },
+                      })
+                    "
+                  >
+                    {{ `@${route.params.username}` }}
+                  </AppLink>
+                </template>
+              </i18n-t>
+            </h1>
+            <AppFeature feature="event-search-account">
+              <AppInputSearch
+                v-model="searchQuery"
+                class="h-12"
+                :placeholder="
+                  isOwn
+                    ? t('searchPlaceholderOwn')
+                    : t('searchPlaceholderOther', {
+                        name: route.params.username,
+                      })
+                "
+              />
+            </AppFeature>
             <template v-if="!isOwn" #back>
               <ButtonIconBackRoute />
             </template>
@@ -160,8 +164,15 @@ const events = computed(() =>
 
 // template
 const isMapVisible = useEventMapVisible()
-// Disabled: the search needs the `search` condition of `allEvents`, which is not deployed to production yet.
-// Upgrade path: once postgraphile with that condition (maevsi/postgraphile#69) is deployed, drop `disabled` and query `allEvents` with `condition: { createdBy, search }`.
+// the query does not filter by `searchQuery` yet, as the `search` condition of `allEvents` needs postgraphile 3.4.0 in production; once deployed, query `allEvents` with `condition: { createdBy, search }` and drop the flag
+// `AppFeature` shows the search outside production, so the heading only gives way to it under the same rule
+const { isFeatureEnabled } = useFeatureFlags()
+const runtimeConfig = useRuntimeConfig()
+const isSearchEnabled = computed(
+  () =>
+    isFeatureEnabled('event-search-account').value ||
+    runtimeConfig.public.vio.environment !== 'production',
+)
 const searchQuery = ref('')
 const localePath = useLocalePath()
 </script>

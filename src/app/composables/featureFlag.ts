@@ -4,6 +4,7 @@ export const FEATURE_FLAGS = [
   'developer-tools',
   'event-attending',
   'event-drafts',
+  'event-search-account',
   'friends',
   'invitations',
   'location-live',
