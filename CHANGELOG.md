@@ -1,3 +1,10 @@
+## [17.30.0](https://github.com/maevsi/vibetype/compare/17.29.0...17.30.0) (2026-11-20)
+
+### Features
+
+* **account:** add a menu to the profile ([#2736](https://github.com/maevsi/vibetype/issues/2736)) ([7c1a821](https://github.com/maevsi/vibetype/commit/7c1a8218739fd8329109292be8c930abeaa262a2))
+* **session:** detail invitation codes ([#2737](https://github.com/maevsi/vibetype/issues/2737)) ([603c97f](https://github.com/maevsi/vibetype/commit/603c97f47ee4a535e5878d285c791d7a376f2e64))
+
 ## [17.29.0](https://github.com/maevsi/vibetype/compare/17.28.0...17.29.0) (2026-11-20)
 
 ### Features
