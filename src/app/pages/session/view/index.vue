@@ -99,7 +99,10 @@
                       }}</span>
                     </dd>
                   </div>
-                  <div class="flex items-center justify-between gap-2">
+                  <div
+                    v-if="isIos"
+                    class="flex items-center justify-between gap-2"
+                  >
                     <dt>{{ t('supportIosPush') }}</dt>
                     <dd class="flex items-center gap-2">
                       <AppIconQuestionMarkCircle
@@ -380,7 +383,7 @@ const requestEvent = useRequestEvent()
 const store = useStore()
 const notificationStore = useNotificationStore()
 const jwtDelete = useJwtDelete()
-const { isAndroid, isApp, platform } = usePlatform()
+const { isAndroid, isApp, isIos, platform } = usePlatform()
 const alertError = useAlertError()
 
 // feature flags
