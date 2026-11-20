@@ -1,3 +1,21 @@
+## [17.32.0](https://github.com/maevsi/vibetype/compare/17.31.0...17.32.0) (2026-11-20)
+
+### Features
+
+* **account:** show friends as a stat card on the profile ([#2718](https://github.com/maevsi/vibetype/issues/2718)) ([93dc324](https://github.com/maevsi/vibetype/commit/93dc324d613e6c69a3bd7d363eeb24f3056de727))
+* **contact:** import from address book or vcard file ([#2739](https://github.com/maevsi/vibetype/issues/2739)) ([085b306](https://github.com/maevsi/vibetype/commit/085b3062782e2db40b460a0483ec2a339ea07d0c))
+* **event:** add search bar and map toggle to account events page ([#2760](https://github.com/maevsi/vibetype/issues/2760)) ([7784228](https://github.com/maevsi/vibetype/commit/7784228df2d4617184c4281a6b100f9b4c79aa47))
+* **event:** lay out the poster hunt link page like the design ([#2757](https://github.com/maevsi/vibetype/issues/2757)) ([da5a06c](https://github.com/maevsi/vibetype/commit/da5a06c8d5ffdf4c036c2a6860ad182c5be4e7d3))
+* **imprint:** add accessibility section ([#2762](https://github.com/maevsi/vibetype/issues/2762)) ([bc2816f](https://github.com/maevsi/vibetype/commit/bc2816fb88ef1be5d59473bdef05ecfa8486c197))
+
+### Bug Fixes
+
+* **consent:** leave provider names out of the category headings ([#2759](https://github.com/maevsi/vibetype/issues/2759)) ([3e9552c](https://github.com/maevsi/vibetype/commit/3e9552ce63986658818935be7570e7d4c8a75633))
+* **consent:** take clicks on the consent screen ([#2755](https://github.com/maevsi/vibetype/issues/2755)) ([b9c59c4](https://github.com/maevsi/vibetype/commit/b9c59c431601b474c479e0f47123f91e5679fdac))
+* **email:** remove tagline from header ([#2761](https://github.com/maevsi/vibetype/issues/2761)) ([f3abd12](https://github.com/maevsi/vibetype/commit/f3abd12803e92446b455a117976d1b2f2f346be3))
+* **event:** read large posters instead of rejecting them as too large ([#2754](https://github.com/maevsi/vibetype/issues/2754)) ([87f3dbe](https://github.com/maevsi/vibetype/commit/87f3dbef6984f4d37a0c8a39ddc9deffcff3cb34))
+* **layout:** truncate long page titles with an ellipsis ([#2756](https://github.com/maevsi/vibetype/issues/2756)) ([85bee5c](https://github.com/maevsi/vibetype/commit/85bee5c3a93047e4eb59fcfed6fd830844c749d8))
+
 ## [17.31.0](https://github.com/maevsi/vibetype/compare/17.30.0...17.31.0) (2026-11-20)
 
 ### Features
