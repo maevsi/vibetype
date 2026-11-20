@@ -73,15 +73,23 @@
                 >
                   <div />
                   <div class="flex items-center gap-2">
-                    <AppButton
-                      :aria-label="t('iCalDownload')"
-                      class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
-                      size="none"
-                      variant="ghost"
-                      @click="downloadIcal"
-                    >
-                      <AppIconArrowDownTray :title="t('iCalDownload')" />
-                    </AppButton>
+                    <AppDropdown>
+                      <AppDropdownItem @select="downloadIcal">
+                        <AppIconArrowDownTray />
+                        <span>{{ t('iCalDownload') }}</span>
+                      </AppDropdownItem>
+                      <AppDropdownItem @select="googleCalendarOpen">
+                        <AppIconCalendar />
+                        <span>{{ t('googleCalendarAdd') }}</span>
+                      </AppDropdownItem>
+                      <template #trigger>
+                        <span
+                          class="flex size-12 items-center justify-center rounded-full bg-surface-raised"
+                        >
+                          <AppIconCalendar :title="t('calendarAdd')" />
+                        </span>
+                      </template>
+                    </AppDropdown>
                     <EventShareButton
                       class="flex size-10.5 items-center justify-center rounded-full bg-surface-raised"
                       :event
@@ -495,6 +503,28 @@ const downloadIcal = async () => {
     alertError(t('iCalFetchError'))
   }
 }
+const requestUrl = useRequestURL()
+const googleCalendarOpen = () => {
+  if (!event.value) return
+
+  navigateTo(
+    getGoogleCalendarUrl({
+      description: event.value.description
+        ? getTextFromHtml(event.value.description)
+        : undefined,
+      end: event.value.end,
+      location: event.value.isInPerson
+        ? [address.value?.name, getAddressText(address.value)]
+            .filter(Boolean)
+            .join(', ')
+        : undefined,
+      name: event.value.name,
+      start: event.value.start,
+      url: requestUrl.href,
+    }),
+    { external: true, open: { target: '_blank' } },
+  )
+}
 const isTicketShareable = ref<boolean>()
 const isTicketFetching = ref<boolean>()
 const ticketFile = ref<File>()
@@ -624,13 +654,15 @@ defineEventOgImage({ alt: t('ogImageAlt'), event: event.value })
 
 <i18n lang="yaml">
 de:
+  calendarAdd: Zum Kalender hinzufügen
   errorAccountMissing: Nutzerkonto nicht verfügbar
   errorEventMissing: Veranstaltung nicht verfügbar
   errorGuestMissing: Gast nicht verfügbar
+  googleCalendarAdd: Zu Google Kalender hinzufügen
   greeting: Hey{usernameString}!
   greetingDescription: Du wurdest zu folgender Veranstaltung eingeladen.
   hintQrCode: Dieses Bild ist deine Zugangsberechtigung für die Veranstaltung
-  iCalDownload: Als Kalendereintrag herunterladen
+  iCalDownload: Als Kalenderdatei herunterladen
   # iCalHint: Die heruntergeladene Datei kann dann mit deiner Kalender-Anwendung geöffnet werden.
   iCalFetchError: iCal-Daten konnten nicht geladen werden!
   invitationAccept: Einladung annehmen
@@ -651,13 +683,15 @@ de:
   ticketShare: Ticket teilen
   ticketShareError: Das Ticket konnte nicht geteilt werden.
 en:
+  calendarAdd: Add to calendar
   errorAccountMissing: Account not available
   errorEventMissing: Event not available
   errorGuestMissing: Guest not available
+  googleCalendarAdd: Add to Google Calendar
   greeting: Hey{usernameString}!
   greetingDescription: "You've been invited to the following event."
   hintQrCode: This picture is your access authorization for the event
-  iCalDownload: Download for your calendar
+  iCalDownload: Download calendar file
   # iCalHint: You can open the downloaded file in your calendar app.
   iCalFetchError: Could not get iCal data!
   invitationAccept: Accept invitation
