@@ -1,10 +1,11 @@
 <template>
+  <!-- the scroll lock disables pointer events on the body, which this screen would otherwise inherit -->
   <div
     v-if="isVisible"
     ref="screenElement"
     :aria-labelledby="titleId"
     aria-modal="true"
-    class="fixed inset-0 z-2000 flex flex-col overflow-y-auto overscroll-contain bg-surface"
+    class="pointer-events-auto fixed inset-0 z-2000 flex flex-col overflow-y-auto overscroll-contain bg-surface"
     data-testid="consent-screen"
     role="dialog"
   >
