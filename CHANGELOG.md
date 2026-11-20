@@ -1,3 +1,13 @@
+## [18.0.0-beta.6](https://github.com/maevsi/vibetype/compare/18.0.0-beta.5...18.0.0-beta.6) (2026-11-20)
+
+### ⚠ BREAKING CHANGES
+
+* **event:** add cover images (#2707)
+
+### Features
+
+* **event:** add cover images ([#2707](https://github.com/maevsi/vibetype/issues/2707)) ([0e4f138](https://github.com/maevsi/vibetype/commit/0e4f138cebaf4ecb1f1f3bb6d5c8f51a5225df1b))
+
 ## [18.0.0-beta.5](https://github.com/maevsi/vibetype/compare/18.0.0-beta.4...18.0.0-beta.5) (2026-11-16)
 
 ### ⚠ BREAKING CHANGES
