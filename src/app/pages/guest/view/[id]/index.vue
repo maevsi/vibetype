@@ -250,7 +250,7 @@
               </LayoutProse>
             </AppCard>
           </div>
-          <AppModal v-model="isModalGuestQrCodeOpen">
+          <AppDrawer v-model="isDrawerGuestQrCodeOpen">
             <div v-if="guest" class="flex flex-col items-center gap-2 pb-4">
               <QrcodeVue
                 id="qrCode"
@@ -262,6 +262,7 @@
                 {{ t('hintQrCode') }}
               </p>
             </div>
+            <template #title>{{ t('qrCode') }}</template>
             <template #footer>
               <AppButton
                 v-if="isTicketShareable"
@@ -291,7 +292,7 @@
                 </template>
               </AppButton>
             </template>
-          </AppModal>
+          </AppDrawer>
         </div>
       </LayoutPage>
     </div>
@@ -327,7 +328,7 @@ const updateGuestByRowIdMutation = useMutation(
 )
 const store = useStore()
 
-const isModalGuestQrCodeOpen = ref<boolean>()
+const isDrawerGuestQrCodeOpen = ref<boolean>()
 const isOpenReportDrawer = ref<boolean>()
 const alertError = useAlertError()
 
@@ -557,7 +558,7 @@ const ticketFetch = async () => {
     isTicketFetching.value = false
   }
 }
-watch(isModalGuestQrCodeOpen, (isOpen) => {
+watch(isDrawerGuestQrCodeOpen, (isOpen) => {
   if (isOpen) ticketFetch()
 })
 // called without awaiting anything first, as iOS drops the user activation
@@ -582,7 +583,7 @@ const ticketDownload = () => {
   downloadJs(ticketFile.value, ticketFile.value.name, 'application/pdf')
 }
 const qrCodeShow = () => {
-  isModalGuestQrCodeOpen.value = true
+  isDrawerGuestQrCodeOpen.value = true
 }
 const update = async (id: string, guestPatch: GuestPatch) => {
   const result = await updateGuestByRowIdMutation.executeMutation({
@@ -675,6 +676,7 @@ de:
   invitationSelectionClear: Zurück zur Einladungsübersicht
   invitationViewFor: Du schaust dir die Einladung für {name} an. Alle Personen, die den Link zu dieser Seite bzw. die ID dieser Einladung kennen, können auf diese Einladung zugreifen und mit ihr interagieren.
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
+  qrCode: Check-in-Code
   qrCodeShow: Check-in-Code anzeigen
   report: Veranstaltung melden
   success: Deine Eingabe wurde erfolgreich gespeichert.
@@ -704,6 +706,7 @@ en:
   invitationSelectionClear: Back to the invitation overview
   invitationViewFor: You're viewing the invitation for {name}. Anyone knowing the link to this page or this invitation's id can access this invitation and interact with it.
   ogImageAlt: The event's preview image.
+  qrCode: Check in code
   qrCodeShow: Show check in code
   report: Report event
   success: Your input was saved succesfully.

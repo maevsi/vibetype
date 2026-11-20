@@ -1,7 +1,7 @@
 <template>
   <!-- eslint-disable-next-line vue/no-v-html -->
   <div @click="onClick" v-html="html" />
-  <ModalExternalLink v-if="url" v-model="isModalExternalLinkOpen" :url />
+  <AppExternalLinkDrawer v-if="url" v-model="isDrawerExternalLinkOpen" :url />
 </template>
 
 <script setup lang="ts">
@@ -10,7 +10,7 @@ const { html } = defineProps<{
 }>()
 
 // data
-const isModalExternalLinkOpen = ref(false)
+const isDrawerExternalLinkOpen = ref(false)
 const url = ref<string>()
 
 // methods
@@ -27,7 +27,7 @@ const onClick = async (event: MouseEvent) => {
   if ('url' in navigation) {
     event.preventDefault()
     url.value = navigation.url
-    isModalExternalLinkOpen.value = true
+    isDrawerExternalLinkOpen.value = true
     return
   }
 
