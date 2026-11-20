@@ -54,11 +54,7 @@ export const GET_CSP = ({
       ],
       'manifest-src': ["'self'"],
       // 'prefetch-src': ["'self'"],
-      ...(process.env.NODE_ENV === 'development'
-        ? {
-            'require-trusted-types-for': "'script'", // csp-evaluator // TODO: enable for production once trusted types are properly implemented
-          }
-        : {}),
+      'require-trusted-types-for': "'script'", // csp-evaluator
       'script-src': [
         "'wasm-unsafe-eval'", // vue-qrcode-reader
       ],
