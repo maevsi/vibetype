@@ -47,9 +47,26 @@
             </SelectContent>
           </Select>
         </div>
+        <GuestListActions
+          v-if="guestsSelected.length"
+          :guests="guestsSelected"
+        />
         <AppTable v-if="guestsFiltered.length" class="border border-line">
           <AppTableHeader>
             <tr>
+              <AppTableHead class="w-0" scope="col">
+                <AppCheckbox
+                  :aria-label="t('guestSelectAll')"
+                  :model-value="
+                    guestsSelected.length === guestsFiltered.length
+                      ? true
+                      : guestsSelected.length
+                        ? 'indeterminate'
+                        : false
+                  "
+                  @update:model-value="selectAll($event === true)"
+                />
+              </AppTableHead>
               <AppTableHead scope="col">
                 {{ t('contact') }}
               </AppTableHead>
@@ -64,6 +81,8 @@
               :key="guest.rowId"
               :event
               :guest
+              :selected="guestRowIdsSelected.includes(guest.rowId)"
+              @update:selected="select(guest.rowId, $event)"
             />
           </AppTableBody>
         </AppTable>
@@ -161,6 +180,7 @@ const templateDoughnut = useTemplateRef<DoughnutController>('doughnut')
 // data
 const after = ref<string | null>()
 const feedbackFilter = ref<string>('all')
+const guestRowIdsSelected = ref<string[]>([])
 const isModalGuestOpen = ref<boolean>()
 const searchString = ref<string>('')
 const options = {
@@ -215,6 +235,16 @@ const onModalGuestClose = () => {
   isModalGuestOpen.value = false
   after.value = undefined
   guestsQuery.resume()
+}
+const select = (guestRowId: string, isSelected?: boolean) => {
+  guestRowIdsSelected.value = isSelected
+    ? [...guestRowIdsSelected.value, guestRowId]
+    : guestRowIdsSelected.value.filter((rowId) => rowId !== guestRowId)
+}
+const selectAll = (isSelected: boolean) => {
+  guestRowIdsSelected.value = isSelected
+    ? guestsFiltered.value.map((guest) => guest.rowId)
+    : []
 }
 const updateChart = () => {
   Chart.defaults.color = colorMode.value === 'dark' ? '#fff' : '#000'
@@ -297,6 +327,12 @@ const guestsFiltered = computed(() => {
       return bySearch.filter((guest) => guest.feedback === feedbackFilter.value)
   }
 })
+// guests hidden by the search or filter stay out, so an action never touches a guest that is not visible
+const guestsSelected = computed(() =>
+  guestsFiltered.value.filter((guest) =>
+    guestRowIdsSelected.value.includes(guest.rowId),
+  ),
+)
 
 // lifecycle
 watch(
@@ -335,6 +371,7 @@ de:
   guestAdd: Gäste hinzufügen
   guestNone: Es wurde noch kein Gast hinzugefügt 😕
   guestNoneFiltered: Keine Gäste entsprechen diesem Filter 😕
+  guestSelectAll: Alle angezeigten Gäste auswählen
   guestsUsed: 'Gästekontingent genutzt: {amountCurrent} / {amountMaximum}'
   noFeedback: keine Rückmeldung
 en:
@@ -351,6 +388,7 @@ en:
   guestAdd: Add guests
   guestNone: No guest has been added yet 😕
   guestNoneFiltered: No guests match this filter 😕
+  guestSelectAll: Select all shown guests
   guestsUsed: 'Guest quota used: {amountCurrent} / {amountMaximum}'
   noFeedback: no response
 </i18n>
