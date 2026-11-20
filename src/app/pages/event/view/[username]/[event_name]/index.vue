@@ -25,6 +25,23 @@
               <AppDropdown>
                 <AppDropdownItem
                   v-if="event.createdBy === store.signedInAccountId"
+                  @select="
+                    navigateTo(
+                      localePath({
+                        name: 'event-edit-username-event_name',
+                        params: {
+                          event_name: route.params.event_name,
+                          username: route.params.username,
+                        },
+                      }),
+                    )
+                  "
+                >
+                  <AppIconPencil />
+                  <span>{{ t('edit') }}</span>
+                </AppDropdownItem>
+                <AppDropdownItem
+                  v-if="event.createdBy === store.signedInAccountId"
                   variant="destructive"
                   @select="isOpenDeleteDrawer = true"
                 >
@@ -46,6 +63,11 @@
                   </span>
                 </template>
               </AppDropdown>
+              <EventInviteDrawer
+                v-if="event.createdBy === store.signedInAccountId"
+                v-model:open="isOpenInviteDrawer"
+                :event
+              />
               <EventDeleteDrawer
                 v-if="event.createdBy === store.signedInAccountId"
                 v-model:open="isOpenDeleteDrawer"
@@ -133,23 +155,15 @@
               </template>
             </AppButton>
             <AppButton
-              :aria-label="t('settings')"
+              :aria-label="t('invite')"
               class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
               size="none"
-              :to="
-                localePath({
-                  name: 'event-edit-username-event_name',
-                  params: {
-                    event_name: route.params.event_name,
-                    username: route.params.username,
-                  },
-                })
-              "
               variant="secondary"
+              @click="isOpenInviteDrawer = true"
             >
-              {{ t('settings') }}
+              {{ t('invite') }}
               <template #prefix>
-                <AppIconPencil />
+                <AppIconUserPlus />
               </template>
             </AppButton>
           </AppButtonGroup>
@@ -225,6 +239,7 @@ const route = useRoute()
 const localePath = useLocalePath()
 
 const isOpenDeleteDrawer = ref<boolean>()
+const isOpenInviteDrawer = ref<boolean>()
 const isOpenReportDrawer = ref<boolean>()
 
 // api data
@@ -425,29 +440,31 @@ de:
   attendances: Check-in
   delete: Veranstaltung löschen
   details: Details
+  edit: Veranstaltung bearbeiten
   errorAccountMissing: Nutzerkonto nicht verfügbar
   errorEventMissing: Veranstaltung nicht verfügbar
   errorTemplate: Wert nur in der Einladung verfügbar
   guests: Gäste
+  invite: Einladen
   location: Ort
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
   participants: Teilnehmende
   participate: Teilnehmen
   report: Veranstaltung melden
-  settings: Bearbeiten
 en:
   about: About the event
   attendances: Check in
   delete: Delete event
   details: Details
+  edit: Edit event
   errorAccountMissing: Account not available
   errorEventMissing: Event not available
   errorTemplate: value available in invitation only
   guests: Guests
+  invite: Invite
   location: Location
   ogImageAlt: The event's preview image.
   participants: Participants
   participate: Participate
   report: Report event
-  settings: Edit
 </i18n>
