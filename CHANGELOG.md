@@ -1,3 +1,14 @@
+## [17.33.0](https://github.com/maevsi/vibetype/compare/17.32.0...17.33.0) (2026-11-20)
+
+### Features
+
+* **event:** compact the form's categories, formats, and editor toolbar ([#2765](https://github.com/maevsi/vibetype/issues/2765)) ([8771421](https://github.com/maevsi/vibetype/commit/8771421513a36ebdc26cd72efd2bebb2cd948f09))
+* **event:** invite to plan an event when none is upcoming ([#2763](https://github.com/maevsi/vibetype/issues/2763)) ([1007f2c](https://github.com/maevsi/vibetype/commit/1007f2cd2aff7c4e771df5724e6a791dc5466c19))
+
+### Bug Fixes
+
+* **preference:** move skips to the top and keep map controls above overlays ([#2764](https://github.com/maevsi/vibetype/issues/2764)) ([4843b20](https://github.com/maevsi/vibetype/commit/4843b207c4ff4c537bf332df658389bf9b873618))
+
 ## [17.32.0](https://github.com/maevsi/vibetype/compare/17.31.0...17.32.0) (2026-11-20)
 
 ### Features
