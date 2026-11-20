@@ -1,20 +1,21 @@
 <template>
-  <div>
-    <LayoutPageTitle :title />
-    <div class="flex flex-col gap-8">
-      <AppFeature feature="notifications">
-        <div class="flex flex-col gap-8">
-          <section
-            v-if="store.signedInAccountId && store.signedInUsername"
-            class="flex flex-col gap-4"
-          >
-            <!-- <h2>{{ t('friendRequests') }}</h2> -->
-            <div>
-              <NotificationFriendRequest
-                :account-id="store.signedInAccountId"
-                :username="store.signedInUsername"
-              />
-              <!-- <NotificationFriendRequest
+  <div class="flex flex-1 flex-col">
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutPage>
+      <div class="flex flex-col gap-8">
+        <AppFeature feature="notifications">
+          <div class="flex flex-col gap-8">
+            <section
+              v-if="store.signedInAccountId && store.signedInUsername"
+              class="flex flex-col gap-4"
+            >
+              <!-- <h2>{{ t('friendRequests') }}</h2> -->
+              <div>
+                <NotificationFriendRequest
+                  :account-id="store.signedInAccountId"
+                  :username="store.signedInUsername"
+                />
+                <!-- <NotificationFriendRequest
               :account-id="store.signedInAccountId"
               :username="store.signedInUsername"
             />
@@ -22,38 +23,41 @@
               :account-id="store.signedInAccountId"
               :username="store.signedInUsername"
             /> -->
-            </div>
-          </section>
-          <section class="flex flex-col gap-4">
-            <!-- <h2>{{ t('general') }}</h2> -->
-            <div class="flex flex-col gap-2">
-              <NotificationGeneral
-                :category="t('locationChangedCategory')"
-                is-unread
-                :message="t('locationChangedMessage')"
-              >
-                <template #icon>
-                  <AppIconMapPinSolid />
-                </template>
-              </NotificationGeneral>
-              <NotificationGeneral
-                :category="t('invitationCategory')"
-                :message="t('invitationMessage')"
-              >
-                <template #icon>
-                  <AppIconHeart />
-                </template>
-              </NotificationGeneral>
-            </div>
-          </section>
-        </div>
-      </AppFeature>
-      <ButtonApp />
-    </div>
+              </div>
+            </section>
+            <section class="flex flex-col gap-4">
+              <!-- <h2>{{ t('general') }}</h2> -->
+              <div class="flex flex-col gap-2">
+                <NotificationGeneral
+                  :category="t('locationChangedCategory')"
+                  is-unread
+                  :message="t('locationChangedMessage')"
+                >
+                  <template #icon>
+                    <AppIconMapPinSolid />
+                  </template>
+                </NotificationGeneral>
+                <NotificationGeneral
+                  :category="t('invitationCategory')"
+                  :message="t('invitationMessage')"
+                >
+                  <template #icon>
+                    <AppIconHeart />
+                  </template>
+                </NotificationGeneral>
+              </div>
+            </section>
+          </div>
+        </AppFeature>
+        <ButtonApp />
+      </div>
+    </LayoutPage>
   </div>
 </template>
 
 <script setup lang="ts">
+useFeatureRequired('notifications')
+
 const { t } = useI18n()
 const store = useStore()
 

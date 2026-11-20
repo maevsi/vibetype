@@ -88,7 +88,7 @@ const t = locales[locale]
           <AppText
             class="text-secondary"
             style="
-              color: #555;
+              color: #5f6461;
               font-size: 13px;
               margin-top: 8px;
               margin-bottom: 32px;
@@ -102,8 +102,9 @@ const t = locales[locale]
           </AppText>
           <AppText>
             <ELink
+              class="link"
               href="mailto:contact+password-reset@maev.si"
-              style="text-decoration: underline"
+              style="color: #117a23; text-decoration: underline"
             >
               <!-- eslint-disable-next-line @intlify/vue-i18n/no-raw-text -->
               {{ 'contact+password-reset@maev.si' }}

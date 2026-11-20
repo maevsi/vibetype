@@ -1,14 +1,18 @@
 <template>
-  <div class="flex flex-col gap-4">
-    <h1 class="sr-only">{{ title }}</h1>
-    <!-- TODO: fill page with content instead (https://github.com/maevsi/vibetype/issues/159) -->
-    <AppAlert>
-      {{ t('soon') }}
-    </AppAlert>
+  <div class="flex flex-1 flex-col">
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutPage>
+      <!-- TODO: fill page with content instead (https://github.com/maevsi/vibetype/issues/159) -->
+      <AppAlert>
+        {{ t('soon') }}
+      </AppAlert>
+    </LayoutPage>
   </div>
 </template>
 
 <script setup lang="ts">
+useFeatureRequired('invitations')
+
 defineRouteRules({
   robots: false, // TODO: reactive once page is filled with content (https://github.com/maevsi/vibetype/issues/159)
 })

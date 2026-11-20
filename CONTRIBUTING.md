@@ -34,6 +34,9 @@ A new major release is how the stack learns that it has to deploy the other serv
 1. State the requirement in the pull request body: the service, its minimum version, and what happens when it is missing.
 1. Once merged, add the pull request to the draft release pull request from `beta` to `main` and extend its upgrade instructions.
 
+Breaking changes stay on `beta` until the stack releases the majors of its services together.
+The [release bundle document of `stack`](https://github.com/maevsi/stack/blob/main/docs/release-bundle.md) holds the rules that all services share, including the order in which their release pull requests are merged.
+
 ### Components
 
 Components in `src/app/components/app/` follow the shadcn-vue components in `src/app/components/scn/`.

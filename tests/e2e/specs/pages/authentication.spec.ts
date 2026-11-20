@@ -76,33 +76,24 @@ appTest.describe('authentication', () => {
 
     await expect(defaultPage.page).toHaveURL(/\/dashboard$/)
     await expect(
-      defaultPage.page.getByRole('link', { name: 'Settings' }),
+      defaultPage.page.getByRole('link', { name: 'Events' }),
     ).toBeVisible()
     await expect(
-      defaultPage.page.getByRole('button', { name: 'back', exact: true }),
+      defaultPage.page.getByRole('button', { name: 'Back', exact: true }),
     ).toHaveCount(0)
   })
 
   appTest(
-    'keeps the back button for navigations before signing in',
-    async ({ defaultPage, isMobile }) => {
-      appTest.skip(
-        isMobile,
-        'the sidebar with the account link is desktop only',
-      )
-
-      await goto({ defaultPage, path: '/contact' })
-      await defaultPage.page.getByRole('link', { name: 'Account' }).click()
-      await signIn({
-        page: defaultPage.page,
-        password: TESTING_ACCOUNT_PASSWORD,
-      })
-      await expect(defaultPage.page).toHaveURL(/\/dashboard$/)
+    'returns from the sign-in page with the back button',
+    async ({ defaultPage }) => {
+      await goto({ defaultPage, path: '/event' })
+      await defaultPage.page.getByRole('link', { name: 'Log in' }).click()
+      await expect(defaultPage.page).toHaveURL(/\/session\/create$/)
 
       await defaultPage.page
-        .getByRole('button', { name: 'back', exact: true })
+        .getByRole('button', { name: 'Back', exact: true })
         .click()
-      await expect(defaultPage.page).toHaveURL(/\/contact$/)
+      await expect(defaultPage.page).toHaveURL(/\/event$/)
     },
   )
 

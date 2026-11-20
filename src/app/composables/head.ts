@@ -100,6 +100,8 @@ export const useHeadDefault = (
         }
       : {}),
     ...(title ? { title, ogTitle: title } : {}),
+    // `defineOgImage` adds no image tags on the client while hydrating, so the card nuxt-seo-utils infers there would replace the server's `summary_large_image` with `summary` (https://github.com/nuxt-modules/og-image/issues/791)
+    twitterCard: 'summary_large_image',
     ...input,
   })
   defineOgImage(
@@ -113,33 +115,4 @@ export const useHeadDefault = (
       alt: t('globalSeoOgImageAlt'), // TODO: update text
     },
   )
-}
-
-const POLYFILLS_URL = `https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=${POLYFILLS.join(
-  '%2C',
-)}&flags=gated`
-
-export const usePolyfills = () => {
-  if (!POLYFILLS.length) return
-
-  if (import.meta.server) {
-    useHead({
-      link: [
-        {
-          rel: 'preload',
-          href: POLYFILLS_URL,
-          crossorigin: 'anonymous',
-          as: 'script',
-          'data-testid': 'polyfill-preload',
-        },
-      ],
-      script: [
-        {
-          src: POLYFILLS_URL,
-          crossorigin: 'anonymous',
-          'data-testid': 'polyfill-script',
-        },
-      ],
-    })
-  }
 }

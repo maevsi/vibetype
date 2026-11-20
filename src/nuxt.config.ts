@@ -192,6 +192,9 @@ export default defineNuxtConfig({
       kafka: {
         brokers: 'redpanda:9092',
       },
+      nominatim: {
+        url: 'https://nominatim.openstreetmap.org', // set through `NUXT_VIBETYPE_NOMINATIM_URL` to switch the geocoding service
+      },
       openai: {
         apiKey: '',
       },

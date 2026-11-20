@@ -363,20 +363,19 @@
                 />
               </Field>
             </form.Field>
-            <AppFeature feature="map">
-              <div class="relative isolate">
-                <AppMap
-                  ref="map"
-                  class="h-64"
-                  geocoder
-                  :position-initial="locationPositionInitial"
-                  @geocode="onGeocode"
-                />
-                <AppIconMapPinSolid
-                  class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-error"
-                />
-              </div>
-            </AppFeature>
+            <div class="relative isolate">
+              <AppMap
+                ref="map"
+                class="h-64"
+                geocoder
+                :position-initial="locationPositionInitial"
+                @geocode="onGeocode"
+              />
+              <AppIconMapPinSolid
+                v-if="isMapConsented"
+                class="pointer-events-none absolute top-1/2 left-1/2 z-400 size-8 -translate-x-1/2 -translate-y-full text-error"
+              />
+            </div>
           </template>
         </form.Field>
         <form.Field v-slot="{ field }" name="url">
@@ -449,6 +448,7 @@
 </template>
 
 <script setup lang="ts">
+import type { AddressFields, GeocodeResult } from '#shared/utils/address'
 import type { DateValue, TimeValue } from 'reka-ui'
 import {
   fromDate,
@@ -467,6 +467,7 @@ import { z } from 'zod'
 import { cn } from '@/utils/shadcn'
 
 import { graphql } from '~~/gql/generated'
+import { EXTERNAL_MEDIA_COOKIE_ID } from '~~/node/static'
 import { EventVisibility } from '~~/gql/generated/graphcache'
 import type { EventItemFragment } from '~~/gql/generated/graphql'
 
@@ -485,11 +486,13 @@ const { event = undefined } = defineProps<{
     | 'description'
     | 'rowId'
   > & {
-    addressByAddressId?: {
-      location?: { latitude: number; longitude: number } | null
-      name?: string | null
-      rowId?: string | null
-    } | null
+    addressByAddressId?:
+      | (AddressFields & {
+          location?: { latitude: number; longitude: number } | null
+          name?: string | null
+          rowId?: string | null
+        })
+      | null
     eventCategoryMappingsByEventId?: {
       nodes: readonly { categoryId: string }[]
     } | null
@@ -815,9 +818,28 @@ const locationPositionInitial = event?.addressByAddressId?.location
       zoomLevel: 15,
     }
   : undefined
+const isMapConsented = useIsCookieConsented(EXTERNAL_MEDIA_COOKIE_ID)
 const templateMap = useTemplateRef('map')
-const onGeocode = (name: string) => {
-  form.setFieldValue('locationName', name)
+// a geocode replaces the stored fields, so they only change with a new search
+const addressFields = ref<AddressFields>({
+  city: event?.addressByAddressId?.city,
+  country: event?.addressByAddressId?.country,
+  line1: event?.addressByAddressId?.line1,
+  line2: event?.addressByAddressId?.line2,
+  postalCode: event?.addressByAddressId?.postalCode,
+  region: event?.addressByAddressId?.region,
+})
+const onGeocode = (result: GeocodeResult) => {
+  form.setFieldValue('locationName', result.name ?? result.label)
+  // missing fields are null so that they clear what an earlier place left behind
+  addressFields.value = {
+    city: result.address.city ?? null,
+    country: result.address.country ?? null,
+    line1: result.address.line1 ?? null,
+    line2: null,
+    postalCode: result.address.postalCode ?? null,
+    region: result.address.region ?? null,
+  }
 }
 const syncAddress = async (
   locationName: string,
@@ -829,15 +851,23 @@ const syncAddress = async (
   const mapCenter = templateMap.value?.mapCenter
   if (!mapCenter) return addressRowIdOriginal ?? null
 
-  const location = {
-    type: 'Point' as const,
-    coordinates: [mapCenter.lng, mapCenter.lat],
-  }
+  // an untouched map would store its default centre as the location
+  const location =
+    locationPositionInitial || templateMap.value?.isPositionSet
+      ? {
+          type: 'Point' as const,
+          coordinates: [mapCenter.lng, mapCenter.lat],
+        }
+      : null
 
   if (addressRowIdOriginal) {
     const result = await updateAddressByRowIdMutation.executeMutation({
       input: {
-        addressPatch: { location, name: trimmedLocationName },
+        addressPatch: {
+          ...addressFields.value,
+          location,
+          name: trimmedLocationName,
+        },
         rowId: addressRowIdOriginal,
       },
     })
@@ -847,6 +877,7 @@ const syncAddress = async (
   const result = await createAddressMutation.executeMutation({
     input: {
       address: {
+        ...addressFields.value,
         createdBy: store.signedInAccountId || '',
         location,
         name: trimmedLocationName,
@@ -942,6 +973,8 @@ const form = useForm({
         return
 
       toast.success(t('eventUpdateSuccess'))
+      // the saved values are the new baseline for unsaved changes
+      form.reset(value)
     } else {
       // Add
       const addressId = await syncAddress(value.locationName)
@@ -999,6 +1032,7 @@ const form = useForm({
           'Aborting navigation: required data for path templating is missing!',
         )
 
+      form.reset(value)
       await navigateTo(
         localePath({
           name: 'event-view-username-event_name',
@@ -1011,6 +1045,8 @@ const form = useForm({
     }
   },
 })
+
+useLeaveConfirmation(form.useStore((state) => state.isDirty))
 
 // methods
 const dateTimeFormatter = (x?: string) =>

@@ -196,6 +196,7 @@ Everyone plays a part in keeping the community safe by flagging harmful content 
 - **Review & Moderation:** The VIBETYPE team reviews reports and may take appropriate action if rules are broken.
 **Content may be removed** or edited if it goes against the guidelines.
 Likewise, events may be canceled or profile elements adjusted to protect the community.
+Affected users receive a statement of reasons and can lodge a complaint, see § 5 of the terms of use.
 
 - **Warnings & Bans:** Depending on the severity, violations may result in warnings or **immediate consequences**.
 Minor offenses might lead to a warning or request to change behavior.

@@ -2,7 +2,6 @@
 
 // @ts-ignore
 import { VIO_ESLINT_CONFIG } from '@dargmuesli/nuxt-vio/.config/lint.js'
-import { POLYFILLS } from './node/static/index.ts'
 
 import withNuxt from './.nuxt/eslint.config.mjs'
 import 'eslint-plugin-only-error'
@@ -11,7 +10,6 @@ export default withNuxt(
   ...VIO_ESLINT_CONFIG,
   {
     settings: {
-      polyfills: POLYFILLS,
       'vue-i18n': {
         localeDir: [
           {

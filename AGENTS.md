@@ -24,10 +24,12 @@ Detail and rationale live in [CONTRIBUTING.md](CONTRIBUTING.md): read the named 
   - no scope repeated in the description: `feat(event): add name`
   - body only for what the title cannot carry
 - needing something new from another service of the stack is a breaking change: `!` and `beta`, even when users notice nothing; steps in CONTRIBUTING.md, "Breaking changes"
+  - breaking changes wait on `beta` until the stack releases the majors of its services together: [`stack`'s release bundle document](https://github.com/maevsi/stack/blob/main/docs/release-bundle.md)
 - after merging the target into a branch stacked on a squash-merged pull request, compare the branch against the target, as that merge can silently restore what the branch removed
 
 ## verification
-- before calling work done: `pnpm run lint`, `pnpm run build`, `pnpm run test:e2e:docker:server:node:update`
+- before calling work done: `pnpm run lint` and `pnpm --dir tests run test`, then push and watch CI, whose Docker build runs lint, tests, build, and e2e
+- run `pnpm run test:e2e:docker:server:node:update` locally only when a change alters visual snapshots, as CI compares them but cannot regenerate them
   - fetch the Git LFS snapshots first in a fresh worktree, as pointer files fail to decode as images
 - `pnpm --dir tests run test` checks every template tag against the component registry, as an unresolved tag renders nothing without failing lint or build
 - e2e pages get their GraphQL data from fixed responses per operation name: CONTRIBUTING.md, "Playwright"
