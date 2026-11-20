@@ -9,6 +9,7 @@ import { HTML_VALIDATE_CONFIG } from '#src/config/htmlValidate'
 import {
   TESTING_ACCOUNT_USERNAME,
   TESTING_ATTENDANCE_ROW_ID,
+  TESTING_CONTACT_ROW_ID,
   TESTING_EVENT_SLUG,
   TESTING_GUEST_ROW_ID,
 } from '#src/shared/utils/testing'
@@ -26,6 +27,7 @@ const PAGE_PATHS_DYNAMIC: Record<string, string> = {
   '/account/view/[username]': ACCOUNT_VIEW_PATH,
   '/account/view/[username]/block': `${ACCOUNT_VIEW_PATH}/block`,
   '/attendance/view/[id]': `/attendance/view/${TESTING_ATTENDANCE_ROW_ID}`,
+  '/contact/edit/[id]': `/contact/edit/${TESTING_CONTACT_ROW_ID}`,
   '/event/edit/[username]/[event_name]': EVENT_EDIT_PATH,
   '/event/view/[username]': `/event/view/${TESTING_ACCOUNT_USERNAME}`,
   '/event/view/[username]/[event_name]': EVENT_VIEW_PATH,

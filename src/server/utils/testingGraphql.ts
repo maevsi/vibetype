@@ -574,6 +574,28 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
+    case 'ContactByRowId':
+      return {
+        data: {
+          contactByRowId: {
+            ...CONTACT,
+            accountByAccountId: null,
+            accountByCreatedBy: {
+              id: ACCOUNT.id,
+              rowId: ACCOUNT.rowId,
+              username: ACCOUNT.username,
+              __typename: 'Account',
+            },
+            accountId: null,
+            createdBy: ACCOUNT.rowId,
+            emailAddress: null,
+            emailAddressHash: null,
+            note: null,
+            phoneNumber: null,
+            url: null,
+          },
+        },
+      }
     case 'DashboardEventRecommendations':
       return {
         data: {

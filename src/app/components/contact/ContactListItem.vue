@@ -31,7 +31,7 @@
                 })
               : t('contactEdit')
           "
-          :disabled="contact.createdBy !== store.signedInAccountId || isEditing"
+          :disabled="contact.createdBy !== store.signedInAccountId"
           size="none"
           variant="ghost"
           @click="emit('edit')"
@@ -57,7 +57,7 @@
 <script setup lang="ts">
 import type { ContactItemFragment } from '~~/gql/generated/graphql'
 
-const { contact, isDeleting, isEditing } = defineProps<{
+const { contact, isDeleting } = defineProps<{
   contact: Pick<
     ContactItemFragment,
     | 'accountId'
@@ -74,7 +74,6 @@ const { contact, isDeleting, isEditing } = defineProps<{
     | 'url'
   >
   isDeleting?: boolean
-  isEditing?: boolean
 }>()
 
 const emit = defineEmits<{
