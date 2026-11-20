@@ -2,8 +2,11 @@
   <div class="flex flex-1 flex-col">
     <LayoutTopBar>{{ t('title') }}</LayoutTopBar>
     <LayoutPage>
-      <form class="flex flex-col gap-4" @submit.prevent="readLink">
-        <p class="text-body-small text-fg-2">{{ t('description') }}</p>
+      <form class="flex flex-col gap-6" @submit.prevent="readLink">
+        <div class="flex flex-col gap-2">
+          <h2 class="text-heading-medium">{{ t('heading') }}</h2>
+          <p class="text-body text-fg-2">{{ t('description') }}</p>
+        </div>
         <p
           v-if="isNoEvent"
           class="rounded-medium bg-surface-raised p-4 text-center text-fg-2"
@@ -11,25 +14,32 @@
         >
           {{ t('noEvent') }}
         </p>
-        <div class="flex flex-col gap-1">
-          <label :for="templateIdInput">{{ t('link') }}</label>
-          <input
-            :id="templateIdInput"
+        <div class="flex flex-col gap-2">
+          <AppInput
             v-model="enteredUrl"
-            class="w-full rounded-small text-fg-1"
+            :aria-describedby="templateIdHint"
+            :aria-label="t('link')"
             :placeholder="t('linkPlaceholder')"
             required
             type="url"
-          />
-          <p class="text-caption text-fg-2">{{ t('hint') }}</p>
+          >
+            <template #prefix>
+              <AppIconLink />
+            </template>
+          </AppInput>
+          <p :id="templateIdHint" class="text-caption text-fg-2">
+            {{ t('hint') }}
+          </p>
         </div>
         <AppButton
-          :aria-label="t('readLink')"
-          class="self-end"
+          :aria-label="t('next')"
+          class="w-full"
+          :disabled="!enteredUrl.trim()"
           :loading="isReading"
           type="submit"
         >
-          {{ t('readLink') }}
+          {{ t('next') }}
+          <template #loading>{{ t('reading') }}</template>
         </AppButton>
       </form>
     </LayoutPage>
@@ -51,7 +61,7 @@ await useSignInRequired()
 useHeadDefault({ title: t('title') })
 
 // data
-const enteredUrl = ref<string>()
+const enteredUrl = ref('')
 const eventImported = useState<EventImported>(STATE_KEY_EVENT_IMPORTED)
 const isNoEvent = ref(false)
 const isReading = ref(false)
@@ -94,30 +104,34 @@ const readLink = async () => {
 }
 
 // template
-const templateIdInput = useId()
+const templateIdHint = useId()
 </script>
 
 <i18n lang="yaml">
 de:
-  description: Gib den Link zu einer Veranstaltungsseite ein. Daraus erstellen wir einen Entwurf, den Du vor dem Speichern prüfen kannst.
+  description: Aus der Seite erstellen wir einen Entwurf, den Du vor dem Speichern prüfen kannst.
   errorLimitReached: Du hast heute die maximale Anzahl an Importen erreicht. Versuche es morgen erneut.
   errorReadFailed: Der Link konnte nicht gelesen werden.
   errorUnreadable: Der Link ist ungültig, nicht erreichbar, leitet auf eine nicht öffentliche Seite weiter oder führt nicht zu einer Webseite.
+  heading: Link zur Veranstaltung angeben
   hint: Seiten, die eine Anmeldung erfordern oder nur mit JavaScript angezeigt werden, etwa Instagram oder Facebook, können nicht gelesen werden.
-  link: Link
-  linkPlaceholder: https://example.com/veranstaltung
+  link: Link zur Veranstaltung
+  linkPlaceholder: Link zur Veranstaltung eingeben
+  next: Weiter
   noEvent: Auf dieser Seite wurde keine Veranstaltung gefunden. Probiere einen anderen Link.
-  readLink: Link lesen
-  title: Link laden
+  reading: Veranstaltung wird geladen…
+  title: Plakatjagd
 en:
-  description: Enter the link to an event page. We create a draft from it that you can review before saving.
+  description: We create a draft from the page that you can review before saving.
   errorLimitReached: You have reached today's maximum number of imports. Try again tomorrow.
   errorReadFailed: The link could not be read.
   errorUnreadable: The link is invalid, unreachable, redirects to a non-public page or does not lead to a web page.
+  heading: Provide link to event
   hint: Pages that require a login or only render with JavaScript, such as Instagram or Facebook, cannot be read.
-  link: Link
-  linkPlaceholder: https://example.com/event
+  link: Event link
+  linkPlaceholder: Enter event link
+  next: Next
   noEvent: No event found on this page. Try another link.
-  readLink: Read link
-  title: Ingest URL
+  reading: Fetching event data…
+  title: Poster hunting
 </i18n>
