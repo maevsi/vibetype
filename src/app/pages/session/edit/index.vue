@@ -135,17 +135,6 @@
             </AppMenuItem>
           </div>
         </section>
-        <section v-if="store.signedInUsername" class="flex flex-col gap-4">
-          <AppSeparator />
-          <AppMenuItem
-            :title="t('logout')"
-            variant="critical"
-            @click="signOutToRoot"
-          >
-            <template #suffix />
-            <AppIconLogout />
-          </AppMenuItem>
-        </section>
       </div>
     </LayoutPage>
   </div>
@@ -157,8 +146,6 @@ const localePath = useLocalePath()
 const store = useStore()
 const { isDevelopmentModeActive, onDevelopmentModeTrigger } =
   useDevelopmentModeTrigger()
-
-const signOutToRoot = useSignOutToRoot()
 
 // page
 const title = t('preferences')
@@ -176,7 +163,6 @@ de:
   language: Sprache
   legal: Rechtliches
   legalNotice: Impressum
-  logout: Abmelden
   preferences: Einstellungen
   privacy: Datenschutzerklärung
   privacySettings: Datenschutz-Einstellungen
@@ -193,7 +179,6 @@ en:
   language: Language
   legal: Legal
   legalNotice: Legal Notice
-  logout: Log Out
   preferences: Settings
   privacy: Privacy Policy
   privacySettings: Privacy settings
