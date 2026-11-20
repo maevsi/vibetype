@@ -1050,6 +1050,15 @@ export type DeleteEventFavoriteByRowIdMutation = {
   deleteEventFavoriteByRowId: { clientMutationId: string | null } | null
 }
 
+export type EventInviteGuestsQueryVariables = Exact<{
+  eventId: string
+  first: number
+}>
+
+export type EventInviteGuestsQuery = {
+  allGuests: { nodes: Array<{ contactId: string; id: string }> } | null
+}
+
 export type EventListMineHostingQueryVariables = Exact<{
   after?: string | null | undefined
   createdBy: string
@@ -1429,7 +1438,17 @@ export type CreateGuestsMutationVariables = Exact<{
 }>
 
 export type CreateGuestsMutation = {
-  createGuests: { result: Array<{ id: string; rowId: string }> | null } | null
+  createGuests: {
+    result: Array<{ contactId: string; id: string; rowId: string }> | null
+  } | null
+}
+
+export type GuestsInviteMutationVariables = Exact<{
+  input: InviteInput
+}>
+
+export type GuestsInviteMutation = {
+  invite: { clientMutationId: string | null } | null
 }
 
 export type AccountPasswordResetMutationVariables = Exact<{
@@ -3924,6 +3943,98 @@ export const DeleteEventFavoriteByRowIdDocument = {
 } as unknown as DocumentNode<
   DeleteEventFavoriteByRowIdMutation,
   DeleteEventFavoriteByRowIdMutationVariables
+>
+export const EventInviteGuestsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'EventInviteGuests' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'eventId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allGuests' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'eventId' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'eventId' },
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contactId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  EventInviteGuestsQuery,
+  EventInviteGuestsQueryVariables
 >
 export const EventListMineHostingDocument = {
   kind: 'Document',
@@ -6676,6 +6787,10 @@ export const CreateGuestsDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contactId' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
@@ -6691,6 +6806,63 @@ export const CreateGuestsDocument = {
 } as unknown as DocumentNode<
   CreateGuestsMutation,
   CreateGuestsMutationVariables
+>
+export const GuestsInviteDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'GuestsInvite' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'InviteInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'invite' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GuestsInviteMutation,
+  GuestsInviteMutationVariables
 >
 export const AccountPasswordResetDocument = {
   kind: 'Document',

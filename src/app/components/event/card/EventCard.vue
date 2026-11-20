@@ -194,7 +194,7 @@
         <AppTime :datetime="event.start" />
       </span>
       <div
-        v-if="distanceText || event.guestCount !== undefined"
+        v-if="distanceText || event.guestCount"
         class="flex items-center gap-3 text-body-small text-fg-3"
       >
         <span
@@ -207,7 +207,7 @@
           <span class="truncate">{{ distanceText }}</span>
         </span>
         <span
-          v-if="event.guestCount !== undefined"
+          v-if="event.guestCount"
           :aria-label="t('guestCountLabel', event.guestCount)"
           class="flex items-center gap-1"
           role="img"

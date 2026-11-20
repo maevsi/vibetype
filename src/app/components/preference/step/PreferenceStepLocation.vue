@@ -1,11 +1,13 @@
 <template>
   <LayoutPage :hidden>
     <div class="flex flex-col gap-4">
-      <AppStepProgress :count="4" :index="4" />
-      <span class="text-center text-heading-medium text-balance">
+      <AppStepProgress class="justify-start" :count="4" :index="4" />
+      <span class="text-heading-large text-balance">
         {{ t('title') }}
       </span>
-      <div class="relative isolate -mx-3 lg:-mx-6">
+      <div
+        class="relative isolate overflow-hidden rounded-large bg-surface-raised"
+      >
         <AppMap
           v-if="!hidden"
           ref="map"
@@ -18,10 +20,10 @@
           class="pointer-events-none absolute inset-0 z-400 bg-[#14132699] mask-[radial-gradient(circle_140px_at_center,transparent_0,transparent_139px,black_150px)]"
         />
       </div>
-      <span v-if="mapCutoutRadiusInMeters" class="text-center text-body">
+      <span v-if="mapCutoutRadiusInMeters" class="text-body">
         {{ t('radius', { radius: formattedRadius }) }}
       </span>
-      <span class="text-center text-body text-fg-2">
+      <span class="text-body text-fg-2">
         {{ t('description') }}
       </span>
     </div>
@@ -254,12 +256,12 @@ de:
   button: Weiter
   description: "@.upper:{'globalSiteName'} schlägt dir gelegentlich auch Events außerhalb dieses Gebiets vor, wenn sie für dich relevant sind."
   radius: 'Umkreis: {radius}'
-  title: Welche Gegend interessiert dich am meisten?
+  title: Wo sollen wir nach Events für dich suchen?
   # title: Finde lokale Events, die zu deinem Vibe passen.
 en:
   button: Next
   description: "@.upper:{'globalSiteName'} suggests events outside of this area from time to time too when they're relevant for you."
   radius: 'Radius: {radius}'
-  title: Which area is most interesting to you?
+  title: Where should we look for events for you?
   # title: Find local events that match your vibe.
 </i18n>

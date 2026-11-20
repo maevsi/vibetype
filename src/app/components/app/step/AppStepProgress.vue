@@ -1,5 +1,6 @@
 <template>
   <ol
+    :aria-label="t('label', { count, index })"
     :class="cn('flex items-center justify-center gap-1', classProps)"
     data-slot="step-progress"
   >
@@ -30,4 +31,13 @@ const {
   count: number
   index: number
 }>()
+
+const { t } = useI18n()
 </script>
+
+<i18n lang="yaml">
+de:
+  label: Schritt {index} von {count}
+en:
+  label: Step {index} of {count}
+</i18n>

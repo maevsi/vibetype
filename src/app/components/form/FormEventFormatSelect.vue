@@ -1,12 +1,12 @@
 <template>
-  <ul class="flex flex-wrap gap-2">
+  <ul class="grid grid-cols-[repeat(auto-fill,minmax(7rem,1fr))] gap-2">
     <li v-for="eventFormat in eventFormats" :key="eventFormat.rowId">
       <PreferenceElement
         v-if="eventFormat.label"
         :id="eventFormat.rowId"
         :name="eventFormat.label"
         :selected="modelValue"
-        @click="toggle(eventFormat.rowId)"
+        @toggle="toggle(eventFormat.rowId)"
       >
         <AppIconPreferenceFormatConference
           v-if="eventFormat.name === 'conference'"
