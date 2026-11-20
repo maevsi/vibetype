@@ -3,20 +3,20 @@ export const useAppLayout = () => {
   const siteConfig = useSiteConfig()
   const { isApp } = usePlatform()
 
-  if (import.meta.server) {
-    // app
-    if (isApp) {
-      useHeadSafe({
-        meta: [
-          {
-            content:
-              'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover',
-            name: 'viewport',
-          },
-        ],
-      })
-    }
+  // app, registered on the client too, as the client would otherwise replace it with the default viewport after hydration
+  if (isApp) {
+    useHeadSafe({
+      meta: [
+        {
+          content:
+            'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover',
+          name: 'viewport',
+        },
+      ],
+    })
+  }
 
+  if (import.meta.server) {
     // style
     useHeadSafe({
       bodyAttrs: {
