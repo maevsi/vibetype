@@ -41,6 +41,9 @@
         "
       >
         <div :id="templateIdMap" class="size-full" />
+        <Teleport v-if="overlayElement" :to="overlayElement">
+          <slot />
+        </Teleport>
         <!-- above the map panes and below the controls, so the attribution stays clickable -->
         <a
           v-if="isStatic && staticUrl"
@@ -122,6 +125,8 @@ const classComputed = computed(() => cn('h-96 w-full text-fg-1', classProps))
 
 const templateIdMap = useId()
 const map = ref<Map>()
+// leaflet isolates its container, so only an element inside it can lie between the tiles (z-index 400) and the controls (z-index 1000)
+const overlayElement = ref<HTMLElement>()
 const mapCenter = ref<LatLng>()
 const mapZoom = ref<number>()
 // stays false until the view differs from the initial one, so programmatic initial centring never counts as input
@@ -280,6 +285,11 @@ const initialize = async () => {
     [positionInitial.latitude, positionInitial.longitude],
     positionInitial.zoomLevel,
   ) // Kassel: 51.3144643, 9.4957866
+  overlayElement.value = DomUtil.create(
+    'div',
+    'pointer-events-none absolute inset-0 z-500',
+    map.value.getContainer(),
+  )
   new TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -464,6 +474,7 @@ watch(
       if (!map.value) await initialize()
     } else if (map.value) {
       stopMarkerWatch?.()
+      overlayElement.value = undefined
       map.value.remove()
       map.value = undefined
       isFullscreen.value = false
