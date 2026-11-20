@@ -80,6 +80,7 @@ These features include in particular:
   An invited individual does not need to be a registered user; they can access, accept, or decline the invitation via a personal link, without creating a user account.
   For private events, the invitation is a prerequisite for purchasing a ticket for the respective event.
   Registered users who add a contact to their address book for this purpose are responsible for having the necessary rights or consent to share that person's data, as set out in § 4 and § 8 of these Terms of Use.
+  Contacts can be entered manually or imported from the address book of the user's device or from a contact file; the same responsibility applies to every imported contact.
 - **Searching for Events**: The registered user has the option to browse events shared by other users and view their descriptions, etc.
 - **Offering Tickets for Events**: Registered users can offer tickets for the events they created.
   Tickets can be offered for a fee or free of charge.

@@ -221,6 +221,12 @@
 
             Diese Daten werden uns von der registrierten Person mitgeteilt, die den Kontakt anlegt, nicht von der betroffenen Person selbst. Rechtsgrundlage für diese Datenverarbeitung ist Art. 6 Abs. 1 lit. f DSGVO. Wir haben gemeinsam mit unseren registrierten Nutzer\*innen ein berechtigtes Interesse daran, ihnen die Organisation und Verwaltung von Einladungen zu privaten Veranstaltungen zu ermöglichen.
 
+            Registrierte Nutzer\*innen können einen Kontakt von Hand anlegen oder Kontakte importieren, entweder indem sie diese über die Kontaktauswahl des Betriebssystems oder Browsers im Adressbuch ihres Geräts auswählen oder indem sie eine Kontaktdatei (vCard) wählen.
+            In beiden Fällen finden die Auswahl und das Auslesen der Datei auf dem Gerät der registrierten Person statt.
+            An uns übermittelt werden nur die Kontakte, die die registrierte Person bestätigt, und von diesen nur Name, E-Mail-Adresse und Telefonnummer.
+            Wir erhalten keinen dauerhaften Zugriff auf das Adressbuch, und Kontaktdateien werden nicht zu uns hochgeladen.
+            Kontakte ohne E-Mail-Adresse werden nicht importiert.
+
             Die registrierte Person, die einen Kontakt anlegt oder bearbeitet, sichert uns zu, zur Weitergabe der jeweiligen Daten berechtigt zu sein, insbesondere dass hierfür eine Rechtsgrundlage nach den anwendbaren Datenschutzgesetzen besteht, und stellt uns von Ansprüchen und behördlichen Bußgeldern frei, die aus einer ohne diese Berechtigung erfolgten Weitergabe entstehen. Weitere Einzelheiten findest Du in unseren Nutzungsbedingungen.
 
             Die Daten werden gelöscht, sobald die registrierte Person den Kontakt entfernt, spätestens jedoch, wenn das Nutzerkonto der registrierten Person gemäß § 11 der Nutzungsbedingungen gelöscht wird.

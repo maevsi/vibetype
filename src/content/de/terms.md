@@ -80,6 +80,7 @@ Zu diesen Funktionen gehört insbesondere:
   Eine eingeladene Person muss dazu kein registrierter Nutzer sein; sie kann über einen persönlichen Link auf die Einladung zugreifen und diese annehmen oder ablehnen, ohne ein Nutzerkonto zu erstellen.
   Bei privaten Veranstaltungen ist die Einladung Voraussetzung für den Erwerb eines Tickets für die betreffende Veranstaltung.
   Registrierte Nutzer, die zu diesem Zweck einen Kontakt in ihrem Adressbuch anlegen, sind dafür verantwortlich, über die hierfür erforderlichen Rechte oder Einwilligungen zu verfügen; Einzelheiten ergeben sich aus § 4 und § 8 dieser Nutzungsbedingungen.
+  Kontakte können von Hand angelegt oder aus dem Adressbuch des Geräts oder aus einer Kontaktdatei importiert werden; dieselbe Verantwortung gilt für jeden importierten Kontakt.
 - **Veranstaltungen suchen**: Der registrierte Nutzer hat die Möglichkeit, die von anderen Nutzern geteilten Veranstaltungen zu durchsuchen und deren Beschreibung etc. einzusehen.
 - **Anbieten von Tickets für Veranstaltungen**: Registrierte Nutzer können bezüglich der von ihnen erstellten Veranstaltungen Tickets anbieten.
   Die Tickets können entgeltlich oder unentgeltlich angeboten werden.
