@@ -3567,6 +3567,8 @@ export type EventCondition = {
   name?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `rowId` field. */
   rowId?: InputMaybe<Scalars['UUID']['input']>
+  /** Events matching the search text by prefix on their name and description, or by similarity to their name. A blank text matches every event. Combine with other conditions such as `createdBy` to search within a subset. */
+  search?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `slug` field. */
   slug?: InputMaybe<Scalars['String']['input']>
   /** Checks for equality with the object’s `start` field. */
