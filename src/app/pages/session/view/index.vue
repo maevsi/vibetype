@@ -311,12 +311,12 @@
                   <p>
                     {{ t('codesEntered') }}
                   </p>
-                  <ul class="list-disc">
+                  <ul class="flex flex-col gap-2">
                     <li
                       v-for="guestId in store.jwtPayload?.guests"
                       :key="guestId"
                     >
-                      {{ guestId }}
+                      <GuestCode :guest-id />
                     </li>
                   </ul>
                 </div>
@@ -324,9 +324,6 @@
                   {{ t('codesEnteredNone') }}
                 </p>
               </AppCard>
-            </div>
-            <div class="flex-1">
-              <!-- TODO: implement guest code management (https://github.com/maevsi/vibetype/issues/61) -->
             </div>
           </div>
         </section>
