@@ -65,6 +65,7 @@
       :has-next-page
       is-grouped-by-day
       :is-loading="!isWithoutData && api.isFetching && !events"
+      :is-map-visible
       @load-more="loadMore"
     />
   </div>
@@ -77,6 +78,10 @@ import { graphql } from '~~/gql/generated'
 const { t } = useI18n()
 
 // compiler
+
+const { isMapVisible = false } = defineProps<{
+  isMapVisible?: boolean
+}>()
 
 const queryHosting = graphql(`
   query EventListMineHosting(

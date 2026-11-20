@@ -5,36 +5,53 @@
       :error="{ message: 'Account data missing', status: 404 }"
     />
     <div v-else class="flex flex-1 flex-col">
-      <LayoutTopBar>
-        <i18n-t keypath="title">
-          <template #name>
-            <AppLink
-              :to="
-                localePath({
-                  name: 'account-view-username',
-                  params: { username: route.params.username },
-                })
-              "
-            >
-              {{ `@${route.params.username}` }}
-            </AppLink>
-          </template>
-        </i18n-t>
-      </LayoutTopBar>
       <LayoutPage>
-        <EventListMine v-if="isOwn" />
-        <EventList
-          v-else
-          :events
-          :has-next-page="
-            api.data.accountByUsername?.eventsByCreatedBy.pageInfo.hasNextPage
-          "
-          is-grouped-by-day
-          @load-more="
-            queryAfter =
-              api.data.accountByUsername?.eventsByCreatedBy.pageInfo.endCursor
-          "
-        />
+        <h1 class="sr-only">
+          <i18n-t keypath="title">
+            <template #name>
+              <AppLink
+                :to="
+                  localePath({
+                    name: 'account-view-username',
+                    params: { username: route.params.username },
+                  })
+                "
+              >
+                {{ `@${route.params.username}` }}
+              </AppLink>
+            </template>
+          </i18n-t>
+        </h1>
+        <div class="flex flex-1 flex-col gap-4">
+          <EventSearchBar
+            v-model:is-map-visible="isMapVisible"
+            v-model:search-query="searchQuery"
+            disabled
+            :placeholder="
+              isOwn
+                ? t('searchPlaceholderOwn')
+                : t('searchPlaceholderOther', { name: route.params.username })
+            "
+          >
+            <template v-if="!isOwn" #back>
+              <ButtonIconBackRoute />
+            </template>
+          </EventSearchBar>
+          <EventListMine v-if="isOwn" :is-map-visible />
+          <EventList
+            v-else
+            :events
+            :has-next-page="
+              api.data.accountByUsername?.eventsByCreatedBy.pageInfo.hasNextPage
+            "
+            is-grouped-by-day
+            :is-map-visible
+            @load-more="
+              queryAfter =
+                api.data.accountByUsername?.eventsByCreatedBy.pageInfo.endCursor
+            "
+          />
+        </div>
       </LayoutPage>
     </div>
   </Loader>
@@ -48,6 +65,14 @@ const queryEventListAccount = graphql(`
     accountByUsername(username: $username) {
       eventsByCreatedBy(after: $after, first: $first, orderBy: START_DESC) {
         nodes {
+          addressByAddressId {
+            id
+            location {
+              latitude
+              longitude
+            }
+            rowId
+          }
           eventCategoryMappingsByEventId(first: 1, orderBy: PRIMARY_KEY_ASC) {
             nodes {
               eventCategoryByCategoryId {
@@ -134,12 +159,20 @@ const events = computed(() =>
 )
 
 // template
+const isMapVisible = useEventMapVisible()
+// Disabled: the search needs the `search` condition of `allEvents`, which is not deployed to production yet.
+// Upgrade path: once postgraphile with that condition (maevsi/postgraphile#69) is deployed, drop `disabled` and query `allEvents` with `condition: { createdBy, search }`.
+const searchQuery = ref('')
 const localePath = useLocalePath()
 </script>
 
 <i18n lang="yaml">
 de:
+  searchPlaceholderOther: Veranstaltungen von {name} durchsuchen
+  searchPlaceholderOwn: Deine Veranstaltungen durchsuchen
   title: Veranstaltungen von {name}
 en:
+  searchPlaceholderOther: Search events by {name}
+  searchPlaceholderOwn: Search for your events
   title: Events by {name}
 </i18n>
