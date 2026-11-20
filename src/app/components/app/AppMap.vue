@@ -497,6 +497,36 @@ defineExpose({ isPositionSet, map, mapCenter, mapZoom })
 .dark .leaflet-tile-pane {
   filter: saturate(0.5) contrast(0.9) brightness(0.65);
 }
+
+/* leaflet styles its buttons and attribution only light, so dark mode takes the search control's dark colors */
+.dark .leaflet-control-attribution {
+  background-color: #2b2b2be6;
+  color: #e8e8e8;
+}
+
+.dark .leaflet-control-attribution a {
+  color: #8cc8ff;
+}
+
+.dark .leaflet-bar,
+.dark .leaflet-bar a {
+  border-color: #555;
+}
+
+.dark .leaflet-bar a {
+  background-color: #2b2b2b;
+  color: #e8e8e8;
+}
+
+.dark .leaflet-bar a:hover,
+.dark .leaflet-bar a:focus {
+  background-color: #3a3a3a;
+}
+
+.dark .leaflet-bar a.leaflet-disabled {
+  background-color: #2b2b2b;
+  color: #777;
+}
 </style>
 
 <i18n lang="yaml">
