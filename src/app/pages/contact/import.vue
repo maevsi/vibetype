@@ -4,34 +4,24 @@
     <LayoutPage>
       <Loader :api>
         <div class="flex flex-col gap-4">
-          <div class="flex flex-wrap gap-4">
-            <AppButton
-              v-if="isSupported"
-              :aria-label="rows.length ? t('pickAgain') : t('pick')"
-              :loading="isPicking"
-              @click="pick()"
-            >
-              {{ rows.length ? t('pickAgain') : t('pick') }}
-            </AppButton>
-            <AppButton
-              :aria-label="t('fileChoose')"
-              :loading="isReadingFile"
-              :variant="isSupported ? 'secondary' : 'primary'"
-              @click="fileInput?.click()"
-            >
-              {{ t('fileChoose') }}
-            </AppButton>
-            <input
-              ref="fileInput"
-              accept=".vcf,text/vcard,text/x-vcard"
-              hidden
-              type="file"
-              @change="onFileChange"
-            />
-          </div>
-          <p v-if="!isSupported" class="text-body-small text-fg-2">
-            {{ t('fileHint') }}
-          </p>
+          <AppButton
+            v-if="isSupported"
+            :aria-label="rows.length ? t('pickAgain') : t('pick')"
+            class="self-start"
+            :loading="isPicking"
+            @click="pick()"
+          >
+            {{ rows.length ? t('pickAgain') : t('pick') }}
+          </AppButton>
+          <AppInputFile
+            accept=".vcf,text/vcard,text/x-vcard"
+            :loading="isReadingFile"
+            @select="onFileChange"
+          >
+            <AppIconArrowUpTray class="size-8" />
+            <span>{{ t('fileChoose') }}</span>
+            <span class="text-body-small">{{ t('fileHint') }}</span>
+          </AppInputFile>
           <template v-if="rows.length">
             <ul class="flex flex-col gap-2">
               <li
@@ -101,7 +91,6 @@ const alertError = useAlertError()
 const localePath = useLocalePath()
 const store = useStore()
 const { isSupported, pick: pickContacts } = useContactPicker()
-const fileInput = useTemplateRef('fileInput')
 
 // validation
 await useSignInRequired()
@@ -239,11 +228,8 @@ const onSelect = (index: number, isSelected: boolean | 'indeterminate') => {
       ? [...selectedIndexes.value, index]
       : selectedIndexes.value.filter((selectedIndex) => selectedIndex !== index)
 }
-const onFileChange = async (event: Event) => {
-  const input = event.target instanceof HTMLInputElement ? event.target : null
-  const file = input?.files?.[0]
-
-  if (!input || !file) return
+const onFileChange = async ([file]: File[]) => {
+  if (!file) return
 
   isReadingFile.value = true
 
@@ -267,8 +253,6 @@ const onFileChange = async (event: Event) => {
       messageI18n: t('fileFailed'),
     })
   } finally {
-    // allows choosing the same file again
-    input.value = ''
     isReadingFile.value = false
   }
 }
