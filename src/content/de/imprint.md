@@ -63,6 +63,12 @@ Die Zahl der durchschnittlichen, monatlich aktiven Nutzer beträgt:  -->
 
 Unsere Datenschutzerklärung finden Sie unter: https://vibetype.app/de/docs/legal/privacy
 
+## Barrierefreiheit
+
+Wir möchten, dass alle VIBETYPE nutzen können, und orientieren uns an den Web Content Accessibility Guidelines (WCAG) 2.2 auf Stufe AA.
+Einige Bereiche erfüllen diese möglicherweise noch nicht.
+Wenn Sie auf eine Barriere stoßen, teilen Sie uns dies bitte per E-Mail (contact+legal-notice@maev.si) oder über das Kontaktformular mit: https://vibetype.app/de/support/contact
+
 ## Haftungsausschluss
 
 Wir sind für die Inhalte unserer Internetseiten nach Maßgabe der allgemeinen Gesetze verantwortlich. Alle Inhalte werden mit der gebotenen Sorgfalt und nach bestem Wissen erstellt. Soweit wir auf unseren Internetseiten mittels Hyperlink auf Internetseiten Dritter verweisen, können wir keine Gewähr für die fortwährende Aktualität, Richtigkeit und Vollständigkeit der verlinkten Inhalte übernehmen, da diese außerhalb unseres Verantwortungsbereichs liegen und wir auf deren zukünftige Gestaltung keinen Einfluss haben. Sollten aus Ihrer Sicht Inhalte gegen geltendes Recht verstoßen oder unangemessen sein, teilen Sie uns dies bitte mit.

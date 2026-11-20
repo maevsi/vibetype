@@ -66,6 +66,12 @@ The number of average monthly active users is:  -->
 
 You can find our Privacy Policy at: https://vibetype.app/docs/legal/privacy
 
+## Accessibility
+
+We want everyone to be able to use VIBETYPE and are guided by the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA.
+Some parts may not meet them yet.
+If you encounter a barrier, please let us know by email (contact+legal-notice@maev.si) or via the contact form: https://vibetype.app/support/contact
+
 ## Disclaimer
 
 We are responsible for the content of our website in accordance with the provisions of general law. All content is created with due care and to the best of our knowledge. Insofar as we refer to third-party websites on our internet pages by means of hyperlinks, we cannot assume any liability for the continued topicality, correctness, and completeness of the linked content, as this content is outside our area of responsibility and we have no influence on its future design. Should you consider any content to be in breach of applicable law or inappropriate, please let us know.
