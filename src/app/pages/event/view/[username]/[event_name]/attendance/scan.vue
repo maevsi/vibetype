@@ -2,7 +2,9 @@
   <div class="flex flex-1 flex-col">
     <LayoutTopBar>{{ title }}</LayoutTopBar>
     <LayoutPage>
-      <LazyAppQrCodeStream @detect="onDetect" @error="attendanceShow()" />
+      <ClientOnly>
+        <LazyAppQrCodeStream @detect="onDetect" @error="attendanceShow()" />
+      </ClientOnly>
     </LayoutPage>
   </div>
 </template>
