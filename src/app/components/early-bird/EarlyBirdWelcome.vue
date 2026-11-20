@@ -1,44 +1,52 @@
 <template>
   <LayoutPage>
-    <div class="flex flex-col gap-2">
-      <span class="text-center text-title3 text-balance">
+    <div class="flex flex-col items-start gap-3">
+      <div
+        aria-hidden="true"
+        class="flex size-16 items-center justify-center rounded-full bg-surface-raised text-action-primary"
+      >
+        <AppIconEarlyBird class="size-8" />
+      </div>
+      <AppStepProgress class="justify-start" :count="2" :index="1" />
+      <span class="text-heading-large text-balance">
         {{ t('title1', { username: store.signedInUsername }) }}
       </span>
-      <span class="text-body">
+      <span class="text-body text-fg-2">
         {{ t('description1') }}
       </span>
     </div>
-    <div class="flex flex-col gap-5">
-      <div class="flex flex-col gap-2">
+    <ul class="flex flex-col gap-3">
+      <li class="flex flex-col gap-1 rounded-medium bg-surface-raised p-4">
         <span class="text-headline">
           {{ t('title2') }}
         </span>
-        <span class="text-body-small">
+        <span class="text-body-small text-fg-2">
           {{ t('description2') }}
         </span>
-      </div>
-      <div class="flex flex-col gap-2">
+      </li>
+      <li class="flex flex-col gap-1 rounded-medium bg-surface-raised p-4">
         <span class="text-headline">
           {{ t('title3') }}
         </span>
-        <i18n-t keypath="description3">
-          <span class="text-body-small">
-            {{ t('description3') }}
-          </span>
+        <i18n-t
+          class="text-body-small text-fg-2"
+          keypath="description3"
+          tag="span"
+        >
           <template #br>
             <br />
           </template>
         </i18n-t>
-      </div>
-      <div class="flex flex-col gap-2">
+      </li>
+      <li class="flex flex-col gap-1 rounded-medium bg-surface-raised p-4">
         <span class="text-headline">
           {{ t('title4') }}
         </span>
-        <span class="text-body-small">
+        <span class="text-body-small text-fg-2">
           {{ t('description4') }}
         </span>
-      </div>
-    </div>
+      </li>
+    </ul>
     <template #bottom>
       <AppButton
         :aria-label="t('button')"
