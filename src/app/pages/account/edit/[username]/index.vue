@@ -21,7 +21,15 @@
               class="group absolute inset-0 rounded-medium"
               :title="t('replace')"
               type="button"
-              @click="showModalUploadSelection"
+              @click="
+                navigateTo(
+                  localePath({
+                    name: 'account-edit-username-picture',
+                    params: { username: account.username },
+                    query: { redirect: route.fullPath },
+                  }),
+                )
+              "
             >
               <span
                 class="absolute right-2 bottom-2 flex size-10 items-center justify-center rounded-full bg-action-primary text-on-action-primary group-hover:bg-action-primary-hover"
@@ -43,10 +51,6 @@
           <span class="text-body text-fg-2">{{
             t('usernameHandle', { username: account.username })
           }}</span>
-          <ModalUploadSelection
-            v-model="isModalUploadSelectionOpen"
-            @select="onUploadSelect"
-          />
           <AccountProfilePictureRemoveDrawer
             v-if="account?.profilePictureByAccountId?.rowId"
             v-model:open="isProfilePictureRemoveDrawerOpen"
@@ -236,76 +240,9 @@ const executeUrqlRequest = useExecuteUrqlRequest()
 const account = computed(() => api.value.data.accountByUsername)
 
 // profile picture
-const isModalUploadSelectionOpen = ref<boolean>()
 const isProfilePictureRemoveDrawerOpen = ref(false)
-const showModalUploadSelection = () => {
-  isModalUploadSelectionOpen.value = true
-}
 const openProfilePictureRemoveDrawer = () => {
   isProfilePictureRemoveDrawerOpen.value = true
-}
-
-const createProfilePictureMutation = useMutation(
-  graphql(`
-    mutation CreateProfilePicture($input: CreateProfilePictureInput!) {
-      createProfilePicture(input: $input) {
-        profilePicture {
-          accountByAccountId {
-            id
-            profilePictureByAccountId {
-              id
-              rowId
-            }
-            rowId
-          }
-          id
-          rowId
-          uploadId
-        }
-      }
-    }
-  `),
-)
-const onUploadSelect = async (uploadId?: string | null | undefined) => {
-  if (!account.value?.rowId || !uploadId) return
-
-  await removeProfilePicture()
-
-  await executeUrqlRequest({
-    errorMessageI18n: t('errorProfilePictureCreate'),
-    request: createProfilePictureMutation.executeMutation({
-      input: {
-        profilePicture: {
-          accountId: account.value?.rowId,
-          uploadId,
-        },
-      },
-    }),
-  })
-}
-
-const deleteProfilePictureByRowIdMutation = useMutation(
-  graphql(`
-    mutation DeleteProfilePictureByRowIdMutation(
-      $input: DeleteProfilePictureByRowIdInput!
-    ) {
-      deleteProfilePictureByRowId(input: $input) {
-        clientMutationId
-      }
-    }
-  `),
-)
-const removeProfilePicture = async () => {
-  const profilePicture = account.value?.profilePictureByAccountId
-
-  if (!profilePicture?.rowId) return
-
-  await executeUrqlRequest({
-    errorMessageI18n: t('errorProfilePictureDelete'),
-    request: deleteProfilePictureByRowIdMutation.executeMutation({
-      input: { rowId: profilePicture.rowId },
-    }),
-  })
 }
 
 // description and imprint
@@ -380,8 +317,6 @@ de:
   display: Anzeige
   earlyBirdStart: Early Bird beitreten
   errorAccountMissing: Konto nicht verfügbar
-  errorProfilePictureCreate: Beim Speichern des Profilbildes ist ein Problem aufgetreten
-  errorProfilePictureDelete: Beim Entfernen des Profilbildes ist ein Problem aufgetreten
   errorUpdate: Beim Speichern des Profils ist ein Problem aufgetreten
   imprint: Impressum
   imprintInvalid: Gib einen Link an, der mit https:// beginnt und keine Leerzeichen enthält.
@@ -405,8 +340,6 @@ en:
   display: Display
   earlyBirdStart: Join Early Bird
   errorAccountMissing: Account unavailable
-  errorProfilePictureCreate: There was a problem saving the profile picture
-  errorProfilePictureDelete: There was a problem removing the profile picture
   errorUpdate: There was a problem saving the profile
   imprint: Imprint
   imprintInvalid: Enter a link that starts with https:// and contains no spaces.

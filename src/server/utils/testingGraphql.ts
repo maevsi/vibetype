@@ -384,6 +384,17 @@ export const getTestingGraphqlResult = async ({
           },
         },
       }
+    case 'AccountProfilePicture':
+      return {
+        data: {
+          accountByUsername: {
+            id: ACCOUNT.id,
+            profilePictureByAccountId: null,
+            rowId: ACCOUNT.rowId,
+            __typename: 'Account',
+          },
+        },
+      }
     case 'AccountRegistration':
       return {
         data: {
