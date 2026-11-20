@@ -23,7 +23,7 @@
       "
     >
       <div
-        v-if="categoryName || formatName"
+        v-if="!headerImageSrc && (categoryName || formatName)"
         :aria-label="t('heroImage')"
         :class="
           cn(
@@ -85,7 +85,10 @@
               ? '120'
               : '80'
         "
-        :src="`/assets/static/images/event/${getHeroImageName(event.name)}.jpg`"
+        :src="
+          headerImageSrc ||
+          `/assets/static/images/event/${getHeroImageName(event.name)}.jpg`
+        "
         :width="
           variant === 'recommendation'
             ? '400'
@@ -217,6 +220,12 @@ export type EventCardProps = {
         eventFormatByFormatId?: { name: string } | null
       }[]
     } | null
+    eventUploadsByEventId?: {
+      nodes: {
+        isHeaderImage?: boolean | null
+        uploadByUploadId?: { storageKey?: string | null } | null
+      }[]
+    } | null
     guestsByEventId?: {
       nodes: {
         contactByContactId?: {
@@ -252,6 +261,11 @@ const formatName = computed(
   () =>
     event.eventFormatMappingsByEventId?.nodes[0]?.eventFormatByFormatId?.name,
 )
+const TUSD_FILES_URL = useTusdFilesUrl()
+const headerImageSrc = computed(() => {
+  const storageKey = getEventHeaderImageStorageKey(event)
+  return storageKey ? TUSD_FILES_URL + storageKey : undefined
+})
 const store = useStore()
 const isCreator = computed(
   () =>

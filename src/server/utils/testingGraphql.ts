@@ -50,6 +50,10 @@ const EVENT = {
   visibility: 'public',
   __typename: 'Event',
 }
+const EVENT_UPLOADS = {
+  nodes: [],
+  __typename: 'EventUploadConnection',
+}
 const EVENT_LIST_ITEM = {
   eventCategoryMappingsByEventId: {
     nodes: [
@@ -83,6 +87,7 @@ const EVENT_LIST_ITEM = {
     ],
     __typename: 'EventFormatMappingConnection',
   },
+  eventUploadsByEventId: EVENT_UPLOADS,
   guestsByEventId: {
     nodes: [],
     __typename: 'GuestConnection',
@@ -176,6 +181,7 @@ const EVENT_VIEW = {
     ],
     __typename: 'EventFormatMappingConnection',
   },
+  eventUploadsByEventId: EVENT_UPLOADS,
   id: EVENT.id,
   isArchived: EVENT.isArchived,
   isInPerson: EVENT.isInPerson,
@@ -539,6 +545,7 @@ export const getTestingGraphqlResult = async ({
                   EVENT_LIST_ITEM.eventCategoryMappingsByEventId,
                 eventFormatMappingsByEventId:
                   EVENT_LIST_ITEM.eventFormatMappingsByEventId,
+                eventUploadsByEventId: EVENT_UPLOADS,
                 id: EVENT.id,
                 name: EVENT.name,
                 rowId: EVENT.rowId,
@@ -625,6 +632,7 @@ export const getTestingGraphqlResult = async ({
                     ],
                     __typename: 'EventFormatMappingConnection',
                   },
+                  eventUploadsByEventId: EVENT_UPLOADS,
                   guestCountMaximum: EVENT.guestCountMaximum,
                   id: EVENT.id,
                   isArchived: EVENT.isArchived,

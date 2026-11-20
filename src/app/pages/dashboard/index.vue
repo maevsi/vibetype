@@ -163,6 +163,18 @@ const eventQuery = graphql(`
           id
         }
       }
+      eventUploadsByEventId {
+        nodes {
+          id
+          isHeaderImage
+          rowId
+          uploadByUploadId {
+            id
+            rowId
+            storageKey
+          }
+        }
+      }
       guestsByEventId(first: 1) {
         nodes {
           contactByContactId {
@@ -242,6 +254,18 @@ const eventUpcomingQuery = graphql(`
               name
             }
             id
+          }
+        }
+        eventUploadsByEventId {
+          nodes {
+            id
+            isHeaderImage
+            rowId
+            uploadByUploadId {
+              id
+              rowId
+              storageKey
+            }
           }
         }
         id

@@ -68,6 +68,18 @@ const queryEventList = graphql(`
             id
           }
         }
+        eventUploadsByEventId {
+          nodes {
+            id
+            isHeaderImage
+            rowId
+            uploadByUploadId {
+              id
+              rowId
+              storageKey
+            }
+          }
+        }
         guestsByEventId(first: 1) {
           nodes {
             contactByContactId {
@@ -133,6 +145,18 @@ const queryEventSearch = graphql(`
               name
             }
             id
+          }
+        }
+        eventUploadsByEventId {
+          nodes {
+            id
+            isHeaderImage
+            rowId
+            uploadByUploadId {
+              id
+              rowId
+              storageKey
+            }
           }
         }
         guestsByEventId(first: 1) {
