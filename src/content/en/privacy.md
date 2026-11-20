@@ -814,7 +814,8 @@
 
             This is a collaborative project that aims to create and offer freely usable geographical data, such as street maps. As it is an open-source project, the data is contributed and updated by a community of cartographers from around the world. This data can be used for a variety of purposes, from displaying maps on websites to use in GIS applications, mobile apps and more.
 
-            When using the maps, a connection is established to the servers of the OpenStreetMap Foundation. This does not involve cookies that are used for tracking website visitors, but only those that are limited to the functionality of the website.
+            Map tiles and address searches are requested from the OpenStreetMap Foundation by our server, not by your browser.
+            Your IP address is therefore not transmitted to the OpenStreetMap Foundation, only the search terms you enter.
 
             The legal basis for the processing is Art. 6 para. 1 lit. f GDPR. We have a legitimate interest in showing locations or providing geographical information.
 

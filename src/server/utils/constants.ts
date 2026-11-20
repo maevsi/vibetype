@@ -49,7 +49,6 @@ export const GET_CSP = ({
       'form-action': ["'self'"], // forms
       'img-src': [
         'blob:',
-        'https://tile.openstreetmap.org/', // map
         hrefTusd, // users' image uploads
         'https://media3.giphy.com/', // gifs
       ],

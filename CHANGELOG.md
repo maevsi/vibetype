@@ -1,3 +1,9 @@
+## [17.34.0](https://github.com/maevsi/vibetype/compare/17.33.0...17.34.0) (2026-11-20)
+
+### Features
+
+* **error:** adopt the design's error page layout ([#2767](https://github.com/maevsi/vibetype/issues/2767)) ([65b1917](https://github.com/maevsi/vibetype/commit/65b191780221dff8f4e336bab04bfade7e185b77))
+
 ## [17.33.0](https://github.com/maevsi/vibetype/compare/17.32.0...17.33.0) (2026-11-20)
 
 ### Features

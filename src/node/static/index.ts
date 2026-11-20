@@ -13,7 +13,6 @@ export const COOKIE_CONTROL_CONSENT_COOKIE_NAME =
 export const CSRF_COOKIE_NAME = `${getIsSecure({ siteUrl: SITE_URL_TYPED }) ? '__Host-' : ''}csrf`
 export const CSRF_HEADER_NAME = 'x-csrf-token'
 export const EVENT_INGEST_IMAGE_REQUEST_SIZE_MAXIMUM = 14_000_000 // about 10 MB of image data as base64
-export const EXTERNAL_MEDIA_COOKIE_ID = 'em'
 export const FEATURE_FLAGS_COOKIE_ID = 'f'
 export const FEATURE_FLAGS_COOKIE_NAME = `${SITE_NAME}_feature-flags`
 export const GTAG_COOKIE_ID = 'ga'

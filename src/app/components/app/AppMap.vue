@@ -2,34 +2,6 @@
   <div v-if="!isMounted" :class="cn('flex justify-center', classComputed)">
     <AppLoaderLogo class="size-8" />
   </div>
-  <div
-    v-else-if="!isConsented"
-    :class="
-      cn(
-        'flex flex-col items-center justify-center gap-4 p-6 text-center',
-        classComputed,
-      )
-    "
-  >
-    <AppIconMap class="size-10 text-fg-2" />
-    <p>{{ t('consentRequired') }}</p>
-    <div class="flex flex-col items-center gap-2">
-      <AppButton :aria-label="t('consentShow')" @click="showMap">
-        {{ t('consentShow') }}
-      </AppButton>
-      <AppButton
-        :aria-label="t('consentOpen')"
-        variant="tertiary"
-        @click="isConsentOpen = true"
-      >
-        {{ t('consentOpen') }}
-      </AppButton>
-    </div>
-    <AppModal v-model="isConsentOpen" is-footer-hidden>
-      <template #header>{{ t('consentTitle') }}</template>
-      <ConsentSettings @decided="isConsentOpen = false" />
-    </AppModal>
-  </div>
   <div v-else :class="cn('relative isolate', classComputed)">
     <!-- while fullscreen, the map moves to the body: in place, an ancestor's stacking context would keep it below the bottom navigation and the sticky bars -->
     <Teleport :disabled="!isFullscreen" to="body">
@@ -77,7 +49,6 @@ import type { Control, FullscreenControl, Map, LatLng } from 'leaflet'
 import type { DeepReadonly, HtmlHTMLAttributes, WatchStopHandle } from 'vue'
 
 import type { GeocodeResult } from '#shared/utils/address'
-import { EXTERNAL_MEDIA_COOKIE_ID } from '~~/node/static'
 
 import { cn } from '@/utils/shadcn'
 
@@ -142,12 +113,7 @@ const staticUrl = computed(() => {
 const { t, locale } = useI18n()
 const colorMode = useColorMode()
 const isMounted = useMounted()
-const isConsented = useIsCookieConsented(EXTERNAL_MEDIA_COOKIE_ID)
-const isConsentOpen = ref(false)
 const { isFeatureEnabled } = useFeatureFlags()
-const { enabledPurposeIds, save } = usePrivacyConsent()
-const showMap = () =>
-  save([...enabledPurposeIds.value, EXTERNAL_MEDIA_COOKIE_ID])
 
 // two-finger and ctrl gestures keep the page scrollable, except in fullscreen where the map is the whole page
 const isTouchDevice = useMediaQuery('(hover: none) and (pointer: coarse)')
@@ -290,7 +256,7 @@ const initialize = async () => {
     'pointer-events-none absolute inset-0 z-500',
     map.value.getContainer(),
   )
-  new TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  new TileLayer('/api/service/openstreetmap/tile/{z}/{x}/{y}.png', {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map.value)
@@ -465,23 +431,21 @@ const initialize = async () => {
   )
 }
 
-// the tiles reach a third party, so the map only exists while consent is given
 watch(
-  [isMounted, isConsented],
-  async ([mounted, consented]) => {
-    if (mounted && consented) {
-      await nextTick()
-      if (!map.value) await initialize()
-    } else if (map.value) {
-      stopMarkerWatch?.()
-      overlayElement.value = undefined
-      map.value.remove()
-      map.value = undefined
-      isFullscreen.value = false
-    }
+  isMounted,
+  async (mounted) => {
+    if (!mounted) return
+    await nextTick()
+    if (!map.value) await initialize()
   },
   { immediate: true },
 )
+// the marker watch starts after an await, so vue does not stop it with the component
+onBeforeUnmount(() => {
+  stopMarkerWatch?.()
+  overlayElement.value = undefined
+  map.value?.remove()
+})
 defineExpose({ isPositionSet, map, mapCenter, mapZoom })
 </script>
 
@@ -497,15 +461,41 @@ defineExpose({ isPositionSet, map, mapCenter, mapZoom })
 .dark .leaflet-tile-pane {
   filter: saturate(0.5) contrast(0.9) brightness(0.65);
 }
+
+/* leaflet styles its buttons and attribution only light, so dark mode takes the search control's dark colors */
+.dark .leaflet-control-attribution {
+  background-color: #2b2b2be6;
+  color: #e8e8e8;
+}
+
+.dark .leaflet-control-attribution a {
+  color: #8cc8ff;
+}
+
+.dark .leaflet-bar,
+.dark .leaflet-bar a {
+  border-color: #555;
+}
+
+.dark .leaflet-bar a {
+  background-color: #2b2b2b;
+  color: #e8e8e8;
+}
+
+.dark .leaflet-bar a:hover,
+.dark .leaflet-bar a:focus {
+  background-color: #3a3a3a;
+}
+
+.dark .leaflet-bar a.leaflet-disabled {
+  background-color: #2b2b2b;
+  color: #777;
+}
 </style>
 
 <i18n lang="yaml">
 de:
   clearSearch: Suche leeren
-  consentOpen: Datenschutz-Einstellungen
-  consentRequired: 'Karte anzeigen: OpenStreetMap erhält deine IP-Adresse.'
-  consentShow: Karte anzeigen
-  consentTitle: Datenschutz-Einstellungen
   enterFullscreen: Vollbild öffnen
   exitFullscreen: Vollbild beenden
   geocodeError: Die Adresssuche ist fehlgeschlagen. Bitte versuche es später erneut.
@@ -523,10 +513,6 @@ de:
   zoomOut: Verkleinern
 en:
   clearSearch: Clear search
-  consentOpen: Privacy settings
-  consentRequired: 'Show map: OpenStreetMap receives your IP address.'
-  consentShow: Show map
-  consentTitle: Privacy settings
   enterFullscreen: Enter fullscreen
   exitFullscreen: Exit fullscreen
   geocodeError: The address search failed. Please try again later.
