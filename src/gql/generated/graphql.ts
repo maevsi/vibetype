@@ -1032,6 +1032,15 @@ export type DeleteEventFavoriteByRowIdMutation = {
   deleteEventFavoriteByRowId: { clientMutationId: string | null } | null
 }
 
+export type EventInviteGuestsQueryVariables = Exact<{
+  eventId: string
+  first: number
+}>
+
+export type EventInviteGuestsQuery = {
+  allGuests: { nodes: Array<{ contactId: string; id: string }> } | null
+}
+
 export type EventListQueryVariables = Exact<{
   after?: string | null | undefined
   first: number
@@ -1042,7 +1051,9 @@ export type EventListQuery = {
     totalCount: number
     nodes: Array<{
       end: string | null
+      guestCount: number
       id: string
+      isInPerson: boolean | null
       name: string
       rowId: string
       slug: string
@@ -1095,7 +1106,9 @@ export type EventSearchQuery = {
     totalCount: number
     nodes: Array<{
       end: string | null
+      guestCount: number
       id: string
+      isInPerson: boolean | null
       name: string
       rowId: string
       slug: string
@@ -1292,7 +1305,17 @@ export type CreateGuestsMutationVariables = Exact<{
 }>
 
 export type CreateGuestsMutation = {
-  createGuests: { result: Array<{ id: string; rowId: string }> | null } | null
+  createGuests: {
+    result: Array<{ contactId: string; id: string; rowId: string }> | null
+  } | null
+}
+
+export type GuestsInviteMutationVariables = Exact<{
+  input: InviteInput
+}>
+
+export type GuestsInviteMutation = {
+  invite: { clientMutationId: string | null } | null
 }
 
 export type AccountPasswordResetMutationVariables = Exact<{
@@ -1865,8 +1888,14 @@ export type EventEditQuery = {
         url: string | null
         visibility: EventVisibility
         addressByAddressId: {
+          city: string | null
+          country: string | null
           id: string
+          line1: string | null
+          line2: string | null
           name: string
+          postalCode: string | null
+          region: string | null
           rowId: string
           location: { latitude: number; longitude: number } | null
         } | null
@@ -1974,8 +2003,14 @@ export type EventQuery = {
           username: string
         } | null
         addressByAddressId: {
+          city: string | null
+          country: string | null
           id: string
+          line1: string | null
+          line2: string | null
           name: string
+          postalCode: string | null
+          region: string | null
           rowId: string
           location: { latitude: number; longitude: number } | null
         } | null
@@ -2099,8 +2134,14 @@ export type GuestEventQuery = {
       visibility: EventVisibility
       accountByCreatedBy: { id: string; rowId: string; username: string } | null
       addressByAddressId: {
+        city: string | null
+        country: string | null
         id: string
+        line1: string | null
+        line2: string | null
         name: string
+        postalCode: string | null
+        region: string | null
         rowId: string
         location: { latitude: number; longitude: number } | null
       } | null
@@ -2229,7 +2270,16 @@ export type TicketGuestQuery = {
       slug: string
       start: string
       accountByCreatedBy: { id: string; username: string } | null
-      addressByAddressId: { id: string; name: string } | null
+      addressByAddressId: {
+        city: string | null
+        country: string | null
+        id: string
+        line1: string | null
+        line2: string | null
+        name: string
+        postalCode: string | null
+        region: string | null
+      } | null
     } | null
   } | null
 }
@@ -3761,6 +3811,98 @@ export const DeleteEventFavoriteByRowIdDocument = {
   DeleteEventFavoriteByRowIdMutation,
   DeleteEventFavoriteByRowIdMutationVariables
 >
+export const EventInviteGuestsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'EventInviteGuests' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'eventId' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'allGuests' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'condition' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'eventId' },
+                      value: {
+                        kind: 'Variable',
+                        name: { kind: 'Name', value: 'eventId' },
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contactId' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  EventInviteGuestsQuery,
+  EventInviteGuestsQueryVariables
+>
 export const EventListDocument = {
   kind: 'Document',
   definitions: [
@@ -4045,6 +4187,10 @@ export const EventListDocument = {
                       },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'guestCount' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'guestsByEventId' },
                         arguments: [
                           {
@@ -4107,6 +4253,10 @@ export const EventListDocument = {
                         },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isInPerson' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
@@ -4432,6 +4582,10 @@ export const EventSearchDocument = {
                       },
                       {
                         kind: 'Field',
+                        name: { kind: 'Name', value: 'guestCount' },
+                      },
+                      {
+                        kind: 'Field',
                         name: { kind: 'Name', value: 'guestsByEventId' },
                         arguments: [
                           {
@@ -4494,6 +4648,10 @@ export const EventSearchDocument = {
                         },
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isInPerson' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'name' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'slug' } },
@@ -5594,6 +5752,10 @@ export const CreateGuestsDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'contactId' },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
@@ -5609,6 +5771,63 @@ export const CreateGuestsDocument = {
 } as unknown as DocumentNode<
   CreateGuestsMutation,
   CreateGuestsMutationVariables
+>
+export const GuestsInviteDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'GuestsInvite' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'InviteInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'invite' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'clientMutationId' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GuestsInviteMutation,
+  GuestsInviteMutationVariables
 >
 export const AccountPasswordResetDocument = {
   kind: 'Document',
@@ -9076,7 +9295,23 @@ export const EventEditDocument = {
                                 selections: [
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'city' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'country' },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'line1' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'line2' },
                                   },
                                   {
                                     kind: 'Field',
@@ -9104,6 +9339,14 @@ export const EventEditDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'name' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'postalCode' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'region' },
                                   },
                                   {
                                     kind: 'Field',
@@ -9793,7 +10036,23 @@ export const EventDocument = {
                                 selections: [
                                   {
                                     kind: 'Field',
+                                    name: { kind: 'Name', value: 'city' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'country' },
+                                  },
+                                  {
+                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'id' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'line1' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'line2' },
                                   },
                                   {
                                     kind: 'Field',
@@ -9821,6 +10080,14 @@ export const EventDocument = {
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'name' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'postalCode' },
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'region' },
                                   },
                                   {
                                     kind: 'Field',
@@ -10680,7 +10947,23 @@ export const GuestEventDocument = {
                           selections: [
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'city' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'country' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'line1' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'line2' },
                             },
                             {
                               kind: 'Field',
@@ -10702,6 +10985,14 @@ export const GuestEventDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'postalCode' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'region' },
                             },
                             {
                               kind: 'Field',
@@ -11619,11 +11910,35 @@ export const TicketGuestDocument = {
                           selections: [
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'city' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'country' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'line1' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'line2' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'name' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'postalCode' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'region' },
                             },
                           ],
                         },

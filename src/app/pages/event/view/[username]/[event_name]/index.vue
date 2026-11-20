@@ -25,6 +25,23 @@
               <AppDropdown>
                 <AppDropdownItem
                   v-if="event.createdBy === store.signedInAccountId"
+                  @select="
+                    navigateTo(
+                      localePath({
+                        name: 'event-edit-username-event_name',
+                        params: {
+                          event_name: route.params.event_name,
+                          username: route.params.username,
+                        },
+                      }),
+                    )
+                  "
+                >
+                  <AppIconPencil />
+                  <span>{{ t('edit') }}</span>
+                </AppDropdownItem>
+                <AppDropdownItem
+                  v-if="event.createdBy === store.signedInAccountId"
                   variant="destructive"
                   @select="isOpenDeleteDrawer = true"
                 >
@@ -46,6 +63,11 @@
                   </span>
                 </template>
               </AppDropdown>
+              <EventInviteDrawer
+                v-if="event.createdBy === store.signedInAccountId"
+                v-model:open="isOpenInviteDrawer"
+                :event
+              />
               <EventDeleteDrawer
                 v-if="event.createdBy === store.signedInAccountId"
                 v-model:open="isOpenDeleteDrawer"
@@ -133,23 +155,15 @@
               </template>
             </AppButton>
             <AppButton
-              :aria-label="t('settings')"
+              :aria-label="t('invite')"
               class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
               size="none"
-              :to="
-                localePath({
-                  name: 'event-edit-username-event_name',
-                  params: {
-                    event_name: route.params.event_name,
-                    username: route.params.username,
-                  },
-                })
-              "
               variant="secondary"
+              @click="isOpenInviteDrawer = true"
             >
-              {{ t('settings') }}
+              {{ t('invite') }}
               <template #prefix>
-                <AppIconPencil />
+                <AppIconUserPlus />
               </template>
             </AppButton>
           </AppButtonGroup>
@@ -197,6 +211,7 @@
                 v-if="positionInitial"
                 class="isolate h-48 rounded-medium"
                 :events
+                is-static
                 :position-initial
               />
             </section>
@@ -224,6 +239,7 @@ const route = useRoute()
 const localePath = useLocalePath()
 
 const isOpenDeleteDrawer = ref<boolean>()
+const isOpenInviteDrawer = ref<boolean>()
 const isOpenReportDrawer = ref<boolean>()
 
 // api data
@@ -239,12 +255,18 @@ const eventQuery = useApiQuery({
               username
             }
             addressByAddressId {
+              city
+              country
               id
+              line1
+              line2
               location {
                 latitude
                 longitude
               }
               name
+              postalCode
+              region
               rowId
             }
             createdBy
@@ -348,6 +370,24 @@ useHeadDefault({
   title,
 })
 defineEventOgImage({ alt: t('ogImageAlt'), event: event.value })
+const postalAddress = computed(() =>
+  address.value?.line1 ||
+  address.value?.postalCode ||
+  address.value?.city ||
+  address.value?.country
+    ? {
+        '@type': 'PostalAddress' as const,
+        addressCountry: address.value.country ?? undefined,
+        addressLocality: address.value.city ?? undefined,
+        addressRegion: address.value.region ?? undefined,
+        postalCode: address.value.postalCode ?? undefined,
+        streetAddress:
+          [address.value.line1, address.value.line2]
+            .filter(Boolean)
+            .join(', ') || undefined,
+      }
+    : address.value?.name,
+)
 defineEvent({
   description,
   endDate: event.value?.end,
@@ -361,7 +401,7 @@ defineEvent({
   location:
     event.value?.isInPerson && address.value?.name
       ? definePlace({
-          address: address.value.name,
+          address: postalAddress.value,
           latitude: address.value.location?.latitude ?? undefined,
           longitude: address.value.location?.longitude ?? undefined,
           name: address.value.name,
@@ -400,29 +440,31 @@ de:
   attendances: Check-in
   delete: Veranstaltung löschen
   details: Details
+  edit: Veranstaltung bearbeiten
   errorAccountMissing: Nutzerkonto nicht verfügbar
   errorEventMissing: Veranstaltung nicht verfügbar
   errorTemplate: Wert nur in der Einladung verfügbar
   guests: Gäste
+  invite: Einladen
   location: Ort
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
   participants: Teilnehmende
   participate: Teilnehmen
   report: Veranstaltung melden
-  settings: Bearbeiten
 en:
   about: About the event
   attendances: Check in
   delete: Delete event
   details: Details
+  edit: Edit event
   errorAccountMissing: Account not available
   errorEventMissing: Event not available
   errorTemplate: value available in invitation only
   guests: Guests
+  invite: Invite
   location: Location
   ogImageAlt: The event's preview image.
   participants: Participants
   participate: Participate
   report: Report event
-  settings: Edit
 </i18n>

@@ -1,3 +1,36 @@
+## [17.27.0](https://github.com/maevsi/vibetype/compare/17.26.0...17.27.0) (2026-11-20)
+
+### Features
+
+* **account:** edit the profile in one form ([#2731](https://github.com/maevsi/vibetype/issues/2731)) ([4fc1700](https://github.com/maevsi/vibetype/commit/4fc1700339a8baf66408c11aa296e3a81a201241))
+* **event:** move edit to the menu and add an invite action ([#2730](https://github.com/maevsi/vibetype/issues/2730)) ([2f52fd2](https://github.com/maevsi/vibetype/commit/2f52fd22307a7f61b71c0c471b309946cc802590))
+
+### Bug Fixes
+
+* **consent:** lock the page scroll behind the consent screen ([#2729](https://github.com/maevsi/vibetype/issues/2729)) ([220b3e0](https://github.com/maevsi/vibetype/commit/220b3e05a4cf4cd92fb1367585e7d7b9eff54c02))
+* **map:** lift the fullscreen map above all stacking contexts ([#2732](https://github.com/maevsi/vibetype/issues/2732)) ([4eca7f6](https://github.com/maevsi/vibetype/commit/4eca7f67ead1c696bc5049ef8e53a80be8654c72))
+
+## [17.26.0](https://github.com/maevsi/vibetype/compare/17.25.0...17.26.0) (2026-11-20)
+
+### Features
+
+* **preference:** adapt the setup flow to the b4 design ([#2726](https://github.com/maevsi/vibetype/issues/2726)) ([b8bbbe9](https://github.com/maevsi/vibetype/commit/b8bbbe9a5342721026e403f20493d7a97edc2efd))
+
+## [17.25.0](https://github.com/maevsi/vibetype/compare/17.24.0...17.25.0) (2026-11-19)
+
+### Features
+
+* **event:** read event pages from links ([#2727](https://github.com/maevsi/vibetype/issues/2727)) ([6c98b91](https://github.com/maevsi/vibetype/commit/6c98b91eb066a5f49f476379814854fb5d848d68))
+* **map:** align location picking and event map previews with the design ([#2725](https://github.com/maevsi/vibetype/issues/2725)) ([adb8ef3](https://github.com/maevsi/vibetype/commit/adb8ef38b259ab6c4528035c4db135099b554934))
+* **session:** color the settings menu icons ([#2728](https://github.com/maevsi/vibetype/issues/2728)) ([a60ab83](https://github.com/maevsi/vibetype/commit/a60ab836ecede24f470eb715cf8e3f510aaa7b54))
+
+## [17.24.0](https://github.com/maevsi/vibetype/compare/17.23.0...17.24.0) (2026-11-19)
+
+### Features
+
+* **address:** store and show the structured address of event locations ([#2723](https://github.com/maevsi/vibetype/issues/2723)) ([b3c75b1](https://github.com/maevsi/vibetype/commit/b3c75b1bdc413c711c3c585c867fb73e4543d695))
+* **event:** show distance and guests in list items ([#2724](https://github.com/maevsi/vibetype/issues/2724)) ([4fa7ef6](https://github.com/maevsi/vibetype/commit/4fa7ef61243ff86d7d7f798e02bff6ab2ad26855))
+
 ## [17.23.0](https://github.com/maevsi/vibetype/compare/17.22.0...17.23.0) (2026-11-19)
 
 ### Features

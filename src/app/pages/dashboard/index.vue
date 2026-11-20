@@ -156,10 +156,7 @@
               {{ t('posterHuntDescription') }}
             </p>
           </div>
-          <div
-            class="grid gap-2"
-            :class="isLinkAvailable ? 'grid-cols-3' : 'grid-cols-2'"
-          >
+          <div class="grid grid-cols-3 gap-2">
             <AppButton
               :aria-label="t('posterHuntPhoto')"
               class="h-15 flex-col justify-center gap-1 rounded-small p-2 text-caption"
@@ -180,7 +177,6 @@
               {{ t('posterHuntImage') }}
             </AppButton>
             <AppButton
-              v-if="isLinkAvailable"
               :aria-label="t('posterHuntLink')"
               class="h-15 flex-col justify-center gap-1 rounded-small bg-surface p-2 text-caption text-fg-1"
               size="none"
@@ -413,9 +409,6 @@ const eventTopPick = computed(() => eventRecommendations.value?.[0])
 const eventRecommendationsOther = computed(
   () => eventRecommendations.value?.slice(1) ?? [],
 )
-
-// the link page only exists in development
-const isLinkAvailable = import.meta.dev
 
 // page
 const { t } = useI18n()

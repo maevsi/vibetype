@@ -79,6 +79,7 @@ const queryEventList = graphql(`
             id
           }
         }
+        guestCount
         guestsByEventId(first: 1) {
           nodes {
             contactByContactId {
@@ -91,6 +92,7 @@ const queryEventList = graphql(`
           }
         }
         id
+        isInPerson
         name
         rowId
         slug
@@ -147,6 +149,7 @@ const queryEventSearch = graphql(`
             id
           }
         }
+        guestCount
         guestsByEventId(first: 1) {
           nodes {
             contactByContactId {
@@ -159,6 +162,7 @@ const queryEventSearch = graphql(`
           }
         }
         id
+        isInPerson
         name
         rowId
         slug

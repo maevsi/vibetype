@@ -24,9 +24,8 @@ test('gets ical string', () => {
         end: new Date().toISOString(),
         // guestCountMaximum: 0,
         // isArchived: false,
-        // isInPerson: false,
+        isInPerson: false,
         // isRemote: false,
-        // location: 'location',
         name: 'name',
         rowId: '1',
         slug: 'slug',
@@ -70,9 +69,8 @@ test('gets ical string with the language prefix', () => {
         end: new Date().toISOString(),
         // guestCountMaximum: 0,
         // isArchived: false,
-        // isInPerson: false,
+        isInPerson: false,
         // isRemote: false,
-        // location: 'location',
         name: 'name',
         rowId: '1',
         slug: 'slug',
@@ -105,4 +103,33 @@ CLASS:PRIVATE\r
 END:VEVENT\r
 END:VCALENDAR`,
   )
+})
+
+test('adds the location of in-person events', () => {
+  const ical = getIcalString({
+    event: {
+      accountByCreatedBy: { username: 'authorUsername' },
+      addressByAddressId: {
+        city: 'Kassel',
+        line1: 'Friedrichsplatz 5',
+        location: { latitude: 51.3, longitude: 9.5 },
+        name: 'Fridericianum',
+        postalCode: '34117',
+      },
+      description: null,
+      end: null,
+      isInPerson: true,
+      name: 'name',
+      rowId: '1',
+      slug: 'slug',
+      start: new Date().toISOString(),
+      visibility: EventVisibility.Private,
+    },
+    siteUrl: 'https://app.test',
+  })
+
+  expect(ical).toContain(
+    'LOCATION:Fridericianum\\nFriedrichsplatz 5\\, 34117 Kassel',
+  )
+  expect(ical).toContain('GEO:51.3;9.5')
 })

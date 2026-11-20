@@ -96,7 +96,11 @@ for (const [name, test, routes] of [
 }
 
 authenticatedTest.describe('chrome of a multi-step page', () => {
-  for (const path of ['/early-bird/create', '/preference/create']) {
+  // the preference flow starts with a welcome step that offers a skip button instead of a close button
+  for (const { closeCount, nextName, path } of [
+    { closeCount: 1, nextName: undefined, path: '/early-bird/create' },
+    { closeCount: 0, nextName: 'Start', path: '/preference/create' },
+  ]) {
     authenticatedTest(path, async ({ defaultPage }) => {
       const { page } = defaultPage
       const back = page.getByRole('button', { exact: true, name: 'Back' })
@@ -106,12 +110,16 @@ authenticatedTest.describe('chrome of a multi-step page', () => {
 
       // the first step can only be left, a later one leads back to its predecessor
       await expect(back).toHaveCount(0)
-      await expect(close).toHaveCount(1)
+      await expect(close).toHaveCount(closeCount)
       await expect(
         page.getByRole('navigation', { name: 'Bottom' }),
       ).toHaveCount(0)
 
-      await page.locator('main').getByRole('button').last().click()
+      await (
+        nextName
+          ? page.getByRole('button', { exact: true, name: nextName })
+          : page.locator('main').getByRole('button').last()
+      ).click()
       await expect(back).toHaveCount(1)
     })
   }
