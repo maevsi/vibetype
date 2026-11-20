@@ -13,6 +13,13 @@
             <AppIconPlus />
           </template>
         </AppButton>
+        <AppButton
+          :aria-label="t('contactImport')"
+          :to="localePath('contact-import')"
+          variant="secondary"
+        >
+          {{ t('contactImport') }}
+        </AppButton>
       </div>
       <AppTable v-if="contactsFiltered.length">
         <AppTableHeader>
@@ -81,6 +88,7 @@ import type {
 } from '~~/gql/generated/graphql'
 import { getContactItem, getContactsSorted } from '~~/shared/utils/contact'
 
+const localePath = useLocalePath()
 const { t } = useI18n()
 const store = useStore()
 
@@ -251,6 +259,7 @@ de:
   contact: Kontakt
   contactAdd: Kontakt hinzufügen
   contactEdit: Kontakt bearbeiten
+  contactImport: Kontakte importieren
   emailAddress: E-Mail Adresse
   noContactsFound: Keine Kontakte gefunden 😕
   phoneNumber: Telefonnummer
@@ -260,6 +269,7 @@ en:
   contact: Contact
   contactAdd: Add contact
   contactEdit: Edit contact
+  contactImport: Import contacts
   emailAddress: Email address
   noContactsFound: No contacts found 😕
   phoneNumber: Phone number

@@ -34,6 +34,7 @@ const ROUTES_SIGNED_IN = [
   },
   { isMenuRoute: true, path: `/event/view/${TESTING_ACCOUNT_USERNAME}` },
   { isMenuRoute: false, path: '/contact' },
+  { isMenuRoute: false, path: '/contact/import' },
   { isMenuRoute: false, path: '/event/create' },
   { isMenuRoute: false, isTitleInContent: true, path: EVENT_VIEW_PATH },
   { isMenuRoute: false, path: `${EVENT_VIEW_PATH}/guest` },

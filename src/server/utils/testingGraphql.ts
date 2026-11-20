@@ -395,6 +395,20 @@ export const getTestingGraphqlResult = async ({
       }
     case 'AccountUploadQuotaBytes':
       return { data: { accountUploadQuotaBytes: 10485760 } }
+    case 'AllContactsEmailAddresses':
+      return {
+        data: {
+          allContacts: {
+            nodes: [],
+            pageInfo: {
+              endCursor: null,
+              hasNextPage: false,
+              __typename: 'PageInfo',
+            },
+            __typename: 'ContactConnection',
+          },
+        },
+      }
     case 'AllContacts':
       return {
         data: {

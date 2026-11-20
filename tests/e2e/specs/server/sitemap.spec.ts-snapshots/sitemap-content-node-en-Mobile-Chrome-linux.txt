@@ -25,6 +25,12 @@
         <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/account/create" />
     </url>
     <url>
+        <loc>https://example.com/contact/import</loc>
+        <xhtml:link rel="alternate" hreflang="en" href="https://example.com/contact/import" />
+        <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/contact/import" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://example.com/contact/import" />
+    </url>
+    <url>
         <loc>https://example.com/docs/app</loc>
         <xhtml:link rel="alternate" hreflang="en" href="https://example.com/docs/app" />
         <xhtml:link rel="alternate" hreflang="de" href="https://example.com/de/docs/app" />
