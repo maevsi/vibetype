@@ -13,19 +13,8 @@ export default defineNuxtPlugin({
     if (window.trustedTypes && !def) {
       window.trustedTypes.createPolicy('default', {
         createHTML: (input) => sanitize(input),
-        createScriptURL: (input) => {
-          if (
-            [
-              '/sw.js',
-              'https://challenges.cloudflare.com/turnstile/v0/api.js',
-              ...(import.meta.env.DEV ? ['/__devtools/embedded.js'] : []),
-            ].includes(input)
-          ) {
-            return input
-          }
-
-          throw new Error(`Blocked untrusted script URL: ${input}`)
-        },
+        // the content security policy's `script-src-elem` and `worker-src` already restrict which urls may load, and an exact list here broke scripts with dynamic urls like Google Analytics' `gtag/js?id=…`
+        createScriptURL: (input) => input,
         createScript: (input) => {
           throw new Error(`Creating scripts is not allowed: ${input}`)
         },
