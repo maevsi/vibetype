@@ -31,7 +31,10 @@
 
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
-import type { RouteLocationRaw } from 'vue-router'
+import type {
+  RouteLocationAsPathGeneric,
+  RouteLocationAsRelativeGeneric,
+} from 'vue-router'
 
 import { cn } from '@/utils/shadcn'
 
@@ -43,7 +46,8 @@ const {
 } = defineProps<{
   class?: HTMLAttributes['class']
   title: string
-  to?: RouteLocationRaw
+  // untyped, as the typed route union grows with every page and became too complex to represent in a destructured optional prop (TS2590)
+  to?: string | RouteLocationAsPathGeneric | RouteLocationAsRelativeGeneric
   tone?: 'danger' | 'info' | 'success' | 'warning'
   variant?: 'critical' | 'default'
 }>()
