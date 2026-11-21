@@ -31,7 +31,6 @@
 
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
-import type { RouteLocationRaw } from 'vue-router'
 
 import { cn } from '@/utils/shadcn'
 
@@ -43,7 +42,8 @@ const {
 } = defineProps<{
   class?: HTMLAttributes['class']
   title: string
-  to?: RouteLocationRaw
+  // an optional prop typed with all routes exceeds the union size Vue's prop types can represent (https://github.com/vuejs/core/issues/10514), so links take localized paths until that is fixed
+  to?: string
   tone?: 'danger' | 'info' | 'success' | 'warning'
   variant?: 'critical' | 'default'
 }>()
