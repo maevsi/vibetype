@@ -7,7 +7,7 @@
           v-model="searchString"
           class="flex-1"
         />
-        <AppButton :aria-label="t('contactAdd')" @click="add()">
+        <AppButton :aria-label="t('contactAdd')" @click="add">
           {{ t('contactAdd') }}
           <template #prefix>
             <AppIconPlus />
@@ -48,7 +48,6 @@
             :id="contact.rowId"
             :key="contact.rowId"
             :contact
-            :is-editing="pending.edits.includes(contact.rowId)"
             @delete="onDeleteSelect(contact)"
             @edit="edit(contact)"
           />
@@ -57,19 +56,6 @@
       <p v-else class="text-center">
         {{ t('noContactsFound') }}
       </p>
-      <AppModal
-        v-model="isModalContactOpen"
-        is-footer-hidden
-        @close="onModalContactClose"
-      >
-        <FormContact
-          :contact="selectedContact"
-          @submit-success="onContactSubmitSuccess"
-        />
-        <template #header>
-          {{ formContactHeading }}
-        </template>
-      </AppModal>
       <ContactDeleteDrawer
         v-if="contactToDelete"
         v-model:open="isDeleteDrawerOpen"
@@ -89,6 +75,7 @@ import type {
 import { getContactItem, getContactsSorted } from '~~/shared/utils/contact'
 
 const localePath = useLocalePath()
+const route = useRoute()
 const { t } = useI18n()
 const store = useStore()
 
@@ -106,29 +93,8 @@ const contactToDelete =
       | 'rowId'
     >
   >()
-const formContactHeading = ref<string>()
 const isDeleteDrawerOpen = ref(false)
-const isModalContactOpen = ref<boolean>()
-const pending = reactive({
-  edits: ref<string[]>([]),
-})
 const searchString = ref<string>('')
-const selectedContact = ref<
-  Pick<
-    ContactItemFragment,
-    | 'accountByAccountId'
-    // | 'addressByAddressId'
-    | 'emailAddress'
-    | 'firstName'
-    | 'id'
-    | 'lastName'
-    | 'nickname'
-    | 'note'
-    | 'phoneNumber'
-    | 'rowId'
-    | 'url'
-  >
->()
 
 // api data
 const contactsQuery = useApiQuery({
@@ -189,12 +155,10 @@ const contactsFiltered = computed(() => {
 })
 
 // methods
-const add = () => {
-  contactsQuery.pause()
-  formContactHeading.value = t('contactAdd')
-  selectedContact.value = undefined
-  isModalContactOpen.value = true
-}
+const add = () =>
+  navigateTo(
+    localePath({ name: 'contact-create', query: { redirect: route.fullPath } }),
+  )
 const onDeleteSelect = (
   contact: Pick<
     ContactItemFragment,
@@ -209,37 +173,14 @@ const onDeleteSelect = (
   contactToDelete.value = contact
   isDeleteDrawerOpen.value = true
 }
-const edit = (
-  contact: Pick<
-    ContactItemFragment,
-    | 'accountByAccountId'
-    // | 'addressByAddressId'
-    | 'emailAddress'
-    | 'firstName'
-    | 'id'
-    | 'lastName'
-    | 'nickname'
-    | 'note'
-    | 'phoneNumber'
-    | 'rowId'
-    | 'url'
-  >,
-) => {
-  pending.edits.push(contact.rowId)
-  formContactHeading.value = t('contactEdit')
-  selectedContact.value = contact
-  isModalContactOpen.value = true
-}
-const onContactSubmitSuccess = () => {
-  isModalContactOpen.value = false
-  after.value = undefined
-  contactsQuery.resume()
-}
-const onModalContactClose = () => {
-  if (!selectedContact.value) return
-
-  pending.edits.splice(pending.edits.indexOf(selectedContact.value.rowId), 1)
-}
+const edit = (contact: Pick<ContactItemFragment, 'rowId'>) =>
+  navigateTo(
+    localePath({
+      name: 'contact-edit-id',
+      params: { id: contact.rowId },
+      query: { redirect: route.fullPath },
+    }),
+  )
 
 // lifecycle
 watch(
@@ -258,7 +199,6 @@ de:
   # address: Adresse
   contact: Kontakt
   contactAdd: Kontakt hinzufügen
-  contactEdit: Kontakt bearbeiten
   contactImport: Kontakte importieren
   emailAddress: E-Mail Adresse
   noContactsFound: Keine Kontakte gefunden 😕
@@ -268,7 +208,6 @@ en:
   # address: Address
   contact: Contact
   contactAdd: Add contact
-  contactEdit: Edit contact
   contactImport: Import contacts
   emailAddress: Email address
   noContactsFound: No contacts found 😕

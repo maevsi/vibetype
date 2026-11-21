@@ -1945,6 +1945,16 @@ export type AttendanceCheckOutMutation = {
   } | null
 }
 
+export type ContactByRowIdQueryVariables = Exact<{
+  id: string
+}>
+
+export type ContactByRowIdQuery = {
+  contactByRowId: {
+    ' $fragmentRefs'?: { ContactItemFragment: ContactItemFragment }
+  } | null
+}
+
 export type AllContactsEmailAddressesQueryVariables = Exact<{
   after?: string | null | undefined
   createdBy?: string | null | undefined
@@ -9916,6 +9926,103 @@ export const AttendanceCheckOutDocument = {
   AttendanceCheckOutMutation,
   AttendanceCheckOutMutationVariables
 >
+export const ContactByRowIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'ContactByRowId' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'contactByRowId' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'rowId' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'id' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'ContactItem' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'ContactItem' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'Contact' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'accountId' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByAccountId' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'accountByCreatedBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdBy' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'emailAddress' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'emailAddressHash' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'nickname' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'note' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'phoneNumber' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<ContactByRowIdQuery, ContactByRowIdQueryVariables>
 export const AllContactsEmailAddressesDocument = {
   kind: 'Document',
   definitions: [
