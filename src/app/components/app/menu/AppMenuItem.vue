@@ -42,7 +42,7 @@ const {
 } = defineProps<{
   class?: HTMLAttributes['class']
   title: string
-  // typed route objects exceed TypeScript's union limit with the app's number of pages, so links take localized paths
+  // an optional prop typed with all routes exceeds the union size Vue's prop types can represent (https://github.com/vuejs/core/issues/10514), so links take localized paths until that is fixed
   to?: string
   tone?: 'danger' | 'info' | 'success' | 'warning'
   variant?: 'critical' | 'default'

@@ -71,7 +71,7 @@ const {
   isExternal?: boolean
   loading?: boolean
   size?: AppButtonSize
-  // typed route objects exceed TypeScript's union limit with the app's number of pages, so links take localized paths or same-page queries
+  // an optional prop typed with all routes exceeds the union size Vue's prop types can represent (https://github.com/vuejs/core/issues/10514), so links take localized paths or same-page queries until that is fixed
   to?: string | RouteQueryAndHash
   type?: ButtonHTMLAttributes['type']
   variant?: AppButtonVariant
