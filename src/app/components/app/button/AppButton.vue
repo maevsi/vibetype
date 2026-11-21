@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import type { ButtonHTMLAttributes, HTMLAttributes } from 'vue'
-import type { RouteLocationRaw } from 'vue-router'
+import type { RouteQueryAndHash } from 'vue-router'
 
 import { AppLink } from '#components'
 import { cn } from '@/utils/shadcn'
@@ -71,7 +71,8 @@ const {
   isExternal?: boolean
   loading?: boolean
   size?: AppButtonSize
-  to?: RouteLocationRaw
+  // typed route objects exceed TypeScript's union limit with the app's number of pages, so links take localized paths or same-page queries
+  to?: string | RouteQueryAndHash
   type?: ButtonHTMLAttributes['type']
   variant?: AppButtonVariant
 }>()

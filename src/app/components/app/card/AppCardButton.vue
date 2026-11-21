@@ -43,7 +43,6 @@
 
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
-import type { RouteLocationRaw } from 'vue-router'
 
 import { cn } from '@/utils/shadcn'
 
@@ -59,7 +58,8 @@ const {
   disabled?: boolean
   isExternal?: boolean
   title: string
-  to?: RouteLocationRaw
+  // typed route objects exceed TypeScript's union limit with the app's number of pages, so links take localized paths
+  to?: string
 }>()
 
 defineSlots<{
