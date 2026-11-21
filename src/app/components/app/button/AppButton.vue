@@ -39,7 +39,10 @@
 
 <script setup lang="ts">
 import type { ButtonHTMLAttributes, HTMLAttributes } from 'vue'
-import type { RouteLocationRaw } from 'vue-router'
+import type {
+  RouteLocationAsPathGeneric,
+  RouteLocationAsRelativeGeneric,
+} from 'vue-router'
 
 import { AppLink } from '#components'
 import { cn } from '@/utils/shadcn'
@@ -71,7 +74,8 @@ const {
   isExternal?: boolean
   loading?: boolean
   size?: AppButtonSize
-  to?: RouteLocationRaw
+  // untyped, as the typed route union grows with every page and became too complex to represent in a destructured optional prop (TS2590)
+  to?: string | RouteLocationAsPathGeneric | RouteLocationAsRelativeGeneric
   type?: ButtonHTMLAttributes['type']
   variant?: AppButtonVariant
 }>()
