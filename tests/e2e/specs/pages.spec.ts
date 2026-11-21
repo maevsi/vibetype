@@ -23,6 +23,7 @@ const EVENT_VIEW_PATH = `/event/view/${TESTING_ACCOUNT_USERNAME}/${TESTING_EVENT
 // the data behind these paths is served by `src/server/utils/testingGraphql.ts`
 const PAGE_PATHS_DYNAMIC: Record<string, string> = {
   '/account/edit/[username]': ACCOUNT_EDIT_PATH,
+  '/account/edit/[username]/picture': `${ACCOUNT_EDIT_PATH}/picture`,
   '/account/view/[username]': ACCOUNT_VIEW_PATH,
   '/account/view/[username]/block': `${ACCOUNT_VIEW_PATH}/block`,
   '/attendance/view/[id]': `/attendance/view/${TESTING_ATTENDANCE_ROW_ID}`,
