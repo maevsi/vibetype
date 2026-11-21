@@ -322,6 +322,17 @@ export type CreateEventUploadInput = {
   eventUpload: EventUploadInput
 }
 
+/** All input for the create `Guest` mutation. */
+export type CreateGuestInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: string | null | undefined
+  /** The `Guest` to be created by this mutation. */
+  guest: GuestInput
+}
+
 /** All input for the `createGuests` mutation. */
 export type CreateGuestsInput = {
   /**
@@ -748,6 +759,18 @@ export type EventUploadInput = {
 
 /** Possible visibilities of events and event groups: public, private and unlisted. */
 export type EventVisibility = 'private' | 'public' | 'unlisted'
+
+/** An input for mutations affecting `Guest` */
+export type GuestInput = {
+  /** The internal id of the guest's contact. */
+  contactId: string
+  /** The internal id of the guest's event. */
+  eventId: string
+  /** The guest's general feedback status. */
+  feedback?: InvitationFeedback | null | undefined
+  /** The guest's paper feedback status. */
+  feedbackPaper?: InvitationFeedbackPaper | null | undefined
+}
 
 /** Represents an update to a `Guest`. Fields that are set will be updated. */
 export type GuestPatch = {
@@ -2374,8 +2397,23 @@ export type EventQuery = {
             } | null
           }>
         }
+        guestsByEventId: { nodes: Array<{ id: string; rowId: string }> }
       }>
     }
+  } | null
+}
+
+export type CreateGuestMutationVariables = Exact<{
+  input: CreateGuestInput
+}>
+
+export type CreateGuestMutation = {
+  createGuest: {
+    guest: {
+      feedback: InvitationFeedback | null
+      id: string
+      rowId: string
+    } | null
   } | null
 }
 
@@ -12518,6 +12556,42 @@ export const EventDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'guestsByEventId' },
+                              arguments: [
+                                {
+                                  kind: 'Argument',
+                                  name: { kind: 'Name', value: 'first' },
+                                  value: { kind: 'IntValue', value: '1' },
+                                },
+                              ],
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'nodes' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'id' },
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: 'rowId',
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
                             },
                             {
@@ -12573,6 +12647,71 @@ export const EventDocument = {
     },
   ],
 } as unknown as DocumentNode<EventQuery, EventQueryVariables>
+export const CreateGuestDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateGuest' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'input' },
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'CreateGuestInput' },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createGuest' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'input' },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'guest' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'feedback' },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CreateGuestMutation, CreateGuestMutationVariables>
 export const EventListAccountDocument = {
   kind: 'Document',
   definitions: [

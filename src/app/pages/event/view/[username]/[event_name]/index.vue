@@ -171,22 +171,57 @@
               </template>
             </AppButton>
           </AppButtonGroup>
-          <AppFeature v-else-if="!routeQueryIc" feature="participation">
-            <!-- The tiles are inert, as an event can only be joined through an invitation yet; once guests can join by themselves, bind the actions and remove `inert` -->
-            <AppButtonGroup class="grid grid-cols-2 gap-2 lg:gap-2" inert>
+          <AppFeature
+            v-else-if="
+              !routeQueryIc &&
+              (guestOwn || event.visibility === EventVisibility.Public)
+            "
+            feature="participation"
+          >
+            <AppButtonGroup class="grid grid-cols-2 gap-2 lg:gap-2">
               <AppButton
-                :aria-label="t('participate')"
+                v-if="guestOwn"
+                :aria-label="t('participation')"
                 class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
                 size="none"
+                :to="
+                  localePath({
+                    name: 'guest-view-id',
+                    params: { id: guestOwn.rowId },
+                  })
+                "
+              >
+                {{ t('participation') }}
+                <template #prefix>
+                  <AppIconTicket />
+                </template>
+              </AppButton>
+              <AppButton
+                v-else
+                :aria-label="t('participate')"
+                class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+                :loading="isParticipatePending"
+                size="none"
+                :to="
+                  store.signedInAccountId
+                    ? undefined
+                    : localePath({
+                        name: 'session-create',
+                        query: { to: route.fullPath },
+                      })
+                "
+                @click="participate"
               >
                 {{ t('participate') }}
                 <template #prefix>
                   <AppIconTicket />
                 </template>
               </AppButton>
+              <!-- inert until the participants can be listed (https://github.com/maevsi/vibetype/issues/769) -->
               <AppButton
                 :aria-label="t('participants')"
                 class="h-14 flex-col justify-center gap-1 rounded-medium text-body-small"
+                inert
                 size="none"
                 variant="secondary"
               >
@@ -233,14 +268,22 @@
 </template>
 
 <script setup lang="ts">
+import { useMutation } from '@urql/vue'
 import { sanitize } from 'isomorphic-dompurify'
 
 import { graphql } from '~~/gql/generated'
+import {
+  EventVisibility,
+  InvitationFeedback,
+} from '~~/gql/generated/graphcache'
 
 const { t } = useI18n()
 const store = useStore()
 const route = useRoute()
 const localePath = useLocalePath()
+const { $urql } = useNuxtApp()
+const alertError = useAlertError()
+const executeUrqlRequest = useExecuteUrqlRequest()
 
 const isOpenDeleteDrawer = ref<boolean>()
 const isOpenInviteDrawer = ref<boolean>()
@@ -316,6 +359,12 @@ const eventQuery = useApiQuery({
                 }
               }
             }
+            guestsByEventId(first: 1) {
+              nodes {
+                id
+                rowId
+              }
+            }
             id
             isArchived
             isInPerson
@@ -343,7 +392,70 @@ const account = computed(() => eventQuery.data.value?.accountByUsername)
 const events = computed(() => account.value?.eventsByCreatedBy.nodes)
 const event = computed(() => (events.value ? events.value[0] : undefined))
 const address = computed(() => event.value?.addressByAddressId)
+const createGuestMutation = useMutation(
+  graphql(`
+    mutation CreateGuest($input: CreateGuestInput!) {
+      createGuest(input: $input) {
+        guest {
+          feedback
+          id
+          rowId
+        }
+      }
+    }
+  `),
+)
 const api = await useApiData([eventQuery])
+
+// participation
+// an organizer sees every guest of the event, anyone else only their own
+const guestOwn = computed(() =>
+  event.value?.createdBy === store.signedInAccountId
+    ? undefined
+    : event.value?.guestsByEventId.nodes[0],
+)
+const isParticipatePending = ref<boolean>()
+const participate = async () => {
+  if (!event.value || !store.signedInAccountId) return
+
+  isParticipatePending.value = true
+
+  try {
+    const contactOwn = await getOwnContact({
+      $urql,
+      accountId: store.signedInAccountId,
+    })
+
+    if (!contactOwn) throw new Error('The account has no contact of its own')
+
+    const result = await executeUrqlRequest({
+      errorMessageI18n: t('participateError'),
+      request: createGuestMutation.executeMutation({
+        input: {
+          guest: {
+            contactId: contactOwn.rowId,
+            eventId: event.value.rowId,
+            feedback: InvitationFeedback.Accepted,
+          },
+        },
+      }),
+    })
+    const guest = result?.data?.createGuest?.guest
+
+    if (!guest) return
+
+    await navigateTo(
+      localePath({ name: 'guest-view-id', params: { id: guest.rowId } }),
+    )
+  } catch (error) {
+    alertError({
+      error: error instanceof Error ? error : undefined,
+      messageI18n: t('participateError'),
+    })
+  } finally {
+    isParticipatePending.value = false
+  }
+}
 
 // computations
 const eventDescriptionTemplate = computed(() => {
@@ -471,6 +583,8 @@ de:
   ogImageAlt: Das Vorschaubild für die Veranstaltung.
   participants: Teilnehmende
   participate: Teilnehmen
+  participateError: Teilnahme fehlgeschlagen
+  participation: Deine Teilnahme
   report: Veranstaltung melden
 en:
   about: About the event
@@ -487,5 +601,7 @@ en:
   ogImageAlt: The event's preview image.
   participants: Participants
   participate: Participate
+  participateError: Participation failed
+  participation: Your participation
   report: Report event
 </i18n>
