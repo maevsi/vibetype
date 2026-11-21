@@ -183,6 +183,10 @@ const EVENT_VIEW = {
     __typename: 'EventFormatMappingConnection',
   },
   eventUploadsByEventId: EVENT_UPLOADS,
+  guestsByEventId: {
+    nodes: [],
+    __typename: 'GuestConnection',
+  },
   id: EVENT.id,
   isArchived: EVENT.isArchived,
   isInPerson: EVENT.isInPerson,
