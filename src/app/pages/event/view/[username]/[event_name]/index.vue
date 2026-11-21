@@ -103,6 +103,32 @@
                 :options="{ day: 'numeric' }"
               />
             </div>
+            <span
+              v-if="eventState"
+              :class="
+                cn(
+                  'absolute right-3 bottom-3 flex items-center gap-1.5 rounded-pill px-3 py-1 text-caption text-fg-1',
+                  eventState === 'upcoming'
+                    ? 'bg-info-tint'
+                    : eventState === 'ongoing'
+                      ? 'bg-success-tint'
+                      : 'bg-surface-raised text-fg-2',
+                )
+              "
+            >
+              <span
+                v-if="eventState === 'ongoing'"
+                aria-hidden="true"
+                class="size-2 rounded-full bg-current motion-safe:animate-pulse"
+              />
+              {{
+                eventState === 'upcoming'
+                  ? t('stateUpcoming')
+                  : eventState === 'ongoing'
+                    ? t('stateOngoing')
+                    : t('stateEnded')
+              }}
+            </span>
           </div>
           <div v-if="event?.accountByCreatedBy" class="flex flex-col gap-1">
             <h1 class="m-0 text-title3">
@@ -167,7 +193,10 @@
               </template>
             </AppButton>
           </AppButtonGroup>
-          <AppFeature v-else-if="!routeQueryIc" feature="participation">
+          <AppFeature
+            v-else-if="!routeQueryIc && eventState !== 'ended'"
+            feature="participation"
+          >
             <!-- The tiles are inert, as an event can only be joined through an invitation yet; once guests can join by themselves, bind the actions and remove `inert` -->
             <AppButtonGroup class="grid grid-cols-2 gap-2 lg:gap-2" inert>
               <AppButton
@@ -231,6 +260,7 @@
 <script setup lang="ts">
 import { sanitize } from 'isomorphic-dompurify'
 
+import { cn } from '@/utils/shadcn'
 import { graphql } from '~~/gql/generated'
 
 const { t } = useI18n()
@@ -345,6 +375,10 @@ const eventDescriptionTemplate = computed(() => {
   return descriptionNoTemplates
 })
 const routeQueryIc = computed(() => route.query.ic)
+const now = useNow()
+const eventState = computed(() =>
+  event.value ? getEventState(event.value, now.value) : undefined,
+)
 
 // page
 const description = computed(() =>
@@ -451,6 +485,9 @@ de:
   participants: Teilnehmende
   participate: Teilnehmen
   report: Veranstaltung melden
+  stateEnded: Vorbei
+  stateOngoing: Läuft gerade
+  stateUpcoming: Bevorstehend
 en:
   about: About the event
   attendances: Check in
@@ -467,4 +504,7 @@ en:
   participants: Participants
   participate: Participate
   report: Report event
+  stateEnded: Ended
+  stateOngoing: Happening now
+  stateUpcoming: Upcoming
 </i18n>
