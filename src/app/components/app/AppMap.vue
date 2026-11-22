@@ -307,7 +307,7 @@ const initialize = async () => {
     if ('geolocation' in navigator && isFeatureEnabled('location-live').value) {
       locateControl = new Control({ position: 'topleft' })
       locateControl.onAdd = () => {
-        const container = DomUtil.create('div', 'leaflet-bar')
+        const container = DomUtil.create('div', 'leaflet-bar feature-preview')
         const button = DomUtil.create(
           'a',
           'flex! items-center justify-center',

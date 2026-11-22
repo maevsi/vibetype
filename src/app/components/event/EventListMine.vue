@@ -43,6 +43,7 @@
               cn(
                 'w-full flex-col justify-center gap-1 px-2 py-3 text-body-small',
                 filter === option.value && 'ring-2 ring-action-primary',
+                'isFlagged' in option && 'feature-preview',
               )
             "
             size="none"
@@ -244,12 +245,14 @@ const isAttendingEnabled = isFeatureEnabled('event-attending')
 const isDraftsEnabled = isFeatureEnabled('event-drafts')
 // `AppFeature` would show an unflagged tile with a striped overlay in
 // development, which a tile in a grid cannot carry, so the flags decide here
+// and a flagged tile carries the stripes itself
 const filterOptions = computed(() => [
   ...(isAttendingEnabled.value
     ? [
         {
           color: 'text-green-600',
           icon: resolveComponent('AppIconCheckCircle'),
+          isFlagged: true,
           label: t('attending'),
           value: 'attending',
         } as const,
@@ -272,6 +275,7 @@ const filterOptions = computed(() => [
         {
           color: 'text-warning',
           icon: resolveComponent('AppIconEdit'),
+          isFlagged: true,
           label: t('drafts'),
           value: 'drafts',
         } as const,
