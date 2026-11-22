@@ -1,3 +1,9 @@
+## [17.38.0](https://github.com/maevsi/vibetype/compare/17.37.0...17.38.0) (2026-11-22)
+
+### Features
+
+* **ui:** guide users out of empty and error states ([#2793](https://github.com/maevsi/vibetype/issues/2793)) ([d5f39c7](https://github.com/maevsi/vibetype/commit/d5f39c777385fd90b2fb21b59b91fa97778c3958))
+
 ## [17.37.0](https://github.com/maevsi/vibetype/compare/17.36.1...17.37.0) (2026-11-22)
 
 ### Features
