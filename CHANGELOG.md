@@ -1,3 +1,14 @@
+## [18.0.0-beta.13](https://github.com/maevsi/vibetype/compare/18.0.0-beta.12...18.0.0-beta.13) (2026-11-22)
+
+### ⚠ BREAKING CHANGES
+
+* **nfc:** bind attendance tags to their serial number (#2802)
+
+### Features
+
+* **attendance:** open the own attendance from a scanned tag ([#2801](https://github.com/maevsi/vibetype/issues/2801)) ([12caf9b](https://github.com/maevsi/vibetype/commit/12caf9b810c43e05d9ad628f025c080925b0b1d5))
+* **nfc:** bind attendance tags to their serial number ([#2802](https://github.com/maevsi/vibetype/issues/2802)) ([955e118](https://github.com/maevsi/vibetype/commit/955e1187a21d9a512872644e4643d461c17cc2bf))
+
 ## [18.0.0-beta.12](https://github.com/maevsi/vibetype/compare/18.0.0-beta.11...18.0.0-beta.12) (2026-11-22)
 
 ### Features
