@@ -1,6 +1,7 @@
 {
   "globalError": "Error",
   "globalErrorMessage": "An error occurred.",
+  "globalErrorModerated": "The text contains content that is not allowed. Please rephrase it.",
   "globalErrorNoData": "Response without data",
   "globalErrorClipboard": "Your browser does not support modern copying to the clipboard.",
   "globalErrorDetailsCopy": "Copy details",

@@ -1038,7 +1038,11 @@ const isWarningStartPastShown = computed(() => {
   return !!start && new Date(start) < now.value
 })
 const errorMessages = computed(() =>
-  api.value.errors ? getCombinedErrorMessages(api.value.errors) : undefined,
+  api.value.errors
+    ? getCombinedErrorMessages(api.value.errors, {
+        [`postgres${MODERATION_ERROR_CODE}`]: t('globalErrorModerated'),
+      })
+    : undefined,
 )
 
 // `handleSubmit` silently drops a first attempt while a field is still
