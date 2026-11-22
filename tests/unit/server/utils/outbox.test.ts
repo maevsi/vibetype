@@ -10,6 +10,7 @@ const sqlMock = vi.fn((strings: TemplateStringsArray) => {
   return Promise.resolve(match ? queryRows.get(match) : [])
 })
 const sendEmailMock = vi.fn()
+const sendPushNotificationMock = vi.fn()
 
 vi.stubGlobal('executeQuery', (query: Promise<unknown>) => query)
 vi.stubGlobal('LOCALE_DEFAULT', 'en')
@@ -19,6 +20,7 @@ vi.stubGlobal('MAEVSI_EMAIL_RATE_LIMIT_PER_SECOND', 14)
 vi.stubGlobal('PermanentProcessingError', PermanentProcessingError)
 vi.stubGlobal('SITE_NAME', 'vibetype')
 vi.stubGlobal('sendEmail', sendEmailMock)
+vi.stubGlobal('sendPushNotification', sendPushNotificationMock)
 vi.stubGlobal('sql', sqlMock)
 
 // the outbox module relies on Nitro auto-imports, stubbed above, that the type checker can't resolve outside of Nuxt either, so the import path is kept opaque to it
@@ -80,6 +82,7 @@ describe('processOutboxMessage', () => {
     queryRows.set('outbox_is_processed', [{ is_processed: false }])
     sqlMock.mockClear()
     sendEmailMock.mockReset()
+    sendPushNotificationMock.mockReset()
     vi.spyOn(console, 'info').mockImplementation(() => {})
     vi.spyOn(console, 'warn').mockImplementation(() => {})
   })
@@ -172,5 +175,98 @@ describe('processOutboxMessage', () => {
       }),
     )
     expect(getQueries().at(-1)).toContain('outbox_mark_processed')
+  })
+
+  describe('friendship', () => {
+    const friendshipResolved = {
+      recipient_account_id: ACCOUNT_ID,
+      recipient_email_address: 'user@example.com',
+      recipient_language: 'de',
+      recipient_username: 'user',
+      sender_username: 'friend',
+      status: 'requested',
+    }
+    const createFriendshipEnvelope = (type: string) =>
+      createEnvelope({ aggregate_type: 'friendship', data: {}, type })
+
+    test('sends the request email and push notification in the recipient language', async () => {
+      queryRows.set('outbox_friendship_resolve', [friendshipResolved])
+
+      await processPayload(createFriendshipEnvelope('friendship.requested'))
+
+      expect(sendEmailMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          mailOptions: {
+            subject: 'Freundschaftsanfrage von friend',
+            to: 'user@example.com',
+          },
+          name: 'friendship.requested',
+          props: expect.objectContaining({
+            friendshipRequestLink:
+              'https://example.com/de/account/view/user/friend',
+            locale: 'de',
+          }),
+        }),
+      )
+      expect(sendPushNotificationMock).toHaveBeenCalledWith({
+        accountId: ACCOUNT_ID,
+        notification: {
+          body: 'friend möchte mit dir befreundet sein.',
+          title: 'Neue Freundschaftsanfrage',
+        },
+      })
+      expect(getQueries().at(-1)).toContain('outbox_mark_processed')
+    })
+
+    test('falls back to the default language', async () => {
+      queryRows.set('outbox_friendship_resolve', [
+        { ...friendshipResolved, recipient_language: null },
+      ])
+
+      await processPayload(createFriendshipEnvelope('friendship.requested'))
+
+      expect(sendEmailMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          props: expect.objectContaining({
+            friendshipRequestLink:
+              'https://example.com/account/view/user/friend',
+            locale: 'en',
+          }),
+        }),
+      )
+    })
+
+    test.each([
+      [
+        'an already accepted request',
+        [{ ...friendshipResolved, status: 'accepted' }],
+      ],
+      ['a missing friendship', []],
+    ])('does not notify about %s', async (_, rows) => {
+      queryRows.set('outbox_friendship_resolve', rows)
+
+      await processPayload(createFriendshipEnvelope('friendship.requested'))
+
+      expect(sendEmailMock).not.toHaveBeenCalled()
+      expect(sendPushNotificationMock).not.toHaveBeenCalled()
+      expect(getQueries().at(-1)).toContain('outbox_mark_processed')
+    })
+
+    test('sends only a push notification for an acceptance', async () => {
+      queryRows.set('outbox_friendship_resolve', [
+        { ...friendshipResolved, status: 'accepted' },
+      ])
+
+      await processPayload(createFriendshipEnvelope('friendship.accepted'))
+
+      expect(sendEmailMock).not.toHaveBeenCalled()
+      expect(sendPushNotificationMock).toHaveBeenCalledWith({
+        accountId: ACCOUNT_ID,
+        notification: {
+          body: 'friend hat deine Freundschaftsanfrage angenommen.',
+          title: 'Freundschaftsanfrage angenommen',
+        },
+      })
+    })
   })
 })

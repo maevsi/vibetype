@@ -6,11 +6,13 @@ import { z } from 'zod'
 import type EmailAccountPasswordResetRequest from '~/emails/EmailAccountPasswordResetRequest.vue'
 import type EmailAccountRegistration from '~/emails/EmailAccountRegistration.vue'
 import type EmailEventInvitation from '~/emails/EmailEventInvitation.vue'
+import type EmailFriendshipRequest from '~/emails/EmailFriendshipRequest.vue'
 
 import {
   CHANNEL_NAME_ACCOUNT_PASSWORD_RESET as EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
   CHANNEL_NAME_ACCOUNT_REGISTRATION as EMAIL_NAME_ACCOUNT_REGISTRATION,
   CHANNEL_NAME_EVENT_INVITATION as EMAIL_NAME_EVENT_INVITATION,
+  CHANNEL_NAME_FRIENDSHIP_REQUEST as EMAIL_NAME_FRIENDSHIP_REQUEST,
 } from '#server/utils/outbox'
 
 const MAIL_RATE_LIMIT_MAX_WAIT_MS = 10_000
@@ -34,6 +36,7 @@ type EmailComponents = {
   [EMAIL_NAME_ACCOUNT_PASSWORD_RESET]: typeof EmailAccountPasswordResetRequest
   [EMAIL_NAME_ACCOUNT_REGISTRATION]: typeof EmailAccountRegistration
   [EMAIL_NAME_EVENT_INVITATION]: typeof EmailEventInvitation
+  [EMAIL_NAME_FRIENDSHIP_REQUEST]: typeof EmailFriendshipRequest
 }
 export type EmailProps<T extends keyof EmailComponents> = ExtractComponentProps<
   EmailComponents[T]
@@ -44,12 +47,14 @@ const emailTemplateNames = {
   [EMAIL_NAME_ACCOUNT_PASSWORD_RESET]: 'EmailAccountPasswordResetRequest',
   [EMAIL_NAME_ACCOUNT_REGISTRATION]: 'EmailAccountRegistration',
   [EMAIL_NAME_EVENT_INVITATION]: 'EmailEventInvitation',
+  [EMAIL_NAME_FRIENDSHIP_REQUEST]: 'EmailFriendshipRequest',
 } as const satisfies Record<keyof EmailComponents, string>
 
 export const EMAIL_NAMES = z.enum([
   EMAIL_NAME_ACCOUNT_PASSWORD_RESET,
   EMAIL_NAME_ACCOUNT_REGISTRATION,
   EMAIL_NAME_EVENT_INVITATION,
+  EMAIL_NAME_FRIENDSHIP_REQUEST,
 ])
 export type EmailName = z.infer<typeof EMAIL_NAMES>
 
