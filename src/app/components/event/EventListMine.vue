@@ -67,7 +67,27 @@
       :is-loading="!isWithoutData && api.isFetching && !events"
       :is-map-visible
       @load-more="loadMore"
-    />
+    >
+      <template #empty>
+        <AppEmptyState
+          :description="emptyState.description"
+          :title="emptyState.title"
+        >
+          <template #icon>
+            <component :is="emptyState.icon" />
+          </template>
+          <AppButton
+            v-for="(action, index) in emptyState.actions"
+            :key="action.label"
+            :aria-label="action.label"
+            :to="action.to"
+            :variant="index ? 'secondary' : 'primary'"
+          >
+            {{ action.label }}
+          </AppButton>
+        </AppEmptyState>
+      </template>
+    </EventList>
   </div>
 </template>
 
@@ -316,6 +336,73 @@ const getQuery = (override: { filter?: string; time?: string }) => {
   }
 }
 
+// empty state
+const localePath = useLocalePath()
+const emptyState = computed(() => {
+  const create = { label: t('emptyCreate'), to: localePath('event-create') }
+  const discover = { label: t('emptyDiscover'), to: localePath('event') }
+  const showUpcoming = {
+    label: t('emptyShowUpcoming'),
+    to: { query: getQuery({ time: 'upcoming' }) },
+  }
+  const isPast = time.value === 'past'
+
+  switch (filter.value) {
+    case 'attending':
+      return isPast
+        ? {
+            actions: [showUpcoming],
+            description: t('emptyAttendingPastDescription'),
+            icon: resolveComponent('AppIconCheckCircle'),
+            title: t('emptyAttendingPastTitle'),
+          }
+        : {
+            actions: [
+              discover,
+              { label: t('emptyInvitations'), to: localePath('guest') },
+            ],
+            description: t('emptyAttendingUpcomingDescription'),
+            icon: resolveComponent('AppIconCheckCircle'),
+            title: t('emptyAttendingUpcomingTitle'),
+          }
+    case 'drafts':
+      return {
+        actions: [create],
+        description: t('emptyDraftsDescription'),
+        icon: resolveComponent('AppIconEdit'),
+        title: t('emptyDraftsTitle'),
+      }
+    case 'saved':
+      return isPast
+        ? {
+            actions: [showUpcoming],
+            description: t('emptySavedPastDescription'),
+            icon: resolveComponent('AppIconHeart'),
+            title: t('emptySavedPastTitle'),
+          }
+        : {
+            actions: [discover],
+            description: t('emptySavedUpcomingDescription'),
+            icon: resolveComponent('AppIconHeart'),
+            title: t('emptySavedUpcomingTitle'),
+          }
+    default:
+      return isPast
+        ? {
+            actions: [showUpcoming],
+            description: t('emptyHostingPastDescription'),
+            icon: resolveComponent('AppIconCalendar'),
+            title: t('emptyHostingPastTitle'),
+          }
+        : {
+            actions: [create],
+            description: t('emptyHostingUpcomingDescription'),
+            icon: resolveComponent('AppIconCalendar'),
+            title: t('emptyHostingUpcomingTitle'),
+          }
+  }
+})
+
 // api data
 const hostingAfter = ref<string | null>()
 const savedVisibleCount = ref(ITEMS_PER_PAGE)
@@ -401,6 +488,24 @@ const loadMore = () => {
 de:
   attending: Dabei
   drafts: Entwürfe
+  emptyAttendingPastDescription: Events, bei denen du dabei warst, erscheinen hier, sobald sie vorbei sind.
+  emptyAttendingPastTitle: Keine vergangenen Events, bei denen du warst
+  emptyAttendingUpcomingDescription: Events, für die du eine Einladung annimmst oder denen du beitrittst, erscheinen hier.
+  emptyAttendingUpcomingTitle: Du bist noch bei nichts dabei
+  emptyCreate: Event planen
+  emptyDiscover: Events entdecken
+  emptyDraftsDescription: Events, die du beginnst, aber noch nicht veröffentlichst, werden hier aufbewahrt.
+  emptyDraftsTitle: Keine Entwürfe
+  emptyHostingPastDescription: Events, die du veranstaltet hast, erscheinen hier, sobald sie vorbei sind.
+  emptyHostingPastTitle: Keine vergangenen Events von dir
+  emptyHostingUpcomingDescription: Plane ein Event und lade deine Leute ein. Es erscheint dann hier.
+  emptyHostingUpcomingTitle: Du veranstaltest noch nichts
+  emptyInvitations: Einladungen
+  emptySavedPastDescription: Gemerkte Events wandern hierher, sobald sie vorbei sind.
+  emptySavedPastTitle: Keine vergangenen gemerkten Events
+  emptySavedUpcomingDescription: Tippe bei einem Event auf das Herz, um es hier für später aufzuheben.
+  emptySavedUpcomingTitle: Noch nichts gemerkt
+  emptyShowUpcoming: Bevorstehende anzeigen
   filterLabel: Filter
   hosting: Von dir
   past: Vergangen
@@ -410,6 +515,24 @@ de:
 en:
   attending: Going
   drafts: Drafts
+  emptyAttendingPastDescription: Events you attended appear here once they're over.
+  emptyAttendingPastTitle: No past events you went to
+  emptyAttendingUpcomingDescription: Events you accept an invitation to or join show up here.
+  emptyAttendingUpcomingTitle: You're not going to anything yet
+  emptyCreate: Plan an event
+  emptyDiscover: Discover events
+  emptyDraftsDescription: Events you start but don't publish yet are kept here.
+  emptyDraftsTitle: No drafts
+  emptyHostingPastDescription: Events you hosted appear here once they're over.
+  emptyHostingPastTitle: No past events you hosted
+  emptyHostingUpcomingDescription: Plan an event and invite your people. It shows up here.
+  emptyHostingUpcomingTitle: You're not hosting anything yet
+  emptyInvitations: Invitations
+  emptySavedPastDescription: Saved events move here once they're over.
+  emptySavedPastTitle: No past saved events
+  emptySavedUpcomingDescription: Tap the heart on any event to keep it here for later.
+  emptySavedUpcomingTitle: Nothing saved yet
+  emptyShowUpcoming: Show upcoming
   filterLabel: Filter
   hosting: Hosting
   past: Past

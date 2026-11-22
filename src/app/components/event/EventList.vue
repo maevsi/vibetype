@@ -48,10 +48,11 @@
   >
     <EventCardSkeleton v-for="index in 3" :key="index" />
   </AppLoaderPlaceholder>
-  <div v-else class="flex flex-col items-center gap-3 py-12 text-center">
-    <AppIconCalendar aria-hidden="true" class="size-12 text-fg-3" />
-    <p class="text-fg-2">{{ t('noEvents') }}</p>
-  </div>
+  <slot v-else name="empty">
+    <AppEmptyState :title="t('noEvents')">
+      <template #icon><AppIconCalendar /></template>
+    </AppEmptyState>
+  </slot>
 </template>
 
 <script setup lang="ts">
