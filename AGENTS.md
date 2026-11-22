@@ -41,6 +41,7 @@ Detail and rationale live in [CONTRIBUTING.md](CONTRIBUTING.md): read the named 
 
 ## nuxt
 - auto-imports are active: `pnpm exec nuxt prepare` updates them, no manual imports of components, composables or Vue APIs
+  - the unit tests in `tests/unit` run without auto-imports, so a file they import must import its helpers explicitly, and the tests' type check fails on every file it reaches that relies on auto-imports
 - no hardcoded translatable strings, use the i18n module
 - `pnpm --dir src run gql:codegen` after any change to a GraphQL query or mutation
 - the `Dockerfile` holds the whole build pipeline in stages
