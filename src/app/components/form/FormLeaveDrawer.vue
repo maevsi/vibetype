@@ -2,6 +2,7 @@
   <AppConfirmDeleteDrawer
     :cancel-label="t('stay')"
     :confirm-label="t('discard')"
+    is-without-history-entry
     :open="isOpen"
     :title="t('title')"
     @confirm="settle(true)"
