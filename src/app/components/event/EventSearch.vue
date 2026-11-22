@@ -7,16 +7,55 @@
     <AppFeature v-if="!searchQueryVariable" feature="category-browse">
       <EventCategoryBrowse />
     </AppFeature>
-    <AppAlert v-if="errorMessages.length" variant="error">
-      <AppSpanList :span="errorMessages" />
-    </AppAlert>
+    <LoaderError
+      v-if="errorMessages.length"
+      :messages="errorMessages"
+      @retry="retry"
+    />
     <EventList
+      v-if="events?.length || isLoading || !errorMessages.length"
       :events
       :has-next-page="pageInfo?.hasNextPage"
-      :is-loading="api.isFetching || isAdvancingUntilUpcomingEvent"
+      :is-loading="isLoading"
       :is-map-visible="isMapVisible"
       @load-more="loadMore"
-    />
+    >
+      <template #empty>
+        <AppEmptyState
+          v-if="searchQueryVariable"
+          :description="t('searchEmptyDescription')"
+          :title="t('searchEmptyTitle', { query: searchQueryVariable })"
+        >
+          <template #icon><AppIconMagnifyingGlass /></template>
+          <AppButton
+            :aria-label="t('searchClear')"
+            @click="searchQuery = undefined"
+          >
+            {{ t('searchClear') }}
+          </AppButton>
+        </AppEmptyState>
+        <AppEmptyState
+          v-else
+          :description="t('emptyDescription')"
+          :title="t('emptyTitle')"
+        >
+          <template #icon><AppIconCalendar /></template>
+          <AppButton
+            :aria-label="t('emptyCreate')"
+            :to="localePath('event-create')"
+          >
+            {{ t('emptyCreate') }}
+          </AppButton>
+          <AppButton
+            :aria-label="t('emptyHunt')"
+            :to="localePath('event-ingest-image')"
+            variant="secondary"
+          >
+            {{ t('emptyHunt') }}
+          </AppButton>
+        </AppEmptyState>
+      </template>
+    </EventList>
   </div>
 </template>
 
@@ -167,6 +206,8 @@ const queryEventSearch = graphql(`
   }
 `)
 
+const { t } = useI18n()
+const localePath = useLocalePath()
 const isMapVisible = useEventMapVisible()
 
 const now = useNow()
@@ -223,6 +264,14 @@ const query = computed(() =>
 // read as `undefined` for search results.
 const api = await useApiData([allEventsQuery, searchResultsQuery])
 const errorMessages = computed(() => getCombinedErrorMessages(api.value.errors))
+const isLoading = computed(
+  () => api.value.isFetching || isAdvancingUntilUpcomingEvent.value,
+)
+const retry = () => {
+  allEventsQuery.executeQuery({ requestPolicy: 'network-only' })
+  if (searchQueryVariable.value)
+    searchResultsQuery.executeQuery({ requestPolicy: 'network-only' })
+}
 const pageInfo = computed(() =>
   searchQueryVariable.value
     ? api.value.data.eventSearch?.pageInfo
@@ -336,3 +385,22 @@ watch(searchQueryVariable, async () => {
   await advanceUntilUpcomingEvent()
 })
 </script>
+
+<i18n lang="yaml">
+de:
+  emptyCreate: Event planen
+  emptyDescription: 'Sei die erste Person: Plane dein eigenes Event oder füge eins hinzu, das du auf einem Plakat entdeckt hast.'
+  emptyHunt: Plakat jagen
+  emptyTitle: Noch keine bevorstehenden Events
+  searchClear: Suche zurücksetzen
+  searchEmptyDescription: Prüfe die Schreibweise oder versuche ein allgemeineres Wort, zum Beispiel eine Stadt oder eine Kategorie.
+  searchEmptyTitle: Nichts passt zu „{query}“
+en:
+  emptyCreate: Plan an event
+  emptyDescription: 'Be the first: plan your own event, or add one you spotted on a poster.'
+  emptyHunt: Hunt a poster
+  emptyTitle: No upcoming events yet
+  searchClear: Clear search
+  searchEmptyDescription: Check the spelling or try a broader word, like a city or a category.
+  searchEmptyTitle: Nothing matches "{query}"
+</i18n>

@@ -6,7 +6,7 @@
     <LayoutPage>
       <LayoutPageResult is-start-aligned :message type="error">
         <template #title>{{ title }}</template>
-        <template #description>{{ t('description') }}</template>
+        <template #description>{{ description }}</template>
         <pre
           v-if="isDev && error.stack"
           class="overflow-x-auto text-body-small whitespace-pre-wrap"
@@ -14,6 +14,31 @@
       </LayoutPageResult>
       <template #bottom>
         <AppButton
+          v-if="error.status === 404"
+          :aria-label="t('dashboard')"
+          class="w-full max-w-md"
+          :to="localePath('dashboard')"
+        >
+          {{ t('dashboard') }}
+        </AppButton>
+        <AppButton
+          v-else-if="error.status === 403 && !isSignedIn"
+          :aria-label="t('signIn')"
+          class="w-full max-w-md"
+          :to="localePath('session-create')"
+        >
+          {{ t('signIn') }}
+        </AppButton>
+        <AppButton
+          v-else-if="error.status === 403"
+          :aria-label="t('back')"
+          class="w-full max-w-md"
+          @click="store.navigateBack()"
+        >
+          {{ t('back') }}
+        </AppButton>
+        <AppButton
+          v-else
           :aria-label="t('retry')"
           class="w-full max-w-md"
           @click="reloadNuxtApp()"
@@ -21,6 +46,25 @@
           {{ t('retry') }}
         </AppButton>
         <AppButton
+          v-if="error.status === 404"
+          :aria-label="t('events')"
+          class="w-full max-w-md data-[variant=secondary]:bg-surface"
+          :to="localePath('event')"
+          variant="secondary"
+        >
+          {{ t('events') }}
+        </AppButton>
+        <AppButton
+          v-else-if="error.status === 403"
+          :aria-label="t('dashboard')"
+          class="w-full max-w-md data-[variant=secondary]:bg-surface"
+          :to="localePath('dashboard')"
+          variant="secondary"
+        >
+          {{ t('dashboard') }}
+        </AppButton>
+        <AppButton
+          v-else-if="error.status !== 429"
           :aria-label="t('back')"
           class="w-full max-w-md data-[variant=secondary]:bg-surface"
           variant="secondary"
@@ -65,6 +109,8 @@ const { statusName } = await useHttpStatusCode({ status: error.status })
 const { t } = useI18n()
 const localePath = useLocalePath()
 const store = useStore()
+const authentication = useAuthentication()
+const isSignedIn = computed(() => authentication.value.isSignedIn)
 const isDev = import.meta.dev
 const title = computed(() => {
   switch (error.status) {
@@ -80,7 +126,7 @@ const title = computed(() => {
       return t('errorTitle')
   }
 })
-const message = computed(() => {
+const explanation = computed(() => {
   const explanations: Partial<Record<number, string>> = {
     400: t('error400Description'),
     403: `${t('error403Description')} ${t('error403Hint')}`,
@@ -89,19 +135,25 @@ const message = computed(() => {
     429: `${t('error429Description')} ${t('error429Hint')}`,
     500: `${t('error500Description')} ${t('error500Hint')}`,
   }
-  const explanation =
-    error.data?.vibetype ??
-    explanations[error.status] ??
-    `${t('errorDescription')} ${t('errorHint')}`
 
-  return t('message', { explanation, status: error.status })
+  return (
+    explanations[error.status] ?? `${t('errorDescription')} ${t('errorHint')}`
+  )
 })
+// `data.vibetype` carries user facing text, while `message` may be technical, like Nuxt's own errors
+const description = computed(() => error.data?.vibetype ?? explanation.value)
+const message = computed(() =>
+  t('message', {
+    explanation: error.message || statusName.value,
+    status: error.status,
+  }),
+)
 </script>
 
 <i18n lang="yaml">
 de:
   back: Zurück
-  description: Hoppla! Etwas ist schiefgelaufen. Bitte versuche es später erneut oder kontaktiere den Support.
+  dashboard: Zum Dashboard
   error400Description: "@.upper:{'globalSiteName'} hat andere Daten empfangen als erwartet."
   error403Description: Du bist aktuell nicht berechtigt, auf diese Seite zuzugreifen.
   error403Hint: Bist du richtig angemeldet? Wenn dich ein Link zu dieser Seite geführt hat, kann er abgelaufen sein. Du kannst in diesem Fall einen neuen Link von der Person erfragen, die dir den Link gesendet hat.
@@ -110,21 +162,23 @@ de:
   error404Hint: Du kannst überprüfen, ob du richtig angemeldet bist, und versuchen, über die Startseite an dein Ziel zu gelangen.
   error404Title: Seite nicht gefunden
   error418Description: Ich werd' keinen Kaffee machen.
-  error429Description: Es scheint so als wärst du schneller unterwegs, als @.upper:{'globalSiteName'} erlaubt! 👮
-  error429Hint: Lehn dich einen Moment zurück und versuch es erneut – oder melde @.upper:{'globalSiteName'} den Fehler, wenn du glaubst, dass er unbegründet ist.
+  error429Description: Es scheint so als wärst du schneller unterwegs, als @.upper:{'globalSiteName'} erlaubt.
+  error429Hint: Lehn dich einen Moment zurück und versuch es erneut oder melde @.upper:{'globalSiteName'} den Fehler, wenn du glaubst, dass er unbegründet ist.
   error429Title: Zu viele Anfragen
-  error500Description: Sieht so aus als wäre etwas bei @.upper:{'globalSiteName'} nicht so wie es sein sollte.
+  error500Description: Bei @.upper:{'globalSiteName'} hat etwas nicht wie erwartet funktioniert.
   error500Hint: Bitte melde diesen Fehler.
   error500Title: Interner Serverfehler
-  errorDescription: Sieht so aus als wäre etwas nicht so wie es sein sollte.
+  errorDescription: Etwas hat nicht wie erwartet funktioniert.
   errorHint: Bitte versuche es noch einmal und melde @.upper:{'globalSiteName'} diesen Fehler, wenn er weiterhin auftritt.
   errorTitle: Fehler
+  events: Veranstaltungen entdecken
   message: '{explanation} (Fehlercode: {status})'
   retry: Erneut versuchen
+  signIn: Anmelden
   support: Support kontaktieren
 en:
   back: Return back
-  description: Oops! Something went wrong. Please try again later or contact support.
+  dashboard: Go to dashboard
   error400Description: "@.upper:{'globalSiteName'} received unexpected data."
   error403Description: You're not authorized to access this page.
   error403Hint: Are you signed in correctly? If a link led you to this page, it may have expired. In that case, you can request a new link from the person who provided it to you.
@@ -133,16 +187,18 @@ en:
   error404Hint: Make sure you're logged in and try reaching your destination via the homepage.
   error404Title: Page not found
   error418Description: I won't make coffee.
-  error429Description: It appears you're going faster than @.upper:{'globalSiteName'} allows! 👮
-  error429Hint: Take a short break and try again – or report this issue to @.upper:{'globalSiteName'} if you think it shouldn't have occurred.
+  error429Description: It appears you're going faster than @.upper:{'globalSiteName'} allows.
+  error429Hint: Take a short break and try again or report this issue to @.upper:{'globalSiteName'} if you think it shouldn't have occurred.
   error429Title: Too many requests
-  error500Description: Looks like something went not the way it should at @.upper:{'globalSiteName'}.
+  error500Description: Something didn't work as expected on @.upper:{'globalSiteName'}'s side.
   error500Hint: Please report this issue.
   error500Title: Internal server error
-  errorDescription: Looks like something went not the way it should.
+  errorDescription: Something didn't work as expected.
   errorHint: Please try again and report this issue to @.upper:{'globalSiteName'} if it keeps happening.
   errorTitle: Error
+  events: Discover events
   message: '{explanation} (Error code: {status})'
   retry: Try again
+  signIn: Sign in
   support: Contact support
 </i18n>

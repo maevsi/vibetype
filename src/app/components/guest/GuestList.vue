@@ -3,12 +3,9 @@
     <div class="flex flex-col gap-4">
       <div class="flex flex-col items-center gap-1">
         <AppButton
+          v-if="guests.length"
           :aria-label="t('guestAdd')"
-          :disabled="
-            event.guestCountMaximum && api.data.allGuests?.totalCount
-              ? api.data.allGuests.totalCount >= event.guestCountMaximum
-              : false
-          "
+          :disabled="isGuestLimitReached"
           @click="add()"
         >
           {{ t('guestAdd') }}
@@ -24,6 +21,28 @@
             })
           }}
         </p>
+        <div
+          v-if="isGuestLimitReached"
+          class="text-center text-body-small text-fg-2"
+        >
+          {{ t('guestLimitReached') }}
+          <AppButton
+            v-if="event.accountByCreatedBy?.username"
+            :aria-label="t('guestLimitRaise')"
+            :to="
+              localePath({
+                name: 'event-edit-username-event_name',
+                params: {
+                  event_name: event.slug,
+                  username: event.accountByCreatedBy.username,
+                },
+              })
+            "
+            variant="tertiary"
+          >
+            {{ t('guestLimitRaise') }}
+          </AppButton>
+        </div>
       </div>
       <template v-if="event && guests.length">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -87,9 +106,15 @@
             />
           </AppTableBody>
         </AppTable>
-        <p v-else class="text-center">
-          {{ t('guestNoneFiltered') }}
-        </p>
+        <AppEmptyState
+          v-else
+          :description="t('guestNoneFilteredDescription')"
+          :title="t('guestNoneFilteredTitle')"
+        >
+          <AppButton :aria-label="t('guestShowAll')" @click="showAll">
+            {{ t('guestShowAll') }}
+          </AppButton>
+        </AppEmptyState>
         <div
           v-if="api.data.allGuests?.pageInfo.hasNextPage"
           class="flex justify-center"
@@ -103,7 +128,19 @@
         </div>
       </template>
       <div v-else class="flex flex-col items-center gap-2">
-        {{ t('guestNone') }}
+        <AppEmptyState
+          class="w-full"
+          :description="t('guestNoneDescription')"
+          :title="t('guestNoneTitle')"
+        >
+          <template #icon><AppIconUserPlus /></template>
+          <AppButton :aria-label="t('guestAdd')" @click="add()">
+            {{ t('guestAdd') }}
+            <template #prefix>
+              <AppIconPlus />
+            </template>
+          </AppButton>
+        </AppEmptyState>
         <p class="text-body-small text-fg-2">
           {{ t('hintInviteSelf') }}
         </p>
@@ -174,6 +211,7 @@ const { event } = defineProps<{
 }>()
 
 const colorMode = useColorMode()
+const localePath = useLocalePath()
 const { t } = useI18n()
 const runtimeConfig = useRuntimeConfig()
 const templateDoughnut = useTemplateRef<DoughnutController>('doughnut')
@@ -228,6 +266,10 @@ const guestsQuery = useApiQuery({
 const api = await useApiData([guestsQuery])
 
 // methods
+const showAll = () => {
+  searchString.value = ''
+  feedbackFilter.value = 'all'
+}
 const add = () => {
   guestsQuery.pause()
   isDrawerGuestOpen.value = true
@@ -329,6 +371,11 @@ const guestsFiltered = computed(() => {
   }
 })
 // guests hidden by the search or filter stay out, so an action never touches a guest that is not visible
+const isGuestLimitReached = computed(() =>
+  event.guestCountMaximum && api.value.data.allGuests?.totalCount
+    ? api.value.data.allGuests.totalCount >= event.guestCountMaximum
+    : false,
+)
 const guestsSelected = computed(() =>
   guestsFiltered.value.filter((guest) =>
     guestRowIdsSelected.value.includes(guest.rowId),
@@ -368,12 +415,17 @@ de:
   feedback: Rückmeldungen
   feedbackFilter: Nach Rückmeldung filtern
   feedbackFilterAll: Alle
-  hintInviteSelf: 'Tipp: du kannst dich auch zuerst selbst einladen'
   guestAdd: Gäste hinzufügen
-  guestNone: Es wurde noch kein Gast hinzugefügt 😕
-  guestNoneFiltered: Keine Gäste entsprechen diesem Filter 😕
+  guestLimitRaise: Limit erhöhen
+  guestLimitReached: Das Gästelimit ist erreicht. Erhöhe es in den Veranstaltungseinstellungen, um mehr Personen einzuladen.
+  guestNoneDescription: Lade Personen aus deinem Kontaktbuch, per Nutzername oder per E-Mail-Adresse ein. Jeder Gast bekommt einen persönlichen Einladungslink.
+  guestNoneFilteredDescription: Versuche es mit einem anderen Namen oder einer anderen Rückmeldung.
+  guestNoneFilteredTitle: Keine passenden Gäste
+  guestNoneTitle: Noch keine Gäste
   guestSelectAll: Alle angezeigten Gäste auswählen
+  guestShowAll: Alle Gäste anzeigen
   guestsUsed: 'Gästekontingent genutzt: {amountCurrent} / {amountMaximum}'
+  hintInviteSelf: 'Tipp: Lade dich zuerst selbst ein, um zu sehen, was deine Gäste bekommen.'
   noFeedback: keine Rückmeldung
 en:
   accepted: accepted
@@ -385,11 +437,16 @@ en:
   feedback: Guest responses
   feedbackFilter: Filter by feedback
   feedbackFilterAll: All
-  hintInviteSelf: 'Hint: you can also invite yourself first'
   guestAdd: Add guests
-  guestNone: No guest has been added yet 😕
-  guestNoneFiltered: No guests match this filter 😕
+  guestLimitRaise: Raise limit
+  guestLimitReached: Guest limit reached. Raise it in the event settings to invite more people.
+  guestNoneDescription: Invite people from your contact book, by username, or by email address. Each guest gets a personal invitation link.
+  guestNoneFilteredDescription: Try another name or response filter.
+  guestNoneFilteredTitle: No guests match
+  guestNoneTitle: No guests yet
   guestSelectAll: Select all shown guests
+  guestShowAll: Show all guests
   guestsUsed: 'Guest quota used: {amountCurrent} / {amountMaximum}'
+  hintInviteSelf: 'Tip: invite yourself first to see what your guests will get.'
   noFeedback: no response
 </i18n>

@@ -4,11 +4,18 @@
     <div v-if="accounts?.length" class="flex flex-col gap-2">
       <AccountCard v-for="account in accounts" :key="account.rowId" :account />
     </div>
-    <span v-else-if="searchQueryDebouncedTrimmed" class="text-body">
-      {{ t('errorNotFound') }}
-      <br />
-      {{ t('errorNotFoundHint') }}
-    </span>
+    <AppEmptyState
+      v-else-if="!searchQueryDebouncedTrimmed"
+      :description="t('emptyDescription')"
+      :title="t('emptyTitle')"
+    >
+      <template #icon><AppIconMagnifyingGlass /></template>
+    </AppEmptyState>
+    <AppEmptyState
+      v-else-if="!api.isFetching"
+      :description="t('noMatchDescription')"
+      :title="t('noMatchTitle', { query: searchQueryDebouncedTrimmed })"
+    />
   </div>
 </template>
 
@@ -71,9 +78,13 @@ useInfiniteScroll({
 
 <i18n lang="yaml">
 de:
-  errorNotFound: Niemand gefunden
-  errorNotFoundHint: Versuche es mit einem anderen Suchbegriff.
+  emptyDescription: Suche nach dem Nutzernamen, um Freunde und Veranstaltende zu finden.
+  emptyTitle: Personen finden
+  noMatchDescription: Prüfe die Schreibweise und lass das {'@'} weg.
+  noMatchTitle: Niemand passt zu „{query}“
 en:
-  errorNotFound: No one found
-  errorNotFoundHint: Try a different search term.
+  emptyDescription: Search by username to find friends and organizers.
+  emptyTitle: Find people
+  noMatchDescription: Check the spelling and leave out the {'@'}.
+  noMatchTitle: 'No one matches "{query}"'
 </i18n>

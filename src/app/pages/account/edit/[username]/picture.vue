@@ -1,7 +1,7 @@
 <template>
   <AppError
     v-if="!account"
-    :error="{ message: t('errorAccountMissing'), status: 404 }"
+    :error="{ data: { vibetype: t('errorAccountMissing') }, status: 404 }"
   />
   <div v-else class="flex flex-1 flex-col">
     <LayoutTopBar>
@@ -169,13 +169,13 @@ const submit = async () => {
 
 <i18n lang="yaml">
 de:
-  errorAccountMissing: Konto nicht verfügbar
+  errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
   errorProfilePictureCreate: Beim Speichern des Profilbildes ist ein Problem aufgetreten
   errorProfilePictureDelete: Beim Entfernen des Profilbildes ist ein Problem aufgetreten
   submit: Profilbild übernehmen
   title: Wähle ein Profilbild
 en:
-  errorAccountMissing: Account unavailable
+  errorAccountMissing: This account doesn't exist. It may have been deleted, or the username changed.
   errorProfilePictureCreate: There was a problem saving the profile picture
   errorProfilePictureDelete: There was a problem removing the profile picture
   submit: Use profile picture

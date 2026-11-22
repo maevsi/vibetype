@@ -2,7 +2,7 @@
   <Loader :api is-page>
     <AppError
       v-if="!isOwn && !account"
-      :error="{ message: 'Account data missing', status: 404 }"
+      :error="{ data: { vibetype: t('errorAccountMissing') }, status: 404 }"
     />
     <div v-else class="flex flex-1 flex-col">
       <LayoutPage>
@@ -54,7 +54,22 @@
               queryAfter =
                 api.data.accountByUsername?.eventsByCreatedBy.pageInfo.endCursor
             "
-          />
+          >
+            <template #empty>
+              <AppEmptyState
+                :description="t('emptyDescription')"
+                :title="t('emptyTitle', { name: route.params.username })"
+              >
+                <template #icon><AppIconCalendar /></template>
+                <AppButton
+                  :aria-label="t('emptyDiscover')"
+                  :to="localePath('event')"
+                >
+                  {{ t('emptyDiscover') }}
+                </AppButton>
+              </AppEmptyState>
+            </template>
+          </EventList>
         </div>
       </LayoutPage>
     </div>
@@ -179,10 +194,18 @@ const localePath = useLocalePath()
 
 <i18n lang="yaml">
 de:
+  emptyDescription: Schau später wieder vorbei oder finde andere Events zum Mitmachen.
+  emptyDiscover: Events entdecken
+  emptyTitle: "{'@'}{name} hat noch keine Events veröffentlicht"
+  errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
   searchPlaceholderOther: Veranstaltungen von {name} durchsuchen
   searchPlaceholderOwn: Deine Veranstaltungen durchsuchen
   title: Veranstaltungen von {name}
 en:
+  emptyDescription: Check back later, or find other events to join.
+  emptyDiscover: Discover events
+  emptyTitle: "{'@'}{name} hasn't published any events yet"
+  errorAccountMissing: This account doesn't exist. It may have been deleted, or the username changed.
   searchPlaceholderOther: Search events by {name}
   searchPlaceholderOwn: Search for your events
   title: Events by {name}
