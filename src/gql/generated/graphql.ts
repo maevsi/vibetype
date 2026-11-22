@@ -1115,6 +1115,7 @@ export type EventListMineQuery = {
       start: string
       accountByCreatedBy: { id: string; rowId: string; username: string } | null
       addressByAddressId: {
+        city: string | null
         id: string
         rowId: string
         location: { latitude: number; longitude: number } | null
@@ -1174,6 +1175,7 @@ export type EventListMineSavedQuery = {
           username: string
         } | null
         addressByAddressId: {
+          city: string | null
           id: string
           rowId: string
           location: { latitude: number; longitude: number } | null
@@ -1228,6 +1230,7 @@ export type EventListQuery = {
       start: string
       accountByCreatedBy: { id: string; rowId: string; username: string } | null
       addressByAddressId: {
+        city: string | null
         id: string
         rowId: string
         location: { latitude: number; longitude: number } | null
@@ -1283,6 +1286,7 @@ export type EventSearchQuery = {
       start: string
       accountByCreatedBy: { id: string; rowId: string; username: string } | null
       addressByAddressId: {
+        city: string | null
         id: string
         rowId: string
         location: { latitude: number; longitude: number } | null
@@ -2024,6 +2028,7 @@ export type DashboardEventRecommendationsQuery = {
     start: string
     accountByCreatedBy: { id: string; rowId: string; username: string } | null
     addressByAddressId: {
+      city: string | null
       id: string
       rowId: string
       location: { latitude: number; longitude: number } | null
@@ -4283,6 +4288,10 @@ export const EventListMineDocument = {
                           selections: [
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'city' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
                             },
                             {
@@ -4686,6 +4695,10 @@ export const EventListMineSavedDocument = {
                               selectionSet: {
                                 kind: 'SelectionSet',
                                 selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'city' },
+                                  },
                                   {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'id' },
@@ -5112,6 +5125,10 @@ export const EventListDocument = {
                           selections: [
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'city' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
                             },
                             {
@@ -5505,6 +5522,10 @@ export const EventSearchDocument = {
                         selectionSet: {
                           kind: 'SelectionSet',
                           selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'city' },
+                            },
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
@@ -10278,6 +10299,7 @@ export const DashboardEventRecommendationsDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'city' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       {
                         kind: 'Field',
