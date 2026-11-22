@@ -1,3 +1,9 @@
+## [17.40.0](https://github.com/maevsi/vibetype/compare/17.39.0...17.40.0) (2026-11-22)
+
+### Features
+
+* **event:** order form and legal settings by relevance ([#2799](https://github.com/maevsi/vibetype/issues/2799)) ([3e328e5](https://github.com/maevsi/vibetype/commit/3e328e5130d087cb117f8e4edfc03bccc906434f))
+
 ## [17.39.0](https://github.com/maevsi/vibetype/compare/17.38.0...17.39.0) (2026-11-22)
 
 ### Features
