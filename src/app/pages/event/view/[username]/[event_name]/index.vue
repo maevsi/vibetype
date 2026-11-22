@@ -435,6 +435,13 @@ const createGuestMutation = useMutation(
 )
 const api = await useApiData([eventQuery])
 
+// read once on the server, where the data above is awaited before rendering, as `useRobotsRule` is not reactive and a no-op on the client
+useRobotsRule(
+  event.value && event.value.visibility !== EventVisibility.Public
+    ? false
+    : undefined,
+)
+
 // participation
 // an organizer sees every guest of the event, anyone else only their own
 const guestOwn = computed(() =>

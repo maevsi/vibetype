@@ -8,6 +8,7 @@ export default defineEventHandler(async (event) => {
   const authorization =
     getRequestHeader(event, 'authorization') ??
     (jwt ? `Bearer ${jwt}` : undefined)
+  const eventLink = getRequestHeader(event, EVENT_LINK_HEADER_NAME)
   const query = getQuery(event)
 
   const variables = // TODO: remove if Postgraphile supports GET
@@ -36,6 +37,7 @@ export default defineEventHandler(async (event) => {
     }, // TODO: remove if Postgraphile supports GET
     headers: {
       ...(authorization ? { authorization } : {}),
+      ...(eventLink ? { [EVENT_LINK_HEADER_NAME]: eventLink } : {}),
     },
     method: 'POST', // TODO: 'GET' if Postgraphile supports GET
     // query, // TODO: reenable if Postgraphile supports GET

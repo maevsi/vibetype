@@ -7,6 +7,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   const runtimeConfig = useRuntimeConfig()
   const isTesting = useIsTesting()
   const getServiceHref = useGetServiceHref()
+  const router = useRouter()
   const { csrf } = useCsrf()
   const cookie = import.meta.server ? useCsrfCookieHeader() : undefined
 
@@ -14,11 +15,16 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     name: SITE_NAME,
   })
   const clientOptions: Partial<ClientOptions> = {
-    fetchOptions: {
-      headers: {
-        [CSRF_HEADER_NAME]: csrf,
-        ...(cookie ? { cookie } : {}),
-      },
+    fetchOptions: () => {
+      const eventLink = getEventLinkHeaderValue(router.currentRoute.value)
+
+      return {
+        headers: {
+          [CSRF_HEADER_NAME]: csrf,
+          ...(cookie ? { cookie } : {}),
+          ...(eventLink ? { [EVENT_LINK_HEADER_NAME]: eventLink } : {}),
+        },
+      }
     },
   }
 

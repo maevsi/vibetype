@@ -367,14 +367,17 @@
               :default-value="field.state.value"
               :items="[
                 {
+                  description: t('visibilityPublicDescription'),
                   label: t('visibilityPublic'),
                   value: EventVisibility.Public,
                 },
                 {
+                  description: t('visibilityPrivateDescription'),
                   label: t('visibilityPrivate'),
                   value: EventVisibility.Private,
                 },
                 {
+                  description: t('visibilityUnlistedDescription'),
                   label: t('visibilityUnlisted'),
                   value: EventVisibility.Unlisted,
                 },
@@ -1239,8 +1242,11 @@ de:
   validationWarningNameChangeSlug: Wenn du den Namen änderst, funktionieren bestehende Links zur Veranstaltung möglicherweise nicht mehr
   visibility: Sichtbarkeit
   visibilityPrivate: privat
+  visibilityPrivateDescription: Nur eingeladene Gäste können diese Veranstaltung ansehen.
   visibilityPublic: öffentlich
+  visibilityPublicDescription: Alle können diese Veranstaltung finden, ansehen und daran teilnehmen.
   visibilityUnlisted: ungelistet
+  visibilityUnlistedDescription: Alle mit dem Link können diese Veranstaltung ansehen und daran teilnehmen, sie erscheint aber in keiner Liste.
   url: Weblink
 en:
   attendanceType: Attendance type
@@ -1274,7 +1280,10 @@ en:
   validationWarningNameChangeSlug: If you change the name, existing links to the event may no longer work
   visibility: Visibility
   visibilityPrivate: private
+  visibilityPrivateDescription: Only invited guests can view this event.
   visibilityPublic: public
+  visibilityPublicDescription: Anyone can find, view and join this event.
   visibilityUnlisted: unlisted
+  visibilityUnlistedDescription: Anyone with the link can view and join this event, but it does not appear in any listing.
   url: Weblink
 </i18n>

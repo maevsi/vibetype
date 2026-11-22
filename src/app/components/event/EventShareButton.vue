@@ -1,6 +1,9 @@
 <template>
   <AppButton
-    v-if="event.visibility === EventVisibility.Public"
+    v-if="
+      event.visibility === EventVisibility.Public ||
+      event.visibility === EventVisibility.Unlisted
+    "
     :aria-label="t('share')"
     size="none"
     variant="ghost"

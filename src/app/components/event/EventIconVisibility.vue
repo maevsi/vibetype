@@ -4,7 +4,7 @@
     v-else-if="visibility === EventVisibility.Public"
     :title="t('public')"
   />
-  <AppIconTicket
+  <AppIconLink
     v-else-if="visibility === EventVisibility.Unlisted"
     :title="t('unlisted')"
   />
@@ -32,11 +32,11 @@ de:
   bug: Bug
   private: privat
   public: öffentlich
-  unlisted: nur mit Einladung
+  unlisted: nur mit Link
 en:
   archived: archived
   bug: bug
   private: private
   public: public
-  unlisted: invitation only
+  unlisted: link only
 </i18n>

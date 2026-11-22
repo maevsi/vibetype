@@ -8,6 +8,7 @@ export default defineEventHandler(async (event) => {
   const authorization =
     getRequestHeader(event, 'authorization') ??
     (jwt ? `Bearer ${jwt}` : undefined)
+  const eventLink = getRequestHeader(event, EVENT_LINK_HEADER_NAME)
   const body = await readRawBody(event)
 
   const graphql = await event.$fetch('/graphql', {
@@ -15,6 +16,7 @@ export default defineEventHandler(async (event) => {
     body,
     headers: {
       ...(authorization ? { authorization } : {}),
+      ...(eventLink ? { [EVENT_LINK_HEADER_NAME]: eventLink } : {}),
     },
     method: 'POST',
   })
