@@ -401,12 +401,17 @@ const title = computed(() => {
     return
   }
 
-  return event.value.name
+  return t('title', { name: event.value.name })
 })
-useHeadDefault({
-  description,
-  title,
-})
+useHeadDefault(
+  {
+    description,
+    title,
+    ogTitle: title,
+    titleTemplate: '%s',
+  },
+  { title: event.value?.name },
+)
 defineEventOgImage({ alt: t('ogImageAlt'), event: event.value })
 const postalAddress = computed(() =>
   address.value?.line1 ||
@@ -492,6 +497,7 @@ de:
   stateEnded: Vorbei
   stateOngoing: Läuft gerade
   stateUpcoming: Bevorstehend
+  title: '{name} auf Vibetype'
 en:
   about: About the event
   attendances: Check in
@@ -511,4 +517,5 @@ en:
   stateEnded: Ended
   stateOngoing: Happening now
   stateUpcoming: Upcoming
+  title: '{name} on Vibetype'
 </i18n>
