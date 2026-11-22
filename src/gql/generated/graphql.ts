@@ -1504,7 +1504,12 @@ export type CreateGuestsMutationVariables = Exact<{
 
 export type CreateGuestsMutation = {
   createGuests: {
-    result: Array<{ contactId: string; id: string; rowId: string }> | null
+    result: Array<{
+      contactId: string
+      id: string
+      rowId: string
+      eventByEventId: { guestCount: number; id: string } | null
+    }> | null
   } | null
 }
 
@@ -1563,7 +1568,13 @@ export type DeleteGuestByRowIdMutationVariables = Exact<{
 }>
 
 export type DeleteGuestByRowIdMutation = {
-  deleteGuestByRowId: { clientMutationId: string | null } | null
+  deleteGuestByRowId: {
+    guest: {
+      id: string
+      rowId: string
+      eventByEventId: { guestCount: number; id: string } | null
+    } | null
+  } | null
 }
 
 export type AllGuestsQueryVariables = Exact<{
@@ -7004,6 +7015,23 @@ export const CreateGuestsDocument = {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'contactId' },
                       },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'guestCount' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
                     ],
@@ -7359,7 +7387,31 @@ export const DeleteGuestByRowIdDocument = {
               selections: [
                 {
                   kind: 'Field',
-                  name: { kind: 'Name', value: 'clientMutationId' },
+                  name: { kind: 'Name', value: 'guest' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'eventByEventId' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'guestCount' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' },
+                            },
+                          ],
+                        },
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
+                    ],
+                  },
                 },
               ],
             },

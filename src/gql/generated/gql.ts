@@ -46,12 +46,12 @@ type Documents = {
   '\n    query AllEventCategoriesFormEvent {\n      allEventCategories {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllEventCategoriesFormEventDocument
   '\n    query AllEventFormatsFormEvent {\n      allEventFormats {\n        nodes {\n          id\n          name\n          rowId\n        }\n      }\n    }\n  ': typeof types.AllEventFormatsFormEventDocument
   '\n    mutation CreateGuestContact($input: CreateContactInput!) {\n      createContact(input: $input) {\n        contact {\n          ...ContactItem\n        }\n      }\n    }\n  ': typeof types.CreateGuestContactDocument
-  '\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          contactId\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.CreateGuestsDocument
+  '\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          contactId\n          eventByEventId {\n            guestCount\n            id\n          }\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.CreateGuestsDocument
   '\n    mutation GuestsInvite($input: InviteInput!) {\n      invite(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.GuestsInviteDocument
   '\n    mutation AccountPasswordReset($input: AccountPasswordResetInput!) {\n      accountPasswordReset(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountPasswordResetDocument
   '\n    mutation AccountPasswordResetRequest(\n      $input: AccountPasswordResetRequestInput!\n    ) {\n      accountPasswordResetRequest(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.AccountPasswordResetRequestDocument
   '\n    query GuestCode($id: UUID!) {\n      guestByRowId(rowId: $id) {\n        contactByContactId {\n          accountByAccountId {\n            id\n            rowId\n            username\n          }\n          firstName\n          id\n          lastName\n          nickname\n          rowId\n        }\n        eventByEventId {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          id\n          name\n          rowId\n          start\n        }\n        id\n        rowId\n      }\n    }\n  ': typeof types.GuestCodeDocument
-  '\n    mutation DeleteGuestByRowId($input: DeleteGuestByRowIdInput!) {\n      deleteGuestByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.DeleteGuestByRowIdDocument
+  '\n    mutation DeleteGuestByRowId($input: DeleteGuestByRowIdInput!) {\n      deleteGuestByRowId(input: $input) {\n        guest {\n          eventByEventId {\n            guestCount\n            id\n          }\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.DeleteGuestByRowIdDocument
   '\n    query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n      allGuests(\n        after: $after\n        condition: { eventId: $eventId }\n        first: $first\n      ) {\n        nodes {\n          ...GuestItem\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n    }\n  ': typeof types.AllGuestsDocument
   '\n    mutation Invite($input: InviteInput!) {\n      invite(input: $input) {\n        clientMutationId\n      }\n    }\n  ': typeof types.InviteDocument
   '\n    mutation UpdateGuestByRowIdFeedback($input: UpdateGuestByRowIdInput!) {\n      updateGuestByRowId(input: $input) {\n        guest {\n          feedback\n          id\n          rowId\n        }\n      }\n    }\n  ': typeof types.UpdateGuestByRowIdFeedbackDocument
@@ -186,7 +186,7 @@ const documents: Documents = {
     types.AllEventFormatsFormEventDocument,
   '\n    mutation CreateGuestContact($input: CreateContactInput!) {\n      createContact(input: $input) {\n        contact {\n          ...ContactItem\n        }\n      }\n    }\n  ':
     types.CreateGuestContactDocument,
-  '\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          contactId\n          id\n          rowId\n        }\n      }\n    }\n  ':
+  '\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          contactId\n          eventByEventId {\n            guestCount\n            id\n          }\n          id\n          rowId\n        }\n      }\n    }\n  ':
     types.CreateGuestsDocument,
   '\n    mutation GuestsInvite($input: InviteInput!) {\n      invite(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
     types.GuestsInviteDocument,
@@ -196,7 +196,7 @@ const documents: Documents = {
     types.AccountPasswordResetRequestDocument,
   '\n    query GuestCode($id: UUID!) {\n      guestByRowId(rowId: $id) {\n        contactByContactId {\n          accountByAccountId {\n            id\n            rowId\n            username\n          }\n          firstName\n          id\n          lastName\n          nickname\n          rowId\n        }\n        eventByEventId {\n          accountByCreatedBy {\n            id\n            rowId\n            username\n          }\n          id\n          name\n          rowId\n          start\n        }\n        id\n        rowId\n      }\n    }\n  ':
     types.GuestCodeDocument,
-  '\n    mutation DeleteGuestByRowId($input: DeleteGuestByRowIdInput!) {\n      deleteGuestByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ':
+  '\n    mutation DeleteGuestByRowId($input: DeleteGuestByRowIdInput!) {\n      deleteGuestByRowId(input: $input) {\n        guest {\n          eventByEventId {\n            guestCount\n            id\n          }\n          id\n          rowId\n        }\n      }\n    }\n  ':
     types.DeleteGuestByRowIdDocument,
   '\n    query AllGuests($after: Cursor, $eventId: UUID!, $first: Int!) {\n      allGuests(\n        after: $after\n        condition: { eventId: $eventId }\n        first: $first\n      ) {\n        nodes {\n          ...GuestItem\n        }\n        pageInfo {\n          hasNextPage\n          endCursor\n        }\n        totalCount\n      }\n    }\n  ':
     types.AllGuestsDocument,
@@ -546,8 +546,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          contactId\n          id\n          rowId\n        }\n      }\n    }\n  ',
-): (typeof documents)['\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          contactId\n          id\n          rowId\n        }\n      }\n    }\n  ']
+  source: '\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          contactId\n          eventByEventId {\n            guestCount\n            id\n          }\n          id\n          rowId\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation CreateGuests($createGuestsInput: CreateGuestsInput!) {\n      createGuests(input: $createGuestsInput) {\n        result {\n          contactId\n          eventByEventId {\n            guestCount\n            id\n          }\n          id\n          rowId\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -576,8 +576,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: '\n    mutation DeleteGuestByRowId($input: DeleteGuestByRowIdInput!) {\n      deleteGuestByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ',
-): (typeof documents)['\n    mutation DeleteGuestByRowId($input: DeleteGuestByRowIdInput!) {\n      deleteGuestByRowId(input: $input) {\n        clientMutationId\n      }\n    }\n  ']
+  source: '\n    mutation DeleteGuestByRowId($input: DeleteGuestByRowIdInput!) {\n      deleteGuestByRowId(input: $input) {\n        guest {\n          eventByEventId {\n            guestCount\n            id\n          }\n          id\n          rowId\n        }\n      }\n    }\n  ',
+): (typeof documents)['\n    mutation DeleteGuestByRowId($input: DeleteGuestByRowIdInput!) {\n      deleteGuestByRowId(input: $input) {\n        guest {\n          eventByEventId {\n            guestCount\n            id\n          }\n          id\n          rowId\n        }\n      }\n    }\n  ']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
