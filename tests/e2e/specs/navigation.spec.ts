@@ -132,6 +132,20 @@ authenticatedTest(
   },
 )
 
+authenticatedTest(
+  'leaves without asking once changes are undone',
+  async ({ defaultPage }) => {
+    const { page } = defaultPage
+
+    await defaultPage.goto('/event/create')
+    await page.getByLabel('Name', { exact: true }).fill('Unsaved')
+    await page.getByLabel('Name', { exact: true }).fill('')
+
+    await page.getByRole('button', BACK).click()
+    await expect(page).not.toHaveURL(/\/event\/create$/)
+  },
+)
+
 appTest.describe('unfinished pages', () => {
   for (const [path, feature] of [
     ['/attendance', 'participation'],
