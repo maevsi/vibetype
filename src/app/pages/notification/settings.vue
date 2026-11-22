@@ -1,12 +1,7 @@
 <template>
-  <div class="flex flex-1 flex-col gap-6">
-    <LayoutPageTitle :title />
-    <LayoutCallToAction
-      v-if="!store.signedInAccountId"
-      :call-to-action="t('anonymousCta')"
-      :call-to-action-description="t('anonymousCtaDescription')"
-    />
-    <AppFeature v-else feature="notifications">
+  <div class="flex flex-1 flex-col">
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutPage>
       <div class="flex flex-col gap-6">
         <section
           :aria-labelledby="templateIdDevice"
@@ -34,13 +29,17 @@
           <NotificationPreferenceList />
         </section>
       </div>
-    </AppFeature>
+    </LayoutPage>
   </div>
 </template>
 
 <script setup lang="ts">
+useFeatureRequired('notifications')
+
+// validation
+await useSignInRequired()
+
 const { t } = useI18n()
-const store = useStore()
 const templateIdDevice = useId()
 const templateIdTypes = useId()
 
@@ -50,15 +49,11 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  anonymousCta: Anmelden
-  anonymousCtaDescription: Melde dich an, um deine Benachrichtigungen einzustellen.
   device: Dieses Gerät
   title: Benachrichtigungseinstellungen
   types: Worüber du informiert wirst
   typesDescription: Die Auswahl gilt für Push-Benachrichtigungen auf all deinen Geräten. In der App erscheinen alle Benachrichtigungen weiterhin.
 en:
-  anonymousCta: Sign in
-  anonymousCtaDescription: Sign in to manage your notifications.
   device: This device
   title: Notification settings
   types: What you hear about

@@ -3,7 +3,6 @@ import type { Client } from '@urql/core'
 import { createRequest } from '@urql/core'
 import type { Ref } from 'vue'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
-import { isEqual } from 'ufo'
 
 import { graphql } from '~~/gql/generated'
 import type { Language } from '~~/gql/generated/graphql'
@@ -53,74 +52,24 @@ export const getOwnContact = async ({
   return ownContact.data?.contactByCreatedByAndAccountId
 }
 
-// best-effort, as a failure must never block the page load or the sign-in;
-// the caller passes the nuxt app and store, as this runs after the caller's
-// awaits, where neither can be resolved from the current context
-export const getOwnContactLanguage = async ({
+// the account's language is the token's `language` claim, which the sign-in
+// and every token refresh set; it becomes the stored language, which the
+// module's detection at the root and `detectLanguageFromQuery` follow, while a
+// url that names its locale keeps it, as redirecting it would break shared
+// links and drop the files a launched app receives; a token without the claim
+// leaves the stored language as it is
+export const syncLocaleCookieToTokenLanguage = ({
   nuxtApp,
   store,
 }: {
   nuxtApp: NuxtApp
   store: ReturnType<typeof useStore>
 }) => {
-  const signedInAccountId = store.signedInAccountId
+  const language = store.jwtPayload?.language ?? undefined
 
-  if (!signedInAccountId) {
-    return
-  }
+  if (language) nuxtApp.$i18n.setLocaleCookie(language)
 
-  try {
-    const ownContact = await getOwnContact({
-      $urql: nuxtApp.$urql,
-      accountId: signedInAccountId,
-    })
-
-    return ownContact?.language ?? undefined
-  } catch (error) {
-    console.error('Fetching the account language failed:', error)
-  }
-}
-
-// the app should open in the language of the signed-in account, so every page
-// load moves the session onto it; resolves to whether the account has a
-// language, which then wins over the one `detectLanguageFromQuery` would detect
-export const syncLocaleToOwnContactLanguage = async ({
-  nuxtApp,
-  store,
-}: {
-  nuxtApp: NuxtApp
-  store: ReturnType<typeof useStore>
-}) => {
-  const language = await getOwnContactLanguage({ nuxtApp, store })
-
-  if (!language) {
-    return false
-  }
-
-  try {
-    // the navigation composables resolve the nuxt instance themselves, so they
-    // need to run within an active nuxt context
-    await nuxtApp.runWithContext(async () => {
-      const route = useRoute()
-      const switchLocalePath = useSwitchLocalePath()
-      // without dropping the mark here, `detectLanguageFromQuery` would have
-      // to redirect a second time
-      const targetPath = getPathWithoutLanguageDetection(
-        switchLocalePath(language),
-      )
-
-      if (!targetPath || isEqual(targetPath, route.fullPath)) {
-        return
-      }
-
-      await navigateTo(targetPath, { replace: true })
-    })
-
-    return true
-  } catch (error) {
-    console.error('Syncing the locale to the account language failed:', error)
-    return false
-  }
+  return language
 }
 
 // the language chosen on the settings page becomes the account's language;
@@ -164,6 +113,20 @@ export const persistOwnContactLanguage = async ({
   if (updated.error) {
     throw new Error(getCombinedErrorMessages([updated.error]).join())
   }
+
+  // the token's `language` claim only changes at a refresh, and the server
+  // picks the root's language from it; best-effort, as the language is saved
+  // and the next session restore refreshes the token anyway
+  try {
+    const { jwtPayload } = await nuxtApp.$csrfFetch('/api/model/jwt', {
+      body: { id: store.jwtPayload?.jti },
+      method: 'PUT',
+    })
+
+    if (jwtPayload) store.jwtSet(jwtPayload)
+  } catch (error) {
+    console.error('JWT update failed:', error)
+  }
 }
 
 // a link that carries the `language=auto` query (e.g. a QR code on a conference
@@ -172,9 +135,11 @@ export const persistOwnContactLanguage = async ({
 // `src/config/modules/i18n.ts`), so this runs it on every url; the redirect
 // drops the mark from the url
 export const detectLanguageFromQuery = async ({
+  language,
   nuxtApp,
   route,
 }: {
+  language?: Language
   nuxtApp: NuxtApp
   route: RouteLocationNormalizedLoaded
 }) => {
@@ -186,13 +151,14 @@ export const detectLanguageFromQuery = async ({
     }
 
     const { $i18n } = nuxtApp
-    // the same precedence as the module's own detection; on the server the
-    // module reads the stored language from the request's cookie header, so
-    // the locale it writes into the cookie during this request is not read
-    // back here
+    // the same precedence as the module's own detection, behind the signed-in
+    // account's language; on the server the module reads the stored language
+    // from the request's cookie header, so the locale it writes into the
+    // cookie during this request is not read back here
     // the module only returns a stored or browser language that is one of the
     // configured locales
-    const detected = ($i18n.getLocaleCookie() ||
+    const detected = (language ||
+      $i18n.getLocaleCookie() ||
       $i18n.getBrowserLocale() ||
       $i18n.defaultLocale) as LOCALE_CODES
     const targetPath = useLocalePath()(

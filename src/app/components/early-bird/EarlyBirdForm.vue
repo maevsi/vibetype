@@ -1,10 +1,11 @@
 <template>
   <LayoutPage>
-    <div class="flex flex-col gap-3">
-      <span class="text-center text-title3 text-balance">
+    <div class="flex flex-col items-start gap-3">
+      <AppStepProgress class="justify-start" :count="2" :index="2" />
+      <span class="text-heading-large text-balance">
         {{ t('title') }}
       </span>
-      <span class="text-body">
+      <span class="text-body text-fg-2">
         {{ t('description') }}
       </span>
     </div>

@@ -1,18 +1,18 @@
 <template>
   <div class="flex flex-1 flex-col">
-    <LayoutPageTitle :title />
-    <ContactList v-if="authentication.isSignedIn" />
-    <LayoutCallToAction
-      v-else
-      :call-to-action="t('anonymousCta')"
-      :call-to-action-description="t('anonymousCtaDescription')"
-    />
+    <LayoutTopBar>{{ title }}</LayoutTopBar>
+    <LayoutPage>
+      <ContactList v-if="authentication.isSignedIn" />
+    </LayoutPage>
   </div>
 </template>
 
 <script setup lang="ts">
 const authentication = useAuthentication()
 const { t } = useI18n()
+
+// validation
+await useSignInRequired()
 
 // data
 const title = t('title')
@@ -23,11 +23,7 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  anonymousCta: Finde sie auf @.upper:{'globalSiteName'}
-  anonymousCtaDescription: Wo sind deine Freunde?
   title: Kontaktbuch
 en:
-  anonymousCta: Find them on @.upper:{'globalSiteName'}
-  anonymousCtaDescription: Where are your friends?
   title: Contact book
 </i18n>

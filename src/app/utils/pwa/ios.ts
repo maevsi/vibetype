@@ -28,6 +28,9 @@ export const requestNotificationPermission = async (
   return notificationStore.permissionState
 }
 
+// Chrome may garbage collect a `PermissionStatus` that nothing references, listener included, and the store would then miss a permission granted through the system settings.
+let notificationPermissionStatus: PermissionStatus | undefined
+
 // Requests the current notification permission state
 export const requestNotificationPermissionState = async (
   notificationStore: ReturnType<typeof useNotificationStore>,
@@ -37,10 +40,13 @@ export const requestNotificationPermissionState = async (
       'push-permission-state',
     )
   } else {
-    const permissionStatus = await navigator.permissions.query({
+    notificationPermissionStatus = await navigator.permissions.query({
       name: 'notifications',
     })
-    notificationStore.permissionState = permissionStatus.state
+    notificationPermissionStatus.onchange = function () {
+      notificationStore.permissionState = this.state
+    }
+    notificationStore.permissionState = notificationPermissionStatus.state
   }
 }
 
@@ -121,31 +127,6 @@ export const registerIosPushCallbackHandler = (
 
     if (event.detail !== 'ERROR GET TOKEN') {
       notificationStore.fcmToken = event.detail
-    }
-  })
-}
-
-export const hasAttCapability =
-  window &&
-  window.webkit?.messageHandlers?.['att-request-permission'] !== undefined
-
-export const requestTrackingPermission = () => {
-  if (hasAttCapability) {
-    window.webkit?.messageHandlers['att-request-permission']?.postMessage(
-      'att-request-permission',
-    )
-  }
-}
-
-export const registerIosTrackingCallbackHandler = (
-  cookieControl: ReturnType<typeof useCookieControl>,
-) => {
-  window.addEventListener('att-permission-response', (event: Event) => {
-    const { detail } = event as CustomEvent<string>
-    if (detail === 'authorized') {
-      cookieControl.cookiesEnabledIds.value =
-        cookieControl.moduleOptions.cookies.optional.map((cookie) => cookie.id)
-      cookieControl.isConsentGiven.value = true
     }
   })
 }

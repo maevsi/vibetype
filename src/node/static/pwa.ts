@@ -51,7 +51,7 @@ export const getPwaManifest = ({
     },
     file_handlers: [
       {
-        action: localePath('/event/create'), // prefills the event form from the file
+        action: localePath('/event/import'), // prefills the event form from the file
         accept: {
           'text/calendar': ['.ics'],
         },

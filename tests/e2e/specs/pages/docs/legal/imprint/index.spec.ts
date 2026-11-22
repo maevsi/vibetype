@@ -1,6 +1,7 @@
-import { expect } from '@playwright/test'
+import { type BrowserContext, expect } from '@playwright/test'
 
 import { I18N_COOKIE_NAME } from '#src/node/static'
+import { authenticatedTest } from '#tests/e2e/fixtures/authenticatedTest'
 import { appTest } from '#tests/e2e/fixtures/appTest'
 import { SITE_URL } from '#tests/e2e/utils/constants'
 import { testOgImage, testVisualRegression } from '#tests/e2e/utils/tests'
@@ -99,6 +100,60 @@ appTest.describe('browser language detection for a german browser', () => {
       await defaultPage.goto(PAGE_PATH)
 
       expect(page.url()).toBe(`${SITE_URL}${PAGE_PATH}`)
+    },
+  )
+})
+
+const getI18nCookieValue = async (context: BrowserContext) =>
+  (await context.cookies()).find((cookie) => cookie.name === I18N_COOKIE_NAME)
+    ?.value
+
+authenticatedTest.describe('account language with an english browser', () => {
+  authenticatedTest.use({
+    language: 'de',
+    locale: 'en-US',
+  })
+
+  authenticatedTest(
+    'keeps an unmarked link in the language of its url',
+    async ({ defaultPage, page }) => {
+      await defaultPage.goto(PAGE_PATH)
+
+      expect(page.url()).toBe(`${SITE_URL}${PAGE_PATH}`)
+    },
+  )
+
+  authenticatedTest(
+    'stores the account language',
+    async ({ context, defaultPage }) => {
+      await defaultPage.goto(PAGE_PATH)
+
+      await expect.poll(() => getI18nCookieValue(context)).toBe('de')
+    },
+  )
+
+  authenticatedTest(
+    'redirects the marked link to the account language',
+    async ({ defaultPage, page }) => {
+      await defaultPage.goto(MARKED_PAGE_PATH)
+
+      expect(page.url()).toBe(`${SITE_URL}/de${PAGE_PATH}`)
+    },
+  )
+
+  authenticatedTest(
+    'prefers the account language over the stored language',
+    async ({ context, defaultPage, page }) => {
+      await context.addCookies([
+        {
+          name: I18N_COOKIE_NAME,
+          url: SITE_URL,
+          value: 'en',
+        },
+      ])
+      await defaultPage.goto(MARKED_PAGE_PATH)
+
+      expect(page.url()).toBe(`${SITE_URL}/de${PAGE_PATH}`)
     },
   )
 })

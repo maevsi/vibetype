@@ -1,0 +1,18 @@
+name: Image scan
+
+permissions: {}
+
+on:
+  schedule:
+    - cron: "0 4 * * *" # Every day at 04:00 AM UTC on the default branch
+  workflow_dispatch:
+
+jobs:
+  image-scan:
+    name: Image scan
+    uses: dargmuesli/github-actions/.github/workflows/image-scan.yml@ab8e226263168a9aab8c98d6db89ce707f77497e # 5.11.0
+    permissions:
+      contents: read
+      packages: read
+    secrets:
+      PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}

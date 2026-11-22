@@ -1,14 +1,14 @@
 <template>
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
-    <h1 v-if="step !== 'default'" :id="templateIdTitle" class="sr-only">
-      {{ title }}
-    </h1>
-    <FormAuthPageHeader v-else :title-id="templateIdTitle" @back="navigateBack">
-      <template #title>{{ t('title') }}</template>
-      <template #subtitle>{{ t('subtitle') }}</template>
-    </FormAuthPageHeader>
+    <LayoutTopBar>
+      <span :id="templateIdTitle">{{ t('titleShort') }}</span>
+    </LayoutTopBar>
     <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
+        <FormAuthHeader>
+          <template #title>{{ t('title') }}</template>
+          <template #subtitle>{{ t('subtitle') }}</template>
+        </FormAuthHeader>
         <FormAccountPasswordResetRequest
           v-model:error="error"
           @success="handleSuccess"
@@ -41,10 +41,6 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: 'plain',
-})
-
 // stepper
 const { t } = useI18n()
 const { error, restart, step, title } = useStepperPage<'success'>({
@@ -72,12 +68,6 @@ const handleSuccess = (emailAddress: string) => {
   submittedEmail.value = emailAddress
   step.value = 'success'
 }
-
-// navigation
-const store = useStore()
-const navigateBack = () => {
-  store.navigateBack()
-}
 </script>
 
 <i18n lang="yaml">
@@ -88,6 +78,7 @@ de:
   sentResetLinkTo: 'Wir haben gerade einen Link zum Zurücksetzen gesendet an '
   subtitle: Kein Problem! Gib deine E-Mail-Adresse ein und wir senden dir einen Link zum Zurücksetzen.
   title: Passwort vergessen?
+  titleShort: Passwort zurücksetzen
 en:
   backToRequest: Back to Request
   instructionsInboxDescription: Open the link to reset your password.
@@ -95,4 +86,5 @@ en:
   sentResetLinkTo: "We've just sent a reset link to "
   subtitle: "No worries! Enter your email and we'll send you a link to reset it."
   title: Forgot your password?
+  titleShort: Reset password
 </i18n>

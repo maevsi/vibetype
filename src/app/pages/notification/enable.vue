@@ -41,9 +41,6 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: 'default-no-header',
-})
 defineRouteRules({
   robots: false,
 })

@@ -1,13 +1,13 @@
 /// <reference lib="WebWorker" />
 import { getMessaging, onBackgroundMessage } from 'firebase/messaging/sw'
-import * as navigationPreload from 'workbox-navigation-preload'
+import * as navigationPreload from '@vite-pwa/workbox-swkit/navigation-preload'
 import {
   cleanupOutdatedCaches,
   precacheAndRoute,
   PrecacheFallbackPlugin,
-} from 'workbox-precaching'
-import { NavigationRoute, registerRoute } from 'workbox-routing'
-import { NetworkOnly } from 'workbox-strategies'
+} from '@vite-pwa/workbox-swkit/precaching'
+import { NavigationRoute, registerRoute } from '@vite-pwa/workbox-swkit/routing'
+import { NetworkOnly } from '@vite-pwa/workbox-swkit/strategies'
 
 import { initializeFirebaseClient } from '../utils/dependencies/firebase'
 
@@ -25,7 +25,9 @@ class CustomPushEvent extends Event {
 
 cleanupOutdatedCaches()
 
-precacheAndRoute(self.__WB_MANIFEST)
+precacheAndRoute(self.__WB_MANIFEST, {
+  parallel: { concurrency: 5, enabled: true },
+})
 
 // lets the navigation request below start while the worker is still booting
 navigationPreload.enable()

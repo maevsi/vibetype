@@ -105,7 +105,7 @@ export const modulesConfig: ReturnType<DefineNuxtConfig> = {
     reactive: false, // for a strict trusted type policy the script may not change and it must be inlined / cannot be linked (https://github.com/harlan-zw/nuxt-schema-org/issues/96)
   },
   site: {
-    // the i18n plugin leaves the name undefined while the current locale's messages are not loaded, which would break the page titles
+    // the client only `/offline` shell renders without the server side i18n entry, so its injected site config would otherwise lack a name until the locale's messages load
     name: 'Vibetype',
   },
   // the storage persists across builds because the dockerfile seeds it from the previously released image (see `SKEW_PROTECTION_SOURCE_IMAGE`) and carries it into the next one

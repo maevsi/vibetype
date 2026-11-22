@@ -1,21 +1,24 @@
 <template>
   <section :aria-labelledby="templateIdTitle" class="flex flex-1 flex-col">
-    <FormAuthPageHeader :title-id="templateIdTitle" @back="navigateBack">
-      <template #title>
-        {{ t('welcomeBack') }}<br />{{ t('goodToSeeYou') }}
-      </template>
-      <template #subtitle>{{ t('subtitle') }}</template>
-    </FormAuthPageHeader>
-    <AppAlert v-if="verified" class="mt-4 rounded-none" variant="success">
+    <LayoutTopBar>
+      <span :id="templateIdTitle">{{ title }}</span>
+    </LayoutTopBar>
+    <AppAlert v-if="verified" class="rounded-none" variant="success">
       <span class="text-headline">
         {{ t('accountVerified') }}
       </span>
     </AppAlert>
-    <AppAlert v-if="to" class="mt-4 rounded-none">
+    <AppAlert v-if="to" class="rounded-none">
       {{ t('accountRequired') }}
     </AppAlert>
     <AppStepPanel v-slot="attributes" :is-active="step === 'default'">
       <LayoutPage v-bind="attributes">
+        <FormAuthHeader>
+          <template #title>
+            {{ t('welcomeBack') }}<br />{{ t('goodToSeeYou') }}
+          </template>
+          <template #subtitle>{{ t('subtitle') }}</template>
+        </FormAuthHeader>
         <FormSessionCreate v-model:error="error" @signed-in="onSignIn" />
       </LayoutPage>
     </AppStepPanel>
@@ -47,10 +50,6 @@
 <script setup lang="ts">
 import type { Language } from '~~/gql/generated/graphql'
 
-definePageMeta({
-  layout: 'plain',
-})
-
 // page
 const { t } = useI18n()
 
@@ -59,9 +58,6 @@ const templateIdTitle = useId()
 
 // navigation
 const router = useRouter()
-const navigateBack = () => {
-  store.navigateBack()
-}
 
 // sign in
 const localePath = useLocalePath()
@@ -130,17 +126,7 @@ const notificationStore = useNotificationStore()
 const { isFeatureEnabled } = useFeatureFlags()
 const { isOnboardingSeen } = useNotificationPrompt()
 const onSignIn = async (username: string) => {
-  // the welcome page redirects signed-in accounts to the dashboard (see `pages/index.vue`), so going back there would only loop
-  store.routeHistory = store.routeHistory.filter((path) => {
-    const routeResolved = router.resolve(path)
-
-    return !(
-      getRouteBaseName(routeResolved) === 'index' &&
-      Object.keys(routeResolved.query).every((key) => key === 'source')
-    )
-  })
-
-  const language = await getOwnContactLanguage({ nuxtApp, store })
+  const language = syncLocaleCookieToTokenLanguage({ nuxtApp, store })
   const target = getSignInTarget({ language, username })
 
   // The first sign-in after the email address was verified follows the registration, which is when notifications are worth asking for.
@@ -150,7 +136,7 @@ const onSignIn = async (username: string) => {
     notificationStore.permissionState === 'prompt' &&
     !isOnboardingSeen()
 
-  await store.navigateWithoutHistory(
+  await navigateTo(
     isOnboardingDue
       ? localePath({ name: 'notification-enable', query: { to: target } })
       : target,

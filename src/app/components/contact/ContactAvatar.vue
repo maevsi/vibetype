@@ -2,7 +2,6 @@
   <AppImage
     v-bind="delegatedProps"
     :alt="t('profilePictureAlt', { emailAddress })"
-    :cross-origin
     :height="size"
     :src="imageSrc"
     :width="size"
@@ -29,14 +28,9 @@ const { t } = useI18n()
 // computations
 const imageSrc = computed(() => {
   if (emailAddress && emailAddressHash)
-    return `https://www.gravatar.com/avatar/${emailAddressHash}?d=mp&s=${size}`
+    return `/api/service/gravatar/${emailAddressHash}?s=${size}`
 
   return blankProfilePicture
-})
-const crossOrigin = computed(() => {
-  if (emailAddress && emailAddressHash) return 'anonymous'
-
-  return undefined
 })
 const delegatedProps = computed(() => ({
   aspect,

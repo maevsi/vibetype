@@ -16,7 +16,7 @@ export default defineNuxtPlugin({
         createScriptURL: (input) => {
           if (
             [
-              '/dev-sw.js?dev-sw',
+              '/sw.js',
               'https://challenges.cloudflare.com/turnstile/v0/api.js',
               ...(import.meta.env.DEV ? ['/__devtools/embedded.js'] : []),
             ].includes(input)

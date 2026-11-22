@@ -908,6 +908,14 @@ export default {
             ],
           },
           {
+            name: 'displayName',
+            type: {
+              kind: 'SCALAR',
+              name: 'Any',
+            },
+            args: [],
+          },
+          {
             name: 'eventAppsByCreatedBy',
             type: {
               kind: 'NON_NULL',
@@ -18561,6 +18569,13 @@ export default {
               },
               {
                 name: 'first',
+                type: {
+                  kind: 'SCALAR',
+                  name: 'Any',
+                },
+              },
+              {
+                name: 'includeEnded',
                 type: {
                   kind: 'SCALAR',
                   name: 'Any',

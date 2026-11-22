@@ -1,26 +1,19 @@
 <template>
   <div class="flex flex-1 flex-col">
-    <LayoutPageTitle title="-">
-      <div class="flex items-center justify-between gap-4">
-        <h1>{{ title }}</h1>
-        <AppFeature v-if="store.signedInAccountId" feature="notifications">
-          <AppButton
-            :aria-label="t('settings')"
-            size="icon"
-            :to="localePath('notification-settings')"
-            variant="secondary"
-          >
-            <AppIconSettings />
-          </AppButton>
-        </AppFeature>
-      </div>
-    </LayoutPageTitle>
-    <LayoutCallToAction
-      v-if="!store.signedInAccountId"
-      :call-to-action="t('anonymousCta')"
-      :call-to-action-description="t('anonymousCtaDescription')"
-    />
-    <AppFeature v-else class="flex flex-1 flex-col" feature="notifications">
+    <LayoutTopBar>
+      {{ title }}
+      <template #actions>
+        <AppButton
+          :aria-label="t('settings')"
+          size="icon"
+          :to="localePath('notification-settings')"
+          variant="secondary"
+        >
+          <AppIconSettings />
+        </AppButton>
+      </template>
+    </LayoutTopBar>
+    <LayoutPage>
       <AppAlert
         v-if="error && !items.length"
         class="flex flex-col items-center gap-2"
@@ -93,14 +86,18 @@
           </AppButton>
         </div>
       </div>
-    </AppFeature>
+    </LayoutPage>
   </div>
 </template>
 
 <script setup lang="ts">
+useFeatureRequired('notifications')
+
+// validation
+await useSignInRequired()
+
 const { t } = useI18n()
 const localePath = useLocalePath()
-const store = useStore()
 
 // api data
 const {
@@ -122,8 +119,6 @@ useHeadDefault({ title })
 
 <i18n lang="yaml">
 de:
-  anonymousCta: Anmelden
-  anonymousCtaDescription: Melde dich an, um deine Benachrichtigungen zu sehen.
   emptyDescription: Einladungen, Antworten und Freundschaftsanfragen erscheinen hier.
   emptyTitle: Alles gelesen
   loadError: Die Benachrichtigungen konnten nicht geladen werden.
@@ -133,8 +128,6 @@ de:
   settings: Benachrichtigungseinstellungen
   title: Benachrichtigungen
 en:
-  anonymousCta: Sign in
-  anonymousCtaDescription: Sign in to see your notifications.
   emptyDescription: Invitations, replies and friend requests show up here.
   emptyTitle: You're all caught up
   loadError: The notifications could not be loaded.
