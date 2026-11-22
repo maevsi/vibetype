@@ -423,6 +423,7 @@ const eventQuery = useApiQuery({
           id
           isArchived
           isInPerson
+          isPublished
           isRemote
           name
           rowId

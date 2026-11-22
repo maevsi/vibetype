@@ -30,6 +30,7 @@ export const getEventImported = async ({
     end: end ?? null,
     guestCountMaximum: null,
     isInPerson,
+    isPublished: true,
     isRemote: false,
     name,
     rowId: '',

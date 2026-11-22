@@ -367,16 +367,14 @@
               :default-value="field.state.value"
               :items="[
                 {
+                  description: t('visibilityPublicDescription'),
                   label: t('visibilityPublic'),
                   value: EventVisibility.Public,
                 },
                 {
+                  description: t('visibilityPrivateDescription'),
                   label: t('visibilityPrivate'),
                   value: EventVisibility.Private,
-                },
-                {
-                  label: t('visibilityUnlisted'),
-                  value: EventVisibility.Unlisted,
                 },
               ]"
               @update:model-value="
@@ -391,6 +389,21 @@
               :errors="field.state.meta.errors"
             />
           </Field>
+        </form.Field>
+        <form.Field v-slot="{ field }" name="isPublished">
+          <AppCheckboxGroup
+            :items="[
+              {
+                description: t('isPublishedDescription'),
+                label: t('isPublished'),
+                value: 'isPublished',
+              },
+            ]"
+            :model-value="field.state.value ? ['isPublished'] : []"
+            @update:model-value="
+              (values) => field.handleChange(values.includes('isPublished'))
+            "
+          />
         </form.Field>
         <form.Field
           v-if="form.getFieldValue('visibility') === EventVisibility.Public"
@@ -503,6 +516,7 @@ const { event = undefined } = defineProps<{
     | 'start'
     | 'end'
     | 'isInPerson'
+    | 'isPublished'
     | 'isRemote'
     | 'url'
     | 'description'
@@ -722,6 +736,7 @@ const formSchema = z.object({
   formatIds: z.array(z.string()),
   guestCountMaximum: z.string(),
   isInPerson: z.boolean(),
+  isPublished: z.boolean(),
   isRemote: z.boolean(),
   locationName: SCHEMA_EVENT_LOCATION_NAME_OPTIONAL,
   name: SCHEMA_EVENT_NAME_REQUIRED,
@@ -982,6 +997,7 @@ const form = useForm({
       ? String(event.guestCountMaximum)
       : '',
     isInPerson: event?.isInPerson ?? false,
+    isPublished: event?.isPublished ?? true,
     isRemote: event?.isRemote ?? false,
     locationName: event?.addressByAddressId?.name ?? '',
     name: (event?.name as string) ?? '',
@@ -1015,6 +1031,7 @@ const form = useForm({
               ? +value.guestCountMaximum
               : null,
             isInPerson: value.isInPerson,
+            isPublished: value.isPublished,
             isRemote: value.isRemote,
             name: value.name || null,
             slug: value.slug || null,
@@ -1070,6 +1087,7 @@ const form = useForm({
               ? +value.guestCountMaximum
               : null,
             isInPerson: value.isInPerson,
+            isPublished: value.isPublished,
             isRemote: value.isRemote,
             name: value.name || '',
             slug: value.slug || '',
@@ -1223,6 +1241,8 @@ de:
   headerImageReplace: Ersetzen
   headerImageSelect: Titelbild auswählen
   isInPerson: vor Ort
+  isPublished: Veröffentlicht
+  isPublishedDescription: Unveröffentlichte Veranstaltungen sind Entwürfe, die nur du sehen kannst.
   isRemote: digital
   location: Ort
   locationHint: Suche nach einer Adresse oder verschiebe die Karte, um den Ort zu bestimmen.
@@ -1239,8 +1259,9 @@ de:
   validationWarningNameChangeSlug: Wenn du den Namen änderst, funktionieren bestehende Links zur Veranstaltung möglicherweise nicht mehr
   visibility: Sichtbarkeit
   visibilityPrivate: privat
+  visibilityPrivateDescription: Nur eingeladene Gäste können diese Veranstaltung ansehen und daran teilnehmen.
   visibilityPublic: öffentlich
-  visibilityUnlisted: ungelistet
+  visibilityPublicDescription: Alle können diese Veranstaltung finden, ansehen und daran teilnehmen.
   url: Weblink
 en:
   attendanceType: Attendance type
@@ -1258,6 +1279,8 @@ en:
   headerImageReplace: Replace
   headerImageSelect: Select a cover image
   isInPerson: in person
+  isPublished: Published
+  isPublishedDescription: Unpublished events are drafts that only you can see.
   isRemote: remote
   location: Location
   locationHint: Search for an address or move the map to set the location.
@@ -1274,7 +1297,8 @@ en:
   validationWarningNameChangeSlug: If you change the name, existing links to the event may no longer work
   visibility: Visibility
   visibilityPrivate: private
+  visibilityPrivateDescription: Only invited guests can view and join this event.
   visibilityPublic: public
-  visibilityUnlisted: unlisted
+  visibilityPublicDescription: Anyone can find, view and join this event.
   url: Weblink
 </i18n>

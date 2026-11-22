@@ -3221,6 +3221,8 @@ export type Event = Node & {
   isArchived: Scalars['Boolean']['output']
   /** Indicates whether the event takes place in person. */
   isInPerson?: Maybe<Scalars['Boolean']['output']>
+  /** Indicates whether the event is published. Unpublished events are drafts only their organizer can see. */
+  isPublished: Scalars['Boolean']['output']
   /** Indicates whether the event takes place remotely. */
   isRemote?: Maybe<Scalars['Boolean']['output']>
   language?: Maybe<Language>
@@ -3875,6 +3877,8 @@ export type EventInput = {
   isArchived?: InputMaybe<Scalars['Boolean']['input']>
   /** Indicates whether the event takes place in person. */
   isInPerson?: InputMaybe<Scalars['Boolean']['input']>
+  /** Indicates whether the event is published. Unpublished events are drafts only their organizer can see. */
+  isPublished?: InputMaybe<Scalars['Boolean']['input']>
   /** Indicates whether the event takes place remotely. */
   isRemote?: InputMaybe<Scalars['Boolean']['input']>
   language?: InputMaybe<Language>
@@ -3925,6 +3929,8 @@ export type EventPatch = {
   isArchived?: InputMaybe<Scalars['Boolean']['input']>
   /** Indicates whether the event takes place in person. */
   isInPerson?: InputMaybe<Scalars['Boolean']['input']>
+  /** Indicates whether the event is published. Unpublished events are drafts only their organizer can see. */
+  isPublished?: InputMaybe<Scalars['Boolean']['input']>
   /** Indicates whether the event takes place remotely. */
   isRemote?: InputMaybe<Scalars['Boolean']['input']>
   language?: InputMaybe<Language>
@@ -4088,11 +4094,10 @@ export enum EventUploadOrderBy {
   UploadIdDesc = 'UPLOAD_ID_DESC',
 }
 
-/** Possible visibilities of events and event groups: public, private and unlisted. */
+/** Possible visibilities of events and event groups: public and private. */
 export enum EventVisibility {
   Private = 'private',
   Public = 'public',
-  Unlisted = 'unlisted',
 }
 
 /** A friend relation together with its status. */
@@ -11076,6 +11081,11 @@ export type GraphCacheResolvers = {
       Record<string, never>,
       Scalars['Boolean']['output'] | string
     >
+    isPublished?: GraphCacheResolver<
+      WithTypename<Event>,
+      Record<string, never>,
+      Scalars['Boolean']['output'] | string
+    >
     isRemote?: GraphCacheResolver<
       WithTypename<Event>,
       Record<string, never>,
@@ -16583,6 +16593,10 @@ export type GraphCacheUpdaters = {
       Record<string, never>
     >
     isInPerson?: GraphCacheUpdateResolver<
+      Maybe<WithTypename<Event>>,
+      Record<string, never>
+    >
+    isPublished?: GraphCacheUpdateResolver<
       Maybe<WithTypename<Event>>,
       Record<string, never>
     >

@@ -8,7 +8,7 @@
     <div class="flex flex-wrap gap-2">
       <AppButton
         :aria-label="t('guestSend')"
-        :disabled="!guestsSendable.length || isPending"
+        :disabled="!event.isPublished || !guestsSendable.length || isPending"
         :loading="pending === 'send'"
         size="small"
         variant="secondary"
@@ -58,6 +58,9 @@
         </template>
       </AppButton>
     </div>
+    <span v-if="!event.isPublished" class="text-body-small text-fg-2">
+      {{ t('disabledReasonDraft') }}
+    </span>
   </div>
   <AppConfirmDeleteDrawer
     v-model:open="isDeleteDrawerOpen"
@@ -78,10 +81,14 @@ import { useMutation } from '@urql/vue'
 
 import { graphql } from '~~/gql/generated'
 import { InvitationFeedback } from '~~/gql/generated/graphcache'
-import type { GuestItemFragment } from '~~/gql/generated/graphql'
+import type {
+  EventItemFragment,
+  GuestItemFragment,
+} from '~~/gql/generated/graphql'
 import { getContactItem } from '~~/shared/utils/contact'
 
-const { guests } = defineProps<{
+const { event, guests } = defineProps<{
+  event: Pick<EventItemFragment, 'isPublished'>
   guests: Pick<GuestItemFragment, 'contactByContactId' | 'rowId'>[]
 }>()
 
@@ -220,6 +227,7 @@ const setFeedback = async (feedback: InvitationFeedback) => {
 
 <i18n lang="yaml">
 de:
+  disabledReasonDraft: Veröffentliche die Veranstaltung, um Einladungen zu verschicken.
   failure: 'Bei {count} von {total} Gästen ist das fehlgeschlagen.'
   guestDelete: Gäste löschen
   guestDeleteQuestion: 'Möchtest du den ausgewählten Gast wirklich löschen? | Möchtest du die {count} ausgewählten Gäste wirklich löschen?'
@@ -232,6 +240,7 @@ de:
   sendSkipped: 'Ein Gast ohne E-Mail-Adresse wurde übersprungen. | {count} Gäste ohne E-Mail-Adresse wurden übersprungen.'
   sendSuccess: 'Die Einladung wurde versandt. | {count} Einladungen wurden versandt.'
 en:
+  disabledReasonDraft: Publish the event to send invitations.
   failure: 'This failed for {count} of {total} guests.'
   guestDelete: Delete guests
   guestDeleteQuestion: 'Do you really want to delete the selected guest? | Do you really want to delete the {count} selected guests?'

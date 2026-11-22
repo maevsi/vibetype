@@ -1,6 +1,6 @@
 <template>
   <AppButton
-    v-if="event.visibility === EventVisibility.Public"
+    v-if="event.isPublished && event.visibility === EventVisibility.Public"
     :aria-label="t('share')"
     size="none"
     variant="ghost"
@@ -19,6 +19,7 @@ import type { EventItemFragment } from '~~/gql/generated/graphql'
 const { event } = defineProps<{
   event: {
     accountByCreatedBy?: { username: string } | null
+    isPublished: boolean
     name: string
     slug: string
     visibility: EventItemFragment['visibility']

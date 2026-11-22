@@ -86,6 +86,7 @@ const eventQuery = useApiQuery({
             guestCountMaximum
             isArchived
             isInPerson
+            isPublished
             isRemote
             name
             rowId

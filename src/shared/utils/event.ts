@@ -60,6 +60,7 @@ export const EventItem = graphql(`
     id
     isArchived
     isInPerson
+    isPublished
     isRemote
     name
     rowId

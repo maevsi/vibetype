@@ -684,6 +684,8 @@ export type EventInput = {
   isArchived?: boolean | null | undefined
   /** Indicates whether the event takes place in person. */
   isInPerson?: boolean | null | undefined
+  /** Indicates whether the event is published. Unpublished events are drafts only their organizer can see. */
+  isPublished?: boolean | null | undefined
   /** Indicates whether the event takes place remotely. */
   isRemote?: boolean | null | undefined
   language?: Language | null | undefined
@@ -733,6 +735,8 @@ export type EventPatch = {
   isArchived?: boolean | null | undefined
   /** Indicates whether the event takes place in person. */
   isInPerson?: boolean | null | undefined
+  /** Indicates whether the event is published. Unpublished events are drafts only their organizer can see. */
+  isPublished?: boolean | null | undefined
   /** Indicates whether the event takes place remotely. */
   isRemote?: boolean | null | undefined
   language?: Language | null | undefined
@@ -761,8 +765,8 @@ export type EventUploadInput = {
   uploadId: string
 }
 
-/** Possible visibilities of events and event groups: public, private and unlisted. */
-export type EventVisibility = 'private' | 'public' | 'unlisted'
+/** Possible visibilities of events and event groups: public and private. */
+export type EventVisibility = 'private' | 'public'
 
 /** An input for mutations affecting `Guest` */
 export type GuestInput = {
@@ -2282,6 +2286,7 @@ export type EventEditQuery = {
         guestCountMaximum: number | null
         isArchived: boolean
         isInPerson: boolean | null
+        isPublished: boolean
         isRemote: boolean | null
         name: string
         rowId: string
@@ -2375,6 +2380,7 @@ export type EventGuestsQuery = {
         createdBy: string
         guestCountMaximum: number | null
         id: string
+        isPublished: boolean
         name: string
         rowId: string
         slug: string
@@ -2419,6 +2425,7 @@ export type EventQuery = {
         id: string
         isArchived: boolean
         isInPerson: boolean | null
+        isPublished: boolean
         isRemote: boolean | null
         name: string
         rowId: string
@@ -2667,6 +2674,7 @@ export type GuestEventQuery = {
       id: string
       isArchived: boolean
       isInPerson: boolean | null
+      isPublished: boolean
       isRemote: boolean | null
       name: string
       rowId: string
@@ -2908,6 +2916,7 @@ export type EventItemFragment = {
   id: string
   isArchived: boolean
   isInPerson: boolean | null
+  isPublished: boolean
   isRemote: boolean | null
   name: string
   rowId: string
@@ -3173,6 +3182,7 @@ export const EventItemFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'isArchived' } },
           { kind: 'Field', name: { kind: 'Name', value: 'isInPerson' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'isPublished' } },
           { kind: 'Field', name: { kind: 'Name', value: 'isRemote' } },
           { kind: 'Field', name: { kind: 'Name', value: 'name' } },
           { kind: 'Field', name: { kind: 'Name', value: 'rowId' } },
@@ -12107,6 +12117,10 @@ export const EventEditDocument = {
                             },
                             {
                               kind: 'Field',
+                              name: { kind: 'Name', value: 'isPublished' },
+                            },
+                            {
+                              kind: 'Field',
                               name: { kind: 'Name', value: 'isRemote' },
                             },
                             {
@@ -12636,6 +12650,10 @@ export const EventGuestsDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'id' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'isPublished' },
                             },
                             {
                               kind: 'Field',
@@ -13174,6 +13192,10 @@ export const EventDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'isInPerson' },
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'isPublished' },
                             },
                             {
                               kind: 'Field',
@@ -14829,6 +14851,10 @@ export const GuestEventDocument = {
                       {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'isInPerson' },
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'isPublished' },
                       },
                       {
                         kind: 'Field',

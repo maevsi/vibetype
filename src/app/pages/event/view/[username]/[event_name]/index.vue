@@ -86,6 +86,9 @@
       </LayoutTopBar>
       <LayoutPage>
         <div class="flex flex-col gap-6">
+          <AppAlert v-if="!event.isPublished">
+            {{ t('draftNotice') }}
+          </AppAlert>
           <div class="relative">
             <EventHeroImage class="h-64 rounded-large" :event />
             <div
@@ -396,6 +399,7 @@ const eventQuery = useApiQuery({
             id
             isArchived
             isInPerson
+            isPublished
             isRemote
             name
             rowId
@@ -434,6 +438,15 @@ const createGuestMutation = useMutation(
   `),
 )
 const api = await useApiData([eventQuery])
+
+// read once on the server, where the data above is awaited before rendering, as `useRobotsRule` is not reactive and a no-op on the client
+useRobotsRule(
+  event.value &&
+    (event.value.visibility !== EventVisibility.Public ||
+      !event.value.isPublished)
+    ? false
+    : undefined,
+)
 
 // participation
 // an organizer sees every guest of the event, anyone else only their own
@@ -609,6 +622,7 @@ de:
   attendances: Check-in
   delete: Veranstaltung löschen
   details: Details
+  draftNotice: Diese Veranstaltung ist ein Entwurf. Nur du kannst sie sehen.
   edit: Veranstaltung bearbeiten
   errorAccountMissing: Dieses Konto existiert nicht. Es wurde möglicherweise gelöscht oder der Nutzername hat sich geändert.
   errorEventMissing: Diese Veranstaltung ist nicht verfügbar. Wenn dir jemand einen Link geschickt hat, frage nach einem neuen.
@@ -630,6 +644,7 @@ en:
   attendances: Check in
   delete: Delete event
   details: Details
+  draftNotice: This event is a draft. Only you can see it.
   edit: Edit event
   errorAccountMissing: This account doesn't exist. It may have been deleted, or the username changed.
   errorEventMissing: This event isn't available. If someone sent you a link, ask them for a new one.

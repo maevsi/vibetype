@@ -7528,6 +7528,17 @@ export default {
             args: [],
           },
           {
+            name: 'isPublished',
+            type: {
+              kind: 'NON_NULL',
+              ofType: {
+                kind: 'SCALAR',
+                name: 'Any',
+              },
+            },
+            args: [],
+          },
+          {
             name: 'isRemote',
             type: {
               kind: 'SCALAR',

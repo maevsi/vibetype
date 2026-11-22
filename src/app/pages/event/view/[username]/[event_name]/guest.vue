@@ -61,6 +61,7 @@ const queryEventGuests = useApiQuery({
               totalCount
             }
             id
+            isPublished
             name
             rowId
             slug

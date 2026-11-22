@@ -1,12 +1,9 @@
 <template>
   <AppIconArchiveBox v-if="isArchived" :title="t('archived')" />
+  <AppIconPencil v-else-if="isPublished === false" :title="t('draft')" />
   <AppIconEye
     v-else-if="visibility === EventVisibility.Public"
     :title="t('public')"
-  />
-  <AppIconTicket
-    v-else-if="visibility === EventVisibility.Unlisted"
-    :title="t('unlisted')"
   />
   <AppIconLockClosed
     v-else-if="visibility === EventVisibility.Private"
@@ -18,8 +15,9 @@
 <script setup lang="ts">
 import { EventVisibility } from '~~/gql/generated/graphcache'
 
-const { isArchived, visibility } = defineProps<{
+const { isArchived, isPublished, visibility } = defineProps<{
   isArchived?: boolean
+  isPublished?: boolean
   visibility: string
 }>()
 
@@ -30,13 +28,13 @@ const { t } = useI18n()
 de:
   archived: archiviert
   bug: Bug
+  draft: Entwurf
   private: privat
   public: öffentlich
-  unlisted: nur mit Einladung
 en:
   archived: archived
   bug: bug
+  draft: draft
   private: private
   public: public
-  unlisted: invitation only
 </i18n>

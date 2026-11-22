@@ -17,13 +17,10 @@
     <AppTableCell class="max-w-0">
       <div class="flex items-center justify-evenly gap-4 text-fg-1">
         <AppButton
-          :aria-label="
-            contact.accountId || contact.emailAddress
-              ? t('guestSend')
-              : t('disabledReasonEmailAddressNone')
-          "
+          :aria-label="sendLabel"
           class="hidden md:block"
           :disabled="
+            !event.isPublished ||
             (!contact.accountId && !contact.emailAddress) ||
             pending.sends.includes(guest.rowId)
           "
@@ -46,6 +43,7 @@
           <AppDropdownItem
             class="md:hidden"
             :disabled="
+              !event.isPublished ||
               (!contact.accountId && !contact.emailAddress) ||
               pending.sends.includes(guest.rowId)
             "
@@ -53,11 +51,7 @@
           >
             <AppIconPaperAirplane />
             <span>
-              {{
-                contact.accountId || contact.emailAddress
-                  ? t('guestSend')
-                  : t('disabledReasonEmailAddressNone')
-              }}
+              {{ sendLabel }}
             </span>
           </AppDropdownItem>
           <AppDropdownItem class="md:hidden" @select="copyLink(guest)">
@@ -149,7 +143,7 @@ import type {
 } from '~~/gql/generated/graphql'
 
 const { event, guest } = defineProps<{
-  event: Pick<EventItemFragment, 'accountByCreatedBy' | 'slug'>
+  event: Pick<EventItemFragment, 'accountByCreatedBy' | 'isPublished' | 'slug'>
   guest: Pick<GuestItemFragment, 'contactByContactId' | 'feedback' | 'rowId'>
 }>()
 
@@ -267,6 +261,13 @@ const send = async (guest: Pick<GuestItemFragment, 'rowId'>) => {
 }
 
 // computations
+const sendLabel = computed(() =>
+  !event.isPublished
+    ? t('disabledReasonDraft')
+    : contact.value?.accountId || contact.value?.emailAddress
+      ? t('guestSend')
+      : t('disabledReasonEmailAddressNone'),
+)
 const contact = computed(() => getContactItem(guest.contactByContactId))
 const contactName = computed(() =>
   contact.value
@@ -280,6 +281,7 @@ const contactName = computed(() =>
 
 <i18n lang="yaml">
 de:
+  disabledReasonDraft: Veröffentliche die Veranstaltung, um Einladungen zu verschicken.
   copySuccess: Der Einladungslink wurde in die Zwischenablage kopiert.
   disabledReasonEmailAddressNone: Diesem Kontakt fehlt eine E-Mail-Adresse.
   guestDelete: Gast löschen
@@ -293,6 +295,7 @@ de:
   sendSuccess: Die Einladung wurde erfolgreich per E-Mail versandt.
   # postgresP0002: Die Einladung konnte nicht versandt werden! Möglicherweise hast du aktuell keinen Zugriff auf die notwendigen Daten. Versuche die Seite neu zu laden.
 en:
+  disabledReasonDraft: Publish the event to send invitations.
   copySuccess: The guest link has been copied to the clipboard.
   disabledReasonEmailAddressNone: This contact does not have an associated email address.
   guestDelete: Delete guest
